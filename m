@@ -2,408 +2,222 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A96FB3D033B
-	for <lists+linux-input@lfdr.de>; Tue, 20 Jul 2021 22:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 691413D033D
+	for <lists+linux-input@lfdr.de>; Tue, 20 Jul 2021 22:46:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234064AbhGTUEg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Jul 2021 16:04:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60814 "EHLO mail.kernel.org"
+        id S232563AbhGTUEs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Jul 2021 16:04:48 -0400
+Received: from todd.t-8ch.de ([159.69.126.157]:53587 "EHLO todd.t-8ch.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236897AbhGTTpQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Jul 2021 15:45:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 56E9760BBB;
-        Tue, 20 Jul 2021 20:25:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626812753;
-        bh=l5xDkWzCR3urdpTjqmcMUpN6o09NewdpR8Jc68Liw0U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VBe4HBaGXZMGD0ZdODVsdKbrJ8SORqt3SuXaX37yK3AHshxYDbXGRQXluA6mx7jW3
-         pTBW48mt4sopqYvfTU+bZO/p3bIz4jENtO9uPBTi0SuDufiC+I7vrG7Ce/qo8tgdbL
-         Vv6L36N+yjTOuiDCZaFxIklqrdMuw+BZDERVBNSuKxTccmMm+0DpHaq2hVxlihY0dP
-         QgyoMfzVLFJnhH8igTsTFxC4OBQeb5IzLYxfferXAP0fHcTPB3F6Yr+8KbAgAJLPf2
-         a0unVf6CWv1kUs6z+N9Cr2G8gL44dgqsGt8dlJjFYXR6m7PEcLW13zfgVQ2ipy0CDg
-         OpoYDDMZUiahA==
-Date:   Tue, 20 Jul 2021 22:25:42 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@pengutronix.de,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Alexandre Bounine <alex.bou9@gmail.com>,
-        Alex Dubov <oakad@yahoo.com>, Alex Elder <elder@kernel.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Alison Schofield <alison.schofield@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Andy Gross <agross@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        id S237106AbhGTTqv (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 20 Jul 2021 15:46:51 -0400
+From:   =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1626812837;
+        bh=rr3Jhg9Eu5FI/LbMQvi3n8hESvKsVt21H82ii3qV3V4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Df2a8dT//jJda2CxcNAVoEm/Iodr+jU3kwKzDpF750e/Opim+rnZ3mlVgg/10zbsv
+         NsYyC6+YReaA8O6YqwjJ0Owj6A7C7ymnopK+CWsmPc+dkgjBKTM8CNp6FurcsYBjsU
+         c1aM8lp97cVCuXgN+3z95yhXXPAM2DFk/aTFFt8Q=
+To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Bodo Stroesser <bostroesser@gmail.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Dexuan Cui <decui@microsoft.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Finn Thain <fthain@linux-m68k.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Frank Li <lznuaa@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Geoff Levand <geoff@infradead.org>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Hannes Reinecke <hare@suse.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>, Ira Weiny <ira.weiny@intel.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Jason Wang <jasowang@redhat.com>,
-        Jens Taprogge <jens.taprogge@taprogge.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Joey Pabalan <jpabalanb@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Johannes Thumshirn <morbidrsa@gmail.com>,
-        Jon Mason <jdmason@kudzu.us>, Juergen Gross <jgross@suse.com>,
-        Julien Grall <jgrall@amazon.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Lee Jones <lee.jones@linaro.org>, Len Brown <lenb@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Manohar Vanga <manohar.vanga@gmail.com>,
-        Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Martyn Welch <martyn@welchs.me.uk>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Maxim Levitsky <maximlevitsky@gmail.com>,
-        Michael Buesch <m@bues.ch>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michael Jamet <michael.jamet@intel.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mike Christie <michael.christie@oracle.com>,
-        Moritz Fischer <mdf@kernel.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-        Rich Felker <dalias@libc.org>,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Samuel Holland <samuel@sholland.org>,
-        Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
-        SeongJae Park <sjpark@amazon.de>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Sven Van Asbroeck <TheSven73@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thorsten Scherer <t.scherer@eckelmann.de>,
-        Tomas Winkler <tomas.winkler@intel.com>,
-        Tom Rix <trix@redhat.com>,
-        Tyrel Datwyler <tyreld@linux.ibm.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Wu Hao <hao.wu@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        YueHaibing <yuehaibing@huawei.com>,
-        Yufen Yu <yuyufen@huawei.com>, alsa-devel@alsa-project.org,
-        dmaengine@vger.kernel.org, greybus-dev@lists.linaro.org,
-        industrypack-devel@lists.sourceforge.net, kvm@vger.kernel.org,
-        linux1394-devel@lists.sourceforge.net, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-cxl@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-media@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-ntb@googlegroups.com, linux-parisc@vger.kernel.org,
-        linux-pci@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, nvdimm@lists.linux.dev,
-        platform-driver-x86@vger.kernel.org, sparclinux@vger.kernel.org,
-        target-devel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        xen-devel@lists.xenproject.org,
-        Johannes Thumshirn <jth@kernel.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH v4 5/5] bus: Make remove callback return void
-Message-ID: <YPcxRgfZymtjJ4ih@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@pengutronix.de,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Alexandre Bounine <alex.bou9@gmail.com>,
-        Alex Dubov <oakad@yahoo.com>, Alex Elder <elder@kernel.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Alison Schofield <alison.schofield@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Andy Gross <agross@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Bodo Stroesser <bostroesser@gmail.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Dexuan Cui <decui@microsoft.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Finn Thain <fthain@linux-m68k.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Frank Li <lznuaa@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Geoff Levand <geoff@infradead.org>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Hannes Reinecke <hare@suse.de>, Hans de Goede <hdegoede@redhat.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
-        Ira Weiny <ira.weiny@intel.com>, Jakub Kicinski <kuba@kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Jaroslav Kysela <perex@perex.cz>, Jason Wang <jasowang@redhat.com>,
-        Jens Taprogge <jens.taprogge@taprogge.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
-        Joey Pabalan <jpabalanb@gmail.com>, Johan Hovold <johan@kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Johannes Thumshirn <morbidrsa@gmail.com>,
-        Jon Mason <jdmason@kudzu.us>, Juergen Gross <jgross@suse.com>,
-        Julien Grall <jgrall@amazon.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Lee Jones <lee.jones@linaro.org>, Len Brown <lenb@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Manohar Vanga <manohar.vanga@gmail.com>,
-        Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Martyn Welch <martyn@welchs.me.uk>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Maxim Levitsky <maximlevitsky@gmail.com>,
-        Michael Buesch <m@bues.ch>, Michael Ellerman <mpe@ellerman.id.au>,
-        Michael Jamet <michael.jamet@intel.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mike Christie <michael.christie@oracle.com>,
-        Moritz Fischer <mdf@kernel.org>, Ohad Ben-Cohen <ohad@wizery.com>,
-        Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-        Rich Felker <dalias@libc.org>,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
-        Rob Herring <robh@kernel.org>, Russell King <linux@armlinux.org.uk>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Samuel Holland <samuel@sholland.org>,
-        Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
-        SeongJae Park <sjpark@amazon.de>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Sven Van Asbroeck <TheSven73@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thorsten Scherer <t.scherer@eckelmann.de>,
-        Tomas Winkler <tomas.winkler@intel.com>, Tom Rix <trix@redhat.com>,
-        Tyrel Datwyler <tyreld@linux.ibm.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Wu Hao <hao.wu@intel.com>, Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        YueHaibing <yuehaibing@huawei.com>, Yufen Yu <yuyufen@huawei.com>,
-        alsa-devel@alsa-project.org, dmaengine@vger.kernel.org,
-        greybus-dev@lists.linaro.org,
-        industrypack-devel@lists.sourceforge.net, kvm@vger.kernel.org,
-        linux1394-devel@lists.sourceforge.net, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-cxl@vger.kernel.org, linux-fpga@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-ntb@googlegroups.com,
-        linux-parisc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-remoteproc@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        nvdimm@lists.linux.dev, platform-driver-x86@vger.kernel.org,
-        sparclinux@vger.kernel.org, target-devel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        xen-devel@lists.xenproject.org, Johannes Thumshirn <jth@kernel.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>
-References: <20210713193522.1770306-1-u.kleine-koenig@pengutronix.de>
- <20210713193522.1770306-6-u.kleine-koenig@pengutronix.de>
+        linux-input@vger.kernel.org, Ben Chen <ben_chen@bizlinktech.com>
+Cc:     =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4] HID: cmedia: add support for HS-100B mute button
+Date:   Tue, 20 Jul 2021 22:27:08 +0200
+Message-Id: <20210720202708.341057-1-linux@weissschuh.net>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="o9Bjd73EPYzHYRI8"
-Content-Disposition: inline
-In-Reply-To: <20210713193522.1770306-6-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+These chips report mute button events in bit 4 of their report without it
+being part of the report descriptor.
+Use a custom descriptor that maps this bit.
 
---o9Bjd73EPYzHYRI8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
 
-On Tue, Jul 13, 2021 at 09:35:22PM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> The driver core ignores the return value of this callback because there
-> is only little it can do when a device disappears.
->=20
-> This is the final bit of a long lasting cleanup quest where several
-> buses were converted to also return void from their remove callback.
-> Additionally some resource leaks were fixed that were caused by drivers
-> returning an error code in the expectation that the driver won't go
-> away.
->=20
-> With struct bus_type::remove returning void it's prevented that newly
-> implemented buses return an ignored error code and so don't anticipate
-> wrong expectations for driver authors.
->=20
-> Acked-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk> (For ARM, Am=
-ba and related parts)
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Chen-Yu Tsai <wens@csie.org> (for sunxi-rsb)
-> Acked-by: Pali Roh=C3=A1r <pali@kernel.org>
-> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org> (for media)
-> Acked-by: Hans de Goede <hdegoede@redhat.com> (For drivers/platform)
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Acked-By: Vinod Koul <vkoul@kernel.org>
-> Acked-by: Juergen Gross <jgross@suse.com> (For xen)
-> Acked-by: Lee Jones <lee.jones@linaro.org> (For mfd)
-> Acked-by: Johannes Thumshirn <jth@kernel.org> (For mcb)
-> Acked-by: Johan Hovold <johan@kernel.org>
-> Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org> (For slimb=
-us)
-> Acked-by: Kirti Wankhede <kwankhede@nvidia.com> (For vfio)
-> Acked-by: Maximilian Luz <luzmaximilian@gmail.com>
-> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com> (For ulpi and=
- typec)
-> Acked-by: Samuel Iglesias Gons=C3=A1lvez <siglesias@igalia.com> (For ipac=
-k)
-> Reviewed-by: Tom Rix <trix@redhat.com> (For fpga)
-> Acked-by: Geoff Levand <geoff@infradead.org> (For ps3)
-> Acked-by: Yehezkel Bernat <YehezkelShB@gmail.com> (For thunderbolt)
-> Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> Acked-by: Alexander Shishkin <alexander.shishkin@linux.intel.com> (For in=
-tel_th)
-> Acked-by: Dominik Brodowski <linux@dominikbrodowski.net> (For pcmcia)
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com> (For drivers/s390 and driv=
-ers/vfio)
-> Acked-by: Rafael J. Wysocki <rafael@kernel.org> (For ACPI)
-> Acked-by: Bjorn Andersson <bjorn.andersson@linaro.org> (rpmsg and apr)
-> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> (For =
-intel-ish-hid)
-> Acked-by: Dan Williams <dan.j.williams@intel.com> (For CXL, DAX, and NVDI=
-MM)
-> Acked-by: William Breathitt Gray <vilhelm.gray@gmail.com> (For isa)
-> Acked-by: Stefan Richter <stefanr@s5r6.in-berlin.de> (For firewire)
-> Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com> (For hid)
-> Acked-by: Thorsten Scherer <t.scherer@eckelmann.de> (For siox)
-> Acked-by: Sven Van Asbroeck <TheSven73@gmail.com> (For anybuss)
-> Acked-by: Ulf Hansson <ulf.hansson@linaro.org> (For MMC)
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+v1: https://lore.kernel.org/linux-input/a769ae40-6d0c-47c4-803f-2c8dbc362f24@t-8ch.de/
 
-Acked-by: Wolfram Sang <wsa@kernel.org> # for I2C
+v1 -> v2:
+ * Merged into the existing cmedia driver instead of creating a dedicated
+   driver.
 
-Thanks, Uwe!
+v2: https://lore.kernel.org/linux-input/20210716160659.154779-1-linux@weissschuh.net/
 
+v2 -> v3:
+ * Fixed cosmetic checkpatch warnings
+ * CC-ed Ben Chen who is the original author of hid-cmedia.c
 
---o9Bjd73EPYzHYRI8
-Content-Type: application/pgp-signature; name="signature.asc"
+v3: https://lore.kernel.org/linux-input/20210719110911.310701-1-linux@weissschuh.net/
 
------BEGIN PGP SIGNATURE-----
+v3 -> v4:
+ * Create a dedicated struct hid_driver, leaving the existing intact
+ * Drop entry in hid-quirks.c
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmD3MUIACgkQFA3kzBSg
-KbYzoQ//fHsReQ7gV79Uj6MfHENOZAAxSFMd8yIWNeX0Ug8crVQ2fzQgvlotUS1y
-62KPO9MFbi37+nfCWwl5uNEiDPwYjpB+jM/jfqJ849ngfiIQyUqCK7qr5b1FIWkp
-TuEV1Rx/wlpmxMEjKFAuo+/5OkXVwvpxQGiqBemOeTmOKjqITCpXEBkYqDqqI/MY
-lnzwpE8R30sf8IH/aThtb9dZBz+8y2mry6nVtSbMMmZ0VAYgwEPmuPLfa9CIhaCJ
-Oqe6Uf+sJs/emp0nfyZ5IDXvO8vE5kgPoy0l/smHEtejHLUkHBKf4MusKOzDdbax
-Uk48fnhKgbhxbVN0guT7IzWvRG+80hU4Ns9YPjmHYNXr4Wg03//hoAv4otMAAqXU
-Tjk9sEMBGHasqHZ0e1j3xTRhxQOwTJjzwVNhkrTX4HIZ/k0gXQK0ojBXxGvWeds2
-yQ7FUakyf1LQBmrLwssWSXbyp+W6tVodIUmnebSK1IpVd7YK4NZPf796yD44Ckzd
-XM4O5xTksxr5X+cEsNNLxhXFMohR/BOpLCj4R1+vpRNyMTHLIqfsI7GL+TJh+Mri
-+kuq0TQgbTRlrIw/jfTcenYmXhQte4oeFQa3uVwGY2b+5kB/zRMTKThU0e2Vpd+8
-Kifz6u9a8LEGAMrLNXVd1B/uHQSOMYeeIzsuZ+BHqVxDsyNvJds=
-=zPVh
------END PGP SIGNATURE-----
+ drivers/hid/Kconfig      |  5 ++-
+ drivers/hid/hid-cmedia.c | 90 +++++++++++++++++++++++++++++++++++++++-
+ drivers/hid/hid-ids.h    |  1 +
+ 3 files changed, 92 insertions(+), 4 deletions(-)
 
---o9Bjd73EPYzHYRI8--
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 160554903ef9..6f72ecd79db0 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -259,10 +259,11 @@ config HID_PRODIKEYS
+ 	  and some additional multimedia keys.
+ 
+ config HID_CMEDIA
+-	tristate "CMedia CM6533 HID audio jack controls"
++	tristate "CMedia audio chips"
+ 	depends on HID
+ 	help
+-	Support for CMedia CM6533 HID audio jack controls.
++	Support for CMedia CM6533 HID audio jack controls
++        and HS100B mute buttons.
+ 
+ config HID_CP2112
+ 	tristate "Silicon Labs CP2112 HID USB-to-SMBus Bridge support"
+diff --git a/drivers/hid/hid-cmedia.c b/drivers/hid/hid-cmedia.c
+index 3296c5050264..cab42047bc99 100644
+--- a/drivers/hid/hid-cmedia.c
++++ b/drivers/hid/hid-cmedia.c
+@@ -1,8 +1,10 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+  * HID driver for CMedia CM6533 audio jack controls
++ * and HS100B mute buttons
+  *
+  * Copyright (C) 2015 Ben Chen <ben_chen@bizlinktech.com>
++ * Copyright (C) 2021 Thomas Weißschuh <linux@weissschuh.net>
+  */
+ 
+ #include <linux/device.h>
+@@ -11,13 +13,53 @@
+ #include "hid-ids.h"
+ 
+ MODULE_AUTHOR("Ben Chen");
+-MODULE_DESCRIPTION("CM6533 HID jack controls");
++MODULE_AUTHOR("Thomas Weißschuh");
++MODULE_DESCRIPTION("CM6533 HID jack controls and HS100B mute button");
+ MODULE_LICENSE("GPL");
+ 
+ #define CM6533_JD_TYPE_COUNT      1
+ #define CM6533_JD_RAWEV_LEN	 16
+ #define CM6533_JD_SFX_OFFSET	  8
+ 
++#define HS100B_RDESC_ORIG_SIZE   60
++
++/* Fixed report descriptor of HS-100B audio chip
++ * Bit 4 is an abolute Microphone mute usage instead of being unassigned.
++ */
++static __u8 hs100b_rdesc_fixed[] = {
++	0x05, 0x0C,         /*  Usage Page (Consumer),          */
++	0x09, 0x01,         /*  Usage (Consumer Control),       */
++	0xA1, 0x01,         /*  Collection (Application),       */
++	0x15, 0x00,         /*      Logical Minimum (0),        */
++	0x25, 0x01,         /*      Logical Maximum (1),        */
++	0x09, 0xE9,         /*      Usage (Volume Inc),         */
++	0x09, 0xEA,         /*      Usage (Volume Dec),         */
++	0x75, 0x01,         /*      Report Size (1),            */
++	0x95, 0x02,         /*      Report Count (2),           */
++	0x81, 0x02,         /*      Input (Variable),           */
++	0x09, 0xE2,         /*      Usage (Mute),               */
++	0x95, 0x01,         /*      Report Count (1),           */
++	0x81, 0x06,         /*      Input (Variable, Relative), */
++	0x05, 0x0B,         /*      Usage Page (Telephony),     */
++	0x09, 0x2F,         /*      Usage (2Fh),                */
++	0x81, 0x02,         /*      Input (Variable),           */
++	0x09, 0x20,         /*      Usage (20h),                */
++	0x81, 0x06,         /*      Input (Variable, Relative), */
++	0x05, 0x0C,         /*      Usage Page (Consumer),      */
++	0x09, 0x00,         /*      Usage (00h),                */
++	0x95, 0x03,         /*      Report Count (3),           */
++	0x81, 0x02,         /*      Input (Variable),           */
++	0x26, 0xFF, 0x00,   /*      Logical Maximum (255),      */
++	0x09, 0x00,         /*      Usage (00h),                */
++	0x75, 0x08,         /*      Report Size (8),            */
++	0x95, 0x03,         /*      Report Count (3),           */
++	0x81, 0x02,         /*      Input (Variable),           */
++	0x09, 0x00,         /*      Usage (00h),                */
++	0x95, 0x04,         /*      Report Count (4),           */
++	0x91, 0x02,         /*      Output (Variable),          */
++	0xC0                /*  End Collection                  */
++};
++
+ /*
+ *
+ *CM6533 audio jack HID raw events:
+@@ -156,5 +198,49 @@ static struct hid_driver cmhid_driver = {
+ 	.remove = cmhid_remove,
+ 	.input_mapping = cmhid_input_mapping,
+ };
+-module_hid_driver(cmhid_driver);
+ 
++static __u8 *cmhid_hs100b_report_fixup(struct hid_device *hid, __u8 *rdesc,
++				       unsigned int *rsize)
++{
++	if (*rsize == HS100B_RDESC_ORIG_SIZE) {
++		hid_info(hid, "Fixing CMedia HS-100B report descriptor\n");
++		rdesc = hs100b_rdesc_fixed;
++		*rsize = sizeof(hs100b_rdesc_fixed);
++	}
++	return rdesc;
++}
++
++static const struct hid_device_id cmhid_hs100b_devices[] = {
++	{ HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CMEDIA_HS100B) },
++	{ }
++};
++MODULE_DEVICE_TABLE(hid, cmhid_hs100b_devices);
++
++static struct hid_driver cmhid_hs100b_driver = {
++	.name = "cmedia_hs100b",
++	.id_table = cmhid_hs100b_devices,
++	.report_fixup = cmhid_hs100b_report_fixup,
++};
++
++static int cmedia_init(void)
++{
++	int ret;
++
++	ret = hid_register_driver(&cmhid_driver);
++	if (ret)
++		return ret;
++
++	ret = hid_register_driver(&cmhid_hs100b_driver);
++	if (ret)
++		hid_unregister_driver(&cmhid_driver);
++
++	return ret;
++}
++module_init(cmedia_init);
++
++static void cmedia_exit(void)
++{
++		hid_unregister_driver(&cmhid_driver);
++		hid_unregister_driver(&cmhid_hs100b_driver);
++}
++module_exit(cmedia_exit);
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 8f1893e68112..6864e4e6ac8b 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -292,6 +292,7 @@
+ 
+ #define USB_VENDOR_ID_CMEDIA		0x0d8c
+ #define USB_DEVICE_ID_CM109		0x000e
++#define USB_DEVICE_ID_CMEDIA_HS100B	0x0014
+ #define USB_DEVICE_ID_CM6533		0x0022
+ 
+ #define USB_VENDOR_ID_CODEMERCS		0x07c0
+
+base-commit: 1b97ec646386cea5b4be139f7685b4a4b4d3799a
+-- 
+2.32.0
+
