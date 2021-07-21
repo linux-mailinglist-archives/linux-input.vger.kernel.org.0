@@ -2,360 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80FAE3D1696
-	for <lists+linux-input@lfdr.de>; Wed, 21 Jul 2021 20:45:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3B1C3D16E3
+	for <lists+linux-input@lfdr.de>; Wed, 21 Jul 2021 21:14:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232739AbhGUSEE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Jul 2021 14:04:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29924 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231535AbhGUSEE (ORCPT
+        id S231143AbhGUSeF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Jul 2021 14:34:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37402 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231784AbhGUSeF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Jul 2021 14:04:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626893080;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=W4ud5+HxDo+KKRKgWYCa4gbq7g0wS1XZDIZwwHzvBzM=;
-        b=SqFjaJvKe3AJiJs5pul5pAZkUXIeVrb5LsY8K3N3DKV5Tw+4guh368s5EDINwpqYfDjgn0
-        nvg0O2mqQRn+7beicewnm5e9NH94PhrJCgX2dWCYQAnlqjJEV/ARnw1GgDlXl//fblxGw0
-        j5MKTvf6fwER9ll0JYse+cOQ2ubAEYk=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-aw2grCEwPUmTYW-sbywTDg-1; Wed, 21 Jul 2021 14:44:38 -0400
-X-MC-Unique: aw2grCEwPUmTYW-sbywTDg-1
-Received: by mail-pj1-f72.google.com with SMTP id ju10-20020a17090b20cab029017395ea5199so1758265pjb.6
-        for <linux-input@vger.kernel.org>; Wed, 21 Jul 2021 11:44:38 -0700 (PDT)
+        Wed, 21 Jul 2021 14:34:05 -0400
+Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3AF4C061575
+        for <linux-input@vger.kernel.org>; Wed, 21 Jul 2021 12:14:40 -0700 (PDT)
+Received: by mail-vs1-xe2b.google.com with SMTP id o19so2030285vsn.3
+        for <linux-input@vger.kernel.org>; Wed, 21 Jul 2021 12:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4wcFqfNjxtmQAlSjGMglM6L9n0o57X7aGjmu5s8Pxuo=;
+        b=im24KTMzv2cxWCUviPpIcU47n4j6DEhaaUFymXrcb7x0NxaVs0uhdHxynJdg7caMQG
+         mwHgN1hwx6mCNZKNh4uKgXSS5pUfYd9GKefF9YQMSMH9wX9EA+yug+dc020Z+0aNX+ip
+         V3fL8iKVAepj1Hf3xv3z+UqNJptzP/yxrhKSsKC2c7iQBfajrVYkmXIhJ/waai0wFNbZ
+         RZvfcMfdhROtEngL16KGGSciXJB3IwrvxhqoUfpXO2MvZ4i6KWdvJ/iDhrSfu/TexYTF
+         0pUXxJkYyuQaCbYRrcF2y/JLnBjqZI5cdhSwjjK/08f6IwMs7TTT6Q3eCH2y3i9PVY0v
+         S+3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=W4ud5+HxDo+KKRKgWYCa4gbq7g0wS1XZDIZwwHzvBzM=;
-        b=Sci6F1wC1vCi2uD8y6TJfJzlL015nzRYKePmyLw5wfSd9KwM0RiaZGpUYmRsRJ2efk
-         QdAagr4LVVruXHbkzveKR8YJio3pUhSNDDWJjnAxIlmmKPQu27tinD0sLorVtcTmuY3Z
-         TP0o5AqJysUGdT/HNzf67KR2wYkEM/T6rLvLA9ugVXy2LpbJLToiz+zuP+w2vjLSKdIP
-         nhq8uca0i5O8J9UHWv4jM1Wtdu1J2fAj3QTF+1j0Ltq2pMLhUeVqbdguhaJuBh+JfeDW
-         2GNkKo/6/QglB9R2QuC42QlHDEJU4Weubs7SGp3322/kg599GtMyBaq14IugiY2JrDa0
-         ALQQ==
-X-Gm-Message-State: AOAM530ghofHZv5vlRn0YPDeHkkEyNLfY/rlgM07ks6lPqErlRcHAcGp
-        l1Y5YlAXTWSgXx6P5W/MGHZS7KhITel7FcMTPrGIPJnq4Ze4cFrUJ0CBSHB31AnkqlBlKJQMNWc
-        WQ/tXJVQn40O1yUpzLh/QIW70lpY1qPE5ibgafdc=
-X-Received: by 2002:a17:90b:b10:: with SMTP id bf16mr23348004pjb.129.1626893077495;
-        Wed, 21 Jul 2021 11:44:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxU/4b2iu71nbL5Q2nrzVDoGaR49LZfywBG+WsGEyit00vEqois2ajXdLBBxbd/oGZPi8Mgzvk2MhL2ma++VKM=
-X-Received: by 2002:a17:90b:b10:: with SMTP id bf16mr23347979pjb.129.1626893077164;
- Wed, 21 Jul 2021 11:44:37 -0700 (PDT)
+        bh=4wcFqfNjxtmQAlSjGMglM6L9n0o57X7aGjmu5s8Pxuo=;
+        b=RG2f2YLIAobyG9/Lku+EzRo9ar5MAhAogG9f1D384TD0gwjx5i0+suLAtHGgh6NZ7U
+         a2iEXCeDQi7hqHwJjuycXygjs+fvcnJSqhegKqBfBIAudR+GmLGG/iUYmEPomjWrF+kU
+         TGEAODTl2ACDIWqmi5ekbn9+zZJA9Q6lYWT/wgSgW9lM3Rwz9WWLwBe4TVx2IPPE1nSN
+         Z8OzlLZD63Z90F13PhOLI9jPyuoiU+xhbScQJfeRn69ft/WJ7DT7thOLBCoUIbg7lAma
+         9MiVShEq6+ZT3lPDlGhBVWBHvkDp+0Smq54/P+qeWoBuKmTNHsHYdqDw4ULdsqwPsX6V
+         +rQQ==
+X-Gm-Message-State: AOAM531Dwn06NhYiuSu+3BxAAIS+RZrbfdgE2HyQ7CXC4Qq4d9P+VVyF
+        rePnCjpiF+kSSYsM8LlFOIdTvghWzTIkTQMTqG4=
+X-Google-Smtp-Source: ABdhPJztxaupb/RlwHFi3ceZHc5KVmqussEy1T+qn33EexdT9Jw8wYN8hkPxKXA5GmroBIJl1Sn4nUfR3xXq0ZW2VDk=
+X-Received: by 2002:a67:2204:: with SMTP id i4mr16190718vsi.46.1626894879483;
+ Wed, 21 Jul 2021 12:14:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210715195720.169385-1-daniel.nguyen.1@ens.etsmtl.ca>
- <951c38d5-934e-eca7-a025-9cf074771764@redhat.com> <CAJNNDmn5V94mb0G9ZfxWDadxe17tEDKqWtfJErSjQxiRFd0ycA@mail.gmail.com>
- <CAO-hwJLog04U6WHZq3qEKf_bbW5wU3bL+m7zbY6h=x2neK58AQ@mail.gmail.com> <CAEJV-FFyt_34ts2RF-dkc5Xdez_ZWzCKu9iRzHHom610XbHVDA@mail.gmail.com>
-In-Reply-To: <CAEJV-FFyt_34ts2RF-dkc5Xdez_ZWzCKu9iRzHHom610XbHVDA@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 21 Jul 2021 20:44:25 +0200
-Message-ID: <CAO-hwJKCFO2c2VR36zfmU34OfxbxRAfpkhdFTSD+V3WB7fv1Xw@mail.gmail.com>
-Subject: Re: [PATCH] HID: sony: support for the ghlive ps4 dongles
-To:     Daniel Nguyen <daniel.nguyen.1@ens.etsmtl.ca>
-Cc:     Pascal Giard <pascal.giard@etsmtl.ca>,
-        "Colenbrander, Roelof" <Roderick.Colenbrander@sony.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+References: <f35f6472fddcf552076f40190f8f1d74888d0b4a.camel@webspeed.dk>
+ <CAKdAkRRe0GkdOEQhb7WV6CtOw_1D0bbxCcDKadivc+uQrAvBhw@mail.gmail.com> <c727d6900e2af325b9e91b9f2d0adc8677cd8eea.camel@webspeed.dk>
+In-Reply-To: <c727d6900e2af325b9e91b9f2d0adc8677cd8eea.camel@webspeed.dk>
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Date:   Wed, 21 Jul 2021 12:14:27 -0700
+Message-ID: <CAKdAkRT=O5f7=bCOKUea0LDQnEUtV8Mu0yMbQNTcoB+7Q_3GNA@mail.gmail.com>
+Subject: Re: Elantech touchpad not working on mainline kernels
+To:     Hans Schultz <hans.schultz@webspeed.dk>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jul 21, 2021 at 8:15 PM Daniel Nguyen
-<daniel.nguyen.1@ens.etsmtl.ca> wrote:
+On Wed, Jul 21, 2021 at 11:09 AM Hans Schultz <hans.schultz@webspeed.dk> wrote:
 >
-> Hello Benjamin,
->
-> On Wed, Jul 21, 2021 at 6:16 AM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
+> On Wed, 2021-07-21 at 10:48 -0700, Dmitry Torokhov wrote:
+> > Hi Hans,
 > >
-> > On Tue, Jul 20, 2021 at 4:33 PM Pascal Giard <pascal.giard@etsmtl.ca> wrote:
+> > On Sun, May 30, 2021 at 2:12 AM Hans Schultz <
+> > hans.schultz@webspeed.dk> wrote:
 > > >
-> > > Hi Benjamin,
+> > > Hello,
+> > > I have a problem getting my Elantech touchpad to work with the
+> > > mainline
+> > > kernels, and I need some assistance with the code to resolve the
+> > > problem.
+> > > The kernels that have tried are 5.9.11 and 5.11.11.
 > > >
-> > > On Tue, Jul 20, 2021 at 7:39 AM Benjamin Tissoires
-> > > <benjamin.tissoires@redhat.com> wrote:
-> > > >
-> > > > Hi Daniel (and Pascal),
-> > > >
-> > > > [adding Roderick in Cc who is dealing with the Sony driver from Sony
-> > > > itself :) ]
-> > > >
-> > > >
-> > > > On Thu, Jul 15, 2021 at 9:58 PM Daniel Nguyen <daniel.nguyen.1@ens.etsmtl.ca> wrote:
-> > > > >
-> > > > > This commit adds support for the Guitar Hero Live PS4 dongles.
-> > > >
-> > > > I was about to ask you to add some regression tests to
-> > > > https://gitlab.freedesktop.org/libevdev/hid-tools/-/blob/master/tests/test_sony.py
-> > > >
-> > > > This would likely have avoided the previous patch that was required and
-> > > > cc-ed to stable.
-> > > >
-> > > > But after looking slightly at the patch, I realized that the Guitar Hero
-> > > > code uses direct USB calls, which is not something we can emulate at the
-> > > > hid-tools level.
-> > > >
-> > > > However, after a second look at the code, I think that this part of the
-> > > > code just reimplements its own HID SET_OUTPUT code, and that is
-> > > > something we can easily emulate.
-> > > >
-> > > > Could you check if the following patch is still working properly on a
-> > > > PS3 dongle? and if so, add your PS4 support on top?
-> > > >
-> > > [...]
+> > > With boot parameters i8042.notimeout i8042.nomux, the touchpad is
+> > > detected but does not work. There is absolutely no response from it
+> > > with any hid modules loaded.
 > > >
-> > > I wasn't aware that this was possible. Of course we will check whether
-> > > that works or not.
+> > > It is reported and seen working on a Lubuntu distro (bionic kernel)
+> > > when inserting the i2c_hid module. The insertion of the i2c_hid
+> > > module
+> > > pulls in the hid_multitouch module when it works, no boot parameters
+> > > necessary.
+> > > In the case where it does not work, insering the i2c_hid module does
+> > > not pull in the hid_multitouch module.
 > > >
-> > > > ---
-> > > > commit 10e14f105553d2bd88bc7748e87154c5a8131e9e
-> > > > Author: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > > > Date:   Tue Jul 20 11:44:10 2021 +0200
-> > > >
-> > > >      HID: sony: GHL: do not use raw USB calls
-> > > >
-> > > >      We can rely on HID to do the job for us.
-> > > >      This simplifies the code and also allows to implement regression tests.
-> > > >
-> > > >      Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > > >
-> > > > diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-> > > > index b3722c51ec78..901f61d286e8 100644
-> > > > --- a/drivers/hid/hid-sony.c
-> > > > +++ b/drivers/hid/hid-sony.c
-> > > > @@ -37,7 +37,6 @@
-> > > >   #include <linux/idr.h>
-> > > >   #include <linux/input/mt.h>
-> > > >   #include <linux/crc32.h>
-> > > > -#include <linux/usb.h>
-> > > >   #include <linux/timer.h>
-> > > >   #include <asm/unaligned.h>
-> > > >
-> > > > @@ -92,7 +91,7 @@
-> > > >    * https://github.com/ghlre/GHLtarUtility/blob/master/PS3Guitar.cs
-> > > >    * Note: The Wii U and PS3 dongles happen to share the same!
-> > > >    */
-> > > > -static const u16 ghl_ps3wiiu_magic_value = 0x201;
-> > > > +static const u16 ghl_ps3wiiu_magic_report = 1;
-> > > >   static const char ghl_ps3wiiu_magic_data[] = {
-> > > >         0x02, 0x08, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00
-> > > >   };
-> > > > @@ -597,7 +596,6 @@ struct sony_sc {
-> > > >         /* DS4 calibration data */
-> > > >         struct ds4_calibration_data ds4_calib_data[6];
-> > > >         /* GH Live */
-> > > > -       struct urb *ghl_urb;
-> > > >         struct timer_list ghl_poke_timer;
-> > > >   };
-> > > >
-> > > > @@ -622,56 +620,29 @@ static inline void sony_schedule_work(struct sony_sc *sc,
-> > > >         }
-> > > >   }
-> > > >
-> > > > -static void ghl_magic_poke_cb(struct urb *urb)
-> > > > -{
-> > > > -       struct sony_sc *sc = urb->context;
-> > > > -
-> > > > -       if (urb->status < 0)
-> > > > -               hid_err(sc->hdev, "URB transfer failed : %d", urb->status);
-> > > > -
-> > > > -       mod_timer(&sc->ghl_poke_timer, jiffies + GHL_GUITAR_POKE_INTERVAL*HZ);
-> > > > -}
-> > > > -
-> > > >   static void ghl_magic_poke(struct timer_list *t)
-> > > >   {
-> > > >         int ret;
-> > > >         struct sony_sc *sc = from_timer(sc, t, ghl_poke_timer);
-> > > > +       const int buf_size = ARRAY_SIZE(ghl_ps3wiiu_magic_data);
-> > > > +       u8 *buf;
-> > > >
-> > > > -       ret = usb_submit_urb(sc->ghl_urb, GFP_ATOMIC);
-> > > > -       if (ret < 0)
-> > > > -               hid_err(sc->hdev, "usb_submit_urb failed: %d", ret);
-> > > > -}
-> > > > -
-> > > > -static int ghl_init_urb(struct sony_sc *sc, struct usb_device *usbdev)
-> > > > -{
-> > > > -       struct usb_ctrlrequest *cr;
-> > > > -       u16 poke_size;
-> > > > -       u8 *databuf;
-> > > > -       unsigned int pipe;
-> > > > -
-> > > > -       poke_size = ARRAY_SIZE(ghl_ps3wiiu_magic_data);
-> > > > -       pipe = usb_sndctrlpipe(usbdev, 0);
-> > > > +       buf = kmemdup(ghl_ps3wiiu_magic_data, buf_size, GFP_KERNEL);
-> > > > +       if (!buf)
-> > > > +               return;
-> > > >
-> > > > -       cr = devm_kzalloc(&sc->hdev->dev, sizeof(*cr), GFP_ATOMIC);
-> > > > -       if (cr == NULL)
-> > > > -               return -ENOMEM;
-> > > > +       ret = hid_hw_raw_request(sc->hdev, ghl_ps3wiiu_magic_report, buf,
-> > > > +                                buf_size,
-> > > > +                                HID_OUTPUT_REPORT, HID_REQ_SET_REPORT);
-> > > > +       if (ret < 0) {
-> > > > +               hid_err(sc->hdev, "can't poke ghl magic\n");
-> > > > +               goto out;
-> > > > +       }
-> > > >
-> > > > -       databuf = devm_kzalloc(&sc->hdev->dev, poke_size, GFP_ATOMIC);
-> > > > -       if (databuf == NULL)
-> > > > -               return -ENOMEM;
-> > > > +       mod_timer(&sc->ghl_poke_timer, jiffies + GHL_GUITAR_POKE_INTERVAL*HZ);
-> > > >
-> > > > -       cr->bRequestType =
-> > > > -               USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_OUT;
-> > > > -       cr->bRequest = USB_REQ_SET_CONFIGURATION;
-> > > > -       cr->wValue = cpu_to_le16(ghl_ps3wiiu_magic_value);
-> > > > -       cr->wIndex = 0;
-> > > > -       cr->wLength = cpu_to_le16(poke_size);
-> > > > -       memcpy(databuf, ghl_ps3wiiu_magic_data, poke_size);
-> > > > -       usb_fill_control_urb(
-> > > > -               sc->ghl_urb, usbdev, pipe,
-> > > > -               (unsigned char *) cr, databuf, poke_size,
-> > > > -               ghl_magic_poke_cb, sc);
-> > > > -       return 0;
-> > > > +out:
-> > > > +       kfree(buf);
-> > > >   }
-> > > >
-> > > >   static int guitar_mapping(struct hid_device *hdev, struct hid_input *hi,
-> > > > @@ -2968,7 +2939,6 @@ static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> > > >         int ret;
-> > > >         unsigned long quirks = id->driver_data;
-> > > >         struct sony_sc *sc;
-> > > > -       struct usb_device *usbdev;
-> > > >         unsigned int connect_mask = HID_CONNECT_DEFAULT;
-> > > >
-> > > >         if (!strcmp(hdev->name, "FutureMax Dance Mat"))
-> > > > @@ -2988,7 +2958,6 @@ static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> > > >         sc->quirks = quirks;
-> > > >         hid_set_drvdata(hdev, sc);
-> > > >         sc->hdev = hdev;
-> > > > -       usbdev = to_usb_device(sc->hdev->dev.parent->parent);
-> > > >
-> > > >         ret = hid_parse(hdev);
-> > > >         if (ret) {
-> > > > @@ -3031,15 +3000,6 @@ static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> > > >         }
-> > > >
-> > > >         if (sc->quirks & GHL_GUITAR_PS3WIIU) {
-> > > > -               sc->ghl_urb = usb_alloc_urb(0, GFP_ATOMIC);
-> > > > -               if (!sc->ghl_urb)
-> > > > -                       return -ENOMEM;
-> > > > -               ret = ghl_init_urb(sc, usbdev);
-> > > > -               if (ret) {
-> > > > -                       hid_err(hdev, "error preparing URB\n");
-> > > > -                       return ret;
-> > > > -               }
-> > > > -
-> > > >                 timer_setup(&sc->ghl_poke_timer, ghl_magic_poke, 0);
-> > > >                 mod_timer(&sc->ghl_poke_timer,
-> > > >                           jiffies + GHL_GUITAR_POKE_INTERVAL*HZ);
-> > > > @@ -3054,7 +3014,6 @@ static void sony_remove(struct hid_device *hdev)
-> > > >
-> > > >         if (sc->quirks & GHL_GUITAR_PS3WIIU) {
-> > > >                 del_timer_sync(&sc->ghl_poke_timer);
-> > > > -               usb_free_urb(sc->ghl_urb);
-> > > >         }
-> > > >
-> > > >         hid_hw_close(hdev);
-> > > > ---
+> > > I have the bionic kernel code, but I have not as of yet been able to
+> > > detect what makes it work in contrast to the kernel.org kernels.
 > > >
-> > > Was your patch against the master branch of hid/hid.git ?
+> > > This I think should lead to a kernel patch.
 > >
-> > It was against the branch for-next of hid/hid.git, to account for the
-> > PS3 fix that was sent earlier.
+> > There is not much to go on with. What is the hardware, your kernel
+> > .config, dmesg from unsuccessful boot? If you have logs from the
+> > working kernel that would help too.
 > >
-> > > I'm asking because it doesn't apply at all on my end, unless I use
-> > > --ignore-whitespace in which case, 3 out of 8 hunks fail.
-> > >
-> > > I assume I may be doing something wrong. I tried both downloading the
-> > > raw message from marc.info and from patchwork in case gmail would
-> > > mangle spaces/tabs, same result.
-> > >
-> > > Any idea?
+> > Thanks.
 > >
-> > Usually opening the source of the email, and doing `git am -3`, hit
-> > enter, then paste the content of the patch, then Ctrl-D is the
-> > quickest you can do to apply such inlined patches (at least, that's
-> > what I do).
-> >
-> > But Daniel found out that the patch is buggy, so let's concentrate on
-> > the next iteration.
 >
-> I dove deeper into the proposed method and verified the functions in
-> order to better understand how they work. I noticed that the const that you
-> created (ghl_ps3wiiu_magic_report = 1) is modifying the first byte of the data
-> to 0x01. I also noticed that it is what creates the wValue = 0x201, which
-> explains why you set it to 1.
+> The best info I have on the hardware is from Xorg log with the working
+> Lubuntu kernel:
+> [ 130.980] (II) Loading /usr/lib/xorg/modules/input/synaptics_drv.so
+> [ 130.982] (II) Module synaptics: vendor="X.Org Foundation"
+> [ 130.982] (II) Using input driver 'synaptics' for '0X45 0X4C 0X41 0:00
+> 04F3:308C Touchpad'
 >
-> After testing, I noticed that if we maintain the wValue = 0x201, and therefore
-> byte[0] = 0x01, the dongle does not function as it should. However, if we
-> change the const (ghl_ps3wiiu_magic_report = 2), although we have
-> wValue = 0x202, the dongle does function as expected. That's surprising
-> to us. Do you have any insights into the role of wValue in this context?
-> We came up with 0x201 as we were simply reproducing what
-> we had sniffed.
+> I might be able to get the kernel messages when inserting the working
+> module, but I think it will not tell much more.
 
-The answer is in usbhid_set_raw_report()
-(https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/hid/usbhid/hid-core.c#n907)
+OK, if you say so. Then the only suggestion I have is to verify that
+your kernel config enables all necessary options for your hardware.
+I'd double check if you have Designware I2C controller enabled, ACPI
+LPSS, etc.
 
--> the wValue is used as `((rtype + 1) << 8) | reportnum`
-
-where rtype is the report type (declared in include/linux/hid.h)
-#define HID_INPUT_REPORT 0
-#define HID_OUTPUT_REPORT 1
-#define HID_FEATURE_REPORT 2
-
-And reportnum is the report number (the one matching the report ID if
-you look at the report descriptors.
-
-I am as much as puzzled as you regarding the fact that writing the urb
-directly works with '1' when it doesn't with the HID stack...
-
-Actually, the HID stack would overwrite the first byte with the report
-ID, which explains why the report gets changed.
-
-However, why was the initial call setting a HID report ID of 1 but
-then addressing the report 2??? That's probably a mystery we won't
-solve :)
-
+> To me it is clearly a code issue as the working kernel pulls in
+> hid_multitouch when inserting i2c_hid, while the non-working does not.
 >
-> Despite the error message related to scheduling, I have not been able to
-> pinpoint the source of the hard freeze. Any hint there would be appreciated.
+> All kernels I have tried up to now from kernel.org do not work. The
+> latest being 5.13.4.
 
-I would have to think about this a little bit more, but I have been
-dragged all day with other internal work :(
+Thanks.
 
->
-> Lastly, I wanted to point out that for the PS4 dongle support, the
-> magic data is
-> not sent via control transfers, but through interrupt transfers. Does the HID
-> infrastructure have the necessary mechanisms to do that as well or will we
-> have to resort to the direct USB calls (like currently done in the patch
-> I submitted)?
-
-We have usbhid_output_report in this file, which can be genetically
-called via hid_hw_output_report()
-
-Also, IIRC it happens that sometimes a device would accept both
-interrupt or control transfers for these kind of methods. It might be
-interesting to see if you can not have a common path between the 2.
-
->
-> Thank you for your patience.
-
-Heh, no worries :)
-
-Cheers,
-Benjamin
-
-> -Daniel
->
-
+-- 
+Dmitry
