@@ -2,290 +2,216 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64D9F3D0D6D
-	for <lists+linux-input@lfdr.de>; Wed, 21 Jul 2021 13:24:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4FAF3D1092
+	for <lists+linux-input@lfdr.de>; Wed, 21 Jul 2021 16:05:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234568AbhGUKmg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Jul 2021 06:42:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35505 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237982AbhGUJgS (ORCPT
+        id S236464AbhGUNY1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Jul 2021 09:24:27 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:52805 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239096AbhGUNY0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Jul 2021 05:36:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626862614;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=CgL++OR7z1nd5JYQZRVtrVkufarvbZ3Fhp5bTL15FbY=;
-        b=awtGbsGUUoBTt8MiT0nLQnj9k6lWL7SXpqW75Y10ZQxQxC0Q0ic9OzQYUAOG4iLTnItZUx
-        UA+fQLB5Q0PRRyO9a7TD3YP5UW6/YfEu6iwVKRVoPAZf02v6qy8pB1Cjz7Q7iRwVcYRDdp
-        gB+RjinxwAEKEyFZ63qcoevAAsHFLXw=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-ActhVCbPO7uoQbSHWiCtuA-1; Wed, 21 Jul 2021 06:16:52 -0400
-X-MC-Unique: ActhVCbPO7uoQbSHWiCtuA-1
-Received: by mail-pf1-f199.google.com with SMTP id g8-20020aa781880000b029034c3e4a41edso1503142pfi.14
-        for <linux-input@vger.kernel.org>; Wed, 21 Jul 2021 03:16:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CgL++OR7z1nd5JYQZRVtrVkufarvbZ3Fhp5bTL15FbY=;
-        b=rJPcJLtfXNdBNsuHLH5thn2i1BMMfD0TiOx6ftdGAmtxyOTgI5XrfhdXGMcHixu4pQ
-         w8h9trjc8eCA6+1kgRSyAHAOVX7egFJAxJFA5DBBIn0E9cjm6G3u/W4tvai8lVvJKMFp
-         7hS2buJR6SK0UGKrhZnp228d4iGDhbd8RpCO0QBcDvmxUYDzZGArmP8tkit3KkwzKhYv
-         NXR5+xjpVZfwDk2MfwfDLuZApgL32V+qywKgBKNTbvznV4HvP3OZum+CEgM86McSLtN+
-         2nLPK2O/2aWBMQ1yNna0Yf4NT/GQXJG82aU/QBgdo5bMnXaDtkFmcFdz3diqEuLKJOZG
-         FJSA==
-X-Gm-Message-State: AOAM531dSGI5LIkih4k6D04a32ctX/+YBcRcCJKx5hYHt80fvQusBax7
-        pRyxFy5JNSAGlIMUyOcUOIZplPGsAXvbmyc9rWX6b6DsiN6rbD+/VoFWCka+c/mtbVOy+tZ6h1H
-        Y7zS5HSTbfpYTMQ+ANEDMVrq8rHG7IPSpwZ/+dvM=
-X-Received: by 2002:a17:90a:5889:: with SMTP id j9mr34472253pji.234.1626862611717;
-        Wed, 21 Jul 2021 03:16:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxVU2pBv6Y7c720mexuoNECiSDHusKJzzQ+wWRaj78iIJZ5AZXmu5GamBXeQSzjugvcRVyU8q3RPwsNpwgs9oI=
-X-Received: by 2002:a17:90a:5889:: with SMTP id j9mr34472232pji.234.1626862611490;
- Wed, 21 Jul 2021 03:16:51 -0700 (PDT)
+        Wed, 21 Jul 2021 09:24:26 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 2F8F15809C2;
+        Wed, 21 Jul 2021 10:05:03 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Wed, 21 Jul 2021 10:05:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-transfer-encoding; s=fm3; bh=H/Ku9ZZZr/IwN
+        0hdjtD+Ti1V/t8SMod0pAnVUdJMV3w=; b=lkDLgpUrf93hB1gUm26tV+mm5HHmN
+        WJB00Gv9Uzll1krfL8k4TNtOd+Aup6dLGB/cv0+lZlddneUvvY9ZhnAkom2150dh
+        TUx1/Smo639fDrHAoUwgyruhQ1LeJl9cc7yfQsB3yOASW3xD8fJ1agS9ta/C1Uyh
+        aUFyVunkiQ3Li7TJ6o44vzigsXhCqrk6oAeGKyuhJ2pDJZLszyn84oYBfiQ+hvPA
+        n1pGuvJB3Szz9/qPu5MvI2ZibglrBfdnJ010O78QnAFlwrADA6+uHjcluNK4vOEo
+        kxFAWHqVAnZ9n7mPZnPiNYb6EOa5YVb5P/Nk9UX5Hoo3sM6b+6ud0AwDQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :in-reply-to:message-id:mime-version:references:subject:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=H/Ku9ZZZr/IwN0hdjtD+Ti1V/t8SMod0pAnVUdJMV3w=; b=ZbFQFZrC
+        eKwFyqBfDGMVca3m1CEF7FwALdt+rwKp0SE2M/VraoSx9+o1hJgIorZIyuRU9kqo
+        3R3hXPH7lO2k5YfNNmYOS2W5xiIlBl4efFBxh9zqbQEFgmnC6IY4znxcRMWkSvtT
+        nCjBJK3bWWsVesjQP444UUyhVpCaryF4po8098PqdABBAAFlqiIleqOJ0PQmGIFJ
+        FM/VIAKH+q/GF4CV9pfzsslt9rGqIl2nVtQxvYVNNv9HS2EAVo+C+oQugW4UnZUx
+        G9PbihFxbBkQL1aASpjaCG9jMDGMPgCGWzuPEAX+zQh5SukYevw+IPZDc2+L6HzY
+        Zze7ycB8T/MmyQ==
+X-ME-Sender: <xms:jin4YA6rOHA0moCTSyEh1SW_6jh8zAlr53ODyuTDCHQ21jwqLaYPMA>
+    <xme:jin4YB6Frc7IL2IryqTeeFQHQc8ICKmRT5rGuWVdlGKtRJJnjVTMv0JznLvw4B_nv
+    TQ-q6DoV52wMa0kSHI>
+X-ME-Received: <xmr:jin4YPf5gphMi0p6fzElX62PbBovUhsB4UY95srSDPSt5NTWhPYJApoJKyjW_X_EtSdZzcDFJK4U-MN3LbFFDt5_cf8W1zijAyiT>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeeggdeijecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenog
+    evohgrshhtrghlqdfhgeduvddqtddvucdludehtddmnecujfgurhephffvufffkffojghf
+    ggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgi
+    himhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepveejieejtdevgfff
+    gfejuefggfeutdelteekgeetueeftddutddtgfffhffgueffnecuffhomhgrihhnpeguvg
+    hvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhep
+    mhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:jin4YFLE74I-vPMWWyv6cpIy30U_ZSpSsBeYjujDm4wcJbIYM9zr_w>
+    <xmx:jin4YEIHVH44C2fW500cfpCPq5wdT2-1uGZ1tEdb-clmeAWP4kQLBg>
+    <xmx:jin4YGz_CrY3tCIA8pA7ZZ3QW2af97nkihuUrOPzaZOPgqeecB3Drg>
+    <xmx:jyn4YJWdpvBKa_we3qbqpOeEgVGcHehbqllkZBbt8OZrYMoHZJJjNQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 21 Jul 2021 10:05:01 -0400 (EDT)
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH 16/54] dt-bindings: input: Convert ChipOne ICN8318 binding to a schema
+Date:   Wed, 21 Jul 2021 16:03:46 +0200
+Message-Id: <20210721140424.725744-17-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210721140424.725744-1-maxime@cerno.tech>
+References: <20210721140424.725744-1-maxime@cerno.tech>
 MIME-Version: 1.0
-References: <20210715195720.169385-1-daniel.nguyen.1@ens.etsmtl.ca>
- <951c38d5-934e-eca7-a025-9cf074771764@redhat.com> <CAJNNDmn5V94mb0G9ZfxWDadxe17tEDKqWtfJErSjQxiRFd0ycA@mail.gmail.com>
-In-Reply-To: <CAJNNDmn5V94mb0G9ZfxWDadxe17tEDKqWtfJErSjQxiRFd0ycA@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 21 Jul 2021 12:16:40 +0200
-Message-ID: <CAO-hwJLog04U6WHZq3qEKf_bbW5wU3bL+m7zbY6h=x2neK58AQ@mail.gmail.com>
-Subject: Re: [PATCH] HID: sony: support for the ghlive ps4 dongles
-To:     Pascal Giard <pascal.giard@etsmtl.ca>
-Cc:     Daniel Nguyen <daniel.nguyen.1@ens.etsmtl.ca>,
-        "Colenbrander, Roelof" <Roderick.Colenbrander@sony.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 20, 2021 at 4:33 PM Pascal Giard <pascal.giard@etsmtl.ca> wrote:
->
-> Hi Benjamin,
->
-> On Tue, Jul 20, 2021 at 7:39 AM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > Hi Daniel (and Pascal),
-> >
-> > [adding Roderick in Cc who is dealing with the Sony driver from Sony
-> > itself :) ]
-> >
-> >
-> > On Thu, Jul 15, 2021 at 9:58 PM Daniel Nguyen <daniel.nguyen.1@ens.etsmtl.ca> wrote:
-> > >
-> > > This commit adds support for the Guitar Hero Live PS4 dongles.
-> >
-> > I was about to ask you to add some regression tests to
-> > https://gitlab.freedesktop.org/libevdev/hid-tools/-/blob/master/tests/test_sony.py
-> >
-> > This would likely have avoided the previous patch that was required and
-> > cc-ed to stable.
-> >
-> > But after looking slightly at the patch, I realized that the Guitar Hero
-> > code uses direct USB calls, which is not something we can emulate at the
-> > hid-tools level.
-> >
-> > However, after a second look at the code, I think that this part of the
-> > code just reimplements its own HID SET_OUTPUT code, and that is
-> > something we can easily emulate.
-> >
-> > Could you check if the following patch is still working properly on a
-> > PS3 dongle? and if so, add your PS4 support on top?
-> >
-> [...]
->
-> I wasn't aware that this was possible. Of course we will check whether
-> that works or not.
->
-> > ---
-> > commit 10e14f105553d2bd88bc7748e87154c5a8131e9e
-> > Author: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > Date:   Tue Jul 20 11:44:10 2021 +0200
-> >
-> >      HID: sony: GHL: do not use raw USB calls
-> >
-> >      We can rely on HID to do the job for us.
-> >      This simplifies the code and also allows to implement regression tests.
-> >
-> >      Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> >
-> > diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-> > index b3722c51ec78..901f61d286e8 100644
-> > --- a/drivers/hid/hid-sony.c
-> > +++ b/drivers/hid/hid-sony.c
-> > @@ -37,7 +37,6 @@
-> >   #include <linux/idr.h>
-> >   #include <linux/input/mt.h>
-> >   #include <linux/crc32.h>
-> > -#include <linux/usb.h>
-> >   #include <linux/timer.h>
-> >   #include <asm/unaligned.h>
-> >
-> > @@ -92,7 +91,7 @@
-> >    * https://github.com/ghlre/GHLtarUtility/blob/master/PS3Guitar.cs
-> >    * Note: The Wii U and PS3 dongles happen to share the same!
-> >    */
-> > -static const u16 ghl_ps3wiiu_magic_value = 0x201;
-> > +static const u16 ghl_ps3wiiu_magic_report = 1;
-> >   static const char ghl_ps3wiiu_magic_data[] = {
-> >         0x02, 0x08, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00
-> >   };
-> > @@ -597,7 +596,6 @@ struct sony_sc {
-> >         /* DS4 calibration data */
-> >         struct ds4_calibration_data ds4_calib_data[6];
-> >         /* GH Live */
-> > -       struct urb *ghl_urb;
-> >         struct timer_list ghl_poke_timer;
-> >   };
-> >
-> > @@ -622,56 +620,29 @@ static inline void sony_schedule_work(struct sony_sc *sc,
-> >         }
-> >   }
-> >
-> > -static void ghl_magic_poke_cb(struct urb *urb)
-> > -{
-> > -       struct sony_sc *sc = urb->context;
-> > -
-> > -       if (urb->status < 0)
-> > -               hid_err(sc->hdev, "URB transfer failed : %d", urb->status);
-> > -
-> > -       mod_timer(&sc->ghl_poke_timer, jiffies + GHL_GUITAR_POKE_INTERVAL*HZ);
-> > -}
-> > -
-> >   static void ghl_magic_poke(struct timer_list *t)
-> >   {
-> >         int ret;
-> >         struct sony_sc *sc = from_timer(sc, t, ghl_poke_timer);
-> > +       const int buf_size = ARRAY_SIZE(ghl_ps3wiiu_magic_data);
-> > +       u8 *buf;
-> >
-> > -       ret = usb_submit_urb(sc->ghl_urb, GFP_ATOMIC);
-> > -       if (ret < 0)
-> > -               hid_err(sc->hdev, "usb_submit_urb failed: %d", ret);
-> > -}
-> > -
-> > -static int ghl_init_urb(struct sony_sc *sc, struct usb_device *usbdev)
-> > -{
-> > -       struct usb_ctrlrequest *cr;
-> > -       u16 poke_size;
-> > -       u8 *databuf;
-> > -       unsigned int pipe;
-> > -
-> > -       poke_size = ARRAY_SIZE(ghl_ps3wiiu_magic_data);
-> > -       pipe = usb_sndctrlpipe(usbdev, 0);
-> > +       buf = kmemdup(ghl_ps3wiiu_magic_data, buf_size, GFP_KERNEL);
-> > +       if (!buf)
-> > +               return;
-> >
-> > -       cr = devm_kzalloc(&sc->hdev->dev, sizeof(*cr), GFP_ATOMIC);
-> > -       if (cr == NULL)
-> > -               return -ENOMEM;
-> > +       ret = hid_hw_raw_request(sc->hdev, ghl_ps3wiiu_magic_report, buf,
-> > +                                buf_size,
-> > +                                HID_OUTPUT_REPORT, HID_REQ_SET_REPORT);
-> > +       if (ret < 0) {
-> > +               hid_err(sc->hdev, "can't poke ghl magic\n");
-> > +               goto out;
-> > +       }
-> >
-> > -       databuf = devm_kzalloc(&sc->hdev->dev, poke_size, GFP_ATOMIC);
-> > -       if (databuf == NULL)
-> > -               return -ENOMEM;
-> > +       mod_timer(&sc->ghl_poke_timer, jiffies + GHL_GUITAR_POKE_INTERVAL*HZ);
-> >
-> > -       cr->bRequestType =
-> > -               USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_OUT;
-> > -       cr->bRequest = USB_REQ_SET_CONFIGURATION;
-> > -       cr->wValue = cpu_to_le16(ghl_ps3wiiu_magic_value);
-> > -       cr->wIndex = 0;
-> > -       cr->wLength = cpu_to_le16(poke_size);
-> > -       memcpy(databuf, ghl_ps3wiiu_magic_data, poke_size);
-> > -       usb_fill_control_urb(
-> > -               sc->ghl_urb, usbdev, pipe,
-> > -               (unsigned char *) cr, databuf, poke_size,
-> > -               ghl_magic_poke_cb, sc);
-> > -       return 0;
-> > +out:
-> > +       kfree(buf);
-> >   }
-> >
-> >   static int guitar_mapping(struct hid_device *hdev, struct hid_input *hi,
-> > @@ -2968,7 +2939,6 @@ static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >         int ret;
-> >         unsigned long quirks = id->driver_data;
-> >         struct sony_sc *sc;
-> > -       struct usb_device *usbdev;
-> >         unsigned int connect_mask = HID_CONNECT_DEFAULT;
-> >
-> >         if (!strcmp(hdev->name, "FutureMax Dance Mat"))
-> > @@ -2988,7 +2958,6 @@ static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >         sc->quirks = quirks;
-> >         hid_set_drvdata(hdev, sc);
-> >         sc->hdev = hdev;
-> > -       usbdev = to_usb_device(sc->hdev->dev.parent->parent);
-> >
-> >         ret = hid_parse(hdev);
-> >         if (ret) {
-> > @@ -3031,15 +3000,6 @@ static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >         }
-> >
-> >         if (sc->quirks & GHL_GUITAR_PS3WIIU) {
-> > -               sc->ghl_urb = usb_alloc_urb(0, GFP_ATOMIC);
-> > -               if (!sc->ghl_urb)
-> > -                       return -ENOMEM;
-> > -               ret = ghl_init_urb(sc, usbdev);
-> > -               if (ret) {
-> > -                       hid_err(hdev, "error preparing URB\n");
-> > -                       return ret;
-> > -               }
-> > -
-> >                 timer_setup(&sc->ghl_poke_timer, ghl_magic_poke, 0);
-> >                 mod_timer(&sc->ghl_poke_timer,
-> >                           jiffies + GHL_GUITAR_POKE_INTERVAL*HZ);
-> > @@ -3054,7 +3014,6 @@ static void sony_remove(struct hid_device *hdev)
-> >
-> >         if (sc->quirks & GHL_GUITAR_PS3WIIU) {
-> >                 del_timer_sync(&sc->ghl_poke_timer);
-> > -               usb_free_urb(sc->ghl_urb);
-> >         }
-> >
-> >         hid_hw_close(hdev);
-> > ---
->
-> Was your patch against the master branch of hid/hid.git ?
+The ChipOne ICN8318 Touchscreen Controller is supported by Linux thanks
+to its device tree binding.
 
-It was against the branch for-next of hid/hid.git, to account for the
-PS3 fix that was sent earlier.
+Now that we have the DT validation in place, let's convert the device
+tree bindings for that driver over to a YAML schema.
 
-> I'm asking because it doesn't apply at all on my end, unless I use
-> --ignore-whitespace in which case, 3 out of 8 hunks fail.
->
-> I assume I may be doing something wrong. I tried both downloading the
-> raw message from marc.info and from patchwork in case gmail would
-> mangle spaces/tabs, same result.
->
-> Any idea?
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: linux-input@vger.kernel.org
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ .../input/touchscreen/chipone,icn8318.yaml    | 62 +++++++++++++++++++
+ .../input/touchscreen/chipone_icn8318.txt     | 44 -------------
+ 2 files changed, 62 insertions(+), 44 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/chipone,icn8318.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/chipone_icn8318.txt
 
-Usually opening the source of the email, and doing `git am -3`, hit
-enter, then paste the content of the patch, then Ctrl-D is the
-quickest you can do to apply such inlined patches (at least, that's
-what I do).
-
-But Daniel found out that the patch is buggy, so let's concentrate on
-the next iteration.
-
-Cheers,
-Benjamin
-
->
-> Thank you for your patience,
->
-> -Pascal
->
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/chipone,icn8318.yaml b/Documentation/devicetree/bindings/input/touchscreen/chipone,icn8318.yaml
+new file mode 100644
+index 000000000000..9df685bdc5db
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/chipone,icn8318.yaml
+@@ -0,0 +1,62 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/chipone,icn8318.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ChipOne ICN8318 Touchscreen Controller Device Tree Bindings
++
++maintainers:
++  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
++
++allOf:
++  - $ref: touchscreen.yaml#
++
++properties:
++  compatible:
++    const: chipone,icn8318
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  wake-gpios:
++    maxItems: 1
++
++unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - wake-gpios
++  - touchscreen-size-x
++  - touchscreen-size-y
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        touchscreen@40 {
++            compatible = "chipone,icn8318";
++            reg = <0x40>;
++            interrupt-parent = <&pio>;
++            interrupts = <9 IRQ_TYPE_EDGE_FALLING>; /* EINT9 (PG9) */
++            pinctrl-names = "default";
++            pinctrl-0 = <&ts_wake_pin_p66>;
++            wake-gpios = <&pio 1 3 GPIO_ACTIVE_HIGH>; /* PB3 */
++            touchscreen-size-x = <800>;
++            touchscreen-size-y = <480>;
++            touchscreen-inverted-x;
++            touchscreen-swapped-x-y;
++        };
++    };
++
++...
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/chipone_icn8318.txt b/Documentation/devicetree/bindings/input/touchscreen/chipone_icn8318.txt
+deleted file mode 100644
+index 38b0603f65f3..000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/chipone_icn8318.txt
++++ /dev/null
+@@ -1,44 +0,0 @@
+-* ChipOne icn8318 I2C touchscreen controller
+-
+-Required properties:
+- - compatible		  : "chipone,icn8318"
+- - reg			  : I2C slave address of the chip (0x40)
+- - interrupts		  : interrupt specification for the icn8318 interrupt
+- - wake-gpios		  : GPIO specification for the WAKE input
+- - touchscreen-size-x	  : horizontal resolution of touchscreen (in pixels)
+- - touchscreen-size-y	  : vertical resolution of touchscreen (in pixels)
+-
+-Optional properties:
+- - pinctrl-names	  : should be "default"
+- - pinctrl-0:		  : a phandle pointing to the pin settings for the
+-			    control gpios
+- - touchscreen-fuzz-x	  : horizontal noise value of the absolute input
+-			    device (in pixels)
+- - touchscreen-fuzz-y	  : vertical noise value of the absolute input
+-			    device (in pixels)
+- - touchscreen-inverted-x : X axis is inverted (boolean)
+- - touchscreen-inverted-y : Y axis is inverted (boolean)
+- - touchscreen-swapped-x-y	  : X and Y axis are swapped (boolean)
+-			    Swapping is done after inverting the axis
+-
+-Example:
+-
+-i2c@00000000 {
+-	/* ... */
+-
+-	chipone_icn8318@40 {
+-		compatible = "chipone,icn8318";
+-		reg = <0x40>;
+-		interrupt-parent = <&pio>;
+-		interrupts = <9 IRQ_TYPE_EDGE_FALLING>; /* EINT9 (PG9) */
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&ts_wake_pin_p66>;
+-		wake-gpios = <&pio 1 3 GPIO_ACTIVE_HIGH>; /* PB3 */
+-		touchscreen-size-x = <800>;
+-		touchscreen-size-y = <480>;
+-		touchscreen-inverted-x;
+-		touchscreen-swapped-x-y;
+-	};
+-
+-	/* ... */
+-};
+-- 
+2.31.1
 
