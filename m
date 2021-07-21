@@ -2,212 +2,221 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0A893D0783
-	for <lists+linux-input@lfdr.de>; Wed, 21 Jul 2021 06:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C91B3D0D6C
+	for <lists+linux-input@lfdr.de>; Wed, 21 Jul 2021 13:24:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231779AbhGUDbU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Jul 2021 23:31:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57222 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231363AbhGUDbT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Jul 2021 23:31:19 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F206BC061574;
-        Tue, 20 Jul 2021 21:11:55 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id u14so674957pga.11;
-        Tue, 20 Jul 2021 21:11:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/cGI+iVWCJGFFtwmPo17o5F5ePaIGRvj0d9XE8sJR3M=;
-        b=FUY6TVUGKlmucS+kUxfuo9dGjDTYxFQxitjZR+aMsEGKvBi/nIWlGC36KEFw0cSaER
-         kQH06QEAjqSJnU8GX8TTaodKsPivghuGqJ8z+Ci+NfR4/W0TCmKiN1soZKboZ2rxSpVC
-         G892bKUAJBhGs4sS0UXlkfp18BtcHSdruZdLY4zAXdEbsccaXNrfWYNiV5S6KSb+3ekQ
-         gWSKQGRrDQNp01klCrdE9PBMr/63kmkbshbp1WQ3RpHJ+txmBNfny28oiRjT2akM5zRP
-         dukcJxzrDdcshsc+cjXP5+JKUYNIxLHlUdeVlGPdFRsxBKBcAhol3VEgx8oHK+K1uM6A
-         qxrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/cGI+iVWCJGFFtwmPo17o5F5ePaIGRvj0d9XE8sJR3M=;
-        b=Jfr05yaCVawBlS/QF7JkyyLzEru7bgegJoIf+IsDfCPGlD4cU/3x0rAP9/XxviWbSQ
-         sTjrYGCcmvrpAest6LwhLIFfWnJyS1mUAfCQHNJWdM2ZnA49v3mxzhJi5jlroRSYiFzk
-         07529p3ZL2+oqPDKquabq28hbrJN7mMH3oG+dMQ6wCA05jqTIZPcoiNNONYOv098ZPv9
-         JBOxf2CB3bbjaRgCb46DUjuIgCjCWd6jYbGETjI3Wn7Uv4IDmJJkROMfgPJk/wz8usZP
-         rGBRqNeqkigN35APVdfx6MD+I7noMk0XejWOeKV5J9nL9Yml/qAFuBhzlsNTePH6Tubo
-         YlAQ==
-X-Gm-Message-State: AOAM5301guLAVSzGIAc4kou8YJtFoMyuLaxJ1SWO/6Ml3X0y7ODxUn9p
-        8kiwilvAFTfnm+g97I2w9HA=
-X-Google-Smtp-Source: ABdhPJz5owIwN6ceBYNMycQB5BvpEZZsONLgLmzJAkwS0zAHI5ZmUOGwSS7Cvl8CofWJ6ya9pJo9RQ==
-X-Received: by 2002:aa7:8392:0:b029:2db:4a7:d866 with SMTP id u18-20020aa783920000b02902db04a7d866mr34334316pfm.66.1626840715282;
-        Tue, 20 Jul 2021 21:11:55 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:3ca3:c5c9:5db2:10e2])
-        by smtp.gmail.com with ESMTPSA id m34sm28705732pgb.85.2021.07.20.21.11.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jul 2021 21:11:54 -0700 (PDT)
-Date:   Tue, 20 Jul 2021 21:11:51 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Michael Kelley <mikelley@microsoft.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        KY Srinivasan <kys@microsoft.com>,
+        id S239229AbhGUKm0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Jul 2021 06:42:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47472 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238695AbhGUJ3J (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 21 Jul 2021 05:29:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0BAC960FE7;
+        Wed, 21 Jul 2021 10:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1626862185;
+        bh=AkCAzoeKK4dm3J0IYr3eqKdLUog3VqnY+aXSEhth1R0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=c1tD+1+8N7ya+U+R4FoCk5r1AY0+njsEQDtKrpnu5fKg2Nsyw8ad0RAbDRa8LMlYN
+         kIGK/SB0S4EC/Bt9LoElGD8+QX12QgKfoR1683w3NYrmezl45haNH7nWDa/e7NVumf
+         ZIzS+wQ0FwO2WzFS4jJEXOjj+Re557OYzd+zf9Xc=
+Date:   Wed, 21 Jul 2021 12:09:41 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     kernel@pengutronix.de,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Alexandre Bounine <alex.bou9@gmail.com>,
+        Alex Dubov <oakad@yahoo.com>, Alex Elder <elder@kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Alison Schofield <alison.schofield@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Andy Gross <agross@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Bodo Stroesser <bostroesser@gmail.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Dexuan Cui <decui@microsoft.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Eric Farman <farman@linux.ibm.com>,
+        Finn Thain <fthain@linux-m68k.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Frank Li <lznuaa@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Geoff Levand <geoff@infradead.org>,
         Haiyang Zhang <haiyangz@microsoft.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Hannes Reinecke <hare@suse.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>, Ira Weiny <ira.weiny@intel.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jason Wang <jasowang@redhat.com>,
+        Jens Taprogge <jens.taprogge@taprogge.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Joey Pabalan <jpabalanb@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Johannes Thumshirn <morbidrsa@gmail.com>,
+        Jon Mason <jdmason@kudzu.us>, Juergen Gross <jgross@suse.com>,
+        Julien Grall <jgrall@amazon.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Lee Jones <lee.jones@linaro.org>, Len Brown <lenb@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Manohar Vanga <manohar.vanga@gmail.com>,
+        Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Martyn Welch <martyn@welchs.me.uk>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Maxim Levitsky <maximlevitsky@gmail.com>,
+        Michael Buesch <m@bues.ch>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michael Jamet <michael.jamet@intel.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mike Christie <michael.christie@oracle.com>,
+        Moritz Fischer <mdf@kernel.org>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+        Rich Felker <dalias@libc.org>,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Samuel Holland <samuel@sholland.org>,
+        Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
+        SeongJae Park <sjpark@amazon.de>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Stephen Boyd <sboyd@kernel.org>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: Re: [PATCH] Input: serio - make write method mandatory
-Message-ID: <YPeeh/s/pp4DOVR3@google.com>
-References: <YFgUxG/TljMuVeQ3@google.com>
- <YPd+nl30LwKWpEZa@Ryzen-9-3900X.localdomain>
- <MWHPR21MB159385686CD54855A5FBE251D7E39@MWHPR21MB1593.namprd21.prod.outlook.com>
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Sven Van Asbroeck <TheSven73@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thorsten Scherer <t.scherer@eckelmann.de>,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        Tom Rix <trix@redhat.com>,
+        Tyrel Datwyler <tyreld@linux.ibm.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Wolfram Sang <wsa@kernel.org>, Wu Hao <hao.wu@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        YueHaibing <yuehaibing@huawei.com>,
+        Yufen Yu <yuyufen@huawei.com>, alsa-devel@alsa-project.org,
+        dmaengine@vger.kernel.org, greybus-dev@lists.linaro.org,
+        industrypack-devel@lists.sourceforge.net, kvm@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-cxl@vger.kernel.org,
+        linux-fpga@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-ntb@googlegroups.com, linux-parisc@vger.kernel.org,
+        linux-pci@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, nvdimm@lists.linux.dev,
+        platform-driver-x86@vger.kernel.org, sparclinux@vger.kernel.org,
+        target-devel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v4 0/5] bus: Make remove callback return void
+Message-ID: <YPfyZen4Y0uDKqDT@kroah.com>
+References: <20210713193522.1770306-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <MWHPR21MB159385686CD54855A5FBE251D7E39@MWHPR21MB1593.namprd21.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210713193522.1770306-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jul 21, 2021 at 03:19:36AM +0000, Michael Kelley wrote:
-> From: Nathan Chancellor <nathan@kernel.org> Sent: Tuesday, July 20, 2021 6:56 PM
-> > 
-> > On Sun, Mar 21, 2021 at 08:53:40PM -0700, Dmitry Torokhov wrote:
-> > > Given that all serio drivers except one implement write() method
-> > > let's make it mandatory to avoid testing for its presence whenever
-> > > we attempt to use it.
-> > >
-> > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > ---
-> > >  drivers/input/serio/ams_delta_serio.c | 6 ++++++
-> > >  drivers/input/serio/serio.c           | 5 +++++
-> > >  include/linux/serio.h                 | 5 +----
-> > >  3 files changed, 12 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/input/serio/ams_delta_serio.c b/drivers/input/serio/ams_delta_serio.c
-> > > index 1c0be299f179..a1c314897951 100644
-> > > --- a/drivers/input/serio/ams_delta_serio.c
-> > > +++ b/drivers/input/serio/ams_delta_serio.c
-> > > @@ -89,6 +89,11 @@ static irqreturn_t ams_delta_serio_interrupt(int irq, void *dev_id)
-> > >  	return IRQ_HANDLED;
-> > >  }
-> > >
-> > > +static int ams_delta_serio_write(struct serio *serio, u8 data)
-> > > +{
-> > > +	return -EINVAL;
-> > > +}
-> > > +
-> > >  static int ams_delta_serio_open(struct serio *serio)
-> > >  {
-> > >  	struct ams_delta_serio *priv = serio->port_data;
-> > > @@ -157,6 +162,7 @@ static int ams_delta_serio_init(struct platform_device *pdev)
-> > >  	priv->serio = serio;
-> > >
-> > >  	serio->id.type = SERIO_8042;
-> > > +	serio->write = ams_delta_serio_write;
-> > >  	serio->open = ams_delta_serio_open;
-> > >  	serio->close = ams_delta_serio_close;
-> > >  	strlcpy(serio->name, "AMS DELTA keyboard adapter", sizeof(serio->name));
-> > > diff --git a/drivers/input/serio/serio.c b/drivers/input/serio/serio.c
-> > > index 29f491082926..8d229a11bb6b 100644
-> > > --- a/drivers/input/serio/serio.c
-> > > +++ b/drivers/input/serio/serio.c
-> > > @@ -694,6 +694,11 @@ EXPORT_SYMBOL(serio_reconnect);
-> > >   */
-> > >  void __serio_register_port(struct serio *serio, struct module *owner)
-> > >  {
-> > > +	if (!serio->write) {
-> > > +		pr_err("%s: refusing to register %s without write method\n",
-> > > +		       __func__, serio->name);
-> > > +		return;
-> > > +	}
-> > >  	serio_init_port(serio);
-> > >  	serio_queue_event(serio, owner, SERIO_REGISTER_PORT);
-> > >  }
-> > > diff --git a/include/linux/serio.h b/include/linux/serio.h
-> > > index 6c27d413da92..075f1b8d76fa 100644
-> > > --- a/include/linux/serio.h
-> > > +++ b/include/linux/serio.h
-> > > @@ -121,10 +121,7 @@ void serio_unregister_driver(struct serio_driver *drv);
-> > >
-> > >  static inline int serio_write(struct serio *serio, unsigned char data)
-> > >  {
-> > > -	if (serio->write)
-> > > -		return serio->write(serio, data);
-> > > -	else
-> > > -		return -1;
-> > > +	return serio->write(serio, data);
-> > >  }
-> > >
-> > >  static inline void serio_drv_write_wakeup(struct serio *serio)
-> > > --
-> > > 2.31.0.rc2.261.g7f71774620-goog
-> > >
-> > >
-> > > --
-> > > Dmitry
-> > 
-> > This patch as commit 81c7c0a350bf ("Input: serio - make write method
-> > mandatory") in -next breaks input for my Hyper-V VM, which prevents me
-> > from logging in. I attempted to do something like the following (-1 or
-> > -EINVAL) which should be equivalent but it does not resolve the issue.
-> > 
-> > Cheers,
-> > Nathan
-> > 
-> > diff --git a/drivers/input/serio/hyperv-keyboard.c b/drivers/input/serio/hyperv-keyboard.c
-> > index 1a7b72a9016d..d3eee2d4c327 100644
-> > --- a/drivers/input/serio/hyperv-keyboard.c
-> > +++ b/drivers/input/serio/hyperv-keyboard.c
-> > @@ -311,6 +311,11 @@ static void hv_kbd_stop(struct serio *serio)
-> >         spin_unlock_irqrestore(&kbd_dev->lock, flags);
-> >  }
-> > 
-> > +static int hv_kbd_write(struct serio *serio, u8 data)
-> > +{
-> > +       return -1;
-> > +}
-> > +
-> >  static int hv_kbd_probe(struct hv_device *hv_dev,
-> >                         const struct hv_vmbus_device_id *dev_id)
-> >  {
-> > @@ -341,6 +346,7 @@ static int hv_kbd_probe(struct hv_device *hv_dev,
-> > 
-> >         hv_serio->start = hv_kbd_start;
-> >         hv_serio->stop = hv_kbd_stop;
-> > +       hv_serio->write = hv_kbd_write;
-> > 
-> >         error = vmbus_open(hv_dev->channel,
-> >                            KBD_VSC_SEND_RING_BUFFER_SIZE,
+On Tue, Jul 13, 2021 at 09:35:17PM +0200, Uwe Kleine-König wrote:
+> Hello,
 > 
-> I'm seeing the same problem.  I've added the code to hyperv-keyboard.c that Nathan
-> proposed, and that solves the immediate problem in that the "refusing to register"
-> message no longer occurs.
+> this is v4 of the final patch set for my effort to make struct
+> bus_type::remove return void.
 > 
-> But there's now a different problem in that this error is output whenever a key
-> is typed on the Hyper-V synthetic keyboard:
+> The first four patches contain cleanups that make some of these
+> callbacks (more obviously) always return 0. They are acked by the
+> respective maintainers. Bjorn Helgaas explicitly asked to include the
+> pci patch (#1) into this series, so Greg taking this is fine. I assume
+> the s390 people are fine with Greg taking patches #2 to #4, too, they
+> didn't explicitly said so though.
 > 
-> [   11.576716] atkbd serio0: keyboard reset failed on d34b2567-b9b6-42b9-8778-0a4ec0b
+> The last patch actually changes the prototype and so touches quite some
+> drivers and has the potential to conflict with future developments, so I
+> consider it beneficial to put these patches into next soon. I expect
+> that it will be Greg who takes the complete series, he already confirmed
+> via irc (for v2) to look into this series.
 > 
-> The Hyper-V keyboard driver depends on the AT Keyboard driver, and there's code in
-> atkbd.c that checks for the existence of the serio->write function.  I haven't debugged all
-> the details, but apparently hyperv-keyboard.c depends on atkbd.c finding that function
-> as NULL in order to work properly.   See atkbd_connect().  These messages are output
-> during boot when the two drivers are working properly together:
+> The only change compared to v3 is in the fourth patch where I modified a
+> few more drivers to fix build failures. Some of them were found by build
+> bots (thanks!), some of them I found myself using a regular expression
+> search. The newly modified files are:
 > 
-> [    2.672693] hv_vmbus: registering driver hyperv_keyboard
-> [    2.700587] input: AT Translated Set 2 keyboard as /devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/VMBUS:00/d34b2567-b9b6-42b9-8778-0a4ec0b955bf/serio0/input/input1
+>  arch/sparc/kernel/vio.c
+>  drivers/nubus/bus.c
+>  drivers/sh/superhyway/superhyway.c
+>  drivers/vlynq/vlynq.c
+>  drivers/zorro/zorro-driver.c
+>  sound/ac97/bus.c
 > 
-> I'm not seeing the second message when running the latest linux-next.
+> Best regards
+> Uwe
 
-Yeah, the patch is busted as several drivers actually check for the
-presence of serio->write() to adjust their behavior. I will revert the
-patch.
+Now queued up.  I can go make a git tag that people can pull from after
+0-day is finished testing this to verify all is good, if others need it.
 
-Thanks!
+thanks,
 
--- 
-Dmitry
+greg k-h
