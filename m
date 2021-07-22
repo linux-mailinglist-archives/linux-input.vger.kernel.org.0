@@ -2,77 +2,147 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 749423D1A50
-	for <lists+linux-input@lfdr.de>; Thu, 22 Jul 2021 01:14:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D1AF3D1B74
+	for <lists+linux-input@lfdr.de>; Thu, 22 Jul 2021 03:30:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231146AbhGUWcQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Jul 2021 18:32:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35866 "EHLO
+        id S229783AbhGVAt6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Jul 2021 20:49:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231132AbhGUWcP (ORCPT
+        with ESMTP id S229621AbhGVAt5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Jul 2021 18:32:15 -0400
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9344C061757
-        for <linux-input@vger.kernel.org>; Wed, 21 Jul 2021 16:12:50 -0700 (PDT)
-Received: by mail-oi1-x22a.google.com with SMTP id r80so4613213oie.13
-        for <linux-input@vger.kernel.org>; Wed, 21 Jul 2021 16:12:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=8FOspe8EXemmdftQmdCKjMGD4GlMF6TNjn5qZ/urTzA=;
-        b=JujPltrXTID9FgcLmXYI1ZWisQEd6ZPMsqsoPqZyr7ByJev91/mrJXSOPpUzIFVaKE
-         sDc5C8Kjx4s+efZM9Ew06IwrZD3n4dxPvTft6hlBLyHNMwG3wNn8QCGxYoZImVhSZ8s8
-         mAi7lBCzi0ZZhb9aqLajQ/WYt3yCX6XhXF4wg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=8FOspe8EXemmdftQmdCKjMGD4GlMF6TNjn5qZ/urTzA=;
-        b=OeTv4JFgwisJpw3RPBHLIS7hwXPsc5YtrdbXpr+QY2WuU4R39VmkpCBpPApAazTlEg
-         ZA1i/GSEeGmClQmxxyV7bBevv4VAmI2aNMnVmsEk4E85M8XiPjpGdDS2zPRUg3mc6UCJ
-         2GA+XFsMG8rOc5pDrmjCKBWxF7pGzW+jpOzujdP9hYNdFdxcHdsiEuJHEYGK4RtEc207
-         M3sU78DeEaz1Y/yx1Sy9JVE7mMrLJ8/2xMVL6rqmoVvoVg3hlY1OJwMfM/IojAagqcOf
-         qNxacCt++zkizhjkoOgbfNITbyXk1l9cvCSCfnKYhOF+2t+eex63Bjybft93Icmfx72Q
-         /kEA==
-X-Gm-Message-State: AOAM532RGGx4u7cJpG3Xzs+XByKfgOWwCdll4c1ZqlNg2q5Rp2QQjk4V
-        9s+xVAd3kQ34ro8cuX8Ol+utOO37m2ndITfgBxlW0Q==
-X-Google-Smtp-Source: ABdhPJy8NuPRrw9bVuQcemTROc6i7a8wJv5B/r/uEFXnRHvKBvk6Hgu9VOi3NYL0M63QrdqC5paifG36zjJYN4het0A=
-X-Received: by 2002:aca:4dc6:: with SMTP id a189mr4207788oib.166.1626909170104;
- Wed, 21 Jul 2021 16:12:50 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 21 Jul 2021 23:12:49 +0000
+        Wed, 21 Jul 2021 20:49:57 -0400
+X-Greylist: delayed 150 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 21 Jul 2021 18:30:33 PDT
+Received: from joooj.vinc17.net (joooj.vinc17.net [IPv6:2001:4b99:1:3:216:3eff:fe20:ac98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 082D9C061575;
+        Wed, 21 Jul 2021 18:30:32 -0700 (PDT)
+Received: from smtp-zira.vinc17.net (128.119.75.86.rev.sfr.net [86.75.119.128])
+        by joooj.vinc17.net (Postfix) with ESMTPSA id BC419F6;
+        Thu, 22 Jul 2021 03:27:59 +0200 (CEST)
+Received: by zira.vinc17.org (Postfix, from userid 1000)
+        id 7577EC23053; Thu, 22 Jul 2021 03:27:59 +0200 (CEST)
+From:   Vincent Lefevre <vincent@vinc17.net>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Vincent Lefevre <vincent@vinc17.net>,
+        Daniel Lin <ephemient@gmail.com>
+Subject: [PATCH] HID: apple: Add missing scan code event for keys handled by hid-apple
+Date:   Thu, 22 Jul 2021 03:25:44 +0200
+Message-Id: <20210722012544.78331-1-vincent@vinc17.net>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <1620800053-26405-6-git-send-email-skakit@codeaurora.org>
-References: <1620800053-26405-1-git-send-email-skakit@codeaurora.org> <1620800053-26405-6-git-send-email-skakit@codeaurora.org>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date:   Wed, 21 Jul 2021 23:12:49 +0000
-Message-ID: <CAE-0n52T0fOcZxn-ZoLyw-VHvjC0mR7J24O+0DynkcTsRNoi6g@mail.gmail.com>
-Subject: Re: [PATCH V4 5/5] dt-bindings: power: reset: qcom-pon: Convert qcom
- PON binding to yaml
-To:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        satya priya <skakit@codeaurora.org>
-Cc:     David Collins <collinsd@codeaurora.org>, kgunda@codeaurora.org,
-        linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        Andy Yan <andy.yan@rock-chips.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Quoting satya priya (2021-05-11 23:14:13)
-> Convert qcom PON binding from .txt to .yaml format.
->
-> Signed-off-by: satya priya <skakit@codeaurora.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
+When an EV_KEY event is generated by hid-apple due to special key
+mapping, the usual associated scan code event (EV_MSC) is missing.
+This issue can be seen with the evtest utility.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Add the scan code event for these special keys.
+
+BugLink: https://bugs.debian.org/757356
+Co-developed-by: Daniel Lin <ephemient@gmail.com>
+Signed-off-by: Daniel Lin <ephemient@gmail.com>
+Signed-off-by: Vincent Lefevre <vincent@vinc17.net>
+---
+ drivers/hid/hid-apple.c | 32 +++++++++++++++++++++++---------
+ 1 file changed, 23 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index 6b8f0d004d34..cde92de7fca7 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -187,6 +187,15 @@ static const struct apple_key_translation *apple_find_translation(
+ 	return NULL;
+ }
+ 
++static void input_event_with_scancode(struct input_dev *input,
++		__u8 type, __u16 code, unsigned int hid, __s32 value)
++{
++	if (type == EV_KEY &&
++	    (!test_bit(code, input->key)) == value)
++		input_event(input, EV_MSC, MSC_SCAN, hid);
++	input_event(input, type, code, value);
++}
++
+ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+ 		struct hid_usage *usage, __s32 value)
+ {
+@@ -199,7 +208,8 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+ 
+ 	if (usage->code == fn_keycode) {
+ 		asc->fn_on = !!value;
+-		input_event(input, usage->type, KEY_FN, value);
++		input_event_with_scancode(input, usage->type, KEY_FN,
++				usage->hid, value);
+ 		return 1;
+ 	}
+ 
+@@ -240,7 +250,8 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+ 				code = do_translate ? trans->to : trans->from;
+ 			}
+ 
+-			input_event(input, usage->type, code, value);
++			input_event_with_scancode(input, usage->type, code,
++					usage->hid, value);
+ 			return 1;
+ 		}
+ 
+@@ -258,8 +269,8 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+ 					clear_bit(usage->code,
+ 							asc->pressed_numlock);
+ 
+-				input_event(input, usage->type, trans->to,
+-						value);
++				input_event_with_scancode(input, usage->type,
++						trans->to, usage->hid, value);
+ 			}
+ 
+ 			return 1;
+@@ -270,7 +281,8 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+ 		if (hid->country == HID_COUNTRY_INTERNATIONAL_ISO) {
+ 			trans = apple_find_translation(apple_iso_keyboard, usage->code);
+ 			if (trans) {
+-				input_event(input, usage->type, trans->to, value);
++				input_event_with_scancode(input, usage->type,
++						trans->to, usage->hid, value);
+ 				return 1;
+ 			}
+ 		}
+@@ -279,7 +291,8 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+ 	if (swap_opt_cmd) {
+ 		trans = apple_find_translation(swapped_option_cmd_keys, usage->code);
+ 		if (trans) {
+-			input_event(input, usage->type, trans->to, value);
++			input_event_with_scancode(input, usage->type,
++					trans->to, usage->hid, value);
+ 			return 1;
+ 		}
+ 	}
+@@ -287,7 +300,8 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+ 	if (swap_fn_leftctrl) {
+ 		trans = apple_find_translation(swapped_fn_leftctrl_keys, usage->code);
+ 		if (trans) {
+-			input_event(input, usage->type, trans->to, value);
++			input_event_with_scancode(input, usage->type,
++					trans->to, usage->hid, value);
+ 			return 1;
+ 		}
+ 	}
+@@ -306,8 +320,8 @@ static int apple_event(struct hid_device *hdev, struct hid_field *field,
+ 
+ 	if ((asc->quirks & APPLE_INVERT_HWHEEL) &&
+ 			usage->code == REL_HWHEEL) {
+-		input_event(field->hidinput->input, usage->type, usage->code,
+-				-value);
++		input_event_with_scancode(field->hidinput->input, usage->type,
++				usage->code, usage->hid, -value);
+ 		return 1;
+ 	}
+ 
+-- 
+2.32.0
+
