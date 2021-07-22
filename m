@@ -2,259 +2,354 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D3013D2025
-	for <lists+linux-input@lfdr.de>; Thu, 22 Jul 2021 10:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDDBE3D200A
+	for <lists+linux-input@lfdr.de>; Thu, 22 Jul 2021 10:46:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230300AbhGVIGj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Jul 2021 04:06:39 -0400
-Received: from outgoing-yousee.gl-mut-gbl.as8677.net ([193.201.76.59]:34757
-        "EHLO outgoing-yousee.gl-mut-gbl.as8677.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230401AbhGVIGj (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Jul 2021 04:06:39 -0400
-Received: from filter.yousee.as8677.net (localhost [127.0.0.1])
-        by mwumf0303.yousee.as8677.net (SMTP Server) with ESMTP id 4GVmKW04nGz7CT
-        for <linux-input@vger.kernel.org>; Thu, 22 Jul 2021 10:47:11 +0200 (CEST)
-X-mail-filterd: {"version":"1.2.1","queueID":"4GVmKV6pTZz7CS","contextId":"c2ed5699-2870-432a-9a55-7d8026b27879"}
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=webspeed.dk; s=sela;
- t=1626943630; h=Subject:From:To:Cc:Date:In-Reply-To:References; bh=FPcLYgIRqu
-  p4alxdJ4hT/aff1ekXYmakS0r5dUT2lGo=; b=pPxMxDeE3PWGJ+KimaAmL0l0y35AU+VLlQ6Cre
-  R4ZUEAYWOnd1aAtRsqC9m2aqSu761tWzTCiSy/GPBz+tGUwUgadTTMuxhDS0aiztRkuwO+6WcP/H
-  NGDlTKORYikzsBMXLp8NoaDL9l67wQhsE2ffvTEfeQUyFcemCrjqwf/tFWcNwRXIP9/oTnCI/FzZ
-  J8lqgrjI4CHn6muUuw+15eQ+Bwnrws75NOPW7NkeiN1Pa3ecsFcmHUsSQ1s7Ub4Lgf4p5tbnPS+2
-  rKksalxHklDdPgQQWVwvTFq+bJbXlVPYctTsTGlq1UhSTXpuOogcDimQIF9pq8ST8ohJOUXXN4zw
-  ==
-Received: from outgoing-yousee.gl-mut-gbl.as8677.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mwumf0303.yousee.as8677.net (SMTP Server) with ESMTPS id 4GVmKV6pTZz7CS
-        for <linux-input@vger.kernel.org>; Thu, 22 Jul 2021 10:47:10 +0200 (CEST)
-X-mail-filterd: {"version":"1.2.1","queueID":"4GVmKV3R96z7C2","contextId":"f471d793-8140-4c52-a29e-b4d1ebcd7b25"}
-X-yse-mailing: LEGIT
-X-yse-spamrating: 36
-X-yse-spam: not-spam
-X-yse-spamcause: OK, (-100)(0000)gggruggvucftvghtrhhoucdtuddrgedvtddrfeeigddtiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfvffevpdggtfgfpffufgeuufevtffkuefgpdfqfgfvnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkuffhvfffjghftggfggfgsehtkeertddtreejnecuhfhrohhmpefjrghnshcuufgthhhulhhtiicuoehhrghnshdrshgthhhulhhtiiesfigvsghsphgvvggurdgukheqnecuggftrfgrthhtvghrnhepteetleegffelieetvddthfekvdelgfeggfeugfdvueeitdeluddutefghfdugfevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpfhhrvggvuggvshhkthhophdrohhrghdpvgigrdhinhenucfkphepvddruddtgedrudduiedrudekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhephhgvlhhopegludelvddrudeikedruddrvdefgegnpdhinhgvthepvddruddtgedrudduiedrudekgedpmhgrihhlfhhrohhmpehhrghnshdrshgthhhulhhtiiesfigvsghsphgvvggurdgukhdprhgtphhtthhopegsvghnjhgrmhhinhdrthhishhsohhirhgvshesghhmrghilhdrtghomhdprhgtphhtthhopegumhhithhrhidrthhorhhokhhhohhvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhop
- egsvghnjhgrmhhinhdrthhishhsohhirhgvshesrhgvughhrghtrdgtohhm
-Received: from [192.168.1.234] (2-104-116-184-cable.dk.customer.tdc.net [2.104.116.184])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: hans.schultz@webspeed.dk)
-        by mwumf0303.yousee.as8677.net (SMTP Server) with ESMTPSA id 4GVmKV3R96z7C2;
-        Thu, 22 Jul 2021 10:47:10 +0200 (CEST)
-Authentication-Results: yousee.as8677.net; auth=pass (PLAIN) smtp.auth=hans.schultz@webspeed.dk
-Message-ID: <d0ce2e386080ead084c6b270aecaff9ed8915507.camel@webspeed.dk>
-Subject: Re: Elantech touchpad not working on mainline kernels
-From:   Hans Schultz <hans.schultz@webspeed.dk>
-To:     Benjamin Tissoires <benjamin.tissoires@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 22 Jul 2021 10:45:22 +0200
-In-Reply-To: <CAN+gG=FrMYzohpc1QVGPK1mKgX=x8WDzgWQsgYHKSa6AYkQr5A@mail.gmail.com>
-References: <f35f6472fddcf552076f40190f8f1d74888d0b4a.camel@webspeed.dk>
-         <CAKdAkRRe0GkdOEQhb7WV6CtOw_1D0bbxCcDKadivc+uQrAvBhw@mail.gmail.com>
-         <c727d6900e2af325b9e91b9f2d0adc8677cd8eea.camel@webspeed.dk>
-         <CAKdAkRT=O5f7=bCOKUea0LDQnEUtV8Mu0yMbQNTcoB+7Q_3GNA@mail.gmail.com>
-         <578761643e8a040fc1952ed1701371be15cb267a.camel@webspeed.dk>
-         <8ea9fed2bbe1c1e23afa3103177511c9501ee580.camel@webspeed.dk>
-         <CAKdAkRQ5N-Sk6=ddXHpj_wUkiDs1xUe6ZzePhHqg9sg3Xe0Gaw@mail.gmail.com>
-         <CAN+gG=FrMYzohpc1QVGPK1mKgX=x8WDzgWQsgYHKSa6AYkQr5A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.1 
+        id S231310AbhGVIF1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Jul 2021 04:05:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55882 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231189AbhGVIFZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 22 Jul 2021 04:05:25 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A43AE6128C;
+        Thu, 22 Jul 2021 08:45:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1626943559;
+        bh=iHEKpKP05yPtSDo0WVw13tR4OsPIw3x7iurEQu7Pc7Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=d2l4V14jYNVya/romP2w2ezg4x2LnX47K9dLSJmCxQOKyIqkdonEoIsuSyzycFfD4
+         aHamBXJweC7B8K4Qi3lPBaud6oc7vHctb7fViEzj6oXWZWpeL9VSuOZpThr23TyNei
+         Kh7xAATxCTMeB2NBX21iFqK668swZChaCi9FSwpo=
+Date:   Thu, 22 Jul 2021 10:45:55 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     kernel@pengutronix.de,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Alexandre Bounine <alex.bou9@gmail.com>,
+        Alex Dubov <oakad@yahoo.com>, Alex Elder <elder@kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Alison Schofield <alison.schofield@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Andy Gross <agross@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Bodo Stroesser <bostroesser@gmail.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Dexuan Cui <decui@microsoft.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Eric Farman <farman@linux.ibm.com>,
+        Finn Thain <fthain@linux-m68k.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Frank Li <lznuaa@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Geoff Levand <geoff@infradead.org>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Hannes Reinecke <hare@suse.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>, Ira Weiny <ira.weiny@intel.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jason Wang <jasowang@redhat.com>,
+        Jens Taprogge <jens.taprogge@taprogge.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Joey Pabalan <jpabalanb@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Johannes Thumshirn <morbidrsa@gmail.com>,
+        Jon Mason <jdmason@kudzu.us>, Juergen Gross <jgross@suse.com>,
+        Julien Grall <jgrall@amazon.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Lee Jones <lee.jones@linaro.org>, Len Brown <lenb@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Manohar Vanga <manohar.vanga@gmail.com>,
+        Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Martyn Welch <martyn@welchs.me.uk>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Maxim Levitsky <maximlevitsky@gmail.com>,
+        Michael Buesch <m@bues.ch>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michael Jamet <michael.jamet@intel.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mike Christie <michael.christie@oracle.com>,
+        Moritz Fischer <mdf@kernel.org>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+        Rich Felker <dalias@libc.org>,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Samuel Holland <samuel@sholland.org>,
+        Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
+        SeongJae Park <sjpark@amazon.de>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Sven Van Asbroeck <TheSven73@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thorsten Scherer <t.scherer@eckelmann.de>,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        Tom Rix <trix@redhat.com>,
+        Tyrel Datwyler <tyreld@linux.ibm.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Wolfram Sang <wsa@kernel.org>, Wu Hao <hao.wu@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        YueHaibing <yuehaibing@huawei.com>,
+        Yufen Yu <yuyufen@huawei.com>, alsa-devel@alsa-project.org,
+        dmaengine@vger.kernel.org, greybus-dev@lists.linaro.org,
+        industrypack-devel@lists.sourceforge.net, kvm@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-cxl@vger.kernel.org,
+        linux-fpga@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-ntb@googlegroups.com, linux-parisc@vger.kernel.org,
+        linux-pci@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, nvdimm@lists.linux.dev,
+        platform-driver-x86@vger.kernel.org, sparclinux@vger.kernel.org,
+        target-devel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v4 0/5] bus: Make remove callback return void
+Message-ID: <YPkwQwf0dUKnGA7L@kroah.com>
+References: <20210713193522.1770306-1-u.kleine-koenig@pengutronix.de>
+ <YPfyZen4Y0uDKqDT@kroah.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YPfyZen4Y0uDKqDT@kroah.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2021-07-22 at 09:55 +0200, Benjamin Tissoires wrote:
-> On Wed, Jul 21, 2021 at 10:42 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
+On Wed, Jul 21, 2021 at 12:09:41PM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Jul 13, 2021 at 09:35:17PM +0200, Uwe Kleine-K�nig wrote:
+> > Hello,
 > > 
-> > On Wed, Jul 21, 2021 at 12:53 PM Hans Schultz <
-> > hans.schultz@webspeed.dk> wrote:
-> > > 
-> > > On Wed, 2021-07-21 at 21:31 +0200, Hans Schultz wrote:
-> > > > Hi Dmitry,
-> > > > 
-> > > > On Wed, 2021-07-21 at 12:14 -0700, Dmitry Torokhov wrote:
-> > > > > On Wed, Jul 21, 2021 at 11:09 AM Hans Schultz <
-> > > > > hans.schultz@webspeed.dk> wrote:
-> > > > > > 
-> > > > > > On Wed, 2021-07-21 at 10:48 -0700, Dmitry Torokhov wrote:
-> > > > > > > Hi Hans,
-> > > > > > > 
-> > > > > > > On Sun, May 30, 2021 at 2:12 AM Hans Schultz <
-> > > > > > > hans.schultz@webspeed.dk> wrote:
-> > > > > > > > 
-> > > > > > > > Hello,
-> > > > > > > > I have a problem getting my Elantech touchpad to work
-> > > > > > > > with
-> > > > > > > > the
-> > > > > > > > mainline
-> > > > > > > > kernels, and I need some assistance with the code to
-> > > > > > > > resolve
-> > > > > > > > the
-> > > > > > > > problem.
-> > > > > > > > The kernels that have tried are 5.9.11 and 5.11.11.
-> > > > > > > > 
-> > > > > > > > With boot parameters i8042.notimeout i8042.nomux, the
-> > > > > > > > touchpad is
-> > > > > > > > detected but does not work. There is absolutely no
-> > > > > > > > response
-> > > > > > > > from
-> > > > > > > > it
-> > > > > > > > with any hid modules loaded.
-> > > > > > > > 
-> > > > > > > > It is reported and seen working on a Lubuntu distro
-> > > > > > > > (bionic
-> > > > > > > > kernel)
-> > > > > > > > when inserting the i2c_hid module. The insertion of the
-> > > > > > > > i2c_hid
-> > > > > > > > module
-> > > > > > > > pulls in the hid_multitouch module when it works, no
-> > > > > > > > boot
-> > > > > > > > parameters
-> > > > > > > > necessary.
-> > > > > > > > In the case where it does not work, insering the
-> > > > > > > > i2c_hid
-> > > > > > > > module
-> > > > > > > > does
-> > > > > > > > not pull in the hid_multitouch module.
-> > > > > > > > 
-> > > > > > > > I have the bionic kernel code, but I have not as of yet
-> > > > > > > > been
-> > > > > > > > able
-> > > > > > > > to
-> > > > > > > > detect what makes it work in contrast to the kernel.org
-> > > > > > > > kernels.
-> > > > > > > > 
-> > > > > > > > This I think should lead to a kernel patch.
-> > > > > > > 
-> > > > > > > There is not much to go on with. What is the hardware,
-> > > > > > > your
-> > > > > > > kernel
-> > > > > > > .config, dmesg from unsuccessful boot? If you have logs
-> > > > > > > from
-> > > > > > > the
-> > > > > > > working kernel that would help too.
-> > > > > > > 
-> > > > > > > Thanks.
-> > > > > > > 
-> > > > > > 
-> > > > > > The best info I have on the hardware is from Xorg log with
-> > > > > > the
-> > > > > > working
-> > > > > > Lubuntu kernel:
-> > > > > > [ 130.980] (II) Loading
-> > > > > > /usr/lib/xorg/modules/input/synaptics_drv.so
-> > > > > > [ 130.982] (II) Module synaptics: vendor="X.Org Foundation"
-> > > > > > [ 130.982] (II) Using input driver 'synaptics' for '0X45
-> > > > > > 0X4C
-> > > > > > 0X41
-> > > > > > 0:00
-> > > > > > 04F3:308C Touchpad'
-> > > > > > 
-> > > > > > I might be able to get the kernel messages when inserting
-> > > > > > the
-> > > > > > working
-> > > > > > module, but I think it will not tell much more.
-> > > > > 
-> > > > > OK, if you say so. Then the only suggestion I have is to
-> > > > > verify
-> > > > > that
-> > > > > your kernel config enables all necessary options for your
-> > > > > hardware.
-> > > > > I'd double check if you have Designware I2C controller
-> > > > > enabled,
-> > > > > ACPI
-> > > > > LPSS, etc.
-> > > > > 
-> > > > > > To me it is clearly a code issue as the working kernel
-> > > > > > pulls in
-> > > > > > hid_multitouch when inserting i2c_hid, while the non-
-> > > > > > working does
-> > > > > > not.
-> > > > > > 
-> > > > > > All kernels I have tried up to now from kernel.org do not
-> > > > > > work.
-> > > > > > The
-> > > > > > latest being 5.13.4.
-> > > > > 
-> > > > > Thanks.
-> > > > > 
-> > > > 
-> > > > I have a thread with all the dmesg info for both the working
-> > > > and non-
-> > > > working cases here :
-> > > > https://gitlab.freedesktop.org/libinput/libinput/-/issues/544
-> > > > 
-> > > > Benjamin has also asked for the acpidump info, which is there.
-> > > > (funny
-> > > > as the responses to my problem come at the same time after a
-> > > > long
-> > > > time.
-> > > > :-) )
-> > > > 
-> > > > I will check my .config...
-> > > > 
-> > > > Thanks,
-> > > > Hans
-> > > 
-> > > Here are my I2C kernel settings. I only added what I could see as
-> > > with
-> > > Intel hw, so no Designware!
+> > this is v4 of the final patch set for my effort to make struct
+> > bus_type::remove return void.
 > > 
-> > However if you consult the dmesg from the working kernel you will
-> > observe:
+> > The first four patches contain cleanups that make some of these
+> > callbacks (more obviously) always return 0. They are acked by the
+> > respective maintainers. Bjorn Helgaas explicitly asked to include the
+> > pci patch (#1) into this series, so Greg taking this is fine. I assume
+> > the s390 people are fine with Greg taking patches #2 to #4, too, they
+> > didn't explicitly said so though.
 > > 
-> > [   79.964148] input: 0X45 0X4C 0X41 0:00 04F3:308C Mouse as
-> > /devices/pci0000:00/0000:00:15.3/i2c_designware.1/i2c-8/i2c-0X45
-> > 0X4C
-> > 0X41 0:00/0018:04F3:308C.0002/input/input24
-> > [   79.964222] input: 0X45 0X4C 0X41 0:00 04F3:308C Touchpad as
-> > /devices/pci0000:00/0000:00:15.3/i2c_designware.1/i2c-8/i2c-0X45
-> > 0X4C
-> > 0X41 0:00/0018:04F3:308C.0002/input/input26
+> > The last patch actually changes the prototype and so touches quite some
+> > drivers and has the potential to conflict with future developments, so I
+> > consider it beneficial to put these patches into next soon. I expect
+> > that it will be Greg who takes the complete series, he already confirmed
+> > via irc (for v2) to look into this series.
 > > 
-> > so it clearly uses designware-compatible IP block even though it is
-> > an
-> > Intel system.
+> > The only change compared to v3 is in the fourth patch where I modified a
+> > few more drivers to fix build failures. Some of them were found by build
+> > bots (thanks!), some of them I found myself using a regular expression
+> > search. The newly modified files are:
+> > 
+> >  arch/sparc/kernel/vio.c
+> >  drivers/nubus/bus.c
+> >  drivers/sh/superhyway/superhyway.c
+> >  drivers/vlynq/vlynq.c
+> >  drivers/zorro/zorro-driver.c
+> >  sound/ac97/bus.c
+> > 
+> > Best regards
+> > Uwe
 > 
-> FWIW, I think Intel platform *always* rely on designware for the I2C
-> adapter implementation. So if you haven't enabled that driver there
-> is
-> no chance for you to have a working touchpad.
-> 
-> Cheers,
-> Benjamin
-> 
-> > 
-> > Can you try grabbing config from the working kernel and use it if
-> > you
-> > want to compile your own? There are a lot of hardware dependencies
-> > in
-> > modern systems that may not be immediately obvious.
-> > 
-> > Thanks.
-> > 
-> > --
-> > Dmitry
+> Now queued up.  I can go make a git tag that people can pull from after
+> 0-day is finished testing this to verify all is good, if others need it.
 
-I have now tried taking the kernel config from the working example and
-building a 5.13.4 kernel based on that, but it still does not work.
+Ok, here's a tag that any other subsystem can pull from if they want
+these changes in their tree before 5.15-rc1 is out.  I might pull it
+into my char-misc-next tree as well just to keep that tree sane as it
+seems to pick up new busses on a regular basis...
 
-My original approach was assuming that the Lubuntu kernel was module
-based, which they normally are to be flexible, and checking module for
-module what I had of modules in my kernel build and the module list
-from the Lubuntu kernel.
+thanks,
 
-The designware part in the Lubuntu kernel it shows was not included as
-a module but was in the kernel bin. Adding the designware parts to my
-kernel did not resolve the issue either.
+greg k-h
 
-Still inserting i2c_hid does not pull in hid_multitouch.
+-----------------------------------
 
-Is there code differences that Ubuntu have made to their kernel that
-can explain this? I have been looking through the code and there is
-definitely differences, f.ex. in the quirks department.
+
+The following changes since commit 2734d6c1b1a089fb593ef6a23d4b70903526fe0c:
+
+  Linux 5.14-rc2 (2021-07-18 14:13:49 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git tags/bus_remove_return_void-5.15
+
+for you to fetch changes up to fc7a6209d5710618eb4f72a77cd81b8d694ecf89:
+
+  bus: Make remove callback return void (2021-07-21 11:53:42 +0200)
+
+----------------------------------------------------------------
+Bus: Make remove callback return void tag
+
+Tag for other trees/branches to pull from in order to have a stable
+place to build off of if they want to add new busses for 5.15.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Uwe Kleine-K�nig (5):
+      PCI: endpoint: Make struct pci_epf_driver::remove return void
+      s390/cio: Make struct css_driver::remove return void
+      s390/ccwgroup: Drop if with an always false condition
+      s390/scm: Make struct scm_driver::remove return void
+      bus: Make remove callback return void
+
+ arch/arm/common/locomo.c                  | 3 +--
+ arch/arm/common/sa1111.c                  | 4 +---
+ arch/arm/mach-rpc/ecard.c                 | 4 +---
+ arch/mips/sgi-ip22/ip22-gio.c             | 3 +--
+ arch/parisc/kernel/drivers.c              | 5 ++---
+ arch/powerpc/platforms/ps3/system-bus.c   | 3 +--
+ arch/powerpc/platforms/pseries/ibmebus.c  | 3 +--
+ arch/powerpc/platforms/pseries/vio.c      | 3 +--
+ arch/s390/include/asm/eadm.h              | 2 +-
+ arch/sparc/kernel/vio.c                   | 4 +---
+ drivers/acpi/bus.c                        | 3 +--
+ drivers/amba/bus.c                        | 4 +---
+ drivers/base/auxiliary.c                  | 4 +---
+ drivers/base/isa.c                        | 4 +---
+ drivers/base/platform.c                   | 4 +---
+ drivers/bcma/main.c                       | 6 ++----
+ drivers/bus/sunxi-rsb.c                   | 4 +---
+ drivers/cxl/core.c                        | 3 +--
+ drivers/dax/bus.c                         | 4 +---
+ drivers/dma/idxd/sysfs.c                  | 4 +---
+ drivers/firewire/core-device.c            | 4 +---
+ drivers/firmware/arm_scmi/bus.c           | 4 +---
+ drivers/firmware/google/coreboot_table.c  | 4 +---
+ drivers/fpga/dfl.c                        | 4 +---
+ drivers/hid/hid-core.c                    | 4 +---
+ drivers/hid/intel-ish-hid/ishtp/bus.c     | 4 +---
+ drivers/hv/vmbus_drv.c                    | 5 +----
+ drivers/hwtracing/intel_th/core.c         | 4 +---
+ drivers/i2c/i2c-core-base.c               | 5 +----
+ drivers/i3c/master.c                      | 4 +---
+ drivers/input/gameport/gameport.c         | 3 +--
+ drivers/input/serio/serio.c               | 3 +--
+ drivers/ipack/ipack.c                     | 4 +---
+ drivers/macintosh/macio_asic.c            | 4 +---
+ drivers/mcb/mcb-core.c                    | 4 +---
+ drivers/media/pci/bt8xx/bttv-gpio.c       | 3 +--
+ drivers/memstick/core/memstick.c          | 3 +--
+ drivers/mfd/mcp-core.c                    | 3 +--
+ drivers/misc/mei/bus.c                    | 4 +---
+ drivers/misc/tifm_core.c                  | 3 +--
+ drivers/mmc/core/bus.c                    | 4 +---
+ drivers/mmc/core/sdio_bus.c               | 4 +---
+ drivers/net/netdevsim/bus.c               | 3 +--
+ drivers/ntb/core.c                        | 4 +---
+ drivers/ntb/ntb_transport.c               | 4 +---
+ drivers/nubus/bus.c                       | 6 ++----
+ drivers/nvdimm/bus.c                      | 3 +--
+ drivers/pci/endpoint/pci-epf-core.c       | 7 ++-----
+ drivers/pci/pci-driver.c                  | 3 +--
+ drivers/pcmcia/ds.c                       | 4 +---
+ drivers/platform/surface/aggregator/bus.c | 4 +---
+ drivers/platform/x86/wmi.c                | 4 +---
+ drivers/pnp/driver.c                      | 3 +--
+ drivers/rapidio/rio-driver.c              | 4 +---
+ drivers/rpmsg/rpmsg_core.c                | 7 ++-----
+ drivers/s390/block/scm_drv.c              | 4 +---
+ drivers/s390/cio/ccwgroup.c               | 6 +-----
+ drivers/s390/cio/chsc_sch.c               | 3 +--
+ drivers/s390/cio/css.c                    | 7 +++----
+ drivers/s390/cio/css.h                    | 2 +-
+ drivers/s390/cio/device.c                 | 9 +++------
+ drivers/s390/cio/eadm_sch.c               | 4 +---
+ drivers/s390/cio/scm.c                    | 5 +++--
+ drivers/s390/cio/vfio_ccw_drv.c           | 3 +--
+ drivers/s390/crypto/ap_bus.c              | 4 +---
+ drivers/scsi/scsi_debug.c                 | 3 +--
+ drivers/sh/superhyway/superhyway.c        | 8 ++------
+ drivers/siox/siox-core.c                  | 4 +---
+ drivers/slimbus/core.c                    | 4 +---
+ drivers/soc/qcom/apr.c                    | 4 +---
+ drivers/spi/spi.c                         | 4 +---
+ drivers/spmi/spmi.c                       | 3 +--
+ drivers/ssb/main.c                        | 4 +---
+ drivers/staging/fieldbus/anybuss/host.c   | 4 +---
+ drivers/staging/greybus/gbphy.c           | 4 +---
+ drivers/target/loopback/tcm_loop.c        | 5 ++---
+ drivers/thunderbolt/domain.c              | 4 +---
+ drivers/tty/serdev/core.c                 | 4 +---
+ drivers/usb/common/ulpi.c                 | 4 +---
+ drivers/usb/serial/bus.c                  | 4 +---
+ drivers/usb/typec/bus.c                   | 4 +---
+ drivers/vdpa/vdpa.c                       | 4 +---
+ drivers/vfio/mdev/mdev_driver.c           | 4 +---
+ drivers/virtio/virtio.c                   | 3 +--
+ drivers/vlynq/vlynq.c                     | 4 +---
+ drivers/vme/vme.c                         | 4 +---
+ drivers/xen/xenbus/xenbus.h               | 2 +-
+ drivers/xen/xenbus/xenbus_probe.c         | 4 +---
+ drivers/zorro/zorro-driver.c              | 3 +--
+ include/linux/device/bus.h                | 2 +-
+ include/linux/pci-epf.h                   | 2 +-
+ sound/ac97/bus.c                          | 6 ++----
+ sound/aoa/soundbus/core.c                 | 4 +---
+ 93 files changed, 107 insertions(+), 263 deletions(-)
