@@ -2,158 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C75A3D4106
-	for <lists+linux-input@lfdr.de>; Fri, 23 Jul 2021 21:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 702FC3D410A
+	for <lists+linux-input@lfdr.de>; Fri, 23 Jul 2021 21:43:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbhGWTCE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Jul 2021 15:02:04 -0400
-Received: from mx1.riseup.net ([198.252.153.129]:42732 "EHLO mx1.riseup.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229528AbhGWTCD (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Jul 2021 15:02:03 -0400
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "*.riseup.net", Issuer "Sectigo RSA Domain Validation Secure Server CA" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4GWfqJ4LtFzDsKr;
-        Fri, 23 Jul 2021 12:42:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1627069356; bh=bry+1eZRVnUEzKlENXvkkYW0HdVSqEnTfGyi3gC+Noo=;
-        h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-        b=mmQOZEKvrNQ1tv/e7Mjm8JjfSX6831n2NPB25oGqXqLcIGYjiOgBp+ZjfpMZb9Sjc
-         3p5eHqTd0K/JjmQE9M8DWXZML4LSOkACa6vzCXTX9xb9AvAKdSQytmY12IdH+MNDXl
-         q6W2bAJ8TbN/f9GkQZbJrW1WuHbJxLewfMOBowP4=
-X-Riseup-User-ID: 135E98824DB159DA90226578C0A663264D1D49184D7DB8426AFE81A158C2C44A
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by fews1.riseup.net (Postfix) with ESMTPSA id 4GWfqH0cg1z5vYk;
-        Fri, 23 Jul 2021 12:42:34 -0700 (PDT)
-Message-ID: <e3bdfa16584d7ec832414dcb854ee4d2582543b3.camel@riseup.net>
-Subject: Re: [PATCH v3] HID: logitech-hidpp: battery: provide CAPACITY
- property for newer devices
-From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>
-To:     Hamza Mahfooz <someguy@effective-light.com>,
-        linux-kernel@vger.kernel.org
-Cc:     Bastien Nocera <hadess@hadess.net>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-In-Reply-To: <20210723185720.29314-1-someguy@effective-light.com>
-References: <20210723185720.29314-1-someguy@effective-light.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-b8XC2m1TtxqaXCjG1IfU"
-Date:   Fri, 23 Jul 2021 20:42:32 +0100
+        id S229676AbhGWTDV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Jul 2021 15:03:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51004 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229575AbhGWTDU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 23 Jul 2021 15:03:20 -0400
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3046C061757
+        for <linux-input@vger.kernel.org>; Fri, 23 Jul 2021 12:43:53 -0700 (PDT)
+Received: by mail-ot1-x32e.google.com with SMTP id h63-20020a9d14450000b02904ce97efee36so3125968oth.7
+        for <linux-input@vger.kernel.org>; Fri, 23 Jul 2021 12:43:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=QNZENHO+dKLQGyNSvg/QhBqsuG8rka7B9Jc327gNXJ8=;
+        b=CSNnsWrOFG1ZAcdGGRrgOLzEMCaNMWwKz0MzVZd4uW2ixO8KgOX7KWYOKeIUp3lzAZ
+         iDrsJU9Qa01k3fjKieGNzsdnbu4RAPYIdcxeQFjm/rXPXMJweZF8NpOmBhxtSOzfwScX
+         4Vus3o25vEr5CDCVJ9KSKM2OTbTiQPMSKSYT4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=QNZENHO+dKLQGyNSvg/QhBqsuG8rka7B9Jc327gNXJ8=;
+        b=WaK/UecNS06B2WltyqyG34cm/sOd53yrHvP5ex/hK+4KajEDdvOOybzMDDqMrWA01A
+         OeGmsiZYoanvi0WYovntOHKTLBmxUgxDfCRw3Jt7lQyUjo4aoFKOatnez7nWL5qHUR1Z
+         CDWdfgsaSCrCp1N7nTTBjz7xp7WDdq24gYVNdQfyIJvMbh8arGcGmxljPVIYXDqQQF1l
+         OL50ysVJp1wBdxXGY8vj2HvBSJ2tF8r95I/8WSNX49Z8PVBMeBLFUROlMcEN+8zhr0PF
+         oFzkSQJyX15xkhdS4rLZ0dIMICFWiPk9Rw+fr9iktaoRkAJ2XN3lXLihj3XugD1MeS+8
+         0VgQ==
+X-Gm-Message-State: AOAM532DYYNumYFzzZU3h3Zg7vJxnqSXCV130z6Vk3g0BQVkuYONrf5v
+        zvfm3CvXepipwx5lPPSNzgLmpHt1eWn80w8XyrP3LA==
+X-Google-Smtp-Source: ABdhPJyJw0X7sgO5YFPGbIoQspf53Y3uWYvU+kcCqW1C12GCjYoNt/WALDXwdFGZSITulJdtesHgrrI0WwJgrAcaIt8=
+X-Received: by 2002:a9d:1b6e:: with SMTP id l101mr4107722otl.34.1627069433207;
+ Fri, 23 Jul 2021 12:43:53 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 23 Jul 2021 19:43:52 +0000
 MIME-Version: 1.0
+In-Reply-To: <YPsa1qCBn/SAmE5x@google.com>
+References: <YPsa1qCBn/SAmE5x@google.com>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date:   Fri, 23 Jul 2021 19:43:52 +0000
+Message-ID: <CAE-0n51y=o+8SZTL_==GPXrDa2OP8fhh98Amv+L4M63rLQVGZg@mail.gmail.com>
+Subject: Re: [PATCH] Input: pm8941-pwrkey - fix comma vs semicolon issue
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        David Collins <collinsd@codeaurora.org>,
+        satya priya <skakit@codeaurora.org>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Quoting Dmitry Torokhov (2021-07-23 12:39:02)
+> There is absolutely no reason to use comma operator in this code, 2
+> separate statements make much more sense.
+>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
 
---=-b8XC2m1TtxqaXCjG1IfU
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-
-T24gRnJpLCAyMDIxLTA3LTIzIGF0IDE0OjU3IC0wNDAwLCBIYW16YSBNYWhmb296IHdyb3RlOgo+
-IEZvciBkZXZpY2VzIHRoYXQgb25seSBzdXBwb3J0IHRoZSBCQVRURVJZX1ZPTFRBR0UgKDB4MTAw
-MSkgZmVhdHVyZSwgVVBvd2VyCj4gcmVxdWlyZXMgdGhlIGFkZGl0aW9uYWwgaW5mb3JtYXRpb24g
-cHJvdmlkZWQgYnkgdGhpcyBwYXRjaCwgdG8gc2V0IHRoZW0gdXAuCj4gCj4gU2lnbmVkLW9mZi1i
-eTogSGFtemEgTWFoZm9veiA8c29tZWd1eUBlZmZlY3RpdmUtbGlnaHQuY29tPgo+IC0tLQo+IAo+
-IHYyOiB1c2UgQVJSQVlfU0laRSgpIGFuZCBzZXQgdm9sdGFnZXNbXSdzIHNpemUgdG8gMTAwCj4g
-Cj4gdjM6IGFkZCBhIGNoZWNrIHRvIGVuc3VyZSB0aGF0IGV4YWN0bHkgMTAwIGVsZW1lbnRzIGFy
-ZSBpbiB2b2x0YWdlc1tdCj4gLS0tCj4gwqBkcml2ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAu
-YyB8IDMyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystCj4gwqAxIGZpbGUgY2hhbmdl
-ZCwgMzEgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAuYyBiL2RyaXZlcnMvaGlkL2hpZC1sb2dpdGVjaC1o
-aWRwcC5jCj4gaW5kZXggNjE2MzVlNjI5NDY5Li40OTIxODIzMTQ0ZGUgMTAwNjQ0Cj4gLS0tIGEv
-ZHJpdmVycy9oaWQvaGlkLWxvZ2l0ZWNoLWhpZHBwLmMKPiArKysgYi9kcml2ZXJzL2hpZC9oaWQt
-bG9naXRlY2gtaGlkcHAuYwo+IEBAIC0xMzMxLDYgKzEzMzEsMzMgQEAgc3RhdGljIGludCBoaWRw
-cDIwX2JhdHRlcnlfZ2V0X2JhdHRlcnlfdm9sdGFnZShzdHJ1Y3QKPiBoaWRwcF9kZXZpY2UgKmhp
-ZHBwLAo+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiDCoH0KPiDCoAo+ICtzdGF0aWMgaW50
-IGhpZHBwMjBfbWFwX2JhdHRlcnlfY2FwYWNpdHkoaW50IHZvbHRhZ2UpCj4gK3sKPiArwqDCoMKg
-wqDCoMKgwqBzdGF0aWMgY29uc3QgaW50IHZvbHRhZ2VzW10gPSB7Cj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoDQxODYsIDQxNTYsIDQxNDMsIDQxMzMsIDQxMjIsIDQxMTMsIDQxMDMs
-IDQwOTQsIDQwODYsIDQwNzUsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDQwNjcs
-IDQwNTksIDQwNTEsIDQwNDMsIDQwMzUsIDQwMjcsIDQwMTksIDQwMTEsIDQwMDMsIDM5OTcsCj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDM5ODksIDM5ODMsIDM5NzYsIDM5NjksIDM5
-NjEsIDM5NTUsIDM5NDksIDM5NDIsIDM5MzUsIDM5MjksCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoDM5MjIsIDM5MTYsIDM5MDksIDM5MDIsIDM4OTYsIDM4OTAsIDM4ODMsIDM4Nzcs
-IDM4NzAsIDM4NjUsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDM4NTksIDM4NTMs
-IDM4NDgsIDM4NDIsIDM4MzcsIDM4MzMsIDM4MjgsIDM4MjQsIDM4MTksIDM4MTUsCj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDM4MTEsIDM4MDgsIDM4MDQsIDM4MDAsIDM3OTcsIDM3
-OTMsIDM3OTAsIDM3ODcsIDM3ODQsIDM3ODEsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoDM3NzgsIDM3NzUsIDM3NzIsIDM3NzAsIDM3NjcsIDM3NjQsIDM3NjIsIDM3NTksIDM3NTcs
-IDM3NTQsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDM3NTEsIDM3NDgsIDM3NDQs
-IDM3NDEsIDM3MzcsIDM3MzQsIDM3MzAsIDM3MjYsIDM3MjQsIDM3MjAsCj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoDM3MTcsIDM3MTQsIDM3MTAsIDM3MDYsIDM3MDIsIDM2OTcsIDM2
-OTMsIDM2ODgsIDM2ODMsIDM2NzcsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDM2
-NzEsIDM2NjYsIDM2NjIsIDM2NTgsIDM2NTQsIDM2NDYsIDM2MzMsIDM2MTIsIDM1NzksIDM1MzcK
-PiArwqDCoMKgwqDCoMKgwqB9OwoKSGkgSGFtemEsCgpJIHRoaW5rIGl0J3MgaW1wb3J0YW50IHRv
-IG5vdGUgdGhhdCB0aGlzIHRhYmxlIGRlcGVuZHMgb24gdGhlIGJhdHRlcnkgdGVjaG5vbG9neQoo
-dHlwZSkuIFdoaWxlIG1vc3QgZGV2aWNlcyB1c2UgdGhpcyBtYXAsIG5vdCBhbGwgZG8uIEkgdGhp
-bmsgaXQncyByZWFzb25hYmxlIHRvCmp1c3QgYXNzdW1lIHRoaXMgaXMgdGhlIG1hcCBhcyB3ZSBk
-b24ndCByZWFsbHkgaGF2ZSB0aGUgY2FwYWJpbGl0eSB0byB0ZXN0IGFsbApwcm9kdWN0cyBhbmQg
-dGhlIHByb2R1Y3RzIHRoYXQgZG8gbm90IHVzZSB0aGlzIG1hcCBhcmUgdmVyeSBmZXcuCgpUaGF0
-IHNhaWQsIEkgdGhpbmsgd2Ugc2hvdWxkIGRlZmluaXRlbHkgaGF2ZSBhIGNvbW1lbnQgaGVyZSBu
-b3RoaW5nIHRoYXQsIGFuZApwb3NzaWJsZSBoYXZlIHNvbWUgYm91bmRzIGNoZWNrcyBmb3IgdGhl
-IHJlcG9ydGVkIHZvbHRhZ2UgdmFsdWUgaGludGluZyB0aGF0CnRoZXJlIG1heSBiZSBidWcuCgpD
-aGVlcnMsCkZpbGlwZSBMYcOtbnMKCj4gKwo+ICvCoMKgwqDCoMKgwqDCoGludCBpOwo+ICsKPiAr
-wqDCoMKgwqDCoMKgwqBCVUlMRF9CVUdfT04oQVJSQVlfU0laRSh2b2x0YWdlcykgIT0gMTAwKTsK
-PiArCj4gK8KgwqDCoMKgwqDCoMKgZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUodm9sdGFnZXMp
-OyBpKyspIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKHZvbHRhZ2UgPj0g
-dm9sdGFnZXNbaV0pCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqByZXR1cm4gQVJSQVlfU0laRSh2b2x0YWdlcykgLSBpOwo+ICvCoMKgwqDCoMKgwqDCoH0K
-PiArCj4gK8KgwqDCoMKgwqDCoMKgcmV0dXJuIDA7Cj4gK30KPiArCj4gwqBzdGF0aWMgaW50IGhp
-ZHBwMjBfcXVlcnlfYmF0dGVyeV92b2x0YWdlX2luZm8oc3RydWN0IGhpZHBwX2RldmljZSAqaGlk
-cHApCj4gwqB7Cj4gwqDCoMKgwqDCoMKgwqDCoHU4IGZlYXR1cmVfdHlwZTsKPiBAQCAtMTM1NCw2
-ICsxMzgxLDcgQEAgc3RhdGljIGludCBoaWRwcDIwX3F1ZXJ5X2JhdHRlcnlfdm9sdGFnZV9pbmZv
-KHN0cnVjdAo+IGhpZHBwX2RldmljZSAqaGlkcHApCj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgaGlk
-cHAtPmJhdHRlcnkuc3RhdHVzID0gc3RhdHVzOwo+IMKgwqDCoMKgwqDCoMKgwqBoaWRwcC0+YmF0
-dGVyeS52b2x0YWdlID0gdm9sdGFnZTsKPiArwqDCoMKgwqDCoMKgwqBoaWRwcC0+YmF0dGVyeS5j
-YXBhY2l0eSA9IGhpZHBwMjBfbWFwX2JhdHRlcnlfY2FwYWNpdHkodm9sdGFnZSk7Cj4gwqDCoMKg
-wqDCoMKgwqDCoGhpZHBwLT5iYXR0ZXJ5LmxldmVsID0gbGV2ZWw7Cj4gwqDCoMKgwqDCoMKgwqDC
-oGhpZHBwLT5iYXR0ZXJ5LmNoYXJnZV90eXBlID0gY2hhcmdlX3R5cGU7Cj4gwqDCoMKgwqDCoMKg
-wqDCoGhpZHBwLT5iYXR0ZXJ5Lm9ubGluZSA9IHN0YXR1cyAhPSBQT1dFUl9TVVBQTFlfU1RBVFVT
-X05PVF9DSEFSR0lORzsKPiBAQCAtMTM3OCw2ICsxNDA2LDcgQEAgc3RhdGljIGludCBoaWRwcDIw
-X2JhdHRlcnlfdm9sdGFnZV9ldmVudChzdHJ1Y3QKPiBoaWRwcF9kZXZpY2UgKmhpZHBwLAo+IMKg
-Cj4gwqDCoMKgwqDCoMKgwqDCoGlmICh2b2x0YWdlICE9IGhpZHBwLT5iYXR0ZXJ5LnZvbHRhZ2Ug
-fHwgc3RhdHVzICE9IGhpZHBwLQo+ID5iYXR0ZXJ5LnN0YXR1cykgewo+IMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgaGlkcHAtPmJhdHRlcnkudm9sdGFnZSA9IHZvbHRhZ2U7Cj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGhpZHBwLT5iYXR0ZXJ5LmNhcGFjaXR5ID0gaGlk
-cHAyMF9tYXBfYmF0dGVyeV9jYXBhY2l0eSh2b2x0YWdlKTsKPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoGhpZHBwLT5iYXR0ZXJ5LnN0YXR1cyA9IHN0YXR1czsKPiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGhpZHBwLT5iYXR0ZXJ5LmxldmVsID0gbGV2ZWw7Cj4gwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBoaWRwcC0+YmF0dGVyeS5jaGFyZ2VfdHlwZSA9
-IGNoYXJnZV90eXBlOwo+IEBAIC0zNzE3LDcgKzM3NDYsOCBAQCBzdGF0aWMgaW50IGhpZHBwX2lu
-aXRpYWxpemVfYmF0dGVyeShzdHJ1Y3QgaGlkcHBfZGV2aWNlCj4gKmhpZHBwKQo+IMKgwqDCoMKg
-wqDCoMKgwqBudW1fYmF0dGVyeV9wcm9wcyA9IEFSUkFZX1NJWkUoaGlkcHBfYmF0dGVyeV9wcm9w
-cykgLSAzOwo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoGlmIChoaWRwcC0+Y2FwYWJpbGl0aWVzICYg
-SElEUFBfQ0FQQUJJTElUWV9CQVRURVJZX01JTEVBR0UgfHwKPiAtwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgaGlkcHAtPmNhcGFiaWxpdGllcyAmIEhJRFBQX0NBUEFCSUxJVFlfQkFUVEVSWV9QRVJDRU5U
-QUdFKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoCBoaWRwcC0+Y2FwYWJpbGl0aWVzICYgSElEUFBf
-Q0FQQUJJTElUWV9CQVRURVJZX1BFUkNFTlRBR0UgfHwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-aGlkcHAtPmNhcGFiaWxpdGllcyAmIEhJRFBQX0NBUEFCSUxJVFlfQkFUVEVSWV9WT0xUQUdFKQo+
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgYmF0dGVyeV9wcm9wc1tudW1fYmF0dGVy
-eV9wcm9wcysrXSA9Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoFBPV0VSX1NVUFBMWV9QUk9QX0NBUEFDSVRZOwo+IMKgCg==
-
-
---=-b8XC2m1TtxqaXCjG1IfU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAmD7G6MACgkQ+JPGdIFq
-qV3P3RAAhqubscc5WlIXI6fPKnXq/2nPritUBbmlh5yBHAeVlmkHnDT52WAlLHzt
-4POujGk+o81XjWO0l6VPOH5x8yrRqYIfTl7tRZDkR688FoAAj3bh+FiZNO68S1Yu
-6V9kZEH3DTM7G++niBEkVvbDl9eujsuY+Km9QU0nCwPS6tPoFIsQAHEx/jZJFV71
-8xvbFAxg2dxvLubPXRFRVQOW+tQudxOrmxLjai7wgHDgVEPQRfgjgbPcSCv0s868
-eYYiIUHkBp0YT54IBP5Xu/OGyquMBrZ/jNiT98uKDpP9uc2fr7h2a/uEv6282Cwi
-/PdqvWSYhV2fTAtxH/37u+xHQj/bVm4H9829OUFvqDeUYb1oBkNBq7ihV6CTJfFi
-qCpSW6XR+uYnlGefpKO4xByOGGAov0El0dOyVNdcexM1N+0EUduDipWln2USo6+F
-iEuxtIRNqFkZcgFpyeUAnUugWkTzgpVrBsu3R0MyDUtWuyMIALEJRwMXJJRjShcK
-rPwqYJVLi+bcAoE5ZrOUKNftdsK1DfvjPMOaMhFc9Ex2rzBM18suNl18CtJr0q/0
-c/Yy3p6bg4TuGxK37AES0vX1jml1S5+fvApibq5lMgduvq/jvNEQ8m5LDUD+FjlK
-rbbmCdHlLJYZvnPMV9hcm6hQ611J4UOkaTSgn3/8S5vXeJDhqPo=
-=JBTg
------END PGP SIGNATURE-----
-
---=-b8XC2m1TtxqaXCjG1IfU--
-
+Fixes: 2fcbda9a822d ("Input: pm8941-pwrkey - add support for PMK8350
+PON_HLOS PMIC peripheral")
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
