@@ -2,80 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 367863D415A
-	for <lists+linux-input@lfdr.de>; Fri, 23 Jul 2021 22:13:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E05D3D4248
+	for <lists+linux-input@lfdr.de>; Fri, 23 Jul 2021 23:39:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231382AbhGWTc1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Jul 2021 15:32:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57574 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231201AbhGWTc1 (ORCPT
+        id S231724AbhGWU7V convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Fri, 23 Jul 2021 16:59:21 -0400
+Received: from h4.fbrelay.privateemail.com ([131.153.2.45]:56656 "EHLO
+        h4.fbrelay.privateemail.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231350AbhGWU7V (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Jul 2021 15:32:27 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E9BDC061757
-        for <linux-input@vger.kernel.org>; Fri, 23 Jul 2021 13:12:59 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id t14so3161717oiw.0
-        for <linux-input@vger.kernel.org>; Fri, 23 Jul 2021 13:12:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=iWKsxqaLuKKt7r1ybco35OuqISL9Q6eRrAXI7L+rDDo=;
-        b=PPzW/qAs5wuxrT5U0bkozRW2HaxMAaUGE3JwrNMv8MPBBWl9h1FmY7g4/+it3cHcar
-         UQxysCb003ez8WPNpFgmkTNQTcxzGwl3BYhl7dhr6jJG8b1RthNcgdl9xqckEJ6hcnsG
-         09Gkppkoi2B2IF9te3kllT2T00TY+Akg6DoHw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=iWKsxqaLuKKt7r1ybco35OuqISL9Q6eRrAXI7L+rDDo=;
-        b=Lrnrj7bzTEIFr4uLzfJliEf+wgvA/QVT7QJF3zRRXH930sP/+cw7kat8lQmrBhVVmr
-         HY8I1Mubx8UYfAvL0XinNRvUjVSlfO456E0cvduplaPCA4jpofWUxjwJ4uFJcGIQxYjL
-         7D1RcYjLtvbSaqhEmB153FhSmHF6P38MRRSvpFKMWjUFGKen2ls4S1o4Cm4Sp/kj9TLY
-         a8otzCmbdm3i5Ih8XEL77R+GBEg9G03k8zk9DYqwuSkLeiDI+RWYoyZNKaN7sTmhpfpe
-         km5+KcU6VB8ZDjRBBfvOvhk2d9BCk1tiFaaPFZYSp2xHXcP2tpHqJvJyttOXDNZKtaIP
-         iv/w==
-X-Gm-Message-State: AOAM530qiKBafBB8gGfDxdD2gCaV7Roxs+ckye16CyeLaDjNDHpXPLZ7
-        pvaJOMdJAK/tBJVp4NH/pcEsr+S0c4ug1BwfibnAfQ==
-X-Google-Smtp-Source: ABdhPJychER1jemf23dOU3zqarRWN2XH+0UzO49bwOXeyzNfynn0OHwpFypLFF9y16OeQTr1wy7vpfKtK5Ue9RNQPcM=
-X-Received: by 2002:aca:4dc6:: with SMTP id a189mr10234216oib.166.1627071178884;
- Fri, 23 Jul 2021 13:12:58 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 23 Jul 2021 20:12:58 +0000
+        Fri, 23 Jul 2021 16:59:21 -0400
+Received: from MTA-12-3.privateemail.com (mta-12-1.privateemail.com [198.54.122.106])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by h3.fbrelay.privateemail.com (Postfix) with ESMTPS id 27CD9803AA;
+        Fri, 23 Jul 2021 17:39:53 -0400 (EDT)
+Received: from mta-12.privateemail.com (localhost [127.0.0.1])
+        by mta-12.privateemail.com (Postfix) with ESMTP id CF17A18000BC;
+        Fri, 23 Jul 2021 17:39:51 -0400 (EDT)
+Received: from [192.168.0.46] (unknown [10.20.151.247])
+        by mta-12.privateemail.com (Postfix) with ESMTPA id 9C46818000B2;
+        Fri, 23 Jul 2021 17:39:50 -0400 (EDT)
+Date:   Fri, 23 Jul 2021 17:39:44 -0400
+From:   Hamza Mahfooz <someguy@effective-light.com>
+Subject: Re: [PATCH v3] HID: logitech-hidpp: battery: provide CAPACITY
+ property for newer devices
+To:     Filipe =?iso-8859-1?b?TGHtbnM=?= <lains@riseup.net>
+Cc:     linux-kernel@vger.kernel.org, Bastien Nocera <hadess@hadess.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+Message-Id: <86WPWQ.ODI6WUKUKD0N3@effective-light.com>
+In-Reply-To: <e3bdfa16584d7ec832414dcb854ee4d2582543b3.camel@riseup.net>
+References: <20210723185720.29314-1-someguy@effective-light.com>
+        <e3bdfa16584d7ec832414dcb854ee4d2582543b3.camel@riseup.net>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-In-Reply-To: <YPsd74LoRtB9tTKK@google.com>
-References: <YPsa1qCBn/SAmE5x@google.com> <CAE-0n51y=o+8SZTL_==GPXrDa2OP8fhh98Amv+L4M63rLQVGZg@mail.gmail.com>
- <YPsd74LoRtB9tTKK@google.com>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date:   Fri, 23 Jul 2021 20:12:58 +0000
-Message-ID: <CAE-0n52ZFNWLhwis4UT9vWuCyzy=u4QkeeuZdygFFwvLJiq1Eg@mail.gmail.com>
-Subject: Re: [PATCH] Input: pm8941-pwrkey - fix comma vs semicolon issue
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        David Collins <collinsd@codeaurora.org>,
-        satya priya <skakit@codeaurora.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: 8BIT
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Quoting Dmitry Torokhov (2021-07-23 12:52:15)
-> On Fri, Jul 23, 2021 at 07:43:52PM +0000, Stephen Boyd wrote:
-> > Quoting Dmitry Torokhov (2021-07-23 12:39:02)
-> > > There is absolutely no reason to use comma operator in this code, 2
-> > > separate statements make much more sense.
-> > >
-> > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > ---
-> >
-> > Fixes: 2fcbda9a822d ("Input: pm8941-pwrkey - add support for PMK8350
-> > PON_HLOS PMIC peripheral")
->
-> It actually predates this patch and also not really a fix as the
-> original code ends up working properly, but looks weird.
 
-Alright.
+On Fri, Jul 23 2021 at 08:42:32 PM +0100, Filipe Laíns 
+<lains@riseup.net> wrote:
+> That said, I think we should definitely have a comment here nothing 
+> that, and
+> possible have some bounds checks for the reported voltage value 
+> hinting that
+> there may be bug.
+
+Hey Filipe,
+
+Do you have any thoughts on what the bounds ought to be?
+3500 mV seems like a rather safe lower bound, however the upper bound
+seems much more fuzzy.
+
+
