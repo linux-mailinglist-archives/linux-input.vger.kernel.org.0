@@ -2,92 +2,158 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 623B63D40FA
-	for <lists+linux-input@lfdr.de>; Fri, 23 Jul 2021 21:39:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C75A3D4106
+	for <lists+linux-input@lfdr.de>; Fri, 23 Jul 2021 21:42:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229535AbhGWS6e (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Jul 2021 14:58:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49930 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbhGWS6e (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Jul 2021 14:58:34 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0D2FC061575;
-        Fri, 23 Jul 2021 12:39:06 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id a20so4469048plm.0;
-        Fri, 23 Jul 2021 12:39:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=O07PofvR6wtYaFYmZwu709/uHQuZ+IXZRe89ZgE8wvI=;
-        b=gYa6UGgHkK9IfA2M24dRu56uTGIC6QhmTUcIoEtE+4lTaa/dvK/NvIaE+yPovqUeWE
-         fEswFlLpNRdFZATn9kCB5xhGI4VY/EDx5Pzc3SqSFbEIy81RunLggK5O7+aT5jBNmCnJ
-         AMOWcKdp2YvXeUTkvA8RAtuSV+GIu0Ga1OUrZme7bcHmlzq6mKbYEb0lI33uEsnGpL5I
-         MVkrYm1jqBEkdjiqTZ4qQvgrcTwRoGokoYmqyT/2xbdtsIGfJ4OBdUMcG9RDF9nx9qMv
-         cAfHpw3LRAx1qDTkg/Yo3YiMJB3Anu1qao9mL8u5nEevIOyQ4mUlrNXvIfX2z6zNIIjC
-         hveg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=O07PofvR6wtYaFYmZwu709/uHQuZ+IXZRe89ZgE8wvI=;
-        b=podlusQ4Ubj+rMBPA0gjVAjgJw0HBSY/JW/GA5RjUH5K/SxwYG8jcRyYWIg2LDri3I
-         05a6PDGpsSu8VwHRbB0T1L+LHi1sjBrJzyNUPG5Ws36a+gsQhK1ryOgohCVgxnsP6H7r
-         m91ikdCRtMTgOLZOef3H73aRZT7QcOmF2VyVf1AhfOOAadlalgOadj7SGDyAKeCWdy1w
-         9QFLkSGduOqwPjiwXpj245EyShKCDUPDhIJ3p7Yu5cYlV5EfTucYQT1EOl+mZj+R+w52
-         dmsrafPUkylHmsZw4VHL1Cwy7pDLLcZJiBTbA3dlPMqBWe5FHO5Ssm0LLZwbIk1WQNIB
-         HDow==
-X-Gm-Message-State: AOAM530zQyoYMp96jacMn0rL/XEUz6tSM6eiloEhZjzmn/bLyTRGutOW
-        SPbZ/hPQ0GC+g29iJYPsABouftD3ON8=
-X-Google-Smtp-Source: ABdhPJzmMRQ5q99h3FuptuoSbN5dBTjPGKya8Oz3KXekh2m6ASBd9cdHW1D2VOc3gsvRG65Da+dirg==
-X-Received: by 2002:a63:d311:: with SMTP id b17mr6209279pgg.332.1627069145721;
-        Fri, 23 Jul 2021 12:39:05 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:55b1:90d5:6a79:755f])
-        by smtp.gmail.com with ESMTPSA id j6sm38941894pgq.0.2021.07.23.12.39.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jul 2021 12:39:04 -0700 (PDT)
-Date:   Fri, 23 Jul 2021 12:39:02 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        David Collins <collinsd@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        satya priya <skakit@codeaurora.org>,
+        id S229648AbhGWTCE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Jul 2021 15:02:04 -0400
+Received: from mx1.riseup.net ([198.252.153.129]:42732 "EHLO mx1.riseup.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229528AbhGWTCD (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 23 Jul 2021 15:02:03 -0400
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "*.riseup.net", Issuer "Sectigo RSA Domain Validation Secure Server CA" (not verified))
+        by mx1.riseup.net (Postfix) with ESMTPS id 4GWfqJ4LtFzDsKr;
+        Fri, 23 Jul 2021 12:42:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+        t=1627069356; bh=bry+1eZRVnUEzKlENXvkkYW0HdVSqEnTfGyi3gC+Noo=;
+        h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+        b=mmQOZEKvrNQ1tv/e7Mjm8JjfSX6831n2NPB25oGqXqLcIGYjiOgBp+ZjfpMZb9Sjc
+         3p5eHqTd0K/JjmQE9M8DWXZML4LSOkACa6vzCXTX9xb9AvAKdSQytmY12IdH+MNDXl
+         q6W2bAJ8TbN/f9GkQZbJrW1WuHbJxLewfMOBowP4=
+X-Riseup-User-ID: 135E98824DB159DA90226578C0A663264D1D49184D7DB8426AFE81A158C2C44A
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+         by fews1.riseup.net (Postfix) with ESMTPSA id 4GWfqH0cg1z5vYk;
+        Fri, 23 Jul 2021 12:42:34 -0700 (PDT)
+Message-ID: <e3bdfa16584d7ec832414dcb854ee4d2582543b3.camel@riseup.net>
+Subject: Re: [PATCH v3] HID: logitech-hidpp: battery: provide CAPACITY
+ property for newer devices
+From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>
+To:     Hamza Mahfooz <someguy@effective-light.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: pm8941-pwrkey - fix comma vs semicolon issue
-Message-ID: <YPsa1qCBn/SAmE5x@google.com>
+Cc:     Bastien Nocera <hadess@hadess.net>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+In-Reply-To: <20210723185720.29314-1-someguy@effective-light.com>
+References: <20210723185720.29314-1-someguy@effective-light.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-b8XC2m1TtxqaXCjG1IfU"
+Date:   Fri, 23 Jul 2021 20:42:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-There is absolutely no reason to use comma operator in this code, 2
-separate statements make much more sense.
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/misc/pm8941-pwrkey.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--=-b8XC2m1TtxqaXCjG1IfU
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
-index 10e3fc0eac6e..33609603245d 100644
---- a/drivers/input/misc/pm8941-pwrkey.c
-+++ b/drivers/input/misc/pm8941-pwrkey.c
-@@ -284,7 +284,7 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
- 	}
- 
- 	if (pwrkey->data->supports_ps_hold_poff_config) {
--		pwrkey->reboot_notifier.notifier_call = pm8941_reboot_notify,
-+		pwrkey->reboot_notifier.notifier_call = pm8941_reboot_notify;
- 		error = register_reboot_notifier(&pwrkey->reboot_notifier);
- 		if (error) {
- 			dev_err(&pdev->dev, "failed to register reboot notifier: %d\n",
--- 
-2.32.0.432.gabb21c7263-goog
+T24gRnJpLCAyMDIxLTA3LTIzIGF0IDE0OjU3IC0wNDAwLCBIYW16YSBNYWhmb296IHdyb3RlOgo+
+IEZvciBkZXZpY2VzIHRoYXQgb25seSBzdXBwb3J0IHRoZSBCQVRURVJZX1ZPTFRBR0UgKDB4MTAw
+MSkgZmVhdHVyZSwgVVBvd2VyCj4gcmVxdWlyZXMgdGhlIGFkZGl0aW9uYWwgaW5mb3JtYXRpb24g
+cHJvdmlkZWQgYnkgdGhpcyBwYXRjaCwgdG8gc2V0IHRoZW0gdXAuCj4gCj4gU2lnbmVkLW9mZi1i
+eTogSGFtemEgTWFoZm9veiA8c29tZWd1eUBlZmZlY3RpdmUtbGlnaHQuY29tPgo+IC0tLQo+IAo+
+IHYyOiB1c2UgQVJSQVlfU0laRSgpIGFuZCBzZXQgdm9sdGFnZXNbXSdzIHNpemUgdG8gMTAwCj4g
+Cj4gdjM6IGFkZCBhIGNoZWNrIHRvIGVuc3VyZSB0aGF0IGV4YWN0bHkgMTAwIGVsZW1lbnRzIGFy
+ZSBpbiB2b2x0YWdlc1tdCj4gLS0tCj4gwqBkcml2ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAu
+YyB8IDMyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystCj4gwqAxIGZpbGUgY2hhbmdl
+ZCwgMzEgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAuYyBiL2RyaXZlcnMvaGlkL2hpZC1sb2dpdGVjaC1o
+aWRwcC5jCj4gaW5kZXggNjE2MzVlNjI5NDY5Li40OTIxODIzMTQ0ZGUgMTAwNjQ0Cj4gLS0tIGEv
+ZHJpdmVycy9oaWQvaGlkLWxvZ2l0ZWNoLWhpZHBwLmMKPiArKysgYi9kcml2ZXJzL2hpZC9oaWQt
+bG9naXRlY2gtaGlkcHAuYwo+IEBAIC0xMzMxLDYgKzEzMzEsMzMgQEAgc3RhdGljIGludCBoaWRw
+cDIwX2JhdHRlcnlfZ2V0X2JhdHRlcnlfdm9sdGFnZShzdHJ1Y3QKPiBoaWRwcF9kZXZpY2UgKmhp
+ZHBwLAo+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiDCoH0KPiDCoAo+ICtzdGF0aWMgaW50
+IGhpZHBwMjBfbWFwX2JhdHRlcnlfY2FwYWNpdHkoaW50IHZvbHRhZ2UpCj4gK3sKPiArwqDCoMKg
+wqDCoMKgwqBzdGF0aWMgY29uc3QgaW50IHZvbHRhZ2VzW10gPSB7Cj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoDQxODYsIDQxNTYsIDQxNDMsIDQxMzMsIDQxMjIsIDQxMTMsIDQxMDMs
+IDQwOTQsIDQwODYsIDQwNzUsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDQwNjcs
+IDQwNTksIDQwNTEsIDQwNDMsIDQwMzUsIDQwMjcsIDQwMTksIDQwMTEsIDQwMDMsIDM5OTcsCj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDM5ODksIDM5ODMsIDM5NzYsIDM5NjksIDM5
+NjEsIDM5NTUsIDM5NDksIDM5NDIsIDM5MzUsIDM5MjksCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoDM5MjIsIDM5MTYsIDM5MDksIDM5MDIsIDM4OTYsIDM4OTAsIDM4ODMsIDM4Nzcs
+IDM4NzAsIDM4NjUsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDM4NTksIDM4NTMs
+IDM4NDgsIDM4NDIsIDM4MzcsIDM4MzMsIDM4MjgsIDM4MjQsIDM4MTksIDM4MTUsCj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDM4MTEsIDM4MDgsIDM4MDQsIDM4MDAsIDM3OTcsIDM3
+OTMsIDM3OTAsIDM3ODcsIDM3ODQsIDM3ODEsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoDM3NzgsIDM3NzUsIDM3NzIsIDM3NzAsIDM3NjcsIDM3NjQsIDM3NjIsIDM3NTksIDM3NTcs
+IDM3NTQsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDM3NTEsIDM3NDgsIDM3NDQs
+IDM3NDEsIDM3MzcsIDM3MzQsIDM3MzAsIDM3MjYsIDM3MjQsIDM3MjAsCj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoDM3MTcsIDM3MTQsIDM3MTAsIDM3MDYsIDM3MDIsIDM2OTcsIDM2
+OTMsIDM2ODgsIDM2ODMsIDM2NzcsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDM2
+NzEsIDM2NjYsIDM2NjIsIDM2NTgsIDM2NTQsIDM2NDYsIDM2MzMsIDM2MTIsIDM1NzksIDM1MzcK
+PiArwqDCoMKgwqDCoMKgwqB9OwoKSGkgSGFtemEsCgpJIHRoaW5rIGl0J3MgaW1wb3J0YW50IHRv
+IG5vdGUgdGhhdCB0aGlzIHRhYmxlIGRlcGVuZHMgb24gdGhlIGJhdHRlcnkgdGVjaG5vbG9neQoo
+dHlwZSkuIFdoaWxlIG1vc3QgZGV2aWNlcyB1c2UgdGhpcyBtYXAsIG5vdCBhbGwgZG8uIEkgdGhp
+bmsgaXQncyByZWFzb25hYmxlIHRvCmp1c3QgYXNzdW1lIHRoaXMgaXMgdGhlIG1hcCBhcyB3ZSBk
+b24ndCByZWFsbHkgaGF2ZSB0aGUgY2FwYWJpbGl0eSB0byB0ZXN0IGFsbApwcm9kdWN0cyBhbmQg
+dGhlIHByb2R1Y3RzIHRoYXQgZG8gbm90IHVzZSB0aGlzIG1hcCBhcmUgdmVyeSBmZXcuCgpUaGF0
+IHNhaWQsIEkgdGhpbmsgd2Ugc2hvdWxkIGRlZmluaXRlbHkgaGF2ZSBhIGNvbW1lbnQgaGVyZSBu
+b3RoaW5nIHRoYXQsIGFuZApwb3NzaWJsZSBoYXZlIHNvbWUgYm91bmRzIGNoZWNrcyBmb3IgdGhl
+IHJlcG9ydGVkIHZvbHRhZ2UgdmFsdWUgaGludGluZyB0aGF0CnRoZXJlIG1heSBiZSBidWcuCgpD
+aGVlcnMsCkZpbGlwZSBMYcOtbnMKCj4gKwo+ICvCoMKgwqDCoMKgwqDCoGludCBpOwo+ICsKPiAr
+wqDCoMKgwqDCoMKgwqBCVUlMRF9CVUdfT04oQVJSQVlfU0laRSh2b2x0YWdlcykgIT0gMTAwKTsK
+PiArCj4gK8KgwqDCoMKgwqDCoMKgZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUodm9sdGFnZXMp
+OyBpKyspIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKHZvbHRhZ2UgPj0g
+dm9sdGFnZXNbaV0pCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqByZXR1cm4gQVJSQVlfU0laRSh2b2x0YWdlcykgLSBpOwo+ICvCoMKgwqDCoMKgwqDCoH0K
+PiArCj4gK8KgwqDCoMKgwqDCoMKgcmV0dXJuIDA7Cj4gK30KPiArCj4gwqBzdGF0aWMgaW50IGhp
+ZHBwMjBfcXVlcnlfYmF0dGVyeV92b2x0YWdlX2luZm8oc3RydWN0IGhpZHBwX2RldmljZSAqaGlk
+cHApCj4gwqB7Cj4gwqDCoMKgwqDCoMKgwqDCoHU4IGZlYXR1cmVfdHlwZTsKPiBAQCAtMTM1NCw2
+ICsxMzgxLDcgQEAgc3RhdGljIGludCBoaWRwcDIwX3F1ZXJ5X2JhdHRlcnlfdm9sdGFnZV9pbmZv
+KHN0cnVjdAo+IGhpZHBwX2RldmljZSAqaGlkcHApCj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgaGlk
+cHAtPmJhdHRlcnkuc3RhdHVzID0gc3RhdHVzOwo+IMKgwqDCoMKgwqDCoMKgwqBoaWRwcC0+YmF0
+dGVyeS52b2x0YWdlID0gdm9sdGFnZTsKPiArwqDCoMKgwqDCoMKgwqBoaWRwcC0+YmF0dGVyeS5j
+YXBhY2l0eSA9IGhpZHBwMjBfbWFwX2JhdHRlcnlfY2FwYWNpdHkodm9sdGFnZSk7Cj4gwqDCoMKg
+wqDCoMKgwqDCoGhpZHBwLT5iYXR0ZXJ5LmxldmVsID0gbGV2ZWw7Cj4gwqDCoMKgwqDCoMKgwqDC
+oGhpZHBwLT5iYXR0ZXJ5LmNoYXJnZV90eXBlID0gY2hhcmdlX3R5cGU7Cj4gwqDCoMKgwqDCoMKg
+wqDCoGhpZHBwLT5iYXR0ZXJ5Lm9ubGluZSA9IHN0YXR1cyAhPSBQT1dFUl9TVVBQTFlfU1RBVFVT
+X05PVF9DSEFSR0lORzsKPiBAQCAtMTM3OCw2ICsxNDA2LDcgQEAgc3RhdGljIGludCBoaWRwcDIw
+X2JhdHRlcnlfdm9sdGFnZV9ldmVudChzdHJ1Y3QKPiBoaWRwcF9kZXZpY2UgKmhpZHBwLAo+IMKg
+Cj4gwqDCoMKgwqDCoMKgwqDCoGlmICh2b2x0YWdlICE9IGhpZHBwLT5iYXR0ZXJ5LnZvbHRhZ2Ug
+fHwgc3RhdHVzICE9IGhpZHBwLQo+ID5iYXR0ZXJ5LnN0YXR1cykgewo+IMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgaGlkcHAtPmJhdHRlcnkudm9sdGFnZSA9IHZvbHRhZ2U7Cj4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGhpZHBwLT5iYXR0ZXJ5LmNhcGFjaXR5ID0gaGlk
+cHAyMF9tYXBfYmF0dGVyeV9jYXBhY2l0eSh2b2x0YWdlKTsKPiDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoGhpZHBwLT5iYXR0ZXJ5LnN0YXR1cyA9IHN0YXR1czsKPiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGhpZHBwLT5iYXR0ZXJ5LmxldmVsID0gbGV2ZWw7Cj4gwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBoaWRwcC0+YmF0dGVyeS5jaGFyZ2VfdHlwZSA9
+IGNoYXJnZV90eXBlOwo+IEBAIC0zNzE3LDcgKzM3NDYsOCBAQCBzdGF0aWMgaW50IGhpZHBwX2lu
+aXRpYWxpemVfYmF0dGVyeShzdHJ1Y3QgaGlkcHBfZGV2aWNlCj4gKmhpZHBwKQo+IMKgwqDCoMKg
+wqDCoMKgwqBudW1fYmF0dGVyeV9wcm9wcyA9IEFSUkFZX1NJWkUoaGlkcHBfYmF0dGVyeV9wcm9w
+cykgLSAzOwo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoGlmIChoaWRwcC0+Y2FwYWJpbGl0aWVzICYg
+SElEUFBfQ0FQQUJJTElUWV9CQVRURVJZX01JTEVBR0UgfHwKPiAtwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgaGlkcHAtPmNhcGFiaWxpdGllcyAmIEhJRFBQX0NBUEFCSUxJVFlfQkFUVEVSWV9QRVJDRU5U
+QUdFKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoCBoaWRwcC0+Y2FwYWJpbGl0aWVzICYgSElEUFBf
+Q0FQQUJJTElUWV9CQVRURVJZX1BFUkNFTlRBR0UgfHwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+aGlkcHAtPmNhcGFiaWxpdGllcyAmIEhJRFBQX0NBUEFCSUxJVFlfQkFUVEVSWV9WT0xUQUdFKQo+
+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgYmF0dGVyeV9wcm9wc1tudW1fYmF0dGVy
+eV9wcm9wcysrXSA9Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoFBPV0VSX1NVUFBMWV9QUk9QX0NBUEFDSVRZOwo+IMKgCg==
 
 
--- 
-Dmitry
+--=-b8XC2m1TtxqaXCjG1IfU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAmD7G6MACgkQ+JPGdIFq
+qV3P3RAAhqubscc5WlIXI6fPKnXq/2nPritUBbmlh5yBHAeVlmkHnDT52WAlLHzt
+4POujGk+o81XjWO0l6VPOH5x8yrRqYIfTl7tRZDkR688FoAAj3bh+FiZNO68S1Yu
+6V9kZEH3DTM7G++niBEkVvbDl9eujsuY+Km9QU0nCwPS6tPoFIsQAHEx/jZJFV71
+8xvbFAxg2dxvLubPXRFRVQOW+tQudxOrmxLjai7wgHDgVEPQRfgjgbPcSCv0s868
+eYYiIUHkBp0YT54IBP5Xu/OGyquMBrZ/jNiT98uKDpP9uc2fr7h2a/uEv6282Cwi
+/PdqvWSYhV2fTAtxH/37u+xHQj/bVm4H9829OUFvqDeUYb1oBkNBq7ihV6CTJfFi
+qCpSW6XR+uYnlGefpKO4xByOGGAov0El0dOyVNdcexM1N+0EUduDipWln2USo6+F
+iEuxtIRNqFkZcgFpyeUAnUugWkTzgpVrBsu3R0MyDUtWuyMIALEJRwMXJJRjShcK
+rPwqYJVLi+bcAoE5ZrOUKNftdsK1DfvjPMOaMhFc9Ex2rzBM18suNl18CtJr0q/0
+c/Yy3p6bg4TuGxK37AES0vX1jml1S5+fvApibq5lMgduvq/jvNEQ8m5LDUD+FjlK
+rbbmCdHlLJYZvnPMV9hcm6hQ611J4UOkaTSgn3/8S5vXeJDhqPo=
+=JBTg
+-----END PGP SIGNATURE-----
+
+--=-b8XC2m1TtxqaXCjG1IfU--
+
