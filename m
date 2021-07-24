@@ -2,83 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8953C3D4414
-	for <lists+linux-input@lfdr.de>; Sat, 24 Jul 2021 02:50:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08D5F3D4410
+	for <lists+linux-input@lfdr.de>; Sat, 24 Jul 2021 02:48:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233413AbhGXAKP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Jul 2021 20:10:15 -0400
-Received: from shellb3.lnk.telstra.net ([110.143.216.122]:38522 "EHLO
-        mail.shellbypower.com.au" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233337AbhGXAKP (ORCPT
+        id S233403AbhGXAHa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Jul 2021 20:07:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34196 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233337AbhGXAHa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Jul 2021 20:10:15 -0400
-X-Greylist: delayed 1597 seconds by postgrey-1.27 at vger.kernel.org; Fri, 23 Jul 2021 20:10:14 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mail.shellbypower.com.au (Postfix) with ESMTP id 0C8032553E;
-        Sat, 24 Jul 2021 10:12:20 +1000 (AEST)
-Received: from mail.shellbypower.com.au ([127.0.0.1])
-        by localhost (mail.shellbypower.com.au [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id vxBJU0o4iCRn; Sat, 24 Jul 2021 10:12:18 +1000 (AEST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.shellbypower.com.au (Postfix) with ESMTP id 719C52D41C;
-        Sat, 24 Jul 2021 10:12:13 +1000 (AEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.shellbypower.com.au 719C52D41C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shellbypower.com.au;
-        s=8BBA43DA-3AA7-11EA-97BE-0AE12EF764A2; t=1627085534;
-        bh=tIcrqF9jb5+AisAeW5g2E9J08tvLmLd35fIw+kDaFCg=;
-        h=Date:From:Message-ID:MIME-Version;
-        b=Nzx2J7vLNA2MJXlU7TpWNJ5I/ixEyBpEfAmCblBG1Di8MGRZpCnec9rKlPSAFjfq0
-         gI9WNlYpfGQVB6Sflzl842naPjSQyJPKjN+r1cTPK5f+IJn3R5QJFM1jZ6cpOnTihD
-         xrV+bhJgxQKDnBdY/i0PlaxDuXiBlqbkjqUY44Kc=
-X-Virus-Scanned: amavisd-new at shellbypower.com.au
-Received: from mail.shellbypower.com.au ([127.0.0.1])
-        by localhost (mail.shellbypower.com.au [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id GpVqRzqX35bU; Sat, 24 Jul 2021 10:12:13 +1000 (AEST)
-Received: from mail.shellbypower.com.au (mail.shellbypower.com.au [192.168.1.200])
-        by mail.shellbypower.com.au (Postfix) with ESMTP id BD28825538;
-        Sat, 24 Jul 2021 10:12:05 +1000 (AEST)
-Date:   Sat, 24 Jul 2021 10:12:05 +1000 (AEST)
-From:   Rinat Akhmetov <no-reply@shellbypower.com.au>
-Reply-To: Rinat Akhmetov <rinatkhmetov@gmail.com>
-Message-ID: <432780866.874391.1627085525706.JavaMail.zimbra@shellbypower.com.au>
-Subject: Lesen Sie Ihre E-Mail.
+        Fri, 23 Jul 2021 20:07:30 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7768C061575;
+        Fri, 23 Jul 2021 17:48:02 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id b6so4515699pji.4;
+        Fri, 23 Jul 2021 17:48:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=WnqV+yGigyMx7I5XoWrwlAvugHFLOvj6ETM1TTcC0wY=;
+        b=vO0loE/IAApeIJSzqgRsnxy4E7T9YZWRAFiNFoMmqZPylS+rbfP0bI/yhi9Pqzk4VU
+         P8tKQEj/Ub5KN6G4JRVMuTgA3tncGDIJuCEPPZ5zNwK/xBTrFrnD7egMa/wd62p7gMfd
+         5WnLQfXUfgauoH5bjk5sGoKhovC2M0h/0Tu9uJDCVXWVTGW3tf9A7M2zhkBYY//GhzPc
+         rrk7bW/Ih5U9gIh/Yud8yjzcsWFdj6wFLyuL8kr+KxHbK55+TMY4W4Y1moHvvgLIRl6Z
+         UtY4llYMnmqhKlhmj5leUaYVKNzJ9nMsFkp4PlzEse36xR8xsEVDQ4QH892VXObBB/g8
+         RBag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=WnqV+yGigyMx7I5XoWrwlAvugHFLOvj6ETM1TTcC0wY=;
+        b=GpJKk0RVH/C1+y8WugIMV2uVXySPSss0TI8P1oFuHv6te7SlECiKx0k6vC3xB9xomc
+         aOFGJTF/Ye3GLVGI+cFuRnmm6WjeL0MeF/Sax9MG3Hor5DXCK6Jye/cuolfbGW/Uun/U
+         S8gT4zxbhFbTbjJc6vgNCjvKNwZeJaKfPpIQ9qGM/EA3IU86KSWGNtme64TRI4C6DFeJ
+         UWOpG+KVOgthsDjlOX1EW+iMdiV6fM4m/1K5/TLv2JN84YTGArafTx4hvhVIlH58KzD+
+         gZJA4C4wE1ho8t3VDMTEjY5Np+I7YPb2RcMYi1V7t+4QAFqNty5u7XD8AHtSqH/Lc4x9
+         oKXQ==
+X-Gm-Message-State: AOAM533hFEjIc2Yb7SM3ZT71qrFRBXsBmaE11wg/xxkYLuw2OoAtVyxn
+        UCGqyOLAcslEeOsm33RE7qBorqi4spc=
+X-Google-Smtp-Source: ABdhPJw6IrDL9GThLFu84w7ZcThK0+Roq0IoAdkia1CRACEnE3K0cY2YdpuViedadM4nl/XCHzH1rg==
+X-Received: by 2002:a17:90a:aa92:: with SMTP id l18mr664241pjq.20.1627087682056;
+        Fri, 23 Jul 2021 17:48:02 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:55b1:90d5:6a79:755f])
+        by smtp.gmail.com with ESMTPSA id n123sm39352217pga.69.2021.07.23.17.48.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jul 2021 17:48:01 -0700 (PDT)
+Date:   Fri, 23 Jul 2021 17:47:58 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Marek Vasut <marex@denx.de>
+Cc:     devicetree@vger.kernel.org, Michael Welling <mwelling@ieee.org>,
+        Rob Herring <robh+dt@kernel.org>, kernel@dh-electronics.com,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v3] dt-bindings: input: tsc2005: Convert to YAML schema
+Message-ID: <YPtjPkOwwU7Xe1dC@google.com>
+References: <20210620210708.100147-1-marex@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Zimbra 8.7.11_GA_3865 (zclient/8.7.11_GA_3865)
-Thread-Index: 0Kn0UGxZYc14iyik7mQBMs/CnxWBgg==
-Thread-Topic: Lesen Sie Ihre E-Mail.
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210620210708.100147-1-marex@denx.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hallo Herr / Frau,
+On Sun, Jun 20, 2021 at 11:07:08PM +0200, Marek Vasut wrote:
+> Convert the TI TSC2004/TSC2005 DT bindings to YAML schema.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Michael Welling <mwelling@ieee.org>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: kernel@dh-electronics.com
+> Cc: linux-input@vger.kernel.org
+> To: devicetree@vger.kernel.org
 
-Mein Name ist Rinat Achmetow. Ich bin ein ukrainischer Milliard=C3=A4r, Ges=
-ch=C3=A4ftsmann, Oligarch und auch Gr=C3=BCnder und Pr=C3=A4sident von Syst=
-em Capital Management in der Ukraine (Europa). Sie k=C3=B6nnen unten =C3=BC=
-ber mich lesen.
+Applied, thank you.
 
-https://en.wikipedia.org/wiki/Rinat_Akhmetov
-
-Ich beabsichtige, Ihnen im Rahmen unseres Charity-Projekts einen (Viertel-)=
-Teil meines Nettoverm=C3=B6gens von jeweils 500.000,00 EURO an 4 Personen w=
-eltweit zu spenden. Wenn Sie meine E-Mail erhalten haben, senden Sie uns bi=
-tte Ihre Daten
-
-Dein Name:
-Dein Land:
-Telefonnummer:
-Adresse:
-Staatsangeh=C3=B6rigkeit:
-Alter:
-Geschlecht:
-
-Wenn ich die obigen Angaben erhalte, werde ich Sie an meine Bank weiterleit=
-en, um die =C3=9Cberweisung des Geldes in H=C3=B6he von EURO 500.000,00 zu =
-veranlassen, in der Hoffnung, dass dies auch Ihnen und anderen hilft.
-
-Aufrichtig,
-
-Rinat Achmetow.
+-- 
+Dmitry
