@@ -2,60 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97DE03D49D0
-	for <lists+linux-input@lfdr.de>; Sat, 24 Jul 2021 22:24:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51B5B3D4A11
+	for <lists+linux-input@lfdr.de>; Sat, 24 Jul 2021 23:20:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229625AbhGXToI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 24 Jul 2021 15:44:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36990 "EHLO
+        id S229749AbhGXUjt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 24 Jul 2021 16:39:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229549AbhGXToI (ORCPT
+        with ESMTP id S229510AbhGXUjs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 24 Jul 2021 15:44:08 -0400
+        Sat, 24 Jul 2021 16:39:48 -0400
 Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEEFDC061575;
-        Sat, 24 Jul 2021 13:24:38 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id n2so6177627eda.10;
-        Sat, 24 Jul 2021 13:24:38 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 312ECC061575;
+        Sat, 24 Jul 2021 14:20:20 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id da26so6349462edb.1;
+        Sat, 24 Jul 2021 14:20:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=UJSgRDnKmcn38dme24vgWVlBH8IXwNvRexCHUMPGjgI=;
-        b=pJ9JEfxxRSkc3z5njHjSIElEWxpSPtFM/aE5KREQcbENKS8HZCQoMVVR3AL9h7cxge
-         eRAocvj51kRB9f79wZf5iYSMn3XYHqrDdqNviOvYYcGC8eHf/q2viO6QiHjGFTRyL1x/
-         kT8yg8UCCIo1U31DfRHfftOnkafgqGw3GM2qoyqnxiQtXBFD+zOr/C6GvYL1fMKQfA2X
-         wM4NSWdIXpWYUziMLK3Xy3C8/Bep5+8IbRt6cNz6Dg5n3NkSjsAjR5ZoRNtSTkOjlR4a
-         6UXfEznHjrtCFImTRZm9pHTS87DmV2EFvSIodsv6RH58wrVRcBCn3cuKX0xUjjuwWmcG
-         74lg==
+        bh=TVsrRmuCxIDTU92vEnsCByOwM7gov1/gE6GIbq2IbxA=;
+        b=hLWfwKBrq92s9szZs40HRbtE6zX1jKISQxkVQ9a28msYg2c1pg/3NPWRJSIFDVlulu
+         f7Jn04tmo87qagVP6zB2UI+DaL0wiY63FmO65ZK4GZIdP9ecGVSzCB2tpCUkJ5tXFUYU
+         5E5Ojfa6/Zs86uElYlIYkRB/EmeyY1LrsxS1acIi0tsG59hJqtaP92I+D4sNTOidRDE6
+         x27bkkGMYipBvi0sGT76ix39JvJizf8RMVZEVhqVEwhZjGuc3iN/DRHybhLK1Xk6BVwx
+         S99DWjC8qYmFhOlruep15R1zuSsZHO2wGdg9KhKShHnuZHdDjbW15jlTtfXktUf3XH5b
+         jYEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition;
-        bh=UJSgRDnKmcn38dme24vgWVlBH8IXwNvRexCHUMPGjgI=;
-        b=iWdeq3s42mszi12razJfaP9msGQ5sxnL+g4s5tWCWLaX5ua4+b9dZque6hyVdMmh6D
-         TXsGHBj9XBLE6l1DgVQbWywgLdRn2p2e2GdBwaCQv5akXURcdBhlhurWnaa4acBbZVW/
-         QFsPUIQudgTp52ucNRgosU/y/fGyl+y1OYW8pudo6NS8I2jbodyh6l56yRfQGgWKApyp
-         0uUNFXNQgZ1/zTljsXaDZVlh0fYSYxlXwl7AlIgxKzIulqKcRDcVPekv797MRMkeSqFr
-         qoIXCKh2MW/X+Q71yMFgSvblPQPNEfkZV88MaO8Z57LV0p8bupmR4iWSaMSTSVkqRBk1
-         mSEQ==
-X-Gm-Message-State: AOAM533w2xvZ3dZa6A14FACi5E42qNYuhdtpEfzUYogTKrrtvwhptv/V
-        EYIMmk5JGjV5CUUbDs/8X3I=
-X-Google-Smtp-Source: ABdhPJxXeCwGJ/SJ+OK886LLRORKTnsMYhMqEOWta6Q7pfX1zApFRiOliI1S17PKpTW2NkebhAHARA==
-X-Received: by 2002:a50:cb8b:: with SMTP id k11mr12823796edi.55.1627158277409;
-        Sat, 24 Jul 2021 13:24:37 -0700 (PDT)
+        bh=TVsrRmuCxIDTU92vEnsCByOwM7gov1/gE6GIbq2IbxA=;
+        b=pZ5CYNHpH+zz54Pf/RWuF5ykIHLe2PdurnkGCv1xA/Bt0bBDH3bDJ/kvowK/uFfs87
+         Ah6WgevksnFPeVSdHbDSxP6KOxz7Zt9QTnRLJCVwF2y79SJK242Iuziucpu7vzBglF8j
+         /JCfUwHFxtTRx/qd1boALv+51NTAHzLt33St2eiui4LZKo404uBc6DmsUUnHERGrrexB
+         yfghjO5JuuIk3tVEA4RiOfM3DV6dv7j2gsWEpQv3YudRJNCmj0Jc+X3kjDU0I7GV778q
+         imnOYBsDRsfcH7VkrbD+2QjB6At+rJqYejquKZkLv0+aR2MhUtVmlkcfWmUgEZO7PdzM
+         OAkQ==
+X-Gm-Message-State: AOAM531wO+txGcyK7PQAees7Vav5Rt/2cUym6pBiq1QsarOQpqxReiwb
+        pYReHXDzDgNsUJH1PNts8+Q=
+X-Google-Smtp-Source: ABdhPJwXOX3Zxt3mBAjrWf7x/TcDOo7rdMeNq9Tq8LhuoAYnGs3zql/BTOovjUL8Z8rvS1+QZigO5w==
+X-Received: by 2002:aa7:c74e:: with SMTP id c14mr12985143eds.40.1627161618871;
+        Sat, 24 Jul 2021 14:20:18 -0700 (PDT)
 Received: from pc ([196.235.233.206])
-        by smtp.gmail.com with ESMTPSA id d8sm2877055edy.83.2021.07.24.13.24.36
+        by smtp.gmail.com with ESMTPSA id f1sm14948971edt.51.2021.07.24.14.20.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Jul 2021 13:24:36 -0700 (PDT)
-Date:   Sat, 24 Jul 2021 21:24:34 +0100
+        Sat, 24 Jul 2021 14:20:18 -0700 (PDT)
+Date:   Sat, 24 Jul 2021 22:20:16 +0100
 From:   Salah Triki <salah.triki@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         gregkh@linuxfoundation.org
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] hid-elo: update the reference count of the usb device
- structure
-Message-ID: <20210724202434.GA528986@pc>
+Subject: [PATCH] misc: powermate: update the reference count of the usb
+ interface structure
+Message-ID: <20210724212016.GA568154@pc>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -63,44 +62,35 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use usb_get_dev() and usb_put_dev() in order to update the reference
-count of the usb device structure.
+Use usb_get_intf() and usb_put_intf() in order to update the reference
+count of the usb interface structure.
 
 Signed-off-by: Salah Triki <salah.triki@gmail.com>
 ---
- drivers/hid/hid-elo.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/input/misc/powermate.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-elo.c b/drivers/hid/hid-elo.c
-index 0d22713a3874..383dfda8c12f 100644
---- a/drivers/hid/hid-elo.c
-+++ b/drivers/hid/hid-elo.c
-@@ -228,13 +228,15 @@ static int elo_probe(struct hid_device *hdev, const struct hid_device_id *id)
- {
- 	struct elo_priv *priv;
- 	int ret;
-+	struct usb_device *udev;
+diff --git a/drivers/input/misc/powermate.c b/drivers/input/misc/powermate.c
+index c4e0e1886061..69dc3347478a 100644
+--- a/drivers/input/misc/powermate.c
++++ b/drivers/input/misc/powermate.c
+@@ -337,7 +337,7 @@ static int powermate_probe(struct usb_interface *intf, const struct usb_device_i
+ 		goto fail3;
  
- 	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
+ 	pm->udev = udev;
+-	pm->intf = intf;
++	pm->intf = usb_get_intf(intf);
+ 	pm->input = input_dev;
  
- 	INIT_DELAYED_WORK(&priv->work, elo_work);
--	priv->usbdev = interface_to_usbdev(to_usb_interface(hdev->dev.parent));
-+	udev = interface_to_usbdev(to_usb_interface(hdev->dev.parent));
-+	priv->usbdev = usb_get_dev(udev);
+ 	usb_make_path(udev, pm->phys, sizeof(pm->phys));
+@@ -428,6 +428,7 @@ static void powermate_disconnect(struct usb_interface *intf)
+ 		usb_free_urb(pm->irq);
+ 		usb_free_urb(pm->config);
+ 		powermate_free_buffers(interface_to_usbdev(intf), pm);
++		usb_put_intf(pm->intf);
  
- 	hid_set_drvdata(hdev, priv);
- 
-@@ -265,6 +267,8 @@ static void elo_remove(struct hid_device *hdev)
- {
- 	struct elo_priv *priv = hid_get_drvdata(hdev);
- 
-+	usb_put_dev(priv->usbdev);
-+
- 	hid_hw_stop(hdev);
- 	cancel_delayed_work_sync(&priv->work);
- 	kfree(priv);
+ 		kfree(pm);
+ 	}
 -- 
 2.25.1
 
