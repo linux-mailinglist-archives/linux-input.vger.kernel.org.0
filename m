@@ -2,155 +2,176 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32B773D442B
-	for <lists+linux-input@lfdr.de>; Sat, 24 Jul 2021 03:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0092D3D4642
+	for <lists+linux-input@lfdr.de>; Sat, 24 Jul 2021 10:14:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233398AbhGXAcg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Jul 2021 20:32:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39704 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233296AbhGXAcf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Jul 2021 20:32:35 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65730C061575;
-        Fri, 23 Jul 2021 18:13:07 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id l19so4686628pjz.0;
-        Fri, 23 Jul 2021 18:13:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UxGyBTIHhwTyGgmF4lVTY6KQSyR2h+ZEVbUZC6/uyQ0=;
-        b=uchks1WB7cp4XDeGULk8Yv9tpLHvmqUNNJUdM5+D4GcptaqwzpaKUr5YsbigXQA2Bv
-         5PEtUDCTwZk5siIX7PjbsuQUYFSt1YdV2irpQbTYzZkSuV3rgX9DGdJMY7jUeHRfnNAl
-         5iLIgClCbGoYP8XC34FJP6rVS1adQt8A2HZLsPjnFOyhijQ9m5v4FCVE+fNznXQ+qzDZ
-         2VpPPYn1D+h4of/wqVaxMx/61opV7L5ylc5u8ShD5K6OcTUGWj361Hwc9Spyhpyl0P2x
-         gs7L0a4q2Tya2zS4pN1HIbPWtRgV2H9z2/GTha/zv4u5ZWwpcQ0reEQeiVbFu5w5rNYA
-         Ez0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UxGyBTIHhwTyGgmF4lVTY6KQSyR2h+ZEVbUZC6/uyQ0=;
-        b=cKi2Z9KUJe0ShxIK6m+kaD9IqJcDTS8nHTCOjmMBE9WpKF5M/6BepPRi9354HnsN91
-         EUMpf+YKU1HxlWRX0P8T/xgdeQin37q+HqSebHNUNt/GJJOpzPVRLrsQIFqA8Jr35x8Y
-         f6JauDUKSf0v4q0Li9qngSfTx7F8aKTGTtezgV8SpuPIMdH6wewvcqxKy7EvX52mfmSB
-         bMAwBGIO7oIDZ+dDVOES/U1zBDejM+cbIVSa1K2Obz2xiWJh3SLIibaQWePiw+Y7KVx0
-         1tP6UktxMTDyJaS5cQyaMt8YEby3eYzXN4qGLlvUy/fpyaHGoq4jh8wKkj/OIJyXLPuT
-         A8mA==
-X-Gm-Message-State: AOAM533lpVW18jEK4xOmSWQEbeSqDTyv+94dkgQu0MxtZdej0Tn7FHSs
-        6BM0pGuvkbkpl/4v+9b5WOQ=
-X-Google-Smtp-Source: ABdhPJzgVvJ1mZkT0E1XqWNnB53pR7Yp/6Sd41wzNVZrs8+2LyH6ZcV4Az1nQu02sSMg0ztTNSWyow==
-X-Received: by 2002:aa7:824a:0:b029:2ec:89ee:e798 with SMTP id e10-20020aa7824a0000b02902ec89eee798mr6931561pfn.12.1627089186554;
-        Fri, 23 Jul 2021 18:13:06 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:55b1:90d5:6a79:755f])
-        by smtp.gmail.com with ESMTPSA id v27sm36404110pfi.166.2021.07.23.18.13.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jul 2021 18:13:05 -0700 (PDT)
-Date:   Fri, 23 Jul 2021 18:13:02 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-input@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        Michael Srba <Michael.Srba@seznam.cz>,
-        phone-devel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] Input: zinitix - Handle proper supply names
-Message-ID: <YPtpHg2aoGlULuQQ@google.com>
-References: <20210625113435.2539282-1-linus.walleij@linaro.org>
- <20210625113435.2539282-2-linus.walleij@linaro.org>
+        id S234561AbhGXHeO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 24 Jul 2021 03:34:14 -0400
+Received: from mga12.intel.com ([192.55.52.136]:1807 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234232AbhGXHeO (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 24 Jul 2021 03:34:14 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="191593996"
+X-IronPort-AV: E=Sophos;i="5.84,266,1620716400"; 
+   d="scan'208";a="191593996"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2021 01:14:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,266,1620716400"; 
+   d="scan'208";a="660457825"
+Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 24 Jul 2021 01:14:45 -0700
+Received: from kbuild by d053b881505b with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1m7Co0-00037A-Px; Sat, 24 Jul 2021 08:14:44 +0000
+Date:   Sat, 24 Jul 2021 16:14:21 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [input:master] BUILD SUCCESS
+ 76ba1900cb67390d963e07457ebf679c56c59094
+Message-ID: <60fbcbdd.NCnQRiPDhlhyOKWv%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210625113435.2539282-2-linus.walleij@linaro.org>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
+branch HEAD: 76ba1900cb67390d963e07457ebf679c56c59094  dt-bindings: power: reset: qcom-pon: Convert qcom PON binding to yaml
 
-On Fri, Jun 25, 2021 at 01:34:35PM +0200, Linus Walleij wrote:
-> The supply names of the Zinitix touchscreen were a bit confused, the new
-> bindings rectifies this.
-> 
-> To deal with old and new devicetrees, first check if we have "vddo" and in
-> case that exists assume the old supply names. Else go and look for the new
-> ones.
-> 
-> We cannot just get the regulators since we would get an OK and a dummy
-> regulator: we need to check explicitly for the old supply name.
-> 
-> Use struct device *dev as a local variable instead of the I2C client since
-> the device is what we are actually obtaining the resources from.
-> 
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Michael Srba <Michael.Srba@seznam.cz>
-> Cc: phone-devel@vger.kernel.org
-> Cc: devicetree@vger.kernel.org
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> Mark: please check that I'm doing this check the right way, I assume
-> that since we get regulator dummies this is the way I need to check
-> for the old regulator name but maybe there are better ways.
-> ---
->  drivers/input/touchscreen/zinitix.c | 22 +++++++++++++++++-----
->  1 file changed, 17 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
-> index b8d901099378..7001307382f0 100644
-> --- a/drivers/input/touchscreen/zinitix.c
-> +++ b/drivers/input/touchscreen/zinitix.c
-> @@ -252,16 +252,28 @@ static int zinitix_init_touch(struct bt541_ts_data *bt541)
->  
->  static int zinitix_init_regulators(struct bt541_ts_data *bt541)
->  {
-> -	struct i2c_client *client = bt541->client;
-> +	struct device *dev = &bt541->client->dev;
->  	int error;
->  
-> -	bt541->supplies[0].supply = "vdd";
-> -	bt541->supplies[1].supply = "vddo";
-> -	error = devm_regulator_bulk_get(&client->dev,
-> +	/*
-> +	 * Some older device trees have erroneous names for the regulators,
-> +	 * so check if "vddo" is present and in that case use these names
-> +	 * and warn. Else use the proper supply names on the component.
-> +	 */
-> +	if (IS_ENABLED(CONFIG_OF) &&
+elapsed time: 723m
 
-Why is this check needed? The of_property_*() are stubbed out properly I
-believe. We might need to check that dev->of_node is not NULL, although
-I think of_* API handles this properly.
+configs tested: 118
+configs skipped: 3
 
-> +	    of_property_read_bool(dev->of_node, "vddo-supply")) {
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-If we go with this I do not like using of_property_read_bool() as this
-is not a boolean property, but rather of_find_property().
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20210723
+i386                 randconfig-c001-20210724
+nios2                               defconfig
+arc                              allyesconfig
+m68k                          sun3x_defconfig
+arm                          collie_defconfig
+powerpc                      makalu_defconfig
+sh                           se7750_defconfig
+mips                  maltasmvp_eva_defconfig
+arm                       imx_v6_v7_defconfig
+arm                           tegra_defconfig
+ia64                             allyesconfig
+mips                           ip22_defconfig
+powerpc                         ps3_defconfig
+m68k                       m5208evb_defconfig
+sh                         microdev_defconfig
+powerpc                      cm5200_defconfig
+arm                          pxa910_defconfig
+arc                      axs103_smp_defconfig
+arm                         lpc32xx_defconfig
+arm                        trizeps4_defconfig
+arm                          imote2_defconfig
+openrisc                  or1klitex_defconfig
+sh                          r7785rp_defconfig
+h8300                            alldefconfig
+powerpc                 mpc85xx_cds_defconfig
+riscv                    nommu_k210_defconfig
+mips                     loongson2k_defconfig
+sh                        sh7763rdp_defconfig
+mips                         mpc30x_defconfig
+m68k                            mac_defconfig
+arc                    vdk_hs38_smp_defconfig
+powerpc                      katmai_defconfig
+powerpc                     tqm8548_defconfig
+powerpc                      walnut_defconfig
+sh                           se7619_defconfig
+x86_64                            allnoconfig
+ia64                             allmodconfig
+ia64                                defconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a005-20210724
+i386                 randconfig-a003-20210724
+i386                 randconfig-a004-20210724
+i386                 randconfig-a002-20210724
+i386                 randconfig-a001-20210724
+i386                 randconfig-a006-20210724
+i386                 randconfig-a005-20210723
+i386                 randconfig-a003-20210723
+i386                 randconfig-a004-20210723
+i386                 randconfig-a002-20210723
+i386                 randconfig-a001-20210723
+i386                 randconfig-a006-20210723
+x86_64               randconfig-a011-20210723
+x86_64               randconfig-a016-20210723
+x86_64               randconfig-a013-20210723
+x86_64               randconfig-a014-20210723
+x86_64               randconfig-a012-20210723
+x86_64               randconfig-a015-20210723
+i386                 randconfig-a016-20210723
+i386                 randconfig-a013-20210723
+i386                 randconfig-a012-20210723
+i386                 randconfig-a011-20210723
+i386                 randconfig-a014-20210723
+i386                 randconfig-a015-20210723
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+um                            kunit_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
-However maybe we should use regulator_get_optional() which will not give
-a dummy regulator? Still quite awkward, a dedicated API to see if a
-regulator is defined would be nice.
+clang tested configs:
+x86_64               randconfig-c001-20210723
+x86_64               randconfig-c001-20210724
+x86_64               randconfig-b001-20210723
+x86_64               randconfig-a003-20210723
+x86_64               randconfig-a006-20210723
+x86_64               randconfig-a001-20210723
+x86_64               randconfig-a005-20210723
+x86_64               randconfig-a004-20210723
+x86_64               randconfig-a002-20210723
 
-> +		bt541->supplies[0].supply = "vdd";
-> +		bt541->supplies[1].supply = "vddo";
-> +	} else {
-> +		/* Else use the proper supply names */
-> +		bt541->supplies[0].supply = "vcca";
-> +		bt541->supplies[1].supply = "vdd";
-> +	}
-> +	error = devm_regulator_bulk_get(dev,
->  					ARRAY_SIZE(bt541->supplies),
->  					bt541->supplies);
->  	if (error < 0) {
-> -		dev_err(&client->dev, "Failed to get regulators: %d\n", error);
-> +		dev_err(dev, "Failed to get regulators: %d\n", error);
->  		return error;
->  	}
->  
-> -- 
-> 2.31.1
-> 
-
-Thanks.
-
--- 
-Dmitry
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
