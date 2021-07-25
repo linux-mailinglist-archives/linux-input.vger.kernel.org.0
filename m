@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B66623D4B34
-	for <lists+linux-input@lfdr.de>; Sun, 25 Jul 2021 05:28:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 441553D4B35
+	for <lists+linux-input@lfdr.de>; Sun, 25 Jul 2021 05:28:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230239AbhGYCr2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 24 Jul 2021 22:47:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44434 "EHLO
+        id S230199AbhGYCrc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 24 Jul 2021 22:47:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230199AbhGYCr1 (ORCPT
+        with ESMTP id S230229AbhGYCr2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 24 Jul 2021 22:47:27 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0E04C06175F
-        for <linux-input@vger.kernel.org>; Sat, 24 Jul 2021 20:27:57 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id f22so5489669qke.10
-        for <linux-input@vger.kernel.org>; Sat, 24 Jul 2021 20:27:57 -0700 (PDT)
+        Sat, 24 Jul 2021 22:47:28 -0400
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67E76C061757
+        for <linux-input@vger.kernel.org>; Sat, 24 Jul 2021 20:27:58 -0700 (PDT)
+Received: by mail-qv1-xf33.google.com with SMTP id g6so3402747qvj.8
+        for <linux-input@vger.kernel.org>; Sat, 24 Jul 2021 20:27:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=2IF9ntFPak28hpZvJ2Xmy5KYhBNg7e0graZRczzChYI=;
-        b=lnbi99RAsnl4DGGoFLDO2y54rUIvTLcT5jhiYpFEHVK0WuSjsxa1vrgW7zKSyWg4dz
-         3MYiNq5lWjUxqHtRrv6F98/oj0qYVE/PDoYsJIeod6rLhoQN5z8b7z9KGczEHAWp7Lda
-         moG8XR098M1A31dV8YcQmpjefIj8B4LvRwRa3Cm5jnwJRnD57jJywwrdT/8eHGu5eCza
-         TdZ6ydHuGddaKAtWO2nnuLuryeZh+bg8jme5rZsh1cueIUuDyLwTCPZKIhdbjyjwfApV
-         DwGLD+L4zEOaOVnurUjvamF6ntXQ71CpnO72Lz9Jmo3p2BVA7b+u+bNiMesI2DnuAbq6
-         dBXw==
+        bh=0z4MJu9zRAilXdaPa0+ei7RC8O0mWiq7QoZVBuBaQaE=;
+        b=osEMdquR3Ahj+wJBCguIHXC7zLaf6dbX22/9q5hZSPne3HW+SS4lwGC4l7Y62JrX+z
+         gGeGZF8Va8Slg+aFZm8ELdir+0R1/FuS6EcWRuxpRePOvcBKpZnta9gOnz2k9v3PU0ty
+         oOxmBirImALfIqqaCiRDVNQJkb02zsN+sdSjEjddYHnMZWQfaM+nqVIeHejNol6+YQuu
+         sn5nrbx9AGgFt75Tf9xazL9HX3K5wRoda8wxKZ6rFNhJHsDhs9GudXAGk+kS/os9z6O5
+         gx5yB16AjPi+ZBRiONrEsowsWUkWMowBCtrMmCEfFb+gg2KD4fMuS3JoDA2lhlxjQ9A1
+         hxPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2IF9ntFPak28hpZvJ2Xmy5KYhBNg7e0graZRczzChYI=;
-        b=jM9A/WHLkwgBr97mE6K2Rs13I6ty/RI3iYeqGWIYEheyEd1HvjdNXWmowWRSXRLPZF
-         sYEyx3N3ZHtvNuabWti0axTdKvUITOhn6mKgJJQ5OQEXxSAVKxK8CTgaf1yEr+1hQB7D
-         s2rRfjPMv9SX/5suUxDcV5SAPKXV25ach4WNs0ra/N1MgUirMCIQgctnuJn4LSg6e9YM
-         PxrVp4o3zDWzUK1xPB2Tn8J54znbWLzoRrYg99+BjcMOC7ScltEG4shEZf80xU2yI0Xk
-         9P3DqLeUOR9H4ggvWw6kmgL3LabQtAR54WfjsLBW8n6jFPWyxG9s5PC2hwQVDTmeQbDF
-         3Rxg==
-X-Gm-Message-State: AOAM530bGTIF3VuRK1ZMffgsEGqxpWHAVIH1i9SX3WKsBDAPRxx3vgkS
-        g4ic33dDra7Bd6PLyOQ1k8QJQFe0Y2dBOF/X
-X-Google-Smtp-Source: ABdhPJzXCJLaU2ajBJf75zRpep9SD0SlO3ZhlWBFk+qFy4sTF9Yin3w7P5/aEfiGFJuYWKDn2sfsLA==
-X-Received: by 2002:a37:ba03:: with SMTP id k3mr12070293qkf.220.1627183676745;
-        Sat, 24 Jul 2021 20:27:56 -0700 (PDT)
+        bh=0z4MJu9zRAilXdaPa0+ei7RC8O0mWiq7QoZVBuBaQaE=;
+        b=tTa3llClYcBit6yuC7RGjcuDKfrxAKvoVNZBzyky0icl6YX5B9FEQFpfNQLGcx8/ix
+         8nXVnkthMWlOe/3a2RD+wWvZFWh//i/SzX2XFOpkZxwxzpB0SmFnDd0RurO8ae+3+VNi
+         DJ3HPls1AkdCzgbSDd1v23zgIyeYObNGh+wsJ5feUjGluVe6ywzK1QUVeacoxy9ev5gq
+         /dTo4ZjOmz1ZDC8rZz4amkAbPhjcWx2s7//2M3DpehIgJVlyCjyXXV0UhZoPpR3JQexT
+         vs5p2nKIv1tAcVZC4Gc50xo3mOzAorcuGQGRD7YvsvfWfmn4zkntux8WqRYvivl48qxi
+         tM0A==
+X-Gm-Message-State: AOAM531Y3hZ7H3mvVjHdZSz5M8CHxMwxVh1s7A8ROKj6khlxpoLNW29a
+        hwi1vWzFOh0mjQoBwnBgYql8t/Bii0yU76jG
+X-Google-Smtp-Source: ABdhPJxw56uWlGlH4u5IRM00Z077Y1G4kQOIrYpECxkB6vch7eSVuLIOwlAVxeNnHjG5vaaV4/GhiQ==
+X-Received: by 2002:a0c:8525:: with SMTP id n34mr8903292qva.19.1627183677524;
+        Sat, 24 Jul 2021 20:27:57 -0700 (PDT)
 Received: from Arrakis.djogorchock.com (pool-98-116-189-238.nycmny.fios.verizon.net. [98.116.189.238])
         by smtp.gmail.com with ESMTPSA id j16sm4843738qkk.132.2021.07.24.20.27.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Jul 2021 20:27:56 -0700 (PDT)
+        Sat, 24 Jul 2021 20:27:57 -0700 (PDT)
 From:   "Daniel J. Ogorchock" <djogorchock@gmail.com>
 To:     linux-input@vger.kernel.org
 Cc:     thunderbird2k@gmail.com, blaws05@gmail.com,
@@ -55,9 +55,9 @@ Cc:     thunderbird2k@gmail.com, blaws05@gmail.com,
         Roderick.Colenbrander@sony.com, svv@google.com, s.jegen@gmail.com,
         carmueller@gmail.com, pgriffais@valvesoftware.com,
         hadess@hadess.net, "Daniel J. Ogorchock" <djogorchock@gmail.com>
-Subject: [PATCH v14 15/17] HID: nintendo: ratelimit subcommands and rumble
-Date:   Sat, 24 Jul 2021 23:27:06 -0400
-Message-Id: <20210725032707.440071-16-djogorchock@gmail.com>
+Subject: [PATCH v14 16/17] HID: nintendo: send rumble cmds post input reports
+Date:   Sat, 24 Jul 2021 23:27:07 -0400
+Message-Id: <20210725032707.440071-17-djogorchock@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210725032707.440071-1-djogorchock@gmail.com>
 References: <20210725032707.440071-1-djogorchock@gmail.com>
@@ -67,67 +67,97 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-It has been found that sending subcommands and rumble data packets at
-too great a rate can result in controller disconnects. This patch limits
-the rate of subcommands/rumble to once every 25 milliseconds.
+Similar to sending subcommands, it is more reliable to send the rumble
+data packets immediately after we've received an input report from the
+controller. This results in far fewer bluetooth disconnects for the
+controller.
 
 Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
 ---
- drivers/hid/hid-nintendo.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/hid/hid-nintendo.c | 49 ++++++++++++++++++++++----------------
+ 1 file changed, 29 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 9376f20baab00..71aa676ba3907 100644
+index 71aa676ba3907..d3ec45de9649f 100644
 --- a/drivers/hid/hid-nintendo.c
 +++ b/drivers/hid/hid-nintendo.c
-@@ -431,6 +431,7 @@ struct joycon_ctlr {
- 	u8 usb_ack_match;
- 	u8 subcmd_ack_match;
- 	bool received_input_report;
-+	unsigned int last_subcmd_sent_msecs;
- 
- 	/* factory calibration data */
- 	struct joycon_stick_cal left_stick_cal_x;
-@@ -582,6 +583,21 @@ static int joycon_send_usb(struct joycon_ctlr *ctlr, u8 cmd, u32 timeout)
+@@ -2,7 +2,7 @@
+ /*
+  * HID driver for Nintendo Switch Joy-Cons and Pro Controllers
+  *
+- * Copyright (c) 2019-2020 Daniel J. Ogorchock <djogorchock@gmail.com>
++ * Copyright (c) 2019-2021 Daniel J. Ogorchock <djogorchock@gmail.com>
+  *
+  * The following resources/projects were referenced for this driver:
+  *   https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering
+@@ -511,6 +511,31 @@ static int __joycon_hid_send(struct hid_device *hdev, u8 *data, size_t len)
  	return ret;
  }
  
-+/*
-+ * Sending subcommands and/or rumble data at too high a rate can cause bluetooth
-+ * controller disconnections.
-+ */
-+static void joycon_enforce_subcmd_rate(struct joycon_ctlr *ctlr)
++static void joycon_wait_for_input_report(struct joycon_ctlr *ctlr)
 +{
-+	static const unsigned int max_subcmd_rate_ms = 25;
-+	unsigned int current_ms = jiffies_to_msecs(jiffies);
-+	unsigned int delta_ms = current_ms - ctlr->last_subcmd_sent_msecs;
++	int ret;
 +
-+	if (delta_ms < max_subcmd_rate_ms)
-+		msleep(max_subcmd_rate_ms - delta_ms);
-+	ctlr->last_subcmd_sent_msecs = current_ms;
++	/*
++	 * If we are in the proper reporting mode, wait for an input
++	 * report prior to sending the subcommand. This improves
++	 * reliability considerably.
++	 */
++	if (ctlr->ctlr_state == JOYCON_CTLR_STATE_READ) {
++		unsigned long flags;
++
++		spin_lock_irqsave(&ctlr->lock, flags);
++		ctlr->received_input_report = false;
++		spin_unlock_irqrestore(&ctlr->lock, flags);
++		ret = wait_event_timeout(ctlr->wait,
++					 ctlr->received_input_report,
++					 HZ / 4);
++		/* We will still proceed, even with a timeout here */
++		if (!ret)
++			hid_warn(ctlr->hdev,
++				 "timeout waiting for input report\n");
++	}
 +}
 +
- static int joycon_send_subcmd(struct joycon_ctlr *ctlr,
- 			      struct joycon_subcmd_request *subcmd,
- 			      size_t data_len, u32 timeout)
-@@ -589,6 +605,8 @@ static int joycon_send_subcmd(struct joycon_ctlr *ctlr,
- 	int ret;
- 	unsigned long flags;
+ static int joycon_hid_send_sync(struct joycon_ctlr *ctlr, u8 *data, size_t len,
+ 				u32 timeout)
+ {
+@@ -522,25 +547,7 @@ static int joycon_hid_send_sync(struct joycon_ctlr *ctlr, u8 *data, size_t len,
+ 	 * doing one retry after a timeout appears to always work.
+ 	 */
+ 	while (tries--) {
+-		/*
+-		 * If we are in the proper reporting mode, wait for an input
+-		 * report prior to sending the subcommand. This improves
+-		 * reliability considerably.
+-		 */
+-		if (ctlr->ctlr_state == JOYCON_CTLR_STATE_READ) {
+-			unsigned long flags;
+-
+-			spin_lock_irqsave(&ctlr->lock, flags);
+-			ctlr->received_input_report = false;
+-			spin_unlock_irqrestore(&ctlr->lock, flags);
+-			ret = wait_event_timeout(ctlr->wait,
+-						 ctlr->received_input_report,
+-						 HZ / 4);
+-			/* We will still proceed, even with a timeout here */
+-			if (!ret)
+-				hid_warn(ctlr->hdev,
+-					 "timeout waiting for input report\n");
+-		}
++		joycon_wait_for_input_report(ctlr);
  
-+	joycon_enforce_subcmd_rate(ctlr);
-+
- 	spin_lock_irqsave(&ctlr->lock, flags);
- 	/*
- 	 * If the controller has been removed, just return ENODEV so the LED
-@@ -1340,6 +1358,8 @@ static int joycon_send_rumble_data(struct joycon_ctlr *ctlr)
- 	unsigned long flags;
- 	struct joycon_rumble_output rumble_output = { 0 };
+ 		ret = __joycon_hid_send(ctlr->hdev, data, len);
+ 		if (ret < 0) {
+@@ -1379,6 +1386,8 @@ static int joycon_send_rumble_data(struct joycon_ctlr *ctlr)
+ 	if (++ctlr->subcmd_num > 0xF)
+ 		ctlr->subcmd_num = 0;
  
-+	joycon_enforce_subcmd_rate(ctlr);
++	joycon_wait_for_input_report(ctlr);
 +
- 	spin_lock_irqsave(&ctlr->lock, flags);
- 	/*
- 	 * If the controller has been removed, just return ENODEV so the LED
+ 	ret = __joycon_hid_send(ctlr->hdev, (u8 *)&rumble_output,
+ 				sizeof(rumble_output));
+ 	return ret;
 -- 
 2.32.0
 
