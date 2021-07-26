@@ -2,161 +2,441 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 024463D564E
-	for <lists+linux-input@lfdr.de>; Mon, 26 Jul 2021 11:17:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E0203D57CC
+	for <lists+linux-input@lfdr.de>; Mon, 26 Jul 2021 12:51:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232434AbhGZIhN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 26 Jul 2021 04:37:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42314 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232173AbhGZIhM (ORCPT
+        id S232294AbhGZKLL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 26 Jul 2021 06:11:11 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:52688 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231820AbhGZKLL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 26 Jul 2021 04:37:12 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFC50C061760;
-        Mon, 26 Jul 2021 02:17:41 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id n12so6643342wrr.2;
-        Mon, 26 Jul 2021 02:17:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/XdUJGh74UESXdQL22e6YfTwgwrep2ayTQFSX53EDsk=;
-        b=JFlJsXfql4wxBZ0Yc0wYWlxnVaOduEA6A58aT+YPrHCRaZ9D5f4ZyW4hxotUgQglqK
-         Hjb7MaKLptbrmxu5Q1WYqZOwH8m9R5Ojwot/XI+YfOBMnbIiZMR28h1Z1PlnC4gKeQm9
-         jf20fylXAmGawweAdN0OU/W09+8vqBGRUpPwS9/h2UCeyaBPgnR8RmnKkQncneyUwpf9
-         MmpzSsBGaI0F9IGRcb7q6i/embCTTac0O9r4YXiIbl02SYwUJebckhPiNLTt1qzBaDBP
-         CVmY1j6/qL+wMPyfqeTRA3gXkbjGyu9zcZGHNjyIonCuIfPfww8Ih4E2Dm6hnN4eIaMp
-         KuAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/XdUJGh74UESXdQL22e6YfTwgwrep2ayTQFSX53EDsk=;
-        b=sNkDiAblsZKs9z5rPqCTjrP6bStO/QFKFKFS1E0WVeAkwLbyeleononr0eqGNzgFZM
-         f6tQbE5i2J/112qAQkAwjVGGVSYTVMAGtLuB6Q64b9uZOSH6LyjrsCs/Iiin3Io1DKCd
-         IgCf80pbBJWSwzJPqSVLIAwsJJIUB28Uj0tTvTjXYimSZXD7MvY+zvbuR6pgXCry1NhK
-         76IR1z7+vuhrXayAGTxIaV7qLVQ3jXMBUwWkChx+h0RRSbE2P7n5PzKgi8KwBm1XSlBs
-         jsu6u7okjzRIJnURoqknzeFpSSh111tZSuiXZ1y+MD50bUTE/EdiFFvuur4B86ZC4Kx7
-         GAQg==
-X-Gm-Message-State: AOAM531EO17iECU5qHziZxdVFMCyLgcfgqbpf1DLshlLJmzVi2Oh50+Q
-        abYE2jV4ZTE/ZeHvtELlFrY=
-X-Google-Smtp-Source: ABdhPJwSBGB8LclMeidKxBiEMVDL8GqwD0QI4jatvUCjvURWcYIDLnCnPW6hkFoRYEKPLAgEEbyoDg==
-X-Received: by 2002:a5d:67cc:: with SMTP id n12mr18487810wrw.131.1627291060430;
-        Mon, 26 Jul 2021 02:17:40 -0700 (PDT)
-Received: from localhost.localdomain ([94.73.35.151])
-        by smtp.gmail.com with ESMTPSA id g3sm41805869wru.95.2021.07.26.02.17.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jul 2021 02:17:40 -0700 (PDT)
-From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, rydberg@bitmath.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH -next 2/2] HID: magicmouse: fix code style warnings
-Date:   Mon, 26 Jul 2021 11:17:19 +0200
-Message-Id: <20210726091719.47886-2-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210726091719.47886-1-jose.exposito89@gmail.com>
-References: <20210726091719.47886-1-jose.exposito89@gmail.com>
+        Mon, 26 Jul 2021 06:11:11 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 16QApJBZ111547;
+        Mon, 26 Jul 2021 05:51:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1627296679;
+        bh=SOl8lRuzqsuJc76siYTZJd6Pexa98L1H8ZsCkObQGgU=;
+        h=From:To:CC:Subject:Date;
+        b=GxybnUFeVKLt4r6Y1PiiDffKcqcFd/uLis7zWGD35VJchzcavSJ8roCE/s0jkQleM
+         nfrZFhJRjLlwuKMqry+xJ+wpzk5JZ1aEsDZscj1z0rz988Ht4zT43cr9PeRsm5Cvg9
+         XhGHfSn6Vnco5RaGme0xKlOCMhPQC06dVuHb2VYk=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 16QApJDU048984
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 26 Jul 2021 05:51:19 -0500
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Mon, 26
+ Jul 2021 05:51:19 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Mon, 26 Jul 2021 05:51:19 -0500
+Received: from ula0132425.ent.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 16QApF87003827;
+        Mon, 26 Jul 2021 05:51:16 -0500
+From:   Vignesh Raghavendra <vigneshr@ti.com>
+To:     Jonathan Cameron <jic23@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>
+CC:     Lars-Peter Clausen <lars@metafoo.de>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-omap@vger.kernel.org>,
+        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
+        <linux-input@vger.kernel.org>
+Subject: [PATCH] dt-bindings: mfd: Convert ti-tsc-adc bindings to YAML schema
+Date:   Mon, 26 Jul 2021 16:19:58 +0530
+Message-ID: <20210726104958.8631-1-vigneshr@ti.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix warnings reported by checkpatch in hid-magicmouse.c:
+Convert ti-tsc-adc binding to YAML schema. This is MFD device with
+support for resistive touchscreen and ADC. But the txt binding file for
+MFD and ADC has been incorrectly been under input/touchscreen directory,
+so split the bindings across subsystems as appropriate.
 
-hid-magicmouse.c:39:  WARNING: Missing a blank line after declarations
-
-hid-magicmouse.c:79:  WARNING: Block comments use a trailing */ on a
-                      separate line
-
-hid-magicmouse.c:156: WARNING: Missing a blank line after declarations
-
-hid-magicmouse.c:190: WARNING: Missing a blank line after declarations
-
-hid-magicmouse.c:505: WARNING: Missing a blank line after declarations
-
-hid-magicmouse.c:756: WARNING: Possible unnecessary 'out of memory'
-                      message
-
-hid-magicmouse.c:825: WARNING: braces {} are not necessary for single
-                      statement blocks
-
-Ignore the following warning because, in this case, the else statement
-is useful:
-
-hid-magicmouse.c:161: WARNING: else is not generally useful after a
-                      break or return
-
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+Signed-off-by: Vignesh Raghavendra <vigneshr@ti.com>
 ---
- drivers/hid/hid-magicmouse.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ .../bindings/iio/adc/ti,am3359-adc.yaml       | 74 +++++++++++++++
+ .../input/touchscreen/ti,am3359-tsc.yaml      | 79 ++++++++++++++++
+ .../bindings/input/touchscreen/ti-tsc-adc.txt | 91 ------------------
+ .../bindings/mfd/ti,am3359-tscadc.yaml        | 92 +++++++++++++++++++
+ 4 files changed, 245 insertions(+), 91 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/ti,am3359-adc.yaml
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/ti,am3359-tsc.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/ti-tsc-adc.txt
+ create mode 100644 Documentation/devicetree/bindings/mfd/ti,am3359-tscadc.yaml
 
-diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
-index 3c911c97fe57..6fda883e23fb 100644
---- a/drivers/hid/hid-magicmouse.c
-+++ b/drivers/hid/hid-magicmouse.c
-@@ -36,6 +36,7 @@ static int param_set_scroll_speed(const char *val,
- 				  const struct kernel_param *kp)
- {
- 	unsigned long speed;
+diff --git a/Documentation/devicetree/bindings/iio/adc/ti,am3359-adc.yaml b/Documentation/devicetree/bindings/iio/adc/ti,am3359-adc.yaml
+new file mode 100644
+index 000000000000..b7884be5d378
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/adc/ti,am3359-adc.yaml
+@@ -0,0 +1,74 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/iio/adc/ti,am3359-adc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	if (!val || kstrtoul(val, 0, &speed) || speed > 63)
- 		return -EINVAL;
- 	scroll_speed = speed;
-@@ -76,7 +77,8 @@ MODULE_PARM_DESC(report_undeciphered, "Report undeciphered multi-touch state fie
- #define SCROLL_ACCEL_DEFAULT 7
- 
- /* Touch surface information. Dimension is in hundredths of a mm, min and max
-- * are in units. */
-+ * are in units.
-+ */
- #define MOUSE_DIMENSION_X ((float)9056)
- #define MOUSE_MIN_X -1100
- #define MOUSE_MAX_X 1258
-@@ -153,6 +155,7 @@ static int magicmouse_firm_touch(struct magicmouse_sc *msc)
- 	 */
- 	for (ii = 0; ii < msc->ntouches; ii++) {
- 		int idx = msc->tracking_ids[ii];
++title: Bindings for ADC part of TSCADC MFDs on TI SoCs
 +
- 		if (msc->touches[idx].size < 8) {
- 			/* Ignore this touch. */
- 		} else if (touch >= 0) {
-@@ -503,6 +506,7 @@ static int magicmouse_event(struct hid_device *hdev, struct hid_field *field,
- 		struct hid_usage *usage, __s32 value)
- {
- 	struct magicmouse_sc *msc = hid_get_drvdata(hdev);
++maintainers:
++  - Vignesh Raghavendra <vigneshr@ti.com>
 +
- 	if (msc->input->id.product == USB_DEVICE_ID_APPLE_MAGICMOUSE2 &&
- 	    field->report->id == MOUSE2_REPORT_ID) {
- 		/*
-@@ -753,10 +757,8 @@ static int magicmouse_probe(struct hid_device *hdev,
- 		return -ENODEV;
- 
- 	msc = devm_kzalloc(&hdev->dev, sizeof(*msc), GFP_KERNEL);
--	if (msc == NULL) {
--		hid_err(hdev, "can't alloc magicmouse descriptor\n");
-+	if (msc == NULL)
- 		return -ENOMEM;
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - ti,am654-adc
++          - const: ti,am3359-adc
++      - const: ti,am3359-adc
++
++  ti,adc-channels:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description:
++      List of analog inputs available for ADC.
++      AIN0 = 0, AIN1 = 1 and so on till AIN7 = 7.
++    minItems: 1
++    maxItems: 8
++    items:
++      maximum: 7
++
++  ti,chan-step-opendelay:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description:
++      List of open delays for each channel of list of analog inputs
++      available for ADC. ADC in the order of ti,adc-channels. The
++      value corresponds to the number of ADC clock cycles to wait
++      after applying the step configuration registers and before
++      sending the start of ADC conversion.
++    minItems: 1
++    maxItems: 8
++    items:
++      maximum: 0x3FFFF
++
++  ti,chan-step-sampledelay:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description:
++      List of sample delays for each channel of ADC in the order of
++      ti,adc-channels. The value corresponds to the number of
++      ADC clock cycles to sample (to hold start of conversion high).
++    minItems: 1
++    maxItems: 8
++    items:
++      maximum: 0xFF
++
++  ti,chan-step-avg:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description:
++      Number of averages to be performed for each channel of ADC. If
++      average is 16 then input is sampled 16 times and averaged to
++      get more accurate value. This increases the time taken by ADC
++      to generate a sample.
++    minItems: 1
++    maxItems: 8
++    items:
++      maximum: 16
++
++  "#io-channel-cells":
++    const: 1
++
++required:
++  - compatible
++  - "#io-channel-cells"
++
++additionalProperties: false
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/ti,am3359-tsc.yaml b/Documentation/devicetree/bindings/input/touchscreen/ti,am3359-tsc.yaml
+new file mode 100644
+index 000000000000..288f8d73b653
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/ti,am3359-tsc.yaml
+@@ -0,0 +1,79 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/ti,am3359-tsc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Bindings for TSC part of TSCADC MFDs on TI SoCs
++
++maintainers:
++  - Vignesh Raghavendra <vigneshr@ti.com>
++
++properties:
++  compatible:
++    const: ti,am3359-tsc
++
++  ti,wires:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [4, 5, 8]
++    description:
++      Number of wires used by touchscreen
++
++  ti,x-plate-resistance:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      X plate resistance
++
++  ti,coordinate-readouts:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 1
++    maximum: 5
++    description:
++      The sequencer supports a total of 16 programmable steps
++      each step is used to read a single coordinate. A single
++      readout is enough but multiple reads can increase the quality.
++      A value of 5 means, 5 reads for X, 5 for Y and 2 for Z (always).
++      This utilises 12 of the 16 software steps available.
++      The remaining 4 can be used by the ADC.
++
++  ti,wire-config:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description: |
++      Different boards could have a different order for
++      connecting wires on touchscreen. We need to provide an
++      8 bit number where in the 1st four bits represent the
++      analog lines and the next 4 bits represent positive/
++      negative terminal on that input line. Notations to
++      represent the input lines and terminals respectively
++      is as follows:
++      AIN0 = 0, AIN1 = 1 and so on till AIN7 = 7.
++      XP  = 0, XN = 1, YP = 2, YN = 3.
++      minItems: 4
++    items:
++      maximum: 0x73
++
++  ti,charge-delay:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Length of touch screen charge delay step in terms of
++      List of analog inputs available for ADC.
++      ADC clock cycles. Charge delay value should be large
++      in order to avoid false pen-up events. This value
++      effects the overall sampling speed, hence need to be
++      kept as low as possible, while avoiding false pen-up
++      event. Start from a lower value, say 0x400, and
++      increase value until false pen-up events are avoided.
++      The pen-up detection happens immediately after the
++      charge step, so this does in fact function as a
++      hardware knob for adjusting the amount of "settling time".
++    minimum: 0x1
++    maximum: 0xFFFF
++
++required:
++  - compatible
++  - ti,wires
++  - ti,coordinate-readouts
++  - ti,wire-config
++  - ti,x-plate-resistance
++
++additionalProperties: false
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/ti-tsc-adc.txt b/Documentation/devicetree/bindings/input/touchscreen/ti-tsc-adc.txt
+deleted file mode 100644
+index aad5e34965eb..000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/ti-tsc-adc.txt
++++ /dev/null
+@@ -1,91 +0,0 @@
+-* TI - TSC ADC (Touschscreen and analog digital converter)
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-
+-Required properties:
+-- mfd
+-	compatible: Should be
+-		"ti,am3359-tscadc" for AM335x/AM437x SoCs
+-		"ti,am654-tscadc", "ti,am3359-tscadc" for AM654 SoCs
+-- child "tsc"
+-	compatible: Should be "ti,am3359-tsc".
+-	ti,wires: Wires refer to application modes i.e. 4/5/8 wire touchscreen
+-		  support on the platform.
+-	ti,x-plate-resistance: X plate resistance
+-	ti,coordinate-readouts: The sequencer supports a total of 16
+-				programmable steps each step is used to
+-				read a single coordinate. A single
+-                                readout is enough but multiple reads can
+-				increase the quality.
+-				A value of 5 means, 5 reads for X, 5 for
+-				Y and 2 for Z (always). This utilises 12
+-				of the 16 software steps available. The
+-				remaining 4 can be used by the ADC.
+-	ti,wire-config: Different boards could have a different order for
+-			connecting wires on touchscreen. We need to provide an
+-			8 bit number where in the 1st four bits represent the
+-			analog lines and the next 4 bits represent positive/
+-			negative terminal on that input line. Notations to
+-			represent the input lines and terminals resoectively
+-			is as follows:
+-			AIN0 = 0, AIN1 = 1 and so on till AIN7 = 7.
+-			XP  = 0, XN = 1, YP = 2, YN = 3.
+-- child "adc"
+-	compatible: Should be
+-		    "ti,am3359-adc" for AM335x/AM437x SoCs
+-		    "ti,am654-adc", "ti,am3359-adc" for AM654 SoCs
+-	ti,adc-channels: List of analog inputs available for ADC.
+-			 AIN0 = 0, AIN1 = 1 and so on till AIN7 = 7.
+-
+-Optional properties:
+-- child "tsc"
+-	ti,charge-delay: Length of touch screen charge delay step in terms of
+-			 ADC clock cycles. Charge delay value should be large
+-			 in order to avoid false pen-up events. This value
+-			 effects the overall sampling speed, hence need to be
+-			 kept as low as possible, while avoiding false pen-up
+-			 event. Start from a lower value, say 0x400, and
+-			 increase value until false pen-up events are avoided.
+-			 The pen-up detection happens immediately after the
+-			 charge step, so this does in fact function as a
+-			 hardware knob for adjusting the amount of "settling
+-			 time".
+-
+-- child "adc"
+-	ti,chan-step-opendelay: List of open delays for each channel of
+-				ADC in the order of ti,adc-channels. The
+-				value corresponds to the number of ADC
+-				clock cycles to wait after applying the
+-				step configuration registers and before
+-				sending the start of ADC conversion.
+-				Maximum value is 0x3FFFF.
+-       ti,chan-step-sampledelay: List of sample delays for each channel
+-				  of ADC in the order of ti,adc-channels.
+-				  The value corresponds to the number of
+-				  ADC clock cycles to sample (to hold
+-				  start of conversion high).
+-				  Maximum value is 0xFF.
+-       ti,chan-step-avg: Number of averages to be performed for each
+-			  channel of ADC. If average is 16 then input
+-			  is sampled 16 times and averaged to get more
+-			  accurate value. This increases the time taken
+-			  by ADC to generate a sample. Valid range is 0
+-			  average to 16 averages. Maximum value is 16.
+-
+-Example:
+-	tscadc: tscadc@44e0d000 {
+-		compatible = "ti,am3359-tscadc";
+-		tsc {
+-			ti,wires = <4>;
+-			ti,x-plate-resistance = <200>;
+-			ti,coordiante-readouts = <5>;
+-			ti,wire-config = <0x00 0x11 0x22 0x33>;
+-			ti,charge-delay = <0x400>;
+-		};
+-
+-		adc {
+-			ti,adc-channels = <4 5 6 7>;
+-			ti,chan-step-opendelay = <0x098 0x3ffff 0x098 0x0>;
+-			ti,chan-step-sampledelay = <0xff 0x0 0xf 0x0>;
+-			ti,chan-step-avg = <16 2 4 8>;
+-		};
 -	}
- 
- 	msc->scroll_accel = SCROLL_ACCEL_DEFAULT;
- 	msc->hdev = hdev;
-@@ -823,9 +825,8 @@ static int magicmouse_probe(struct hid_device *hdev,
- 		hid_err(hdev, "unable to request touch data (%d)\n", ret);
- 		goto err_stop_hw;
- 	}
--	if (ret == -EIO && id->product == USB_DEVICE_ID_APPLE_MAGICMOUSE2) {
-+	if (ret == -EIO && id->product == USB_DEVICE_ID_APPLE_MAGICMOUSE2)
- 		schedule_delayed_work(&msc->work, msecs_to_jiffies(500));
--	}
- 
- 	return 0;
- err_stop_hw:
+diff --git a/Documentation/devicetree/bindings/mfd/ti,am3359-tscadc.yaml b/Documentation/devicetree/bindings/mfd/ti,am3359-tscadc.yaml
+new file mode 100644
+index 000000000000..61854b61e378
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/ti,am3359-tscadc.yaml
+@@ -0,0 +1,92 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/ti,am3359-tscadc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Bindings for Touchscreen + ADC MFD IPs on TI SoCs
++
++maintainers:
++  - Vignesh Raghavendra <vigneshr@ti.com>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - ti,am654-tscadc
++          - const: ti,am3359-tscadc
++      - const: ti,am3359-tscadc
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: "adc_tsc_fck"
++
++  dmas:
++    maxItems: 2
++
++  dma-names:
++    items:
++      - const: fifo0
++      - const: fifo1
++
++  power-domains: true
++
++  tsc:
++    $ref: ../input/touchscreen/ti,am3359-tsc.yaml
++    description:
++      Bindings for Touchscreen part of the MFD
++
++  adc:
++    $ref: ../iio/adc/ti,am3359-adc.yaml
++    description:
++      Bindings for ADC part of the MFD
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++additionalProperties: false
++
++if:
++  properties:
++    compatible:
++      contains:
++        const: ti,am654-tscadc
++then:
++  properties:
++    tsc: false
++
++examples:
++  - |
++    tscadc@44e0d000 {
++      compatible = "ti,am3359-tscadc";
++      reg = <0x44e0d000 0x1000>;
++      interrupts = <16>;
++        tsc {
++          compatible = "ti,am3359-tsc";
++          ti,wires = <4>;
++          ti,x-plate-resistance = <200>;
++          ti,coordinate-readouts = <5>;
++          ti,wire-config = <0x00 0x11 0x22 0x33>;
++          ti,charge-delay = <0x400>;
++        };
++
++      adc {
++        compatible = "ti,am3359-adc";
++        ti,adc-channels = <4 5 6 7>;
++        ti,chan-step-opendelay = <0x098 0x3ffff 0x098 0x0>;
++        ti,chan-step-sampledelay = <0xff 0x0 0xf 0x0>;
++        ti,chan-step-avg = <16 2 4 8>;
++        #io-channel-cells = <1>;
++      };
++    };
 -- 
-2.25.1
+2.32.0
 
