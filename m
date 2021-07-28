@@ -2,38 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89FFB3D8A94
-	for <lists+linux-input@lfdr.de>; Wed, 28 Jul 2021 11:28:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD45E3D8AA7
+	for <lists+linux-input@lfdr.de>; Wed, 28 Jul 2021 11:31:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231722AbhG1J2h (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 28 Jul 2021 05:28:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49414 "EHLO mail.kernel.org"
+        id S231504AbhG1Jb7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Jul 2021 05:31:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50054 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231494AbhG1J2g (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 28 Jul 2021 05:28:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4991D60F9D;
-        Wed, 28 Jul 2021 09:28:34 +0000 (UTC)
+        id S231392AbhG1Jb6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 28 Jul 2021 05:31:58 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2C34760F6D;
+        Wed, 28 Jul 2021 09:31:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627464515;
-        bh=2W2LNe1jkHzjS893KoKMyl7L/dyoD2G7d8WEJOlt+eE=;
+        s=k20201202; t=1627464717;
+        bh=9SasO8pvmJqP3IwdBZP3mWUA+TfEYlcFAekW9WY4gds=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=RLBd+xvYiNXLo7dS9Amo4mhPgoY3fLQ/nFFhzPmE4E8AgBbjUSuG9t3sfyC/D2yH8
-         LWIhlcUH3//nzU1QG7m3Puomhyj2sehSxI9OUXF47fSl+MjOANLjumpuXJsgAhiJFM
-         +LfZXGzGMsozKriUyX+4lqiR059LQZmzvNZzGal5cyKI+fI/FKVYHoIuD1WHz1l02s
-         0Y9XAADagLV0KELL6Y1xeo84vxCKmandybatf8OyAvjaqs4ukmS3f+R0By64OBq8iP
-         3DHbIRp7vtMdG08r0U4VJ6sM1LsZhH6m5AEynmP0FM9fP3RvU0DX/4h5dsUpjZfLUL
-         iW5m6hndmfbhA==
-Date:   Wed, 28 Jul 2021 11:28:32 +0200 (CEST)
+        b=QfFHBDIrd6j6WQhajeF+53TL907IYyjdLgIH0wMbMQNBznmfWfxZmdPyrvxgsZYnB
+         8brJMcrIrzR12LPT/xr3D52C4i/MoRcSSagLFAcyy7NSwUyMjihIEPlLw8wQR7i4vh
+         qsXOe5NgGxWBAP1/cAEEP2jpry7OjbORE0A+kHTx1RKMzL3s/4OnneoxQVHzygWeJv
+         cvdmRhS4QgWZB27WIEWbKYIZYJ9sceIjNor84zsbAgi2nuCT5f+AEIY9D9LULrk4DD
+         zzBf67oi9K6CQvQR6TlZZwsP6JJb7F0/90N29Hr+jh64a2XNv20dwVxdZrAR4QO23I
+         nGK1rzlmg9uSw==
+Date:   Wed, 28 Jul 2021 11:31:54 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Dylan MacKenzie <ecstaticmorse@gmail.com>
-cc:     Nehal Shah <nehal-bakulchandra.shah@amd.com>,
-        Sandeep Singh <sandeep.singh@amd.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] HID: amd_sfh: Minor DMA mapping bugfixes
-In-Reply-To: <20210622001503.47541-1-ecstaticmorse@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2107281128140.8253@cbobk.fhfr.pm>
-References: <20210622001503.47541-1-ecstaticmorse@gmail.com>
+To:     Anirudh Rayabharam <mail@anirudhrb.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usbhid: free raw_report buffers in usbhid_stop
+In-Reply-To: <20210623184030.17281-1-mail@anirudhrb.com>
+Message-ID: <nycvar.YFH.7.76.2107281131460.8253@cbobk.fhfr.pm>
+References: <20210623184030.17281-1-mail@anirudhrb.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -41,25 +43,18 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 21 Jun 2021, Dylan MacKenzie wrote:
+On Thu, 24 Jun 2021, Anirudh Rayabharam wrote:
 
-> While preparing to investigate
-> https://bugzilla.kernel.org/show_bug.cgi?id=212615, I read through the amd_sfh
-> driver and saw two (unrelated) bugs in the logic that sets the DMA mask.
-> Ultimately these are harmless, but they should probably get fixed.
+> Free the unsent raw_report buffers when the device is removed.
 > 
-> FYI, this is my first time submitting a kernel patch. If I've done something
-> wrong in formatting this email, it is likely due to incompetence rather than
-> malice.
+> Fixes a memory leak reported by syzbot at:
+> https://syzkaller.appspot.com/bug?id=7b4fa7cb1a7c2d3342a2a8a6c53371c8c418ab47
 > 
-> Dylan MacKenzie (2):
->   HID: amd_sfh: Set correct DMA mask
->   HID: amd_sfh: Continue if fallback DMA mask is accepted
-> 
->  drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+> Reported-by: syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com
+> Tested-by: syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com
+> Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
 
-Nehal, Sandeep, could you please provide your Ack to this series? Thanks,
+Applied, thank you.
 
 -- 
 Jiri Kosina
