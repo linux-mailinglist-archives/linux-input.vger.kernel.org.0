@@ -2,37 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AF893D8AF5
-	for <lists+linux-input@lfdr.de>; Wed, 28 Jul 2021 11:42:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49CE03D8B01
+	for <lists+linux-input@lfdr.de>; Wed, 28 Jul 2021 11:44:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235417AbhG1Jma (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 28 Jul 2021 05:42:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52826 "EHLO mail.kernel.org"
+        id S231783AbhG1Jof (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Jul 2021 05:44:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53220 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231408AbhG1Jma (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 28 Jul 2021 05:42:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BC89060F9D;
-        Wed, 28 Jul 2021 09:42:27 +0000 (UTC)
+        id S231408AbhG1Jod (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 28 Jul 2021 05:44:33 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4C7AC60F9C;
+        Wed, 28 Jul 2021 09:44:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627465348;
-        bh=VZ4nuzu7jAy+8jU0B3ANq2x2GkmAKRJmZDAGE5IMJb8=;
+        s=k20201202; t=1627465472;
+        bh=VAUZjyg+BAF8EV3Hg0K31vHi7rqtqopGlzdb86UM9FI=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=HACUT0BYikOpdBcL487VulSuuDq/eOsQ9aDIDix3jUv0jHosw4sLOzRFNxR/6S+Tv
-         3t46kH3gak4PFyVpcjK0/GccovYK7W0eXS2I20LFHKFQ/2rOhNZJZf+ox7FxhgFaqr
-         tDuLdGj7XW7YDNGHGL2F8KzsKk5n3mjjZykJshkf7Njjj/loHZmpnNI/tKwQ1aaGIY
-         vdD997j/UZJr7saHQysWuoy6nWdn/SS5S/wA3QfQrLzISXC4dJ3sI02PzOBrs0eXOe
-         OAAbxhZR+bEsAwTQqP+vgfAVf2ekrU12JlkCH5sYlH8Sdpz7WTIip9U4/kGDGpXeY4
-         jAGMvuj5P5vMw==
-Date:   Wed, 28 Jul 2021 11:42:25 +0200 (CEST)
+        b=ETlaB0Tg2k7j4XxG1jZnDv1lMR1GRxhBxswCSC52pZ0rlvLTPKsio5cRMv7Ug9wlj
+         E9WEQzURspnI9QKgGXqMxfLydzw7oGzZmcSaIKbsIzlsBUnRD+fB6hYdtEnqObOJzd
+         myFj9qlKfyPXheS1OlHCka7J0qNuGLmWS2ruLf9JG16Taz49X69If741fzjhVAVSfz
+         uPf3/swod3xZizj5eLaK6RzB/B6XV949r1fajkrRniz2Q0oU8ilteDiXqOA3KoN6qz
+         Gi20DGOjiZvzIACqEZFpG/jQkYqMPNBwI5hJaC8zMJ5m3f1Lc61jtbQA26/qcpaOnG
+         6BjsLZkSgCwuQ==
+Date:   Wed, 28 Jul 2021 11:44:29 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Colin King <colin.king@canonical.com>
-cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] USB HID: Fix spelling mistake "Uninterruptable" ->
- "Uninterruptible"
-In-Reply-To: <20210719102731.15107-1-colin.king@canonical.com>
-Message-ID: <nycvar.YFH.7.76.2107281142210.8253@cbobk.fhfr.pm>
-References: <20210719102731.15107-1-colin.king@canonical.com>
+To:     Jason Gerecke <killertofu@gmail.com>
+cc:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        stable@vger.kernel.org, Ping Cheng <ping.cheng@wacom.com>
+Subject: Re: [PATCH 1/6] HID: wacom: Re-enable touch by default for Cintiq
+ 24HDT / 27QHDT
+In-Reply-To: <20210719205533.2189804-1-jason.gerecke@wacom.com>
+Message-ID: <nycvar.YFH.7.76.2107281143510.8253@cbobk.fhfr.pm>
+References: <20210719205533.2189804-1-jason.gerecke@wacom.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -40,32 +43,46 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 19 Jul 2021, Colin King wrote:
+On Mon, 19 Jul 2021, Jason Gerecke wrote:
 
-> From: Colin Ian King <colin.king@canonical.com>
+> Commit 670e90924bfe ("HID: wacom: support named keys on older devices")
+> added support for sending named events from the soft buttons on the
+> 24HDT and 27QHDT. In the process, however, it inadvertantly disabled the
+> touchscreen of the 24HDT and 27QHDT by default. The
+> `wacom_set_shared_values` function would normally enable touch by default
+> but because it checks the state of the non-shared `has_mute_touch_switch`
+> flag and `wacom_setup_touch_input_capabilities` sets the state of the
+> /shared/ version, touch ends up being disabled by default.
 > 
-> There is a spelling mistake in the Kconfig text. Fix it.
+> This patch sets the non-shared flag, letting `wacom_set_shared_values`
+> take care of copying the value over to the shared version and setting
+> the default touch state to "on".
 > 
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> Fixes: 670e90924bfe ("HID: wacom: support named keys on older devices")
+> CC: stable@vger.kernel.org # 5.4+
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
 > ---
->  drivers/hid/usbhid/Kconfig | 2 +-
+>  drivers/hid/wacom_wac.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/hid/usbhid/Kconfig b/drivers/hid/usbhid/Kconfig
-> index dcf3a235870f..7c2032f7f44d 100644
-> --- a/drivers/hid/usbhid/Kconfig
-> +++ b/drivers/hid/usbhid/Kconfig
-> @@ -38,7 +38,7 @@ config USB_HIDDEV
->  	help
->  	  Say Y here if you want to support HID devices (from the USB
->  	  specification standpoint) that aren't strictly user interface
-> -	  devices, like monitor controls and Uninterruptable Power Supplies.
-> +	  devices, like monitor controls and Uninterruptible Power Supplies.
+> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+> index 81d7d12bcf34..496a000ef862 100644
+> --- a/drivers/hid/wacom_wac.c
+> +++ b/drivers/hid/wacom_wac.c
+> @@ -3831,7 +3831,7 @@ int wacom_setup_touch_input_capabilities(struct input_dev *input_dev,
+>  		    wacom_wac->shared->touch->product == 0xF6) {
+>  			input_dev->evbit[0] |= BIT_MASK(EV_SW);
+>  			__set_bit(SW_MUTE_DEVICE, input_dev->swbit);
+> -			wacom_wac->shared->has_mute_touch_switch = true;
+> +			wacom_wac->has_mute_touch_switch = true;
+>  		}
+>  		fallthrough;
 >  
->  	  This module supports these devices separately using a separate
->  	  event interface on /dev/usb/hiddevX (char 180:96 to 180:111).
 
-Applied, thanks.
+This patch series looks strangely like not really a series at all :) I am 
+applying 1/6 and 4/6 for 5.14 and queuing the rest for 5.15. Please shout 
+if you disagree with that. Thanks,
 
 -- 
 Jiri Kosina
