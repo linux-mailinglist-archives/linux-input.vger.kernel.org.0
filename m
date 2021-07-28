@@ -2,37 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 098313D8AF4
-	for <lists+linux-input@lfdr.de>; Wed, 28 Jul 2021 11:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AF893D8AF5
+	for <lists+linux-input@lfdr.de>; Wed, 28 Jul 2021 11:42:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235455AbhG1JlH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 28 Jul 2021 05:41:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52670 "EHLO mail.kernel.org"
+        id S235417AbhG1Jma (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Jul 2021 05:42:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52826 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231408AbhG1JlG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 28 Jul 2021 05:41:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 85C8060F9E;
-        Wed, 28 Jul 2021 09:41:04 +0000 (UTC)
+        id S231408AbhG1Jma (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 28 Jul 2021 05:42:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BC89060F9D;
+        Wed, 28 Jul 2021 09:42:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627465265;
-        bh=5Sz0+gciavzdOLZggl9uM/lWADQD15jdSD/3wSpVGZU=;
+        s=k20201202; t=1627465348;
+        bh=VZ4nuzu7jAy+8jU0B3ANq2x2GkmAKRJmZDAGE5IMJb8=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=imJiDoKvUPT+VOBW4ldnhUcL0TiJlN3JWZeCvkR9ePdM7m1ioicFxmXBmTrOL5auj
-         0/HnY5vMPtLeju1maEJTs0crd8r326RCLJjc8rIPGTTnC5dazl3QnWvSjaffTTCGkh
-         MN8vzIdVhw/o6tqoG378jYYM8yKhkqH2ggzc769pmfEck/H2X94axeY+mx4KR23YKp
-         /NxaManeCCTkFtAzgYM82iThjEO523M1Jn2AsnxGRAFUiLRnmzSbqpR63dFa/yw49b
-         Q02nOfIgZCi2JFQPdhitFxLB+SFXT9uAMp21uwKSTtvsrUPnbgQ8dgVzCqh+bUgizN
-         9HAS/z9reMgoA==
-Date:   Wed, 28 Jul 2021 11:41:02 +0200 (CEST)
+        b=HACUT0BYikOpdBcL487VulSuuDq/eOsQ9aDIDix3jUv0jHosw4sLOzRFNxR/6S+Tv
+         3t46kH3gak4PFyVpcjK0/GccovYK7W0eXS2I20LFHKFQ/2rOhNZJZf+ox7FxhgFaqr
+         tDuLdGj7XW7YDNGHGL2F8KzsKk5n3mjjZykJshkf7Njjj/loHZmpnNI/tKwQ1aaGIY
+         vdD997j/UZJr7saHQysWuoy6nWdn/SS5S/wA3QfQrLzISXC4dJ3sI02PzOBrs0eXOe
+         OAAbxhZR+bEsAwTQqP+vgfAVf2ekrU12JlkCH5sYlH8Sdpz7WTIip9U4/kGDGpXeY4
+         jAGMvuj5P5vMw==
+Date:   Wed, 28 Jul 2021 11:42:25 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Haochen Tong <i@hexchain.org>
-cc:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH] HID: apple: Add support for Keychron K1 wireless
- keyboard
-In-Reply-To: <20210717170431.i6cubjpihjdxepmu@kotori.hexchain.org>
-Message-ID: <nycvar.YFH.7.76.2107281140570.8253@cbobk.fhfr.pm>
-References: <20210717170431.i6cubjpihjdxepmu@kotori.hexchain.org>
+To:     Colin King <colin.king@canonical.com>
+cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] USB HID: Fix spelling mistake "Uninterruptable" ->
+ "Uninterruptible"
+In-Reply-To: <20210719102731.15107-1-colin.king@canonical.com>
+Message-ID: <nycvar.YFH.7.76.2107281142210.8253@cbobk.fhfr.pm>
+References: <20210719102731.15107-1-colin.king@canonical.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -40,33 +40,32 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 18 Jul 2021, Haochen Tong wrote:
+On Mon, 19 Jul 2021, Colin King wrote:
 
-> The Keychron K1 wireless keyboard has a set of Apple-like function keys
-> and an Fn key that works like on an Apple bluetooth keyboard. It
-> identifies as an Apple Alu RevB ANSI keyboard (05ac:024f) over USB and
-> BT. Use hid-apple for it so the Fn key and function keys work correctly.
+> From: Colin Ian King <colin.king@canonical.com>
 > 
-> Signed-off-by: Haochen Tong <i@hexchain.org>
+> There is a spelling mistake in the Kconfig text. Fix it.
+> 
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 > ---
->  drivers/hid/hid-apple.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/hid/usbhid/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-> index 6b8f0d004d34..dc6bd4299c54 100644
-> --- a/drivers/hid/hid-apple.c
-> +++ b/drivers/hid/hid-apple.c
-> @@ -501,6 +501,8 @@ static const struct hid_device_id apple_devices[] = {
->  			APPLE_RDESC_JIS },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_REVB_ANSI),
->  		.driver_data = APPLE_HAS_FN },
-> +	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_REVB_ANSI),
-> +		.driver_data = APPLE_HAS_FN },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_REVB_ISO),
->  		.driver_data = APPLE_HAS_FN },
->  	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_REVB_ISO),
+> diff --git a/drivers/hid/usbhid/Kconfig b/drivers/hid/usbhid/Kconfig
+> index dcf3a235870f..7c2032f7f44d 100644
+> --- a/drivers/hid/usbhid/Kconfig
+> +++ b/drivers/hid/usbhid/Kconfig
+> @@ -38,7 +38,7 @@ config USB_HIDDEV
+>  	help
+>  	  Say Y here if you want to support HID devices (from the USB
+>  	  specification standpoint) that aren't strictly user interface
+> -	  devices, like monitor controls and Uninterruptable Power Supplies.
+> +	  devices, like monitor controls and Uninterruptible Power Supplies.
+>  
+>  	  This module supports these devices separately using a separate
+>  	  event interface on /dev/usb/hiddevX (char 180:96 to 180:111).
 
-Applied, thank you.
+Applied, thanks.
 
 -- 
 Jiri Kosina
