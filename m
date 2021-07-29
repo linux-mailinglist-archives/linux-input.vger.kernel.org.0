@@ -2,154 +2,454 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FA8D3DA1BA
-	for <lists+linux-input@lfdr.de>; Thu, 29 Jul 2021 13:03:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E851A3DAFDD
+	for <lists+linux-input@lfdr.de>; Fri, 30 Jul 2021 01:35:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236430AbhG2LDz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Jul 2021 07:03:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39462 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236320AbhG2LDz (ORCPT
+        id S234724AbhG2XfS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Jul 2021 19:35:18 -0400
+Received: from mail-il1-f176.google.com ([209.85.166.176]:41798 "EHLO
+        mail-il1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229982AbhG2XfS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Jul 2021 07:03:55 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 553F0C061765
-        for <linux-input@vger.kernel.org>; Thu, 29 Jul 2021 04:03:52 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id i10so6554366pla.3
-        for <linux-input@vger.kernel.org>; Thu, 29 Jul 2021 04:03:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nuEz2vPY6z/oR0MOk+A2rcy2JVtYQON76U+66EJ+VfA=;
-        b=FD3RXoF6FgIO40xTQ3k1d76W0Jv+LbXR6t5Ac4506VswHy1DSm7EsbkVYSs3sAfbJk
-         6dTRg+sEZscqrXx16PCsXdBu+UOb9z/dDmpULwUWBdDa4SLT8doIPT1KBiV1+cYngXPp
-         XHRGIEH1q4RcQnjMvNmOt0mSisgli72oQkIaqbxFwo2NDAJn/bpq8VTZ99B1Z1cRnrAF
-         KTLAsyZInyCPZYYX+HBTPICNP1R0ML6rzYhzXetDHWe4S5Ks+llgy7IR8iMOqHQhKy5R
-         T696a8m5NN5ywytNabvpZHPdSJ6sI8wEoxB6kKxqLde2Sq+zzK87yj4Pp2J39m3/olLP
-         WliQ==
+        Thu, 29 Jul 2021 19:35:18 -0400
+Received: by mail-il1-f176.google.com with SMTP id j18so4578263ile.8;
+        Thu, 29 Jul 2021 16:35:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nuEz2vPY6z/oR0MOk+A2rcy2JVtYQON76U+66EJ+VfA=;
-        b=ufNt38fVUJiURbsIdZuAkb3oEy+wgd0FsaZANVKU5y4Z69rLn8i78MPwattee47qnH
-         MDaOQwsVeNzQDYXb8o9L5GMOFIgz7vDUeSS2hBeHdEfRur/srSUo2nBmy86uovunDjZv
-         fBAr8TUHF8fKSeuaRmHbhB5V1IZQsfF3F2KS/aqRc6Yh+9mU7OzLNLJJzBfHLal2oH3J
-         BdRKHrnBSD5hxkA6QZqq4pCmEv9CoP5JasdKIiWVrxwm4X3lbyupezfDXREglxXGLDL4
-         41Mn4TtALjyfeyBoINeHB2XW1SouGcaNN5dMlCqhEgVk6N3E40I8wxJhNRbz4MmtDuvL
-         FMZA==
-X-Gm-Message-State: AOAM530pYkFnTBUCUqCfysS9Q/Y6VvsYqNoa+JQUjTO6Mx09prIG7cKR
-        73EQ+UxzV3GsBkVaXJHYErA=
-X-Google-Smtp-Source: ABdhPJzTz9HtS1xW8opBctT31RPCeKT3ydnWj3kPCcU3AK5v+CdDkiJvM/t1bSsNy6T+/uBgy61zMQ==
-X-Received: by 2002:a17:902:7c81:b029:12b:6ac2:3ad9 with SMTP id y1-20020a1709027c81b029012b6ac23ad9mr4094568pll.76.1627556631867;
-        Thu, 29 Jul 2021 04:03:51 -0700 (PDT)
-Received: from localhost.localdomain (p909013-ipoe.ipoe.ocn.ne.jp. [153.243.10.12])
-        by smtp.googlemail.com with ESMTPSA id w2sm8317337pjf.2.2021.07.29.04.03.50
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=qN6sb3aX7hRui1omUtuCA3OEQ1VLaGH1+abq0moxMrw=;
+        b=XIabBh9EBuQtKm4buCw+JrSikTH6W6J4lxOro1ReqK1QUsLfK0kPfWTwv7mEc5R4I3
+         1VAYs6M8ZB4ajPV555Zjho5LC+s5gOmC593KTUdmYbJSiB+fJlNQlsn3OxTISjKPJ3Vy
+         X4q9j1Pj5omkkMyMo7ql/sO7YP9L4cODtfI7qbanK3s5nPKTQiZAgbZ4Iv1g1ctE+KFE
+         YsMy+IEQtbgwfyVUUrIhrp1HXZh+si0nAViduLa3SHoCHDAGIIZ9LG9YMzGktyt2XSZe
+         fYKhwyDPt08KNl0fqM4KwBdC/lM/TOUy8e4TdGumkPao75OUjHjapP8E9sWhAQcGU9Jk
+         iSIQ==
+X-Gm-Message-State: AOAM5331dYvvUK05GuQA9eEp4IrRn3WbabMAsoZOB59IxNb5p33pzbBc
+        GtF0S6e+hk2N13itDn3I1A==
+X-Google-Smtp-Source: ABdhPJxszO+1UEg2TfA93Ai2Nl2H3bpeb+E+iXGBzOAXoT+qg9CJPPzRLK1ufpv3DRws+faFTVTtLA==
+X-Received: by 2002:a92:d8cf:: with SMTP id l15mr5356394ilo.227.1627601712769;
+        Thu, 29 Jul 2021 16:35:12 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id y14sm2412589ilv.76.2021.07.29.16.35.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 04:03:51 -0700 (PDT)
-From:   Mizuho Mori <morimolymoly@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, Mizuho Mori <morimolymoly@gmail.com>
-Subject: [PATCH] HID: apple: Fix logical maximum and usage maximum of Magic Keyboard JIS
-Date:   Thu, 29 Jul 2021 20:03:25 +0900
-Message-Id: <20210729110325.15089-1-morimolymoly@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 29 Jul 2021 16:35:11 -0700 (PDT)
+Received: (nullmailer pid 1121501 invoked by uid 1000);
+        Thu, 29 Jul 2021 23:35:10 -0000
+Date:   Thu, 29 Jul 2021 17:35:10 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Vignesh Raghavendra <vigneshr@ti.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: mfd: Convert ti-tsc-adc bindings to YAML
+ schema
+Message-ID: <YQM7Lm+KD7C5P6i+@robh.at.kernel.org>
+References: <20210726104958.8631-1-vigneshr@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210726104958.8631-1-vigneshr@ti.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Signed-off-by: Mizuho Mori <morimolymoly@gmail.com>
-Apple Magic Keyboard(JIS)'s Logical Maximum and Usage Maximum are wrong.
+On Mon, Jul 26, 2021 at 04:19:58PM +0530, Vignesh Raghavendra wrote:
+> Convert ti-tsc-adc binding to YAML schema. This is MFD device with
+> support for resistive touchscreen and ADC. But the txt binding file for
+> MFD and ADC has been incorrectly been under input/touchscreen directory,
+> so split the bindings across subsystems as appropriate.
+> 
+> Signed-off-by: Vignesh Raghavendra <vigneshr@ti.com>
+> ---
+>  .../bindings/iio/adc/ti,am3359-adc.yaml       | 74 +++++++++++++++
+>  .../input/touchscreen/ti,am3359-tsc.yaml      | 79 ++++++++++++++++
+>  .../bindings/input/touchscreen/ti-tsc-adc.txt | 91 ------------------
+>  .../bindings/mfd/ti,am3359-tscadc.yaml        | 92 +++++++++++++++++++
+>  4 files changed, 245 insertions(+), 91 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/iio/adc/ti,am3359-adc.yaml
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/ti,am3359-tsc.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/ti-tsc-adc.txt
+>  create mode 100644 Documentation/devicetree/bindings/mfd/ti,am3359-tscadc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/adc/ti,am3359-adc.yaml b/Documentation/devicetree/bindings/iio/adc/ti,am3359-adc.yaml
+> new file mode 100644
+> index 000000000000..b7884be5d378
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/adc/ti,am3359-adc.yaml
+> @@ -0,0 +1,74 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/adc/ti,am3359-adc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Bindings for ADC part of TSCADC MFDs on TI SoCs
+> +
+> +maintainers:
+> +  - Vignesh Raghavendra <vigneshr@ti.com>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - ti,am654-adc
+> +          - const: ti,am3359-adc
+> +      - const: ti,am3359-adc
+> +
+> +  ti,adc-channels:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      List of analog inputs available for ADC.
+> +      AIN0 = 0, AIN1 = 1 and so on till AIN7 = 7.
+> +    minItems: 1
+> +    maxItems: 8
+> +    items:
+> +      maximum: 7
+> +
+> +  ti,chan-step-opendelay:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      List of open delays for each channel of list of analog inputs
+> +      available for ADC. ADC in the order of ti,adc-channels. The
+> +      value corresponds to the number of ADC clock cycles to wait
+> +      after applying the step configuration registers and before
+> +      sending the start of ADC conversion.
+> +    minItems: 1
+> +    maxItems: 8
+> +    items:
+> +      maximum: 0x3FFFF
+> +
+> +  ti,chan-step-sampledelay:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      List of sample delays for each channel of ADC in the order of
+> +      ti,adc-channels. The value corresponds to the number of
+> +      ADC clock cycles to sample (to hold start of conversion high).
+> +    minItems: 1
+> +    maxItems: 8
+> +    items:
+> +      maximum: 0xFF
+> +
+> +  ti,chan-step-avg:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      Number of averages to be performed for each channel of ADC. If
+> +      average is 16 then input is sampled 16 times and averaged to
+> +      get more accurate value. This increases the time taken by ADC
+> +      to generate a sample.
+> +    minItems: 1
+> +    maxItems: 8
+> +    items:
+> +      maximum: 16
+> +
+> +  "#io-channel-cells":
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - "#io-channel-cells"
+> +
+> +additionalProperties: false
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/ti,am3359-tsc.yaml b/Documentation/devicetree/bindings/input/touchscreen/ti,am3359-tsc.yaml
+> new file mode 100644
+> index 000000000000..288f8d73b653
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/ti,am3359-tsc.yaml
+> @@ -0,0 +1,79 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/ti,am3359-tsc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Bindings for TSC part of TSCADC MFDs on TI SoCs
+> +
+> +maintainers:
+> +  - Vignesh Raghavendra <vigneshr@ti.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,am3359-tsc
+> +
+> +  ti,wires:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [4, 5, 8]
+> +    description:
+> +      Number of wires used by touchscreen
+> +
+> +  ti,x-plate-resistance:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      X plate resistance
+> +
+> +  ti,coordinate-readouts:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 1
+> +    maximum: 5
+> +    description:
+> +      The sequencer supports a total of 16 programmable steps
+> +      each step is used to read a single coordinate. A single
+> +      readout is enough but multiple reads can increase the quality.
+> +      A value of 5 means, 5 reads for X, 5 for Y and 2 for Z (always).
+> +      This utilises 12 of the 16 software steps available.
+> +      The remaining 4 can be used by the ADC.
+> +
+> +  ti,wire-config:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description: |
+> +      Different boards could have a different order for
+> +      connecting wires on touchscreen. We need to provide an
+> +      8 bit number where in the 1st four bits represent the
+> +      analog lines and the next 4 bits represent positive/
+> +      negative terminal on that input line. Notations to
+> +      represent the input lines and terminals respectively
+> +      is as follows:
+> +      AIN0 = 0, AIN1 = 1 and so on till AIN7 = 7.
+> +      XP  = 0, XN = 1, YP = 2, YN = 3.
+> +      minItems: 4
+> +    items:
+> +      maximum: 0x73
+> +
+> +  ti,charge-delay:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Length of touch screen charge delay step in terms of
+> +      List of analog inputs available for ADC.
+> +      ADC clock cycles. Charge delay value should be large
+> +      in order to avoid false pen-up events. This value
+> +      effects the overall sampling speed, hence need to be
+> +      kept as low as possible, while avoiding false pen-up
+> +      event. Start from a lower value, say 0x400, and
+> +      increase value until false pen-up events are avoided.
+> +      The pen-up detection happens immediately after the
+> +      charge step, so this does in fact function as a
+> +      hardware knob for adjusting the amount of "settling time".
+> +    minimum: 0x1
+> +    maximum: 0xFFFF
+> +
+> +required:
+> +  - compatible
+> +  - ti,wires
+> +  - ti,coordinate-readouts
+> +  - ti,wire-config
+> +  - ti,x-plate-resistance
+> +
+> +additionalProperties: false
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/ti-tsc-adc.txt b/Documentation/devicetree/bindings/input/touchscreen/ti-tsc-adc.txt
+> deleted file mode 100644
+> index aad5e34965eb..000000000000
+> --- a/Documentation/devicetree/bindings/input/touchscreen/ti-tsc-adc.txt
+> +++ /dev/null
+> @@ -1,91 +0,0 @@
+> -* TI - TSC ADC (Touschscreen and analog digital converter)
+> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> -
+> -Required properties:
+> -- mfd
+> -	compatible: Should be
+> -		"ti,am3359-tscadc" for AM335x/AM437x SoCs
+> -		"ti,am654-tscadc", "ti,am3359-tscadc" for AM654 SoCs
+> -- child "tsc"
+> -	compatible: Should be "ti,am3359-tsc".
+> -	ti,wires: Wires refer to application modes i.e. 4/5/8 wire touchscreen
+> -		  support on the platform.
+> -	ti,x-plate-resistance: X plate resistance
+> -	ti,coordinate-readouts: The sequencer supports a total of 16
+> -				programmable steps each step is used to
+> -				read a single coordinate. A single
+> -                                readout is enough but multiple reads can
+> -				increase the quality.
+> -				A value of 5 means, 5 reads for X, 5 for
+> -				Y and 2 for Z (always). This utilises 12
+> -				of the 16 software steps available. The
+> -				remaining 4 can be used by the ADC.
+> -	ti,wire-config: Different boards could have a different order for
+> -			connecting wires on touchscreen. We need to provide an
+> -			8 bit number where in the 1st four bits represent the
+> -			analog lines and the next 4 bits represent positive/
+> -			negative terminal on that input line. Notations to
+> -			represent the input lines and terminals resoectively
+> -			is as follows:
+> -			AIN0 = 0, AIN1 = 1 and so on till AIN7 = 7.
+> -			XP  = 0, XN = 1, YP = 2, YN = 3.
+> -- child "adc"
+> -	compatible: Should be
+> -		    "ti,am3359-adc" for AM335x/AM437x SoCs
+> -		    "ti,am654-adc", "ti,am3359-adc" for AM654 SoCs
+> -	ti,adc-channels: List of analog inputs available for ADC.
+> -			 AIN0 = 0, AIN1 = 1 and so on till AIN7 = 7.
+> -
+> -Optional properties:
+> -- child "tsc"
+> -	ti,charge-delay: Length of touch screen charge delay step in terms of
+> -			 ADC clock cycles. Charge delay value should be large
+> -			 in order to avoid false pen-up events. This value
+> -			 effects the overall sampling speed, hence need to be
+> -			 kept as low as possible, while avoiding false pen-up
+> -			 event. Start from a lower value, say 0x400, and
+> -			 increase value until false pen-up events are avoided.
+> -			 The pen-up detection happens immediately after the
+> -			 charge step, so this does in fact function as a
+> -			 hardware knob for adjusting the amount of "settling
+> -			 time".
+> -
+> -- child "adc"
+> -	ti,chan-step-opendelay: List of open delays for each channel of
+> -				ADC in the order of ti,adc-channels. The
+> -				value corresponds to the number of ADC
+> -				clock cycles to wait after applying the
+> -				step configuration registers and before
+> -				sending the start of ADC conversion.
+> -				Maximum value is 0x3FFFF.
+> -       ti,chan-step-sampledelay: List of sample delays for each channel
+> -				  of ADC in the order of ti,adc-channels.
+> -				  The value corresponds to the number of
+> -				  ADC clock cycles to sample (to hold
+> -				  start of conversion high).
+> -				  Maximum value is 0xFF.
+> -       ti,chan-step-avg: Number of averages to be performed for each
+> -			  channel of ADC. If average is 16 then input
+> -			  is sampled 16 times and averaged to get more
+> -			  accurate value. This increases the time taken
+> -			  by ADC to generate a sample. Valid range is 0
+> -			  average to 16 averages. Maximum value is 16.
+> -
+> -Example:
+> -	tscadc: tscadc@44e0d000 {
+> -		compatible = "ti,am3359-tscadc";
+> -		tsc {
+> -			ti,wires = <4>;
+> -			ti,x-plate-resistance = <200>;
+> -			ti,coordiante-readouts = <5>;
+> -			ti,wire-config = <0x00 0x11 0x22 0x33>;
+> -			ti,charge-delay = <0x400>;
+> -		};
+> -
+> -		adc {
+> -			ti,adc-channels = <4 5 6 7>;
+> -			ti,chan-step-opendelay = <0x098 0x3ffff 0x098 0x0>;
+> -			ti,chan-step-sampledelay = <0xff 0x0 0xf 0x0>;
+> -			ti,chan-step-avg = <16 2 4 8>;
+> -		};
+> -	}
+> diff --git a/Documentation/devicetree/bindings/mfd/ti,am3359-tscadc.yaml b/Documentation/devicetree/bindings/mfd/ti,am3359-tscadc.yaml
+> new file mode 100644
+> index 000000000000..61854b61e378
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/ti,am3359-tscadc.yaml
+> @@ -0,0 +1,92 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/ti,am3359-tscadc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Bindings for Touchscreen + ADC MFD IPs on TI SoCs
+> +
+> +maintainers:
+> +  - Vignesh Raghavendra <vigneshr@ti.com>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - ti,am654-tscadc
+> +          - const: ti,am3359-tscadc
+> +      - const: ti,am3359-tscadc
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: "adc_tsc_fck"
 
-Below is a report descriptor.
+Don't need quotes
 
-0x05, 0x01,         /*  Usage Page (Desktop),                           */
-0x09, 0x06,         /*  Usage (Keyboard),                               */
-0xA1, 0x01,         /*  Collection (Application),                       */
-0x85, 0x01,         /*      Report ID (1),                              */
-0x05, 0x07,         /*      Usage Page (Keyboard),                      */
-0x15, 0x00,         /*      Logical Minimum (0),                        */
-0x25, 0x01,         /*      Logical Maximum (1),                        */
-0x19, 0xE0,         /*      Usage Minimum (KB Leftcontrol),             */
-0x29, 0xE7,         /*      Usage Maximum (KB Right GUI),               */
-0x75, 0x01,         /*      Report Size (1),                            */
-0x95, 0x08,         /*      Report Count (8),                           */
-0x81, 0x02,         /*      Input (Variable),                           */
-0x95, 0x05,         /*      Report Count (5),                           */
-0x75, 0x01,         /*      Report Size (1),                            */
-0x05, 0x08,         /*      Usage Page (LED),                           */
-0x19, 0x01,         /*      Usage Minimum (01h),                        */
-0x29, 0x05,         /*      Usage Maximum (05h),                        */
-0x91, 0x02,         /*      Output (Variable),                          */
-0x95, 0x01,         /*      Report Count (1),                           */
-0x75, 0x03,         /*      Report Size (3),                            */
-0x91, 0x03,         /*      Output (Constant, Variable),                */
-0x95, 0x08,         /*      Report Count (8),                           */
-0x75, 0x01,         /*      Report Size (1),                            */
-0x15, 0x00,         /*      Logical Minimum (0),                        */
-0x25, 0x01,         /*      Logical Maximum (1),                        */
+> +
+> +  dmas:
+> +    maxItems: 2
+> +
+> +  dma-names:
+> +    items:
+> +      - const: fifo0
+> +      - const: fifo1
+> +
+> +  power-domains: true
+> +
+> +  tsc:
+> +    $ref: ../input/touchscreen/ti,am3359-tsc.yaml
 
-here is a report descriptor which is parsed one in kernel.
-see sys/kernel/debug/hid/<dev>/rdesc
+/schemas/input/...
 
-05 01 09 06 a1 01 85 01 05 07
-15 00 25 01 19 e0 29 e7 75 01
-95 08 81 02 95 05 75 01 05 08
-19 01 29 05 91 02 95 01 75 03
-91 03 95 08 75 01 15 00 25 01
-06 00 ff 09 03 81 03 95 06 75
-08 15 00 25 [65] 05 07 19 00 29
-[65] 81 00 95 01 75 01 15 00 25
-01 05 0c 09 b8 81 02 95 01 75
-01 06 01 ff 09 03 81 02 95 01
-75 06 81 03 06 02 ff 09 55 85
-55 15 00 26 ff 00 75 08 95 40
-b1 a2 c0 06 00 ff 09 14 a1 01
-85 90 05 84 75 01 95 03 15 00
-25 01 09 61 05 85 09 44 09 46
-81 02 95 05 81 01 75 08 95 01
-15 00 26 ff 00 09 65 81 02 c0
-00
+> +    description:
+> +      Bindings for Touchscreen part of the MFD
+> +
+> +  adc:
+> +    $ref: ../iio/adc/ti,am3359-adc.yaml
 
-Position 64(Logical Maximum) and 70(Usage Maximum) are 101.
-Both should be 0xE7 to support JIS specific keys(ろ, Eisu, Kana, |) support.
-position 117 is also 101 but not related(it is Usage 65h).
+/schemas/iio/...
 
-There are no difference of product id between JIS and ANSI.
-They are same 0x0267.
----
- drivers/hid/hid-apple.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+> +    description:
+> +      Bindings for ADC part of the MFD
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        const: ti,am654-tscadc
+> +then:
+> +  properties:
+> +    tsc: false
+> +
+> +examples:
+> +  - |
+> +    tscadc@44e0d000 {
+> +      compatible = "ti,am3359-tscadc";
+> +      reg = <0x44e0d000 0x1000>;
+> +      interrupts = <16>;
+> +        tsc {
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 833fcf07ff35..6ccfa0cb997a 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -336,12 +336,19 @@ static int apple_event(struct hid_device *hdev, struct hid_field *field,
- 
- /*
-  * MacBook JIS keyboard has wrong logical maximum
-+ * Magic Keyboard JIS has wrong logical maximum
-  */
- static __u8 *apple_report_fixup(struct hid_device *hdev, __u8 *rdesc,
- 		unsigned int *rsize)
- {
- 	struct apple_sc *asc = hid_get_drvdata(hdev);
- 
-+	if(*rsize >=71 && rdesc[70] == 0x65 && rdesc[64] == 0x65) {
-+		hid_info(hdev,
-+			 "fixing up Magic Keyboard JIS report descriptor\n");
-+		rdesc[64] = rdesc[70] = 0xe7;
-+	}
-+
- 	if ((asc->quirks & APPLE_RDESC_JIS) && *rsize >= 60 &&
- 			rdesc[53] == 0x65 && rdesc[59] == 0x65) {
- 		hid_info(hdev,
--- 
-2.25.1
+indentation is off
 
+> +          compatible = "ti,am3359-tsc";
+> +          ti,wires = <4>;
+> +          ti,x-plate-resistance = <200>;
+> +          ti,coordinate-readouts = <5>;
+> +          ti,wire-config = <0x00 0x11 0x22 0x33>;
+> +          ti,charge-delay = <0x400>;
+> +        };
+> +
+> +      adc {
+> +        compatible = "ti,am3359-adc";
+> +        ti,adc-channels = <4 5 6 7>;
+> +        ti,chan-step-opendelay = <0x098 0x3ffff 0x098 0x0>;
+> +        ti,chan-step-sampledelay = <0xff 0x0 0xf 0x0>;
+> +        ti,chan-step-avg = <16 2 4 8>;
+> +        #io-channel-cells = <1>;
+> +      };
+> +    };
+
+With those few nits fixed,
+
+Reviewed-by: Rob Herring <robh@kernel.org>
