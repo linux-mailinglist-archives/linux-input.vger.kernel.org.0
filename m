@@ -2,68 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1AB23DC87F
-	for <lists+linux-input@lfdr.de>; Sun,  1 Aug 2021 00:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 981263DC888
+	for <lists+linux-input@lfdr.de>; Sun,  1 Aug 2021 00:05:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229560AbhGaWAz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 31 Jul 2021 18:00:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34004 "EHLO
+        id S231772AbhGaWFV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 31 Jul 2021 18:05:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbhGaWAy (ORCPT
+        with ESMTP id S229560AbhGaWFU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 31 Jul 2021 18:00:54 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C447DC06175F
-        for <linux-input@vger.kernel.org>; Sat, 31 Jul 2021 15:00:47 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id hs10so15291408ejc.0
-        for <linux-input@vger.kernel.org>; Sat, 31 Jul 2021 15:00:47 -0700 (PDT)
+        Sat, 31 Jul 2021 18:05:20 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A15D6C0613D5
+        for <linux-input@vger.kernel.org>; Sat, 31 Jul 2021 15:05:12 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id e5so18347310ljp.6
+        for <linux-input@vger.kernel.org>; Sat, 31 Jul 2021 15:05:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=UguXI1NrCTOPr55BdVbHU4Mwqb2o0PEfvvwU1kTJaJI=;
-        b=VGYuDJ6z3NPEJrHGdlKPpIy/7YFU3dS8l2sIbMtKttfuqsx3h4HbyQuvhavvZv9cfd
-         I3s5it6uTSFtkmbAjNbuQlLZOgMVOfFxEo4+FC8pAzJ++nmCKUvEzRceWb0fajwLL6V6
-         yGfVT5bXwxMFaKhl0hmFE/E4hWXc4CB00eyyaUwLma5JEsXgrPGZnWHh9nw8VquhUWdZ
-         XcljgNF8JCrJqW+pI7Yz4Xbqt5HfZPrQZAFLv/PMHtcefSOEf+/66FIy5SQD1i43XElf
-         DbrpaRMcvvSIXfMRJNbf0+xdNpDLspFGZMoRi9IU8sQqVqtkE+Q1+7gsHsQpW3K85C+M
-         WgfQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eavS7+nVlKa3pE/nMERuVdSNOcLN0CSyw0CYPXJs2RE=;
+        b=oxTawDKtE7gUMCEZTGVhmlVv2Y3WYDP+FS3lOaHPAgoD7WcgQjYd0RzzaaCmE3977P
+         y2AZlp+prHKgerutQ7jx1R/cVL6lbK+WzauqEJucT+Izj+ziz0I0tc0O+XwvtPwksIj1
+         ukvPhZPy1rocK17IvtjWMFHZ1JmoIIqK4FLNFIt716WQ3Pie0UvlUCbiTbUjKG2RTcHV
+         7aLptfufBWxUeUNmjY6/SgCFLiwOzAyRIGpCOm9JFIGiWEdzkbX1t7kvgcWoJlruvGQV
+         TNKC7K+DYoXaKkZDcceTWufkpcffdIMAe8eG+6751qHasEPk6w4m+/EI6Gd9NCUzZuvT
+         oxzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=UguXI1NrCTOPr55BdVbHU4Mwqb2o0PEfvvwU1kTJaJI=;
-        b=peiqXTNCsRzRO41tiweVTh28SRO750sik2tbzwMQxd0vT9e/gxtrbuU+DewMZ6Ngl3
-         38+HzRL9aYHPMc+ZIyUM9//SkFdADovZGsQczt0lFPyoSQQvDL4Lb78PpUwsVWa/Bit3
-         3W4ghOUY7MKg8vjUUAs7CBPvEDug1MWJMzx9hgo558Ctr+Xh3hkYAQPq6tOZtdhb8yJ1
-         AlJ0XDW1gw/d5rZXsnIJSUyWZECnp7d7SNE9eKyQOEbazkd8QMXNOmqr/TSOd+znh8tF
-         Ua+BfPegOsSpTpLThVRo2PG8fDMsY4bEyglzc7ze39jFPgJxAQBOHkQWpNZ+coTxrSwZ
-         ITeg==
-X-Gm-Message-State: AOAM533R+UDrxaoBR21/fIMAyg7XbJi8ICazXprE+E7/fWTMM1vXWx8a
-        FO68TEDFRr0MxM1CBPwrESxeSwxgZqjItA8haAs=
-X-Google-Smtp-Source: ABdhPJxUFuZWRkApMQZt3fXoG33+thO9yX4kaQkoMPrgBCido+JkTSdxABgfzYt3ZtygpuiLvcER5oFgPYYDSkWJ+Ds=
-X-Received: by 2002:a17:906:7c8:: with SMTP id m8mr8952271ejc.72.1627768846382;
- Sat, 31 Jul 2021 15:00:46 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eavS7+nVlKa3pE/nMERuVdSNOcLN0CSyw0CYPXJs2RE=;
+        b=Nvmtfj5ChO2WL45gjFe0+D3s+k/TRaiZ4lp9ufGwhXfprYZ3UGWCmvSNIDePlD4QBU
+         3MgIMDD2TSZVxKEyYTPTZ39c03romEuqgRAfOJ/yVwzHp96KPWz6DFnsx+uamLue7Qi0
+         hbl6hKGEcoNxymn0pfU4L9SO6gokHG+63NQILynyGJl4KawxxioEjRuLuuhIW/i53/vN
+         Lzs7JFlC4vfP4yvKr2FlJ6RAfhLzdeLkdsmSZqILldv1GKgvXPzeLtQjwpeqjQj0COLx
+         //razWIotacc5GEgwybqaLS5L2uGqwYPIdGg5gQDpsh8RHUiIe1BmchNovHcOnt3icC2
+         cwgw==
+X-Gm-Message-State: AOAM532SY4tLcP2ZfFBWmiZ4qijH2EsD8GOVFBpdYOKahLM/DGKQ82w/
+        twsS2lPngObMQIo1FOML51zwPwmIRA3LyzAAOsWhlQ==
+X-Google-Smtp-Source: ABdhPJwTjpbUeZT+xrHLeSR/vD0UodSpw43lXDmx8pJiyALETra8HqJRQTMUGT7mTfcqIT7xDGsd2Eo06KRRqoQp1Bw=
+X-Received: by 2002:a2e:bc14:: with SMTP id b20mr6401323ljf.200.1627769110442;
+ Sat, 31 Jul 2021 15:05:10 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a55:9ec7:0:b029:f6:fe45:48e with HTTP; Sat, 31 Jul 2021
- 15:00:45 -0700 (PDT)
-Reply-To: Salemchantal2@mail.com
-From:   MRS Salem Chantal Lawrence <kaborzongo01@gmail.com>
-Date:   Sat, 31 Jul 2021 23:00:45 +0100
-Message-ID: <CAJ5_0V7UbnULecwV6LOD_rPqqQ22zAv9FjS2T3Gf9j81B3KKYA@mail.gmail.com>
-Subject: Dear Friend
-To:     undisclosed-recipients:;
+References: <20210726115058.23729-1-nikita.shubin@maquefel.me>
+In-Reply-To: <20210726115058.23729-1-nikita.shubin@maquefel.me>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 1 Aug 2021 00:04:59 +0200
+Message-ID: <CACRpkdYeqJFFwkc6pfSrz3-gaN_PjjV52jstqzR2sMa+bxbMuQ@mail.gmail.com>
+Subject: Re: [PATCH 0/8] arm: ep93xx: CCF conversion
+To:     Nikita Shubin <nikita.shubin@maquefel.me>
+Cc:     Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." 
+        <alsa-devel@alsa-project.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
+        <dmaengine@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+        "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
+        "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
+        <linux-input@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:PWM SUBSYSTEM" <linux-pwm@vger.kernel.org>,
+        "open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, YiFei Zhu <yifeifz2@illinois.edu>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Attention
+On Mon, Jul 26, 2021 at 1:51 PM Nikita Shubin <nikita.shubin@maquefel.me> wrote:
 
+> This series series of patches converts ep93xx to Common Clock Framework.
+>
+> It consists of preparation patches to use clk_prepare_enable where it is
+> needed, instead of clk_enable used in ep93xx drivers prior to CCF and
+> a patch converting mach-ep93xx/clock.c to CCF.
+>
+> Link: https://lore.kernel.org/patchwork/cover/1445563/
+> Link: https://lore.kernel.org/patchwork/patch/1435884/
+>
+> Alexander Sverdlin (7):
+>   iio: ep93xx: Prepare clock before using it
+>   spi: spi-ep93xx: Prepare clock before using it
+>   Input: ep93xx_keypad: Prepare clock before using it
+>   video: ep93xx: Prepare clock before using it
+>   dmaengine: ep93xx: Prepare clock before using it
+>   ASoC: cirrus: i2s: Prepare clock before using it
+>   pwm: ep93xx: Prepare clock before using it
+>
+> Nikita Shubin (1):
+>   ep93xx: clock: convert in-place to COMMON_CLK
 
-You have been awarded a total of $4.6 million in this United Nation.
-Payments are issued by ATM Visa card.
+This series is looking very good.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Bank of Spain Santander needs your address, passport and whatsapp number.
+I suppose the per-subsystem patches can be picked up by
+each subsystem maintainer and then you can send the "big patch"
+to the SoC tree.
 
-thanks
-MRS Salem Chantal Lawrence
+Yours,
+Linus Walleij
