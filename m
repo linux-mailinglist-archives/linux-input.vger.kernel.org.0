@@ -2,122 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 981263DC888
-	for <lists+linux-input@lfdr.de>; Sun,  1 Aug 2021 00:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDBFA3DC88F
+	for <lists+linux-input@lfdr.de>; Sun,  1 Aug 2021 00:08:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231772AbhGaWFV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 31 Jul 2021 18:05:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35078 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbhGaWFU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 31 Jul 2021 18:05:20 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A15D6C0613D5
-        for <linux-input@vger.kernel.org>; Sat, 31 Jul 2021 15:05:12 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id e5so18347310ljp.6
-        for <linux-input@vger.kernel.org>; Sat, 31 Jul 2021 15:05:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eavS7+nVlKa3pE/nMERuVdSNOcLN0CSyw0CYPXJs2RE=;
-        b=oxTawDKtE7gUMCEZTGVhmlVv2Y3WYDP+FS3lOaHPAgoD7WcgQjYd0RzzaaCmE3977P
-         y2AZlp+prHKgerutQ7jx1R/cVL6lbK+WzauqEJucT+Izj+ziz0I0tc0O+XwvtPwksIj1
-         ukvPhZPy1rocK17IvtjWMFHZ1JmoIIqK4FLNFIt716WQ3Pie0UvlUCbiTbUjKG2RTcHV
-         7aLptfufBWxUeUNmjY6/SgCFLiwOzAyRIGpCOm9JFIGiWEdzkbX1t7kvgcWoJlruvGQV
-         TNKC7K+DYoXaKkZDcceTWufkpcffdIMAe8eG+6751qHasEPk6w4m+/EI6Gd9NCUzZuvT
-         oxzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eavS7+nVlKa3pE/nMERuVdSNOcLN0CSyw0CYPXJs2RE=;
-        b=Nvmtfj5ChO2WL45gjFe0+D3s+k/TRaiZ4lp9ufGwhXfprYZ3UGWCmvSNIDePlD4QBU
-         3MgIMDD2TSZVxKEyYTPTZ39c03romEuqgRAfOJ/yVwzHp96KPWz6DFnsx+uamLue7Qi0
-         hbl6hKGEcoNxymn0pfU4L9SO6gokHG+63NQILynyGJl4KawxxioEjRuLuuhIW/i53/vN
-         Lzs7JFlC4vfP4yvKr2FlJ6RAfhLzdeLkdsmSZqILldv1GKgvXPzeLtQjwpeqjQj0COLx
-         //razWIotacc5GEgwybqaLS5L2uGqwYPIdGg5gQDpsh8RHUiIe1BmchNovHcOnt3icC2
-         cwgw==
-X-Gm-Message-State: AOAM532SY4tLcP2ZfFBWmiZ4qijH2EsD8GOVFBpdYOKahLM/DGKQ82w/
-        twsS2lPngObMQIo1FOML51zwPwmIRA3LyzAAOsWhlQ==
-X-Google-Smtp-Source: ABdhPJwTjpbUeZT+xrHLeSR/vD0UodSpw43lXDmx8pJiyALETra8HqJRQTMUGT7mTfcqIT7xDGsd2Eo06KRRqoQp1Bw=
-X-Received: by 2002:a2e:bc14:: with SMTP id b20mr6401323ljf.200.1627769110442;
- Sat, 31 Jul 2021 15:05:10 -0700 (PDT)
+        id S231395AbhGaWIT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 31 Jul 2021 18:08:19 -0400
+Received: from mx1.riseup.net ([198.252.153.129]:42412 "EHLO mx1.riseup.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229505AbhGaWIT (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 31 Jul 2021 18:08:19 -0400
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "*.riseup.net", Issuer "Sectigo RSA Domain Validation Secure Server CA" (not verified))
+        by mx1.riseup.net (Postfix) with ESMTPS id 4Gcdgc0xwSzF4FT;
+        Sat, 31 Jul 2021 15:08:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+        t=1627769292; bh=F/rFKRmbOQq9ALjgMY+H9ZQfj+XBLIymkBXHGLS4rJQ=;
+        h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+        b=P+4raG2q0Eu0b3412u5g+43WMYfmzjXFv2qLGNCTC4MoeoSkxkkH5eTYf7U4bfbXN
+         +0daM0Srnmy5be55L2lsHav51LZ1VXwppBFpvSSYEDMq7YeIgJhe1sHqWsGwXLSGgi
+         JCkI0Xz6fj92eyginsBwxaoBidfWHWzKUcTEw+RU=
+X-Riseup-User-ID: DB4F723F64DE5F8C1128BAB35A63DD05743D9CC089447E8F30A909201F243FCF
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+         by fews1.riseup.net (Postfix) with ESMTPSA id 4GcdgZ3s0Xz5w7g;
+        Sat, 31 Jul 2021 15:08:10 -0700 (PDT)
+Message-ID: <084f4be8150e83f865b8a8c768ae9fea6d205330.camel@riseup.net>
+Subject: Re: [PATCH v3] HID: logitech-hidpp: battery: provide CAPACITY
+ property for newer devices
+From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>
+To:     Hamza Mahfooz <someguy@effective-light.com>
+Cc:     linux-kernel@vger.kernel.org, Bastien Nocera <hadess@hadess.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+In-Reply-To: <86WPWQ.ODI6WUKUKD0N3@effective-light.com>
+References: <20210723185720.29314-1-someguy@effective-light.com>
+         <e3bdfa16584d7ec832414dcb854ee4d2582543b3.camel@riseup.net>
+         <86WPWQ.ODI6WUKUKD0N3@effective-light.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-in/OeNRbjo+2DEid1fFH"
+Date:   Sat, 31 Jul 2021 23:08:07 +0100
 MIME-Version: 1.0
-References: <20210726115058.23729-1-nikita.shubin@maquefel.me>
-In-Reply-To: <20210726115058.23729-1-nikita.shubin@maquefel.me>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 1 Aug 2021 00:04:59 +0200
-Message-ID: <CACRpkdYeqJFFwkc6pfSrz3-gaN_PjjV52jstqzR2sMa+bxbMuQ@mail.gmail.com>
-Subject: Re: [PATCH 0/8] arm: ep93xx: CCF conversion
-To:     Nikita Shubin <nikita.shubin@maquefel.me>
-Cc:     Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." 
-        <alsa-devel@alsa-project.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
-        <dmaengine@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-        "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
-        "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
-        <linux-input@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:PWM SUBSYSTEM" <linux-pwm@vger.kernel.org>,
-        "open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, YiFei Zhu <yifeifz2@illinois.edu>
-Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jul 26, 2021 at 1:51 PM Nikita Shubin <nikita.shubin@maquefel.me> wrote:
 
-> This series series of patches converts ep93xx to Common Clock Framework.
->
-> It consists of preparation patches to use clk_prepare_enable where it is
-> needed, instead of clk_enable used in ep93xx drivers prior to CCF and
-> a patch converting mach-ep93xx/clock.c to CCF.
->
-> Link: https://lore.kernel.org/patchwork/cover/1445563/
-> Link: https://lore.kernel.org/patchwork/patch/1435884/
->
-> Alexander Sverdlin (7):
->   iio: ep93xx: Prepare clock before using it
->   spi: spi-ep93xx: Prepare clock before using it
->   Input: ep93xx_keypad: Prepare clock before using it
->   video: ep93xx: Prepare clock before using it
->   dmaengine: ep93xx: Prepare clock before using it
->   ASoC: cirrus: i2s: Prepare clock before using it
->   pwm: ep93xx: Prepare clock before using it
->
-> Nikita Shubin (1):
->   ep93xx: clock: convert in-place to COMMON_CLK
+--=-in/OeNRbjo+2DEid1fFH
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This series is looking very good.
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+On Fri, 2021-07-23 at 17:39 -0400, Hamza Mahfooz wrote:
+>=20
+> On Fri, Jul 23 2021 at 08:42:32 PM +0100, Filipe La=C3=ADns=20
+> <lains@riseup.net> wrote:
+> > That said, I think we should definitely have a comment here nothing=20
+> > that, and
+> > possible have some bounds checks for the reported voltage value=20
+> > hinting that
+> > there may be bug.
+>=20
+> Hey Filipe,
+>=20
+> Do you have any thoughts on what the bounds ought to be?
+> 3500 mV seems like a rather safe lower bound, however the upper bound
+> seems much more fuzzy.
+>=20
+>=20
 
-I suppose the per-subsystem patches can be picked up by
-each subsystem maintainer and then you can send the "big patch"
-to the SoC tree.
+Hi Hamza,
 
-Yours,
-Linus Walleij
+Sorry for the delay getting back to you! The most relevant bound would be t=
+he
+lower one, but I think 5000mV would be a good value.
+
+Cheers,
+Filipe La=C3=ADns
+
+--=-in/OeNRbjo+2DEid1fFH
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAmEFyccACgkQ+JPGdIFq
+qV2mMA/+OAq+BFtdGOobLYmDG6SQqixQLQe+UEJkZ0D+zN5QW+I9RIfaOYCzCUis
+Q7exSbqvCwLsoYNDWosleKnNpGHLTnCPALeBYJracblZsipJdYt2WAVBuwAmnZSJ
+uGAWiI2zwjpiYVqP8Y8aIPfH60YaAbrnp7rHuddx63Mx7XWz/l8PuMURsBkSgEOX
+d69Dz55qA87TuxwffDv52mAizV2r9XVkX82ML0WGHA7JoubapsZhWRciJN6iknGX
+EBdrtQECdivEelv0AHis1xpjLgUEVzkG0JYpzRbSdwC/wXxDHdWRFGzptQuI96Jx
+WeW0V4PKB0P9kCFcWlq6fOgrYsWXVGszCZsvekL8DFNa80bHf+kPD0Xe0aMTiUA6
+ZBq9B1yGL0fRyjn4NX7MznateFqWDvsF7ZXrcltkFIUZmWbrsA1W+fgRBMyxEIwz
+kZoByRP8/2um9plPiK+ModmoZxLwL9EsIMU/9nnv7i2YT0S0H4t91TopRZJy/Upg
+0Y2eYo0/5ZuK2bQuWGYyQeaNlERbMR7LIebkXB+C4KllHfaSL7Dr2FBuHI5jwbw1
+9dUUpLBk1XyBgwFA6AYWRX+96O6AYMzOTACRJ3zaeHqVgoSc6scaoUf5YX/Xlb5v
+elap2wQ3QocISISvw+/dkn40LFM7CRl6HwVHP58I/I/TRPrfegY=
+=gKt5
+-----END PGP SIGNATURE-----
+
+--=-in/OeNRbjo+2DEid1fFH--
+
