@@ -2,137 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE71E3DC2E1
-	for <lists+linux-input@lfdr.de>; Sat, 31 Jul 2021 05:22:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1AB23DC87F
+	for <lists+linux-input@lfdr.de>; Sun,  1 Aug 2021 00:00:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231429AbhGaDWg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Jul 2021 23:22:36 -0400
-Received: from mga18.intel.com ([134.134.136.126]:37975 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231395AbhGaDWf (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Jul 2021 23:22:35 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10061"; a="200408406"
-X-IronPort-AV: E=Sophos;i="5.84,283,1620716400"; 
-   d="scan'208";a="200408406"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2021 20:22:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,283,1620716400"; 
-   d="scan'208";a="439414699"
-Received: from host.sh.intel.com ([10.239.154.115])
-  by fmsmga007.fm.intel.com with ESMTP; 30 Jul 2021 20:22:27 -0700
-From:   Ye Xiang <xiang.ye@intel.com>
-To:     jikos@kernel.org, jic23@kernel.org,
-        srinivas.pandruvada@linux.intel.com
-Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Ye Xiang <xiang.ye@intel.com>
-Subject: [PATCH] iio: hid-sensor-press: Add timestamp channel
-Date:   Sat, 31 Jul 2021 11:25:56 +0800
-Message-Id: <20210731032556.26813-1-xiang.ye@intel.com>
-X-Mailer: git-send-email 2.17.1
+        id S229560AbhGaWAz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 31 Jul 2021 18:00:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34004 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229505AbhGaWAy (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 31 Jul 2021 18:00:54 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C447DC06175F
+        for <linux-input@vger.kernel.org>; Sat, 31 Jul 2021 15:00:47 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id hs10so15291408ejc.0
+        for <linux-input@vger.kernel.org>; Sat, 31 Jul 2021 15:00:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=UguXI1NrCTOPr55BdVbHU4Mwqb2o0PEfvvwU1kTJaJI=;
+        b=VGYuDJ6z3NPEJrHGdlKPpIy/7YFU3dS8l2sIbMtKttfuqsx3h4HbyQuvhavvZv9cfd
+         I3s5it6uTSFtkmbAjNbuQlLZOgMVOfFxEo4+FC8pAzJ++nmCKUvEzRceWb0fajwLL6V6
+         yGfVT5bXwxMFaKhl0hmFE/E4hWXc4CB00eyyaUwLma5JEsXgrPGZnWHh9nw8VquhUWdZ
+         XcljgNF8JCrJqW+pI7Yz4Xbqt5HfZPrQZAFLv/PMHtcefSOEf+/66FIy5SQD1i43XElf
+         DbrpaRMcvvSIXfMRJNbf0+xdNpDLspFGZMoRi9IU8sQqVqtkE+Q1+7gsHsQpW3K85C+M
+         WgfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=UguXI1NrCTOPr55BdVbHU4Mwqb2o0PEfvvwU1kTJaJI=;
+        b=peiqXTNCsRzRO41tiweVTh28SRO750sik2tbzwMQxd0vT9e/gxtrbuU+DewMZ6Ngl3
+         38+HzRL9aYHPMc+ZIyUM9//SkFdADovZGsQczt0lFPyoSQQvDL4Lb78PpUwsVWa/Bit3
+         3W4ghOUY7MKg8vjUUAs7CBPvEDug1MWJMzx9hgo558Ctr+Xh3hkYAQPq6tOZtdhb8yJ1
+         AlJ0XDW1gw/d5rZXsnIJSUyWZECnp7d7SNE9eKyQOEbazkd8QMXNOmqr/TSOd+znh8tF
+         Ua+BfPegOsSpTpLThVRo2PG8fDMsY4bEyglzc7ze39jFPgJxAQBOHkQWpNZ+coTxrSwZ
+         ITeg==
+X-Gm-Message-State: AOAM533R+UDrxaoBR21/fIMAyg7XbJi8ICazXprE+E7/fWTMM1vXWx8a
+        FO68TEDFRr0MxM1CBPwrESxeSwxgZqjItA8haAs=
+X-Google-Smtp-Source: ABdhPJxUFuZWRkApMQZt3fXoG33+thO9yX4kaQkoMPrgBCido+JkTSdxABgfzYt3ZtygpuiLvcER5oFgPYYDSkWJ+Ds=
+X-Received: by 2002:a17:906:7c8:: with SMTP id m8mr8952271ejc.72.1627768846382;
+ Sat, 31 Jul 2021 15:00:46 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a55:9ec7:0:b029:f6:fe45:48e with HTTP; Sat, 31 Jul 2021
+ 15:00:45 -0700 (PDT)
+Reply-To: Salemchantal2@mail.com
+From:   MRS Salem Chantal Lawrence <kaborzongo01@gmail.com>
+Date:   Sat, 31 Jul 2021 23:00:45 +0100
+Message-ID: <CAJ5_0V7UbnULecwV6LOD_rPqqQ22zAv9FjS2T3Gf9j81B3KKYA@mail.gmail.com>
+Subject: Dear Friend
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Each sample has a timestamp field with this change. This timestamp may
-be from the sensor hub when present or local kernel timestamp. The
-unit of timestamp is nanosecond.
+Attention
 
-Signed-off-by: Ye Xiang <xiang.ye@intel.com>
----
- drivers/iio/pressure/hid-sensor-press.c | 40 +++++++++++++++----------
- 1 file changed, 24 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/iio/pressure/hid-sensor-press.c b/drivers/iio/pressure/hid-sensor-press.c
-index c416d261e3e3..b365483bd09e 100644
---- a/drivers/iio/pressure/hid-sensor-press.c
-+++ b/drivers/iio/pressure/hid-sensor-press.c
-@@ -16,17 +16,24 @@
- #include <linux/iio/buffer.h>
- #include "../common/hid-sensors/hid-sensor-trigger.h"
- 
--#define CHANNEL_SCAN_INDEX_PRESSURE 0
-+enum {
-+	CHANNEL_SCAN_INDEX_PRESSURE,
-+	CHANNEL_SCAN_INDEX_TIMESTAMP,
-+};
- 
- struct press_state {
- 	struct hid_sensor_hub_callbacks callbacks;
- 	struct hid_sensor_common common_attributes;
- 	struct hid_sensor_hub_attribute_info press_attr;
--	u32 press_data;
-+	struct {
-+		u32 press_data;
-+		u64 timestamp __aligned(8);
-+	} scan;
- 	int scale_pre_decml;
- 	int scale_post_decml;
- 	int scale_precision;
- 	int value_offset;
-+	s64 timestamp;
- };
- 
- static const u32 press_sensitivity_addresses[] = {
-@@ -44,7 +51,9 @@ static const struct iio_chan_spec press_channels[] = {
- 		BIT(IIO_CHAN_INFO_SAMP_FREQ) |
- 		BIT(IIO_CHAN_INFO_HYSTERESIS),
- 		.scan_index = CHANNEL_SCAN_INDEX_PRESSURE,
--	}
-+	},
-+	IIO_CHAN_SOFT_TIMESTAMP(CHANNEL_SCAN_INDEX_TIMESTAMP)
-+
- };
- 
- /* Adjust channel real bits based on report descriptor */
-@@ -157,14 +166,6 @@ static const struct iio_info press_info = {
- 	.write_raw = &press_write_raw,
- };
- 
--/* Function to push data to buffer */
--static void hid_sensor_push_data(struct iio_dev *indio_dev, const void *data,
--					int len)
--{
--	dev_dbg(&indio_dev->dev, "hid_sensor_push_data\n");
--	iio_push_to_buffers(indio_dev, data);
--}
--
- /* Callback handler to send event after all samples are received and captured */
- static int press_proc_event(struct hid_sensor_hub_device *hsdev,
- 				unsigned usage_id,
-@@ -174,10 +175,13 @@ static int press_proc_event(struct hid_sensor_hub_device *hsdev,
- 	struct press_state *press_state = iio_priv(indio_dev);
- 
- 	dev_dbg(&indio_dev->dev, "press_proc_event\n");
--	if (atomic_read(&press_state->common_attributes.data_ready))
--		hid_sensor_push_data(indio_dev,
--				&press_state->press_data,
--				sizeof(press_state->press_data));
-+	if (atomic_read(&press_state->common_attributes.data_ready)) {
-+		if (!press_state->timestamp)
-+			press_state->timestamp = iio_get_time_ns(indio_dev);
-+
-+		iio_push_to_buffers_with_timestamp(
-+			indio_dev, &press_state->scan, press_state->timestamp);
-+	}
- 
- 	return 0;
- }
-@@ -194,9 +198,13 @@ static int press_capture_sample(struct hid_sensor_hub_device *hsdev,
- 
- 	switch (usage_id) {
- 	case HID_USAGE_SENSOR_ATMOSPHERIC_PRESSURE:
--		press_state->press_data = *(u32 *)raw_data;
-+		press_state->scan.press_data = *(u32 *)raw_data;
- 		ret = 0;
- 		break;
-+	case HID_USAGE_SENSOR_TIME_TIMESTAMP:
-+		press_state->timestamp = hid_sensor_convert_timestamp(
-+			&press_state->common_attributes, *(s64 *)raw_data);
-+		break;
- 	default:
- 		break;
- 	}
--- 
-2.17.1
+You have been awarded a total of $4.6 million in this United Nation.
+Payments are issued by ATM Visa card.
 
+Bank of Spain Santander needs your address, passport and whatsapp number.
+
+thanks
+MRS Salem Chantal Lawrence
