@@ -2,103 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDBFA3DC88F
-	for <lists+linux-input@lfdr.de>; Sun,  1 Aug 2021 00:08:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE54D3DCC23
+	for <lists+linux-input@lfdr.de>; Sun,  1 Aug 2021 16:43:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231395AbhGaWIT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 31 Jul 2021 18:08:19 -0400
-Received: from mx1.riseup.net ([198.252.153.129]:42412 "EHLO mx1.riseup.net"
+        id S231961AbhHAOoC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 1 Aug 2021 10:44:02 -0400
+Received: from mout.gmx.net ([212.227.15.15]:50505 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229505AbhGaWIT (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 31 Jul 2021 18:08:19 -0400
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "*.riseup.net", Issuer "Sectigo RSA Domain Validation Secure Server CA" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4Gcdgc0xwSzF4FT;
-        Sat, 31 Jul 2021 15:08:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1627769292; bh=F/rFKRmbOQq9ALjgMY+H9ZQfj+XBLIymkBXHGLS4rJQ=;
-        h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-        b=P+4raG2q0Eu0b3412u5g+43WMYfmzjXFv2qLGNCTC4MoeoSkxkkH5eTYf7U4bfbXN
-         +0daM0Srnmy5be55L2lsHav51LZ1VXwppBFpvSSYEDMq7YeIgJhe1sHqWsGwXLSGgi
-         JCkI0Xz6fj92eyginsBwxaoBidfWHWzKUcTEw+RU=
-X-Riseup-User-ID: DB4F723F64DE5F8C1128BAB35A63DD05743D9CC089447E8F30A909201F243FCF
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by fews1.riseup.net (Postfix) with ESMTPSA id 4GcdgZ3s0Xz5w7g;
-        Sat, 31 Jul 2021 15:08:10 -0700 (PDT)
-Message-ID: <084f4be8150e83f865b8a8c768ae9fea6d205330.camel@riseup.net>
-Subject: Re: [PATCH v3] HID: logitech-hidpp: battery: provide CAPACITY
- property for newer devices
-From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>
-To:     Hamza Mahfooz <someguy@effective-light.com>
-Cc:     linux-kernel@vger.kernel.org, Bastien Nocera <hadess@hadess.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-In-Reply-To: <86WPWQ.ODI6WUKUKD0N3@effective-light.com>
-References: <20210723185720.29314-1-someguy@effective-light.com>
-         <e3bdfa16584d7ec832414dcb854ee4d2582543b3.camel@riseup.net>
-         <86WPWQ.ODI6WUKUKD0N3@effective-light.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-in/OeNRbjo+2DEid1fFH"
-Date:   Sat, 31 Jul 2021 23:08:07 +0100
+        id S231940AbhHAOoB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 1 Aug 2021 10:44:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1627829027;
+        bh=klt86JV7wMteD/UIiHSWBT8y4jnTNfeS3Qqd0niWM4M=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=gnNAXN7EUbPAt3K0GHl7Ab+qlC/eyVjncpxkjdKOBWROtJaZcVNFuJS/yLTE7N90a
+         q/3/ph5mDGt+lwt48MOI5CYFoJ+Ihu5KyF+b49/YjAkkT8gxqtuL3J/Yfk69GSTaoT
+         zNwNdk4rNaAUQQ/Y/KrZ4t0gRx5rSvMP4IhV17Mo=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([79.150.72.99]) by mail.gmx.net
+ (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
+ 1MZktZ-1mde4L39E7-00WnVA; Sun, 01 Aug 2021 16:43:46 +0200
+From:   Len Baker <len.baker@gmx.com>
+To:     Kees Cook <keescook@chromium.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Len Baker <len.baker@gmx.com>, Lee Jones <lee.jones@linaro.org>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-hardening@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drivers/input: Remove all strcpy() uses in favor of strscpy()
+Date:   Sun,  1 Aug 2021 16:43:16 +0200
+Message-Id: <20210801144316.12841-1-len.baker@gmx.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:dXGu540LziWus88Pw77iOUvFvazpmIoNZsFoVoEqrQuIOiOmjeZ
+ B+gFU2Wt6DHdTZgdZHzs42kbV7Ed13wQBwgZZgOGN/eNk6+LFA3aNJ0uEShjRWTAmQ+NxA2
+ YLsn3ceaMhXlx7QqmVVNjYougcO4vXcvtKl1wnbFBvxb5IKGwQaYzxawnRiIaBSGvDx50yc
+ AnjlsDTFxo1qBhwoOcovA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Gk8rBXZWuOc=:RIWVpVBj4frqLgZLTamcGO
+ p95bYD3J2cJsQHIrh6rol5Ej36v+CldKhmwG0Sv4Hx/a5AoNY/b1fOqMAu//fmC8YLTgiwRQC
+ pR8kwuYCemmvAhsmw7c2Hl5p/KhGjYItnHSeMEFsbyoDyxbfveOCDe54ci2Gf/uvyUYcbNnTq
+ UqknHfBfVqL3jYamNFZSoLNB9g3UxiZq2A4SL5uqOWRYGPTZurxYjf5Yxw2Vua2CD2gwfoYvq
+ dxvc0w70XL8pE8nr063u1lmzsLG97WuwhbFZ239tkhRWXiOnwZs1oLarG1Y2JlOOtbzwayxpr
+ S1pejZVE0HQaBVdjCG1o96Oy17G+PvP6KXJ6J2pzUDL4wn1Wwfwavv8SFP85yPF/qgoi+d8RK
+ loeAuiQGaF5f4oWgoOZIY59MSfULi704c+wtYYIk9HJ3gdVhw+J90oSH2eSUH0Icn0EkoYUqI
+ 5rUm5UplGz0xO9GvQCc5SpeG9jP+6rLqPlTs7kmEUFEiQdzUBnhwu8dlV9SUUNRz117/5yVKh
+ a4iDLq/H8HxF3Bkv5QNpe9Pfw+/k9sklOqF4YSGqDv4bCIekRo5LT7DKYzSdKC05os5exDRdO
+ Qazr5gnQjQAaQLVYLVADBcdgXZ+nQqulgzttYeQhvVruOUSBuAJW484lyJaRq98X1/HHgGGU1
+ C3CNxmKvft/uVv54ThNRGy4egclT/3MHITGNiyAUzDnrYQMDAP925F0ry8uFKnBtJyhxOpwmk
+ V7Dngl2J7tqtHMNXMZm/84N4W+7DgugucU8Xg9Fy80OZFuX72y9rYhE5kNIFHUPkcQ72KLPoK
+ VTJ7lGF9LQ+ut9EnlfTj3nNWjn+KZ6fobYG/bUTTbLqOcdO26fT4VnU/WldsaWknoIT7i+iAs
+ hoB6B3LrDRBJpMk7Ha0q8dvSsKPH4my3tCCWEPVlDRtI3Hmclot2U+XdwWUnR1suOTJrmUrPD
+ l8pqm3IZj26AwAF3CXGCJDgkAXVxaybLb16x+eM94Zlo9fzCynxZMyDfh26zx7yCMTG8IcsBk
+ Br2RYMN10BYjiV0iULCVy8VtxjVkMuSIDj/5dOaCb/ySNst8pO5RcvA4Nmce/jRvubbYrT8SV
+ 4a2PPhv/JxMVIprX+G6Q4fCsbBZoAfMwK1j
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+strcpy() performs no bounds checking on the destination buffer. This
+could result in linear overflows beyond the end of the buffer, leading
+to all kinds of misbehaviors. The safe replacement is strscpy().
 
---=-in/OeNRbjo+2DEid1fFH
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Len Baker <len.baker@gmx.com>
+=2D--
+This is a task of the KSPP [1]
 
-On Fri, 2021-07-23 at 17:39 -0400, Hamza Mahfooz wrote:
->=20
-> On Fri, Jul 23 2021 at 08:42:32 PM +0100, Filipe La=C3=ADns=20
-> <lains@riseup.net> wrote:
-> > That said, I think we should definitely have a comment here nothing=20
-> > that, and
-> > possible have some bounds checks for the reported voltage value=20
-> > hinting that
-> > there may be bug.
->=20
-> Hey Filipe,
->=20
-> Do you have any thoughts on what the bounds ought to be?
-> 3500 mV seems like a rather safe lower bound, however the upper bound
-> seems much more fuzzy.
->=20
->=20
+[1] https://github.com/KSPP/linux/issues/88
 
-Hi Hamza,
+ drivers/input/keyboard/locomokbd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sorry for the delay getting back to you! The most relevant bound would be t=
-he
-lower one, but I think 5000mV would be a good value.
+diff --git a/drivers/input/keyboard/locomokbd.c b/drivers/input/keyboard/l=
+ocomokbd.c
+index dae053596572..dbb3dc48df12 100644
+=2D-- a/drivers/input/keyboard/locomokbd.c
++++ b/drivers/input/keyboard/locomokbd.c
+@@ -254,7 +254,7 @@ static int locomokbd_probe(struct locomo_dev *dev)
+ 	locomokbd->suspend_jiffies =3D jiffies;
 
-Cheers,
-Filipe La=C3=ADns
+ 	locomokbd->input =3D input_dev;
+-	strcpy(locomokbd->phys, "locomokbd/input0");
++	strscpy(locomokbd->phys, "locomokbd/input0", sizeof(locomokbd->phys));
 
---=-in/OeNRbjo+2DEid1fFH
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAmEFyccACgkQ+JPGdIFq
-qV2mMA/+OAq+BFtdGOobLYmDG6SQqixQLQe+UEJkZ0D+zN5QW+I9RIfaOYCzCUis
-Q7exSbqvCwLsoYNDWosleKnNpGHLTnCPALeBYJracblZsipJdYt2WAVBuwAmnZSJ
-uGAWiI2zwjpiYVqP8Y8aIPfH60YaAbrnp7rHuddx63Mx7XWz/l8PuMURsBkSgEOX
-d69Dz55qA87TuxwffDv52mAizV2r9XVkX82ML0WGHA7JoubapsZhWRciJN6iknGX
-EBdrtQECdivEelv0AHis1xpjLgUEVzkG0JYpzRbSdwC/wXxDHdWRFGzptQuI96Jx
-WeW0V4PKB0P9kCFcWlq6fOgrYsWXVGszCZsvekL8DFNa80bHf+kPD0Xe0aMTiUA6
-ZBq9B1yGL0fRyjn4NX7MznateFqWDvsF7ZXrcltkFIUZmWbrsA1W+fgRBMyxEIwz
-kZoByRP8/2um9plPiK+ModmoZxLwL9EsIMU/9nnv7i2YT0S0H4t91TopRZJy/Upg
-0Y2eYo0/5ZuK2bQuWGYyQeaNlERbMR7LIebkXB+C4KllHfaSL7Dr2FBuHI5jwbw1
-9dUUpLBk1XyBgwFA6AYWRX+96O6AYMzOTACRJ3zaeHqVgoSc6scaoUf5YX/Xlb5v
-elap2wQ3QocISISvw+/dkn40LFM7CRl6HwVHP58I/I/TRPrfegY=
-=gKt5
------END PGP SIGNATURE-----
-
---=-in/OeNRbjo+2DEid1fFH--
+ 	input_dev->name =3D "LoCoMo keyboard";
+ 	input_dev->phys =3D locomokbd->phys;
+=2D-
+2.25.1
 
