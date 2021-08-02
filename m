@@ -2,157 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 746A63DDA18
-	for <lists+linux-input@lfdr.de>; Mon,  2 Aug 2021 16:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7718E3DDD58
+	for <lists+linux-input@lfdr.de>; Mon,  2 Aug 2021 18:13:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236459AbhHBOGK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Aug 2021 10:06:10 -0400
-Received: from mail-dm6nam11on2040.outbound.protection.outlook.com ([40.107.223.40]:12768
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S237051AbhHBOEc (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 2 Aug 2021 10:04:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jcYMu6Kr5E1zqmAaJQp+KhO889PrAj++6kPvV/M3IKi+3Sm4MDcW9QDzaFMGwNu5NEQGWImqsrW0kD43zCFF1UccUuBrZO1GlyejNVUTzkZyiJZe8UaL+PaDgqMXG3uA+yKJHH4p9mxgFkNz9160RMnHyQhibv6bA/pZXExuRV1kXMq1bLyFArlossRbFRJ38BieW9EssZ6tMK1UHydL925hRpgkXcukAkgBnF6iauvosHuJQeYX9lDIqxXo+fAxzpBk70Wc5VfWkPbpLZhxhjx5p1b/uTDaFpoze+/0Tnszy/+Dpxo2Ae9KzCFotdfEsJxkkQ7k7v+VUeSqlHSvow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sW7z/t/VyzGdnGF3Letdgeol3ZkPolcfK+rSZpH1iAc=;
- b=AQJROAl0N40U3uOgnrgt55Q9FLY10cuFVa34qEXLLDJXfiK4WI0Z0FyzHpLFRSuYq5XnkswU8DfFSnyuyEY2XjqS0lXoSI2rholaq3HDzgnz7q+Kzmf2jCH2TGmJ5nzOabN/1mOjrBYxxYKiOYSmnyp+NzspZdHKerHJ4Akj6kfrzTc+NQtIsZO6k7c0lN/Mb6HrCSe+JNYM/53616SdobZw33bvZ/jtcfgvo9TKmcYcPHCUTUuhY5r8rDJB+qTlxdul836Me3IhW06WhECx/3ETxjtQf6RYYEhPLTqSdbggi/3AxjI76yeYpMBPI4in6vcN0QZ8KcV9+eLGi7WwiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sW7z/t/VyzGdnGF3Letdgeol3ZkPolcfK+rSZpH1iAc=;
- b=iUO4jvIsOJN/Ce7+N66MzLaLPRmIkIKj8b4PKqXKvds3d+3pTIZZEw1TXV3nPfEPhjQ1RlNqhHgG46DrG6k0S62gvAihfHfPpKjPvnDqJ1X1ScC0H0QWMASb2mrJwK4JY5hcflsrAUkk4Nz8Cm2l7c6potgkbFxCvivyYyeD+mg=
-Received: from DM5PR19CA0043.namprd19.prod.outlook.com (2603:10b6:3:9a::29) by
- MN2PR12MB4848.namprd12.prod.outlook.com (2603:10b6:208:1be::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18; Mon, 2 Aug
- 2021 14:04:20 +0000
-Received: from DM6NAM11FT021.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:9a:cafe::91) by DM5PR19CA0043.outlook.office365.com
- (2603:10b6:3:9a::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18 via Frontend
- Transport; Mon, 2 Aug 2021 14:04:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT021.mail.protection.outlook.com (10.13.173.76) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4373.18 via Frontend Transport; Mon, 2 Aug 2021 14:04:19 +0000
-Received: from amd-DAYTONA-X.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.12; Mon, 2 Aug
- 2021 09:04:17 -0500
-From:   Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
-        <linux-input@vger.kernel.org>
-CC:     <Nehal-Bakulchandra.shah@amd.com>, <shyam-sundar.s-k@amd.com>,
-        "Basavaraj Natikar" <Basavaraj.Natikar@amd.com>,
-        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: [PATCH 5/5] amd_sfh:Add dyndbg prints for debugging
-Date:   Mon, 2 Aug 2021 19:33:41 +0530
-Message-ID: <20210802140341.901840-6-Basavaraj.Natikar@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210802140341.901840-1-Basavaraj.Natikar@amd.com>
-References: <20210802140341.901840-1-Basavaraj.Natikar@amd.com>
+        id S229780AbhHBQNV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Aug 2021 12:13:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46992 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232459AbhHBQNU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Aug 2021 12:13:20 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A117C0613D5
+        for <linux-input@vger.kernel.org>; Mon,  2 Aug 2021 09:13:10 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id k4-20020a17090a5144b02901731c776526so32393803pjm.4
+        for <linux-input@vger.kernel.org>; Mon, 02 Aug 2021 09:13:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=N9riSg2fac+VoTKhkzLfWrBDE+0l5wS73gV2Grz1oJo=;
+        b=DZtWqGU4zIj2q2wG2EX5uEXZEA37v3g9XZl91m6pb2VzC3ia/H4tD9JI9GNfFao4oJ
+         ux+Po8ZNy3yzxrxivaS1i9Y9Iedzp6zoD6awc7A9RtIUdPF3ByWUG7ysQqyOixB+OFvl
+         JTV2EJdKVt+T2yv3QT+4JLrXz/EOknP/1IMDg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=N9riSg2fac+VoTKhkzLfWrBDE+0l5wS73gV2Grz1oJo=;
+        b=RDxb3ZFFq8e9u0H2TMv1P08qI58Dw73g8SjdCz9jh5ML79Ybaiow9Kic1P2lSb0OC2
+         9fJy88xrARALx6UIyi9rnzHXVUfmrKuDYpHS5N76aX1/EaHtEmRA4Bux9kLYDBsCM3ng
+         e7hn+YJQqiOk568g2T40uzqnYY5KSuezMw9I5t/YnVMCY8DeHnIWZryR5L98pn3AKLwg
+         1KTHXFE3o5YwdrCKGL+B8f6i9qRZikSZdvVdAtzQg+7smUxTW1wrJlNPzuuWp/mgQrjV
+         XTy77BifynOy7UU5cOt7JY6UbVrRVrpXexSB33ms4oq/g2PfcPsakjIvZb/BphTXyUu7
+         nKuQ==
+X-Gm-Message-State: AOAM532M4vUDOg4MnHKDVW4HS7+y2hzp5/HgZaJUGrywO2u2SsnirKil
+        gPdU+gQ2r4p8/3vfvNQNSVG9oQ==
+X-Google-Smtp-Source: ABdhPJwzHMx3iRd4NLHmuMWHjpb/4Amiy4/Pkj9WGz085r9gFSYGpW9rTPrZa44cpxRJZC226SXyyA==
+X-Received: by 2002:a17:90a:ab0b:: with SMTP id m11mr17527651pjq.221.1627920789933;
+        Mon, 02 Aug 2021 09:13:09 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id v30sm10717478pgk.25.2021.08.02.09.13.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Aug 2021 09:13:09 -0700 (PDT)
+Date:   Mon, 2 Aug 2021 09:13:08 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Len Baker <len.baker@gmx.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-hardening@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drivers/input: Remove all strcpy() uses in favor of
+ strscpy()
+Message-ID: <202108020912.3807510B4B@keescook>
+References: <20210801144316.12841-1-len.baker@gmx.com>
+ <20210801145959.GI22278@shell.armlinux.org.uk>
+ <922b0d99b6397adc44761abaed12c019dc0b9e88.camel@perches.com>
+ <4962ac72a94bc5826960dab855b5e2f47a4d1b9a.camel@perches.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b6d74118-d45f-40bf-be26-08d955be6c6d
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4848:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4848D2D357E888203D0044B7E6EF9@MN2PR12MB4848.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:820;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: B+sunlSttCD+rzlnB0phnKHKIKE9uWXYWBjgjsjqDBkkHx2xNT30PqYr6XRwFAA9lvLExSoYXBvsyvHERbLZ53szcGVEpVtMHYOavLaC8FlNVE6IUH6TCqQvH1D7qaBmgBVhqi5NihQCGC3+CSUfoR2EB9KFPjHX7NOv5POAZV1DjpfSusQloSMxfVtm+Wsgf3YsjL+UXISNH5WZ4HcAjSW45501Q8epe+ulDUoxPSLKSQT0ZYeox8bpnEkxufbKNlSlXhwIJ7Sm8tB8oRf9x5477iIoNuEz8exQMcvf/TaD3DITJAKYnuM1iiHOIvsDDqk8PBKrmDowMULBsr67kzB/HpD+pJ+Q0skBxmv+PXaLni0BZjhuey1fm4lZZqmJ541mivyUSTlujCX75dP5rqiuI7WHtDVp3SEbIW+Vr/4Wjc9pg9gDuFdd7j4XMjTJkXFrx2k0a2Dkl7xTtz5cLZq5cS2RXYsZp8+TSJ+Pg6Z4NdxdEz1LsEK/rtowdPvFeUm9iaym/Yje/CBjtQiHDfwGSHeGroHsLeIWcJ5wUjiFeB5jTwTuQzQpIXFYeAUW3z8e9BNcD6OGjAiy34aGsMny7NyeWep7teBn3o+JAh2yl+xflG6bOqF7rLHLjPyk3e4sNkP2fiT7kmtNu5aKHc4M9LRxrVgPmhJTBV6/akmmjFJPynqY3d/7bUrD1a1j2KBPBSCxwbqLN8phfiGxAos5FHVVHiRa7/g2BhMWerQ=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(346002)(376002)(39860400002)(136003)(396003)(46966006)(36840700001)(82740400003)(36860700001)(110136005)(70206006)(54906003)(2906002)(83380400001)(81166007)(356005)(2616005)(336012)(316002)(86362001)(478600001)(6666004)(36756003)(4326008)(70586007)(5660300002)(8676002)(8936002)(1076003)(47076005)(186003)(426003)(82310400003)(7696005)(26005)(16526019)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2021 14:04:19.9875
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6d74118-d45f-40bf-be26-08d955be6c6d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT021.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4848
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4962ac72a94bc5826960dab855b5e2f47a4d1b9a.camel@perches.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add dynamic debug for debugging sensors states during
-initialization, stop, suspend and resume.
+On Sun, Aug 01, 2021 at 09:55:28AM -0700, Joe Perches wrote:
+> On Sun, 2021-08-01 at 09:39 -0700, Joe Perches wrote:
+> > On Sun, 2021-08-01 at 16:00 +0100, Russell King (Oracle) wrote:
+> > > On Sun, Aug 01, 2021 at 04:43:16PM +0200, Len Baker wrote:
+> > > > strcpy() performs no bounds checking on the destination buffer. This
+> > > > could result in linear overflows beyond the end of the buffer, leading
+> > > > to all kinds of misbehaviors. The safe replacement is strscpy().
+> []
+> > > So if the string doesn't fit, it's fine to silently truncate it?
+> > > 
+> > > Rather than converting every single strcpy() in the kernel to
+> > > strscpy(), maybe there should be some consideration given to how the
+> > > issue of a strcpy() that overflows the buffer should be handled.
+> > > E.g. in the case of a known string such as the above, if it's longer
+> > > than the destination, should we find a way to make the compiler issue
+> > > a warning at compile time?
+> 
+> (apologies for the earlier blank reply, sometimes I dislike my email client)
+> 
+> stracpy could do that with a trivial addition like below:
+> 
+> Old lkml references:
+> 
+> https://lore.kernel.org/lkml/cover.1563889130.git.joe@perches.com/
+> and
+> https://lore.kernel.org/lkml/56dc4de7e0db153cb10954ac251cb6c27c33da4a.camel@perches.com/
+> 
+> But Linus T wants a copy_string mechanism instead:
+> https://lore.kernel.org/lkml/CAHk-=wgqQKoAnhmhGE-2PBFt7oQs9LLAATKbYa573UO=DPBE0Q@mail.gmail.com/
+> 
+> /**
+>  * stracpy - Copy a C-string into an array of char/u8/s8 or equivalent
+>  * @dest: Where to copy the string, must be an array of char and not a pointer
+>  * @src: String to copy, may be a pointer or const char array
+>  *
+>  * Helper for strscpy().
+>  * Copies a maximum of sizeof(@dest) bytes of @src with %NUL termination.
+>  *
+>  * A BUILD_BUG_ON is used for cases where @dest is not a char array or
+>  * @src is a char array and is larger than @dest.
+>  *
+>  * Returns:
+>  * * The number of characters copied (not including the trailing %NUL)
+>  * * -E2BIG if @dest is a zero size array or @src was truncated.
+>  */
+> #define stracpy(dest, src)						\
+> ({									\
+> 	BUILD_BUG_ON(!(__same_type(dest, char[]) ||			\
+> 		       __same_type(dest, unsigned char[]) ||		\
+> 		       __same_type(dest, signed char[])));		\
+> 	BUILD_BUG_ON((__same_type(src, char[]) ||			\
+> 		      __same_type(src, unsigned char[]) ||		\
+> 		      __same_type(src, signed char[])) &&		\
+> 		     ARRAY_SIZE(src) > ARRAY_SIZE(dest));		\
+> 									\
+> 	strscpy(dest, src, ARRAY_SIZE(dest));				\
+> })
 
-Reviewed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
----
- drivers/hid/amd-sfh-hid/amd_sfh_client.c | 6 ++++++
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c   | 4 ++++
- 2 files changed, 10 insertions(+)
+I'm wondering, instead, if we could convert strcpy() into this instead
+of adding another API? I.e. convert all the places that warn (if this
+were strcpy), and then land the conversion.
 
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-index 050df796aa2e..840fd075c56f 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-@@ -218,9 +218,13 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
- 					(privdata, cl_data->sensor_idx[i], SENSOR_DISABLED);
- 				if (status != SENSOR_ENABLED)
- 					cl_data->sensor_sts[i] = SENSOR_DISABLED;
-+				dev_dbg(dev, "sid 0x%x status 0x%x\n",
-+					cl_data->sensor_idx[i], cl_data->sensor_sts[i]);
- 				goto cleanup;
- 			}
- 		}
-+		dev_dbg(dev, "sid 0x%x status 0x%x\n",
-+			cl_data->sensor_idx[i], cl_data->sensor_sts[i]);
- 	}
- 	schedule_delayed_work(&cl_data->work_buffer, msecs_to_jiffies(AMD_SFH_IDLE_LOOP));
- 	return 0;
-@@ -252,6 +256,8 @@ int amd_sfh_hid_client_deinit(struct amd_mp2_dev *privdata)
- 					(privdata, cl_data->sensor_idx[i], SENSOR_DISABLED);
- 			if (status != SENSOR_ENABLED)
- 				cl_data->sensor_sts[i] = SENSOR_DISABLED;
-+			dev_dbg(&privdata->pdev->dev, "stopping sid 0x%x status 0x%x\n",
-+				cl_data->sensor_idx[i], cl_data->sensor_sts[i]);
- 		}
- 	}
- 
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index bdef47118c3d..79b138fd4261 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -282,6 +282,8 @@ static int __maybe_unused amd_mp2_pci_resume(struct device *dev)
- 					(mp2, cl_data->sensor_idx[i], SENSOR_ENABLED);
- 			if (status == SENSOR_ENABLED)
- 				cl_data->sensor_sts[i] = SENSOR_ENABLED;
-+			dev_dbg(dev, "resume sid 0x%x status 0x%x\n",
-+				cl_data->sensor_idx[i], cl_data->sensor_sts[i]);
- 		}
- 	}
- 
-@@ -303,6 +305,8 @@ static int __maybe_unused amd_mp2_pci_suspend(struct device *dev)
- 					(mp2, cl_data->sensor_idx[i], SENSOR_DISABLED);
- 			if (status != SENSOR_ENABLED)
- 				cl_data->sensor_sts[i] = SENSOR_DISABLED;
-+			dev_dbg(dev, "suspend sid 0x%x status 0x%x\n",
-+				cl_data->sensor_idx[i], cl_data->sensor_sts[i]);
- 		}
- 	}
- 
 -- 
-2.25.1
-
+Kees Cook
