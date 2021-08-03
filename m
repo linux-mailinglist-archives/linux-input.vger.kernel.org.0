@@ -2,59 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 445693DE8CC
-	for <lists+linux-input@lfdr.de>; Tue,  3 Aug 2021 10:49:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF0E93DE8CE
+	for <lists+linux-input@lfdr.de>; Tue,  3 Aug 2021 10:49:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234740AbhHCIt2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Aug 2021 04:49:28 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:59733 "EHLO
+        id S234559AbhHCIte (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Aug 2021 04:49:34 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:52235 "EHLO
         new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234760AbhHCIt1 (ORCPT
+        by vger.kernel.org with ESMTP id S234622AbhHCItd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 3 Aug 2021 04:49:27 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 4B3835809FE;
-        Tue,  3 Aug 2021 04:49:16 -0400 (EDT)
+        Tue, 3 Aug 2021 04:49:33 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.nyi.internal (Postfix) with ESMTP id E08D65809FE;
+        Tue,  3 Aug 2021 04:49:20 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 03 Aug 2021 04:49:16 -0400
+  by compute1.internal (MEProxy); Tue, 03 Aug 2021 04:49:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
          h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm1; bh=aLmf5ZulQKo22
-        UOhj7zT75v81v/GYAnQNepIf1NV6SU=; b=m2GEldxE6QvnE0QzJmgytM1p832Kw
-        o/oedEaWzWW21rO3RYVYDdDGjaTRhGN7iHuauk67Nq0RFvQK3oW3Pl0i48x4Zifa
-        rmj1wONTwEQZwlXptutEpMhE/mxiQd2YInbcuGHd8K8ZTugwLyUxhyTESab+ZYTj
-        /hr/sUNwFBYbxHM0hhUkVO9Hk9uY8gNyJijeZuc4+wGF1MJNxez0QIkXUi3buVzK
-        cDLpmIN6B+wfhEW4O88y5ganQ1SuogOCs/fUEUSqf6g+M7ZXwgRqoIYjaOl0vmDm
-        XFF3TUfcZqVe8aRJFUFZS54udosvpdrsifMaUAlRZhRsU0sXE/IpjvI7Q==
+        :mime-version:content-transfer-encoding; s=fm1; bh=PKUtGSy8iZDEY
+        lpTbw2VI9ddzDZdqrWO9usf566B1Ng=; b=T0svpK/Hftb2aU/J3aQiwbMPEE36/
+        7kfZVWEvFFU3S4vIuMD5Y9WFDMYlpOPYXxG+x1NY0PQS3WtlxFD1ouqtoffI6YYc
+        30xpGtRp2YbcGDsCRAiu+mtueYumMO/Wtg+RxYkhlF4pAkq1IGgn3/oLnhXoOILL
+        Q66m/3iuUlRC4FkfoLztxNxo9E3aM2LgtVM3DsfW4xYg3XgqfJykpEOe9Ci6TMUG
+        eBrCcx1VJTApxaWLjZ+SOlml+p3tuyn5KFLoA0udk65r0uTkTGiY0QDoa/QuhjOD
+        6eRLFEcxm+oHwgp45T6Mtv4RsWyhirW9V4+A9hOvtHVetRXpgaRuXsL3g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=aLmf5ZulQKo22UOhj7zT75v81v/GYAnQNepIf1NV6SU=; b=AZEfiVSS
-        g7NONrWr8Oo3m4o6Lk7PADrzaKl7COqqLs9hMxZgpd+dYFXw5k1apKEvtweBCMRO
-        YmSyyFQI0kUx/YN/6OySBPQFPv1sy0BpIgOSzyCERJuGckTbbZkqckA2kOAQuFaT
-        poAy7UtXGGy7EeQMubAWHM6V4rzahQjLrHaq5XcJWKBy3zeh9mKlf4Mv9fcCiQzX
-        Zfe45LusK1ZFw2KGXQfN3wRCWYxHi+Uw9btfLR1HnQprWI2CU6zwWXT5ma2VGcJ0
-        8Z5seISW4eX/Y/W5xjUtfpc597aOqHvQdpaP/4dKbCqE9SkKuKit49WzPS/Wyhio
-        0rfy4joEI5UshA==
-X-ME-Sender: <xms:DAMJYYxzacS3uY6mqLETbk412cefTPU_IU6FfG1p8fgorJVSTSnv0Q>
-    <xme:DAMJYcQWvJN8IuFabhpTn-tuX7pRNDpa7fenCeCBSsi4ECOt2sx_0nmlDI31uVD3F
-    6uN27CwJvZgvkM70ww>
-X-ME-Received: <xmr:DAMJYaUhms_ddQsfyGg3N_eqlLLGY9HnvEQoRODyqWkqb0djtPrLYSSwSvPZgh1J2uBLc_X3IBQScQzgbwV838X3EbJ1vZmZPMyfmvwso8tZ9Q>
+        fm3; bh=PKUtGSy8iZDEYlpTbw2VI9ddzDZdqrWO9usf566B1Ng=; b=BbSBcnuE
+        dyUHrc1CoDFauqrHWqPaMD6G3YoHkSgaMwkXnYHi0Uy/isfCXWqBn1umfEEiuUrC
+        D11LrWABJ3UCJQdYyKy6/lsN24oVnh120TOMmkKFRFfphYVoHEL/URGMozwfRmm3
+        PgODCtAqLhTextMe/JWzPO9E+MwFtOPXQS2l2iEy9A3TPSKCfpJ59Atky3SB4dsT
+        eydqJHGf2hgKIUcgUvX1pGjRwHUUZLjIM3QRFSTggbxr29BYU1tn3/b/BHmTn+53
+        yUu3Esf+wMcG4p5HEiZINzucgF2MuoiyLnVIMZLomFg/Z6zb4ftKaZdCHBYAROSy
+        Xy+t+0PIdQZXYA==
+X-ME-Sender: <xms:EAMJYVidKfr0-8Hl1fgRHT4a1WKohdqpMd1pqAG_ptuiaPPqB9JbnQ>
+    <xme:EAMJYaAqK4xkyZ0uKyofnOe-q2G3HFAIeg7QSgf43OR4yDU5est7k8MQ7a_sls36A
+    t1-c6xWRX-C5o5qAEM>
+X-ME-Received: <xmr:EAMJYVE-jXm49Swk1EGflJsUGXqmflfI2GbKSBY-4DakIyeR1Us0oGhbRb9HPDr-LywC-syktuP4jIH6pfcP6v-66_m6v9CRYP4nOEYIgIFn6Q>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrieeggddtiecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
     ertddtnecuhfhrohhmpeetlhhishhtrghirhcuhfhrrghntghishcuoegrlhhishhtrghi
-    rhesrghlihhsthgrihhrvdefrdhmvgeqnecuggftrfgrthhtvghrnhepffdthffggefgle
-    fgkeejhfekiefgleelfefhtefhheefteelgeeggefgfeffvddtnecuffhomhgrihhnpegu
-    vghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvg
-X-ME-Proxy: <xmx:DAMJYWj92T2lLh9bol0ZW6j4CiVXwe2kUus9364pKGQSp-BgKBZzdg>
-    <xmx:DAMJYaAZoDdS1kg5C5ahDh1yUiZpGINpbRlNV_e2EnPT30YN1rJLVw>
-    <xmx:DAMJYXJFl2ZurDX2yZcmKm0UmBjxhbscBGyjdvpzD8A2ZGLEDm9zFA>
-    <xmx:DAMJYe5TwIw-OrvSOakcvt_7dn42lT5x2eVoZyZFsUVxpvzncaRtiA>
+    rhesrghlihhsthgrihhrvdefrdhmvgeqnecuggftrfgrthhtvghrnhepgeegtdetjeekge
+    eguefgheeuvedugedvteejveeiudegvddtkeffkeehtdetudfhnecuvehluhhsthgvrhfu
+    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrsegrlhhish
+    htrghirhdvfedrmhgv
+X-ME-Proxy: <xmx:EAMJYaS6r5x97H35xPmxHy93m4GhhujiIEyVaT0MMvXUWrWRwM6dgw>
+    <xmx:EAMJYSyU9Rt-0TXgqaIQc6JHTjr0ExQckjTjlsfDDYjynlqmmqIzUA>
+    <xmx:EAMJYQ47JswNYg9p1svBSeVkREGJorB8hfntR-j9fD3BKmrv44cAow>
+    <xmx:EAMJYXqJ2TgjxaYpSBZ5Q3ilUq7qPrcnjXwZdjlPgOBEU37FbI7q6w>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 3 Aug 2021 04:49:12 -0400 (EDT)
+ 3 Aug 2021 04:49:16 -0400 (EDT)
 From:   Alistair Francis <alistair@alistair23.me>
 To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
         linux-imx@nxp.com, kernel@pengutronix.de, pinglinux@gmail.com,
@@ -63,9 +63,9 @@ To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
 Cc:     linux-kernel@vger.kernel.org, alistair23@gmail.com,
         robh+dt@kernel.org, devicetree@vger.kernel.org,
         Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH v8 2/9] dt-bindings: touchscreen: Initial commit of wacom,i2c
-Date:   Tue,  3 Aug 2021 18:48:55 +1000
-Message-Id: <20210803084902.336-2-alistair@alistair23.me>
+Subject: [PATCH v8 3/9] Input: wacom_i2c - Add device tree support to wacom_i2c
+Date:   Tue,  3 Aug 2021 18:48:56 +1000
+Message-Id: <20210803084902.336-3-alistair@alistair23.me>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210803084902.336-1-alistair@alistair23.me>
 References: <20210803084902.336-1-alistair@alistair23.me>
@@ -75,68 +75,43 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: devicetree@vger.kernel.org
----
- .../input/touchscreen/wacom,generic.yaml      | 48 +++++++++++++++++++
- 1 file changed, 48 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
+Allow the wacom-i2c device to be exposed via device tree.
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml b/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
-new file mode 100644
-index 000000000000..a8a7f362b0ce
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
-@@ -0,0 +1,48 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/touchscreen/wacom,generic.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+Signed-off-by: Alistair Francis <alistair@alistair23.me>
+---
+ drivers/input/touchscreen/wacom_i2c.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/input/touchscreen/wacom_i2c.c b/drivers/input/touchscreen/wacom_i2c.c
+index 22826c387da5..6053595f2b30 100644
+--- a/drivers/input/touchscreen/wacom_i2c.c
++++ b/drivers/input/touchscreen/wacom_i2c.c
+@@ -12,6 +12,7 @@
+ #include <linux/slab.h>
+ #include <linux/irq.h>
+ #include <linux/interrupt.h>
++#include <linux/of.h>
+ #include <asm/unaligned.h>
+ 
+ #define WACOM_CMD_QUERY0	0x04
+@@ -241,10 +242,17 @@ static const struct i2c_device_id wacom_i2c_id[] = {
+ };
+ MODULE_DEVICE_TABLE(i2c, wacom_i2c_id);
+ 
++static const struct of_device_id wacom_i2c_of_match_table[] = {
++	{ .compatible = "wacom,i2c-30" },
++	{}
++};
++MODULE_DEVICE_TABLE(of, wacom_i2c_of_match_table);
 +
-+title: Wacom I2C Controller
-+
-+maintainers:
-+  - Alistair Francis <alistair@alistair23.me>
-+
-+allOf:
-+  - $ref: touchscreen.yaml#
-+
-+properties:
-+  compatible:
-+    const: wacom,i2c-30
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  vdd-supply:
-+    description: Power Supply
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include "dt-bindings/interrupt-controller/irq.h"
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        digitiser@9 {
-+                compatible = "wacom,i2c-30";
-+                reg = <0x9>;
-+                interrupt-parent = <&gpio1>;
-+                interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
-+                vdd-supply = <&reg_touch>;
-+        };
-+    };
+ static struct i2c_driver wacom_i2c_driver = {
+ 	.driver	= {
+ 		.name	= "wacom_i2c",
+ 		.pm	= &wacom_i2c_pm,
++		.of_match_table = wacom_i2c_of_match_table,
+ 	},
+ 
+ 	.probe		= wacom_i2c_probe,
 -- 
 2.31.1
 
