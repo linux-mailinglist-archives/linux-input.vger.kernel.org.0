@@ -2,58 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAED03DE8C8
-	for <lists+linux-input@lfdr.de>; Tue,  3 Aug 2021 10:49:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 445693DE8CC
+	for <lists+linux-input@lfdr.de>; Tue,  3 Aug 2021 10:49:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234453AbhHCItY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Aug 2021 04:49:24 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:38925 "EHLO
+        id S234740AbhHCIt2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Aug 2021 04:49:28 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:59733 "EHLO
         new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234641AbhHCItW (ORCPT
+        by vger.kernel.org with ESMTP id S234760AbhHCIt1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 3 Aug 2021 04:49:22 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.nyi.internal (Postfix) with ESMTP id CD57C5809FE;
-        Tue,  3 Aug 2021 04:49:11 -0400 (EDT)
+        Tue, 3 Aug 2021 04:49:27 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 4B3835809FE;
+        Tue,  3 Aug 2021 04:49:16 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Tue, 03 Aug 2021 04:49:11 -0400
+  by compute4.internal (MEProxy); Tue, 03 Aug 2021 04:49:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
-         h=from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=fm1; bh=U3smuC21xiclnAcPm0Ugo61M+O
-        k4GIAM2qkc0U+vSB4=; b=nKqkO4vVYQVSPC3CwB63cLS2wQOqI45dGp6q8AWmxB
-        Vz0wv6dmoSqcPaAjpzJYUXDA/+3evLAw1hVPucjotzW/K55gOdg92Lrr8+JAFYmg
-        e6uz+2CO4e9onYN4uMYyE4fI4oclyamIIa01PiN04GLHk1LLAUlTcBfNHxIwg+Tr
-        u2R2ea6uM4jQFZpqQV9YYfqXpzD1mucuZVeJNd9E2uQwkYBOPYEn6bxKH4WQ8AFO
-        8j7NSD7oOECrHZgJYNbylj/w7yNZ+0LFd4SF0Mwe5I6S8T/TFAgicu78myV0BbtI
-        ugnBUWfO9Y6K/lbLWltoUSQ2Kks3z++tIu7qN6M7tp6A==
+         h=from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-transfer-encoding; s=fm1; bh=aLmf5ZulQKo22
+        UOhj7zT75v81v/GYAnQNepIf1NV6SU=; b=m2GEldxE6QvnE0QzJmgytM1p832Kw
+        o/oedEaWzWW21rO3RYVYDdDGjaTRhGN7iHuauk67Nq0RFvQK3oW3Pl0i48x4Zifa
+        rmj1wONTwEQZwlXptutEpMhE/mxiQd2YInbcuGHd8K8ZTugwLyUxhyTESab+ZYTj
+        /hr/sUNwFBYbxHM0hhUkVO9Hk9uY8gNyJijeZuc4+wGF1MJNxez0QIkXUi3buVzK
+        cDLpmIN6B+wfhEW4O88y5ganQ1SuogOCs/fUEUSqf6g+M7ZXwgRqoIYjaOl0vmDm
+        XFF3TUfcZqVe8aRJFUFZS54udosvpdrsifMaUAlRZhRsU0sXE/IpjvI7Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=U3smuC21xiclnAcPm
-        0Ugo61M+Ok4GIAM2qkc0U+vSB4=; b=AWnxIELfCTMxO01+IGKFflnRMNVV/0jqI
-        QAppWoPTRQjyDtLC0NNMVT7xJLtcRwlzZSJk0qi2o1S2JeXgNoKhAe8pI7SNxLNL
-        asPFs72nssHezIp7QYNfIO1qSrMeNpRilS3KIfgTVXDGqPjlstTYpoCTfD3QqEma
-        9v2/nSU4Am73YCRBbTR/V5OVqkQ7t4o4+CYiBMvrR2kt/jQuai6pPZ4Nwj0oz6x2
-        nk1en5U76o3kFg7WzgNBMx61ZfPjwczfWTYVwoQGEQTGNQ5jDL5mIr8RDJEzOtqy
-        mp3zydIObNUqk2wkBJyou4mdmyFZcv0ap3kwxAb+m1cA4RJnKQGNg==
-X-ME-Sender: <xms:BwMJYaFW47IH0axo5urKZsh2xa3IuwU6fe96OxyitE4EqmX6v02aTA>
-    <xme:BwMJYbWkAi0cTDYAPdXoum8ulUykgj2-ruLwfHCT3zH-ZK3-7zunfYiTSId39PMgx
-    yoFF2z7PWeDESIXJsc>
-X-ME-Received: <xmr:BwMJYUIXV07pwyOC6Lb7SSnYYK8uYRTw6GVz3LlZqMasn5bqwFFdNuws8WtwwxJqyjWPgVfEqTThczuiLKU0IBauNUf8ClRFzmokiLDzAwhbXg>
+        :in-reply-to:message-id:mime-version:references:subject:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=aLmf5ZulQKo22UOhj7zT75v81v/GYAnQNepIf1NV6SU=; b=AZEfiVSS
+        g7NONrWr8Oo3m4o6Lk7PADrzaKl7COqqLs9hMxZgpd+dYFXw5k1apKEvtweBCMRO
+        YmSyyFQI0kUx/YN/6OySBPQFPv1sy0BpIgOSzyCERJuGckTbbZkqckA2kOAQuFaT
+        poAy7UtXGGy7EeQMubAWHM6V4rzahQjLrHaq5XcJWKBy3zeh9mKlf4Mv9fcCiQzX
+        Zfe45LusK1ZFw2KGXQfN3wRCWYxHi+Uw9btfLR1HnQprWI2CU6zwWXT5ma2VGcJ0
+        8Z5seISW4eX/Y/W5xjUtfpc597aOqHvQdpaP/4dKbCqE9SkKuKit49WzPS/Wyhio
+        0rfy4joEI5UshA==
+X-ME-Sender: <xms:DAMJYYxzacS3uY6mqLETbk412cefTPU_IU6FfG1p8fgorJVSTSnv0Q>
+    <xme:DAMJYcQWvJN8IuFabhpTn-tuX7pRNDpa7fenCeCBSsi4ECOt2sx_0nmlDI31uVD3F
+    6uN27CwJvZgvkM70ww>
+X-ME-Received: <xmr:DAMJYaUhms_ddQsfyGg3N_eqlLLGY9HnvEQoRODyqWkqb0djtPrLYSSwSvPZgh1J2uBLc_X3IBQScQzgbwV838X3EbJ1vZmZPMyfmvwso8tZ9Q>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrieeggddtiecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheptehlihhsthgrihhr
-    ucfhrhgrnhgtihhsuceorghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgvqeenuc
-    ggtffrrghtthgvrhhnpeejleeihfdvtefgtdethfdtgefftdeiffefjeeiffefveeuleej
-    heejvefhffeukeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvg
-X-ME-Proxy: <xmx:BwMJYUGftYuBn9HoaWOfTWagVIQIGrH-zgDWA-1IrmtEUufTh94SnQ>
-    <xmx:BwMJYQX5mBNivNtjC0Q7Pp6uYzJeu63cL9-gMp6UJT-NNzWPmvxoMQ>
-    <xmx:BwMJYXMhXy_9EMSIx_touVSTHC9baC9bq_KXiBHgTA44jl6-dGarlQ>
-    <xmx:BwMJYfN2HEy4ALqJfJa5X7t-N2YnYInfF01jObEYncIcfkhMD1KWUA>
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
+    ertddtnecuhfhrohhmpeetlhhishhtrghirhcuhfhrrghntghishcuoegrlhhishhtrghi
+    rhesrghlihhsthgrihhrvdefrdhmvgeqnecuggftrfgrthhtvghrnhepffdthffggefgle
+    fgkeejhfekiefgleelfefhtefhheefteelgeeggefgfeffvddtnecuffhomhgrihhnpegu
+    vghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvg
+X-ME-Proxy: <xmx:DAMJYWj92T2lLh9bol0ZW6j4CiVXwe2kUus9364pKGQSp-BgKBZzdg>
+    <xmx:DAMJYaAZoDdS1kg5C5ahDh1yUiZpGINpbRlNV_e2EnPT30YN1rJLVw>
+    <xmx:DAMJYXJFl2ZurDX2yZcmKm0UmBjxhbscBGyjdvpzD8A2ZGLEDm9zFA>
+    <xmx:DAMJYe5TwIw-OrvSOakcvt_7dn42lT5x2eVoZyZFsUVxpvzncaRtiA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 3 Aug 2021 04:49:05 -0400 (EDT)
+ 3 Aug 2021 04:49:12 -0400 (EDT)
 From:   Alistair Francis <alistair@alistair23.me>
 To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
         linux-imx@nxp.com, kernel@pengutronix.de, pinglinux@gmail.com,
@@ -61,12 +62,13 @@ To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
         ping.cheng@wacom.com
 Cc:     linux-kernel@vger.kernel.org, alistair23@gmail.com,
         robh+dt@kernel.org, devicetree@vger.kernel.org,
-        Alistair Francis <alistair@alistair23.me>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v8 1/9] dt-bindings: Add Wacom to vendor bindings
-Date:   Tue,  3 Aug 2021 18:48:54 +1000
-Message-Id: <20210803084902.336-1-alistair@alistair23.me>
+        Alistair Francis <alistair@alistair23.me>
+Subject: [PATCH v8 2/9] dt-bindings: touchscreen: Initial commit of wacom,i2c
+Date:   Tue,  3 Aug 2021 18:48:55 +1000
+Message-Id: <20210803084902.336-2-alistair@alistair23.me>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210803084902.336-1-alistair@alistair23.me>
+References: <20210803084902.336-1-alistair@alistair23.me>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -74,25 +76,67 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 Signed-off-by: Alistair Francis <alistair@alistair23.me>
-Acked-by: Rob Herring <robh@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>
 Cc: devicetree@vger.kernel.org
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../input/touchscreen/wacom,generic.yaml      | 48 +++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 07fb0d25fc15..71da86e7b3a2 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -1250,6 +1250,8 @@ patternProperties:
-     description: Vision Optical Technology Co., Ltd.
-   "^vxt,.*":
-     description: VXT Ltd
-+  "^wacom,.*":
-+    description: Wacom Co., Ltd
-   "^wand,.*":
-     description: Wandbord (Technexion)
-   "^waveshare,.*":
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml b/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
+new file mode 100644
+index 000000000000..a8a7f362b0ce
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
+@@ -0,0 +1,48 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/wacom,generic.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Wacom I2C Controller
++
++maintainers:
++  - Alistair Francis <alistair@alistair23.me>
++
++allOf:
++  - $ref: touchscreen.yaml#
++
++properties:
++  compatible:
++    const: wacom,i2c-30
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  vdd-supply:
++    description: Power Supply
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include "dt-bindings/interrupt-controller/irq.h"
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        digitiser@9 {
++                compatible = "wacom,i2c-30";
++                reg = <0x9>;
++                interrupt-parent = <&gpio1>;
++                interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
++                vdd-supply = <&reg_touch>;
++        };
++    };
 -- 
 2.31.1
 
