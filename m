@@ -2,198 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4E193DE72D
-	for <lists+linux-input@lfdr.de>; Tue,  3 Aug 2021 09:26:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAED03DE8C8
+	for <lists+linux-input@lfdr.de>; Tue,  3 Aug 2021 10:49:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234076AbhHCH0Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Aug 2021 03:26:25 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:37957 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233966AbhHCH0Y (ORCPT
+        id S234453AbhHCItY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Aug 2021 04:49:24 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:38925 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234641AbhHCItW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 3 Aug 2021 03:26:24 -0400
-X-Greylist: delayed 432 seconds by postgrey-1.27 at vger.kernel.org; Tue, 03 Aug 2021 03:26:24 EDT
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id AohXmSdcGXTlcAohYmkBo8; Tue, 03 Aug 2021 09:19:01 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1627975141; bh=YAGVKGywEqKgl9SJ6IqrRElA+hIl/FDR4omEORVtCTk=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=ua2ZAGmq7ZU6wkcP6TqjBwmLyn2lTX8s5Kj9iBLghvPhzPFRfo/WM2crT1okPhTxL
-         0bTPwdkt+FxGnyk/TRu7ipEJOROW75uANTf4JSh6FX1XkzsuHyCgNPhddP8ANWxi5x
-         R+zTaii4HyPDCbGV0KYV6tm5AmJF6ylvQJJvfwps+Zv+LjREBI3Sw1sPR9gx3RD1wH
-         b6aeTt6NEoJqJIBLEKqsyKkR9+qZfJm5FU6Ch2bVmXknqVIhncmZd5vWNilbmArS0i
-         1ciuBaLtDDJ8ZSR8osthNIuI2FyvuyZYflfuB/criPRZYY0eldJGposVn4kDG/t2Bk
-         43GeRAVmm4E9Q==
-Subject: Re: [PATCH] drivers/input: Remove all strcpy() uses in favor of
- strscpy()
-To:     Kees Cook <keescook@chromium.org>, Len Baker <len.baker@gmx.com>
-Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        linux-hardening@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Joe Perches <joe@perches.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-References: <20210801144316.12841-1-len.baker@gmx.com>
- <20210801145959.GI22278@shell.armlinux.org.uk> <20210801155732.GA16547@titan>
- <202108010934.FA668DEB28@keescook> <202108022354.49612943B7@keescook>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <1c5ad456-3b3c-00e1-abce-3fc897d381c1@xs4all.nl>
-Date:   Tue, 3 Aug 2021 09:18:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Tue, 3 Aug 2021 04:49:22 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.nyi.internal (Postfix) with ESMTP id CD57C5809FE;
+        Tue,  3 Aug 2021 04:49:11 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Tue, 03 Aug 2021 04:49:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+         h=from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm1; bh=U3smuC21xiclnAcPm0Ugo61M+O
+        k4GIAM2qkc0U+vSB4=; b=nKqkO4vVYQVSPC3CwB63cLS2wQOqI45dGp6q8AWmxB
+        Vz0wv6dmoSqcPaAjpzJYUXDA/+3evLAw1hVPucjotzW/K55gOdg92Lrr8+JAFYmg
+        e6uz+2CO4e9onYN4uMYyE4fI4oclyamIIa01PiN04GLHk1LLAUlTcBfNHxIwg+Tr
+        u2R2ea6uM4jQFZpqQV9YYfqXpzD1mucuZVeJNd9E2uQwkYBOPYEn6bxKH4WQ8AFO
+        8j7NSD7oOECrHZgJYNbylj/w7yNZ+0LFd4SF0Mwe5I6S8T/TFAgicu78myV0BbtI
+        ugnBUWfO9Y6K/lbLWltoUSQ2Kks3z++tIu7qN6M7tp6A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=U3smuC21xiclnAcPm
+        0Ugo61M+Ok4GIAM2qkc0U+vSB4=; b=AWnxIELfCTMxO01+IGKFflnRMNVV/0jqI
+        QAppWoPTRQjyDtLC0NNMVT7xJLtcRwlzZSJk0qi2o1S2JeXgNoKhAe8pI7SNxLNL
+        asPFs72nssHezIp7QYNfIO1qSrMeNpRilS3KIfgTVXDGqPjlstTYpoCTfD3QqEma
+        9v2/nSU4Am73YCRBbTR/V5OVqkQ7t4o4+CYiBMvrR2kt/jQuai6pPZ4Nwj0oz6x2
+        nk1en5U76o3kFg7WzgNBMx61ZfPjwczfWTYVwoQGEQTGNQ5jDL5mIr8RDJEzOtqy
+        mp3zydIObNUqk2wkBJyou4mdmyFZcv0ap3kwxAb+m1cA4RJnKQGNg==
+X-ME-Sender: <xms:BwMJYaFW47IH0axo5urKZsh2xa3IuwU6fe96OxyitE4EqmX6v02aTA>
+    <xme:BwMJYbWkAi0cTDYAPdXoum8ulUykgj2-ruLwfHCT3zH-ZK3-7zunfYiTSId39PMgx
+    yoFF2z7PWeDESIXJsc>
+X-ME-Received: <xmr:BwMJYUIXV07pwyOC6Lb7SSnYYK8uYRTw6GVz3LlZqMasn5bqwFFdNuws8WtwwxJqyjWPgVfEqTThczuiLKU0IBauNUf8ClRFzmokiLDzAwhbXg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrieeggddtiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheptehlihhsthgrihhr
+    ucfhrhgrnhgtihhsuceorghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgvqeenuc
+    ggtffrrghtthgvrhhnpeejleeihfdvtefgtdethfdtgefftdeiffefjeeiffefveeuleej
+    heejvefhffeukeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvg
+X-ME-Proxy: <xmx:BwMJYUGftYuBn9HoaWOfTWagVIQIGrH-zgDWA-1IrmtEUufTh94SnQ>
+    <xmx:BwMJYQX5mBNivNtjC0Q7Pp6uYzJeu63cL9-gMp6UJT-NNzWPmvxoMQ>
+    <xmx:BwMJYXMhXy_9EMSIx_touVSTHC9baC9bq_KXiBHgTA44jl6-dGarlQ>
+    <xmx:BwMJYfN2HEy4ALqJfJa5X7t-N2YnYInfF01jObEYncIcfkhMD1KWUA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 3 Aug 2021 04:49:05 -0400 (EDT)
+From:   Alistair Francis <alistair@alistair23.me>
+To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-imx@nxp.com, kernel@pengutronix.de, pinglinux@gmail.com,
+        tatsunosuke.tobita@wacom.com, junkpainting@gmail.com,
+        ping.cheng@wacom.com
+Cc:     linux-kernel@vger.kernel.org, alistair23@gmail.com,
+        robh+dt@kernel.org, devicetree@vger.kernel.org,
+        Alistair Francis <alistair@alistair23.me>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v8 1/9] dt-bindings: Add Wacom to vendor bindings
+Date:   Tue,  3 Aug 2021 18:48:54 +1000
+Message-Id: <20210803084902.336-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <202108022354.49612943B7@keescook>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfMGrZqL/FiQElRRgP7rZrR6EKMvKNJB9cL7M2k0xUKYQZBlx4HPK7llWgBMWfYgq1csRfB2Fk3JhzivHOpJj/4c5AatVRkTrY00olMGAy0ooH6k3t5xS
- SdwuwKYoyoQGGavdAiZSgo7yd5i3wDMf20vpDAajs7RhRZD2eM1qag6MWSkwkhS1OdnqmBOF4KZCCnzpAM85qIFwHMqJd6hWL1KEaUIBKsuXuwpTVj3d4/Sk
- aOg8q/+IsoYwrqE+PgjxUJZ+Yo0PelLfgl+ILtRGQ40tpEOCEYhlgTv1QBu+Y9UmkxlPtKwSDGzq2x4jXtvuu07rKDp1fJ6zv2JrCTDHrhgwTRXbFNtsQeFc
- Oa4WH1hmyEDHXHXM42QEx/p2hR+Fi8ECxK54DSMmXXvq/sjb8/T0DLSxYWLGnlBDjouN6iL3wdlpQWFxXx4WOCF9ZuFeLFJrnO32vZIyiosZyHVC/5vvFZlO
- 2Gs3RHw0FCvNUo5FjvcCzwz/Vz9mu0oWLwA5sunMpRHG0ly5+vLgNIQjLGL9SZLsm5pupjm83dVn4amB+cT1RMVlLIBUUDkZ9mHaxARSGBvGXDL3ewdy6NPO
- wz1GRJUZJ6SQH1luWkfuX57p61uMEqks4msgHmF/0YCPL1ERs88M/22TtY9/nkwmkeTwey2kQjVjLnfkDPz2ex2eMesukD5Bz5IYieHb6UdOSg==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 03/08/2021 09:07, Kees Cook wrote:
-> On Sun, Aug 01, 2021 at 09:44:33AM -0700, Kees Cook wrote:
->> On Sun, Aug 01, 2021 at 05:57:32PM +0200, Len Baker wrote:
->>> Hi,
->>>
->>> On Sun, Aug 01, 2021 at 04:00:00PM +0100, Russell King (Oracle) wrote:
->>>> On Sun, Aug 01, 2021 at 04:43:16PM +0200, Len Baker wrote:
->>>>> strcpy() performs no bounds checking on the destination buffer. This
->>>>> could result in linear overflows beyond the end of the buffer, leading
->>>>> to all kinds of misbehaviors. The safe replacement is strscpy().
->>>>>
->>>>> Signed-off-by: Len Baker <len.baker@gmx.com>
->>>>> ---
->>>>> This is a task of the KSPP [1]
->>>>>
->>>>> [1] https://github.com/KSPP/linux/issues/88
->>>>>
->>>>>  drivers/input/keyboard/locomokbd.c | 2 +-
->>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/input/keyboard/locomokbd.c b/drivers/input/keyboard/locomokbd.c
->>>>> index dae053596572..dbb3dc48df12 100644
->>>>> --- a/drivers/input/keyboard/locomokbd.c
->>>>> +++ b/drivers/input/keyboard/locomokbd.c
->>>>> @@ -254,7 +254,7 @@ static int locomokbd_probe(struct locomo_dev *dev)
->>>>>  	locomokbd->suspend_jiffies = jiffies;
->>>>>
->>>>>  	locomokbd->input = input_dev;
->>>>> -	strcpy(locomokbd->phys, "locomokbd/input0");
->>>>> +	strscpy(locomokbd->phys, "locomokbd/input0", sizeof(locomokbd->phys));
->>>>
->>>> So if the string doesn't fit, it's fine to silently truncate it?
->>>
->>> I think it is better than overflow :)
->>>
->>>> Rather than converting every single strcpy() in the kernel to
->>>> strscpy(), maybe there should be some consideration given to how the
->>>> issue of a strcpy() that overflows the buffer should be handled.
->>>> E.g. in the case of a known string such as the above, if it's longer
->>>> than the destination, should we find a way to make the compiler issue
->>>> a warning at compile time?
->>>
->>> Good point. I am a kernel newbie and have no experience. So this
->>> question should be answered by some kernel hacker :) But I agree
->>> with your proposals.
->>>
->>> Kees and folks: Any comments?
->>>
->>> Note: Kees is asked the same question in [2]
->>>
->>> [2] https://lore.kernel.org/lkml/20210731135957.GB1979@titan/
->>
->> Hi!
->>
->> Sorry for the delay at looking into this. It didn't use to be a problem
->> (there would always have been a compile-time warning generated for
->> known-too-small cases), but that appears to have regressed when,
->> ironically, strscpy() coverage was added. I've detailed it in the bug
->> report:
->> https://github.com/KSPP/linux/issues/88
->>
->> So, bottom line: we need to fix the missing compile-time warnings for
->> strcpy() and strscpy() under CONFIG_FORTIFY_SOURCE=y.
-> 
-> I've got these fixed now, and will send them out likely tomorrow, but I
-> did, in fact, find 4 cases of truncation, all in v4l, and all appear to
-> have been truncated since introduction:
-> 
-> struct v4l2_capability {
-> ...
->         __u8    card[32];
-> (stores 31 characters)
-> 
-> drivers/media/radio/radio-wl1273.c:1282
-> wl1273_fm_vidioc_querycap()
->             strscpy(capability->card, "Texas Instruments Wl1273 FM Radio",
->                     sizeof(capability->card));
-> 33 characters, getting truncated to:
-> Texas Instruments Wl1273 FM Rad
-> 87d1a50ce45168cbaec10397e876286a398052c1
+Signed-off-by: Alistair Francis <alistair@alistair23.me>
+Acked-by: Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I'd change this to: "TI WL1273 FM Radio"
-
-> 
-> drivers/media/radio/si470x/radio-si470x-usb.c:514
-> si470x_vidioc_querycap()
-> #define DRIVER_CARD "Silicon Labs Si470x FM Radio Receiver"
->             strscpy(capability->card, DRIVER_CARD,
-> sizeof(capability->card));
-> 37 characters, getting truncated to:
-> Silicon Labs Si470x FM Radio Re
-> 78656acdcf4852547a29e929a1b7a98d5ac65f17
-
-This to "Silicon Labs Si470x FM Radio"
-
-> 
-> drivers/media/radio/si470x/radio-si470x-i2c.c:225
-> si470x_vidioc_querycap()
-> #define DRIVER_CARD "Silicon Labs Si470x FM Radio Receiver"
->             strscpy(capability->card, DRIVER_CARD,
-> sizeof(capability->card));
-> 37 characters, getting truncated to:
-> Silicon Labs Si470x FM Radio Re
-> cc35bbddfe10f77d949f0190764b252cd2b70c3c
-
-Ditto.
-
-> 
-> drivers/media/usb/tm6000/tm6000-video.c:855
-> vidioc_querycap()
->             strscpy(cap->card, "Trident TVMaster TM5600/6000/6010",
->                     sizeof(cap->card));
-> 33 characters, getting truncated to:
-> Trident TVMaster TM5600/6000/60
-> e28f49b0b2a8e678af62745ffdc4e4f36d7283a6
-
-And this to: "Trident TM5600/6000/6010"
-
-The truncation doesn't hurt anything, it's just looks a bit ugly.
-These shorter names should solve this issue.
-
-Regards,
-
-	Hans
-
-> 
-> How should these be handled? I assume v4l2_capability::card can't be
-> resized since it's part of IOCTL response, so likely all the string just
-> need to be shortened in some way? Seems like dropping the manufacturer
-> name makes the most sense, since manufacturer can be kind of derived
-> from the driver names.
-> 
-> Thoughts?
-> 
-> -Kees
-> 
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 07fb0d25fc15..71da86e7b3a2 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1250,6 +1250,8 @@ patternProperties:
+     description: Vision Optical Technology Co., Ltd.
+   "^vxt,.*":
+     description: VXT Ltd
++  "^wacom,.*":
++    description: Wacom Co., Ltd
+   "^wand,.*":
+     description: Wandbord (Technexion)
+   "^waveshare,.*":
+-- 
+2.31.1
 
