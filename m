@@ -2,111 +2,195 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03EDF3DF7E5
-	for <lists+linux-input@lfdr.de>; Wed,  4 Aug 2021 00:36:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65A893DF880
+	for <lists+linux-input@lfdr.de>; Wed,  4 Aug 2021 01:30:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233202AbhHCWgL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Aug 2021 18:36:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53212 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231770AbhHCWgL (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 3 Aug 2021 18:36:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D3C4560525;
-        Tue,  3 Aug 2021 22:35:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628030159;
-        bh=VLQDPuYtppmqHTWikIAl/LlTeEVdU62YKptNtZBvwDM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XiC4OcyA9vPRScT+26U/MPHk/PLw7cfWKDzQmhm7L/2ifrhJ/zeydraOBFfSielel
-         C9CoTPz9m8g5nHPqw5lV3cach9MFKoQo7P1BIrAUEWxt2n34NVbQ8Vq9y9Bk17olEn
-         YwLObrlxabk//+7InLHI/JB3MrRVuc6CLmVXUNAItfsddCLQfVMIBm5OTMNUIr0d2j
-         6rr6MddHbqKXUpTXihj8VOyu+VpdlXivyHd+uCltwAZVIFEkOJPzox3KYwl2CflZxe
-         PtulX27cIMv06Ar6mdPJO8Z5O1byM1L5d1FcFiP35VJWL3P8a4KAnMf4Mgm9Rzd4KU
-         G6lou/vcPBEZA==
-From:   Mark Brown <broonie@kernel.org>
-To:     Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Nikita Shubin <nikita.shubin@maquefel.me>
-Cc:     Mark Brown <broonie@kernel.org>,
-        "open list:PWM SUBSYSTEM" <linux-pwm@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." 
-        <alsa-devel@alsa-project.org>,
-        "open list:INPUT KEYBOARD, MOUSE, JOYSTICK , TOUCHSCREEN..." 
-        <linux-input@vger.kernel.org>, YiFei Zhu <yifeifz2@illinois.edu>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
-        <dmaengine@vger.kernel.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-        "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>
-Subject: Re: (subset) [PATCH v2 0/8] arm: ep93xx: CCF conversion
-Date:   Tue,  3 Aug 2021 23:35:30 +0100
-Message-Id: <162803013703.42391.16928190328940334025.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210726140001.24820-1-nikita.shubin@maquefel.me>
-References: <20210726115058.23729-1-nikita.shubin@maquefel.me> <20210726140001.24820-1-nikita.shubin@maquefel.me>
+        id S233537AbhHCXaQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Aug 2021 19:30:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49078 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232171AbhHCXaP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Aug 2021 19:30:15 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38398C061757;
+        Tue,  3 Aug 2021 16:30:03 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id k65so1243842yba.13;
+        Tue, 03 Aug 2021 16:30:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1eYiH2RIdtTKLskKrOUgOTUIOKC/IGyj6bgmobHtNC0=;
+        b=lxwrXA/ypnv5BHVBheuRh18BAUdAIQB9RTBTiidNYxsHHU8eNlN0Vw3awacInCQtED
+         hAOm+5UrWoWArPliGs2anIimXLZqOZ/3hhRHKKAMKYsfLF2CrxfuuoxTKz4nFMso+osq
+         mE6plNUzsJ75g7VItyC7a+CTaO4MNWP1Uwa6yd+y5eDo4cwIYFDl+W6DzhQi7LezO5tM
+         riI0E97oaO+G6eQVz2HPH8wAWpPBy01knTYkWnma0ce2oDdl4hqzdYb5v9aXjjc6cLZS
+         sTnH1dlqLytGCFlVei6pbrMCbK+WXCqDL8LYlaaUb78GeZpDJq2Z5ZsdPDB5VIH5pkV0
+         5tZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1eYiH2RIdtTKLskKrOUgOTUIOKC/IGyj6bgmobHtNC0=;
+        b=LpUYxqnUPjsbpIDli1+2MmAUFbmQ1cN87MGwsWEsh1qAo2orhrUU7/DAmHVYVtUdud
+         3+lOE7HvCYCSiiSt3q86HUnQyZFjKDiS0FjJK07L3HEqR2grsxESw/x2LyGnKNUKlQvs
+         UvMf7+jFXxBXe3CwQ6Ge91njhPDL1IRhxzYRVWFTN5odrwfZ2ySb1Lt/BiLtbAPZxqji
+         hEp7/bFJDSgtwII2d/F64XPwdF7dHHkyuLnEn0JYMvahRDez1pfV8kXohyzK446PIpdQ
+         zeK6zD2qP906gSDgi3M9TIi+BpeKDtTUvvAFY2IgH8vJLKeqkAmMxQvS8INTC8z2qDPV
+         vu1A==
+X-Gm-Message-State: AOAM533KEipoG1Mtdp9yYq4ih+FCjFFucfUIW6ggESUTL8vJmKsgaeiq
+        bdsF+Q59s5OwdbUQUI/yADg7md3g3F4FkWt6w8Q=
+X-Google-Smtp-Source: ABdhPJySJVCsuoxD0gUf9L1yBcHg/gALK4uBvdQA33Qd9q9BFQvEMIvMQ9Ox3aEG4s42fCmnWH3bUa00Ta4eVukhSGk=
+X-Received: by 2002:a25:cd89:: with SMTP id d131mr32518579ybf.71.1628033402547;
+ Tue, 03 Aug 2021 16:30:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20210602061253.5747-1-roderick@gaikai.com> <20210602061253.5747-3-roderick@gaikai.com>
+ <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm> <20210803221055.GA32527@amd>
+In-Reply-To: <20210803221055.GA32527@amd>
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Tue, 3 Aug 2021 16:29:51 -0700
+Message-ID: <CAEc3jaAoDfJD92q9q_HoFq3nsjkDqfZHu-VO+Ei8xSP8QrE8rg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs for
+ game controllers.
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
+        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 26 Jul 2021 16:59:48 +0300, Nikita Shubin wrote:
-> This series series of patches converts ep93xx to Common Clock Framework.
-> 
-> It consists of preparation patches to use clk_prepare_enable where it is
-> needed, instead of clk_enable used in ep93xx drivers prior to CCF and
-> a patch converting mach-ep93xx/clock.c to CCF.
-> 
-> Link: https://lore.kernel.org/patchwork/cover/1445563/
-> Link: https://lore.kernel.org/patchwork/patch/1435884/
-> 
-> [...]
+Hi Pavel,
 
-Applied to
+See some quick comments inline.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+On Tue, Aug 3, 2021 at 3:39 PM Pavel Machek <pavel@ucw.cz> wrote:
+>
+> Hi!
+>
+> > > From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> > >
+> > > Player LEDs are commonly found on game controllers from Nintendo and Sony
+> > > to indicate a player ID across a number of LEDs. For example, "Player 2"
+> > > might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
+> > >
+> > > This patch introduces a new LED_FUNCTION_PLAYER to properly indicate
+> > > player LEDs from the kernel. Until now there was no good standard, which
+> > > resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
+> > > other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYER.
+> > >
+> > > Note: management of Player IDs is left to user space, though a kernel
+> > > driver may pick a default value.
+> > >
+> > > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> > > ---
+> > >  include/dt-bindings/leds/common.h | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > >
+> > > diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+> > > index 52b619d44ba2..94999c250e4d 100644
+> > > --- a/include/dt-bindings/leds/common.h
+> > > +++ b/include/dt-bindings/leds/common.h
+> > > @@ -60,6 +60,9 @@
+> > >  #define LED_FUNCTION_MICMUTE "micmute"
+> > >  #define LED_FUNCTION_MUTE "mute"
+> > >
+> > > +/* Used for player LEDs as found on game controllers from e.g. Nintendo, Sony. */
+> > > +#define LED_FUNCTION_PLAYER "player"
+> > > +
+> > >  /* Miscelleaus functions. Use functions above if you can. */
+> > >  #define LED_FUNCTION_ACTIVITY "activity"
+> > >  #define LED_FUNCTION_ALARM "alarm"
+> >
+> > Pavel, can I please get your Ack on this one, so that I can take it with
+> > the rest of the series?
+>
+> I'm sorry for delays.
+>
+> But no, player is not suitable function. Function would be "player1"
+> AFAICT, right?
 
-Thanks!
+A given gaming device such as Sony or Nintendo controllers have a
+multiple of these LEDs, which are meant to be configured with a player
+number. A typical device has like 4 of these LEDs, so a single
+controller would have: "player-1", "player-2", "player-3" and
+"player-4". It is up to userspace to configure the player number (a
+driver may set a default number across a number of LEDs).
 
-[2/8] spi: spi-ep93xx: Prepare clock before using it
-      commit: 7c72dc56a631b87043e3c5838f5094db30d8c58d
+If player is not the right term (many people know it), what would it be?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+>
+> I'm not sure "function" is suitable here, and we may want to create
+> documentation like this... where it would be explained which functions
+> apply to which devices and what they actually mean.
+>
+> Best regards,
+>                                                                 Pavel
+>
+> -*- org -*-
+>
+> It is somehow important to provide consistent interface to the
+> userland. LED devices have one problem there, and that is naming of
+> directories in /sys/class/leds. It would be nice if userland would
+> just know right "name" for given LED function, but situation got more
+> complex.
+>
+> Anyway, if backwards compatibility is not an issue, new code should
+> use one of the "good" names from this list, and you should extend the
+> list where applicable.
+>
+> Bad names are listed, too; in case you are writing application that
+> wants to use particular feature, you should probe for good name, first,
+> but then try the bad ones, too.
+>
+> * Keyboards
+>
+> Good: "input*:*:capslock"
+> Good: "input*:*:scrolllock"
+> Good: "input*:*:numlock"
+> Bad: "shift-key-light" (Motorola Droid 4, capslock)
+>
+> Set of common keyboard LEDs, going back to PC AT or so.
+>
+> Good: "platform::kbd_backlight"
+> Bad: "tpacpi::thinklight" (IBM/Lenovo Thinkpads)
+> Bad: "lp5523:kb{1,2,3,4,5,6}" (Nokia N900)
+>
+> Frontlight/backlight of main keyboard.
+>
+> Bad: "button-backlight" (Motorola Droid 4)
+>
+> Some phones have touch buttons below screen; it is different from main
+> keyboard. And this is their backlight.
+>
+> * Sound subsystem
+>
+> Good: "platform:*:mute"
+> Good: "platform:*:micmute"
+>
+> LEDs on notebook body, indicating that sound input / output is muted.
+>
+> * System notification
+>
+> Good: "status-led:{red,green,blue}" (Motorola Droid 4)
+> Bad: "lp5523:{r,g,b}" (Nokia N900)
+>
+> Phones usually have multi-color status LED.
+>
+> * Power management
+>
+> Good: "platform:*:charging" (allwinner sun50i)
+>
+> * Screen
+>
+> Good: ":backlight" (Motorola Droid 4)
+>
+>
+> --
+> http://www.livejournal.com/~pavelmachek
