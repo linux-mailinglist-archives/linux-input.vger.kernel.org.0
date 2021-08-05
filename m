@@ -2,101 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF3693E03BE
-	for <lists+linux-input@lfdr.de>; Wed,  4 Aug 2021 16:58:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 021063E0D90
+	for <lists+linux-input@lfdr.de>; Thu,  5 Aug 2021 07:12:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237635AbhHDO6Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Aug 2021 10:58:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33406 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234423AbhHDO6Y (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Aug 2021 10:58:24 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2F8CC0613D5;
-        Wed,  4 Aug 2021 07:58:10 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id bq29so4980982lfb.5;
-        Wed, 04 Aug 2021 07:58:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0KHBX9MFfC3gAIQoVx7XsxOXTg1RmXlly3J1yomsx8Y=;
-        b=kubbpE0WZXwA3ZDnk/pFXsIrpiKokDra5W8mSYHPFdFW0axOBN6yF9ppazDZmOvRC7
-         /jk67WyrdALQO+ApM4L/YjTFsAZ3Nb/zBLBGNRoqPXYLyTXMZx3mx9XxKcN7slIlECT+
-         AUzgnz9hnsfnV0FfoD+UroKbr1qLq6TT6yZgJA7Hej7SOmqb3DNVcYKgJUDwTD/yXmoG
-         NumKOvgjVRXI/bifrNQ9xlqRr0gf0nzDC1anhQb2tspIAAKjrWRKKt4jWMR4BiR6dLmX
-         JlPgZwqXS3yC/gThJZ03hmS3VVD0pWErXye081aNwEq0RK/X1eX9R0rs1Ffa/JQTdzOO
-         wfhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0KHBX9MFfC3gAIQoVx7XsxOXTg1RmXlly3J1yomsx8Y=;
-        b=ZOkDfFdYq0i/s1LuEFFQTafBRUQTAJicB/uqQ9nxrkeyjPugDPHcOd0cTmAktoLcht
-         unL6uH2uiq8brubLYSog2AlhlgpVIuGntvv8Q7yHbTzm+SmweuzBGgvaXMvq9NtxsXRu
-         ar6pF/MbV/IkJRdm70EbkIIu6/UbYprfdK3O/tpBazDX2UFHR2zrsZI/zE+iXxAYVHKZ
-         4ebD5QTr0CDunijoUE5SQ1UgtzyznUwfdx9KoroL7hbDOCwbSMwknifA6x4qbIG+RxFU
-         QUfSkrDavB50GKIUFI2e75tj2GZgVIf+nPdRvqoErf8BvO7/IgrBwitEXKTSDST38te0
-         EwKA==
-X-Gm-Message-State: AOAM530ai8BlruomAPB47AsNRS2LzkRUbaY0+y9tm1BKGCPKQ40YIf3y
-        zYP0FDNLHjCejlC2obIonxs=
-X-Google-Smtp-Source: ABdhPJwk1zbXo3seT+3p/lO0qPQSx3SbvKsuTgEDe2X/4u5i59kQTAi5wvQe3oMsVMcO00Zw0D9TMg==
-X-Received: by 2002:a05:6512:39c6:: with SMTP id k6mr10833756lfu.549.1628089089091;
-        Wed, 04 Aug 2021 07:58:09 -0700 (PDT)
-Received: from localhost.localdomain ([94.103.226.235])
-        by smtp.gmail.com with ESMTPSA id v124sm219076lfa.192.2021.08.04.07.58.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 07:58:08 -0700 (PDT)
-From:   Pavel Skripkin <paskripkin@gmail.com>
-To:     dmitry.torokhov@gmail.com, aeh@db.org
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pavel Skripkin <paskripkin@gmail.com>,
-        syzbot+2d6d691af5ab4b7e66df@syzkaller.appspotmail.com
-Subject: [PATCH] input: cm109: fix URB submitted while active
-Date:   Wed,  4 Aug 2021 17:58:01 +0300
-Message-Id: <20210804145801.2762-1-paskripkin@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        id S235058AbhHEFM7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Aug 2021 01:12:59 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:40675 "EHLO
+        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231500AbhHEFM6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 5 Aug 2021 01:12:58 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.west.internal (Postfix) with ESMTP id 2EBA82B00468;
+        Thu,  5 Aug 2021 01:12:44 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Thu, 05 Aug 2021 01:12:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm3; bh=ylzuFqQalkG2vG2ySza3AsSddL
+        2cK1QcJ+AnzriT8Ts=; b=FoxpSthifZIOSLQL24bF38ob04szUYrkDto3VLxEkJ
+        Ntzx0Nw4kSTTTCOq7OO7lmrxp7GPG/AcczyeUnZE6i/nwldicKvLD9p+19RoD40y
+        jeqVLhsFblqEAPk6Ysbh071FnctrqxmvuoLg71gXpy4dH1MvYDNuX+bA45SGUwJ4
+        YE5cq9V9d1ZfkA8PaSM54iXaw5NwiBAstL/WgUfaISchZQZC0zG6rSpdq3JFqiVR
+        /C8cAC8dEiCiVquPgUvloFb9B6noJ+FpUEAcOR0wZkclu0Z5etvlb81SmmFJH2HW
+        pMfmHTTv4MY3tEpQrdxfN9MG52mrD9fcNMhOz7usJ5aQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ylzuFqQalkG2vG2yS
+        za3AsSddL2cK1QcJ+AnzriT8Ts=; b=BnyrL/l9BJU3S2otfiEOurEWr1yrjSE8P
+        IduCla8GPr3AhElIrCMDWXQc5GTa31cecDSEKFkcu4mj8tKtNh4jHYq2oJ3PIsCi
+        a+wKCncjQLkdQyUOmbjN9fj2o3kQHjJC/swWlolLsfFpT2BLGjb8Wm3lv++Niibn
+        Q5fwncvd1jyqmc6u6D4Lq7t0Wp9bZqiPeSN/JcVfN+0UwmEYrdWFp5RDazFCSXkT
+        NHZ0/6SrAUQAMOfpuAAPfnioYWlaJ+AGX74iUsxandIqmMx8cb1/BucP+qw1Jdg2
+        98KPSgovsYdWb6zCZQkwEY9FKAySnSIAKZpeEnreQ9uHKxrFHqLsQ==
+X-ME-Sender: <xms:S3MLYbSK95NhybXaTgihvq7wWwms57zmBVBAwZuSdam74VaATIKZAA>
+    <xme:S3MLYczi6aSxvaJSF5UyytAUo573G2dljIsaW-cWlZJnguxqWQa-6h7Vnr05BQGYR
+    bzjQgo4ZTv8o3O0Lg>
+X-ME-Received: <xmr:S3MLYQ0xyUzytp8CQAoOpM9666ZXqZda_FGGUPR8-Q3hB7O3oxCobHEji6z0OHwmILcV14GTjgx01ttq1g83AE7rpBOC6zitTwACw4p9rhhCOA2R_9sVR8LiK5P6Wblo0PNX3Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrieekgdekkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghlucfj
+    ohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrfgrth
+    htvghrnhepieetkefhheduudfgledtudefjeejfeegveehkeeufffhhfejkeehiefftdev
+    tdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsh
+    grmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:S3MLYbD8mjaYmBy0E68oMP7Jxdu5bofDsQgYPBcj71Z2rLNEAcNXAg>
+    <xmx:S3MLYUh7h00jPNGGWLN0XC1oix8uDeJFhnR7PeqWkmQRgRJQPawKYg>
+    <xmx:S3MLYfrJuFIQ4JQZLgZ1pMxZE0OxBdxlbj1v0ukgOjc03txJvKzvfg>
+    <xmx:S3MLYXOpKLDlAZ-qc8ECsa1zwoULZty3-5Se2H_2A6yikq9cwMOD9Tbt67g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 5 Aug 2021 01:12:42 -0400 (EDT)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        Samuel Holland <samuel@sholland.org>
+Subject: [PATCH resend v3 0/2] sunxi LRADC/volume key wakeup support
+Date:   Thu,  5 Aug 2021 00:12:39 -0500
+Message-Id: <20210805051241.47168-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Syzbot reported, that dev->urb_ctl was submitted while active. The
-problem was in missing validation check. We should check, that dev->urb_ctl
-is not pending before sumbitting it again.
+This series allows the volume keys on the PinePhone (and other devices
+with LRADC buttons) to wake up the device from sleep.
 
-Fail log:
+Currently `make dtbs_check` complains because the DT update was merged
+without the binding.
 
-URB 00000000cfeee59c submitted while active
-WARNING: CPU: 1 PID: 8459 at drivers/usb/core/urb.c:378 usb_submit_urb+0x1271/0x1540 drivers/usb/core/urb.c:378
-...
-Call Trace:
- <IRQ>
- cm109_urb_irq_callback+0x44f/0xaa0 drivers/input/misc/cm109.c:422
- __usb_hcd_giveback_urb+0x2b0/0x5c0 drivers/usb/core/hcd.c:1656
- usb_hcd_giveback_urb+0x367/0x410 drivers/usb/core/hcd.c:1726
+Changes since v2:
+  - Dropped unnecessary pr_err in platform_get_irq() error path
+  - Dropped patch 3 (DT update) as it was merged
+  - Added Acked-by/Reviewed-by tags
 
-Reported-and-tested-by: syzbot+2d6d691af5ab4b7e66df@syzkaller.appspotmail.com
-Fixes: c04148f915e5 ("Input: add driver for USB VoIP phones with CM109 chipset")
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- drivers/input/misc/cm109.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes since v1:
+  - Add requisite DT binding change
+  - Only add wakeup capability if "wakeup-source" is present
+  - Warn but do not error out if setting the wake IRQ fails
+  - Add "wakeup-source" property to PinePhone device tree
 
-diff --git a/drivers/input/misc/cm109.c b/drivers/input/misc/cm109.c
-index f515fae465c3..60bddadbbe3a 100644
---- a/drivers/input/misc/cm109.c
-+++ b/drivers/input/misc/cm109.c
-@@ -406,7 +406,7 @@ static void cm109_urb_irq_callback(struct urb *urb)
- 
- 	dev->irq_urb_pending = 0;
- 
--	if (likely(!dev->shutdown)) {
-+	if (likely(!dev->shutdown) && likely(!dev->ctl_urb_pending)) {
- 
- 		if (dev->buzzer_state)
- 			dev->ctl_data->byte[HID_OR0] |= BUZZER_ON;
+Ondrej Jirman (1):
+  input: sun4i-lradc-keys - Add wakup support
+
+Samuel Holland (1):
+  dt-bindings: sun4i-a10-lradc-keys: Accept wakeup-source property
+
+ .../input/allwinner,sun4i-a10-lradc-keys.yaml |  2 ++
+ drivers/input/keyboard/sun4i-lradc-keys.c     | 20 +++++++++++++++----
+ 2 files changed, 18 insertions(+), 4 deletions(-)
+
 -- 
-2.32.0
+2.26.3
 
