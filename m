@@ -2,124 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 084E93E32CF
-	for <lists+linux-input@lfdr.de>; Sat,  7 Aug 2021 04:49:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA2BC3E3442
+	for <lists+linux-input@lfdr.de>; Sat,  7 Aug 2021 11:12:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230113AbhHGCtt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Aug 2021 22:49:49 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:39307 "EHLO
-        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230053AbhHGCts (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 6 Aug 2021 22:49:48 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id 0EB0C5C00AA;
-        Fri,  6 Aug 2021 22:49:32 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Fri, 06 Aug 2021 22:49:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=FPEgx3UpFhTAog451
-        MEpbDOpAUvEahxrQ+GthvwBlX8=; b=MuG+YzCdnb4HoYRhGePyijNGLu2dN92WI
-        URAOmKG2ULNcx6a8fI29tgEhMre2PfoZbdIPXR2u9gop4AwVAKDNtaNNs86aFs6t
-        6dslQHzS4vryw8nhPFyhC6mIrQu1H/MZMoJij57z3UfRoOhQzGQrQCmcez11vYYC
-        MYc9aPb3dOlIC+Ba8qBaZHjXSXKA0GNfKFSyiFym3ct9iV3AlIW4zZnqy80ZZ6oc
-        mYsFJLXo3UsWvLcr2oW3riloZ9pa0WVJ28q1cjbYmtCLfn5wZQNAkU566OSmxQDy
-        tkjmkw8ASY9CawuPc7JP6An1bhgKPwS7eq8FRg55JWmzM5Hy+wtxw==
-X-ME-Sender: <xms:u_QNYQ8DYR_mgc3S5CUsGfPjSOF2KRvx4-vfJjZaq9jzklII-L8JbQ>
-    <xme:u_QNYYvj16CdLa8VESkRIlK6u4qbZAmUP3IoRaJ0rM6X1XDBst9S9bHOZawg6jm8n
-    _7EgLwYAde0faqIQWc>
-X-ME-Received: <xmr:u_QNYWAc37cJR9T4IJnQl1jVPaIm40UlLoPatU0ic1HFpSTIIZykTt6ichOi>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrjedvgdehlecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
-    dtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehljhhonhgv
-    shdruggvvheqnecuggftrfgrthhtvghrnheplefflefhledthfdtveeugfevueeukeegte
-    eigfeihffgjedvtedvueevtdfhvdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
-    rghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvh
-X-ME-Proxy: <xmx:u_QNYQfB4Gr-jhBlRnhKZQ1W6o8pkNEZvBEssUb4_d9Z4JxATEd3vw>
-    <xmx:u_QNYVM-1q_aFLHbgrGd3q0KvrXsHVzm1sCwlBqxHcl4sULOPVzkpA>
-    <xmx:u_QNYam3oUntbDZMP4GjxScpFMQZXpuX-pgSFu-GtKwiAgoNMUqY8A>
-    <xmx:vPQNYeaiHQc3KXNjER83h162NhtI7KMCJzhII8cxMwi_QcDMMroDmA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Aug 2021 22:49:28 -0400 (EDT)
-From:   "Luke D. Jones" <luke@ljones.dev>
-To:     linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, "Luke D. Jones" <luke@ljones.dev>
-Subject: [PATCH] HID: asus: Prevent Claymore sending suspend event
-Date:   Sat,  7 Aug 2021 14:49:21 +1200
-Message-Id: <20210807024921.26479-1-luke@ljones.dev>
-X-Mailer: git-send-email 2.31.1
+        id S231735AbhHGJM1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 7 Aug 2021 05:12:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51736 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231739AbhHGJMY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 7 Aug 2021 05:12:24 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DB90C0613CF
+        for <linux-input@vger.kernel.org>; Sat,  7 Aug 2021 02:12:07 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mCIMv-00079k-AT; Sat, 07 Aug 2021 11:11:49 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mCIMp-0007S4-8u; Sat, 07 Aug 2021 11:11:43 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mCIMp-00079k-7J; Sat, 07 Aug 2021 11:11:43 +0200
+Date:   Sat, 7 Aug 2021 11:11:35 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Corey Minyard <minyard@acm.org>
+Cc:     kernel@pengutronix.de, alsa-devel@alsa-project.org,
+        linux-parisc@vger.kernel.org,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Helge Deller <deller@gmx.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-scsi@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        netdev@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-input@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        openipmi-developer@lists.sourceforge.net,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH] parisc: Make struct parisc_driver::remove() return void
+Message-ID: <20210807091135.xgenctifq3wgn3ro@pengutronix.de>
+References: <20210806093938.1950990-1-u.kleine-koenig@pengutronix.de>
+ <20210806174927.GJ3406@minyard.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="45vk6qaqgnzlimcx"
+Content-Disposition: inline
+In-Reply-To: <20210806174927.GJ3406@minyard.net>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Prevent the ASUS Claymore keyboard from sending a suspend event
-when the device sleeps itself. The suspend event causes a system
-suspend if uncaught.
 
-Signed off by: Luke D Jones <luke@ljones.dev>
----
- drivers/hid/hid-asus.c | 15 +++++++++++++++
- drivers/hid/hid-ids.h  |  1 +
- 2 files changed, 16 insertions(+)
+--45vk6qaqgnzlimcx
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index fca8fc78a78a..9de0129fc3d4 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -82,6 +82,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
- #define QUIRK_T90CHI			BIT(9)
- #define QUIRK_MEDION_E1239T		BIT(10)
- #define QUIRK_ROG_NKEY_KEYBOARD		BIT(11)
-+#define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
- 
- #define I2C_KEYBOARD_QUIRKS			(QUIRK_FIX_NOTEBOOK_REPORT | \
- 						 QUIRK_NO_INIT_REPORTS | \
-@@ -366,6 +367,17 @@ static int asus_raw_event(struct hid_device *hdev,
- 
- 	}
- 
-+	if (drvdata->quirks & QUIRK_ROG_CLAYMORE_II_KEYBOARD) {
-+		/*
-+		 * CLAYMORE II keyboard sends this packet when it goes to sleep
-+		 * this causes the whole system to go into suspend.
-+		*/
-+
-+		if(size == 2 && data[0] == 0x02 && data[1] == 0x00) {
-+			return -1;
-+		}
-+	}
-+
- 	return 0;
- }
- 
-@@ -1228,6 +1240,9 @@ static const struct hid_device_id asus_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD2),
- 	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-+	    USB_DEVICE_ID_ASUSTEK_ROG_CLAYMORE_II_KEYBOARD),
-+	  QUIRK_ROG_CLAYMORE_II_KEYBOARD },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 		USB_DEVICE_ID_ASUSTEK_T100TA_KEYBOARD),
- 	  QUIRK_T100_KEYBOARD | QUIRK_NO_CONSUMER_USAGES },
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index b84a0a11e05b..c5d5e6f269a0 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -197,6 +197,7 @@
- #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD3 0x1822
- #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD	0x1866
- #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD2	0x19b6
-+#define USB_DEVICE_ID_ASUSTEK_ROG_CLAYMORE_II_KEYBOARD	0x196b
- #define USB_DEVICE_ID_ASUSTEK_FX503VD_KEYBOARD	0x1869
- 
- #define USB_VENDOR_ID_ATEN		0x0557
--- 
-2.31.1
+Hello,
 
+On Fri, Aug 06, 2021 at 12:49:27PM -0500, Corey Minyard wrote:
+> On Fri, Aug 06, 2021 at 11:39:38AM +0200, Uwe Kleine-K=F6nig wrote:
+> > -int ipmi_si_remove_by_dev(struct device *dev)
+> > +void ipmi_si_remove_by_dev(struct device *dev)
+>=20
+> This function is also used by ipmi_si_platform.c, so you can't change
+> this.
+
+Did you see that I adapted ipmi_si_platform.c below? That is an instance
+of "Make [ipmi_si_remove_by_dev] return void, too, as for all other
+callers the value is ignored, too." (In ipmi_si_platform.c the return
+value is used in a struct platform_driver::remove function. The value
+returned there is ignored, see commit
+e5e1c209788138f33ca6558bf9f572f6904f486d.)
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--45vk6qaqgnzlimcx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmEOTkQACgkQwfwUeK3K
+7Alj/wf+K39kaQNGHDkIhb/MnReZtTqJ7A4TTKfWOCggUIlF0kf2wXSKnlTK2HPV
+BPYqMYRAi5ZeO6n1X4beQCN8FSCnnD+s52mCB1nRELRizA8xhnIdK0uD8tqGR43c
+iRUEonO4k6ZppBtRgK5uABKENDAaDRQvylQZ9PAzunPbORpMEJJ9U9uaL7fUDtSz
+wwjGdfUTeuKFdZN8Ac+OfR7pgHkixcvH9/ECq/VzrsclVCB5DMtP9hckr0LPn5u1
+9mtgbkWMsFcj+FfkPo8KZgKoPA+NuTmhK6X17hUR5m7eNrPDt05uVH+MiBmmsY+s
+p6siiJxoVX8l60PKy7apKloWP9Ku8w==
+=Hx8e
+-----END PGP SIGNATURE-----
+
+--45vk6qaqgnzlimcx--
