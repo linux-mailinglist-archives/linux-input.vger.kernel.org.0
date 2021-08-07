@@ -2,117 +2,136 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 219A43E3534
-	for <lists+linux-input@lfdr.de>; Sat,  7 Aug 2021 14:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2FC33E35C5
+	for <lists+linux-input@lfdr.de>; Sat,  7 Aug 2021 16:03:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232096AbhHGMAq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 7 Aug 2021 08:00:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60402 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230012AbhHGMAp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 7 Aug 2021 08:00:45 -0400
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 708D6C0613CF;
-        Sat,  7 Aug 2021 05:00:27 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id w17so20187347ybl.11;
-        Sat, 07 Aug 2021 05:00:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=WyWRBH02aF7TMZK2H9iKEqjuVSj2aT5mi1GkBNRCyKg=;
-        b=QOdR5x9JTDfThKVhuyhEYPReV0+hyqKytp6bhrDU9jtJxybQG/OIAaA3oWXzAmhUeI
-         OpdNdHL2cTWOdcoGJdjl6SMiapPShk5dqCtzePXNHkSDDTyDYEUVEMRWoeWDVMRgEvWT
-         F3WsjtH95W2GEqcxmYbu5Nki6iHjaP/wAYl8B41Jx1LBzEzxM7r/El9yGNDidzRbvvqa
-         Kmis+CIiKYZTjEfn/MyNVZZE/sJlnMzcMNu5e2sZtEh+M3pQUSfAAN/s+5gpulRT28gX
-         WpDFxD9aYBck7JqESW1IHpFohPSZLTlNkFRqH4KUtyrj9Pxrh4lb4vBKQjKvBi3tS5E+
-         KYxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=WyWRBH02aF7TMZK2H9iKEqjuVSj2aT5mi1GkBNRCyKg=;
-        b=FENVn+x4TjHqCmYz0t/+7EfVYf1QGqh+zYpVEYmMGPTqnHOOisyXnxzs+6hlVBhG+N
-         QQph2pPY6TkLAa3m8sU5mMDcy4AbNmu15kNxTPMh6DRzmYDaBbUc85RmuCV1GgVPqryW
-         EgWH6cNXsXTLSpg6B9wVdvY2oBP9UeTHGYzrneA/3AB/2K+eaIJpiLLBRcK3tG7HJVWy
-         PmCOFC3lrqXyvRa0Wpq4I6Uqs1KnDmVexInUNu2TpoP7L058z7s7FQ5UCxjlV4esc5Xh
-         WYznK39bNlKg0rsWYXzKfSaqIiE+k6l8K5fA5SOb3CL1CbUEZEhfI1nTa5rZz4m7xdaV
-         hF5g==
-X-Gm-Message-State: AOAM532Vo5TEnmV+KE0rkq3yYrSNcJSnBO2C/YT8KQjFaTRcaDHjTde0
-        nUc2OVB7nPEWNSFFrrQgxPso62OY9pkddZvu+yA=
-X-Google-Smtp-Source: ABdhPJxo9qHswzoJFxioC74Rd4uuv/McBZ+hRPGpGsGEvfuOE6rZWY4LuFWwzY6Vg59fOtg8kqf5oNFF1j4ZtwtEzDU=
-X-Received: by 2002:a25:1546:: with SMTP id 67mr19373700ybv.331.1628337626600;
- Sat, 07 Aug 2021 05:00:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210807091927.1974404-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20210807091927.1974404-1-u.kleine-koenig@pengutronix.de>
-From:   Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Date:   Sat, 7 Aug 2021 12:59:50 +0100
-Message-ID: <CADVatmO7Wtc8+4mzorrmcwKv2QXg579avynK==9D1Dqz9PHaJw@mail.gmail.com>
-Subject: Re: [PATCH v2] parisc: Make struct parisc_driver::remove() return void
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        alsa-devel@alsa-project.org, Corey Minyard <minyard@acm.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S232290AbhHGODf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 7 Aug 2021 10:03:35 -0400
+Received: from mout.gmx.net ([212.227.15.18]:48217 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232315AbhHGODe (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 7 Aug 2021 10:03:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1628344979;
+        bh=k2GBgCmqU8bcXXxwqYT8+wy/dE6s67X00p5yc0rN0OU=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=AXsiYcIHZyY5fRJDsGzDyoay2LWSj2JUR/QgIoGUZGhFdJatRsatPBafTtCS423/B
+         tlNRVLflnI1AODFzskSUFzSnwzmrvFOFzeMMcwe8sG5VleBXruRsC+YGozCCJUDkyC
+         6eJDCoysQL0M1e/m1DQhDq8KokFmEbgwa+DnLvI8=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MtfJd-1mzX7l3fDT-00vASB; Sat, 07
+ Aug 2021 16:02:59 +0200
+Date:   Sat, 7 Aug 2021 16:02:45 +0200
+From:   Len Baker <len.baker@gmx.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Len Baker <len.baker@gmx.com>,
+        "Russell King (Oracle)" <linux@armlinux.org.uk>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>, linux-scsi@vger.kernel.org,
-        netdev <netdev@vger.kernel.org>,
-        linux-parisc <linux-parisc@vger.kernel.org>,
-        linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>,
-        openipmi-developer@lists.sourceforge.net,
-        Jaroslav Kysela <perex@perex.cz>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="UTF-8"
+        Lee Jones <lee.jones@linaro.org>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-hardening@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Joe Perches <joe@perches.com>
+Subject: Re: [PATCH] drivers/input: Remove all strcpy() uses in favor of
+ strscpy()
+Message-ID: <20210807140245.GA2688@titan>
+References: <20210801144316.12841-1-len.baker@gmx.com>
+ <20210801145959.GI22278@shell.armlinux.org.uk>
+ <20210801155732.GA16547@titan>
+ <202108010934.FA668DEB28@keescook>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202108010934.FA668DEB28@keescook>
+X-Provags-ID: V03:K1:amRQlmS54gZGkHnWWCdXUYB3d9D2joe3Nw3fVBvlzuvomE/U182
+ fbj7U6CE+xYDWDdbvGcDAZTIPBN6HTjOWjdKkWWI0WejGewvXI2j0lLMe0UvrJ3GpoQmIJH
+ 97/nCOVcvLQpOXygEJSCRJoCmvKo5/QZcb0s12M0fRbNqmBSRb+NF5GrWeDvb12X6lnYeBn
+ jMLvVXF5zVzCdr5q682gg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Sgos5+f0fYQ=:JjX6QYB9fgrvcGWpoc/vzv
+ OVtkQ0XC/IMZtQJanushKADSO8HD0xdDs8vr3ViRh4WKXZC8rWp5pnXuZLQZnitp5YIstK0nd
+ LivNQnhTtRToPkETh9fbl7BnnWGY1fKpEI/0JuZzFPRo+l9sLZFtFBi/fJBHzwh0zuM3PkSSz
+ jYQsElRMy4NzEFVkv2tM+fP0YTaKfrkCqVVAcRPnoXyXzybz/JShtQLk1yVvJlbVoWK0X3Jnq
+ MRJgncadwl1gaSYTvrZwfYd6erqV4zkICb8l1l1Dl+fcOw3YJUnLKgd9hCRm+bvHxqVEORVCI
+ X5q274xyuGEtuMzKDLP5AxS4MN04kLyVZ8eSPLzLlW1pbJmPA5K7br1Qs6QAOAhg+17RG3yKP
+ Zma5I/11/e/Vs/y79hcW0fT0twbFfBLJIT4a601w8bUjj6IDfXFSdh6fnDMtQErrjttgMRQmR
+ XS43Bsdf03wWfdDVpm2o1JepaIs6gxc+yh+fLawv4OGTGQclc21vhLM8pDWnXTuf4IamwpS71
+ lHPol9fpGxCYzqDPQjchy5PHTp3T+sp73otBKiMAbeFACBee/y25Rfh/8wENJuQuIpuV8bISN
+ JxA6s+F5IgzKenuUYDUS9enn16wtClSkhAE52sz0sISA+hGSywyU+teDeo1A+v5o7a1CVYtcH
+ W3ZpXB94UxmRGK6xBivGAh9Ohf1LhOqQS/fEv2JzL/6vyLNN8yB9POiIOfgTYAvYLc2DSatN5
+ PVgEHbkUGJipXPHE4SW7PJpqujOAdT2xW7LsA8GN5zovI65xPymwfuMWdQe69pWjRvalQzpaE
+ jfQkjj5IPORo4zyaYGiLhDyz90VSlFy62SD2GrHiWCc3coPVS7GiGn1nVHKTwhoWBcnYXO/ae
+ 8fGxtKzvw66AYSWUzHxZ5nhe+6cIal1KyCM8naISewCRurLjG0VMK6nfuZZ9I4zUWETXwSqJ0
+ xrYrlxWqM6j0azPkvckimLYk+I7xSsbhnVSjX+kCkm2l3oZrQrkKoOwGVgoOKK0xE62YMTsbV
+ A1frs5n8CMvurOZIyAPvMVlsPrWRedVN+jHeeWZKfahUcnQYChfYL8qyLEv+dFpQQbyPd7kyQ
+ jYC1pNEZ5j21F/MC0nYFuGq/0WjA1aNzgHyOPeQjbELKHBWRCxtamC3Zg==
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Aug 7, 2021 at 10:19 AM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
-> The caller of this function (parisc_driver_remove() in
-> arch/parisc/kernel/drivers.c) ignores the return value, so better don't
-> return any value at all to not wake wrong expectations in driver authors.
->
-> The only function that could return a non-zero value before was
-> ipmi_parisc_remove() which returns the return value of
-> ipmi_si_remove_by_dev(). Make this function return void, too, as for all
-> other callers the value is ignored, too.
->
-> Also fold in a small checkpatch fix for:
->
-> WARNING: Unnecessary space before function pointer arguments
-> +       void (*remove) (struct parisc_device *dev);
->
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com> (for drivers/input)
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
-> changes since v1 sent with Message-Id:
-> 20210806093938.1950990-1-u.kleine-koenig@pengutronix.de:
->
->  - Fix a compiler error noticed by the kernel test robot
->  - Add Ack for Dmitry
->
->  arch/parisc/include/asm/parisc-device.h  | 4 ++--
->  drivers/char/ipmi/ipmi_si.h              | 2 +-
->  drivers/char/ipmi/ipmi_si_intf.c         | 6 +-----
->  drivers/char/ipmi/ipmi_si_parisc.c       | 4 ++--
->  drivers/char/ipmi/ipmi_si_platform.c     | 4 +++-
->  drivers/input/keyboard/hilkbd.c          | 4 +---
->  drivers/input/serio/gscps2.c             | 3 +--
->  drivers/net/ethernet/i825xx/lasi_82596.c | 3 +--
->  drivers/parport/parport_gsc.c            | 3 +--
+Hi,
 
-Acked-by:  Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+On Sun, Aug 01, 2021 at 09:44:33AM -0700, Kees Cook wrote:
+> On Sun, Aug 01, 2021 at 05:57:32PM +0200, Len Baker wrote:
+> > Hi,
+> >
+> > On Sun, Aug 01, 2021 at 04:00:00PM +0100, Russell King (Oracle) wrote:
+> > > Rather than converting every single strcpy() in the kernel to
+> > > strscpy(), maybe there should be some consideration given to how the
+> > > issue of a strcpy() that overflows the buffer should be handled.
+> > > E.g. in the case of a known string such as the above, if it's longer
+> > > than the destination, should we find a way to make the compiler issu=
+e
+> > > a warning at compile time?
+> >
+> > Good point. I am a kernel newbie and have no experience. So this
+> > question should be answered by some kernel hacker :) But I agree
+> > with your proposals.
+> >
+> > Kees and folks: Any comments?
+> >
+> > Note: Kees is asked the same question in [2]
+> >
+> > [2] https://lore.kernel.org/lkml/20210731135957.GB1979@titan/
+>
+> Hi!
+>
+> Sorry for the delay at looking into this. It didn't use to be a problem
+> (there would always have been a compile-time warning generated for
+> known-too-small cases), but that appears to have regressed when,
+> ironically, strscpy() coverage was added. I've detailed it in the bug
+> report:
+> https://github.com/KSPP/linux/issues/88
+>
+> So, bottom line: we need to fix the missing compile-time warnings for
+> strcpy() and strscpy() under CONFIG_FORTIFY_SOURCE=3Dy.
+>
+> In the past we'd tried to add a stracpy()[1] that would only work with
+> const string sources. Linus got angry[2] about API explosion, though,
+> so we're mostly faced with doing the strscpy() replacements.
+>
+> Another idea might be to have strcpy() do the "constant strings only"
+> thing, leaving strscpy() for the dynamic lengths.
+>
+> One thing is clear: replacing strlcpy() with strscpy() is probably the
+> easiest and best first step to cleaning up the proliferation of str*()
+> functions.
 
+Thanks for all this info. I will work on it (clean up the proliferation
+of str*() functions).
 
---=20
-Regards
-Sudip
+Regards,
+Len
+
+>
+> -Kees
+>
+> [1] https://lore.kernel.org/lkml/ed4611a4a96057bf8076856560bfbf9b5e95d39=
+0.1563889130.git.joe@perches.com/
+> [2] https://lore.kernel.org/lkml/CAHk-=3DwgqQKoAnhmhGE-2PBFt7oQs9LLAATKb=
+Ya573UO=3DDPBE0Q@mail.gmail.com/
+>
+> --
+> Kees Cook
