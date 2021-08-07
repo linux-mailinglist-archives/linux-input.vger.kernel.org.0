@@ -2,108 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21AE83E2F70
-	for <lists+linux-input@lfdr.de>; Fri,  6 Aug 2021 20:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 084E93E32CF
+	for <lists+linux-input@lfdr.de>; Sat,  7 Aug 2021 04:49:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243339AbhHFSqf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Aug 2021 14:46:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60014 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231889AbhHFSqf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Aug 2021 14:46:35 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00C1AC0613CF;
-        Fri,  6 Aug 2021 11:46:18 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id t7-20020a17090a5d87b029017807007f23so20864357pji.5;
-        Fri, 06 Aug 2021 11:46:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=lq+ZJabFR/aEqAVLWWQwRS+Bk30mmVgINsLo2QOd63g=;
-        b=oPU85Ks4t/BD97TfUEBxq2w8KeO5d4b1Nvchn+Yv7kB9wyq/mf6St5MBYsxebm3xyK
-         2TryVrMzKvdFR8lsNpJJvPTGVD4xpl+ayOSVdJa9rxZqEG8whTlQ9VyP8dlNEQrJJob9
-         L1GJYfPOIitMNMopL09Z+xctxoFgA0e1jTOj55Hexm/8/2DIwLeTuQql2G/TkU9C3erd
-         aqjtHdqEda9mrydWw7Nl7tQlscqzQhgaTkh3FsV8iPW0Y607/KxDgxiwjF79JrWcFsfS
-         nD/+RPX0BYNASPKwyYxj4WgS75i+bpNHRnG/mqXLAaY3TvvGXIOmp2cf1T5bSsVeRVnR
-         2OKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=lq+ZJabFR/aEqAVLWWQwRS+Bk30mmVgINsLo2QOd63g=;
-        b=DucPVjjs0ZsvWYowKi+0i2xiOpQfbZ6htuepHQYDtVV/xB/HOyWy+ZEUwaJBaj0E7T
-         kqI8tS6Q/8ExE6mn69Knt+K0ZVfSFAjwkpHwH3RCwazvCphLC6UIVLj+Mb0gxQfjJMc7
-         PmVoomIqHbYgxr/nGguyYDSLiflnRYfNcAbWrOdEZ7yUia+cTZyrKDKV7EB4UI9EabHj
-         EUmf89xO0vXQB3iHCUXddkfov+Ym17e/RvZ9yiKdA4x7Z6jqPldTi+qhfyL7s4VbR1up
-         J7yhgnB3TSS1Wm+k6fA5IWB6rZ0Aj0oA+K8hpr9UOPW9avLdg7XdL/BzYCAmh7/t4D/E
-         RwbA==
-X-Gm-Message-State: AOAM530kZahHgGV18PkCCoCHNrird3Zmbke3lYJzSsa6g40sQ1CheERm
-        D2mu3sep3fbmrkoIGFsOfyI=
-X-Google-Smtp-Source: ABdhPJzzMFSdpyMOk7GztnyuZ8fgTAmGVjar/iMG55IOe92tbJufWKgnV6AdQl2ufQFq5C/G1yNdUw==
-X-Received: by 2002:a62:8f86:0:b029:32e:33d7:998b with SMTP id n128-20020a628f860000b029032e33d7998bmr12215091pfd.64.1628275577437;
-        Fri, 06 Aug 2021 11:46:17 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:8873:2b2a:719c:18c7])
-        by smtp.gmail.com with ESMTPSA id jz24sm10017062pjb.9.2021.08.06.11.46.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Aug 2021 11:46:16 -0700 (PDT)
-Date:   Fri, 6 Aug 2021 11:46:13 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>, Corey Minyard <minyard@acm.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-parisc@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
-        alsa-devel@alsa-project.org, kernel@pengutronix.de
-Subject: Re: [PATCH] parisc: Make struct parisc_driver::remove() return void
-Message-ID: <YQ2DdZG2tQuzM22U@google.com>
-References: <20210806093938.1950990-1-u.kleine-koenig@pengutronix.de>
+        id S230113AbhHGCtt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Aug 2021 22:49:49 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:39307 "EHLO
+        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230053AbhHGCts (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 6 Aug 2021 22:49:48 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id 0EB0C5C00AA;
+        Fri,  6 Aug 2021 22:49:32 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Fri, 06 Aug 2021 22:49:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=FPEgx3UpFhTAog451
+        MEpbDOpAUvEahxrQ+GthvwBlX8=; b=MuG+YzCdnb4HoYRhGePyijNGLu2dN92WI
+        URAOmKG2ULNcx6a8fI29tgEhMre2PfoZbdIPXR2u9gop4AwVAKDNtaNNs86aFs6t
+        6dslQHzS4vryw8nhPFyhC6mIrQu1H/MZMoJij57z3UfRoOhQzGQrQCmcez11vYYC
+        MYc9aPb3dOlIC+Ba8qBaZHjXSXKA0GNfKFSyiFym3ct9iV3AlIW4zZnqy80ZZ6oc
+        mYsFJLXo3UsWvLcr2oW3riloZ9pa0WVJ28q1cjbYmtCLfn5wZQNAkU566OSmxQDy
+        tkjmkw8ASY9CawuPc7JP6An1bhgKPwS7eq8FRg55JWmzM5Hy+wtxw==
+X-ME-Sender: <xms:u_QNYQ8DYR_mgc3S5CUsGfPjSOF2KRvx4-vfJjZaq9jzklII-L8JbQ>
+    <xme:u_QNYYvj16CdLa8VESkRIlK6u4qbZAmUP3IoRaJ0rM6X1XDBst9S9bHOZawg6jm8n
+    _7EgLwYAde0faqIQWc>
+X-ME-Received: <xmr:u_QNYWAc37cJR9T4IJnQl1jVPaIm40UlLoPatU0ic1HFpSTIIZykTt6ichOi>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrjedvgdehlecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+    dtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehljhhonhgv
+    shdruggvvheqnecuggftrfgrthhtvghrnheplefflefhledthfdtveeugfevueeukeegte
+    eigfeihffgjedvtedvueevtdfhvdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
+    rghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvh
+X-ME-Proxy: <xmx:u_QNYQfB4Gr-jhBlRnhKZQ1W6o8pkNEZvBEssUb4_d9Z4JxATEd3vw>
+    <xmx:u_QNYVM-1q_aFLHbgrGd3q0KvrXsHVzm1sCwlBqxHcl4sULOPVzkpA>
+    <xmx:u_QNYam3oUntbDZMP4GjxScpFMQZXpuX-pgSFu-GtKwiAgoNMUqY8A>
+    <xmx:vPQNYeaiHQc3KXNjER83h162NhtI7KMCJzhII8cxMwi_QcDMMroDmA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Aug 2021 22:49:28 -0400 (EDT)
+From:   "Luke D. Jones" <luke@ljones.dev>
+To:     linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, "Luke D. Jones" <luke@ljones.dev>
+Subject: [PATCH] HID: asus: Prevent Claymore sending suspend event
+Date:   Sat,  7 Aug 2021 14:49:21 +1200
+Message-Id: <20210807024921.26479-1-luke@ljones.dev>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210806093938.1950990-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Aug 06, 2021 at 11:39:38AM +0200, Uwe Kleine-König wrote:
-> The caller of this function (parisc_driver_remove() in
-> arch/parisc/kernel/drivers.c) ignores the return value, so better don't
-> return any value at all to not wake wrong expectations in driver authors.
-> 
-> The only function that could return a non-zero value before was
-> ipmi_parisc_remove() which returns the return value of
-> ipmi_si_remove_by_dev(). Make this function return void, too, as for all
-> other callers the value is ignored, too.
-> 
-> Also fold in a small checkpatch fix for:
-> 
-> WARNING: Unnecessary space before function pointer arguments
-> +	void (*remove) (struct parisc_device *dev);
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
+Prevent the ASUS Claymore keyboard from sending a suspend event
+when the device sleeps itself. The suspend event causes a system
+suspend if uncaught.
 
-...
+Signed off by: Luke D Jones <luke@ljones.dev>
+---
+ drivers/hid/hid-asus.c | 15 +++++++++++++++
+ drivers/hid/hid-ids.h  |  1 +
+ 2 files changed, 16 insertions(+)
 
->  drivers/input/keyboard/hilkbd.c          | 4 +---
->  drivers/input/serio/gscps2.c             | 3 +--
-
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Thanks.
-
+diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+index fca8fc78a78a..9de0129fc3d4 100644
+--- a/drivers/hid/hid-asus.c
++++ b/drivers/hid/hid-asus.c
+@@ -82,6 +82,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+ #define QUIRK_T90CHI			BIT(9)
+ #define QUIRK_MEDION_E1239T		BIT(10)
+ #define QUIRK_ROG_NKEY_KEYBOARD		BIT(11)
++#define QUIRK_ROG_CLAYMORE_II_KEYBOARD BIT(12)
+ 
+ #define I2C_KEYBOARD_QUIRKS			(QUIRK_FIX_NOTEBOOK_REPORT | \
+ 						 QUIRK_NO_INIT_REPORTS | \
+@@ -366,6 +367,17 @@ static int asus_raw_event(struct hid_device *hdev,
+ 
+ 	}
+ 
++	if (drvdata->quirks & QUIRK_ROG_CLAYMORE_II_KEYBOARD) {
++		/*
++		 * CLAYMORE II keyboard sends this packet when it goes to sleep
++		 * this causes the whole system to go into suspend.
++		*/
++
++		if(size == 2 && data[0] == 0x02 && data[1] == 0x00) {
++			return -1;
++		}
++	}
++
+ 	return 0;
+ }
+ 
+@@ -1228,6 +1240,9 @@ static const struct hid_device_id asus_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+ 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD2),
+ 	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
++	    USB_DEVICE_ID_ASUSTEK_ROG_CLAYMORE_II_KEYBOARD),
++	  QUIRK_ROG_CLAYMORE_II_KEYBOARD },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+ 		USB_DEVICE_ID_ASUSTEK_T100TA_KEYBOARD),
+ 	  QUIRK_T100_KEYBOARD | QUIRK_NO_CONSUMER_USAGES },
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index b84a0a11e05b..c5d5e6f269a0 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -197,6 +197,7 @@
+ #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD3 0x1822
+ #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD	0x1866
+ #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD2	0x19b6
++#define USB_DEVICE_ID_ASUSTEK_ROG_CLAYMORE_II_KEYBOARD	0x196b
+ #define USB_DEVICE_ID_ASUSTEK_FX503VD_KEYBOARD	0x1869
+ 
+ #define USB_VENDOR_ID_ATEN		0x0557
 -- 
-Dmitry
+2.31.1
+
