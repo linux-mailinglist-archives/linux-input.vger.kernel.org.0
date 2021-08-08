@@ -2,111 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FE233E39F9
-	for <lists+linux-input@lfdr.de>; Sun,  8 Aug 2021 13:31:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D15A3E3BEF
+	for <lists+linux-input@lfdr.de>; Sun,  8 Aug 2021 19:28:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230363AbhHHLbX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 8 Aug 2021 07:31:23 -0400
-Received: from mout.gmx.net ([212.227.15.15]:52729 "EHLO mout.gmx.net"
+        id S231493AbhHHR2t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 8 Aug 2021 13:28:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56648 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229473AbhHHLbX (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 8 Aug 2021 07:31:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1628422255;
-        bh=W5chU5//YfU3n5/LhSUUVSldCLiEe1+cMgrkYXazda0=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=C9NVFolz1ZsuztP7hj7CJh6tZUOPaGkLRIeA11yOMplKcp81SspAM4UApgNIyzct0
-         tM8nRFXsYv5+bS9hjP+tDhl3VE1QcY+h+xUO5jQcyD1h7EZOiI11dzIzTCpRKTzhkE
-         N27zc9Typcu5BRft/5MU7uZdmw/zIGmLeyxn1Tog=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MiaY9-1moFlA2Fl9-00fitP; Sun, 08
- Aug 2021 13:30:55 +0200
-Date:   Sun, 8 Aug 2021 13:30:43 +0200
-From:   Len Baker <len.baker@gmx.com>
-To:     Joe Perches <joe@perches.com>
-Cc:     Len Baker <len.baker@gmx.com>, Kees Cook <keescook@chromium.org>,
-        "Russell King (Oracle)" <linux@armlinux.org.uk>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-hardening@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drivers/input: Remove all strcpy() uses in favor of
- strscpy()
-Message-ID: <20210808113043.GA3042@titan>
-References: <20210801144316.12841-1-len.baker@gmx.com>
- <20210801145959.GI22278@shell.armlinux.org.uk>
- <20210801155732.GA16547@titan>
- <202108010934.FA668DEB28@keescook>
- <20210807140245.GA2688@titan>
- <0c1d7c01821f1f0891fd8f13c1e8f9a68bb21717.camel@perches.com>
+        id S231486AbhHHR2q (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 8 Aug 2021 13:28:46 -0400
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F016260F0F;
+        Sun,  8 Aug 2021 17:28:25 +0000 (UTC)
+Date:   Sun, 8 Aug 2021 18:31:15 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Ye Xiang <xiang.ye@intel.com>
+Cc:     jikos@kernel.org, srinivas.pandruvada@linux.intel.com,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iio: hid-sensor-press: Add timestamp channel
+Message-ID: <20210808183115.31df0580@jic23-huawei>
+In-Reply-To: <20210731032556.26813-1-xiang.ye@intel.com>
+References: <20210731032556.26813-1-xiang.ye@intel.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0c1d7c01821f1f0891fd8f13c1e8f9a68bb21717.camel@perches.com>
-X-Provags-ID: V03:K1:yhtkYHOcv/CHfzZdfq4WcAMbmVNEMTMq971wsGS9ywr1epjn7nE
- 1anGABKOQFM/27iH0g27l/ljraDexB9IRu9iidvy8X/LpM2joGccUuJYn98zRJNpxcwF1hH
- 4kVyEgb9uCeY8Onw6RSereN+/KNXvT3RnXvdOJrUxK7RXnDvSFgiQIMNPInOon9nvXKypme
- +cp9kDx3Wn2kEYwZssgJA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wbeyWHOiozo=:5WOgHNeL5Q45hm6gMdYeBG
- WtTe2QQjS0HdeW5zyT6ibXFFhDJc3tdwylJNHtEWpt2TyFEj5WYb3YrzrxD08eg3Xy/woBHn9
- yEe1nYJtrqknaCyOdbpw6Ki0gGFcNG2smWJdumrE43lrtiX+Pn8oKoDEMPdrraXIVNACGBTLU
- ZX4j1OlOKccvxSoq5KOOEgl92gufFkfZoUE7yXeQwgxWVwr4OkeZToan0kvPPoy1kcaTEDQCm
- ZYsqxGKLO8iB5mbi56GDECJsbkq+a8FLK+arZMRQ8qpQ4jMpxfbWKl1p56zZNGwGJm9OBHs8Y
- fogIgg+H5dXs8bryCTlR4klKFQYyl8CQiR4VFBaZMWnvnRYHDjSRrmB6y0mCY8xyn8mbXO9EQ
- 9+YCfUODUW3PDoDCkBfr5faMTYYAZuLsJOBDVwVNbuGJ95SB4ztfyzmj+0DO4Wonl4YySCgkm
- LBnLG/DRJv5Xp7pmaji6AFQcXMYk/PEi4QMs09WOTkWMbJeQqwh0a51+z1asCisPBjIVSSnYB
- eu8v3PywFRBhwHQjENl/7d68Yp4qeJOw1n/LiO2ELjdGzbzRO/ewiv9cm2+Yk1f26WtCwKrIv
- 1yhCRyvPiVVjFimBFkybHI4UMqqv7wNftFul18QJttS0jVxkAsuPme4ou5oxtWqyk6dkQSjP9
- FsQPmhnghB5J+nyJgFFx0TuzMonxdVMtiw+kBv8WsE4W8JOYdHXqAXP8WxRLWsi6BbDF0uKTb
- Sbr95zUO9WW1qwlCrUra+4VfJ4rI3ei0d39mkC+R46YRW98TD7jIrcfWIjjmqIhkGN/ZaVYCJ
- gZExeTTDL7cj6JlpXQVNdapx7yXQSRCw2ncdAt6RRBSyMksIh019QOQZ+yVRTe8zGj0LEcuvV
- j9flNdLJojegbi1BK7m8lNh3oJBdw7MM/Sy5af/Nn78vGMR0HlDgXat6OnZ7Z0IYSn4di8YjS
- swWD/W23RYRBHgPJN8h2mEQ18S73GveQDcdvVFQYzSOfR1qXm+9nPtyBaBTkP0rVKqgCFihl5
- J3PM0ngze9EgpdyGDO7AlXxDKGymZXvGntpxQxu7PL416mv5Hw+M82DbL1BJvVbVK9lfxMjhO
- o1GyuBOQ00Q4wiHnSiH9k3kJqWAGTpT/WL0OoH3iTaFhGOnTgXXMOKYUA==
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Sat, 31 Jul 2021 11:25:56 +0800
+Ye Xiang <xiang.ye@intel.com> wrote:
 
-On Sat, Aug 07, 2021 at 08:17:39AM -0700, Joe Perches wrote:
-> On Sat, 2021-08-07 at 16:02 +0200, Len Baker wrote:
-> > On Sun, Aug 01, 2021 at 09:44:33AM -0700, Kees Cook wrote:
-> []
-> > > One thing is clear: replacing strlcpy() with strscpy() is probably t=
-he
-> > > easiest and best first step to cleaning up the proliferation of str*=
-()
-> > > functions.
-> >
-> > Thanks for all this info. I will work on it (clean up the proliferatio=
-n
-> > of str*() functions).
->
-> btw:
->
-> It's not possible to sed as the return value is different,
-> but here is a cocci script that converts strlcpy to strscpy
-> when the return value is unused.
->
->     @@
->     expression e1, e2, e3;
->     @@
->
->     -       strlcpy(
->     +       strscpy(
->             e1, e2, e3);
->
-> This cocci script was used on sound/ awhile back.
-> see commit 75b1a8f9d62e.
+> Each sample has a timestamp field with this change. This timestamp may
+> be from the sensor hub when present or local kernel timestamp. The
+> unit of timestamp is nanosecond.
+> 
+> Signed-off-by: Ye Xiang <xiang.ye@intel.com>
+Applied to the togreg branch of iio.git and pushed out as testing to
+let 0-day see what it can find.
 
-Thanks a lot for your help on this. I will take into account all this info=
-.
+Thanks,
 
-Regards,
-Len
+Jonathan
+
+> ---
+>  drivers/iio/pressure/hid-sensor-press.c | 40 +++++++++++++++----------
+>  1 file changed, 24 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/iio/pressure/hid-sensor-press.c b/drivers/iio/pressure/hid-sensor-press.c
+> index c416d261e3e3..b365483bd09e 100644
+> --- a/drivers/iio/pressure/hid-sensor-press.c
+> +++ b/drivers/iio/pressure/hid-sensor-press.c
+> @@ -16,17 +16,24 @@
+>  #include <linux/iio/buffer.h>
+>  #include "../common/hid-sensors/hid-sensor-trigger.h"
+>  
+> -#define CHANNEL_SCAN_INDEX_PRESSURE 0
+> +enum {
+> +	CHANNEL_SCAN_INDEX_PRESSURE,
+> +	CHANNEL_SCAN_INDEX_TIMESTAMP,
+> +};
+>  
+>  struct press_state {
+>  	struct hid_sensor_hub_callbacks callbacks;
+>  	struct hid_sensor_common common_attributes;
+>  	struct hid_sensor_hub_attribute_info press_attr;
+> -	u32 press_data;
+> +	struct {
+> +		u32 press_data;
+> +		u64 timestamp __aligned(8);
+> +	} scan;
+>  	int scale_pre_decml;
+>  	int scale_post_decml;
+>  	int scale_precision;
+>  	int value_offset;
+> +	s64 timestamp;
+>  };
+>  
+>  static const u32 press_sensitivity_addresses[] = {
+> @@ -44,7 +51,9 @@ static const struct iio_chan_spec press_channels[] = {
+>  		BIT(IIO_CHAN_INFO_SAMP_FREQ) |
+>  		BIT(IIO_CHAN_INFO_HYSTERESIS),
+>  		.scan_index = CHANNEL_SCAN_INDEX_PRESSURE,
+> -	}
+> +	},
+> +	IIO_CHAN_SOFT_TIMESTAMP(CHANNEL_SCAN_INDEX_TIMESTAMP)
+> +
+>  };
+>  
+>  /* Adjust channel real bits based on report descriptor */
+> @@ -157,14 +166,6 @@ static const struct iio_info press_info = {
+>  	.write_raw = &press_write_raw,
+>  };
+>  
+> -/* Function to push data to buffer */
+> -static void hid_sensor_push_data(struct iio_dev *indio_dev, const void *data,
+> -					int len)
+> -{
+> -	dev_dbg(&indio_dev->dev, "hid_sensor_push_data\n");
+> -	iio_push_to_buffers(indio_dev, data);
+> -}
+> -
+>  /* Callback handler to send event after all samples are received and captured */
+>  static int press_proc_event(struct hid_sensor_hub_device *hsdev,
+>  				unsigned usage_id,
+> @@ -174,10 +175,13 @@ static int press_proc_event(struct hid_sensor_hub_device *hsdev,
+>  	struct press_state *press_state = iio_priv(indio_dev);
+>  
+>  	dev_dbg(&indio_dev->dev, "press_proc_event\n");
+> -	if (atomic_read(&press_state->common_attributes.data_ready))
+> -		hid_sensor_push_data(indio_dev,
+> -				&press_state->press_data,
+> -				sizeof(press_state->press_data));
+> +	if (atomic_read(&press_state->common_attributes.data_ready)) {
+> +		if (!press_state->timestamp)
+> +			press_state->timestamp = iio_get_time_ns(indio_dev);
+> +
+> +		iio_push_to_buffers_with_timestamp(
+> +			indio_dev, &press_state->scan, press_state->timestamp);
+> +	}
+>  
+>  	return 0;
+>  }
+> @@ -194,9 +198,13 @@ static int press_capture_sample(struct hid_sensor_hub_device *hsdev,
+>  
+>  	switch (usage_id) {
+>  	case HID_USAGE_SENSOR_ATMOSPHERIC_PRESSURE:
+> -		press_state->press_data = *(u32 *)raw_data;
+> +		press_state->scan.press_data = *(u32 *)raw_data;
+>  		ret = 0;
+>  		break;
+> +	case HID_USAGE_SENSOR_TIME_TIMESTAMP:
+> +		press_state->timestamp = hid_sensor_convert_timestamp(
+> +			&press_state->common_attributes, *(s64 *)raw_data);
+> +		break;
+>  	default:
+>  		break;
+>  	}
+
