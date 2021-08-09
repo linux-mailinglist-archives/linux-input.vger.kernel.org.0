@@ -2,145 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D15A3E3BEF
-	for <lists+linux-input@lfdr.de>; Sun,  8 Aug 2021 19:28:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59F543E3EC7
+	for <lists+linux-input@lfdr.de>; Mon,  9 Aug 2021 06:19:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231493AbhHHR2t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 8 Aug 2021 13:28:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56648 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231486AbhHHR2q (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 8 Aug 2021 13:28:46 -0400
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F016260F0F;
-        Sun,  8 Aug 2021 17:28:25 +0000 (UTC)
-Date:   Sun, 8 Aug 2021 18:31:15 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Ye Xiang <xiang.ye@intel.com>
-Cc:     jikos@kernel.org, srinivas.pandruvada@linux.intel.com,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] iio: hid-sensor-press: Add timestamp channel
-Message-ID: <20210808183115.31df0580@jic23-huawei>
-In-Reply-To: <20210731032556.26813-1-xiang.ye@intel.com>
-References: <20210731032556.26813-1-xiang.ye@intel.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
+        id S230410AbhHIET7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Aug 2021 00:19:59 -0400
+Received: from mail-ed1-f45.google.com ([209.85.208.45]:36405 "EHLO
+        mail-ed1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230394AbhHIET7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Aug 2021 00:19:59 -0400
+Received: by mail-ed1-f45.google.com with SMTP id b7so22642278edu.3;
+        Sun, 08 Aug 2021 21:19:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=5hPnLfQOdhJ9VmhjHCFa74vmYcG7vey0A+Y6VMqc53E=;
+        b=o5PGXIZWnReQszCos4kWlfLBt0BR2K+i/ixajhAC0ytTL+YgV8pwCUSwODB7AK4Orr
+         LBvPtAqCZYIbNdEc4vemBXGCfiFDb0TWVKOKrXRLmhVeVya4oGnaLkpoa99coPcK0ycO
+         yCD+b+RubYjEXdoIy6QH+G1jv7YhNOZhJ03Q7EZCLLhMAgY5+hsgpHdEgrDnM4jZBSsi
+         8qxUqy2W8UZrr151UCS7CQq/2KfKpQLguObnqFSdFanXSwSKKCV8+iCcLfFtpWeEss6U
+         Jj+59B3m1vjkJCTZwOmmGRLoIi/b+02G4Wm0kUZ3YVy4Wdk3HgjXqDoF6Jp8UWPC+9ch
+         B8fA==
+X-Gm-Message-State: AOAM530zpLhmZx5pZ+t/qf7hxsTGnv/3Fj+Se6yxwE+K5fCKtXA1HXSn
+        snRSjh4UdEJ7Cy8lqWZVAJc=
+X-Google-Smtp-Source: ABdhPJxLBa4EXTSLKfWMi4nEZ8Wk8PrT9QK9XE4M+ir2fnBq9dIuQxK16aytPtIw8dDJgnbvoCv0Eg==
+X-Received: by 2002:a05:6402:5251:: with SMTP id t17mr22730430edd.157.1628482776972;
+        Sun, 08 Aug 2021 21:19:36 -0700 (PDT)
+Received: from ?IPv6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+        by smtp.gmail.com with ESMTPSA id z70sm3240588ede.76.2021.08.08.21.19.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Aug 2021 21:19:36 -0700 (PDT)
+Subject: Re: [PATCH v2] parisc: Make struct parisc_driver::remove() return
+ void
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>
+Cc:     kernel@pengutronix.de, alsa-devel@alsa-project.org,
+        Corey Minyard <minyard@acm.org>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-input@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        openipmi-developer@lists.sourceforge.net,
+        Jaroslav Kysela <perex@perex.cz>,
+        "David S. Miller" <davem@davemloft.net>
+References: <20210807091927.1974404-1-u.kleine-koenig@pengutronix.de>
+From:   Jiri Slaby <jirislaby@kernel.org>
+Message-ID: <bef58281-91b3-b2d6-ace8-afe0d08221e1@kernel.org>
+Date:   Mon, 9 Aug 2021 06:19:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210807091927.1974404-1-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 31 Jul 2021 11:25:56 +0800
-Ye Xiang <xiang.ye@intel.com> wrote:
-
-> Each sample has a timestamp field with this change. This timestamp may
-> be from the sensor hub when present or local kernel timestamp. The
-> unit of timestamp is nanosecond.
+On 07. 08. 21, 11:19, Uwe Kleine-König wrote:
+> The caller of this function (parisc_driver_remove() in
+> arch/parisc/kernel/drivers.c) ignores the return value, so better don't
+> return any value at all to not wake wrong expectations in driver authors.
 > 
-> Signed-off-by: Ye Xiang <xiang.ye@intel.com>
-Applied to the togreg branch of iio.git and pushed out as testing to
-let 0-day see what it can find.
-
-Thanks,
-
-Jonathan
-
+> The only function that could return a non-zero value before was
+> ipmi_parisc_remove() which returns the return value of
+> ipmi_si_remove_by_dev(). Make this function return void, too, as for all
+> other callers the value is ignored, too.
+> 
+> Also fold in a small checkpatch fix for:
+> 
+> WARNING: Unnecessary space before function pointer arguments
+> +	void (*remove) (struct parisc_device *dev);
+> 
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com> (for drivers/input)
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > ---
->  drivers/iio/pressure/hid-sensor-press.c | 40 +++++++++++++++----------
->  1 file changed, 24 insertions(+), 16 deletions(-)
+> changes since v1 sent with Message-Id:
+> 20210806093938.1950990-1-u.kleine-koenig@pengutronix.de:
 > 
-> diff --git a/drivers/iio/pressure/hid-sensor-press.c b/drivers/iio/pressure/hid-sensor-press.c
-> index c416d261e3e3..b365483bd09e 100644
-> --- a/drivers/iio/pressure/hid-sensor-press.c
-> +++ b/drivers/iio/pressure/hid-sensor-press.c
-> @@ -16,17 +16,24 @@
->  #include <linux/iio/buffer.h>
->  #include "../common/hid-sensors/hid-sensor-trigger.h"
->  
-> -#define CHANNEL_SCAN_INDEX_PRESSURE 0
-> +enum {
-> +	CHANNEL_SCAN_INDEX_PRESSURE,
-> +	CHANNEL_SCAN_INDEX_TIMESTAMP,
-> +};
->  
->  struct press_state {
->  	struct hid_sensor_hub_callbacks callbacks;
->  	struct hid_sensor_common common_attributes;
->  	struct hid_sensor_hub_attribute_info press_attr;
-> -	u32 press_data;
-> +	struct {
-> +		u32 press_data;
-> +		u64 timestamp __aligned(8);
-> +	} scan;
->  	int scale_pre_decml;
->  	int scale_post_decml;
->  	int scale_precision;
->  	int value_offset;
-> +	s64 timestamp;
->  };
->  
->  static const u32 press_sensitivity_addresses[] = {
-> @@ -44,7 +51,9 @@ static const struct iio_chan_spec press_channels[] = {
->  		BIT(IIO_CHAN_INFO_SAMP_FREQ) |
->  		BIT(IIO_CHAN_INFO_HYSTERESIS),
->  		.scan_index = CHANNEL_SCAN_INDEX_PRESSURE,
-> -	}
-> +	},
-> +	IIO_CHAN_SOFT_TIMESTAMP(CHANNEL_SCAN_INDEX_TIMESTAMP)
-> +
->  };
->  
->  /* Adjust channel real bits based on report descriptor */
-> @@ -157,14 +166,6 @@ static const struct iio_info press_info = {
->  	.write_raw = &press_write_raw,
->  };
->  
-> -/* Function to push data to buffer */
-> -static void hid_sensor_push_data(struct iio_dev *indio_dev, const void *data,
-> -					int len)
-> -{
-> -	dev_dbg(&indio_dev->dev, "hid_sensor_push_data\n");
-> -	iio_push_to_buffers(indio_dev, data);
-> -}
-> -
->  /* Callback handler to send event after all samples are received and captured */
->  static int press_proc_event(struct hid_sensor_hub_device *hsdev,
->  				unsigned usage_id,
-> @@ -174,10 +175,13 @@ static int press_proc_event(struct hid_sensor_hub_device *hsdev,
->  	struct press_state *press_state = iio_priv(indio_dev);
->  
->  	dev_dbg(&indio_dev->dev, "press_proc_event\n");
-> -	if (atomic_read(&press_state->common_attributes.data_ready))
-> -		hid_sensor_push_data(indio_dev,
-> -				&press_state->press_data,
-> -				sizeof(press_state->press_data));
-> +	if (atomic_read(&press_state->common_attributes.data_ready)) {
-> +		if (!press_state->timestamp)
-> +			press_state->timestamp = iio_get_time_ns(indio_dev);
-> +
-> +		iio_push_to_buffers_with_timestamp(
-> +			indio_dev, &press_state->scan, press_state->timestamp);
-> +	}
->  
->  	return 0;
->  }
-> @@ -194,9 +198,13 @@ static int press_capture_sample(struct hid_sensor_hub_device *hsdev,
->  
->  	switch (usage_id) {
->  	case HID_USAGE_SENSOR_ATMOSPHERIC_PRESSURE:
-> -		press_state->press_data = *(u32 *)raw_data;
-> +		press_state->scan.press_data = *(u32 *)raw_data;
->  		ret = 0;
->  		break;
-> +	case HID_USAGE_SENSOR_TIME_TIMESTAMP:
-> +		press_state->timestamp = hid_sensor_convert_timestamp(
-> +			&press_state->common_attributes, *(s64 *)raw_data);
-> +		break;
->  	default:
->  		break;
->  	}
+>   - Fix a compiler error noticed by the kernel test robot
+>   - Add Ack for Dmitry
+> 
+>   arch/parisc/include/asm/parisc-device.h  | 4 ++--
+>   drivers/char/ipmi/ipmi_si.h              | 2 +-
+>   drivers/char/ipmi/ipmi_si_intf.c         | 6 +-----
+>   drivers/char/ipmi/ipmi_si_parisc.c       | 4 ++--
+>   drivers/char/ipmi/ipmi_si_platform.c     | 4 +++-
+>   drivers/input/keyboard/hilkbd.c          | 4 +---
+>   drivers/input/serio/gscps2.c             | 3 +--
+>   drivers/net/ethernet/i825xx/lasi_82596.c | 3 +--
+>   drivers/parport/parport_gsc.c            | 3 +--
+>   drivers/scsi/lasi700.c                   | 4 +---
+>   drivers/scsi/zalon.c                     | 4 +---
+>   drivers/tty/serial/mux.c                 | 3 +--
 
+For the TTY piece:
+Acked-by: Jiri Slaby <jirislaby@kernel.org>
+
+thanks,
+-- 
+-- 
+js
+suse labs
