@@ -2,221 +2,158 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93BA43EB1FF
-	for <lists+linux-input@lfdr.de>; Fri, 13 Aug 2021 09:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCB2B3EB25E
+	for <lists+linux-input@lfdr.de>; Fri, 13 Aug 2021 10:12:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234844AbhHMHyE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Aug 2021 03:54:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42313 "EHLO
+        id S239782AbhHMIM3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 Aug 2021 04:12:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53655 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232642AbhHMHyE (ORCPT
+        by vger.kernel.org with ESMTP id S239668AbhHMIM3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Aug 2021 03:54:04 -0400
+        Fri, 13 Aug 2021 04:12:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1628841216;
+        s=mimecast20190719; t=1628842322;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=v4LUjz9QUhjADV7glqPhKE5n8n5Aj9FWeuP6z2JDw5s=;
-        b=bmKhTi0N6j85CItd9kzzXcBSp7gHkKoWsIcTrnJJmJglr12fjtoUgAtNN82H3t/ssKF4bV
-        Q9eeQnE3f71f9E9c14b7YSsTe+SjTJEDmc8BwH3y1/axgChJ2DSjDJ5jgOUkJTUCOUvjT4
-        QDis1+dN2fsdj+QU88fv8Ms4gzpo2BQ=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-8BkV08MLNc6Zm_ya339myQ-1; Fri, 13 Aug 2021 03:53:35 -0400
-X-MC-Unique: 8BkV08MLNc6Zm_ya339myQ-1
-Received: by mail-pj1-f69.google.com with SMTP id d35-20020a17090a6f26b0290178ab46154dso6236611pjk.3
-        for <linux-input@vger.kernel.org>; Fri, 13 Aug 2021 00:53:35 -0700 (PDT)
+        bh=fbTt90mLgXKyeOCvvJEfCrrlVgz1iAqqy+NA9ybguTo=;
+        b=O29Zgehl90kN5S6YPypd9WbQYvDbkwLiZ958iOmqhLal4KbCzYsOfsYzR1MjITaDvE+U7d
+        sYfm8t/cRGsIMcxy03SGXh6NmAKbXvjC/GAEScH1xtn890CZuUE30lKxjDB3OljEglN6aY
+        s98ZDf3aN9C9gGzeEjP1lwfE6aCib9o=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-192-2f8PcHOvNQikClbWjN_-9g-1; Fri, 13 Aug 2021 04:12:01 -0400
+X-MC-Unique: 2f8PcHOvNQikClbWjN_-9g-1
+Received: by mail-pl1-f197.google.com with SMTP id p7-20020a170902b087b029012c2879a885so5643913plr.6
+        for <linux-input@vger.kernel.org>; Fri, 13 Aug 2021 01:12:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=v4LUjz9QUhjADV7glqPhKE5n8n5Aj9FWeuP6z2JDw5s=;
-        b=Ta5d4TzMgZfb0SE7p+cyAmP5jZAOQNQwkh4zajsCX1aIie9V7H8zZZgAU8hPDYekFp
-         Q810vZ+xS4NTO6WDJZQkc7y45MWhAOg0kWO4zemcrUrMDAfZ9JEF1ipl0QtqnuNzF5H6
-         zoW9CEEoPj+mMm2c0IkrJxiWArzUlrZQbf7COikRWbn8mTH/kGYHrREO830w3iv/uJOr
-         caDhxIiSX5F17rHJOjRSrbBbIiB8K4PRzrGw7Mkph2r/NwKmNaAhq6y7uqOBYhUZNJd3
-         ZElk94jSbtbYE8PYvCIW2p2Xb/bRZTLyVApsEToNSOYU7ofk8AKXOxAY9gF3gDdpFNqB
-         xCgA==
-X-Gm-Message-State: AOAM5317y+x/nl21AXvMQh12hUIugx+wRyWRbemXci0Ph2Ilvnzgoj88
-        IDjY69hFVFtuF1iaWKjPnNpqBBoDNBQMjoAncCT+sRmw03psE4irpmz5Xpx4yM0TBvBvNiEEYml
-        jDm51kxYmHutQztCxB9ihQi3lerPrPFy7fMOfTTQ=
-X-Received: by 2002:a17:902:6ac1:b029:12c:e955:c9f9 with SMTP id i1-20020a1709026ac1b029012ce955c9f9mr1074040plt.32.1628841214618;
-        Fri, 13 Aug 2021 00:53:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzz59KNYboSC4HADOC37rnJEZrbDxD8Ag3KE2mcEqMDvjoY6FPh4yDdxYiaBZrP4QsHf2EpmnSrGZRFSt26Lus=
-X-Received: by 2002:a17:902:6ac1:b029:12c:e955:c9f9 with SMTP id
- i1-20020a1709026ac1b029012ce955c9f9mr1074024plt.32.1628841214388; Fri, 13 Aug
- 2021 00:53:34 -0700 (PDT)
+        bh=fbTt90mLgXKyeOCvvJEfCrrlVgz1iAqqy+NA9ybguTo=;
+        b=fRouia3eAw2f5GUFjlHIjIxAjDwqIxtI/O/iWn20FsDOB7iNwcL+0T7InhjHaxS0Xl
+         Qj28CjR/l0F4t19Eb4qF4aryE14RtrrNa/USYy1UX/voOOZ5GNaaOUPMcwwARl6jp3Cy
+         qF2ihdKtUNRDmIptdrGLk1S0Ciqvnqejp4VACw7RJRQkCh2bXWkeYDxZoaqMY2DqbhlL
+         Cxs3jrMX8m3XKgYMGsixQgEgbYasZD1J0aFTS1Ds8Q334y0HsoTIsY82GEzWLFtcYujn
+         Usou4BIPhCnYEzHgT91p6z8bA1atJZWPtEI8fYtzwa+Q38hdoKrl9PVBGLHfq06QnAtT
+         S6jg==
+X-Gm-Message-State: AOAM531drpnMaPJF12tBslkPBtTGAaoT6mDnueTVPdg0xNtkG/UyXC4U
+        vkjJA3SoLjou3zYB0QmhB5ETZEGjJnWK4SKNk6Ih144xcszCC1J4wVgOBPjgMBd1OLXB94jyOxY
+        q17lpaBE7QntLterPmAwst8vCLOcCsGwh2f7A44I=
+X-Received: by 2002:a65:5288:: with SMTP id y8mr1266199pgp.275.1628842319997;
+        Fri, 13 Aug 2021 01:11:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy5Bs7Fm+/mUYfdHsQ/DFN+VVsvxYvwpu8i0zjaUXzCKlwSc0RG1dJozuMx6wc/tBFvjpzN67SFDYj3xQ53QqM=
+X-Received: by 2002:a65:5288:: with SMTP id y8mr1266180pgp.275.1628842319645;
+ Fri, 13 Aug 2021 01:11:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210812001250.1709418-1-dmanti@microsoft.com>
-In-Reply-To: <20210812001250.1709418-1-dmanti@microsoft.com>
+ <CAO-hwJK1Jt+T_ZsvPj0=+hEt3XnALfnkmB++Kdk7bZV9FgE0Cg@mail.gmail.com>
+ <87lf56inxm.fsf@kernel.org> <CAO-hwJ+36wji=nWKxW-GFBj=o3yovr__3s+03SDdPHq1jO4WwQ@mail.gmail.com>
+ <87eeayj5b3.fsf@kernel.org>
+In-Reply-To: <87eeayj5b3.fsf@kernel.org>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 13 Aug 2021 09:53:23 +0200
-Message-ID: <CAO-hwJ+saS7yffMt553gYaOZsrsiN93_JOeEmE4kNxF4zxU8OA@mail.gmail.com>
+Date:   Fri, 13 Aug 2021 10:11:48 +0200
+Message-ID: <CAO-hwJL_gea6tRswrfWzZu5q1me10-C7sAy3fC4YYnTceV+nLA@mail.gmail.com>
 Subject: Re: [PATCH] HID: Support Microsoft Surface Duo SPI-based touch
  controller driver as a module.
-To:     Dmitry Antipov <daantipov@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     Dmitry Antipov <daantipov@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        felipe.balbi@microsoft.com, jeff.glaum@microsoft.com,
-        Dmitry Antipov <dmanti@microsoft.com>
+        jeff.glaum@microsoft.com, Dmitry Antipov <dmanti@microsoft.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+On Fri, Aug 13, 2021 at 7:13 AM Felipe Balbi <balbi@kernel.org> wrote:
+>
+>
+> Hi,
+>
+> Benjamin Tissoires <benjamin.tissoires@redhat.com> writes:
+> >> > On Thu, Aug 12, 2021 at 2:13 AM Dmitry Antipov <daantipov@gmail.com> wrote:
+> >> >>
+> >> >> Surface Duo uses a touch digitizer that communicates to the main SoC via SPI
+> >> >> and presents itself as a HID device. This patch contains the changes needed
+> >> >> for the driver to work as a module: HID Core affordances for SPI devices,
+> >> >> addition of the new Device IDs, and a new quirk in hid-microsoft. The driver
+> >> >> itself is being prepared for a submission in the near future.
+> >> >>
+> >> >> Signed-off-by: Dmitry Antipov dmanti@microsoft.com
+> >> >
+> >> > Though I really appreciate seeing a microsoft.com submission, the
+> >> > commit description makes me wonder if we should not postpone the
+> >> > inclusion of this patch with the "submission in the near future".
+> >> >
+> >> > AFAIK, HID is not SPI aware. So basically, we are introducing dead
+> >> > code in the upstream kernel if we take this patch.
+> >>
+> >> Right, unfortunately spec isn't public yet (albeit having products
+> >> shipped using it and a driver available in a public tree somewhere I
+> >> couldn't find).
+> >>
+> >> I _do_ have one question though:
+> >>
+> >> Is there a way to tell hid core that $this device wants hidraw? If we
+> >
+> > Depending on what you want and can do I can think of several solutions:
+> > - add a quirk for this device (either at boot time, either in
+> > hid-quirks.c) There must be one that tells to only bind to hidraw
+> > - provide an out of the tree driver that declares the BUS:VID:PID, and
+> > start the HID device with HIDRAW only.
+>
+> sounds good
 
-I made a second pass at this, and I have a few more comments.
+I did some more digging this morning.
 
-On Thu, Aug 12, 2021 at 2:13 AM Dmitry Antipov <daantipov@gmail.com> wrote:
->
-> Surface Duo uses a touch digitizer that communicates to the main SoC via SPI
-> and presents itself as a HID device. This patch contains the changes needed
-> for the driver to work as a module: HID Core affordances for SPI devices,
-> addition of the new Device IDs, and a new quirk in hid-microsoft. The driver
-> itself is being prepared for a submission in the near future.
->
-> Signed-off-by: Dmitry Antipov dmanti@microsoft.com
-> ---
->  drivers/hid/hid-core.c      |  3 +++
->  drivers/hid/hid-ids.h       |  2 ++
->  drivers/hid/hid-microsoft.c | 15 +++++++++++++--
->  drivers/hid/hid-quirks.c    |  2 ++
->  include/linux/hid.h         |  2 ++
->  5 files changed, 22 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> index 7db332139f7d..123a0e3a6b1a 100644
-> --- a/drivers/hid/hid-core.c
-> +++ b/drivers/hid/hid-core.c
-> @@ -2005,6 +2005,9 @@ int hid_connect(struct hid_device *hdev, unsigned int connect_mask)
->         case BUS_I2C:
->                 bus = "I2C";
->                 break;
-> +       case BUS_SPI:
-> +               bus = "SPI";
-> +               break;
->         case BUS_VIRTUAL:
->                 bus = "VIRTUAL";
->                 break;
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index 8f1893e68112..5c181d23a7ae 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -885,6 +885,8 @@
->  #define USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER 0x02fd
->  #define USB_DEVICE_ID_MS_PIXART_MOUSE    0x00cb
->  #define USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS      0x02e0
-> +#define SPI_DEVICE_ID_MS_SURFACE_G6_0  0x0c1d
-> +#define SPI_DEVICE_ID_MS_SURFACE_G6_1  0x0c42
->
->  #define USB_VENDOR_ID_MOJO             0x8282
->  #define USB_DEVICE_ID_RETRO_ADAPTER    0x3201
-> diff --git a/drivers/hid/hid-microsoft.c b/drivers/hid/hid-microsoft.c
-> index 071fd093a5f4..50ea1f68c285 100644
-> --- a/drivers/hid/hid-microsoft.c
-> +++ b/drivers/hid/hid-microsoft.c
-> @@ -27,6 +27,7 @@
->  #define MS_DUPLICATE_USAGES    BIT(5)
->  #define MS_SURFACE_DIAL                BIT(6)
->  #define MS_QUIRK_FF            BIT(7)
-> +#define MS_NOHIDINPUT          BIT(8)
->
->  struct ms_data {
->         unsigned long quirks;
-> @@ -367,6 +368,7 @@ static int ms_probe(struct hid_device *hdev, const struct hid_device_id *id)
->         unsigned long quirks = id->driver_data;
->         struct ms_data *ms;
->         int ret;
-> +       unsigned int connect_mask;
->
->         ms = devm_kzalloc(&hdev->dev, sizeof(*ms), GFP_KERNEL);
->         if (ms == NULL)
-> @@ -376,20 +378,25 @@ static int ms_probe(struct hid_device *hdev, const struct hid_device_id *id)
->
->         hid_set_drvdata(hdev, ms);
->
-> +       connect_mask = HID_CONNECT_DEFAULT | ((quirks & MS_HIDINPUT) ?
-> +                       HID_CONNECT_HIDINPUT_FORCE : 0);
-> +
->         if (quirks & MS_NOGET)
->                 hdev->quirks |= HID_QUIRK_NOGET;
->
->         if (quirks & MS_SURFACE_DIAL)
->                 hdev->quirks |= HID_QUIRK_INPUT_PER_APP;
->
-> +       if (quirks & MS_NOHIDINPUT)
-> +               connect_mask &= ~HID_CONNECT_HIDINPUT;
-> +
->         ret = hid_parse(hdev);
->         if (ret) {
->                 hid_err(hdev, "parse failed\n");
->                 goto err_free;
->         }
->
-> -       ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT | ((quirks & MS_HIDINPUT) ?
-> -                               HID_CONNECT_HIDINPUT_FORCE : 0));
-> +       ret = hid_hw_start(hdev, connect_mask);
+The quirk option is not especially good, there is no "hidraw only" quirk.
+However, there is a "HID_QUIRK_HAVE_SPECIAL_DRIVER" that prevents
+hid-generic from binding to your device. This has the same effect as
+adding the device in the hid-quirks.c in this submission, so for
+development purposes, if the device is messed up by hid-generic, I
+would advise to add this quirk (maybe from the development spi
+transport driver as a temporary work around).
 
-I think it would be clearer to group all connect_mask together, and
-remove the '?' which hides a bit what we expect to have.
+To have the device bound to hidraw only, then yes, if you provide a
+simple out of the tree module that binds to this module, hid-generic
+will release the device and let this out of the tree module deal with
+it.
 
-How about?:
----
-+       connect_mask = HID_CONNECT_DEFAULT;
-+       if (quirks & MS_HIDINPUT)
-+              connect_mask |= HID_CONNECT_HIDINPUT_FORCE;
-+       if (quirks & MS_NOHIDINPUT)
-+              connect_mask &= ~HID_CONNECT_HIDINPUT;
-+
-+       ret = hid_hw_start(hdev, connect_mask);
----
+AFAICT, the hid-core changes you are asking here should not block the
+development process if they are not merged. You'll get an "UNKOWN" bus
+in the logs, and the SPI_HID_DEVICE macro can be defined in the out of
+the tree driver.
+
+>
+> >> remove the hid-microsoft changes, hid-generic will pick the device as
+> >> expected, but this really needs hidraw. Any hints?
+> >
+> > I am fine with the hid-microsoft changes, I just want them in a
+> > separate commit. But I don't see why we would take only the first one
+> > without the SPI transport and the hid-microsoft code...
+> >
+> > Basically: not sure why you need hidraw for it.
+>
+> Yeah, the touch controller is "peculiar". It sends to the host raw
+> frames which needs to be processed by a userspace application. We don't
+> get coordinates, pressure, etc. We get raw values from the touch
+> digitizer; these are passed to a daemon which runs your usual filters
+> (palm rejection, denoising, yada yada yada) and produces the actual
+> touch inputs. Those are, in turn, given to uinput.
+>
+
+In that case, maybe hidraw is not the best way to forward the events.
+
+V4L has a capability to export raw touch events. You can have a look
+at drivers/input/rmi4/rmi_f54.c, drivers/input/touchscreen/sur40.c or
+drivers/input/touchscreen/atmel_mxt_ts.c for some examples.
+The nice thing is you'll get parallel processing and DMA between the
+kernel and userspace. Also, there must be userspace tools around that
+are already capable of dealing with that kind of input. Though I also
+understand the need to have your own sauce.
 
 Cheers,
 Benjamin
-
->         if (ret) {
->                 hid_err(hdev, "hw start failed\n");
->                 goto err_free;
-> @@ -450,6 +457,10 @@ static const struct hid_device_id ms_devices[] = {
->                 .driver_data = MS_QUIRK_FF },
->         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS),
->                 .driver_data = MS_QUIRK_FF },
-> +       { HID_SPI_DEVICE(USB_VENDOR_ID_MICROSOFT, SPI_DEVICE_ID_MS_SURFACE_G6_0),
-> +               .driver_data = MS_NOHIDINPUT },
-> +       { HID_SPI_DEVICE(USB_VENDOR_ID_MICROSOFT, SPI_DEVICE_ID_MS_SURFACE_G6_1),
-> +               .driver_data = MS_NOHIDINPUT },
->         { }
->  };
->  MODULE_DEVICE_TABLE(hid, ms_devices);
-> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-> index 51b39bda9a9d..01609e5425b9 100644
-> --- a/drivers/hid/hid-quirks.c
-> +++ b/drivers/hid/hid-quirks.c
-> @@ -506,6 +506,8 @@ static const struct hid_device_id hid_have_special_driver[] = {
->         { HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_DIGITAL_MEDIA_3KV1) },
->         { HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_POWER_COVER) },
->         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_PRESENTER_8K_BT) },
-> +       { HID_SPI_DEVICE(USB_VENDOR_ID_MICROSOFT, SPI_DEVICE_ID_MS_SURFACE_G6_0) },
-> +       { HID_SPI_DEVICE(USB_VENDOR_ID_MICROSOFT, SPI_DEVICE_ID_MS_SURFACE_G6_1) },
->  #endif
->  #if IS_ENABLED(CONFIG_HID_MONTEREY)
->         { HID_USB_DEVICE(USB_VENDOR_ID_MONTEREY, USB_DEVICE_ID_GENIUS_KB29E) },
-> diff --git a/include/linux/hid.h b/include/linux/hid.h
-> index 9e067f937dbc..32823c6b65f6 100644
-> --- a/include/linux/hid.h
-> +++ b/include/linux/hid.h
-> @@ -684,6 +684,8 @@ struct hid_descriptor {
->         .bus = BUS_BLUETOOTH, .vendor = (ven), .product = (prod)
->  #define HID_I2C_DEVICE(ven, prod)                              \
->         .bus = BUS_I2C, .vendor = (ven), .product = (prod)
-> +#define HID_SPI_DEVICE(ven, prod)                              \
-> +       .bus = BUS_SPI, .vendor = (ven), .product = (prod)
->
->  #define HID_REPORT_ID(rep) \
->         .report_type = (rep)
-> --
-> 2.25.1
->
 
