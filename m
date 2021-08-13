@@ -2,224 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BC2F3EAFD4
-	for <lists+linux-input@lfdr.de>; Fri, 13 Aug 2021 08:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E17673EB003
+	for <lists+linux-input@lfdr.de>; Fri, 13 Aug 2021 08:27:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238771AbhHMGBO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Aug 2021 02:01:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60974 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238766AbhHMGBN (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Aug 2021 02:01:13 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A053C061756;
-        Thu, 12 Aug 2021 23:00:47 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id z128so16750092ybc.10;
-        Thu, 12 Aug 2021 23:00:47 -0700 (PDT)
+        id S238712AbhHMG1k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 Aug 2021 02:27:40 -0400
+Received: from mail-eopbgr150074.outbound.protection.outlook.com ([40.107.15.74]:18659
+        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S238523AbhHMG1k (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 13 Aug 2021 02:27:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=akXw0FACeeNStdWiTC5a4XpGvsCIse7ABYkWx6jXBgtiU+RbgPad9nmZoDG/Xw6k5QVD/vySywrnThSAKXLrZFszYDtJ2+apzT1Mw5ckcn68bGSs9D9y14rB/lfq2iVaQOCNm+4RfoRWkAhWSACKs4/UPZmdJmOMFAGtEKDnAnAMVU308y6l1d7tc0AGR91LIy1x/MoiUONsfOFaU4a81uLWwYwrh0RA2DPLAh8YAy4sNjVjhujgRY1gexEtONLrUykJ2WWoO5T0v8uIKfyzxESY7xuTiH+m2kZ4NCYt/zHziPQ722xrEx2EBPCoxzuq+4yEKd1VXyJnlw2TAEcvsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rf1/Mhg9ke9LCkex7LchiW2xX7A4FaB+JV/GxfLTCmo=;
+ b=lcGKNpS7WeCK3aK3QWp5Dwv+UR22s/tD2DgGQNu9FA733fKKUbkPMdls+iyo72FXCo5H6JX7KY1IaIDcvYKoIqQpTMJUBitoMNzJht54A3gZKY/g0fK0yrozi6aYWW/e4qUvnMl65myPp+q+LQ+LLeKwkT4ItyhWasjX6NA64st3s8PdQgmEZStqvxnlt+eFaBn4MPkr4k1NpgDZz4m9ToR+hFJaeX/lZ3d2FXUNQtBJzG5rvtvuQcWLnCYtd/XPSs6k7j2pBrDJvLFUmMsZw8kfv6OkEbb3ngVZ53iuZny6OUYEufpQMzHFfSt6xKCWu5oWun+050ybWwRk1hfqRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kococonnector.com; dmarc=pass action=none
+ header.from=kococonnector.com; dkim=pass header.d=kococonnector.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gZZX1SNwCRBnn0U8Sid0RbkcxFib76QfV6XCZITDmnY=;
-        b=om4mEgwIV25ngYdR6U9NqzIcVjXBL1duBcEy+NFwUedW4/5IQ/StArjOpVlqjZ684Z
-         I2EGKq6ZspEq15DPR1qnmRKGrcggRrj4lZUMwKj4FhI1suruJ5WLZI8b9VjTZmbF2wXP
-         Fej46wrc/t4wWAbFM3uvVVlfwIK9uE6PNLCugpYVNzUUdOoYJ3PrIKHLcx7H0yjY3f7m
-         uHxpR6XcfnmBS5sVUxIbAtSVJY08KU+XO8RenMbTxSMXaCYB2gtWkdWQGPDE58tQQcSv
-         trt9P+/8eDuN5Yhy7LDokZ3NHJvEoQD6R0yf78u4fYieyO3qyEefPkuxm8plyE0G1tg4
-         e8Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gZZX1SNwCRBnn0U8Sid0RbkcxFib76QfV6XCZITDmnY=;
-        b=WfYoXZ5erNy/1asROjxraNb8kbbqaq64YQk2vnXaFaLS206M/eSZBPWoxX0bpdiacq
-         0fOpJ4TqkK0NHfYuQBd4i5v2JbIt7PFeI3jdJViTxJezOpKRXWrTqVnherPqeMdMr2Gz
-         G0CfBEbILbSR0+QJgKFb60OFnxnIceaLdRimkW5JLQiE+C6tMk4g0zktCyhodJm/C0T4
-         8pHm+0EkJ+VwQlACBm1CxFel9dd1aM09hxPE06rwAQXezCGjVx5cd77/z0KUXDO70x65
-         inI7T+XANgAqF2Z2YKsK4syKetoSgpP947YN9aeSMpvfQ7xtOWG9IdpW1oKEArpJ5nxS
-         /oMw==
-X-Gm-Message-State: AOAM530hUmYu6kuOb/j/nwERjZau3nKMqREt4CYxHDDnj+vIif/PkOZC
-        TN6qTkrJM26qUnK+5rzhOX5Uco5MGgv0xfwttPI=
-X-Google-Smtp-Source: ABdhPJwIv3gKu0b6gimf0i6fuzjyyNpCjIHJtjlErgwrcyE7I29Ro5o6YZFDUmafGwak+DdTcS/UAAMaEuzVttX4nVA=
-X-Received: by 2002:a25:1056:: with SMTP id 83mr958088ybq.52.1628834446559;
- Thu, 12 Aug 2021 23:00:46 -0700 (PDT)
+ d=KoCoConnector.onmicrosoft.com; s=selector2-KoCoConnector-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rf1/Mhg9ke9LCkex7LchiW2xX7A4FaB+JV/GxfLTCmo=;
+ b=T+pUX8iiXW2KNaFyKiZKUeNsmNWwSQUQDhDKjxmU6VXvriJO1QViWLttggfae7EpPkgQgrBLO55k0NiUUFlV/Abs4elHvRK/AjeoJNb70GHmHPJXRltz+/yli5NaNp7ifSY9Gykcy1bsusm4E+hAAmn8H1VDyoXjNeegve4vFSI=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none
+ header.from=kococonnector.com;
+Received: from AM9PR09MB4884.eurprd09.prod.outlook.com (2603:10a6:20b:281::9)
+ by AM9PR09MB4643.eurprd09.prod.outlook.com (2603:10a6:20b:286::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.17; Fri, 13 Aug
+ 2021 06:27:11 +0000
+Received: from AM9PR09MB4884.eurprd09.prod.outlook.com
+ ([fe80::35c9:eaa2:9d67:9ec1]) by AM9PR09MB4884.eurprd09.prod.outlook.com
+ ([fe80::35c9:eaa2:9d67:9ec1%6]) with mapi id 15.20.4415.019; Fri, 13 Aug 2021
+ 06:27:10 +0000
+From:   Oliver Graute <oliver.graute@kococonnector.com>
+To:     dmitry.torokhov@gmail.com
+Cc:     oliver.graute@gmail.com,
+        Oliver Graute <oliver.graute@kococonnector.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Simon Budig <simon.budig@kernelconcepts.de>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH v1] Input: edt-ft5x06 - added case for EDT EP0110M09
+Date:   Fri, 13 Aug 2021 08:21:09 +0200
+Message-Id: <20210813062110.13950-1-oliver.graute@kococonnector.com>
+X-Mailer: git-send-email 2.17.1
+X-Patchwork-Bot: notify
+Content-Type: text/plain
+X-ClientProxiedBy: AM0PR10CA0056.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:150::36) To AM9PR09MB4884.eurprd09.prod.outlook.com
+ (2603:10a6:20b:281::9)
 MIME-Version: 1.0
-References: <20210602061253.5747-1-roderick@gaikai.com> <20210602061253.5747-3-roderick@gaikai.com>
- <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm> <20210803221055.GA32527@amd>
- <CAEc3jaAoDfJD92q9q_HoFq3nsjkDqfZHu-VO+Ei8xSP8QrE8rg@mail.gmail.com>
-In-Reply-To: <CAEc3jaAoDfJD92q9q_HoFq3nsjkDqfZHu-VO+Ei8xSP8QrE8rg@mail.gmail.com>
-From:   Daniel Ogorchock <djogorchock@gmail.com>
-Date:   Fri, 13 Aug 2021 02:00:35 -0400
-Message-ID: <CAEVj2tkfLjWKOaecY7t-idGaqjZ45wXhmjbUR87AoC2Dkm45vQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs for
- game controllers.
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        Roderick Colenbrander <thunderbird2k@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (2.207.138.2) by AM0PR10CA0056.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::36) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.14 via Frontend Transport; Fri, 13 Aug 2021 06:27:10 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 590b5a44-d2f2-432e-99b4-08d95e2361b7
+X-MS-TrafficTypeDiagnostic: AM9PR09MB4643:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM9PR09MB464388F852312F94DF06A74BEBFA9@AM9PR09MB4643.eurprd09.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iDkBOUrmSGRCQRnyC+076pFO7GY1N6loGo6aSLT3q1L4wMQUFlWKt1N0wpID99bKXHWBYPKS/vwasoqT4S8ruo24McueT6u8BP626WPWb9QZ6g1oXouSYf3t8VGTMi2GZeJOGOod/9OxP4wRgeouyAhqXm7ZIU50WI698WJw1taeHpIhQYEy/0X3JkZdlg5soqhWfpbMgBoRzrYR5vUHhXV0477KWR+kmV9w1fjc3guLCmzG8tCEw5WTortqlndP5LHKFbGz0thCF5pkdrtAcIkP4+Tv85MowePU0Dyq8oPc9ta0s2fzfq9cuW1rgWL3+RTuLTc4m9GTmvYf4CIxBnvEOaMGokVtTc5xrclpC93zgvR6jaog2VtcxiPi6e6CMdeOxxFgHUZZwPDMMruOJnBCQgd33cgIMA2PBxVsrYGf9wDJjJSjxke40mcYQBlb1tDjX+Q/PkD0j4/n3n9a0LRnsTUuFGfcG1q5UwjUbjamF/KOAoGGYHrLpFtGo2PdzRclHCeSEUEpJgC+pPkQdgZ2wWIb8uFBGcJ0lXeRwV3uPYsnHePCyH686a0FhFbKezmKyvnN+iMrfTmmWtDYxSCDftoR0UN/MqayAUnosuXWeFjsH9657bzJpbv5j6g3CG4ZYZ0kc9xedByLtYv1yTxSV7j3Ldw+15hmYXrZKc0TiYzQ6SL8PrIpcq4aj9mMKKjCqJ7S+RZT4RkID8S+Rw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR09MB4884.eurprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(366004)(346002)(396003)(39830400003)(376002)(52116002)(66946007)(44832011)(956004)(2616005)(6496006)(66556008)(66476007)(5660300002)(2906002)(186003)(86362001)(36756003)(8936002)(54906003)(4326008)(6916009)(4744005)(6486002)(8676002)(316002)(478600001)(26005)(1076003)(38100700002)(38350700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NamRQuV0KOH8cA6mbnqX79A99Iwph/+dOYok4t/tJ/lYBr1XO5vBIyDI/QLz?=
+ =?us-ascii?Q?U1Ve19/7YlQJy2jwoVwTb59cby9TFav55b0a661itZJhTzRO4rp3xpJ/NaBI?=
+ =?us-ascii?Q?vbeNl6v0qic7tnPCBLgoMu909sv7RxTRx5mLtFd/e9iFBnB9F5I1FGBy8ptu?=
+ =?us-ascii?Q?lOF5ZeCxPTiVNr4z8PG2zeoKAHfoAi23E16WUYSlxGGFTdwRUqLurUOJ2y5W?=
+ =?us-ascii?Q?p5OaCllWjQZyvtzYqZHLyETqMcF+2vyPgyEgXPJgQDevfqxD/UV5AQOuHxrH?=
+ =?us-ascii?Q?YsX7sA//zdCkKMFU1l0klmb7yQZ7/yrfkOTLqanCWmfmPiKy5673FBT3YKgM?=
+ =?us-ascii?Q?+rVl3MqDbxHkdtYw7GLLiSRvYTSyJVi+LkEiOlS+ejn94o4dhtT9Mholsl+o?=
+ =?us-ascii?Q?3OQGxL4QwuS9BnkLBd1tI9rMbNPEUvdZ/UX4awif1TugKyTZeyO4JI5CnLtW?=
+ =?us-ascii?Q?lI8OyaxWKp3kPANlm3c6YGuI2UHIGGQySiWAX2eUvOnxYggTYuaKEMh9QRov?=
+ =?us-ascii?Q?koObxwk7l0TpE1ZTOtz3dZGXUbR/L9aAgb/XAl4Hn6DKEJ2UlxyMEBi5uoow?=
+ =?us-ascii?Q?FleX7apug1HiuUp2AWyo6CltNkSMDGL1ah/aOs+FXfc754lq0t81zS9AOCad?=
+ =?us-ascii?Q?0nZheOozLirYmvEpzcVm7iQMCMqlNt/+3R2uoDJTwOE4qOEFxWyNw11zShmP?=
+ =?us-ascii?Q?y44GBWYuZmAhXs/j0bsMivzyQxwmVFSVRaPLOBSZA7Ivz2u3ku+cX05iIXgB?=
+ =?us-ascii?Q?81XVCwHkA5duhwd4l/9VeJvSYlX6U0W1Ik7qsw2VPDjra+SoaVSTwJXfPBda?=
+ =?us-ascii?Q?Ni8t9RETgWTT9oZu/gq3aGWBoX/5qsp0RQGYo3J2G+PdLqncRGk8WkCX7rBs?=
+ =?us-ascii?Q?fEddQzhjpcMItdmhWePo3ulBgDPhuSLCNDG/mZvNOkF8C6EKrXVFPKJCkurZ?=
+ =?us-ascii?Q?H3GxzcQh9S77zR1UzjahxeMh7wG/JE/PuZpAHInT0uIVgPmMRxVx9pdAYm8X?=
+ =?us-ascii?Q?Z8R9OategSYq1TtmVfhRps64sjqyMsVHTvJaqTEdpYB2/mFVgmTHsDdNzUFO?=
+ =?us-ascii?Q?2yDPGvXCz/O5awbJuJb8IEgubYV0N7MEFrcewKihZUjAFqhFQwZZAB9R6rp2?=
+ =?us-ascii?Q?escHq/XUV8kjI/lmnPSSEGfq9PCgtGu+XyguPYlsz5SiXIsOICdD/ZVJmZ7m?=
+ =?us-ascii?Q?MFzDtf5/nrYLMMunw0/jGMFfV0o1G+VSDNwBqvBf259yQyTN9VTie/NHMQAL?=
+ =?us-ascii?Q?+QZeTl7dxSB3EJ5KT2QdElrjZhW33t37tb8cx4GAONdV9ztXDozdTts3VucR?=
+ =?us-ascii?Q?1zYpq5dpgkvl7Z1DkMbGwNaG?=
+X-OriginatorOrg: kococonnector.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 590b5a44-d2f2-432e-99b4-08d95e2361b7
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4884.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2021 06:27:10.8901
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 59845429-0644-4099-bd7e-17fba65a2f2b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Kck7M3HUJ3Cl3MBT4eqicsVCnf5HeS1/hiJ2OpUs0pkQEh2xua6qPxyUvMz+uB32xCaVGD1QRK6HhmmT5ySy7Ra2H+VekAfUKZqZUEjxrF0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR09MB4643
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Pavel,
+Add Support for EP011M09 Firmware
 
-Do you have any recommendations on what would be an appropriate
-function string for player indicator LEDs? Would some variant such as:
-  "status-x"
-  "player-status-x"
-  "indicator-x"
-  "player-indicator-x"
-be more suitable? It looks like the string "status" has been used for
-other existing LED names.
+Signed-off-by: Oliver Graute <oliver.graute@kococonnector.com>
+---
+ drivers/input/touchscreen/edt-ft5x06.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-I think we are pretty happy to use whatever naming scheme fits the
-standards of the led subsystem's userspace api for the Nintendo/Sony
-HID drivers, and any future game controller drivers featuring player
-LEDs could conform to that going forward.
-
-Thanks,
-Daniel
-
-On Tue, Aug 3, 2021 at 7:30 PM Roderick Colenbrander
-<thunderbird2k@gmail.com> wrote:
->
-> Hi Pavel,
->
-> See some quick comments inline.
->
-> On Tue, Aug 3, 2021 at 3:39 PM Pavel Machek <pavel@ucw.cz> wrote:
-> >
-> > Hi!
-> >
-> > > > From: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> > > >
-> > > > Player LEDs are commonly found on game controllers from Nintendo and Sony
-> > > > to indicate a player ID across a number of LEDs. For example, "Player 2"
-> > > > might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
-> > > >
-> > > > This patch introduces a new LED_FUNCTION_PLAYER to properly indicate
-> > > > player LEDs from the kernel. Until now there was no good standard, which
-> > > > resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
-> > > > other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYER.
-> > > >
-> > > > Note: management of Player IDs is left to user space, though a kernel
-> > > > driver may pick a default value.
-> > > >
-> > > > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> > > > ---
-> > > >  include/dt-bindings/leds/common.h | 3 +++
-> > > >  1 file changed, 3 insertions(+)
-> > > >
-> > > > diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-> > > > index 52b619d44ba2..94999c250e4d 100644
-> > > > --- a/include/dt-bindings/leds/common.h
-> > > > +++ b/include/dt-bindings/leds/common.h
-> > > > @@ -60,6 +60,9 @@
-> > > >  #define LED_FUNCTION_MICMUTE "micmute"
-> > > >  #define LED_FUNCTION_MUTE "mute"
-> > > >
-> > > > +/* Used for player LEDs as found on game controllers from e.g. Nintendo, Sony. */
-> > > > +#define LED_FUNCTION_PLAYER "player"
-> > > > +
-> > > >  /* Miscelleaus functions. Use functions above if you can. */
-> > > >  #define LED_FUNCTION_ACTIVITY "activity"
-> > > >  #define LED_FUNCTION_ALARM "alarm"
-> > >
-> > > Pavel, can I please get your Ack on this one, so that I can take it with
-> > > the rest of the series?
-> >
-> > I'm sorry for delays.
-> >
-> > But no, player is not suitable function. Function would be "player1"
-> > AFAICT, right?
->
-> A given gaming device such as Sony or Nintendo controllers have a
-> multiple of these LEDs, which are meant to be configured with a player
-> number. A typical device has like 4 of these LEDs, so a single
-> controller would have: "player-1", "player-2", "player-3" and
-> "player-4". It is up to userspace to configure the player number (a
-> driver may set a default number across a number of LEDs).
->
-> If player is not the right term (many people know it), what would it be?
->
-> >
-> > I'm not sure "function" is suitable here, and we may want to create
-> > documentation like this... where it would be explained which functions
-> > apply to which devices and what they actually mean.
-> >
-> > Best regards,
-> >                                                                 Pavel
-> >
-> > -*- org -*-
-> >
-> > It is somehow important to provide consistent interface to the
-> > userland. LED devices have one problem there, and that is naming of
-> > directories in /sys/class/leds. It would be nice if userland would
-> > just know right "name" for given LED function, but situation got more
-> > complex.
-> >
-> > Anyway, if backwards compatibility is not an issue, new code should
-> > use one of the "good" names from this list, and you should extend the
-> > list where applicable.
-> >
-> > Bad names are listed, too; in case you are writing application that
-> > wants to use particular feature, you should probe for good name, first,
-> > but then try the bad ones, too.
-> >
-> > * Keyboards
-> >
-> > Good: "input*:*:capslock"
-> > Good: "input*:*:scrolllock"
-> > Good: "input*:*:numlock"
-> > Bad: "shift-key-light" (Motorola Droid 4, capslock)
-> >
-> > Set of common keyboard LEDs, going back to PC AT or so.
-> >
-> > Good: "platform::kbd_backlight"
-> > Bad: "tpacpi::thinklight" (IBM/Lenovo Thinkpads)
-> > Bad: "lp5523:kb{1,2,3,4,5,6}" (Nokia N900)
-> >
-> > Frontlight/backlight of main keyboard.
-> >
-> > Bad: "button-backlight" (Motorola Droid 4)
-> >
-> > Some phones have touch buttons below screen; it is different from main
-> > keyboard. And this is their backlight.
-> >
-> > * Sound subsystem
-> >
-> > Good: "platform:*:mute"
-> > Good: "platform:*:micmute"
-> >
-> > LEDs on notebook body, indicating that sound input / output is muted.
-> >
-> > * System notification
-> >
-> > Good: "status-led:{red,green,blue}" (Motorola Droid 4)
-> > Bad: "lp5523:{r,g,b}" (Nokia N900)
-> >
-> > Phones usually have multi-color status LED.
-> >
-> > * Power management
-> >
-> > Good: "platform:*:charging" (allwinner sun50i)
-> >
-> > * Screen
-> >
-> > Good: ":backlight" (Motorola Droid 4)
-> >
-> >
-> > --
-> > http://www.livejournal.com/~pavelmachek
-
-
-
+diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+index 6ff81d48da86..600c818b2181 100644
+--- a/drivers/input/touchscreen/edt-ft5x06.c
++++ b/drivers/input/touchscreen/edt-ft5x06.c
+@@ -895,6 +895,7 @@ static int edt_ft5x06_ts_identify(struct i2c_client *client,
+ 		 * the identification registers.
+ 		 */
+ 		switch (rdbuf[0]) {
++		case 0x11:   /* EDT EP0110M09 */
+ 		case 0x35:   /* EDT EP0350M09 */
+ 		case 0x43:   /* EDT EP0430M09 */
+ 		case 0x50:   /* EDT EP0500M09 */
 -- 
-Daniel Ogorchock
+2.17.1
+
