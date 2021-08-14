@@ -2,90 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE0A53EB64A
-	for <lists+linux-input@lfdr.de>; Fri, 13 Aug 2021 15:53:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E90C3EC51F
+	for <lists+linux-input@lfdr.de>; Sat, 14 Aug 2021 22:50:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231127AbhHMNyR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Aug 2021 09:54:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56596 "EHLO
+        id S232468AbhHNUvT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 14 Aug 2021 16:51:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240743AbhHMNyR (ORCPT
+        with ESMTP id S229532AbhHNUvS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Aug 2021 09:54:17 -0400
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F5E0C061756
-        for <linux-input@vger.kernel.org>; Fri, 13 Aug 2021 06:53:50 -0700 (PDT)
-Received: by mail-qv1-xf2e.google.com with SMTP id 3so5227333qvd.2
-        for <linux-input@vger.kernel.org>; Fri, 13 Aug 2021 06:53:50 -0700 (PDT)
+        Sat, 14 Aug 2021 16:51:18 -0400
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BF9BC061764
+        for <linux-input@vger.kernel.org>; Sat, 14 Aug 2021 13:50:49 -0700 (PDT)
+Received: by mail-yb1-xb31.google.com with SMTP id m193so25398161ybf.9
+        for <linux-input@vger.kernel.org>; Sat, 14 Aug 2021 13:50:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=jEl2drf9omOG0yZtRE0WS6b4InK3ooX6t58ZKDi3d0E=;
-        b=LvE2IdOX6Gf4bxVKLnbpqDTkfefsiGtVp7YVceehCFGG5NjgHwMxqdzaNl6lH8V1vm
-         7ULcMtiI3/T8bI/akjID6Brbf0sI8bEY7xWbheEcwe47O/GP5W9Pr3QJBCVG1Xher7Cz
-         ReskZ6VHALcWO/coMasdjjD8AHeCK1SlJ/HkrguizG4abO0/fD7b8IXs71Cya80danOU
-         wiUrjX3+XEFVpSEt2I7B3dlWwBgxn/HNjrsID1oYLc+WLcvGeEtW3mZQG/udu+DGCcnl
-         UFPcCI70wfAzt63ZtMck9oRfmK0xtUQL9SlrXa50FV4vfe1u3g/zLIJwHtMpDtIZAuab
-         Rm4A==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=xAfGuxPH2xK3ZnQvBlnDztfZFXyLYPjJ3j2LVrSIxos=;
+        b=DJshT7CoxJ84Ri6EFGxNqpbSLEcfAJiyosXKXPHtdHlH74lAoqzzhi8qL8mxeh3cp9
+         xOQahHlLgLAg25nXUPk1DnWD+uVrqTNnT1y8DmYP5MVq1eWaxE96HYv1PZ+dxZJZKG4A
+         sD50A3/TSlZbLDEgMGafbvcXWiSdmr83M+DjpBRzIfuUkhLbv4OjkD8EZYL8Dd83L+qq
+         KEKfR49wu169/uWYVhbAbHlgTd+WJPDTAEQE1huUxrRLBU7eiCP2ZqCesZzj9cdjQvim
+         nragN75HC9nt0N+DSvFdoPEU7dLjdOVsO4UNhFyuRW8JEr23BXAH/Z22Tb53GjSmOWTN
+         CIFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=jEl2drf9omOG0yZtRE0WS6b4InK3ooX6t58ZKDi3d0E=;
-        b=h0PjxtkRqH2lusABzLkcprQ+C6F+94Nz75hdoLWZZ7CEs/7LPMSj2VwpP2is/Nq+BK
-         jFaJhsHhpXxrXaFhvxASqT7gPhSChYk4lUU0y3ZafIUjvtW0rP7kuhpkl6swlDGi1nvV
-         UTSe3oo9SKAzxXSYuuEjgS52ruXVY5YZPMDlvHvIryhYIk1Qu8TzPrreFp0VZVybk5px
-         c/dRl+9O8hxfPhMftX/yUqnj3yDiFStC9m+2ehMAxiIvgx7JTPM5bS77JRmkiHIqMhtg
-         k1cdeFSMalq/24ZKPPkIH/ZXXLj4zOfAuGZ6IMMcAMQNIi4vFANc7fEam9q4HlMKwhly
-         23MA==
-X-Gm-Message-State: AOAM5316L2x3IBJCdyzYymcOoShxBj1GEI+hp4K+GRxH6E5O5Deqso28
-        TuxR6mmPZNMBSZCe0lUFHdpzLCXtiU8lhA==
-X-Google-Smtp-Source: ABdhPJxXti7+FelA9/W3kkpOTAgWTNCa4Zh9y+RVaC+9cVIp9MKOCLrKgHZmiPO/MryYVYQESBayCQ==
-X-Received: by 2002:a0c:a321:: with SMTP id u30mr2752620qvu.57.1628862828826;
-        Fri, 13 Aug 2021 06:53:48 -0700 (PDT)
-Received: from localhost (pool-173-48-168-63.bstnma.fios.verizon.net. [173.48.168.63])
-        by smtp.gmail.com with ESMTPSA id z5sm958009qkj.16.2021.08.13.06.53.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 06:53:48 -0700 (PDT)
-Date:   Fri, 13 Aug 2021 09:53:47 -0400
-From:   Takuma Umeya <umeyatakuma@gmail.com>
-To:     linux-input <linux-input@vger.kernel.org>
-Subject: ASUS ZenBook Q408UG keyboard not working
-Message-ID: <YRZ5a30XOKVjUWDG@fedora>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=xAfGuxPH2xK3ZnQvBlnDztfZFXyLYPjJ3j2LVrSIxos=;
+        b=bnAbzWDereTmO5lCdnLoi+c8A/eoOgxH22HkNol6GdqHp46LUuAT1FoHijQgzZJG7v
+         u7GgAjo3Eu/cUbdxKYajRJjUsXRkbqJNnRlUOli0cOxte+P31zbOhd5xIdJMi1TxL2DY
+         jfwPdtdIbTv+RB0jwhd18OK5JoCLrvXhVaV2eWoAX2bBssRD1WRlt4e8bIPaGqYOfAWl
+         h+qxmFYi2kkpIzE5G+zdPuhJyCCZ58iuN8UPFDI1wURDEicjlTHlhYGd6JvBPMj5Lqaj
+         SC+1J5WHn2W5pv404rPysMZn2Z5WOKfn/sxLTw7mxNZeawf5hQuR8Lgb5GoIf5UI8ZSf
+         oR5w==
+X-Gm-Message-State: AOAM531e7SujgVOhoagmMP7AUNIiATnVneOUTCFNft3dF3bCVLyFxnM2
+        PNaEUQ0bb8+Axwc+WTLAVkdEig+4zcso5dPgH0g=
+X-Google-Smtp-Source: ABdhPJyyK0v5bqpgEV+5NL6bee6ZF0KXfMTQF3uyay7kI1RQolRSspeK+qdVV0n2DIfdOsj/rZHig5VPSdyNkHsYrcw=
+X-Received: by 2002:a25:b94:: with SMTP id 142mr10943057ybl.214.1628974248482;
+ Sat, 14 Aug 2021 13:50:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-2022-jp
-Content-Disposition: inline
+Received: by 2002:a05:7000:5631:0:0:0:0 with HTTP; Sat, 14 Aug 2021 13:50:48
+ -0700 (PDT)
+Reply-To: ibrahimjosh887@gmail.com
+From:   ibrahim josh <wilsonbrown2066@gmail.com>
+Date:   Sat, 14 Aug 2021 13:50:48 -0700
+Message-ID: <CADTbtCoPwaZcOFkO9ftrjRG=KaJwG27m6naEfj0T-b9yPJZfMw@mail.gmail.com>
+Subject: Dear Friend
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi list, 
+-- 
+-- 
 
-My Asus ZenBook Q408UG's keyboard doesn't work on the coldboot, and
-wanted your suggestions on how to get around it. 
 
-During the probe, i8042_wait_read() times out. The avg reps for my
-system is 13000 so below should do, but I wonder there could be a
-better approach to resolve this issue.  
+-- 
+Dear friend,
 
----
- drivers/input/serio/i8042.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I am Mr.Ibrahim Josh,from West Africa am sorry to intrude into your
+privacy I got your email address through internet via computerized search
+after my prayers so I bring to you this transaction which I notify
+from our bank an abandon fund which belongs to our late foreign customer who
+deposited the sum of 10.2 million USD but he died at of cancer and
+ever since then no one has applied to claim the fund
+so I write to you with confidence that you can be a help so we can get
+the fund out of the bank I want you to apply to the bank as his
+foreign business partner note that once the fund is been release to
+your wish bank account in your country it will be shared among us in
+the ratio of 60%40 if you are interested please kindly forward your
+details so we can move towards it.
 
-diff --git a/drivers/input/serio/i8042.h b/drivers/input/serio/i8042.h
-index 55381783dc82..591d0db73497 100644
---- a/drivers/input/serio/i8042.h
-+++ b/drivers/input/serio/i8042.h
-@@ -31,7 +31,7 @@
-  * to a non-existent mouse.
-  */
+Your full name...........
 
--#define I8042_CTL_TIMEOUT      10000
-+#define I8042_CTL_TIMEOUT      15000
+Your Bank Name:............
 
- /*
-  * Return codes.
---
+Your Telephone Number:............
 
-Appreciate your insights and suggestions, 
-Takuma 
+Your Age And Sex:.......................
+
+Your marital status........
+
+Your Occupation..........
+
+Your Country city............
+
+Thanks
+Mr Ibrahim Josh....
