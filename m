@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0889B3ED182
+	by mail.lfdr.de (Postfix) with ESMTP id 32C393ED184
 	for <lists+linux-input@lfdr.de>; Mon, 16 Aug 2021 12:00:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229609AbhHPKAu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 16 Aug 2021 06:00:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58538 "EHLO
+        id S235742AbhHPKAv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 16 Aug 2021 06:00:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235638AbhHPKAt (ORCPT
+        with ESMTP id S235717AbhHPKAu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 16 Aug 2021 06:00:49 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FA68C0613CF
-        for <linux-input@vger.kernel.org>; Mon, 16 Aug 2021 03:00:18 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id q11so22706529wrr.9
-        for <linux-input@vger.kernel.org>; Mon, 16 Aug 2021 03:00:18 -0700 (PDT)
+        Mon, 16 Aug 2021 06:00:50 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 384FFC0613CF
+        for <linux-input@vger.kernel.org>; Mon, 16 Aug 2021 03:00:19 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id x12so22692706wrr.11
+        for <linux-input@vger.kernel.org>; Mon, 16 Aug 2021 03:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WXtfrlhTvK5I4Q1AcToRyUZbAQ+Zw4tC00SfbVVvbW0=;
-        b=s3ToyYAoY23WCoCF6c7fFnVwgRmAsa5SAo30JW235Lg6QeLK2Z63c1kjPVsIGjCZiU
-         gJ+keeK0niCAkyDDssO7o9zgEj+CeU9011sowPpALmwzMfjylFCiQvwubhDOX/noeweA
-         OZitkIVb8Pr8U50KzUrfqAjcUCaeylgShbm+ySjWFsDKqyZatCtpYqrwm52rWm4yqaT7
-         sS326TZlVB+RIJNXACPI1h1Vhkay8IvlwI9YXh7WfxcZN707rHnmoMu8UzcTc6XjL3PV
-         6c+rk8HFqer/jR0gAv82tCNBoOxBU9G5WRqBCzkBcOxSjk2hQiJVOZsNjxBW2+9zUt3a
-         dFxQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=PpTp/5Tq0vrESfQrWF/0EYbh0U7tDoXhxB+uJr6AMbw=;
+        b=fZgM7et7JYN90BplPUrj/GoO0GMYg2UGNctNv85sYTJZyAp9+5tYQ/atL9fS0rK3no
+         2jQXLYyUaJtuipNYQqdWqHWJAJPb+u9Btp7iBxVu4tsGws2grDmPFkZAFSwKS7MHWgZ1
+         mqpfHHPg9beVHo+CgtbDHCjaL0TE3Syn8NLiFhdmzq+aBDAUIKjUUJ03EE5TPZvuPDWn
+         +iIqBddx4oYL04skb1+ky2iex/cWMpN8aG/o/3FgFS+hEiEyEWBNH05CE10XGJAdR9SV
+         iZX9YJWkpYTxynqjuG/LCBhnUS7lB1LK1alovi3FK+/o9o0OmWst5uBWbXCpwn+vWvoc
+         pnBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WXtfrlhTvK5I4Q1AcToRyUZbAQ+Zw4tC00SfbVVvbW0=;
-        b=b2yH22t7CrFF8Dejxz1QNryW1w7XNfU8smqkmEe5nKef1ITI3ur7Uccnfx7MS+pxjC
-         Mw1XnVIF6cOVDMnq0GNIa8QfJNyxOzOJYrvmhcygiYIQ3pu7DbW49N06G0VtDr4KV4o9
-         BBz0wR+SvzdSnDMn3LQo4hZZXV0jAIi5fi9A7o1tvR4jF0IJT5pnDPAo+drA6f4aBYMN
-         0MsAQhgfVGR8+mZn6L6laBINRVVKwak2zAVgIaOExIqyii0McH3LloxBu3jXGRi23+tx
-         r1keP4SeZWhdinXuxKSdAvok21BVdDp3MHME3VfO2GSD79iFWYBTgIl5r8FOt6WDOq3C
-         U1mg==
-X-Gm-Message-State: AOAM531qD7zIZHUpXIbsLmY5YkjmrE73tInT5FCsjOy/QUhs/2GSjgsN
-        FoM4Y3SsjIyQIQj2/cGTr6uOGA==
-X-Google-Smtp-Source: ABdhPJwDGgULKk6muzbBo58qOdzC2JgP8l7B8Uqpu2dQfFY7AAre2f5xvKhTZVqiO41kMGHvn1DEJg==
-X-Received: by 2002:a5d:4688:: with SMTP id u8mr17685059wrq.148.1629108016922;
-        Mon, 16 Aug 2021 03:00:16 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=PpTp/5Tq0vrESfQrWF/0EYbh0U7tDoXhxB+uJr6AMbw=;
+        b=Sk53TUbhBqaRszy831cFszymNyaCeS0H6Zsi7sC7ttX0BeVWmITMMoO6jn6NqtK4wu
+         MHZbFbNSKHKNuLITDtIzAtZpuSPh00lLs3dFA/qOv8j60Kr4g9ELYuOK8ix+XRq3mNSc
+         WbZkKZ5qEj82cBlfQYGO5GrTyLyEGj/2vvY0OdnmlqxoXyPGx3mKhMvOeA7WMfYpFLhi
+         WrzQvqYTFJzlqB98vLIFVyFDMFJTVD7dNL9tHYIlZRdRqt12EPQxf9MF5UCPpSs+J0zj
+         aeztelAxPfZH0bW0WwCXAWN+VPMwkk8KllRiyWNNxymlLfvT9253Q4/uTK2kXDpFdBK9
+         EnYg==
+X-Gm-Message-State: AOAM533UH3+r88s+5c0ekY1Gg2xQxynAioiMWzTf0dOAHRxlzaGCpwp8
+        MXaaNCkchJ7e0pmZfQB6PqT2vA==
+X-Google-Smtp-Source: ABdhPJx0rUUhNZQP2bVTR6MASpL3WdLxTe5ewjSHul88ww9MB25RzFpl0cLiAjLY5D8Dik1Igj8Q2w==
+X-Received: by 2002:a5d:50c6:: with SMTP id f6mr16919690wrt.178.1629108017782;
+        Mon, 16 Aug 2021 03:00:17 -0700 (PDT)
 Received: from groot.home ([2a01:cb19:826e:8e00:92b1:d3c2:1204:85e2])
         by smtp.gmail.com with ESMTPSA id u10sm1916645wrt.14.2021.08.16.03.00.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 03:00:16 -0700 (PDT)
+        Mon, 16 Aug 2021 03:00:17 -0700 (PDT)
 From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
@@ -58,41 +58,66 @@ Cc:     Fabien Parent <fparent@baylibre.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
         Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Subject: [PATCH RESEND v3 0/4] input: MT6358 PMIC button support
-Date:   Mon, 16 Aug 2021 12:00:09 +0200
-Message-Id: <20210816100013.100412-1-mkorpershoek@baylibre.com>
+Subject: [PATCH RESEND v3 1/4] Input: mtk-pmic-keys - use get_irq_byname() instead of index
+Date:   Mon, 16 Aug 2021 12:00:10 +0200
+Message-Id: <20210816100013.100412-2-mkorpershoek@baylibre.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210816100013.100412-1-mkorpershoek@baylibre.com>
+References: <20210816100013.100412-1-mkorpershoek@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The MediaTek MT6358 PMIC has support for two buttons: PWR and HOME.
+Some pmics of the mt6397 family (such as MT6358), have two IRQs per
+physical key: one for press event, another for release event.
 
-The interrupt logic is a little different than other PMICs from the
-same family:
-for MT6323 and MT6397, we have one interrupt source per button
-* for MT6358, we have two interrupts lines per button: the press and
-* release interrupts are distinct sources.
+The mtk-pmic-keys driver assumes that each key only has one
+IRQ. The key index and the RES_IRQ resource index have a 1/1 mapping.
 
-Changes since original v2 at [1]:
-* added 4th patch with device tree enable
-* cover letter title prefixed with 'input'
+This won't work for MT6358, as we have multiple resources (2) for one key.
 
-This has been tested with evtest on mt8183-pumpkin on 5.14-rc6
+To prepare mtk-pmic-keys to support MT6358, retrieve IRQs by name
+instead of by index.
 
-Mattijs Korpershoek (4):
-  Input: mtk-pmic-keys - use get_irq_byname() instead of index
-  dt-bindings: input: mtk-pmic-keys: add MT6358 binding definition
-  Input: mtk-pmic-keys - add support for MT6358
-  arm64: dts: mt6358: add mt6358-keys node
+Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+---
+ drivers/input/keyboard/mtk-pmic-keys.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
- .../bindings/input/mtk-pmic-keys.txt          |  5 +-
- arch/arm64/boot/dts/mediatek/mt6358.dtsi      | 12 ++++
- drivers/input/keyboard/mtk-pmic-keys.c        | 56 +++++++++++++++++--
- 3 files changed, 68 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
+index 62391d6c7da6..d1abf95d5701 100644
+--- a/drivers/input/keyboard/mtk-pmic-keys.c
++++ b/drivers/input/keyboard/mtk-pmic-keys.c
+@@ -241,6 +241,7 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+ 	unsigned int keycount;
+ 	struct mt6397_chip *pmic_chip = dev_get_drvdata(pdev->dev.parent);
+ 	struct device_node *node = pdev->dev.of_node, *child;
++	static const char *const irqnames[] = { "powerkey", "homekey" };
+ 	struct mtk_pmic_keys *keys;
+ 	const struct mtk_pmic_regs *mtk_pmic_regs;
+ 	struct input_dev *input_dev;
+@@ -268,7 +269,8 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+ 	input_dev->id.version = 0x0001;
+ 
+ 	keycount = of_get_available_child_count(node);
+-	if (keycount > MTK_PMIC_MAX_KEY_COUNT) {
++	if (keycount > MTK_PMIC_MAX_KEY_COUNT ||
++	    keycount > ARRAY_SIZE(irqnames)) {
+ 		dev_err(keys->dev, "too many keys defined (%d)\n", keycount);
+ 		return -EINVAL;
+ 	}
+@@ -276,7 +278,8 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+ 	for_each_child_of_node(node, child) {
+ 		keys->keys[index].regs = &mtk_pmic_regs->keys_regs[index];
+ 
+-		keys->keys[index].irq = platform_get_irq(pdev, index);
++		keys->keys[index].irq =
++			platform_get_irq_byname(pdev, irqnames[index]);
+ 		if (keys->keys[index].irq < 0) {
+ 			of_node_put(child);
+ 			return keys->keys[index].irq;
 -- 
 2.30.2
 
