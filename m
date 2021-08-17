@@ -2,72 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 482BF3EE808
-	for <lists+linux-input@lfdr.de>; Tue, 17 Aug 2021 10:09:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C29AA3EEC31
+	for <lists+linux-input@lfdr.de>; Tue, 17 Aug 2021 14:10:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238193AbhHQIKG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Aug 2021 04:10:06 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:51755 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234581AbhHQIKE (ORCPT
+        id S237125AbhHQML0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Aug 2021 08:11:26 -0400
+Received: from mail-ot1-f45.google.com ([209.85.210.45]:41556 "EHLO
+        mail-ot1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236113AbhHQMLX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Aug 2021 04:10:04 -0400
-Received: from mail-wm1-f43.google.com ([209.85.128.43]) by
- mrelayeu.kundenserver.de (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MUl4z-1mfvUR1giP-00Qg8l; Tue, 17 Aug 2021 10:09:30 +0200
-Received: by mail-wm1-f43.google.com with SMTP id c8-20020a7bc008000000b002e6e462e95fso1234439wmb.2;
-        Tue, 17 Aug 2021 01:09:30 -0700 (PDT)
-X-Gm-Message-State: AOAM532/nYoVYQdaPNTDw/HJAla55xHpS/5pQ2ITJ01MNb4kgq3EOarN
-        CpWh2KXxroCQzhSQTghMZwGntd848CqgIz3kG0g=
-X-Google-Smtp-Source: ABdhPJw/hVeF2oi552UuzFwFxuAsd7BwTOC7LdXLOiMZcArDyclXg5p1pniYYafsm/+Q1D9cOD+vthsEizxoC+Abkac=
-X-Received: by 2002:a05:600c:1991:: with SMTP id t17mr2051915wmq.120.1629187769866;
- Tue, 17 Aug 2021 01:09:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210817072842.8640-1-lukas.bulwahn@gmail.com>
-In-Reply-To: <20210817072842.8640-1-lukas.bulwahn@gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 17 Aug 2021 10:09:14 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1H-Of2LC9Yp36PB+dhAwvirohSVDo1y9nWshyZytWqNw@mail.gmail.com>
-Message-ID: <CAK8P3a1H-Of2LC9Yp36PB+dhAwvirohSVDo1y9nWshyZytWqNw@mail.gmail.com>
-Subject: Re: [PATCH] input: remove dead CSR Prima2 PWRC driver
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, kernel-janitors@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:2QKq/FQd5pk2kzFN5fPpXezwU69TUHVu0OZ9SSDS1TFm+ae8FJQ
- w3AlHn+C7tssZge064OTegWIogTtYV9PybKm5pUegLVj+l3j2peZ9ZCxwTPMPR3NLZESUQf
- eZWFyKVZbLcc+lWBRvxiNXqWBZx5OCSJh1wlPSVVNT1d16npJkzwtbAJkHy31JqAt6IcdXh
- MDi7ORAAVLDaG/Lb1Qtig==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:N+LggpEY3oM=:xLXGheIGd65UuAakDmsOib
- oeOSWQ2aSXgwWyHa5+p2hBATg04TKHgKAHUT4kDt+hQbir0nOzD2zMSfp0ROfSng5Ya2dSqAU
- VBR8EeSbIZeNAdk9lHBvPyQF0Ls7+LD0I5WDAQAwzHXcax37dRHAHCy/drBCo7ZpzBowkU6v0
- B4WiAdWE0/trNxJTM7dYtN23uf/Juiqi2HCgLtzF9NtdB7s1FqucgJk+a+JHzu27RQqrhnW9Q
- JgMBEBXkaKgR7HT4iQHZPNOcdffCEawPwbVnataFKBFZd6ZlxlCfhoMorVQx7d3+zKKmgz/4N
- T7l9nMx3mRgMXhuZlirQh/0gp6kXUsIW2GoW4KZUQJzW/gS9Ep1jj0TioN0ouXP8q7VmeCzsi
- xAJcNchb5dLO+fwKBwC6AKJGkJoJ1Y7Gz4FqxAjZW6aFTwFzIz1gUYk6yaOitkN7WaUGYQiis
- pHTYSb4EHu7qWW/FUuatZwa8q1wuIrlOrBSFYdssCPNLci6806TDGyAd1B1Tr+U3A/9RZzJxw
- LnAii/EHP1Cgal9MR2mmYmhLihdRlBXShNLLCdiy2IV0n1DgpTNp+dMy0pV+b+XN0DrgQR9hv
- iZ3YJvToTfINR1/iaivi7fG9XgDxlYKymL2S3YysJ2W/3dqp7ed29Kwk7ZIJgyjUL8bvrHHPn
- ixJTpmWduVlqrH0RAObAc2+r9iZzSvRgHEDiUfTTNhOA81oLb5HRNs+zHFvNni1Nbkujs+lO6
- vT4ScnPv4AB77WsQBUq+acYUDYunSVMaVo0zOrBupuQFwltvx0L0rJnJUPoe4Y9DIYfyEEP94
- U0JmSfx6C80OSi34YxHBWCzf65ldhi+NqdDXdtmCnEBEte0Krv6uzoIufrefBXuPs5YdgSV
+        Tue, 17 Aug 2021 08:11:23 -0400
+Received: by mail-ot1-f45.google.com with SMTP id w22-20020a056830411600b0048bcf4c6bd9so2005910ott.8;
+        Tue, 17 Aug 2021 05:10:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=jQ2l3WXqoH22mFDQEW/1VSsXU0XAw7Dnr3dv/FtM+pE=;
+        b=T6xdRfeT2AbrU9CtB8MAGkBykyhAv5vDgrkQ76UcLWQD+7L0cKNq973+UPOrG+5+MY
+         1I7K31qrtzcE5i7g7Bp0pQ4xSSbGP1PI4MgWoXksNiLlJLEfmTidhx3gdhMqZGmxTWi/
+         Sk91wN0Pd2ESjM6izMsRzM42GQFdxUbkXYMKlrgxJKEvRbo0tDcT46JGvHzjAHPEleWj
+         zkgl95by/8U4GoXAVxeb0rlVW+kztTBeHfUGPTOVW8zXULhwu20IiyENxS+0Vrxf1+Xe
+         Q6grshsUrHsabqE3qlCdEA7x49jh0/O2bp0fHFqbJKRxFid6AzxdElGYCMq69QRpi6Mm
+         PgOw==
+X-Gm-Message-State: AOAM533NJcxWcaF6ESRNad7Z49vwM+E27P/QyE/TCzcDpByyiGCuHBeV
+        zH10oByjNPgAIO53UVw1Ng==
+X-Google-Smtp-Source: ABdhPJyx5bUXH5T9Qhnhqxeq+w14eA1RIP7smOUbOTFqJYFnmnDAEPgvnRUQRvyS1m1hxMFMT6e+Pg==
+X-Received: by 2002:a05:6830:1105:: with SMTP id w5mr2354720otq.85.1629202250091;
+        Tue, 17 Aug 2021 05:10:50 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id u15sm424438oiu.43.2021.08.17.05.10.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Aug 2021 05:10:49 -0700 (PDT)
+Received: (nullmailer pid 4133263 invoked by uid 1000);
+        Tue, 17 Aug 2021 12:10:48 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Caleb Connolly <caleb@connolly.tech>
+Cc:     linux-input@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+        Joel Selvaraj <jo@jsfamily.in>, linux-kernel@vger.kernel.org,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jami Kettunen <jami.kettunen@somainline.org>
+In-Reply-To: <20210816221931.1998187-2-caleb@connolly.tech>
+References: <20210816221931.1998187-1-caleb@connolly.tech> <20210816221931.1998187-2-caleb@connolly.tech>
+Subject: Re: [PATCH v3 1/6] dt-bindings: input: add Qualcomm SPMI haptics driver
+Date:   Tue, 17 Aug 2021 07:10:48 -0500
+Message-Id: <1629202248.430426.4133262.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Aug 17, 2021 at 9:29 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
->
-> Commit f3a732843acc ("ARM: remove sirf prima2/atlas platforms") removes
-> the config ARCH_SIRF in ./arch/arm/mach-prima2/Kconfig.
->
-> Hence, since then, the corresponding CSR Prima2 PWRC Driver is dead code.
-> Remove this dead driver.
->
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+On Mon, 16 Aug 2021 22:19:55 +0000, Caleb Connolly wrote:
+> Add bindings for qcom PMIC SPMI haptics driver.
+> 
+> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+> ---
+>  .../bindings/input/qcom,spmi-haptics.yaml     | 128 ++++++++++++++++++
+>  include/dt-bindings/input/qcom,spmi-haptics.h |  32 +++++
+>  2 files changed, 160 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/qcom,spmi-haptics.yaml
+>  create mode 100644 include/dt-bindings/input/qcom,spmi-haptics.h
+> 
 
-Good catch!
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/input/qcom,spmi-haptics.example.dt.yaml:0:0: /example-0/pmic@3: failed to match any schema with compatible: ['qcom,pmi8998', 'qcom,spmi-pmic']
+Documentation/devicetree/bindings/input/qcom,spmi-haptics.example.dt.yaml:0:0: /example-0/pmic@3: failed to match any schema with compatible: ['qcom,pmi8998', 'qcom,spmi-pmic']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1517351
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
