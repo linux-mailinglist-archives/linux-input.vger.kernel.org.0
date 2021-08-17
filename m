@@ -2,202 +2,328 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F8983EE665
-	for <lists+linux-input@lfdr.de>; Tue, 17 Aug 2021 07:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F46A3EE737
+	for <lists+linux-input@lfdr.de>; Tue, 17 Aug 2021 09:28:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233928AbhHQF44 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Aug 2021 01:56:56 -0400
-Received: from mx0b-00128a01.pphosted.com ([148.163.139.77]:63586 "EHLO
-        mx0b-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233676AbhHQF4z (ORCPT
+        id S234513AbhHQH3V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Aug 2021 03:29:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43752 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238619AbhHQH3V (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Aug 2021 01:56:55 -0400
-Received: from pps.filterd (m0167090.ppops.net [127.0.0.1])
-        by mx0b-00128a01.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17GEos1c009993;
-        Tue, 17 Aug 2021 01:56:21 -0400
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
-        by mx0b-00128a01.pphosted.com with ESMTP id 3afd66vhjd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 17 Aug 2021 01:56:21 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wa0Y4JKhVEpH13iTDRWb9sDqJlr2vxHp60zLYONIZ+IDX0xSlYZGVgEqQqP3CiI8i+vGeZIx96uOjIGYEjKtDi0jK81+ZpWr/HO+nhSOur3Gp5Fh6/rCEusBmzCZMf8ruQHcKGJxatzPnujVbfgHyqsInrKo9xmIWoXRcn3bWI7alMNOilMwGNkMQEFW/rNjD8kgwYYAWOa1VZ/SrnxSBX0NoEfzsHOLcmBF8EoijbMtKyTX3v8zrABZ2waWgFraMxKABYbPiioT9lrOIEMNUA8NwMJamnCkxnQLgB849wIHzuNev1lcYAyRkHMfmxlfKGMUTBwEDznI7uYCT7DgCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E0tnt2dzwd9QKPDiSPpLHRBpQFujIjKr/PGgdGEehG4=;
- b=TZBnW3szZOo8Vj1YsNcbn3/my/n1AswYzY6y+MMECe5c6GxdbrC455EKjYeFuFY+bBbDdCQb5Kt9Uyiim8/oflz3ltABBWjR7PKdpj4vH8HCWehFthbNHltR6lpXuYULwZ5tugw44+wYTzrLpDxj1P5jTLDCdjZIrPPs5F7FmSTPBbOnI6tiIze4OyIaR2lCPh/NwYll2ZkXz1sKfZ19AUrcyHBQpDzRRp1N4xnkmPrR5fPbb1BPJHL7QwtgmkT7P+gTUc5EtPzgkpGNilYBtOFjrT3kapDT8Kx8xNuqatubsXKPRRszbbZKAYo984UsMla8sE8E1tezzQHa3kjXnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
- dkim=pass header.d=analog.com; arc=none
+        Tue, 17 Aug 2021 03:29:21 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F768C061796;
+        Tue, 17 Aug 2021 00:28:48 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id x12so27108837wrr.11;
+        Tue, 17 Aug 2021 00:28:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E0tnt2dzwd9QKPDiSPpLHRBpQFujIjKr/PGgdGEehG4=;
- b=7t9GqVimtdzsL1zZ4ZavpEu4mK0jN4cDKNzwWjFYdEF0T4TvQrH4QsEezYgIgTE9PiUNLONusecN3VjIuD53vhEdQMmMuSwbEU29Ue/xk8IZyjrqKhydJ0f1x8pAmh662dvK/8PL7RvRFnESXoEKiHpOpqQx1xU+DIfHZG+/t20=
-Received: from SJ0PR03MB6253.namprd03.prod.outlook.com (2603:10b6:a03:3b8::19)
- by BYAPR03MB4278.namprd03.prod.outlook.com (2603:10b6:a03:78::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.17; Tue, 17 Aug
- 2021 05:56:19 +0000
-Received: from SJ0PR03MB6253.namprd03.prod.outlook.com
- ([fe80::eddf:aaa8:b906:9bd0]) by SJ0PR03MB6253.namprd03.prod.outlook.com
- ([fe80::eddf:aaa8:b906:9bd0%4]) with mapi id 15.20.4415.024; Tue, 17 Aug 2021
- 05:56:19 +0000
-From:   "Hennerich, Michael" <Michael.Hennerich@analog.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-CC:     Alexandru Ardelean <Alexandru.ardelean@analog.com>
-Subject: RE: [PATCH] Input: adp5589-keys - Use the right header
-Thread-Topic: [PATCH] Input: adp5589-keys - Use the right header
-Thread-Index: AQHXkvaGrvH90oqFZEyF5ifvD5ry9qt3MzDg
-Date:   Tue, 17 Aug 2021 05:56:19 +0000
-Message-ID: <SJ0PR03MB6253F2ACB2755CD41B3C96928EFE9@SJ0PR03MB6253.namprd03.prod.outlook.com>
-References: <20210816232707.485031-1-linus.walleij@linaro.org>
-In-Reply-To: <20210816232707.485031-1-linus.walleij@linaro.org>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcbWhlbm5lcmlc?=
- =?us-ascii?Q?YXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRi?=
- =?us-ascii?Q?YTI5ZTM1Ylxtc2dzXG1zZy1kNWM3NmE0NC1mZjFmLTExZWItOTFhZS00ODg5?=
- =?us-ascii?Q?ZTc3Y2RkZWZcYW1lLXRlc3RcZDVjNzZhNDYtZmYxZi0xMWViLTkxYWUtNDg4?=
- =?us-ascii?Q?OWU3N2NkZGVmYm9keS50eHQiIHN6PSIxNTEzIiB0PSIxMzI3MzY1MzM3NzEx?=
- =?us-ascii?Q?MTIxNjciIGg9IlNUOWpWNEZIcjFyZWcvL2hkMmRLR0dRVVBhUT0iIGlkPSIi?=
- =?us-ascii?Q?IGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk5DZ1VBQUlZREFB?=
- =?us-ascii?Q?RG56aVNZTEpQWEFjS3d2b1ZjOU1yYndyQytoVnoweXRzRkFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFIQUFBQUFXQXdBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFFQUFRQUJBQUFBQk9ZR2NnQUFBQUFBQUFBQUFBQUFBSjRBQUFCaEFHUUFh?=
- =?us-ascii?Q?UUJmQUhNQVpRQmpBSFVBY2dCbEFGOEFjQUJ5QUc4QWFnQmxBR01BZEFCekFG?=
- =?us-ascii?Q?OEFaZ0JoQUd3QWN3QmxBRjhBWmdCdkFITUFhUUIwQUdrQWRnQmxBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR0VBWkFCcEFGOEFjd0JsQUdNQWRR?=
- =?us-ascii?Q?QnlBR1VBWHdCd0FISUFid0JxQUdVQVl3QjBBSE1BWHdCMEFHa0FaUUJ5QURF?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFBQ0FB?=
- =?us-ascii?Q?QUFBQUNlQUFBQVlRQmtBR2tBWHdCekFHVUFZd0IxQUhJQVpRQmZBSEFBY2dC?=
- =?us-ascii?Q?dkFHb0FaUUJqQUhRQWN3QmZBSFFBYVFCbEFISUFNZ0FBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFBQUJoQUhJ?=
- =?us-ascii?Q?QWFRQmhBRjhBWkFCcEFHTUFkQUJwQUc4QWJnQmhBSElBZVFCZkFIUUFhUUJs?=
- =?us-ascii?Q?QUhJQU1RQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFHRUFjZ0JwQUdFQVh3QmtBR2tB?=
- =?us-ascii?Q?WXdCMEFHa0Fid0J1QUdFQWNnQjVBRjhBZEFCcEFHVUFjZ0F5QUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUFD?=
- =?us-ascii?Q?QUFBQUFBQT0iLz48L21ldGE+?=
-x-dg-rorf: true
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=analog.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c8ede177-f669-46a8-71e2-08d96143bc39
-x-ms-traffictypediagnostic: BYAPR03MB4278:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR03MB4278637558FBA84052D852638EFE9@BYAPR03MB4278.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1303;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: gwQb+xPX+98uM616I3K1uhZF+oLqZdUnXJxY0D3EosdVW3YMZBILsXYnz694exo7+KmV/bzv4LiCTAWqQt8ItTFJm97itq2U6GWPuA/8ow5MltIst3S4kc7AJnqz/B9eXC2co8U6SN2MsRqwmWg6e0Y9cNtheQfiskLvkPDDvZpyPwEQbXSEFigmrwMPWyJDeAz9OfyOEwieJQqdpVNh/FZGHlwg7EDuyOY9i5KRqfzQ/ks33wx78Ueyy7TQ+Sk96/skHTo818BJlroDtJVyPBRDVOATcAPaE24pVQHLGMqRzJPJCMwao9/rAUSRfMRqWp0QDcD4ZqhM+T601uUfsgNlN7njikIE97LcLjvZV9UZmoAHbgVjfVWJ4lHLSo3wP9HnRWlwKoZQgPyySzr9VhRjYJNAWwMcdNUbQk7LFfQxGhhiFtt5fvZ5V8Sacf6DqhB2E6FWxP0wit7/8hL5pkRjZV8oEtIGTPP1uENPYAnrG4y0UMsrdxMgyVuwgoxTH2mBhPFQTx9J55UHCZc00SDMTqS6NxwIN13L8QtRAaHa6hVsBH3Oj/cHxcvqqkAvPGMYFRCxp5HE9bNy0vIukgQGD8O6Tx+dpQGjetO98YX98lef+2gY/32eSjQ7fUXc7K3VQzMEa1nMKZL8WPCSbrzwahhFxyddd2/0ajr2BMFd2IvR9pw9SULQgffolsgtamklaKjDFRkKow0qlGlrYw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6253.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(366004)(346002)(39860400002)(136003)(66446008)(64756008)(66476007)(66556008)(86362001)(33656002)(71200400001)(7696005)(66946007)(107886003)(26005)(8936002)(8676002)(52536014)(2906002)(186003)(53546011)(6506007)(4744005)(110136005)(38070700005)(5660300002)(55016002)(9686003)(316002)(122000001)(38100700002)(76116006)(478600001)(83380400001)(4326008);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?6ok+zwT7seP2eugWs2Tp0e0S68mVSoCPd3ILd177eJQn9aia9k96g8QWb2qn?=
- =?us-ascii?Q?sBsz3KcunBYrQJdIBTqcm1rxQ2Iq06DxTunbA4ZEjDzFmh1gsUAX9yJ/Qos2?=
- =?us-ascii?Q?sXatRQuUYr+iGcedxLKTSK2cVPBcEN8g+Ea7h0qfnpeejM5r0Z/CaziG1rgE?=
- =?us-ascii?Q?+eb9ce6aUMX3MA/bFP2Id7hF5zVvW1gszPIEGfnpyP8jgPO4EYhRvYid+FAt?=
- =?us-ascii?Q?fSPgJp6GCjg7lsH64eYCH/i9gg0D2G+EAsINZtqHq7/3IPQaUE6SYUhGt3iy?=
- =?us-ascii?Q?JQMiwEe0zNzaHilZxXGPVqMBbRfUOvIuwbMhdXvRIC7eSExAgzPEItNo8Q+M?=
- =?us-ascii?Q?2COwcjcGxfe0C34UGcwhwIWLDiPNTNiTNVSybrjRuc5q4HmNmgcTdHBTwXAm?=
- =?us-ascii?Q?j4TiHv7/KCyqSAoe+25K75jp9ClU0Q7jCASVFNisi0cGGaRdSLFZCJPhQQwV?=
- =?us-ascii?Q?5Cqjk5CymQDeZjuvPeXpcS6mDuhDP+ya6aHpsH0Ef33xrPDlNSJwlWj410w2?=
- =?us-ascii?Q?H+jhcpTbBS4YVsVDHFA228SoKROgHugi2t/ycJrlCU4olzwJCmHMO++6JqZR?=
- =?us-ascii?Q?kihQTu4aI1f0H/raa23vcfiwjuHXt/XAkr+0TxgrB/2MljY+e4ZmNvuZgBHw?=
- =?us-ascii?Q?o7P0wGlEmtDmmwEVygsIsPVENqhqhLLtHQFradyR8aCEgM5asacbll1MH3r1?=
- =?us-ascii?Q?fcWfSvsIdndtd60BC/SuneZ47IsGQmnP6nNkS+rcXqWyTZA5FAwGvnqUs6iQ?=
- =?us-ascii?Q?6vg1GY3KASzUUk32gNI820YNnq2GSU5huM0t9FWzGFPiChaPTPByU5y5WGCw?=
- =?us-ascii?Q?LZr+k12IxHm+Jw7W8UBVrts3bYhNJ5pGKgtkNUNxFdw9d9vekwSUaCNbal3D?=
- =?us-ascii?Q?QT3IHSF9Yddlmyw5C1MK0mqw+rt5TnduYM+eRpKklTRn8P3XVyMN63kBSrQJ?=
- =?us-ascii?Q?EGSLSkks3xjyv6Ul9ToKYI85kZvloMAfGYSHh1VTLJM31b6XfccGiPlHs7o5?=
- =?us-ascii?Q?cFAd08C/6vGvUx/M/0KvVMOxC6zs/kgEvQpHkndzpXw4Ygkd9RgiCofJA/Ps?=
- =?us-ascii?Q?2aoXrZHb5RHkXtWfkqZMaF3/B1POByTKZmiM51HY9LYwATfZI7TjhVS4yr8g?=
- =?us-ascii?Q?RPlkVzKzVZ+euYtiGgnMC3W99QJXhTN1tAP2SWWUbmip3sCosqEzfdbSEAZy?=
- =?us-ascii?Q?RvnPEPBLROM/1luEdZcuG0Z1FEaKYl34r14P1Q5+dnx4OukaxCAKmW0sN6Ph?=
- =?us-ascii?Q?7UKZWSwqAQzyTLAtXug1/eBQNyqDLhYOOsPL1PoHRGzXV60YCKtHBGDghkrb?=
- =?us-ascii?Q?OL6KkLfpfSodC6Dk8tsSpoKf?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7j8rw4Ujz5x983gg53sxPnn1dxlWsFVFzGa4/yW9Tik=;
+        b=CSdlKeGJARJ0qiBtgTglHjTG9kwi9s3KxhYFZtXyfN6xyGs1x3IrTkDrhAKhuSE8KW
+         JKHhi0PHMbtSiHakmEuxtwv78dfmukEWX8ibj7DEkQhbYztyxqAp152tBSG0zD2kTX61
+         uO2zjc430kURV5KZky2VCeuNOPCeyJY/f/GVNY+jZVqTgSGTK38B6s7hpUzw2fQKUjbv
+         rcdW8wM2hSGABUvXRjfSBS/r24Ev07DKSDQzCJTwVdZpQGAvvKYOrOTIBPKxFsTeJPlG
+         buI6BO++8SRohvy6iMR36FSqacv86RDa97syWD/IZ+ioN1wpQAXbtg8vHRheJB/IORoF
+         /S4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7j8rw4Ujz5x983gg53sxPnn1dxlWsFVFzGa4/yW9Tik=;
+        b=j9Hl/dFbxGzGHHzFoRovXxdfasO5mJ2ATWhwn79KoMsmnx7Xb10HebuHlaZPKDRvZ2
+         v4m3ay0hTGvdEWIgZtwG0ugW/4TpZy/VmQMwinDWjBJ6RfMuHtedamNi9oUZvxVRgefJ
+         VyHn/F3UdQFt0tluoe+9g9S2sJS8vFLmoPa/iN1Lg/uejAyyhHKxyPvKdwTsr89NZXBn
+         FgSSbxK4rQbQUGDrq5YlC6Cw6e+uAi1vFcKl9Fa25v2rnvK+b5kRypvolSjvP+q/H9gc
+         uZRS9ZuEH6Ysyw2tI4UhNe80ssC3wdpoytpzNP589+32Gh2kni5tCwy832MyMHIVknsb
+         5PpQ==
+X-Gm-Message-State: AOAM5305OHWClejXrGDF/XL3d1tCZFJj5vczrarQn4kScsmj+laHVGOs
+        4lGvWtUoJ4oryAr48h9KtZfYPgwTfhg=
+X-Google-Smtp-Source: ABdhPJwLhN7zuVO8nILdK/mXM7xXpdii13sReyRkHuFWrY5iA8AesN/joQtjmMiqIW4DOj13DJPiMw==
+X-Received: by 2002:a5d:54ca:: with SMTP id x10mr2239553wrv.101.1629185326889;
+        Tue, 17 Aug 2021 00:28:46 -0700 (PDT)
+Received: from localhost.localdomain (arl-84-90-178-246.netvisao.pt. [84.90.178.246])
+        by smtp.gmail.com with ESMTPSA id i8sm1175056wma.7.2021.08.17.00.28.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Aug 2021 00:28:46 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Arnd Bergmann <arnd@arndb.de>, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] input: remove dead CSR Prima2 PWRC driver
+Date:   Tue, 17 Aug 2021 09:28:42 +0200
+Message-Id: <20210817072842.8640-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB6253.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8ede177-f669-46a8-71e2-08d96143bc39
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Aug 2021 05:56:19.5960
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Xa9r5azn9HLjfu1hiALBVi9R+EQ054L16sUVRTUCi+VruTgmWhgvGqMWQG+7HogrVHlyrW9q4OiRMk53w4TVCzWMLs/p6PKmC5heIUy9cA0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR03MB4278
-X-Proofpoint-ORIG-GUID: 7yqSRS-r9j6fKtoF30j_Bc8jiT1V5xgN
-X-Proofpoint-GUID: 7yqSRS-r9j6fKtoF30j_Bc8jiT1V5xgN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-08-17_02,2021-08-16_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
- priorityscore=1501 spamscore=0 adultscore=0 lowpriorityscore=0
- impostorscore=0 bulkscore=0 clxscore=1011 mlxscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2108170038
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Commit f3a732843acc ("ARM: remove sirf prima2/atlas platforms") removes
+the config ARCH_SIRF in ./arch/arm/mach-prima2/Kconfig.
 
+Hence, since then, the corresponding CSR Prima2 PWRC Driver is dead code.
+Remove this dead driver.
 
-> -----Original Message-----
-> From: Linus Walleij <linus.walleij@linaro.org>
-> Sent: Dienstag, 17. August 2021 01:27
-> To: Dmitry Torokhov <dmitry.torokhov@gmail.com>; linux-
-> input@vger.kernel.org
-> Cc: Linus Walleij <linus.walleij@linaro.org>; Hennerich, Michael
-> <Michael.Hennerich@analog.com>; Alexandru Ardelean
-> <Alexandru.ardelean@analog.com>
-> Subject: [PATCH] Input: adp5589-keys - Use the right header
-> =20
-> This keyboard driver is implementing a GPIO driver, so it need to include
-> <linux/gpio/driver.h> and not the legacy <linux/gpio.h> header.
->=20
-> Cc: Michael Hennerich <michael.hennerich@analog.com>
-> Cc: Alexandru Ardelean <Alexandru.ardelean@analog.com>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+ drivers/input/misc/Kconfig         |  10 --
+ drivers/input/misc/Makefile        |   1 -
+ drivers/input/misc/sirfsoc-onkey.c | 207 -----------------------------
+ 3 files changed, 218 deletions(-)
+ delete mode 100644 drivers/input/misc/sirfsoc-onkey.c
 
-Acked-by: Michael Hennerich <michael.hennerich@analog.com>
-
-> ---
->  drivers/input/keyboard/adp5589-keys.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/input/keyboard/adp5589-keys.c
-> b/drivers/input/keyboard/adp5589-keys.c
-> index 654e0476406b..bdd264459a97 100644
-> --- a/drivers/input/keyboard/adp5589-keys.c
-> +++ b/drivers/input/keyboard/adp5589-keys.c
-> @@ -18,7 +18,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/input.h>
->  #include <linux/i2c.h>
-> -#include <linux/gpio.h>
-> +#include <linux/gpio/driver.h>
->  #include <linux/slab.h>
->=20
->  #include <linux/input/adp5589.h>
-> --
-> 2.31.1
+diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+index ae01507b7afd..dd5227cf8696 100644
+--- a/drivers/input/misc/Kconfig
++++ b/drivers/input/misc/Kconfig
+@@ -799,16 +799,6 @@ config INPUT_XEN_KBDDEV_FRONTEND
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called xen-kbdfront.
+ 
+-config INPUT_SIRFSOC_ONKEY
+-	tristate "CSR SiRFSoC power on/off/suspend key support"
+-	depends on ARCH_SIRF && OF
+-	default y
+-	help
+-	  Say Y here if you want to support for the SiRFSoC power on/off/suspend key
+-	  in Linux, after you press the onkey, system will suspend.
+-
+-	  If unsure, say N.
+-
+ config INPUT_IDEAPAD_SLIDEBAR
+ 	tristate "IdeaPad Laptop Slidebar"
+ 	depends on INPUT
+diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+index 2a0943507467..b92c53a6b5ae 100644
+--- a/drivers/input/misc/Makefile
++++ b/drivers/input/misc/Makefile
+@@ -73,7 +73,6 @@ obj-$(CONFIG_INPUT_GPIO_ROTARY_ENCODER)	+= rotary_encoder.o
+ obj-$(CONFIG_INPUT_RK805_PWRKEY)	+= rk805-pwrkey.o
+ obj-$(CONFIG_INPUT_SC27XX_VIBRA)	+= sc27xx-vibra.o
+ obj-$(CONFIG_INPUT_SGI_BTNS)		+= sgi_btns.o
+-obj-$(CONFIG_INPUT_SIRFSOC_ONKEY)	+= sirfsoc-onkey.o
+ obj-$(CONFIG_INPUT_SOC_BUTTON_ARRAY)	+= soc_button_array.o
+ obj-$(CONFIG_INPUT_SPARCSPKR)		+= sparcspkr.o
+ obj-$(CONFIG_INPUT_STPMIC1_ONKEY)  	+= stpmic1_onkey.o
+diff --git a/drivers/input/misc/sirfsoc-onkey.c b/drivers/input/misc/sirfsoc-onkey.c
+deleted file mode 100644
+index 7982bf8fb839..000000000000
+--- a/drivers/input/misc/sirfsoc-onkey.c
++++ /dev/null
+@@ -1,207 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-/*
+- * Power key driver for SiRF PrimaII
+- *
+- * Copyright (c) 2013 - 2014 Cambridge Silicon Radio Limited, a CSR plc group
+- * company.
+- */
+-
+-#include <linux/module.h>
+-#include <linux/interrupt.h>
+-#include <linux/delay.h>
+-#include <linux/platform_device.h>
+-#include <linux/input.h>
+-#include <linux/rtc/sirfsoc_rtciobrg.h>
+-#include <linux/of.h>
+-#include <linux/workqueue.h>
+-
+-struct sirfsoc_pwrc_drvdata {
+-	u32			pwrc_base;
+-	struct input_dev	*input;
+-	struct delayed_work	work;
+-};
+-
+-#define PWRC_ON_KEY_BIT			(1 << 0)
+-
+-#define PWRC_INT_STATUS			0xc
+-#define PWRC_INT_MASK			0x10
+-#define PWRC_PIN_STATUS			0x14
+-#define PWRC_KEY_DETECT_UP_TIME		20	/* ms*/
+-
+-static int sirfsoc_pwrc_is_on_key_down(struct sirfsoc_pwrc_drvdata *pwrcdrv)
+-{
+-	u32 state = sirfsoc_rtc_iobrg_readl(pwrcdrv->pwrc_base +
+-							PWRC_PIN_STATUS);
+-	return !(state & PWRC_ON_KEY_BIT); /* ON_KEY is active low */
+-}
+-
+-static void sirfsoc_pwrc_report_event(struct work_struct *work)
+-{
+-	struct sirfsoc_pwrc_drvdata *pwrcdrv =
+-		container_of(work, struct sirfsoc_pwrc_drvdata, work.work);
+-
+-	if (sirfsoc_pwrc_is_on_key_down(pwrcdrv)) {
+-		schedule_delayed_work(&pwrcdrv->work,
+-			msecs_to_jiffies(PWRC_KEY_DETECT_UP_TIME));
+-	} else {
+-		input_event(pwrcdrv->input, EV_KEY, KEY_POWER, 0);
+-		input_sync(pwrcdrv->input);
+-	}
+-}
+-
+-static irqreturn_t sirfsoc_pwrc_isr(int irq, void *dev_id)
+-{
+-	struct sirfsoc_pwrc_drvdata *pwrcdrv = dev_id;
+-	u32 int_status;
+-
+-	int_status = sirfsoc_rtc_iobrg_readl(pwrcdrv->pwrc_base +
+-							PWRC_INT_STATUS);
+-	sirfsoc_rtc_iobrg_writel(int_status & ~PWRC_ON_KEY_BIT,
+-				 pwrcdrv->pwrc_base + PWRC_INT_STATUS);
+-
+-	input_event(pwrcdrv->input, EV_KEY, KEY_POWER, 1);
+-	input_sync(pwrcdrv->input);
+-	schedule_delayed_work(&pwrcdrv->work,
+-			      msecs_to_jiffies(PWRC_KEY_DETECT_UP_TIME));
+-
+-	return IRQ_HANDLED;
+-}
+-
+-static void sirfsoc_pwrc_toggle_interrupts(struct sirfsoc_pwrc_drvdata *pwrcdrv,
+-					   bool enable)
+-{
+-	u32 int_mask;
+-
+-	int_mask = sirfsoc_rtc_iobrg_readl(pwrcdrv->pwrc_base + PWRC_INT_MASK);
+-	if (enable)
+-		int_mask |= PWRC_ON_KEY_BIT;
+-	else
+-		int_mask &= ~PWRC_ON_KEY_BIT;
+-	sirfsoc_rtc_iobrg_writel(int_mask, pwrcdrv->pwrc_base + PWRC_INT_MASK);
+-}
+-
+-static int sirfsoc_pwrc_open(struct input_dev *input)
+-{
+-	struct sirfsoc_pwrc_drvdata *pwrcdrv = input_get_drvdata(input);
+-
+-	sirfsoc_pwrc_toggle_interrupts(pwrcdrv, true);
+-
+-	return 0;
+-}
+-
+-static void sirfsoc_pwrc_close(struct input_dev *input)
+-{
+-	struct sirfsoc_pwrc_drvdata *pwrcdrv = input_get_drvdata(input);
+-
+-	sirfsoc_pwrc_toggle_interrupts(pwrcdrv, false);
+-	cancel_delayed_work_sync(&pwrcdrv->work);
+-}
+-
+-static const struct of_device_id sirfsoc_pwrc_of_match[] = {
+-	{ .compatible = "sirf,prima2-pwrc" },
+-	{},
+-};
+-MODULE_DEVICE_TABLE(of, sirfsoc_pwrc_of_match);
+-
+-static int sirfsoc_pwrc_probe(struct platform_device *pdev)
+-{
+-	struct device_node *np = pdev->dev.of_node;
+-	struct sirfsoc_pwrc_drvdata *pwrcdrv;
+-	int irq;
+-	int error;
+-
+-	pwrcdrv = devm_kzalloc(&pdev->dev, sizeof(struct sirfsoc_pwrc_drvdata),
+-			       GFP_KERNEL);
+-	if (!pwrcdrv) {
+-		dev_info(&pdev->dev, "Not enough memory for the device data\n");
+-		return -ENOMEM;
+-	}
+-
+-	/*
+-	 * We can't use of_iomap because pwrc is not mapped in memory,
+-	 * the so-called base address is only offset in rtciobrg
+-	 */
+-	error = of_property_read_u32(np, "reg", &pwrcdrv->pwrc_base);
+-	if (error) {
+-		dev_err(&pdev->dev,
+-			"unable to find base address of pwrc node in dtb\n");
+-		return error;
+-	}
+-
+-	pwrcdrv->input = devm_input_allocate_device(&pdev->dev);
+-	if (!pwrcdrv->input)
+-		return -ENOMEM;
+-
+-	pwrcdrv->input->name = "sirfsoc pwrckey";
+-	pwrcdrv->input->phys = "pwrc/input0";
+-	pwrcdrv->input->evbit[0] = BIT_MASK(EV_KEY);
+-	input_set_capability(pwrcdrv->input, EV_KEY, KEY_POWER);
+-
+-	INIT_DELAYED_WORK(&pwrcdrv->work, sirfsoc_pwrc_report_event);
+-
+-	pwrcdrv->input->open = sirfsoc_pwrc_open;
+-	pwrcdrv->input->close = sirfsoc_pwrc_close;
+-
+-	input_set_drvdata(pwrcdrv->input, pwrcdrv);
+-
+-	/* Make sure the device is quiesced */
+-	sirfsoc_pwrc_toggle_interrupts(pwrcdrv, false);
+-
+-	irq = platform_get_irq(pdev, 0);
+-	error = devm_request_irq(&pdev->dev, irq,
+-				 sirfsoc_pwrc_isr, 0,
+-				 "sirfsoc_pwrc_int", pwrcdrv);
+-	if (error) {
+-		dev_err(&pdev->dev, "unable to claim irq %d, error: %d\n",
+-			irq, error);
+-		return error;
+-	}
+-
+-	error = input_register_device(pwrcdrv->input);
+-	if (error) {
+-		dev_err(&pdev->dev,
+-			"unable to register input device, error: %d\n",
+-			error);
+-		return error;
+-	}
+-
+-	dev_set_drvdata(&pdev->dev, pwrcdrv);
+-	device_init_wakeup(&pdev->dev, 1);
+-
+-	return 0;
+-}
+-
+-static int __maybe_unused sirfsoc_pwrc_resume(struct device *dev)
+-{
+-	struct sirfsoc_pwrc_drvdata *pwrcdrv = dev_get_drvdata(dev);
+-	struct input_dev *input = pwrcdrv->input;
+-
+-	/*
+-	 * Do not mask pwrc interrupt as we want pwrc work as a wakeup source
+-	 * if users touch X_ONKEY_B, see arch/arm/mach-prima2/pm.c
+-	 */
+-	mutex_lock(&input->mutex);
+-	if (input_device_enabled(input))
+-		sirfsoc_pwrc_toggle_interrupts(pwrcdrv, true);
+-	mutex_unlock(&input->mutex);
+-
+-	return 0;
+-}
+-
+-static SIMPLE_DEV_PM_OPS(sirfsoc_pwrc_pm_ops, NULL, sirfsoc_pwrc_resume);
+-
+-static struct platform_driver sirfsoc_pwrc_driver = {
+-	.probe		= sirfsoc_pwrc_probe,
+-	.driver		= {
+-		.name	= "sirfsoc-pwrc",
+-		.pm	= &sirfsoc_pwrc_pm_ops,
+-		.of_match_table = sirfsoc_pwrc_of_match,
+-	}
+-};
+-
+-module_platform_driver(sirfsoc_pwrc_driver);
+-
+-MODULE_LICENSE("GPL v2");
+-MODULE_AUTHOR("Binghua Duan <Binghua.Duan@csr.com>, Xianglong Du <Xianglong.Du@csr.com>");
+-MODULE_DESCRIPTION("CSR Prima2 PWRC Driver");
+-MODULE_ALIAS("platform:sirfsoc-pwrc");
+-- 
+2.26.2
 
