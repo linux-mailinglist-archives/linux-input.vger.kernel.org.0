@@ -2,268 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D5B33F0808
-	for <lists+linux-input@lfdr.de>; Wed, 18 Aug 2021 17:28:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A5983F0B42
+	for <lists+linux-input@lfdr.de>; Wed, 18 Aug 2021 20:49:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239494AbhHRP3T (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Aug 2021 11:29:19 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.54]:22313 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239812AbhHRP3S (ORCPT
+        id S232437AbhHRSuE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Aug 2021 14:50:04 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:56319 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S231743AbhHRSuD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Aug 2021 11:29:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1629300516;
-    s=strato-dkim-0002; d=inhub.de;
-    h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=Oj9NEDKuw2+zJqlADMJiT1hDn1hS5xumIfmiLbY5Oa0=;
-    b=mbp61/tIS/5IjT1nfqKhN9bSNCgEof80nfqpcE0rkDFqPOaR8VWs0AinYn0q0yCqXa
-    pAXrMx9XJt2FE7OIYwlNjSACkUwpgIkx+qvqqexuFk8cCxSow/bPPQhQaVPhwyZeYOKM
-    FgSVlSDFRXGUp9bW/+SShsgakQ9aIBgk6dSKLu9V5CQ/1LOPSMpkFZag1TM/eeCgtLno
-    BsJHcaoAGfQyabBIJLnHOqkxVDLKM1EWaaZrrkHyi9Erw3ZcX57b7vtqGxbrugt9kmRp
-    HB8cXowJz7g5/AHf1O+p2aQQJLvYORswcg3iGEiqtpiZn8CC5GFK3vu/d2/N8jGVKfmI
-    9ehw==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":OGMGfEG7NfU1WQAxQKSndOy9b62IXRUXP1G+n0e9SfNgfKKxghMZpWooHBd6LckRo6Cg2ToZyvlfQhM6"
-X-RZG-CLASS-ID: mo00
-Received: from crypto.lan.inhub.de
-    by smtp.strato.de (RZmta 47.31.0 AUTH)
-    with ESMTPSA id k00d02x7IFSZq0H
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Wed, 18 Aug 2021 17:28:35 +0200 (CEST)
-From:   Tobias Junghans <tobias.junghans@inhub.de>
-To:     linux-input@vger.kernel.org, Rishi Gupta <gupt21@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Tobias Junghans <tobias.junghans@inhub.de>
-Subject: [PATCH 2/2] HID: mcp2221: configure GP pins for GPIO function
-Date:   Wed, 18 Aug 2021 17:27:43 +0200
-Message-Id: <20210818152743.163929-2-tobias.junghans@inhub.de>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210818152743.163929-1-tobias.junghans@inhub.de>
-References: <20210818152743.163929-1-tobias.junghans@inhub.de>
+        Wed, 18 Aug 2021 14:50:03 -0400
+Received: (qmail 204834 invoked by uid 1000); 18 Aug 2021 14:49:27 -0400
+Date:   Wed, 18 Aug 2021 14:49:27 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     syzbot <syzbot+9b57a46bf1801ce2a2ca@syzkaller.appspotmail.com>
+Cc:     Michal Kubecek <mkubecek@suse.cz>, benjamin.tissoires@redhat.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] WARNING in hid_submit_ctrl/usb_submit_urb
+Message-ID: <20210818184927.GD197200@rowland.harvard.edu>
+References: <000000000000d77b6505c767b8f8@google.com>
+ <00000000000038c55d05c9d1dc3b@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00000000000038c55d05c9d1dc3b@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Per default the GP pins of an MCP2221 are designated to a certain
-dedicated or alternate function. While it's possible to change these
-defaults by manually updating the internal flash, it's much more
-convenient and safe to configure the GP pins as GPIOs automatically
-at runtime whenever the corresponding GPIO line is requested. The
-previous setting is restored as soon as the GPIO line is freed again.
+On Wed, Aug 18, 2021 at 02:14:23AM -0700, syzbot wrote:
+> syzbot has found a reproducer for the following issue on:
+> 
+> HEAD commit:    794c7931a242 Merge branch 'linus' of git://git.kernel.org/..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=13af2205300000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=96f0602203250753
+> dashboard link: https://syzkaller.appspot.com/bug?extid=9b57a46bf1801ce2a2ca
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.1
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11ae58ce300000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11d71731300000
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+9b57a46bf1801ce2a2ca@syzkaller.appspotmail.com
+> 
+> ------------[ cut here ]------------
+> usb 1-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType a1
+> WARNING: CPU: 0 PID: 8434 at drivers/usb/core/urb.c:410 usb_submit_urb+0x149d/0x18a0 drivers/usb/core/urb.c:410
+> Modules linked in:
+> CPU: 0 PID: 8434 Comm: syz-executor752 Not tainted 5.14.0-rc6-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> RIP: 0010:usb_submit_urb+0x149d/0x18a0 drivers/usb/core/urb.c:410
+> Code: 7c 24 40 e8 45 64 1f fc 48 8b 7c 24 40 e8 4b fc 0b ff 45 89 e8 44 89 f1 4c 89 e2 48 89 c6 48 c7 c7 e0 b2 27 8a e8 01 fc 91 03 <0f> 0b e9 a5 ee ff ff e8 17 64 1f fc 0f b6 1d 19 ca 01 08 31 ff 41
+> RSP: 0018:ffffc90000effbd0 EFLAGS: 00010082
+> RAX: 0000000000000000 RBX: ffff888027944058 RCX: 0000000000000000
+> RDX: ffff8880235db880 RSI: ffffffff815d85c5 RDI: fffff520001dff6c
+> RBP: ffff888021618140 R08: 0000000000000000 R09: 0000000000000000
+> R10: ffffffff815d23fe R11: 0000000000000000 R12: ffff888018aff118
+> R13: 00000000000000a1 R14: 0000000080000280 R15: ffff888021900400
+> FS:  000000000223d300(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00005614a6c2a160 CR3: 00000000222ca000 CR4: 0000000000350ef0
+> Call Trace:
+>  hid_submit_ctrl+0x6ec/0xd80 drivers/hid/usbhid/hid-core.c:416
+>  usbhid_restart_ctrl_queue.isra.0+0x244/0x3a0 drivers/hid/usbhid/hid-core.c:258
 
-Signed-off-by: Tobias Junghans <tobias.junghans@inhub.de>
----
- drivers/hid/hid-mcp2221.c | 142 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 142 insertions(+)
+The problem is that syzbot has created a device with a report length of 
+zero.  If we use the padded length instead of the actual length, the 
+error should vanish.
 
-diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-index 8e54173b195c..0f2345bd065f 100644
---- a/drivers/hid/hid-mcp2221.c
-+++ b/drivers/hid/hid-mcp2221.c
-@@ -30,6 +30,8 @@ enum {
- 	MCP2221_I2C_CANCEL = 0x10,
- 	MCP2221_GPIO_SET = 0x50,
- 	MCP2221_GPIO_GET = 0x51,
-+	MCP2221_SRAM_SETTINGS_SET = 0x60,
-+	MCP2221_SRAM_SETTINGS_GET = 0x61,
- };
- 
- /* Response codes in a raw input report */
-@@ -56,6 +58,7 @@ enum {
- };
- 
- #define MCP_NGPIO	4
-+#define MCP_PASSWD_LEN	8
- 
- /* MCP GPIO set command layout */
- struct mcp_set_gpio {
-@@ -79,6 +82,49 @@ struct mcp_get_gpio {
- 	} gpio[MCP_NGPIO];
- } __packed;
- 
-+/* MCP GP settings */
-+enum {
-+	MCP2221_GP_FUNC_GPIO = 0x00, /* GPIO operation */
-+	MCP2221_GP_FUNC_DEDICATED = 0x01, /* dedicated function operation */
-+	MCP2221_GP_FUNC_ALT0 = 0x02, /* alternate function 0 */
-+	MCP2221_GP_FUNC_ALT1 = 0x03, /* alternate function 1 */
-+	MCP2221_GP_FUNC_ALT2 = 0x04, /* alternate function 2 */
-+	MCP2221_GP_GPIO_DIR_IN = 0x08, /* GPIO input mode */
-+	MCP2221_GP_GPIO_OUT_VALUE = 0x10, /* GPIO output value */
-+};
-+
-+/* MCP SRAM settings set command layout */
-+struct mcp_set_sram_settings {
-+	u8 cmd;
-+	u8 dummy;
-+	u8 clk_out_div;
-+	u8 dac_voltage_ref;
-+	u8 dac_output_value;
-+	u8 adc_voltage_ref;
-+	u8 interrupt_detection;
-+	u8 alter_gp_settings;
-+	u8 gp_settings[MCP_NGPIO];
-+} __packed;
-+
-+/* MCP SRAM settings set command layout */
-+struct mcp_get_sram_settings {
-+	u8 cmd;
-+	u8 dummy;
-+	u8 len_chip_settings;
-+	u8 len_gp_settings;
-+	u8 init_values;
-+	u8 clk_out_div;
-+	u8 dac_settings;
-+	u8 interrupt_adc_settings;
-+	u16 usb_vid;
-+	u16 usb_pid;
-+	u8 usb_pwr_attrs;
-+	u8 usb_req_current;
-+	u8 password[MCP_PASSWD_LEN];
-+	u8 gp_settings[MCP_NGPIO];
-+} __packed;
-+
-+
- /*
-  * There is no way to distinguish responses. Therefore next command
-  * is sent only after response to previous has been received. Mutex
-@@ -97,6 +143,8 @@ struct mcp2221 {
- 	struct gpio_chip *gc;
- 	u8 gp_idx;
- 	u8 gpio_dir;
-+	u8 gp_default_settings[MCP_NGPIO];
-+	u8 gp_runtime_settings[MCP_NGPIO];
- };
- 
- /*
-@@ -668,6 +716,63 @@ static int mcp_gpio_get_direction(struct gpio_chip *gc,
- 	return GPIO_LINE_DIRECTION_OUT;
- }
- 
-+static int mcp_get_gp_default_settings(struct mcp2221 *mcp)
-+{
-+	int ret;
-+
-+	mcp->txbuf[0] = MCP2221_SRAM_SETTINGS_GET;
-+
-+	mutex_lock(&mcp->lock);
-+	ret = mcp_send_data_req_status(mcp, mcp->txbuf, 1);
-+	mutex_unlock(&mcp->lock);
-+
-+	return ret;
-+}
-+
-+static int mcp_configure_gp(struct mcp2221 *mcp, unsigned int offset, u8 val)
-+{
-+	int ret;
-+
-+	memset(mcp->txbuf, 0, sizeof(struct mcp_set_sram_settings));
-+
-+	mcp->txbuf[0] = MCP2221_SRAM_SETTINGS_SET;
-+	mcp->txbuf[offsetof(struct mcp_set_sram_settings, alter_gp_settings)] = 0x80;
-+
-+	mcp->gp_runtime_settings[offset] = val;
-+	mcp->gp_idx = offsetof(struct mcp_set_sram_settings, gp_settings[0]);
-+	memcpy(&mcp->txbuf[mcp->gp_idx], mcp->gp_runtime_settings,
-+			sizeof(mcp->gp_runtime_settings));
-+
-+	mutex_lock(&mcp->lock);
-+	ret = mcp_send_data_req_status(mcp, mcp->txbuf, sizeof(struct mcp_set_sram_settings));
-+	mutex_unlock(&mcp->lock);
-+
-+	return ret;
-+}
-+
-+static int mcp_gpio_request(struct gpio_chip *gc, unsigned int offset)
-+{
-+	int ret;
-+	struct mcp2221 *mcp = gpiochip_get_data(gc);
-+
-+	ret = mcp_configure_gp(mcp, offset, MCP2221_GP_FUNC_GPIO |
-+					MCP2221_GP_GPIO_DIR_IN);
-+	if (ret) {
-+		hid_err(mcp->hdev, "failed to set GP function\n");
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+static void mcp_gpio_free(struct gpio_chip *gc, unsigned int offset)
-+{
-+	struct mcp2221 *mcp = gpiochip_get_data(gc);
-+
-+	if (mcp_configure_gp(mcp, offset, mcp->gp_default_settings[offset]))
-+		hid_warn(mcp->hdev, "failed to restore GP function\n");
-+}
-+
- /* Gives current state of i2c engine inside mcp2221 */
- static int mcp_get_i2c_eng_state(struct mcp2221 *mcp,
- 				u8 *data, u8 idx)
-@@ -813,6 +918,28 @@ static int mcp2221_raw_event(struct hid_device *hdev,
- 		complete(&mcp->wait_in_report);
- 		break;
- 
-+	case MCP2221_SRAM_SETTINGS_GET:
-+		if (data[1] == MCP2221_SUCCESS) {
-+			int offset = offsetof(struct mcp_get_sram_settings, gp_settings[0]);
-+
-+			memcpy(mcp->gp_default_settings, &data[offset],
-+							sizeof(mcp->gp_default_settings));
-+			mcp->status = 0;
-+		} else {
-+			mcp->status = -EIO;
-+		}
-+		complete(&mcp->wait_in_report);
-+		break;
-+
-+	case MCP2221_SRAM_SETTINGS_SET:
-+		if (data[1] == MCP2221_SUCCESS)
-+			mcp->status = 0;
-+		else
-+			mcp->status = -EIO;
-+
-+		complete(&mcp->wait_in_report);
-+		break;
-+
- 	default:
- 		mcp->status = -EIO;
- 		complete(&mcp->wait_in_report);
-@@ -890,6 +1017,8 @@ static int mcp2221_probe(struct hid_device *hdev,
- 	mcp->gc->get_direction = mcp_gpio_get_direction;
- 	mcp->gc->set = mcp_gpio_set;
- 	mcp->gc->get = mcp_gpio_get;
-+	mcp->gc->request = mcp_gpio_request;
-+	mcp->gc->free = mcp_gpio_free;
- 	mcp->gc->ngpio = MCP_NGPIO;
- 	mcp->gc->base = -1;
- 	mcp->gc->can_sleep = 1;
-@@ -902,6 +1031,19 @@ static int mcp2221_probe(struct hid_device *hdev,
- 	if (ret)
- 		goto err_gc;
- 
-+	hid_device_io_start(hdev);
-+	ret = mcp_get_gp_default_settings(mcp);
-+	hid_device_io_stop(hdev);
-+
-+	if (ret) {
-+		hid_err(mcp->hdev, "failed to get GP default settings\n");
-+		ret = -EIO;
-+		goto err_gc;
-+	}
-+
-+	memcpy(mcp->gp_runtime_settings, mcp->gp_default_settings,
-+					sizeof(mcp->gp_default_settings));
-+
- 	return 0;
- 
- err_gc:
--- 
-2.25.1
+I believe this is fixed by Michal's patch, below.
 
+Alan Stern
+
+#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 794c7931a242
+
+--- a/drivers/hid/usbhid/hid-core.c
++++ b/drivers/hid/usbhid/hid-core.c
+@@ -377,27 +377,26 @@ static int hid_submit_ctrl(struct hid_device *hid)
+ 	len = hid_report_len(report);
+ 	if (dir == USB_DIR_OUT) {
+ 		usbhid->urbctrl->pipe = usb_sndctrlpipe(hid_to_usb_dev(hid), 0);
+-		usbhid->urbctrl->transfer_buffer_length = len;
+ 		if (raw_report) {
+ 			memcpy(usbhid->ctrlbuf, raw_report, len);
+ 			kfree(raw_report);
+ 			usbhid->ctrl[usbhid->ctrltail].raw_report = NULL;
+ 		}
+ 	} else {
+-		int maxpacket, padlen;
++		int maxpacket;
+ 
+ 		usbhid->urbctrl->pipe = usb_rcvctrlpipe(hid_to_usb_dev(hid), 0);
+ 		maxpacket = usb_maxpacket(hid_to_usb_dev(hid),
+ 					  usbhid->urbctrl->pipe, 0);
+ 		if (maxpacket > 0) {
+-			padlen = DIV_ROUND_UP(len, maxpacket);
+-			padlen *= maxpacket;
+-			if (padlen > usbhid->bufsize)
+-				padlen = usbhid->bufsize;
++			len = DIV_ROUND_UP(len, maxpacket);
++			len *= maxpacket;
++			if (len > usbhid->bufsize)
++				len = usbhid->bufsize;
+ 		} else
+-			padlen = 0;
+-		usbhid->urbctrl->transfer_buffer_length = padlen;
++			len = 0;
+ 	}
++	usbhid->urbctrl->transfer_buffer_length = len;
+ 	usbhid->urbctrl->dev = hid_to_usb_dev(hid);
+ 
+ 	usbhid->cr->bRequestType = USB_TYPE_CLASS | USB_RECIP_INTERFACE | dir;
