@@ -2,117 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 498733F023F
-	for <lists+linux-input@lfdr.de>; Wed, 18 Aug 2021 13:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC50C3F0806
+	for <lists+linux-input@lfdr.de>; Wed, 18 Aug 2021 17:28:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234824AbhHRLIX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Aug 2021 07:08:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59360 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234645AbhHRLIV (ORCPT
+        id S239608AbhHRP3I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Aug 2021 11:29:08 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.220]:18180 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239494AbhHRP3I (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Aug 2021 07:08:21 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FD14C061764;
-        Wed, 18 Aug 2021 04:07:47 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id q21so4374094ljj.6;
-        Wed, 18 Aug 2021 04:07:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=CeegBrrNVi7dbUMewAnT7F1thuHVU6mNRz6VrAUpjZU=;
-        b=lM9em+I5HYJDd8vuyehL5JRbWhntUxjmoweF/BXPC/5avEo/WgeBGv8YRVccqmwOfL
-         9tK1WWSzQy96kKhAzXUitpwVthJkhvtkmBMG0RO5vsoJseHntbZ4OhckSO7HT/CrpSYk
-         T+/VAbc7Nt7F9y9zxm37hJse9FRYeUgA7nSMjcUua+X3p8pYzkctBdaLC9k9y7/f8ywm
-         NlQg69+Sqv2NnZVEXFlorXWbr0eYl3HwRGtjKjoZ9Z1WYjka5Bi+0R4Om08AFPNNWBGc
-         nLB0MIdjWdAS4HhvU/uWh5HIEgTghgj7Yl5cFGbO1Bi5H52A6Vyx7Vk4wRuHbX9pz5T5
-         hySg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=CeegBrrNVi7dbUMewAnT7F1thuHVU6mNRz6VrAUpjZU=;
-        b=rmmp0LjO3CXv0slg62OM60JV7triJ+bqdayPC7NChuJ0KC9n15xQgvYCjEX5++JAXG
-         gGlEJLyKTs3ykOfurpAHFSooM2vg0kHoZYhtEz8nquseF0DcnV4C4NNMPWHez65V321D
-         ImpWr2qMQpZMV4NYgJvYI3GsglUrAVy32fRqiKvL0rALgV2t1+raB4RhDu0mR4PDgAwu
-         hiOcHwosAZ4cejV9365vjOQNQzeUY/ncOPZn1YyayoYAZvDfp9oIW7sHEWG75rSIGIjP
-         72ANqS5nQLlFYlDGaudDvn2/vN3thl7vx8sN1Cigb1uR9LtRtHuJAq5mbxtP5l1HPYEg
-         fd/w==
-X-Gm-Message-State: AOAM532igdWOwzTlLWWiUQgEukJee7z+oNOgtFFsI2l8flNNpmAUxWE3
-        Kc8KXDsmvcd7YGRC+lnpGik=
-X-Google-Smtp-Source: ABdhPJyYcmaipXkdcnDgqt6R/cluDi6GkgLom4VVwbBqONex/z+chuo244wTpF06GvH+XC4gVCyqfw==
-X-Received: by 2002:a2e:a288:: with SMTP id k8mr7242997lja.107.1629284865530;
-        Wed, 18 Aug 2021 04:07:45 -0700 (PDT)
-Received: from localhost.localdomain ([46.61.204.60])
-        by smtp.gmail.com with ESMTPSA id y41sm464017lfa.113.2021.08.18.04.07.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Aug 2021 04:07:45 -0700 (PDT)
-Subject: Re: [PATCH] input: cm109: fix URB submitted while active
-To:     dmitry.torokhov@gmail.com, aeh@db.org
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzbot+2d6d691af5ab4b7e66df@syzkaller.appspotmail.com
-References: <20210804145801.2762-1-paskripkin@gmail.com>
-From:   Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <19948c76-fa3c-26bb-7604-6de392ad9d49@gmail.com>
-Date:   Wed, 18 Aug 2021 14:07:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        Wed, 18 Aug 2021 11:29:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1629300506;
+    s=strato-dkim-0002; d=inhub.de;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=IK99A/GynHBsNekMV/T4efD0GVoEvLYRB6wYA/qAU0k=;
+    b=AvJtHJWRHaTfTnbwda80QOtZddUK19id620jzB3p+bdTYFuSTd2Qf3QpM1Pa7ZMSps
+    YgDXXFx1oo2UXPOdPsK/NQ/Yizk+I5jVJagv/vyLywDe3YP4wuqDL04Q1/5lcLcFYni2
+    VPZ6stANe6kjgfPDDLS8QwPQ9QVjJuwRNZSBGNxXnPF+REX504DCM0k4MjHD43/K8aVe
+    rySpMLwfgEI9EG3g4YyXBHCSgeiaTV/VyHZ87xD4RaghwhYc1Swm1QQtjpPpK8WPmNXd
+    NIFNgXQhxSrCleOH0VHVKLTMH2/ln64m9SvK9td1mdXKXgpgvEuG7uPtMakEylWqBdiS
+    WAIA==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":OGMGfEG7NfU1WQAxQKSndOy9b62IXRUXP1G+n0e9SfNgfKKxghMZpWooHBd6LckRo6Cg2ToZyvlfQhM6"
+X-RZG-CLASS-ID: mo00
+Received: from crypto.lan.inhub.de
+    by smtp.strato.de (RZmta 47.31.0 AUTH)
+    with ESMTPSA id k00d02x7IFSQq0C
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+    Wed, 18 Aug 2021 17:28:26 +0200 (CEST)
+From:   Tobias Junghans <tobias.junghans@inhub.de>
+To:     linux-input@vger.kernel.org, Rishi Gupta <gupt21@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Tobias Junghans <tobias.junghans@inhub.de>
+Subject: [PATCH 1/2] HID: mcp2221: enable HID I/O during probe
+Date:   Wed, 18 Aug 2021 17:27:42 +0200
+Message-Id: <20210818152743.163929-1-tobias.junghans@inhub.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210804145801.2762-1-paskripkin@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 8/4/21 5:58 PM, Pavel Skripkin wrote:
-> Syzbot reported, that dev->urb_ctl was submitted while active. The
-> problem was in missing validation check. We should check, that dev->urb_ctl
-> is not pending before sumbitting it again.
-> 
-> Fail log:
-> 
-> URB 00000000cfeee59c submitted while active
-> WARNING: CPU: 1 PID: 8459 at drivers/usb/core/urb.c:378 usb_submit_urb+0x1271/0x1540 drivers/usb/core/urb.c:378
-> ...
-> Call Trace:
->   <IRQ>
->   cm109_urb_irq_callback+0x44f/0xaa0 drivers/input/misc/cm109.c:422
->   __usb_hcd_giveback_urb+0x2b0/0x5c0 drivers/usb/core/hcd.c:1656
->   usb_hcd_giveback_urb+0x367/0x410 drivers/usb/core/hcd.c:1726
-> 
-> Reported-and-tested-by: syzbot+2d6d691af5ab4b7e66df@syzkaller.appspotmail.com
-> Fixes: c04148f915e5 ("Input: add driver for USB VoIP phones with CM109 chipset")
-> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-> ---
+devm_gpiochip_add_data() calls the gpio_chip->get_direction handler
+for each line, resulting in device I/O in mcp_gpio_get_direction().
+However unless hid_device_io_start() is called, mcp2221_raw_event()
+is not called during probe, causing mcp_gpio_get_direction() to time
+out. This fixes that probing takes 12 seconds to complete.
 
+Signed-off-by: Tobias Junghans <tobias.junghans@inhub.de>
+---
+ drivers/hid/hid-mcp2221.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Gentle ping :)
-
-
-
-With regards,
-Pavel Skripkin
-
->   drivers/input/misc/cm109.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/misc/cm109.c b/drivers/input/misc/cm109.c
-> index f515fae465c3..60bddadbbe3a 100644
-> --- a/drivers/input/misc/cm109.c
-> +++ b/drivers/input/misc/cm109.c
-> @@ -406,7 +406,7 @@ static void cm109_urb_irq_callback(struct urb *urb)
->   
->   	dev->irq_urb_pending = 0;
->   
-> -	if (likely(!dev->shutdown)) {
-> +	if (likely(!dev->shutdown) && likely(!dev->ctl_urb_pending)) {
->   
->   		if (dev->buzzer_state)
->   			dev->ctl_data->byte[HID_OR0] |= BUZZER_ON;
-> 
-
+diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+index 4211b9839209..8e54173b195c 100644
+--- a/drivers/hid/hid-mcp2221.c
++++ b/drivers/hid/hid-mcp2221.c
+@@ -895,7 +895,10 @@ static int mcp2221_probe(struct hid_device *hdev,
+ 	mcp->gc->can_sleep = 1;
+ 	mcp->gc->parent = &hdev->dev;
+ 
++	hid_device_io_start(hdev);
+ 	ret = devm_gpiochip_add_data(&hdev->dev, mcp->gc, mcp);
++	hid_device_io_stop(hdev);
++
+ 	if (ret)
+ 		goto err_gc;
+ 
+-- 
+2.25.1
 
