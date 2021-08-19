@@ -2,88 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E36CE3F20A8
-	for <lists+linux-input@lfdr.de>; Thu, 19 Aug 2021 21:32:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 561CD3F2112
+	for <lists+linux-input@lfdr.de>; Thu, 19 Aug 2021 21:53:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230506AbhHSTd2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Aug 2021 15:33:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58192 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230504AbhHSTd1 (ORCPT
+        id S229514AbhHSTxn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Aug 2021 15:53:43 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:37397 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S233792AbhHSTxi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Aug 2021 15:33:27 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37705C061575;
-        Thu, 19 Aug 2021 12:32:51 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id l3so5511078qtk.10;
-        Thu, 19 Aug 2021 12:32:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JY+D/Sy1TqJnSBxAjQVuX4InrTchjpCmDJzfReV7g6Y=;
-        b=Rp1CK4zxfNBRaarTDu97u4mWJ+rExbEsmfnFBD4gjsTdxMzzHJr3B7ZiCP5sfyyIvn
-         fWfkkaxDhCnXCJtsnlXQnPffWq3cYD/qglHTWUAmsUPlx4I9Zy+pI357V+d6GEw2r6EE
-         la/v2/XS0o+h5roYhpw48INJ1FLfk3s195QYdIawHqNzQfOn3+H+3RbrThSuN5zMEJet
-         q0eXiYPhX9g4SnFtwjTsB0TvHDK3Sp1Kdune8Mw7YNs1niVKMa7LI3ExPBOhPsyLQE1e
-         R0BjQ8N2bHxuXvqakT5SgMewO4/VvoEWaVoIszCn4sRbdsEcCQ8DIL3qb3b7YQpvqlWO
-         jgbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JY+D/Sy1TqJnSBxAjQVuX4InrTchjpCmDJzfReV7g6Y=;
-        b=mZqc+s4XFtmO7ZoGvZ1dZK5QLDAPiWZIPShEkXuFZClCDCpYgejwHnfwTyxbihQVDO
-         +If0f0iR3WcaO8DXPAVn/tgfLOjf/QSY/DgPf7wFo+E/UaB3ZcBCfnVCSvH8VL1vjVjJ
-         HPFDI8DDMRykBg1jsE5+a3s1rYHgMHyr5JgvP5HkJxxmv1aarua2zGVG7DuiXhw7PDpF
-         hpfrGifwYvrOkl6dAK4x++7cXsCpjj9lv1x5JB9c9kzSpkYCTXfCSGh/LifqAbyUtYYx
-         YaW7dCSOpREiWA0D8SzCdTZPsPL5TemrBWDMqvBGWXRNvqEOBfhVjEbQdWpPRk8bLHpF
-         pP1A==
-X-Gm-Message-State: AOAM533VyKCM6oQDC1FmkmziwB/LpwbmfA5WVMcoE+Sg5CTTN7m26L5m
-        +WCw4ynwhQ+nsr+BZP0g6A8=
-X-Google-Smtp-Source: ABdhPJzLkEUY6t24MeJ98/6lkXRCvKOBiOxcc62nLvoVuCD2EuYYCxgu4Z5y9H18tI161ddTNGUbhQ==
-X-Received: by 2002:ac8:5b04:: with SMTP id m4mr14208845qtw.344.1629401570398;
-        Thu, 19 Aug 2021 12:32:50 -0700 (PDT)
-Received: from localhost.localdomain ([138.229.29.116])
-        by smtp.googlemail.com with ESMTPSA id g20sm2004493qki.73.2021.08.19.12.32.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 12:32:50 -0700 (PDT)
-From:   Stephan Losa <stephan.losa@gmail.com>
-Cc:     stephan.losa@gmail.com, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: apple: Add support for Keychron K8, K2 in bluetooth mode
-Date:   Thu, 19 Aug 2021 15:32:21 -0400
-Message-Id: <20210819193221.558454-1-stephan.losa@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 19 Aug 2021 15:53:38 -0400
+Received: (qmail 10514 invoked by uid 1000); 19 Aug 2021 15:53:00 -0400
+Date:   Thu, 19 Aug 2021 15:53:00 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     syzbot <syzbot+9b57a46bf1801ce2a2ca@syzkaller.appspotmail.com>
+Cc:     benjamin.tissoires@redhat.com, jikos@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, mkubecek@suse.cz,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] WARNING in hid_submit_ctrl/usb_submit_urb
+Message-ID: <20210819195300.GA8613@rowland.harvard.edu>
+References: <20210819152626.GD228422@rowland.harvard.edu>
+ <00000000000009e24705c9ecf9b3@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00000000000009e24705c9ecf9b3@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use hid-apple in bluetooth mode like in wired mode for Keychron K8, K2
-(and others). Those keyboards use vendor/product ids 05AC:024F (APPLE_ALU_REVB_ANSI).
+On Thu, Aug 19, 2021 at 10:35:11AM -0700, syzbot wrote:
+> Hello,
+> 
+> syzbot has tested the proposed patch but the reproducer is still triggering an issue:
+> WARNING in hid_submit_ctrl/usb_submit_urb
+> 
+> cm6533_jd 0003:0D8C:0022.0001: submit_ctrl: maxpacket 64 len 0 padlen 0
+> ------------[ cut here ]------------
+> usb 1-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType a1
 
-Signed-off-by: Stephan Losa <stephan.losa@gmail.com>
----
- drivers/hid/hid-apple.c | 2 ++
- 1 file changed, 2 insertions(+)
+Ah.   The padding code doesn't add anything if the length is 
+already a multiple of the maxpacket value, and of course 0 is such 
+a multiple.
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 6b8f0d004d34..dc6bd4299c54 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -501,6 +501,8 @@ static const struct hid_device_id apple_devices[] = {
- 			APPLE_RDESC_JIS },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_REVB_ANSI),
- 		.driver_data = APPLE_HAS_FN },
-+	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_REVB_ANSI),
-+		.driver_data = APPLE_HAS_FN },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_REVB_ISO),
- 		.driver_data = APPLE_HAS_FN },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_REVB_ISO),
--- 
-2.25.1
+The following simplified variant of Michal's patch should fix the 
+problem.
 
+Alan Stern
+
+#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 794c7931a242
+
+Index: usb-devel/drivers/hid/usbhid/hid-core.c
+===================================================================
+--- usb-devel.orig/drivers/hid/usbhid/hid-core.c
++++ usb-devel/drivers/hid/usbhid/hid-core.c
+@@ -377,27 +377,23 @@ static int hid_submit_ctrl(struct hid_de
+ 	len = hid_report_len(report);
+ 	if (dir == USB_DIR_OUT) {
+ 		usbhid->urbctrl->pipe = usb_sndctrlpipe(hid_to_usb_dev(hid), 0);
+-		usbhid->urbctrl->transfer_buffer_length = len;
+ 		if (raw_report) {
+ 			memcpy(usbhid->ctrlbuf, raw_report, len);
+ 			kfree(raw_report);
+ 			usbhid->ctrl[usbhid->ctrltail].raw_report = NULL;
+ 		}
+ 	} else {
+-		int maxpacket, padlen;
++		int maxpacket;
+ 
+ 		usbhid->urbctrl->pipe = usb_rcvctrlpipe(hid_to_usb_dev(hid), 0);
+ 		maxpacket = usb_maxpacket(hid_to_usb_dev(hid),
+ 					  usbhid->urbctrl->pipe, 0);
+-		if (maxpacket > 0) {
+-			padlen = DIV_ROUND_UP(len, maxpacket);
+-			padlen *= maxpacket;
+-			if (padlen > usbhid->bufsize)
+-				padlen = usbhid->bufsize;
+-		} else
+-			padlen = 0;
+-		usbhid->urbctrl->transfer_buffer_length = padlen;
++		len += (len == 0);	/* Don't allow 0-length reports */
++		len = round_up(len, maxpacket);
++		if (len > usbhid->bufsize)
++			len = usbhid->bufsize;
+ 	}
++	usbhid->urbctrl->transfer_buffer_length = len;
+ 	usbhid->urbctrl->dev = hid_to_usb_dev(hid);
+ 
+ 	usbhid->cr->bRequestType = USB_TYPE_CLASS | USB_RECIP_INTERFACE | dir;
