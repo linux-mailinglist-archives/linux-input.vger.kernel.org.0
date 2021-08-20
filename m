@@ -2,80 +2,136 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75D1E3F3161
-	for <lists+linux-input@lfdr.de>; Fri, 20 Aug 2021 18:17:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 447B53F32C9
+	for <lists+linux-input@lfdr.de>; Fri, 20 Aug 2021 20:08:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229472AbhHTQRi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Aug 2021 12:17:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48826 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229564AbhHTQRh (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Aug 2021 12:17:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C42B460720;
-        Fri, 20 Aug 2021 16:16:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629476219;
-        bh=TnlZsH5T8IalobGionC0EY3BVtmmtUTG/h0L6aAoDc8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=jQeceUJ7Rtp27K0xcte1+kJYTHvJ/KkMSUoHgCYr6wHA1I+qnvH1GA1yTI+W5Dh1z
-         kyLFei77WPUf2+W5qcC8M4NMR1s5Ds9/L/2cpiuD+V3uu1CuI5H+6cseDbNqeY6s+C
-         OWImlxGEja18sOveC4o/WD0m+i5W9+TEqz4/PQBMFhKgxT7gqkGcFoYmQ0z7vG5aNh
-         BZH7/6teDEaw7kyjh6q7ZkWpdLfYS+ZFQLe7t8eT70Y0YAj93NlnE6yC4IJ1bMbT3f
-         eG3fbqaxZioDD7jngZQvaepa7Z4e6TLAax0JxwT/Ql23laAEnaxGm7KQ8sAgWJqHDE
-         qVcMaGYKy8KDw==
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org,
-        Felipe Balbi <felipe.balbi@microsoft.com>
-Subject: [PATCH] HID: core: add TransducerSerialNumber2
-Date:   Fri, 20 Aug 2021 19:16:55 +0300
-Message-Id: <20210820161655.211583-1-balbi@kernel.org>
-X-Mailer: git-send-email 2.32.0
+        id S230136AbhHTSJA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Aug 2021 14:09:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45549 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230007AbhHTSI7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 20 Aug 2021 14:08:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1629482901;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=VXoUUvmHBcVRhJY5rRRNheTdgRQ1IG/QNgX7foOSjd8=;
+        b=MNUzJWucdcUNYVPVNE6p/Rm6BeEguNIZhIdHedv9OShXCTMwoAvGnHjnj9UKxtBT6dUShH
+        I/kGjjzh3Fout7XeM3oN7k/bDP8EZAbqpWV0XRFONRp4opDE2RdbrZOggHQ0zXO6XC3Cb0
+        K02ZsXS0pUVXyEgdb/Znd2coHDZUB8M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-39-A9IuaFUeP4ysxosMvfzblw-1; Fri, 20 Aug 2021 14:08:19 -0400
+X-MC-Unique: A9IuaFUeP4ysxosMvfzblw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4067760C0;
+        Fri, 20 Aug 2021 18:08:17 +0000 (UTC)
+Received: from cmirabil.remote.csb (unknown [10.22.9.218])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 559A05D9D5;
+        Fri, 20 Aug 2021 18:08:16 +0000 (UTC)
+From:   Charles Mirabile <cmirabil@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Charles Mirabile <cmirabil@redhat.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Serge Schneider <serge@raspberrypi.org>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Nicolas Saenz Julienne <nsaenzju@redhat.com>,
+        linux-rpi-kernel@lists.infradead.org, fedora-rpi@googlegroups.com,
+        Mwesigwa Guma <mguma@redhat.com>,
+        Joel Savitz <jsavitz@redhat.com>
+Subject: [RFC PATCH v2 0/4] Raspberry Pi Sense HAT driver
+Date:   Fri, 20 Aug 2021 14:07:57 -0400
+Message-Id: <20210820180801.561119-1-cmirabil@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Felipe Balbi <felipe.balbi@microsoft.com>
+This patch series adds a set of drivers for operating the Sense HAT
+peripheral device. This board is an add on for the Raspberry Pi that is
+designed to connect using the GPIO connector via I2C.
 
-A recent request for change to the HID spec got approved adding support
-for another 4-bytes to the Transducer Serial Number. This commit adds
-support for the new usage.
+It features:
+	- a joystick
+	- an 8x8 RGB LED matrix display
+	- a whole bunch of environmental sensors with their own drivers
+	(those are already in upstream Linux)
 
-https://www.usb.org/sites/default/files/hutrr103-transducerserialnumbermoresignificantbits_0.pdf
+This is a refactor of the work of Serge Schneider, the author of a
+version of this driver that is currently in the Raspberry Pi downstream
+kernel. We modified his code to make it suitable for upstream Linux.
 
-Signed-off-by: Felipe Balbi <felipe.balbi@microsoft.com>
----
- drivers/hid/hid-debug.c | 1 +
- drivers/hid/hid-input.c | 1 +
- 2 files changed, 2 insertions(+)
+A couple of tests are available for the driver in this repo:
+https://github.com/underground-software/sensehat/tree/master/tests
+	- color_test displays various solid colors on the LED panel
+	- framebuffer_test diplays a single lit cell that is
+	  controllable via the arrow keys or the joystick
 
-diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-index fa57d05badf7..e6f18a181eb8 100644
---- a/drivers/hid/hid-debug.c
-+++ b/drivers/hid/hid-debug.c
-@@ -160,6 +160,7 @@ static const struct hid_usage_entry hid_usage_table[] = {
-     {0, 0x59, "ButtonType"},
-     {0, 0x5A, "SecondaryBarrelSwitch"},
-     {0, 0x5B, "TransducerSerialNumber"},
-+    {0, 0x6e, "TransducerSerialNumber2"},
-   { 15, 0, "PhysicalInterfaceDevice" },
-     {0, 0x00, "Undefined"},
-     {0, 0x01, "Physical_Interface_Device"},
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 4286a51f7f16..82089b59609f 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -873,6 +873,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 			break;
- 
- 		case 0x5b: /* TransducerSerialNumber */
-+		case 0x6e: /* TransducerSerialNumber2 */
- 			usage->type = EV_MSC;
- 			usage->code = MSC_SERIAL;
- 			bit = input->mscbit;
+Known issue:
+	- We are not sure how to integrate the device tree overlay for the
+	Sense HAT into mainline Linux, or if we even should at this time.
+
+Fortunately, most Linux distrubtions that can run on the Raspberry Pi
+already include an appropriate device tree overlay since they often import
+all of the overlays from the downstream Raspberry Pi kernel.
+
+We have included a hypothetical overlay that would work for the sensehat
+as a fourth patch in this series but we just put it in the root of the
+source tree for the time being so that patch should not be merged unless a
+consensus is reached that the overlay should be in the tree, and a proper
+location is found to put it.
+
+Suggestions are welcome and appreciated.
+
+For more information about the Sense HAT, visit:
+https://www.raspberrypi.org/products/sense-hat/
+
+Changes since v1:
+	- We included a device tree overlay for the Sense HAT
+	- Based on Feedback from v1 we:
+		- Changed the style of a few lines
+		- Adding more error logging
+		- Changed the compatible strings to use the more common
+		"raspberrypi" instead of just "rpi"
+		- Renamed everything from rpisense to sensehat
+
+Signed-off-by: Charles Mirabile <cmirabil@redhat.com>
+Signed-off-by: Mwesigwa Guma <mguma@redhat.com>
+Signed-off-by: Joel Savitz <jsavitz@redhat.com>
+
+Charles Mirabile (4):
+  Add core driver and config
+  Add joystick driver and config
+  Add display driver and config
+  Add sensehat device tree overlay
+
+ arch/arm/boot/dts/sensehat.dtbs            |  51 +++++
+ drivers/auxdisplay/Kconfig                 |   7 +
+ drivers/auxdisplay/Makefile                |   1 +
+ drivers/auxdisplay/sensehat-display.c      | 234 +++++++++++++++++++++
+ drivers/input/joystick/Kconfig             |   8 +
+ drivers/input/joystick/Makefile            |   1 +
+ drivers/input/joystick/sensehat-joystick.c | 124 +++++++++++
+ drivers/mfd/Kconfig                        |   8 +
+ drivers/mfd/Makefile                       |   1 +
+ drivers/mfd/sensehat-core.c                | 168 +++++++++++++++
+ include/linux/mfd/sensehat.h               |  55 +++++
+ 11 files changed, 658 insertions(+)
+ create mode 100644 arch/arm/boot/dts/sensehat.dtbs
+ create mode 100644 drivers/auxdisplay/sensehat-display.c
+ create mode 100644 drivers/input/joystick/sensehat-joystick.c
+ create mode 100644 drivers/mfd/sensehat-core.c
+ create mode 100644 include/linux/mfd/sensehat.h
+
 -- 
-2.32.0
+2.27.0
 
