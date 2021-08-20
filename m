@@ -2,48 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 323F93F2CB2
-	for <lists+linux-input@lfdr.de>; Fri, 20 Aug 2021 15:02:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27B2B3F2CBF
+	for <lists+linux-input@lfdr.de>; Fri, 20 Aug 2021 15:06:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240689AbhHTNCq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Aug 2021 09:02:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42578 "EHLO mail.kernel.org"
+        id S240260AbhHTNHJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Aug 2021 09:07:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43334 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240685AbhHTNCq (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Aug 2021 09:02:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 60A9660F39;
-        Fri, 20 Aug 2021 13:02:05 +0000 (UTC)
+        id S238220AbhHTNHJ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 20 Aug 2021 09:07:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DB11E60E9B;
+        Fri, 20 Aug 2021 13:06:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629464528;
-        bh=XmK3LL/kczQ8Z+mWS0jnuPNaTKva71BKQybVqIajn2U=;
+        s=k20201202; t=1629464791;
+        bh=J0ivGgw0LmBfQHw7UnP596zZOR3kqfR37bSrijGs+nE=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=aYMABfEHFn+7Kxh2/MCRF/AHSGEXnmm1wwYZV/SiISnuS7QAg8vC8A8gHUcJQHHJU
-         jndvWKCbmKREp+Q+csliLWq1xfVo9N1ThE9t9PC3acSXLZUZd8ZV+43etboNIfFSU4
-         elTORRr93PV1FUprfZYqHAQtChsRVKZLcib11SGIunO2FEuIUTOfXEmOzVFWIIAfpi
-         Gpu4L7iSStDO8sT6ED1OTcs1Qu/7AmVe3IQTNXsGFPhv2pIFnV1eYeNYrTX8r8c+XZ
-         KZt7w4RnLsX1Bh7LiMJY7mFit8tljzKmeylhW39zI5+LMFsGOrnGgg9dGOurKa5wA1
-         /AbeTWLFaERiQ==
-Date:   Fri, 20 Aug 2021 15:02:03 +0200 (CEST)
+        b=peMZbWuwQnAjdqqr+bPxdG/vf5xfl3qv5DXrXSAoOqmACn3Ai5/EJ6ZEXXGXmRiXj
+         Sv44JHqU7TydlO3yPyVE6DmMzblcTgBtXiFQ1jU2/HBJy6uCzzx5n9kh1jpnhvABVG
+         1mPkxCJpmICDi0UxsQd157S3AVdoCOdoEQanulPxHy13tCMZ4aQhXga8kTXQcROLI9
+         rbrMaEJq7tpVid+DYEpqq6VQHArOZeU368UkmlhfMXQ2pWFLJC5suUAV7RwvydRKWh
+         z3jKlqWA8lWmx8vHIIRhJMyMaZcPWVa2jUEuU9z1CUcweylr7lGQ9ZTna+zKB2+vSr
+         NDCo/Cn4q4ujQ==
+Date:   Fri, 20 Aug 2021 15:06:29 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-cc:     linux-kernel@vger.kernel.org,
-        Stefan Achatz <erazor_de@users.sourceforge.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
-        linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        clang-built-linux@googlegroups.com,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 55/63] HID: roccat: Use struct_group() to zero
- kone_mouse_event
-In-Reply-To: <20210818060533.3569517-56-keescook@chromium.org>
-Message-ID: <nycvar.YFH.7.76.2108201501510.15313@cbobk.fhfr.pm>
-References: <20210818060533.3569517-1-keescook@chromium.org> <20210818060533.3569517-56-keescook@chromium.org>
+To:     Stephan Losa <stephan.losa@gmail.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: apple: Add support for Keychron K8, K2 in bluetooth
+ mode
+In-Reply-To: <20210819193221.558454-1-stephan.losa@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2108201506010.15313@cbobk.fhfr.pm>
+References: <20210819193221.558454-1-stephan.losa@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -51,22 +40,14 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 17 Aug 2021, Kees Cook wrote:
+On Thu, 19 Aug 2021, Stephan Losa wrote:
 
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memset(), avoid intentionally writing across
-> neighboring fields.
+> Use hid-apple in bluetooth mode like in wired mode for Keychron K8, K2
+> (and others). Those keyboards use vendor/product ids 05AC:024F (APPLE_ALU_REVB_ANSI).
 > 
-> Add struct_group() to mark region of struct kone_mouse_event that should
-> be initialized to zero.
-> 
-> Cc: Stefan Achatz <erazor_de@users.sourceforge.net>
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Cc: linux-input@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Stephan Losa <stephan.losa@gmail.com>
 
-Applied, thank you Kees.
+Applied, thanks.
 
 -- 
 Jiri Kosina
