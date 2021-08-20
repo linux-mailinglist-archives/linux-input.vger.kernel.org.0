@@ -2,50 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 962663F301E
-	for <lists+linux-input@lfdr.de>; Fri, 20 Aug 2021 17:49:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7604F3F305F
+	for <lists+linux-input@lfdr.de>; Fri, 20 Aug 2021 17:57:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241256AbhHTPud (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Aug 2021 11:50:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54056 "EHLO
+        id S241338AbhHTP6G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Aug 2021 11:58:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241080AbhHTPuc (ORCPT
+        with ESMTP id S241301AbhHTP6G (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Aug 2021 11:50:32 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FD0FC061757
-        for <linux-input@vger.kernel.org>; Fri, 20 Aug 2021 08:49:54 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id om1-20020a17090b3a8100b0017941c44ce4so14051925pjb.3
-        for <linux-input@vger.kernel.org>; Fri, 20 Aug 2021 08:49:54 -0700 (PDT)
+        Fri, 20 Aug 2021 11:58:06 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BB71C061575
+        for <linux-input@vger.kernel.org>; Fri, 20 Aug 2021 08:57:28 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id mq3so7570244pjb.5
+        for <linux-input@vger.kernel.org>; Fri, 20 Aug 2021 08:57:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=JP8WFZmb9rgUa+mH2LJuzuE/iABY2L7RW9PxVxSWy1g=;
-        b=k4UQQteJL7Qh1f6962sQXTg69gVAgArCnEbcoafW8q8WU3a0dFyoCb6HUcE0lFqUsS
-         2TQNQdHpbA93nCoa1N/aiXdy8pDJcz4pQGJmxqJfbouuNtmtbloWKcbAnFDzgP+YEWHK
-         NHH2EzfCjBYGkA2kf/rNG+rCeii3d90rhg4wY=
+        bh=AJeoq+Z5WucmTQVKUtIcwcvIvzIMIDi7YIzeoCuQoP0=;
+        b=oIxFw+GWAwZs8paucH0s/In4m5BgJDLq+dmzX+m7YKc4gCfgmo4JI2M4BsORRDjuci
+         qAYG9G5n+7RQUkylKMqlb1PMW/ybYfuvOAKQsZeE3AgNOJAe0FYCQwED3j3ea2q1qoXd
+         5B7pTsEFDxH8oJwSmaEr+SvpFW0GYanuTjebY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=JP8WFZmb9rgUa+mH2LJuzuE/iABY2L7RW9PxVxSWy1g=;
-        b=Lfhn64GzPDhJROUBzS4ROOXfw1wBDbcxeS9VfKQ+4ansNGM7uPNyV1bw0brkVeTDL9
-         jB4iKfiDTT2+IjKivjKgtAw/VCuuxYKnXpB0u3/rU4hqVlIJfgvvD96bqKl/Oy4WdN9I
-         ptJDsjtOjPAMfeS1ukZx3Khbo3/OhnMDvJrF3Au+dlJdjIkOTPqZJSeVNfoKo/YKcUZx
-         ZdsqEafpFE0R4+26jVUoxvcd2XD63W2HraTaPCN6yDyWIpIoau8mRmUK7s50Xg7j3RI1
-         o8B5YkSQbrHkidNRvn8MvRrzNtp+b7Cx6vK/muses972FsJa/n6BSJ66aP4vvEqqj8vq
-         H7ug==
-X-Gm-Message-State: AOAM532QEyrbpkhv/2APOOJpPOIONFxPaDbEd7h9OdD9tFDXIGsNnZQI
-        5I1hNJX04fLk2cwthW2bmU9bBQ==
-X-Google-Smtp-Source: ABdhPJwhegutOkRrxvU2g3GeI5YumyD6linmLQRuyi6C1VpKbOltTluibfSiLlEYf9DDH4WcSj+Egg==
-X-Received: by 2002:a17:902:7c98:b0:131:21fd:3717 with SMTP id y24-20020a1709027c9800b0013121fd3717mr2602853pll.53.1629474594147;
-        Fri, 20 Aug 2021 08:49:54 -0700 (PDT)
+        bh=AJeoq+Z5WucmTQVKUtIcwcvIvzIMIDi7YIzeoCuQoP0=;
+        b=N/243unXrh9MgHuC+gflI3WXeVeh0DGDjb4MaooCRA7XJwmKDFNnnXRCSwloKxyVrZ
+         zvVnX7B6c3xiNqFmjXMpecy5fyombrm+y7OZgXEHrKrpCKSxeMafBx8/wyCh4oUjprpO
+         3TIPh5x+WlX3CwCXdnxEdwXCeSPDUGGPQ7jn/SbdJ9zNQeKwAu0IDz8A0yWFqLaxf8aK
+         LFFB3h60St5XKQxoX1uYrKKlpl3A1RhN/RyHPtlI9eR+/JMe+l+XuNMRMdNxdWjQ8+bU
+         x8rzjRX7DZ3EFcCFa7cY+5F8LtisgYBLET+D6WhlmRTQSwiH63eClZZMnBtptUTFTa8v
+         xCyw==
+X-Gm-Message-State: AOAM533cjJ/WNv9H0KczjOpGwRugo9ntE+Y82qQFOr4t4XFV4EMgr05r
+        blaDmcTTVOPOu7Z9OhhKwNljaA==
+X-Google-Smtp-Source: ABdhPJzw8iPuALjJ/8kpXHMg33VLmYMXrF5AQDF992t6FjpOqQ1z2rFQNZkt6dgaqjw8sRY3eqQNTg==
+X-Received: by 2002:a17:902:c215:b0:12f:b1b6:9f07 with SMTP id 21-20020a170902c21500b0012fb1b69f07mr7880820pll.82.1629475048022;
+        Fri, 20 Aug 2021 08:57:28 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q18sm7564913pfj.178.2021.08.20.08.49.53
+        by smtp.gmail.com with ESMTPSA id z20sm7604377pfr.121.2021.08.20.08.57.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 08:49:53 -0700 (PDT)
-Date:   Fri, 20 Aug 2021 08:49:52 -0700
+        Fri, 20 Aug 2021 08:57:27 -0700 (PDT)
+Date:   Fri, 20 Aug 2021 08:57:26 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Jiri Kosina <jikos@kernel.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
@@ -66,7 +66,7 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         linux-hardening@vger.kernel.org
 Subject: Re: [PATCH v2 55/63] HID: roccat: Use struct_group() to zero
  kone_mouse_event
-Message-ID: <202108200849.9EBF036376@keescook>
+Message-ID: <202108200857.FA4AA13@keescook>
 References: <20210818060533.3569517-1-keescook@chromium.org>
  <20210818060533.3569517-56-keescook@chromium.org>
  <nycvar.YFH.7.76.2108201501510.15313@cbobk.fhfr.pm>
@@ -105,7 +105,9 @@ On Fri, Aug 20, 2021 at 05:27:35PM +0200, Jiri Kosina wrote:
 > I was pretty sure I saw struct_group() already in linux-next, but that was 
 > apparently a vacation-induced brainfart, sorry. Dropping.
 
-Cool, no worries. Sorry for the confusion!
+Oh, for these two patches, can I add your Acked-by while I carry them?
+
+Thanks!
 
 -- 
 Kees Cook
