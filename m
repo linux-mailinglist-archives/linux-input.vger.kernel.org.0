@@ -2,88 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 263073F3142
-	for <lists+linux-input@lfdr.de>; Fri, 20 Aug 2021 18:11:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75D1E3F3161
+	for <lists+linux-input@lfdr.de>; Fri, 20 Aug 2021 18:17:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234189AbhHTQME (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Aug 2021 12:12:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47630 "EHLO mail.kernel.org"
+        id S229472AbhHTQRi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Aug 2021 12:17:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48826 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235634AbhHTQLx (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Aug 2021 12:11:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D147E61244;
-        Fri, 20 Aug 2021 16:11:12 +0000 (UTC)
+        id S229564AbhHTQRh (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 20 Aug 2021 12:17:37 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C42B460720;
+        Fri, 20 Aug 2021 16:16:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629475875;
-        bh=QtHvxXjD6Lxo5RaKara/Y2QvqxDS6ThacQcb91QFjy8=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=Cm8q6m2PtljGp+99RX9+Khsax5QCk8ma2yXHvKEh8RrOqdQSjmdQD2FlsFBC5lfPd
-         hDf7fZUEaGki4tlDFutbg5ca6FLVXGfPxHWaOBD4XhqmxjD5ePMawLPi6bmTjgSHcj
-         8DgCDWq5VV5OHyCMsJm5rGAQ/UScpbb7txwU6ToO1lJuBsRHIKQLuxTBS3CKRDxgkY
-         zbUcPhLTjOj0CWY3U2jpczxlNukz8oI1saQ7GA/O6BTQCSTo/8mMx+D4koYcDYvj2z
-         VhBU9Lvgl0wa0B8f5+WyDtCS3bjffcF1LCILvKtgT/qWDSeF7AMzYCV7dZ3fCz/Xm4
-         QMcNMCjdf825A==
-Date:   Fri, 20 Aug 2021 18:11:10 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-cc:     LKML <linux-kernel@vger.kernel.org>,
-        Stefan Achatz <erazor_de@users.sourceforge.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, linux-staging@lists.linux.dev,
-        linux-block <linux-block@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 55/63] HID: roccat: Use struct_group() to zero
- kone_mouse_event
-In-Reply-To: <202108200857.FA4AA13@keescook>
-Message-ID: <nycvar.YFH.7.76.2108201810560.15313@cbobk.fhfr.pm>
-References: <20210818060533.3569517-1-keescook@chromium.org> <20210818060533.3569517-56-keescook@chromium.org> <nycvar.YFH.7.76.2108201501510.15313@cbobk.fhfr.pm> <CAJr-aD=6-g7VRw2Hw0dhs+RrtA=Tago5r6Dukfw_gGPB0YYKOQ@mail.gmail.com>
- <nycvar.YFH.7.76.2108201725360.15313@cbobk.fhfr.pm> <202108200857.FA4AA13@keescook>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        s=k20201202; t=1629476219;
+        bh=TnlZsH5T8IalobGionC0EY3BVtmmtUTG/h0L6aAoDc8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jQeceUJ7Rtp27K0xcte1+kJYTHvJ/KkMSUoHgCYr6wHA1I+qnvH1GA1yTI+W5Dh1z
+         kyLFei77WPUf2+W5qcC8M4NMR1s5Ds9/L/2cpiuD+V3uu1CuI5H+6cseDbNqeY6s+C
+         OWImlxGEja18sOveC4o/WD0m+i5W9+TEqz4/PQBMFhKgxT7gqkGcFoYmQ0z7vG5aNh
+         BZH7/6teDEaw7kyjh6q7ZkWpdLfYS+ZFQLe7t8eT70Y0YAj93NlnE6yC4IJ1bMbT3f
+         eG3fbqaxZioDD7jngZQvaepa7Z4e6TLAax0JxwT/Ql23laAEnaxGm7KQ8sAgWJqHDE
+         qVcMaGYKy8KDw==
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org,
+        Felipe Balbi <felipe.balbi@microsoft.com>
+Subject: [PATCH] HID: core: add TransducerSerialNumber2
+Date:   Fri, 20 Aug 2021 19:16:55 +0300
+Message-Id: <20210820161655.211583-1-balbi@kernel.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 20 Aug 2021, Kees Cook wrote:
+From: Felipe Balbi <felipe.balbi@microsoft.com>
 
-> > > > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > > > > field bounds checking for memset(), avoid intentionally writing across
-> > > > > neighboring fields.
-> > > > >
-> > > > > Add struct_group() to mark region of struct kone_mouse_event that should
-> > > > > be initialized to zero.
-> > > > >
-> > > > > Cc: Stefan Achatz <erazor_de@users.sourceforge.net>
-> > > > > Cc: Jiri Kosina <jikos@kernel.org>
-> > > > > Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > > > > Cc: linux-input@vger.kernel.org
-> > > > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > > >
-> > > > Applied, thank you Kees.
-> > > >
-> > > 
-> > > Eek! No, this will break the build: struct_group() is not yet in the tree.
-> > > I can carry this with an Ack, etc.
-> > 
-> > I was pretty sure I saw struct_group() already in linux-next, but that was 
-> > apparently a vacation-induced brainfart, sorry. Dropping.
-> 
-> Oh, for these two patches, can I add your Acked-by while I carry them?
+A recent request for change to the HID spec got approved adding support
+for another 4-bytes to the Transducer Serial Number. This commit adds
+support for the new usage.
 
-Yes, thanks, and sorry for the noise.
+https://www.usb.org/sites/default/files/hutrr103-transducerserialnumbermoresignificantbits_0.pdf
 
+Signed-off-by: Felipe Balbi <felipe.balbi@microsoft.com>
+---
+ drivers/hid/hid-debug.c | 1 +
+ drivers/hid/hid-input.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+index fa57d05badf7..e6f18a181eb8 100644
+--- a/drivers/hid/hid-debug.c
++++ b/drivers/hid/hid-debug.c
+@@ -160,6 +160,7 @@ static const struct hid_usage_entry hid_usage_table[] = {
+     {0, 0x59, "ButtonType"},
+     {0, 0x5A, "SecondaryBarrelSwitch"},
+     {0, 0x5B, "TransducerSerialNumber"},
++    {0, 0x6e, "TransducerSerialNumber2"},
+   { 15, 0, "PhysicalInterfaceDevice" },
+     {0, 0x00, "Undefined"},
+     {0, 0x01, "Physical_Interface_Device"},
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 4286a51f7f16..82089b59609f 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -873,6 +873,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 			break;
+ 
+ 		case 0x5b: /* TransducerSerialNumber */
++		case 0x6e: /* TransducerSerialNumber2 */
+ 			usage->type = EV_MSC;
+ 			usage->code = MSC_SERIAL;
+ 			bit = input->mscbit;
 -- 
-Jiri Kosina
-SUSE Labs
+2.32.0
 
