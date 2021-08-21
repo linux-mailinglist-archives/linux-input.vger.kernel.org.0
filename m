@@ -2,92 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B8153F3676
-	for <lists+linux-input@lfdr.de>; Sat, 21 Aug 2021 00:32:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DF273F392F
+	for <lists+linux-input@lfdr.de>; Sat, 21 Aug 2021 08:47:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231378AbhHTWcn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Aug 2021 18:32:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33592 "EHLO
+        id S230375AbhHUGsP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 21 Aug 2021 02:48:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231274AbhHTWcl (ORCPT
+        with ESMTP id S232339AbhHUGsN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Aug 2021 18:32:41 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96393C061575
-        for <linux-input@vger.kernel.org>; Fri, 20 Aug 2021 15:32:02 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id y7so19593972ljp.3
-        for <linux-input@vger.kernel.org>; Fri, 20 Aug 2021 15:32:02 -0700 (PDT)
+        Sat, 21 Aug 2021 02:48:13 -0400
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4BACC061757
+        for <linux-input@vger.kernel.org>; Fri, 20 Aug 2021 23:47:34 -0700 (PDT)
+Received: by mail-qv1-xf42.google.com with SMTP id j9so6769655qvt.4
+        for <linux-input@vger.kernel.org>; Fri, 20 Aug 2021 23:47:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LgYBVMN6GzUKjZP5GJGYn+7OStuZGF4uVrfkyLmZ5Nc=;
-        b=ANtFvTYsVGExgVvvhJphfE3cAs3abU9NK10b28judfgRg13Rih+gi6AUCxZ/aoyjwD
-         92OjX4J7TjZWL9jWB+XFnGRjFx96C2WP9Eyb1KzG28uVx5ghPbepsSmpU8TlACGs7nBs
-         uecSczVhjdkV4UyzAnv0DbMkvoJC9omT9rTbptnGVWUIs7sTEkKfP02Qn46yWNXKNoYx
-         Vvzx/6OjoORIFllGY27te/5+LDaJEcXUyghdbtttkwGu5HFZrmV3S21zBT1aItntMSLW
-         iJv/leUk9EdGBl5csNB9PGTSUzuKvWee0DMWOtaXiAVQQAkMiF/RUjDopBL9h0Lwq5by
-         GV+g==
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=0zxPduS5IUlaKoDmCEn68k89T9YkKaQNgugxVbUHaKI=;
+        b=MmSCxbFbX/nh9ES1DS9Dmkt9meyeYheJLz4EWcsKJTB3obMbTliTB1SGMVCeNHogUg
+         GU70jkRDM881SZrk6p92EjKKX58z2ZASr2p+37E8feTBOPvIt+4EXzRpX7BtjXF3u41c
+         QdDESupfgtDQc7ViGWFvCKdJat1IZtVINDtLMJb7FtB7YYLurf+hv8/G05Pf9T8rQDB8
+         1ErWamHIcUxQi0yNfBB+MNgUcXGXbiB2GfGMYm2LoF2SVCpyT9MrwbolP4lUqK+/vWTc
+         DF1uc61/TIaDTaZ2OzFGmpHtNZQ5hZvyhFhu3FP0jaKXsn4x3lP2x/nKC+mkog1yRBMG
+         qJvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LgYBVMN6GzUKjZP5GJGYn+7OStuZGF4uVrfkyLmZ5Nc=;
-        b=atxJI5oeP2tViBwEfC2Kg31Y0XqjH5w1ARvt2BcTF62kvpGrMfG0atEl61SLN4+qxI
-         nnYl/pEtyaXFn0SDjHmjpnwi0Yu/+yci/NNXF0ogXCaRKjEN4C/0B0X8fTwZqd5ZT3Hy
-         9hcqZK6keBJN3A2GBL07BzmrJwAdzcHZRSnS8rLBr2bRMy4MLnn6vqNkx1Bj5A3+uh7g
-         A4Czr5wb+suq2p8xzg5PywGa9AM6kNJUjTyJSwrL+xbHLoxTmSkTQzw+kymiVWUBlrLU
-         m3g0YPsSodjqeUyHH4OReFQlhj266efl4h5ezX31D0k+Wvo6QCOPP1UT9IhJ4cBU+cew
-         ohFA==
-X-Gm-Message-State: AOAM530JDqd9fN+QCN22+MxLSBKv/pC4cH7YMzBryKr2hOXnqrP5qqCt
-        wm1bdXY6sqtiYWX5rPUejUWUKw==
-X-Google-Smtp-Source: ABdhPJw3q8IiFVYgkWANZSqI8kbrv3FILm10Yf151IpElUbb2+8Kpboy5WbF230oq9AUBC7UR9zwIw==
-X-Received: by 2002:a2e:9c17:: with SMTP id s23mr17764321lji.197.1629498720910;
-        Fri, 20 Aug 2021 15:32:00 -0700 (PDT)
-Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
-        by smtp.gmail.com with ESMTPSA id o3sm744552lfo.301.2021.08.20.15.32.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 15:32:00 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Jean-Francois Dagenais <jeff.dagenais@gmail.com>,
-        Michael Hennerich <michael.hennerich@analog.com>
-Subject: [PATCH] Input: adp5588-keys - Use the right header
-Date:   Sat, 21 Aug 2021 00:29:58 +0200
-Message-Id: <20210820222958.57238-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.31.1
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=0zxPduS5IUlaKoDmCEn68k89T9YkKaQNgugxVbUHaKI=;
+        b=ZVjxfSNmWjIvSpo/GfaJYkq/oIKjgRBt3+0P6vPZHbpJ/2sA32bIQSVFr0zQ4o5DcY
+         /8Xu8IDCWWfG3e6aNGUDPgGvLNKPEK4AS9uQTySLOlbgyTupMuzFDp2ASiOcFTADhfZ0
+         3pLX+LpIx5eP+oNhf3CcPw5E5OBkH9WitnUf/ZxlmtWCDumXBKYAdI0+PymEumVvp3vs
+         T0o8iCMolwk5DVYElPfzuzWZbwKaeAOG72XotrclX2haENkVATbHFGOYsHHC9rIojGbO
+         r7QERkybtMtxlC/MP7VnBAMdS4kW6EXtcQ86aCriqXZ1V8wFqiPmN13Pk3dA8Vq3/1SW
+         hk1w==
+X-Gm-Message-State: AOAM5304JCTcxT0dL+dGbT1cn713ijA/l9Fzj9O5rcVg0vSgFEmxvNvn
+        xh2DVeTt3JCNOdGrs9HG08dppt/+m41CeX5lGA==
+X-Google-Smtp-Source: ABdhPJw9RQZsMPm/Rbtlj7wk2LiQuGiH5Lb4h/3z54CXmSUBdgZTX2YV7xodcfF6671L2l9/RATq7TuoLOy93zmHF3k=
+X-Received: by 2002:a05:6214:2609:: with SMTP id gu9mr23167565qvb.35.1629528453826;
+ Fri, 20 Aug 2021 23:47:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Reply-To: tofilbamar@gmail.com
+Sender: aliftomarn0@gmail.com
+Received: by 2002:ad4:594b:0:0:0:0:0 with HTTP; Fri, 20 Aug 2021 23:47:33
+ -0700 (PDT)
+From:   Tofil Bama <tofilbamarn@gmail.com>
+Date:   Fri, 20 Aug 2021 23:47:33 -0700
+X-Google-Sender-Auth: C884eKIHeM3kiLBs7NODvES6vx8
+Message-ID: <CAFzt4xVNq=WoX2qq=u173JF9RZ31YO_-3Rgt-z_FdM7tcvhDiw@mail.gmail.com>
+Subject: GOOD NEWS.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This keyboard driver is implementing a GPIO driver, so it need
-to include <linux/gpio/driver.h> and not the legacy <linux/gpio.h>
-header.
+Dear,
 
-Cc: Jean-Francois Dagenais <jeff.dagenais@gmail.com>
-Cc: Michael Hennerich <michael.hennerich@analog.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/input/keyboard/adp5588-keys.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+My name is Mr Tofil Bama, I am the Bill and Exchange assistant
+Manager in Bank of Africa Ouagadougou Burkina Faso. In my department
+I discovered an abandoned sum of eighteen million three hundred
+thousand United State of American dollars (18.3MILLION USA DOLLARS)
+in an account that belongs to one of our foreign customer
+(late Mr Shitu Nuri) who died in Ethiopian Airlines Flight 409 that
+crashed into the Mediterranean Sea on 25th January 2010.
 
-diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
-index 90a59b973d00..1592da4de336 100644
---- a/drivers/input/keyboard/adp5588-keys.c
-+++ b/drivers/input/keyboard/adp5588-keys.c
-@@ -17,7 +17,7 @@
- #include <linux/platform_device.h>
- #include <linux/input.h>
- #include <linux/i2c.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/driver.h>
- #include <linux/slab.h>
- 
- #include <linux/platform_data/adp5588.h>
--- 
-2.31.1
+Since I got information about his death I have been expecting
+his next of kin to come over and claim his money because we
+cannot release it unless somebody applies for it as the next
+of kin or relation to the deceased as indicated in our banking
+guidelines, unfortunately we learnt that all his supposed next of
+kin or relation died alongside with him in the plane crash leaving
+nobody behind for the claim.
 
+It is therefore upon this discovery that I decided to make this
+business proposal to you and release the money to you as next of kin
+to the deceased for safety and subsequent disbursement since nobody
+is coming for the fund, it is 11 years now the money is lying pending
+in the account of our deceased and I don't want the money to go into
+the bank treasury as unclaimed bill.
+
+You will be entitled with 40% of the total sum while 60% will be for
+me after which I will visit your Country to invest my own share when
+the fund is successfully transferred into your account, Please I would
+like you to keep this transaction confidential and as a top secret
+between me and you until we successfully achieve this golden
+opportunity.
+
+Yours sincerely,
+Mr Tofil Bama.
