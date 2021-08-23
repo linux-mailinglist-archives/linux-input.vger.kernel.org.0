@@ -2,187 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DCF4C3F4174
-	for <lists+linux-input@lfdr.de>; Sun, 22 Aug 2021 22:21:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0244A3F4287
+	for <lists+linux-input@lfdr.de>; Mon, 23 Aug 2021 02:20:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232911AbhHVUV4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 22 Aug 2021 16:21:56 -0400
-Received: from smtp04.smtpout.orange.fr ([80.12.242.126]:27475 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231654AbhHVUV4 (ORCPT
+        id S234004AbhHWAVh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 22 Aug 2021 20:21:37 -0400
+Received: from sunrise.hk.edu.tw ([192.192.241.2]:44993 "EHLO
+        sunrise-ms2.hk.edu.tw" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S233168AbhHWAVh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 22 Aug 2021 16:21:56 -0400
-Received: from pop-os.home ([90.126.253.178])
-        by mwinf5d51 with ME
-        id kkMC2500K3riaq203kMDvK; Sun, 22 Aug 2021 22:21:14 +0200
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 22 Aug 2021 22:21:14 +0200
-X-ME-IP: 90.126.253.178
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     nehal-bakulchandra.shah@amd.com, basavaraj.natikar@amd.com,
-        jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] HID: amd_sfh: switch from 'pci_' to 'dma_' API
-Date:   Sun, 22 Aug 2021 22:21:11 +0200
-Message-Id: <439924a3414563a6ccc26eddb75efba6f54521c4.1629663605.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.30.2
+        Sun, 22 Aug 2021 20:21:37 -0400
+X-Greylist: delayed 1099 seconds by postgrey-1.27 at vger.kernel.org; Sun, 22 Aug 2021 20:21:35 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by sunrise-ms2.hk.edu.tw (Postfix) with ESMTP id BC7F41A10D7;
+        Mon, 23 Aug 2021 08:01:59 +0800 (CST)
+Received: from User (60-251-122-153.HINET-IP.hinet.net [60.251.122.153])
+        (Authenticated sender: 805153)
+        by sunrise-ms2.hk.edu.tw (Postfix) with ESMTPA id 1F0C41A1BDC;
+        Mon, 23 Aug 2021 08:01:29 +0800 (CST)
+Reply-To: <www.tm.point@outlook.my>
+From:   "Telekom Malaysia Berhad" <805153@sunrise.hk.edu.tw>
+Subject: TM HADIAH
+Date:   Mon, 23 Aug 2021 08:01:56 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-Id: <20210823000130.1F0C41A1BDC@sunrise-ms2.hk.edu.tw>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The wrappers in include/linux/pci-dma-compat.h should go away.
+Telekom Malaysia Berhad
+Level 51, North Wing, Menara TM,
+Jalan Pantai Baru, 50672,
+Kuala Lumpur,
+WP Kuala Lumpur,
+Malaysia.
 
-The patch has been generated with the coccinelle script below.
+TM HADIAH.
 
-It has been compile tested.
+Pihak Telekom Malaysia @Program Kemenangan yang telah diadakan pada 02 Ogos di mana alamat email anda yang disertakan beraama Tiket Kemenangan nombor 2 - 4 - 16 - 37 - 89 - 40 -85 dengan siri nombor 2268/02 telah memenangi loteri kategori hadiah kedua khas keluarga Telekom Malaysia.Untuk menuntut hadiah kemenangan ini anda dikehendaki menghubungi melalui email Bahagian Tuntutan untuk tujuan pemerosesan dan pembayaran hadiah wang tunai kepada anda.
 
-@@
-@@
--    PCI_DMA_BIDIRECTIONAL
-+    DMA_BIDIRECTIONAL
+Di sepanjang program Khas Keluarga Telekom yang telah diadakan di Ibupejabat di Kuala Lumpur sejumlah Rm 270,000.00 (Ringgit Malaysia : Dua Ratus Tujoh Puloh Ribu) telah dianugerahkan kepada anda oleh Telekom Malaysia Berhad kepada anda dan keluarga anda sempena sambutsn 2021 ini.
 
-@@
-@@
--    PCI_DMA_TODEVICE
-+    DMA_TO_DEVICE
+Program ini turut dibiayai bersama oleh Toyota Malaysia dan Tenaga Nasional sebagai pakej istimewa Telekom 2021 dan anda perlu memahami bahawa e mail ini adalah 100% sah dan diiktiraf kerana program ini kebiasaannya diadakan sekali dalam masa lima tahun.
 
-@@
-@@
--    PCI_DMA_FROMDEVICE
-+    DMA_FROM_DEVICE
+Sila hubungi agen kami untuk menuntut hadiah ini :
 
-@@
-@@
--    PCI_DMA_NONE
-+    DMA_NONE
+ENCIK SHAARI BIN SAMSUDIN
+Pengarah Bahagian Tuntutan
+E-mail:www.tm.point@outlook.my
 
-@@
-expression e1, e2, e3;
-@@
--    pci_alloc_consistent(e1, e2, e3)
-+    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+Untuk tujuan pemerosesan sila hubungi agen kami dengan maklumat-maklumat
+berikut :
 
-@@
-expression e1, e2, e3;
-@@
--    pci_zalloc_consistent(e1, e2, e3)
-+    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+1). Nama Penuh
+2). Umur
+3). Pekerjaan
+4). Telefon
+5). Negeri / Bandar
 
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_free_consistent(e1, e2, e3, e4)
-+    dma_free_coherent(&e1->dev, e2, e3, e4)
+Perlu diingatkan bahawa hadiah akhir tahun Telekom Malaysia Berhad 2021 ini adalah diberikan khas kepada anda dan keluarga anda dan anda hendaklah membuat tunttan ini sebelum 18 Oktober 2021.
 
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_map_single(e1, e2, e3, e4)
-+    dma_map_single(&e1->dev, e2, e3, e4)
+Terima kasih.
 
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_unmap_single(e1, e2, e3, e4)
-+    dma_unmap_single(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4, e5;
-@@
--    pci_map_page(e1, e2, e3, e4, e5)
-+    dma_map_page(&e1->dev, e2, e3, e4, e5)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_unmap_page(e1, e2, e3, e4)
-+    dma_unmap_page(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_map_sg(e1, e2, e3, e4)
-+    dma_map_sg(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_unmap_sg(e1, e2, e3, e4)
-+    dma_unmap_sg(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
-+    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_dma_sync_single_for_device(e1, e2, e3, e4)
-+    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
-+    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
-+    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2;
-@@
--    pci_dma_mapping_error(e1, e2)
-+    dma_mapping_error(&e1->dev, e2)
-
-@@
-expression e1, e2;
-@@
--    pci_set_dma_mask(e1, e2)
-+    dma_set_mask(&e1->dev, e2)
-
-@@
-expression e1, e2;
-@@
--    pci_set_consistent_dma_mask(e1, e2)
-+    dma_set_coherent_mask(&e1->dev, e2)
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-If needed, see post from Christoph Hellwig on the kernel-janitors ML:
-   https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
-
-It is *NOT* been compile tested, but it looks safe enough!
----
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index 8d68796aa905..fa313c75a8a0 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -229,9 +229,9 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 
- 	privdata->mmio = pcim_iomap_table(pdev)[2];
- 	pci_set_master(pdev);
--	rc = pci_set_dma_mask(pdev, DMA_BIT_MASK(64));
-+	rc = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
- 	if (rc) {
--		rc = pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
-+		rc = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
- 		return rc;
- 	}
- 
--- 
-2.30.2
+Pn Siti Fatimah Binti Khalid
+Pengurus Eksekutif
+Anugerah Telekom Malaysia
+Ibupejabat telekom Malaysia
 
