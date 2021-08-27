@@ -2,115 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 995603F94AA
-	for <lists+linux-input@lfdr.de>; Fri, 27 Aug 2021 08:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B59E83F954D
+	for <lists+linux-input@lfdr.de>; Fri, 27 Aug 2021 09:45:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244285AbhH0G6g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 Aug 2021 02:58:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58062 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243036AbhH0G6g (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 Aug 2021 02:58:36 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB541C061757;
-        Thu, 26 Aug 2021 23:57:47 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id z4so8810161wrr.6;
-        Thu, 26 Aug 2021 23:57:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=La6yDI849v69vetT2DNyixIDuUna3JBK/IQZg7j2d2Q=;
-        b=njmcdUkEAWKr2M95rP8rNqdcuWKQLhqjTFkNpkzBysCWLPDGz7+5H/XWaZ1y6ajKeo
-         3Lhz1jj69/gHd/W5ByjQv1M8eq83BYVcOnD82ebvghvwdwWqRibItJ6rNq5188c2zoha
-         aoT1vOUTyvhjdmETLtklVO0EUuP+SUJgOVVzWAMExidfcUyQ5rjffbC1NLCXvedxrGMZ
-         Vo3w+EwgmO7AzwpckgZZ2Ef5+kuLL/kn95K9WW6JI1TpOnF3+1aplOxv6x0XZEMQhgNs
-         LNmD5mjO0UKvoJASqqs8dBqYfT1sG+9zp1IbKH7D1YkL2ZotdkMzGY0ADB23NgMYN2W2
-         mSQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=La6yDI849v69vetT2DNyixIDuUna3JBK/IQZg7j2d2Q=;
-        b=O7LS15Q32K0qs8QFeOl/rGL7fcP6Ig5e4f8wqRiBkad3C1yiFSppuQSbk/1aEekJwM
-         rhbrAybKKBkkBAW8D2LL8kIyVkKbN2eUXS6NTtAV5n/cuUI1ngELx0wNW1nmH2PZgG5J
-         rZcxCghTc0e/QV/ozKlbV/tAvVLRzZ7Iip1/HcqWzBhyt1Y1IGUUe8bHPTS2YUu2l45K
-         J4KlMARSwnD0E1KG3LKiy1L4ybytCvsBm+oyLadEiik9F8L61sqJ1BX7UP3vE43COJn+
-         HQyRrGFQnWOc+B1qUH0uCi3i5biG+t3cWnRdGn5fAF2RCVKHTpNJP2MMDlUG83s+e0NE
-         igeQ==
-X-Gm-Message-State: AOAM533SYbLsQRoSSilncG7bmidvyc0pIIDbz7VKgtRs632uUPHGor2M
-        i9llu8Nq0azgaXLtIIjcLGiEmt7eHyUsHiCchSHMxbw8bLUde2xx
-X-Google-Smtp-Source: ABdhPJz8ItkNDXEzJgJ3TB4cfG53J9d6MELrDBe43+FrWBWEABYXAdiMj8PM9ljy/+Zfhr9Tpiobclt15BTOCHaUkZU=
-X-Received: by 2002:adf:c549:: with SMTP id s9mr8461986wrf.344.1630047466162;
- Thu, 26 Aug 2021 23:57:46 -0700 (PDT)
+        id S244444AbhH0HqB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 Aug 2021 03:46:01 -0400
+Received: from puss.venthur.de ([138.201.246.87]:37696 "EHLO puss.venthur.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S244395AbhH0HqB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 27 Aug 2021 03:46:01 -0400
+X-Greylist: delayed 358 seconds by postgrey-1.27 at vger.kernel.org; Fri, 27 Aug 2021 03:46:01 EDT
+Received: from [10.3.128.122] (h-213.61.119.98.host.de.colt.net [213.61.119.98])
+        by puss.venthur.de (Postfix) with ESMTPSA id 5F1EB1E0148;
+        Fri, 27 Aug 2021 09:39:13 +0200 (CEST)
+Subject: Re: fn-key issue with hid_apple and keychron keyboards
+From:   Bastian Venthur <mail@venthur.de>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>
+References: <f2ac3660-b95c-eb7b-8f92-57af0a27672d@venthur.de>
+ <f82dd7a1-a5c6-b651-846c-29f6df9436af@redhat.com>
+ <155865d7-f964-ac9a-2c02-1eabeac0e443@venthur.de>
+ <897e57a9-38d8-c05f-ceed-01d486f02726@redhat.com>
+ <ae3e52eb-fa43-ce5e-bf81-f014318a02ff@venthur.de>
+ <0d69820a-30ee-755c-b146-49c2bbc0714f@redhat.com>
+ <5815adb9-f9b4-308b-6ac8-3e7b10bd71b8@venthur.de>
+Message-ID: <a23380fb-579a-68ee-55f1-8bc429e09a2f@venthur.de>
+Date:   Fri, 27 Aug 2021 09:39:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <CAGhUXvBw4rzCQrqttyyS=Psxmhppk79c6fDoxPbV91jE7fO_9A@mail.gmail.com>
-In-Reply-To: <CAGhUXvBw4rzCQrqttyyS=Psxmhppk79c6fDoxPbV91jE7fO_9A@mail.gmail.com>
-From:   Andrea Ippolito <andrea.ippo@gmail.com>
-Date:   Fri, 27 Aug 2021 08:57:10 +0200
-Message-ID: <CAGhUXvDNj2v3O==+wWWKPYVzej8Vq+WNiBtPwmYxSQ2dTuLb9Q@mail.gmail.com>
-Subject: Re: Touchpad stickiness on Dell Inspiron/XPS
-To:     dmitry.torokhov@gmail.com, alex.hung@canonical.com
-Cc:     linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <5815adb9-f9b4-308b-6ac8-3e7b10bd71b8@venthur.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-(resending as plain text)
+Hi Hans et al,
 
-Hello everyone,
 
-I hope I find you well.
+any updates on this one?
 
-I am writing this to report a touchpad issue faced by me and several
-other DELL users across several different distros (HW defect has been
-ruled out by people unable to reproduce on Windows).
 
-First thing that came to mind was to report this to the libinput
-project, which I did here:
+Cheers,
 
-https://gitlab.freedesktop.org/libinput/libinput/-/issues/618
+Bastian
 
-A similar report by another user followed shortly after:
-
-https://gitlab.freedesktop.org/libinput/libinput/-/issues/636 (will be
-closed as dupe eventually, so please keep #618 as reference)
-
-Issue has been also reported by yet another user on reddit:
-
-https://www.reddit.com/r/linuxhardware/comments/ofbzg3/dell_xps_15_9510_experience/h5ddy07/
-and https://www.reddit.com/r/linuxhardware/comments/ofbzg3/dell_xps_15_9510_experience/h5zjwc8/?utm_source=reddit&utm_medium=web2x&context=3
-
-And finally, I have reported it on the DELL user forums (no help
-whatsoever from DELL):
-
-https://www.dell.com/community/Inspiron/Tiger-Lake-DELL-Inspiron-Touchpad-Cursor-temporarily-drops/m-p/8021753#M126292
-
-The investigation on the libinput side appears to be complete, as
-maintainers didn't spot anything weird there (also, the issue is also
-reproducible with the synaptics lib, suggesting that this might be
-lower level).
-
-Robert Martin suggested to raise this to you now, as per comment:
-
-https://gitlab.freedesktop.org/libinput/libinput/-/issues/618#note_1042277
-
-I'm kind of new to Linux mailing lists and bug reporting, so please
-forgive me if I'm violating some rules or etiquette, I'd be glad to
-rectify if that's the case.
-
-I also don't know what is the best way to keep the conversation going,
-e.g. if there's an issue tracker or instead mailing lists are the
-preferred choice.
-
-You should find some interesting data in the above mentioned reports
-already, if not, please don't hesitate to let me know or chime in on
-libinput issue #618 directly.
-
-Thanks a lot in advance.
-
-Kind regards,
-Andrea IPPOLITO
+On 24.06.21 09:35, Bastian Venthur wrote:
+> On 23.06.21 16:16, Hans de Goede wrote:
+>> Does anyone (including you, Bastian) has any opinion on making
+>> fnmode=2 the default on this keyboard model ?
+> 
+> If i understand you correctly, you're saying you cannot make the fnmode 
+> depend on the Mac- or PC-mode that the keyboard is currently running on? 
+> I mean that would be of course the best solution, but if that is not 
+> possible I'd prefer the fnmode=2 switched on by default as this is not a 
+> Mac keyboard AND this is not an Apple operating system.
