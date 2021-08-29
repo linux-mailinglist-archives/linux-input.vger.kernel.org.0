@@ -2,194 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88A603FA2B5
-	for <lists+linux-input@lfdr.de>; Sat, 28 Aug 2021 03:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 962383FAA40
+	for <lists+linux-input@lfdr.de>; Sun, 29 Aug 2021 11:19:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232818AbhH1BKJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 Aug 2021 21:10:09 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:8792 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230238AbhH1BKJ (ORCPT
+        id S234867AbhH2JUd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 Aug 2021 05:20:33 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:51791 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234584AbhH2JUc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 Aug 2021 21:10:09 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GxJPN3RnvzYrD1;
-        Sat, 28 Aug 2021 09:08:40 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sat, 28 Aug 2021 09:09:17 +0800
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sat, 28 Aug 2021 09:09:08 +0800
-Subject: Re: [BUG] amba: Remove deferred device addition
-To:     Saravana Kannan <saravanak@google.com>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, Russell King <linux@armlinux.org.uk>,
-        "Linus Walleij" <linus.walleij@linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        <linux-input@vger.kernel.org>
-References: <20210816074619.177383-1-wangkefeng.wang@huawei.com>
- <20210816074619.177383-4-wangkefeng.wang@huawei.com>
- <CAL_JsqLBddXVeP-t++wqPNp=xYF7tvEcnCbjFnK9CUBLK2+9JA@mail.gmail.com>
- <CAGETcx8SY14rcd7g=Gdwmw7sUMb=jdEV+ffuNpg6btDoL1jmWw@mail.gmail.com>
- <ee649111-dc07-d6db-8872-dcb692802236@huawei.com>
- <CAGETcx9drOdE_vfn-nhDZM9MbgxGxYJN6ydiAVxo_Ltqve9eTg@mail.gmail.com>
- <b5eb935f-26e1-6475-63af-e7f6101eb017@huawei.com>
- <CAGETcx9yaWZOzt=gcyNAshoHdPoYizhmrKS-kU9c2QM2+HqeEw@mail.gmail.com>
- <df8e7756-8b0d-d7de-a9ff-3f6eb0ffa8a5@huawei.com>
- <CAGETcx-47yRUcBjEdWFBtroSEkHXRNrJ4zaD8WpE0DPEPp9NxQ@mail.gmail.com>
- <85b28900-5f42-b997-2ded-0b952bc2a03e@huawei.com>
- <CAGETcx-N4+u0iw9n5ncx_9MNnTa3ViyesxsDD7xN3jtEPT-uBw@mail.gmail.com>
-From:   Kefeng Wang <wangkefeng.wang@huawei.com>
-Message-ID: <265bb783-10da-a7c1-2625-055dec5643a3@huawei.com>
-Date:   Sat, 28 Aug 2021 09:09:08 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        Sun, 29 Aug 2021 05:20:32 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.nyi.internal (Postfix) with ESMTP id CEC41580B0B;
+        Sun, 29 Aug 2021 05:19:39 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Sun, 29 Aug 2021 05:19:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+         h=from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm2; bh=UKA+mD4oTh8sYLLli6c3hx8ym4
+        5MRs9xbz/z6p375ME=; b=AvOfauNwab4X4x1DTdL2cM1nVJCYY71qMig5OvZpKF
+        to0nJih0kS+z5YUFObEno4GbFf/OamBPDOhtPnY+LvQ+3Xz0m1Fag35f9na5mHOH
+        Ul/H8q7xl2SNDLXe99WCuwGvSA7eqOYY82XkhzyNbjxLNDRtrOhGJneCLfp0vWtz
+        BJS5D3T6RF+vsmXxativ3sLT8BCgg7Og0YpGhjm1N+zt38E0uT0mPsLQXeBiiygn
+        ZHR82hDpk4KXlKOJhG36duV5W8KJgi9x34sfSJL/PpJBg6XbUILWzsK0n/gKJTQW
+        nEMIwMka4F1BqHM7tXvGoC3Z6eeUQUTNqC2PsbFjypfw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=UKA+mD4oTh8sYLLli
+        6c3hx8ym45MRs9xbz/z6p375ME=; b=XbWVvJWXNM2dCIA2e3EoqPiAyeH6TfHPU
+        6rJS9VF9A7da1YOtQdpi683nGVdXdNPRwICNGwA5bpqdhBikP1aKvnnxR0gtiPxn
+        l+/CcnVycI47RpiwXj5njQRwWKJOLGOLISQPeM+z/iA4yw9ga6bVReqLkeV/5YYk
+        5eheLMnEnE0Q72XrzRFZgHzZSq9cu9R67sTzTv6VKiIyWT2Vcq88KZP2Cq0Kcw/Y
+        uy9xL9NXrhsAIEmvANSNp6kKgGnThHD3fowOXzQ5nZTInSL4olxoT47G2ZN5KV6s
+        A+j8DZPpCHW8sBSbQ9RnYhW0WNnQuVqWOidg5gLL1bLtJkTG3mImg==
+X-ME-Sender: <xms:KlErYcf-XbFCu1BmTYMH89QEpM3XgNszWdsxo0IPpmHYY5_pF2aB6w>
+    <xme:KlErYeNgVrEAaVe64pWeSHUJKkDja0sysO1aB31LqDZrUbubL9YFXUbnLjgvRQ03X
+    jxdYGV5doXwMwpEHMg>
+X-ME-Received: <xmr:KlErYdiKdz_q5XlZ0_CtG_Pt2XL19Jks8_cgg82dZWdI9bzaOSYKQj6urPjHG7N6OFbCFycul0TQE8XZpkiUyxdPLVdJ_rT3cGLwBZ_fj2EYP3qcEA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddujedguddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+    dttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhr
+    segrlhhishhtrghirhdvfedrmhgvqeenucggtffrrghtthgvrhhnpeejleeihfdvtefgtd
+    ethfdtgefftdeiffefjeeiffefveeuleejheejvefhffeukeenucevlhhushhtvghrufhi
+    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrlhhishhtrghirhesrghlihhsth
+    grihhrvdefrdhmvg
+X-ME-Proxy: <xmx:KlErYR-apwB3tIZ4Fi2EUMeA-cZzc_ZMoKkW2FolexpXrpIJKbzB0Q>
+    <xmx:KlErYYs9rA4OLnu1xM4oystt0200K3qiw7A3fybw95dZw6OI9tbBnQ>
+    <xmx:KlErYYGyq8VKFZN39OiBDlxhw9oZ0Trsj4jTxH7KHpr5voExIZiRHg>
+    <xmx:K1ErYYFnBwniKcVzrgBVHodzLUiCcOlRJdoF_HlB5k7bEzmg2S4_pw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 29 Aug 2021 05:19:33 -0400 (EDT)
+From:   Alistair Francis <alistair@alistair23.me>
+To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-imx@nxp.com, kernel@pengutronix.de, pinglinux@gmail.com,
+        tatsunosuke.tobita@wacom.com, junkpainting@gmail.com,
+        ping.cheng@wacom.com
+Cc:     linux-kernel@vger.kernel.org, alistair23@gmail.com,
+        robh+dt@kernel.org, devicetree@vger.kernel.org,
+        Alistair Francis <alistair@alistair23.me>
+Subject: [PATCH v10 00/12] Add Wacom I2C support to rM2
+Date:   Sun, 29 Aug 2021 19:19:12 +1000
+Message-Id: <20210829091925.190-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAGETcx-N4+u0iw9n5ncx_9MNnTa3ViyesxsDD7xN3jtEPT-uBw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Add support to the reMarkable2 (rM2) for the Wacom I2C device.
 
-On 2021/8/28 3:09, Saravana Kannan wrote:
-> On Fri, Aug 27, 2021 at 7:38 AM Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
->>
->> On 2021/8/27 8:04, Saravana Kannan wrote:
->>> On Thu, Aug 26, 2021 at 1:22 AM Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
->>>>>>> Btw, I've been working on [1] cleaning up the one-off deferred probe
->>>>>>> solution that we have for amba devices. That causes a bunch of other
->>>>>>> headaches. Your patch 3/3 takes us further in the wrong direction by
->>>>>>> adding more reasons for delaying the addition of the device.
->>>> Hi Saravana, I try the link[1], but with it, there is a crash when boot
->>>> (qemu-system-arm -M vexpress-a15),
-> I'm assuming it's this one?
-> arch/arm/boot/dts/vexpress-v2p-ca15_a7.dts
+This is based on the reMarkable Linux fork and with this series I am
+able to use the Wacom digitiser on the rM2.
 
-I use arch/arm/boot/dts/vexpress-v2p-ca15-tc1.dts.
+v10:
+ - Add a new patch to determine the generation
+ - Use generation to determine if tilt is supported
+ - Address comments from v9
+ - Remove flip-pressure
+v9:
+ - Add two new patches
+ - Fixup the device tree interrupt line
+v7:
+ - Fx the compatible name and documentation
 
-qemu-system-arm -M vexpress-a15 -dtb vexpress-v2p-ca15-tc1.dtb -cpu 
-cortex-a15 -smp 2 -m size=3G -kernel zImage -rtc base=localtime -initrd 
-initrd-arm32 -append 'console=ttyAMA0 cma=0 kfence.sample_interval=0 
-earlyprintk debug ' -device virtio-net-device,netdev=net8 -netdev 
-type=tap,id=net8,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown 
--nographic
+Alistair Francis (12):
+  dt-bindings: Add Wacom to vendor bindings
+  dt-bindings: touchscreen: Initial commit of wacom,i2c
+  Input: wacom_i2c - Add device tree support to wacom_i2c
+  Input: wacom_i2c - Add touchscren properties
+  Input: wacom_i2c - Read the descriptor values
+  Input: wacom_i2c - Add support for distance and tilt x/y
+  Input: wacom_i2c - Clean up the query device fields
+  Input: wacom_i2c - Add support for vdd regulator
+  Input: wacom_i2c - Use macros for the bit masks
+  Input: wacom_i2c - Allow flipping the values from the DT
+  ARM: imx_v6_v7_defconfig: Enable Wacom I2C
+  ARM: dts: imx7d: remarkable2: add wacom digitizer device
 
->
->>> Hi,
->>>
->>> It's hard to make sense of the logs. Looks like two different threads
->>> might be printing to the log at the same time? Can you please enable
->>> the config that prints the thread ID (forgot what it's called) and
->>> collect this again? With what I could tell the crash seems to be
->>> happening somewhere in platform_match(), but that's not related to
->>> this patch at all?
->> Can you reproduce it? it is very likely related(without your patch, the
->> boot is fine),
-> Sorry, I haven't ever setup qemu and booted vexpress. Thanks for your help.
->
->> the NULL ptr is about serio, it is registed from amba driver.
->>
->> ambakmi_driver_init
->>
->>    -- amba_kmi_probe
->>
->>      -- __serio_register_port
-> Thanks for the pointer. I took a look at the logs and the code. It's
-> very strange. As you can see from the backtrace, platform_match() is
-> being called for the device_add() from serio_handle_event(). But the
-> device that gets added there is on the serio_bus which obviously
-> should be using the serio_bus_match.
-Yes, I am confused too.
->
->> +Dmitry and input maillist, is there some known issue about serio ?
->>
->> I add some debug, the full log is attached.
->>
->> [    2.958355][   T41] input: AT Raw Set 2 keyboard as
->> /devices/platform/bus@8000000/bus@8000000:motherboard-bus/bus@8000000:motherboard-bus:iofpga-bus@300000000/1c060000.kmi/serio0/input/input0
->> [    2.977441][   T41] serio serio1: pdev c1e05508, pdev->name (null),
->> drv c1090fc0, drv->name vexpress-reset
-> Based on the logs you added, it's pretty clear we are getting to
-> platform_match(). It's also strange that the drv->name is
-> vexpress-reset
-...
->
->> [    3.003113][   T41] Backtrace:
->> [    3.003451][   T41] [<c0560bb4>] (strcmp) from [<c0646358>] (platform_match+0xdc/0xf0)
->> [    3.003963][   T41] [<c064627c>] (platform_match) from [<c06437d4>] (__device_attach_driver+0x3c/0xf4)
->> [    3.004769][   T41] [<c0643798>] (__device_attach_driver) from [<c0641180>] (bus_for_each_drv+0x68/0xc8)
->> [    3.005481][   T41] [<c0641118>] (bus_for_each_drv) from [<c0642f40>] (__device_attach+0xf0/0x16c)
->> [    3.006152][   T41] [<c0642e50>] (__device_attach) from [<c06439d4>] (device_initial_probe+0x1c/0x20)
->> [    3.006853][   T41] [<c06439b8>] (device_initial_probe) from [<c0642030>] (bus_probe_device+0x94/0x9c)
->> [    3.007259][   T41] [<c0641f9c>] (bus_probe_device) from [<c063f9cc>] (device_add+0x408/0x8b8)
->> [    3.007900][   T41] [<c063f5c4>] (device_add) from [<c071c1cc>] (serio_handle_event+0x1b8/0x234)
->> [    3.008824][   T41] [<c071c014>] (serio_handle_event) from [<c01475a4>] (process_one_work+0x238/0x594)
->> [    3.009737][   T41] [<c014736c>] (process_one_work) from [<c014795c>] (worker_thread+0x5c/0x5f4)
->> [    3.010638][   T41] [<c0147900>] (worker_thread) from [<c014feb4>] (kthread+0x178/0x194)
->> [    3.011496][   T41] [<c014fd3c>] (kthread) from [<c0100150>] (ret_from_fork+0x14/0x24)
->> [    3.011860][   T41] Exception stack(0xc1675fb0 to 0xc1675ff8)
-> But the platform_match() is happening for the device_add() from
-> serio_event_handle() that's adding a device to the serio_bus and it
-> should be using serio_bus_match().
->
-> I haven't reached any conclusion yet, but my current thought process
-> is that it's either:
-> 1. My patch is somehow causing list corruption. But I don't directly
-> touch any list in my change (other than deleting a list entirely), so
-> it's not clear how that would be happening.
+ .../input/touchscreen/wacom,generic.yaml      |  68 +++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm/boot/dts/imx7d-remarkable2.dts       |  61 ++++
+ arch/arm/configs/imx_v6_v7_defconfig          |   1 +
+ drivers/input/touchscreen/wacom_i2c.c         | 262 +++++++++++++++---
+ 5 files changed, 358 insertions(+), 36 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
 
-Maybe some concurrent driver load？
+-- 
+2.31.1
 
-> 2. Without my patch, these AMBA device's probe would be delayed at
-> least until 5 seconds or possibly later. I'm wondering if my patch is
-> catching some bad timing assumptions in other code.
-
-After Rob's patch, It will retry soon.
-
-commit 039599c92d3b2e73689e8b6e519d653fd4770abb
-Author: Rob Herring <robh@kernel.org>
-Date:   Wed Apr 29 15:58:12 2020 -0500
-
-     amba: Retry adding deferred devices at late_initcall
-
-     If amba bus devices defer when adding, the amba bus code simply retries
-     adding the devices every 5 seconds. This doesn't work well as it
-     completely unsynchronized with starting the init process which can
-     happen in less than 5 secs. Add a retry during late_initcall. If the
-     amba devices are added, then deferred probe takes over. If the
-     dependencies have not probed at this point, then there's no improvement
-     over previous behavior. To completely solve this, we'd need to retry
-     after every successful probe as deferred probe does.
-
-     The list_empty() check now happens outside the mutex, but the mutex
-     wasn't necessary in the first place.
-
-     This needed to use deferred probe instead of fragile initcall ordering
-     on 32-bit VExpress systems where the apb_pclk has a number of probe
-     dependencies (vexpress-sysregs, vexpress-config).
-
-
->
-> You might be able to test out theory (2) by DEFERRED_DEVICE_TIMEOUT to
-> a much smaller number. Say 500ms or 100ms. If it doesn't crash, it
-> doesn't mean it's not (2), but if it does, then we know for sure it's
-> (2).
-ok, I will try this one, but due to above patch, it may not work.
-
->
-> I'll continue debugging further.
->
-> -Saravana
