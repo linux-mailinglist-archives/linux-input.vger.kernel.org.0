@@ -2,113 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A664E3FBCEB
-	for <lists+linux-input@lfdr.de>; Mon, 30 Aug 2021 21:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F4C73FBD6A
+	for <lists+linux-input@lfdr.de>; Mon, 30 Aug 2021 22:23:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231556AbhH3Tdw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Aug 2021 15:33:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35156 "EHLO
+        id S235273AbhH3UYk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Aug 2021 16:24:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229883AbhH3Tdv (ORCPT
+        with ESMTP id S235306AbhH3UYj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Aug 2021 15:33:51 -0400
-X-Greylist: delayed 572 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 30 Aug 2021 12:32:57 PDT
-Received: from mail.itouring.de (mail.itouring.de [IPv6:2a01:4f8:a0:4463::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26FD1C061575;
-        Mon, 30 Aug 2021 12:32:57 -0700 (PDT)
-Received: from tux.applied-asynchrony.com (p5b07ea1c.dip0.t-ipconnect.de [91.7.234.28])
-        by mail.itouring.de (Postfix) with ESMTPSA id 7EF0512944D;
-        Mon, 30 Aug 2021 21:23:22 +0200 (CEST)
-Received: from [192.168.100.221] (hho.applied-asynchrony.com [192.168.100.221])
-        by tux.applied-asynchrony.com (Postfix) with ESMTP id 37EBCF01618;
-        Mon, 30 Aug 2021 21:23:22 +0200 (CEST)
-Subject: Re: [REGRESSION][BISECTED] flood of "hid-generic ... control queue
- full" since v5.14-rc1
-To:     Michal Kubecek <mkubecek@suse.cz>,
-        Alan Stern <stern@rowland.harvard.edu>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-References: <20210816130059.3yxtdvu2r7wo4uu3@lion.mk-sys.cz>
- <YRpnfJ719DwPu2B0@kroah.com> <20210816141347.zougsudwe5tqgkpt@lion.mk-sys.cz>
- <20210816143856.GA121345@rowland.harvard.edu>
- <20210816191249.7g2mk5thwpio7cfc@lion.mk-sys.cz>
-From:   =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>
-Organization: Applied Asynchrony, Inc.
-Message-ID: <97d5cdb9-0372-7e8b-dc61-610198f8664f@applied-asynchrony.com>
-Date:   Mon, 30 Aug 2021 21:23:22 +0200
+        Mon, 30 Aug 2021 16:24:39 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5ECCC061575;
+        Mon, 30 Aug 2021 13:23:45 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id ot2-20020a17090b3b4200b0019127f8ed87so612003pjb.1;
+        Mon, 30 Aug 2021 13:23:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=h+3mX84nFnAyClKOUYMDJFGqUg+wKBWo2M4YAm5KDeE=;
+        b=HkQRX6YAZLsaUi38EWhsB24kcuq1aHXtuE0Rxwe/j5/TaRphVrzGkHhlla2pEeZTBb
+         aoQ6ZYfK3S9WgLByBLi5X7MpO2x27iqqG505NFkjWuQOhUbr2HNnzD2jqZImIs77vxIZ
+         cZXCp7Wj8cGp4rGk27QasIpYOPu4hnBNFLnlLkHyjIOpXjwwNljVDX+gC7s59/Ez0gym
+         +srHPt3zgCefNNVdveChYizrbJwAQq20c7a41ace8U1QvV0OlXEF+fQMyUj1XgY4FW5k
+         WwTefeHfz9rhg2fMCfgGcttIC4Www3v/lZ9KXbWsPR/XFIH/KWLbI08PAmLmDMkbZliy
+         QUPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=h+3mX84nFnAyClKOUYMDJFGqUg+wKBWo2M4YAm5KDeE=;
+        b=WzaUTk6r+Ig+Ua40/olDyTYl+hYMsn4rsKa0fkqZ29tLoOYDk4bWJ027N25jQlquFO
+         Ya4BiDMCHq3PSPi/TbF/P7b8DtJadhAHifDHRUNFHiStdyX98iOVVlG6H76DAponch9m
+         uh/UeUDnwKjgbkVppqqSTo/Ua5zSShhhgawnlZBLIeBpmWUoXborAHq3Aml1jNebkQSI
+         61O6RJkVEIlSlA6nZ6IBYEbZ/EGb9NMF95QWT9uxJUog9hvOyFv/aFJA/k7c+5Z2wpJA
+         gVaRWvNHI7u1Y49KzIFBDjvCjcsxpK8ygOvVrrXc2RWKhIerffzwnNoOdKC9O8D8p5F8
+         5o3A==
+X-Gm-Message-State: AOAM530VnIqPx7A6wRvUgq3nMzEJqjegcN1jGmN/QKrIDwUucqUuTR4Q
+        iF3oGFL4f5VUd0/TLtStKqM=
+X-Google-Smtp-Source: ABdhPJxHmgQYkJFj5bbpFOtlXZui63pW8/vSQPJjJ8wBem06ht10W47cL3+3RzVQ97Qo0JMXaxWufw==
+X-Received: by 2002:a17:90a:4204:: with SMTP id o4mr928331pjg.199.1630355024962;
+        Mon, 30 Aug 2021 13:23:44 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:771a:afc8:2e96:23dd])
+        by smtp.gmail.com with ESMTPSA id s20sm14915497pfe.205.2021.08.30.13.23.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Aug 2021 13:23:43 -0700 (PDT)
+Date:   Mon, 30 Aug 2021 13:23:41 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     phoenix <phoenix@emc.com.tw>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        jingle.wu@emc.com.tw, josh.chen@emc.com.tw, dave.wang@emc.com.tw
+Subject: Re: [PATCH] Input: elantench - Fix the firmware misreport
+ coordinates for trackpoint occasionally.
+Message-ID: <YS0+TU21/nok6Ge9@google.com>
+References: <20210729010940.5752-1-phoenix@emc.com.tw>
+ <000001d79d99$53762dd0$fa628970$@emc.com.tw>
 MIME-Version: 1.0
-In-Reply-To: <20210816191249.7g2mk5thwpio7cfc@lion.mk-sys.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <000001d79d99$53762dd0$fa628970$@emc.com.tw>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2021-08-16 21:12, Michal Kubecek wrote:
-> On Mon, Aug 16, 2021 at 10:38:56AM -0400, Alan Stern wrote:
->> On Mon, Aug 16, 2021 at 04:13:47PM +0200, Michal Kubecek wrote:
->>> Looking at the code, the primary problem seems to be that the "else"
->>> branch in hid_submit_ctrl() recalculates transfer_buffer_length to
->>> a rounded up value but assigns the original length to wLength.
->>
->> Looks like you found the bug.  Fixing it might be as simple as setting
->> len = padlen in that "else" branch.  You could then combine the
->> transfer_buffer_length assignment with the one in the "if" branch and
->> hoist them out after the entire "if" statement.
-> 
-> With the patch below, there are no errors and the UPS communication
-> works correctly and so do other HID devices. But I would prefere someone
-> familiar with HID code to confirm that this is what we want and what
-> would be the right way to handle usb_submit_urb() errors.
-> 
-> Michal
-> 
-> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-> index 06130dc431a0..ef240ef63a66 100644
-> --- a/drivers/hid/usbhid/hid-core.c
-> +++ b/drivers/hid/usbhid/hid-core.c
-> @@ -377,27 +377,26 @@ static int hid_submit_ctrl(struct hid_device *hid)
->   	len = hid_report_len(report);
->   	if (dir == USB_DIR_OUT) {
->   		usbhid->urbctrl->pipe = usb_sndctrlpipe(hid_to_usb_dev(hid), 0);
-> -		usbhid->urbctrl->transfer_buffer_length = len;
->   		if (raw_report) {
->   			memcpy(usbhid->ctrlbuf, raw_report, len);
->   			kfree(raw_report);
->   			usbhid->ctrl[usbhid->ctrltail].raw_report = NULL;
->   		}
->   	} else {
-> -		int maxpacket, padlen;
-> +		int maxpacket;
->   
->   		usbhid->urbctrl->pipe = usb_rcvctrlpipe(hid_to_usb_dev(hid), 0);
->   		maxpacket = usb_maxpacket(hid_to_usb_dev(hid),
->   					  usbhid->urbctrl->pipe, 0);
->   		if (maxpacket > 0) {
-> -			padlen = DIV_ROUND_UP(len, maxpacket);
-> -			padlen *= maxpacket;
-> -			if (padlen > usbhid->bufsize)
-> -				padlen = usbhid->bufsize;
-> +			len = DIV_ROUND_UP(len, maxpacket);
-> +			len *= maxpacket;
-> +			if (len > usbhid->bufsize)
-> +				len = usbhid->bufsize;
->   		} else
-> -			padlen = 0;
-> -		usbhid->urbctrl->transfer_buffer_length = padlen;
-> +			len = 0;
->   	}
-> +	usbhid->urbctrl->transfer_buffer_length = len;
->   	usbhid->urbctrl->dev = hid_to_usb_dev(hid);
->   
->   	usbhid->cr->bRequestType = USB_TYPE_CLASS | USB_RECIP_INTERFACE | dir;
-> 
+Hi Phoenix,
 
-Got the same flood of messages when trying 5.14.0, found this thread, applied
-the patch & rebuilt, problem is gone & UPS still working fine. Yay.
+On Mon, Aug 30, 2021 at 08:19:48PM +0800, phoenix wrote:
+> Hi Dmitry,
+> 
+> Would you review this patch, thanks
+> 
+> Best regards,
+> Phoenix Huang
+> 
+> -----Original Message-----
+> From: Phoenix Huang [mailto:phoenix@emc.com.tw] 
+> Sent: Thursday, July 29, 2021 9:10 AM
+> To: linux-kernel@vger.kernel.org; linux-input@vger.kernel.org;
+> dmitry.torokhov@gmail.com
+> Cc: jingle.wu@emc.com.tw; josh.chen@emc.com.tw; dave.wang@emc.com.tw;
+> Phoenix Huang <phoenix@emc.com.tw>
+> Subject: [PATCH] Input: elantench - Fix the firmware misreport coordinates
+> for trackpoint occasionally.
+> 
+> Signed-off-by: Phoenix Huang <phoenix@emc.com.tw>
+> ---
+>  drivers/input/mouse/elantech.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
+> index 2d0bc029619f..07e1098f2d31 100644
+> --- a/drivers/input/mouse/elantech.c
+> +++ b/drivers/input/mouse/elantech.c
+> @@ -517,6 +517,17 @@ static void elantech_report_trackpoint(struct psmouse
+> *psmouse,
+>  	case 0x16008020U:
+>  	case 0x26800010U:
+>  	case 0x36808000U:
+> +	
+> +		/* This firmware misreport coordinates for trackpoint
+> occasionally.
+> +		* So we discard these packets by pattern to prevent cursor
+> jumps.
+> +		*/
+> +		if (packet[4] == 0x80 || packet[5] == 0x80 ||
+> +		    packet[1] >> 7 == packet[4] >> 7 ||
 
-cheers
-Holger
+I think this will reject X coordinates in range [0, 127]. Is this really
+what is needed? What kind of patterns are you observing when firmware
+misreports coordinates?
+
+Thanks.
+
+-- 
+Dmitry
