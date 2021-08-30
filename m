@@ -2,237 +2,159 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDB913FB85A
-	for <lists+linux-input@lfdr.de>; Mon, 30 Aug 2021 16:38:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F7033FB868
+	for <lists+linux-input@lfdr.de>; Mon, 30 Aug 2021 16:43:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237121AbhH3Oi2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Aug 2021 10:38:28 -0400
-Received: from mga02.intel.com ([134.134.136.20]:33937 "EHLO mga02.intel.com"
+        id S237072AbhH3OoT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Aug 2021 10:44:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45020 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237084AbhH3Oi2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Aug 2021 10:38:28 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10092"; a="205499159"
-X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; 
-   d="scan'208";a="205499159"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2021 07:37:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; 
-   d="scan'208";a="459410923"
-Received: from lkp-server01.sh.intel.com (HELO 4fbc2b3ce5aa) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 30 Aug 2021 07:37:33 -0700
-Received: from kbuild by 4fbc2b3ce5aa with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mKiPk-0005CB-Ew; Mon, 30 Aug 2021 14:37:32 +0000
-Date:   Mon, 30 Aug 2021 22:36:47 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:master] BUILD SUCCESS
- 247141f5286b6a915dd225de076c29d8591e9a94
-Message-ID: <612cecff.F5qjQhPINp6EWyYJ%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S233798AbhH3OoT (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 30 Aug 2021 10:44:19 -0400
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 178B460E77;
+        Mon, 30 Aug 2021 14:43:19 +0000 (UTC)
+Date:   Mon, 30 Aug 2021 15:46:31 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>, bcousson@baylibre.com,
+        Tony Lindgren <tony@atomide.com>,
+        Tero Kristo <t-kristo@ti.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        "Ryan J . Barnett" <ryan.barnett@collins.com>,
+        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-clk@vger.kernel.org, Jason Reeder <jreeder@ti.com>
+Subject: Re: [PATCH 16/40] mfd: ti_am335x_tscadc: Use driver data
+Message-ID: <20210830154631.01497b69@jic23-huawei>
+In-Reply-To: <20210825152518.379386-17-miquel.raynal@bootlin.com>
+References: <20210825152518.379386-1-miquel.raynal@bootlin.com>
+        <20210825152518.379386-17-miquel.raynal@bootlin.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
-branch HEAD: 247141f5286b6a915dd225de076c29d8591e9a94  dt-bindings: input: tsc2005: Convert to YAML schema
+On Wed, 25 Aug 2021 17:24:54 +0200
+Miquel Raynal <miquel.raynal@bootlin.com> wrote:
 
-elapsed time: 723m
+> So far every sub-cell parameter in this driver was hardcoded: cell name,
+> cell compatible, specific clock name and desired clock frequency.
+> 
+> As we are about to introduce support for ADC1/magnetic reader, we need a
+> bit of flexibility. Let's add a driver data structure which will contain
+> these information.
+> 
+> Co-developed-by: Jason Reeder <jreeder@ti.com>
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> Signed-off-by: Jason Reeder <jreeder@ti.com>
+> ---
+>  drivers/mfd/ti_am335x_tscadc.c       | 20 +++++++++++++++-----
+>  include/linux/mfd/ti_am335x_tscadc.h |  9 +++++++++
+>  2 files changed, 24 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/mfd/ti_am335x_tscadc.c b/drivers/mfd/ti_am335x_tscadc.c
+> index 3231ccbbad02..0cea44b4bd1a 100644
+> --- a/drivers/mfd/ti_am335x_tscadc.c
+> +++ b/drivers/mfd/ti_am335x_tscadc.c
+> @@ -136,6 +136,8 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
+>  		return -EINVAL;
+>  	}
+>  
+> +	tscadc->data = of_device_get_match_data(&pdev->dev);
 
-configs tested: 178
-configs skipped: 4
+As mentioned in later patch, I can't see that you actually wired this up here.
+match_data doesn't seem to be set.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Otherwise looks fine to me.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20210830
-nios2                         3c120_defconfig
-sh                          rsk7264_defconfig
-arm                        spear6xx_defconfig
-arm                           h3600_defconfig
-powerpc                 mpc832x_mds_defconfig
-sh                          polaris_defconfig
-powerpc                     rainier_defconfig
-arm                             rpc_defconfig
-powerpc                     pseries_defconfig
-powerpc                 mpc8315_rdb_defconfig
-powerpc                     tqm8541_defconfig
-i386                             allyesconfig
-mips                          ath25_defconfig
-arc                     nsimosci_hs_defconfig
-arm                         nhk8815_defconfig
-sh                           se7206_defconfig
-mips                     loongson2k_defconfig
-arm                           h5000_defconfig
-sh                           se7724_defconfig
-arm                          pcm027_defconfig
-arm                         palmz72_defconfig
-xtensa                  audio_kc705_defconfig
-powerpc                     ksi8560_defconfig
-m68k                       m5475evb_defconfig
-sh                          kfr2r09_defconfig
-mips                      pic32mzda_defconfig
-arm                            lart_defconfig
-sh                         apsh4a3a_defconfig
-powerpc                 mpc832x_rdb_defconfig
-powerpc                    klondike_defconfig
-m68k                       m5275evb_defconfig
-mips                         tb0219_defconfig
-mips                           xway_defconfig
-mips                         mpc30x_defconfig
-arm                          badge4_defconfig
-mips                         cobalt_defconfig
-sh                        edosk7705_defconfig
-mips                           ip28_defconfig
-openrisc                  or1klitex_defconfig
-mips                      malta_kvm_defconfig
-powerpc                      cm5200_defconfig
-sparc                       sparc32_defconfig
-powerpc                  mpc885_ads_defconfig
-arm                            mmp2_defconfig
-powerpc                      ppc6xx_defconfig
-sh                           se7721_defconfig
-m68k                                defconfig
-mips                           gcw0_defconfig
-powerpc                     powernv_defconfig
-powerpc                    socrates_defconfig
-arm                       netwinder_defconfig
-arc                           tb10x_defconfig
-sh                          rsk7201_defconfig
-openrisc                         alldefconfig
-arm                           sama5_defconfig
-mips                        bcm47xx_defconfig
-arm                            dove_defconfig
-riscv                          rv32_defconfig
-m68k                            q40_defconfig
-sh                           se7751_defconfig
-powerpc               mpc834x_itxgp_defconfig
-sh                   sh7770_generic_defconfig
-mips                        workpad_defconfig
-powerpc                      pasemi_defconfig
-arm                        shmobile_defconfig
-m68k                       m5208evb_defconfig
-arm                            pleb_defconfig
-sh                      rts7751r2d1_defconfig
-i386                             alldefconfig
-powerpc                    amigaone_defconfig
-powerpc                     tqm5200_defconfig
-mips                       rbtx49xx_defconfig
-arm                       imx_v6_v7_defconfig
-sh                   secureedge5410_defconfig
-mips                        qi_lb60_defconfig
-arm                        mvebu_v7_defconfig
-mips                        bcm63xx_defconfig
-x86_64                            allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a014-20210830
-x86_64               randconfig-a015-20210830
-x86_64               randconfig-a013-20210830
-x86_64               randconfig-a016-20210830
-x86_64               randconfig-a012-20210830
-x86_64               randconfig-a011-20210830
-x86_64               randconfig-a014-20210829
-x86_64               randconfig-a016-20210829
-x86_64               randconfig-a015-20210829
-x86_64               randconfig-a012-20210829
-x86_64               randconfig-a013-20210829
-x86_64               randconfig-a011-20210829
-i386                 randconfig-a011-20210829
-i386                 randconfig-a016-20210829
-i386                 randconfig-a012-20210829
-i386                 randconfig-a014-20210829
-i386                 randconfig-a013-20210829
-i386                 randconfig-a015-20210829
-i386                 randconfig-a016-20210830
-i386                 randconfig-a011-20210830
-i386                 randconfig-a015-20210830
-i386                 randconfig-a014-20210830
-i386                 randconfig-a012-20210830
-i386                 randconfig-a013-20210830
-s390                 randconfig-r044-20210830
-arc                  randconfig-r043-20210830
-riscv                randconfig-r042-20210830
-riscv                randconfig-r042-20210829
-s390                 randconfig-r044-20210829
-arc                  randconfig-r043-20210829
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                            kunit_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-clang tested configs:
-i386                 randconfig-c001-20210830
-s390                 randconfig-c005-20210830
-riscv                randconfig-c006-20210830
-powerpc              randconfig-c003-20210830
-mips                 randconfig-c004-20210830
-arm                  randconfig-c002-20210830
-x86_64               randconfig-c007-20210830
-x86_64               randconfig-a005-20210830
-x86_64               randconfig-a001-20210830
-x86_64               randconfig-a003-20210830
-x86_64               randconfig-a002-20210830
-x86_64               randconfig-a004-20210830
-x86_64               randconfig-a006-20210830
-i386                 randconfig-a005-20210830
-i386                 randconfig-a002-20210830
-i386                 randconfig-a003-20210830
-i386                 randconfig-a006-20210830
-i386                 randconfig-a004-20210830
-i386                 randconfig-a001-20210830
-hexagon              randconfig-r041-20210829
-hexagon              randconfig-r045-20210829
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+> +
+>  	node = of_get_child_by_name(pdev->dev.of_node, "tsc");
+>  	of_property_read_u32(node, "ti,wires", &tsc_wires);
+>  	of_property_read_u32(node, "ti,coordiante-readouts", &readouts);
+> @@ -209,7 +211,7 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
+>  		goto err_disable_clk;
+>  	}
+>  
+> -	tscadc->clk_div = (clk_get_rate(clk) / ADC_CLK) - 1;
+> +	tscadc->clk_div = (clk_get_rate(clk) / tscadc->data->target_clk_rate) - 1;
+>  	regmap_write(tscadc->regmap, REG_CLKDIV, tscadc->clk_div);
+>  
+>  	/* Set the control register bits */
+> @@ -238,8 +240,8 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
+>  	if (tsc_wires > 0) {
+>  		tscadc->tsc_cell = tscadc->used_cells;
+>  		cell = &tscadc->cells[tscadc->used_cells++];
+> -		cell->name = "TI-am335x-tsc";
+> -		cell->of_compatible = "ti,am3359-tsc";
+> +		cell->name = tscadc->data->name_tscmag;
+> +		cell->of_compatible = tscadc->data->compat_tscmag;
+>  		cell->platform_data = &tscadc;
+>  		cell->pdata_size = sizeof(tscadc);
+>  	}
+> @@ -248,8 +250,8 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
+>  	if (adc_channels > 0) {
+>  		tscadc->adc_cell = tscadc->used_cells;
+>  		cell = &tscadc->cells[tscadc->used_cells++];
+> -		cell->name = "TI-am335x-adc";
+> -		cell->of_compatible = "ti,am3359-adc";
+> +		cell->name = tscadc->data->name_adc;
+> +		cell->of_compatible = tscadc->data->compat_adc;
+>  		cell->platform_data = &tscadc;
+>  		cell->pdata_size = sizeof(tscadc);
+>  	}
+> @@ -335,6 +337,14 @@ static int __maybe_unused tscadc_resume(struct device *dev)
+>  
+>  static SIMPLE_DEV_PM_OPS(tscadc_pm_ops, tscadc_suspend, tscadc_resume);
+>  
+> +static const struct ti_tscadc_data tscdata = {
+> +	.name_tscmag = "TI-am335x-tsc",
+> +	.compat_tscmag = "ti,am3359-tsc",
+> +	.name_adc = "TI-am335x-adc",
+> +	.compat_adc = "ti,am3359-adc",
+> +	.target_clk_rate = ADC_CLK,
+> +};
+> +
+>  static const struct of_device_id ti_tscadc_dt_ids[] = {
+>  	{ .compatible = "ti,am3359-tscadc", },
+>  	{ }
+> diff --git a/include/linux/mfd/ti_am335x_tscadc.h b/include/linux/mfd/ti_am335x_tscadc.h
+> index ffc091b77633..0f581c15d95a 100644
+> --- a/include/linux/mfd/ti_am335x_tscadc.h
+> +++ b/include/linux/mfd/ti_am335x_tscadc.h
+> @@ -162,11 +162,20 @@
+>  
+>  #define TSCADC_CELLS		2
+>  
+> +struct ti_tscadc_data {
+> +	char *name_tscmag;
+> +	char *compat_tscmag;
+> +	char *name_adc;
+> +	char *compat_adc;
+> +	unsigned int target_clk_rate;
+> +};
+> +
+>  struct ti_tscadc_dev {
+>  	struct device *dev;
+>  	struct regmap *regmap;
+>  	void __iomem *tscadc_base;
+>  	phys_addr_t tscadc_phys_base;
+> +	const struct ti_tscadc_data *data;
+>  	int irq;
+>  	int used_cells;	/* 1-2 */
+>  	int tsc_wires;
+
