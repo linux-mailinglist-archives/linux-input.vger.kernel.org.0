@@ -2,93 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F2CD3FBA34
-	for <lists+linux-input@lfdr.de>; Mon, 30 Aug 2021 18:31:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E76ED3FBC91
+	for <lists+linux-input@lfdr.de>; Mon, 30 Aug 2021 20:38:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237734AbhH3Qcd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Aug 2021 12:32:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24338 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233637AbhH3Qcd (ORCPT
+        id S229913AbhH3SjW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Aug 2021 14:39:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51214 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229819AbhH3SjW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Aug 2021 12:32:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1630341098;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=QX9GU0hH1TRwqyfkU4USdjocCp7nMp76pC0eH/XEt0A=;
-        b=QWqLVlnnvCntN3+uI0ykkfKLhm305y8xuxi/90s1sCBZftKSekyY3qE5DGI60ga+ZasgoY
-        oFKMjvrFHkeb1GYn0W72kspi3i83j6oadoCsQHeT0w+JHx93zehYS+DMHopBfcw6vjjAtL
-        sITJmK1FGch0xX2Vbedln8eeuit8coI=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-531-OkPfNLkFOtSQGlV6dtvItA-1; Mon, 30 Aug 2021 12:31:35 -0400
-X-MC-Unique: OkPfNLkFOtSQGlV6dtvItA-1
-Received: by mail-pf1-f199.google.com with SMTP id h10-20020a056a00170a00b003e31c4d9992so3377075pfc.23
-        for <linux-input@vger.kernel.org>; Mon, 30 Aug 2021 09:31:35 -0700 (PDT)
+        Mon, 30 Aug 2021 14:39:22 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DC10C06175F
+        for <linux-input@vger.kernel.org>; Mon, 30 Aug 2021 11:38:28 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id u25so15200589oiv.5
+        for <linux-input@vger.kernel.org>; Mon, 30 Aug 2021 11:38:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=8tWcQDXFnl66/X0/EvEmm7EAgSINLkwNFRS8gAFTRZw=;
+        b=Uh6MDH0FQXxCzqwWU9I4DZVf697X6l80bNTcjjFspyF5obmiAbzIk2JijioER+vMeA
+         yjT6fG+w8P5kwP8kixB2KBCqEQkovzzMfjII+sdcmet2tuBtZkybQ0zTl5rH3axQ7cuM
+         DShNbmOpnFGn/ESzdVyJKMkNXPnZHc8jCJtK2raVjR5gqZevNW8kt5Cjz40dvSoKKYxy
+         uOs0Q5qSPuUJqxJ2P4zWYwx3EPRvdQcXUDi23JEInPApnu2fYDPF78xNq+s/JGYFQLMe
+         cjdrNvuthHU4lsrl/6fTNFZ5Z9vJUkTNDTh7ZcsohVFGjbSq6mBKDozbJ/irRzlB6fk4
+         6x5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QX9GU0hH1TRwqyfkU4USdjocCp7nMp76pC0eH/XEt0A=;
-        b=jh4EtM3ujGQBrmd0EFAktFJjstr/kuaF8wKSNN0zLPZAeg62e7d9yk8Uny5t+cqs/P
-         FpiEQXE9RaOoFf8oI+mUjyERFo0MIDbojaV+aRaZ6cqmXFIB5w6/J2d6udkzP+BYDu3/
-         JsFQKd6WUWe2SsrxjqS+fLwxCUQXQcs1NkJzRGgzYMu/HAxOfXGHmKyMnRP7C1MrARdK
-         PmeXQgpn2IGR7GV2jAtrCRrmge7NnzEzKi1Ta5W94R8UXAdRnyRK+PA9UIwU95EMe0Zw
-         24rt1/RnQIMxh/wn5Af8xYfMfsfCbtvz1MrpCuofmoBacfb+kPYs3wTpb3Db4mdeVLKm
-         Y0AA==
-X-Gm-Message-State: AOAM533W6i3aOFxbUlb/wSoWpuOKAWo9VRAESiRNcc7gvMU9QqShphbo
-        BHoc46xVmq2BzwbmypI6Uj1q9hKC527ef5d9PCFRGD4huA0+a861+asisC/MvTFLD8xGTDMRQ7P
-        ib5TWHtfbGfxm6X/ulrxPvqoSXkjqHrZbOLaqixM=
-X-Received: by 2002:a17:902:da8d:b0:135:d4a1:bc25 with SMTP id j13-20020a170902da8d00b00135d4a1bc25mr446070plx.41.1630341094433;
-        Mon, 30 Aug 2021 09:31:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxsfUc0NrQJSBO5s1PQvVJbSaXwuj8CLgAUF3cdiQwV74fkRhpEV4xYpMdYLQmn5JWjkbapCd2JNKKwqwLYZWI=
-X-Received: by 2002:a17:902:da8d:b0:135:d4a1:bc25 with SMTP id
- j13-20020a170902da8d00b00135d4a1bc25mr446052plx.41.1630341094159; Mon, 30 Aug
- 2021 09:31:34 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=8tWcQDXFnl66/X0/EvEmm7EAgSINLkwNFRS8gAFTRZw=;
+        b=Ltt7DLG/TfJLbCsiOdOs1W9oWddgCe+daPhYGKv/+gG0yFPMWnaTUIsv7dImAEuTzV
+         MtBJRONJiE1yTTVu7gn8DYdnifKiyrcdY2HVQNxtLAUj9ycISAfan5uRpbfAyKXvmrK7
+         FoqF6mgtXimdVn+Fl5IXs+lnCyOESCwZyF/w1ER6cQKILksLvAd8rqQe2VQL4L6em0xM
+         aL5jcppZ9KiJRm2/JlsJkYooffzp1LIgSPP65NkAe45TsDdkZGri8TM3tYzI2prH3B9X
+         nOfTJNNN8odaTUL1Ec1sVTo5T0bX4x0eqmzIFGDCKcAWbK1rPOg8PN7lE76ngVVdt26y
+         3Q4Q==
+X-Gm-Message-State: AOAM530+EwY/FioZqDpqFlWh+GqWKasZUxegwq2xzE4hz6d9p6xPOguc
+        zH5imO3xyTxMq/UuSXtnhK+NsmKr8Wq/ps8RUvk=
+X-Google-Smtp-Source: ABdhPJzUMv/fUE9qYx53fS9vxtFNDelq7D20+HkOA6qEKlYxzQBDxocpfH4MqKz7RK+k217TMDWH1RdJIr/7uwmcR3w=
+X-Received: by 2002:a05:6808:2084:: with SMTP id s4mr391136oiw.31.1630348707732;
+ Mon, 30 Aug 2021 11:38:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210816130059.3yxtdvu2r7wo4uu3@lion.mk-sys.cz>
- <20210816143856.GA121345@rowland.harvard.edu> <20210816191249.7g2mk5thwpio7cfc@lion.mk-sys.cz>
- <1954573.0n35tlyJVE@natalenko.name> <20210830160743.GB332514@rowland.harvard.edu>
-In-Reply-To: <20210830160743.GB332514@rowland.harvard.edu>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 30 Aug 2021 18:31:23 +0200
-Message-ID: <CAO-hwJ+QL9O_m8NFXeAWhJ5B7ipYeNC=9RjU1HamMisdVhXEwA@mail.gmail.com>
-Subject: Re: [REGRESSION][BISECTED] flood of "hid-generic ... control queue
- full" since v5.14-rc1
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Michal Kubecek <mkubecek@suse.cz>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>
+Received: by 2002:a05:6838:cc4e:0:0:0:0 with HTTP; Mon, 30 Aug 2021 11:38:27
+ -0700 (PDT)
+Reply-To: stevenkoko2@gmail.com
+From:   Steven koko <stevenyaya1@gmail.com>
+Date:   Mon, 30 Aug 2021 11:38:27 -0700
+Message-ID: <CAEmLBBAExZ+tWtEVOLRJS_FEE+vWE3=78+hfPpMgnaoVwZH6Pg@mail.gmail.com>
+Subject: Best regards
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 30, 2021 at 6:14 PM Alan Stern <stern@rowland.harvard.edu> wrote:
->
-> On Mon, Aug 30, 2021 at 05:48:09PM +0200, Oleksandr Natalenko wrote:
-> > Hello.
-> ...
-> > Any luck with moving this forward please? I've got a similar issue with APC
-> > UPS and v5.14 kernel, and this patch also solves the connectivity issue for
-> > me.
->
-> I've been waiting to hear back from Benjamin to see if testing revealed
-> any problems with the latest version of the patch.
->
+Dear Friend,
 
-Sorry, things have been complex last week while I was on vacation.
-Nothing scary, the usual "not enough hours in a day to be able to sit
-in front of a computer".
-I'm back at work today, but got a lot of urgent things to do. I should
-be able to do the testing tomorrow.
+I have an important message for you concerning the death of your
+relative and the fund valued $11.5million behind the Security and
+Finance Company here in my Country here. Contact me at my private
+email address at (stevenyaya2@hotmail.fr) for more details as soon
+as possible.
 
-Cheers,
-Benjamin
+Upon receipt of your reply, I will send you full details on how the
+the transaction will be executed and also note that you will have 50% of
+the above-mentioned sum if you agree to transact the business with us.
+This is the information that I will need from you.
 
+Your Full Name ......................
+Your residence & Office address......
+Your country of origin...............
+You're Age...........................
+Your Sex.............................
+Your occupation......................
+Your Marital Status..................
+ You're Telephone ....................
+Fax Number...........................
+Your private email address...........
+
+Best regards
+Mr.Steven Yaya.
