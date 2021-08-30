@@ -2,50 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D51B33FBF74
-	for <lists+linux-input@lfdr.de>; Tue, 31 Aug 2021 01:34:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 953503FBF76
+	for <lists+linux-input@lfdr.de>; Tue, 31 Aug 2021 01:34:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232607AbhH3XcD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Aug 2021 19:32:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33308 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231783AbhH3XcD (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Aug 2021 19:32:03 -0400
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2943C061575
-        for <linux-input@vger.kernel.org>; Mon, 30 Aug 2021 16:31:08 -0700 (PDT)
+        id S238908AbhH3XeH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Aug 2021 19:34:07 -0400
+Received: from phobos.denx.de ([85.214.62.61]:55022 "EHLO phobos.denx.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231783AbhH3XeG (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 30 Aug 2021 19:34:06 -0400
 Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 856F5833CF;
-        Tue, 31 Aug 2021 01:31:06 +0200 (CEST)
+        by phobos.denx.de (Postfix) with ESMTPSA id 73322833CF;
+        Tue, 31 Aug 2021 01:33:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1630366266;
-        bh=IXhDxu4iJWZhFfTJvCKv+WuAZxd3irmpN0xnE1tUCqg=;
+        s=phobos-20191101; t=1630366391;
+        bh=x3595ZziGjt6L4uthYlmaxVVZs7g39Z9ty8UJK8/p6g=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=UVgsy6lp/QCBZ9tkJON+HaJ2a1rmljBz//Gr0MrrWfnd5C1H43oH0GcIqePY5GyYX
-         l83hYcFWBUqEf4cOXiZNLOnRgTvFYMs1kNCGdmzzMyQ2qA0WojTCVfCBmYRJOhXz5P
-         G+qUFrqMEW1Ljwmk8y2IF+Uu3U6sfoeTFW+Bybly07XIsyLG77CcQpVnAbd9GMz7ke
-         LxGFVVKiF/5DdBJa/YgYXzksXj2ycCEauRVtY7ZMS4HUR1BfbNCOrevXU5oZ3G1eLz
-         gbiju1QQw8zKBBfSamdQrHMFirJHFRtV4K+Wv0bkVXsVnu+LB1h+uGc+WxosHia6oj
-         jDRd3cejAzNQg==
-Subject: Re: [PATCH v2 1/3] Input: ili210x - use resolution from ili251x
- firmware
+        b=W8BjZAw5E8ZOWiZr7+5NxXciKTxiGgR2iDiPOs0b2G7UUgwkh8ZGVQSfJyGUvbKRK
+         P4jRQWywoJ5ywr5RhHR7+/xZNp4N1G9FnIQGOAp+PaLVd4f8gLnYj4EQK4/vlsVjBX
+         BaCfS7lBAnjRQYym7cdfd+bQEeoLGy4BwP8G0XdQ79f9oxGG6KzusM0s6U7zyXB+tm
+         my5gyJSa1RLtn3T+UGPI8IY+o07KDIowcIzUgOnQVV28UafTvoElyxl08Y8HrPjNS7
+         Oys/cQkHHDEyb5BrwVe8j6DksSm5V5Eraj4maySwCrUuTE3WfEpT/mGcmFjAAzn4iJ
+         KlQKVkP1aMbZw==
+Subject: Re: [PATCH v2 2/3] Input: ili210x - export ili251x version details
+ via sysfs
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-input@vger.kernel.org, ch@denx.de,
         Joe Hung <joe_hung@ilitek.com>, Luca Hsu <luca_hsu@ilitek.com>
 References: <20210827211258.318618-1-marex@denx.de>
- <YS1FsJROzDkm/0Ky@google.com> <bfc05564-38dd-d950-ed71-0599c48d57f4@denx.de>
- <YS1oEX75iIjQLn9r@google.com>
+ <20210827211258.318618-2-marex@denx.de> <YS1HPKNZMP1XofM0@google.com>
+ <991280e5-fd54-75d5-d2f2-bb2673303881@denx.de> <YS1ntnYD2ic5MGYy@google.com>
 From:   Marek Vasut <marex@denx.de>
-Message-ID: <3c4be28d-e749-d63a-37c5-60ff686dc6dc@denx.de>
-Date:   Tue, 31 Aug 2021 01:31:06 +0200
+Message-ID: <f16a2957-de02-3165-f3d6-31620e8fae4a@denx.de>
+Date:   Tue, 31 Aug 2021 01:33:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <YS1oEX75iIjQLn9r@google.com>
+In-Reply-To: <YS1ntnYD2ic5MGYy@google.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -55,26 +51,45 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 8/31/21 1:21 AM, Dmitry Torokhov wrote:
-> On Tue, Aug 31, 2021 at 12:49:49AM +0200, Marek Vasut wrote:
->> On 8/30/21 10:55 PM, Dmitry Torokhov wrote:
+On 8/31/21 1:20 AM, Dmitry Torokhov wrote:
+> On Tue, Aug 31, 2021 at 01:02:57AM +0200, Marek Vasut wrote:
+>> On 8/30/21 11:01 PM, Dmitry Torokhov wrote:
 >>
 >> [...]
 >>
->>>> +		return -EINVAL;
+>>>> @@ -351,6 +360,108 @@ static int ili251x_firmware_update_resolution(struct device *dev)
+>>>>    	return 0;
+>>>>    }
+>>>> +static ssize_t ili251x_firmware_version_show(struct device *dev,
+>>>> +					     struct device_attribute *attr,
+>>>> +					     char *buf)
+>>>> +{
+>>>> +	struct i2c_client *client = to_i2c_client(dev);
+>>>> +	struct ili210x *priv = i2c_get_clientdata(client);
+>>>> +	u8 fw[8];
+>>>> +	int ret;
 >>>> +
->>>> +	priv->input->absinfo[ABS_X].maximum = resx - 1;
->>>> +	priv->input->absinfo[ABS_Y].maximum = resy - 1;
->>>> +	priv->input->absinfo[ABS_MT_POSITION_X].maximum = resx - 1;
->>>> +	priv->input->absinfo[ABS_MT_POSITION_Y].maximum = resy - 1;
+>>>> +	/* Get firmware version */
+>>>> +	mutex_lock(&priv->lock);
+>>>> +	ret = priv->chip->read_reg(client, REG_FIRMWARE_VERSION,
+>>>> +				   &fw, sizeof(fw));
+>>>> +	mutex_unlock(&priv->lock);
 >>>
->>> There is
->>>
->>> 	input_set_abs_max(priv->input, ABS_X, resx - 1);
+>>> Could we query firmware version and mode at probe time (and also later
+>>> after firmware update attempt) so that we do not need to introduce
+>>> locking against interrupt handler?
 >>
->> git grep finds nothing in linux-next / your tree on k.org / patchwork. Where
->> is that ?
+>> This is a threaded interrupt handler and I don't expect much lock contention
+>> here.
+>>
+>> The sysfs attribute readout would race with the interrupt handler and if it
+>> wasn't for the firmware update support, we could very well cache all those
+>> values. Except, the firmware update can change them all. Worse, if the
+>> interrupt were to fire during an update, it could break that update, and I
+>> want to prevent that from happening.
 > 
-> Look for INPUT_GENERATE_ABS_ACCESSORS in include/linux/input.h
+> Usually we simply disable interrupts from the device when updating
+> firmware.
 
-Oh, input_abs_set_max, thanks.
+I don't think this touch controller has any "disable interrupts" bit.
+So the only option here would be some disable_irq() on the IRQ line itself ?
