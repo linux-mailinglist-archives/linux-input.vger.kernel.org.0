@@ -2,97 +2,157 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9F153FB5E9
-	for <lists+linux-input@lfdr.de>; Mon, 30 Aug 2021 14:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83EF63FB607
+	for <lists+linux-input@lfdr.de>; Mon, 30 Aug 2021 14:31:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231193AbhH3MWM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Aug 2021 08:22:12 -0400
-Received: from emcscan.emc.com.tw ([192.72.220.5]:61099 "EHLO
-        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237372AbhH3MUq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Aug 2021 08:20:46 -0400
-X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
-   d="scan'208";a="42474872"
-Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
-  by emcscan.emc.com.tw with ESMTP; 30 Aug 2021 20:19:51 +0800
-Received: from 192.168.10.23
-        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(11166:0:AUTH_RELAY)
-        (envelope-from <phoenix@emc.com.tw>); Mon, 30 Aug 2021 20:19:50 +0800 (CST)
-Received: from 192.168.33.13
-        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2480:0:AUTH_LOGIN)
-        (envelope-from <phoenix@emc.com.tw>); Mon, 30 Aug 2021 20:19:48 +0800 (CST)
-From:   "phoenix" <phoenix@emc.com.tw>
-To:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <dmitry.torokhov@gmail.com>
-Cc:     <jingle.wu@emc.com.tw>, <josh.chen@emc.com.tw>,
-        <dave.wang@emc.com.tw>
-References: <20210729010940.5752-1-phoenix@emc.com.tw>
-In-Reply-To: <20210729010940.5752-1-phoenix@emc.com.tw>
-Subject: RE: [PATCH] Input: elantench - Fix the firmware misreport coordinates for trackpoint occasionally.
-Date:   Mon, 30 Aug 2021 20:19:48 +0800
-Message-ID: <000001d79d99$53762dd0$fa628970$@emc.com.tw>
+        id S232302AbhH3M3X (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Aug 2021 08:29:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42788 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230423AbhH3M3W (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 30 Aug 2021 08:29:22 -0400
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BF92660FA0;
+        Mon, 30 Aug 2021 12:28:23 +0000 (UTC)
+Date:   Mon, 30 Aug 2021 13:31:35 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>, bcousson@baylibre.com,
+        Tony Lindgren <tony@atomide.com>,
+        Tero Kristo <t-kristo@ti.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        "Ryan J . Barnett" <ryan.barnett@collins.com>,
+        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH 04/40] dt-bindings: iio: adc: ti,am3359-adc: New yaml
+ description
+Message-ID: <20210830133135.63125430@jic23-huawei>
+In-Reply-To: <20210825152518.379386-5-miquel.raynal@bootlin.com>
+References: <20210825152518.379386-1-miquel.raynal@bootlin.com>
+        <20210825152518.379386-5-miquel.raynal@bootlin.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQGk7tjGsgsB1mM/H5Ov4MUFApOKzavnmDiw
-Content-Language: zh-tw
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcODgwNTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy05MGI4OGY1YS0wOThjLTExZWMtYTkxYy04OGQ3ZjY1ODJkZmNcYW1lLXRlc3RcOTBiODhmNWItMDk4Yy0xMWVjLWE5MWMtODhkN2Y2NTgyZGZjYm9keS50eHQiIHN6PSIxNjA5IiB0PSIxMzI3NDc5OTU4ODA2NjU1ODYiIGg9IjRveHkwbHJscktkNU5id3VEVE4xSnBJVldnZz0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
-x-dg-rorf: true
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+On Wed, 25 Aug 2021 17:24:42 +0200
+Miquel Raynal <miquel.raynal@bootlin.com> wrote:
 
-Would you review this patch, thanks
+> This ADC was already described in a text file also containing an MFD
+> description an a touchscreen description:
+> Documentation/devicetree/bindings/input/touchscreen/ti-tsc-adc.txt
+> Let's add a proper description for this hardware.
+> 
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 
-Best regards,
-Phoenix Huang
+Hi Miquel,
 
------Original Message-----
-From: Phoenix Huang [mailto:phoenix@emc.com.tw] 
-Sent: Thursday, July 29, 2021 9:10 AM
-To: linux-kernel@vger.kernel.org; linux-input@vger.kernel.org;
-dmitry.torokhov@gmail.com
-Cc: jingle.wu@emc.com.tw; josh.chen@emc.com.tw; dave.wang@emc.com.tw;
-Phoenix Huang <phoenix@emc.com.tw>
-Subject: [PATCH] Input: elantench - Fix the firmware misreport coordinates
-for trackpoint occasionally.
+We'd do this different today, but this seems to be an accurate conversion
+of what we have.  I'll assume this series may well go via mfd, so
 
-Signed-off-by: Phoenix Huang <phoenix@emc.com.tw>
----
- drivers/input/mouse/elantech.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-index 2d0bc029619f..07e1098f2d31 100644
---- a/drivers/input/mouse/elantech.c
-+++ b/drivers/input/mouse/elantech.c
-@@ -517,6 +517,17 @@ static void elantech_report_trackpoint(struct psmouse
-*psmouse,
- 	case 0x16008020U:
- 	case 0x26800010U:
- 	case 0x36808000U:
-+	
-+		/* This firmware misreport coordinates for trackpoint
-occasionally.
-+		* So we discard these packets by pattern to prevent cursor
-jumps.
-+		*/
-+		if (packet[4] == 0x80 || packet[5] == 0x80 ||
-+		    packet[1] >> 7 == packet[4] >> 7 ||
-+		    packet[2] >> 7 == packet[5] >> 7) {
-+		    	elantech_debug("discarding packet [%6ph]\n",
-packet);
-+			break;
-+
-+		}
- 		x = packet[4] - (int)((packet[1]^0x80) << 1);
- 		y = (int)((packet[2]^0x80) << 1) - packet[5];
- 
---
-2.25.1
+> ---
+>  .../bindings/iio/adc/ti,am3359-adc.yaml       | 81 +++++++++++++++++++
+>  1 file changed, 81 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/adc/ti,am3359-adc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/adc/ti,am3359-adc.yaml b/Documentation/devicetree/bindings/iio/adc/ti,am3359-adc.yaml
+> new file mode 100644
+> index 000000000000..85d9d642dc67
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/adc/ti,am3359-adc.yaml
+> @@ -0,0 +1,81 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/adc/ti,am3359-adc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TI AM3359 ADC
+> +
+> +maintainers:
+> +  - Miquel Raynal <miquel.raynal@bootlin.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,am3359-adc
+> +
+> +  '#io-channel-cells':
+> +    const: 1
+> +
+> +  ti,adc-channels:
+> +    description: List of analog inputs available for ADC. AIN0 = 0, AIN1 = 1 and
+> +      so on untill AIN7 = 7.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 8
+> +
+> +  ti,chan-step-opendelay:
+> +    description: List of open delays for each channel of ADC in the order of
+> +      ti,adc-channels. The value corresponds to the number of ADC clock cycles
+> +      to wait after applying the step configuration registers and before sending
+> +      the start of ADC conversion. Maximum value is 0x3FFFF.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 8
+> +
+> +  ti,chan-step-sampledelay:
+> +    description: List of sample delays for each channel of ADC in the order of
+> +      ti,adc-channels. The value corresponds to the number of ADC clock cycles
+> +      to sample (to hold start of conversion high). Maximum value is 0xFF.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 8
+> +
+> +  ti,chan-step-avg:
+> +    description: Number of averages to be performed for each channel of ADC. If
+> +      average is 16 (this is also the maximum) then input is sampled 16 times
+> +      and averaged to get more accurate value. This increases the time taken by
+> +      ADC to generate a sample. Maximum value is 16.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 8
+> +
+> +required:
+> +  - compatible
+> +  - '#io-channel-cells'
+> +  - ti,adc-channels
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    tscadc: tscadc@0 {
+> +        compatible = "ti,am3359-tscadc";
+> +        reg = <0x0 0x1000>;
+> +        interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&adc_tsc_fck>;
+> +        clock-names = "fck";
+> +        status = "disabled";
+> +        dmas = <&edma 53 0>, <&edma 57 0>;
+> +        dma-names = "fifo0", "fifo1";
+> +
+> +        adc {
+> +            compatible = "ti,am3359-adc";
+> +            #io-channel-cells = <1>;
+> +            ti,adc-channels = <4 5 6 7>;
+> +            ti,chan-step-opendelay = <0x098 0x3ffff 0x098 0x0>;
+> +            ti,chan-step-sampledelay = <0xff 0x0 0xf 0x0>;
+> +            ti,chan-step-avg = <16 2 4 8>;
+> +        };
+> +    };
 
