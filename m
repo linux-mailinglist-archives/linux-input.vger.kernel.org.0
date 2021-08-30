@@ -2,116 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42E633FB887
-	for <lists+linux-input@lfdr.de>; Mon, 30 Aug 2021 16:50:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 992E13FB8FF
+	for <lists+linux-input@lfdr.de>; Mon, 30 Aug 2021 17:28:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236609AbhH3Ovg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Aug 2021 10:51:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47580 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234246AbhH3Ovg (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Aug 2021 10:51:36 -0400
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0C2366056B;
-        Mon, 30 Aug 2021 14:50:36 +0000 (UTC)
-Date:   Mon, 30 Aug 2021 15:53:48 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>, bcousson@baylibre.com,
-        Tony Lindgren <tony@atomide.com>,
-        Tero Kristo <t-kristo@ti.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        "Ryan J . Barnett" <ryan.barnett@collins.com>,
-        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH 23/40] mfd: ti_am335x_tscadc: Rename a variable
-Message-ID: <20210830155348.528555ea@jic23-huawei>
-In-Reply-To: <20210825152518.379386-24-miquel.raynal@bootlin.com>
-References: <20210825152518.379386-1-miquel.raynal@bootlin.com>
-        <20210825152518.379386-24-miquel.raynal@bootlin.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
+        id S237548AbhH3P2a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Aug 2021 11:28:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34310 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237602AbhH3P2T (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 30 Aug 2021 11:28:19 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0AC4C061575;
+        Mon, 30 Aug 2021 08:27:25 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id l18so26525401lji.12;
+        Mon, 30 Aug 2021 08:27:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7v0xGUniRMAaLr5lnK8CuaUQYawKvoIYmd2gIBcaU8w=;
+        b=D4S90DnfDBzpndOpBbJ6kbLOp9NHMBwDLEcOAiMq+ad/somop0xi8tqVwsxNh9+GOc
+         7xhleMcRUB0HjJHxW9FS98FJKaFNl7Ux2X04VsYYHxkUVs/eQ/mIO1v9SaRp1eVnOmKx
+         On/XugGzX6fIaeGAZtkNqnjicya5EFGQaJh35whyLCjookiz9c9lE6wnOw0FOrLbLDSk
+         yESz+qEuH0+Bq8+cXnxayLzRA3BxnE6xBNIRmrSKjd1uEFcPNA5N53495+RZwW875z96
+         xNKaXnFZ/L2SBGxQp+g8FwZ6xf6rwFxwy8mszz547yrbd7WG6oWpYOWYv9RyY8ial6iD
+         n8iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7v0xGUniRMAaLr5lnK8CuaUQYawKvoIYmd2gIBcaU8w=;
+        b=U8mM/Bq0qBDX63RxLJLUBvIJHEB5P58Mw5trvaLfEa7pRTSa0UMhkQ7uOawRcSHrA2
+         0DpC6woKUaX/sArwJSK2IqyjAUJHBeznfZ0XbVBVzO9lAEo7R07X9xy6tyMTERhmy15T
+         UTje18wEToss5saLP1+mEw1rX3malSK29LWdYqNF/KJVfkeuiaynIYF0Op2JjQx5efug
+         y++Z9sf1H6TgGGnCcFWj7rRpNzQIXHsL/E7SNYiGjKIxey4wAXoCh/JFvri7pZ0fojCU
+         GJjhujsKs0a+dq6SoWMJpoi/Os2S4WuzQr4fwVhH5iHcRkbxxDOtCzNFRWieDQs8H6hT
+         17Fw==
+X-Gm-Message-State: AOAM531su0HJ9/gF2jo2dq5pHoYTbf2QG29mFhew0UaPMgzw5wRfVQHi
+        ihkRsDU15UZhBNybzpt5Vr4=
+X-Google-Smtp-Source: ABdhPJxaeCXzoZxaPJ/mXRRzN82IPZckzxV3SXID+xSSoA4Eg1+2QLyNRlSRlpLJTYdFSB75lzgYQA==
+X-Received: by 2002:a2e:b558:: with SMTP id a24mr20678346ljn.225.1630337244373;
+        Mon, 30 Aug 2021 08:27:24 -0700 (PDT)
+Received: from DESKTOP-5EKDQDN.localdomain (78-63-10-115.static.zebra.lt. [78.63.10.115])
+        by smtp.gmail.com with ESMTPSA id z3sm409300lfd.38.2021.08.30.08.27.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Aug 2021 08:27:23 -0700 (PDT)
+From:   =?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>
+Subject: [PATCH] HID: plantronics: Fix bare use of 'unsigned'
+Date:   Mon, 30 Aug 2021 18:27:11 +0300
+Message-Id: <20210830152711.991-1-aldas60@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 25 Aug 2021 17:25:01 +0200
-Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+Fix checkpatch warning: Prefer 'unsigned int' to bare use of 'unsigned'
 
-> We need to retrieve the number of wires used by the "secondary" device
-> (the touchscreen or the magnetic reader). Let's rename tsc_wires to
-> become tscmag_wires to clarify the fact that this variable can be used
-> in both situations.
-> 
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-Seems sensible.
+Signed-off-by: Aldas Taraškevičius <aldas60@gmail.com>
+---
+ drivers/hid/hid-plantronics.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-> ---
->  drivers/mfd/ti_am335x_tscadc.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/mfd/ti_am335x_tscadc.c b/drivers/mfd/ti_am335x_tscadc.c
-> index 02477ce827d0..047426a74a2e 100644
-> --- a/drivers/mfd/ti_am335x_tscadc.c
-> +++ b/drivers/mfd/ti_am335x_tscadc.c
-> @@ -121,7 +121,7 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
->  	const __be32 *cur;
->  	struct clk *clk;
->  	u32 val;
-> -	int tsc_wires = 0, adc_channels = 0, readouts = 0, cell_idx = 0;
-> +	int tscmag_wires = 0, adc_channels = 0, readouts = 0, cell_idx = 0;
->  	int total_channels, err;
->  
->  	/* Allocate memory for device */
-> @@ -139,7 +139,7 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
->  	tscadc->data = of_device_get_match_data(&pdev->dev);
->  
->  	node = of_get_child_by_name(pdev->dev.of_node, "tsc");
-> -	of_property_read_u32(node, "ti,wires", &tsc_wires);
-> +	of_property_read_u32(node, "ti,wires", &tscmag_wires);
->  	of_property_read_u32(node, "ti,coordiante-readouts", &readouts);
->  
->  	node = of_get_child_by_name(pdev->dev.of_node, "adc");
-> @@ -152,7 +152,7 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
->  		}
->  	}
->  
-> -	total_channels = tsc_wires + adc_channels;
-> +	total_channels = tscmag_wires + adc_channels;
->  	if (total_channels > 8) {
->  		dev_err(&pdev->dev, "Number of i/p channels more than 8\n");
->  		return -EINVAL;
-> @@ -218,9 +218,9 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
->  	tscadc->ctrl = CNTRLREG_TSC_STEPCONFIGWRT | CNTRLREG_STEPID;
->  	regmap_write(tscadc->regmap, REG_CTRL, tscadc->ctrl);
->  
-> -	if (tsc_wires > 0) {
-> +	if (tscmag_wires > 0) {
->  		tscadc->ctrl |= CNTRLREG_TSC_ENB;
-> -		if (tsc_wires == 5)
-> +		if (tscmag_wires == 5)
->  			tscadc->ctrl |= CNTRLREG_TSC_5WIRE;
->  		else
->  			tscadc->ctrl |= CNTRLREG_TSC_4WIRE;
-> @@ -232,7 +232,7 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
->  	regmap_write(tscadc->regmap, REG_CTRL, tscadc->ctrl | CNTRLREG_SSENB);
->  
->  	/* TSC Cell */
-> -	if (tsc_wires > 0) {
-> +	if (tscmag_wires > 0) {
->  		cell = &tscadc->cells[cell_idx++];
->  		cell->name = tscadc->data->name_tscmag;
->  		cell->of_compatible = tscadc->data->compat_tscmag;
+diff --git a/drivers/hid/hid-plantronics.c b/drivers/hid/hid-plantronics.c
+index e81b7cec2d12..4aae7569e353 100644
+--- a/drivers/hid/hid-plantronics.c
++++ b/drivers/hid/hid-plantronics.c
+@@ -143,7 +143,7 @@ static int plantronics_event(struct hid_device *hdev, struct hid_field *field,
+ 
+ static unsigned long plantronics_device_type(struct hid_device *hdev)
+ {
+-	unsigned i, col_page;
++	unsigned int i, col_page;
+ 	unsigned long plt_type = hdev->product;
+ 
+ 	/* multi-HID interfaces? - plt_type is PID */
+-- 
+2.33.0
 
