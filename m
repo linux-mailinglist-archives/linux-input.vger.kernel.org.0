@@ -2,44 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9DD03FCE8F
-	for <lists+linux-input@lfdr.de>; Tue, 31 Aug 2021 22:25:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 242C93FCE8D
+	for <lists+linux-input@lfdr.de>; Tue, 31 Aug 2021 22:25:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230283AbhHaU0e (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 31 Aug 2021 16:26:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35842 "EHLO
+        id S232018AbhHaU0f (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 31 Aug 2021 16:26:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240997AbhHaU0d (ORCPT
+        with ESMTP id S240870AbhHaU0d (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Tue, 31 Aug 2021 16:26:33 -0400
 Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ADE5C061764
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AD94C061760
         for <linux-input@vger.kernel.org>; Tue, 31 Aug 2021 13:25:35 -0700 (PDT)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
         (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 6CC3982C84;
+        by phobos.denx.de (Postfix) with ESMTPSA id EFB778310F;
         Tue, 31 Aug 2021 22:25:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1630441532;
-        bh=ePkvC2fCw8Hr3ybPS7mnGhRrSMx43KJay+6oKbzOGh4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=rs0cB5GGO236aEX8eZgrOEMM8l7klZXofrVcGciT2N6YgPZrznCct/b6Kiq2YlqDK
-         N98e45X3PtpcvM9qdEcKj7/XUr8cvRqlHw4fzyHjDH3XQNFpCSgeORzpl3wZ7EStvJ
-         0Jjicwuj4Mkiyam20lY1weRzsSeycofmufTk4e0U0D8WCpeY0liEAEoKaKRi1wgrsp
-         QF0vMGMDDulnZOeXX0LDggs4ull0oCzKsa8vN++9w88bS3nDP+JTtgYJ7M4x0EfhfQ
-         TE06zecAXeZKNEyQmpVmfvy0OYS3aJA5MxYiQqqvlz6XTEWmuOh132e1MApwhkJ+Kl
-         7PZ5+/i7I7N6w==
+        s=phobos-20191101; t=1630441533;
+        bh=nM5f0DkFyUN6CQY2qr1nS4vWScTkxnLjRyOXJjeAt5s=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=cmB7NDEyW+8PBuy5nPKExNB8vB6u3fkZAm+tRPcoQTImdP1P2a02wPkFdwPi0Ms12
+         zLZNlopH3UR7MuqfbNd8Cv+Ko+4m5wDYFHy0YdGXkkj/7AdjlVw+k6+X03aQNlFC6y
+         5EXylcwb2X9gakP6Dp8+XfU33jMujufjBfAGGxo4jXYvt1eIfTiEF9vUygcTRPppqk
+         69J3YAEf/VYLZ23KttqT+OkuBKFsOFIzg76mYtJwAemakYL5WpLSA1dq/330QHCo8e
+         fdb9C6vo1kZU62hS/WWMn0am4B4mRubrw+dtevK56itiD+5NpGsHjVvAVsVQKxZ6N7
+         rj6Iz5nIETMAA==
 From:   Marek Vasut <marex@denx.de>
 To:     linux-input@vger.kernel.org
 Cc:     ch@denx.de, Marek Vasut <marex@denx.de>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Joe Hung <joe_hung@ilitek.com>, Luca Hsu <luca_hsu@ilitek.com>
-Subject: [PATCH v3 1/3] Input: ili210x - use resolution from ili251x firmware
-Date:   Tue, 31 Aug 2021 22:25:04 +0200
-Message-Id: <20210831202506.181927-1-marex@denx.de>
+Subject: [PATCH v3 2/3] Input: ili210x - export ili251x version details via sysfs
+Date:   Tue, 31 Aug 2021 22:25:05 +0200
+Message-Id: <20210831202506.181927-2-marex@denx.de>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210831202506.181927-1-marex@denx.de>
+References: <20210831202506.181927-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
@@ -48,127 +50,258 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The ili251x firmware protocol permits readout of panel resolution,
-implement this, but make it possible to override this value using
-DT bindings. This way, older DTs which contain touchscreen-size-x
-and touchscreen-size-y properties will behave just like before and
-new DTs may avoid specifying these for ILI251x.
+The ili251x firmware protocol permits readout of firmware version,
+protocol version, mcu version and current mode (application, boot
+loader, forced update). These information are useful when updating
+the firmware on the il251x, e.g. to avoid updating the same firmware
+into the device multiple times. The locking is now necessary to avoid
+races between interrupt handler and the sysfs readouts.
 
-Note that the command format is different on other controllers, so
-this functionality is isolated to ILI251x.
+Note that the protocol differs considerably between the ili2xxx devices,
+this patch therefore implements this functionality only for ili251x that
+I can test.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: Joe Hung <joe_hung@ilitek.com>
 Cc: Luca Hsu <luca_hsu@ilitek.com>
 ---
-V2: New patch
-V3: - Use le16_to_cpup() byte-swap resolution data
-    - Check Y-resolution range up to 0xffff too
-    - Use .has_firmware_proto flag to discern supported MCU protocol
-    - Use input_abs_set_max() per include/linux/input.h INPUT_GENERATE_ABS_ACCESSORS
+V2: No change
+V3: - Use .has_firmware_proto flag to discern supported MCU protocol
+    - Rename REG_IC_MODE to REG_GET_MODE in this patch
+    - Use sysfs_emit()
     - Rename variable ret to error
-    - Add a wrapper function ili251x_firmware_update_cached_state(),
-      which would call pull other cacheable state from the controller
-      in subsequent patch (hence also the ret variable in it which
-      looks like it could be removed, this will reduce the number of
-      changes in the next patch).
-    - Wait for the firmware to fully stabilize itself after reset.
-      No, those 200 milliseconds is not a mistake, but a value taken
-      from example code. Anything less sometimes does report partly
-      invalid values.
+    - Cache firmware version information to avoid mutex in IRQ handler
+
+NOTE: Regarding checkpatch warnings, Consider renaming function(s)
+      'ili251x_firmware_version_show' to 'firmware_version_show',
+      I considered it and decided against it, because grepping for
+      ili251x in debug symbols gives far more accurate results than
+      grepping for firmware_version.
 ---
- drivers/input/touchscreen/ili210x.c | 56 +++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+ drivers/input/touchscreen/ili210x.c | 165 +++++++++++++++++++++++++++-
+ 1 file changed, 162 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
-index 30576a5f2f04..baaddf95dd92 100644
+index baaddf95dd92..a4da753d9355 100644
 --- a/drivers/input/touchscreen/ili210x.c
 +++ b/drivers/input/touchscreen/ili210x.c
-@@ -35,6 +35,7 @@ struct ili2xxx_chip {
- 	unsigned int max_touches;
- 	unsigned int resolution;
- 	bool has_calibrate_reg;
-+	bool has_firmware_proto;
- 	bool has_pressure_reg;
+@@ -22,6 +22,12 @@
+ /* Touchscreen commands */
+ #define REG_TOUCHDATA		0x10
+ #define REG_PANEL_INFO		0x20
++#define REG_FIRMWARE_VERSION	0x40
++#define REG_PROTOCOL_VERSION	0x42
++#define REG_KERNEL_VERSION	0x61
++#define REG_GET_MODE		0xc0
++#define REG_GET_MODE_AP		0x5a
++#define REG_GET_MODE_BL		0x55
+ #define REG_CALIBRATE		0xcc
+ 
+ struct ili2xxx_chip {
+@@ -45,6 +51,10 @@ struct ili210x {
+ 	struct gpio_desc *reset_gpio;
+ 	struct touchscreen_properties prop;
+ 	const struct ili2xxx_chip *chip;
++	u8 version_firmware[8];
++	u8 version_kernel[5];
++	u8 version_proto[2];
++	u8 ic_mode[2];
+ 	bool stop;
  };
  
-@@ -268,6 +269,7 @@ static const struct ili2xxx_chip ili251x_chip = {
- 	.continue_polling	= ili251x_check_continue_polling,
- 	.max_touches		= 10,
- 	.has_calibrate_reg	= true,
-+	.has_firmware_proto	= true,
- 	.has_pressure_reg	= true,
- };
- 
-@@ -323,6 +325,54 @@ static irqreturn_t ili210x_irq(int irq, void *irq_data)
- 	return IRQ_HANDLED;
+@@ -353,6 +363,69 @@ static int ili251x_firmware_update_resolution(struct device *dev)
+ 	return 0;
  }
  
-+static int ili251x_firmware_update_resolution(struct device *dev)
++static ssize_t ili251x_firmware_update_firmware_version(struct device *dev)
 +{
 +	struct i2c_client *client = to_i2c_client(dev);
 +	struct ili210x *priv = i2c_get_clientdata(client);
-+	__le16 resx, resy;
-+	u8 rs[10];
 +	int error;
++	u8 fw[8];
 +
-+	/* The firmware update blob might have changed the resolution. */
-+	error = priv->chip->read_reg(client, REG_PANEL_INFO, &rs, sizeof(rs));
-+	if (error)
-+		return error;
++	/* Get firmware version */
++	error = priv->chip->read_reg(client, REG_FIRMWARE_VERSION,
++				     &fw, sizeof(fw));
++	if (!error)
++		memcpy(priv->version_firmware, fw, sizeof(fw));
 +
-+	resx = le16_to_cpup((__le16 *)rs);
-+	resy = le16_to_cpup((__le16 *)(rs + 2));
-+
-+	/* The value reported by the firmware is invalid. */
-+	if (!resx || resx == 0xffff || !resy || resy == 0xffff)
-+		return -EINVAL;
-+
-+	input_abs_set_max(priv->input, ABS_X, resx - 1);
-+	input_abs_set_max(priv->input, ABS_Y, resy - 1);
-+	input_abs_set_max(priv->input, ABS_MT_POSITION_X, resx - 1);
-+	input_abs_set_max(priv->input, ABS_MT_POSITION_Y, resy - 1);
-+
-+	return 0;
++	return error;
 +}
 +
-+static int ili251x_firmware_update_cached_state(struct device *dev)
++static ssize_t ili251x_firmware_update_kernel_version(struct device *dev)
 +{
 +	struct i2c_client *client = to_i2c_client(dev);
 +	struct ili210x *priv = i2c_get_clientdata(client);
-+	int ret;
++	int error;
++	u8 kv[5];
 +
-+	if (!priv->chip->has_firmware_proto)
-+		return 0;
++	/* Get kernel version */
++	error = priv->chip->read_reg(client, REG_KERNEL_VERSION,
++				     &kv, sizeof(kv));
++	if (!error)
++		memcpy(priv->version_kernel, kv, sizeof(kv));
 +
-+	/* Wait for firmware to boot and stabilize itself. */
-+	msleep(200);
++	return error;
++}
 +
-+	/* Firmware does report valid information. */
-+	ret = ili251x_firmware_update_resolution(dev);
++static ssize_t ili251x_firmware_update_protocol_version(struct device *dev)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	struct ili210x *priv = i2c_get_clientdata(client);
++	int error;
++	u8 pv[2];
++
++	/* Get protocol version */
++	error = priv->chip->read_reg(client, REG_PROTOCOL_VERSION,
++				     &pv, sizeof(pv));
++	if (!error)
++		memcpy(priv->version_proto, pv, sizeof(pv));
++
++	return error;
++}
++
++static ssize_t ili251x_firmware_update_ic_mode(struct device *dev)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	struct ili210x *priv = i2c_get_clientdata(client);
++	int error;
++	u8 md[2];
++
++	/* Get chip boot mode */
++	error = priv->chip->read_reg(client, REG_GET_MODE, &md, sizeof(md));
++	if (!error)
++		memcpy(priv->ic_mode, md, sizeof(md));
++
++	return error;
++}
++
+ static int ili251x_firmware_update_cached_state(struct device *dev)
+ {
+ 	struct i2c_client *client = to_i2c_client(dev);
+@@ -370,9 +443,83 @@ static int ili251x_firmware_update_cached_state(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
++	ret = ili251x_firmware_update_firmware_version(dev);
 +	if (ret)
 +		return ret;
 +
-+	return 0;
++	ret = ili251x_firmware_update_kernel_version(dev);
++	if (ret)
++		return ret;
++
++	ret = ili251x_firmware_update_protocol_version(dev);
++	if (ret)
++		return ret;
++
++	ret = ili251x_firmware_update_ic_mode(dev);
++	if (ret)
++		return ret;
++
+ 	return 0;
+ }
+ 
++static ssize_t ili251x_firmware_version_show(struct device *dev,
++					     struct device_attribute *attr,
++					     char *buf)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	struct ili210x *priv = i2c_get_clientdata(client);
++	u8 *fw = priv->version_firmware;
++
++	return sysfs_emit(buf, "%02x%02x.%02x%02x.%02x%02x.%02x%02x\n",
++			  fw[0], fw[1], fw[2], fw[3],
++			  fw[4], fw[5], fw[6], fw[7]);
 +}
++static DEVICE_ATTR(firmware_version, 0444, ili251x_firmware_version_show, NULL);
++
++static ssize_t ili251x_kernel_version_show(struct device *dev,
++					   struct device_attribute *attr,
++					   char *buf)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	struct ili210x *priv = i2c_get_clientdata(client);
++	u8 *kv = priv->version_kernel;
++
++	return sysfs_emit(buf, "%02x.%02x.%02x.%02x.%02x\n",
++			  kv[0], kv[1], kv[2], kv[3], kv[4]);
++}
++static DEVICE_ATTR(kernel_version, 0444, ili251x_kernel_version_show, NULL);
++
++static ssize_t ili251x_protocol_version_show(struct device *dev,
++					     struct device_attribute *attr,
++					     char *buf)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	struct ili210x *priv = i2c_get_clientdata(client);
++	u8 *pv = priv->version_proto;
++
++	return sysfs_emit(buf, "%02x.%02x\n", pv[0], pv[1]);
++}
++static DEVICE_ATTR(protocol_version, 0444, ili251x_protocol_version_show, NULL);
++
++static ssize_t ili251x_mode_show(struct device *dev,
++				 struct device_attribute *attr, char *buf)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	struct ili210x *priv = i2c_get_clientdata(client);
++	u8 *md = priv->ic_mode;
++	char *mode = "AP";
++
++	if (md[0] == REG_GET_MODE_AP)		/* Application Mode */
++		mode = "AP";
++	else if (md[0] == REG_GET_MODE_BL)	/* BootLoader Mode */
++		mode = "BL";
++	else					/* Unknown Mode */
++		mode = "??";
++
++	return sysfs_emit(buf, "%02x.%02x:%s\n", md[0], md[1], mode);
++}
++static DEVICE_ATTR(mode, 0444, ili251x_mode_show, NULL);
 +
  static ssize_t ili210x_calibrate(struct device *dev,
  				 struct device_attribute *attr,
  				 const char *buf, size_t count)
-@@ -449,6 +499,12 @@ static int ili210x_i2c_probe(struct i2c_client *client,
- 	input_set_abs_params(input, ABS_MT_POSITION_Y, 0, max_xy, 0, 0);
- 	if (priv->chip->has_pressure_reg)
- 		input_set_abs_params(input, ABS_MT_PRESSURE, 0, 0xa, 0, 0);
-+	error = ili251x_firmware_update_cached_state(dev);
-+	if (error) {
-+		dev_err(dev, "Unable to cache firmware information, err: %d\n",
-+			error);
-+		return error;
-+	}
- 	touchscreen_parse_properties(input, true, &priv->prop);
+@@ -401,22 +548,34 @@ static DEVICE_ATTR(calibrate, S_IWUSR, NULL, ili210x_calibrate);
  
- 	error = input_mt_init_slots(input, priv->chip->max_touches,
+ static struct attribute *ili210x_attributes[] = {
+ 	&dev_attr_calibrate.attr,
++	&dev_attr_firmware_version.attr,
++	&dev_attr_kernel_version.attr,
++	&dev_attr_protocol_version.attr,
++	&dev_attr_mode.attr,
+ 	NULL,
+ };
+ 
+-static umode_t ili210x_calibrate_visible(struct kobject *kobj,
++static umode_t ili210x_attributes_visible(struct kobject *kobj,
+ 					  struct attribute *attr, int index)
+ {
+ 	struct device *dev = kobj_to_dev(kobj);
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct ili210x *priv = i2c_get_clientdata(client);
+ 
+-	return priv->chip->has_calibrate_reg ? attr->mode : 0;
++	/* Calibrate is present on all ILI2xxx which have calibrate register */
++	if (attr == &dev_attr_calibrate.attr)
++		return priv->chip->has_calibrate_reg ? attr->mode : 0;
++
++	/* Firmware/Kernel/Protocol/BootMode is implememted only for ILI251x */
++	if (!priv->chip->has_firmware_proto)
++		return 0;
++
++	return attr->mode;
+ }
+ 
+ static const struct attribute_group ili210x_attr_group = {
+ 	.attrs = ili210x_attributes,
+-	.is_visible = ili210x_calibrate_visible,
++	.is_visible = ili210x_attributes_visible,
+ };
+ 
+ static void ili210x_power_down(void *data)
 -- 
 2.33.0
 
