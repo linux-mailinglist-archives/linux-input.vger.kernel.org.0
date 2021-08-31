@@ -2,91 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 161A53FC84F
-	for <lists+linux-input@lfdr.de>; Tue, 31 Aug 2021 15:34:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 840843FCD8E
+	for <lists+linux-input@lfdr.de>; Tue, 31 Aug 2021 21:21:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237502AbhHaNff (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 31 Aug 2021 09:35:35 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:59871 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S236476AbhHaNff (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 31 Aug 2021 09:35:35 -0400
-Received: (qmail 366261 invoked by uid 1000); 31 Aug 2021 09:34:38 -0400
-Date:   Tue, 31 Aug 2021 09:34:38 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        syzbot <syzbot+9b57a46bf1801ce2a2ca@syzkaller.appspotmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>,
-        Michal Kubecek <mkubecek@suse.cz>,
-        syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] WARNING in hid_submit_ctrl/usb_submit_urb
-Message-ID: <20210831133438.GA365946@rowland.harvard.edu>
-References: <20210819195300.GA8613@rowland.harvard.edu>
- <000000000000c322ab05c9f2e880@google.com>
- <20210820140620.GA35867@rowland.harvard.edu>
- <nycvar.YFH.7.76.2108241351490.15313@cbobk.fhfr.pm>
- <CAO-hwJ+i4MqOj0umUW9kFgYSZLt3QMb6hDZHQwb8AKH9pKxSTg@mail.gmail.com>
+        id S240054AbhHaTKv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 31 Aug 2021 15:10:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36022 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232759AbhHaTKv (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 31 Aug 2021 15:10:51 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0E4786056B;
+        Tue, 31 Aug 2021 19:09:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1630436995;
+        bh=pTDLJsW5rkUoBFY+VuIy+7JptfMu3Y52eDpFrI7z2y8=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=s1ySWvChyAjoJ1N8K5puNFtOExbmUNJzsvQtlGLQBywu1+wOz+PfSYrS/UDCRqrSX
+         40wy8QWVEZWX1GxXrAt/3hIp/Gc/T0iFSx8qHJqwxMXAD662q7HU7YIXDbCuKaQ20k
+         echGoeGotZegoWf/mwQROT70ySL3ydDx+dYCu7IE85mC9lguVerTOLhumO46pagQCN
+         SXlEWsHP4Z/qHZqBVP60VLs1S3eKarcISdVec6mhJgZZdGQXIz5zu1igNo048YXkci
+         mUfxAEe50RnEkA36Z3KroIsX7q3zQZKEWLbzsIXB/YQ0SPPjK0Im33b0e3atGtolxX
+         BIt4J9g47HtiQ==
+Date:   Tue, 31 Aug 2021 21:09:52 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Daniel Ogorchock <djogorchock@gmail.com>
+cc:     Pavel Machek <pavel@ucw.cz>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        =?ISO-8859-2?Q?Barnab=E1s_P=F5cze?= <pobrn@protonmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        Roderick Colenbrander <thunderbird2k@gmail.com>
+Subject: Re: [PATCH 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
+ for game controllers.
+In-Reply-To: <CAEVj2tkfLjWKOaecY7t-idGaqjZ45wXhmjbUR87AoC2Dkm45vQ@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2108312109340.15313@cbobk.fhfr.pm>
+References: <20210602061253.5747-1-roderick@gaikai.com> <20210602061253.5747-3-roderick@gaikai.com> <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm> <20210803221055.GA32527@amd> <CAEc3jaAoDfJD92q9q_HoFq3nsjkDqfZHu-VO+Ei8xSP8QrE8rg@mail.gmail.com>
+ <CAEVj2tkfLjWKOaecY7t-idGaqjZ45wXhmjbUR87AoC2Dkm45vQ@mail.gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAO-hwJ+i4MqOj0umUW9kFgYSZLt3QMb6hDZHQwb8AKH9pKxSTg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Aug 31, 2021 at 11:51:31AM +0200, Benjamin Tissoires wrote:
-> On Tue, Aug 24, 2021 at 1:54 PM Jiri Kosina <jikos@kernel.org> wrote:
-> >
-> > On Fri, 20 Aug 2021, Alan Stern wrote:
-> >
-> > > > syzbot has tested the proposed patch and the reproducer did not trigger any issue:
-> > >
-> > > That's good to know.  Still, I suspect there's a better way of handling
-> > > this condition.
-> > >
-> > > In particular, does it make sense to accept descriptors for input or
-> > > feature reports with length zero?  I can't imagine what good such
-> > > reports would do.
-> >
-> > I quickly went through drivers + some hidraw users, and can't spot any use
-> > case for it.
-> >
-> > > On the other hand, I'm not familiar enough with the code to know the
-> > > right way to reject these descriptors and reports.  It looks like the
-> > > HID subsystem was not designed with this sort of check in mind.
-> > >
-> > > Benjamin and Jiri, what do you think?  Is it okay to allow descriptors
-> > > for zero-length reports and just pretend they have length 1 (as the
-> > > patch tested by syzbot did), or should we instead reject them during
-> > > probing?
-> >
-> > I think it's a good band-aid for 5.14 (or 5.14-stable if we don't make
-> > it), and if it turns out to break something (which I don't expect), than
-> > we can look into rejecting already during probe.
-> >
-> > Benjamin, is there a way to run this quickly through your HID regression
-> > testing machinery?
-> >
-> 
-> I have finally been able to test this patch:
-> - the testsuite is still passing (of course, this is not hid-core related)
-> - Logitech unify receivers are fine (according to the automated tests)
-> - Gaming mice with hidraw calls works (with libratbag in userspace)
-> - Wacom Intuos Pro still works (so the usbhid calls to enable the
-> tablet mode are still OK)
-> 
-> ->
-> Tested-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> 
-> Alan, would you mind resending the patch with the various tags with a
-> commit description? (unless I missed it...)
+On Fri, 13 Aug 2021, Daniel Ogorchock wrote:
 
-Will do.  I'm rather busy today, so it may have to wait until tomorrow.
+> Hi Pavel,
+> 
+> Do you have any recommendations on what would be an appropriate
+> function string for player indicator LEDs? Would some variant such as:
+>   "status-x"
+>   "player-status-x"
+>   "indicator-x"
+>   "player-indicator-x"
+> be more suitable? It looks like the string "status" has been used for
+> other existing LED names.
+> 
+> I think we are pretty happy to use whatever naming scheme fits the
+> standards of the led subsystem's userspace api for the Nintendo/Sony
+> HID drivers, and any future game controller drivers featuring player
+> LEDs could conform to that going forward.
 
-Alan Stern
+Pavel, could you please take a look here, so that we can proceed with the 
+patchset?
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
+
