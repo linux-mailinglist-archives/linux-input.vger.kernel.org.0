@@ -2,91 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AAD293FE1EF
-	for <lists+linux-input@lfdr.de>; Wed,  1 Sep 2021 20:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9ADC3FE28F
+	for <lists+linux-input@lfdr.de>; Wed,  1 Sep 2021 20:54:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346822AbhIASM0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Sep 2021 14:12:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53710 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346827AbhIASMV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Sep 2021 14:12:21 -0400
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26505C0613A3
-        for <linux-input@vger.kernel.org>; Wed,  1 Sep 2021 11:11:23 -0700 (PDT)
-Received: by mail-qv1-xf2c.google.com with SMTP id gf5so303277qvb.9
-        for <linux-input@vger.kernel.org>; Wed, 01 Sep 2021 11:11:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
-        b=LD3mpzy1s09M3e/Eheelu/QMtbN6lrYJQ+S1BsYhmG4zP9OQuKOeD1zHV2lZaK7Hdt
-         vXoBMumPRACuZhnwd8TYAFIvdImPe0Zn4DA41GnzHGsnpDZPE0wUFWVFNzgpxF6bh6D8
-         CVxTiiIN7w8BVpPirFLytZKK2cFqqV6q9qR8cw4XmdYYgGZs+MdnDeP+neEr/SbnLI2h
-         mwT6gqJ8+HvNCQei5Zu6b3U+/YcUOepEDfVn6t0IkNG5YzxTV8mH8IqZ4zEsqBchdgxI
-         E/zGH3KCiuS7UdfEMBVKPbpzhhPyh4quLRALvE4iCHtswqSZDgWUuzksodIw8OWwGR1Z
-         0RlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
-        b=SmTQQFYMK1Y7I13lkyxF5/dHe156+FbE/taVA/zxLGQgGAYIrDVHRHxlQmOHSWjnBo
-         37tEbYt5CA31unlucHcBHXArlW0G3NtRxG1/gsfqlcexKIra8el3CTslEGhghMeoHBhQ
-         mKeETeJlDLSHeo5Pmv0RFSen30zpkAkFltkyZF8aqmDECFwMLGdJq/pzaw9hFUkIUxz4
-         UY5ZlvTUtaD7+Yi+i6j9ZkFC1FEhVogbY5AfomXniBEoL/fx81k/NFKVZHrbLz9gX9fn
-         3nXHTVSHLdFE54Eipm3nNw5QCA4iSYnk/yksSVuWz+f4S2kZEVQc+8rTZhMEZqoEtvIn
-         37jA==
-X-Gm-Message-State: AOAM530+JraP/IT72CFDca2KzTqQWHbZQrOoUWtnsDpqgyN5oYt3teSN
-        a/detywCK2osS4Q8kuz/JapVuU/ca0JDSM6tVWcX4wRaVY0WOA==
-X-Google-Smtp-Source: ABdhPJwbbBYGjUEQSS3Bb7EfYk34O3AVuG22pVIF78fkATQG8c+PQmeHgcc35+YrriS74Wl5STB8JbzOasp+8kCVBlk=
-X-Received: by 2002:a67:8c5:: with SMTP id 188mr1017695vsi.4.1630519870726;
- Wed, 01 Sep 2021 11:11:10 -0700 (PDT)
+        id S243822AbhIASy6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Sep 2021 14:54:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35648 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1343671AbhIASyw (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 1 Sep 2021 14:54:52 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E2A3661131;
+        Wed,  1 Sep 2021 18:53:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1630522429;
+        bh=XZ8iW6MZ8uzAD8NrpD8rSGkgOZzPZAsbD/exYXGVr9Y=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=gn8IlCPvFgFcTgSYMUasr8xjOtCSnxDlhGMIlprF7gIwWecW00s+fAelVQpR7SGVp
+         gD4B4szfHrdpbkWLj017FYLnFZ016nJkPEWremFBwFwxUtPMJfIlEInXji2BLU2WHP
+         Dst2wQog6aCQRgNI8L5FrJ2t1V1zAJXnKr01nzhcqwcJS5pKkKhUmjgrP0oDef+vwM
+         BPt5gtBoTsX1pDMwcjHuse0c/e1ivS2bVsUFxehQ/WmzfV2oh0R0fWFZjc0ZNfR8dc
+         sgy7Ge4vm59pLnGaUi9MkLsrziD5nCRqyhvA8tU23i1GVyjKi0POdZbwX7MfeZKWJ3
+         IrnhiCAsQ4UCg==
+Date:   Wed, 1 Sep 2021 20:53:39 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Alan Stern <stern@rowland.harvard.edu>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Michal Kubecek <mkubecek@suse.cz>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        linux-input@vger.kernel.org,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH 1/3] HID: usbhid: Fix flood of "control queue full"
+ messages
+In-Reply-To: <20210901163549.GA404634@rowland.harvard.edu>
+Message-ID: <nycvar.YFH.7.76.2109012052530.15944@cbobk.fhfr.pm>
+References: <20210819195300.GA8613@rowland.harvard.edu> <000000000000c322ab05c9f2e880@google.com> <20210820140620.GA35867@rowland.harvard.edu> <nycvar.YFH.7.76.2108241351490.15313@cbobk.fhfr.pm> <CAO-hwJ+i4MqOj0umUW9kFgYSZLt3QMb6hDZHQwb8AKH9pKxSTg@mail.gmail.com>
+ <20210901153811.GA403560@rowland.harvard.edu> <20210901155145.qflw5s4zqiud7gke@lion.mk-sys.cz> <20210901163549.GA404634@rowland.harvard.edu>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Received: by 2002:ab0:740d:0:0:0:0:0 with HTTP; Wed, 1 Sep 2021 11:11:10 -0700 (PDT)
-From:   CorisBank International <corisbankintlbf@gmail.com>
-Date:   Wed, 1 Sep 2021 11:11:10 -0700
-Message-ID: <CA+25hwzjLgVdtDXYWeuqFBTvAbpc4oxK0dW54s7tjGNyU_m0ow@mail.gmail.com>
-Subject: CORISBANK INTERNATIONAL OFFICIAL NOTIFICATION
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Att: Client
+On Wed, 1 Sep 2021, Alan Stern wrote:
 
+> From: Michal Kubecek <mkubecek@suse.cz>
+> 
+> [patch description by Alan Stern]
+> 
+> Commit 7652dd2c5cb7 ("USB: core: Check buffer length matches wLength
+> for control transfers") causes control URB submissions to fail if the
+> transfer_buffer_length value disagrees with the setup packet's wLength
+> valuel.  Unfortunately, it turns out that the usbhid can trigger this
+> failure mode when it submits a control request for an input report: It
+> pads the transfer buffer size to a multiple of the maxpacket value but
+> does not increase wLength correspondingly.
+> 
+> These failures have caused problems for people using an APS UPC, in
+> the form of a flood of log messages resembling:
+> 
+> 	hid-generic 0003:051D:0002.0002: control queue full
+> 
+> This patch fixes the problem by setting the wLength value equal to the
+> padded transfer_buffer_length value in hid_submit_ctrl().  As a nice
+> bonus, the code which stores the transfer_buffer_length value is now
+> shared between the two branches of an "if" statement, so it can be
+> de-duplicated.
+> 
+> Signed-off-by: Michal Kubecek <mkubecek@suse.cz>
+> Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> Fixes: 7652dd2c5cb7 ("USB: core: Check buffer length matches wLength for control transfers")
+> Tested-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+> Tested-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: stable@vger.kernel.org
+> 
 
-CORISBANK INTERNATIONAL URGENT NOTIFICATION
+Thanks Alan, applied and I will be sending whole HID tree to Linus soon.
 
-Notification / Notification/ Notification
+(BTW, something broke your threading, so 2/3 and 3/3 were not threaded 
+together with 1/3).
 
-Note, We are writing to inform you officially that Finally the Central
-Bank Financial Authority have approved to transfer your $8.2Million
-which was signed by late Mrs Rose Banneth the COVID.19 victim to
-transfer to you, Late Mrs Rose Banneth the France Lady contacted us to
-transfer her fund in our bank to you for Orphanage work before she
-died by the COVID.19
-and as it is now, you will receive your fund through our corresponding
-bank in Dubai [Emirate Investment Bank ] for security reason. Please
-you should reconfirm your details to receive the $8.2Million.
+-- 
+Jiri Kosina
+SUSE Labs
 
-Name, Country, Address, occupations, Age, Telephone number, account
-Details so that we can immediately forward to the World Bank to
-transfer the fund.
-You are advised to comply on timely manner to permit this esteem bank
-transfer your fund as scheduled.
-
-We look forward to serving you better
-Your Financial Comfort Is A Priority
-Thank you for choosing Corisbank International.
-
-Sincerely,
-
-----
-
-Mr Diakarya Ouattara
-Managing Director
-Bank Coris
-Burkina Faso
-+226 556 163 37
-financial_bf_info@accountant.com
