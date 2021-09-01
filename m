@@ -2,116 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38F273FE302
-	for <lists+linux-input@lfdr.de>; Wed,  1 Sep 2021 21:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 736D03FE34D
+	for <lists+linux-input@lfdr.de>; Wed,  1 Sep 2021 21:46:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238629AbhIAT1y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Sep 2021 15:27:54 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:57636 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231146AbhIAT1y (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Sep 2021 15:27:54 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 181JQV31026608;
-        Wed, 1 Sep 2021 14:26:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1630524391;
-        bh=TRuE6KH2UxmRjPL0Ha46ANT3bo9HPWgsSgDp/PvBKzc=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=OXBmmCLjO6oE6W9zHxyjm/9XLP3rXatuwT6QPX2OSmM0On9ZbRhpKv5gqz54yQZZS
-         acnmgW4VsAWLhBQlDE5CTLNk4ydNWDdNpvdSPp1AjBPOLGFGwdktOmT3K1v9QOIRIw
-         zzfikghV581kQmywpLzluztlRdPRw76+wwN3J4Ns=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 181JQVOn060436
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 1 Sep 2021 14:26:31 -0500
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Wed, 1
- Sep 2021 14:26:30 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Wed, 1 Sep 2021 14:26:30 -0500
-Received: from [10.250.100.73] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 181JQQCx020864;
-        Wed, 1 Sep 2021 14:26:26 -0500
-Subject: Re: [PATCH 28/40] mfd: ti_am335x_tscadc: Add ADC1/magnetic reader
- support
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>, <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-CC:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        "Ryan J . Barnett" <ryan.barnett@collins.com>,
-        <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-omap@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, Jason Reeder <jreeder@ti.com>
-References: <20210825152518.379386-1-miquel.raynal@bootlin.com>
- <20210825152518.379386-29-miquel.raynal@bootlin.com>
-From:   Grygorii Strashko <grygorii.strashko@ti.com>
-Message-ID: <732e002d-d732-5411-1be4-1ecafc993da5@ti.com>
-Date:   Wed, 1 Sep 2021 22:26:25 +0300
+        id S1344501AbhIATrm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Sep 2021 15:47:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47642 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344440AbhIATrh (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Sep 2021 15:47:37 -0400
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CC5AC061760;
+        Wed,  1 Sep 2021 12:46:39 -0700 (PDT)
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 586158322F;
+        Wed,  1 Sep 2021 21:46:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1630525596;
+        bh=tvAsOdRLmbSxiiSSxIJ4TCdwkfaGNgGFlCijIWL22iA=;
+        h=Subject:To:References:From:Date:In-Reply-To:From;
+        b=IgEOK4Igs1D3NqakG1/qE4Ciw9aII2AdPbFRyo9crHyEGb75EqGqEfgHIgDkR2OKz
+         ODfbhD/dj+/lYDEAnBbsfKndY/YIUL+Ao+wGZlwh9o9MbaV4kMxZgjTUj0LJNvQVTx
+         OY7xqhLERrl1E/9Az6FqUVRpd8baS/mG8ngQBJQm97HrPkNyX9PZ3eIRt3AlRMLLIf
+         2+skC1iGC4Ah9uZLUJNGiyucRsLZ5PO+zNQZrLtOXetY0cUhHqT3fVCNyWLH/FV3BI
+         6X6i2xMCPgxGvFUxwhwSxbwhtV38ASa1Te9x2Bwrmntn9PBs1+n8Do8mOIBzHr115K
+         s5K3LL4POZO+w==
+Subject: Re: [PATCH] Input: ili210x - Set the device name according to the
+ device model
+To:     Rogerio Pimentel <rpimentel.silva@gmail.com>,
+        dmitry.torokhov@gmail.com, hansemro@outlook.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210901192229.29864-1-rpimentel.silva@gmail.com>
+From:   Marek Vasut <marex@denx.de>
+Message-ID: <4e8ad91c-2554-4b8f-94db-aa5add5f524d@denx.de>
+Date:   Wed, 1 Sep 2021 21:46:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210825152518.379386-29-miquel.raynal@bootlin.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20210901192229.29864-1-rpimentel.silva@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On 9/1/21 9:22 PM, Rogerio Pimentel wrote:
 
+[...]
 
-On 25/08/2021 18:25, Miquel Raynal wrote:
-> Introduce a new compatible that has another set of driver data,
-> targeting am437x SoCs with a magnetic reader instead of the
-> touchscreen and a more featureful set of registers.
-> 
-> Co-developed-by: Jason Reeder <jreeder@ti.com>
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> Signed-off-by: Jason Reeder <jreeder@ti.com>
-> ---
->   drivers/mfd/ti_am335x_tscadc.c       | 43 ++++++++++++++++++++++------
->   include/linux/mfd/ti_am335x_tscadc.h |  9 +++++-
->   2 files changed, 43 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/mfd/ti_am335x_tscadc.c b/drivers/mfd/ti_am335x_tscadc.c
-> index 1a30610dc65f..f4f6b9db4d2a 100644
-> --- a/drivers/mfd/ti_am335x_tscadc.c
-> +++ b/drivers/mfd/ti_am335x_tscadc.c
-> @@ -122,9 +122,9 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
->   	const __be32 *cur;
->   	struct clk *clk;
->   	u32 val;
-> -	bool use_tsc = false;
-> +	bool use_tsc = false, use_mag = false;
->   	int tscmag_wires = 0, adc_channels = 0, readouts = 0, cell_idx = 0;
-> -	int total_channels, err;
-> +	int mag_tracks = 0, total_channels, err;
+> diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+> index 30576a5f2f04..ca7af4a6f588 100644
+> --- a/drivers/input/touchscreen/ili210x.c
+> +++ b/drivers/input/touchscreen/ili210x.c
+> @@ -19,6 +19,8 @@
+>   #define ILI251X_DATA_SIZE1	31
+>   #define ILI251X_DATA_SIZE2	20
 >   
->   	/* Allocate memory for device */
->   	tscadc = devm_kzalloc(&pdev->dev, sizeof(*tscadc), GFP_KERNEL);
-> @@ -146,6 +146,12 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
->   		of_property_read_u32(node, "ti,coordiante-readouts", &readouts);
->   		if (tscmag_wires)
->   			use_tsc = true;
-> +	} else {
-> +		node = of_get_child_by_name(pdev->dev.of_node, "mag");
-> +		of_property_read_u32(node, "ti,tracks", &mag_tracks);
+> +#define ILI_NAME_LEN		27
+> +
+>   /* Touchscreen commands */
+>   #define REG_TOUCHDATA		0x10
+>   #define REG_PANEL_INFO		0x20
+> @@ -394,6 +396,7 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+>   	struct input_dev *input;
+>   	int error;
+>   	unsigned int max_xy;
+> +	char *model_name;
+>   
+>   	dev_dbg(dev, "Probing for ILI210X I2C Touschreen driver");
+>   
+> @@ -440,7 +443,11 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+>   	i2c_set_clientdata(client, priv);
+>   
+>   	/* Setup input device */
+> -	input->name = "ILI210x Touchscreen";
+> +	input->name = "Ilitek         Touchscreen";
+> +	model_name = (char *)input->name;
+> +	snprintf(model_name, ILI_NAME_LEN, "Ilitek %s Touchscreen",
 
-"ti,tracks" seems undocumented?
+Which ilitek devices do you have available exactly ?
 
-[....]
+There is a firmware interface which does report the device type, but I 
+don't know whether it works on all the ilitek touchscreen devices. If it 
+does, then it could be used here to pull the type from the firmware and 
+then use this instead
 
--- 
-Best regards,
-grygorii
+snprintf(model_name, ILI_NAME_LEN, "Ilitek ILI%04x Touchscreen", type);
+
+Try this command against the touch controller, it sends it command 0x61 
+and reads two bytes of the reply:
+i2ctransfer -f -y 1 w1@0x41 0x61 r2
+0x10 0x25 # <---- on ILI2510 it reports 0x25 0x10 in reverse
