@@ -2,128 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8C353FE072
-	for <lists+linux-input@lfdr.de>; Wed,  1 Sep 2021 18:53:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAD293FE1EF
+	for <lists+linux-input@lfdr.de>; Wed,  1 Sep 2021 20:11:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344823AbhIAQyw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Sep 2021 12:54:52 -0400
-Received: from mail-0201.mail-europe.com ([51.77.79.158]:44388 "EHLO
-        mail-0201.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344739AbhIAQyt (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Sep 2021 12:54:49 -0400
-Date:   Wed, 01 Sep 2021 16:53:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1630515191;
-        bh=erTBhCQcWPYIoF10Mkjb8iJl9JUyLrz282d9n8j3Vyg=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=eAWXuQCNpOUq1NC0dIQgK1opuXb/XUKExJ67XEPeeA6VSmXFTMI8bVH7+x4mthar+
-         zMNjNplcK1D02sf9gtqgzPJaDDRYIMAq9bXarHSLB+WQhwkCaGnC/UqxuGdlQK/Hgv
-         CePqm4h6NjcxitXLnMrO27PcyJLhbF9ErLmr95u8=
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-From:   Yassine Oudjana <y.oudjana@protonmail.com>
-Cc:     Yassine Oudjana <y.oudjana@protonmail.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        Rob Herring <robh@kernel.org>
-Reply-To: Yassine Oudjana <y.oudjana@protonmail.com>
-Subject: [PATCH v3 2/2] dt-bindings: input: Add binding for cypress-sf
-Message-ID: <20210901165231.236728-3-y.oudjana@protonmail.com>
-In-Reply-To: <20210901165231.236728-1-y.oudjana@protonmail.com>
-References: <20210901165231.236728-1-y.oudjana@protonmail.com>
+        id S1346822AbhIASM0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Sep 2021 14:12:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53710 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346827AbhIASMV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Sep 2021 14:12:21 -0400
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26505C0613A3
+        for <linux-input@vger.kernel.org>; Wed,  1 Sep 2021 11:11:23 -0700 (PDT)
+Received: by mail-qv1-xf2c.google.com with SMTP id gf5so303277qvb.9
+        for <linux-input@vger.kernel.org>; Wed, 01 Sep 2021 11:11:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
+        b=LD3mpzy1s09M3e/Eheelu/QMtbN6lrYJQ+S1BsYhmG4zP9OQuKOeD1zHV2lZaK7Hdt
+         vXoBMumPRACuZhnwd8TYAFIvdImPe0Zn4DA41GnzHGsnpDZPE0wUFWVFNzgpxF6bh6D8
+         CVxTiiIN7w8BVpPirFLytZKK2cFqqV6q9qR8cw4XmdYYgGZs+MdnDeP+neEr/SbnLI2h
+         mwT6gqJ8+HvNCQei5Zu6b3U+/YcUOepEDfVn6t0IkNG5YzxTV8mH8IqZ4zEsqBchdgxI
+         E/zGH3KCiuS7UdfEMBVKPbpzhhPyh4quLRALvE4iCHtswqSZDgWUuzksodIw8OWwGR1Z
+         0RlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
+        b=SmTQQFYMK1Y7I13lkyxF5/dHe156+FbE/taVA/zxLGQgGAYIrDVHRHxlQmOHSWjnBo
+         37tEbYt5CA31unlucHcBHXArlW0G3NtRxG1/gsfqlcexKIra8el3CTslEGhghMeoHBhQ
+         mKeETeJlDLSHeo5Pmv0RFSen30zpkAkFltkyZF8aqmDECFwMLGdJq/pzaw9hFUkIUxz4
+         UY5ZlvTUtaD7+Yi+i6j9ZkFC1FEhVogbY5AfomXniBEoL/fx81k/NFKVZHrbLz9gX9fn
+         3nXHTVSHLdFE54Eipm3nNw5QCA4iSYnk/yksSVuWz+f4S2kZEVQc+8rTZhMEZqoEtvIn
+         37jA==
+X-Gm-Message-State: AOAM530+JraP/IT72CFDca2KzTqQWHbZQrOoUWtnsDpqgyN5oYt3teSN
+        a/detywCK2osS4Q8kuz/JapVuU/ca0JDSM6tVWcX4wRaVY0WOA==
+X-Google-Smtp-Source: ABdhPJwbbBYGjUEQSS3Bb7EfYk34O3AVuG22pVIF78fkATQG8c+PQmeHgcc35+YrriS74Wl5STB8JbzOasp+8kCVBlk=
+X-Received: by 2002:a67:8c5:: with SMTP id 188mr1017695vsi.4.1630519870726;
+ Wed, 01 Sep 2021 11:11:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Received: by 2002:ab0:740d:0:0:0:0:0 with HTTP; Wed, 1 Sep 2021 11:11:10 -0700 (PDT)
+From:   CorisBank International <corisbankintlbf@gmail.com>
+Date:   Wed, 1 Sep 2021 11:11:10 -0700
+Message-ID: <CA+25hwzjLgVdtDXYWeuqFBTvAbpc4oxK0dW54s7tjGNyU_m0ow@mail.gmail.com>
+Subject: CORISBANK INTERNATIONAL OFFICIAL NOTIFICATION
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a device tree binding for Cypress StreetFighter.
-
-Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
-Changes since v1:
- - Changed version variables in probe to int to allow storing error codes.
- .../devicetree/bindings/input/cypress-sf.yaml | 61 +++++++++++++++++++
- 1 file changed, 61 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/cypress-sf.yaml
-
-diff --git a/Documentation/devicetree/bindings/input/cypress-sf.yaml b/Docu=
-mentation/devicetree/bindings/input/cypress-sf.yaml
-new file mode 100644
-index 000000000000..14689daf6567
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/cypress-sf.yaml
-@@ -0,0 +1,61 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/cypress-sf.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Cypress StreetFighter touchkey controller
-+
-+maintainers:
-+  - Yassine Oudjana <y.oudjana@protonmail.com>
-+
-+allOf:
-+  - $ref: input.yaml#
-+
-+properties:
-+  compatible:
-+    const: cypress,sf3155
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  avdd-supply:
-+    description: Regulator for AVDD analog voltage
-+
-+  vdd-supply:
-+    description: Regulator for VDD digital voltage
-+
-+  linux,keycodes:
-+    minItems: 1
-+    maxItems: 8
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - avdd-supply
-+  - vdd-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/input/input.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    i2c {
-+        #address-cells =3D <1>;
-+        #size-cells =3D <0>;
-+
-+        touchkey@28 {
-+                compatible =3D "cypress,sf3155";
-+                reg =3D <0x28>;
-+                interrupt-parent =3D <&msmgpio>;
-+                interrupts =3D <77 IRQ_TYPE_EDGE_FALLING>;
-+                avdd-supply =3D <&vreg_l6a_1p8>;
-+                vdd-supply =3D <&vdd_3v2_tp>;
-+                linux,keycodes =3D <KEY_BACK KEY_MENU>;
-+        };
-+    };
---=20
-2.33.0
+Att: Client
 
 
+CORISBANK INTERNATIONAL URGENT NOTIFICATION
+
+Notification / Notification/ Notification
+
+Note, We are writing to inform you officially that Finally the Central
+Bank Financial Authority have approved to transfer your $8.2Million
+which was signed by late Mrs Rose Banneth the COVID.19 victim to
+transfer to you, Late Mrs Rose Banneth the France Lady contacted us to
+transfer her fund in our bank to you for Orphanage work before she
+died by the COVID.19
+and as it is now, you will receive your fund through our corresponding
+bank in Dubai [Emirate Investment Bank ] for security reason. Please
+you should reconfirm your details to receive the $8.2Million.
+
+Name, Country, Address, occupations, Age, Telephone number, account
+Details so that we can immediately forward to the World Bank to
+transfer the fund.
+You are advised to comply on timely manner to permit this esteem bank
+transfer your fund as scheduled.
+
+We look forward to serving you better
+Your Financial Comfort Is A Priority
+Thank you for choosing Corisbank International.
+
+Sincerely,
+
+----
+
+Mr Diakarya Ouattara
+Managing Director
+Bank Coris
+Burkina Faso
++226 556 163 37
+financial_bf_info@accountant.com
