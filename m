@@ -2,103 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADC423FD2D3
-	for <lists+linux-input@lfdr.de>; Wed,  1 Sep 2021 07:19:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 981833FD4A7
+	for <lists+linux-input@lfdr.de>; Wed,  1 Sep 2021 09:43:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241972AbhIAFUi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Sep 2021 01:20:38 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:42114 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229731AbhIAFUg (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Sep 2021 01:20:36 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 1D7AC1C0B76; Wed,  1 Sep 2021 07:19:39 +0200 (CEST)
-Date:   Wed, 1 Sep 2021 07:19:38 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Daniel Ogorchock <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        Roderick Colenbrander <thunderbird2k@gmail.com>
-Subject: Re: [PATCH 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
- for game controllers.
-Message-ID: <20210901051938.GA6870@amd>
-References: <20210602061253.5747-1-roderick@gaikai.com>
- <20210602061253.5747-3-roderick@gaikai.com>
- <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm>
- <20210803221055.GA32527@amd>
- <CAEc3jaAoDfJD92q9q_HoFq3nsjkDqfZHu-VO+Ei8xSP8QrE8rg@mail.gmail.com>
- <CAEVj2tkfLjWKOaecY7t-idGaqjZ45wXhmjbUR87AoC2Dkm45vQ@mail.gmail.com>
- <nycvar.YFH.7.76.2108312109340.15313@cbobk.fhfr.pm>
+        id S242816AbhIAHnu convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 1 Sep 2021 03:43:50 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:65279 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242820AbhIAHnq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Sep 2021 03:43:46 -0400
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 3A45240005;
+        Wed,  1 Sep 2021 07:42:45 +0000 (UTC)
+Date:   Wed, 1 Sep 2021 09:42:44 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Lee Jones <lee.jones@linaro.org>, bcousson@baylibre.com,
+        Tony Lindgren <tony@atomide.com>,
+        Tero Kristo <t-kristo@ti.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        "Ryan J . Barnett" <ryan.barnett@collins.com>,
+        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH 03/40] dt-bindings: touchscreen: ti,am3359-tsc: New yaml
+ description
+Message-ID: <20210901094244.1788ca19@xps13>
+In-Reply-To: <YS6E769e/dVxrMyN@robh.at.kernel.org>
+References: <20210825152518.379386-1-miquel.raynal@bootlin.com>
+        <20210825152518.379386-4-miquel.raynal@bootlin.com>
+        <YS6E769e/dVxrMyN@robh.at.kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="h31gzZEtNLTqOjlF"
-Content-Disposition: inline
-In-Reply-To: <nycvar.YFH.7.76.2108312109340.15313@cbobk.fhfr.pm>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Rob,
 
---h31gzZEtNLTqOjlF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>  
+> 
+> I prefer that MFDs have just 1 complete example in the MFD schema. 
 
-Hi!
+Just to be on the same line, you ask me to drop the all the lines from
 
-> > Do you have any recommendations on what would be an appropriate
-> > function string for player indicator LEDs? Would some variant such as:
-> >   "status-x"
-> >   "player-status-x"
-> >   "indicator-x"
-> >   "player-indicator-x"
-> > be more suitable? It looks like the string "status" has been used for
-> > other existing LED names.
+	tscadc:
 
-I guess "player-x" would be suitable.
+up to
 
-> > I think we are pretty happy to use whatever naming scheme fits the
-> > standards of the led subsystem's userspace api for the Nintendo/Sony
-> > HID drivers, and any future game controller drivers featuring player
-> > LEDs could conform to that going forward.
->=20
-> Pavel, could you please take a look here, so that we can proceed with the=
-=20
-> patchset?
+	dma-names = ...;
 
-So... leds tree has just been merged:
+and keep only the tsc node, right?
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/
-tags/leds-5.15-rc1
+I guess I should do the same in the ADC binding then.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/a998a62be9cdb509491731ffe81575aa09943a32
+> 
+> > +
+> > +    tscadc: tscadc@0 {  
+> 
+> Drop unused labels.
+> 
+> > +        compatible = "ti,am3359-tscadc";
+> > +        reg = <0x0 0x1000>;
+> > +        interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clocks = <&adc_tsc_fck>;
+> > +        clock-names = "fck";
+> > +        status = "disabled";  
+> 
+> status, again.
+> 
+> > +        dmas = <&edma 53 0>, <&edma 57 0>;
+> > +        dma-names = "fifo0", "fifo1";
+> > +
+> > +        tsc {
+> > +            compatible = "ti,am3359-tsc";
+> > +            ti,wires = <4>;
+> > +            ti,x-plate-resistance = <200>;
+> > +            ti,coordinate-readouts = <5>;
+> > +            ti,wire-config = <0x00 0x11 0x22 0x33>;
+> > +            ti,charge-delay = <0x400>;
+> > +        };
+> > +    };
+> > -- 
+> > 2.27.0
+> > 
+> >   
 
-It includes Documentation/leds/well-known-leds.txt file. Could a
-section describing proposed naming be added there (both device and
-function), with explanations what the LEDs do?
-
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---h31gzZEtNLTqOjlF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmEvDWoACgkQMOfwapXb+vJCJwCgtftWVFxB6XA3HFSKDV8GL9eF
-YnEAni4lhulmeFBaX7M7hp0TlQvA94Dg
-=xdp8
------END PGP SIGNATURE-----
-
---h31gzZEtNLTqOjlF--
+Thanks,
+Miquèl
