@@ -2,51 +2,51 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69F133FE66D
+	by mail.lfdr.de (Postfix) with ESMTP id B26293FE66F
 	for <lists+linux-input@lfdr.de>; Thu,  2 Sep 2021 02:34:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238899AbhIAXn5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Sep 2021 19:43:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45704 "EHLO
+        id S240171AbhIAXoA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Sep 2021 19:44:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232479AbhIAXn5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Sep 2021 19:43:57 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0ABCC061575
-        for <linux-input@vger.kernel.org>; Wed,  1 Sep 2021 16:42:59 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id x5so44418qtq.13
-        for <linux-input@vger.kernel.org>; Wed, 01 Sep 2021 16:42:59 -0700 (PDT)
+        with ESMTP id S239077AbhIAXn7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Sep 2021 19:43:59 -0400
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC7EDC061575
+        for <linux-input@vger.kernel.org>; Wed,  1 Sep 2021 16:43:00 -0700 (PDT)
+Received: by mail-qt1-x835.google.com with SMTP id b4so96541qtx.0
+        for <linux-input@vger.kernel.org>; Wed, 01 Sep 2021 16:43:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=/CjUU/0Eefcmqe/LFifEgG3xgk28fO5+EffKmQo1GhA=;
-        b=bgimSxzhwaYegKpTG1VGlTWZ4iZE7dpl2um2PRUVH49uTn6BnWnMmnkvJQT+NbbxNX
-         lY8aoaooMdp09GSlfxihEB1BggxRcAm+vKP9wvhwQDoQkADVIebDoxKSqSphQgOGCpXT
-         Zxt9kowdBquqW9X9TZbcs60oShZL7C959Dohz3oCMtUbZkEsGHy9RFFjo5eCBmmJmHCx
-         9gcRDn18R/HIlR6kyXZTJW/iclBRrDOvMrSOLm7D2Rq4pTf3j7HDAnez9UoT2dHSh8DU
-         RO1hDSSnF29HZHlYBx8GYKv+7UNwwZw79m/ogEG3kPVNNzJvLikf82vp2LQ23oJ5NbDv
-         RjxA==
+        bh=gNu2navMQF1LlWlbd6qlBcu8QU4k97X7QaII04hoSvk=;
+        b=Df3n3bXlX9heycEfwhtGpqqe35VqNXKM2pJlapup7a0XoESDnmktPMdiiKmG6zyazb
+         j3yaYuMRutzZX9A8VnGIa/xWi8U1ebHNxspKP6rH6NLMBqthMz+KZ1HKtxh0f1QPUc8t
+         P6MsLpaVxs/tA2oDWkxiGSpQbxMPyU8qoSP9glLnQuoXY/Ty+0RUaydfVdV81KdBDKSo
+         6kKjv3ra4oEnLnDdtUJtDKP1sXSm6w5DUdPNL2gdkxlI1wcNbUutfAQQPeYBpvYEy0yd
+         SLNS1aLQRRQWQLQfcTRkpeWNFOXHxSIq1WP1o5qEvBoR6mhAjKj9B4th9ViOFVpEQ4jp
+         Uo9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/CjUU/0Eefcmqe/LFifEgG3xgk28fO5+EffKmQo1GhA=;
-        b=SjOwv5DNMrdiqcBTxsd//BsqwPwv611CMbSvWHwYESQYpjDj67nyWzOJZD1lm42amD
-         42Bh0w+IpAJGnrLfEbjIiM17+IuW7om1PpbUum9f/ftgoBr61cIpRg3c6dFsuZJTv0Dk
-         UgqncTQVNwapw9dPDeoR+xqHvYPskpEa+d/hLLUz5omMUOZ9EucYFDVUsGmkYBlNLrsR
-         cc+WeEhf/aWDDklhOLVkJjWAdQLPkS/LUFhojZmcgGLZfpfWVrxrmNYWU29fCKxUxn8I
-         FD2jkzQgitcUWt+GIuxsY1tTebH7j20/5LvAvjIgtt2NONNRkiDsLw3Chvr/teZ44aDD
-         jPTg==
-X-Gm-Message-State: AOAM531x60Bu9qOtMcCW9rBG4MM71bzYVDBN2LmNua4bnUk2gYEPFaMh
-        V1MLN78COFow67PI+CuhbA8LbyurukY=
-X-Google-Smtp-Source: ABdhPJxihzjVe3AMvu28l8I14S5mT63d55B3EMTRIfOd0A6pQHFOTgn1DDCoIbdrIt1/S03SmQypvA==
-X-Received: by 2002:ac8:7516:: with SMTP id u22mr325274qtq.119.1630539778979;
-        Wed, 01 Sep 2021 16:42:58 -0700 (PDT)
+        bh=gNu2navMQF1LlWlbd6qlBcu8QU4k97X7QaII04hoSvk=;
+        b=mL35lgx4Cnisd+ZxkeeQR1yqPLs1LfRZGZ3w9Itqa0vaKdybgxjpzevuKA5e7f5+zY
+         oWkxKG+SR/L8EOfu8cS/867pCt4jKxtOb+RaBcd1TJ0BDXypDjd9KzC0OlASP14E6T+p
+         gH7Kb1y0pcfEI34xDTDfyLzIqK4Ih+k8lg7vzml5oHjEZkgLmrXBVquNiMzWYZyR7jsB
+         pcPhanFrSVxkI4H0Jn4IgI1j/VZcWd1th52nzT/6CqSUUhul7xmvClzfaQFoAxw5NgsD
+         Qou+NGtA8yIt4rDPFRcEQJj+/ySOzGuTJPqbImg4QbbtjVzrxqxuRM8wN6c/YYj6Fv/5
+         COMg==
+X-Gm-Message-State: AOAM533glsyECTZn8MhYyJW2BC32cNTFwxMdQxIGY5zrPhxINuBCzlsT
+        7a8uJM26DbbB9rvlAXal/8NpMN0dWrg=
+X-Google-Smtp-Source: ABdhPJwGRNBoJNy4bAVBssCsDWM/nH6Cf4CuQ1WPy+596A8KdTAPn/ws2gPKeSGcYXmCmsdohaqpdA==
+X-Received: by 2002:ac8:5acb:: with SMTP id d11mr310410qtd.287.1630539779945;
+        Wed, 01 Sep 2021 16:42:59 -0700 (PDT)
 Received: from Arrakis.djogorchock.com (pool-173-68-59-147.nycmny.fios.verizon.net. [173.68.59.147])
-        by smtp.gmail.com with ESMTPSA id n5sm13422qtp.35.2021.09.01.16.42.58
+        by smtp.gmail.com with ESMTPSA id n5sm13422qtp.35.2021.09.01.16.42.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Sep 2021 16:42:58 -0700 (PDT)
+        Wed, 01 Sep 2021 16:42:59 -0700 (PDT)
 From:   "Daniel J. Ogorchock" <djogorchock@gmail.com>
 To:     linux-input@vger.kernel.org
 Cc:     thunderbird2k@gmail.com, blaws05@gmail.com,
@@ -55,9 +55,9 @@ Cc:     thunderbird2k@gmail.com, blaws05@gmail.com,
         carmueller@gmail.com, pgriffais@valvesoftware.com,
         hadess@hadess.net, pobrn@protonmail.com,
         "Daniel J. Ogorchock" <djogorchock@gmail.com>
-Subject: [PATCH v15 11/16] HID: nintendo: add support for charging grip
-Date:   Wed,  1 Sep 2021 19:42:31 -0400
-Message-Id: <20210901234236.3113-12-djogorchock@gmail.com>
+Subject: [PATCH v15 12/16] HID: nintendo: add support for reading user calibration
+Date:   Wed,  1 Sep 2021 19:42:32 -0400
+Message-Id: <20210901234236.3113-13-djogorchock@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210901234236.3113-1-djogorchock@gmail.com>
 References: <20210901234236.3113-1-djogorchock@gmail.com>
@@ -67,234 +67,278 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds support for the joy-con charging grip. The peripheral
-essentially behaves the same as a pro controller, but with two joy-cons
-attached to the grip. However the grip exposes the two joy-cons as
-separate hid devices, so extra handling is required. The joy-con is
-queried to check if it is a right or left joy-con (since the product ID
-is identical between left/right when using the grip).
-
-Since controller model detection is now more complicated, the various
-checks for hid product values have been replaced with helper macros to
-reduce code duplication.
+If the controller's SPI flash contains user stick calibration(s), they
+should be prioritized over the factory calibrations. The user
+calibrations have 2 magic bytes preceding them. If the bytes are the
+correct magic values, the user calibration is used.
 
 Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
 ---
- drivers/hid/hid-ids.h      |  1 +
- drivers/hid/hid-nintendo.c | 67 ++++++++++++++++++++++++++++++--------
- 2 files changed, 55 insertions(+), 13 deletions(-)
+ drivers/hid/hid-nintendo.c | 206 ++++++++++++++++++++++++++-----------
+ 1 file changed, 148 insertions(+), 58 deletions(-)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 5420f288d2aa0..fe1c0cbedfaac 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -921,6 +921,7 @@
- #define USB_DEVICE_ID_NINTENDO_JOYCONL	0x2006
- #define USB_DEVICE_ID_NINTENDO_JOYCONR	0x2007
- #define USB_DEVICE_ID_NINTENDO_PROCON	0x2009
-+#define USB_DEVICE_ID_NINTENDO_CHRGGRIP	0x200E
- 
- #define USB_VENDOR_ID_NOVATEK		0x0603
- #define USB_DEVICE_ID_NOVATEK_PCT	0x0600
 diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 4b72e92e0ff4d..dcfb80d829713 100644
+index dcfb80d829713..d2cd4eb869ce3 100644
 --- a/drivers/hid/hid-nintendo.c
 +++ b/drivers/hid/hid-nintendo.c
-@@ -233,6 +233,13 @@ enum joycon_ctlr_state {
- 	JOYCON_CTLR_STATE_REMOVED,
- };
+@@ -23,6 +23,7 @@
+  */
  
-+/* Controller type received as part of device info */
-+enum joycon_ctlr_type {
-+	JOYCON_CTLR_TYPE_JCL = 0x01,
-+	JOYCON_CTLR_TYPE_JCR = 0x02,
-+	JOYCON_CTLR_TYPE_PRO = 0x03,
-+};
+ #include "hid-ids.h"
++#include <asm/unaligned.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+ #include <linux/hid.h>
+@@ -96,11 +97,23 @@ static const u8 JC_USB_RESET			= 0x06;
+ static const u8 JC_USB_PRE_HANDSHAKE		= 0x91;
+ static const u8 JC_USB_SEND_UART		= 0x92;
+ 
+-/* SPI storage addresses of factory calibration data */
+-static const u16 JC_CAL_DATA_START		= 0x603d;
+-static const u16 JC_CAL_DATA_END		= 0x604e;
+-#define JC_CAL_DATA_SIZE	(JC_CAL_DATA_END - JC_CAL_DATA_START + 1)
++/* Magic value denoting presence of user calibration */
++static const u16 JC_CAL_USR_MAGIC_0		= 0xB2;
++static const u16 JC_CAL_USR_MAGIC_1		= 0xA1;
++static const u8 JC_CAL_USR_MAGIC_SIZE		= 2;
 +
- struct joycon_stick_cal {
- 	s32 max;
- 	s32 min;
-@@ -328,6 +335,7 @@ struct joycon_ctlr {
- 	spinlock_t lock;
- 	u8 mac_addr[6];
- 	char *mac_addr_str;
-+	enum joycon_ctlr_type ctlr_type;
++/* SPI storage addresses of user calibration data */
++static const u16 JC_CAL_USR_LEFT_MAGIC_ADDR	= 0x8010;
++static const u16 JC_CAL_USR_LEFT_DATA_ADDR	= 0x8012;
++static const u16 JC_CAL_USR_LEFT_DATA_END	= 0x801A;
++static const u16 JC_CAL_USR_RIGHT_MAGIC_ADDR	= 0x801B;
++static const u16 JC_CAL_USR_RIGHT_DATA_ADDR	= 0x801D;
++#define JC_CAL_STICK_DATA_SIZE \
++	(JC_CAL_USR_LEFT_DATA_END - JC_CAL_USR_LEFT_DATA_ADDR + 1)
  
- 	/* The following members are used for synchronous sends/receives */
- 	enum joycon_msg_type msg_type;
-@@ -366,6 +374,26 @@ struct joycon_ctlr {
- 	u16 rumble_rh_freq;
- };
++/* SPI storage addresses of factory calibration data */
++static const u16 JC_CAL_FCT_DATA_LEFT_ADDR	= 0x603d;
++static const u16 JC_CAL_FCT_DATA_RIGHT_ADDR	= 0x6046;
  
-+/* Helper macros for checking controller type */
-+#define jc_type_is_joycon(ctlr) \
-+	(ctlr->hdev->product == USB_DEVICE_ID_NINTENDO_JOYCONL || \
-+	 ctlr->hdev->product == USB_DEVICE_ID_NINTENDO_JOYCONR || \
-+	 ctlr->hdev->product == USB_DEVICE_ID_NINTENDO_CHRGGRIP)
-+#define jc_type_is_procon(ctlr) \
-+	(ctlr->hdev->product == USB_DEVICE_ID_NINTENDO_PROCON)
-+#define jc_type_is_chrggrip(ctlr) \
-+	(ctlr->hdev->product == USB_DEVICE_ID_NINTENDO_CHRGGRIP)
-+
-+/* Does this controller have inputs associated with left joycon? */
-+#define jc_type_has_left(ctlr) \
-+	(ctlr->ctlr_type == JOYCON_CTLR_TYPE_JCL || \
-+	 ctlr->ctlr_type == JOYCON_CTLR_TYPE_PRO)
-+
-+/* Does this controller have inputs associated with right joycon? */
-+#define jc_type_has_right(ctlr) \
-+	(ctlr->ctlr_type == JOYCON_CTLR_TYPE_JCR || \
-+	 ctlr->ctlr_type == JOYCON_CTLR_TYPE_PRO)
-+
- static int __joycon_hid_send(struct hid_device *hdev, u8 *data, size_t len)
- {
- 	u8 *buf;
-@@ -662,7 +690,6 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
- 	unsigned long flags;
- 	u8 tmp;
- 	u32 btns;
--	u32 id = ctlr->hdev->product;
- 	unsigned long msecs = jiffies_to_msecs(jiffies);
- 
- 	spin_lock_irqsave(&ctlr->lock, flags);
-@@ -701,7 +728,7 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
- 	/* Parse the buttons and sticks */
- 	btns = hid_field_extract(ctlr->hdev, rep->button_status, 0, 24);
- 
--	if (id != USB_DEVICE_ID_NINTENDO_JOYCONR) {
-+	if (jc_type_has_left(ctlr)) {
- 		u16 raw_x;
- 		u16 raw_y;
- 		s32 x;
-@@ -725,7 +752,7 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
- 		input_report_key(dev, BTN_THUMBL, btns & JC_BTN_LSTICK);
- 		input_report_key(dev, BTN_Z, btns & JC_BTN_CAP);
- 
--		if (id != USB_DEVICE_ID_NINTENDO_PROCON) {
-+		if (jc_type_is_joycon(ctlr)) {
- 			/* Report the S buttons as the non-existent triggers */
- 			input_report_key(dev, BTN_TR, btns & JC_BTN_SL_L);
- 			input_report_key(dev, BTN_TR2, btns & JC_BTN_SR_L);
-@@ -757,7 +784,7 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
- 			input_report_abs(dev, ABS_HAT0Y, haty);
- 		}
- 	}
--	if (id != USB_DEVICE_ID_NINTENDO_JOYCONL) {
-+	if (jc_type_has_right(ctlr)) {
- 		u16 raw_x;
- 		u16 raw_y;
- 		s32 x;
-@@ -777,7 +804,7 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
- 		/* report buttons */
- 		input_report_key(dev, BTN_TR, btns & JC_BTN_R);
- 		input_report_key(dev, BTN_TR2, btns & JC_BTN_ZR);
--		if (id != USB_DEVICE_ID_NINTENDO_PROCON) {
-+		if (jc_type_is_joycon(ctlr)) {
- 			/* Report the S buttons as the non-existent triggers */
- 			input_report_key(dev, BTN_TL, btns & JC_BTN_SL_R);
- 			input_report_key(dev, BTN_TL2, btns & JC_BTN_SR_R);
-@@ -996,6 +1023,12 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
- 	case USB_DEVICE_ID_NINTENDO_PROCON:
- 		name = "Nintendo Switch Pro Controller";
- 		break;
-+	case USB_DEVICE_ID_NINTENDO_CHRGGRIP:
-+		if (jc_type_has_left(ctlr))
-+			name = "Nintendo Switch Left Joy-Con (Grip)";
-+		else
-+			name = "Nintendo Switch Right Joy-Con (Grip)";
-+		break;
- 	case USB_DEVICE_ID_NINTENDO_JOYCONL:
- 		name = "Nintendo Switch Left Joy-Con";
- 		break;
-@@ -1018,9 +1051,8 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
- 	ctlr->input->name = name;
- 	input_set_drvdata(ctlr->input, ctlr);
- 
--
- 	/* set up sticks and buttons */
--	if (hdev->product != USB_DEVICE_ID_NINTENDO_JOYCONR) {
-+	if (jc_type_has_left(ctlr)) {
- 		input_set_abs_params(ctlr->input, ABS_X,
- 				     -JC_MAX_STICK_MAG, JC_MAX_STICK_MAG,
- 				     JC_STICK_FUZZ, JC_STICK_FLAT);
-@@ -1046,7 +1078,7 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
- 					     JC_DPAD_FUZZ, JC_DPAD_FLAT);
- 		}
- 	}
--	if (hdev->product != USB_DEVICE_ID_NINTENDO_JOYCONL) {
-+	if (jc_type_has_right(ctlr)) {
- 		input_set_abs_params(ctlr->input, ABS_RX,
- 				     -JC_MAX_STICK_MAG, JC_MAX_STICK_MAG,
- 				     JC_STICK_FUZZ, JC_STICK_FLAT);
-@@ -1209,7 +1241,7 @@ static int joycon_leds_create(struct joycon_ctlr *ctlr)
- 	mutex_unlock(&joycon_input_num_mutex);
- 
- 	/* configure the home LED */
--	if (ctlr->hdev->product != USB_DEVICE_ID_NINTENDO_JOYCONL) {
-+	if (jc_type_has_right(ctlr)) {
- 		name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s:%s",
- 				      d_name,
- 				      "blue",
-@@ -1325,7 +1357,7 @@ static int joycon_power_supply_create(struct joycon_ctlr *ctlr)
- 	return power_supply_powers(ctlr->battery, &hdev->dev);
+ /* The raw analog joystick values will be mapped in terms of this magnitude */
+ static const u16 JC_MAX_STICK_MAG		= 32767;
+@@ -531,38 +544,140 @@ static int joycon_set_player_leds(struct joycon_ctlr *ctlr, u8 flash, u8 on)
+ 	return joycon_send_subcmd(ctlr, req, 1, HZ/4);
  }
  
--static int joycon_read_mac(struct joycon_ctlr *ctlr)
-+static int joycon_read_info(struct joycon_ctlr *ctlr)
+-static const u16 DFLT_STICK_CAL_CEN = 2000;
+-static const u16 DFLT_STICK_CAL_MAX = 3500;
+-static const u16 DFLT_STICK_CAL_MIN = 500;
+-static int joycon_request_calibration(struct joycon_ctlr *ctlr)
++static int joycon_request_spi_flash_read(struct joycon_ctlr *ctlr,
++					 u32 start_addr, u8 size, u8 **reply)
  {
+ 	struct joycon_subcmd_request *req;
+-	u8 buffer[sizeof(*req) + 5] = { 0 };
+ 	struct joycon_input_report *report;
+-	struct joycon_stick_cal *cal_x;
+-	struct joycon_stick_cal *cal_y;
++	u8 buffer[sizeof(*req) + 5] = { 0 };
++	u8 *data;
++	int ret;
++
++	if (!reply)
++		return -EINVAL;
++
++	req = (struct joycon_subcmd_request *)buffer;
++	req->subcmd_id = JC_SUBCMD_SPI_FLASH_READ;
++	data = req->data;
++	put_unaligned_le32(start_addr, data);
++	data[4] = size;
++
++	hid_dbg(ctlr->hdev, "requesting SPI flash data\n");
++	ret = joycon_send_subcmd(ctlr, req, 5, HZ);
++	if (ret) {
++		hid_err(ctlr->hdev, "failed reading SPI flash; ret=%d\n", ret);
++	} else {
++		report = (struct joycon_input_report *)ctlr->input_buf;
++		/* The read data starts at the 6th byte */
++		*reply = &report->reply.data[5];
++	}
++	return ret;
++}
++
++/*
++ * User calibration's presence is denoted with a magic byte preceding it.
++ * returns 0 if magic val is present, 1 if not present, < 0 on error
++ */
++static int joycon_check_for_cal_magic(struct joycon_ctlr *ctlr, u32 flash_addr)
++{
++	int ret;
++	u8 *reply;
++
++	ret = joycon_request_spi_flash_read(ctlr, flash_addr,
++					    JC_CAL_USR_MAGIC_SIZE, &reply);
++	if (ret)
++		return ret;
++
++	return reply[0] != JC_CAL_USR_MAGIC_0 || reply[1] != JC_CAL_USR_MAGIC_1;
++}
++
++static int joycon_read_stick_calibration(struct joycon_ctlr *ctlr, u16 cal_addr,
++					 struct joycon_stick_cal *cal_x,
++					 struct joycon_stick_cal *cal_y,
++					 bool left_stick)
++{
+ 	s32 x_max_above;
+ 	s32 x_min_below;
+ 	s32 y_max_above;
+ 	s32 y_min_below;
+-	u8 *data;
+ 	u8 *raw_cal;
  	int ret;
- 	int i;
-@@ -1357,6 +1389,9 @@ static int joycon_read_mac(struct joycon_ctlr *ctlr)
- 		return -ENOMEM;
- 	hid_info(ctlr->hdev, "controller MAC = %s\n", ctlr->mac_addr_str);
  
-+	/* Retrieve the type so we can distinguish for charging grip */
-+	ctlr->ctlr_type = report->reply.data[2];
+-	req = (struct joycon_subcmd_request *)buffer;
+-	req->subcmd_id = JC_SUBCMD_SPI_FLASH_READ;
+-	data = req->data;
+-	data[0] = 0xFF & JC_CAL_DATA_START;
+-	data[1] = 0xFF & (JC_CAL_DATA_START >> 8);
+-	data[2] = 0xFF & (JC_CAL_DATA_START >> 16);
+-	data[3] = 0xFF & (JC_CAL_DATA_START >> 24);
+-	data[4] = JC_CAL_DATA_SIZE;
++	ret = joycon_request_spi_flash_read(ctlr, cal_addr,
++					    JC_CAL_STICK_DATA_SIZE, &raw_cal);
++	if (ret)
++		return ret;
 +
- 	return 0;
- }
++	/* stick calibration parsing: note the order differs based on stick */
++	if (left_stick) {
++		x_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 0), 0,
++						12);
++		y_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 1), 4,
++						12);
++		cal_x->center = hid_field_extract(ctlr->hdev, (raw_cal + 3), 0,
++						  12);
++		cal_y->center = hid_field_extract(ctlr->hdev, (raw_cal + 4), 4,
++						  12);
++		x_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 6), 0,
++						12);
++		y_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 7), 4,
++						12);
++	} else {
++		cal_x->center = hid_field_extract(ctlr->hdev, (raw_cal + 0), 0,
++						  12);
++		cal_y->center = hid_field_extract(ctlr->hdev, (raw_cal + 1), 4,
++						  12);
++		x_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 3), 0,
++						12);
++		y_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 4), 4,
++						12);
++		x_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 6), 0,
++						12);
++		y_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 7), 4,
++						12);
++	}
++
++	cal_x->max = cal_x->center + x_max_above;
++	cal_x->min = cal_x->center - x_min_below;
++	cal_y->max = cal_y->center + y_max_above;
++	cal_y->min = cal_y->center - y_min_below;
++
++	return 0;
++}
++
++static const u16 DFLT_STICK_CAL_CEN = 2000;
++static const u16 DFLT_STICK_CAL_MAX = 3500;
++static const u16 DFLT_STICK_CAL_MIN = 500;
++static int joycon_request_calibration(struct joycon_ctlr *ctlr)
++{
++	u16 left_stick_addr = JC_CAL_FCT_DATA_LEFT_ADDR;
++	u16 right_stick_addr = JC_CAL_FCT_DATA_RIGHT_ADDR;
++	int ret;
  
-@@ -1490,7 +1525,7 @@ static int nintendo_hid_probe(struct hid_device *hdev,
- 	/* Initialize the controller */
- 	mutex_lock(&ctlr->output_mutex);
- 	/* if handshake command fails, assume ble pro controller */
--	if (hdev->product == USB_DEVICE_ID_NINTENDO_PROCON &&
-+	if ((jc_type_is_procon(ctlr) || jc_type_is_chrggrip(ctlr)) &&
- 	    !joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ)) {
- 		hid_dbg(hdev, "detected USB controller\n");
- 		/* set baudrate for improved latency */
-@@ -1510,6 +1545,10 @@ static int nintendo_hid_probe(struct hid_device *hdev,
- 		 * This doesn't send a response, so ignore the timeout.
- 		 */
- 		joycon_send_usb(ctlr, JC_USB_CMD_NO_TIMEOUT, HZ/10);
-+	} else if (jc_type_is_chrggrip(ctlr)) {
-+		hid_err(hdev, "Failed charging grip handshake\n");
-+		ret = -ETIMEDOUT;
-+		goto err_mutex;
- 	}
- 
- 	/* get controller calibration data, and parse it */
-@@ -1536,9 +1575,9 @@ static int nintendo_hid_probe(struct hid_device *hdev,
- 		goto err_mutex;
- 	}
- 
--	ret = joycon_read_mac(ctlr);
-+	ret = joycon_read_info(ctlr);
+ 	hid_dbg(ctlr->hdev, "requesting cal data\n");
+-	ret = joycon_send_subcmd(ctlr, req, 5, HZ);
++
++	/* check if user stick calibrations are present */
++	if (!joycon_check_for_cal_magic(ctlr, JC_CAL_USR_LEFT_MAGIC_ADDR)) {
++		left_stick_addr = JC_CAL_USR_LEFT_DATA_ADDR;
++		hid_info(ctlr->hdev, "using user cal for left stick\n");
++	} else {
++		hid_info(ctlr->hdev, "using factory cal for left stick\n");
++	}
++	if (!joycon_check_for_cal_magic(ctlr, JC_CAL_USR_RIGHT_MAGIC_ADDR)) {
++		right_stick_addr = JC_CAL_USR_RIGHT_DATA_ADDR;
++		hid_info(ctlr->hdev, "using user cal for right stick\n");
++	} else {
++		hid_info(ctlr->hdev, "using factory cal for right stick\n");
++	}
++
++	/* read the left stick calibration data */
++	ret = joycon_read_stick_calibration(ctlr, left_stick_addr,
++					    &ctlr->left_stick_cal_x,
++					    &ctlr->left_stick_cal_y,
++					    true);
  	if (ret) {
--		hid_err(hdev, "Failed to retrieve controller MAC; ret=%d\n",
-+		hid_err(hdev, "Failed to retrieve controller info; ret=%d\n",
- 			ret);
- 		goto err_mutex;
+ 		hid_warn(ctlr->hdev,
+-			 "Failed to read stick cal, using defaults; ret=%d\n",
++			 "Failed to read left stick cal, using dflts; e=%d\n",
+ 			 ret);
+ 
+ 		ctlr->left_stick_cal_x.center = DFLT_STICK_CAL_CEN;
+@@ -572,6 +687,17 @@ static int joycon_request_calibration(struct joycon_ctlr *ctlr)
+ 		ctlr->left_stick_cal_y.center = DFLT_STICK_CAL_CEN;
+ 		ctlr->left_stick_cal_y.max = DFLT_STICK_CAL_MAX;
+ 		ctlr->left_stick_cal_y.min = DFLT_STICK_CAL_MIN;
++	}
++
++	/* read the right stick calibration data */
++	ret = joycon_read_stick_calibration(ctlr, right_stick_addr,
++					    &ctlr->right_stick_cal_x,
++					    &ctlr->right_stick_cal_y,
++					    false);
++	if (ret) {
++		hid_warn(ctlr->hdev,
++			 "Failed to read right stick cal, using dflts; e=%d\n",
++			 ret);
+ 
+ 		ctlr->right_stick_cal_x.center = DFLT_STICK_CAL_CEN;
+ 		ctlr->right_stick_cal_x.max = DFLT_STICK_CAL_MAX;
+@@ -580,44 +706,8 @@ static int joycon_request_calibration(struct joycon_ctlr *ctlr)
+ 		ctlr->right_stick_cal_y.center = DFLT_STICK_CAL_CEN;
+ 		ctlr->right_stick_cal_y.max = DFLT_STICK_CAL_MAX;
+ 		ctlr->right_stick_cal_y.min = DFLT_STICK_CAL_MIN;
+-
+-		return ret;
  	}
-@@ -1606,6 +1645,8 @@ static const struct hid_device_id nintendo_hid_devices[] = {
- 			 USB_DEVICE_ID_NINTENDO_PROCON) },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_NINTENDO,
- 			 USB_DEVICE_ID_NINTENDO_PROCON) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_NINTENDO,
-+			 USB_DEVICE_ID_NINTENDO_CHRGGRIP) },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_NINTENDO,
- 			 USB_DEVICE_ID_NINTENDO_JOYCONL) },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_NINTENDO,
+ 
+-	report = (struct joycon_input_report *)ctlr->input_buf;
+-	raw_cal = &report->reply.data[5];
+-
+-	/* left stick calibration parsing */
+-	cal_x = &ctlr->left_stick_cal_x;
+-	cal_y = &ctlr->left_stick_cal_y;
+-
+-	x_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 0), 0, 12);
+-	y_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 1), 4, 12);
+-	cal_x->center = hid_field_extract(ctlr->hdev, (raw_cal + 3), 0, 12);
+-	cal_y->center = hid_field_extract(ctlr->hdev, (raw_cal + 4), 4, 12);
+-	x_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 6), 0, 12);
+-	y_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 7), 4, 12);
+-	cal_x->max = cal_x->center + x_max_above;
+-	cal_x->min = cal_x->center - x_min_below;
+-	cal_y->max = cal_y->center + y_max_above;
+-	cal_y->min = cal_y->center - y_min_below;
+-
+-	/* right stick calibration parsing */
+-	raw_cal += 9;
+-	cal_x = &ctlr->right_stick_cal_x;
+-	cal_y = &ctlr->right_stick_cal_y;
+-
+-	cal_x->center = hid_field_extract(ctlr->hdev, (raw_cal + 0), 0, 12);
+-	cal_y->center = hid_field_extract(ctlr->hdev, (raw_cal + 1), 4, 12);
+-	x_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 3), 0, 12);
+-	y_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 4), 4, 12);
+-	x_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 6), 0, 12);
+-	y_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 7), 4, 12);
+-	cal_x->max = cal_x->center + x_max_above;
+-	cal_x->min = cal_x->center - x_min_below;
+-	cal_y->max = cal_y->center + y_max_above;
+-	cal_y->min = cal_y->center - y_min_below;
+-
+ 	hid_dbg(ctlr->hdev, "calibration:\n"
+ 			    "l_x_c=%d l_x_max=%d l_x_min=%d\n"
+ 			    "l_y_c=%d l_y_max=%d l_y_min=%d\n"
 -- 
 2.33.0
 
