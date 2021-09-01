@@ -2,88 +2,119 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9ADC3FE28F
-	for <lists+linux-input@lfdr.de>; Wed,  1 Sep 2021 20:54:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 727E73FE2EE
+	for <lists+linux-input@lfdr.de>; Wed,  1 Sep 2021 21:22:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243822AbhIASy6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Sep 2021 14:54:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35648 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1343671AbhIASyw (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 1 Sep 2021 14:54:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E2A3661131;
-        Wed,  1 Sep 2021 18:53:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1630522429;
-        bh=XZ8iW6MZ8uzAD8NrpD8rSGkgOZzPZAsbD/exYXGVr9Y=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=gn8IlCPvFgFcTgSYMUasr8xjOtCSnxDlhGMIlprF7gIwWecW00s+fAelVQpR7SGVp
-         gD4B4szfHrdpbkWLj017FYLnFZ016nJkPEWremFBwFwxUtPMJfIlEInXji2BLU2WHP
-         Dst2wQog6aCQRgNI8L5FrJ2t1V1zAJXnKr01nzhcqwcJS5pKkKhUmjgrP0oDef+vwM
-         BPt5gtBoTsX1pDMwcjHuse0c/e1ivS2bVsUFxehQ/WmzfV2oh0R0fWFZjc0ZNfR8dc
-         sgy7Ge4vm59pLnGaUi9MkLsrziD5nCRqyhvA8tU23i1GVyjKi0POdZbwX7MfeZKWJ3
-         IrnhiCAsQ4UCg==
-Date:   Wed, 1 Sep 2021 20:53:39 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Michal Kubecek <mkubecek@suse.cz>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        linux-input@vger.kernel.org,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 1/3] HID: usbhid: Fix flood of "control queue full"
- messages
-In-Reply-To: <20210901163549.GA404634@rowland.harvard.edu>
-Message-ID: <nycvar.YFH.7.76.2109012052530.15944@cbobk.fhfr.pm>
-References: <20210819195300.GA8613@rowland.harvard.edu> <000000000000c322ab05c9f2e880@google.com> <20210820140620.GA35867@rowland.harvard.edu> <nycvar.YFH.7.76.2108241351490.15313@cbobk.fhfr.pm> <CAO-hwJ+i4MqOj0umUW9kFgYSZLt3QMb6hDZHQwb8AKH9pKxSTg@mail.gmail.com>
- <20210901153811.GA403560@rowland.harvard.edu> <20210901155145.qflw5s4zqiud7gke@lion.mk-sys.cz> <20210901163549.GA404634@rowland.harvard.edu>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1344377AbhIATXt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Sep 2021 15:23:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42040 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230380AbhIATXt (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Sep 2021 15:23:49 -0400
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 406EFC061575;
+        Wed,  1 Sep 2021 12:22:52 -0700 (PDT)
+Received: by mail-qt1-x836.google.com with SMTP id u21so679896qtw.8;
+        Wed, 01 Sep 2021 12:22:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id;
+        bh=PL6tMWt+pDh+s6ofmXVwfU83Mqm7g1Pf+LEmUoSo0nE=;
+        b=MFVo1MlXgegFbdtBSOiETpNBYM4IQQ/Ff6X+rjs+Eq58fO4mf/Wiv7Uc/yKVIBUC1K
+         lJW/NI5xXpeGODwGLYcAdon+jVqkQ1r42UdxA1KbptUsVNA43gXmXxs+YvFUxdBwvbar
+         cABlqJnFaD4QOS5iAD8SnCGsFv/cNJ53rKRT2lPBie9Rd5inQpVaKl2H58XqBPDJ4m1T
+         5r0ab2Etts14Nh7oH0G4m3Ut312Jq8jweEha4XlVMyxYqiF0K9iOBs8QqmTOpDEnMCab
+         TeZYgyMJYdBFsqIYgVM8WeMjTzphLSP77L5kvfsvTL9o88EWNN7qA+PGRE1sdD5cONcb
+         +ZlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=PL6tMWt+pDh+s6ofmXVwfU83Mqm7g1Pf+LEmUoSo0nE=;
+        b=d2aO3NrO4Dx5DYY0xU9XqXCcv+fEtp11GB9DUJGbTyvyJ4LQuUZPUnsbhUXgINbFn4
+         jzPootoLi8UH2B47rEgnJEkA+NRTN2+V44oeZCFAg/0sfwKPi/m3NewQhrGQdrIVtN9S
+         k8l8Zz2j+Cjp7pJVR7nwhelfUamOhAzvf+G9OAkt+R4s+fK9um9SGnJAOWwoOTNexuQq
+         78Uv/hojNbh7C6q06HA7YRwNidyBQvlzposQ6bdX1SikO2h/H7647Yr3OxBBe9eQW9qq
+         Z80VDvceiYSosEwmh9gZoWRn4GcZWapn1hPiP1nSJjOWM07pVIJx0juEYedFN2Yz5ZG3
+         5d3w==
+X-Gm-Message-State: AOAM532cvdHN2UmluiqCbNzGuK4uVJAqRCZ6PuhLmXgZ2HrxLXwesMCG
+        85gKKStJlAUUdyoUbDMOiFOlO8oS9ZU/7g==
+X-Google-Smtp-Source: ABdhPJw976UM26Pfk0skCJY438ClwwuIVQ7TdLcV+m0un5C/vkVSL3X08dIYNdq0wUzcdnALhgFN6Q==
+X-Received: by 2002:ac8:7483:: with SMTP id v3mr974432qtq.113.1630524171397;
+        Wed, 01 Sep 2021 12:22:51 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:3b96:107a:e5b5:6e20:b715:596c])
+        by smtp.gmail.com with ESMTPSA id w18sm436883qto.91.2021.09.01.12.22.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Sep 2021 12:22:51 -0700 (PDT)
+From:   Rogerio Pimentel <rpimentel.silva@gmail.com>
+To:     dmitry.torokhov@gmail.com, rpimentel.silva@gmail.com,
+        hansemro@outlook.com, marex@denx.de, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: ili210x - Set the device name according to the device model
+Date:   Wed,  1 Sep 2021 16:22:29 -0300
+Message-Id: <20210901192229.29864-1-rpimentel.silva@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 1 Sep 2021, Alan Stern wrote:
+Adding the device model into the device name is useful when
+applications need to set different parameters according to the
+touchscreen being used, e.g. X11 calibration points.
 
-> From: Michal Kubecek <mkubecek@suse.cz>
-> 
-> [patch description by Alan Stern]
-> 
-> Commit 7652dd2c5cb7 ("USB: core: Check buffer length matches wLength
-> for control transfers") causes control URB submissions to fail if the
-> transfer_buffer_length value disagrees with the setup packet's wLength
-> valuel.  Unfortunately, it turns out that the usbhid can trigger this
-> failure mode when it submits a control request for an input report: It
-> pads the transfer buffer size to a multiple of the maxpacket value but
-> does not increase wLength correspondingly.
-> 
-> These failures have caused problems for people using an APS UPC, in
-> the form of a flood of log messages resembling:
-> 
-> 	hid-generic 0003:051D:0002.0002: control queue full
-> 
-> This patch fixes the problem by setting the wLength value equal to the
-> padded transfer_buffer_length value in hid_submit_ctrl().  As a nice
-> bonus, the code which stores the transfer_buffer_length value is now
-> shared between the two branches of an "if" statement, so it can be
-> de-duplicated.
-> 
-> Signed-off-by: Michal Kubecek <mkubecek@suse.cz>
-> Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-> Fixes: 7652dd2c5cb7 ("USB: core: Check buffer length matches wLength for control transfers")
-> Tested-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-> Tested-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Cc: stable@vger.kernel.org
-> 
+Signed-off-by: Rogerio Pimentel <rpimentel.silva@gmail.com>
+---
+ drivers/input/touchscreen/ili210x.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-Thanks Alan, applied and I will be sending whole HID tree to Linus soon.
-
-(BTW, something broke your threading, so 2/3 and 3/3 were not threaded 
-together with 1/3).
-
+diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+index 30576a5f2f04..ca7af4a6f588 100644
+--- a/drivers/input/touchscreen/ili210x.c
++++ b/drivers/input/touchscreen/ili210x.c
+@@ -19,6 +19,8 @@
+ #define ILI251X_DATA_SIZE1	31
+ #define ILI251X_DATA_SIZE2	20
+ 
++#define ILI_NAME_LEN		27
++
+ /* Touchscreen commands */
+ #define REG_TOUCHDATA		0x10
+ #define REG_PANEL_INFO		0x20
+@@ -394,6 +396,7 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+ 	struct input_dev *input;
+ 	int error;
+ 	unsigned int max_xy;
++	char *model_name;
+ 
+ 	dev_dbg(dev, "Probing for ILI210X I2C Touschreen driver");
+ 
+@@ -440,7 +443,11 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+ 	i2c_set_clientdata(client, priv);
+ 
+ 	/* Setup input device */
+-	input->name = "ILI210x Touchscreen";
++	input->name = "Ilitek         Touchscreen";
++	model_name = (char *)input->name;
++	snprintf(model_name, ILI_NAME_LEN, "Ilitek %s Touchscreen",
++	id->name);
++	input->name = model_name;
+ 	input->id.bustype = BUS_I2C;
+ 
+ 	/* Multi touch */
+@@ -487,10 +494,10 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+ }
+ 
+ static const struct i2c_device_id ili210x_i2c_id[] = {
+-	{ "ili210x", (long)&ili210x_chip },
+-	{ "ili2117", (long)&ili211x_chip },
+-	{ "ili2120", (long)&ili212x_chip },
+-	{ "ili251x", (long)&ili251x_chip },
++	{ .name = "ili210x", (long)&ili210x_chip },
++	{ .name = "ili2117", (long)&ili211x_chip },
++	{ .name = "ili2120", (long)&ili212x_chip },
++	{ .name = "ili251x", (long)&ili251x_chip },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, ili210x_i2c_id);
 -- 
-Jiri Kosina
-SUSE Labs
+2.17.1
 
