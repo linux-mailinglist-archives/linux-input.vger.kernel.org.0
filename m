@@ -2,104 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BC973FE971
-	for <lists+linux-input@lfdr.de>; Thu,  2 Sep 2021 08:47:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A61E43FE9D1
+	for <lists+linux-input@lfdr.de>; Thu,  2 Sep 2021 09:13:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242145AbhIBGsJ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Thu, 2 Sep 2021 02:48:09 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:48891 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242135AbhIBGsJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Sep 2021 02:48:09 -0400
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 361B224000C;
-        Thu,  2 Sep 2021 06:47:06 +0000 (UTC)
-Date:   Thu, 2 Sep 2021 08:47:06 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Grygorii Strashko <grygorii.strashko@ti.com>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>, <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        "Ryan J . Barnett" <ryan.barnett@collins.com>,
-        <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-omap@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, Jason Reeder <jreeder@ti.com>
-Subject: Re: [PATCH 28/40] mfd: ti_am335x_tscadc: Add ADC1/magnetic reader
- support
-Message-ID: <20210902084706.7cd54453@xps13>
-In-Reply-To: <732e002d-d732-5411-1be4-1ecafc993da5@ti.com>
-References: <20210825152518.379386-1-miquel.raynal@bootlin.com>
-        <20210825152518.379386-29-miquel.raynal@bootlin.com>
-        <732e002d-d732-5411-1be4-1ecafc993da5@ti.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S242126AbhIBHOZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Sep 2021 03:14:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32962 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233363AbhIBHOY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Sep 2021 03:14:24 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 245A5C061575
+        for <linux-input@vger.kernel.org>; Thu,  2 Sep 2021 00:13:27 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id ay33so1034097qkb.10
+        for <linux-input@vger.kernel.org>; Thu, 02 Sep 2021 00:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=5R4bY9XsB5NS5lJ7wOWmrb5ovHpBSTLNXWuHu+TtAgA=;
+        b=D3lCAqc/IAMH0Wco+cC+fbFHCdyJcKm4lbGbAziDPBY4m8n21LarFIuj9aaUL17fq6
+         HNWVAbyc18rKruwmLsMSd0k85LIv1o6YPijy9nMNBWqsuR7xbiXNHAQbz8WwT0GMWbJQ
+         elGd+hjP7GmsnpjvGoQPU/SZjLJSlv+Sqi1QO1vkjNRI6QAx6tv7e6I8E9/moEFhBvTh
+         BcXdkzRLOhhH68yqw7mtd+u201Tkc8IADpkCt47lpUcpLfUcfNBq42unM2PwFx0H2B44
+         x7hAj4KyfACaGX6BiPzNIhNiebvMnglhNSVvvnVlakjf0kWyQIRSOKRzAUsdRxqZQAkF
+         eQuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=5R4bY9XsB5NS5lJ7wOWmrb5ovHpBSTLNXWuHu+TtAgA=;
+        b=D6CaGQhZkr5pZE3o9Pv3g/42WYXzdMKGUfCOqxZ0SXeVDLzAxZstt3n7ahbcvXGSsH
+         czEoBJ6rRYo9kaOutyhi9pNj57XTGoXyApqUBFfagF30LIYc7N2eiu+o068p5BAdBp5f
+         qAwF5tiJ89072Zd1rv8JGJQy5RFgHU6X/7cpjUj9GSv3nsfPBtmtkq30xjhY0iczToz6
+         ZhcF4dSH6eYnNlHSkdLAYerctxk8g0XppKGuXnvoYxZKy1J8teJk4lylfks/nj6dAU+4
+         E7eBjLuvnvzbD4aV1n/3oDfXCXVaaXdcdSY2z79CqEG/bhRkC9QxBKDkJ7f7Wmokn1ts
+         c3Bw==
+X-Gm-Message-State: AOAM531H05oPc1+2/5XjHf0JLNxm8eNnR1FiBI9i5J84wJAtMRkh+3Ph
+        GZ9PJQFGnHgkzAo6s5cNGASrdzyOgbnWZdaIwzIXXeQA
+X-Google-Smtp-Source: ABdhPJzkOAtmdHy0JGlT7qG+FRHdoi5FFxHRIplqDvXP/K3HGfxgkOshTVciz5TLQaXZnRec6hKxXcLs/Ys+Jsv6Vyc=
+X-Received: by 2002:a05:620a:6b3:: with SMTP id i19mr1927194qkh.74.1630566806336;
+ Thu, 02 Sep 2021 00:13:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+References: <20210818152743.163929-1-tobias.junghans@inhub.de>
+ <3382390.V25eIC5XRa@306e6e011c15> <CALUj-gvwPJW6qND7_8eBPLjdXe9OienMeSNu7zAgq6Q-YEitiQ@mail.gmail.com>
+ <1931977.PIDvDuAF1L@306e6e011c15>
+In-Reply-To: <1931977.PIDvDuAF1L@306e6e011c15>
+From:   rishi gupta <gupt21@gmail.com>
+Date:   Thu, 2 Sep 2021 12:43:14 +0530
+Message-ID: <CALUj-gt2dsj=4_EZO26_ufQezaSUr004H81TDS=YjLc5ydiGFg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] HID: mcp2221: configure GP pins for GPIO function
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Tobias Junghans <tobias.junghans@inhub.de>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Grygorii,
+I am unconvinced but would leave the final decision to Linus and other
+maintainers. If they approve I will start code review.
 
-Grygorii Strashko <grygorii.strashko@ti.com> wrote on Wed, 1 Sep 2021
-22:26:25 +0300:
+-Rishi
 
-> On 25/08/2021 18:25, Miquel Raynal wrote:
-> > Introduce a new compatible that has another set of driver data,
-> > targeting am437x SoCs with a magnetic reader instead of the
-> > touchscreen and a more featureful set of registers.
-> > 
-> > Co-developed-by: Jason Reeder <jreeder@ti.com>
-> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > Signed-off-by: Jason Reeder <jreeder@ti.com>
-> > ---
-> >   drivers/mfd/ti_am335x_tscadc.c       | 43 ++++++++++++++++++++++------
-> >   include/linux/mfd/ti_am335x_tscadc.h |  9 +++++-
-> >   2 files changed, 43 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/drivers/mfd/ti_am335x_tscadc.c b/drivers/mfd/ti_am335x_tscadc.c
-> > index 1a30610dc65f..f4f6b9db4d2a 100644
-> > --- a/drivers/mfd/ti_am335x_tscadc.c
-> > +++ b/drivers/mfd/ti_am335x_tscadc.c
-> > @@ -122,9 +122,9 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
-> >   	const __be32 *cur;
-> >   	struct clk *clk;
-> >   	u32 val;
-> > -	bool use_tsc = false;
-> > +	bool use_tsc = false, use_mag = false;
-> >   	int tscmag_wires = 0, adc_channels = 0, readouts = 0, cell_idx = 0;
-> > -	int total_channels, err;
-> > +	int mag_tracks = 0, total_channels, err;  
-> >   >   	/* Allocate memory for device */  
-> >   	tscadc = devm_kzalloc(&pdev->dev, sizeof(*tscadc), GFP_KERNEL);
-> > @@ -146,6 +146,12 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
-> >   		of_property_read_u32(node, "ti,coordiante-readouts", &readouts);
-> >   		if (tscmag_wires)
-> >   			use_tsc = true;
-> > +	} else {
-> > +		node = of_get_child_by_name(pdev->dev.of_node, "mag");
-> > +		of_property_read_u32(node, "ti,tracks", &mag_tracks);  
-> 
-> "ti,tracks" seems undocumented?
-
-Well that's true and almost on purpose, I am not focusing on the
-magnetic reader feature, it is not supported, I don't have one, I don't
-plan to add support for it. But in the driver I need to know how many
-"tracks" are unavailable for the ADC in order to implement the entire
-logic (this block comes from TI and the naming from Jason Reeder).
-
-I am not comfortable writing a binding file for a device that I won't
-use, it's the best way to miss something and have stable broken
-bindings in the future. So I assumed it was not a big deal to have this
-property in the code, which may be updated/removed/enhanced later if
-needed without having to mess with the code too much. What do you think?
-
-Thanks,
-Miquèl
+On Mon, Aug 30, 2021 at 7:00 PM Tobias Junghans
+<tobias.junghans@inhub.de> wrote:
+>
+> Hi Rishi,
+>
+> Sure, this can always happen =E2=80=93 like with any other kinds of (e.g.=
+ SoC) GPIOs
+> where you have to take care and/or keep track of your system's permission=
+s
+> (which should prevent non-root applications from doing bad things such as
+> playing with GPIO settings or wiping your storage). As written, the code
+> changes do no harm unless you enforce it.
+>
+> Best regards
+>
+> Tobias
+>
+> > By mistake during development it may happen or a rogue application can
+> > knowingly play with our hardware (commercial product may be
+> > vulnerable). What are your thoughts?
+> >
+> > -Rishi
+> >
+>
+>
+>
