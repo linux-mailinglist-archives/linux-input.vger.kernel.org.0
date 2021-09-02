@@ -2,18 +2,22 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 590E43FF6A1
-	for <lists+linux-input@lfdr.de>; Thu,  2 Sep 2021 23:53:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD0183FF701
+	for <lists+linux-input@lfdr.de>; Fri,  3 Sep 2021 00:18:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347871AbhIBVyb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Sep 2021 17:54:31 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:50669 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347766AbhIBVyS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Sep 2021 17:54:18 -0400
+        id S1347574AbhIBWSw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 2 Sep 2021 18:18:52 -0400
+Received: from mslow1.mail.gandi.net ([217.70.178.240]:36101 "EHLO
+        mslow1.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236148AbhIBWSv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Sep 2021 18:18:51 -0400
+Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id 3D392CA983;
+        Thu,  2 Sep 2021 22:17:51 +0000 (UTC)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id E670D240007;
-        Thu,  2 Sep 2021 21:53:15 +0000 (UTC)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 7C2B1C0005;
+        Thu,  2 Sep 2021 22:17:26 +0000 (UTC)
+Date:   Fri, 3 Sep 2021 00:17:25 +0200
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     Jonathan Cameron <jic23@kernel.org>,
         Lars-Peter Clausen <lars@metafoo.de>,
@@ -30,49 +34,104 @@ Cc:     linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
         Tero Kristo <kristo@kernel.org>,
         Ryan Barnett <ryan.barnett@collins.com>,
         Grygorii Strashko <grygorii.strashko@ti.com>,
-        Jason Reeder <jreeder@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH v2 46/46] ARM: dts: am437x-gp-evm: enable ADC1
-Date:   Thu,  2 Sep 2021 23:51:44 +0200
-Message-Id: <20210902215144.507243-47-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210902215144.507243-1-miquel.raynal@bootlin.com>
+        Jason Reeder <jreeder@ti.com>
+Subject: Re: [PATCH v2 45/46] ARM: dts: am43xx: Describe the magnetic
+ reader/ADC1 hardware module
+Message-ID: <20210903001725.59833f05@xps13>
+In-Reply-To: <20210902215144.507243-46-miquel.raynal@bootlin.com>
 References: <20210902215144.507243-1-miquel.raynal@bootlin.com>
+        <20210902215144.507243-46-miquel.raynal@bootlin.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-ADC0 and ADC1 pins are available on external connector J22.
+Hello,
 
-Enable ADC1 which was missing.
+Miquel Raynal <miquel.raynal@bootlin.com> wrote on Thu,  2 Sep 2021
+23:51:43 +0200:
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
- arch/arm/boot/dts/am437x-gp-evm.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> This hardware module is close to the am33xx ADC module but instead of
+> featuring a touchscreen it has a magnetic reader capability.
+> 
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> ---
+>  arch/arm/boot/dts/am437x-l4.dtsi     | 31 ++++++++++++++++++++++++++--
+>  arch/arm/boot/dts/am43xx-clocks.dtsi |  7 +++++++
+>  2 files changed, 36 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/am437x-l4.dtsi b/arch/arm/boot/dts/am437x-l4.dtsi
+> index 370c4e64676f..7a3dcfc7bfc9 100644
+> --- a/arch/arm/boot/dts/am437x-l4.dtsi
+> +++ b/arch/arm/boot/dts/am437x-l4.dtsi
+> @@ -2350,11 +2350,38 @@ hdq: hdq@0 {
+>  		};
+>  
+>  		target-module@4c000 {			/* 0x4834c000, ap 114 72.0 */
+> -			compatible = "ti,sysc";
+> -			status = "disabled";
+> +			compatible = "ti,sysc-omap4", "ti,sysc";
+> +			reg = <0x4c000 0x4>,
+> +			      <0x4c010 0x4>;
+> +			reg-names = "rev", "sysc";
+> +			ti,sysc-sidle = <SYSC_IDLE_FORCE>,
+> +					<SYSC_IDLE_NO>,
+> +					<SYSC_IDLE_SMART>;
+> +			clocks = <&l3s_clkctrl AM4_L3S_ADC1_CLKCTRL 0>;
+> +			clock-names = "fck";
+>  			#address-cells = <1>;
+>  			#size-cells = <1>;
+>  			ranges = <0x0 0x4c000 0x2000>;
+> +
+> +			magadc: magadc@0 {
+> +				compatible = "ti,am4372-magadc";
+> +				reg = <0x0 0x2000>;
+> +				interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>;
+> +				clocks = <&adc_mag_fck>;
+> +				clock-names = "fck";
+> +				dmas = <&edma 54 0>, <&edma 55 0>;;
 
-diff --git a/arch/arm/boot/dts/am437x-gp-evm.dts b/arch/arm/boot/dts/am437x-gp-evm.dts
-index 033b984ff637..2396ff2ae790 100644
---- a/arch/arm/boot/dts/am437x-gp-evm.dts
-+++ b/arch/arm/boot/dts/am437x-gp-evm.dts
-@@ -775,6 +775,14 @@ adc {
- 	};
- };
- 
-+&magadc {
-+	status = "okay";
-+
-+	adc {
-+		ti,adc-channels = <0 1 2 3 4 5 6 7>;
-+	};
-+};
-+
- &ecap0 {
- 	status = "okay";
- 	pinctrl-names = "default";
--- 
-2.27.0
+Small typo here, should have a single ';'.
+As the series is fairly long, we will see if there is a need to resend
+it or not.
 
+> +				dma-names = "fifo0", "fifo1";
+> +				status = "disabled";
+> +
+> +				mag {
+> +					compatible = "ti,am4372-mag";
+> +				};
+> +
+> +				adc {
+> +					#io-channel-cells = <1>;
+> +					compatible ="ti,am4372-adc";
+> +				};
+> +			};
+>  		};
+>  
+>  		target-module@80000 {			/* 0x48380000, ap 123 42.0 */
+> diff --git a/arch/arm/boot/dts/am43xx-clocks.dtsi b/arch/arm/boot/dts/am43xx-clocks.dtsi
+> index c726cd8dbdf1..59b1f592a743 100644
+> --- a/arch/arm/boot/dts/am43xx-clocks.dtsi
+> +++ b/arch/arm/boot/dts/am43xx-clocks.dtsi
+> @@ -444,6 +444,13 @@ wdt1_fck: wdt1_fck@422c {
+>  		reg = <0x422c>;
+>  	};
+>  
+> +	adc_mag_fck: adc_mag_fck@424c {
+> +		#clock-cells = <0>;
+> +		compatible = "ti,mux-clock";
+> +		clocks = <&sys_clkin_ck>, <&dpll_per_m2_ck>;
+> +		reg = <0x424c>;
+> +	};
+> +
+>  	l3_gclk: l3_gclk {
+>  		#clock-cells = <0>;
+>  		compatible = "fixed-factor-clock";
+
+Thanks,
+Miquèl
