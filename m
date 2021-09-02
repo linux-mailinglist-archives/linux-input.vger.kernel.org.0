@@ -2,125 +2,296 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D89A3FEDEB
-	for <lists+linux-input@lfdr.de>; Thu,  2 Sep 2021 14:44:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10F7F3FEF7C
+	for <lists+linux-input@lfdr.de>; Thu,  2 Sep 2021 16:34:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344320AbhIBMpF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Sep 2021 08:45:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52340 "EHLO
+        id S1345436AbhIBOe6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Sep 2021 10:34:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234098AbhIBMpF (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Sep 2021 08:45:05 -0400
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2435C061575;
-        Thu,  2 Sep 2021 05:44:06 -0700 (PDT)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id DA80682DBA;
-        Thu,  2 Sep 2021 14:44:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1630586644;
-        bh=h+eb+xNiGGcksHiVR36S/ZDem9MgmoQYhpwzDPG17oE=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=i3+xHaLd35OXBSq7MVhtXRBbtMf3+CE9GXoONQaFUqXGZPU/kfDDU9awzuV965+T3
-         1nIri/64h1GBiUmKOXQK/dp+HwhJub7GNRJGq5uHrUd0utrhOczPV5ksA2MCGKX4TZ
-         UkTvnsGLpGMYQ+hGxHeHqnJFCrJwiqu2ez1rH4r31Lk5NUZZeo/XnbbnH09et1s5ek
-         kng6Kid5w+HHwSqlaebOz3Z60dBe6ITwfBSCwQJzIv0xEeF0V978+3qia7pjTLr48Y
-         f9Yyr0MpCsGPp5393RGGun8YuvBY80U6N5CTEijIVkVQPXvQ9WF6HoZB7u8O3qx32p
-         omGQm3ukkqtRQ==
-Subject: Re: [PATCH] Input: ili210x - Set the device name according to the
- device model
-To:     Rogerio Pimentel <rpimentel.silva@gmail.com>
-Cc:     dmitry.torokhov@gmail.com, hansemro@outlook.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210901192229.29864-1-rpimentel.silva@gmail.com>
- <4e8ad91c-2554-4b8f-94db-aa5add5f524d@denx.de>
- <CAOkaPuUYQQHQZrjj3CcS1dOZrA=rH=nJJPKaPNNdBJaXO_t7ng@mail.gmail.com>
- <c0f13f0f-48c8-f58d-4589-ad78b64fe809@denx.de>
- <CAOkaPuVV3HK8OvVMQxjRPh1S_pFjvbEgsR-5UB51H8aguCw6Lw@mail.gmail.com>
-From:   Marek Vasut <marex@denx.de>
-Message-ID: <2cf4320e-1111-2c2d-dc5a-92b171647450@denx.de>
-Date:   Thu, 2 Sep 2021 14:44:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        with ESMTP id S1345374AbhIBOe6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Sep 2021 10:34:58 -0400
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2DB3C061575
+        for <linux-input@vger.kernel.org>; Thu,  2 Sep 2021 07:33:59 -0700 (PDT)
+Received: by mail-qv1-xf34.google.com with SMTP id z7so1245136qvi.4
+        for <linux-input@vger.kernel.org>; Thu, 02 Sep 2021 07:33:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3KQ6G35PlxUS7qEBd1dJFqBZBO6DyHVi9jLOTG0fUuo=;
+        b=bCmRwbIcwEv/bN2TDgaUTe74jMuFo8tRkUXEllgCKVgyu8/eIAXYNcmSqCW3vwrqSK
+         u/nhygFLKis2UkWUnzv0mIZJRlLbBHuGjOsNtot3qGEHBogMguBe6JGeDrRmehZVIWnV
+         hCmI900oEa9mE7wUR8uuOzd5EEOefm/tvVCy8Bu0YzXHAKnZiXIw3F2KW4VdZcQkwdpj
+         SwwxR/U6fvb8Qz9G0bWdhD3E5+uMjEtjkr5AE5xdCwjQ96/7VE23+ppYbGU3igKZW87P
+         JK8/wpaUKQKv51wQ/fQ0zcfcBykWmO3TFmZJvqtZ0MGcDR/EkF9hR/9qTVa7YnFy7Jv1
+         GgfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3KQ6G35PlxUS7qEBd1dJFqBZBO6DyHVi9jLOTG0fUuo=;
+        b=UAVRIRQw0/BCJDGHopnZsJz5Q2tY2oM0c/Y6mGoCvQqIQh3EKXTLLKlJWQ0O0j31/Q
+         jLaPND3yQtpzzlpAJJbO2AiLkx1owOmKwra5C3oq5BEhlDHhw1Xi1EPydMuqg1bdDCi+
+         hQJ2DcYqnPq4tB1FcePx0QPbddchTR4ZhIUkZvaGtRcEaLkNmA7PvMPMnIqn44D63NSf
+         LdzEHqNYC43ivNf4k4tCooe7jpAkYMb+p/ELdtq5P/FMLyIk8VtOYO+91WEoIqLrQKh+
+         H1gBlHfGg9d8bMNHZTUkxFkpmXMtJW2ocewZeaDShlB5+hW3UVpFiAMfUOqc15dNCZAL
+         j93w==
+X-Gm-Message-State: AOAM531ycVPNercezscpq7gCE0sokk4D6R3AGRTAGagVNG8CyNcyCfgi
+        WD2YvgSrwXgBA/CNttk0FtsI7LrOs46x1n/ehadRblJk
+X-Google-Smtp-Source: ABdhPJzdMhxDRt8IbWNcW8dWE0AGyltxKNvSyDuDKWk/Nqjeuh0GhbUwlCoVVPMqRpb7RVj4cYXfCq9HQrnV2wRUvKM=
+X-Received: by 2002:a0c:e412:: with SMTP id o18mr3559572qvl.57.1630593238809;
+ Thu, 02 Sep 2021 07:33:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAOkaPuVV3HK8OvVMQxjRPh1S_pFjvbEgsR-5UB51H8aguCw6Lw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+References: <CAGfCfjjZac9Z8X6GiSHesrQUj8_NiTPOrjCuU7P-g522pQ85Cw@mail.gmail.com>
+ <CAEc3jaBspXk=mCe4xo6N5_p9_+qoUa9qiEkRdm2Y1rTahnnjyg@mail.gmail.com>
+ <CAGfCfjiakgR1qRr4t1GU7Yte6qjizmoK30RkpZdyYuCf_enquQ@mail.gmail.com> <CAEc3jaB_mhxjUOT=CrGf7Nm7o+CqGcaRMDxqyCDyYVLqhRGM2A@mail.gmail.com>
+In-Reply-To: <CAEc3jaB_mhxjUOT=CrGf7Nm7o+CqGcaRMDxqyCDyYVLqhRGM2A@mail.gmail.com>
+From:   fei fei <cyfei1982@gmail.com>
+Date:   Thu, 2 Sep 2021 22:33:47 +0800
+Message-ID: <CAGfCfjg0ADpk8nDkvmpdAW4aNbxei22zsFU0VEtUb6KiS-dhPQ@mail.gmail.com>
+Subject: Re: help needed in this part of code regarding FF in hid-sony.c
+To:     Roderick Colenbrander <thunderbird2k@gmail.com>
+Cc:     "Colenbrander, Roelof" <roderick.colenbrander@sony.com>,
+        linux-input <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 9/2/21 2:39 PM, Rogerio Pimentel wrote:
-> On Wed, Sep 1, 2021 at 5:48 PM Marek Vasut <marex@denx.de> wrote:
->>
->> On 9/1/21 10:27 PM, Rogerio Pimentel wrote:
->>> On Wed, Sep 1, 2021 at 4:46 PM Marek Vasut <marex@denx.de> wrote:
->>>>
->>>> On 9/1/21 9:22 PM, Rogerio Pimentel wrote:
->>>>
->>>> [...]
->>>>
->>>>> diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
->>>>> index 30576a5f2f04..ca7af4a6f588 100644
->>>>> --- a/drivers/input/touchscreen/ili210x.c
->>>>> +++ b/drivers/input/touchscreen/ili210x.c
->>>>> @@ -19,6 +19,8 @@
->>>>>     #define ILI251X_DATA_SIZE1  31
->>>>>     #define ILI251X_DATA_SIZE2  20
->>>>>
->>>>> +#define ILI_NAME_LEN         27
->>>>> +
->>>>>     /* Touchscreen commands */
->>>>>     #define REG_TOUCHDATA               0x10
->>>>>     #define REG_PANEL_INFO              0x20
->>>>> @@ -394,6 +396,7 @@ static int ili210x_i2c_probe(struct i2c_client *client,
->>>>>         struct input_dev *input;
->>>>>         int error;
->>>>>         unsigned int max_xy;
->>>>> +     char *model_name;
->>>>>
->>>>>         dev_dbg(dev, "Probing for ILI210X I2C Touschreen driver");
->>>>>
->>>>> @@ -440,7 +443,11 @@ static int ili210x_i2c_probe(struct i2c_client *client,
->>>>>         i2c_set_clientdata(client, priv);
->>>>>
->>>>>         /* Setup input device */
->>>>> -     input->name = "ILI210x Touchscreen";
->>>>> +     input->name = "Ilitek         Touchscreen";
->>>>> +     model_name = (char *)input->name;
->>>>> +     snprintf(model_name, ILI_NAME_LEN, "Ilitek %s Touchscreen",
->>>>
->>>> Which ilitek devices do you have available exactly ?
->>>>
->>>> There is a firmware interface which does report the device type, but I
->>>> don't know whether it works on all the ilitek touchscreen devices. If it
->>>> does, then it could be used here to pull the type from the firmware and
->>>> then use this instead
->>>>
->>>> snprintf(model_name, ILI_NAME_LEN, "Ilitek ILI%04x Touchscreen", type);
->>>>
->>>> Try this command against the touch controller, it sends it command 0x61
->>>> and reads two bytes of the reply:
->>>> i2ctransfer -f -y 1 w1@0x41 0x61 r2
->>>> 0x10 0x25 # <---- on ILI2510 it reports 0x25 0x10 in reverse
->>>
->>> Thanks for the comments and suggestions. I'll make the changes and send V2.
->>
->> Can you tell which ILI2xxx touch controller you have exactly ?
-> 
-> Now I have only the ILI2511. Will also have to support ILI2510 and ILI2118.
-> 
->> Can you share the output of the 'i2ctransfer' (from i2c-tools) command
->> above ?
-> 
-> # i2ctransfer -f -y 3 w1@0x41 0x61 r2
-> 0x11 0x25
+Oh, I'm not familiar with linux kernel actually, if what I did is not
+suitable for linux kernel space, I'll leave it just for my own use
+then. And by the way, the environment I'm working on is Android device
+actually, I wonder why something like this would be a drastic change.
 
-Nice, so this works at least with the 251x series. Let's see how the 
-2118 behaves, I bet you will get 0x18 0x21 there too.
+udev rules is easy to access in linux but in Android I wonder how this
+is to be done.
+
+Anyway, get to know that you're on vacation in other mail, sorry for
+occupied your precious personal time and thank you to help in my
+inquiries, enjoy your vacation ^_^
+
+On Thu, 2 Sept 2021 at 05:38, Roderick Colenbrander
+<thunderbird2k@gmail.com> wrote:
+>
+> Hi Fei,
+>
+> Thanks for your interest in adding this capability. I'm not sure if
+> this type of feature is desired in the Linux kernel directly. It is
+> not common practice to make a controller rumble at startup (not even
+> on game consoles). This driver is used in many devices (e.g. Android)
+> and such change would be a drastic behavior change.
+>
+> If this is a behavior you would like to see for yourself, I would
+> recommend not to do this kernel side. You can easily add a udev rule
+> on your system to trigger a certain command upon discovery of a Sony
+> game controller as well as controllers from other vendors.
+>
+> Thanks,
+> Roderick
+>
+> On Mon, Aug 30, 2021 at 10:23 PM fei fei <cyfei1982@gmail.com> wrote:
+> >
+> > Thanks Mr. Roderick for such quick reply, and sorry for redundant
+> > emails, still not familiar with how linux kenel mailing list worked.
+> >
+> > The purpose for doing this is to have an alternative way of
+> > initialization/connection success indicator other than just the LEDs
+> > in case of the leds broken/burnt, it's always better to have
+> > alternative than no, isn't it?
+> >
+> > I'll try digging in the kernel log see if I'm lucky enough to find
+> > something useful.
+> >
+> > For the sleep part, it's because I need to make adjustment to the
+> > magnitude play duration for the initial rumble, if I take out the
+> > sleep, the vibration will be long/simply no effect at all either
+> > has/not has the sc->left/right = 0 part right after, thus unsuitable
+> > for the initial rumble purpose(kinda weird). Never knew that it's
+> > taboo to use sleep in kernel, as some articles out there suggested
+> > that sleep is common in device driver.
+> >
+> > It's actually trouble free if I just set the initial rumble as
+> > independent function, but if I insist to merge it into
+> > sony_play_effect( ), how would you suggest proper way to make it
+> > right? Thanks.
+> >
+> > Regards,
+> > fei
+> >
+> > On Tue, 31 Aug 2021 at 07:12, Roderick Colenbrander
+> > <thunderbird2k@gmail.com> wrote:
+> > >
+> > > Hi Fei,
+> > >
+> > > I'm not sure why you are trying to make such change kernel side, but
+> > > of course nothing is stopping you for personal use.
+> > >
+> > > Kernel development is not easy and it is very easy to crash your
+> > > system. I can't say what is wrong here, but among the most common
+> > > issues are null pointer dereferences. If lucky the error is caught in
+> > > your kernel log, which should give you some clues on where the error
+> > > is coming from.
+> > >
+> > > Also in your changes, I see you added some sleeps. Sleeping in the
+> > > kernel is taboo in a lot of places and depending on where is done can
+> > > also be a thing leading to issues as well. Depending on where you
+> > > tried to initiate some of this new code, the driver might not have
+> > > completed fully initializing, so some variables might not be set or
+> > > buffers might not be fully initialized.
+> > >
+> > > Thanks,
+> > > Roderick
+> > >
+> > > On Mon, Aug 30, 2021 at 12:11 AM fei fei <cyfei1982@gmail.com> wrote:
+> > > >
+> > > > 4th attempt......
+> > > >
+> > > > Hello to Mr. Roderick or to whom it may concren,
+> > > >
+> > > > I am fei, a novice self-studied programming enthusiast, I need help
+> > > > with hid-sony.c, but there is no relevant maintainer found in the
+> > > > MAINTAINERS list, the closest is you, Mr. Roderick as the maintainer
+> > > > of hid-playstation.c, so I just try my luck here, hope you don't mind.
+> > > >
+> > > > The scenario as follow:
+> > > >
+> > > > I have added a feature to make initial rumble vibrates when devices
+> > > > are connected, code as follow (sony_play_effect() as reference) :
+> > > >
+> > > > add delay.h
+> > > >
+> > > > -----------------------------
+> > > > #include <linux/delay.h>
+> > > > -----------------------------
+> > > >
+> > > >
+> > > >
+> > > >
+> > > >
+> > > > define a global variable "init_rumble"
+> > > >
+> > > > ------------------------------
+> > > > ......#define SONY_FF_SUPPORT (SIXAXIS_CONTROLLER | DUALSHOCK4_CONTROLLER)
+> > > >
+> > > > bool init_rumble;
+> > > > #define SONY_BT_DEVICE......
+> > > > ------------------------------
+> > > >
+> > > >
+> > > >
+> > > >
+> > > > declare "init_rumble = true;" in sony_probe()
+> > > >
+> > > >
+> > > > actual part
+> > > >
+> > > > ------------------------------
+> > > > static int sony_init_ff_play(struct input_dev *dev)
+> > > > {
+> > > >     struct hid_device *hid = input_get_drvdata(dev);
+> > > >     struct sony_sc *sc = hid_get_drvdata(hid);
+> > > >
+> > > >     sc->left = 255;
+> > > >     sc->right = 255;
+> > > >
+> > > > /*needed for non bt connection or else won't work, reason unknown*/
+> > > >     if (!(sc->quirks & SONY_BT_DEVICE))
+> > > >           sony_schedule_work(sc, SONY_WORKER_STATE);
+> > > >
+> > > >     /*length-ing magnitude above*/
+> > > >     msleep(350);
+> > > >
+> > > >     sc->left = 0;
+> > > >     sc->right = 0;
+> > > >     sony_schedule_work(sc, SONY_WORKER_STATE);
+> > > >
+> > > >     init_rumble = false;
+> > > >
+> > > >     return 0;
+> > > > }
+> > > > -------------------------------
+> > > >
+> > > >
+> > > >
+> > > >
+> > > > and called from sony_init_ff()
+> > > >
+> > > > --------------------------------
+> > > > ......input_set_capability(input_dev, EV_FF, FF_RUMBLE);
+> > > >
+> > > > if (init_rumble == true) {
+> > > >     sony_init_ff_play(input_dev);
+> > > > }
+> > > >
+> > > > return input_ff_create_memless(input_dev......
+> > > > --------------------------------
+> > > >
+> > > >
+> > > >
+> > > >
+> > > > it works flawlessly without any error. Since it's identical to
+> > > > sony_play_effect(), so i just tried to merge them together into
+> > > > sony_play_effect() to reduce redundancy as follow:
+> > > >
+> > > > ------------------------------------
+> > > > static int sony_play_effect(struct input_dev *dev, void *data,
+> > > >    struct ff_effect *effect)
+> > > > {
+> > > >     struct hid_device *hid = input_get_drvdata(dev);
+> > > >     struct sony_sc *sc = hid_get_drvdata(hid);
+> > > >
+> > > >     if (effect->type != FF_RUMBLE)
+> > > >         return 0;
+> > > >
+> > > >     if (init_rumble == true)
+> > > >     {
+> > > >           sc->left = 255;
+> > > >           sc->right = 255;
+> > > >
+> > > >           if (!(sc->quirks & SONY_BT_DEVICE))
+> > > >               sony_schedule_work(sc, SONY_WORKER_STATE);
+> > > >
+> > > >           msleep(400);
+> > > >
+> > > >           sc->left = 0;
+> > > >           sc->right = 0;
+> > > >           sony_schedule_work(sc, SONY_WORKER_STATE);
+> > > >
+> > > >           init_rumble = false;
+> > > >           return 0;
+> > > >     }
+> > > >
+> > > >     sc->left = effect->u.rumble.strong_magnitude / 256;
+> > > >     sc->right = effect->u.rumble.weak_magnitude / 256;
+> > > >
+> > > >     sony_schedule_work(sc, SONY_WORKER_STATE);
+> > > >
+> > > >     return 0;
+> > > > }
+> > > > -----------------------------------------------
+> > > >
+> > > >
+> > > >
+> > > >
+> > > > called it from sony_init_ff()
+> > > >
+> > > > ----------------------------------------------
+> > > >  ......input_set_capability(input_dev, EV_FF, FF_RUMBLE);
+> > > >
+> > > >    if (init_rumble == true) {
+> > > >        sony_play_effect(input_dev, NULL, NULL);
+> > > >    }
+> > > >
+> > > > return input_ff_create_memless(input_dev......
+> > > > ------------------------------------------------
+> > > >
+> > > >
+> > > >
+> > > >
+> > > > but end up whole system being freezed up, what could possibly going
+> > > > wrong here? Thx in advance.
+> > > >
+> > > > Regards,
+> > > > fei
