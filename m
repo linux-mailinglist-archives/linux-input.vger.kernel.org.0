@@ -2,136 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 653FD3FEBB7
-	for <lists+linux-input@lfdr.de>; Thu,  2 Sep 2021 11:58:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37D4A3FEDE3
+	for <lists+linux-input@lfdr.de>; Thu,  2 Sep 2021 14:39:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231912AbhIBJ65 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Sep 2021 05:58:57 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:34176 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231544AbhIBJ64 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Sep 2021 05:58:56 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 1829vZVF024830;
-        Thu, 2 Sep 2021 04:57:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1630576655;
-        bh=nEoymP6uiFiiUs51DwV54eLM+vIw5+7/A3ZrzYKIF2w=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=TLIJKYvgitFbshk0d29u9N5kCnhcT3+knLZvP3vYItsrYveDUKecS+YatT/pPvl05
-         hSQDAb3sz8jcT0Aaq8931DzYe0U6ZDIrcihspwTgFCor2dBWfIAWczmbhEgnuvArjb
-         /G07zugGFS/zX6BM+/7B1itjIVb0hQgWy3GX6Ex0=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 1829vZL5107782
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 2 Sep 2021 04:57:35 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Thu, 2
- Sep 2021 04:57:34 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Thu, 2 Sep 2021 04:57:34 -0500
-Received: from [10.250.100.73] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 1829vU2G106438;
-        Thu, 2 Sep 2021 04:57:31 -0500
-Subject: Re: [PATCH 28/40] mfd: ti_am335x_tscadc: Add ADC1/magnetic reader
- support
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-CC:     Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>, <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        "Ryan J . Barnett" <ryan.barnett@collins.com>,
-        <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-omap@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, Jason Reeder <jreeder@ti.com>
-References: <20210825152518.379386-1-miquel.raynal@bootlin.com>
- <20210825152518.379386-29-miquel.raynal@bootlin.com>
- <732e002d-d732-5411-1be4-1ecafc993da5@ti.com> <20210902084706.7cd54453@xps13>
-From:   Grygorii Strashko <grygorii.strashko@ti.com>
-Message-ID: <2e1cb934-c85a-34ca-c701-0d845bf0680a@ti.com>
-Date:   Thu, 2 Sep 2021 12:57:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S1344316AbhIBMkc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Sep 2021 08:40:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51312 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234098AbhIBMkc (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Sep 2021 08:40:32 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AC76C061575;
+        Thu,  2 Sep 2021 05:39:33 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id n5so2663335wro.12;
+        Thu, 02 Sep 2021 05:39:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=csJI04gD3zaIbD2bwDlVjNA1ZtD/B7+S6sqXXeIBark=;
+        b=Ms0uIm39URlPnIU7XBTUH0zhkU1enB8aBLgjRSwhb9I5CpeEDb9LCv3+rRh88Xk5IP
+         unAe4xOQbBG6CgtO5iZqQ/LrhzBVf4WgaGTfN/bOdwDz25s7HFIkbN511xYILeaZdmCg
+         SueO1/o6j9TdiXUL3OgwSGgOMsjHVjbnOdt7U87ZvY+cr9kQIyBQEOTigmDyhICt21gQ
+         axRjG8bA2wYa/J6ILvFwInqJA5b7UwpknNQ8OMgNKpoUQVRMqIKx3Gwx5P9CK74qg9KF
+         HALFAhl5LiChxLzn+MEPqdQPNW8vEjYc1vs3sh8k3FoJrmSyOZBhTLdsMWV+jWxEa3cC
+         GoVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=csJI04gD3zaIbD2bwDlVjNA1ZtD/B7+S6sqXXeIBark=;
+        b=Sbow6F8am/p1AJJYk8nOCg2Vz/tPzc3McHAFNY2ewhecyUvCJruzohKaMM84mzTb8r
+         RUqHeG+cI6K36axckgBpkGtpso4f0eDpwU7iCoxci/YvhVOWdO4ruDydUF+3lYFNUWfo
+         DjyXCdE8xgWvIxvaiit4qOuuCz7SIkJvjPaeGKJ62fJpyA+TVe/Vf31LC0us9FP3+UZc
+         8Mr0EUn9tD/pNYNWg+pb9c1b4QGemw7z4dFh/9nJadpiOErtt7RNN95XabdlK1AJLgsq
+         Hpibyom+QQOPH4PeMWkci6sXHNCrNmnM1P2yWwKisR+FL0OaD2p1w/zCo0I39EwA+xUe
+         ozxg==
+X-Gm-Message-State: AOAM533I36lRWO4mGBKIyPV1xB8TMDKzUpAcaejt94LzlYR/xsnjkBSN
+        O5OZS+wGZzuIKY3P5kLFntJh5HoMIlNe9XxbkISySZMy+7ELPSHs
+X-Google-Smtp-Source: ABdhPJwF4/ldHk+8n4ZwSPvIeSIvkU+DAZuAm5eSduttkrF9qmebi0KijiSUPbi27iXvDGWJ/d21YzcPQP8Jx3pGPy0=
+X-Received: by 2002:adf:804a:: with SMTP id 68mr3520579wrk.236.1630586371541;
+ Thu, 02 Sep 2021 05:39:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210902084706.7cd54453@xps13>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20210901192229.29864-1-rpimentel.silva@gmail.com>
+ <4e8ad91c-2554-4b8f-94db-aa5add5f524d@denx.de> <CAOkaPuUYQQHQZrjj3CcS1dOZrA=rH=nJJPKaPNNdBJaXO_t7ng@mail.gmail.com>
+ <c0f13f0f-48c8-f58d-4589-ad78b64fe809@denx.de>
+In-Reply-To: <c0f13f0f-48c8-f58d-4589-ad78b64fe809@denx.de>
+From:   Rogerio Pimentel <rpimentel.silva@gmail.com>
+Date:   Thu, 2 Sep 2021 09:39:20 -0300
+Message-ID: <CAOkaPuVV3HK8OvVMQxjRPh1S_pFjvbEgsR-5UB51H8aguCw6Lw@mail.gmail.com>
+Subject: Re: [PATCH] Input: ili210x - Set the device name according to the
+ device model
+To:     Marek Vasut <marex@denx.de>
+Cc:     dmitry.torokhov@gmail.com, hansemro@outlook.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Wed, Sep 1, 2021 at 5:48 PM Marek Vasut <marex@denx.de> wrote:
+>
+> On 9/1/21 10:27 PM, Rogerio Pimentel wrote:
+> > On Wed, Sep 1, 2021 at 4:46 PM Marek Vasut <marex@denx.de> wrote:
+> >>
+> >> On 9/1/21 9:22 PM, Rogerio Pimentel wrote:
+> >>
+> >> [...]
+> >>
+> >>> diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+> >>> index 30576a5f2f04..ca7af4a6f588 100644
+> >>> --- a/drivers/input/touchscreen/ili210x.c
+> >>> +++ b/drivers/input/touchscreen/ili210x.c
+> >>> @@ -19,6 +19,8 @@
+> >>>    #define ILI251X_DATA_SIZE1  31
+> >>>    #define ILI251X_DATA_SIZE2  20
+> >>>
+> >>> +#define ILI_NAME_LEN         27
+> >>> +
+> >>>    /* Touchscreen commands */
+> >>>    #define REG_TOUCHDATA               0x10
+> >>>    #define REG_PANEL_INFO              0x20
+> >>> @@ -394,6 +396,7 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+> >>>        struct input_dev *input;
+> >>>        int error;
+> >>>        unsigned int max_xy;
+> >>> +     char *model_name;
+> >>>
+> >>>        dev_dbg(dev, "Probing for ILI210X I2C Touschreen driver");
+> >>>
+> >>> @@ -440,7 +443,11 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+> >>>        i2c_set_clientdata(client, priv);
+> >>>
+> >>>        /* Setup input device */
+> >>> -     input->name = "ILI210x Touchscreen";
+> >>> +     input->name = "Ilitek         Touchscreen";
+> >>> +     model_name = (char *)input->name;
+> >>> +     snprintf(model_name, ILI_NAME_LEN, "Ilitek %s Touchscreen",
+> >>
+> >> Which ilitek devices do you have available exactly ?
+> >>
+> >> There is a firmware interface which does report the device type, but I
+> >> don't know whether it works on all the ilitek touchscreen devices. If it
+> >> does, then it could be used here to pull the type from the firmware and
+> >> then use this instead
+> >>
+> >> snprintf(model_name, ILI_NAME_LEN, "Ilitek ILI%04x Touchscreen", type);
+> >>
+> >> Try this command against the touch controller, it sends it command 0x61
+> >> and reads two bytes of the reply:
+> >> i2ctransfer -f -y 1 w1@0x41 0x61 r2
+> >> 0x10 0x25 # <---- on ILI2510 it reports 0x25 0x10 in reverse
+> >
+> > Thanks for the comments and suggestions. I'll make the changes and send V2.
+>
+> Can you tell which ILI2xxx touch controller you have exactly ?
 
+Now I have only the ILI2511. Will also have to support ILI2510 and ILI2118.
 
-On 02/09/2021 09:47, Miquel Raynal wrote:
-> Hi Grygorii,
-> 
-> Grygorii Strashko <grygorii.strashko@ti.com> wrote on Wed, 1 Sep 2021
-> 22:26:25 +0300:
-> 
->> On 25/08/2021 18:25, Miquel Raynal wrote:
->>> Introduce a new compatible that has another set of driver data,
->>> targeting am437x SoCs with a magnetic reader instead of the
->>> touchscreen and a more featureful set of registers.
->>>
->>> Co-developed-by: Jason Reeder <jreeder@ti.com>
->>> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
->>> Signed-off-by: Jason Reeder <jreeder@ti.com>
->>> ---
->>>    drivers/mfd/ti_am335x_tscadc.c       | 43 ++++++++++++++++++++++------
->>>    include/linux/mfd/ti_am335x_tscadc.h |  9 +++++-
->>>    2 files changed, 43 insertions(+), 9 deletions(-)
->>>
->>> diff --git a/drivers/mfd/ti_am335x_tscadc.c b/drivers/mfd/ti_am335x_tscadc.c
->>> index 1a30610dc65f..f4f6b9db4d2a 100644
->>> --- a/drivers/mfd/ti_am335x_tscadc.c
->>> +++ b/drivers/mfd/ti_am335x_tscadc.c
->>> @@ -122,9 +122,9 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
->>>    	const __be32 *cur;
->>>    	struct clk *clk;
->>>    	u32 val;
->>> -	bool use_tsc = false;
->>> +	bool use_tsc = false, use_mag = false;
->>>    	int tscmag_wires = 0, adc_channels = 0, readouts = 0, cell_idx = 0;
->>> -	int total_channels, err;
->>> +	int mag_tracks = 0, total_channels, err;
->>>    >   	/* Allocate memory for device */
->>>    	tscadc = devm_kzalloc(&pdev->dev, sizeof(*tscadc), GFP_KERNEL);
->>> @@ -146,6 +146,12 @@ static	int ti_tscadc_probe(struct platform_device *pdev)
->>>    		of_property_read_u32(node, "ti,coordiante-readouts", &readouts);
->>>    		if (tscmag_wires)
->>>    			use_tsc = true;
->>> +	} else {
->>> +		node = of_get_child_by_name(pdev->dev.of_node, "mag");
->>> +		of_property_read_u32(node, "ti,tracks", &mag_tracks);
->>
->> "ti,tracks" seems undocumented?
-> 
-> Well that's true and almost on purpose, I am not focusing on the
-> magnetic reader feature, it is not supported, I don't have one, I don't
-> plan to add support for it. But in the driver I need to know how many
-> "tracks" are unavailable for the ADC in order to implement the entire
-> logic (this block comes from TI and the naming from Jason Reeder).
-> 
-> I am not comfortable writing a binding file for a device that I won't
-> use, it's the best way to miss something and have stable broken
-> bindings in the future. So I assumed it was not a big deal to have this
-> property in the code, which may be updated/removed/enhanced later if
-> needed without having to mess with the code too much. What do you think?
+> Can you share the output of the 'i2ctransfer' (from i2c-tools) command
+> above ?
 
-Sry, it's not ok.
-You need to (a) add binding or (b) w/a it in some way -
-like drop it and use const value instead, for example.
-
--- 
-Best regards,
-grygorii
+# i2ctransfer -f -y 3 w1@0x41 0x61 r2
+0x11 0x25
