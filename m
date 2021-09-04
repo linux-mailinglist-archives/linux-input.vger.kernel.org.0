@@ -2,146 +2,141 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 140C5400D61
-	for <lists+linux-input@lfdr.de>; Sun,  5 Sep 2021 00:54:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D289400D6C
+	for <lists+linux-input@lfdr.de>; Sun,  5 Sep 2021 01:05:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232231AbhIDWzX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 4 Sep 2021 18:55:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45154 "EHLO
+        id S232386AbhIDXG0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 4 Sep 2021 19:06:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbhIDWzW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 4 Sep 2021 18:55:22 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73B1FC061575
-        for <linux-input@vger.kernel.org>; Sat,  4 Sep 2021 15:54:20 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id x2-20020a1c7c02000000b002e6f1f69a1eso2125921wmc.5
-        for <linux-input@vger.kernel.org>; Sat, 04 Sep 2021 15:54:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8mC7Fg6QEEmcIj5qIag6CMVcvZphzlS7hqjHBsZy098=;
-        b=H6ROye+P+EnQUissVIkYBsaVZ83V1TcbeznIQYvwCBW64A/zIE+T2pWjMezTYooP2M
-         V6THBybTG8Im/5nqC79JUO1FGvsIfoWmBhTKxx8vlmGMPhWZDRHg0GAGI48C3Y0qtgTj
-         PVA9+AhpXfPSeJ3BSAYWiLcCLqfcI1Kclb2kd4dRPQGAMSqKqNVSzOc2ksdZ15okKuzR
-         kyKmvJpZfvRxkqxP3arYhkfDA1ivRjaRQ87MvuLO45E93J4gLeOxv141sUd9b1wapYcL
-         8cHXUNPq987T4u1vNIdEx28Of/YngK387XiWWzMstssUsFXgez/su8/1nwcoesYBs3ZO
-         1hLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8mC7Fg6QEEmcIj5qIag6CMVcvZphzlS7hqjHBsZy098=;
-        b=THbg7vkzutfTtnszGVw7OrE5VHMrUmxzFeQRkRwVB9NRuq6uNeXRMOBacs65jFrdTd
-         1Uxj1L0LPk9+BEY4DRelQZfG8nu16+u4k6k8rcnNgeY7fg+fRmYcPbc/bO2YYp9ddC+Z
-         tZm59pT5eETkGMqk6VakVZC1oLpRUQG1KediruRQaNjZPuLJIKock3r65pLNHYQ1yLv9
-         9aLtU/YsGQ0/W3k5ATSBBG5nZmGcPWLHmAe+yrpsCyKB5djJGAj96Zl49CDybUPWNkvQ
-         3k9aYzhJxnwMxMzrimY1VWyFokviS7wmx7YyBww0BFhitWzFn+jIdh0Xgc/qjJvizuzP
-         tq3Q==
-X-Gm-Message-State: AOAM530OiQ2Nd+RXLfV1+1j+BJZ0lYjCaitBSAlNLHazFsd7gDOsKWHM
-        BRdesbhxWwY0QLPxi5rhvQpYq6V18vJPi/PS6MZaUsoySl9po98=
-X-Google-Smtp-Source: ABdhPJyZoEQPAOrBVhp6dQEbD1Jt8ncDe253tO0JtDqZeZNAXWK/trfh2PoaugD4kjOCp//VwWcy3gJE4oihAD3GfA0=
-X-Received: by 2002:a05:600c:3b84:: with SMTP id n4mr4829841wms.50.1630796058364;
- Sat, 04 Sep 2021 15:54:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210904205840.78242-1-jerome.debretagne@gmail.com> <CANRwn3S1qTcDWXrXr0WBoC4RSrB=CjrRom3=GXD8Tby=Y+W=8g@mail.gmail.com>
-In-Reply-To: <CANRwn3S1qTcDWXrXr0WBoC4RSrB=CjrRom3=GXD8Tby=Y+W=8g@mail.gmail.com>
-From:   =?UTF-8?B?SsOpcsO0bWUgZGUgQnJldGFnbmU=?= 
-        <jerome.debretagne@gmail.com>
-Date:   Sun, 5 Sep 2021 00:53:41 +0200
-Message-ID: <CA+kEDGGqRcwjdSLm1dksHtqMRde+zaFTqZMjYBNCU1uBrNDXFw@mail.gmail.com>
+        with ESMTP id S231791AbhIDXG0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 4 Sep 2021 19:06:26 -0400
+X-Greylist: delayed 522 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 04 Sep 2021 16:05:24 PDT
+Received: from mail.archlinux.org (mail.archlinux.org [IPv6:2a01:4f9:c010:3052::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 198B9C061575
+        for <linux-input@vger.kernel.org>; Sat,  4 Sep 2021 16:05:24 -0700 (PDT)
+Received: from [192.168.1.134] (unknown [188.251.63.183])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.archlinux.org (Postfix) with ESMTPSA id 1A0658CA611;
+        Sat,  4 Sep 2021 22:56:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
+        s=dkim-rsa; t=1630796197;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=WBYl+yvkUUP7gfLUFwYJtn6xlXx9fTA1se5usPNF0rA=;
+        b=R3yCgJ/oJnvgwpeXMOCQAjvjZ2GxeH0YXc9BqlPt9PmIPJ5gLo9fjTNWVPbI28jd+YK4yy
+        WQ525ouTKqxnUomQGMO2PsQQA4qg01yG6McZKdPYlII6yBewaYCLdQwRDAsI5Wo52wYpjw
+        DFzmKLyoRroZj6AFA7CQQYVI15O+k0aRYmoRjcvkrDEo8MayizL8v/xWrSH4jvuoay+YH4
+        Yo95uyrvOydOYEG/qUuGud7RyfqkC93op1gcQtkb//yKReR7qeKFh/016Zd7j4QLVEM7wy
+        GANQsh9kA8rQBTW1Sfb9Z+NBL7Dlw7S1ENL36RHTtXw/O1kLBNrRXchMyNDN5dGiuztfGJ
+        cU3kclGhUg4KKxBPowEJfUs1dtAoGUzw9EsBuw5gmGQvEoWgYzQo3sGarXPMMEZc4zkVVF
+        5Kc/DV5xTBVydvrL3Lu1nXN8WnAgMOsioRcyDY7WHEOd/Jbyd3kb3iJwb+SFpWmcf9iBDJ
+        fl80v8STNHDrAQJFvsXJgl8OjBX/wk0Hrx3yu0NWs9O/mThVjOlP8+ZQHvevcPjnAMRxVa
+        q6o+16BfY0+MnQ+9LVpxZRwRmEX8CjS8NGbGlFtrZHTHwMpiHBK2AbuhCqySBwFrFw4Exb
+        rwzspJq/rZJRfxM3sj7GwS88P/9YD+yOU5cHHTlrSoQjZSx8R0lqQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
+        s=dkim-ed25519; t=1630796197;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=WBYl+yvkUUP7gfLUFwYJtn6xlXx9fTA1se5usPNF0rA=;
+        b=kdfZ77Uv0q06QpZTtRKFEwtuOBU0cHg/HoFst3Dpx3GZA3nIxvR5Pua/36z1OTUd8vtUMQ
+        TtKP1A+VQi0N1yBQ==
+Message-ID: <7da980efbabf5487016253029375f4e275403933.camel@archlinux.org>
 Subject: Re: [PATCH] HID: wacom: Add Dell Latitude 7275 battery quirk
-To:     Jason Gerecke <killertofu@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
+From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
+To:     =?ISO-8859-1?Q?J=E9r=F4me?= de Bretagne 
+        <jerome.debretagne@gmail.com>, Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Linux Input <linux-input@vger.kernel.org>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
+        linux-input@vger.kernel.org
+Cc:     Jason Gerecke <jason.gerecke@wacom.com>,
         Ping Cheng <ping.cheng@wacom.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210904205840.78242-1-jerome.debretagne@gmail.com>
+References: <20210904205840.78242-1-jerome.debretagne@gmail.com>
+Organization: Archlinux
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-Pmo07CAiVXyYOI38mMXu"
+Date:   Sat, 04 Sep 2021 23:56:32 +0100
+MIME-Version: 1.0
+User-Agent: Evolution 3.40.4 
+Authentication-Results: mail.archlinux.org;
+        auth=pass smtp.auth=ffy00 smtp.mailfrom=lains@archlinux.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Le sam. 4 sept. 2021 =C3=A0 23:25, Jason Gerecke <killertofu@gmail.com> a =
-=C3=A9crit :
->
-> Are you sure that the device is actually unnecessary? Looking online, I b=
-elieve the 7275 uses an AES sensor which reports the status of the stylus b=
-attery when one is in proximity.
 
-Its AES sensor reports the stylus battery level when one is in
-proximity indeed. However, I'm not quite sure if this is a kernel API
-or a userspace issue but this digitizer device is really confusing as
-an end user (within Gnome Settings for instance) :
+--=-Pmo07CAiVXyYOI38mMXu
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-- it exposes a 0% battery level by default after boot when no stylus
-is in proximity (or simply if the user has no stylus at all)
-   =3D> it shouldn't display anything at this stage in my opinion
+On Sat, 2021-09-04 at 22:58 +0200, J=C3=A9r=C3=B4me de Bretagne wrote:
+> The Wacom touchscreen/digitizer in the Dell Latitude 7275
+> mistakenly reports having a battery, add a quirk to ignore it.
+>=20
+> Signed-off-by: J=C3=A9r=C3=B4me de Bretagne <jerome.debretagne@gmail.com>
+> Tested-by: J=C3=A9r=C3=B4me de Bretagne <jerome.debretagne@gmail.com>
+> ---
+> =C2=A0drivers/hid/wacom_wac.c | 7 +++++++
+> =C2=A01 file changed, 7 insertions(+)
+>=20
+> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+> index 81ba642adcb7..4d4503cbe308 100644
+> --- a/drivers/hid/wacom_wac.c
+> +++ b/drivers/hid/wacom_wac.c
+> @@ -3574,6 +3574,13 @@ void wacom_setup_device_quirks(struct wacom *wacom=
+)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0__clear_bit(MSC_SERIAL, wacom_wac->pen_input->mscbi=
+t);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0__clear_bit(EV_MSC, wacom_wac->pen_input->evbit);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/*
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * The Wacom touchscreen/digit=
+izer in the Dell Latitude 7275
+> mistakenly
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * reports having a battery, l=
+et's ignore it.
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (wacom->hdev->product =3D=
+=3D 0x4804)
 
-- it exposes a fixed battery level once a stylus is in proximity
-(let's say 25%) and it will keep this value until the next reboot,
-whether the stylus remains in proximity or not
-   =3D> ok, why not
+We probably want a define for this ID.
 
-- the above battery level is displayed linked to a device named "Wacom
-HID 4804", not obvious that this is the actual battery level of a
-recently-used stylus
-   =3D> could it report the name of the actual stylus instead? or
-something like "Dell Latitude 7275 (Wacom) stylus" at least?
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0features->quirks &=3D ~WACOM_QUIRK_BATTERY;
+> =C2=A0}
+> =C2=A0
+> =C2=A0int wacom_setup_pen_input_capabilities(struct input_dev *input_dev,
 
-- a connected Bluetooth stylus (an HP Active Pen G2 in my case) will
-appear with its own line in the Power settings, somehow duplicating
-the "Wacom HID 4804" one
-   =3D> should find a way to merge the two lines into one
+Cheers,
+Filipe La=C3=ADns
 
-- the battery level reported by the "HP Active Pen G2" line is
-erroneously stuck at 100%
-   =3D> not sure yet if this stylus model can report its battery level
-on its own via Bluetooth
+--=-Pmo07CAiVXyYOI38mMXu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-You can forget about this patch, I'm not convinced anymore this is the
-right approach to improve the situation. If you have a better
-understanding of the data exposed by the kernel to userspace in these
-cases, any pointers for other improvements would be appreciated (in
-the kernel or in userspace).
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-J=C3=A9r=C3=B4me
+iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAmEz+ZsACgkQ+JPGdIFq
+qV3a3hAAjAzzIUOw+D/o1KkpVSOC38C1mU/ZYFwizvVNthcoZSZ1OEDUyzhWmVWT
+l9kW1RsYqtntFR91yqTM8q/0OIaEaOUkySJ7A/ETpqm4Hl5D4yIXgPrV4KlSuXmn
+ovIB8KnFutV7fBd9cgy+d51fwSD2d2U3/7VpMPWixljJaSW13mLR4/DWRqWxcNu1
+0xg3ieHoW6uJHS51fYB8Nr9T5rYpmGDG78Isgxep8R7NXQp9y3f23sUBZ/SvJ35q
+wREPMgdykLKVtYIpiLZb1ZpktZiOpBJOAw4M4mfk/FWk7FGKXWyRHpDMmpJh7/tv
+ywzQXvgTy1vCcE3SyFWRpEqAPeo7ceur5JHMNAcpp94lG0yeOVOU2PcCEqoK9Eri
+wON755VwmkE/brPs0LGmdt6a6rs6rSqFZzWXWiDkz/keVMuy2ViESxsfxO9ChEBy
+UefAi6y+foDq02wFgKPM1lZWY8X1RD5bdlvOlCpHwe4zcUyw2oT1nfn/bFS+n8bi
+uMnOK3GLAeE2MtH/m6zUcDV2u4ikymQdzAIF6g2I/uchJPzlHTPnwaVo6FnDbwtN
+8DhJYg6jp2Rn8WCRROpaXBsR8NIXBpwgKSPrBfJwO3QJXRguVPlHKYMLyZgb1YjM
+seZbbVkqv51w2fHyGr0qzdPf5V5r6vWn+oOVkDdxqdp0X9n+p9o=
+=gB3N
+-----END PGP SIGNATURE-----
 
-> On Sat, Sep 4, 2021, 2:15 PM J=C3=A9r=C3=B4me de Bretagne <jerome.debreta=
-gne@gmail.com> wrote:
->>
->> The Wacom touchscreen/digitizer in the Dell Latitude 7275
->> mistakenly reports having a battery, add a quirk to ignore it.
->>
->> Signed-off-by: J=C3=A9r=C3=B4me de Bretagne <jerome.debretagne@gmail.com=
->
->> Tested-by: J=C3=A9r=C3=B4me de Bretagne <jerome.debretagne@gmail.com>
->> ---
->>  drivers/hid/wacom_wac.c | 7 +++++++
->>  1 file changed, 7 insertions(+)
->>
->> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
->> index 81ba642adcb7..4d4503cbe308 100644
->> --- a/drivers/hid/wacom_wac.c
->> +++ b/drivers/hid/wacom_wac.c
->> @@ -3574,6 +3574,13 @@ void wacom_setup_device_quirks(struct wacom *waco=
-m)
->>                 __clear_bit(MSC_SERIAL, wacom_wac->pen_input->mscbit);
->>                 __clear_bit(EV_MSC, wacom_wac->pen_input->evbit);
->>         }
->> +
->> +       /*
->> +        * The Wacom touchscreen/digitizer in the Dell Latitude 7275 mis=
-takenly
->> +        * reports having a battery, let's ignore it.
->> +        */
->> +       if (wacom->hdev->product =3D=3D 0x4804)
->> +               features->quirks &=3D ~WACOM_QUIRK_BATTERY;
->>  }
->>
->>  int wacom_setup_pen_input_capabilities(struct input_dev *input_dev,
->> --
->> 2.30.2
->>
+--=-Pmo07CAiVXyYOI38mMXu--
+
