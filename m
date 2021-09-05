@@ -2,103 +2,194 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE311400F99
-	for <lists+linux-input@lfdr.de>; Sun,  5 Sep 2021 14:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45943400FAB
+	for <lists+linux-input@lfdr.de>; Sun,  5 Sep 2021 14:45:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237909AbhIEMUM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 5 Sep 2021 08:20:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46786 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232137AbhIEMUK (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 5 Sep 2021 08:20:10 -0400
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S231837AbhIEMqz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 5 Sep 2021 08:46:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32148 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231622AbhIEMqz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 5 Sep 2021 08:46:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1630845951;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=vOZOx2eTae6h9VDmG3iYid0fwX/chCDozCB4QSRQcBg=;
+        b=DD34EJ7wgYdfOyYTelliGHW+lvViKzZDZOgde4Hhaa0mNBJ9Gu82FKKRCvwsVSa9X7WIcn
+        4s/a6QwIDepq8BsHcK895VvqAWSdH9CDleLpRkIpnIciFDjHbrOIcBPeJFVBjgmYySagYq
+        Af88bdHbY3qpgtq0UuXQslRTmos4Eis=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-491-kCdcYdilOwOlUus_8-BXog-1; Sun, 05 Sep 2021 08:45:50 -0400
+X-MC-Unique: kCdcYdilOwOlUus_8-BXog-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EBF2C60EE6;
-        Sun,  5 Sep 2021 12:19:01 +0000 (UTC)
-Date:   Sun, 5 Sep 2021 13:22:28 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>, bcousson@baylibre.com,
-        Tony Lindgren <tony@atomide.com>, linux-iio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-omap@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>,
-        Tero Kristo <kristo@kernel.org>,
-        Ryan Barnett <ryan.barnett@collins.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Jason Reeder <jreeder@ti.com>
-Subject: Re: [PATCH v2 24/46] mfd: ti_am335x_tscadc: Fix header spacing
-Message-ID: <20210905132228.1ef9f662@jic23-huawei>
-In-Reply-To: <20210902215144.507243-25-miquel.raynal@bootlin.com>
-References: <20210902215144.507243-1-miquel.raynal@bootlin.com>
-        <20210902215144.507243-25-miquel.raynal@bootlin.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1102E824FA6;
+        Sun,  5 Sep 2021 12:45:49 +0000 (UTC)
+Received: from x1.localdomain (unknown [10.39.192.34])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 22D9D5C1A3;
+        Sun,  5 Sep 2021 12:45:47 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH regression fix 1/2] Input: silead - Add support for EFI-embedded fw using different min/max coordinates
+Date:   Sun,  5 Sep 2021 14:45:46 +0200
+Message-Id: <20210905124547.31567-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu,  2 Sep 2021 23:51:22 +0200
-Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+Unfortunately, at the time of writing this commit message, we have been
+unable to get permission from Silead, or from device OEMs, to distribute
+the necessary Silead firmware files in linux-firmware.
 
-> Harmonize the spacing within macro definitions.
-> 
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-LGTM
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+On a whole bunch of devices the UEFI BIOS code contains a touchscreen
+driver, which contains an embedded copy of the firmware. The fw-loader
+code has a "platform" fallback mechanism, which together with info on the
+firmware from drivers/platform/x86/touchscreen_dmi.c will use the firmware
+from the UEFI driver when the firmware is missing from /lib/firmware. This
+makes the touchscreen work OOTB without users needing to manually download
+the firmware.
 
-> ---
->  include/linux/mfd/ti_am335x_tscadc.h | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/linux/mfd/ti_am335x_tscadc.h b/include/linux/mfd/ti_am335x_tscadc.h
-> index 334ce1a879df..efafecfc87a7 100644
-> --- a/include/linux/mfd/ti_am335x_tscadc.h
-> +++ b/include/linux/mfd/ti_am335x_tscadc.h
-> @@ -41,7 +41,7 @@
->  /* Step Enable */
->  #define STEPENB_MASK		(0x1FFFF << 0)
->  #define STEPENB(val)		((val) << 0)
-> -#define ENB(val)			(1 << (val))
-> +#define ENB(val)		(1 << (val))
->  #define STPENB_STEPENB		STEPENB(0x1FFFF)
->  #define STPENB_STEPENB_TC	STEPENB(0x1FFF)
->  
-> @@ -122,15 +122,15 @@
->  #define CNTRLREG_TSCENB		BIT(7)
->  
->  /* FIFO READ Register */
-> -#define FIFOREAD_DATA_MASK (0xfff << 0)
-> -#define FIFOREAD_CHNLID_MASK (0xf << 16)
-> +#define FIFOREAD_DATA_MASK	(0xfff << 0)
-> +#define FIFOREAD_CHNLID_MASK	(0xf << 16)
->  
->  /* DMA ENABLE/CLEAR Register */
->  #define DMA_FIFO0		BIT(0)
->  #define DMA_FIFO1		BIT(1)
->  
->  /* Sequencer Status */
-> -#define SEQ_STATUS BIT(5)
-> +#define SEQ_STATUS		BIT(5)
->  #define CHARGE_STEP		0x11
->  
->  #define ADC_CLK			3000000
-> @@ -150,7 +150,7 @@
->   *
->   * max processing time: 266431 * 308ns = 83ms(approx)
->   */
-> -#define IDLE_TIMEOUT 83 /* milliseconds */
-> +#define IDLE_TIMEOUT		83 /* milliseconds */
->  
->  #define TSCADC_CELLS		2
->  
+The firmware bundled with the original Windows/Android is usually newer
+then the firmware in the UEFI driver and it is better calibrated. This
+better calibration can lead to significant differences in the reported
+min/max coordinates.
+
+Add support for a new (optional) "silead,efi-fw-min-max" property which
+provides a set of alternative min/max values to use for the x/y axis when
+the EFI embedded firmware is used.
+
+The new property is only used on (x86) devices which do not use devicetree,
+IOW it is not used in actual devicetree files. The devicetree-bindings
+maintainers have requested properties like these to not be added to the
+devicetree-bindings, so the new property is deliberately not added to the
+existing silead devicetree-bindings documentation.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/input/touchscreen/silead.c | 73 ++++++++++++++++++++++++++++--
+ 1 file changed, 68 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
+index 1ee760bac0cf..caa25af53e6e 100644
+--- a/drivers/input/touchscreen/silead.c
++++ b/drivers/input/touchscreen/silead.c
+@@ -75,6 +75,8 @@ struct silead_ts_data {
+ 	struct input_mt_pos pos[SILEAD_MAX_FINGERS];
+ 	int slots[SILEAD_MAX_FINGERS];
+ 	int id[SILEAD_MAX_FINGERS];
++	u32 efi_fw_min_max[4];
++	bool efi_fw_min_max_set;
+ };
+ 
+ struct silead_fw_data {
+@@ -82,6 +84,35 @@ struct silead_fw_data {
+ 	u32 val;
+ };
+ 
++static void silead_apply_efi_fw_min_max(struct silead_ts_data *data)
++{
++	struct input_absinfo *absinfo_x = &data->input->absinfo[ABS_MT_POSITION_X];
++	struct input_absinfo *absinfo_y = &data->input->absinfo[ABS_MT_POSITION_Y];
++
++	if (!data->efi_fw_min_max_set)
++		return;
++
++	absinfo_x->minimum = data->efi_fw_min_max[0];
++	absinfo_x->maximum = data->efi_fw_min_max[1];
++	absinfo_y->minimum = data->efi_fw_min_max[2];
++	absinfo_y->maximum = data->efi_fw_min_max[3];
++
++	if (data->prop.invert_x) {
++		absinfo_x->maximum -= absinfo_x->minimum;
++		absinfo_x->minimum = 0;
++	}
++
++	if (data->prop.invert_y) {
++		absinfo_y->maximum -= absinfo_y->minimum;
++		absinfo_y->minimum = 0;
++	}
++
++	if (data->prop.swap_x_y) {
++		swap(absinfo_x->minimum, absinfo_y->minimum);
++		swap(absinfo_x->maximum, absinfo_y->maximum);
++	}
++}
++
+ static int silead_ts_request_input_dev(struct silead_ts_data *data)
+ {
+ 	struct device *dev = &data->client->dev;
+@@ -97,6 +128,7 @@ static int silead_ts_request_input_dev(struct silead_ts_data *data)
+ 	input_set_abs_params(data->input, ABS_MT_POSITION_X, 0, 4095, 0, 0);
+ 	input_set_abs_params(data->input, ABS_MT_POSITION_Y, 0, 4095, 0, 0);
+ 	touchscreen_parse_properties(data->input, true, &data->prop);
++	silead_apply_efi_fw_min_max(data);
+ 
+ 	input_mt_init_slots(data->input, data->max_fingers,
+ 			    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED |
+@@ -282,17 +314,48 @@ static int silead_ts_load_fw(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+ 	struct silead_ts_data *data = i2c_get_clientdata(client);
+-	unsigned int fw_size, i;
+-	const struct firmware *fw;
++	const struct firmware *fw = NULL;
+ 	struct silead_fw_data *fw_data;
++	unsigned int fw_size, i;
+ 	int error;
+ 
+ 	dev_dbg(dev, "Firmware file name: %s", data->fw_name);
+ 
+-	error = firmware_request_platform(&fw, data->fw_name, dev);
++	/*
++	 * Unfortunately, at the time of writing this comment, we have been unable to
++	 * get permission from Silead, or from device OEMs, to distribute the necessary
++	 * Silead firmware files in linux-firmware.
++	 *
++	 * On a whole bunch of devices the UEFI BIOS code contains a touchscreen driver,
++	 * which contains an embedded copy of the firmware. The fw-loader code has a
++	 * "platform" fallback mechanism, which together with info on the firmware
++	 * from drivers/platform/x86/touchscreen_dmi.c will use the firmware from the
++	 * UEFI driver when the firmware is missing from /lib/firmware. This makes the
++	 * touchscreen work OOTB without users needing to manually download the firmware.
++	 *
++	 * The firmware bundled with the original Windows/Android is usually newer then
++	 * the firmware in the UEFI driver and it is better calibrated. This better
++	 * calibration can lead to significant differences in the reported min/max
++	 * coordinates.
++	 *
++	 * To deal with this we first try to load the firmware without "platform"
++	 * fallback. If that fails we retry with "platform" fallback and if that
++	 * succeeds we apply an (optional) set of alternative min/max values from the
++	 * "silead,efi-fw-min-max" property.
++	 */
++	error = firmware_request_nowarn(&fw, data->fw_name, dev);
+ 	if (error) {
+-		dev_err(dev, "Firmware request error %d\n", error);
+-		return error;
++		error = firmware_request_platform(&fw, data->fw_name, dev);
++		if (error) {
++			dev_err(dev, "Firmware request error %d\n", error);
++			return error;
++		}
++
++		error = device_property_read_u32_array(dev, "silead,efi-fw-min-max",
++						       data->efi_fw_min_max,
++						       ARRAY_SIZE(data->efi_fw_min_max));
++		if (!error)
++			data->efi_fw_min_max_set = true;
+ 	}
+ 
+ 	fw_size = fw->size / sizeof(*fw_data);
+-- 
+2.31.1
 
