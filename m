@@ -2,35 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D191E401D7C
-	for <lists+linux-input@lfdr.de>; Mon,  6 Sep 2021 17:17:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE7A2401D7D
+	for <lists+linux-input@lfdr.de>; Mon,  6 Sep 2021 17:17:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242362AbhIFPSp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Sep 2021 11:18:45 -0400
-Received: from mga06.intel.com ([134.134.136.31]:58836 "EHLO mga06.intel.com"
+        id S242395AbhIFPSs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Sep 2021 11:18:48 -0400
+Received: from mga04.intel.com ([192.55.52.120]:50816 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239993AbhIFPSo (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 6 Sep 2021 11:18:44 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10099"; a="281002443"
+        id S239993AbhIFPSs (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 6 Sep 2021 11:18:48 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10099"; a="218127086"
 X-IronPort-AV: E=Sophos;i="5.85,272,1624345200"; 
-   d="scan'208";a="281002443"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2021 08:17:39 -0700
+   d="scan'208";a="218127086"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2021 08:17:39 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.85,272,1624345200"; 
-   d="scan'208";a="694358520"
+   d="scan'208";a="464071314"
 Received: from lkp-server01.sh.intel.com (HELO 53c23d017ad5) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 06 Sep 2021 08:17:38 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 06 Sep 2021 08:17:38 -0700
 Received: from kbuild by 53c23d017ad5 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1mNGNN-0000o6-EV; Mon, 06 Sep 2021 15:17:37 +0000
-Date:   Mon, 06 Sep 2021 23:17:31 +0800
+        id 1mNGNN-0000o8-FY; Mon, 06 Sep 2021 15:17:37 +0000
+Date:   Mon, 06 Sep 2021 23:17:34 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-input@vger.kernel.org
-Subject: [input:for-linus] BUILD SUCCESS
- 146ea9b679c9f3e235f20456be477ccd109ac9bd
-Message-ID: <6136310b.mwJSuVlVHVOKD6e4%lkp@intel.com>
+Subject: [input:master] BUILD SUCCESS
+ daf87bffd02e35387a62c77eb32337c934cf631a
+Message-ID: <6136310e.5Z9R29MfDZYi37jB%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -39,12 +39,12 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: 146ea9b679c9f3e235f20456be477ccd109ac9bd  Input: edt-ft5x06 - added case for EDT EP0110M09
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
+branch HEAD: daf87bffd02e35387a62c77eb32337c934cf631a  Input: palmas-pwrbutton - handle return value of platform_get_irq()
 
-elapsed time: 726m
+elapsed time: 722m
 
-configs tested: 180
+configs tested: 178
 configs skipped: 3
 
 The following configs have been built successfully.
@@ -68,12 +68,13 @@ arm                      pxa255-idp_defconfig
 xtensa                  audio_kc705_defconfig
 sh                           se7619_defconfig
 arm                          imote2_defconfig
-arm                         shannon_defconfig
-mips                         tb0287_defconfig
-powerpc               mpc834x_itxgp_defconfig
-m68k                        m5407c3_defconfig
-xtensa                           alldefconfig
-sh                          rsk7201_defconfig
+arc                         haps_hs_defconfig
+sh                          r7785rp_defconfig
+powerpc                      makalu_defconfig
+arm                     davinci_all_defconfig
+sh                           se7750_defconfig
+arm                          pcm027_defconfig
+arm                        mini2440_defconfig
 powerpc                         ps3_defconfig
 sh                         ap325rxa_defconfig
 mips                      malta_kvm_defconfig
@@ -105,6 +106,7 @@ um                             i386_defconfig
 powerpc                      ppc6xx_defconfig
 arm                        multi_v7_defconfig
 h8300                     edosk2674_defconfig
+powerpc               mpc834x_itxgp_defconfig
 powerpc                   lite5200b_defconfig
 sh                     sh7710voipgw_defconfig
 arm                      jornada720_defconfig
@@ -121,11 +123,6 @@ sh                        dreamcast_defconfig
 openrisc                         alldefconfig
 sh                        apsh4ad0a_defconfig
 arm                        magician_defconfig
-mips                         tb0219_defconfig
-ia64                          tiger_defconfig
-powerpc                      ppc64e_defconfig
-arm                        mvebu_v7_defconfig
-sh                           se7750_defconfig
 mips                         db1xxx_defconfig
 m68k                          amiga_defconfig
 mips                       lemote2f_defconfig
@@ -140,6 +137,7 @@ parisc                generic-32bit_defconfig
 powerpc                     taishan_defconfig
 sh                            migor_defconfig
 powerpc                     tqm5200_defconfig
+arm                        mvebu_v7_defconfig
 h8300                               defconfig
 powerpc                 mpc837x_rdb_defconfig
 arm                  randconfig-c002-20210906
@@ -163,8 +161,8 @@ xtensa                           allyesconfig
 h8300                            allyesconfig
 arc                                 defconfig
 sh                               allmodconfig
-parisc                              defconfig
 s390                             allyesconfig
+parisc                              defconfig
 s390                             allmodconfig
 parisc                           allyesconfig
 sparc                            allyesconfig
@@ -190,9 +188,9 @@ i386                 randconfig-a001-20210906
 i386                 randconfig-a011-20210905
 arc                  randconfig-r043-20210906
 riscv                    nommu_k210_defconfig
+riscv                               defconfig
 riscv                            allyesconfig
 riscv                             allnoconfig
-riscv                               defconfig
 riscv                            allmodconfig
 um                           x86_64_defconfig
 um                            kunit_defconfig
@@ -221,11 +219,11 @@ x86_64               randconfig-a012-20210906
 x86_64               randconfig-a015-20210906
 x86_64               randconfig-a014-20210906
 x86_64               randconfig-a013-20210906
-i386                 randconfig-a012-20210906
 i386                 randconfig-a015-20210906
+i386                 randconfig-a014-20210906
+i386                 randconfig-a012-20210906
 i386                 randconfig-a011-20210906
 i386                 randconfig-a013-20210906
-i386                 randconfig-a014-20210906
 i386                 randconfig-a016-20210906
 x86_64               randconfig-a006-20210905
 x86_64               randconfig-a004-20210905
@@ -233,10 +231,10 @@ x86_64               randconfig-a003-20210905
 x86_64               randconfig-a005-20210905
 x86_64               randconfig-a001-20210905
 x86_64               randconfig-a002-20210905
-riscv                randconfig-r042-20210906
 hexagon              randconfig-r045-20210906
-s390                 randconfig-r044-20210906
 hexagon              randconfig-r041-20210906
+riscv                randconfig-r042-20210906
+s390                 randconfig-r044-20210906
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
