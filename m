@@ -2,76 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39022401E62
-	for <lists+linux-input@lfdr.de>; Mon,  6 Sep 2021 18:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8315402214
+	for <lists+linux-input@lfdr.de>; Tue,  7 Sep 2021 04:30:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244200AbhIFQds (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Sep 2021 12:33:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60668 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243962AbhIFQdr (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Sep 2021 12:33:47 -0400
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17EFAC0613C1
-        for <linux-input@vger.kernel.org>; Mon,  6 Sep 2021 09:32:43 -0700 (PDT)
-Received: by mail-il1-x12a.google.com with SMTP id h29so7345555ila.2
-        for <linux-input@vger.kernel.org>; Mon, 06 Sep 2021 09:32:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Hi0ERA05Hh6q+34+Ou3AtyiRWoG/jVLdZcB+Ekv+M3g=;
-        b=AQXQzDCQYveoXX8TzTwuiAk/FEyR3wCuvC9VFUOgylxIOdg1EFZyjuPsYQnAcX6J45
-         hGQ/TLw/xoIRE4dR4duos/11L9nUC9pcUBl/RXv6WkJZOj9GF3K+dFgRBHNvOmD3hg/2
-         8aWexR+OCBkLd9FzUsmw6Mf2hXMKPJJYu5JOjAjvp1WIk7xCdh9mnYnLj+26R+tY7rgo
-         HJPLbs6wPd+nl87UvFskxFfDoXbe22pxgW1zf9L/3TdM0lyau7vB+LmM0EAyEmYoeoMO
-         ZhwZDLJwTAD2meT4nF7FnViJ3hJIW4496YAschcWJBrRRFI5yQJjoNMRwEQgQiqRwsUz
-         E0sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Hi0ERA05Hh6q+34+Ou3AtyiRWoG/jVLdZcB+Ekv+M3g=;
-        b=Cf9u6UuVH6Kmz+oP1+QTEJcinNeTWxCzz18vnxXhDUHojQaL8Fa/z4aIXO5qiIOJhs
-         uuss6yZiiHL+wbgjEwfAMSPx0WU+hyn/eY/5aFLAlwYn7DLaX+a84+g5IRsp+ivvl+5Z
-         Umi4PafTcKhl1xOmnB/+lGFeBYMqM7cDrx3qahRlAdC4sDKDR5pq+ZVisB+1GUV7J5oc
-         mFMzCCQk2rZ5mJnl6Uibp9l4Oe5WPbBX4S4YUx8STEYk2/2TUGTZXfZO6D7EuXAj3TOb
-         YOGR2ktAnKotpFReP3rnBzMAXL4d/T7q/wd1xEhB0Uktj7TMR6rpD7R8P81svi4o/JmS
-         9WVA==
-X-Gm-Message-State: AOAM531/nz+cMFt7xf2+aR2ZA+5uybYYGJHUMNIsdMrXfV11bQsq2/uH
-        5sOKOWVaNKFvjlSu8bOdYE2sEaM08vRtjbiUPos=
-X-Google-Smtp-Source: ABdhPJyNYLbPp58BcQ7mI7j8eL1xi4DRM/CVSKmP+XLlKZnpaM0c4B2zxnkjBdrMYYyKOgNolLHbsclwr0lft4or1UU=
-X-Received: by 2002:a05:6e02:1ca6:: with SMTP id x6mr8854675ill.86.1630945961991;
- Mon, 06 Sep 2021 09:32:41 -0700 (PDT)
+        id S238342AbhIGBkb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Sep 2021 21:40:31 -0400
+Received: from emcscan.emc.com.tw ([192.72.220.5]:27847 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230143AbhIGBkb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Sep 2021 21:40:31 -0400
+X-Greylist: delayed 597 seconds by postgrey-1.27 at vger.kernel.org; Mon, 06 Sep 2021 21:40:31 EDT
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="42603911"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 07 Sep 2021 09:29:27 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(128811:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Tue, 07 Sep 2021 09:29:27 +0800 (CST)
+Received: from 218.161.27.213
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2474:1:AUTH_LOGIN)
+        (envelope-from <jingle.wu@emc.com.tw>); Tue, 07 Sep 2021 09:29:26 +0800 (CST)
+From:   "jingle.wu" <jingle.wu@emc.com.tw>
+To:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        dmitry.torokhov@gmail.com
+Cc:     phoenix@emc.com.tw, josh.chen@emc.com.tw, dave.wang@emc.com.tw,
+        "jingle.wu" <jingle.wu@emc.com.tw>
+Subject: [PATCH] Input: elan_i2c - Reduce the resume time for WHITEBOX Machine.
+Date:   Tue,  7 Sep 2021 09:29:24 +0800
+Message-Id: <20210907012924.11391-1-jingle.wu@emc.com.tw>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Received: by 2002:a05:6e02:1d86:0:0:0:0 with HTTP; Mon, 6 Sep 2021 09:32:41
- -0700 (PDT)
-Reply-To: suzara.wans2021@gmail.com
-From:   Mrs Suzara Maling Wan <mr.brueshands4world@gmail.com>
-Date:   Mon, 6 Sep 2021 09:32:41 -0700
-Message-ID: <CABvx5tpkSnzTGw2hd3awtMaYZ6SrrR=GwA3X22LN=2t5+bDtOw@mail.gmail.com>
-Subject: Hello
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Singed-off-by: Jingle Wu <jingle.wu@emc.com.tw>
+---
+ drivers/input/mouse/elan_i2c.h      | 1 +
+ drivers/input/mouse/elan_i2c_core.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/drivers/input/mouse/elan_i2c.h b/drivers/input/mouse/elan_i2c.h
+index dc4a240f4489..84b4a678b482 100644
+--- a/drivers/input/mouse/elan_i2c.h
++++ b/drivers/input/mouse/elan_i2c.h
+@@ -59,6 +59,7 @@
+ #define ETP_PRODUCT_ID_VOXEL	0x00BF
+ #define ETP_PRODUCT_ID_MAGPIE	0x0120
+ #define ETP_PRODUCT_ID_BOBBA	0x0121
++#define ETP_PRODUCT_ID_WHITEBOX	0x00B8
+ 
+ struct i2c_client;
+ struct completion;
+diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+index dad22c1ea6a0..a3edf71982ce 100644
+--- a/drivers/input/mouse/elan_i2c_core.c
++++ b/drivers/input/mouse/elan_i2c_core.c
+@@ -108,6 +108,7 @@ static u32 elan_i2c_lookup_quirks(u16 ic_type, u16 product_id)
+ 		{ 0x10, ETP_PRODUCT_ID_VOXEL, ETP_QUIRK_QUICK_WAKEUP },
+ 		{ 0x14, ETP_PRODUCT_ID_MAGPIE, ETP_QUIRK_QUICK_WAKEUP },
+ 		{ 0x14, ETP_PRODUCT_ID_BOBBA, ETP_QUIRK_QUICK_WAKEUP },
++		{ 0x0D, ETP_PRODUCT_ID_WHITEBOX, ETP_QUIRK_QUICK_WAKEUP },
+ 	};
+ 	u32 quirks = 0;
+ 	int i;
 -- 
-My names are Mrs Suzara Maling Wan, I am a Nationality of the Republic
-of the Philippine presently base in West Africa B/F, dealing with
-exportation of Gold, I was diagnose of blood Causal decease, and my
-doctor have announce to me that I have few days to leave due to the
-condition of my sickness.
+2.20.1
 
-I have a desire to build an orphanage home in your country of which i
-cannot execute the project myself due to my present health condition,
-I am willing to hand over the project under your care for you to help
-me fulfill my dreams and desire of building an orphanage home in your
-country.
-
-Reply in you are will to help so that I can direct you to my bank for
-the urgent transfer of the fund/money require for the project to your
-account as I have already made the fund/money available.
-
-With kind regards
-Mrs Suzara Maling Wan
