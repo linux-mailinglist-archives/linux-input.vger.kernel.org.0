@@ -2,99 +2,205 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62EDD40233E
-	for <lists+linux-input@lfdr.de>; Tue,  7 Sep 2021 08:08:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 328C840236A
+	for <lists+linux-input@lfdr.de>; Tue,  7 Sep 2021 08:27:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229759AbhIGGG5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Sep 2021 02:06:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40924 "EHLO
+        id S230483AbhIGG0W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Sep 2021 02:26:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229624AbhIGGG5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Sep 2021 02:06:57 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45C15C061575;
-        Mon,  6 Sep 2021 23:05:51 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id c5so5158608plz.2;
-        Mon, 06 Sep 2021 23:05:51 -0700 (PDT)
+        with ESMTP id S232056AbhIGG0V (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Sep 2021 02:26:21 -0400
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C57BCC061575;
+        Mon,  6 Sep 2021 23:25:15 -0700 (PDT)
+Received: by mail-oi1-x22b.google.com with SMTP id q39so11481147oiw.12;
+        Mon, 06 Sep 2021 23:25:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=FrE6YQ09ogSINskU7ONunY+k1UG3iqRKMd5RjSfEArs=;
-        b=UTmewFuK3dbT4ehWvbSIcqjMBsB+6JBZXingRydBOAB7ykdrp671Y44++1J0WXx61X
-         6KSfQ1Ou/xk4g4eMaEfNtOTbOoKyk6zQC0rfIhODC5nnCglCkwNS0Gks6f447tD1rL7C
-         pofl3eUuopqBVS8hxyAkRiRN+KvhSP8l0mhPTV3Np4s3+N7cwE4P30VincnHkFf3wSw4
-         zF/7P/nMyWDp0amNoYG6wX/lY8Bb2QPxfJdsAnuEjopV3ruXG9+GpvMmeCvTFKr3nwnQ
-         I2DcqazGAWiXO+6au55b4LuXhJAQAgxZWJLvWLOl08e6h5n1EChLjbKWYQGto5bBEvdg
-         XPIQ==
+        h=sender:to:cc:references:from:subject:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/UBwOofpA8/+kaEKqbvd66qjIBGqrp+k0ILuSWWmLkY=;
+        b=Aicscqd2RmIeSemDcchk6eENStnpmmIgSts+GSaLDww4QSqaznLHcLynW1fkrvWYKW
+         fPsHjz8g+91mJE/RtcokXSBi3GqvXN+N5fxeCQjmUiLeNMsy5ejHGb/OSeCWhdDX5N3/
+         1slDbycMzOGKGRYGaVqcxOpzmDOnV6d6heKXXFoorghGO/sL2FdXrBPVDq56Bh4/QOeg
+         AaJb9YDAptuYmB0yMxrA6OhRNCPbdkvmrDd8ylI11AO6KCRpJm2ew3l2H7HUogTMLdKy
+         /JAmLFv5ZyhQSv4H3IeOM5Ev/rDmAFzU7wuIESHi3AxMtYSxPAIWTXaYE2ksQRN+jjTH
+         GluA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=FrE6YQ09ogSINskU7ONunY+k1UG3iqRKMd5RjSfEArs=;
-        b=DKArgphSzHiiAV5AAouX5C3NXK5TVFUVA1x69oazUXxLzTVSrK9qpopFQOS9CWn/qA
-         bQOH8mgq+GTNn8kxIu72hhir7ZAjE7weCdhGVxmDon0+TPUDuQAoJDdKxp1Q+I8nOWHn
-         34CHg6mMwko9BZS6tl0tgIhPAhbTqf5u9yK6kgBYAzMjnvBk2y1koYWEJZKme9f/KHMg
-         IpRQsXEFiNwqlcXx8sHl1JfJ+zzrH/wK1CpKaMMUnQtQUaUjE2awbhOCu4K8Pa1KhLuk
-         eD4rVEqhQCJte6IxtbWUKzcmTgTZoPPT639s4cdkcy9Wjn78RSVfV6FU2FE9e40CYqx0
-         M+QQ==
-X-Gm-Message-State: AOAM531IhYIvoVtFb6l8FWU8xfgq34l7xqR3d/JZd0aSyFusov5en6WX
-        4v1lS7bZ5TxIoU0F40N5BBE=
-X-Google-Smtp-Source: ABdhPJya+Fg+Wopyy7i8Tnnr1s98maH9nWAV3d9p/i/IZIKA9y+YKsQOVLYF9oJuK8Km2Z/CjKlUJg==
-X-Received: by 2002:a17:90a:73c9:: with SMTP id n9mr2893166pjk.105.1630994750479;
-        Mon, 06 Sep 2021 23:05:50 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:668f:8a8e:5bc5:fb2d])
-        by smtp.gmail.com with ESMTPSA id p9sm9686231pfq.15.2021.09.06.23.05.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Sep 2021 23:05:49 -0700 (PDT)
-Date:   Mon, 6 Sep 2021 23:05:46 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Tobita, Tatsunosuke" <tatsunosuke.tobita@wacom.com>
-Cc:     Alistair Francis <alistair@alistair23.me>,
-        "Cheng, Ping" <Ping.Cheng@wacom.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-imx@nxp.com" <linux-imx@nxp.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "pinglinux@gmail.com" <pinglinux@gmail.com>,
-        "junkpainting@gmail.com" <junkpainting@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "alistair23@gmail.com" <alistair23@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v10 05/12] Input: wacom_i2c - Read the descriptor values
-Message-ID: <YTcBOskPYjbv4q61@google.com>
-References: <20210829091925.190-1-alistair@alistair23.me>
- <20210829091925.190-7-alistair@alistair23.me>
- <YS1DGuTTAEKAd2Yr@google.com>
- <PA4PR07MB7407FE9FE271191AC52F7EA387CE9@PA4PR07MB7407.eurprd07.prod.outlook.com>
+        h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/UBwOofpA8/+kaEKqbvd66qjIBGqrp+k0ILuSWWmLkY=;
+        b=Esp3x1Rswji9CXsheDqDBOBh6YJgzIGBS8UABKk8uz+qunpteCQLCHdhsdEyuzb4sq
+         Pu3oRVmYMhbTMUB2CSFEN7JCt4ufogUfVpS6kfYp4lQNkNwlbbtgyZ5d39Vv8SF/7aIi
+         ry7t5tPbZgypEjVjtP9TRbVbNVkFku8ujH+hhjAc0Pq0baBPCPvXDjaGtuSkbWaw4ak9
+         7e1vh/0V+l8lRvIdm7tziAt1wk5JAI58Au6tTqigdv4HdamwEt/ihtM2SGO7PC8Sd696
+         U3knf1I9rAZuMCZOvx69hqtmF5F4Y0nMgI03lZ2Q9D6A2gP5l2wHLQNAG67vpBfjxpGk
+         jeYA==
+X-Gm-Message-State: AOAM533V20EjPrK3OhcpNzZh4FCBLmi3kpqo5Aw279hGQIw5402xGbSR
+        BJ1AiyyGEuUglcWpE6oGxl8XRuxvgaQ=
+X-Google-Smtp-Source: ABdhPJyWqIcc5acgKMcSg7x3Y362n/t0MsRUmGHjl6aqCyUD6jb1pdWhTO/Ec2cxb8w2Kzxu6C0xBA==
+X-Received: by 2002:a05:6808:46:: with SMTP id v6mr1729056oic.61.1630995914864;
+        Mon, 06 Sep 2021 23:25:14 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id v10sm2268838otp.25.2021.09.06.23.25.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Sep 2021 23:25:14 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210907050606.2142634-1-linux@roeck-us.net>
+ <YTb/t2Qn0BklAlpk@google.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH] Input: analog: Always use ktime functions
+Message-ID: <7d5c1a12-19e8-d29f-76f3-88d6bc0acce0@roeck-us.net>
+Date:   Mon, 6 Sep 2021 23:25:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PA4PR07MB7407FE9FE271191AC52F7EA387CE9@PA4PR07MB7407.eurprd07.prod.outlook.com>
+In-Reply-To: <YTb/t2Qn0BklAlpk@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Tatsunosuke,
-
-On Thu, Sep 02, 2021 at 07:33:49AM +0000, Tobita, Tatsunosuke wrote:
-> Hi Dmitry,
+On 9/6/21 10:59 PM, Dmitry Torokhov wrote:
+> Hi Guenter,
 > 
-> Yes, our firmware supports HID over I2C.  However, some of our
-> customers often do not want to use HID to handle our hardware; even
-> they don't install the generic HID driver neither.  In such case, we
-> need to distinguish what generation of our device customer's has. And
-> to do so, we check I2C HID descriptor even though the driver is not
-> working with HID driver components, but this one.  That is why I2C HID
-> descriptor is used there. It is called, but the situation with this
-> driver is not supposed to work as a HID device.
+> On Mon, Sep 06, 2021 at 10:06:06PM -0700, Guenter Roeck wrote:
+>> m68k, mips, s390, and sparc allmodconfig images fail to build with the
+>> following error.
+>>
+>> drivers/input/joystick/analog.c:160:2: error:
+>> 	#warning Precise timer not defined for this architecture.
+>>
+>> Remove architecture specific time handling code and always use ktime
+>> functions to determine time deltas. Also remove the now useless use_ktime
+>> kernel parameter.
+>>
+>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+>> ---
+>>   drivers/input/joystick/analog.c | 74 ++-------------------------------
+>>   1 file changed, 3 insertions(+), 71 deletions(-)
+>>
+>> diff --git a/drivers/input/joystick/analog.c b/drivers/input/joystick/analog.c
+>> index f798922a4598..4702982182fa 100644
+>> --- a/drivers/input/joystick/analog.c
+>> +++ b/drivers/input/joystick/analog.c
+>> @@ -28,10 +28,6 @@ MODULE_AUTHOR("Vojtech Pavlik <vojtech@ucw.cz>");
+>>   MODULE_DESCRIPTION(DRIVER_DESC);
+>>   MODULE_LICENSE("GPL");
+>>   
+>> -static bool use_ktime = true;
+>> -module_param(use_ktime, bool, 0400);
+>> -MODULE_PARM_DESC(use_ktime, "Use ktime for measuring I/O speed");
+>> -
+>>   /*
+>>    * Option parsing.
+>>    */
+>> @@ -119,64 +115,14 @@ struct analog_port {
+>>   	int axtime;
+>>   };
+>>   
+>> -/*
+>> - * Time macros.
+>> - */
+>> -
+>> -#ifdef __i386__
+>> -
+>> -#include <linux/i8253.h>
+>> -
+>> -#define GET_TIME(x)	do { if (boot_cpu_has(X86_FEATURE_TSC)) x = (unsigned int)rdtsc(); else x = get_time_pit(); } while (0)
+>> -#define DELTA(x,y)	(boot_cpu_has(X86_FEATURE_TSC) ? ((y) - (x)) : ((x) - (y) + ((x) < (y) ? PIT_TICK_RATE / HZ : 0)))
+>> -#define TIME_NAME	(boot_cpu_has(X86_FEATURE_TSC)?"TSC":"PIT")
+>> -static unsigned int get_time_pit(void)
+>> -{
+>> -        unsigned long flags;
+>> -        unsigned int count;
+>> -
+>> -        raw_spin_lock_irqsave(&i8253_lock, flags);
+>> -        outb_p(0x00, 0x43);
+>> -        count = inb_p(0x40);
+>> -        count |= inb_p(0x40) << 8;
+>> -        raw_spin_unlock_irqrestore(&i8253_lock, flags);
+>> -
+>> -        return count;
+>> -}
+>> -#elif defined(__x86_64__)
+>> -#define GET_TIME(x)	do { x = (unsigned int)rdtsc(); } while (0)
+>> -#define DELTA(x,y)	((y)-(x))
+>> -#define TIME_NAME	"TSC"
+>> -#elif defined(__alpha__) || defined(CONFIG_ARM) || defined(CONFIG_ARM64) || defined(CONFIG_PPC) || defined(CONFIG_RISCV)
+>> -#define GET_TIME(x)	do { x = get_cycles(); } while (0)
+>> -#define DELTA(x,y)	((y)-(x))
+>> -#define TIME_NAME	"get_cycles"
+>> -#else
+>> -#define FAKE_TIME
+>> -static unsigned long analog_faketime = 0;
+>> -#define GET_TIME(x)     do { x = analog_faketime++; } while(0)
+>> -#define DELTA(x,y)	((y)-(x))
+>> -#define TIME_NAME	"Unreliable"
+>> -#warning Precise timer not defined for this architecture.
+>> -#endif
+>> -
+>>   static inline u64 get_time(void)
+>>   {
+>> -	if (use_ktime) {
+>> -		return ktime_get_ns();
+>> -	} else {
+>> -		unsigned int x;
+>> -		GET_TIME(x);
+>> -		return x;
+>> -	}
+>> +	return ktime_get_ns();
+>>   }
+>>   
+>>   static inline unsigned int delta(u64 x, u64 y)
+>>   {
+>> -	if (use_ktime)
+>> -		return y - x;
+>> -	else
+>> -		return DELTA((unsigned int)x, (unsigned int)y);
+>> +	return y - x;
+> 
+> I wonder if we should get rid of these wrappers and use ktime_t and
+> ktime_get(), ktime_sub(), etc directly.
+> 
 
-I would like to understand better why the customers do not want to use
-HID. There needs to be a _very_ strong reason to essentially duplicate
-HID layer in a vendor driver and I inclined to say that such customers
-would need to patch their kernels themselves.
+Will do.
 
-Thanks.
+>>   }
+>>   
+>>   /*
+>> @@ -378,21 +324,7 @@ static void analog_calibrate_timer(struct analog_port *port)
+>>   	u64 t1, t2, t3;
+>>   	unsigned long flags;
+>>   
+>> -	if (use_ktime) {
+>> -		port->speed = 1000000;
+>> -	} else {
+>> -		local_irq_save(flags);
+>> -		t1 = get_time();
+>> -#ifdef FAKE_TIME
+>> -		analog_faketime += 830;
+>> -#endif
+>> -		mdelay(1);
+>> -		t2 = get_time();
+>> -		t3 = get_time();
+>> -		local_irq_restore(flags);
+>> -
+>> -		port->speed = delta(t1, t2) - delta(t2, t3);
+>> -	}
+>> +	port->speed = 1000000;
+> 
+> It seems we could get rid of port->speed.
+> 
 
--- 
-Dmitry
+Sure. I'll just use NSEC_PER_MSEC directly.
+
+Thanks,
+Guenter
