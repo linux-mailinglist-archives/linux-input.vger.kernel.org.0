@@ -2,186 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E4424022FF
-	for <lists+linux-input@lfdr.de>; Tue,  7 Sep 2021 07:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C23D40230C
+	for <lists+linux-input@lfdr.de>; Tue,  7 Sep 2021 07:40:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229561AbhIGFHQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Sep 2021 01:07:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56144 "EHLO
+        id S231380AbhIGF3M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Sep 2021 01:29:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbhIGFHP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Sep 2021 01:07:15 -0400
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 081A7C061575;
-        Mon,  6 Sep 2021 22:06:10 -0700 (PDT)
-Received: by mail-ot1-x336.google.com with SMTP id k12-20020a056830150c00b0051abe7f680bso11352416otp.1;
-        Mon, 06 Sep 2021 22:06:09 -0700 (PDT)
+        with ESMTP id S231362AbhIGF3L (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Sep 2021 01:29:11 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16DDBC061575;
+        Mon,  6 Sep 2021 22:28:06 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id mw10-20020a17090b4d0a00b0017b59213831so799628pjb.0;
+        Mon, 06 Sep 2021 22:28:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2O9AWZ6fDTYlL82c7Kzz5I/06piYVWEMibYZmdBsl6w=;
-        b=VTY+w4TjNJUqKDXOAURwMerhRToTckira6X4s02r6khhq3t7ID4YvGL03KM6c+D2+d
-         9ohBeZbc4uXS3uCiwGfO2dWLo1OlMBGtGExglrwQ/8e7dvdhu69hRlcFVRzUSDuxTXzZ
-         Gwud+75D0jZVoPD4VGO8jnCKcA8+XjtUq0jVrvR1qNE2cXoZKLghQv7q0VJ2k3o+1ZJj
-         H1EPSDXCFfgO5rxZ6lkXqlc4RxvkKjrwGdN1MaD/bT3GNo1ppt/jMDpPZqdNUJOzA+Df
-         HN9wTnjCaCuI2XsqZE4FNx96Vb2a47gu8e+2rucFIbacbrseWu1OmknlUEwBWQ3o6GbE
-         noew==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=xkYVFbnjRXNaVulr+h3N+YQAw1zNtm2NUhsbkh3G6cg=;
+        b=a3vuaT8dKMV1Xilu56/NFdrXfcfqM9qQJQbR08EEk8NLpwSiV2A/GExVYHWr4L/2yD
+         IpdTFbx0+nrOfrDOfkUriQ6n/TkUx4vnPJTNr1kw5ZLuPyBgEIg1tH5qCxnjQAx9QSV8
+         lRFXTywGfKiseKhzyQ/dNi0r1IdhM+AF2ZydXz00tm4vRSGWBUDYoPxPLfAe1heShLKW
+         c6NNLsroSlo2X938rqq+8JJqy1BHgCxYNAHGUGODAYMpowGA/vX47YK/irGxptyEMn2M
+         QE95jfCRblxMYz93jJHKxiKR8tce3hBAzWNcq3crvb6Jb/kobYUxSB5NbbXaH+A9w6Ri
+         FsCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=2O9AWZ6fDTYlL82c7Kzz5I/06piYVWEMibYZmdBsl6w=;
-        b=cqdK5GiIuOPmr+7jKfocryuNQHPRfE15qZ3UlI5mAxXCMSvE95ZI7grnUG5WLio/0p
-         N44dHWZ9QAHiPLg8Vl6fD8Lba0S8EnWUhROxNDxRMO2GVngUwQSBaNlgxkegXqHsw4gu
-         3P024y/xWk3GSpGzl/Gf+2uE6XC2u0R4WCgRDi6RAQDHLYMNoCroqOPrEKZBeluU7/1I
-         KVEgF+3w6WxAtu2I299n84PH6kFvjjhe9IDacJP4AHzBO6gILa9FbDDuHJ4gzi+9bzgW
-         bjqJ1OolbSLjCH1Z/5EIMN/2KT8Svt5yJqm3huR7VZpShhRyxkrrJf7E1rOvaQ27f6H9
-         mgrA==
-X-Gm-Message-State: AOAM530M/fcY51vq+ILOwNvFMV4Eo9oPvcLvhZEhI2tO1MAF86fZWZi/
-        JN+ou/Sev6a2jJQJ0SyXEUQ2el51NVQ=
-X-Google-Smtp-Source: ABdhPJyzJWDOgpw0yi30QzhoAHJ8deOFy4JIBR185vZ275cp25WdSnCMUwhtEtjCE1pmpNUAFN/IbA==
-X-Received: by 2002:a05:6830:1443:: with SMTP id w3mr13738815otp.49.1630991169272;
-        Mon, 06 Sep 2021 22:06:09 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id z25sm1900657oic.24.2021.09.06.22.06.08
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xkYVFbnjRXNaVulr+h3N+YQAw1zNtm2NUhsbkh3G6cg=;
+        b=p0pQJ8/rpUGjctK7vMmFNPaZzxCtbreb8mvtnBq6JNac8LORRJhy+EP6QhreV5ds1J
+         J9dkLPjfBhgdyNgAlfrkihE8bYfRHpapxuEGnDRKP58hX9fA9QFvQGf0r4A0XHBk3GR2
+         5RvMkzEHtgp+KunbK9PIMixJjZ+gYJlQDtX0oVxsRRjlus1jLq+u2geBhVwjQWAiEvJT
+         ZlT2dFQZk4kaPNQzbXUkzO4GN+DckPfsN5h83Xpls1pQElQva6oTnOIYAoxbCJlMfHb1
+         7+9SwnZLCBNjtmAcT0E4NUnlIgVfPdUtlx+OXjAAPj/mBphWVRIjzICX3zmona1Z5q7n
+         I8qg==
+X-Gm-Message-State: AOAM533roGn6t0TWKm+Mm5LW5CDh6PB6kbXSoLvW4s9T1FwYsiSNHpsn
+        HqKm+4C6AHCXeG0i0dGtDos=
+X-Google-Smtp-Source: ABdhPJyDvyK8WhtkOVMqqW8j252ZiVFZxynqJf5B6tpQC1edhDGYc81ZIJPHUmeJK1GuHyNilc7w4g==
+X-Received: by 2002:a17:90a:4306:: with SMTP id q6mr2663673pjg.202.1630992485454;
+        Mon, 06 Sep 2021 22:28:05 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:668f:8a8e:5bc5:fb2d])
+        by smtp.gmail.com with ESMTPSA id i10sm9235106pfk.87.2021.09.06.22.28.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Sep 2021 22:06:08 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Guenter Roeck <linux@roeck-us.net>
-Subject: [PATCH] Input: analog: Always use ktime functions
-Date:   Mon,  6 Sep 2021 22:06:06 -0700
-Message-Id: <20210907050606.2142634-1-linux@roeck-us.net>
-X-Mailer: git-send-email 2.33.0
+        Mon, 06 Sep 2021 22:28:04 -0700 (PDT)
+Date:   Mon, 6 Sep 2021 22:28:01 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     "jingle.wu" <jingle.wu@emc.com.tw>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        phoenix@emc.com.tw, josh.chen@emc.com.tw, dave.wang@emc.com.tw
+Subject: Re: [PATCH] Input: elan_i2c - Reduce the resume time for WHITEBOX
+ Machine.
+Message-ID: <YTb4YbVIPeYvHlhp@google.com>
+References: <20210907012924.11391-1-jingle.wu@emc.com.tw>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210907012924.11391-1-jingle.wu@emc.com.tw>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-m68k, mips, s390, and sparc allmodconfig images fail to build with the
-following error.
+Hi Jingle,
 
-drivers/input/joystick/analog.c:160:2: error:
-	#warning Precise timer not defined for this architecture.
+On Tue, Sep 07, 2021 at 09:29:24AM +0800, jingle.wu wrote:
+> Singed-off-by: Jingle Wu <jingle.wu@emc.com.tw>
+> ---
+>  drivers/input/mouse/elan_i2c.h      | 1 +
+>  drivers/input/mouse/elan_i2c_core.c | 1 +
+>  2 files changed, 2 insertions(+)
+> 
+> diff --git a/drivers/input/mouse/elan_i2c.h b/drivers/input/mouse/elan_i2c.h
+> index dc4a240f4489..84b4a678b482 100644
+> --- a/drivers/input/mouse/elan_i2c.h
+> +++ b/drivers/input/mouse/elan_i2c.h
+> @@ -59,6 +59,7 @@
+>  #define ETP_PRODUCT_ID_VOXEL	0x00BF
+>  #define ETP_PRODUCT_ID_MAGPIE	0x0120
+>  #define ETP_PRODUCT_ID_BOBBA	0x0121
+> +#define ETP_PRODUCT_ID_WHITEBOX	0x00B8
+>  
+>  struct i2c_client;
+>  struct completion;
+> diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+> index dad22c1ea6a0..a3edf71982ce 100644
+> --- a/drivers/input/mouse/elan_i2c_core.c
+> +++ b/drivers/input/mouse/elan_i2c_core.c
+> @@ -108,6 +108,7 @@ static u32 elan_i2c_lookup_quirks(u16 ic_type, u16 product_id)
+>  		{ 0x10, ETP_PRODUCT_ID_VOXEL, ETP_QUIRK_QUICK_WAKEUP },
+>  		{ 0x14, ETP_PRODUCT_ID_MAGPIE, ETP_QUIRK_QUICK_WAKEUP },
+>  		{ 0x14, ETP_PRODUCT_ID_BOBBA, ETP_QUIRK_QUICK_WAKEUP },
+> +		{ 0x0D, ETP_PRODUCT_ID_WHITEBOX, ETP_QUIRK_QUICK_WAKEUP },
 
-Remove architecture specific time handling code and always use ktime
-functions to determine time deltas. Also remove the now useless use_ktime
-kernel parameter.
+I reordered this and the above so the entries are sorted properly and
+applied.
 
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
- drivers/input/joystick/analog.c | 74 ++-------------------------------
- 1 file changed, 3 insertions(+), 71 deletions(-)
+Thanks.
 
-diff --git a/drivers/input/joystick/analog.c b/drivers/input/joystick/analog.c
-index f798922a4598..4702982182fa 100644
---- a/drivers/input/joystick/analog.c
-+++ b/drivers/input/joystick/analog.c
-@@ -28,10 +28,6 @@ MODULE_AUTHOR("Vojtech Pavlik <vojtech@ucw.cz>");
- MODULE_DESCRIPTION(DRIVER_DESC);
- MODULE_LICENSE("GPL");
- 
--static bool use_ktime = true;
--module_param(use_ktime, bool, 0400);
--MODULE_PARM_DESC(use_ktime, "Use ktime for measuring I/O speed");
--
- /*
-  * Option parsing.
-  */
-@@ -119,64 +115,14 @@ struct analog_port {
- 	int axtime;
- };
- 
--/*
-- * Time macros.
-- */
--
--#ifdef __i386__
--
--#include <linux/i8253.h>
--
--#define GET_TIME(x)	do { if (boot_cpu_has(X86_FEATURE_TSC)) x = (unsigned int)rdtsc(); else x = get_time_pit(); } while (0)
--#define DELTA(x,y)	(boot_cpu_has(X86_FEATURE_TSC) ? ((y) - (x)) : ((x) - (y) + ((x) < (y) ? PIT_TICK_RATE / HZ : 0)))
--#define TIME_NAME	(boot_cpu_has(X86_FEATURE_TSC)?"TSC":"PIT")
--static unsigned int get_time_pit(void)
--{
--        unsigned long flags;
--        unsigned int count;
--
--        raw_spin_lock_irqsave(&i8253_lock, flags);
--        outb_p(0x00, 0x43);
--        count = inb_p(0x40);
--        count |= inb_p(0x40) << 8;
--        raw_spin_unlock_irqrestore(&i8253_lock, flags);
--
--        return count;
--}
--#elif defined(__x86_64__)
--#define GET_TIME(x)	do { x = (unsigned int)rdtsc(); } while (0)
--#define DELTA(x,y)	((y)-(x))
--#define TIME_NAME	"TSC"
--#elif defined(__alpha__) || defined(CONFIG_ARM) || defined(CONFIG_ARM64) || defined(CONFIG_PPC) || defined(CONFIG_RISCV)
--#define GET_TIME(x)	do { x = get_cycles(); } while (0)
--#define DELTA(x,y)	((y)-(x))
--#define TIME_NAME	"get_cycles"
--#else
--#define FAKE_TIME
--static unsigned long analog_faketime = 0;
--#define GET_TIME(x)     do { x = analog_faketime++; } while(0)
--#define DELTA(x,y)	((y)-(x))
--#define TIME_NAME	"Unreliable"
--#warning Precise timer not defined for this architecture.
--#endif
--
- static inline u64 get_time(void)
- {
--	if (use_ktime) {
--		return ktime_get_ns();
--	} else {
--		unsigned int x;
--		GET_TIME(x);
--		return x;
--	}
-+	return ktime_get_ns();
- }
- 
- static inline unsigned int delta(u64 x, u64 y)
- {
--	if (use_ktime)
--		return y - x;
--	else
--		return DELTA((unsigned int)x, (unsigned int)y);
-+	return y - x;
- }
- 
- /*
-@@ -378,21 +324,7 @@ static void analog_calibrate_timer(struct analog_port *port)
- 	u64 t1, t2, t3;
- 	unsigned long flags;
- 
--	if (use_ktime) {
--		port->speed = 1000000;
--	} else {
--		local_irq_save(flags);
--		t1 = get_time();
--#ifdef FAKE_TIME
--		analog_faketime += 830;
--#endif
--		mdelay(1);
--		t2 = get_time();
--		t3 = get_time();
--		local_irq_restore(flags);
--
--		port->speed = delta(t1, t2) - delta(t2, t3);
--	}
-+	port->speed = 1000000;
- 
- 	tx = ~0;
- 
 -- 
-2.33.0
-
+Dmitry
