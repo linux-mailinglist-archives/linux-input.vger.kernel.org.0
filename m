@@ -2,205 +2,235 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 328C840236A
-	for <lists+linux-input@lfdr.de>; Tue,  7 Sep 2021 08:27:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2658402375
+	for <lists+linux-input@lfdr.de>; Tue,  7 Sep 2021 08:31:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230483AbhIGG0W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Sep 2021 02:26:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45192 "EHLO
+        id S231931AbhIGGbk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Sep 2021 02:31:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232056AbhIGG0V (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Sep 2021 02:26:21 -0400
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C57BCC061575;
-        Mon,  6 Sep 2021 23:25:15 -0700 (PDT)
-Received: by mail-oi1-x22b.google.com with SMTP id q39so11481147oiw.12;
-        Mon, 06 Sep 2021 23:25:15 -0700 (PDT)
+        with ESMTP id S229914AbhIGGbj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Sep 2021 02:31:39 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 050AEC061575;
+        Mon,  6 Sep 2021 23:30:33 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id g13-20020a17090a3c8d00b00196286963b9so859377pjc.3;
+        Mon, 06 Sep 2021 23:30:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:to:cc:references:from:subject:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/UBwOofpA8/+kaEKqbvd66qjIBGqrp+k0ILuSWWmLkY=;
-        b=Aicscqd2RmIeSemDcchk6eENStnpmmIgSts+GSaLDww4QSqaznLHcLynW1fkrvWYKW
-         fPsHjz8g+91mJE/RtcokXSBi3GqvXN+N5fxeCQjmUiLeNMsy5ejHGb/OSeCWhdDX5N3/
-         1slDbycMzOGKGRYGaVqcxOpzmDOnV6d6heKXXFoorghGO/sL2FdXrBPVDq56Bh4/QOeg
-         AaJb9YDAptuYmB0yMxrA6OhRNCPbdkvmrDd8ylI11AO6KCRpJm2ew3l2H7HUogTMLdKy
-         /JAmLFv5ZyhQSv4H3IeOM5Ev/rDmAFzU7wuIESHi3AxMtYSxPAIWTXaYE2ksQRN+jjTH
-         GluA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=imT5AwR7rVdHL3kGC1+hyeiMX42yzFCZ1Les27iTujc=;
+        b=JV1D59dzRrdKSBeiY4A9a41t1gtvvyh6+H5WS44AglzJ268kxHDt6AIzPEJNw7Y+p3
+         Y1S1Ufu5yB1HdB8uEZL35k5FJGEHszOr0f8Kki3NHgwJstWvvCyJlwOmvBoqjAnH01zd
+         46TUWQpS/2Lv8iqXFv4ZlA000if4ebNUqn2GkxG3MTwVkx0Kz9ZEf6JIr2oGJS20mcLn
+         02tlJQRNQ1rnNj87UXVM20K1hm/jQt+WorRFA7mv5IjBUaev5zX908gqsDDKpcacZE3X
+         0Jt4iYDrNX6hoIkN1lDc7j6pP1IuO4zvYCHKEmQ+GnPnzezOADi7BCU3DLi/I957wNet
+         R8xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/UBwOofpA8/+kaEKqbvd66qjIBGqrp+k0ILuSWWmLkY=;
-        b=Esp3x1Rswji9CXsheDqDBOBh6YJgzIGBS8UABKk8uz+qunpteCQLCHdhsdEyuzb4sq
-         Pu3oRVmYMhbTMUB2CSFEN7JCt4ufogUfVpS6kfYp4lQNkNwlbbtgyZ5d39Vv8SF/7aIi
-         ry7t5tPbZgypEjVjtP9TRbVbNVkFku8ujH+hhjAc0Pq0baBPCPvXDjaGtuSkbWaw4ak9
-         7e1vh/0V+l8lRvIdm7tziAt1wk5JAI58Au6tTqigdv4HdamwEt/ihtM2SGO7PC8Sd696
-         U3knf1I9rAZuMCZOvx69hqtmF5F4Y0nMgI03lZ2Q9D6A2gP5l2wHLQNAG67vpBfjxpGk
-         jeYA==
-X-Gm-Message-State: AOAM533V20EjPrK3OhcpNzZh4FCBLmi3kpqo5Aw279hGQIw5402xGbSR
-        BJ1AiyyGEuUglcWpE6oGxl8XRuxvgaQ=
-X-Google-Smtp-Source: ABdhPJyWqIcc5acgKMcSg7x3Y362n/t0MsRUmGHjl6aqCyUD6jb1pdWhTO/Ec2cxb8w2Kzxu6C0xBA==
-X-Received: by 2002:a05:6808:46:: with SMTP id v6mr1729056oic.61.1630995914864;
-        Mon, 06 Sep 2021 23:25:14 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id v10sm2268838otp.25.2021.09.06.23.25.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Sep 2021 23:25:14 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210907050606.2142634-1-linux@roeck-us.net>
- <YTb/t2Qn0BklAlpk@google.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH] Input: analog: Always use ktime functions
-Message-ID: <7d5c1a12-19e8-d29f-76f3-88d6bc0acce0@roeck-us.net>
-Date:   Mon, 6 Sep 2021 23:25:12 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=imT5AwR7rVdHL3kGC1+hyeiMX42yzFCZ1Les27iTujc=;
+        b=Ybm2QQXIUSKz6+ccSEINFo31FbQq8QyiABosmjGnr9S3739p74no3P/5CWnwUFNB28
+         MfX13hq8fEciu2D4uNJhAJ5PtOcRrrVWmatvcci8X0dmnPG/9bV4ndsAS1fZBO22p38h
+         ut2A7A+f59RSXClsBwd/81DEffH6ySHCYSIAbbpE+3G6ge4C4tQh9jeOk59LkY80YbtS
+         ClFi/3IZGHHoDGlnLFUTuitO4Y3xPpQL9F6nOsXij+QG6dzcMpYQ+I5f9abgXQW8lW7t
+         4q8WopCOFgZ5Fp5s2RyFfZUMnIQ5tbA/3p7veof7SOtlV10H5UYqESRw97B7gst8b8HM
+         xYVA==
+X-Gm-Message-State: AOAM530NGk0mznD95pyFfQNPnnL4ZaEcOumVA1G0Qm+JG8SUOapmxYKs
+        gS95N+bmEu7Vi1N0l7PBQco=
+X-Google-Smtp-Source: ABdhPJySzShbrWq23QOcs5iRO7dpdklAThwpqb0zZxXxwWhGXDOJUmGY//RshaPM2CY97CWoCuW7fQ==
+X-Received: by 2002:a17:90a:8a13:: with SMTP id w19mr2864531pjn.245.1630996231086;
+        Mon, 06 Sep 2021 23:30:31 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:668f:8a8e:5bc5:fb2d])
+        by smtp.gmail.com with ESMTPSA id l6sm9536422pff.74.2021.09.06.23.30.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Sep 2021 23:30:30 -0700 (PDT)
+Date:   Mon, 6 Sep 2021 23:30:27 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Maxim Mikityanskiy <maxtram95@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-leds@vger.kernel.org, Daniel Kurtz <djkurtz@chromium.org>,
+        Oliver Neukum <oneukum@suse.de>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/6] HID: hid-input: Add offhook and ring LEDs for
+ headsets
+Message-ID: <YTcHA+Irh4QHTBNC@google.com>
+References: <20210703220202.5637-1-maxtram95@gmail.com>
+ <20210703220202.5637-2-maxtram95@gmail.com>
+ <CAO-hwJJxJqgW6CGPmvL41teh6vgWfSg55qoXWL3TjQx+mvsbHg@mail.gmail.com>
+ <nycvar.YFH.7.76.2107152057230.8253@cbobk.fhfr.pm>
+ <YPCc/k89XNTmeKVo@google.com>
+ <20210715224905.GA18180@duo.ucw.cz>
+ <CAKErNvrc0NjVwpXiGVED0c2PatVh9ObUBjqem9mi8hq_TZcyWw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YTb/t2Qn0BklAlpk@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKErNvrc0NjVwpXiGVED0c2PatVh9ObUBjqem9mi8hq_TZcyWw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 9/6/21 10:59 PM, Dmitry Torokhov wrote:
-> Hi Guenter,
-> 
-> On Mon, Sep 06, 2021 at 10:06:06PM -0700, Guenter Roeck wrote:
->> m68k, mips, s390, and sparc allmodconfig images fail to build with the
->> following error.
->>
->> drivers/input/joystick/analog.c:160:2: error:
->> 	#warning Precise timer not defined for this architecture.
->>
->> Remove architecture specific time handling code and always use ktime
->> functions to determine time deltas. Also remove the now useless use_ktime
->> kernel parameter.
->>
->> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
->> ---
->>   drivers/input/joystick/analog.c | 74 ++-------------------------------
->>   1 file changed, 3 insertions(+), 71 deletions(-)
->>
->> diff --git a/drivers/input/joystick/analog.c b/drivers/input/joystick/analog.c
->> index f798922a4598..4702982182fa 100644
->> --- a/drivers/input/joystick/analog.c
->> +++ b/drivers/input/joystick/analog.c
->> @@ -28,10 +28,6 @@ MODULE_AUTHOR("Vojtech Pavlik <vojtech@ucw.cz>");
->>   MODULE_DESCRIPTION(DRIVER_DESC);
->>   MODULE_LICENSE("GPL");
->>   
->> -static bool use_ktime = true;
->> -module_param(use_ktime, bool, 0400);
->> -MODULE_PARM_DESC(use_ktime, "Use ktime for measuring I/O speed");
->> -
->>   /*
->>    * Option parsing.
->>    */
->> @@ -119,64 +115,14 @@ struct analog_port {
->>   	int axtime;
->>   };
->>   
->> -/*
->> - * Time macros.
->> - */
->> -
->> -#ifdef __i386__
->> -
->> -#include <linux/i8253.h>
->> -
->> -#define GET_TIME(x)	do { if (boot_cpu_has(X86_FEATURE_TSC)) x = (unsigned int)rdtsc(); else x = get_time_pit(); } while (0)
->> -#define DELTA(x,y)	(boot_cpu_has(X86_FEATURE_TSC) ? ((y) - (x)) : ((x) - (y) + ((x) < (y) ? PIT_TICK_RATE / HZ : 0)))
->> -#define TIME_NAME	(boot_cpu_has(X86_FEATURE_TSC)?"TSC":"PIT")
->> -static unsigned int get_time_pit(void)
->> -{
->> -        unsigned long flags;
->> -        unsigned int count;
->> -
->> -        raw_spin_lock_irqsave(&i8253_lock, flags);
->> -        outb_p(0x00, 0x43);
->> -        count = inb_p(0x40);
->> -        count |= inb_p(0x40) << 8;
->> -        raw_spin_unlock_irqrestore(&i8253_lock, flags);
->> -
->> -        return count;
->> -}
->> -#elif defined(__x86_64__)
->> -#define GET_TIME(x)	do { x = (unsigned int)rdtsc(); } while (0)
->> -#define DELTA(x,y)	((y)-(x))
->> -#define TIME_NAME	"TSC"
->> -#elif defined(__alpha__) || defined(CONFIG_ARM) || defined(CONFIG_ARM64) || defined(CONFIG_PPC) || defined(CONFIG_RISCV)
->> -#define GET_TIME(x)	do { x = get_cycles(); } while (0)
->> -#define DELTA(x,y)	((y)-(x))
->> -#define TIME_NAME	"get_cycles"
->> -#else
->> -#define FAKE_TIME
->> -static unsigned long analog_faketime = 0;
->> -#define GET_TIME(x)     do { x = analog_faketime++; } while(0)
->> -#define DELTA(x,y)	((y)-(x))
->> -#define TIME_NAME	"Unreliable"
->> -#warning Precise timer not defined for this architecture.
->> -#endif
->> -
->>   static inline u64 get_time(void)
->>   {
->> -	if (use_ktime) {
->> -		return ktime_get_ns();
->> -	} else {
->> -		unsigned int x;
->> -		GET_TIME(x);
->> -		return x;
->> -	}
->> +	return ktime_get_ns();
->>   }
->>   
->>   static inline unsigned int delta(u64 x, u64 y)
->>   {
->> -	if (use_ktime)
->> -		return y - x;
->> -	else
->> -		return DELTA((unsigned int)x, (unsigned int)y);
->> +	return y - x;
-> 
-> I wonder if we should get rid of these wrappers and use ktime_t and
-> ktime_get(), ktime_sub(), etc directly.
-> 
+Hi,
 
-Will do.
+On Fri, Jul 16, 2021 at 08:23:02PM +0300, Maxim Mikityanskiy wrote:
 
->>   }
->>   
->>   /*
->> @@ -378,21 +324,7 @@ static void analog_calibrate_timer(struct analog_port *port)
->>   	u64 t1, t2, t3;
->>   	unsigned long flags;
->>   
->> -	if (use_ktime) {
->> -		port->speed = 1000000;
->> -	} else {
->> -		local_irq_save(flags);
->> -		t1 = get_time();
->> -#ifdef FAKE_TIME
->> -		analog_faketime += 830;
->> -#endif
->> -		mdelay(1);
->> -		t2 = get_time();
->> -		t3 = get_time();
->> -		local_irq_restore(flags);
->> -
->> -		port->speed = delta(t1, t2) - delta(t2, t3);
->> -	}
->> +	port->speed = 1000000;
+Sorry for disappearing for a while.
+
+> On Fri, Jul 16, 2021 at 1:49 AM Pavel Machek <pavel@ucw.cz> wrote:
+> >
+> > On Thu 2021-07-15 13:39:26, Dmitry Torokhov wrote:
+> > > On Thu, Jul 15, 2021 at 08:57:44PM +0200, Jiri Kosina wrote:
+> > > > On Tue, 6 Jul 2021, Benjamin Tissoires wrote:
+> > > >
+> > > > > > A lot of USBHID headsets available on the market have LEDs that indicate
+> > > > > > ringing and off-hook states when used with VoIP applications. This
+> > > > > > commit exposes these LEDs via the standard sysfs interface.
+> >
+> > > > > > diff --git a/drivers/input/input-leds.c b/drivers/input/input-leds.c
+> > > > > > index 0b11990ade46..bc6e25b9af25 100644
+> > > > > > --- a/drivers/input/input-leds.c
+> > > > > > +++ b/drivers/input/input-leds.c
+> > > > > > @@ -33,6 +33,8 @@ static const struct {
+> > > > > >         [LED_MISC]      = { "misc" },
+> > > > > >         [LED_MAIL]      = { "mail" },
+> > > > > >         [LED_CHARGING]  = { "charging" },
+> > > > > > +       [LED_OFFHOOK]   = { "offhook" },
+> > > > >
+> > > > > I am pretty sure this also needs to be reviewed by the led folks.
+> > > > > Adding them in Cc.
+> > > >
+> > > > Can we please get Ack from the LED maintainers? Thanks.
+> > >
+> > > I do not think we should be adding more LED bits to the input
+> > > subsystem/events; this functionality should be routed purely though LED
+> > > subsystem. input-leds is a bridge for legacy input functionality
+> > > reflecting it onto the newer LED subsystem.
 > 
-> It seems we could get rid of port->speed.
+> I'm a bit confused by this answer. I wasn't aware that input-leds was
+> some legacy stuff.
+
+Yes, input-leds provides bridge from legacy leds defined in input
+subsystem over to proper LED subsystem that we have now. Now that we
+have proper LED subsystem all new LEDs should be introduced via it.
+Especially given that some of the LEDs defined in HID have little
+relation to input (Printer Out of Paper, Battery OK, RGB LEDs, etc).
+
+> Moreover, hid-input only handles LEDs through
+> input-leds, it doesn't use any modern replacement. So, does your
+> answer mean I need to implement this replacement?
+
+Yes.
+
+> If so, I anticipate
+> some issues with this approach:
 > 
+> 1. hid-input will handle different LEDs in different ways, which will
+> make code complicated and error-prone. There will be two parallel
+> implementations for LEDs.
 
-Sure. I'll just use NSEC_PER_MSEC directly.
+Yes you will need to route currently defined input LEDs as they are now
+to keep compatibility with existing userspace, and new LEDs should be
+registered directly.
 
-Thanks,
-Guenter
+> 
+> 2. A lot of code will be similar with input-leds, but not shared/reused.
+
+Hmm, not really. I mean you will need to call to register LEDs and
+toggle them, but that's the same as any other driver registering LEDs.
+
+> 
+> 3. New driver callbacks may be needed if drivers want to override the
+> default behavior, like they do with input_mapping/input_mapped.
+
+OK.
+
+> 
+> 4. If some hypothetical input device is a headset, but not HID, it
+> won't be able to reuse the LED handling code. With input-leds it
+> wouldn't be a problem.
+
+We have a lot of non-HID touchpads, touchscreens, mice, joysticks, etc
+that do it for all other data. LEDs are not different.
+
+> 
+> 5. (Minor) LED_MUTE is already there. If we handle LED_OFFHOOK and
+> LED_RING in a different way, it would be confusing.
+
+Not to userspace that uses LED subsystem. And I admit that adding LEDs
+beyond keyboard indicators was a mistake (but we did not have proper LED
+subsystem back then).
+
+> 
+> Let's discuss the architecture before I write any new code, if we are
+> going to take this way. However, to me, input-leds looks like a better
+> fit: the implementation is much simpler and follows existing patterns,
+> and it integrates well with drivers and hid-input. If we throw away
+> input-leds, we'll have to do its job ourselves, and if we throw it
+> away only for part of LEDs, the code will likely be ugly.
+
+I think it will be OK. You just need to note how each led should be
+routed, and then call appropriate API when handling events.
+
+> 
+> > If we do it purely through the LED subsystem, will it get trickier to
+> > associate the devices?
+> 
+> I agree with this point. With the current approach, it's easy to look
+> up all LEDs of an input device. If the suggested approach makes it
+> hard, it's a serious drawback.
+
+You already need to deal with composite devices and figure a way to
+associate all parts of them. And you already need to locate LED devices
+associated with the input device because you are supposed to interface
+via LED subsystem and not input (i.e. new applications should not be
+using EVIOCGLED and writing EV_LED to evdev to control LEDs).
+
+> 
+> > Anyway, it is a headset. What does headset have to do with input
+> > subsystem? Sounds like sound device to me...
+> 
+> That's right, the main function of a headset is of course sound, but
+> such headsets also have buttons (vol up/down, mic mute, answer the
+> call) and LEDs (mic muted, ringing, offhook). The sound "subdevice"
+> (sorry, I'm not really familiar with USB terminology) is handled by
+> snd-usb-audio, and the buttons/LEDs are handled by usbhid.
+> 
+> Two examples of such headsets are mentioned in commit messages in this
+> patch series. Such headsets are usually "certified for skype for
+> business", but of course can be used with a variety of other VoIP
+> applications. The goal of this series is to provide a standard
+> interface between headsets and userspace applications, so that VoIP
+> applications could react to buttons and set LED state, making Linux
+> more ready for desktop.
+> 
+> > And we already have a
+> > "micmute" LED which sounds quite similar to the "offhook" LED... no?
+> 
+> These two are different. A typical headset has three LEDs: micmute,
+> ring and offhook (ring and offhook are often one physical LED, which
+> blinks in the ring state and glows constantly in the offhook state).
+> 
+> Offhook indicates that a call is in progress, while micmute shows that
+> the microphone is muted. These two states are orthogonal and may
+> happen in any combination. On the tested devices, offhook state didn't
+> affect sound, it was just a logical indication of an active call.
+> 
+> If you are interested in more details, I can describe the behavior of
+> the headsets that I tested (some info is actually in the commit
+> messages), but the short answer is that micmute and offhook are two
+> different physical LEDs with completely different functions.
+> 
+> >
+> > Best regards,
+> >                                                                 Pavel
+> > --
+> > http://www.livejournal.com/~pavelmachek
+
+Thanks.
+
+-- 
+Dmitry
