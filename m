@@ -2,101 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A23E64032A7
-	for <lists+linux-input@lfdr.de>; Wed,  8 Sep 2021 04:29:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A7034032FB
+	for <lists+linux-input@lfdr.de>; Wed,  8 Sep 2021 05:40:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347334AbhIHCau (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Sep 2021 22:30:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37920 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347294AbhIHCar (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Sep 2021 22:30:47 -0400
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC53CC061575;
-        Tue,  7 Sep 2021 19:29:39 -0700 (PDT)
-Received: by mail-oi1-x22b.google.com with SMTP id y128so1175470oie.4;
-        Tue, 07 Sep 2021 19:29:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Gb3Rer3/NJHyGTkfNKWCGKxYeiRxOy1QXnqjsA5j1wk=;
-        b=pYTDbDPBFl0PZkhJREk2lnA0QmsHmZ4TNmozlhuYyravnjw7ICuNTnuTC5M6j7iQ2B
-         cEUdRAd5d7i0jbRGit1YltI2FQ4X+YhgrYFKElWQtxS7gvikoqPgxKbh/nKMJm8s2myX
-         8tR4aA4GAacR2NevCUTFtSIx7kQyVc80I4JhVxWKM87HH3pxlBFzTjPL4lCMifrnphHx
-         n+fdt7k+4lLupAsvLHTCyTPbYk1bHovwwG+kung36Edx1hjWXpSibU3zp30U5IsJeaYe
-         cXUwVC3oHeMp7mUaTFOd/7VPEvgJEgCT4rDh4uPddA1wS0+aJU6sMZkvmjXweYvleyA7
-         wwDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Gb3Rer3/NJHyGTkfNKWCGKxYeiRxOy1QXnqjsA5j1wk=;
-        b=luFqlYWDrB1Ecca9Q6S/ydxT16ZUY7j2TOYgwqie0/L3AmyPEoQY+l9CqzFBtxwJAf
-         0Lu5kdmQ8LkfbyJl93IaQfp3Ys/h6nRc8UNeb1Wfos7U3EQwaCK/qo7t0kogix93ExHS
-         2hTEXIueVal6GTib7n40GxPgmpixWVM40ZhHfCVj//Fh3cCJ7Hh2ssWAAC0m5k8o4QgD
-         I/C2JxKlLp+Ee8/o8Gyx2uetTl6SKASKipTwYaQwi3cJa/ZKpgS8VNeU0ijEuAOg6nEh
-         wAzwUinnAPmNDDPWbLcESFVHj3n9vOR+XWsmrNZ4FpMLlSGZjigI9wmMHq6ghQ3ccq2U
-         CG9A==
-X-Gm-Message-State: AOAM5324swpUkj76cHymCH44M/boPL3fDOA6WXMfBvtOw/BbpVV+G5r/
-        7Xj/w2qREYmgqQVf9MRCbTiJrfFYRNM=
-X-Google-Smtp-Source: ABdhPJzOwCZ0vbJAGqDblbjkwqIlC7sfTl4eHXZctaI38F2XwAmlw5G4/V0vNcfUKp/azlAE9WRbnw==
-X-Received: by 2002:a05:6808:56a:: with SMTP id j10mr846748oig.79.1631068178852;
-        Tue, 07 Sep 2021 19:29:38 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id v16sm164196oou.45.2021.09.07.19.29.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Sep 2021 19:29:37 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Subject: Re: [PATCH v3] Input: analog: Always use ktime functions
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210907123734.21520-1-linux@roeck-us.net>
- <YTgVUWzFSOg/I4C+@google.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <a07d3486-ab7e-24c1-63f9-b1566636015c@roeck-us.net>
-Date:   Tue, 7 Sep 2021 19:29:36 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S236835AbhIHDl2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Sep 2021 23:41:28 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:52395 "EHLO
+        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234382AbhIHDl1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 7 Sep 2021 23:41:27 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.west.internal (Postfix) with ESMTP id 145672B00247;
+        Tue,  7 Sep 2021 23:40:19 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Tue, 07 Sep 2021 23:40:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm3; bh=5COa0wVVrtdfa0gTBNofmOof6q
+        DfWnoFnqMWJA5jhro=; b=UUzw/24tsi4HOZOj5Jq4a0HIL6Bi1131y+cHyZyjAV
+        /4/SkNY9jZjR65mg2faAFJPxlSmGAIelqzK2iObWTmgCu1hIphPG4lZrzSBpJB/A
+        qS5tNbcki3CxsPP2Fh8LFOdQkYjaLSU/kUA4z3SuryFjrH+LdHGG3vPaN2+aOA75
+        kL83JeOzizFftD9uTItODUNDQZKewWPTD96m+2u0ZDLtXwQQQE7XrePOdAoAom1s
+        OxsrS2psO/IvczGkqJ+hggqX+pxZ5B9KLdkSTvzda1myaEj8LXbeZ7bvdV1QQoh2
+        Do9LEwn/tc2D2zVVkdRTxRItd/S9UnYNx+dbP3fQLLKA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=5COa0wVVrtdfa0gTB
+        NofmOof6qDfWnoFnqMWJA5jhro=; b=ipBdJ5vDzOY6Ga3yropOJdLFlfKk13Tw6
+        NTa68FhJB48w1GIajZzy42na4J6vXSD51nqeB2MENC2y/RpVcomuN34R7rTjQCRD
+        LOuWqErdruM2MORQLEIctMuD6H6eMX86r9w5kgYzc+oJJkHA9LRLpFh+ksi+dMap
+        RZptotS0wPwxfXhmWRueemjJ2HSPb25PSHYAcOAIpcWANGwGbDDFmQzHuu8CZsDo
+        rcRXuBItIXt5pMXo94eIue44ocqiAsFHQ/WBACRGvQIqu1EAC3wGxbjdlhnnBD+s
+        kSAMp5IH+91SUmj//t4UTnd1EZNMouaiEk/dSVsIpwlOz7h+O2Irg==
+X-ME-Sender: <xms:oTA4YYOfcy30WCQG_Y9IcGcy5bRcPoNYgof7Xt2fUNDE5Tsla3-yCQ>
+    <xme:oTA4Ye-4RCpFyt5W_sfwGH-bGmwDzHjWHhGWPvkjpsdP2_gpEidwu64_Y7G-8oWz9
+    030hGIWg4tI1Ni_jQ>
+X-ME-Received: <xmr:oTA4YfTPHXOkyPhlloxxmxZ9-tM-VyTMlGSdhrnP66sJ-QU7UStLdPjqnGqE4jWMH1bZ0u7p1Yyt39d7VU1FKob3T9bWphbba9FFeg5Hf0kF4IVOSto9nCi_5O6CnF8z_r6mPA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgjedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeekkeffffetgfegfeeffeevgffhleehjefglefhveelkeeggeekgfevgeff
+    hfeiueenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
+    ohhrgh
+X-ME-Proxy: <xmx:oTA4YQsvWl4MF_Ek8G_1exb0YvsEz-FZM3BufQ6VaL7CsVCwrYW42w>
+    <xmx:oTA4YQeuEVfjPKEUt0lGFTxsMMB1FkNPMI9QXBh1SR12xDNmO9fAlQ>
+    <xmx:oTA4YU3_O_Ys9SQScp5jgBMO6V06xvqWz1W8pNIN63BouSNpkmqKPw>
+    <xmx:ojA4YU1_tMonsNiPpplJbNK64EhwVvFxx27KIAFWr1Nc2xLSZxRwGl5UV6M>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 7 Sep 2021 23:40:17 -0400 (EDT)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Samuel Holland <samuel@sholland.org>
+Subject: [PATCH 0/3] Input: sun4i-lradc-keys: R329 and D1 support
+Date:   Tue,  7 Sep 2021 22:40:13 -0500
+Message-Id: <20210908034016.24119-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <YTgVUWzFSOg/I4C+@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 9/7/21 6:43 PM, Dmitry Torokhov wrote:
-> Hi Guenter,
-> 
-> On Tue, Sep 07, 2021 at 05:37:34AM -0700, Guenter Roeck wrote:
->> @@ -241,11 +176,11 @@ static int analog_cooked_read(struct analog_port *port)
->>   	int i, j;
->>   
->>   	loopout = (ANALOG_LOOP_TIME * port->loop) / 1000;
->> -	timeout = ANALOG_MAX_TIME * port->speed;
->> +	timeout = ANALOG_MAX_TIME * NSEC_PER_MSEC;
->>   
->>   	local_irq_save(flags);
->>   	gameport_trigger(gameport);
->> -	now = get_time();
->> +	now = ktime_get();
-> 
-> There are time[4], now, etc variables above this block that are u64. I
-> think they can be make ktime_t. I can do it myself if you agree.
-> 
-Sure.
+This series adds R329 and D1 SoC support to the LRADC driver. These SoCs
+do not change the register interface, only the platform integration.
 
->> @@ -378,35 +313,19 @@ static void analog_calibrate_timer(struct analog_port *port)
->>   	u64 t1, t2, t3;
-> 
-> I think these should also be ktime_t.
-> 
-Ok. Do you want me to resend or are you going to make the changes ?
+I have another series[1] which adds wakeup support to this driver.
+It has been reviewed/acked and is waiting to be merged for several
+months[2]. That series merges cleanly with this one.
 
-Thanks,
-Guenter
+[1]: https://patchwork.kernel.org/project/linux-input/cover/20210805051241.47168-1-samuel@sholland.org/
+[2]: https://patchwork.kernel.org/project/linux-input/cover/20210430042003.4591-1-samuel@sholland.org/
+
+Samuel Holland (3):
+  dt-bindings: input: sun4i-lradc-keys: Add R329 and D1 compatibles
+  Input: sun4i-lradc-keys: Add optional clock/reset support
+  Input: sun4i-lradc-keys: Add support for R329 and D1
+
+ .../input/allwinner,sun4i-a10-lradc-keys.yaml | 22 +++++++++++++
+ drivers/input/keyboard/sun4i-lradc-keys.c     | 31 +++++++++++++++++++
+ 2 files changed, 53 insertions(+)
+
+-- 
+2.31.1
 
