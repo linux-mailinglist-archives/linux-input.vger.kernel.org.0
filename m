@@ -2,116 +2,138 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C0FA4037CB
-	for <lists+linux-input@lfdr.de>; Wed,  8 Sep 2021 12:24:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACA3B403C64
+	for <lists+linux-input@lfdr.de>; Wed,  8 Sep 2021 17:18:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348787AbhIHKY6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Sep 2021 06:24:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49404 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1348780AbhIHKY4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 8 Sep 2021 06:24:56 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A85436113D;
-        Wed,  8 Sep 2021 10:23:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631096629;
-        bh=dzN66emlAcx4o31GR92sRPvBYyec2ouhaGkXtWNBEKk=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=pq6VmDyzF3uY3Ffll5YKJ34FjSJ4QdzDb37i0gpHzo1+t2zPyXpSJAjkKwsiNdTzh
-         KyhJAyDuxFCxkgcZD51r+Lh9KWsURVBmz1alf7aBOTgAaZcfqHCSKc8nXXs6hZE3P9
-         TELxnxh4J7BOui8xwpdUNZE89m3QiVafh1nyRT5E85AiMF++OeiggU7vAdwoGPZo/P
-         ABqHq6SjQagkGhsxVizLIFB232IW99ccVF1emjIByaXZgnxYP/fKbskyAgIH4GARt5
-         kds2CUTvcVqMIhDQSXF3xLKVr1333FP59vl8kOcqp4O7kwEyGq6oOmFz9mjejW5d6z
-         eK++LGCj3qHyQ==
-Date:   Wed, 8 Sep 2021 12:23:45 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
-cc:     Roderick Colenbrander <roderick@gaikai.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH v2 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
- for game controllers.
-In-Reply-To: <20210903161711.GB2209@bug>
-Message-ID: <nycvar.YFH.7.76.2109081223210.15944@cbobk.fhfr.pm>
-References: <20210901223037.2964665-1-roderick.colenbrander@sony.com> <20210901223037.2964665-3-roderick.colenbrander@sony.com> <20210903161711.GB2209@bug>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S236337AbhIHPTq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Sep 2021 11:19:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43018 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239472AbhIHPTn (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Sep 2021 11:19:43 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30A5CC061575;
+        Wed,  8 Sep 2021 08:18:35 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id n7-20020a05600c3b8700b002f8ca941d89so1840355wms.2;
+        Wed, 08 Sep 2021 08:18:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TXNpwq2ZA19YDxcovVdDZYV04t8wKrTS33mAVLEbOHg=;
+        b=T8Oku7rjZb52qcR9974WFcaIs4nucE+UBffZCsKTMWeaWMtqE8knTD7jb2Ka7Pg1VY
+         pvlUyFmmtdWcd4BK1/EVnQsZT2RS8FLjBrFkPY3Ffv2/Us2Ni+L9H1ZBMK7+tGEmRHKz
+         GdLrWpMX/PPLPD40cBDFjvKePDvGz5l9eta4M+72EaCwjzH5qk6qN3Pfny6a7DzCSCWl
+         O9PFfzNzNBKCmjSOHb6SVzXuoZzeiZQX3TsTo/jzKSBw/dlUQwabEcBcAjNCggUVrZSl
+         iRFyLK9dGpLu354UUU/pn20VNjrTXCa6djQMGXvWYC+AnEajqqxnGwRehveZYfp0+1XI
+         chWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TXNpwq2ZA19YDxcovVdDZYV04t8wKrTS33mAVLEbOHg=;
+        b=ELUxMRTzaYy/QnMBAsHCqaBXUAesjUoqVJDc4xzCSmXzsAzYB9Igf0RBPNMQGPOCEA
+         c8UVso+AaSaR5sSZQbOrJ0kMQBH6ObWzH43D0UbVhzZBwB7XvYWt/2wIri3KwzKh3LMH
+         VbRnB4G91fbE17IzvbxDFITYKCNt4854t4azanTFSRcaTrixoD2R7MK6RsmEMeu7QpMB
+         jcuNODQrfGLKEMZubF/P6D4RHkMlbBlNrAi/fglfCY4KESX5ioQWe7dzWB71JgljiD74
+         AfGREQs1sBUWXve/vabst4+O7dsukYFS38wSmM7J7El6Tnpydw1M9YyuAKNlN4VYULy+
+         N22A==
+X-Gm-Message-State: AOAM53132Iv8IC5u6eMCcAHaZ8jL9Y52gi5KKSl9frpJlMpS56O2REAR
+        Pv5HHtEyLSPR0zg8keD8GrUiNZtaVCA0fnZvtlc=
+X-Google-Smtp-Source: ABdhPJxlyqz6Yhj+IV6BkpimYRd6LGuEgWGRILRagDBtzzWe4GX0CcKnFN86Cd1IcVNzCnBtVCI1IL8xb/SzWYeqYSY=
+X-Received: by 2002:a05:600c:2256:: with SMTP id a22mr4073124wmm.16.1631114313657;
+ Wed, 08 Sep 2021 08:18:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20210903165448.26545-1-rpimentel.silva@gmail.com> <YTMPYJK44lujITCk@google.com>
+In-Reply-To: <YTMPYJK44lujITCk@google.com>
+From:   Rogerio Pimentel <rpimentel.silva@gmail.com>
+Date:   Wed, 8 Sep 2021 12:18:22 -0300
+Message-ID: <CAOkaPuW9dkRztRxG4MQdQ_SCfQcjd8_mmMa_3=0vO9x7cqju5A@mail.gmail.com>
+Subject: Re: [PATCH v2] Input: ili210x - Set the device name according to the
+ device model
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     hansemro@outlook.com, =?UTF-8?B?TWFyZWsgVmHFoXV0?= <marex@denx.de>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 3 Sep 2021, Pavel Machek wrote:
-
-> > Player LEDs are commonly found on game controllers from Nintendo and Sony
-> > to indicate a player ID across a number of LEDs. For example, "Player 2"
-> > might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
-> > 
-> > This patch introduces a new LED_FUNCTION_PLAYER to properly indicate
-> > player LEDs from the kernel. Until now there was no good standard, which
-> > resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
-> > other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYER.
-> > 
-> > Note: management of Player IDs is left to user space, though a kernel
-> > driver may pick a default value.
-> > 
-> > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+On Sat, Sep 4, 2021 at 3:17 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> Hi Rogerio,
+>
+> On Fri, Sep 03, 2021 at 01:54:48PM -0300, Rogerio Pimentel wrote:
+> > Adding the device model into the device name is useful when
+> > applications need to set different parameters according to the
+> > touchscreen being used, e.g. X11 calibration points.
+>
+> Typically model would go into input->id.product and optionally
+> input->id.version.
+>
+> >
+> > Signed-off-by: Rogerio Pimentel <rpimentel.silva@gmail.com>
 > > ---
-> >  Documentation/leds/well-known-leds.txt | 14 ++++++++++++++
-> >  include/dt-bindings/leds/common.h      |  3 +++
-> >  2 files changed, 17 insertions(+)
-> > 
-> > diff --git a/Documentation/leds/well-known-leds.txt b/Documentation/leds/well-known-leds.txt
-> > index 4a8b9dc4bf52..2160382c86be 100644
-> > --- a/Documentation/leds/well-known-leds.txt
-> > +++ b/Documentation/leds/well-known-leds.txt
-> > @@ -16,6 +16,20 @@ but then try the legacy ones, too.
-> >  
-> >  Notice there's a list of functions in include/dt-bindings/leds/common.h .
-> >  
-> > +* Gamepads and joysticks
+> >
+> > Changes since v1: Get the device ID from touchscreen controller
+> > instead of driver's device list.
+> >
+> >  drivers/input/touchscreen/ili210x.c | 11 ++++++++++-
+> >  1 file changed, 10 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+> > index 199cf3daec10..7a897a03ed70 100644
+> > --- a/drivers/input/touchscreen/ili210x.c
+> > +++ b/drivers/input/touchscreen/ili210x.c
+> > @@ -19,10 +19,14 @@
+> >  #define ILI251X_DATA_SIZE1   31
+> >  #define ILI251X_DATA_SIZE2   20
+> >
+> > +#define ILI_NAME_LEN         27
+> > +#define ILITEK_TS_NAME "Ilitek ILI%x%x Touchscreen"
 > > +
-> > +Game controllers may feature LEDs to indicate a player number. This is commonly
-> > +used on game consoles in which multiple controllers can be connected to a system.
-> > +The "player LEDs" are then programmed with a pattern to indicate a particular
-> > +player. For example, a game controller with 4 LEDs, may be programmed with "x---"
-> > +to indicate player 1, "-x--" to indicate player 2 etcetera where "x" means on.
-> > +Input drivers can utilize the LED class to expose the individual player LEDs
-> > +of a game controller using the function "player".
-> 
-> Thank you.
-> 
-> > +Note: tracking and management of Player IDs is the responsibility of user space,
-> > +though drivers may pick a default value.
-> 
-> I'm not sure we want kernel to do that.
-> 
-> > +Good: "input*:*:player-{1,2,3,4,5}
-> 
-> This goes to the top.
-> 
-> > +++ b/include/dt-bindings/leds/common.h
-> > @@ -60,6 +60,9 @@
-> >  #define LED_FUNCTION_MICMUTE "micmute"
-> >  #define LED_FUNCTION_MUTE "mute"
-> >  
-> > +/* Used for player LEDs as found on game controllers from e.g. Nintendo, Sony. */
-> > +#define LED_FUNCTION_PLAYER "player"
-> > +
-> 
-> Let's not add this. For consistency we'd need defines player-1, player-2, ... We don't
-> need the define at all.
-> 
-> I guess this should go through my tree?
+> >  /* Touchscreen commands */
+> >  #define REG_TOUCHDATA                0x10
+> >  #define REG_PANEL_INFO               0x20
+> >  #define REG_CALIBRATE                0xcc
+> > +#define REG_TS_MODEL         0x61
+> >
+> >  struct ili2xxx_chip {
+> >       int (*read_reg)(struct i2c_client *client, u8 reg,
+> > @@ -384,6 +388,8 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+> >       struct input_dev *input;
+> >       int error;
+> >       unsigned int max_xy;
+> > +     unsigned char buf[2];
+> > +     char *model_name;
+> >
+> >       dev_dbg(dev, "Probing for ILI210X I2C Touschreen driver");
+> >
+> > @@ -430,7 +436,10 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+> >       i2c_set_clientdata(client, priv);
+> >
+> >       /* Setup input device */
+> > -     input->name = "ILI210x Touchscreen";
+> > +     input->name = ILITEK_TS_NAME;
+> > +     model_name = (char *)input->name;
+>
+> Umm, no. Smashing RO data is not nice.
+>
+> > +     priv->chip->read_reg(priv->client, REG_TS_MODEL, buf, 2);
+> > +     snprintf(model_name, ILI_NAME_LEN, input->name, buf[1], buf[0]);
+> >       input->id.bustype = BUS_I2C;
+> >
+> >       /* Multi touch */
+> > --
+> > 2.17.1
+> >
+>
+> Thanks.
+>
+I agree with the comments.
+Please, discard this patch.
 
-Once you provide your Reviewed/Acked-by, I can take it through my tree 
-with the rest of the series.
-
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Rogerio
+> --
+> Dmitry
