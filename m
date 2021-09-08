@@ -2,64 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77DD840308E
-	for <lists+linux-input@lfdr.de>; Tue,  7 Sep 2021 23:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C5EB4031FD
+	for <lists+linux-input@lfdr.de>; Wed,  8 Sep 2021 02:52:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347149AbhIGV7W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Sep 2021 17:59:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33984 "EHLO
+        id S1344780AbhIHAyB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Sep 2021 20:54:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346762AbhIGV7V (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Sep 2021 17:59:21 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64FC9C0613D9
-        for <linux-input@vger.kernel.org>; Tue,  7 Sep 2021 14:58:14 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id s3so889ljp.11
-        for <linux-input@vger.kernel.org>; Tue, 07 Sep 2021 14:58:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=4ZeMqFoWSo+tWRP8ze+5Nkj/uqSjpLi4OjSOBk1BCRM=;
-        b=HAij1yLle8cXKrvle5OJIaTSLfPM1NQcWlHsPb/LObcWf3XueeSbdJZbYIHyZHaxFz
-         mQgebaL8oGh1f7q5WeeVQv9iQRNOCZ15n4ZSIoFEQT4iLVFBxaTvKKfu7hd2TjaoDWOq
-         K7SOBsyLDpNBRoEnDjSLaXydp1PA0Ms+bIvCpAaSMzy16hkLf4ItV7dESsVNtkVRZ9r+
-         8ts+dr0qPZfC3FRrhlFqEmsP3hlfoeDHuSH/nx5Z488qtNl/44hbfRf3ebPWb1Edm49z
-         +XqSh6Pv5yY4TnqBlju60JpEwv8A3T0j55S/djm8e9FrFKF8Ej0owL8UKdj8n1nSJ5zG
-         Np0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=4ZeMqFoWSo+tWRP8ze+5Nkj/uqSjpLi4OjSOBk1BCRM=;
-        b=nXlxTWZS0z++jY+pkTGRNNiJfbjD1xCqEG+9PTdYxC3NpA2PRTT9Sm4XCf91XaN/C0
-         Edf+yMrGloMcQ+EbjtFBKxYNwABy9bx3VNaPjW8+2Lf1MWQvcqGNAbLCAKg8Wx28jd2g
-         s39MCQ0zQwDvwKsoYH45MTMkTi/AkIBykJaAJT1FDEV46qNjqKAhXJ/Z3VPkwcs/Vm5i
-         185nlaDdaBN73YpQltBiP0WVzr1mxv8tehGpDA3SInTw5XxqZts9/hf+HlZzKjUVTEUj
-         Aat5DWDe5HcJBS/JrwYl3dPLs7I5Vcr9sV/S9AfMbK0DYy49mCiBmUAkBMc6v0SDnclR
-         1axA==
-X-Gm-Message-State: AOAM530SyGRjrATl8VoVV96P9gYNFts6F5ziPakWUcswtmahWJX4yEu6
-        QeYLKSnO5uPp98evE8aNzrMzBTEbfIjtP25n0A==
-X-Google-Smtp-Source: ABdhPJwZTUumxONE23bH5V3rEkU1vuSCoCeGW6NUXGyc5hPmOT+1cjs0UyLq7LGTgN2PhF5YpPEbI6AEgC6GPPvwMgM=
-X-Received: by 2002:a2e:9b0b:: with SMTP id u11mr268458lji.463.1631051892754;
- Tue, 07 Sep 2021 14:58:12 -0700 (PDT)
+        with ESMTP id S1343915AbhIHAyB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Sep 2021 20:54:01 -0400
+Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D9DAC061575;
+        Tue,  7 Sep 2021 17:52:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=kAIjmxfZZa/cYhmVo2ffRv+Sadvx5QANbTzlROnRP6Y=; b=0p+83hwSv7f9gOnWZEteq5liHX
+        Wgpxw2KvW98NOPO0Sy+QO2uRqyLGsTurOmyAXNgOHuEO3q6xXl5k8RQcRRgrTDCSJq39ffemiGY3Q
+        afrNVXzr2V+MdF9oWigmM/FzpqgRCpWNdkSkdKTKDR7tNQx44Tup9pOv+Ar7uaAT7ZsZsK0DKrZTU
+        /cUYAkmYx3q24Pz3sjXEQyFBrvPUUXsjDo15tSZ/lREXEip9tMtEWFRy37koGs/fTQUnpifcPH3Jt
+        P9cfImoM0DZ5bCEn2gDWyRdxCOqHfpYmmagKmMNIrXrNmdTjRI2RXkIWdSmV3yyYcmdsxekpqUsjo
+        wK9yVjOA==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mNlpd-0056Wy-Fz; Wed, 08 Sep 2021 00:52:53 +0000
+Subject: Re: [PATCH v3] Input: analog: Always use ktime functions
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210907123734.21520-1-linux@roeck-us.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <15bf8c00-3a38-a1bd-8214-6f45608db3f0@infradead.org>
+Date:   Tue, 7 Sep 2021 17:52:52 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Received: by 2002:a2e:95d5:0:0:0:0:0 with HTTP; Tue, 7 Sep 2021 14:58:12 -0700 (PDT)
-Reply-To: hameedsaedi01@gmail.com
-From:   Hameed Saedi <hameedsaedi8@gmail.com>
-Date:   Tue, 7 Sep 2021 22:58:12 +0100
-Message-ID: <CABg9ctOhmmjpyLjqwp7VB7_RJZwMcfY9nGicE+pyNobnDLgqYQ@mail.gmail.com>
-Subject: Partnership Proposal
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210907123734.21520-1-linux@roeck-us.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
-.
-I want to use this medium to propose a lucrative crude oil proposal
-and will need your partnership.Let me know if interested so as to
-provide further briefing on the project.
+On 9/7/21 5:37 AM, Guenter Roeck wrote:
+> m68k, mips, s390, and sparc allmodconfig images fail to build with the
+> following error.
+> 
+> drivers/input/joystick/analog.c:160:2: error:
+> 	#warning Precise timer not defined for this architecture.
+> 
+> Remove architecture specific time handling code and always use ktime
+> functions to determine time deltas. Also remove the now useless use_ktime
+> kernel parameter.
+> 
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> ---
+> v3: Avoid 64-bit divide operation
+> v2: Drop helper functions and use ktime_get() and ktime_sub() directly
+>      Drop 'speed' variable and use NSEC_PER_MSEC directly
+> 
+>   drivers/input/joystick/analog.c | 103 ++++----------------------------
+>   1 file changed, 11 insertions(+), 92 deletions(-)
 
-Respectfully,
-Hameed Saedi
+Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
+
+thanks.
+-- 
+~Randy
