@@ -2,45 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28DF6403300
-	for <lists+linux-input@lfdr.de>; Wed,  8 Sep 2021 05:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4E964032FC
+	for <lists+linux-input@lfdr.de>; Wed,  8 Sep 2021 05:40:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347284AbhIHDlh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Sep 2021 23:41:37 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:54681 "EHLO
+        id S1346657AbhIHDlf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Sep 2021 23:41:35 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:58623 "EHLO
         wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1344978AbhIHDlb (ORCPT
+        by vger.kernel.org with ESMTP id S1345195AbhIHDlb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Tue, 7 Sep 2021 23:41:31 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.west.internal (Postfix) with ESMTP id 543D62B002A5;
-        Tue,  7 Sep 2021 23:40:21 -0400 (EDT)
+        by mailnew.west.internal (Postfix) with ESMTP id 600102B002B5;
+        Tue,  7 Sep 2021 23:40:23 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 07 Sep 2021 23:40:22 -0400
+  by compute5.internal (MEProxy); Tue, 07 Sep 2021 23:40:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm3; bh=VpSD4pDAyZBDu
-        HDV17+T6gzsAmNEwWelCiUqUhnNWR0=; b=p4jvzYAIrsMWl7PiPH97D3BPeCDFi
-        AqI3H1SUPA08ZlVKhjJrx/qeVGGcrsFUnM80l3ETzBeoUaqPJv285LqWcWo3Rofk
-        nbopSMxQmnGoLx20M+l2lEeJc9DesXs4ZOP4Tt9L6SQZj2aaugzX59k8aNo5wNez
-        /+NxoCNlZRD4c6aL/fHCLSmCL5JSayfBH//xhqTS9J7MOwXrK5mdvIJbBkwuwBA1
-        UC6LVZancAnRQ0uI40g0HwSngnyublcC8Ymg6KY0QHQVcu1Pl0/uisxh5/XxsJbl
-        ZScHIA6+UdmpyciRJuh04erKiweMstzvSpm85EffeqMAhGyPE/g4o7NCQ==
+        :mime-version:content-transfer-encoding; s=fm3; bh=MVVeiWIC2nl4o
+        F/AFwnBSE7sJZ2jQzfbZWmwhvrIQ0Y=; b=rXsJ8M+R64P1fV3yfNgXjacS6sWhI
+        y5TE+kE5H5W6JoloJpZaluBtWuZbCkuwfnx/VBgPnbSDcLhfyC7U06VQ7eYGltww
+        QVwF+4DCX8MtFtbKy0J/WirLXz5snQQPusDWVAuBaprDm3sd4KUBoK8QTI74Mugw
+        JLNlMGWGYQm0YOYQhtSTEZ5W81eQtMHe6+qYkAfJ4BW10z9LQycvg3EnqDKi0hT7
+        l2Uv7FQO5KY5TNtfOrk2oMdElljlMjnuyfQi5qZkpMWP70B1EonnJdugHGz7raen
+        7GKVL+souwtsWvGngedoju6q+sqGpxtbtk8prujjAzOmlywIjhVMm6HPw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=VpSD4pDAyZBDuHDV17+T6gzsAmNEwWelCiUqUhnNWR0=; b=vtssCJV3
-        TGV2U7WFjkDXty/Qn6trMasBaa4c5B8Kb4cW973n6D9DmoVenJsRQXgXbgZjDo9c
-        Be+sm7xohcXzN9q9sHT2n1biP/VakBQ/4cMslLQkpUNBpChH79hEumGE4uTjWLt4
-        qUGf3E68ChDB/2tu71Din0UTtPq2FGDyzaumcn85ut79y1jFNlZmRCB1AlbcxcPK
-        Gj+ebbWSpIuA9tQh8j8WvqgOkcKH4b967wIokkX2HRjYGxOYvMMbgFsGBcdoDqlU
-        JfSCigXlgX66zm7qBTWZQm/RQSmUnn1O5GQqtgI+X/JXwRdoI7UsVJH1XGFPW0t7
-        etUgP5qF5d+FVA==
-X-ME-Sender: <xms:pDA4YR3rLWeVwN5b-TEdg_VrxLGsczOQQCfNqVL-yodnKDZdzNuFgw>
-    <xme:pDA4YYFFe1x8_WUfaELqQTPsEQxZyuJAmfjMM9axfRVl5iJ4XboU2T3Ih9gz3xMYw
-    lt-z0TkCZIzr7pjKA>
-X-ME-Received: <xmr:pDA4YR7WOglN4pD6_3kNCLzGhixTOwZ_fliGwrp4XVkKNqokIu4bkxeVE4Cj-lkun144gytQHITDTNjxT18W15cDTMgPE4VyP3SKCbTiHRRC5Gaez_NUDn90Q6QsWnqtKWQCjQ>
+        fm3; bh=MVVeiWIC2nl4oF/AFwnBSE7sJZ2jQzfbZWmwhvrIQ0Y=; b=g3yavs6u
+        uDxO7K6AGYbeGnFtwOt23NbfazxyOBTkueLMix+QuVhkuMvZ3tqz3/b5xadKar9Z
+        LQxsv0PtS0+YzZVO7bRDs0XZilu9jZ/SW5LSVnGqEMwkIpAi9F/NWgIe0yDkjV3x
+        bpkn9S8EVmUNP20g9skLRDzfpabQH1hiakly5GLgZ3tBpEH47NOvv5ck3lnQEOx+
+        +GKr72hh9TqsLug0775P+ey9D3tV7bFOckJ8J9inLbdFagSNZDcGIckWpRdCu2JG
+        b8Ig0FiSFcRdLBQZRUOuCs8P0eAe1GOAdHZFrI+Mu+Uoz7ZrHVui3IBiAX/ZhdLl
+        /6M/Tpyi7S7OOg==
+X-ME-Sender: <xms:pjA4YdU0pWW2SFQ-M7xGpC2EyjIsQXlDiURpbyyJTjle5Kg_NJYAZA>
+    <xme:pjA4Ydn4IGezY2txod9OTnf75_6SDVowKDVMSnTvXYq9tCinGbwR4V1XvJ0U43j3C
+    CVt80y1BuXGzdJrYw>
+X-ME-Received: <xmr:pjA4YZZCCRbnHCRygthESSvuP_L1LVLRUr9-bkkkkq3uFJPmlqKMqENOio8xdnl56jBcEkKwEktel12ohM7bC0mjqO2YNSNehxR_k270I0-Cj54kujWDys3Tv7ibHGDbDuJpVw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgjedtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -49,12 +49,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgjedtucetufdoteggod
     frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
     gfejheeuieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
     hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:pDA4Ye2K93bH5DCi_bQ4HOCNCY3AKtMSDl8hGA3Qk8MkZHPa6AlXEw>
-    <xmx:pDA4YUHZ9uIdJiCt7AnYkqEC6kbLfw0g8bN6pyG6Wvi6SibPx9M_EA>
-    <xmx:pDA4Yf-CHZF1yWE1LC7Yfi2rjgN334FPWyIO7NWdr2PREG9JjlBpLA>
-    <xmx:pDA4YX9Tpk2ctMb-06RYQv5PI2tz5Mh77sbkAlJjr6YPdhVgYU08vk0O2Wc>
+X-ME-Proxy: <xmx:pjA4YQWK724zfUkPPeVqX7APFfTx7hyVW8a_3VY_KjYnYsMjH4vUwQ>
+    <xmx:pjA4YXkG3kDNtmiB7eZSN7W2n61dbJZVJGftDiz9NzlkXUMK98tKlw>
+    <xmx:pjA4YdcTzH451qqI3w3knu5LODiUBXPa2g6UhsGUkW3BdY1l_Y7kuQ>
+    <xmx:pzA4YVfK-qXrdHA1QSTrzoavABl8prfogBeFxuHVTfHoudmUkkfEcI1nYz4>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 7 Sep 2021 23:40:20 -0400 (EDT)
+ 7 Sep 2021 23:40:22 -0400 (EDT)
 From:   Samuel Holland <samuel@sholland.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -66,9 +66,9 @@ Cc:     Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
         linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
         Samuel Holland <samuel@sholland.org>
-Subject: [PATCH 1/3] dt-bindings: input: sun4i-lradc-keys: Add R329 and D1 compatibles
-Date:   Tue,  7 Sep 2021 22:40:14 -0500
-Message-Id: <20210908034016.24119-2-samuel@sholland.org>
+Subject: [PATCH 2/3] Input: sun4i-lradc-keys: Add optional clock/reset support
+Date:   Tue,  7 Sep 2021 22:40:15 -0500
+Message-Id: <20210908034016.24119-3-samuel@sholland.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210908034016.24119-1-samuel@sholland.org>
 References: <20210908034016.24119-1-samuel@sholland.org>
@@ -78,62 +78,98 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The R329 and D1 SoCs each contain an LRADC with a programming interface
-compatible to earlier LRADCs. However, the LRADC now has its own clock
-gate and reset line, instead of being always active.
-
-To support this, add clock/reset properties to the binding, and require
-them for the variant in the new SoCs.
+Until the R329, the LRADC hardware was always active. Now it requires
+enabling a clock gate and deasserting a reset line. Do this if the clock
+and reset are provided in the device tree, but keep them optional to
+maintain support for the existing binding.
 
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
- .../input/allwinner,sun4i-a10-lradc-keys.yaml | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ drivers/input/keyboard/sun4i-lradc-keys.c | 29 +++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-index cffd02028d02..cfb84b8a1b90 100644
---- a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-+++ b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-@@ -18,10 +18,20 @@ properties:
-       - items:
-           - const: allwinner,sun50i-a64-lradc
-           - const: allwinner,sun8i-a83t-r-lradc
-+      - const: allwinner,sun50i-r329-lradc
-+      - items:
-+          - const: allwinner,sun20i-d1-lradc
-+          - const: allwinner,sun50i-r329-lradc
+diff --git a/drivers/input/keyboard/sun4i-lradc-keys.c b/drivers/input/keyboard/sun4i-lradc-keys.c
+index 4a796bed48ac..50fc18052829 100644
+--- a/drivers/input/keyboard/sun4i-lradc-keys.c
++++ b/drivers/input/keyboard/sun4i-lradc-keys.c
+@@ -14,6 +14,7 @@
+  * there are no boards known to use channel 1.
+  */
  
-   reg:
-     maxItems: 1
++#include <linux/clk.h>
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/input.h>
+@@ -23,6 +24,7 @@
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/reset.h>
+ #include <linux/slab.h>
  
-+  clocks:
-+    maxItems: 1
+ #define LRADC_CTRL		0x00
+@@ -83,6 +85,8 @@ struct sun4i_lradc_data {
+ 	struct device *dev;
+ 	struct input_dev *input;
+ 	void __iomem *base;
++	struct clk *clk;
++	struct reset_control *reset;
+ 	struct regulator *vref_supply;
+ 	struct sun4i_lradc_keymap *chan0_map;
+ 	const struct lradc_variant *variant;
+@@ -140,6 +144,14 @@ static int sun4i_lradc_open(struct input_dev *dev)
+ 	if (error)
+ 		return error;
+ 
++	error = reset_control_deassert(lradc->reset);
++	if (error)
++		goto err_disable_reg;
 +
-+  resets:
-+    maxItems: 1
++	error = clk_prepare_enable(lradc->clk);
++	if (error)
++		goto err_assert_reset;
 +
-   interrupts:
-     maxItems: 1
+ 	lradc->vref = regulator_get_voltage(lradc->vref_supply) *
+ 		      lradc->variant->divisor_numerator /
+ 		      lradc->variant->divisor_denominator;
+@@ -153,6 +165,13 @@ static int sun4i_lradc_open(struct input_dev *dev)
+ 	writel(CHAN0_KEYUP_IRQ | CHAN0_KEYDOWN_IRQ, lradc->base + LRADC_INTC);
  
-@@ -66,6 +76,18 @@ required:
-   - interrupts
-   - vref-supply
- 
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - allwinner,sun50i-r329-lradc
+ 	return 0;
 +
-+then:
-+  required:
-+    - clocks
-+    - resets
++err_assert_reset:
++	reset_control_assert(lradc->reset);
++err_disable_reg:
++	regulator_disable(lradc->vref_supply);
 +
- additionalProperties: false
++	return error;
+ }
  
- examples:
+ static void sun4i_lradc_close(struct input_dev *dev)
+@@ -164,6 +183,8 @@ static void sun4i_lradc_close(struct input_dev *dev)
+ 		SAMPLE_RATE(2), lradc->base + LRADC_CTRL);
+ 	writel(0, lradc->base + LRADC_INTC);
+ 
++	clk_disable_unprepare(lradc->clk);
++	reset_control_assert(lradc->reset);
+ 	regulator_disable(lradc->vref_supply);
+ }
+ 
+@@ -243,6 +264,14 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
+ 
++	lradc->clk = devm_clk_get_optional(dev, NULL);
++	if (IS_ERR(lradc->clk))
++		return PTR_ERR(lradc->clk);
++
++	lradc->reset = devm_reset_control_get_optional_exclusive(dev, NULL);
++	if (IS_ERR(lradc->reset))
++		return PTR_ERR(lradc->reset);
++
+ 	lradc->vref_supply = devm_regulator_get(dev, "vref");
+ 	if (IS_ERR(lradc->vref_supply))
+ 		return PTR_ERR(lradc->vref_supply);
 -- 
 2.31.1
 
