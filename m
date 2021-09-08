@@ -2,59 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A7034032FB
-	for <lists+linux-input@lfdr.de>; Wed,  8 Sep 2021 05:40:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28DF6403300
+	for <lists+linux-input@lfdr.de>; Wed,  8 Sep 2021 05:40:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236835AbhIHDl2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Sep 2021 23:41:28 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:52395 "EHLO
+        id S1347284AbhIHDlh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Sep 2021 23:41:37 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:54681 "EHLO
         wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234382AbhIHDl1 (ORCPT
+        by vger.kernel.org with ESMTP id S1344978AbhIHDlb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 7 Sep 2021 23:41:27 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailnew.west.internal (Postfix) with ESMTP id 145672B00247;
-        Tue,  7 Sep 2021 23:40:19 -0400 (EDT)
+        Tue, 7 Sep 2021 23:41:31 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.west.internal (Postfix) with ESMTP id 543D62B002A5;
+        Tue,  7 Sep 2021 23:40:21 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Tue, 07 Sep 2021 23:40:19 -0400
+  by compute5.internal (MEProxy); Tue, 07 Sep 2021 23:40:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=fm3; bh=5COa0wVVrtdfa0gTBNofmOof6q
-        DfWnoFnqMWJA5jhro=; b=UUzw/24tsi4HOZOj5Jq4a0HIL6Bi1131y+cHyZyjAV
-        /4/SkNY9jZjR65mg2faAFJPxlSmGAIelqzK2iObWTmgCu1hIphPG4lZrzSBpJB/A
-        qS5tNbcki3CxsPP2Fh8LFOdQkYjaLSU/kUA4z3SuryFjrH+LdHGG3vPaN2+aOA75
-        kL83JeOzizFftD9uTItODUNDQZKewWPTD96m+2u0ZDLtXwQQQE7XrePOdAoAom1s
-        OxsrS2psO/IvczGkqJ+hggqX+pxZ5B9KLdkSTvzda1myaEj8LXbeZ7bvdV1QQoh2
-        Do9LEwn/tc2D2zVVkdRTxRItd/S9UnYNx+dbP3fQLLKA==
+        from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-transfer-encoding; s=fm3; bh=VpSD4pDAyZBDu
+        HDV17+T6gzsAmNEwWelCiUqUhnNWR0=; b=p4jvzYAIrsMWl7PiPH97D3BPeCDFi
+        AqI3H1SUPA08ZlVKhjJrx/qeVGGcrsFUnM80l3ETzBeoUaqPJv285LqWcWo3Rofk
+        nbopSMxQmnGoLx20M+l2lEeJc9DesXs4ZOP4Tt9L6SQZj2aaugzX59k8aNo5wNez
+        /+NxoCNlZRD4c6aL/fHCLSmCL5JSayfBH//xhqTS9J7MOwXrK5mdvIJbBkwuwBA1
+        UC6LVZancAnRQ0uI40g0HwSngnyublcC8Ymg6KY0QHQVcu1Pl0/uisxh5/XxsJbl
+        ZScHIA6+UdmpyciRJuh04erKiweMstzvSpm85EffeqMAhGyPE/g4o7NCQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=5COa0wVVrtdfa0gTB
-        NofmOof6qDfWnoFnqMWJA5jhro=; b=ipBdJ5vDzOY6Ga3yropOJdLFlfKk13Tw6
-        NTa68FhJB48w1GIajZzy42na4J6vXSD51nqeB2MENC2y/RpVcomuN34R7rTjQCRD
-        LOuWqErdruM2MORQLEIctMuD6H6eMX86r9w5kgYzc+oJJkHA9LRLpFh+ksi+dMap
-        RZptotS0wPwxfXhmWRueemjJ2HSPb25PSHYAcOAIpcWANGwGbDDFmQzHuu8CZsDo
-        rcRXuBItIXt5pMXo94eIue44ocqiAsFHQ/WBACRGvQIqu1EAC3wGxbjdlhnnBD+s
-        kSAMp5IH+91SUmj//t4UTnd1EZNMouaiEk/dSVsIpwlOz7h+O2Irg==
-X-ME-Sender: <xms:oTA4YYOfcy30WCQG_Y9IcGcy5bRcPoNYgof7Xt2fUNDE5Tsla3-yCQ>
-    <xme:oTA4Ye-4RCpFyt5W_sfwGH-bGmwDzHjWHhGWPvkjpsdP2_gpEidwu64_Y7G-8oWz9
-    030hGIWg4tI1Ni_jQ>
-X-ME-Received: <xmr:oTA4YfTPHXOkyPhlloxxmxZ9-tM-VyTMlGSdhrnP66sJ-QU7UStLdPjqnGqE4jWMH1bZ0u7p1Yyt39d7VU1FKob3T9bWphbba9FFeg5Hf0kF4IVOSto9nCi_5O6CnF8z_r6mPA>
+        :in-reply-to:message-id:mime-version:references:subject:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=VpSD4pDAyZBDuHDV17+T6gzsAmNEwWelCiUqUhnNWR0=; b=vtssCJV3
+        TGV2U7WFjkDXty/Qn6trMasBaa4c5B8Kb4cW973n6D9DmoVenJsRQXgXbgZjDo9c
+        Be+sm7xohcXzN9q9sHT2n1biP/VakBQ/4cMslLQkpUNBpChH79hEumGE4uTjWLt4
+        qUGf3E68ChDB/2tu71Din0UTtPq2FGDyzaumcn85ut79y1jFNlZmRCB1AlbcxcPK
+        Gj+ebbWSpIuA9tQh8j8WvqgOkcKH4b967wIokkX2HRjYGxOYvMMbgFsGBcdoDqlU
+        JfSCigXlgX66zm7qBTWZQm/RQSmUnn1O5GQqtgI+X/JXwRdoI7UsVJH1XGFPW0t7
+        etUgP5qF5d+FVA==
+X-ME-Sender: <xms:pDA4YR3rLWeVwN5b-TEdg_VrxLGsczOQQCfNqVL-yodnKDZdzNuFgw>
+    <xme:pDA4YYFFe1x8_WUfaELqQTPsEQxZyuJAmfjMM9axfRVl5iJ4XboU2T3Ih9gz3xMYw
+    lt-z0TkCZIzr7pjKA>
+X-ME-Received: <xmr:pDA4YR7WOglN4pD6_3kNCLzGhixTOwZ_fliGwrp4XVkKNqokIu4bkxeVE4Cj-lkun144gytQHITDTNjxT18W15cDTMgPE4VyP3SKCbTiHRRC5Gaez_NUDn90Q6QsWnqtKWQCjQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgjedtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
-    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
-    htthgvrhhnpeekkeffffetgfegfeeffeevgffhleehjefglefhveelkeeggeekgfevgeff
-    hfeiueenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
-    ohhrgh
-X-ME-Proxy: <xmx:oTA4YQsvWl4MF_Ek8G_1exb0YvsEz-FZM3BufQ6VaL7CsVCwrYW42w>
-    <xmx:oTA4YQeuEVfjPKEUt0lGFTxsMMB1FkNPMI9QXBh1SR12xDNmO9fAlQ>
-    <xmx:oTA4YU3_O_Ys9SQScp5jgBMO6V06xvqWz1W8pNIN63BouSNpkmqKPw>
-    <xmx:ojA4YU1_tMonsNiPpplJbNK64EhwVvFxx27KIAFWr1Nc2xLSZxRwGl5UV6M>
+    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
+    gfejheeuieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:pDA4Ye2K93bH5DCi_bQ4HOCNCY3AKtMSDl8hGA3Qk8MkZHPa6AlXEw>
+    <xmx:pDA4YUHZ9uIdJiCt7AnYkqEC6kbLfw0g8bN6pyG6Wvi6SibPx9M_EA>
+    <xmx:pDA4Yf-CHZF1yWE1LC7Yfi2rjgN334FPWyIO7NWdr2PREG9JjlBpLA>
+    <xmx:pDA4YX9Tpk2ctMb-06RYQv5PI2tz5Mh77sbkAlJjr6YPdhVgYU08vk0O2Wc>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 7 Sep 2021 23:40:17 -0400 (EDT)
+ 7 Sep 2021 23:40:20 -0400 (EDT)
 From:   Samuel Holland <samuel@sholland.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -66,35 +66,74 @@ Cc:     Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
         linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
         Samuel Holland <samuel@sholland.org>
-Subject: [PATCH 0/3] Input: sun4i-lradc-keys: R329 and D1 support
-Date:   Tue,  7 Sep 2021 22:40:13 -0500
-Message-Id: <20210908034016.24119-1-samuel@sholland.org>
+Subject: [PATCH 1/3] dt-bindings: input: sun4i-lradc-keys: Add R329 and D1 compatibles
+Date:   Tue,  7 Sep 2021 22:40:14 -0500
+Message-Id: <20210908034016.24119-2-samuel@sholland.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210908034016.24119-1-samuel@sholland.org>
+References: <20210908034016.24119-1-samuel@sholland.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This series adds R329 and D1 SoC support to the LRADC driver. These SoCs
-do not change the register interface, only the platform integration.
+The R329 and D1 SoCs each contain an LRADC with a programming interface
+compatible to earlier LRADCs. However, the LRADC now has its own clock
+gate and reset line, instead of being always active.
 
-I have another series[1] which adds wakeup support to this driver.
-It has been reviewed/acked and is waiting to be merged for several
-months[2]. That series merges cleanly with this one.
+To support this, add clock/reset properties to the binding, and require
+them for the variant in the new SoCs.
 
-[1]: https://patchwork.kernel.org/project/linux-input/cover/20210805051241.47168-1-samuel@sholland.org/
-[2]: https://patchwork.kernel.org/project/linux-input/cover/20210430042003.4591-1-samuel@sholland.org/
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
+ .../input/allwinner,sun4i-a10-lradc-keys.yaml | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-Samuel Holland (3):
-  dt-bindings: input: sun4i-lradc-keys: Add R329 and D1 compatibles
-  Input: sun4i-lradc-keys: Add optional clock/reset support
-  Input: sun4i-lradc-keys: Add support for R329 and D1
-
- .../input/allwinner,sun4i-a10-lradc-keys.yaml | 22 +++++++++++++
- drivers/input/keyboard/sun4i-lradc-keys.c     | 31 +++++++++++++++++++
- 2 files changed, 53 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+index cffd02028d02..cfb84b8a1b90 100644
+--- a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
++++ b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+@@ -18,10 +18,20 @@ properties:
+       - items:
+           - const: allwinner,sun50i-a64-lradc
+           - const: allwinner,sun8i-a83t-r-lradc
++      - const: allwinner,sun50i-r329-lradc
++      - items:
++          - const: allwinner,sun20i-d1-lradc
++          - const: allwinner,sun50i-r329-lradc
+ 
+   reg:
+     maxItems: 1
+ 
++  clocks:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
+   interrupts:
+     maxItems: 1
+ 
+@@ -66,6 +76,18 @@ required:
+   - interrupts
+   - vref-supply
+ 
++if:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - allwinner,sun50i-r329-lradc
++
++then:
++  required:
++    - clocks
++    - resets
++
+ additionalProperties: false
+ 
+ examples:
 -- 
 2.31.1
 
