@@ -2,78 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55CD54066B7
-	for <lists+linux-input@lfdr.de>; Fri, 10 Sep 2021 07:25:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B7234067FE
+	for <lists+linux-input@lfdr.de>; Fri, 10 Sep 2021 09:52:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230318AbhIJF1E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Sep 2021 01:27:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49050 "EHLO
+        id S231640AbhIJHxO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Sep 2021 03:53:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230037AbhIJF1E (ORCPT
+        with ESMTP id S231561AbhIJHxO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Sep 2021 01:27:04 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6FDFC061574;
-        Thu,  9 Sep 2021 22:25:53 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id q3so426994plx.4;
-        Thu, 09 Sep 2021 22:25:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=eYB4xclX6nU8BjBKvkhYddYsIz6ktkELU80e97kp5Jw=;
-        b=ojOWpgQ4RATCnuf5Hz1tLXf7TD90hXaK2FTKQ3T5a2YlM5SgA4bpxKpjBLmIByz+In
-         MdtZmEcHAatuOLU2Pny5o5jI+IojDy9h7tVrlgfYwUefvJscZwTZZKdwq3/4AMAoa7Xq
-         AQvG5NqlQQ32BY4buQVc35Vh2DGcAVoSkg4aUU6hdoT1u7sirhVLswkW6/MOQ+t6vwEd
-         xnl8l0WU+0MxyA3fGekzIHUWc/k/QGuwgRl++mMy2jp3OsyrCasWHVrbS+VEvRCqdBPE
-         Y+zlTuwkrkCRLUlib8Ql9k+z2YZqDmsCtTaeCXg/6IblW0aAH5AM3n/ORM98DrIcIyUF
-         f6Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=eYB4xclX6nU8BjBKvkhYddYsIz6ktkELU80e97kp5Jw=;
-        b=D81Tcj/BTlQu+0Gik/aPkOoSJ6yagYr0dB9ve6IHfkRQX7kHj21yUcOu5LBooFKU5T
-         SZ/5u3Ycs8nIpZsr04VhsFpEX2gLIRx+Deq0cGDlFpDrL6KcoJRYLa6PIlvNJWY5qq9T
-         /uICi2Gny3NrmGpTxT4OwnaqYS1O7/vX+5c/5undO7uawH10tdDrK8JRK5831Vc5fFoF
-         ioxSivfuQm0X82Jo7Xym8SNLcY0hU6GYXfDpcVgkCpqG5HLGnsYUBNAnRB7j0I3CqkZ/
-         PKS1lqIFpvM9JWBf8cRaOXDsvHUH/aL7AzO+EUKp8HjedY5VW/MElrhCuqGlMtn3G6ft
-         IQxA==
-X-Gm-Message-State: AOAM533T9n5vAXONgShmLehcuqFaNLR0M7mvohureqiNzBQu3xix/E/T
-        e/K3lkQKjQTXZ8+yKFWy0jMX/bjmm7Q=
-X-Google-Smtp-Source: ABdhPJzaQIoBsDmBFfVHPJAlrQ3vMpSj5qYJbg6jYdYPt0QtCIOTD4PJt2NQf2i6fUdVXLWfRVz3Tg==
-X-Received: by 2002:a17:90a:2dc7:: with SMTP id q7mr7499790pjm.231.1631251553315;
-        Thu, 09 Sep 2021 22:25:53 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:acdc:1d22:e20a:2796])
-        by smtp.gmail.com with ESMTPSA id z12sm3688441pfe.79.2021.09.09.22.25.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 22:25:52 -0700 (PDT)
-Date:   Thu, 9 Sep 2021 22:25:49 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Yassine Oudjana <y.oudjana@protonmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v4 2/2] dt-bindings: input: Add binding for cypress-sf
-Message-ID: <YTrsXU0KPQVsKcQN@google.com>
-References: <20210907174341.422013-1-y.oudjana@protonmail.com>
- <20210907174341.422013-3-y.oudjana@protonmail.com>
+        Fri, 10 Sep 2021 03:53:14 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2D13C061574
+        for <linux-input@vger.kernel.org>; Fri, 10 Sep 2021 00:52:03 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1mObKG-0008TF-04; Fri, 10 Sep 2021 09:51:56 +0200
+Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1mObKE-0003rS-CR; Fri, 10 Sep 2021 09:51:54 +0200
+Date:   Fri, 10 Sep 2021 09:51:54 +0200
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Alexandru Ardelean <alexandru.ardelean@analog.com>,
+        Mark Brown <broonie@kernel.org>,
+        kernel test robot <lkp@intel.com>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-spi@vger.kernel.org, David Jander <david@protonic.nl>
+Subject: Re: [PATCH v1] Input: ads7846: ads7846_get_value - fix unaligned
+ pointer value warning
+Message-ID: <20210910075154.GF26100@pengutronix.de>
+References: <20210707124115.20028-1-o.rempel@pengutronix.de>
+ <YTrnUFI53iwvwxrj@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210907174341.422013-3-y.oudjana@protonmail.com>
+In-Reply-To: <YTrnUFI53iwvwxrj@google.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 09:49:56 up 204 days, 11:13, 101 users,  load average: 0.19, 0.16,
+ 0.15
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 07, 2021 at 05:44:13PM +0000, Yassine Oudjana wrote:
-> Add a device tree binding for Cypress StreetFighter.
+Hi Dmitry,
+
+On Thu, Sep 09, 2021 at 10:04:16PM -0700, Dmitry Torokhov wrote:
+> Hi Oleksij,
 > 
-> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+> On Wed, Jul 07, 2021 at 02:41:15PM +0200, Oleksij Rempel wrote:
+> > Fix warning reported by the kernel test robot:
+> > drivers/input/touchscreen/ads7846.c:705:24: warning: taking address
+> > of packed member 'data' of class or structure 'ads7846_buf' may result
+> > in an unaligned pointer value [-Waddress-of-packed-member]
+> > 
+> > Fixes: 6965eece2a89 ("Input: ads7846 - convert to one message")
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> > ---
+> >  drivers/input/touchscreen/ads7846.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
+> > index adb4c2230c31..1987dedac94f 100644
+> > --- a/drivers/input/touchscreen/ads7846.c
+> > +++ b/drivers/input/touchscreen/ads7846.c
+> > @@ -702,7 +702,7 @@ static int ads7846_get_value(struct ads7846_buf *buf)
+> >  {
+> >  	int value;
+> >  
+> > -	value = be16_to_cpup(&buf->data);
+> > +	value = get_unaligned_be16(&buf->data);
+> 
+> ds7846_buf is declared as packed so I believe using be16_to_cpu(buf->data)
+> will suffice.
 
-Applied, thank you.
+The pointer to the data is is off by 8 bits, so it is not naturally
+aligned. This is why we need to use function which is dealing with
+unaligned pointers. 
 
+Regards,
+Oleksij
 -- 
-Dmitry
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
