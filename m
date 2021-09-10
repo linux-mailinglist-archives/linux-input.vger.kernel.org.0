@@ -2,89 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AED1406693
-	for <lists+linux-input@lfdr.de>; Fri, 10 Sep 2021 06:50:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C92A40669F
+	for <lists+linux-input@lfdr.de>; Fri, 10 Sep 2021 07:04:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230221AbhIJEv6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Sep 2021 00:51:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41384 "EHLO
+        id S230244AbhIJFFc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Sep 2021 01:05:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230177AbhIJEv5 (ORCPT
+        with ESMTP id S230037AbhIJFFb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Sep 2021 00:51:57 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB08C061574;
-        Thu,  9 Sep 2021 21:50:47 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id oc9so559051pjb.4;
-        Thu, 09 Sep 2021 21:50:47 -0700 (PDT)
+        Fri, 10 Sep 2021 01:05:31 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C339C061574;
+        Thu,  9 Sep 2021 22:04:21 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id w6so401664pll.3;
+        Thu, 09 Sep 2021 22:04:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=cjSmIHPUHZu3PXZxtunolSLa7lCsMSC8ZCX89a3t5/U=;
-        b=dni72Vs90m2jtyPO9hgsKKXOBBcsnyujnePL+Fhu/R53skgeXbHxGUQ/d5x36QPa6y
-         wyHdB8r+CcYMyOCNFTWNhsejCTTjyrGnqQKt43wmYElAe5Uviwn5+qzgrnucSxPQ9Mbh
-         SRboZv4DuZvtZHPsz0F71/K8qSZ4ZRojMkiqqUzM8XwdLbhkZmORedf9UoqGjMdaQibx
-         PD888Ez2zjUMq1/eqBBkLnUv2RISIYE4tjHeBMaD+S6xMY2TjoC7as+oqAVHJme2wzme
-         Xq8pewP3r+ojuinLQemEJguYKiB1QPFlpby9QShF92CHhDk7goGNMQPJbbwZlCp9A5rh
-         Cg1A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=d5eOmTxE1ZD/E42iqd3uKR/Y6MHuYpwLI55f3E0La5E=;
+        b=D8jXj9DJpL/epFZdDk8+HpYXMdp57OTLkSPCkszhGUOuPyjnPP6Vbnal1jn4yQUTBT
+         9nZdTQ6d+9CcIYBiCeVdZjN/2YANVlY/9mIGI7uCjKRrTs2DdN2cauGI/GERiGfDq/Ql
+         e4XxaoCaGS7rexQA0wOf13jNJVXvJgTqxf2qwCO97lNCqpor+J36XaQNS0XUUSE5fbG7
+         zXDOhg1lhiavFfLbS/paCIECSnMhn2x2zoU+34et0ZRZrYsYluYfmrNiWS/kiSkp5iHH
+         M7anLDr4fSc0pYqtetsYftjfVdspeuxSNRjq/6pu04PJ5FnrQcl+nrc1Eb6F+40zq/Lk
+         gH7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=cjSmIHPUHZu3PXZxtunolSLa7lCsMSC8ZCX89a3t5/U=;
-        b=HqH5TihyhTsKw5bTtz15gFqaaf2u1T/3EdCAm5Bq5lD8icrx8OcKllWGx0CXXdZYZ3
-         xgW0Ki/dyzv4LLnRzIE0637j/ar+2qkJ0Ovy8yutXFXzkO1AlpnZNVhvDALUrE/1RC48
-         D/8R4aWjR8EJnXSsTORqF35E+n5QSOGNVJT5MK12dU+T6EV8BLdYFBphRmZrlN/CA/fl
-         uPgOOO2f8Sk2+8rW54sOmmtRyXb7TalRNb/XScbc0jfnVVBr0lTtECcov59Z2MK7sOcP
-         uCvA8BEHEx/iB+ZfNKZGJnzYgpLmf02fzFgNWy+wDI+hJaFpJ8zYT4rkgZtZ4jwsMC8m
-         z2FQ==
-X-Gm-Message-State: AOAM5336e3G1borsJ8LgvscFd/WwOzZ1GlwcwluEwInqW/dybjQBUS1x
-        JWeY4F5QO6cSrIRYW+eNfTE=
-X-Google-Smtp-Source: ABdhPJxBJVPI6rNNYaaewdYsXKDcyLBValdkgZjCqs4T0f6MWB7mrz1Z4RM1J4M7PoIZ4knrkfWVAg==
-X-Received: by 2002:a17:90a:bb12:: with SMTP id u18mr7522504pjr.110.1631249446896;
-        Thu, 09 Sep 2021 21:50:46 -0700 (PDT)
-Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:acdc:1d22:e20a:2796])
-        by smtp.gmail.com with ESMTPSA id y4sm3555477pjw.57.2021.09.09.21.50.45
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=d5eOmTxE1ZD/E42iqd3uKR/Y6MHuYpwLI55f3E0La5E=;
+        b=jWvYP7DheRkzxx6a9fvqLPEo0pMUoIdJUOdAzfE2O5h6PBSPuGFxgxAb/qjucNw16r
+         ZzgvljNFquGjeY/Zo8aJnZDAxVZk39eUajgK3JUtaZ4XBILUzuhkYr8NwMJP9jKSctPO
+         gP9bKlT7AXYdhAzWlNzWiK5vyMFYP7QgA0421oLKgMN76/EK2x6+NnMjD1lX4QoF/Y9C
+         PPAxFga8Qq5XBTb8QQU4y0NpL3oHSp/0eRDBHSNhaETbp6oDRAZF61oMMQomwp2nWO5O
+         lQi22aU7Vzsf/GoUjTGEJSkgmPZJ5e0F+/RUhsZWzuiQg/7KSf5hM3nGkjBuY+blnWIt
+         TM+w==
+X-Gm-Message-State: AOAM533mBCDN64D1JojkZkytatr7pUScjom2vV39YY8ThF+9dDj/yz26
+        bj+PatLbs6DHONJTgCnStq4=
+X-Google-Smtp-Source: ABdhPJzHTI+b4/VBBzRYnWIhKBe6tQMwl0FszM9/LHsx0pAHwPEtWEcpLlfJ+ynZ5AoGCf0SWDW+Qw==
+X-Received: by 2002:a17:902:8648:b029:129:dda4:ddc2 with SMTP id y8-20020a1709028648b0290129dda4ddc2mr5899371plt.4.1631250260605;
+        Thu, 09 Sep 2021 22:04:20 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:acdc:1d22:e20a:2796])
+        by smtp.gmail.com with ESMTPSA id s192sm4053556pgc.23.2021.09.09.22.04.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 21:50:46 -0700 (PDT)
+        Thu, 09 Sep 2021 22:04:19 -0700 (PDT)
+Date:   Thu, 9 Sep 2021 22:04:16 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Daniel Mack <daniel@zonque.org>,
-        Marco Felsch <m.felsch@pengutronix.de>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] Input: ads7846 - do not attempt IRQ workaround when deferring probe
-Date:   Thu,  9 Sep 2021 21:50:39 -0700
-Message-Id: <20210910045039.4020199-3-dmitry.torokhov@gmail.com>
-X-Mailer: git-send-email 2.33.0.309.g3052b89438-goog
-In-Reply-To: <20210910045039.4020199-1-dmitry.torokhov@gmail.com>
-References: <20210910045039.4020199-1-dmitry.torokhov@gmail.com>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Alexandru Ardelean <alexandru.ardelean@analog.com>,
+        Mark Brown <broonie@kernel.org>,
+        kernel test robot <lkp@intel.com>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-spi@vger.kernel.org, David Jander <david@protonic.nl>
+Subject: Re: [PATCH v1] Input: ads7846: ads7846_get_value - fix unaligned
+ pointer value warning
+Message-ID: <YTrnUFI53iwvwxrj@google.com>
+References: <20210707124115.20028-1-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210707124115.20028-1-o.rempel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When request_irq() returns -EPORBE_DEFER we should abort probe and try
-again later instead of trying to engage IRQ trigger workaround.
+Hi Oleksij,
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/touchscreen/ads7846.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Jul 07, 2021 at 02:41:15PM +0200, Oleksij Rempel wrote:
+> Fix warning reported by the kernel test robot:
+> drivers/input/touchscreen/ads7846.c:705:24: warning: taking address
+> of packed member 'data' of class or structure 'ads7846_buf' may result
+> in an unaligned pointer value [-Waddress-of-packed-member]
+> 
+> Fixes: 6965eece2a89 ("Input: ads7846 - convert to one message")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> ---
+>  drivers/input/touchscreen/ads7846.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
+> index adb4c2230c31..1987dedac94f 100644
+> --- a/drivers/input/touchscreen/ads7846.c
+> +++ b/drivers/input/touchscreen/ads7846.c
+> @@ -702,7 +702,7 @@ static int ads7846_get_value(struct ads7846_buf *buf)
+>  {
+>  	int value;
+>  
+> -	value = be16_to_cpup(&buf->data);
+> +	value = get_unaligned_be16(&buf->data);
 
-diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-index 0f973351bc67..a25a77dd9a32 100644
---- a/drivers/input/touchscreen/ads7846.c
-+++ b/drivers/input/touchscreen/ads7846.c
-@@ -1361,7 +1361,7 @@ static int ads7846_probe(struct spi_device *spi)
- 	err = devm_request_threaded_irq(dev, spi->irq,
- 					ads7846_hard_irq, ads7846_irq,
- 					irq_flags, dev->driver->name, ts);
--	if (err && !pdata->irq_flags) {
-+	if (err && err != -EPROBE_DEFER && !pdata->irq_flags) {
- 		dev_info(dev,
- 			"trying pin change workaround on irq %d\n", spi->irq);
- 		irq_flags |= IRQF_TRIGGER_RISING;
+ds7846_buf is declared as packed so I believe using be16_to_cpu(buf->data)
+will suffice.
+
+I can adjust on my side if you agree.
+
+Thanks.
+
 -- 
-2.33.0.309.g3052b89438-goog
-
+Dmitry
