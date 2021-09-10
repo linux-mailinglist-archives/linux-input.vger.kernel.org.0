@@ -2,40 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3FFD406135
-	for <lists+linux-input@lfdr.de>; Fri, 10 Sep 2021 02:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 045C340613A
+	for <lists+linux-input@lfdr.de>; Fri, 10 Sep 2021 02:41:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231248AbhIJAmQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S231341AbhIJAmQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Thu, 9 Sep 2021 20:42:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47994 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:48616 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233990AbhIJAWS (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 9 Sep 2021 20:22:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 153BC6023D;
-        Fri, 10 Sep 2021 00:21:07 +0000 (UTC)
+        id S234266AbhIJAXE (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 9 Sep 2021 20:23:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D16026058D;
+        Fri, 10 Sep 2021 00:21:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631233268;
-        bh=oKM4h4sSszh3tyXPxlVi2ZB8z/da0OOGWRHqYDw1HZY=;
+        s=k20201202; t=1631233314;
+        bh=qm+zJIDqg6LmllmM+B/hpGId9tdsJP52WsSqQ+S+tKg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=G/OWVaGAmTGivWm5qk/WMvkc8z1Ir9Twr2NKxv7jqBaEXJZLcUQc4fBVOsP93AZG4
-         FOC7Vsmi5mz3OsnvC0IeFKeVCnv+UUajSE5eRIpCb1A/OOtxOHRW3wW2MhkEQyEl6M
-         VXGlMTW+NrOEE+70qhXlsrHcy9qKL3X26HQ96bjkw4EMfr9nG/XYd6BTmHPyXD9Nd9
-         BlbR2bGRuNOPO2x7db4ZpiURzoAVCPQOpXgwqJA07zwuRyYpgc524KXjpy0D9mxgns
-         cWskovW29KFdMOwrOBSh0aQIjE4PqJo4JzJlTZoyL7Tqfy/qpNFI3CuJUYnSbE0Pcp
-         rCv2nF/vtk5jA==
+        b=jD595yWX8Hiqr5Fx+RKBZ7JKvEKAg104AYGPEiyVCj0E3+Whp0DpstjeFxywU32Vw
+         8nbLCuGla+EAnUVP6NS5GOdr+5xw2zJCbDnheEaYNbbA3zmOvQ5Z/cxjr0Xj3ZDW4y
+         bR8XAe3JqMMsW/rvIgRDAviKL9to2MY/HQScNioW/HL8T89b1sFPvIRmXO7Kaezlmm
+         Epk9kCa9G9I2xX/1QgcCKzDWsXcXXYWhgl/xVgZ6q7L4TL4XSVPupweGTr1IG+T/Hb
+         8KSHQ7VQrGBtdWPavWUNFtMYFZhQv4MRaubDCkcPJepK4BfWmoi8+QZrVcW/kEG+a7
+         ulb+mx9JWcOnA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Ulrich=20Sp=C3=B6rlein?= <uqs@FreeBSD.org>,
+Cc:     Anirudh Rayabharam <mail@anirudhrb.com>,
+        syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 29/53] HID: sony: Fix more ShanWan clone gamepads to not rumble when plugged in.
-Date:   Thu,  9 Sep 2021 20:20:04 -0400
-Message-Id: <20210910002028.175174-29-sashal@kernel.org>
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 08/37] HID: usbhid: free raw_report buffers in usbhid_stop
+Date:   Thu,  9 Sep 2021 20:21:13 -0400
+Message-Id: <20210910002143.175731-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210910002028.175174-1-sashal@kernel.org>
-References: <20210910002028.175174-1-sashal@kernel.org>
+In-Reply-To: <20210910002143.175731-1-sashal@kernel.org>
+References: <20210910002143.175731-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -43,35 +43,58 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Ulrich Spörlein <uqs@FreeBSD.org>
+From: Anirudh Rayabharam <mail@anirudhrb.com>
 
-[ Upstream commit bab94e97323baefe0afccad66e776f9c78b4f521 ]
+[ Upstream commit f7744fa16b96da57187dc8e5634152d3b63d72de ]
 
-The device string on these can differ, apparently, including typos. I've
-bought 2 of these in 2012 and googling shows many folks out there with
-that broken spelling in their dmesg.
+Free the unsent raw_report buffers when the device is removed.
 
-Signed-off-by: Ulrich Spörlein <uqs@FreeBSD.org>
+Fixes a memory leak reported by syzbot at:
+https://syzkaller.appspot.com/bug?id=7b4fa7cb1a7c2d3342a2a8a6c53371c8c418ab47
+
+Reported-by: syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com
+Tested-by: syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com
+Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-sony.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/hid/usbhid/hid-core.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-index 2f073f536070..cdff43defe88 100644
---- a/drivers/hid/hid-sony.c
-+++ b/drivers/hid/hid-sony.c
-@@ -2847,7 +2847,8 @@ static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	if (!strcmp(hdev->name, "FutureMax Dance Mat"))
- 		quirks |= FUTUREMAX_DANCE_MAT;
+diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+index 1cfbbaf6901d..8537fcdb456d 100644
+--- a/drivers/hid/usbhid/hid-core.c
++++ b/drivers/hid/usbhid/hid-core.c
+@@ -503,7 +503,7 @@ static void hid_ctrl(struct urb *urb)
  
--	if (!strcmp(hdev->name, "SHANWAN PS3 GamePad"))
-+	if (!strcmp(hdev->name, "SHANWAN PS3 GamePad") ||
-+	    !strcmp(hdev->name, "ShanWan PS(R) Ga`epad"))
- 		quirks |= SHANWAN_GAMEPAD;
+ 	if (unplug) {
+ 		usbhid->ctrltail = usbhid->ctrlhead;
+-	} else {
++	} else if (usbhid->ctrlhead != usbhid->ctrltail) {
+ 		usbhid->ctrltail = (usbhid->ctrltail + 1) & (HID_CONTROL_FIFO_SIZE - 1);
  
- 	sc = devm_kzalloc(&hdev->dev, sizeof(*sc), GFP_KERNEL);
+ 		if (usbhid->ctrlhead != usbhid->ctrltail &&
+@@ -1221,9 +1221,20 @@ static void usbhid_stop(struct hid_device *hid)
+ 	mutex_lock(&usbhid->mutex);
+ 
+ 	clear_bit(HID_STARTED, &usbhid->iofl);
++
+ 	spin_lock_irq(&usbhid->lock);	/* Sync with error and led handlers */
+ 	set_bit(HID_DISCONNECTED, &usbhid->iofl);
++	while (usbhid->ctrltail != usbhid->ctrlhead) {
++		if (usbhid->ctrl[usbhid->ctrltail].dir == USB_DIR_OUT) {
++			kfree(usbhid->ctrl[usbhid->ctrltail].raw_report);
++			usbhid->ctrl[usbhid->ctrltail].raw_report = NULL;
++		}
++
++		usbhid->ctrltail = (usbhid->ctrltail + 1) &
++			(HID_CONTROL_FIFO_SIZE - 1);
++	}
+ 	spin_unlock_irq(&usbhid->lock);
++
+ 	usb_kill_urb(usbhid->urbin);
+ 	usb_kill_urb(usbhid->urbout);
+ 	usb_kill_urb(usbhid->urbctrl);
 -- 
 2.30.2
 
