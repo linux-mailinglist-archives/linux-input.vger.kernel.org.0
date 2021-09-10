@@ -2,87 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 613EF406691
-	for <lists+linux-input@lfdr.de>; Fri, 10 Sep 2021 06:50:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08CAA406692
+	for <lists+linux-input@lfdr.de>; Fri, 10 Sep 2021 06:50:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230189AbhIJEv5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Sep 2021 00:51:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41368 "EHLO
+        id S230205AbhIJEv6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Sep 2021 00:51:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229676AbhIJEvy (ORCPT
+        with ESMTP id S230176AbhIJEv4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Sep 2021 00:51:54 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14245C061574;
-        Thu,  9 Sep 2021 21:50:44 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id w19-20020a17090aaf9300b00191e6d10a19so627767pjq.1;
-        Thu, 09 Sep 2021 21:50:44 -0700 (PDT)
+        Fri, 10 Sep 2021 00:51:56 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD2C7C061575;
+        Thu,  9 Sep 2021 21:50:45 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id u11-20020a17090adb4b00b00181668a56d6so608573pjx.5;
+        Thu, 09 Sep 2021 21:50:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Sk90z9N1GWVTBAvehl43Ueef6XmGAMn0pIg0eOEqlMA=;
-        b=jrlQha2Ls0PLmP6nsly43D58miMAjehbopOGwsdV9cD3I+BZpCxn04cijE/hXsW+3d
-         h/4/WVn9oi8aZP7FWKLFhReyoaFbolzgcefgC8upygZGYC8X5Xx7AFoTugjcdGQut79d
-         Jl8XtP1ymBPXu6xhL2AHpRtn1qA420ileSNXdqgv19VrHgmc/pUjC8eUF/s4WF+XYic+
-         D3FD26Po4O9opu1i/bKDn946nw9kHqoT1IGUkVLqzfuy+TqMGguS/Y3DXygeUeUp0jdM
-         5g7hXBGL3BPS+2MtjURFH1B78hwQfZBC6x3Ly5LYWQCKv75xtR+CFJaSsweSq3kN8fGC
-         I1vw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=bAkfFi1fbdwn5IY/EHFRuZsc/VEvo0VKSmcmcN7PbEg=;
+        b=WaDc0x0F6G0+UIsQ7NvGXqOTbdjU6fp693YhaYC5pmMCBr9/iYbczQWgqHMG12j5wz
+         rJ5dw4R52c6M5mBR0AihimcblbXV9Of5L91YqRbdMggeBVWl5X9KLFv/k+8d7T51Aa10
+         CnK1dCUQCqGBPzvu8vOET1dVJHdl3SDfXQ8+itFlZJSNwrfRvi81//0A5k3MdyOjM10y
+         1NxDDtFCmMr11WYEDJ5pz1PkD1i4kp5x2rFugnSfFstSgf2equDTxhFfAtCOYWpNvJmI
+         Ga0K+ESrVT3OpHjo3I706tqPBkAAV0issQpVe9n5rQCaT9sIRWSAneuuXHtIHj83YoFR
+         fe/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Sk90z9N1GWVTBAvehl43Ueef6XmGAMn0pIg0eOEqlMA=;
-        b=yS46TW+ve7kfIbYo+cZE7m2ceMLV7wleX8PXGu+He/PG9EBVJTWGwOnmL5K/McIrYs
-         6pBoeWX8o0Ctac7OecQrev6u+GCqy0B1z/rw5isRxH+JKe16ChArfNWgZ2yX9w2rl9c1
-         6mnVUTeXtlvARS6+/dwky5z1ZsmDys4BC9TMvkd0O9e+4n9cZ2I1YFcfYUYkJZB+rMpR
-         zB5D1PNd5dN1hIN3hgR5+wJ5hLYlqksTjnrhoqfQ0oEUVqQ62sryyvArzBbFt1oy9rwv
-         BooBmtGm5T3DFsyKfkWXtz0bAgdoCO0oTPzSkDFxzX5gEChciC/QA6/DI+uiPdeitnME
-         ERNA==
-X-Gm-Message-State: AOAM530FpwazqsGCqE+VnQ6FKNVpzi3q4pV2LArqavUfg8H82XAvBpMS
-        2ksvERh8eUXXU33EedDwQG0PFTaXxUs=
-X-Google-Smtp-Source: ABdhPJzbV1JlBF8OTGF+0o3AyU05lRH8sEVf4XQH2kppjlzUvyOKcN0uSZMyDNOxlHqQ/5vuo6LjBA==
-X-Received: by 2002:a17:90a:e7c6:: with SMTP id kb6mr7607926pjb.225.1631249443427;
-        Thu, 09 Sep 2021 21:50:43 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=bAkfFi1fbdwn5IY/EHFRuZsc/VEvo0VKSmcmcN7PbEg=;
+        b=7VaMwhodxj2FLliEDAsCSBykV4/2qUsbJFYT+8P+9GuvJQc3HGMKTFWkJFCoCDIpeC
+         Q0T8mOiWsmFHgq0aBIeewv6xpPG1RejGO7nD0vGZZ4E7oHgzT5tyyD0YzztUgQorYjdf
+         8eru+57VvcWNELD/0NOMcRqeTLSzlpCTDDPrG5fYlW/HWiWchmaFUXkZc0NJfP5exOLr
+         qtDn+nqycK6vzY1Ec1K0jMchssS4bUdMM3qmY2rxhSL7mETLuMRqZKWSfVkWOh7eqTEh
+         DO/B5SAOP02LH8OFll8zEI0IKYt45iZgTlBlSqSlnHnXrcjj8cBPJ1DIFAXDmfPmcgZJ
+         q3+g==
+X-Gm-Message-State: AOAM530zkARQfQ94+vCNvgL7psT90eucbvpuNh7N93XLq1YkKV/a4i7h
+        A18C2xDlLiKS7M/c8TZEyC0k19rI0A0=
+X-Google-Smtp-Source: ABdhPJwQODIGtnldg7G45GSgW2i/7U2ZSoT1vHTwLcApfI6/wOKvAtyHvs1e4gppEN+0t/qVmjiDiQ==
+X-Received: by 2002:a17:902:bb10:b0:13a:3cc4:8242 with SMTP id im16-20020a170902bb1000b0013a3cc48242mr5831717plb.58.1631249445286;
+        Thu, 09 Sep 2021 21:50:45 -0700 (PDT)
 Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:acdc:1d22:e20a:2796])
-        by smtp.gmail.com with ESMTPSA id y4sm3555477pjw.57.2021.09.09.21.50.42
+        by smtp.gmail.com with ESMTPSA id y4sm3555477pjw.57.2021.09.09.21.50.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 21:50:42 -0700 (PDT)
+        Thu, 09 Sep 2021 21:50:44 -0700 (PDT)
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Daniel Mack <daniel@zonque.org>,
         Marco Felsch <m.felsch@pengutronix.de>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] Input: ads7846 - set input device bus type and product ID
-Date:   Thu,  9 Sep 2021 21:50:37 -0700
-Message-Id: <20210910045039.4020199-1-dmitry.torokhov@gmail.com>
+Subject: [PATCH 2/3] Input: ads7846 - use input_set_capability()
+Date:   Thu,  9 Sep 2021 21:50:38 -0700
+Message-Id: <20210910045039.4020199-2-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.33.0.309.g3052b89438-goog
+In-Reply-To: <20210910045039.4020199-1-dmitry.torokhov@gmail.com>
+References: <20210910045039.4020199-1-dmitry.torokhov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Set input device's bus type as BUS_SPI and use model as product ID.
+Instead of manipulating capability bits directly use
+input_set_capability(). Also stop setting EV_ABS explicitly as
+input_set_abs_params() does it for us.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/touchscreen/ads7846.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/input/touchscreen/ads7846.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-index eaa8714ad19d..a018481e9d8b 100644
+index a018481e9d8b..0f973351bc67 100644
 --- a/drivers/input/touchscreen/ads7846.c
 +++ b/drivers/input/touchscreen/ads7846.c
-@@ -1304,6 +1304,9 @@ static int ads7846_probe(struct spi_device *spi)
- 	input_dev->name = ts->name;
- 	input_dev->phys = ts->phys;
+@@ -1307,8 +1307,7 @@ static int ads7846_probe(struct spi_device *spi)
+ 	input_dev->id.bustype = BUS_SPI;
+ 	input_dev->id.product = pdata->model;
  
-+	input_dev->id.bustype = BUS_SPI;
-+	input_dev->id.product = pdata->model;
-+
- 	input_dev->evbit[0] = BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
- 	input_dev->keybit[BIT_WORD(BTN_TOUCH)] = BIT_MASK(BTN_TOUCH);
+-	input_dev->evbit[0] = BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
+-	input_dev->keybit[BIT_WORD(BTN_TOUCH)] = BIT_MASK(BTN_TOUCH);
++	input_set_capability(input_dev, EV_KEY, BTN_TOUCH);
  	input_set_abs_params(input_dev, ABS_X,
+ 			pdata->x_min ? : 0,
+ 			pdata->x_max ? : MAX_12BIT,
 -- 
 2.33.0.309.g3052b89438-goog
 
