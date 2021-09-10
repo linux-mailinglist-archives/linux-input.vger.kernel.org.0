@@ -2,36 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B38D406138
-	for <lists+linux-input@lfdr.de>; Fri, 10 Sep 2021 02:41:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C16540612D
+	for <lists+linux-input@lfdr.de>; Fri, 10 Sep 2021 02:41:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229931AbhIJAmJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Sep 2021 20:42:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46184 "EHLO mail.kernel.org"
+        id S230404AbhIJAmL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Sep 2021 20:42:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46728 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233481AbhIJAT7 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 9 Sep 2021 20:19:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 94AF7610A3;
-        Fri, 10 Sep 2021 00:18:48 +0000 (UTC)
+        id S229474AbhIJAUh (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 9 Sep 2021 20:20:37 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E1DA061167;
+        Fri, 10 Sep 2021 00:19:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631233129;
-        bh=S2kBUEestuULlMUO4FoWwB67zsAW7zLe4FdjdnFH428=;
+        s=k20201202; t=1631233167;
+        bh=OFE96SrViNGgdmp3zfqPBD3pHqDhksQvjOmzGukE/FE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GkjB80vqXZvzaBcnQx+mOnkih9zwT0HJhiTfVTYxxeKHwLljfn9ZE8gLZj8aVMApG
-         XEmKhAfINP1Snznu2uSpBWCr2P/b5a68OtSrKeaqlJ1HTGRv+//zPjtQ29btyuxNTc
-         hCT9s1g6rlR0139DTjavvchJM1GtoAgYzNyL/4kQdBrrfRf+prFag+6IIrUWCcIP6i
-         bw6AJbh4/j9L/SLV9Kr4ETAmV7Z+yZFsqW8ZY/lWecWwrRP0lR7uLziWmcxEeqgBmE
-         0kjYkqJVWC8SQphh32KZ1IJuifxi1P3h8N7V8sGykbrv5fUuueXzd5lyNmqyY+2Oth
-         mVCYY0IVn2WDA==
+        b=TvrJCRhhQfDfRsEYFoKFdVcDkGW6M9s56kHSCzyKod+1YsoeieHYQvblyVXumtqbT
+         EbpYAYrBvQIoSGQV6ftap5I9JQGR0yXAKYYa85kT2J+7yZydvaifNF6e6DIs6tuZOX
+         Swo//S89MTIn51mFKd1NrhyI4w6KsLyVuqVzOqkRiCE2SQQ2VJDQup6m5+8Z3zrstg
+         Tpkdx9KNKHp8LouSMNZMLm/kn0kVlKoaHsq2wL8MQ5wn6Y66Qga50J1wM0m1UfTcPa
+         W2BauEmX/DG3H30nK4uwVZIq3A72rowdYDd0k3K1Qo3aw43Oyig97VZpOZ9nlPWWWw
+         WGFV0r47GzCmg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Anirudh Rayabharam <mail@anirudhrb.com>,
-        syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 20/88] HID: usbhid: free raw_report buffers in usbhid_stop
-Date:   Thu,  9 Sep 2021 20:17:12 -0400
-Message-Id: <20210910001820.174272-20-sashal@kernel.org>
+Cc:     Evgeny Novikov <novikov@ispras.ru>, Jiri Kosina <jkosina@suse.cz>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.13 47/88] HID: thrustmaster: Fix memory leaks in probe
+Date:   Thu,  9 Sep 2021 20:17:39 -0400
+Message-Id: <20210910001820.174272-47-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210910001820.174272-1-sashal@kernel.org>
 References: <20210910001820.174272-1-sashal@kernel.org>
@@ -43,58 +43,42 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Anirudh Rayabharam <mail@anirudhrb.com>
+From: Evgeny Novikov <novikov@ispras.ru>
 
-[ Upstream commit f7744fa16b96da57187dc8e5634152d3b63d72de ]
+[ Upstream commit d0f1d5ae23803bd82647a337fa508fa8615defc5 ]
 
-Free the unsent raw_report buffers when the device is removed.
+When thrustmaster_probe() handles errors of usb_submit_urb() it does not
+free allocated resources and fails. The patch fixes that.
 
-Fixes a memory leak reported by syzbot at:
-https://syzkaller.appspot.com/bug?id=7b4fa7cb1a7c2d3342a2a8a6c53371c8c418ab47
+Found by Linux Driver Verification project (linuxtesting.org).
 
-Reported-by: syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com
-Tested-by: syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com
-Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/usbhid/hid-core.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ drivers/hid/hid-thrustmaster.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-index 4e9077363c96..9c970e63670e 100644
---- a/drivers/hid/usbhid/hid-core.c
-+++ b/drivers/hid/usbhid/hid-core.c
-@@ -505,7 +505,7 @@ static void hid_ctrl(struct urb *urb)
+diff --git a/drivers/hid/hid-thrustmaster.c b/drivers/hid/hid-thrustmaster.c
+index f643b1cb112d..eede9d676bd4 100644
+--- a/drivers/hid/hid-thrustmaster.c
++++ b/drivers/hid/hid-thrustmaster.c
+@@ -335,11 +335,14 @@ static int thrustmaster_probe(struct hid_device *hdev, const struct hid_device_i
+ 	);
  
- 	if (unplug) {
- 		usbhid->ctrltail = usbhid->ctrlhead;
--	} else {
-+	} else if (usbhid->ctrlhead != usbhid->ctrltail) {
- 		usbhid->ctrltail = (usbhid->ctrltail + 1) & (HID_CONTROL_FIFO_SIZE - 1);
- 
- 		if (usbhid->ctrlhead != usbhid->ctrltail &&
-@@ -1223,9 +1223,20 @@ static void usbhid_stop(struct hid_device *hid)
- 	mutex_lock(&usbhid->mutex);
- 
- 	clear_bit(HID_STARTED, &usbhid->iofl);
-+
- 	spin_lock_irq(&usbhid->lock);	/* Sync with error and led handlers */
- 	set_bit(HID_DISCONNECTED, &usbhid->iofl);
-+	while (usbhid->ctrltail != usbhid->ctrlhead) {
-+		if (usbhid->ctrl[usbhid->ctrltail].dir == USB_DIR_OUT) {
-+			kfree(usbhid->ctrl[usbhid->ctrltail].raw_report);
-+			usbhid->ctrl[usbhid->ctrltail].raw_report = NULL;
-+		}
-+
-+		usbhid->ctrltail = (usbhid->ctrltail + 1) &
-+			(HID_CONTROL_FIFO_SIZE - 1);
+ 	ret = usb_submit_urb(tm_wheel->urb, GFP_ATOMIC);
+-	if (ret)
++	if (ret) {
+ 		hid_err(hdev, "Error %d while submitting the URB. I am unable to initialize this wheel...\n", ret);
++		goto error6;
 +	}
- 	spin_unlock_irq(&usbhid->lock);
-+
- 	usb_kill_urb(usbhid->urbin);
- 	usb_kill_urb(usbhid->urbout);
- 	usb_kill_urb(usbhid->urbctrl);
+ 
+ 	return ret;
+ 
++error6: kfree(tm_wheel->change_request);
+ error5: kfree(tm_wheel->response);
+ error4: kfree(tm_wheel->model_request);
+ error3: usb_free_urb(tm_wheel->urb);
 -- 
 2.30.2
 
