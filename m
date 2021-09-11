@@ -2,192 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 803404075B5
-	for <lists+linux-input@lfdr.de>; Sat, 11 Sep 2021 11:13:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56FEF407643
+	for <lists+linux-input@lfdr.de>; Sat, 11 Sep 2021 13:27:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235334AbhIKJPF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 Sep 2021 05:15:05 -0400
-Received: from mga03.intel.com ([134.134.136.65]:21731 "EHLO mga03.intel.com"
+        id S235697AbhIKL2r (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 11 Sep 2021 07:28:47 -0400
+Received: from mout.gmx.net ([212.227.17.22]:50971 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229494AbhIKJPF (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 Sep 2021 05:15:05 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10103"; a="221325437"
-X-IronPort-AV: E=Sophos;i="5.85,284,1624345200"; 
-   d="scan'208";a="221325437"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2021 02:13:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,284,1624345200"; 
-   d="scan'208";a="697516286"
-Received: from lkp-server01.sh.intel.com (HELO 730d49888f40) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 11 Sep 2021 02:13:51 -0700
-Received: from kbuild by 730d49888f40 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mOz55-0005Gm-1b; Sat, 11 Sep 2021 09:13:51 +0000
-Date:   Sat, 11 Sep 2021 17:13:36 +0800
-From:   kernel test robot <lkp@intel.com>
+        id S230249AbhIKL2r (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 11 Sep 2021 07:28:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1631359652;
+        bh=PhWfRPf31PepNWYNB76MkqMicEwzfnpoC3K7z7hIAVk=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=HneWRXlcWTKqLtex0Fe+OiCOEsgBBRJ0ryRhvEitmHtP0gb4TgESQk3J2BDL325ZQ
+         7SHtwYLBSMB7dkasjll+6JGQPJ5nn526x1S0j3etvt0xU8QPOeY7ciOt4ZyqkzuxM0
+         u180pQJt6iXgVcjcUw0nUH8WZnGN5BHyyMf/IAmA=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([79.150.72.99]) by mail.gmx.net
+ (mrgmx105 [212.227.17.174]) with ESMTPSA (Nemesis) id
+ 1MdNcG-1my4s0091U-00ZS4c; Sat, 11 Sep 2021 13:27:32 +0200
+From:   Len Baker <len.baker@gmx.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:master] BUILD SUCCESS
- e2afe95a87a268bcdca2fb489d9c8a485e3aca85
-Message-ID: <613c7340.VH1vTuxXU52L0VEZ%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Cc:     Len Baker <len.baker@gmx.com>, Kees Cook <keescook@chromium.org>,
+        linux-hardening@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: omap-keypad - prefer struct_size over open coded arithmetic
+Date:   Sat, 11 Sep 2021 13:27:16 +0200
+Message-Id: <20210911112716.10067-1-len.baker@gmx.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:GKwmQlkYhmtlh9LkRWaTgXGoUoEhf8TnpxfaAe+WAcCCHqQg5zQ
+ uw8hl40ouK9WZw0Y/obObHuibTH8egW4fL/Ki9NoWfSqy482RSn47leEkjGSJnb6yoUGtvy
+ ZH2agJcMKxIAqylXpQIE8uq4UsaVaY7g7lI86z+Z+8VMOltLL1g+5sYqmj5POhgzjihZK1h
+ QiTqFmbrP4FOL84sCr1jA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:77agfypHFcU=:n5emUQls6dZ7KabUao+CTw
+ MoyczOfuOGNMMg8CMg8TYmM2jlg7zcP5XpSGRkoKYX4B0YSW2TwBmBoQFbbp2ESfcoegWfg4w
+ 6HS7mFaip9b+mQEgs1GmgTN1zYaAnZDmR5CxVAYdvs9ZUmQVrqDSzF3Uw5GHWnJUuqd+gM75R
+ NtQF1oPEVQ3WzVcu4TNq6tdMhVvJZ/4YrJXEc36F/soePFJSswrq6oxL7VAGnSgylIszFCBI3
+ HWRVOnwHT78KrX/LDD2WVgZa4Hfl8s+65rUZUz48bTBh6aWVYCn9lOvsLQdaz6Scbav683k1B
+ d3caGCe272soxwsRFdrhy9V/QzFridEtINrdd4MSy9ZP6t10O3qoZhbZeucCenx3ixdxqszSy
+ VhJqFczRs9o+3WCK8/pB6716fuh7AcxsUuTIcavHWUrTBQYXGDCDFKYVm8xuPx54Ap57hhZr/
+ SulxK03TRQSzb5SroIb/uauj8ftgy94K0iw+Oph3tHeG4Qio+WHG8Uv2NskJWVkVNxYiDx7Ci
+ /8TcExWlfTdKoGC1F+zqcl5NYWZgijvgADurr2aIcqMjiAcnBKG07QIgYDt/d/4n2/QZ78Ncs
+ lcVUnVSc+Q9WCVvDmV84H9FRARD//4jgpfuiVBdpRzPURhn6INHOSYcy6PIsYb6hJ2B6ur2c4
+ lCWrZdooFLLaVLVTQyen5CUkUJFUNBLr6MYIvklwmNkqbC6smCXrua+guJ/aR04FIUEHhKXux
+ CeoqyDu1LxmTiDPJ+4Su/lTNRW2HOslstCrQdTddaLQbzqsrY4oXXEdovX6C2yqnwfXuS5lIO
+ PSiNS7umGnuBNtAJMfc6hCjKEhm8t++97jREOLmiIkUzfj11eZGTjvFyB4HQVtszUIdiy0i7k
+ 7BBBrBMTtBMtaQRc2ESQzHW4sae80cdj+vJ2bk4IQCJEXQmlZcx1Uvw7hdRjdvBiHHHXTa1Cg
+ RshXBHJapeY+tK6WNlUPDxEBaID2BwC/QaDpY+GBHQUEcImssgwCZE4HhBKseQpiiFWh2zH7H
+ OehR8WNwiAwj7JHq7C9FFzaVovWUt3AOXcm2sGANpb0SrQIXTH0iyPuwft7T0Hw191d+hljkE
+ 88wJSbxIk2K3NA=
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
-branch HEAD: e2afe95a87a268bcdca2fb489d9c8a485e3aca85  dt-bindings: input: Add binding for cypress-sf
+As noted in the "Deprecated Interfaces, Language Features, Attributes,
+and Conventions" documentation [1], size calculations (especially
+multiplication) should not be performed in memory allocator (or similar)
+function arguments due to the risk of them overflowing. This could lead
+to values wrapping around and a smaller allocation being made than the
+caller was expecting. Using those allocations could lead to linear
+overflows of heap memory and other misbehaviors.
 
-elapsed time: 1634m
+So, use the struct_size() helper to do the arithmetic instead of the
+argument "size + count * size" in the kzalloc() function.
 
-configs tested: 134
-configs skipped: 3
+[1] https://www.kernel.org/doc/html/v5.14/process/deprecated.html#open-cod=
+ed-arithmetic-in-allocator-arguments
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Signed-off-by: Len Baker <len.baker@gmx.com>
+=2D--
+ drivers/input/keyboard/omap-keypad.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20210910
-nios2                            alldefconfig
-arm                         bcm2835_defconfig
-powerpc                 mpc8540_ads_defconfig
-arm                         mv78xx0_defconfig
-arc                          axs103_defconfig
-powerpc                     akebono_defconfig
-nios2                         3c120_defconfig
-sh                         ap325rxa_defconfig
-m68k                          atari_defconfig
-h8300                    h8300h-sim_defconfig
-m68k                          multi_defconfig
-arm                       mainstone_defconfig
-sh                          rsk7269_defconfig
-powerpc                     powernv_defconfig
-arm                      pxa255-idp_defconfig
-um                             i386_defconfig
-mips                         tb0287_defconfig
-h8300                       h8s-sim_defconfig
-powerpc                   bluestone_defconfig
-mips                           ip27_defconfig
-powerpc                     tqm8548_defconfig
-powerpc                     ksi8560_defconfig
-powerpc                     tqm8541_defconfig
-m68k                             alldefconfig
-m68k                       m5475evb_defconfig
-powerpc                   microwatt_defconfig
-mips                          ath25_defconfig
-arm                            zeus_defconfig
-arm                      tct_hammer_defconfig
-arm                        magician_defconfig
-powerpc                     tqm8540_defconfig
-microblaze                          defconfig
-powerpc                     mpc5200_defconfig
-arm                  colibri_pxa300_defconfig
-arm                        clps711x_defconfig
-s390                             alldefconfig
-ia64                      gensparse_defconfig
-sh                           se7712_defconfig
-arm                         assabet_defconfig
-arm                          ixp4xx_defconfig
-powerpc                      pmac32_defconfig
-ia64                             allyesconfig
-arm                         lpc18xx_defconfig
-powerpc                      bamboo_defconfig
-um                                  defconfig
-powerpc                    adder875_defconfig
-parisc                              defconfig
-sh                          r7785rp_defconfig
-arm                          ep93xx_defconfig
-arm                           h5000_defconfig
-mips                        workpad_defconfig
-arm                         palmz72_defconfig
-arm                       versatile_defconfig
-x86_64               randconfig-c001-20210910
-arm                  randconfig-c002-20210910
-ia64                             allmodconfig
-ia64                                defconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-xtensa                           allyesconfig
-sh                               allmodconfig
-s390                             allyesconfig
-s390                             allmodconfig
-s390                                defconfig
-parisc                           allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                             allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-powerpc                          allyesconfig
-x86_64               randconfig-a013-20210910
-x86_64               randconfig-a016-20210910
-x86_64               randconfig-a012-20210910
-x86_64               randconfig-a011-20210910
-x86_64               randconfig-a014-20210910
-x86_64               randconfig-a015-20210910
-i386                 randconfig-a011-20210910
-i386                 randconfig-a012-20210910
-i386                 randconfig-a013-20210910
-i386                 randconfig-a014-20210910
-i386                 randconfig-a016-20210910
-i386                 randconfig-a015-20210910
-riscv                randconfig-r042-20210910
-arc                  randconfig-r043-20210910
-s390                 randconfig-r044-20210910
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-um                           x86_64_defconfig
-um                            kunit_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-x86_64                    rhel-8.3-kselftests
+diff --git a/drivers/input/keyboard/omap-keypad.c b/drivers/input/keyboard=
+/omap-keypad.c
+index dbe836c7ff47..eb3a687796e7 100644
+=2D-- a/drivers/input/keyboard/omap-keypad.c
++++ b/drivers/input/keyboard/omap-keypad.c
+@@ -190,8 +190,7 @@ static int omap_kp_probe(struct platform_device *pdev)
+ 	row_shift =3D get_count_order(pdata->cols);
+ 	keycodemax =3D pdata->rows << row_shift;
 
-clang tested configs:
-x86_64               randconfig-a006-20210910
-x86_64               randconfig-a005-20210910
-x86_64               randconfig-a002-20210910
-x86_64               randconfig-a003-20210910
-x86_64               randconfig-a004-20210910
-x86_64               randconfig-a001-20210910
-i386                 randconfig-a004-20210910
-i386                 randconfig-a005-20210910
-i386                 randconfig-a002-20210910
-i386                 randconfig-a006-20210910
-i386                 randconfig-a001-20210910
-i386                 randconfig-a003-20210910
-hexagon              randconfig-r045-20210910
-hexagon              randconfig-r041-20210910
+-	omap_kp =3D kzalloc(sizeof(struct omap_kp) +
+-			keycodemax * sizeof(unsigned short), GFP_KERNEL);
++	omap_kp =3D kzalloc(struct_size(omap_kp, keymap, keycodemax), GFP_KERNEL=
+);
+ 	input_dev =3D input_allocate_device();
+ 	if (!omap_kp || !input_dev) {
+ 		kfree(omap_kp);
+=2D-
+2.25.1
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
