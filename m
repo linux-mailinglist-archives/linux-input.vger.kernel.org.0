@@ -2,98 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56FEF407643
-	for <lists+linux-input@lfdr.de>; Sat, 11 Sep 2021 13:27:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FAD54078CA
+	for <lists+linux-input@lfdr.de>; Sat, 11 Sep 2021 16:26:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235697AbhIKL2r (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 Sep 2021 07:28:47 -0400
-Received: from mout.gmx.net ([212.227.17.22]:50971 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230249AbhIKL2r (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 Sep 2021 07:28:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1631359652;
-        bh=PhWfRPf31PepNWYNB76MkqMicEwzfnpoC3K7z7hIAVk=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=HneWRXlcWTKqLtex0Fe+OiCOEsgBBRJ0ryRhvEitmHtP0gb4TgESQk3J2BDL325ZQ
-         7SHtwYLBSMB7dkasjll+6JGQPJ5nn526x1S0j3etvt0xU8QPOeY7ciOt4ZyqkzuxM0
-         u180pQJt6iXgVcjcUw0nUH8WZnGN5BHyyMf/IAmA=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([79.150.72.99]) by mail.gmx.net
- (mrgmx105 [212.227.17.174]) with ESMTPSA (Nemesis) id
- 1MdNcG-1my4s0091U-00ZS4c; Sat, 11 Sep 2021 13:27:32 +0200
-From:   Len Baker <len.baker@gmx.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Len Baker <len.baker@gmx.com>, Kees Cook <keescook@chromium.org>,
-        linux-hardening@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: omap-keypad - prefer struct_size over open coded arithmetic
-Date:   Sat, 11 Sep 2021 13:27:16 +0200
-Message-Id: <20210911112716.10067-1-len.baker@gmx.com>
-X-Mailer: git-send-email 2.25.1
+        id S236106AbhIKO2D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 11 Sep 2021 10:28:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35028 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235788AbhIKO2D (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 11 Sep 2021 10:28:03 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D56FC061574;
+        Sat, 11 Sep 2021 07:26:50 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id y6so8318234lje.2;
+        Sat, 11 Sep 2021 07:26:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7v0xGUniRMAaLr5lnK8CuaUQYawKvoIYmd2gIBcaU8w=;
+        b=DXVHx9Ch4GQl3SqaD9yGddqbiM7H1G2aMzd62ek8lJkaN5JBIUQ85tfzz7gmG0D1xj
+         OD698JWAnE2we7+ltmGMMuBgwLqZ22p9NzAsEBdlVkvyBkVJO1kp3Y7QSzT+6nX2KP4T
+         /S9cU9VYkU93GrWJgp1VtFhyy0n5RwvxDLBW3qrLfpb8aRpR+vZsa9/XyixlHHE7fwR6
+         Ro+Y49acX+sAf5SM1ghQtklZ5jylOHbr2Zcv1vc6Wy3y4VSoMEkAtuE1proAus/RV93O
+         k0FpjNCLfTbmuX0Mt/j3848XiERpBvJowUXf6t6UDSs/YR0k/yNcsLsxJrkU1ErAvKrY
+         Oj/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7v0xGUniRMAaLr5lnK8CuaUQYawKvoIYmd2gIBcaU8w=;
+        b=3jE7ykOnNdHjY0r+9vAwZcJxyWKETAPK9dzg+8C00tMlOoIGUBQ67gcSOADk1iPYSq
+         rzSg+6tDd3TMqfpsVbAggDvSC2mcRl64+jzyOuYTfKHQIYzDnk7PU2iTxRrHcJAyVtQ3
+         9AK/UP2b2XhQtKfIVszJeV6aLE+QGQLUmdditSbDZ0AO0gJINm88ZoISxlxKCbNPCAWz
+         tXLBT6JvUFIoaKSJFRoHrVGOhgzExsmneCp701vA+EJGd4Z+vUOwF5Jb7zDXlouX1bhk
+         OuBX4IbP89pXo13wJSuuMVYznjIVnSKGiMPjSdBlB2vj3F1tnst+UAThobco/HY6SisN
+         hNaA==
+X-Gm-Message-State: AOAM531Lasbx5eons6w1MDPcFLjvtRKqf+B0l3IxJC/8P/3ZF/SgxexA
+        TSMhLMDo1Pj12ill7xzLdho=
+X-Google-Smtp-Source: ABdhPJwu1a7QK+Cej5JPCogd0/gmbdv2NXDIOQTD4QJ/R/z9s9TAFMjY/sfPiYgtOF7ImaEKRSMnjQ==
+X-Received: by 2002:a2e:2406:: with SMTP id k6mr2443781ljk.258.1631370408900;
+        Sat, 11 Sep 2021 07:26:48 -0700 (PDT)
+Received: from DESKTOP-5EKDQDN.localdomain (78-63-10-115.static.zebra.lt. [78.63.10.115])
+        by smtp.gmail.com with ESMTPSA id u17sm210522ljk.124.2021.09.11.07.26.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Sep 2021 07:26:48 -0700 (PDT)
+From:   =?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>
+Subject: [PATCH] HID: plantronics: Fix bare use of 'unsigned'
+Date:   Sat, 11 Sep 2021 17:26:43 +0300
+Message-Id: <20210911142643.201-1-aldas60@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:GKwmQlkYhmtlh9LkRWaTgXGoUoEhf8TnpxfaAe+WAcCCHqQg5zQ
- uw8hl40ouK9WZw0Y/obObHuibTH8egW4fL/Ki9NoWfSqy482RSn47leEkjGSJnb6yoUGtvy
- ZH2agJcMKxIAqylXpQIE8uq4UsaVaY7g7lI86z+Z+8VMOltLL1g+5sYqmj5POhgzjihZK1h
- QiTqFmbrP4FOL84sCr1jA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:77agfypHFcU=:n5emUQls6dZ7KabUao+CTw
- MoyczOfuOGNMMg8CMg8TYmM2jlg7zcP5XpSGRkoKYX4B0YSW2TwBmBoQFbbp2ESfcoegWfg4w
- 6HS7mFaip9b+mQEgs1GmgTN1zYaAnZDmR5CxVAYdvs9ZUmQVrqDSzF3Uw5GHWnJUuqd+gM75R
- NtQF1oPEVQ3WzVcu4TNq6tdMhVvJZ/4YrJXEc36F/soePFJSswrq6oxL7VAGnSgylIszFCBI3
- HWRVOnwHT78KrX/LDD2WVgZa4Hfl8s+65rUZUz48bTBh6aWVYCn9lOvsLQdaz6Scbav683k1B
- d3caGCe272soxwsRFdrhy9V/QzFridEtINrdd4MSy9ZP6t10O3qoZhbZeucCenx3ixdxqszSy
- VhJqFczRs9o+3WCK8/pB6716fuh7AcxsUuTIcavHWUrTBQYXGDCDFKYVm8xuPx54Ap57hhZr/
- SulxK03TRQSzb5SroIb/uauj8ftgy94K0iw+Oph3tHeG4Qio+WHG8Uv2NskJWVkVNxYiDx7Ci
- /8TcExWlfTdKoGC1F+zqcl5NYWZgijvgADurr2aIcqMjiAcnBKG07QIgYDt/d/4n2/QZ78Ncs
- lcVUnVSc+Q9WCVvDmV84H9FRARD//4jgpfuiVBdpRzPURhn6INHOSYcy6PIsYb6hJ2B6ur2c4
- lCWrZdooFLLaVLVTQyen5CUkUJFUNBLr6MYIvklwmNkqbC6smCXrua+guJ/aR04FIUEHhKXux
- CeoqyDu1LxmTiDPJ+4Su/lTNRW2HOslstCrQdTddaLQbzqsrY4oXXEdovX6C2yqnwfXuS5lIO
- PSiNS7umGnuBNtAJMfc6hCjKEhm8t++97jREOLmiIkUzfj11eZGTjvFyB4HQVtszUIdiy0i7k
- 7BBBrBMTtBMtaQRc2ESQzHW4sae80cdj+vJ2bk4IQCJEXQmlZcx1Uvw7hdRjdvBiHHHXTa1Cg
- RshXBHJapeY+tK6WNlUPDxEBaID2BwC/QaDpY+GBHQUEcImssgwCZE4HhBKseQpiiFWh2zH7H
- OehR8WNwiAwj7JHq7C9FFzaVovWUt3AOXcm2sGANpb0SrQIXTH0iyPuwft7T0Hw191d+hljkE
- 88wJSbxIk2K3NA=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-As noted in the "Deprecated Interfaces, Language Features, Attributes,
-and Conventions" documentation [1], size calculations (especially
-multiplication) should not be performed in memory allocator (or similar)
-function arguments due to the risk of them overflowing. This could lead
-to values wrapping around and a smaller allocation being made than the
-caller was expecting. Using those allocations could lead to linear
-overflows of heap memory and other misbehaviors.
+Fix checkpatch warning: Prefer 'unsigned int' to bare use of 'unsigned'
 
-So, use the struct_size() helper to do the arithmetic instead of the
-argument "size + count * size" in the kzalloc() function.
+Signed-off-by: Aldas Taraškevičius <aldas60@gmail.com>
+---
+ drivers/hid/hid-plantronics.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1] https://www.kernel.org/doc/html/v5.14/process/deprecated.html#open-cod=
-ed-arithmetic-in-allocator-arguments
-
-Signed-off-by: Len Baker <len.baker@gmx.com>
-=2D--
- drivers/input/keyboard/omap-keypad.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/input/keyboard/omap-keypad.c b/drivers/input/keyboard=
-/omap-keypad.c
-index dbe836c7ff47..eb3a687796e7 100644
-=2D-- a/drivers/input/keyboard/omap-keypad.c
-+++ b/drivers/input/keyboard/omap-keypad.c
-@@ -190,8 +190,7 @@ static int omap_kp_probe(struct platform_device *pdev)
- 	row_shift =3D get_count_order(pdata->cols);
- 	keycodemax =3D pdata->rows << row_shift;
-
--	omap_kp =3D kzalloc(sizeof(struct omap_kp) +
--			keycodemax * sizeof(unsigned short), GFP_KERNEL);
-+	omap_kp =3D kzalloc(struct_size(omap_kp, keymap, keycodemax), GFP_KERNEL=
-);
- 	input_dev =3D input_allocate_device();
- 	if (!omap_kp || !input_dev) {
- 		kfree(omap_kp);
-=2D-
-2.25.1
+diff --git a/drivers/hid/hid-plantronics.c b/drivers/hid/hid-plantronics.c
+index e81b7cec2d12..4aae7569e353 100644
+--- a/drivers/hid/hid-plantronics.c
++++ b/drivers/hid/hid-plantronics.c
+@@ -143,7 +143,7 @@ static int plantronics_event(struct hid_device *hdev, struct hid_field *field,
+ 
+ static unsigned long plantronics_device_type(struct hid_device *hdev)
+ {
+-	unsigned i, col_page;
++	unsigned int i, col_page;
+ 	unsigned long plt_type = hdev->product;
+ 
+ 	/* multi-HID interfaces? - plt_type is PID */
+-- 
+2.33.0
 
