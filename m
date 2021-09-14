@@ -2,95 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DB0240AEDE
-	for <lists+linux-input@lfdr.de>; Tue, 14 Sep 2021 15:26:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5E1C40B5E3
+	for <lists+linux-input@lfdr.de>; Tue, 14 Sep 2021 19:29:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233340AbhINN2I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 14 Sep 2021 09:28:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48278 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233095AbhINN1p (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 14 Sep 2021 09:27:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 71C34606A5;
-        Tue, 14 Sep 2021 13:26:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631625988;
-        bh=pdIe6cl93gaj/S2gh6Qq47/E89/tN9snXF7fd72R2g4=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=l4Rf15uqJJvH+to01mbPA9Ai3ooxwQSA2BTTSxQAJwxyg6eoYXg9mkhjlyxSEJLlY
-         9AEAY38modsuYgGQeGsM3f1qnT5QX6kkSVJO7ZDAEzD3Pz06ap1vorqS/IJpT+ovG1
-         DWEK6fqY0gk57nKRqqgn0FudkxuD/nEaNzkkU6MgcmJhTso5FwgiwVbv4hzqV6/CL+
-         fc+84+SA4accswBhyPPANCxARZLifd6unccrMc/WRZk3j0yXZUltuZ2dFfLgzpUpY2
-         f8wCDnXsxYEHO1Ll3zo/rnOi++DjyAAzUbHvhd2AEjTgiDHOkuXdkTGMVFQoLFT28w
-         MNQhLmH9b4Eig==
-Date:   Tue, 14 Sep 2021 15:26:23 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     "Daniel J. Ogorchock" <djogorchock@gmail.com>
-cc:     linux-input@vger.kernel.org, thunderbird2k@gmail.com,
-        blaws05@gmail.com, benjamin.tissoires@redhat.com,
-        Roderick.Colenbrander@sony.com, svv@google.com, s.jegen@gmail.com,
-        carmueller@gmail.com, pgriffais@valvesoftware.com,
-        hadess@hadess.net, pobrn@protonmail.com, lee.jones@linaro.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH v16 13/16] HID: nintendo: add IMU support
-In-Reply-To: <20210911173639.5688-14-djogorchock@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2109141525170.15944@cbobk.fhfr.pm>
-References: <20210911173639.5688-1-djogorchock@gmail.com> <20210911173639.5688-14-djogorchock@gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S229728AbhINRah (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 Sep 2021 13:30:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53238 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229464AbhINRag (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 14 Sep 2021 13:30:36 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40937C061574
+        for <linux-input@vger.kernel.org>; Tue, 14 Sep 2021 10:29:19 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id f21so6482553plb.4
+        for <linux-input@vger.kernel.org>; Tue, 14 Sep 2021 10:29:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joshua-dickens-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JkWGvTXIfHwXYlRW95rJ+kaH4qIJRS5GMFx/d+Fn9jo=;
+        b=xGFJnbOlEhdGoeRhOqQ0Zkpkvrd2AY9AlEa8m4pY8Ntu/tQzhDWF2u1IUcAcfm4VmK
+         fMNSsSrLngXEwD0FlnjYCrr33TOb+JHKxMSFL0EyfdpzS4VjyCBzg4BvuNw0+pFebWD/
+         3IWZTBnhBtJXEQFzjESknf0R55fVamtrJIa8GxU8deLP9fpxoA37AIFi+xa96h5PplyI
+         1MqsIKMhz3ZYfS5msNGfGZxXV+loMy5pGAkbLrdt4KKukdd0j9PRgyYzSFSArGb33uio
+         LbM81ZF+bGKptcXIPO+wqCoAEqZLxP32W4fqF1hcmf5cVq8hjPCWVEyS6bEwI/cRWrV2
+         e5Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JkWGvTXIfHwXYlRW95rJ+kaH4qIJRS5GMFx/d+Fn9jo=;
+        b=Rjq8ymdfxppx0W21ufR1rGUX42OplYZaXPWDoegUAroZrb5OFWcPPemTqa+2AarKwn
+         p61EK7I8Q8PgPENC1YIdqHoCem28V1fxr5EPgyChHOeiuiSS/XruRhrJcQmV23uvI+YX
+         AFiX8MyRoCtwX1dgGQd18AkHqDF7P3ZE7OmL30/A2jdSr5Whw1H51MqnS3onx/HCpZKI
+         k5CX3f74lGhCJdAUumhniYYSUN11JFpqxu+Oc2VCBqSuK6f+myeY7QWfOZluMwC63qJQ
+         16W24j+UgtoyzuoQ9BeIYgvfhcUmjt3MU0Lib/2lI9svpSJ5jFR/trOBoNA2N/QFWbTg
+         089w==
+X-Gm-Message-State: AOAM531Es4wHepc7SZMOl7IDvAXFCBO7nBR/p9+MnyqNcFqzeNzLvDsq
+        uIEqVfSeUcdkIuIfED3kQ22hsYomNoylzMKEXmY=
+X-Google-Smtp-Source: ABdhPJzeuT6vfrLqX3JUCMgu38duKAUO6s7kWrx9/Kj1x/TGoPUn9iHhYVjud0UKMwOAOYlThHs2ig==
+X-Received: by 2002:a17:90a:ab86:: with SMTP id n6mr3311531pjq.159.1631640558390;
+        Tue, 14 Sep 2021 10:29:18 -0700 (PDT)
+Received: from localhost.localdomain (c-73-96-148-93.hsd1.or.comcast.net. [73.96.148.93])
+        by smtp.gmail.com with ESMTPSA id 126sm13479820pgi.86.2021.09.14.10.29.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Sep 2021 10:29:17 -0700 (PDT)
+From:   Joshua Dickens <joshua@joshua-dickens.com>
+X-Google-Original-From: Joshua Dickens <Joshua@Joshua-Dickens.com>
+To:     linux-input@vger.kernel.org
+Cc:     jkosina@suse.cz, ping.cheng@wacom.com,
+        Joshua-Dickens <Joshua@Joshua-Dickens.com>,
+        Joshua Dickens <joshua.dickens@wacom.com>
+Subject: [PATCH] HID: wacom: Add new Intuos BT (CTL-4100WL/CTL-6100WL) support Added the new PID's to wacom_wac.c to support the new models in the Intuos series
+Date:   Tue, 14 Sep 2021 13:28:25 -0400
+Message-Id: <20210914172825.63335-1-Joshua@Joshua-Dickens.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 11 Sep 2021, Daniel J. Ogorchock wrote:
+From: Joshua-Dickens <Joshua@Joshua-Dickens.com>
 
-[ CCing Dmitry ]
+Signed-off-by: Joshua Dickens <joshua.dickens@wacom.com>
+---
+ drivers/hid/wacom_wac.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-> This patch adds support for the controller's IMU. The accelerometer and
-> gyro data are both provided to userspace using a second input device.
-> The devices can be associated using their uniq value (set to the
-> controller's MAC address).
-> 
-> A large part of this patch's functionality was provided by Carl Mueller.
-> 
-> The IMU device is blacklisted from the joydev input handler.
-> 
-> Signed-off-by: Daniel J. Ogorchock <djogorchock@gmail.com>
-[ ... snip ... ]
-> diff --git a/drivers/input/joydev.c b/drivers/input/joydev.c
-> index 947d440a3be63..b45ddb4570028 100644
-> --- a/drivers/input/joydev.c
-> +++ b/drivers/input/joydev.c
-> @@ -758,6 +758,12 @@ static void joydev_cleanup(struct joydev *joydev)
->  #define USB_VENDOR_ID_THQ			0x20d6
->  #define USB_DEVICE_ID_THQ_PS3_UDRAW			0xcb17
->  
-> +#define USB_VENDOR_ID_NINTENDO		0x057e
-> +#define USB_DEVICE_ID_NINTENDO_JOYCONL	0x2006
-> +#define USB_DEVICE_ID_NINTENDO_JOYCONR	0x2007
-> +#define USB_DEVICE_ID_NINTENDO_PROCON	0x2009
-> +#define USB_DEVICE_ID_NINTENDO_CHRGGRIP	0x200E
-> +
->  #define ACCEL_DEV(vnd, prd)						\
->  	{								\
->  		.flags = INPUT_DEVICE_ID_MATCH_VENDOR |			\
-> @@ -789,6 +795,10 @@ static const struct input_device_id joydev_blacklist[] = {
->  	ACCEL_DEV(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_2),
->  	ACCEL_DEV(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE),
->  	ACCEL_DEV(USB_VENDOR_ID_THQ, USB_DEVICE_ID_THQ_PS3_UDRAW),
-> +	ACCEL_DEV(USB_VENDOR_ID_NINTENDO, USB_DEVICE_ID_NINTENDO_PROCON),
-> +	ACCEL_DEV(USB_VENDOR_ID_NINTENDO, USB_DEVICE_ID_NINTENDO_CHRGGRIP),
-> +	ACCEL_DEV(USB_VENDOR_ID_NINTENDO, USB_DEVICE_ID_NINTENDO_JOYCONL),
-> +	ACCEL_DEV(USB_VENDOR_ID_NINTENDO, USB_DEVICE_ID_NINTENDO_JOYCONR),
->  	{ /* sentinel */ }
-
-Dmitry, could you please Ack the joydev.c part so that I could take it 
-through HID tree with the rest of the patchset?
-
-Thanks,
-
+diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+index fd51769d0994..33a6908995b1 100644
+--- a/drivers/hid/wacom_wac.c
++++ b/drivers/hid/wacom_wac.c
+@@ -4746,6 +4746,12 @@ static const struct wacom_features wacom_features_0x393 =
+ 	{ "Wacom Intuos Pro S", 31920, 19950, 8191, 63,
+ 	  INTUOSP2S_BT, WACOM_INTUOS3_RES, WACOM_INTUOS3_RES, 7,
+ 	  .touch_max = 10 };
++static const struct wacom_features wacom_features_0x3c6 =
++	{ "Wacom Intuos BT S", 15200, 9500, 4095, 63,
++	  INTUOSHT3_BT, WACOM_INTUOS_RES, WACOM_INTUOS_RES, 4 };
++static const struct wacom_features wacom_features_0x3c8 =
++	{ "Wacom Intuos BT M", 21600, 13500, 4095, 63,
++	  INTUOSHT3_BT, WACOM_INTUOS_RES, WACOM_INTUOS_RES, 4 };
+ 
+ static const struct wacom_features wacom_features_HID_ANY_ID =
+ 	{ "Wacom HID", .type = HID_GENERIC, .oVid = HID_ANY_ID, .oPid = HID_ANY_ID };
+@@ -4919,6 +4925,8 @@ const struct hid_device_id wacom_ids[] = {
+ 	{ USB_DEVICE_WACOM(0x37A) },
+ 	{ USB_DEVICE_WACOM(0x37B) },
+ 	{ BT_DEVICE_WACOM(0x393) },
++	{ BT_DEVICE_WACOM(0x3c6) },
++	{ BT_DEVICE_WACOM(0x3c8) },
+ 	{ USB_DEVICE_WACOM(0x4001) },
+ 	{ USB_DEVICE_WACOM(0x4004) },
+ 	{ USB_DEVICE_WACOM(0x5000) },
 -- 
-Jiri Kosina
-SUSE Labs
+2.31.1
 
