@@ -2,37 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76DC440C7AA
-	for <lists+linux-input@lfdr.de>; Wed, 15 Sep 2021 16:45:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49E6D40C7AC
+	for <lists+linux-input@lfdr.de>; Wed, 15 Sep 2021 16:46:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237923AbhIOOqS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Sep 2021 10:46:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45200 "EHLO mail.kernel.org"
+        id S237965AbhIOOra (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Sep 2021 10:47:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45388 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233745AbhIOOqS (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Sep 2021 10:46:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7185A60F13;
-        Wed, 15 Sep 2021 14:44:58 +0000 (UTC)
+        id S230499AbhIOOra (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 15 Sep 2021 10:47:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8F49C60F13;
+        Wed, 15 Sep 2021 14:46:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631717099;
-        bh=gtfqYelVApDfXyM8R6kC0P7Ao8Xz+cwMhcE/ZEPw7fo=;
+        s=k20201202; t=1631717171;
+        bh=ppQca55CGIYRdhkcEUxkj3L1sQ4SuYywuU//21qlja8=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=Jp21UEgznGOJmkZdd1tle2CHnTGqoayRZyvq4qMBx2e4od8sYSMX5qEc6Ocge7SSN
-         Tvn46qCVxGTXuILiJ+e5iuin9wSgLCnbevRhet6meLM/BD3y5EcDC8udAv9pMyyohw
-         woz/+Rif1k9fRp5nIcDvgcxvTq7oaM6c9CRYFjLUnu5lhytVQIOhd+arMZruckWnP9
-         bW+u/d2IEbRxkMCUcgTz8l/wSdsoJCJCq10A6qTsBovjYnv0mx9zVT/rEYCQjha4ba
-         aXw6b7ZGnpnofEwyECDBEyCpUoXQ/4YKSB/9DJBd/DohW9zvSzWhwxUEQQOlQeexac
-         L5Bm0aZ/tPxQw==
-Date:   Wed, 15 Sep 2021 16:44:56 +0200 (CEST)
+        b=kIiaySTlnM4aI9wzDQ12FTP9fjNHF8g0Mwxjww67l7zNcs67UrzJRKc6UjXUVUZdk
+         6zpOCi5hADvCtlX5A/QG/FyW1bzfY9GhXIWGAK3kEKSDa0F5jNTDBqwtbKXsG5oR+g
+         YeIYwPpDacmkiz/cn+vP3MOsmI/bJmIVA7yrAzxaLfZdP0Zs/T6GPV6gScem6xJNcb
+         CTG/f3vq6uLhvY2AyYdjVJEc8PGCKi5KyWGeKo52qhr8GljdsXHImVh/jNjYJ9tJdZ
+         k1DsgWW4UmfXVr/uBmcpYitoksFCKHaYMFDwSMTGs7IdWFmtJ+MsYslD4jq9gIZ2S8
+         +P/QXU+RknIAA==
+Date:   Wed, 15 Sep 2021 16:46:08 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Mizuho Mori <morimolymoly@gmail.com>
+To:     Felipe Balbi <balbi@kernel.org>
 cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: apple: Fix logical maximum and usage maximum of
- Magic Keyboard JIS
-In-Reply-To: <20210729110325.15089-1-morimolymoly@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2109151644270.15944@cbobk.fhfr.pm>
-References: <20210729110325.15089-1-morimolymoly@gmail.com>
+        linux-input@vger.kernel.org,
+        Felipe Balbi <felipe.balbi@microsoft.com>
+Subject: Re: [PATCH] HID: core: add TransducerSerialNumber2
+In-Reply-To: <20210820161655.211583-1-balbi@kernel.org>
+Message-ID: <nycvar.YFH.7.76.2109151645560.15944@cbobk.fhfr.pm>
+References: <20210820161655.211583-1-balbi@kernel.org>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -40,12 +40,19 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 29 Jul 2021, Mizuho Mori wrote:
+On Fri, 20 Aug 2021, Felipe Balbi wrote:
 
-> Signed-off-by: Mizuho Mori <morimolymoly@gmail.com>
+> From: Felipe Balbi <felipe.balbi@microsoft.com>
+> 
+> A recent request for change to the HID spec got approved adding support
+> for another 4-bytes to the Transducer Serial Number. This commit adds
+> support for the new usage.
+> 
+> https://www.usb.org/sites/default/files/hutrr103-transducerserialnumbermoresignificantbits_0.pdf
+> 
+> Signed-off-by: Felipe Balbi <felipe.balbi@microsoft.com>
 
-The signoff is on a funny place here. I have moved it to the end of the 
-changelog where it belongs, and applied the patch, thanks.
+Applied, thanks Felipe.
 
 -- 
 Jiri Kosina
