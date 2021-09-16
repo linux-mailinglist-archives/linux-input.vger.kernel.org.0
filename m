@@ -2,39 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13E5940DE74
-	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 17:48:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67CE340DE78
+	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 17:48:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239897AbhIPPtK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Sep 2021 11:49:10 -0400
-Received: from mx22.baidu.com ([220.181.50.185]:44420 "EHLO baidu.com"
+        id S240044AbhIPPtL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Sep 2021 11:49:11 -0400
+Received: from mx24.baidu.com ([111.206.215.185]:44416 "EHLO baidu.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S240042AbhIPPtK (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        id S239169AbhIPPtK (ORCPT <rfc822;linux-input@vger.kernel.org>);
         Thu, 16 Sep 2021 11:49:10 -0400
-Received: from BC-Mail-Ex32.internal.baidu.com (unknown [172.31.51.26])
-        by Forcepoint Email with ESMTPS id 091283D1F30F32112758;
-        Thu, 16 Sep 2021 23:32:02 +0800 (CST)
+Received: from BC-Mail-Ex31.internal.baidu.com (unknown [172.31.51.25])
+        by Forcepoint Email with ESMTPS id 28C033B0B119AADD30E2;
+        Thu, 16 Sep 2021 23:32:10 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex32.internal.baidu.com (172.31.51.26) with Microsoft SMTP Server
+ BC-Mail-Ex31.internal.baidu.com (172.31.51.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Thu, 16 Sep 2021 23:32:01 +0800
+ 15.1.2242.12; Thu, 16 Sep 2021 23:32:09 +0800
 Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 23:32:01 +0800
+ 15.1.2308.14; Thu, 16 Sep 2021 23:32:09 +0800
 From:   Cai Huoqing <caihuoqing@baidu.com>
 To:     <caihuoqing@baidu.com>
-CC:     Linus Walleij <linus.walleij@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] Input: cyttsp - Make use of the helper function dev_err_probe()
-Date:   Thu, 16 Sep 2021 23:31:55 +0800
-Message-ID: <20210916153156.14098-1-caihuoqing@baidu.com>
+Subject: [PATCH] Input: drv260x - Make use of the helper function dev_err_probe()
+Date:   Thu, 16 Sep 2021 23:32:03 +0800
+Message-ID: <20210916153204.14151-1-caihuoqing@baidu.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex09.internal.baidu.com (172.31.51.49) To
+X-ClientProxiedBy: BC-Mail-Ex11.internal.baidu.com (172.31.51.51) To
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
@@ -48,22 +47,54 @@ gets printed.
 
 Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/input/touchscreen/cyttsp_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/input/misc/drv260x.c | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/input/touchscreen/cyttsp_core.c b/drivers/input/touchscreen/cyttsp_core.c
-index 1dbd849c9613..01646910c9db 100644
---- a/drivers/input/touchscreen/cyttsp_core.c
-+++ b/drivers/input/touchscreen/cyttsp_core.c
-@@ -673,7 +673,7 @@ struct cyttsp *cyttsp_probe(const struct cyttsp_bus_ops *bus_ops,
- 	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
- 	if (IS_ERR(ts->reset_gpio)) {
- 		error = PTR_ERR(ts->reset_gpio);
--		dev_err(dev, "Failed to request reset gpio, error %d\n", error);
-+		dev_err_probe(dev, error, "Failed to request reset gpio\n");
- 		return ERR_PTR(error);
+diff --git a/drivers/input/misc/drv260x.c b/drivers/input/misc/drv260x.c
+index 0efe56f49aa9..f21e05e4e035 100644
+--- a/drivers/input/misc/drv260x.c
++++ b/drivers/input/misc/drv260x.c
+@@ -470,10 +470,8 @@ static int drv260x_probe(struct i2c_client *client,
+ 		return -ENOMEM;
+ 
+ 	error = device_property_read_u32(dev, "mode", &haptics->mode);
+-	if (error) {
+-		dev_err(dev, "Can't fetch 'mode' property: %d\n", error);
+-		return error;
+-	}
++	if (error)
++		return dev_err_probe(dev, error, "Can't fetch 'mode' property\n");
+ 
+ 	if (haptics->mode < DRV260X_LRA_MODE ||
+ 	    haptics->mode > DRV260X_ERM_MODE) {
+@@ -482,10 +480,8 @@ static int drv260x_probe(struct i2c_client *client,
  	}
  
+ 	error = device_property_read_u32(dev, "library-sel", &haptics->library);
+-	if (error) {
+-		dev_err(dev, "Can't fetch 'library-sel' property: %d\n", error);
+-		return error;
+-	}
++	if (error)
++		return dev_err_probe(dev, error, "Can't fetch 'library-sel' property\n");
+ 
+ 	if (haptics->library < DRV260X_LIB_EMPTY ||
+ 	    haptics->library > DRV260X_ERM_LIB_F) {
+@@ -517,11 +513,9 @@ static int drv260x_probe(struct i2c_client *client,
+ 					     drv260x_calculate_voltage(voltage);
+ 
+ 	haptics->regulator = devm_regulator_get(dev, "vbat");
+-	if (IS_ERR(haptics->regulator)) {
+-		error = PTR_ERR(haptics->regulator);
+-		dev_err(dev, "unable to get regulator, error: %d\n", error);
+-		return error;
+-	}
++	if (IS_ERR(haptics->regulator))
++		return dev_err_probe(dev, PTR_ERR(haptics->regulator),
++				     "unable to get regulator\n");
+ 
+ 	haptics->enable_gpio = devm_gpiod_get_optional(dev, "enable",
+ 						       GPIOD_OUT_HIGH);
 -- 
 2.25.1
 
