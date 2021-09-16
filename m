@@ -2,33 +2,33 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A631D40DE76
-	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 17:48:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6E0240DE7C
+	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 17:48:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239207AbhIPPtL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Sep 2021 11:49:11 -0400
-Received: from mx24.baidu.com ([111.206.215.185]:44414 "EHLO baidu.com"
+        id S240049AbhIPPtQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Sep 2021 11:49:16 -0400
+Received: from mx22.baidu.com ([220.181.50.185]:44468 "EHLO baidu.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S240044AbhIPPtK (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Sep 2021 11:49:10 -0400
-Received: from BC-Mail-Ex03.internal.baidu.com (unknown [172.31.51.43])
-        by Forcepoint Email with ESMTPS id 19DDE974C9EC6A481D29;
-        Thu, 16 Sep 2021 23:31:47 +0800 (CST)
+        id S240042AbhIPPtN (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 16 Sep 2021 11:49:13 -0400
+Received: from BC-Mail-EX04.internal.baidu.com (unknown [172.31.51.44])
+        by Forcepoint Email with ESMTPS id 72910AEFD602EC20741F;
+        Thu, 16 Sep 2021 23:31:54 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex03.internal.baidu.com (172.31.51.43) with Microsoft SMTP Server
+ BC-Mail-EX04.internal.baidu.com (172.31.51.44) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Thu, 16 Sep 2021 23:31:46 +0800
+ 15.1.2242.12; Thu, 16 Sep 2021 23:31:54 +0800
 Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 23:31:46 +0800
+ 15.1.2308.14; Thu, 16 Sep 2021 23:31:53 +0800
 From:   Cai Huoqing <caihuoqing@baidu.com>
 To:     <caihuoqing@baidu.com>
 CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] Input: bu21029_ts - Make use of the helper function dev_err_probe()
-Date:   Thu, 16 Sep 2021 23:31:40 +0800
-Message-ID: <20210916153141.13992-1-caihuoqing@baidu.com>
+Subject: [PATCH] Input: colibri-vf50-ts - Make use of the helper function dev_err_probe()
+Date:   Thu, 16 Sep 2021 23:31:48 +0800
+Message-ID: <20210916153148.14045-1-caihuoqing@baidu.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -47,53 +47,31 @@ gets printed.
 
 Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/input/touchscreen/bu21029_ts.c | 28 +++++++++-----------------
- 1 file changed, 9 insertions(+), 19 deletions(-)
+ drivers/input/touchscreen/colibri-vf50-ts.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/input/touchscreen/bu21029_ts.c b/drivers/input/touchscreen/bu21029_ts.c
-index 392950aa7856..dd4738761848 100644
---- a/drivers/input/touchscreen/bu21029_ts.c
-+++ b/drivers/input/touchscreen/bu21029_ts.c
-@@ -353,30 +353,20 @@ static int bu21029_probe(struct i2c_client *client,
- 
- 	error = device_property_read_u32(&client->dev, "rohm,x-plate-ohms",
- 					 &bu21029->x_plate_ohms);
--	if (error) {
--		dev_err(&client->dev,
--			"invalid 'x-plate-ohms' supplied: %d\n", error);
+diff --git a/drivers/input/touchscreen/colibri-vf50-ts.c b/drivers/input/touchscreen/colibri-vf50-ts.c
+index aa829725ded7..98d5b2ba63fb 100644
+--- a/drivers/input/touchscreen/colibri-vf50-ts.c
++++ b/drivers/input/touchscreen/colibri-vf50-ts.c
+@@ -239,14 +239,10 @@ static void vf50_ts_close(struct input_dev *dev_input)
+ static int vf50_ts_get_gpiod(struct device *dev, struct gpio_desc **gpio_d,
+ 			     const char *con_id, enum gpiod_flags flags)
+ {
+-	int error;
+-
+ 	*gpio_d = devm_gpiod_get(dev, con_id, flags);
+-	if (IS_ERR(*gpio_d)) {
+-		error = PTR_ERR(*gpio_d);
+-		dev_err(dev, "Could not get gpio_%s %d\n", con_id, error);
 -		return error;
 -	}
-+	if (error)
-+		return dev_err_probe(&client->dev, error,
-+				     "invalid 'x-plate-ohms' supplied\n");
++	if (IS_ERR(*gpio_d))
++		return dev_err_probe(dev, PTR_ERR(*gpio_d),
++				     "Could not get gpio_%s\n", con_id);
  
- 	bu21029->vdd = devm_regulator_get(&client->dev, "vdd");
--	if (IS_ERR(bu21029->vdd)) {
--		error = PTR_ERR(bu21029->vdd);
--		if (error != -EPROBE_DEFER)
--			dev_err(&client->dev,
--				"failed to acquire 'vdd' supply: %d\n", error);
--		return error;
--	}
-+	if (IS_ERR(bu21029->vdd))
-+		return dev_err_probe(&client->dev, PTR_ERR(bu21029->vdd),
-+				     "failed to acquire 'vdd' supply\n");
- 
- 	bu21029->reset_gpios = devm_gpiod_get_optional(&client->dev,
- 						       "reset", GPIOD_OUT_HIGH);
--	if (IS_ERR(bu21029->reset_gpios)) {
--		error = PTR_ERR(bu21029->reset_gpios);
--		if (error != -EPROBE_DEFER)
--			dev_err(&client->dev,
--				"failed to acquire 'reset' gpio: %d\n", error);
--		return error;
--	}
-+	if (IS_ERR(bu21029->reset_gpios))
-+		return dev_err_probe(&client->dev, PTR_ERR(bu21029->reset_gpios),
-+				     "failed to acquire 'reset' gpio\n");
- 
- 	in_dev = devm_input_allocate_device(&client->dev);
- 	if (!in_dev) {
+ 	return 0;
+ }
 -- 
 2.25.1
 
