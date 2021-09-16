@@ -2,83 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5915140DEAD
-	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 17:51:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FF3140E52F
+	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 19:26:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240227AbhIPPw3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Sep 2021 11:52:29 -0400
-Received: from mx24.baidu.com ([111.206.215.185]:46560 "EHLO baidu.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S240326AbhIPPwK (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Sep 2021 11:52:10 -0400
-Received: from BJHW-Mail-Ex11.internal.baidu.com (unknown [10.127.64.34])
-        by Forcepoint Email with ESMTPS id 0D09CE72A0C41B88CBDD;
-        Thu, 16 Sep 2021 23:34:54 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BJHW-Mail-Ex11.internal.baidu.com (10.127.64.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 23:34:53 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 23:34:53 +0800
-From:   Cai Huoqing <caihuoqing@baidu.com>
-To:     <caihuoqing@baidu.com>
-CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] Input: tsc200x - Make use of the helper function dev_err_probe()
-Date:   Thu, 16 Sep 2021 23:34:47 +0800
-Message-ID: <20210916153448.15317-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+        id S242004AbhIPRIu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Sep 2021 13:08:50 -0400
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:54162
+        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1348369AbhIPRGl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 16 Sep 2021 13:06:41 -0400
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com [209.85.128.72])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 49DB440260
+        for <linux-input@vger.kernel.org>; Thu, 16 Sep 2021 17:05:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1631811918;
+        bh=DAQLma/XFbnrzjxI0SYUnJSqV8B4gUk20L1uJrWXJWA=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+        b=OUC8wvI9lFdeH42blmIE2cJcIHmvVg419YJWCWjn+oKuskCqECGmAvWH4QwKXvd+P
+         UMb3ceCGUU3TJlBUn6XPRw6hazSjW+ffstGZoyfszQmZguzcDjTh0upbnk4Xe+0yM6
+         NwRyf48hw6r9sFH0j1zUJK8AC7URcEb90D5Y9jR4uuX8MpeSj8AK1wKbiVUE9T7Bh3
+         BTp4pwXUUSBDzHZiikN30G8AgOBnl0lzKMo3hDV6whkjcBdnD721MFtCX7t0E49Vds
+         riPOpf2Jx92qT/sHr+FZxt2H3nHjFxvCvKuu0avCEUobonCCMlpEkSbMPBIu+Qvf5P
+         yqPydJMZzi6HQ==
+Received: by mail-wm1-f72.google.com with SMTP id b139-20020a1c8091000000b002fb33c467c8so3391588wmd.5
+        for <linux-input@vger.kernel.org>; Thu, 16 Sep 2021 10:05:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DAQLma/XFbnrzjxI0SYUnJSqV8B4gUk20L1uJrWXJWA=;
+        b=gWucizVPYW3wH9H3dYI7RNfp28VMR5GbriUAxOgjfj9WDlGkUqzQujl/ijrLl444XA
+         34aEm+v22ENN0BNAxPNUMjiAAsjiuDQ5grVLFu7sxkgqKfnD1fHCdOd2cGDNZTD87TkU
+         UTXUxVGNbi2iecqtHMvsL4zRhcf2OG/Av2440/VyRVtctjYCSQTPwiU8qVXJ5Cnc00oU
+         vAUJsmqh+qZuyFVDJv2e5DcAALkPJjBkSqL+vIO8R5iR3gTDm/T+iWbp5o46NoX6lXh6
+         89vZPoFV9OwBvFO0QlilCIfwc9yxl/D1AEtQqRM5AXRg3WvfnOfqQXwTzLAE+r7nGRbH
+         cFNA==
+X-Gm-Message-State: AOAM533vTKPMwvencEXSktlusnJ/9zk+Hl3l3v5sjOkLV6x+wBzC99L6
+        HxHXzoWfZY1wQknn8JQzUbrm8lkZnxo+gSzvTJPvao5bbvbwhJ99LJmQLHLk7GUv7FvwN4vwKvz
+        9TvdLi8X7qvfYY64Ps/g/MyteMfF/Jccs+UV6NWw7
+X-Received: by 2002:a7b:c947:: with SMTP id i7mr10785726wml.136.1631811917594;
+        Thu, 16 Sep 2021 10:05:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx85llb8FjD0iSpfE2Kxi3/C7Wdiex3TjrHEMNpETw1JSJEKIQNgnjj3crKHdSsn0588cTSqw==
+X-Received: by 2002:a7b:c947:: with SMTP id i7mr10785696wml.136.1631811917336;
+        Thu, 16 Sep 2021 10:05:17 -0700 (PDT)
+Received: from kozik-lap.lan (lk.84.20.244.219.dc.cable.static.lj-kabel.net. [84.20.244.219])
+        by smtp.gmail.com with ESMTPSA id c15sm4139446wrc.83.2021.09.16.10.05.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Sep 2021 10:05:16 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH] input: max77693-haptic: drop unneeded MODULE_ALIAS
+Date:   Thu, 16 Sep 2021 19:05:14 +0200
+Message-Id: <20210916170514.137977-1-krzysztof.kozlowski@canonical.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex09.internal.baidu.com (172.31.51.49) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When possible use dev_err_probe help to properly deal with the
-PROBE_DEFER error, the benefit is that DEFER issue will be logged
-in the devices_deferred debugfs file.
-Using dev_err_probe() can reduce code size, and the error value
-gets printed.
+The MODULE_DEVICE_TABLE already creates proper alias for platform
+driver.  Having another MODULE_ALIAS causes the alias to be duplicated.
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/input/touchscreen/tsc200x-core.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+ drivers/input/misc/max77693-haptic.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/input/touchscreen/tsc200x-core.c b/drivers/input/touchscreen/tsc200x-core.c
-index b8d720d52013..a992aef48fa1 100644
---- a/drivers/input/touchscreen/tsc200x-core.c
-+++ b/drivers/input/touchscreen/tsc200x-core.c
-@@ -482,18 +482,14 @@ int tsc200x_probe(struct device *dev, int irq, const struct input_id *tsc_id,
- 	ts->esd_timeout = error ? 0 : esd_timeout;
- 
- 	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
--	if (IS_ERR(ts->reset_gpio)) {
--		error = PTR_ERR(ts->reset_gpio);
--		dev_err(dev, "error acquiring reset gpio: %d\n", error);
--		return error;
--	}
-+	if (IS_ERR(ts->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio),
-+				     "error acquiring reset gpio\n");
- 
- 	ts->vio = devm_regulator_get(dev, "vio");
--	if (IS_ERR(ts->vio)) {
--		error = PTR_ERR(ts->vio);
--		dev_err(dev, "error acquiring vio regulator: %d", error);
--		return error;
--	}
-+	if (IS_ERR(ts->vio))
-+		return dev_err_probe(dev, PTR_ERR(ts->vio),
-+				     "error acquiring vio regulator");
- 
- 	mutex_init(&ts->mutex);
- 
+diff --git a/drivers/input/misc/max77693-haptic.c b/drivers/input/misc/max77693-haptic.c
+index 0d09ffeafeea..4369d3c04d38 100644
+--- a/drivers/input/misc/max77693-haptic.c
++++ b/drivers/input/misc/max77693-haptic.c
+@@ -424,5 +424,4 @@ module_platform_driver(max77693_haptic_driver);
+ MODULE_AUTHOR("Jaewon Kim <jaewon02.kim@samsung.com>");
+ MODULE_AUTHOR("Krzysztof Kozlowski <krzk@kernel.org>");
+ MODULE_DESCRIPTION("MAXIM 77693/77843 Haptic driver");
+-MODULE_ALIAS("platform:max77693-haptic");
+ MODULE_LICENSE("GPL");
 -- 
-2.25.1
+2.30.2
 
