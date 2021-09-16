@@ -2,37 +2,33 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D70D440DEAE
+	by mail.lfdr.de (Postfix) with ESMTP id 5915140DEAD
 	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 17:51:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240310AbhIPPwa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Sep 2021 11:52:30 -0400
-Received: from mx24.baidu.com ([111.206.215.185]:46562 "EHLO baidu.com"
+        id S240227AbhIPPw3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Sep 2021 11:52:29 -0400
+Received: from mx24.baidu.com ([111.206.215.185]:46560 "EHLO baidu.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S240359AbhIPPwK (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        id S240326AbhIPPwK (ORCPT <rfc822;linux-input@vger.kernel.org>);
         Thu, 16 Sep 2021 11:52:10 -0400
-Received: from BJHW-Mail-Ex01.internal.baidu.com (unknown [10.127.64.11])
-        by Forcepoint Email with ESMTPS id 96758C8386240ECA0D2D;
-        Thu, 16 Sep 2021 23:34:46 +0800 (CST)
+Received: from BJHW-Mail-Ex11.internal.baidu.com (unknown [10.127.64.34])
+        by Forcepoint Email with ESMTPS id 0D09CE72A0C41B88CBDD;
+        Thu, 16 Sep 2021 23:34:54 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BJHW-Mail-Ex01.internal.baidu.com (10.127.64.11) with Microsoft SMTP Server
+ BJHW-Mail-Ex11.internal.baidu.com (10.127.64.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 23:34:46 +0800
+ 15.1.2308.14; Thu, 16 Sep 2021 23:34:53 +0800
 Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 23:34:45 +0800
+ 15.1.2308.14; Thu, 16 Sep 2021 23:34:53 +0800
 From:   Cai Huoqing <caihuoqing@baidu.com>
 To:     <caihuoqing@baidu.com>
-CC:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        <linux-input@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH] Input: tegra-kbc - Make use of the helper function dev_err_probe()
-Date:   Thu, 16 Sep 2021 23:34:40 +0800
-Message-ID: <20210916153440.15264-1-caihuoqing@baidu.com>
+CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] Input: tsc200x - Make use of the helper function dev_err_probe()
+Date:   Thu, 16 Sep 2021 23:34:47 +0800
+Message-ID: <20210916153448.15317-1-caihuoqing@baidu.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -51,36 +47,38 @@ gets printed.
 
 Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/input/keyboard/tegra-kbc.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ drivers/input/touchscreen/tsc200x-core.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/input/keyboard/tegra-kbc.c b/drivers/input/keyboard/tegra-kbc.c
-index 570fe18c0ce9..7f8958dcc76d 100644
---- a/drivers/input/keyboard/tegra-kbc.c
-+++ b/drivers/input/keyboard/tegra-kbc.c
-@@ -648,16 +648,14 @@ static int tegra_kbc_probe(struct platform_device *pdev)
- 		return PTR_ERR(kbc->mmio);
+diff --git a/drivers/input/touchscreen/tsc200x-core.c b/drivers/input/touchscreen/tsc200x-core.c
+index b8d720d52013..a992aef48fa1 100644
+--- a/drivers/input/touchscreen/tsc200x-core.c
++++ b/drivers/input/touchscreen/tsc200x-core.c
+@@ -482,18 +482,14 @@ int tsc200x_probe(struct device *dev, int irq, const struct input_id *tsc_id,
+ 	ts->esd_timeout = error ? 0 : esd_timeout;
  
- 	kbc->clk = devm_clk_get(&pdev->dev, NULL);
--	if (IS_ERR(kbc->clk)) {
--		dev_err(&pdev->dev, "failed to get keyboard clock\n");
--		return PTR_ERR(kbc->clk);
+ 	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+-	if (IS_ERR(ts->reset_gpio)) {
+-		error = PTR_ERR(ts->reset_gpio);
+-		dev_err(dev, "error acquiring reset gpio: %d\n", error);
+-		return error;
 -	}
-+	if (IS_ERR(kbc->clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(kbc->clk),
-+				     "failed to get keyboard clock\n");
++	if (IS_ERR(ts->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio),
++				     "error acquiring reset gpio\n");
  
- 	kbc->rst = devm_reset_control_get(&pdev->dev, "kbc");
--	if (IS_ERR(kbc->rst)) {
--		dev_err(&pdev->dev, "failed to get keyboard reset\n");
--		return PTR_ERR(kbc->rst);
+ 	ts->vio = devm_regulator_get(dev, "vio");
+-	if (IS_ERR(ts->vio)) {
+-		error = PTR_ERR(ts->vio);
+-		dev_err(dev, "error acquiring vio regulator: %d", error);
+-		return error;
 -	}
-+	if (IS_ERR(kbc->rst))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(kbc->rst),
-+			       "failed to get keyboard reset\n");
++	if (IS_ERR(ts->vio))
++		return dev_err_probe(dev, PTR_ERR(ts->vio),
++				     "error acquiring vio regulator");
  
- 	/*
- 	 * The time delay between two consecutive reads of the FIFO is
+ 	mutex_init(&ts->mutex);
+ 
 -- 
 2.25.1
 
