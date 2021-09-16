@@ -2,38 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6E0240DE7C
-	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 17:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13E5940DE74
+	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 17:48:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240049AbhIPPtQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Sep 2021 11:49:16 -0400
-Received: from mx22.baidu.com ([220.181.50.185]:44468 "EHLO baidu.com"
+        id S239897AbhIPPtK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Sep 2021 11:49:10 -0400
+Received: from mx22.baidu.com ([220.181.50.185]:44420 "EHLO baidu.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S240042AbhIPPtN (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Sep 2021 11:49:13 -0400
-Received: from BC-Mail-EX04.internal.baidu.com (unknown [172.31.51.44])
-        by Forcepoint Email with ESMTPS id 72910AEFD602EC20741F;
-        Thu, 16 Sep 2021 23:31:54 +0800 (CST)
+        id S240042AbhIPPtK (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 16 Sep 2021 11:49:10 -0400
+Received: from BC-Mail-Ex32.internal.baidu.com (unknown [172.31.51.26])
+        by Forcepoint Email with ESMTPS id 091283D1F30F32112758;
+        Thu, 16 Sep 2021 23:32:02 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-EX04.internal.baidu.com (172.31.51.44) with Microsoft SMTP Server
+ BC-Mail-Ex32.internal.baidu.com (172.31.51.26) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Thu, 16 Sep 2021 23:31:54 +0800
+ 15.1.2242.12; Thu, 16 Sep 2021 23:32:01 +0800
 Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 23:31:53 +0800
+ 15.1.2308.14; Thu, 16 Sep 2021 23:32:01 +0800
 From:   Cai Huoqing <caihuoqing@baidu.com>
 To:     <caihuoqing@baidu.com>
-CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+CC:     Linus Walleij <linus.walleij@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] Input: colibri-vf50-ts - Make use of the helper function dev_err_probe()
-Date:   Thu, 16 Sep 2021 23:31:48 +0800
-Message-ID: <20210916153148.14045-1-caihuoqing@baidu.com>
+Subject: [PATCH] Input: cyttsp - Make use of the helper function dev_err_probe()
+Date:   Thu, 16 Sep 2021 23:31:55 +0800
+Message-ID: <20210916153156.14098-1-caihuoqing@baidu.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex11.internal.baidu.com (172.31.51.51) To
+X-ClientProxiedBy: BC-Mail-Ex09.internal.baidu.com (172.31.51.49) To
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
@@ -47,31 +48,22 @@ gets printed.
 
 Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/input/touchscreen/colibri-vf50-ts.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/input/touchscreen/cyttsp_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/touchscreen/colibri-vf50-ts.c b/drivers/input/touchscreen/colibri-vf50-ts.c
-index aa829725ded7..98d5b2ba63fb 100644
---- a/drivers/input/touchscreen/colibri-vf50-ts.c
-+++ b/drivers/input/touchscreen/colibri-vf50-ts.c
-@@ -239,14 +239,10 @@ static void vf50_ts_close(struct input_dev *dev_input)
- static int vf50_ts_get_gpiod(struct device *dev, struct gpio_desc **gpio_d,
- 			     const char *con_id, enum gpiod_flags flags)
- {
--	int error;
--
- 	*gpio_d = devm_gpiod_get(dev, con_id, flags);
--	if (IS_ERR(*gpio_d)) {
--		error = PTR_ERR(*gpio_d);
--		dev_err(dev, "Could not get gpio_%s %d\n", con_id, error);
--		return error;
--	}
-+	if (IS_ERR(*gpio_d))
-+		return dev_err_probe(dev, PTR_ERR(*gpio_d),
-+				     "Could not get gpio_%s\n", con_id);
+diff --git a/drivers/input/touchscreen/cyttsp_core.c b/drivers/input/touchscreen/cyttsp_core.c
+index 1dbd849c9613..01646910c9db 100644
+--- a/drivers/input/touchscreen/cyttsp_core.c
++++ b/drivers/input/touchscreen/cyttsp_core.c
+@@ -673,7 +673,7 @@ struct cyttsp *cyttsp_probe(const struct cyttsp_bus_ops *bus_ops,
+ 	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+ 	if (IS_ERR(ts->reset_gpio)) {
+ 		error = PTR_ERR(ts->reset_gpio);
+-		dev_err(dev, "Failed to request reset gpio, error %d\n", error);
++		dev_err_probe(dev, error, "Failed to request reset gpio\n");
+ 		return ERR_PTR(error);
+ 	}
  
- 	return 0;
- }
 -- 
 2.25.1
 
