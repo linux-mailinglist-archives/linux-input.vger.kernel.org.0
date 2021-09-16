@@ -2,100 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5F4E40EAE0
-	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 21:34:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F6E640EAEB
+	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 21:39:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233157AbhIPTfw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Sep 2021 15:35:52 -0400
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:35678
-        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232006AbhIPTfw (ORCPT
+        id S233291AbhIPTkq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Sep 2021 15:40:46 -0400
+Received: from pb-smtp1.pobox.com ([64.147.108.70]:60752 "EHLO
+        pb-smtp1.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230452AbhIPTkq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Sep 2021 15:35:52 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        Thu, 16 Sep 2021 15:40:46 -0400
+Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
+        by pb-smtp1.pobox.com (Postfix) with ESMTP id 048BAEF753;
+        Thu, 16 Sep 2021 15:39:25 -0400 (EDT)
+        (envelope-from lx@xanderlent.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
+        :subject:date:message-id:mime-version:content-transfer-encoding;
+         s=sasl; bh=c5W4QIsNAKmSpivCnVo5Ssl6myMuY3RF9nWOJtcLgqs=; b=wFBi
+        rG8zziUY5kn8y2wsZAafRy6l0WUvvVldNdhVUK7dSF18NXeroi3I9cVSNSXehxNS
+        MHln26WFvjhP3W3Hp6unhkX4+CZKWE/JK7t3ondYNjPMJY3Uv3LC3JI7DQ87eqUl
+        FpCMA6E55R4HKne1KhQ0jHo3t2esJwgHZkeJxBQ=
+Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp1.pobox.com (Postfix) with ESMTP id EFAEEEF752;
+        Thu, 16 Sep 2021 15:39:24 -0400 (EDT)
+        (envelope-from lx@xanderlent.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=xanderlent.com;
+ h=from:to:cc:subject:date:message-id:mime-version:content-transfer-encoding;
+ s=2021-09.pbsmtp; bh=YsNuNLCnhIZ6sV/nzsqkIdgpAB+t5NtF5i9FC+4hBL4=;
+ b=uMy++lYr0PqJctl/OTcPeeGh07sozhmk4Ub3foaMdyjNiWXLQ3wOyWflg/bsKIvNhoy2/s94j8mMP66bKV2V96U6iJSVexl1MCwlFpKX0q5yQljq8xl6o6dpY+jNkewltYt5DdUkwGSklnDYiXZPpBn4unwaIwri3r9bi01LSRQ=
+Received: from localhost.localdomain (unknown [172.58.224.100])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 7FEF33F306
-        for <linux-input@vger.kernel.org>; Thu, 16 Sep 2021 19:34:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1631820870;
-        bh=mgBzE1LccxDYj5lbzdu52/SrN6CKyxSxvBGDAYwYTWI=;
-        h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-         In-Reply-To:Content-Type;
-        b=t4uzkFoBLeJqjueC9Sw/uMqb28enUwVVWiyC+pVZ8l0aq+7g9TRDjL3tmsgSGuXhC
-         MRt5ak+YnABe+wwRYyvKFskWrcSbbXfPom7+WHF1UObmCpnIVidnoPfrqCE6Musyc9
-         f3DqlPzlOkaiI0ZunF/R+KciwRRR0m3HbPgTU2w9dJOp+lInbD2mW7Ic/FYcY15Azh
-         QoQsMStuGbn6eX4tWxxPqDlqEVlTS0aHuh349BS/k3GEZoVKN4wEfJ8Z9GqiGBfvkv
-         PhL+fKzyeVUOdne6nLO/SNRwCfhnhSxXHBjEzi/6Qba8enJSm3MIitUj6IbjSG8RbN
-         +ghcFitKCdArw==
-Received: by mail-wr1-f70.google.com with SMTP id e1-20020adfa741000000b0015e424fdd01so2353786wrd.11
-        for <linux-input@vger.kernel.org>; Thu, 16 Sep 2021 12:34:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=mgBzE1LccxDYj5lbzdu52/SrN6CKyxSxvBGDAYwYTWI=;
-        b=bk74zbBwxRiSGoykx916IgmelLD2z5FkWwU6Vx4sSwUYJh/AbEt9lpkeVylL8c/UWP
-         Iay918fVCVHezysyJDhhriSrVnZxT+hTP8xMRYpOhpBGeD6uvUq+HsKO4mujV5E7ICH2
-         /3v13tcjDQqMMRCkTE09rkO+fxfDd2JnNZAyoNAiB5wqfZ0g7WIaxtjMHupSLlZKublV
-         bob20y/VEmqFgwt91n4t40DMLLqCJncFJ6e7QODe/nOxRrLnhDHDVU9cAeI1vvv4Yu6W
-         WI5D+pxBqofvZ+rATaCJp9KiDFtnBz55PGOFDNUzx/dyvwblJcNRg4GbRq/Cf70vvIPa
-         25Sw==
-X-Gm-Message-State: AOAM530brGVBQ5tYAz+Hp3JSk3uZkCrXKBG3ltsuitWHIgUpdINma/Sw
-        sikK3EZvbEtr2K8KdxiIXjTtWI685bCJBDL4YyaOCUfw4oEymdIC11a5sGsJ3dM+Qq8GfTggP47
-        3cODjcjEFMb2neQzBigRYNYzuFEonfmst33STSgqo
-X-Received: by 2002:adf:c7d1:: with SMTP id y17mr7857899wrg.214.1631820870031;
-        Thu, 16 Sep 2021 12:34:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyf+0GFj++u7lbh268H6UF7ugAOIgIOijp92MKCOwUmdhzxURij/a+4xLLMmGgonQR4a46H6w==
-X-Received: by 2002:adf:c7d1:: with SMTP id y17mr7857885wrg.214.1631820869817;
-        Thu, 16 Sep 2021 12:34:29 -0700 (PDT)
-Received: from [192.168.2.211] (lk.84.20.244.219.dc.cable.static.lj-kabel.net. [84.20.244.219])
-        by smtp.gmail.com with ESMTPSA id l19sm4284252wrc.16.2021.09.16.12.34.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Sep 2021 12:34:28 -0700 (PDT)
-Subject: Re: [PATCH] Input: ads7846 - Make use of the helper function
- dev_err_probe()
-To:     Cai Huoqing <caihuoqing@baidu.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210916153104.13727-1-caihuoqing@baidu.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Message-ID: <922265b2-bed7-8daa-3132-8cfc3b5e50fd@canonical.com>
-Date:   Thu, 16 Sep 2021 21:34:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 1C107EF751;
+        Thu, 16 Sep 2021 15:39:24 -0400 (EDT)
+        (envelope-from lx@xanderlent.com)
+From:   "Alexander F. Lent" <lx@xanderlent.com>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org,
+        "Alexander F. Lent" <lx@xanderlent.com>
+Subject: [PATCH] HID: apple: Eliminate obsolete IR receiver quirks
+Date:   Thu, 16 Sep 2021 15:38:40 -0400
+Message-Id: <20210916193840.419682-1-lx@xanderlent.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210916153104.13727-1-caihuoqing@baidu.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Pobox-Relay-ID: CBD82EF8-1725-11EC-9394-62A2C8D8090B-45904678!pb-smtp1.pobox.com
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 16/09/2021 17:31, Cai Huoqing wrote:
-> When possible use dev_err_probe help to properly deal with the
-> PROBE_DEFER error, the benefit is that DEFER issue will be logged
-> in the devices_deferred debugfs file.
-> Using dev_err_probe() can reduce code size, and the error value
-> gets printed.
-> 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-> ---
->  drivers/input/touchscreen/ads7846.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
+This code has been dead since 2013, when the appleir driver was added by
+commit 9a4a5574ce42 ("HID: appleir: add support for Apple ir devices"),
+removing Apple IR receivers from this driver.
 
-You sent 32 independent patches. Do you expect us to copy-paste similar
-feedback on each of them? This would not make any sense. Please organize
-all your submissions in a series with:
+No other Apple devices use these quirks, so drop them.
 
-  git format-patch -32
-  git send-email ..... 00*
+Signed-off-by: Alexander F. Lent <lx@xanderlent.com>
+---
+ drivers/hid/hid-apple.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-The patches you sent were already sent before:
-https://lore.kernel.org/lkml/20200827185829.30096-1-krzk@kernel.org/
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index 833fcf07ff35..1cb15f880c41 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -24,11 +24,11 @@
+ #define APPLE_RDESC_JIS		0x0001
+ #define APPLE_IGNORE_MOUSE	0x0002
+ #define APPLE_HAS_FN		0x0004
+-#define APPLE_HIDDEV		0x0008
++/* 0x0008 reserved, was: APPLE_HIDDEV */
+ /* 0x0010 reserved, was: APPLE_ISO_KEYBOARD */
+ #define APPLE_MIGHTYMOUSE	0x0020
+ #define APPLE_INVERT_HWHEEL	0x0040
+-#define APPLE_IGNORE_HIDINPUT	0x0080
++/* 0x0080 reserved, was: APPLE_IGNORE_HIDINPUT */
+ #define APPLE_NUMLOCK_EMULATION	0x0100
+=20
+ #define APPLE_FLAG_FKEY		0x01
+@@ -433,7 +433,6 @@ static int apple_probe(struct hid_device *hdev,
+ {
+ 	unsigned long quirks =3D id->driver_data;
+ 	struct apple_sc *asc;
+-	unsigned int connect_mask =3D HID_CONNECT_DEFAULT;
+ 	int ret;
+=20
+ 	asc =3D devm_kzalloc(&hdev->dev, sizeof(*asc), GFP_KERNEL);
+@@ -452,12 +451,7 @@ static int apple_probe(struct hid_device *hdev,
+ 		return ret;
+ 	}
+=20
+-	if (quirks & APPLE_HIDDEV)
+-		connect_mask |=3D HID_CONNECT_HIDDEV_FORCE;
+-	if (quirks & APPLE_IGNORE_HIDINPUT)
+-		connect_mask &=3D ~HID_CONNECT_HIDINPUT;
+-
+-	ret =3D hid_hw_start(hdev, connect_mask);
++	ret =3D hid_hw_start(hdev, HID_CONNECT_DEFAULT);
+ 	if (ret) {
+ 		hid_err(hdev, "hw start failed\n");
+ 		return ret;
+--=20
+2.31.1
 
-Best regards,
-Krzysztof
