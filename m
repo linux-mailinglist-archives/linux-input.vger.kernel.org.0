@@ -2,33 +2,33 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EEB140DE77
+	by mail.lfdr.de (Postfix) with ESMTP id DF99240DE79
 	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 17:48:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240016AbhIPPtL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Sep 2021 11:49:11 -0400
-Received: from mx22.baidu.com ([220.181.50.185]:44422 "EHLO baidu.com"
+        id S239169AbhIPPtM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Sep 2021 11:49:12 -0400
+Received: from mx24.baidu.com ([111.206.215.185]:44466 "EHLO baidu.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S240049AbhIPPtK (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Sep 2021 11:49:10 -0400
-Received: from BC-Mail-Ex28.internal.baidu.com (unknown [172.31.51.22])
-        by Forcepoint Email with ESMTPS id 24CED95A706080A020D1;
-        Thu, 16 Sep 2021 23:32:32 +0800 (CST)
+        id S240033AbhIPPtM (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 16 Sep 2021 11:49:12 -0400
+Received: from BC-Mail-Ex27.internal.baidu.com (unknown [172.31.51.21])
+        by Forcepoint Email with ESMTPS id 5F028918441B7AC8972D;
+        Thu, 16 Sep 2021 23:32:39 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex28.internal.baidu.com (172.31.51.22) with Microsoft SMTP Server
+ BC-Mail-Ex27.internal.baidu.com (172.31.51.21) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Thu, 16 Sep 2021 23:32:31 +0800
+ 15.1.2176.2; Thu, 16 Sep 2021 23:32:39 +0800
 Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 23:32:31 +0800
+ 15.1.2308.14; Thu, 16 Sep 2021 23:32:38 +0800
 From:   Cai Huoqing <caihuoqing@baidu.com>
 To:     <caihuoqing@baidu.com>
 CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] Input: gpio_decoder - Make use of the helper function dev_err_probe()
-Date:   Thu, 16 Sep 2021 23:32:25 +0800
-Message-ID: <20210916153226.14310-1-caihuoqing@baidu.com>
+Subject: [PATCH] Input: ilitek_ts_i2c - Make use of the helper function dev_err_probe()
+Date:   Thu, 16 Sep 2021 23:32:33 +0800
+Message-ID: <20210916153233.14363-1-caihuoqing@baidu.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -47,27 +47,28 @@ gets printed.
 
 Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/input/misc/gpio_decoder.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/input/touchscreen/ilitek_ts_i2c.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/input/misc/gpio_decoder.c b/drivers/input/misc/gpio_decoder.c
-index 145826a1a9a1..06a45a0df7a3 100644
---- a/drivers/input/misc/gpio_decoder.c
-+++ b/drivers/input/misc/gpio_decoder.c
-@@ -80,10 +80,9 @@ static int gpio_decoder_probe(struct platform_device *pdev)
- 	device_property_read_u32(dev, "linux,axis", &decoder->axis);
+diff --git a/drivers/input/touchscreen/ilitek_ts_i2c.c b/drivers/input/touchscreen/ilitek_ts_i2c.c
+index c5d259c76adc..a113d74b6ddc 100644
+--- a/drivers/input/touchscreen/ilitek_ts_i2c.c
++++ b/drivers/input/touchscreen/ilitek_ts_i2c.c
+@@ -562,11 +562,9 @@ static int ilitek_ts_i2c_probe(struct i2c_client *client,
+ 	i2c_set_clientdata(client, ts);
  
- 	decoder->input_gpios = devm_gpiod_get_array(dev, NULL, GPIOD_IN);
--	if (IS_ERR(decoder->input_gpios)) {
--		dev_err(dev, "unable to acquire input gpios\n");
--		return PTR_ERR(decoder->input_gpios);
+ 	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+-	if (IS_ERR(ts->reset_gpio)) {
+-		error = PTR_ERR(ts->reset_gpio);
+-		dev_err(dev, "request gpiod failed: %d", error);
+-		return error;
 -	}
-+	if (IS_ERR(decoder->input_gpios))
-+		return dev_err_probe(dev, PTR_ERR(decoder->input_gpios),
-+				     "unable to acquire input gpios\n");
++	if (IS_ERR(ts->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio),
++				     "request gpiod failed");
  
- 	if (decoder->input_gpios->ndescs < 2) {
- 		dev_err(dev, "not enough gpios found\n");
+ 	ilitek_reset(ts, 1000);
+ 
 -- 
 2.25.1
 
