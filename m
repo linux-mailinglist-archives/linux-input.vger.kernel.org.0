@@ -2,34 +2,33 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA9E540DE69
+	by mail.lfdr.de (Postfix) with ESMTP id A0C3840DE68
 	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 17:46:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239003AbhIPPsM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Sep 2021 11:48:12 -0400
-Received: from mx24.baidu.com ([111.206.215.185]:43826 "EHLO baidu.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S239057AbhIPPsL (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        id S238634AbhIPPsL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Thu, 16 Sep 2021 11:48:11 -0400
-Received: from BC-Mail-Ex12.internal.baidu.com (unknown [172.31.51.52])
-        by Forcepoint Email with ESMTPS id 08AB82A2362C1ED66C9E;
-        Thu, 16 Sep 2021 23:31:02 +0800 (CST)
+Received: from mx24.baidu.com ([111.206.215.185]:43846 "EHLO baidu.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S239031AbhIPPsL (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 16 Sep 2021 11:48:11 -0400
+Received: from BC-Mail-Ex11.internal.baidu.com (unknown [172.31.51.51])
+        by Forcepoint Email with ESMTPS id AD6518CB28E8EDB8C47B;
+        Thu, 16 Sep 2021 23:31:09 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex12.internal.baidu.com (172.31.51.52) with Microsoft SMTP Server
+ BC-Mail-Ex11.internal.baidu.com (172.31.51.51) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Thu, 16 Sep 2021 23:31:01 +0800
+ 15.1.2242.12; Thu, 16 Sep 2021 23:31:09 +0800
 Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 23:31:01 +0800
+ 15.1.2308.14; Thu, 16 Sep 2021 23:31:09 +0800
 From:   Cai Huoqing <caihuoqing@baidu.com>
 To:     <caihuoqing@baidu.com>
-CC:     Michael Hennerich <michael.hennerich@analog.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] Input: ad7879 - Make use of the helper function dev_err_probe()
-Date:   Thu, 16 Sep 2021 23:30:55 +0800
-Message-ID: <20210916153056.13674-1-caihuoqing@baidu.com>
+Subject: [PATCH] Input: ads7846 - Make use of the helper function dev_err_probe()
+Date:   Thu, 16 Sep 2021 23:31:03 +0800
+Message-ID: <20210916153104.13727-1-caihuoqing@baidu.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -48,27 +47,27 @@ gets printed.
 
 Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/input/touchscreen/ad7879.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/input/touchscreen/ads7846.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/input/touchscreen/ad7879.c b/drivers/input/touchscreen/ad7879.c
-index e850853328f1..440ebb3fc586 100644
---- a/drivers/input/touchscreen/ad7879.c
-+++ b/drivers/input/touchscreen/ad7879.c
-@@ -494,10 +494,9 @@ static int ad7879_parse_dt(struct device *dev, struct ad7879 *ts)
- 	u32 tmp;
+diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
+index eaa8714ad19d..f5c053940cbf 100644
+--- a/drivers/input/touchscreen/ads7846.c
++++ b/drivers/input/touchscreen/ads7846.c
+@@ -1337,11 +1337,8 @@ static int ads7846_probe(struct spi_device *spi)
+ 	ads7846_setup_spi_msg(ts, pdata);
  
- 	err = device_property_read_u32(dev, "adi,resistance-plate-x", &tmp);
--	if (err) {
--		dev_err(dev, "failed to get resistance-plate-x property\n");
+ 	ts->reg = devm_regulator_get(dev, "vcc");
+-	if (IS_ERR(ts->reg)) {
+-		err = PTR_ERR(ts->reg);
+-		dev_err(dev, "unable to get regulator: %d\n", err);
 -		return err;
 -	}
-+	if (err)
-+		return dev_err_probe(dev, err,
-+				     "failed to get resistance-plate-x property\n");
- 	ts->x_plate_ohms = (u16)tmp;
++	if (IS_ERR(ts->reg))
++		return dev_err_probe(dev, PTR_ERR(ts->reg), "unable to get regulator\n");
  
- 	device_property_read_u8(dev, "adi,first-conversion-delay",
+ 	err = regulator_enable(ts->reg);
+ 	if (err) {
 -- 
 2.25.1
 
