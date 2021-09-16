@@ -2,60 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8653A40D3A6
-	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 09:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDF0940D5F3
+	for <lists+linux-input@lfdr.de>; Thu, 16 Sep 2021 11:17:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234638AbhIPHRA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Sep 2021 03:17:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42064 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232254AbhIPHQ7 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Sep 2021 03:16:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E172160F51;
-        Thu, 16 Sep 2021 07:15:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631776539;
-        bh=XR0iDHgJpz1GsMhQZUOrZND8ovGzw3mdUlGSBvzw0rY=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=M1rGMdBB/f3uAvoZJYaEMutJ54nUbNMjSsgtlgWtsuNiQZzJaXLCrmOLl+54YWTYb
-         IlTlwfWgkmYLNn96xqFdcODcG9Utlor5iSNLSUPnn8/JctcDjP25ImY1Ju8g2e8ZMr
-         9FwpM+jk3DR37pi8NrZgCNQbiAHRtmb/uIsdgw8e6xgXxJL/cHdoKTOz2zT0+0P83G
-         C3MoaMokvpKG6H4vn/fRjtPoIu/qetwy9w1YKZES/rjnjEGrDGSU7pYKWlTTsGeDru
-         QZRXRu3/hG0Ita24VX0h7sfQES5uyOmByW3WuQgOlRNcSQdXaFt4jiJnGRZ1t1UIwq
-         m1Y8lI8WWh5VA==
-Date:   Thu, 16 Sep 2021 09:15:36 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Evgeny Novikov <novikov@ispras.ru>
-cc:     Nehal Shah <nehal-bakulchandra.shah@amd.com>,
-        Sandeep Singh <sandeep.singh@amd.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ldv-project@linuxtesting.org
-Subject: Re: [PATCH] AMD_SFH: Fix potential NULL pointer dereference
-In-Reply-To: <20210601163801.17848-1-novikov@ispras.ru>
-Message-ID: <nycvar.YFH.7.76.2109160915270.15944@cbobk.fhfr.pm>
-References: <20210601163801.17848-1-novikov@ispras.ru>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
-MIME-Version: 1.0
+        id S236228AbhIPJSR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Sep 2021 05:18:17 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:38630 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236566AbhIPJRi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:17:38 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id BCCC91FEBA;
+        Thu, 16 Sep 2021 09:16:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1631783777; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4BtHHTpVzGs0XpFHR8D6XsmcKBC0z4EhoSusSo6vw4w=;
+        b=TNnQr0pfd63qqoQRixOIlGGvHl0GDwEd+ZyJfsCzlo3o/DhVKWE3y6ksQowwXvOTTJSITK
+        wimxhuHYU384UIAXnv3+fHVLara93n94NcMkX/fNiscCnMDziNQ2ImlLp6zpfqVsHplHWa
+        CrGhHEva0z9GeVFjihidWNcQvFlTZts=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1631783777;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4BtHHTpVzGs0XpFHR8D6XsmcKBC0z4EhoSusSo6vw4w=;
+        b=kSQ9XJ3u6pFxYQlOJaR1yMxNuo10+zo/1L6dHZpvYZW6mOqKLBp0yCGWK1wIrshlsCQipV
+        Ebrghm9sh9UMG7Aw==
+Received: from alsa1.suse.de (alsa1.suse.de [10.160.4.42])
+        by relay2.suse.de (Postfix) with ESMTP id B5F30A3DA6;
+        Thu, 16 Sep 2021 09:16:17 +0000 (UTC)
+Date:   Thu, 16 Sep 2021 11:16:17 +0200
+Message-ID: <s5hilz0c23i.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: Re: Delaying i8042 probe?
+In-Reply-To: <CAOMZO5DepuVScmDU7yZGVOVUs1JzHOd4bmu1z3erE2GNpcjZ+w@mail.gmail.com>
+References: <s5ho890n1rh.wl-tiwai@suse.de>
+        <CAOMZO5C-wFv0LmbHfZQUMMchJAwvxMxTs=eT6oby8O8k4QyoFQ@mail.gmail.com>
+        <s5hee9wmy6e.wl-tiwai@suse.de>
+        <CAOMZO5CACdcxGWn++f0+zhQaKevH7b5c-Xkv3QLBpwxc2GxizQ@mail.gmail.com>
+        <s5hee9vlg8i.wl-tiwai@suse.de>
+        <CAOMZO5C+gki7HT-n5D6qj06NbMxo2su2d6X+8AvM9PSmLUZ0jg@mail.gmail.com>
+        <CAOMZO5DepuVScmDU7yZGVOVUs1JzHOd4bmu1z3erE2GNpcjZ+w@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
 Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 1 Jun 2021, Evgeny Novikov wrote:
-
-> devm_add_action_or_reset() can suddenly invoke amd_mp2_pci_remove() at
-> registration that will cause NULL pointer dereference since
-> corresponding data is not initialized yet. The patch moves
-> initialization of data before devm_add_action_or_reset().
+On Sat, 11 Sep 2021 20:50:25 +0200,
+Fabio Estevam wrote:
 > 
-> Found by Linux Driver Verification project (linuxtesting.org).
+> On Sat, Sep 11, 2021 at 3:43 PM Fabio Estevam <festevam@gmail.com> wrote:
+> >
+> > On Sat, Sep 11, 2021 at 4:32 AM Takashi Iwai <tiwai@suse.de> wrote:
+> >
+> > > OK, I'll update and let the reporter testing it.
+> >
+> > Sorry, platform_device_alloc() and platform_device_add() were missing
+> > in the earlier patch.
+> >
+> > New patch atached.
+> >
+> > Dmitry, does this look correct?
 > 
-> Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
+> Please consider this one instead.
 
-Applied, thank you.
+The patch was confirmed to work.
+  https://bugzilla.suse.com/show_bug.cgi?id=1190256#c19
 
--- 
-Jiri Kosina
-SUSE Labs
+| That one worked despite the CTR error:
+| 
+| [    0.000000] Linux version 5.14.2-3.g9458b22-default (geeko@buildhost) (gcc (SUSE Linux) 11.2.1 20210816 [revision 056e324ce46a7924b5cf10f61010cf9dd2ca10e9], GNU ld (GNU Binutils; openSUSE Tumbleweed) 2.36.1.20210326-4) #1 SMP Sun Sep 12 20:15:58 UTC 2021 (9458b22)
+| [    0.484315] i8042: PNP: PS/2 Controller [PNP0303:PS2K] at 0x60,0x64 irq 1
+| [    0.484318] i8042: PNP: PS/2 appears to have AUX port disabled, if this is incorrect please boot with i8042.nopnp
+| [    1.005361] i8042: Can't read CTR while initializing i8042
+| [    1.477053] serio: i8042 KBD port at 0x60,0x64 irq 1
+| [    1.503700] input: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input2
+| 
+| Seems it takes more than a secod to initialize, ugh
 
+I'm not sure what's done during this 0.5 second period after CTR read
+failure.  At least only shuffling the driver init order for built-in
+drivers didn't suffice.
+
+A full log was requested, but I don't think it'll give much more
+information.
+
+
+Takashi
