@@ -2,109 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8569C40F3C9
-	for <lists+linux-input@lfdr.de>; Fri, 17 Sep 2021 10:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86CAE40F6C7
+	for <lists+linux-input@lfdr.de>; Fri, 17 Sep 2021 13:36:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245523AbhIQIK3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Sep 2021 04:10:29 -0400
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:50692
-        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S245497AbhIQIKG (ORCPT
+        id S238791AbhIQLiL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Sep 2021 07:38:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52804 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241845AbhIQLiB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Sep 2021 04:10:06 -0400
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com [209.85.221.71])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id DE5EC3F324
-        for <linux-input@vger.kernel.org>; Fri, 17 Sep 2021 08:08:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1631866120;
-        bh=JQ215WaV0fJ7lfFcgk3AWKxJPWvRWqz6N9EycVhPbcY=;
-        h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-         In-Reply-To:Content-Type;
-        b=YVlPQKBnKFhUEF4sl7LxeT2YBhieRjrr3OouZOCqtctZcMPnKCx2UJwjNHKw55sxe
-         FaUvRqwphwq/7CV/S8x7nP2r4JoUNHBAhnM0FkgWrdw6S4F5eJip9AvmiX83G0NZQ8
-         T1rHGYBdw8wWIgD16Ne872DJieIntayNI/6zyQO0A5uK1OP9WTtQ5GE53zydFIfs2B
-         jPVMqa/OyChLLcFH9WMOOhL3V+wH6qKr232dhqwjVqi4k4PLE2vWru+vIQ9FfHOLKR
-         Tt3irrR1suD2fjAY0bFvdEGf4Nf0KaCA8L/QKqs3xQ19O1lEDlTc9x7gln+XCzYQNm
-         FfJNWWbhuem5w==
-Received: by mail-wr1-f71.google.com with SMTP id s13-20020a5d69cd000000b00159d49442cbso3407600wrw.13
-        for <linux-input@vger.kernel.org>; Fri, 17 Sep 2021 01:08:40 -0700 (PDT)
+        Fri, 17 Sep 2021 07:38:01 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00405C061574
+        for <linux-input@vger.kernel.org>; Fri, 17 Sep 2021 04:36:31 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id x27so31729420lfu.5
+        for <linux-input@vger.kernel.org>; Fri, 17 Sep 2021 04:36:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=x/iHvJpF8DSvWKWu14a6PJLOTAusf6ZIM5uvfyqHLZQ=;
+        b=a4agVbLSHI0S0ovj8GhkCi6DgFpUTDH5fWmL9H1l8Xt7GpECAwwT7z10ugUyy5OP93
+         i5xsdapkCKWJovHAydjXTj5jSpvbjoZCJSuve6PU7ZsKVa+Cs0uarH2VNK+kLH1nAwpJ
+         XCU5XYaL3Cp3Ng9jB+07y98xV1hMhB6yNtKnXEdYcv1TOUOvn6cZ/iBMqPl01/Z8RZjl
+         O5dJZq7Abo3e94vtuOOUetwgzn66NJ96/l8ybx9zqIpBtC5sVJl5BIuvaP66sshwqF9Y
+         oYEcIfMwHbpoulj51kTKco0Ay0JAV6kcPbisZ55cWmGAb1jQt3I/pxe2ZTmRlE0+iqMU
+         AIXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=JQ215WaV0fJ7lfFcgk3AWKxJPWvRWqz6N9EycVhPbcY=;
-        b=S/HZFgzwfRGeebANOPkd/+G+U2gTNT+npWZF/jsiNvc62AYOPdAJc77prCuH8/mRoO
-         FyotRb4hY0c7s3muiBr2vDBMZGDL+hXKu7nmDvCQ7uidl8Gc1h9RGubcn+VV6ugMOLsX
-         zLWBiR8OfCT5zABIggIIPaCTQlKLuKTLc3sca5ml1889j1Qjf0H/xItanNpQdJ7JEqLG
-         WctQX9TezL3gwsjr1uE1Qm9UHA9dB6c4NDNWvGXS1Zr8zGdDaVcGfGcVHWgbg+0ywnkY
-         QFGSUY477XH0Vs8D/Pa5ix1R0ZCv5Whhg8yxzryKl+I1T3uHA9WVySD6xirsEb6z9UWd
-         PpMA==
-X-Gm-Message-State: AOAM531ni9SPkyRl/RThsgH8JeA+7Z9JCIF3WW+tq7a8phQ438VI4zQ9
-        YfWHMdaC2jzEDEY45Gip5zZ1pPhTX2YCGlerTEERFC/Y1skjcE8TfFmx8zhB6j92JBG6SOEdgwq
-        ZarR4gwUEMdwSn+xgyjLfgjATSHGKQhFVnrPDbIbn
-X-Received: by 2002:a7b:c194:: with SMTP id y20mr4972408wmi.37.1631866120596;
-        Fri, 17 Sep 2021 01:08:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJybmvG2ZP2OSs0SKxy2scM8q/zXOVZb7078WFLVPQlesnpGevmBfMU/lFv3k/VB/mjPb4gKRw==
-X-Received: by 2002:a7b:c194:: with SMTP id y20mr4972392wmi.37.1631866120465;
-        Fri, 17 Sep 2021 01:08:40 -0700 (PDT)
-Received: from [192.168.0.134] (lk.84.20.244.219.dc.cable.static.lj-kabel.net. [84.20.244.219])
-        by smtp.gmail.com with ESMTPSA id y6sm5726381wrp.46.2021.09.17.01.08.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Sep 2021 01:08:40 -0700 (PDT)
-Subject: Re: [PATCH] Input: ads7846 - Make use of the helper function
- dev_err_probe()
-To:     Cai Huoqing <caihuoqing@baidu.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210916153104.13727-1-caihuoqing@baidu.com>
- <922265b2-bed7-8daa-3132-8cfc3b5e50fd@canonical.com>
- <20210917022910.GA17584@LAPTOP-UKSR4ENP.internal.baidu.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Message-ID: <157cce4f-6a8c-bf53-3790-ea43d5662f7f@canonical.com>
-Date:   Fri, 17 Sep 2021 10:08:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=x/iHvJpF8DSvWKWu14a6PJLOTAusf6ZIM5uvfyqHLZQ=;
+        b=ByB31jTjQM5H6f+ym2MBfc7k4kf1bh/MUa3z0JM/jCNCisEU3d5Xg85OUZmNAqE7ai
+         UdR8Axcre4F9jkZeRa8jhQMQmve0tWqyjL0Yt/ekESiSUWewT1YvCC3eWRFnfZggjiWx
+         lNpUKb8GSTDB1yIhAUKNktAtwG45FEm6awGbRGhTkKEMZirBKrLP88mcIO6mfsTsjvQj
+         5T67ehWZtWTemJBXpXRezN+Y+DVQE+eq+Z4iSvwv13Pv7XaMkc2dLz8TTWBy9lBvset+
+         KAmYpqf8qFQO4zxCVAzOLpgCMGjdpMhOrGCLFi17Fo8v5cdvl8tMUm479G8ao3EjZvIy
+         O0ag==
+X-Gm-Message-State: AOAM5319LGg4iqVFYVFxsuLhsWkiHKjcE+ymMUc84r/rxtFFeRkREgDs
+        AXG/tC30rEGGmrpUceaffpYmLD82VtjhJriW1uQ=
+X-Google-Smtp-Source: ABdhPJwvHPfGhnA3GcMm/jJfohGpdOyWRyn4Fm7Bk2XDrfsT9/TzXMfDL+ukZpEwM+jU/tm+C12olccizQat35mqXhw=
+X-Received: by 2002:ac2:514e:: with SMTP id q14mr7873110lfd.154.1631878590260;
+ Fri, 17 Sep 2021 04:36:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210917022910.GA17584@LAPTOP-UKSR4ENP.internal.baidu.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <s5ho890n1rh.wl-tiwai@suse.de> <CAOMZO5C-wFv0LmbHfZQUMMchJAwvxMxTs=eT6oby8O8k4QyoFQ@mail.gmail.com>
+ <s5hee9wmy6e.wl-tiwai@suse.de> <CAOMZO5CACdcxGWn++f0+zhQaKevH7b5c-Xkv3QLBpwxc2GxizQ@mail.gmail.com>
+ <s5hee9vlg8i.wl-tiwai@suse.de> <CAOMZO5C+gki7HT-n5D6qj06NbMxo2su2d6X+8AvM9PSmLUZ0jg@mail.gmail.com>
+ <CAOMZO5DepuVScmDU7yZGVOVUs1JzHOd4bmu1z3erE2GNpcjZ+w@mail.gmail.com> <s5hilz0c23i.wl-tiwai@suse.de>
+In-Reply-To: <s5hilz0c23i.wl-tiwai@suse.de>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Fri, 17 Sep 2021 08:36:19 -0300
+Message-ID: <CAOMZO5DHHb3XJS2XDY=b1ALt3nQR0tOMWvv_GQQYTnEYN6Em0w@mail.gmail.com>
+Subject: Re: Delaying i8042 probe?
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 17/09/2021 04:29, Cai Huoqing wrote:
-> On 16 9月 21 21:34:26, Krzysztof Kozlowski wrote:
->> On 16/09/2021 17:31, Cai Huoqing wrote:
->>> When possible use dev_err_probe help to properly deal with the
->>> PROBE_DEFER error, the benefit is that DEFER issue will be logged
->>> in the devices_deferred debugfs file.
->>> Using dev_err_probe() can reduce code size, and the error value
->>> gets printed.
->>>
->>> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
->>> ---
->>>  drivers/input/touchscreen/ads7846.c | 7 ++-----
->>>  1 file changed, 2 insertions(+), 5 deletions(-)
->>
->> You sent 32 independent patches. Do you expect us to copy-paste similar
->> feedback on each of them? This would not make any sense. Please organize
->> all your submissions in a series with:
->>
->>   git format-patch -32
->>   git send-email ..... 00*
-> Ok, I'll try. but there are different owners for touchscreen/xxx,
-> is it ok to send them the whole series?
+Hi Takashi,
 
-I see the same maintainers:
-Dmitry Torokhov + linux-input
+On Thu, Sep 16, 2021 at 6:16 AM Takashi Iwai <tiwai@suse.de> wrote:
 
-HWMON also appears because of usage of hwmon API inside, which might
-happen anyway for few other input drivers
+> The patch was confirmed to work.
 
-Best regards,
-Krzysztof
+That's good news.
+
+>   https://bugzilla.suse.com/show_bug.cgi?id=3D1190256#c19
+>
+> | That one worked despite the CTR error:
+> |
+> | [    0.000000] Linux version 5.14.2-3.g9458b22-default (geeko@buildhost=
+) (gcc (SUSE Linux) 11.2.1 20210816 [revision 056e324ce46a7924b5cf10f61010c=
+f9dd2ca10e9], GNU ld (GNU Binutils; openSUSE Tumbleweed) 2.36.1.20210326-4)=
+ #1 SMP Sun Sep 12 20:15:58 UTC 2021 (9458b22)
+> | [    0.484315] i8042: PNP: PS/2 Controller [PNP0303:PS2K] at 0x60,0x64 =
+irq 1
+> | [    0.484318] i8042: PNP: PS/2 appears to have AUX port disabled, if t=
+his is incorrect please boot with i8042.nopnp
+> | [    1.005361] i8042: Can't read CTR while initializing i8042
+> | [    1.477053] serio: i8042 KBD port at 0x60,0x64 irq 1
+> | [    1.503700] input: AT Translated Set 2 keyboard as /devices/platform=
+/i8042/serio0/input/input2
+> |
+> | Seems it takes more than a secod to initialize, ugh
+>
+> I'm not sure what's done during this 0.5 second period after CTR read
+> failure.  At least only shuffling the driver init order for built-in
+> drivers didn't suffice.
+
+This extra 0.5 seconds is the time it takes to re-probe the driver at
+a later stage after deferral.
+
+I am not familiar with this driver and its BIOS dependencies, so let's
+see what Dmitry suggests as a proper fix.
+
+Thanks
