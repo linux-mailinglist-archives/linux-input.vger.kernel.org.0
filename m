@@ -2,106 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2CC2410CAE
-	for <lists+linux-input@lfdr.de>; Sun, 19 Sep 2021 19:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6636A410D16
+	for <lists+linux-input@lfdr.de>; Sun, 19 Sep 2021 21:28:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230334AbhISRcB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Sep 2021 13:32:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55772 "EHLO
+        id S231132AbhISTaT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Sep 2021 15:30:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230289AbhISRcA (ORCPT
+        with ESMTP id S230488AbhISTaT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Sep 2021 13:32:00 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2976DC061574;
-        Sun, 19 Sep 2021 10:30:34 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id g1so57452630lfj.12;
-        Sun, 19 Sep 2021 10:30:34 -0700 (PDT)
+        Sun, 19 Sep 2021 15:30:19 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C584C06175F
+        for <linux-input@vger.kernel.org>; Sun, 19 Sep 2021 12:28:53 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id m3so55580153lfu.2
+        for <linux-input@vger.kernel.org>; Sun, 19 Sep 2021 12:28:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language
-         :from:to:cc:references:in-reply-to:content-transfer-encoding;
-        bh=kOSFz2D6+eH9b+3DWsE71fA2DR/exZeFlC9o9EQE9T0=;
-        b=ke5n12ahCp2QxEqA0pdymPX69j9zSl68u7SlOzf/4ptxz4dfy6J/lhXOG4hg6bpcQs
-         c45eOGeRWQ2eeIDn25T28VSw7+32IPl5ddHZiiN4AAxTcpsjC/+NA7KDp/wCHCfVrd8Y
-         NKzXj21l+/XxNSST99p91QMyoIhb4XQF+BCgIsXl2k1MuJ28FLhp7aRVekjIy6W67D2Q
-         EMDcRbonA0pONvjDVpPB6x3KBbD+/iYWQ79Gz3Yff9+8L6wgvAHbQPoGqqwBwEXE2Cv1
-         xoQ61Ks9KEaZ8ZosGlK3+MJ0GIAsrAnEcYNI6Lhq7eEUIldc0HC19QDRvXdl67zebRcD
-         12PQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=YUxoExa3Vl/56HsaDIt2/oCI+rjvSBChu/blLwgxZks=;
+        b=QSa+P4wof1Hrj4vF53V525fNAc/Ogs08uD5wscbihPnyfZsUuFbEqExpuY0+QNv8Am
+         Clnfw5cJWRwrkrfcAJycPUJ5qU6AbqzUapNrfoPp+bHtRyFCv9SCFG6xyYLGIko038F2
+         ltCaEhfujIOL6NlJAYmqcSASiGAjVkntSxbWsQv4I4eC3X9rCkDimehX7ZzZ7/H5Snnp
+         y2pv+wDyN/+HLwkNlji6pLDc0VlpOWnGrm3ETnbuHMsqB/573xrpguD8+B7SBTKDkROk
+         cCSGO/bkwNAdeBCt8eU0U3HGNAXdCsv1EVYtpIiDWKVcbulcvMBFOUIUGwFPNch5RtN+
+         mwNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:from:to:cc:references:in-reply-to
-         :content-transfer-encoding;
-        bh=kOSFz2D6+eH9b+3DWsE71fA2DR/exZeFlC9o9EQE9T0=;
-        b=YvSzPtLa2SqF1+kXJha66ZUOzPDJWyBJxJm1nsBpun5b+SLDs5rfGpCmNgi+IxTlu9
-         OCNFaEaxw0cPK5GnOiOVPzbgzVMx4k8KVZVNs0busEHtztM9+3MKSO4qJogJ5R56EYU2
-         /8Pt/t8Sk3UFGM5Jbkc1J0Uzop3JjY+V4E4fNjhj1qWIMLjuSNLqB4vAD/YQDD6tFWj1
-         eSB/cP9F0CxKxVAvutWfOI0ZnI6yxc83zAbbHs1RMaTUpADHbATjIzsFFWEsj4zhD9HO
-         tGgsP2ebLVMI9pmGxhxlbO1LgsWdIYv6gLl8PYK1Z9mOeZLolJHvokznj4BxqZBtV7SD
-         18/g==
-X-Gm-Message-State: AOAM530d+LxHKCpqQ5e8PT3BJ0NCvkopqhCDqY6WLg5rNiB93H7QMUQ7
-        XOFBOzSZdgcSc78Z88c7L6k=
-X-Google-Smtp-Source: ABdhPJxtISb8vCLb7fFcByCn/Badi4I34lO+aCwKa4ertrRuF1rCbjqFbRFIefX0cb7jeKn4FmhxjQ==
-X-Received: by 2002:a2e:5442:: with SMTP id y2mr17534810ljd.436.1632072632206;
-        Sun, 19 Sep 2021 10:30:32 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.67.49])
-        by smtp.gmail.com with ESMTPSA id v7sm1063931lfq.192.2021.09.19.10.30.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Sep 2021 10:30:31 -0700 (PDT)
-Message-ID: <e537c6bf-df7f-0364-c883-39cf695d0714@gmail.com>
-Date:   Sun, 19 Sep 2021 20:30:27 +0300
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=YUxoExa3Vl/56HsaDIt2/oCI+rjvSBChu/blLwgxZks=;
+        b=MmmPWmotmJ1ANZEzddjJ7n1iEkRyrFf8Fu+F0IdYXpvPxhD9gI+E/V+/ddicVWAYgr
+         u1+gO1SBD4oSD3avmZuuAz930a83KieNoAR9TNBqp+KfXahMJ2i+GYsBdhFQbxNmw6Gv
+         l8ok15M8BfqwuNuzLP+Hqxk/398mj468abXTudhNpM4qGxNFI4tzkKil6+G3DVw06VGJ
+         w6oB4/Xnd032gkRkqAm7sY6gMYbsoLkWnfAGtRdLiXYYi1wkkushSpX5fxpsMAmC00a1
+         /8uWzYWAsY0BR2QqAuUW3iXqsz9f12Vwf69zSoGDILX4/5lbVYn9oACxUBWbcZ4tXP1l
+         x43g==
+X-Gm-Message-State: AOAM532ZyBZy6gOKO8aGCdBPdMnJ9NOv7IOWtIGt1rXDClBCrp07wRrU
+        uD0fG/AcN50oeOh53omN7IW0eLT4uyqX6syG4D+n9g==
+X-Google-Smtp-Source: ABdhPJySP1s5I02yVU0z+OVsOCndb6pnIAOk9ZmArvo0FYBcyHpd6gQEuqLGptLws72qC7Axz5zyVUrlcYDNiqORdnM=
+X-Received: by 2002:ac2:4d03:: with SMTP id r3mr16775620lfi.339.1632079731461;
+ Sun, 19 Sep 2021 12:28:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.3
-Subject: Re: [PATCH] input: cm109: fix URB submitted while active
-Content-Language: en-US
-From:   Pavel Skripkin <paskripkin@gmail.com>
-To:     dmitry.torokhov@gmail.com, aeh@db.org
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzbot+2d6d691af5ab4b7e66df@syzkaller.appspotmail.com
-References: <20210804145801.2762-1-paskripkin@gmail.com>
- <19948c76-fa3c-26bb-7604-6de392ad9d49@gmail.com>
-In-Reply-To: <19948c76-fa3c-26bb-7604-6de392ad9d49@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20210916153156.14098-1-caihuoqing@baidu.com> <CACRpkdau6wCjmeQeFuadsyhi_XZQ6AATYw1okSBMOYbCoGkmCA@mail.gmail.com>
+ <20210917013525.GA17348@LAPTOP-UKSR4ENP.internal.baidu.com>
+In-Reply-To: <20210917013525.GA17348@LAPTOP-UKSR4ENP.internal.baidu.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 19 Sep 2021 21:28:40 +0200
+Message-ID: <CACRpkdbODGTv1i+KdPPnrwtPL2mFb4zw-acaLoTacjwHB9En_Q@mail.gmail.com>
+Subject: Re: [PATCH] Input: cyttsp - Make use of the helper function dev_err_probe()
+To:     Cai Huoqing <caihuoqing@baidu.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Linux Input <linux-input@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 8/18/21 14:07, Pavel Skripkin wrote:
-> On 8/4/21 5:58 PM, Pavel Skripkin wrote:
->> Syzbot reported, that dev->urb_ctl was submitted while active. The
->> problem was in missing validation check. We should check, that dev->urb_ctl
->> is not pending before sumbitting it again.
->> 
->> Fail log:
->> 
->> URB 00000000cfeee59c submitted while active
->> WARNING: CPU: 1 PID: 8459 at drivers/usb/core/urb.c:378 usb_submit_urb+0x1271/0x1540 drivers/usb/core/urb.c:378
->> ...
->> Call Trace:
->>   <IRQ>
->>   cm109_urb_irq_callback+0x44f/0xaa0 drivers/input/misc/cm109.c:422
->>   __usb_hcd_giveback_urb+0x2b0/0x5c0 drivers/usb/core/hcd.c:1656
->>   usb_hcd_giveback_urb+0x367/0x410 drivers/usb/core/hcd.c:1726
->> 
->> Reported-and-tested-by: syzbot+2d6d691af5ab4b7e66df@syzkaller.appspotmail.com
->> Fixes: c04148f915e5 ("Input: add driver for USB VoIP phones with CM109 chipset")
->> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
->> ---
-> 
-> 
-> Gentle ping :)
-> 
-> 
+On Fri, Sep 17, 2021 at 3:35 AM Cai Huoqing <caihuoqing@baidu.com> wrote:
+> On 17 9=E6=9C=88 21 00:30:32, Linus Walleij wrote:
+> > On Thu, Sep 16, 2021 at 5:32 PM Cai Huoqing <caihuoqing@baidu.com> wrot=
+e:
+> >
+> > >         if (IS_ERR(ts->reset_gpio)) {
+> > >                 error =3D PTR_ERR(ts->reset_gpio);
+> > > -               dev_err(dev, "Failed to request reset gpio, error %d\=
+n", error);
+> > > +               dev_err_probe(dev, error, "Failed to request reset gp=
+io\n");
+> > >                 return ERR_PTR(error);
+> >
+> > In this case you're supposed to do
+> >
+> > return dev_err_probe(dev, error, "Failed to request reset gpio\n");
+> the probe function is defined:
+> "struct cyttsp *cyttsp_probe("
+>
+> so it is required to return a PTR:cyttsp *.
 
-Hi, Dmitry,
+What about
 
-did you have a chance to review this one? Thanks :)
+return ERR_PTR(dev_err_probe(dev, error, "Failed to request reset gpio\n"))=
+;
 
-
-
-
-With regards,
-Pavel Skripkin
+Yours,
+Linus Walleij
