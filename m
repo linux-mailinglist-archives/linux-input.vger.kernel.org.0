@@ -2,233 +2,233 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BF73410B34
-	for <lists+linux-input@lfdr.de>; Sun, 19 Sep 2021 13:12:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E296410C40
+	for <lists+linux-input@lfdr.de>; Sun, 19 Sep 2021 17:46:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230308AbhISLOJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Sep 2021 07:14:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58336 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbhISLOI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Sep 2021 07:14:08 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E322C061574;
-        Sun, 19 Sep 2021 04:12:43 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id i25so54644649lfg.6;
-        Sun, 19 Sep 2021 04:12:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=j8QaTxxQxyImn6EDWqOWwZnyqhdFGAgsCjs4X0yKWAU=;
-        b=QmlUPbVT/KiITNNAlk9/z03jbiqvH6Xaq9bmj11jBnElyIO8Opk3NL/u3TFoeXIRd0
-         tvHf432I0CwDsZH0suk/CdCBKtpowJYaSnzeqIAviheMwVDypY8E3+FtD5NgXZvvquF5
-         GyRwdCR5kOncdhDaEAVbYfallDaGV+Da2rpnkn5aeBiwi6r8FfoQeNatU0vCO1mSXBYS
-         /UlqkwwO4NJC+b6HWCzH1oCAXJa5U+lggDZvj0KhAmwgNc89t42M4gTmw+rXVKkzqfMR
-         RPBf7zyy3wh2K2WC6210Ku4TXv6/cNf+P5OAL6ZTpu7vqcuLwSSU3huoq4rjhmgQgaTz
-         G0Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=j8QaTxxQxyImn6EDWqOWwZnyqhdFGAgsCjs4X0yKWAU=;
-        b=XA77MsfLKu9nTifkJfkQDbF82mUjP/Oyj/JUoJOsBKCNRs9vBj037YLTWyS3dEVUeD
-         MJypf1R1zitlVd4Nrt8k8LChHJ083CDx7ndQi1ci7cRB0A51ctFOBaCWwM+cN6uL0oBb
-         HNYQAXWeJorVTji/WMdMv0M0NlTP1KcLi6FufwxcjkMonkoTw5EKilMBQ7UnmG+NrCOP
-         TNeHYYZAk1ZhDSOy7NquUUqOnFeq6BDfYr7vEPlnFuW5t85ZiW9sT+JKHkDNEaXt6xG5
-         r4u6Aa9oO9fYEg5IaX6gDcUI6ovA/eo7AFQadsXG53MNZc1VVQpoLzh5B9hDv3aHeiYM
-         BjHg==
-X-Gm-Message-State: AOAM531yWf/Zem1Z7f+UtXUi7L21HDpCEfDza8Oh99Av+e6bMiva924J
-        x/57yB0Xa8nY+5ra/LANWp8TyeGlp8ixtg==
-X-Google-Smtp-Source: ABdhPJwAGreJjovH380koy5VgbbJQYUVIqiwH9tmMHM+2Q5YjnhtK66pdcYj943Mj+7SHxgIFus8ew==
-X-Received: by 2002:a2e:9a58:: with SMTP id k24mr17853221ljj.496.1632049961255;
-        Sun, 19 Sep 2021 04:12:41 -0700 (PDT)
-Received: from ilya-330s ([93.157.255.113])
-        by smtp.gmail.com with ESMTPSA id s8sm667848ljh.79.2021.09.19.04.12.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Sep 2021 04:12:40 -0700 (PDT)
-Date:   Sun, 19 Sep 2021 14:12:36 +0300
-From:   Ilya Skriblovsky <ilyaskriblovsky@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH v3] Support for side buttons of Xiaomi Mi Dual Mode Wireless
- Mouse Silent Edition
-Message-ID: <YUcbJFPUzt82vil7@ilya-330s>
+        id S233537AbhISPrX convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Sun, 19 Sep 2021 11:47:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58642 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233428AbhISPrW (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 19 Sep 2021 11:47:22 -0400
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E2971611C8;
+        Sun, 19 Sep 2021 15:45:52 +0000 (UTC)
+Date:   Sun, 19 Sep 2021 16:49:33 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>, bcousson@baylibre.com,
+        Tony Lindgren <tony@atomide.com>, linux-iio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-omap@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>,
+        Tero Kristo <kristo@kernel.org>,
+        Ryan Barnett <ryan.barnett@collins.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Jason Reeder <jreeder@ti.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v2 26/46] mfd: ti_am335x_tscadc: Use FIELD_PREP() when
+ relevant in the header
+Message-ID: <20210919164933.77d9a097@jic23-huawei>
+In-Reply-To: <20210915094847.6bb5e8d1@xps13>
+References: <20210902215144.507243-1-miquel.raynal@bootlin.com>
+        <20210902215144.507243-27-miquel.raynal@bootlin.com>
+        <20210905141332.26788852@jic23-huawei>
+        <20210915094847.6bb5e8d1@xps13>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch enables side-buttons of Xiaomi Bluetooth mouse (specifically
-Xiaomi Mi Dual Mode Wireless Mouse Silent Edition).
+On Wed, 15 Sep 2021 09:48:47 +0200
+Miquel Raynal <miquel.raynal@bootlin.com> wrote:
 
-The mouse sends invalid button count in its HID Report Descriptor and
-this patch just replaces its descriptor with corrected one. With this
-driver side buttons work as expected acting like Back/Forward buttons.
+> Hi Jonathan,
+> 
+> jic23@kernel.org wrote on Sun, 5 Sep 2021 14:13:32 +0100:
+> 
+> > On Thu,  2 Sep 2021 23:51:24 +0200
+> > Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+> >   
+> > > Use the FIELD_PREP() macro when relevant. Sometimes reorder the lines to
+> > > be able to use the relevant bitmask.
+> > > 
+> > > Mind the s/%d/%ld/ change in a log due to the type change following the
+> > > use of FIELD_PREP() in the header.
+> > > 
+> > > Suggested-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>    
+> > What you have here is fine, but I would take it a step further and push the
+> > FIELD_PREP() calls directly inline in the code.  There is little advantage
+> > beyond saving a few characters in
+> > 
+> > STEPENB(3)
+> > 
+> > rather than
+> > 
+> > FIELD_PREP(STEPENB_MASK, 3)
+> > 
+> > If you don't want to go that far this is still an improvement so
+> > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> >   
+> > > ---
+> > >  drivers/iio/adc/ti_am335x_adc.c      |  2 +-
+> > >  include/linux/mfd/ti_am335x_tscadc.h | 31 ++++++++++++++--------------
+> > >  2 files changed, 17 insertions(+), 16 deletions(-)
+> > > 
+> > > diff --git a/drivers/iio/adc/ti_am335x_adc.c b/drivers/iio/adc/ti_am335x_adc.c
+> > > index e946903b0993..54c410b6ca07 100644
+> > > --- a/drivers/iio/adc/ti_am335x_adc.c
+> > > +++ b/drivers/iio/adc/ti_am335x_adc.c
+> > > @@ -126,7 +126,7 @@ static void tiadc_step_config(struct iio_dev *indio_dev)
+> > >  		chan = adc_dev->channel_line[i];
+> > >  
+> > >  		if (adc_dev->step_avg[i] > STEPCONFIG_AVG_16) {
+> > > -			dev_warn(dev, "chan %d step_avg truncating to %d\n",
+> > > +			dev_warn(dev, "chan %d step_avg truncating to %ld\n",
+> > >  				 chan, STEPCONFIG_AVG_16);
+> > >  			adc_dev->step_avg[i] = STEPCONFIG_AVG_16;
+> > >  		}
+> > > diff --git a/include/linux/mfd/ti_am335x_tscadc.h b/include/linux/mfd/ti_am335x_tscadc.h
+> > > index 4de16fc3d74f..29095c0dc6d8 100644
+> > > --- a/include/linux/mfd/ti_am335x_tscadc.h
+> > > +++ b/include/linux/mfd/ti_am335x_tscadc.h
+> > > @@ -8,6 +8,7 @@
+> > >  #ifndef __LINUX_TI_AM335X_TSCADC_MFD_H
+> > >  #define __LINUX_TI_AM335X_TSCADC_MFD_H
+> > >  
+> > > +#include <linux/bitfield.h>
+> > >  #include <linux/mfd/core.h>
+> > >  
+> > >  #define REG_RAWIRQSTATUS	0x024
+> > > @@ -40,7 +41,7 @@
+> > >  
+> > >  /* Step Enable */
+> > >  #define STEPENB_MASK		GENMASK(16, 0)
+> > > -#define STEPENB(val)		((val) << 0)
+> > > +#define STEPENB(val)		FIELD_PREP(STEPENB_MASK, (val))    
+> > 
+> > My inclination with these is to drop the macro entirely and
+> > just use FIELD_PREP(STEPENB_MASK, xxx) inline directly.
+> > There is no loss of clarity in doing so and it gets you to a state
+> > where you only have one macro per field which is nice for checking
+> > purposes.  
+> 
+> Actually I don't like too much leaking FIELD_PREP()s directly in the
+> code because (and this is really a personal feeling) I found them
+> rather less straightforward to understand than a good old BIT() for
+> example. Moreover, I've already hacked in a lot of different
+> places and moving these definitions in the code directly would
+> produce a big diff, overall hardening possible future git-blames.
+> 
+> However, I rather agree on the fact that there is no point in defining
+> a mask and then using that mask in another macro unless that mask is
+> reused somewhere else. So if it's fine for you, I'll provide a new
+> version with a reduced number of defines in this file. Would this work
+> for you?
 
-Signed-off-by: Ilya Skriblovsky <ilyaskriblovsky@gmail.com>
----
-Changes since v2:
- - Vendor ID and Device ID moved to hid-ids.h
- - Removed unneeded license blurb
+That will be fine.
 
-Changes since v1:
- - Fixed syntax of Kconfig
----
- drivers/hid/Kconfig      |  7 +++
- drivers/hid/Makefile     |  1 +
- drivers/hid/hid-ids.h    |  3 ++
- drivers/hid/hid-xiaomi.c | 94 ++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 105 insertions(+)
- create mode 100644 drivers/hid/hid-xiaomi.c
+Thanks,
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 76937f716fbe..cc0d3169fe75 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -467,6 +467,13 @@ config HID_VIEWSONIC
- 	help
- 	  Support for ViewSonic/Signotec PD1011 signature pad.
- 
-+config HID_XIAOMI
-+	tristate "Xiaomi"
-+	depends on HID
-+	help
-+	  Adds support for side buttons of Xiaomi Mi Dual Mode Wireless
-+	  Mouse Silent Edition.
-+
- config HID_GYRATION
- 	tristate "Gyration remote control"
- 	depends on HID
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index 1ea1a7c0b20f..c89a25b9c4b9 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -126,6 +126,7 @@ hid-uclogic-objs		:= hid-uclogic-core.o \
- obj-$(CONFIG_HID_UCLOGIC)	+= hid-uclogic.o
- obj-$(CONFIG_HID_UDRAW_PS3)	+= hid-udraw-ps3.o
- obj-$(CONFIG_HID_LED)		+= hid-led.o
-+obj-$(CONFIG_HID_XIAOMI)	+= hid-xiaomi.o
- obj-$(CONFIG_HID_XINMO)		+= hid-xinmo.o
- obj-$(CONFIG_HID_ZEROPLUS)	+= hid-zpff.o
- obj-$(CONFIG_HID_ZYDACRON)	+= hid-zydacron.o
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 8f1893e68112..3d095ad2407e 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1295,6 +1295,9 @@
- #define USB_VENDOR_ID_XAT	0x2505
- #define USB_DEVICE_ID_XAT_CSR	0x0220
- 
-+#define USB_VENDOR_ID_XIAOMI		0x2717
-+#define USB_DEVICE_ID_MI_SILENT_MOUSE	0x5014
-+
- #define USB_VENDOR_ID_XIN_MO			0x16c0
- #define USB_DEVICE_ID_XIN_MO_DUAL_ARCADE	0x05e1
- #define USB_DEVICE_ID_THT_2P_ARCADE		0x75e1
-diff --git a/drivers/hid/hid-xiaomi.c b/drivers/hid/hid-xiaomi.c
-new file mode 100644
-index 000000000000..a97a90afad33
---- /dev/null
-+++ b/drivers/hid/hid-xiaomi.c
-@@ -0,0 +1,94 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * HID driver for Xiaomi Mi Dual Mode Wireless Mouse Silent Edition
-+ *
-+ * Copyright (c) 2021 Ilya Skriblovsky
-+ */
-+
-+#include <linux/init.h>
-+#include <linux/module.h>
-+#include <linux/hid.h>
-+
-+#include "hid-ids.h"
-+
-+/* Fixed Mi Silent Mouse report descriptor */
-+/* Button's Usage Maximum changed from 3 to 5 to make side buttons work */
-+#define MI_SILENT_MOUSE_ORIG_RDESC_LENGTH   87
-+static __u8 mi_silent_mouse_rdesc_fixed[] = {
-+	0x05, 0x01,         /*  Usage Page (Desktop),               */
-+	0x09, 0x02,         /*  Usage (Mouse),                      */
-+	0xA1, 0x01,         /*  Collection (Application),           */
-+	0x85, 0x03,         /*      Report ID (3),                  */
-+	0x09, 0x01,         /*      Usage (Pointer),                */
-+	0xA1, 0x00,         /*      Collection (Physical),          */
-+	0x05, 0x09,         /*          Usage Page (Button),        */
-+	0x19, 0x01,         /*          Usage Minimum (01h),        */
-+	0x29, 0x05, /* X */ /*          Usage Maximum (05h),        */
-+	0x15, 0x00,         /*          Logical Minimum (0),        */
-+	0x25, 0x01,         /*          Logical Maximum (1),        */
-+	0x75, 0x01,         /*          Report Size (1),            */
-+	0x95, 0x05,         /*          Report Count (5),           */
-+	0x81, 0x02,         /*          Input (Variable),           */
-+	0x75, 0x03,         /*          Report Size (3),            */
-+	0x95, 0x01,         /*          Report Count (1),           */
-+	0x81, 0x01,         /*          Input (Constant),           */
-+	0x05, 0x01,         /*          Usage Page (Desktop),       */
-+	0x09, 0x30,         /*          Usage (X),                  */
-+	0x09, 0x31,         /*          Usage (Y),                  */
-+	0x15, 0x81,         /*          Logical Minimum (-127),     */
-+	0x25, 0x7F,         /*          Logical Maximum (127),      */
-+	0x75, 0x08,         /*          Report Size (8),            */
-+	0x95, 0x02,         /*          Report Count (2),           */
-+	0x81, 0x06,         /*          Input (Variable, Relative), */
-+	0x09, 0x38,         /*          Usage (Wheel),              */
-+	0x15, 0x81,         /*          Logical Minimum (-127),     */
-+	0x25, 0x7F,         /*          Logical Maximum (127),      */
-+	0x75, 0x08,         /*          Report Size (8),            */
-+	0x95, 0x01,         /*          Report Count (1),           */
-+	0x81, 0x06,         /*          Input (Variable, Relative), */
-+	0xC0,               /*      End Collection,                 */
-+	0xC0,               /*  End Collection,                     */
-+	0x06, 0x01, 0xFF,   /*  Usage Page (FF01h),                 */
-+	0x09, 0x01,         /*  Usage (01h),                        */
-+	0xA1, 0x01,         /*  Collection (Application),           */
-+	0x85, 0x05,         /*      Report ID (5),                  */
-+	0x09, 0x05,         /*      Usage (05h),                    */
-+	0x15, 0x00,         /*      Logical Minimum (0),            */
-+	0x26, 0xFF, 0x00,   /*      Logical Maximum (255),          */
-+	0x75, 0x08,         /*      Report Size (8),                */
-+	0x95, 0x04,         /*      Report Count (4),               */
-+	0xB1, 0x02,         /*      Feature (Variable),             */
-+	0xC0                /*  End Collection                      */
-+};
-+
-+static __u8 *xiaomi_report_fixup(struct hid_device *hdev, __u8 *rdesc,
-+				 unsigned int *rsize)
-+{
-+	switch (hdev->product) {
-+	case USB_DEVICE_ID_MI_SILENT_MOUSE:
-+		if (*rsize == MI_SILENT_MOUSE_ORIG_RDESC_LENGTH) {
-+			hid_info(hdev, "fixing up Mi Silent Mouse report descriptor\n");
-+			rdesc = mi_silent_mouse_rdesc_fixed;
-+			*rsize = sizeof(mi_silent_mouse_rdesc_fixed);
-+		}
-+		break;
-+	}
-+	return rdesc;
-+}
-+
-+static const struct hid_device_id xiaomi_devices[] = {
-+	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_XIAOMI, USB_DEVICE_ID_MI_SILENT_MOUSE) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, xiaomi_devices);
-+
-+static struct hid_driver xiaomi_driver = {
-+	.name = "xiaomi",
-+	.id_table = xiaomi_devices,
-+	.report_fixup = xiaomi_report_fixup,
-+};
-+module_hid_driver(xiaomi_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Ilya Skriblovsky <IlyaSkriblovsky@gmail.com>");
-+MODULE_DESCRIPTION("Fixing side buttons of Xiaomi Mi Silent Mouse");
--- 
-2.30.2
+Jonathan
+
+>  
+> >   
+> > >  #define ENB(val)		BIT(val)
+> > >  #define STPENB_STEPENB		STEPENB(GENMASK(16, 0))
+> > >  #define STPENB_STEPENB_TC	STEPENB(GENMASK(12, 0))
+> > > @@ -58,11 +59,11 @@
+> > >  
+> > >  /* Step Configuration */
+> > >  #define STEPCONFIG_MODE_MASK	GENMASK(1, 0)
+> > > -#define STEPCONFIG_MODE(val)	((val) << 0)
+> > > +#define STEPCONFIG_MODE(val)	FIELD_PREP(STEPCONFIG_MODE_MASK, (val))
+> > >  #define STEPCONFIG_MODE_SWCNT	STEPCONFIG_MODE(1)
+> > >  #define STEPCONFIG_MODE_HWSYNC	STEPCONFIG_MODE(2)
+> > >  #define STEPCONFIG_AVG_MASK	GENMASK(4, 2)
+> > > -#define STEPCONFIG_AVG(val)	((val) << 2)
+> > > +#define STEPCONFIG_AVG(val)	FIELD_PREP(STEPCONFIG_AVG_MASK, (val))
+> > >  #define STEPCONFIG_AVG_16	STEPCONFIG_AVG(4)
+> > >  #define STEPCONFIG_XPP		BIT(5)
+> > >  #define STEPCONFIG_XNN		BIT(6)
+> > > @@ -70,43 +71,43 @@
+> > >  #define STEPCONFIG_YNN		BIT(8)
+> > >  #define STEPCONFIG_XNP		BIT(9)
+> > >  #define STEPCONFIG_YPN		BIT(10)
+> > > -#define STEPCONFIG_RFP(val)	((val) << 12)
+> > >  #define STEPCONFIG_RFP_VREFP	GENMASK(13, 12)
+> > > +#define STEPCONFIG_RFP(val)	FIELD_PREP(STEPCONFIG_RFP_VREFP, (val))
+> > >  #define STEPCONFIG_INM_MASK	GENMASK(18, 15)
+> > > -#define STEPCONFIG_INM(val)	((val) << 15)
+> > > +#define STEPCONFIG_INM(val)	FIELD_PREP(STEPCONFIG_INM_MASK, (val))
+> > >  #define STEPCONFIG_INM_ADCREFM	STEPCONFIG_INM(8)
+> > >  #define STEPCONFIG_INP_MASK	GENMASK(22, 19)
+> > > -#define STEPCONFIG_INP(val)	((val) << 19)
+> > > +#define STEPCONFIG_INP(val)	FIELD_PREP(STEPCONFIG_INP_MASK, (val))
+> > >  #define STEPCONFIG_INP_AN4	STEPCONFIG_INP(4)
+> > >  #define STEPCONFIG_INP_ADCREFM	STEPCONFIG_INP(8)
+> > >  #define STEPCONFIG_FIFO1	BIT(26)
+> > > -#define STEPCONFIG_RFM(val)	((val) << 23)
+> > >  #define STEPCONFIG_RFM_VREFN	GENMASK(24, 23)
+> > > +#define STEPCONFIG_RFM(val)	FIELD_PREP(STEPCONFIG_RFM_VREFN, (val))
+> > >  
+> > >  /* Delay register */
+> > >  #define STEPDELAY_OPEN_MASK	GENMASK(17, 0)
+> > > -#define STEPDELAY_OPEN(val)	((val) << 0)
+> > > +#define STEPDELAY_OPEN(val)	FIELD_PREP(STEPDELAY_OPEN_MASK, (val))
+> > >  #define STEPCONFIG_OPENDLY	STEPDELAY_OPEN(0x098)
+> > >  #define STEPDELAY_SAMPLE_MASK	GENMASK(31, 24)
+> > > -#define STEPDELAY_SAMPLE(val)	((val) << 24)
+> > > +#define STEPDELAY_SAMPLE(val)	FIELD_PREP(STEPDELAY_SAMPLE_MASK, (val))
+> > >  #define STEPCONFIG_SAMPLEDLY	STEPDELAY_SAMPLE(0)
+> > >  
+> > >  /* Charge Config */
+> > >  #define STEPCHARGE_RFP_MASK	GENMASK(14, 12)
+> > > -#define STEPCHARGE_RFP(val)	((val) << 12)
+> > > +#define STEPCHARGE_RFP(val)	FIELD_PREP(STEPCHARGE_RFP_MASK, (val))
+> > >  #define STEPCHARGE_RFP_XPUL	STEPCHARGE_RFP(1)
+> > >  #define STEPCHARGE_INM_MASK	GENMASK(18, 15)
+> > > -#define STEPCHARGE_INM(val)	((val) << 15)
+> > > +#define STEPCHARGE_INM(val)	FIELD_PREP(STEPCHARGE_INM_MASK, (val))
+> > >  #define STEPCHARGE_INM_AN1	STEPCHARGE_INM(1)
+> > >  #define STEPCHARGE_INP_MASK	GENMASK(22, 19)
+> > > -#define STEPCHARGE_INP(val)	((val) << 19)
+> > > +#define STEPCHARGE_INP(val)	FIELD_PREP(STEPCHARGE_INP_MASK, (val))
+> > >  #define STEPCHARGE_RFM_MASK	GENMASK(24, 23)
+> > > -#define STEPCHARGE_RFM(val)	((val) << 23)
+> > > +#define STEPCHARGE_RFM(val)	FIELD_PREP(STEPCHARGE_RFM_MASK, (val))
+> > >  #define STEPCHARGE_RFM_XNUR	STEPCHARGE_RFM(1)
+> > >  
+> > >  /* Charge delay */
+> > >  #define CHARGEDLY_OPEN_MASK	GENMASK(17, 0)
+> > > -#define CHARGEDLY_OPEN(val)	((val) << 0)
+> > > +#define CHARGEDLY_OPEN(val)	FIELD_PREP(CHARGEDLY_OPEN_MASK, (val))
+> > >  #define CHARGEDLY_OPENDLY	CHARGEDLY_OPEN(0x400)
+> > >  
+> > >  /* Control register */
+> > > @@ -115,7 +116,7 @@
+> > >  #define CNTRLREG_STEPCONFIGWRT	BIT(2)
+> > >  #define CNTRLREG_POWERDOWN	BIT(4)
+> > >  #define CNTRLREG_AFE_CTRL_MASK	GENMASK(6, 5)
+> > > -#define CNTRLREG_AFE_CTRL(val)	((val) << 5)
+> > > +#define CNTRLREG_AFE_CTRL(val)	FIELD_PREP(CNTRLREG_AFE_CTRL_MASK, (val))
+> > >  #define CNTRLREG_4WIRE		CNTRLREG_AFE_CTRL(1)
+> > >  #define CNTRLREG_5WIRE		CNTRLREG_AFE_CTRL(2)
+> > >  #define CNTRLREG_8WIRE		CNTRLREG_AFE_CTRL(3)    
+> >   
+> 
+> Thanks,
+> Miquèl
 
