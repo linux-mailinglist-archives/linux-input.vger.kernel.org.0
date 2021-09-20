@@ -2,45 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 694A64117CB
-	for <lists+linux-input@lfdr.de>; Mon, 20 Sep 2021 17:06:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC23B4117CD
+	for <lists+linux-input@lfdr.de>; Mon, 20 Sep 2021 17:06:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231887AbhITPIS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Sep 2021 11:08:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34624 "EHLO
+        id S241094AbhITPIW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Sep 2021 11:08:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21625 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S241077AbhITPIS (ORCPT
+        by vger.kernel.org with ESMTP id S241079AbhITPIV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Sep 2021 11:08:18 -0400
+        Mon, 20 Sep 2021 11:08:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1632150410;
+        s=mimecast20190719; t=1632150414;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=VjnHND8hIDXQixSn3BjcVo0vyaPpaVnEN/zGVch1O+c=;
-        b=SaaZXSGSozV7/YbEN0M+b7vQ3vzo+BpP1h3AgG97j+x3RhrsGwARkhkI71VPFGLtpIRKoD
-        P3EftZQ6upq4bed0HCVQf/lo2Yjr8n8yde0oroXbnjRB9d5020gkuQj42NhNZqQgh4W9qL
-        u+pA4+nBSRR7bhcNaNyVXpzmS6DhtEs=
+        bh=3hR1tDFMuIFltP1q+0lEzxeesFwC06U8AU70AA+qLCk=;
+        b=ZG9WdUA6yQEujlcdHtd/auaneAqq2xkxqQ4HgEknUp+lIlMB+Yod62MpShdsdtIr/7g/Py
+        Jd2xYAKgSqCOuOTLopJO67qZ0reDQfLIBrnFFbZhX5m3un6Uxww4+zQ28GMdA9Axk+pQOJ
+        w7nryJixrg95ZFEikrs1WTywynqS6E0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-7XML8rgfMFe0IBEU4msmVw-1; Mon, 20 Sep 2021 11:06:49 -0400
-X-MC-Unique: 7XML8rgfMFe0IBEU4msmVw-1
+ us-mta-574-WWRLz3vgPmGALgU1LiXIlw-1; Mon, 20 Sep 2021 11:06:51 -0400
+X-MC-Unique: WWRLz3vgPmGALgU1LiXIlw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A02DD835DE4;
-        Mon, 20 Sep 2021 15:06:48 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14FA61007912;
+        Mon, 20 Sep 2021 15:06:50 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.194.118])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7B5065C1BB;
-        Mon, 20 Sep 2021 15:06:47 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E505B5F706;
+        Mon, 20 Sep 2021 15:06:48 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
-Subject: [PATCH v2 2/6] Input: goodix - Add a goodix.h header file
-Date:   Mon, 20 Sep 2021 17:06:39 +0200
-Message-Id: <20210920150643.155872-3-hdegoede@redhat.com>
+Subject: [PATCH v2 3/6] Input: goodix - Refactor reset handling
+Date:   Mon, 20 Sep 2021 17:06:40 +0200
+Message-Id: <20210920150643.155872-4-hdegoede@redhat.com>
 In-Reply-To: <20210920150643.155872-1-hdegoede@redhat.com>
 References: <20210920150643.155872-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -50,272 +50,151 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a goodix.h header file, and move the register definitions,
-and struct declarations there and add prototypes for various
-helper functions.
+Refactor reset handling a bit, change the main reset handler
+into a new goodix_reset_no_int_sync() helper and add a
+goodix_reset() wrapper which calls goodix_int_sync()
+separately.
+
+Also push the dev_err() call on reset failure into the
+goodix_reset_no_int_sync() and goodix_int_sync() functions,
+so that we don't need to have separate dev_err() calls in
+all their callers.
 
 This is a preparation patch for adding support for controllers
 without flash, which need to have their firmware uploaded and
 need some other special handling too.
 
-Since MAINTAINERS needs updating because of this change anyways,
-also add myself as co-maintainer.
-
 Reviewed-by: Bastien Nocera <hadess@hadess.net>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- MAINTAINERS                        |  3 +-
- drivers/input/touchscreen/goodix.c | 73 +++---------------------------
- drivers/input/touchscreen/goodix.h | 73 ++++++++++++++++++++++++++++++
- 3 files changed, 81 insertions(+), 68 deletions(-)
- create mode 100644 drivers/input/touchscreen/goodix.h
+ drivers/input/touchscreen/goodix.c | 46 +++++++++++++++++++-----------
+ drivers/input/touchscreen/goodix.h |  1 +
+ 2 files changed, 31 insertions(+), 16 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 20ef05db2615..415dfafc9cb0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7936,9 +7936,10 @@ F:	drivers/media/usb/go7007/
- 
- GOODIX TOUCHSCREEN
- M:	Bastien Nocera <hadess@hadess.net>
-+M:	Hans de Goede <hdegoede@redhat.com>
- L:	linux-input@vger.kernel.org
- S:	Maintained
--F:	drivers/input/touchscreen/goodix.c
-+F:	drivers/input/touchscreen/goodix*
- 
- GOOGLE ETHERNET DRIVERS
- M:	Jeroen de Borst <jeroendb@google.com>
 diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index 5d60dde88485..ecd2e4dcaf53 100644
+index ecd2e4dcaf53..7ab4a19fb2bf 100644
 --- a/drivers/input/touchscreen/goodix.c
 +++ b/drivers/input/touchscreen/goodix.c
-@@ -14,20 +14,15 @@
- #include <linux/kernel.h>
- #include <linux/dmi.h>
- #include <linux/firmware.h>
--#include <linux/gpio/consumer.h>
--#include <linux/i2c.h>
--#include <linux/input.h>
--#include <linux/input/mt.h>
--#include <linux/input/touchscreen.h>
- #include <linux/module.h>
- #include <linux/delay.h>
- #include <linux/irq.h>
- #include <linux/interrupt.h>
--#include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/acpi.h>
- #include <linux/of.h>
- #include <asm/unaligned.h>
-+#include "goodix.h"
+@@ -595,56 +595,74 @@ int goodix_int_sync(struct goodix_ts_data *ts)
  
- #define GOODIX_GPIO_INT_NAME		"irq"
- #define GOODIX_GPIO_RST_NAME		"reset"
-@@ -38,22 +33,11 @@
- #define GOODIX_CONTACT_SIZE		8
- #define GOODIX_MAX_CONTACT_SIZE		9
- #define GOODIX_MAX_CONTACTS		10
--#define GOODIX_MAX_KEYS			7
+ 	error = goodix_irq_direction_output(ts, 0);
+ 	if (error)
+-		return error;
++		goto error;
  
- #define GOODIX_CONFIG_MIN_LENGTH	186
- #define GOODIX_CONFIG_911_LENGTH	186
- #define GOODIX_CONFIG_967_LENGTH	228
- #define GOODIX_CONFIG_GT9X_LENGTH	240
--#define GOODIX_CONFIG_MAX_LENGTH	240
--
--/* Register defines */
--#define GOODIX_REG_COMMAND		0x8040
--#define GOODIX_CMD_SCREEN_OFF		0x05
--
--#define GOODIX_READ_COOR_ADDR		0x814E
--#define GOODIX_GT1X_REG_CONFIG_DATA	0x8050
--#define GOODIX_GT9X_REG_CONFIG_DATA	0x8047
--#define GOODIX_REG_ID			0x8140
+ 	msleep(50);				/* T5: 50ms */
  
- #define GOODIX_BUFFER_STATUS_READY	BIT(7)
- #define GOODIX_HAVE_KEY			BIT(4)
-@@ -68,55 +52,11 @@
- #define ACPI_GPIO_SUPPORT
- #endif
+ 	error = goodix_irq_direction_input(ts);
+ 	if (error)
+-		return error;
++		goto error;
  
--struct goodix_ts_data;
--
--enum goodix_irq_pin_access_method {
--	IRQ_PIN_ACCESS_NONE,
--	IRQ_PIN_ACCESS_GPIO,
--	IRQ_PIN_ACCESS_ACPI_GPIO,
--	IRQ_PIN_ACCESS_ACPI_METHOD,
--};
--
--struct goodix_chip_data {
--	u16 config_addr;
--	int config_len;
--	int (*check_config)(struct goodix_ts_data *ts, const u8 *cfg, int len);
--	void (*calc_config_checksum)(struct goodix_ts_data *ts);
--};
--
- struct goodix_chip_id {
- 	const char *id;
- 	const struct goodix_chip_data *data;
- };
- 
--#define GOODIX_ID_MAX_LEN	4
--
--struct goodix_ts_data {
--	struct i2c_client *client;
--	struct input_dev *input_dev;
--	const struct goodix_chip_data *chip;
--	struct touchscreen_properties prop;
--	unsigned int max_touch_num;
--	unsigned int int_trigger_type;
--	struct regulator *avdd28;
--	struct regulator *vddio;
--	struct gpio_desc *gpiod_int;
--	struct gpio_desc *gpiod_rst;
--	int gpio_count;
--	int gpio_int_idx;
--	char id[GOODIX_ID_MAX_LEN + 1];
--	u16 version;
--	const char *cfg_name;
--	bool reset_controller_at_probe;
--	bool load_cfg_from_disk;
--	struct completion firmware_loading_complete;
--	unsigned long irq_flags;
--	enum goodix_irq_pin_access_method irq_pin_access_method;
--	unsigned int contact_size;
--	u8 config[GOODIX_CONFIG_MAX_LENGTH];
--	unsigned short keymap[GOODIX_MAX_KEYS];
--};
--
- static int goodix_check_cfg_8(struct goodix_ts_data *ts,
- 			      const u8 *cfg, int len);
- static int goodix_check_cfg_16(struct goodix_ts_data *ts,
-@@ -215,8 +155,7 @@ static const struct dmi_system_id inverted_x_screen[] = {
-  * @buf: raw write data buffer.
-  * @len: length of the buffer to write
-  */
--static int goodix_i2c_read(struct i2c_client *client,
--			   u16 reg, u8 *buf, int len)
-+int goodix_i2c_read(struct i2c_client *client, u16 reg, u8 *buf, int len)
- {
- 	struct i2c_msg msgs[2];
- 	__be16 wbuf = cpu_to_be16(reg);
-@@ -244,7 +183,7 @@ static int goodix_i2c_read(struct i2c_client *client,
-  * @buf: raw data buffer to write.
-  * @len: length of the buffer to write
-  */
--static int goodix_i2c_write(struct i2c_client *client, u16 reg, const u8 *buf, int len)
-+int goodix_i2c_write(struct i2c_client *client, u16 reg, const u8 *buf, int len)
- {
- 	u8 *addr_buf;
- 	struct i2c_msg msg;
-@@ -268,7 +207,7 @@ static int goodix_i2c_write(struct i2c_client *client, u16 reg, const u8 *buf, i
- 	return ret < 0 ? ret : (ret != 1 ? -EIO : 0);
+ 	return 0;
++error:
++	dev_err(&ts->client->dev, "Controller irq sync failed.\n");
++	return error;
  }
  
--static int goodix_i2c_write_u8(struct i2c_client *client, u16 reg, u8 value)
-+int goodix_i2c_write_u8(struct i2c_client *client, u16 reg, u8 value)
- {
- 	return goodix_i2c_write(client, reg, &value, sizeof(value));
- }
-@@ -552,7 +491,7 @@ static int goodix_check_cfg(struct goodix_ts_data *ts, const u8 *cfg, int len)
-  * @cfg: config firmware to write to device
-  * @len: config data length
+ /**
+- * goodix_reset - Reset device during power on
++ * goodix_reset_no_int_sync - Reset device, leaving interrupt line in output mode
+  *
+  * @ts: goodix_ts_data pointer
   */
--static int goodix_send_cfg(struct goodix_ts_data *ts, const u8 *cfg, int len)
-+int goodix_send_cfg(struct goodix_ts_data *ts, const u8 *cfg, int len)
+-static int goodix_reset(struct goodix_ts_data *ts)
++int goodix_reset_no_int_sync(struct goodix_ts_data *ts)
  {
  	int error;
  
-@@ -650,7 +589,7 @@ static int goodix_irq_direction_input(struct goodix_ts_data *ts)
- 	return -EINVAL; /* Never reached */
+ 	/* begin select I2C slave addr */
+ 	error = gpiod_direction_output(ts->gpiod_rst, 0);
+ 	if (error)
+-		return error;
++		goto error;
+ 
+ 	msleep(20);				/* T2: > 10ms */
+ 
+ 	/* HIGH: 0x28/0x29, LOW: 0xBA/0xBB */
+ 	error = goodix_irq_direction_output(ts, ts->client->addr == 0x14);
+ 	if (error)
+-		return error;
++		goto error;
+ 
+ 	usleep_range(100, 2000);		/* T3: > 100us */
+ 
+ 	error = gpiod_direction_output(ts->gpiod_rst, 1);
+ 	if (error)
+-		return error;
++		goto error;
+ 
+ 	usleep_range(6000, 10000);		/* T4: > 5ms */
+ 
+ 	/* end select I2C slave addr */
+ 	error = gpiod_direction_input(ts->gpiod_rst);
+ 	if (error)
+-		return error;
++		goto error;
+ 
+-	error = goodix_int_sync(ts);
++	return 0;
++error:
++	dev_err(&ts->client->dev, "Controller reset failed.\n");
++	return error;
++}
++
++/**
++ * goodix_reset - Reset device during power on
++ *
++ * @ts: goodix_ts_data pointer
++ */
++static int goodix_reset(struct goodix_ts_data *ts)
++{
++	int error;
++
++	error = goodix_reset_no_int_sync(ts);
+ 	if (error)
+ 		return error;
+ 
+-	return 0;
++	return  goodix_int_sync(ts);
  }
  
--static int goodix_int_sync(struct goodix_ts_data *ts)
-+int goodix_int_sync(struct goodix_ts_data *ts)
- {
- 	int error;
+ #ifdef ACPI_GPIO_SUPPORT
+@@ -1143,10 +1161,8 @@ static int goodix_ts_probe(struct i2c_client *client,
+ 	if (ts->reset_controller_at_probe) {
+ 		/* reset the controller */
+ 		error = goodix_reset(ts);
+-		if (error) {
+-			dev_err(&client->dev, "Controller reset failed.\n");
++		if (error)
+ 			return error;
+-		}
+ 	}
  
+ 	error = goodix_i2c_test(client);
+@@ -1288,10 +1304,8 @@ static int __maybe_unused goodix_resume(struct device *dev)
+ 
+ 	if (error != 0 || config_ver != ts->config[0]) {
+ 		error = goodix_reset(ts);
+-		if (error) {
+-			dev_err(dev, "Controller reset failed.\n");
++		if (error)
+ 			return error;
+-		}
+ 
+ 		error = goodix_send_cfg(ts, ts->config, ts->chip->config_len);
+ 		if (error)
 diff --git a/drivers/input/touchscreen/goodix.h b/drivers/input/touchscreen/goodix.h
-new file mode 100644
-index 000000000000..cdaced4f2980
---- /dev/null
+index cdaced4f2980..0b88554ba2ae 100644
+--- a/drivers/input/touchscreen/goodix.h
 +++ b/drivers/input/touchscreen/goodix.h
-@@ -0,0 +1,73 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef __GOODIX_H__
-+#define __GOODIX_H__
-+
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/input.h>
-+#include <linux/input/mt.h>
-+#include <linux/input/touchscreen.h>
-+#include <linux/regulator/consumer.h>
-+
-+/* Register defines */
-+#define GOODIX_REG_COMMAND			0x8040
-+#define GOODIX_CMD_SCREEN_OFF			0x05
-+
-+#define GOODIX_GT1X_REG_CONFIG_DATA		0x8050
-+#define GOODIX_GT9X_REG_CONFIG_DATA		0x8047
-+#define GOODIX_REG_ID				0x8140
-+#define GOODIX_READ_COOR_ADDR			0x814E
-+
-+#define GOODIX_ID_MAX_LEN			4
-+#define GOODIX_CONFIG_MAX_LENGTH		240
-+#define GOODIX_MAX_KEYS				7
-+
-+enum goodix_irq_pin_access_method {
-+	IRQ_PIN_ACCESS_NONE,
-+	IRQ_PIN_ACCESS_GPIO,
-+	IRQ_PIN_ACCESS_ACPI_GPIO,
-+	IRQ_PIN_ACCESS_ACPI_METHOD,
-+};
-+
-+struct goodix_ts_data;
-+
-+struct goodix_chip_data {
-+	u16 config_addr;
-+	int config_len;
-+	int (*check_config)(struct goodix_ts_data *ts, const u8 *cfg, int len);
-+	void (*calc_config_checksum)(struct goodix_ts_data *ts);
-+};
-+
-+struct goodix_ts_data {
-+	struct i2c_client *client;
-+	struct input_dev *input_dev;
-+	const struct goodix_chip_data *chip;
-+	struct touchscreen_properties prop;
-+	unsigned int max_touch_num;
-+	unsigned int int_trigger_type;
-+	struct regulator *avdd28;
-+	struct regulator *vddio;
-+	struct gpio_desc *gpiod_int;
-+	struct gpio_desc *gpiod_rst;
-+	int gpio_count;
-+	int gpio_int_idx;
-+	char id[GOODIX_ID_MAX_LEN + 1];
-+	u16 version;
-+	const char *cfg_name;
-+	bool reset_controller_at_probe;
-+	bool load_cfg_from_disk;
-+	struct completion firmware_loading_complete;
-+	unsigned long irq_flags;
-+	enum goodix_irq_pin_access_method irq_pin_access_method;
-+	unsigned int contact_size;
-+	u8 config[GOODIX_CONFIG_MAX_LENGTH];
-+	unsigned short keymap[GOODIX_MAX_KEYS];
-+};
-+
-+int goodix_i2c_read(struct i2c_client *client, u16 reg, u8 *buf, int len);
-+int goodix_i2c_write(struct i2c_client *client, u16 reg, const u8 *buf, int len);
-+int goodix_i2c_write_u8(struct i2c_client *client, u16 reg, u8 value);
-+int goodix_send_cfg(struct goodix_ts_data *ts, const u8 *cfg, int len);
-+int goodix_int_sync(struct goodix_ts_data *ts);
-+
-+#endif
+@@ -69,5 +69,6 @@ int goodix_i2c_write(struct i2c_client *client, u16 reg, const u8 *buf, int len)
+ int goodix_i2c_write_u8(struct i2c_client *client, u16 reg, u8 value);
+ int goodix_send_cfg(struct goodix_ts_data *ts, const u8 *cfg, int len);
+ int goodix_int_sync(struct goodix_ts_data *ts);
++int goodix_reset_no_int_sync(struct goodix_ts_data *ts);
+ 
+ #endif
 -- 
 2.31.1
 
