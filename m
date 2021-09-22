@@ -2,38 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA4A4414584
-	for <lists+linux-input@lfdr.de>; Wed, 22 Sep 2021 11:49:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E36A2414588
+	for <lists+linux-input@lfdr.de>; Wed, 22 Sep 2021 11:50:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234438AbhIVJvM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Sep 2021 05:51:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58044 "EHLO mail.kernel.org"
+        id S234381AbhIVJwJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Sep 2021 05:52:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58324 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234387AbhIVJvL (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Sep 2021 05:51:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 14E5E61100;
-        Wed, 22 Sep 2021 09:49:40 +0000 (UTC)
+        id S234308AbhIVJwH (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 22 Sep 2021 05:52:07 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E0D0F61100;
+        Wed, 22 Sep 2021 09:50:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632304182;
-        bh=Y9nyxD23K4UWWJ9TH6Baf+2B9amSBcsz/ckByzRoFu0=;
+        s=k20201202; t=1632304237;
+        bh=NIsJUyDC6qEpwv8hsqoRowQf1/mP4ZlwAjScq4upEFc=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=T7CYWsB0HBUPPtu9Fqvkffkvj5QXBzriuunJdnteLJo8WaZMcumDT/jEtrJz20P7Z
-         ZtqP9kaGUWfI5nEN/Godb8w0lSW7bSKx/kop2Sb8RXVPMbp8sR94CqDRfQCsUzpYWF
-         k++ERvlrQ2UOI3hKuP6RGYYjcaLazLeDSMYMBNI3sHCC0rniibu6fpWc1t41j5GtCy
-         uBRR8qe2c/AXnjyZ+H8S5aYHVXsRFzvJizRW9HTz2v3BGEfx92hu05iIW4t2rd+dTy
-         eyyrIiqG7nY4msjJLWY4wrNC9K37vxM0NiysqDf9CXP7F9mK36hMa3HRvPkmOhTgBv
-         /95yrJSgXAHLw==
-Date:   Wed, 22 Sep 2021 11:49:39 +0200 (CEST)
+        b=hH1WX2sV2Ki4xEqNPoUT2f6Vpvrs+6eIk4RERiQXzf91tM53lxbxhZH75pzY7OMlN
+         1LkCjhzPcXyYRayZ/bJDKwnIvGHFaxbdQvrKEsjmquP/n0mVj3zn2eGrjOuG9JR/eB
+         K/VGF0soh3bEg5ATTU+cw7W3/KU+GTISEH3VQUBgjKbcYfY+MkmRITH3n7r2lT7wut
+         DiVQMoyim0cKVfmVYcTtxkEWRHiTmzw3zfTt7D8ipQ6FuUh+ei0tpxKGCzr2OuKvO7
+         yOi39VvfDGUvqAbhxbOpPpF9K1PsvP+/9PaD9JG2mEwZNP6lYvrbppgew5v4kkupve
+         LHOZTTHHuMqBA==
+Date:   Wed, 22 Sep 2021 11:50:34 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
+To:     Roderick Colenbrander <roderick@gaikai.com>
 cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] HID: hid-debug: clean up snprintf() checks in
- hid_resolv_usage()
-In-Reply-To: <20210916132154.GC25094@kili>
-Message-ID: <nycvar.YFH.7.76.2109221149310.15944@cbobk.fhfr.pm>
-References: <20210916132154.GC25094@kili>
+        Pavel Machek <pavel@ucw.cz>, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org,
+        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH v3 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
+ for game controllers.
+In-Reply-To: <20210908165539.3102929-3-roderick.colenbrander@sony.com>
+Message-ID: <nycvar.YFH.7.76.2109221150110.15944@cbobk.fhfr.pm>
+References: <20210908165539.3102929-1-roderick.colenbrander@sony.com> <20210908165539.3102929-3-roderick.colenbrander@sony.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -41,21 +43,30 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 16 Sep 2021, Dan Carpenter wrote:
+On Wed, 8 Sep 2021, Roderick Colenbrander wrote:
 
-> The snprintf() limits are complicated and slightly wrong when it does:
+> Player LEDs are commonly found on game controllers from Nintendo and Sony
+> to indicate a player ID across a number of LEDs. For example, "Player 2"
+> might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
 > 
-> 	max(0, HID_DEBUG_BUFSIZE - len - 1)
+> This patch introduces LED_FUNCTION_PLAYER1-5 defines to properly indicate
+> player LEDs from the kernel. Until now there was no good standard, which
+> resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
+> other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYERx.
 > 
-> The "- 1" should not be there.  It means we can't use the last
-> byte of the buffer.  If we change the first snprintf() to scnprintf()
-> then we can remove the max().
+> Note: management of Player IDs is left to user space, though a kernel
+> driver may pick a default value.
 > 
-> At the start of the function the strlen(buf) is going always going to
-> be < HID_DEBUG_BUFSIZE so that is safe.  If it were > HID_DEBUG_BUFSIZE
-> then that would result in a WARN().
+> Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> ---
+>  Documentation/leds/well-known-leds.txt | 14 ++++++++++++++
+>  include/dt-bindings/leds/common.h      |  7 +++++++
+>  2 files changed, 21 insertions(+)
 
-Applied, thanks Dan.
+Pavel, could you please eventually Ack this, so that I can take it 
+together with the rest?
+
+Thanks,
 
 -- 
 Jiri Kosina
