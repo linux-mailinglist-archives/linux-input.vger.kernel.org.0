@@ -2,78 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C2C54157B5
-	for <lists+linux-input@lfdr.de>; Thu, 23 Sep 2021 06:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08C03415908
+	for <lists+linux-input@lfdr.de>; Thu, 23 Sep 2021 09:32:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbhIWE5A (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Sep 2021 00:57:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238259AbhIWE47 (ORCPT
+        id S239623AbhIWHdo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Sep 2021 03:33:44 -0400
+Received: from mail-vs1-f44.google.com ([209.85.217.44]:39686 "EHLO
+        mail-vs1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239577AbhIWHdn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Sep 2021 00:56:59 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFA52C061574;
-        Wed, 22 Sep 2021 21:55:28 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id n18so5058412pgm.12;
-        Wed, 22 Sep 2021 21:55:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wmHJpdl5pqswrB4nMqHrpoumrCfk2DipcL4iRPeN7/g=;
-        b=Zj+jweasrxgNBvmJQPd4dpjW236hy3Y+I1BG9+7gTbeZcUTlm2gDHdto8Y7ksvA1vE
-         HOYkmmzhid89HEXjYE+NRXavsecZO0H3LEQ6IoA65e5AMA13mSIV0BH74tK7BlKHMVps
-         h+RESdMVOF0HJREAZbBBM4dKzB5kiPeCdY9ZGgPS5ZydAYPsahX3WT+GqaZz/scmbhLD
-         1G5aQp6sxTjUhsRRFwfdmDXyBW8+mtR4hQDRccZe2oGaQ8FkAK4xnzOkgUTlIaTj2zyG
-         3GyIbpvVl5e13eiP7iyAaiIaFak3pIbL0gJCq/duq4LvO15jg4OA7oxUqhnVrzFAFPiA
-         G8JA==
+        Thu, 23 Sep 2021 03:33:43 -0400
+Received: by mail-vs1-f44.google.com with SMTP id o124so5603512vsc.6;
+        Thu, 23 Sep 2021 00:32:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wmHJpdl5pqswrB4nMqHrpoumrCfk2DipcL4iRPeN7/g=;
-        b=g4OLSau1jzqJAWl2af3MfzYhSTqoQuJSONT6ERWZ5Rw6+O51xsRN4p8dcivNa8IaHP
-         Y5t+0vLW1IasET0+ovcQ2wzW5kN5YQB8wJk7lZw/SpSw4+NjjjuD+vouYios60fhyC3e
-         GHthutPPYTZdqkvhNRybnAHNUUxu6uodt1ggoNEVpz1d+M1uY1Mebz1D1dIUPoQAozQJ
-         0RaVCYCu7VgnZj5zfoJilga3fTL74Oe5GqL8zHTYJIBFBuGSMAUFmFxn/4tbxynr9xZz
-         P0ln0mNdp8iSFn+T272shBTL2gOe/y+vc6jW9iiAD1L9wfGfbmN1LaIK8MGTOjA9pERj
-         H7ig==
-X-Gm-Message-State: AOAM5336NLw+uOAfVZ8G1HrHOUXh/PNerIrB0UT1vuh7eLBjmNdVI1JW
-        Fk/VQJ1QsA9j5FhYOpwX+yQ=
-X-Google-Smtp-Source: ABdhPJyNIlJdbO1zNu9irTpXoaqAao6aKlj8+UGbq3L4u+AdFE/kqQFK3hmX4yeSjYGVpRs7Wesadg==
-X-Received: by 2002:aa7:8f11:0:b0:44b:21bf:b76 with SMTP id x17-20020aa78f11000000b0044b21bf0b76mr2661869pfr.43.1632372927851;
-        Wed, 22 Sep 2021 21:55:27 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:f198:36ef:2b9e:5c76])
-        by smtp.gmail.com with ESMTPSA id v14sm3877373pfi.111.2021.09.22.21.55.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 21:55:26 -0700 (PDT)
-Date:   Wed, 22 Sep 2021 21:55:24 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Cai Huoqing <caihuoqing@baidu.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: mpr121 - Make use of the helper function
- devm_add_action_or_reset()
-Message-ID: <YUwIvOLyTTrXUiFd@google.com>
-References: <20210922125954.533-1-caihuoqing@baidu.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Del0A0BDgK2H615eS1cQ6WeLryzAAcR66Ofx7x6P3ZA=;
+        b=zn7yYVJA3NK532FG7rh3kTjLv01o6nfQtV/d99r0857cVsFJ46sBC10SOyyA+jSmUF
+         5Cfo9emdJW0JTb9tua9kpuHiT5IH0sky6JxpQxPKaWc1WNrHjXEHBvEEjaVNn3EzReT6
+         z7cpBFdzIWXsnA4vZeDL/zQn3lH3mbFf4TYVgW73qfaj/olJZej9enI6Gqhj/ybzs2zu
+         1WRtw4wnxeC34lTLGoazbn42pKNRuGmf0/6LhrqEEFHqPOvG/wDvkNgqCi//ARROAl+p
+         sSqaMX/pVKjGjJaqHtMVnjQK9GpqPyDRLiy4bgnetRjKoZ7yWPa+rAq4NzelDHnjP8jz
+         qvoA==
+X-Gm-Message-State: AOAM532m8gKRBEtPynoEXkZ2Hw9jMvIIrd0ftQRd3s4fCmlApxtxd3la
+        IpNGB4m5ReIXopkLk/7TRsaoTG/LG3AydVTmSki/UufFGIA=
+X-Google-Smtp-Source: ABdhPJx2iI3nIR80L07lK27EgPXYrRps/W9O7UznBHGPV5J758D0AopxFfYecnf8nhZq1uivdYplN9bTMk/5j7ijxXY=
+X-Received: by 2002:a05:6102:2086:: with SMTP id h6mr2800628vsr.50.1632382331911;
+ Thu, 23 Sep 2021 00:32:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210922125954.533-1-caihuoqing@baidu.com>
+References: <20210922203027.3229474-1-kieran.bingham@ideasonboard.com>
+In-Reply-To: <20210922203027.3229474-1-kieran.bingham@ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 23 Sep 2021 09:32:00 +0200
+Message-ID: <CAMuHMdULHnztv=7i1b1x9BEsO8pu=J3Af_Qx7=CzD3qJhYRNBA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a779a0: falcon-cpu: Add SW46
+ switch support
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 22, 2021 at 08:59:54PM +0800, Cai Huoqing wrote:
-> The helper function devm_add_action_or_reset() will internally
-> call devm_add_action(), and if devm_add_action() fails then it will
-> execute the action mentioned and return the error code. So
-> use devm_add_action_or_reset() instead of devm_add_action()
-> to simplify the error handling, reduce the code.
-> 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+Hi Kieran,
 
-Applied, thank you.
+CC input
+
+On Wed, Sep 22, 2021 at 10:30 PM Kieran Bingham
+<kieran.bingham@ideasonboard.com> wrote:
+> Add support for SW46-1 and SW46-2 as switches using the gpio-keys
+> framework.
+>
+> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+
+Thanks for your patch!
+
+> ---
+>
+> SW_LID and SW_DOCK are selected as low-impact switch events for the
+> default configuration. Would SW_RFKILL_ALL, and SW_MUTE_DEVICE be
+> preferred as more 'functional' defaults? (I have otherwise avoided these
+> to hopefully prevent unwanted / undocumented effects occuring on
+> development hardware running a full interface which may parse these)
+>
+> I'd expect them to be overridden by any platform using them anyway.
+
+That's a good question
+
+BTW, I'm happy you brought this up.  I discovered EV_SW only
+recently, and had just started wondering whether we should use it
+for the various slide switches on Renesas R-Car Gen2 and Gen3 boards,
+which are modelled using the default EV_KEY and KEY_[1-4].
+
+I see several DTS files using EV_SW (or hardcoded 5) with KEY_*
+codes instead of EV_* codes, so perhaps KEY_A or KEY_B would be
+suited better, to avoid strange effects? But SW_LID (and KEY_RESERVED)
+seem to be quite popular, too.
+
+Any input^Wgood advice from the input people? TIA!
+
+> --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+> @@ -52,6 +52,24 @@ keys {
+>                 pinctrl-0 = <&keys_pins>;
+>                 pinctrl-names = "default";
+>
+> +               sw-1 {
+> +                       gpios = <&gpio1 28 GPIO_ACTIVE_LOW>;
+> +                       linux,code = <SW_LID>;
+> +                       linux,input-type = <EV_SW>;
+> +                       label = "SW46-1";
+> +                       wakeup-source;
+> +                       debounce-interval = <20>;
+> +               };
+> +
+> +               sw-2 {
+> +                       gpios = <&gpio1 29 GPIO_ACTIVE_LOW>;
+> +                       linux,code = <SW_DOCK>;
+> +                       linux,input-type = <EV_SW>;
+> +                       label = "SW46-2";
+> +                       wakeup-source;
+> +                       debounce-interval = <20>;
+> +               };
+> +
+>                 key-1 {
+>                         gpios = <&gpio6 18 GPIO_ACTIVE_LOW>;
+>                         linux,code = <KEY_1>;
+
+Looks good to me.
+
+> @@ -193,7 +211,8 @@ i2c6_pins: i2c6 {
+>         };
+>
+>         keys_pins: keys {
+> -               pins = "GP_6_18", "GP_6_19", "GP_6_20";
+> +               pins = "GP_1_28", "GP_1_29",
+> +                      "GP_6_18", "GP_6_19", "GP_6_20";
+>                 bias-pull-up;
+>         };
+
+This part is not needed, as the GPIOs connected to the slide switches
+have external pull-up resistors (unlike the GPIOs connected to the
+push switches, which are driven low by open-drain buffers, without
+external pull-up resistors).
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Dmitry
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
