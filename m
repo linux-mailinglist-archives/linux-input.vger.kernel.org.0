@@ -2,180 +2,190 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C87E5415A8F
-	for <lists+linux-input@lfdr.de>; Thu, 23 Sep 2021 11:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0426415E1D
+	for <lists+linux-input@lfdr.de>; Thu, 23 Sep 2021 14:17:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240069AbhIWJIP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Sep 2021 05:08:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56808 "EHLO
+        id S240930AbhIWMTE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Sep 2021 08:19:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240019AbhIWJIO (ORCPT
+        with ESMTP id S241052AbhIWMSv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Sep 2021 05:08:14 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EE6BC061756;
-        Thu, 23 Sep 2021 02:06:43 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id i23so15195518wrb.2;
-        Thu, 23 Sep 2021 02:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=W7zJC5aAqnyO98X4K6bFPJj+u1b4jQVw+cClFYWpioo=;
-        b=a9ZHfDLE1htrbTBFgFlzlURyjWeEzYOimdnm96oO8kOOASLQMgVEH+PbCXkqRa1QKa
-         Xo/mhNjZmJCv6//Yr2udOy4RrQmjbr0q5kcBySyqhwmHCWonJlcwwCqZKCCK+CFSp29v
-         ov3qEYsSyjLYIfHE0nIh1soE1ayctAmh2Z0tHgRqzd5fxf0vpFtOJCe5uRJ4S8ZRlmLm
-         9QbevfW59NDuCI6XfgPIVS/INi9r/M8UFKHlmojz0vYMwRbxZSJh273lYgBTHKizbJeR
-         GE12Hlf0gNNtYLVcD1oFQILaXal7Fz8C9G40Mw0uZ+4A53tnYmRo7jEJdFsIVIoDVL6m
-         Gz7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=W7zJC5aAqnyO98X4K6bFPJj+u1b4jQVw+cClFYWpioo=;
-        b=pZMaBQAOt0HaU1m7Z32byYeOwEYOLxwbvsHC8tefWntwMNXj7bZlt7OSS7jsZflV+V
-         ry9nmDfpXROnk2txte+rqEgxFloQhiBqCqr560NgA4tZg6ll0sw/sm4jk6/N9xq2KZrf
-         oLr11DG2GzW4rc3P5pvvj9bJ5PYZ72zgLFUMJLoSgL6nbNr+ntrG5scbnW9WDD4y/MML
-         dEpSJkbnVmPPwGRgtG0dyFEYf0IVky0mHk0uCRO2QLgOIo5SLP91DB2HgjIEllGpczxx
-         xD6pAg6pB4tY0PuMF/F80OXQwuVFfCzdQgXdwCxPUm3N012qw/cIJeseTOMI3pMYQtWQ
-         eF9A==
-X-Gm-Message-State: AOAM531+CVlVlJtCTfQdbM4rQVGX0E4NsM9nTVL5/k2XvJ21Rv+eHyRC
-        NkOzZwcCOgwaH5wrrh+nO9f+ClBhkP3e55FHX9I=
-X-Google-Smtp-Source: ABdhPJwmaE0WOKFEdoPl71aerkf8BW4hR1ah2KQpCRQqOoPXwAejh3hHj5VunpFrv94eYrn+kbYy/RR8fKnhNZPGDTc=
-X-Received: by 2002:a5d:58ec:: with SMTP id f12mr3760465wrd.24.1632388001736;
- Thu, 23 Sep 2021 02:06:41 -0700 (PDT)
+        Thu, 23 Sep 2021 08:18:51 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AB6EC0613DF;
+        Thu, 23 Sep 2021 05:17:17 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3021D58B;
+        Thu, 23 Sep 2021 14:17:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1632399435;
+        bh=/drw1Dk5E4UqncQuFxf04jqsz9XYsWqBltMyjLcA6Vo=;
+        h=From:To:Cc:References:Subject:Date:In-Reply-To:From;
+        b=QrzYKsh1Sk3GiIN/2GIM3wUc7wRNc1rjrkpi1CiJK22eB3nORVIWSrPC/moO1h0zI
+         zk4bFSWW2HUiEyFkWRZPSjF+YLrOUiFe/HXWdXcptVz1uhF+byzIxop3Ev/PF2FTWR
+         NMQ3vqNjBoA8c4ELhpktZ4iBbujo96wwm7rQEaTM=
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input <linux-input@vger.kernel.org>
+References: <20210922203027.3229474-1-kieran.bingham@ideasonboard.com>
+ <CAMuHMdULHnztv=7i1b1x9BEsO8pu=J3Af_Qx7=CzD3qJhYRNBA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a779a0: falcon-cpu: Add SW46
+ switch support
+Message-ID: <eda13f7c-b353-dcf4-c4ea-c2aa65858e7a@ideasonboard.com>
+Date:   Thu, 23 Sep 2021 13:17:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <CAGhUXvBw4rzCQrqttyyS=Psxmhppk79c6fDoxPbV91jE7fO_9A@mail.gmail.com>
- <CAGhUXvDNj2v3O==+wWWKPYVzej8Vq+WNiBtPwmYxSQ2dTuLb9Q@mail.gmail.com>
- <CAGhUXvC8eHfxEKzkGN06VvRU6Z0ko7MJ9hF6uXNq+PxRZSbEmQ@mail.gmail.com> <70cbe360-6385-2536-32bd-ae803517d2b2@redhat.com>
-In-Reply-To: <70cbe360-6385-2536-32bd-ae803517d2b2@redhat.com>
-From:   Andrea Ippolito <andrea.ippo@gmail.com>
-Date:   Thu, 23 Sep 2021 11:06:05 +0200
-Message-ID: <CAGhUXvDWgsZ4+e-PL7EYkf48urJxfCS+eUKfgnqJOSBHM_oqCA@mail.gmail.com>
-Subject: Re: Touchpad stickiness on Dell Inspiron/XPS
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     dmitry.torokhov@gmail.com, Alex Hung <alex.hung@canonical.com>,
-        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAMuHMdULHnztv=7i1b1x9BEsO8pu=J3Af_Qx7=CzD3qJhYRNBA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Thanks a lot Hans for your quick reply :)
+On 23/09/2021 08:32, Geert Uytterhoeven wrote:
+> Hi Kieran,
+> 
+> CC input
+> 
+> On Wed, Sep 22, 2021 at 10:30 PM Kieran Bingham
+> <kieran.bingham@ideasonboard.com> wrote:
+>> Add support for SW46-1 and SW46-2 as switches using the gpio-keys
+>> framework.
+>>
+>> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> 
+> Thanks for your patch!
+> 
+>> ---
+>>
+>> SW_LID and SW_DOCK are selected as low-impact switch events for the
+>> default configuration. Would SW_RFKILL_ALL, and SW_MUTE_DEVICE be
+>> preferred as more 'functional' defaults? (I have otherwise avoided these
+>> to hopefully prevent unwanted / undocumented effects occuring on
+>> development hardware running a full interface which may parse these)
+>>
+>> I'd expect them to be overridden by any platform using them anyway.
+> 
+> That's a good question
+> 
+> BTW, I'm happy you brought this up.  I discovered EV_SW only
 
-I will indeed proceed to filing a bug as you suggested and hope for the best.
+I hoped it would start a discussion ;-) I noticed no one else was using
+EV_SW ... and ... well the slide switches just aren't buttons ;-)
 
-Have a nice day!
+> recently, and had just started wondering whether we should use it
+> for the various slide switches on Renesas R-Car Gen2 and Gen3 boards,
+> which are modelled using the default EV_KEY and KEY_[1-4].
 
-Andrea IPPOLITO
+Indeed, that was my dilemma - there isn't really a 'generic' zero-impact
+choice for the slide switches. They all imply that they are likely to be
+interpreted by a window manager / gui to make some adjustment to the system.
 
-Il giorno gio 23 set 2021 alle ore 11:00 Hans de Goede
-<hdegoede@redhat.com> ha scritto:
->
-> Hi Andrea,
->
-> On 9/23/21 10:47 AM, Andrea Ippolito wrote:
-> > Hello,
-> >
-> > has anyone had a chance to have a look at this report, and can help
-> > making some progress on the investigation?
-> >
-> > Please let me know if there are more suitable channels for this, since
-> > most of the things I see in these mailing lists are patches and code
-> > reviews, not really reports and discussions around ongoing issues.
->
-> Right, bugs are usually discussed in bugzila, you could consider
-> filing a bug here:
->
-> https://bugzilla.kernel.org/enter_bug.cgi?product=Drivers
->
-> But I must be honest here, I don't see much progress being made
-> on this until someone with a significant amount of kernel / hw-enablement
-> experience gets it hands on one of these models. Either because some
-> company wants to run Linux on an affected model and ends up paying
-> someone to look at this, or because someone with the necessary
-> skills happens to buy one and then gets annoyed enough by this to sink
-> enough time into the issue to figure things out.
->
-> This hw is still relatively new, so with some luck someone accidentally
-> fixes this while fixing another issue, which happens to have the
-> same root cause.
->
-> Short of one of these 2 happening I don't see this getting resolved
-> anytime soon. By all means, do file a bug for this, I just want to
-> set expectations about the (un)likelyness of this getting fixed
-> (or the bug getting much attention in general) beforehand.
->
-> Regards,
->
-> Hans
->
->
->
-> >
-> > Thanks a lot in advance.
-> >
-> > Regards,
-> > Andrea IPPOLITO
-> >
-> > Il giorno ven 27 ago 2021 alle ore 08:57 Andrea Ippolito
-> > <andrea.ippo@gmail.com> ha scritto:
-> >>
-> >> (resending as plain text)
-> >>
-> >> Hello everyone,
-> >>
-> >> I hope I find you well.
-> >>
-> >> I am writing this to report a touchpad issue faced by me and several
-> >> other DELL users across several different distros (HW defect has been
-> >> ruled out by people unable to reproduce on Windows).
-> >>
-> >> First thing that came to mind was to report this to the libinput
-> >> project, which I did here:
-> >>
-> >> https://gitlab.freedesktop.org/libinput/libinput/-/issues/618
-> >>
-> >> A similar report by another user followed shortly after:
-> >>
-> >> https://gitlab.freedesktop.org/libinput/libinput/-/issues/636 (will be
-> >> closed as dupe eventually, so please keep #618 as reference)
-> >>
-> >> Issue has been also reported by yet another user on reddit:
-> >>
-> >> https://www.reddit.com/r/linuxhardware/comments/ofbzg3/dell_xps_15_9510_experience/h5ddy07/
-> >> and https://www.reddit.com/r/linuxhardware/comments/ofbzg3/dell_xps_15_9510_experience/h5zjwc8/?utm_source=reddit&utm_medium=web2x&context=3
-> >>
-> >> And finally, I have reported it on the DELL user forums (no help
-> >> whatsoever from DELL):
-> >>
-> >> https://www.dell.com/community/Inspiron/Tiger-Lake-DELL-Inspiron-Touchpad-Cursor-temporarily-drops/m-p/8021753#M126292
-> >>
-> >> The investigation on the libinput side appears to be complete, as
-> >> maintainers didn't spot anything weird there (also, the issue is also
-> >> reproducible with the synaptics lib, suggesting that this might be
-> >> lower level).
-> >>
-> >> Robert Martin suggested to raise this to you now, as per comment:
-> >>
-> >> https://gitlab.freedesktop.org/libinput/libinput/-/issues/618#note_1042277
-> >>
-> >> I'm kind of new to Linux mailing lists and bug reporting, so please
-> >> forgive me if I'm violating some rules or etiquette, I'd be glad to
-> >> rectify if that's the case.
-> >>
-> >> I also don't know what is the best way to keep the conversation going,
-> >> e.g. if there's an issue tracker or instead mailing lists are the
-> >> preferred choice.
-> >>
-> >> You should find some interesting data in the above mentioned reports
-> >> already, if not, please don't hesitate to let me know or chime in on
-> >> libinput issue #618 directly.
-> >>
-> >> Thanks a lot in advance.
-> >>
-> >> Kind regards,
-> >> Andrea IPPOLITO
-> >
->
+Which is of course desired in a product/device - but on a test board
+like the evaluation modules - I can imagine someone saying they can't
+understand why the screen isn't working / is in powersave ... because
+... of the undocumented feature that the SW46-1 position indicating that
+the 'lid' is closed ...
+
+
+
+
+> I see several DTS files using EV_SW (or hardcoded 5) with KEY_*
+> codes instead of EV_* codes, so perhaps KEY_A or KEY_B would be
+> suited better, to avoid strange effects? But SW_LID (and KEY_RESERVED)
+> seem to be quite popular, too.
+
+It feels 'horrible' reporting Key events on switch events ... but if
+it's an approved solution - I'm fine with that.
+
+As long as there is no further side impact of suddenly 'KEY_B' is
+constantly pressed, and so the WM is going to act as though a key
+modifier is active ...
+
+
+> Any input^Wgood advice from the input people? TIA!
+
+Yes please ;-)
+
+Maybe we need some 'test' keys / events that can be hooked up that allow
+testing/validation but represent that these keys/switches/buttons have
+no current definition for their operation...
+
+They're just generic buttons and switches ..
+
+> 
+>> --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+>> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+>> @@ -52,6 +52,24 @@ keys {
+>>                 pinctrl-0 = <&keys_pins>;
+>>                 pinctrl-names = "default";
+>>
+>> +               sw-1 {
+>> +                       gpios = <&gpio1 28 GPIO_ACTIVE_LOW>;
+>> +                       linux,code = <SW_LID>;
+>> +                       linux,input-type = <EV_SW>;
+>> +                       label = "SW46-1";
+>> +                       wakeup-source;
+>> +                       debounce-interval = <20>;
+>> +               };
+>> +
+>> +               sw-2 {
+>> +                       gpios = <&gpio1 29 GPIO_ACTIVE_LOW>;
+>> +                       linux,code = <SW_DOCK>;
+>> +                       linux,input-type = <EV_SW>;
+>> +                       label = "SW46-2";
+>> +                       wakeup-source;
+>> +                       debounce-interval = <20>;
+>> +               };
+>> +
+>>                 key-1 {
+>>                         gpios = <&gpio6 18 GPIO_ACTIVE_LOW>;
+>>                         linux,code = <KEY_1>;
+> 
+> Looks good to me.
+> 
+>> @@ -193,7 +211,8 @@ i2c6_pins: i2c6 {
+>>         };
+>>
+>>         keys_pins: keys {
+>> -               pins = "GP_6_18", "GP_6_19", "GP_6_20";
+>> +               pins = "GP_1_28", "GP_1_29",
+>> +                      "GP_6_18", "GP_6_19", "GP_6_20";
+>>                 bias-pull-up;
+>>         };
+> 
+> This part is not needed, as the GPIOs connected to the slide switches
+> have external pull-up resistors (unlike the GPIOs connected to the
+> push switches, which are driven low by open-drain buffers, without
+> external pull-up resistors).
+> 
+
+Ah - for some reason I thought it was required to configure the PFC
+regardless, and show that these pins are acquired by the gpio function -
+but of course I'd expect 'getting' the gpio would do that..
+
+I'll await some feedback on the best key codes to use before reposting.
+
+
+Out of interest, is the OD buffer there to act as a hardware debounce or
+such? or is there another likely reason?
+
+--
+Kieran
+
+
+
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
