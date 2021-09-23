@@ -2,40 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67FB7415E66
-	for <lists+linux-input@lfdr.de>; Thu, 23 Sep 2021 14:30:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30C0D415E67
+	for <lists+linux-input@lfdr.de>; Thu, 23 Sep 2021 14:30:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240874AbhIWMb5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Sep 2021 08:31:57 -0400
-Received: from mail-bn8nam11on2066.outbound.protection.outlook.com ([40.107.236.66]:35616
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        id S240955AbhIWMb7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Sep 2021 08:31:59 -0400
+Received: from mail-dm6nam11on2088.outbound.protection.outlook.com ([40.107.223.88]:3297
+        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S240828AbhIWMb4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Sep 2021 08:31:56 -0400
+        id S240828AbhIWMb6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 23 Sep 2021 08:31:58 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IGkRSfacpBDjuzB/DnKu5xyDwHJ51Znxd5W51fU3AtDmaoP4RUmZEx9P8HRDLvumnwOlS+jZyBgN/WF32rre2Yy/RXbrL5oTREHLBS48n0ePM/ZnnLOMev7lZyA5+/idW4RRjxe2dRu8ysgVS+zFScShW0zUHmAesFkQSrVCNqXZUCrVjlxPkIlxA34X1AhsMNDqmuW2Qt9HLeZU4KohDH0Hjrr8cszvPu68ZtLN93QscePTmmiMG/FeROHSq7snHpmF46BrHqH/N+lzx0xGVFxgUKJilgHTNi4WfUYl2Qv1d1js51J/mv7moj3YuDclVBaUqUbMUIsJ1hS9YBAWRA==
+ b=dMU1M3u+b9/5wZDjQD/t76rlJBNQXvoaQ/+HQ3r5yfpcFJW6L8qyDlFqgwmQU+wGTLKuA8wbIJ7i2Q2hxsdiWjF1DDwsobNEUyU+wiRliZ5vbk11RqVDR7ZQLOCftJRTJYg9+TERUjtRvGakWQ4tgXQwznr2RDHMUYuiX6Nt7eo5erb8fObXYMJUPDAmSVCG3TfOyllsKsk1MF7mr6UhalO4qGknz8ppnXNlGj1A6qCTowbb5YP+ikjsAAdglD67KmP1Ert/yRanSYQqfkIXIdKXg4vgjttnPqLGIbdBPM1219BbdZzIEKicXK+Tcr2jCMS1aaA2w1bdL9AvNq0+/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=GY4mQ6p32EsWmUtk8noeNmF9d84Mu36Bkmlkmit/qK0=;
- b=NjjJlMU+N09WimwMUu9FZ+5ibKHZzZr4LmlDjtUH4hugbwamNa6Ar2dGLJNAPGY9va5U5YYPSpVz3EnuNeU5QqazXdDF0eDS/s2Ks291iGUjPn0bFc/k1TxMdKbPO8KGmVLKxvStxEp9A9Rd52s/pUlKCf4RZH0EFMFgB2TDIRjVC8BH2JXziudYHq/zY5nPI8HW5FvGkNvMWR+NI7dmUB4TA/FHovR9fgiVFRAN+J0OGrpBJG1TGySG05BEX+15s9EIDMsv/34vuahd9W+NmEiHPxeIpnQkT37qCnZVOxVlyNwB4d9yTIQMa6eYgpliNX09xLOZTLjnRRPLe9Iv5Q==
+ bh=BlY+5t1K3fPUchu5e2hkSQpuFIWbVgHLWCURu0Vi1x0=;
+ b=gjWJxeLyEwuaxoyipYo7D4z7SGOqJPPqwhiM00KDw8vZgeFfLXFLRSZCAA1iZ4efqzXJi9JzzHQjka6I+cRjjJ2jpUf3VHFooQZ9ECzMuEwy0zFljaKO6reC46uYJ3aQHuWy5KahU8Cj4Ne9UmdSQ9JtVMvhUvg2z8jdT9ma8GYankOwnNs74oCiIXvZ7a1y/Soel5MAzT6eCjGswiPXQw6Y+kzdXr2pC0bXhKSxSST24ikbg15r8zGx1Le2PAMcJzDaPfkteH8UZO6Cq9kGO5NSxuZ8OHb3s+x8wKnk2IbsrSURVRMocbwtsOZ2O3tGQXZiW/ssdgb16QcTZPEtog==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GY4mQ6p32EsWmUtk8noeNmF9d84Mu36Bkmlkmit/qK0=;
- b=fX9W17oa/NXJYKD/6t6VdoJI4akMwEeef+MxQBjLplR1RqxZtxi32yWp9EjT6+jczJ6UdM6jf9IZFsQfv8UoGB0W8roCW0A7g2NRtyWhpUUu1nn7YDcqBHdBFaBgA4dm2zcXeAwiaFeqvI7W+Rnv7UOwQhGWJNXt4y9yzXuCdpw=
-Received: from DM6PR14CA0051.namprd14.prod.outlook.com (2603:10b6:5:18f::28)
- by BYAPR12MB2982.namprd12.prod.outlook.com (2603:10b6:a03:a8::27) with
+ bh=BlY+5t1K3fPUchu5e2hkSQpuFIWbVgHLWCURu0Vi1x0=;
+ b=lVn/74FmGyJ0Fw1FkK8nXUKC9ZeLSv5LV8VrmS5bXLfPfPyAHer/GS3JiQ4QIB1Q4hDOCDAI6FAKYoXPD+Xp7c5TmjxBKT2m7K01S5Cy32nSIGCdghjePcxL5F+dVROZupQa1fLWCyL3vFAhrzwWKCQZA1YIbxk7LdNGpN0yWO0=
+Received: from DS7PR03CA0103.namprd03.prod.outlook.com (2603:10b6:5:3b7::18)
+ by DM8PR12MB5461.namprd12.prod.outlook.com (2603:10b6:8:3a::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Thu, 23 Sep
- 2021 12:30:23 +0000
-Received: from DM6NAM11FT050.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:18f:cafe::90) by DM6PR14CA0051.outlook.office365.com
- (2603:10b6:5:18f::28) with Microsoft SMTP Server (version=TLS1_2,
+ 2021 12:30:26 +0000
+Received: from DM6NAM11FT032.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3b7:cafe::67) by DS7PR03CA0103.outlook.office365.com
+ (2603:10b6:5:3b7::18) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13 via Frontend
- Transport; Thu, 23 Sep 2021 12:30:23 +0000
+ Transport; Thu, 23 Sep 2021 12:30:26 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=pass action=none header.from=amd.com;
@@ -43,13 +43,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT050.mail.protection.outlook.com (10.13.173.111) with Microsoft SMTP
+ DM6NAM11FT032.mail.protection.outlook.com (10.13.173.93) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4544.13 via Frontend Transport; Thu, 23 Sep 2021 12:30:22 +0000
+ 15.20.4544.13 via Frontend Transport; Thu, 23 Sep 2021 12:30:25 +0000
 Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Thu, 23 Sep
- 2021 07:30:20 -0500
+ 2021 07:30:23 -0500
 From:   Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 To:     Nehal Shah <nehal-bakulchandra.shah@amd.com>,
         Jiri Kosina <jikos@kernel.org>,
@@ -57,9 +57,9 @@ To:     Nehal Shah <nehal-bakulchandra.shah@amd.com>,
         "open list:AMD SENSOR FUSION HUB DRIVER" 
         <linux-input@vger.kernel.org>
 CC:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Subject: [PATCH 3/4] amd_sfh: switch from 'pci_' to 'dev_' API
-Date:   Thu, 23 Sep 2021 17:59:29 +0530
-Message-ID: <20210923122930.3873914-4-Basavaraj.Natikar@amd.com>
+Subject: [PATCH 4/4] amd_sfh: Update Copyright details
+Date:   Thu, 23 Sep 2021 17:59:30 +0530
+Message-ID: <20210923122930.3873914-5-Basavaraj.Natikar@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210923122930.3873914-1-Basavaraj.Natikar@amd.com>
 References: <20210923122930.3873914-1-Basavaraj.Natikar@amd.com>
@@ -71,70 +71,175 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0a6e6537-af12-44f4-3a09-08d97e8de9fa
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2982:
-X-Microsoft-Antispam-PRVS: <BYAPR12MB2982F340CDF200194FF1C791E6A39@BYAPR12MB2982.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:449;
+X-MS-Office365-Filtering-Correlation-Id: 5a09a5de-af66-4d39-4536-08d97e8debb1
+X-MS-TrafficTypeDiagnostic: DM8PR12MB5461:
+X-Microsoft-Antispam-PRVS: <DM8PR12MB546104624D0FFA97BFA36631E6A39@DM8PR12MB5461.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:101;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lceYgFQ1ovM1wkhrJ78ZXCDvvrfGUE3PhZOOpV4rH4O8B94plkEXzafdS51ZMRj/1xsAqyblpU1HmwkVnFTp/OCyNJ3ye7EsdIstmOUYvtxndnvn3VgJstBUZ6UVq0oBpbwi5861CdvDS2tLiUPsIAlpdf2BCOmq3sT0c57KR36V//JY04H+iQEach6LBAcVAIHHJ99q8Go1P3kpYIHx5yDfojl10VvYqYFhNUqoDtT8q1Uy+Opdpp3LEs8r8zYmCcCcch3xO7XPQ9Q+73zKOkPZyy6WyZ+iRCQa1tGiRqV/QNRhsxjGipIzWok5JTLnC3ZBC6a6DPcflvi/QOsHscr7J5K/5ZAK6zXBvrDMF4B22K9MMp5OvDPlyx2GZOCG0rq9Jw6cq5JXcRK6M4ECOY1+wC1AiCCk2hfnUJaCdb+lVneA2ZE6OyJEH+JBxpQ2Zi/aA20RFI+0XKZfs+dufPivwUXwYm8K/kNNxsbbQLIkzGyS/9JD1YLikjAWvz4QtStPn0FauDc8kdaCxEYhVKi5qh4dRyt878q2E/aip6JQlXEreG+g9TJW+ELl/uFW8Uy0oq2QJRFfT8woCBLnGHbylHJCQHLys4r9aGzBiQUUmNf+4D8t46lOlv93jIdX57nqFBh2Xi6GLmx03iWa2ebNrzky0MInQvKvyhKnSOHHIs/Gocen33DJ1satZL7OC1TjuVugKdKXt39MTnyvgytVw8CGd31C3Jz/0Dhqa9s=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(4326008)(356005)(81166007)(1076003)(508600001)(7696005)(26005)(2906002)(336012)(426003)(186003)(8936002)(5660300002)(86362001)(2616005)(47076005)(36756003)(83380400001)(70586007)(36860700001)(82310400003)(16526019)(110136005)(70206006)(316002)(8676002)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: NhiLwieBwdhg+tHwlaKfUOHYA7eVBVeh+qTOVLIjtuMBLvHdMkg9f9REdvTbDJoD+xcuH31hgB3EdBh9goRTXW1pnQoZb0z/IZbpg4JJ6pI6FIDRa6/i60ncLgK+tlzzdaHQG5BWYOiS4JDxokwkXIrzgkpWhrQ0WxYwff0Tf+4IfRL08as+IZ9aXtXLaU/VKkRJkeyDmpaATXcgk8jmi3HwYOoLq971HG+JNMXlriJzHO481bX3Ry7tNQ7mK/UuDhgdl7K9kGaNIp3oPNSHIBagmK7WjoferbthIpyFI43vbNWT2h0Jvx7DCo5FZsubf96dm9kjYn/ao5VLG6qtomyHpqQhk4IVqVlDD5Ov8oNuET5WVhwWLzAa/sURFTWgA1Is/E/Iani8eeSqcNjucV1tFuFzM9zSOJ50t/5aUZKZrnaBoLJe3M61p6P01MRUoxewhyj/CCD9qMgFsRk9cUL2MQzi4DyxfdPJ02rM0VnurbAO1iLn8BZmDFrVvA53Mo3pECkvQUSG3GECzubD/rPjsOHjmLWTJLaX7weV1Mzbj/q7OFJY4Mv1n5AMsccLxqvdOwIspg6mZfeoZ6J7uCTkyZHeFi/tS1k2/C/RpFqBa36Py3Sa4RtX1OfT5+9L/fTAT52RWkZIX1v5nNhzaAAA19YLeI+gD3/iYjHgh6nFUeshk+0ECd9DVhX5T2sxICYRgQQ63pDDfhK94SEASm1zk8SCn1KjoXTJRtpD9es=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(26005)(2906002)(110136005)(316002)(356005)(5660300002)(47076005)(508600001)(70586007)(70206006)(81166007)(82310400003)(8676002)(15650500001)(83380400001)(426003)(36756003)(186003)(8936002)(1076003)(7696005)(4326008)(86362001)(16526019)(36860700001)(6666004)(336012)(2616005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2021 12:30:22.9825
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2021 12:30:25.8538
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a6e6537-af12-44f4-3a09-08d97e8de9fa
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a09a5de-af66-4d39-4536-08d97e8debb1
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT050.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT032.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2982
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5461
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The wrappers pci_set_drvdata or pci_get_drvdata changed to
-dev_set_drvdata or dev_get_drvdata.
+Update the Copyright header and Author
 
 Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 ---
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/hid/amd-sfh-hid/amd_sfh_client.c                      | 3 ++-
+ drivers/hid/amd-sfh-hid/amd_sfh_hid.c                         | 2 ++
+ drivers/hid/amd-sfh-hid/amd_sfh_hid.h                         | 2 ++
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.c                        | 4 +++-
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.h                        | 3 ++-
+ drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.c     | 3 ++-
+ drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h     | 3 ++-
+ .../hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_desc.h  | 3 ++-
+ 8 files changed, 17 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+index 840fd075c56f..c5de0ec4f9d0 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+@@ -1,9 +1,10 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ /*
+  *  AMD SFH Client Layer
+- *  Copyright 2020 Advanced Micro Devices, Inc.
++ *  Copyright 2020-2021 Advanced Micro Devices, Inc.
+  *  Authors: Nehal Bakulchandra Shah <Nehal-Bakulchandra.Shah@amd.com>
+  *	     Sandeep Singh <Sandeep.singh@amd.com>
++ *	     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+  */
+ 
+ #include <linux/dma-mapping.h>
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_hid.c b/drivers/hid/amd-sfh-hid/amd_sfh_hid.c
+index 5ad1e7acd294..2bf97b6ac973 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_hid.c
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_hid.c
+@@ -2,8 +2,10 @@
+ /*
+  * AMD MP2 Sensors transport driver
+  *
++ * Copyright 2020-2021 Advanced Micro Devices, Inc.
+  * Authors: Nehal Bakulchandra Shah <Nehal-bakulchandra.shah@amd.com>
+  *	    Sandeep Singh <sandeep.singh@amd.com>
++ *	    Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+  */
+ #include <linux/hid.h>
+ #include <linux/wait.h>
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_hid.h b/drivers/hid/amd-sfh-hid/amd_sfh_hid.h
+index ae2ac9191ba7..c60abd38054c 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_hid.h
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_hid.h
+@@ -2,8 +2,10 @@
+ /*
+  * AMD MP2 Sensors transport driver
+  *
++ * Copyright 2020-2021 Advanced Micro Devices, Inc.
+  * Authors: Nehal Bakulchandra Shah <Nehal-bakulchandra.shah@amd.com>
+  *	    Sandeep Singh <sandeep.singh@amd.com>
++ *	    Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+  */
+ 
+ #ifndef AMDSFH_HID_H
 diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index ebe396a4570d..b5c5ec52a3af 100644
+index b5c5ec52a3af..2503be0253d3 100644
 --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
 +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -234,7 +234,7 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 		return -ENOMEM;
+@@ -1,10 +1,11 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ /*
+  * AMD MP2 PCIe communication driver
+- * Copyright 2020 Advanced Micro Devices, Inc.
++ * Copyright 2020-2021 Advanced Micro Devices, Inc.
+  *
+  * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+  *	    Sandeep Singh <Sandeep.singh@amd.com>
++ *	    Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+  */
  
- 	privdata->pdev = pdev;
--	pci_set_drvdata(pdev, privdata);
-+	dev_set_drvdata(&pdev->dev, privdata);
- 	rc = pcim_enable_device(pdev);
- 	if (rc)
- 		return rc;
-@@ -269,8 +269,7 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ #include <linux/bitops.h>
+@@ -335,3 +336,4 @@ MODULE_DESCRIPTION(DRIVER_DESC);
+ MODULE_LICENSE("Dual BSD/GPL");
+ MODULE_AUTHOR("Shyam Sundar S K <Shyam-sundar.S-k@amd.com>");
+ MODULE_AUTHOR("Sandeep Singh <Sandeep.singh@amd.com>");
++MODULE_AUTHOR("Basavaraj Natikar <Basavaraj.Natikar@amd.com>");
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
+index 1ff6f83cb6fd..ae30e059f847 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
+@@ -1,9 +1,10 @@
+ /* SPDX-License-Identifier: GPL-2.0-or-later */
+ /*
+  * AMD MP2 PCIe communication driver
+- * Copyright 2020 Advanced Micro Devices, Inc.
++ * Copyright 2020-2021 Advanced Micro Devices, Inc.
+  * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+  *	    Sandeep Singh <Sandeep.singh@amd.com>
++ *	    Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+  */
  
- static int __maybe_unused amd_mp2_pci_resume(struct device *dev)
- {
--	struct pci_dev *pdev = to_pci_dev(dev);
--	struct amd_mp2_dev *mp2 = pci_get_drvdata(pdev);
-+	struct amd_mp2_dev *mp2 = dev_get_drvdata(dev);
- 	struct amdtp_cl_data *cl_data = mp2->cl_data;
- 	struct amd_mp2_sensor_info info;
- 	int i, status;
-@@ -295,8 +294,7 @@ static int __maybe_unused amd_mp2_pci_resume(struct device *dev)
+ #ifndef PCIE_MP2_AMD_H
+diff --git a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.c b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.c
+index 0c3697219382..be41f83b0289 100644
+--- a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.c
++++ b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.c
+@@ -1,9 +1,10 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ /*
+  *  AMD SFH Report Descriptor generator
+- *  Copyright 2020 Advanced Micro Devices, Inc.
++ *  Copyright 2020-2021 Advanced Micro Devices, Inc.
+  *  Authors: Nehal Bakulchandra Shah <Nehal-Bakulchandra.Shah@amd.com>
+  *	     Sandeep Singh <sandeep.singh@amd.com>
++ *	     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+  */
  
- static int __maybe_unused amd_mp2_pci_suspend(struct device *dev)
- {
--	struct pci_dev *pdev = to_pci_dev(dev);
--	struct amd_mp2_dev *mp2 = pci_get_drvdata(pdev);
-+	struct amd_mp2_dev *mp2 = dev_get_drvdata(dev);
- 	struct amdtp_cl_data *cl_data = mp2->cl_data;
- 	int i, status;
+ #include <linux/kernel.h>
+diff --git a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h
+index 16f563d1823b..70b1b7abe2c6 100644
+--- a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h
++++ b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h
+@@ -1,9 +1,10 @@
+ /* SPDX-License-Identifier: GPL-2.0-or-later */
+ /*
+  * HID report descriptors, structures and routines
+- * Copyright 2020 Advanced Micro Devices, Inc.
++ * Copyright 2020-2021 Advanced Micro Devices, Inc.
+  * Authors: Nehal Bakulchandra Shah <Nehal-bakulchandra.shah@amd.com>
+  *	    Sandeep Singh <Sandeep.singh@amd.com>
++ *	    Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+  */
  
+ #ifndef AMD_SFH_HID_DESCRIPTOR_H
+diff --git a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_desc.h b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_desc.h
+index 66d6b26e4708..8d97ca0f9b52 100644
+--- a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_desc.h
++++ b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_desc.h
+@@ -1,9 +1,10 @@
+ /* SPDX-License-Identifier: GPL-2.0-or-later */
+ /*
+  * HID  descriptor stuructures
+- * Copyright 2020 Advanced Micro Devices, Inc.
++ * Copyright 2020-2021 Advanced Micro Devices, Inc.
+  * Authors: Nehal Bakulchandra Shah <Nehal-bakulchandra.shah@amd.com>
+  *	    Sandeep Singh <Sandeep.singh@amd.com>
++ *	    Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+  */
+ 
+ #ifndef AMD_SFH_HID_REPORT_DESCRIPTOR_H
 -- 
 2.25.1
 
