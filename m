@@ -2,65 +2,141 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DF07418872
-	for <lists+linux-input@lfdr.de>; Sun, 26 Sep 2021 13:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56E064189EF
+	for <lists+linux-input@lfdr.de>; Sun, 26 Sep 2021 17:20:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231304AbhIZL6J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 26 Sep 2021 07:58:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43860 "EHLO
+        id S231929AbhIZPWd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 26 Sep 2021 11:22:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231172AbhIZL6I (ORCPT
+        with ESMTP id S231913AbhIZPWc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 26 Sep 2021 07:58:08 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32F42C061575
-        for <linux-input@vger.kernel.org>; Sun, 26 Sep 2021 04:56:32 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id h3so14965271pgb.7
-        for <linux-input@vger.kernel.org>; Sun, 26 Sep 2021 04:56:32 -0700 (PDT)
+        Sun, 26 Sep 2021 11:22:32 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EA43C061570
+        for <linux-input@vger.kernel.org>; Sun, 26 Sep 2021 08:20:55 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id x7so43266306edd.6
+        for <linux-input@vger.kernel.org>; Sun, 26 Sep 2021 08:20:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Cgr0NudsllIuU4pYJfPAFPG4b+vxrvwuUcJfymOmGQ8=;
-        b=Lsb8GN7LWUzpbC1T1tyLG3Hy1LsEYo2cRgSW6UFYJ7Lo7ummVkchxYxPnuPU/aKV70
-         bk25l1MMTU6YC+LnaWoGoBHlyFKh1qFG6z/MubLrDlJyBfuKAfA+UHGaFhtxFut0GXGZ
-         CjqwBMdiFGIArHfOmro2D4pX5O2p2WWxkwxaWim0H0aRScIQXx7xq9Yb1kpjqFMTNtF1
-         CG1K4KV8yleeKnzWswgImhKL42Xo5Cf5ImSSZ5hzc0040qyt1heo+V8OpUTCgDUBVk4m
-         6vRFje64RuJxRa0vN39fdFORDarfEAQNH2ZbJT8CuS3mvKpKE95aqTZzaUd9jJF/X6RV
-         LhrA==
+        d=timesys-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SUtl4KaA0gQaAh/0S0kv+mfIE4z7L+9aOLKke40OQe0=;
+        b=Ofl3R0AR4/v4x6pfLqo7J4pQ5OMmohGXFziiEC8q6qh9m09nvpChYQlP1UksmKe9LM
+         tU9cJBebAPBI06L+nxyXU3/drGW5nWX5ZkeB1WhlNiTkFJX9Zc5du/l3EjimZmnw3GtJ
+         Y7CvFGTvlbC7WFVObrhefhqszESzPFRytF7rbmDbQRda+yG726GNPVkZv4qOaAxKxt/3
+         TiSwocrfTQAqhqbN2hggtJ8j6fPnjC3avXDRqCeS7zwvLMrrDOTvvNsPXgwSB9v7Z0oj
+         I0w0s1ZXMen+1vTTB41vk/m3mf+rhadXr0bBtCid25m2GW2YPOCfAlNJox1JrZQBlsNU
+         CH4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Cgr0NudsllIuU4pYJfPAFPG4b+vxrvwuUcJfymOmGQ8=;
-        b=Sfl9r/dyNaJpFuN9ndsHdSRaSEsVM0p86iqeIkz5Jzprxmos5/U9fIJcR+Qg5Nfm27
-         sbFXGdyJMbWhOv7/fqUO7s3kFPrWJSie9WC1+26YoW+oxTz4HdONCcclx8polauTmE8k
-         Pc0cD4xI+jlJKnSgiEAVpSjk+gtQvj7zt+sa1L4ihmlU0cJZV9qnlaq3LTF6FWGvtRGA
-         RTUwEbPtWFbVS6MJQE8PxbCKGUHTV4hqUbDFFoSRUDmhyjTaVrqI8QSddwzDB2ai/259
-         3J4cbBRVLdebNy27EDigP0s7p5aKw06FyjcpOtG/JeBr7HffWkwaFNiXswZoTLeqK9EZ
-         AEKA==
-X-Gm-Message-State: AOAM530btGsQ2lqRQJyenJUmqFLpBESiyWRma2W05EhkbM14kiNVHHU0
-        en0usguB1JPyWyyuiitGX6Tf2vdnsE9Ai7qvojE=
-X-Google-Smtp-Source: ABdhPJyGGrfxQ+monAyxuSXFLZ+wQKQaQyNxxiZMOBy7ybxpdsyhyvQZ8QTuHtLcl9pcIvv1Jzid8D1ZHji8b4w1BPY=
-X-Received: by 2002:a63:2b4b:: with SMTP id r72mr11920911pgr.57.1632657391731;
- Sun, 26 Sep 2021 04:56:31 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SUtl4KaA0gQaAh/0S0kv+mfIE4z7L+9aOLKke40OQe0=;
+        b=Ui+gc+G3A5QlWXLmPl86tRJYQ/wfQZONPx89+MkC8UmJua8GPdrzkYIklHg/ziZ5yk
+         wXn+7OGoBcdK7ikHhSCMBF44dhIV8zKY0PKU8LKZrJOmXAZrplHTPsq6pTp/rqiHUHkC
+         ZgdXUpKfYVbG9Pi7TBt5eI7UzHCx2/0Zurz2QxemOTSAa6F7qrILpVkJtNuVD+iRr6zb
+         in5+iYLH5uNVRAgOz346hl/HL27zmIOTUdbqsNaEKpoNvVIt02lkQrsN3x9rtEVFBoPX
+         1Ih7TW7GBGsl0HkqMye01v2dV/2WMVNodzBAsGXN6Rjjsvav7ezmWztR7ARw61U2uCZX
+         6f2A==
+X-Gm-Message-State: AOAM531mpVlYOU7PPGo9ztFU2B0euS/e1mRkhLz92qCyLvH7uJzp9L/L
+        DWmhQYPumw3ElrgntvzgftLPBwvXFLpEkw==
+X-Google-Smtp-Source: ABdhPJzImYPkv3SKkI4sNSs46JZ0H1xItvE8hnJcnf+FP7X/rSpnBOOZkBwLwlqqMoyJhCnSz8rBLA==
+X-Received: by 2002:a50:d80e:: with SMTP id o14mr18226203edj.49.1632669653786;
+        Sun, 26 Sep 2021 08:20:53 -0700 (PDT)
+Received: from dfj.1.1.1.1 ([87.13.101.122])
+        by smtp.gmail.com with ESMTPSA id ba29sm9131320edb.5.2021.09.26.08.20.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Sep 2021 08:20:53 -0700 (PDT)
+From:   Angelo Dureghello <angelo.dureghello@timesys.com>
+To:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
+Cc:     Angelo Dureghello <angelo.dureghello@timesys.com>
+Subject: [PATCH] input: keyboard-matrix: add a function to reset input states
+Date:   Sun, 26 Sep 2021 17:18:47 +0200
+Message-Id: <20210926151847.337767-1-angelo.dureghello@timesys.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:2d09:0:0:0:0 with HTTP; Sun, 26 Sep 2021 04:56:31
- -0700 (PDT)
-Reply-To: abdwabbomaddah91@gmail.com
-From:   Abdwabbo Maddah <mr.kenneth1brown@gmail.com>
-Date:   Sun, 26 Sep 2021 12:56:31 +0100
-Message-ID: <CAEx6N_yTtXwvAUr4cCnsUYEdvW-3tPkM_f6apLVmObBr0zoD6A@mail.gmail.com>
-Subject: DID YOU RECEIVE MY MAIL?
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
--- 
-Dear,
-I had sent you a mail but i don't think you received it that's why am
-writing you again.It is important you get back to me as soon as you
-can.
+In some cases, at open(), when matrix_keypad_start() schedules
+matrix_keypad_scan(), some events may be fired, but they can't be
+grabbed from the event queue by evtest later on, since this
+condition causes a continuous event triggered.
 
-Abd-Wabbo Maddah
+Add a function to get (and align) button states at open without
+firing events at open stage.
+
+Signed-off-by: Angelo Dureghello <angelo.dureghello@timesys.com>
+---
+ drivers/input/keyboard/matrix_keypad.c | 37 ++++++++++++++++----------
+ 1 file changed, 23 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/input/keyboard/matrix_keypad.c b/drivers/input/keyboard/matrix_keypad.c
+index 30924b57058f..ce8cb09ee333 100644
+--- a/drivers/input/keyboard/matrix_keypad.c
++++ b/drivers/input/keyboard/matrix_keypad.c
+@@ -108,6 +108,24 @@ static void disable_row_irqs(struct matrix_keypad *keypad)
+ 	}
+ }
+ 
++static inline void matrix_get_keys_state(struct matrix_keypad *keypad,
++					 uint32_t *states)
++{
++	int row, col;
++	const struct matrix_keypad_platform_data *pdata = keypad->pdata;
++
++	states = states ?: keypad->last_key_state;
++
++	/* assert each column and read the row status out */
++	for (col = 0; col < pdata->num_col_gpios; col++) {
++		activate_col(pdata, col, true);
++		for (row = 0; row < pdata->num_row_gpios; row++)
++			states[col] |=
++				row_asserted(pdata, row) ? (1 << row) : 0;
++		activate_col(pdata, col, false);
++	}
++}
++
+ /*
+  * This gets the keys from keyboard and reports it to input subsystem
+  */
+@@ -126,17 +144,7 @@ static void matrix_keypad_scan(struct work_struct *work)
+ 
+ 	memset(new_state, 0, sizeof(new_state));
+ 
+-	/* assert each column and read the row status out */
+-	for (col = 0; col < pdata->num_col_gpios; col++) {
+-
+-		activate_col(pdata, col, true);
+-
+-		for (row = 0; row < pdata->num_row_gpios; row++)
+-			new_state[col] |=
+-				row_asserted(pdata, row) ? (1 << row) : 0;
+-
+-		activate_col(pdata, col, false);
+-	}
++	matrix_get_keys_state(keypad, new_state);
+ 
+ 	for (col = 0; col < pdata->num_col_gpios; col++) {
+ 		uint32_t bits_changed;
+@@ -202,10 +210,11 @@ static int matrix_keypad_start(struct input_dev *dev)
+ 	mb();
+ 
+ 	/*
+-	 * Schedule an immediate key scan to capture current key state;
+-	 * columns will be activated and IRQs be enabled after the scan.
++	 * Reset current key state and activate columns and IRQs.
+ 	 */
+-	schedule_delayed_work(&keypad->work, 0);
++	matrix_get_keys_state(keypad, NULL);
++	activate_all_cols(keypad->pdata, true);
++	enable_row_irqs(keypad);
+ 
+ 	return 0;
+ }
+-- 
+2.32.0
+
