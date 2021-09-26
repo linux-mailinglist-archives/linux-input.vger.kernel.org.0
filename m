@@ -2,141 +2,188 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56E064189EF
-	for <lists+linux-input@lfdr.de>; Sun, 26 Sep 2021 17:20:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF6A8418A12
+	for <lists+linux-input@lfdr.de>; Sun, 26 Sep 2021 17:56:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231929AbhIZPWd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 26 Sep 2021 11:22:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60714 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231913AbhIZPWc (ORCPT
+        id S232000AbhIZP5u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 26 Sep 2021 11:57:50 -0400
+Received: from smtpq4.tb.ukmail.iss.as9143.net ([212.54.57.99]:52528 "EHLO
+        smtpq4.tb.ukmail.iss.as9143.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231913AbhIZP5u (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 26 Sep 2021 11:22:32 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EA43C061570
-        for <linux-input@vger.kernel.org>; Sun, 26 Sep 2021 08:20:55 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id x7so43266306edd.6
-        for <linux-input@vger.kernel.org>; Sun, 26 Sep 2021 08:20:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=timesys-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SUtl4KaA0gQaAh/0S0kv+mfIE4z7L+9aOLKke40OQe0=;
-        b=Ofl3R0AR4/v4x6pfLqo7J4pQ5OMmohGXFziiEC8q6qh9m09nvpChYQlP1UksmKe9LM
-         tU9cJBebAPBI06L+nxyXU3/drGW5nWX5ZkeB1WhlNiTkFJX9Zc5du/l3EjimZmnw3GtJ
-         Y7CvFGTvlbC7WFVObrhefhqszESzPFRytF7rbmDbQRda+yG726GNPVkZv4qOaAxKxt/3
-         TiSwocrfTQAqhqbN2hggtJ8j6fPnjC3avXDRqCeS7zwvLMrrDOTvvNsPXgwSB9v7Z0oj
-         I0w0s1ZXMen+1vTTB41vk/m3mf+rhadXr0bBtCid25m2GW2YPOCfAlNJox1JrZQBlsNU
-         CH4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SUtl4KaA0gQaAh/0S0kv+mfIE4z7L+9aOLKke40OQe0=;
-        b=Ui+gc+G3A5QlWXLmPl86tRJYQ/wfQZONPx89+MkC8UmJua8GPdrzkYIklHg/ziZ5yk
-         wXn+7OGoBcdK7ikHhSCMBF44dhIV8zKY0PKU8LKZrJOmXAZrplHTPsq6pTp/rqiHUHkC
-         ZgdXUpKfYVbG9Pi7TBt5eI7UzHCx2/0Zurz2QxemOTSAa6F7qrILpVkJtNuVD+iRr6zb
-         in5+iYLH5uNVRAgOz346hl/HL27zmIOTUdbqsNaEKpoNvVIt02lkQrsN3x9rtEVFBoPX
-         1Ih7TW7GBGsl0HkqMye01v2dV/2WMVNodzBAsGXN6Rjjsvav7ezmWztR7ARw61U2uCZX
-         6f2A==
-X-Gm-Message-State: AOAM531mpVlYOU7PPGo9ztFU2B0euS/e1mRkhLz92qCyLvH7uJzp9L/L
-        DWmhQYPumw3ElrgntvzgftLPBwvXFLpEkw==
-X-Google-Smtp-Source: ABdhPJzImYPkv3SKkI4sNSs46JZ0H1xItvE8hnJcnf+FP7X/rSpnBOOZkBwLwlqqMoyJhCnSz8rBLA==
-X-Received: by 2002:a50:d80e:: with SMTP id o14mr18226203edj.49.1632669653786;
-        Sun, 26 Sep 2021 08:20:53 -0700 (PDT)
-Received: from dfj.1.1.1.1 ([87.13.101.122])
-        by smtp.gmail.com with ESMTPSA id ba29sm9131320edb.5.2021.09.26.08.20.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Sep 2021 08:20:53 -0700 (PDT)
-From:   Angelo Dureghello <angelo.dureghello@timesys.com>
-To:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
-Cc:     Angelo Dureghello <angelo.dureghello@timesys.com>
-Subject: [PATCH] input: keyboard-matrix: add a function to reset input states
-Date:   Sun, 26 Sep 2021 17:18:47 +0200
-Message-Id: <20210926151847.337767-1-angelo.dureghello@timesys.com>
-X-Mailer: git-send-email 2.32.0
+        Sun, 26 Sep 2021 11:57:50 -0400
+X-Greylist: delayed 1032 seconds by postgrey-1.27 at vger.kernel.org; Sun, 26 Sep 2021 11:57:49 EDT
+Received: from [212.54.57.97] (helo=smtpq2.tb.ukmail.iss.as9143.net)
+        by smtpq4.tb.ukmail.iss.as9143.net with esmtp (Exim 4.86_2)
+        (envelope-from <gareth.randall@virgin.net>)
+        id 1mUWF3-0000Nz-KT
+        for linux-input@vger.kernel.org; Sun, 26 Sep 2021 17:39:01 +0200
+Received: from [212.54.57.106] (helo=csmtp2.tb.ukmail.iss.as9143.net)
+        by smtpq2.tb.ukmail.iss.as9143.net with esmtp (Exim 4.86_2)
+        (envelope-from <gareth.randall@virgin.net>)
+        id 1mUWF2-00019j-5m
+        for linux-input@vger.kernel.org; Sun, 26 Sep 2021 17:39:00 +0200
+Received: from Gareths-MacBook-Air.local ([94.175.123.86])
+        by cmsmtp with ESMTPA
+        id UWF1m90CFVzDmUWF2m1frI; Sun, 26 Sep 2021 17:39:00 +0200
+X-Originating-IP: [94.175.123.86]
+X-Authenticated-Sender: gareth.randall@virgin.net
+X-Spam: 0
+X-Authority: v=2.4 cv=FqxmQ0nq c=1 sm=1 tr=0 ts=61509414 cx=a_exe
+ a=mwdPpgLduwvwBeoi1XfOCA==:117 a=mwdPpgLduwvwBeoi1XfOCA==:17
+ a=IkcTkHD0fZMA:10 a=7QKq2e-ADPsA:10 a=f6pUZMUfAAAA:8 a=kEQ3OyWAOIF62NgwlTYA:9
+ a=QEXdDO2ut3YA:10 a=eZImKStj3dtCS-zw9-0K:22
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virgin.net;
+        s=meg.feb2017; t=1632670740;
+        bh=cC8EwKWmF/dwsid5scoueIMMONnFBzPYtoxnTDKjNrU=;
+        h=From:Subject:To:Date;
+        b=DTJtiatt/y8e3/VE/tY7xfu/GBlO4V92lFqw6uc7sVZ41k1TKMCox7aWuKksOK9f5
+         Or3AQLhJFF1/xUorLORr1GP9WGB27czdueRGozZSJLPQxSjm0dvnZf3R+tvPW9eBDh
+         aoyM/oRKwVC6OZ67tNNYhUYQvpF9M/4Kc9rXvahOk4Yxf3OiJn4/Z2rSzDBNe4PKln
+         zs90GUlBdvgIPiPG/6x/OGWJFtrJ14dyum7WTSt7bLDL+UoqWoVaUSfIx/IbdJFvqb
+         NRVc1Dy2N1JzsQMprRyLEaSXI3HZO6WgIvB7Wx9SpQpDcjRf4iWocXfL8D0Z6f6lub
+         q+8TyweudFfTg==
+From:   Gareth Randall <gareth.randall@virgin.net>
+Subject: [PATCH] Add support for touch screens using the General Touch ST6001S
+ controller.
+To:     linux-input@vger.kernel.org
+Message-ID: <173fac72-0e7d-05f9-ff6e-5fc846ad1840@virgin.net>
+Date:   Sun, 26 Sep 2021 16:38:59 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfCtTrBbkZTQ9O+d4cEfxjso1UkYumjTGVh36tjZaIvGKIObJ2CtNUm+wv8ahdvDuJwVsVQLOXpQnglGua8ag59epLF7UaEKbYu65KXBLBKDMwNyoLqiU
+ HqNvXZGzlAS5GOeKd/YsWRa5r+yRt5pltbtildn13VYANike9nnYIgAApi3tzv+/dUAk3hAKSsNyi9cLKiWXqd2kOoF9YAFueuKrne9+te1b8TaYI2nNqTIV
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In some cases, at open(), when matrix_keypad_start() schedules
-matrix_keypad_scan(), some events may be fired, but they can't be
-grabbed from the event queue by evtest later on, since this
-condition causes a continuous event triggered.
+Add support for touch screens using the General Touch ST6001S 
+controller, as found in the GPEG model AOD22WZ-ST monitor. This 
+controller can output the ELO 10-byte protocol, but requires different 
+initialisation.
 
-Add a function to get (and align) button states at open without
-firing events at open stage.
+Signed-off-by: Gareth Randall <gareth@garethrandall.com>
 
-Signed-off-by: Angelo Dureghello <angelo.dureghello@timesys.com>
----
- drivers/input/keyboard/matrix_keypad.c | 37 ++++++++++++++++----------
- 1 file changed, 23 insertions(+), 14 deletions(-)
+----------------
 
-diff --git a/drivers/input/keyboard/matrix_keypad.c b/drivers/input/keyboard/matrix_keypad.c
-index 30924b57058f..ce8cb09ee333 100644
---- a/drivers/input/keyboard/matrix_keypad.c
-+++ b/drivers/input/keyboard/matrix_keypad.c
-@@ -108,6 +108,24 @@ static void disable_row_irqs(struct matrix_keypad *keypad)
- 	}
- }
- 
-+static inline void matrix_get_keys_state(struct matrix_keypad *keypad,
-+					 uint32_t *states)
+I would like some advice from the contributors of this list:
+
+Where my patch contains the following lines, I have set them to match a 
+22 inch screen (GPEG model AOD22WZ-ST) that I have been working on, 
+based on me moving my finger and watching the position of the mouse 
+pointer in X-windows. Are the maintainers satisfied with this or should 
+there also be an option to specify them as kernel parameters?
+
++       // Values taken from a GPEG model AOD22WZ-ST monitor
++       input_set_abs_params(dev, ABS_X, 1365, 5828, 0, 0);
++       // max and min inverted because screen axis is inverted
++       input_set_abs_params(dev, ABS_Y, 5013, 2260, 0, 0);
+
+Note also that the /bin/inputattach command must be extended to support 
+using the newly added elo->id value (id=4). I can post my changes to 
+this to assist those reviewing this patch but have not here as I'm 
+trying to stick to the patch email format.
+
+Thank you for your consideration.
+
+----------------
+
+diff --git a/drivers/input/touchscreen/elo.c 
+b/drivers/input/touchscreen/elo.c
+index 96173232e53f..8c15e0eea6b4 100644
+--- a/drivers/input/touchscreen/elo.c
++++ b/drivers/input/touchscreen/elo.c
+@@ -44,6 +44,8 @@ MODULE_LICENSE("GPL");
+  #define ELO10_ACK_PACKET	'A'
+  #define ELI10_ID_PACKET		'I'
+
++#define ELO_GT_INIT_PACKET	"\001XfE\r"
++
+  /*
+   * Per-touchscreen data.
+   */
+@@ -201,6 +203,7 @@ static irqreturn_t elo_interrupt(struct serio *serio,
+
+  	switch (elo->id) {
+  	case 0:
++	case 4:
+  		elo_process_data_10(elo, data);
+  		break;
+
+@@ -255,6 +258,54 @@ static int elo_command_10(struct elo *elo, unsigned 
+char *packet)
+  	return rc;
+  }
+
++/*
++ * Initialise the General Touch ST6001S controller.
++ */
++static int elo_command_10_gt(struct elo *elo)
 +{
-+	int row, col;
-+	const struct matrix_keypad_platform_data *pdata = keypad->pdata;
++	int rc = -1;
++	int i;
++	unsigned char *packet = ELO_GT_INIT_PACKET;
 +
-+	states = states ?: keypad->last_key_state;
++	mutex_lock(&elo->cmd_mutex);
 +
-+	/* assert each column and read the row status out */
-+	for (col = 0; col < pdata->num_col_gpios; col++) {
-+		activate_col(pdata, col, true);
-+		for (row = 0; row < pdata->num_row_gpios; row++)
-+			states[col] |=
-+				row_asserted(pdata, row) ? (1 << row) : 0;
-+		activate_col(pdata, col, false);
++	serio_pause_rx(elo->serio);
++	init_completion(&elo->cmd_done);
++	serio_continue_rx(elo->serio);
++
++	for (i = 0; i < (int)strlen(packet); i++) {
++		if (serio_write(elo->serio, packet[i]))
++			goto out;
 +	}
++
++	wait_for_completion_timeout(&elo->cmd_done, HZ);
++	rc = 0;
++
++ out:
++	mutex_unlock(&elo->cmd_mutex);
++	return rc;
 +}
 +
- /*
-  * This gets the keys from keyboard and reports it to input subsystem
-  */
-@@ -126,17 +144,7 @@ static void matrix_keypad_scan(struct work_struct *work)
- 
- 	memset(new_state, 0, sizeof(new_state));
- 
--	/* assert each column and read the row status out */
--	for (col = 0; col < pdata->num_col_gpios; col++) {
--
--		activate_col(pdata, col, true);
--
--		for (row = 0; row < pdata->num_row_gpios; row++)
--			new_state[col] |=
--				row_asserted(pdata, row) ? (1 << row) : 0;
--
--		activate_col(pdata, col, false);
--	}
-+	matrix_get_keys_state(keypad, new_state);
- 
- 	for (col = 0; col < pdata->num_col_gpios; col++) {
- 		uint32_t bits_changed;
-@@ -202,10 +210,11 @@ static int matrix_keypad_start(struct input_dev *dev)
- 	mb();
- 
- 	/*
--	 * Schedule an immediate key scan to capture current key state;
--	 * columns will be activated and IRQs be enabled after the scan.
-+	 * Reset current key state and activate columns and IRQs.
- 	 */
--	schedule_delayed_work(&keypad->work, 0);
-+	matrix_get_keys_state(keypad, NULL);
-+	activate_all_cols(keypad->pdata, true);
-+	enable_row_irqs(keypad);
- 
- 	return 0;
- }
--- 
-2.32.0
++static int elo_setup_10_gt(struct elo *elo)
++{
++	struct input_dev *dev = elo->dev;
++
++	if (elo_command_10_gt(elo))
++		return -1;
++
++	__set_bit(INPUT_PROP_DIRECT, dev->propbit);
++
++	// Values taken from a GPEG model AOD22WZ-ST monitor
++	input_set_abs_params(dev, ABS_X, 1365, 5828, 0, 0);
++	// max and min inverted because screen axis is inverted
++	input_set_abs_params(dev, ABS_Y, 5013, 2260, 0, 0);
++
++	dev_info(&elo->serio->dev,
++		 "GeneralTouch ST6001S touchscreen");
++
++	return 0;
++}
++
+  static int elo_setup_10(struct elo *elo)
+  {
+  	static const char *elo_types[] = { "Accu", "Dura", "Intelli", 
+"Carroll" };
+@@ -361,6 +412,13 @@ static int elo_connect(struct serio *serio, struct 
+serio_driver *drv)
+  		input_set_abs_params(input_dev, ABS_X, 0, 255, 0, 0);
+  		input_set_abs_params(input_dev, ABS_Y, 0, 255, 0, 0);
+  		break;
++
++	case 4: /* 10-byte protocol with General Touch initialisation */
++		if (elo_setup_10_gt(elo)) {
++			err = -EIO;
++			goto fail3;
++		}
++		break;
+  	}
+
+  	err = input_register_device(elo->dev);
 
