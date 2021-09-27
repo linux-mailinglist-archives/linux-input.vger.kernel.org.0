@@ -2,36 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEAC441953F
-	for <lists+linux-input@lfdr.de>; Mon, 27 Sep 2021 15:40:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17149419544
+	for <lists+linux-input@lfdr.de>; Mon, 27 Sep 2021 15:41:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234360AbhI0Nme (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Sep 2021 09:42:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38112 "EHLO mail.kernel.org"
+        id S234359AbhI0Nnc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Sep 2021 09:43:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38596 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232185AbhI0Nmd (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Sep 2021 09:42:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 95D0E60230;
-        Mon, 27 Sep 2021 13:40:54 +0000 (UTC)
+        id S234114AbhI0Nnc (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 27 Sep 2021 09:43:32 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D3D8560240;
+        Mon, 27 Sep 2021 13:41:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632750056;
-        bh=O8uvAzoNmBiLvdmdq/5fnnecg4NdC0khGr5cryy07u8=;
+        s=k20201202; t=1632750114;
+        bh=qjt1s5inuCWKP8g5uDxb3T+aW+Tv4h7k804QMmE7f6Q=;
         h=From:To:Cc:Subject:Date:From;
-        b=TbwgOFH7R/bMhYMiTGydDL/3nH2gEKlsw/RvM9Kez0eQ2jGlpnrEGaDQeSRCFRjMK
-         jdvJFwoDLbjZTzPnYCJTi7UcChwCN26lPWQKCL2hnXxjUGcWcrcpWSUtDHBQ4dyMuq
-         OP+V0V0SM42Vnei/5p3DWGAXR3Qq6BAgNDeFzDj5hhG/oxrrzBmYrkSNg6rUX0kTMx
-         LLoBz2IeCTMI7M4Hl3EhHJbz1j+lhy5UmvY02PB0MqSLFzkbOQLeSfN/g/FCF1avo9
-         CRynC/TpRMpwIXfvZVMxyHAC6yDrGf38E9vdAhG1iCg+N/9/+o6rhkoBvV7d6XaTvc
-         w4Lpj1F0s/kmQ==
+        b=qHh4HtQTKCNKt4UBPenri2J+5i62Fy+epYkIqTRlWtz0G1J9wulfA3xgCLM+p2tjq
+         hRW3Wpb3okm5FffIskLqwtB9QO4YY/J7E181pveRhFBExWTVrePVe8SXLUpTETJNj+
+         mv1NyUDEQjQ72apU47P2j54wSjlcQZkdckc77iGKGuKP2bJRenh68dfmClBH3qQvZc
+         /UNT61O4P7il44XQIIJIbz1GxhEs8RHOXqSc/vMMzDQPQLRLCbleNQin1gF0VBpsUp
+         7AtJtWzMEZKgX2JHhwAAoE2nxUkHgmxEG4YHCSCd+IwvEc6izzzyYtfnS0vyKfIMgP
+         FDBTiZxYTMExg==
 From:   Mark Brown <broonie@kernel.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-input@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Subject: [PATCH] input: rmi_spi: Add missing entries SPI to device ID table
-Date:   Mon, 27 Sep 2021 14:40:00 +0100
-Message-Id: <20210927134000.15993-1-broonie@kernel.org>
+Subject: [PATCH] input: ariel-pwrbutton: Add SPI device ID table
+Date:   Mon, 27 Sep 2021 14:41:04 +0100
+Message-Id: <20210927134104.38648-1-broonie@kernel.org>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=920; h=from:subject; bh=O8uvAzoNmBiLvdmdq/5fnnecg4NdC0khGr5cryy07u8=; b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBhUcmeu4B8KL3yw+xSEv5zmrmh3QigJ0BtMKbcdfKT xjqoeuaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYVHJngAKCRAk1otyXVSH0F0LB/ 9V4XeBVNCLGzzQ60Fv8/zmZpbkv/Dlx59bXN75AwxBzneZuJxUPF2jZVVt40xdQEJbv4Ai5h1rrXLi NVBN6WYGXRxqC4X3cELil4lMTzwCFAW7MttI27VOU0BMAE2/jeDZRZBY1hUGeHj9Ct+yP5MaIGqgbB 4ufw0C5i712YXsQjprsKN7CfoH8HDi+cQuFQn/+T/V3KmDYn8w3ktzbdm108FJSq1O5wi+mylgA00s 5Ov1WB8RmRdEdwtPME99myG50SBVnzXoVvUO7/RJMSCxeQfPRBA/ime6AfplJQSZ0T4Bjatj9l/aWs W1QmoeameRcxzjPpvPmfZgdNtjPk/Z
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1335; h=from:subject; bh=qjt1s5inuCWKP8g5uDxb3T+aW+Tv4h7k804QMmE7f6Q=; b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBhUcnou1fFjcpY3VkOAM8Gbb1OHApjPbVWvBYTmy4b qHgnFaiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYVHJ6AAKCRAk1otyXVSH0O9SB/ 9FcFLCscfHjDLwFXmQBO7eQKJ/LaA0NNNhiIBXwIMVpL9qhpLSvB25uLfclNdDf4xBTUqNZVhtWlJk ED/8wP6GWeStxtHgdmZ3wcTYvhJ57zb+7rhq3XbSiNXGzE6hmVm4pEsDHBOwcwhNdNstxsxMc82Z+L 797ucGEjpZT3vC2phN/7z6okHNtBCpDDaJdu48s/i83R5HgruyR71nFH3oQWjVgBAWCzi5a+THXRA4 DFZxuN27zErv4W+cXoMENgPdSoc+BtdUMNcXmtjAAPyIwGtTYdbZtk+d1CHiXxi8L4DTFsd3d4N7vg Fx8qZQsf+MNdRFvxql28yXk8gFpAxo
 X-Developer-Key: i=broonie@kernel.org; a=openpgp; fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -41,27 +41,38 @@ X-Mailing-List: linux-input@vger.kernel.org
 Currently autoloading for SPI devices does not use the DT ID table, it uses
 SPI modalises. Supporting OF modalises is going to be difficult if not
 impractical, an attempt was made but has been reverted, so ensure that
-module autoloading works for this driver by adding SPI IDs for parts that
-only have a compatible listed.
+module autoloading works for this driver by adding a SPI device ID table.
 
 Fixes: 96c8395e2166 ("spi: Revert modalias changes")
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- drivers/input/rmi4/rmi_spi.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/input/misc/ariel-pwrbutton.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/input/rmi4/rmi_spi.c b/drivers/input/rmi4/rmi_spi.c
-index c82edda66b23..1dccb8dd8919 100644
---- a/drivers/input/rmi4/rmi_spi.c
-+++ b/drivers/input/rmi4/rmi_spi.c
-@@ -511,6 +511,7 @@ static const struct dev_pm_ops rmi_spi_pm = {
- 
- static const struct spi_device_id rmi_id[] = {
- 	{ "rmi4_spi", 0 },
-+	{ "rmi4-spi", 0 },
- 	{ }
+diff --git a/drivers/input/misc/ariel-pwrbutton.c b/drivers/input/misc/ariel-pwrbutton.c
+index 17bbaac8b80c..cdc80715b5fd 100644
+--- a/drivers/input/misc/ariel-pwrbutton.c
++++ b/drivers/input/misc/ariel-pwrbutton.c
+@@ -149,12 +149,19 @@ static const struct of_device_id ariel_pwrbutton_of_match[] = {
  };
- MODULE_DEVICE_TABLE(spi, rmi_id);
+ MODULE_DEVICE_TABLE(of, ariel_pwrbutton_of_match);
+ 
++static const struct spi_device_id ariel_pwrbutton_spi_ids[] = {
++	{ .name = "wyse-ariel-ec-input" },
++	{ }
++};
++MODULE_DEVICE_TABLE(spi, ariel_pwrbutton_spi_ids);
++
+ static struct spi_driver ariel_pwrbutton_driver = {
+ 	.driver = {
+ 		.name = "dell-wyse-ariel-ec-input",
+ 		.of_match_table = ariel_pwrbutton_of_match,
+ 	},
+ 	.probe = ariel_pwrbutton_probe,
++	.id_table = ariel_pwrbutton_spi_ids,
+ };
+ module_spi_driver(ariel_pwrbutton_driver);
+ 
 -- 
 2.20.1
 
