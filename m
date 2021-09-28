@@ -2,117 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58FD84198E0
-	for <lists+linux-input@lfdr.de>; Mon, 27 Sep 2021 18:29:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CC4A41A5DF
+	for <lists+linux-input@lfdr.de>; Tue, 28 Sep 2021 05:11:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235375AbhI0Qbc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Sep 2021 12:31:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57788 "EHLO
+        id S238750AbhI1DNH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Sep 2021 23:13:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235338AbhI0Qbc (ORCPT
+        with ESMTP id S238781AbhI1DNG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Sep 2021 12:31:32 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C135C061575;
-        Mon, 27 Sep 2021 09:29:54 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id m132so5213171ybf.8;
-        Mon, 27 Sep 2021 09:29:54 -0700 (PDT)
+        Mon, 27 Sep 2021 23:13:06 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD3EDC061765
+        for <linux-input@vger.kernel.org>; Mon, 27 Sep 2021 20:11:27 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id b22so2407062pls.1
+        for <linux-input@vger.kernel.org>; Mon, 27 Sep 2021 20:11:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GOt10TfrlORdCOzbujAZfUg8LvCI74MFwT719xp10ic=;
-        b=XB40gH412JkfjfPD+P0uEfE5AipnhWoHiXXkwpvWeJ+KNp/8VRNYMRd6QlJlv8Pp/w
-         xJOA/QE4GawxruY+DZRgteY8V7SFvIUh8b4Zt2OiKlrhaA7Y0TcJlGkiCUQDtBqsQp6H
-         7K/nGECzd7+PUXQ+ZeCGX4wGmjr4veHDJXRmKkyn6fOz81FQO6oUVwTI11TI4+4Js/lp
-         n8ZzOXlgwCacI5ky9HUOnZAbVVnMq1sbNs8/NotiFCA3/fIUGkWl7ZoTmg/fmupj8VrV
-         fE4WFXN+fM5CYpfWSSVhjTbg6NM9jnz3oR1XdTa6tRkJTpgsKohFOfHZG+rgV2qja3sf
-         1HPQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=wIScJCR5UI0XLNs5fmS1ob6fbS5AQoKdInbHYrIqr8A=;
+        b=oAKkgwtdgOGg9zK++W7FG6eOZmcW/KjbGgIk6LKf3SfkYo5T0Gx0SVPKDM0cg66PpP
+         vjYkkzXTFELT7IDvkcXvr6oNQ4cyssv/rblP/YifEAVJhCPyWhRc3lpGq2AoweYnZKN9
+         VuReKzHUWrY2hnWCeTNe/X6bjv1kv8jNH7VJOcBPMI/AvHoxMBMjJOojFmxlvEoIohc6
+         UwjUmke8ROAzCHiDjIIPHg25txnoIPjveCSUBySGRNHWqQt6LCUEJtQeNMsIMLTxpwzs
+         XPSnWKRIsiyhaePXjdPLoApHCyHKsDN0EKy7l8sAglC4UEm+I5tWr5xKnHwF0RRgHGXk
+         H7HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GOt10TfrlORdCOzbujAZfUg8LvCI74MFwT719xp10ic=;
-        b=LAcHLlLOVAX24+fcSKqkSuQLU/a3ZkEgralY5vimQ+hl6Y7Vx0zfBgjA/t9hdxoH0c
-         SY1WaW1vHdPIWnhucC9D0YmsKmOWrb1npX1VsktEHMVW6b0y2ADQpzKm4Y3bAciEYi9c
-         ocOLtwHMM6uxJRk+D12Iz2Kf2du98MX5W2xy++94lmcsqT+SO2qpE0Bf2/cb7gKkz/RA
-         oQC3DEbXHhCPg7NgYcLzt0zMhgUL/dn/rDWTMLgkEfgyExP7Idzpuvb9K9reaHXB+y20
-         A/ON/Rru6S9BjOmD+qDKCFXqn3nrxPD1N+JnR0t7Qm39m3tI/nnr8KIhqwGXWXOIk7a5
-         o8+A==
-X-Gm-Message-State: AOAM533P70rykH0VrMGA/khta6yZnKBjJDVwrO2KlxZNPZ0bxtHhJYzf
-        QWqfp+Jmky4KeYPd1rPBUFB0slmS0/Sy8I8E8tg=
-X-Google-Smtp-Source: ABdhPJyeYOrLsxFVI0qtuk+ovYF1d9hsWuDunMTTVlQXSZXcFLwyQpMx9854X2pKqFPdaYe468CSiowJC4PJ4cHLbZk=
-X-Received: by 2002:a25:cb4c:: with SMTP id b73mr782765ybg.209.1632760193727;
- Mon, 27 Sep 2021 09:29:53 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=wIScJCR5UI0XLNs5fmS1ob6fbS5AQoKdInbHYrIqr8A=;
+        b=DwwJHVyL4Fqo0h2vGK9un4Zyk6+YeTZLj9RENZJEhA9u0GyBvtcwiwahHPBGYajWnV
+         kyLzquhKIAIcKNjpq/h4+hzhlyo5/XsSQ0kYh4msZEqYnoWhuyJG43JVCSelJJm27tlK
+         6xg9M0ilf0A3Q4eupMT93Xt7YelXIvGZcVk8ZQX7WLquU0C5f0HB+6D4clCzWDw8I1UY
+         kEg8C+YoSq9+r4YnFbsomOJx1DqIqyKiUlc7WE3UkPVFZWMXi4gR0OIOsSLelnw6L+25
+         2xomLi5uRb8w0BVJlH4QaMaJpmOxe4Pt99H3GQjaGqzKfALVfb5e5JhkPUpZz9O5hwVX
+         uBpQ==
+X-Gm-Message-State: AOAM531ABFCpa3GHraAMl8g7szxj0HgjQ/8T7SC3unBwaONx25oHHszO
+        CVugqHvZBaaxh3TwDD8pmOs=
+X-Google-Smtp-Source: ABdhPJx0z4Bp/gZiCDWRGXauMIPPSPAAqJEZ2n9vVarfT1I0tE7bi5IP/EmzlwMJgzq/TFeZ6stw8Q==
+X-Received: by 2002:a17:90b:3797:: with SMTP id mz23mr2811666pjb.216.1632798687107;
+        Mon, 27 Sep 2021 20:11:27 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:52c9:a6bb:3d14:5fea])
+        by smtp.gmail.com with ESMTPSA id 139sm5517332pfz.35.2021.09.27.20.11.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Sep 2021 20:11:26 -0700 (PDT)
+Date:   Mon, 27 Sep 2021 20:11:24 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH] input: rmi_spi: Add missing entries SPI to device ID
+ table
+Message-ID: <YVKH3Oe2Ezv79Evf@google.com>
+References: <20210927134000.15993-1-broonie@kernel.org>
 MIME-Version: 1.0
-References: <20210908165539.3102929-1-roderick.colenbrander@sony.com>
- <20210908165539.3102929-3-roderick.colenbrander@sony.com> <nycvar.YFH.7.76.2109221150110.15944@cbobk.fhfr.pm>
- <20210927141109.GB5809@duo.ucw.cz>
-In-Reply-To: <20210927141109.GB5809@duo.ucw.cz>
-From:   Roderick Colenbrander <thunderbird2k@gmail.com>
-Date:   Mon, 27 Sep 2021 09:29:42 -0700
-Message-ID: <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
- for game controllers.
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210927134000.15993-1-broonie@kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Pavel,
+Hi Mark,
 
-On Mon, Sep 27, 2021 at 7:12 AM Pavel Machek <pavel@ucw.cz> wrote:
->
-> Hi!
->
-> > > Player LEDs are commonly found on game controllers from Nintendo and Sony
-> > > to indicate a player ID across a number of LEDs. For example, "Player 2"
-> > > might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
-> > >
-> > > This patch introduces LED_FUNCTION_PLAYER1-5 defines to properly indicate
-> > > player LEDs from the kernel. Until now there was no good standard, which
-> > > resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
-> > > other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYERx.
-> > >
-> > > Note: management of Player IDs is left to user space, though a kernel
-> > > driver may pick a default value.
-> > >
-> > > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> > > ---
-> > >  Documentation/leds/well-known-leds.txt | 14 ++++++++++++++
-> > >  include/dt-bindings/leds/common.h      |  7 +++++++
-> > >  2 files changed, 21 insertions(+)
-> >
-> > Pavel, could you please eventually Ack this, so that I can take it
-> > together with the rest?
->
-> I'm willing to take Documentation/leds/well-known-leds.txt part
-> through LED tree.
->
-> I don't like the common.h change; either avoid the define or put it
-> into your local header.
+On Mon, Sep 27, 2021 at 02:40:00PM +0100, Mark Brown wrote:
+> Currently autoloading for SPI devices does not use the DT ID table, it uses
+> SPI modalises. Supporting OF modalises is going to be difficult if not
+> impractical, an attempt was made but has been reverted, so ensure that
+> module autoloading works for this driver by adding SPI IDs for parts that
+> only have a compatible listed.
+> 
+> Fixes: 96c8395e2166 ("spi: Revert modalias changes")
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  drivers/input/rmi4/rmi_spi.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/input/rmi4/rmi_spi.c b/drivers/input/rmi4/rmi_spi.c
+> index c82edda66b23..1dccb8dd8919 100644
+> --- a/drivers/input/rmi4/rmi_spi.c
+> +++ b/drivers/input/rmi4/rmi_spi.c
+> @@ -511,6 +511,7 @@ static const struct dev_pm_ops rmi_spi_pm = {
+>  
+>  static const struct spi_device_id rmi_id[] = {
+>  	{ "rmi4_spi", 0 },
+> +	{ "rmi4-spi", 0 },
 
-If the LED_FUNCTION_PLAYER* defines don't belong in common with the
-other LED_FUNCTION* ones, where should it go? The hid-nintendo driver
-intends to use the same defines, so defining it local to each driver
-isn't right. Not sure if there is a great place in the input system
-either (you would then have to move scrolllock and all those other LED
-definitions too.)
+I do not think this is needed as kmod "normalizes" module names and
+modalias strings by converting all dashes to underscore before executing
+matching.
 
-Thanks,
-Roderick
+Thanks.
 
-
->
-> Best regards,
->                                                                 Pavel
-> --
-> http://www.livejournal.com/~pavelmachek
+-- 
+Dmitry
