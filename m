@@ -2,102 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2C6541A7CA
-	for <lists+linux-input@lfdr.de>; Tue, 28 Sep 2021 07:58:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9030B41AABB
+	for <lists+linux-input@lfdr.de>; Tue, 28 Sep 2021 10:39:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239434AbhI1F7e (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 28 Sep 2021 01:59:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49598 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239202AbhI1F6l (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 28 Sep 2021 01:58:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 58FFE611F0;
-        Tue, 28 Sep 2021 05:56:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632808606;
-        bh=1BDI3ZVdJ/s08tnw6uvuhb79UtVnXik7lPZ9T5LzB1M=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Z0mhbLSnwWfagD7iAOMbwHXpHZWKMHY1YZRh6mqC5VJQWfC2y9yLHh2Ck2kRxpJEQ
-         dAlonYEwzju+qH7Umm3RyHZTlsblvepPsrght5uMuJYBsZSWwUCaCBwUFgQtPg2B4F
-         n+5qCeDqJt2nNhFVQ2Oh1Z8Wz3s30nmX7nwmP6IT9SjeDBubwxNabJoumM+A/gCHkL
-         YbOEkAkZs2pxpFuLrc2GWvAjhJWUr/i6e4YoFJt6L1SqW22mykVTbJ6mllQ2pQeZK2
-         ZaBPPwGMzsDc3i327xMbBsSjkhjsEUudoYSzkBJWrLi6zS42ABUMWvIFEAP8E0D2vk
-         mnPL2/FFX76+Q==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, mgross@linux.intel.com,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 03/23] platform/x86: touchscreen_dmi: Update info for the Chuwi Hi10 Plus (CWI527) tablet
-Date:   Tue, 28 Sep 2021 01:56:24 -0400
-Message-Id: <20210928055645.172544-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210928055645.172544-1-sashal@kernel.org>
-References: <20210928055645.172544-1-sashal@kernel.org>
+        id S239613AbhI1Ikz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 28 Sep 2021 04:40:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56290 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239556AbhI1Iky (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 28 Sep 2021 04:40:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1632818355;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=iIu3XHeX/2hWPbmTYoP9PzSWuyoc+CNO+138wXnL4b8=;
+        b=VMchrfTq1Cb6jn/Ohp3F3anykJQQ2/K3Q0cEnHivWVw1Ml8Rk/Q20ehiVFbGhrcNhHEaPU
+        /CT9ee0bEUIg2E7plFs8av/KD4DVQhtMjWMwKpl56OQY9axppt06JhD6L6pYfman+JlKDf
+        PCQw6l1CFTdOH7FOXCKwtqGfDhoL0NA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-5nP1mBXyM42AGk-wkXXyHA-1; Tue, 28 Sep 2021 04:39:11 -0400
+X-MC-Unique: 5nP1mBXyM42AGk-wkXXyHA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AC4F802921;
+        Tue, 28 Sep 2021 08:39:10 +0000 (UTC)
+Received: from xps-13.redhat.com (unknown [10.39.195.86])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CF28A5D9D5;
+        Tue, 28 Sep 2021 08:39:08 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        =?UTF-8?q?Michal=20Mal=C3=BD?= <madcatxster@devoid-pointer.net>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH 0/2] HID: lg: fix init of devices when FF is off
+Date:   Tue, 28 Sep 2021 10:39:04 +0200
+Message-Id: <20210928083906.43983-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+Hi,
 
-[ Upstream commit 196159d278ae3b49e7bbb7c76822e6008fd89b97 ]
+foreword: this was only compiled tested and would greatly benefit
+from some testing with real hardware.
 
-Add info for getting the firmware directly from the UEFI for the Chuwi Hi10
-Plus (CWI527), so that the user does not need to manually install the
-firmware in /lib/firmware/silead.
+This was discovered in RHEL 8. There, we disable most of the FF bits
+and it appears returning -1 when the bits are disabled just make
+the device disappear.
 
-This change will make the touchscreen on these devices work OOTB,
-without requiring any manual setup.
+Cheers,
+Benjamin
 
-Also tweak the min and width/height values a bit for more accurate position
-reporting.
+Benjamin Tissoires (2):
+  HID: lg: do not return an error when FF is disabled
+  HID: lg4ff: do not return a value for deinit
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://lore.kernel.org/r/20210905130210.32810-2-hdegoede@redhat.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/touchscreen_dmi.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ drivers/hid/hid-lg.h    | 6 +++---
+ drivers/hid/hid-lg4ff.c | 5 ++---
+ drivers/hid/hid-lg4ff.h | 6 +++---
+ 3 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 4f5d53b585db..59b7e90cd587 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -100,10 +100,10 @@ static const struct ts_dmi_data chuwi_hi10_air_data = {
- };
- 
- static const struct property_entry chuwi_hi10_plus_props[] = {
--	PROPERTY_ENTRY_U32("touchscreen-min-x", 0),
--	PROPERTY_ENTRY_U32("touchscreen-min-y", 5),
--	PROPERTY_ENTRY_U32("touchscreen-size-x", 1914),
--	PROPERTY_ENTRY_U32("touchscreen-size-y", 1283),
-+	PROPERTY_ENTRY_U32("touchscreen-min-x", 12),
-+	PROPERTY_ENTRY_U32("touchscreen-min-y", 10),
-+	PROPERTY_ENTRY_U32("touchscreen-size-x", 1908),
-+	PROPERTY_ENTRY_U32("touchscreen-size-y", 1270),
- 	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-chuwi-hi10plus.fw"),
- 	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
- 	PROPERTY_ENTRY_BOOL("silead,home-button"),
-@@ -111,6 +111,15 @@ static const struct property_entry chuwi_hi10_plus_props[] = {
- };
- 
- static const struct ts_dmi_data chuwi_hi10_plus_data = {
-+	.embedded_fw = {
-+		.name	= "silead/gsl1680-chuwi-hi10plus.fw",
-+		.prefix = { 0xf0, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00 },
-+		.length	= 34056,
-+		.sha256	= { 0xfd, 0x0a, 0x08, 0x08, 0x3c, 0xa6, 0x34, 0x4e,
-+			    0x2c, 0x49, 0x9c, 0xcd, 0x7d, 0x44, 0x9d, 0x38,
-+			    0x10, 0x68, 0xb5, 0xbd, 0xb7, 0x2a, 0x63, 0xb5,
-+			    0x67, 0x0b, 0x96, 0xbd, 0x89, 0x67, 0x85, 0x09 },
-+	},
- 	.acpi_name      = "MSSL0017:00",
- 	.properties     = chuwi_hi10_plus_props,
- };
 -- 
-2.33.0
+2.26.3
 
