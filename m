@@ -2,76 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7377541F9A3
-	for <lists+linux-input@lfdr.de>; Sat,  2 Oct 2021 06:21:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6EE541F9E5
+	for <lists+linux-input@lfdr.de>; Sat,  2 Oct 2021 06:59:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230059AbhJBEWv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 2 Oct 2021 00:22:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45300 "EHLO
+        id S230284AbhJBFBc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 2 Oct 2021 01:01:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbhJBEWv (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 2 Oct 2021 00:22:51 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F0C2C061775
-        for <linux-input@vger.kernel.org>; Fri,  1 Oct 2021 21:21:06 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id oj16so4601590pjb.1
-        for <linux-input@vger.kernel.org>; Fri, 01 Oct 2021 21:21:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=jXlLrTxcHP/Xa2KowKreJQxd+KXg6whz8IYxbrLHciM=;
-        b=nnFr/wpRtdg5P2b499RpGplQb/r7ubSB6xsmJhUWBOqYvJ0Fa4j0xm5wmMHxtMEc6/
-         R3UOJDmdHIcQxFLVcHEo9LwAqeZ2IXfqTXn0Lw8H7EleJX1aT7xwdO9WSJUssax4tBBb
-         C7PgzgLVuZkeCsRrwvPlSr4CXF4rjUTPZzmisr5bdsIMqxzSGWmQ9ZNtPuc0iWV4f0Y1
-         0D07AaD6Rm2iQIA2VTAD7+tcO8s1W5ies6yz+AmRU4lrrunDsX+M0HOXnmn+ZQOElDLK
-         /vJexdHaz/vImHtIv3LQnH3ZzWabya9r63+oUu4XIpavSfplo4pGHBmHkfcuvdSwB/HD
-         x/aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=jXlLrTxcHP/Xa2KowKreJQxd+KXg6whz8IYxbrLHciM=;
-        b=VkNPRr2plmGPHKK8XuXBkK5bS+QlOF/+BaQ+C9OIQgZpyFQ3UQqiyowkqmBe7s/NGK
-         GhJrx8A+LZ6heq196UwJifLpAe6tem3/9iG9uLeHiawRI1cUWNwzSgOKgPaPtmuKf4WS
-         9avpGJ3e4wUysEm7E/OXuwVwzBezeW3bBNjoievLMhjmir1aMFgSoN7sSuzRMD9SJjJT
-         dlgfyhtaGrmXdpDKXd91dmGK/rq21u548QlhU0qnkJ27PeRlwgjpLnoadPIGnqy0jTQR
-         vhhlhW9tPQAy215jqH3yJJG8u/XgvAtO4c2xkRrcbL/R753nKag/6kPzBetTyhlekQmW
-         Wziw==
-X-Gm-Message-State: AOAM532Tvl/kXcK1pfAuIYga/Pmp1INXhpIgHosy8wDdGHWp/8R25/qa
-        3YajjjuJos1WGGuv9bsAhhc=
-X-Google-Smtp-Source: ABdhPJyPZr9xUPb7skQY18ZhfOLMHTJE5AF2AU6EIQur5AzNe7XdrZH2DaN+YG7VsXwJIullm/gxYQ==
-X-Received: by 2002:a17:90a:f013:: with SMTP id bt19mr24406131pjb.98.1633148465577;
-        Fri, 01 Oct 2021 21:21:05 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:435b:42e1:fe0a:1117])
-        by smtp.gmail.com with ESMTPSA id o12sm7297233pgn.33.2021.10.01.21.21.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Oct 2021 21:21:04 -0700 (PDT)
-Date:   Fri, 1 Oct 2021 21:21:02 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: [PATCH] input: ariel-pwrbutton: Add SPI device ID table
-Message-ID: <YVfeLkehn5wHCwQ1@google.com>
-References: <20210927134104.38648-1-broonie@kernel.org>
+        with ESMTP id S229581AbhJBFBa (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 2 Oct 2021 01:01:30 -0400
+Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E84CEC061775;
+        Fri,  1 Oct 2021 21:59:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=iJLC+3ZlFQ1U2zcDDHfUhr1pau9J8AeUPSVlkDJtwmY=; b=aGb8RLPtIx9naj1IOx8MNlP8KN
+        faH5Mbdl2zCuZxYcHzFI/dBJwl715/Cn/LXvgDxguAJdg0zk0bqNoitlz0SbpHkquT95fOic7/wna
+        5NeGY4cf4GsEm2HK8kmwDSEu6pYciULYxlrbF0/wAfNckfWbf+2LkfRy3HSLjMvuU8rENn7Q2BLQ8
+        /DpvGryojCtiVVJvym9PSfz4AjH07XVWEQ+3ccZk3cwhqTUwxkKWWV2oL8ES4L48t+1jEMlBmZ7qY
+        W6Zs9FIj/FdiP6mQrEey9xsL8yyYuXjwREwuibgQd8F5R9VUUnMzByrSXLUxnH3NCqTGRldA1jjKM
+        SwrOvxxg==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mWX7g-001mnB-FB; Sat, 02 Oct 2021 04:59:44 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        kernel test robot <lkp@intel.com>,
+        Aditya Srivastava <yashsri421@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org,
+        Haojian Zhuang <haojian.zhuang@gmail.com>
+Subject: [PATCH] input/misc: max8925_onkey.c: don't mark comment as kernel-doc
+Date:   Fri,  1 Oct 2021 21:59:43 -0700
+Message-Id: <20211002045943.9406-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210927134104.38648-1-broonie@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Sep 27, 2021 at 02:41:04PM +0100, Mark Brown wrote:
-> Currently autoloading for SPI devices does not use the DT ID table, it uses
-> SPI modalises. Supporting OF modalises is going to be difficult if not
-> impractical, an attempt was made but has been reverted, so ensure that
-> module autoloading works for this driver by adding a SPI device ID table.
-> 
-> Fixes: 96c8395e2166 ("spi: Revert modalias changes")
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+Change the comment to a normal (non-kernel-doc) comment to avoid
+these kernel-doc warnings:
 
-Applied, thank you.
+max8925_onkey.c:2: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * MAX8925 ONKEY driver
+max8925_onkey.c:2: warning: missing initial short description on line:
+ * MAX8925 ONKEY driver
 
--- 
-Dmitry
+Fixes: 3734574cac100 ("Input: enable onkey driver of max8925")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Cc: Aditya Srivastava <yashsri421@gmail.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
+---
+ drivers/input/misc/max8925_onkey.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- linux-next-20211001.orig/drivers/input/misc/max8925_onkey.c
++++ linux-next-20211001/drivers/input/misc/max8925_onkey.c
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * MAX8925 ONKEY driver
+  *
+  * Copyright (C) 2009 Marvell International Ltd.
