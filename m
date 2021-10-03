@@ -2,128 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DCCC41FB6E
-	for <lists+linux-input@lfdr.de>; Sat,  2 Oct 2021 14:03:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B41D41FED6
+	for <lists+linux-input@lfdr.de>; Sun,  3 Oct 2021 02:00:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232951AbhJBMF2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 2 Oct 2021 08:05:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60886 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232935AbhJBMF1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 2 Oct 2021 08:05:27 -0400
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E41C3C061570;
-        Sat,  2 Oct 2021 05:03:41 -0700 (PDT)
-Received: by mail-io1-xd2f.google.com with SMTP id z184so1532206iof.5;
-        Sat, 02 Oct 2021 05:03:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to:cc
-         :content-transfer-encoding;
-        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
-        b=YxWIlaBSYFvjD6wxI3Im7HD0DUa8SKawF0d7t45AEzKjL6m83eOsT6rgZdQRGCng74
-         6RLcJMZhzHbNym1o2udNgSV2epSTH0qAv/gDWDsxACfpBL7vOUGDwWmGmUaO2SE5P8uY
-         T63X4axLx9vlrJbw970R//6K5CXkIsOYNNanoWJo6B81ZE00DEyRoVjZrAUA3RQ+9ju3
-         SZYoVWN+Ed+cukZyyntSGlKOmbEpXAJVn5nVjU9PttbC0fy1k1kkmOWz1VvVx3VvX7FT
-         7VoKZi/ug9VIcJXMy54+WPXzQ6H5V7BFKbJ6aHn+8SZElmbcl8wcN4j53q3jHLdvow5u
-         jyoA==
+        id S234216AbhJCACL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 2 Oct 2021 20:02:11 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:37562 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234115AbhJCACL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 2 Oct 2021 20:02:11 -0400
+Received: by mail-io1-f69.google.com with SMTP id e68-20020a6bb547000000b005d06de54ab7so12497580iof.4
+        for <linux-input@vger.kernel.org>; Sat, 02 Oct 2021 17:00:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
-        b=LmOqDwxqDDyQv8S5r8mgiOrkAdVuYjTHRPeL3SEcVCmf7iltEE+9E/WZ/p4a/Rn6OK
-         r3NIfiwPWf7KMH2N8E7aj9oaEc65LBtP0zvNSXYapgvfoiGp/gn4pQr6YnnJ321thhXg
-         UPVYssUs2StzWAD4Fo7masaaFkiOnbLL5nVv/dCZJIbtpy0aOis4w8Sq2+zDrQJpYgJ2
-         BgAockzdWQXrw276F+kR1NCbmuusK8c+G5aTErF1zxB/C4qJBdeiCmLoNqfxrhcADHs1
-         C+A9TlKq/pvb05UIgyvRzQeVCHUz2Vc2jXMdDry12eLQagUSqyM6oyQG9mzJutcKherx
-         5Ckw==
-X-Gm-Message-State: AOAM531n/GcSWL+Qoyf2OX/kqSmiAkrV6zyLjg67Vu5E6w2n/478Pi66
-        /U4B72F0Qpia4whCxpJUMQqm5jkVFMT4Yf+6K6E=
-X-Google-Smtp-Source: ABdhPJz2q09A+517W2EVe9dbDivdnk3AEH6BZaUlyYLwJiT4IN/1ySl0KWhD1PmrDJ75/9gz6SNXe4y+mLeDTP26TSo=
-X-Received: by 2002:a05:6638:104:: with SMTP id x4mr2547380jao.145.1633176221400;
- Sat, 02 Oct 2021 05:03:41 -0700 (PDT)
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=sPeIva6CL4KxHHY2Q9g7Nyxavqi4qBd+jB20UI/S2c4=;
+        b=wThp3PJepec3GBLZGJ+0fVsImwwrebi8j5ezBK4c5Iril5gcCt7m9hmcbAoyXUBHcF
+         /yqOfZFo21bIdFVLBLJxv43/JC2/1eMONRJcr3euLSiuXps/KbpRfgCJa2kPN8B0Qeit
+         1nfnGXEd0vSEbZuzJ/Va2NhUPwCVsVxevHpRZbZegWIBtxlsfyNzIU0pqcxnFwBiJ5j8
+         xHbNnicKxZVD+aOABLWlbrKuQ+7YktQAcHtK3ecaZHrU2A3+z7URprdY23QhxU+JyBcd
+         af3wBcpFCvJXHy225MHtsAlDiiqvBNs9q+7XlSYmY8d5DpIZna18qtyl0Ace1kwRuUSd
+         pFqQ==
+X-Gm-Message-State: AOAM5334xOfvm0OrhZvXlGyU+pqFfIE4pcVooC/NKVFAuW6FjxHyh5Yc
+        5yZ5IA3/Pt7f9iwUp020MevzjSquVBgavJjRx7oJjKdBuwv9
+X-Google-Smtp-Source: ABdhPJxvfwCLzVRPax7yt+SgISALSJepNIKSfexzTyocoJXjMAU86DM5w5fjC6wPN2yTzb2uavDKrFJJUKNDsK/0UnWs615TFQQx
 MIME-Version: 1.0
-Received: by 2002:a4f:f90d:0:0:0:0:0 with HTTP; Sat, 2 Oct 2021 05:03:41 -0700 (PDT)
-Reply-To: unitednnation0@gmail.com
-From:   "U.n" <wadebaye33@gmail.com>
-Date:   Sat, 2 Oct 2021 00:03:41 -1200
-Message-ID: <CACE0T5XLJ2ZM5W28B0Dyv4Rc8vqA8pN78J4Aso6XvTW_kxoNmQ@mail.gmail.com>
-Subject: Attention
-To:     unitednnation0@gmail.com
-Cc:     pberger@brimson.com, alborchers@steinerpoint.com,
-        xavyer@ix.netcom.com, support@connecttech.com,
-        steve.glendinning@shawell.net, luca.risolia@studio.unibo.it,
-        stern@rowland.harvard.edu, oneukum@suse.de,
-        linux-uvc-devel@lists.sourceforge.net,
-        laurent.pinchart@ideasonboard.com, jussi.kivilinna@mbnet.fi,
-        sarah.a.sharp@linux.intel.com, royale@zerezo.com,
-        jdike@addtoit.com, richard@nod.at,
-        user-mode-linux-devel@lists.sourceforge.net,
-        user-mode-linux-user@lists.sourceforge.net, hjk@hansjkoch.de,
-        kzak@redhat.com, util-linux@vger.kernel.org, spock@gentoo.org,
-        hirofumi@mail.parknet.co.jp, alex.williamson@redhat.com,
-        pawel@osciak.com, m.szyprowski@samsung.com,
-        kyungmin.park@samsung.com, amit.shah@redhat.com,
-        rusty@rustcorp.com.au, mst@redhat.com, kvm@vger.kernel.org,
-        rl@hellgate.ch, brucechang@via.com.tw, HaraldWelte@viatech.com,
-        FlorianSchandinat@gmx.de, linux-fbdev@vger.kernel.org,
-        romieu@fr.zoreil.com, kaber@trash.net, florian@openwrt.org,
-        openwrt-devel@lists.openwrt.org, martyn.welch@ge.com,
-        manohar.vanga@gmail.com, gregkh@linuxfoundation.org,
-        devel@driverdev.osuosl.org, sbhatewara@vmware.com,
-        arvindkumar@vmware.com, pv-drivers@vmware.com, lrg@ti.com,
-        juergh@gmail.com, vt8231@hiddenengine.co.uk,
-        tony.olech@elandigitalsystems.com, linux-mmc@vger.kernel.org,
-        linux-usb@vger.kernel.org, zbr@ioremap.net, m.hulsman@tudelft.nl,
-        r.marek@assembler.cz, khali@linux-fr.org,
-        lm-sensors@lm-sensors.org, pierre@ossman.eu, wim@iguana.be,
-        linux-watchdog@vger.kernel.org, zaga@fly.cc.fer.hr,
-        linux-scsi@vger.kernel.org, dh.herrmann@googlemail.com,
-        david@hardeman.nu, inaky.perez-gonzalez@intel.com,
-        linux-wimax@intel.com, wimax@linuxwimax.org, mitr@volny.cz,
-        acme@ghostprotocols.net, lrg@slimlogic.co.uk,
-        linux-input@vger.kernel.org, broonie@opensource.wolfsonmicro.com,
-        patches@opensource.wolfsonmicro.com, tj@kernel.org,
-        andrew.hendry@gmail.com, linux-x25@vger.kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, hpa@zytor.com,
-        x86@kernel.org, mjg@redhat.com,
-        platform-driver-x86@vger.kernel.org, tony.luck@intel.com,
-        bp@alien8.de, linux-edac@vger.kernel.org, mchehab@redhat.com,
-        jeremy@goop.org, virtualization@lists.linux-foundation.org,
-        stefano.stabellini@eu.citrix.com, ian.campbell@citrix.com,
-        netdev@vger.kernel.org, konrad.wilk@oracle.com,
-        xen-devel@lists.xensource.com, bpm@sgi.com, elder@kernel.org,
-        xfs@oss.sgi.com, anirudh@xilinx.com, John.Linn@xilinx.com,
-        grant.likely@secretlab.ca, jacmet@sunsite.dk
+X-Received: by 2002:a05:6638:1929:: with SMTP id p41mr4644047jal.21.1633219224944;
+ Sat, 02 Oct 2021 17:00:24 -0700 (PDT)
+Date:   Sat, 02 Oct 2021 17:00:24 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000be49b905cd677b9a@google.com>
+Subject: [syzbot] WARNING in atp_close (3)
+From:   syzbot <syzbot+b88c5eae27386b252bbd@syzkaller.appspotmail.com>
+To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---=20
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    bf5b1e621a51 Add linux-next specific files for 20210927
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=11cc5bd3300000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4b58fe22c337ee4a
+dashboard link: https://syzkaller.appspot.com/bug?extid=b88c5eae27386b252bbd
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b88c5eae27386b252bbd@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 11843 at kernel/workqueue.c:3074 __flush_work+0x928/0xb10 kernel/workqueue.c:3074
+Modules linked in:
+CPU: 1 PID: 11843 Comm: syz-executor.3 Not tainted 5.15.0-rc3-next-20210927-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:__flush_work+0x928/0xb10 kernel/workqueue.c:3074
+Code: ff 41 89 c4 89 8d 88 fe ff ff e8 a3 67 70 00 48 0f ba 2b 03 e9 6a fa ff ff e8 e4 1e 2a 00 0f 0b e9 5a fc ff ff e8 d8 1e 2a 00 <0f> 0b 45 31 f6 e9 4b fc ff ff e8 f9 63 70 00 e9 3a fb ff ff e8 bf
+RSP: 0018:ffffc90005887b38 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff88801a7a9290 RCX: 0000000000000000
+RDX: ffff88801f37d700 RSI: ffffffff814c22c8 RDI: 0000000000000003
+RBP: ffffc90005887cd0 R08: 0000000000000000 R09: 0000000000000001
+R10: ffffffff814c1a45 R11: 0000000000000000 R12: dffffc0000000000
+R13: 1ffff92000b10f9d R14: 0000000000000001 R15: ffff88801a7a92a8
+FS:  0000555555bf1400(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007eff33b21000 CR3: 000000001a6b9000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ __cancel_work_timer+0x3f9/0x570 kernel/workqueue.c:3170
+ atp_close+0x5e/0xa0 drivers/input/mouse/appletouch.c:812
+ input_close_device+0x156/0x1f0 drivers/input/input.c:687
+ evdev_close_device drivers/input/evdev.c:414 [inline]
+ evdev_release+0x34c/0x410 drivers/input/evdev.c:456
+ __fput+0x288/0x9f0 fs/file_table.c:280
+ task_work_run+0xdd/0x1a0 kernel/task_work.c:164
+ tracehook_notify_resume include/linux/tracehook.h:189 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:175 [inline]
+ exit_to_user_mode_prepare+0x27e/0x290 kernel/entry/common.c:207
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:289 [inline]
+ syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:300
+ do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7eff339d351b
+Code: 0f 05 48 3d 00 f0 ff ff 77 45 c3 0f 1f 40 00 48 83 ec 18 89 7c 24 0c e8 63 fc ff ff 8b 7c 24 0c 41 89 c0 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 35 44 89 c7 89 44 24 0c e8 a1 fc ff ff 8b 44
+RSP: 002b:00007ffc6d17d160 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
+RAX: 0000000000000000 RBX: 0000000000000005 RCX: 00007eff339d351b
+RDX: 00007eff33b291e0 RSI: ffffffff89327541 RDI: 0000000000000004
+RBP: 0000000000000001 R08: 0000000000000000 R09: 0000001b2d422e74
+R10: 0000000000001f81 R11: 0000000000000293 R12: 0000000000043109
+R13: 00000000000003e8 R14: 00007eff33b24f60 R15: 0000000000042b7f
+ </TASK>
 
 
-Attention Sir/Madam
-This is the United Nation (UN). We the United Nations (UN) Globally
-has approved (US$2.500,000)( two Million Five hundred thousand
-dollars) compensation as part of our responsibilities for humanitarian
-Aid for fighting against CoronaVirus and you are among the lucky ones.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-
-This compensation is for the most affected countries, communities and
-families across the global. Your funds were deposited with Bank in USA
-to transfer your funds to you via Internet Banking. You have to send
-your full details as state below:with this email Address
-  ( unitednnation0@gmail.com )
-Your full names:
-Address:
-Telephone:
-Occupation:
-
-
-
-Yours Sincerely
-Mr. Ant=C3=B3nio Guterres
-United Nations (UN).
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
