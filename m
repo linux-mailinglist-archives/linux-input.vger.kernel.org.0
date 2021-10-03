@@ -2,111 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B41D41FED6
-	for <lists+linux-input@lfdr.de>; Sun,  3 Oct 2021 02:00:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A86D4201EC
+	for <lists+linux-input@lfdr.de>; Sun,  3 Oct 2021 16:13:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234216AbhJCACL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 2 Oct 2021 20:02:11 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:37562 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234115AbhJCACL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 2 Oct 2021 20:02:11 -0400
-Received: by mail-io1-f69.google.com with SMTP id e68-20020a6bb547000000b005d06de54ab7so12497580iof.4
-        for <linux-input@vger.kernel.org>; Sat, 02 Oct 2021 17:00:25 -0700 (PDT)
+        id S230432AbhJCOPM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 3 Oct 2021 10:15:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36072 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230220AbhJCOPM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 3 Oct 2021 10:15:12 -0400
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23BF3C061781
+        for <linux-input@vger.kernel.org>; Sun,  3 Oct 2021 07:13:25 -0700 (PDT)
+Received: by mail-il1-x130.google.com with SMTP id j15so15622916ila.6
+        for <linux-input@vger.kernel.org>; Sun, 03 Oct 2021 07:13:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=xQrYULKok+hL+AIRGJuG9CojAZcnV9Xr+it7yxQJVlY=;
+        b=CzLLeOt2D85wYPflsbZMOSwizKARCM6P3C9aq2kTvCAL8FK1dZZaA9VZZmaIp3f33B
+         tnm7G3V2dSSl++TwJMleTYdX1B+nHs6V3T2kRG0mYWyJJeYz7qX7jy1hYLK3DbH2R2nw
+         s23bV9DFCP/frjDIfPkf4Pfma5XFXzhSsBnviadqVs/m7wSBu53yNlrmkKp7f2YVi/It
+         ZHuETojNIvNB4gxIqmtIeSHsXJSazkAFHv9YhnP92mjANq4rgL7D8Z3b8FlRGGi0rzws
+         FkUIMeczEpa/qhSZ6d5qXGP8gHqGq1whjWB6bpLGdUx8q6RDPUBcAAR5slseYAxd0IQv
+         TL2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=sPeIva6CL4KxHHY2Q9g7Nyxavqi4qBd+jB20UI/S2c4=;
-        b=wThp3PJepec3GBLZGJ+0fVsImwwrebi8j5ezBK4c5Iril5gcCt7m9hmcbAoyXUBHcF
-         /yqOfZFo21bIdFVLBLJxv43/JC2/1eMONRJcr3euLSiuXps/KbpRfgCJa2kPN8B0Qeit
-         1nfnGXEd0vSEbZuzJ/Va2NhUPwCVsVxevHpRZbZegWIBtxlsfyNzIU0pqcxnFwBiJ5j8
-         xHbNnicKxZVD+aOABLWlbrKuQ+7YktQAcHtK3ecaZHrU2A3+z7URprdY23QhxU+JyBcd
-         af3wBcpFCvJXHy225MHtsAlDiiqvBNs9q+7XlSYmY8d5DpIZna18qtyl0Ace1kwRuUSd
-         pFqQ==
-X-Gm-Message-State: AOAM5334xOfvm0OrhZvXlGyU+pqFfIE4pcVooC/NKVFAuW6FjxHyh5Yc
-        5yZ5IA3/Pt7f9iwUp020MevzjSquVBgavJjRx7oJjKdBuwv9
-X-Google-Smtp-Source: ABdhPJxvfwCLzVRPax7yt+SgISALSJepNIKSfexzTyocoJXjMAU86DM5w5fjC6wPN2yTzb2uavDKrFJJUKNDsK/0UnWs615TFQQx
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=xQrYULKok+hL+AIRGJuG9CojAZcnV9Xr+it7yxQJVlY=;
+        b=mveYzGNdan1yMpHyfkScR+JYXQS65EjnG1bQmqrCWiMH/+7xXfC1GibAlMhpaG2tjB
+         ljjNS/STCj9pfiK4SctOkIIlqqg3bEUd5A5DZo+RErAulLoXaxyP9dPul1ctmw3XxaeV
+         OBmEB9jbI4EliRnWm6qbnT3cZJa/1KbDol0rrpma1/U2wlnDATjk8UAV3p7IKl3J0UA4
+         9OAIvdVetZ2WcSb6g1mD5PBYv/A8/4EoNfLNigkv7x8dtXd5cCSqvia2YUcet8tzXlSL
+         gWE3NJTYojNMnwR6LVgZi9jiyJsWXopVOHFSthkXPbnbHDlGYeyvWLCeZYMyCZ/4hz6i
+         OPbw==
+X-Gm-Message-State: AOAM533co3gF13/7/Ji2fYx9kaFWN+iIOP8Egs9bp2un9wK+oXWXgKmD
+        D5jc6fiiA9axzmLB9I/17Xzep4CI1kgb/6pM0Qg=
+X-Google-Smtp-Source: ABdhPJwb1HesNpW12IaqapBMFTaGWumjzJ93O2SJa+U30ZV3tpE5aeCcsKdEmofeOcmkqiLqiA+h+PWUQjkjjE/OhS8=
+X-Received: by 2002:a05:6e02:1a89:: with SMTP id k9mr6219250ilv.77.1633270404496;
+ Sun, 03 Oct 2021 07:13:24 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:1929:: with SMTP id p41mr4644047jal.21.1633219224944;
- Sat, 02 Oct 2021 17:00:24 -0700 (PDT)
-Date:   Sat, 02 Oct 2021 17:00:24 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000be49b905cd677b9a@google.com>
-Subject: [syzbot] WARNING in atp_close (3)
-From:   syzbot <syzbot+b88c5eae27386b252bbd@syzkaller.appspotmail.com>
-To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Received: by 2002:a05:6e02:1a0f:0:0:0:0 with HTTP; Sun, 3 Oct 2021 07:13:24
+ -0700 (PDT)
+Reply-To: mrsaishag45@gmail.com
+From:   Mrs Aisha Al-Qaddafi <mrsaishagaddafi488@gmail.com>
+Date:   Sun, 3 Oct 2021 07:13:24 -0700
+Message-ID: <CAOXivUpd8ZMrXQnFbTbrBMJzPT8pHpftGpqTH6627mngwH4Nig@mail.gmail.com>
+Subject: Dear Friend,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+Dear Friend,
 
-syzbot found the following issue on:
+I came across your e-mail contact prior to a private search while in
+need of your assistance. I am Aisha Al-Qaddafi, the only biological
+Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
+single Mother and a Widow with three Children.
 
-HEAD commit:    bf5b1e621a51 Add linux-next specific files for 20210927
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=11cc5bd3300000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=4b58fe22c337ee4a
-dashboard link: https://syzkaller.appspot.com/bug?extid=b88c5eae27386b252bbd
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+I have investment funds worth Twenty Seven Million Five Hundred
+Thousand United State Dollar ($27.500.000.00 ) and i need a trusted
+investment Manager/Partner because of my current refugee status,
+however, I am interested in you for investment project assistance in
+your country, may be from there, we can build business relationship in
+the nearest future.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+I am willing to negotiate an investment/business profit sharing ratio
+with you based on the future investment earning profits.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b88c5eae27386b252bbd@syzkaller.appspotmail.com
+If you are willing to handle this project on my behalf kindly reply
+urgently to enable me to provide you more information about the
+investment funds.
 
-------------[ cut here ]------------
-WARNING: CPU: 1 PID: 11843 at kernel/workqueue.c:3074 __flush_work+0x928/0xb10 kernel/workqueue.c:3074
-Modules linked in:
-CPU: 1 PID: 11843 Comm: syz-executor.3 Not tainted 5.15.0-rc3-next-20210927-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-RIP: 0010:__flush_work+0x928/0xb10 kernel/workqueue.c:3074
-Code: ff 41 89 c4 89 8d 88 fe ff ff e8 a3 67 70 00 48 0f ba 2b 03 e9 6a fa ff ff e8 e4 1e 2a 00 0f 0b e9 5a fc ff ff e8 d8 1e 2a 00 <0f> 0b 45 31 f6 e9 4b fc ff ff e8 f9 63 70 00 e9 3a fb ff ff e8 bf
-RSP: 0018:ffffc90005887b38 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff88801a7a9290 RCX: 0000000000000000
-RDX: ffff88801f37d700 RSI: ffffffff814c22c8 RDI: 0000000000000003
-RBP: ffffc90005887cd0 R08: 0000000000000000 R09: 0000000000000001
-R10: ffffffff814c1a45 R11: 0000000000000000 R12: dffffc0000000000
-R13: 1ffff92000b10f9d R14: 0000000000000001 R15: ffff88801a7a92a8
-FS:  0000555555bf1400(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007eff33b21000 CR3: 000000001a6b9000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- __cancel_work_timer+0x3f9/0x570 kernel/workqueue.c:3170
- atp_close+0x5e/0xa0 drivers/input/mouse/appletouch.c:812
- input_close_device+0x156/0x1f0 drivers/input/input.c:687
- evdev_close_device drivers/input/evdev.c:414 [inline]
- evdev_release+0x34c/0x410 drivers/input/evdev.c:456
- __fput+0x288/0x9f0 fs/file_table.c:280
- task_work_run+0xdd/0x1a0 kernel/task_work.c:164
- tracehook_notify_resume include/linux/tracehook.h:189 [inline]
- exit_to_user_mode_loop kernel/entry/common.c:175 [inline]
- exit_to_user_mode_prepare+0x27e/0x290 kernel/entry/common.c:207
- __syscall_exit_to_user_mode_work kernel/entry/common.c:289 [inline]
- syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:300
- do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7eff339d351b
-Code: 0f 05 48 3d 00 f0 ff ff 77 45 c3 0f 1f 40 00 48 83 ec 18 89 7c 24 0c e8 63 fc ff ff 8b 7c 24 0c 41 89 c0 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 35 44 89 c7 89 44 24 0c e8 a1 fc ff ff 8b 44
-RSP: 002b:00007ffc6d17d160 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
-RAX: 0000000000000000 RBX: 0000000000000005 RCX: 00007eff339d351b
-RDX: 00007eff33b291e0 RSI: ffffffff89327541 RDI: 0000000000000004
-RBP: 0000000000000001 R08: 0000000000000000 R09: 0000001b2d422e74
-R10: 0000000000001f81 R11: 0000000000000293 R12: 0000000000043109
-R13: 00000000000003e8 R14: 00007eff33b24f60 R15: 0000000000042b7f
- </TASK>
+Your Urgent Reply Will Be Appreciated
 
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Best Regards
+Mrs Aisha Al-Qaddafi
