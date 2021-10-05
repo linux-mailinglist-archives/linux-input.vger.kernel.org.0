@@ -2,93 +2,211 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6765422889
-	for <lists+linux-input@lfdr.de>; Tue,  5 Oct 2021 15:51:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D619422CD0
+	for <lists+linux-input@lfdr.de>; Tue,  5 Oct 2021 17:43:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235557AbhJENwy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 5 Oct 2021 09:52:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60394 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235466AbhJENwm (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 5 Oct 2021 09:52:42 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F3EC61989;
-        Tue,  5 Oct 2021 13:50:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633441851;
-        bh=Supx4RRVHRgenGiH964uPjNYEQ08HNmm2bDw3KofKEg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ahKxMSxPTU3C5p7gbxVl55Fgu98rbUWPZLINTzT0f2phbcmcXpgOyyRbNV/yLlN90
-         Xhs+riYHJOAeKNBvnKyAzhajSHkuNoPA2hSErn+/hWE0do2I5QTqmcCKu3O+P9YAPP
-         6lBDm6zDi29iBHO9HC4r4l7o4vmTaikbWLOKL/SGNk6dZgt+TJ02Ifl0NuowcJ28Nl
-         q2Z0QBLjkRjC1wr0G+HLcBpv+YcqoZVtHXqPeVpyeIDWpnO9fjEToi3fhw2zpWAKuF
-         EWXUUf6Zna9xfwc43Ash8RZDZZa0w/6+024nqLLsRKzIa2dd0NZ7zS2VAk1Av3jEyT
-         pWzU+enR7kPug==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Evgeny Novikov <novikov@ispras.ru>,
-        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        nehal-bakulchandra.shah@amd.com, basavaraj.natikar@amd.com,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.14 14/40] HID: amd_sfh: Fix potential NULL pointer dereference
-Date:   Tue,  5 Oct 2021 09:49:53 -0400
-Message-Id: <20211005135020.214291-14-sashal@kernel.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211005135020.214291-1-sashal@kernel.org>
-References: <20211005135020.214291-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+        id S235588AbhJEPpP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 5 Oct 2021 11:45:15 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:44106 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231513AbhJEPpP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Oct 2021 11:45:15 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id D03DD2003B;
+        Tue,  5 Oct 2021 15:43:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1633448603; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=LYcyNSBFYAWeK30AFwM9CLCFhu52fa/XU+fDppW8tGE=;
+        b=SLiDv4qx4zKnX8i/BNhuwzMbxhqpo3wbXiHN9MpiMWug6bacH+9woTCo62eP7uoVaPf2ce
+        RTc9uuoTCFXfAdvI+aS1BluJgjbmsjbBoJ3OWIIKuYnGrMYK6BJMYUfUlGgjm2/uDunb+i
+        Yvmf+f1orh4dqpE8GDcbHqkm/53aq0M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1633448603;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=LYcyNSBFYAWeK30AFwM9CLCFhu52fa/XU+fDppW8tGE=;
+        b=ir71L5cqaAtN+XPwdUHjWy79ex3ZmFwf9o9WpS3G9jfAtdQ/HRLc2gT+EmDPJqXOBSpti5
+        9VpmKJlsy1JXWZAQ==
+Received: from alsa1.suse.de (alsa1.suse.de [10.160.4.42])
+        by relay2.suse.de (Postfix) with ESMTP id C9E3CA3B9B;
+        Tue,  5 Oct 2021 15:43:23 +0000 (UTC)
+Date:   Tue, 05 Oct 2021 17:43:23 +0200
+Message-ID: <s5hpmsjcw9w.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Fabio Estevam <festevam@gmail.com>, linux-input@vger.kernel.org
+Subject: Re: Delaying i8042 probe?
+In-Reply-To: <s5hh7ekc1tw.wl-tiwai@suse.de>
+References: <s5ho890n1rh.wl-tiwai@suse.de>
+        <CAOMZO5C-wFv0LmbHfZQUMMchJAwvxMxTs=eT6oby8O8k4QyoFQ@mail.gmail.com>
+        <s5hee9wmy6e.wl-tiwai@suse.de>
+        <CAOMZO5CACdcxGWn++f0+zhQaKevH7b5c-Xkv3QLBpwxc2GxizQ@mail.gmail.com>
+        <s5hee9vlg8i.wl-tiwai@suse.de>
+        <CAOMZO5C+gki7HT-n5D6qj06NbMxo2su2d6X+8AvM9PSmLUZ0jg@mail.gmail.com>
+        <CAOMZO5DepuVScmDU7yZGVOVUs1JzHOd4bmu1z3erE2GNpcjZ+w@mail.gmail.com>
+        <YT0zv6Rv1vURYTi3@google.com>
+        <s5hh7ekc1tw.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Evgeny Novikov <novikov@ispras.ru>
+On Thu, 16 Sep 2021 11:22:03 +0200,
+Takashi Iwai wrote:
+> 
+> On Sun, 12 Sep 2021 00:54:55 +0200,
+> Dmitry Torokhov wrote:
+> > 
+> > Hi Fabio,
+> > 
+> > On Sat, Sep 11, 2021 at 03:50:25PM -0300, Fabio Estevam wrote:
+> > > On Sat, Sep 11, 2021 at 3:43 PM Fabio Estevam <festevam@gmail.com> wrote:
+> > > >
+> > > > On Sat, Sep 11, 2021 at 4:32 AM Takashi Iwai <tiwai@suse.de> wrote:
+> > > >
+> > > > > OK, I'll update and let the reporter testing it.
+> > > >
+> > > > Sorry, platform_device_alloc() and platform_device_add() were missing
+> > > > in the earlier patch.
+> > > >
+> > > > New patch atached.
+> > > >
+> > > > Dmitry, does this look correct?
+> > > 
+> > > Please consider this one instead.
+> > 
+> > This is unfortunately is a band-aid. I wonder what other driver pokes
+> > the embedded controller on these devices for it to start responding to
+> > 8042 queries...
+> > 
+> > Does the laptop have the latest BIOS? I wonder what ACPI tables look
+> > like.
+> 
+> ACPI dump is included in hwinfo output,
+>   https://bugzilla.suse.com/show_bug.cgi?id=1190256#c1
+> 
+> If other format is required, let me know.  I thought this could be a
+> typical pinctrl thing, alas it doesn't look so.  The pinctrl-amd is
+> also built-in, and it's initialized before the input stuff...
+> 
+> And about BIOS: I don't think we can expect every user updates BIOS.
+> This report is not alone; as I checked through net, there have been a
+> few other reports for other distros like Arch.  On Arch, they "fixed"
+> the problem by reverting the config from built-in to modules (the bug
+> surfaced after their kconfig changes).
+> 
+> That said, even if it's a band-aid, we need some fix.  Can the
+> deferred probe be applied in some restricted manner, e.g. only for the
+> known buggy devices (and/or module option) and cap the max repeats?
 
-[ Upstream commit d46ef750ed58cbeeba2d9a55c99231c30a172764 ]
+Dmitry, what is your take for fixing this bug?  
 
-devm_add_action_or_reset() can suddenly invoke amd_mp2_pci_remove() at
-registration that will cause NULL pointer dereference since
-corresponding data is not initialized yet. The patch moves
-initialization of data before devm_add_action_or_reset().
+I find Fabio's deferred probe patch reasonable.  Maybe we may restrict
+the application of the deferred probe only for known working devices
+and an option, something like a patch below, just to be safer.
+(There are devices exposing PnP for i8042 although there isn't really,
+IIRC.)
 
-Found by Linux Driver Verification project (linuxtesting.org).
 
-[jkosina@suse.cz: rebase]
-Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
-Acked-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+thanks,
+
+Takashi
+
+-- 8< --
+From: Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH] Input: i8042 - Perform deferred probe only with DMI list and
+ option
+
+Add an i8042.probe_defer option to enable the deferred probing
+feature, otherwise it'll be disabled and done in a single shot like
+before.  For the known devices that need the deferred probe, we
+provide a DMI-based allow-list.  As of this patch, ASUS ZenBook
+UX425UA is added there.
+
+BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1190256
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ Documentation/admin-guide/kernel-parameters.txt |  2 ++
+ drivers/input/serio/i8042-x86ia64io.h           | 14 ++++++++++++++
+ drivers/input/serio/i8042.c                     |  6 +++++-
+ 3 files changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index 8d68796aa905..4069b813c6c3 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -235,6 +235,10 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 		return rc;
- 	}
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 91ba391f9b32..6e6622d8f4a0 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1690,6 +1690,8 @@
+ 			architectures force reset to be always executed
+ 	i8042.unlock	[HW] Unlock (ignore) the keylock
+ 	i8042.kbdreset	[HW] Reset device connected to KBD port
++	i8042.probe_defer
++			[HW] Allow deferred probing upon i8042 probe errors
  
-+	rc = amd_sfh_hid_client_init(privdata);
-+	if (rc)
-+		return rc;
+ 	i810=		[HW,DRM]
+ 
+diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
+index a5a003553646..41335a1d7001 100644
+--- a/drivers/input/serio/i8042-x86ia64io.h
++++ b/drivers/input/serio/i8042-x86ia64io.h
+@@ -981,6 +981,17 @@ static const struct dmi_system_id __initconst i8042_dmi_kbdreset_table[] = {
+ 	{ }
+ };
+ 
++static const struct dmi_system_id i8042_dmi_probe_defer_table[] __initconst = {
++	{
++		/* ASUS ZenBook UX425UA */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "ZenBook UX425UA"),
++		},
++	},
++	{ }
++};
 +
- 	privdata->cl_data = devm_kzalloc(&pdev->dev, sizeof(struct amdtp_cl_data), GFP_KERNEL);
- 	if (!privdata->cl_data)
- 		return -ENOMEM;
-@@ -245,7 +249,7 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ #endif /* CONFIG_X86 */
  
- 	mp2_select_ops(privdata);
+ #ifdef CONFIG_PNP
+@@ -1301,6 +1312,9 @@ static int __init i8042_platform_init(void)
+ 	if (dmi_check_system(i8042_dmi_kbdreset_table))
+ 		i8042_kbdreset = true;
  
--	return amd_sfh_hid_client_init(privdata);
-+	return 0;
- }
++	if (dmi_check_system(i8042_dmi_probe_defer_table))
++		i8042_probe_defer = true;
++
+ 	/*
+ 	 * A20 was already enabled during early kernel init. But some buggy
+ 	 * BIOSes (in MSI Laptops) require A20 to be enabled using 8042 to
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index a72a8c538164..ea0c52ca95c4 100644
+--- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -45,6 +45,10 @@ static bool i8042_unlock;
+ module_param_named(unlock, i8042_unlock, bool, 0);
+ MODULE_PARM_DESC(unlock, "Ignore keyboard lock.");
  
- static const struct pci_device_id amd_mp2_pci_tbl[] = {
++static bool i8042_probe_defer;
++module_param_named(probe_defer, i8042_probe_defer, bool, 0);
++MODULE_PARM_DESC(unlock, "Allow deferred probing.");
++
+ enum i8042_controller_reset_mode {
+ 	I8042_RESET_NEVER,
+ 	I8042_RESET_ALWAYS,
+@@ -1005,7 +1009,7 @@ static int i8042_controller_init(void)
+ 
+ 		if (i8042_command(&ctr[n++ % 2], I8042_CMD_CTL_RCTR)) {
+ 			pr_err("Can't read CTR while initializing i8042\n");
+-			return -EPROBE_DEFER;
++			return i8042_probe_defer ? -EPROBE_DEFER : -EIO;
+ 		}
+ 
+ 	} while (n < 2 || ctr[0] != ctr[1]);
 -- 
-2.33.0
+2.31.1
 
