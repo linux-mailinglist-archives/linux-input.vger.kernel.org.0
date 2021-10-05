@@ -2,211 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D619422CD0
-	for <lists+linux-input@lfdr.de>; Tue,  5 Oct 2021 17:43:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDFD9422F5B
+	for <lists+linux-input@lfdr.de>; Tue,  5 Oct 2021 19:49:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235588AbhJEPpP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 5 Oct 2021 11:45:15 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:44106 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231513AbhJEPpP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Oct 2021 11:45:15 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id D03DD2003B;
-        Tue,  5 Oct 2021 15:43:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1633448603; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=LYcyNSBFYAWeK30AFwM9CLCFhu52fa/XU+fDppW8tGE=;
-        b=SLiDv4qx4zKnX8i/BNhuwzMbxhqpo3wbXiHN9MpiMWug6bacH+9woTCo62eP7uoVaPf2ce
-        RTc9uuoTCFXfAdvI+aS1BluJgjbmsjbBoJ3OWIIKuYnGrMYK6BJMYUfUlGgjm2/uDunb+i
-        Yvmf+f1orh4dqpE8GDcbHqkm/53aq0M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1633448603;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=LYcyNSBFYAWeK30AFwM9CLCFhu52fa/XU+fDppW8tGE=;
-        b=ir71L5cqaAtN+XPwdUHjWy79ex3ZmFwf9o9WpS3G9jfAtdQ/HRLc2gT+EmDPJqXOBSpti5
-        9VpmKJlsy1JXWZAQ==
-Received: from alsa1.suse.de (alsa1.suse.de [10.160.4.42])
-        by relay2.suse.de (Postfix) with ESMTP id C9E3CA3B9B;
-        Tue,  5 Oct 2021 15:43:23 +0000 (UTC)
-Date:   Tue, 05 Oct 2021 17:43:23 +0200
-Message-ID: <s5hpmsjcw9w.wl-tiwai@suse.de>
-From:   Takashi Iwai <tiwai@suse.de>
+        id S234303AbhJERuv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 5 Oct 2021 13:50:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36460 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233671AbhJERut (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Oct 2021 13:50:49 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD104C06174E
+        for <linux-input@vger.kernel.org>; Tue,  5 Oct 2021 10:48:56 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id m21so30676pgu.13
+        for <linux-input@vger.kernel.org>; Tue, 05 Oct 2021 10:48:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=aktO3MIuhcJHP+k3LRfRQCfAEj4yjVMHakhMwYPxUyc=;
+        b=QvpDANPwTPG+RBR5Junq7lmP/VUC9TNjvFK3MNeIhkmx9v8aYVfLg+0EEdidHyjGjm
+         CA29v46yb/d+Z0/WuM7d/qKnz9yKR/xHkvBt84vcdWoKCvYT9Et6z595FQ5OVP7fdn3X
+         wQ9f7tjd75wn7N56/74i3RM0KkDl9wD2Do/eAgprwIjXAYqx3cUx5Tp5MzMnrrvvZv2d
+         dR8eJ67Fub4aRUj/exIb18X2WOln+UEUUDm37uyYYTRe+uvxqKoOKtFFLUuqc90L7Amo
+         +wL42QktO/JISeCqEbZcZWF8mnydqUKDuhGU3Gxy9PHI3t/m+v7D8CXHBYZ7vldCyrBh
+         WyOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=aktO3MIuhcJHP+k3LRfRQCfAEj4yjVMHakhMwYPxUyc=;
+        b=3j77hsyRYrNhVnCcRwjksY2a4dEzo7Q97a93B8s8hz44Ec7nqh8/bD26FOewKDR656
+         HPQYw2P0M1J8aPiG5M1rSBA0J7hMye9USNE0zAHS6hgmcL1TvZrWlv1HmeMp8/B9exJe
+         ooaql0bJf6ovPxFFRJqq1yd3/P5/a50ofkF/+RGEdluJNYI6IzOZCcH6VzOm2KiKRWts
+         jyok2Hws7n3HQVbXg94EbJF0IQmtWNT4tMw6J4Ji2iSoo7gLqOcM+G7UF5r0LZ+3p9n+
+         Nj5/HqACUwe//MMDdvx2POLxhP1bS7KiE8LwfCpLt4KC3LldO5K0IXrBcKVDuq6IqhAs
+         1AXQ==
+X-Gm-Message-State: AOAM530vcNNwMusbIK59tc1VPgKtYcqDQGfpjb2sh3KbRrBFyI28hAWx
+        kRXyfu+BvUMsSUP3C3PT5ratYg==
+X-Google-Smtp-Source: ABdhPJz14fGlL05m3Fy56TnqEoOeVrCd12a7yJvSfZr0dfQS9I2/IAbCln5+fu3/sysX6iIiPHGIGw==
+X-Received: by 2002:a65:6251:: with SMTP id q17mr16983553pgv.416.1633456136220;
+        Tue, 05 Oct 2021 10:48:56 -0700 (PDT)
+Received: from localhost (c-71-197-186-152.hsd1.wa.comcast.net. [71.197.186.152])
+        by smtp.gmail.com with ESMTPSA id 12sm2150475pfz.133.2021.10.05.10.48.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Oct 2021 10:48:55 -0700 (PDT)
+From:   Kevin Hilman <khilman@baylibre.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Fabio Estevam <festevam@gmail.com>, linux-input@vger.kernel.org
-Subject: Re: Delaying i8042 probe?
-In-Reply-To: <s5hh7ekc1tw.wl-tiwai@suse.de>
-References: <s5ho890n1rh.wl-tiwai@suse.de>
-        <CAOMZO5C-wFv0LmbHfZQUMMchJAwvxMxTs=eT6oby8O8k4QyoFQ@mail.gmail.com>
-        <s5hee9wmy6e.wl-tiwai@suse.de>
-        <CAOMZO5CACdcxGWn++f0+zhQaKevH7b5c-Xkv3QLBpwxc2GxizQ@mail.gmail.com>
-        <s5hee9vlg8i.wl-tiwai@suse.de>
-        <CAOMZO5C+gki7HT-n5D6qj06NbMxo2su2d6X+8AvM9PSmLUZ0jg@mail.gmail.com>
-        <CAOMZO5DepuVScmDU7yZGVOVUs1JzHOd4bmu1z3erE2GNpcjZ+w@mail.gmail.com>
-        <YT0zv6Rv1vURYTi3@google.com>
-        <s5hh7ekc1tw.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
- FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
- (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
-Content-Type: text/plain; charset=US-ASCII
+Cc:     Fabien Parent <fparent@baylibre.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH RESEND v3 0/4] input: MT6358 PMIC button support
+In-Reply-To: <7h4kan7ytq.fsf@baylibre.com>
+References: <20210816100013.100412-1-mkorpershoek@baylibre.com>
+ <7h4kan7ytq.fsf@baylibre.com>
+Date:   Tue, 05 Oct 2021 10:48:55 -0700
+Message-ID: <7hbl43fjlk.fsf@baylibre.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 16 Sep 2021 11:22:03 +0200,
-Takashi Iwai wrote:
-> 
-> On Sun, 12 Sep 2021 00:54:55 +0200,
-> Dmitry Torokhov wrote:
-> > 
-> > Hi Fabio,
-> > 
-> > On Sat, Sep 11, 2021 at 03:50:25PM -0300, Fabio Estevam wrote:
-> > > On Sat, Sep 11, 2021 at 3:43 PM Fabio Estevam <festevam@gmail.com> wrote:
-> > > >
-> > > > On Sat, Sep 11, 2021 at 4:32 AM Takashi Iwai <tiwai@suse.de> wrote:
-> > > >
-> > > > > OK, I'll update and let the reporter testing it.
-> > > >
-> > > > Sorry, platform_device_alloc() and platform_device_add() were missing
-> > > > in the earlier patch.
-> > > >
-> > > > New patch atached.
-> > > >
-> > > > Dmitry, does this look correct?
-> > > 
-> > > Please consider this one instead.
-> > 
-> > This is unfortunately is a band-aid. I wonder what other driver pokes
-> > the embedded controller on these devices for it to start responding to
-> > 8042 queries...
-> > 
-> > Does the laptop have the latest BIOS? I wonder what ACPI tables look
-> > like.
-> 
-> ACPI dump is included in hwinfo output,
->   https://bugzilla.suse.com/show_bug.cgi?id=1190256#c1
-> 
-> If other format is required, let me know.  I thought this could be a
-> typical pinctrl thing, alas it doesn't look so.  The pinctrl-amd is
-> also built-in, and it's initialized before the input stuff...
-> 
-> And about BIOS: I don't think we can expect every user updates BIOS.
-> This report is not alone; as I checked through net, there have been a
-> few other reports for other distros like Arch.  On Arch, they "fixed"
-> the problem by reverting the config from built-in to modules (the bug
-> surfaced after their kconfig changes).
-> 
-> That said, even if it's a band-aid, we need some fix.  Can the
-> deferred probe be applied in some restricted manner, e.g. only for the
-> known buggy devices (and/or module option) and cap the max repeats?
+Dmitry,
 
-Dmitry, what is your take for fixing this bug?  
+Kevin Hilman <khilman@baylibre.com> writes:
 
-I find Fabio's deferred probe patch reasonable.  Maybe we may restrict
-the application of the deferred probe only for known working devices
-and an option, something like a patch below, just to be safer.
-(There are devices exposing PnP for i8042 although there isn't really,
-IIRC.)
+> Hi Dmitry,
+>
+> Mattijs Korpershoek <mkorpershoek@baylibre.com> writes:
+>
+>> The MediaTek MT6358 PMIC has support for two buttons: PWR and HOME.
+>>
+>> The interrupt logic is a little different than other PMICs from the
+>> same family:
+>> for MT6323 and MT6397, we have one interrupt source per button
+>> * for MT6358, we have two interrupts lines per button: the press and
+>> * release interrupts are distinct sources.
+>>
+>> Changes since original v2 at [1]:
+>> * added 4th patch with device tree enable
+>> * cover letter title prefixed with 'input'
+>>
+>> This has been tested with evtest on mt8183-pumpkin on 5.14-rc6
+>
+> Any feedback on this series?
+>
+> The related MFD patches were merged already, so there are no out-of-tree
+> dependencies.
 
+Gentle reminder ping.
 
-thanks,
+Thanks,
 
-Takashi
-
--- 8< --
-From: Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH] Input: i8042 - Perform deferred probe only with DMI list and
- option
-
-Add an i8042.probe_defer option to enable the deferred probing
-feature, otherwise it'll be disabled and done in a single shot like
-before.  For the known devices that need the deferred probe, we
-provide a DMI-based allow-list.  As of this patch, ASUS ZenBook
-UX425UA is added there.
-
-BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1190256
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- Documentation/admin-guide/kernel-parameters.txt |  2 ++
- drivers/input/serio/i8042-x86ia64io.h           | 14 ++++++++++++++
- drivers/input/serio/i8042.c                     |  6 +++++-
- 3 files changed, 21 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 91ba391f9b32..6e6622d8f4a0 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1690,6 +1690,8 @@
- 			architectures force reset to be always executed
- 	i8042.unlock	[HW] Unlock (ignore) the keylock
- 	i8042.kbdreset	[HW] Reset device connected to KBD port
-+	i8042.probe_defer
-+			[HW] Allow deferred probing upon i8042 probe errors
- 
- 	i810=		[HW,DRM]
- 
-diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
-index a5a003553646..41335a1d7001 100644
---- a/drivers/input/serio/i8042-x86ia64io.h
-+++ b/drivers/input/serio/i8042-x86ia64io.h
-@@ -981,6 +981,17 @@ static const struct dmi_system_id __initconst i8042_dmi_kbdreset_table[] = {
- 	{ }
- };
- 
-+static const struct dmi_system_id i8042_dmi_probe_defer_table[] __initconst = {
-+	{
-+		/* ASUS ZenBook UX425UA */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "ZenBook UX425UA"),
-+		},
-+	},
-+	{ }
-+};
-+
- #endif /* CONFIG_X86 */
- 
- #ifdef CONFIG_PNP
-@@ -1301,6 +1312,9 @@ static int __init i8042_platform_init(void)
- 	if (dmi_check_system(i8042_dmi_kbdreset_table))
- 		i8042_kbdreset = true;
- 
-+	if (dmi_check_system(i8042_dmi_probe_defer_table))
-+		i8042_probe_defer = true;
-+
- 	/*
- 	 * A20 was already enabled during early kernel init. But some buggy
- 	 * BIOSes (in MSI Laptops) require A20 to be enabled using 8042 to
-diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
-index a72a8c538164..ea0c52ca95c4 100644
---- a/drivers/input/serio/i8042.c
-+++ b/drivers/input/serio/i8042.c
-@@ -45,6 +45,10 @@ static bool i8042_unlock;
- module_param_named(unlock, i8042_unlock, bool, 0);
- MODULE_PARM_DESC(unlock, "Ignore keyboard lock.");
- 
-+static bool i8042_probe_defer;
-+module_param_named(probe_defer, i8042_probe_defer, bool, 0);
-+MODULE_PARM_DESC(unlock, "Allow deferred probing.");
-+
- enum i8042_controller_reset_mode {
- 	I8042_RESET_NEVER,
- 	I8042_RESET_ALWAYS,
-@@ -1005,7 +1009,7 @@ static int i8042_controller_init(void)
- 
- 		if (i8042_command(&ctr[n++ % 2], I8042_CMD_CTL_RCTR)) {
- 			pr_err("Can't read CTR while initializing i8042\n");
--			return -EPROBE_DEFER;
-+			return i8042_probe_defer ? -EPROBE_DEFER : -EIO;
- 		}
- 
- 	} while (n < 2 || ctr[0] != ctr[1]);
--- 
-2.31.1
+Kevin
 
