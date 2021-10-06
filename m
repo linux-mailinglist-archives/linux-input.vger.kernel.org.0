@@ -2,113 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 513D14245B5
-	for <lists+linux-input@lfdr.de>; Wed,  6 Oct 2021 20:08:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D69F94247A2
+	for <lists+linux-input@lfdr.de>; Wed,  6 Oct 2021 22:03:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231497AbhJFSKt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Oct 2021 14:10:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33508 "EHLO
+        id S230007AbhJFUFv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Oct 2021 16:05:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbhJFSKs (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Oct 2021 14:10:48 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2E81C061746;
-        Wed,  6 Oct 2021 11:08:56 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id 187so3051816pfc.10;
-        Wed, 06 Oct 2021 11:08:56 -0700 (PDT)
+        with ESMTP id S229922AbhJFUFu (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Oct 2021 16:05:50 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 452F3C061746
+        for <linux-input@vger.kernel.org>; Wed,  6 Oct 2021 13:03:58 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id s11so3437678pgr.11
+        for <linux-input@vger.kernel.org>; Wed, 06 Oct 2021 13:03:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=QyNm5BpemRIxv+xxQfUsI80iHfW6yb7mlL0VKHbA908=;
-        b=FIya0BGV3biCJzthjELufMVsOjYj8X/rXMcp2M4OopNxQD4LGD1wnbMjcW4vLsIdBR
-         OUcFRwouOpTqKhilmOA52foFwjk5mkq2qZR2BnVzZ0Ql3fF4WlknfVEMGPSoJrpHp4nB
-         DLY6wn5kTWMYmGRQ1JuaibprJk0NgJAU0ILjPjOQShZMH90dA0t3Akt1rhawI2Bgp8kr
-         m2giBc1pNfOW4ZmTvoDyIiq9UlahSYjPdgjq8yhRsbYFBiCMY5M6Cuu/ppvafZ9A1GiX
-         T5vKFKel9EHJkRAW6ZR3KhI42aWR1v3GaBbDtc1R9St1lqtmfSxUGxpGxj65C9KDUyIZ
-         OD7g==
+        bh=30daCH5wxIaUmgt+ry1MQbFbMl+0NXX1vxJ2OHYX5CA=;
+        b=IBil/iyiEA+iDIRqiGc88wUVlsgGg7lSQJlFlVv9YKyiRva4baKXXVg/U2Q/GJkrNG
+         vLm9icwX3W3Q3WsW8jmU01vR211TCnD3kUMvvJGbBZu/8hP6JqDJNUaEpeFOZIf+0oES
+         Dx3qP+Frd8MLWJRIy6Xi6JvieJ1JjWOcS24hDYFTKEwicHPx/TdiooG1Cw6dznhXkFoA
+         WMbAW++4IbAD8IWiiP2sRj+H7lMwUUuS4opmxU70tAf+NRixZL3BLPQkJ9bwvLC2EPSb
+         zOd2ElnnjrEalq9hV0nbNMkod30RQI6XI3UfORjZfu/qIT4Cr6SXAC2+5vqhmhd9uOaX
+         PvQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=QyNm5BpemRIxv+xxQfUsI80iHfW6yb7mlL0VKHbA908=;
-        b=3s9pC7ImhejAwpe/HuRwON6RWVv9vG6cF/jeNhP0EUo090eCDm4dsKapMH1kZYY0Wv
-         qSYR85Ha5GijXvd2nishorEYAdu1TGsPwwOYcomX8srSW0F5QrhQBywt9Rdx5g9FIES/
-         ZJDuHUVSAvt7/hsPLZ2s+njVV36PIBRd1eWvoVOwNLb32RaWi8CE8oYbHRId2XNoR3Ix
-         djQW+aCQyO/LbDsnKqayGknz5+QhTHZky/VYnP9HiVZYWMKes1piYSKUQwwpzvLdEcGI
-         dGDGGtQj5RYavgHu6sk0HdT0dsPzj5CzZcrKImmYYyQo8TbMrD+r006B0w9PY52TZ8hk
-         olRQ==
-X-Gm-Message-State: AOAM532n5l2w5DCaRqIkqXigvO9fQy8WCyRvQbKrqN5CICleoiP4vtze
-        NJ43oFOhy5KFR+6ogYnCV1jRNM3y0hM=
-X-Google-Smtp-Source: ABdhPJzvoep8PUXmXq/4RuDCelfPInblwyCmINJgvgP0AK6pz2J+Bjt50qF7H0JujKZj4dY2PBlppQ==
-X-Received: by 2002:a65:6554:: with SMTP id a20mr106370pgw.107.1633543735899;
-        Wed, 06 Oct 2021 11:08:55 -0700 (PDT)
+        bh=30daCH5wxIaUmgt+ry1MQbFbMl+0NXX1vxJ2OHYX5CA=;
+        b=S2zqzuZZG/zuoWnGxPm79N8Z5jE3Ml75cPTuMflTjDWx6/aTEp4yotZEWVfsWeJIR/
+         TWXXmJJJMIfEkkJh30HoHeCOd7kzcykysm7vSLBt6I+jf2Xug8slsuY5kdSX60G5NUJL
+         h4hqgv/07q+UUWHO1YS1v4Sj1nZwPS/9cZOVODbPJ1KLASfx/zxfkiGEuxXMNNXAfSOf
+         uiiRYGn/kwkPgG7ACVkCglAPlxAW6gGg1toWa1h2vmvtQOu6dt72DpMKOpP9mSETOJvg
+         lC8aMoufT1h5dtgqS45yfIh/P3qqri7jgoxkEZbzJkJqBwbDb/3HR6AFKM0c47AjoesB
+         n4vA==
+X-Gm-Message-State: AOAM533fygdWp8rdB9Go14Ijgl9G4cla91O0oxBkvUaTnjCw09MhRiMS
+        huiWaQRIyPmYi2sOZRpmGwE=
+X-Google-Smtp-Source: ABdhPJzEKOY2feV1Dc3Ooe+778RBORU46OB2A1MKg4SXDmFIBohf0PPVo8rkwpqLbD5uYDyx9dZrAg==
+X-Received: by 2002:a65:6a15:: with SMTP id m21mr2416pgu.415.1633550637531;
+        Wed, 06 Oct 2021 13:03:57 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:18f1:d20e:edb5:c807])
-        by smtp.gmail.com with ESMTPSA id h9sm6248534pjg.9.2021.10.06.11.08.54
+        by smtp.gmail.com with ESMTPSA id y197sm19604576pfc.56.2021.10.06.13.03.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Oct 2021 11:08:54 -0700 (PDT)
-Date:   Wed, 6 Oct 2021 11:08:52 -0700
+        Wed, 06 Oct 2021 13:03:56 -0700 (PDT)
+Date:   Wed, 6 Oct 2021 13:03:54 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     John Keeping <john@metanate.com>
-Cc:     linux-input@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: st1232 - increase "wait ready" timeout
-Message-ID: <YV3mNMnWmUsasZ2h@google.com>
-References: <20210929152609.2421483-1-john@metanate.com>
+To:     Angelo Dureghello <angelo.dureghello@timesys.com>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH] input: keyboard-matrix: add a function to reset input
+ states
+Message-ID: <YV4BKqLSVhMuxOeP@google.com>
+References: <20210926151847.337767-1-angelo.dureghello@timesys.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210929152609.2421483-1-john@metanate.com>
+In-Reply-To: <20210926151847.337767-1-angelo.dureghello@timesys.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 29, 2021 at 04:26:08PM +0100, John Keeping wrote:
-> I have a ST1633 touch controller which fails to probe due to a timeout
-> waiting for the controller to become ready.  Increasing the minimum
-> delay to 100ms ensures that the probe sequence completes successfully.
-> 
-> The ST1633 datasheet says nothing about the maximum delay here and the
-> ST1232 I2C protocol document says "wait until" with no notion of a
-> timeout.
-> 
-> Since this only runs once during probe, being generous with the timout
-> seems reasonable and most likely the device will become ready
-> eventually.
+Hi Angelo,
 
-I'll apply this, but I wonder if it would not make sense to mark the
-driver as preferring asynchronous probing, so we do not delay
-initializing other devices while we are waiting for the touch controller
-to reset? Could you send me a patch for that?
+On Sun, Sep 26, 2021 at 05:18:47PM +0200, Angelo Dureghello wrote:
+> In some cases, at open(), when matrix_keypad_start() schedules
+> matrix_keypad_scan(), some events may be fired, but they can't be
+> grabbed from the event queue by evtest later on, since this
+> condition causes a continuous event triggered.
 
-> 
-> (It may be worth noting that I saw this issue with a PREEMPT_RT patched
-> kernel which probably has tighter wakeups from usleep_range() than other
-> preemption models.)
-> 
-> Fixes: f605be6a57b4 ("Input: st1232 - wait until device is ready before reading resolution")
-> Signed-off-by: John Keeping <john@metanate.com>
-> ---
->  drivers/input/touchscreen/st1232.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touchscreen/st1232.c b/drivers/input/touchscreen/st1232.c
-> index 6abae665ca71..9d1dea6996a2 100644
-> --- a/drivers/input/touchscreen/st1232.c
-> +++ b/drivers/input/touchscreen/st1232.c
-> @@ -92,7 +92,7 @@ static int st1232_ts_wait_ready(struct st1232_ts_data *ts)
->  	unsigned int retries;
->  	int error;
->  
-> -	for (retries = 10; retries; retries--) {
-> +	for (retries = 100; retries; retries--) {
->  		error = st1232_ts_read_data(ts, REG_STATUS, 1);
->  		if (!error) {
->  			switch (ts->read_buf[0]) {
-> -- 
-> 2.33.0
-> 
+I am not quite sure what you mean by "continuous event triggered". Could
+you please explain in more detail?
 
 Thanks.
 
