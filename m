@@ -2,75 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DCDF4251C3
-	for <lists+linux-input@lfdr.de>; Thu,  7 Oct 2021 13:12:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB403425221
+	for <lists+linux-input@lfdr.de>; Thu,  7 Oct 2021 13:37:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230467AbhJGLOW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 7 Oct 2021 07:14:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38226 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230087AbhJGLOV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Oct 2021 07:14:21 -0400
-Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C17FCC061746;
-        Thu,  7 Oct 2021 04:12:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=metanate.com; s=stronger; h=Content-Transfer-Encoding:Message-Id:Date:
-        Subject:Cc:To:From:Content-Type:Reply-To:Content-ID:Content-Description:
-        In-Reply-To:References; bh=5IpN7IfrzRhmhVgy9bZoBoDtYZ9yheLeeNt1arFGBas=; b=yl
-        DX/LOsLypu5ktwBawKB7+BerNbhpi0ag56AiHqkQlECmbtBr9BoT3qLUjSMjMEgTDfEAxe6JdfG9Q
-        XgXry/MBKyv/eFGiiSE84UMM0zjCSa7ZwB9nLS2cFOfls9Cjw46B3KRaoFRChO0h9Ss3AYjWN//Zt
-        n6m6ZPPtdTbkFcOQX+0gmsBk6ykp6qYnsNKbqI0xfGr/H3uHnq/HdFlea06zlekXV58YF2lpDIDoP
-        1jJ8jSiF6fGh7twPdWlHj9g9O0lSOEN87R20yKCYMNvJ0i1j7tqTYFXCOKGi73pEme2dTa7G+t2RF
-        dPkMYpYtLQ78cZznoANskBc/FmsChntA==;
-Received: from [81.174.171.191] (helo=donbot.metanate.com)
-        by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <john@metanate.com>)
-        id 1mYRK2-0000Ri-P1; Thu, 07 Oct 2021 12:12:22 +0100
-From:   John Keeping <john@metanate.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     John Keeping <john@metanate.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Andrej Valek <andrej.valek@siemens.com>,
+        id S232867AbhJGLje (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 7 Oct 2021 07:39:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39958 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232829AbhJGLje (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 7 Oct 2021 07:39:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5E72861139;
+        Thu,  7 Oct 2021 11:37:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1633606660;
+        bh=jon9QRneDnwbpXvgJ1AQzkE9ST+b9fV5l8WRP/UVnWQ=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=IMqggbLYJ/s05flqy/AskDxc/T0urdB6/cux0H912wXAYtmpJEIbqzaDiE2a+5wCS
+         yGUtpSL8cAl/YiAAdHH3XThbVS30shkJtKpcQv3Vc+WDlrCVZ1waP/mHq2E6l2wQss
+         2u7GPkj+cvvgK5pJQhAtSaKSqFopFlXdu3TNeC/ltD6EDmY3lVfziNnXPUkGDmeIMh
+         Lkrguz2Q/+H0qPpnGREX1G7ptB9Pk90Mr1Y6EG6oaxaay4stG9rY+6DgPMl5ZiG7BM
+         0Kr1erlOa18WZVFGJ+eCMCbl5b+sJ9EtctSoZ1TZzgamXHbcWWSJejMaKEkY/8dNtL
+         TUarjORd64ViA==
+Date:   Thu, 7 Oct 2021 13:37:37 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Cai Huoqing <caihuoqing@baidu.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: st1232 - prefer asynchronous probing
-Date:   Thu,  7 Oct 2021 12:12:16 +0100
-Message-Id: <20211007111217.1935858-1-john@metanate.com>
-X-Mailer: git-send-email 2.33.0
+Subject: Re: [PATCH] HID: cougar: Make use of the helper function
+ devm_add_action_or_reset()
+In-Reply-To: <20210922125932.374-1-caihuoqing@baidu.com>
+Message-ID: <nycvar.YFH.7.76.2110071337290.29107@cbobk.fhfr.pm>
+References: <20210922125932.374-1-caihuoqing@baidu.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authenticated: YES
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The device may take up to 100ms to become responsive during probe, so
-prefer asynchronous probing to avoid delaying the rest of the system.
+On Wed, 22 Sep 2021, Cai Huoqing wrote:
 
-Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: John Keeping <john@metanate.com>
----
-As suggested in [1]
+> The helper function devm_add_action_or_reset() will internally
+> call devm_add_action(), and if devm_add_action() fails then it will
+> execute the action mentioned and return the error code. So
+> use devm_add_action_or_reset() instead of devm_add_action()
+> to simplify the error handling, reduce the code.
 
-[1] https://lore.kernel.org/all/YV3mNMnWmUsasZ2h@google.com/
+Applied, thanks.
 
- drivers/input/touchscreen/st1232.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/input/touchscreen/st1232.c b/drivers/input/touchscreen/st1232.c
-index 6abae665ca71..45017ed94833 100644
---- a/drivers/input/touchscreen/st1232.c
-+++ b/drivers/input/touchscreen/st1232.c
-@@ -389,6 +389,7 @@ static struct i2c_driver st1232_ts_driver = {
- 	.driver = {
- 		.name	= ST1232_TS_NAME,
- 		.of_match_table = st1232_ts_dt_ids,
-+		.probe_type	= PROBE_PREFER_ASYNCHRONOUS,
- 		.pm	= &st1232_ts_pm_ops,
- 	},
- };
 -- 
-2.33.0
+Jiri Kosina
+SUSE Labs
 
