@@ -2,79 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D69F94247A2
-	for <lists+linux-input@lfdr.de>; Wed,  6 Oct 2021 22:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D29542507E
+	for <lists+linux-input@lfdr.de>; Thu,  7 Oct 2021 11:57:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230007AbhJFUFv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Oct 2021 16:05:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59798 "EHLO
+        id S230467AbhJGJ72 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 7 Oct 2021 05:59:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229922AbhJFUFu (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Oct 2021 16:05:50 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 452F3C061746
-        for <linux-input@vger.kernel.org>; Wed,  6 Oct 2021 13:03:58 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id s11so3437678pgr.11
-        for <linux-input@vger.kernel.org>; Wed, 06 Oct 2021 13:03:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=30daCH5wxIaUmgt+ry1MQbFbMl+0NXX1vxJ2OHYX5CA=;
-        b=IBil/iyiEA+iDIRqiGc88wUVlsgGg7lSQJlFlVv9YKyiRva4baKXXVg/U2Q/GJkrNG
-         vLm9icwX3W3Q3WsW8jmU01vR211TCnD3kUMvvJGbBZu/8hP6JqDJNUaEpeFOZIf+0oES
-         Dx3qP+Frd8MLWJRIy6Xi6JvieJ1JjWOcS24hDYFTKEwicHPx/TdiooG1Cw6dznhXkFoA
-         WMbAW++4IbAD8IWiiP2sRj+H7lMwUUuS4opmxU70tAf+NRixZL3BLPQkJ9bwvLC2EPSb
-         zOd2ElnnjrEalq9hV0nbNMkod30RQI6XI3UfORjZfu/qIT4Cr6SXAC2+5vqhmhd9uOaX
-         PvQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=30daCH5wxIaUmgt+ry1MQbFbMl+0NXX1vxJ2OHYX5CA=;
-        b=S2zqzuZZG/zuoWnGxPm79N8Z5jE3Ml75cPTuMflTjDWx6/aTEp4yotZEWVfsWeJIR/
-         TWXXmJJJMIfEkkJh30HoHeCOd7kzcykysm7vSLBt6I+jf2Xug8slsuY5kdSX60G5NUJL
-         h4hqgv/07q+UUWHO1YS1v4Sj1nZwPS/9cZOVODbPJ1KLASfx/zxfkiGEuxXMNNXAfSOf
-         uiiRYGn/kwkPgG7ACVkCglAPlxAW6gGg1toWa1h2vmvtQOu6dt72DpMKOpP9mSETOJvg
-         lC8aMoufT1h5dtgqS45yfIh/P3qqri7jgoxkEZbzJkJqBwbDb/3HR6AFKM0c47AjoesB
-         n4vA==
-X-Gm-Message-State: AOAM533fygdWp8rdB9Go14Ijgl9G4cla91O0oxBkvUaTnjCw09MhRiMS
-        huiWaQRIyPmYi2sOZRpmGwE=
-X-Google-Smtp-Source: ABdhPJzEKOY2feV1Dc3Ooe+778RBORU46OB2A1MKg4SXDmFIBohf0PPVo8rkwpqLbD5uYDyx9dZrAg==
-X-Received: by 2002:a65:6a15:: with SMTP id m21mr2416pgu.415.1633550637531;
-        Wed, 06 Oct 2021 13:03:57 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:18f1:d20e:edb5:c807])
-        by smtp.gmail.com with ESMTPSA id y197sm19604576pfc.56.2021.10.06.13.03.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Oct 2021 13:03:56 -0700 (PDT)
-Date:   Wed, 6 Oct 2021 13:03:54 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Angelo Dureghello <angelo.dureghello@timesys.com>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: [PATCH] input: keyboard-matrix: add a function to reset input
- states
-Message-ID: <YV4BKqLSVhMuxOeP@google.com>
-References: <20210926151847.337767-1-angelo.dureghello@timesys.com>
+        with ESMTP id S232869AbhJGJ72 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Oct 2021 05:59:28 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6FB6C061762
+        for <linux-input@vger.kernel.org>; Thu,  7 Oct 2021 02:57:34 -0700 (PDT)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1mYQ9a-0001oY-EZ; Thu, 07 Oct 2021 11:57:30 +0200
+Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1mYQ9Z-0007hx-Gq; Thu, 07 Oct 2021 11:57:29 +0200
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>
+Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        David Jander <david@protonic.nl>
+Subject: [PATCH v1] Input: resistive-adc-touch - fix division by zero error on z1 == 0
+Date:   Thu,  7 Oct 2021 11:57:27 +0200
+Message-Id: <20211007095727.29579-1-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210926151847.337767-1-angelo.dureghello@timesys.com>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Angelo,
+For proper pressure calculation we need at least x and z1 to be non
+zero. Even worse, in case z1 we may run in to division by zero
+error.
 
-On Sun, Sep 26, 2021 at 05:18:47PM +0200, Angelo Dureghello wrote:
-> In some cases, at open(), when matrix_keypad_start() schedules
-> matrix_keypad_scan(), some events may be fired, but they can't be
-> grabbed from the event queue by evtest later on, since this
-> condition causes a continuous event triggered.
+Fixes: 60b7db914ddd ("Input: resistive-adc-touch - rework mapping of channels")
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+---
+ .../input/touchscreen/resistive-adc-touch.c   | 29 ++++++++++---------
+ 1 file changed, 16 insertions(+), 13 deletions(-)
 
-I am not quite sure what you mean by "continuous event triggered". Could
-you please explain in more detail?
-
-Thanks.
-
+diff --git a/drivers/input/touchscreen/resistive-adc-touch.c b/drivers/input/touchscreen/resistive-adc-touch.c
+index 744544a723b7..6f754a8d30b1 100644
+--- a/drivers/input/touchscreen/resistive-adc-touch.c
++++ b/drivers/input/touchscreen/resistive-adc-touch.c
+@@ -71,19 +71,22 @@ static int grts_cb(const void *data, void *private)
+ 		unsigned int z2 = touch_info[st->ch_map[GRTS_CH_Z2]];
+ 		unsigned int Rt;
+ 
+-		Rt = z2;
+-		Rt -= z1;
+-		Rt *= st->x_plate_ohms;
+-		Rt = DIV_ROUND_CLOSEST(Rt, 16);
+-		Rt *= x;
+-		Rt /= z1;
+-		Rt = DIV_ROUND_CLOSEST(Rt, 256);
+-		/*
+-		 * On increased pressure the resistance (Rt) is decreasing
+-		 * so, convert values to make it looks as real pressure.
+-		 */
+-		if (Rt < GRTS_DEFAULT_PRESSURE_MAX)
+-			press = GRTS_DEFAULT_PRESSURE_MAX - Rt;
++		if (likely(x && z1)) {
++			Rt = z2;
++			Rt -= z1;
++			Rt *= st->x_plate_ohms;
++			Rt = DIV_ROUND_CLOSEST(Rt, 16);
++			Rt *= x;
++			Rt /= z1;
++			Rt = DIV_ROUND_CLOSEST(Rt, 256);
++			/*
++			 * On increased pressure the resistance (Rt) is
++			 * decreasing so, convert values to make it looks as
++			 * real pressure.
++			 */
++			if (Rt < GRTS_DEFAULT_PRESSURE_MAX)
++				press = GRTS_DEFAULT_PRESSURE_MAX - Rt;
++		}
+ 	}
+ 
+ 	if ((!x && !y) || (st->pressure && (press < st->pressure_min))) {
 -- 
-Dmitry
+2.30.2
+
