@@ -2,62 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAB55426551
-	for <lists+linux-input@lfdr.de>; Fri,  8 Oct 2021 09:37:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C0EA4273AC
+	for <lists+linux-input@lfdr.de>; Sat,  9 Oct 2021 00:23:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232378AbhJHHjQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Oct 2021 03:39:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37104 "EHLO
+        id S231859AbhJHWZ3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Oct 2021 18:25:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229693AbhJHHjP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Oct 2021 03:39:15 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8DCEC061570
-        for <linux-input@vger.kernel.org>; Fri,  8 Oct 2021 00:37:20 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id u7so7435982pfg.13
-        for <linux-input@vger.kernel.org>; Fri, 08 Oct 2021 00:37:20 -0700 (PDT)
+        with ESMTP id S231830AbhJHWZ2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Oct 2021 18:25:28 -0400
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A79EC061570;
+        Fri,  8 Oct 2021 15:23:32 -0700 (PDT)
+Received: by mail-qk1-x729.google.com with SMTP id p4so10989418qki.3;
+        Fri, 08 Oct 2021 15:23:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=AtHbvhTlx+3IEO/ObjVOMiej+ZMrDRMDJTNSXgWYANc=;
-        b=PSiUcwsgfPFuK/ULz4LAeI4IVKn72cqe4MmxXJDHwEl7iuWeLpXTf+t3JSPo2jI6yQ
-         jJxGTqmL+/lO4rr+nU6h64kLNYxLgVwGYS83X0+vkfO+WP+1sr1i0Lu8ftnP3IosM/eW
-         gaI6TEb6rmuMuHjUR7ygwjOXdeFVKFIz8qv8E0psTtLUJZ+ZWa0qNdk0eASV+Hx9SmB9
-         SSyuoan3iIcHvFQfU1QNckJ8jdZOjxm2RWxWtkQX7ugD8Hv6lMBKtjHWIKkrzydE8UPy
-         JGKuyDmSqC/0g3XKtVHkfVziYLMFGh+2QOkGpPiiAiVsDxd+FbyrjIkFrOceV4ob3n6A
-         sjmw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v7BcxdZb9CxJZFbXbFYn0KgwWSM58NcabgiQg/ZHqYg=;
+        b=hkld7NCh26YcK52IWI9WVPSu5jz7Gu8JOZ5vBnTbmDfCGZMSMpB+PnmHLEBBtwVysV
+         dobgRfdTFk79E47Qh2bIQWLYRiXcqGF18Eo74g8xKCU0Qus9L8YzRPCOMPasB50/Ym7g
+         kv9sDFJOZShqR0d5B5e6FFFsE0DihvTsTy3KryU+ik3ATA1yiNzZAh4Rmfe1eE2GYWXA
+         hRLeTD3s6xEtLeZBLucGyGOag8Y0MZunDAm8/XY2TeSlrpOUHnEfTjM2gNtMuSx1AK3u
+         hN3Nk4AUxoyZvo0jnZa1+0hDyEcPA++PQKDn5xTcpuppd2mXFNsZKDMpJ0wRkZJn5JkO
+         4F0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=AtHbvhTlx+3IEO/ObjVOMiej+ZMrDRMDJTNSXgWYANc=;
-        b=utWg5oOFH4+r8rhClpJeCV5OLy5McVJ1Boo2LmHBAKjUW7Uk23HcAEXynCfsBM5AXx
-         O+ODuvB5dXxQvSeHywKQ58yhXRSeUELpmi2Vc7Bgce5Etvhcm3XVxzox63KY3vMI5Pq3
-         2dJna8/RCKpCgsjJ0DOdAFz+fd50BYHFu00PEvf8ESe4Pb18lQINEA6c88/8zODgBWFl
-         rVvXhKUlSHpBKrxZl+FpXTLzF/BVYHw0gNQ0quGZNnJv76f7MASbTNpPJqGSuIldbH2l
-         t4sj+N36eK2jSrrs1yGcE0SoQ05OQxvINzCuMDB2LDV7HwItIzNc+BwQs/gYVc9wqBzy
-         eXgg==
-X-Gm-Message-State: AOAM5307JpxIzR7oDsh4a/BWynWI/eLwwPQoc81jkmjox7QnsCe/saLB
-        tsQMrvPFFJq2Pv8P9iEH5xJPwoV7PIo=
-X-Google-Smtp-Source: ABdhPJwoQK6oNP86veKw2vd6xnv3wnhkQjlk2hTEqK1//k3+oopVPrxlcApnwtFW1OffXT5qgmt6rQ==
-X-Received: by 2002:a05:6a00:ac1:b0:44c:4dc6:b897 with SMTP id c1-20020a056a000ac100b0044c4dc6b897mr8644286pfl.25.1633678639868;
-        Fri, 08 Oct 2021 00:37:19 -0700 (PDT)
-Received: from xavier.lan ([207.135.154.184])
-        by smtp.gmail.com with ESMTPSA id 22sm1556583pgn.88.2021.10.08.00.37.18
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v7BcxdZb9CxJZFbXbFYn0KgwWSM58NcabgiQg/ZHqYg=;
+        b=vZE3e9WARX59Z6u++7VCd4Hm9OEtcamaeRdyPptILP+BNmC6W3LZkt79/uEzjGUEFV
+         hc3DsApWGkjlc5+LN1UdUGRjvabXvMt+lrnbPvPikYjOQFt47HidrZiIB3a6N4tclBrQ
+         S7YuyDp+wBiks9WUQlUyMKIl2ZaLavyCSO0eOeZVdoxscf/GL7LgdCc7mqvSypAOcwQB
+         3vzJze3LAYd9Qrrepwu1M7NJIn6p0he4TqsAneZmVJ080Viu6y2sg9E0E0puT5joKoPN
+         TDRhCirT+5zobrjRroWx/DfvxbK6fQxXEKu13MHSPQjHHNrEYM39s+g/EpaJy3Mw/g1h
+         AjRQ==
+X-Gm-Message-State: AOAM531yg+gwovE/Ps8E4ezR7ux6ZxfTcfhdAGKHDYrsci0wLEDif3Q2
+        qHzcUeYHlgiOrtsoT+xY1Vmslm2VqUKwPQ==
+X-Google-Smtp-Source: ABdhPJyW5nPHEX5hAH2Dk1Q5vmit7eL1kgU/bhWzYzcJoWKg1QeNQxLIJ1TTZitIoeSBj+B/bIB6Rg==
+X-Received: by 2002:a37:a48d:: with SMTP id n135mr2958033qke.296.1633731811660;
+        Fri, 08 Oct 2021 15:23:31 -0700 (PDT)
+Received: from fedora.. ([201.46.20.96])
+        by smtp.gmail.com with ESMTPSA id d14sm551249qkg.49.2021.10.08.15.23.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Oct 2021 00:37:19 -0700 (PDT)
-From:   Alex Henrie <alexhenrie24@gmail.com>
-To:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
-        hadess@hadess.net, jikos@kernel.org, jose.exposito89@gmail.com,
-        jslaby@suse.cz, juw@posteo.de, lukas@wunner.de
-Cc:     Alex Henrie <alexhenrie24@gmail.com>
-Subject: [PATCH 3/3] HID: apple: Bring back flag for Apple tilde key quirk
-Date:   Fri,  8 Oct 2021 01:37:02 -0600
-Message-Id: <20211008073702.5761-3-alexhenrie24@gmail.com>
+        Fri, 08 Oct 2021 15:23:31 -0700 (PDT)
+From:   "=?UTF-8?q?Vin=C3=ADcius=20Angiolucci=20Reis?=" 
+        <itsme.vreis@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Vin=C3=ADcius=20Angiolucci=20Reis?= <angiolucci@gmail.com>
+To:     jikos@kernel.org
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        angiolucci@gmail.com
+Subject: [PATCH] HID: hid-asus.c: Maps key 0x35 (display off) to KEY_SCREENLOCK
+Date:   Fri,  8 Oct 2021 19:23:27 -0300
+Message-Id: <20211008222327.9324-1-angiolucci@gmail.com>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211008073702.5761-1-alexhenrie24@gmail.com>
-References: <20211008073702.5761-1-alexhenrie24@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -65,180 +64,31 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some Apple ISO keyboards have a quirk where the backtick/tilde key is
-swapped with the less-than/greater-than key. Unfortunately, there is no
-perfectly reliable way to detect whether a keyboard has the quirk or
-not, but the quirk appears to only be present on models that support
-Bluetooth, and the affected keyboards usually report country code 13 in
-the HID descriptor.
+On Windows systems, ASUS laptops uses the "turn display off" key
+(usually fn+f6) to turn both display and keyboard backlit off. On Linux
+systems, this key has no effect at all since most desktop enviroments
+don't deal with KEY_DISPLAY_OFF. By mapping it to KEY_SCREENLOCK
+instead, would enable desktop environments to handle this key as a
+screen lock intent from the user, out of the box.
 
-Therefore, the best we can do is to change
-/sys/module/hid_apple/parameters/iso_layout to a ternary:
-
-0 = Not ISO or ISO and not quirky
-1 = ISO and quirky
--1 = Guess based on product ID and country code
-
-Table of keyboards I have tested:
-
-Product    Model  Shape  Labels      Bus  Country  Quirky
-=========================================================
-05ac:0201  M2452  ANSI   Usonian     USB  0        No
-05ac:020b  A1048  ANSI   Usonian     USB  0        No
-05ac:020c  A1048  ISO    Québécois   USB  13       No
-05ac:0221  A1243  ISO    Norwegian   USB  13       No
-05ac:0221  A1243  ISO    Portuguese  USB  13       No
-05ac:0221  A1243  ISO    Swedish     USB  13       No
-05ac:0221  A1243  ISO    Swiss       USB  13       No
-05ac:022c  A1255  ANSI   Usonian     BT   33       No
-05ac:022d  A1255  ISO    Hebrew      BT   13       Yes
-05ac:022d  A1255  ISO    Québécois   BT   13       Yes
-05ac:022d  A1255  ISO    Spanish     BT   13       Yes
-05ac:023a  A1314  ISO    Russian     BT   13       Yes
-05ac:023a  A1314  ISO    Swiss       BT   13       Yes
-05ac:024f  A1243  ANSI   Usonian     USB  0        No
-05ac:0250  A1243  ISO    British     USB  13       No
-05ac:0250  A1243  ISO    German      USB  13       No
-05ac:0250  A1243  ISO    Italian     USB  13       No
-05ac:0250  A1243  ISO    Québécois   USB  13       No
-05ac:0251  A1243  JIS    Japanese    USB  15       No
-05ac:0255  A1314  ANSI   Usonian     BT   33       No
-05ac:0255  A1314  ANSI   Taiwanese   BT   33       No
-05ac:0255  A1314  ANSI   Thai        BT   33       No
-05ac:0256  A1314  ISO    Arabic      BT   13       Yes
-05ac:0256  A1314  ISO    French      BT   13       Yes
-05ac:0256  A1314  ISO    German      BT   13       Yes
-05ac:0256  A1314  ISO    Norwegian   BT   13       Yes
-05ac:0256  A1314  ISO    Spanish     BT   13       Yes
-05ac:0256  A1314  ISO    Swiss       BT   13       Yes
-05ac:0257  A1314  JIS    Japanese    BT   15       No
-05ac:0267  A1644  ANSI   Usonian     USB  33       No
-004c:0267  A1644  ANSI   Usonian     BT   0        No
-05ac:0267  A1644  ISO    British     USB  13       Yes
-004c:0267  A1644  ISO    British     BT   0        Yes
-05ac:0267  A1644  ISO    Swiss       USB  13       Yes
-004c:0267  A1644  ISO    Swiss       BT   0        Yes
-05ac:0267  A1644  ISO    Québécois   USB  13       Yes
-004c:0267  A1644  ISO    Québécois   BT   0        Yes
-05ac:0267  A1644  JIS    Japanese    USB  15       No
-004c:0267  A1644  JIS    Japanese    BT   0        No
-05ac:029c  A2450  ANSI   Usonian     USB  33       No
-004c:029c  A2450  ANSI   Usonian     BT   0        No
-05ac:029c  A2450  ISO    Spanish     USB  13       Yes
-004c:029c  A2450  ISO    Spanish     BT   0        Yes
-05ac:029c  A2450  JIS    Japanese    USB  15       No
-004c:029c  A2450  JIS    Japanese    BT   0        No
-
-Reported-by: José Expósito <jose.exposito89@gmail.com>
-Signed-off-by: Alex Henrie <alexhenrie24@gmail.com>
+Signed-off-by: Vinícius Angiolucci Reis <angiolucci@gmail.com>
 ---
- drivers/hid/hid-apple.c | 46 +++++++++++++++++++++--------------------
- 1 file changed, 24 insertions(+), 22 deletions(-)
+ drivers/hid/hid-asus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index e7af40b737d8..283bf22914ac 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -25,7 +25,7 @@
- #define APPLE_IGNORE_MOUSE	0x0002
- #define APPLE_HAS_FN		0x0004
- #define APPLE_HIDDEV		0x0008
--/* 0x0010 reserved, was: APPLE_ISO_KEYBOARD */
-+#define APPLE_ISO_TILDE_QUIRK	0x0010
- #define APPLE_MIGHTYMOUSE	0x0020
- #define APPLE_INVERT_HWHEEL	0x0040
- #define APPLE_IGNORE_HIDINPUT	0x0080
-@@ -40,10 +40,10 @@ module_param(fnmode, uint, 0644);
- MODULE_PARM_DESC(fnmode, "Mode of fn key on Apple keyboards (0 = disabled, "
- 		"[1] = fkeyslast, 2 = fkeysfirst)");
- 
--static unsigned int iso_layout = 1;
--module_param(iso_layout, uint, 0644);
--MODULE_PARM_DESC(iso_layout, "Enable/Disable hardcoded ISO-layout of the keyboard. "
--		"(0 = disabled, [1] = enabled)");
-+static int iso_layout = -1;
-+module_param(iso_layout, int, 0644);
-+MODULE_PARM_DESC(iso_layout, "Swap the backtick/tilde and greater-than/less-than keys. "
-+		"([-1] = auto, 0 = disabled, 1 = enabled)");
- 
- static unsigned int swap_opt_cmd;
- module_param(swap_opt_cmd, uint, 0644);
-@@ -277,14 +277,13 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- 		}
- 	}
- 
--	if (iso_layout) {
--		if (hid->country == HID_COUNTRY_INTERNATIONAL_ISO) {
--			trans = apple_find_translation(apple_iso_keyboard, usage->code);
--			if (trans) {
--				input_event_with_scancode(input, usage->type,
--						trans->to, usage->hid, value);
--				return 1;
--			}
-+	if (iso_layout > 0 || (iso_layout < 0 && (asc->quirks & APPLE_ISO_TILDE_QUIRK) &&
-+			hid->country == HID_COUNTRY_INTERNATIONAL_ISO)) {
-+		trans = apple_find_translation(apple_iso_keyboard, usage->code);
-+		if (trans) {
-+			input_event_with_scancode(input, usage->type,
-+					trans->to, usage->hid, value);
-+			return 1;
- 		}
- 	}
- 
-@@ -533,9 +532,11 @@ static const struct hid_device_id apple_devices[] = {
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_ANSI),
- 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_ISO),
--		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
-+		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN |
-+			APPLE_ISO_TILDE_QUIRK },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ISO),
--		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
-+		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN |
-+			APPLE_ISO_TILDE_QUIRK },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE,
- 				USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ANSI),
- 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
-@@ -545,13 +546,13 @@ static const struct hid_device_id apple_devices[] = {
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_JIS),
- 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2015),
--		.driver_data = APPLE_HAS_FN },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2015),
--		.driver_data = APPLE_HAS_FN },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2015),
--		.driver_data = APPLE_HAS_FN },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2015),
--		.driver_data = APPLE_HAS_FN },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING_ANSI),
- 		.driver_data = APPLE_HAS_FN },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING_ISO),
-@@ -633,7 +634,8 @@ static const struct hid_device_id apple_devices[] = {
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ANSI),
- 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ISO),
--		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
-+		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN |
-+			APPLE_ISO_TILDE_QUIRK },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_JIS),
- 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_FOUNTAIN_TP_ONLY),
-@@ -641,9 +643,9 @@ static const struct hid_device_id apple_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER1_TP_ONLY),
- 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021),
--		.driver_data = APPLE_HAS_FN },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021),
--		.driver_data = APPLE_HAS_FN },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 
- 	{ }
- };
+diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+index f3ecddc519ee..5d57214d8dee 100644
+--- a/drivers/hid/hid-asus.c
++++ b/drivers/hid/hid-asus.c
+@@ -854,7 +854,7 @@ static int asus_input_mapping(struct hid_device *hdev,
+ 		switch (usage->hid & HID_USAGE) {
+ 		case 0x10: asus_map_key_clear(KEY_BRIGHTNESSDOWN);	break;
+ 		case 0x20: asus_map_key_clear(KEY_BRIGHTNESSUP);		break;
+-		case 0x35: asus_map_key_clear(KEY_DISPLAY_OFF);		break;
++		case 0x35: asus_map_key_clear(KEY_SCREENLOCK);		break;
+ 		case 0x6c: asus_map_key_clear(KEY_SLEEP);		break;
+ 		case 0x7c: asus_map_key_clear(KEY_MICMUTE);		break;
+ 		case 0x82: asus_map_key_clear(KEY_CAMERA);		break;
 -- 
 2.33.0
 
