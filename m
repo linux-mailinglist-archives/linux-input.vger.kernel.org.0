@@ -2,93 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C0EA4273AC
-	for <lists+linux-input@lfdr.de>; Sat,  9 Oct 2021 00:23:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79CA54276E4
+	for <lists+linux-input@lfdr.de>; Sat,  9 Oct 2021 05:19:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231859AbhJHWZ3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Oct 2021 18:25:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43896 "EHLO
+        id S244025AbhJIDVJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Oct 2021 23:21:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231830AbhJHWZ2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Oct 2021 18:25:28 -0400
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A79EC061570;
-        Fri,  8 Oct 2021 15:23:32 -0700 (PDT)
-Received: by mail-qk1-x729.google.com with SMTP id p4so10989418qki.3;
-        Fri, 08 Oct 2021 15:23:32 -0700 (PDT)
+        with ESMTP id S230400AbhJIDVI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Oct 2021 23:21:08 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9FAAC061570
+        for <linux-input@vger.kernel.org>; Fri,  8 Oct 2021 20:19:12 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id m21so4881743pgu.13
+        for <linux-input@vger.kernel.org>; Fri, 08 Oct 2021 20:19:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=v7BcxdZb9CxJZFbXbFYn0KgwWSM58NcabgiQg/ZHqYg=;
-        b=hkld7NCh26YcK52IWI9WVPSu5jz7Gu8JOZ5vBnTbmDfCGZMSMpB+PnmHLEBBtwVysV
-         dobgRfdTFk79E47Qh2bIQWLYRiXcqGF18Eo74g8xKCU0Qus9L8YzRPCOMPasB50/Ym7g
-         kv9sDFJOZShqR0d5B5e6FFFsE0DihvTsTy3KryU+ik3ATA1yiNzZAh4Rmfe1eE2GYWXA
-         hRLeTD3s6xEtLeZBLucGyGOag8Y0MZunDAm8/XY2TeSlrpOUHnEfTjM2gNtMuSx1AK3u
-         hN3Nk4AUxoyZvo0jnZa1+0hDyEcPA++PQKDn5xTcpuppd2mXFNsZKDMpJ0wRkZJn5JkO
-         4F0g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=nCaOKyBAqK9mCc0D7z4MubrtxO/9OtX6eQe3E8J+Zhg=;
+        b=n85o1wWf1FMgjJfUAW/eNXKhjC+eEHAAViOEhGeMl9BLIk1/y5bcqRVet31kueGwYt
+         TLxljax0yY/im7ofm/ydpWsJdz6mWCNrezphkd/aPN0BkAXSI3FeaHrkiyO2Q/0B9xcw
+         8a79fJEMXX2QwGolC3ZvWfPqRVOIEzH78ZiR+5qY8QB2fqY6JL6CxSFG3sC/+lK07O8P
+         fyczqb52lbs4RckEdHMe3pQ7uGGzNlx2blu2cS5mMnXP1Y3PhPbZieqSMigdFJAHiPoc
+         EKyeEzcRwP0OgcJtUvkR/SYuRC1YnrxTi8v2kphRRYTIIykmAi1O+J31oU99ckpJtjsI
+         PWfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=v7BcxdZb9CxJZFbXbFYn0KgwWSM58NcabgiQg/ZHqYg=;
-        b=vZE3e9WARX59Z6u++7VCd4Hm9OEtcamaeRdyPptILP+BNmC6W3LZkt79/uEzjGUEFV
-         hc3DsApWGkjlc5+LN1UdUGRjvabXvMt+lrnbPvPikYjOQFt47HidrZiIB3a6N4tclBrQ
-         S7YuyDp+wBiks9WUQlUyMKIl2ZaLavyCSO0eOeZVdoxscf/GL7LgdCc7mqvSypAOcwQB
-         3vzJze3LAYd9Qrrepwu1M7NJIn6p0he4TqsAneZmVJ080Viu6y2sg9E0E0puT5joKoPN
-         TDRhCirT+5zobrjRroWx/DfvxbK6fQxXEKu13MHSPQjHHNrEYM39s+g/EpaJy3Mw/g1h
-         AjRQ==
-X-Gm-Message-State: AOAM531yg+gwovE/Ps8E4ezR7ux6ZxfTcfhdAGKHDYrsci0wLEDif3Q2
-        qHzcUeYHlgiOrtsoT+xY1Vmslm2VqUKwPQ==
-X-Google-Smtp-Source: ABdhPJyW5nPHEX5hAH2Dk1Q5vmit7eL1kgU/bhWzYzcJoWKg1QeNQxLIJ1TTZitIoeSBj+B/bIB6Rg==
-X-Received: by 2002:a37:a48d:: with SMTP id n135mr2958033qke.296.1633731811660;
-        Fri, 08 Oct 2021 15:23:31 -0700 (PDT)
-Received: from fedora.. ([201.46.20.96])
-        by smtp.gmail.com with ESMTPSA id d14sm551249qkg.49.2021.10.08.15.23.30
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=nCaOKyBAqK9mCc0D7z4MubrtxO/9OtX6eQe3E8J+Zhg=;
+        b=j9xGGeNFsZgDMIYgjpRVCfy8IY3nL5D3EAoGZDrTzav7RUCwlZsECUawKs/xqf4PSg
+         8II0ufPp4j7LidnRJBL3wyWEoCv5/5RANwfvIgp5mJGuxv0K9MVuBkzODTwwK4zsts5C
+         3y5hmlLB1Jl4d4TwbKJK/mrbrQSoObbSbyGfZhjUVxA2iCHuN0cVh3OAdbHaAtUv+Eh7
+         epnkcuu10X9v8Z4rqdmywfJ0stSLeZamB1oCDfar3xNgMu3fnuYbkbf5noQ1hUX6sKbO
+         o8SvccOKpJCNbW+c/zgxo1Pq4FUacnX6YMZ7onaNiTbtf5a+rodfjkg/6rtupphcdfqk
+         ymXQ==
+X-Gm-Message-State: AOAM5326hSXcXTo497cXq5Kjy0ovRV1vhjNEgvG/42h33mLLNmxmUCrv
+        aKHZ3qr4M6abq2YVXuXcWHs=
+X-Google-Smtp-Source: ABdhPJyF4zzz+H2u14cGwWRqzujF+r0BDgXCwxHQad98rH4Z3iQEDwfb9ZAW0ivj3xEEyDDwIYlHoQ==
+X-Received: by 2002:a63:3549:: with SMTP id c70mr7731642pga.179.1633749552219;
+        Fri, 08 Oct 2021 20:19:12 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:911d:6b77:beeb:9ec4])
+        by smtp.gmail.com with ESMTPSA id u1sm505015pje.47.2021.10.08.20.19.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Oct 2021 15:23:31 -0700 (PDT)
-From:   "=?UTF-8?q?Vin=C3=ADcius=20Angiolucci=20Reis?=" 
-        <itsme.vreis@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Vin=C3=ADcius=20Angiolucci=20Reis?= <angiolucci@gmail.com>
-To:     jikos@kernel.org
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        angiolucci@gmail.com
-Subject: [PATCH] HID: hid-asus.c: Maps key 0x35 (display off) to KEY_SCREENLOCK
-Date:   Fri,  8 Oct 2021 19:23:27 -0300
-Message-Id: <20211008222327.9324-1-angiolucci@gmail.com>
-X-Mailer: git-send-email 2.33.0
+        Fri, 08 Oct 2021 20:19:11 -0700 (PDT)
+Date:   Fri, 8 Oct 2021 20:19:08 -0700
+From:   "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+To:     Ryan McClue <re.mcclue@protonmail.com>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: PROBLEM: Evdev epoll_wait Lag
+Message-ID: <YWEKLNg3ZzGZLpfn@google.com>
+References: <99GfWMtkpJutp6wuEhYJ3aIfNVfE_fr3TVPeQWsr9QSvNMgTk23Aml6WYEucd6D3qkmeIFbunUu6a6g0VNppEKIYrz7w43fzGyl3BUXVkDQ=@protonmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <99GfWMtkpJutp6wuEhYJ3aIfNVfE_fr3TVPeQWsr9QSvNMgTk23Aml6WYEucd6D3qkmeIFbunUu6a6g0VNppEKIYrz7w43fzGyl3BUXVkDQ=@protonmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Windows systems, ASUS laptops uses the "turn display off" key
-(usually fn+f6) to turn both display and keyboard backlit off. On Linux
-systems, this key has no effect at all since most desktop enviroments
-don't deal with KEY_DISPLAY_OFF. By mapping it to KEY_SCREENLOCK
-instead, would enable desktop environments to handle this key as a
-screen lock intent from the user, out of the box.
+Hi,
 
-Signed-off-by: Vinícius Angiolucci Reis <angiolucci@gmail.com>
----
- drivers/hid/hid-asus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Oct 08, 2021 at 11:29:51PM +0000, Ryan McClue wrote:
+> Hi there,
+> 
+> PROBLEM:
+> 
+> I'm on a laptop, with 2 connected keyboards (built-in and USB).
+> When I hit keys on each keyboard simultaneously in a program like firefox,
+> gnome-terminal etc. stalling/lag occurs.
+> It only happens for keyboards it seems as moving an external mouse and trackpad
+> together causes no issues.
+> 
+> TO REPRODUCE:
+> To investigate the problem I wrote a simple C file
+> (see attached 'evdev-lag.c', compile with $(gcc evdev-lag.c -o evdev-lag))
+> The program finds keyboard devices under /dev/input/event and uses epoll to
+> poll them for input via the evdev interface.
+> 
+> If I start entering keys on one keyboard and then switch to the other, the
+> program stalls briefly.
+> If I simultaneously enter keys on each keyboard the program stalls indefinitely
+> until I stop entering keys.
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index f3ecddc519ee..5d57214d8dee 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -854,7 +854,7 @@ static int asus_input_mapping(struct hid_device *hdev,
- 		switch (usage->hid & HID_USAGE) {
- 		case 0x10: asus_map_key_clear(KEY_BRIGHTNESSDOWN);	break;
- 		case 0x20: asus_map_key_clear(KEY_BRIGHTNESSUP);		break;
--		case 0x35: asus_map_key_clear(KEY_DISPLAY_OFF);		break;
-+		case 0x35: asus_map_key_clear(KEY_SCREENLOCK);		break;
- 		case 0x6c: asus_map_key_clear(KEY_SLEEP);		break;
- 		case 0x7c: asus_map_key_clear(KEY_MICMUTE);		break;
- 		case 0x82: asus_map_key_clear(KEY_CAMERA);		break;
+I do not observe stalls but did you mean to essentially busy-loop in
+your program? epoll_wait with 0 timeout causes it return immediately,
+you want to use -1 if you want to wait indefinitely or give it a real
+timeout.
+
+Thanks.
+
 -- 
-2.33.0
-
+Dmitry
