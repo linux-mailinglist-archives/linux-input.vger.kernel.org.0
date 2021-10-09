@@ -2,73 +2,189 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79586427BE8
-	for <lists+linux-input@lfdr.de>; Sat,  9 Oct 2021 18:26:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BDDA427C02
+	for <lists+linux-input@lfdr.de>; Sat,  9 Oct 2021 18:30:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229596AbhJIQ2d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 9 Oct 2021 12:28:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56840 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbhJIQ2c (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Oct 2021 12:28:32 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1653C061764
-        for <linux-input@vger.kernel.org>; Sat,  9 Oct 2021 09:26:35 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id e144so14442975iof.3
-        for <linux-input@vger.kernel.org>; Sat, 09 Oct 2021 09:26:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=tzgCA7E355JBDp4s5SOgr19PHTQj2Yqya87H/7XlOEE=;
-        b=djDX4r0f2kAuHCCoyDTO5nT+bV/QoQ907ot/s7SJ8DWcJDyOSc5p6gwLT71dUBfFst
-         U+38LvWX0DmHHhMHOPuHjloBPkLbAMqWgWq5H2ZHxUu86Q+BqK2ZnOD0121/vlUtG4Vt
-         ukpxa0I55Pp7h9URGkFzPJNtBT1ttZ3TvcL8/LBHb1vzI+tDvlT9qwaw0/gDOPUSF+9p
-         K7T2sgBkJ69S3ShQKyY/QcXdxHCXH2jdZoZ7VLBeogEivGdF5Pkyc/k+f/SIYT4WAgHR
-         q59HpE788hzf+oJO4xV+JQYXems+OXmBPWiwQiKABekMflAakMxvz1P5Zog7qMbNRbU8
-         2sqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=tzgCA7E355JBDp4s5SOgr19PHTQj2Yqya87H/7XlOEE=;
-        b=7SaJR6/gqLmaTPoEWOWjwVYRNlpVgHrgsIYb1TSY2vcFB0WmrMlEYIr+HmG7aL+WTJ
-         HNUs1xtmprEcIi4g8SIxrHUyZNEG67YheKmQbdaE5hCIRVmuk+gGQPm9nG3W7X4+X2au
-         B/KcJ3I7eJwN2xB+MTGybUQ5OsLyooLx9ILvPXm5Qakrqo/lLq5cUozat+rSGiw9LMcy
-         r22UEAwwuRSomKehwgDAn4VPkkSVWRhB0vkKK+WZg2auFEUoYVCOzNFjKAanqJ7WTZM9
-         YyEmaNDWUU2tuGLW1IwWQg6tvFPjagaFhoMnpceFY1mh1L4eRqrf6S4nYdhDM+vJA4ti
-         //Pw==
-X-Gm-Message-State: AOAM531lilqdmGk5NL1qixa52hfXeWAbeJeF1UCbYZEU6BDW9LJ1QoBN
-        tK+gkHWhxVdrjuXyypPx6x7WSq4YFriPP5qlxAI=
-X-Google-Smtp-Source: ABdhPJwi5QubQin1sXxMTeejMIt4xdIQyFC79r0sWzh1rc/RgcgtCq5FlrShk+VbfajnAqk6vW+9qiiXlJ3d5oyUKhE=
-X-Received: by 2002:a5d:8183:: with SMTP id u3mr11809995ion.67.1633796795044;
- Sat, 09 Oct 2021 09:26:35 -0700 (PDT)
+        id S229984AbhJIQcL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 9 Oct 2021 12:32:11 -0400
+Received: from ixit.cz ([94.230.151.217]:42376 "EHLO ixit.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229587AbhJIQcK (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 9 Oct 2021 12:32:10 -0400
+Received: from localhost.localdomain (ip-89-176-96-70.net.upcbroadband.cz [89.176.96.70])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by ixit.cz (Postfix) with ESMTPSA id 5A6F320064;
+        Sat,  9 Oct 2021 18:30:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+        t=1633797011;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=nBWOQv0pTlqmNgfp2b0RbFU2Q1khA5xPlByV7Wpeaf0=;
+        b=caJFTm66qBUsNrdYhlndZ4xsVC5f0C1mMo4ZB+zgjkJEOyrkQd3lt9PZJHrZmBVkJl+ZPQ
+        WR8H/sswop+ykf7siWd7oCYWp5A2ssrlTM3DnNZtqS8NNG/mngNkafcrKjOs413TnJBJY6
+        VyQEaoE/fXBdx3Gba6QSa1vPhMZDPEY=
+From:   David Heidelberg <david@ixit.cz>
+To:     Duson Lin <dusonlin@emc.com.tw>, Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ~okias/devicetree@lists.sr.ht,
+        David Heidelberg <david@ixit.cz>
+Subject: [PATCH] dt-bindings: input: elan,ekth3000: Convert txt bindings to yaml
+Date:   Sat,  9 Oct 2021 18:28:45 +0200
+Message-Id: <20211009162845.44378-1-david@ixit.cz>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Received: by 2002:a4f:ca01:0:0:0:0:0 with HTTP; Sat, 9 Oct 2021 09:26:34 -0700 (PDT)
-Reply-To: mrmichelduku@outlook.com
-From:   mr michel <mrmichel2233@gmail.com>
-Date:   Sat, 9 Oct 2021 16:26:34 +0000
-Message-ID: <CALSo2Nb_-UXNQ_EixXcizzN72m9MeDtywzYjttSTFeqAV3iPRQ@mail.gmail.com>
-Subject: Please Respond Urgently
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Spam: Yes
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Greetings,
+Convert Elan touchpad documentation to the YAML syntax.
 
-With due respect to your person, I make this contact with you as I
-believe that you can be of great assistance to me. I need your urgent
-assistance in transferring the sum of $11.3million to your private
-account Where this money can be shared between us.
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+ .../bindings/input/elan,ekth3000.yaml         | 76 +++++++++++++++++++
+ .../devicetree/bindings/input/elan_i2c.txt    | 44 -----------
+ 2 files changed, 76 insertions(+), 44 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/elan,ekth3000.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/elan_i2c.txt
 
-The money has been here in our Bank lying dormant for years now
-without anybody coming for the claim. I want to release the money to
-you as the relative to our deceased customer (the account owner) who
-died in a plane crash with his family since 16th October 2005.
+diff --git a/Documentation/devicetree/bindings/input/elan,ekth3000.yaml b/Documentation/devicetree/bindings/input/elan,ekth3000.yaml
+new file mode 100644
+index 000000000000..2a1961ac15ac
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/elan,ekth3000.yaml
+@@ -0,0 +1,76 @@
++# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/elan,ekth3000.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Elantech I2C Touchpad
++
++maintainers:
++  - Duson Lin <dusonlin@emc.com.tw>
++
++allOf:
++  - $ref: touchscreen/touchscreen.yaml#
++
++properties:
++  compatible:
++    const: elan,ekth3000
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  wakeup-source:
++    type: boolean
++    description: touchpad can be used as a wakeup source
++
++  vcc-supply:
++    description: a phandle for the regulator supplying 3.3V power
++
++  elan,trackpoint:
++    type: boolean
++    description: touchpad can support a trackpoint
++
++  elan,clickpad:
++    type: boolean
++    description: touchpad is a clickpad (the entire surface is a button)
++  elan,middle-button:
++    type: boolean
++    description: touchpad has a physical middle button
++
++  elan,x_traces:
++    $ref: /schemas/types.yaml#/definitions/uint8
++    description: number of antennas on the x axis
++  elan,y_traces:
++    $ref: /schemas/types.yaml#/definitions/uint8
++    description: number of antennas on the y axis
++
++  touchscreen-size-x: true
++  touchscreen-size-y: true
++  touchscreen-x-mm: true
++  touchscreen-y-mm: true
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        touchpad@15 {
++            compatible = "elan,ekth3000";
++            reg = <0x15>;
++            interrupt-parent = <&gpio4>;
++            interrupts = <0x0 IRQ_TYPE_EDGE_FALLING>;
++            wakeup-source;
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/input/elan_i2c.txt b/Documentation/devicetree/bindings/input/elan_i2c.txt
+deleted file mode 100644
+index 9963247706f2..000000000000
+--- a/Documentation/devicetree/bindings/input/elan_i2c.txt
++++ /dev/null
+@@ -1,44 +0,0 @@
+-Elantech I2C Touchpad
+-
+-Required properties:
+-- compatible: must be "elan,ekth3000".
+-- reg: I2C address of the chip.
+-- interrupts: interrupt to which the chip is connected (see interrupt
+-  binding[0]).
+-
+-Optional properties:
+-- wakeup-source: touchpad can be used as a wakeup source.
+-- pinctrl-names: should be "default" (see pinctrl binding [1]).
+-- pinctrl-0: a phandle pointing to the pin settings for the device (see
+-  pinctrl binding [1]).
+-- vcc-supply: a phandle for the regulator supplying 3.3V power.
+-- elan,trackpoint: touchpad can support a trackpoint (boolean)
+-- elan,clickpad: touchpad is a clickpad (the entire surface is a button)
+-- elan,middle-button: touchpad has a physical middle button
+-- elan,x_traces: number of antennas on the x axis
+-- elan,y_traces: number of antennas on the y axis
+-- some generic touchscreen properties [2]:
+-  * touchscreen-size-x
+-  * touchscreen-size-y
+-  * touchscreen-x-mm
+-  * touchscreen-y-mm
+-
+-
+-[0]: Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
+-[1]: Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
+-[2]: Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
+-
+-Example:
+-	&i2c1 {
+-		/* ... */
+-
+-		touchpad@15 {
+-			compatible = "elan,ekth3000";
+-			reg = <0x15>;
+-			interrupt-parent = <&gpio4>;
+-			interrupts = <0x0 IRQ_TYPE_EDGE_FALLING>;
+-			wakeup-source;
+-		};
+-
+-		/* ... */
+-	};
+-- 
+2.33.0
 
-By indicating your interest I will send you the full details on how
-the business will be executed.
-
-Best Regards,
-Mr.Michel Duku.
