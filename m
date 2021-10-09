@@ -2,201 +2,155 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC3CC427CB3
-	for <lists+linux-input@lfdr.de>; Sat,  9 Oct 2021 20:31:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAE94427CBA
+	for <lists+linux-input@lfdr.de>; Sat,  9 Oct 2021 20:40:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229645AbhJISdq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 9 Oct 2021 14:33:46 -0400
-Received: from ixit.cz ([94.230.151.217]:45524 "EHLO ixit.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229518AbhJISdp (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 9 Oct 2021 14:33:45 -0400
-Received: from localhost.localdomain (ip-89-176-96-70.net.upcbroadband.cz [89.176.96.70])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by ixit.cz (Postfix) with ESMTPSA id ACB0820064;
-        Sat,  9 Oct 2021 20:31:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-        t=1633804306;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=gE/XvvgfIJfjwmY9n++kopxpTM25qCAPObU3XHIfaYk=;
-        b=UkPu6THtcnC/fgLTyhZ/PczgP93J/2Mc91yqFuBKblLyrFdan3+VVqWnQtyJaNpih6m96F
-        GquxcqQda7y0vYnwRi6dq4Fs58+wf3UcgkABfk65Kaer+M8avxuYcGVD9cmLjhNA2oCMDX
-        AkNJwsXAMh6TrJO8fYHf/WqhUXHcXhk=
-From:   David Heidelberg <david@ixit.cz>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ~okias/devicetree@lists.sr.ht,
-        David Heidelberg <david@ixit.cz>,
-        Dmitry Osipenko <digetx@gmail.com>
-Subject: [PATCH v2] dt-bindings: input: elan,ekth3000: Convert txt bindings to yaml
-Date:   Sat,  9 Oct 2021 20:30:16 +0200
-Message-Id: <20211009183016.65218-1-david@ixit.cz>
-X-Mailer: git-send-email 2.33.0
+        id S229661AbhJISmz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 9 Oct 2021 14:42:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58508 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229558AbhJISmz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Oct 2021 14:42:55 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3671C061570
+        for <linux-input@vger.kernel.org>; Sat,  9 Oct 2021 11:40:57 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id r7so40523999wrc.10
+        for <linux-input@vger.kernel.org>; Sat, 09 Oct 2021 11:40:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=X/8ozOEz9M/VZ/CZof3sV9avvfgPhCapkPPuRXd+j7o=;
+        b=ZR+gOIu3qE2IxyfJV3Y+LrV/K1+UjpNfaAJGCuVSZrrSGfHJeUvzixCo6miR63l704
+         f8Fy+TkBB7Vjvs/h3Xpjmj2o2xSZ90UNVE0cSQtYUkwrHIgHbMvT3Up7PC+b7R3rlEyj
+         BIwv6VpFBe9j88JFWduMlv0pXotS0zqTYHF6MbgGvVYSu07/gg67ts+lRP+qKVkoUEOs
+         dv4hjrIi2baGI9zw2pCzBHAr7U3zo0DPKtrnVze4wAw9N/WZG7XO5fp6EfSqoPpxK56M
+         Iq1Cex5jTm472fnNrZV2N3HyiM5Cek8ULZxkFtHYnDWQ23Jj4w8Nse/Aet1o/0NF3gqs
+         Kr1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=X/8ozOEz9M/VZ/CZof3sV9avvfgPhCapkPPuRXd+j7o=;
+        b=PCwaIc2PSqgillgKx1MOOPKQJAhhtQCyOPowS/TYZUqFrxXDyLayAPqTzpXpGqvQsS
+         MBUDK/iTXj2K4CKKbptE6qvN0MqnJl/IP9v2DrmbgmDkhKg3x6GJSyXj78bUWDdG0g3a
+         qiBqsaq/qfL9ae1Hc6wyOaoeAGi4Rwodzp7saxG060PlZ+ogcN/dN3nOXKwirEs6RtNW
+         ZGO0+bH1HQC5+lJYhnTwDH4A/byCFAskZ5B1LROb4AIyL9qXW/mwien4RcTm7nnHw2Bf
+         q66e9p3Y3PJJ1QXL81KueDnBJ1gr3vVzzUZhGGhFEvVOhSxDKISt6aFnfloBW5tHbs8F
+         C0Kg==
+X-Gm-Message-State: AOAM530xVieXRm+Z4eRKTEhc8V134Dhv91IstsCW0Ip8qVkrHkGYmsxl
+        QSUMU2O5LxF2lAtwnZpxbn0=
+X-Google-Smtp-Source: ABdhPJwzw5QNboXzZGjQThcDJgATsxaDAhlgKnrxZWb/KR8nw3jSchMMrAfZQLDfvzMcvnxVd51/1A==
+X-Received: by 2002:adf:ba0d:: with SMTP id o13mr12675981wrg.339.1633804856509;
+        Sat, 09 Oct 2021 11:40:56 -0700 (PDT)
+Received: from elementary ([94.73.34.90])
+        by smtp.gmail.com with ESMTPSA id h22sm3041228wmq.42.2021.10.09.11.40.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Oct 2021 11:40:55 -0700 (PDT)
+Date:   Sat, 9 Oct 2021 20:40:51 +0200
+From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To:     Alex Henrie <alexhenrie24@gmail.com>
+Cc:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
+        hadess@hadess.net, jikos@kernel.org, jslaby@suse.cz, juw@posteo.de,
+        lukas@wunner.de
+Subject: Re: [PATCH 3/3] HID: apple: Bring back flag for Apple tilde key quirk
+Message-ID: <20211009184051.GA72740@elementary>
+References: <20211008073702.5761-1-alexhenrie24@gmail.com>
+ <20211008073702.5761-3-alexhenrie24@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam: Yes
+In-Reply-To: <20211008073702.5761-3-alexhenrie24@gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Convert Elan touchpad documentation to the YAML syntax.
+Hi Alex,
 
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
-v2
-- add additional space
-- correct uint8 -> uint32
-- change maintainer, original maintainer email doesn't exist
+Thank you very much for cc'ing me.
 
- .../bindings/input/elan,ekth3000.yaml         | 81 +++++++++++++++++++
- .../devicetree/bindings/input/elan_i2c.txt    | 44 ----------
- 2 files changed, 81 insertions(+), 44 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/input/elan,ekth3000.yaml
- delete mode 100644 Documentation/devicetree/bindings/input/elan_i2c.txt
+On Fri, Oct 08, 2021 at 01:37:02AM -0600, Alex Henrie wrote:
+> Some Apple ISO keyboards have a quirk where the backtick/tilde key is
+> swapped with the less-than/greater-than key. Unfortunately, there is no
+> perfectly reliable way to detect whether a keyboard has the quirk or
+> not, but the quirk appears to only be present on models that support
+> Bluetooth, and the affected keyboards usually report country code 13 in
+> the HID descriptor.
+> 
+> Therefore, the best we can do is to change
+> /sys/module/hid_apple/parameters/iso_layout to a ternary:
+> 
+> 0 = Not ISO or ISO and not quirky
+> 1 = ISO and quirky
+> -1 = Guess based on product ID and country code
+> 
+> Table of keyboards I have tested:
+> 
+> Product    Model  Shape  Labels      Bus  Country  Quirky
+> =========================================================
+> 05ac:0201  M2452  ANSI   Usonian     USB  0        No
+> 05ac:020b  A1048  ANSI   Usonian     USB  0        No
+> 05ac:020c  A1048  ISO    Québécois   USB  13       No
+> 05ac:0221  A1243  ISO    Norwegian   USB  13       No
+> 05ac:0221  A1243  ISO    Portuguese  USB  13       No
+> 05ac:0221  A1243  ISO    Swedish     USB  13       No
+> 05ac:0221  A1243  ISO    Swiss       USB  13       No
+> 05ac:022c  A1255  ANSI   Usonian     BT   33       No
+> 05ac:022d  A1255  ISO    Hebrew      BT   13       Yes
+> 05ac:022d  A1255  ISO    Québécois   BT   13       Yes
+> 05ac:022d  A1255  ISO    Spanish     BT   13       Yes
+> 05ac:023a  A1314  ISO    Russian     BT   13       Yes
+> 05ac:023a  A1314  ISO    Swiss       BT   13       Yes
+> 05ac:024f  A1243  ANSI   Usonian     USB  0        No
+> 05ac:0250  A1243  ISO    British     USB  13       No
+> 05ac:0250  A1243  ISO    German      USB  13       No
+> 05ac:0250  A1243  ISO    Italian     USB  13       No
+> 05ac:0250  A1243  ISO    Québécois   USB  13       No
+> 05ac:0251  A1243  JIS    Japanese    USB  15       No
+> 05ac:0255  A1314  ANSI   Usonian     BT   33       No
+> 05ac:0255  A1314  ANSI   Taiwanese   BT   33       No
+> 05ac:0255  A1314  ANSI   Thai        BT   33       No
+> 05ac:0256  A1314  ISO    Arabic      BT   13       Yes
+> 05ac:0256  A1314  ISO    French      BT   13       Yes
+> 05ac:0256  A1314  ISO    German      BT   13       Yes
+> 05ac:0256  A1314  ISO    Norwegian   BT   13       Yes
+> 05ac:0256  A1314  ISO    Spanish     BT   13       Yes
+> 05ac:0256  A1314  ISO    Swiss       BT   13       Yes
+> 05ac:0257  A1314  JIS    Japanese    BT   15       No
+> 05ac:0267  A1644  ANSI   Usonian     USB  33       No
+> 004c:0267  A1644  ANSI   Usonian     BT   0        No
+> 05ac:0267  A1644  ISO    British     USB  13       Yes
+> 004c:0267  A1644  ISO    British     BT   0        Yes
+> 05ac:0267  A1644  ISO    Swiss       USB  13       Yes
+> 004c:0267  A1644  ISO    Swiss       BT   0        Yes
+> 05ac:0267  A1644  ISO    Québécois   USB  13       Yes
+> 004c:0267  A1644  ISO    Québécois   BT   0        Yes
+> 05ac:0267  A1644  JIS    Japanese    USB  15       No
+> 004c:0267  A1644  JIS    Japanese    BT   0        No
+> 05ac:029c  A2450  ANSI   Usonian     USB  33       No
+> 004c:029c  A2450  ANSI   Usonian     BT   0        No
+> 05ac:029c  A2450  ISO    Spanish     USB  13       Yes
+> 004c:029c  A2450  ISO    Spanish     BT   0        Yes
+> 05ac:029c  A2450  JIS    Japanese    USB  15       No
+> 004c:029c  A2450  JIS    Japanese    BT   0        No
 
-diff --git a/Documentation/devicetree/bindings/input/elan,ekth3000.yaml b/Documentation/devicetree/bindings/input/elan,ekth3000.yaml
-new file mode 100644
-index 000000000000..2a9bb6ace021
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/elan,ekth3000.yaml
-@@ -0,0 +1,81 @@
-+# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/elan,ekth3000.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Elantech I2C Touchpad
-+
-+maintainers:
-+  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
-+
-+allOf:
-+  - $ref: touchscreen/touchscreen.yaml#
-+
-+properties:
-+  compatible:
-+    const: elan,ekth3000
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  wakeup-source:
-+    type: boolean
-+    description: touchpad can be used as a wakeup source
-+
-+  vcc-supply:
-+    description: a phandle for the regulator supplying 3.3V power
-+
-+  elan,trackpoint:
-+    type: boolean
-+    description: touchpad can support a trackpoint
-+
-+  elan,clickpad:
-+    type: boolean
-+    description: touchpad is a clickpad (the entire surface is a button)
-+
-+  elan,middle-button:
-+    type: boolean
-+    description: touchpad has a physical middle button
-+
-+  elan,x_traces:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: number of antennas on the x axis
-+
-+  elan,y_traces:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: number of antennas on the y axis
-+
-+  touchscreen-size-x: true
-+
-+  touchscreen-size-y: true
-+
-+  touchscreen-x-mm: true
-+
-+  touchscreen-y-mm: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        touchpad@15 {
-+            compatible = "elan,ekth3000";
-+            reg = <0x15>;
-+            interrupt-parent = <&gpio4>;
-+            interrupts = <0x0 IRQ_TYPE_EDGE_FALLING>;
-+            wakeup-source;
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/input/elan_i2c.txt b/Documentation/devicetree/bindings/input/elan_i2c.txt
-deleted file mode 100644
-index 9963247706f2..000000000000
---- a/Documentation/devicetree/bindings/input/elan_i2c.txt
-+++ /dev/null
-@@ -1,44 +0,0 @@
--Elantech I2C Touchpad
--
--Required properties:
--- compatible: must be "elan,ekth3000".
--- reg: I2C address of the chip.
--- interrupts: interrupt to which the chip is connected (see interrupt
--  binding[0]).
--
--Optional properties:
--- wakeup-source: touchpad can be used as a wakeup source.
--- pinctrl-names: should be "default" (see pinctrl binding [1]).
--- pinctrl-0: a phandle pointing to the pin settings for the device (see
--  pinctrl binding [1]).
--- vcc-supply: a phandle for the regulator supplying 3.3V power.
--- elan,trackpoint: touchpad can support a trackpoint (boolean)
--- elan,clickpad: touchpad is a clickpad (the entire surface is a button)
--- elan,middle-button: touchpad has a physical middle button
--- elan,x_traces: number of antennas on the x axis
--- elan,y_traces: number of antennas on the y axis
--- some generic touchscreen properties [2]:
--  * touchscreen-size-x
--  * touchscreen-size-y
--  * touchscreen-x-mm
--  * touchscreen-y-mm
--
--
--[0]: Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
--[1]: Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
--[2]: Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
--
--Example:
--	&i2c1 {
--		/* ... */
--
--		touchpad@15 {
--			compatible = "elan,ekth3000";
--			reg = <0x15>;
--			interrupt-parent = <&gpio4>;
--			interrupts = <0x0 IRQ_TYPE_EDGE_FALLING>;
--			wakeup-source;
--		};
--
--		/* ... */
--	};
--- 
-2.33.0
+You can add to the table:
 
+05ac:0267  A1644  ISO    Spanish     USB  13       Yes
+004c:0267  A1644  ISO    Spanish     BT   0        Yes
+
+Tested here and it works as expected, both over USB and bluetooth,
+thank you very much for fixing it!
+
+It's a pitty that we need to add a configuration option, for many users
+it is not going to be easy to discover it.
+
+macOS doesn't have this issue, so there must be a way of detecting the keyboard
+layout... Unless they apply the quirk on user space checking the selected
+keyboard layout and language in settings.
+I bought ANSI English keyboard to see if I could figure out where is the
+difference but no luck so far.
+
+For what it's worth, Tested-by: José Expósito <jose.exposito89@gmail.com>
