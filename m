@@ -2,135 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F2C14283F2
-	for <lists+linux-input@lfdr.de>; Mon, 11 Oct 2021 00:01:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6143A428B20
+	for <lists+linux-input@lfdr.de>; Mon, 11 Oct 2021 12:52:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233030AbhJJWD0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 10 Oct 2021 18:03:26 -0400
-Received: from mail-0201.mail-europe.com ([51.77.79.158]:41615 "EHLO
-        mail-0201.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230364AbhJJWDZ (ORCPT
+        id S236015AbhJKKyR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Oct 2021 06:54:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50516 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236019AbhJKKyL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 10 Oct 2021 18:03:25 -0400
-Date:   Sun, 10 Oct 2021 22:01:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1633903281;
-        bh=wEwgbm8rXORJnJ0BoWhmPgLjewNBjCXlxzRbr/E/+HU=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=IdAyXu+lMCe2uR/qlSxCjY0TIoR2ic31Hs9WITvLR16S+bW6EBNmmBXJrFluA1O8q
-         TW6UZvGr/J1iV8tVyYFepQHrHuOTBi+Ixlra4gTyy8rhTxpn4v0doK7+8XbjXFAEr+
-         i2h6VVl7OPiQn9oVDlLZMDR5n2g05rHYW9NWYyJ4=
-To:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
-From:   Ryan McClue <re.mcclue@protonmail.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Reply-To: Ryan McClue <re.mcclue@protonmail.com>
-Subject: Re: PROBLEM: Evdev epoll_wait Lag
-Message-ID: <ZuWyfqLv-q05M024EWTS7EOYJ-tKp-haPZOYrZGsGx32cLEH5h_AZ0T2NDnWYogu2MMfscOa56Bflfe_85DG_0IEP0iPDqFQY52Qsd_7UBc=@protonmail.com>
-In-Reply-To: <KQGwDRe-r2Kg0tjf28_CwayJFLwQYB8PAH7bhNvfG0ngHPyJe2Wu59MZqMiWfLr1B6qrM5LUeR5JmtZrlpiyB6_CLgnRhtK65aZ5Qntw9dQ=@protonmail.com>
-References: <99GfWMtkpJutp6wuEhYJ3aIfNVfE_fr3TVPeQWsr9QSvNMgTk23Aml6WYEucd6D3qkmeIFbunUu6a6g0VNppEKIYrz7w43fzGyl3BUXVkDQ=@protonmail.com> <YWEKLNg3ZzGZLpfn@google.com> <KQGwDRe-r2Kg0tjf28_CwayJFLwQYB8PAH7bhNvfG0ngHPyJe2Wu59MZqMiWfLr1B6qrM5LUeR5JmtZrlpiyB6_CLgnRhtK65aZ5Qntw9dQ=@protonmail.com>
+        Mon, 11 Oct 2021 06:54:11 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91225C06176F
+        for <linux-input@vger.kernel.org>; Mon, 11 Oct 2021 03:52:10 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id g25so8280160wrb.2
+        for <linux-input@vger.kernel.org>; Mon, 11 Oct 2021 03:52:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=DOxN63QWnl4dBNWQl+LufsBrewR+8VuPJnGph7ijSeE=;
+        b=AOwGJPRzreY174rbkYBENqDohFuS97wCy60jVSdUYNPvEhybdL2c3BcOeGHfafS8qn
+         uli8WfEZJzoNSATFu7DBFWZM5wABtXSV1fVUNkqBG+wI3EdLjqFjRGvGLPDsXQD4j8ti
+         JdKJOvfhiPWLhIdXxcZs7yEtyw7uhQsNkQbVb/JxSGMRe/N7DhEqEKRxFVAhJqYVr6ip
+         luxhwneuxQj/LqEVquYWqA1ElmxbF28So8sZzLv8Aq0heCWPmvwVFbMZiqnZY0gUleVY
+         srMWfgZ4YU41fQPU+nXlKo2suPYWVFr3mwjljaEytb5oh4cOqW2uYqGIU/2pgk6wVBCS
+         OkkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=DOxN63QWnl4dBNWQl+LufsBrewR+8VuPJnGph7ijSeE=;
+        b=EpXmkvGpnfIw5jKDNaiPSNH2TsV7vpYUcWrAmkppEDIR08Nrbu2AEXIiuqXeOhu5X2
+         //W36rh77AP1pcZTaf+i/UPke0qFsBvtnJ3idwYu3NAXgAotOuDoIa8DkkVjcoe4P7mw
+         9oBWCACleWPb6dXW44Zlx5pN0vkIXI2fQoDh5565eAJ7aOXRvxrAygNSeVQl1miphAHA
+         fhgo05QlltP2FxYJVYxsaic2Q5MLk1naoRUizDv3Jwexrm1YqL26m8edY663BnqcJMXe
+         O0G7Lr7eesQFSqUrSTOWAz9K+srJue0akZXA/Gwp69WhnP0pARDgGXrgvCX9x+xknKWM
+         1WOA==
+X-Gm-Message-State: AOAM530ogbvW2SwsS0lEwZ35886nc7K56Ag4D4iSec/nJl96+vVBPx22
+        pY6WQKTgbP4M72Lpsb5UnX8A/CeOQTkiPf1U8i0=
+X-Google-Smtp-Source: ABdhPJyfJGEDNJnYy+rVU5F2kp5CR0JNqric22BUxuwjRQiA96y3Nmwroy+PAkdet7/Z+lAMJSMDUb21JjG1eJ5mxBo=
+X-Received: by 2002:adf:a550:: with SMTP id j16mr24209932wrb.180.1633949528442;
+ Mon, 11 Oct 2021 03:52:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO
-        shortcircuit=no autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Received: by 2002:adf:dd8c:0:0:0:0:0 with HTTP; Mon, 11 Oct 2021 03:52:07
+ -0700 (PDT)
+Reply-To: ramcharan9910@outlook.com
+From:   "Cr.David Ramcharan" <convy0101@gmail.com>
+Date:   Mon, 11 Oct 2021 03:52:07 -0700
+Message-ID: <CADDRs97R=WZOwhBkw75zF4TtQ=idFbd5TWX3jbTc8zsFJ+4qNw@mail.gmail.com>
+Subject: Thank You
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I think this may be an issue with xorg, as running in a virtual terminal I =
-don't get any stalling.
-What is your environment you tested it on?
+Please I am writing to notify you again on my intention to list your
+name as a beneficiary to the total sum of GBP6.350 million (Six
+million, Three hundred and fifty thousand British Pounds Sterlings) in
+the intent of the deceased (name now withheld since this is my second
+letter to you).
 
---
-Ryan McClue, Sydney
+I contacted you because you bear the surname identity and therefore
+can present you as the beneficiary to inherit the account proceeds of
+the deceased since there is no written "WILL" or trace to the deceased
+family relatives. My aim is to present you to my Bank Authorities as
+the Next of Kin to our deceased client. I will guide you all through
+the Claim procedure by providing all relevant Information and guiding
+you in your decisions and response to the Bank Management. All the
+papers will be processed after your acceptance.
 
-=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90 Original Me=
-ssage =E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90
+In your acceptance of this deal, I request that you kindly forward to
+me your letter of acceptance; your current telephone and fax numbers
+,age, occupational status and a forwarding address to enable me submit
+to the Bank Management the details as the Next of Kin to their
+deceased customer. Reply strictly through: ramcharancrdavid@gmail.com
 
-On Saturday, October 9th, 2021 at 3:31 PM, Ryan McClue <re.mcclue@protonmai=
-l.com> wrote:
-
-> I want the epoll_wait to return immediately if no data, so I believe the =
-timeout of 0 is correct.
->
-> I'm using an adapted version of this loop for a hobby program. However, e=
-very time I open it up in a debugger (or just normally) htop shows CPU usag=
-e for the process is ~97% and the CPU fan becomes very loud.
->
-> Like I said, I'm experiencing stalls from a fresh install of Ubuntu in al=
-l native applications like gnome-terminal, firefox, gedit, vi etc.
->
-> I don't understand what is going on or how to go about debugging it.
->
-> -------------------------------------------------------------------------=
----------------------------------------------------------------------------=
----------------------------------------------------------------------------=
----------------------------------------------------------------------------=
----------------------------------------------------------------------------=
----------------------------------------------------------------------------=
------------------------------------------------------------------------
->
-> Ryan McClue, Sydney
->
-> =E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90 Original =
-Message =E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90
->
-> On Saturday, October 9th, 2021 at 2:19 PM, dmitry.torokhov@gmail.com dmit=
-ry.torokhov@gmail.com wrote:
->
-> > Hi,
-> >
-> > On Fri, Oct 08, 2021 at 11:29:51PM +0000, Ryan McClue wrote:
-> >
-> > > Hi there,
-> > >
-> > > PROBLEM:
-> > >
-> > > I'm on a laptop, with 2 connected keyboards (built-in and USB).
-> > >
-> > > When I hit keys on each keyboard simultaneously in a program like fir=
-efox,
-> > >
-> > > gnome-terminal etc. stalling/lag occurs.
-> > >
-> > > It only happens for keyboards it seems as moving an external mouse an=
-d trackpad
-> > >
-> > > together causes no issues.
-> > >
-> > > TO REPRODUCE:
-> > >
-> > > To investigate the problem I wrote a simple C file
-> > >
-> > > (see attached 'evdev-lag.c', compile with $(gcc evdev-lag.c -o evdev-=
-lag))
-> > >
-> > > The program finds keyboard devices under /dev/input/event and uses ep=
-oll to
-> > >
-> > > poll them for input via the evdev interface.
-> > >
-> > > If I start entering keys on one keyboard and then switch to the other=
-, the
-> > >
-> > > program stalls briefly.
-> > >
-> > > If I simultaneously enter keys on each keyboard the program stalls in=
-definitely
-> > >
-> > > until I stop entering keys.
-> >
-> > I do not observe stalls but did you mean to essentially busy-loop in
-> >
-> > your program? epoll_wait with 0 timeout causes it return immediately,
-> >
-> > you want to use -1 if you want to wait indefinitely or give it a real
-> >
-> > timeout.
-> >
-> > Thanks.
-> >
-> > Dmitry
+Yours faithfully,
+Cr.David Ramcharan
