@@ -2,81 +2,149 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82B21428BA3
-	for <lists+linux-input@lfdr.de>; Mon, 11 Oct 2021 12:57:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53550428DEE
+	for <lists+linux-input@lfdr.de>; Mon, 11 Oct 2021 15:28:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236114AbhJKK7N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Oct 2021 06:59:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51576 "EHLO
+        id S236948AbhJKNab (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Oct 2021 09:30:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236134AbhJKK6T (ORCPT
+        with ESMTP id S236939AbhJKNaa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Oct 2021 06:58:19 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32D3AC06176A
-        for <linux-input@vger.kernel.org>; Mon, 11 Oct 2021 03:56:12 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id r18so54889468wrg.6
-        for <linux-input@vger.kernel.org>; Mon, 11 Oct 2021 03:56:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=DOxN63QWnl4dBNWQl+LufsBrewR+8VuPJnGph7ijSeE=;
-        b=km/+rwE10MGCG3K0BNjxD+A2l394aMlSCDFqBEiDyrs45mObKwVEkOccUp5BPFftJU
-         5cB06txNzUPVxcrxQnkqMq9zaxAqQeR9eoa3+7DqnAg3rX7wMze/dloERdrhczopiGET
-         PvxtLks7kWCMKTs5Q8Mmq12LwUKUT5cPH1x1mszpEwl0kuXWAYNTl0kX4+cL3oWAj8+a
-         6an2wLimFEmscCT9jtQf7FGYav0q/UTa6GRCeFihab7mYp8KZTVzyAi9ONxHllw1wfay
-         OSS3CoE7RnQ2PFKTnc/5Yya8gHnSshWvMzermo1msudbBS7MTk09iY8fA6ci8A/KmFSk
-         +E4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=DOxN63QWnl4dBNWQl+LufsBrewR+8VuPJnGph7ijSeE=;
-        b=uB6MGJDg0A64ntGiwDjaq6GiBqLebw0jOg3cn4hyR1vxQHnxWkuk3/WU+96VX+xqX8
-         klyymbJS8WvPNkoTn0/P1N367HrihfMZvGbzZI1+kLHtbOL45xH+UgfJEH3nLl4I+nW5
-         lGwJtSDjx0aUvjGa73iHmluEnCfObcSfX8CGc/6gM6mp53k5V6KVQxTzBrdB81Bag4z0
-         ZH6P1SXSFnzaUx0Xc3h+2iKtP4+9ahAp8LFECo3ci5AqlXqA9+7yHbiJiNl+2l4ufMuK
-         n2iN97YrYJuMNrLU/c2aPDP9QSz7NnhGRDIqLqPculdsiB7bX9C+dsvggYaTD6/+PMNv
-         pYCg==
-X-Gm-Message-State: AOAM533g6rO/jtk3ZlGTDwWlBCh2fET6+DeGNT+rditAcwKhzrcjOooN
-        Kf5EFNZd7zT51ehkqSNfuP4FdZc2PHJxHSRSHJLLxkzlBAeBfg==
-X-Google-Smtp-Source: ABdhPJxWYMUVxuj7Tly9azrkWxEMXzTPZAklmoVIH4V2ykknMMiBN9imOFz2zTqxux/zk/7pzvFSRlX+C6mfjc7ADy4=
-X-Received: by 2002:adf:8b9a:: with SMTP id o26mr24377548wra.109.1633949760323;
- Mon, 11 Oct 2021 03:56:00 -0700 (PDT)
+        Mon, 11 Oct 2021 09:30:30 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92675C061570
+        for <linux-input@vger.kernel.org>; Mon, 11 Oct 2021 06:28:30 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mZvLZ-0006fi-Rm; Mon, 11 Oct 2021 15:28:05 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mZvLV-0003nd-8g; Mon, 11 Oct 2021 15:28:01 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mZvLV-0000Re-6O; Mon, 11 Oct 2021 15:28:01 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
+Cc:     Mark Brown <broonie@kernel.org>, Wolfram Sang <wsa@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Jason Gunthorpe linux-integrity @ vger . kernel . org" 
+        <jgg@ziepe.ca>, Sam Ravnborg <sam@ravnborg.org>,
+        dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-stm32@st-md-mailman.stormreply.com
+Subject: [PATCH 00/13] Make some spi device drivers return zero in .remove()
+Date:   Mon, 11 Oct 2021 15:27:41 +0200
+Message-Id: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Received: by 2002:adf:dd8c:0:0:0:0:0 with HTTP; Mon, 11 Oct 2021 03:55:59
- -0700 (PDT)
-Reply-To: ramcharan9910@outlook.com
-From:   "Cr.David Ramcharan" <convy0101@gmail.com>
-Date:   Mon, 11 Oct 2021 03:55:59 -0700
-Message-ID: <CADDRs95718H=K3tUjphEHH_C96xYhoJw7jeCMpt_FfZZjhEXrA@mail.gmail.com>
-Subject: Thank You
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Please I am writing to notify you again on my intention to list your
-name as a beneficiary to the total sum of GBP6.350 million (Six
-million, Three hundred and fifty thousand British Pounds Sterlings) in
-the intent of the deceased (name now withheld since this is my second
-letter to you).
+Hello,
 
-I contacted you because you bear the surname identity and therefore
-can present you as the beneficiary to inherit the account proceeds of
-the deceased since there is no written "WILL" or trace to the deceased
-family relatives. My aim is to present you to my Bank Authorities as
-the Next of Kin to our deceased client. I will guide you all through
-the Claim procedure by providing all relevant Information and guiding
-you in your decisions and response to the Bank Management. All the
-papers will be processed after your acceptance.
+this series is part of my new quest to make spi remove callbacks return
+void. Today they return an int, but the only result of returning a
+non-zero value is a warning message. So it's a bad idea to return an
+error code in the expectation that not freeing some resources is ok
+then. The same holds true for i2c and platform devices which benefit en
+passant for a few drivers.
 
-In your acceptance of this deal, I request that you kindly forward to
-me your letter of acceptance; your current telephone and fax numbers
-,age, occupational status and a forwarding address to enable me submit
-to the Bank Management the details as the Next of Kin to their
-deceased customer. Reply strictly through: ramcharancrdavid@gmail.com
+The patches in this series address some of the spi drivers that might
+return non-zero and adapt them accordingly to return zero instead. For
+most drivers it's just about not hiding the fact that they already
+return zero.
 
-Yours faithfully,
-Cr.David Ramcharan
+Given that there are quite some more patches of this type to create
+before I can change the spi remove callback, I suggest the respecive
+subsystem maintainers pick up these patches. There are no
+interdependencies in this series.
+
+Uwe Kleine-König (13):
+  drm/panel: s6e63m0: Make s6e63m0_remove() return void
+  hwmon: adt7x10: Make adt7x10_remove() return void
+  hwmon: max31722: Warn about failure to put device in stand-by in
+    .remove()
+  input: adxl34xx: Make adxl34x_remove() return void
+  input: touchscreen: tsc200x: Make tsc200x_remove() return void
+  media: cxd2880: Eliminate dead code
+  mfd: mc13xxx: Make mc13xxx_common_exit() return void
+  mfd: stmpe: Make stmpe_remove() return void
+  mfd: tps65912: Make tps65912_device_exit() return void
+  serial: max310x: Make max310x_remove() return void
+  serial: sc16is7xx: Make sc16is7xx_remove() return void
+  staging: fbtft: Make fbtft_remove_common() return void
+  tpm: st33zp24: Make st33zp24_remove() return void
+
+ drivers/char/tpm/st33zp24/i2c.c                   |  5 +----
+ drivers/char/tpm/st33zp24/spi.c                   |  5 +----
+ drivers/char/tpm/st33zp24/st33zp24.c              |  3 +--
+ drivers/char/tpm/st33zp24/st33zp24.h              |  2 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c |  3 ++-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c |  3 ++-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c     |  4 +---
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.h     |  2 +-
+ drivers/hwmon/adt7310.c                           |  3 ++-
+ drivers/hwmon/adt7410.c                           |  3 ++-
+ drivers/hwmon/adt7x10.c                           |  3 +--
+ drivers/hwmon/adt7x10.h                           |  2 +-
+ drivers/hwmon/max31722.c                          |  8 +++++++-
+ drivers/input/misc/adxl34x-i2c.c                  |  4 +++-
+ drivers/input/misc/adxl34x-spi.c                  |  4 +++-
+ drivers/input/misc/adxl34x.c                      |  4 +---
+ drivers/input/misc/adxl34x.h                      |  2 +-
+ drivers/input/touchscreen/tsc2004.c               |  4 +++-
+ drivers/input/touchscreen/tsc2005.c               |  4 +++-
+ drivers/input/touchscreen/tsc200x-core.c          |  4 +---
+ drivers/input/touchscreen/tsc200x-core.h          |  2 +-
+ drivers/media/spi/cxd2880-spi.c                   | 13 +------------
+ drivers/mfd/mc13xxx-core.c                        |  4 +---
+ drivers/mfd/mc13xxx-i2c.c                         |  3 ++-
+ drivers/mfd/mc13xxx-spi.c                         |  3 ++-
+ drivers/mfd/mc13xxx.h                             |  2 +-
+ drivers/mfd/stmpe-i2c.c                           |  4 +++-
+ drivers/mfd/stmpe-spi.c                           |  4 +++-
+ drivers/mfd/stmpe.c                               |  4 +---
+ drivers/mfd/stmpe.h                               |  2 +-
+ drivers/mfd/tps65912-core.c                       |  4 +---
+ drivers/mfd/tps65912-i2c.c                        |  4 +++-
+ drivers/mfd/tps65912-spi.c                        |  4 +++-
+ drivers/staging/fbtft/fbtft-core.c                |  8 +-------
+ drivers/staging/fbtft/fbtft.h                     |  6 ++++--
+ drivers/tty/serial/max310x.c                      |  7 +++----
+ drivers/tty/serial/sc16is7xx.c                    | 10 +++++++---
+ include/linux/mfd/tps65912.h                      |  2 +-
+ 38 files changed, 77 insertions(+), 81 deletions(-)
+
+
+base-commit: 9e1ff307c779ce1f0f810c7ecce3d95bbae40896
+-- 
+2.30.2
+
