@@ -2,63 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D68A429E38
-	for <lists+linux-input@lfdr.de>; Tue, 12 Oct 2021 08:58:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB2AA429EA8
+	for <lists+linux-input@lfdr.de>; Tue, 12 Oct 2021 09:30:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232667AbhJLHAk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Oct 2021 03:00:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40394 "EHLO
+        id S233890AbhJLHc4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 Oct 2021 03:32:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232499AbhJLHAj (ORCPT
+        with ESMTP id S232500AbhJLHcz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Oct 2021 03:00:39 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A85BC061570;
-        Mon, 11 Oct 2021 23:58:38 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id o20so63439052wro.3;
-        Mon, 11 Oct 2021 23:58:38 -0700 (PDT)
+        Tue, 12 Oct 2021 03:32:55 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20568C061570;
+        Tue, 12 Oct 2021 00:30:54 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id i12so51204201wrb.7;
+        Tue, 12 Oct 2021 00:30:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=bg6lNHmeKOpJXeIiSb+VjW+H8cWSnozAwzSA/SSRX50=;
-        b=ImJxeCkowEk8w2VTqnpcKXGXpnwB8DN1ba9G+xkEfTcgraL8E8ndoqrGOq4lkB6VcJ
-         WY8QHEDJqbwxc/HI1/D8CxMADsOZqpgcW7zC7RRaVn6PAj0jKo6V6J2/pvWdY+jgtcpy
-         fiXfsl//+M0Dw3qlFoczXz89jVTImyqFm7Xgqlei2Se2E1ScRLri/pEZbDbgCw9ov4Jz
-         YYbdgqyx65eNNFQcz2ZKzkvshk4zPpnJxCEHntko6gbT6Yl2vUrvg1+9Q0CneX6JclUC
-         8PqcMcApUKSP5+eeVsmtQx+3WP7bJOCBAGj4zE5T4vqpRYUfXhrL1mH3yKKsTBoFPWs8
-         kgtQ==
+        bh=JnveVyUJxymNAFHeYFircy9L/buzTM+7agfcS4bgS2o=;
+        b=TU62GjX2/BZDoFark1y4nnk0jlgAgrIF/JtLmiZnhk/Z4Y6xlod4+x/C0K66hsDJRJ
+         MmGkW96ZAesQxpXtVHQpXaHhwadUf5VYF26bFRl/y0XzfweSwN/CQDuc+yKj3kCgcVyy
+         M+z9wSHZEQDTIJ5CKMOGUe5ZXp8BRZmXmIetYOLZuuf7/woTXd70h9qc9+kE/gB9orSk
+         scpIKU823W33z5tLxDCZEXVMLVY5tdwnFRNSTNvYtWX04016eJ2cTU9lfqO2lvlBj5OT
+         J8EYsqdvvZyuSzAC2vSxRUYH3lVbI4CSLNEOSzeuSA1Eg5d5baLZO+5GIulBe8LgQdt4
+         Jxrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=bg6lNHmeKOpJXeIiSb+VjW+H8cWSnozAwzSA/SSRX50=;
-        b=nrvbY1i8IbjsNKA235FxrTsXR87nOq5VjXI0oUuFuT8KnrAj5fHpdo7oajxCTYdmpy
-         8YHYWstobQ6nRX0NHh0Ry1dRSp6nGAz3QqQocrofxnNazxEDaGSBoFWdSLXve3dEiiwB
-         tSlM+x7pOjFxUIfsr4NvIJdmL3FCVAHHhy8EnXwni9Jk4V2dszSWzMUD+8NxD6z1eblU
-         Dk2kL/7g/vbmrjlKUkW/DCHvhScyGou1Aq1afuVlKCcyxHQoPQ0VxfVnRGQe1N4jorU+
-         hOHaEXOVlvdSrT70a1LHVYstlEWKgrbUC7/xTw0I6qrV3CsJ1DzfHouNR9Y0VEEqlgLo
-         InbA==
-X-Gm-Message-State: AOAM531t0Yb42akYsli1uqjTSxqc88OKxlEUK+CnRED50XJfRhF89K7Z
-        aaFPtCIgZ21s08KIQaxxfBhr19wErLE=
-X-Google-Smtp-Source: ABdhPJwQ8QnSmiV97Fj1Sy0gQc2+UrX2b1ojpaDeJCUwcm+BdW35CcKojXk8x1EL1Xc4I89Q+W6FRw==
-X-Received: by 2002:adf:d1c3:: with SMTP id b3mr13284433wrd.237.1634021916906;
-        Mon, 11 Oct 2021 23:58:36 -0700 (PDT)
+        bh=JnveVyUJxymNAFHeYFircy9L/buzTM+7agfcS4bgS2o=;
+        b=Mj22CQIKr0rG7R04kz3RbkPdI3vvNcM0xnx9hHxRcGnMZpbzeZzcFxmZTMq4vcXhwB
+         zahLSISreifc4ONq7o1XSARU68h/Xd/gGBFAfZGZhb3J2WUXb7EvMW5bZdExUCQM1RfO
+         3fZnRX7PEgMN7z2dzlWHQGrtEjfIT81oG1DkRnxnq9qGZMtuGcZzkuPA9EadefH+yj0Y
+         INyFhVwsmTy7azd1EPEBhugklUUPW2BHlpzrTaxpg/bMmyVj3vHsLbkWmcS/UuxFoWGP
+         EjsnJuH6c85D/lTXLAyaN+bvkhEv9Ly/F8O4NOnhFCh78EgQNHyfRlRl6i+/3URKnwyz
+         jJjg==
+X-Gm-Message-State: AOAM530/TPaEDWq6r4lKnP66YLgCNAaUG6XQOrVcn83KYxaGKEqPtEIG
+        mvitWM9SKyCJq2f5gxR5XqM=
+X-Google-Smtp-Source: ABdhPJwuahxXDHHhV8wkQVubDOGdt2+/V5al4MPm2RApziKBwUSF7QkB06Gegto/1uXFcxE4I9fj0Q==
+X-Received: by 2002:a05:600c:3595:: with SMTP id p21mr3803779wmq.71.1634023852780;
+        Tue, 12 Oct 2021 00:30:52 -0700 (PDT)
 Received: from [192.168.1.21] ([195.245.16.219])
-        by smtp.gmail.com with ESMTPSA id l21sm1620499wmh.31.2021.10.11.23.58.36
+        by smtp.gmail.com with ESMTPSA id j14sm4237565wrw.12.2021.10.12.00.30.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 23:58:36 -0700 (PDT)
-Message-ID: <6b0d2338e7b8a1e1f86bd4565182377255f27729.camel@gmail.com>
-Subject: Re: [PATCH 2/4] Input: ep93xx_keypad - use BIT() and GENMASK()
- macros
+        Tue, 12 Oct 2021 00:30:52 -0700 (PDT)
+Message-ID: <f7ea1bc2e2c50aa4cc75af3bba2d09803a485b93.camel@gmail.com>
+Subject: Re: [PATCH 3/4] Input: ep93xx_keypad - use dev_pm_set_wake_irq()
 From:   Alexander Sverdlin <alexander.sverdlin@gmail.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org
-Date:   Tue, 12 Oct 2021 08:58:35 +0200
-In-Reply-To: <20211012013735.3523140-2-dmitry.torokhov@gmail.com>
+Date:   Tue, 12 Oct 2021 09:30:46 +0200
+In-Reply-To: <20211012013735.3523140-3-dmitry.torokhov@gmail.com>
 References: <20211012013735.3523140-1-dmitry.torokhov@gmail.com>
-         <20211012013735.3523140-2-dmitry.torokhov@gmail.com>
+         <20211012013735.3523140-3-dmitry.torokhov@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4 
 MIME-Version: 1.0
@@ -70,76 +69,71 @@ X-Mailing-List: linux-input@vger.kernel.org
 Hi!
 
 On Mon, 2021-10-11 at 18:37 -0700, Dmitry Torokhov wrote:
-> Also drop parenthesis around macros that do not use expressions as they are
-> not needed.
+> Instead of manually toggling interrupt as wakeup source in suspend/resume
+> methods, let's declare keypad interrupt and wakeup interrupt and leave the
+> rest to the PM core.
 > 
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
 Acked-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 
 > ---
->  drivers/input/keyboard/ep93xx_keypad.c | 37 +++++++++++++-------------
->  1 file changed, 19 insertions(+), 18 deletions(-)
+>  drivers/input/keyboard/ep93xx_keypad.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
 > 
 > diff --git a/drivers/input/keyboard/ep93xx_keypad.c b/drivers/input/keyboard/ep93xx_keypad.c
-> index a0c6cdf8e0d3..6be5474ba2f2 100644
+> index 6be5474ba2f2..a66cfeaf5b21 100644
 > --- a/drivers/input/keyboard/ep93xx_keypad.c
 > +++ b/drivers/input/keyboard/ep93xx_keypad.c
-> @@ -17,6 +17,7 @@
->   * flag.
->   */
+> @@ -27,6 +27,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/soc/cirrus/ep93xx.h>
+>  #include <linux/platform_data/keypad-ep93xx.h>
+> +#include <linux/pm_wakeirq.h>
 >  
-> +#include <linux/bits.h>
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
->  #include <linux/interrupt.h>
-> @@ -35,28 +36,28 @@
->  #define KEY_REG                        0x08    /* Key Value Capture register */
+>  /*
+>   * Keypad Interface Register offsets
+> @@ -191,9 +192,6 @@ static int __maybe_unused ep93xx_keypad_suspend(struct device *dev)
 >  
->  /* Key Scan Initialization Register bit defines */
-> -#define KEY_INIT_DBNC_MASK     (0x00ff0000)
-> -#define KEY_INIT_DBNC_SHIFT    (16)
-> -#define KEY_INIT_DIS3KY                (1<<15)
-> -#define KEY_INIT_DIAG          (1<<14)
-> -#define KEY_INIT_BACK          (1<<13)
-> -#define KEY_INIT_T2            (1<<12)
-> -#define KEY_INIT_PRSCL_MASK    (0x000003ff)
-> -#define KEY_INIT_PRSCL_SHIFT   (0)
-> +#define KEY_INIT_DBNC_MASK     GENMASK(23, 16)
-> +#define KEY_INIT_DBNC_SHIFT    16
-> +#define KEY_INIT_DIS3KY                BIT(15)
-> +#define KEY_INIT_DIAG          BIT(14)
-> +#define KEY_INIT_BACK          BIT(13)
-> +#define KEY_INIT_T2            BIT(12)
-> +#define KEY_INIT_PRSCL_MASK    GENMASK(9, 0)
-> +#define KEY_INIT_PRSCL_SHIFT   0
+>         mutex_unlock(&input_dev->mutex);
 >  
->  /* Key Scan Diagnostic Register bit defines */
-> -#define KEY_DIAG_MASK          (0x0000003f)
-> -#define KEY_DIAG_SHIFT         (0)
-> +#define KEY_DIAG_MASK          GENMASK(5, 0)
-> +#define KEY_DIAG_SHIFT         0
+> -       if (device_may_wakeup(&pdev->dev))
+> -               enable_irq_wake(keypad->irq);
+> -
+>         return 0;
+>  }
 >  
->  /* Key Value Capture Register bit defines */
-> -#define KEY_REG_K              (1<<15)
-> -#define KEY_REG_INT            (1<<14)
-> -#define KEY_REG_2KEYS          (1<<13)
-> -#define KEY_REG_1KEY           (1<<12)
-> -#define KEY_REG_KEY2_MASK      (0x00000fc0)
-> -#define KEY_REG_KEY2_SHIFT     (6)
-> -#define KEY_REG_KEY1_MASK      (0x0000003f)
-> -#define KEY_REG_KEY1_SHIFT     (0)
-> +#define KEY_REG_K              BIT(15)
-> +#define KEY_REG_INT            BIT(14)
-> +#define KEY_REG_2KEYS          BIT(13)
-> +#define KEY_REG_1KEY           BIT(12)
-> +#define KEY_REG_KEY2_MASK      GENMASK(11, 6)
-> +#define KEY_REG_KEY2_SHIFT     6
-> +#define KEY_REG_KEY1_MASK      GENMASK(5, 0)
-> +#define KEY_REG_KEY1_SHIFT     0
+> @@ -203,9 +201,6 @@ static int __maybe_unused ep93xx_keypad_resume(struct device *dev)
+>         struct ep93xx_keypad *keypad = platform_get_drvdata(pdev);
+>         struct input_dev *input_dev = keypad->input_dev;
 >  
->  #define EP93XX_MATRIX_SIZE     (EP93XX_MATRIX_ROWS * EP93XX_MATRIX_COLS)
+> -       if (device_may_wakeup(&pdev->dev))
+> -               disable_irq_wake(keypad->irq);
+> -
+>         mutex_lock(&input_dev->mutex);
 >  
+>         if (input_device_enabled(input_dev)) {
+> @@ -316,7 +311,11 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
+>                 goto failed_free_irq;
+>  
+>         platform_set_drvdata(pdev, keypad);
+> +
+>         device_init_wakeup(&pdev->dev, 1);
+> +       err = dev_pm_set_wake_irq(&pdev->dev, keypad->irq);
+> +       if (err)
+> +               dev_warn(&pdev->dev, "failed to set up wakeup irq: %d\n", err);
+>  
+>         return 0;
+>  
+> @@ -342,6 +341,8 @@ static int ep93xx_keypad_remove(struct platform_device *pdev)
+>         struct ep93xx_keypad *keypad = platform_get_drvdata(pdev);
+>         struct resource *res;
+>  
+> +       dev_pm_clear_wake_irq(&pdev->dev);
+> +
+>         free_irq(keypad->irq, keypad);
+>  
+>         if (keypad->enabled)
 
 -- 
 Alexander Sverdlin.
