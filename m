@@ -2,78 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FE62429B07
-	for <lists+linux-input@lfdr.de>; Tue, 12 Oct 2021 03:32:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E40D2429B0E
+	for <lists+linux-input@lfdr.de>; Tue, 12 Oct 2021 03:37:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234330AbhJLBd7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Oct 2021 21:33:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53114 "EHLO
+        id S234408AbhJLBjm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Oct 2021 21:39:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231135AbhJLBd7 (ORCPT
+        with ESMTP id S232492AbhJLBjl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Oct 2021 21:33:59 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AAB7C061570;
-        Mon, 11 Oct 2021 18:31:58 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id 133so12376360pgb.1;
-        Mon, 11 Oct 2021 18:31:58 -0700 (PDT)
+        Mon, 11 Oct 2021 21:39:41 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1EB4C061570;
+        Mon, 11 Oct 2021 18:37:40 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id k23-20020a17090a591700b001976d2db364so1310130pji.2;
+        Mon, 11 Oct 2021 18:37:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=JN8v54LeipJeYyNhtrVL0FNG8zho/hvYlwrieKnepzs=;
-        b=BzaYLFpQc+z52UONCvo4bZd+CrTBA9Dzn/UB6HG75CaHtyZMepabEhDz+bv6+sDAKg
-         XMgNfImSJDygOyU7BshTJKyXcUh8ht4rxuVm45ogkUuh/0vRJm4PBqs3jEtrTxqAEiKY
-         CAqVOr60shv/fq/ZKjo/9HXjy4Xi7rtrTREihf76WCu+fvuqpdE0KWCpre6SFsU10OD9
-         yHQfSCfHVEq4GGxvKTsaGF25gqeGONORtdzHQMx/TTt2KQnr21RG63zvYQJdok3bw3qc
-         uhPLWL4+7Ne/0YycU83oeFMcn2apu2czQUXg221jWnab1VED7m/Da6LCfIq/UHJFKf8p
-         sslg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TbVMS7P/q6HafBOcr4bcqRI0ZoGUj1NgWInPQIDJGfs=;
+        b=eWrljR1e27yaXHJZXIimuNiWJn6RXDQO1aX150IBEOwZKwJZbqacL/orOFJket7vf7
+         35xxweILdJRnIFPZ1ULciJeG3FZi1PL4N+qzH9M9HKAZTjt+9fcM8aWRbmCuBULgQ4bl
+         v2pVUdljn5OXo2w6Y7oTLyKR2jt31OnSWCivdsjIaTwr0ZQUt+HO4sABg/iG/nAFBEn2
+         n+E/FJckrsufJsNyK7/QWlS2+Ihotv3wDoMFeimpJFtqcgO9oSXIkEnhYSm4oSB5C1O3
+         MrtLRBMtZQ6acEg52FeRITLi89zeSeLKGMsHrr2guv+mB2zEdNetgE2FzXLlPYkalZ3n
+         aobg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=JN8v54LeipJeYyNhtrVL0FNG8zho/hvYlwrieKnepzs=;
-        b=OATxm/63DPGSw91MErd9BFKRIzWLKkV/3T3h+1FO5aJjWmlJAUBvl7/q+82tVpQHbE
-         NzUrFkWlNA2R5nK8tRIfHVj2iur69RsrjgspATHYvdx0QSOluOaaalOZGZV6z/9nQJ0W
-         1aoS+u8cK+67aceeo24FqRw9kj0ZVoAWR6HeCrITmyX0PV1w+fL8By0J+wUwtam7yNoU
-         /LAPUMO0vEtEHuTHFQRmS043Cf/YBiw0kpTANpapoAo9xqDMN+kEgtiJi78550H9RCFZ
-         1v3q4AMv0x/8yZHxwUAOBbHMW9Ye5YSOx/9wtieiKWO2rw0ccgNMgP5YTP6smWT50XKJ
-         rqdA==
-X-Gm-Message-State: AOAM532HD92lUAbP1VM7/fzlmXmu/vUxmkxEjtIVaz0RNO0QSIyUK7Yb
-        /HP2csNBpCDuj0FrxUJYhZDuwhYvT0E=
-X-Google-Smtp-Source: ABdhPJzG8qEmeMxB+6MmceSNqyBMtE3x246SMKFqZPgKrTdYqKYpUU+ZoG1sb5ZhxJ072ioVCcsTDQ==
-X-Received: by 2002:a63:3e4a:: with SMTP id l71mr20070375pga.318.1634002317366;
-        Mon, 11 Oct 2021 18:31:57 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:10fb:4b55:2926:7ada])
-        by smtp.gmail.com with ESMTPSA id o6sm9047141pfp.79.2021.10.11.18.31.55
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TbVMS7P/q6HafBOcr4bcqRI0ZoGUj1NgWInPQIDJGfs=;
+        b=2ef14eWt7ZGCP6FhQv0aOh/o0c5WqOza8Y1NYlghloqJN7YgfQhOctqPwVkia6D8zm
+         GXjjvuYNPwiImFExWA/vb12BqENkCumVcuuLU9lYqxkR1NmlVaACG/8ibHaWgqJd+qNR
+         JTADur6zM71J5CGui/wSGlWW/5eN/ZRVKl3V/SFA4M5RyPcCTPx9o2fgu1Bf0wYsXGt3
+         VJ+3jf40U1zxzrSjQ7TY826tuo90yJZCYc2pKBtADcBaO1yOo17CBSzHZA5I4Cqds1+n
+         IygiAYqPzvQ8gmEhhzXVeBegnoxo+XXuYNzGTWhCVeosDnExrIp4OnU5TG+z+2tCREN6
+         i2nw==
+X-Gm-Message-State: AOAM533I4tMWwk9nfmmXmUsRfXCxfGZlnZce2YYE7Y8TF/6FfLMv1KNi
+        +S7KKCRSrN9p7sSUtH/HCmKEqNxvPBo=
+X-Google-Smtp-Source: ABdhPJy6Q9TlBNrOJ0TAkl+CiHCMxlhzhhhJiVCTfmQDwW1cqDZ388o7KJnQerhPSZ1t/Vzhe8GPFg==
+X-Received: by 2002:a17:90b:354a:: with SMTP id lt10mr2833374pjb.3.1634002659345;
+        Mon, 11 Oct 2021 18:37:39 -0700 (PDT)
+Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:10fb:4b55:2926:7ada])
+        by smtp.gmail.com with ESMTPSA id nr14sm654719pjb.24.2021.10.11.18.37.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 18:31:56 -0700 (PDT)
-Date:   Mon, 11 Oct 2021 18:31:53 -0700
+        Mon, 11 Oct 2021 18:37:38 -0700 (PDT)
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     John Keeping <john@metanate.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Andrej Valek <andrej.valek@siemens.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: st1232 - prefer asynchronous probing
-Message-ID: <YWTlidGfIGXukwCC@google.com>
-References: <20211007111217.1935858-1-john@metanate.com>
+To:     linux-input@vger.kernel.org
+Cc:     Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] Input: ep93xx_keypad - annotate suspend/resume as __maybe_unused
+Date:   Mon, 11 Oct 2021 18:37:32 -0700
+Message-Id: <20211012013735.3523140-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.33.0.882.g93a45727a2-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211007111217.1935858-1-john@metanate.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Oct 07, 2021 at 12:12:16PM +0100, John Keeping wrote:
-> The device may take up to 100ms to become responsive during probe, so
-> prefer asynchronous probing to avoid delaying the rest of the system.
-> 
-> Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Signed-off-by: John Keeping <john@metanate.com>
+Instead of guarding suspend/resume methods with #ifdef CONFIG_PM
+let's mark them as __maybe_unused as this allows better compile
+coverage.
 
-Applied, thank you.
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/keyboard/ep93xx_keypad.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/input/keyboard/ep93xx_keypad.c b/drivers/input/keyboard/ep93xx_keypad.c
+index e0e931e796fa..a0c6cdf8e0d3 100644
+--- a/drivers/input/keyboard/ep93xx_keypad.c
++++ b/drivers/input/keyboard/ep93xx_keypad.c
+@@ -175,8 +175,7 @@ static void ep93xx_keypad_close(struct input_dev *pdev)
+ }
+ 
+ 
+-#ifdef CONFIG_PM_SLEEP
+-static int ep93xx_keypad_suspend(struct device *dev)
++static int __maybe_unused ep93xx_keypad_suspend(struct device *dev)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct ep93xx_keypad *keypad = platform_get_drvdata(pdev);
+@@ -197,7 +196,7 @@ static int ep93xx_keypad_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int ep93xx_keypad_resume(struct device *dev)
++static int __maybe_unused ep93xx_keypad_resume(struct device *dev)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct ep93xx_keypad *keypad = platform_get_drvdata(pdev);
+@@ -220,7 +219,6 @@ static int ep93xx_keypad_resume(struct device *dev)
+ 
+ 	return 0;
+ }
+-#endif
+ 
+ static SIMPLE_DEV_PM_OPS(ep93xx_keypad_pm_ops,
+ 			 ep93xx_keypad_suspend, ep93xx_keypad_resume);
 -- 
-Dmitry
+2.33.0.882.g93a45727a2-goog
+
