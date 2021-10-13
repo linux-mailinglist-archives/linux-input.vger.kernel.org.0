@@ -2,83 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7883642BEED
-	for <lists+linux-input@lfdr.de>; Wed, 13 Oct 2021 13:30:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B67242C064
+	for <lists+linux-input@lfdr.de>; Wed, 13 Oct 2021 14:44:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230236AbhJMLcY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Oct 2021 07:32:24 -0400
-Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.161]:14552 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229571AbhJMLcX (ORCPT
+        id S233774AbhJMMqy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Oct 2021 08:46:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53308 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230219AbhJMMqy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Oct 2021 07:32:23 -0400
-X-Greylist: delayed 361 seconds by postgrey-1.27 at vger.kernel.org; Wed, 13 Oct 2021 07:32:22 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1634124254;
-    s=strato-dkim-0002; d=gerhold.net;
-    h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=XptmbXlpM3h7fhYWz3DQbghIL528PDytMp77zNP76OI=;
-    b=WCOoteKIXy95dacThsGwCAsqbWttBq1HyC8eAXNJJXBlm1M0lafb93B8DiL6wQ3GJM
-    v09iQiOJ/6860Bc7lw4NzJYWs0KGDXnn+15cfMD1a1YgT0h1Irr08xfU8+nQD1aUPJoC
-    inO+TEUcDkc+bm5vuIcJ2/0zajJn1/9patbQz3BIwK3e6k+qNiBSIssDK3gkc0fXJe4J
-    AY4PfNTIhKIVjyBpjPXPQJ+eLTgchx6Cy6GBN+9tmiCS3CDYdLDFDP2kmWtN/TtaDy4s
-    ndo+/mTtJwM88cTX7nQKoZ8hPKTjaU42AiNHBFwQQqvcfteoaIa1VN90UoMFml5XR3p5
-    rhOQ==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVORvLd4SsytBXQ7UOGqRde+a0fiL2ZP6Q"
-X-RZG-CLASS-ID: mo00
-Received: from droid..
-    by smtp.strato.de (RZmta 47.33.8 AUTH)
-    with ESMTPSA id 301038x9DBOE7gJ
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Wed, 13 Oct 2021 13:24:14 +0200 (CEST)
-From:   Stephan Gerhold <stephan@gerhold.net>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-        Stephan Gerhold <stephan@gerhold.net>
-Subject: [PATCH 2/2] Input: tm2-touchkey - allow changing keycodes from userspace
-Date:   Wed, 13 Oct 2021 13:23:05 +0200
-Message-Id: <20211013112305.41574-2-stephan@gerhold.net>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211013112305.41574-1-stephan@gerhold.net>
-References: <20211013112305.41574-1-stephan@gerhold.net>
+        Wed, 13 Oct 2021 08:46:54 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AE98C061570
+        for <linux-input@vger.kernel.org>; Wed, 13 Oct 2021 05:44:51 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id g8so9727322edt.7
+        for <linux-input@vger.kernel.org>; Wed, 13 Oct 2021 05:44:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=rf85IIrYDoX56EbvJwzXLS38sc5yj7QH4axMImYh7js=;
+        b=i5+ryG5SG5B7Cn3zU31oeJxWk6gEZwf7yhR72K6c6ehTkR5rIdkrQ+M4i/SV0aZxWa
+         N5MX61ngBu2Ai2hnxF27L8b4BqFqFKUY7ItZoHsRUMYk4FYUaroZqLER0I/wVkS2GvWc
+         10oDtctpecLkwRCxeJ/R90gWAdt0Rr6NshRZ3++0evH1Bdv0hw1uaiSZucxMEpEGIIVs
+         27SHof0aN5EsYVLElxkZcpm3HOZ0bt5LxW48jXLW8WCJIjcQgX2gmwA5WyohUz3nG0mv
+         fS2FE4C8yVjv+vJcytoJqxhLgmnTxuMSTbUFEiX1ZSvMYQJ+f3z5FhYBWSGZPEMGO1tX
+         V6Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=rf85IIrYDoX56EbvJwzXLS38sc5yj7QH4axMImYh7js=;
+        b=Limc+koD0euH5AmrYruulEpkfidpSyArwxwMn3RtWf3d485E4mbcvVE7aN3WUyJ2rs
+         81IqCMtleCYWgVev3kMYkP6IpUXJ/XA9XNO36dzx/A9uREUrS4xuzzWnHmlXV+2GD1+T
+         3W2yFoKvxyoZKY+Id5kmDDK9bfvTlBqRyeK+MtwrWt56jCeph8vy8M/Ysoicmp/9v7Mw
+         /qbmefvsReh5UbEWGXz7tN7qZaM6LErkKgGqvLU0L0PmGZehwj2MDBZzOWJ/6ys58Wlc
+         ekaj2ZQJGlyVRoZqQnSFP/lvTiv47IalpdLS+4JItLYZwAXGphu2bo0Y9GwjDeFwYAZ+
+         ZpMA==
+X-Gm-Message-State: AOAM532UERxBtyzAIAHGKHPRUB400KkjhiO9gtoNm4UM6odO8kHyHDI5
+        8+IbXq0rlQY7lEoDSSmzAKpKKAOBrJ33Cjp/XHo=
+X-Google-Smtp-Source: ABdhPJzPD7JLzQkKDJ4JGuYMAXl2jYBFPEqNyfvU27VYpePhYUWd4YgplEjK38SIDRv5IEnvFJsyIytHXiFhQZ0LKs0=
+X-Received: by 2002:a05:6402:5c8:: with SMTP id n8mr9343691edx.62.1634129089195;
+ Wed, 13 Oct 2021 05:44:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a17:907:7da1:0:0:0:0 with HTTP; Wed, 13 Oct 2021 05:44:48
+ -0700 (PDT)
+Reply-To: mr.sawadogomichel1@gmail.com
+From:   "Mr.Sawadogo Michel" <dr.fabriceomar@gmail.com>
+Date:   Wed, 13 Oct 2021 05:44:48 -0700
+Message-ID: <CACME=wY9NV6CBwoX7MFX_OboNgk8972T2qj=2XNPcQSJqcPkfg@mail.gmail.com>
+Subject: My name is Mr.Sawadogo Michel,dear friend i need your urgent response
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-At the moment the touch keys have key codes assigned from the device
-tree. In some cases, users might want to change the key code from
-userspace. There is existing functionality for this in the input core
-using the EVIOCSKEYCODE ioctl, which is integrated for example into udev.
+Hello Dear Friend,
 
-Make it possible to use this functionality for tm2-touchkey by simply
-making the input core aware of the array that holds the keycodes.
-Similar code also exists in mcs_touchkey and mpr121_touchkey.
+My name is Mr.Sawadogo Michel. I have decided to seek a confidential
+co-operation  with you in the execution of the deal described
+here-under for our both  mutual benefit and I hope you will keep it a
+top secret because of the nature  of the transaction, During the
+course of our bank year auditing, I discovered  an unclaimed/abandoned
+fund, sum total of {US$19.3 Million United State  Dollars} in the bank
+account that belongs to a Saudi Arabia businessman Who unfortunately
+lost his life and entire family in a Motor Accident.
 
-Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
----
- drivers/input/keyboard/tm2-touchkey.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Now our bank has been waiting for any of the relatives to come-up for
+the claim but nobody has done that. I personally has been unsuccessful
+in locating any of the relatives, now, I sincerely seek your consent
+to present you as the next of kin / Will Beneficiary to the deceased
+so that the proceeds of this account valued at {US$19.3 Million United
+State Dollars} can be paid to you, which we will share in these
+percentages ratio, 60% to me and 40% to you. All I request is your
+utmost sincere co-operation; trust and maximum confidentiality to
+achieve this project successfully. I have carefully mapped out the
+moralities for execution of this transaction under a legitimate
+arrangement to protect you from any breach of the law both in your
+country and here in Burkina Faso when the fund is being transferred to
+your bank account.
 
-diff --git a/drivers/input/keyboard/tm2-touchkey.c b/drivers/input/keyboard/tm2-touchkey.c
-index ce40ea2d940f..632cd6c1c8d4 100644
---- a/drivers/input/keyboard/tm2-touchkey.c
-+++ b/drivers/input/keyboard/tm2-touchkey.c
-@@ -252,6 +252,10 @@ static int tm2_touchkey_probe(struct i2c_client *client,
- 	touchkey->input_dev->name = TM2_TOUCHKEY_DEV_NAME;
- 	touchkey->input_dev->id.bustype = BUS_I2C;
- 
-+	touchkey->input_dev->keycode = touchkey->keycodes;
-+	touchkey->input_dev->keycodemax = touchkey->num_keycodes;
-+	touchkey->input_dev->keycodesize = sizeof(touchkey->keycodes[0]);
-+
- 	input_set_capability(touchkey->input_dev, EV_MSC, MSC_SCAN);
- 	for (i = 0; i < touchkey->num_keycodes; i++)
- 		input_set_capability(touchkey->input_dev, EV_KEY,
--- 
-2.33.0
+I will have to provide all the relevant document that will be
+requested to indicate that you are the rightful beneficiary of this
+legacy and our bank will release the fund to you without any further
+delay, upon your consideration and acceptance of this offer, please
+send me the following information as stated below so we can proceed
+and get this fund transferred to your designated bank account
+immediately.
 
+-Your Full Name:
+-Your Contact Address:
+-Your direct Mobile telephone Number:
+-Your Date of Birth:
+-Your occupation:
+
+I await your swift response and re-assurance.
+
+Best regards,
+Mr.Sawadogo Michel.
