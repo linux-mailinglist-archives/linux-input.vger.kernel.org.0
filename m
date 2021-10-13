@@ -2,100 +2,264 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E70742B2B5
-	for <lists+linux-input@lfdr.de>; Wed, 13 Oct 2021 04:34:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67D0342B2B8
+	for <lists+linux-input@lfdr.de>; Wed, 13 Oct 2021 04:36:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235800AbhJMCge (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Oct 2021 22:36:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54978 "EHLO
+        id S233316AbhJMCic (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 Oct 2021 22:38:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235120AbhJMCgd (ORCPT
+        with ESMTP id S229980AbhJMCib (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Oct 2021 22:36:33 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E723C061570;
-        Tue, 12 Oct 2021 19:34:31 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id qe4-20020a17090b4f8400b0019f663cfcd1so3296662pjb.1;
-        Tue, 12 Oct 2021 19:34:31 -0700 (PDT)
+        Tue, 12 Oct 2021 22:38:31 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5358FC061570;
+        Tue, 12 Oct 2021 19:36:29 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id d13-20020a17090ad3cd00b0019e746f7bd4so3323878pjw.0;
+        Tue, 12 Oct 2021 19:36:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=3bzp+5l6WTo7PbKHNMv1iXseFfgQgASCADLi09sp0dQ=;
-        b=GIuH+ViP8uIA0KOO0J2nG+UiPKqlt73g90hiO/rMDvzQ98GdLoPx+wqsc+cIHJ+VWa
-         oYfVrjHcclVyuX9iemPl+eZYkkujpz9bbTFgtfioVbE3FmRDzTWR7zeIqLrf9AEHx23k
-         djcGczXtv4+GyboTFbzCrREN574E0lEEjn0p0AQljE9qOc0br29L9tNNUF2CwPUneiF5
-         jPZFpK2/LeqYtDvrNH6JgF962ph4PL+8AuoSKpB/bvCMoD7IQIJr05CzuBtYeIQoIIXz
-         8mg0Dbua33x0rOgPUJmF9I/5Y48gqZzp5DoDQFKp5xw+w9CsHsCgZX5m5Q52SA6etYnk
-         VE6A==
+         :content-disposition:in-reply-to;
+        bh=x4i8IiEv4ic090SAkWfaIFDP0K+rfVSXcLn4K4WZP5U=;
+        b=DznDTTM03wDhGg44FDqQQBBkryIq8ufFV/CoRhGU2z6WgGTbOJq/9mAYOXO8c1b9bb
+         45QUoELNqGtoxPkn+7G+N2p+rdy2CELEYoWSjvQSjfRBaiN+rvOkd5zPYsDf/pmVvBY+
+         wKn+ShI8d+uC+VjTJEqrmxzUKQOWnVRxhBiJ+hYkc0RFJkwKHq6beu5PonL/cFqav6By
+         6J8woIoFa2UHH8xu+9U8eWjDnFKFJNcBWSSd49Fxp6IQZQDEesPCQ1DR1mFJF6hYH4Zc
+         s5OiP0sTapEPjtr2H2FIWZqZMN10UVFGDxl8qXuuO5TUWaHK1z84vj+vs7tlfAxkQhGH
+         l1RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=3bzp+5l6WTo7PbKHNMv1iXseFfgQgASCADLi09sp0dQ=;
-        b=qZKmxnr6PTiNFbbNn6pjRN9g2i8V8DRdWDoY/AdAqagRk2QV5BuN6lAESoLNoY1zH1
-         c29ATpYCnSjmz3rX/Bl1ayNsNvKyYfQ2gOOdMYqrIjCUxJAdeagBA3GjOrMH5ZWHEHH9
-         UhQkUyd3a5FGsxsohRNb7hl7KUD0yafoSNXDr7PB6YDfl5zWXy0w5dkDHjdRRwSXz/8i
-         Js4cbzx1WpjvaEUnDBY3xk9l+xccI+Q7UDxZBdx1MUnREjdd8GbwopJciGAgOqYu8ZW7
-         u91QPF3i82bTVzR2uxfvcsPf32J+vK29Fisvfitx/bpCjsenvlvbDJJbkBUxatFD0Xjb
-         Bs3w==
-X-Gm-Message-State: AOAM533wzIbF3rSVEDTwzD1fxlSZiXV2cO+bVOQs5JSh5KplzcvIgMKL
-        CZ2oTGa+ud+bF67Xj5ktdmnSt58j80I=
-X-Google-Smtp-Source: ABdhPJzQzrQt/6fZFgN/n9w1ndxWQ90bbBRDQhIAvSRQGig+pCBms0ZbmTYtv6KWThx/p5UBnV5e6g==
-X-Received: by 2002:a17:902:d70b:b0:13d:f465:9ef1 with SMTP id w11-20020a170902d70b00b0013df4659ef1mr33031187ply.44.1634092469233;
-        Tue, 12 Oct 2021 19:34:29 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to;
+        bh=x4i8IiEv4ic090SAkWfaIFDP0K+rfVSXcLn4K4WZP5U=;
+        b=jn2EhdzORBszGuVhmHNDy29bDnCxX3UJL0PCa15fqYfe1y7iyptT1zXcX2ZC6f9Yng
+         O2PubYeDrSy7UJIAWtu95vQ39tjDeYpMW7ak7AjGCHKUlanlZ0MuEoQ9M5HubC6gZ7mf
+         ywaMVQfPfqKZ4UIHRwutia6vfPopENaDT9u2vo1vNojxC1zFx5q4qJ/GOUS+Ick+e6hh
+         xNydeEumztulbHdMUBrLI1cryJe6dSAdWd8UfeFz3V4m4SvQ2AtVGkhNDavj+3JvEkJ8
+         aTrIKqnMipa8Bln7Mg2atQSAJU3MX62CvM2NFFl8PLnAdCB+w8JvfoxtSpWM9hSfzHFS
+         s1gQ==
+X-Gm-Message-State: AOAM530rUFd0JJaRdu9aiiDT3hC6Dc03xL2j1MtRVhOf47LI02adruyE
+        mbVRWfO+Q+WuZwo4Bqo6gSjQtxnJO6g=
+X-Google-Smtp-Source: ABdhPJwR4Hc7AOow5qEwEpORLLd4EwR2pOa74IgkPvgbxjoKQI32xX0u5blYDmBjEVv7qgSFzJc8hQ==
+X-Received: by 2002:a17:90a:11:: with SMTP id 17mr10261536pja.238.1634092588250;
+        Tue, 12 Oct 2021 19:36:28 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:618d:87ca:8f95:87c0])
-        by smtp.gmail.com with ESMTPSA id j4sm13290471pfu.94.2021.10.12.19.34.27
+        by smtp.gmail.com with ESMTPSA id p5sm12861831pfb.95.2021.10.12.19.36.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Oct 2021 19:34:28 -0700 (PDT)
-Date:   Tue, 12 Oct 2021 19:34:25 -0700
+        Tue, 12 Oct 2021 19:36:27 -0700 (PDT)
+Date:   Tue, 12 Oct 2021 19:36:25 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] Input: ep93xx_keypad - switch to using managed
+To:     linux-input@vger.kernel.org
+Cc:     Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 4/4] Input: ep93xx_keypad - switch to using managed
  resources
-Message-ID: <YWZFsZmPBp6Hj2Yf@google.com>
+Message-ID: <YWZGKWgdarGtvtYA@google.com>
 References: <20211012013735.3523140-1-dmitry.torokhov@gmail.com>
  <20211012013735.3523140-4-dmitry.torokhov@gmail.com>
- <d1d1a1028c5db26d0b0eed2a5a9626124451fcf9.camel@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d1d1a1028c5db26d0b0eed2a5a9626124451fcf9.camel@gmail.com>
+In-Reply-To: <20211012013735.3523140-4-dmitry.torokhov@gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Oct 12, 2021 at 09:54:32AM +0200, Alexander Sverdlin wrote:
-> Hello Dmitry,
-> 
-> just one question below:
-> 
-> On Mon, 2021-10-11 at 18:37 -0700, Dmitry Torokhov wrote:
-> > +               return err;
-> > +
-> > +       err = devm_add_action_or_reset(&pdev->dev,
-> > +                                      ep93xx_keypad_release_gpio_action, pdev);
-> > +       if (err)
-> > +               return err;
-> >  
-> >         keypad->clk = clk_get(&pdev->dev, NULL);
-> 
-> Isn't the conversion to devm_clk_get() missing here?
+By using managed resources (devm) we are able to streamline error handling
+in probe and remove most of the custom remove method.
 
-Indeed it is. I'll post an updated patch in a sec.
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/keyboard/ep93xx_keypad.c | 118 ++++++++-----------------
+ 1 file changed, 37 insertions(+), 81 deletions(-)
 
-> 
-> > -       if (IS_ERR(keypad->clk)) {
-> > -               err = PTR_ERR(keypad->clk);
-> > -               goto failed_free_gpio;
-> > -       }
-> > +       if (IS_ERR(keypad->clk))
-> > +               return PTR_ERR(keypad->clk);
-
-Thanks.
-
+diff --git a/drivers/input/keyboard/ep93xx_keypad.c b/drivers/input/keyboard/ep93xx_keypad.c
+index a66cfeaf5b21..272a4f1c6e81 100644
+--- a/drivers/input/keyboard/ep93xx_keypad.c
++++ b/drivers/input/keyboard/ep93xx_keypad.c
+@@ -219,6 +219,13 @@ static int __maybe_unused ep93xx_keypad_resume(struct device *dev)
+ static SIMPLE_DEV_PM_OPS(ep93xx_keypad_pm_ops,
+ 			 ep93xx_keypad_suspend, ep93xx_keypad_resume);
+ 
++static void ep93xx_keypad_release_gpio_action(void *_pdev)
++{
++	struct platform_device *pdev = _pdev;
++
++	ep93xx_keypad_release_gpio(pdev);
++}
++
+ static int ep93xx_keypad_probe(struct platform_device *pdev)
+ {
+ 	struct ep93xx_keypad *keypad;
+@@ -227,61 +234,46 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
+ 	struct resource *res;
+ 	int err;
+ 
+-	keypad = kzalloc(sizeof(struct ep93xx_keypad), GFP_KERNEL);
++	keypad = devm_kzalloc(&pdev->dev, sizeof(*keypad), GFP_KERNEL);
+ 	if (!keypad)
+ 		return -ENOMEM;
+ 
+ 	keypad->pdata = dev_get_platdata(&pdev->dev);
+-	if (!keypad->pdata) {
+-		err = -EINVAL;
+-		goto failed_free;
+-	}
++	if (!keypad->pdata)
++		return -EINVAL;
+ 
+ 	keymap_data = keypad->pdata->keymap_data;
+-	if (!keymap_data) {
+-		err = -EINVAL;
+-		goto failed_free;
+-	}
++	if (!keymap_data)
++		return -EINVAL;
+ 
+ 	keypad->irq = platform_get_irq(pdev, 0);
+-	if (keypad->irq < 0) {
+-		err = keypad->irq;
+-		goto failed_free;
+-	}
++	if (keypad->irq < 0)
++		return keypad->irq;
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	if (!res) {
+-		err = -ENXIO;
+-		goto failed_free;
+-	}
+-
+-	res = request_mem_region(res->start, resource_size(res), pdev->name);
+-	if (!res) {
+-		err = -EBUSY;
+-		goto failed_free;
+-	}
++	if (!res)
++		return -ENXIO;
+ 
+-	keypad->mmio_base = ioremap(res->start, resource_size(res));
+-	if (keypad->mmio_base == NULL) {
+-		err = -ENXIO;
+-		goto failed_free_mem;
+-	}
++	keypad->mmio_base = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(keypad->mmio_base))
++		return PTR_ERR(keypad->mmio_base);
+ 
+ 	err = ep93xx_keypad_acquire_gpio(pdev);
+ 	if (err)
+-		goto failed_free_io;
++		return err;
+ 
+-	keypad->clk = clk_get(&pdev->dev, NULL);
+-	if (IS_ERR(keypad->clk)) {
+-		err = PTR_ERR(keypad->clk);
+-		goto failed_free_gpio;
+-	}
++	err = devm_add_action_or_reset(&pdev->dev,
++				       ep93xx_keypad_release_gpio_action, pdev);
++	if (err)
++		return err;
+ 
+-	input_dev = input_allocate_device();
+-	if (!input_dev) {
+-		err = -ENOMEM;
+-		goto failed_put_clk;
+-	}
++	keypad->clk = devm_clk_get(&pdev->dev, NULL);
++	if (IS_ERR(keypad->clk))
++		return PTR_ERR(keypad->clk);
++
++	input_dev = devm_input_allocate_device(&pdev->dev);
++	if (!input_dev)
++		return -ENOMEM;
+ 
+ 	keypad->input_dev = input_dev;
+ 
+@@ -289,26 +281,26 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
+ 	input_dev->id.bustype = BUS_HOST;
+ 	input_dev->open = ep93xx_keypad_open;
+ 	input_dev->close = ep93xx_keypad_close;
+-	input_dev->dev.parent = &pdev->dev;
+ 
+ 	err = matrix_keypad_build_keymap(keymap_data, NULL,
+ 					 EP93XX_MATRIX_ROWS, EP93XX_MATRIX_COLS,
+ 					 keypad->keycodes, input_dev);
+ 	if (err)
+-		goto failed_free_dev;
++		return err;
+ 
+ 	if (keypad->pdata->flags & EP93XX_KEYPAD_AUTOREPEAT)
+ 		__set_bit(EV_REP, input_dev->evbit);
+ 	input_set_drvdata(input_dev, keypad);
+ 
+-	err = request_irq(keypad->irq, ep93xx_keypad_irq_handler,
+-			  0, pdev->name, keypad);
++	err = devm_request_irq(&pdev->dev, keypad->irq,
++			       ep93xx_keypad_irq_handler,
++			       0, pdev->name, keypad);
+ 	if (err)
+-		goto failed_free_dev;
++		return err;
+ 
+ 	err = input_register_device(input_dev);
+ 	if (err)
+-		goto failed_free_irq;
++		return err;
+ 
+ 	platform_set_drvdata(pdev, keypad);
+ 
+@@ -318,48 +310,12 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
+ 		dev_warn(&pdev->dev, "failed to set up wakeup irq: %d\n", err);
+ 
+ 	return 0;
+-
+-failed_free_irq:
+-	free_irq(keypad->irq, keypad);
+-failed_free_dev:
+-	input_free_device(input_dev);
+-failed_put_clk:
+-	clk_put(keypad->clk);
+-failed_free_gpio:
+-	ep93xx_keypad_release_gpio(pdev);
+-failed_free_io:
+-	iounmap(keypad->mmio_base);
+-failed_free_mem:
+-	release_mem_region(res->start, resource_size(res));
+-failed_free:
+-	kfree(keypad);
+-	return err;
+ }
+ 
+ static int ep93xx_keypad_remove(struct platform_device *pdev)
+ {
+-	struct ep93xx_keypad *keypad = platform_get_drvdata(pdev);
+-	struct resource *res;
+-
+ 	dev_pm_clear_wake_irq(&pdev->dev);
+ 
+-	free_irq(keypad->irq, keypad);
+-
+-	if (keypad->enabled)
+-		clk_disable(keypad->clk);
+-	clk_put(keypad->clk);
+-
+-	input_unregister_device(keypad->input_dev);
+-
+-	ep93xx_keypad_release_gpio(pdev);
+-
+-	iounmap(keypad->mmio_base);
+-
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	release_mem_region(res->start, resource_size(res));
+-
+-	kfree(keypad);
+-
+ 	return 0;
+ }
+ 
 -- 
-Dmitry
+2.33.0.882.g93a45727a2-goog
+
