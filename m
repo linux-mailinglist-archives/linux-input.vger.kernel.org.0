@@ -2,97 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2347F42B960
-	for <lists+linux-input@lfdr.de>; Wed, 13 Oct 2021 09:41:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50BE442B979
+	for <lists+linux-input@lfdr.de>; Wed, 13 Oct 2021 09:48:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232620AbhJMHnX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Oct 2021 03:43:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39724 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238597AbhJMHnS (ORCPT
+        id S238595AbhJMHu5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Oct 2021 03:50:57 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:39312 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238591AbhJMHu4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Oct 2021 03:43:18 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEAB2C061714
-        for <linux-input@vger.kernel.org>; Wed, 13 Oct 2021 00:41:15 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1maYsz-0006ZE-MI; Wed, 13 Oct 2021 09:41:13 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1maYsy-0005Go-GW; Wed, 13 Oct 2021 09:41:12 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1maYsy-0006oG-FA; Wed, 13 Oct 2021 09:41:12 +0200
-Date:   Wed, 13 Oct 2021 09:41:09 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Michael Hennerich <michael.hennerich@analog.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: adxl34x - fix sparse warning
-Message-ID: <20211013074109.6xmsxttihev77zkg@pengutronix.de>
-References: <YWZIjb91d6aAwgss@google.com>
+        Wed, 13 Oct 2021 03:50:56 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 4299C1C0B80; Wed, 13 Oct 2021 09:48:50 +0200 (CEST)
+Date:   Wed, 13 Oct 2021 09:48:49 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Roderick Colenbrander <thunderbird2k@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH v3 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
+ for game controllers.
+Message-ID: <20211013074849.GA10172@amd>
+References: <20210908165539.3102929-1-roderick.colenbrander@sony.com>
+ <20210908165539.3102929-3-roderick.colenbrander@sony.com>
+ <nycvar.YFH.7.76.2109221150110.15944@cbobk.fhfr.pm>
+ <20210927141109.GB5809@duo.ucw.cz>
+ <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="dxyw7xunh74cjzi3"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="a8Wt8u1KmwUX3Y2C"
 Content-Disposition: inline
-In-Reply-To: <YWZIjb91d6aAwgss@google.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+In-Reply-To: <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
---dxyw7xunh74cjzi3
-Content-Type: text/plain; charset=iso-8859-1
+--a8Wt8u1KmwUX3Y2C
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 12, 2021 at 07:46:37PM -0700, Dmitry Torokhov wrote:
-> This fixes the following warning from sparse:
+Hi!
+
+> > > > Player LEDs are commonly found on game controllers from Nintendo an=
+d Sony
+> > > > to indicate a player ID across a number of LEDs. For example, "Play=
+er 2"
+> > > > might be indicated as "-x--" on a device with 4 LEDs where "x" mean=
+s on.
+> > > >
+> > > > This patch introduces LED_FUNCTION_PLAYER1-5 defines to properly in=
+dicate
+> > > > player LEDs from the kernel. Until now there was no good standard, =
+which
+> > > > resulted in inconsistent behavior across xpad, hid-sony, hid-wiimot=
+e and
+> > > > other drivers. Moving forward new drivers should use LED_FUNCTION_P=
+LAYERx.
+> > > >
+> > > > Note: management of Player IDs is left to user space, though a kern=
+el
+> > > > driver may pick a default value.
+> > > >
+> > > > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.co=
+m>
+> > > > ---
+> > > >  Documentation/leds/well-known-leds.txt | 14 ++++++++++++++
+> > > >  include/dt-bindings/leds/common.h      |  7 +++++++
+> > > >  2 files changed, 21 insertions(+)
+> > >
+> > > Pavel, could you please eventually Ack this, so that I can take it
+> > > together with the rest?
+> >
+> > I'm willing to take Documentation/leds/well-known-leds.txt part
+> > through LED tree.
+> >
+> > I don't like the common.h change; either avoid the define or put it
+> > into your local header.
 >=20
->   CC [M]  drivers/input/misc/adxl34x.o
->   CHECK   drivers/input/misc/adxl34x.c
-> drivers/input/misc/adxl34x.c:245:29: warning: cast to restricted __le16
-> drivers/input/misc/adxl34x.c:248:29: warning: cast to restricted __le16
-> drivers/input/misc/adxl34x.c:251:29: warning: cast to restricted __le16
+> If the LED_FUNCTION_PLAYER* defines don't belong in common with the
+> other LED_FUNCTION* ones, where should it go? The hid-nintendo driver
+> intends to use the same defines, so defining it local to each driver
+> isn't right. Not sure if there is a great place in the input system
+> either (you would then have to move scrolllock and all those other LED
+> definitions too.)
 
-This was introduced (I think) in commit
+Ok, so let's put it in the common place. I'll take this patch through
+LED tree if you resubmit it. You still may want to use local defines
+so you can apply the other patches without waiting.
 
-	e27c729219ad ("Input: add driver for ADXL345/346 Digital Accelerometers")
-
-=2E Is this worth a Fixes: line, or mentioning in the commit log?
-
-Other than that:
-
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-
-Best regards
-Uwe
-
+Best regards,
+								Pavel
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+http://www.livejournal.com/~pavelmachek
 
---dxyw7xunh74cjzi3
+--a8Wt8u1KmwUX3Y2C
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFmjZIACgkQwfwUeK3K
-7AmCiAgAnZR6n0KE8uvnfDToSeyBPzOJ2Sz0cOG9gubTYDphEPON9ijzHmzUMjZC
-+zeFOu7y+ACjNmy7ROTmlWVqc1a1XDcGUS3GqYXPYCU9yT9zXGGeiESmSSUDg4qL
-xjdbSeTUdiGZD0QdHr6+rUoV3sixxKIFiEflgnw9Gnj7AbTKI+TROZKs4pnOzct3
-48nj4LanWWZemcreq8upGob8KklMBsS8C1sDPE+Nv+z0B9ADsSuPIUEHejqEBiZ9
-Od30WX86IE5SRm4xw2d+gP9QXNXdpqvvLxRmuK6TU4a0oF9EKbFlaiJcycSnT/ob
-GX4rqsoL3Eid/Sks6g35h0m1cs+Xew==
-=j53m
+iEYEARECAAYFAmFmj2AACgkQMOfwapXb+vIcKgCfUv2brRAUoAlLcPZ9dIOeK9C+
+9DYAoK5HG3al5OUAkU7XD32dwuZqTRP4
+=w/it
 -----END PGP SIGNATURE-----
 
---dxyw7xunh74cjzi3--
+--a8Wt8u1KmwUX3Y2C--
