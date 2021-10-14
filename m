@@ -2,41 +2,41 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1A3742D15F
-	for <lists+linux-input@lfdr.de>; Thu, 14 Oct 2021 06:12:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3ED7442D161
+	for <lists+linux-input@lfdr.de>; Thu, 14 Oct 2021 06:12:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbhJNEOO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Oct 2021 00:14:14 -0400
-Received: from mail-wr1-f52.google.com ([209.85.221.52]:36525 "EHLO
-        mail-wr1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbhJNEOO (ORCPT
+        id S229513AbhJNEOx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Oct 2021 00:14:53 -0400
+Received: from mail-wr1-f45.google.com ([209.85.221.45]:42966 "EHLO
+        mail-wr1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229457AbhJNEOw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Oct 2021 00:14:14 -0400
-Received: by mail-wr1-f52.google.com with SMTP id o20so15182880wro.3;
-        Wed, 13 Oct 2021 21:12:09 -0700 (PDT)
+        Thu, 14 Oct 2021 00:14:52 -0400
+Received: by mail-wr1-f45.google.com with SMTP id v17so15073962wrv.9;
+        Wed, 13 Oct 2021 21:12:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=JmxulHP5kQw9R3bKo7IHQWOTf+xB6AvsrMfurN5UR9k=;
-        b=Zi90qSMWlpRO3s/S4B6LPRYHKy2FUyjzviyK+AsC+3HFCtCrhkXb41HMFMVt5F+r0a
-         /OxXBIbitFJsBHZvJW+qW1xscRdufuSsLNMrBUrO9Vl7VS0hQu8bbMHW2cFuEAPAdTJZ
-         eGxVntnfpo3LTjy+PVLqLEV616FHL2k3kWaxIA1yojKQuhtaz32BmPns0wu/kq+8DKdj
-         hUNy30HSR1iN1nSP4hZKC1RsXJlGZoorqNxkGLgXkCFwwZpq3VJFJfT3obq1hbwZRFMy
-         H+12NwgWMhPkdylBEdbJFfYg2fSfznRrgBSKsxL+vZ0nU125K8H5ah3U0lhqJQnqHxVH
-         1niw==
-X-Gm-Message-State: AOAM5337PiviuKBiKhVlV47ytSvq2XRN238aqkXCy7jn1WtRaSJ52RU8
-        XvG1lL2KuK1+II42N4pcUwdbJe0MkNc=
-X-Google-Smtp-Source: ABdhPJxNF/EOw6Fr1ooUP2mxOGeC5DFpYAE5cWFJWlZGXnD00HuecRhew08Lq93cJ+Q2DqGNjRY3TQ==
-X-Received: by 2002:adf:a30b:: with SMTP id c11mr3896486wrb.289.1634184728935;
-        Wed, 13 Oct 2021 21:12:08 -0700 (PDT)
+        bh=jMx2a01CJnC2dNlCakBizaTucZQ/Oc3O2qM3WaZvHKY=;
+        b=4hyAHfpfmkZSoBj4y2Tv52Bg/mvH8bn2ysHOgap5xg6cth2bgPaQx45sv3YTupPa9D
+         t6GYc3GNY/0t5q8u+WPbp35gCmenq9bBQHOZvwEmMNgVAB6zo7uK1PfirP4tLbyXQZsX
+         R9zcAuvwfoZzRs2XX8/7NPSD+QuU6zCrawRWEDuayil6/PQ8CACx55sJsss/BG22AGlX
+         e30uN61eFDgf1xY0JUXZU43mNTirwN/7D4O5MXxpxx4sie5PSW/oow/GtCnOgtu5TjEX
+         fzAWm2nwdnUuJhFG5GX8Rtty8BAo9q9K4RRFdR9yJpUaEh/Ehah5YwIY8guObub2BK92
+         rTDw==
+X-Gm-Message-State: AOAM533f1/HQctVRnhljA+VjcD+aCj25yI1Gvm1cOCNudtlgAln1w7xR
+        Qwic/YHYZh0RRcYv1dkA6zI=
+X-Google-Smtp-Source: ABdhPJymuENDejcusxtC4liA2WrY0K62mnZNMaURgkTdYO+hSDhwoRjY821yL5+Quz8FNGARhtNHng==
+X-Received: by 2002:a5d:4882:: with SMTP id g2mr3670285wrq.399.1634184767223;
+        Wed, 13 Oct 2021 21:12:47 -0700 (PDT)
 Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
-        by smtp.gmail.com with ESMTPSA id h8sm1305014wrm.27.2021.10.13.21.12.08
+        by smtp.gmail.com with ESMTPSA id h11sm1174457wrz.5.2021.10.13.21.12.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Oct 2021 21:12:08 -0700 (PDT)
-Message-ID: <63beeeac-f6c6-5780-a089-35e4e75cabb5@kernel.org>
-Date:   Thu, 14 Oct 2021 06:12:07 +0200
+        Wed, 13 Oct 2021 21:12:46 -0700 (PDT)
+Message-ID: <9569cb0b-a353-ba75-9152-4abee07c7203@kernel.org>
+Date:   Thu, 14 Oct 2021 06:12:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.2
@@ -47,16 +47,18 @@ To:     lianzhi chang <changlianzhi@uniontech.com>,
 Cc:     dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
         andriy.shevchenko@linux.intel.com, linux-input@vger.kernel.org,
         282827961@qq.com
-References: <20211014030836.30612-1-changlianzhi@uniontech.com>
+References: <20211014040508.8367-1-changlianzhi@uniontech.com>
 From:   Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <20211014030836.30612-1-changlianzhi@uniontech.com>
+In-Reply-To: <20211014040508.8367-1-changlianzhi@uniontech.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 14. 10. 21, 5:08, lianzhi chang wrote:
+No need to send it 5 times...
+
+On 14. 10. 21, 6:05, lianzhi chang wrote:
 > Switching from the desktop environment to the tty environment,
 > the state of the keyboard led lights and the state of the keyboard
 > lock are inconsistent. This is because the attribute kb->kbdmode
@@ -94,9 +96,6 @@ On 14. 10. 21, 5:08, lianzhi chang wrote:
 >   			input_handle_event(dev, type, code, value);
 > +
 > +			if (type == EV_LED && code < 3)
-
-3 is a magic constant. In fact, you mean "code <= LED_SCROLLL", right?
-
 > +				update_value_ledstate(code, value);
 > +		}
 >   		rcu_read_unlock();
@@ -111,22 +110,13 @@ On 14. 10. 21, 5:08, lianzhi chang wrote:
 >   }
 >   
 > +void update_value_ledstate(int flag, int value)
-
-Why is the int signed?
-
 > +{
 > +	if (ledstate == -1U)
 > +		ledstate = 0;
 > +
 > +	if (flag == LED_NUML) {
 > +		ledstate &= ~(1 << 1);
-
-ledstate &= ~BIT(VC_NUMLOCK);
-
 > +		ledstate |= value << 1;
-
-What ensures that value is 0 or 1 here?
-
 > +	} else if (flag == LED_CAPSL) {
 > +		ledstate &= ~(1 << 2);
 > +		ledstate |= value << 2;
@@ -134,30 +124,6 @@ What ensures that value is 0 or 1 here?
 > +		ledstate &= ~(1 << 0);
 > +		ledstate |= value << 0;
 > +	}
-
-What about something like this (maybe ifs would be shorter, dunno, try it):
-unsigned int bit;
-
-switch (flag) {
-case LED_NUML:
-   bit = VC_NUMLOCK;
-   break;
-case LED_CAPSL:
-   bit = VC_CAPSLOCK;
-   break;
-case LED_SCROLLL:
-   bit = VC_SCROLLOCK;
-   break;
-default:
-   WARN_ON_ONCE(1);
-   return;
-}
-
-if (value)
-   ledstate |= BIT(bit);
-else
-   ledstate &= ~BIT(BIT);
-
 > +}
 > +
 >   void setledstate(struct kbd_struct *kb, unsigned int led)
@@ -171,9 +137,7 @@ else
 > +
 > +	if (kb->kbdmode == VC_OFF)
 > +		return;
-
-Can you explain why (not to me, to the commit log)?
-
+>   
 >   	spin_lock_irqsave(&led_lock, flags);
 >   	leds = getleds();
 > @@ -1257,7 +1278,6 @@ static void kbd_bh(struct tasklet_struct *unused)
@@ -181,9 +145,6 @@ Can you explain why (not to me, to the commit log)?
 >   	if (leds != ledstate) {
 >   		kbd_propagate_led_state(ledstate, leds);
 > -		ledstate = leds;
-
-The same here. Why this doesn't break the current behaviour.
-
 >   	}
 >   }
 >   
@@ -202,7 +163,6 @@ The same here. Why this doesn't break the current behaviour.
 >   extern void (*kbd_ledfunc)(unsigned int led);
 > 
 
-thanks,
+
 -- 
 js
-suse labs
