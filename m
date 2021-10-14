@@ -2,83 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C31E42DC3E
-	for <lists+linux-input@lfdr.de>; Thu, 14 Oct 2021 16:55:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A464542E10C
+	for <lists+linux-input@lfdr.de>; Thu, 14 Oct 2021 20:20:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232019AbhJNO5i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Oct 2021 10:57:38 -0400
-Received: from mail-wr1-f43.google.com ([209.85.221.43]:41778 "EHLO
-        mail-wr1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232079AbhJNO52 (ORCPT
+        id S231777AbhJNSWi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Oct 2021 14:22:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36624 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231276AbhJNSWh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Oct 2021 10:57:28 -0400
-Received: by mail-wr1-f43.google.com with SMTP id t2so20386430wrb.8;
-        Thu, 14 Oct 2021 07:55:22 -0700 (PDT)
+        Thu, 14 Oct 2021 14:22:37 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9585C061570;
+        Thu, 14 Oct 2021 11:20:32 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id nn3-20020a17090b38c300b001a03bb6c4ebso5406793pjb.1;
+        Thu, 14 Oct 2021 11:20:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=tVpl94ml/Bx/IZjIBe2wxz6kc0O9x/ko5fdf+Bkw9eY=;
+        b=NnJI9p9ZCFqWHT7WFXYfr0jSXJ7JsvsiXdgzUBsZ7Y1DXoPZl9C+UmnPMSNB7KIQ7o
+         E/DVr91QLth2rcqovMDf3BbyuFD+oF8ndmn1uk/W676ytkwcCFR29sdoGvY0E9ssrRFf
+         Hr6HEWGIurOOVhlva6Y0/5Y8ZWfRhSf9IqR4T6+sKgcE8Q7oolcEl+LTT8nx8DWJhSkz
+         FV6S/ajDi/BZds2eaqRJMbbzF/qYaedqLeq1QsAtU/j5jLJ0+DAgTRFqxxRp5hWIsEV+
+         Ynbp6WnZ9lLTifCzpr/2LToYNUdjHcrX2k3n8YVBt/xbcxsIWQ1T77DVv3FVWpwnBv4c
+         bvyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=HS23AmkrFlxiHPWR55rkvfjGcqFY+NS9STXeF9NmTXw=;
-        b=YzHaNbOQOpCdQIt+loIbcz/rWpG+2hoEUVZqQOoqlFhg9QQ4iuSdIJUTm03IQRhhRU
-         FMd0fPRvtxhmuYA/Xk3Aq4/690H1VL63S80RVzPveuUfWC31gWjpQqA+AUfeM77QFmbr
-         bGufeQch5vyxpA5m4k/vM4IctqH9NydnXebDSdlRpzqajsHIRxhGzPCPNKRHrEvQ6B+w
-         KkhFgP7uT2OWNRNjZyIDRGxBIfJIhmtgYMg0/AjdiuNRy1wI/kp6APqxLVn8UYfZBU5C
-         F2A88NSe7+r+UcOkcQVt1R8VIUmWwxZPIoq0taI/NAkSIBfxIP1/QzKPOzwbOxtu+c5P
-         3lEA==
-X-Gm-Message-State: AOAM531Sb1swFp1OgezvkbaBHpk2m9wMs4vHIrzj5S7RZC0ooIM98J7V
-        BlB+CVkYPeHctdrfD9TB+wDbscWjtLk=
-X-Google-Smtp-Source: ABdhPJxQnbdyF6TWa2FhdqQFUOfJZm5E5JuoGCCOc2vgEUcyXmzAwLdIuMN1U5PPn0QrZab1KEbUXg==
-X-Received: by 2002:a5d:598a:: with SMTP id n10mr7156093wri.93.1634223322097;
-        Thu, 14 Oct 2021 07:55:22 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
-        by smtp.gmail.com with ESMTPSA id t18sm2664746wrm.81.2021.10.14.07.55.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Oct 2021 07:55:21 -0700 (PDT)
-Message-ID: <a2964246-f90f-f205-ce99-707cc1a114cc@kernel.org>
-Date:   Thu, 14 Oct 2021 16:55:20 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=tVpl94ml/Bx/IZjIBe2wxz6kc0O9x/ko5fdf+Bkw9eY=;
+        b=eQm0t3yGarX4PEBrGaeUimkhwwmaqWma84mPtcKfeVRge3yO/zU+h7jL5+rO60zdMt
+         hZV6z0I7I5j1KWAWl8dAY+cWLeR9BAPs4/PCv8iBHHoDRMazNb9wmCL0nYqBCSTIY2lE
+         JNONr/fcqBsQ1VFoPOm/zKMe+37byKpgs1KeMnAVFt62IY2JuJpJ7xUwaX+lSCo1PjaD
+         XPXdu+QXTnc7edkdtDZ9eUbc9vRo0ucBjeuZs5AYZSNnxJH4O6SPDxko9LTK9uu+Yu3+
+         bw2LRdrJtBRBpBSy5hVRUTliPISPMmXKEi8+zwHqshqKA+D40xsxhwXLG5v5BcQrAhrH
+         qY4A==
+X-Gm-Message-State: AOAM533hu3HRL/4L2wgXqMGnOV9mS295lJLuxnOExVwF+W1Gfb5KAYm+
+        JoQKjX9HAeyuxp3VCMJATLo=
+X-Google-Smtp-Source: ABdhPJzZf3/GLs1psGjdo3mLRAfknuhmMmxbJeDF2+yDhN5G0rTKl5AS9cotNDMYlj2sOUaGxz+PXg==
+X-Received: by 2002:a17:902:a40c:b029:12c:17cf:ab6f with SMTP id p12-20020a170902a40cb029012c17cfab6fmr6603013plq.71.1634235631986;
+        Thu, 14 Oct 2021 11:20:31 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:9bf4:9cc1:5626:5bbc])
+        by smtp.gmail.com with ESMTPSA id y17sm3151383pfn.96.2021.10.14.11.20.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Oct 2021 11:20:30 -0700 (PDT)
+Date:   Thu, 14 Oct 2021 11:20:28 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     lianzhi chang <changlianzhi@uniontech.com>
+Cc:     linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, andriy.shevchenko@linux.intel.com,
+        linux-input@vger.kernel.org, 282827961@qq.com
 Subject: Re: [PATCH] input&tty: Fix the keyboard led light display problem
-Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        lianzhi chang <changlianzhi@uniontech.com>
-Cc:     linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
-        gregkh@linuxfoundation.org, linux-input@vger.kernel.org,
-        282827961@qq.com
+Message-ID: <YWh07Lnr7WIGoLjh@google.com>
 References: <20211014071627.23256-1-changlianzhi@uniontech.com>
- <YWhI/DzNjivU6jQ6@smile.fi.intel.com>
-From:   Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <YWhI/DzNjivU6jQ6@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211014071627.23256-1-changlianzhi@uniontech.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 14. 10. 21, 17:13, Andy Shevchenko wrote:
-> On Thu, Oct 14, 2021 at 03:16:27PM +0800, lianzhi chang wrote:
->> Switching from the desktop environment to the tty environment,
->> the state of the keyboard led lights and the state of the keyboard
->> lock are inconsistent. This is because the attribute kb->kbdmode
->> of the tty bound in the desktop environment (xorg) is set to
->> VC_OFF, which causes the ledstate and kb->ledflagstate
->> values of the bound tty to always be 0, which causes the switch
->> from the desktop When to the tty environment, the LED light
->> status is inconsistent with the keyboard lock status.
-> 
-> ...
-> 
->> +void update_value_ledstate(unsigned int flag, unsigned int value)
->> +{
->> +	unsigned int bit;
-> 
-> unsigned long bit;
-> 
-> (see below why)
+Hi lianzhi,
 
-You'd need ledstate to be ulong, not bit. Or am I missing something?
+On Thu, Oct 14, 2021 at 03:16:27PM +0800, lianzhi chang wrote:
+> Switching from the desktop environment to the tty environment,
+> the state of the keyboard led lights and the state of the keyboard
+> lock are inconsistent. This is because the attribute kb->kbdmode
+> of the tty bound in the desktop environment (xorg) is set to
+> VC_OFF, which causes the ledstate and kb->ledflagstate
+> values of the bound tty to always be 0, which causes the switch
+> from the desktop When to the tty environment, the LED light
+> status is inconsistent with the keyboard lock status.
+> 
+> Signed-off-by: lianzhi chang <changlianzhi@uniontech.com>
+> ---
+>  drivers/input/input.c     |  7 ++++++-
+>  drivers/tty/vt/keyboard.c | 30 +++++++++++++++++++++++++++++-
+>  include/linux/kbd_kern.h  |  2 ++
+>  3 files changed, 37 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/input/input.c b/drivers/input/input.c
+> index ccaeb2426385..43c09700bf68 100644
+> --- a/drivers/input/input.c
+> +++ b/drivers/input/input.c
+> @@ -25,6 +25,7 @@
+>  #include <linux/rcupdate.h>
+>  #include "input-compat.h"
+>  #include "input-poller.h"
+> +#include <linux/kbd_kern.h>
+>  
+>  MODULE_AUTHOR("Vojtech Pavlik <vojtech@suse.cz>");
+>  MODULE_DESCRIPTION("Input core");
+> @@ -472,8 +473,12 @@ void input_inject_event(struct input_handle *handle,
+>  
+>  		rcu_read_lock();
+>  		grab = rcu_dereference(dev->grab);
+> -		if (!grab || grab == handle)
+> +		if (!grab || grab == handle) {
+>  			input_handle_event(dev, type, code, value);
+> +
+> +			if (type == EV_LED && code < LED_SCROLLL)
+> +				update_value_ledstate(code, value);
+
+No, we should not be putting hooks for tty/vt directly into input core.
+The code in drivers/tty/vt/keyboard.c is getting all relevant input
+events and should be able to keep the led state synchronized. Please
+keep all the changes localized there.
+
+Thanks.
 
 -- 
-js
+Dmitry
