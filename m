@@ -2,123 +2,149 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05BDB42C77B
-	for <lists+linux-input@lfdr.de>; Wed, 13 Oct 2021 19:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E203542D15D
+	for <lists+linux-input@lfdr.de>; Thu, 14 Oct 2021 06:07:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234083AbhJMRWn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Oct 2021 13:22:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34034 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230404AbhJMRWn (ORCPT
+        id S229496AbhJNEJo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Oct 2021 00:09:44 -0400
+Received: from smtpbguseast2.qq.com ([54.204.34.130]:41576 "EHLO
+        smtpbguseast2.qq.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229468AbhJNEJo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Oct 2021 13:22:43 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D84A7C061570;
-        Wed, 13 Oct 2021 10:20:39 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id u32so8130142ybd.9;
-        Wed, 13 Oct 2021 10:20:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BCiHp6h+qDHKpj2Nxs3uzbS2y3KcQ/s+935tqz//0OQ=;
-        b=Fq/Q+b4pKQcXXauODM1bbeRqRQsn7mVY5ghi1hnIG4bDwkc9TCKYfCD0g3UdBlIGw5
-         RIna2L/Zd/XDlWIxyJHMP616QD+zD3ViOdj+5/feRInLsemecZPxDM/DEq4vj0XPuI+F
-         QaDQ/fRhyWoMBxlEvZ/2L3ATW5QMQgd3KAyrj/c6HM4VCJzBv/pxb5pY/EITbRnxDUFP
-         T0/CQ0IORp2Qq/Bpvti3FXt8Xonq1hTjn+GRRfcOI6m6w7GhtFif9oEMfG+vbS93F7lN
-         8NxUU+MdwnFD+BH1az26FyDFx2IjnblRUGY8sjGE+o2yPTdcqMsw7JGiKsjBPf8c+EcY
-         y3Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BCiHp6h+qDHKpj2Nxs3uzbS2y3KcQ/s+935tqz//0OQ=;
-        b=M+UNYLHxlEeb3sQJtqHaWWGTO/nW//SZAaGFkrVPhw0IXt8QqQAILC/xXhIkPMUps/
-         5jS8z4FUWqyOsbjhjnygIP33bF26mfnJ8QhbYzk2gJFTkOJ/pIa8DDaVmlDo7FtXI5fD
-         OSKzaGAJ570WW4RS6gfnGj/h2TLFSbmD2HwBECD5zvoCNgYyHvPjVuLaXOtB5zMkdBrb
-         O878CTPl9/+Xx7agZo09OAoVTUNeJvNRuj3cT1PJXAfWzvU3cLblNqtFfLg8lk33KshS
-         m/sZDYqbCSii5kmFccH8+1gE3YFJjWrizv7NDFAeGNODam6LEC0CYVj/kIUc0E+izwKT
-         6hpg==
-X-Gm-Message-State: AOAM533A3y5yccOxDGbkiFcOn7ldRUh76T4hnwb4zLtQztCptFMsiq33
-        YRxWn7unV6LC6cCJiyvO60Z8VarndQh83Lv2frs=
-X-Google-Smtp-Source: ABdhPJy1oBNfbNWOHAzEy83z36nZOzwN+cmdPCyi93SR8g8zmcdrXOYTgbsgdKbWgxdT4qf92btO+IMAy/PJoF2Dh1c=
-X-Received: by 2002:a25:afcf:: with SMTP id d15mr631298ybj.320.1634145639082;
- Wed, 13 Oct 2021 10:20:39 -0700 (PDT)
+        Thu, 14 Oct 2021 00:09:44 -0400
+X-QQ-mid: bizesmtp40t1634184415t4qd8fp8
+Received: from localhost.localdomain (unknown [113.57.152.160])
+        by esmtp6.qq.com (ESMTP) with 
+        id ; Thu, 14 Oct 2021 12:06:51 +0800 (CST)
+X-QQ-SSF: B140000000200080D000B00A0000000
+X-QQ-FEAT: jfdGVjI73+QGvQfwriiO1rLsROdxZjZeSkBKMihEPTwJvZXM8UjObwJBi7rlR
+        xBJ4uFasmzxo0/2GalYYH8Fey2CSlUjKTWphyFbf/AemHGqBUZoadz5B4dYl0E1hFqyhnOQ
+        5sEJOdadcdP/fDnhNVEyj+snKP73HQruHMmiy1yQk4qbENKD4tlFdQXm0K+YcTlFRcqqM3D
+        36/DowYm6p7FKscUg8PTs+Lx3TBPKnshOuKuPBOhOdo608xnlKuR+HkLSB5tjf+igZOnd6F
+        NW26UOhfCdvfpJxdj03qi5B05Mt73qNaGAMqsfwsLopvv+alzVU7uzls4ywmOcgGIGm3QW8
+        f2i8NThu2zSL9CgoVR8GbEF9tzQ5W58MENyv+T6HRP01UuhA2ZJ44yzCZSdDg==
+X-QQ-GoodBg: 2
+From:   lianzhi chang <changlianzhi@uniontech.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-input@vger.kernel.org, 282827961@qq.com,
+        lianzhi chang <changlianzhi@uniontech.com>
+Subject: [PATCH] input&tty: Fix the keyboard led light display problem
+Date:   Thu, 14 Oct 2021 12:06:48 +0800
+Message-Id: <20211014040648.8989-1-changlianzhi@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20210908165539.3102929-1-roderick.colenbrander@sony.com>
- <20210908165539.3102929-3-roderick.colenbrander@sony.com> <nycvar.YFH.7.76.2109221150110.15944@cbobk.fhfr.pm>
- <20210927141109.GB5809@duo.ucw.cz> <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com>
- <20211013074849.GA10172@amd>
-In-Reply-To: <20211013074849.GA10172@amd>
-From:   Roderick Colenbrander <thunderbird2k@gmail.com>
-Date:   Wed, 13 Oct 2021 10:20:27 -0700
-Message-ID: <CAEc3jaB5e41e_cDDy7=sXTG4oJZ2nDJwx5hLQtN71TdyYdP3hw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
- for game controllers.
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign2
+X-QQ-Bgrelay: 1
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 13, 2021 at 12:48 AM Pavel Machek <pavel@ucw.cz> wrote:
->
-> Hi!
->
-> > > > > Player LEDs are commonly found on game controllers from Nintendo and Sony
-> > > > > to indicate a player ID across a number of LEDs. For example, "Player 2"
-> > > > > might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
-> > > > >
-> > > > > This patch introduces LED_FUNCTION_PLAYER1-5 defines to properly indicate
-> > > > > player LEDs from the kernel. Until now there was no good standard, which
-> > > > > resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
-> > > > > other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYERx.
-> > > > >
-> > > > > Note: management of Player IDs is left to user space, though a kernel
-> > > > > driver may pick a default value.
-> > > > >
-> > > > > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> > > > > ---
-> > > > >  Documentation/leds/well-known-leds.txt | 14 ++++++++++++++
-> > > > >  include/dt-bindings/leds/common.h      |  7 +++++++
-> > > > >  2 files changed, 21 insertions(+)
-> > > >
-> > > > Pavel, could you please eventually Ack this, so that I can take it
-> > > > together with the rest?
-> > >
-> > > I'm willing to take Documentation/leds/well-known-leds.txt part
-> > > through LED tree.
-> > >
-> > > I don't like the common.h change; either avoid the define or put it
-> > > into your local header.
-> >
-> > If the LED_FUNCTION_PLAYER* defines don't belong in common with the
-> > other LED_FUNCTION* ones, where should it go? The hid-nintendo driver
-> > intends to use the same defines, so defining it local to each driver
-> > isn't right. Not sure if there is a great place in the input system
-> > either (you would then have to move scrolllock and all those other LED
-> > definitions too.)
->
-> Ok, so let's put it in the common place. I'll take this patch through
-> LED tree if you resubmit it. You still may want to use local defines
-> so you can apply the other patches without waiting.
->
+Switching from the desktop environment to the tty environment,
+the state of the keyboard led lights and the state of the keyboard
+lock are inconsistent. This is because the attribute kb->kbdmode
+of the tty bound in the desktop environment (xorg) is set to
+VC_OFF, which causes the ledstate and kb->ledflagstate
+values of the bound tty to always be 0, which causes the switch
+from the desktop When to the tty environment, the LED light
+status is inconsistent with the keyboard lock status.
 
-Thanks for your reply. If we want to decouple the series between LEDs
-and HID, I don't mind. Not sure what is preferred by Benjamin/Jiri
-either a temporary local define (#ifndef LED_FUNCTION_PLAYER1 #define
-LED_FUNCTION_PLAYER1 "player-1"..) or just temporary hard coding the
-string. Neither is that nice. It is only a few lines of code, so since
-defines are the long-term way maybe a local define is okay.
+Signed-off-by: lianzhi chang <changlianzhi@uniontech.com>
+---
+ drivers/input/input.c     |  7 ++++++-
+ drivers/tty/vt/keyboard.c | 22 +++++++++++++++++++++-
+ include/linux/kbd_kern.h  |  2 ++
+ 3 files changed, 29 insertions(+), 2 deletions(-)
 
-> Best regards,
->                                                                 Pavel
-> --
-> http://www.livejournal.com/~pavelmachek
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index ccaeb2426385..41f6186a9cc4 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -25,6 +25,7 @@
+ #include <linux/rcupdate.h>
+ #include "input-compat.h"
+ #include "input-poller.h"
++#include <linux/kbd_kern.h>
+ 
+ MODULE_AUTHOR("Vojtech Pavlik <vojtech@suse.cz>");
+ MODULE_DESCRIPTION("Input core");
+@@ -472,8 +473,12 @@ void input_inject_event(struct input_handle *handle,
+ 
+ 		rcu_read_lock();
+ 		grab = rcu_dereference(dev->grab);
+-		if (!grab || grab == handle)
++		if (!grab || grab == handle) {
+ 			input_handle_event(dev, type, code, value);
++
++			if (type == EV_LED && code < 3)
++				update_value_ledstate(code, value);
++		}
+ 		rcu_read_unlock();
+ 
+ 		spin_unlock_irqrestore(&dev->event_lock, flags);
+diff --git a/drivers/tty/vt/keyboard.c b/drivers/tty/vt/keyboard.c
+index c7fbbcdcc346..005fa5cf2a67 100644
+--- a/drivers/tty/vt/keyboard.c
++++ b/drivers/tty/vt/keyboard.c
+@@ -1140,6 +1140,23 @@ static unsigned char getledstate(void)
+ 	return ledstate & 0xff;
+ }
+ 
++void update_value_ledstate(int flag, int value)
++{
++	if (ledstate == -1U)
++		ledstate = 0;
++
++	if (flag == LED_NUML) {
++		ledstate &= ~(1 << 1);
++		ledstate |= value << 1;
++	} else if (flag == LED_CAPSL) {
++		ledstate &= ~(1 << 2);
++		ledstate |= value << 2;
++	} else if (flag == LED_SCROLLL) {
++		ledstate &= ~(1 << 0);
++		ledstate |= value << 0;
++	}
++}
++
+ void setledstate(struct kbd_struct *kb, unsigned int led)
+ {
+         unsigned long flags;
+@@ -1249,6 +1266,10 @@ static void kbd_bh(struct tasklet_struct *unused)
+ {
+ 	unsigned int leds;
+ 	unsigned long flags;
++	struct kbd_struct *kb = kbd_table + fg_console;
++
++	if (kb->kbdmode == VC_OFF)
++		return;
+ 
+ 	spin_lock_irqsave(&led_lock, flags);
+ 	leds = getleds();
+@@ -1257,7 +1278,6 @@ static void kbd_bh(struct tasklet_struct *unused)
+ 
+ 	if (leds != ledstate) {
+ 		kbd_propagate_led_state(ledstate, leds);
+-		ledstate = leds;
+ 	}
+ }
+ 
+diff --git a/include/linux/kbd_kern.h b/include/linux/kbd_kern.h
+index c40811d79769..36a3402658e6 100644
+--- a/include/linux/kbd_kern.h
++++ b/include/linux/kbd_kern.h
+@@ -62,6 +62,8 @@ extern int kbd_init(void);
+ 
+ extern void setledstate(struct kbd_struct *kbd, unsigned int led);
+ 
++extern void update_value_ledstate(int flag, int value);
++
+ extern int do_poke_blanked_console;
+ 
+ extern void (*kbd_ledfunc)(unsigned int led);
+-- 
+2.20.1
+
+
+¸
