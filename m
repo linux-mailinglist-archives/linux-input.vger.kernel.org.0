@@ -2,100 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48DFE42E26F
-	for <lists+linux-input@lfdr.de>; Thu, 14 Oct 2021 22:10:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6500B42E302
+	for <lists+linux-input@lfdr.de>; Thu, 14 Oct 2021 22:58:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231872AbhJNUMY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Oct 2021 16:12:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33488 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230018AbhJNUMV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Oct 2021 16:12:21 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC24EC061760
-        for <linux-input@vger.kernel.org>; Thu, 14 Oct 2021 13:10:16 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id f5so6511632pgc.12
-        for <linux-input@vger.kernel.org>; Thu, 14 Oct 2021 13:10:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=hcDyU+zIY4Ss8fjL+Pic9FdthqpnWN+VG42syy+/mwc=;
-        b=appy5bCOum3d8Tda8BTLGF3sKcXVtg/qY9l7fHvstYswnsAxrB39SLkFihIOJDzEVN
-         Qj0CMf4V9WQE477RZnBHhHQWMbYqVPOa2amkulcZxRbpouJciwKoDW7HF5z35BDE7A1j
-         ZjF9ZFw4Wp87+V7zB01CnVTsvjFA1cvX+5FGlEh4oQlVIJBLrf7TSbKutquBcVeguaT/
-         QHG+BPOB2M6vOIyXupX98BgdWtyduPZJD+970VfSJhrraInIuABONNe4a1L9ZKfPGxGk
-         t+XPl8kwZ958L4lFG9bSLepA+vwKRf+CDhJHLuYGnL9Tmd5V/vd8iMnwVAsfXdHKPtbz
-         JRdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=hcDyU+zIY4Ss8fjL+Pic9FdthqpnWN+VG42syy+/mwc=;
-        b=B1Pn/pKct0Q+kDYB87yU9BgDJbs9yu4cJksXm4sgqxQsR3iSt04SqcaNY5epuJgHO8
-         P1Wc65Bspl7E6qhP667gEtFALtM07O7nP+RijtorIpgDJgmSI8o2p/d/sCJZcsuZJp/e
-         rblKDTwIR5tUREY0a04Ex15KWAg1MndeLB/wfnGGqv6qaOu4vRdmpe0V4G5giMEyzlx1
-         hU1WHuqbP0+j5Kx8IG9VRtVRlbmHzd2J7SMXlPKd+qLRMwNZsU7EUqBjHg4hO9bcMuQR
-         a+Q5lVg53/p3FZ8EE8zKU932UZuy9H68136iVvqMY20P/XBvd0pAwpmmiBeFTQsU6bLh
-         Uhmw==
-X-Gm-Message-State: AOAM533frxODnh3uxgC55An978LeMNYLIXKFcl8ouGvYcUZ3hIamGf4x
-        3V/v4G4yoQS80kb/prUUfDOxyhrswGtKbViW0Gk=
-X-Google-Smtp-Source: ABdhPJz+q13zpzBeeAjLUv93jk50TSJ0o0r7nLDaTKEtPPl3iu8gjtpr1VZJln6YzYghtm858+E+qxIEcOox+2jAnIU=
-X-Received: by 2002:a63:7b18:: with SMTP id w24mr4919862pgc.234.1634242215900;
- Thu, 14 Oct 2021 13:10:15 -0700 (PDT)
+        id S232537AbhJNVAS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Oct 2021 17:00:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50964 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231308AbhJNVAS (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 14 Oct 2021 17:00:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 86DDA60F9E;
+        Thu, 14 Oct 2021 20:58:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634245092;
+        bh=q0dwlCNGa/Hxh5HuJwhdsfDhhj1HIkksM3XfYlf7fZU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=LyJrl9V7d4APSJLu0NY7Bz4az0bKYR1A982hZ3Zlz0xzKs/aiT+qGErYJHm56/WTF
+         EBZNLtwc1TJE4UgFR7zu/fSvU49U81lYSPFYHrqXjq7xOH1OvXQXdQqyHh+W5h7umu
+         vpm2Jb91JREz5GeoSSWaOlSsakP1JP8OhA8sr1VH8N/RkRfXNbXdUZQAQA/iFYQR/s
+         RRSEsLekKq2rhO4mxxua7W3wrosuJNRJP+tiXpuwN2cdcXQK3cZ8PojKHDo++qdYwa
+         tjKt5XT3LLBPhUrDVTJ54ZThVKz8/nTou/hK2E1t37VVIwpESV+YPdXDOwV3lk4Rx1
+         GgltfH0r8Twig==
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH] Input: touchscreen - Avoid bitwise vs logical OR warning
+Date:   Thu, 14 Oct 2021 13:57:57 -0700
+Message-Id: <20211014205757.3474635-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.33.1.637.gf443b226ca
 MIME-Version: 1.0
-Received: by 2002:a17:90b:3e84:0:0:0:0 with HTTP; Thu, 14 Oct 2021 13:10:15
- -0700 (PDT)
-Reply-To: compaorekone34@gmail.com
-From:   kone compaore <abbttnb20@gmail.com>
-Date:   Thu, 14 Oct 2021 13:10:15 -0700
-Message-ID: <CAL4=2zk9MVCuXSKgZK4WxA-7Xy7uFNkc0wwWMEGk_RMaZDXB-g@mail.gmail.com>
-Subject: Greetings from kone
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Greetings,
+A new warning in clang points out a few places in this driver where a
+bitwise OR is being used with boolean types:
 
-Greetings to you and your family.
+drivers/input/touchscreen.c:81:17: warning: use of bitwise '|' with boolean operands [-Wbitwise-instead-of-logical]
+        data_present = touchscreen_get_prop_u32(dev, "touchscreen-min-x",
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-My name is Mr. Kone Compaore, the auditing general with the bank,
-Africa Develop bank (ADB) Ouagadougou, Burkina
+This use of a bitwise OR is intentional, as bitwise operations do not
+short circuit, which allows all the calls to touchscreen_get_prop_u32()
+to happen so that the last parameter is initialized while coalescing the
+results of the calls to make a decision after they are all evaluated.
 
-Faso, in West Africa. I am contacting you to seek your honesty and
-sincere cooperation in confidential manner to
+To make this clearer to the compiler, use the '|=' operator to assign
+the result of each touchscreen_get_prop_u32() call to data_present,
+which keeps the meaning of the code the same but makes it obvious that
+every one of these calls is expected to happen.
 
-transfer the sum of 10.5 (Ten million five hundred thousand Dollars)
-to your existing or new bank account.
+Link: https://github.com/ClangBuiltLinux/linux/issues/1472
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ drivers/input/touchscreen.c | 42 ++++++++++++++++++-------------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
-This money belongs to one of our bank client, a Libyan oil exporter
-who was working with the former Libyan
+diff --git a/drivers/input/touchscreen.c b/drivers/input/touchscreen.c
+index dd18cb917c4d..4620e20d0190 100644
+--- a/drivers/input/touchscreen.c
++++ b/drivers/input/touchscreen.c
+@@ -80,27 +80,27 @@ void touchscreen_parse_properties(struct input_dev *input, bool multitouch,
+ 
+ 	data_present = touchscreen_get_prop_u32(dev, "touchscreen-min-x",
+ 						input_abs_get_min(input, axis_x),
+-						&minimum) |
+-		       touchscreen_get_prop_u32(dev, "touchscreen-size-x",
+-						input_abs_get_max(input,
+-								  axis_x) + 1,
+-						&maximum) |
+-		       touchscreen_get_prop_u32(dev, "touchscreen-fuzz-x",
+-						input_abs_get_fuzz(input, axis_x),
+-						&fuzz);
++						&minimum);
++	data_present |= touchscreen_get_prop_u32(dev, "touchscreen-size-x",
++						 input_abs_get_max(input,
++								   axis_x) + 1,
++						 &maximum);
++	data_present |= touchscreen_get_prop_u32(dev, "touchscreen-fuzz-x",
++						 input_abs_get_fuzz(input, axis_x),
++						 &fuzz);
+ 	if (data_present)
+ 		touchscreen_set_params(input, axis_x, minimum, maximum - 1, fuzz);
+ 
+ 	data_present = touchscreen_get_prop_u32(dev, "touchscreen-min-y",
+ 						input_abs_get_min(input, axis_y),
+-						&minimum) |
+-		       touchscreen_get_prop_u32(dev, "touchscreen-size-y",
+-						input_abs_get_max(input,
+-								  axis_y) + 1,
+-						&maximum) |
+-		       touchscreen_get_prop_u32(dev, "touchscreen-fuzz-y",
+-						input_abs_get_fuzz(input, axis_y),
+-						&fuzz);
++						&minimum);
++	data_present |= touchscreen_get_prop_u32(dev, "touchscreen-size-y",
++						 input_abs_get_max(input,
++								   axis_y) + 1,
++						 &maximum);
++	data_present |= touchscreen_get_prop_u32(dev, "touchscreen-fuzz-y",
++						 input_abs_get_fuzz(input, axis_y),
++						 &fuzz);
+ 	if (data_present)
+ 		touchscreen_set_params(input, axis_y, minimum, maximum - 1, fuzz);
+ 
+@@ -108,11 +108,11 @@ void touchscreen_parse_properties(struct input_dev *input, bool multitouch,
+ 	data_present = touchscreen_get_prop_u32(dev,
+ 						"touchscreen-max-pressure",
+ 						input_abs_get_max(input, axis),
+-						&maximum) |
+-		       touchscreen_get_prop_u32(dev,
+-						"touchscreen-fuzz-pressure",
+-						input_abs_get_fuzz(input, axis),
+-						&fuzz);
++						&maximum);
++	data_present |= touchscreen_get_prop_u32(dev,
++						 "touchscreen-fuzz-pressure",
++						 input_abs_get_fuzz(input, axis),
++						 &fuzz);
+ 	if (data_present)
+ 		touchscreen_set_params(input, axis, 0, maximum, fuzz);
+ 
 
-government; I learn t that he was killed by the revolutionary forces
-since October 2011. Our bank is planning to
+base-commit: a41392e0877a271007e9209e63c34cab7527eb43
+-- 
+2.33.1.637.gf443b226ca
 
-transfer this entire fund into the government public treasury as
-unclaimed fund if nobody comes to claim the money
-
-from our bank after four years without account activities .
-
-What the bank need is proof and information about the late customer
-which I will assist you on. This is a genuine,
-
-risk free and legal business transaction, All details shall be sent to
-you once I hear from you.
-
-The information as contained herein be accorded the necessary
-attention, urgency as well as the secrecy it
-
-deserves.
-
-If you are really sure of your integrity, trustworthy and
-confidentiality reply back to me urgently for more
-
-details
-
-Best regards,
-Kone Compaore
