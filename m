@@ -2,278 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A534A42DA33
-	for <lists+linux-input@lfdr.de>; Thu, 14 Oct 2021 15:21:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA4C942D91A
+	for <lists+linux-input@lfdr.de>; Thu, 14 Oct 2021 14:13:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230434AbhJNNX6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Oct 2021 09:23:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59936 "EHLO mail.kernel.org"
+        id S230314AbhJNMP2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Oct 2021 08:15:28 -0400
+Received: from mga02.intel.com ([134.134.136.20]:22209 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230054AbhJNNX6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Oct 2021 09:23:58 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 498AD60EE5;
-        Thu, 14 Oct 2021 13:21:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1634217713;
-        bh=t3FaZ8xgpf16PMd+JevIiZLcGO4h4XG3aZfR3cIB58g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FcvociMXe0RUCKnL7vxxtTEZIYs+upjQIsAMJd8V2JLLgSGwu6scjcJUj+wWtzKpg
-         MUjjpuopvhsDSZTfWijmTVcTnD0yGgLU6cSqnls1ynBLi6qnMFgBLZM8bah8DB26rS
-         EWKzv2mS+f9PS6wifx5uX19gQ5D6pPlZcnZ27TDU=
-Date:   Thu, 14 Oct 2021 15:21:51 +0200
-From:   gregkh <gregkh@linuxfoundation.org>
-To:     "changlianzhi@uniontech.com" <changlianzhi@uniontech.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        "dmitry.torokhov" <dmitry.torokhov@gmail.com>,
-        jirislaby <jirislaby@kernel.org>,
-        "andriy.shevchenko" <andriy.shevchenko@linux.intel.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        282827961 <282827961@qq.com>
+        id S230268AbhJNMPZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 14 Oct 2021 08:15:25 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="214825408"
+X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; 
+   d="scan'208";a="214825408"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2021 05:13:21 -0700
+X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; 
+   d="scan'208";a="461171559"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.159])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2021 05:13:14 -0700
+Received: from andy by smile with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1mb2Pk-000CUu-Cu;
+        Thu, 14 Oct 2021 18:13:00 +0300
+Date:   Thu, 14 Oct 2021 18:13:00 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     lianzhi chang <changlianzhi@uniontech.com>
+Cc:     linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
+        gregkh@linuxfoundation.org, jirislaby@kernel.org,
+        linux-input@vger.kernel.org, 282827961@qq.com
 Subject: Re: [PATCH] input&tty: Fix the keyboard led light display problem
-Message-ID: <YWgu71RP4ERZYjCy@kroah.com>
-References: <20211014085308.9803-1-changlianzhi@uniontech.com>
- <616827d8.1c69fb81.75aa0.eea0SMTPIN_ADDED_BROKEN@mx.google.com>
+Message-ID: <YWhI/DzNjivU6jQ6@smile.fi.intel.com>
+References: <20211014071627.23256-1-changlianzhi@uniontech.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <616827d8.1c69fb81.75aa0.eea0SMTPIN_ADDED_BROKEN@mx.google.com>
+In-Reply-To: <20211014071627.23256-1-changlianzhi@uniontech.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Oct 14, 2021 at 12:50:31PM +0800, changlianzhi@uniontech.com wrote:
-> Subject: [PATCH] input&tty: Fix the keyboard led light display problem
-> 
-> 
+On Thu, Oct 14, 2021 at 03:16:27PM +0800, lianzhi chang wrote:
 > Switching from the desktop environment to the tty environment,
-> 
-> 
-> 
 > the state of the keyboard led lights and the state of the keyboard
-> 
-> 
-> 
 > lock are inconsistent. This is because the attribute kb->kbdmode
-> 
-> 
-> 
 > of the tty bound in the desktop environment (xorg) is set to
-> 
-> 
-> 
 > VC_OFF, which causes the ledstate and kb->ledflagstate
-> 
-> 
-> 
 > values of the bound tty to always be 0, which causes the switch
-> 
-> 
-> 
 > from the desktop When to the tty environment, the LED light
-> 
-> 
-> 
 > status is inconsistent with the keyboard lock status.
-> 
-> 
-> 
->  
-> 
-> 
-> 
-> Signed-off-by: lianzhi chang <changlianzhi@uniontech.com>
-> 
-> 
-> 
-> ---
-> 
-> 
-> 
-> drivers/input/input.c     |  7 ++++++-
-> 
-> 
-> 
-> drivers/tty/vt/keyboard.c | 30 +++++++++++++++++++++++++++++-
-> 
-> 
-> 
-> include/linux/kbd_kern.h  |  2 ++
-> 
-> 
-> 
-> 3 files changed, 37 insertions(+), 2 deletions(-)
-> 
-> 
-> 
->  
-> 
-> 
-> 
-> diff --git a/drivers/input/input.c b/drivers/input/input.c
-> 
-> 
-> 
-> index ccaeb2426385..43c09700bf68 100644
-> 
-> 
-> 
-> --- a/drivers/input/input.c
-> 
-> 
-> 
-> +++ b/drivers/input/input.c
-> 
-> 
-> 
-> @@ -25,6 +25,7 @@
-> 
-> 
-> 
-> #include <linux/rcupdate.h>
-> 
-> 
-> 
-> #include "input-compat.h"
-> 
-> 
-> 
-> #include "input-poller.h"
-> 
-> 
-> 
-> +#include <linux/kbd_kern.h>
-> 
-> 
-> 
-> MODULE_AUTHOR("Vojtech Pavlik <vojtech@suse.cz>");
-> 
-> 
-> 
-> MODULE_DESCRIPTION("Input core");
-> 
-> 
-> 
-> @@ -472,8 +473,12 @@ void input_inject_event(struct input_handle *handle,
-> 
-> 
-> 
-> rcu_read_lock();
-> 
-> 
-> 
-> grab = rcu_dereference(dev->grab);
-> 
-> 
-> 
-> - if (!grab || grab == handle)
-> 
-> 
-> 
-> + if (!grab || grab == handle) {
-> 
-> 
-> 
-> input_handle_event(dev, type, code, value);
-> 
-> 
-> 
-> +
-> 
-> 
-> 
-> + if (type == EV_LED && code < LED_SCROLLL)
-> 
-> 
-> 
-> + update_value_ledstate(code, value);
-> 
-> 
-> 
-> + }
-> 
-> 
-> 
-> rcu_read_unlock();
-> 
-> 
-> 
-> spin_unlock_irqrestore(&dev->event_lock, flags);
-> 
-> 
-> 
-> diff --git a/drivers/tty/vt/keyboard.c b/drivers/tty/vt/keyboard.c
-> 
-> 
-> 
-> index c7fbbcdcc346..0240915cdfef 100644
-> 
-> 
-> 
-> --- a/drivers/tty/vt/keyboard.c
-> 
-> 
-> 
-> +++ b/drivers/tty/vt/keyboard.c
-> 
-> 
-> 
-> @@ -1140,6 +1140,31 @@ static unsigned char getledstate(void)
-> 
-> 
-> 
-> return ledstate & 0xff;
-> 
-> 
-> 
-> }
-> 
-> 
-> 
+
+...
+
 > +void update_value_ledstate(unsigned int flag, unsigned int value)
-> 
-> 
-> 
 > +{
-> 
-> 
-> 
-> + unsigned int bit;
-> 
-> 
-> 
-> +
-> 
-> 
-> 
-> + switch (flag) {
-> 
-> 
-> 
-> + case LED_NUML:
-> 
-> 
-> 
-> + bit = VC_NUMLOCK;
-> 
-> 
-> 
-> + break;
-> 
-> 
-> 
-> + case LED_CAPSL:
-> 
-> 
-> 
+> +	unsigned int bit;
 
-<snip>
+unsigned long bit;
 
-Something went very wrong with this patch submission :(
+(see below why)
 
-Please fix up your email client and try again, or just use 'git
-send-email' directly, as that should be all that you need here.
+> +	switch (flag) {
+> +	case LED_NUML:
+> +		bit = VC_NUMLOCK;
+> +		break;
+> +	case LED_CAPSL:
+> +		bit = VC_CAPSLOCK;
+> +		break;
+> +	case LED_SCROLLL:
+> +		bit = VC_SCROLLOCK;
+> +		break;
+> +	default:
+> +		WARN_ON_ONCE(1);
+> +		return;
+> +	}
 
-thanks,
+> +	if (value)
+> +		ledstate |= BIT(bit);
+> +	else
+> +		ledstate &= ~BIT(BIT);
 
-greg k-h
+NIH assign_bit().
+
+On top of that, what is BIT as parameter does in the else branch? Have you
+compiled this?
+
+> +}
+
+...
+
+>  	unsigned int leds;
+>  	unsigned long flags;
+
+> +	struct kbd_struct *kb = kbd_table + fg_console;
+
+Reversed xmas tree order?
+
+...
+
+>  extern void setledstate(struct kbd_struct *kbd, unsigned int led);
+
+>  
+
+Not sure if wee need this blank line, since both functions are from the same
+(functional) group.
+
+> +extern void update_value_ledstate(int flag, int value);
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
