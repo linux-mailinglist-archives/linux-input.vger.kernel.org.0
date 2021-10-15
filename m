@@ -2,171 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6358B42F43E
-	for <lists+linux-input@lfdr.de>; Fri, 15 Oct 2021 15:51:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B30B142F662
+	for <lists+linux-input@lfdr.de>; Fri, 15 Oct 2021 16:54:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239779AbhJONyD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Oct 2021 09:54:03 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:3981 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240090AbhJONyA (ORCPT
+        id S234957AbhJOO45 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Oct 2021 10:56:57 -0400
+Received: from mx.xn--bimann-cta.de ([185.207.104.210]:26753 "EHLO
+        mx.xn--bimann-cta.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231208AbhJOO44 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Oct 2021 09:54:00 -0400
-Received: from fraeml738-chm.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4HW6zh0ZF9z67bh2;
-        Fri, 15 Oct 2021 21:48:16 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml738-chm.china.huawei.com (10.206.15.219) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Fri, 15 Oct 2021 15:51:52 +0200
-Received: from localhost (10.202.226.41) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Fri, 15 Oct
- 2021 14:51:51 +0100
-Date:   Fri, 15 Oct 2021 14:51:50 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Qing Wang <wangqing@vivo.com>
-CC:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bruno =?ISO-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
-        Stefan Achatz <erazor_de@users.sourceforge.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>
-Subject: Re: [PATCH V2 1/5] hid-lenovo: replace snprintf in show functions
- with sysfs_emit
-Message-ID: <20211015145150.0000006e@Huawei.com>
-In-Reply-To: <1634296054-6971-2-git-send-email-wangqing@vivo.com>
-References: <1634296054-6971-1-git-send-email-wangqing@vivo.com>
-        <1634296054-6971-2-git-send-email-wangqing@vivo.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
+        Fri, 15 Oct 2021 10:56:56 -0400
+X-Greylist: delayed 453 seconds by postgrey-1.27 at vger.kernel.org; Fri, 15 Oct 2021 10:56:56 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=dkim; bh=rFw73gDVBopjdRC
+        rdmzL3tnW6TmDhLG7yC3ItHuXa88=; h=subject:cc:to:from:date;
+        d=xn--bimann-cta.de; b=kHH2UuHhvansvN5QvYeFt0s91VnyjmHgT5DFocr2LHDK4Un
+        55VAXAphpp9yCBg6ChtsoDNHW6L5aTiSvLx8TcgqhGWzWLsbDzhgWYHveo2tHxe1cOr2Lb
+        vGPefP/afs7GhGMBU2oCyME7El/Taz5LBrsrL+lU4ShuqY8pRk0cqU=
+Received: from kallisto.localdomain (p5084cf21.dip0.t-ipconnect.de [80.132.207.33])
+        by mx.xn--bimann-cta.de (OpenSMTPD) with ESMTPSA id 73bf7a1d (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
+        Fri, 15 Oct 2021 16:47:16 +0200 (CEST)
+Date:   Fri, 15 Oct 2021 16:47:14 +0200
+From:   naib@xn--bimann-cta.de
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: I2C MSFT0001 (04F3:3072) touchpad is not recognized / registered
+Message-ID: <20211015144714.lvp7vz7lmeku2jpj@kallisto.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.41]
-X-ClientProxiedBy: lhreml727-chm.china.huawei.com (10.201.108.78) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 15 Oct 2021 04:07:28 -0700
-Qing Wang <wangqing@vivo.com> wrote:
+Hello,
 
-> show() should not use snprintf() when formatting the value to be returned 
-> to user space, snprintf() returns the length the resulting string and 
-> scnprintf() returns the number of bytes printed into the buffer.
-> 
-> Fix the coccicheck warnings:
-> WARNING: use scnprintf or sprintf.
-> 
-> Use sysfs_emit() instead of scnprintf() makes more sense.
-> 
-> Signed-off-by: Qing Wang <wangqing@vivo.com>
+since I've upgraded my BIOS to a recent version, the touchpad on my laptop isn't recognized anymore. I suspect that Lenovo did change some id or specifier, that causes the touchpad to be thrown in the wrong driver category.
 
-Hi,
+I am using kernel 5.15.0-rc4 on Archlinux. My hardware is Lenovo Ideapad Flex 3 11ADA05. The touchpad is from ELAN/MSFT00001? (04F3:3072). Before the mentioned BIOS upgrade, the touchpad was working with the default Archlinux kernel. Also it is currently functional while running a Windows OS. I have an old log output from dmesg [1]. I tried the following things to troubleshoot this issue:
+- Boot without hid_multitouch, hid_elants, i2c_hid, i2c_hid_acpi
+- Boot with CONFIG_MOUSE_ELAN_I2C & co.
+- Boot with blacklisting init calls and modules (see links below)
+- Tinker with i2cdetect (nothing valuable)
 
-A few places where it makes sense to tidy up the line breaks.
+The touchscreen is at AMDI0010:00, the touchpad is at AMDI0010:01. While collecting i2c debug messages, I've found out that the client on the adapter does not register. The touchscreen is registering successfully, even when the corresponding multitouch drivers are missing (hid-multitouch, hid-elants). (Bare with me, since I'm just guessing things)
+# The touchscreen (ok):
+i2c_designware AMDI0010:00: using lookup tables for GPIO lookup
+i2c_designware AMDI0010:00: No GPIO consumer scl found
+i2c i2c-0: adapter [Synopsys DesignWare I2C adapter] registered
+i2c i2c-0: client [ELAN238E:00] registered with bus id i2c-ELAN238E:00
+# The touchpad (not ok):
+i2c_designware AMDI0010:01: using lookup tables for GPIO lookup
+i2c_designware AMDI0010:01: No GPIO consumer scl found
+i2c i2c-1: adapter [Synopsys DesignWare I2C adapter] registered
 
-The benefit of the change in general is fairly minor given none
-of the cases here can cause problems, but I guess it is worthwhile
-as warning suppression and general tidiness improvement.
+Maybe the wrong driver is selected? Excerpt from hwinfo:
+P: /devices/platform/AMDI0010:01
+L: 0
+E: DEVPATH=/devices/platform/AMDI0010:01
+E: SUBSYSTEM=platform
+E: DRIVER=i2c_designware
+E: MODALIAS=acpi:AMDI0010:
+E: USEC_INITIALIZED=10263200
+E: ID_VENDOR_FROM_DATABASE=Amdek Corporation
+E: ID_PATH=platform-AMDI0010:01
+E: ID_PATH_TAG=platform-AMDI0010_01
 
-Jonathan
+P: /devices/platform/AMDI0010:01/MSFT0001:00
+L: 0
+E: DEVPATH=/devices/platform/AMDI0010:01/MSFT0001:00
+E: SUBSYSTEM=platform
+E: MODALIAS=acpi:MSFT0001:PNP0C50:
+E: USEC_INITIALIZED=10266881
+E: ID_VENDOR_FROM_DATABASE=M-Systems Flash Disk Pioneers
+E: ID_PATH=platform-MSFT0001:00
+E: ID_PATH_TAG=platform-MSFT0001_00
 
-> ---
->  drivers/hid/hid-lenovo.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-> index 93b1f93..086a7ae 100644
-> --- a/drivers/hid/hid-lenovo.c
-> +++ b/drivers/hid/hid-lenovo.c
-> @@ -400,7 +400,7 @@ static ssize_t attr_fn_lock_show(struct device *dev,
->  	struct hid_device *hdev = to_hid_device(dev);
->  	struct lenovo_drvdata *data = hid_get_drvdata(hdev);
->  
-> -	return snprintf(buf, PAGE_SIZE, "%u\n", data->fn_lock);
-> +	return sysfs_emit(buf, "%u\n", data->fn_lock);
->  }
->  
->  static ssize_t attr_fn_lock_store(struct device *dev,
-> @@ -442,7 +442,7 @@ static ssize_t attr_sensitivity_show_cptkbd(struct device *dev,
->  	struct hid_device *hdev = to_hid_device(dev);
->  	struct lenovo_drvdata *cptkbd_data = hid_get_drvdata(hdev);
->  
-> -	return snprintf(buf, PAGE_SIZE, "%u\n",
-> +	return sysfs_emit(buf, "%u\n",
->  		cptkbd_data->sensitivity);
+P: /devices/platform/AMDI0010:01/i2c-1
+L: 0
+E: DEVPATH=/devices/platform/AMDI0010:01/i2c-1
+E: SUBSYSTEM=i2c
 
-As below, whilst here tidy this up to be one line.
+Similiar bugs and resources:
+https://bugzilla.kernel.org/show_bug.cgi?id=207759
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1861610/+index
+https://patchwork.kernel.org/project/linux-input/patch/20180405132537.3218-7-benjamin.tissoires@redhat.com/
+https://lore.kernel.org/linux-input/000201d5a8bd$9fead3f0$dfc07bd0$@emc.com.tw/
 
->  }
->  
-> @@ -603,7 +603,7 @@ static ssize_t attr_press_to_select_show_tpkbd(struct device *dev,
->  	struct hid_device *hdev = to_hid_device(dev);
->  	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
->  
-> -	return snprintf(buf, PAGE_SIZE, "%u\n", data_pointer->press_to_select);
-> +	return sysfs_emit(buf, "%u\n", data_pointer->press_to_select);
->  }
->  
->  static ssize_t attr_press_to_select_store_tpkbd(struct device *dev,
-> @@ -633,7 +633,7 @@ static ssize_t attr_dragging_show_tpkbd(struct device *dev,
->  	struct hid_device *hdev = to_hid_device(dev);
->  	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
->  
-> -	return snprintf(buf, PAGE_SIZE, "%u\n", data_pointer->dragging);
-> +	return sysfs_emit(buf, "%u\n", data_pointer->dragging);
->  }
->  
->  static ssize_t attr_dragging_store_tpkbd(struct device *dev,
-> @@ -663,7 +663,7 @@ static ssize_t attr_release_to_select_show_tpkbd(struct device *dev,
->  	struct hid_device *hdev = to_hid_device(dev);
->  	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
->  
-> -	return snprintf(buf, PAGE_SIZE, "%u\n", data_pointer->release_to_select);
-> +	return sysfs_emit(buf, "%u\n", data_pointer->release_to_select);
->  }
->  
->  static ssize_t attr_release_to_select_store_tpkbd(struct device *dev,
-> @@ -693,7 +693,7 @@ static ssize_t attr_select_right_show_tpkbd(struct device *dev,
->  	struct hid_device *hdev = to_hid_device(dev);
->  	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
->  
-> -	return snprintf(buf, PAGE_SIZE, "%u\n", data_pointer->select_right);
-> +	return sysfs_emit(buf, "%u\n", data_pointer->select_right);
->  }
->  
->  static ssize_t attr_select_right_store_tpkbd(struct device *dev,
-> @@ -723,7 +723,7 @@ static ssize_t attr_sensitivity_show_tpkbd(struct device *dev,
->  	struct hid_device *hdev = to_hid_device(dev);
->  	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
->  
-> -	return snprintf(buf, PAGE_SIZE, "%u\n",
-> +	return sysfs_emit(buf, "%u\n",
->  		data_pointer->sensitivity);
-Perhaps put this on one line?  It fit before the change of course, but
-as you are touching the code, might as well tidy that up.
+I'll also attach my current running config [2], a current dmesg [3], a current hwinfo [4] and also an acpidump [5], since it was wished for at other similiar bugs.
 
->  }
->  
-> @@ -752,7 +752,7 @@ static ssize_t attr_press_speed_show_tpkbd(struct device *dev,
->  	struct hid_device *hdev = to_hid_device(dev);
->  	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
->  
-> -	return snprintf(buf, PAGE_SIZE, "%u\n",
-> +	return sysfs_emit(buf, "%u\n",
->  		data_pointer->press_speed);
-Same here.
+[1] https://op.xn--bimann-cta.de/bug/2021-09-19_journalctl.txt
+[2] https://op.xn--bimann-cta.de/bug/running_config.txt
+[3] https://op.xn--bimann-cta.de/bug/2021-10-15_dmesg.txt
+[4] https://op.xn--bimann-cta.de/bug/hwinfo.txt
+[5] https://op.xn--bimann-cta.de/bug/acpidump.lenovo-Ideapad-Flex-3-11ADA05.txt
 
-Thanks,
-
-Jonathan
-
->  }
->  
-
+Best,
+Fabian
