@@ -2,101 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56D8F42FBE4
-	for <lists+linux-input@lfdr.de>; Fri, 15 Oct 2021 21:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DC2442FD74
+	for <lists+linux-input@lfdr.de>; Fri, 15 Oct 2021 23:32:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231890AbhJOTXV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Oct 2021 15:23:21 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:41599 "EHLO
-        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230009AbhJOTXU (ORCPT
+        id S243120AbhJOVe1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Oct 2021 17:34:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40208 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243106AbhJOVeY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Oct 2021 15:23:20 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id 0C3CD3200EE0;
-        Fri, 15 Oct 2021 15:21:12 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Fri, 15 Oct 2021 15:21:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        michaelcullen.name; h=from:to:cc:subject:date:message-id
-        :mime-version:content-transfer-encoding; s=fm1; bh=yKIcC4xzI9XDV
-        mAZ8fUuEbBQ/xHrwJtenXeum8rv6gc=; b=TYnPCAQ7wxKNhcZ1igYkxHmPE6J6u
-        5e/6pXsIrjTi6LxQYzvI8otBKV7YxEYzR7Nnky0V7gP0Ep5/gSRbzSkiX4pFnfn2
-        l0TiXyz1ZXAhV6XLMJM6YnxsfqaHwXWyVcGcyj2IZMoZjPQeJf0eeDyvznYl/vc0
-        +C3MJ2oLIdPGx9EbBfpTXAUpcbmFO161LaodnJnOBLR1LPWzEpzytIYV7gESYq/6
-        CoT793mmx0J3zvsIy8binVdisOp0oxjQO6y9REd4Ju0uQstX9WBMxbmT2VkpeHXJ
-        UiWsu/rqdUrhJ42T9pez4lTd6kgvW3HlHVVieXq2YVsOYSDh30jEx4RwQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=yKIcC4xzI9XDVmAZ8
-        fUuEbBQ/xHrwJtenXeum8rv6gc=; b=GCykoTkxc5Sss8ZCkM4lKcEzgtT5gRdJr
-        3s9Df0VHjXAq66dOUVYB2xJwqq3Lomi72yC/chy2ww+f4lSrzRT5Tj9GCNSxhyu5
-        /9AAqzBpdjIKSap9BFYQDYOZYE3+BcCKjJ/H141bWrQFJ7DgD3FgYYATkgovN3+I
-        qwI4JSPPbutgKfiUOU0Rp3Dq5bBgTZV5FU5jYw6DKJVaAbhwGDu3i3KO9v9835Zb
-        0+YnGMJLYkS9rpvi+PE1GHuW/5e6euwlDrvTgO7cIpMt+YnFJhQXdVh7Au5IesB5
-        /bTpSMnZBAyAz/jzO6NpO3fBkBL+pHmWXW9SdkoJuANVbpbFDOYFA==
-X-ME-Sender: <xms:qNRpYQ0KpsxWEigvBx2ImWG7N35ICiTkm-7lif-SWm_ZKJZmb6ZtTg>
-    <xme:qNRpYbERrCFSgG2SaEBCkIyRh_P53OK_8rn6fvkhik79u4RybXXB3MOaz-A2v7kca
-    DXMuICHS_v-JI-4oQ>
-X-ME-Received: <xmr:qNRpYY7mtLKkelfzbfuUdSyLC8HY8kqN7WAY26Zo2rZhiQK9UOqhSOyWs70CvozckvZCBn4MSpZ1oiR9QpmuZ2KSI0uUljxHFjqlEYDjM-1cy9OtisfL8A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddugedgudefgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
-    ertddtnecuhfhrohhmpefoihgthhgrvghlucevuhhllhgvnhcuoehmihgthhgrvghlsehm
-    ihgthhgrvghltghulhhlvghnrdhnrghmvgeqnecuggftrfgrthhtvghrnhepffekhfektd
-    ejgfekgfffueejhfffvdfhgfeftdekfeffheehueeuleejteehtdfhnecuvehluhhsthgv
-    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhhitghhrggvlhesmhhitg
-    hhrggvlhgtuhhllhgvnhdrnhgrmhgv
-X-ME-Proxy: <xmx:qNRpYZ0q9ZGtHATd2YhUxIqMrYBQjzVB53s_tSnM1vKMRkrbahboWw>
-    <xmx:qNRpYTH3qxQ0ugvZaysFwTNJYN5j_ngtwlDVEK2xrg2mPtyjVz9_xw>
-    <xmx:qNRpYS_iYC0LeURQ6ygQbuqVfX15P7Zut5HllshL6q3vGlHS1bhoew>
-    <xmx:qNRpYYRZkl54szaf79DXXFzad_6cPKTt_YR-W7iP8ITNTwH-PIjSdQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 15 Oct 2021 15:21:10 -0400 (EDT)
-From:   Michael Cullen <michael@michaelcullen.name>
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michael Cullen <michael@michaelcullen.name>
-Subject: [PATCH] Input: xpad - Add support for another USB ID of Nacon GC-100
-Date:   Fri, 15 Oct 2021 21:20:51 +0200
-Message-Id: <20211015192051.5196-1-michael@michaelcullen.name>
-X-Mailer: git-send-email 2.31.1
+        Fri, 15 Oct 2021 17:34:24 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED871C061570;
+        Fri, 15 Oct 2021 14:32:17 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id ls18-20020a17090b351200b001a00250584aso10235964pjb.4;
+        Fri, 15 Oct 2021 14:32:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=7mOubhrR2RQv08CrV6rhgoX1qMmGl+Auy+cOu6PWiOo=;
+        b=PUg6f/Uspd3O1AnBAx1fRwn6URKUCSIV+fP0eFp4rGviN/DBoSHpe42okpmTrudtVu
+         6jy0ER0P3sBiJ1NnM32JcSdN5e8MSI0CPBlyHAvAXmrIMg7jKbMLr07BcZqV5fhSZez6
+         go9CuOwOVmy2YEYXzZ0naOMy2fVliT0wcOkdkWOb6FykY8QEnhYaNmwN3lW+O+kX4TCJ
+         nT/IwCFoAThzH5LDt66EuWtn1A4YR2gaQHHtGbDTlSzYeBREy+pYS1/SBZR8+kil7GeV
+         DHYC15c2eXCR3mZp89M2zoMGYaJts8rw8j6vWKyVLOWpkXGHGocieyL0bJ2mqqVXLqrR
+         DWEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=7mOubhrR2RQv08CrV6rhgoX1qMmGl+Auy+cOu6PWiOo=;
+        b=12OlB5FKhWB/r4uPRqPD4yFUYHu1PtaPB/LtsxarnVy89jtKHeyS28kt5l55DbiuXV
+         yHdO0Gtl63vzwvL9/2eg5MA4LbDsk+XopjIoxsYoZV8IhlqdAkf19GYC6qGMSRjZ+6Fm
+         Pud7k0FBh28DNe6Dx3bo7LUz3ssXbo9TwRgmkdLlfcZWdocmJPC3jIYFaU3yqTg/dTdK
+         NcrIR3AtwRNLH0Zq2GlPT8Ng4tJJyoIxaILnLdUQKn5l2rZ1grc/dBluReRglPbRHvu1
+         jUyL7odZ9U6+qoB6n7sDxNlgZssDzWk7DBPkVD+I+nq+ik/x/CndNcFK5hSm0JLmiz6D
+         Z2SQ==
+X-Gm-Message-State: AOAM533KcajXaOPn1EB34QzK8MBActJip14/H3SSp/7J84UqlwuHIJwD
+        FW7TGqXCo0nupU8KluNBDkw/82L/jOQ=
+X-Google-Smtp-Source: ABdhPJwY7/CaGoCfO9bx61czZ1uxQTahnKVT/Y98ZPI+iZRwc4w4eyu5zBPgK0qOh+fvRrBJ/diTog==
+X-Received: by 2002:a17:90a:9d81:: with SMTP id k1mr30955458pjp.153.1634333537280;
+        Fri, 15 Oct 2021 14:32:17 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:6a02:4736:3b83:a269])
+        by smtp.gmail.com with ESMTPSA id d18sm5592608pgk.24.2021.10.15.14.32.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Oct 2021 14:32:16 -0700 (PDT)
+Date:   Fri, 15 Oct 2021 14:32:13 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     naib@xn--bimann-cta.de
+Cc:     linux-input@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: Re: I2C MSFT0001 (04F3:3072) touchpad is not recognized / registered
+Message-ID: <YWnzXWAhqYuJCE2Z@google.com>
+References: <20211015144714.lvp7vz7lmeku2jpj@kallisto.localdomain>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211015144714.lvp7vz7lmeku2jpj@kallisto.localdomain>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Nacon GX100XF is already mapped, but it seems there is a Nacon
-GC-100 (identified as NC5136Wht PCGC-100WHITE though I believe other
-colours exist) with a different USB ID when in XInput mode.
+Hi,
 
-Signed-off-by: Michael Cullen <michael@michaelcullen.name>
----
- drivers/input/joystick/xpad.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Fri, Oct 15, 2021 at 04:47:14PM +0200, naib@bißmann.de wrote:
+> Hello,
+> 
+> since I've upgraded my BIOS to a recent version, the touchpad on my laptop isn't recognized anymore. I suspect that Lenovo did change some id or specifier, that causes the touchpad to be thrown in the wrong driver category.
+> 
+> I am using kernel 5.15.0-rc4 on Archlinux. My hardware is Lenovo Ideapad Flex 3 11ADA05. The touchpad is from ELAN/MSFT00001? (04F3:3072). Before the mentioned BIOS upgrade, the touchpad was working with the default Archlinux kernel. Also it is currently functional while running a Windows OS. I have an old log output from dmesg [1]. I tried the following things to troubleshoot this issue:
+> - Boot without hid_multitouch, hid_elants, i2c_hid, i2c_hid_acpi
+> - Boot with CONFIG_MOUSE_ELAN_I2C & co.
+> - Boot with blacklisting init calls and modules (see links below)
+> - Tinker with i2cdetect (nothing valuable)
+> 
+> The touchscreen is at AMDI0010:00, the touchpad is at AMDI0010:01. While collecting i2c debug messages, I've found out that the client on the adapter does not register. The touchscreen is registering successfully, even when the corresponding multitouch drivers are missing (hid-multitouch, hid-elants). (Bare with me, since I'm just guessing things)
+> # The touchscreen (ok):
+> i2c_designware AMDI0010:00: using lookup tables for GPIO lookup
+> i2c_designware AMDI0010:00: No GPIO consumer scl found
+> i2c i2c-0: adapter [Synopsys DesignWare I2C adapter] registered
+> i2c i2c-0: client [ELAN238E:00] registered with bus id i2c-ELAN238E:00
+> # The touchpad (not ok):
+> i2c_designware AMDI0010:01: using lookup tables for GPIO lookup
+> i2c_designware AMDI0010:01: No GPIO consumer scl found
+> i2c i2c-1: adapter [Synopsys DesignWare I2C adapter] registered
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index d69d7657ab12..dc74c355012b 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -332,6 +332,7 @@ static const struct xpad_device {
- 	{ 0x24c6, 0x5b03, "Thrustmaster Ferrari 458 Racing Wheel", 0, XTYPE_XBOX360 },
- 	{ 0x24c6, 0x5d04, "Razer Sabertooth", 0, XTYPE_XBOX360 },
- 	{ 0x24c6, 0xfafe, "Rock Candy Gamepad for Xbox 360", 0, XTYPE_XBOX360 },
-+	{ 0x3285, 0x0607, "Nacon GC-100", 0, XTYPE_XBOX360 },
- 	{ 0x3767, 0x0101, "Fanatec Speedster 3 Forceshock Wheel", 0, XTYPE_XBOX },
- 	{ 0xffff, 0xffff, "Chinese-made Xbox Controller", 0, XTYPE_XBOX },
- 	{ 0x0000, 0x0000, "Generic X-Box pad", 0, XTYPE_UNKNOWN }
-@@ -449,6 +450,7 @@ static const struct usb_device_id xpad_table[] = {
- 	XPAD_XBOXONE_VENDOR(0x24c6),		/* PowerA Controllers */
- 	XPAD_XBOXONE_VENDOR(0x2e24),		/* Hyperkin Duke X-Box One pad */
- 	XPAD_XBOX360_VENDOR(0x2f24),		/* GameSir Controllers */
-+	XPAD_XBOX360_VENDOR(0x3285),		/* Nacon GC-100 */
- 	{ }
- };
- 
+Since we do not see I2C client being registered in the case of touchpad
+I'd start tracing drivers/i2c/i2c-core-acpi.c, functions
+i2c_acpi_add_device() and i2c_acpi_get_info() to see where the failure
+is. I guess the changes made ACPI descriptions not match with what Linux
+expects.
+
+Thanks.
+
 -- 
-2.31.1
-
+Dmitry
