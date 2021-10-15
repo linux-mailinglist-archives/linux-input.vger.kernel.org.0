@@ -2,66 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A937B42EC9E
-	for <lists+linux-input@lfdr.de>; Fri, 15 Oct 2021 10:41:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 995CA42ED13
+	for <lists+linux-input@lfdr.de>; Fri, 15 Oct 2021 11:04:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235914AbhJOInX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Oct 2021 04:43:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39164 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237235AbhJOInW (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Oct 2021 04:43:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DDEB4611C2;
-        Fri, 15 Oct 2021 08:41:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1634287276;
-        bh=kAdxWi7lhPZh6+Y8to2Q5TxPurbAjRC53PQ5fvWF+08=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AziAd0fSfqteyBGRKJxuec31+ee4K4lWuN8L82JOX6B9y2s9q38DpbG0j77B0Kgzy
-         r3aGyEUYNZM+sk1tRqeIJuvdIs+N61cuoZQWXjNEBNB1BTSZbx4CgDrua/d4j1k6t9
-         yIU2TfyBswB7ZdY77N+Xrcm3ve1rmhGSI8Q4XjqE=
-Date:   Fri, 15 Oct 2021 10:41:13 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     lianzhi chang <changlianzhi@uniontech.com>
-Cc:     linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
-        jirislaby@kernel.org, andriy.shevchenko@linux.intel.com,
-        linux-input@vger.kernel.org, 282827961@qq.com
-Subject: Re: [PATCH] input&tty: Fix the keyboard led light display problem
-Message-ID: <YWk+qaUnN+M/dX9o@kroah.com>
-References: <20211015083613.7429-1-changlianzhi@uniontech.com>
+        id S235730AbhJOJGo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Oct 2021 05:06:44 -0400
+Received: from smtpq2.tb.ukmail.iss.as9143.net ([212.54.57.97]:52932 "EHLO
+        smtpq2.tb.ukmail.iss.as9143.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236176AbhJOJGn (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 15 Oct 2021 05:06:43 -0400
+Received: from [212.54.57.105] (helo=csmtp1.tb.ukmail.iss.as9143.net)
+        by smtpq2.tb.ukmail.iss.as9143.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <gareth.randall@virgin.net>)
+        id 1mbJ8l-0001ol-VY
+        for linux-input@vger.kernel.org; Fri, 15 Oct 2021 11:04:35 +0200
+Received: from Gareths-MacBook-Air.local ([94.175.123.86])
+        by cmsmtp with ESMTPA
+        id bJ8lminNoCNEAbJ8lm8NWt; Fri, 15 Oct 2021 11:04:35 +0200
+X-Originating-IP: [94.175.123.86]
+X-Authenticated-Sender: gareth.randall@virgin.net
+X-Spam: 0
+X-Authority: v=2.4 cv=FJJ4e8ks c=1 sm=1 tr=0 ts=61694423 cx=a_exe
+ a=mwdPpgLduwvwBeoi1XfOCA==:117 a=mwdPpgLduwvwBeoi1XfOCA==:17
+ a=IkcTkHD0fZMA:10 a=8gfv0ekSlNoA:10 a=f6pUZMUfAAAA:8 a=pxEa-ggxQuoDI8LJs2gA:9
+ a=QEXdDO2ut3YA:10 a=eZImKStj3dtCS-zw9-0K:22
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virgin.net;
+        s=meg.feb2017; t=1634288675;
+        bh=Z9EnhiqfIYwYOKEtKwn0TGY7w2/AkExMFyl7fsRLUUI=;
+        h=Subject:From:To:References:Date:In-Reply-To;
+        b=k9qq9bBKozzudsrYXZ6DHx+sfGRpvVLBXPcKKtZ3PH2e+7ep9eHs7jqZ+PfYdQMDO
+         ZzUUbMeMrvXEJei+tJA1Yg7Sp9H4B7PwDfa6psSEOWB+8rUI5yik43cWrFi1X11m0Y
+         OKEwva4Jjl5NXSQWj3uWJFAu2QkzXlkeJqHcI0OAZEMAlIpCtmatLrpgHzhQ2Ed9R8
+         xrUIz62acxuK9EFuXWHEnycnvXWCYhWppDwkQjJHO4f7ICVKduFksIj5DFrV1GkD4D
+         EXB8NiStQlktmDYSLlt2DhV+oP7gu0H6ksoAZAaOZXaRJYTqmcKQdBTFXkLWAdIQnU
+         h5bEwrcuUbgLA==
+Subject: Re: [PATCH RESEND 1/1] Add support for touch screens using the
+ General Touch ST6001S controller.
+From:   Gareth Randall <gareth.randall@virgin.net>
+To:     linux-input@vger.kernel.org
+References: <b7687459-1665-eb1c-b8ad-2bb37b7136ac@virgin.net>
+Message-ID: <3083b553-38f1-7061-a8cb-8bbd423913a3@virgin.net>
+Date:   Fri, 15 Oct 2021 10:04:35 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211015083613.7429-1-changlianzhi@uniontech.com>
+In-Reply-To: <b7687459-1665-eb1c-b8ad-2bb37b7136ac@virgin.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfB+HRc249w01V0b9A4xVNgBSP+FQmyUaVstra8+Kyzs/5U7rWXq7hScqZwxXi8N/SURqe7mw+U09uR7+FLLNdzDCUNg6WNw7WPDY19zGvKjrVl0XYaxX
+ 5pYirnayt7lIeFyD8jUkyKWya9SXODk+AZ64B3kDpoXGM8Z217ILXedoCbxvj1JqTTE4PtwlONG5AHm6QODmhzLXKy5uM5zE/hMY5C4r3HS+8bt7dZ5dEukm
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 15, 2021 at 04:36:13PM +0800, lianzhi chang wrote:
-> Switching from the desktop environment to the tty environment,
-> the state of the keyboard led lights and the state of the keyboard
-> lock are inconsistent. This is because the attribute kb->kbdmode
-> of the tty bound in the desktop environment (xorg) is set to
-> VC_OFF, which causes the ledstate and kb->ledflagstate
-> values of the bound tty to always be 0, which causes the switch
-> from the desktop When to the tty environment, the LED light
-> status is inconsistent with the keyboard lock status.
+On 03/10/2021 22:54, Gareth Randall wrote:
+> Add support for touch screens using the General Touch ST6001S
+> controller, as found in the GPEG model AOD22WZ-ST monitor.
+> This controller can output the ELO 10-byte protocol,
+> but requires different initialisation.
 > 
-> Signed-off-by: lianzhi chang <changlianzhi@uniontech.com>
+> Signed-off-by: Gareth Randall <gareth@garethrandall.com>
 > ---
-> The latest changes:
-> (1) Move the definition of ledstate to the input module (/drivers/input/input.c), 
-> and set or get its value through the input_update_ledstate and input_get_ledstate 
-> functions.
-> (2) To update the ledstate reference in keyboard.c, you must first get the value 
-> through input_get_ledstate.
-> (3) Other necessary changes
+>   drivers/input/touchscreen/elo.c | 58 +++++++++++++++++++++++++++++++++
+>   1 file changed, 58 insertions(+)
 
-You have not changed the subject line at all.
+Hi,
 
-Look at how others submit patches that are new versions on the mailing
-list, and most importantly, read the documentation we have about this.
+I'm seeking feedback on this patch. I just wondered whether I have made 
+any mistakes in the submission, or whether the maintainers are just very 
+busy (most likely explanation!)
 
-thanks,
+I know that this does not appear properly in patchwork even though I 
+have attempted to recreate the exact format of a [PATCH] email, but I 
+don't want to send duplicate attempts. I've checked that there are no 
+wrapped lines in the email message. Is there a test suite that is 
+failing that I'm not aware of, or conventions I'm not following?
 
-greg k-h
+Thanks for any feedback.
+
+Yours,
+
+Gareth
