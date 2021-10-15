@@ -2,79 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8748842E684
-	for <lists+linux-input@lfdr.de>; Fri, 15 Oct 2021 04:28:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9986642E6D6
+	for <lists+linux-input@lfdr.de>; Fri, 15 Oct 2021 04:50:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235001AbhJOCap (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Oct 2021 22:30:45 -0400
-Received: from mx22.baidu.com ([220.181.50.185]:51886 "EHLO baidu.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234986AbhJOCao (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Oct 2021 22:30:44 -0400
-Received: from BC-Mail-Ex26.internal.baidu.com (unknown [172.31.51.20])
-        by Forcepoint Email with ESMTPS id C5B1299473A1198EF05A;
-        Fri, 15 Oct 2021 10:28:32 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex26.internal.baidu.com (172.31.51.20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Fri, 15 Oct 2021 10:28:32 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Fri, 15 Oct 2021 10:28:31 +0800
-From:   Cai Huoqing <caihuoqing@baidu.com>
-To:     <killertofu@gmail.com>, <Ping.Cheng@wacom.com>
-CC:     <jikos@kernel.org>, <caihuoqing@baidu.com>,
-        <benjamin.tissoires@redhat.com>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <Jason.Gerecke@wacom.com>,
-        <skomra@gmail.com>, <joshua.dickens@wacom.com>
-Subject: [PATCH v2 2/2] HID: wacom: Make use of the helper function devm_add_action_or_reset()
-Date:   Fri, 15 Oct 2021 10:28:03 +0800
-Message-ID: <20211015022803.3827-2-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211015022803.3827-1-caihuoqing@baidu.com>
-References: <20211015022803.3827-1-caihuoqing@baidu.com>
+        id S232810AbhJOCwS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Oct 2021 22:52:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39764 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232508AbhJOCwS (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 14 Oct 2021 22:52:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 77B556058D;
+        Fri, 15 Oct 2021 02:50:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634266212;
+        bh=35DWHl+JySftzS4Y3e4mAQiDM8CSOe5+kSzV+ngTpCg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PbaeDjLg32udurJCPxIVccSkg6HgB4Owy2IrABXJs7966Plv0ff1AvkAOpFN/szI0
+         ZtWRofn7g498/tibqHbzBefaXYhOiZzspROwRnluU1i/+/vQ8bubJcONGn+OBkrzVo
+         fS26hvwZl7Fw0mT1J6PXHs1u3VxKZNei3UERtcUp3Yzc1hQccUfLioDxS6TqXffE/2
+         e7NUZLG4aArNZMdBvfmD/y+pzCCSLySrLbUCAQCcP5cpXScVLnXELiX8JEtgIx26GD
+         Rf7f/IXFXtKZCLwuyOu0WDXW1I/TbT28mYETuX9QsQl9gAUiRtl8nV9Dfc/CIYXMcf
+         ngIYoGuDuRHOA==
+Date:   Fri, 15 Oct 2021 10:50:05 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Alistair Francis <alistair@alistair23.me>
+Cc:     dmitry.torokhov@gmail.com, s.hauer@pengutronix.de,
+        linux-imx@nxp.com, jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        alistair23@gmail.com
+Subject: Re: [PATCH v11 3/4] ARM: imx_v6_v7_defconfig: Enable HID I2C
+Message-ID: <20211015025005.GG10197@dragon>
+References: <20211009114313.17967-1-alistair@alistair23.me>
+ <20211009114313.17967-3-alistair@alistair23.me>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex31.internal.baidu.com (172.31.51.25) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211009114313.17967-3-alistair@alistair23.me>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The helper function devm_add_action_or_reset() will internally
-call devm_add_action(), and if devm_add_action() fails then it will
-execute the action mentioned and return the error code. So
-use devm_add_action_or_reset() instead of devm_add_action()
-to simplify the error handling, reduce the code.
+On Sat, Oct 09, 2021 at 09:43:12PM +1000, Alistair Francis wrote:
+> Enable HID I2C in the imx defconfig as it is used for a HID compliant
+> wacom device on the reMarkable2 tablet.
+> 
+> Signed-off-by: Alistair Francis <alistair@alistair23.me>
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
-v1->v2:
-	*Sort to patch series with [PATCH v2 1/2] from Jason
-
- drivers/hid/wacom_sys.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-index 62f50e4b837d..2717d39600b4 100644
---- a/drivers/hid/wacom_sys.c
-+++ b/drivers/hid/wacom_sys.c
-@@ -894,11 +894,9 @@ static int wacom_add_shared_data(struct hid_device *hdev)
- 
- 	wacom_wac->shared = &data->shared;
- 
--	retval = devm_add_action(&hdev->dev, wacom_remove_shared_data, wacom);
--	if (retval) {
--		wacom_remove_shared_data(wacom);
-+	retval = devm_add_action_or_reset(&hdev->dev, wacom_remove_shared_data, wacom);
-+	if (retval)
- 		return retval;
--	}
- 
- 	if (wacom_wac->features.device_type & WACOM_DEVICETYPE_TOUCH)
- 		wacom_wac->shared->touch = hdev;
--- 
-2.25.1
-
+Applied, thanks!
