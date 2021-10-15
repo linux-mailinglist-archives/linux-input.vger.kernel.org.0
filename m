@@ -2,83 +2,139 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC79142EEA3
-	for <lists+linux-input@lfdr.de>; Fri, 15 Oct 2021 12:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10C0D42EF51
+	for <lists+linux-input@lfdr.de>; Fri, 15 Oct 2021 13:07:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231871AbhJOKSO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Oct 2021 06:18:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45506 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237936AbhJOKSN (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Oct 2021 06:18:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CA6466101E;
-        Fri, 15 Oct 2021 10:16:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1634292967;
-        bh=ENS+gbfMkK4bdqfhnKDhAV6PyJn5YD2/qxDu/E5iwkA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZXZGmFMwyPNcdI8NrGBvjMZMXwgo3W2xmRf/ZqXUfWmSuQJzfwasE3nTs2I67xmWc
-         zu84MhNlu6yvWgMLJ0kZ5H4QQ8L2Nul7KnRJ0q5Ml+8fCf3nx+NwQjuO7PeQvOSkZs
-         iHdL/KtceqAdmP04Vy3XxoHw3vLgDYrSYJWAbEKQ=
-Date:   Fri, 15 Oct 2021 12:16:04 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     changlianzhi <changlianzhi@uniontech.com>
-Cc:     linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
-        jirislaby@kernel.org, andriy.shevchenko@linux.intel.com,
-        linux-input@vger.kernel.org, 282827961@qq.com
-Subject: Re: [PATCH] input&tty: Fix the keyboard led light display problem
-Message-ID: <YWlU5AJ4MzNv2qw6@kroah.com>
-References: <20211015083613.7429-1-changlianzhi@uniontech.com>
- <YWk+qaUnN+M/dX9o@kroah.com>
- <616942b2.1c69fb81.dfbff.25afSMTPIN_ADDED_BROKEN@mx.google.com>
+        id S238275AbhJOLKA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Oct 2021 07:10:00 -0400
+Received: from mail-eopbgr1300118.outbound.protection.outlook.com ([40.107.130.118]:14625
+        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S238226AbhJOLKA (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 15 Oct 2021 07:10:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IZKA+j6AW0HRi0drmlGaWcoy3A39NUBONlCvdLA+L7ormsT7bcdN15urWTmUl8zDxlAlt+uq1Hm/U3VfWA4Oc+IQa56FJK5mGWXtvENywVIYbQ4TW4E3l7egFmLYWjuIdcRaYHZ115/pEteIQKX22hAuUiTaGlLR/23pdeOP4G7rUAkXTZFfr1geqzgB+w4MDbDhxKszz6RlN6P5UqBE9t2tQublPtyJ7byqIcw7DqJ5AulKH7jPtRWIvCPAzA0nGdrhrJrlr04dAJP2QC+4OQ1T8KCur75Gq61cLU2xvHBfP3FQszkmFA/ZyhReFOjuqWlxLpXPhqiMdZ7O2wPqGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gvSfJuAAT7wCh36OnWTf9Rb6V3j/2JcRcU/mITV9go8=;
+ b=AqLbjKOrxM0sFQYBvmeihObAJ3mcMucepOgpLazssp/HF+tm4qErIrccRELtqYiebFy2xcB47M+AUze/T/WonEBmYJfXgvCHQ1+ClCdelHWtB/o9Q2p2qLkMGOApoiC+I2JnHjQTm2LLFPFFkpZ6XmsXNmtNe8SoEjMsRptr+HtwiAEjHOk285n9vN4OF1TBngp+dQYYKK+I/MCcwJoqzSindOzR7yARSPSSfN5gGVAPO5zeCCu+U4ESWASfR6ZSRL+otGwuuDAgemMoHYBCFukjfsMNEqVvSVOhzyoe94JAQNYsineeaBNSWE5GM+c8Fx2F8jBE924A9H3sEvG9mw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gvSfJuAAT7wCh36OnWTf9Rb6V3j/2JcRcU/mITV9go8=;
+ b=im74aStsJaKHd5uRxHkT1jyBCefJ7pvW4zCQHli2Vmtpx30TTdvuwqetYgu2qsAe6S+8e2DWflfapJEBobA5mpxWJL3noAjWi3lZnuNxCtsyf18hpVRsbQtP90XNRtdI/UGOZdsraCjDIGmczYMrzvbUVW9RzxhXej5wfqfs3Ew=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=vivo.com;
+Received: from SL2PR06MB3082.apcprd06.prod.outlook.com (2603:1096:100:37::17)
+ by SL2PR06MB3212.apcprd06.prod.outlook.com (2603:1096:100:3b::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.17; Fri, 15 Oct
+ 2021 11:07:50 +0000
+Received: from SL2PR06MB3082.apcprd06.prod.outlook.com
+ ([fe80::4c9b:b71f:fb67:6414]) by SL2PR06MB3082.apcprd06.prod.outlook.com
+ ([fe80::4c9b:b71f:fb67:6414%6]) with mapi id 15.20.4608.017; Fri, 15 Oct 2021
+ 11:07:50 +0000
+From:   Qing Wang <wangqing@vivo.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        =?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-iio@vger.kernel.org
+Cc:     Qing Wang <wangqing@vivo.com>
+Subject: [PATCH V2 0/5] hid: replace snprintf in show functions with sysfs_emit
+Date:   Fri, 15 Oct 2021 04:07:27 -0700
+Message-Id: <1634296054-6971-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR02CA0172.apcprd02.prod.outlook.com
+ (2603:1096:201:1f::32) To SL2PR06MB3082.apcprd06.prod.outlook.com
+ (2603:1096:100:37::17)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <616942b2.1c69fb81.dfbff.25afSMTPIN_ADDED_BROKEN@mx.google.com>
+Received: from ubuntu.localdomain (103.220.76.181) by HK2PR02CA0172.apcprd02.prod.outlook.com (2603:1096:201:1f::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4608.16 via Frontend Transport; Fri, 15 Oct 2021 11:07:49 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7c90caca-5c2c-4915-b671-08d98fcc06e2
+X-MS-TrafficTypeDiagnostic: SL2PR06MB3212:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SL2PR06MB321246E8F25A9EBC905FE664BDB99@SL2PR06MB3212.apcprd06.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sEXGBMKHg6UTZWbquFZ33LafLkYV7Rzxfu0jNvxn3wD+RjOb8PYevNyT1l8BpOe+4fmFGirhKEKfoNLkT9JrdWwg65MiFVTrqEnw76ekIoVTHxY84w4GdHw6RKmsXE2dHpw4m9uTwCS9eA8ZnX9wXy1/oTWCGNLTjMFmfYQFZxc+ZhM23vkT5ORvFlpbNjJgypO/zQJqU+le1g2JxbJ/VRI7V2P3suF4QmCbCr735ABxT1Sj0uzS0rVik+nOo0yrIpOV6bwdw16Y+r9X52Kw/l7flufNgaxBgBIH+74So96UB1l2XyP3KyHI07CWFE+N7Qfozkx3fCTUrH6BGUvRoM7JMuRLlF+j4+2EYX70EC+pkVNp7zG2DUzG0KieJEdmDMHW277468nWVQxts2/w0vjcMmIUmOC9cx5vChyXiytxhKvRuWQtASsEVO3YTa2ZwKS8cs7rnQ8+Dynrd0+ik+ckFvN3Tt6lLXkbq/I1J3ppqKRRCli2+8nqAhjazcw8KpbNNKXyiCuDCueumIoMbhF6qWl3jezeJZfRdSpDqvq65jxHAVBgHM85FTHSvCvWF2nkzsNqMHuswDyW/wGM3MI12Qqy1nOgZqjj6dEPyleZwSOawn4fhMIl9vipFox3MK7jKypHMrbHRGLIfOiGphKyY3sWlpVYpjk+UJIFWMAA8MKslgaraCxB/AXn9mX6
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2PR06MB3082.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(956004)(508600001)(2616005)(6506007)(110136005)(316002)(107886003)(86362001)(4326008)(5660300002)(2906002)(6486002)(26005)(52116002)(8676002)(8936002)(6512007)(186003)(38350700002)(38100700002)(83380400001)(6666004)(66946007)(36756003)(66556008)(66476007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yNyhH2ny8I8QvOJzQD0bhKGUpXOEj5PFNMM37SYcxeiNHJFJThMU59W+niSR?=
+ =?us-ascii?Q?m7d4pfveMifkJtRc/NagGU0A9maq8SUAYyhoZPDRSYXWbYKzwtdS5eTI+gpN?=
+ =?us-ascii?Q?UawWWe0fLxTJEhH6/Xd5QEDvebbOdr+A6AiLpvdeSEnBokJP75chmKy2/A7E?=
+ =?us-ascii?Q?odq/osPcMY2Xs8hGiC04Kfazc7DV4G41soFiRSIiPnISEJx6hASGPmJ5vGXp?=
+ =?us-ascii?Q?EusjUvPFAwxGDzNME5hHeJCf2w0a+42Tr5p9I1eoALGbjoEDT6MigrZZzJVQ?=
+ =?us-ascii?Q?aVXBrNnLuM83idzZwmO+g6gx+U9neCBIrnU97efbeGYR1rlws+zhSZL7t1lh?=
+ =?us-ascii?Q?VIIF4SVRc7mxbrpNLbHVYPVjVYO4u2O2B6edcHGMTs0RQbMq+SYQDUAMtXTV?=
+ =?us-ascii?Q?pfPyGQKTbUpvRO5JNotgv7jD4OncaZFt8PDFwBUhMZOLhLjQxfUWu8KpswQO?=
+ =?us-ascii?Q?2pVB3vqG+zN0ilL7aASLhgI1KvANNUoe31qQhj3YPwO0Rm/zKO45sawpDBep?=
+ =?us-ascii?Q?jAguQH7J4Eh8WASzeO3yf3liDmwFBaRvPrY7i2ECS7O0r3dYx8roGw5IXbBY?=
+ =?us-ascii?Q?NbOy/3ydwnyrGcT7TEAoarEJwIbzRl2CA9JzUoyt4ZmESuN0bT+uKVtpDm4H?=
+ =?us-ascii?Q?18UPw9MEAv3XHXbbM0jVT6xXcdad/Sr+5koSdDTVijWBeD8Zk5+T2K9e/ioa?=
+ =?us-ascii?Q?JAX286paSftQkylO+qaBOEL9AlFFcweWmeQ/lBAFmXEmHtZ1BoADSBX24fSV?=
+ =?us-ascii?Q?xsk5B6l9r/C9CllOY5EmJJ1OTKyyAnpwITOhJql80WzmomsDe/VSKUh1moti?=
+ =?us-ascii?Q?/Yf4A98h4qvzLbCblWCovX0yKloJEarLdXzAVBz1RrZdSQEdDSYE62SujHpf?=
+ =?us-ascii?Q?V6w1Cy8e/6VLnBOD3X4kyOag8Ouet/e0FxcgTwuxqK9xv+vS8EYFr4W2O1lB?=
+ =?us-ascii?Q?RZCJkdCLrizg1ddqRvwidwsu5sJwgYyGlDNu/LnnJXnAl6TsSpa5c+1b/DWt?=
+ =?us-ascii?Q?VJVsO65jeyqmatfQ8xhCo4gdd8f1WK7dwxQhvVqrL06r0kN+PjIGpDdRLhHo?=
+ =?us-ascii?Q?HJdJuWBANo8oqToeoNlncQToASz36Z/BC5/FDARZ3v9gFFDXOVNXNVo4nSu/?=
+ =?us-ascii?Q?BM1EOxwqCN68XgjG3ropi9yZW+36bQONL6HK4RpZA+ZB1L41DdkAfTaeV8ss?=
+ =?us-ascii?Q?TkUkrnNdmVrdiPUKX1iP3qIIUFJV6HsTS0HpTRE9tHpRLCULX26nv3QJdRRH?=
+ =?us-ascii?Q?52c0MSh9Z+i4W7zwXXwco5hNzgfsA2MjunRcG/6v1gl1Fo2qsiGmAkV0ZAhq?=
+ =?us-ascii?Q?p1OoHd+E+AFOm2eY04RLkCnv?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c90caca-5c2c-4915-b671-08d98fcc06e2
+X-MS-Exchange-CrossTenant-AuthSource: SL2PR06MB3082.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2021 11:07:50.3476
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Pqzm7MLeW2m+ZSlvmwKKHFFXjEvjWgTrIc2u3hszTrnCHlC2bi7lexWilbiuA+wzoRuNlfquFBbrKZE/dhr1JA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2PR06MB3212
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 15, 2021 at 04:57:17PM +0800, changlianzhi wrote:
-> 
-> On 2021/10/15 下午4:41, Greg KH wrote:
-> > On Fri, Oct 15, 2021 at 04:36:13PM +0800, lianzhi chang wrote:
-> > > Switching from the desktop environment to the tty environment,
-> > > the state of the keyboard led lights and the state of the keyboard
-> > > lock are inconsistent. This is because the attribute kb->kbdmode
-> > > of the tty bound in the desktop environment (xorg) is set to
-> > > VC_OFF, which causes the ledstate and kb->ledflagstate
-> > > values of the bound tty to always be 0, which causes the switch
-> > > from the desktop When to the tty environment, the LED light
-> > > status is inconsistent with the keyboard lock status.
-> > > 
-> > > Signed-off-by: lianzhi chang <changlianzhi@uniontech.com>
-> > > ---
-> > > The latest changes:
-> > > (1) Move the definition of ledstate to the input module (/drivers/input/input.c),
-> > > and set or get its value through the input_update_ledstate and input_get_ledstate
-> > > functions.
-> > > (2) To update the ledstate reference in keyboard.c, you must first get the value
-> > > through input_get_ledstate.
-> > > (3) Other necessary changes
-> > You have not changed the subject line at all.
-> > 
-> > Look at how others submit patches that are new versions on the mailing
-> > list, and most importantly, read the documentation we have about this.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> 
-> Sorry, because the emails I send using the mail client are always bounced
-> back, I can only use git send-email to send emails. Haven't found a way to
-> modify the theme. very sorry.
+According to Documentation/filesystems/sysfs.txt:
+show() methods of device attributes should return the number
+of bytes printed into the buffer. This is the return value of 
+scnprintf(). snprintf() returns the length the resulting string.
 
-git send-email works just for for v2 and so on, it will send whatever
-you make the patch text file to look like.
+So, show() should not use snprintf() when formatting 
+the value to be returned to user space. 
+Also, use sysfs_emit directly makes more sense.
 
-thanks,
+Qing Wang (5):
+  hid-lenovo: replace snprintf in show functions with sysfs_emit
+  hid-picolcd: replace snprintf in show functions with sysfs_emit
+  hid-roccat: replace snprintf in show functions with sysfs_emit
+  hid-sensor: replace snprintf in show functions with sysfs_emit
+  hid-sony: replace snprintf in show functions with sysfs_emit
 
-greg k-h
+ drivers/hid/hid-lenovo.c          | 16 ++++++++--------
+ drivers/hid/hid-picolcd_core.c    |  6 +++---
+ drivers/hid/hid-roccat-isku.c     |  2 +-
+ drivers/hid/hid-roccat-kone.c     | 12 ++++++------
+ drivers/hid/hid-roccat-koneplus.c |  4 ++--
+ drivers/hid/hid-roccat-kovaplus.c | 10 +++++-----
+ drivers/hid/hid-roccat-pyra.c     |  6 +++---
+ drivers/hid/hid-sensor-custom.c   |  2 +-
+ drivers/hid/hid-sony.c            |  6 +++---
+ 9 files changed, 32 insertions(+), 32 deletions(-)
+
+-- 
+2.7.4
+
