@@ -2,63 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7814142EE6D
-	for <lists+linux-input@lfdr.de>; Fri, 15 Oct 2021 12:07:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4457042F431
+	for <lists+linux-input@lfdr.de>; Fri, 15 Oct 2021 15:48:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237818AbhJOKJc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Oct 2021 06:09:32 -0400
-Received: from mga04.intel.com ([192.55.52.120]:29528 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237638AbhJOKJN (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Oct 2021 06:09:13 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10137"; a="226661320"
-X-IronPort-AV: E=Sophos;i="5.85,375,1624345200"; 
-   d="scan'208";a="226661320"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2021 03:07:04 -0700
-X-IronPort-AV: E=Sophos;i="5.85,375,1624345200"; 
-   d="scan'208";a="442474635"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.72.159])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2021 03:07:02 -0700
-Received: from andy by smile with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1mbMvA-000OuS-Cu;
-        Fri, 15 Oct 2021 16:06:48 +0300
-Date:   Fri, 15 Oct 2021 16:06:48 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     changlianzhi <changlianzhi@uniontech.com>
-Cc:     linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
-        gregkh@linuxfoundation.org, jirislaby@kernel.org,
-        linux-input@vger.kernel.org, 282827961@qq.com
-Subject: Re: [PATCH] input&tty: Fix the keyboard led light display problem
-Message-ID: <YWl86Jlv8Qs5PzXW@smile.fi.intel.com>
-References: <35696980-2a55-c5c1-3fa9-eadf251dcdde@uniontech.com>
+        id S240043AbhJONu1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Oct 2021 09:50:27 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3980 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239718AbhJONu0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 15 Oct 2021 09:50:26 -0400
+Received: from fraeml742-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4HW6wJ4zr0z67QNS;
+        Fri, 15 Oct 2021 21:45:20 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml742-chm.china.huawei.com (10.206.15.223) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Fri, 15 Oct 2021 15:48:18 +0200
+Received: from localhost (10.202.226.41) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Fri, 15 Oct
+ 2021 14:48:17 +0100
+Date:   Fri, 15 Oct 2021 14:48:16 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Qing Wang <wangqing@vivo.com>
+CC:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bruno =?ISO-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>
+Subject: Re: [PATCH V2 4/5] hid-sensor: replace snprintf in show functions
+ with sysfs_emit
+Message-ID: <20211015144816.0000520f@Huawei.com>
+In-Reply-To: <1634296054-6971-5-git-send-email-wangqing@vivo.com>
+References: <1634296054-6971-1-git-send-email-wangqing@vivo.com>
+        <1634296054-6971-5-git-send-email-wangqing@vivo.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <35696980-2a55-c5c1-3fa9-eadf251dcdde@uniontech.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.226.41]
+X-ClientProxiedBy: lhreml727-chm.china.huawei.com (10.201.108.78) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 15, 2021 at 04:16:35PM +0800, changlianzhi wrote:
-> Switching from the desktop environment to the tty environment,
-> the state of the keyboard led lights and the state of the keyboard
-> lock are inconsistent. This is because the attribute kb->kbdmode
-> of the tty bound in the desktop environment (xorg) is set to
-> VC_OFF, which causes the ledstate and kb->ledflagstate
-> values of the bound tty to always be 0, which causes the switch
-> from the desktop When to the tty environment, the LED light
-> status is inconsistent with the keyboard lock status.
+On Fri, 15 Oct 2021 04:07:31 -0700
+Qing Wang <wangqing@vivo.com> wrote:
 
-Have you even read what others tell you?!
+> show() should not use snprintf() when formatting the value to be returned 
+> to user space, snprintf() returns the length the resulting string and 
+> scnprintf() returns the number of bytes printed into the buffer.
+> 
+> Fix the coccicheck warnings:
+> WARNING: use scnprintf or sprintf.
+> 
+> Use sysfs_emit() instead of scnprintf() makes more sense.
+> 
+> Signed-off-by: Qing Wang <wangqing@vivo.com>
+> ---
+>  drivers/hid/hid-sensor-custom.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
+> index 32c2306..a46481d6 100644
+> --- a/drivers/hid/hid-sensor-custom.c
+> +++ b/drivers/hid/hid-sensor-custom.c
+> @@ -371,7 +371,7 @@ static ssize_t show_value(struct device *dev, struct device_attribute *attr,
+>  				     sizeof(struct hid_custom_usage_desc),
+>  				     usage_id_cmp);
+>  		if (usage_desc)
+> -			return snprintf(buf, PAGE_SIZE, "%s\n",
+> +			return sysfs_emit(buf, "%s\n",
+>  					usage_desc->desc);
 
-If you continue this way, I think it will be guaranteed that your email
-ends up in a ban list.
+Now easily short enough that this can go on one line.
 
--- 
-With Best Regards,
-Andy Shevchenko
+>  		else
+>  			return sprintf(buf, "not-specified\n");
+Whilst of course not necessary, it might be nicer to use sysfs_emit here as well for
+consistency.
 
+Otherwise looks good to me.
+
+Jonathan
 
