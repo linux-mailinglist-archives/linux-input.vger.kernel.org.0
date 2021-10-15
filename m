@@ -2,249 +2,224 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE9FF42E6E8
-	for <lists+linux-input@lfdr.de>; Fri, 15 Oct 2021 04:58:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6813342E93A
+	for <lists+linux-input@lfdr.de>; Fri, 15 Oct 2021 08:46:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233990AbhJODA2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Oct 2021 23:00:28 -0400
-Received: from mx24.baidu.com ([111.206.215.185]:41964 "EHLO baidu.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233900AbhJODA1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Oct 2021 23:00:27 -0400
-Received: from BC-Mail-Ex14.internal.baidu.com (unknown [172.31.51.54])
-        by Forcepoint Email with ESMTPS id 292F8561FA9345774D2A;
-        Fri, 15 Oct 2021 10:58:16 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex14.internal.baidu.com (172.31.51.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Fri, 15 Oct 2021 10:58:16 +0800
-Received: from localhost (172.31.63.8) by BJHW-MAIL-EX27.internal.baidu.com
- (10.127.64.42) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Fri, 15
- Oct 2021 10:58:15 +0800
-Date:   Fri, 15 Oct 2021 10:58:15 +0800
-From:   Cai Huoqing <caihuoqing@baidu.com>
-To:     Jason Gerecke <killertofu@gmail.com>
-CC:     "Cheng, Ping" <Ping.Cheng@wacom.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Linux Input <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Gerecke, Jason" <Jason.Gerecke@wacom.com>,
-        Aaron Skomra <skomra@gmail.com>,
-        "Dickens, Joshua" <joshua.dickens@wacom.com>
-Subject: Re: [PATCH] HID: wacom: Make use of the helper function
- devm_add_action_or_reset()
-Message-ID: <20211015025815.GA3874@LAPTOP-UKSR4ENP.internal.baidu.com>
-References: <20210922125939.427-1-caihuoqing@baidu.com>
- <nycvar.YFH.7.76.2110071338010.29107@cbobk.fhfr.pm>
- <CANRwn3SZagP7uCSHVDGMPMqQiKyUQJSjq143_DA1y0UPvsmkAA@mail.gmail.com>
- <DB6PR07MB4278FF50AB23B9B69411CA3B9BB19@DB6PR07MB4278.eurprd07.prod.outlook.com>
- <CANRwn3TTgZ9+T7h81tNShvEB8QWkrbKLPrQSnviFKMHa8Zga_Q@mail.gmail.com>
+        id S235629AbhJOGsK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Oct 2021 02:48:10 -0400
+Received: from smtpbg703.qq.com ([203.205.195.89]:46116 "EHLO
+        smtpproxy21.qq.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S235645AbhJOGsJ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 15 Oct 2021 02:48:09 -0400
+X-QQ-mid: bizesmtp47t1634280347twvqe95z
+Received: from localhost.localdomain (unknown [113.57.152.160])
+        by esmtp6.qq.com (ESMTP) with 
+        id ; Fri, 15 Oct 2021 14:45:40 +0800 (CST)
+X-QQ-SSF: B1400000002000B0D000000B0000000
+X-QQ-FEAT: vsfsx1ezZ8QUhBPnLmbYfusF+NWsNPdBnJK3FS7ph9LrqwdBiVti3RIiVna8X
+        TIJwUq9W3K8Usw6fvV87MCjkAHGhbdXIo/Cm8Ctd246jv5Z47IEXDzbnKse0WLV0XoZK97R
+        kmG25RyWERSPq9cBSycB/YkugV3WddxKN0e/p38xc/tk4OsmKbXDH/80A25HBcT3d60DvAh
+        0ATkhxWfUoMGyCtvkATlyegc0Y2ixCvmmDAsUsYnA5pXMy/tVheeBVKT97dw79HY04nxTyY
+        KiCw559JZVrTOC74JesxPZg+1hvWZuu9y9g2C34B+kHae5uUJCNMH5hQXVzJlngb0S3rBrH
+        VZKH5XMRuqXZb1bJoRiBXVJgpruGe+CeGivyYkp0pT7LNY+zgs=
+X-QQ-GoodBg: 1
+From:   lianzhi chang <changlianzhi@uniontech.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, andriy.shevchenko@linux.intel.com,
+        linux-input@vger.kernel.org, 282827961@qq.com,
+        lianzhi chang <changlianzhi@uniontech.com>
+Subject: [PATCH] input&tty: Fix the keyboard led light display problem
+Date:   Fri, 15 Oct 2021 14:45:34 +0800
+Message-Id: <20211015064534.26260-1-changlianzhi@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANRwn3TTgZ9+T7h81tNShvEB8QWkrbKLPrQSnviFKMHa8Zga_Q@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex31.internal.baidu.com (172.31.51.25) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign2
+X-QQ-Bgrelay: 1
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 14 10月 21 10:31:03, Jason Gerecke wrote:
-> I've attached an RFC patch which shrinks the critical section as I
-> previously described. This would be applied prior to Cai's patch.
-Hi Jason,
+Switching from the desktop environment to the tty environment,
+the state of the keyboard led lights and the state of the keyboard
+lock are inconsistent. This is because the attribute kb->kbdmode
+of the tty bound in the desktop environment (xorg) is set to
+VC_OFF, which causes the ledstate and kb->ledflagstate
+values of the bound tty to always be 0, which causes the switch
+from the desktop When to the tty environment, the LED light
+status is inconsistent with the keyboard lock status.
+
+Signed-off-by: lianzhi chang <changlianzhi@uniontech.com>
+---
+ drivers/input/input.c     | 46 ++++++++++++++++++++++++++++++++++++++-
+ drivers/tty/vt/keyboard.c | 19 ++++++++++++++--
+ include/linux/input.h     |  3 +++
+ 3 files changed, 65 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index ccaeb2426385..8c0ef947ac34 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -37,6 +37,11 @@ static DEFINE_IDA(input_ida);
+ static LIST_HEAD(input_dev_list);
+ static LIST_HEAD(input_handler_list);
+ 
++#define VC_SCROLLOCK	0	/* scroll-lock mode */
++#define VC_NUMLOCK	1	/* numeric lock mode */
++#define VC_CAPSLOCK	2	/* capslock mode */
++static unsigned int ledstate = -1U;			/* undefined */
++
+ /*
+  * input_mutex protects access to both input_dev_list and input_handler_list.
+  * This also causes input_[un]register_device and input_[un]register_handler
+@@ -472,8 +477,12 @@ void input_inject_event(struct input_handle *handle,
+ 
+ 		rcu_read_lock();
+ 		grab = rcu_dereference(dev->grab);
+-		if (!grab || grab == handle)
++		if (!grab || grab == handle) {
+ 			input_handle_event(dev, type, code, value);
++
++			if (type == EV_LED && code <= LED_SCROLLL)
++				input_update_ledstate(code, value);
++		}
+ 		rcu_read_unlock();
+ 
+ 		spin_unlock_irqrestore(&dev->event_lock, flags);
+@@ -481,6 +490,41 @@ void input_inject_event(struct input_handle *handle,
+ }
+ EXPORT_SYMBOL(input_inject_event);
+ 
++void input_update_ledstate(unsigned int flag, unsigned int value)
++{
++	unsigned int bit;
++
++	switch (flag) {
++	case LED_NUML:
++		bit = VC_NUMLOCK;
++		break;
++	case LED_CAPSL:
++		bit = VC_CAPSLOCK;
++		break;
++	case LED_SCROLLL:
++		bit = VC_SCROLLOCK;
++		break;
++	default:
++		WARN_ON_ONCE(1);
++		return;
++	}
++
++	if (ledstate == -1U)
++		ledstate = 0;
++
++	if (value)
++		ledstate |= BIT(bit);
++	else
++		ledstate &= ~BIT(bit);
++}
++EXPORT_SYMBOL(input_update_ledstate);
++
++unsigned int input_get_ledstate(void)
++{
++	return ledstate;
++}
++EXPORT_SYMBOL(input_get_ledstate);
++
+ /**
+  * input_alloc_absinfo - allocates array of input_absinfo structs
+  * @dev: the input device emitting absolute events
+diff --git a/drivers/tty/vt/keyboard.c b/drivers/tty/vt/keyboard.c
+index c7fbbcdcc346..0cfccb1d7992 100644
+--- a/drivers/tty/vt/keyboard.c
++++ b/drivers/tty/vt/keyboard.c
+@@ -151,7 +151,6 @@ static bool rep;			/* flag telling character repeat */
+ 
+ static int shift_state = 0;
+ 
+-static unsigned int ledstate = -1U;			/* undefined */
+ static unsigned char ledioctl;
+ 
+ /*
+@@ -1021,10 +1020,14 @@ struct kbd_led_trigger {
+ 
+ static int kbd_led_trigger_activate(struct led_classdev *cdev)
+ {
++	unsigned int ledstate;
++
+ 	struct kbd_led_trigger *trigger =
+ 		container_of(cdev->trigger, struct kbd_led_trigger, trigger);
+ 
+ 	tasklet_disable(&keyboard_tasklet);
++
++	ledstate = input_get_ledstate();
+ 	if (ledstate != -1U)
+ 		led_trigger_event(&trigger->trigger,
+ 				  ledstate & trigger->mask ?
+@@ -1137,6 +1140,10 @@ static void kbd_init_leds(void)
+  */
+ static unsigned char getledstate(void)
+ {
++	unsigned int ledstate;
++
++	ledstate = input_get_ledstate();
++
+ 	return ledstate & 0xff;
+ }
+ 
+@@ -1248,16 +1255,21 @@ void vt_kbd_con_stop(unsigned int console)
+ static void kbd_bh(struct tasklet_struct *unused)
+ {
+ 	unsigned int leds;
++	unsigned int ledstate;
+ 	unsigned long flags;
++	struct kbd_struct *kb = kbd_table + fg_console;
++
++	if (kb->kbdmode == VC_OFF)
++		return;
+ 
+ 	spin_lock_irqsave(&led_lock, flags);
+ 	leds = getleds();
++	ledstate = input_get_ledstate();
+ 	leds |= (unsigned int)kbd->lockstate << 8;
+ 	spin_unlock_irqrestore(&led_lock, flags);
+ 
+ 	if (leds != ledstate) {
+ 		kbd_propagate_led_state(ledstate, leds);
+-		ledstate = leds;
+ 	}
+ }
+ 
+@@ -1604,8 +1616,11 @@ static void kbd_disconnect(struct input_handle *handle)
+  */
+ static void kbd_start(struct input_handle *handle)
+ {
++	unsigned int ledstate;
++
+ 	tasklet_disable(&keyboard_tasklet);
+ 
++	ledstate = input_get_ledstate();
+ 	if (ledstate != -1U)
+ 		kbd_update_leds_helper(handle, &ledstate);
+ 
+diff --git a/include/linux/input.h b/include/linux/input.h
+index 0354b298d874..0e0ba53a9cc7 100644
+--- a/include/linux/input.h
++++ b/include/linux/input.h
+@@ -420,6 +420,9 @@ ktime_t *input_get_timestamp(struct input_dev *dev);
+ void input_event(struct input_dev *dev, unsigned int type, unsigned int code, int value);
+ void input_inject_event(struct input_handle *handle, unsigned int type, unsigned int code, int value);
+ 
++void input_update_ledstate(unsigned int flag, unsigned int value);
++unsigned int input_get_ledstate(void);
++
+ static inline void input_report_key(struct input_dev *dev, unsigned int code, int value)
+ {
+ 	input_event(dev, EV_KEY, code, !!value);
+-- 
+2.20.1
 
 
-I haved sorted the patches to a series, and fixed the repeated "that"
-in changelog.
-
-like this:
-https://patchwork.kernel.org/project/linux-input/patch/20211015022803.3827-1-caihuoqing@baidu.com/
-
-If there are any issue to resend v3 or later, feel free to sort my patch
-as series. You also can attach your patch link directly here.
-
-BTW, a minor issue, for 'RFC' prefix, you can use
-git format-patch --rfc. It should be showed in subject prefix, like
-"[RFC PATCH ..]" (in the link, I missed fixing it).
-
-> 
-> I would appreciate a few more sets of eyes reviewing / testing the change.
-> 
-> Jason
-> ---
-> Now instead of four in the eights place /
-> you’ve got three, ‘Cause you added one  /
-> (That is to say, eight) to the two,     /
-> But you can’t take seven from three,    /
-> So you look at the sixty-fours....
-> 
-> 
-> 
-> On Thu, Oct 7, 2021 at 3:34 PM Cheng, Ping <Ping.Cheng@wacom.com> wrote:
-> 
-> > I didn’t add mutex_unlock nor work on wacom_remove_shared_data myself.
-> > Benjamin probably sync’d unlock and Dmitry added shared_data for Wacom
-> > driver many years ago. Thank you both!
-> >
-> >
-> >
-> > With that said, I am willing to look into the code and test the patch to
-> > make sure it doesn’t break anything, which may take a few more days…
-> >
-> >
-> >
-> > *From:* Jason Gerecke [mailto:killertofu@gmail.com]
-> > *Sent:* Thursday, October 7, 2021 2:48 PM
-> >
-> >
-> >
-> > I have not tested this, but it seems like the failure case could trigger a
-> > deadlock:
-> >
-> >
-> >
-> > 1. (wacom_sys.c:878): The `wacom_udev_list_lock` mutex is locked
-> >
-> > 2. (wacom_sys.c:888): The `data->kref` refcount is initialized to 1
-> >
-> > 3. (wacom_sys.c:893): The `wacom_wac->shared` pointer is set
-> >
-> > 4. (wacom_sys.c:895): We call `devm_add_action_or_reset`
-> >
-> > 5. Adding the action fails, causing the `devm_add_action_or_reset` to
-> > immediately call `wacom_remove_shared_data`
-> >
-> > 6. (wacom_sys.c:866): The reference count of `data->kref` is decremented,
-> > triggering a call to `wacom_release_shared_data`
-> >
-> > 7. (wacom_sys.c:844): The `wacom_release_shared_data` function blocks on
-> > the previously-locked `wacom_udev_list_lock` mutex
-> >
-> >
-> >
-> > I *think* it would be safe to shrink the critical section in
-> > `wacom_add_shared_data` to end before the call to
-> > `devm_add_action_or_reset`. It might be possible to push the unlock as far
-> > back as line 892. That should be sufficient to protect `wacom_udev_list`
-> > and ensure that we don't accidentally create two "shared" objects when only
-> > one is desired. I'll defer to Ping since it looks like she added the mutex
-> > though :)
-> >
-> >
-> > Jason
-> >
-> > On Thu, Oct 7, 2021 at 4:39 AM Jiri Kosina <jikos@kernel.org> wrote:
-> >
-> > On Wed, 22 Sep 2021, Cai Huoqing wrote:
-> >
-> > > The helper function devm_add_action_or_reset() will internally
-> > > call devm_add_action(), and if devm_add_action() fails then it will
-> > > execute the action mentioned and return the error code. So
-> > > use devm_add_action_or_reset() instead of devm_add_action()
-> > > to simplify the error handling, reduce the code.
-> > >
-> > > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-> >
-> > CCing Jason and Ping to Ack this for the Wacom driver.
-> >
-> > > ---
-> > >  drivers/hid/wacom_sys.c | 3 +--
-> > >  1 file changed, 1 insertion(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-> > > index 93f49b766376..3aed7ba249f7 100644
-> > > --- a/drivers/hid/wacom_sys.c
-> > > +++ b/drivers/hid/wacom_sys.c
-> > > @@ -892,10 +892,9 @@ static int wacom_add_shared_data(struct hid_device
-> > *hdev)
-> > >
-> > >       wacom_wac->shared = &data->shared;
-> > >
-> > > -     retval = devm_add_action(&hdev->dev, wacom_remove_shared_data,
-> > wacom);
-> > > +     retval = devm_add_action_or_reset(&hdev->dev,
-> > wacom_remove_shared_data, wacom);
-> > >       if (retval) {
-> > >               mutex_unlock(&wacom_udev_list_lock);
-> > > -             wacom_remove_shared_data(wacom);
-> > >               return retval;
-> > >       }
-> > >
-> > > --
-> > > 2.25.1
-> >
-> >
-
-> From 7adc05783c7e3120028d0d089bea224903c24ccd Mon Sep 17 00:00:00 2001
-> From: Jason Gerecke <jason.gerecke@wacom.com>
-> Date: Thu, 14 Oct 2021 07:31:31 -0700
-> Subject: [PATCH] RFC: HID: wacom: Shrink critical section in
->  `wacom_add_shared_data`
-> 
-> The size of the critical section in this function appears to be larger
-> than necessary. The `wacom_udev_list_lock` exists to ensure that one
-> interface cannot begin checking if a shared object exists while a second
-> interface is doing the same (otherwise both could determine that that no
-> object exists yet and create their own independent objects rather than
-> sharing just one). It should be safe for the critical section to end
-> once a fresly-allocated shared object would be found by other threads
-> (i.e., once it has been added to `wacom_udev_list`, which is looped
-> over by `wacom_get_hdev_data`).
-> 
-> This commit is a necessary pre-requisite for a later change to swap the
-> use of `devm_add_action` with `devm_add_action_or_reset`, which would
-> otherwise deadlock in its error case.
-> 
-> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-> ---
->  drivers/hid/wacom_sys.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-> index 93f49b766376..62f50e4b837d 100644
-> --- a/drivers/hid/wacom_sys.c
-> +++ b/drivers/hid/wacom_sys.c
-> @@ -881,8 +881,8 @@ static int wacom_add_shared_data(struct hid_device *hdev)
->  	if (!data) {
->  		data = kzalloc(sizeof(struct wacom_hdev_data), GFP_KERNEL);
->  		if (!data) {
-> -			retval = -ENOMEM;
-> -			goto out;
-> +			mutex_unlock(&wacom_udev_list_lock);
-> +			return -ENOMEM;
->  		}
->  
->  		kref_init(&data->kref);
-> @@ -890,11 +890,12 @@ static int wacom_add_shared_data(struct hid_device *hdev)
->  		list_add_tail(&data->list, &wacom_udev_list);
->  	}
->  
-> +	mutex_unlock(&wacom_udev_list_lock);
-> +
->  	wacom_wac->shared = &data->shared;
->  
->  	retval = devm_add_action(&hdev->dev, wacom_remove_shared_data, wacom);
->  	if (retval) {
-> -		mutex_unlock(&wacom_udev_list_lock);
->  		wacom_remove_shared_data(wacom);
->  		return retval;
->  	}
-> @@ -904,8 +905,6 @@ static int wacom_add_shared_data(struct hid_device *hdev)
->  	else if (wacom_wac->features.device_type & WACOM_DEVICETYPE_PEN)
->  		wacom_wac->shared->pen = hdev;
->  
-> -out:
-> -	mutex_unlock(&wacom_udev_list_lock);
->  	return retval;
->  }
->  
-> -- 
-> 2.33.0
-> 
 
