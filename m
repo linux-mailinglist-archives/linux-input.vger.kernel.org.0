@@ -2,89 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39175430060
-	for <lists+linux-input@lfdr.de>; Sat, 16 Oct 2021 07:09:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24285430067
+	for <lists+linux-input@lfdr.de>; Sat, 16 Oct 2021 07:26:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239431AbhJPFLg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 16 Oct 2021 01:11:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55628 "EHLO
+        id S234949AbhJPF2K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 16 Oct 2021 01:28:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236843AbhJPFLf (ORCPT
+        with ESMTP id S230261AbhJPF2K (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 16 Oct 2021 01:11:35 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E77AC061570;
-        Fri, 15 Oct 2021 22:09:28 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id e65so8066902pgc.5;
-        Fri, 15 Oct 2021 22:09:28 -0700 (PDT)
+        Sat, 16 Oct 2021 01:28:10 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBCCEC061570;
+        Fri, 15 Oct 2021 22:26:02 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id c4so3447243pgv.11;
+        Fri, 15 Oct 2021 22:26:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=24zhKxPRI1qAH/u6peG/m0WB+y6ivb8dz0+PvNxUJWA=;
-        b=W940VigsR3CYoeN1X3pboXBZj5igcjNH23xB3qLkWYRZKM5WeBuDJKvSVCB4Ixw8W4
-         qbFLq8Oo1O8Upqgy4yoEX4nhYixyEfv909N3S/RD7oiZMft05Lq7JJwPeCGKnYHoYw6T
-         Dan7lbWTE3Mmbpr0BZpzC+0nPY4yTLJ2/Bbk61+ShfrfuUdZOTs9wp74hKqXv+x70aNk
-         EvJ3OltD5foT0i1tMMjbA6L91TGU2DXa7Q000lunWYl7CpFttPfGdeiTmL4YO+Dh5Leb
-         MDme0D3XACU48PmBk+uBIp3q4B1gfpc5v6KHLbip2+unRZUcy51woYHKkRZyJ8XX5LXk
-         LdGg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=npYtXsG4o31tfZXhoAnSf4Vl6YEYR1oRFbKo5PAp3eg=;
+        b=pxQ6Enzct9zzmY15WmvSA12NK1cNn10axW0XIQ91q+z87OQnwniyciYv60KCddggfS
+         /1pD1MvVZThizOFoBBywlVrzMK9ef4N76RM+8o4z+pvzsoCxUZxHD/0oNj29mEQU27g2
+         cyaUdNBfTtBRqAjsMPbfHZGjodTuar6Yf5n8mStwLnoarKhAUS6+iC7r4roJ2E9Gkkuy
+         ADx2hFIklLrUmTk2UNxKf1C6Hw4laWN4m/b+mXMTfBoPhKRzmrQ6Hzu+XEeUKe1x0LUF
+         MqeqQoe1Z+/WVnDPBkv/du6FhItqp+C7hZrary0/4dOuJOlYITz5uOUT71atuLqHdpUD
+         +SgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=24zhKxPRI1qAH/u6peG/m0WB+y6ivb8dz0+PvNxUJWA=;
-        b=zmaXOSRdKL899FN6aBwzMYP2c4ulGSugRhVU4WWMWalxUEo0o9HCgT+XS+fvAd7qlT
-         /HRllrFbaM7Eogx53wWoGM5lWP0yAaGdA4Eocfii/UicyKPKMnECO8X8oasVdbzCdven
-         7leHG3wrpkx2/wN8KclBwkMeXjUNzamoh/CqWM//8DKV8/nK3hrVIWeG0mi0+CgS1ZDB
-         7+KR2y8ROTm1yjv/xOmO65MzHbrgHBfK2+nUxoQrbHfljZpVJHneeYRk6uG68kX5S/xr
-         SpgUAOqbAXDJDauKaat9coxifg8jqXa0fqygfocEDkG82owh9rfzku66L6WgMwk/8YGQ
-         pfOg==
-X-Gm-Message-State: AOAM531MN5KrzLWPq/rZ5kw+AmZLfC+AxnZjxVzVVfPJNOj+KQHF1zaQ
-        WI9AMILNHO+rKTjKFsspAqY=
-X-Google-Smtp-Source: ABdhPJx6ii6DULysM1xvC3deh4Uof19/0PgnVCLqiEQFZM8B/m5KruQ+7q62gU89F/tmlJFbJWwi/Q==
-X-Received: by 2002:a63:f557:: with SMTP id e23mr12445171pgk.175.1634360967487;
-        Fri, 15 Oct 2021 22:09:27 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=npYtXsG4o31tfZXhoAnSf4Vl6YEYR1oRFbKo5PAp3eg=;
+        b=X/5dnQ7z+kwBKM1gZ9ZHOpoZmqCMQ0qQ/UMJV4NwRe+BaVhujSa0Id5cBksCdVrQsp
+         YBCEriST5F2G60Og8hVGmfHAfN4wHd3132gwcFWrXY4FSyu9DQ4uTSo1EA85/Zm/ZsVf
+         Jrm0GftRQ7q9Rom5d0cwv0qywco24I+yXzTQvYoLgjRIgOILSwVuZRYap34/2LLRW890
+         7fp2SeO6H1nlBNKQ5TqP6Nsbs6cW0CvDHNDvm7JvcdjiZEOuzxROuaIaCpuspZjNI5EN
+         iKCqPXSaAgE9frlIh2EXZAGusK0eTFf/KfznL3wyJ17m42LMQUNyA6IBHibUVHFFxDR5
+         yQZw==
+X-Gm-Message-State: AOAM5306pRBG0zGJXGizQkwGXIHUCdSwh0Ef0Y3Hq5Ka7zxoJjUvw8B6
+        DkexfeDm3GyExDnA8EipY0oB3gEyqxM=
+X-Google-Smtp-Source: ABdhPJxIUhZWbntZ1ye7mxoyI4IveyuzkTvf0RA5k/ibuleg0S3jpNefGHifCTDrgv5FPebLZ5gnfg==
+X-Received: by 2002:a62:4d42:0:b0:44b:3078:7387 with SMTP id a63-20020a624d42000000b0044b30787387mr15678717pfb.27.1634361961352;
+        Fri, 15 Oct 2021 22:26:01 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:6a02:4736:3b83:a269])
-        by smtp.gmail.com with ESMTPSA id t2sm6262272pjo.4.2021.10.15.22.09.25
+        by smtp.gmail.com with ESMTPSA id y1sm6443114pfo.104.2021.10.15.22.26.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Oct 2021 22:09:26 -0700 (PDT)
-Date:   Fri, 15 Oct 2021 22:09:24 -0700
+        Fri, 15 Oct 2021 22:26:00 -0700 (PDT)
+Date:   Fri, 15 Oct 2021 22:25:58 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
-        Aditya Srivastava <yashsri421@gmail.com>,
-        linux-input@vger.kernel.org,
-        Haojian Zhuang <haojian.zhuang@gmail.com>
-Subject: Re: [PATCH] input/misc: max8925_onkey.c: don't mark comment as
- kernel-doc
-Message-ID: <YWpehFWNrtyTKkGc@google.com>
-References: <20211002045943.9406-1-rdunlap@infradead.org>
+To:     linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>
+Subject: [PATCH] Input: cpcap-pwrbutton - do not set input parent explicitly
+Message-ID: <YWpiZqrfC9+GQsM4@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211002045943.9406-1-rdunlap@infradead.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 01, 2021 at 09:59:43PM -0700, Randy Dunlap wrote:
-> Change the comment to a normal (non-kernel-doc) comment to avoid
-> these kernel-doc warnings:
-> 
-> max8925_onkey.c:2: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->  * MAX8925 ONKEY driver
-> max8925_onkey.c:2: warning: missing initial short description on line:
->  * MAX8925 ONKEY driver
-> 
-> Fixes: 3734574cac100 ("Input: enable onkey driver of max8925")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Cc: Aditya Srivastava <yashsri421@gmail.com>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: linux-input@vger.kernel.org
-> Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
+We are using devm_input_allocate_device() that already sets parent
+of the input device, there is no need to do that again.
 
-Applied, thank you.
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/misc/cpcap-pwrbutton.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/input/misc/cpcap-pwrbutton.c b/drivers/input/misc/cpcap-pwrbutton.c
+index 372cb44d0635..879790bbf9fe 100644
+--- a/drivers/input/misc/cpcap-pwrbutton.c
++++ b/drivers/input/misc/cpcap-pwrbutton.c
+@@ -77,7 +77,6 @@ static int cpcap_power_button_probe(struct platform_device *pdev)
+ 
+ 	button->idev->name = "cpcap-pwrbutton";
+ 	button->idev->phys = "cpcap-pwrbutton/input0";
+-	button->idev->dev.parent = button->dev;
+ 	input_set_capability(button->idev, EV_KEY, KEY_POWER);
+ 
+ 	err = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+-- 
+2.33.0.1079.g6e70778dc9-goog
+
 
 -- 
 Dmitry
