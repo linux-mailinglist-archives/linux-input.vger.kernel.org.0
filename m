@@ -2,73 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A2CD43030C
-	for <lists+linux-input@lfdr.de>; Sat, 16 Oct 2021 16:34:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0550043038F
+	for <lists+linux-input@lfdr.de>; Sat, 16 Oct 2021 18:03:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234579AbhJPOgt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 16 Oct 2021 10:36:49 -0400
-Received: from mail-ot1-f49.google.com ([209.85.210.49]:39859 "EHLO
-        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231577AbhJPOgt (ORCPT
+        id S237808AbhJPQFf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 16 Oct 2021 12:05:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56954 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236852AbhJPQFf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 16 Oct 2021 10:36:49 -0400
-Received: by mail-ot1-f49.google.com with SMTP id e59-20020a9d01c1000000b00552c91a99f7so865852ote.6;
-        Sat, 16 Oct 2021 07:34:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=j1810wrRi1+sqKNjD8mg1sEmulNnuM8qTf6RHFoW7SQ=;
-        b=z+0MpyzMAB5sEoTtrwBfI6RY/XvZy+GTEfVXWPRtzWc83naRcBdK9THUBy5C6E1CS9
-         K48b5b4QwOKf/p8eWEGdrb3frx6hBwZI39Br8dQHiU1PQxOzDgtzNQP0Mo7vin+62z/g
-         WIGPLHX/jqsloRHi55b2qZjaHP9mQBgROSjBHcGvC1Hzj8maHEMxFE1FGsRYchMU+lI/
-         VtN9eBpWYfZEhc+Va6YZlR2zRDTEf2Wtrx0aUQeembA0QXhz+FJGQMuGOO56EfsNHJaL
-         +NmSMGcLESi5d51aQVoCPMZjqMnnXTn/yD3nrQvqSg81uch8d1LiiFyKJs2dMXh16kqc
-         FkHw==
-X-Gm-Message-State: AOAM531pZHi9BsyJY+TXUVggAKbLd6HTYUmMbMN90tAINbfl9LK7/4Mn
-        S2ytzzaXdAqGYoFSIcVRPw==
-X-Google-Smtp-Source: ABdhPJwFDvklE+gWKoVxXSGwq216GQRczbTqIz0XmD8ebMcayqZ3/KVkyTA3etnzlABCEsG0vNEugg==
-X-Received: by 2002:a9d:86e:: with SMTP id 101mr13164167oty.177.1634394880791;
-        Sat, 16 Oct 2021 07:34:40 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id o80sm1884047ota.68.2021.10.16.07.34.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Oct 2021 07:34:40 -0700 (PDT)
-Received: (nullmailer pid 3904092 invoked by uid 1000);
-        Sat, 16 Oct 2021 14:34:39 -0000
-Date:   Sat, 16 Oct 2021 09:34:39 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Alistair Francis <alistair@alistair23.me>
-Cc:     shawnguo@kernel.org, dmitry.torokhov@gmail.com,
-        s.hauer@pengutronix.de, linux-imx@nxp.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, jikos@kernel.org,
-        linux-kernel@vger.kernel.org, alistair23@gmail.com,
-        benjamin.tissoires@redhat.com
-Subject: Re: [PATCH v11 1/4] HID: wacom_sys: Add support for flipping the
- data values
-Message-ID: <YWri/85NRl8s+h27@robh.at.kernel.org>
-References: <20211009114313.17967-1-alistair@alistair23.me>
+        Sat, 16 Oct 2021 12:05:35 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C3E2C061570;
+        Sat, 16 Oct 2021 09:03:26 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: sre)
+        with ESMTPSA id E61251F4406A
+Received: by earth.universe (Postfix, from userid 1000)
+        id 4E7773C0CA8; Sat, 16 Oct 2021 18:03:22 +0200 (CEST)
+Date:   Sat, 16 Oct 2021 18:03:22 +0200
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: cpcap-pwrbutton - do not set input parent
+ explicitly
+Message-ID: <20211016160322.4mtmueo2psn7ptrs@earth.universe>
+References: <YWpiZqrfC9+GQsM4@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="7qspehphhsxdaadr"
 Content-Disposition: inline
-In-Reply-To: <20211009114313.17967-1-alistair@alistair23.me>
+In-Reply-To: <YWpiZqrfC9+GQsM4@google.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 09 Oct 2021 21:43:10 +1000, Alistair Francis wrote:
-> Add support to the Wacom HID device for flipping the values based on
-> device tree settings. This allows us to support devices where the panel
-> is installed in a different orientation, such as the reMarkable2.
-> 
-> Signed-off-by: Alistair Francis <alistair@alistair23.me>
-> ---
->  .../bindings/input/hid-over-i2c.txt           | 20 ++++++
->  drivers/hid/wacom_sys.c                       | 25 ++++++++
->  drivers/hid/wacom_wac.c                       | 61 +++++++++++++++++++
->  drivers/hid/wacom_wac.h                       | 13 ++++
->  4 files changed, 119 insertions(+)
-> 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+--7qspehphhsxdaadr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Fri, Oct 15, 2021 at 10:25:58PM -0700, Dmitry Torokhov wrote:
+> We are using devm_input_allocate_device() that already sets parent
+> of the input device, there is no need to do that again.
+>=20
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+
+-- Sebastian
+
+>  drivers/input/misc/cpcap-pwrbutton.c | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/input/misc/cpcap-pwrbutton.c b/drivers/input/misc/cp=
+cap-pwrbutton.c
+> index 372cb44d0635..879790bbf9fe 100644
+> --- a/drivers/input/misc/cpcap-pwrbutton.c
+> +++ b/drivers/input/misc/cpcap-pwrbutton.c
+> @@ -77,7 +77,6 @@ static int cpcap_power_button_probe(struct platform_dev=
+ice *pdev)
+> =20
+>  	button->idev->name =3D "cpcap-pwrbutton";
+>  	button->idev->phys =3D "cpcap-pwrbutton/input0";
+> -	button->idev->dev.parent =3D button->dev;
+>  	input_set_capability(button->idev, EV_KEY, KEY_POWER);
+> =20
+>  	err =3D devm_request_threaded_irq(&pdev->dev, irq, NULL,
+> --=20
+> 2.33.0.1079.g6e70778dc9-goog
+>=20
+>=20
+> --=20
+> Dmitry
+
+--7qspehphhsxdaadr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmFq98cACgkQ2O7X88g7
++pplaA/9G3bUP7xgLpJwy3Cr768boWbydqcNIVNorlI9alp77T2KT9wQgZTGm+oQ
+0gtWqQ+078wm+IfwUvDSeDIbD4N44L2yRv4zOVgQWos/aF4Lv4f/JBv2zt7jP78q
+T9EljeLZCTRVbsLZObSOspihv+5IwlrnRfkrPAmO8RIE6CzqtwAsZ2lAOLMswDfV
+v/qBXFLKeKDpH/qpXZjnkBDNWj9LbUsYcMPvkkrNbHaVr/j78z6bTQ0kdYy6Lkqc
+GK9NSFyZTmfF2KCrRI+13ocHdkZaX0Dk10ICnV6yCGlSek8K9wN2I2KiOdJRUoFm
+ECZbqU2D6ICi3yUlT76o8IQXyYoo6WqrPSwXFFb+flGJa8WknUPfzi2PmHpZ/IzG
+M3FGwVAJ3bTWC8XaqnNagzY3lKcyFJo4incRTN4nvTH44WCGeUYwYxnQVS/Vziu+
+wq9Pu6JzyER23Zq9E57K+ZKF6B0NKah/+b4ppOg3HidsQhSbHjw6YgLrB95ecgrm
+AfP+Fpw3SZk2f3nMdCeno+c4DeU16hGUhVnUA11Yn6a9jOfI07IO9m4lpTctPLz8
+8CtR2/GapA1zvIX5h0ry2T2ajG6XtY7z7JWpr3VUzAnDnULUK1hRQ6aI4+eqXjjQ
+ZwCXLJxx+vIL5gY1cX5Xgb/bYMyO9mUiC/n54sF/fCF7BZ/Fz7k=
+=EbW4
+-----END PGP SIGNATURE-----
+
+--7qspehphhsxdaadr--
