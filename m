@@ -2,111 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68B614306EC
-	for <lists+linux-input@lfdr.de>; Sun, 17 Oct 2021 07:23:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 576E84306ED
+	for <lists+linux-input@lfdr.de>; Sun, 17 Oct 2021 07:24:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244903AbhJQFZ6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 Oct 2021 01:25:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60506 "EHLO
+        id S244915AbhJQF0L (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Oct 2021 01:26:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241437AbhJQFZ6 (ORCPT
+        with ESMTP id S241437AbhJQF0L (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 Oct 2021 01:25:58 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 225E3C061765
-        for <linux-input@vger.kernel.org>; Sat, 16 Oct 2021 22:23:49 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id v8so7931668pfu.11
-        for <linux-input@vger.kernel.org>; Sat, 16 Oct 2021 22:23:49 -0700 (PDT)
+        Sun, 17 Oct 2021 01:26:11 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 028D6C061765
+        for <linux-input@vger.kernel.org>; Sat, 16 Oct 2021 22:24:01 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id nn3-20020a17090b38c300b001a03bb6c4ebso10267966pjb.1
+        for <linux-input@vger.kernel.org>; Sat, 16 Oct 2021 22:24:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=1Ehk2/kkpEySkFUgCqEr3cq/TJpeR5PkZbDcKmA3rhU=;
-        b=AVIUXYZ/OP/23lqaJThO+1lQMckI7HylfMezWf69nx1wY24aa0W7dfz4lHrsytTT8u
-         JhlFWfhs8ToFwUuGqBEQGyT2jDkr+gZXH7JGAQG2aM/gGNnVGclIvuuBKvg9kPZfkiCo
-         ssfYLyWh0myHAciANaKD2O7FwXhhJurqb/y8Fy+1/FZWvBjL9zsMKFjwPMezygUOqfzb
-         NvxTqxKYMihB0B2vWRnB2IoM8m6DzyWfbLKRoPbVrjvlkfo+Vho+S+S/DwWT6wLPxvgf
-         QZa3FjSpM1FUoQKV66yTpj62ADqtcjCwapDFvLzhP9m1Um1wko3Rn5r6l7hvHkelNx76
-         iHqA==
+        bh=SY1+DVuu/2W6bu1mz+URw9WebOTgJ603v8RGTf1p+Ws=;
+        b=mjOP0fDlwN5NLRwQGMu06wlFve0vF7AMAgN65BDuKf0kuc55/L26azIQ8jDHZIw/Re
+         qy66tJxqdtHZTOeb9YhaB0XUPnmedTjpVBJuR/7yJ9oyoJHkcbr5f8e6JH29sfi+wUOe
+         r/1bEiU/n2+xoxPsNfLCYuQmAo4UCAvCSeOXkSaqrh96A0XuOU/W1Pch70nhys0XItNX
+         OyB4kd82+n7XXqa9SpUY2zI98hjxSrSMRwwnSog/1Ogsx74TykoSkxqvG5jL9bGY3OBG
+         /7DQNpTIOAbLN0o8K2Kylo1W1P8/DzbJv+YwQ6Xg7rsyjkw1N+nmXy79OpzBSl2eQ1zu
+         Fmeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=1Ehk2/kkpEySkFUgCqEr3cq/TJpeR5PkZbDcKmA3rhU=;
-        b=686fGwC9Oe7uT2Z7MJIGdmcOhBuu1J7Ma2ZX1kE8DMc4x/KdluLa/LQkDFVzjH6dVU
-         siIIKlh7UX6p6TaRLzDZDknABoEOIQ0wGDyQSWLa3x1BSwk1en1uaeMaYkG0v1efpFxH
-         RWiQBaPFb61oLS8JnqHWKZ7bDLlJjmomtMDrG8LqdcHKlSLZ+C+7Y7K8jFt3XYEoD6yV
-         /nVwZbhJmEb2mvgL77SXxsThJwWgeDVqrxVrrLwwmzK1wfvs4E3rDKqrN9ZHKHQk/8/9
-         1kw02phMF14Wza57l5WwSHjt6BTf8yu66uuvbZ46HB5bwG95TuyE3Zj2lDmlO3Nr7ntJ
-         BgCw==
-X-Gm-Message-State: AOAM530aZsw3iRhn0X4S12JwagXBEdZ2CF4gma1A0yuQ19ZV2iRml2Mk
-        0apWgJW3uAj6yG7taZFhfE+4aVcNebM=
-X-Google-Smtp-Source: ABdhPJwc9AQ05xOKDX95gDJzy9U/ZJ+D9owwyTpf762RIaRhdNxGvEthMoU/Jr7BKQVDVN9RCpkVKQ==
-X-Received: by 2002:a62:7b90:0:b0:44d:fa6:325 with SMTP id w138-20020a627b90000000b0044d0fa60325mr21291972pfc.1.1634448227094;
-        Sat, 16 Oct 2021 22:23:47 -0700 (PDT)
+        bh=SY1+DVuu/2W6bu1mz+URw9WebOTgJ603v8RGTf1p+Ws=;
+        b=u/570fszqL4LJpF+8w2aRaObdLUqkIs32UtZM76TGg2fxgSwbDxzp76hwJkNEmLMAp
+         lpqTbKXyQ5AUIMm736ofStRMhPk+8ILhE0G26xZAt8h948SEzLKMnm82y6PgW5rpc9W8
+         L2gQhE4D+fiXF5N5QIpJNpWl4HYZ67sbdTCeYsWKG5zWhvkiNw0QW0cvACOwTn72E5Ma
+         PkUfQRw/VC6NETlCfot6TwqDTIJ6cacIdBSq2flEAudlWAgMfckfdqqfKlQI0bll0Lg8
+         V+ufTdxEHgqWnDvu8MEodnJAmA0GrMxYb3OmZi0PEOvpQMCiIvVxGBzwtO2DestqU9KQ
+         kc7A==
+X-Gm-Message-State: AOAM5312ZxPVjuf1aHyyzxTbHFBAkQltpTPHdGIG0HTe85gcmGPDOxdi
+        CvXdIk6QLYeeXHfuDaX7CPo=
+X-Google-Smtp-Source: ABdhPJx2i+a+s+iDJo0T8jt8k/igvangXIlpFv75m+e8jHc+A/j3H1tC/GpxtaNoDYAN3W1ZioQJhQ==
+X-Received: by 2002:a17:902:b94b:b0:13d:b1af:f9d4 with SMTP id h11-20020a170902b94b00b0013db1aff9d4mr20345946pls.0.1634448241015;
+        Sat, 16 Oct 2021 22:24:01 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:e49a:151f:b7d7:af9a])
-        by smtp.gmail.com with ESMTPSA id t125sm9185613pfc.119.2021.10.16.22.23.45
+        by smtp.gmail.com with ESMTPSA id h4sm8678605pgn.6.2021.10.16.22.23.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Oct 2021 22:23:46 -0700 (PDT)
-Date:   Sat, 16 Oct 2021 22:23:43 -0700
+        Sat, 16 Oct 2021 22:24:00 -0700 (PDT)
+Date:   Sat, 16 Oct 2021 22:23:57 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Marek Vasut <marex@denx.de>
 Cc:     linux-input@vger.kernel.org, ch@denx.de,
         Joe Hung <joe_hung@ilitek.com>, Luca Hsu <luca_hsu@ilitek.com>
-Subject: Re: [PATCH v3 1/3] Input: ili210x - use resolution from ili251x
- firmware
-Message-ID: <YWuzX43d2m7cKO6E@google.com>
+Subject: Re: [PATCH v3 2/3] Input: ili210x - export ili251x version details
+ via sysfs
+Message-ID: <YWuzbTGV/at8BxZq@google.com>
 References: <20210831202506.181927-1-marex@denx.de>
+ <20210831202506.181927-2-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210831202506.181927-1-marex@denx.de>
+In-Reply-To: <20210831202506.181927-2-marex@denx.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Marek,
+On Tue, Aug 31, 2021 at 10:25:05PM +0200, Marek Vasut wrote:
+> The ili251x firmware protocol permits readout of firmware version,
+> protocol version, mcu version and current mode (application, boot
+> loader, forced update). These information are useful when updating
+> the firmware on the il251x, e.g. to avoid updating the same firmware
+> into the device multiple times. The locking is now necessary to avoid
+> races between interrupt handler and the sysfs readouts.
+> 
+> Note that the protocol differs considerably between the ili2xxx devices,
+> this patch therefore implements this functionality only for ili251x that
+> I can test.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Joe Hung <joe_hung@ilitek.com>
+> Cc: Luca Hsu <luca_hsu@ilitek.com>
 
-On Tue, Aug 31, 2021 at 10:25:04PM +0200, Marek Vasut wrote:
-> +static int ili251x_firmware_update_resolution(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct ili210x *priv = i2c_get_clientdata(client);
-> +	__le16 resx, resy;
-
-These are normal variables, so I changed it to u16, otherwise sparse is
-rightfully unhappy.
-
-> +	u8 rs[10];
-> +	int error;
-> +
-> +	/* The firmware update blob might have changed the resolution. */
-> +	error = priv->chip->read_reg(client, REG_PANEL_INFO, &rs, sizeof(rs));
-> +	if (error)
-> +		return error;
-> +
-> +	resx = le16_to_cpup((__le16 *)rs);
-> +	resy = le16_to_cpup((__le16 *)(rs + 2));
-> +
-> +	/* The value reported by the firmware is invalid. */
-> +	if (!resx || resx == 0xffff || !resy || resy == 0xffff)
-> +		return -EINVAL;
-> +
-> +	input_abs_set_max(priv->input, ABS_X, resx - 1);
-> +	input_abs_set_max(priv->input, ABS_Y, resy - 1);
-> +	input_abs_set_max(priv->input, ABS_MT_POSITION_X, resx - 1);
-> +	input_abs_set_max(priv->input, ABS_MT_POSITION_Y, resy - 1);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ili251x_firmware_update_cached_state(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct ili210x *priv = i2c_get_clientdata(client);
-> +	int ret;
-
-Changed this to "error" and applied, thank you.
+Applied, thank you.
 
 -- 
 Dmitry
