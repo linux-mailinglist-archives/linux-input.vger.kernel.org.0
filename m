@@ -2,88 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 576E84306ED
-	for <lists+linux-input@lfdr.de>; Sun, 17 Oct 2021 07:24:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 625104306EF
+	for <lists+linux-input@lfdr.de>; Sun, 17 Oct 2021 07:27:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244915AbhJQF0L (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 Oct 2021 01:26:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60554 "EHLO
+        id S244973AbhJQF3F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Oct 2021 01:29:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241437AbhJQF0L (ORCPT
+        with ESMTP id S244977AbhJQF3C (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 Oct 2021 01:26:11 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 028D6C061765
-        for <linux-input@vger.kernel.org>; Sat, 16 Oct 2021 22:24:01 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id nn3-20020a17090b38c300b001a03bb6c4ebso10267966pjb.1
-        for <linux-input@vger.kernel.org>; Sat, 16 Oct 2021 22:24:01 -0700 (PDT)
+        Sun, 17 Oct 2021 01:29:02 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0BD4C061768
+        for <linux-input@vger.kernel.org>; Sat, 16 Oct 2021 22:26:52 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id m21so12656317pgu.13
+        for <linux-input@vger.kernel.org>; Sat, 16 Oct 2021 22:26:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=SY1+DVuu/2W6bu1mz+URw9WebOTgJ603v8RGTf1p+Ws=;
-        b=mjOP0fDlwN5NLRwQGMu06wlFve0vF7AMAgN65BDuKf0kuc55/L26azIQ8jDHZIw/Re
-         qy66tJxqdtHZTOeb9YhaB0XUPnmedTjpVBJuR/7yJ9oyoJHkcbr5f8e6JH29sfi+wUOe
-         r/1bEiU/n2+xoxPsNfLCYuQmAo4UCAvCSeOXkSaqrh96A0XuOU/W1Pch70nhys0XItNX
-         OyB4kd82+n7XXqa9SpUY2zI98hjxSrSMRwwnSog/1Ogsx74TykoSkxqvG5jL9bGY3OBG
-         /7DQNpTIOAbLN0o8K2Kylo1W1P8/DzbJv+YwQ6Xg7rsyjkw1N+nmXy79OpzBSl2eQ1zu
-         Fmeg==
+        bh=UupfLRk+BIlDAMe1gKdoA0IwoVtlDMmnAtK5ed9hof4=;
+        b=hmqE881fvNcQNc1lfANknkdLqsodYpM+q0SKYqhu5hVabUL06Tq+N1u8tjY3FcShMa
+         iAQfMIiEp+FLPctS5r3B1kd4zlFD1hCSEcqbpjl/9FEhnX3sWkGfJcTHHDmX0pn9PjQC
+         RavLfV7wMuWme0RCGbqoj4EpxyUOQ/jS8qzDg7sSwFvHG2GMJVf5woZKM9vLthJdLQOW
+         YH/C7SYF2StWM3zB+d4SXpjVxiYRCPMd8+gVCo6gwt+8fM14KHgUF1ILdKkgtuM2e5c1
+         q5sOiC9ilGiWZNMOboUuX3W/9H3+hxsKyKA38BciFRKBPbRNwgXfXXiQEGBEzZXMyUoX
+         /hcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=SY1+DVuu/2W6bu1mz+URw9WebOTgJ603v8RGTf1p+Ws=;
-        b=u/570fszqL4LJpF+8w2aRaObdLUqkIs32UtZM76TGg2fxgSwbDxzp76hwJkNEmLMAp
-         lpqTbKXyQ5AUIMm736ofStRMhPk+8ILhE0G26xZAt8h948SEzLKMnm82y6PgW5rpc9W8
-         L2gQhE4D+fiXF5N5QIpJNpWl4HYZ67sbdTCeYsWKG5zWhvkiNw0QW0cvACOwTn72E5Ma
-         PkUfQRw/VC6NETlCfot6TwqDTIJ6cacIdBSq2flEAudlWAgMfckfdqqfKlQI0bll0Lg8
-         V+ufTdxEHgqWnDvu8MEodnJAmA0GrMxYb3OmZi0PEOvpQMCiIvVxGBzwtO2DestqU9KQ
-         kc7A==
-X-Gm-Message-State: AOAM5312ZxPVjuf1aHyyzxTbHFBAkQltpTPHdGIG0HTe85gcmGPDOxdi
-        CvXdIk6QLYeeXHfuDaX7CPo=
-X-Google-Smtp-Source: ABdhPJx2i+a+s+iDJo0T8jt8k/igvangXIlpFv75m+e8jHc+A/j3H1tC/GpxtaNoDYAN3W1ZioQJhQ==
-X-Received: by 2002:a17:902:b94b:b0:13d:b1af:f9d4 with SMTP id h11-20020a170902b94b00b0013db1aff9d4mr20345946pls.0.1634448241015;
-        Sat, 16 Oct 2021 22:24:01 -0700 (PDT)
+        bh=UupfLRk+BIlDAMe1gKdoA0IwoVtlDMmnAtK5ed9hof4=;
+        b=o3/fnETUmkdCH8D4wM/6Nob2G1+nbHKRB/rozHRUkA+CB4/NZCTM3nLRcC0bGJX60Z
+         rV22rbly6HjZbIB/Q3Lzzl0tcUYrBCUd12Gsvj5CGPy6xhZ3JHX0uYBDEjz0CPIvgZWQ
+         Vgs4uFcJhKzwKbBEmLMpeZfEw9mrE61nLEnK2fWNt1sibPepqVpHuUtNXMd9MI0wGq76
+         RVNdqTcODOx4TkuWT+UpB6YLBRPL8WlsZr6avyIKjt9C24Qo7x2gpWFcD2jXnT8QQOi8
+         C3GY0Yqw7jdn0uIKlOt2TU3VV/GvLxmidD8+TFZ/be2woEx5/j1P+qtM40tuEgR7SS6L
+         yh0w==
+X-Gm-Message-State: AOAM533ZXn+jP16gTVrcmLPSG294ROfp0rO/7kBg+F/vo2O3R8KGC785
+        vigKLTfNjUC0SDexcLX4xzlMlxcZgCQ=
+X-Google-Smtp-Source: ABdhPJzWeDNSW/nlPRBF7RoJwWI+mI6dM9KpcWLkfcG9lISco/7rJ42BVGQHCx7waJ5JPotiWs+CDQ==
+X-Received: by 2002:a63:554f:: with SMTP id f15mr16861636pgm.90.1634448412395;
+        Sat, 16 Oct 2021 22:26:52 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:e49a:151f:b7d7:af9a])
-        by smtp.gmail.com with ESMTPSA id h4sm8678605pgn.6.2021.10.16.22.23.59
+        by smtp.gmail.com with ESMTPSA id bb12sm5243768pjb.0.2021.10.16.22.26.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Oct 2021 22:24:00 -0700 (PDT)
-Date:   Sat, 16 Oct 2021 22:23:57 -0700
+        Sat, 16 Oct 2021 22:26:51 -0700 (PDT)
+Date:   Sat, 16 Oct 2021 22:26:49 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Marek Vasut <marex@denx.de>
 Cc:     linux-input@vger.kernel.org, ch@denx.de,
         Joe Hung <joe_hung@ilitek.com>, Luca Hsu <luca_hsu@ilitek.com>
-Subject: Re: [PATCH v3 2/3] Input: ili210x - export ili251x version details
- via sysfs
-Message-ID: <YWuzbTGV/at8BxZq@google.com>
+Subject: Re: [PATCH v3 3/3] Input: ili210x - add ili251x firmware update
+ support
+Message-ID: <YWu0GWttNy9FWrfo@google.com>
 References: <20210831202506.181927-1-marex@denx.de>
- <20210831202506.181927-2-marex@denx.de>
+ <20210831202506.181927-3-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210831202506.181927-2-marex@denx.de>
+In-Reply-To: <20210831202506.181927-3-marex@denx.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Aug 31, 2021 at 10:25:05PM +0200, Marek Vasut wrote:
-> The ili251x firmware protocol permits readout of firmware version,
-> protocol version, mcu version and current mode (application, boot
-> loader, forced update). These information are useful when updating
-> the firmware on the il251x, e.g. to avoid updating the same firmware
-> into the device multiple times. The locking is now necessary to avoid
-> races between interrupt handler and the sysfs readouts.
-> 
-> Note that the protocol differs considerably between the ili2xxx devices,
-> this patch therefore implements this functionality only for ili251x that
-> I can test.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Joe Hung <joe_hung@ilitek.com>
-> Cc: Luca Hsu <luca_hsu@ilitek.com>
+On Tue, Aug 31, 2021 at 10:25:06PM +0200, Marek Vasut wrote:
+> +
+> +	/* DF end address is the last address in the firmware blob */
+> +	*df_end = fw_addr + fw_len;
+> +	*buf = fw_buf;
+> +	release_firmware(fw);
+> +	return 0;
+> +err_big:
+> +	kfree(fw_buf);
+> +err_alloc:
+> +	release_firmware(fw);
+> +	return error;
 
-Applied, thank you.
+I do not quite like that we have to release firmware in both success
+and error paths, so I moved the call to request_ihex_firmware() to the
+caller of this function and release it before checking the result of
+loading the firmware to buffer, and applied.
+
+Thank you.
 
 -- 
 Dmitry
