@@ -2,53 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1717843069F
-	for <lists+linux-input@lfdr.de>; Sun, 17 Oct 2021 06:29:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D02A4306A4
+	for <lists+linux-input@lfdr.de>; Sun, 17 Oct 2021 06:29:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244947AbhJQEbY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 Oct 2021 00:31:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48720 "EHLO
+        id S244957AbhJQEcC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Oct 2021 00:32:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244957AbhJQEbU (ORCPT
+        with ESMTP id S244942AbhJQEcB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 Oct 2021 00:31:20 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB8D1C061768;
-        Sat, 16 Oct 2021 21:28:45 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id c4so5563639pgv.11;
-        Sat, 16 Oct 2021 21:28:45 -0700 (PDT)
+        Sun, 17 Oct 2021 00:32:01 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD62FC061765;
+        Sat, 16 Oct 2021 21:29:52 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id q10-20020a17090a1b0a00b001a076a59640so9197221pjq.0;
+        Sat, 16 Oct 2021 21:29:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=1mJGeEhQ+9ahr5mEnDWeWdSF7wiEGin+JNfbDsFkQfc=;
-        b=opjPJR/a8ugwCsoATSXoRCwfm9g5umLN4B379tz+LzLdh0S+eK/n7WiS5YEPP0B4VV
-         x2u+69k2SaiEA0IK7RSTBhlcAdQtbcAqheAYyEnoc0Rha1Q6e1pxJMRieU/8fdBpL6n3
-         tUQjWAwJRJdiYCwYq9t1OJxhRXEr9dfFT+PPcRmWiZTOFp0T4MYRPtMr/bH6O9yx7VNY
-         3/kWc4gfhvnV8rjAKINAoggXUh4pzBJ6xlfpL9ZFfeMTc1qKkBvd5LvAHqzqrLjMRaIi
-         tgUsR5QjRFCDKozgB8yIeIOK51z2ks6saDaA0GgXkrjs/Kut4bDOxzuaDVlxV884i6Wc
-         29yA==
+        bh=IYP6qbslTw2DcY6dxE/NBZSgY8DFSMmbbHftZ+ytovw=;
+        b=B13b6TMqyRsDUsTN7EiMwXNAVQNb/I3oKHJAO41+DjpGbVVJOMEqpTrQkhFnua78Ty
+         3EhwH9CTikd6sLp/nb3Y3mGxq4G7Dv8zlruPzwgHU+4LayVQEG57qAg3ZNBIezFQ2KBJ
+         24tBZCl3YTjROQ/2OcIsFDBqqm+cA0sezH823e1UK5dzRrDmdppnJDZ5Mbbz3/gLpuzG
+         O9tAPybiNdVjVdq/49ZQaxNmrcVuQOe3QwzBmQmYdlAxOb7wSE9SuFppBIy17Y+m5uS4
+         IWFcsFr9mc+nPSmM2Vsp2yJ5U07Hk2QUX/+V7NVSBFc9YKuw6HVEq6Pvf/3UtItsq971
+         RpvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=1mJGeEhQ+9ahr5mEnDWeWdSF7wiEGin+JNfbDsFkQfc=;
-        b=2unMv7bn2JHKhD3MNqNaldV1qZiN5os7LgNtH82Td6k0Plz+xgs6sdCmLSPC030DpS
-         u2+xAEMtVLuB3mlp+tT6rgXF9aNWvOMP7NRiusdOn3YYqQ6d09kWf1vO3IHxXbKWI7U+
-         OFWuVLm2wWAHhAhWFaLldGzXJvtZRi7hnN/88r/nTa1Yz687p3TRrHztysyDijqKjDQr
-         YQIXgStIb9ZsWjvW9OHdjaeZdNIgUnsllfpVN2+/7oDZbSUZ/dOSRxoRtJMVHwp24pD9
-         txz+rHEyBS+rnbQVFu6aRSZAvPwAtb6d+8g87awuHQoEwvsSA03hUj4+xGWyoZCVwhNc
-         OfZg==
-X-Gm-Message-State: AOAM5303M3ROQzq4lC434dCtcYoYmFjszb+e/GqLucM9wY93ys3Ndzmj
-        3Yv6ikcNQmTh6wzLcoB6Gqs=
-X-Google-Smtp-Source: ABdhPJw4jYcAcVkkMy0+oCgqt9Cw5ZVbDVVL7i/2GQB92xPmk3bZaXfLR5EfD3wOzhNMWKqYWfe67A==
-X-Received: by 2002:a63:e216:: with SMTP id q22mr16235879pgh.3.1634444924494;
-        Sat, 16 Oct 2021 21:28:44 -0700 (PDT)
+        bh=IYP6qbslTw2DcY6dxE/NBZSgY8DFSMmbbHftZ+ytovw=;
+        b=d0c7pFyz/ZXUWdbhha9wdJdymFDMfjEr+8sYy92zDDkZtrPqIHXbUx1keD0ygL74Hb
+         Jmnqma2IOcya1x7D4o7U1AOHC/jkzRLXlgeEo7/Kpyhn7dSOKehzL4ZFsGPf7O7rCjrI
+         DSUHbCRy44veCcJkC0FYtNTMhdtGEfXqHwaQLkoOugPtrsiIFWtM+slEK6Inx10RxR2G
+         Sehys61cOJPMdCH8+i+qN/87HVaIY3UxgbJXSJbICfX34YNsPW3V9xnE89NDkWVIoeq5
+         WOXQ0r+MsDZtxYlu+AdsxwPJNvq7NTyaFq57tS5KSt6dBVUS+L6Nv60XQwixr64HF7uN
+         TpQQ==
+X-Gm-Message-State: AOAM533ZNwiM3eDbBPCdFr22Q7Ltn8Kqv5DNLdBVnWnd4pvtR2WxXpy/
+        9M5q4ZMRwfnsQmo1bMfFF8M=
+X-Google-Smtp-Source: ABdhPJwszCcJ7l32J2XfHjBckJxCLGxY1qJ/JColDPntXtcMXWhWnku+37nfNjI8tLNIzOhpBN8GiQ==
+X-Received: by 2002:a17:902:64d6:b0:13e:a59e:332c with SMTP id y22-20020a17090264d600b0013ea59e332cmr19650402pli.30.1634444992189;
+        Sat, 16 Oct 2021 21:29:52 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:e49a:151f:b7d7:af9a])
-        by smtp.gmail.com with ESMTPSA id nu16sm9641615pjb.56.2021.10.16.21.28.43
+        by smtp.gmail.com with ESMTPSA id oc8sm9299237pjb.15.2021.10.16.21.29.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Oct 2021 21:28:43 -0700 (PDT)
-Date:   Sat, 16 Oct 2021 21:28:41 -0700
+        Sat, 16 Oct 2021 21:29:51 -0700 (PDT)
+Date:   Sat, 16 Oct 2021 21:29:48 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Shawn Guo <shawn.guo@linaro.org>
 Cc:     Luca Weiss <luca@z3ntu.xyz>,
@@ -59,27 +59,42 @@ Cc:     Luca Weiss <luca@z3ntu.xyz>,
         "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
         linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] Input: pm8941-pwrkey - Respect reboot_mode for
- warm reset
-Message-ID: <YWumeS0nAGwCck2e@google.com>
+Subject: Re: [PATCH v2 0/2] Warm reset support for pm8941-pwrkey
+Message-ID: <YWumvKznZAS4U6Le@google.com>
 References: <20210714095850.27185-1-shawn.guo@linaro.org>
- <20210714095850.27185-3-shawn.guo@linaro.org>
+ <20210824030058.GC22595@dragon>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210714095850.27185-3-shawn.guo@linaro.org>
+In-Reply-To: <20210824030058.GC22595@dragon>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jul 14, 2021 at 05:58:49PM +0800, Shawn Guo wrote:
-> On some devices, e.g. Sony Xperia M4 Aqua, warm reset is used to reboot
-> device into bootloader and recovery mode.  Instead of always doing hard
-> reset, add a check on reboot_mode for possible warm reset.
+On Tue, Aug 24, 2021 at 11:00:59AM +0800, Shawn Guo wrote:
+> On Wed, Jul 14, 2021 at 05:58:47PM +0800, Shawn Guo wrote:
+> > It adds warm reset support for pm8941-pwrkey driver.
+> > 
+> > Changes for v2:
+> > - Export symbol 'reboot_mode' to fix the build error with pm8941-pwrkey
+> >   being module.  (Thanks Luca Weiss for reporting)
+> > 
+> > Shawn Guo (2):
+> >   reboot: Export symbol 'reboot_mode'
+> >   Input: pm8941-pwrkey - Respect reboot_mode for warm reset
+> > 
+> >  drivers/input/misc/pm8941-pwrkey.c | 6 +++++-
+> >  kernel/reboot.c                    | 1 +
+> >  2 files changed, 6 insertions(+), 1 deletion(-)
 > 
-> Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+> Hi Dmitry,
+> 
+> Any comments on these patches?
 
-Applied, thank you.
+Sorry, I was waiting to see if there would be objections to exporting
+reboot_mode symbol. Both are applied now.
+
+Thanks.
 
 -- 
 Dmitry
