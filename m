@@ -2,175 +2,253 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9FBF430B33
-	for <lists+linux-input@lfdr.de>; Sun, 17 Oct 2021 19:24:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D98F3430B5B
+	for <lists+linux-input@lfdr.de>; Sun, 17 Oct 2021 20:03:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344403AbhJQR06 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 Oct 2021 13:26:58 -0400
-Received: from phobos.denx.de ([85.214.62.61]:45324 "EHLO phobos.denx.de"
+        id S232752AbhJQSGH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Oct 2021 14:06:07 -0400
+Received: from mga05.intel.com ([192.55.52.43]:61439 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1344366AbhJQR06 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 Oct 2021 13:26:58 -0400
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 2FEC48314C;
-        Sun, 17 Oct 2021 19:24:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1634491487;
-        bh=OEA1kHvs4tUOYlO70+WGG7uua7/7r6l6Z+Cu8cxyppM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=inMP0QA+2SVxXTbD0mfQsKQDPBf21CwyhtvhOp99HyPqmP9sq/jb5Y/E0Sfp5uyv0
-         sHCINLI4JvusMGen876AoZH00RK0wAE+CljDz0T37XUV2ko7X2E5t4+63qbXn76LhG
-         xlaBvpdW160F8diu6jxXGHa1uvqou3+DXaqRiUfkb6JABlagxSf4K/0BUTNfoUK0/Z
-         ww7cmiBYWkuAUd4TucQvU/jHqtdJwh3moZrC/d5RX5xWfxA2gGbjhOGLjBxMNm+FNl
-         nmCG8zHTUfsFn0uhGIgZ/G/e99eOprZF9BmplOrGy1Mu5AXuQ7DUgPWwzC+JsvrU3h
-         JDcZX87HKJN6w==
-From:   Marek Vasut <marex@denx.de>
-To:     linux-input@vger.kernel.org
-Cc:     Marek Vasut <marex@denx.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Joe Hung <joe_hung@ilitek.com>, Luca Hsu <luca_hsu@ilitek.com>
-Subject: [PATCH] Input: ili210x - Make ili251x_firmware_to_buffer more generic
-Date:   Sun, 17 Oct 2021 19:24:35 +0200
-Message-Id: <20211017172435.47812-1-marex@denx.de>
-X-Mailer: git-send-email 2.33.0
+        id S230463AbhJQSGG (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 17 Oct 2021 14:06:06 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10140"; a="314325816"
+X-IronPort-AV: E=Sophos;i="5.85,380,1624345200"; 
+   d="scan'208";a="314325816"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2021 11:03:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,380,1624345200"; 
+   d="scan'208";a="443157053"
+Received: from lkp-server02.sh.intel.com (HELO 08b2c502c3de) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 17 Oct 2021 11:03:55 -0700
+Received: from kbuild by 08b2c502c3de with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mcAVm-000AXZ-Qu; Sun, 17 Oct 2021 18:03:54 +0000
+Date:   Mon, 18 Oct 2021 02:03:43 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:master] BUILD SUCCESS
+ c6ac8f0b4ca927316eb40e1e9ba83df5d29f3793
+Message-ID: <616c657f.UCwPHRFcaLLqMLFb%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Wrap request_ihex_firmware() and release_firmware() into function
-ili251x_firmware_to_buffer(), since the ihex firmware is only used
-within that function and it is not required outside of it.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
+branch HEAD: c6ac8f0b4ca927316eb40e1e9ba83df5d29f3793  Input: ili210x - add ili251x firmware update support
 
-This requires passing the firmware filename, but instead of adding yet
-another parameter, add the firmware filename into struct ili2xxx_chip,
-so other chips with different firmware filenames can also be updated
-when their update support is in place. Rename the firmware parsing
-function to ili210x_firmware_to_buffer as well.
+elapsed time: 726m
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Joe Hung <joe_hung@ilitek.com>
-Cc: Luca Hsu <luca_hsu@ilitek.com>
+configs tested: 195
+configs skipped: 4
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allmodconfig
+arm                              allyesconfig
+h8300                       h8s-sim_defconfig
+arc                     haps_hs_smp_defconfig
+powerpc                     tqm5200_defconfig
+sh                             sh03_defconfig
+sh                  sh7785lcr_32bit_defconfig
+arm                         axm55xx_defconfig
+sh                          landisk_defconfig
+arm                           tegra_defconfig
+arm                        oxnas_v6_defconfig
+arm                         orion5x_defconfig
+arm                       imx_v4_v5_defconfig
+arm                           corgi_defconfig
+xtensa                    xip_kc705_defconfig
+csky                             alldefconfig
+sh                   sh7770_generic_defconfig
+powerpc                      ppc40x_defconfig
+sh                                  defconfig
+sparc                               defconfig
+riscv                            alldefconfig
+mips                        maltaup_defconfig
+arm                          collie_defconfig
+powerpc                       ebony_defconfig
+s390                             alldefconfig
+sh                        dreamcast_defconfig
+openrisc                 simple_smp_defconfig
+powerpc                      chrp32_defconfig
+sh                          sdk7786_defconfig
+m68k                       bvme6000_defconfig
+arm                     am200epdkit_defconfig
+sh                          rsk7264_defconfig
+arm                            mmp2_defconfig
+m68k                         amcore_defconfig
+sparc64                          alldefconfig
+xtensa                  nommu_kc705_defconfig
+mips                     loongson1b_defconfig
+mips                           xway_defconfig
+ia64                        generic_defconfig
+arm                           h5000_defconfig
+mips                        workpad_defconfig
+powerpc                 xes_mpc85xx_defconfig
+powerpc                      ppc6xx_defconfig
+h8300                               defconfig
+ia64                      gensparse_defconfig
+powerpc                     tqm8541_defconfig
+arm                          pxa3xx_defconfig
+powerpc                 mpc8540_ads_defconfig
+sh                           se7780_defconfig
+arc                         haps_hs_defconfig
+arm                        keystone_defconfig
+arm                  colibri_pxa270_defconfig
+sh                        edosk7705_defconfig
+arm                          moxart_defconfig
+m68k                        m5307c3_defconfig
+m68k                          sun3x_defconfig
+powerpc                     sequoia_defconfig
+sh                         ap325rxa_defconfig
+sh                           se7751_defconfig
+m68k                        m5272c3_defconfig
+arm                           viper_defconfig
+powerpc                          allyesconfig
+sparc64                             defconfig
+riscv                             allnoconfig
+mips                            e55_defconfig
+powerpc                     kmeter1_defconfig
+m68k                          hp300_defconfig
+powerpc                    mvme5100_defconfig
+arm                          ep93xx_defconfig
+powerpc                   bluestone_defconfig
+sparc                            alldefconfig
+arm                            dove_defconfig
+sh                     magicpanelr2_defconfig
+s390                          debug_defconfig
+nios2                         3c120_defconfig
+mips                malta_qemu_32r6_defconfig
+arc                    vdk_hs38_smp_defconfig
+arm                            hisi_defconfig
+arc                           tb10x_defconfig
+powerpc                    sam440ep_defconfig
+sh                 kfr2r09-romimage_defconfig
+powerpc                     powernv_defconfig
+arc                      axs103_smp_defconfig
+mips                          rm200_defconfig
+x86_64                              defconfig
+powerpc                      pasemi_defconfig
+arm                      footbridge_defconfig
+riscv                            allmodconfig
+arc                          axs103_defconfig
+sh                          lboxre2_defconfig
+sh                           se7206_defconfig
+um                           x86_64_defconfig
+arm                        mvebu_v5_defconfig
+arm                         lubbock_defconfig
+microblaze                      mmu_defconfig
+arm                            zeus_defconfig
+arm                         s5pv210_defconfig
+ia64                                defconfig
+powerpc                     rainier_defconfig
+powerpc                       holly_defconfig
+mips                        nlm_xlr_defconfig
+powerpc                     ksi8560_defconfig
+arm                          pxa910_defconfig
+riscv                               defconfig
+sh                          kfr2r09_defconfig
+mips                     cu1000-neo_defconfig
+arm                          pcm027_defconfig
+sh                         microdev_defconfig
+powerpc                     taishan_defconfig
+powerpc                     mpc512x_defconfig
+powerpc                 mpc834x_mds_defconfig
+sh                        sh7757lcr_defconfig
+powerpc                           allnoconfig
+h8300                            allyesconfig
+mips                           gcw0_defconfig
+powerpc                  iss476-smp_defconfig
+powerpc                  mpc866_ads_defconfig
+arc                 nsimosci_hs_smp_defconfig
+ia64                          tiger_defconfig
+powerpc                 mpc837x_rdb_defconfig
+powerpc                      tqm8xx_defconfig
+arm                       mainstone_defconfig
+sh                          r7785rp_defconfig
+arm                  randconfig-c002-20211017
+i386                 randconfig-c001-20211017
+x86_64               randconfig-c001-20211017
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+arc                                 defconfig
+xtensa                           allyesconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                                defconfig
+parisc                           allyesconfig
+s390                             allyesconfig
+s390                             allmodconfig
+sparc                            allyesconfig
+i386                                defconfig
+i386                             allyesconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allmodconfig
+x86_64               randconfig-a012-20211017
+x86_64               randconfig-a015-20211017
+x86_64               randconfig-a016-20211017
+x86_64               randconfig-a014-20211017
+x86_64               randconfig-a011-20211017
+x86_64               randconfig-a013-20211017
+i386                 randconfig-a016-20211017
+i386                 randconfig-a014-20211017
+i386                 randconfig-a011-20211017
+i386                 randconfig-a015-20211017
+i386                 randconfig-a012-20211017
+i386                 randconfig-a013-20211017
+arc                  randconfig-r043-20211017
+s390                 randconfig-r044-20211017
+riscv                randconfig-r042-20211017
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                            allyesconfig
+um                             i386_defconfig
+um                            kunit_defconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                               rhel-8.3
+x86_64                                  kexec
+x86_64                           allyesconfig
+
+clang tested configs:
+x86_64               randconfig-a004-20211017
+x86_64               randconfig-a001-20211017
+x86_64               randconfig-a002-20211017
+x86_64               randconfig-a003-20211017
+x86_64               randconfig-a006-20211017
+x86_64               randconfig-a005-20211017
+i386                 randconfig-a003-20211017
+i386                 randconfig-a001-20211017
+i386                 randconfig-a005-20211017
+i386                 randconfig-a004-20211017
+i386                 randconfig-a002-20211017
+i386                 randconfig-a006-20211017
+hexagon              randconfig-r041-20211017
+hexagon              randconfig-r045-20211017
+
 ---
- drivers/input/touchscreen/ili210x.c | 39 ++++++++++++++++++-----------
- 1 file changed, 24 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
-index 867c13d3cb17..a6b647100250 100644
---- a/drivers/input/touchscreen/ili210x.c
-+++ b/drivers/input/touchscreen/ili210x.c
-@@ -49,6 +49,7 @@ struct ili2xxx_chip {
- 				 unsigned int *x, unsigned int *y,
- 				 unsigned int *z);
- 	bool (*continue_polling)(const u8 *data, bool touch);
-+	char *firmware_filename;
- 	unsigned int max_touches;
- 	unsigned int resolution;
- 	bool has_calibrate_reg;
-@@ -288,6 +289,7 @@ static const struct ili2xxx_chip ili251x_chip = {
- 	.get_touch_data		= ili251x_read_touch_data,
- 	.parse_touch_data	= ili251x_touchdata_to_coords,
- 	.continue_polling	= ili251x_check_continue_polling,
-+	.firmware_filename	= ILI251X_FW_FILENAME,
- 	.max_touches		= 10,
- 	.has_calibrate_reg	= true,
- 	.has_firmware_proto	= true,
-@@ -557,15 +559,25 @@ static ssize_t ili210x_calibrate(struct device *dev,
- }
- static DEVICE_ATTR(calibrate, S_IWUSR, NULL, ili210x_calibrate);
- 
--static int ili251x_firmware_to_buffer(const struct firmware *fw,
-+static int ili210x_firmware_to_buffer(struct device *dev,
- 				      u8 **buf, u16 *ac_end, u16 *df_end)
- {
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct ili210x *priv = i2c_get_clientdata(client);
- 	const struct ihex_binrec *rec;
- 	u32 fw_addr, fw_last_addr = 0;
-+	const struct firmware *fw;
- 	u16 fw_len;
- 	u8 *fw_buf;
- 	int error;
- 
-+	error = request_ihex_firmware(&fw, priv->chip->firmware_filename, dev);
-+	if (error) {
-+		dev_err(dev, "Failed to request firmware %s, error=%d\n",
-+			priv->chip->firmware_filename, error);
-+		return error;
-+	}
-+
- 	/*
- 	 * The firmware ihex blob can never be bigger than 64 kiB, so make this
- 	 * simple -- allocate a 64 kiB buffer, iterate over the ihex blob records
-@@ -573,8 +585,10 @@ static int ili251x_firmware_to_buffer(const struct firmware *fw,
- 	 * do all operations on this linear buffer.
- 	 */
- 	fw_buf = kzalloc(SZ_64K, GFP_KERNEL);
--	if (!fw_buf)
--		return -ENOMEM;
-+	if (!fw_buf) {
-+		error = -ENOMEM;
-+		goto err_mem;
-+	}
- 
- 	rec = (const struct ihex_binrec *)fw->data;
- 	while (rec) {
-@@ -599,10 +613,13 @@ static int ili251x_firmware_to_buffer(const struct firmware *fw,
- 	/* DF end address is the last address in the firmware blob */
- 	*df_end = fw_addr + fw_len;
- 	*buf = fw_buf;
-+	release_firmware(fw);
- 	return 0;
- 
- err_big:
- 	kfree(fw_buf);
-+err_mem:
-+	release_firmware(fw);
- 	return error;
- }
- 
-@@ -759,22 +776,13 @@ static ssize_t ili210x_firmware_update_store(struct device *dev,
- 					     const char *buf, size_t count)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
--	const char *fwname = ILI251X_FW_FILENAME;
--	const struct firmware *fw;
-+	struct ili210x *priv = i2c_get_clientdata(client);
- 	u16 ac_end, df_end;
- 	u8 *fwbuf;
- 	int error;
- 	int i;
- 
--	error = request_ihex_firmware(&fw, fwname, dev);
--	if (error) {
--		dev_err(dev, "Failed to request firmware %s, error=%d\n",
--			fwname, error);
--		return error;
--	}
--
--	error = ili251x_firmware_to_buffer(fw, &fwbuf, &ac_end, &df_end);
--	release_firmware(fw);
-+	error = ili210x_firmware_to_buffer(dev, &fwbuf, &ac_end, &df_end);
- 	if (error)
- 		return error;
- 
-@@ -787,7 +795,8 @@ static ssize_t ili210x_firmware_update_store(struct device *dev,
- 	 */
- 	disable_irq(client->irq);
- 
--	dev_dbg(dev, "Firmware update started, firmware=%s\n", fwname);
-+	dev_dbg(dev, "Firmware update started, firmware=%s\n",
-+		priv->chip->firmware_filename);
- 
- 	ili251x_hardware_reset(dev);
- 
--- 
-2.33.0
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
