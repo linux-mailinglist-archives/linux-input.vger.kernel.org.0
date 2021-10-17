@@ -2,66 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B2DB430B5C
-	for <lists+linux-input@lfdr.de>; Sun, 17 Oct 2021 20:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01BBC430C06
+	for <lists+linux-input@lfdr.de>; Sun, 17 Oct 2021 22:34:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232404AbhJQSG7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 Oct 2021 14:06:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58026 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230463AbhJQSG7 (ORCPT
+        id S242911AbhJQUgo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Oct 2021 16:36:44 -0400
+Received: from mx.xn--bimann-cta.de ([185.207.104.210]:8354 "EHLO
+        mx.xn--bimann-cta.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242908AbhJQUgo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 Oct 2021 14:06:59 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ED3EC06161C
-        for <linux-input@vger.kernel.org>; Sun, 17 Oct 2021 11:04:49 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id y15so62255389lfk.7
-        for <linux-input@vger.kernel.org>; Sun, 17 Oct 2021 11:04:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=yOIB1cM1n4AVjkajdRdBpAYqP2G0HC9nHfA5pv+kPpE=;
-        b=nfv8X6oph1sOjkoW1M4Q2krqt5m0A6tAMPmwe84l5/a2KFqa59RTub41UGKd+3+GND
-         sqS5oXplJ3yvqZ+BVmiJURx+XHKWMbWDgmtcX4jsnNHE+uomERNtEFtvN8hbSMZ6YOgf
-         xwdwKv7lze+qB6T0yRxkRmNLxQri+yHO3MaRkX78D/XpzbfVFaPYzZCmLmHexX8fw1pQ
-         YGB47roY+T1NiA2u9hFo+e4EaurFxksk8PRwCvCJmvGU9UBYmu+slChsTeFMdgBQix0j
-         LekBfqsI5hvGV8uv3SYJUGKthcnnLOV0HxiV8Nc/XmYYhJo0fmjX4bsqe7q9sBRuLKrK
-         pCRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=yOIB1cM1n4AVjkajdRdBpAYqP2G0HC9nHfA5pv+kPpE=;
-        b=afaVwr1aShIF+BUzIdjnS7WP5AqmwyKiuC/VVYLUdCs63Zh8APhMSWFjVZBU1PzmW2
-         SIql4uDJQVgyatagowiqGk8jbLVWZUVR8bIc2adpUDaG79cJ2ViAa8j3RpZk8egHSnwH
-         QJnKjakSlRBysgp/iOR0S6x/LSu1gO8Q9JAPDHSz3+WQu6cNepVrzGUUwSrs7+9n56ma
-         pPHX6h4u6wYhPJNTCVk/lTxf7A7KSzskn2+7D1rZk6nYmPgdYltV52JCit0zH/aQOuY7
-         mpJ4KsL6wrfJ+QKykHn/+xfidgq/YgxHEBfPbymGuU9IzIlHUEcNbEznceurjfl66AG6
-         L/kg==
-X-Gm-Message-State: AOAM532Fw0DpoR+s8MMEPzomlJT85E+spq8BCuFZx7A2w/pjZ27Qoy2e
-        fPKC6IPxVClM/XwH0O0BEBJAsnfBgjo+YPJDdI8=
-X-Google-Smtp-Source: ABdhPJxDV5IREC8LE4/rkfb+3hG531L7InO9hkBK/HWiDi7MPflAUbJg/X7ce1cXg4ttUYfxtC7RFMAlPJDYv/qcJa8=
-X-Received: by 2002:a05:6512:12c3:: with SMTP id p3mr4234861lfg.365.1634493886897;
- Sun, 17 Oct 2021 11:04:46 -0700 (PDT)
+        Sun, 17 Oct 2021 16:36:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=dkim; bh=RD8Cpi7fgivdyLu
+        s6Xf7V4g1wooyGS/VEAcS32QW6AE=; h=in-reply-to:references:subject:cc:to:
+        from:date; d=xn--bimann-cta.de; b=IYTzUGHCQOP0rHdxzdamPOiiK9NXRSUSYm+f
+        PVm3rwCr0WQzgxMUTUp6Z0RaFB/ud5YegLTafHpnGCGS9fHdkpGeXv5EcXAjPY4+oiSErd
+        Vq1vhvZFu8iylD4JBE2ON5Rb3JfseC5BjE/3/VfOxETehfEZTLdrXv2ACcUvBb7jQ=
+Received: from kallisto.localdomain (p5084cf21.dip0.t-ipconnect.de [80.132.207.33])
+        by mx.xn--bimann-cta.de (OpenSMTPD) with ESMTPSA id 1a0932bc (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
+        Sun, 17 Oct 2021 22:34:32 +0200 (CEST)
+Date:   Sun, 17 Oct 2021 22:34:29 +0200
+From:   naib@xn--bimann-cta.de
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: Re: I2C MSFT0001 (04F3:3072) touchpad is not recognized / registered
+Message-ID: <20211017203429.2lgipbvr5oxm42nx@kallisto.localdomain>
+References: <20211015144714.lvp7vz7lmeku2jpj@kallisto.localdomain>
+ <YWnzXWAhqYuJCE2Z@google.com>
 MIME-Version: 1.0
-Received: by 2002:ac2:5d2e:0:0:0:0:0 with HTTP; Sun, 17 Oct 2021 11:04:45
- -0700 (PDT)
-Reply-To: justinseydou@gmail.com
-From:   Justin Seydou <morenodiaz966@gmail.com>
-Date:   Sun, 17 Oct 2021 19:04:45 +0100
-Message-ID: <CANNuGLfMt1jZhu2eXYJ_nTdpgbX7AwLqjpyR2k-9ki5f_AGc3w@mail.gmail.com>
-Subject: Proposal
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YWnzXWAhqYuJCE2Z@google.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear friend,
+Thanks for helping me.
 
-I am Mr. Justin Seydou. I have a mutually beneficial proposal of
-$35millionUSD I want to introduce to you. All documents to execute the
-transaction are valid and available.
-Kindly indicate your interest to enable me explain further.
+On Fri, Oct 15, 2021 at 02:32:13PM -0700, Dmitry Torokhov wrote:
+> > # The touchscreen (ok):
+> > i2c_designware AMDI0010:00: using lookup tables for GPIO lookup
+> > i2c_designware AMDI0010:00: No GPIO consumer scl found
+> > i2c i2c-0: adapter [Synopsys DesignWare I2C adapter] registered
+> > i2c i2c-0: client [ELAN238E:00] registered with bus id i2c-ELAN238E:00
+> > # The touchpad (not ok):
+> > i2c_designware AMDI0010:01: using lookup tables for GPIO lookup
+> > i2c_designware AMDI0010:01: No GPIO consumer scl found
+> > i2c i2c-1: adapter [Synopsys DesignWare I2C adapter] registered
+> 
+> Since we do not see I2C client being registered in the case of touchpad
+> I'd start tracing drivers/i2c/i2c-core-acpi.c, functions
+> i2c_acpi_add_device() and i2c_acpi_get_info() to see where the failure
+> is. I guess the changes made ACPI descriptions not match with what Linux
+> expects.
 
-Justin Seydou.
+I have enabled tracing via kernel parameters. Solely enabling i2c_acpi_add_device and i2c_acpi_get_info generates no output. Output for "ftrace=function ftrace_filter=i2c_acpi_*" is at [1]. I have also generated a version with the option func_stack_trace enabled, but I don't think that it worked, since the output has'nt changed that much: "ftrace=function ftrace_filter=i2c_acpi_* trace_options=print-parent,trace_printk,annotate,context-info,record-cmd,overwrite,irq-info,markers,function-trace,func_stack_trace" [2]. To correlate entries I'll also supply a dmesg buffer output [3] from the same boot.
+
+While testing with different ftrace setups I've noticed that sometimes the touchscreen is not working. Looking at dmesg output [4] there seems to be an error while probing for it. As of [5]: "The duplicate WMI GUIDs are used for the binary MOF file of a _WDG entry in the ASL". To concentrate on the trackpad and not mix things up, I'd ignore these errors for the moment.
+
+I'll continue reading through different docs of ftrace, to generate more usable output.
+
+[1] https://op.xn--bimann-cta.de/bug/2021-10-16_trace.txt
+[2] https://op.xn--bimann-cta.de/bug/2021-10-17_trace.txt
+[3] https://op.xn--bimann-cta.de/bug/2021-10-17_dmesg.txt
+[4] https://op.xn--bimann-cta.de/bug/touchscreen_errors.txt
+[5] https://lkml.org/lkml/2017/12/8/914
