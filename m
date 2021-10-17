@@ -2,116 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B81C43066E
-	for <lists+linux-input@lfdr.de>; Sun, 17 Oct 2021 06:23:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B10943069B
+	for <lists+linux-input@lfdr.de>; Sun, 17 Oct 2021 06:28:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235491AbhJQE0B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 Oct 2021 00:26:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47576 "EHLO
+        id S244932AbhJQEap (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Oct 2021 00:30:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233548AbhJQE0B (ORCPT
+        with ESMTP id S233548AbhJQEao (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 Oct 2021 00:26:01 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 366C7C061765;
-        Sat, 16 Oct 2021 21:23:52 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id m21so12573195pgu.13;
-        Sat, 16 Oct 2021 21:23:52 -0700 (PDT)
+        Sun, 17 Oct 2021 00:30:44 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52C1AC061765;
+        Sat, 16 Oct 2021 21:28:35 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id o133so11985569pfg.7;
+        Sat, 16 Oct 2021 21:28:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=ND/C0Cw1igbnIAxbgjJyHzhuGZ4HoMLAKVHeD+CrT8Y=;
-        b=DT6/WJd8CM/xsDrxbUL0zoH63WLKlaXMxY/XuZuCPNsBwwxtX6XPXQ+tGxGCi1JAQR
-         2wG7sPSv0YxOiKQYvmV8iGHvwnOXSuj3doDUqWE0kwMJe8jLY4aPspdedwDsfy+/nHgm
-         DxWTRr50Slm2MoaCNOCygbaDlgZpq2Njd2wLHGLC+IVdTuuLBiOUi2uhM3m6DRVKh+qQ
-         0cxEjcVqhwSMLxBtAHB6GYlhRHNf8/k4voLUFs3qWGAG0D8AAlePZ+J3cLI2rKm0gvUG
-         pyAS4CbGE+k6PuQO0B2K32qGOE7WeI3T0JcaMWSwpSwRim9m6ef2ru0trdbgNS45D/L+
-         Xwgg==
+        bh=skcWmsGhkUF1xH1dCjfxAdJy8Z1FOllaUJj4g1xQv/A=;
+        b=HBATO/U51x+CfN3FRY6C4J0uP/TyRUwp8ThA12jS1E/W+mveGbMmoS9Oj8CUS8aCJW
+         TCv0ClDRx8dvdvZt7dACTHvwORasqy76RUJCrSc/KVJI9xIRJPXRsD/b4sdKfqssy59o
+         7k2IuB3HJWyEDFEOHHItTiPl0LZr40bnO1dmcHvZXazE9BXuNTt+XE5brmfbU+uo/7qx
+         WEI5sz+KC5aX6Bt+ZiGUnHl9Fu90gWH0ZXJZnDHT8Lu9TFpE3owpMxCp2waYpc6j5GVg
+         gvNRooZmziPHhqMWM4EGoFAMDEO0eabZJdkRDLPqUFB3kUcktuvtwcSN/laokb6FeTPx
+         pnQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=ND/C0Cw1igbnIAxbgjJyHzhuGZ4HoMLAKVHeD+CrT8Y=;
-        b=NY+DYffq9DzicaORoWXUqunHjZ+vfd+mE7AqmeKn0FoRZMdqjWcr1+l+HTpiXL9I8V
-         iLX3lA50ppuCFbB48CgirXNKikkCH4KAe0uPt0I7JacetqhHwmdDLNzhqHlMpu13YgQC
-         CLiUrH4yc5ywH5sV83UX8HEyisGr7U/OyhKkmGGylAQFbP4P/rpqTPvWYQGETnm1j7D4
-         30jEfbzuDRT2DYroE+nKC1LufHo+bM91YkGMEvaGdeW7NpP8a/aRITq3vgQaxKAlfFhE
-         cYKzGy8JfsyJ/Ta31CFVXgscLHwgbH4DdBYNZp/dQ8ctnd3OYF5yGqDG0ZBKjWM0MaSd
-         /HAg==
-X-Gm-Message-State: AOAM532gWfytIDnBrw8emZy1eETk0YdnYBB9dBjQjsntgW1uH5bcWM06
-        W8bUoWqjp/aFicFJ11qee60=
-X-Google-Smtp-Source: ABdhPJwVucY9TRzRmYMqKJKDTt8nnezyWgKMknlx03/WfAC7F1g8Wm2HtQ2OKKqoi5qShBto4bccPg==
-X-Received: by 2002:a63:ad49:: with SMTP id y9mr15726225pgo.352.1634444631213;
-        Sat, 16 Oct 2021 21:23:51 -0700 (PDT)
+        bh=skcWmsGhkUF1xH1dCjfxAdJy8Z1FOllaUJj4g1xQv/A=;
+        b=MGeLpuvGYdgtdt/12rE1jZmwbVELQZNvYG3YKq2Z+e6jCPpD1X6Kx/tNC9yoVCq3tE
+         GYNEfC2sSYDwLGUMwNHDdWxADvA2ujRFDsQ3Y6VP/c6SrRjI8VrGEF2jW/JDy56zq8Sw
+         gCFXFPUwfwwhPGrkn6PiuLT8pvNC25Xxg8kYd9rGNPtTarelpQvogfLL/RjMwE+ZCdBi
+         LX64+K+W7+Mc7n2uCzZfBSGoWFv7iVB78rxQmwrYfHDenPAlQQc5IYHTx4SFtqfn0g9C
+         NJOVmotnW44qNruHj2btPP8RE81sid1//VEUDL+7aSb67BT61ZWEdG3EzvNoDaLZYZRi
+         v4AA==
+X-Gm-Message-State: AOAM533/wic3+6j2lwen5ysDhDA5wMQU/DNGL0TRayhCgH4F5JFiRKnS
+        eBM0bLeQJVOQ6ywx+Vmw6UY=
+X-Google-Smtp-Source: ABdhPJzjJxwe3IS6LFpW8ey83S4WRElk/D67yNB84IESVrkLwFVYVGzawiB4Iuu9L5MN6S2wqktJiQ==
+X-Received: by 2002:a05:6a00:2389:b0:44d:6d57:a38e with SMTP id f9-20020a056a00238900b0044d6d57a38emr21300745pfc.50.1634444914579;
+        Sat, 16 Oct 2021 21:28:34 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:e49a:151f:b7d7:af9a])
-        by smtp.gmail.com with ESMTPSA id k14sm8823063pgg.92.2021.10.16.21.23.49
+        by smtp.gmail.com with ESMTPSA id o127sm9041327pfb.216.2021.10.16.21.28.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Oct 2021 21:23:50 -0700 (PDT)
-Date:   Sat, 16 Oct 2021 21:23:47 -0700
+        Sat, 16 Oct 2021 21:28:33 -0700 (PDT)
+Date:   Sat, 16 Oct 2021 21:28:31 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Mark Brown <broonie@kernel.org>,
-        kernel test robot <lkp@intel.com>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-spi@vger.kernel.org, David Jander <david@protonic.nl>
-Subject: Re: [PATCH v1] Input: ads7846: ads7846_get_value - fix unaligned
- pointer value warning
-Message-ID: <YWulU30/yZaDeoAS@google.com>
-References: <20210707124115.20028-1-o.rempel@pengutronix.de>
- <YTrnUFI53iwvwxrj@google.com>
- <20210910075154.GF26100@pengutronix.de>
+To:     Shawn Guo <shawn.guo@linaro.org>
+Cc:     Luca Weiss <luca@z3ntu.xyz>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Matteo Croce <mcroce@microsoft.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Petr Mladek <pmladek@suse.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] reboot: Export symbol 'reboot_mode'
+Message-ID: <YWumb+KpYVJVVdQE@google.com>
+References: <20210714095850.27185-1-shawn.guo@linaro.org>
+ <20210714095850.27185-2-shawn.guo@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210910075154.GF26100@pengutronix.de>
+In-Reply-To: <20210714095850.27185-2-shawn.guo@linaro.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Sep 10, 2021 at 09:51:54AM +0200, Oleksij Rempel wrote:
-> Hi Dmitry,
+On Wed, Jul 14, 2021 at 05:58:48PM +0800, Shawn Guo wrote:
+> Some drivers like Qualcomm pm8941-pwrkey need to access 'reboot_mode'
+> for triggering reboot between cold and warm mode.  Export the symbol, so
+> that drivers built as module can still access the symbol.
 > 
-> On Thu, Sep 09, 2021 at 10:04:16PM -0700, Dmitry Torokhov wrote:
-> > Hi Oleksij,
-> > 
-> > On Wed, Jul 07, 2021 at 02:41:15PM +0200, Oleksij Rempel wrote:
-> > > Fix warning reported by the kernel test robot:
-> > > drivers/input/touchscreen/ads7846.c:705:24: warning: taking address
-> > > of packed member 'data' of class or structure 'ads7846_buf' may result
-> > > in an unaligned pointer value [-Waddress-of-packed-member]
-> > > 
-> > > Fixes: 6965eece2a89 ("Input: ads7846 - convert to one message")
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> > > ---
-> > >  drivers/input/touchscreen/ads7846.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-> > > index adb4c2230c31..1987dedac94f 100644
-> > > --- a/drivers/input/touchscreen/ads7846.c
-> > > +++ b/drivers/input/touchscreen/ads7846.c
-> > > @@ -702,7 +702,7 @@ static int ads7846_get_value(struct ads7846_buf *buf)
-> > >  {
-> > >  	int value;
-> > >  
-> > > -	value = be16_to_cpup(&buf->data);
-> > > +	value = get_unaligned_be16(&buf->data);
-> > 
-> > ds7846_buf is declared as packed so I believe using be16_to_cpu(buf->data)
-> > will suffice.
-> 
-> The pointer to the data is is off by 8 bits, so it is not naturally
-> aligned. This is why we need to use function which is dealing with
-> unaligned pointers. 
+> Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
 
-As I mentioned, the structure is packed, so the compiler will take care
-of doing unaligned access safely on architectures that can not tolerate
-it.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
