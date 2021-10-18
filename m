@@ -2,113 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 941E8431004
-	for <lists+linux-input@lfdr.de>; Mon, 18 Oct 2021 07:57:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22FE04310D0
+	for <lists+linux-input@lfdr.de>; Mon, 18 Oct 2021 08:48:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229735AbhJRF7T (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 Oct 2021 01:59:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42938 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229533AbhJRF7T (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 Oct 2021 01:59:19 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 088BE60F59;
-        Mon, 18 Oct 2021 05:57:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1634536628;
-        bh=IhMtnbDqfgygGY4YMMBIa1mbNQ1ngzQqBJHZJTAju04=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wrw97HNtcyDDr8TsCCYybeLnLcHtJCeujBEXXdqvV3KOAolKrvdMDXC0MQdHk2dtk
-         gLUvCov1ljK7451XhPp8uIDWd6Uhwb/l0cjzgD8S7OGOl6bBZzd48oKjOcIbZX0x14
-         ym/Ytc7lBd0GK5oZg5A1TrwLEOThd81Q2I+7VJWc=
-Date:   Mon, 18 Oct 2021 07:57:00 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     changlianzhi <changlianzhi@uniontech.com>
-Cc:     linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
-        jirislaby@kernel.org, andriy.shevchenko@linux.intel.com,
-        linux-input@vger.kernel.org, 282827961@qq.com
-Subject: Re: [PATCH v2 10/18] input&tty: Fix the keyboard led light display
- problem
-Message-ID: <YW0MrF2L6rPhC7/Q@kroah.com>
-References: <616cd589.1c69fb81.e7b01.b706SMTPIN_ADDED_BROKEN@mx.google.com>
+        id S229847AbhJRGuR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 Oct 2021 02:50:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54750 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229533AbhJRGuR (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 18 Oct 2021 02:50:17 -0400
+Received: from cambridge.shadura.me (cambridge.shadura.me [IPv6:2a00:1098:0:86:1000:13:0:1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C885C06161C;
+        Sun, 17 Oct 2021 23:48:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=shadura.me;
+         s=a; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:
+        From:Content-Type:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+        References; bh=DKSw4okpW6/D0kp2xm5+q84mhGCaMFDuHCe67MAT7GE=; b=gxIeV/9mHqzl0G
+        /DWNq+YfjlqAkl0mMidihuvDHNAuRZMSKXLoq1WcMGetl+yK+gldtoPr+Q3d2+c41szsLwNsu8iJo
+        VUVgXtfb+DDz5pElPf/Nt0wSRuKIlWI6O02it6VRWiDfSM5/DvaeJ9gClwHAvJJFsCA41Ah9TvGc+
+        pNg=;
+Received: from 178-143-43-60.dynamic.orange.sk ([178.143.43.60] helo=localhost)
+        by cambridge.shadura.me with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <andrew@shadura.me>)
+        id 1mcMRG-0001cA-R0; Mon, 18 Oct 2021 08:48:02 +0200
+From:   Andrej Shadura <andrew.shadura@collabora.co.uk>
+To:     =?UTF-8?q?Ji=C5=99=C3=AD=20Kosina?= <jikos@kernel.org>
+Cc:     linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+        kernel@collabora.com,
+        Benjamin Tissoires <benjamin.tissoires@gmail.com>
+Subject: [PATCH 1/2] HID: u2fzero: explicitly check for errors
+Date:   Mon, 18 Oct 2021 08:47:59 +0200
+Message-Id: <20211018064800.15173-1-andrew.shadura@collabora.co.uk>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <616cd589.1c69fb81.e7b01.b706SMTPIN_ADDED_BROKEN@mx.google.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Oct 18, 2021 at 10:01:34AM +0800, changlianzhi wrote:
-> Switching from the desktop environment to the tty environment,
-> the state of the keyboard led lights and the state of the keyboard
-> lock are inconsistent. This is because the attribute kb->kbdmode
-> of the tty bound in the desktop environment (xorg) is set to
-> VC_OFF, which causes the ledstate and kb->ledflagstate
-> values of the bound tty to always be 0, which causes the switch
-> from the desktop When to the tty environment, the LED light
-> status is inconsistent with the keyboard lock status.
-> 
-> Signed-off-by: lianzhi chang <changlianzhi@uniontech.com>
-> ---
-> v2 10/18:
-> (1) Move the definition of ledstate to the input module
-> (/drivers/input/input.c),
-> and set or get its value through the input_update_ledstate(Replace the
-> update_value_ledstate function defined in the last patch, and optimize
-> the code according to the proposal) and input_get_ledstate functions.
-> (2) To update the ledstate reference in keyboard.c, you must first get
-> the value through input_get_ledstate.
-> (3)Some macro definitions have been added to input.c.
-> 
-> drivers/input/input.c | 46 ++++++++++++++++++++++++++++++++++++++-
-> drivers/tty/vt/keyboard.c | 19 ++++++++++++++--
-> include/linux/input.h | 3 +++
-> 3 files changed, 65 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/input/input.c b/drivers/input/input.c
-> index ccaeb2426385..8c0ef947ac34 100644
-> --- a/drivers/input/input.c
-> +++ b/drivers/input/input.c
-> @@ -37,6 +37,11 @@ static DEFINE_IDA(input_ida);
-> static LIST_HEAD(input_dev_list);
-> static LIST_HEAD(input_handler_list);
-> +#define VC_SCROLLOCK 0 /* scroll-lock mode */
-> +#define VC_NUMLOCK 1 /* numeric lock mode */
-> +#define VC_CAPSLOCK 2 /* capslock mode */
-> +static unsigned int ledstate = -1U; /* undefined */
-> +
-> /*
-> * input_mutex protects access to both input_dev_list and input_handler_list.
-> * This also causes input_[un]register_device and input_[un]register_handler
-> @@ -472,8 +477,12 @@ void input_inject_event(struct input_handle *handle,
-> rcu_read_lock();
-> grab = rcu_dereference(dev->grab);
-> - if (!grab || grab == handle)
-> + if (!grab || grab == handle) {
-> input_handle_event(dev, type, code, value);
-> +
-> + if (type == EV_LED && code <= LED_SCROLLL)
-> + input_update_ledstate(code, value);
-> + }
-> rcu_read_unlock();
-> spin_unlock_irqrestore(&dev->event_lock, flags);
-> @@ -481,6 +490,41 @@ void input_inject_event(struct input_handle *handle,
-> }
-> EXPORT_SYMBOL(input_inject_event);
-> +void input_update_ledstate(unsigned int flag, unsigned int value)
-> +{
-> + unsigned int bit;
-> +
-> + switch (flag) {
-> + case LED_NUML:
+The previous commit fixed handling of incomplete packets but broke error
+handling: offsetof returns an unsigned value (size_t), but when compared
+against the signed return value, the return value is interpreted as if
+it were unsigned, so negative return values are never less than the
+offset.
 
-<snip>
+Fixes: 22d65765f211c("HID: u2fzero: ignore incomplete packets without data")
+Fixes: 42337b9d4d958("HID: add driver for U2F Zero built-in LED and RNG")
+Signed-off-by: Andrej Shadura <andrew.shadura@collabora.co.uk>
+---
+ drivers/hid/hid-u2fzero.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Again, your email client corrupted the patch and made it so that it can
-not be applied :(
+diff --git a/drivers/hid/hid-u2fzero.c b/drivers/hid/hid-u2fzero.c
+index d70cd3d7f583..5145d758bea0 100644
+--- a/drivers/hid/hid-u2fzero.c
++++ b/drivers/hid/hid-u2fzero.c
+@@ -200,7 +200,7 @@ static int u2fzero_rng_read(struct hwrng *rng, void *data,
+ 	ret = u2fzero_recv(dev, &req, &resp);
+ 
+ 	/* ignore errors or packets without data */
+-	if (ret < offsetof(struct u2f_hid_msg, init.data))
++	if (ret < 0 || ret < offsetof(struct u2f_hid_msg, init.data))
+ 		return 0;
+ 
+ 	/* only take the minimum amount of data it is safe to take */
+-- 
+2.33.0
 
-Please just use git send-email.
-
-thanks,
-
-greg k-h
