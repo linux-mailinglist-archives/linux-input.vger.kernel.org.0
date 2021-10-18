@@ -2,65 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EBF04322CD
-	for <lists+linux-input@lfdr.de>; Mon, 18 Oct 2021 17:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 673774322D9
+	for <lists+linux-input@lfdr.de>; Mon, 18 Oct 2021 17:29:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231898AbhJRP2o (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 Oct 2021 11:28:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38316 "EHLO mail.kernel.org"
+        id S231971AbhJRPcJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 Oct 2021 11:32:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41834 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229696AbhJRP2n (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 Oct 2021 11:28:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9375660F0F;
-        Mon, 18 Oct 2021 15:26:29 +0000 (UTC)
+        id S231915AbhJRPcI (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 18 Oct 2021 11:32:08 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F332D60ED5;
+        Mon, 18 Oct 2021 15:29:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634570791;
-        bh=g01SmXPrKrf4gGXNhkcYhy6vdX7pSiVv/w2yiSK/OWc=;
+        s=k20201202; t=1634570997;
+        bh=o27f0/xqINiOBP6m/Oj//CwvUjW48C+jCijf5A0+7nw=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=gX/KaQMtRFzLR7TgVjiHpNtAa90oAzESOqAcI5/U8sY5PTy/K8OE6R7Uck+u4a73d
-         TN+cfqwAw8lnIEZiyEYOkraK1s+NsEfC0MaHd+aj1e2vgsE/gl6bCcjFylVEgqVHEC
-         YUIPDZD8/sNyz603CsvR25FGWAiXL4EC18M5W2sQ+53fAGIYebZz9J8K6Cxs4+5/gy
-         mEn62N4E08gbTuhdAoRU0jZYBn/SCdxscEGd+BTYCaxeX8Gv5kHdfuwvE/5HDD7gFx
-         2Y7b1bRfrAe6d6VVL9TNE8AuZGZZmq8+PCaOH1sS86AxjIGq5+Vspu/ztMvROpbmt3
-         IfbocI4iQ1j+g==
-Date:   Mon, 18 Oct 2021 17:26:18 +0200 (CEST)
+        b=KIOza3uctkk8HIOi022Mzvt6GRrZp9pXKAiAhEx1OFcHIo8EI5wmt4KyG3c0Cjzjj
+         hT0uI0BH3ZjaORzN1xephr9jNBThdANFOi95p8uil2p/GTHEysdlZpfKzMSVOVeyQA
+         i/Dp+/jJ0AA4ipYbgnrzvUrx/Orxb5zYYtccO2bZvjMqMXd45Md1gUshhUXXKkxAwl
+         XLWQfmSze0/LPq5ORX0ATrgN8W48j7hKoKR+8UKGn7OECV1+IIqdeJUa/KUk3EyYa7
+         y/Z3FIBFm1L+xcdcWfx+nAHenC8GYlx80m3Ecd266q0KvYFFBDWGDuizJu+0TyxlQR
+         9a4yZ3FIO/Ywg==
+Date:   Mon, 18 Oct 2021 17:29:53 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Ping Cheng <pinglinux@gmail.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Linux Input <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Aaron Skomra <skomra@gmail.com>,
-        "Dickens, Joshua" <joshua.dickens@wacom.com>, caihuoqing@baidu.com
-Subject: Re: [PATCH] HID: wacom: Make use of the helper function
- devm_add_action_or_reset()
-In-Reply-To: <CAF8JNhLF8_f1x1K52ay_cmkKqpNiY7P4kMwt=ia6ws9Yd9uoNQ@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2110181725050.12554@cbobk.fhfr.pm>
-References: <20210922125939.427-1-caihuoqing@baidu.com> <nycvar.YFH.7.76.2110071338010.29107@cbobk.fhfr.pm> <CANRwn3SZagP7uCSHVDGMPMqQiKyUQJSjq143_DA1y0UPvsmkAA@mail.gmail.com> <DB6PR07MB4278FF50AB23B9B69411CA3B9BB19@DB6PR07MB4278.eurprd07.prod.outlook.com>
- <CANRwn3TTgZ9+T7h81tNShvEB8QWkrbKLPrQSnviFKMHa8Zga_Q@mail.gmail.com> <20211015025815.GA3874@LAPTOP-UKSR4ENP.internal.baidu.com> <CAF8JNhLF8_f1x1K52ay_cmkKqpNiY7P4kMwt=ia6ws9Yd9uoNQ@mail.gmail.com>
+To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+cc:     Alex Henrie <alexhenrie24@gmail.com>, linux-input@vger.kernel.org,
+        benjamin.tissoires@redhat.com, hadess@hadess.net, jslaby@suse.cz,
+        juw@posteo.de, lukas@wunner.de
+Subject: Re: [PATCH 3/3] HID: apple: Bring back flag for Apple tilde key
+ quirk
+In-Reply-To: <20211009184051.GA72740@elementary>
+Message-ID: <nycvar.YFH.7.76.2110181728030.12554@cbobk.fhfr.pm>
+References: <20211008073702.5761-1-alexhenrie24@gmail.com> <20211008073702.5761-3-alexhenrie24@gmail.com> <20211009184051.GA72740@elementary>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 17 Oct 2021, Ping Cheng wrote:
+On Sat, 9 Oct 2021, José Expósito wrote:
 
-> I tested the set of two patches. I didn't see any issues with them
-> applied. But, while reviewing the patches, I noticed a minor logic
-> mismatch between the current patch and the original code. I'd hope at
-> least one of the maintainers (Jiri, Benjamin, or Dimitry) reviews this
-> patch, especially the part that I commented below, to make sure that
-> we don't trigger any race condition.
+> > Some Apple ISO keyboards have a quirk where the backtick/tilde key is
+> > swapped with the less-than/greater-than key. Unfortunately, there is no
+> > perfectly reliable way to detect whether a keyboard has the quirk or
+> > not, but the quirk appears to only be present on models that support
+> > Bluetooth, and the affected keyboards usually report country code 13 in
+> > the HID descriptor.
+> > 
+> > Therefore, the best we can do is to change
+> > /sys/module/hid_apple/parameters/iso_layout to a ternary:
+> > 
+> > 0 = Not ISO or ISO and not quirky
+> > 1 = ISO and quirky
+> > -1 = Guess based on product ID and country code
+> > 
+> > Table of keyboards I have tested:
+> > 
+> > Product    Model  Shape  Labels      Bus  Country  Quirky
+> > =========================================================
+> > 05ac:0201  M2452  ANSI   Usonian     USB  0        No
+> > 05ac:020b  A1048  ANSI   Usonian     USB  0        No
+> > 05ac:020c  A1048  ISO    Québécois   USB  13       No
+> > 05ac:0221  A1243  ISO    Norwegian   USB  13       No
+> > 05ac:0221  A1243  ISO    Portuguese  USB  13       No
+> > 05ac:0221  A1243  ISO    Swedish     USB  13       No
+> > 05ac:0221  A1243  ISO    Swiss       USB  13       No
+> > 05ac:022c  A1255  ANSI   Usonian     BT   33       No
+> > 05ac:022d  A1255  ISO    Hebrew      BT   13       Yes
+> > 05ac:022d  A1255  ISO    Québécois   BT   13       Yes
+> > 05ac:022d  A1255  ISO    Spanish     BT   13       Yes
+> > 05ac:023a  A1314  ISO    Russian     BT   13       Yes
+> > 05ac:023a  A1314  ISO    Swiss       BT   13       Yes
+> > 05ac:024f  A1243  ANSI   Usonian     USB  0        No
+> > 05ac:0250  A1243  ISO    British     USB  13       No
+> > 05ac:0250  A1243  ISO    German      USB  13       No
+> > 05ac:0250  A1243  ISO    Italian     USB  13       No
+> > 05ac:0250  A1243  ISO    Québécois   USB  13       No
+> > 05ac:0251  A1243  JIS    Japanese    USB  15       No
+> > 05ac:0255  A1314  ANSI   Usonian     BT   33       No
+> > 05ac:0255  A1314  ANSI   Taiwanese   BT   33       No
+> > 05ac:0255  A1314  ANSI   Thai        BT   33       No
+> > 05ac:0256  A1314  ISO    Arabic      BT   13       Yes
+> > 05ac:0256  A1314  ISO    French      BT   13       Yes
+> > 05ac:0256  A1314  ISO    German      BT   13       Yes
+> > 05ac:0256  A1314  ISO    Norwegian   BT   13       Yes
+> > 05ac:0256  A1314  ISO    Spanish     BT   13       Yes
+> > 05ac:0256  A1314  ISO    Swiss       BT   13       Yes
+> > 05ac:0257  A1314  JIS    Japanese    BT   15       No
+> > 05ac:0267  A1644  ANSI   Usonian     USB  33       No
+> > 004c:0267  A1644  ANSI   Usonian     BT   0        No
+> > 05ac:0267  A1644  ISO    British     USB  13       Yes
+> > 004c:0267  A1644  ISO    British     BT   0        Yes
+> > 05ac:0267  A1644  ISO    Swiss       USB  13       Yes
+> > 004c:0267  A1644  ISO    Swiss       BT   0        Yes
+> > 05ac:0267  A1644  ISO    Québécois   USB  13       Yes
+> > 004c:0267  A1644  ISO    Québécois   BT   0        Yes
+> > 05ac:0267  A1644  JIS    Japanese    USB  15       No
+> > 004c:0267  A1644  JIS    Japanese    BT   0        No
+> > 05ac:029c  A2450  ANSI   Usonian     USB  33       No
+> > 004c:029c  A2450  ANSI   Usonian     BT   0        No
+> > 05ac:029c  A2450  ISO    Spanish     USB  13       Yes
+> > 004c:029c  A2450  ISO    Spanish     BT   0        Yes
+> > 05ac:029c  A2450  JIS    Japanese    USB  15       No
+> > 004c:029c  A2450  JIS    Japanese    BT   0        No
+> 
+> You can add to the table:
+> 
+> 05ac:0267  A1644  ISO    Spanish     USB  13       Yes
+> 004c:0267  A1644  ISO    Spanish     BT   0        Yes
+> 
+> Tested here and it works as expected, both over USB and bluetooth,
+> thank you very much for fixing it!
+> 
+> It's a pitty that we need to add a configuration option, for many users
+> it is not going to be easy to discover it.
+> 
+> macOS doesn't have this issue, so there must be a way of detecting the keyboard
+> layout... Unless they apply the quirk on user space checking the selected
+> keyboard layout and language in settings.
+> I bought ANSI English keyboard to see if I could figure out where is the
+> difference but no luck so far.
+> 
+> For what it's worth, Tested-by: José Expósito <jose.exposito89@gmail.com>
 
-I don't see any issue with that ordering, but I'd also prefer for clarity 
-to keep updating the shared data structure under the mutex protection.
-
-With that, please send me the series with both patches and the Acks / 
-Review-by accumulated, and I'll apply it.
+Alex, could you please add the mentioned device IDs, include José's 
+Tested-by: and resend, so that I could apply it?
 
 Thanks,
 
