@@ -2,88 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88A34432241
-	for <lists+linux-input@lfdr.de>; Mon, 18 Oct 2021 17:09:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EBF04322CD
+	for <lists+linux-input@lfdr.de>; Mon, 18 Oct 2021 17:26:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233231AbhJRPLr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 Oct 2021 11:11:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58384 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233561AbhJRPL1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 Oct 2021 11:11:27 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1735EC061774;
-        Mon, 18 Oct 2021 08:09:13 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id y12so482746eda.4;
-        Mon, 18 Oct 2021 08:09:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=O49qZck/FUON9mmr+JH//18PwFgO+f1wHgk975bD51c=;
-        b=VmZbBY16aWPLzlt6Br9nXEfTLA7TReLEAISZZuILZVAjpfHxwA/wqbG7YMS0PnU+P+
-         R5yokL+gULNQTy1ZC/NaJWcEbcZrib+mz19FBO/7ZrnFazWHdRb0Fl93pEcdcIMEH+XN
-         KaQUtFNbmTNXt04IJ1uZD9lXXjG6S+CMve4AQD9MQojhSXFIlG8nTH5Krp65MV4rltCb
-         Gl+Ns3D26UMUhNxZxvC+8bLLV/wQyc3G8X/Vc8s1W3f/+/FRKRw10h04sKEsw2S/gM7k
-         e0U0wPM8vc6xic4OgZGzM5bkAVe3aOHA5iVcE0DyEliGNofe8pyQs5TjI5nSUxLZX21S
-         1ETQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=O49qZck/FUON9mmr+JH//18PwFgO+f1wHgk975bD51c=;
-        b=YIbswQ7Ni60K68RDdq/jmHfPD99yEeHsf7jit6UBznn6bswOwSZicA/OtBEwZZ8TTk
-         4REUboj5f36CNdcNt7oCfDNGXv3Ec+XuvmWAxwyseW3rJ7dWDjyAI0wC+4PuAhe6Lkni
-         hlr15cATvp5wxfnpd8BRN/53kuh0lrSTwyKOAGgEwxhefEx4PFj/p2hI1JjZOfakALNH
-         9UtOMnUS0372IPEkDpYSfZFLOJTPeq7HvCZWk2wqnUjl2o50Z1QcJ/xp7IbCkOKk5Chd
-         ibNw8i1dleyc7NxZinIvTyHxe5CB2ZO7KkWp9Mmkwk12yPJVqstx/ruyx0sd41r7gCzx
-         WvHQ==
-X-Gm-Message-State: AOAM530SXqR4UVNsKbtbn9q1mQipiANAY7cNBraEatk536Q3Ad45oy5Y
-        rmuIMnuPG0cPpqUvYtJTcI15irpQkSCb/qIpFdk=
-X-Google-Smtp-Source: ABdhPJxdvKVHSKlpnzcnrhNs4EhvuOzaUStv0eobr4UnlD9/9u/rzOFLMjwPMeYViTbx0hvfpF8GSWLwTEVwjS/2gic=
-X-Received: by 2002:a50:e00b:: with SMTP id e11mr45546820edl.359.1634569749974;
- Mon, 18 Oct 2021 08:09:09 -0700 (PDT)
+        id S231898AbhJRP2o (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 Oct 2021 11:28:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38316 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229696AbhJRP2n (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 18 Oct 2021 11:28:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9375660F0F;
+        Mon, 18 Oct 2021 15:26:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634570791;
+        bh=g01SmXPrKrf4gGXNhkcYhy6vdX7pSiVv/w2yiSK/OWc=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=gX/KaQMtRFzLR7TgVjiHpNtAa90oAzESOqAcI5/U8sY5PTy/K8OE6R7Uck+u4a73d
+         TN+cfqwAw8lnIEZiyEYOkraK1s+NsEfC0MaHd+aj1e2vgsE/gl6bCcjFylVEgqVHEC
+         YUIPDZD8/sNyz603CsvR25FGWAiXL4EC18M5W2sQ+53fAGIYebZz9J8K6Cxs4+5/gy
+         mEn62N4E08gbTuhdAoRU0jZYBn/SCdxscEGd+BTYCaxeX8Gv5kHdfuwvE/5HDD7gFx
+         2Y7b1bRfrAe6d6VVL9TNE8AuZGZZmq8+PCaOH1sS86AxjIGq5+Vspu/ztMvROpbmt3
+         IfbocI4iQ1j+g==
+Date:   Mon, 18 Oct 2021 17:26:18 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Ping Cheng <pinglinux@gmail.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Linux Input <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Aaron Skomra <skomra@gmail.com>,
+        "Dickens, Joshua" <joshua.dickens@wacom.com>, caihuoqing@baidu.com
+Subject: Re: [PATCH] HID: wacom: Make use of the helper function
+ devm_add_action_or_reset()
+In-Reply-To: <CAF8JNhLF8_f1x1K52ay_cmkKqpNiY7P4kMwt=ia6ws9Yd9uoNQ@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2110181725050.12554@cbobk.fhfr.pm>
+References: <20210922125939.427-1-caihuoqing@baidu.com> <nycvar.YFH.7.76.2110071338010.29107@cbobk.fhfr.pm> <CANRwn3SZagP7uCSHVDGMPMqQiKyUQJSjq143_DA1y0UPvsmkAA@mail.gmail.com> <DB6PR07MB4278FF50AB23B9B69411CA3B9BB19@DB6PR07MB4278.eurprd07.prod.outlook.com>
+ <CANRwn3TTgZ9+T7h81tNShvEB8QWkrbKLPrQSnviFKMHa8Zga_Q@mail.gmail.com> <20211015025815.GA3874@LAPTOP-UKSR4ENP.internal.baidu.com> <CAF8JNhLF8_f1x1K52ay_cmkKqpNiY7P4kMwt=ia6ws9Yd9uoNQ@mail.gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-References: <20211018143324.296961-1-hdegoede@redhat.com> <20211018143324.296961-3-hdegoede@redhat.com>
- <CAHp75VeG=RLXY16pMzNQbB9GR7GUsRTZu9Rx9yB0u3hzmhGELA@mail.gmail.com>
-In-Reply-To: <CAHp75VeG=RLXY16pMzNQbB9GR7GUsRTZu9Rx9yB0u3hzmhGELA@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 18 Oct 2021 18:08:18 +0300
-Message-ID: <CAHp75VdLLapyoXOJSuS7kFZdu4U6r7tmi3g6wAOrFG0ez+Ajew@mail.gmail.com>
-Subject: Re: [PATCH 2/3] platform/x86: intel_int0002_vgpio: Use the new
- soc_intel_is_byt/cht helpers
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Oct 18, 2021 at 6:03 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Mon, Oct 18, 2021 at 5:33 PM Hans de Goede <hdegoede@redhat.com> wrote:
+On Sun, 17 Oct 2021, Ping Cheng wrote:
 
-...
+> I tested the set of two patches. I didn't see any issues with them
+> applied. But, while reviewing the patches, I noticed a minor logic
+> mismatch between the current patch and the original code. I'd hope at
+> least one of the maintainers (Jiri, Benjamin, or Dimitry) reviews this
+> patch, especially the part that I commented below, to make sure that
+> we don't trigger any race condition.
 
-> > +       if (!soc_intel_is_byt() && !soc_intel_is_cht())
->
->   if (!(soc_intel_is_byt() || soc_intel_is_cht()))
->
-> ?
+I don't see any issue with that ordering, but I'd also prefer for clarity 
+to keep updating the shared data structure under the mutex protection.
 
-Self-nak on this. && is slightly better in case we got the first
-argument false. Proposed variant will always evaluate both.
+With that, please send me the series with both patches and the Acks / 
+Review-by accumulated, and I'll apply it.
+
+Thanks,
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Jiri Kosina
+SUSE Labs
+
