@@ -2,107 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB4244317D2
-	for <lists+linux-input@lfdr.de>; Mon, 18 Oct 2021 13:47:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EBD9431854
+	for <lists+linux-input@lfdr.de>; Mon, 18 Oct 2021 14:00:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231443AbhJRLta (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 Oct 2021 07:49:30 -0400
-Received: from mail-vk1-f171.google.com ([209.85.221.171]:39899 "EHLO
-        mail-vk1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231167AbhJRLt3 (ORCPT
+        id S230399AbhJRMCb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 Oct 2021 08:02:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41974 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230350AbhJRMCa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 Oct 2021 07:49:29 -0400
-Received: by mail-vk1-f171.google.com with SMTP id m199so8424689vka.6;
-        Mon, 18 Oct 2021 04:47:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=41YRmB8CyGiXEaoxvPxP09LoXDT5L6K5fs5InVZb2qU=;
-        b=XsGkoxlmSHLwFYZJo9VU1fjYRlyet/3xi8lSQtC3n8eju67gvoZuxebLvcZjHCXBoj
-         ufip/IID23FwxrX6PdN6fFK4gqTzJ1ct+xAQ8Tu+Vq0X1ivftIMBCwNPcGy5jbEQ5T+q
-         Rhja/FWN/AcypEXSFH45wQP29lGWfCCLW0ZCtiKcpgMjYJwVoZIrtR9tt2H5nx4EiDOo
-         p2Sgo+hsla5odNhW4I3M6V9UcmLa8nDmARVqJiOTxEk3Hrjl4T27nz2sQFxcCXzoMw7G
-         JWyyjlgBS9SI+G6SOtOsMmq41Lu1USJF/odnhRO/vNvyQ6IY4x7nd+5HF5MqcbQaZ4Xa
-         FeSQ==
-X-Gm-Message-State: AOAM531ysDB/ySyuxLNm8LU5U+E1Hkmm0pDHtjTyyGSTUrRkloKdqCQx
-        Djfh3NV0mfjgFvNrmiPt1XDFE4HcWRZbaA==
-X-Google-Smtp-Source: ABdhPJyy8zH6WVMdUXUcggK3HuF5v4WrQ0Yz8JSmRg0bP+qMuX7mt/0HYMfA3j0gFglOtaoscMhMyQ==
-X-Received: by 2002:a1f:9d09:: with SMTP id g9mr23884849vke.4.1634557638286;
-        Mon, 18 Oct 2021 04:47:18 -0700 (PDT)
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com. [209.85.221.172])
-        by smtp.gmail.com with ESMTPSA id v3sm8754913vkv.19.2021.10.18.04.47.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Oct 2021 04:47:17 -0700 (PDT)
-Received: by mail-vk1-f172.google.com with SMTP id 34so8396071vkl.13;
-        Mon, 18 Oct 2021 04:47:17 -0700 (PDT)
-X-Received: by 2002:a05:6122:d05:: with SMTP id az5mr7503109vkb.19.1634557637704;
- Mon, 18 Oct 2021 04:47:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <f1728883a5bf4481eb1d45e7b7a71005e29e259a.1632467859.git.geert+renesas@glider.be>
- <YWpkYWCFMtR40A6m@google.com>
-In-Reply-To: <YWpkYWCFMtR40A6m@google.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 18 Oct 2021 13:47:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV+-_xPiR+wsUOqyprV8-A8151b35ej7nXdHJwGMGSoPw@mail.gmail.com>
-Message-ID: <CAMuHMdV+-_xPiR+wsUOqyprV8-A8151b35ej7nXdHJwGMGSoPw@mail.gmail.com>
-Subject: Re: [PATCH] Input: gpio-keys - print button label in IRQ button error messages
+        Mon, 18 Oct 2021 08:02:30 -0400
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9DF2C06161C
+        for <linux-input@vger.kernel.org>; Mon, 18 Oct 2021 05:00:19 -0700 (PDT)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 56AF5833F4;
+        Mon, 18 Oct 2021 14:00:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1634558417;
+        bh=jELqK1cMbvggdkZcmA0ltNmY4/YCdaZaKJ8lqMYOJ5k=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=BkYX5J+Da0h18QmC3R5x4nncXQAKA3mc9bHtlTdCTdJK90Ql5bUI4asEs0JJKFRJ9
+         23PsaV4Olmq/CcxevNthzAlrzn+GM3mLTd82eanWIQtlXqpauGBnkcDZJHhABFrad6
+         NDagKzXMDgn5jv7HIhkW+XGbsIy5CbRVoYRT6TCQdGOO+m9uuFZmj3iMN4MDJs90MG
+         xGweEdShlJ3IQ9byuk0n1nJphoxuu8kRgKmY9pkYi9uH09QLlKy4qZ474L93qgDPZH
+         bZDSxxTf67m7Z1RZQH3bn9k/Oa/NvTC/hF1PVYqGUT1PR315D1U6tDbyHSskgws2Jn
+         x3mcwGlsq3dNA==
+Subject: Re: [PATCH] Input: ili210x - Make ili251x_firmware_to_buffer more
+ generic
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     linux-input@vger.kernel.org, Joe Hung <joe_hung@ilitek.com>,
+        Luca Hsu <luca_hsu@ilitek.com>
+References: <20211017172435.47812-1-marex@denx.de>
+ <YWz+qVvfeENpX8uF@google.com>
+From:   Marek Vasut <marex@denx.de>
+Message-ID: <70448caf-d2d2-a5f1-ae51-a8d1916257ff@denx.de>
+Date:   Mon, 18 Oct 2021 14:00:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <YWz+qVvfeENpX8uF@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+[...]
 
-On Sat, Oct 16, 2021 at 7:34 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
-> On Fri, Sep 24, 2021 at 09:18:02AM +0200, Geert Uytterhoeven wrote:
-> > When an error message related to IRQ buttons is printed, no clue is
-> > given about the actual button that caused the failure.  Fix this by
-> > including the button label, to make it more obvious which button has an
-> > incomplete or incorrect hardware description.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  drivers/input/keyboard/gpio_keys.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-> > index 0f2250c6aa4978d5..fc706918d7b103cb 100644
-> > --- a/drivers/input/keyboard/gpio_keys.c
-> > +++ b/drivers/input/keyboard/gpio_keys.c
-> > @@ -617,14 +617,16 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
-> >               }
-> >       } else {
-> >               if (!button->irq) {
-> > -                     dev_err(dev, "Found button without gpio or irq\n");
-> > +                     dev_err(dev, "Found button %s without gpio or irq\n",
-> > +                             desc);
->
-> I do not believe description is mandatory, so we may end up printing
-> "gpio_keys" here. I wonder if it would not be more reliable to print the
-> index of the problematic key?
+>> diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
 
-The description (label) is indeed not mandatory, so without that it is
-as good as before ;-)
+[...]
 
-For the index, I'm wondering if the iteration order is unambiguous,
-and cannot change?
+>> @@ -599,10 +613,13 @@ static int ili251x_firmware_to_buffer(const struct firmware *fw,
+>>   	/* DF end address is the last address in the firmware blob */
+>>   	*df_end = fw_addr + fw_len;
+>>   	*buf = fw_buf;
+>> +	release_firmware(fw);
+>>   	return 0;
+>>   
+>>   err_big:
+>>   	kfree(fw_buf);
+>> +err_mem:
+>> +	release_firmware(fw);
+> 
+> So with that we are essentially back to the original version where we
+> have to release firmware in both branches. If we keep loading firmware
+> in this function, maybe we could do:
 
-So perhaps we want to print both ("button %u (%s)")?
+It seems to me the usual fail path with undoing what the function did is 
+more obvious, but I can send a V2 with this below.
 
-Thanks!
+> 	...
+> out:
+> 	if (retval)
+> 		kfree(fw_buf);
+> 	release_firmware(fw);
+> 	return retval;
+> 
+> ?
+> 
+>>   	return error;
+>>   }
+>>   
+>> @@ -759,22 +776,13 @@ static ssize_t ili210x_firmware_update_store(struct device *dev,
+>>   					     const char *buf, size_t count)
+>>   {
+>>   	struct i2c_client *client = to_i2c_client(dev);
+>> -	const char *fwname = ILI251X_FW_FILENAME;
+>> -	const struct firmware *fw;
+>> +	struct ili210x *priv = i2c_get_clientdata(client);
+>>   	u16 ac_end, df_end;
+>>   	u8 *fwbuf;
+>>   	int error;
+>>   	int i;
+>>   
+>> -	error = request_ihex_firmware(&fw, fwname, dev);
+>> -	if (error) {
+>> -		dev_err(dev, "Failed to request firmware %s, error=%d\n",
+>> -			fwname, error);
+>> -		return error;
+>> -	}
+>> -
+>> -	error = ili251x_firmware_to_buffer(fw, &fwbuf, &ac_end, &df_end);
+>> -	release_firmware(fw);
+> 
+> You do not like releasing firmware before checking if we could parse it
+> successfully?
 
-Gr{oetje,eeting}s,
+This patch doesn't change that behavior, it only wraps the 
+request/release of firmware into the ili210x_firmware_to_buffer() 
+function, since that ihex firmware is not used anywhere else.
 
-                        Geert
+>> +	error = ili210x_firmware_to_buffer(dev, &fwbuf, &ac_end, &df_end);
+>>   	if (error)
+>>   		return error;
+>>   
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+[...]
