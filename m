@@ -2,249 +2,223 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E749C432D56
-	for <lists+linux-input@lfdr.de>; Tue, 19 Oct 2021 07:40:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90D87432D5A
+	for <lists+linux-input@lfdr.de>; Tue, 19 Oct 2021 07:41:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbhJSFmN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Oct 2021 01:42:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55638 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbhJSFmM (ORCPT
+        id S229755AbhJSFoC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Oct 2021 01:44:02 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:48142 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229742AbhJSFoC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Oct 2021 01:42:12 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6C32C06161C
-        for <linux-input@vger.kernel.org>; Mon, 18 Oct 2021 22:40:00 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id np13so13830900pjb.4
-        for <linux-input@vger.kernel.org>; Mon, 18 Oct 2021 22:40:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FxyYtvxSrqY6hLGeLD/vKMnYzvzkaPQhKYNE9aj3NiU=;
-        b=AHACrIannJrLYZmnNMhEXEm+o08Em/7UxTsZbCQdf+3tZpKyD90jPvvHPktD16zxJL
-         XkDYmsPyq2NutuEDaK4zGLc3+ZNmd3pbktTWuO7YxS5LV7u3G8fRq5vaqLnXiLchqRxg
-         htv37sMDr8bAxjusrFJB4TXGBFlPS0sI89R9mc0LZWZv4auBmNchXHxA4VJ9ceEPjYPe
-         B/aBJXEAZgKiIjDljc0pxtqEgp5OSA34/AcO7p73cylkYrJQva8lifzaIc5SilJ1n+lQ
-         sNQMHpoPWZs+sx97VV6eGIFsGwu3timet8YliHGx92czvA6tKbxsymnD/cA5CVuhK9fz
-         p7Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FxyYtvxSrqY6hLGeLD/vKMnYzvzkaPQhKYNE9aj3NiU=;
-        b=iZVxSErnPgy7g2vEQZLZQ4BBZq5827b8gPadiHk5a/k68L+UayJdrmIJgRvdqm/6L0
-         LCkOrTIoai6RmnXiWEdvwpWber5RwtdQ02/Zql0VBoocI2NQJXkpT9POaKhz+3YBW9PX
-         b/SAUGFX4uu1/eo8HT9+0sFN8RSbQThBqj5t1A6ke/c+KeO/fOpPJlHAEGRL0l2fuxY3
-         MdO8V7q4l/3+ZL7tlEEz7MRJYOQU5ZjHzfnZJiodpy5VJvcjDjFuzyR1DQCD74qErFBq
-         4hQXyuVOnSaSfstpNkLHY6IsP3utr8g7EYZRKllzuVObEuCC6FK89yw0sW0sGonn5+Ie
-         2mew==
-X-Gm-Message-State: AOAM532zRwUqWU1lF74oYgcYSwIriO7bXRkXlIaTrjBeNSNae2zPIzCc
-        jsuKty0/hZb6N2XuVOB1x+whTmA1xXhKPw==
-X-Google-Smtp-Source: ABdhPJxw16hoAocN2RO4VcAuOZVU1LCwcZYst31Rjrc3PS/+m1jFnoX5RwIh0buNvjhObKkR3TH2HA==
-X-Received: by 2002:a17:902:e843:b0:13f:2212:d64c with SMTP id t3-20020a170902e84300b0013f2212d64cmr31617881plg.16.1634621999921;
-        Mon, 18 Oct 2021 22:39:59 -0700 (PDT)
-Received: from xavier.lan ([166.70.246.164])
-        by smtp.gmail.com with ESMTPSA id n9sm1296162pjk.3.2021.10.18.22.39.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 22:39:59 -0700 (PDT)
-From:   Alex Henrie <alexhenrie24@gmail.com>
-To:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
-        hadess@hadess.net, jikos@kernel.org, jose.exposito89@gmail.com,
-        jslaby@suse.cz, juw@posteo.de, lukas@wunner.de
-Cc:     Alex Henrie <alexhenrie24@gmail.com>
-Subject: [PATCH v2 3/3] HID: apple: Bring back flag for Apple tilde key quirk
-Date:   Mon, 18 Oct 2021 23:39:40 -0600
-Message-Id: <20211019053940.137338-1-alexhenrie24@gmail.com>
-X-Mailer: git-send-email 2.33.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Tue, 19 Oct 2021 01:44:02 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 5C0E521966;
+        Tue, 19 Oct 2021 05:41:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1634622109; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=aY62YiFYOwwBYqxbbOX825RLNv+5OYBntbKkJAi4On8=;
+        b=zJDmFzOFBbZIqUlRBwfCCX5Hy3T/TtPS22sP+9A3RcCqsYQGG4CJ2ykloklLsvKxn4NzEV
+        NnHAg0q5r/nOygpaVFwI/yY2Cpy8rYf7nTj96MCYCZgsP7eXyOdwF7uHkcazyKPuPXg+ax
+        0SzO+6FByyY0X9J5nKR0i6Z4Iu7Hi8Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1634622109;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=aY62YiFYOwwBYqxbbOX825RLNv+5OYBntbKkJAi4On8=;
+        b=AgAMtpo9up9kQpZYqA4VIlB8C6XrLYqRsfI2uUud6c+pN3PnLeyB++OBkmXxiRcYxHmgMM
+        y8ic5MI8/qNVbkAg==
+Received: from alsa1.suse.de (alsa1.suse.de [10.160.4.42])
+        by relay2.suse.de (Postfix) with ESMTP id 54808A3B83;
+        Tue, 19 Oct 2021 05:41:49 +0000 (UTC)
+Date:   Tue, 19 Oct 2021 07:41:49 +0200
+Message-ID: <s5ha6j54llu.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Fabio Estevam <festevam@gmail.com>, linux-input@vger.kernel.org
+Subject: Re: Delaying i8042 probe?
+In-Reply-To: <s5hpmsjcw9w.wl-tiwai@suse.de>
+References: <s5ho890n1rh.wl-tiwai@suse.de>
+        <CAOMZO5C-wFv0LmbHfZQUMMchJAwvxMxTs=eT6oby8O8k4QyoFQ@mail.gmail.com>
+        <s5hee9wmy6e.wl-tiwai@suse.de>
+        <CAOMZO5CACdcxGWn++f0+zhQaKevH7b5c-Xkv3QLBpwxc2GxizQ@mail.gmail.com>
+        <s5hee9vlg8i.wl-tiwai@suse.de>
+        <CAOMZO5C+gki7HT-n5D6qj06NbMxo2su2d6X+8AvM9PSmLUZ0jg@mail.gmail.com>
+        <CAOMZO5DepuVScmDU7yZGVOVUs1JzHOd4bmu1z3erE2GNpcjZ+w@mail.gmail.com>
+        <YT0zv6Rv1vURYTi3@google.com>
+        <s5hh7ekc1tw.wl-tiwai@suse.de>
+        <s5hpmsjcw9w.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some Apple ISO keyboards have a quirk where the backtick/tilde key is
-swapped with the less-than/greater-than key. Unfortunately, there is no
-perfectly reliable way to detect whether a keyboard has the quirk or
-not, but the quirk appears to only be present on models that support
-Bluetooth, and the affected keyboards usually report country code 13 in
-the HID descriptor.
+On Tue, 05 Oct 2021 17:43:23 +0200,
+Takashi Iwai wrote:
+> 
+> On Thu, 16 Sep 2021 11:22:03 +0200,
+> Takashi Iwai wrote:
+> > 
+> > On Sun, 12 Sep 2021 00:54:55 +0200,
+> > Dmitry Torokhov wrote:
+> > > 
+> > > Hi Fabio,
+> > > 
+> > > On Sat, Sep 11, 2021 at 03:50:25PM -0300, Fabio Estevam wrote:
+> > > > On Sat, Sep 11, 2021 at 3:43 PM Fabio Estevam <festevam@gmail.com> wrote:
+> > > > >
+> > > > > On Sat, Sep 11, 2021 at 4:32 AM Takashi Iwai <tiwai@suse.de> wrote:
+> > > > >
+> > > > > > OK, I'll update and let the reporter testing it.
+> > > > >
+> > > > > Sorry, platform_device_alloc() and platform_device_add() were missing
+> > > > > in the earlier patch.
+> > > > >
+> > > > > New patch atached.
+> > > > >
+> > > > > Dmitry, does this look correct?
+> > > > 
+> > > > Please consider this one instead.
+> > > 
+> > > This is unfortunately is a band-aid. I wonder what other driver pokes
+> > > the embedded controller on these devices for it to start responding to
+> > > 8042 queries...
+> > > 
+> > > Does the laptop have the latest BIOS? I wonder what ACPI tables look
+> > > like.
+> > 
+> > ACPI dump is included in hwinfo output,
+> >   https://bugzilla.suse.com/show_bug.cgi?id=1190256#c1
+> > 
+> > If other format is required, let me know.  I thought this could be a
+> > typical pinctrl thing, alas it doesn't look so.  The pinctrl-amd is
+> > also built-in, and it's initialized before the input stuff...
+> > 
+> > And about BIOS: I don't think we can expect every user updates BIOS.
+> > This report is not alone; as I checked through net, there have been a
+> > few other reports for other distros like Arch.  On Arch, they "fixed"
+> > the problem by reverting the config from built-in to modules (the bug
+> > surfaced after their kconfig changes).
+> > 
+> > That said, even if it's a band-aid, we need some fix.  Can the
+> > deferred probe be applied in some restricted manner, e.g. only for the
+> > known buggy devices (and/or module option) and cap the max repeats?
+> 
+> Dmitry, what is your take for fixing this bug?  
 
-Therefore, the best we can do is to change
-/sys/module/hid_apple/parameters/iso_layout to a ternary:
+Any news for this?  The bug seem still there unfixed.
 
-0 = Not ISO or ISO and not quirky
-1 = ISO and quirky
--1 = Guess based on product ID and country code
 
-Table of keyboards that José and I have tested:
+thanks,
 
-Product    Model  Shape  Labels      Bus  Country  Quirky
-=========================================================
-05ac:0201  M2452  ANSI   Usonian     USB  0        No
-05ac:020b  A1048  ANSI   Usonian     USB  0        No
-05ac:020c  A1048  ISO    Québécois   USB  13       No
-05ac:0221  A1243  ISO    Norwegian   USB  13       No
-05ac:0221  A1243  ISO    Portuguese  USB  13       No
-05ac:0221  A1243  ISO    Swedish     USB  13       No
-05ac:0221  A1243  ISO    Swiss       USB  13       No
-05ac:022c  A1255  ANSI   Usonian     BT   33       No
-05ac:022d  A1255  ISO    Hebrew      BT   13       Yes
-05ac:022d  A1255  ISO    Québécois   BT   13       Yes
-05ac:022d  A1255  ISO    Spanish     BT   13       Yes
-05ac:023a  A1314  ISO    Russian     BT   13       Yes
-05ac:023a  A1314  ISO    Swiss       BT   13       Yes
-05ac:024f  A1243  ANSI   Usonian     USB  0        No
-05ac:0250  A1243  ISO    British     USB  13       No
-05ac:0250  A1243  ISO    German      USB  13       No
-05ac:0250  A1243  ISO    Italian     USB  13       No
-05ac:0250  A1243  ISO    Québécois   USB  13       No
-05ac:0251  A1243  JIS    Japanese    USB  15       No
-05ac:0255  A1314  ANSI   Usonian     BT   33       No
-05ac:0255  A1314  ANSI   Taiwanese   BT   33       No
-05ac:0255  A1314  ANSI   Thai        BT   33       No
-05ac:0256  A1314  ISO    Arabic      BT   13       Yes
-05ac:0256  A1314  ISO    French      BT   13       Yes
-05ac:0256  A1314  ISO    German      BT   13       Yes
-05ac:0256  A1314  ISO    Norwegian   BT   13       Yes
-05ac:0256  A1314  ISO    Spanish     BT   13       Yes
-05ac:0256  A1314  ISO    Swiss       BT   13       Yes
-05ac:0257  A1314  JIS    Japanese    BT   15       No
-05ac:0267  A1644  ANSI   Usonian     USB  33       No
-004c:0267  A1644  ANSI   Usonian     BT   0        No
-05ac:0267  A1644  ISO    British     USB  13       Yes
-004c:0267  A1644  ISO    British     BT   0        Yes
-05ac:0267  A1644  ISO    Québécois   USB  13       Yes
-004c:0267  A1644  ISO    Québécois   BT   0        Yes
-05ac:0267  A1644  ISO    Spanish     USB  13       Yes
-004c:0267  A1644  ISO    Spanish     BT   0        Yes
-05ac:0267  A1644  ISO    Swiss       USB  13       Yes
-004c:0267  A1644  ISO    Swiss       BT   0        Yes
-05ac:0267  A1644  JIS    Japanese    USB  15       No
-004c:0267  A1644  JIS    Japanese    BT   0        No
-05ac:029c  A2450  ANSI   Usonian     USB  33       No
-004c:029c  A2450  ANSI   Usonian     BT   0        No
-05ac:029c  A2450  ISO    Spanish     USB  13       Yes
-004c:029c  A2450  ISO    Spanish     BT   0        Yes
-05ac:029c  A2450  JIS    Japanese    USB  15       No
-004c:029c  A2450  JIS    Japanese    BT   0        No
+Takashi
 
-Reported-by: José Expósito <jose.exposito89@gmail.com>
-Tested-by: José Expósito <jose.exposito89@gmail.com>
-Signed-off-by: Alex Henrie <alexhenrie24@gmail.com>
----
-v2:
-- Add José's testing to the commit message
-- Correct alphabetization in commit message
----
- drivers/hid/hid-apple.c | 46 +++++++++++++++++++++--------------------
- 1 file changed, 24 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index e7af40b737d8..283bf22914ac 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -25,7 +25,7 @@
- #define APPLE_IGNORE_MOUSE	0x0002
- #define APPLE_HAS_FN		0x0004
- #define APPLE_HIDDEV		0x0008
--/* 0x0010 reserved, was: APPLE_ISO_KEYBOARD */
-+#define APPLE_ISO_TILDE_QUIRK	0x0010
- #define APPLE_MIGHTYMOUSE	0x0020
- #define APPLE_INVERT_HWHEEL	0x0040
- #define APPLE_IGNORE_HIDINPUT	0x0080
-@@ -40,10 +40,10 @@ module_param(fnmode, uint, 0644);
- MODULE_PARM_DESC(fnmode, "Mode of fn key on Apple keyboards (0 = disabled, "
- 		"[1] = fkeyslast, 2 = fkeysfirst)");
- 
--static unsigned int iso_layout = 1;
--module_param(iso_layout, uint, 0644);
--MODULE_PARM_DESC(iso_layout, "Enable/Disable hardcoded ISO-layout of the keyboard. "
--		"(0 = disabled, [1] = enabled)");
-+static int iso_layout = -1;
-+module_param(iso_layout, int, 0644);
-+MODULE_PARM_DESC(iso_layout, "Swap the backtick/tilde and greater-than/less-than keys. "
-+		"([-1] = auto, 0 = disabled, 1 = enabled)");
- 
- static unsigned int swap_opt_cmd;
- module_param(swap_opt_cmd, uint, 0644);
-@@ -277,14 +277,13 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- 		}
- 	}
- 
--	if (iso_layout) {
--		if (hid->country == HID_COUNTRY_INTERNATIONAL_ISO) {
--			trans = apple_find_translation(apple_iso_keyboard, usage->code);
--			if (trans) {
--				input_event_with_scancode(input, usage->type,
--						trans->to, usage->hid, value);
--				return 1;
--			}
-+	if (iso_layout > 0 || (iso_layout < 0 && (asc->quirks & APPLE_ISO_TILDE_QUIRK) &&
-+			hid->country == HID_COUNTRY_INTERNATIONAL_ISO)) {
-+		trans = apple_find_translation(apple_iso_keyboard, usage->code);
-+		if (trans) {
-+			input_event_with_scancode(input, usage->type,
-+					trans->to, usage->hid, value);
-+			return 1;
- 		}
- 	}
- 
-@@ -533,9 +532,11 @@ static const struct hid_device_id apple_devices[] = {
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_ANSI),
- 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_ISO),
--		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
-+		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN |
-+			APPLE_ISO_TILDE_QUIRK },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ISO),
--		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
-+		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN |
-+			APPLE_ISO_TILDE_QUIRK },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE,
- 				USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ANSI),
- 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
-@@ -545,13 +546,13 @@ static const struct hid_device_id apple_devices[] = {
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_JIS),
- 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2015),
--		.driver_data = APPLE_HAS_FN },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2015),
--		.driver_data = APPLE_HAS_FN },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2015),
--		.driver_data = APPLE_HAS_FN },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2015),
--		.driver_data = APPLE_HAS_FN },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING_ANSI),
- 		.driver_data = APPLE_HAS_FN },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING_ISO),
-@@ -633,7 +634,8 @@ static const struct hid_device_id apple_devices[] = {
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ANSI),
- 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ISO),
--		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
-+		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN |
-+			APPLE_ISO_TILDE_QUIRK },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_JIS),
- 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_FOUNTAIN_TP_ONLY),
-@@ -641,9 +643,9 @@ static const struct hid_device_id apple_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER1_TP_ONLY),
- 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021),
--		.driver_data = APPLE_HAS_FN },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021),
--		.driver_data = APPLE_HAS_FN },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 
- 	{ }
- };
--- 
-2.33.1
-
+> I find Fabio's deferred probe patch reasonable.  Maybe we may restrict
+> the application of the deferred probe only for known working devices
+> and an option, something like a patch below, just to be safer.
+> (There are devices exposing PnP for i8042 although there isn't really,
+> IIRC.)
+> 
+> 
+> thanks,
+> 
+> Takashi
+> 
+> -- 8< --
+> From: Takashi Iwai <tiwai@suse.de>
+> Subject: [PATCH] Input: i8042 - Perform deferred probe only with DMI list and
+>  option
+> 
+> Add an i8042.probe_defer option to enable the deferred probing
+> feature, otherwise it'll be disabled and done in a single shot like
+> before.  For the known devices that need the deferred probe, we
+> provide a DMI-based allow-list.  As of this patch, ASUS ZenBook
+> UX425UA is added there.
+> 
+> BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1190256
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  2 ++
+>  drivers/input/serio/i8042-x86ia64io.h           | 14 ++++++++++++++
+>  drivers/input/serio/i8042.c                     |  6 +++++-
+>  3 files changed, 21 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 91ba391f9b32..6e6622d8f4a0 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1690,6 +1690,8 @@
+>  			architectures force reset to be always executed
+>  	i8042.unlock	[HW] Unlock (ignore) the keylock
+>  	i8042.kbdreset	[HW] Reset device connected to KBD port
+> +	i8042.probe_defer
+> +			[HW] Allow deferred probing upon i8042 probe errors
+>  
+>  	i810=		[HW,DRM]
+>  
+> diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
+> index a5a003553646..41335a1d7001 100644
+> --- a/drivers/input/serio/i8042-x86ia64io.h
+> +++ b/drivers/input/serio/i8042-x86ia64io.h
+> @@ -981,6 +981,17 @@ static const struct dmi_system_id __initconst i8042_dmi_kbdreset_table[] = {
+>  	{ }
+>  };
+>  
+> +static const struct dmi_system_id i8042_dmi_probe_defer_table[] __initconst = {
+> +	{
+> +		/* ASUS ZenBook UX425UA */
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "ZenBook UX425UA"),
+> +		},
+> +	},
+> +	{ }
+> +};
+> +
+>  #endif /* CONFIG_X86 */
+>  
+>  #ifdef CONFIG_PNP
+> @@ -1301,6 +1312,9 @@ static int __init i8042_platform_init(void)
+>  	if (dmi_check_system(i8042_dmi_kbdreset_table))
+>  		i8042_kbdreset = true;
+>  
+> +	if (dmi_check_system(i8042_dmi_probe_defer_table))
+> +		i8042_probe_defer = true;
+> +
+>  	/*
+>  	 * A20 was already enabled during early kernel init. But some buggy
+>  	 * BIOSes (in MSI Laptops) require A20 to be enabled using 8042 to
+> diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+> index a72a8c538164..ea0c52ca95c4 100644
+> --- a/drivers/input/serio/i8042.c
+> +++ b/drivers/input/serio/i8042.c
+> @@ -45,6 +45,10 @@ static bool i8042_unlock;
+>  module_param_named(unlock, i8042_unlock, bool, 0);
+>  MODULE_PARM_DESC(unlock, "Ignore keyboard lock.");
+>  
+> +static bool i8042_probe_defer;
+> +module_param_named(probe_defer, i8042_probe_defer, bool, 0);
+> +MODULE_PARM_DESC(unlock, "Allow deferred probing.");
+> +
+>  enum i8042_controller_reset_mode {
+>  	I8042_RESET_NEVER,
+>  	I8042_RESET_ALWAYS,
+> @@ -1005,7 +1009,7 @@ static int i8042_controller_init(void)
+>  
+>  		if (i8042_command(&ctr[n++ % 2], I8042_CMD_CTL_RCTR)) {
+>  			pr_err("Can't read CTR while initializing i8042\n");
+> -			return -EPROBE_DEFER;
+> +			return i8042_probe_defer ? -EPROBE_DEFER : -EIO;
+>  		}
+>  
+>  	} while (n < 2 || ctr[0] != ctr[1]);
+> -- 
+> 2.31.1
+> 
