@@ -2,98 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0B86433289
-	for <lists+linux-input@lfdr.de>; Tue, 19 Oct 2021 11:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED5264332C2
+	for <lists+linux-input@lfdr.de>; Tue, 19 Oct 2021 11:44:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235093AbhJSJlI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Oct 2021 05:41:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54134 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235122AbhJSJlG (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Oct 2021 05:41:06 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04C2DC061777
-        for <linux-input@vger.kernel.org>; Tue, 19 Oct 2021 02:38:51 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id z69so16437528iof.9
-        for <linux-input@vger.kernel.org>; Tue, 19 Oct 2021 02:38:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=h7Ka/8DlpkXEXF23rPgOfJJ3SyquA2FhD5HYDsybiG4=;
-        b=TOvN/3L74NxJ8jkZLAwc1HWcAigE5PqgL50bgmFqgfF5N3Ni/F/hFF6HKKLKTN31yN
-         HevaAXYbPfypt8hhKvSPyehT5ALdXqczNk+5xUwtC+i5sgHXh2uIQwAecZjfCaWU8ix6
-         IP3iNNDeKzM9Rarn67S7Y6Q5meavaw7Mpk+sez5Jm9gTXVkS2K7rH0HxN0wGBD1vTEZW
-         SlZ7Ohjm5TDffwxVe9psHKkZrw9F8ewS3UJdvRp48BugnVC9N6o6tGt7kOuD9dBL9WOI
-         l1dbXlU20FuuDCR1G9eGV6dpPzPq/obtSd+vSUmjw4dvgQ3M4KndmuUgzevCd5/KLP2j
-         AvJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=h7Ka/8DlpkXEXF23rPgOfJJ3SyquA2FhD5HYDsybiG4=;
-        b=ON38RwWxCGlSnR+Eym18X6zNENjXbBiCaW/UGz0GpT7+SEb1xYf7yEEfcAUwr/Fe5k
-         zjHYXJR47Uhct3kN3D7JPR38qyEPA4V5Yho9H0crxbhDnRCBCf+nBehNmbivBTKW8MsO
-         km5rH07EI9dMACzb9qRj0RQntglzpY7V+NQijgBhaooGO+kn8JWG4eKjGreZRzp6UU85
-         3mwjZO3dhXRR4rZG/xLPkLHu4a0R1oB+Mo7QkcHiRSdkZDbESsf/8TK4jTn3vQXoT57n
-         RU7gz/6KlWkeYoeHFKh6WfSevozggmUYcR50pQ2tzA68lCRseVnKQTxUOwVJxZFA8O5E
-         IGTQ==
-X-Gm-Message-State: AOAM533KJJTGvnxdk7wR4Zd5Q+Tj2RY5pxPRIFtiOqM04z/qa/sNQqQe
-        RIaCsqgPLy9vm42IYJ0Ly/SAQyfDDYXn4cpe9aQ=
-X-Google-Smtp-Source: ABdhPJzMH7/Viv+gmOFi/wRxRbcc549EbhNxq1WBmFuuCl5Y1sIaNw3hPc5P9A8SHm6QnP1HNGNAvecvirmJS/oiL6w=
-X-Received: by 2002:a02:6f5d:: with SMTP id b29mr3319085jae.113.1634636331013;
- Tue, 19 Oct 2021 02:38:51 -0700 (PDT)
+        id S234914AbhJSJqi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Oct 2021 05:46:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53666 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234680AbhJSJqe (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 19 Oct 2021 05:46:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 26C0C60C51;
+        Tue, 19 Oct 2021 09:44:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634636662;
+        bh=eqM62DUEKDXNjKrSmHtqURLPJJI+1JSEB59RabxwrmE=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=Vc51twLIb3g0bRaHLtYNZ1/xdEX46nulKcLzmEJOyvXtgDiM5USI6c3cAe+bwadji
+         bqqikUNNsl/auDaAgdeK4G6MHMb2rD1b0J4IPhLhMuwmn8k6EGojYxyGLjbCwl4ZMz
+         8Oa6LHQT+UGfoUY5/AJ99vvJ5Wd2KRAO2yzqqIBpqddkHD+y58Bk22Yd+Y7ju1R1ZD
+         gOZMr6q7aFTHQ0OAPWAwHaNbqbEYkbN8PqJeh3EveT7ye1BnmYvHFvAv8i/eM3Vtic
+         SFT9gX8PairWzlF/XjcxGoaw/vVgz84n/vVNn7TI+oUP39dS7+NLH6PwBib+yO69pK
+         dJJdLXsbNFAnQ==
+Date:   Tue, 19 Oct 2021 11:44:15 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     "Daniel J. Ogorchock" <djogorchock@gmail.com>
+cc:     linux-input@vger.kernel.org, thunderbird2k@gmail.com,
+        blaws05@gmail.com, benjamin.tissoires@redhat.com,
+        Roderick.Colenbrander@sony.com, svv@google.com, s.jegen@gmail.com,
+        carmueller@gmail.com, pgriffais@valvesoftware.com,
+        hadess@hadess.net, pobrn@protonmail.com, lee.jones@linaro.org,
+        Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH v16 00/16] HID: nintendo
+In-Reply-To: <nycvar.YFH.7.76.2110191054080.12554@cbobk.fhfr.pm>
+Message-ID: <nycvar.YFH.7.76.2110191142160.12554@cbobk.fhfr.pm>
+References: <20210911173639.5688-1-djogorchock@gmail.com> <nycvar.YFH.7.76.2110191054080.12554@cbobk.fhfr.pm>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Received: by 2002:a92:c7c6:0:0:0:0:0 with HTTP; Tue, 19 Oct 2021 02:38:50
- -0700 (PDT)
-Reply-To: megaritalouisdrayfu199@yahoo.com
-From:   "Mrs. Margarita Louis-Dreyfus." <anniewei112@gmail.com>
-Date:   Mon, 18 Oct 2021 21:38:50 -1200
-Message-ID: <CAGT4pMkzKn8mfeY05OAG04CCAxodKEVDUk46D=O7cfK8+n1=tA@mail.gmail.com>
-Subject: Charitable funds to help the less privilege!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---=20
-Hello,
+On Tue, 19 Oct 2021, Jiri Kosina wrote:
 
-I am sorry to encroach into your privacy in this manner, my name
-Margarita Louis-Dreyfus , I find it pleasurable to offer you my
-partnership in business, i only pray at this time that your email
-address is still valid. I want to solicit your attention to receive
-money on my behalf for humanitarian project to help the less
-priviledge.
+> > Rebased onto Linus' tree (sha 926de8c4326c14fcf35f1de142019043597a4fac)
+> > Depends on Roderick's patch to add the player LED defines:
+> > https://patchwork.kernel.org/project/linux-input/patch/20210908165539.3102929-3-roderick.colenbrander@sony.com/
+> 
+> I just got Ack for the joydev part from Dmitry.
+> 
+> v16 is now queued in hid.git#for-5.16/nintendo
 
-The purpose of my contacting you is because my status would not permit
-me to do this alone. Given my current state of health, I have decided
-to donate Ninety -Eight Million United State Dollars to establish a
-foundation with your help to reach out to the less privilege, orphans,
-sick and homeless people in your country who will receive their
-blessings as i promised my God before i leave this earth.
+Benjamin noticed that I pushed wrong version of the branch -- the one that 
+still doesn't contain the LED_FUNCTION_PLAYER[1-5] defines, which I've had 
+staged here locally, waiting for Pavel's Ack (which is taking time, 
+unfortunately).
 
-I got your contact through my personal search, you were revealed as
-being quite astute in private entrepreneurship, and i have no doubt
-that you can handle this huge financial transaction. Please contact my
-executor for more information:
+So please ignore this branch for now, I'll push v2 once that situation is 
+cleared out.
 
-Mr. Ford Spencer(Attorney at Law).
-For: Mrs. Margarita Louis-Dreyfus
-LEGAL DEPARTMENT LAWSON & ASSOCIATES
-(JUSTICE, FAIRPLAY & EQUITY)
-Email: fordspencer828@yahoo.com, fordspencereqs828@gmail.com
-Office: +1-970-414-1400
-+1-702-714-3422
-Mobile: +1 916 269 2733
-Fax: +1-970-414-1433
-=C2=AE Property of Steven C Spence PA.
+CCing Pavel as well here to make him aware of the issues this is causing 
+all over the place (see .e.g my mail [1] from yesterday).
 
-Your earliest response to this letter will be appreciated.
+[1] https://lore.kernel.org/all/nycvar.YFH.7.76.2110181739310.12554@cbobk.fhfr.pm/
 
-Kind Regards,
+-- 
+Jiri Kosina
+SUSE Labs
 
-Mrs. Margarita Louis-Dreyfus.
