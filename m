@@ -2,18 +2,18 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3D88433456
-	for <lists+linux-input@lfdr.de>; Tue, 19 Oct 2021 13:04:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79231433458
+	for <lists+linux-input@lfdr.de>; Tue, 19 Oct 2021 13:04:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235424AbhJSLGp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Oct 2021 07:06:45 -0400
-Received: from 82-65-109-163.subs.proxad.net ([82.65.109.163]:52292 "EHLO
+        id S235285AbhJSLGq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Oct 2021 07:06:46 -0400
+Received: from 82-65-109-163.subs.proxad.net ([82.65.109.163]:52294 "EHLO
         luna.linkmauve.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235309AbhJSLGl (ORCPT
+        with ESMTP id S235396AbhJSLGm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Oct 2021 07:06:41 -0400
+        Tue, 19 Oct 2021 07:06:42 -0400
 Received: by luna.linkmauve.fr (Postfix, from userid 1000)
-        id C3B2FF40C36; Tue, 19 Oct 2021 13:04:24 +0200 (CEST)
+        id AAEBCF40C38; Tue, 19 Oct 2021 13:04:25 +0200 (CEST)
 From:   Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 To:     Jiri Kosina <jikos@kernel.org>
 Cc:     Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
@@ -23,170 +23,222 @@ Cc:     Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-kernel@vger.kernel.org,
         "Daniel J . Ogorchock" <djogorchock@gmail.com>
-Subject: [PATCH v4 4/5] HID: nintendo: drc: add accelerometer, gyroscope and magnetometer readings
-Date:   Tue, 19 Oct 2021 13:04:17 +0200
-Message-Id: <20211019110418.26874-5-linkmauve@linkmauve.fr>
+Subject: [PATCH v4 5/5] HID: nintendo: drc: add battery reporting
+Date:   Tue, 19 Oct 2021 13:04:18 +0200
+Message-Id: <20211019110418.26874-6-linkmauve@linkmauve.fr>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211019110418.26874-1-linkmauve@linkmauve.fr>
 References: <20210519085924.1636-1-linkmauve@linkmauve.fr>
  <20211019110418.26874-1-linkmauve@linkmauve.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-These are mostly untested so far, because I have no idea which userland
-to test against, but evtest at least seems to give sensible values.
+On my DRC the values only go between 142 (battery LED blinking red
+before shutdown) and 178 (charge LED stopping), it seems to be the same
+on other units according to other testers.  This might be the raw
+voltage value as reported by an ADC, so adding a linear interpolation
+between two common battery voltage values.
 
-The magnetometer doesn’t have dedicated INPUT_PROP_ACCELEROMETER
-buttons, so I used three clearly invalid absolute values, in the hope
-that someone will fix that eventually.  Another solution might be to go
-for the iio subsystem instead, but then it wouldn’t be tied to the HID
-any longer and I would feel uneasy about that.  Especially because
-multiple such gamepads could be connected to a single computer.
+A spinlock is used to avoid the battery level and status from being
+reported unsynchronised.
 
-Signed-off-by: Ash Logan <ash@heyquark.com>
 Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 ---
- drivers/hid/hid-nintendo-wiiu.c | 77 +++++++++++++++++++++++++++++++--
- 1 file changed, 74 insertions(+), 3 deletions(-)
+ drivers/hid/hid-nintendo-wiiu.c | 136 ++++++++++++++++++++++++++++++++
+ 1 file changed, 136 insertions(+)
 
 diff --git a/drivers/hid/hid-nintendo-wiiu.c b/drivers/hid/hid-nintendo-wiiu.c
-index 144316d324cb..813abb104275 100644
+index 813abb104275..b18fa403eb42 100644
 --- a/drivers/hid/hid-nintendo-wiiu.c
 +++ b/drivers/hid/hid-nintendo-wiiu.c
-@@ -64,10 +64,19 @@
- #define TOUCH_BORDER_X	100
- #define TOUCH_BORDER_Y	200
+@@ -17,6 +17,11 @@
+ #include <linux/input.h>
+ #include <linux/minmax.h>
+ #include <linux/module.h>
++#ifdef CONFIG_HID_BATTERY_STRENGTH
++#include <linux/fixp-arith.h>
++#include <linux/power_supply.h>
++#include <linux/spinlock.h>
++#endif
+ #include "hid-ids.h"
+ #include "hid-nintendo.h"
  
-+/* Accelerometer, gyroscope and magnetometer constants */
-+#define ACCEL_MIN	-(1 << 15)
-+#define ACCEL_MAX	((1 << 15) - 1)
-+#define GYRO_MIN	-(1 << 23)
-+#define GYRO_MAX	((1 << 23) - 1)
-+#define MAGNET_MIN	-(1 << 15)
-+#define MAGNET_MAX	((1 << 15) - 1)
+@@ -72,6 +77,13 @@
+ #define MAGNET_MIN	-(1 << 15)
+ #define MAGNET_MAX	((1 << 15) - 1)
+ 
++/* ADC constants for the battery */
++#define BATTERY_CHARGING_BIT	BIT(6)
++#define BATTERY_MIN	142
++#define BATTERY_MAX	178
++#define VOLTAGE_MIN	3270000
++#define VOLTAGE_MAX	4100000
 +
  /*
   * The device is setup with multiple input devices:
   * - A joypad with the buttons and sticks.
-  * - The touch area which works as a touchscreen.
-+ * - An accelerometer + gyroscope + magnetometer device.
-  */
- 
- struct drc {
-@@ -75,6 +84,7 @@ struct drc {
- 	struct hid_device *hdev;
+@@ -85,6 +97,14 @@ struct drc {
  	struct input_dev *joy_input_dev;
  	struct input_dev *touch_input_dev;
-+	struct input_dev *accel_input_dev;
+ 	struct input_dev *accel_input_dev;
++
++#ifdef CONFIG_HID_BATTERY_STRENGTH
++	struct power_supply *battery;
++	struct power_supply_desc battery_desc;
++	spinlock_t battery_lock;
++	u8 battery_energy;
++	int battery_status;
++#endif
  };
  
  /*
-@@ -89,7 +99,7 @@ int wiiu_hid_event(struct hid_device *hdev, struct hid_report *report,
- 		   u8 *data, int len)
- {
+@@ -101,6 +121,9 @@ int wiiu_hid_event(struct hid_device *hdev, struct hid_report *report,
  	struct drc *drc = hid_get_drvdata(hdev);
--	int i, x, y, pressure, base;
-+	int i, x, y, z, pressure, base;
+ 	int i, x, y, z, pressure, base;
  	u32 buttons;
++#ifdef CONFIG_HID_BATTERY_STRENGTH
++	unsigned long flags;
++#endif
  
  	if (len != 128)
-@@ -184,6 +194,31 @@ int wiiu_hid_event(struct hid_device *hdev, struct hid_report *report,
- 	}
- 	input_sync(drc->touch_input_dev);
+ 		return -EINVAL;
+@@ -219,6 +242,19 @@ int wiiu_hid_event(struct hid_device *hdev, struct hid_report *report,
+ 	input_report_abs(drc->accel_input_dev, ABS_WHEEL, (int16_t)z);
+ 	input_sync(drc->accel_input_dev);
  
-+	/* accelerometer */
-+	x = (data[16] << 8) | data[15];
-+	y = (data[18] << 8) | data[17];
-+	z = (data[20] << 8) | data[19];
-+	input_report_abs(drc->accel_input_dev, ABS_X, (int16_t)x);
-+	input_report_abs(drc->accel_input_dev, ABS_Y, (int16_t)y);
-+	input_report_abs(drc->accel_input_dev, ABS_Z, (int16_t)z);
-+
-+	/* gyroscope */
-+	x = (data[23] << 24) | (data[22] << 16) | (data[21] << 8);
-+	y = (data[26] << 24) | (data[25] << 16) | (data[24] << 8);
-+	z = (data[29] << 24) | (data[28] << 16) | (data[27] << 8);
-+	input_report_abs(drc->accel_input_dev, ABS_RX, x >> 8);
-+	input_report_abs(drc->accel_input_dev, ABS_RY, y >> 8);
-+	input_report_abs(drc->accel_input_dev, ABS_RZ, z >> 8);
-+
-+	/* magnetometer */
-+	x = (data[31] << 8) | data[30];
-+	y = (data[33] << 8) | data[32];
-+	z = (data[35] << 8) | data[34];
-+	input_report_abs(drc->accel_input_dev, ABS_THROTTLE, (int16_t)x);
-+	input_report_abs(drc->accel_input_dev, ABS_RUDDER, (int16_t)y);
-+	input_report_abs(drc->accel_input_dev, ABS_WHEEL, (int16_t)z);
-+	input_sync(drc->accel_input_dev);
++#ifdef CONFIG_HID_BATTERY_STRENGTH
++	/* battery */
++	spin_lock_irqsave(&drc->battery_lock, flags);
++	drc->battery_energy = data[5];
++	if (drc->battery_energy == BATTERY_MAX)
++		drc->battery_status = POWER_SUPPLY_STATUS_FULL;
++	else if (data[4] & BATTERY_CHARGING_BIT)
++		drc->battery_status = POWER_SUPPLY_STATUS_CHARGING;
++	else
++		drc->battery_status = POWER_SUPPLY_STATUS_DISCHARGING;
++	spin_unlock_irqrestore(&drc->battery_lock, flags);
++#endif
 +
  	/* let hidraw and hiddev handle the report */
  	return 0;
  }
-@@ -299,6 +334,40 @@ static bool drc_setup_touch(struct drc *drc,
+@@ -368,6 +404,98 @@ static bool drc_setup_accel(struct drc *drc,
  	return true;
  }
  
-+static bool drc_setup_accel(struct drc *drc,
-+			    struct hid_device *hdev)
++#ifdef CONFIG_HID_BATTERY_STRENGTH
++static enum power_supply_property drc_battery_props[] = {
++	POWER_SUPPLY_PROP_STATUS,
++	POWER_SUPPLY_PROP_PRESENT,
++	POWER_SUPPLY_PROP_VOLTAGE_MAX,
++	POWER_SUPPLY_PROP_VOLTAGE_MIN,
++	POWER_SUPPLY_PROP_VOLTAGE_NOW,
++	POWER_SUPPLY_PROP_CAPACITY,
++	POWER_SUPPLY_PROP_SCOPE,
++};
++
++static int drc_battery_get_property(struct power_supply *psy,
++				    enum power_supply_property psp,
++				    union power_supply_propval *val)
 +{
-+	struct input_dev *input_dev;
++	struct drc *drc = power_supply_get_drvdata(psy);
++	unsigned long flags;
++	int ret = 0;
++	u8 battery_energy;
++	int battery_status;
 +
-+	input_dev = allocate_and_setup(hdev, DEVICE_NAME " accelerometer, gyroscope and magnetometer");
-+	if (!input_dev)
-+		return false;
++	spin_lock_irqsave(&drc->battery_lock, flags);
++	battery_energy = drc->battery_energy;
++	battery_status = drc->battery_status;
++	spin_unlock_irqrestore(&drc->battery_lock, flags);
 +
-+	drc->accel_input_dev = input_dev;
-+
-+	set_bit(INPUT_PROP_ACCELEROMETER, input_dev->propbit);
-+
-+	/* 1G accel is reported as about -7900 */
-+	input_set_abs_params(input_dev, ABS_X, ACCEL_MIN, ACCEL_MAX, 0, 0);
-+	input_set_abs_params(input_dev, ABS_Y, ACCEL_MIN, ACCEL_MAX, 0, 0);
-+	input_set_abs_params(input_dev, ABS_Z, ACCEL_MIN, ACCEL_MAX, 0, 0);
-+
-+	/* gyroscope */
-+	input_set_abs_params(input_dev, ABS_RX, GYRO_MIN, GYRO_MAX, 0, 0);
-+	input_set_abs_params(input_dev, ABS_RY, GYRO_MIN, GYRO_MAX, 0, 0);
-+	input_set_abs_params(input_dev, ABS_RZ, GYRO_MIN, GYRO_MAX, 0, 0);
-+
-+	/* magnetometer */
-+	/* TODO: Figure out which ABS_* would make more sense to expose, or
-+	 * maybe go for the iio subsystem?
-+	 */
-+	input_set_abs_params(input_dev, ABS_THROTTLE, MAGNET_MIN, MAGNET_MAX, 0, 0);
-+	input_set_abs_params(input_dev, ABS_RUDDER, MAGNET_MIN, MAGNET_MAX, 0, 0);
-+	input_set_abs_params(input_dev, ABS_WHEEL, MAGNET_MIN, MAGNET_MAX, 0, 0);
-+
-+	return true;
++	switch (psp) {
++	case POWER_SUPPLY_PROP_STATUS:
++		val->intval = battery_status;
++		break;
++	case POWER_SUPPLY_PROP_PRESENT:
++		val->intval = 1;
++		break;
++	case POWER_SUPPLY_PROP_VOLTAGE_MAX:
++		val->intval = VOLTAGE_MAX;
++		break;
++	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
++		val->intval = VOLTAGE_MIN;
++		break;
++	case POWER_SUPPLY_PROP_VOLTAGE_NOW:
++		val->intval = fixp_linear_interpolate(BATTERY_MIN, VOLTAGE_MIN,
++						      BATTERY_MAX, VOLTAGE_MAX,
++						      battery_energy);
++		break;
++	case POWER_SUPPLY_PROP_CAPACITY:
++		val->intval = fixp_linear_interpolate(BATTERY_MIN, 0,
++						      BATTERY_MAX, 100,
++						      battery_energy);
++		break;
++	case POWER_SUPPLY_PROP_SCOPE:
++		val->intval = POWER_SUPPLY_SCOPE_DEVICE;
++		break;
++	default:
++		ret = -EINVAL;
++		break;
++	}
++	return ret;
 +}
++
++static int drc_setup_battery(struct drc *drc,
++			     struct hid_device *hdev)
++{
++	struct power_supply_config psy_cfg = { .drv_data = drc, };
++	static atomic_t drc_num = ATOMIC_INIT(0);
++	int ret;
++
++	spin_lock_init(&drc->battery_lock);
++
++	drc->battery_desc.properties = drc_battery_props;
++	drc->battery_desc.num_properties = ARRAY_SIZE(drc_battery_props);
++	drc->battery_desc.get_property = drc_battery_get_property;
++	drc->battery_desc.type = POWER_SUPPLY_TYPE_BATTERY;
++	drc->battery_desc.use_for_apm = 0;
++
++	drc->battery_desc.name = devm_kasprintf(&hdev->dev, GFP_KERNEL,
++						"wiiu-drc-%i-battery", atomic_fetch_inc(&drc_num));
++	if (!drc->battery_desc.name)
++		return -ENOMEM;
++
++	drc->battery = devm_power_supply_register(&hdev->dev, &drc->battery_desc, &psy_cfg);
++	if (IS_ERR(drc->battery)) {
++		ret = PTR_ERR(drc->battery);
++		hid_err(hdev, "Unable to register battery device\n");
++		return ret;
++	}
++
++	power_supply_powers(drc->battery, &hdev->dev);
++
++	return 0;
++}
++#endif
 +
  int wiiu_hid_probe(struct hid_device *hdev,
  		   const struct hid_device_id *id)
  {
-@@ -321,7 +390,8 @@ int wiiu_hid_probe(struct hid_device *hdev,
- 	}
- 
- 	if (!drc_setup_joypad(drc, hdev) ||
--	    !drc_setup_touch(drc, hdev)) {
-+	    !drc_setup_touch(drc, hdev) ||
-+	    !drc_setup_accel(drc, hdev)) {
- 		hid_err(hdev, "could not allocate interfaces\n");
+@@ -396,6 +524,14 @@ int wiiu_hid_probe(struct hid_device *hdev,
  		return -ENOMEM;
  	}
-@@ -333,7 +403,8 @@ int wiiu_hid_probe(struct hid_device *hdev,
- 	}
  
- 	ret = input_register_device(drc->joy_input_dev) ||
--	      input_register_device(drc->touch_input_dev);
-+	      input_register_device(drc->touch_input_dev) ||
-+	      input_register_device(drc->accel_input_dev);
++#ifdef CONFIG_HID_BATTERY_STRENGTH
++	ret = drc_setup_battery(drc, hdev);
++	if (ret) {
++		hid_err(hdev, "could not allocate battery interface\n");
++		return ret;
++	}
++#endif
++
+ 	ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW | HID_CONNECT_DRIVER);
  	if (ret) {
- 		hid_err(hdev, "failed to register interfaces\n");
- 		return ret;
+ 		hid_err(hdev, "hw start failed\n");
 -- 
 2.33.1
 
