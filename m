@@ -2,301 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A53B443424E
-	for <lists+linux-input@lfdr.de>; Wed, 20 Oct 2021 01:49:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EF3443426F
+	for <lists+linux-input@lfdr.de>; Wed, 20 Oct 2021 02:00:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229921AbhJSXwI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Oct 2021 19:52:08 -0400
-Received: from ixit.cz ([94.230.151.217]:54124 "EHLO ixit.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229707AbhJSXwG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Oct 2021 19:52:06 -0400
-Received: from localhost.localdomain (ip-89-176-96-70.net.upcbroadband.cz [89.176.96.70])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by ixit.cz (Postfix) with ESMTPSA id 7CB8A20064;
-        Wed, 20 Oct 2021 01:49:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-        t=1634687390;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=o0YUdAIctq2TetXHh6SB+UpGOdk4PznD4UiezKrfJFE=;
-        b=odQQVx7NvELSo+dlqWMtuSoKvOhB3zqZ4Hc0NR06yCy/fQiJDmVc07849woMVUfn092gzn
-        e++WO2/HQnzvxogNqfpWdf3InSiL/UN38/Pt9TDS1ddbL9IvUtwhJFy4FlA9DtnZmZQz+U
-        Yfr8dr5k/RWfPA4JpKFipCcu/TdHx9E=
-From:   David Heidelberg <david@ixit.cz>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ~okias/devicetree@lists.sr.ht,
-        David Heidelberg <david@ixit.cz>
-Subject: [PATCH v2] dt-bindings: input: microchip,cap11xx: Convert txt bindings to yaml
-Date:   Wed, 20 Oct 2021 01:48:16 +0200
-Message-Id: <20211019234816.32060-1-david@ixit.cz>
-X-Mailer: git-send-email 2.33.0
+        id S229657AbhJTACT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Oct 2021 20:02:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54002 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229602AbhJTACS (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 19 Oct 2021 20:02:18 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60E29C06161C;
+        Tue, 19 Oct 2021 17:00:05 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id o24so7735026wms.0;
+        Tue, 19 Oct 2021 17:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=fdSx5Tr0OAUB8i5PP7sreZsmKBxtxeN6rBPYKE7Ylks=;
+        b=IzjHvAVRH07fMRosXkr8GF9mdBoKnTaQagr1jELPu8AT1XlCUbdlekudHk5QTYiG4L
+         qAVnyvLyOVTaqaX0ISvVWoYILzNlYsIEt1TTQzC6QLWlBqHA2g4O4+IBZgBCWro9j3m7
+         +28dXsFPnK/UQhvHOMHjmVz1uWVC5NqB3+JKlW9Trqjm8J8cr3OMQkzfqAxGeiL7/A9l
+         m7vjOtpSn8cKlNYW52v4kORKLd4m7OI5BhfmjWrGZfyNnGNSvCeQM0HRp7iaI4P5aHYi
+         T1nOxMvWoLQOfzeJPIoxI0lwOjvQcBNxYKdEN63k4WreV2nb10FS6UeCUANihBt/IioY
+         sAHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=fdSx5Tr0OAUB8i5PP7sreZsmKBxtxeN6rBPYKE7Ylks=;
+        b=UFCVfnDYlkXW5RUkG3N8ztPCgTAgvL81TH/HjkGXe19zJxGK2CENr1fvdq2x4yHJQZ
+         QknZW9Rxd/475Hau9cjFA8QXgSVJS+OO7iwfDfObcerfq07QBBxvAI3gQTivGfwoa98M
+         m73NHl46j68fZ0B4WsicCtQ5J6lGlLvEyGZNtAwgI8/5cehwNN8GMBvPhHGYedcD0gUy
+         dujxoi+sc/NXIzeUJWBozNym9W41JKSs0d/sDFtTrCcZtPwFwhO+2HfVfvXSLyjIMEZs
+         72dfuFKft/M9ONjDDnJLCyMj/5G+PZq82xC9tqPrTIHE440T/MZD3CRd17nz0irQzmoL
+         vLaA==
+X-Gm-Message-State: AOAM532CNUjtCSzn6J17z6iO+zpPjXR1y2/Q47FdK7Fdot2rf80F4WS+
+        V4IxFofDAkDzo+bX+KSTc9I=
+X-Google-Smtp-Source: ABdhPJxsa1+5V6yCXV7+hZjk5O0EDfY9WgcrvNj+aF8ZyRm1x5SjpphX2UL5HIb2qdkgX+KkFB/Urg==
+X-Received: by 2002:a5d:6dad:: with SMTP id u13mr47310441wrs.370.1634688003984;
+        Tue, 19 Oct 2021 17:00:03 -0700 (PDT)
+Received: from localhost (242.19.86.79.rev.sfr.net. [79.86.19.242])
+        by smtp.gmail.com with ESMTPSA id s8sm421181wrr.15.2021.10.19.17.00.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Oct 2021 17:00:03 -0700 (PDT)
+Date:   Wed, 20 Oct 2021 01:59:43 +0200
+From:   =?utf-8?Q?Fran=C3=A7ois-Xavier?= Carton <fx.carton91@gmail.com>
+To:     Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+Cc:     Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
+        Ash Logan <ash@heyquark.com>,
+        Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.ne@posteo.net>,
+        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org,
+        "Daniel J. Ogorchock" <djogorchock@gmail.com>
+Subject: Re: [PATCH v3 0/4] HID: wiiu-drc: Add a driver for the Wii U gamepad
+Message-ID: <YW9b7wMu8c4Y/lQ1@reblochon>
+Mail-Followup-To: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
+        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
+        Ash Logan <ash@heyquark.com>,
+        Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.ne@posteo.net>,
+        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org,
+        "Daniel J. Ogorchock" <djogorchock@gmail.com>
+References: <20210502232836.26134-1-linkmauve@linkmauve.fr>
+ <20210519085924.1636-1-linkmauve@linkmauve.fr>
+ <20210921150837.ingexwsauvxgluca@luna>
+ <nycvar.YFH.7.76.2110191112490.12554@cbobk.fhfr.pm>
+ <20211019092737.kudgdeulghx2ig3m@luna>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam: Yes
+In-Reply-To: <20211019092737.kudgdeulghx2ig3m@luna>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Convert binding for the Microchip CAP11xx series HW to the YAML syntax.
+Hi,
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
-v2:
- - changed mail to robh (original author seems to be not actively
-   maintaining the driver since 2015)
- - common.yaml path fixed
- - $ref input.yaml added
+On Tue, Oct 19, 2021 at 11:27:37AM +0200, Emmanuel Gil Peyrot wrote:
+> I don’t see any existing driver named that way in mainline, would it be
+> acceptable to simply rename the current patches to hid-nintendo?  What
+> should be done about the existing hid-wiimote driver then, should it
+> also be merged alongside?
+> 
+> Another driver I’d like to submit eventually is the GameCube Controller
+> Adapter for Wii U, which does exactly what its name says, but being an
+> external USB adapter it also works on any USB computer; would it make
+> sense to develop it alongside the current driver, just because it is
+> sold by the same company?
+> 
 
- .../devicetree/bindings/input/cap11xx.txt     |  78 ---------
- .../bindings/input/microchip,cap11xx.yaml     | 148 ++++++++++++++++++
- 2 files changed, 148 insertions(+), 78 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/cap11xx.txt
- create mode 100644 Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
+FYI, I've submitted a GC adapter driver previously [1]. I've been using
+it since then; the patch still applies to recent kernels. I'd be happy
+to work towards having this driver mainlined, if there is interest for
+it.
 
-diff --git a/Documentation/devicetree/bindings/input/cap11xx.txt b/Documentation/devicetree/bindings/input/cap11xx.txt
-deleted file mode 100644
-index 8c67a0b5058d..000000000000
---- a/Documentation/devicetree/bindings/input/cap11xx.txt
-+++ /dev/null
-@@ -1,78 +0,0 @@
--Device tree bindings for Microchip CAP11xx based capacitive touch sensors
--
--The node for this device must be a child of a I2C controller node, as the
--device communication via I2C only.
--
--Required properties:
--
--	compatible:		Must contain one of:
--					"microchip,cap1106"
--					"microchip,cap1126"
--					"microchip,cap1188"
--
--	reg:			The I2C slave address of the device.
--
--	interrupts:		Property describing the interrupt line the
--				device's ALERT#/CM_IRQ# pin is connected to.
--				The device only has one interrupt source.
--
--Optional properties:
--
--	autorepeat:		Enables the Linux input system's autorepeat
--				feature on the input device.
--
--	microchip,sensor-gain:	Defines the gain of the sensor circuitry. This
--				effectively controls the sensitivity, as a
--				smaller delta capacitance is required to
--				generate the same delta count values.
--				Valid values are 1, 2, 4, and 8.
--				By default, a gain of 1 is set.
--
--	microchip,irq-active-high:	By default the interrupt pin is active low
--				open drain. This property allows using the active
--				high push-pull output.
--
--	linux,keycodes:		Specifies an array of numeric keycode values to
--				be used for the channels. If this property is
--				omitted, KEY_A, KEY_B, etc are used as
--				defaults. The array must have exactly six
--				entries.
--
--Example:
--
--i2c_controller {
--	cap1106@28 {
--		compatible = "microchip,cap1106";
--		interrupt-parent = <&gpio1>;
--		interrupts = <0 0>;
--		reg = <0x28>;
--		autorepeat;
--		microchip,sensor-gain = <2>;
--
--		linux,keycodes = <103>,		/* KEY_UP */
--				 <106>,		/* KEY_RIGHT */
--				 <108>,		/* KEY_DOWN */
--				 <105>,		/* KEY_LEFT */
--				 <109>,		/* KEY_PAGEDOWN */
--				 <104>;		/* KEY_PAGEUP */
--
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		usr@0 {
--			label = "cap11xx:green:usr0";
--			reg = <0>;
--		};
--
--		usr@1 {
--			label = "cap11xx:green:usr1";
--			reg = <1>;
--		};
--
--		alive@2 {
--			label = "cap11xx:green:alive";
--			reg = <2>;
--			linux,default_trigger = "heartbeat";
--		};
--	};
--}
-diff --git a/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml b/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
-new file mode 100644
-index 000000000000..fa0f37a90ac9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
-@@ -0,0 +1,148 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/input/microchip,cap11xx.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+
-+title: Device tree bindings for Microchip CAP11xx based capacitive touch sensors
-+
-+description: |
-+  The Microchip CAP1xxx Family of RightTouchTM multiple-channel capacitive
-+  touch controllers and LED drivers. The device communication via I2C only.
-+
-+maintainers:
-+  - Rob Herring <robh@kernel.org>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - microchip,cap1106
-+      - microchip,cap1126
-+      - microchip,cap1188
-+
-+  reg:
-+    maxItems: 1
-+
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-+  interrupts:
-+    maxItems: 1
-+    description: |
-+      Property describing the interrupt line the
-+      device's ALERT#/CM_IRQ# pin is connected to.
-+      The device only has one interrupt source.
-+
-+  autorepeat:
-+    description: |
-+      Enables the Linux input system's autorepeat feature on the input device.
-+
-+  linux,keycodes:
-+    minItems: 6
-+    maxItems: 6
-+    description: |
-+      Specifies an array of numeric keycode values to
-+      be used for the channels. If this property is
-+      omitted, KEY_A, KEY_B, etc are used as defaults.
-+      The array must have exactly six entries.
-+
-+  microchip,sensor-gain:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    default: 1
-+    enum: [1, 2, 4, 8]
-+    description: |
-+      Defines the gain of the sensor circuitry. This
-+      effectively controls the sensitivity, as a
-+      smaller delta capacitance is required to
-+      generate the same delta count values.
-+
-+  microchip,irq-active-high:
-+    type: boolean
-+    description: |
-+      By default the interrupt pin is active low
-+      open drain. This property allows using the active
-+      high push-pull output.
-+
-+patternProperties:
-+  "^led@[0-7]$":
-+    type: object
-+    description: CAP11xx LEDs
-+    $ref: /schemas/leds/common.yaml#
-+
-+    properties:
-+      reg:
-+        enum: [0, 1, 2, 3, 4, 5, 6, 7]
-+
-+      label: true
-+
-+      linux,default-trigger: true
-+
-+      default-state: true
-+
-+    required:
-+      - reg
-+
-+    additionalProperties: false
-+
-+allOf:
-+  - $ref: input.yaml
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - microchip,cap1106
-+    then:
-+      patternProperties:
-+        "^led@[0-7]$": false
-+
-+required:
-+  - compatible
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      cap1188@28 {
-+        compatible = "microchip,cap1188";
-+        interrupt-parent = <&gpio1>;
-+        interrupts = <0 0>;
-+        reg = <0x28>;
-+        autorepeat;
-+        microchip,sensor-gain = <2>;
-+
-+        linux,keycodes = <103>,	/* KEY_UP */
-+                         <106>,	/* KEY_RIGHT */
-+                         <108>,	/* KEY_DOWN */
-+                         <105>,	/* KEY_LEFT */
-+                         <109>,	/* KEY_PAGEDOWN */
-+                         <104>;	/* KEY_PAGEUP */
-+
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        led@0 {
-+                label = "cap11xx:green:usr0";
-+                reg = <0>;
-+        };
-+
-+        led@1 {
-+                label = "cap11xx:green:usr1";
-+                reg = <1>;
-+        };
-+
-+        led@2 {
-+                label = "cap11xx:green:alive";
-+                reg = <2>;
-+                linux,default-trigger = "heartbeat";
-+        };
-+      };
-+    };
--- 
-2.33.0
+[1] https://patchwork.kernel.org/project/linux-input/list/?series=282859&state=*
 
+Best,
+François-Xavier
