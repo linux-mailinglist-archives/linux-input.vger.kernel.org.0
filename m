@@ -2,109 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EF3443426F
-	for <lists+linux-input@lfdr.de>; Wed, 20 Oct 2021 02:00:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C1524342B7
+	for <lists+linux-input@lfdr.de>; Wed, 20 Oct 2021 03:05:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229657AbhJTACT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Oct 2021 20:02:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54002 "EHLO
+        id S229677AbhJTBH3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Oct 2021 21:07:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229602AbhJTACS (ORCPT
+        with ESMTP id S229627AbhJTBH3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Oct 2021 20:02:18 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60E29C06161C;
-        Tue, 19 Oct 2021 17:00:05 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id o24so7735026wms.0;
-        Tue, 19 Oct 2021 17:00:05 -0700 (PDT)
+        Tue, 19 Oct 2021 21:07:29 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F4C6C06161C;
+        Tue, 19 Oct 2021 18:05:14 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id f5so20976157pgc.12;
+        Tue, 19 Oct 2021 18:05:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=fdSx5Tr0OAUB8i5PP7sreZsmKBxtxeN6rBPYKE7Ylks=;
-        b=IzjHvAVRH07fMRosXkr8GF9mdBoKnTaQagr1jELPu8AT1XlCUbdlekudHk5QTYiG4L
-         qAVnyvLyOVTaqaX0ISvVWoYILzNlYsIEt1TTQzC6QLWlBqHA2g4O4+IBZgBCWro9j3m7
-         +28dXsFPnK/UQhvHOMHjmVz1uWVC5NqB3+JKlW9Trqjm8J8cr3OMQkzfqAxGeiL7/A9l
-         m7vjOtpSn8cKlNYW52v4kORKLd4m7OI5BhfmjWrGZfyNnGNSvCeQM0HRp7iaI4P5aHYi
-         T1nOxMvWoLQOfzeJPIoxI0lwOjvQcBNxYKdEN63k4WreV2nb10FS6UeCUANihBt/IioY
-         sAHQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=T81hkJHhMz+wkKewVUF+HeXT4ns0Z4dC13ZWJZywvbU=;
+        b=ZD0YktpHFjFId5w8jHqtQ0sz2z4dDqByCQMxLQVGLWVM8XYlbvOHJFj5qDGi83Cggx
+         zi/xfZQfN6SK+UsO/4ugJBbpwKtK1ygn0Hb4HL/h064v3sq10Yo/LoHTp5Cmww4PjY4O
+         1xXlQhIlwfgwllurZCKi4jb6eAKVFqW2Bjahy/fpbj46bOQEz6ookhjw3WoDrFPyVGnW
+         G4Sp5e3VX7lIeADeT7grhxYRq0SMH7vZ6BbWUJXx6L+hv8MWmchhY7WPYvYYgk2cNcDt
+         QUkC4I74vomVP8erKkNnmaEsShgNZ3w3h3eJ1RKhQm+l1kmCGdHj2A7azgaYXfu2aW9X
+         TK1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=fdSx5Tr0OAUB8i5PP7sreZsmKBxtxeN6rBPYKE7Ylks=;
-        b=UFCVfnDYlkXW5RUkG3N8ztPCgTAgvL81TH/HjkGXe19zJxGK2CENr1fvdq2x4yHJQZ
-         QknZW9Rxd/475Hau9cjFA8QXgSVJS+OO7iwfDfObcerfq07QBBxvAI3gQTivGfwoa98M
-         m73NHl46j68fZ0B4WsicCtQ5J6lGlLvEyGZNtAwgI8/5cehwNN8GMBvPhHGYedcD0gUy
-         dujxoi+sc/NXIzeUJWBozNym9W41JKSs0d/sDFtTrCcZtPwFwhO+2HfVfvXSLyjIMEZs
-         72dfuFKft/M9ONjDDnJLCyMj/5G+PZq82xC9tqPrTIHE440T/MZD3CRd17nz0irQzmoL
-         vLaA==
-X-Gm-Message-State: AOAM532CNUjtCSzn6J17z6iO+zpPjXR1y2/Q47FdK7Fdot2rf80F4WS+
-        V4IxFofDAkDzo+bX+KSTc9I=
-X-Google-Smtp-Source: ABdhPJxsa1+5V6yCXV7+hZjk5O0EDfY9WgcrvNj+aF8ZyRm1x5SjpphX2UL5HIb2qdkgX+KkFB/Urg==
-X-Received: by 2002:a5d:6dad:: with SMTP id u13mr47310441wrs.370.1634688003984;
-        Tue, 19 Oct 2021 17:00:03 -0700 (PDT)
-Received: from localhost (242.19.86.79.rev.sfr.net. [79.86.19.242])
-        by smtp.gmail.com with ESMTPSA id s8sm421181wrr.15.2021.10.19.17.00.03
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=T81hkJHhMz+wkKewVUF+HeXT4ns0Z4dC13ZWJZywvbU=;
+        b=vfq2M9beWZh6xtliDSBIDa84qoLWbmrBAG4+pxU+wBTwCc0BdtUxA3S62VikA4wUOu
+         oaKeD0UqCASWYKGbABReLVge66awOdDxKcK1Bx+EYZ+gNYhxLM2y52pvlNUohIYBxHiB
+         l7TgJu1AVuDo0KnU9IJcy544n0jyWDBTGQip7TGovjdc4cNAgkofR04RmCedizD6Nd45
+         mqIddDL6Q/AWaG06/L6EufnBIRnB4KqYhu2rHwXiobUFWZ7mWitdFftcHnmDXqUpat/Z
+         8JXdCs8wWiiqVCSkW4IXsgsqZ96/RCaijMMs3ypJePCfc7XQgA0cKKvh8bxH/Z9Yf8ch
+         KTOg==
+X-Gm-Message-State: AOAM531xsGtqgn3AsdVHj7LsLQx27dE3E8sKTdIlVBRqpdGUDKhG/OUe
+        6vWXUnM/QvZFShJGGZ7neQI=
+X-Google-Smtp-Source: ABdhPJxINtd7V8rptDFtp3UDLR4rLljFNVYHyR5eb0ZxMq4SEUO9+dhWeWInjlQrF2GWP8/HiArDFA==
+X-Received: by 2002:a63:7e05:: with SMTP id z5mr31372321pgc.354.1634691913570;
+        Tue, 19 Oct 2021 18:05:13 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:4814:8c29:ba96:983d])
+        by smtp.gmail.com with ESMTPSA id z126sm384062pgz.55.2021.10.19.18.05.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 17:00:03 -0700 (PDT)
-Date:   Wed, 20 Oct 2021 01:59:43 +0200
-From:   =?utf-8?Q?Fran=C3=A7ois-Xavier?= Carton <fx.carton91@gmail.com>
-To:     Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-Cc:     Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        Ash Logan <ash@heyquark.com>,
-        Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.ne@posteo.net>,
-        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
+        Tue, 19 Oct 2021 18:05:12 -0700 (PDT)
+Date:   Tue, 19 Oct 2021 18:05:09 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Alistair Francis <alistair23@gmail.com>
+Cc:     Ping Cheng <pinglinux@gmail.com>,
+        Alistair Francis <alistair@alistair23.me>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        dl-linux-imx <linux-imx@nxp.com>, Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org,
-        "Daniel J. Ogorchock" <djogorchock@gmail.com>
-Subject: Re: [PATCH v3 0/4] HID: wiiu-drc: Add a driver for the Wii U gamepad
-Message-ID: <YW9b7wMu8c4Y/lQ1@reblochon>
-Mail-Followup-To: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        Ash Logan <ash@heyquark.com>,
-        Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.ne@posteo.net>,
-        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org,
-        "Daniel J. Ogorchock" <djogorchock@gmail.com>
-References: <20210502232836.26134-1-linkmauve@linkmauve.fr>
- <20210519085924.1636-1-linkmauve@linkmauve.fr>
- <20210921150837.ingexwsauvxgluca@luna>
- <nycvar.YFH.7.76.2110191112490.12554@cbobk.fhfr.pm>
- <20211019092737.kudgdeulghx2ig3m@luna>
+        linux-input <linux-input@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v11 1/4] HID: wacom_sys: Add support for flipping the
+ data values
+Message-ID: <YW9rRUsxPHTjeOGT@google.com>
+References: <20211009114313.17967-1-alistair@alistair23.me>
+ <CAF8JNh+OUzvAHA9tBrH2d_WxWPXRgiunhGO5KV4-fqVG+tUOyQ@mail.gmail.com>
+ <YW4kgnI0DQHj4sw4@google.com>
+ <CAKmqyKMrb=Uz0+-ycj0HkAKJYdRU11Dc+24+KJw_j3MHT=2+yw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211019092737.kudgdeulghx2ig3m@luna>
+In-Reply-To: <CAKmqyKMrb=Uz0+-ycj0HkAKJYdRU11Dc+24+KJw_j3MHT=2+yw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On Tue, Oct 19, 2021 at 11:27:37AM +0200, Emmanuel Gil Peyrot wrote:
-> I don’t see any existing driver named that way in mainline, would it be
-> acceptable to simply rename the current patches to hid-nintendo?  What
-> should be done about the existing hid-wiimote driver then, should it
-> also be merged alongside?
+On Wed, Oct 20, 2021 at 09:33:13AM +1000, Alistair Francis wrote:
+> On Tue, Oct 19, 2021 at 11:51 AM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> >
+> > We already have touchscreen-inverted-x/y defined in
+> > Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml,
+> > why are they not sufficient?
 > 
-> Another driver I’d like to submit eventually is the GameCube Controller
-> Adapter for Wii U, which does exactly what its name says, but being an
-> external USB adapter it also works on any USB computer; would it make
-> sense to develop it alongside the current driver, just because it is
-> sold by the same company?
-> 
+> The touchscreen-* properties aren't applied to HID devices though, at
+> least not that I can tell.
 
-FYI, I've submitted a GC adapter driver previously [1]. I've been using
-it since then; the patch still applies to recent kernels. I'd be happy
-to work towards having this driver mainlined, if there is interest for
-it.
+No, they are not currently, but that does not mean we need to establish
+a new set of properties (property names) for HID case.
 
-[1] https://patchwork.kernel.org/project/linux-input/list/?series=282859&state=*
+Thanks.
 
-Best,
-François-Xavier
+-- 
+Dmitry
