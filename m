@@ -2,139 +2,119 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7B0A4345FF
-	for <lists+linux-input@lfdr.de>; Wed, 20 Oct 2021 09:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BB3D434609
+	for <lists+linux-input@lfdr.de>; Wed, 20 Oct 2021 09:44:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229600AbhJTHmv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Oct 2021 03:42:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31422 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229491AbhJTHmu (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Oct 2021 03:42:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634715636;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=xzO4Q3aQAxDd/CXjxVc/PBLDgKS0VWU0zhTheAx1U8U=;
-        b=ZtW9hUnuX16e/Y0/5YEa84EbHhEgH7wremWSF4sdlpjBIsIKYxvql0p/KlVb/UTU8TNkwI
-        QXEkwF/fhfla2gSNMnHk3Zs+vAzZg0G956ORY0csyoSzMzNzmsVNikZExhSRmO8o1kId7K
-        UemByyJBrdiWkMk+nyhqWcV0r1dKUOk=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-567-nkxmO_emOZWPSxh_6bD1jg-1; Wed, 20 Oct 2021 03:40:35 -0400
-X-MC-Unique: nkxmO_emOZWPSxh_6bD1jg-1
-Received: by mail-pl1-f199.google.com with SMTP id x5-20020a1709028ec500b0013a347b89e4so9156064plo.3
-        for <linux-input@vger.kernel.org>; Wed, 20 Oct 2021 00:40:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xzO4Q3aQAxDd/CXjxVc/PBLDgKS0VWU0zhTheAx1U8U=;
-        b=X3+dFLvO5aoBTgICAncWuY8833PNtBxqrMAhoF2v79T+mJhcX26ep29tm1+rsnwq0+
-         +rxIIXjOsdn5H/w6lqc/3yi8QR5tOwPx7aYIq+aeTjl1hsHx/ygZYV3YfL639yP0HkAa
-         v8bBasPCEUGiyQ7To8U3vzKjq3mOMytZIQsLuMhHHe+IyD/Ck5bxeSad/ejaumKtgfhs
-         i/mtGRJGSoJ78VVUVUYBhSuQvsnrqmvyZAhMDQhYqQO0rua9iXLiag2lzfmVL1PYdPXd
-         nG5FafWMJYysXTglxDb5N8S16nm5AmrMY+8yra8wpnJRuTDnOfeG90pPLdbdOhpFat5X
-         f1Ag==
-X-Gm-Message-State: AOAM5333Gfy3k8WrgfH7WOmcFbYABfjf4mxLTp/9YLUwfpWkx8qp8pwb
-        2xEm/iUk2oCizkgR71Ozq8kkyf5wPXxfiAGtfJmvC4J1+TJTLoSpQNlE4KnqepXSi/HCup3TwWt
-        p32ZhXDgJBlzJDju5JV/CJMtp5ZqObBo2hmCTFTY=
-X-Received: by 2002:a17:903:1c2:b0:13f:2893:de99 with SMTP id e2-20020a17090301c200b0013f2893de99mr37622304plh.80.1634715634012;
-        Wed, 20 Oct 2021 00:40:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyfSAVC+6desZq5CXC1hcJfxb6eLGYqapPpaxCnEKqY9rPZ4gaXaycO0TCrv2Qga1iqLwsz6Z60kaM4RT3oIec=
-X-Received: by 2002:a17:903:1c2:b0:13f:2893:de99 with SMTP id
- e2-20020a17090301c200b0013f2893de99mr37622288plh.80.1634715633756; Wed, 20
- Oct 2021 00:40:33 -0700 (PDT)
+        id S229603AbhJTHrD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Oct 2021 03:47:03 -0400
+Received: from smtpbgsg1.qq.com ([54.254.200.92]:50745 "EHLO smtpbgsg1.qq.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229555AbhJTHrD (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 20 Oct 2021 03:47:03 -0400
+X-QQ-mid: bizesmtp54t1634715878tkoj8klv
+Received: from localhost.localdomain (unknown [113.57.152.160])
+        by esmtp6.qq.com (ESMTP) with 
+        id ; Wed, 20 Oct 2021 15:44:32 +0800 (CST)
+X-QQ-SSF: B1400000002000B0E000000C0000000
+X-QQ-FEAT: WPY/GJVrW4SLP6hkpQtppHXyFGi+scMkXVGUswTMxF6S8wZ+eUr7OBu75qu5T
+        wJ23R4TkdonQXhp2NXc5BQL/upDqvPb81rLxASinvq85gpTwTDpNfXdXias5Y2zX51vSLE3
+        xFqINF2xGPMGYrErw4gbo819qFwhPD4/SJ91cxd/4Rco8cbvHMPv0Gj5++4EFGQwwxlrbAf
+        7FajO+RqJXIxAaffScWhZDhtgRcskIFvsuFJA5HSs/2erejh/P1Ac4bHcfg/NEZRKmUwk3D
+        CA0A290psUiJTuXl8UGJydjCX+WpfEZC+qCc6a5ZNDBVuKq3WQAhg35MHja3jx/OzBucv+G
+        CsEJ5RBpz9aPnPG9Ssv9xoU+5uQMRyZGmztTZ3102kd6QelfiA=
+X-QQ-GoodBg: 1
+From:   lianzhi chang <changlianzhi@uniontech.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, andriy.shevchenko@linux.intel.com,
+        linux-input@vger.kernel.org, 282827961@qq.com,
+        lianzhi chang <changlianzhi@uniontech.com>
+Subject: [[PATCH v4]] tty: Fix the keyboard led light display problem
+Date:   Wed, 20 Oct 2021 15:44:23 +0800
+Message-Id: <20211020074423.11932-1-changlianzhi@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20211009114313.17967-1-alistair@alistair23.me>
- <CAF8JNh+OUzvAHA9tBrH2d_WxWPXRgiunhGO5KV4-fqVG+tUOyQ@mail.gmail.com>
- <YW4kgnI0DQHj4sw4@google.com> <CAKmqyKMrb=Uz0+-ycj0HkAKJYdRU11Dc+24+KJw_j3MHT=2+yw@mail.gmail.com>
- <YW9rRUsxPHTjeOGT@google.com> <CAKmqyKMpMCb4gLyp94rCgVBU3eccjafD8nF7y6o+oU6D-OHvTQ@mail.gmail.com>
- <YW97lwsMrLHetJGy@google.com>
-In-Reply-To: <YW97lwsMrLHetJGy@google.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 20 Oct 2021 09:40:22 +0200
-Message-ID: <CAO-hwJKSxVFAiAriWU0No7sFxzo9XB1-T9LFeF5Zn27B8erFPA@mail.gmail.com>
-Subject: Re: [PATCH v11 1/4] HID: wacom_sys: Add support for flipping the data values
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Alistair Francis <alistair23@gmail.com>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Alistair Francis <alistair@alistair23.me>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        dl-linux-imx <linux-imx@nxp.com>, Jiri Kosina <jikos@kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign7
+X-QQ-Bgrelay: 1
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 20, 2021 at 4:14 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> On Wed, Oct 20, 2021 at 11:44:50AM +1000, Alistair Francis wrote:
-> > On Wed, Oct 20, 2021 at 11:05 AM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> > >
-> > > On Wed, Oct 20, 2021 at 09:33:13AM +1000, Alistair Francis wrote:
-> > > > On Tue, Oct 19, 2021 at 11:51 AM Dmitry Torokhov
-> > > > <dmitry.torokhov@gmail.com> wrote:
-> > > > >
-> > > > > We already have touchscreen-inverted-x/y defined in
-> > > > > Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml,
-> > > > > why are they not sufficient?
-> > > >
-> > > > The touchscreen-* properties aren't applied to HID devices though, at
-> > > > least not that I can tell.
-> > >
-> > > No, they are not currently, but that does not mean we need to establish
-> > > a new set of properties (property names) for HID case.
-> >
-> > I can update the names to use the existing touchscreen ones.
-> >
-> > Do you have a hint of where this should be implemented though?
-> >
-> > Right now (without "HID: wacom: Add support for the AG14 Wacom
-> > device") the wacom touchscreen is just registered as a generic HID
-> > device. I don't see any good place in hid-core, hid-input or
-> > hid-generic to invert the input values for this.
->
-> I think the transformation should happen in
-> hid-multitouch.c::mt_process_slot() using helpers from
-> include/linux/input/touchscreen.h
->
-> I think the more challenging question is to how pass/attach struct
-> touchscreen_properties * to the hid device (i expect the properties will
-> be attached to i2c-hid device, but maybe we could create a sub-node of
-> it and attach properties there.
->
+Switching from the desktop environment to the tty environment,
+the state of the keyboard led lights and the state of the keyboard
+lock are inconsistent. This is because the attribute kb->kbdmode
+of the tty bound in the desktop environment (xorg) is set to
+VC_OFF, which causes the ledstate and kb->ledflagstate
+values of the bound tty to always be 0, which causes the switch
+from the desktop When to the tty environment, the LED light
+status is inconsistent with the keyboard lock status.
 
-Sorry but I don't like that very much. This would mean that we have an
-out of band information that needs to be carried over to
-HID-generic/multitouch and having tests for it is going to be harder.
-I would rather have userspace deal with the rotation if we do not have
-the information from the device itself.
+Signed-off-by: lianzhi chang <changlianzhi@uniontech.com>
+---
+ v2-->v3:
+ (1) Abandon the previous modification plan.
+ (2) Added the kbd_update_ledstate function, this function gets the 
+ latest state of the led from the input device, and then synchronizes
+ it to the ledstate. The kbd_event function calls it.
+ (3) When the tty's kbdmode==VC_OFF, the tty does not set the keyboard light (modify the kbd_bh function).
+ v3-->v4:
+ Correct the subject
+ 
+ drivers/tty/vt/keyboard.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-Foreword: I have been given a hammer, so I see nails everywhere.
+diff --git a/drivers/tty/vt/keyboard.c b/drivers/tty/vt/keyboard.c
+index c7fbbcdcc346..5fcdd1805b4d 100644
+--- a/drivers/tty/vt/keyboard.c
++++ b/drivers/tty/vt/keyboard.c
+@@ -1130,6 +1130,22 @@ static void kbd_init_leds(void)
+ 
+ #endif
+ 
++static void kbd_update_ledstate(struct input_dev *dev)
++{
++	unsigned long leds = (unsigned long)ledstate;
++	
++	if (test_bit(EV_LED, dev->evbit)) {
++		if (ledstate == -1U)
++			ledstate = 0;
++		if (!!test_bit(LED_NUML, dev->led) != !!test_bit(VC_NUMLOCK, &leds))
++			ledstate ^= BIT(VC_NUMLOCK);
++		if (!!test_bit(LED_CAPSL, dev->led) != !!test_bit(VC_CAPSLOCK, &leds))
++			ledstate ^= BIT(VC_CAPSLOCK);
++		if (!!test_bit(LED_SCROLLL, dev->led) != !!test_bit(VC_SCROLLOCK, &leds))
++			ledstate ^= BIT(VC_SCROLLOCK); 
++	}
++}
++
+ /*
+  * The leds display either (i) the status of NumLock, CapsLock, ScrollLock,
+  * or (ii) whatever pattern of lights people want to show using KDSETLED,
+@@ -1249,6 +1265,10 @@ static void kbd_bh(struct tasklet_struct *unused)
+ {
+ 	unsigned int leds;
+ 	unsigned long flags;
++	struct kbd_struct *kb = kbd_table + fg_console;
++
++	if (kb->kbdmode == VC_OFF)
++		return;
+ 
+ 	spin_lock_irqsave(&led_lock, flags);
+ 	leds = getleds();
+@@ -1524,6 +1544,8 @@ static void kbd_event(struct input_handle *handle, unsigned int event_type,
+ 	/* We are called with interrupts disabled, just take the lock */
+ 	spin_lock(&kbd_event_lock);
+ 
++	kbd_update_ledstate(handle->dev);
++
+ 	if (event_type == EV_MSC && event_code == MSC_RAW &&
+ 			kbd_is_hw_raw(handle->dev))
+ 		kbd_rawcode(value);
+-- 
+2.20.1
 
-The past 3 weeks I have been working on implementing some eBPF hooks
-in the HID subsystem. This would IMO be the best solution here: a udev
-hwdb rule sees that there is the not-wacom PID/VID (and maybe the
-platform or parses the OF properties if they are available in the
-sysfs) and adds a couple of functions in the HID stack to rotate the
-screen. The advantage is that we do not need to add a new kernel API
-anymore, the disadvantage is that we need userspace to "fix" the
-kernel behaviour (so at boot, this might be an issue).
 
-I am not at the point where I can share the code as there is a lot of
-rewriting and my last attempt is resulting in a page fault, but I'd be
-happy to share it more once that hiccup is solved.
 
-Cheers,
-Benjamin
 
