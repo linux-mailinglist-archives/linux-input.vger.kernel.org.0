@@ -2,119 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04893434369
-	for <lists+linux-input@lfdr.de>; Wed, 20 Oct 2021 04:15:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6B6743451D
+	for <lists+linux-input@lfdr.de>; Wed, 20 Oct 2021 08:24:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230117AbhJTCRV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Oct 2021 22:17:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55442 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230103AbhJTCRG (ORCPT
+        id S229691AbhJTG1G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Oct 2021 02:27:06 -0400
+Received: from 82-65-109-163.subs.proxad.net ([82.65.109.163]:34486 "EHLO
+        luna.linkmauve.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229591AbhJTG1F (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Oct 2021 22:17:06 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84385C061749;
-        Tue, 19 Oct 2021 19:14:51 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id h193so5728161pgc.1;
-        Tue, 19 Oct 2021 19:14:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BeLefvFYaaRNCXybpBNbetJ8KPidcgjmt2FIlG8JLGU=;
-        b=g2kvxFPQF0NKcFZdcxoOMWcur0VCSL5wdxGZLs3mlkcAkYUcSmvP9Af8ZAStymqLs0
-         tHAM0eeyBmCxRmMskpNA5XC/UuUkOL42EK7ejN4a2nK85+pGdX8bBQgBC+Y5C8aOuw9v
-         f2kPwbFVcmDHyCf38qj5zBBrhHvIulPdmtayqXLxfelVYJmAn9YRFpDeeh8bV14bX69W
-         HtjKu7YdKH5WFTSZgd94BqDCs/ESo+Gg7g1GAGOLdTtIoaY/jMiUknWIW9FYqClpfGb4
-         NKwnkkAlwzIDQ5+kLk6WDGqQdfXPssBhqpLl7KLAaWDeuTceVn7nl69zNgwSUqhQnv3p
-         +mtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BeLefvFYaaRNCXybpBNbetJ8KPidcgjmt2FIlG8JLGU=;
-        b=fh09+zwK+Zy93AfUTfw8yB056DtrnpMl6Ui0PVzoqAiMtXQ79xMN9QcA+CbqvNqvJm
-         7GQa+udbaoiGf9pHdK81WdU69+g/0Xen6D5KQobWp38GRyClFyNVpOlwK/NEFJkqIBv8
-         VKoizQaAHtRLq8wcj2+0MX84znZi/Tj1surfLAw7eIopPBMF8uB/UKo3Xr+XJcOWUcaH
-         0VjltdQFu+B6I7jslmRQ3v+9nWYdpuYzq2Y5GX5SwSvWqHnqeEtLNjFoHy2ufs4HfO/m
-         NQCowwrQsQ78iFcdnEjGwoKD5wdZchi/rrHwj0zxYzsDvXVI3RSAvb8Q9v6NFBYuYnfN
-         BqSQ==
-X-Gm-Message-State: AOAM533OIUBTdx622fpnQ+FvJHFoxrmBSQ4stL0a3BR1ZjH2n2amVPiV
-        8m3Kpg+3LpR3kAcNhMQzBMc=
-X-Google-Smtp-Source: ABdhPJyR9L42ItJdgeY8OFVEuB+bR+EEDRXjgA+Rvzo7tbV8YJlnkPhWyOmMetzWesvDsvBeGVKbUw==
-X-Received: by 2002:a05:6a00:88e:b0:44c:c40:9279 with SMTP id q14-20020a056a00088e00b0044c0c409279mr3335225pfj.85.1634696090862;
-        Tue, 19 Oct 2021 19:14:50 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:4814:8c29:ba96:983d])
-        by smtp.gmail.com with ESMTPSA id k14sm422679pji.45.2021.10.19.19.14.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 19:14:49 -0700 (PDT)
-Date:   Tue, 19 Oct 2021 19:14:47 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Alistair Francis <alistair23@gmail.com>
-Cc:     Ping Cheng <pinglinux@gmail.com>,
-        Alistair Francis <alistair@alistair23.me>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        dl-linux-imx <linux-imx@nxp.com>, Jiri Kosina <jikos@kernel.org>,
+        Wed, 20 Oct 2021 02:27:05 -0400
+Received: by luna.linkmauve.fr (Postfix, from userid 1000)
+        id 72C07F40C2A; Wed, 20 Oct 2021 08:24:48 +0200 (CEST)
+Date:   Wed, 20 Oct 2021 08:24:47 +0200
+From:   Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+To:     Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
+        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
+        Ash Logan <ash@heyquark.com>,
+        Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.ne@posteo.net>,
+        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v11 1/4] HID: wacom_sys: Add support for flipping the
- data values
-Message-ID: <YW97lwsMrLHetJGy@google.com>
-References: <20211009114313.17967-1-alistair@alistair23.me>
- <CAF8JNh+OUzvAHA9tBrH2d_WxWPXRgiunhGO5KV4-fqVG+tUOyQ@mail.gmail.com>
- <YW4kgnI0DQHj4sw4@google.com>
- <CAKmqyKMrb=Uz0+-ycj0HkAKJYdRU11Dc+24+KJw_j3MHT=2+yw@mail.gmail.com>
- <YW9rRUsxPHTjeOGT@google.com>
- <CAKmqyKMpMCb4gLyp94rCgVBU3eccjafD8nF7y6o+oU6D-OHvTQ@mail.gmail.com>
+        linux-kernel@vger.kernel.org,
+        "Daniel J. Ogorchock" <djogorchock@gmail.com>
+Subject: Re: [PATCH v3 0/4] HID: wiiu-drc: Add a driver for the Wii U gamepad
+Message-ID: <20211020062447.mlvuji73crwdp2af@luna>
+Jabber-ID: linkmauve@linkmauve.fr
+References: <20210502232836.26134-1-linkmauve@linkmauve.fr>
+ <20210519085924.1636-1-linkmauve@linkmauve.fr>
+ <20210921150837.ingexwsauvxgluca@luna>
+ <nycvar.YFH.7.76.2110191112490.12554@cbobk.fhfr.pm>
+ <20211019092737.kudgdeulghx2ig3m@luna>
+ <YW9b7wMu8c4Y/lQ1@reblochon>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="zc2nrfvt26bkgy2u"
 Content-Disposition: inline
-In-Reply-To: <CAKmqyKMpMCb4gLyp94rCgVBU3eccjafD8nF7y6o+oU6D-OHvTQ@mail.gmail.com>
+In-Reply-To: <YW9b7wMu8c4Y/lQ1@reblochon>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 20, 2021 at 11:44:50AM +1000, Alistair Francis wrote:
-> On Wed, Oct 20, 2021 at 11:05 AM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > On Wed, Oct 20, 2021 at 09:33:13AM +1000, Alistair Francis wrote:
-> > > On Tue, Oct 19, 2021 at 11:51 AM Dmitry Torokhov
-> > > <dmitry.torokhov@gmail.com> wrote:
-> > > >
-> > > > We already have touchscreen-inverted-x/y defined in
-> > > > Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml,
-> > > > why are they not sufficient?
-> > >
-> > > The touchscreen-* properties aren't applied to HID devices though, at
-> > > least not that I can tell.
-> >
-> > No, they are not currently, but that does not mean we need to establish
-> > a new set of properties (property names) for HID case.
-> 
-> I can update the names to use the existing touchscreen ones.
-> 
-> Do you have a hint of where this should be implemented though?
-> 
-> Right now (without "HID: wacom: Add support for the AG14 Wacom
-> device") the wacom touchscreen is just registered as a generic HID
-> device. I don't see any good place in hid-core, hid-input or
-> hid-generic to invert the input values for this.
 
-I think the transformation should happen in
-hid-multitouch.c::mt_process_slot() using helpers from
-include/linux/input/touchscreen.h
+--zc2nrfvt26bkgy2u
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think the more challenging question is to how pass/attach struct
-touchscreen_properties * to the hid device (i expect the properties will
-be attached to i2c-hid device, but maybe we could create a sub-node of
-it and attach properties there.
+On Wed, Oct 20, 2021 at 01:59:43AM +0200, Fran=C3=A7ois-Xavier Carton wrote:
+> Hi,
+>=20
+> On Tue, Oct 19, 2021 at 11:27:37AM +0200, Emmanuel Gil Peyrot wrote:
+> > I don=E2=80=99t see any existing driver named that way in mainline, wou=
+ld it be
+> > acceptable to simply rename the current patches to hid-nintendo?  What
+> > should be done about the existing hid-wiimote driver then, should it
+> > also be merged alongside?
+> >=20
+> > Another driver I=E2=80=99d like to submit eventually is the GameCube Co=
+ntroller
+> > Adapter for Wii=C2=A0U, which does exactly what its name says, but bein=
+g an
+> > external USB adapter it also works on any USB computer; would it make
+> > sense to develop it alongside the current driver, just because it is
+> > sold by the same company?
+> >=20
+>=20
+> FYI, I've submitted a GC adapter driver previously [1]. I've been using
+> it since then; the patch still applies to recent kernels. I'd be happy
+> to work towards having this driver mainlined, if there is interest for
+> it.
 
-Thanks.
+I am definitely interested!  I have been using a user-space driver for
+the time being, but that=E2=80=99s not a good solution.
 
--- 
-Dmitry
+>=20
+> [1] https://patchwork.kernel.org/project/linux-input/list/?series=3D28285=
+9&state=3D*
+>=20
+> Best,
+> Fran=C3=A7ois-Xavier
+
+--=20
+Emmanuel Gil Peyrot
+
+--zc2nrfvt26bkgy2u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEjrVT1SzTln43kCLJOWgfYkb2LpAFAmFvti0ACgkQOWgfYkb2
+LpCcswf/b8zfimgNDRXoh5QQNkaEK06rBcEINiYZIokG0T7UnaOxlTRmzroXsH0y
+IB+MQ7WpmFiAetEbmLWrvnr+GQ9i3ajovLX3eyneK2PVXWfz0AIvua1ybSomJWMv
+Ma1raha+Z6GR4f16ZwkFabKtAwKN34uZavNmvJcYT39hX67zfV5zJtVMc5/XxtKd
+402IopRUKoeG27Do48NPqidAhqPcf3S/K6WWfkJOxrofcC2r4lOOr5W7Qqd1KwqV
+nP5VckE7sb/ysZqhIB20FXRcdaTGcLMm41tiZ6Re/HglPK+BBi5DkJzakxhvDZwa
+GdxOaH8Bn49pIZo1XpG2UxPO85afhg==
+=1LxZ
+-----END PGP SIGNATURE-----
+
+--zc2nrfvt26bkgy2u--
