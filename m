@@ -2,42 +2,41 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CED824357B8
-	for <lists+linux-input@lfdr.de>; Thu, 21 Oct 2021 02:26:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C5C84357C8
+	for <lists+linux-input@lfdr.de>; Thu, 21 Oct 2021 02:26:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232213AbhJUA2N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Oct 2021 20:28:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46362 "EHLO mail.kernel.org"
+        id S232683AbhJUA2l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Oct 2021 20:28:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46804 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232608AbhJUA0l (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Oct 2021 20:26:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 07044613A1;
-        Thu, 21 Oct 2021 00:24:24 +0000 (UTC)
+        id S232688AbhJUA1E (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 20 Oct 2021 20:27:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4ECA56138F;
+        Thu, 21 Oct 2021 00:24:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634775866;
+        s=k20201202; t=1634775889;
         bh=IC7UlV2w1e4Ip96/SdkIQOlu48Mr5j18fgcS+51QB6I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IMB7RYOMiaNaE2k42a5lR+zA6OuL4FkwiWud4oSt5QrQ0oo6CosxqGUwm2SI1Ma8+
-         ARXSkCbuhF72/tVMwo1RLiX+iPfSGi7N4s7967hsNpRquNb9W1EExj5nWGCY/atyKF
-         mcS8eWAxEfcDcemqeachJxMuzKXclsBEDYSpdRk4cJQCEZ247IM1U7BwgbKVE0FBQH
-         mkY5ArfFwtjwhjr7orFm5Q4I97ITIJ6UlTF4psMeKqIp+4/nfMj6REcAkHivD/xyEA
-         Vtdqv7xkrdGL64+i/o14vK4XvsL+softhpKMJWVlWZqWuNMqNyo3uIBcxdpiw5s3ov
-         U86ua03MlnFVQ==
+        b=SXcU4Zy1GdDP8plj8eAzNLNLR9m8t4W7NjyzvIw3Ksya0MZiNSNJ2PeyeH+C2mxJG
+         h5FJfOpeKH+4IXfiOFcl81aOcK7fJCMtfNFwI8eHVi7Q4/TCgewlDKshnP8QrWl5hv
+         FzjDY9/VbCCrxwLr2VwZ1PReNmK601V+MHoxzzHO1N5g9JGuxT5nDBco3VjxRIsige
+         mzB1OMcjt2WWB9FV21gFj2yuNyWi5xa2mTt2oUVjhVdsJW4fo/ojXVEhmPBHWj2h4h
+         Roo8aDzMK1MPHa4UUfQt0t/hh5OwHu8f1T1ldLEK9VaHpA4Vw2Z16r4pYxYT14UubY
+         V4RRIjCI60bgA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Michael Cullen <michael@michaelcullen.name>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, mattreynolds@chromium.org,
-        lzye@google.com, hcutts@chromium.org, lee.jones@linaro.org,
-        olivier.crete@ocrete.ca, sanjay.govind9@gmail.com,
-        benpicco@googlemail.com, andrzej.p@collabora.com,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 7/7] Input: xpad - add support for another USB ID of Nacon GC-100
-Date:   Wed, 20 Oct 2021 20:24:03 -0400
-Message-Id: <20211021002404.1129946-7-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, benpicco@googlemail.com,
+        hadess@hadess.net, andrzej.p@collabora.com, lzye@google.com,
+        sanjay.govind9@gmail.com, mattreynolds@chromium.org,
+        lee.jones@linaro.org, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.4 7/7] Input: xpad - add support for another USB ID of Nacon GC-100
+Date:   Wed, 20 Oct 2021 20:24:26 -0400
+Message-Id: <20211021002427.1130044-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211021002404.1129946-1-sashal@kernel.org>
-References: <20211021002404.1129946-1-sashal@kernel.org>
+In-Reply-To: <20211021002427.1130044-1-sashal@kernel.org>
+References: <20211021002427.1130044-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
