@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DD6E436265
-	for <lists+linux-input@lfdr.de>; Thu, 21 Oct 2021 15:09:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0608436261
+	for <lists+linux-input@lfdr.de>; Thu, 21 Oct 2021 15:09:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231134AbhJUNLf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Oct 2021 09:11:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48704 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230285AbhJUNLe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
+        id S230379AbhJUNLe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Thu, 21 Oct 2021 09:11:34 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A3EC06161C;
-        Thu, 21 Oct 2021 06:09:18 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id ec8so1080534edb.6;
-        Thu, 21 Oct 2021 06:09:18 -0700 (PDT)
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230463AbhJUNLd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 21 Oct 2021 09:11:33 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88E52C061749;
+        Thu, 21 Oct 2021 06:09:17 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id y12so340404eda.4;
+        Thu, 21 Oct 2021 06:09:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zgnChK/V6LgAUB4kw1GaNXmG+i9xjyjTWMC+AtrXfBk=;
-        b=i76CAX6Eqknf3lgK4Eu4h5yWb5kIas+hXeA2aMzGQ3Q5qFZgwrKmvMK6fEv9wb007Z
-         hZQgNV3nJk3gw0/rtEiIIrjVz/Jpf2k8jyYpYKFQhhypNZn5GvaytkBKZkEslO0s0nCc
-         W+9pqHq++tph+22bnJES48513m424/bSSuP+c6s+co66h1EFAV/WNMNw1f1RAz+KbraW
-         fLotLACRzuHWRZUrakt3ClFYEaK+GkcTN3ZHam+QLRpWH8Q3KThWSFSF1aUt2+P8wb1J
-         x83Y1tUpZ0MALjbAk3KDG29Se0IjGTNpMaH7spSfoF2USAxV+l5kjoWQbtPTCgvVTyAA
-         DQ0A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=eWhS/VWKVIIu5u4miltvI+qmcq5c4uC9DbdWdhggI74=;
+        b=WoEZhEev9dqTz70m5xKBKNf7wHRR7VifKNE72uszia0hVOhHB9JTG0fnwPnTK4KESM
+         EDS8crGqRr7wLjRBGcxRmlucVhdcC09WrDR1X/05BqBt4j7ijeVDLKtvRewCEBYZTRTD
+         U/6xiRfb49kqLKqmG46TXT+IxAteZuWJMdyx0E/wW6+s0XR/pzhv7mh0fQ/1qlUAw2Ki
+         6Mr4SJ/Kmx8k6C+anoLVvJyhL5MkZehfcFXRIvRrrkv/d7qyhdv9R7/Q3ayVOKTi+Xic
+         WNd5SjJ/DeNmOz40ejoajBPYBcP8CWWu9JS1a0USnUQZ/v4gU9qS80wm8gSTxb128HYG
+         ZWbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zgnChK/V6LgAUB4kw1GaNXmG+i9xjyjTWMC+AtrXfBk=;
-        b=odEucupqSbqFxB8Hx1L93lDOzrfgz4phwiQydlpLAK3ZxDsZLaynERg7OjieBPwnJp
-         Pkh9gPEZ90FziaMqxQblsFaiw2zlCarXY+ptGC6FKH+uu8xEL0yhYaDyZoqAqotYNTxO
-         Fgah1KiP/op3LNvBnOZHNZLvoECFQ+15c/Nsk82FfQ/is9hR+uLc2V0kyj+2ittvBE0K
-         A1av/BRwPDLxGq8Yt1zmpfYABh/lgd0bApKwT/gWb4Eqfn6rNtPimjrk4S+dmlJUbzIQ
-         JfJ6c6jPmEWcUwUxCXrwbcVJnVW86swLPtsc6B054aXPlGl39DC2oFW4ZIRGsm32ja5P
-         N1KA==
-X-Gm-Message-State: AOAM531d6nDN3AxS6nMj/z7nDLSnZDke3xDIqMTxxv/ZtXwIBHEzviXY
-        WY2Yl4DqbEjgspqs4+CmXkYj+BcPk+E=
-X-Google-Smtp-Source: ABdhPJxhjAHMM+e+1hT/X+RJZAWxodYfHFk22KjnEvcmWIdfJGC6H+hjrJYWjwPIW1qhzNR+Z27JEw==
-X-Received: by 2002:a50:da4e:: with SMTP id a14mr7676967edk.154.1634821754097;
-        Thu, 21 Oct 2021 06:09:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=eWhS/VWKVIIu5u4miltvI+qmcq5c4uC9DbdWdhggI74=;
+        b=y/X01+oXK6OPiSuUUbmpWyetNRrNevWCqqxQgZWAmGoRye1ZyTISS2JhiitfrKW+0e
+         5OQep7bWCyU8NTZFOnKTMsDpYKfh0zyK92cTTnOmJUm+VRhmInMcJu+rDirZqUIjFNMh
+         FwVrQg+OxfFum5oR0hXUeVj4wH4l141kkQ5srsXaH03unYquyaq13gvYGyu53MZSFLz+
+         Di3DVHwJgBK6BluvyXzt7tzGognEQMSj9JDrt+hHN2610oMQ09bI3CmQ4rHWZ1SXeX0u
+         VOj90AV/NGeMZJfzjIA/jnXyAy7pHCxVYsvJ0oWSILp4OSFkPPVgBd/jYpFTenWtRpWu
+         xPZw==
+X-Gm-Message-State: AOAM531r20LAH2NEcNvujdsBtpWJKbGFz6seb8r/qSedsaZSrbvrsaCv
+        iaazBR1uzdsFV2AkA33XlN4=
+X-Google-Smtp-Source: ABdhPJya7JxoJvLdTO8E9eHXLyvVxpJiDn8P8sb9CewYUGQHWqceeK916mRIeer6xLmdg5IroxlHjA==
+X-Received: by 2002:a17:906:58c1:: with SMTP id e1mr7249968ejs.327.1634821756171;
+        Thu, 21 Oct 2021 06:09:16 -0700 (PDT)
 Received: from xws.localdomain ([194.126.177.11])
-        by smtp.gmail.com with ESMTPSA id q6sm126987eds.96.2021.10.21.06.09.12
+        by smtp.gmail.com with ESMTPSA id q6sm126987eds.96.2021.10.21.06.09.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Oct 2021 06:09:13 -0700 (PDT)
+        Thu, 21 Oct 2021 06:09:15 -0700 (PDT)
 From:   Maximilian Luz <luzmaximilian@gmail.com>
 Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -55,11 +55,13 @@ Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
         Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] platform/surface: aggregator: Add support for Surface Laptop Studio
-Date:   Thu, 21 Oct 2021 15:09:01 +0200
-Message-Id: <20211021130904.862610-1-luzmaximilian@gmail.com>
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: [PATCH 2/3] HID: surface-hid: Use correct event registry for managing HID events
+Date:   Thu, 21 Oct 2021 15:09:03 +0200
+Message-Id: <20211021130904.862610-3-luzmaximilian@gmail.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211021130904.862610-1-luzmaximilian@gmail.com>
+References: <20211021130904.862610-1-luzmaximilian@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 To:     unlisted-recipients:; (no To-header on input)
@@ -67,32 +69,61 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This series adds Surface Aggregator Module (SAM) support for the new
-Surface Laptop Studio (SLS).
+Until now, we have only ever seen the REG-category registry being used
+on devices addressed with target ID 2. In fact, we have only ever seen
+Surface Aggregator Module (SAM) HID devices with target ID 2. For those
+devices, the registry also has to be addressed with target ID 2.
 
-This is mostly straight-forward addition of devices to the Surface
-Aggregator registry, but the Surface HID driver needs a couple of small
-changes. Specifically, we need to allow it to probe against SAM devices
-with target ID 1 and also need to use the corresponding registry for
-those.
+Some devices, like the new Surface Laptop Studio, however, address their
+HID devices on target ID 1. As a result of this, any target ID 2
+commands time out. This includes event management commands addressed to
+the target ID 2 REG-category registry. For these devices, the registry
+has to be addressed via target ID 1 instead.
 
-I hope it's okay that I've CCed stable to get these included in v5.14+
-stable kernels. The changes are fairly small and enable keyboard and
-touchpad on the SLS. Most other things (except touch) should already
-work well on the latest stable kernels, so back-porting this series
-would make the SLS a usable device on those.
+We therefore assume that the target ID of the registry to be used
+depends on the target ID of the respective device. Implement this
+accordingly.
 
-Maximilian Luz (3):
-  platform/surface: aggregator_registry: Add support for Surface Laptop
-    Studio
-  HID: surface-hid: Use correct event registry for managing HID events
-  HID: surface-hid: Allow driver matching for target ID 1 devices
+Note that we currently allow the surface HID driver to only load against
+devices with target ID 2, so these timeouts are not happening (yet).
+This is just a preparation step before we allow the driver to load
+against all target IDs.
 
- drivers/hid/surface-hid/surface_hid.c         |  4 +-
- .../surface/surface_aggregator_registry.c     | 54 +++++++++++++++++++
- include/linux/surface_aggregator/controller.h |  4 +-
- 3 files changed, 58 insertions(+), 4 deletions(-)
+Cc: stable@vger.kernel.org # 5.14+
+Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+---
+ drivers/hid/surface-hid/surface_hid.c         | 2 +-
+ include/linux/surface_aggregator/controller.h | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/hid/surface-hid/surface_hid.c b/drivers/hid/surface-hid/surface_hid.c
+index a3a70e4f3f6c..daa452367c0b 100644
+--- a/drivers/hid/surface-hid/surface_hid.c
++++ b/drivers/hid/surface-hid/surface_hid.c
+@@ -209,7 +209,7 @@ static int surface_hid_probe(struct ssam_device *sdev)
+ 
+ 	shid->notif.base.priority = 1;
+ 	shid->notif.base.fn = ssam_hid_event_fn;
+-	shid->notif.event.reg = SSAM_EVENT_REGISTRY_REG;
++	shid->notif.event.reg = SSAM_EVENT_REGISTRY_REG(sdev->uid.target);
+ 	shid->notif.event.id.target_category = sdev->uid.category;
+ 	shid->notif.event.id.instance = sdev->uid.instance;
+ 	shid->notif.event.mask = SSAM_EVENT_MASK_STRICT;
+diff --git a/include/linux/surface_aggregator/controller.h b/include/linux/surface_aggregator/controller.h
+index 068e1982ad37..74bfdffaf7b0 100644
+--- a/include/linux/surface_aggregator/controller.h
++++ b/include/linux/surface_aggregator/controller.h
+@@ -792,8 +792,8 @@ enum ssam_event_mask {
+ #define SSAM_EVENT_REGISTRY_KIP	\
+ 	SSAM_EVENT_REGISTRY(SSAM_SSH_TC_KIP, 0x02, 0x27, 0x28)
+ 
+-#define SSAM_EVENT_REGISTRY_REG \
+-	SSAM_EVENT_REGISTRY(SSAM_SSH_TC_REG, 0x02, 0x01, 0x02)
++#define SSAM_EVENT_REGISTRY_REG(tid)\
++	SSAM_EVENT_REGISTRY(SSAM_SSH_TC_REG, tid, 0x01, 0x02)
+ 
+ /**
+  * enum ssam_event_notifier_flags - Flags for event notifiers.
 -- 
 2.33.1
 
