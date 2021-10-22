@@ -2,94 +2,246 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98F9A4372CB
-	for <lists+linux-input@lfdr.de>; Fri, 22 Oct 2021 09:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9DA64372CE
+	for <lists+linux-input@lfdr.de>; Fri, 22 Oct 2021 09:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231846AbhJVHfH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Oct 2021 03:35:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48046 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231758AbhJVHfG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Oct 2021 03:35:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DF9EA60F22;
-        Fri, 22 Oct 2021 07:32:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634887969;
-        bh=oG6IPam6Jk0HBDw/7Km4rG1+mLwwj3InW6WH8nWo59o=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=m6l6Md8ALsaEgSwm8dsHKzn6xnH4T0hiu25Lw0eq4X5KUWUS3f5IUTtBpsWI42zyZ
-         Gia7sErbVtTiLbXMMjST6+nWrIU1yO7m0+GiLUZ0rqdswQDmp6o93aUw/w6hjpZZKr
-         fC7yVjrRqeHrDoRJCEOyAURKlcLA780TAFaC/Wo1TYh49AENOK10RZShoClJSglEIN
-         ldCS4O5882vvFqzxaey8ggOWts2YYeuX4kBZxePGWg7iQPgntvFbs9ZI1iJ+IEev/S
-         QxUC+GdQFYXGb9kQ7uVHJls5S9E3aWRHQxQCheH1h3sbEO15O03UNqCsddXMEZCJud
-         /f2azQDeHo8Dg==
-Date:   Fri, 22 Oct 2021 09:32:45 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
-cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH v3 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
- for game controllers.
-In-Reply-To: <nycvar.YFH.7.76.2110220924340.12554@cbobk.fhfr.pm>
-Message-ID: <nycvar.YFH.7.76.2110220931190.12554@cbobk.fhfr.pm>
-References: <20210908165539.3102929-1-roderick.colenbrander@sony.com> <20210908165539.3102929-3-roderick.colenbrander@sony.com> <nycvar.YFH.7.76.2109221150110.15944@cbobk.fhfr.pm> <20210927141109.GB5809@duo.ucw.cz> <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com>
- <20211013074849.GA10172@amd> <nycvar.YFH.7.76.2110181739310.12554@cbobk.fhfr.pm> <nycvar.YFH.7.76.2110220840340.12554@cbobk.fhfr.pm> <20211022072115.GA25215@amd> <nycvar.YFH.7.76.2110220924340.12554@cbobk.fhfr.pm>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S231920AbhJVHgZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Oct 2021 03:36:25 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:33206 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231846AbhJVHgY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 22 Oct 2021 03:36:24 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 86C262197F;
+        Fri, 22 Oct 2021 07:34:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1634888046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=fnrILhOsdhDoqefufopQipvYiwZJNHEk+YhPHhT8LNs=;
+        b=gVFJe/75JgdII+nyKN4CY1GDnnKavmsp03xZsagBfrhea6AJJs56+bcatktdrHVP+llPiz
+        h5+uPhDyjSVhBW8XOk99QTIkmkYA9pKSdGhtODdu9hYjIBWoV6WR4I/TwKaHHSm+DuUS2m
+        m+AcIZ7DdJKDMbWAzBMSMnsIV8HILls=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BEE2213C7A;
+        Fri, 22 Oct 2021 07:34:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id /BeyLG1pcmFiKQAAMHmgww
+        (envelope-from <jgross@suse.com>); Fri, 22 Oct 2021 07:34:05 +0000
+To:     Jan Beulich <jbeulich@suse.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+        xen-devel@lists.xenproject.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+References: <20211022064800.14978-1-jgross@suse.com>
+ <c4f534f1-8f07-085e-6a10-edbeb884d1a4@suse.com>
+From:   Juergen Gross <jgross@suse.com>
+Subject: Re: [PATCH 0/5] xen: cleanup detection of non-essential pv devices
+Message-ID: <00ae0535-22e3-5467-9c0d-8e2f7a8793b5@suse.com>
+Date:   Fri, 22 Oct 2021 09:34:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <c4f534f1-8f07-085e-6a10-edbeb884d1a4@suse.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="YvdluBdUp3DXuRKhlN5HNuKdU3k8LezFO"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 22 Oct 2021, Jiri Kosina wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--YvdluBdUp3DXuRKhlN5HNuKdU3k8LezFO
+Content-Type: multipart/mixed; boundary="aXNRS2JOiFT36L2Znoe6tP3phbNNMU6Ha";
+ protected-headers="v1"
+From: Juergen Gross <jgross@suse.com>
+To: Jan Beulich <jbeulich@suse.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+ xen-devel@lists.xenproject.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Message-ID: <00ae0535-22e3-5467-9c0d-8e2f7a8793b5@suse.com>
+Subject: Re: [PATCH 0/5] xen: cleanup detection of non-essential pv devices
+References: <20211022064800.14978-1-jgross@suse.com>
+ <c4f534f1-8f07-085e-6a10-edbeb884d1a4@suse.com>
+In-Reply-To: <c4f534f1-8f07-085e-6a10-edbeb884d1a4@suse.com>
 
-> > > > > Ok, so let's put it in the common place. I'll take this patch through
-> > > > > LED tree if you resubmit it. You still may want to use local defines
-> > > > > so you can apply the other patches without waiting.
-> > > > 
-> > > > Pavel, why complicate it so much? Given how trivial the patch is, the 
-> > > > easiest way is what's usually done in such cases (where substantial patch 
-> > > > depends on a tiny trivial change elsewhere) -- take it through HID tree 
-> > > > with your Reviewed-by / Acked-by:.
-> > > > 
-> > > > Do you see any issue with that?
-> > > 
-> > > Pavel, another week has passed. I am considering just including the 
-> > > trivial LED #define additions and take them through hid.git unless I hear 
-> > > from you today.
-> > 
-> > I'd prefer not to deal with rejects / common immutable branches / etc.
-> 
-> I am not proposing common immutable branch; and if there are going to be 
-> trivial cotext conflicts because of that, those will be sorted out by 
-> Linus without you even noticing.
-> 
-> > You don't _need_ the defines at all
-> 
-> As I've already pointed to you in several threads, we have quite a lot of 
-> code queued that does depend on the defines.
-> 
-> > and you don't need them in the common place.
-> 
-> I compltely fail to see the point of having them teporarily local before 
-> you manage to finally do something about the trivial addition to proper 
-> shared header.
-> 
-> > Just merge the patch without the defines. I'll merge the defines. That 
-> > seems like least complex solution to me.
-> 
-> That would cause my tree not to build.
+--aXNRS2JOiFT36L2Znoe6tP3phbNNMU6Ha
+Content-Type: multipart/mixed;
+ boundary="------------05C3AAE5BEB34C7C12A2BC5C"
+Content-Language: en-US
 
-In other words: could you please elaborate what exact issue are you trying 
-to avoid by not providing your Acked-by: and letting it go through hid.git 
-with all the rest of the code depending on it?
+This is a multi-part message in MIME format.
+--------------05C3AAE5BEB34C7C12A2BC5C
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Jiri Kosina
-SUSE Labs
+On 22.10.21 09:24, Jan Beulich wrote:
+> On 22.10.2021 08:47, Juergen Gross wrote:
+>> Today the non-essential pv devices are hard coded in the xenbus driver=
 
+>> and this list is lacking multiple entries.
+>>
+>> This series reworks the detection logic of non-essential devices by
+>> adding a flag for that purpose to struct xenbus_driver.
+>=20
+> I'm wondering whether it wouldn't better be the other way around: The
+> (hopefully few) essential ones get flagged, thus also making it more
+> prominent during patch review that a flag gets added (and justification=
+
+> provided), instead of having to spot the lack of a flag getting set.
+
+Not flagging a non-essential one is less problematic than not flagging
+an essential driver IMO.
+
+For some drivers I'm on the edge, BTW. The pv 9pfs driver ought to be
+non-essential in most cases, but there might be use cases where it is
+needed, so I didn't set its non_essential flag.
+
+Same applies to pv-usb and maybe pv-scsi, while pv-tpm probably really
+is essential.
+
+With the current series I'm ending up with 6 non-essential drivers and
+6 essential ones, so either way needs the same number of drivers
+modified.
+
+
+Juergen
+
+--------------05C3AAE5BEB34C7C12A2BC5C
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: OpenPGP public key
+Content-Disposition: attachment;
+ filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOBy=
+cWx
+w3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJvedYm8O=
+f8Z
+d621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y=
+9bf
+IhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xq=
+G7/
+377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR=
+3Jv
+c3MgPGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsEFgIDA=
+QIe
+AQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4FUGNQH2lvWAUy+dnyT=
+hpw
+dtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3TyevpB0CA3dbBQp0OW0fgCetToGIQrg0=
+MbD
+1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u+6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbv=
+oPH
+Z8SlM4KWm8rG+lIkGurqqu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v=
+5QL
++qHI3EIPtyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVyZ=
+2Vu
+IEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJCAcDAgEGFQgCC=
+QoL
+BBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4RF7HoZhPVPogNVbC4YA6lW7Dr=
+Wf0
+teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz78X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC=
+/nu
+AFVGy+67q2DH8As3KPu0344TBDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0Lh=
+ITT
+d9jLzdDad1pQSToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLm=
+XBK
+7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkMnQfvUewRz=
+80h
+SnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMBAgAjBQJTjHDXAhsDBwsJC=
+AcD
+AgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJn=
+FOX
+gMLdBQgBlVPO3/D9R8LtF9DBAFPNhlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1=
+jnD
+kfJZr6jrbjgyoZHiw/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0=
+N51
+N5JfVRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwPOoE+l=
+otu
+fe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK/1xMI3/+8jbO0tsn1=
+tqS
+EUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1c2UuZGU+wsB5BBMBAgAjBQJTjHDrA=
+hsD
+BwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3=
+g3O
+ZUEBmDHVVbqMtzwlmNC4k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5=
+dM7
+wRqzgJpJwK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu5=
+D+j
+LRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzBTNh30FVKK1Evm=
+V2x
+AKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37IoN1EblHI//x/e2AaIHpzK5h88N=
+Eaw
+QsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpW=
+nHI
+s98ndPUDpnoxWQugJ6MpMncr0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZR=
+wgn
+BC5mVM6JjQ5xDk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNV=
+bVF
+LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mmwe0icXKLk=
+pEd
+IXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0Iv3OOImwTEe4co3c1mwARA=
+QAB
+wsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMvQ/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEw=
+Tbe
+8YFsw2V/Buv6Z4Mysln3nQK5ZadD534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1=
+vJz
+Q1fOU8lYFpZXTXIHb+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8=
+VGi
+wXvTyJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqcsuylW=
+svi
+uGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5BjR/i1DG86lem3iBDX=
+zXs
+ZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------05C3AAE5BEB34C7C12A2BC5C--
+
+--aXNRS2JOiFT36L2Znoe6tP3phbNNMU6Ha--
+
+--YvdluBdUp3DXuRKhlN5HNuKdU3k8LezFO
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmFyaW0FAwAAAAAACgkQsN6d1ii/Ey+/
+mQf+LFgKttHG9U1GFsmgad1/cMvgMbcyn2AcZkkzdzE0JSvS8vEwkEtPV+5/B1ZRcWHMBy0qzLUU
+TZ02dm/hChDYWgZBJRHoYmtLM5HajuXj1cRrvE7UEjAVTTIA8gZTm1oCsdXg+LEFOBYydRIg5rA7
+YAjr1Skcr3NEpkfHWuZuEJ9sbmOO5nMmA/hKKXu1i0P2a29m4vCMaacTtmcgZuJWdluzxbBv9swi
+q91QZslhU7gX++eRN1AtZGBAZcieznQVks1BcwBu0sW3GJUBXeOoSKD4j1GH8wZ2u21W0lU2I3Pp
+5aSffUxsGFOluHqmEV0LQT+DsBoXDWLWLambX0iVyA==
+=JnIb
+-----END PGP SIGNATURE-----
+
+--YvdluBdUp3DXuRKhlN5HNuKdU3k8LezFO--
