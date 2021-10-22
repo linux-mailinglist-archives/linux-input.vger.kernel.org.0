@@ -2,165 +2,190 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43600437417
-	for <lists+linux-input@lfdr.de>; Fri, 22 Oct 2021 10:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC8264374D4
+	for <lists+linux-input@lfdr.de>; Fri, 22 Oct 2021 11:36:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232161AbhJVI7E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Oct 2021 04:59:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33371 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232310AbhJVI7D (ORCPT
+        id S231563AbhJVJiR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Oct 2021 05:38:17 -0400
+Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:50917 "EHLO
+        esa6.hc3370-68.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229545AbhJVJiQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Oct 2021 04:59:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634893006;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=aQiw+gPwn0Z6GIbDl4DexWcWNq7xOQ4QBTMZ1MgC764=;
-        b=fqNmJQ4oi9R4FAQ5q7SO4tzZnUV6a8B5puyvb7iB0c4I7kN1w4zUBhdxCTZm+3r8zbbuTq
-        vehkcfI0Ut0ymK4Y8YJUDVRODNRINbHhhARpPH77WtTtA/oL3qfGhG0ihU/DOSrH1+bWPe
-        OCSSqs60TA5fTQFsnhtOE9b46W4N7UQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-uk41vxdDOsudgxPqr-Rz1w-1; Fri, 22 Oct 2021 04:56:44 -0400
-X-MC-Unique: uk41vxdDOsudgxPqr-Rz1w-1
-Received: by mail-ed1-f72.google.com with SMTP id r25-20020a05640216d900b003dca3501ab4so3016073edx.15
-        for <linux-input@vger.kernel.org>; Fri, 22 Oct 2021 01:56:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=aQiw+gPwn0Z6GIbDl4DexWcWNq7xOQ4QBTMZ1MgC764=;
-        b=A9k19pbwa0qash7aliPXerlJNAqDP+litpKR2yWApF+dMT6teFQd3xOVfCA8urdcIg
-         mTeTX0YqxoFBCxNgkvpNG3WB1H0+17/LlTbk/PKht3o/N8AejWh3xDALcwqdSMAac1hj
-         kvy+hxNtF4k/6cCYcp4Sd9zR6Y/qnXfTq0VaQdCdSG9OlfMCHFQRBU+Eht3fMPLuexJo
-         FhhPdBJqQ6A579IalwwEhzFmNlHLoVeDJxH6gH6/TAyCXHt4nYZsrbcmIq18DCwOwib0
-         4cPQNt8J1lGDitowog8UvLqI70CEH73sjNA0Phs2xbcnpdHlwR6lIbvXOZP+U64Ti3D9
-         oyTw==
-X-Gm-Message-State: AOAM532jXTTRHJ6g3/ZvJAxAOEAQDb0ALGEmk4gNE34sqf4oLR+yeqf1
-        WjYDmyC8TCI4UYbb6tPkNVQDPMLKj/XVIqrrU35SvrVn9ePLAvJZ2k7KRQFRJ53tT6bVt9Z70SZ
-        3a8lyRbW534shNs4Q6/8jHtY=
-X-Received: by 2002:aa7:db12:: with SMTP id t18mr10427360eds.79.1634893003269;
-        Fri, 22 Oct 2021 01:56:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxaILcf6K4P/VGXm8p6Llu+qLam6tPNL9N50zKF0EDxFczormhsRR4IRbvH2euaJIoofdKFbw==
-X-Received: by 2002:aa7:db12:: with SMTP id t18mr10427337eds.79.1634893003062;
-        Fri, 22 Oct 2021 01:56:43 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id z4sm4681457edd.46.2021.10.22.01.56.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Oct 2021 01:56:42 -0700 (PDT)
-Message-ID: <c1c3b2e2-420c-becf-a46c-0ab963176303@redhat.com>
-Date:   Fri, 22 Oct 2021 10:56:41 +0200
+        Fri, 22 Oct 2021 05:38:16 -0400
+X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Fri, 22 Oct 2021 05:38:16 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=citrix.com; s=securemail; t=1634895359;
+  h=subject:to:cc:references:from:message-id:date:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=1dmNTJLtZ88C511eeAfj50yNHRBGH1CGA3LqoJJKFq0=;
+  b=CfEcq+aGPBO0lbqRhE+WoJDYq/1Gnx6qBIZ7tGDG2i+d1vM88QIMNDZf
+   5WKubPQUsdnkVzPCiiapgFr0WtRvEVldEGWDzdYy7xgCkSsKswuE7Ozt0
+   FeNV7KXl8ZZ3vfqFgHclCA9p0URif/ejoZt+aAZvc4aBbtachmgmWSOdU
+   I=;
+Authentication-Results: esa6.hc3370-68.iphmx.com; dkim=pass (signature verified) header.i=@citrix.onmicrosoft.com
+IronPort-SDR: UP/KYTxqp5H8qocDfBKCDFSlp0W5SZOXxKDiUTFhPQMj8tCNMK6IEAlw8r2spKIhOqJZhpmQLM
+ E94kaYFz6jm5rWyFzisKLTEeetCgubFO6H7d8zKdnX/OyT+4a5MXMB+agYozvc0L0IOdQCIFtY
+ 44kH6i9Eq7S6CYnDCV3OxBEVo1yFKtXeTxKJ8HqH0rrrS8G/Pjg/G6SikPIs4i5HzkvwI0EkTL
+ xHUT3F5/TQCJS17cQT1SC4YLLQ51ObbPSPPNSaTiFM0mjqSRZiFRChE3smpx3Jg29MbRx8lNC6
+ M2k6qOoCFKCcazsqPRtfKHF2
+X-SBRS: 5.1
+X-MesageID: 55802968
+X-Ironport-Server: esa6.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.83
+X-Policy: $RELAYED
+IronPort-Data: A9a23:lByUp6MYiyAPRjvvrR29kcFynXyQoLVcMsEvi/4bfWQNrUorhTAFy
+ zAcCD3UOvyPMzbxc4h+bYWwoB9XvJHTn9MyQQto+SlhQUwRpJueD7x1DKtR0wB+jCHnZBg6h
+ ynLQoCYdKjYdpJYz/uUGuCJQUNUjMlkfZKhTr6bUsxNbVU8En540Ug5w7RRbrNA2rBVPSvc4
+ bsenOWHULOV82Yc3rU8sv/rRLtH5ZweiRtA1rAMTakjUGz2zhH5OKk3N6CpR0YUd6EPdgKMq
+ 0Qv+5nilo/R109F5tpICd8XeGVSKlLZFVDmZna7x8FOK/WNz8A/+v9TCRYSVatYoxHWtftoi
+ /dKjqWhVy0SO63jxeEgfAYNRkmSPYUekFPGCX22sMjVxEzaaXr8hf5pCSnaP6VBpLwxWzsXs
+ 6VFdnZdNXhvhMrvqF6/YsBqit4uM4/AO4QHt2s75TrYEewnUdbIRKCiCdpwgWpg3pofQ6a2i
+ 8wxVRxSMi3ZQhZ0P2wlIqInuOKijGTgfGgNwL6SjfVuuDWCpOBr65DpMdzIapmLQ91Igm6Gq
+ W/cuWf0GBcXMJqY0zXt2natgPLf2CD2QoQfEJWm+fNwxl6e3GoeDFsRT1TTifu2kEmlQPpEN
+ lcZvCEpqMAa5EGtC9XwQRC8iHqFpQIHHcpdFfUg7wOAwbaS5ByWbkAIVD8EZNE4ucseQT0xy
+ kTPkcnkCDBiq76JTmrb8a2bxRu4PjIUNikFfjMeShUe4MjLp5s6hRbCCN1kFcadlcbpEDv9x
+ zSLqikWhLgJi8MPkaKh8jjvhzOqu4iMQAQ56xv/QG2o9EV6aZSjaoju7kLUhd5MKYeFVEjHo
+ H8enMue6/4mApSElSjLS+IIdIxF/N7cbmea2wQ2WcB8qXL9oBZPYLy8/hlae21CK4UmfgTQc
+ VH5ggZRy8JWAVS1OPofj52KN+wmyq3pFNLAX//Sb8ZTbpUZSDJr7B2CdmbLgDizyBlEfbUXf
+ M7BK571XCly5bFPlWLuH48gPakXKjfSLI85bavwyAi7yvKgbXqRRKZt3LCmP71hsv3sTOk49
+ b9i2yq2J/d3DLKWjsr/q9d7wbU2wZ4TX8yeRyt/LbbrH+aeMDt9Y8I9OJt4E2Cfo4xbl/3T4
+ la2UVJCxVz0iBXvcFvRNiA/Mey/Bc0i/BrX2BDA237yhxDPhq70tM8im2YfJ+F7pISPM9YkJ
+ xX6RylwKqsWEWmWk9jsRZL8sJZjZHyWafGmZEKYjMwEV8c4HWTho4a8FiO2rXVmJnfn5KMW/
+ uz7viuGEMVreuiXJJuPAB5Z5wjq5iZ1dSMbdxagH+S/j221odE0cXSo06drSyzOQD2arganO
+ 8+tKU5wjcHGopMv8cmPgqaBroyzFPB5EFYcFG7ehYta/wGDloZ66YMfAuuOYx7HU2b4pPera
+ elPlqmuO/wbhlda9YF7Fu8zn6454tLuoZ5czxhlQyqXPwj6VOs4LynUx9RLu41M2qRd5Vm8V
+ HWQ94QIIr6OIs7kTgIcfVJ3cuSZ2PgIsTDO9vBpcl7i7Sp68ePfA0VfNhWBkgJHK75xPN93y
+ OstopdOuQe+lgArIpCNiSUNrzaAKXkJUqMGsJAGAdC01lp3mw8aOZGFU334+pCCbdlII3IGG
+ D7MifqQnalYy2rDb2E3SSrH091CiMlcoxtN1lIDeQiEw4KXmv8t0RRN2j0rVQAJnA5f2ud+N
+ 2U3ZU14IaKCo2VhiMRZBj3+HghAAFuS+1DryktPn2rcFhH6WmvIJWw7GOCM4EFGrD4MImkFp
+ OmVmDT/TDLnXMDtxS9jC0dqpsvqQcF16gCfytusGN6IHsVibDfo6kN0ibHkd/cz7RsNuXD6
+IronPort-HdrOrdr: A9a23:gQxdCKPOHnqT+MBcT1H155DYdb4zR+YMi2TDiHofdfUFSKClfp
+ 6V8cjztSWUtN4QMEtQ/exoS5PwPk80kqQFnbX5XI3SITUO3VHHEGgM1/qb/9SNIVyZygcZ79
+ YbT0EcMqyBMbEZt7eC3ODQKb9Jq7PmgcPY9ts2jU0dKj2CA5sQnjuRYTzrcHGeKjM2YKbRWK
+ Dsnfau8FGbCAoqh4mAdzQ4dtmGg+eOuIPtYBYACRJiwA6SjQmw4Lq/NxSDxB8RXx5G3L9nqA
+ H+4kPEz5Tml8v+5g7X1mfV4ZgTsNz9yuFbDMjJrsQOMD3jhiuheYwkcbyfuzIepv2p9T8R4Z
+ XxiiZlG/42x2Laf2mzrxeo8w780Aw243un8lOciWuLm72weBsKT+56wa5JeBrQ7EQt+Ptm1r
+ hQ4m6fv51LSTvdgSXU/bHzJlFXv3vxhUBnvf8YjnRZX4dbQqRWt5Yj8ERcF4pFND7m6bogDP
+ JlAKjnlbdrmGuhHjLkV1RUsZmRtixZJGbDfqFCgL3a79FupgE786NCr/Zv2Uvp9/oGOtB5Dq
+ r/Q+JVfYp1P7orhJRGdZE8qPuMex7wqC33QRavyHTcZeo60iH22tTKCItc3pDcRHVP9upqpK
+ j8
+X-IronPort-AV: E=Sophos;i="5.87,172,1631592000"; 
+   d="scan'208";a="55802968"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EeDe+UqHNKT2FRkbUA61UPM3qnr1gsMU7dL7zD8nq4A5ciIiDVvaYncQvU2KDFg2/iIM2LFprWPYkLpt1gPMdR9w/6UvHS+09/JX+Fa1Fd5EyVPg5WBZW6nWWCuwYpoiTsVj37oP2h3+qj6/BU44kUJ+67ux4vQuTteRm0YALdn0WV72+7qCT/hAypXuXxFk/pR+NcHmsJvc3eJKeHYTQnMGCs6IpAKym6N7DH5JO1d5ZFR+p8FlUxeaytdrnn8CC5nPL4q8IeDnqW+eS+7giJ0w1uMFAspnFpZxJ06iW3r/Am303p+oxFm9dIvWTbc0tp2/ccVRXXIjnC/lvJNE8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1dmNTJLtZ88C511eeAfj50yNHRBGH1CGA3LqoJJKFq0=;
+ b=YAC7uszzKcPzUCxcAlWmDMh+GXzviz9Nva3YTskQQh83K0Gsh3gVLmt6VtoBTH89O0zp0ZxuM9uavhjPRTiWrMiYyn9Znq9L2Ci8ngUO7ImMKGZ02Q+C23DsGMdFexUmvxCXxS6XTfOjNIPOmldd7bplVIcVTumpnPvWMQlFpx4jo12e4U0WzOqMQkE6ssYqqRXAMr98xLjEaDAHUOJfCUbCEUU/Yl6O9jmPsyARInwOLFsnOZbJznN4wkIXLbcYfUqlbJdykFxUZGotNIPIJlr1STxQAB5zkAgrKMYsuBqCEsltPvhlGbqPd4IoLW7GmfxgMhXJZ2RTu52VaDsJ5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=citrix.com; dmarc=pass action=none header.from=citrix.com;
+ dkim=pass header.d=citrix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=citrix.onmicrosoft.com; s=selector2-citrix-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1dmNTJLtZ88C511eeAfj50yNHRBGH1CGA3LqoJJKFq0=;
+ b=aYqgrVg1x4VmQiPkmg/VImi8eqbXXL/kY3t4FDk5Md9+FbeWPY19Q+JYPBkidXPlCloxV5/5kzd++A4QYsA5Z18OQgQyAFbLTcqb9lE0WkcyJHcXeex0hbddI7sIoSt9YqCpA/ia4wnwfINQFPh3FbpJWrHV7G3XH9pSG8BopHk=
+Subject: Re: [PATCH 1/5] xen: add "not_essential" flag to struct xenbus_driver
+To:     Juergen Gross <jgross@suse.com>, <xen-devel@lists.xenproject.org>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
+CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Stefano Stabellini <sstabellini@kernel.org>
+References: <20211022064800.14978-1-jgross@suse.com>
+ <20211022064800.14978-2-jgross@suse.com>
+From:   Andrew Cooper <andrew.cooper3@citrix.com>
+Message-ID: <fe397fd6-a80e-d3f9-08d2-4f72ec739c0b@citrix.com>
+Date:   Fri, 22 Oct 2021 10:28:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <20211022064800.14978-2-jgross@suse.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+X-ClientProxiedBy: LO4P123CA0453.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1aa::8) To BYAPR03MB3623.namprd03.prod.outlook.com
+ (2603:10b6:a02:aa::12)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 0/3] platform/surface: aggregator: Add support for Surface
- Laptop Studio
-Content-Language: en-US
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-References: <20211021130904.862610-1-luzmaximilian@gmail.com>
- <1e99ab2b-c5c3-49c9-18c3-1f103c4dbe85@redhat.com>
- <CAO-hwJK_rt9pD5zqnTcDkXxgMjxsXWgzMgrRTJ3xbU4yZ+BAfg@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAO-hwJK_rt9pD5zqnTcDkXxgMjxsXWgzMgrRTJ3xbU4yZ+BAfg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4f2d8f74-a5ac-4f29-a0a0-08d9953e59c2
+X-MS-TrafficTypeDiagnostic: BYAPR03MB3863:
+X-Microsoft-Antispam-PRVS: <BYAPR03MB3863EAA25284A3BF266B3555BA809@BYAPR03MB3863.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1gQX7y+XiDMvDH4+nBlHr9uhucCGDGzH91vhTL6cZbBMllixyYS8EjpOrDdu7sQPSlWl46m+W7xCHGTgkfnq0Vhr5y5t/mT47YChr4YYlPM6TBCM4tV2A6gQoxjkkl0AMGCw/GDeYbFG9979F3VE0Y5sEg5yccsUyi6wij0WP3OUuCnIo20BWOeLLWQ/xG9UhvCUWJzB8FFBf2B1Ftzf011+7kPy9hP2KJL3pv/jmP+WIi34ZthjFgG4yjHUKajYTg8wp6zktiSpMd9qaGmopTKIeWmkTmKaDU8+1iWl+l7dSM6I/u/SBPVgfgCDEJP1LoHIi+q3DAIdewwmyMxMJOuFcNFzn34CPmjZv8FUcAQCOVHJBf7cdXXOPJRKVsMEmgP9nU4gXlqy6oOAYJrLDsYGG3NS2jdnshZNmcbsvQlHcmWuIP9pOSKW4ILCEpJniREx3cbFUxYxRI6NtwAyPKJSHBlC3tPRbKgkxbCZXsOBjBJUWHwSM0yIqp15f1+CujMWzcMOeJ2F4UQ8v8nPyEoOc01wIfp796MyRlf2KSTAyeWwZfj+PXOyZOn4YJMvjzeI2A8H428qWxGNq19crXd0yQaqp6GM4jWruMGn+8H7cyn8OpncBTYFLO8G7ZwMDVu5310p3+1RZKpS9akaDQlsvcBmwD+cyo3AiNYDb/1wTghJ+FtGY/r0jJEXtFIuoMai790qUD82LTTg6yT/kqo7e/wWyTimsNLUtiZXbZk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR03MB3623.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(86362001)(4326008)(186003)(66476007)(4744005)(66556008)(53546011)(316002)(31696002)(82960400001)(83380400001)(6666004)(26005)(54906003)(2616005)(8936002)(956004)(8676002)(38100700002)(66946007)(6486002)(16576012)(508600001)(5660300002)(2906002)(31686004)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eU9oRW00TDVaYWJ4am1wSFRKZHNueWhhWHhGejBiMUV6SFZGSWMzNkUzZ3dX?=
+ =?utf-8?B?dVZzVnN3NDYxNlEzT2hmZ3pPWVN0OGIxVThxWVVZVkJPWXpGeUhXc3Q2bERy?=
+ =?utf-8?B?eTlOaEdYTnNYNktSREhhUFhvNlVoN3JScHR4WDY2cHIyMEFTWGNZYkx3K0xU?=
+ =?utf-8?B?ZythbzBhTnp1bTVkM0YxckZNOFEyQ0huQ2Y0c0pOb3BwdFZCN3l2Z0NmM3ZU?=
+ =?utf-8?B?bE9idStWc1ZqN0lUbXkwYW9sb2kxNVFWMHJKSEpxYkNYMmx3RFROeW10YmpB?=
+ =?utf-8?B?dERyVGUyeDBDMXZNQjNldXBHczVWVFQ3b1F2M2kzRmMvNEU5cVFjNGF0T21q?=
+ =?utf-8?B?WjhGblJ1WldVci93WU1tTVBabk9YQ3JtY0Z1OFpVeDBCRGRNSGhNNDJWZEhq?=
+ =?utf-8?B?b3U5WnA5VzdtdkZOWDJhNlByekpFRGVGRkcvUm1TQ3dVSGZJelJQckRmdTBV?=
+ =?utf-8?B?ckJ6dUc0RFFjMHhCSG1EUWZ3WDRRSUFBaC9UNHNhL2hiWmo3M2U3eFBQWS9W?=
+ =?utf-8?B?LzkyRW92WUxIV3NiUEtoejFucmNJazNBVUkxNUd3UmQzbXpDUTNVcEpiQ1ow?=
+ =?utf-8?B?NncyN0tHTG9RRkFBTURScm1tZ2c5MVdqaEQvVjAxN0hsV0ZpOUxzY3NLWENR?=
+ =?utf-8?B?WGE2d2Q4OWpUUVpuS0hjOVkzTTZmMTNvMlY3Ni9jMWY1TEtjTXVHL0VMUk42?=
+ =?utf-8?B?K3VwMFpOUGZWTzJKTjNzRUpLNk9NYmJFZjBtaTBKaVRGNjRCS3daSlgvZTJX?=
+ =?utf-8?B?cUdIWVZxanZVdS93NmZiUTluNzBNY1JBdklaQlpyeVIwTHRQZ2VKbVlRUzdX?=
+ =?utf-8?B?aWN4YjNjL0NMVUhLckxTWTUwbVYzSXZyaFNNdDZmYVViNVBNSHNqcXpmcEhZ?=
+ =?utf-8?B?YWNnSWk3RmFzaGNWWW1yR0plbzVIa1d1THlWdktTNUU4Z3NLUUVSUWExQWZv?=
+ =?utf-8?B?U09uZ1EvcTBHUU5rU1pzdklDdVA0aDRJRjJWNzI1aFVaQ3N2MEswaGtsOWRq?=
+ =?utf-8?B?d2hTUER6SXI0YTMyMVRTT0RiTTE3NUgzUk02YVNsZE0rNHo1ZmhQWGoyTVhn?=
+ =?utf-8?B?am1ZYlJFQTRhSGdwakJLeDNqcDIwQmZieUtoVjA0dUNoSTdmdm96QVlMeUcv?=
+ =?utf-8?B?anZIRVVwZGJDMkxOelNhM0NJdlo3MlR1TmlSMVkzWi9TanZMclhaa2lTMFFV?=
+ =?utf-8?B?K2Z2RGtZUXlscnY2R3YyRm1zb3RkeUwyREs4OTNleDlyTTFlQVUySFRIc3lI?=
+ =?utf-8?B?UFhmM1hvcXRkQ3ZVNXZoTjR1T3lIZnAwcFczRzFJc29NK0VIWmFzMzhqcUxI?=
+ =?utf-8?B?UlFvU2xNSXlQNjA0azB4MHA1Y0RqTzNZNXdPdUkvWE50VU50TTdpT0o3a3JE?=
+ =?utf-8?B?Nk1aL2ZMTDVlODRlVldVSlQvbENxWFEvaFlRUlB0Q0NLbXBPYWlNcWFxalpT?=
+ =?utf-8?B?aDV6U0hpWjEyQVBFVk55MzRoN0w0cGxSbE1hVTFxWGx0MGxxQWpWcldIRjVJ?=
+ =?utf-8?B?bzZvZXR4dWRjL2hick9talVHT1hXVWM0cTd3Z3AzbkZsa1dWM2NyZmYvRFla?=
+ =?utf-8?B?cU1nMDBzK1V5Q2ZMNWRmS1h1N2ozcGoyampYRm9lQ0dWSVpEdVRqTldIVnd6?=
+ =?utf-8?B?QVZwaGpqMm1UbEJSbUxVTkg1ak12WFpIZlBONVAycFVFOUhIWXluVnFPeVc1?=
+ =?utf-8?B?VnlDU1ArUUFHTGRJNmtrOEZGS2xhTUVoUnNGd0tEemRPMU9Dem5GL3cvUDNj?=
+ =?utf-8?B?czB3Zjl3em1RdHh5WUFWcTNTWSthUCtWNFVVQ3ZueHJaSENFRWJKSDhTOStU?=
+ =?utf-8?B?WjU1bEpBbEU1ZXQrTmZYcmtDWm1NQlQ1OXQ0Ti9raXZGVjhRSGlCOHh6L3hS?=
+ =?utf-8?B?VDltMytIM1dIOCthS0h3ZFZKU01ydDlLR3JWemVIL2dMWUs2YkpmNHJMaE5B?=
+ =?utf-8?Q?iNBRo1KviLHlZd80ac5+6dKSOoMjuih5?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f2d8f74-a5ac-4f29-a0a0-08d9953e59c2
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR03MB3623.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2021 09:28:48.2350
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 335836de-42ef-43a2-b145-348c2ee9ca5b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: andrew.cooper3@citrix.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR03MB3863
+X-OriginatorOrg: citrix.com
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On 22/10/2021 07:47, Juergen Gross wrote:
+> When booting the xenbus driver will wait for PV devices to have
+> connected to their backends before continuing. The timeout is different
+> between essential and non-essential devices.
+>
+> Non-essential devices are identified by their nodenames directly in the
+> xenbus driver, which requires to update this list in case a new device
+> type being non-essential is added (this was missed for several types
+> in the past).
+>
+> In order to avoid this problem, add a "not_essential" flag to struct
+> xenbus_driver which can be set to "true" by the respective frontend.
+>
+> Set this flag for the frontends currently regarded to be not essential
+> (vkbs and vfb) and use it for testing in the xenbus driver.
+>
+> Signed-off-by: Juergen Gross <jgross@suse.com>
 
-On 10/22/21 08:55, Benjamin Tissoires wrote:
-> On Thu, Oct 21, 2021 at 8:33 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> On 10/21/21 15:09, Maximilian Luz wrote:
->>> This series adds Surface Aggregator Module (SAM) support for the new
->>> Surface Laptop Studio (SLS).
->>>
->>> This is mostly straight-forward addition of devices to the Surface
->>> Aggregator registry, but the Surface HID driver needs a couple of small
->>> changes. Specifically, we need to allow it to probe against SAM devices
->>> with target ID 1 and also need to use the corresponding registry for
->>> those.
->>>
->>> I hope it's okay that I've CCed stable to get these included in v5.14+
->>> stable kernels. The changes are fairly small and enable keyboard and
->>> touchpad on the SLS. Most other things (except touch) should already
->>> work well on the latest stable kernels, so back-porting this series
->>> would make the SLS a usable device on those.
->>
->> Thank you for your patch-series, I've applied the series to my
->> review-hans branch:
->> https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
->>
->> Note it will show up in my review-hans branch once I've pushed my
->> local branch there, which might take a while.
-> 
-> I was surprised to see you taking this series when the 2 patches I
-> received are HID only.
-> But it turns out that the patch 1/3 (which I am missing) is actually
-> about platform, so it makes sense to have you take the full series.
-> The HID changes are relatively small and are not conflicting with
-> anything in the HID tree.
-> 
-> For the HID part:
-> Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Wouldn't it be better to annotate essential?  That way, when new misc
+drivers come along, they don't by default block boot.
 
-Thanks I'll add your Ack before moving this for-next and sorry for
-not coordinating this before hand.
-
-TBH I completely missed that the 2 other patches where under drivers/hid
-since 90% or so of all surface stuff is under drivers/platform/surface
-I sorta assumed all patches where for there. My bad, sorry.
-
-(Note to self: Next time not only review the contents of the diff but
-also look at the file-paths).
-
-Regards,
-
-Hans
-
-
-> 
-> Cheers,
-> Benjamin
-> 
->>
->> Once I've run some tests on this branch the patches there will be
->> added to the platform-drivers-x86/for-next branch and eventually
->> will be included in the pdx86 pull-request to Linus for the next
->> merge-window.
->>
->> Regards,
->>
->> Hans
->>
->>
->>
->>>
->>> Maximilian Luz (3):
->>>   platform/surface: aggregator_registry: Add support for Surface Laptop
->>>     Studio
->>>   HID: surface-hid: Use correct event registry for managing HID events
->>>   HID: surface-hid: Allow driver matching for target ID 1 devices
->>>
->>>  drivers/hid/surface-hid/surface_hid.c         |  4 +-
->>>  .../surface/surface_aggregator_registry.c     | 54 +++++++++++++++++++
->>>  include/linux/surface_aggregator/controller.h |  4 +-
->>>  3 files changed, 58 insertions(+), 4 deletions(-)
->>>
->>
-> 
-
+~Andrew
