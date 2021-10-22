@@ -2,124 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0110436A9A
-	for <lists+linux-input@lfdr.de>; Thu, 21 Oct 2021 20:33:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47F7D4371FD
+	for <lists+linux-input@lfdr.de>; Fri, 22 Oct 2021 08:42:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232057AbhJUSgF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Oct 2021 14:36:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25165 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230020AbhJUSgD (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Oct 2021 14:36:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634841227;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=R8NRWj30fOIwdXURO/nuW9fLSSQ/mcQoafJ2KYOfKWQ=;
-        b=ZOgyUUau73mGj6K42kSY4lgpuM7t2tO71fufgxJ76KvV3tVme55YDN3fl246WL1hC6F+yG
-        2wKOqVqLGuuJ3oB/P98Wa7rB/9uG2VNtQiHTDsIi7Fd7lBILnHJJ//Ps5N2jaQXN/oRUzl
-        iElO1frac4CmdOPaYvU/OKe+nVC0r5Q=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-bZxj8SxbPiOjt__wP1jBwQ-1; Thu, 21 Oct 2021 14:33:46 -0400
-X-MC-Unique: bZxj8SxbPiOjt__wP1jBwQ-1
-Received: by mail-ed1-f72.google.com with SMTP id g28-20020a50d0dc000000b003dae69dfe3aso1272795edf.7
-        for <linux-input@vger.kernel.org>; Thu, 21 Oct 2021 11:33:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=R8NRWj30fOIwdXURO/nuW9fLSSQ/mcQoafJ2KYOfKWQ=;
-        b=hChwjg+XQQ6iTXYe1NvQviZOTqGpw8eviQdSCfannoYQZ0jmWSvoiIyN2N7cwBmvid
-         D+ALFv4E/SKd5RmD5+aILOjKNSiAKoTvAEONH2GMl5I6AZEAjqpVOgL+TMb3HhDaxf9k
-         m+bVikzJGgL3YGaAzvvX8MPLdhNaEHbaJK1HmiDEIw4YbV4J1rWE4TRdlq/y+kcVaIbV
-         iwTpe79R0eVFVi/U9mQ7oef+UPJHxfL4cxgO3I9I01s1uETRPlhw73oLl0LJv85O0DuA
-         Eo1cgHPdfeoNgvObbHtJr/dbHH8xahh4pbWZ/HPtCFwW3wx3AZSg2ZpDlEVZOq6y36Z5
-         bEwQ==
-X-Gm-Message-State: AOAM533mgBOfT6bnTovs/whoqhhYKDSCfNHZ8LAyyxS0lzrmb6Icq7J3
-        RT+v7MQj1EQRPz9aRGdz28Pl5z3RJAXa0R6npQ1AwvepJlKASUEPbN6+tyn1zOvXhag3FV+EF/h
-        2aKeM6bZB/Qll1iyv9tSL8OU=
-X-Received: by 2002:a17:906:68c2:: with SMTP id y2mr9391434ejr.18.1634841225098;
-        Thu, 21 Oct 2021 11:33:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyknNQQUbRgcsCMUK3RfAdm8Suvp8umEPd+1xlwOxyoSPUMx59PDqppM0w9G26bWiWym3jf2g==
-X-Received: by 2002:a17:906:68c2:: with SMTP id y2mr9391419ejr.18.1634841224958;
-        Thu, 21 Oct 2021 11:33:44 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id z4sm3756571edd.46.2021.10.21.11.33.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Oct 2021 11:33:44 -0700 (PDT)
-Message-ID: <1e99ab2b-c5c3-49c9-18c3-1f103c4dbe85@redhat.com>
-Date:   Thu, 21 Oct 2021 20:33:43 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 0/3] platform/surface: aggregator: Add support for Surface
- Laptop Studio
-Content-Language: en-US
-To:     Maximilian Luz <luzmaximilian@gmail.com>
-Cc:     Mark Gross <markgross@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+        id S230238AbhJVGo3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Oct 2021 02:44:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56172 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230295AbhJVGo2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 22 Oct 2021 02:44:28 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F2F3E60F50;
+        Fri, 22 Oct 2021 06:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634884930;
+        bh=1INCxEH62P29LSIrZWHi/J9TAwIAyqS70hH2bHznHFs=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=fYMlRqM4ukk+jEERqDB9VSxaSkUGvm6wU96vEKebW/a+Qr6N3Bf0gJoijlxUf7YN2
+         1cTuln9U5paEE9DOYavfdGDFEp1FT+YnMFMfT7QhIe9ocYBMuWBAGmcMxJ3FMkCEqM
+         4TjQD/2DDUnEsTUyW1+uhscawZQOXLIBuDAzbew3X9AwDa7cOehhU8wEyI2v44Q3G9
+         OaDgeSPM5FDju+hvluXXSnsodlSaq9Bd4mT4CWvb2Nk4+sO0HiSQvEuQeLSD09GmaZ
+         kuJItNrM+EgD6tOX6qLfEjZIzgS2SuUcBe3KKz4wpdYyIcsEqqX28mn5gni8jS378s
+         /Mjdsh6JRRA8A==
+Date:   Fri, 22 Oct 2021 08:42:06 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>
+cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
+        Roderick Colenbrander <roderick@gaikai.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20211021130904.862610-1-luzmaximilian@gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20211021130904.862610-1-luzmaximilian@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        linux-input <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH v3 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
+ for game controllers.
+In-Reply-To: <nycvar.YFH.7.76.2110181739310.12554@cbobk.fhfr.pm>
+Message-ID: <nycvar.YFH.7.76.2110220840340.12554@cbobk.fhfr.pm>
+References: <20210908165539.3102929-1-roderick.colenbrander@sony.com> <20210908165539.3102929-3-roderick.colenbrander@sony.com> <nycvar.YFH.7.76.2109221150110.15944@cbobk.fhfr.pm> <20210927141109.GB5809@duo.ucw.cz> <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com>
+ <20211013074849.GA10172@amd> <nycvar.YFH.7.76.2110181739310.12554@cbobk.fhfr.pm>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Mon, 18 Oct 2021, Jiri Kosina wrote:
 
-On 10/21/21 15:09, Maximilian Luz wrote:
-> This series adds Surface Aggregator Module (SAM) support for the new
-> Surface Laptop Studio (SLS).
+> > Ok, so let's put it in the common place. I'll take this patch through
+> > LED tree if you resubmit it. You still may want to use local defines
+> > so you can apply the other patches without waiting.
 > 
-> This is mostly straight-forward addition of devices to the Surface
-> Aggregator registry, but the Surface HID driver needs a couple of small
-> changes. Specifically, we need to allow it to probe against SAM devices
-> with target ID 1 and also need to use the corresponding registry for
-> those.
+> Pavel, why complicate it so much? Given how trivial the patch is, the 
+> easiest way is what's usually done in such cases (where substantial patch 
+> depends on a tiny trivial change elsewhere) -- take it through HID tree 
+> with your Reviewed-by / Acked-by:.
 > 
-> I hope it's okay that I've CCed stable to get these included in v5.14+
-> stable kernels. The changes are fairly small and enable keyboard and
-> touchpad on the SLS. Most other things (except touch) should already
-> work well on the latest stable kernels, so back-porting this series
-> would make the SLS a usable device on those.
+> Do you see any issue with that?
 
-Thank you for your patch-series, I've applied the series to my
-review-hans branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+Pavel, another week has passed. I am considering just including the 
+trivial LED #define additions and take them through hid.git unless I hear 
+from you today.
 
-Note it will show up in my review-hans branch once I've pushed my
-local branch there, which might take a while.
+Thanks,
 
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
-
-Regards,
-
-Hans
-
-
-
-> 
-> Maximilian Luz (3):
->   platform/surface: aggregator_registry: Add support for Surface Laptop
->     Studio
->   HID: surface-hid: Use correct event registry for managing HID events
->   HID: surface-hid: Allow driver matching for target ID 1 devices
-> 
->  drivers/hid/surface-hid/surface_hid.c         |  4 +-
->  .../surface/surface_aggregator_registry.c     | 54 +++++++++++++++++++
->  include/linux/surface_aggregator/controller.h |  4 +-
->  3 files changed, 58 insertions(+), 4 deletions(-)
-> 
+-- 
+Jiri Kosina
+SUSE Labs
 
