@@ -2,103 +2,184 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E39F04380FF
-	for <lists+linux-input@lfdr.de>; Sat, 23 Oct 2021 02:38:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CD594383EB
+	for <lists+linux-input@lfdr.de>; Sat, 23 Oct 2021 16:18:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232183AbhJWAko (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Oct 2021 20:40:44 -0400
-Received: from mail-io1-f71.google.com ([209.85.166.71]:45816 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232073AbhJWAko (ORCPT
+        id S229954AbhJWOUS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 23 Oct 2021 10:20:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56444 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229870AbhJWOUS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Oct 2021 20:40:44 -0400
-Received: by mail-io1-f71.google.com with SMTP id k9-20020a5d91c9000000b005dc4a740599so4295752ior.12
-        for <linux-input@vger.kernel.org>; Fri, 22 Oct 2021 17:38:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=cfQzqlVWZTzR2tttQMXeICjvGad2we4h+IFW+rkzHtE=;
-        b=GO8AX/HkK6IE3I+JN3eC6Mc3jZqiGGvAK6QLDknbGgFKOrYIUu/yr1fn/y0pSYmroN
-         uLwmxRTwqHbWhqnHM27c9GpUFP9CkkO5FXWWQzRyOQ14dKJXWZDHdE7CYrv/lZpbNScs
-         lQ3epDRmsw/WZe12VGLcd63Zcef0bq+GOveZ/aDxu5yVsI28E3Zq8jVjpyOjm30C8c01
-         SFAV8q3RTvqEUqkskbU9r1tQ1x4YjeZLAMyxhBamSAVYY+uPa8HIlWuEZfNGBtAiEFRv
-         AJbS8VzsPmoFgwK6J4LG/KSvsVMHpns7/AmMLHm8NT2ugCB9dShgolP6Pym6UXCzNCbq
-         sIMA==
-X-Gm-Message-State: AOAM531te62fnCpu4y2WTaaihuvbpqe9Xak1bGqBXD0Y/3oPTM77z6tW
-        j50iAdAPVzI2tzq4AH2CEPqyAGkdXAMs56tIAKwRmfITWboY
-X-Google-Smtp-Source: ABdhPJxGQaYHUyeLTYqZdhU5hCu/xJl3b9WgFDtTwH2QJaoaO3mx7ITTLk5CiKWWakbnaP7ZWz8xG30BsS91i7SaBxzbCBN/1ZSy
+        Sat, 23 Oct 2021 10:20:18 -0400
+Received: from cambridge.shadura.me (cambridge.shadura.me [IPv6:2a00:1098:0:86:1000:13:0:1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3141C061714;
+        Sat, 23 Oct 2021 07:17:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=shadura.me;
+         s=a; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:
+        From:Content-Type:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+        References; bh=N5g4n8eL/g/FyvTMhUq/0hPBbOaZ+wi8caRZG4Wh/rw=; b=EKGnTMGZn85GyF
+        pgPr9oyCjbAjsFJLIzmqgEpR2QsxXKAE9NqE8U9NRoFReTq7aoRvoyjXelX9IPOMujyMzqrky8UEx
+        keabzCur5qEz6DiYjl9OVpyzp70d3HSGj0zw4ooN6Qt6kPMh1kEi086uS9lRfbjS5XZwcrK08o2Xa
+        aDU=;
+Received: from 178-143-43-60.dynamic.orange.sk ([178.143.43.60] helo=localhost)
+        by cambridge.shadura.me with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <andrew@shadura.me>)
+        id 1meHqN-0002Xi-NY; Sat, 23 Oct 2021 16:17:55 +0200
+From:   Andrej Shadura <andrew.shadura@collabora.co.uk>
+To:     =?UTF-8?q?Ji=C5=99=C3=AD=20Kosina?= <jikos@kernel.org>
+Cc:     linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+        kernel@collabora.com, Szczepan Zalega <szczepan@nitrokey.com>
+Subject: [PATCH] HID: u2fzero: Support NitroKey U2F revision of the device
+Date:   Sat, 23 Oct 2021 16:17:11 +0200
+Message-Id: <20211023141710.348341-1-andrew.shadura@collabora.co.uk>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1c89:: with SMTP id w9mr1826772ill.237.1634949506147;
- Fri, 22 Oct 2021 17:38:26 -0700 (PDT)
-Date:   Fri, 22 Oct 2021 17:38:26 -0700
-In-Reply-To: <000000000000be49b905cd677b9a@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000008a2cd605cefa5841@google.com>
-Subject: Re: [syzbot] WARNING in atp_close (3)
-From:   syzbot <syzbot+b88c5eae27386b252bbd@syzkaller.appspotmail.com>
-To:     dmitry.torokhov@gmail.com, fgheet255t@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-syzbot has found a reproducer for the following issue on:
+NitroKey produced a clone of U2F Zero with a different firmware,
+which moved extra commands into the vendor range.
+Disambiguate hardware revisions and select the correct configuration in
+u2fzero_probe.
 
-HEAD commit:    c26f1c109d21 usb: gadget: configfs: change config attribut..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=16cdc5f0b00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e163c2f9cde7dc45
-dashboard link: https://syzkaller.appspot.com/bug?extid=b88c5eae27386b252bbd
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12a36864b00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1159b7b4b00000
+Link: https://github.com/Nitrokey/nitrokey-fido-u2f-firmware/commit/a93c16b41f
+Signed-off-by: Andrej Shadura <andrew.shadura@collabora.co.uk>
+---
+ drivers/hid/hid-ids.h     |  3 +++
+ drivers/hid/hid-u2fzero.c | 45 +++++++++++++++++++++++++++++++--------
+ 2 files changed, 39 insertions(+), 9 deletions(-)
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b88c5eae27386b252bbd@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-WARNING: CPU: 1 PID: 1152 at kernel/workqueue.c:3074 __flush_work+0x93f/0xb20 kernel/workqueue.c:3074
-Modules linked in:
-CPU: 1 PID: 1152 Comm: acpid Not tainted 5.15.0-rc6-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-RIP: 0010:__flush_work+0x93f/0xb20 kernel/workqueue.c:3074
-Code: ff 41 89 c4 89 8d 88 fe ff ff e8 4c 9d 55 00 48 0f ba 2b 03 e9 55 fa ff ff e8 7d 62 26 00 0f 0b e9 4c fc ff ff e8 71 62 26 00 <0f> 0b 45 31 f6 e9 3d fc ff ff e8 a2 99 55 00 e9 25 fb ff ff e8 58
-RSP: 0018:ffffc90000287b38 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff88811b42e290 RCX: 0000000000000000
-RDX: ffff888110543680 RSI: ffffffff811b65af RDI: 0000000000000003
-RBP: ffffc90000287cd0 R08: 0000000000000000 R09: 0000000000000001
-R10: ffffffff811b5d15 R11: 0000000000000000 R12: dffffc0000000000
-R13: 1ffff92000050f9d R14: 0000000000000001 R15: ffff88811b42e2a8
-FS:  00007f81838cb740(0000) GS:ffff8881f6900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f894189201d CR3: 000000010d04e000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- __cancel_work_timer+0x3f9/0x570 kernel/workqueue.c:3170
- atp_close+0x5e/0xa0 drivers/input/mouse/appletouch.c:812
- input_close_device+0x156/0x1f0 drivers/input/input.c:687
- evdev_close_device drivers/input/evdev.c:414 [inline]
- evdev_release+0x34c/0x410 drivers/input/evdev.c:456
- __fput+0x288/0x9f0 fs/file_table.c:280
- task_work_run+0xdd/0x1a0 kernel/task_work.c:164
- tracehook_notify_resume include/linux/tracehook.h:189 [inline]
- exit_to_user_mode_loop kernel/entry/common.c:175 [inline]
- exit_to_user_mode_prepare+0x215/0x220 kernel/entry/common.c:207
- __syscall_exit_to_user_mode_work kernel/entry/common.c:289 [inline]
- syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:300
- do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7f81839b3fc3
-Code: 48 ff ff ff b8 ff ff ff ff e9 3e ff ff ff 66 0f 1f 84 00 00 00 00 00 64 8b 04 25 18 00 00 00 85 c0 75 14 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 45 c3 0f 1f 40 00 48 83 ec 18 89 7c 24 0c e8
-RSP: 002b:00007ffe5cb7c8f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
-RAX: 0000000000000000 RBX: 00007ffe5cb7cb68 RCX: 00007f81839b3fc3
-RDX: 0000000000000000 RSI: 000000000000001e RDI: 000000000000000a
-RBP: 000000000000000a R08: 00007ffe5cb7cb7c R09: 00007ffe5cb7ca68
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffe5cb7ca68
-R13: 00007ffe5cb7cb68 R14: 0000000000000020 R15: 0000000000000000
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 29564b370341..44459be66a5d 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -288,6 +288,9 @@
+ #define USB_DEVICE_ID_CJTOUCH_MULTI_TOUCH_0020	0x0020
+ #define USB_DEVICE_ID_CJTOUCH_MULTI_TOUCH_0040	0x0040
+ 
++#define USB_VENDOR_ID_CLAY_LOGIC	0x20a0
++#define USB_DEVICE_ID_NITROKEY_U2F	0x4287
++
+ #define USB_VENDOR_ID_CMEDIA		0x0d8c
+ #define USB_DEVICE_ID_CM109		0x000e
+ #define USB_DEVICE_ID_CMEDIA_HS100B	0x0014
+diff --git a/drivers/hid/hid-u2fzero.c b/drivers/hid/hid-u2fzero.c
+index 67ae2b18e33a..31ea7fc69916 100644
+--- a/drivers/hid/hid-u2fzero.c
++++ b/drivers/hid/hid-u2fzero.c
+@@ -26,6 +26,30 @@
+ 
+ #define HID_REPORT_SIZE		64
+ 
++enum hw_revision {
++	HW_U2FZERO,
++	HW_NITROKEY_U2F,
++};
++
++struct hw_revision_config {
++	u8 rng_cmd;
++	u8 wink_cmd;
++	const char *name;
++};
++
++static const struct hw_revision_config hw_configs[] = {
++	[HW_U2FZERO] = {
++		.rng_cmd  = 0x21,
++		.wink_cmd = 0x24,
++		.name = "U2F Zero",
++	},
++	[HW_NITROKEY_U2F] = {
++		.rng_cmd  = 0xc0,
++		.wink_cmd = 0xc2,
++		.name = "NitroKey U2F",
++	},
++};
++
+ /* We only use broadcast (CID-less) messages */
+ #define CID_BROADCAST		0xffffffff
+ 
+@@ -52,10 +76,6 @@ struct u2f_hid_report {
+ 
+ #define U2F_HID_MSG_LEN(f)	(size_t)(((f).init.bcnth << 8) + (f).init.bcntl)
+ 
+-/* Custom extensions to the U2FHID protocol */
+-#define U2F_CUSTOM_GET_RNG	0x21
+-#define U2F_CUSTOM_WINK		0x24
+-
+ struct u2fzero_device {
+ 	struct hid_device	*hdev;
+ 	struct urb		*urb;	    /* URB for the RNG data */
+@@ -67,6 +87,7 @@ struct u2fzero_device {
+ 	u8			*buf_in;
+ 	struct mutex		lock;
+ 	bool			present;
++	kernel_ulong_t		hw_revision;
+ };
+ 
+ static int u2fzero_send(struct u2fzero_device *dev, struct u2f_hid_report *req)
+@@ -154,7 +175,7 @@ static int u2fzero_blink(struct led_classdev *ldev)
+ 		.report_type = 0,
+ 		.msg.cid = CID_BROADCAST,
+ 		.msg.init = {
+-			.cmd = U2F_CUSTOM_WINK,
++			.cmd = hw_configs[dev->hw_revision].wink_cmd,
+ 			.bcnth = 0,
+ 			.bcntl = 0,
+ 			.data  = {0},
+@@ -182,7 +203,7 @@ static int u2fzero_rng_read(struct hwrng *rng, void *data,
+ 		.report_type = 0,
+ 		.msg.cid = CID_BROADCAST,
+ 		.msg.init = {
+-			.cmd = U2F_CUSTOM_GET_RNG,
++			.cmd = hw_configs[dev->hw_revision].rng_cmd,
+ 			.bcnth = 0,
+ 			.bcntl = 0,
+ 			.data  = {0},
+@@ -297,6 +318,8 @@ static int u2fzero_probe(struct hid_device *hdev,
+ 	if (dev == NULL)
+ 		return -ENOMEM;
+ 
++	dev->hw_revision = id->driver_data;
++
+ 	dev->buf_out = devm_kmalloc(&hdev->dev,
+ 		sizeof(struct u2f_hid_report), GFP_KERNEL);
+ 	if (dev->buf_out == NULL)
+@@ -331,7 +354,7 @@ static int u2fzero_probe(struct hid_device *hdev,
+ 		return ret;
+ 	}
+ 
+-	hid_info(hdev, "U2F Zero LED initialised\n");
++	hid_info(hdev, "%s LED initialised\n", hw_configs[dev->hw_revision].name);
+ 
+ 	ret = u2fzero_init_hwrng(dev, minor);
+ 	if (ret) {
+@@ -339,7 +362,7 @@ static int u2fzero_probe(struct hid_device *hdev,
+ 		return ret;
+ 	}
+ 
+-	hid_info(hdev, "U2F Zero RNG initialised\n");
++	hid_info(hdev, "%s RNG initialised\n", hw_configs[dev->hw_revision].name);
+ 
+ 	return 0;
+ }
+@@ -359,7 +382,11 @@ static void u2fzero_remove(struct hid_device *hdev)
+ 
+ static const struct hid_device_id u2fzero_table[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL,
+-	  USB_DEVICE_ID_U2F_ZERO) },
++	  USB_DEVICE_ID_U2F_ZERO),
++	  .driver_data = HW_U2FZERO },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_CLAY_LOGIC,
++	  USB_DEVICE_ID_NITROKEY_U2F),
++	  .driver_data = HW_NITROKEY_U2F },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(hid, u2fzero_table);
+-- 
+2.33.0
 
