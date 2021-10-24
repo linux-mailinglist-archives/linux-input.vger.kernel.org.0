@@ -2,148 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DC5643850A
-	for <lists+linux-input@lfdr.de>; Sat, 23 Oct 2021 21:40:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 455EA438731
+	for <lists+linux-input@lfdr.de>; Sun, 24 Oct 2021 09:15:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230230AbhJWTmg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 23 Oct 2021 15:42:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41124 "EHLO
+        id S229527AbhJXHSE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 24 Oct 2021 03:18:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229954AbhJWTmf (ORCPT
+        with ESMTP id S229844AbhJXHSD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 23 Oct 2021 15:42:35 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B822C061714;
-        Sat, 23 Oct 2021 12:40:16 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id e4so4447308wrc.7;
-        Sat, 23 Oct 2021 12:40:15 -0700 (PDT)
+        Sun, 24 Oct 2021 03:18:03 -0400
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AA32C061243
+        for <linux-input@vger.kernel.org>; Sun, 24 Oct 2021 00:15:43 -0700 (PDT)
+Received: by mail-il1-x130.google.com with SMTP id w15so7705233ilv.5
+        for <linux-input@vger.kernel.org>; Sun, 24 Oct 2021 00:15:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=A3KVoR5VSHHkrHGCqMl/F8tYM2CNewEq3KA7fS+tHEs=;
-        b=nxtPFyaBnD4bRbBsko6odkWPmRb4njZZx3zkSCMyOYj/vi0Lm/+CjtIi6QQ65aDm0P
-         5A0kD7HOYJ67JVwUwRVUnHCU5O5/7wzOE4vKVckmXlHQrVB9N8jUPSbihEJpMlt6TKie
-         1vynE5QKap0sO+7tcsddiLnnOFGESteOygjLtfUqIB2oWqMR89i+PRoj/cSjwN0HvLAV
-         HV1ABCRqf/k9zSixQXV4YYhqW8zECWnsvDK+QPbtK6cbdYpvajKe1+9NUZ/YP3LjGcIW
-         B66qmYUbM0JE9fN9iymoZFXwqBN81TifgPC6sP/CYtIhUkwv8tM9iy2K52l2Hbp4Cz1Y
-         vkiA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/jfyDf2uGQ0G4PkhWSUViq4lngXtqzf19oHYgswwn6Y=;
+        b=kIPp4zZWUSIq+Nv0hs7wnk1WJRs4qko6rm1USGRf9wyFU31jsVlbt68R014C9zJnft
+         eMaos50MikM4297W6K94EPPXLOE7PeRVBVsDc2IVzcfZZjGDxKJf/pWg6AIzduZJIPIB
+         puH6IUqrOGsG3etO0WHVbFNx1fAgU8H4C6nd8fVjSnfoyAGHyKhi8YNdR4JaWSZw+P3Y
+         9QRFeGYoc3b5ZkJZg2Y7DxGm0+20MHwCH3RF6obcNtmAzPT3xH4QHH2SWJAQtQIVJgKt
+         ptNdLjr/2aMMty0YbXGZBs29A+EcJohazj2sqyS1zw3uXH4xb+/EZcTcrVIuVTmOQ4H1
+         WXhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=A3KVoR5VSHHkrHGCqMl/F8tYM2CNewEq3KA7fS+tHEs=;
-        b=NN4IqPDHXsw/a834C1QSIUPXSnYeiw0GKaS1hC7IC61suQx/eyv+kgHRzYZV8D7OR7
-         oE2TO1d3IBnY2fNiggQfXjTAW9ynwJgxvCvPM2ZAEjMGNizF1JYzidf+a1e9DkpfuQ2J
-         r1gi4Lr3z1whKyaO46rvXjEmzqg5ClgFS+tyNEMXK8oNypfiPRUYXCC2sqQDs+aosKJV
-         ZaQlL5ELA/i39ZUzA49YRT+g2FVuVeE8Pb2AjY89sucShhoPQJ+s7F0D+8GpA0m7wOYn
-         V+MFMtD7mBc1F/7kRs2BWuSizojz5Q3wB0JJfLa5J883J0WNLdvESSGX4v68ZWLmrvDS
-         YQlg==
-X-Gm-Message-State: AOAM5302tnYYBcPjwxkDe1tfHFw9+XQwGuEOJZCIwc2JKNTomNuvkXYT
-        jM8LO8LAn8wkltEE1cXDxwrGPVucwCZR+Pvo
-X-Google-Smtp-Source: ABdhPJyBCJBdstMK5rfd5IUmSqatZv6RyleLNOcZHn5IN9MMa5wfzt1QBsgvS1We+qVNMkijdeN4Ag==
-X-Received: by 2002:a5d:6c69:: with SMTP id r9mr9709958wrz.280.1635018014611;
-        Sat, 23 Oct 2021 12:40:14 -0700 (PDT)
-Received: from localhost.localdomain (93-172-12-63.bb.netvision.net.il. [93.172.12.63])
-        by smtp.googlemail.com with ESMTPSA id l2sm15129726wmi.1.2021.10.23.12.40.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Oct 2021 12:40:13 -0700 (PDT)
-From:   Michael Zaidman <michael.zaidman@gmail.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, aaron.jones@ftdichip.com,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-i2c@vger.kernel.org,
-        Michael Zaidman <michael.zaidman@gmail.com>,
-        Germain Hebert <germain.hebert@ca.abb.com>
-Subject: [PATCH v1] HID: ft260: fix i2c probing for hwmon devices
-Date:   Sat, 23 Oct 2021 22:39:57 +0300
-Message-Id: <20211023193957.5002-1-michael.zaidman@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/jfyDf2uGQ0G4PkhWSUViq4lngXtqzf19oHYgswwn6Y=;
+        b=Pfn4fhQAUnIV5/DquDnrlund/ElGH7wF2yc7GIn27+gGK0O6tplkJAGhftwqOyAObd
+         1wtGkn09YS84JxPqoy4dU1hDz5ReJg574F6oRdGyev41AG8ybjlF6SyZX6OeOHBVYwcF
+         tcKBfQYfe+0kFRBibNqYSLY3cop9jqJeRLYfoNjx1V4R4oGlO76NJb3IhgfjEkpHsbZn
+         IGIRTA3HQ1rnEF6cnXdIkHyKRCI/3LYLkSinjIpR4ykvujtLDtiUa+Gv3SmBs0yu4IMH
+         Moyid8JmRWEdrpkdc/+GGR1JpJ1ppeYifyzqxVOJJQ3rCXT3jIP1Yt/gziiuzeYZ7DOJ
+         MEPg==
+X-Gm-Message-State: AOAM53060uqO7Wu4MGom8d+26GNugI5MhSZncb0k2efy0ORrObWzaHIw
+        9qTz4mBg/Uc5DrPwXf3nqoNodT55SToRUjTUjg==
+X-Google-Smtp-Source: ABdhPJzWyy0FhZ5zgHpcSiiCHlUW357bn7DFbvOCxlydhDJnRvnQAzd+7Pteo61uSqUWfrXXJJZjOa4wO+tMe7BZGYo=
+X-Received: by 2002:a05:6e02:1a61:: with SMTP id w1mr6324918ilv.48.1635059742018;
+ Sun, 24 Oct 2021 00:15:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a5e:c647:0:0:0:0:0 with HTTP; Sun, 24 Oct 2021 00:15:41
+ -0700 (PDT)
+Reply-To: ahmadmustafa.7800@gmail.com
+From:   Ahmad Mustafa <rubenherbert001@gmail.com>
+Date:   Sun, 24 Oct 2021 08:15:41 +0100
+Message-ID: <CALZMrYx_C78paGycWLz_SaGhix94eMNQaBarOz1U2EXirfC1UA@mail.gmail.com>
+Subject: LOANS AND INVESTMENT
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The below scenario causes the kernel NULL pointer dereference failure:
-1. sudo insmod hid-ft260.ko
-2. sudo modprobe lm75
-3. unplug USB hid-ft260
-4. plug USB hid-ft260
+Dear Sir,
 
-[  +0.000006] Call Trace:
-[  +0.000004]  __i2c_smbus_xfer.part.0+0xd1/0x310
-[  +0.000007]  ? ft260_smbus_write+0x140/0x140 [hid_ft260]
-[  +0.000005]  __i2c_smbus_xfer+0x2b/0x80
-[  +0.000004]  i2c_smbus_xfer+0x61/0xf0
-[  +0.000005]  i2c_default_probe+0xf9/0x130
-[  +0.000004]  i2c_detect_address+0x84/0x160
-[  +0.000004]  ? kmem_cache_alloc_trace+0xf6/0x200
-[  +0.000009]  ? i2c_detect.isra.0+0x69/0x130
-[  +0.000005]  i2c_detect.isra.0+0xbf/0x130
-[  +0.000004]  ? __process_new_driver+0x30/0x30
-[  +0.000004]  __process_new_adapter+0x18/0x20
-[  +0.000004]  bus_for_each_drv+0x84/0xd0
-[  +0.000003]  i2c_register_adapter+0x1e4/0x400
-[  +0.000005]  i2c_add_adapter+0x5c/0x80
-[  +0.000004]  ft260_probe.cold+0x222/0x2e2 [hid_ft260]
-[  +0.000006]  hid_device_probe+0x10e/0x170 [hid]
-[  +0.000009]  really_probe+0xff/0x460
-[  +0.000004]  driver_probe_device+0xe9/0x160
-[  +0.000003]  __device_attach_driver+0x71/0xd0
-[  +0.000004]  ? driver_allows_async_probing+0x50/0x50
-[  +0.000004]  bus_for_each_drv+0x84/0xd0
-[  +0.000002]  __device_attach+0xde/0x1e0
-[  +0.000004]  device_initial_probe+0x13/0x20
-[  +0.000004]  bus_probe_device+0x8f/0xa0
-[  +0.000003]  device_add+0x333/0x5f0
+Aseel Islamic finance PJSC is private joint stock company that was
+established in 2006 and has built a leading market position for itself
+in the UAE's Islamic finance market which specializes in loan finance
+and investment activities in real estate, hospitality, industrial &
+sustainable technologies, strategic financial investments, specialized
+education, healthcare services, agriculture, manufacturing,
+mining,energy and additional environmentally sustainable projects.
 
-It happened when i2c core probed for the devices associated with the lm75
-driver by invoking 2c_detect()-->..-->ft260_smbus_write() from within the
-ft260_probe before setting the adapter data with i2c_set_adapdata().
+My name is Mr. Ibn Ahmad Mustafa . Do you have projects that require
+funding? We have finance available for your projects with over 2
+trillion private and corporate investment portfolios.  Aseel Islamic
+finance PJSC is looking for equity partners, entrepreneur, fund
+raisers and portfolio managers who will pay up to 4.5% interest and/or
+part equity position with a 5 to 10 year hold. In 2030, we plan on
+acquiring up to 2 trillion in high-quality, low risk assets and
+investments to capitalize on the current market cycle.
 
-Moving the i2c_set_adapdata() before i2c_add_adapter() fixed the failure.
+Aseel Islamic finance PJSC is acting as a lender and the fund will be
+disbursed on a clear interest rate of 3.5% annually to the equity
+partners and entrepreneurs for their investment projects. We also give
+a 2% commission to brokers, who bring project owners for finance or
+other opportunities.
 
-Signed-off-by: Michael Zaidman <michael.zaidman@gmail.com>
-Signed-off-by: Germain Hebert <germain.hebert@ca.abb.com>
----
- drivers/hid/hid-ft260.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+For further details, kindly send us your business plans or project summary.
 
-diff --git a/drivers/hid/hid-ft260.c b/drivers/hid/hid-ft260.c
-index 4ef1c3b8094e..8ee77f4afe9f 100644
---- a/drivers/hid/hid-ft260.c
-+++ b/drivers/hid/hid-ft260.c
-@@ -966,24 +966,23 @@ static int ft260_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	mutex_init(&dev->lock);
- 	init_completion(&dev->wait);
- 
-+	ret = ft260_xfer_status(dev);
-+	if (ret)
-+		ft260_i2c_reset(hdev);
-+
-+	i2c_set_adapdata(&dev->adap, dev);
- 	ret = i2c_add_adapter(&dev->adap);
- 	if (ret) {
- 		hid_err(hdev, "failed to add i2c adapter\n");
- 		goto err_hid_close;
- 	}
- 
--	i2c_set_adapdata(&dev->adap, dev);
--
- 	ret = sysfs_create_group(&hdev->dev.kobj, &ft260_attr_group);
- 	if (ret < 0) {
- 		hid_err(hdev, "failed to create sysfs attrs\n");
- 		goto err_i2c_free;
- 	}
- 
--	ret = ft260_xfer_status(dev);
--	if (ret)
--		ft260_i2c_reset(hdev);
--
- 	return 0;
- 
- err_i2c_free:
--- 
-2.25.1
+Regards,
 
+
+Mr. Ibn Ahmad Mustafa
+International Business Coordinator
+Aseel Islamic Finance PJSC
+Al Mankhool, Dubai C2 Tower,
+Ground floor,P.O 94669 Dubai, UAE
+Abu Dhabi - United Arab Emirates
+Email : ahmadmustafa.7800@gmail.com
