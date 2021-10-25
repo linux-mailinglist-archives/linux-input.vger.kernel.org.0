@@ -2,75 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 180D74389A2
-	for <lists+linux-input@lfdr.de>; Sun, 24 Oct 2021 17:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E10BD43922E
+	for <lists+linux-input@lfdr.de>; Mon, 25 Oct 2021 11:19:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231679AbhJXPK3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 24 Oct 2021 11:10:29 -0400
-Received: from smtp-32-i2.italiaonline.it ([213.209.12.32]:55764 "EHLO
-        libero.it" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231564AbhJXPK2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 24 Oct 2021 11:10:28 -0400
-Received: from passgat-Modern-14-A10M.homenet.telecomitalia.it
- ([213.45.67.127])
-        by smtp-32.iol.local with ESMTPA
-        id eeyWmj6mkdfuoeeycmWXwy; Sun, 24 Oct 2021 16:59:58 +0200
-x-libjamoibt: 1601
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2021;
-        t=1635087598; bh=J+qzONQYXgNyBKJYBTiaKJTYCSBiy+QsX3A+nUydbnY=;
-        h=From;
-        b=fOJnuGvh2e0uBr3YTMmS3LvwFi/wO6i62GFoelFWPnX1PzQLbRN+3bvPPvbY3XoeQ
-         +PqoGQXhetkyxpiPmV+05ngIgHXfUVoTBSKJ/QTDIv6GH6QCMXPUEivcUc8w3ZzHPl
-         uJHSXPDGRTd11iYFBg6qAsqIA8boYU79id8gyobQ58nyOD7Jmwzsck3A0e60Endt6k
-         vwrijU8cUmgNdjtuSlJxvhFvL0lHIOfqYsaaXQ6e7K+TKRaNCcWt/kUogb3zFzdMHe
-         +W9/qpCbf1xybTCIKJvgdptALjWcd4EENu4+bjxWxBFk7HeBoETsoP7IraKZY9CIoM
-         GFqY5+NpYSQKQ==
-X-CNFS-Analysis: v=2.4 cv=IrzbzJzg c=1 sm=1 tr=0 ts=617574ee cx=a_exe
- a=Vk63IOK+/LoQucGDvce7tA==:117 a=Vk63IOK+/LoQucGDvce7tA==:17
- a=WGf4WTbLby2_tS91RlMA:9
-From:   Dario Binacchi <dariobin@libero.it>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dario Binacchi <dariobin@libero.it>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: [PATCH 4/6] dt-bindings: input: ti-tsc-adc: fix tsc node example
-Date:   Sun, 24 Oct 2021 16:59:28 +0200
-Message-Id: <20211024145931.1916-5-dariobin@libero.it>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211024145931.1916-1-dariobin@libero.it>
-References: <20211024145931.1916-1-dariobin@libero.it>
-X-CMAE-Envelope: MS4xfMVdhLtfg83vJJELVEZQUgLPfSOCgAeUHPnJ0uqOvaJjSPxdNFDp2mVg89wyZw/5MJmQaxRkxAK6NrM9Wp3n7gcol2YLUtS8+/5k5x9fW1Kmt3L/TOvD
- gq2suAyX5umxpBnzBzNhun+cS3rQlQLqxMEXun6WvgCwBpQ0I9okt8PQ2i1eFZJyCBV4Yi/BmYugKpF014aeM+LNFzDrJ+4OK02w6jlJCTRMgvXkSoe7xxwz
- V1x5plZN8kwao507DAGRykY706Q9favDyO5mhHyLG51XsuRUTApyEMTizrTgeqaREc7kTDZBsbpgcIMytM/gnKnX12xbmBcmY8QFXnC953z+hnl7s0mLDt/B
- QrwQEBvNogwz/n7NfSWQ13s3gIThOqbxdIUqE4Odh558tpR9hDL1qcS4U3fvM0r4L2rWnu4j
+        id S232464AbhJYJV4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 Oct 2021 05:21:56 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:54268 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232454AbhJYJVz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 25 Oct 2021 05:21:55 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 0C7111C0B76; Mon, 25 Oct 2021 11:19:30 +0200 (CEST)
+Date:   Mon, 25 Oct 2021 11:19:29 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH v3 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
+ for game controllers.
+Message-ID: <20211025091929.GA5878@amd>
+References: <20210908165539.3102929-3-roderick.colenbrander@sony.com>
+ <nycvar.YFH.7.76.2109221150110.15944@cbobk.fhfr.pm>
+ <20210927141109.GB5809@duo.ucw.cz>
+ <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com>
+ <20211013074849.GA10172@amd>
+ <nycvar.YFH.7.76.2110181739310.12554@cbobk.fhfr.pm>
+ <nycvar.YFH.7.76.2110220840340.12554@cbobk.fhfr.pm>
+ <20211022072115.GA25215@amd>
+ <nycvar.YFH.7.76.2110220924340.12554@cbobk.fhfr.pm>
+ <nycvar.YFH.7.76.2110220931190.12554@cbobk.fhfr.pm>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="SUOF0GtieIMvvwua"
+Content-Disposition: inline
+In-Reply-To: <nycvar.YFH.7.76.2110220931190.12554@cbobk.fhfr.pm>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The commit c9aeb249bf72e ("Input: ti_am335x_tsc - fix spelling mistake
-in TSC/ADC DT binding") didn't fix the typo mistake in the tsc node of
-the example.
 
-Signed-off-by: Dario Binacchi <dariobin@libero.it>
----
+--SUOF0GtieIMvvwua
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- .../devicetree/bindings/input/touchscreen/ti-tsc-adc.txt        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi!
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/ti-tsc-adc.txt b/Documentation/devicetree/bindings/input/touchscreen/ti-tsc-adc.txt
-index aad5e34965eb..2013fd7c4a10 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/ti-tsc-adc.txt
-+++ b/Documentation/devicetree/bindings/input/touchscreen/ti-tsc-adc.txt
-@@ -77,7 +77,7 @@ Example:
- 		tsc {
- 			ti,wires = <4>;
- 			ti,x-plate-resistance = <200>;
--			ti,coordiante-readouts = <5>;
-+			ti,coordinate-readouts = <5>;
- 			ti,wire-config = <0x00 0x11 0x22 0x33>;
- 			ti,charge-delay = <0x400>;
- 		};
--- 
-2.17.1
+> > > > Pavel, another week has passed. I am considering just including the=
+=20
+> > > > trivial LED #define additions and take them through hid.git unless =
+I hear=20
+> > > > from you today.
+> > >=20
+> > > I'd prefer not to deal with rejects / common immutable branches / etc.
+> >=20
+> > I am not proposing common immutable branch; and if there are going to b=
+e=20
+> > trivial cotext conflicts because of that, those will be sorted out by=
+=20
+> > Linus without you even noticing.
+> >=20
+> > > You don't _need_ the defines at all
+> >=20
+> > As I've already pointed to you in several threads, we have quite a lot =
+of=20
+> > code queued that does depend on the defines.
+> >=20
+> > > and you don't need them in the common place.
+> >=20
+> > I compltely fail to see the point of having them teporarily local befor=
+e=20
+> > you manage to finally do something about the trivial addition to proper=
+=20
+> > shared header.
+> >=20
+> > > Just merge the patch without the defines. I'll merge the defines. Tha=
+t=20
+> > > seems like least complex solution to me.
+> >=20
+> > That would cause my tree not to build.
+>=20
+> In other words: could you please elaborate what exact issue are you tryin=
+g=20
+> to avoid by not providing your Acked-by: and letting it go through hid.gi=
+t=20
+> with all the rest of the code depending on it?
 
+I'm trying to avoid merge conflict.
+
+I believe open-coding string for a while is acceptable price to pay
+for that, and I'd prefer that solution.
+
+If you can promise that no conflicts or other problems will happen for
+either me or Linus... go ahead and merge the patch.
+
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--SUOF0GtieIMvvwua
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAmF2dqEACgkQMOfwapXb+vJF4wCgprbSIF2qGZRLsRaU8l8b2vol
+sDEAoKKcgZjzcCkS3wfQun7XxgnFHkNn
+=y5a0
+-----END PGP SIGNATURE-----
+
+--SUOF0GtieIMvvwua--
