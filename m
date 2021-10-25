@@ -2,92 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4C6B439292
-	for <lists+linux-input@lfdr.de>; Mon, 25 Oct 2021 11:36:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA5124393EF
+	for <lists+linux-input@lfdr.de>; Mon, 25 Oct 2021 12:46:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232684AbhJYJjM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 25 Oct 2021 05:39:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53062 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232654AbhJYJjJ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Oct 2021 05:39:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 853B860EFF;
-        Mon, 25 Oct 2021 09:36:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635154607;
-        bh=g8bY25dLS02+QAC7q/CdfhPVLD4w2MgXvkpSEHqQ4b0=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=pPrMRfiPCS89uEbQhCP0gBs2mxM46TubEb+inOFGhmaaVq5BOp2ol5cvXQrEOMyd9
-         KzSaaJU87mkgpaLr7nW8D8rZTgv2H1yHUaLJZ2pYGg6V2vwerB/cH9Qk6p+HvDfvp6
-         CX555o5kpwYC9Thu5zC2wk6uEQtwdMX46n4rpuvVQYbyaECt+5C8A8naO9OzQUb5To
-         qQULqs7/WT2X4FKLcaM71cudq6BK4AbVdyU84NeSTOJyMJiOK/KssP0+gXLNaOEuPE
-         sVzfy3LgsRQWK/16RH7aj0rJJEtbjc/wGhaUY+ktPyJmOqjTn8LGNrv3x3G9w8tVnj
-         4X4O8SngUUvAg==
-Date:   Mon, 25 Oct 2021 11:36:43 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
-cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH v3 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
- for game controllers.
-In-Reply-To: <20211025091929.GA5878@amd>
-Message-ID: <nycvar.YFH.7.76.2110251127380.12554@cbobk.fhfr.pm>
-References: <20210908165539.3102929-3-roderick.colenbrander@sony.com> <nycvar.YFH.7.76.2109221150110.15944@cbobk.fhfr.pm> <20210927141109.GB5809@duo.ucw.cz> <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com> <20211013074849.GA10172@amd>
- <nycvar.YFH.7.76.2110181739310.12554@cbobk.fhfr.pm> <nycvar.YFH.7.76.2110220840340.12554@cbobk.fhfr.pm> <20211022072115.GA25215@amd> <nycvar.YFH.7.76.2110220924340.12554@cbobk.fhfr.pm> <nycvar.YFH.7.76.2110220931190.12554@cbobk.fhfr.pm>
- <20211025091929.GA5878@amd>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S229959AbhJYKsh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 Oct 2021 06:48:37 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:41615 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230342AbhJYKsh (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 25 Oct 2021 06:48:37 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 4F59858054C;
+        Mon, 25 Oct 2021 06:46:14 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Mon, 25 Oct 2021 06:46:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+         h=from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm2; bh=tVeVTD/n1RNuci2s4vL/2pyEqm
+        YGY1CKKlCMxISrbSc=; b=SMRKL39Ml96zqcGCn1DFiTCfB9cbXRVo7c3q9J1NVy
+        +TgiCZb+oqueOV54YvGuGdZm7SWsxU9nIzyZ+89mzxw2ShzGxhaqKqnTFYBoDZh8
+        LnkkPBiuCUlMt5VzL5fzgLWPCUdwvoe16XN7SyA2AY5GGadG4SFnpfrcwRK3oQZi
+        AWRlP3OZpF8/nNZKjWpAfLMtyx6rN5xekySNCqX2dFb1DWT67Xp5TGvhF3FsaaOV
+        u9M5lbT9uMwIIbDPe32vb+ZtCCbFJuNUCnXw9cgUMMH4nWByLROyLO982/W9R0mm
+        oOWfJl3Qdlc9/Z0QUPgJqNvfnHJ2eqBpHiqFlQ8VhkUQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=tVeVTD/n1RNuci2s4
+        vL/2pyEqmYGY1CKKlCMxISrbSc=; b=VmueU+s7C2JLOPGRuPslq8y/Qo1B5ubXI
+        qpV84SspJ6prSbJ0zGUzEWiMx9bUbUKH6xVRxbLRNor+rDrFdvP5oJuoq+4kbCOT
+        QnJHMIUzLv+vqa513C43gBt45H5itZ/Yq7Q56O6g6vsEDod1veLOhkm4wCqRzAoO
+        mskaR/tfn6z10Csuf+mHVgqfWpk8enigjIiI4MaTk/sy/Fy5Ku87k1XqiQycb0Uv
+        47ZgYAoCejqtasol2ARpg/XB0SNtSZ5C+TszfQxhCPhGtN6uQHsmJhoA1aywnrIP
+        5rrQ6G0yLu82R8okuX/UycTYn+pr9LZDZ7F3ERBhjkcle1JtfxIVQ==
+X-ME-Sender: <xms:9Yp2YY1HgA9LAua0Mzj1pQ31c3j3EBK7RD--dMfal9RRURaI0vClIQ>
+    <xme:9Yp2YTFB2V1uhadSx-mU8v5pN5wLzqHefxQWyDBU16jnXJgxjvK24Q31agDZr9JIq
+    0UYgk4j43Pk7zvaNLc>
+X-ME-Received: <xmr:9Yp2YQ4gn7Redee08Bbjx3QUdqZs8wq6NMa7Wh8fD26aciZbHF31bSaJ1FU-75XRPiVdomvYL4Ay>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefhedgfedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+    dttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhr
+    segrlhhishhtrghirhdvfedrmhgvqeenucggtffrrghtthgvrhhnpeejleeihfdvtefgtd
+    ethfdtgefftdeiffefjeeiffefveeuleejheejvefhffeukeenucevlhhushhtvghrufhi
+    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrlhhishhtrghirhesrghlihhsth
+    grihhrvdefrdhmvg
+X-ME-Proxy: <xmx:9Yp2YR2mWNQNXVv0UrX026Rg7r2w4QXl98q5eJ5PrNL-6xolAhqzcA>
+    <xmx:9Yp2YbGM_JMpxluNG4t5RaHKhBhqnf2vw8JWjnZB-dfLu4lgXQDtqQ>
+    <xmx:9Yp2Ya-JAZtIPG9yHDJzD1uOVxHpENyvU33yq0kSMDTyB7yf4MbWaA>
+    <xmx:9op2YT-t0zxEtF2Sb--KrElp_b6NBEMSYXdIrHnrw45eSrAWfyqckA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 25 Oct 2021 06:46:08 -0400 (EDT)
+From:   Alistair Francis <alistair@alistair23.me>
+To:     s.hauer@pengutronix.de, benjamin.tissoires@redhat.com,
+        dmitry.torokhov@gmail.com, shawnguo@kernel.org
+Cc:     alistair23@gmail.com, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-imx@nxp.com,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        jikos@kernel.org, Alistair Francis <alistair@alistair23.me>
+Subject: [PATCH v13 1/3] HID: quirks: Allow inverting the absolute X/Y values
+Date:   Mon, 25 Oct 2021 20:46:03 +1000
+Message-Id: <20211025104605.36364-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 25 Oct 2021, Pavel Machek wrote:
+Add a HID_QUIRK_X_INVERT/HID_QUIRK_Y_INVERT quirk that can be used
+to invert the X/Y values.
 
-> > In other words: could you please elaborate what exact issue are you trying 
-> > to avoid by not providing your Acked-by: and letting it go through hid.git 
-> > with all the rest of the code depending on it?
-> 
-> I'm trying to avoid merge conflict.
+Signed-off-by: Alistair Francis <alistair@alistair23.me>
+---
+ drivers/hid/hid-input.c | 6 ++++++
+ include/linux/hid.h     | 2 ++
+ 2 files changed, 8 insertions(+)
 
-What's wrong with this kind of conflict?
-
-That's what linux-next is for; if there is a conflict, we'll be notified 
-and if needed and we could indicate this to Linus during merge window. The 
-trivial ones he resolves without any issues. And we'll know exactly what 
-kind of conflict (if any at all) is there beforehand from linux-next.
-
-> I believe open-coding string for a while is acceptable price to pay for 
-> that, and I'd prefer that solution.
-
-I don't. It's a mess. If you'd then for some reason change your mind on 
-the last minute and did the numbering differently in your tree, it will go 
-by unnoticed, while when the real conflict happens, it'll be a clear sign 
-that there is a thing to resolve.
-
-Conflict is not a bad thing per se that needs to be avoided at all costs.
-
-Conflict clearly shows the dependency between the trees and is trivially 
-resolved.
-
-> If you can promise that no conflicts or other problems will happen for 
-> either me or Linus... 
-
-Linus doesn't care about this kind of hypothetical conflict if there is a 
-reason for it, and he resolves them on a daily basis, just check the git 
-history.
-
-> go ahead and merge the patch.
-
-Can I take this as your Acked-by: then, so that I can finally apply it and 
-get the needed linux-next coverage before merge window opens?
-
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 4b5ebeacd283..4babf369184f 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -1328,6 +1328,12 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+ 
+ 	input = field->hidinput->input;
+ 
++	if (usage->type == EV_ABS &&
++		((*quirks & HID_QUIRK_X_INVERT) && usage->code == ABS_X ||
++		 (*quirks & HID_QUIRK_Y_INVERT) && usage->code == ABS_Y)) {
++			value = field->logical_maximum - value;
++	}
++
+ 	if (usage->hat_min < usage->hat_max || usage->hat_dir) {
+ 		int hat_dir = usage->hat_dir;
+ 		if (!hat_dir)
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 9e067f937dbc..4959385ca588 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -349,6 +349,8 @@ struct hid_item {
+ /* BIT(9) reserved for backward compatibility, was NO_INIT_INPUT_REPORTS */
+ #define HID_QUIRK_ALWAYS_POLL			BIT(10)
+ #define HID_QUIRK_INPUT_PER_APP			BIT(11)
++#define HID_QUIRK_X_INVERT			BIT(12)
++#define HID_QUIRK_Y_INVERT			BIT(13)
+ #define HID_QUIRK_SKIP_OUTPUT_REPORTS		BIT(16)
+ #define HID_QUIRK_SKIP_OUTPUT_REPORT_ID		BIT(17)
+ #define HID_QUIRK_NO_OUTPUT_REPORTS_ON_INTR_EP	BIT(18)
 -- 
-Jiri Kosina
-SUSE Labs
+2.31.1
 
