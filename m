@@ -2,60 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D99AF43950F
-	for <lists+linux-input@lfdr.de>; Mon, 25 Oct 2021 13:42:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 055CB439512
+	for <lists+linux-input@lfdr.de>; Mon, 25 Oct 2021 13:42:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233202AbhJYLpI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 25 Oct 2021 07:45:08 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:48621 "EHLO
+        id S233219AbhJYLpO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 Oct 2021 07:45:14 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:35447 "EHLO
         new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233216AbhJYLpD (ORCPT
+        by vger.kernel.org with ESMTP id S233216AbhJYLpL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Oct 2021 07:45:03 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 2939C580502;
-        Mon, 25 Oct 2021 07:42:41 -0400 (EDT)
+        Mon, 25 Oct 2021 07:45:11 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 6DB2C58050F;
+        Mon, 25 Oct 2021 07:42:49 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Mon, 25 Oct 2021 07:42:41 -0400
+  by compute4.internal (MEProxy); Mon, 25 Oct 2021 07:42:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
          h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-type:content-transfer-encoding; s=fm2; bh=
-        gne5oT/hN/0Mn0cGEHutOCyZ5LH0dANo6RcAsHwYYiw=; b=WJiLCHR5y6ssqYAK
-        vKfaG+dRo56ukzFjl9auO8CwwvQubxnpB6dPbjxtmkDjxTVGgGvZz/Q29mNBWWcF
-        thWKz1rHhHXb8oaz/KT1P+46ymqBmhLYf/qHbUK42vplQ9k2jWM0pX6nUii/XQXp
-        K50nN8qP+8N8cffJJHtvH5HymK1AtYRGl+7qh1wIp68Cwv3wIgkDsLygXcTa9v6J
-        CePozvRbZI6AouQ+vfHJtK0dUcNbqfx5sS/unIUsfUvyik+WVKO6RvnRdxapET5p
-        fwqjO4FfISPfuKFC05gklcC/7y+IKsWf4G3W2TYFtVkxTYqE8CfpI//hKUu7PSKR
-        +8wnhQ==
+        :mime-version:content-transfer-encoding; s=fm2; bh=7eUd6wgxjre7V
+        AV++0QCRjfQV1kP51FNe+5lTce7Sbw=; b=jxRZw+gpwqOy3Nq+s2G7TNtM0tsKs
+        5xnRkjUsayR3yQShgNo6RSr7506WxMA8RvcFDsivRiRZYXM0mQb4AOzwp8gABm+c
+        LAkzjJ3x5qoZ6mdr0oKufhCsPTNqZZ2WxU3l7yCCRW6U70Ij/P9LAI5Qp4RkCqGM
+        mL6/MMEBZxfILIk6eji/ZXNBQ/m5/Q9Ov8aG1ghpryi4EUfAH8GPx91TFHXCAPKN
+        poN+Lx3xVgGbD+SvkzK267T2+UEZxvkATPtyZlOcuOuIuDTV+XbTOQBtSD8dHgMd
+        L+0tDpiY+7WuZTWkon91CCcEzCuw0EuDf/hBPU32li9ArW92inuBCHXNA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; bh=gne5oT/hN/0Mn0cGEHutOCyZ5LH0dANo6RcAsHwYY
-        iw=; b=h6JuTrdwCkb44hhAd1wPI7rQO9ohAo+I9rzsE94acesOiP1euUnOfoviG
-        aZosJpnjgLmNYLs5BguoywTmvp5kqlxhAF7XS+/UnUUV8LVC1fD01W92e/EOcZLC
-        v1x+TjMmLLmVw+dJ9ubJjaKu31ehglIOSqeZhJ90Xb3LaWlbigd8JR+BVi/8p6T8
-        WKA7pz7SeSvNPXZ+MFJN0ffOADRBApe2Ld22IQIjXwNFeGmi/D6N50nu4ZaREAbt
-        OygEyVHG7Qe0uX3jo7AczTAvwI9aa8IdBjqUAVLERn2LeKR9PHM88TVLw4QL+wuS
-        uuMo+RV7k1+BUMDRN3wgAvtkYKgtg==
-X-ME-Sender: <xms:MJh2YbE3IcU2F9jTCmxyj4232Wy8v6kdudeMQAxGcXKfNZ7NhXqdOw>
-    <xme:MJh2YYXYT-S73ztpxRpIxkdJ3olb2AJJ1Vg5_TcwcXRV71O98Ve7rBu6O0eB8VROc
-    HBSjbsAJsh9FA01O18>
-X-ME-Received: <xmr:MJh2YdIGg9qhGYVLHUlXXkKdvOYUVWB9PoXzOJUvO0OgwCFmC5_JRouJ1bvItveoSBA_4wcy6f71>
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :in-reply-to:message-id:mime-version:references:subject:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; bh=7eUd6wgxjre7VAV++0QCRjfQV1kP51FNe+5lTce7Sbw=; b=HnBRgrke
+        /DnykOCO2WI+i8eDctpp17XznaAnKHF44l+IRzbhiMC4lMNIH/uPk9XRig68jKVD
+        v5lG/XAAbpRurL8VpoclHdBzPk3YC/DFD82H1p9ooOyOV5+UixOM6blwT029ytx7
+        cFw1kt1rPxDGzrBwlUy5FcJTCaGPtu/oNKE/OrhSAogcvjV06/H+bb822gFf+rWP
+        MaHesgi3dH7lA1+RDX/QegEj5KZtgsPDL3xqKDtQvqn3SGULHq17ZALy+6tsLvK0
+        Jxo3EX0vn8r+IZUhGP14Rx1Zoh9Qnxjis9KhXt7Zl3sZrhxNNayKAt1c37hhtm4E
+        qwT5U2dqRQnQuA==
+X-ME-Sender: <xms:OZh2YafGHLAcconKWXgn1c7np3OkRLTUresn96JDtTKMY6--m43C3A>
+    <xme:OZh2YUO7pBJOlMFVIDTwXlN1cQ2ph1bc59NjCwvUUiebu5KlJgq00oeXEkpFW2-oZ
+    spbAtuubBj1bvxVXnQ>
+X-ME-Received: <xmr:OZh2YbhFhqNA-UHqoTDGaJRII3eSBYouTfdMBhIZi2we9VCs0MTHqwojjOkLLs5YABZfS_a6BF22>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefhedggeduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhggtgfgsehtke
-    ertdertdejnecuhfhrohhmpeetlhhishhtrghirhcuhfhrrghntghishcuoegrlhhishht
-    rghirhesrghlihhsthgrihhrvdefrdhmvgeqnecuggftrfgrthhtvghrnhepfeduhefhve
-    fgffelieffheduvdegtdeuueejieefhfejjedviedvudfgheefheejnecuffhomhgrihhn
-    peguvghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvg
-X-ME-Proxy: <xmx:MJh2YZH_ZWwMOwLBtYVKc8PzhDL-T_Wk9_E5_luy_KY6unlOJwo0tQ>
-    <xmx:MJh2YRXb-V5v5BxKq0lryVvl8ihK540VZZ8JIvVQ2R33-bM_0wiwaw>
-    <xmx:MJh2YUPCeZmpuLKBJtVCKaRu6QEnJKoa8IgW6j97L3XkPYABQisvTQ>
-    <xmx:MZh2YaNcEce5eJJp2idvzq29b5LVFRjygFHLFF84Q81FFgybzSA9Sw>
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
+    dtredttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgr
+    ihhrsegrlhhishhtrghirhdvfedrmhgvqeenucggtffrrghtthgvrhhnpeeggedtteejke
+    eggeeugfehueevudegvdetjeeviedugedvtdekffekhedtteduhfenucevlhhushhtvghr
+    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrlhhishhtrghirhesrghlih
+    hsthgrihhrvdefrdhmvg
+X-ME-Proxy: <xmx:OZh2YX9rUl0Yc51UElfJzeOT4ypnZVSJAVJw-2S9oWWTQiFZSDUCRg>
+    <xmx:OZh2YWujA0AQ21q3YzK5rDKBdX4KUdVQ6yDUdUAN68VSjkmgY4xcYA>
+    <xmx:OZh2YeFS6XdcRoFk43tZ-CwyQTGaIrglLZECtHA9g-rAwP4YwHEzxw>
+    <xmx:OZh2YXnmFQVSoK-wGw6Tn2phPm66OtB4p-Fih1TE3o-yJ-rArc-KkA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 Oct 2021 07:42:33 -0400 (EDT)
+ 25 Oct 2021 07:42:41 -0400 (EDT)
 From:   Alistair Francis <alistair@alistair23.me>
 To:     linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
@@ -64,113 +63,35 @@ Cc:     andreas@kemnade.info, alistair23@gmail.com,
         robh+dt@kernel.org, rydberg@bitmath.org,
         mylene.josserand@free-electrons.com,
         Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH 2/4] Documentation: DT: bindings: input: Add documentation for cyttsp5
-Date:   Mon, 25 Oct 2021 21:42:12 +1000
-Message-Id: <20211025114214.44617-3-alistair@alistair23.me>
+Subject: [PATCH 3/4] ARM: imx_v6_v7_defconfig: Enable the cyttsp5 touchscreen
+Date:   Mon, 25 Oct 2021 21:42:13 +1000
+Message-Id: <20211025114214.44617-4-alistair@alistair23.me>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211025114214.44617-1-alistair@alistair23.me>
 References: <20211025114214.44617-1-alistair@alistair23.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Mylène Josserand <mylene.josserand@free-electrons.com>
-
-Add the Cypress TrueTouch Generation 5 touchscreen device tree bindings
-documentation. It can use I2C or SPI bus.
-This touchscreen can handle some defined zone that are designed and
-sent as button. To be able to customize the keycode sent, the
-"linux,code" property in a "button" sub-node can be used.
-
-Signed-off-by: Mylène Josserand <mylene.josserand@free-electrons.com>
-Message-Id: <20170529144538.29187-3-mylene.josserand@free-electrons.com>
 Signed-off-by: Alistair Francis <alistair@alistair23.me>
 ---
- .../input/touchscreen/cypress,cyttsp5.yaml    | 72 +++++++++++++++++++
- 1 file changed, 72 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,cyttsp5.yaml
+ arch/arm/configs/imx_v6_v7_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/cypress,cyttsp5.yaml b/Documentation/devicetree/bindings/input/touchscreen/cypress,cyttsp5.yaml
-new file mode 100644
-index 000000000000..0bddbd76a0c3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/touchscreen/cypress,cyttsp5.yaml
-@@ -0,0 +1,72 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/touchscreen/cypress,cyttsp5.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Cypress cyttsp touchscreen controller, generation 5
-+
-+maintainers:
-+  - Alistair Francis <alistair@alistair23.me>
-+
-+allOf:
-+  - $ref: touchscreen.yaml#
-+
-+properties:
-+  compatible:
-+    const: cypress,cyttsp5
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  vdd-supply:
-+    description: Regulator for voltage.
-+
-+  reset-gpios:
-+    maxItems: 1
-+
-+  linux,code:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: EV_ABS specific event code generated by the axis.
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - vdd-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        touchscreen@24 {
-+            compatible = "cypress,cyttsp5";
-+            reg = <0x24>;
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&tp_reset_ds203>;
-+            interrupt-parent = <&pio>;
-+            interrupts = <1 5 IRQ_TYPE_LEVEL_LOW>;
-+            reset-gpios = <&pio 7 1 GPIO_ACTIVE_HIGH>;
-+            vdd-supply = <&reg_touch>;
-+
-+            button@0 {
-+                linux,code = <KEY_HOMEPAGE>;
-+            };
-+
-+            button@1 {
-+                linux,code = <KEY_MENU>;
-+            };
-+
-+            button@2 {
-+                linux,code = <KEY_BACK>;
-+            };
-+        };
-+    };
-+...
+diff --git a/arch/arm/configs/imx_v6_v7_defconfig b/arch/arm/configs/imx_v6_v7_defconfig
+index 5e4128dadd8d..1590370a431a 100644
+--- a/arch/arm/configs/imx_v6_v7_defconfig
++++ b/arch/arm/configs/imx_v6_v7_defconfig
+@@ -172,6 +172,7 @@ CONFIG_TOUCHSCREEN_ADS7846=y
+ CONFIG_TOUCHSCREEN_AD7879=y
+ CONFIG_TOUCHSCREEN_AD7879_I2C=y
+ CONFIG_TOUCHSCREEN_ATMEL_MXT=y
++CONFIG_TOUCHSCREEN_CYTTSP5=y
+ CONFIG_TOUCHSCREEN_DA9052=y
+ CONFIG_TOUCHSCREEN_EGALAX=y
+ CONFIG_TOUCHSCREEN_GOODIX=y
 -- 
 2.31.1
 
