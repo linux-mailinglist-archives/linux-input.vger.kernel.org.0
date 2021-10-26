@@ -2,117 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C48943AD9F
-	for <lists+linux-input@lfdr.de>; Tue, 26 Oct 2021 09:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 784E443AD4B
+	for <lists+linux-input@lfdr.de>; Tue, 26 Oct 2021 09:34:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233464AbhJZH57 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Oct 2021 03:57:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50240 "EHLO
+        id S233150AbhJZHgo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Oct 2021 03:36:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233588AbhJZH55 (ORCPT
+        with ESMTP id S233159AbhJZHgk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Oct 2021 03:57:57 -0400
-X-Greylist: delayed 2349 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 26 Oct 2021 00:55:33 PDT
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D60C6C061767
-        for <linux-input@vger.kernel.org>; Tue, 26 Oct 2021 00:55:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=kemnade.info; s=20180802; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=QTaiuoG3E3gV8q8Ul32tNVdJglS7a/guFT+rX2ETcBw=; b=O8Z+ppBpu4lBC7JfJEw6bbdzOq
-        0j18LPve6kDkhUfOIj7PsVjoy8CY6XAdiifo/m5FnCjpmgejog7LGjBJCUdnTFUd+Q8zaHtOIeClZ
-        RuYrwTSk3JwDDimAQJNjnAN14adAAhNXy0WKBsayMGZt2H+HHx7O89Ib+8truDD+WdJE=;
-Received: from p200300ccff1906001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff19:600:1a3d:a2ff:febf:d33a] helo=aktux)
-        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <andreas@kemnade.info>)
-        id 1mfGgz-0003NL-6W; Tue, 26 Oct 2021 09:16:17 +0200
-Date:   Tue, 26 Oct 2021 09:16:16 +0200
-From:   Andreas Kemnade <andreas@kemnade.info>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Alistair Francis <alistair@alistair23.me>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        alistair23@gmail.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Mylene Josserand <mylene.josserand@free-electrons.com>
-Subject: Re: [PATCH 2/4] Documentation: DT: bindings: input: Add
- documentation for cyttsp5
-Message-ID: <20211026091616.7d9d05e4@aktux>
-In-Reply-To: <CACRpkdYjBM9Pu=rO8SqfGvpP_fGeD=2YCqh+Rh-bOVq_k2S6CQ@mail.gmail.com>
-References: <20211025114214.44617-1-alistair@alistair23.me>
-        <20211025114214.44617-3-alistair@alistair23.me>
-        <CACRpkdYjBM9Pu=rO8SqfGvpP_fGeD=2YCqh+Rh-bOVq_k2S6CQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Tue, 26 Oct 2021 03:36:40 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8E67C061229
+        for <linux-input@vger.kernel.org>; Tue, 26 Oct 2021 00:34:16 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id h65so14530694qke.0
+        for <linux-input@vger.kernel.org>; Tue, 26 Oct 2021 00:34:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=XOycsyS8WRs8WZM/52QyGEA5jLYLxAJ/W6Zuel7qkRA=;
+        b=RTkl8uyS7i/Iz5qRUnwc5xVXNU3ItwhMHQQvKidk2hcipXqcmdvIYKAl2f6Ta068Zk
+         VjHBjimCcQPorsd9+W70kGV/QQyYlIG5ac65fNlxg0Gp+EwY3dYS2MY63TcmKj99zF4K
+         OnjccWIuvtn06QWgWZzEzGMJEqqqfot0/Yq5Mwj/X/fZnYlC7QW2iOyv0/Ihq2GgIkNe
+         39Fz7stbik7z2033tcY9eKxWbTjQG0a+NSimLwRmuU2iZRQCP9qfDYwoGaUSrADVojZN
+         u87jJ/Sh5FzrpqzsuddA1fcse9NQrGdPYq+U7M7hrgNZlikCsaFzqbENaXp67rJ3OoN1
+         p27g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=XOycsyS8WRs8WZM/52QyGEA5jLYLxAJ/W6Zuel7qkRA=;
+        b=BSw/X5PeShP5rKD8cNhOt/YyJJpHYew+4qh+AaZKeDQU/FzLthveggxqvrlm5i7zDy
+         Itp2J4lC3Sr6+Ftr+fw3sEcnWbDOvi34T/SKR397YRvfGyRnfL6FLnmk6NuXM3Ofy5rj
+         w3RFlSOGZT1DlUF6Re7jkKf2jO0C+IrpB8gkzEXa5XExGiGGmbs8rkuvvW7sIfySdoXg
+         Cjokov3L3jn0z/XBF3VYBJsqp+DbP6g8YxzabTAoDSC0B0t8s1MqcgasM0t777ifV1ir
+         HFeEuTEX2miKr7VKjHFmvy6Z4DS6Wo5i6D37CvXxO/pjT6/I9gaJOHk1DoS9Ezd1HPfa
+         uONg==
+X-Gm-Message-State: AOAM532ZoXcZgjpo40m3S8V1Fy5Mu9RxELHk5Hj2Iyi+QfgdCcL/V2sZ
+        QSR1TwYDwnOIWaVwPsxDk/yN3pNsAH/Lax6x00Y=
+X-Google-Smtp-Source: ABdhPJygraWvDHKvyuxpxngNnC4QXAScfUHM6x8UGZe8SCemHuEUTx268K8bXq/C3brNH2IxBxPJc/Eipk/UZ/IYTaE=
+X-Received: by 2002:a05:620a:24cf:: with SMTP id m15mr17357368qkn.434.1635233655314;
+ Tue, 26 Oct 2021 00:34:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Score: -1.0 (-)
+Received: by 2002:ad4:5d66:0:0:0:0:0 with HTTP; Tue, 26 Oct 2021 00:34:14
+ -0700 (PDT)
+Reply-To: ayishagddafio@mail.ru
+From:   Aisha Gaddafi <mrzakirhossain4444@gmail.com>
+Date:   Tue, 26 Oct 2021 00:34:14 -0700
+Message-ID: <CAJGJQubW63on415rLVLETXQWQG-BCLgzyQJPxPCA12Z6VvzNCg@mail.gmail.com>
+Subject: Dearest Friend,?
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 26 Oct 2021 01:18:24 +0200
-Linus Walleij <linus.walleij@linaro.org> wrote:
+Dearest Friend,
 
-> Hi Alistair,
->=20
-> On Mon, Oct 25, 2021 at 1:42 PM Alistair Francis <alistair@alistair23.me>=
- wrote:
->=20
-> > From: Myl=C3=A8ne Josserand <mylene.josserand@free-electrons.com>
-> >
-> > Add the Cypress TrueTouch Generation 5 touchscreen device tree bindings
-> > documentation. It can use I2C or SPI bus.
-> > This touchscreen can handle some defined zone that are designed and
-> > sent as button. To be able to customize the keycode sent, the
-> > "linux,code" property in a "button" sub-node can be used.
-> >
-> > Signed-off-by: Myl=C3=A8ne Josserand <mylene.josserand@free-electrons.c=
-om>
-> > Message-Id: <20170529144538.29187-3-mylene.josserand@free-electrons.com>
-> > Signed-off-by: Alistair Francis <alistair@alistair23.me> =20
->=20
-> > +title: Cypress cyttsp touchscreen controller, generation 5 =20
-> (...)
-> > +  compatible:
-> > +    const: cypress,cyttsp5 =20
->=20
-> Is this the real product name? When I rewrote the bindings for
-> the original "CYTTSP", actually "Cypress TrueTouch Standard Product"
-> it came out that the actual product names were CY8CTMA340
-> and CY8CTMA341. "CYTTSP" was a marketing name for the
-> whole family.
->=20
-> See
-> Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma340.ya=
-ml
->=20
-> If the actual products have some product names such as
-> CY8* then use these as compatibles instead and just write in the
-> decription that it is Cypress TrueTouch Standard Product series 5.
->=20
-Since I have uptreamed 4 devicetrees containing that touchscreen (and
-marked that as todo). I tried to look it up:
-https://fccid.io/NOIKBN249/Internal-Photos/Internal-Photos-3802584.pdf
+In the name of God, Most Gracious, Most Merciful.
 
-Page 4 might be interesting. Something below that 3d code (zbarimg does
-not recognize it) Peeling up the label reveals:
-TT21000
--44LQI
-1802 TWN
-6491U0 (two illegible characters)
+Peace be upon you and mercy be upon you and blessings be upon you.
+I have the sum of $27.5 million USD for investment, I am interested in
+you for investment project assistance in your country. My name is
+Aisha  Gaddafi and presently living in Oman, I am a Widow and single
+Mother with three Children, the only biological Daughter of late
+Libyan President (Late Colonel Muammar Gaddafi) and presently I am
+under political asylum protection by the Omani Government.
 
-You find it in the net:=20
-https://www.digipart.com/part/TT21000-48LQI36T
+Kindly reply urgently for more details.
 
-Regards,
-Andreas
-
+my email address below: ayishagddafio@mail.ru
+Thanks
+Yours Truly Aisha
