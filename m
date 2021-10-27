@@ -2,52 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D3C443C492
-	for <lists+linux-input@lfdr.de>; Wed, 27 Oct 2021 10:03:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BE8543C4B0
+	for <lists+linux-input@lfdr.de>; Wed, 27 Oct 2021 10:08:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239119AbhJ0IFX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Oct 2021 04:05:23 -0400
-Received: from mail.cowhole.com ([5.249.149.138]:60208 "EHLO mail.cowhole.com"
+        id S240767AbhJ0ILH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Oct 2021 04:11:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45538 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234301AbhJ0IE4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Oct 2021 04:04:56 -0400
-Received: by mail.cowhole.com (Postfix, from userid 1001)
-        id 336EDA2440; Wed, 27 Oct 2021 09:01:52 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cowhole.com; s=mail;
-        t=1635321746; bh=3OgDFcNvZuqLM7V97gmjd5DXYZVqLCEeIqQI+/2JHyA=;
-        h=Date:From:To:Subject:From;
-        b=aY/lpDUX/VamKir0L7nRjkdGyudybbLgpR3hZSnO+OxRqpyLqI4dqfFNEEC4zoakf
-         nATPLKnfx04GbkprZq/1Vpq9cZorSbQTcKjZ4sBwV5dpsMf1HUGKpt2iAuouiIAKZD
-         +BZQYiyxar/GSu9to7mO8gpsYsq5trDu6If8fJWYBHdRq8ajkZecUOqA4MezxWL2jN
-         AyMCk04VrJWlJdb4ww1kMwycrDojQO2g4nbhr/bWccrUibtgCYAmWa6N6LWfhibm6R
-         4deGEFKDN6pR+Xw80ivP9rRMuRzyMzmk2VSANCsggEA7t/IsIiQBwWwAxDbBGhcQ4L
-         HZzs8DxolEnkQ==
-Received: by mail.cowhole.com for <linux-input@vger.kernel.org>; Wed, 27 Oct 2021 08:01:02 GMT
-Message-ID: <20211027074501-0.1.1b.dhcf.0.nxg832flp2@cowhole.com>
-Date:   Wed, 27 Oct 2021 08:01:02 GMT
-From:   "Eva Fina Segura" <eva.segura@cowhole.com>
-To:     <linux-input@vger.kernel.org>
-Subject: Servicio de la flota
-X-Mailer: mail.cowhole.com
+        id S240770AbhJ0ILG (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 27 Oct 2021 04:11:06 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CB9E4610E5;
+        Wed, 27 Oct 2021 08:08:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635322121;
+        bh=8f7OoI3Pjt1IvfUgZ4mZhJ6VWS/mJ5xGsiikkVsr+Wo=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=E0W4mUg4r6exDDdYBY4kZMQmAqqrdvHSZcAnnK1Lo36XM9e2uJR0wX57AtzpPgFtz
+         dPINiAl7XZC04c/tfsN/YgPOXcUyyFgm9vvU9aYpj1CnEgoxFnqEYmjK6Hqz81Ptte
+         DJz3uKQw3zvgYu1iKip8rMZD9FHPxnnWC/ToQFJ5GBExHu9t0A6oG3ILcwH8+SmckC
+         p/Xdw03IFPAH7pQP0KOzdyMSNBZqgNvRf3Z6DyPJ/Y12fQKaskgijGTVw6SyA235NL
+         E6yW3fvwOOMAqnoTW2bsRe5Uoea32LjetzIQkKyi6ASuIStBphDn5SZARvGkfr+Te8
+         BAIA5pcZmlKMA==
+Date:   Wed, 27 Oct 2021 10:08:36 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     "Daniel J. Ogorchock" <djogorchock@gmail.com>
+cc:     linux-input@vger.kernel.org, thunderbird2k@gmail.com,
+        blaws05@gmail.com, benjamin.tissoires@redhat.com,
+        Roderick.Colenbrander@sony.com, svv@google.com, s.jegen@gmail.com,
+        carmueller@gmail.com, pgriffais@valvesoftware.com,
+        hadess@hadess.net, pobrn@protonmail.com, lee.jones@linaro.org,
+        Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH v16 00/16] HID: nintendo
+In-Reply-To: <nycvar.YFH.7.76.2110191142160.12554@cbobk.fhfr.pm>
+Message-ID: <nycvar.YFH.7.76.2110271007450.12554@cbobk.fhfr.pm>
+References: <20210911173639.5688-1-djogorchock@gmail.com> <nycvar.YFH.7.76.2110191054080.12554@cbobk.fhfr.pm> <nycvar.YFH.7.76.2110191142160.12554@cbobk.fhfr.pm>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Buenos d=C3=ADas:
+On Tue, 19 Oct 2021, Jiri Kosina wrote:
 
-Le escribo para hablarle sobre una de las mejores herramientas GPS en el =
-mercado.
+> Benjamin noticed that I pushed wrong version of the branch -- the one that 
+> still doesn't contain the LED_FUNCTION_PLAYER[1-5] defines, which I've had 
+> staged here locally, waiting for Pavel's Ack (which is taking time, 
+> unfortunately).
+> 
+> So please ignore this branch for now, I'll push v2 once that situation is 
+> cleared out.
+> 
+> CCing Pavel as well here to make him aware of the issues this is causing 
+> all over the place (see .e.g my mail [1] from yesterday).
+> 
+> [1] https://lore.kernel.org/all/nycvar.YFH.7.76.2110181739310.12554@cbobk.fhfr.pm/
 
-La herramienta, que me gustar=C3=ADa presentarle brevemente, dispone de m=
-uchas funciones =C3=BAtiles para su trabajo, que optimizan los procesos d=
-e transporte y le ayudan a realizar tareas de campo de manera m=C3=A1s ef=
-iciente.
+As we got Ack for the LED_FUNCTION_PLAYER[1-5] patch, this has now been 
+revived and version that actually builds pushed to hid.git.
 
-=C2=BFQuiere conocer los detalles?
+Thanks,
 
+-- 
+Jiri Kosina
+SUSE Labs
 
-Atentamente,
-Eva Fina Segura
