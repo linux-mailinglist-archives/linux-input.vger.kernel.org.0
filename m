@@ -2,30 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7029C43D0B2
-	for <lists+linux-input@lfdr.de>; Wed, 27 Oct 2021 20:25:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E8A143D0B8
+	for <lists+linux-input@lfdr.de>; Wed, 27 Oct 2021 20:25:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243428AbhJ0S2D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Oct 2021 14:28:03 -0400
-Received: from box.trvn.ru ([194.87.146.52]:57885 "EHLO box.trvn.ru"
+        id S243547AbhJ0S2G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Oct 2021 14:28:06 -0400
+Received: from box.trvn.ru ([194.87.146.52]:33939 "EHLO box.trvn.ru"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S243548AbhJ0S2D (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Oct 2021 14:28:03 -0400
-X-Greylist: delayed 608 seconds by postgrey-1.27 at vger.kernel.org; Wed, 27 Oct 2021 14:28:02 EDT
+        id S243548AbhJ0S2F (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 27 Oct 2021 14:28:05 -0400
 Received: from authenticated-user (box.trvn.ru [194.87.146.52])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by box.trvn.ru (Postfix) with ESMTPSA id ADEE640479;
-        Wed, 27 Oct 2021 23:15:22 +0500 (+05)
+        by box.trvn.ru (Postfix) with ESMTPSA id 2230C4047A;
+        Wed, 27 Oct 2021 23:15:24 +0500 (+05)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trvn.ru; s=mail;
-        t=1635358523; bh=cgMxHApRNl6TXjF/C5V/IAMZObp9+7rkC+EiakS/tAo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=djt9v8/mLwnSw0GlyKlJWKqkdLrabdzGvUb99M/QdNc6/pZEKMeL1cn3utAjBrYJ6
-         Rpso8U0iYWpEzgqwoe64wskyaVtrVflOARciw0lXfIo2ire8lCFG0JOe/fjRlWzqZq
-         QfgDYjqLj3a+6+aq7QvGzmyjuDyWENZ2hByStt+RAbqggzlN+WTUpMrOKANCwwAJAz
-         RxD1JlOJO/chEpbBbYQtlSmQkd4dqkfOL1GDNml57y8HWJu+XqycdEt7WsC8n/0nLl
-         tV20MBW1ytqZdOwjXkAzrC2HpRFn9POX2cDi4EvI6k3+jgnIgLXuCaiEez+MmfXHl8
-         0pIRAOHXota7Q==
+        t=1635358524; bh=8ur6ICJjhsS/B9AMUYVjZwUeQ8Fruu3EV0crM9k9t8g=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=RdM13EQS5ZdPyrCODJuOwTm1+Yjlly7H3j12t7/K6vo6zTyyY5rE4MniUZsZJ7c3b
+         q3RGTxHp4thKHxqlvyjgkw65BJ6z83lQq7cOliBOosAIDzKRR/0uAlUOjX5nwHgj5p
+         Aih+RRy3xCM25KoVH+2/QytGyVcXxrdD6u+wFNhpVAaPxr4ZlY8aXESogVORkR7U5W
+         At6E0FQGiRBb0QdMDN1APu6LX6fJ0O+m21gmVfhf60X6DGUJup1GRWYOT379QffFx7
+         C7/kMiS3S/v0yg6gajNQ97BtFrCL+X2mOxPT8FqEhtkl//BUtoMDQxsyHOuLXz8xcl
+         G9W9sZO4Y8ZOQ==
 From:   Nikita Travkin <nikita@trvn.ru>
 To:     dmitry.torokhov@gmail.com
 Cc:     robh+dt@kernel.org, Michael.Srba@seznam.cz,
@@ -34,45 +33,66 @@ Cc:     robh+dt@kernel.org, Michael.Srba@seznam.cz,
         phone-devel@vger.kernel.org, linux-kernel@vger.kernel.org,
         ~postmarketos/upstreaming@lists.sr.ht,
         Nikita Travkin <nikita@trvn.ru>
-Subject: [PATCH 0/6] Add touch-keys support to the Zinitix touch driver
-Date:   Wed, 27 Oct 2021 23:13:44 +0500
-Message-Id: <20211027181350.91630-1-nikita@trvn.ru>
+Subject: [PATCH 1/6] input: touchscreen: zinitix: Make sure the IRQ is allocated before it gets enabled
+Date:   Wed, 27 Oct 2021 23:13:45 +0500
+Message-Id: <20211027181350.91630-2-nikita@trvn.ru>
+In-Reply-To: <20211027181350.91630-1-nikita@trvn.ru>
+References: <20211027181350.91630-1-nikita@trvn.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This series adds support for the touch-keys that can be present on some
-touchscreen configurations, adds the compatible for bt532 and fixes a
-small race condition bug in the driver probe function.
+Since irq request is the last thing in the driver probe, it happens
+later than the input device registration. This means that there is a
+small time window where if the open method is called the driver will
+attempt to enable not yet available irq.
 
-I also pick up the series that converts the dt bindings to yaml
-initially submitted by Linus Walleij in [1].
-I made some minor changes to those patches:
- - Fixed dt_schema_check error
- - Adressed the review comments from Dmitry on the original series
+Fix that by moving the irq request before the input device registration.
 
-[1] https://lore.kernel.org/linux-input/20210625113435.2539282-1-linus.walleij@linaro.org/
+Fixes: 26822652c85e ("Input: add zinitix touchscreen driver")
+Signed-off-by: Nikita Travkin <nikita@trvn.ru>
+---
+ drivers/input/touchscreen/zinitix.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-Linus Walleij (2):
-  dt-bindings: input/ts/zinitix: Convert to YAML, fix and extend
-  Input: zinitix - Handle proper supply names
-
-Nikita Travkin (4):
-  input: touchscreen: zinitix: Make sure the IRQ is allocated before it
-    gets enabled
-  input: touchscreen: zinitix: Add compatible for bt532
-  dt-bindings: input: zinitix: Document touch-keys support
-  input: touchscreen: zinitix: Add touchkey support
-
- .../input/touchscreen/zinitix,bt400.yaml      | 123 ++++++++++++++++++
- .../bindings/input/touchscreen/zinitix.txt    |  40 ------
- drivers/input/touchscreen/zinitix.c           | 101 +++++++++++---
- 3 files changed, 207 insertions(+), 57 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix,bt400.yaml
- delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix.txt
-
+diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
+index b8d901099378..1e70b8d2a8d7 100644
+--- a/drivers/input/touchscreen/zinitix.c
++++ b/drivers/input/touchscreen/zinitix.c
+@@ -488,6 +488,15 @@ static int zinitix_ts_probe(struct i2c_client *client)
+ 		return error;
+ 	}
+ 
++	error = devm_request_threaded_irq(&client->dev, client->irq,
++					  NULL, zinitix_ts_irq_handler,
++					  IRQF_ONESHOT | IRQF_NO_AUTOEN,
++					  client->name, bt541);
++	if (error) {
++		dev_err(&client->dev, "Failed to request IRQ: %d\n", error);
++		return error;
++	}
++
+ 	error = zinitix_init_input_dev(bt541);
+ 	if (error) {
+ 		dev_err(&client->dev,
+@@ -513,15 +522,6 @@ static int zinitix_ts_probe(struct i2c_client *client)
+ 		return -EINVAL;
+ 	}
+ 
+-	error = devm_request_threaded_irq(&client->dev, client->irq,
+-					  NULL, zinitix_ts_irq_handler,
+-					  IRQF_ONESHOT | IRQF_NO_AUTOEN,
+-					  client->name, bt541);
+-	if (error) {
+-		dev_err(&client->dev, "Failed to request IRQ: %d\n", error);
+-		return error;
+-	}
+-
+ 	return 0;
+ }
+ 
 -- 
 2.30.2
 
