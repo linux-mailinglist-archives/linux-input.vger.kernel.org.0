@@ -2,140 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F0CA440700
-	for <lists+linux-input@lfdr.de>; Sat, 30 Oct 2021 04:54:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DE9D4407CE
+	for <lists+linux-input@lfdr.de>; Sat, 30 Oct 2021 09:11:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231497AbhJ3C5H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 29 Oct 2021 22:57:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229700AbhJ3C5G (ORCPT
+        id S231492AbhJ3HN5 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Sat, 30 Oct 2021 03:13:57 -0400
+Received: from 219-87-183-172.static.tfn.net.tw ([219.87.183.172]:33171 "EHLO
+        ms4.kntech.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231631AbhJ3HN4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 29 Oct 2021 22:57:06 -0400
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B4C6C061570;
-        Fri, 29 Oct 2021 19:54:37 -0700 (PDT)
-Received: by mail-qt1-x82a.google.com with SMTP id r2so9677195qtw.12;
-        Fri, 29 Oct 2021 19:54:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jB7wLuFVeBRaCCuZXBeTJY8kZP4RLd0O4+lxl57Ejj8=;
-        b=bp3cs1RuPFFgh34vTSzop9PmgEAtvFBeGvPnagP/eExiK8w7UIeeGzHZANNFDzOjfv
-         oqkcB3LAIt5d5X0Tx13EWf89UT0itwa8yNtwvUfYYV9HE3twFjFKEQeYwgA5LQmf8yBx
-         WZ6fXj49FkZR1vezIuWnmAGRM8iQQYq26HiOSoVAzdtoTNKZzVJbZ+/Y7h0j0mBeUF/v
-         XJwi1HfFymuc6Bx9lSoxn+8f/fNyC6t62ektH44FoOLLi1YCzznAXQpXTqG1BSDXZBR4
-         8GukG25iRi+w26NZPCTgYre5tk9Hj7wpvhHjAJJfzRwyEOhNe6K5OxPng0EbzHW7pMJj
-         mM/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jB7wLuFVeBRaCCuZXBeTJY8kZP4RLd0O4+lxl57Ejj8=;
-        b=M925VNHIuCP1/vQFw9FAN2hSHEPYiZR2XRVC3ZB+cFLQEIYKM+u6EmWuGHrv7OdIoS
-         qFJeCC97eTwTesvobaf9IptVX6i1Kv37iWsXBgkfgSb26SrI4NCMXVO5/LcAnNepjGVL
-         iApiM8nqsJEoV5UG7h7eru7QWK6/ny7NqRWiV6MWIkPdWCkb+XARIt1mP/InZgoYtT1h
-         qZ4UCXa5ysrREQbZzgeZDlTI/OpLxh+rHJPCemKAiwAtoEjbH37OuxkPE5i1AlaMpiZr
-         web76gddgJR0Ui1U/mztC1rRBh3XuISKX64/v7pFKG5tYHYvBax1mZnedf0nZGWGxc92
-         3gLw==
-X-Gm-Message-State: AOAM530+yzKZI0EDxBDwGYignQK9vWLiF0V8vk/xAAR4c/cJVeffsQpn
-        OJIbioOvUa8rg/baVXx4DjNB/lwnH9+b6kvosyKtjKZBsahJog==
-X-Google-Smtp-Source: ABdhPJxMa0vbfx6UgHhODBZymu7reXsvFbwtEjSJvWCgP57vbFVBw6Q9h2Y2pGjdEOLuQEhE3pq/+889F5L0aZRjZ/o=
-X-Received: by 2002:ac8:5cc5:: with SMTP id s5mr16045347qta.256.1635562476163;
- Fri, 29 Oct 2021 19:54:36 -0700 (PDT)
+        Sat, 30 Oct 2021 03:13:56 -0400
+Received: from [103.27.239.15] ([103.27.239.15])
+        (authenticated bits=0)
+        by ms4.kntech.com.tw (8.13.8/8.13.8) with ESMTP id 19RF2197017884
+        for <linux-input@vger.kernel.org>; Wed, 27 Oct 2021 23:02:05 +0800
+Message-Id: <202110271502.19RF2197017884@ms4.kntech.com.tw>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-References: <20211022232837.18988-1-ping.cheng@wacom.com> <CAF8JNhJKcB4n98SgD9Q-ETeF_465k7bqgijt+vDBLh5AqMWGrQ@mail.gmail.com>
-In-Reply-To: <CAF8JNhJKcB4n98SgD9Q-ETeF_465k7bqgijt+vDBLh5AqMWGrQ@mail.gmail.com>
-From:   Ping Cheng <pinglinux@gmail.com>
-Date:   Fri, 29 Oct 2021 19:54:24 -0700
-Message-ID: <CAF8JNhJQo3dbT7=2z1NV3+FkCBRuoW4uhWV6U=TEU6mOLf2w3w@mail.gmail.com>
-Subject: Re: [PATCH] HID: input: fix the incorrectly reported
- BTN_TOOL_RUBBER/PEN tools
-To:     jikos@kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@gmail.com>
-Cc:     linux-input@vger.kernel.org, stable@vger.kernel.org,
-        Jason Gerecke <killertofu@gmail.com>,
-        Tatsunosuke Tobita <junkpainting@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Dear Friend,
+To:     linux-input@vger.kernel.org
+From:   "Wahid Majrooh" <wnf@sendayan.com.my>
+Date:   Wed, 27 Oct 2021 22:02:20 +0700
+Reply-To: wfnngaf@gmail.com
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Ok, I know why no one follow-up with my patch. Life wasn't as simple
-as I wished for :).
+Dear Friend,
 
-The patch missed one important fact: repeated events don't go into
-userland. They are filtered! We need to initiate another input_dev to
-hold all the past events for the coming tool, whether it is PEN or
-RUBBER. So, it is more like a simplified multi-pen case, right? What's
-your suggestions? Do we claim two tools for this particular use case?
+I am writing to you to make a proposal regarding Investing in your
+country. I am proposing to you a business development Investment in
+housing and health sector or any other sector you can recommend. My name
+is Wahid Majrooh. Former  acting Minister of Public Health of
+Afghanistan.
 
-On Wed, Oct 27, 2021 at 12:06 PM Ping Cheng <pinglinux@gmail.com> wrote:
->
-> Hi @Dmitry Torokhov and @Benjamin Tissoires,
->
-> Do you have any comments about this patch? The issue and the logic
-> behind the fix has been explained in the commit comment and in the
-> code. Jiri is probably waiting for an acknowledgment from one of
-> you...
->
-> Thank you,
-> Ping
->
-> On Fri, Oct 22, 2021 at 4:29 PM Ping Cheng <pinglinux@gmail.com> wrote:
-> >
-> > The HID_QUIRK_INVERT caused BTN_TOOL_RUBBER events were reported at the
-> > same time as events for BTN_TOOL_PEN/PENCIL/etc, if HID_QUIRK_INVERT
-> > was set by a stylus' sideswitch. The reality is that a pen can only be
-> > a stylus (writing/drawing) or an eraser, but not both at the same time.
-> > This patch makes that logic correct.
-> >
-> > CC: stable@vger.kernel.org # 2.4+
-> > Signed-off-by: Ping Cheng <ping.cheng@wacom.com>
-> > Reviewed-by: Jason Gerecke <killertofu@gmail.com>
-> > Tested-by: Tatsunosuke Tobita <junkpainting@gmail.com>
-> > ---
-> >  drivers/hid/hid-input.c | 24 ++++++++++++++++++++----
-> >  1 file changed, 20 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> > index 4b5ebeacd283..85741a2d828d 100644
-> > --- a/drivers/hid/hid-input.c
-> > +++ b/drivers/hid/hid-input.c
-> > @@ -1344,12 +1344,28 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
-> >         }
-> >
-> >         if (usage->hid == HID_DG_INRANGE) {
-> > +               /* when HID_QUIRK_INVERT is set by a stylus sideswitch, HID_DG_INRANGE could be
-> > +                * for stylus or eraser. Make sure events are only posted to the current valid tool:
-> > +                * BTN_TOOL_RUBBER vs BTN_TOOL_PEN/BTN_TOOL_PENCIL/BTN_TOOL_BRUSH/etc since a pen
-> > +                * can not be used as a stylus (to draw/write) and an erasaer at the same time
-> > +                */
-> > +               static unsigned int last_code = 0;
-> > +               unsigned int code = (*quirks & HID_QUIRK_INVERT) ? BTN_TOOL_RUBBER : usage->code;
-> >                 if (value) {
-> > -                       input_event(input, usage->type, (*quirks & HID_QUIRK_INVERT) ? BTN_TOOL_RUBBER : usage->code, 1);
-> > -                       return;
-> > +                       if (code != last_code) {
-> > +                               /* send the last tool out before allow the new one in */
-> > +                               if (last_code)
-> > +                                       input_event(input, usage->type, last_code, 0);
-> > +                               input_event(input, usage->type, code, 1);
-> > +                       }
-> > +                       last_code = code;
-> > +               } else {
-> > +                       /* only send the last valid tool out */
-> > +                       if (last_code)
-> > +                               input_event(input, usage->type, last_code, 0);
-> > +                       /* reset tool for next cycle */
-> > +                       last_code = 0;
-> >                 }
-> > -               input_event(input, usage->type, usage->code, 0);
-> > -               input_event(input, usage->type, BTN_TOOL_RUBBER, 0);
-> >                 return;
-> >         }
-> >
-> > --
-> > 2.25.1
-> >
+
+Sincerely
+
+Wahid
