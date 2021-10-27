@@ -2,112 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22C7A43CBB1
-	for <lists+linux-input@lfdr.de>; Wed, 27 Oct 2021 16:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47BC343CEED
+	for <lists+linux-input@lfdr.de>; Wed, 27 Oct 2021 18:46:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235305AbhJ0OO4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Oct 2021 10:14:56 -0400
-Received: from mail-oo1-f43.google.com ([209.85.161.43]:33466 "EHLO
-        mail-oo1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232901AbhJ0OOz (ORCPT
+        id S242927AbhJ0QtM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Oct 2021 12:49:12 -0400
+Received: from mail-oo1-f46.google.com ([209.85.161.46]:44743 "EHLO
+        mail-oo1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237657AbhJ0QtJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Oct 2021 10:14:55 -0400
-Received: by mail-oo1-f43.google.com with SMTP id q39-20020a4a962a000000b002b8bb100791so983235ooi.0;
-        Wed, 27 Oct 2021 07:12:30 -0700 (PDT)
+        Wed, 27 Oct 2021 12:49:09 -0400
+Received: by mail-oo1-f46.google.com with SMTP id w10-20020a4a274a000000b002b6e972caa1so1113847oow.11;
+        Wed, 27 Oct 2021 09:46:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=xHwTiCe25Vq0S+cLU9+jyc/EEHh4jWHAnrWkyaRQ0AU=;
-        b=aX+OblF28wUgMIviTSKtwNYuLlRB1bjfN87+rBO9Sr2nPJERmMIKUcFiAt00nPPEcM
-         Q+hktmxVU5B01hY3oZ9o47vK3FcaOMa9K/L4IzWHMtZOLY8XjOodE2FtC5p8bzn6P/gU
-         tvarbl8oXC5UW45AZ45rZTJsb1K6e/vBhA2h+UFeIVLOc6tYTXN744+rSPI5qSm4YdpL
-         uYGbOP1m3GDlm4/EIQlyhU/miLbbzHGI3vx+bzU2EZwa0sDrq9xoAqe+O4Zrwr7dI0uk
-         2ODyNaLgAcx8oW3AHIeBO8pTwkq8xYFgyusxlVBkDWUZG1aJvm2dxCtTw/90a2d51D7m
-         kyMg==
-X-Gm-Message-State: AOAM533fK/Z6cPQi06pDsiR2klCUrtc3xZLBBNw0M/gvVOtTSdbMu6po
-        b1VGLBMZIWIUPR8mT05+9A==
-X-Google-Smtp-Source: ABdhPJyZEjWOZ4sONCj9i+vxmlu+p2sO7NBgcLV+PbDqKV1EGUTjJo5g7D3M9LI8MuRor18zTgUPbA==
-X-Received: by 2002:a4a:9682:: with SMTP id s2mr22607921ooi.29.1635343949733;
-        Wed, 27 Oct 2021 07:12:29 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=viizohHp65Ko8chst0M70ML0grbLG1AUnGTjZwZ4hvA=;
+        b=MOrtUHI3ELT53mK6L2Fds+SNiujFc0ZPzHF7jBprz5FBS3QFea8bbuveCPveTUAeio
+         Y6FlIb9M7oaBmx/z7zzdcFNlSYn1ZZpmPTFeEF9kpz6VcZVvf5ZgLehmbk4uTOdIbdLp
+         5JAlqsgByE+DDdKwohhbXO24xyiBS/BNd2wFM/Q0tVEqVhcu8ONZPwrBHTo1DN4Ole3s
+         q8AZbxJiVT+QumMABlY5LtpeU8VQDCPdBwyYFqbRwKD1f1fVGFCx35k2AvncJDC244vE
+         loC4LTeRnZqlwNYcZWvmWOxfD+11jCWwaOsucAzrX7fVARkYjw8CShNC1TPp3pQmG0FX
+         j2Bg==
+X-Gm-Message-State: AOAM530BxAp6Hjuqq8p8bEAa6Brk9bc5VrJ2NDgvAl/nynd7k4Ulk2tc
+        vggtX2pwjFQvXOoCAVXpFQ==
+X-Google-Smtp-Source: ABdhPJzjMsMIryaqgvXa7F/AAD604FsFKkyTK1MsoWYdYAJGdhnDUsV4p8MLWM/ardODANWpQ11QUg==
+X-Received: by 2002:a4a:c883:: with SMTP id t3mr23046525ooq.58.1635353203170;
+        Wed, 27 Oct 2021 09:46:43 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id t18sm18764otd.37.2021.10.27.07.12.28
+        by smtp.gmail.com with ESMTPSA id m34sm156556ooi.16.2021.10.27.09.46.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Oct 2021 07:12:29 -0700 (PDT)
-Received: (nullmailer pid 862168 invoked by uid 1000);
-        Wed, 27 Oct 2021 14:12:28 -0000
+        Wed, 27 Oct 2021 09:46:42 -0700 (PDT)
+Received: (nullmailer pid 1475077 invoked by uid 1000);
+        Wed, 27 Oct 2021 16:46:41 -0000
+Date:   Wed, 27 Oct 2021 11:46:41 -0500
 From:   Rob Herring <robh@kernel.org>
-To:     Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>, linux-rtc@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        linux-watchdog@vger.kernel.org,
-        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
-        Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
-        Support Opensource <support.opensource@diasemi.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-In-Reply-To: <20211027052323.1788476-2-alexandre.ghiti@canonical.com>
-References: <20211027052323.1788476-1-alexandre.ghiti@canonical.com> <20211027052323.1788476-2-alexandre.ghiti@canonical.com>
-Subject: Re: [PATCH 2/2] dt-bindings: Migrate DA9063 text bindings to YAML
-Date:   Wed, 27 Oct 2021 09:12:28 -0500
-Message-Id: <1635343948.038781.862167.nullmailer@robh.at.kernel.org>
+To:     Alistair Francis <alistair@alistair23.me>
+Cc:     s.hauer@pengutronix.de, benjamin.tissoires@redhat.com,
+        dmitry.torokhov@gmail.com, shawnguo@kernel.org,
+        alistair23@gmail.com, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-imx@nxp.com,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        jikos@kernel.org
+Subject: Re: [PATCH v13 2/3] HID: i2c-hid-of: Expose the touchscreen-inverted
+ properties
+Message-ID: <YXmCcXfY9GZzyZAN@robh.at.kernel.org>
+References: <20211025104605.36364-1-alistair@alistair23.me>
+ <20211025104605.36364-2-alistair@alistair23.me>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211025104605.36364-2-alistair@alistair23.me>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 27 Oct 2021 07:23:23 +0200, Alexandre Ghiti wrote:
-> DA9063 devices bindings used text format, so migrate those bindings to YAML
-> format before adding any new bindings.
+On Mon, Oct 25, 2021 at 08:46:04PM +1000, Alistair Francis wrote:
+> Allow the touchscreen-inverted-x/y device tree properties to control the
+> HID_QUIRK_X_INVERT/HID_QUIRK_Y_INVERT quirks for the hid-input device.
 > 
-> Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+> Signed-off-by: Alistair Francis <alistair@alistair23.me>
 > ---
->  .../bindings/input/da9063-onkey.yaml          |  39 ++++++
->  .../devicetree/bindings/mfd/da9063.txt        | 111 ------------------
->  .../devicetree/bindings/mfd/da9063.yaml       |  98 ++++++++++++++++
->  .../bindings/regulator/da9063-regulator.yaml  |  51 ++++++++
->  .../devicetree/bindings/rtc/da9063-rtc.yaml   |  31 +++++
->  .../bindings/watchdog/da9063-watchdog.yaml    |  31 +++++
->  6 files changed, 250 insertions(+), 111 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/input/da9063-onkey.yaml
->  delete mode 100644 Documentation/devicetree/bindings/mfd/da9063.txt
->  create mode 100644 Documentation/devicetree/bindings/mfd/da9063.yaml
->  create mode 100644 Documentation/devicetree/bindings/regulator/da9063-regulator.yaml
->  create mode 100644 Documentation/devicetree/bindings/rtc/da9063-rtc.yaml
->  create mode 100644 Documentation/devicetree/bindings/watchdog/da9063-watchdog.yaml
-> 
+>  .../devicetree/bindings/input/hid-over-i2c.txt        |  2 ++
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Acked-by: Rob Herring <robh@kernel.org>
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/mfd/da9063.yaml:26:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/mfd/da9063.yaml:27:11: [warning] wrong indentation: expected 12 but found 10 (indentation)
-
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/mfd/da9063.example.dts:21.17-18 syntax error
-FATAL ERROR: Unable to parse input tree
-make[1]: *** [scripts/Makefile.lib:385: Documentation/devicetree/bindings/mfd/da9063.example.dt.yaml] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1441: dt_binding_check] Error 2
-
-doc reference errors (make refcheckdocs):
-Documentation/devicetree/bindings/input/da9062-onkey.txt: Documentation/devicetree/bindings/mfd/da9063.txt
-
-See https://patchwork.ozlabs.org/patch/1546751
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+>  drivers/hid/i2c-hid/i2c-hid-acpi.c                    |  2 +-
+>  drivers/hid/i2c-hid/i2c-hid-core.c                    |  4 +++-
+>  drivers/hid/i2c-hid/i2c-hid-of-goodix.c               |  2 +-
+>  drivers/hid/i2c-hid/i2c-hid-of.c                      | 11 ++++++++++-
+>  drivers/hid/i2c-hid/i2c-hid.h                         |  2 +-
+>  6 files changed, 18 insertions(+), 5 deletions(-)
