@@ -2,243 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A10C43C763
-	for <lists+linux-input@lfdr.de>; Wed, 27 Oct 2021 12:11:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7FA043C9A7
+	for <lists+linux-input@lfdr.de>; Wed, 27 Oct 2021 14:28:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239548AbhJ0KNX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Oct 2021 06:13:23 -0400
-Received: from 82-65-109-163.subs.proxad.net ([82.65.109.163]:50224 "EHLO
-        luna.linkmauve.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241326AbhJ0KNS (ORCPT
+        id S237502AbhJ0MbG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Oct 2021 08:31:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44190 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232724AbhJ0MbG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Oct 2021 06:13:18 -0400
-Received: by luna.linkmauve.fr (Postfix, from userid 1000)
-        id 55C5EF40CA7; Wed, 27 Oct 2021 12:10:49 +0200 (CEST)
-From:   Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
-        linux-input@vger.kernel.org, Ash Logan <ash@heyquark.com>,
-        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.ne@posteo.net>,
-        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>
-Subject: [PATCH v5 5/5] HID: nintendo: drc: add battery reporting
-Date:   Wed, 27 Oct 2021 12:10:43 +0200
-Message-Id: <20211027101043.31609-6-linkmauve@linkmauve.fr>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211027101043.31609-1-linkmauve@linkmauve.fr>
-References: <20211019110418.26874-1-linkmauve@linkmauve.fr>
- <20211027101043.31609-1-linkmauve@linkmauve.fr>
+        Wed, 27 Oct 2021 08:31:06 -0400
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250F3C061570;
+        Wed, 27 Oct 2021 05:28:41 -0700 (PDT)
+Received: by mail-io1-xd34.google.com with SMTP id r194so3404062iod.7;
+        Wed, 27 Oct 2021 05:28:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=+NSeNdDBdXhQ+pOeFQyEinJIauVf8QrglUD04cdh1Yc=;
+        b=SISfreNzkthVhyjTuLbvT5Z4/YJUJ3DgeXJEIzD0NsprtBQgsHA1sEokqVMK/vfMID
+         RzUdC8hw04JFZeSkxhQcvheLB+SPG//xrNHj7HEYG0HRph5VeClvnSWsqUzfS1PNTwkF
+         yCJQ8X1pgi9RkZkB4h5zaSywPe7rY6ErGS/b3o3ocqSEd6sQnMaYHSXrx5/QrkTsqiXw
+         vx5YQadcnmgRoaWHR8GLofvo9ahiaZ+7rIGQ/tqLl1YpfcnNOp4iqKx4740xi83c2gyC
+         U/OVfrorZfe6U3dRCBkjSeLyrtydlPHbZYI0KMdZcDFiJjBmOi0TBNuiEKPgNL9qHQab
+         MMsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=+NSeNdDBdXhQ+pOeFQyEinJIauVf8QrglUD04cdh1Yc=;
+        b=sfU3zSPEc4xMKe4/ow63tsrM1o9QdDBQ4FXmKBSObU2Yp/yh7NmHrJguCGbFVcEoer
+         8TMCs/ReA2IBLT5ecpk5ZIJ9VvzIc9OTKUoezY4sCqFo77/qUv35A75BWoWCZ2kZ1AsR
+         HDRvjG5+Cs1ETJxBIDtTXVXgY6UwQoXy8GEAGJLQDvdkWwTRbf7Fp8yaZzUFllscu1Tl
+         e/hFgWuJi/+XJBooahwCzOBELilZAL/myD4hDU0ByHkC9YUcly+QwFTnBMfQ6sfXuzI6
+         kkfJ0V14J/GPFBvQImr5BF/wEV5Wp96rwyZ9F3WsS6B//lYQp3rHBRdSiQZDGuMnqeub
+         j1ug==
+X-Gm-Message-State: AOAM530H9IaQm2kb6ya1WSPzAHdA/IIlYiYcJc/bQhlbaq0M/6VUNY88
+        hzt7KLhYjqCzisjDVjYOI2i7g3dKKiKZy8kxfIpC6kZ97I0ZJ2SCas4=
+X-Google-Smtp-Source: ABdhPJw98rwqM4ZG10H38hCEsPp2u0wkY+aDpqsYZSWalN9/BonBVx7JrS+n6eijt6vNzO8lcgkePHudz1SzL1ZPFm0=
+X-Received: by 2002:a6b:6e0e:: with SMTP id d14mr16933881ioh.57.1635337720530;
+ Wed, 27 Oct 2021 05:28:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211025114214.44617-1-alistair@alistair23.me>
+ <20211025114214.44617-3-alistair@alistair23.me> <CACRpkdYjBM9Pu=rO8SqfGvpP_fGeD=2YCqh+Rh-bOVq_k2S6CQ@mail.gmail.com>
+ <20211026091616.7d9d05e4@aktux>
+In-Reply-To: <20211026091616.7d9d05e4@aktux>
+From:   Alistair Francis <alistair23@gmail.com>
+Date:   Wed, 27 Oct 2021 22:28:14 +1000
+Message-ID: <CAKmqyKPkHC4sAt2O3b8NphrbwroZB=Dn8qEoHxtc_2=DpTkKPg@mail.gmail.com>
+Subject: Re: [PATCH 2/4] Documentation: DT: bindings: input: Add documentation
+ for cyttsp5
+To:     Andreas Kemnade <andreas@kemnade.info>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Alistair Francis <alistair@alistair23.me>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Mylene Josserand <mylene.josserand@free-electrons.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On my DRC the values only go between 142 (battery LED blinking red
-before shutdown) and 178 (charge LED stopping), it seems to be the same
-on other units according to other testers.  This might be the raw
-voltage value as reported by an ADC, so adding a linear interpolation
-between two common battery voltage values.
+On Tue, Oct 26, 2021 at 5:16 PM Andreas Kemnade <andreas@kemnade.info> wrot=
+e:
+>
+> On Tue, 26 Oct 2021 01:18:24 +0200
+> Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> > Hi Alistair,
+> >
+> > On Mon, Oct 25, 2021 at 1:42 PM Alistair Francis <alistair@alistair23.m=
+e> wrote:
+> >
+> > > From: Myl=C3=A8ne Josserand <mylene.josserand@free-electrons.com>
+> > >
+> > > Add the Cypress TrueTouch Generation 5 touchscreen device tree bindin=
+gs
+> > > documentation. It can use I2C or SPI bus.
+> > > This touchscreen can handle some defined zone that are designed and
+> > > sent as button. To be able to customize the keycode sent, the
+> > > "linux,code" property in a "button" sub-node can be used.
+> > >
+> > > Signed-off-by: Myl=C3=A8ne Josserand <mylene.josserand@free-electrons=
+.com>
+> > > Message-Id: <20170529144538.29187-3-mylene.josserand@free-electrons.c=
+om>
+> > > Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> >
+> > > +title: Cypress cyttsp touchscreen controller, generation 5
+> > (...)
+> > > +  compatible:
+> > > +    const: cypress,cyttsp5
+> >
+> > Is this the real product name? When I rewrote the bindings for
+> > the original "CYTTSP", actually "Cypress TrueTouch Standard Product"
+> > it came out that the actual product names were CY8CTMA340
+> > and CY8CTMA341. "CYTTSP" was a marketing name for the
+> > whole family.
+> >
+> > See
+> > Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma340.=
+yaml
+> >
+> > If the actual products have some product names such as
+> > CY8* then use these as compatibles instead and just write in the
+> > decription that it is Cypress TrueTouch Standard Product series 5.
+> >
+> Since I have uptreamed 4 devicetrees containing that touchscreen (and
+> marked that as todo). I tried to look it up:
+> https://fccid.io/NOIKBN249/Internal-Photos/Internal-Photos-3802584.pdf
+>
+> Page 4 might be interesting. Something below that 3d code (zbarimg does
+> not recognize it) Peeling up the label reveals:
+> TT21000
+> -44LQI
+> 1802 TWN
+> 6491U0 (two illegible characters)
+>
+> You find it in the net:
+> https://www.digipart.com/part/TT21000-48LQI36T
 
-A spinlock is used to avoid the battery level and status from being
-reported unsynchronised.
+Thanks!
 
-Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
----
- drivers/hid/hid-nintendo-wiiu.c | 136 ++++++++++++++++++++++++++++++++
- 1 file changed, 136 insertions(+)
+So I'll change the name to cypress,tt21000
 
-diff --git a/drivers/hid/hid-nintendo-wiiu.c b/drivers/hid/hid-nintendo-wiiu.c
-index 813abb104275..b18fa403eb42 100644
---- a/drivers/hid/hid-nintendo-wiiu.c
-+++ b/drivers/hid/hid-nintendo-wiiu.c
-@@ -17,6 +17,11 @@
- #include <linux/input.h>
- #include <linux/minmax.h>
- #include <linux/module.h>
-+#ifdef CONFIG_HID_BATTERY_STRENGTH
-+#include <linux/fixp-arith.h>
-+#include <linux/power_supply.h>
-+#include <linux/spinlock.h>
-+#endif
- #include "hid-ids.h"
- #include "hid-nintendo.h"
- 
-@@ -72,6 +77,13 @@
- #define MAGNET_MIN	-(1 << 15)
- #define MAGNET_MAX	((1 << 15) - 1)
- 
-+/* ADC constants for the battery */
-+#define BATTERY_CHARGING_BIT	BIT(6)
-+#define BATTERY_MIN	142
-+#define BATTERY_MAX	178
-+#define VOLTAGE_MIN	3270000
-+#define VOLTAGE_MAX	4100000
-+
- /*
-  * The device is setup with multiple input devices:
-  * - A joypad with the buttons and sticks.
-@@ -85,6 +97,14 @@ struct drc {
- 	struct input_dev *joy_input_dev;
- 	struct input_dev *touch_input_dev;
- 	struct input_dev *accel_input_dev;
-+
-+#ifdef CONFIG_HID_BATTERY_STRENGTH
-+	struct power_supply *battery;
-+	struct power_supply_desc battery_desc;
-+	spinlock_t battery_lock;
-+	u8 battery_energy;
-+	int battery_status;
-+#endif
- };
- 
- /*
-@@ -101,6 +121,9 @@ int wiiu_hid_event(struct hid_device *hdev, struct hid_report *report,
- 	struct drc *drc = hid_get_drvdata(hdev);
- 	int i, x, y, z, pressure, base;
- 	u32 buttons;
-+#ifdef CONFIG_HID_BATTERY_STRENGTH
-+	unsigned long flags;
-+#endif
- 
- 	if (len != 128)
- 		return -EINVAL;
-@@ -219,6 +242,19 @@ int wiiu_hid_event(struct hid_device *hdev, struct hid_report *report,
- 	input_report_abs(drc->accel_input_dev, ABS_WHEEL, (int16_t)z);
- 	input_sync(drc->accel_input_dev);
- 
-+#ifdef CONFIG_HID_BATTERY_STRENGTH
-+	/* battery */
-+	spin_lock_irqsave(&drc->battery_lock, flags);
-+	drc->battery_energy = data[5];
-+	if (drc->battery_energy == BATTERY_MAX)
-+		drc->battery_status = POWER_SUPPLY_STATUS_FULL;
-+	else if (data[4] & BATTERY_CHARGING_BIT)
-+		drc->battery_status = POWER_SUPPLY_STATUS_CHARGING;
-+	else
-+		drc->battery_status = POWER_SUPPLY_STATUS_DISCHARGING;
-+	spin_unlock_irqrestore(&drc->battery_lock, flags);
-+#endif
-+
- 	/* let hidraw and hiddev handle the report */
- 	return 0;
- }
-@@ -368,6 +404,98 @@ static bool drc_setup_accel(struct drc *drc,
- 	return true;
- }
- 
-+#ifdef CONFIG_HID_BATTERY_STRENGTH
-+static enum power_supply_property drc_battery_props[] = {
-+	POWER_SUPPLY_PROP_STATUS,
-+	POWER_SUPPLY_PROP_PRESENT,
-+	POWER_SUPPLY_PROP_VOLTAGE_MAX,
-+	POWER_SUPPLY_PROP_VOLTAGE_MIN,
-+	POWER_SUPPLY_PROP_VOLTAGE_NOW,
-+	POWER_SUPPLY_PROP_CAPACITY,
-+	POWER_SUPPLY_PROP_SCOPE,
-+};
-+
-+static int drc_battery_get_property(struct power_supply *psy,
-+				    enum power_supply_property psp,
-+				    union power_supply_propval *val)
-+{
-+	struct drc *drc = power_supply_get_drvdata(psy);
-+	unsigned long flags;
-+	int ret = 0;
-+	u8 battery_energy;
-+	int battery_status;
-+
-+	spin_lock_irqsave(&drc->battery_lock, flags);
-+	battery_energy = drc->battery_energy;
-+	battery_status = drc->battery_status;
-+	spin_unlock_irqrestore(&drc->battery_lock, flags);
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_STATUS:
-+		val->intval = battery_status;
-+		break;
-+	case POWER_SUPPLY_PROP_PRESENT:
-+		val->intval = 1;
-+		break;
-+	case POWER_SUPPLY_PROP_VOLTAGE_MAX:
-+		val->intval = VOLTAGE_MAX;
-+		break;
-+	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
-+		val->intval = VOLTAGE_MIN;
-+		break;
-+	case POWER_SUPPLY_PROP_VOLTAGE_NOW:
-+		val->intval = fixp_linear_interpolate(BATTERY_MIN, VOLTAGE_MIN,
-+						      BATTERY_MAX, VOLTAGE_MAX,
-+						      battery_energy);
-+		break;
-+	case POWER_SUPPLY_PROP_CAPACITY:
-+		val->intval = fixp_linear_interpolate(BATTERY_MIN, 0,
-+						      BATTERY_MAX, 100,
-+						      battery_energy);
-+		break;
-+	case POWER_SUPPLY_PROP_SCOPE:
-+		val->intval = POWER_SUPPLY_SCOPE_DEVICE;
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+	return ret;
-+}
-+
-+static int drc_setup_battery(struct drc *drc,
-+			     struct hid_device *hdev)
-+{
-+	struct power_supply_config psy_cfg = { .drv_data = drc, };
-+	static atomic_t drc_num = ATOMIC_INIT(0);
-+	int ret;
-+
-+	spin_lock_init(&drc->battery_lock);
-+
-+	drc->battery_desc.properties = drc_battery_props;
-+	drc->battery_desc.num_properties = ARRAY_SIZE(drc_battery_props);
-+	drc->battery_desc.get_property = drc_battery_get_property;
-+	drc->battery_desc.type = POWER_SUPPLY_TYPE_BATTERY;
-+	drc->battery_desc.use_for_apm = 0;
-+
-+	drc->battery_desc.name = devm_kasprintf(&hdev->dev, GFP_KERNEL,
-+						"wiiu-drc-%i-battery", atomic_fetch_inc(&drc_num));
-+	if (!drc->battery_desc.name)
-+		return -ENOMEM;
-+
-+	drc->battery = devm_power_supply_register(&hdev->dev, &drc->battery_desc, &psy_cfg);
-+	if (IS_ERR(drc->battery)) {
-+		ret = PTR_ERR(drc->battery);
-+		hid_err(hdev, "Unable to register battery device\n");
-+		return ret;
-+	}
-+
-+	power_supply_powers(drc->battery, &hdev->dev);
-+
-+	return 0;
-+}
-+#endif
-+
- int wiiu_hid_probe(struct hid_device *hdev,
- 		   const struct hid_device_id *id)
- {
-@@ -396,6 +524,14 @@ int wiiu_hid_probe(struct hid_device *hdev,
- 		return -ENOMEM;
- 	}
- 
-+#ifdef CONFIG_HID_BATTERY_STRENGTH
-+	ret = drc_setup_battery(drc, hdev);
-+	if (ret) {
-+		hid_err(hdev, "could not allocate battery interface\n");
-+		return ret;
-+	}
-+#endif
-+
- 	ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW | HID_CONNECT_DRIVER);
- 	if (ret) {
- 		hid_err(hdev, "hw start failed\n");
--- 
-2.33.1
+Alistair
 
+>
+> Regards,
+> Andreas
+>
