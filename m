@@ -2,142 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7FA043C9A7
-	for <lists+linux-input@lfdr.de>; Wed, 27 Oct 2021 14:28:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22C7A43CBB1
+	for <lists+linux-input@lfdr.de>; Wed, 27 Oct 2021 16:12:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237502AbhJ0MbG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Oct 2021 08:31:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44190 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232724AbhJ0MbG (ORCPT
+        id S235305AbhJ0OO4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Oct 2021 10:14:56 -0400
+Received: from mail-oo1-f43.google.com ([209.85.161.43]:33466 "EHLO
+        mail-oo1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232901AbhJ0OOz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Oct 2021 08:31:06 -0400
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250F3C061570;
-        Wed, 27 Oct 2021 05:28:41 -0700 (PDT)
-Received: by mail-io1-xd34.google.com with SMTP id r194so3404062iod.7;
-        Wed, 27 Oct 2021 05:28:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=+NSeNdDBdXhQ+pOeFQyEinJIauVf8QrglUD04cdh1Yc=;
-        b=SISfreNzkthVhyjTuLbvT5Z4/YJUJ3DgeXJEIzD0NsprtBQgsHA1sEokqVMK/vfMID
-         RzUdC8hw04JFZeSkxhQcvheLB+SPG//xrNHj7HEYG0HRph5VeClvnSWsqUzfS1PNTwkF
-         yCJQ8X1pgi9RkZkB4h5zaSywPe7rY6ErGS/b3o3ocqSEd6sQnMaYHSXrx5/QrkTsqiXw
-         vx5YQadcnmgRoaWHR8GLofvo9ahiaZ+7rIGQ/tqLl1YpfcnNOp4iqKx4740xi83c2gyC
-         U/OVfrorZfe6U3dRCBkjSeLyrtydlPHbZYI0KMdZcDFiJjBmOi0TBNuiEKPgNL9qHQab
-         MMsw==
+        Wed, 27 Oct 2021 10:14:55 -0400
+Received: by mail-oo1-f43.google.com with SMTP id q39-20020a4a962a000000b002b8bb100791so983235ooi.0;
+        Wed, 27 Oct 2021 07:12:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=+NSeNdDBdXhQ+pOeFQyEinJIauVf8QrglUD04cdh1Yc=;
-        b=sfU3zSPEc4xMKe4/ow63tsrM1o9QdDBQ4FXmKBSObU2Yp/yh7NmHrJguCGbFVcEoer
-         8TMCs/ReA2IBLT5ecpk5ZIJ9VvzIc9OTKUoezY4sCqFo77/qUv35A75BWoWCZ2kZ1AsR
-         HDRvjG5+Cs1ETJxBIDtTXVXgY6UwQoXy8GEAGJLQDvdkWwTRbf7Fp8yaZzUFllscu1Tl
-         e/hFgWuJi/+XJBooahwCzOBELilZAL/myD4hDU0ByHkC9YUcly+QwFTnBMfQ6sfXuzI6
-         kkfJ0V14J/GPFBvQImr5BF/wEV5Wp96rwyZ9F3WsS6B//lYQp3rHBRdSiQZDGuMnqeub
-         j1ug==
-X-Gm-Message-State: AOAM530H9IaQm2kb6ya1WSPzAHdA/IIlYiYcJc/bQhlbaq0M/6VUNY88
-        hzt7KLhYjqCzisjDVjYOI2i7g3dKKiKZy8kxfIpC6kZ97I0ZJ2SCas4=
-X-Google-Smtp-Source: ABdhPJw98rwqM4ZG10H38hCEsPp2u0wkY+aDpqsYZSWalN9/BonBVx7JrS+n6eijt6vNzO8lcgkePHudz1SzL1ZPFm0=
-X-Received: by 2002:a6b:6e0e:: with SMTP id d14mr16933881ioh.57.1635337720530;
- Wed, 27 Oct 2021 05:28:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211025114214.44617-1-alistair@alistair23.me>
- <20211025114214.44617-3-alistair@alistair23.me> <CACRpkdYjBM9Pu=rO8SqfGvpP_fGeD=2YCqh+Rh-bOVq_k2S6CQ@mail.gmail.com>
- <20211026091616.7d9d05e4@aktux>
-In-Reply-To: <20211026091616.7d9d05e4@aktux>
-From:   Alistair Francis <alistair23@gmail.com>
-Date:   Wed, 27 Oct 2021 22:28:14 +1000
-Message-ID: <CAKmqyKPkHC4sAt2O3b8NphrbwroZB=Dn8qEoHxtc_2=DpTkKPg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] Documentation: DT: bindings: input: Add documentation
- for cyttsp5
-To:     Andreas Kemnade <andreas@kemnade.info>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Alistair Francis <alistair@alistair23.me>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>,
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=xHwTiCe25Vq0S+cLU9+jyc/EEHh4jWHAnrWkyaRQ0AU=;
+        b=aX+OblF28wUgMIviTSKtwNYuLlRB1bjfN87+rBO9Sr2nPJERmMIKUcFiAt00nPPEcM
+         Q+hktmxVU5B01hY3oZ9o47vK3FcaOMa9K/L4IzWHMtZOLY8XjOodE2FtC5p8bzn6P/gU
+         tvarbl8oXC5UW45AZ45rZTJsb1K6e/vBhA2h+UFeIVLOc6tYTXN744+rSPI5qSm4YdpL
+         uYGbOP1m3GDlm4/EIQlyhU/miLbbzHGI3vx+bzU2EZwa0sDrq9xoAqe+O4Zrwr7dI0uk
+         2ODyNaLgAcx8oW3AHIeBO8pTwkq8xYFgyusxlVBkDWUZG1aJvm2dxCtTw/90a2d51D7m
+         kyMg==
+X-Gm-Message-State: AOAM533fK/Z6cPQi06pDsiR2klCUrtc3xZLBBNw0M/gvVOtTSdbMu6po
+        b1VGLBMZIWIUPR8mT05+9A==
+X-Google-Smtp-Source: ABdhPJyZEjWOZ4sONCj9i+vxmlu+p2sO7NBgcLV+PbDqKV1EGUTjJo5g7D3M9LI8MuRor18zTgUPbA==
+X-Received: by 2002:a4a:9682:: with SMTP id s2mr22607921ooi.29.1635343949733;
+        Wed, 27 Oct 2021 07:12:29 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id t18sm18764otd.37.2021.10.27.07.12.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Oct 2021 07:12:29 -0700 (PDT)
+Received: (nullmailer pid 862168 invoked by uid 1000);
+        Wed, 27 Oct 2021 14:12:28 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-rtc@vger.kernel.org,
+        linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Mylene Josserand <mylene.josserand@free-electrons.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Alessandro Zummo <a.zummo@towertech.it>,
+        linux-watchdog@vger.kernel.org,
+        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+        Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
+        Support Opensource <support.opensource@diasemi.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+In-Reply-To: <20211027052323.1788476-2-alexandre.ghiti@canonical.com>
+References: <20211027052323.1788476-1-alexandre.ghiti@canonical.com> <20211027052323.1788476-2-alexandre.ghiti@canonical.com>
+Subject: Re: [PATCH 2/2] dt-bindings: Migrate DA9063 text bindings to YAML
+Date:   Wed, 27 Oct 2021 09:12:28 -0500
+Message-Id: <1635343948.038781.862167.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Oct 26, 2021 at 5:16 PM Andreas Kemnade <andreas@kemnade.info> wrot=
-e:
->
-> On Tue, 26 Oct 2021 01:18:24 +0200
-> Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> > Hi Alistair,
-> >
-> > On Mon, Oct 25, 2021 at 1:42 PM Alistair Francis <alistair@alistair23.m=
-e> wrote:
-> >
-> > > From: Myl=C3=A8ne Josserand <mylene.josserand@free-electrons.com>
-> > >
-> > > Add the Cypress TrueTouch Generation 5 touchscreen device tree bindin=
-gs
-> > > documentation. It can use I2C or SPI bus.
-> > > This touchscreen can handle some defined zone that are designed and
-> > > sent as button. To be able to customize the keycode sent, the
-> > > "linux,code" property in a "button" sub-node can be used.
-> > >
-> > > Signed-off-by: Myl=C3=A8ne Josserand <mylene.josserand@free-electrons=
-.com>
-> > > Message-Id: <20170529144538.29187-3-mylene.josserand@free-electrons.c=
-om>
-> > > Signed-off-by: Alistair Francis <alistair@alistair23.me>
-> >
-> > > +title: Cypress cyttsp touchscreen controller, generation 5
-> > (...)
-> > > +  compatible:
-> > > +    const: cypress,cyttsp5
-> >
-> > Is this the real product name? When I rewrote the bindings for
-> > the original "CYTTSP", actually "Cypress TrueTouch Standard Product"
-> > it came out that the actual product names were CY8CTMA340
-> > and CY8CTMA341. "CYTTSP" was a marketing name for the
-> > whole family.
-> >
-> > See
-> > Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma340.=
-yaml
-> >
-> > If the actual products have some product names such as
-> > CY8* then use these as compatibles instead and just write in the
-> > decription that it is Cypress TrueTouch Standard Product series 5.
-> >
-> Since I have uptreamed 4 devicetrees containing that touchscreen (and
-> marked that as todo). I tried to look it up:
-> https://fccid.io/NOIKBN249/Internal-Photos/Internal-Photos-3802584.pdf
->
-> Page 4 might be interesting. Something below that 3d code (zbarimg does
-> not recognize it) Peeling up the label reveals:
-> TT21000
-> -44LQI
-> 1802 TWN
-> 6491U0 (two illegible characters)
->
-> You find it in the net:
-> https://www.digipart.com/part/TT21000-48LQI36T
+On Wed, 27 Oct 2021 07:23:23 +0200, Alexandre Ghiti wrote:
+> DA9063 devices bindings used text format, so migrate those bindings to YAML
+> format before adding any new bindings.
+> 
+> Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+> ---
+>  .../bindings/input/da9063-onkey.yaml          |  39 ++++++
+>  .../devicetree/bindings/mfd/da9063.txt        | 111 ------------------
+>  .../devicetree/bindings/mfd/da9063.yaml       |  98 ++++++++++++++++
+>  .../bindings/regulator/da9063-regulator.yaml  |  51 ++++++++
+>  .../devicetree/bindings/rtc/da9063-rtc.yaml   |  31 +++++
+>  .../bindings/watchdog/da9063-watchdog.yaml    |  31 +++++
+>  6 files changed, 250 insertions(+), 111 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/input/da9063-onkey.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/mfd/da9063.txt
+>  create mode 100644 Documentation/devicetree/bindings/mfd/da9063.yaml
+>  create mode 100644 Documentation/devicetree/bindings/regulator/da9063-regulator.yaml
+>  create mode 100644 Documentation/devicetree/bindings/rtc/da9063-rtc.yaml
+>  create mode 100644 Documentation/devicetree/bindings/watchdog/da9063-watchdog.yaml
+> 
 
-Thanks!
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-So I'll change the name to cypress,tt21000
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/mfd/da9063.yaml:26:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+./Documentation/devicetree/bindings/mfd/da9063.yaml:27:11: [warning] wrong indentation: expected 12 but found 10 (indentation)
 
-Alistair
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/mfd/da9063.example.dts:21.17-18 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:385: Documentation/devicetree/bindings/mfd/da9063.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1441: dt_binding_check] Error 2
 
->
-> Regards,
-> Andreas
->
+doc reference errors (make refcheckdocs):
+Documentation/devicetree/bindings/input/da9062-onkey.txt: Documentation/devicetree/bindings/mfd/da9063.txt
+
+See https://patchwork.ozlabs.org/patch/1546751
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
