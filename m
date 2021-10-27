@@ -2,68 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7656243C4B3
-	for <lists+linux-input@lfdr.de>; Wed, 27 Oct 2021 10:10:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C183A43C4DE
+	for <lists+linux-input@lfdr.de>; Wed, 27 Oct 2021 10:15:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239253AbhJ0IMn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Oct 2021 04:12:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45906 "EHLO mail.kernel.org"
+        id S231738AbhJ0IRc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Oct 2021 04:17:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47996 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235660AbhJ0IMm (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Oct 2021 04:12:42 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 29478610FC;
-        Wed, 27 Oct 2021 08:10:16 +0000 (UTC)
+        id S231715AbhJ0IRb (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 27 Oct 2021 04:17:31 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 72CC260C40;
+        Wed, 27 Oct 2021 08:15:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635322217;
-        bh=pZvXI80W6+vcTE+C0hBwqRQn3h1YSRyRrBOR6CINgcU=;
+        s=k20201202; t=1635322506;
+        bh=X4JuOwCZnQSrdHtwxGd5ZSp8ZTiooFZT+7jB1hU+VQo=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=FVPdiVkwXDWl9+3ivgiZBU/HdqvwMiB0F8kE50S97GdUJZFH1jjo7B4qNz2/Kirqw
-         Epbi64kR5VqgA4vFPW3FqVw8ux5aCXW6/hmJtKJpd6t40sde0LWfqu8aevfOcUi0DM
-         kJss1SmM+ntq2LTOoYQDpYNKRNbtz1uJBMF5+cc7FuR83w/vIr+JV5vxF99jX7JOQo
-         xznEIWuDu0JXNe09U6paL1Akk5TIkndQNYUiC4wHNpElZmyOD/A8KMOg8jzXi3YRUw
-         PMfHHhmcteEOMHRre7Y7yc0c3anlp9x+DemCzTPXv8uTilhO7qbUvlkIsCYIIDt4/A
-         lcYVYQbxCoD/Q==
-Date:   Wed, 27 Oct 2021 10:10:14 +0200 (CEST)
+        b=EN7jmDW0tomOx7Xog/AHcXkUIZ726ZD5ezc0KfilMWo4ZgwwDoIHgHzZ2PnZNlh7w
+         01wZlWOBlJ5afZxigypsRCKOXPf9UcKglDRDJlU00IV2nnqnRH9s6m7G8cX+r7o1Uy
+         qvz4vKSd2hAvc3c/JY9had1gUE70tNFwLdMJ2mzR1sCtJLd8DGm/pJYFOQJJAS+SaK
+         mlwHoyRryUv6lvTroTIwR9k1RL/+v3QTd5kSE2zqcSYeK0U+rIyYuMQRV63qN34fEw
+         KY4/otaDgdtgabgsBzkiZKLSdGrC9lhUyn4ofimub1m7g9OQrIXYR7kkwxD0oaBYQk
+         3kZl9RuSoV1ew==
+Date:   Wed, 27 Oct 2021 10:15:02 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-cc:     linux-input@vger.kernel.org, Ash Logan <ash@heyquark.com>,
-        =?ISO-8859-15?Q?Jonathan_Neusch=E4fer?= <j.ne@posteo.net>,
-        =?ISO-8859-2?Q?Barnab=E1s_P=F5cze?= <pobrn@protonmail.com>,
+To:     Jason Gerecke <killertofu@gmail.com>
+cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@gmail.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>
-Subject: Re: [PATCH v4 0/5] HID: nintendo: Add support for the Wii U
- gamepad
-In-Reply-To: <20211019110418.26874-1-linkmauve@linkmauve.fr>
-Message-ID: <nycvar.YFH.7.76.2110271009410.12554@cbobk.fhfr.pm>
-References: <20210519085924.1636-1-linkmauve@linkmauve.fr> <20211019110418.26874-1-linkmauve@linkmauve.fr>
+        Linux Input <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Aaron Skomra <skomra@gmail.com>,
+        "Dickens, Joshua" <joshua.dickens@wacom.com>,
+        Cai Huoqing <caihuoqing@baidu.com>
+Subject: Re: [PATCH] HID: wacom: Make use of the helper function
+ devm_add_action_or_reset()
+In-Reply-To: <CANRwn3TGkin=4aEKibUicmH-UtRz_SFz7+S6dAsTwXVxRzzi9g@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2110271014090.12554@cbobk.fhfr.pm>
+References: <20210922125939.427-1-caihuoqing@baidu.com> <nycvar.YFH.7.76.2110071338010.29107@cbobk.fhfr.pm> <CANRwn3SZagP7uCSHVDGMPMqQiKyUQJSjq143_DA1y0UPvsmkAA@mail.gmail.com> <DB6PR07MB4278FF50AB23B9B69411CA3B9BB19@DB6PR07MB4278.eurprd07.prod.outlook.com>
+ <CANRwn3TTgZ9+T7h81tNShvEB8QWkrbKLPrQSnviFKMHa8Zga_Q@mail.gmail.com> <20211015025815.GA3874@LAPTOP-UKSR4ENP.internal.baidu.com> <CAF8JNhLF8_f1x1K52ay_cmkKqpNiY7P4kMwt=ia6ws9Yd9uoNQ@mail.gmail.com> <nycvar.YFH.7.76.2110181725050.12554@cbobk.fhfr.pm>
+ <CANRwn3Q_LksYwX5x+dKw9OzPcYBQr_N5=5bLpZgNPtd88Zqpfg@mail.gmail.com> <CANRwn3TGkin=4aEKibUicmH-UtRz_SFz7+S6dAsTwXVxRzzi9g@mail.gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 19 Oct 2021, Emmanuel Gil Peyrot wrote:
+On Tue, 26 Oct 2021, Jason Gerecke wrote:
 
-> This driver is for the DRC (wireless gamepad) when plugged to the DRH of
-> the Wii U, a chip exposing it as a USB device.
+> Following up on this. I took a second look at the shared struct, and 
+> believe that things should work fine during initialization and 
+> steady-state. There are, however, opportunities for e.g. one 
+> device/thread to be removed and set e.g. `shared->touch = NULL` while a 
+> second device/thread is attempting to send an event out of that device. 
+> This is going to be very rare and only on disconnect, which is probably 
+> why we've never received reports of real-world issues.
 > 
-> I tried to use this driver on master over usbip on my laptop, but usbip
-> disconnects the device right after the driver created the
-> /dev/input/event* files, so instead I have only tested this driver on
-> the 4.19 branch of the linux-wiiu[1] downstream.
-> 
-> Other than that, pretty much all of the HID parts of the gamepad work,
-> it’s only missing microphone, camera and NFC input now but those are
-> mostly standard (read require quirks) and pertain to other subsystems,
-> so I felt like this can be upstreamed already.
+> This shared issue is present with or without the changes by Cai and
+> myself. I would ask that these two patches be merged 
 
-Now that proper hid.git#for-5.16/nintendo branch exists, could you please 
-fix up the issues reported by the kernel build bot and resubmit?
-
-Thanks,
+Now applied. Thanks,
 
 -- 
 Jiri Kosina
