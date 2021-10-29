@@ -2,33 +2,41 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43E8943FF89
-	for <lists+linux-input@lfdr.de>; Fri, 29 Oct 2021 17:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8AF443FFAF
+	for <lists+linux-input@lfdr.de>; Fri, 29 Oct 2021 17:37:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230196AbhJ2Pbx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 29 Oct 2021 11:31:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59472 "EHLO
+        id S229712AbhJ2Pj3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 29 Oct 2021 11:39:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230121AbhJ2Pbu (ORCPT
+        with ESMTP id S229527AbhJ2Pj3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 29 Oct 2021 11:31:50 -0400
+        Fri, 29 Oct 2021 11:39:29 -0400
 Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89B09C061714;
-        Fri, 29 Oct 2021 08:29:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76AE4C061570;
+        Fri, 29 Oct 2021 08:37:00 -0700 (PDT)
+Received: by todd.t-8ch.de (Postfix, from userid 0)
+        id 4A1953EDA3; Fri, 29 Oct 2021 15:36:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1635521818;
+        bh=eeH9nLeGJVIiF8XXSqN2lYYeJNQSBTUuABif4FxVAEw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=bVcAWHahqE7PpbIVNmRFft8d5EJXuGUAHSC++3JNYzo5kFrgvJMGdbLQvgNGAWjnd
+         5spI19iR+LsvzAiRGLgnUkjtiTXa1OmdbUE7XZwlM/OlPhIchsMLAl6Y3QITVwb6R8
+         WPZ0zfXt7jZKoBLKrm5G5jh6qmyq0W/a5QxNP6eI=
 From:   =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1635521357;
-        bh=NNgWRHviHUxTdEHra5hNjg8D6E5Lz7MJlnaX9y6/l30=;
+        s=mail; t=1635521527;
+        bh=eeH9nLeGJVIiF8XXSqN2lYYeJNQSBTUuABif4FxVAEw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ro9xYb+Gtov7XIo/j4KhWyyer/srnVwqN7rPER3mtRYtmgkXEGtf9Dy0Zhf5BQI00
-         1OrH98h00BDJXljCEnZzLTzrNWBuuCUy4B8QYkdcVstpHKirVdy9gBS2dSQk8KnxkU
-         sB6TJcwBpMFxVPA9Bo1vYhH0TOi8+nC1u7Skgv+A=
+        b=fJacEtNtC0dpLHm84xfVbT8P8ZMXoVKwpdHojOaIydnFxKVy64TjeNKKx7T+GU/3L
+         bsF8tfWxVhY5rJKcZGCu6gHJysxVV8vBRiTCDsn/5RgEd+nnYZe41Z8yfrJDb+u2YT
+         5xIoJVOCmkU+dd3RRF7yaL6oaUK0fZbBdj9nhwH4=
 To:     linux-input@vger.kernel.org
 Cc:     =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
         linux-kernel@vger.kernel.org,
         Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        K@troy.t-8ch.de, Naduvalath@troy.t-8ch.de,
-        Sumesh <sumesh.k.naduvalath@intel.com>,
+        Sumesh K Naduvalath <sumesh.k.naduvalath@intel.com>,
         Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -59,7 +67,7 @@ Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
 
 Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: K Naduvalath, Sumesh <sumesh.k.naduvalath@intel.com>
+Cc: Sumesh K Naduvalath <sumesh.k.naduvalath@intel.com>
 Cc: Jiri Kosina <jikos@kernel.org>
 Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc: Hans de Goede <hdegoede@redhat.com>
