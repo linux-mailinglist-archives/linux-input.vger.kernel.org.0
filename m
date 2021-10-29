@@ -2,89 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBFF943FF64
-	for <lists+linux-input@lfdr.de>; Fri, 29 Oct 2021 17:24:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E781943FF80
+	for <lists+linux-input@lfdr.de>; Fri, 29 Oct 2021 17:29:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229607AbhJ2P0b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 29 Oct 2021 11:26:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58254 "EHLO
+        id S229999AbhJ2Pbr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 29 Oct 2021 11:31:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbhJ2P0a (ORCPT
+        with ESMTP id S229652AbhJ2Pbr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 29 Oct 2021 11:26:30 -0400
-Received: from mail-vk1-xa2e.google.com (mail-vk1-xa2e.google.com [IPv6:2607:f8b0:4864:20::a2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AEC8C061570
-        for <linux-input@vger.kernel.org>; Fri, 29 Oct 2021 08:24:02 -0700 (PDT)
-Received: by mail-vk1-xa2e.google.com with SMTP id e64so4782109vke.4
-        for <linux-input@vger.kernel.org>; Fri, 29 Oct 2021 08:24:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=8aZH8K80tCtu+pnzQtcLurE1CWgnSxcP++EsueACrE0=;
-        b=ApNDV2hSu1A/CzXrfb/DCsdlOUnS0/2cTe+b+5Bl2Ht7CM3Ztgudn4+23Abo+VnAHS
-         FdNDDabIvo7w92/cXD9dXy6XQUvoDPtwvT0T5xlvUt9A/gwcnk9mCWN2d4uIxyR4MohC
-         MZa/hsMedQZ1QJsIn64hcJfUURXL+KrYNd9PewcjQhdjYr4nGlaBYKKrzK2ptyZqTPTT
-         49QzYMJJmUCP03rq9oxYodpalwH06vxM2vbmQg/1lAp/7w3cb/y9HFzi3vTfsTXJLiqp
-         MH+1v28wcjhOp2anuGFi/Mji+ZZv6xrICHibPoWf15VewClQOC2Q9pCQD1253dKjdT/A
-         J37A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=8aZH8K80tCtu+pnzQtcLurE1CWgnSxcP++EsueACrE0=;
-        b=13XPIJv9oaX+fAzq/Cw0DvbTl1H5eyNkUrAMqWfJKk6Xh8d9tM0IlYtzbohGMMHffZ
-         T4HVYTawlp5vTUX6LSZTtUCmifyvTHneqc4ra6jNgMzVZAYBB5CnXbPuIj/m0ssGOeZr
-         WCrSGvAVsxAw9cF0fApBwVuuwZRkYza5/t9RSOuVcNO/WbnMF+SNyhBx7ON3IKcxbFG4
-         vBqg3IB5iznTr5RCldP6Jc42rX6thmRG97Fy3b9FwvaUIk0sqRcY2jqicz0+p+0gDa4O
-         sBg5Q/rrisixEoRU8giGIxjbxsQbi8WNCuVpt/7D9Yo4b8Tn9bzeNL4fb6jRhUlMHFYo
-         9h5A==
-X-Gm-Message-State: AOAM530BoDLqIw5LbHpiiJd8TftiocePh3hEMYcZlfQ5fnxy7bDqCAtZ
-        wQUELVfzAAVZtlVQWXbz9cRv3WFD3bPdHUqzvCI=
-X-Google-Smtp-Source: ABdhPJwDODG6zIWoJZAiIwdYUiENfNp7EG0cUJAkMgcyCs8sNVyX6oyDbCnZYtv76j5dAiHF6jU2aaFRiIrVYziRUI0=
-X-Received: by 2002:a1f:b64e:: with SMTP id g75mr12068074vkf.13.1635521039593;
- Fri, 29 Oct 2021 08:23:59 -0700 (PDT)
+        Fri, 29 Oct 2021 11:31:47 -0400
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5E12C061570;
+        Fri, 29 Oct 2021 08:29:18 -0700 (PDT)
+From:   =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1635521356;
+        bh=xpkQwOJ7rx6E7Tl8iUgiaBxrMqco6gv/RoKR4AOF7aA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=apdbY5SvWPXfqQ3QIb2YfkeYUapqFBCQM3itUQq5AD5/K5895K0QHwqDdYETsBCqt
+         hV1EGtz/iOl0mtnhd1MUNQ3zlRTGDBUgNftBBOi/XS+Py0nmD8LdA1MCyvQ0CMz44g
+         UwBlgMqjvULYhrtjmPWawPID6+1eAnmMwj8iFTvE=
+To:     linux-input@vger.kernel.org
+Cc:     =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        linux-kernel@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Benson Leung <bleung@chromium.org>,
+        platform-driver-x86@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: [PATCH 0/6] MODULE_DEVICE_TABLE() support for the ISHTP bus
+Date:   Fri, 29 Oct 2021 17:28:55 +0200
+Message-Id: <20211029152901.297939-1-linux@weissschuh.net>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Received: by 2002:a9f:3766:0:0:0:0:0 with HTTP; Fri, 29 Oct 2021 08:23:59
- -0700 (PDT)
-Reply-To: erthyds@outlook.com
-From:   George Louis <aleeyagenuis@gmail.com>
-Date:   Fri, 29 Oct 2021 16:23:59 +0100
-Message-ID: <CAPwcqe8ncX=Uh9Wwjrx+6-mSMLZdr+=PL5C-YqeNnyD49goSbg@mail.gmail.com>
-Subject: =?UTF-8?B?UmU6IEd5w7ZyZ3kgw7pyIMO8ZHbDtnpsZXRlLA==?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-2021. =C3=81prilis 23.
+Currently as soon as any ISHTP device appears all available ISHTP device
+drivers are loaded automatically.
+This series extends the MODULE_DEVICE_TABLE() functionality to properly handle
+the ishtp bus and switches the drivers over to use it.
 
-Az =C3=A9n =C3=BCdv=C3=B6zletem neked,
+Patch 1 adds the infrastructure to handle ishtp devices via MODULE_DEVICE_TABLE()
+Patch 2 replaces some inlined constants with ones now defined by mod_devicetable.h
+Patches 3-6 migrate all ishtp drivers to MODULE_DEVICE_TABLE()
+
+Note: This patchset is based on the pdx86/for-next tree because that contains
+one of the drivers that is not yet in the other trees.
+
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Mark Gross <markgross@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Guenter Roeck <groeck@chromium.org>
+Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc: Benson Leung <bleung@chromium.org>
+
+Cc: platform-driver-x86@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org
+
+Thomas Weißschuh (6):
+  HID: intel-ish-hid: add support for MODULE_DEVICE_TABLE()
+  HID: intel-ish-hid: use constants for modaliases
+  HID: intel-ish-hid: fw-loader: only load for matching devices
+  HID: intel-ish-hid: hid-client: only load for matching devices
+  platform/chrome: chros_ec_ishtp: only load for matching devices
+  platform/x86: isthp_eclite: only load for matching devices
+
+ drivers/hid/intel-ish-hid/ishtp-fw-loader.c  |  7 +++++-
+ drivers/hid/intel-ish-hid/ishtp-hid-client.c |  7 +++++-
+ drivers/hid/intel-ish-hid/ishtp/bus.c        |  4 ++--
+ drivers/platform/chrome/cros_ec_ishtp.c      |  7 +++++-
+ drivers/platform/x86/intel/ishtp_eclite.c    |  7 +++++-
+ include/linux/mod_devicetable.h              | 13 +++++++++++
+ scripts/mod/devicetable-offsets.c            |  3 +++
+ scripts/mod/file2alias.c                     | 24 ++++++++++++++++++++
+ 8 files changed, 66 insertions(+), 6 deletions(-)
 
 
-Az =C3=A9n nevem Gy=C3=B6rgy Louis. N=C3=A9h=C3=A1ny =C3=A9ve elk=C3=BCldte=
-m neked ezt a levelet, de
-nem tudom biztosan, hogy megkapta-e, kapcsolatba l=C3=A9ptem =C3=96nnel az =
-=C3=A9n
-k=C3=A9s=C5=91 kliensemmel kapcsolatban. Laszlo, az orsz=C3=A1god nemzetis=
-=C3=A9ge, aki
-ugyanazt a vezet=C3=A9knevet osztja meg =C3=B6nnel, aki sz=C3=ADvrohamban h=
-alt meg
-=E2=82=AC6.800.000,00 hatmilli=C3=B3 nyolcsz=C3=A1zezer eur=C3=B3. egy bank=
-ban itt. R=C3=B6gt=C3=B6n
-elhunyt, =C3=A9s nem volt gyermeke, aki =C3=BAgy t=C5=B1nt, hogy te vagy a =
-rokona.
+base-commit: 85303db36b6e170917a7bc6aae4898c31a5272a0
+-- 
+2.33.1
 
-A bank kapcsolatba l=C3=A9pett velem, =C3=A9s elmondta, hogy elkobozz=C3=A1=
-k a
-sz=C3=A1ml=C3=A1j=C3=A1t =C3=A9s a p=C3=A9nz=C3=A9t, ha nem mutatom be roko=
-n=C3=A1nak. Kapcsolatba l=C3=A9ptem
-veled, mert t=C3=B6k=C3=A9letesen kezelheted ezt a tranzakci=C3=B3t, =C3=A9=
-s beilleszhetsz
-a legk=C3=B6zelebbi rokonaid k=C3=B6z=C3=A9, egy=C3=BCtt dolgozhatunk, hogy=
- ezt a p=C3=A9nzt
-megkapjuk, =C3=A9s osszuk meg 50/50. V=C3=A1lasz a r=C3=A9szletek=C3=A9rt.
-1. A teljes neved ..
-2. A priv=C3=A1t telefonod ...
