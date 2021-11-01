@@ -2,79 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1D274419A3
-	for <lists+linux-input@lfdr.de>; Mon,  1 Nov 2021 11:16:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CDAA84419B2
+	for <lists+linux-input@lfdr.de>; Mon,  1 Nov 2021 11:18:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231826AbhKAKSh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Nov 2021 06:18:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48259 "EHLO
+        id S231693AbhKAKUk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Nov 2021 06:20:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31504 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230298AbhKAKSg (ORCPT
+        by vger.kernel.org with ESMTP id S231971AbhKAKUh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 1 Nov 2021 06:18:36 -0400
+        Mon, 1 Nov 2021 06:20:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1635761763;
+        s=mimecast20190719; t=1635761884;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=mCyZG2RTX+Vqn9iHYLmuWFAS4VitdnHe0VPkeFY0Tj0=;
-        b=BnhwvOttQLGhLynmneYcNvAGj1BN/Ioi9VqPaaGV9ZvvtYboSuXHlX+oY1XYzmWMzwSbhc
-        j7s3UIIBdTZRBAHTaeI3Rg9y8UnsvPVccQMFyEryooh7N6dg/tJF/qDJuBIHUWAk3wvPO3
-        nV07Y39743w+PALwZKnbbf2bsZ0pQ44=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-041doBgNOc6h41PTdGkYeA-1; Mon, 01 Nov 2021 06:16:00 -0400
-X-MC-Unique: 041doBgNOc6h41PTdGkYeA-1
-Received: by mail-ed1-f69.google.com with SMTP id v9-20020a50d849000000b003dcb31eabaaso15169365edj.13
-        for <linux-input@vger.kernel.org>; Mon, 01 Nov 2021 03:15:59 -0700 (PDT)
+        bh=t8Sm9HXpoY+wnApkw9cdN5nEGyroNsODGV64LEXlImU=;
+        b=QJzRFXq5+PM1FuDyYvnIb1vs7xfHTru7WhGOAacg4Py5F4BapL7I/OAPRD04k7Av7Fjy5d
+        U+gaT2irkS6+lO0k49FVxpvMpLxmgZldO+4XmtNlyhnnnTmEAkJe3FWI0ydUU7pigzyQwv
+        pXfpwTDU4+j15XPdmCs0RqnYUGOILCY=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-557-X5PbCuzsOfGTtj3in_PZIQ-1; Mon, 01 Nov 2021 06:18:01 -0400
+X-MC-Unique: X5PbCuzsOfGTtj3in_PZIQ-1
+Received: by mail-ed1-f71.google.com with SMTP id y20-20020a056402359400b003e28c9bc02cso2121087edc.9
+        for <linux-input@vger.kernel.org>; Mon, 01 Nov 2021 03:18:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=mCyZG2RTX+Vqn9iHYLmuWFAS4VitdnHe0VPkeFY0Tj0=;
-        b=8PlgS9zc9NK+pFn37heoH+GuX5cbeQ8uDvtAsLxRU/LhiVPIGIF5dFGZHMzE9ytK/o
-         no7uHC8My/KU6xnBAQEBONSigTDnUjcSg2pwXoevqa0OD+95Ko0ks2yLc7ew1cJh079I
-         bszqykAWRH9eq6TW61XxWihXDMEcahD1McGdY4kru5s7kB/kVAnM59A0KsPnxdKowK4z
-         Nt87xyrspTsVOZOXwloApilQwTv80Qm6K8MGNOXuOatLsuiFLwe+skrTgfOTZDNc0d+H
-         GQ543FxCC9uCeTBCwv1cOjaAWIN9fhtgZQqQaBTdKGYL4AENW5qXKto0UBr6wJwLCRch
-         HfKg==
-X-Gm-Message-State: AOAM530U7Y1WDvc36vb6UDT2ojacSaKjS+GALn6c5Y6v+b/INK+9UaJl
-        9z7WcqieYHDSe62yr2mjtBB+0h0Gkbd1YHeKsLetukFT0YUMiAu8NlzOZpiF2GkPyh2Un2gTAQX
-        20yN6+UztlHlJapDhy/v4wjc=
-X-Received: by 2002:a50:da42:: with SMTP id a2mr38031209edk.361.1635761759005;
-        Mon, 01 Nov 2021 03:15:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzU/OUE0zeS+pOm1RbkOpVcbgGfbIMkkKuWLruKx39X7M31EAdG5zA4qvYOYAXDgy0IcBtbRg==
-X-Received: by 2002:a50:da42:: with SMTP id a2mr38031192edk.361.1635761758856;
-        Mon, 01 Nov 2021 03:15:58 -0700 (PDT)
+        bh=t8Sm9HXpoY+wnApkw9cdN5nEGyroNsODGV64LEXlImU=;
+        b=Dhky5ZF9sjYTUSbjruoIX2simK1NdtDscsMxg0ttdU8HifalIh0bjxR2VMmLHiQMEa
+         Pq69NqocRAwNLyvRaQUGU8IMtQnGbGBsSnQ4W/S22TTc/0mTmOwCp1/vjlZksKEp7vSL
+         W/ix/TgeR0Fe1CpYdM5sCA7jA/7hTyJ9uRXPb2SR2VOc/GfOExOqwIqqvrL6LpBcHewQ
+         MtjkgxAiWpJ8KVMy66XfY7sSGd6AVwd4wTeLV2MQpI4jVZzbUzY9sDU4P7PndtxSrTAF
+         ZOG2lrxt08VmUydr/xTM3D/hSNxbmj+0u8bMZSiCyEo93LF1C9oOkBnluxnQ3F5rgIQZ
+         PtwA==
+X-Gm-Message-State: AOAM532gN3ZXsLBjjOGXs02KtiJF2BAn5gAmhrv3vsoD2tVrQOhmXYae
+        KdHs922fZruuiu4V4zeVJLBPQ3tc4dOl5TtzOQ3y6Fz0k2wsHk7jwmwx1Y8h5LTG4x2bHakbXmF
+        BoZXLtiSIkfzudBr+tIU+n+8=
+X-Received: by 2002:a50:c3cc:: with SMTP id i12mr38896958edf.350.1635761880226;
+        Mon, 01 Nov 2021 03:18:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxLTMXj/xrDkTc55/Af5ghVcv9Wfd3h/yRX5qwExFSuQKoulSOVSq39LvBNgVoIKunuT/+yQg==
+X-Received: by 2002:a50:c3cc:: with SMTP id i12mr38896934edf.350.1635761880093;
+        Mon, 01 Nov 2021 03:18:00 -0700 (PDT)
 Received: from [10.40.1.223] ([81.30.35.201])
-        by smtp.gmail.com with ESMTPSA id o5sm2728118edc.25.2021.11.01.03.15.58
+        by smtp.gmail.com with ESMTPSA id gt36sm6751027ejc.13.2021.11.01.03.17.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Nov 2021 03:15:58 -0700 (PDT)
-Message-ID: <aaca72e9-2c69-c2c2-55cb-8c7790178b53@redhat.com>
-Date:   Mon, 1 Nov 2021 11:15:57 +0100
+        Mon, 01 Nov 2021 03:17:59 -0700 (PDT)
+Message-ID: <85cb78cd-92d9-69ed-9360-f5d6f8f904af@redhat.com>
+Date:   Mon, 1 Nov 2021 11:17:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 1/6] HID: intel-ish-hid: add support for
- MODULE_DEVICE_TABLE()
+Subject: Re: [PATCH 0/6] MODULE_DEVICE_TABLE() support for the ISHTP bus
 Content-Language: en-US
 To:     =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
         Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jiri Kosina <jkosina@suse.cz>,
+        Mark Gross <markgross@kernel.org>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
+        Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
+        Guenter Roeck <groeck@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Benson Leung <bleung@chromium.org>,
+        platform-driver-x86@vger.kernel.org, linux-kbuild@vger.kernel.org
 References: <20211029152901.297939-1-linux@weissschuh.net>
- <20211029152901.297939-2-linux@weissschuh.net>
- <cd712bd7-cce7-58fb-d644-ced4fc0c76b1@redhat.com>
- <091a4bb3-0734-4b58-9417-7ef18fcc385b@t-8ch.de>
+ <883db585-c9bb-5255-4ddd-f093616af1a1@redhat.com>
+ <1bb82b37-06e4-4937-ba0d-57fd301eaf2e@t-8ch.de>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <091a4bb3-0734-4b58-9417-7ef18fcc385b@t-8ch.de>
+In-Reply-To: <1bb82b37-06e4-4937-ba0d-57fd301eaf2e@t-8ch.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -83,79 +83,39 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi,
 
-On 11/1/21 11:09, Thomas Weißschuh wrote:
-> On 2021-11-01 10:58+0100, Hans de Goede wrote:
+On 11/1/21 11:12, Thomas Weißschuh wrote:
+> On 2021-11-01 10:56+0100, Hans de Goede wrote:
 >> On 10/29/21 17:28, Thomas Weißschuh wrote:
->>> This allows to selectively autoload drivers for ISH devices.
->>> Currently all ISH drivers are loaded for all systems having any ISH
->>> device.
+>>> Currently as soon as any ISHTP device appears all available ISHTP device
+>>> drivers are loaded automatically.
+>>> This series extends the MODULE_DEVICE_TABLE() functionality to properly handle
+>>> the ishtp bus and switches the drivers over to use it.
 >>>
->>> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+>>> Patch 1 adds the infrastructure to handle ishtp devices via MODULE_DEVICE_TABLE()
+>>> Patch 2 replaces some inlined constants with ones now defined by mod_devicetable.h
+>>> Patches 3-6 migrate all ishtp drivers to MODULE_DEVICE_TABLE()
 >>>
->>> ---
->>>
->>> Cc: linux-kbuild@vger.kernel.org
->>> Cc: linux-input@vger.kernel.org
->>> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
->>> Cc: Jiri Kosina <jkosina@suse.cz>
->>> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
->>> Cc: Hans de Goede <hdegoede@redhat.com>
->>> Cc: Masahiro Yamada <masahiroy@kernel.org>
->>> Cc: Michal Marek <michal.lkml@markovi.net>
->>> Cc: Nick Desaulniers <ndesaulniers@google.com>
->>> ---
->>>  include/linux/mod_devicetable.h   | 13 +++++++++++++
->>>  scripts/mod/devicetable-offsets.c |  3 +++
->>>  scripts/mod/file2alias.c          | 24 ++++++++++++++++++++++++
->>>  3 files changed, 40 insertions(+)
->>>
->>> diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
->>> index ae2e75d15b21..befbf53c4b7c 100644
->>> --- a/include/linux/mod_devicetable.h
->>> +++ b/include/linux/mod_devicetable.h
->>> @@ -895,4 +895,17 @@ struct dfl_device_id {
->>>  	kernel_ulong_t driver_data;
->>>  };
->>>  
->>> +/* ISHTP (Integrated Sensor Hub Transport Protocol) */
->>> +
->>> +#define ISHTP_MODULE_PREFIX	"ishtp:"
->>> +
->>> +/**
->>> + * struct ishtp_device_id - ISHTP device identifier
->>> + * @guid_string: 36 char string of the form fa50ff2b-f2e8-45de-83fa-65417f2f49ba
->>> + * @context: pointer to driver specific data
->>> + */
->>> +struct ishtp_device_id {
->>> +	guid_t guid;
+>>> Note: This patchset is based on the pdx86/for-next tree because that contains
+>>> one of the drivers that is not yet in the other trees.
 >>
->> The kdoc comment documents a context pointer, but this is missing from the
->> actual struct. Having some sort of driver_data (1) field here would be good IMHO.
+>> Since most of the changes here are under drivers/hid and since the latter
+>> patches depend on 1/6, I believe it would be best to merge the entire series
+>> through the HID tree, here is my ack for this:
+>>
+>> Acked-by: Hans de Goede <hdegoede@redhat.com>
 > 
-> Fine for me.
-> 
-> I left it out because nothing would be using it at the moment and
-> it would have been easy to add when needed.
+> Please note that patch 6 modifies a driver that is not yet available in the HID
+> and 5.15 trees but only in pdx86/for-next.
 
-IMHO having a device_id without a context/driver_data field would be
-weird and is likely asking for needless churn in the future, but see
-below.
+Right, but given where we are in the cycle this is going to be something to
+merge post 5.16-rc1 anyways which resolves the dependency issue.
 
-> Do you want me to send a v2 for that or would you add it when merging?
-> (Or remove the spurious comment)
-
-As I indicated in my reply to the cover-letter, I believe this series
-should be merged through the HID tree, so this is up to the HID maintainers
-to decide.
+I guess it might be good to send this our in a later pull-req as a fix series
+for a later 5.16-rc# though, to avoid the eclite and chrome-ec drivers from
+autoloading on all systems with an ISH, even though they usually will not be
+used there.
 
 Regards,
 
 Hans
-
-
-p.s.
-
-Thank you for doing this series I did not realize that the eclite driver
-would end up being loaded on all systems where the ISH is used, thank you
-for fixing this.
 
