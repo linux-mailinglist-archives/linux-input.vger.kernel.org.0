@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEC9C441C16
-	for <lists+linux-input@lfdr.de>; Mon,  1 Nov 2021 15:01:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0955C441CBD
+	for <lists+linux-input@lfdr.de>; Mon,  1 Nov 2021 15:37:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231794AbhKAODi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Nov 2021 10:03:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50054 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229826AbhKAODi (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Nov 2021 10:03:38 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E05F0C061714
-        for <linux-input@vger.kernel.org>; Mon,  1 Nov 2021 07:01:04 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id o12so44910110ybk.1
-        for <linux-input@vger.kernel.org>; Mon, 01 Nov 2021 07:01:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=+mcTZ2eqc3eLQRfLqaTPyOtzxWrRbXuCUvN2Q5tWSyo=;
-        b=BOSB3pK+scIUp1quiRMhLK9E7dlC6xydVComp63qpIzyLV/spr/TDziluHRvddhtT/
-         pHbTymwX9Xu6WMoM/a1PzRpvn6Qp3nxzU0KHwACXFNRuu5Hk/mge3NL7nMAyt+vYUsqR
-         QePhJSK2VtBzi5V57IDVyHsZTywuk2s+UFfoWDfPB3lzLokneesiIFTu1NjqL31Elm7X
-         Ei59ynLT0wp/5Cuf4yjfXWA6ZEO68oiWFWXfNUen6fDqyLCYptuxqTbO9TjPKEdQXW0i
-         uv+srh9VflBDjABp2QB9ryqHTHowssHUgLJURoJvb18cKrXIloB59qAeqkWsJyIiFjMN
-         dtOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=+mcTZ2eqc3eLQRfLqaTPyOtzxWrRbXuCUvN2Q5tWSyo=;
-        b=wVONzB3SoLZUzA4vsbXCpcpz6RBsRYEc0KUKDmoD96vw61qr9zDQEHdpRCOtx5iBw6
-         lG++4PoReW4M0PW0HgznMu7APmHwaPJnfYh3giAdtTj9BieTupeSZ48pn60O2HjDtU+v
-         0s6T3adR66kYvM/15SUA0alZlLn8bxeLgCJUKEoD/6TPhmvQqAxRZQSaoTjnB2xzNEoF
-         C+VVtOP0Y7fcQGcRJb4b8bIVRXNs2+vAsc2/EsANqN5lz3FTNJn5ywX2vx8KS8cty5kA
-         U0mzcrfmzKVKQpHp4+/7hczKYGNHY64RHfiyqBnDz5knvFbmpOO0GIlS7Jenh/6JLcax
-         3aaQ==
-X-Gm-Message-State: AOAM530NhVD0/7lFObxzNINmliEFc4bYvglQn4qo3QZAResia0LDsaJ2
-        1TreeFK8dcDcVKJSJ+2hoR1KKgAO2tKRaUEv2vI=
-X-Google-Smtp-Source: ABdhPJzXWibpgoaqOG5mPuoJUHkZtkyWbYzmkB7MAmyzdhoNcpL3YATZoiTriK7OsCd9FYbK+bE2GQNLaCkD2J1VKM0=
-X-Received: by 2002:a05:6902:114c:: with SMTP id p12mr35820237ybu.408.1635775264047;
- Mon, 01 Nov 2021 07:01:04 -0700 (PDT)
+        id S231304AbhKAOjk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Nov 2021 10:39:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44102 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230204AbhKAOjk (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 1 Nov 2021 10:39:40 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1493C60F0F;
+        Mon,  1 Nov 2021 14:37:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635777426;
+        bh=8/GDn0x+jg87Xg+DrvZNagRBZ50QrDE4QG9+BADF8PU=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=Y39rKQBPLRdKYSWh1fETteN1HGnO+Ukies9g5UKLcYJJYxZuyfMigi/Si/5qMhfuF
+         4Tyq3quhKIrg9Xf2PbsJ9tlb02N07A8cbH6R5prlhL62rCHNuLS+lLTyHwONzYjD6K
+         4OgUpxaqLs0j7RnWMVCTKRCn9RQN5g5LYzIb7XUl1+WcNBShZq62umnGMS9z3t1VJP
+         ItbZuswlSaTOfyKMab794OUkhJ7r8B/40BPu5qGDvbArsl/te1hCsw6GpLvVc7JHuu
+         WG8OeLuLuGrNiJ+jtGBWl4EidHTrWS+gN0/N4NHuz8GGL6CQTU2kCK2w9GHLxj9Iwl
+         /BF7CAFVNQg5w==
+Date:   Mon, 1 Nov 2021 15:37:03 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Roderick.Colenbrander@sony.com
+cc:     arnd@kernel.org, benjamin.tissoires@redhat.com,
+        roderick@gaikai.com, arnd@arndb.de, pobrn@protonmail.com,
+        djogorchock@gmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hid: playstation: add LEDS_CLASS dependency
+In-Reply-To: <BY5PR13MB3826F4B874D9EE466B9FF18798879@BY5PR13MB3826.namprd13.prod.outlook.com>
+Message-ID: <nycvar.YFH.7.76.2111011535190.12554@cbobk.fhfr.pm>
+References: <20211029114044.1058958-1-arnd@kernel.org> <BY5PR13MB3826F4B874D9EE466B9FF18798879@BY5PR13MB3826.namprd13.prod.outlook.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Received: by 2002:a25:51c5:0:0:0:0:0 with HTTP; Mon, 1 Nov 2021 07:01:03 -0700 (PDT)
-Reply-To: michellegoodman035@gmail.com
-From:   Shayma <shaymamarwan08@gmail.com>
-Date:   Mon, 1 Nov 2021 14:01:03 +0000
-Message-ID: <CA+HOoT3g61Cw-WY+PQ-6BbuucKJ1vtWwD-fJrWc=HGY2MCuejQ@mail.gmail.com>
-Subject: Hello
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-TWVyaGFiYSB1bWFyxLFtIG1lc2FqxLFtxLEgYWxtxLHFn3PEsW7EsXpkxLFyLg0KaMSxemzEsSB0
-ZXBraWxlcmUgaWh0aXlhY8SxbSB2YXINCg0KVGXFn2Vra8O8cmxlci4NCk1pY2hlbGxlDQo=
+On Fri, 29 Oct 2021, Roderick.Colenbrander@sony.com wrote:
+
+> Thanks you beat me into looking at this. Something like this got dropped through all the iterations this went through earlier this year.
+> 
+> I would maybe prefer to make this a hard dependency on multicolor. If 
+> conditional not all devices will enable it. We have had various issues 
+> already on e.g. Android were some vendors didn't set certain options.
+
+Ah, sorry, I've seen the mail from 0day bot first before Arnd's mail, and 
+the fix (adding hard dependency on LEDS_CLASS_MULTICOLOR) is already 
+pushed out.
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
+
