@@ -2,60 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0955C441CBD
-	for <lists+linux-input@lfdr.de>; Mon,  1 Nov 2021 15:37:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2578B4422CF
+	for <lists+linux-input@lfdr.de>; Mon,  1 Nov 2021 22:39:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231304AbhKAOjk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Nov 2021 10:39:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44102 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230204AbhKAOjk (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 1 Nov 2021 10:39:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1493C60F0F;
-        Mon,  1 Nov 2021 14:37:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635777426;
-        bh=8/GDn0x+jg87Xg+DrvZNagRBZ50QrDE4QG9+BADF8PU=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=Y39rKQBPLRdKYSWh1fETteN1HGnO+Ukies9g5UKLcYJJYxZuyfMigi/Si/5qMhfuF
-         4Tyq3quhKIrg9Xf2PbsJ9tlb02N07A8cbH6R5prlhL62rCHNuLS+lLTyHwONzYjD6K
-         4OgUpxaqLs0j7RnWMVCTKRCn9RQN5g5LYzIb7XUl1+WcNBShZq62umnGMS9z3t1VJP
-         ItbZuswlSaTOfyKMab794OUkhJ7r8B/40BPu5qGDvbArsl/te1hCsw6GpLvVc7JHuu
-         WG8OeLuLuGrNiJ+jtGBWl4EidHTrWS+gN0/N4NHuz8GGL6CQTU2kCK2w9GHLxj9Iwl
-         /BF7CAFVNQg5w==
-Date:   Mon, 1 Nov 2021 15:37:03 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Roderick.Colenbrander@sony.com
-cc:     arnd@kernel.org, benjamin.tissoires@redhat.com,
-        roderick@gaikai.com, arnd@arndb.de, pobrn@protonmail.com,
-        djogorchock@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hid: playstation: add LEDS_CLASS dependency
-In-Reply-To: <BY5PR13MB3826F4B874D9EE466B9FF18798879@BY5PR13MB3826.namprd13.prod.outlook.com>
-Message-ID: <nycvar.YFH.7.76.2111011535190.12554@cbobk.fhfr.pm>
-References: <20211029114044.1058958-1-arnd@kernel.org> <BY5PR13MB3826F4B874D9EE466B9FF18798879@BY5PR13MB3826.namprd13.prod.outlook.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S232077AbhKAVmA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Nov 2021 17:42:00 -0400
+Received: from mail-ot1-f47.google.com ([209.85.210.47]:39733 "EHLO
+        mail-ot1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231693AbhKAVlw (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Nov 2021 17:41:52 -0400
+Received: by mail-ot1-f47.google.com with SMTP id x16-20020a9d7050000000b00553d5d169f7so25524528otj.6;
+        Mon, 01 Nov 2021 14:39:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=3FwLLyJKx1GjeOB8yfv/tXfC5sTlYYY8+Nr2Ii7DjYE=;
+        b=0zA9uWrQF1iAUhh8hST1XFCRdQud4ek2QxLzFcUO0pkXU9vRsa287mOLyhg3t/F9/l
+         Z41IYXQbecwKxFB+R5dOV9DT+j72R8Nt4PFHXeLjYYbNRYqR1GQwSB9PFjRCyei04jFE
+         glkln++BbEPNee1OMv9F/O1IagG1vT7sw1oQF2LSwKDoRK3g7Yccjf5P5PzuEgyX75dJ
+         uQ3JyjB/j4CvcxRUYJBjHHIY6Ren2Yb5bw7Mkd5+zKF6qmyyfUK11H0CSuyKKCbTfjXw
+         hezQMIOjKQXPbYNphMrVRQ4omyZ9iC/CaVP7QHUCoOBrNsUNzUzALa4jLs8bRgY9ixxp
+         MTkA==
+X-Gm-Message-State: AOAM531SlNfUtWmRXobDLzRPPKjw1R5ObCDxIpjpyJjVCylU3t2kPsfq
+        5P31SD+M//YrBHo5Fog7hw==
+X-Google-Smtp-Source: ABdhPJzAmFejXmyzkm8ES1JIKOl38NIjUlOA8LH4X858BfNUCmeoeCZ3RE1u+RIBtpbble0MltnDKw==
+X-Received: by 2002:a05:6830:1516:: with SMTP id k22mr11498596otp.280.1635802758187;
+        Mon, 01 Nov 2021 14:39:18 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id bd5sm2043230oib.2.2021.11.01.14.39.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Nov 2021 14:39:17 -0700 (PDT)
+Received: (nullmailer pid 1114161 invoked by uid 1000);
+        Mon, 01 Nov 2021 21:39:16 -0000
+Date:   Mon, 1 Nov 2021 16:39:16 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Nikita Travkin <nikita@trvn.ru>
+Cc:     linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
+        ~postmarketos/upstreaming@lists.sr.ht, broonie@kernel.org,
+        devicetree@vger.kernel.org, linus.walleij@linaro.org,
+        Michael.Srba@seznam.cz, robh+dt@kernel.org,
+        phone-devel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH 2/6] dt-bindings: input/ts/zinitix: Convert to YAML, fix
+ and extend
+Message-ID: <YYBehK8JfcxN/geo@robh.at.kernel.org>
+References: <20211027181350.91630-1-nikita@trvn.ru>
+ <20211027181350.91630-3-nikita@trvn.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211027181350.91630-3-nikita@trvn.ru>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 29 Oct 2021, Roderick.Colenbrander@sony.com wrote:
-
-> Thanks you beat me into looking at this. Something like this got dropped through all the iterations this went through earlier this year.
+On Wed, 27 Oct 2021 23:13:46 +0500, Nikita Travkin wrote:
+> From: Linus Walleij <linus.walleij@linaro.org>
 > 
-> I would maybe prefer to make this a hard dependency on multicolor. If 
-> conditional not all devices will enable it. We have had various issues 
-> already on e.g. Android were some vendors didn't set certain options.
+> This converts the Zinitix BT4xx and BT5xx touchscreen bindings to YAML, fix
+> them up a bit and extends them.
+> 
+> We list all the existing BT4xx and BT5xx components with compatible strings.
+> These are all similar, use the same bindings and work in similar ways.
+> 
+> We rename the supplies from the erroneous vdd/vddo to the actual supply
+> names vcca/vdd as specified on the actual component. It is long established
+> that supplies shall be named after the supply pin names of a component.
+> The confusion probably stems from that in a certain product the rails to the
+> component were named vdd/vddo. Drop some notes on how OS implementations should
+> avoid confusion by first looking for vddo, and if that exists assume the
+> legacy binding pair and otherwise use vcca/vdd.
+> 
+> Add reset-gpios as sometimes manufacturers pulls a GPIO line to the reset
+> line on the chip.
+> 
+> Add optional touchscreen-fuzz-x and touchscreen-fuzz-y properties.
+> 
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Michael Srba <Michael.Srba@seznam.cz>
+> Cc: phone-devel@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> [Fixed dt_schema_check error]
+> Signed-off-by: Nikita Travkin <nikita@trvn.ru>
+> ---
+> This patch was previously submited here:
+> https://lore.kernel.org/linux-input/20210625113435.2539282-1-linus.walleij@linaro.org/
+> 
+> Changes since the original patch:
+>  - Use enum for compatible list instead of oneOf + const
+> ---
+>  .../input/touchscreen/zinitix,bt400.yaml      | 115 ++++++++++++++++++
+>  .../bindings/input/touchscreen/zinitix.txt    |  40 ------
+>  2 files changed, 115 insertions(+), 40 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix,bt400.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix.txt
+> 
 
-Ah, sorry, I've seen the mail from 0day bot first before Arnd's mail, and 
-the fix (adding hard dependency on LEDS_CLASS_MULTICOLOR) is already 
-pushed out.
-
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Reviewed-by: Rob Herring <robh@kernel.org>
