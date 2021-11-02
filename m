@@ -2,146 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D41E442B76
-	for <lists+linux-input@lfdr.de>; Tue,  2 Nov 2021 11:14:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AAA64442D32
+	for <lists+linux-input@lfdr.de>; Tue,  2 Nov 2021 12:51:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229770AbhKBKRS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Nov 2021 06:17:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40346 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbhKBKRQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Nov 2021 06:17:16 -0400
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0A17C061714
-        for <linux-input@vger.kernel.org>; Tue,  2 Nov 2021 03:14:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Content-Type:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-To:Resent-Cc:
-        Resent-Message-ID:In-Reply-To:References;
-        bh=CIE3obVCB0hYn/RqD4zQ+KPMnAddLhZyIwoBcDDMNuY=; t=1635848081; x=1637057681; 
-        b=SzNSaZLAVveHfHM03bFG0D08PtomKBldSrz1a1qZXVMLkJrKbBe0xs0tMBC1NAeK5WtVuPVuo7E
-        YLTvGBYm4xhWkVlFSQ4n0D2MOU1LN45RrLmhvpfHxEEyt7vuHGml/rgJv1fb0mDRTTsompc88Qe7n
-        /lwYHWYEx8TriiQidrBY07Iozs3IZ/ch/ZA9XPCHyok5PI+/GZhqKo8Bo7xMEWL0vsQitagzo+cIO
-        eF1M8AZzwoND4vXt+aFomyZtyKAyd3gLhTQanYGGrIGLFW8gnBbIjlZC9ReBOPHsyJpZoNrzX0NOa
-        u1Ut56fUliqbZaOhAW4LUy2bWBzdNZGMm6+Q==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.95)
-        (envelope-from <benjamin@sipsolutions.net>)
-        id 1mhqoQ-009xJu-2W;
-        Tue, 02 Nov 2021 11:14:38 +0100
-From:   Benjamin Berg <benjamin@sipsolutions.net>
-To:     linux-input@vger.kernel.org
-Cc:     Jiri Kosina <jikos@kernel.org>,
+        id S230411AbhKBLxk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Nov 2021 07:53:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57480 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229720AbhKBLxj (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 2 Nov 2021 07:53:39 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E8BAA60F5A;
+        Tue,  2 Nov 2021 11:51:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635853864;
+        bh=dqJN2Gi6q7TPSF77o6RQLRWPsFd/JVJbppmgYInfGv8=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=nrrauIoQWCLjHnJV4rwpOzX2ac87/ZtDlNMSEV6MKg9vOdLreBYmoyc400xNpNfZH
+         Rmlrf0jQyLtJf0bllBRc/QbwTFmsYDUHzvbpHyzge1yqnJMbkl7+ClMHQZuVD+nrwi
+         9mcmwp/ccnxVm2h8ufjseCAb1CvvSdTKYrpuR8a+7KF6FrGojKjOzCWy3m7biDn1y4
+         YccZjkRj4nGzGozfqBeNmQDckxGzLZHpgY0eSaR+ZDPfGckr38ti02CHrkaQCKmXMO
+         DcQt0m2nCwh0DzPoqkG2UFMsDNtBh9tysmL8ZF6pM9wfvFFWjqZ3UvDT/rjnChGuAZ
+         32I5UGdrp6ahg==
+Date:   Tue, 2 Nov 2021 12:50:59 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+cc:     =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Benjamin Berg <bberg@redhat.com>
-Subject: [PATCH] HID: apple: Add 2021 magic keyboard model
-Date:   Tue,  2 Nov 2021 11:08:26 +0100
-Message-Id: <20211102100826.26824-1-benjamin@sipsolutions.net>
-X-Mailer: git-send-email 2.31.1
+        Guenter Roeck <groeck@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Benson Leung <bleung@chromium.org>,
+        platform-driver-x86@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 0/6] MODULE_DEVICE_TABLE() support for the ISHTP bus
+In-Reply-To: <85cb78cd-92d9-69ed-9360-f5d6f8f904af@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2111021249520.12554@cbobk.fhfr.pm>
+References: <20211029152901.297939-1-linux@weissschuh.net> <883db585-c9bb-5255-4ddd-f093616af1a1@redhat.com> <1bb82b37-06e4-4937-ba0d-57fd301eaf2e@t-8ch.de> <85cb78cd-92d9-69ed-9360-f5d6f8f904af@redhat.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Benjamin Berg <bberg@redhat.com>
+On Mon, 1 Nov 2021, Hans de Goede wrote:
 
-The newer magic keyboard (and laptop) models have a different Fn key
-configuration. Also, the PIDs are still missing.
+> >> Since most of the changes here are under drivers/hid and since the latter
+> >> patches depend on 1/6, I believe it would be best to merge the entire series
+> >> through the HID tree, here is my ack for this:
+> >>
+> >> Acked-by: Hans de Goede <hdegoede@redhat.com>
+> > 
+> > Please note that patch 6 modifies a driver that is not yet available in the HID
+> > and 5.15 trees but only in pdx86/for-next.
+> 
+> Right, but given where we are in the cycle this is going to be something to
+> merge post 5.16-rc1 anyways which resolves the dependency issue.
+> 
+> I guess it might be good to send this our in a later pull-req as a fix series
+> for a later 5.16-rc# though, to avoid the eclite and chrome-ec drivers from
+> autoloading on all systems with an ISH, even though they usually will not be
+> used there.
 
-This patch adds the new keycodes and the PID for the small magic
-keyboard model (without numpad and fingerprint reader, MK2A3Y/A,
-Model A2450).
+I'll be happy to take this as 5.16 fixups after the merge window is over 
+(I am not adding anything new to the branches now, before Linus merges HID 
+tree), but I'd still like to see Ack from Srinivas.
 
-Signed-off-by: Benjamin Berg <bberg@redhat.com>
----
+Thanks,
 
-Other PIDs will also need to be added and the translation table
-selection will need updating at that point. For now, this works well for
-the small magic keyboard model without fingerprint reader.
----
- drivers/hid/hid-apple.c | 33 ++++++++++++++++++++++++++++++++-
- drivers/hid/hid-ids.h   |  1 +
- 2 files changed, 33 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 6ccfa0cb997a..fb3fb658f6d9 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -70,6 +70,28 @@ struct apple_key_translation {
- 	u8 flags;
- };
- 
-+static const struct apple_key_translation apple2021_fn_keys[] = {
-+	{ KEY_BACKSPACE, KEY_DELETE },
-+	{ KEY_ENTER,	KEY_INSERT },
-+	{ KEY_F1,	KEY_BRIGHTNESSDOWN, APPLE_FLAG_FKEY },
-+	{ KEY_F2,	KEY_BRIGHTNESSUP,   APPLE_FLAG_FKEY },
-+	{ KEY_F3,	KEY_SCALE,          APPLE_FLAG_FKEY },
-+	{ KEY_F4,	KEY_SEARCH,         APPLE_FLAG_FKEY },
-+	{ KEY_F5,	KEY_MICMUTE,        APPLE_FLAG_FKEY },
-+	{ KEY_F6,	KEY_SLEEP,          APPLE_FLAG_FKEY },
-+	{ KEY_F7,	KEY_PREVIOUSSONG,   APPLE_FLAG_FKEY },
-+	{ KEY_F8,	KEY_PLAYPAUSE,      APPLE_FLAG_FKEY },
-+	{ KEY_F9,	KEY_NEXTSONG,       APPLE_FLAG_FKEY },
-+	{ KEY_F10,	KEY_MUTE,           APPLE_FLAG_FKEY },
-+	{ KEY_F11,	KEY_VOLUMEDOWN,     APPLE_FLAG_FKEY },
-+	{ KEY_F12,	KEY_VOLUMEUP,       APPLE_FLAG_FKEY },
-+	{ KEY_UP,	KEY_PAGEUP },
-+	{ KEY_DOWN,	KEY_PAGEDOWN },
-+	{ KEY_LEFT,	KEY_HOME },
-+	{ KEY_RIGHT,	KEY_END },
-+	{ }
-+};
-+
- static const struct apple_key_translation macbookair_fn_keys[] = {
- 	{ KEY_BACKSPACE, KEY_DELETE },
- 	{ KEY_ENTER,	KEY_INSERT },
-@@ -214,7 +236,9 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- 	}
- 
- 	if (fnmode) {
--		if (hid->product >= USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
-+		if (hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021_ANSI)
-+			table = apple2021_fn_keys;
-+		else if (hid->product >= USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
- 				hid->product <= USB_DEVICE_ID_APPLE_WELLSPRING4A_JIS)
- 			table = macbookair_fn_keys;
- 		else if (hid->product < 0x21d || hid->product >= 0x300)
-@@ -377,6 +401,9 @@ static void apple_setup_input(struct input_dev *input)
- 	for (trans = apple_iso_keyboard; trans->from; trans++)
- 		set_bit(trans->to, input->keybit);
- 
-+	for (trans = apple2021_fn_keys; trans->from; trans++)
-+		set_bit(trans->to, input->keybit);
-+
- 	if (swap_fn_leftctrl) {
- 		for (trans = swapped_fn_leftctrl_keys; trans->from; trans++)
- 			set_bit(trans->to, input->keybit);
-@@ -548,6 +575,10 @@ static const struct hid_device_id apple_devices[] = {
- 		.driver_data = APPLE_HAS_FN },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_ANSI),
- 		.driver_data = APPLE_HAS_FN },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021_ANSI),
-+		.driver_data = APPLE_HAS_FN },
-+	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021_ANSI),
-+		.driver_data = APPLE_HAS_FN },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_ANSI),
- 		.driver_data = APPLE_HAS_FN },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_ANSI),
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 29564b370341..41038f6355a8 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -164,6 +164,7 @@
- #define USB_DEVICE_ID_APPLE_WELLSPRING8_ANSI	0x0290
- #define USB_DEVICE_ID_APPLE_WELLSPRING8_ISO	0x0291
- #define USB_DEVICE_ID_APPLE_WELLSPRING8_JIS	0x0292
-+#define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021_ANSI 0x029c
- #define USB_DEVICE_ID_APPLE_WELLSPRING9_ANSI	0x0272
- #define USB_DEVICE_ID_APPLE_WELLSPRING9_ISO		0x0273
- #define USB_DEVICE_ID_APPLE_WELLSPRING9_JIS		0x0274
 -- 
-2.31.1
+Jiri Kosina
+SUSE Labs
 
