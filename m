@@ -2,94 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA878442EF6
-	for <lists+linux-input@lfdr.de>; Tue,  2 Nov 2021 14:17:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0C1F4435D5
+	for <lists+linux-input@lfdr.de>; Tue,  2 Nov 2021 19:40:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230201AbhKBNTy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Nov 2021 09:19:54 -0400
-Received: from mga06.intel.com ([134.134.136.31]:60430 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229530AbhKBNTy (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 2 Nov 2021 09:19:54 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="292090908"
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; 
-   d="scan'208";a="292090908"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2021 06:17:19 -0700
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; 
-   d="scan'208";a="489107359"
-Received: from kumarsh2-mobl.gar.corp.intel.com ([10.215.113.239])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2021 06:17:14 -0700
-Message-ID: <0d0f1d106cfbd98e352a0f08904d04d08a6fec04.camel@linux.intel.com>
-Subject: Re: [PATCH 0/6] MODULE_DEVICE_TABLE() support for the ISHTP bus
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Jiri Kosina <jikos@kernel.org>, Hans de Goede <hdegoede@redhat.com>
-Cc:     Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mark Gross <markgross@kernel.org>,
-        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Benson Leung <bleung@chromium.org>,
-        platform-driver-x86@vger.kernel.org, linux-kbuild@vger.kernel.org
-Date:   Tue, 02 Nov 2021 06:17:10 -0700
-In-Reply-To: <nycvar.YFH.7.76.2111021249520.12554@cbobk.fhfr.pm>
-References: <20211029152901.297939-1-linux@weissschuh.net>
-         <883db585-c9bb-5255-4ddd-f093616af1a1@redhat.com>
-         <1bb82b37-06e4-4937-ba0d-57fd301eaf2e@t-8ch.de>
-         <85cb78cd-92d9-69ed-9360-f5d6f8f904af@redhat.com>
-         <nycvar.YFH.7.76.2111021249520.12554@cbobk.fhfr.pm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0-1 
+        id S235572AbhKBSnU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Nov 2021 14:43:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44448 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235649AbhKBSnL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Nov 2021 14:43:11 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6050C061203
+        for <linux-input@vger.kernel.org>; Tue,  2 Nov 2021 11:40:33 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id v20so189351plo.7
+        for <linux-input@vger.kernel.org>; Tue, 02 Nov 2021 11:40:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LXw6r8OwYfTq33ELj55YCs9jKPuVtDt4Fh+PISCMrrw=;
+        b=f2h7f/vYmLN+UZ9czpcLC3O52WrxCV22IPzJC1zoR10W9CvHXi2vYuIa4edpjYDfr0
+         v00CulTRVhN1sjgSdo8klPh5rN+3z0WE2yTF4ov/99SFGmJ1OKAl0bLm6PB9PjFHJP/9
+         /OGDlWfouawkxDHp8p5urWyluFWK7mAeqfO6U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LXw6r8OwYfTq33ELj55YCs9jKPuVtDt4Fh+PISCMrrw=;
+        b=wxo1PB4Zbb0onl+/SXVEAwhfnepXC7ey2ouecPze2+yhcuIWJ84h08dYWKzhpcLyZb
+         48pM2yf2z8fwbCaQH+XW7ssGIRSkx/ri+tlj0HmZNGJFc/01abmKB+/KUmxAKxMci3Z2
+         /RtEZ4llGMISKe+BHAZQNt6GTbzEI7+jI063IcgOxx+LMUwXG09VXrPc8JwYLMR9UrZt
+         xymUvs7zoZLiTUv3EyeKAzrV0vCgb7l5pMnubAX94+Jlq4vzxGI57E7RRGftOJ6NY8NG
+         R4lANrExcXT4YtxZ8mx3mcX644IuZN7xv69kgJWrVsNrMFbYbgc0mSndIaQ9LS6yAQF4
+         zQ8Q==
+X-Gm-Message-State: AOAM531Qr4vLo+q1Dyzbi8ik9yZ+3Jp8dAOMgh/m+oAD6SiyGYBpPILx
+        TuBBTVgt57gdWGldRp9VLH8ifA==
+X-Google-Smtp-Source: ABdhPJyZNs8g12zXsaKnLuGtxMDQlO53LpWL47lM0JyvTOk1Xc0+CZdy90R1IqzNJGm5XYJld0yNwQ==
+X-Received: by 2002:a17:90b:4c88:: with SMTP id my8mr8706139pjb.49.1635878433294;
+        Tue, 02 Nov 2021 11:40:33 -0700 (PDT)
+Received: from localhost ([2620:15c:202:201:ed8a:42c4:80bb:9a91])
+        by smtp.gmail.com with UTF8SMTPSA id f11sm9114357pfe.3.2021.11.02.11.40.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Nov 2021 11:40:32 -0700 (PDT)
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Douglas Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Jim Broadus <jbroadus@gmail.com>,
+        Johnny Chuang <johnny.chuang.emc@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH] HID: i2c-hid: Report wakeup events
+Date:   Tue,  2 Nov 2021 11:40:25 -0700
+Message-Id: <20211102114017.1.I16ef7b761c8467be2106880e9b24ce304ae2b532@changeid>
+X-Mailer: git-send-email 2.33.1.1089.g2158813163f-goog
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 2021-11-02 at 12:50 +0100, Jiri Kosina wrote:
-> On Mon, 1 Nov 2021, Hans de Goede wrote:
-> 
-> > > > Since most of the changes here are under drivers/hid and since
-> > > > the latter
-> > > > patches depend on 1/6, I believe it would be best to merge the
-> > > > entire series
-> > > > through the HID tree, here is my ack for this:
-> > > > 
-> > > > Acked-by: Hans de Goede <hdegoede@redhat.com>
+The i2c-hid driver generally supports wakeup, bit it currently
+doesn't report wakeup events to the PM subsystem. Change that.
 
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+---
 
-> > > 
-> > > Please note that patch 6 modifies a driver that is not yet
-> > > available in the HID
-> > > and 5.15 trees but only in pdx86/for-next.
-> > 
-> > Right, but given where we are in the cycle this is going to be
-> > something to
-> > merge post 5.16-rc1 anyways which resolves the dependency issue.
-> > 
-> > I guess it might be good to send this our in a later pull-req as a
-> > fix series
-> > for a later 5.16-rc# though, to avoid the eclite and chrome-ec
-> > drivers from
-> > autoloading on all systems with an ISH, even though they usually
-> > will not be
-> > used there.
-> 
-> I'll be happy to take this as 5.16 fixups after the merge window is
-> over 
-> (I am not adding anything new to the branches now, before Linus
-> merges HID 
-> tree), but I'd still like to see Ack from Srinivas.
-Done.
+ drivers/hid/i2c-hid/i2c-hid-core.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Thanks,
-Srinivas
-
-> 
-> Thanks,
-> 
-
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 517141138b00..68d9a089e3e8 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -522,9 +522,12 @@ static void i2c_hid_get_input(struct i2c_hid *ihid)
+ 
+ 	i2c_hid_dbg(ihid, "input: %*ph\n", ret_size, ihid->inbuf);
+ 
+-	if (test_bit(I2C_HID_STARTED, &ihid->flags))
++	if (test_bit(I2C_HID_STARTED, &ihid->flags)) {
++		pm_wakeup_event(&ihid->client->dev, 0);
++
+ 		hid_input_report(ihid->hid, HID_INPUT_REPORT, ihid->inbuf + 2,
+ 				ret_size - 2, 1);
++	}
+ 
+ 	return;
+ }
+-- 
+2.33.1.1089.g2158813163f-goog
 
