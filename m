@@ -2,119 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 357CB44362C
-	for <lists+linux-input@lfdr.de>; Tue,  2 Nov 2021 19:59:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DBED443D5C
+	for <lists+linux-input@lfdr.de>; Wed,  3 Nov 2021 07:41:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229530AbhKBTBg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Nov 2021 15:01:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34073 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229764AbhKBTBf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 2 Nov 2021 15:01:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1635879539;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9/ev4uB0lUr7hPYfkczpMeGy5yx6qwBp8/s/KFSLjSU=;
-        b=KIQ/gvLnn3y6Voq1UUWJMLjs1MCKopnK8Tzrozn3+9bmqYgr8GO67QxluiA1MbK+3Z5mib
-        Nw6gi9o+wd3W+TFSWVTKL0nttPenMtNFiyo44lC9ymKDX8UgBNrjRLrqqIhEPEh9HS/Fsw
-        e2KUTXq1DyUaBKn0/JmYscFQ0lMwYy8=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-p1K3VdpGOjmbLAyc51w7cg-1; Tue, 02 Nov 2021 14:58:58 -0400
-X-MC-Unique: p1K3VdpGOjmbLAyc51w7cg-1
-Received: by mail-ed1-f72.google.com with SMTP id t18-20020a056402021200b003db9e6b0e57so271065edv.10
-        for <linux-input@vger.kernel.org>; Tue, 02 Nov 2021 11:58:58 -0700 (PDT)
+        id S231775AbhKCGnn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 3 Nov 2021 02:43:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35868 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231760AbhKCGnm (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 3 Nov 2021 02:43:42 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD8ECC061714
+        for <linux-input@vger.kernel.org>; Tue,  2 Nov 2021 23:41:06 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id x64so1357676pfd.6
+        for <linux-input@vger.kernel.org>; Tue, 02 Nov 2021 23:41:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6TIvRM+Cy1i9b6EJun6Re1/fAKnc4AyFX1l1x0gctEY=;
+        b=eldsMNQezk1HYir332mslG+SkhNXFRJFGzGl3QKMUa1XX8TjaOtA0wjRkL1ztXOOqG
+         /81QDzj0Px2wj3/YNZc1TVC36tiXlk7vt1ONqXDOZieAIWsD1iKSuKeqh+OXmohiibUs
+         bCb+LIemR/Mni+RsbxiNIzpDjc7MJVqpwDyHKTKdgHyf35yF3vICQjBovUlx7G2QzilI
+         aZjUrsxIHtYTaPtgTbxKtYW+n2UFAc+9ucgI26ETq0ZxN0jA/R6V6gTPIkAdI7tI5XIo
+         zuR+Py81lKP03rokBkoQ7Wv44IgVo3Su6sAu5VV4OEkSAC/2UVA7LbaVtddnJ8hida9h
+         6D/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9/ev4uB0lUr7hPYfkczpMeGy5yx6qwBp8/s/KFSLjSU=;
-        b=NRAJ8m91QxYOP3eezu2Uz4VrMEnN1sINgHPqPlbzGW72Nq8ShUk60+WqSYHaXu25f3
-         AH+/X8Jy4sBARDK/kmozj9EvjqQY7s5y9UuLkI7IPPZxnDK8M/dLUmgQpJAoS+dBUgRH
-         MY++1V3kLEbJio2aRJps6dCbJl0kKBaARcOeNWMlvGx5zC2t+YBzpVNC1O3igmy2k+vc
-         Y5PGj+wszIOI0zvWMPnXHA1/mq7Yjh5V13+1KAaOH8ZsOWr0+/Rr2pj2bkvLJXdL4xbE
-         PkcO0Ii52ZRYXNIpiM/et+leRCB5VtBVUk6XD/5Q0lm7pD0QlwJnLgjtb25e7xOMJjZ4
-         U2Mw==
-X-Gm-Message-State: AOAM5320PRK04oN4Hz1IzdtOFywth8NFMntQmpif5Fb0rykxmXAs+VON
-        Y/7Mz3CvRfyNIv3labuKTFqqYIcJElzQUqQC+kjgJrCzq+6FxrepxVHGd3lwDZ0d2Zn7kUnTVGt
-        uKH78mD2UmGF8rjIBSKFQMbY=
-X-Received: by 2002:a17:906:b7d3:: with SMTP id fy19mr34877933ejb.121.1635879537427;
-        Tue, 02 Nov 2021 11:58:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCfvK5pKnYwvAvIj4j7+yeHT6+6gE3jleeYNXUcV9PZ/C6KF8NGyiST84nHyJCNGvAeVKWZg==
-X-Received: by 2002:a17:906:b7d3:: with SMTP id fy19mr34877912ejb.121.1635879537279;
-        Tue, 02 Nov 2021 11:58:57 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id q9sm8537835ejf.70.2021.11.02.11.58.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Nov 2021 11:58:56 -0700 (PDT)
-Message-ID: <e3643a2e-8ea0-586c-62e0-4d85fd2c9a8e@redhat.com>
-Date:   Tue, 2 Nov 2021 19:58:55 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] HID: i2c-hid: Report wakeup events
-Content-Language: en-US
-To:     Matthias Kaehlcke <mka@chromium.org>,
+        bh=6TIvRM+Cy1i9b6EJun6Re1/fAKnc4AyFX1l1x0gctEY=;
+        b=hQqmd8nlE8/yaUb4ZBxiwRT3eBtS0M8lQdZkvzXcS3qrDlh7+n7nm713xsxq9qZ+bB
+         qid91Pm/+lVdVF18BylxgZ69JaxuYQJM6eMLDjGoGRjqpl5801BwlUsJ3CLvBmLTgUrh
+         FGwClF/kKJG4r/+btTVFwBmfguZsBju4+SMOOgOWh8zqQAsde9QTGARXsn1NWOnoqJc1
+         S8UxhFHABNeAhZ4sm8rB80m5bStyh/EiT9QfNPth5UIaYocNnwKnyvJ/KChcKxLW2fOc
+         mLzxt+82seN6p/o+qC7uGRUo5mTUtgvNn5oUoHR9sBGmFN4Fqo5wqCRX2ZOmOydTtyjv
+         7XOA==
+X-Gm-Message-State: AOAM530rzbuVGWXmkWmjT36KXWxuh6ZgCcL2WJzG8JCs/w2cYZU5XNg8
+        6tDIZVO4fY5CPwudqkvBpLjZUuiMF97XBIRO
+X-Google-Smtp-Source: ABdhPJyeLi5fqVoMAgcImqhGMKzUYW+htNX5POXmPW4ppHSyy7exdo/3i98hn2EdDOBpt++uSN4Jyw==
+X-Received: by 2002:a62:ea16:0:b0:47b:f3d7:7a9 with SMTP id t22-20020a62ea16000000b0047bf3d707a9mr41983223pfh.60.1635921665970;
+        Tue, 02 Nov 2021 23:41:05 -0700 (PDT)
+Received: from localhost.localdomain (24-117-70-85.cpe.sparklight.net. [24.117.70.85])
+        by smtp.gmail.com with ESMTPSA id p1sm1295014pfo.143.2021.11.02.23.41.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Nov 2021 23:41:05 -0700 (PDT)
+From:   Trevor Davenport <trevor.davenport@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Trevor Davenport <trevor.davenport@gmail.com>,
         Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jim Broadus <jbroadus@gmail.com>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>
-References: <20211102114017.1.I16ef7b761c8467be2106880e9b24ce304ae2b532@changeid>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20211102114017.1.I16ef7b761c8467be2106880e9b24ce304ae2b532@changeid>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH] HID: Ignore battery for Elan touchscreen on HP Envy X360 15-eu0xxx
+Date:   Wed,  3 Nov 2021 00:40:24 -0600
+Message-Id: <20211103064024.23047-1-trevor.davenport@gmail.com>
+X-Mailer: git-send-email 2.33.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Battery status is reported for the HP Envy X360 Convertible 15-eu0xxx
+even if it does not have a battery. Prevent it from always reporting the
+battery as low.
 
-On 11/2/21 19:40, Matthias Kaehlcke wrote:
-> The i2c-hid driver generally supports wakeup, bit it currently
-> doesn't report wakeup events to the PM subsystem. Change that.
-> 
-> Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+Signed-off-by: Trevor Davenport <trevor.davenport@gmail.com>
+---
+ drivers/hid/hid-ids.h   | 1 +
+ drivers/hid/hid-input.c | 2 ++
+ 2 files changed, 3 insertions(+)
 
-Thanks, this looks reasonable to me:
-
-Acked-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-> ---
-> 
->  drivers/hid/i2c-hid/i2c-hid-core.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-> index 517141138b00..68d9a089e3e8 100644
-> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
-> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-> @@ -522,9 +522,12 @@ static void i2c_hid_get_input(struct i2c_hid *ihid)
->  
->  	i2c_hid_dbg(ihid, "input: %*ph\n", ret_size, ihid->inbuf);
->  
-> -	if (test_bit(I2C_HID_STARTED, &ihid->flags))
-> +	if (test_bit(I2C_HID_STARTED, &ihid->flags)) {
-> +		pm_wakeup_event(&ihid->client->dev, 0);
-> +
->  		hid_input_report(ihid->hid, HID_INPUT_REPORT, ihid->inbuf + 2,
->  				ret_size - 2, 1);
-> +	}
->  
->  	return;
->  }
-> 
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 29564b370341..8d3a9f9ea48e 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -393,6 +393,7 @@
+ #define USB_DEVICE_ID_TOSHIBA_CLICK_L9W	0x0401
+ #define USB_DEVICE_ID_HP_X2		0x074d
+ #define USB_DEVICE_ID_HP_X2_10_COVER	0x0755
++#define I2C_DEVICE_ID_HP_ENVY_X360_15	0x2d05
+ #define I2C_DEVICE_ID_HP_SPECTRE_X360_15	0x2817
+ #define USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN	0x2706
+ #define I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN	0x261A
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 4b5ebeacd283..e31041ae3e43 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -324,6 +324,8 @@ static const struct hid_device_id hid_battery_quirks[] = {
+ 	  HID_BATTERY_QUIRK_IGNORE },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN),
+ 	  HID_BATTERY_QUIRK_IGNORE },
++	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15),
++	  HID_BATTERY_QUIRK_IGNORE },
+ 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_15),
+ 	  HID_BATTERY_QUIRK_IGNORE },
+ 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN),
+-- 
+2.33.1
 
