@@ -2,70 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2230C4440B3
+	by mail.lfdr.de (Postfix) with ESMTP id E472F4440B5
 	for <lists+linux-input@lfdr.de>; Wed,  3 Nov 2021 12:38:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231804AbhKCLkr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 3 Nov 2021 07:40:47 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:56891 "EHLO
+        id S231838AbhKCLkx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 3 Nov 2021 07:40:53 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:58345 "EHLO
         new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230250AbhKCLkr (ORCPT
+        by vger.kernel.org with ESMTP id S230250AbhKCLkv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 3 Nov 2021 07:40:47 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 66EF3580689;
-        Wed,  3 Nov 2021 07:38:10 -0400 (EDT)
+        Wed, 3 Nov 2021 07:40:51 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 32440580680;
+        Wed,  3 Nov 2021 07:38:15 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Wed, 03 Nov 2021 07:38:10 -0400
+  by compute4.internal (MEProxy); Wed, 03 Nov 2021 07:38:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
          h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm2; bh=26DZ6/M3MgY9T
-        a1v7+h0aelpWpuLYRAnVemoNeSeL34=; b=vkutM83pCtX3thsATOASt49IAwfhE
-        jsaROAJDBv3qOZV4ShimnAImgigKel8ewK4kk9bnGeM3cY1UFKp5RG4mzT93oAaD
-        tzodsnmlRpHBtNwki4nqMxkb0B7gb9mX8ohjN+qoyGKEYas8bMnfRP8Viy+eH1cQ
-        ItCNWsv2DM/6ffCXAwaAMuVChyT8HrNzpVVkG72lP6mgBqCm8rLyDdEYKw++/2YW
-        NQYkO89XYjT1QJThdW+Q6hO6vIOfvU4PZch6azewuIYGjY+gDSnoEGhyWQxI6dNs
-        HkJIiRYdCSxyowRXYZN8NnzWoEqdjh5V0y8uylmtycM+rHC7opYDOwZTg==
+        :mime-version:content-transfer-encoding; s=fm2; bh=FvePu4DfaAI5Y
+        pELNve5G7W9fZNbhwwYhYrMJeaayx4=; b=3QVckZcxW4F6Ps8FsH9z2mCcp6l+z
+        5zMyyseeFPDvxOqO9upZ5owEDnAgTfXmS4+R/7+44smMJY5jofnoMEL9MZXi+Sm+
+        LoLrBldRQQxsFLKl08MiwD7fNo89bpTlJGgViwCzOUTVWGy6G1T2BJTy2C3Rsei5
+        0mz+I27dJyrbW6sZ87NaShuy04/EbUDgtYWIe0fT3GnS++BLYZgmzmMNayOYTyV9
+        9Trsc9OBOWfuCOKzayqzOmL1GydzsrFOz4GCoDGLBow9ykeXiTR6b/HarEO9Uuw8
+        ohQ1nkMcjvJWjGpxZLNMoC8egvyd4aSLWlkEJ4UXOWyvTZ3tO/iZNZmqw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=26DZ6/M3MgY9Ta1v7+h0aelpWpuLYRAnVemoNeSeL34=; b=cH2LBuZI
-        E3u9jyDit+j1zQr9Sl66r8H6+n4ZAa9Pb707D52ARZs3JiCxzdYZ0UWq3uc7tHYl
-        iFok2JWNIiLOSvTBuvnrL8miZ3olK0GW/XMoRqJRI3K2xDBwIt1c5RsIY9NHGZnv
-        2AXh/gyo0Azg/ZM0bQhFZRuais4ze7n7E4WcxuoG/S0RwdxzZl0zXcAZKpN0P34f
-        evtIhZO9NykJJCYbyIUVZBfRpXogvG0nK6FV0TAqjjbcBIeqK/1igC+Qygl3+5+s
-        GgHMEh+FKZSyS439sSNaC5MOU1Dode7kOQR1P2Y62iGCNhxbHQdRnomNJc1k8MwI
-        VHe9rzSIN3Mm6A==
-X-ME-Sender: <xms:onSCYeAilY7eHpqStpSKNopdZX7dBJScTUTj6-Za_rAp8qX5bchXBg>
-    <xme:onSCYYg1S2E4GZhIVEg4rgSMhdX_KDMNS9PbtCAiFydScRsSEi-kJqiX7_WVh3UrU
-    bFHTy3kkKG1qTZCrq8>
-X-ME-Received: <xmr:onSCYRlT3j_WkJBrMt-A6Qz-RDRe-oSZZhpw2AvJABm5d3c54KVXeWfl8NoGVxNvif4hoJu7E-4>
+        fm1; bh=FvePu4DfaAI5YpELNve5G7W9fZNbhwwYhYrMJeaayx4=; b=GQ55MAZc
+        Oo/JWokrJS7n6YRNfkY4Fze5So4qABHG18DHUvT73N9mGe2i3Ta3MDw6kno9rUxk
+        Rtj7ovXQMnAULjeR2q1gmJaKnPu/6PECIoT+FRxGU/d5N8p6xCksWEfTjKvy5c+k
+        Y0lnd5mHl+XLEmP68FmVLr8ZSvrwVAV9I9aLqbLyTmRLU5PPeGjzsdxIJpkOHauR
+        fR/nqeBaJL+81ojnKkGx3lL8hhaia0XPtVQbEsDFcWqSRZ8BNgCIeCurM5yWflcF
+        PWGhVGG573MvltV/V4W1p90QQqlJ06zF9MXGovoDk3BeXJsQvDbiXwC0aq7gq27o
+        fTeH2vKNrmc5bA==
+X-ME-Sender: <xms:p3SCYbFpqJuz1O96VpoNCTQQbrV6Tu6SntWyy5ZSsaSzGbi7We0kLQ>
+    <xme:p3SCYYUizMqgFxT9n5z6ew-7zrnAdfqA9Vy-onn_y2qs4rQNliFiL2-fjWd6hlV-Q
+    6MGVvWyQm9bpcLzwQY>
+X-ME-Received: <xmr:p3SCYdKI6t8ocG0wNGGSB8Xlgw8x6S5b57D7B7pcutQT0XQFUfH0J7PXLH0o02DccSVVTuk5nzs>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtddvgddvlecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomheptehlihhsthgr
-    ihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgvqe
-    enucggtffrrghtthgvrhhnpeeggedtteejkeeggeeugfehueevudegvdetjeeviedugedv
-    tdekffekhedtteduhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvg
-X-ME-Proxy: <xmx:onSCYcxDQX65Mo5C4ENsrcKfesxnzT2yDXvSgkRfLYLOsPgRujC8NQ>
-    <xmx:onSCYTTqBglETuQR-MCk4lFrqaPEgltNuxUdOsbgsHo7GHhF9uBvbw>
-    <xmx:onSCYXYMM49DOL6rqT4Ipctm03GlCRaSZv3WjMbkN1wjz8LPpAgFjw>
-    <xmx:onSCYbYoHeYFQpLRVSWtDuC5LTozDyS2boGFJplbv513DJ6Jwuo-9A>
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
+    ertddtnecuhfhrohhmpeetlhhishhtrghirhcuhfhrrghntghishcuoegrlhhishhtrghi
+    rhesrghlihhsthgrihhrvdefrdhmvgeqnecuggftrfgrthhtvghrnhepgeegtdetjeekge
+    eguefgheeuvedugedvteejveeiudegvddtkeffkeehtdetudfhnecuvehluhhsthgvrhfu
+    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrsegrlhhish
+    htrghirhdvfedrmhgv
+X-ME-Proxy: <xmx:p3SCYZFZRJCkxJd-TX2X1jBwhTh-z4x5wJ6drJYco5EEs_M1-6c4zg>
+    <xmx:p3SCYRUtgmHqoSzeeSxVoehBW_yuG60BGOxVN7-dbaa3Vs-kr9RUPA>
+    <xmx:p3SCYUOsML-vB78sDtUdPgd2QOJfGqP_7Slpg5SgrkrfhdkOYkd7Mg>
+    <xmx:p3SCYaMuUqSrxfEHc5-g-PDfZ2jv-ths9Z1RsJVEHOvBOsQRCqec5A>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 3 Nov 2021 07:38:05 -0400 (EDT)
+ 3 Nov 2021 07:38:10 -0400 (EDT)
 From:   Alistair Francis <alistair@alistair23.me>
 To:     dmitry.torokhov@gmail.com, shawnguo@kernel.org,
         s.hauer@pengutronix.de, benjamin.tissoires@redhat.com
 Cc:     linux-imx@nxp.com, jikos@kernel.org, linux-input@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, alistair23@gmail.com,
-        Alistair Francis <alistair@alistair23.me>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v14 2/3] HID: i2c-hid-of: Expose the touchscreen-inverted properties
-Date:   Wed,  3 Nov 2021 21:37:47 +1000
-Message-Id: <20211103113748.61046-2-alistair@alistair23.me>
+        Alistair Francis <alistair@alistair23.me>
+Subject: [PATCH v14 3/3] ARM: dts: imx7d: remarkable2: add wacom digitizer device
+Date:   Wed,  3 Nov 2021 21:37:48 +1000
+Message-Id: <20211103113748.61046-3-alistair@alistair23.me>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211103113748.61046-1-alistair@alistair23.me>
 References: <20211103113748.61046-1-alistair@alistair23.me>
@@ -75,131 +74,102 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Allow the touchscreen-inverted-x/y device tree properties to control the
-HID_QUIRK_X_INVERT/HID_QUIRK_Y_INVERT quirks for the hid-input device.
-
 Signed-off-by: Alistair Francis <alistair@alistair23.me>
-Acked-by: Rob Herring <robh@kernel.org>
 ---
- .../devicetree/bindings/input/hid-over-i2c.txt        |  2 ++
- drivers/hid/i2c-hid/i2c-hid-acpi.c                    |  2 +-
- drivers/hid/i2c-hid/i2c-hid-core.c                    |  4 +++-
- drivers/hid/i2c-hid/i2c-hid-of-goodix.c               |  2 +-
- drivers/hid/i2c-hid/i2c-hid-of.c                      | 11 ++++++++++-
- drivers/hid/i2c-hid/i2c-hid.h                         |  2 +-
- 6 files changed, 18 insertions(+), 5 deletions(-)
+ arch/arm/boot/dts/imx7d-remarkable2.dts | 59 +++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/input/hid-over-i2c.txt b/Documentation/devicetree/bindings/input/hid-over-i2c.txt
-index c76bafaf98d2..34c43d3bddfd 100644
---- a/Documentation/devicetree/bindings/input/hid-over-i2c.txt
-+++ b/Documentation/devicetree/bindings/input/hid-over-i2c.txt
-@@ -32,6 +32,8 @@ device-specific compatible properties, which should be used in addition to the
- - vdd-supply: phandle of the regulator that provides the supply voltage.
- - post-power-on-delay-ms: time required by the device after enabling its regulators
-   or powering it on, before it is ready for communication.
-+- touchscreen-inverted-x: See touchscreen.txt
-+- touchscreen-inverted-y: See touchscreen.txt
+diff --git a/arch/arm/boot/dts/imx7d-remarkable2.dts b/arch/arm/boot/dts/imx7d-remarkable2.dts
+index 89cbf13097a4..a2a91bfdd98e 100644
+--- a/arch/arm/boot/dts/imx7d-remarkable2.dts
++++ b/arch/arm/boot/dts/imx7d-remarkable2.dts
+@@ -34,6 +34,19 @@ reg_brcm: regulator-brcm {
+ 		startup-delay-us = <150>;
+ 	};
  
- Example:
- 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-acpi.c b/drivers/hid/i2c-hid/i2c-hid-acpi.c
-index a6f0257a26de..b96ae15e0ad9 100644
---- a/drivers/hid/i2c-hid/i2c-hid-acpi.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-acpi.c
-@@ -111,7 +111,7 @@ static int i2c_hid_acpi_probe(struct i2c_client *client)
- 	}
- 
- 	return i2c_hid_core_probe(client, &ihid_acpi->ops,
--				  hid_descriptor_address);
-+				  hid_descriptor_address, 0);
- }
- 
- static const struct acpi_device_id i2c_hid_acpi_match[] = {
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 517141138b00..4804d71e5293 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -912,7 +912,7 @@ static void i2c_hid_core_shutdown_tail(struct i2c_hid *ihid)
- }
- 
- int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
--		       u16 hid_descriptor_address)
-+		       u16 hid_descriptor_address, u32 quirks)
- {
- 	int ret;
- 	struct i2c_hid *ihid;
-@@ -1009,6 +1009,8 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
- 		goto err_mem_free;
- 	}
- 
-+	hid->quirks |= quirks;
++	reg_digitizer: regulator-digitizer {
++		compatible = "regulator-fixed";
++		regulator-name = "VDD_3V3_DIGITIZER";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		pinctrl-names = "default", "sleep";
++		pinctrl-0 = <&pinctrl_digitizer_reg>;
++		pinctrl-1 = <&pinctrl_digitizer_reg>;
++		gpio = <&gpio1 6 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++		startup-delay-us = <100000>; /* 100 ms */
++	};
 +
- 	return 0;
- 
- err_mem_free:
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-index 52674149a275..b4dad66fa954 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-@@ -150,7 +150,7 @@ static int i2c_hid_of_goodix_probe(struct i2c_client *client,
- 		goodix_i2c_hid_deassert_reset(ihid_goodix, true);
- 	mutex_unlock(&ihid_goodix->regulator_mutex);
- 
--	return i2c_hid_core_probe(client, &ihid_goodix->ops, 0x0001);
-+	return i2c_hid_core_probe(client, &ihid_goodix->ops, 0x0001, 0);
- }
- 
- static const struct goodix_i2c_hid_timing_data goodix_gt7375p_timing_data = {
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of.c b/drivers/hid/i2c-hid/i2c-hid-of.c
-index 4bf7cea92637..b16349d6e9de 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of.c
-@@ -21,6 +21,7 @@
- 
- #include <linux/delay.h>
- #include <linux/device.h>
-+#include <linux/hid.h>
- #include <linux/i2c.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-@@ -71,6 +72,7 @@ static int i2c_hid_of_probe(struct i2c_client *client,
- 	struct device *dev = &client->dev;
- 	struct i2c_hid_of *ihid_of;
- 	u16 hid_descriptor_address;
-+	u32 quirks = 0;
- 	int ret;
- 	u32 val;
- 
-@@ -105,8 +107,15 @@ static int i2c_hid_of_probe(struct i2c_client *client,
- 	if (ret)
- 		return ret;
- 
-+	if (device_property_read_bool(dev, "touchscreen-inverted-x")) {
-+		quirks |= HID_QUIRK_X_INVERT;
-+	}
-+	if (device_property_read_bool(dev, "touchscreen-inverted-y")) {
-+		quirks |= HID_QUIRK_Y_INVERT;
-+	}
-+
- 	return i2c_hid_core_probe(client, &ihid_of->ops,
--				  hid_descriptor_address);
-+				  hid_descriptor_address, quirks);
- }
- 
- static const struct of_device_id i2c_hid_of_match[] = {
-diff --git a/drivers/hid/i2c-hid/i2c-hid.h b/drivers/hid/i2c-hid/i2c-hid.h
-index 05a7827d211a..236cc062d5ef 100644
---- a/drivers/hid/i2c-hid/i2c-hid.h
-+++ b/drivers/hid/i2c-hid/i2c-hid.h
-@@ -32,7 +32,7 @@ struct i2chid_ops {
+ 	wifi_pwrseq: wifi_pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		pinctrl-names = "default";
+@@ -51,6 +64,26 @@ &clks {
+ 	assigned-clock-rates = <0>, <32768>;
  };
  
- int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
--		       u16 hid_descriptor_address);
-+		       u16 hid_descriptor_address, u32 quirks);
- int i2c_hid_core_remove(struct i2c_client *client);
++&i2c1 {
++	clock-frequency = <400000>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_i2c1>;
++	status = "okay";
++
++	wacom_digitizer: digitizer@9 {
++		compatible = "hid-over-i2c";
++		reg = <0x09>;
++		hid-descr-addr = <0x01>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_wacom>;
++		interrupt-parent = <&gpio1>;
++		interrupts = <1 IRQ_TYPE_LEVEL_LOW>;
++		touchscreen-inverted-x;
++		touchscreen-inverted-y;
++		vdd-supply = <&reg_digitizer>;
++	};
++};
++
+ &snvs_pwrkey {
+ 	status = "okay";
+ };
+@@ -117,6 +150,25 @@ &wdog1 {
+ 	fsl,ext-reset-output;
+ };
  
- void i2c_hid_core_shutdown(struct i2c_client *client);
++&iomuxc_lpsr {
++	pinctrl_digitizer_reg: digitizerreggrp {
++		fsl,pins = <
++			/* DIGITIZER_PWR_EN */
++			MX7D_PAD_LPSR_GPIO1_IO06__GPIO1_IO6	0x14
++		>;
++	};
++
++	pinctrl_wacom: wacomgrp {
++		fsl,pins = <
++			/*MX7D_PAD_LPSR_GPIO1_IO05__GPIO1_IO5	0x00000014 FWE */
++			MX7D_PAD_LPSR_GPIO1_IO04__GPIO1_IO4	0x00000074 /* PDCTB */
++			MX7D_PAD_LPSR_GPIO1_IO01__GPIO1_IO1	0x00000034 /* WACOM INT */
++			/*MX7D_PAD_LPSR_GPIO1_IO06__GPIO1_IO6	0x00000014 WACOM PWR ENABLE */
++			/*MX7D_PAD_LPSR_GPIO1_IO00__GPIO1_IO0	0x00000074 WACOM RESET */
++		>;
++	};
++};
++
+ &iomuxc {
+ 	pinctrl_brcm_reg: brcmreggrp {
+ 		fsl,pins = <
+@@ -125,6 +177,13 @@ MX7D_PAD_SAI1_TX_BCLK__GPIO6_IO13	0x14
+ 		>;
+ 	};
+ 
++	pinctrl_i2c1: i2c1grp {
++		fsl,pins = <
++			MX7D_PAD_I2C1_SDA__I2C1_SDA		0x4000007f
++			MX7D_PAD_I2C1_SCL__I2C1_SCL		0x4000007f
++		>;
++	};
++
+ 	pinctrl_uart1: uart1grp {
+ 		fsl,pins = <
+ 			MX7D_PAD_UART1_TX_DATA__UART1_DCE_TX	0x79
 -- 
 2.31.1
 
