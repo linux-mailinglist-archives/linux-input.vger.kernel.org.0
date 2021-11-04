@@ -2,90 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03C9744590C
-	for <lists+linux-input@lfdr.de>; Thu,  4 Nov 2021 18:54:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 035B3445BCB
+	for <lists+linux-input@lfdr.de>; Thu,  4 Nov 2021 22:45:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229804AbhKDR4h (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 4 Nov 2021 13:56:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34474 "EHLO
+        id S232209AbhKDVsE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 4 Nov 2021 17:48:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231742AbhKDR4g (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 4 Nov 2021 13:56:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A47F4C061714;
-        Thu,  4 Nov 2021 10:53:58 -0700 (PDT)
-Received: from Monstersaurus.ksquared.org.uk.beta.tailscale.net (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A11F91C18;
-        Thu,  4 Nov 2021 18:53:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1636048435;
-        bh=qGSuuTnM3mb4rnj/RSz/PrRrWVygP1aCNwH3RPQW22E=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=epZS5N3bJxC9UzAyp64zLc0C1SJD8BQA06Sg6cSngLDnFsloHxIq8pw7ZkbPdHx1/
-         2/s2n9i42K/6NX7TYeyDj3UQyNHWloGHH0N7TQiSCN+0jRT4a3x9IdZEIBvn2hnvsI
-         FOOHfYE48SXTEA5MUbgldcLLBc7dm8fLTBctqW9c=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-input@vger.kernel.org, Geert Uytterhoeven <geert@glider.be>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        with ESMTP id S231154AbhKDVsA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 4 Nov 2021 17:48:00 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B418EC061203
+        for <linux-input@vger.kernel.org>; Thu,  4 Nov 2021 14:45:21 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id r5so9560884pls.1
+        for <linux-input@vger.kernel.org>; Thu, 04 Nov 2021 14:45:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=JWx9ct2MbjImA6H/WvO058+827HmSCDeJJGYWZ5NWKI=;
+        b=B0nLjg/Un1RR8JO88l4pjO/r40QMXp2NKWLOT8gleROTy83KBOS+lF4w9BC+N5Ioq0
+         M8bgTpM76+k0f6GHJDCplbtrZ8g8sQxnoKAkzpFVhEiz4SpSE8yvyy+bPNe9HOBo3xzV
+         /Wz2WuZ1KL/kBkyWJd7mLDWnE9FE4GQyRtI4Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JWx9ct2MbjImA6H/WvO058+827HmSCDeJJGYWZ5NWKI=;
+        b=fS34FIsO4jzDwWV+7h1F9R1JIggMVMmpsb6FQxzbVPfGxSARTQnEYvjq8aGaD/ENTX
+         wSDnAaL9ygd7Faro6TwUgbTdhPutsrb8JN70Q24Klvc9CEHNIPR1bBSjS2hRFJ6JA8t3
+         mLBushDeW08LB0b1r6AfDnCuDcBnDJJEfqgzZRBOVWrtsdNyjw5Rk2GMRTKC/6gZMVvu
+         QResK/xX3JFqSByUYWloiP/jL6+nWa45cZsXyTNyAlBdnv+YWQS6GiKK+W4QRp+heHY4
+         ZfaKH+6zPi3p8we/T97COPg1+b9TM5Jt2Fy4sLHUtODMofAb1io0rCZb8jMh0SItkfVh
+         9yDA==
+X-Gm-Message-State: AOAM532TcS2DqwN1kP4XQJu19eplLzhPpyQOpi9FjGQBxRd2AaZ8Ohnv
+        MTSDBEyuv8qBMnaR0B0LYXbzWg==
+X-Google-Smtp-Source: ABdhPJxqHMDw5YqGMlZwg7dpWo0+rcl7UStC/9wzlqsDbweCwI/3ZPYSoXpZo8EXmcankBbq9Sl1aA==
+X-Received: by 2002:a17:90b:1c06:: with SMTP id oc6mr24886431pjb.126.1636062321332;
+        Thu, 04 Nov 2021 14:45:21 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:49a7:f0ba:24b0:bc39])
+        by smtp.gmail.com with ESMTPSA id e7sm4473408pgk.90.2021.11.04.14.45.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Nov 2021 14:45:20 -0700 (PDT)
+Date:   Thu, 4 Nov 2021 14:45:18 -0700
+From:   Brian Norris <briannorris@chromium.org>
+To:     kernel test robot <lkp@intel.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        kbuild-all@lists.01.org, Andrzej Hajda <andrzej.hajda@intel.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] Input: add 'safe' user switch codes
-Date:   Thu,  4 Nov 2021 17:53:39 +0000
-Message-Id: <20211104175339.3906851-1-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211025130457.935122-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20211025130457.935122-1-kieran.bingham+renesas@ideasonboard.com>
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        David Airlie <airlied@linux.ie>,
+        linux-rockchip@lists.infradead.org,
+        "Kristian H . Kristensen" <hoegsberg@google.com>
+Subject: Re: [PATCH 1/2] drm/input_helper: Add new input-handling helper
+Message-ID: <YYRUbhWH1MlDvSsR@google.com>
+References: <20211103164002.1.I09b516eff75ead160a6582dd557e7e7e900c9e8e@changeid>
+ <202111041849.GKXf3qid-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202111041849.GKXf3qid-lkp@intel.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-All existing SW input codes define an action which can be interpreted by
-a user environment to adapt to the condition of the switch.
+On Thu, Nov 04, 2021 at 06:47:34PM +0800, kernel test robot wrote:
+> Hi Brian,
 
-For example, switches to define the audio mute, will prevent audio
-playback, and switches to indicate lid and covers being closed may
-disable displays.
+Hi robot!
 
-Many evaluation platforms provide switches which can be connected to the
-input system but associating these to an action incorrectly could
-provide inconsistent end user experiences due to unmarked switch
-positions.
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
 
-Define two custom user defined switches allowing hardware descriptions
-to be created whereby the position of the switch is not interpreted as
-any standard condition that will affect a user experience.
+I'm not sure how to do that in a v2 patch -- one doesn't normally credit
+"Reported-by" for every testing/review improvement on an in-development
+patch series.
 
-This allows wiring up custom generic switches in a way that will allow
-them to be read and processed, without incurring undesired or otherwise
-undocumented (by the hardware) 'default' behaviours.
+> All errors (new ones prefixed by >>):
+> 
+>    or1k-linux-ld: drivers/gpu/drm/drm_input_helper.o: in function `drm_input_disconnect':
+> >> drm_input_helper.c:(.text+0x48): undefined reference to `input_close_device'
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-I'd like to hear feedback from linux-input on this of course, and if
-accepted I'll submit updates to the evtest utility too.
+I've cooked a local change to separate the CONFIG_INPUT dependencies
+under another Kconfig symbol which optionally builds this stuff into the
+drm helper module, only when CONFIG_INPUT is present. That should fix
+the build issues while still leaving DRM_KMS_HELPER workable with or
+without CONFIG_INPUT.
 
+I'll wait to see if there's any other feedback before spinning though.
 
- include/uapi/linux/input-event-codes.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 225ec87d4f22..84a7b3debcb3 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -894,7 +894,9 @@
- #define SW_MUTE_DEVICE		0x0e  /* set = device disabled */
- #define SW_PEN_INSERTED		0x0f  /* set = pen inserted */
- #define SW_MACHINE_COVER	0x10  /* set = cover closed */
--#define SW_MAX			0x10
-+#define SW_1			0x11  /* set = user defined */
-+#define SW_2			0x12  /* set = user defined */
-+#define SW_MAX			0x12
- #define SW_CNT			(SW_MAX+1)
- 
- /*
--- 
-2.30.2
-
+Brian
