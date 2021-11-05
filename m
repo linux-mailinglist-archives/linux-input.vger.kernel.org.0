@@ -2,119 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6A4C44623E
-	for <lists+linux-input@lfdr.de>; Fri,  5 Nov 2021 11:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7950D4463B8
+	for <lists+linux-input@lfdr.de>; Fri,  5 Nov 2021 14:01:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233134AbhKEKhz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Nov 2021 06:37:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59124 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbhKEKhx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Nov 2021 06:37:53 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F5C6C061714;
-        Fri,  5 Nov 2021 03:35:14 -0700 (PDT)
-Received: from Monstersaurus.ksquared.org.uk.beta.tailscale.net (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E1199E7;
-        Fri,  5 Nov 2021 11:35:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1636108512;
-        bh=IEjUClWapyjX1HEa1/kYmeWrMydAUUc4XIq1iNdGE88=;
-        h=From:To:Cc:Subject:Date:From;
-        b=FOZWUF1F+Jr9saHNaIMljatR0si9VEcfq5kvi022un6PVrqJiH7LuL2Wo9Qwu6kGm
-         tjjNJDUoom5+joeCHloE51yA9nN6/7Zt1bSm2er2EnjT0dVNfHLEnx6vZ6fdXmI64h
-         /1H65C+iAIS3XtIJnqt8tkDsBF2DT6TqN/Njfa7Q=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-input@vger.kernel.org, Geert Uytterhoeven <geert@glider.be>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        id S229581AbhKENEJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Nov 2021 09:04:09 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:39048 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229529AbhKENEI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Nov 2021 09:04:08 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id AB1B21F463C4
+Subject: Re: [RFC] tty/sysrq: Add alternative SysRq key
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To:     "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Wu Hao <hao.wu@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Ertman <david.m.ertman@intel.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        Xu Yilun <yilun.xu@intel.com>,
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2] Input: add 'safe' user switch codes
-Date:   Fri,  5 Nov 2021 10:35:07 +0000
-Message-Id: <20211105103508.4153491-1-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.30.2
+        Jiri Slaby <jirislaby@kernel.org>, kernel@collabora.com
+References: <20211103155438.11167-1-andrzej.p@collabora.com>
+ <20211104120111.GB23122@duo.ucw.cz>
+ <17ccc35d-441c-70c1-a80a-28a4ff824535@collabora.com>
+ <alpine.DEB.2.21.2111041227510.57165@angie.orcam.me.uk>
+ <alpine.DEB.2.21.2111041311260.57165@angie.orcam.me.uk>
+ <9fbe062a-2992-0361-e72a-f2b1523143dd@collabora.com>
+Message-ID: <b3a917ef-8a70-80b6-8c79-48ce4628b9e8@collabora.com>
+Date:   Fri, 5 Nov 2021 14:01:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <9fbe062a-2992-0361-e72a-f2b1523143dd@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-All existing SW input codes define an action which can be interpreted by
-a user environment to adapt to the condition of the switch.
+Hi,
 
-For example, switches to define the audio mute, will prevent audio
-playback, and switches to indicate lid and covers being closed may
-disable displays.
+W dniu 04.11.2021 o 15:17, Andrzej Pietrasiewicz pisze:
+> Hi Maciej,
+> 
+> W dniu 04.11.2021 o 14:13, Maciej W. Rozycki pisze:
+>> On Thu, 4 Nov 2021, Maciej W. Rozycki wrote:
+>>
+>>>   The reason for this is with their more recent laptops Lenovo in their
+>>> infinite wisdom have placed the <PrintScreen> key (which in a traditional
+>>> PS/2-keyboard manner produces <SysRq> when combined with <Alt>) in their
+>>> keyboards between the right <Alt> and <Ctrl> keys.  With thumbs not being
+>>> as accurate as other fingers (and the overall misdesign of the keyboard
+>>> and touchpad interface) you can imagine how often I have inadvertently hit
+>>> <SysRq> combined with a letter key, wreaking havoc to my system (and of
+>>> course I want to keep the key enabled for times when I do need it).
+>>
+>>   On second thoughts this can be disabled with `setkeycodes 54 0' once we
+>> do have an alternative combination available.
+>>
+> 
+> Doesn't `setkeycodes` affect only one keyboard? What if there are more
+> keyboards connected to a machine?
+> 
+>  From drivers/tty/vt/keyboard.c:
+> 
+> /*
+>   * Translation of scancodes to keycodes. We set them on only the first
+>   * keyboard in the list that accepts the scancode and keycode.
+>   * Explanation for not choosing the first attached keyboard anymore:
+>   *  USB keyboards for example have two event devices: one for all "normal"
+>   *  keys and one for extra function keys (like "volume up", "make coffee",
+>   *  etc.). So this means that scancodes for the extra function keys won't
+>   *  be valid for the first event device, but will be for the second.
+>   */
+> 
 
-Many evaluation platforms provide switches which can be connected to the
-input system but associating these to an action incorrectly could
-provide inconsistent end user experiences due to unmarked switch
-positions.
+My second thoughts: if we run `setkeycodes` to map, say, F10 as SysRq,
+don't we lose F10?
 
-Define two custom user defined switches allowing hardware descriptions
-to be created whereby the position of the switch is not interpreted as
-any standard condition that will affect a user experience.
-
-This allows wiring up custom generic switches in a way that will allow
-them to be read and processed, without incurring undesired or otherwise
-undocumented (by the hardware) 'default' behaviours.
-
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-
-Sigh, a compile test might have at least saved the buildbots the trouble
-of notifying me I also need to update the INPUT_DEVICE_ID_SW_MAX. But
-even so - I'm really looking for a discussion on the best ways to
-describe a non-defined switch in device tree.
-
-Here's a compiling v2 ;-) But the real questions are :
-
- - Should an existing feature switch be used for generic switches?
- - Should we even have a 'user' defined switch?
- - If we add user switches, how many?
-
-
- include/linux/mod_devicetable.h        | 2 +-
- include/uapi/linux/input-event-codes.h | 4 +++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-index ae2e75d15b21..dfa1e4f41cd8 100644
---- a/include/linux/mod_devicetable.h
-+++ b/include/linux/mod_devicetable.h
-@@ -326,7 +326,7 @@ struct pcmcia_device_id {
- #define INPUT_DEVICE_ID_LED_MAX		0x0f
- #define INPUT_DEVICE_ID_SND_MAX		0x07
- #define INPUT_DEVICE_ID_FF_MAX		0x7f
--#define INPUT_DEVICE_ID_SW_MAX		0x10
-+#define INPUT_DEVICE_ID_SW_MAX		0x12
- #define INPUT_DEVICE_ID_PROP_MAX	0x1f
- 
- #define INPUT_DEVICE_ID_MATCH_BUS	1
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 225ec87d4f22..84a7b3debcb3 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -894,7 +894,9 @@
- #define SW_MUTE_DEVICE		0x0e  /* set = device disabled */
- #define SW_PEN_INSERTED		0x0f  /* set = pen inserted */
- #define SW_MACHINE_COVER	0x10  /* set = cover closed */
--#define SW_MAX			0x10
-+#define SW_1			0x11  /* set = user defined */
-+#define SW_2			0x12  /* set = user defined */
-+#define SW_MAX			0x12
- #define SW_CNT			(SW_MAX+1)
- 
- /*
--- 
-2.30.2
-
+Andrzej
