@@ -2,133 +2,119 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7E2C446561
-	for <lists+linux-input@lfdr.de>; Fri,  5 Nov 2021 16:02:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F933446590
+	for <lists+linux-input@lfdr.de>; Fri,  5 Nov 2021 16:16:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233379AbhKEPEg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Nov 2021 11:04:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34484 "EHLO
+        id S233395AbhKEPTh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Nov 2021 11:19:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233378AbhKEPEg (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Nov 2021 11:04:36 -0400
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E59ECC061714;
-        Fri,  5 Nov 2021 08:01:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=kemnade.info; s=20180802; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=HEBvWRg9S4l41qj5CuJ9xd8WUMjF45Gsh7boop/TI/8=; b=exjT7KNvOAVNQofMTz4xN+rh/+
-        rghIpP6ikdGyFT05k2paeUz32XPxNsFZP5Um9+H1tYYr8q6EeyW+i9y/gHZuursjvbc9L5qFvwj/4
-        dCTgxw8CD9KnvLvp0IUf5mCj+sAcNNGFtzOjYZrRzK8QLagQCyrl7DwGKNAI272patCA=;
-Received: from p200300ccff0899001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff08:9900:1a3d:a2ff:febf:d33a] helo=aktux)
-        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <andreas@kemnade.info>)
-        id 1mj0j2-0004v0-Kt; Fri, 05 Nov 2021 16:01:52 +0100
-Date:   Fri, 5 Nov 2021 16:01:51 +0100
-From:   Andreas Kemnade <andreas@kemnade.info>
-To:     Alistair Francis <alistair@alistair23.me>
-Cc:     linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mylene.josserand@free-electrons.com, linus.walleij@linaro.org,
-        rydberg@bitmath.org, dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        alistair23@gmail.com,
-        =?UTF-8?B?TXlsw6huZQ==?= Josserand <mylene.josserand@bootlin.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>
-Subject: Re: [PATCH v2 1/4] Input: Add driver for Cypress Generation 5
- touchscreen
-Message-ID: <20211105160151.4d97d587@aktux>
-In-Reply-To: <20211103114830.62711-2-alistair@alistair23.me>
-References: <20211103114830.62711-1-alistair@alistair23.me>
-        <20211103114830.62711-2-alistair@alistair23.me>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S233356AbhKEPTh (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Nov 2021 11:19:37 -0400
+Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69454C061714;
+        Fri,  5 Nov 2021 08:16:57 -0700 (PDT)
+Received: by mail-ua1-x92f.google.com with SMTP id o26so17702127uab.5;
+        Fri, 05 Nov 2021 08:16:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=W7Ej9nUPelbvcg8WsAGskNxrFmjjze1zHOKgYJgl9Yg=;
+        b=HruQYqomszar0rWSAQkS/UJbSjf223BYbu2VidWlBtREhSvPDKJX369KX7L2W/eYWR
+         TD9/tKwkZpoqSs3K2HcEIimuiFazZ8wFtrU4ie5j3LfXE2bJq0EbuaZctCUTx3aHmktN
+         xJeBSDwTOU18Adx5zR4vIaqtlraXy+1W1Yalmfu2CgQn8myC7itrd0YwczJNIHoV99Bu
+         xbiQNHNfFcsQQ+/wRmcejzPF1M+T+KhNMMQdLKWjf9lY7Uh2+vRMUXotDFLEBRSlJ3LN
+         Gv59XMjL9GSwT03KbNqo0GIOf1E2wa+P4OHP1m15caL3JyCKto+3lwKuZ/HdUrzMMVRq
+         dX8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=W7Ej9nUPelbvcg8WsAGskNxrFmjjze1zHOKgYJgl9Yg=;
+        b=B7kwBX0dvRjo+sNK7v86gHTuoAEc/op5IK0bhbZHXcjDcWCDIlQBDVMUqId3LowN8M
+         XuxMIKBDDPSXCdeRettW1z8MRU87HHL3mFhzINRPjB1yM88L/qJWopWwnF7dxKOpV4P5
+         Ne8iuEUt8z4ViceyrV5XGrKwNWCuU15V67zitFezhcC8P9wHHa6t0TQh8eJ34TbboScS
+         dVuorr1qV2YtzNJW1NBF8Ucqh4Kj88d/LOHNfq5RSHVnJk+HyfSD4YmUQze+6J00eo3h
+         teCZG+F3M6J7ntBoSJyOD4SHQo1bY5WbsqT1AwBnMYWtIA87o9ZpMYx/KnUvCmANWCx3
+         fm3g==
+X-Gm-Message-State: AOAM5316I3Sk+bSmBb5i3xmfjKuWFDbVgG+cIi9UhEaF7a5PZGzI7OqC
+        g1n2tkHTbUYEVLErlnwaKHKRVrsGgl8pzvewIHhyI8ON8DM=
+X-Google-Smtp-Source: ABdhPJx9DNu2/5tu+S/ya7hNgORi6bcfJUZPT5AQ3hGeRR+XJ4RLI5C4SxhqBNqRRvhoSn20zCI/UnyrU1iMEz7r9eg=
+X-Received: by 2002:a67:ed8c:: with SMTP id d12mr72198197vsp.45.1636125416361;
+ Fri, 05 Nov 2021 08:16:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -1.0 (-)
+References: <20211008222327.9324-1-angiolucci@gmail.com> <CAKdAkRTdCSC_6UqWkcT3p697+d0kwEqMSSR=M9vw-NPAjdZ4SQ@mail.gmail.com>
+In-Reply-To: <CAKdAkRTdCSC_6UqWkcT3p697+d0kwEqMSSR=M9vw-NPAjdZ4SQ@mail.gmail.com>
+From:   =?UTF-8?Q?Vin=C3=ADcius_Reis?= <itsme.vreis@gmail.com>
+Date:   Fri, 5 Nov 2021 12:16:45 -0300
+Message-ID: <CALawNGC3HTV86+LAkMNf_nApqnUoAQ7UPEXOj9WXake5DhHkpQ@mail.gmail.com>
+Subject: Re: [PATCH] HID: hid-asus.c: Maps key 0x35 (display off) to KEY_SCREENLOCK
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>, angiolucci@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed,  3 Nov 2021 21:48:27 +1000
-Alistair Francis <alistair@alistair23.me> wrote:
+Em qui., 28 de out. de 2021 =C3=A0s 13:07, Dmitry Torokhov
+<dmitry.torokhov@gmail.com> escreveu:
+>
+> Hi Vin=C3=ADcius,
+>
+> On Fri, Oct 8, 2021 at 3:24 PM Vin=C3=ADcius Angiolucci Reis
+> <itsme.vreis@gmail.com> wrote:
+> >
+> > On Windows systems, ASUS laptops uses the "turn display off" key
+> > (usually fn+f6) to turn both display and keyboard backlit off. On Linux
+> > systems, this key has no effect at all since most desktop enviroments
+> > don't deal with KEY_DISPLAY_OFF. By mapping it to KEY_SCREENLOCK
+> > instead, would enable desktop environments to handle this key as a
+> > screen lock intent from the user, out of the box.
+>
+> But is it the intent of the user? The fact that current desktop
+> environments do not handle this key is not a reason to change kernel
+> behavior.
+>
+> If screen lock is simply your preference then you can change the
+> mapping via udev on your system without the need to patch the kernel.
+>
+> Thanks.
+>
+> --
+> Dmitry
 
-[...]
-> +static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
-> +			 const char *name)
-> +{
-> +	struct cyttsp5 *ts;
-> +	struct cyttsp5_sysinfo *si;
-> +	int rc = 0, i;
-> +
-> +	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
-> +	if (!ts)
-> +		return -ENOMEM;
-> +
-> +	/* Initialize device info */
-> +	ts->regmap = regmap;
-> +	ts->dev = dev;
-> +	si = &ts->sysinfo;
-> +	dev_set_drvdata(dev, ts);
-> +
-> +	/* Initialize mutexes and spinlocks */
-> +	mutex_init(&ts->system_lock);
-> +
-> +	/* Initialize wait queue */
-> +	init_waitqueue_head(&ts->wait_q);
-> +
-> +	/* Power up the device */
-> +	ts->vdd = regulator_get(dev, "vdd");
-> +	if (IS_ERR(ts->vdd)) {
-> +		rc = PTR_ERR(ts->vdd);
-> +		dev_set_drvdata(dev, NULL);
-> +		kfree(ts);
-> +		return rc;
-> +	}
-> +
-> +	rc = regulator_enable(ts->vdd);
-> +	if (rc) {
-> +		regulator_put(ts->vdd);
-> +		dev_set_drvdata(dev, NULL);
-> +		kfree(ts);
-> +		return rc;
-> +	}
-> +
-> +	/* Reset the gpio to be in a reset state */
-> +	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+(Sorry, I'm sending this response again because it seems the first
+attempt didn't make it to the mailing lists for some reason.)
 
-        so we deassert reset for
+Hi Dmitry,
 
-> +	if (IS_ERR(ts->reset_gpio)) {
-> +		rc = PTR_ERR(ts->reset_gpio);	
-> +		dev_err(dev, "Failed to request reset gpio, error %d\n", rc);
-> +		return rc;
-> +	}
-	
-	almost no time 
-> +	gpiod_set_value(ts->reset_gpio, 1);
+I've picked up this particular key event because it would trigger a close
+behavior to the one seen on Windows. It is far from being my preference,
+which would be an exact mimic of the Windows behavior (and can be
+achieved by xset dpms force on/off from user space).
 
-        and then assert it, keeping the chip in reset
-> +
-> +	/* Need a delay to have device up */
-> +	msleep(20);
-> +
-	and why it should wake up?
+The idea of this patch is to improve the user experience, by giving that ke=
+y a
+behavior as close as possible to what users might experience on Windows.
+Because most Linux desktop environments also turn the display off after
+locking the screen, this would be a good approximation to what happens on
+Windows. I think it is more about giving (consistent) behavior to it
+than changing it.
 
-	I reversed the logic here to test. I have 
+I agree it is possible to control that via udev or something else. But
+most regular
+users won't be able to do that, ending up with an unused key, though.
+The hardcore user that would prefer a very different key behavior
+could keep using
+udev to do that.
 
-        reset-gpios = <&gpio5 13 GPIO_ACTIVE_LOW>;
+So IMHO I think that setting this up on the kernel would be a good
+approach in this case.
 
-	in my tests.
+Thanks.
 
-> +	rc = devm_request_threaded_irq(dev, irq, NULL, cyttsp5_handle_irq,
-> +				       IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-> +				       name, ts);
-        falling or level low (according to the example in the
-        dt schema)?	
-
-Regards,
-Andreas
+Vin=C3=ADcius
