@@ -2,78 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDD39446B42
-	for <lists+linux-input@lfdr.de>; Sat,  6 Nov 2021 00:33:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18215446C07
+	for <lists+linux-input@lfdr.de>; Sat,  6 Nov 2021 03:25:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230310AbhKEXgQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Nov 2021 19:36:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36862 "EHLO
+        id S231332AbhKFC1t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Nov 2021 22:27:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229917AbhKEXgQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Nov 2021 19:36:16 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 205BBC061570;
-        Fri,  5 Nov 2021 16:33:36 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id j9so9577100pgh.1;
-        Fri, 05 Nov 2021 16:33:36 -0700 (PDT)
+        with ESMTP id S230081AbhKFC1s (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Nov 2021 22:27:48 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58C97C061570;
+        Fri,  5 Nov 2021 19:25:08 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id p8so8473956pgh.11;
+        Fri, 05 Nov 2021 19:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=MM0zBe3+lgpxRN35m32BV7e0djrGYypyK+XY2hlIPvI=;
-        b=q1XEPJonTV0fyWuY2IZAt3OlUkfTRhqbzgBxkEKFDL16Qori9GaFH6LNrKdaTatESN
-         SMallXOwObkm/ny67iWwIGLHEQgD9SRUL1A0THCF382ytaC6jxg8UWlalUqksZ/nLbLp
-         dFhMg+suq13+v9hSiC1FqFFOi0AHBQ0oAoTkwm5Q00fdQVw6E8nuN+BMrol5eeU+TvHk
-         BkP5SX15OiwFtYDe0rafOc6sm6Zzmvx7EcI2tI5QC5ORgs7Nvo5WWmPYlLW2EujpA1Y/
-         jxCh8yxxNAqDFoiJIbhSi9p8ONGcYhT/079OIYXhhmuJlQ+B24/nMrZhfiGacbgtaoxq
-         5QDg==
+        bh=HS5tdtnjvtjCMr7mW88LxdLfRIjrhjbdJc8HlrChIEg=;
+        b=ZLrSv+yowWNqO2SF/2PhBAyu9ur4ZKQJcEVVZI3a4W87NomWXLbhOwA4kvAydlemk/
+         gHJN0Xai9afiz1Vd+CkU5S07wQI5mbxi+DXTlE5LHbIbPyMFw3eXZV/4OR9XwAWwttIC
+         MiF4SRTPASsl3rs7NNE9BhOQqqLPV7Ci/kVxRB9pYVcothwp57QOy4lpAcpEDPfCMYcm
+         R5xFAgOkEkIyYygCVVuDZSvqG1VmNYar2MRhFGTBKJthVu+OqzwFncZRJIf2ZZeGfIF/
+         wAIzaU4xnj0NQioQ87s0nOQgqy6IHjRiHRYS663i0qYpLeWb+cyrjdaaghHw0dS8yw73
+         loew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=MM0zBe3+lgpxRN35m32BV7e0djrGYypyK+XY2hlIPvI=;
-        b=VMHKc51nMtFPrHeODWQ+K9+hJnKW0xb3btao8m+zVzUNdD4rGXnlD6RuQNrBbOQd3g
-         nS4VDmPUKG+Z1zK90nuINpANeHauH5hkuuzk+eXL1ZXWt1UyzJgRCKOHkYWmdP9YEo2r
-         8N0H1lR4XGUOqzgNWNAiffW/dMCUSeGcryVFzMXWOx+3pkGePBPg5ZERkaPUwzriOQwj
-         BLCIf7XgNngi3Zvwtof83z+CXnKCbUXwNBvx3qI+aWE5htuDLB3bGpGjfI3a29jIriL5
-         L0EQipEu6pT4sVk7tolebtV6rf6rSRYjanBu7ina6wlso5cNgdyNz3nBOZP/T+Yl1y2l
-         pGvA==
-X-Gm-Message-State: AOAM530nYYqTkehoJKzm5ZSvRTYD44/0RXC3S+7/EpvHx2XxATmOyMK3
-        EfNNDeaWLnxGuvvdmTQIk3fSfgcBt3o=
-X-Google-Smtp-Source: ABdhPJyqWtZBHh78DP2mdqNED8fHF+niIJbfRurkPV748XQC86I0v9p/aVX96lxJujxbBMnC+Vut0Q==
-X-Received: by 2002:a63:e00b:: with SMTP id e11mr47340017pgh.190.1636155214087;
-        Fri, 05 Nov 2021 16:33:34 -0700 (PDT)
+        bh=HS5tdtnjvtjCMr7mW88LxdLfRIjrhjbdJc8HlrChIEg=;
+        b=kh7wlNWSKjf/9lScdaP6GKOjUCmzi/oXV4JHiFGIRh5AjU59BD2gl57Jiz3dldkRXy
+         VqswE6QUifgUrd2KNcKehhPv5t9RMQWTXQIDvTOHG7BmCitVMPCJmfpQWXubbS4WWWuw
+         w+dpShITElu1pqGcN3Owm/EHLoeCdnGqOWHd58BRwFx95XmLoHmVGKbLi1AssnyAI0bU
+         YjiZ8b6qyzqd69bxD/UVb5YqAKfEQYsTaRoqw1Cu/Nd6N8SF1acvE4KFxtu7w9sYGwNO
+         NkyfV82NhVbvc+maB2Y0nDT7WLuUM0JZmZ1awGtj6Z6S+ZhXwp6bt95OdkPiAlvP8pXm
+         gUTQ==
+X-Gm-Message-State: AOAM530NsBYwGz8y3CGdYP5wMljzI/88ZQwku1bp5OES3YtxxugctaYm
+        kjshQmpCkpVthWyJpHMdhcI=
+X-Google-Smtp-Source: ABdhPJzqz+LPA78908kez9PRo7qqfIpvJ5Vf1VtQiAQoyfpvTnE4hiu4jdgouLouIs9gqZ9yoclf+g==
+X-Received: by 2002:a63:1cd:: with SMTP id 196mr47171777pgb.39.1636165507644;
+        Fri, 05 Nov 2021 19:25:07 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:837c:e765:475f:22d3])
-        by smtp.gmail.com with ESMTPSA id f18sm8305673pfv.74.2021.11.05.16.33.31
+        by smtp.gmail.com with ESMTPSA id a21sm8678162pfv.67.2021.11.05.19.25.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Nov 2021 16:33:32 -0700 (PDT)
-Date:   Fri, 5 Nov 2021 16:33:30 -0700
+        Fri, 05 Nov 2021 19:25:06 -0700 (PDT)
+Date:   Fri, 5 Nov 2021 19:25:04 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Neal Gompa <ngompa13@gmail.com>
-Subject: Re: [PATCH] Input: i8042 - Add quirk for Fujitsu Lifebook T725
-Message-ID: <YYW/StbFdd2fYvJg@google.com>
-References: <20211103070019.13374-1-tiwai@suse.de>
+To:     Alistair Francis <alistair@alistair23.me>
+Cc:     linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mylene.josserand@free-electrons.com, linus.walleij@linaro.org,
+        andreas@kemnade.info, rydberg@bitmath.org, robh+dt@kernel.org,
+        alistair23@gmail.com
+Subject: Re: [PATCH v2 4/4] ARM: dts: imx7d: remarkable2: Enable the cyttsp5
+Message-ID: <YYXngKCBbAkkxEKj@google.com>
+References: <20211103114830.62711-1-alistair@alistair23.me>
+ <20211103114830.62711-5-alistair@alistair23.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211103070019.13374-1-tiwai@suse.de>
+In-Reply-To: <20211103114830.62711-5-alistair@alistair23.me>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 03, 2021 at 08:00:19AM +0100, Takashi Iwai wrote:
-> Fujitsu Lifebook T725 laptop requires, like a few other similar
-> models, the nomux and notimeout options to probe the touchpad
-> properly.  This patch adds the corresponding quirk entries.
-> 
-> BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1191980
-> Tested-by: Neal Gompa <ngompa13@gmail.com>
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+On Wed, Nov 03, 2021 at 09:48:30PM +1000, Alistair Francis wrote:
+> +	tsc@24 {
+> +		compatible = "cypress,tt21000";
+> +		reg = <0x24>;
+> +
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&pinctrl_touch>;
+> +		interrupt-parent = <&gpio1>;
+> +		interrupts = <14 IRQ_TYPE_EDGE_FALLING>;
+> +		reset-gpios = <&gpio1 13 0>;
 
-Applied, thank you.
+Reset lines are almost universally active low. Are you sure it is active
+high in your case?
+
+Thanks.
 
 -- 
 Dmitry
