@@ -2,102 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94E9A447327
-	for <lists+linux-input@lfdr.de>; Sun,  7 Nov 2021 14:55:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3CD6447400
+	for <lists+linux-input@lfdr.de>; Sun,  7 Nov 2021 17:48:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235440AbhKGN6O (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 7 Nov 2021 08:58:14 -0500
-Received: from smtpq1.tb.ukmail.iss.as9143.net ([212.54.57.96]:56902 "EHLO
-        smtpq1.tb.ukmail.iss.as9143.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229679AbhKGN6K (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 7 Nov 2021 08:58:10 -0500
-Received: from [212.54.57.110] (helo=csmtp6.tb.ukmail.iss.as9143.net)
-        by smtpq1.tb.ukmail.iss.as9143.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <gareth.randall@virgin.net>)
-        id 1mjidp-0002WK-4y
-        for linux-input@vger.kernel.org; Sun, 07 Nov 2021 14:55:25 +0100
-Received: from [192.168.0.10] ([94.175.123.86])
-        by cmsmtp with ESMTPA
-        id jidomciup24zojidpmuFr5; Sun, 07 Nov 2021 14:55:25 +0100
-X-Originating-IP: [94.175.123.86]
-X-Authenticated-Sender: gareth.randall@virgin.net
-X-Spam: 0
-X-Authority: v=2.4 cv=K8YxogaI c=1 sm=1 tr=0 ts=6187dacd cx=a_exe
- a=mwdPpgLduwvwBeoi1XfOCA==:117 a=mwdPpgLduwvwBeoi1XfOCA==:17
- a=IkcTkHD0fZMA:10 a=vIxV3rELxO4A:10 a=f6pUZMUfAAAA:8 a=qsNWos9tGE8nN0yM_qkA:9
- a=QEXdDO2ut3YA:10 a=eZImKStj3dtCS-zw9-0K:22
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virgin.net;
-        s=meg.feb2017; t=1636293325;
-        bh=At6jo9YpfsdHSsdeZ2+dydcmt8Eyh5MnpCGfulD85qY=;
-        h=Date:From:Subject:To:References:In-Reply-To;
-        b=UD83caO7NpPxhpULwqB+ltqBuIGNHiiOyTTdx09sxVlYMNZfSVRv093hQa4TXFanQ
-         ggUw8pgas4Bf0BKKY8LQwcudeuCTjPCdXCz+dKfJYLxvI9kPrgXw9hc4g2xGkuoG/6
-         ZUwMnpx6o0G+A3cQIF/evA7wDLPxAoMlh0TTVQezBnCrslz922bsKpITKp86eUVqVl
-         GP4BkyfE8eRBg1iLNCoD1cJd93YC/xRGyCw3ZJCegOVp6Q2HiWigIwlBB4AdtqHGzE
-         phiTWPWw+t8YsKD6szv/u1ekrVrBo2pyBopPa3ws8C/PSqLtPVvVYda9oDc1c6DKXr
-         mDTd5Z3rnT/iQ==
-Message-ID: <e57b034a-4057-0781-32af-cc921aaa63f0@virgin.net>
-Date:   Sun, 7 Nov 2021 13:55:24 +0000
+        id S235835AbhKGQvc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 7 Nov 2021 11:51:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35194 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235839AbhKGQva (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 7 Nov 2021 11:51:30 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91CD9C06120E
+        for <linux-input@vger.kernel.org>; Sun,  7 Nov 2021 08:48:47 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id b13so14278239plg.2
+        for <linux-input@vger.kernel.org>; Sun, 07 Nov 2021 08:48:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=3KhLtwCKP93j3EcWq+BGTsAWsp8Oi4eBuXX0Ov40ah8=;
+        b=TNg4tHoQw5kKoLZkiGTAZIxJzUBBq4ejYt4ncgOecgNOvSUwtqqwittPPI+7pJVjX+
+         GpTp2M0KfhRYRUpBRXEYVXnxqP/7lqMWjwkVgxSXQTHg4r801CGBH3Cxkr2xCA8iHpDQ
+         PkNioeCtNa8D4FxZOybE5F6kFZNCXIj5SS/5dluRY9kmgQGkqsgb/0EL9qYgh0jdJYEk
+         mgqrImAxVO9xLB3ph2REOdqPQUk3eSUgj070IZGlv2zYI0h97xHGiGSssFFZrlwEHWTd
+         7gJa3FlCIyQYHI4/knwR34TShiwqFLlPcy+ypePmUlRAZLKNrHzuj6T1hpUgZdGxUgLr
+         tNtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=3KhLtwCKP93j3EcWq+BGTsAWsp8Oi4eBuXX0Ov40ah8=;
+        b=OrfeXCn8gJN6f6dD72KxvyWS8WztwnFHebnGw4xy8sqdd8TfOCb7KzzvwX0P9zKYz8
+         chpSPbHEC98DpKxIAVeEas2Bf5q5V79MZPx06UzxjUkaoV0rdlykCqcUqhcnB8afP7oy
+         6C6VgGFYd1DniNDYzskSuceRl9fem/c/NSyKScB/3tQFFIP9glFfwbGcMOn1BISKUa67
+         52Rl4vz0V7LZaaJ0PWTnPzwuLt7u+65vzix0oDXnRYjsyf0psGFZ2+mzFugN+n4QA7rK
+         WiPB3cJMDzuRkuiDEVT3p0tptmJ/OHLiTDQVTWq/TeXTBwSWhFVKSRllVCcoyxkamQlw
+         v2lw==
+X-Gm-Message-State: AOAM532gq+vZpjfSzJwkgicSWAsG42kWaygD/LEijEQmjnccocu2c8Qv
+        0ewzWa+Bec2iJLNFs2/OeZ+0LzK1gpjqZj6ORdQ=
+X-Google-Smtp-Source: ABdhPJxAeCOxzzTO2bC1ebInPX7TK42gu5RWx2Xb9R/R8imfArbHNs+vmtD0xqJ/WYY5NVOuLREd2E+dZSLVoRt6leo=
+X-Received: by 2002:a17:902:a60b:b0:142:7621:be0b with SMTP id
+ u11-20020a170902a60b00b001427621be0bmr4070721plq.58.1636303726736; Sun, 07
+ Nov 2021 08:48:46 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.0
-From:   Gareth Randall <gareth.randall@virgin.net>
-Subject: Re: [PATCH RESEND 1/1] Add support for touch screens using the
- General Touch ST6001S controller.
-To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
-References: <b7687459-1665-eb1c-b8ad-2bb37b7136ac@virgin.net>
- <3083b553-38f1-7061-a8cb-8bbd423913a3@virgin.net>
-In-Reply-To: <3083b553-38f1-7061-a8cb-8bbd423913a3@virgin.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfHnDXYNXWiZnefs4rluqFPFiWD/14CA30aALXh1jsFGjdAMtsHw5QE2pPFntdJnHIJZjAiDaQTvHnAhvgNCRdbYDwvR970SkHQXavP9LBZ0mAjYRbQls
- culxmhTPHmrGvGFyMVAEhQsfDLmS+c72C6GE1pu5MKeht8Nob8JpQ+Ih9T2asVJHVB3hJveOdkl5slqdJNbKPIf9Ce5oIPJizx5Z2w7OcxHsQ02A4rq4NKPD
- ieHuCMPPLucZ2mOkQLFhvg==
+Received: by 2002:a05:6a10:4a14:0:0:0:0 with HTTP; Sun, 7 Nov 2021 08:48:46
+ -0800 (PST)
+Reply-To: amabenchambers00@gmail.com
+From:   Amadou Benjamin <ousmanekarim54@gmail.com>
+Date:   Sun, 7 Nov 2021 08:48:46 -0800
+Message-ID: <CAJFAt4Zwu2DZNzEx2mhTp73fqWvHNwMrUMgOFZ==TBGW8S=HkA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Dmitry,
+-- 
+Hello good day.
 
-I wonder if you have had a chance to look at this patch. It was 
-originally sent on 26 Sep 2021, then resent on 3 Oct 2021 to try to make 
-it come out in Patchwork properly. This is my first patch submission so 
-any feedback on both the patch and whether I'm following the process 
-properly would be very useful. Thanks very much.
+I am Barrister Amadou Benjamin by name, with due respect, I am
+contacting you to help get the deposit 10.5 million Dollars, my late
+client Engineer Vasiliy left in his Bank before his sudden death on
+April 21, 2007, to avoid confiscation by Lloyds bank. Please write me
+back through this email (amabenchambers00@gmail.com)for more
+information about this transaction or send me your private email to
+Contact you myself.
 
-Yours,
-
-Gareth
-
-On 15/10/2021 10:04, Gareth Randall wrote:
-> On 03/10/2021 22:54, Gareth Randall wrote:
->> Add support for touch screens using the General Touch ST6001S
->> controller, as found in the GPEG model AOD22WZ-ST monitor.
->> This controller can output the ELO 10-byte protocol,
->> but requires different initialisation.
->>
->> Signed-off-by: Gareth Randall <gareth@garethrandall.com>
->> ---
->>   drivers/input/touchscreen/elo.c | 58 +++++++++++++++++++++++++++++++++
->>   1 file changed, 58 insertions(+)
-> 
-> Hi,
-> 
-> I'm seeking feedback on this patch. I just wondered whether I have made 
-> any mistakes in the submission, or whether the maintainers are just very 
-> busy (most likely explanation!)
-> 
-> I know that this does not appear properly in patchwork even though I 
-> have attempted to recreate the exact format of a [PATCH] email, but I 
-> don't want to send duplicate attempts. I've checked that there are no 
-> wrapped lines in the email message. Is there a test suite that is 
-> failing that I'm not aware of, or conventions I'm not following?
-> 
-> Thanks for any feedback.
-> 
-> Yours,
-> 
-> Gareth
-
+Sincerely,
+Barrister Amadou Benjamin Esq
