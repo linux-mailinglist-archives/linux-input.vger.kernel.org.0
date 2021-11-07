@@ -2,78 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08EB44472A8
-	for <lists+linux-input@lfdr.de>; Sun,  7 Nov 2021 12:24:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94E9A447327
+	for <lists+linux-input@lfdr.de>; Sun,  7 Nov 2021 14:55:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234525AbhKGL0l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 7 Nov 2021 06:26:41 -0500
-Received: from smtp-32-i2.italiaonline.it ([213.209.12.32]:55594 "EHLO
-        libero.it" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234528AbhKGL0l (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 7 Nov 2021 06:26:41 -0500
-Received: from passgat-Modern-14-A10M.homenet.telecomitalia.it
- ([213.45.67.127])
-        by smtp-32.iol.local with ESMTPA
-        id jgG9mbDBMCVSejgH8mjsV9; Sun, 07 Nov 2021 12:23:57 +0100
-x-libjamoibt: 1601
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2021;
-        t=1636284237; bh=z0f6YHnmWTPy574Y4Y7b2kctkr8UGKCiTD9N4kEgvMc=;
-        h=From;
-        b=eRxYxo1MnaMP+HFfZIr5HqVoTFEm8ETDJr9MqKBdcYTTzcEgZDYs+PWDvR9a3co3A
-         Ufgt8qa8P2Rxp5Uiz0J4kHIEbmEIUyuFp9rX2cwnqfMJqymX4Qm3yMWNsMAa3c2p4Q
-         5DOHvVcNZWPHBqaDXtTXuaIDfd9uEL7XA1+C472OLXhKtGnwaG6ZHy5J2FxmVVBm1s
-         KZk1JwnKk5p6bPC6ioTtKAs6vAUGbgFlfAvsS+w1rk9fugOoIoqBpvA60NOSiwvlDO
-         Kw0dIo4lKY9P4bukMK51o9CjnUxIARpfLsO31a05LmvRmyWj62bwGy+e9ayTi9zwa0
-         7hrZQoTGbkAig==
-X-CNFS-Analysis: v=2.4 cv=M/2Ilw8s c=1 sm=1 tr=0 ts=6187b74d cx=a_exe
- a=Vk63IOK+/LoQucGDvce7tA==:117 a=Vk63IOK+/LoQucGDvce7tA==:17
- a=BhtjshvPcAAyVhBn9nwA:9
-From:   Dario Binacchi <dariobin@libero.it>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-input@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Rachna Patil <rachna@ti.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dario Binacchi <dariobin@libero.it>
-Subject: [RESEND PATCH 6/6] mfd: ti_am335x_tscadc: drop the CNTRLREG_8WIRE macro
-Date:   Sun,  7 Nov 2021 12:22:36 +0100
-Message-Id: <20211107112236.7969-7-dariobin@libero.it>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211107112236.7969-1-dariobin@libero.it>
-References: <20211107112236.7969-1-dariobin@libero.it>
-X-CMAE-Envelope: MS4xfF0lR9aaRRDSlbHcHGrIfxP2uIrIfJ2dnEvPRNuKcvBIQ9SYFTBShI7emdCDK7LmhjV3ZAKDxpB6FglX11uxcyyD108UQR23fYQJQs/SVD6eT9p7ZYzt
- SW8beUWx4JqE8eIJ4P9SYGaWmSrrFX4nr3og1Eym8EOFE3J/PBSgNJPAcIx8AQAwRmHGotLAVHt+UxLb05WV0I3/TNjf/zWO6hOxZsyOcWCUveOibp0FL+6V
- duXhSLQqdcEdwOT/ikVlsPyaft9IdeDbkv8FdJDDAX/KoT3M+B1D+BVsAR2TMov9NYF4t8fqUPMXpFdQcQBqxJxLSyVUlbDsZMD4H+9Rsvj+zN5tZ546Cbvz
- ouaqnz1uSdL+evmxcV2JfBo5RYNFHURriPFKLM8qPw9kMTHAtW0wWOXKHR660yMDTYHN2waWod/OUaFyWeFTlqCvxNq+oA==
+        id S235440AbhKGN6O (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 7 Nov 2021 08:58:14 -0500
+Received: from smtpq1.tb.ukmail.iss.as9143.net ([212.54.57.96]:56902 "EHLO
+        smtpq1.tb.ukmail.iss.as9143.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229679AbhKGN6K (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 7 Nov 2021 08:58:10 -0500
+Received: from [212.54.57.110] (helo=csmtp6.tb.ukmail.iss.as9143.net)
+        by smtpq1.tb.ukmail.iss.as9143.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <gareth.randall@virgin.net>)
+        id 1mjidp-0002WK-4y
+        for linux-input@vger.kernel.org; Sun, 07 Nov 2021 14:55:25 +0100
+Received: from [192.168.0.10] ([94.175.123.86])
+        by cmsmtp with ESMTPA
+        id jidomciup24zojidpmuFr5; Sun, 07 Nov 2021 14:55:25 +0100
+X-Originating-IP: [94.175.123.86]
+X-Authenticated-Sender: gareth.randall@virgin.net
+X-Spam: 0
+X-Authority: v=2.4 cv=K8YxogaI c=1 sm=1 tr=0 ts=6187dacd cx=a_exe
+ a=mwdPpgLduwvwBeoi1XfOCA==:117 a=mwdPpgLduwvwBeoi1XfOCA==:17
+ a=IkcTkHD0fZMA:10 a=vIxV3rELxO4A:10 a=f6pUZMUfAAAA:8 a=qsNWos9tGE8nN0yM_qkA:9
+ a=QEXdDO2ut3YA:10 a=eZImKStj3dtCS-zw9-0K:22
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virgin.net;
+        s=meg.feb2017; t=1636293325;
+        bh=At6jo9YpfsdHSsdeZ2+dydcmt8Eyh5MnpCGfulD85qY=;
+        h=Date:From:Subject:To:References:In-Reply-To;
+        b=UD83caO7NpPxhpULwqB+ltqBuIGNHiiOyTTdx09sxVlYMNZfSVRv093hQa4TXFanQ
+         ggUw8pgas4Bf0BKKY8LQwcudeuCTjPCdXCz+dKfJYLxvI9kPrgXw9hc4g2xGkuoG/6
+         ZUwMnpx6o0G+A3cQIF/evA7wDLPxAoMlh0TTVQezBnCrslz922bsKpITKp86eUVqVl
+         GP4BkyfE8eRBg1iLNCoD1cJd93YC/xRGyCw3ZJCegOVp6Q2HiWigIwlBB4AdtqHGzE
+         phiTWPWw+t8YsKD6szv/u1ekrVrBo2pyBopPa3ws8C/PSqLtPVvVYda9oDc1c6DKXr
+         mDTd5Z3rnT/iQ==
+Message-ID: <e57b034a-4057-0781-32af-cc921aaa63f0@virgin.net>
+Date:   Sun, 7 Nov 2021 13:55:24 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.3.0
+From:   Gareth Randall <gareth.randall@virgin.net>
+Subject: Re: [PATCH RESEND 1/1] Add support for touch screens using the
+ General Touch ST6001S controller.
+To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
+References: <b7687459-1665-eb1c-b8ad-2bb37b7136ac@virgin.net>
+ <3083b553-38f1-7061-a8cb-8bbd423913a3@virgin.net>
+In-Reply-To: <3083b553-38f1-7061-a8cb-8bbd423913a3@virgin.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfHnDXYNXWiZnefs4rluqFPFiWD/14CA30aALXh1jsFGjdAMtsHw5QE2pPFntdJnHIJZjAiDaQTvHnAhvgNCRdbYDwvR970SkHQXavP9LBZ0mAjYRbQls
+ culxmhTPHmrGvGFyMVAEhQsfDLmS+c72C6GE1pu5MKeht8Nob8JpQ+Ih9T2asVJHVB3hJveOdkl5slqdJNbKPIf9Ce5oIPJizx5Z2w7OcxHsQ02A4rq4NKPD
+ ieHuCMPPLucZ2mOkQLFhvg==
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In TI's reference manual description for the `AFE_Pen_Ctrl' bit-field
-of the TSC's CTRL register, there is no mention of 8-wire touchscreens.
-Even commit f0933a60d190 ("mfd: ti_am335x_tscadc: Update logic in CTRL
-register for 5-wire TS") says that the value of this bit-field must be
-the same for 4-wire and 8-wire touchscreens. So let's remove the
-CNTRLREG_8WIRE macro to avoid misunderstandings.
+Dear Dmitry,
 
-Signed-off-by: Dario Binacchi <dariobin@libero.it>
----
+I wonder if you have had a chance to look at this patch. It was 
+originally sent on 26 Sep 2021, then resent on 3 Oct 2021 to try to make 
+it come out in Patchwork properly. This is my first patch submission so 
+any feedback on both the patch and whether I'm following the process 
+properly would be very useful. Thanks very much.
 
- include/linux/mfd/ti_am335x_tscadc.h | 1 -
- 1 file changed, 1 deletion(-)
+Yours,
 
-diff --git a/include/linux/mfd/ti_am335x_tscadc.h b/include/linux/mfd/ti_am335x_tscadc.h
-index ffc091b77633..155b2ab13bf8 100644
---- a/include/linux/mfd/ti_am335x_tscadc.h
-+++ b/include/linux/mfd/ti_am335x_tscadc.h
-@@ -126,7 +126,6 @@
- #define CNTRLREG_AFE_CTRL(val)	((val) << 5)
- #define CNTRLREG_4WIRE		CNTRLREG_AFE_CTRL(1)
- #define CNTRLREG_5WIRE		CNTRLREG_AFE_CTRL(2)
--#define CNTRLREG_8WIRE		CNTRLREG_AFE_CTRL(3)
- #define CNTRLREG_TSCENB		BIT(7)
- 
- /* FIFO READ Register */
--- 
-2.17.1
+Gareth
+
+On 15/10/2021 10:04, Gareth Randall wrote:
+> On 03/10/2021 22:54, Gareth Randall wrote:
+>> Add support for touch screens using the General Touch ST6001S
+>> controller, as found in the GPEG model AOD22WZ-ST monitor.
+>> This controller can output the ELO 10-byte protocol,
+>> but requires different initialisation.
+>>
+>> Signed-off-by: Gareth Randall <gareth@garethrandall.com>
+>> ---
+>>   drivers/input/touchscreen/elo.c | 58 +++++++++++++++++++++++++++++++++
+>>   1 file changed, 58 insertions(+)
+> 
+> Hi,
+> 
+> I'm seeking feedback on this patch. I just wondered whether I have made 
+> any mistakes in the submission, or whether the maintainers are just very 
+> busy (most likely explanation!)
+> 
+> I know that this does not appear properly in patchwork even though I 
+> have attempted to recreate the exact format of a [PATCH] email, but I 
+> don't want to send duplicate attempts. I've checked that there are no 
+> wrapped lines in the email message. Is there a test suite that is 
+> failing that I'm not aware of, or conventions I'm not following?
+> 
+> Thanks for any feedback.
+> 
+> Yours,
+> 
+> Gareth
 
