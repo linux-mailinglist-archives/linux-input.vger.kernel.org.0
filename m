@@ -2,115 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58BD0447570
-	for <lists+linux-input@lfdr.de>; Sun,  7 Nov 2021 21:02:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0692C447661
+	for <lists+linux-input@lfdr.de>; Sun,  7 Nov 2021 23:44:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236375AbhKGUFP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 7 Nov 2021 15:05:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49510 "EHLO
+        id S236662AbhKGWrZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 7 Nov 2021 17:47:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231401AbhKGUFM (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 7 Nov 2021 15:05:12 -0500
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB612C061714
-        for <linux-input@vger.kernel.org>; Sun,  7 Nov 2021 12:02:28 -0800 (PST)
-Received: by mail-qt1-x82b.google.com with SMTP id g13so11590225qtk.12
-        for <linux-input@vger.kernel.org>; Sun, 07 Nov 2021 12:02:28 -0800 (PST)
+        with ESMTP id S236665AbhKGWrX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 7 Nov 2021 17:47:23 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F49EC061746
+        for <linux-input@vger.kernel.org>; Sun,  7 Nov 2021 14:44:39 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id x27so32065673lfu.5
+        for <linux-input@vger.kernel.org>; Sun, 07 Nov 2021 14:44:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.unc.edu; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=jHTtxJLlQcfnjQLsOeFnXfsLO4QxGpcGfvUQt2BuQxs=;
-        b=Vpn+ZMUhe+OzC+TiaSbEzjLlxskWMOQqPAtdyHby0/wBv2iFtRhGkiCk6XKluEIH+3
-         SbjxwtTMb4gG40ZtnBIkRhiKUYcREihysIGv6a636VTt+/C8XVyRFuoSpzhkAkSEhSBt
-         ArA5PDdnBlGchLV5FuPetGmQ1GFlwp/eHbgAo=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tBB4k15jPe4RWWt0Sj8h4HFSgrqWNL64VVXxLtXNWes=;
+        b=V6CaAjnJ9ndhtTDf6ogBVOqMsT7AGOcBRECcRDvkqislu+A/scMUiMRdVQvSuCJHaj
+         1NVLgGIqEgn9kqwXuTXodyEY0M38iLIEUr89Cg9CsPufwh/rlJwk3Qkh9pfmNVVXL+G6
+         9Vhadj7g+buhBC8bGFXS2ZWUWTQDxU01SfcBZSFV73r1sHyB+zlwiFqFCP8Hg6Kg4wPg
+         DR/8pRKYOfcK0AJzXx/a/BTfuy0PczYZcje1JeXckZebCD8TE4brHN7Vr7kOhVcALicf
+         /xdTBO9jsju+cvPzFrCShMUm6ZLLOHwcujG62zUyPvicdU9edD8cFtPUqJh9x+O6x/Uw
+         mURQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=jHTtxJLlQcfnjQLsOeFnXfsLO4QxGpcGfvUQt2BuQxs=;
-        b=Lf1HX36DxCRCvIaKxU2lk+lYFvnm8fNJ4kf6hEv68BwZjZ5/VwCbCKkM1c6npNP1xr
-         X4CzSQiwhqGEHLfbdseS3JHoVNISCx3fOAj8mjoRa+RdTG6jTkNavQz1+ohAjJ60WOfG
-         BHR+v8pX7uI+21E6RklqJZDIswi8zBemHfe2cSKNr/w4tch9wdc9AJNdJxJAIS8Y1qfF
-         xGIJGa0IN/2H2uvZN/bbJuTBCeQK532Hb5WGYW7TRi2V9WZAmaG0R9jOnaUl2k5Q425h
-         67IOs1nGEXtYrPHxlSar8cdIUZord0Ruf+RB5T8rSuvv+jxSCU/AacwTfbqpHLSOYBtY
-         bSlA==
-X-Gm-Message-State: AOAM532foipb2SF+NLRDW5/m+UG7VHUCe6wjCcG3NupWAqMBSEoHHcMh
-        YYGEOFUbeeeNxTDP8izzP4AayQ==
-X-Google-Smtp-Source: ABdhPJyR11I4O4bZuGRciYtXPvMXbm/K7DeDi4Cg2ixyPz0VaV7tCLJRCcHEg0smn8XnRv1XYPjg4g==
-X-Received: by 2002:ac8:7f44:: with SMTP id g4mr78744298qtk.130.1636315348073;
-        Sun, 07 Nov 2021 12:02:28 -0800 (PST)
-Received: from [152.23.88.220] (dhcp-152-23-88-220.wireless-1x.unc.edu. [152.23.88.220])
-        by smtp.gmail.com with ESMTPSA id u19sm9741710qtw.14.2021.11.07.12.02.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Nov 2021 12:02:27 -0800 (PST)
-Message-ID: <3a98b10e-6b78-b769-e22d-2496d7bcd69d@cs.unc.edu>
-Date:   Sun, 7 Nov 2021 15:02:27 -0500
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tBB4k15jPe4RWWt0Sj8h4HFSgrqWNL64VVXxLtXNWes=;
+        b=6fsVduezHNa/Mq+hPbMxzVNa+PRxznZGM8BKG5JWFGlsP7NoKrMPew4Dbp8BIaEW1Y
+         oULeli3IKU+ByNLT0RX/KxU+pZ6drMZVRW1mdCbHQF9BUTGbha17TvvsSqpgyBeIgDMF
+         UtdD1VnIfmWr7To41mu7cCEGJ173dgRBRy50CdMpWC/cnioY0KRpcbLcteFoVyxTjjKP
+         ENGn7sOgb+cJs3kgm+8xaeknpfnlRCOdNsWuxeSqF3tlCLkfozYuYwHPDEWyuBkRxYIF
+         aSTERD/MTOxZ+qRrj0T1//LwQubo0IkqzJ7s8GqbRzc4fqXD9gw8gS+6eAdRMrpL6e21
+         I2lw==
+X-Gm-Message-State: AOAM53159K6jNx6OuMjpTVH51bOb0vXI5ESufICzoXLOBil6ggv/Q4my
+        TT5Ao2Qr/HlhT4NdUevLMS2L7LzfOItH4GgZ3Jg=
+X-Google-Smtp-Source: ABdhPJxwYyK6+fGSzcUwv6S6HLWQIR/my7JeAqpyWIdt2YEHe69udAbjJpaU7ofHmTLSynBhKNOQX6YHQxt2+sSaxuo=
+X-Received: by 2002:a05:6512:33c8:: with SMTP id d8mr5324198lfg.205.1636325077792;
+ Sun, 07 Nov 2021 14:44:37 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] Input: elantench - Fix the firmware misreport coordinates
- for trackpoint occasionally.
-Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        jingle.wu@emc.com.tw, josh.chen@emc.com.tw, dave.wang@emc.com.tw,
-        phoenix <phoenix@emc.com.tw>
-References: <20210729010940.5752-1-phoenix@emc.com.tw>
- <000001d79d99$53762dd0$fa628970$@emc.com.tw> <YS0+TU21/nok6Ge9@google.com>
-From:   Yufei Du <yufeidu@cs.unc.edu>
-In-Reply-To: <YS0+TU21/nok6Ge9@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20211102100826.26824-1-benjamin@sipsolutions.net>
+In-Reply-To: <20211102100826.26824-1-benjamin@sipsolutions.net>
+From:   Alex Henrie <alexhenrie24@gmail.com>
+Date:   Sun, 7 Nov 2021 15:44:26 -0700
+Message-ID: <CAMMLpeTs4LKD+HKToGQAht8CwsWPnG4Vh3nha+hgUdFvnWpkwg@mail.gmail.com>
+Subject: Re: [PATCH] HID: apple: Add 2021 magic keyboard model
+To:     Benjamin Berg <benjamin@sipsolutions.net>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Benjamin Berg <bberg@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+On Tue, Nov 2, 2021 at 4:15 AM Benjamin Berg <benjamin@sipsolutions.net> wrote:
+>
+> The newer magic keyboard (and laptop) models have a different Fn key
+> configuration. Also, the PIDs are still missing.
+>
+> This patch adds the new keycodes and the PID for the small magic
+> keyboard model (without numpad and fingerprint reader, MK2A3Y/A,
+> Model A2450).
 
-I am a user currently suffering from the firmware bug that causes my trackpoint 
-to be unusable on my Lenovo X13 Gen 1 AMD. I tested this patch in the latest 
-5.15 mainline kernel tree and can possibly answer your questions regarding the 
-patch.
+Hi Benjamin,
 
- > I think this will reject X coordinates in range [0, 127]. Is this really
- > what is needed?
+A patch to add basic support for that keyboard is already in Linux
+5.16. Could you please rebase and resend your patch to fix the
+function key mappings?
 
-As Phoenix explained in his reply, the patch will reject X and Y coordinates 
-larger than 127 or smaller than -127. This is because the most significant bit 
-of packet[1] (for X) and packet[2] (for Y) are inverse of the sign bit. Although 
-I do not have the formal design specification of the device, I tried pushing the 
-trackpoint as hard as I could, and the X and Y coordinates never go beyond 
-+/-127 normally, so I believe that this patch would not cause any functionality 
-issue.
-
- > What kind of patterns are you observing when firmware
- > misreports coordinates?
-
-Here is a sample log I observed (with elantech.debug set to 2 for more debugging 
-messages):
-psmouse serio1: elantech: PS/2 packet [10 00 80 26 f9 0a]
-psmouse serio1: elantech: PS/2 packet [10 00 80 26 00 80]
-psmouse serio1: elantech: PS/2 packet [10 00 80 00 00 00]
-psmouse serio1: Touchpad at isa0060/serio1/input0 lost sync at byte 6
-psmouse serio1: elantech: PS/2 packet [10 00 80 26 f8 0b]
-psmouse serio1: Touchpad at isa0060/serio1/input0 - driver resynced.
-
-The first packet is a valid packet. The second packet is the incorrect packet 
-that this patch prevents. The third packet is a corrupted packet that psmouse 
-detects (as shown in the "lost sync" message), and the fourth packet is a valid 
-packet again. Without the patch, the second packet would cause the cursor to 
-jump to the edge of the screen.
-
-So far, all my logs of this issue show the same pattern of a jumpy incorrect 
-packet followed by a corrupted packet that causes psmouse to lose sync. There 
-are more logs and discussions in the BugZilla entry here: 
-https://bugzilla.kernel.org/show_bug.cgi?id=209167
-
-Hope my explanation helped a bit.
-
-Thanks!
-
-Best,
-Yufei Du
+-Alex
