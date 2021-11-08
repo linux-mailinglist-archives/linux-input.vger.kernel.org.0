@@ -2,114 +2,144 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EAC19447FD9
-	for <lists+linux-input@lfdr.de>; Mon,  8 Nov 2021 13:51:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D4E5449D30
+	for <lists+linux-input@lfdr.de>; Mon,  8 Nov 2021 21:45:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238557AbhKHMxp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Nov 2021 07:53:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46666 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238591AbhKHMxi (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Nov 2021 07:53:38 -0500
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62E7BC061714
-        for <linux-input@vger.kernel.org>; Mon,  8 Nov 2021 04:50:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Content-Type:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-To:Resent-Cc:
-        Resent-Message-ID:In-Reply-To:References;
-        bh=wQX1d1goNh5t+Hv5qgYP91JSGOuFmMonIZ2nvare3HY=; t=1636375854; x=1637585454; 
-        b=FcFs/xq0sjRo3OZ1tmC2T5HUZOenBT1WdiA08Unb391Ph5hvhAnfSmKMm6vomE/r0e2UCCKUndH
-        N2k8mEZdUJ5RVV//jiJvElyanzDQyWpheCo+BXphN4ySNDx/zDQy8ArYVNIsNoXY2r2ufvNZje3Wd
-        0yBq/K/14T/su2tt9+TY6pSE3LsCoMTCcADGcHydP0MTQORNK4e7HfjBxdxAllkinlpMaeQWdk9Tr
-        rlkqQahT0XoeFuFB06reiANLKv/n3Slq/32xpFT+jp2BU8qG2XLarpJK8nBCDF9YsanmdwVDZifoG
-        od8+wgxiPoqcN7EZqHR9sJE08LINc67e4Gmw==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.95)
-        (envelope-from <benjamin@sipsolutions.net>)
-        id 1mk46u-00CZLL-6X;
-        Mon, 08 Nov 2021 13:50:52 +0100
-From:   Benjamin Berg <benjamin@sipsolutions.net>
-To:     linux-input@vger.kernel.org
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Alex Henrie <alexhenrie24@gmail.com>,
-        Benjamin Berg <bberg@redhat.com>
-Subject: [PATCH] HID: apple: Add 2021 magic keyboard FN key mapping
-Date:   Mon,  8 Nov 2021 13:50:38 +0100
-Message-Id: <20211108125038.125579-1-benjamin@sipsolutions.net>
-X-Mailer: git-send-email 2.31.1
+        id S237209AbhKHUrw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Nov 2021 15:47:52 -0500
+Received: from outgoing-stata.csail.mit.edu ([128.30.2.210]:51205 "EHLO
+        outgoing-stata.csail.mit.edu" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237467AbhKHUrv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 8 Nov 2021 15:47:51 -0500
+X-Greylist: delayed 1086 seconds by postgrey-1.27 at vger.kernel.org; Mon, 08 Nov 2021 15:47:49 EST
+Received: from [128.177.79.46] (helo=[10.118.101.22])
+        by outgoing-stata.csail.mit.edu with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.82)
+        (envelope-from <srivatsa@csail.mit.edu>)
+        id 1mkBEE-000DLY-2j; Mon, 08 Nov 2021 15:26:54 -0500
+Subject: [PATCH 2/2] MAINTAINERS: Mark VMware mailing list entries as private
+From:   "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
+To:     jgross@suse.com, x86@kernel.org, pv-drivers@vmware.com
+Cc:     Nadav Amit <namit@vmware.com>, Vivek Thampi <vithampi@vmware.com>,
+        Vishal Bhakta <vbhakta@vmware.com>,
+        Ronak Doshi <doshir@vmware.com>,
+        linux-graphics-maintainer@vmware.com,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
+        linux-input@vger.kernel.org, Zack Rusin <zackr@vmware.com>,
+        srivatsa@csail.mit.edu, sdeep@vmware.com, amakhalov@vmware.com,
+        virtualization@lists.linux-foundation.org, keerthanak@vmware.com,
+        srivatsab@vmware.com, anishs@vmware.com, vithampi@vmware.com,
+        linux-kernel@vger.kernel.org
+Date:   Mon, 08 Nov 2021 12:30:07 -0800
+Message-ID: <163640339370.62866.3435211389009241865.stgit@srivatsa-dev>
+In-Reply-To: <163640336232.62866.489924062999332446.stgit@srivatsa-dev>
+References: <163640336232.62866.489924062999332446.stgit@srivatsa-dev>
+User-Agent: StGit/0.21
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Benjamin Berg <bberg@redhat.com>
+From: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
 
-The new 2021 apple models have a different FN key assignment. Add a new
-translation table and use that for the 2021 magic keyboard.
+VMware mailing lists in the MAINTAINERS file are private lists meant
+for VMware-internal review/notification for patches to the respective
+subsystems. So, in an earlier discussion [1][2], it was recommended to
+mark them as such. Update all the remaining VMware mailing list
+references to use that format -- "L: list@address (private)".
 
-Signed-off-by: Benjamin Berg <bberg@redhat.com>
+[1]. https://lore.kernel.org/r/YPfp0Ff6KuyPlyrc@kroah.com
+[2]. https://lore.kernel.org/r/1626861766-11115-1-git-send-email-jhansen@vmware.com
+
+Signed-off-by: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+Cc: Nadav Amit <namit@vmware.com>
+Cc: Vivek Thampi <vithampi@vmware.com>
+Cc: Vishal Bhakta <vbhakta@vmware.com>
+Cc: Ronak Doshi <doshir@vmware.com>
+Cc: pv-drivers@vmware.com
+Cc: linux-graphics-maintainer@vmware.com
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-rdma@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Acked-by: Zack Rusin <zackr@vmware.com>
 ---
- drivers/hid/hid-apple.c | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 2c9c5faa74a9..61dfe983828f 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -70,6 +70,28 @@ struct apple_key_translation {
- 	u8 flags;
- };
+ MAINTAINERS |   16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 118cf8170d02..3e92176e68fb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6134,8 +6134,8 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	drivers/gpu/drm/vboxvideo/
  
-+static const struct apple_key_translation apple2021_fn_keys[] = {
-+	{ KEY_BACKSPACE, KEY_DELETE },
-+	{ KEY_ENTER,	KEY_INSERT },
-+	{ KEY_F1,	KEY_BRIGHTNESSDOWN, APPLE_FLAG_FKEY },
-+	{ KEY_F2,	KEY_BRIGHTNESSUP,   APPLE_FLAG_FKEY },
-+	{ KEY_F3,	KEY_SCALE,          APPLE_FLAG_FKEY },
-+	{ KEY_F4,	KEY_SEARCH,         APPLE_FLAG_FKEY },
-+	{ KEY_F5,	KEY_MICMUTE,        APPLE_FLAG_FKEY },
-+	{ KEY_F6,	KEY_SLEEP,          APPLE_FLAG_FKEY },
-+	{ KEY_F7,	KEY_PREVIOUSSONG,   APPLE_FLAG_FKEY },
-+	{ KEY_F8,	KEY_PLAYPAUSE,      APPLE_FLAG_FKEY },
-+	{ KEY_F9,	KEY_NEXTSONG,       APPLE_FLAG_FKEY },
-+	{ KEY_F10,	KEY_MUTE,           APPLE_FLAG_FKEY },
-+	{ KEY_F11,	KEY_VOLUMEDOWN,     APPLE_FLAG_FKEY },
-+	{ KEY_F12,	KEY_VOLUMEUP,       APPLE_FLAG_FKEY },
-+	{ KEY_UP,	KEY_PAGEUP },
-+	{ KEY_DOWN,	KEY_PAGEDOWN },
-+	{ KEY_LEFT,	KEY_HOME },
-+	{ KEY_RIGHT,	KEY_END },
-+	{ }
-+};
-+
- static const struct apple_key_translation macbookair_fn_keys[] = {
- 	{ KEY_BACKSPACE, KEY_DELETE },
- 	{ KEY_ENTER,	KEY_INSERT },
-@@ -214,7 +236,9 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- 	}
+ DRM DRIVER FOR VMWARE VIRTUAL GPU
+-M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
+ M:	Zack Rusin <zackr@vmware.com>
++L:	linux-graphics-maintainer@vmware.com (private)
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+@@ -20032,7 +20032,7 @@ F:	tools/testing/vsock/
  
- 	if (fnmode) {
--		if (hid->product >= USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
-+		if (hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021)
-+			table = apple2021_fn_keys;
-+		else if (hid->product >= USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
- 				hid->product <= USB_DEVICE_ID_APPLE_WELLSPRING4A_JIS)
- 			table = macbookair_fn_keys;
- 		else if (hid->product < 0x21d || hid->product >= 0x300)
-@@ -376,6 +400,9 @@ static void apple_setup_input(struct input_dev *input)
- 	for (trans = apple_iso_keyboard; trans->from; trans++)
- 		set_bit(trans->to, input->keybit);
+ VMWARE BALLOON DRIVER
+ M:	Nadav Amit <namit@vmware.com>
+-M:	"VMware, Inc." <pv-drivers@vmware.com>
++L:	pv-drivers@vmware.com (private)
+ L:	linux-kernel@vger.kernel.org
+ S:	Maintained
+ F:	drivers/misc/vmw_balloon.c
+@@ -20050,14 +20050,14 @@ F:	arch/x86/kernel/cpu/vmware.c
  
-+	for (trans = apple2021_fn_keys; trans->from; trans++)
-+		set_bit(trans->to, input->keybit);
-+
- 	if (swap_fn_leftctrl) {
- 		for (trans = swapped_fn_leftctrl_keys; trans->from; trans++)
- 			set_bit(trans->to, input->keybit);
--- 
-2.31.1
+ VMWARE PVRDMA DRIVER
+ M:	Adit Ranadive <aditr@vmware.com>
+-M:	VMware PV-Drivers <pv-drivers@vmware.com>
++L:	pv-drivers@vmware.com (private)
+ L:	linux-rdma@vger.kernel.org
+ S:	Maintained
+ F:	drivers/infiniband/hw/vmw_pvrdma/
+ 
+ VMware PVSCSI driver
+ M:	Vishal Bhakta <vbhakta@vmware.com>
+-M:	VMware PV-Drivers <pv-drivers@vmware.com>
++L:	pv-drivers@vmware.com (private)
+ L:	linux-scsi@vger.kernel.org
+ S:	Maintained
+ F:	drivers/scsi/vmw_pvscsi.c
+@@ -20065,7 +20065,7 @@ F:	drivers/scsi/vmw_pvscsi.h
+ 
+ VMWARE VIRTUAL PTP CLOCK DRIVER
+ M:	Vivek Thampi <vithampi@vmware.com>
+-M:	"VMware, Inc." <pv-drivers@vmware.com>
++L:	pv-drivers@vmware.com (private)
+ L:	netdev@vger.kernel.org
+ S:	Supported
+ F:	drivers/ptp/ptp_vmw.c
+@@ -20079,8 +20079,8 @@ S:	Maintained
+ F:	drivers/misc/vmw_vmci/
+ 
+ VMWARE VMMOUSE SUBDRIVER
+-M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
+-M:	"VMware, Inc." <pv-drivers@vmware.com>
++L:	linux-graphics-maintainer@vmware.com (private)
++L:	pv-drivers@vmware.com (private)
+ L:	linux-input@vger.kernel.org
+ S:	Maintained
+ F:	drivers/input/mouse/vmmouse.c
+@@ -20088,7 +20088,7 @@ F:	drivers/input/mouse/vmmouse.h
+ 
+ VMWARE VMXNET3 ETHERNET DRIVER
+ M:	Ronak Doshi <doshir@vmware.com>
+-M:	pv-drivers@vmware.com
++L:	pv-drivers@vmware.com (private)
+ L:	netdev@vger.kernel.org
+ S:	Maintained
+ F:	drivers/net/vmxnet3/
 
