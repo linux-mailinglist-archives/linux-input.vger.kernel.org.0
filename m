@@ -2,68 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E454447CF6
-	for <lists+linux-input@lfdr.de>; Mon,  8 Nov 2021 10:39:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24E67447D19
+	for <lists+linux-input@lfdr.de>; Mon,  8 Nov 2021 10:54:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235143AbhKHJmH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Nov 2021 04:42:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59306 "EHLO
+        id S237033AbhKHJ5I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Nov 2021 04:57:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234124AbhKHJmH (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Nov 2021 04:42:07 -0500
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B80DC061714
-        for <linux-input@vger.kernel.org>; Mon,  8 Nov 2021 01:39:23 -0800 (PST)
-Received: by mail-lj1-x241.google.com with SMTP id e11so9065867ljo.13
-        for <linux-input@vger.kernel.org>; Mon, 08 Nov 2021 01:39:23 -0800 (PST)
+        with ESMTP id S238469AbhKHJ47 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Nov 2021 04:56:59 -0500
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0E76C061570
+        for <linux-input@vger.kernel.org>; Mon,  8 Nov 2021 01:54:15 -0800 (PST)
+Received: by mail-oi1-x231.google.com with SMTP id bk14so3733889oib.7
+        for <linux-input@vger.kernel.org>; Mon, 08 Nov 2021 01:54:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=vILalfwFgh6DWqB6U3gvZByDdhQR+znyrjSP0coUOkA=;
-        b=p1UIzsKLWr3lYQH4sMS84aZiRpSgrnSRbzBC4kDt/uwqARtQ0lNAVunM6dppfP7iTY
-         Vjwe4T1fNk4SVQe9LPlNY0bCH/FdLYh34k1fqODcLy/fi1vjBAho6fX0llrnM3l8VVXA
-         KrNxpCu/kSP/AsNVG7Q7GaVSFa4Ss+FoXnw5lg5U6pwoSeBFh7lR+3Z2hQj2A5Obxg73
-         VRCsJGc8mItrXpq3CHtJozc9ztK4aGTtO3uRnvmYUUWwWiYXc4GtUcab2kHIDrKRzOiz
-         39ctkm+M4EtGt4t7QsUMBeuBsV4HL6pOQoIqIIr8EywY2/GNCgVUrieQs3TJfRVpDuwl
-         Ps1w==
+        bh=NHAujRj3nNPe07TxWi88DybAbp7vcb7zQT2ctaDgCnw=;
+        b=Z5zLnsaD8qWC7HPTKIgon8rsdBq6HoXddNulWECWscF9jr873H45Unye4A0+poyvrc
+         s00nX33srMOnm2p0fxxOrbPkSYCeLbJ0wpTPIpYNtxauAZcF+l7Poy6mcdPYGDuKX9of
+         Gd8sbRZdR8i8ALjk0elmOWrqp802vaJ/9z5d+yNGT3F9lLdcd7VC/+C/EBUMy7gf6Xjr
+         oxoLi48IrqGdZnYd6RLxvrdiJTCVlYJecokidWrxo8M8A0ZN0nun4qZ32j9LrGZi0rlS
+         lW0u6YRXZ7YUhGkRu4nhry2zoVvoULBnpE1jE0FKdJ0N9gz/nnb6MAL4mwGoOqRxlaac
+         r4yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to;
-        bh=vILalfwFgh6DWqB6U3gvZByDdhQR+znyrjSP0coUOkA=;
-        b=sctJSAQnalYwfTe7Al2MgKSODP0B36ffoFmfoygapy2n7sqlJYD+kXz7PBBggiXQQu
-         7RPcpjCufpo3BVq31K4vV7wugXeYav+ieQrbAiwORU3ahoaPwFiOqZkS0MaWE1w3zhl5
-         ffhnZs62kgaSwA2MWR1HTztJczIJl6eOZFcZVSjtEsvk5em/zFm5z51bwtcYu8hp7HNL
-         HLfZuR09FVLkJ245SR0Ox9040Qd7Amh4HhdvWjv5UQgbBJ2m8iohjYHdXGhQ/dP6LuW4
-         Wk5Ke/RHuZCcZ+Pw8z24ha+BK11T/BWSsLT0N+//caWb/HuMbyolUkppjWZ0u+dBNjr8
-         6sEg==
-X-Gm-Message-State: AOAM533Bqb0drD1brwMXz/Jr3tRfWM+jh3QgHi4ej7lMHBtI+wKEW2ZW
-        e68kjo0Kr/uuhhnSiNiLIaRZHJztH/qM1cg3iOs=
-X-Google-Smtp-Source: ABdhPJyF0JWYs0JlcKAdS1/ksYi/JMdC79uZQ5XhNrncD9Dq/JcvHtDab+Fpc1i0CBE9uBd591VS/VUlPZHSs4wgcB8=
-X-Received: by 2002:a2e:a287:: with SMTP id k7mr77563567lja.295.1636364361608;
- Mon, 08 Nov 2021 01:39:21 -0800 (PST)
+        bh=NHAujRj3nNPe07TxWi88DybAbp7vcb7zQT2ctaDgCnw=;
+        b=tSZdliEE7bAIDeuvVw8E+qKgoVkTGlDEQv9R3NPcl+Anyg7ddqQTKy48pw56OVh2bj
+         Mj3vgfnJjFlYv9fqzJAxnZrOohDk8Yo+OEdouupqHzw1oFTPrWV8hJtgiqAcZIZMacel
+         DG2t57ndVJDP0vsxB32r6HtAWb22kMwSvDjGCzcvuuaP89ThAD2oX5wsA48gC9ByD8Q+
+         2+0APDsDnKbU8JKIvqpz2izZK9HSeqOi6ktit5bMuIdK3cTbfHtOVJcj1MHfVQ2l82Zk
+         eAlRiZq7Ee8c1+HCwFxiOtNqb93iKpR3XCjd3cfRDXzpk0T8eTN2kgQSxoC1u1P8tbt3
+         Mf5Q==
+X-Gm-Message-State: AOAM530vF0g16oav07kswofWKnCe0YxzLLiPmAI/4iJk+ZsOnIRG3ze5
+        x0d03m5C1eU4ftZG9p3BM3ouco0/Vqg4ezt7jw==
+X-Google-Smtp-Source: ABdhPJxNMwp821cnkipCuAeS3cf1xN+HkYJq1YKnIfWmKtOIhFWNROKGV4i/t6vkc37OI8K0nbHE76AuHrK3OmGzo74=
+X-Received: by 2002:a05:6808:bc3:: with SMTP id o3mr36027252oik.33.1636365255242;
+ Mon, 08 Nov 2021 01:54:15 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:6512:45b:0:0:0:0 with HTTP; Mon, 8 Nov 2021 01:39:21
- -0800 (PST)
-Reply-To: lmutalib@yahoo.com
-From:   MR MUTALIB LAWALE <jhorgejames17@gmail.com>
-Date:   Mon, 8 Nov 2021 09:39:21 +0000
-Message-ID: <CAC8sQGNepzXBe9vJUBWDU0SMttNetVfww=+dXKH-us9q_Wc9PQ@mail.gmail.com>
-Subject: my greetings to you and your entire family,
+Received: by 2002:a4a:db75:0:0:0:0:0 with HTTP; Mon, 8 Nov 2021 01:54:14 -0800 (PST)
+Reply-To: salemchantal@mail.ee
+From:   MRS Salem Chantal Lawrence <osaruwanseovenseri@gmail.com>
+Date:   Mon, 8 Nov 2021 01:54:14 -0800
+Message-ID: <CAENio1pFnZK+uGS_ih65ne+sHhCQHvqWy-LtpA-aezwaBxEFvA@mail.gmail.com>
+Subject: Attention
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Greetings,
+Attention
 
-I am contacting you on a business deal of $11.5 Million US Dollars/950
-KG of gold valued at $24.5 Million USD. ready for transfer into your
-account. if we make this claim, we will share it 60%/40%.,100% risk
-free and it will be legally backed up with government approved
-documents If you are interested reply for more details.
+You have been compensated with the sum of 4.6 million dollars in this
+United Nation the payment will be issue into Atm Visa Card and send to you
+from the Bank we need your Address Passport and your whatsapp number
 
-kindly reply to my alternative email(mutalib.lawale@yahoo.com).
+Contact This My WhatsApp Number for more Details (+1 (201)308-2233
 
-Best regards
+THANKS
+MRS Salem Chantal Lawrence
