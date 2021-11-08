@@ -2,192 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBE56447A43
-	for <lists+linux-input@lfdr.de>; Mon,  8 Nov 2021 06:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 106F3447A4F
+	for <lists+linux-input@lfdr.de>; Mon,  8 Nov 2021 07:06:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237003AbhKHF72 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Nov 2021 00:59:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37824 "EHLO
+        id S237638AbhKHGJS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Nov 2021 01:09:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235773AbhKHF71 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Nov 2021 00:59:27 -0500
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81BF4C061570
-        for <linux-input@vger.kernel.org>; Sun,  7 Nov 2021 21:56:42 -0800 (PST)
-Received: by mail-pl1-x62c.google.com with SMTP id y1so15033097plk.10
-        for <linux-input@vger.kernel.org>; Sun, 07 Nov 2021 21:56:42 -0800 (PST)
+        with ESMTP id S233614AbhKHGJS (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Nov 2021 01:09:18 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FCE4C061570;
+        Sun,  7 Nov 2021 22:06:34 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id u11so15092513plf.3;
+        Sun, 07 Nov 2021 22:06:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=SesjmWqdWc07/ZgsBolgAfFT74XppWxMGGaIaQamhAw=;
-        b=Cr9AR48RWdSimVvvKdORLTN9WU9gnO6BOg2n9hs3tj3l7zSNT2g0tPG71CbkR6zIS5
-         o7tLCOlK9X8bxSnOQzoLRpnhtJpahYEbmhbrVNCphGB5kVn73VzXI3daDYSF+0vtR0Qp
-         Ru++OVcgxkn3Amtoo+pQR4NlCWNllX0Do9328/mOWqXKO01E/uI/HZ3Y4wGPBIqzvSHc
-         eJ6zfftR6hSwXX9+U57fiQRMEzrf5xCuXlRhv9uuAcdCw4jq55hiDZfKPWRzvqmZ+xGw
-         wtg6pvxpC7lJP/f1RwJkKOMdZmXXEasyhQ0487EUjajRvyStV4WdTDSxGGusJEOJJL3M
-         NgPA==
+        bh=PK225LY8ZCorpxzeuNT4a8ylrRSYfrbGsO6m0+KrxhQ=;
+        b=EerJR3XtJqpBq+H9Sla0EfFI4v1NPOS/rsLLnLwYJS7H/lSvfBH7DGH4r0KZ58jRs5
+         OScMfLG0lFSTGY7vW41pxyaAS9FT7h86yYcZWSF1KlTjH/bPf/dMMSfnGSpCEmHBxVcu
+         wfGj47Obb5WHtUOLkFa7IbzKvG0uhRegwY73ma8eTQ+lhvitHaL3HR+/WG04MB45r+AW
+         RljLqQ6ctPCpJVkxOVbCPvtVNtaMVp+yjT73qVkNrCwkxSqeWRhjPu058MqyhMRZRgJc
+         s6C3wV8juwNr/3Ae/g1XQXy0SduDiUno31ek3G1IdWqpAw0CP3dK/qevuWvM9T5baO/4
+         ASuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=SesjmWqdWc07/ZgsBolgAfFT74XppWxMGGaIaQamhAw=;
-        b=KCd6S0JjsKNS5SXqHyeHL+cMK74CmZsmWX77LWmFtgsrxHQDlp+t7GdX2iAY7VfMvM
-         DIgieZeA4wsu7jaldv49ySC1QW2YdxERLwD4ZBaP4bWdzzG9Fbw6zzF+8usJMb4vrzpY
-         SaxaCJeT5uLNhlKGBT04NXfkelGiK3y7WZhPpBCszp72rb36o/PyGtMfob2i4lk5tVaE
-         akDmRXts+qiq+TNi7ICZmS5X8ZieGzENPci/sgbMa26M3dX3Taarei85AvCaWYIKTc/y
-         mW4Znb9gqy3RkqNMa5WJ15JB14CGihDlaKTa95Q/j27Uh/L0vwvvMGUmlrA62ow08YVV
-         Kj4Q==
-X-Gm-Message-State: AOAM5329vIDSH8IlyrAtfW8opDp2pRYN6OA0ocB6Z6uoNwrC7SvIcBtR
-        FCQ4FA9nBsJwq+G8q+KpAHHsvZhz0Lw=
-X-Google-Smtp-Source: ABdhPJxQQRw1LUs/0GhhJti1IuI4o68U5eaZRtY+Kewueb/WU2mFb56MrwSJlT8HUytybgm4KiFLnw==
-X-Received: by 2002:a17:902:bcc4:b0:141:bfc4:ada with SMTP id o4-20020a170902bcc400b00141bfc40adamr57420431pls.20.1636351001954;
-        Sun, 07 Nov 2021 21:56:41 -0800 (PST)
+        bh=PK225LY8ZCorpxzeuNT4a8ylrRSYfrbGsO6m0+KrxhQ=;
+        b=kE77Q4xsaPziyNnvDWaLr5QqOHRcw9BF1lG3Zv+/dcDj5zWffGWHkvlwqH5ps9ImQl
+         AnITWhO+iOjWGJ6lNJHvQvgMhkm0Rz2aZ4zwRVuOtYzxzXfn3amTA2MP5YXus6feytCX
+         qg+1OGiSeFhwPbPEK6TJjPFKpgF0o7Evst8xGgeYOHzptCvapLKggYULWa2CrIfJIAwv
+         QLYK1enaLceIfBJ6FTtYTWOxbRBrB54WNb9m1rcJTCsyIBq5hwS9npwSzoEyDcsSV++g
+         wO1WBf661drtmLMLtBYE0ozq7Tc0KzMb71LLgAQK21aZqN8uCCjsTyZhwTjp+sZYstm1
+         c/1g==
+X-Gm-Message-State: AOAM531WqOVN5u2huFXxKrBZUPveQzOAPu34jhDVDKRGrMwrbniNviSx
+        wSBKkAA3ZbHLfhrN6ZcxX65pRriZ9I8=
+X-Google-Smtp-Source: ABdhPJyH6HJaeWq3eY8xIuSoB09+i8NzWebT8jFMLwo12UB6tjIWm6at8sAQDopDeQXXKg7XoQ5E9Q==
+X-Received: by 2002:a17:902:d2ce:b0:141:f710:922 with SMTP id n14-20020a170902d2ce00b00141f7100922mr46264505plc.7.1636351593879;
+        Sun, 07 Nov 2021 22:06:33 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:ebb6:b39e:7da6:955f])
-        by smtp.gmail.com with ESMTPSA id t8sm11633860pgk.66.2021.11.07.21.56.40
+        by smtp.gmail.com with ESMTPSA id q89sm521927pjk.50.2021.11.07.22.06.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Nov 2021 21:56:40 -0800 (PST)
-Date:   Sun, 7 Nov 2021 21:56:38 -0800
+        Sun, 07 Nov 2021 22:06:32 -0800 (PST)
+Date:   Sun, 7 Nov 2021 22:06:30 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Gareth Randall <gareth.randall@virgin.net>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: [PATCH RESEND 1/1] Add support for touch screens using the
- General Touch ST6001S controller.
-Message-ID: <YYi8FvXkV5i9baoN@google.com>
-References: <b7687459-1665-eb1c-b8ad-2bb37b7136ac@virgin.net>
+To:     Yufei Du <yufeidu@cs.unc.edu>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        jingle.wu@emc.com.tw, josh.chen@emc.com.tw, dave.wang@emc.com.tw,
+        phoenix <phoenix@emc.com.tw>
+Subject: Re: [PATCH] Input: elantench - Fix the firmware misreport
+ coordinates for trackpoint occasionally.
+Message-ID: <YYi+ZoeGtFO+/HYO@google.com>
+References: <20210729010940.5752-1-phoenix@emc.com.tw>
+ <000001d79d99$53762dd0$fa628970$@emc.com.tw>
+ <YS0+TU21/nok6Ge9@google.com>
+ <3a98b10e-6b78-b769-e22d-2496d7bcd69d@cs.unc.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b7687459-1665-eb1c-b8ad-2bb37b7136ac@virgin.net>
+In-Reply-To: <3a98b10e-6b78-b769-e22d-2496d7bcd69d@cs.unc.edu>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Gareth,
+Hi Yufei,
 
-On Sun, Oct 03, 2021 at 10:54:21PM +0100, Gareth Randall wrote:
-> Add support for touch screens using the General Touch ST6001S
-> controller, as found in the GPEG model AOD22WZ-ST monitor.
-> This controller can output the ELO 10-byte protocol,
-> but requires different initialisation.
+On Sun, Nov 07, 2021 at 03:02:27PM -0500, Yufei Du wrote:
+> Hi Dmitry,
 > 
-> Signed-off-by: Gareth Randall <gareth@garethrandall.com>
-> ---
->  drivers/input/touchscreen/elo.c | 58 +++++++++++++++++++++++++++++++++
->  1 file changed, 58 insertions(+)
+> I am a user currently suffering from the firmware bug that causes my
+> trackpoint to be unusable on my Lenovo X13 Gen 1 AMD. I tested this patch in
+> the latest 5.15 mainline kernel tree and can possibly answer your questions
+> regarding the patch.
 > 
-> diff --git a/drivers/input/touchscreen/elo.c
-> b/drivers/input/touchscreen/elo.c
-> index 96173232e53f..8c15e0eea6b4 100644
-> --- a/drivers/input/touchscreen/elo.c
-> +++ b/drivers/input/touchscreen/elo.c
-> @@ -44,6 +44,8 @@ MODULE_LICENSE("GPL");
->  #define ELO10_ACK_PACKET	'A'
->  #define ELI10_ID_PACKET		'I'
+> > I think this will reject X coordinates in range [0, 127]. Is this really
+> > what is needed?
 > 
-> +#define ELO_GT_INIT_PACKET	"\001XfE\r"
-> +
->  /*
->   * Per-touchscreen data.
->   */
-> @@ -201,6 +203,7 @@ static irqreturn_t elo_interrupt(struct serio *serio,
+> As Phoenix explained in his reply, the patch will reject X and Y coordinates
+> larger than 127 or smaller than -127. This is because the most significant
+> bit of packet[1] (for X) and packet[2] (for Y) are inverse of the sign bit.
+> Although I do not have the formal design specification of the device, I
+> tried pushing the trackpoint as hard as I could, and the X and Y coordinates
+> never go beyond +/-127 normally, so I believe that this patch would not
+> cause any functionality issue.
 > 
->  	switch (elo->id) {
->  	case 0:
-> +	case 4:
->  		elo_process_data_10(elo, data);
->  		break;
+> > What kind of patterns are you observing when firmware
+> > misreports coordinates?
 > 
-> @@ -255,6 +258,54 @@ static int elo_command_10(struct elo *elo, unsigned
-> char *packet)
->  	return rc;
->  }
+> Here is a sample log I observed (with elantech.debug set to 2 for more
+> debugging messages):
+> psmouse serio1: elantech: PS/2 packet [10 00 80 26 f9 0a]
+> psmouse serio1: elantech: PS/2 packet [10 00 80 26 00 80]
+> psmouse serio1: elantech: PS/2 packet [10 00 80 00 00 00]
+> psmouse serio1: Touchpad at isa0060/serio1/input0 lost sync at byte 6
+> psmouse serio1: elantech: PS/2 packet [10 00 80 26 f8 0b]
+> psmouse serio1: Touchpad at isa0060/serio1/input0 - driver resynced.
 > 
-> +/*
-> + * Initialise the General Touch ST6001S controller.
-> + */
-> +static int elo_command_10_gt(struct elo *elo)
-> +{
-> +	int rc = -1;
-> +	int i;
-> +	unsigned char *packet = ELO_GT_INIT_PACKET;
-> +
-> +	mutex_lock(&elo->cmd_mutex);
-> +
-> +	serio_pause_rx(elo->serio);
-> +	init_completion(&elo->cmd_done);
-> +	serio_continue_rx(elo->serio);
-> +
-> +	for (i = 0; i < (int)strlen(packet); i++) {
-> +		if (serio_write(elo->serio, packet[i]))
-> +			goto out;
-> +	}
-> +
-> +	wait_for_completion_timeout(&elo->cmd_done, HZ);
-> +	rc = 0;
-> +
-> + out:
-> +	mutex_unlock(&elo->cmd_mutex);
-> +	return rc;
-> +}
-> +
-> +static int elo_setup_10_gt(struct elo *elo)
-> +{
-> +	struct input_dev *dev = elo->dev;
-> +
-> +	if (elo_command_10_gt(elo))
-> +		return -1;
-
-		return -EIO;
-
-> +
-> +	__set_bit(INPUT_PROP_DIRECT, dev->propbit);
-
-Please make this a separate patch that would set this property for all
-variants of ELO touchscreens (i.e. move it into elo_connect()).
-
-> +
-> +	// Values taken from a GPEG model AOD22WZ-ST monitor
-> +	input_set_abs_params(dev, ABS_X, 1365, 5828, 0, 0);
-
-I believe the datasheet says that the touch resolution is 4096 x 4096:
-http://www.boardcon.com/download/LCD_datasheet/15inch_SAW_LCD/Serial%20Controller%20ST6001S%20SPEC.pdf
-
-
-
-> +	// max and min inverted because screen axis is inverted
-> +	input_set_abs_params(dev, ABS_Y, 5013, 2260, 0, 0);
-
-I dont think this changes anything for reported coordinates by the
-driver.
-
-> +
-> +	dev_info(&elo->serio->dev,
-> +		 "GeneralTouch ST6001S touchscreen");
-> +
-> +	return 0;
-> +}
-> +
->  static int elo_setup_10(struct elo *elo)
->  {
->  	static const char *elo_types[] = { "Accu", "Dura", "Intelli", "Carroll" };
-> @@ -361,6 +412,13 @@ static int elo_connect(struct serio *serio, struct
-> serio_driver *drv)
->  		input_set_abs_params(input_dev, ABS_X, 0, 255, 0, 0);
->  		input_set_abs_params(input_dev, ABS_Y, 0, 255, 0, 0);
->  		break;
-> +
-> +	case 4: /* 10-byte protocol with General Touch initialisation */
-> +		if (elo_setup_10_gt(elo)) {
-> +			err = -EIO;
-> +			goto fail3;
-> +		}
-> +		break;
->  	}
+> The first packet is a valid packet. The second packet is the incorrect
+> packet that this patch prevents. The third packet is a corrupted packet that
+> psmouse detects (as shown in the "lost sync" message), and the fourth packet
+> is a valid packet again. Without the patch, the second packet would cause
+> the cursor to jump to the edge of the screen.
 > 
->  	err = input_register_device(elo->dev);
-> -- 
-> 2.27.0
+> So far, all my logs of this issue show the same pattern of a jumpy incorrect
+> packet followed by a corrupted packet that causes psmouse to lose sync.
+> There are more logs and discussions in the BugZilla entry here:
+> https://bugzilla.kernel.org/show_bug.cgi?id=209167
+> 
+> Hope my explanation helped a bit.
+
+Sorry I lost track of this patch. Can I add your Tested-by to it before
+applying?
 
 Thanks.
 
