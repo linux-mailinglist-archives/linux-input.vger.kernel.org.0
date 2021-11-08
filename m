@@ -2,71 +2,136 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B75254478B0
-	for <lists+linux-input@lfdr.de>; Mon,  8 Nov 2021 03:54:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D44C34478F1
+	for <lists+linux-input@lfdr.de>; Mon,  8 Nov 2021 04:37:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237079AbhKHC4y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 7 Nov 2021 21:56:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54306 "EHLO
+        id S235567AbhKHDkO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 7 Nov 2021 22:40:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237015AbhKHC4y (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 7 Nov 2021 21:56:54 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7968EC061714
-        for <linux-input@vger.kernel.org>; Sun,  7 Nov 2021 18:54:10 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id b184-20020a1c1bc1000000b0033140bf8dd5so10596819wmb.5
-        for <linux-input@vger.kernel.org>; Sun, 07 Nov 2021 18:54:10 -0800 (PST)
+        with ESMTP id S234035AbhKHDkO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 7 Nov 2021 22:40:14 -0500
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F329C061570
+        for <linux-input@vger.kernel.org>; Sun,  7 Nov 2021 19:37:30 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id g19so8694192pfb.8
+        for <linux-input@vger.kernel.org>; Sun, 07 Nov 2021 19:37:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=tbvD/Ip+n1jU2037M0TDgLsXHwJtVsBG6F1KySuOMPk=;
-        b=VaxoV4EzDLE5kqQvPAbb8I8mVSdnNft9kyZmeVv6EbLhor3crNzJVEbcavCVhSCsNL
-         pTCKKGAe3ZVvB76PmaLKTdDkAC8duYhtcnDJYCwbIH2yin3bQHorAlFfwzj6JQXAWOZy
-         dnSlxZOS3tPW/btVma977nVFABdbZ3DBSn8SB6AAS6f34r00h+VHZorgKifjxPxqY7w9
-         CYQqSfeJWDDciT+HXQ8gpirDTgsgGBQANFVsz35EPd5esuJ7b/aTtXA5ajY8E3YAoCRP
-         AEmWuTJqUV9zGa1gsiyfSfwBvSgNGdgM9eJ9wnivC1Zk+EUYZ9agxvwGOafzzSuvmrqQ
-         5okg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Q9kn8WR4b/H+pNK4NbvzSY8Nrpy5L2E/D1Q/kjTAK18=;
+        b=EN8uAQgZfO9ZXbBnqCQJT/kzPti9jhfCFARoP4NQg2qjAf+GEsCKrPNiaoNtuos+vW
+         5+akeuQzgcUmOJF8p9Wi2ARe29GYZpTX9793KmvpzEQtLyt9BEWPyarZINQk4EKtc7Sx
+         IXX2ndI8o8z3Xu2kFGsKquq86B3cBLxI1SF5rHwo+m9G3DeD20TnPj8mql/6LEReI6zc
+         PlGiNurDC0GFYpSEpDTo+hjS3QdpmPkfxQdjULyXXJiMkG6oEboRlT/jBmb1YNMxiEV6
+         EXTNswNuivRvMvLyBHtqP6zw7O8qWZreJnqVzEyNTOh/BEXKOY40VgARchF00yTrNLsw
+         Hvuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=tbvD/Ip+n1jU2037M0TDgLsXHwJtVsBG6F1KySuOMPk=;
-        b=7RZmS2eqXvtOqjkU0YWq6Jnk8OO99vn/7wwXLkydoqP7PN17abyK/zjKtPB9eh+e6q
-         zaoIp/b3+KoxCKP0BgzJjtg01EGgFgyMInIJ3azSHyv7oSbihP11/y7bOvE6F6NagJ5R
-         nl1WCdkP1BdY0EZofJOif1FuHhoasKxq8oY0z9madaghgxVLBQKUxzHJoSaTgpt/WdcZ
-         oRk7m2SimCSvneFxKBhmE23QNuf9PSyZ80+7pzApRiTi8cUtmnqV/DaNSdoJ1ejAf1x3
-         LhYczvCFrc5QNqscIBec+wudOmzs3iPsFl2Jh6Sqa5Fo9D/IujxbN/eWAu8dLhT7tl6e
-         e9GQ==
-X-Gm-Message-State: AOAM533dCmtcHnP4gQTjFCMgQG0vsqup7N9pzo5ZM5Eq+UH3YPq3JsJP
-        HMef/YppYZ6WnLfCIIlxNXOiroTLlrPxgO9UacQ=
-X-Google-Smtp-Source: ABdhPJzvnlmO5cZI7FRjbCYlprB3UCQoY7DgD+n4ywkDPFu25mr7W8EpXw6Bvrb7UmIMCJ44sOicYxl2dp99xO8I6WY=
-X-Received: by 2002:a05:600c:4e8d:: with SMTP id f13mr33924462wmq.7.1636340048811;
- Sun, 07 Nov 2021 18:54:08 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Q9kn8WR4b/H+pNK4NbvzSY8Nrpy5L2E/D1Q/kjTAK18=;
+        b=uPbb+eWaXVfahbCcPwzg/1smP3g0cqNXk0Xa7qMOWwFCP3ClvWkJb/sF3nV/GWPyqq
+         +FJIxdb3JEXe3TblRRnSPCumzy0hmKKrVGgXuLocNroKU5Wls1CJPd7Vb7KUMjoW1fjN
+         u4kHiEeRWWCuK9C4kX9wKMCiDtejHBZFtV9KacZzbYJ8WiO4mX5ZTmpTh2CtNWJZznnM
+         qdZ5HGpHYDXE4Bj9X9Py2GJGsqUJr0MHizydZ+5+L3Gdy+/B+zA5xvrx32U4UB9mkwEG
+         cX6byILAW9jRy4IQp/Pae8e2dDbS/s8B9YHCoc9LhZtWZS3ET4co5BseSK4cNL0ZGXNt
+         tGgA==
+X-Gm-Message-State: AOAM530l9eN5UPzlUwhvAM97/OmRHeHgPk5xeIYEQBobEpptuAmxu42Q
+        yplMmPePz2FCQYZwYryQv+iKDSWDsgY=
+X-Google-Smtp-Source: ABdhPJzGv0oIA/Yzx3cSTu6Dl0V0HuyZofBeG3hPMwys1LKQmcirEpW1uQeNioHRk+nLz9fDFdMJkA==
+X-Received: by 2002:aa7:9d81:0:b0:49f:e072:bfc7 with SMTP id f1-20020aa79d81000000b0049fe072bfc7mr722876pfq.48.1636342649793;
+        Sun, 07 Nov 2021 19:37:29 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:e1e:62c7:99fb:927c])
+        by smtp.gmail.com with ESMTPSA id w1sm9668674pgb.50.2021.11.07.19.37.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Nov 2021 19:37:28 -0800 (PST)
+Date:   Sun, 7 Nov 2021 19:37:26 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Marek Vasut <marex@denx.de>
+Cc:     linux-input@vger.kernel.org, Joe Hung <joe_hung@ilitek.com>,
+        Luca Hsu <luca_hsu@ilitek.com>
+Subject: Re: [PATCH] Input: ili210x - Improve polled sample spacing
+Message-ID: <YYibdjD35P2RklGh@google.com>
+References: <20211108005216.480525-1-marex@denx.de>
 MIME-Version: 1.0
-Received: by 2002:adf:ce01:0:0:0:0:0 with HTTP; Sun, 7 Nov 2021 18:54:08 -0800 (PST)
-Reply-To: justinseydou@gmail.com
-From:   Justin Seydou <hamidoufranck.550@gmail.com>
-Date:   Mon, 8 Nov 2021 02:54:08 +0000
-Message-ID: <CAPRzMgeMbEpxUYySh6MnYoPkM+jRH0hd16GibQOEVPi8=6=udw@mail.gmail.com>
-Subject: Proposal
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211108005216.480525-1-marex@denx.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear friend,
+Hi Marek,
 
-With much sincerity of heart I write to inform you about a business
-proposal I have which I would like to handle with you. $35 million USD
-is involved. Be rest assured that everything is legal and risk free as
-I have concluded all the arrangements and the legal papers that will
-back the transaction up.
+On Mon, Nov 08, 2021 at 01:52:16AM +0100, Marek Vasut wrote:
+> Currently the ili210x driver implements a threaded interrupt handler which
+> starts upon edge on the interrupt line, and then polls the touch controller
+> for samples. Every time a sample is obtained from the controller, the thread
+> function checks whether further polling is required, and if so, waits fixed
+> amount of time before polling for next sample.
+> 
+> The delay between consecutive samples can thus vary greatly, because the
+> I2C transfer required to retrieve the sample from the controller takes
+> different amount of time on different platforms. Furthermore, different
+> models of the touch controllers supported by this driver require different
+> delays during retrieval of samples too.
+> 
+> Instead of waiting fixed amount of time before polling for next sample,
+> determine how much time passed since the beginning of sampling cycle and
+> then wait only the remaining amount of time within the sampling cycle.
+> This makes the driver deliver samples with equal spacing between them.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Joe Hung <joe_hung@ilitek.com>
+> Cc: Luca Hsu <luca_hsu@ilitek.com>
+> ---
+>  drivers/input/touchscreen/ili210x.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+> index a3b71a9511eb3..b2d9fe1e1c707 100644
+> --- a/drivers/input/touchscreen/ili210x.c
+> +++ b/drivers/input/touchscreen/ili210x.c
+> @@ -328,10 +328,13 @@ static irqreturn_t ili210x_irq(int irq, void *irq_data)
+>  	const struct ili2xxx_chip *chip = priv->chip;
+>  	u8 touchdata[ILI210X_DATA_SIZE] = { 0 };
+>  	bool keep_polling;
+> +	ktime_t time_next;
+> +	s64 time_delta;
+>  	bool touch;
+>  	int error;
+>  
+>  	do {
+> +		time_next = ktime_add_ms(ktime_get(), ILI2XXX_POLL_PERIOD);
+>  		error = chip->get_touch_data(client, touchdata);
+>  		if (error) {
+>  			dev_err(&client->dev,
+> @@ -341,8 +344,11 @@ static irqreturn_t ili210x_irq(int irq, void *irq_data)
+>  
+>  		touch = ili210x_report_events(priv, touchdata);
+>  		keep_polling = chip->continue_polling(touchdata, touch);
+> -		if (keep_polling)
+> -			msleep(ILI2XXX_POLL_PERIOD);
+> +		if (keep_polling) {
+> +			time_delta = ktime_us_delta(time_next, ktime_get());
 
-Kindly indicate your interest so as to enable
-me give you more details of the proposal.
+Do we really need to use exact time, or ktime_get_coarse() is good
+enough, as it is cheaper?
 
-Waiting for your response.
+> +			if (time_delta > 0)
+> +				usleep_range(time_delta, time_delta + 1000);
+> +		}
+>  	} while (!priv->stop && keep_polling);
+>  
+>  	return IRQ_HANDLED;
+> -- 
+> 2.33.0
+> 
 
-Yours faithfully,
-Mr.Justin Seydou.
+Thanks.
+
+-- 
+Dmitry
