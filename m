@@ -2,42 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CBA2449ED9
-	for <lists+linux-input@lfdr.de>; Mon,  8 Nov 2021 23:57:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA053449F25
+	for <lists+linux-input@lfdr.de>; Tue,  9 Nov 2021 00:44:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237259AbhKHXAf convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Mon, 8 Nov 2021 18:00:35 -0500
-Received: from bizcloud-emf.com.sg ([143.198.192.32]:47726 "EHLO
-        bizcloud-emf.com.sg" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S236847AbhKHXAf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Nov 2021 18:00:35 -0500
-X-Greylist: delayed 94081 seconds by postgrey-1.27 at vger.kernel.org; Mon, 08 Nov 2021 18:00:33 EST
-Received: from [5.135.230.141] (bizcloud-emf.com.sg [IPv6:::1])
-        by bizcloud-emf.com.sg (Postfix) with ESMTP id 532BBECCEB8
-        for <linux-input@vger.kernel.org>; Mon,  8 Nov 2021 11:31:35 +0000 (UTC)
-Reply-To: luisfernandezconsultant@gmail.com
-From:   Luis Fernandez <luisfernandezfirm@consultant.com>
-To:     linux-input@vger.kernel.org
-Subject: Re: Mutual Business Establishment
-Date:   8 Nov 2021 03:31:35 -0800
-Message-ID: <20211108033135.FA53BDD9FA1AD967@consultant.com>
+        id S237502AbhKHXqr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Nov 2021 18:46:47 -0500
+Received: from smtprelay0081.hostedemail.com ([216.40.44.81]:60562 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S236541AbhKHXqq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 8 Nov 2021 18:46:46 -0500
+X-Greylist: delayed 362 seconds by postgrey-1.27 at vger.kernel.org; Mon, 08 Nov 2021 18:46:46 EST
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+        by smtpgrave05.hostedemail.com (Postfix) with ESMTP id 796121849085D
+        for <linux-input@vger.kernel.org>; Mon,  8 Nov 2021 23:38:01 +0000 (UTC)
+Received: from omf01.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 5411F837F24F;
+        Mon,  8 Nov 2021 23:37:59 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf01.hostedemail.com (Postfix) with ESMTPA id 7C9C917274;
+        Mon,  8 Nov 2021 23:37:54 +0000 (UTC)
+Message-ID: <5179a7c097e0bb88f95642a394f53c53e64b66b1.camel@perches.com>
+Subject: Re: [PATCH 2/2] MAINTAINERS: Mark VMware mailing list entries as
+ private
+From:   Joe Perches <joe@perches.com>
+To:     "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>, jgross@suse.com,
+        x86@kernel.org, pv-drivers@vmware.com
+Cc:     Nadav Amit <namit@vmware.com>, Vivek Thampi <vithampi@vmware.com>,
+        Vishal Bhakta <vbhakta@vmware.com>,
+        Ronak Doshi <doshir@vmware.com>,
+        linux-graphics-maintainer@vmware.com,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
+        linux-input@vger.kernel.org, Zack Rusin <zackr@vmware.com>,
+        sdeep@vmware.com, amakhalov@vmware.com,
+        virtualization@lists.linux-foundation.org, keerthanak@vmware.com,
+        srivatsab@vmware.com, anishs@vmware.com,
+        linux-kernel@vger.kernel.org
+Date:   Mon, 08 Nov 2021 15:37:53 -0800
+In-Reply-To: <163640339370.62866.3435211389009241865.stgit@srivatsa-dev>
+References: <163640336232.62866.489924062999332446.stgit@srivatsa-dev>
+         <163640339370.62866.3435211389009241865.stgit@srivatsa-dev>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.22
+X-Stat-Signature: dabja5iyhi1f3u7sn4gaygkth6wafpyr
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 7C9C917274
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19XvMXBRYU1i3HvRZAoQGyZbMrqYURbOg0=
+X-HE-Tag: 1636414674-345765
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Good Day,
+On Mon, 2021-11-08 at 12:30 -0800, Srivatsa S. Bhat wrote:
+> From: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+> 
+> VMware mailing lists in the MAINTAINERS file are private lists meant
+> for VMware-internal review/notification for patches to the respective
+> subsystems. So, in an earlier discussion [1][2], it was recommended to
+> mark them as such. Update all the remaining VMware mailing list
+> references to use that format -- "L: list@address (private)".
+[]
+> diff --git a/MAINTAINERS b/MAINTAINERS
+[]
+> @@ -6134,8 +6134,8 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+>  F:	drivers/gpu/drm/vboxvideo/
+>  
+>  DRM DRIVER FOR VMWARE VIRTUAL GPU
+> -M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
+>  M:	Zack Rusin <zackr@vmware.com>
+> +L:	linux-graphics-maintainer@vmware.com (private)
 
-My name is Luis Fernandez.I am contacting you because we have 
-investors that have the capacity to invest in any massive project 
-in your country or invest in your existing project that requires 
-funding.
-Kindly get back to me for more details.
+This MAINTAINERS file is for _public_ use, marking something
+non-public isn't useful.
+
+private makes no sense and likely these L: entries shouldn't exist.
 
 
-Best Regards
-
-Luis Fernandez
