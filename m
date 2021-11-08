@@ -2,90 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 263E1447E6D
-	for <lists+linux-input@lfdr.de>; Mon,  8 Nov 2021 12:04:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96A3B447F0E
+	for <lists+linux-input@lfdr.de>; Mon,  8 Nov 2021 12:42:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238933AbhKHLHR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Nov 2021 06:07:17 -0500
-Received: from phobos.denx.de ([85.214.62.61]:47070 "EHLO phobos.denx.de"
+        id S239301AbhKHLop (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Nov 2021 06:44:45 -0500
+Received: from phobos.denx.de ([85.214.62.61]:36822 "EHLO phobos.denx.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238910AbhKHLHQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 8 Nov 2021 06:07:16 -0500
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        id S231992AbhKHLop (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 8 Nov 2021 06:44:45 -0500
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
         (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 3B6CD83628;
-        Mon,  8 Nov 2021 12:04:31 +0100 (CET)
+        by phobos.denx.de (Postfix) with ESMTPSA id DF32A8360F;
+        Mon,  8 Nov 2021 12:41:59 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1636369471;
-        bh=rqREcvH3hsepBh2nGWr0ysQ2SuQuqHok8d913fd1s0s=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=WX4eokbJmv9FZDZo+k7LQNpNB/Y4+CqRNVHsy6KOr3GxvEBNs4/wN0qkOvq8CIT7C
-         7FqwwArGZVhO2YRmYOwioIIyR/MUJw4BYmn+URxItD5yeUu3j1K3XqTeEhwa7c5VSo
-         h63gi/Yvl4D3nz/d8IMu37ZcsCLXXrzSOELYTa2qdPhhfJ0tcZcHpj/KBkKzd2qDWw
-         vff+qEbdWP5FbmUuHazu25YtNqCLE62GriPK84JeLE0cPo4/11yYtL7+20W3mPP3yj
-         /8sV4CywVEld5BGTBOwGdt4hI7nv/V+Q8fCoS4K5YyC/lDQOAB9KPm+HnmovrDNCzY
-         fccOl8cg/z7yg==
-Subject: Re: [PATCH] Input: ili210x - Improve polled sample spacing
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, Joe Hung <joe_hung@ilitek.com>,
-        Luca Hsu <luca_hsu@ilitek.com>
-References: <20211108005216.480525-1-marex@denx.de>
- <YYibdjD35P2RklGh@google.com>
+        s=phobos-20191101; t=1636371720;
+        bh=sOpVm2xw6g/LWUP73tszzCFDYG777TQJOVo9AOCOti0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lVfYQbczGRI1jws/slxuXK1Ji3KYfy5sYVh7Iiy205u1LKLtenKfv+D6ybYA6A7w7
+         hi4ddrkFnnLUogBjrUrvu3MdurrpZiTikF63DNGiBkwBdyKGeECD6Upax/XrzVof+j
+         VCE9vHo+EOtnGgXZc2Xoy83kAsfn1+goA2Gzq7myRqP/cmWwRe0dGCNbC/Ok1WbSET
+         mwwADP5BrbxcTIq0AHtPkAVzogClJ1XG/B1R+iisdtXJoLZx2EeGsMmROdk1H7L78g
+         0lwwAkaOrQfvL5u92Pd5H9+871YRMa1IyPADBeSt3XGu5qCUGXNRzceS48F/MFuYrr
+         5eG2pxbx49qrA==
 From:   Marek Vasut <marex@denx.de>
-Message-ID: <b541d4b7-0b3e-6ccd-abbb-8448c1c57c22@denx.de>
-Date:   Mon, 8 Nov 2021 12:04:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+To:     linux-input@vger.kernel.org
+Cc:     Marek Vasut <marex@denx.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Joe Hung <joe_hung@ilitek.com>, Luca Hsu <luca_hsu@ilitek.com>
+Subject: [PATCH] Input: ili210x - Reduce sample period to 15ms
+Date:   Mon,  8 Nov 2021 12:41:45 +0100
+Message-Id: <20211108114145.84118-1-marex@denx.de>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-In-Reply-To: <YYibdjD35P2RklGh@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
 X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 11/8/21 4:37 AM, Dmitry Torokhov wrote:
-> Hi Marek,
+Modern devices may redraw display at 60 Hz, make sure we have one input
+sample per one frame. Reduce sample period to 15ms, so we would get up
+to 66.6 samples per second, although realistically with all the jitter
+and extra scheduling wiggle room, we would end up just above 60 samples
+per second. This should be a good compromise between sampling too often
+and sampling too seldom.
 
-Hi,
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Joe Hung <joe_hung@ilitek.com>
+Cc: Luca Hsu <luca_hsu@ilitek.com>
+---
+ drivers/input/touchscreen/ili210x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[...]
+diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+index 6dd5095be567f..ba0e2ae3928a7 100644
+--- a/drivers/input/touchscreen/ili210x.c
++++ b/drivers/input/touchscreen/ili210x.c
+@@ -14,7 +14,7 @@
+ #include <linux/slab.h>
+ #include <asm/unaligned.h>
+ 
+-#define ILI2XXX_POLL_PERIOD	20
++#define ILI2XXX_POLL_PERIOD	15
+ 
+ #define ILI210X_DATA_SIZE	64
+ #define ILI211X_DATA_SIZE	43
+-- 
+2.33.0
 
->> diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
->> index a3b71a9511eb3..b2d9fe1e1c707 100644
->> --- a/drivers/input/touchscreen/ili210x.c
->> +++ b/drivers/input/touchscreen/ili210x.c
->> @@ -328,10 +328,13 @@ static irqreturn_t ili210x_irq(int irq, void *irq_data)
->>   	const struct ili2xxx_chip *chip = priv->chip;
->>   	u8 touchdata[ILI210X_DATA_SIZE] = { 0 };
->>   	bool keep_polling;
->> +	ktime_t time_next;
->> +	s64 time_delta;
->>   	bool touch;
->>   	int error;
->>   
->>   	do {
->> +		time_next = ktime_add_ms(ktime_get(), ILI2XXX_POLL_PERIOD);
->>   		error = chip->get_touch_data(client, touchdata);
->>   		if (error) {
->>   			dev_err(&client->dev,
->> @@ -341,8 +344,11 @@ static irqreturn_t ili210x_irq(int irq, void *irq_data)
->>   
->>   		touch = ili210x_report_events(priv, touchdata);
->>   		keep_polling = chip->continue_polling(touchdata, touch);
->> -		if (keep_polling)
->> -			msleep(ILI2XXX_POLL_PERIOD);
->> +		if (keep_polling) {
->> +			time_delta = ktime_us_delta(time_next, ktime_get());
-> 
-> Do we really need to use exact time, or ktime_get_coarse() is good
-> enough, as it is cheaper?
-
-ktime_get_coarse() introduces multi-millisecond jitter into the samples 
-if you have low HZ setting, which isn't really nice. That's also why I 
-use ktime and not jiffies here, jiffies has the same problem.
