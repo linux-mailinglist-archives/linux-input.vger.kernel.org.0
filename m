@@ -2,39 +2,44 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36E8E44AB68
-	for <lists+linux-input@lfdr.de>; Tue,  9 Nov 2021 11:21:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B35AE44ABB7
+	for <lists+linux-input@lfdr.de>; Tue,  9 Nov 2021 11:42:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245273AbhKIKYH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 9 Nov 2021 05:24:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41378 "EHLO mail.kernel.org"
+        id S243578AbhKIKpD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 9 Nov 2021 05:45:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46754 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S245285AbhKIKYG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 9 Nov 2021 05:24:06 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 50C076115B;
-        Tue,  9 Nov 2021 10:21:19 +0000 (UTC)
+        id S240799AbhKIKpC (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 9 Nov 2021 05:45:02 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A5E0661054;
+        Tue,  9 Nov 2021 10:42:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636453280;
-        bh=R928BuAwjwPgAbEZdOA9e3VgBMtaHUofv3hH81F2LXY=;
+        s=k20201202; t=1636454536;
+        bh=SARQ0rfZIk7IiaCvVk31ChFv0tDhc8L0s3fOf2R/g+0=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=V8Ooh1tSEhP7/CIvVpIlUqpciMkncIOjbH2n0Ezt6jPhVXk92AUfVxPIMA5ua3BsD
-         ymAA7vBKNLpJ5V5z3mxqUXeTb/NRdfpIg0g98S5uqll4e5VdzGYOGPhPL7rP47tJaP
-         PcGaaH79b2yevF96XaWNNWNPdIkZS8+ulb7hcEmB7Jaljxt9ckDmojjE4sLSBu5Pe8
-         9Az4CoMdHI4me6LzftdXGoSROUMgBfc7JM6pPx2xFbz008jqTTKxgUYCOivCfghQjd
-         YDtpNRBC10kjQ3xasYc/KD0gu3z4Aj/SL+OkeeJwuIblmFXyWB5uhvCZb/otgucNIa
-         TvXhL1IHj7TZg==
-Date:   Tue, 9 Nov 2021 11:21:17 +0100 (CET)
+        b=a7exq0YD94v0zjUkhQ40CSdtgS4WGps5RaHgFFtYM1RjwIiaq2xOiNNP0oGsUQlSP
+         M+DD2giXMocWC+ssEbA/V/u1kkbZUCCidJNE2Hxv1QlxUOVQVsdGzGOUat3QiFOV9o
+         CY1Y2IbSJmDFhSaiOYRJcb6ZtAAmVNdu38r0xsLyFplnpsWfr1Fugf2HRyBVfr4pH4
+         QgG41ij0ruqhDOInQ3igH+ZCXHhX2oCF2v/ENyLejAs24Jgx+HDbQXVfOHdEgJ8PCL
+         2mfb5UrwCFtcFxAO99niG6q070h6m41z41GehOxHvT/06WgSWDPBAFfk1AIlgeBUd5
+         IPBhwCVnCSqXA==
+Date:   Tue, 9 Nov 2021 11:42:12 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     =?ISO-8859-15?Q?Vin=EDcius_Reis?= <itsme.vreis@gmail.com>
-cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>, angiolucci@gmail.com
-Subject: Re: [PATCH] HID: hid-asus.c: Maps key 0x35 (display off) to
- KEY_SCREENLOCK
-In-Reply-To: <CALawNGDtzNBgJyc6Ammbp_-5n0EBamXQG84r_FC8WtN9QzFS=g@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2111091121010.12554@cbobk.fhfr.pm>
-References: <20211008222327.9324-1-angiolucci@gmail.com> <CAKdAkRTdCSC_6UqWkcT3p697+d0kwEqMSSR=M9vw-NPAjdZ4SQ@mail.gmail.com> <CALawNGC3HTV86+LAkMNf_nApqnUoAQ7UPEXOj9WXake5DhHkpQ@mail.gmail.com> <YYWoRW9NRC58zQ9w@google.com>
- <CALawNGBookRkFSGdGJrW1hboJ8kpsPj_rwAkNXQ3mU32oDv-sA@mail.gmail.com> <YYc1I8aTLxd0FOE2@google.com> <CALawNGDtzNBgJyc6Ammbp_-5n0EBamXQG84r_FC8WtN9QzFS=g@mail.gmail.com>
+To:     =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>
+cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Benson Leung <bleung@chromium.org>,
+        platform-driver-x86@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 0/6] MODULE_DEVICE_TABLE() support for the ISHTP bus
+In-Reply-To: <20211029152901.297939-1-linux@weissschuh.net>
+Message-ID: <nycvar.YFH.7.76.2111091141550.12554@cbobk.fhfr.pm>
+References: <20211029152901.297939-1-linux@weissschuh.net>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -43,31 +48,34 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 6 Nov 2021, Vinícius Reis wrote:
+On Fri, 29 Oct 2021, Thomas Weißschuh wrote:
 
-> > > Thanks for explaining this a little bit more, I've got the point: The current
-> > > key code triggered by the kernel is correct, the real issue is the lack of
-> > > support for that particular code by current desktop environments.
-> > >
-> > > I'm new to contributing to the Linux kernel; the proper way to rollback
-> > > this would be by me just sending a revert patch to the respective
-> > > maintainer?
-> >
-> > Has the patch been accepted? I'd wait for Jiri or Benjamin to chime in
-> > as to what they want to do.
-> >
-> > Thanks.
-> >
-> > --
-> > Dmitry
+> Currently as soon as any ISHTP device appears all available ISHTP device
+> drivers are loaded automatically.
+> This series extends the MODULE_DEVICE_TABLE() functionality to properly handle
+> the ishtp bus and switches the drivers over to use it.
 > 
-> Hi Dmitry,
+> Patch 1 adds the infrastructure to handle ishtp devices via MODULE_DEVICE_TABLE()
+> Patch 2 replaces some inlined constants with ones now defined by mod_devicetable.h
+> Patches 3-6 migrate all ishtp drivers to MODULE_DEVICE_TABLE()
 > 
-> Yes, it was applied two weeks ago. Okay, I will do that.
+> Note: This patchset is based on the pdx86/for-next tree because that contains
+> one of the drivers that is not yet in the other trees.
+> 
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: Mark Gross <markgross@kernel.org>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Cc: Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> Cc: Benson Leung <bleung@chromium.org>
+> 
+> Cc: platform-driver-x86@vger.kernel.org
+> Cc: linux-kbuild@vger.kernel.org
 
-Yes, please send me a revert with a full explanation in the changelog.
-
-Thanks,
+Applied to hid.git#for-5.16/upstream-fixes. Thanks,
 
 -- 
 Jiri Kosina
