@@ -2,141 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64F4344A82E
-	for <lists+linux-input@lfdr.de>; Tue,  9 Nov 2021 09:11:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FF2444A84D
+	for <lists+linux-input@lfdr.de>; Tue,  9 Nov 2021 09:26:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241437AbhKIIOV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 9 Nov 2021 03:14:21 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:36623 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235389AbhKIIOV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 9 Nov 2021 03:14:21 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 4EFD35C01FE;
-        Tue,  9 Nov 2021 03:11:35 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Tue, 09 Nov 2021 03:11:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nakato.io; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=fm2; bh=SjIXu+fbTVyhVvYyok/wmJo7Fj
-        2D2l4fiDH0dSI06V8=; b=hFtq9tC99Ivk9JS2Gtd0dAtNzsMTezVokKmmIGrOhl
-        cnlWGUIJWZ1JLbn2Z6HbLZ7ekJA3wyLs9/N8ErVnswNhS0ZkKMYX6wS8DIsKn/eR
-        x3hsbHciJfyDvkN3Yu3A5CZcytMVh9XP0pnATPCB1TLJ3w+ys0vsq/qXdHgJJuUm
-        JzAwvI/zUXGPS+AU9GR2CrlUZIZh2DtnWbhWyXO8gsRjWsOb02xPcaGYQ1ymbAQ3
-        5s7QDgPjRBW/EHL2+TCoSPtFJ2Tu3tU9A2zN31bBPtTWzK1fQdB4aF333Ui/ifAf
-        xXh/ArXZnO1jAvsquN1dgVdup9ChjNnItfyKSYB4c24A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=SjIXu+fbTVyhVvYyo
-        k/wmJo7Fj2D2l4fiDH0dSI06V8=; b=cBxD//MFT0ERSxTHfWCNwobML3B/bzVBv
-        qKQVGOtXkpR3pF97RaBH6Sl6m46AQQxk4TsCinzcSzSV7JjHW1fx5vhpss1b1aSa
-        vKfOehjo1bUsLP735QfV84E7+SaiWI8aWKoAtikH8QoBcda/zHH+D0HNqwZmIV1R
-        xj7Q0i/b6nRoRSxOM9WPIHI8jB8+sTRgc3QXZSiAAmIlixCmp8ZM1W58ujn3yFqa
-        URgT2AdMrlusyD68vnrPiI/Cr5uJNHG9aJaEZkKG91+iaZb5deS1gSsKhY4O1jLs
-        npNcYnQ6/Oa25JXs4Nruwkw6/4nVV0TPH12AB4S6Uhtz4gnUH6BNQ==
-X-ME-Sender: <xms:Ny2KYaq4HDeW0ewS9jcUPlHm6HOKKzqtrPwfSCS9wuro0EXlybhkUg>
-    <xme:Ny2KYYp40TXMTy13xsY-kl50KtJ9WbonRCWLu_7-oK-Bd8qMi0tLpcTAHlW9gP6hC
-    FUOieMidx5lIpGneA>
-X-ME-Received: <xmr:Ny2KYfOmFN8AYPV8lE5A-nc96mKzQqKaU0qkXfV-oHV4wE5DdzDjeICM0IoJRZdJ_9_jX5xbcqc3vp4uHS1ZS_HTfYvQtkBJhTgLtlmb>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrudefgdduuddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurggthhhiucfm
-    ihhnghcuoehnrghkrghtohesnhgrkhgrthhordhioheqnecuggftrfgrthhtvghrnhepgf
-    ejgeeijeelleekieekhfelveduheehhefguedutdehteehtedvvdefheejiedtnecuvehl
-    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgrkhgrthhose
-    hnrghkrghtohdrihho
-X-ME-Proxy: <xmx:Ny2KYZ7TsHAC-2bR_l7iuOjIWjjrqhAnmvNjbz0RQXqfPmBYMG05lg>
-    <xmx:Ny2KYZ7SVS_X2U0-OtLnxnzcLB4hCW330nr17za7PRe54rvtlXnZxQ>
-    <xmx:Ny2KYZg9U_G5Tlv8UQ_69xRZ6W7aHyhcnoumrRGIRCd_Ey3QZMugBw>
-    <xmx:Ny2KYTm-nAP3VnBbvYbx2rf2NlbmSTZRpk8L3rAnoljFoOTIdWHQcQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 9 Nov 2021 03:11:32 -0500 (EST)
-From:   Sachi King <nakato@nakato.io>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>
-Cc:     Sachi King <nakato@nakato.io>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] Input: soc_button_array - support AMD variant Surface devices
-Date:   Tue,  9 Nov 2021 19:11:24 +1100
-Message-Id: <20211109081125.41410-1-nakato@nakato.io>
-X-Mailer: git-send-email 2.33.0
+        id S244042AbhKII3B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 9 Nov 2021 03:29:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58202 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239099AbhKII3A (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 9 Nov 2021 03:29:00 -0500
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EF58C061764;
+        Tue,  9 Nov 2021 00:26:15 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id u17so19559849plg.9;
+        Tue, 09 Nov 2021 00:26:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=M0bK2Rvf8dX7EezezcjZ3iAVMSzAxI9Dy5fpPOnbhws=;
+        b=DZOR3HrU39gR3T/iHxu8Uilzukk5pFSSmbyJwfGPR6ubwwDz+wXeJFbebQT2wuwEYJ
+         TsLvjJUzTL2Qp4eD1+ANRdculRcKnwleA+8qWVFZ6GZaon+hYgVTJfrYUwhYykR5vlTP
+         3CMBM9Z9KcpyHUdTjIKJ153IlFAfA/0BXKt1i8I3mUsd8Eqy7r3NJKiW1OJBGQEb10xq
+         btCAj9nXPATZDa6cSyu06k62WrAa4F0c/Y3bQ1BbiGUpoNXv9X/nyYNRrzRtczUp3YH+
+         ufoqM490E8bzweZ+66Y/t3Lgv5MUy0FMXICLk4B0XvuNxQ/jvIPHS46MjShPjYWCDp6y
+         dmhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=M0bK2Rvf8dX7EezezcjZ3iAVMSzAxI9Dy5fpPOnbhws=;
+        b=mChlZPSt5JAO+KifKIGqxVcUwzOrltdI1zFEW/MGY0P0CE0xCLkgFy9+DS460e2WvR
+         fcQXL6/4eMmqEZj4abWAAlemhMA1/s6uhbKQteGwaAjTC6rkEkzkGqpqCdFQSzsLJY/v
+         7FGlTbbPWbJYNKS12tONBxStMKBZYZwk2ATm2X9S4EvGSgMjoPpH8bBp+rVAcAx097hy
+         hsuiZ0mtbggrTCP99MLZAFuGCKSL8q70YlzBOeYb7aUQh9dzF0oUzwwsZMj4Ddni4das
+         6RowCDUIXHEDBMj1o4VhaM+VT2zROPsM8kumW2VrIRPkvzRK5i3Nc9vTxTBqjqBAPxAO
+         kZKw==
+X-Gm-Message-State: AOAM531j/kUCq7NyHjLfEfgVEdaHk6WCsPzFJRDY0BtffQ2suQzdeM61
+        LEyyR7tUIgNidGznEk+YcGQ=
+X-Google-Smtp-Source: ABdhPJxH4KdtUOA28yRY5MX/LbN2HTjAq2CYReZAob7+ZZjUylQVHYFCjw3F3luO8yOOUgvS99wsRA==
+X-Received: by 2002:a17:903:2306:b0:142:123a:24ec with SMTP id d6-20020a170903230600b00142123a24ecmr5495358plh.21.1636446374623;
+        Tue, 09 Nov 2021 00:26:14 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id z3sm1760348pjl.13.2021.11.09.00.26.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Nov 2021 00:26:14 -0800 (PST)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: chi.minghao@zte.com.cn
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, chiminghao <chi.minghao@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] drivers:hid: use swap() to make code cleaner
+Date:   Tue,  9 Nov 2021 08:26:10 +0000
+Message-Id: <20211109082610.131341-1-chi.minghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The power button on the AMD variant of the Surface Laptop uses the
-same MSHW0040 device ID as the 5th and later generation of Surface
-devices, however they report 0 for their OEM platform revision.  As the
-_DSM does not exist on the devices requiring special casing, check for
-the existence of the _DSM to determine if soc_button_array should be
-loaded.
+From: chiminghao <chi.minghao@zte.com.cn>
 
-Fixes: c394159310d0 ("Input: soc_button_array - add support for newer surface devices")
-Co-developed-by: Maximilian Luz <luzmaximilian@gmail.com>
-Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
-Signed-off-by: Sachi King <nakato@nakato.io>
+Fix the following coccicheck REVIEW:
+Use swap() instead of reimplementing it.
+
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: chiminghao <chi.minghao@zte.com.cn>
 ---
- drivers/input/misc/soc_button_array.c | 33 +++++++--------------------
- 1 file changed, 8 insertions(+), 25 deletions(-)
+ drivers/hid/hid-tmff.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-index cb6ec59a045d..4e8944f59def 100644
---- a/drivers/input/misc/soc_button_array.c
-+++ b/drivers/input/misc/soc_button_array.c
-@@ -474,8 +474,8 @@ static const struct soc_device_data soc_device_INT33D3 = {
-  * Both, the Surface Pro 4 (surfacepro3_button.c) and the above mentioned
-  * devices use MSHW0040 for power and volume buttons, however the way they
-  * have to be addressed differs. Make sure that we only load this drivers
-- * for the correct devices by checking the OEM Platform Revision provided by
-- * the _DSM method.
-+ * for the correct devices by checking if the OEM Platform Revision DSM call
-+ * exists.
-  */
- #define MSHW0040_DSM_REVISION		0x01
- #define MSHW0040_DSM_GET_OMPR		0x02	// get OEM Platform Revision
-@@ -486,31 +486,14 @@ static const guid_t MSHW0040_DSM_UUID =
- static int soc_device_check_MSHW0040(struct device *dev)
- {
- 	acpi_handle handle = ACPI_HANDLE(dev);
--	union acpi_object *result;
--	u64 oem_platform_rev = 0;	// valid revisions are nonzero
--
--	// get OEM platform revision
--	result = acpi_evaluate_dsm_typed(handle, &MSHW0040_DSM_UUID,
--					 MSHW0040_DSM_REVISION,
--					 MSHW0040_DSM_GET_OMPR, NULL,
--					 ACPI_TYPE_INTEGER);
--
--	if (result) {
--		oem_platform_rev = result->integer.value;
--		ACPI_FREE(result);
--	}
--
--	/*
--	 * If the revision is zero here, the _DSM evaluation has failed. This
--	 * indicates that we have a Pro 4 or Book 1 and this driver should not
--	 * be used.
--	 */
--	if (oem_platform_rev == 0)
--		return -ENODEV;
-+	bool exists;
+diff --git a/drivers/hid/hid-tmff.c b/drivers/hid/hid-tmff.c
+index 90acef304536..4040cd98dafe 100644
+--- a/drivers/hid/hid-tmff.c
++++ b/drivers/hid/hid-tmff.c
+@@ -78,7 +78,6 @@ static int tmff_play(struct input_dev *dev, void *data,
+ 	struct hid_field *ff_field = tmff->ff_field;
+ 	int x, y;
+ 	int left, right;	/* Rumbling */
+-	int motor_swap;
  
--	dev_dbg(dev, "OEM Platform Revision %llu\n", oem_platform_rev);
-+	// check if OEM platform revision DSM call exists
-+	exists = acpi_check_dsm(handle, &MSHW0040_DSM_UUID,
-+				MSHW0040_DSM_REVISION,
-+				BIT(MSHW0040_DSM_GET_OMPR));
+ 	switch (effect->type) {
+ 	case FF_CONSTANT:
+@@ -104,11 +103,8 @@ static int tmff_play(struct input_dev *dev, void *data,
+ 					ff_field->logical_maximum);
  
--	return 0;
-+	return exists ? 0 : -ENODEV;
- }
+ 		/* 2-in-1 strong motor is left */
+-		if (hid->product == THRUSTMASTER_DEVICE_ID_2_IN_1_DT) {
+-			motor_swap = left;
+-			left = right;
+-			right = motor_swap;
+-		}
++		if (hid->product == THRUSTMASTER_DEVICE_ID_2_IN_1_DT)
++			swap(left, right);
  
- /*
+ 		dbg_hid("(left,right)=(%08x, %08x)\n", left, right);
+ 		ff_field->value[0] = left;
 -- 
-2.33.0
+2.25.1
 
