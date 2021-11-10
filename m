@@ -2,218 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC47C44C5C9
-	for <lists+linux-input@lfdr.de>; Wed, 10 Nov 2021 18:16:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89DB644C608
+	for <lists+linux-input@lfdr.de>; Wed, 10 Nov 2021 18:37:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231487AbhKJRTo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Nov 2021 12:19:44 -0500
-Received: from outgoing-stata.csail.mit.edu ([128.30.2.210]:48272 "EHLO
-        outgoing-stata.csail.mit.edu" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230471AbhKJRTn (ORCPT
+        id S230474AbhKJRj6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Nov 2021 12:39:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56834 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230380AbhKJRj6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Nov 2021 12:19:43 -0500
-Received: from [128.177.79.46] (helo=csail.mit.edu)
-        by outgoing-stata.csail.mit.edu with esmtpsa (TLS1.2:RSA_AES_256_CBC_SHA1:256)
-        (Exim 4.82)
-        (envelope-from <srivatsa@csail.mit.edu>)
-        id 1mkrDM-000Nx5-Kq; Wed, 10 Nov 2021 12:16:48 -0500
-Date:   Wed, 10 Nov 2021 09:20:00 -0800
-From:   "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
-To:     Joe Perches <joe@perches.com>
-Cc:     Nadav Amit <namit@vmware.com>, Juergen Gross <jgross@suse.com>,
-        X86 ML <x86@kernel.org>, Pv-drivers <Pv-drivers@vmware.com>,
-        Vivek Thampi <vithampi@vmware.com>,
-        Vishal Bhakta <vbhakta@vmware.com>,
-        Ronak Doshi <doshir@vmware.com>,
-        Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Zack Rusin <zackr@vmware.com>, Deep Shah <sdeep@vmware.com>,
-        Alexey Makhalov <amakhalov@vmware.com>,
-        Linux Virtualization <virtualization@lists.linux-foundation.org>,
-        Keerthana Kalyanasundaram <keerthanak@vmware.com>,
-        Srivatsa Bhat <srivatsab@vmware.com>,
-        Anish Swaminathan <anishs@vmware.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 2/2] MAINTAINERS: Mark VMware mailing list entries as
- private
-Message-ID: <20211110172000.GA121926@csail.mit.edu>
-References: <163640336232.62866.489924062999332446.stgit@srivatsa-dev>
- <163640339370.62866.3435211389009241865.stgit@srivatsa-dev>
- <5179a7c097e0bb88f95642a394f53c53e64b66b1.camel@perches.com>
- <cb03ca42-b777-3d1a-5aba-b01cd19efa9a@csail.mit.edu>
- <dcbd19fcd1625146f4db267f84abd7412513d20e.camel@perches.com>
- <5C24FB2A-D2C0-4D95-A0C0-B48C4B8D5AF4@vmware.com>
- <1875b0458294d23d8e3260d2824894b095d6a62d.camel@perches.com>
+        Wed, 10 Nov 2021 12:39:58 -0500
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B628AC061766;
+        Wed, 10 Nov 2021 09:37:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=kemnade.info; s=20180802; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=KlxesLbWPDNXnoH7U/Oi4/4ZNt/bBTzHwkDgmf86Hwg=; b=k5h77rlfxFgN394lib723UsbiC
+        gZdAW788aWrEruU9eYofr8azJIOH7uxyusGDBb82Sn+8fDjquCMkwsKwSEXXcVz3lpNaeXGQwzeTe
+        93DeqK1pdqmdL6u3ZslsioXuEC66aqiavxLejWlufrfrjgtZ6YsjiEh2kLuLsZklJ05s=;
+Received: from [77.247.85.102] (helo=localhost)
+        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <andreas@kemnade.info>)
+        id 1mkrWy-0000B7-GL; Wed, 10 Nov 2021 18:37:04 +0100
+Received: from [::1] (helo=localhost)
+        by eeepc with esmtp (Exim 4.92)
+        (envelope-from <andreas@kemnade.info>)
+        id 1mkrWp-00043U-7S; Wed, 10 Nov 2021 18:36:55 +0100
+Date:   Wed, 10 Nov 2021 18:36:54 +0100
+From:   Andreas Kemnade <andreas@kemnade.info>
+To:     Alistair Francis <alistair23@gmail.com>
+Cc:     Alistair Francis <alistair@alistair23.me>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mylene Josserand <mylene.josserand@free-electrons.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v2 2/4] Documentation: DT: bindings: input: Add
+ documentation for cyttsp5
+Message-ID: <20211110183654.61328998@kemnade.info>
+In-Reply-To: <CAKmqyKNx00ecsAyOjtLk8i6r75WD0uw=nd=fd9z44yBuau+Vdw@mail.gmail.com>
+References: <20211103114830.62711-1-alistair@alistair23.me>
+        <20211103114830.62711-3-alistair@alistair23.me>
+        <20211105152154.20f5cbd1@aktux>
+        <CAKmqyKNx00ecsAyOjtLk8i6r75WD0uw=nd=fd9z44yBuau+Vdw@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; i686-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1875b0458294d23d8e3260d2824894b095d6a62d.camel@perches.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -1.0 (-)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Nov 09, 2021 at 01:57:31PM -0800, Joe Perches wrote:
-> On Tue, 2021-11-09 at 00:58 +0000, Nadav Amit wrote:
-> > > On Nov 8, 2021, at 4:37 PM, Joe Perches <joe@perches.com> wrote:
-> > > On Mon, 2021-11-08 at 16:22 -0800, Srivatsa S. Bhat wrote:
-> > > 
-> > > So it's an exploder not an actual maintainer and it likely isn't
-> > > publically archived with any normal list mechanism.
-> > > 
-> > > So IMO "private" isn't appropriate.  Neither is "L:"
-> > > Perhaps just mark it as what it is as an "exploder".
-> > > 
-> > > Or maybe these blocks should be similar to:
-> > > 
-> > > M:	Name of Lead Developer <somebody@vmware.com>
-> > > M:	VMware <foo> maintainers <linux-<foo>-maintainers@vmlinux.com>
+On Wed, 10 Nov 2021 22:59:50 +1000
+Alistair Francis <alistair23@gmail.com> wrote:
+
+[...]
+> >  
+> > > +            reset-gpios = <&pio 7 1 GPIO_ACTIVE_HIGH>;  
+> >
+> > hmm, if the reset gpio at the chip is active low (I guess it is) that
+> > would indicate an inverter between SoC and gpio. So a nonstandard setup
+> > as an example, probably not a good idea.  
 > 
-> Maybe adding entries like
-> 
-> M:	Named maintainer <whoever@vmware.com>
-> R:	VMware <foo> reviewers <linux-<foo>-maintainers@vmware.com>
-> 
-> would be best/simplest.
+> It seems to be common for the cypress,tt2100, as the original
+> documentation and the rM2 both do this. Does the Kobo not do this?
 > 
 
-Sure, that sounds good to me. I also considered adding "(email alias)"
-like Juergen suggested, but I think the R: entry is clear enough.
-Please find the updated patch below.
+You have a kind of double inversion here, so things are automagically fixed.
+IMHO to describe it correctly would be to set GPIO_ACTIVE_LOW here
+and in the driver
 
----
+	/* Reset the gpio to be in a reset state */
+	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+	if (IS_ERR(ts->reset_gpio)) {
+		rc = PTR_ERR(ts->reset_gpio);
+		dev_err(dev, "Failed to request reset gpio, error %d\n", rc);
+		return rc;
+	}
+	gpiod_set_value(ts->reset_gpio, 0);
 
-From f66faa238facf504cfc66325912ce7af8cbf79ec Mon Sep 17 00:00:00 2001
-From: "Srivatsa S. Bhat (VMware)" <srivatsa@csail.mit.edu>
-Date: Mon, 8 Nov 2021 11:46:57 -0800
-Subject: [PATCH v2 2/2] MAINTAINERS: Mark VMware mailing list entries as email
- aliases
+That is the way how other active-low reset lines are handled.
 
-VMware mailing lists in the MAINTAINERS file are private lists meant
-for VMware-internal review/notification for patches to the respective
-subsystems. Anyone can post to these addresses, but there is no public
-read access like open mailing lists, which makes them more like email
-aliases instead (to reach out to reviewers).
-
-So update all the VMware mailing list references in the MAINTAINERS
-file to mark them as such, using "R: email-alias@vmware.com".
-
-Signed-off-by: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
-Cc: Zack Rusin <zackr@vmware.com>
-Cc: Nadav Amit <namit@vmware.com>
-Cc: Vivek Thampi <vithampi@vmware.com>
-Cc: Vishal Bhakta <vbhakta@vmware.com>
-Cc: Ronak Doshi <doshir@vmware.com>
-Cc: pv-drivers@vmware.com
-Cc: linux-graphics-maintainer@vmware.com
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-rdma@vger.kernel.org
-Cc: linux-scsi@vger.kernel.org
-Cc: netdev@vger.kernel.org
-Cc: linux-input@vger.kernel.org
----
- MAINTAINERS | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 118cf8170d02..4372d79027e9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6134,8 +6134,8 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	drivers/gpu/drm/vboxvideo/
- 
- DRM DRIVER FOR VMWARE VIRTUAL GPU
--M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
- M:	Zack Rusin <zackr@vmware.com>
-+R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
- L:	dri-devel@lists.freedesktop.org
- S:	Supported
- T:	git git://anongit.freedesktop.org/drm/drm-misc
-@@ -14189,7 +14189,7 @@ F:	include/uapi/linux/ppdev.h
- PARAVIRT_OPS INTERFACE
- M:	Juergen Gross <jgross@suse.com>
- M:	Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
--L:	pv-drivers@vmware.com (private)
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	virtualization@lists.linux-foundation.org
- L:	x86@kernel.org
- S:	Supported
-@@ -20032,7 +20032,7 @@ F:	tools/testing/vsock/
- 
- VMWARE BALLOON DRIVER
- M:	Nadav Amit <namit@vmware.com>
--M:	"VMware, Inc." <pv-drivers@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-kernel@vger.kernel.org
- S:	Maintained
- F:	drivers/misc/vmw_balloon.c
-@@ -20040,7 +20040,7 @@ F:	drivers/misc/vmw_balloon.c
- VMWARE HYPERVISOR INTERFACE
- M:	Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
- M:	Alexey Makhalov <amakhalov@vmware.com>
--L:	pv-drivers@vmware.com (private)
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	virtualization@lists.linux-foundation.org
- L:	x86@kernel.org
- S:	Supported
-@@ -20050,14 +20050,14 @@ F:	arch/x86/kernel/cpu/vmware.c
- 
- VMWARE PVRDMA DRIVER
- M:	Adit Ranadive <aditr@vmware.com>
--M:	VMware PV-Drivers <pv-drivers@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-rdma@vger.kernel.org
- S:	Maintained
- F:	drivers/infiniband/hw/vmw_pvrdma/
- 
- VMware PVSCSI driver
- M:	Vishal Bhakta <vbhakta@vmware.com>
--M:	VMware PV-Drivers <pv-drivers@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-scsi@vger.kernel.org
- S:	Maintained
- F:	drivers/scsi/vmw_pvscsi.c
-@@ -20065,7 +20065,7 @@ F:	drivers/scsi/vmw_pvscsi.h
- 
- VMWARE VIRTUAL PTP CLOCK DRIVER
- M:	Vivek Thampi <vithampi@vmware.com>
--M:	"VMware, Inc." <pv-drivers@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	netdev@vger.kernel.org
- S:	Supported
- F:	drivers/ptp/ptp_vmw.c
-@@ -20073,14 +20073,14 @@ F:	drivers/ptp/ptp_vmw.c
- VMWARE VMCI DRIVER
- M:	Jorgen Hansen <jhansen@vmware.com>
- M:	Vishnu Dasa <vdasa@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-kernel@vger.kernel.org
--L:	pv-drivers@vmware.com (private)
- S:	Maintained
- F:	drivers/misc/vmw_vmci/
- 
- VMWARE VMMOUSE SUBDRIVER
--M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
--M:	"VMware, Inc." <pv-drivers@vmware.com>
-+R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	drivers/input/mouse/vmmouse.c
-@@ -20088,7 +20088,7 @@ F:	drivers/input/mouse/vmmouse.h
- 
- VMWARE VMXNET3 ETHERNET DRIVER
- M:	Ronak Doshi <doshir@vmware.com>
--M:	pv-drivers@vmware.com
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	drivers/net/vmxnet3/
--- 
-2.25.1
-
+Regards,
+Andreas
