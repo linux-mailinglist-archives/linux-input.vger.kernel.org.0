@@ -2,113 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E37C44C1C2
-	for <lists+linux-input@lfdr.de>; Wed, 10 Nov 2021 14:00:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4474444C540
+	for <lists+linux-input@lfdr.de>; Wed, 10 Nov 2021 17:44:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231958AbhKJNDF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Nov 2021 08:03:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50098 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231961AbhKJNDE (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Nov 2021 08:03:04 -0500
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47340C061764;
-        Wed, 10 Nov 2021 05:00:17 -0800 (PST)
-Received: by mail-io1-xd31.google.com with SMTP id w22so2688709ioa.1;
-        Wed, 10 Nov 2021 05:00:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Wk14CvCRD5wDRSFmMDX8Rujf1hpEFY6t5q8q0VPuXQw=;
-        b=DVuG7DCVMgbdWe8NxKDgqV3bXSD3QekZRG5JCfEoefgBcFcGci2oH8tgKE7jpgETiY
-         gltv3sKX9jZ4X6paGeysgRSeJt/wGEuafMpWOxAvZqH9J/szcJh350JZsS5D542DuU/r
-         z8Nv49mPMzB3Z76/LJLWfyeBD6nzzPoCsZH5AkgS8WfTWKgejiOnUSIZxww/GtThiqZU
-         B63il2ArOCVIYnln7zE7J8qn4gSKgYAaKpZw80SX5EnLSklJ/2vK0qTmEFbbWJahTQ21
-         LOJDDNPhEVfZTJ/E8ccZCpHCkpCbGaXa91b6ndP7os0SigPEurQ9O11JjumkupbTbtuq
-         D9BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Wk14CvCRD5wDRSFmMDX8Rujf1hpEFY6t5q8q0VPuXQw=;
-        b=gFJIhOH8RKKVbPpYQm5jEw3IKkmqRIWuG8/Sv9Kt3Zz9h/pEQkx/ih/B2k0cvKQXC9
-         88lls56Q4CQicHwNT0YEnkV1NvnIq6fW+83GRsS+6jFDd7ar6bj4EgipJo8hztUw75vF
-         l7xUidLsDJbbhe8bTLhUDkMGtby+hpkBJ8brq+Ds3peRkIp/MwfEceBPPpmZctVtm8qz
-         RQPS7PNKyNxII6AROSNlasMYdtg3weqdtmNas+RoRpkPLLeTTWFxVDMqqFOTsX6UU91Y
-         0v3BjhDzrUfMGDbvPa+dulL47sBPzurx3zFqrxIxDBC1HJ7HSMh2WyzJssTxLM0nfriR
-         +MKw==
-X-Gm-Message-State: AOAM531hhnmAqwvzQMchrdhVFLKqfV5oL1JCY2xVfK0eSmY+eCiGt0uW
-        PuomWX24EGU6GNbrvsgrWkjs2xTJsET64Tfv/sU=
-X-Google-Smtp-Source: ABdhPJyMOxEKjm1uw8eykt3TpXUp/8kGYf6hb77e011/H12fVsOs1tyBAVpkQHKMJLKvhaZYhh+fbpmlFIksvyNzBMM=
-X-Received: by 2002:a05:6638:d16:: with SMTP id q22mr12179378jaj.35.1636549216748;
- Wed, 10 Nov 2021 05:00:16 -0800 (PST)
+        id S230174AbhKJQrE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Nov 2021 11:47:04 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46590 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229995AbhKJQrD (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 10 Nov 2021 11:47:03 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3601A61205;
+        Wed, 10 Nov 2021 16:44:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1636562656;
+        bh=+KD0uJ2aB7eJaed+K7AZZWyM1PljfTbjc0UOLx5oQwI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GCuoIdz3rtrlenZb/iekEtbbVNoLUsF5Ph+BRZeFdlWQBTW83JegBac5JIZbzpG98
+         6ftpT5J+cUO8WNdGhbbkwNAXULax0yQic2elPllzArXFmZAlcpxHfXzvlmYDKne+mC
+         pP6pDZ5VvqXZlk0k9bpRMKs+UV4Ap7eItJFNAbJTjfDu5yXs/iOxVss4B2A6HbbBSi
+         qjuVHu80iREW6lfVk3wzUXeNx4shH3kZlMc6C7s3YkH5YpW2ure4oTkrbe1WR4CiP2
+         Lg844WNAkkzVaLEeDjLMOMJjgLSP737hdsyZb50zr9ApUA4J7EODueEppO2qprxjHs
+         KO9Fgsl9YfT5w==
+Date:   Wed, 10 Nov 2021 09:44:10 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>, llvm@lists.linux.dev
+Subject: Re: [PATCH 5/6] platform/chrome: chros_ec_ishtp: only load for
+ matching devices
+Message-ID: <YYv22iWQ7yTfMNC5@archlinux-ax161>
+References: <20211029152901.297939-1-linux@weissschuh.net>
+ <20211029152901.297939-2-linux@weissschuh.net>
+ <20211029152901.297939-3-linux@weissschuh.net>
+ <20211029152901.297939-4-linux@weissschuh.net>
+ <20211029152901.297939-5-linux@weissschuh.net>
+ <20211029152901.297939-6-linux@weissschuh.net>
 MIME-Version: 1.0
-References: <20211103114830.62711-1-alistair@alistair23.me>
- <20211103114830.62711-3-alistair@alistair23.me> <20211105152154.20f5cbd1@aktux>
-In-Reply-To: <20211105152154.20f5cbd1@aktux>
-From:   Alistair Francis <alistair23@gmail.com>
-Date:   Wed, 10 Nov 2021 22:59:50 +1000
-Message-ID: <CAKmqyKNx00ecsAyOjtLk8i6r75WD0uw=nd=fd9z44yBuau+Vdw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] Documentation: DT: bindings: input: Add
- documentation for cyttsp5
-To:     Andreas Kemnade <andreas@kemnade.info>
-Cc:     Alistair Francis <alistair@alistair23.me>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Mylene Josserand <mylene.josserand@free-electrons.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211029152901.297939-6-linux@weissschuh.net>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Nov 6, 2021 at 12:22 AM Andreas Kemnade <andreas@kemnade.info> wrote:
->
-> Hi,
->
-> I finally found time to test this.
->
-> On Wed,  3 Nov 2021 21:48:28 +1000
-> Alistair Francis <alistair@alistair23.me> wrote:
->
-> [...]
-> > +    i2c {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        touchscreen@24 {
-> > +            compatible = "cypress,tt2100";
-> > +            reg = <0x24>;
-> > +            pinctrl-names = "default";
-> > +            pinctrl-0 = <&tp_reset_ds203>;
-> > +            interrupt-parent = <&pio>;
-> > +            interrupts = <1 5 IRQ_TYPE_LEVEL_LOW>;
-> hmm, in the code is IRQ_TRIGGER_FALLING but here is LEVEL_LOW, hmm what
-> it is really?
+On Fri, Oct 29, 2021 at 05:29:00PM +0200, Thomas Weiﬂschuh wrote:
+> Previously it was loaded for all ISHTP devices.
+> 
+> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+> 
+> ---
+> 
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: linux-input@vger.kernel.org
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> ---
+>  drivers/platform/chrome/cros_ec_ishtp.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/chrome/cros_ec_ishtp.c b/drivers/platform/chrome/cros_ec_ishtp.c
+> index 9d1e7e03628e..8c17358e84c1 100644
+> --- a/drivers/platform/chrome/cros_ec_ishtp.c
+> +++ b/drivers/platform/chrome/cros_ec_ishtp.c
+> @@ -774,6 +774,12 @@ static struct ishtp_cl_driver	cros_ec_ishtp_driver = {
+>  	},
+>  };
+>  
+> +static const struct ishtp_device_id cros_ec_ishtp_id_table[] = {
+> +	{ cros_ish_guid },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(ishtp, cros_ec_ishtp_id_table);
+> +
+>  static int __init cros_ec_ishtp_mod_init(void)
+>  {
+>  	return ishtp_cl_driver_register(&cros_ec_ishtp_driver, THIS_MODULE);
+> @@ -791,4 +797,3 @@ MODULE_DESCRIPTION("ChromeOS EC ISHTP Client Driver");
+>  MODULE_AUTHOR("Rushikesh S Kadam <rushikesh.s.kadam@intel.com>");
+>  
+>  MODULE_LICENSE("GPL v2");
+> -MODULE_ALIAS("ishtp:*");
+> -- 
+> 2.33.1
+> 
+> 
 
-The reMarkable uses IRQ_TYPE_EDGE_FALLING, but this example isn't
-based on that. It' based on the original documentation from the patch
-series.
+This patch in -next as commit facfe0a4fdce ("platform/chrome:
+chros_ec_ishtp: only load for matching devices") and the following one
+as commit f155dfeaa4ee ("platform/x86: isthp_eclite: only load for
+matching devices") break clang and GCC prior to 8.1 (output from
+Debian's GCC 6.3.0 below):
 
->
-> > +            reset-gpios = <&pio 7 1 GPIO_ACTIVE_HIGH>;
->
-> hmm, if the reset gpio at the chip is active low (I guess it is) that
-> would indicate an inverter between SoC and gpio. So a nonstandard setup
-> as an example, probably not a good idea.
+$ make -skj"$(nproc)" distclean allmodconfig drivers/platform/
+drivers/platform/chrome/cros_ec_ishtp.c:778:4: error: initializer element is not constant
+  { cros_ish_guid },
+    ^~~~~~~~~~~~~
+drivers/platform/chrome/cros_ec_ishtp.c:778:4: note: (near initialization for 'cros_ec_ishtp_id_table[0].guid')
+scripts/Makefile.build:288: recipe for target 'drivers/platform/chrome/cros_ec_ishtp.o' failed
+make[4]: *** [drivers/platform/chrome/cros_ec_ishtp.o] Error 1
+drivers/platform/x86/intel/ishtp_eclite.c:685:4: error: initializer element is not constant
+  { ecl_ishtp_guid },
+    ^~~~~~~~~~~~~~
+drivers/platform/x86/intel/ishtp_eclite.c:685:4: note: (near initialization for 'ecl_ishtp_id_table[0].guid')
 
-It seems to be common for the cypress,tt2100, as the original
-documentation and the rM2 both do this. Does the Kobo not do this?
+I am sure clang should be fixed to recognize this value as a compile
+time constant but the kernel supports GCC back to 5.1.0 so this should
+be fixed here as well.
 
-Alistair
-
->
-> Regards,
-> Andreas
+Cheers,
+Nathan
