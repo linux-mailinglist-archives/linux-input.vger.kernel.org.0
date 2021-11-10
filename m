@@ -2,82 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E0D344BBAB
-	for <lists+linux-input@lfdr.de>; Wed, 10 Nov 2021 07:28:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B664144BBD4
+	for <lists+linux-input@lfdr.de>; Wed, 10 Nov 2021 07:54:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230050AbhKJGbJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Nov 2021 01:31:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45248 "EHLO
+        id S229955AbhKJG47 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Nov 2021 01:56:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229731AbhKJGbJ (ORCPT
+        with ESMTP id S229944AbhKJG46 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Nov 2021 01:31:09 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A3A6C061764
-        for <linux-input@vger.kernel.org>; Tue,  9 Nov 2021 22:28:22 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id nh10-20020a17090b364a00b001a69adad5ebso771446pjb.2
-        for <linux-input@vger.kernel.org>; Tue, 09 Nov 2021 22:28:22 -0800 (PST)
+        Wed, 10 Nov 2021 01:56:58 -0500
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0143C061764;
+        Tue,  9 Nov 2021 22:54:11 -0800 (PST)
+Received: by mail-pg1-x533.google.com with SMTP id e65so1413368pgc.5;
+        Tue, 09 Nov 2021 22:54:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=7tG2gw9xhcYwKB+fq01PpM24VHkYZi1b8eOjBvQVVBs=;
-        b=O3K7XV6SdV2UwpO668NoGL1TtMrAwfatuoiL5aikHauoF6zQrsnBU4sxKW4jVwU0md
-         7S61L6HuVS6W60LlnPw2iHlcMaYH82y2pzrlSNluLby+Ff9fYRlB/oYqysy0EoiVPTQ9
-         tSfAJeG4hwdGW4DYWWiopLfV6HSjcxRDVEjglb3qPWOE6n7qlsHz14pxaze/d9eylLux
-         2hX7+afnwnO4FWHR7BJBi5Emb6MZcUaRXsw5Ec0Juv5W4mpzNQFMzOUmLqtSpQIcqK+/
-         ROagTfX4fdzXPb2todzD47Y9iWVXl/YalrXIoHP7U+X2/0Gs9REC3j3Dyza67XV7eUVw
-         1hhw==
+        bh=BlOgRYG0UGxpdRFxlaBzsqKsQOHJ3q8tV1OaQ8amQ+E=;
+        b=HnJ46feLtrFJIHmhnIcQ5GfWioxluthbopC5uvAH5z7KLZFwrMm8nnDQekblkqaHtJ
+         lwZz6YIqarNawPf/kOUbYSlL5TWT7VFL/+bXe4WI8gd3i8zRByATUhFX8R3WywzGVjtq
+         VBUSzMyj4/5XIG9W1m1qm8RIyJynFqqSx1IJ9x2WyH7bGGP4IqrxxApyZBol7wldPovN
+         27flVdbVHar3wqsj+77qwuUIBK8QBKta/jiMffrpKhAuzZ+uLH02f5iQJ8UqXSUE4det
+         PniC3LjhBLAtddfT5yjNfPHetLVnmOKO7dUUOjm3RLy+wKxeQkk7VcUkjxcv1pNlyCB+
+         QIkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=7tG2gw9xhcYwKB+fq01PpM24VHkYZi1b8eOjBvQVVBs=;
-        b=xMVM92nnGuZxD7GMgN3fMf7sfi9aN4tDbl5dJ/NeTyx/yvMFSSpedmiNkaXpcbFzmi
-         9u72rRg7ANu2C5zer1Z2oR8rLiYv5LCbEA5AZ0E54jZdjJYbn6t3Rk1z6ubplK8CosBq
-         7DEuUHSDbvfDV5+nv2bnWIKq1oSF4goxUK+QsLU/OC3mrUuq2OO2GUXdLrA4IU3HKKFf
-         n+ZQNEj7KLNQF1vudU3QfT2FWOpZs8HiuSiRcjRqceDP8xmlSkPpFBFbP1DbBv9W9s9O
-         pxLuWKGqkCdP94jNDqM0lOxR4wBupq5KJHmxcJGA9Zk/0Wij8jf+dXpoNKa6i+BnrpeQ
-         99qg==
-X-Gm-Message-State: AOAM533o2DuwSZgmakv3CEbrW+bJiY7zwYYTjkh97Lol/6wEymTw8n8q
-        cHhu5fMIDM4SeguQa8RHN7tomMd0cq0=
-X-Google-Smtp-Source: ABdhPJxIcV0ovGsP6IU1cSpQaWf1qyHIDOVVqMXiqBAGlP2iL/3U9MOxzJN7mrit8ahyDQz9BAq7jg==
-X-Received: by 2002:a17:90a:1b4d:: with SMTP id q71mr13875926pjq.29.1636525701725;
-        Tue, 09 Nov 2021 22:28:21 -0800 (PST)
+        bh=BlOgRYG0UGxpdRFxlaBzsqKsQOHJ3q8tV1OaQ8amQ+E=;
+        b=mJGA6CSDtzSs2OmmGeSrq52a/1X4deOukvgyYiXr0pMsZWdHRqHHpJNOLq8TUpYM0+
+         vcxJtEsvTdzPv7/DbydLT3ADz05zPu/A19mZSRIf+fffeV+dPpwHyVhpU0Ai7MgbGOoF
+         OzNexqkQcobCnVYM/TEtUKdjK571GUSbw5FBcfaD9jHihOJfVXOzqZfdjaYrkzqp1xye
+         54J8ewe6RLqazX+uGxA6f2iVxHiTzIclfNuX1sYrPbetitfKmnnTU/lpQPapVNvDo7pZ
+         rAIYzm10HCH9ry+jkGUnTB9EJXFuQurN4CLiZVrQ0POQumRPuw8T8BBw168RaMOKiPyT
+         f74A==
+X-Gm-Message-State: AOAM530+NWihoLTGncSxqbrHVTxNukQQVuEYX2c3W2wL6RHW/p3Xm1md
+        /68yWpCZh8f0v+S2FU7yO7gMUrjddJc=
+X-Google-Smtp-Source: ABdhPJwi7B3sZb14jU84M8nVrX3O/N91cWk/r7tEqZAGi9ELDnPIEa7u/EWLHgiAu4Rqd8ZDGNtlWA==
+X-Received: by 2002:a63:8b4b:: with SMTP id j72mr10346685pge.10.1636527251265;
+        Tue, 09 Nov 2021 22:54:11 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:b345:ee3a:151d:b1d1])
-        by smtp.gmail.com with ESMTPSA id a26sm10663247pfh.161.2021.11.09.22.28.20
+        by smtp.gmail.com with ESMTPSA id t38sm9724881pfg.218.2021.11.09.22.54.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Nov 2021 22:28:20 -0800 (PST)
-Date:   Tue, 9 Nov 2021 22:28:18 -0800
+        Tue, 09 Nov 2021 22:54:10 -0800 (PST)
+Date:   Tue, 9 Nov 2021 22:54:07 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Marek Vasut <marex@denx.de>
-Cc:     linux-input@vger.kernel.org, Joe Hung <joe_hung@ilitek.com>,
-        Luca Hsu <luca_hsu@ilitek.com>
-Subject: Re: [PATCH] Input: ili210x - Reduce sample period to 15ms
-Message-ID: <YYtmgsHRzdn7tHw6@google.com>
-References: <20211108114145.84118-1-marex@denx.de>
+To:     Alistair Francis <alistair23@gmail.com>
+Cc:     Alistair Francis <alistair@alistair23.me>,
+        linux-input <linux-input@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/2] Input: wacom_i2c - Use macros for the bit masks
+Message-ID: <YYtsj2LjK8ygCETU@google.com>
+References: <20211009113707.17568-1-alistair@alistair23.me>
+ <20211009113707.17568-2-alistair@alistair23.me>
+ <YWZYy8OsqJx1J8VA@google.com>
+ <CAKmqyKM=wHN=NhfSBFT243oTkozcpFrqt1xM8xRP6Yf4ONGG1Q@mail.gmail.com>
+ <CAKmqyKO1q4k8eXsJF1fGu6CNR1q9=_1MhwyCoJ2858rCNQBZKQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211108114145.84118-1-marex@denx.de>
+In-Reply-To: <CAKmqyKO1q4k8eXsJF1fGu6CNR1q9=_1MhwyCoJ2858rCNQBZKQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Nov 08, 2021 at 12:41:45PM +0100, Marek Vasut wrote:
-> Modern devices may redraw display at 60 Hz, make sure we have one input
-> sample per one frame. Reduce sample period to 15ms, so we would get up
-> to 66.6 samples per second, although realistically with all the jitter
-> and extra scheduling wiggle room, we would end up just above 60 samples
-> per second. This should be a good compromise between sampling too often
-> and sampling too seldom.
+On Tue, Nov 09, 2021 at 07:58:00PM +1000, Alistair Francis wrote:
 > 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Joe Hung <joe_hung@ilitek.com>
-> Cc: Luca Hsu <luca_hsu@ilitek.com>
+> I'm assuming you don't need me to re-send this. Let me know if you
+> want me to though.
 
-Applied, thank you.
+It is applied now, thank you.
 
 -- 
 Dmitry
