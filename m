@@ -2,80 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FE5F44BD88
-	for <lists+linux-input@lfdr.de>; Wed, 10 Nov 2021 10:03:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEEAA44C119
+	for <lists+linux-input@lfdr.de>; Wed, 10 Nov 2021 13:17:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230117AbhKJJFo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Nov 2021 04:05:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45520 "EHLO mail.kernel.org"
+        id S231408AbhKJMTv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Nov 2021 07:19:51 -0500
+Received: from todd.t-8ch.de ([159.69.126.157]:35805 "EHLO todd.t-8ch.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230461AbhKJJFl (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Nov 2021 04:05:41 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 03441610CF;
-        Wed, 10 Nov 2021 09:02:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636534958;
-        bh=ORDhAEl6GvObkHycfaW2s5XoI16XYZX+9LCUa21opIc=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=T3DGFyx/ifmXJCkSCZkmSf0O/qN4kEcPPxVDFHGoDES20Glh40zKRiF9yCDSSDXj7
-         mCXa4XMrXGRu1ROEDkc65a8IdPCi05ILaE4nS7so7X6ydecUIJWBPX0iO6ePTazUAl
-         hcdrL9+R2yDZqQgVPLMrq7lsx0Q9uNHWS24w0XRTvvKy6rChT2oYaEIKbKOUK2u7rD
-         2dAwDVI+aFKHgwICwLJzFYJQdEQlI2vbNwA3H1FHt+v0NL2Mo637BXbxLIf6qLqRoD
-         kdnPjNzh8tCsn4VkO6O6fcmJh3vX2ff65ADFmuGj9O2HpGgCVcolrChWYHeCof8eop
-         AsSLAJQGqOezw==
-Date:   Wed, 10 Nov 2021 10:02:35 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Jason Gerecke <killertofu@gmail.com>
-cc:     linux-input@vger.kernel.org,
+        id S229653AbhKJMTv (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 10 Nov 2021 07:19:51 -0500
+From:   =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1636546622;
+        bh=GHoGBpI/7Ww3lV2tjGUcrMHObJ3JBrS7JijlpX7Q/W0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=SMEEjlwpDHPfsZB+lGcohnS+GvUJBoeUfiV/kpxHOiq5xRLQyi8ml327+0vUHtQ/U
+         8IE4mjJs7ZOE1n6/PCWk2Cy/dcpritoiDI0O8It6jMU1c6l6zVGhJnK6XcSeSjVqlh
+         v7eroqFV+QPVDOMc4w+2BFhRJA6XnPKYGoD2i8Hk=
+To:     Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org
+Cc:     =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Joshua Dickens <Joshua@Joshua-Dickens.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        Joshua Dickens <joshua.dickens@wacom.com>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] HID: wacom: Use "Confidence" flag to prevent reporting
- invalid contacts
-In-Reply-To: <20211109003101.425207-1-jason.gerecke@wacom.com>
-Message-ID: <nycvar.YFH.7.76.2111101002260.12554@cbobk.fhfr.pm>
-References: <20211109003101.425207-1-jason.gerecke@wacom.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        linux-kernel@vger.kernel.org, linux-next@vger.kernel.org
+Subject: [PATCH] mod_devicetable: fix kdocs for ishtp_device_id
+Date:   Wed, 10 Nov 2021 13:16:55 +0100
+Message-Id: <20211110121655.675664-1-linux@weissschuh.net>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211110150639.7db57ae2@canb.auug.org.au>
+References: <20211110150639.7db57ae2@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 8 Nov 2021, Jason Gerecke wrote:
+The kdocs were copied from another device_id struct and not adapted.
 
-> The HID descriptor of many of Wacom's touch input devices include a
-> "Confidence" usage that signals if a particular touch collection contains
-> useful data. The driver does not look at this flag, however, which causes
-> even invalid contacts to be reported to userspace. A lucky combination of
-> kernel event filtering and device behavior (specifically: contact ID 0 ==
-> invalid, contact ID >0 == valid; and order all data so that all valid
-> contacts are reported before any invalid contacts) spare most devices from
-> any visibly-bad behavior.
-> 
-> The DTH-2452 is one example of an unlucky device that misbehaves. It uses
-> ID 0 for both the first valid contact and all invalid contacts. Because
-> we report both the valid and invalid contacts, the kernel reports that
-> contact 0 first goes down (valid) and then goes up (invalid) in every
-> report. This causes ~100 clicks per second simply by touching the screen.
-> 
-> This patch inroduces new `confidence` flag in our `hid_data` structure.
-> The value is initially set to `true` at the start of a report and can be
-> set to `false` if an invalid touch usage is seen.
-> 
-> Link: https://github.com/linuxwacom/input-wacom/issues/270
-> Fixes: f8b6a74719b5 ("HID: wacom: generic: Support multiple tools per report")
-> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-> Tested-by: Joshua Dickens <joshua.dickens@wacom.com>
-> Cc: <stable@vger.kernel.org>
+Fixes: fa443bc3c1e4 ("HID: intel-ish-hid: add support for MODULE_DEVICE_TABLE()")
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ include/linux/mod_devicetable.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Applied, thanks Jason.
+diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+index befbf53c4b7c..c70abe7aaef2 100644
+--- a/include/linux/mod_devicetable.h
++++ b/include/linux/mod_devicetable.h
+@@ -901,8 +901,7 @@ struct dfl_device_id {
+ 
+ /**
+  * struct ishtp_device_id - ISHTP device identifier
+- * @guid_string: 36 char string of the form fa50ff2b-f2e8-45de-83fa-65417f2f49ba
+- * @context: pointer to driver specific data
++ * @guid: GUID of the device.
+  */
+ struct ishtp_device_id {
+ 	guid_t guid;
 
+base-commit: 7fb0413baa7f8a04caef0c504df9af7e0623d296
 -- 
-Jiri Kosina
-SUSE Labs
+2.33.1
 
