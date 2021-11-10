@@ -2,186 +2,218 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2878F44C58D
-	for <lists+linux-input@lfdr.de>; Wed, 10 Nov 2021 17:59:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC47C44C5C9
+	for <lists+linux-input@lfdr.de>; Wed, 10 Nov 2021 18:16:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230333AbhKJRCh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Nov 2021 12:02:37 -0500
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:54032
-        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231487AbhKJRCg (ORCPT
+        id S231487AbhKJRTo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Nov 2021 12:19:44 -0500
+Received: from outgoing-stata.csail.mit.edu ([128.30.2.210]:48272 "EHLO
+        outgoing-stata.csail.mit.edu" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230471AbhKJRTn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Nov 2021 12:02:36 -0500
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 5BAA33F17A
-        for <linux-input@vger.kernel.org>; Wed, 10 Nov 2021 16:59:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1636563586;
-        bh=ID3WIsgZl9SDidK2mmKZ24iZuE1jseo2tZCCh1re1Qk=;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-        b=GZyF0dXo1yfZoNQtvNT0Irdq5vMR+lqMvb+bBFHQuP64Hg6WjYjrYkMTLSfY4IDk5
-         TkKjDthqHeGxEGz+jqGd6fWUzkYo/89dS4eijMk1qYBOBzLudgCM8/BAwsGQ0wHEz8
-         Dd4bAEOOLHwbHKWbOuRfV20CeHf/JIzyK9STMhK0P7nd0B7pm1yFLda+CRDeou5Jzn
-         +k93s/zmqbKBLXk4vRelWcxdthQuoy95wxMMpuggDcUW3h0eLuhuBku39w1n1fmEDN
-         vZHeh3p98XfV6hDoOiorqSq+AnsMcGu1dErDpxAvGIYMalDp5Rq4SKbQXdLN7PkzLi
-         lW2PirXAcRM0A==
-Received: by mail-ed1-f71.google.com with SMTP id w12-20020a056402268c00b003e2ab5a3370so2933434edd.0
-        for <linux-input@vger.kernel.org>; Wed, 10 Nov 2021 08:59:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ID3WIsgZl9SDidK2mmKZ24iZuE1jseo2tZCCh1re1Qk=;
-        b=s9jk9ZCnZR25G9s57oiSDS1GggvL2bJSYNMfPzN8+es5h7jSlwBCXuHQZs9mdL4+SI
-         1VJJ0DGyUx0cCTkiHTsAJjj5uhkkWvg0uUmxDge5TMgvkCv7+xXOO8ExDaKx0JdLNuDZ
-         emGqY+rA5FbQWJ8tsnILwgdyCvg0I4cOiamHgEc4+PZxAec9hLoL9uXLL4JKsznn27Oo
-         jxeorJnnvxndpV1p50og51CfrnBHPK3e620Cer+cH0KoBpzK/r4fZkcIJpxOA0FlHnUk
-         JLdDvgKYv3D8ibEb1w4vhmUQNNHH22KjYaCBkpO7z8qiLWPAuWb2Xc2fyxQPreW5KVId
-         N4zA==
-X-Gm-Message-State: AOAM533R/oU/6iXvrvWcx0AKM3eIWeFl965+h0SAh8CmE46EB4y8nw7H
-        CCZQGTacPoCejNmW62Ohq7VvmyYuZsiEDaWdHtcpDREDXWB47kSbISi4HFuVjWiEGLYvmu3MIIW
-        6L+nF+NACaYH0WJIrEDbMbrfTQDhEnSwkTTsFKMeT
-X-Received: by 2002:a17:907:160a:: with SMTP id hb10mr634614ejc.83.1636563586032;
-        Wed, 10 Nov 2021 08:59:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJySH76RJPHUyZZeI9WT/xESH96egMAm/IuUk5bceFnvo30Frev+/4NY5I3Wj2OrrUIA5laOVA==
-X-Received: by 2002:a17:907:160a:: with SMTP id hb10mr634561ejc.83.1636563585707;
-        Wed, 10 Nov 2021 08:59:45 -0800 (PST)
-Received: from arighi-desktop.homenet.telecomitalia.it ([2001:67c:1560:8007::aac:c1b6])
-        by smtp.gmail.com with ESMTPSA id jg32sm175512ejc.43.2021.11.10.08.59.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Nov 2021 08:59:45 -0800 (PST)
-From:   Andrea Righi <andrea.righi@canonical.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: elantech - Fix stack out of bound access in elantech_change_report_id()
-Date:   Wed, 10 Nov 2021 17:59:43 +0100
-Message-Id: <20211110165943.45010-1-andrea.righi@canonical.com>
-X-Mailer: git-send-email 2.32.0
+        Wed, 10 Nov 2021 12:19:43 -0500
+Received: from [128.177.79.46] (helo=csail.mit.edu)
+        by outgoing-stata.csail.mit.edu with esmtpsa (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+        (Exim 4.82)
+        (envelope-from <srivatsa@csail.mit.edu>)
+        id 1mkrDM-000Nx5-Kq; Wed, 10 Nov 2021 12:16:48 -0500
+Date:   Wed, 10 Nov 2021 09:20:00 -0800
+From:   "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
+To:     Joe Perches <joe@perches.com>
+Cc:     Nadav Amit <namit@vmware.com>, Juergen Gross <jgross@suse.com>,
+        X86 ML <x86@kernel.org>, Pv-drivers <Pv-drivers@vmware.com>,
+        Vivek Thampi <vithampi@vmware.com>,
+        Vishal Bhakta <vbhakta@vmware.com>,
+        Ronak Doshi <doshir@vmware.com>,
+        Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Zack Rusin <zackr@vmware.com>, Deep Shah <sdeep@vmware.com>,
+        Alexey Makhalov <amakhalov@vmware.com>,
+        Linux Virtualization <virtualization@lists.linux-foundation.org>,
+        Keerthana Kalyanasundaram <keerthanak@vmware.com>,
+        Srivatsa Bhat <srivatsab@vmware.com>,
+        Anish Swaminathan <anishs@vmware.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 2/2] MAINTAINERS: Mark VMware mailing list entries as
+ private
+Message-ID: <20211110172000.GA121926@csail.mit.edu>
+References: <163640336232.62866.489924062999332446.stgit@srivatsa-dev>
+ <163640339370.62866.3435211389009241865.stgit@srivatsa-dev>
+ <5179a7c097e0bb88f95642a394f53c53e64b66b1.camel@perches.com>
+ <cb03ca42-b777-3d1a-5aba-b01cd19efa9a@csail.mit.edu>
+ <dcbd19fcd1625146f4db267f84abd7412513d20e.camel@perches.com>
+ <5C24FB2A-D2C0-4D95-A0C0-B48C4B8D5AF4@vmware.com>
+ <1875b0458294d23d8e3260d2824894b095d6a62d.camel@perches.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1875b0458294d23d8e3260d2824894b095d6a62d.camel@perches.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The array param[] in elantech_change_report_id() must be at least 3
-bytes, because elantech_read_reg_params() is calling ps2_command() with
-PSMOUSE_CMD_GETINFO, that is going to access 3 bytes from param[], but
-it's defined in the stack as an array of 2 bytes, therefore we have a
-potential stack out-of-bounds access here, also confirmed by KASAN:
+On Tue, Nov 09, 2021 at 01:57:31PM -0800, Joe Perches wrote:
+> On Tue, 2021-11-09 at 00:58 +0000, Nadav Amit wrote:
+> > > On Nov 8, 2021, at 4:37 PM, Joe Perches <joe@perches.com> wrote:
+> > > On Mon, 2021-11-08 at 16:22 -0800, Srivatsa S. Bhat wrote:
+> > > 
+> > > So it's an exploder not an actual maintainer and it likely isn't
+> > > publically archived with any normal list mechanism.
+> > > 
+> > > So IMO "private" isn't appropriate.  Neither is "L:"
+> > > Perhaps just mark it as what it is as an "exploder".
+> > > 
+> > > Or maybe these blocks should be similar to:
+> > > 
+> > > M:	Name of Lead Developer <somebody@vmware.com>
+> > > M:	VMware <foo> maintainers <linux-<foo>-maintainers@vmlinux.com>
+> 
+> Maybe adding entries like
+> 
+> M:	Named maintainer <whoever@vmware.com>
+> R:	VMware <foo> reviewers <linux-<foo>-maintainers@vmware.com>
+> 
+> would be best/simplest.
+> 
 
-[    6.512374] BUG: KASAN: stack-out-of-bounds in __ps2_command+0x372/0x7e0
-[    6.512397] Read of size 1 at addr ffff8881024d77c2 by task kworker/2:1/118
+Sure, that sounds good to me. I also considered adding "(email alias)"
+like Juergen suggested, but I think the R: entry is clear enough.
+Please find the updated patch below.
 
-[    6.512416] CPU: 2 PID: 118 Comm: kworker/2:1 Not tainted 5.13.0-22-generic #22+arighi20211110
-[    6.512428] Hardware name: LENOVO 20T8000QGE/20T8000QGE, BIOS R1AET32W (1.08 ) 08/14/2020
-[    6.512436] Workqueue: events_long serio_handle_event
-[    6.512453] Call Trace:
-[    6.512462]  show_stack+0x52/0x58
-[    6.512474]  dump_stack+0xa1/0xd3
-[    6.512487]  print_address_description.constprop.0+0x1d/0x140
-[    6.512502]  ? __ps2_command+0x372/0x7e0
-[    6.512516]  __kasan_report.cold+0x7d/0x112
-[    6.512527]  ? _raw_write_lock_irq+0x20/0xd0
-[    6.512539]  ? __ps2_command+0x372/0x7e0
-[    6.512552]  kasan_report+0x3c/0x50
-[    6.512564]  __asan_load1+0x6a/0x70
-[    6.512575]  __ps2_command+0x372/0x7e0
-[    6.512589]  ? ps2_drain+0x240/0x240
-[    6.512601]  ? dev_printk_emit+0xa2/0xd3
-[    6.512612]  ? dev_vprintk_emit+0xc5/0xc5
-[    6.512621]  ? __kasan_check_write+0x14/0x20
-[    6.512634]  ? mutex_lock+0x8f/0xe0
-[    6.512643]  ? __mutex_lock_slowpath+0x20/0x20
-[    6.512655]  ps2_command+0x52/0x90
-[    6.512670]  elantech_ps2_command+0x4f/0xc0 [psmouse]
-[    6.512734]  elantech_change_report_id+0x1e6/0x256 [psmouse]
-[    6.512799]  ? elantech_report_trackpoint.constprop.0.cold+0xd/0xd [psmouse]
-[    6.512863]  ? ps2_command+0x7f/0x90
-[    6.512877]  elantech_query_info.cold+0x6bd/0x9ed [psmouse]
-[    6.512943]  ? elantech_setup_ps2+0x460/0x460 [psmouse]
-[    6.513005]  ? psmouse_reset+0x69/0xb0 [psmouse]
-[    6.513064]  ? psmouse_attr_set_helper+0x2a0/0x2a0 [psmouse]
-[    6.513122]  ? phys_pmd_init+0x30e/0x521
-[    6.513137]  elantech_init+0x8a/0x200 [psmouse]
-[    6.513200]  ? elantech_init_ps2+0xf0/0xf0 [psmouse]
-[    6.513249]  ? elantech_query_info+0x440/0x440 [psmouse]
-[    6.513296]  ? synaptics_send_cmd+0x60/0x60 [psmouse]
-[    6.513342]  ? elantech_query_info+0x440/0x440 [psmouse]
-[    6.513388]  ? psmouse_try_protocol+0x11e/0x170 [psmouse]
-[    6.513432]  psmouse_extensions+0x65d/0x6e0 [psmouse]
-[    6.513476]  ? psmouse_try_protocol+0x170/0x170 [psmouse]
-[    6.513519]  ? mutex_unlock+0x22/0x40
-[    6.513526]  ? ps2_command+0x7f/0x90
-[    6.513536]  ? psmouse_probe+0xa3/0xf0 [psmouse]
-[    6.513580]  psmouse_switch_protocol+0x27d/0x2e0 [psmouse]
-[    6.513624]  psmouse_connect+0x272/0x530 [psmouse]
-[    6.513669]  serio_driver_probe+0x55/0x70
-[    6.513679]  really_probe+0x190/0x720
-[    6.513689]  driver_probe_device+0x160/0x1f0
-[    6.513697]  device_driver_attach+0x119/0x130
-[    6.513705]  ? device_driver_attach+0x130/0x130
-[    6.513713]  __driver_attach+0xe7/0x1a0
-[    6.513720]  ? device_driver_attach+0x130/0x130
-[    6.513728]  bus_for_each_dev+0xfb/0x150
-[    6.513738]  ? subsys_dev_iter_exit+0x10/0x10
-[    6.513748]  ? _raw_write_unlock_bh+0x30/0x30
-[    6.513757]  driver_attach+0x2d/0x40
-[    6.513764]  serio_handle_event+0x199/0x3d0
-[    6.513775]  process_one_work+0x471/0x740
-[    6.513785]  worker_thread+0x2d2/0x790
-[    6.513794]  ? process_one_work+0x740/0x740
-[    6.513802]  kthread+0x1b4/0x1e0
-[    6.513809]  ? set_kthread_struct+0x80/0x80
-[    6.513816]  ret_from_fork+0x22/0x30
-
-[    6.513832] The buggy address belongs to the page:
-[    6.513838] page:00000000bc35e189 refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1024d7
-[    6.513847] flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
-[    6.513860] raw: 0017ffffc0000000 dead000000000100 dead000000000122 0000000000000000
-[    6.513867] raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
-[    6.513872] page dumped because: kasan: bad access detected
-
-[    6.513879] addr ffff8881024d77c2 is located in stack of task kworker/2:1/118 at offset 34 in frame:
-[    6.513887]  elantech_change_report_id+0x0/0x256 [psmouse]
-
-[    6.513941] this frame has 1 object:
-[    6.513947]  [32, 34) 'param'
-
-[    6.513956] Memory state around the buggy address:
-[    6.513962]  ffff8881024d7680: f2 f2 f2 f2 f2 00 00 f3 f3 00 00 00 00 00 00 00
-[    6.513969]  ffff8881024d7700: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[    6.513976] >ffff8881024d7780: 00 00 00 00 f1 f1 f1 f1 02 f3 f3 f3 00 00 00 00
-[    6.513982]                                            ^
-[    6.513988]  ffff8881024d7800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[    6.513995]  ffff8881024d7880: 00 f1 f1 f1 f1 03 f2 03 f2 03 f3 f3 f3 00 00 00
-[    6.514000] ==================================================================
-
-Define param[] in elantech_change_report_id() as an array of 3 bytes to
-prevent the out-of-bounds access in the stack.
-
-Fixes: e4c9062717fe ("Input: elantech - fix protocol errors for some trackpoints in SMBus mode")
-BugLink: https://bugs.launchpad.net/bugs/1945590
-Signed-off-by: Andrea Righi <andrea.righi@canonical.com>
 ---
- drivers/input/mouse/elantech.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-index 2d0bc029619f..172a3c5db58f 100644
---- a/drivers/input/mouse/elantech.c
-+++ b/drivers/input/mouse/elantech.c
-@@ -1575,7 +1575,7 @@ static const struct dmi_system_id no_hw_res_dmi_table[] = {
-  */
- static int elantech_change_report_id(struct psmouse *psmouse)
- {
--	unsigned char param[2] = { 0x10, 0x03 };
-+	unsigned char param[3] = { 0x10, 0x03 };
+From f66faa238facf504cfc66325912ce7af8cbf79ec Mon Sep 17 00:00:00 2001
+From: "Srivatsa S. Bhat (VMware)" <srivatsa@csail.mit.edu>
+Date: Mon, 8 Nov 2021 11:46:57 -0800
+Subject: [PATCH v2 2/2] MAINTAINERS: Mark VMware mailing list entries as email
+ aliases
+
+VMware mailing lists in the MAINTAINERS file are private lists meant
+for VMware-internal review/notification for patches to the respective
+subsystems. Anyone can post to these addresses, but there is no public
+read access like open mailing lists, which makes them more like email
+aliases instead (to reach out to reviewers).
+
+So update all the VMware mailing list references in the MAINTAINERS
+file to mark them as such, using "R: email-alias@vmware.com".
+
+Signed-off-by: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+Cc: Zack Rusin <zackr@vmware.com>
+Cc: Nadav Amit <namit@vmware.com>
+Cc: Vivek Thampi <vithampi@vmware.com>
+Cc: Vishal Bhakta <vbhakta@vmware.com>
+Cc: Ronak Doshi <doshir@vmware.com>
+Cc: pv-drivers@vmware.com
+Cc: linux-graphics-maintainer@vmware.com
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-rdma@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+---
+ MAINTAINERS | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 118cf8170d02..4372d79027e9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6134,8 +6134,8 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	drivers/gpu/drm/vboxvideo/
  
- 	if (elantech_write_reg_params(psmouse, 0x7, param) ||
- 	    elantech_read_reg_params(psmouse, 0x7, param) ||
+ DRM DRIVER FOR VMWARE VIRTUAL GPU
+-M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
+ M:	Zack Rusin <zackr@vmware.com>
++R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+@@ -14189,7 +14189,7 @@ F:	include/uapi/linux/ppdev.h
+ PARAVIRT_OPS INTERFACE
+ M:	Juergen Gross <jgross@suse.com>
+ M:	Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+-L:	pv-drivers@vmware.com (private)
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	virtualization@lists.linux-foundation.org
+ L:	x86@kernel.org
+ S:	Supported
+@@ -20032,7 +20032,7 @@ F:	tools/testing/vsock/
+ 
+ VMWARE BALLOON DRIVER
+ M:	Nadav Amit <namit@vmware.com>
+-M:	"VMware, Inc." <pv-drivers@vmware.com>
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	linux-kernel@vger.kernel.org
+ S:	Maintained
+ F:	drivers/misc/vmw_balloon.c
+@@ -20040,7 +20040,7 @@ F:	drivers/misc/vmw_balloon.c
+ VMWARE HYPERVISOR INTERFACE
+ M:	Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+ M:	Alexey Makhalov <amakhalov@vmware.com>
+-L:	pv-drivers@vmware.com (private)
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	virtualization@lists.linux-foundation.org
+ L:	x86@kernel.org
+ S:	Supported
+@@ -20050,14 +20050,14 @@ F:	arch/x86/kernel/cpu/vmware.c
+ 
+ VMWARE PVRDMA DRIVER
+ M:	Adit Ranadive <aditr@vmware.com>
+-M:	VMware PV-Drivers <pv-drivers@vmware.com>
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	linux-rdma@vger.kernel.org
+ S:	Maintained
+ F:	drivers/infiniband/hw/vmw_pvrdma/
+ 
+ VMware PVSCSI driver
+ M:	Vishal Bhakta <vbhakta@vmware.com>
+-M:	VMware PV-Drivers <pv-drivers@vmware.com>
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	linux-scsi@vger.kernel.org
+ S:	Maintained
+ F:	drivers/scsi/vmw_pvscsi.c
+@@ -20065,7 +20065,7 @@ F:	drivers/scsi/vmw_pvscsi.h
+ 
+ VMWARE VIRTUAL PTP CLOCK DRIVER
+ M:	Vivek Thampi <vithampi@vmware.com>
+-M:	"VMware, Inc." <pv-drivers@vmware.com>
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	netdev@vger.kernel.org
+ S:	Supported
+ F:	drivers/ptp/ptp_vmw.c
+@@ -20073,14 +20073,14 @@ F:	drivers/ptp/ptp_vmw.c
+ VMWARE VMCI DRIVER
+ M:	Jorgen Hansen <jhansen@vmware.com>
+ M:	Vishnu Dasa <vdasa@vmware.com>
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	linux-kernel@vger.kernel.org
+-L:	pv-drivers@vmware.com (private)
+ S:	Maintained
+ F:	drivers/misc/vmw_vmci/
+ 
+ VMWARE VMMOUSE SUBDRIVER
+-M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
+-M:	"VMware, Inc." <pv-drivers@vmware.com>
++R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	linux-input@vger.kernel.org
+ S:	Maintained
+ F:	drivers/input/mouse/vmmouse.c
+@@ -20088,7 +20088,7 @@ F:	drivers/input/mouse/vmmouse.h
+ 
+ VMWARE VMXNET3 ETHERNET DRIVER
+ M:	Ronak Doshi <doshir@vmware.com>
+-M:	pv-drivers@vmware.com
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	netdev@vger.kernel.org
+ S:	Maintained
+ F:	drivers/net/vmxnet3/
 -- 
-2.32.0
+2.25.1
 
