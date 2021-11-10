@@ -2,37 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F03644BD84
-	for <lists+linux-input@lfdr.de>; Wed, 10 Nov 2021 10:02:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FE5F44BD88
+	for <lists+linux-input@lfdr.de>; Wed, 10 Nov 2021 10:03:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230212AbhKJJEM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Nov 2021 04:04:12 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45310 "EHLO mail.kernel.org"
+        id S230117AbhKJJFo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Nov 2021 04:05:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45520 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230440AbhKJJDd (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Nov 2021 04:03:33 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CD7AA61207;
-        Wed, 10 Nov 2021 09:00:31 +0000 (UTC)
+        id S230461AbhKJJFl (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 10 Nov 2021 04:05:41 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 03441610CF;
+        Wed, 10 Nov 2021 09:02:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636534832;
-        bh=JhdMOX7fsgIX+pknT7GGdFi9+uofxDJ6ULvqaQrt81M=;
+        s=k20201202; t=1636534958;
+        bh=ORDhAEl6GvObkHycfaW2s5XoI16XYZX+9LCUa21opIc=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=rAijYhmvqdcNm2xrQWnZMy9zaAZEwUexcaNEzrI2yGrMfyfF+RZmIQjy7WBNw27So
-         t33kJOrFanNB+oOAm1ITOHnOG/p340FDGdG1SIueb8/IKta3kGaqrUkCcf459CVytx
-         McRFsD7wMNhU1U35gepzYzWxlSOG6Kt76pGxdu2FhzUliplfQ5SKIpu7huIpkviGxu
-         QWpuePfE2k7feEJY2qO3JM9epEm078GdZBA5WlQsXd3vTVCh4+lO2lDb5q1iGvAiQf
-         u8Yt4jwFNk+pqPCiTnIJvdO3OE9Sei2JUs2rTG5s9yQa/XWdhJ8uAsT0AoJzvamIUi
-         HZED18nGpY67A==
-Date:   Wed, 10 Nov 2021 10:00:29 +0100 (CET)
+        b=T3DGFyx/ifmXJCkSCZkmSf0O/qN4kEcPPxVDFHGoDES20Glh40zKRiF9yCDSSDXj7
+         mCXa4XMrXGRu1ROEDkc65a8IdPCi05ILaE4nS7so7X6ydecUIJWBPX0iO6ePTazUAl
+         hcdrL9+R2yDZqQgVPLMrq7lsx0Q9uNHWS24w0XRTvvKy6rChT2oYaEIKbKOUK2u7rD
+         2dAwDVI+aFKHgwICwLJzFYJQdEQlI2vbNwA3H1FHt+v0NL2Mo637BXbxLIf6qLqRoD
+         kdnPjNzh8tCsn4VkO6O6fcmJh3vX2ff65ADFmuGj9O2HpGgCVcolrChWYHeCof8eop
+         AsSLAJQGqOezw==
+Date:   Wed, 10 Nov 2021 10:02:35 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-cc:     "Daniel J. Ogorchock" <djogorchock@gmail.com>,
+To:     Jason Gerecke <killertofu@gmail.com>
+cc:     linux-input@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] HID: nintendo: unlock on error in joycon_leds_create()
-In-Reply-To: <20211110081208.GH5176@kili>
-Message-ID: <nycvar.YFH.7.76.2111101000180.12554@cbobk.fhfr.pm>
-References: <20211110081208.GH5176@kili>
+        Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Joshua Dickens <Joshua@Joshua-Dickens.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        Joshua Dickens <joshua.dickens@wacom.com>,
+        stable@vger.kernel.org
+Subject: Re: [PATCH] HID: wacom: Use "Confidence" flag to prevent reporting
+ invalid contacts
+In-Reply-To: <20211109003101.425207-1-jason.gerecke@wacom.com>
+Message-ID: <nycvar.YFH.7.76.2111101002260.12554@cbobk.fhfr.pm>
+References: <20211109003101.425207-1-jason.gerecke@wacom.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -40,14 +46,34 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 10 Nov 2021, Dan Carpenter wrote:
+On Mon, 8 Nov 2021, Jason Gerecke wrote:
 
-> These two error paths need to drop the lock before returning.
+> The HID descriptor of many of Wacom's touch input devices include a
+> "Confidence" usage that signals if a particular touch collection contains
+> useful data. The driver does not look at this flag, however, which causes
+> even invalid contacts to be reported to userspace. A lucky combination of
+> kernel event filtering and device behavior (specifically: contact ID 0 ==
+> invalid, contact ID >0 == valid; and order all data so that all valid
+> contacts are reported before any invalid contacts) spare most devices from
+> any visibly-bad behavior.
 > 
-> Fixes: c5e626769563 ("HID: nintendo: add player led support")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> The DTH-2452 is one example of an unlucky device that misbehaves. It uses
+> ID 0 for both the first valid contact and all invalid contacts. Because
+> we report both the valid and invalid contacts, the kernel reports that
+> contact 0 first goes down (valid) and then goes up (invalid) in every
+> report. This causes ~100 clicks per second simply by touching the screen.
+> 
+> This patch inroduces new `confidence` flag in our `hid_data` structure.
+> The value is initially set to `true` at the start of a report and can be
+> set to `false` if an invalid touch usage is seen.
+> 
+> Link: https://github.com/linuxwacom/input-wacom/issues/270
+> Fixes: f8b6a74719b5 ("HID: wacom: generic: Support multiple tools per report")
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> Tested-by: Joshua Dickens <joshua.dickens@wacom.com>
+> Cc: <stable@vger.kernel.org>
 
-Thanks for spotting it; applied.
+Applied, thanks Jason.
 
 -- 
 Jiri Kosina
