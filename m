@@ -2,82 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C32C044CD8D
-	for <lists+linux-input@lfdr.de>; Thu, 11 Nov 2021 00:01:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CC8A44CEF6
+	for <lists+linux-input@lfdr.de>; Thu, 11 Nov 2021 02:36:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234182AbhKJXDl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Nov 2021 18:03:41 -0500
-Received: from todd.t-8ch.de ([159.69.126.157]:59497 "EHLO todd.t-8ch.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234160AbhKJXDk (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Nov 2021 18:03:40 -0500
-From:   =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1636585249;
-        bh=6kSupYZDrrsHghwFMyadPlA4UhiFyStheLD/192wm+o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=o3y0RPznS/RR/KNrbekAGSaScQ/aOyHT6fGqZ1Ul0AwwNAjmOO4if6Lb0uFHA4kbx
-         ZRpKFTBtIRsiiLZ8+C3Z2gWUlAdnbWIO4NY8tbUPi5tnFpkfG+TlVrAttngbM5kUv7
-         HZvn/rVB/hj9dVT7TdIfAIvJ3H98J7bb8ii7P21E=
-To:     Nathan Chancellor <nathan@kernel.org>, linux-input@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        linux-kernel@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>, llvm@lists.linux.dev
-Subject: [PATCH 4/4] platform/x86: isthp_eclite: constify devicetable initializer
-Date:   Thu, 11 Nov 2021 00:00:43 +0100
-Message-Id: <20211110230043.701167-4-linux@weissschuh.net>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <YYv22iWQ7yTfMNC5@archlinux-ax161>
-References: <YYv22iWQ7yTfMNC5@archlinux-ax161>
+        id S233436AbhKKBiv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Nov 2021 20:38:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53008 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233487AbhKKBio (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 10 Nov 2021 20:38:44 -0500
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50510C06122E
+        for <linux-input@vger.kernel.org>; Wed, 10 Nov 2021 17:35:43 -0800 (PST)
+Received: by mail-yb1-xb30.google.com with SMTP id a129so11035035yba.10
+        for <linux-input@vger.kernel.org>; Wed, 10 Nov 2021 17:35:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/yJJ1eLjVEBxlbbxBTFqS43d212h+YIqOC0povopvFQ=;
+        b=e1saD3h8ZTiJz1WPc393lhDIWAvFZtOWzP/1iIN1KdicX4+NrvRlvNT+3PrCl1GqMN
+         hcyRC8y01agFcLW5+tsWKem8XisbU3NfgOVZTXj+yM8hm783rPU/i/YuMOt9WJM1GE4/
+         JRXGoJXzKJizIUuyrjE1Imm5mvbvZzUfUnW1ilSzedfFOByO23CsotOGz9ho9UMOpmPB
+         I35hgpS1ccJyAsx8SK8mX+7lwpZDhh/s7p2JF/JACrgRoEUXPKCti/8Mke+cScvETWuN
+         /H3UoZ8xmLIIfMcXfhtyxis8wgN5U5+dx/bvbJ1ofktMXKhL3cY0XXO1GPMja8d0F/uW
+         PaWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/yJJ1eLjVEBxlbbxBTFqS43d212h+YIqOC0povopvFQ=;
+        b=Rfy5GvPa5l4KBkkbwiGx4N1yiklyMop3zL6RQLFQJaMoqbYWHRhYGULPHrXn11SZKs
+         7C4dWCpZsNO7UQu841pjW07H6kR5Q4ZXWMWCdADxP7ur3x4TRpCf2/ehl5rakimbRwV/
+         hrFd0fm8jTIh1bzMyIVPkcr4WtlmR4Xxibd/zCYUmcPF2weSmpFDhEYpKna+Rwmgl2mz
+         GFLCHA0EfvNopvkgnTt4JSAQ0Wp4M7jzTebhXuvx9IuvsVQAaWJPdV27XHu7FlTxBu8n
+         /Iet3dFp39+yv7S2zwarn7IGihubXXEkw4gTChyb42u58RcIxD+wN3RbTMquL9N3SbgJ
+         yKjQ==
+X-Gm-Message-State: AOAM531c8Cl5TwNVMRYnALksUC4MEkl7PE1R96yTS9h3ePhLICHznLJk
+        15L75msxTC0sAiDuHSq4EjzPUS23+2n+WbQSzlA=
+X-Google-Smtp-Source: ABdhPJwSvDsl6dRjntKMicOLsqdOi/dG2sfAv7B/U6vR9uOw26VAk/4zCWUkhL/n3HO29hhdK1BtX8sl0L4QCQV/QNc=
+X-Received: by 2002:a25:b20f:: with SMTP id i15mr3989503ybj.539.1636594542572;
+ Wed, 10 Nov 2021 17:35:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a05:7010:5d89:b0:1df:17ca:e9e5 with HTTP; Wed, 10 Nov 2021
+ 17:35:42 -0800 (PST)
+Reply-To: mrsambamalick@gmail.com
+From:   MR MALICK <aiolaras@gmail.com>
+Date:   Thu, 11 Nov 2021 02:35:42 +0100
+Message-ID: <CAKPiy1pxkL9E+t6fr2OcMGeiHjuYbwx6xEB+HwOuJAUpiUddcw@mail.gmail.com>
+Subject: NOTIFICATION
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Previously the compilation broke on clang and gcc < 8.1.0 with errors like
-"error: initializer element is not constant".
+LOTTO WINNING AWARD,;,
 
-Fixes: f155dfeaa4ee ("platform/x86: isthp_eclite: only load for matching devices")
-Reported-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/platform/x86/intel/ishtp_eclite.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Your email won 2.6 million dollars, Contact Barrister Marcel Cremer
+through his email here ( cremerrsolicitors@gmail.com) to claim your
+winning fund with your details as follows, your full name, your
+country, your home address and your phone number.
 
-diff --git a/drivers/platform/x86/intel/ishtp_eclite.c b/drivers/platform/x86/intel/ishtp_eclite.c
-index b9fb8f28fd63..d6709d5c77fd 100644
---- a/drivers/platform/x86/intel/ishtp_eclite.c
-+++ b/drivers/platform/x86/intel/ishtp_eclite.c
-@@ -93,9 +93,9 @@ struct ishtp_opregion_dev {
- };
- 
- /* eclite ishtp client UUID: 6a19cc4b-d760-4de3-b14d-f25ebd0fbcd9 */
--static const guid_t ecl_ishtp_guid =
--	GUID_INIT(0x6a19cc4b, 0xd760, 0x4de3,
--		  0xb1, 0x4d, 0xf2, 0x5e, 0xbd, 0xf, 0xbc, 0xd9);
-+#define ECL_ISHTP_GUID GUID_INIT(0x6a19cc4b, 0xd760, 0x4de3, \
-+		  0xb1, 0x4d, 0xf2, 0x5e, 0xbd, 0xf, 0xbc, 0xd9)
-+static const guid_t ecl_ishtp_guid = ECL_ISHTP_GUID;
- 
- /* ACPI DSM UUID: 91d936a7-1f01-49c6-a6b4-72f00ad8d8a5 */
- static const guid_t ecl_acpi_guid =
-@@ -682,7 +682,7 @@ static struct ishtp_cl_driver ecl_ishtp_cl_driver = {
- };
- 
- static const struct ishtp_device_id ecl_ishtp_id_table[] = {
--	{ ecl_ishtp_guid },
-+	{ ECL_ISHTP_GUID },
- 	{ }
- };
- MODULE_DEVICE_TABLE(ishtp, ecl_ishtp_id_table);
--- 
-2.33.1
-
+Regards,,
+Mr.  Malick Samba.
