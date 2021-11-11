@@ -2,157 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 095B144D511
-	for <lists+linux-input@lfdr.de>; Thu, 11 Nov 2021 11:34:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E68344D52C
+	for <lists+linux-input@lfdr.de>; Thu, 11 Nov 2021 11:40:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230256AbhKKKhl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 Nov 2021 05:37:41 -0500
-Received: from todd.t-8ch.de ([159.69.126.157]:60729 "EHLO todd.t-8ch.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229668AbhKKKhk (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 Nov 2021 05:37:40 -0500
-Date:   Thu, 11 Nov 2021 11:34:49 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1636626890;
-        bh=aBlydR7c5HlIpwugUVKyBf1SZBRGaTAtRZG6QBHMdmw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fY+DfBWPYJLdBHhxB8cJALXUSAedjVMjdwfAvrHQNw/Ou/YcjY23rITjQPBKij53I
-         2XrsTkkoYDKBh+gK6kqpRHX4c+DvkKr+dsT8NlwMlohNqW1JJPONbvYIThVgPY5aTA
-         i0LosUsgWbAM7Ks9/pvmXpU+02qLv21wNUKTmzz4=
-From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Benson Leung <bleung@chromium.org>,
-        Sumesh K Naduvalath <sumesh.k.naduvalath@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Guenter Roeck <groeck@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] HID: intel-ish-hid: fix module device-id handling
-Message-ID: <b87d00eb-1d89-4241-a631-1cb70ec7550e@t-8ch.de>
-References: <20211111085842.2846422-1-arnd@kernel.org>
+        id S232964AbhKKKnH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 Nov 2021 05:43:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60742 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232944AbhKKKnH (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 11 Nov 2021 05:43:07 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F217C061766
+        for <linux-input@vger.kernel.org>; Thu, 11 Nov 2021 02:40:17 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id b40so13112891lfv.10
+        for <linux-input@vger.kernel.org>; Thu, 11 Nov 2021 02:40:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9tIx/igNKPYVIrwndCggjgpScM833Y4RL5Ah+VgOguU=;
+        b=DimTsruqEQMoF6afspPb/WQy4ew0Vd3WE4uUd9Bcq6kQ2kby/N9oSKkMx/WMc8aGMF
+         lwfmDXtMz9QmQrtpJWlpZS3P/k1+l+TZBhAQYqLvKU5kDenjkHerHRNJ+QBwFVchbM1k
+         k+dnVSZzel1b8uFhnDZaSpoUvsn/fhz+g+uPEiOAXXlyO+wID55gcsp1B5dR4IX5xpFD
+         +d3d2wGMf7NF2U6Sno4QqHQ0aYuF9ihzOhbwe9R2bjIxPn7ETuRf19qjThfxDYUQuBFW
+         f/wiamhlhi0xgGf2ncaD5yvplDL/3Z7wmkTVSs0ea8ByocaxleBny0xsujWZTfWtyIks
+         csEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9tIx/igNKPYVIrwndCggjgpScM833Y4RL5Ah+VgOguU=;
+        b=PgUKNpjPoN+ZUvnzwNokMafuBjpUyzsv7fXxNXM4qZ//xGQBr80deraP/I12YbN1RK
+         MXoMx93pI1NbJ3J5CYY1GFKD624WC+H/d22Me8CMSi5dhyWFOalVG8deKw6nBHbEEjVK
+         PmUFFv/Pjsa9UPoeoIcolz1FO7cWpcFnAVJ1aLkC8bPCByQ6ctmGwksca8LzhvPsBYzd
+         IfFcr/lLg70ItzU7xH/3aXaugs0SDWY+mJkIxkiks/fDMyEOeca7Uk/QgJd+JZg1Xo42
+         hqXnE6ft8q57HKfGwQgg8n5ClBWZFfX/9T83oCjb6GvyL/29hFZC+UmxluanDsLWJDhT
+         3b+A==
+X-Gm-Message-State: AOAM533XUGJbFA8i58aMqKppecO4Ia6fioY3LPG1ndGLdCC8cHEZn8W6
+        G5ZR2xt4jkBQbUrsZzzUt2TYb4CFMxUQU/zQlzIlWg==
+X-Google-Smtp-Source: ABdhPJxxMnc/++Ejn4mwaEgWk7yDts/ov3C1q1UFglFDJR1j83ZeQbo+BIoKTPuhhKDDvw47Oef3D/aDqV3Dz4XMJgU=
+X-Received: by 2002:a05:6512:2305:: with SMTP id o5mr5308056lfu.362.1636627215652;
+ Thu, 11 Nov 2021 02:40:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211111085842.2846422-1-arnd@kernel.org>
-Jabber-ID: thomas@t-8ch.de
-X-Accept: text/plain, text/html;q=0.2, text/*;q=0.1
-X-Accept-Language: en-us, en;q=0.8, de-de;q=0.7, de;q=0.6
+References: <20211027181350.91630-1-nikita@trvn.ru> <CACRpkda_EM9mXuJdrZcpFaJCKF1UDgXkfdxkaniyXFHFd_7+Pw@mail.gmail.com>
+ <ec9185459dbc0e95dc2f2cdf27baa0f6@trvn.ru>
+In-Reply-To: <ec9185459dbc0e95dc2f2cdf27baa0f6@trvn.ru>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 11 Nov 2021 11:40:04 +0100
+Message-ID: <CACRpkdbp6udtBsDHkLmCivRcxCCCbMcGu5z41HVgMpLkPCkLGA@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Add touch-keys support to the Zinitix touch driver
+To:     Nikita Travkin <nikita@trvn.ru>
+Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        Michael.Srba@seznam.cz, broonie@kernel.org,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        phone-devel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Tue, Nov 9, 2021 at 4:23 PM Nikita Travkin <nikita@trvn.ru> wrote:
+> [Me]
+> > Have you notices some behaviour like surplus touch events
+> > (like many press/release events fall through to the UI)
+> > when using this driver? I think it might need some z fuzzing
+> > but I am not sure.
+> >
+>
+> On my device (8 inch tablet with BT532) I saw no problems with touch
+> so far. However another person with a different tablet (10 inch with
+> ZT7554)
+> indeed says that they notice "multiplied" touches that make typing hard
+> so maybe that depends on controller model/firmware...
 
-On 2021-11-11 09:56+0100, Arnd Bergmann wrote:
-> A late addititon to the intel-ish-hid framework caused a build failure
-> with clang, and introduced an ABI to the module loader that stops working
-> if any driver ever needs to bind to more than one UUID:
-> 
-> drivers/hid/intel-ish-hid/ishtp-fw-loader.c:1067:4: error: initializer element is not a compile-time constant
-> 
-> Change the ishtp_device_id to have correct documentation and a driver_data
-> field like all the other ones, and change the drivers to use the ID table
-> as the primary identification in a way that works with all compilers
-> and avoids duplciating the identifiers.
+It may even be depending on specimen. I saw that the vendor driver
+does contain some debouncing code.
 
-I was not aware that the missing driver_data would actually be part of the ABI.
-Thanks for noticing!
+> And speaking of that ZT7554: Seems like it's works with the driver
+> and I'd like to add the compatible for it in v2 but I'd also have to add
+> it to the bindings. Looking at how you add all other similar names for BT*
+> there does it make sense to add ZT* as well?
 
-> Fixes: f155dfeaa4ee ("platform/x86: isthp_eclite: only load for matching devices")
-> Fixes: facfe0a4fdce ("platform/chrome: chros_ec_ishtp: only load for matching devices")
-> Fixes: 0d0cccc0fd83 ("HID: intel-ish-hid: hid-client: only load for matching devices")
-> Fixes: 44e2a58cb880 ("HID: intel-ish-hid: fw-loader: only load for matching devices")
-> Fixes: cb1a2c6847f7 ("HID: intel-ish-hid: use constants for modaliases")
-> Fixes: fa443bc3c1e4 ("HID: intel-ish-hid: add support for MODULE_DEVICE_TABLE()")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> I did not see this reported on the list so far, but it has probably
-> shown up in other build bots as well.
+Yeah probably, if they are electrically very similar.
 
-The warning/error was also reported by Nathan here:
-https://lore.kernel.org/lkml/YYv22iWQ7yTfMNC5@archlinux-ax161/
+> Maybe you have some hints where
+> to look for a list of the models?
 
-> There are lots of ways to fix the warning, I picked this way to address
-> the more urgent problem of fixing the mod_devicetable.h format before
-> it is too late for that.
-> ---
->  drivers/hid/intel-ish-hid/ishtp-fw-loader.c  | 19 ++++++++-----------
->  drivers/hid/intel-ish-hid/ishtp-hid-client.c | 19 ++++++++-----------
->  drivers/hid/intel-ish-hid/ishtp/bus.c        |  2 +-
->  drivers/platform/chrome/cros_ec_ishtp.c      | 19 ++++++++-----------
->  drivers/platform/x86/intel/ishtp_eclite.c    | 19 ++++++++-----------
->  include/linux/intel-ish-client-if.h          |  4 ++--
->  include/linux/mod_devicetable.h              |  5 +++--
->  7 files changed, 38 insertions(+), 49 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/intel/ishtp_eclite.c b/drivers/platform/x86/intel/ishtp_eclite.c
-> index b9fb8f28fd63..b2da3a4b3e1b 100644
-> --- a/drivers/platform/x86/intel/ishtp_eclite.c
-> +++ b/drivers/platform/x86/intel/ishtp_eclite.c
-> @@ -93,9 +93,12 @@ struct ishtp_opregion_dev {
->  };
->  
->  /* eclite ishtp client UUID: 6a19cc4b-d760-4de3-b14d-f25ebd0fbcd9 */
-> -static const guid_t ecl_ishtp_guid =
-> -	GUID_INIT(0x6a19cc4b, 0xd760, 0x4de3,
-> -		  0xb1, 0x4d, 0xf2, 0x5e, 0xbd, 0xf, 0xbc, 0xd9);
-> +static const struct ishtp_device_id ecl_ishtp_id_table[] = {
-> +	{ .guid = GUID_INIT(0x6a19cc4b, 0xd760, 0x4de3,
-> +		  0xb1, 0x4d, 0xf2, 0x5e, 0xbd, 0xf, 0xbc, 0xd9), },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(ishtp, ecl_ishtp_id_table);
->  
->  /* ACPI DSM UUID: 91d936a7-1f01-49c6-a6b4-72f00ad8d8a5 */
->  static const guid_t ecl_acpi_guid =
-> @@ -462,7 +465,7 @@ static int ecl_ishtp_cl_init(struct ishtp_cl *ecl_ishtp_cl)
->  	ishtp_set_tx_ring_size(ecl_ishtp_cl, ECL_CL_TX_RING_SIZE);
->  	ishtp_set_rx_ring_size(ecl_ishtp_cl, ECL_CL_RX_RING_SIZE);
->  
-> -	fw_client = ishtp_fw_cl_get_client(dev, &ecl_ishtp_guid);
-> +	fw_client = ishtp_fw_cl_get_client(dev, &ecl_ishtp_id_table[0].guid);
->  	if (!fw_client) {
->  		dev_err(cl_data_to_dev(opr_dev), "fw client not found\n");
->  		return -ENOENT;
-> @@ -674,19 +677,13 @@ static const struct dev_pm_ops ecl_ishtp_pm_ops = {
->  
->  static struct ishtp_cl_driver ecl_ishtp_cl_driver = {
->  	.name = "ishtp-eclite",
-> -	.guid = &ecl_ishtp_guid,
-> +	.id = &ecl_ishtp_id_table,
+I usually google ... try to find things like powerpoints with roadmaps
+from the vendor and things like that. Best thing is if they answer
+to mail but I don't know if Zinitix are even around anymore.
 
-This '&' should not be there.
+> I've noticed a yet another quirky issue with the touch controller:
+> At least on my device, for some reason enabling touchkeys changes the
+> way the
+> controller reports the finger touch events which breaks multi-touch...
+> Assuming that *not* enabling the touchkeys leads to calibration being
+> wrong
+> (controller assigns the touchkey sense lines to the touch area in that
+> case)
+> I now have to resolve this quirk as well...
 
-drivers/platform/x86/intel/ishtp_eclite.c:680:15: error: initialization of ‘const struct ishtp_device_id *’ from incompatible pointer type ‘const struct ishtp_device_id (*)[2]’ [-Werror=incompatible-pointer-types]
-  680 |         .id = &ecl_ishtp_id_table,
-      |               ^
-drivers/platform/x86/intel/ishtp_eclite.c:680:15: note: (near initialization for ‘ecl_ishtp_cl_driver.id’)
+Hm yeah I guess refer to the (messy) vendor driver for hints.
 
->  	.probe = ecl_ishtp_cl_probe,
->  	.remove = ecl_ishtp_cl_remove,
->  	.reset = ecl_ishtp_cl_reset,
->  	.driver.pm = &ecl_ishtp_pm_ops,
->  };
->  
-> -static const struct ishtp_device_id ecl_ishtp_id_table[] = {
-> -	{ ecl_ishtp_guid },
-> -	{ }
-> -};
-> -MODULE_DEVICE_TABLE(ishtp, ecl_ishtp_id_table);
-> -
->  static int __init ecl_ishtp_init(void)
->  {
->  	return ishtp_cl_driver_register(&ecl_ishtp_cl_driver, THIS_MODULE);
-
-Thomas
+Yours,
+Linus Walleij
