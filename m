@@ -2,84 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E1AB44DA4C
-	for <lists+linux-input@lfdr.de>; Thu, 11 Nov 2021 17:25:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E32444DAC6
+	for <lists+linux-input@lfdr.de>; Thu, 11 Nov 2021 17:50:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233902AbhKKQ14 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 Nov 2021 11:27:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44122 "EHLO mail.kernel.org"
+        id S234261AbhKKQxa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 Nov 2021 11:53:30 -0500
+Received: from mx1.riseup.net ([198.252.153.129]:39252 "EHLO mx1.riseup.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232033AbhKKQ14 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 Nov 2021 11:27:56 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A3C246124C;
-        Thu, 11 Nov 2021 16:25:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636647906;
-        bh=dw0x+LBQ552ApvZujaQIillgV6iC1yb5QQ5PK/digpQ=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=AQu3TUpVccJo4t7u3W3hOW69QX8iDiJz8OrLBhAO1QJQhPdKguQishmbKqVi6KrON
-         y4Y1KdAToySCDwJx9OJe8PlwiVd8iH+62xubOBPXSX4/je/rqHZlzpwqUDKGGJOlBe
-         JHrylfyQcRyOxdnTwLdaz4cDrFyiXV5nKWjAf4NHj3/Zdrk464+HTyk5p+abcqtEpH
-         0QAFVoqJ6ikODrnzHA9r0CSTLyuEMKHkXiLqX9H8Dt0CAzgbM9DN6/KfakeV/fxgb1
-         co0YrhJzDbDXLs/8QRANEXorz+wzMF9NoJJZ4drQ4H+AWxwdjD6deloua9TyTpidos
-         Z9Jv8NfiG3S6g==
-Date:   Thu, 11 Nov 2021 17:25:01 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        id S234328AbhKKQxL (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 11 Nov 2021 11:53:11 -0500
+X-Greylist: delayed 347 seconds by postgrey-1.27 at vger.kernel.org; Thu, 11 Nov 2021 11:53:11 EST
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+         client-signature RSA-PSS (2048 bits) client-digest SHA256)
+        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+        by mx1.riseup.net (Postfix) with ESMTPS id 4Hqncd698xzF4mw;
+        Thu, 11 Nov 2021 08:44:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+        t=1636649073; bh=EA9bwQmMUEBSE6EdIxEKpSTsOir0ZXyLEyaU1bTf4u8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=BNxJloO2Z22eazNMPEysoxD7eMbrefhHT9XdzD4dMmRq6k5CeJwpcrt6WkgM8Hdfc
+         muLh6rzxvt5YU8v7RU0AJbBzRzUYtKSqXUqdMEL+iS0Sk7J1/1XVdy/jNcH3q8hQHv
+         QFA2QJEROGJfDn+DBEHNlzKqTusePTZky2/Ws/dg=
+X-Riseup-User-ID: 466E21B2873C2525A9DDBB588C4AD9967C570C0CADDE662C8E0D1828AB2E8072
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+         by fews2.riseup.net (Postfix) with ESMTPSA id 4Hqncc0X8Xz1xqF;
+        Thu, 11 Nov 2021 08:44:31 -0800 (PST)
+From:   =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>
+To:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Benson Leung <bleung@chromium.org>,
-        Sumesh K Naduvalath <sumesh.k.naduvalath@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Guenter Roeck <groeck@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] HID: intel-ish-hid: fix module device-id handling
-In-Reply-To: <20211111085842.2846422-1-arnd@kernel.org>
-Message-ID: <nycvar.YFH.7.76.2111111723190.12554@cbobk.fhfr.pm>
-References: <20211111085842.2846422-1-arnd@kernel.org>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>
+Subject: [PATCH] HID: logitech: add myself as a reviewer
+Date:   Thu, 11 Nov 2021 16:44:11 +0000
+Message-Id: <20211111164411.2978353-1-lains@riseup.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 11 Nov 2021, Arnd Bergmann wrote:
+Currently, I have to use a separate email address and maintain several
+filters to monitor changes to Logitech drivers, so that I can have an
+opportunity to review them. Since I am very interested in keeping up
+with the changes, as I have a lot of the hardware and maintain the main
+userspace stacks that depend on these drivers, I would like to mark
+myself as a reviewer. I would also be open to be marked as a maintainer
+if Benjamin thinks it makes sense.
 
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> A late addititon to the intel-ish-hid framework caused a build failure
-> with clang, and introduced an ABI to the module loader that stops working
-> if any driver ever needs to bind to more than one UUID:
-> 
-> drivers/hid/intel-ish-hid/ishtp-fw-loader.c:1067:4: error: initializer element is not a compile-time constant
-> 
-> Change the ishtp_device_id to have correct documentation and a driver_data
-> field like all the other ones, and change the drivers to use the ID table
-> as the primary identification in a way that works with all compilers
-> and avoids duplciating the identifiers.
-> 
-> Fixes: f155dfeaa4ee ("platform/x86: isthp_eclite: only load for matching devices")
-> Fixes: facfe0a4fdce ("platform/chrome: chros_ec_ishtp: only load for matching devices")
-> Fixes: 0d0cccc0fd83 ("HID: intel-ish-hid: hid-client: only load for matching devices")
-> Fixes: 44e2a58cb880 ("HID: intel-ish-hid: fw-loader: only load for matching devices")
-> Fixes: cb1a2c6847f7 ("HID: intel-ish-hid: use constants for modaliases")
-> Fixes: fa443bc3c1e4 ("HID: intel-ish-hid: add support for MODULE_DEVICE_TABLE()")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Filipe Laíns <lains@riseup.net>
+---
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-I have fixed the ecl_ishtp_cl_driver.id initialization and applied. Thanks 
-a lot for spotting and fixing this, Arnd.
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5b7a13f706fa..58c2c023d865 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8466,6 +8466,12 @@ F:	drivers/hid/
+ F:	include/linux/hid*
+ F:	include/uapi/linux/hid*
+ 
++HID LOGITECH DRIVERS
++R:	Filipe Laíns <lains@riseup.net>
++L:	linux-input@vger.kernel.org
++S:	Maintained
++F:	drivers/hid/hid-logitech-*
++
+ HID PLAYSTATION DRIVER
+ M:	Roderick Colenbrander <roderick.colenbrander@sony.com>
+ L:	linux-input@vger.kernel.org
 -- 
-Jiri Kosina
-SUSE Labs
+2.33.1
 
