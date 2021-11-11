@@ -2,104 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 242AF44D7A6
-	for <lists+linux-input@lfdr.de>; Thu, 11 Nov 2021 14:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9E5144D8FF
+	for <lists+linux-input@lfdr.de>; Thu, 11 Nov 2021 16:16:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231739AbhKKN7K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 Nov 2021 08:59:10 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:30933 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233303AbhKKN7J (ORCPT
+        id S233746AbhKKPTl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 Nov 2021 10:19:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39250 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231739AbhKKPTj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 Nov 2021 08:59:09 -0500
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Hqjmw4W3kzcb05;
-        Thu, 11 Nov 2021 21:51:28 +0800 (CST)
-Received: from dggema769-chm.china.huawei.com (10.1.198.211) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.15; Thu, 11 Nov 2021 21:56:19 +0800
-Received: from localhost (10.174.179.215) by dggema769-chm.china.huawei.com
- (10.1.198.211) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.15; Thu, 11
- Nov 2021 21:56:18 +0800
-From:   YueHaibing <yuehaibing@huawei.com>
-To:     <srinivas.pandruvada@linux.intel.com>, <jikos@kernel.org>,
-        <benjamin.tissoires@redhat.com>, <hdegoede@redhat.com>,
-        <linux@weissschuh.net>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        YueHaibing <yuehaibing@huawei.com>
-Subject: [PATCH -next] HID: intel-ish-hid: fw-loader: Fix build error
-Date:   Thu, 11 Nov 2021 21:56:07 +0800
-Message-ID: <20211111135607.38716-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+        Thu, 11 Nov 2021 10:19:39 -0500
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81FBBC0613F5
+        for <linux-input@vger.kernel.org>; Thu, 11 Nov 2021 07:16:50 -0800 (PST)
+Received: by mail-ot1-x32d.google.com with SMTP id p11-20020a9d4e0b000000b0055a5741bff7so9391970otf.2
+        for <linux-input@vger.kernel.org>; Thu, 11 Nov 2021 07:16:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FhB8iItBejzwjrEa1loJueZ9ZXnRDY7hXmZta29xgJ4=;
+        b=RHhhmajT9R6bgHbRESc2fgGIJLv2CWFiaAkYb1xPPG+nNOQf6SpbKlUAhc5IufiRDY
+         BU7qnZ6QjGBz57yN5sG5Sv9pkFHUKy8UAZDWTsBRmPn0wcv7vfBPaIfQ4OpqYMcnbFZ/
+         wnxZubBSMhKfY1ILz9ikdxOvzGUNqtZTIBgAvTqI8JIamxhHi3KkMmZZOQiaqhkHqKL6
+         ql6hLDx8Za/XsD5qQzjpDOvGZeRpSBm5LQlBMqBxxc2MyDhf9metgDRpPNJsafGIkpb/
+         +LRDXHoJoRF3Aw0MB4odMuCncLgN7Ws/hK8JaZnSoTn+y1q0yKjdzUPD1sCTTlF4wFeO
+         sJLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FhB8iItBejzwjrEa1loJueZ9ZXnRDY7hXmZta29xgJ4=;
+        b=Xu2RPy2UY5ykEdzf90ALaIv67PgEOiKuOdL+aCH4hPMe9EbtQddMvUXUDFnTQBA8tG
+         9cs+fvYVgt4EQartaKaEeulfnFaGb5x2l3fbim9NMjY7rf+DdJgv4ed/BDg4H2vSeP+K
+         xD99BofBI0V/DpVJMxWXJqUNLnk0A06QVjJTLmxFG505AZGi8Q6kHaJCkjK+3rVg9Wc8
+         /hyr5K8NsgF4mRwt09v0/j3g0hDdC7SyVMzkaRTnDwlVykrarrpRFMBJQBCsiUtv1ELS
+         TR0pVSBXf1QwtI1vxRKUuX0b5QIeli8/ZBeZTuucFTztGCaroOGPOQQX1/uFFoGNNDOl
+         9AIQ==
+X-Gm-Message-State: AOAM530KLPmntDrkSMGWhO8nRGoqSBvrDcnV2xFOwgcb1fjTIljOfccu
+        oI1viC96WjIP6r+gb0oA+10qPw7lANVp/srs9OELww==
+X-Google-Smtp-Source: ABdhPJxYcwHKiOWs+DTPgi9NESiPf7NVzw/HdlcpYLb2qQtA0XFzifD249u7EjiXWMyo/n0b8DRsmXxQk9rPwf2aPd4=
+X-Received: by 2002:a9d:6348:: with SMTP id y8mr6611657otk.179.1636643809760;
+ Thu, 11 Nov 2021 07:16:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.179.215]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggema769-chm.china.huawei.com (10.1.198.211)
-X-CFilter-Loop: Reflected
+References: <20211103114830.62711-1-alistair@alistair23.me>
+ <20211103114830.62711-3-alistair@alistair23.me> <20211105152154.20f5cbd1@aktux>
+ <CAKmqyKNx00ecsAyOjtLk8i6r75WD0uw=nd=fd9z44yBuau+Vdw@mail.gmail.com> <20211110183654.61328998@kemnade.info>
+In-Reply-To: <20211110183654.61328998@kemnade.info>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 11 Nov 2021 16:16:37 +0100
+Message-ID: <CACRpkdbrf8a7B-J=3s9x7JCyGgDk9VcsTd_-9o484MtfapVzHQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] Documentation: DT: bindings: input: Add
+ documentation for cyttsp5
+To:     Andreas Kemnade <andreas@kemnade.info>
+Cc:     Alistair Francis <alistair23@gmail.com>,
+        Alistair Francis <alistair@alistair23.me>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mylene Josserand <mylene.josserand@free-electrons.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-drivers/hid/intel-ish-hid/ishtp-fw-loader.c:1067:4: error: initializer element is not constant
-  { loader_ishtp_guid },
-    ^~~~~~~~~~~~~~~~~
+On Wed, Nov 10, 2021 at 6:37 PM Andreas Kemnade <andreas@kemnade.info> wrote:
+> Alistair Francis <alistair23@gmail.com> wrote:
 
-The reason is that we are using non-const expressions to initialize the
-static structure, which will probably trigger a compiling error/warning
-on gcc-7.5.0. Fix it by converting const variable into macro.
+> You have a kind of double inversion here, so things are automagically fixed.
+> IMHO to describe it correctly would be to set GPIO_ACTIVE_LOW here
+> and in the driver
+>
+>         /* Reset the gpio to be in a reset state */
+>         ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+>         if (IS_ERR(ts->reset_gpio)) {
+>                 rc = PTR_ERR(ts->reset_gpio);
+>                 dev_err(dev, "Failed to request reset gpio, error %d\n", rc);
+>                 return rc;
+>         }
+>         gpiod_set_value(ts->reset_gpio, 0);
+>
+> That is the way how other active-low reset lines are handled.
 
-Fixes: 44e2a58cb880 ("HID: intel-ish-hid: fw-loader: only load for matching devices")
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
- drivers/hid/intel-ish-hid/ishtp-fw-loader.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Correct.
 
-diff --git a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-index 945a9d0b68cd..98657b3bfd3f 100644
---- a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-+++ b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-@@ -76,9 +76,9 @@ enum ish_loader_commands {
- #define LOADER_XFER_MODE_ISHTP			BIT(1)
- 
- /* ISH Transport Loader client unique GUID */
--static const guid_t loader_ishtp_guid =
--	GUID_INIT(0xc804d06a, 0x55bd, 0x4ea7,
--		  0xad, 0xed, 0x1e, 0x31, 0x22, 0x8c, 0x76, 0xdc);
-+#define LOADER_ISHTP_GUID \
-+	GUID_INIT(0xc804d06a, 0x55bd, 0x4ea7, \
-+		  0xad, 0xed, 0x1e, 0x31, 0x22, 0x8c, 0x76, 0xdc)
- 
- #define FILENAME_SIZE				256
- 
-@@ -880,7 +880,7 @@ static int loader_init(struct ishtp_cl *loader_ishtp_cl, int reset)
- 
- 	fw_client =
- 		ishtp_fw_cl_get_client(ishtp_get_ishtp_device(loader_ishtp_cl),
--				       &loader_ishtp_guid);
-+				       &LOADER_ISHTP_GUID);
- 	if (!fw_client) {
- 		dev_err(cl_data_to_dev(client_data),
- 			"ISH client uuid not found\n");
-@@ -1057,14 +1057,14 @@ static int loader_ishtp_cl_reset(struct ishtp_cl_device *cl_device)
- 
- static struct ishtp_cl_driver	loader_ishtp_cl_driver = {
- 	.name = "ish-loader",
--	.guid = &loader_ishtp_guid,
-+	.guid = &LOADER_ISHTP_GUID,
- 	.probe = loader_ishtp_cl_probe,
- 	.remove = loader_ishtp_cl_remove,
- 	.reset = loader_ishtp_cl_reset,
- };
- 
- static const struct ishtp_device_id loader_ishtp_id_table[] = {
--	{ loader_ishtp_guid },
-+	{ LOADER_ISHTP_GUID },
- 	{ }
- };
- MODULE_DEVICE_TABLE(ishtp, loader_ishtp_id_table);
--- 
-2.17.1
+This is a source of confusion, I contemplated just changing the name
+of GPIOD_OUT_HIGH to GPIOD_OUT_ASSERTED etc to indicate
+what is going on.
 
+gpiod_set_value(ts->reset_gpio, 0) should similarly be interpreted
+as "de-assert this line" no matter the polarity.
+
+Yours,
+Linus Walleij
