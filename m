@@ -2,110 +2,308 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ABEA44EC2F
-	for <lists+linux-input@lfdr.de>; Fri, 12 Nov 2021 18:50:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D162844EC54
+	for <lists+linux-input@lfdr.de>; Fri, 12 Nov 2021 19:00:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234525AbhKLRxk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 12 Nov 2021 12:53:40 -0500
-Received: from outgoing-stata.csail.mit.edu ([128.30.2.210]:43694 "EHLO
-        outgoing-stata.csail.mit.edu" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231919AbhKLRxj (ORCPT
+        id S235558AbhKLSD1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 12 Nov 2021 13:03:27 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:37136 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235122AbhKLSD0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 12 Nov 2021 12:53:39 -0500
-Received: from c-24-16-8-193.hsd1.wa.comcast.net ([24.16.8.193] helo=srivatsab-a02.vmware.com)
-        by outgoing-stata.csail.mit.edu with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-        (Exim 4.82)
-        (envelope-from <srivatsa@csail.mit.edu>)
-        id 1mlahI-0006py-1E; Fri, 12 Nov 2021 12:50:44 -0500
-Subject: Re: [PATCH v3 3/3] MAINTAINERS: Mark VMware mailing list entries as
- email aliases
-To:     Jakub Kicinski <kuba@kernel.org>, Joe Perches <joe@perches.com>
-Cc:     jgross@suse.com, x86@kernel.org, pv-drivers@vmware.com,
-        Zack Rusin <zackr@vmware.com>, Nadav Amit <namit@vmware.com>,
-        Vivek Thampi <vithampi@vmware.com>,
-        Vishal Bhakta <vbhakta@vmware.com>,
-        Ronak Doshi <doshir@vmware.com>,
-        linux-graphics-maintainer@vmware.com,
-        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-        linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
-        linux-input@vger.kernel.org, amakhalov@vmware.com,
-        sdeep@vmware.com, virtualization@lists.linux-foundation.org,
-        keerthanak@vmware.com, srivatsab@vmware.com, anishs@vmware.com,
-        linux-kernel@vger.kernel.org, rostedt@goodmis.org,
-        srivatsa@csail.mit.edu
-References: <163657479269.84207.13658789048079672839.stgit@srivatsa-dev>
- <163657493334.84207.11063282485812745766.stgit@srivatsa-dev>
- <20211110173935.45a9f495@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <d7f3fec79287a149d6edc828583a771c84646b42.camel@perches.com>
- <20211111055554.4f257fd2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From:   "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
-Message-ID: <fd9df647-4c1a-b4fb-159b-4876bc5cd0b6@csail.mit.edu>
-Date:   Fri, 12 Nov 2021 09:50:33 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.12.0
+        Fri, 12 Nov 2021 13:03:26 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id B1A39217BA;
+        Fri, 12 Nov 2021 18:00:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1636740034; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=bzQxCuClHGhuDIz2vbRBErp7DuZx4wvtRhMWJycqKwA=;
+        b=vryG4H1KBskVESm/fAcGAGaGpmaU+gurVHHzo1Z0g8VORl7Ff4oGD/1wt3U+vyvUheA5L7
+        706rI0SfvQ+6zoZsIGoB5rxPMDazcbnLO/cc2wdeNkeGi2P6jjbsJRJKei9LKfNufZFA+8
+        AAP4k8HtfdxGUCogpdNR4SmcCiAxH/Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1636740034;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=bzQxCuClHGhuDIz2vbRBErp7DuZx4wvtRhMWJycqKwA=;
+        b=8kB24IBfCHcNG9NPuI9iC9fj16I1DjQVIhFXkpT3hgh7UI0Rdgi2G0zNIwl9lgmhByMSrH
+        Q+GVPWBSA3j5q4Dg==
+Received: from alsa1.nue.suse.com (alsa1.suse.de [10.160.4.42])
+        by relay2.suse.de (Postfix) with ESMTP id 9D27CA3B81;
+        Fri, 12 Nov 2021 18:00:34 +0000 (UTC)
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] Input: i8042 - Add deferred probe support
+Date:   Fri, 12 Nov 2021 19:00:22 +0100
+Message-Id: <20211112180022.10850-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20211111055554.4f257fd2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+We've got a bug report about the non-working keyboard on ASUS ZenBook
+UX425UA.  It seems that the PS/2 device isn't ready immediately at
+boot but takes some seconds to get ready.  Until now, the only
+workaround is to defer the probe, but it's available only when the
+driver is a module.  However, many distros, including openSUSE as in
+the original report, build the PS/2 input drivers into kernel, hence
+it won't work easily.
 
-[ Resending since my previous reply didn't reach the mailing lists. ]
+This patch adds the support for the deferred probe for i8042 stuff as
+a workaround of the problem above.  When the deferred probe mode is
+enabled and the device couldn't be probed, it'll be repeated with the
+standard deferred probe mechanism.
 
-On 11/11/21 5:55 AM, Jakub Kicinski wrote:
-> On Wed, 10 Nov 2021 21:19:53 -0800 Joe Perches wrote:
->> On Wed, 2021-11-10 at 17:39 -0800, Jakub Kicinski wrote:
->>> On Wed, 10 Nov 2021 12:09:06 -0800 Srivatsa S. Bhat wrote:  
->>>>  DRM DRIVER FOR VMWARE VIRTUAL GPU
->>>> -M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
->>>>  M:	Zack Rusin <zackr@vmware.com>
->>>> +R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
->>>>  L:	dri-devel@lists.freedesktop.org
->>>>  S:	Supported
->>>>  T:	git git://anongit.freedesktop.org/drm/drm-misc  
->>>
->>> It'd be preferable for these corporate entries to be marked or
->>> otherwise distinguishable so that we can ignore them when we try 
->>> to purge MAINTAINERS from developers who stopped participating.
->>>
->>> These addresses will never show up in a commit tag which is normally
->>> sign of inactivity.  
->>
->> Funny.
->>
->> The link below is from over 5 years ago.
->>
->> https://lore.kernel.org/lkml/1472081625.3746.217.camel@perches.com/
->>
->> Almost all of those entries are still in MAINTAINERS.
->>
->> I think the concept of purging is a non-issue.
-> 
-> I cleaned networking in January and intend to do it again in 2 months.
-> See:
-> 
-> 054c4610bd05 MAINTAINERS: dccp: move Gerrit Renker to CREDITS
-> 4f3786e01194 MAINTAINERS: ipvs: move Wensong Zhang to CREDITS
-> 0e4ed0b62b5a MAINTAINERS: tls: move Aviad to CREDITS
-> c41efbf2ad56 MAINTAINERS: ena: remove Zorik Machulsky from reviewers
-> 5e62d124f75a MAINTAINERS: vrf: move Shrijeet to CREDITS
-> 09cd3f4683a9 MAINTAINERS: net: move Alexey Kuznetsov to CREDITS
-> 93089de91e85 MAINTAINERS: altx: move Jay Cliburn to CREDITS
-> 8b0f64b113d6 MAINTAINERS: remove names from mailing list maintainers
-> 
-I'm assuming the purging is not totally automated, is it? As long as
-the entries are informative to a human reader, it should be possible
-to skip the relevant ones when purging inactive entries.
+The deferred probe mode is enabled either via the new option
+i8042.probe_defer or via the quirk table entry.  As of this patch, the
+quirk table contains only ASUS ZenBook UX425UA.
 
-I believe this patch makes the situation better than it is currently
-(at least for the human reader), by marking lists without public
-read-access in a format that is more appropriate. In the future, we
-could perhaps improve on it to ease automation too, but for now I
-think it is worthwhile to merge this change (unless there are strong
-objections or better alternatives that everyone agrees on).
+The deferred probe part is based on Fabio's initial work.
 
-Regards,
-Srivatsa
+BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1190256
+Link: https://lore.kernel.org/r/s5ho890n1rh.wl-tiwai@suse.de
+Cc: Fabio Estevam <festevam@gmail.com>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ .../admin-guide/kernel-parameters.txt         |  2 +
+ drivers/input/serio/i8042-x86ia64io.h         | 14 +++++
+ drivers/input/serio/i8042.c                   | 54 ++++++++++++-------
+ 3 files changed, 51 insertions(+), 19 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 756bfb7d5235..11f504a4a562 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1685,6 +1685,8 @@
+ 			architectures force reset to be always executed
+ 	i8042.unlock	[HW] Unlock (ignore) the keylock
+ 	i8042.kbdreset	[HW] Reset device connected to KBD port
++	i8042.probe_defer
++			[HW] Allow deferred probing upon i8042 probe errors
+ 
+ 	i810=		[HW,DRM]
+ 
+diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
+index a5a003553646..41335a1d7001 100644
+--- a/drivers/input/serio/i8042-x86ia64io.h
++++ b/drivers/input/serio/i8042-x86ia64io.h
+@@ -981,6 +981,17 @@ static const struct dmi_system_id __initconst i8042_dmi_kbdreset_table[] = {
+ 	{ }
+ };
+ 
++static const struct dmi_system_id i8042_dmi_probe_defer_table[] __initconst = {
++	{
++		/* ASUS ZenBook UX425UA */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "ZenBook UX425UA"),
++		},
++	},
++	{ }
++};
++
+ #endif /* CONFIG_X86 */
+ 
+ #ifdef CONFIG_PNP
+@@ -1301,6 +1312,9 @@ static int __init i8042_platform_init(void)
+ 	if (dmi_check_system(i8042_dmi_kbdreset_table))
+ 		i8042_kbdreset = true;
+ 
++	if (dmi_check_system(i8042_dmi_probe_defer_table))
++		i8042_probe_defer = true;
++
+ 	/*
+ 	 * A20 was already enabled during early kernel init. But some buggy
+ 	 * BIOSes (in MSI Laptops) require A20 to be enabled using 8042 to
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index 0b9f1d0a8f8b..ea0c52ca95c4 100644
+--- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -45,6 +45,10 @@ static bool i8042_unlock;
+ module_param_named(unlock, i8042_unlock, bool, 0);
+ MODULE_PARM_DESC(unlock, "Ignore keyboard lock.");
+ 
++static bool i8042_probe_defer;
++module_param_named(probe_defer, i8042_probe_defer, bool, 0);
++MODULE_PARM_DESC(unlock, "Allow deferred probing.");
++
+ enum i8042_controller_reset_mode {
+ 	I8042_RESET_NEVER,
+ 	I8042_RESET_ALWAYS,
+@@ -711,7 +715,7 @@ static int i8042_set_mux_mode(bool multiplex, unsigned char *mux_version)
+  * LCS/Telegraphics.
+  */
+ 
+-static int __init i8042_check_mux(void)
++static int i8042_check_mux(void)
+ {
+ 	unsigned char mux_version;
+ 
+@@ -740,10 +744,10 @@ static int __init i8042_check_mux(void)
+ /*
+  * The following is used to test AUX IRQ delivery.
+  */
+-static struct completion i8042_aux_irq_delivered __initdata;
+-static bool i8042_irq_being_tested __initdata;
++static struct completion i8042_aux_irq_delivered;
++static bool i8042_irq_being_tested;
+ 
+-static irqreturn_t __init i8042_aux_test_irq(int irq, void *dev_id)
++static irqreturn_t i8042_aux_test_irq(int irq, void *dev_id)
+ {
+ 	unsigned long flags;
+ 	unsigned char str, data;
+@@ -770,7 +774,7 @@ static irqreturn_t __init i8042_aux_test_irq(int irq, void *dev_id)
+  * verifies success by readinng CTR. Used when testing for presence of AUX
+  * port.
+  */
+-static int __init i8042_toggle_aux(bool on)
++static int i8042_toggle_aux(bool on)
+ {
+ 	unsigned char param;
+ 	int i;
+@@ -798,7 +802,7 @@ static int __init i8042_toggle_aux(bool on)
+  * the presence of an AUX interface.
+  */
+ 
+-static int __init i8042_check_aux(void)
++static int i8042_check_aux(void)
+ {
+ 	int retval = -1;
+ 	bool irq_registered = false;
+@@ -1005,7 +1009,7 @@ static int i8042_controller_init(void)
+ 
+ 		if (i8042_command(&ctr[n++ % 2], I8042_CMD_CTL_RCTR)) {
+ 			pr_err("Can't read CTR while initializing i8042\n");
+-			return -EIO;
++			return i8042_probe_defer ? -EPROBE_DEFER : -EIO;
+ 		}
+ 
+ 	} while (n < 2 || ctr[0] != ctr[1]);
+@@ -1320,7 +1324,7 @@ static void i8042_shutdown(struct platform_device *dev)
+ 	i8042_controller_reset(false);
+ }
+ 
+-static int __init i8042_create_kbd_port(void)
++static int i8042_create_kbd_port(void)
+ {
+ 	struct serio *serio;
+ 	struct i8042_port *port = &i8042_ports[I8042_KBD_PORT_NO];
+@@ -1349,7 +1353,7 @@ static int __init i8042_create_kbd_port(void)
+ 	return 0;
+ }
+ 
+-static int __init i8042_create_aux_port(int idx)
++static int i8042_create_aux_port(int idx)
+ {
+ 	struct serio *serio;
+ 	int port_no = idx < 0 ? I8042_AUX_PORT_NO : I8042_MUX_PORT_NO + idx;
+@@ -1386,13 +1390,13 @@ static int __init i8042_create_aux_port(int idx)
+ 	return 0;
+ }
+ 
+-static void __init i8042_free_kbd_port(void)
++static void i8042_free_kbd_port(void)
+ {
+ 	kfree(i8042_ports[I8042_KBD_PORT_NO].serio);
+ 	i8042_ports[I8042_KBD_PORT_NO].serio = NULL;
+ }
+ 
+-static void __init i8042_free_aux_ports(void)
++static void i8042_free_aux_ports(void)
+ {
+ 	int i;
+ 
+@@ -1402,7 +1406,7 @@ static void __init i8042_free_aux_ports(void)
+ 	}
+ }
+ 
+-static void __init i8042_register_ports(void)
++static void i8042_register_ports(void)
+ {
+ 	int i;
+ 
+@@ -1443,7 +1447,7 @@ static void i8042_free_irqs(void)
+ 	i8042_aux_irq_registered = i8042_kbd_irq_registered = false;
+ }
+ 
+-static int __init i8042_setup_aux(void)
++static int i8042_setup_aux(void)
+ {
+ 	int (*aux_enable)(void);
+ 	int error;
+@@ -1485,7 +1489,7 @@ static int __init i8042_setup_aux(void)
+ 	return error;
+ }
+ 
+-static int __init i8042_setup_kbd(void)
++static int i8042_setup_kbd(void)
+ {
+ 	int error;
+ 
+@@ -1535,7 +1539,7 @@ static int i8042_kbd_bind_notifier(struct notifier_block *nb,
+ 	return 0;
+ }
+ 
+-static int __init i8042_probe(struct platform_device *dev)
++static int i8042_probe(struct platform_device *dev)
+ {
+ 	int error;
+ 
+@@ -1600,6 +1604,7 @@ static struct platform_driver i8042_driver = {
+ 		.pm	= &i8042_pm_ops,
+ #endif
+ 	},
++	.probe		= i8042_probe,
+ 	.remove		= i8042_remove,
+ 	.shutdown	= i8042_shutdown,
+ };
+@@ -1610,7 +1615,6 @@ static struct notifier_block i8042_kbd_bind_notifier_block = {
+ 
+ static int __init i8042_init(void)
+ {
+-	struct platform_device *pdev;
+ 	int err;
+ 
+ 	dbg_init();
+@@ -1626,17 +1630,29 @@ static int __init i8042_init(void)
+ 	/* Set this before creating the dev to allow i8042_command to work right away */
+ 	i8042_present = true;
+ 
+-	pdev = platform_create_bundle(&i8042_driver, i8042_probe, NULL, 0, NULL, 0);
+-	if (IS_ERR(pdev)) {
+-		err = PTR_ERR(pdev);
++	err = platform_driver_register(&i8042_driver);
++	if (err)
+ 		goto err_platform_exit;
++
++	i8042_platform_device = platform_device_alloc("i8042", -1);
++	if (!i8042_platform_device) {
++		err = -ENOMEM;
++		goto err_unregister_driver;
+ 	}
+ 
++	err = platform_device_add(i8042_platform_device);
++	if (err)
++		goto err_free_device;
++
+ 	bus_register_notifier(&serio_bus, &i8042_kbd_bind_notifier_block);
+ 	panic_blink = i8042_panic_blink;
+ 
+ 	return 0;
+ 
++err_free_device:
++	platform_device_put(i8042_platform_device);
++err_unregister_driver:
++	platform_driver_unregister(&i8042_driver);
+  err_platform_exit:
+ 	i8042_platform_exit();
+ 	return err;
+-- 
+2.26.2
+
