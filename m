@@ -2,120 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A308644F340
-	for <lists+linux-input@lfdr.de>; Sat, 13 Nov 2021 14:12:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64BEC44F460
+	for <lists+linux-input@lfdr.de>; Sat, 13 Nov 2021 18:50:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231589AbhKMNOx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 13 Nov 2021 08:14:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59744 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231555AbhKMNOw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 13 Nov 2021 08:14:52 -0500
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F37DC061766
-        for <linux-input@vger.kernel.org>; Sat, 13 Nov 2021 05:12:00 -0800 (PST)
-Received: by mail-io1-xd31.google.com with SMTP id e144so14797637iof.3
-        for <linux-input@vger.kernel.org>; Sat, 13 Nov 2021 05:12:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version
-         :content-transfer-encoding;
-        bh=elfMLJBiHjBc2KgbdbY7pEpDW9raIzEe/DxylOUOomY=;
-        b=AdeeydJwV4Ds0VOA/CgCktwoDNqE/1TgIM73fhHLbl3ib4wpAg+FSo1lQYvElLbGOl
-         2KVmrOFek393PQ0w0LJZhuabSc2/N5qxNnJgcRmfhdgIMEMtAVOXwA2KDWD15yIQA9gD
-         tKIaveBTOSqZTwIqyTMizXmgxHNYdpnZJ+SwdfmV/m4dwa5MMbas3YhFhnPLXCRodwwJ
-         wIFc4AJvclO2tWgVqTx1rfNYRhmtbI6coISeW1Cvph7I3/2d/mO0NDT8M73OO8Fde/fD
-         LHBEYPJKiglfQ61od1Gs0ZHjTVDQISVw/o2A3UmEAgM7Nnu7n1sL7+n0ag/tLi+Uzr1W
-         QE9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-transfer-encoding;
-        bh=elfMLJBiHjBc2KgbdbY7pEpDW9raIzEe/DxylOUOomY=;
-        b=4kyuw54RKha4oadIfrRE4Ft8zCsfLYp3v7lYfG2SKKqLFgViPHceOXoRUI5CYEOHlq
-         R3IaCEMM1StSmQaaA+XpMtB/riKzYEBcEx6vCkWCGRqRNHkHJyoYRgF5mqsc6/t2/0Jr
-         Pnhc8slc3THDy61DkXiaPOvneeP5q97jj74LXeX9slPnjKJ6uRXNDPmadLmLbLu5vlLy
-         FmhdCCWXdMmSERZm5qDgGfI3e8GL2FBUeIZ354StIsmmw5fHT3fmEajoN7mKio+fHCMu
-         OABzS5AKF49yKbLwg9osN5C3NxROs/4PKlVUqu8lZ0XPx8qANdcefns903CA3GKBnzVV
-         t4dA==
-X-Gm-Message-State: AOAM532u2hArcYKsEHWQdO4jlMX5y967FP81vjzyDLDZZNIPapcjgup/
-        Zgin9Qe+j7sTZVOQCuH3IS/07Sd5tkReMA==
-X-Google-Smtp-Source: ABdhPJzl20vJ/6rQXfh2TVJJEyALruTwORTm3SpR7FcX805M+ZO0ULllmC04MWowGZzvav/2W1fiPQ==
-X-Received: by 2002:a05:6638:582:: with SMTP id a2mr17757776jar.141.1636809119554;
-        Sat, 13 Nov 2021 05:11:59 -0800 (PST)
-Received: from rechenknecht2k11 (200116b845dc28008d9ba50a9af0b814.dip.versatel-1u1.de. [2001:16b8:45dc:2800:8d9b:a50a:9af0:b814])
-        by smtp.googlemail.com with ESMTPSA id c22sm4874056ioz.15.2021.11.13.05.11.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Nov 2021 05:11:59 -0800 (PST)
-Date:   Sat, 13 Nov 2021 14:11:55 +0100
-From:   Benjamin Valentin <benpicco@googlemail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Lee Jones <lee.jones@linaro.org>, lawl <github@dumbinter.net>
-Subject: [PATCH] Input: xpad - Poweroff XBOX360W on mode button long press
-Message-ID: <20211113141155.26217b44@rechenknecht2k11>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S235871AbhKMRxG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 13 Nov 2021 12:53:06 -0500
+Received: from mga05.intel.com ([192.55.52.43]:44373 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235785AbhKMRxF (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 13 Nov 2021 12:53:05 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10167"; a="319482057"
+X-IronPort-AV: E=Sophos;i="5.87,232,1631602800"; 
+   d="scan'208";a="319482057"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2021 09:50:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,232,1631602800"; 
+   d="scan'208";a="453503043"
+Received: from lkp-server02.sh.intel.com (HELO c20d8bc80006) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 13 Nov 2021 09:50:10 -0800
+Received: from kbuild by c20d8bc80006 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mlxAI-000KJn-8p; Sat, 13 Nov 2021 17:50:10 +0000
+Date:   Sun, 14 Nov 2021 01:50:03 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ efe6f16c6faf724882ddaba2eda8830a87bcc2b2
+Message-ID: <618ffacb.Sj5K5IACGxPCCkxA%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Newer gamepads turn themselves off when the mode button is held down.
-For XBOX360W gamepads we must do this in the driver.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: efe6f16c6faf724882ddaba2eda8830a87bcc2b2  Merge branch 'next' into for-linus
 
-Power off the gamepad after 2s of holding down the button.
+elapsed time: 2061m
 
-Signed-off-by: lawl <github@dumbinter.net>
-Signed-off-by: Benjamin Valentin <benpicco@googlemail.com>
+configs tested: 54
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                              allmodconfig
+arm                              allyesconfig
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+ia64                                defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nds32                             allnoconfig
+nios2                               defconfig
+arc                              allyesconfig
+csky                                defconfig
+alpha                               defconfig
+nds32                               defconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+parisc                           allyesconfig
+s390                                defconfig
+s390                             allmodconfig
+s390                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                              debian-10.3
+i386                             allyesconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
+powerpc                           allnoconfig
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+um                             i386_defconfig
+um                            kunit_defconfig
+um                           x86_64_defconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
+x86_64                           allyesconfig
+
 ---
- drivers/input/joystick/xpad.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 18caaf436ed4..e36c4b0abd4b 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -619,11 +619,13 @@ struct usb_xpad {
- 	int pad_nr;			/* the order x360 pads were attached */
- 	const char *name;		/* name of the device */
- 	struct work_struct work;	/* init/remove device from callback */
-+	time64_t mode_btn_down_ts;	/* timestamp when mode button was pressed */
- };
- 
- static int xpad_init_input(struct usb_xpad *xpad);
- static void xpad_deinit_input(struct usb_xpad *xpad);
- static void xpadone_ack_mode_report(struct usb_xpad *xpad, u8 seq_num);
-+static void xpad360w_poweroff_controller(struct usb_xpad *xpad);
- 
- /*
-  *	xpad_process_packet
-@@ -775,6 +777,24 @@ static void xpad360_process_packet(struct usb_xpad *xpad, struct input_dev *dev,
- 	}
- 
- 	input_sync(dev);
-+
-+	/* xbox360w controllers can't be turned off without driver assistance */
-+	if (xpad->xtype == XTYPE_XBOX360W) {
-+		if (xpad->mode_btn_down_ts > 0
-+		    && xpad->pad_present
-+		    /* send power off after 2s of holding the button */
-+		    && (ktime_get_seconds() - xpad->mode_btn_down_ts) >= 2) {
-+			xpad360w_poweroff_controller(xpad);
-+			xpad->mode_btn_down_ts = 0;
-+			return;
-+		}
-+
-+		/* mode button down/up */
-+		if (data[3] & 0x04)
-+			xpad->mode_btn_down_ts = ktime_get_seconds();
-+		else
-+			xpad->mode_btn_down_ts = 0;
-+	}
- }
- 
- static void xpad_presence_work(struct work_struct *work)
--- 
-2.32.0
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
