@@ -2,65 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F76944FA23
-	for <lists+linux-input@lfdr.de>; Sun, 14 Nov 2021 20:23:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CE6544FB5A
+	for <lists+linux-input@lfdr.de>; Sun, 14 Nov 2021 20:55:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233136AbhKNT0f (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 14 Nov 2021 14:26:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54844 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236157AbhKNT0a (ORCPT
+        id S236308AbhKNT6Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 14 Nov 2021 14:58:25 -0500
+Received: from smtp161.vfemail.net ([146.59.185.161]:38211 "EHLO
+        smtp161.vfemail.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236202AbhKNT6Y (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 14 Nov 2021 14:26:30 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0F15C061746
-        for <linux-input@vger.kernel.org>; Sun, 14 Nov 2021 11:23:33 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id c8so61617560ede.13
-        for <linux-input@vger.kernel.org>; Sun, 14 Nov 2021 11:23:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=msm4RixDwEFMfe+7jyY/ubZlcJMsRCU7XocB5DrglG4=;
-        b=WGR4HMjvoCm4Krb9bPDEX/EwRdcBGcnBSk3pX0WPbUZvRFLdiXT8JUn65nWp5XMzTl
-         hk4r2zKlvlPBO7csopT4ME2/CHTgeTG7qrc1AKfYpUabe0LeDJ43RTRjp8878SMhOpO0
-         +S1ktknpZ+kXdJtbgHj33CUEgz40reJ7BQzjBIUZutSCABHzxBrgNsGUE2F8S8PPsUM2
-         7L+T8XZxPMP9puPV/4SRSB6b7MGgJCFdc09zmG0Cp7y1x+YgTM+e0mrqMoGgUYOc1yBz
-         0OKavacF2X2Kuj9ni633FaEBpd08gnSwIkSRt3yBhetsx2EtBcQiGS+flFl29QauZ3d/
-         8nHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=msm4RixDwEFMfe+7jyY/ubZlcJMsRCU7XocB5DrglG4=;
-        b=V69xgRDMEiJvBh2nSljaKuzjHQ1AlSXAWtv0Rwevmz7NT1l8mD6vQ5m4ImumEcg8QO
-         od42xp8pQ4QlX1bUitZmzuXJZSm1i0J+Oc6u2glYQdYnnceDA9QQKajAfCkw9/29vAvi
-         ynTXzbfhwBEQ73BXQFv663HDa+rS9K3H5GtjX0M9YlFKLD4TMXGZ43PXJqiunoHWLdT4
-         JRnq04HPJ1NLw8gr6OLGP9STmfAzxva3MPM6HUtnAZ1XICswOFkUThA2t5PGro0TtkBf
-         SIbkmeS6S+hW4kH1I8n3l5Zps2VQoVSx/pdmeePgfAJE+iGE6TIRmHMkWtjwSD79Fbi9
-         0rIQ==
-X-Gm-Message-State: AOAM532f+weoP/rfi/yltZLSWt+BJphBCgClD5BUgJ+YI4FgiCHjgUf5
-        5HDLCWlnJw51lPb/Sn6NmLI=
-X-Google-Smtp-Source: ABdhPJyiASH7reQvNA4EfR2HjVC0nMHrXbojU2mu/nYpTbCs4b3hrASHqrlpWLCdrMzdH7taH4BSOg==
-X-Received: by 2002:a17:907:7d94:: with SMTP id oz20mr43970093ejc.410.1636917812192;
-        Sun, 14 Nov 2021 11:23:32 -0800 (PST)
-Received: from rechenknecht2k11 (200116b8456c370014a1cb2603939609.dip.versatel-1u1.de. [2001:16b8:456c:3700:14a1:cb26:393:9609])
-        by smtp.googlemail.com with ESMTPSA id u14sm6180078edj.74.2021.11.14.11.23.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Nov 2021 11:23:32 -0800 (PST)
-Date:   Sun, 14 Nov 2021 20:23:29 +0100
-From:   Benjamin Valentin <benpicco@googlemail.com>
-To:     Cameron Gutman <aicommander@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        lawl <github@dumbinter.net>
-Subject: [PATCH v2] Input: xpad - Poweroff XBOX360W on mode button long
- press
-Message-ID: <20211114202329.5745bb26@rechenknecht2k11>
-In-Reply-To: <3b25f4b1-3ec0-0878-99bc-0da06ce7c2f2@gmail.com>
-References: <20211113141155.26217b44@rechenknecht2k11>
-        <3b25f4b1-3ec0-0878-99bc-0da06ce7c2f2@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Sun, 14 Nov 2021 14:58:24 -0500
+Received: (qmail 20118 invoked from network); 14 Nov 2021 19:48:47 +0000
+Received: from localhost (HELO nl101-3.vfemail.net) ()
+  by smtpout.vfemail.net with ESMTPS (ECDHE-RSA-AES256-GCM-SHA384 encrypted); 14 Nov 2021 19:48:47 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=vfemail.net; h=date:from
+        :to:cc:subject:message-id:in-reply-to:references:mime-version
+        :content-type:content-transfer-encoding; s=2018; bh=kJ+oYle0zF+X
+        HhORTg5CubYE8lTnloyv75hcx8TKD1M=; b=g1PoMV5Pco9pkU9ftgdSxjRhX3te
+        j0ywinz21eMDCybDPgDiei4RUFv9BuccHnRkvdeS/32XSJbXa+gpRaFwaYdViBgG
+        k3VBRTS8SMuQ5kn9W+LqBUucfyXMtVUw/wiRL1SJhUp0Y1Op8PcaktstPPL/8gCX
+        YKS+4DWxL4ndHPI=
+Received: (qmail 45721 invoked from network); 14 Nov 2021 19:48:17 -0000
+Received: by simscan 1.4.0 ppid: 45677, pid: 45700, t: 0.2121s
+         scanners:none
+Received: from unknown (HELO bmwxMDEudmZlbWFpbC5uZXQ=) (aGdudGt3aXNAdmZlbWFpbC5uZXQ=@MTkyLjE2OC4xLjE5Mg==)
+  by nl101.vfemail.net with ESMTPA; 14 Nov 2021 19:48:17 -0000
+Date:   Sun, 14 Nov 2021 14:48:42 -0500
+From:   David Niklas <Hgntkwis@vfemail.net>
+To:     <linux-usb@vger.kernel.org>
+Cc:     <linux-kernel-owner@vger.kernel.org>, <linux-input@vger.kernel.org>
+Subject: I need advice with UPS connection. (ping)
+Message-ID: <20211114144842.72463ccc@Zen-II-x12.niklas.com>
+In-Reply-To: <20201109220000.2ae98fa5@Phenom-II-x6.niklas.com>
+References: <20201109220000.2ae98fa5@Phenom-II-x6.niklas.com>
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -68,61 +43,48 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Newer gamepads turn themselves off when the mode button is held down.
-For XBOX360W gamepads we must do this in the driver.
+Hello,
 
-Power off the gamepad after 5s of holding down the button.
+Almost 1 year ago to the date I posted a question regarding connecting my
+UPS to my PC (look for the same subject -ping). The input subsystem
+maintainers, Jiri Kosina or Ben Tissoires were asked to get back to me.
+No one ever did though.
 
-Signed-off-by: lawl <github@dumbinter.net>
-Signed-off-by: Benjamin Valentin <benpicco@googlemail.com>
----
-Changed the timeout back to 5s
+Now my UPS is *not* working correctly, and I'd really really like to be
+able to speak to it with my PC so I can (hopefully) figure out what's
+wrong with it.
 
- drivers/input/joystick/xpad.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+I'm running Linux Kernel 5.15.X on a Devuan (Debian) system. I connected
+my UPS (OPTI-UPS Thunder Shield TS2250B) via USB cable and got (almost the
+same as last time...):
+[ 4236.165138] usb 3-2: new low-speed USB device number 2 using xhci_hcd
+[ 4236.325178] usb 3-2: New USB device found, idVendor=0d9f, idProduct=0004, bcdDevice= 0.02
+[ 4236.325183] usb 3-2: New USB device strings: Mfr=3, Product=1, SerialNumber=2
+[ 4236.325185] usb 3-2: Product: HID UPS Battery
+[ 4236.325187] usb 3-2: Manufacturer: POWERCOM Co.,LTD
+[ 4236.325188] usb 3-2: SerialNumber: 004-0D9F-000
+[ 4236.423210] hid-generic 0003:0D9F:0004.000B: hiddev3,hidraw8: USB HID v1.00 Device [POWERCOM Co.,LTD HID UPS Battery] on usb-0000:11:00.3-2/input0
+[ 4239.842223] usb 3-2: USB disconnect, device number 2
+[ 4242.485126] usb 3-2: new low-speed USB device number 3 using xhci_hcd
+[ 4242.645075] usb 3-2: New USB device found, idVendor=0d9f, idProduct=0004, bcdDevice= 0.02
+[ 4242.645080] usb 3-2: New USB device strings: Mfr=3, Product=1, SerialNumber=2
+[ 4242.645082] usb 3-2: Product: HID UPS Battery
+[ 4242.645084] usb 3-2: Manufacturer: POWERCOM Co.,LTD
+[ 4242.645085] usb 3-2: SerialNumber: 004-0D9F-000
+[ 4242.727148] hid-generic 0003:0D9F:0004.000C: hiddev3,hidraw8: USB HID v1.00 Device [POWERCOM Co.,LTD HID UPS Battery] on usb-0000:11:00.3-2/input0
+[ 4246.135926] usb 3-2: USB disconnect, device number 3
+[ 4248.781839] usb 3-2: new low-speed USB device number 4 using xhci_hcd
+[ 4248.942099] usb 3-2: New USB device found, idVendor=0d9f, idProduct=0004, bcdDevice= 0.02
+[ 4248.942104] usb 3-2: New USB device strings: Mfr=3, Product=1, SerialNumber=2
+[ 4248.942106] usb 3-2: Product: HID UPS Battery
+[ 4248.942108] usb 3-2: Manufacturer: POWERCOM Co.,LTD
+[ 4248.942109] usb 3-2: SerialNumber: 004-0D9F-000
+[ 4249.031166] hid-generic 0003:0D9F:0004.000D: hiddev3,hidraw8: USB HID v1.00 Device [POWERCOM Co.,LTD HID UPS Battery] on usb-0000:11:00.3-2/input0
+[ 4252.511996] usb 3-2: USB disconnect, device number 4
+...
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 18caaf436ed4..e36c4b0abd4b 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -619,11 +619,13 @@ struct usb_xpad {
- 	int pad_nr;			/* the order x360 pads were attached */
- 	const char *name;		/* name of the device */
- 	struct work_struct work;	/* init/remove device from callback */
-+	time64_t mode_btn_down_ts;	/* timestamp when mode button was pressed */
- };
- 
- static int xpad_init_input(struct usb_xpad *xpad);
- static void xpad_deinit_input(struct usb_xpad *xpad);
- static void xpadone_ack_mode_report(struct usb_xpad *xpad, u8 seq_num);
-+static void xpad360w_poweroff_controller(struct usb_xpad *xpad);
- 
- /*
-  *	xpad_process_packet
-@@ -775,6 +777,24 @@ static void xpad360_process_packet(struct usb_xpad *xpad, struct input_dev *dev,
- 	}
- 
- 	input_sync(dev);
-+
-+	/* xbox360w controllers can't be turned off without driver assistance */
-+	if (xpad->xtype == XTYPE_XBOX360W) {
-+		if (xpad->mode_btn_down_ts > 0
-+		    && xpad->pad_present
-+		    /* send power off after 5s of holding the button */
-+		    && (ktime_get_seconds() - xpad->mode_btn_down_ts) >= 5) {
-+			xpad360w_poweroff_controller(xpad);
-+			xpad->mode_btn_down_ts = 0;
-+			return;
-+		}
-+
-+		/* mode button down/up */
-+		if (data[3] & 0x04)
-+			xpad->mode_btn_down_ts = ktime_get_seconds();
-+		else
-+			xpad->mode_btn_down_ts = 0;
-+	}
- }
- 
- static void xpad_presence_work(struct work_struct *work)
--- 
-2.32.0
+I'd appreciate any advice trying to get my UPS to stay connected and not
+spam the kernel log. I'd like to have nut or apcupsd talk to it.
+
+Thanks,
+David
