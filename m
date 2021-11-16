@@ -2,87 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73912452CD5
-	for <lists+linux-input@lfdr.de>; Tue, 16 Nov 2021 09:33:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0218A452D7D
+	for <lists+linux-input@lfdr.de>; Tue, 16 Nov 2021 10:01:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232013AbhKPIfl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Nov 2021 03:35:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41730 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232146AbhKPIfh (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Nov 2021 03:35:37 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0D15961104;
-        Tue, 16 Nov 2021 08:32:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637051560;
-        bh=D+EPgvoIkKqQDPenWdFX9a27MRvYHS3iPm5Evv0O5Gk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GelmWcxU+raVzETWLOLmACqEF1W3AB96MH159Pu4+oLcWe1aPkh0mtbRJ/mMUa4HQ
-         BH0laKFwVvzTFlWv1FCiG6RovvPMeMOObHgR/2Xrxa3SBnH+H5xxpxN/Td2JX1Lwth
-         8eN0g7XuqljQ3cMfPT9rFhxvCv8Q0yylAvvIoBMUaY7bIWhP5VxGObri7ay/bx+JR2
-         q1Q7HziKUOq0CslUn0EqM+7CLtO6ZiDBLspsIzst4+BgXvDb3UEW/+x4ktmB6/MM2x
-         7Wx/JaJYL8zJxSToBXCkDBrp9XrfWC7yOyTkIhXP/OUgepImuGog1zuxh+SdtTI465
-         l1J2+3JUVGkCQ==
-Date:   Tue, 16 Nov 2021 09:32:34 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Andrea Righi <andrea.righi@canonical.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Phoenix Huang <phoenix@emc.com.tw>, jingle.wu@emc.com.tw,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH] Input: elantech - Fix stack out of bound access
- in elantech_change_report_id()
-Message-ID: <YZNsoj7Onbxr68OQ@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Andrea Righi <andrea.righi@canonical.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Phoenix Huang <phoenix@emc.com.tw>, jingle.wu@emc.com.tw,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20211116072223.8746-1-andrea.righi@canonical.com>
+        id S232644AbhKPJEg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Nov 2021 04:04:36 -0500
+Received: from mail.bizjoindeal.pl ([80.211.97.164]:57850 "EHLO
+        mail.bizjoindeal.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232716AbhKPJE0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 16 Nov 2021 04:04:26 -0500
+Received: by mail.bizjoindeal.pl (Postfix, from userid 1001)
+        id 908ECA20CF; Tue, 16 Nov 2021 08:51:28 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bizjoindeal.pl;
+        s=mail; t=1637052700;
+        bh=JZuQ1fK7zFtz2oeUB7Xfid9vb7kUywdmDd2OluR8ywA=;
+        h=Date:From:To:Subject:From;
+        b=FWGsgDrfqI8+cbmnS76237l1lvRcVLeQpXev7CA26UqTwa8eHxFosHyb0+KeVLljo
+         KLCVfujXzyhiiq1jR7yGcvwMfSVZtL1QQMJRp9bdvbgKe+PDl2vMzGywzt75AAnCTG
+         aD3XU1IA6Opcva9+mMJgXnecH/hgQPsvfLLVMTuGr0u5+AmcYb5pBaoZzrEw0iDIiP
+         +noQq98K/4JntZXwfpgWDhlyUeNkg66CYO57P6fkFPoRW5wku6QlP/R4Y7bn+svuHy
+         E7hj7lyY6hyJxAyy9uUjxAUxaX1GQx0A1s6TMRwyWJfOywSSBUekKcwZIu60LjjipT
+         GLbZOyqycfkCA==
+Received: by mail.bizjoindeal.pl for <linux-input@vger.kernel.org>; Tue, 16 Nov 2021 08:51:12 GMT
+Message-ID: <20211116074500-0.1.60.f0xj.0.de0yv5y2h8@bizjoindeal.pl>
+Date:   Tue, 16 Nov 2021 08:51:12 GMT
+From:   "Dorian Kwiatkowski" <dorian.kwiatkowski@bizjoindeal.pl>
+To:     <linux-input@vger.kernel.org>
+Subject: Fotowoltaika dla firm
+X-Mailer: mail.bizjoindeal.pl
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="v41ANMmYrzmBanSY"
-Content-Disposition: inline
-In-Reply-To: <20211116072223.8746-1-andrea.righi@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Dzie=C5=84 dobry,
 
---v41ANMmYrzmBanSY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC dostrzegam mo=C5=BC=
+liwo=C5=9B=C4=87 redukcji op=C5=82at za pr=C4=85d.
 
-On Tue, Nov 16, 2021 at 08:22:23AM +0100, Andrea Righi wrote:
-> The array param[] in elantech_change_report_id() must be at least 3
-> bytes, because elantech_read_reg_params() is calling ps2_command() with
-> PSMOUSE_CMD_GETINFO, that is going to access 3 bytes from param[], but
-> it's defined in the stack as an array of 2 bytes, therefore we have a
-> potential stack out-of-bounds access here, also confirmed by KASAN:
+Odpowiednio dobrana instalacja fotowoltaiczna to rozwi=C4=85zanie, kt=C3=B3=
+re pozwala wygenerowa=C4=87 spore oszcz=C4=99dno=C5=9Bci w skali roku.
 
-I think a comment in the code why the array size is 3 when only 2 values
-are defined would be helpful. Like a short summary of the above.
+Chcia=C5=82bym porozmawia=C4=87 z Pa=C5=84stwem o tego typu rozwi=C4=85za=
+niu, a tak=C5=BCe przedstawi=C4=87 wst=C4=99pne kalkulacje.
 
+Czy s=C4=85 Pa=C5=84stwo zainteresowani?
 
---v41ANMmYrzmBanSY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGTbJ8ACgkQFA3kzBSg
-KbaIOg/+JN2dcBSJ7WQhGiwcqLcVxmJCjOLnOb5XEitI6yvzjPMME2RX1f01B9mZ
-8QsQ0C9YqEQJvuA/tTO6VPhfOmA/zERhwqc1ehiFe7HMWIG3lD+jb9O2yoOTVyU2
-ScrwUdDcPzzLcwZsXess6x19ub5y+rceRbZZ/bvLyY/vCEp2XStsu5Sbx2JGWT3e
-X8aD9398+WnDLKtbOGELGNQI/9VqpU7J50hxoEE4Y0zBNK+A8SZLYvqAhwiACqL8
-9KCmXNOec39gMKkC/O6ah4gnyP6hvIId5GewVtreG8MIsTSl+TnhTm/LGsOMynCI
-IGqi5t9R20W66xMg/UjEU5OozS8YyOUpxWSa9aRCY6IppRL+h3uaYsG3vkLo4fyK
-z2zQx8/gzIYWiC3wGvM7iltgMDXnxps6YzaKVr8YvMDdGGoLtNZHnAzHrGN9MA1p
-Pgho+M96ZbARv6fMVj72raIo4c3D/f1oanaPAPtii5uu4beDiOTAvKv5gtd5cBD9
-Qq6QRUfhQh4PK1UUcvdc8lYmk8kw7OlKvjcXCLTyBIuLAG9f7ziyyf33aRyMOLoE
-0iQ2fGpVBg4BrKfE1mirNMi19wK1l8GiuH5xI5UEvBz7RHCmvncqvleBEeOSesqx
-Mz5Snw0JiT74gQFDu59VMgOM3fe8GrIvIj/tc7iMlmqNc9ktbcs=
-=kExX
------END PGP SIGNATURE-----
-
---v41ANMmYrzmBanSY--
+Pozdrawiam,
+Dorian Kwiatkowski
