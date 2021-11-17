@@ -2,172 +2,161 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE0C5454BA0
-	for <lists+linux-input@lfdr.de>; Wed, 17 Nov 2021 18:08:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF7ED454D0C
+	for <lists+linux-input@lfdr.de>; Wed, 17 Nov 2021 19:24:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232750AbhKQRLR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 Nov 2021 12:11:17 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:54051 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S229585AbhKQRLR (ORCPT
+        id S238983AbhKQS1t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 Nov 2021 13:27:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55170 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233054AbhKQS1t (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 Nov 2021 12:11:17 -0500
-Received: (qmail 176265 invoked by uid 1000); 17 Nov 2021 12:08:17 -0500
-Date:   Wed, 17 Nov 2021 12:08:17 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     David Niklas <Hgntkwis@vfemail.net>
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: I need advice with UPS connection. (ping)
-Message-ID: <20211117170817.GD172151@rowland.harvard.edu>
-References: <20201109220000.2ae98fa5@Phenom-II-x6.niklas.com>
- <20211114144842.72463ccc@Zen-II-x12.niklas.com>
- <20211114211435.GA87082@rowland.harvard.edu>
- <20211114220222.31755871@Zen-II-x12.niklas.com>
- <20211115160918.GB109771@rowland.harvard.edu>
- <20211117002359.03b36ec6@Zen-II-x12.niklas.com>
+        Wed, 17 Nov 2021 13:27:49 -0500
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4375DC061764
+        for <linux-input@vger.kernel.org>; Wed, 17 Nov 2021 10:24:50 -0800 (PST)
+Received: by mail-ot1-x334.google.com with SMTP id a23-20020a9d4717000000b0056c15d6d0caso6210819otf.12
+        for <linux-input@vger.kernel.org>; Wed, 17 Nov 2021 10:24:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lQ6/wfGxlq62JVYF2E32Rlz6vPrZMUyQROpg1BnR6yc=;
+        b=iJ4RM1d7x7IyjFcBbZxyPp3mTGbPzfcdiC4ayejMerwTaE6kvxxQNbdNI3IW1UANOm
+         L2bIw3wpFdnpwXCZvzOso5Y2Tw2uj0aczx4iy4lh3dpCRZYjxEJ9kg7rh1JGFJg2ajvc
+         5fTgGT4YGyt4SaCS/fIbIeHouKL9x3aQ0F26E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lQ6/wfGxlq62JVYF2E32Rlz6vPrZMUyQROpg1BnR6yc=;
+        b=mJ8EoDyaADRMQLtpa5wEcJOwPt5621qDXnZa0MljD1mW89MIMwfiiI9NVEP2pSuN9/
+         dE61Nj+g8Oy3bgyMkHEMlgY8HqW4LhQbGRV9tJO+mVMYM8I1/5kk33w9sXlwJzebP58w
+         yBHT8NkaU+Yuj1hxpHUhKMQGOAfox8wvvMFh2NMahsEPKW7I1yQaBV1NVgEoncrSMFar
+         zyzfnEa46IeG7iQ+D+w4W+/xLAbYI2njn1Yuzu5JktTpSMqJBKS0/530Z176m09mOvj2
+         h9g4+Fgh4tyBslasqdRQ9qUY7r+4PDwxf3t5XciA4I/9+o6dhfO4jwauXWzrw3WnA1LV
+         GePA==
+X-Gm-Message-State: AOAM531TxSjHBVofW92jCHp6SQiWjV5RMSTOHCFtPlJerv8nNDLWuH/P
+        f89pshuAE6dSxjlJIm4H7AoPplvG9W9X/w==
+X-Google-Smtp-Source: ABdhPJyaYCth0FWO/4Pw42JqfEsyJml4NyUNiB4MFAHt3v9Okqq0SAQAgC/lqACZYuotqZ7DxZBThA==
+X-Received: by 2002:a05:6830:918:: with SMTP id v24mr15470629ott.121.1637173488772;
+        Wed, 17 Nov 2021 10:24:48 -0800 (PST)
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com. [209.85.210.53])
+        by smtp.gmail.com with ESMTPSA id n22sm83354oop.29.2021.11.17.10.24.46
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Nov 2021 10:24:47 -0800 (PST)
+Received: by mail-ot1-f53.google.com with SMTP id g91-20020a9d12e4000000b0055ae68cfc3dso6230791otg.9
+        for <linux-input@vger.kernel.org>; Wed, 17 Nov 2021 10:24:46 -0800 (PST)
+X-Received: by 2002:a9d:4b19:: with SMTP id q25mr14987933otf.186.1637173485758;
+ Wed, 17 Nov 2021 10:24:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211117002359.03b36ec6@Zen-II-x12.niklas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20211103234018.4009771-1-briannorris@chromium.org>
+ <20211103164002.2.Ie6c485320b35b89fd49e15a73f0a68e3bb49eef9@changeid> <CAD=FV=WDRDHVSiFW+yxaR=Z+mNdKnUY_eF_CFqKeQhcKmdag5g@mail.gmail.com>
+In-Reply-To: <CAD=FV=WDRDHVSiFW+yxaR=Z+mNdKnUY_eF_CFqKeQhcKmdag5g@mail.gmail.com>
+From:   Brian Norris <briannorris@chromium.org>
+Date:   Wed, 17 Nov 2021 10:24:34 -0800
+X-Gmail-Original-Message-ID: <CA+ASDXOiwU-r5ZGes-ZNxZSuMgbidz=+SdAX8phoYcvexUmU=w@mail.gmail.com>
+Message-ID: <CA+ASDXOiwU-r5ZGes-ZNxZSuMgbidz=+SdAX8phoYcvexUmU=w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/self_refresh: Disable self-refresh on input events
+To:     Doug Anderson <dianders@chromium.org>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        David Airlie <airlied@linux.ie>,
+        linux-rockchip@lists.infradead.org,
+        "Kristian H . Kristensen" <hoegsberg@google.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Rob Clark <robdclark@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 17, 2021 at 12:23:59AM -0500, David Niklas wrote:
-> On Mon, 15 Nov 2021 11:09:18 -0500
-> stern@rowland.harvard.edu wrote:
-> <snip>
-> > You can test the theory by patching the kernel, if you want.  The code 
-> > to change is in the source file drivers/hid/usbhid/hid-core.c, and the 
-> > function in question is hid_set_idle() located around line 659 in the 
-> > file.  Just change the statement:
-> > 
-> > 	return usb_control_msg(dev, usb_sndctrlpipe(dev, 0),
-> > 		HID_REQ_SET_IDLE, USB_TYPE_CLASS | USB_RECIP_INTERFACE,
-> > (idle << 8) | report, ifnum, NULL, 0, USB_CTRL_SET_TIMEOUT);
-> > 
-> > to:
-> > 
-> > 	return 0;
+Hi Doug,
+
+On Fri, Nov 12, 2021 at 4:52 PM Doug Anderson <dianders@chromium.org> wrote:
+> On Wed, Nov 3, 2021 at 4:40 PM Brian Norris <briannorris@chromium.org> wrote:
+...
+> > Leverage a new drm_input_helper library to get easy access to
+> > likely-relevant input event callbacks.
+>
+> So IMO this is a really useful thing and I'm in support of it landing.
+> It's not much code and it clearly gives a big benefit. However, I
+> would request a CONFIG option to control this so that if someone
+> really finds some use case where it isn't needed or if they find a
+> good way to do this in userspace without latency problems then they
+> can turn it off. Does that sound reasonable?
+
+Sure, I think so. This feature is unfortunately on the borderline of
+"policy" (which we normally avoid baking into the kernel), so having
+some control over it is probably a good idea -- e.g., module
+parameter, CONFIG_*, or both.
+
+I suppose that would make sense to be a "self_refresh"-level control,
+and not a "drm_input_helper"-level control? Because different
+applications (PSR, GPU boost, etc.) may have different characteristics
+and reasons for leveraging this or not.
+
+> > Inspired-by: Kristian H. Kristensen <hoegsberg@google.com>
+> > Signed-off-by: Brian Norris <briannorris@chromium.org>
+> > ---
+> > This was in part picked up from:
 > >
-> > to prevent the Set-Idle request from being sent.  If the device still 
-> > insists on disconnecting then we'll know that this wasn't the reason.
-> > 
-> 
-> Ok, so I changed out the line above with "__panic(2);" and now my PC just
-> reboots....    Teasing :D
-> That didn't seem to change anything. I'll attach another dump just in
-> case it reveals more.
+> >   https://lore.kernel.org/all/20180405095000.9756-25-enric.balletbo@collabora.com/
+> >   [PATCH v6 24/30] drm/rockchip: Disable PSR on input events
+> >
+> > with significant rewrites/reworks:
+> >
+> >  - moved to common drm_input_helper and drm_self_refresh_helper
+> >    implementation
+> >  - track state only through crtc->state->self_refresh_active
+> >
+> > Note that I'm relatively unfamiliar with DRM locking expectations, but I
+> > believe access to drm_crtc->state (which helps us track redundant
+> > transitions) is OK under the locking provided by
+> > drm_atomic_get_crtc_state().
+>
+> Yeah, I'm no expert here either. I gave a review a shot anyway since
+> it's been all quiet, but adult supervision is probably required...
 
-It doesn't.  :-(  The Set-Idle request does not appear to be related to 
-the problem.
+Thanks ;)
 
-> > Also, if you have another system (say, one running Windows) which the 
-> > UPS does work properly with, you could try collecting the equivalent of 
-> > a usbmon trace from that system for purposes of comparison.  (On 
-> > Windows, I believe you can use Wireshark to trace USB communications.)
-> > 
-> 
-> Limitations of SW:
-> Wireshark works if you have windows in a virtual environment, but I don't
-> actually own... I mean license, any windowz products. I'm a straight
-> Luser.
-> So borrowed a windowz machine and plugged in the UPS. I then used USBPcap
-> to capture the data after installing the drivers. It has 4 things it can't
-> detect:
-> 
-> Bus states (Suspended, Power ON, Power OFF, Reset, High Speed Detection
-> Handshake)
-> Packet ID (PID)
-> Split transactions (CSPLIT, SSPLIT)
-> Duration of bus state and time used to transfer packet over the wire
-> Transfer speed (Low Speed, Full Speed, High Speed)
-> 
-> I'm 100% certain the last 2 we don't care about. IDK about the others.
+> I can believe that you are safe from corrupting things, but I think
+> you still have locking problems, don't you? What about this:
+>
+> 1. PSR is _not_ active but we're 1 microsecond away from entering PSR
+>
+> 2. Input event comes through.
+>
+> 3. Start executing drm_self_refresh_transition(false).
+>
+> 4. PSR timer expires and starts executing drm_self_refresh_transition(true).
+>
+> 5. Input event "wins the race" but sees that PSR is already disabled => noop
+>
+> 6. PSR timer gets the lock now. Starts PSR transition.
+>
+> Wouldn't it be better to cancel / reschedule any PSR entry as soon as
+> you see the input event?
 
-I don't think they matter.  In principle the time delays might be 
-important, but I rather doubt it.
+I did think about that option (calling mod_timer to delay the next PSR
+entry), but thought it was a bit excessive, at least in terms of
+calling it a "race" -- the race between steps #5 and #6 are
+essentially equivalent to the natural (unsolvable) race between #1 and
+#2 (we can't really read the future about input events).
 
-> Notes:
-> Here's the product page of my UPS.
-> https://www.newegg.com/opti-ups-ts2250b/p/N82E16842107014
-> The main webpage for USBPcap is here:
-> https://desowin.org/usbpcap/index.html
-> I can also try and use SnoopyPro and busdog if the output is undesirable.
-> USBPcap spits out a pcap file which can be analyzed by wireshark
-> using dissectors -- somehow (I really should practice using wireshark.)
+But rereading your explanation and thinking again, I see that you're
+pointing out less of a "race" in the traditional sense, and more of a
+missing part of this feature: I think what you're really saying is
+that input events should not only exit PSR, but they should delay PSR
+(re)entry for some time. With my current patch, input events only
+enforce any delay time window if we were already in PSR.
 
-Wireshark on my system has no trouble reading your pcap file.
+I'll try to factor that into the next version. Thanks!
 
-> Test and capture procedure:
-> When I installed the drivers it asked me where to look for the UPS. I
-> didn't tell it the USB port until after I started USBPcap and then
-> plugged in the UPS. Then the GUI opened up and I could see a lot of cool
-> controls like the battery power, loading, etc. The loading was 132W and
-> the battery was at 100%. Then I ran a self test (There's a button in the
-> GUI) and it worked fine. Then I unplugged the UPS and it crashed. Then I
-> plugged it back in. All --100%-- of this is in the pcap file.
-
-I'm just concentrating on the first part, up to the point where the 
-unwanted disconnects occurred with Linux.  So far as I can see, there 
-are only two significant differences between the usbmon and wireshark 
-traces:
-
-	The Windows system doesn't transfer any of the string 
-	descriptors during initial enumeration, whereas the Linux
-	system does.  While this might be relevant, I don't think it is.
-
-	When the Windows system requests the HID report descriptor from 
-	the device, it asks for 1060 bytes of data.  The Linux system
-	asks for only 996 bytes.  (Note: The descriptor is exactly
-	996 bytes long, and that's how much data the device sends in
-	either case.)
-
-It's entirely possible that this second discrepancy is somehow causing 
-the problem.  You can test this guess by applying the following patch:
-
---- usb-devel.orig/drivers/hid/usbhid/hid-core.c
-+++ usb-devel/drivers/hid/usbhid/hid-core.c
-@@ -667,13 +667,16 @@ static int hid_get_class_descriptor(stru
- 		unsigned char type, void *buf, int size)
- {
- 	int result, retries = 4;
-+	int size2 = size;
- 
-+	if (size == 996)
-+		size2 = 1060;
- 	memset(buf, 0, size);
- 
- 	do {
- 		result = usb_control_msg(dev, usb_rcvctrlpipe(dev, 0),
- 				USB_REQ_GET_DESCRIPTOR, USB_RECIP_INTERFACE | USB_DIR_IN,
--				(type << 8), ifnum, buf, size, USB_CTRL_GET_TIMEOUT);
-+				(type << 8), ifnum, buf, size2, USB_CTRL_GET_TIMEOUT);
- 		retries--;
- 	} while (result < size && retries);
- 	return result;
-
-This will cause the kernel to ask for 1060 bytes rather than 996.  (It's 
-also potentially dangerous, because it asks for 1060 bytes to be stored 
-into a 996-byte buffer; if the device sends more data than expected then 
-the excess will be written beyond the end of the buffer.)
-
-Please send a usbmon trace showing what happens with this patch applied.  
-And you might as well put the Set-Idle request back in, because now we 
-know Windows does send that request.
-
-> Results of:
-> After unplugging the UPS it's battery dropped to 22% and then it turned
-> off. My UPS is 2y and 5m old. It has a 3Y parts warranty. I guess I'll
-> see if they'll honor it.
-> 
-> 
-> 
-> 
-> I'm still interested in talking to it via my Linux PC, of course.
-
-Let's see if the patch will avert the disconnect.
-
-Alan Stern
+Brian
