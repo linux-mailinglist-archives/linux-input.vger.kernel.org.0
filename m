@@ -2,61 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3681455595
-	for <lists+linux-input@lfdr.de>; Thu, 18 Nov 2021 08:30:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DB3A455597
+	for <lists+linux-input@lfdr.de>; Thu, 18 Nov 2021 08:30:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243820AbhKRHdT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Nov 2021 02:33:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33118 "EHLO
+        id S243802AbhKRHdW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Nov 2021 02:33:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234915AbhKRHdO (ORCPT
+        with ESMTP id S234915AbhKRHdU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Nov 2021 02:33:14 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4323EC061570;
-        Wed, 17 Nov 2021 23:30:14 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id 77-20020a1c0450000000b0033123de3425so6849300wme.0;
-        Wed, 17 Nov 2021 23:30:14 -0800 (PST)
+        Thu, 18 Nov 2021 02:33:20 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 061E5C061570;
+        Wed, 17 Nov 2021 23:30:21 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id p18so4368276wmq.5;
+        Wed, 17 Nov 2021 23:30:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zz16hoxFNUL9/2j/ZHbRnpxkMTT+L+SqX6y7m7bDB/o=;
-        b=l2Gth+Rw5KsfepznuOoKH2sYG0avWFZMEk63ELPibg0v4zIH+8I2Ahg046CEpIGMSx
-         dAQ1/l5n8p/gNnQfGIq2RK3EK7RWt56mxI0gK/8MkL1QKRrRIsxz7BXCt3BrsW/pt7Cz
-         h7BfZgYABCsLovozH3fGYLyAdRsp723pJMvwKLx+Xa4VXfvEgfCZeCH9FtlDAaPOAIKC
-         EMoPxbkBQh+YSdMZip7UMV7TxrVXUW3Jibtfu63ZlL/J/LPduzTg/c1C9UMqin9Xybaa
-         N0Z8xMnPlRmsFkEOppObjvtuEISGzxWojtD4ZFG86oWczymYBUzrBebE7kvjOWDZM+mM
-         XLWA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=wU3oYnRWk+ze/aN5QHbzFunFhAo2vHz07PWw6Mo4JL8=;
+        b=K4wsurAGD0ZdLo+kuZWQvOGsDX/PeZdM/m+Mq3Q0omnZ4h6eiG+Iv3vVhkCqBAx9A0
+         1GWYZS3klwh+w0E5yuxUjQqksiGXJ1EJRAzwMWwRu1B6xseTrCPX2Bm5+mfvYZ9JaGag
+         xKwgJ4y7bPLuPbBj2WqgOiJx4p9XROgajV0wc+rrlhem022JCtm8eZo7hb1J4cP+vjcV
+         7HP5gl0O6qGHdfjZAfOCMU2HMJ81hEI7XZKaS+hL6QLap6i3L0bbOq9DUuxy4n9lEyJa
+         5aTbJIqHOWBopsch/3UqLz/7g1u1Bk6ALcX1lAwKQoj3NugFQe845mTKwx1FjMb6uBdj
+         npXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zz16hoxFNUL9/2j/ZHbRnpxkMTT+L+SqX6y7m7bDB/o=;
-        b=2UGEHqda00tu9MNVHSt8noROPxj2hkkeBXR2FwNdOtd47DrmVlNqodmYcgBuStaVMR
-         EZv0AKSFzUbzFR+sOvbXmUP5pojkQ0h3odibFwebwTU9AhGwk4/y4Q1X7XrTHaHytxVY
-         biL2u8h5ptSJtxDOYfVtTXfaz953W+pPsv4x9RURFA6+rFnZCaiRW85gMg7zQsTJj9Gs
-         tVgI/naq3+TQwwgsWiv5Os4zbqwFPOHnMh5XBGo3s0l0iUxID2d3Z1xC+IEnnJ5q0797
-         cC+3hdqITTUZxmYd5xReamLDI3v3wKmF04B1xg3o/m8b9fspVgqIkChCyDi4uPX2qDfr
-         sLWA==
-X-Gm-Message-State: AOAM530FysJWJTsb+uWb2ywstewC5SpHwD+7RWtXfO8iCMNtn151VQ03
-        EjsBPEE0VEVsnruxjE3cUq0kmgnqpHxGDA==
-X-Google-Smtp-Source: ABdhPJy85Q65QmPUdq5UPuDUVS0u6EelCECSxMNEgxbdhOvs0osyFf745AXk68/j0fWUssINEC5MUg==
-X-Received: by 2002:a1c:3b04:: with SMTP id i4mr7527986wma.126.1637220612824;
-        Wed, 17 Nov 2021 23:30:12 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=wU3oYnRWk+ze/aN5QHbzFunFhAo2vHz07PWw6Mo4JL8=;
+        b=rS0zu4ISqTf5iMFX5c+uatRwGnZ1le+a0wTCMESejoxidKHOWnkBV+4DlScz50DyaZ
+         bI4lI5F13c6sUDeZWTRs4JxvAzmtBVD99bgBVwP2cNJfJ4qhAju452r72X9c7XiK54Vb
+         kgSGF6j3JMuCXrsFFU7R7ARvNvDHFBw/KTnoIgyCEPCS57rni1jj9Qc2usQAg9l2RyML
+         miciO80Z412hhJcGZiAxtjK33JjQaOBnyxtAd0NNY6KG3uWOoG+fU8f/ABNqyb7jV/T9
+         WFOdS1taBwOh2Km1kKRecDj1IgU9Vjye3Ro/71v9yFaD5F7FG4RYaf6i5714OdJjOQlp
+         zloA==
+X-Gm-Message-State: AOAM530dTVT6owjaW6c38t3fHwEOPOCVmQjSluVUeJ2uyiOCHpQ6Btgz
+        nnVFht2da2JoxeDP9NwQr/s=
+X-Google-Smtp-Source: ABdhPJz3KZkd6Y2aRKKdZRsePmdgw/TYYaKCZEv+AVztl5cpmhd2Qbs8zHQ6lGuPgnjywFkJntfTEA==
+X-Received: by 2002:a05:600c:4e51:: with SMTP id e17mr7657363wmq.127.1637220619625;
+        Wed, 17 Nov 2021 23:30:19 -0800 (PST)
 Received: from localhost.localdomain ([94.73.39.244])
-        by smtp.gmail.com with ESMTPSA id p12sm2223438wro.33.2021.11.17.23.30.11
+        by smtp.gmail.com with ESMTPSA id p12sm2223438wro.33.2021.11.17.23.30.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 23:30:12 -0800 (PST)
+        Wed, 17 Nov 2021 23:30:19 -0800 (PST)
 From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To:     jikos@kernel.org
 Cc:     benjamin.tissoires@redhat.com, alexhenrie24@gmail.com,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH 1/3] HID: apple: Do not reset quirks when the Fn key is not found
-Date:   Thu, 18 Nov 2021 08:29:53 +0100
-Message-Id: <20211118072955.29708-1-jose.exposito89@gmail.com>
+Subject: [PATCH 2/3] HID: apple: Use BIT to define quirks
+Date:   Thu, 18 Nov 2021 08:29:54 +0100
+Message-Id: <20211118072955.29708-2-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211118072955.29708-1-jose.exposito89@gmail.com>
+References: <20211118072955.29708-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -64,27 +66,43 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When a keyboard without a function key is detected, instead of removing
-all quirks, remove only the APPLE_HAS_FN quirk.
+Replace the existing quirk hardcoded values with the BIT macro in order
+to simplify including new quirks.
 
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/hid/hid-apple.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/hid-apple.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 2c9c5faa74a9..a4ca5ed00e5f 100644
+index a4ca5ed00e5f..b34aeed292a2 100644
 --- a/drivers/hid/hid-apple.c
 +++ b/drivers/hid/hid-apple.c
-@@ -428,7 +428,7 @@ static int apple_input_configured(struct hid_device *hdev,
+@@ -21,15 +21,15 @@
  
- 	if ((asc->quirks & APPLE_HAS_FN) && !asc->fn_found) {
- 		hid_info(hdev, "Fn key not found (Apple Wireless Keyboard clone?), disabling Fn key handling\n");
--		asc->quirks = 0;
-+		asc->quirks &= ~APPLE_HAS_FN;
- 	}
+ #include "hid-ids.h"
  
- 	return 0;
+-#define APPLE_RDESC_JIS		0x0001
+-#define APPLE_IGNORE_MOUSE	0x0002
+-#define APPLE_HAS_FN		0x0004
+-/* 0x0008 reserved, was: APPLE_HIDDEV */
+-#define APPLE_ISO_TILDE_QUIRK	0x0010
+-#define APPLE_MIGHTYMOUSE	0x0020
+-#define APPLE_INVERT_HWHEEL	0x0040
+-/* 0x0080 reserved, was: APPLE_IGNORE_HIDINPUT */
+-#define APPLE_NUMLOCK_EMULATION	0x0100
++#define APPLE_RDESC_JIS		BIT(0)
++#define APPLE_IGNORE_MOUSE	BIT(1)
++#define APPLE_HAS_FN		BIT(2)
++/* BIT(3) reserved, was: APPLE_HIDDEV */
++#define APPLE_ISO_TILDE_QUIRK	BIT(4)
++#define APPLE_MIGHTYMOUSE	BIT(5)
++#define APPLE_INVERT_HWHEEL	BIT(6)
++/* BIT(7) reserved, was: APPLE_IGNORE_HIDINPUT */
++#define APPLE_NUMLOCK_EMULATION	BIT(8)
+ 
+ #define APPLE_FLAG_FKEY		0x01
+ 
 -- 
 2.25.1
 
