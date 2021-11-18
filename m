@@ -2,101 +2,448 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 116B44565DB
-	for <lists+linux-input@lfdr.de>; Thu, 18 Nov 2021 23:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D1EF456673
+	for <lists+linux-input@lfdr.de>; Fri, 19 Nov 2021 00:25:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231264AbhKRWue (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Nov 2021 17:50:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45756 "EHLO
+        id S231129AbhKRX2h (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Nov 2021 18:28:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229580AbhKRWud (ORCPT
+        with ESMTP id S230436AbhKRX2h (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Nov 2021 17:50:33 -0500
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ABEDC06173E
-        for <linux-input@vger.kernel.org>; Thu, 18 Nov 2021 14:47:33 -0800 (PST)
-Received: by mail-ot1-x335.google.com with SMTP id o15-20020a9d410f000000b0055c942cc7a0so13599649ote.8
-        for <linux-input@vger.kernel.org>; Thu, 18 Nov 2021 14:47:33 -0800 (PST)
+        Thu, 18 Nov 2021 18:28:37 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4371DC061574;
+        Thu, 18 Nov 2021 15:25:36 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id s13so14682728wrb.3;
+        Thu, 18 Nov 2021 15:25:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lujsZ0IKNJaA5lx9661QkFiRqemsKwUYnfhaEJr6j9Q=;
-        b=eURB1mlKTADaw1xiFWVW/aCYXRNv2ZpmcNqxZVjtSNnpKK6IVo/sZCXn9TMNYFZfD4
-         oNYQjKMK++P0cWVkTW5Sa7foIfy+3J47VnKYhHuZfFq4gcIn9fg3Q0QMgLL51gGZmaU9
-         di6RuRLKypg1GYyXe5JxkQInbNdW7la+Njru+iOW++lrOkCZ6SQ7aJR2T9FkarOcyTYx
-         Ht6jGSOpQgOLy1sZlqCE/mH5yuC99iWMzBhincPjNz8oPmwIlz1EnpgAPSxtqOx/l5gL
-         E1DRZdJkBcvo1icLFDYhcyKhAB1REZKUKC8VcEMSL2JCJzh23Lhy1Pdog2LZOdo9Pheh
-         yjmA==
+        bh=6itf0Ctn1Ll/1u3GtbM4Uh2SJ+9hCY7uuqlAtnJQptA=;
+        b=S9PdTYDOFCQcaEfsyAIW7k4e978pvg6VZuMfCPyTWhLjJVXrpMO9Y2c7AhULTavN0c
+         cF9PO1zKAN85COUWBPp5IXw4qIGgfQ6gyZ+jU2ALqiU+GHWR6EbuC6wb/TIUGbbmxhXD
+         kvPvylUI4cIrqZ6QShSHJwNtPgHAW+dbfPeVBkUde/8ik6Nu0Gu2pn1Sk0AihRyZ1JlF
+         CiODI99t/Sbx1SCz3oAEb6DcKVEmXWkmJHbhc/FOxXUyiDnMRAztJUBjKgnEOMwgfzIw
+         T50i7UMHEd0RgI8Bi6FgrPz+vSHl+efe8zTuaHt5X6tkkWM3wXCLxECbnFr0j3ZKdq7D
+         LcnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lujsZ0IKNJaA5lx9661QkFiRqemsKwUYnfhaEJr6j9Q=;
-        b=uSE6C1pRIdDLHVRhhAg6ljnALzBT892wMz0OB/XNrVojzHYVGQSi8Q7Qe8IY4SEykn
-         jtOCNlltDWQxDDsOj2aPpuCnsTjSwujcz8LXfhprhQzEbuDgYfrqi6bss2+SSX4VKoY4
-         83TmrUpRvM4Zqk3Y3gnO4Xs7+tx5EmSb1Ov4om+e9T79U27wkf1LSLsNuN6tyIOyNmsJ
-         t2PnhzHPniSQ06njyyYFiyUcHqyw152P2eiPBy08TemFYq16NSkC37w3SvL9BnSI7PpM
-         GYSggNOgRsf2V+9zJR58b+dZrvEpdjKPNBEz/RQbU/sB6SmnMUO5oYqXaBGDdjfnj+af
-         wrbw==
-X-Gm-Message-State: AOAM532OJnB9CnqqVCwHkTLsxPoTXO/X52W/Zy26Dp6oXg/JXU7WX07C
-        PFI5uKHr6kAZjztPsz7NlO9QiQjJFfZXL1Xf03RtqwgL77l3jQ==
-X-Google-Smtp-Source: ABdhPJz4kH2OVTcugqn/S3qYrYQsVGaVamB9oR3h0cT9tc6hTm+QSq25T3rUJZ+u8dr3/eljhT39jN1nCjaAECVYT94=
-X-Received: by 2002:a9d:a42:: with SMTP id 60mr659216otg.179.1637275652442;
- Thu, 18 Nov 2021 14:47:32 -0800 (PST)
+        bh=6itf0Ctn1Ll/1u3GtbM4Uh2SJ+9hCY7uuqlAtnJQptA=;
+        b=rL3wHKD75RQrInZgl2DlYy+O0iR0oHL3Db8WQr6KQW5RYCFlqAqjABUMrfHq6Uncqc
+         aJLNhjyyAkN0P8ox0Z9s79MRTw7GM/hSAKM9TGUGzxK8q5kTEvxRumkv+Adw557bZlbZ
+         Dv/K+t8uNaSPIOlMhz/vM8RhrIVu5/CeijkJzS+IlS/2ifDxnpd08vlsaHzQp+JuDHTA
+         0O7m0Jd92n6d3mDxUWqIk/v4DltwVtcvDwO+kVKybNl1KjcODPk7LjwNNqHEq7Lb8C49
+         YImWtem3ik6LToQ7gcKol8XjzRe9sG9GhF0Aspj1qn2tFMz3QY8NRTE2nc5m4ZUp2wsL
+         qsTQ==
+X-Gm-Message-State: AOAM533IsuixyCGwboqtg6JXQvBOkaHkIeJD9ktd+KRUsRMdklkjBapq
+        wzhiWemx+YVekzAu6SoTJZo+3PvDskE6egYv9PU=
+X-Google-Smtp-Source: ABdhPJwJoaFGZg7ow+hXe+dWGoWSLZsQ6KwiGyKU37reORM2qka43ZPrXUapO7QEm0Ktq2RbqGVXduXTUpVVAi6ootk=
+X-Received: by 2002:adf:f947:: with SMTP id q7mr1607846wrr.260.1637277934705;
+ Thu, 18 Nov 2021 15:25:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20210625113435.2539282-1-linus.walleij@linaro.org>
- <20210625113435.2539282-2-linus.walleij@linaro.org> <YPtpHg2aoGlULuQQ@google.com>
-In-Reply-To: <YPtpHg2aoGlULuQQ@google.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 18 Nov 2021 23:47:20 +0100
-Message-ID: <CACRpkdafREE31xsLHoNYciUn_+mPxoD21325LHkrObRZqFzSXA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Input: zinitix - Handle proper supply names
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Nikita Travkin <nikita@trvn.ru>
-Cc:     linux-input@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        Michael Srba <Michael.Srba@seznam.cz>,
-        phone-devel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20211117224841.3442482-1-briannorris@chromium.org>
+ <20211117144807.v2.1.I09b516eff75ead160a6582dd557e7e7e900c9e8e@changeid> <20211118123928.545dec8a@eldfell>
+In-Reply-To: <20211118123928.545dec8a@eldfell>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Thu, 18 Nov 2021 15:30:38 -0800
+Message-ID: <CAF6AEGuc9JbOsC4Lrvoqo8VzMHq+7ru7Y6_UwoZaGV2wHQ6E5g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/input_helper: Add new input-handling helper
+To:     Pekka Paalanen <ppaalanen@gmail.com>
+Cc:     Brian Norris <briannorris@chromium.org>,
+        Rob Clark <robdclark@chromium.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Doug Anderson <dianders@chromium.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "Kristian H . Kristensen" <hoegsberg@google.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-input@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry, sorry for late reply!
+On Thu, Nov 18, 2021 at 2:39 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>
+> On Wed, 17 Nov 2021 14:48:40 -0800
+> Brian Norris <briannorris@chromium.org> wrote:
+>
+> > A variety of applications have found it useful to listen to
+> > user-initiated input events to make decisions within a DRM driver, given
+> > that input events are often the first sign that we're going to start
+> > doing latency-sensitive activities:
+> >
+> >  * Panel self-refresh: software-directed self-refresh (e.g., with
+> >    Rockchip eDP) is especially latency sensitive. In some cases, it can
+> >    take 10s of milliseconds for a panel to exit self-refresh, which can
+> >    be noticeable. Rockchip RK3399 Chrome OS systems have always shipped
+> >    with an input_handler boost, that preemptively exits self-refresh
+> >    whenever there is input activity.
+> >
+> >  * GPU drivers: on GPU-accelerated desktop systems, we may need to
+> >    render new frames immediately after user activity. Powering up the
+> >    GPU can take enough time that it is worthwhile to start this process
+> >    as soon as there is input activity. Many Chrome OS systems also ship
+> >    with an input_handler boost that powers up the GPU.
+> >
+> > This patch provides a small helper library that abstracts some of the
+> > input-subsystem details around picking which devices to listen to, and
+> > some other boilerplate. This will be used in the next patch to implement
+> > the first bullet: preemptive exit for panel self-refresh.
+> >
+> > Bits of this are adapted from code the Android and/or Chrome OS kernels
+> > have been carrying for a while.
+> >
+> > Signed-off-by: Brian Norris <briannorris@chromium.org>
+> > ---
+>
+> Thanks Simon for the CC.
+>
+> Hi Brian,
+>
+> while this feature in general makes sense and sounds good, to start
+> warming up display hardware early when something might start to happen,
+> this particular proposal has many problems from UAPI perspective (as it
+> has none). Comments below.
+>
+> Btw. if PSR is that slow to wake up from, how much do you actually gain
+> from this input event watching? I would imagine the improvement to not
+> be noticeable.
+>
+> I think some numbers about how much this feature helps would be really
+> good, even if they are quite specific use cases. You also need to
+> identify the userspace components, because I think different display
+> servers are very different in their reaction speed.
+>
+> If KMS gets a pageflip or modeset in no time after an input event, then
+> what's the gain. OTOH, if the display server is locking on to vblank,
+> there might be a delay worth avoiding. But then, is it worth
+> short-circuiting the wake-up in kernel vs. adding a new ioctl that
+> userspace could hit to start the warming up process?
 
-On Sat, Jul 24, 2021 at 3:13 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
-> On Fri, Jun 25, 2021 at 01:34:35PM +0200, Linus Walleij wrote:
+In my measurements, it takes userspace a frame or two to respond and
+get to the point of starting to build cmdstream (before eventually
+doing atomic/pageflip ioctl).. possibly longer if you don't also have
+a similar boost mechanism to spool up cpufreq
 
+But the important thing, IMO, is that atomic/pageflip ioctl is the
+cumulation of a long sequence of events.. input-boost is letting
+whatever it may be (PSR exit, GPU resume, etc) happen in parallel with
+that long sequence.
+
+BR,
+-R
+
+>
+> >
+> > Changes in v2:
+> >  - Honor CONFIG_INPUT dependency, via new CONFIG_DRM_INPUT_HELPER
+> >  - Remove void*; users should use container_of()
+> >  - Document the callback context
+> >
+> >  drivers/gpu/drm/Kconfig            |   6 ++
+> >  drivers/gpu/drm/Makefile           |   2 +
+> >  drivers/gpu/drm/drm_input_helper.c | 143 +++++++++++++++++++++++++++++
+> >  include/drm/drm_input_helper.h     |  41 +++++++++
+> >  4 files changed, 192 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/drm_input_helper.c
+> >  create mode 100644 include/drm/drm_input_helper.h
+> >
+> > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> > index fb144617055b..381476b10a9d 100644
+> > --- a/drivers/gpu/drm/Kconfig
+> > +++ b/drivers/gpu/drm/Kconfig
+> > @@ -79,9 +79,15 @@ config DRM_DEBUG_SELFTEST
+> >
+> >         If in doubt, say "N".
+> >
+> > +config DRM_INPUT_HELPER
+> > +     def_bool y
+> > +     depends on DRM_KMS_HELPER
+> > +     depends on INPUT
+> > +
+> >  config DRM_KMS_HELPER
+> >       tristate
+> >       depends on DRM
+> > +     select DRM_INPUT_HELPER if INPUT
+> >       help
+> >         CRTC helpers for KMS drivers.
+> >
+> > diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> > index 1c41156deb5f..9a6494aa45e6 100644
+> > --- a/drivers/gpu/drm/Makefile
+> > +++ b/drivers/gpu/drm/Makefile
+> > @@ -56,6 +56,8 @@ drm_kms_helper-y := drm_bridge_connector.o drm_crtc_helper.o drm_dp_helper.o \
+> >               drm_atomic_state_helper.o drm_damage_helper.o \
+> >               drm_format_helper.o drm_self_refresh_helper.o drm_rect.o
+> >
+> > +drm_kms_helper-$(CONFIG_DRM_INPUT_HELPER) += drm_input_helper.o
+> > +
+> >  drm_kms_helper-$(CONFIG_DRM_PANEL_BRIDGE) += bridge/panel.o
+> >  drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fb_helper.o
+> >  drm_kms_helper-$(CONFIG_DRM_KMS_CMA_HELPER) += drm_fb_cma_helper.o
+> > diff --git a/drivers/gpu/drm/drm_input_helper.c b/drivers/gpu/drm/drm_input_helper.c
+> > new file mode 100644
+> > index 000000000000..470f90865c7c
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/drm_input_helper.c
+> > @@ -0,0 +1,143 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (C) 2021 Google, Inc.
+> > + */
+> > +#include <linux/input.h>
+> > +#include <linux/slab.h>
+> > +
+> > +#include <drm/drm_device.h>
+> > +#include <drm/drm_input_helper.h>
+> > +
+> > +/**
+> > + * DOC: overview
+> > + *
+> > + * This helper library provides a thin wrapper around input handles, so that
+> > + * DRM drivers can easily perform domain-specific actions in response to user
+> > + * activity. e.g., if someone is moving a mouse, we're likely to want to
+> > + * display something soon, and we should exit panel self-refresh.
+> > + */
+> > +
+> > +static void drm_input_event(struct input_handle *handle, unsigned int type,
+> > +                         unsigned int code, int value)
+> > +{
+> > +     struct drm_input_handler *handler = handle->handler->private;
+> > +
+> > +     handler->callback(handler);
+> > +}
+> > +
+> > +static int drm_input_connect(struct input_handler *handler,
+> > +                          struct input_dev *dev,
+> > +                          const struct input_device_id *id)
+> > +{
+> > +     struct input_handle *handle;
+> > +     int error;
+> > +
+> > +     handle = kzalloc(sizeof(struct input_handle), GFP_KERNEL);
+> > +     if (!handle)
+> > +             return -ENOMEM;
+> > +
+> > +     handle->dev = dev;
+> > +     handle->handler = handler;
+> > +     handle->name = "drm-input-helper";
+> > +
+> > +     error = input_register_handle(handle);
+> > +     if (error)
+> > +             goto err2;
+> > +
+> > +     error = input_open_device(handle);
+>
+> Does this literally open the input device, just like when userspace
+> opens the input device?
+>
+> How do you know userspace is using this input device at all? If
+> userspace is not using the input device, then DRM should not be opening
+> it either, as it must have no effect on anything.
+>
+> If you open an input device that userspace does not use, you also cause
+> a power consumption regression, because now the input device itself is
+> active and possibly flooding the kernel with events (e.g. an
+> accelerometer).
+>
+> > +     if (error)
+> > +             goto err1;
+> > +
+> > +     return 0;
+> > +
+> > +err1:
+> > +     input_unregister_handle(handle);
+> > +err2:
+> > +     kfree(handle);
+> > +     return error;
+> > +}
+> > +
+> > +static void drm_input_disconnect(struct input_handle *handle)
+> > +{
+> > +     input_close_device(handle);
+> > +     input_unregister_handle(handle);
+> > +     kfree(handle);
+> > +}
+> > +
+> > +static const struct input_device_id drm_input_ids[] = {
+> > +     {
+> > +             .flags = INPUT_DEVICE_ID_MATCH_EVBIT |
+> > +                      INPUT_DEVICE_ID_MATCH_ABSBIT,
+> > +             .evbit = { BIT_MASK(EV_ABS) },
+> > +             .absbit = { [BIT_WORD(ABS_MT_POSITION_X)] =
+> > +                         BIT_MASK(ABS_MT_POSITION_X) |
+> > +                         BIT_MASK(ABS_MT_POSITION_Y) },
+> > +     }, /* multi-touch touchscreen */
+> > +     {
+> > +             .flags = INPUT_DEVICE_ID_MATCH_EVBIT,
+> > +             .evbit = { BIT_MASK(EV_ABS) },
+> > +             .absbit = { [BIT_WORD(ABS_X)] = BIT_MASK(ABS_X) }
+> > +
+> > +     }, /* stylus or joystick device */
+> > +     {
+> > +             .flags = INPUT_DEVICE_ID_MATCH_EVBIT,
+> > +             .evbit = { BIT_MASK(EV_KEY) },
+> > +             .keybit = { [BIT_WORD(BTN_LEFT)] = BIT_MASK(BTN_LEFT) },
+> > +     }, /* pointer (e.g. trackpad, mouse) */
+> > +     {
+> > +             .flags = INPUT_DEVICE_ID_MATCH_EVBIT,
+> > +             .evbit = { BIT_MASK(EV_KEY) },
+> > +             .keybit = { [BIT_WORD(KEY_ESC)] = BIT_MASK(KEY_ESC) },
+> > +     }, /* keyboard */
+> > +     {
+> > +             .flags = INPUT_DEVICE_ID_MATCH_EVBIT |
+> > +                      INPUT_DEVICE_ID_MATCH_KEYBIT,
+> > +             .evbit = { BIT_MASK(EV_KEY) },
+> > +             .keybit = {[BIT_WORD(BTN_JOYSTICK)] = BIT_MASK(BTN_JOYSTICK) },
+> > +     }, /* joysticks not caught by ABS_X above */
+> > +     {
+> > +             .flags = INPUT_DEVICE_ID_MATCH_EVBIT |
+> > +                      INPUT_DEVICE_ID_MATCH_KEYBIT,
+> > +             .evbit = { BIT_MASK(EV_KEY) },
+> > +             .keybit = { [BIT_WORD(BTN_GAMEPAD)] = BIT_MASK(BTN_GAMEPAD) },
+> > +     }, /* gamepad */
+>
+> I don't think this hardcoded policy belongs in the kernel, nor even
+> works.
+>
+> I believe classifying input devices is not that simple. Spearheading
+> that is libinput which relies on udev tagging the devices with their
+> types, and that is done based on a hwdb maintained by I think the
+> systemd project. Or maybe libinput has its own db nowadays as well, I'm
+> not sure.
+>
+> Also, joysticks and gamepads are something display servers generally do
+> not open. An application might open some while it's running, but not
+> all the time. Joysticks could be very chatty while opened, game
+> controllers might have accelerometers, etc.
+>
+> > +     { },
+> > +};
+> > +
+> > +int drm_input_handle_register(struct drm_device *dev,
+> > +                           struct drm_input_handler *handler)
+> > +{
+> > +     int ret;
+> > +
+> > +     if (!handler->callback)
+> > +             return -EINVAL;
+> > +
+> > +     handler->handler.event = drm_input_event;
+> > +     handler->handler.connect = drm_input_connect;
+> > +     handler->handler.disconnect = drm_input_disconnect;
+> > +     handler->handler.name = kasprintf(GFP_KERNEL, "drm-input-helper-%s",
+> > +                                       dev_name(dev->dev));
+> > +     if (!handler->handler.name)
+> > +             return -ENOMEM;
+> > +
+> > +     handler->handler.id_table = drm_input_ids;
+> > +     handler->handler.private = handler;
+> > +
+> > +     ret = input_register_handler(&handler->handler);
+>
+> Yet another problem here is that this completely ignores the concept of
+> physical seats. Of course it does so, because seats are a pure
+> userspace concept.
+>
+> The kernel VT console already has problems because the kernel has no
+> concept of seats, which means that if there is a second seat defined and
+> a desktop running on it, while the first seat is in the normal VT text
+> mode, then everything typed in the desktop will be delivered to the VT
+> shell as well! (This has a possible workaround in userspace [1], by opening
+> the evdev input devices in some kind of exclusive mode - which is not
+> common practise AFAIK.)
+>
+> Btw. if userspace does use EVIOCGRAB, then will your in-kernel handler
+> stop getting events?
+>
+> So, separate physical seats are a thing in userspace. A seat has at
+> least one DRM device for output, and any number of input devices. A
+> user session runs on a seat, and can access the devices on that seat
+> only. This means you can run multiple independent physical seats on the
+> same machine, provided each one has its own gfx card. The seats are
+> configured with udev rules adding ID_SEAT property to the devices.
+>
+> How will you keep those seats independent, so that activity on one seat
+> does not cause all the other seats to ramp up their gfx cards?
+>
+>
+> Thanks,
+> pq
+>
+>
+> [1] https://gitlab.freedesktop.org/wayland/weston/-/issues/434
+>
+> > +     if (ret)
+> > +             goto err;
+> > +
+> > +     return 0;
+> > +
+> > +err:
+> > +     kfree(handler->handler.name);
+> > +     return ret;
+> > +}
+> > +EXPORT_SYMBOL(drm_input_handle_register);
+> > +
+> > +void drm_input_handle_unregister(struct drm_input_handler *handler)
+> > +{
+> > +     input_unregister_handler(&handler->handler);
+> > +     kfree(handler->handler.name);
+> > +}
+> > +EXPORT_SYMBOL(drm_input_handle_unregister);
+> > diff --git a/include/drm/drm_input_helper.h b/include/drm/drm_input_helper.h
+> > new file mode 100644
+> > index 000000000000..7904f397b934
+> > --- /dev/null
+> > +++ b/include/drm/drm_input_helper.h
+> > @@ -0,0 +1,41 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2021 Google, Inc.
+> > + */
+> > +#ifndef __DRM_INPUT_HELPER_H__
+> > +#define __DRM_INPUT_HELPER_H__
+> > +
+> > +#include <linux/input.h>
+> > +
+> > +struct drm_device;
+> > +
+> > +struct drm_input_handler {
 > > +     /*
-> > +      * Some older device trees have erroneous names for the regulators,
-> > +      * so check if "vddo" is present and in that case use these names
-> > +      * and warn. Else use the proper supply names on the component.
+> > +      * Callback to call for input activity. Will be called in an atomic
+> > +      * context.
 > > +      */
-> > +     if (IS_ENABLED(CONFIG_OF) &&
+> > +     void (*callback)(struct drm_input_handler *handler);
+> > +
+> > +     struct input_handler handler;
+> > +};
+> > +
+> > +#if defined(CONFIG_DRM_INPUT_HELPER)
+> > +
+> > +int drm_input_handle_register(struct drm_device *dev,
+> > +                           struct drm_input_handler *handler);
+> > +void drm_input_handle_unregister(struct drm_input_handler *handler);
+> > +
+> > +#else /* !CONFIG_DRM_INPUT_HELPER */
+> > +
+> > +static inline int drm_input_handle_register(struct drm_device *dev,
+> > +                                         struct drm_input_handler *handler)
+> > +{
+> > +     return 0;
+> > +}
+> > +
+> > +static inline void
+> > +drm_input_handle_unregister(struct drm_input_handler *handler) {}
+> > +
+> > +#endif /* CONFIG_DRM_INPUT_HELPER */
+> > +
+> > +#endif /* __DRM_INPUT_HELPER_H__ */
 >
-> Why is this check needed? The of_property_*() are stubbed out properly I
-> believe. We might need to check that dev->of_node is not NULL, although
-> I think of_* API handles this properly.
-(...)
-> > +         of_property_read_bool(dev->of_node, "vddo-supply")) {
->
-> If we go with this I do not like using of_property_read_bool() as this
-> is not a boolean property, but rather of_find_property().
-
-These comments are fixed up in Nikita's respin of the series:
-https://lore.kernel.org/linux-input/20211027181350.91630-4-nikita@trvn.ru/
-
-> However maybe we should use regulator_get_optional() which will not give
-> a dummy regulator? Still quite awkward, a dedicated API to see if a
-> regulator is defined would be nice.
-
-I guess the option would be to get all four regulators by name and
-optional, but then we don't detect if more than 2 out of 4 are missing.
-Not sure, it feels like we have less control over the supplies then.
-
-I guess it sadly gets ugly because making mistakes in bindings is ugly
-in the first place.
-
-Yours,
-Linus Walleij
