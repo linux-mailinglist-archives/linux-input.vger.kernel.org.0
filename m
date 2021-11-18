@@ -2,203 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C64D456386
-	for <lists+linux-input@lfdr.de>; Thu, 18 Nov 2021 20:30:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 116B44565DB
+	for <lists+linux-input@lfdr.de>; Thu, 18 Nov 2021 23:47:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231176AbhKRTdr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Nov 2021 14:33:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57662 "EHLO
+        id S231264AbhKRWue (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Nov 2021 17:50:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230193AbhKRTdr (ORCPT
+        with ESMTP id S229580AbhKRWud (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Nov 2021 14:33:47 -0500
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2117C06173E
-        for <linux-input@vger.kernel.org>; Thu, 18 Nov 2021 11:30:46 -0800 (PST)
-Received: by mail-pg1-x52f.google.com with SMTP id b4so6304864pgh.10
-        for <linux-input@vger.kernel.org>; Thu, 18 Nov 2021 11:30:46 -0800 (PST)
+        Thu, 18 Nov 2021 17:50:33 -0500
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ABEDC06173E
+        for <linux-input@vger.kernel.org>; Thu, 18 Nov 2021 14:47:33 -0800 (PST)
+Received: by mail-ot1-x335.google.com with SMTP id o15-20020a9d410f000000b0055c942cc7a0so13599649ote.8
+        for <linux-input@vger.kernel.org>; Thu, 18 Nov 2021 14:47:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Pb14MqCTU3J6D9GGe31yDgUMoZQIJFb1ROL5bX0DMqg=;
-        b=cQZwJ9YeqwPxXKl7/Ra3o+Rh8nEuwKxhuosgjgtlhTQ9kgdIZjE74Ip21sK6YRPEgm
-         7pGvDXGboYqRXhoV3r5ew86r8uC7gbuGrZDoWKAVT5sRfMUYfx0FANg7onPC6+lRTMFT
-         G7NBPobkXbp7AjQ9XFWMpeuuNrxYMee4pKUfo=
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lujsZ0IKNJaA5lx9661QkFiRqemsKwUYnfhaEJr6j9Q=;
+        b=eURB1mlKTADaw1xiFWVW/aCYXRNv2ZpmcNqxZVjtSNnpKK6IVo/sZCXn9TMNYFZfD4
+         oNYQjKMK++P0cWVkTW5Sa7foIfy+3J47VnKYhHuZfFq4gcIn9fg3Q0QMgLL51gGZmaU9
+         di6RuRLKypg1GYyXe5JxkQInbNdW7la+Njru+iOW++lrOkCZ6SQ7aJR2T9FkarOcyTYx
+         Ht6jGSOpQgOLy1sZlqCE/mH5yuC99iWMzBhincPjNz8oPmwIlz1EnpgAPSxtqOx/l5gL
+         E1DRZdJkBcvo1icLFDYhcyKhAB1REZKUKC8VcEMSL2JCJzh23Lhy1Pdog2LZOdo9Pheh
+         yjmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Pb14MqCTU3J6D9GGe31yDgUMoZQIJFb1ROL5bX0DMqg=;
-        b=oWQ88q1aLuiTdyevNKd/ceQTEt3FT8S0ihqaMOQdva9+PkbEwKX1yiirmj986C+PhQ
-         1tz5yOflEvnthEV25QRClKzJVAnlTyJUDIBfA8nyEovmhN0USIDGHA+jue38PKjXIkHY
-         HVaotds7KTRsYhLmS6fl6B0PbtZ3zhIS5lG9VBrdrdyNHccNuU+IgwvLUTf8u1J9ZAYK
-         htTUO+Dws+QaeKuTDWMzkSsZVqeFB2w6Z63GhUD4bfGPjQd5+eEpt4B1ibA9+CRWpDQ2
-         ylZiiVpM1DAR1z7M5srLOm9IcX47e3L4oe6mLtpjAcxLKK1J8gJTz30LXe/H3TmHpr+l
-         1Qcw==
-X-Gm-Message-State: AOAM532th/ofx4KUo6UhxUIXRCz6w4ANT5EWwtrNzvdP0VCO17zJJpkk
-        aupZunJ4hxt1lW93uYMeN4Jurg==
-X-Google-Smtp-Source: ABdhPJwhGJoIuasv+jusGZbzhkG5zaQIvyvco0ciQxImTVKnurOgSMOAYFJj+ihc5CEUER2gToLAjQ==
-X-Received: by 2002:a65:46cf:: with SMTP id n15mr13180408pgr.260.1637263846379;
-        Thu, 18 Nov 2021 11:30:46 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:896b:df38:4eae:c568])
-        by smtp.gmail.com with ESMTPSA id e13sm319618pgi.90.2021.11.18.11.30.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Nov 2021 11:30:45 -0800 (PST)
-Date:   Thu, 18 Nov 2021 11:30:43 -0800
-From:   Brian Norris <briannorris@chromium.org>
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        "Kristian H . Kristensen" <hoegsberg@google.com>,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Rob Clark <robdclark@gmail.com>, linux-input@vger.kernel.org,
-        Rob Clark <robdclark@chromium.org>,
-        David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 1/2] drm/input_helper: Add new input-handling helper
-Message-ID: <YZap4zKo8D5eZc1y@google.com>
-References: <20211117224841.3442482-1-briannorris@chromium.org>
- <20211117144807.v2.1.I09b516eff75ead160a6582dd557e7e7e900c9e8e@changeid>
- <YZYXR4u6VBEi4qnM@phenom.ffwll.local>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lujsZ0IKNJaA5lx9661QkFiRqemsKwUYnfhaEJr6j9Q=;
+        b=uSE6C1pRIdDLHVRhhAg6ljnALzBT892wMz0OB/XNrVojzHYVGQSi8Q7Qe8IY4SEykn
+         jtOCNlltDWQxDDsOj2aPpuCnsTjSwujcz8LXfhprhQzEbuDgYfrqi6bss2+SSX4VKoY4
+         83TmrUpRvM4Zqk3Y3gnO4Xs7+tx5EmSb1Ov4om+e9T79U27wkf1LSLsNuN6tyIOyNmsJ
+         t2PnhzHPniSQ06njyyYFiyUcHqyw152P2eiPBy08TemFYq16NSkC37w3SvL9BnSI7PpM
+         GYSggNOgRsf2V+9zJR58b+dZrvEpdjKPNBEz/RQbU/sB6SmnMUO5oYqXaBGDdjfnj+af
+         wrbw==
+X-Gm-Message-State: AOAM532OJnB9CnqqVCwHkTLsxPoTXO/X52W/Zy26Dp6oXg/JXU7WX07C
+        PFI5uKHr6kAZjztPsz7NlO9QiQjJFfZXL1Xf03RtqwgL77l3jQ==
+X-Google-Smtp-Source: ABdhPJz4kH2OVTcugqn/S3qYrYQsVGaVamB9oR3h0cT9tc6hTm+QSq25T3rUJZ+u8dr3/eljhT39jN1nCjaAECVYT94=
+X-Received: by 2002:a9d:a42:: with SMTP id 60mr659216otg.179.1637275652442;
+ Thu, 18 Nov 2021 14:47:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YZYXR4u6VBEi4qnM@phenom.ffwll.local>
+References: <20210625113435.2539282-1-linus.walleij@linaro.org>
+ <20210625113435.2539282-2-linus.walleij@linaro.org> <YPtpHg2aoGlULuQQ@google.com>
+In-Reply-To: <YPtpHg2aoGlULuQQ@google.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 18 Nov 2021 23:47:20 +0100
+Message-ID: <CACRpkdafREE31xsLHoNYciUn_+mPxoD21325LHkrObRZqFzSXA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Input: zinitix - Handle proper supply names
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Nikita Travkin <nikita@trvn.ru>
+Cc:     linux-input@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+        Michael Srba <Michael.Srba@seznam.cz>,
+        phone-devel@vger.kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Daniel,
+Hi Dmitry, sorry for late reply!
 
-Thanks for the review. Lots to address elsewhere, but I can respond
-here first:
+On Sat, Jul 24, 2021 at 3:13 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+> On Fri, Jun 25, 2021 at 01:34:35PM +0200, Linus Walleij wrote:
 
-On Thu, Nov 18, 2021 at 10:05:11AM +0100, Daniel Vetter wrote:
-> On Wed, Nov 17, 2021 at 02:48:40PM -0800, Brian Norris wrote:
-> > --- a/drivers/gpu/drm/Kconfig
-> > +++ b/drivers/gpu/drm/Kconfig
-> > @@ -79,9 +79,15 @@ config DRM_DEBUG_SELFTEST
-> >  
-> >  	  If in doubt, say "N".
-> >  
-> > +config DRM_INPUT_HELPER
-> > +	def_bool y
-> > +	depends on DRM_KMS_HELPER
-> > +	depends on INPUT
-> 
-> Uh please no configs for each thing, it just makes everything more
-> complex. Do we _really_ need this?
+> > +     /*
+> > +      * Some older device trees have erroneous names for the regulators,
+> > +      * so check if "vddo" is present and in that case use these names
+> > +      * and warn. Else use the proper supply names on the component.
+> > +      */
+> > +     if (IS_ENABLED(CONFIG_OF) &&
+>
+> Why is this check needed? The of_property_*() are stubbed out properly I
+> believe. We might need to check that dev->of_node is not NULL, although
+> I think of_* API handles this properly.
+(...)
+> > +         of_property_read_bool(dev->of_node, "vddo-supply")) {
+>
+> If we go with this I do not like using of_property_read_bool() as this
+> is not a boolean property, but rather of_find_property().
 
-First, it's not a configurable option (a user will never see this nor
-have to answer Y/N to it); it only serves as an intermediary to express
-the CONFIG_INPUT dependency (which is necessary) without making
-DRM_KMS_HELPER fully depend on CONFIG_INPUT. (We should be able to run
-display stacks without the input subsystem.)
+These comments are fixed up in Nikita's respin of the series:
+https://lore.kernel.org/linux-input/20211027181350.91630-4-nikita@trvn.ru/
 
-The closest alternative I can think of with fewer Kconfig symbols is to
-just use CONFIG_INPUT directly in the code, to decide whether to provide
-the helpers or else just stub them out. But that has a problem of not
-properly expressing the =m vs. =y necessity: if, for example,
-CONFIG_DRM_KMS_HELPER=y and CONFIG_INPUT=m, then we'll have linker
-issues.
+> However maybe we should use regulator_get_optional() which will not give
+> a dummy regulator? Still quite awkward, a dedicated API to see if a
+> regulator is defined would be nice.
 
-In short, yes, I think we really need this. But I'm not a Kbuild expert.
+I guess the option would be to get all four regulators by name and
+optional, but then we don't detect if more than 2 out of 4 are missing.
+Not sure, it feels like we have less control over the supplies then.
 
-> > diff --git a/include/drm/drm_input_helper.h b/include/drm/drm_input_helper.h
-> > new file mode 100644
-> > index 000000000000..7904f397b934
-> > --- /dev/null
-> > +++ b/include/drm/drm_input_helper.h
-> > @@ -0,0 +1,41 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Copyright (C) 2021 Google, Inc.
-> > + */
-> > +#ifndef __DRM_INPUT_HELPER_H__
-> > +#define __DRM_INPUT_HELPER_H__
-> > +
-> > +#include <linux/input.h>
-> > +
-> > +struct drm_device;
-> > +
-> > +struct drm_input_handler {
-> > +	/*
-> > +	 * Callback to call for input activity. Will be called in an atomic
-> > +	 * context.
-> 
-> How atomic? Like hardirq, and nasty spinlocks held?
+I guess it sadly gets ugly because making mistakes in bindings is ugly
+in the first place.
 
-Maybe I should have just cribbed off the <linux/input.h> doc:
-
- * @event: event handler. This method is being called by input core with
- *      interrupts disabled and dev->event_lock spinlock held and so
- *      it may not sleep
-
-I probably don't want to propagate the subsystem details about which
-locks, but I guess I can be specific about "interrupts disabled" and
-"don't sleep".
-
-> > +	 */
-> > +	void (*callback)(struct drm_input_handler *handler);
-> > +
-> > +	struct input_handler handler;
-> > +};
-> > +
-> > +#if defined(CONFIG_DRM_INPUT_HELPER)
-> > +
-> > +int drm_input_handle_register(struct drm_device *dev,
-> > +			      struct drm_input_handler *handler);
-> > +void drm_input_handle_unregister(struct drm_input_handler *handler);
-> > +
-> > +#else /* !CONFIG_DRM_INPUT_HELPER */
-> > +
-> > +static inline int drm_input_handle_register(struct drm_device *dev,
-> > +					    struct drm_input_handler *handler)
-> > +{
-> > +	return 0;
-> > +}
-> 
-> I guess the reason behind the helper is that you also want to use this in
-> drivers or maybe drm/sched?
-
-I think my reasoning is heavily described in both the cover letter and
-the commit message. If that's not clear, can you point out which part?
-I'd gladly improve it :)
-
-But specifically, see the 2nd bullet from the commit message, which I've
-re-quoted down here:
-
-> >  * GPU drivers: on GPU-accelerated desktop systems, we may need to
-> >    render new frames immediately after user activity. Powering up the
-> >    GPU can take enough time that it is worthwhile to start this process
-> >    as soon as there is input activity. Many Chrome OS systems also ship
-> >    with an input_handler boost that powers up the GPU.
-
-Rob Clark has patches to drm/msm to boost GPU power-up via a similar
-helper.
-
-> Anyway I think it looks all reasonable. Definitely need an ack from input
-> people
-
-I realized I failed to carry Dmitry's Ack from version 1 [1]. If this
-has a v3 in similar form, I'll carry it there.
-
-> that the event list you have is a good choice, I have no idea what
-> that all does. Maybe also document that part a bit more.
-
-I'm admittedly not an expert there, and this is actually one reason why
-we hoped to make this a library (that nobody wants to keep figuring out
-whether all those flags, etc., are really doing the right thing), but
-there are comments about what each entry is _trying_ to do. Are you
-suggesting more, as in, why "BTN_LEFT + EV_KEY" means "pointer"? Or why
-we match certain devices (because they represent likely user activity
-that will affect the display pipeline)? Or both? Anyway, I'll give it a
-shot, if we keep this.
-
-Brian
-
-[1] https://lore.kernel.org/all/YYW6FwSeNMK25ENm@google.com/
+Yours,
+Linus Walleij
