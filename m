@@ -2,79 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B71F745714C
-	for <lists+linux-input@lfdr.de>; Fri, 19 Nov 2021 16:00:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5246F45714F
+	for <lists+linux-input@lfdr.de>; Fri, 19 Nov 2021 16:02:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231365AbhKSPDu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Nov 2021 10:03:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50548 "EHLO mail.kernel.org"
+        id S231455AbhKSPFL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Nov 2021 10:05:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51420 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229805AbhKSPDu (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Nov 2021 10:03:50 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8F80E61AA7;
-        Fri, 19 Nov 2021 15:00:47 +0000 (UTC)
+        id S230064AbhKSPFL (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 19 Nov 2021 10:05:11 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7DE576069B;
+        Fri, 19 Nov 2021 15:02:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637334048;
-        bh=uHg+WxaDrjOwyCDjdSa5x43VfDWNhiSl6x823c9Dit8=;
+        s=k20201202; t=1637334129;
+        bh=u2SGd8bbjGPqTpBgDb3JFcqm1WgcDYulb4A7Tr/R09E=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=gg/uLtHC0yy+o4HFjE/LxPpOb1u5ovaoBWFIwc+QSlw9IFRmuyJ8cRQxuJbXQBYxb
-         2yVxfZLWLisxm59yToljZYr1c9EKfaub2N4JSl8H/jH43ha5RvWy4v/v41FQVPOs8e
-         xT92mk/f3G9J86ciDWZ/Rgv5kVti5Z+PeI06syUVltCmfRT3+H+kCpTPv2NOC7GzHs
-         6ckUTDUP3/LqVfFoPiEvS/zpTRraA6aDDwBS4ExG31ZdFMXJjBP2WbAj+mbvaXLI3W
-         9NZl+jTH7atffODmDOCEpzjogXw99sMeLipmnpac/mTkhEsZAKtVcjdFBfypa4/yEj
-         7CnOVvqyKosFQ==
-Date:   Fri, 19 Nov 2021 16:00:45 +0100 (CET)
+        b=OMIH8Tn10N/0rjst90s8RyTz+1x1MA0OoaYfpcCFyuuhkU7QhJtpAsgUnSgDCr6H4
+         DDmDTct+CISr4kQbqtU3PnJYGIt3vLRga71/Y5952EnOBBVHG2MBB2kIkt0S5JQbe+
+         Vz17I4AvNPW7M/sr83NS2FrH98Xa4p6KpWaRquvQ7/6S6uOnlXcWiMinDRVE37paIy
+         oY/C5xLp/0NA4CoXrWeOeu68UNfT6VAz1mgbOaDlF8ryrNHm73A1IJj/VbK2Jnj/5W
+         H1r/UBCw81uPRj0/NkebcmMTFFbDrbuAESdroXohu+q/3pcAbF5JsUKigpZxbQtEWB
+         Qb/x7hxCWAK3g==
+Date:   Fri, 19 Nov 2021 16:02:06 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Ondrej Zary <linux@zary.sk>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+cc:     benjamin.tissoires@redhat.com, rydberg@bitmath.org,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] hid-multitouch: Fix Iiyama ProLite T1931SAW (0eef:0001
- again!)
-In-Reply-To: <20211116131502.24603-1-linux@zary.sk>
-Message-ID: <nycvar.YFH.7.76.2111191600380.16505@cbobk.fhfr.pm>
-References: <CAO-hwJ+huX5wFQjwzZ+o9zOonCuifiyQ2rZosTWW7or09_SfiA@mail.gmail.com> <20211116131502.24603-1-linux@zary.sk>
+Subject: Re: [PATCH] HID: magicmouse: Report battery level over USB
+In-Reply-To: <20211118165208.5664-1-jose.exposito89@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2111191601560.16505@cbobk.fhfr.pm>
+References: <20211118165208.5664-1-jose.exposito89@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 16 Nov 2021, Ondrej Zary wrote:
+On Thu, 18 Nov 2021, José Expósito wrote:
 
-> Iiyama ProLite T1931SAW does not work with Linux - input devices are
-> created but cursor does not move.
+> When connected over USB, the Apple Magic Mouse 2 and the Apple Magic
+> Trackpad 2 register multiple interfaces, one of them is used to report
+> the battery level.
 > 
-> It has the infamous 0eef:0001 ID which has been reused for various
-> devices before.
+> However, unlike when connected over Bluetooth, the battery level is not
+> reported automatically and it is required to fetch it manually.
 > 
-> It seems to require export_all_inputs = true.
+> Fix the battery report descriptor and add a timer to fetch the battery
+> level.
 > 
-> Hopefully there are no HID devices using this ID that will break.
-> It should not break non-HID devices (handled by usbtouchscreen).
-> 
-> Signed-off-by: Ondrej Zary <linux@zary.sk>
-> ---
->  drivers/hid/hid-multitouch.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index 3ea7cb1cda84..ac114b76057b 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -1880,6 +1880,11 @@ static const struct hid_device_id mt_devices[] = {
->  		MT_USB_DEVICE(USB_VENDOR_ID_CVTOUCH,
->  			USB_DEVICE_ID_CVTOUCH_SCREEN) },
->  
-> +	/* eGalax devices (SAW) */
-> +	{ .driver_data = MT_CLS_EXPORT_ALL_INPUTS,
-> +		MT_USB_DEVICE(USB_VENDOR_ID_DWAV,
-> +			USB_DEVICE_ID_EGALAX_TOUCHCONTROLLER) },
-> +
->  	/* eGalax devices (resistive) */
->  	{ .driver_data = MT_CLS_EGALAX,
+> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 
-Applied, thanks Ondrej.
+Applied, thanks José.
 
 -- 
 Jiri Kosina
