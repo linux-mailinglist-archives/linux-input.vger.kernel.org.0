@@ -2,379 +2,161 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E3BF45678B
-	for <lists+linux-input@lfdr.de>; Fri, 19 Nov 2021 02:46:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EC94456852
+	for <lists+linux-input@lfdr.de>; Fri, 19 Nov 2021 03:54:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232358AbhKSBtP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Nov 2021 20:49:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57108 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231768AbhKSBtO (ORCPT
+        id S232081AbhKSC5U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Nov 2021 21:57:20 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:45889 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229521AbhKSC5T (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Nov 2021 20:49:14 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E78DCC061574
-        for <linux-input@vger.kernel.org>; Thu, 18 Nov 2021 17:46:13 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id gt5so6697564pjb.1
-        for <linux-input@vger.kernel.org>; Thu, 18 Nov 2021 17:46:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=fq5DzkVmq8YmWRmZx1UIt57BIlBs6gam8C+qnU8vEi4=;
-        b=P9AZ4rHVj5C7bXEwbhP7nFOK7zxdciVGdJ9wQdVJDa4yTz+1lDLdNETZu3G8Lpi85g
-         HDLGPq2gpMVPy/Ptfgg4r10gcjR5bUnDEW1gQ7e6/Rfp0HAlzJCPsgICr3aL6ClCQ2La
-         9MJ3iEohkQkHOHIXWSSMI96pxhb7UiVBSdVPI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=fq5DzkVmq8YmWRmZx1UIt57BIlBs6gam8C+qnU8vEi4=;
-        b=tI6bnFUJ+K2dzgc8FF1uptOmBCy8vrJ8GEEg00Ljf6MsGOga1EbpKUSGNQgJZXrJ4N
-         TWDL7qEENnfoE0vQMTrINXCZCjGM4A4IyB56+JKESfjC6u+xg+1VbJ+/uXXZBEXYjwGm
-         G7iLt+S4+tzOXHBmoO/a6hYmBKlJVRJbqjtrQK7n5hyU+f/2saR4mvjhONtqaOcbkjeO
-         51LiigkQJwNhO099P6XdPIgKTu7NLeqFbRuEuWseFy2ygiLmChd6eeBE7p7YoNjD+5q8
-         Wu7hsM8hIYTSxBBOArgV0utVHP23NknpQ/RSNv/dEuJUcAfRIgtEGCDOJj7189hYh4UV
-         5XeQ==
-X-Gm-Message-State: AOAM533e0iCTjp52INsKfD789QMEwvGchnIzSEVlgKLkT3eJg2TgG2RW
-        IjHGm7M4H9W4XAUo25M63D66vQ==
-X-Google-Smtp-Source: ABdhPJwHy5WKFGKKNugKZH3pdyZNerH/T2D8TSQ221BnTFChUnnzOnxtD8s2smez5ITbuym0g1RzpQ==
-X-Received: by 2002:a17:902:c105:b0:142:2441:aa24 with SMTP id 5-20020a170902c10500b001422441aa24mr71118844pli.44.1637286373378;
-        Thu, 18 Nov 2021 17:46:13 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:d418:2c22:1322:f27])
-        by smtp.gmail.com with ESMTPSA id z30sm824247pfg.30.2021.11.18.17.46.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Nov 2021 17:46:12 -0800 (PST)
-Date:   Thu, 18 Nov 2021 17:46:10 -0800
-From:   Brian Norris <briannorris@chromium.org>
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thu, 18 Nov 2021 21:57:19 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.west.internal (Postfix) with ESMTP id 25ECF3201C84;
+        Thu, 18 Nov 2021 21:54:18 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Thu, 18 Nov 2021 21:54:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm1; bh=0q45aXuIDeOq9GYXNRS8Khr2Q4
+        N2QhRZ9vUqoPIDuWA=; b=KEZWG7wyB/TKyVSN7oWsaNCiACYQi2DJSDomG57uwB
+        yuvbW0syqC4jOmnpKYJa5puhJuuaS0FWi7Qm1ag0GH1NcOB3HBog2SIwD0nNbQxD
+        Y+r6K+FPPyy7yDpycho8XuwPVF+oxH9hXeg0Z0RnFUPxQ8yM5nsUNu/8gDhYvhXc
+        6lqLGi0se3KxhYyoqZav1mcMkSoZgp84PPzAokOXn2ZkTMMeQPval+TnM+PtU+GX
+        lBqHLJdWyugz95KIbig93DkjnPYe8z6/4kRB5zDUpLH5Q/+WWecnv97zhhExHZQk
+        IAryKPJc2P/1ThdiKiOB3D+VqW9O9mK7CPvNIaaiNa4A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=0q45aXuIDeOq9GYXN
+        RS8Khr2Q4N2QhRZ9vUqoPIDuWA=; b=QaYyrP1KmXmo8B6yqmj119y6VEQPBhjbZ
+        w+QUXdidzYX1lR3nWBuCtMnTlrAdRCWyVfjJsIdf2q8qgR+CazThbz7KSUkuJekH
+        /qzzDHlheVy3mNspG1aXLonxhqIyf1yPK3OY/k1J/R/Y6NGXb/0GjbwkjsjJi6c5
+        qa3hlmy38sfbVLPO/ftwp4TlhkTaszplPJhrh8ufvWntbCl0tQAxez0BzJnQXa5b
+        uAigjA8kojQjRZ4Bjnlr0sAKZGfIEq0pNTFPYqCzQ0lGFnpIATT/wnnoZtRTLXjH
+        DGhqITT/ZiM2zcOv4SoTVSpMFEcQG3n0Ymt6hKUS/juIsmbTXWNUw==
+X-ME-Sender: <xms:2RGXYa5U2yKukZbcSBXQlt2kG6eiPle144VKCNkvOC0Dg-RKJmeRWg>
+    <xme:2RGXYT5-1SFuiKzKzPO26y6xzLhKpRAFJ0o9-z-C8blgHJdn0s-IG4Dj6g0hEkKxP
+    J__pqGKQm9s-aHBpg>
+X-ME-Received: <xmr:2RGXYZfM2lN7McPUqODD3YCNbwuLJem-pMdDyu45PdEkU0sOoPLAo7KXaOg31_CftFGmae_E0WUwXgRxY_BHsxt15TI8nYREr07a8h7Jcw7wUSo2ijlom7jidJ1FrJuucFJ5-w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeejgdehudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghlucfj
+    ohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrfgrth
+    htvghrnhepieetkefhheduudfgledtudefjeejfeegveehkeeufffhhfejkeehiefftdev
+    tdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsh
+    grmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:2RGXYXIyEBpxq37HoCt7se8c0gUMtgt96zrRfgJ_YXOlp7x1M8uCag>
+    <xmx:2RGXYeKqkz9VvOWImyeHExYOcCmmHMjhM9JUx1LYmmtn53sMBQ7DiQ>
+    <xmx:2RGXYYxqpcL-Jm3lQ4o7XPI-yTUshIszSFJh3WJ9ab5S8E4x0KVhHw>
+    <xmx:2RGXYd8IQowD8kP1x88YHLVGtw9Vapmxj1Nvadbn6STTfCZ23HcxLA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 18 Nov 2021 21:54:16 -0500 (EST)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Clark <robdclark@chromium.org>,
-        David Airlie <airlied@linux.ie>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Doug Anderson <dianders@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        "Kristian H . Kristensen" <hoegsberg@google.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        linux-input@vger.kernel.org, Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v2 1/2] drm/input_helper: Add new input-handling helper
-Message-ID: <YZcB4ooqpvP3gHdx@google.com>
-References: <20211117224841.3442482-1-briannorris@chromium.org>
- <20211117144807.v2.1.I09b516eff75ead160a6582dd557e7e7e900c9e8e@changeid>
- <20211118123928.545dec8a@eldfell>
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, Ondrej Jirman <megous@megous.com>,
+        Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v4] Input: sun4i-lradc-keys -  Add wakup support
+Date:   Thu, 18 Nov 2021 20:54:15 -0600
+Message-Id: <20211119025415.18642-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211118123928.545dec8a@eldfell>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Pekka,
+From: Ondrej Jirman <megous@megous.com>
 
-Thanks for the thoughts and review. I've tried to respond below:
+Allow the driver to wake the system on key press if the "wakeup-source"
+property is provided in the device tree. Using the LRADC as a wakeup
+source requires keeping the AVCC domain active during sleep. Since this
+has a nontrivial impact on power consumption (sometimes doubling it),
+disable the LRADC wakeup source by default.
 
-On Thu, Nov 18, 2021 at 12:39:28PM +0200, Pekka Paalanen wrote:
-> On Wed, 17 Nov 2021 14:48:40 -0800
-> Brian Norris <briannorris@chromium.org> wrote:
-> 
-> > A variety of applications have found it useful to listen to
-> > user-initiated input events to make decisions within a DRM driver, given
-> > that input events are often the first sign that we're going to start
-> > doing latency-sensitive activities:
-> > 
-> >  * Panel self-refresh: software-directed self-refresh (e.g., with
-> >    Rockchip eDP) is especially latency sensitive. In some cases, it can
-> >    take 10s of milliseconds for a panel to exit self-refresh, which can
-> >    be noticeable. Rockchip RK3399 Chrome OS systems have always shipped
-> >    with an input_handler boost, that preemptively exits self-refresh
-> >    whenever there is input activity.
-> > 
-> >  * GPU drivers: on GPU-accelerated desktop systems, we may need to
-> >    render new frames immediately after user activity. Powering up the
-> >    GPU can take enough time that it is worthwhile to start this process
-> >    as soon as there is input activity. Many Chrome OS systems also ship
-> >    with an input_handler boost that powers up the GPU.
-> > 
-> > This patch provides a small helper library that abstracts some of the
-> > input-subsystem details around picking which devices to listen to, and
-> > some other boilerplate. This will be used in the next patch to implement
-> > the first bullet: preemptive exit for panel self-refresh.
-> > 
-> > Bits of this are adapted from code the Android and/or Chrome OS kernels
-> > have been carrying for a while.
-> > 
-> > Signed-off-by: Brian Norris <briannorris@chromium.org>
-> > ---
-> 
-> Thanks Simon for the CC.
-> 
-> Hi Brian,
-> 
-> while this feature in general makes sense and sounds good, to start
-> warming up display hardware early when something might start to happen,
-> this particular proposal has many problems from UAPI perspective (as it
-> has none). Comments below.
-> 
-> Btw. if PSR is that slow to wake up from, how much do you actually gain
-> from this input event watching? I would imagine the improvement to not
-> be noticeable.
+Signed-off-by: Ondrej Jirman <megous@megous.com>
+Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-Patch 2 has details. It's not really about precisely how slow PSR is,
-but how much foresight we can gain: in patch 2, I note that with my
-particular user space and system, I can start PSR-exit 50ms earlier than
-I would otherweise. (FWIW, this measurement is exactly the same it was
-with the original version written 4 years ago.)
+---
 
-For how long PSR-exit takes: the measurements I'm able to do (via
-ftrace) show that drm_self_refresh_transition() takes between 35 and 55
-ms. That's noticeable at 60 fps. And quite conveniently, the input-boost
-manages to hide nearly 100% of that latency.
+Changes since v3:
+  - Only mark device as wakeup capable if setting the wakeirq succeeds
+  - An entirely different, but equivalent, DT binding patch was merged,
+    so there is only one patch left
 
-Typical use cases where one notices PSR latency (and where this 35-55ms
-matters) involve simply moving a cursor; it's very noticeable when you
-have more than a few frames of latency to "get started".
+Changes since v2:
+  - Dropped unnecessary pr_err in platform_get_irq() error path
+  - Dropped patch 3 (DT update) as it was merged
+  - Added Acked-by/Reviewed-by tags
 
-> I think some numbers about how much this feature helps would be really
-> good, even if they are quite specific use cases. You also need to
-> identify the userspace components, because I think different display
-> servers are very different in their reaction speed.
+Changes since v1:
+  - Add requisite DT binding change
+  - Only add wakeup capability if "wakeup-source" is present
+  - Warn but do not error out if setting the wake IRQ fails
+  - Add "wakeup-source" property to PinePhone device tree
+---
+ drivers/input/keyboard/sun4i-lradc-keys.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-If my email address isn't obvious, I'm testing Chrome OS. I'm frankly
-not that familiar with the user space display stack, but for what I
-know, it's rather custom, developed within the Chromium project. Others
-on CC here could probably give you more detail, if you want specific
-answers, besides docs like this:
+diff --git a/drivers/input/keyboard/sun4i-lradc-keys.c b/drivers/input/keyboard/sun4i-lradc-keys.c
+index 4a796bed48ac..781f9b053115 100644
+--- a/drivers/input/keyboard/sun4i-lradc-keys.c
++++ b/drivers/input/keyboard/sun4i-lradc-keys.c
+@@ -22,6 +22,8 @@
+ #include <linux/module.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_wakeirq.h>
++#include <linux/pm_wakeup.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
+ 
+@@ -226,8 +228,7 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
+ {
+ 	struct sun4i_lradc_data *lradc;
+ 	struct device *dev = &pdev->dev;
+-	int i;
+-	int error;
++	int error, i, irq;
+ 
+ 	lradc = devm_kzalloc(dev, sizeof(struct sun4i_lradc_data), GFP_KERNEL);
+ 	if (!lradc)
+@@ -272,8 +273,11 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
+ 	if (IS_ERR(lradc->base))
+ 		return PTR_ERR(lradc->base);
+ 
+-	error = devm_request_irq(dev, platform_get_irq(pdev, 0),
+-				 sun4i_lradc_irq, 0,
++	irq = platform_get_irq(pdev, 0);
++	if (irq < 0)
++		return irq;
++
++	error = devm_request_irq(dev, irq, sun4i_lradc_irq, 0,
+ 				 "sun4i-a10-lradc-keys", lradc);
+ 	if (error)
+ 		return error;
+@@ -282,6 +286,14 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
+ 	if (error)
+ 		return error;
+ 
++	if (device_property_read_bool(dev, "wakeup-source")) {
++		error = dev_pm_set_wake_irq(dev, irq);
++		if (error)
++			dev_warn(dev, "Failed to set wake IRQ\n");
++		else
++			device_set_wakeup_capable(dev, true);
++	}
++
+ 	return 0;
+ }
+ 
+-- 
+2.32.0
 
-https://chromium.googlesource.com/chromium/src/+/HEAD/docs/ozone_overview.md
-
-> If KMS gets a pageflip or modeset in no time after an input event, then
-> what's the gain. OTOH, if the display server is locking on to vblank,
-> there might be a delay worth avoiding. But then, is it worth
-> short-circuiting the wake-up in kernel vs. adding a new ioctl that
-> userspace could hit to start the warming up process?
-
-Rob responded to the first part to some extent (there is definitely gain
-to be had).
-
-To the last part: I wrote a simple debugfs hook to allow user space to
-force a PSR exit, and then a simple user space program to read input
-events and smash that debugfs file whenever it sees one. Testing in the
-same scenarios, this appears to lose less than 100 microseconds versus
-the in-kernel approach, which is negligible for this use case. (I'm not
-sure about the other use cases.)
-
-So, this is technically doable in user space.
-
-I can't speak to the ease of _actually_ integrating this into even our
-own Chrome display manager, but I highly doubt it will get integrated
-into others. I'd posit this should weigh into the relative worth, but
-otherwise can't really give you an answer there.
-
-I'd also note, software-directed PSR is so far designed to be completely
-opaque to user space. There's no way to disable it; no way to know it's
-active; and no way to know anything about the parameters it's computing
-(like average entry/exit delay). Would you suggest a whole set of new
-IOCTLs for this?
-
-> > diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> > index 1c41156deb5f..9a6494aa45e6 100644
-> > --- a/drivers/gpu/drm/Makefile
-> > +++ b/drivers/gpu/drm/Makefile
-> > @@ -56,6 +56,8 @@ drm_kms_helper-y := drm_bridge_connector.o drm_crtc_helper.o drm_dp_helper.o \
-> >  		drm_atomic_state_helper.o drm_damage_helper.o \
-> >  		drm_format_helper.o drm_self_refresh_helper.o drm_rect.o
-> >  
-> > +drm_kms_helper-$(CONFIG_DRM_INPUT_HELPER) += drm_input_helper.o
-> > +
-> >  drm_kms_helper-$(CONFIG_DRM_PANEL_BRIDGE) += bridge/panel.o
-> >  drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fb_helper.o
-> >  drm_kms_helper-$(CONFIG_DRM_KMS_CMA_HELPER) += drm_fb_cma_helper.o
-> > diff --git a/drivers/gpu/drm/drm_input_helper.c b/drivers/gpu/drm/drm_input_helper.c
-> > new file mode 100644
-> > index 000000000000..470f90865c7c
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/drm_input_helper.c
-
-> > +static int drm_input_connect(struct input_handler *handler,
-> > +			     struct input_dev *dev,
-> > +			     const struct input_device_id *id)
-> > +{
-> > +	struct input_handle *handle;
-> > +	int error;
-> > +
-> > +	handle = kzalloc(sizeof(struct input_handle), GFP_KERNEL);
-> > +	if (!handle)
-> > +		return -ENOMEM;
-> > +
-> > +	handle->dev = dev;
-> > +	handle->handler = handler;
-> > +	handle->name = "drm-input-helper";
-> > +
-> > +	error = input_register_handle(handle);
-> > +	if (error)
-> > +		goto err2;
-> > +
-> > +	error = input_open_device(handle);
-> 
-> Does this literally open the input device, just like when userspace
-> opens the input device?
-
-I believe so. Dmitry mentioned something to this effect on earlier
-versions, but I found that the input_handler does not operate at all if
-this specific handle wasn't opened. (All handles are independent, and
-each over their own |open| count.)
-
-This part is unfortunate, I agree. If we really want this in-kernel,
-perhaps I could find a way to tweak the input_handler API.
-
-> How do you know userspace is using this input device at all? If
-> userspace is not using the input device, then DRM should not be opening
-> it either, as it must have no effect on anything.
-> 
-> If you open an input device that userspace does not use, you also cause
-> a power consumption regression, because now the input device itself is
-> active and possibly flooding the kernel with events (e.g. an
-> accelerometer).
-
-Well, I don't think accelerometers show up as input devices, but I
-suppose your point could apply to actual input devices.
-
-> > +	if (error)
-> > +		goto err1;
-> > +
-> > +	return 0;
-> > +
-> > +err1:
-> > +	input_unregister_handle(handle);
-> > +err2:
-> > +	kfree(handle);
-> > +	return error;
-> > +}
-> > +
-> > +static void drm_input_disconnect(struct input_handle *handle)
-> > +{
-> > +	input_close_device(handle);
-> > +	input_unregister_handle(handle);
-> > +	kfree(handle);
-> > +}
-> > +
-> > +static const struct input_device_id drm_input_ids[] = {
-> > +	{
-> > +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT |
-> > +			 INPUT_DEVICE_ID_MATCH_ABSBIT,
-> > +		.evbit = { BIT_MASK(EV_ABS) },
-> > +		.absbit = { [BIT_WORD(ABS_MT_POSITION_X)] =
-> > +			    BIT_MASK(ABS_MT_POSITION_X) |
-> > +			    BIT_MASK(ABS_MT_POSITION_Y) },
-> > +	}, /* multi-touch touchscreen */
-> > +	{
-> > +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT,
-> > +		.evbit = { BIT_MASK(EV_ABS) },
-> > +		.absbit = { [BIT_WORD(ABS_X)] = BIT_MASK(ABS_X) }
-> > +
-> > +	}, /* stylus or joystick device */
-> > +	{
-> > +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT,
-> > +		.evbit = { BIT_MASK(EV_KEY) },
-> > +		.keybit = { [BIT_WORD(BTN_LEFT)] = BIT_MASK(BTN_LEFT) },
-> > +	}, /* pointer (e.g. trackpad, mouse) */
-> > +	{
-> > +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT,
-> > +		.evbit = { BIT_MASK(EV_KEY) },
-> > +		.keybit = { [BIT_WORD(KEY_ESC)] = BIT_MASK(KEY_ESC) },
-> > +	}, /* keyboard */
-> > +	{
-> > +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT |
-> > +			 INPUT_DEVICE_ID_MATCH_KEYBIT,
-> > +		.evbit = { BIT_MASK(EV_KEY) },
-> > +		.keybit = {[BIT_WORD(BTN_JOYSTICK)] = BIT_MASK(BTN_JOYSTICK) },
-> > +	}, /* joysticks not caught by ABS_X above */
-> > +	{
-> > +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT |
-> > +			 INPUT_DEVICE_ID_MATCH_KEYBIT,
-> > +		.evbit = { BIT_MASK(EV_KEY) },
-> > +		.keybit = { [BIT_WORD(BTN_GAMEPAD)] = BIT_MASK(BTN_GAMEPAD) },
-> > +	}, /* gamepad */
-> 
-> I don't think this hardcoded policy belongs in the kernel, nor even
-> works.
-
-Define "works"? It's shipping in various forms on a variety of Android
-and Chrome OS systems, where it has a noticeable performance benefit,
-and isn't known to have significant power-consumption issues.
-
-> I believe classifying input devices is not that simple. Spearheading
-> that is libinput which relies on udev tagging the devices with their
-> types, and that is done based on a hwdb maintained by I think the
-> systemd project. Or maybe libinput has its own db nowadays as well, I'm
-> not sure.
-
-I'm not that familiar with libinput, etc., but I expect most of what it
-needs to do is irrelevant to these kinds of use cases. We don't care at
-all about what character sets or even what type of device is in use, in
-most cases. As long as it could reasonably be called user input, it's
-good enough.
-
-Also, for most use cases here, the penalty for small inaccuracies is
-small. Especially for something like panel self-refresh, we'd rather not
-have it enabled at all, than have it performing poorly.
-
-> Also, joysticks and gamepads are something display servers generally do
-> not open. An application might open some while it's running, but not
-> all the time. Joysticks could be very chatty while opened, game
-> controllers might have accelerometers, etc.
-> 
-> > +	{ },
-> > +};
-> > +
-> > +int drm_input_handle_register(struct drm_device *dev,
-> > +			      struct drm_input_handler *handler)
-> > +{
-> > +	int ret;
-> > +
-> > +	if (!handler->callback)
-> > +		return -EINVAL;
-> > +
-> > +	handler->handler.event = drm_input_event;
-> > +	handler->handler.connect = drm_input_connect;
-> > +	handler->handler.disconnect = drm_input_disconnect;
-> > +	handler->handler.name = kasprintf(GFP_KERNEL, "drm-input-helper-%s",
-> > +					  dev_name(dev->dev));
-> > +	if (!handler->handler.name)
-> > +		return -ENOMEM;
-> > +
-> > +	handler->handler.id_table = drm_input_ids;
-> > +	handler->handler.private = handler;
-> > +
-> > +	ret = input_register_handler(&handler->handler);
-> 
-> Yet another problem here is that this completely ignores the concept of
-> physical seats. Of course it does so, because seats are a pure
-> userspace concept.
-> 
-> The kernel VT console already has problems because the kernel has no
-> concept of seats, which means that if there is a second seat defined and
-> a desktop running on it, while the first seat is in the normal VT text
-> mode, then everything typed in the desktop will be delivered to the VT
-> shell as well! (This has a possible workaround in userspace [1], by opening
-> the evdev input devices in some kind of exclusive mode - which is not
-> common practise AFAIK.)
-
-Sure.
-
-I'd bet the intersection of systems that use SW-directed PSR and
-"multi-seat" is negligibly close to zero, but I can't guarantee that.
-Chalk one up for a user space policy.
-
-> Btw. if userspace does use EVIOCGRAB, then will your in-kernel handler
-> stop getting events?
-
-I believe so.
-
-[snip]
-
-Brian
