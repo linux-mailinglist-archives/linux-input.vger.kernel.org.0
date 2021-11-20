@@ -2,90 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E6DE45798D
-	for <lists+linux-input@lfdr.de>; Sat, 20 Nov 2021 00:25:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB606457E2A
+	for <lists+linux-input@lfdr.de>; Sat, 20 Nov 2021 13:34:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235644AbhKSX2x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Nov 2021 18:28:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40090 "EHLO
+        id S237581AbhKTMhY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 20 Nov 2021 07:37:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235653AbhKSX2x (ORCPT
+        with ESMTP id S237590AbhKTMhV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Nov 2021 18:28:53 -0500
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4BE8C061574
-        for <linux-input@vger.kernel.org>; Fri, 19 Nov 2021 15:25:50 -0800 (PST)
-Received: by mail-pg1-x544.google.com with SMTP id r5so9881648pgi.6
-        for <linux-input@vger.kernel.org>; Fri, 19 Nov 2021 15:25:50 -0800 (PST)
+        Sat, 20 Nov 2021 07:37:21 -0500
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6914C06175E
+        for <linux-input@vger.kernel.org>; Sat, 20 Nov 2021 04:34:17 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id b184-20020a1c1bc1000000b0033140bf8dd5so9561946wmb.5
+        for <linux-input@vger.kernel.org>; Sat, 20 Nov 2021 04:34:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=eWy2dU5vWahlnX9CGe7+FBY4krKs/BHH91QgGclzDb0=;
-        b=PLlYsZwmdtRtKb8N6aF8exlFUp6ggODflBvS5FkR1FFQkez9S5iQepQcfPC02beD7p
-         4oxHJsgomAy8nDvqX4lp2JtR+5mPyGwhP5zwOBRfytMmFKKZ0zG5Ssg5uKtWwwe/wE22
-         Fuh8L7l0jec4zMYo7Mxb502KsyMAhmfB7/eK5Nn3RC3/11fpv43djIykYkDbjexep36v
-         oz9/NhpSJ33mo4prBBLB6CnOK8Vijun5ViCepirtYgtTaoM/K568v3PhArALO9eMpLiZ
-         BVFU5Ou555HZvVbC1x8luL0g7RkrOvactHRiLAnrcedAq67lpWol/JOKy2oh24Q8TgHS
-         mGtg==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=w2dLnl5hsLVKZTBAdcVFnDnMtM7+guW1LU+8LG4nir0=;
+        b=Fg0CuYYkyt0hZtxEaL3pzh0wmxFN/BDqDvJITI1D07EsGGgN8PZtfHGDuXTh7/BoIl
+         qVNJH9zXnG8cNi2LJMLF71hiIrDCE84586190GfTLhvhTykKIh4u2rbstY72IJ2bwxdi
+         dD1A4IvTr0xiNtXbl34OchcNTBgwtuJY6Bjfg1D2EI5sf1RrQ+sb29ycEh2OqGIrNIor
+         9ZgC+8bGry8Ek/GHCpQ99htcECmIpz2LX84bJAMeuv5rRWeUbFN4BCL5K+oO4sSjngOB
+         8QNuFreM8gT309f4IkX7URhAMyYexwDutkEXDHBb6UE/vMNjPjAcuLVnaWzcjl7URoeu
+         P8/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=eWy2dU5vWahlnX9CGe7+FBY4krKs/BHH91QgGclzDb0=;
-        b=fJTPQVWDsd8yG47J1LTpdQQpzqIAzz6/S/B2sMaEgbGTf3Hwz09EbtHptnVsbDVfN7
-         emcRM5CebU8Om6L8QgNE3TSxk1WuQYWD7TYozJQ2qYBsfjN8z58UcGmho2DTy5WlDDcA
-         lVRzCnvMfdIDT5SlH9GKUgKqYdOXwILiRte4U0ncLMfcpyE3XF9PTBk8Y2dgnahcrRUf
-         KzwK3hBvjlMn4XjH6qfJJer0psqlw/g94PX22gCXjjCOeFkVgRZpAD66nHKH8NdqezKk
-         xEDvamdMfjTpn77TH1mr9oD5wJePdBfYAJafeB/CAr9KXuqh6Fuos64rEhjzeRGuwjGc
-         P9hQ==
-X-Gm-Message-State: AOAM533q5ItZrCvPS+Vhvziqdda7imrcBjMoL7I8U+ic0WWdGasSsW0N
-        6m/A7Fsbn6lTYvSOfe1Mwhp/BF3qz74LNlmp6sM=
-X-Google-Smtp-Source: ABdhPJzP6C0XzH44PCtiR31eECMSsmRmymuHQUQOJcaEUaniLINJd1XYCV2L6mCyrkQBig4aOcWxfW5RZKTk+wgpmgI=
-X-Received: by 2002:a05:6a00:1150:b0:4a2:7328:cce6 with SMTP id
- b16-20020a056a00115000b004a27328cce6mr58490303pfm.67.1637364349840; Fri, 19
- Nov 2021 15:25:49 -0800 (PST)
+         :subject:to;
+        bh=w2dLnl5hsLVKZTBAdcVFnDnMtM7+guW1LU+8LG4nir0=;
+        b=lEYfZvrfOgzYvqUICMNk8maPbQu2qCIvmuieJ9WGkhqtCozMeDMtYcXB6IcHdq8AZw
+         zgbEDvvloT9VCCD/WA3cIlq0AT85pAs0h7kqiS6BQibBlru6lIaR0Ioz9OjdLXw41QRc
+         gAKZoJpOnsnxLCrKPLOX/pLn/b+oEk16z9z7S4mFL8YtlrX2m1S2ug/jyJm/DjJnNxNi
+         BV3jQEdXXczvNlXMDIz5mjiB13qwgB78iU9vWLaN6nRWKSFkQ9QsKkO03lMKPGBLg5GG
+         tbsMftIGpW35RUdfRlgp08O50TQ+vrKVVe1U5QKjW3AtJ/vqjdFrXrPACCm7hn1ZO53j
+         manQ==
+X-Gm-Message-State: AOAM532qsSorUsgFle/XW9QXA9uEpakyA+xSDfRE5s3NUk2U1b8ITRBN
+        PRW3amMr0zcnH3zjMGtTMQRSz/qI7mYsWW4k46Q=
+X-Google-Smtp-Source: ABdhPJx9lg3O3sAF2QNHrqcxWsGvQFfQfiAtfif8DZ5B4m8o6/KXkYAJ/QEnjRn5/uYIqbdMP8Au276Y+aqkPaELun0=
+X-Received: by 2002:a1c:5409:: with SMTP id i9mr9522973wmb.146.1637411656042;
+ Sat, 20 Nov 2021 04:34:16 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a17:90b:3890:0:0:0:0 with HTTP; Fri, 19 Nov 2021 15:25:49
+Received: by 2002:adf:f989:0:0:0:0:0 with HTTP; Sat, 20 Nov 2021 04:34:15
  -0800 (PST)
-Reply-To: mrsrosebanneth19@gmail.com
-From:   Mrs Rose Banneth <raghuram.rajan01@gmail.com>
-Date:   Fri, 19 Nov 2021 15:25:49 -0800
-Message-ID: <CAO8R5HMKFt-kDpW0YDygwVprBw7hv57HPTEmVyVQji1Rfmazvg@mail.gmail.com>
-Subject: Hello,
+Reply-To: mitchellvivian01@gamil.com
+From:   Mitchell Vivian <duplanmartine36@gmail.com>
+Date:   Sat, 20 Nov 2021 12:34:15 +0000
+Message-ID: <CAO-XXH4V+dUpgGpmCiApBhW-zaz1u6CaEOyFDdkQsbAu_nkg3w@mail.gmail.com>
+Subject: Hello
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear friend, I pray you will be fine and safe.
+Hello
 
-I am Mrs. Rose Banneth a Norway Lady but my late husband is from
-France i live in Burkina Faso, please I want you to take this message
-very serious as I have already lost all my family by Covid.19 and now
-I am quarantine which I don=E2=80=99t also know what will happen to me
-tomorrow, I lost my only two Brothers by Covid.19 last year now it is
-my turn.
+My name is Miss Vivian Mitchell. I want to donate my fund $ 4.5
+million USD to you on a charity name to help the poor People.
 
-Are you online? It is a really serious issue because there is
-something I want you to help me do as I don=E2=80=99t want to lost all my
-family money to the bank, my two brothers money is in my care and my
-own money in the bank, please I will like you to help me use this =E2=82=AC=
-8.2
-Million Euro for orphans in your Country, it is what my spirit direct
-me to do, Can you be able to do this for me?
+As soon as I read from you I will give you more details on how to
+achieve this goal and get this fund transferred into your bank
+account.
 
-On your return to handle this fund I will introduce you to my Nurse to
-follow up with you and the bank.i want you to contact me here my
-private email address mrsrosebanneth19@gmail.com  to know on how the
-fund will be transferred to your bank account or online banking.
-
-I wait for your urgent respond and please this is really serious and
-urgent issue.
-
-Thanks
-My regards,
-Mrs Rose Banneth
-Written from Hospital
+Thanks have a nice day,
+Miss.vivian
