@@ -2,236 +2,182 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74D92458B42
-	for <lists+linux-input@lfdr.de>; Mon, 22 Nov 2021 10:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4476A458BBA
+	for <lists+linux-input@lfdr.de>; Mon, 22 Nov 2021 10:43:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233105AbhKVJ2V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 Nov 2021 04:28:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32904 "EHLO
+        id S233134AbhKVJqy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 22 Nov 2021 04:46:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229906AbhKVJ2U (ORCPT
+        with ESMTP id S232421AbhKVJqx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 Nov 2021 04:28:20 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F6FCC061714;
-        Mon, 22 Nov 2021 01:25:14 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id k37so77852976lfv.3;
-        Mon, 22 Nov 2021 01:25:14 -0800 (PST)
+        Mon, 22 Nov 2021 04:46:53 -0500
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69AB9C061574;
+        Mon, 22 Nov 2021 01:43:47 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id bu18so78104262lfb.0;
+        Mon, 22 Nov 2021 01:43:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:in-reply-to:references
          :mime-version;
-        bh=xxQtWyJocXmtu7ZkhSsQxz4Z9a1g2nRcvrt+ZIrEyGI=;
-        b=qJVfJ35Xw3XQ8Z7iBFBc0ObJZM+HqYomwU2i7WW+4ksPrOyv8jnBkvXYGYsepoB5P6
-         1EHLmM3TN1fBlpmW13vxAlMzDU1CHnJaEfNo/pM2LvcFQwPQcsKCSuJdk5PpdecRmdX3
-         5DgeT73XdQv8YyaLiQ5VkuodppI7r+id/mMWfZIQw2vM9plSYGADMRlNlJIhIEdFnCB9
-         6KZAuqb5M9D108KUbcnpo/fc2kUvmGM3U0EcVsmmqzLmabiidOeIWQ7Kk2qETxPpgAkx
-         Tk5fBKD+1Ge5XeCdqadQ+kN+qgxReTYjbqn7bl86I+puK2YGyvdrgRTu5TD1ODn4ILdN
-         MVYg==
+        bh=96YdYnrZU5YLxN1JzFIGG7wsDdU9R5NPYgLUAZOsBTE=;
+        b=VTqdQfaP+qvVnDG3bStis/xCYyypIyT+471LdosA7whE/T+oVfo9jWGHt5XyVoLlnU
+         ZU+TyADxR9ZApFtRWKeRkwdNWU1pcDVSqGVbyopG6gn7pByUhSF5zQdp1xV/nDTTQA11
+         O92gShWh8DW9Qg/MUO3U7hEopnrXo5KWeQYWIiJolxdAI8TUZibOpSubIxflTxmMjQoE
+         p7FHuX4p/+WZsAleEQUy0/EbyDDKCj5TOWDFLgyp2w9wvaLLEpyG67DCyhz6c8PUhaLZ
+         wvmmQyTTK8fbdcId1xdbaa8IQajw+x+2eUJ9fp6sRfDpFVwJsSyMjhP4wVgSwW/gU6pi
+         /8ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
          :references:mime-version;
-        bh=xxQtWyJocXmtu7ZkhSsQxz4Z9a1g2nRcvrt+ZIrEyGI=;
-        b=7+yGlz58UO1EEpYpey5h9RUnZRKs9iya7boOmzBq033zSKqu1tNxpMo4cR9cmGtaK6
-         huioch834idxzi9tFYcthdu3vW9EHWiatiShqZicgbLHouMo/WlaIOe/ZNMwWLLCUuz9
-         25yP0xHY4io9/EXnASTvqb6bxpjYR4ifFf8E2a8J6vJD3bNfHxDfWb9d8SkkeONhhPub
-         kQV8HirSH2fZQm6w4AprOCAmGihOLP0jx3OM4y1zlYmF40CL0vzJsv7prk8yZ8ehIO78
-         SeEtKmdlQmzHd0FhN2hSlmk6mMHId65zUaHVsBuet85tGbwKhhjKwuBckr0YA5u8V4SA
-         nkDA==
-X-Gm-Message-State: AOAM5302BrtSAvuksSEuy3iIi/5dHo+LDRoGNhAgwnh2hbDFapt8rVgy
-        MajPGZLex1kU5u/EIIlReyk=
-X-Google-Smtp-Source: ABdhPJwRzFsFc6m7LbXk5yEmkvBbNjw4oQ4fPMsXutabrGsODK2z5xsPYxFA5vhjquk7lHXpA3xRzw==
-X-Received: by 2002:ac2:4f90:: with SMTP id z16mr55965325lfs.381.1637573112420;
-        Mon, 22 Nov 2021 01:25:12 -0800 (PST)
+        bh=96YdYnrZU5YLxN1JzFIGG7wsDdU9R5NPYgLUAZOsBTE=;
+        b=LcW916WQVLsQm4+ZXmW59gcKFHO/D0L4ze5scjGglVrCtnfUTPrqBo3WK5kMAY/fPj
+         Vhd6XecEEj9fzFcevNOUWjcT0WYoSuKpnVbpbqwdJpXApgwh+XcJBaKT94bxtMoimTj2
+         QEKdGtlA/5vhZovuGJxVt01C0mxaT9pOgXup5dPZ6R7p1ifc/ih7RtQQNZMhi5GRtF6g
+         r8EtpgqIVmsul04ChriGNhpSmXFi32zbqwR5OsUOf3y1SPHaeh5aOXkVIo1dkkg41Myq
+         eVMVpvqzoL12hms0wAzZhPcPIvmIGKeKdBTf3NYxcpwzakir1VzS0XYL5xZ8DYGp2nhg
+         yewA==
+X-Gm-Message-State: AOAM5304rACrGR723SOfRDNfhQVKIfCpScM5SL18tPSWkGPTEIhvzbEY
+        Qyqco7DymcejQLU9fLYmqXI=
+X-Google-Smtp-Source: ABdhPJyVJLl2xLchsCGW10or57QJEWPuQfw4b5lPbZL4JZeso1zXXGSWnfL4uP/pDhnt+ZUrEggi9g==
+X-Received: by 2002:a2e:4a0a:: with SMTP id x10mr51646760lja.322.1637574225739;
+        Mon, 22 Nov 2021 01:43:45 -0800 (PST)
 Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id f19sm902545lfm.119.2021.11.22.01.25.11
+        by smtp.gmail.com with ESMTPSA id z2sm902449lfd.301.2021.11.22.01.43.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Nov 2021 01:25:12 -0800 (PST)
-Date:   Mon, 22 Nov 2021 11:25:09 +0200
+        Mon, 22 Nov 2021 01:43:45 -0800 (PST)
+Date:   Mon, 22 Nov 2021 11:43:42 +0200
 From:   Pekka Paalanen <ppaalanen@gmail.com>
 To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Brian Norris <briannorris@chromium.org>,
+Cc:     Simon Ser <contact@emersion.fr>,
         Rob Clark <robdclark@chromium.org>,
+        Brian Norris <briannorris@chromium.org>,
         Andrzej Hajda <andrzej.hajda@intel.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
         David Airlie <airlied@linux.ie>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
         Doug Anderson <dianders@chromium.org>,
-        linux-rockchip@lists.infradead.org,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
         "Kristian H . Kristensen" <hoegsberg@google.com>,
-        dri-devel@lists.freedesktop.org,
         Thomas Zimmermann <tzimmermann@suse.de>,
         linux-input@vger.kernel.org
 Subject: Re: [PATCH v2 1/2] drm/input_helper: Add new input-handling helper
-Message-ID: <20211122112509.4d7e6ad3@eldfell>
-In-Reply-To: <YZfJET55LjuW4BP+@phenom.ffwll.local>
+Message-ID: <20211122114342.0d23890f@eldfell>
+In-Reply-To: <YZfMm3GkFereYPTZ@phenom.ffwll.local>
 References: <20211117224841.3442482-1-briannorris@chromium.org>
         <20211117144807.v2.1.I09b516eff75ead160a6582dd557e7e7e900c9e8e@changeid>
         <20211118123928.545dec8a@eldfell>
-        <YZcB4ooqpvP3gHdx@google.com>
-        <20211119123841.1d628cb6@eldfell>
-        <YZfJET55LjuW4BP+@phenom.ffwll.local>
+        <CAF6AEGuc9JbOsC4Lrvoqo8VzMHq+7ru7Y6_UwoZaGV2wHQ6E5g@mail.gmail.com>
+        <20211119115419.505155b5@eldfell>
+        <YZfIgd8s7uGXAD2X@phenom.ffwll.local>
+        <98236dpcx39iOz8xAYrwGLfiLdwgUlljrbBgHL3wd8A0Wz4KzRk3PR8s_tb5Rxu4eScKI4483kB6Vhv-T64CJYOeQqwXlqo2c-64HvoS5cg=@emersion.fr>
+        <YZfMm3GkFereYPTZ@phenom.ffwll.local>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/JE8=lbNU9pXwl2HdVmDFmA_";
+Content-Type: multipart/signed; boundary="Sig_/_evsixBuO_dMS.WYC8Ptp6x";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---Sig_/JE8=lbNU9pXwl2HdVmDFmA_
+--Sig_/_evsixBuO_dMS.WYC8Ptp6x
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 19 Nov 2021 16:56:01 +0100
+On Fri, 19 Nov 2021 17:11:07 +0100
 Daniel Vetter <daniel@ffwll.ch> wrote:
 
-> On Fri, Nov 19, 2021 at 12:38:41PM +0200, Pekka Paalanen wrote:
-> > On Thu, 18 Nov 2021 17:46:10 -0800
-> > Brian Norris <briannorris@chromium.org> wrote:
+> On Fri, Nov 19, 2021 at 04:04:28PM +0000, Simon Ser wrote:
+> > On Friday, November 19th, 2021 at 16:53, Daniel Vetter <daniel@ffwll.ch=
+> wrote:
 > >  =20
-> > > Hi Pekka,
-> > >=20
-> > > Thanks for the thoughts and review. I've tried to respond below:
-> > >=20
-> > > On Thu, Nov 18, 2021 at 12:39:28PM +0200, Pekka Paalanen wrote: =20
-> > > > On Wed, 17 Nov 2021 14:48:40 -0800
-> > > > Brian Norris <briannorris@chromium.org> wrote:
-> > > >    =20
-> > > > > A variety of applications have found it useful to listen to
-> > > > > user-initiated input events to make decisions within a DRM driver=
-, given
-> > > > > that input events are often the first sign that we're going to st=
-art
-> > > > > doing latency-sensitive activities:
-> > > > >=20
-> > > > >  * Panel self-refresh: software-directed self-refresh (e.g., with
-> > > > >    Rockchip eDP) is especially latency sensitive. In some cases, =
-it can
-> > > > >    take 10s of milliseconds for a panel to exit self-refresh, whi=
-ch can
-> > > > >    be noticeable. Rockchip RK3399 Chrome OS systems have always s=
-hipped
-> > > > >    with an input_handler boost, that preemptively exits self-refr=
-esh
-> > > > >    whenever there is input activity.
-> > > > >=20
-> > > > >  * GPU drivers: on GPU-accelerated desktop systems, we may need to
-> > > > >    render new frames immediately after user activity. Powering up=
- the
-> > > > >    GPU can take enough time that it is worthwhile to start this p=
-rocess
-> > > > >    as soon as there is input activity. Many Chrome OS systems als=
-o ship
-> > > > >    with an input_handler boost that powers up the GPU.
-> > > > >=20
-> > > > > This patch provides a small helper library that abstracts some of=
- the
-> > > > > input-subsystem details around picking which devices to listen to=
-, and
-> > > > > some other boilerplate. This will be used in the next patch to im=
-plement
-> > > > > the first bullet: preemptive exit for panel self-refresh.
-> > > > >=20
-> > > > > Bits of this are adapted from code the Android and/or Chrome OS k=
-ernels
-> > > > > have been carrying for a while.
-> > > > >=20
-> > > > > Signed-off-by: Brian Norris <briannorris@chromium.org>
-> > > > > ---   =20
-> > > >=20
-> > > > Thanks Simon for the CC.
-> > > >=20
-> > > > Hi Brian,
-> > > >=20
-> > > > while this feature in general makes sense and sounds good, to start
-> > > > warming up display hardware early when something might start to hap=
-pen,
-> > > > this particular proposal has many problems from UAPI perspective (a=
-s it
-> > > > has none). Comments below.
-> > > >=20
-> > > > Btw. if PSR is that slow to wake up from, how much do you actually =
-gain
-> > > > from this input event watching? I would imagine the improvement to =
-not
-> > > > be noticeable.   =20
-> > >=20
-> > > Patch 2 has details. It's not really about precisely how slow PSR is,
-> > > but how much foresight we can gain: in patch 2, I note that with my
-> > > particular user space and system, I can start PSR-exit 50ms earlier t=
-han
-> > > I would otherweise. (FWIW, this measurement is exactly the same it was
-> > > with the original version written 4 years ago.)
-> > >=20
-> > > For how long PSR-exit takes: the measurements I'm able to do (via
-> > > ftrace) show that drm_self_refresh_transition() takes between 35 and =
-55
-> > > ms. That's noticeable at 60 fps. And quite conveniently, the input-bo=
-ost
-> > > manages to hide nearly 100% of that latency.
-> > >=20
-> > > Typical use cases where one notices PSR latency (and where this 35-55=
-ms
-> > > matters) involve simply moving a cursor; it's very noticeable when you
-> > > have more than a few frames of latency to "get started". =20
+> > > Random idea ... should we perhaps let userspace connect the boosting?=
+ I.e.
+> > > we do a bunch of standardized boost targets (render clocks, display sr
+> > > exit), and userspace can then connect it to whichever input device it
+> > > wants to? =20
 > >=20
-> > Hi Brian,
+> > On IRC we discussed having user-space hand over a FD to the kernel. Whe=
+n the FD
+> > becomes readable, the kernel triggers the boost.
 > >=20
-> > that is very interesting, thanks.
-> >=20
-> > I would never have expected to have userspace take *that* long to
-> > react. But, that sounds like it could be just your userspace software
-> > stack. =20
+> > This would let user-space use e.g. an input device, an eventfd, or an e=
+poll FD
+> > with any combination of these as the boost signal. =20
 >=20
-> In the other subthread we're talking about making this more explicit.
-> Maybe we need to combine this with a "I expect to take this many
-> milliseconds to get the first frame out" value.
->=20
-> That way compositors which take 50ms (which frankly is shocking slow) can
-> set that, and kms can enable sr exit (since sr exit will actually help
-> here). But other compositors which expect to get the first frame out in
-> maybe 20 can spec that, and then the driver will not sr exit (because too
-> high chances we'll just make shit slower), and instead will only boost
-> render clocks.
->=20
-> Thoughts?
+> Can userspace filter eventfd appropriately like we do here? And can they
+> get at that maybe 2nd eventfd from logind or whatever there is on distros
+> where /dev access is locked down for compositors/users.
 
-I wonder if the compositor or the userspace stack can know how long it
-usually takes to prepare the first KMS submission after a pause. I
-guess it would need to measure that at runtime. Hmm, doable I guess,
-sure. Input to output latency in general is interesting.
+(Mind, eventfd is a specific thing, see 'man eventfd', and evdev/input
+device fd is different.)
 
-However, that sounds like a pretty vague API with the delay value. I
-think it has a high risk of regressing into a boolean toggle by
-userspace choosing an arbitrary number and then assuming the threshold
-in the driver is always the same.
+I don't think any of that is any problem when userspace prepares an
+epoll fd to be given to the boosting machinery. The boosting machinery
+could have several different targets as well, PSR vs. GPU clocks and
+whatnot.
+
+I envision a compositor to maintain an epoll fd for boosting by
+adding/removing the same device fds to it that it already uses in its
+operations. I don't see any need to open new device fds just for
+boosting. It's only the epoll fd given to the kernel and after that the
+epoll set can still be changed, right?
+
+The boosting machinery would never actually read or write the
+registered fd(s), so it would not interfere with the normal operations.
+But it also means the fd will remain readable until userspace services
+it. Userspace may need to set up that epoll set very carefully to have
+it work right (e.g. edge-triggered?).
+
+If your input handling is in a different process than the DRM poking
+for some reason, the epoll fd should still work if:
+- it is possible to use SCM_RIGHTS to pass the epollfd from the
+  input process to the DRM process, and
+- you cannot extract the watched fds from an epoll fd.
+
+Do we have those assumptions today?
+
+Then the attack surface in the DRM process is limited to changing the
+epoll set of which fds can trigger boosting, but the DRM process can do
+that anyway. I also presume the input process can still add and remove
+fds from the epoll set even afterwards.
+
+> I do agree that if we can do this generically maybe we should, but also
+> the use-case for input boosting is pretty well defined. I think it's just
+> about making sure that compositors is in control, and that we don't make
+> it worse (e.g. with the sr exit adding latency when the compositor can
+> redraw quickly enough).
+
+The epollfd design sounds very good to me. One can register an
+arbitrary set of fds with it, and use even eventfds in the set to have
+purely software triggers.
 
 
 Thanks,
 pq
 
---Sig_/JE8=lbNU9pXwl2HdVmDFmA_
+--Sig_/_evsixBuO_dMS.WYC8Ptp6x
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGbYfUACgkQI1/ltBGq
-qqeG7g/+LSlc5q6r2WtPf9z7hRt/C7xOrGRWRYIWMKqn1N4Hkf1nTqrdPcnfYP7U
-P79qWxup8ZJsrs4GUI/HlcZf4/XCZNBly7H/mEfCPOdHD9BpnXSo+oPkP08KK0Rw
-h8sI+I88O4Hwjr5G2E+o3bd5rEoZ74NvqI1KwygjyfIOJ08r/nY5PXlw5W7mYsb1
-wVpMDb0UUviRsz67zXZheFdVYKvWvt7aksKePY3rwB7G8suBTLexaj794R3O1Mlh
-I2M51wOU2FjpvYkUsY6N8UAN5Q3EJDSB0elG8DYbV2aTwxoc+5DrnDnIU7BNgZXm
-XGp3AXYVInRSfZ8+dEHpABBiiZ3T7n0cKE9gGxpsw+h9jO6mXzlbY0xcwrgQPc6V
-yNVN2R+2KcApkVl7M+X3Kd6QPA0zkKb1COtprTSdhWzluZgWNqvlBhnddKrS3OvQ
-p3KSPY9yAwNV1lzKZrShUeygXbYm7mCSnV4v78HzcEtD6nxfOAv3gm7eEWnYznx8
-JdT/CE72i1hqPx9GbRfgHIbfhw7gRItzo3B5n3PoXoe1UIYapWiK6yUVfx6ZvYAi
-Skv/Mh+i7xfFaUBpZRjxNHKli196wQphamw/GR160QErlUUmLvDYf22DBsF+6guL
-OhHVbHpFKr8wWMK79MzV3NUgWk9vvrK+2uSi3koB0JqoinlwIyo=
-=XnSG
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGbZk4ACgkQI1/ltBGq
+qqddPw//Qlx3c98y/lzr7O5yeBvbHMGOutdUbTN4frjqqEhhM6TRvl1yMT3oNxBC
+N2MxbN1yhJKJihbRqLMI5RkDEiJMqE2e5VBWqwV9ir2DdNG5vR1qqimzkeJeuJsr
+f77q2taZwGgnXqqmocroQPPeMxmJD5274xzF55cerzZy6YKE1JoQSpsr4Km1lc/j
+/B+N3CDx9c/ezZ6k0Lc0NvuhFFHB1IVtstwOKSPKPqo8XGDrDW9PehcpGOaNGFD8
+4wBdVzHGC8JzWfGZqNdVXAtxWZgGDkHYg2uXDUq6Y/BMEilRCXrBYlxjTnce4JAT
+wq6jZZXtchRYmXaqyIZ+D93smC1vxxkIBvErCVc/Z1AiCgq99P752jcpUq39QFN+
+/bVcr57syOk6+u/WU2S5chtU64zyNcLwu6vEKUZO9/DIDF4rGsGci0ZgjXdj9kHf
+/BiYybwmZWmXjxbGjHMU6ZaBjTvl8cq1cIt7Nq1A5IcoBpiqb6ohL5b3i0gg7WCB
+Z3J8rPoNQIZTPIusSb6L1BJZCqeRiIA95tTiX7UIlgDQoHOVPdMPU1of0wQa4uke
+7K6P5Sg0QSfIpfIVd8Tu657ia53/ucnr1GyTnep9Cm+o46pFfNzZSEgoBOQB4ugl
+4MCipr9Y8XvCskwR6myOwajP7qfdjJ0Lm36vfxShtbiSVieen+8=
+=kYcC
 -----END PGP SIGNATURE-----
 
---Sig_/JE8=lbNU9pXwl2HdVmDFmA_--
+--Sig_/_evsixBuO_dMS.WYC8Ptp6x--
