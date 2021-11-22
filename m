@@ -2,80 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DEDC45818C
-	for <lists+linux-input@lfdr.de>; Sun, 21 Nov 2021 03:54:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F33F458770
+	for <lists+linux-input@lfdr.de>; Mon, 22 Nov 2021 01:38:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237644AbhKUC50 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 20 Nov 2021 21:57:26 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:59503 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S237643AbhKUC50 (ORCPT
+        id S229594AbhKVAlM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 21 Nov 2021 19:41:12 -0500
+Received: from devianza.investici.org ([198.167.222.108]:23939 "EHLO
+        devianza.investici.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229884AbhKVAlM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 20 Nov 2021 21:57:26 -0500
-Received: (qmail 68548 invoked by uid 1000); 20 Nov 2021 21:54:20 -0500
-Date:   Sat, 20 Nov 2021 21:54:20 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     David Niklas <Hgntkwis@vfemail.net>
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: I need advice with UPS connection. (ping)
-Message-ID: <YZm03KTcWOwtMtCN@rowland.harvard.edu>
-References: <20201109220000.2ae98fa5@Phenom-II-x6.niklas.com>
- <20211114144842.72463ccc@Zen-II-x12.niklas.com>
- <20211114211435.GA87082@rowland.harvard.edu>
- <20211114220222.31755871@Zen-II-x12.niklas.com>
- <20211115160918.GB109771@rowland.harvard.edu>
- <20211117002359.03b36ec6@Zen-II-x12.niklas.com>
- <20211117170817.GD172151@rowland.harvard.edu>
- <20211119171915.6a8cac47@Zen-II-x12.niklas.com>
+        Sun, 21 Nov 2021 19:41:12 -0500
+Received: from mx2.investici.org (unknown [127.0.0.1])
+        by devianza.investici.org (Postfix) with ESMTP id 4Hy7fP0D09z6vKN
+        for <linux-input@vger.kernel.org>; Mon, 22 Nov 2021 00:38:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=autistici.org;
+        s=stigmate; t=1637541485;
+        bh=V0q5B9qvFgFTMXb14QZ53bTj5TQQreE3P/KfmW8Ctu4=;
+        h=From:To:Subject:Date:From;
+        b=AozxmWQDeyMr2BhNifLOyxSVtbDAdx9iJ1vtMkjNgIB888AeEB6stKl33Qk9rRGVe
+         bMahP/YYFCt4EvB5I4DmSXBbXoLKqUIq47JYWKxm0owJ8g4U+tZm6tBKoYGg+ob1ND
+         z4eHk4OjgTYaEfd8KsEWpRd1GG0dg7T64LYInbA8=
+Received: from [198.167.222.108] (mx2.investici.org [198.167.222.108]) (Authenticated sender: andrea.monaco@autistici.org) by localhost (Postfix) with ESMTPSA id 4Hy7fN6DBVz6vKF
+        for <linux-input@vger.kernel.org>; Mon, 22 Nov 2021 00:38:04 +0000 (UTC)
+From:   Andrea Monaco <andrea.monaco@autistici.org>
+To:     linux-input@vger.kernel.org
+Subject: i2c_hid: Possible workaround to Synaptics touchpad going wild on
+ Acer Aspire
+Date:   Mon, 22 Nov 2021 01:38:03 +0100
+Message-ID: <87ee79f2j8.fsf@autistici.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211119171915.6a8cac47@Zen-II-x12.niklas.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Nov 19, 2021 at 05:19:15PM -0500, David Niklas wrote:
-> On Wed, 17 Nov 2021 12:08:17 -0500
-> Alan Stern <stern@rowland.harvard.edu> wrote:
-> > On Wed, Nov 17, 2021 at 12:23:59AM -0500, David Niklas wrote:
 
-> > > I can also try and use SnoopyPro and busdog if the output is
-> > > undesirable. USBPcap spits out a pcap file which can be analyzed by
-> > > wireshark using dissectors -- somehow (I really should practice using
-> > > wireshark.)  
-> > 
-> > Wireshark on my system has no trouble reading your pcap file.
-> 
-> Misunderstanding then. I was thinking in terms of the USBPcap docs. I was
-> saying a dissector would need to be written. I'm glad it worked for you.
-> https://desowin.org/usbpcap/dissectors.html
-> "Writing USB class dissector"
+Hello,
 
-Evidently wireshark already has built-in dissectors for standard USB 
-communications.
 
-> > This will cause the kernel to ask for 1060 bytes rather than 996.
-> > (It's also potentially dangerous, because it asks for 1060 bytes to be
-> > stored into a 996-byte buffer; if the device sends more data than
-> > expected then the excess will be written beyond the end of the buffer.)
-> > 
-> > Please send a usbmon trace showing what happens with this patch
-> > applied. And you might as well put the Set-Idle request back in,
-> > because now we know Windows does send that request.
-> > 
-> <snip>
-> 
-> It still disconnects. I've attached the usbmon output.
+as I wrote in previous emails to this list, my Synaptics touchpad
+(SYN1B7F) on Acer Aspire laptop sometimes starts acting wild, it moves
+and clicks and drags on its own.  I can't find any trigger for this
+behavior, it just happens.
 
-The trace clearly shows the request for a 1060-byte HID report 
-descriptor and the device sending back a 996-byte reply, just like in 
-Windows.  And yet the disconnect still occurs.
+I see long sequences of HID reports that are identical expect for the
+timestamp when this happens; my hypothesis is that the issue is on the
+hardware, possibly a buggy firmware of the touchpad.
 
-The only remaining difference is the transfer of string descriptors.  
-You can prevent Linux from asking for them by editing usb_string() in 
-drivers/usb/core/message.c.  Just make the function return -ENOMEM 
-unconditionally.  That will stop the requests from going out.
+Unloading and reloading i2c_hid solves the issue, probably because it
+triggers a hardware reset of the device.
 
-Alan Stern
+
+So I came up with a possible workaround: any time the kernel detects two
+consecutive HID reports that are identical except for the timestamp, it
+hard resets the device.  The user would experience a very brief
+discontinuity in mouse response, still much better than current
+behavior.
+
+This particular hack could be activated with an option to the relevant
+module(s), or when the affected touchpad models are found.
+
+
+Any comments or suggestions?
+
+
+
+Warmly,
+
+Andrea Monaco
