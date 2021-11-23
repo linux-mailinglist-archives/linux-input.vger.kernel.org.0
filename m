@@ -2,59 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1472F459898
-	for <lists+linux-input@lfdr.de>; Tue, 23 Nov 2021 00:52:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E259E459D07
+	for <lists+linux-input@lfdr.de>; Tue, 23 Nov 2021 08:47:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232376AbhKVXzc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 Nov 2021 18:55:32 -0500
-Received: from mx08-00227901.pphosted.com ([91.207.212.184]:59606 "EHLO
-        mx08-00227901.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232101AbhKVXzX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 Nov 2021 18:55:23 -0500
-Received: from pps.filterd (m0097674.ppops.net [127.0.0.1])
-        by mx08-.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AJ7wixe018132;
-        Fri, 19 Nov 2021 10:27:12 +0100
-Received: from zbw2k16ex01.bardusch.net ([185.80.186.174])
-        by mx08-.pphosted.com (PPS) with ESMTPS id 3cdmdm1455-5
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Fri, 19 Nov 2021 10:27:11 +0100
-Received: from ZBW2K16EX01.bardusch.net (172.25.1.1) by
- ZBW2K16EX01.bardusch.net (172.25.1.1) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.2308.20;
- Fri, 19 Nov 2021 10:27:10 +0100
-Received: from User (172.25.1.131) by ZBW2K16EX01.bardusch.net (172.25.1.1)
- with Microsoft SMTP Server id 15.1.2308.20 via Frontend Transport; Fri, 19
- Nov 2021 10:26:59 +0100
-Reply-To: <josechoondak@gmail.com>
-From:   Joseph Choondak <info@ndd.co.mz>
-Subject: I hope this email finds you well.
-Date:   Fri, 19 Nov 2021 01:27:13 -0800
+        id S234392AbhKWHu0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 Nov 2021 02:50:26 -0500
+Received: from msg-1.mailo.com ([213.182.54.11]:59250 "EHLO msg-1.mailo.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234316AbhKWHuZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 23 Nov 2021 02:50:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
+        t=1637652360; bh=rModu+wbMlQDAbZmFSIwfKTjsITpKH4SCxpIq/CXGuw=;
+        h=X-EA-Auth:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+         MIME-Version:Content-Transfer-Encoding;
+        b=WkUPk79tH829t0ieXI5v5Q0CiKXl4Vj1B3n/5yN58Uq5gfxUTiVKueIDT2GICYLsW
+         hweLdG/6IoUnB+t7W0cyCBhcGeuj0PS1sPZxMSxdNSm+vZqwbMVHniXUt2xD+49BdV
+         uon14xK71OEo3+tariIh4zwo716CLc4iqSQ3C8bM=
+Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
+        via proxy.mailoo.org [213.182.55.207]
+        Tue, 23 Nov 2021 08:25:59 +0100 (CET)
+X-EA-Auth: yzdNSTojDeVBVM26MCmibOJGejoBqxXJsf1ErxVWxR0c4aYTep5DFS/8qXa7sOd6OspN+TBlFatpFqBgIMIGkiFqljEWoewhl90Ub61/ljs=
+From:   Vincent Knecht <vincent.knecht@mailoo.org>
+To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org, stephan@gerhold.net,
+        vincent.knecht@mailoo.org
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+Subject: [PATCH 0/5] msg2638: Add support for msg2138 and key events
+Date:   Tue, 23 Nov 2021 08:25:29 +0100
+Message-Id: <20211123072534.2775264-1-vincent.knecht@mailoo.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <e7a31752-8681-4042-9ad5-c01248965c5f@ZBW2K16EX01.bardusch.net>
-To:     Undisclosed recipients:;
-X-Proofpoint-GUID: CmkypoSbrhIOZjoh10HOlF5xTX1kBMKq
-X-Proofpoint-ORIG-GUID: CmkypoSbrhIOZjoh10HOlF5xTX1kBMKq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-19_08,2021-11-17_01,2020-04-07_01
-X-Proofpoint-Spam-Reason: orgsafe
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-May I please ask with considerable urgency for your kind assistance with the following matter.
-I'm a financial person, I think  I have something huge you might be interested in.
+This series:
+- moves max fingers number and irqhandler settings in a struct
+- adds support for msg2138 touchscreen
+- adds support for buttons, which were only seen with msg2138 as of yet
 
-Looking forward to hearing from you.
+Big thanks to Stephan Gerhold <stephan@gerhold.net> for the help with
+deciphering the downstream driver [1] and writing clean and working code.
+
+[1] https://github.com/LineageOS/android_kernel_huawei_msm8916/blob/2f24fa58086a969687434b40f237cb589a1f324f/drivers/input/touchscreen/mstar/msg2138_qc.c
+
+Vincent Knecht (5):
+  Input: msg2638 - Set max finger number and irqhandler from driver data
+  dt-bindings: input: touchscreen: msg2638: Document msg2138 support
+  Input: msg2638 - Add support for msg2138
+  dt-bindings: input: touchscreen: msg2638: Document keys support
+  Input: msg2638 - Add support for msg2138 key events
+
+ .../input/touchscreen/mstar,msg2638.yaml      |   8 +-
+ drivers/input/touchscreen/msg2638.c           | 182 ++++++++++++++++--
+ 2 files changed, 175 insertions(+), 15 deletions(-)
+
+-- 
+2.31.1
 
 
-Respectfully!!
-Joseph Choondak
-Account Executive.
+
