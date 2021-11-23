@@ -2,103 +2,196 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 535B245AC10
-	for <lists+linux-input@lfdr.de>; Tue, 23 Nov 2021 20:12:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E96545AD7E
+	for <lists+linux-input@lfdr.de>; Tue, 23 Nov 2021 21:41:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238694AbhKWTP4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 Nov 2021 14:15:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45516 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235934AbhKWTPx (ORCPT
+        id S232084AbhKWUoM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 Nov 2021 15:44:12 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:25632 "EHLO
+        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233785AbhKWUoK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 Nov 2021 14:15:53 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C826BC061714;
-        Tue, 23 Nov 2021 11:12:44 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id i8-20020a7bc948000000b0030db7b70b6bso3241784wml.1;
-        Tue, 23 Nov 2021 11:12:44 -0800 (PST)
+        Tue, 23 Nov 2021 15:44:10 -0500
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1ANJXv93004389;
+        Tue, 23 Nov 2021 20:39:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=wbd07SskJyfq9lGZee2wDVPsRPNPFK9VMcymRcUeS1I=;
+ b=K1tlQYrkFD9/betcFf2F7XhCmGfWOhrp+5+IW3RdP+rjMAc0Ri6kwy/WFI5D7QB+9+Wy
+ 2/l8QAdbc3qlZ14ZPdTc2XquanS8XJvbyXUUhvVacqpNan23SWU7OtRpV4sBH4NwEfwt
+ 62tyPO7RmScTBc5VifE3QKYXVh+sfK4CPDdMz83EWi1q/8IeBoWb47hWqPiIRKLy/JTh
+ cJWXK2KAGA/FbUzsYg0f4DS6JXYNvilnRskNN+4if/LgwOnWp4Y5EcCd7tVMopulVlJJ
+ dttlugqKMvaFur8cmtuhC0RDuqfsJT2NZgwpAqm7JJ+bf0BcfwzpcaPeFXrCDNCBEU2e 8Q== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3cg305bs3s-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 23 Nov 2021 20:39:50 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1ANKQmJ1148028;
+        Tue, 23 Nov 2021 20:39:48 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2172.outbound.protection.outlook.com [104.47.56.172])
+        by aserp3030.oracle.com with ESMTP id 3ceq2evfq2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 23 Nov 2021 20:39:48 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dD3ZFd0TBCOWTFh+5hDRtp47hRvAlZXrzOdUp7JFhKBnmBU6qduCI2f0az3LWn7P/TMlKqimXSnlbg55c6ntNp+WIEvNMI/pRaALwxEwpUd8J3WoUlXcw3Z5rXHomFAZ3E5qmXFhCYxJULskKrJxRPkkr9n5Bz3Ma8DIm/1z6hs+V/odVBNJZvXGVg8mZaF2Wd6YLDYddvvGuXyUTON+1XHlNitscjKmaqivMW9infmzS1ioZ2lJMW4o0bN2dRnFG2mUrVDAr0VtXS34tpWD7gvJlgxNRMivv+xWG8I/9DAcdZ9YyWeLs3NMrN9NkZu2pvdHWweYbKVqNgc1AwbLng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wbd07SskJyfq9lGZee2wDVPsRPNPFK9VMcymRcUeS1I=;
+ b=CdO+vuSYsRZh42bNQLBkLdim2O/p07rVuP2VQPimf1ZZ7yxVRMeno1J5gt7LGJpEsDhN3fA3/L42WyxFq/Xh100FYfkB2XrVG3z3DVEy+SjIFtXcO87QzHRHK72IrrtNYgD2VreziJ5To6YXN770SomzQ+CZOlsBK2ef54Qy88aGjaVWWdx84OYdmIDn1uRIRNU6WwHhA0PdcEGcxtKusXz9DgbWH2FjERhRhn1i3yoQDf4jlrDx7d8pJhE4AmCoqkk4WQSH9qExkI7dvUfRO7uRnjBM/lDATnulmUQ8UKt4l2IsBYSZFpuut42VOA7G264ZNSQy82PoSkXOPY9OqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xDqZRHmjUMP1gBRX+GmHMf3kW8bNST0jfrLIGxm98KQ=;
-        b=TZHXFYz/64YoQhHXJ1XH/Lj0ard4iYCXGZPvnn8w83RorlQwTGdMvCuDrzeJqquW5z
-         RfQNQdBvhRIBVdi+fJdxSwRqz0EFQAtJwANoHUU7/gswh2mzH/cydIyOelHnUJwFn7n1
-         hVrLn9Dasl8bjvj+0YU51CH5mlKySJwUKxwHw6d7OihBMxUuPcWf1JsHdOwDTVfrtgec
-         J8sqXnHcjooM5aoMcMeJcQyb6zcwUmtbIKQLxp5768T/1YC/dHNApQZcM52c6PYXHtp7
-         2Y4jSLLKda5ZzxkG9sge7r+XEI6osjmXoAyAqjUsjxhGfEzAxKJyQ7MbO10QQv/nJTwN
-         Z/mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xDqZRHmjUMP1gBRX+GmHMf3kW8bNST0jfrLIGxm98KQ=;
-        b=u1cZXD2CVPp0jBZGJKcxxHaXLwK2+bXLTtQNiUoWPj+LUxKtMzOnfoxSjbllgcAur7
-         vMJI4RDC30tOQ0kEMUESz4I3bNLI+dPLcB1EX4GPQhKml+hi+zrYhztLgYsn++QkVnxe
-         V7N+LauCmnwdZN8XeVeghK8QIc2Q50X/SCOBwxK9uURQCDWVA9KtiEEPUDA+2v/MOerg
-         vgyyd0Z/xxoKijJ7r7b5F0p7xxkbMqSLE6oZjSDVbYT2Vq6uHmxU36sEHCBe+vPJ+MdC
-         A6ljHWzyXLhVrkMnRRTkGlLCif5BPWbxoMn4kNcwtXiNyEXymHdIAUFM9M07MdwLGgKw
-         Eelw==
-X-Gm-Message-State: AOAM532b0cb80WcJLrX8xRa9A9KQAoXb7UsE1HCZVV4UAsKRSvtsH2TM
-        pOH4/shmCLyfZ09m/BJRyAU=
-X-Google-Smtp-Source: ABdhPJwrPGK6FXF/YgZsdGLHmnN4q2vt8WdLExsGFnQeyuIsVUAfq1UgJjaiN6LsKVmF/+Nkhz2eVA==
-X-Received: by 2002:a05:600c:3b27:: with SMTP id m39mr6544213wms.132.1637694763313;
-        Tue, 23 Nov 2021 11:12:43 -0800 (PST)
-Received: from localhost.localdomain ([217.113.240.86])
-        by smtp.gmail.com with ESMTPSA id r11sm3088081wrw.5.2021.11.23.11.12.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 11:12:43 -0800 (PST)
-From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, peter.hutterer@who-t.net,
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wbd07SskJyfq9lGZee2wDVPsRPNPFK9VMcymRcUeS1I=;
+ b=AkbGmKktl4DLOxSvUWl16L0FRGwUfsmQZFtUyyHIpgU7j56zNzWLVfO4wxp0meW+iain0+Dk0DwhJV1wa1VgqWWJbr3yyD5YYA9w3T6X6j2TgEtBEFau5FTC3W14yKLmXHDjjN98R4RVcXAxptmUG0mINTzRg+et75JDnSBFu/g=
+Received: from BN0PR10MB5014.namprd10.prod.outlook.com (2603:10b6:408:115::5)
+ by BN0PR10MB5302.namprd10.prod.outlook.com (2603:10b6:408:117::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Tue, 23 Nov
+ 2021 20:39:46 +0000
+Received: from BN0PR10MB5014.namprd10.prod.outlook.com
+ ([fe80::40b1:8e73:d851:6dc9]) by BN0PR10MB5014.namprd10.prod.outlook.com
+ ([fe80::40b1:8e73:d851:6dc9%3]) with mapi id 15.20.4713.025; Tue, 23 Nov 2021
+ 20:39:46 +0000
+Message-ID: <07b650a8-7ede-3716-2e35-b0d4f94802cd@oracle.com>
+Date:   Tue, 23 Nov 2021 15:39:39 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.3.1
+Subject: Re: [PATCH 0/5] xen: cleanup detection of non-essential pv devices
+Content-Language: en-US
+To:     Juergen Gross <jgross@suse.com>, xen-devel@lists.xenproject.org,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH 1/1] HID: multitouch: only map BTN_LEFT on buttonpads
-Date:   Tue, 23 Nov 2021 20:12:38 +0100
-Message-Id: <20211123191238.12472-2-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211123191238.12472-1-jose.exposito89@gmail.com>
-References: <20211123191238.12472-1-jose.exposito89@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org
+References: <20211022064800.14978-1-jgross@suse.com>
+ <bf5a4749-0216-53db-a022-ef4f84d823c5@suse.com>
+From:   Boris Ostrovsky <boris.ostrovsky@oracle.com>
+In-Reply-To: <bf5a4749-0216-53db-a022-ef4f84d823c5@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA0PR11CA0037.namprd11.prod.outlook.com
+ (2603:10b6:806:d0::12) To BN0PR10MB5014.namprd10.prod.outlook.com
+ (2603:10b6:408:115::5)
+MIME-Version: 1.0
+Received: from [10.74.107.95] (138.3.200.31) by SA0PR11CA0037.namprd11.prod.outlook.com (2603:10b6:806:d0::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.24 via Frontend Transport; Tue, 23 Nov 2021 20:39:42 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c079e34f-f15a-41dc-7975-08d9aec16307
+X-MS-TrafficTypeDiagnostic: BN0PR10MB5302:
+X-Microsoft-Antispam-PRVS: <BN0PR10MB530297E3D1AC49C4C7BAD6E38A609@BN0PR10MB5302.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UtmrreEWfLEixJIs71qdTO9z8BuD+G78109jS2832F+Igll9XQqsssMeM/AJbjeEX/Daxv60kjR219VSuvTJjSFmV6p5pKKE3Kt8bs1FsOX+SVEKJt35mGhIgXV7XHmM3ByST+f3xxJeyTBP6Wwnd3AQcJ9vby1CKP502LkopHtubkSjSO3LaRetTaKYMPxzYlDzgqMQomnIqLh38Yb3zFOD0LfLAYQrmCai3fWXWCWWLUk/eeALl+HArgnFphjW6Eomcj+UKnAiMVo95i84XBobgalkFzc7lWh1MPkpbK1QECbRop8DqiJ3LEE0HB5feg4laPemv8MUU/+LfwYBoNgdpeDIOnT2leakZpiS0rrqKK11DnnMaQEArvc0LQoIxdeX8z4N2xZVwW4YIxv5grTD4Zh4+2uHZxACyKmwRz5/fJVjozbCWEqo7CIWw54TOaIOxD60Sz22FMRPOAh319eYg/lV86mbIVWsWd7kJ48S0K0hNcDb5CU+5Fu4Izyz5QIaNfNSA5gyAmKT+2m5JMr68cLJ0PPxmyX7ggc63TAE2JQ1Q4jNxv97rulEBGeF8a4POAdyQuQS2kFq42AqWoz8ftsgQh4UfSTiRAo4t3MERHPEFubW0rnHYz80WgFZ4WRkGhKZSw2RqR0fFnfQ1a1fx8gi4W2ZEHN+6RgsK87pCawo93FTogQP/fQcbhSFwvWe93RRNiC6XkZbaVJHs2rw0LEqgAtD5zE9xMwM6/E=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5014.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(186003)(54906003)(16576012)(2906002)(316002)(26005)(38100700002)(7416002)(2616005)(66556008)(83380400001)(66946007)(66476007)(956004)(44832011)(6666004)(8936002)(6486002)(508600001)(4326008)(8676002)(31686004)(53546011)(5660300002)(31696002)(86362001)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WjNHdUVucE95NFVFcFlUYm1wNncwbis4c2hXSngweGF4UlNwd0ZxRzRxaVJ6?=
+ =?utf-8?B?MzZlQWxaVU11ZU5wN1JONnVkNnVTYUlQMEUvanhFYVFZNW81Rkd3ZHJxdzdv?=
+ =?utf-8?B?d2pHSmZEV2s4aHBxYWkzUFVrQXN0SkcreU9HRmNETTZ6bnpDVlVpNXZ4bHBa?=
+ =?utf-8?B?VllsWWZFdk5aTEtyamo1TnNOQk5wZStiTHVSaE1GRElJMWcwT2IyakxzaUtn?=
+ =?utf-8?B?OTRNTHJ0RG0zMWh5eWRta2RHSEczbUw2ZThHenZYUTQrZWp6WEVKcEZpV1Zo?=
+ =?utf-8?B?eFV6c0pLV211UXBzQUlNSlFaR09JS05aL0Q0ZkFpMmVoQXk5a2NqYVRjNm1s?=
+ =?utf-8?B?Yi9HMERpNHorT2REL284b0ZwS0FhQ25maHRtci9UN0NCY0dnSUswem9pNW5T?=
+ =?utf-8?B?amVJRlpqYXdNYitTQmNnYlhwZnNTNVgvUHhTcXNTRzRjOTJEdlQ5Rnh6L0F3?=
+ =?utf-8?B?SjM3VzlkaGFmTlRHTlVpaThEMUtFVGNkK2NEUEN6RGh3QmhBbzVYY1NabEQ3?=
+ =?utf-8?B?eUJFRjAyL0pkMnYzMW9RR0x3SCtIRmpxVVI1MHg2ZDllNW5mTndqMzQrNVgx?=
+ =?utf-8?B?bGZmdWhiVFo3dVRKcmtKcmJndlFkWW9aOEhYWEFHYzh5d0hoVFNOUjNhWVNq?=
+ =?utf-8?B?b3E1eWc4TElKcFdpbDFDZXppSGM3L29PSy9qa0YwcmEzV2h4RlVmK3ptYk1I?=
+ =?utf-8?B?YldsVmlMVTZWZVBvL0RUZHdtMmJYUndQS0tibEpraGR0YVlpYWw2bGloTlNo?=
+ =?utf-8?B?WFhRTnVMdlJYNnNlT1dOTDludmp5cDV3RDc1cmo4emF2ZVRISnp5VFp5d1cz?=
+ =?utf-8?B?d2hkQzVDVG1PeUN5Q3RtMnJkenVpcEN5RUVlWHZIQ1VoaVAyNTZWeDJyWkEw?=
+ =?utf-8?B?Qkg5YkJPL3Y2ODg0YXdLVW1NTFdGZlJkMW16LzhScjZPTjhPbHpQUW50NVE5?=
+ =?utf-8?B?aXZiUnpHUktnQWM4YzZOMGZ2cUdpQVhhQ2VoaEoyaExjQkdYRnFnVFp1ZnVG?=
+ =?utf-8?B?dkh6S0c1WnpBSCs5MDBlTlZUbjNhRG9paXlFOGF0dWdWcHlZWHpHeEJOVEZF?=
+ =?utf-8?B?UGVsTTZjOGptK3MvNSt1WU9pb2MraTQvMnltem54NThFbGlhcWZ2cW9OTTg5?=
+ =?utf-8?B?TUtEaTVXUUJHWTBvc0ZEMmZqNUxDSGJuSzVVekVLek9zajMwTnQrYWk4S2ZQ?=
+ =?utf-8?B?cjY5YmEwRVlHS3hyQStkd00reEc1WEFMMlFnT0lpRFZGdVVpS2hsMEtRUG5l?=
+ =?utf-8?B?RlNuZ05qdE9SUUQ0Yi9hUmdEcTJNNUFKMzRuT05YRDRmM3lqV0pwdVcybnM2?=
+ =?utf-8?B?OFRYbEl0Vit3anE5YjV3R3Myb0tNOE9ZM2YwK3FvTS9UWGVtZFRUZmQyb3Fh?=
+ =?utf-8?B?MFVnV0RaRHpyb0xCQTBaY1hYeFFQNGpiNGg5dGlneFYzWUsreTk4QjZYRG1k?=
+ =?utf-8?B?ZUVIcVFsZFNJN2NzcFBPcGcxUmdLbGNEdDg4eDVMNkU3Q2JiM0dtNkxCbXpS?=
+ =?utf-8?B?d2o3ZFRIeDVlZkpHSFpjZEZZSjJJbXFEd1NMdXV1ZTZhNHdlRWEwcFhKMWw4?=
+ =?utf-8?B?U04zSDRtQ0pKd2QzbzQzalNiVlFZNVlIRFdkNDd5ZFBzdHN6QmJtR2Y3RHht?=
+ =?utf-8?B?UXhpbk02YlFoTFQ5RiszS3dHbEdYQkVCMmc0OUZPMVRJZXV5R3FFVzMzV2pt?=
+ =?utf-8?B?bjd6SnR3dWsyOVZYYjcxdjFIZHIyNVV0V2kyL01SblZDeUNZYW1jcit2eng2?=
+ =?utf-8?B?SVlnNWx2U1NhUTRmNkxTUmxHOG1BUDdaTG1Tcml5TDBmYy9rcmtMMGE3UnVF?=
+ =?utf-8?B?RGsxanM0QWtlejZja0lsMWJFT3YxOU9zQjVtNW1IU2h0S3ZhYmREV2xOd2VQ?=
+ =?utf-8?B?ZUFqUERTQkxIV0NmNmpsdEhjTjh2ZGl1V2RJVVBmRkFjS0VweVpNNnhTOW1X?=
+ =?utf-8?B?UTBSUXcvOXpoM1I5YzRVV25CRUY5b2I5ZUNaVFppN1ZsMGNJV2Npay9MajVO?=
+ =?utf-8?B?SjFZVldjV3dySnRjbmJuVW9wWUxudy9LWHhBNmxmKzIrT0VEMTJuc3EwWmFh?=
+ =?utf-8?B?SHM3RlNJcHNVN2x1QlU3OEkzcXdTWkgxWG9GMGNpNjBxaVNFOWtzRFJpdE5r?=
+ =?utf-8?B?b0dQSE91UnRuMmlNa1RONmQwRWc4SlcrSG4vVWNURHREWWtxZk9EdTQ1d1ND?=
+ =?utf-8?B?NDNFcHE1dmxBOG4zZFFMK2p2S1ZxcjRIb1oyamgvcHF6dEZlVXh6Ry9oWlRz?=
+ =?utf-8?Q?nLoQy1p7XsikijXTikqBhZh0ix9pP9keS0lztnCP2k=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c079e34f-f15a-41dc-7975-08d9aec16307
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5014.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2021 20:39:46.6037
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xdBIO6cmWfp7QEOOqKSVjSaq4WkOJ27h7FylC2afgUY6xufGZ3ti3zya2xSQMeXCV5juS43RqHnADupJqUdEZfUTyWsCvggnL52dFzVcfUc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5302
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10177 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0 spamscore=0
+ bulkscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111230100
+X-Proofpoint-GUID: 0KfI6w_OY80QNNxMKpeQKcEIe64cjXie
+X-Proofpoint-ORIG-GUID: 0KfI6w_OY80QNNxMKpeQKcEIe64cjXie
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In addition to map the INPUT_PROP_BUTTONPAD property, make sure that
-the BTN_RIGHT and BTN_MIDDLE key bits are not mapped.
 
-Mapping more than one button on buttonpads is a bug plus avoids issues
-with some touchpads on user space. For more information, check these
-bug reports:
+On 11/22/21 3:20 AM, Juergen Gross wrote:
+> On 22.10.21 08:47, Juergen Gross wrote:
+>> Today the non-essential pv devices are hard coded in the xenbus driver
+>> and this list is lacking multiple entries.
+>>
+>> This series reworks the detection logic of non-essential devices by
+>> adding a flag for that purpose to struct xenbus_driver.
+>>
+>> Juergen Gross (5):
+>>    xen: add "not_essential" flag to struct xenbus_driver
+>>    xen: flag xen_drm_front to be not essential for system boot
+>>    xen: flag hvc_xen to be not essential for system boot
+>>    xen: flag pvcalls-front to be not essential for system boot
+>>    xen: flag xen_snd_front to be not essential for system boot
+>>
+>>   drivers/gpu/drm/xen/xen_drm_front.c        |  1 +
+>>   drivers/input/misc/xen-kbdfront.c          |  1 +
+>>   drivers/tty/hvc/hvc_xen.c                  |  1 +
+>>   drivers/video/fbdev/xen-fbfront.c          |  1 +
+>>   drivers/xen/pvcalls-front.c                |  1 +
+>>   drivers/xen/xenbus/xenbus_probe_frontend.c | 14 +++-----------
+>>   include/xen/xenbus.h                       |  1 +
+>>   sound/xen/xen_snd_front.c                  |  1 +
+>>   8 files changed, 10 insertions(+), 11 deletions(-)
+>>
+>
+> Any further comments?
+>
 
- - https://gitlab.freedesktop.org/libinput/libinput/-/issues/674
- - https://gitlab.freedesktop.org/libinput/libinput/-/issues/689
- - https://gitlab.freedesktop.org/libinput/libinput/-/issues/629
+Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
 
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
----
- drivers/hid/hid-multitouch.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index e1afddb7b33d..37697ebe27f9 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -1286,8 +1286,11 @@ static int mt_touch_input_configured(struct hid_device *hdev,
- 	    (app->buttons_count == 1))
- 		td->is_buttonpad = true;
- 
--	if (td->is_buttonpad)
-+	if (td->is_buttonpad) {
- 		__set_bit(INPUT_PROP_BUTTONPAD, input->propbit);
-+		__clear_bit(BTN_RIGHT, dev->keybit);
-+		__clear_bit(BTN_MIDDLE, dev->keybit);
-+	}
- 
- 	app->pending_palm_slots = devm_kcalloc(&hi->input->dev,
- 					       BITS_TO_LONGS(td->maxcontacts),
--- 
-2.25.1
+(I'll fix the semicolon typo in the last patch, no need to resend)
 
