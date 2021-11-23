@@ -2,68 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1210459D06
-	for <lists+linux-input@lfdr.de>; Tue, 23 Nov 2021 08:47:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F1D1459CE3
+	for <lists+linux-input@lfdr.de>; Tue, 23 Nov 2021 08:39:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234319AbhKWHuX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 Nov 2021 02:50:23 -0500
-Received: from msg-1.mailo.com ([213.182.54.11]:59246 "EHLO msg-1.mailo.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234316AbhKWHuX (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 Nov 2021 02:50:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
-        t=1637652366; bh=1ik2lIfFWQwygKDFBz1wycmemRjU/mep6maZiu4NSAU=;
-        h=X-EA-Auth:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
-         References:MIME-Version:Content-Transfer-Encoding;
-        b=Zi2nws4ST4+3H1IQv56W7Tjhu8kouFbP6Xn8USxKGMDfqbySMNMwJjSq3M9Fp4hW1
-         KYOw7CgnYgurNWXCLS5R5Rn1Lv/6Ie/9z8IwZXqQ1LYqnwt0wKZzW5lu+BWvUUJBum
-         gmgOvF3l+EoGQktwYNc7iL0Guwg+EEZSLyQbKNxA=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
-        via proxy.mailoo.org [213.182.55.207]
-        Tue, 23 Nov 2021 08:26:06 +0100 (CET)
-X-EA-Auth: Vg9S9ZrQ98yAgvet5Vzl+zMqmlIUylmD23B9xFPMeZxzY4zrKSawtRIvYoiZZiyQODt+KsuoAzSGH5h37wEGsm3Wc7WpnnX1N2Ee+aFs2tE=
-From:   Vincent Knecht <vincent.knecht@mailoo.org>
-To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org, stephan@gerhold.net,
-        vincent.knecht@mailoo.org
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Subject: [PATCH 4/5] dt-bindings: input: touchscreen: msg2638: Document keys support
-Date:   Tue, 23 Nov 2021 08:25:33 +0100
-Message-Id: <20211123072534.2775264-5-vincent.knecht@mailoo.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211123072534.2775264-1-vincent.knecht@mailoo.org>
-References: <20211123072534.2775264-1-vincent.knecht@mailoo.org>
-MIME-Version: 1.0
+        id S234146AbhKWHmL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 Nov 2021 02:42:11 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:39318 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234166AbhKWHmJ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 23 Nov 2021 02:42:09 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 6E3A121891;
+        Tue, 23 Nov 2021 07:39:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1637653141; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ntuc/d1v3aIwzR7MoYZrh+0RhIWLLjMFoPm+UC5pqJk=;
+        b=W/YDsqKWrb/7i4lPJ37Md6TTOkHUkmZ20hPfUIuJbakFYJkArtkKqPhIyegwprUsri+mhS
+        A9axhyU0MNtVs7T8iE4R6ukrb8QN4BgMi+JMvq7EIERJI9GbmUQYyfwx59ijnBpniGOKQQ
+        8HFoVe3mfHKaEzi5MI3tGe4bYQDvW9U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1637653141;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ntuc/d1v3aIwzR7MoYZrh+0RhIWLLjMFoPm+UC5pqJk=;
+        b=v/LY+j4noGL6KrAPctVHgEn3wSI1AnTTbxktYvN3lMIPA8njE9SJao9ZsA6nV2FDiBQ8Z8
+        9aCrTJTHsjuBoKBQ==
+Received: from alsa1.suse.de (alsa1.suse.de [10.160.4.42])
+        by relay2.suse.de (Postfix) with ESMTP id 674A6A3B84;
+        Tue, 23 Nov 2021 07:39:01 +0000 (UTC)
+Date:   Tue, 23 Nov 2021 08:39:01 +0100
+Message-ID: <s5ho86bb9t6.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Samuel =?UTF-8?B?xIxhdm9q?= <samuel@cavoj.net>
+Cc:     Takashi Iwai <tiwai@suse.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH v2] Input: i8042 - Add deferred probe support
+In-Reply-To: <0ffa3c3050c5a27688168702806193f4@cavoj.net>
+References: <20211117063757.11380-1-tiwai@suse.de>
+        <0ffa3c3050c5a27688168702806193f4@cavoj.net>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Document optional linux,keycodes support.
+On Mon, 22 Nov 2021 21:56:52 +0100,
+Samuel Čavoj wrote:
+> 
+> Hi Takashi,
+> 
+> On 2021-11-17 07:37, Takashi Iwai wrote:
+> > [...]
+> > The deferred probe mode is enabled either via the new option
+> > i8042.probe_defer or via the quirk table entry.  As of this patch, the
+> > quirk table contains only ASUS ZenBook UX425UA.
+> 
+> I own the ASUS ZenBook UX325UA and it has the exact same problem.
+> Would you add it to the quirk table, or should I just submit another
+> patch based on this one?
 
-Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
----
- .../devicetree/bindings/input/touchscreen/mstar,msg2638.yaml  | 4 ++++
- 1 file changed, 4 insertions(+)
+If another rewrite is requested, I can add yours in v3 patch.
+Other than that, please submit the additional patch.
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/mstar,msg2638.yaml b/Documentation/devicetree/bindings/input/touchscreen/mstar,msg2638.yaml
-index 2fb7e01bb65a..af4f954de958 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/mstar,msg2638.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/mstar,msg2638.yaml
-@@ -36,6 +36,10 @@ properties:
-   touchscreen-size-x: true
-   touchscreen-size-y: true
- 
-+  linux,keycodes:
-+    minItems: 1
-+    maxItems: 4
-+
- additionalProperties: false
- 
- required:
--- 
-2.31.1
+> The output of `dmidecode` is as follows:
+> 
+>     Handle 0x0001, DMI type 1, 27 bytes
+>     System Information
+>             Manufacturer: ASUSTeK COMPUTER INC.
+>             Product Name: ZenBook UX325UA_UM325UA
+> 
+> Thank you for tracking down this problem.
+> 
+> >
+> > The deferred probe part is based on Fabio's initial work.
+> >
+> > BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1190256
+> > Link: https://lore.kernel.org/r/s5ho890n1rh.wl-tiwai@suse.de
+> > Cc: Fabio Estevam <festevam@gmail.com>
+> > Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> 
+> Tested-by: Samuel Čavoj <samuel@cavoj.net>
+
+Glad to see that the patch helps.
 
 
+thanks,
 
+Takashi
