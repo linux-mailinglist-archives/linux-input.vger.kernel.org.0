@@ -2,81 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E30A45B0C0
-	for <lists+linux-input@lfdr.de>; Wed, 24 Nov 2021 01:31:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EC0045B27C
+	for <lists+linux-input@lfdr.de>; Wed, 24 Nov 2021 04:12:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233506AbhKXAeI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 Nov 2021 19:34:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60418 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240739AbhKXAdW (ORCPT
+        id S235626AbhKXDP5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 Nov 2021 22:15:57 -0500
+Received: from smtp161.vfemail.net ([146.59.185.161]:35191 "EHLO
+        smtp161.vfemail.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235128AbhKXDP4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 Nov 2021 19:33:22 -0500
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1F49C061746
-        for <linux-input@vger.kernel.org>; Tue, 23 Nov 2021 16:30:13 -0800 (PST)
-Received: by mail-lj1-x232.google.com with SMTP id d11so1600322ljg.8
-        for <linux-input@vger.kernel.org>; Tue, 23 Nov 2021 16:30:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=zejIlZjGjvzTKDlE9IDzfKlgpBmC2NhrN3/klGVK4ZA=;
-        b=BOX3BoYl8kkZ5wFN2RxfUWqF4uAeNeD/+IzWEt54T3NegeDW3kvmC1tjePiuT9gEvS
-         MOLztt7Wjvy5eZulYcF6znumaO/KNjeiw9D//NS8sNb7wE/sdCw0VrUoWjat/wEjWn5j
-         qVu5Zavfqhu3ZQ00fuaf7FMDOy3fspjxfTSrl7MmgAJmTDs90ffoMJ6Ff2HJ5nSKwS7T
-         w0JO/+BI7gjN5U0yozjq9S7/9tkxMlMRGow2lE9FzHKkqzwN6fbnchKyGsR6+mgXQTck
-         pWLTdmyfEJAP0oRJiCXtZe62i2MRh00UILPLNclfrJWrOvA6s2ypTc5JDvfizNyL9NlL
-         74qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=zejIlZjGjvzTKDlE9IDzfKlgpBmC2NhrN3/klGVK4ZA=;
-        b=dnBCplmLLchdvGTL6nCiyxo6+WSAl2vVS2tGUqNOzQzmWfBCIMna4YUXv2aFVxwYt6
-         lzpVNzHZRvFdoHFe39V7uWK6Qm5bVXSF33RypJivyXIBQThItscak9JTOjAXCZbZcW3h
-         LdM5V3gMRc6IaODWjbhO5dFHRHAzbG0AeXnIAM9fhGK+jaGx+jT5oqsWPjiBYsSQMZ8W
-         8pTklW/Z/8BzhJLVIM7ZOgO0+FVqoTTwvs21pZyYIyxlNYRJbCOkv1RhUJe386DuVHET
-         imNGMzh1HsTl3Ii+QUHYphHWwKYdhPEov594L/MCYvJRSGVOjukgxm4+c9zqhn/PuGPf
-         rv/w==
-X-Gm-Message-State: AOAM533l4CmVYyEoy6Zw0mofVz3xUGWaQPBitlfy9K9/0vdcypCa0RTi
-        /tkGnflK/SwpNDw1xWd//SJLtWywiJ023DcK3kg=
-X-Google-Smtp-Source: ABdhPJxLTUC6kGdE8pxRp4n8/ygKhHFI1AmEo6EpxKA59xLAFn4mtvai0Qp/t27WYBSjj3SeGNCyj8/7Xk1LvEzu/g0=
-X-Received: by 2002:a2e:a5c9:: with SMTP id n9mr10018243ljp.512.1637713811299;
- Tue, 23 Nov 2021 16:30:11 -0800 (PST)
+        Tue, 23 Nov 2021 22:15:56 -0500
+Received: (qmail 5374 invoked from network); 24 Nov 2021 03:12:46 +0000
+Received: from localhost (HELO nl101-3.vfemail.net) ()
+  by smtpout.vfemail.net with ESMTPS (ECDHE-RSA-AES256-GCM-SHA384 encrypted); 24 Nov 2021 03:12:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=vfemail.net; h=date:from
+        :to:cc:subject:message-id:in-reply-to:references:mime-version
+        :content-type:content-transfer-encoding; s=2018; bh=IJ3maCvdDBep
+        jC+VBuaf0rHuv1D9SuN0aOu4sfd9Jv4=; b=osAgjpo4m744VjIPhGLKafh+T+Im
+        p4Fh3cZC90BZYEykSyF/eVJIatr+BWkgI3VAFH+XlnFn5lcAZkAIYngMd8fLP+k+
+        zZOOlOQTtkaZKidiV/eA2qGKR3/xXFIoBiM7di0g+MfP9q7UGkEyG4ThAV9C/yTF
+        Mzm8d1gIitOQt/0=
+Received: (qmail 72259 invoked from network); 24 Nov 2021 03:12:16 -0000
+Received: by simscan 1.4.0 ppid: 72241, pid: 72253, t: 0.4285s
+         scanners:none
+Received: from unknown (HELO bmwxMDEudmZlbWFpbC5uZXQ=) (aGdudGt3aXNAdmZlbWFpbC5uZXQ=@MTkyLjE2OC4xLjE5Mg==)
+  by nl101.vfemail.net with ESMTPA; 24 Nov 2021 03:12:15 -0000
+Date:   Tue, 23 Nov 2021 22:12:41 -0500
+From:   David Niklas <Hgntkwis@vfemail.net>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Jiri Kosina <jikos@kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Subject: Re: I need advice with UPS connection. (ping)
+Message-ID: <20211123221241.3cdb4e66@Zen-II-x12.niklas.com>
+In-Reply-To: <CAO-hwJJtQ_1S76HTaHK=oUeP1M24QnC6z1J5CvTuU7m=oZe6zg@mail.gmail.com>
+References: <20201109220000.2ae98fa5@Phenom-II-x6.niklas.com>
+        <20211114144842.72463ccc@Zen-II-x12.niklas.com>
+        <20211114211435.GA87082@rowland.harvard.edu>
+        <20211114220222.31755871@Zen-II-x12.niklas.com>
+        <20211115160918.GB109771@rowland.harvard.edu>
+        <20211117002359.03b36ec6@Zen-II-x12.niklas.com>
+        <20211117170817.GD172151@rowland.harvard.edu>
+        <20211119171915.6a8cac47@Zen-II-x12.niklas.com>
+        <YZm03KTcWOwtMtCN@rowland.harvard.edu>
+        <20211122112526.501c5f66@Zen-II-x12.niklas.com>
+        <YZv55KMsuSYanfYp@rowland.harvard.edu>
+        <667c2c8307e0e738ed54e34f6c83ea1df99c7528.camel@archlinux.org>
+        <CAO-hwJJtQ_1S76HTaHK=oUeP1M24QnC6z1J5CvTuU7m=oZe6zg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Received: by 2002:aa6:d981:0:b0:14f:34a7:74b2 with HTTP; Tue, 23 Nov 2021
- 16:30:10 -0800 (PST)
-Reply-To: rubenherbert789@gmail.com
-From:   Ruben Herbert <mamadouflorent8@gmail.com>
-Date:   Wed, 24 Nov 2021 01:30:10 +0100
-Message-ID: <CABYuY+XWdbFU0oCr_rDuVWoSdopU2vEES0YsaTyknFdVwNh=QA@mail.gmail.com>
-Subject: ABANDONED FUND
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Beneficiary,
+On Tue, 23 Nov 2021 17:33:08 +0100
+Benjamin Tissoires <benjamin.tissoires@redhat.com> wrote:
 
-How are you today? I need the following answers from you immediately:
+> On Mon, Nov 22, 2021 at 10:35 PM Filipe La=C3=ADns <lains@archlinux.org>
+> wrote:
+> >
+> > On Mon, 2021-11-22 at 15:13 -0500, Alan Stern wrote: =20
+> > > On Mon, Nov 22, 2021 at 11:25:26AM -0500, David Niklas wrote: =20
+> > > > Ok, I first edited the kernel to return -ENOMEM like you
+> > > > suggested but the UPS still disconnected. I then edited it again
+> > > > to re-add the 1060 byte request and the UPS still disconnected.
+> > > >
+> > > > I'm attaching the usbmon traces.
+> > > > If you need any additional info I'll do my best to provide it. =20
+> > >
+> > > Holy cow!  I just realized what's going on.  And these little
+> > > changes we've been messing around with have nothing to do with it.
+> > >
+> > > For the first time, I looked at the timestamps in the usbmon
+> > > traces.  It turns out that the disconnects occur several seconds
+> > > after the kernel retrieves the HID report descriptor from the
+> > > device.  Under normal conditions we would expect to see report
+> > > packets coming in from the device, starting just a fraction of a
+> > > second after the descriptor is received.  But that isn't happening
+> > > in the Linux traces, whereas it does happen in the Windows pcap log.
+> > >
+> > > I would guess that the UPS is programmed to disconnect itself
+> > > electronically from the USB bus if it doesn't get any requests for
+> > > reports within a couple of seconds.  That certainly would explain
+> > > what you've been seeing.  I can't imagine why it would be
+> > > programmed to behave this way, but companies have been known to do
+> > > stranger things.
+> > >
+> > > As for why the kernel doesn't try to get the reports...  That's a
+> > > little harder to answer.  Maybe Jiri or Benjamin will know
+> > > something about it. =20
+>=20
+> I am not sure exactly what is going on there.
+> There are a couple of things that come to my mind:
+> - for quite some time now, we don't fetch all reports whenever we
+> connect a new device. This was known to be problematic on some devices
+> (see all the devices with HID_QUIRK_NOGET or
+> HID_QUIRK_NO_INIT_REPORT), and the default to not poll input values on
+> plug for devices is actually safer. If you want to revert, we will
+> have to have a special driver for this one I guess
+> - HID_QUIRK_ALWAYS_POLL *might* be a way to force the device to stay
+> with a USB connection up.
+>=20
+> > >
+> > > The UPS's vendor ID is 0d9f (POWERCOM) and the product ID is 0004.
+> > > Now, the drivers/hid/hid-quirks.c file contains a quirk entry for
+> > > 0d9f:0002 (product POWERCOM_UPS), which is probably an earlier
+> > > model of the same device, or a very similar device.  This quirk
+> > > entry is in the hid_ignore_list; it tells the HID core not to
+> > > handle the device at all.
+> > >
+> > > I don't know why that quirk entry is present, and furthermore, it
+> > > can't directly affect what is happening with your device because
+> > > the product IDs are different.  Still, it is an indication that
+> > > something strange is going on behind the scenes.
+> > >
+> > > Perhaps there is no kernel driver for these UPS devices?  Perhaps
+> > > the intention is that some user program will handle all the
+> > > communication when one of them is detected?  A quick search on
+> > > Google turns up usbhid-ups, part of Network USB Tools (NUT) --
+> > > maybe you need to install that package in order to use the device. =20
+>=20
+> I don't have enough experience with UPS here to be helpful,
+> unfortunately. But What Alan said made a lot of sense. Maybe the NUT
+> people will have a better insight.
+<snip>
 
-Did you abandon your funds of US$35,000,000.00?
+I'll send a message their way.
 
-Did you authorize a lawyer to claim the fund on your behalf and that
-the funds should be sent to the below account details?;
-
-Canadian Imperial Bank of Commerce
-1120 Grant Ave Wpg Mb Canada R3M 2A6
-Usd Acct No: 01007-93-17899
-Swift Code: cibccatt
-Beneficiary Name: Fitzroy Joseph
-
-Kindly get back to me immediately to avoid paying the wrong person.
-
-I await your urgent response.
-
-Yours sincerely,,
-Dr. Ruben Herbert
-Head, Financial System Stability,
-Central Bank of Nigeria (CBN)
+Thanks,
+David
