@@ -2,137 +2,179 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7854145B6D6
-	for <lists+linux-input@lfdr.de>; Wed, 24 Nov 2021 09:44:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AC0845B799
+	for <lists+linux-input@lfdr.de>; Wed, 24 Nov 2021 10:39:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240722AbhKXIrf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 24 Nov 2021 03:47:35 -0500
-Received: from mga02.intel.com ([134.134.136.20]:15266 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229905AbhKXIq4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 24 Nov 2021 03:46:56 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10177"; a="222457320"
-X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; 
-   d="scan'208";a="222457320"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2021 00:43:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; 
-   d="scan'208";a="475044776"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 24 Nov 2021 00:43:41 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mpnsR-0004Xu-4X; Wed, 24 Nov 2021 08:43:39 +0000
-Date:   Wed, 24 Nov 2021 16:43:00 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
-        jikos@kernel.org
-Cc:     kbuild-all@lists.01.org, benjamin.tissoires@redhat.com,
-        peter.hutterer@who-t.net, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Subject: Re: [PATCH 1/1] HID: multitouch: only map BTN_LEFT on buttonpads
-Message-ID: <202111241646.G968t85X-lkp@intel.com>
-References: <20211123191238.12472-2-jose.exposito89@gmail.com>
+        id S236607AbhKXJm3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 24 Nov 2021 04:42:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30434 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234291AbhKXJm1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 24 Nov 2021 04:42:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1637746757;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zCwgu/iN8UvUnRGDuVKX8IG1jfgLBB20Ll53mZjRXog=;
+        b=Z4VAc+5lRZZHA/7zFIcPtT9uTDkOeAWCU5zNKLawSx5FJ0EsJM7IBjWVN1aCmvs7xn1OCZ
+        u3kt2mQ5+at2CAeKHlv6fyZPn/FKTusxpXe7NI0iwoL6amj/IBsQAQTIZQ6p100fpu/8WE
+        0jUOFoBZg8TUPppRdrnCebbqGjVJT/w=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-30-tsZD9jHkNOuHz2k-gmv9wQ-1; Wed, 24 Nov 2021 04:39:15 -0500
+X-MC-Unique: tsZD9jHkNOuHz2k-gmv9wQ-1
+Received: by mail-pj1-f72.google.com with SMTP id x3-20020a17090a1f8300b001a285b9f2cbso1242132pja.6
+        for <linux-input@vger.kernel.org>; Wed, 24 Nov 2021 01:39:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=zCwgu/iN8UvUnRGDuVKX8IG1jfgLBB20Ll53mZjRXog=;
+        b=qax1oEaAdFb6dokB0xiUaeAF8CituPxgAV6rIn9V6IGNfeBL7bOrPb/0uaTCIQk2hw
+         LQTNDoVGJ1UUWNeUs0R+I84pvZ10Y23Hbu2TnVy+mTvTx9fTl0sasxS5Cg5Toeb6AQG2
+         HuYCKg/9ppS7jTAvQqInEakGERitETtvTigQL0xll1vIIwmiYMrOSOjj+vwubig4Ibhn
+         r0JXvVldWv3YzpMtaApu/2L5LMDMgqV25/CAdJU8MpZOU7gCUsKkghCNPZV6jUWDAtzq
+         hu+J32EfmrqeB9l7ub30bj9DghC7BjSDQjeQHS5a2b1d807purJKUwe9nmPfZsIx1URZ
+         gAsw==
+X-Gm-Message-State: AOAM531LDd4gja4ejLtigN6UhCnleZIdItZd2Iw9m1XpnjtuwbNhjF56
+        1O4Wk3eWJtgZ2UTCzUpCIpZJOG7wuTvldvqpI4qLhbMdIkW/P1GblqTtnN/cO+wYKKowXcaf7S3
+        Ji90sD3qyXwFOrMpXVm0010pG1xgTMkCGm+wz/Eg=
+X-Received: by 2002:a17:90b:1648:: with SMTP id il8mr13216908pjb.246.1637746754557;
+        Wed, 24 Nov 2021 01:39:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxhgOpc9n7O9Tx8Ko4L88LDtDV7faKx0HMHpbcxk55uIjDBqdstpusSYpNDQs7xPMtMbZ1FoZSqrENpQtmautA=
+X-Received: by 2002:a17:90b:1648:: with SMTP id il8mr13216878pjb.246.1637746754313;
+ Wed, 24 Nov 2021 01:39:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211123191238.12472-2-jose.exposito89@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20211123191238.12472-1-jose.exposito89@gmail.com>
+In-Reply-To: <20211123191238.12472-1-jose.exposito89@gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 24 Nov 2021 10:39:02 +0100
+Message-ID: <CAO-hwJLB8h6fQRF8UjN3rER_6xS2Shi3ffEr92PhkVCijtYRpQ@mail.gmail.com>
+Subject: Re: [PATCH 0/1] Do not map BTN_RIGHT/MIDDLE on buttonpads
+To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi "José,
+Hi Jos=C3=A9,
 
-Thank you for the patch! Yet something to improve:
+On Tue, Nov 23, 2021 at 8:12 PM Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gm=
+ail.com> wrote:
+>
+> Hi all,
+>
+> Historically, libinput has relayed on the INPUT_PROP_BUTTONPAD property
+> to detect buttonpads.
+>
+> Since buttonpads are expected to have only one button (BTN_LEFT),
+> recently we added a new rule to detect buttonpads: Where a touchpad
+> maps the BTN_RIGHT bit, libinput assumes it is NOT a buttonpad.
+>
+> However, this change leaded to several false possitives, so we ended up
+> reverting it. For more context:
+> https://gitlab.freedesktop.org/libinput/libinput/-/issues/704
+>
+> And for a full list of affected hardware, HID reports and bug reports
+> please see:
+> https://gitlab.freedesktop.org/libinput/libinput/-/merge_requests/726
+>
+> My understanding is that buttonpads should not map BTN_RIGHT and/or
+> BTN_MIDDLE and to avoid it I would like to fix the required drivers.
 
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on v5.16-rc2 next-20211124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+As long as udev intrinsic is happy with it (and it correctly tags the
+touchpad as ID_INPUT_something), I'm fine with it.
 
-url:    https://github.com/0day-ci/linux/commits/Jos-Exp-sito/Do-not-map-BTN_RIGHT-MIDDLE-on-buttonpads/20211124-031407
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20211124/202111241646.G968t85X-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/67a7bd322df749f6ef9a142479668db93b93beca
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Jos-Exp-sito/Do-not-map-BTN_RIGHT-MIDDLE-on-buttonpads/20211124-031407
-        git checkout 67a7bd322df749f6ef9a142479668db93b93beca
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/hid/
+Also, you might want to point at the specification regarding button
+pads: https://docs.microsoft.com/en-us/windows-hardware/design/component-gu=
+idelines/touchpad-windows-precision-touchpad-collection#device-capabilities=
+-feature-report
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+The way I read it: if the device exports the Button type value
+feature, and it is 0 or 1 (click-pad or pressure-pad), there should
+not be discrete buttons.
 
-All errors (new ones prefixed by >>):
+>
+> One option to fix it (this patch) is to clear the bits that might have
+> been added because of the HID descriptor on every driver.
+> However, since this code will be common to all drivers, I would like to
+> ask if you consider it worth it to add a function to handle adding
+> properties.
+>
+> A function similar to input_set_capability but for props could be added
+> in input.h/c:
+>
+>     /**
+>      * input_set_property - add a property to the device
+>      * @dev: device to add the property to
+>      * @property: type of the property (INPUT_PROP_POINTER, INPUT_PROP_DI=
+RECT...)
+>      *
+>      * In addition to setting up corresponding bit in dev->propbit the fu=
+nction
+>      * might add or remove related capabilities.
+>      */
+>     void input_set_property(struct input_dev *dev, unsigned int property)
+>     {
+>             switch (property) {
+>             case INPUT_PROP_POINTER:
+>             case INPUT_PROP_DIRECT:
+>             case INPUT_PROP_SEMI_MT:
+>             case INPUT_PROP_TOPBUTTONPAD:
+>             case INPUT_PROP_POINTING_STICK:
+>             case INPUT_PROP_ACCELEROMETER:
+>                     break;
+>
+>             case INPUT_PROP_BUTTONPAD:
+>                     input_set_capability(dev, EV_KEY, BTN_LEFT);
+>                     __clear_bit(BTN_RIGHT, dev->keybit);
+>                     __clear_bit(BTN_MIDDLE, dev->keybit);
+>                     break;
+>
+>             default:
+>                     pr_err("%s: unknown property %u\n", __func__, propert=
+y);
+>                     dump_stack();
+>                     return;
+>             }
+>
+>             __set_bit(property, dev->propbit);
+>     }
+>     EXPORT_SYMBOL(input_set_property);
+>
+>
+> Which approach do you think is the best?
 
-   drivers/hid/hid-multitouch.c: In function 'mt_touch_input_configured':
->> drivers/hid/hid-multitouch.c:1291:26: error: 'dev' undeclared (first use in this function); did you mean 'hdev'?
-    1291 |   __clear_bit(BTN_RIGHT, dev->keybit);
-         |                          ^~~
-         |                          hdev
-   drivers/hid/hid-multitouch.c:1291:26: note: each undeclared identifier is reported only once for each function it appears in
+I think it depends if you plan on fixing just hid-multitouch or the others.
+If you have more than one driver, then yes, adding a new symbol in
+hid-input.c makes sense. If not, then you are just exposing a new
+function we won't know if there are users and we won't be able to
+change without care.
 
+Cheers,
+Benjamin
 
-vim +1291 drivers/hid/hid-multitouch.c
+>
+> Thank you very much in advance,
+> Jose
+>
+>
+> Jos=C3=A9 Exp=C3=B3sito (1):
+>   HID: multitouch: only map BTN_LEFT on buttonpads
+>
+>  drivers/hid/hid-multitouch.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> --
+> 2.25.1
+>
 
-  1261	
-  1262	static int mt_touch_input_configured(struct hid_device *hdev,
-  1263					     struct hid_input *hi,
-  1264					     struct mt_application *app)
-  1265	{
-  1266		struct mt_device *td = hid_get_drvdata(hdev);
-  1267		struct mt_class *cls = &td->mtclass;
-  1268		struct input_dev *input = hi->input;
-  1269		int ret;
-  1270	
-  1271		if (!td->maxcontacts)
-  1272			td->maxcontacts = MT_DEFAULT_MAXCONTACT;
-  1273	
-  1274		mt_post_parse(td, app);
-  1275		if (td->serial_maybe)
-  1276			mt_post_parse_default_settings(td, app);
-  1277	
-  1278		if (cls->is_indirect)
-  1279			app->mt_flags |= INPUT_MT_POINTER;
-  1280	
-  1281		if (app->quirks & MT_QUIRK_NOT_SEEN_MEANS_UP)
-  1282			app->mt_flags |= INPUT_MT_DROP_UNUSED;
-  1283	
-  1284		/* check for clickpads */
-  1285		if ((app->mt_flags & INPUT_MT_POINTER) &&
-  1286		    (app->buttons_count == 1))
-  1287			td->is_buttonpad = true;
-  1288	
-  1289		if (td->is_buttonpad) {
-  1290			__set_bit(INPUT_PROP_BUTTONPAD, input->propbit);
-> 1291			__clear_bit(BTN_RIGHT, dev->keybit);
-  1292			__clear_bit(BTN_MIDDLE, dev->keybit);
-  1293		}
-  1294	
-  1295		app->pending_palm_slots = devm_kcalloc(&hi->input->dev,
-  1296						       BITS_TO_LONGS(td->maxcontacts),
-  1297						       sizeof(long),
-  1298						       GFP_KERNEL);
-  1299		if (!app->pending_palm_slots)
-  1300			return -ENOMEM;
-  1301	
-  1302		ret = input_mt_init_slots(input, td->maxcontacts, app->mt_flags);
-  1303		if (ret)
-  1304			return ret;
-  1305	
-  1306		app->mt_flags = 0;
-  1307		return 0;
-  1308	}
-  1309	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
