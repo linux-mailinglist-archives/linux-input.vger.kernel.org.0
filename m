@@ -2,137 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EC0045B27C
-	for <lists+linux-input@lfdr.de>; Wed, 24 Nov 2021 04:12:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7854145B6D6
+	for <lists+linux-input@lfdr.de>; Wed, 24 Nov 2021 09:44:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235626AbhKXDP5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 Nov 2021 22:15:57 -0500
-Received: from smtp161.vfemail.net ([146.59.185.161]:35191 "EHLO
-        smtp161.vfemail.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235128AbhKXDP4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 Nov 2021 22:15:56 -0500
-Received: (qmail 5374 invoked from network); 24 Nov 2021 03:12:46 +0000
-Received: from localhost (HELO nl101-3.vfemail.net) ()
-  by smtpout.vfemail.net with ESMTPS (ECDHE-RSA-AES256-GCM-SHA384 encrypted); 24 Nov 2021 03:12:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=vfemail.net; h=date:from
-        :to:cc:subject:message-id:in-reply-to:references:mime-version
-        :content-type:content-transfer-encoding; s=2018; bh=IJ3maCvdDBep
-        jC+VBuaf0rHuv1D9SuN0aOu4sfd9Jv4=; b=osAgjpo4m744VjIPhGLKafh+T+Im
-        p4Fh3cZC90BZYEykSyF/eVJIatr+BWkgI3VAFH+XlnFn5lcAZkAIYngMd8fLP+k+
-        zZOOlOQTtkaZKidiV/eA2qGKR3/xXFIoBiM7di0g+MfP9q7UGkEyG4ThAV9C/yTF
-        Mzm8d1gIitOQt/0=
-Received: (qmail 72259 invoked from network); 24 Nov 2021 03:12:16 -0000
-Received: by simscan 1.4.0 ppid: 72241, pid: 72253, t: 0.4285s
-         scanners:none
-Received: from unknown (HELO bmwxMDEudmZlbWFpbC5uZXQ=) (aGdudGt3aXNAdmZlbWFpbC5uZXQ=@MTkyLjE2OC4xLjE5Mg==)
-  by nl101.vfemail.net with ESMTPA; 24 Nov 2021 03:12:15 -0000
-Date:   Tue, 23 Nov 2021 22:12:41 -0500
-From:   David Niklas <Hgntkwis@vfemail.net>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Jiri Kosina <jikos@kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Subject: Re: I need advice with UPS connection. (ping)
-Message-ID: <20211123221241.3cdb4e66@Zen-II-x12.niklas.com>
-In-Reply-To: <CAO-hwJJtQ_1S76HTaHK=oUeP1M24QnC6z1J5CvTuU7m=oZe6zg@mail.gmail.com>
-References: <20201109220000.2ae98fa5@Phenom-II-x6.niklas.com>
-        <20211114144842.72463ccc@Zen-II-x12.niklas.com>
-        <20211114211435.GA87082@rowland.harvard.edu>
-        <20211114220222.31755871@Zen-II-x12.niklas.com>
-        <20211115160918.GB109771@rowland.harvard.edu>
-        <20211117002359.03b36ec6@Zen-II-x12.niklas.com>
-        <20211117170817.GD172151@rowland.harvard.edu>
-        <20211119171915.6a8cac47@Zen-II-x12.niklas.com>
-        <YZm03KTcWOwtMtCN@rowland.harvard.edu>
-        <20211122112526.501c5f66@Zen-II-x12.niklas.com>
-        <YZv55KMsuSYanfYp@rowland.harvard.edu>
-        <667c2c8307e0e738ed54e34f6c83ea1df99c7528.camel@archlinux.org>
-        <CAO-hwJJtQ_1S76HTaHK=oUeP1M24QnC6z1J5CvTuU7m=oZe6zg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        id S240722AbhKXIrf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 24 Nov 2021 03:47:35 -0500
+Received: from mga02.intel.com ([134.134.136.20]:15266 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229905AbhKXIq4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 24 Nov 2021 03:46:56 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10177"; a="222457320"
+X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; 
+   d="scan'208";a="222457320"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2021 00:43:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; 
+   d="scan'208";a="475044776"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 24 Nov 2021 00:43:41 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mpnsR-0004Xu-4X; Wed, 24 Nov 2021 08:43:39 +0000
+Date:   Wed, 24 Nov 2021 16:43:00 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+        jikos@kernel.org
+Cc:     kbuild-all@lists.01.org, benjamin.tissoires@redhat.com,
+        peter.hutterer@who-t.net, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Subject: Re: [PATCH 1/1] HID: multitouch: only map BTN_LEFT on buttonpads
+Message-ID: <202111241646.G968t85X-lkp@intel.com>
+References: <20211123191238.12472-2-jose.exposito89@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211123191238.12472-2-jose.exposito89@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 23 Nov 2021 17:33:08 +0100
-Benjamin Tissoires <benjamin.tissoires@redhat.com> wrote:
+Hi "José,
 
-> On Mon, Nov 22, 2021 at 10:35 PM Filipe La=C3=ADns <lains@archlinux.org>
-> wrote:
-> >
-> > On Mon, 2021-11-22 at 15:13 -0500, Alan Stern wrote: =20
-> > > On Mon, Nov 22, 2021 at 11:25:26AM -0500, David Niklas wrote: =20
-> > > > Ok, I first edited the kernel to return -ENOMEM like you
-> > > > suggested but the UPS still disconnected. I then edited it again
-> > > > to re-add the 1060 byte request and the UPS still disconnected.
-> > > >
-> > > > I'm attaching the usbmon traces.
-> > > > If you need any additional info I'll do my best to provide it. =20
-> > >
-> > > Holy cow!  I just realized what's going on.  And these little
-> > > changes we've been messing around with have nothing to do with it.
-> > >
-> > > For the first time, I looked at the timestamps in the usbmon
-> > > traces.  It turns out that the disconnects occur several seconds
-> > > after the kernel retrieves the HID report descriptor from the
-> > > device.  Under normal conditions we would expect to see report
-> > > packets coming in from the device, starting just a fraction of a
-> > > second after the descriptor is received.  But that isn't happening
-> > > in the Linux traces, whereas it does happen in the Windows pcap log.
-> > >
-> > > I would guess that the UPS is programmed to disconnect itself
-> > > electronically from the USB bus if it doesn't get any requests for
-> > > reports within a couple of seconds.  That certainly would explain
-> > > what you've been seeing.  I can't imagine why it would be
-> > > programmed to behave this way, but companies have been known to do
-> > > stranger things.
-> > >
-> > > As for why the kernel doesn't try to get the reports...  That's a
-> > > little harder to answer.  Maybe Jiri or Benjamin will know
-> > > something about it. =20
->=20
-> I am not sure exactly what is going on there.
-> There are a couple of things that come to my mind:
-> - for quite some time now, we don't fetch all reports whenever we
-> connect a new device. This was known to be problematic on some devices
-> (see all the devices with HID_QUIRK_NOGET or
-> HID_QUIRK_NO_INIT_REPORT), and the default to not poll input values on
-> plug for devices is actually safer. If you want to revert, we will
-> have to have a special driver for this one I guess
-> - HID_QUIRK_ALWAYS_POLL *might* be a way to force the device to stay
-> with a USB connection up.
->=20
-> > >
-> > > The UPS's vendor ID is 0d9f (POWERCOM) and the product ID is 0004.
-> > > Now, the drivers/hid/hid-quirks.c file contains a quirk entry for
-> > > 0d9f:0002 (product POWERCOM_UPS), which is probably an earlier
-> > > model of the same device, or a very similar device.  This quirk
-> > > entry is in the hid_ignore_list; it tells the HID core not to
-> > > handle the device at all.
-> > >
-> > > I don't know why that quirk entry is present, and furthermore, it
-> > > can't directly affect what is happening with your device because
-> > > the product IDs are different.  Still, it is an indication that
-> > > something strange is going on behind the scenes.
-> > >
-> > > Perhaps there is no kernel driver for these UPS devices?  Perhaps
-> > > the intention is that some user program will handle all the
-> > > communication when one of them is detected?  A quick search on
-> > > Google turns up usbhid-ups, part of Network USB Tools (NUT) --
-> > > maybe you need to install that package in order to use the device. =20
->=20
-> I don't have enough experience with UPS here to be helpful,
-> unfortunately. But What Alan said made a lot of sense. Maybe the NUT
-> people will have a better insight.
-<snip>
+Thank you for the patch! Yet something to improve:
 
-I'll send a message their way.
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on v5.16-rc2 next-20211124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Thanks,
-David
+url:    https://github.com/0day-ci/linux/commits/Jos-Exp-sito/Do-not-map-BTN_RIGHT-MIDDLE-on-buttonpads/20211124-031407
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20211124/202111241646.G968t85X-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/0day-ci/linux/commit/67a7bd322df749f6ef9a142479668db93b93beca
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Jos-Exp-sito/Do-not-map-BTN_RIGHT-MIDDLE-on-buttonpads/20211124-031407
+        git checkout 67a7bd322df749f6ef9a142479668db93b93beca
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/hid/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/hid/hid-multitouch.c: In function 'mt_touch_input_configured':
+>> drivers/hid/hid-multitouch.c:1291:26: error: 'dev' undeclared (first use in this function); did you mean 'hdev'?
+    1291 |   __clear_bit(BTN_RIGHT, dev->keybit);
+         |                          ^~~
+         |                          hdev
+   drivers/hid/hid-multitouch.c:1291:26: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +1291 drivers/hid/hid-multitouch.c
+
+  1261	
+  1262	static int mt_touch_input_configured(struct hid_device *hdev,
+  1263					     struct hid_input *hi,
+  1264					     struct mt_application *app)
+  1265	{
+  1266		struct mt_device *td = hid_get_drvdata(hdev);
+  1267		struct mt_class *cls = &td->mtclass;
+  1268		struct input_dev *input = hi->input;
+  1269		int ret;
+  1270	
+  1271		if (!td->maxcontacts)
+  1272			td->maxcontacts = MT_DEFAULT_MAXCONTACT;
+  1273	
+  1274		mt_post_parse(td, app);
+  1275		if (td->serial_maybe)
+  1276			mt_post_parse_default_settings(td, app);
+  1277	
+  1278		if (cls->is_indirect)
+  1279			app->mt_flags |= INPUT_MT_POINTER;
+  1280	
+  1281		if (app->quirks & MT_QUIRK_NOT_SEEN_MEANS_UP)
+  1282			app->mt_flags |= INPUT_MT_DROP_UNUSED;
+  1283	
+  1284		/* check for clickpads */
+  1285		if ((app->mt_flags & INPUT_MT_POINTER) &&
+  1286		    (app->buttons_count == 1))
+  1287			td->is_buttonpad = true;
+  1288	
+  1289		if (td->is_buttonpad) {
+  1290			__set_bit(INPUT_PROP_BUTTONPAD, input->propbit);
+> 1291			__clear_bit(BTN_RIGHT, dev->keybit);
+  1292			__clear_bit(BTN_MIDDLE, dev->keybit);
+  1293		}
+  1294	
+  1295		app->pending_palm_slots = devm_kcalloc(&hi->input->dev,
+  1296						       BITS_TO_LONGS(td->maxcontacts),
+  1297						       sizeof(long),
+  1298						       GFP_KERNEL);
+  1299		if (!app->pending_palm_slots)
+  1300			return -ENOMEM;
+  1301	
+  1302		ret = input_mt_init_slots(input, td->maxcontacts, app->mt_flags);
+  1303		if (ret)
+  1304			return ret;
+  1305	
+  1306		app->mt_flags = 0;
+  1307		return 0;
+  1308	}
+  1309	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
