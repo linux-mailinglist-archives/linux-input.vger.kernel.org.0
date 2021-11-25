@@ -2,131 +2,141 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65BD845CD8C
-	for <lists+linux-input@lfdr.de>; Wed, 24 Nov 2021 20:53:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1009E45D786
+	for <lists+linux-input@lfdr.de>; Thu, 25 Nov 2021 10:46:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236645AbhKXT4b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 24 Nov 2021 14:56:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38564 "EHLO
+        id S1350208AbhKYJtl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Nov 2021 04:49:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235076AbhKXT4b (ORCPT
+        with ESMTP id S1354245AbhKYJrk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 24 Nov 2021 14:56:31 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E959AC061574;
-        Wed, 24 Nov 2021 11:53:20 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id r8so6348759wra.7;
-        Wed, 24 Nov 2021 11:53:20 -0800 (PST)
+        Thu, 25 Nov 2021 04:47:40 -0500
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15554C0613E0;
+        Thu, 25 Nov 2021 01:44:29 -0800 (PST)
+Received: by mail-il1-x12d.google.com with SMTP id a11so4995981ilj.6;
+        Thu, 25 Nov 2021 01:44:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=jfrfq43NyMGbXbt7w7bZ1iCtfGpsFmM7TNkhuhYmJyE=;
-        b=Rv09c/fYvF0EDPJ4cCrEgggM6WXLpXjNtn3EUcHuIW+ga9Vrl9NlAtEcw6OGYNzjmo
-         B12agcR4URtvbUhe01QLz0ezLcdHktXxBkifBXAr+7sadwZ00qOQ6AoRRh60yQ5AmgXr
-         QDa0AMdF/DOSNqfNDEwpkVHDc4eSJMpBAC1DAXTioP6c7qj4yjYWAHpV6neWsNS4ipuK
-         wqCMMiwACH+ddEqRSzZ087wXtb+TNoZFT9fNzUuLM+Kf7hbsBEJxsyLV590lsaS358L0
-         RvEDwdS9UJNUqjwTn1W5F/V4lXNcZl+Ez5RuJxCZlZy0dXDRwWuC5qHiPg0FcBCHh+rw
-         cwgw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=S9a5bV9LZZFkZgyNbN5tPhqHaUTXaCLITHSR34/CxUg=;
+        b=fS2SBr8H4T8Rng0kmmP8oOh8keqeipk4mrJ7X1y4YFTPofvszHJcTTbwlpHVx8cZgg
+         FKvkZ4RQlATTb41oOSC87PjWCZOrMZT42J1ZyrWAEPxsj68yZR/i53EfB/mJL8eYtQfA
+         x4RSqh/gBp/uvNOsxYQuWaK/Wgzo/tj+soRwEZHp6jBsOfHPLLQHWqxIZo1vf2J7ymnl
+         2oD8trZjTdI2dTSLoIvaSOmwxe5Z27hysI4i0A61TwIZ7LbvM52Ze1kXZCMsFH4cwByO
+         nMQIoq9T0px3uGlFzlKHu/nf25pv753uyQR21mR16JcVQmleMhmdPaAmB4Fx80cA8a1f
+         N9Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=jfrfq43NyMGbXbt7w7bZ1iCtfGpsFmM7TNkhuhYmJyE=;
-        b=vlH6I+z8R01rTGPE7wgXUUclsEisx0cGIpBLPJBG5jsXAOiImMH2cavXrD/gbCBmkB
-         fy2nwgxzF6OKcznDGaOJUmg4dJEjG5iqx/ZEsDOxL+oOZ0GuJ6AAvNwk/NZEUvUxCoAN
-         JOzV46FvqMqdCkaMOc3VCrszlz3gcdbP8rSSM0LVb0aNT2pRDImMTlU5hY/6um1UESfJ
-         QAOitTygx8PBcOsUm27zV0RT2Ywzibw1zyh8+FBovOHzMBZ3gakatnPGnNJkjVp7f8P9
-         YApA6Lk3R9QScUy4LGxRGzg07HgdtrHjxhXz9cYytw9HvZGqaZpjGPl0IH6Q2+tkzHJA
-         IQGw==
-X-Gm-Message-State: AOAM531x8sdWZDNAjJ/9fT1wpGo7/QxPcNO8pDnXUtL+B3JFdwMJHQEz
-        /EoHGVynELE8j/ErhvHoywY=
-X-Google-Smtp-Source: ABdhPJxCdkcv0VbrlZ3X2OmYdGI3JAntg7J3nS+IHdqnA1mNzxffEWBkgFL96/Phqu4tNRCOmdxJ6A==
-X-Received: by 2002:a5d:4492:: with SMTP id j18mr23177731wrq.397.1637783599449;
-        Wed, 24 Nov 2021 11:53:19 -0800 (PST)
-Received: from elementary ([217.113.240.86])
-        by smtp.gmail.com with ESMTPSA id v2sm583805wmc.36.2021.11.24.11.53.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 11:53:19 -0800 (PST)
-Date:   Wed, 24 Nov 2021 20:53:15 +0100
-From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/1] Do not map BTN_RIGHT/MIDDLE on buttonpads
-Message-ID: <20211124195315.GA9441@elementary>
-References: <20211123191238.12472-1-jose.exposito89@gmail.com>
- <CAO-hwJLB8h6fQRF8UjN3rER_6xS2Shi3ffEr92PhkVCijtYRpQ@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=S9a5bV9LZZFkZgyNbN5tPhqHaUTXaCLITHSR34/CxUg=;
+        b=u7T2MXhSzIdn/cYQsuHiXYATpXN57Rp1jdwbaMF1FHki/mJk5O+mPWnCApWgPYKcdE
+         ggkGFNAZ+5qmNwtSU3Kja6b+voQ9QAU7GpXULFQryrluaB7Xd9jCgzpjGJ4EWbZeOxNn
+         Tn7rwgf68ZQdvJ1cvJLXM4oA/p5Uy9OybvirZOHzA/IQvLJS5prBgx/aY9x7RRGLJtDX
+         qktvWdrZrb76myYCjkSAD6noDc+bFS4bFRN/Eg5thVz8CSvxs68FGIwagBVOhEUnkNyS
+         lNZLofzIwKzQMq0vDzPN9zMmpkrap2Ccy9593A5YhHs8krLk+VgBtyhGZSh+5H6dxLh5
+         buEw==
+X-Gm-Message-State: AOAM530xc1WKn8y0xurzz1e7b3ZYm4CiWPieRl7JPsh5fre6cksZuTjk
+        p1giDNYr6GNvh6rwTOuAIM9EPto2n73U4xO4j8A=
+X-Google-Smtp-Source: ABdhPJz2l6LFynD07YfugB6JEhfbDRm1UMwOoQ1vXZYonYtlXIEg+cZFaGDAdOlhbMD4KeV802Iodblv6js9rkcK4VM=
+X-Received: by 2002:a05:6e02:16c9:: with SMTP id 9mr19518396ilx.221.1637833468562;
+ Thu, 25 Nov 2021 01:44:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAO-hwJLB8h6fQRF8UjN3rER_6xS2Shi3ffEr92PhkVCijtYRpQ@mail.gmail.com>
+References: <20211103114830.62711-1-alistair@alistair23.me> <20211105155243.7b635651@aktux>
+In-Reply-To: <20211105155243.7b635651@aktux>
+From:   Alistair Francis <alistair23@gmail.com>
+Date:   Thu, 25 Nov 2021 19:44:02 +1000
+Message-ID: <CAKmqyKP2ZXtmGGeoVO13E0pJs+TcnC8GigFiKvrEmNjgsutU-w@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] Add support for the Cypress cyttsp5
+To:     Andreas Kemnade <andreas@kemnade.info>
+Cc:     Alistair Francis <alistair@alistair23.me>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mylene Josserand <mylene.josserand@free-electrons.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
+On Sat, Nov 6, 2021 at 12:52 AM Andreas Kemnade <andreas@kemnade.info> wrote:
+>
+> Hallo Alistair,
+>
+> my Xorg (debian buster installation) does not like that:
+> [  3112.462] (**) cyttsp5: Applying InputClass "evdev touchscreen catchall"
+> [  3112.462] (**) cyttsp5: Applying InputClass "libinput touchscreen catchall"
+> [  3112.462] (II) Using input driver 'libinput' for 'cyttsp5'
+> [  3112.463] (**) cyttsp5: always reports core events
+> [  3112.463] (**) Option "Device" "/dev/input/event1"
+> [  3112.463] (**) Option "_source" "server/udev"
+> [  3112.496] (II) event1  - cyttsp5: is tagged by udev as: Touchscreen
+> [  3112.498] (EE) event1  - cyttsp5: kernel bug: device has min == max on ABS_X
+> [  3112.498] (II) event1  - cyttsp5: was rejected
+> [  3112.498] (II) event1  - not using input device '/dev/input/event1'.
+> [  3112.499] (EE) libinput: cyttsp5: Failed to create a device for /dev/input/event1
+>
+> # evtest /dev/input/event1
+> Input driver version is 1.0.1
+> Input device ID: bus 0x0 vendor 0x0 product 0x0 version 0x0
+> Input device name: "cyttsp5"
+> Supported events:
+>   Event type 0 (EV_SYN)
+>   Event type 1 (EV_KEY)
+>     Event code 330 (BTN_TOUCH)
+>   Event type 2 (EV_REL)
+>   Event type 3 (EV_ABS)
+>     Event code 0 (ABS_X)
+>       Value      0
+>       Min        0
+>       Max        0 <-- upsets xorg
+>     Event code 1 (ABS_Y)
+>       Value      0
+>       Min        0
+>       Max        0
+>     Event code 47 (ABS_MT_SLOT)
+>       Value      0
+>       Min        0
+>       Max       31
+>     Event code 48 (ABS_MT_TOUCH_MAJOR)
+>       Value      0
+>       Min        0
+>       Max      255
+>     Event code 49 (ABS_MT_TOUCH_MINOR)
+>       Value      0
+>       Min        0
+>       Max      255
+>     Event code 53 (ABS_MT_POSITION_X)
+>       Value      0
+>       Min        0
+>       Max     1447
+>     Event code 54 (ABS_MT_POSITION_Y)
+>       Value      0
+>       Min        0
+>       Max     1071
+>     Event code 57 (ABS_MT_TRACKING_ID)
+>       Value      0
+>       Min        0
+>       Max    65535
+>     Event code 58 (ABS_MT_PRESSURE)
+>       Value      0
+>       Min        0
+>       Max      255
+>
+> I specified touchscreen-size-x and touchscreen-size-y in my devicetree.
+> No idea why it is like this yet.
 
-Thank you very much for your quick answer.
+Thanks! I see the same problem on my side as well. I'm not using X so
+I don't see a crash and didn't notice the error.
 
-On Wed, Nov 24, 2021 at 10:39:02AM +0100, Benjamin Tissoires wrote:
-> As long as udev intrinsic is happy with it (and it correctly tags the
-> touchpad as ID_INPUT_something), I'm fine with it.
+I'll work on fixing this.
 
-Yes, the device is still tagged correctly. For example, this is the original
-output for "libinput record" (libinput issue 674):
-
-  Supported Events:
-  Event type 0 (EV_SYN)
-    Event type 1 (EV_KEY)
-    Event code 272 (BTN_LEFT)
-    Event code 273 (BTN_RIGHT)
-    Event code 325 (BTN_TOOL_FINGER)
-  [...]
-  udev:
-    properties:
-    - ID_INPUT=1
-    - ID_INPUT_HEIGHT_MM=61
-    - ID_INPUT_TOUCHPAD=1
-    - ID_INPUT_WIDTH_MM=93
-
-And the same output after applying the patch:
-
-  Supported Events:
-  Event type 0 (EV_SYN)
-    Event type 1 (EV_KEY)
-    Event code 272 (BTN_LEFT)
-    Event code 325 (BTN_TOOL_FINGER)
-  [...]
-  udev:
-    properties:
-    - ID_INPUT=1
-    - ID_INPUT_HEIGHT_MM=61
-    - ID_INPUT_TOUCHPAD=1
-    - ID_INPUT_WIDTH_MM=93
-
-Notice that BTN_RIGHT is not present but the udev tags are the same.
-I don't have access to that specific touchpad, but I own a Magic
-Trackpad 1 and 2 -whose driver clears the BTN_RIGHT bit- and they
-are properly tagged as well.
-
-> I think it depends if you plan on fixing just hid-multitouch or the others.
-> If you have more than one driver, then yes, adding a new symbol in
-> hid-input.c makes sense. If not, then you are just exposing a new
-> function we won't know if there are users and we won't be able to
-> change without care.
-
-I'd like to fix the issue on every driver. It is not a big amount of
-duplicated code, just a couple of lines on drivers that don't already
-clear the BTN_RIGHT/MIDDLE bit, but I agree with you, moving into a
-common function is cleaner.
-
-Also, the "input_set_property" function would allow us to add more
-conditions associated with other properties in case we wanted to.
-
-Thanks again for your input, I'll send the patchset for review as soon as
-possible.
-
-Jose
+Alistair
