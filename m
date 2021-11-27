@@ -2,63 +2,194 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 924B645FC92
-	for <lists+linux-input@lfdr.de>; Sat, 27 Nov 2021 05:46:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11E9A45FEBF
+	for <lists+linux-input@lfdr.de>; Sat, 27 Nov 2021 14:11:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231561AbhK0Et2 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 26 Nov 2021 23:49:28 -0500
-Received: from os3-362-14218.vs.sakura.ne.jp ([133.167.64.222]:54646 "EHLO
-        mail.j-snap.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S236353AbhK0Er1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 Nov 2021 23:47:27 -0500
-X-Greylist: delayed 497 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Nov 2021 23:47:27 EST
-Received: from k2forma.com (190-2-131-198.hosted-by-worldstream.net [190.2.131.198])
-        by mail.j-snap.com (Postfix) with ESMTPA id 1B7BC9D6AA
-        for <linux-input@vger.kernel.org>; Sat, 27 Nov 2021 13:35:52 +0900 (JST)
-Reply-To: grzegorzzwalkowiak@gmail.com
-From:   Grzegorz Walkowiak <info@k2forma.com>
-To:     linux-input@vger.kernel.org
-Subject: Just for you
-Date:   26 Nov 2021 20:35:51 -0800
-Message-ID: <20211126165639.D98C9ADEBADC3962@k2forma.com>
+        id S1354762AbhK0NPC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 27 Nov 2021 08:15:02 -0500
+Received: from ixit.cz ([94.230.151.217]:58576 "EHLO ixit.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239495AbhK0NM7 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 27 Nov 2021 08:12:59 -0500
+Received: from localhost.localdomain (ip-89-176-96-70.net.upcbroadband.cz [89.176.96.70])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by ixit.cz (Postfix) with ESMTPSA id 7473C20064;
+        Sat, 27 Nov 2021 14:09:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+        t=1638018583;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=US+PlJt5YuBn+f6zl65VjL2KEdtWIGuDQwqGvr+BSqk=;
+        b=C03XU15udkdTbf1mtk64f8XDQ9LsyfeKw1plCkHHQ3csM0DfNyI4tBXpzGdkh1xA5A4Joo
+        vhr5p8mNhn6aEahgsS+D3vRRomijXRFjCeDT+ii9JOHexTWbpTZyvzymx/jTVTk1IH2y2R
+        lnqVmCsshHXfKUlcpY/9iVKpGJYSzd4=
+From:   David Heidelberg <david@ixit.cz>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>
+Cc:     ~okias/devicetree@lists.sr.ht, David Heidelberg <david@ixit.cz>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: input: pwm-vibrator: Convert txt bindings to yaml
+Date:   Sat, 27 Nov 2021 14:09:40 +0100
+Message-Id: <20211127130941.38684-1-david@ixit.cz>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello linux-input,
+Converts txt binding to new YAML format and simplify example.
 
-It is my pleasure to communicate with you via this platform. Your 
-positive regards towards this very message will be appreciated, 
-please do not regard this email as one of the common unsolicited 
-email or false business invitations in the world today. I am 
-opportune to use this medium to exhibit my legal intentions 
-towards investing in your country of residence. I am fully 
-convinced that you will really be of help as a new friend and 
-business partner. I hope my message to you will be given proper 
-attention despite the fact we have not seen or even met each 
-other before. knowing fully well it takes a minute, an hour or 
-even a day to know somebody and also establish an everlasting 
-relationship with truth and honesty between you and I.
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+ .../bindings/input/pwm-vibrator.txt           | 66 -------------------
+ .../bindings/input/pwm-vibrator.yaml          | 59 +++++++++++++++++
+ 2 files changed, 59 insertions(+), 66 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/pwm-vibrator.txt
+ create mode 100644 Documentation/devicetree/bindings/input/pwm-vibrator.yaml
 
-I am planning to go into investment in your country of 
-origin/country of location to assist me establish, conduct and 
-manage the investment project, since I will not be present in 
-day-to-day running of the business, due to my active function 
-here. I will appreciate it if you can converge a good 
-relationship for trust to have an everlasting business 
-relationship without cheating, lying or sabotaging the business 
-project. I assure you the success of the business transaction if 
-you can keep it confidential. Humbly indicate your full name, 
-contact address and contact number while replying to my proposal.
- 
-Your positive response will be highly appreciated.
- 
-Thank you for your understanding.
- 
-Kind Regards,
-Grzegorz Walkowiak
+diff --git a/Documentation/devicetree/bindings/input/pwm-vibrator.txt b/Documentation/devicetree/bindings/input/pwm-vibrator.txt
+deleted file mode 100644
+index 88c775a3fe21..000000000000
+--- a/Documentation/devicetree/bindings/input/pwm-vibrator.txt
++++ /dev/null
+@@ -1,66 +0,0 @@
+-* PWM vibrator device tree bindings
+-
+-Registers a PWM device as vibrator. It is expected, that the vibrator's
+-strength increases based on the duty cycle of the enable PWM channel
+-(100% duty cycle meaning strongest vibration, 0% meaning no vibration).
+-
+-The binding supports an optional direction PWM channel, that can be
+-driven at fixed duty cycle. If available this is can be used to increase
+-the vibration effect of some devices.
+-
+-Required properties:
+-- compatible: should contain "pwm-vibrator"
+-- pwm-names: Should contain "enable" and optionally "direction"
+-- pwms: Should contain a PWM handle for each entry in pwm-names
+-
+-Optional properties:
+-- vcc-supply: Phandle for the regulator supplying power
+-- direction-duty-cycle-ns: Duty cycle of the direction PWM channel in
+-                           nanoseconds, defaults to 50% of the channel's
+-			   period.
+-
+-Example from Motorola Droid 4:
+-
+-&omap4_pmx_core {
+-	vibrator_direction_pin: pinmux_vibrator_direction_pin {
+-		pinctrl-single,pins = <
+-		OMAP4_IOPAD(0x1ce, PIN_OUTPUT | MUX_MODE1) /* dmtimer8_pwm_evt (gpio_27) */
+-		>;
+-	};
+-
+-	vibrator_enable_pin: pinmux_vibrator_enable_pin {
+-		pinctrl-single,pins = <
+-		OMAP4_IOPAD(0X1d0, PIN_OUTPUT | MUX_MODE1) /* dmtimer9_pwm_evt (gpio_28) */
+-		>;
+-	};
+-};
+-
+-/ {
+-	pwm8: dmtimer-pwm {
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&vibrator_direction_pin>;
+-
+-		compatible = "ti,omap-dmtimer-pwm";
+-		#pwm-cells = <3>;
+-		ti,timers = <&timer8>;
+-		ti,clock-source = <0x01>;
+-	};
+-
+-	pwm9: dmtimer-pwm {
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&vibrator_enable_pin>;
+-
+-		compatible = "ti,omap-dmtimer-pwm";
+-		#pwm-cells = <3>;
+-		ti,timers = <&timer9>;
+-		ti,clock-source = <0x01>;
+-	};
+-
+-	vibrator {
+-		compatible = "pwm-vibrator";
+-		pwms = <&pwm9 0 1000000000 0>,
+-                       <&pwm8 0 1000000000 0>;
+-		pwm-names = "enable", "direction";
+-		direction-duty-cycle-ns = <1000000000>;
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/input/pwm-vibrator.yaml b/Documentation/devicetree/bindings/input/pwm-vibrator.yaml
+new file mode 100644
+index 000000000000..ec2466c63fe6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/pwm-vibrator.yaml
+@@ -0,0 +1,59 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/input/pwm-vibrator.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: PWM vibrator
++
++maintainers:
++  - Sebastian Reichel <sre@kernel.org>
++
++description: >
++  Registers a PWM device as vibrator. It is expected, that the vibrator's
++  strength increases based on the duty cycle of the enable PWM channel
++  (100% duty cycle meaning strongest vibration, 0% meaning no vibration).
++
++  The binding supports an optional direction PWM channel, that can be
++  driven at fixed duty cycle. If available this is can be used to increase
++  the vibration effect of some devices.
++
++properties:
++  compatible:
++    const: pwm-vibrator
++
++  pwm-names:
++    anyOf:
++      - items:
++          - const: enable
++      - items:
++          - const: enable
++          - const: direction
++
++  pwms:
++    minItems: 1
++    maxItems: 2
++
++  vcc-supply: true
++
++  direction-duty-cycle-ns:
++    description: >
++      Duty cycle of the direction PWM channel in nanoseconds,
++      defaults to 50% of the channel's period.
++
++required:
++  - compatible
++  - pwm-names
++  - pwms
++
++additionalProperties: false
++
++examples:
++  - |
++    vibrator {
++        compatible = "pwm-vibrator";
++        pwms = <&pwm9 0 1000000000 0>,
++               <&pwm8 0 1000000000 0>;
++        pwm-names = "enable", "direction";
++        direction-duty-cycle-ns = <1000000000>;
++    };
+-- 
+2.33.0
+
