@@ -2,59 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF1C8460D38
-	for <lists+linux-input@lfdr.de>; Mon, 29 Nov 2021 04:25:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3880460F87
+	for <lists+linux-input@lfdr.de>; Mon, 29 Nov 2021 08:45:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343706AbhK2D2n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 28 Nov 2021 22:28:43 -0500
-Received: from mail.vallenar.cl ([200.54.241.89]:37218 "EHLO mail.vallenar.cl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234003AbhK2D0n (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 28 Nov 2021 22:26:43 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.vallenar.cl (Postfix) with ESMTP id 6C1981CEF901;
-        Sun, 28 Nov 2021 14:08:09 -0300 (-03)
-Received: from mail.vallenar.cl ([127.0.0.1])
-        by localhost (mail.vallenar.cl [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id RtAYX5tl0OlW; Sun, 28 Nov 2021 14:08:08 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.vallenar.cl (Postfix) with ESMTP id 004261CC9CBC;
-        Sun, 28 Nov 2021 11:47:09 -0300 (-03)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.vallenar.cl 004261CC9CBC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vallenar.cl;
-        s=EC098874-C7DE-11E7-B3B1-1A9A6030413E; t=1638110830;
-        bh=IQxUcKgLaEia+DMrVj9OEHbWOH8TffrzQMeZgAxYubI=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=Tpl3BVIMUmmPfc8fq3bYoC1ABeAPFc115owg4IRN6pWD4eCbJ4Se3+LCo0KKT4B1J
-         OFXow2oy2kB2Idn29d1lueusIpDiBgdNCzY1isKrZLcWBDN0NS6hdcfGy2hCcznIHc
-         DtDnTHrd1pdUrLDD/yFioCNH4BEJEZL0eofWuZlp26sQE7Oq+6z4RbSzDucoLEzSgz
-         AN5T3R0y8ywiqp5ACoS7VTrXuypavJjneGpY8i7icPbpY57T4Ae1hD0srTmol9MJtO
-         7/9AgMcDEUSv5eUR3ge7GrAByqU25PKQRLcBaSWlv+Udjb0SZzE/4+MDX4sYkV1PsO
-         Ga5v0oNBYVSeg==
-X-Virus-Scanned: amavisd-new at vallenar.cl
-Received: from mail.vallenar.cl ([127.0.0.1])
-        by localhost (mail.vallenar.cl [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id Gifa6x87h-zr; Sun, 28 Nov 2021 11:47:09 -0300 (-03)
-Received: from [192.168.8.101] (unknown [105.0.3.102])
-        by mail.vallenar.cl (Postfix) with ESMTPSA id 34B4A1D08CA5;
-        Sun, 28 Nov 2021 11:21:38 -0300 (-03)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S240920AbhK2Hsz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Nov 2021 02:48:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34682 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238289AbhK2Hqz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 29 Nov 2021 02:46:55 -0500
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29369C0613F1
+        for <linux-input@vger.kernel.org>; Sun, 28 Nov 2021 23:43:26 -0800 (PST)
+Received: by mail-pg1-x52a.google.com with SMTP id c29so4242477pgl.12
+        for <linux-input@vger.kernel.org>; Sun, 28 Nov 2021 23:43:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ep4+IvQK2q9+7Qz5pTGwIihA0IWGVUMcxXrRLICeZN0=;
+        b=Dy8xjqSFadU86p7O2LSrvkanbnccCvczO1obU7wNyPxAOThSQSjqAFoGe1Evdk88Pk
+         YlM2vlH5iXGqZD1tguU4KQ8LMnFhXREdvgenQ3RnZtYvdTHSJqbMv+yChGxHQCLomJ76
+         Wf+uaYeMJOZhCpDVhi/+7idMjU9PDu6vRux9QwnEtgzByl0aaxTwNlT9Dc6UKintt3z5
+         M2C1vBluiyjUQeI2D06JnkwG2nw7n3lU9BKqNgIJAqL1xkFKr2heJoxT5izHpNBBkEzY
+         D8JxcPxlm7cjHMfOrvjtZ+qOwHOL2hNVkLPXjuLShzEK5nUOzpEXbqiOOu9oln7WHfev
+         rkTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ep4+IvQK2q9+7Qz5pTGwIihA0IWGVUMcxXrRLICeZN0=;
+        b=FJhq2EEmfTJ1MrVVwS7LFMJm+XH2ozAhxS0LNKeu9XLuxxhVHBtCkujJBFP80QAnI+
+         VG4nVpJOCdaxCmYoTVfKhinxjSEjGv767HmgnXP7R8eu5NqPauE3vGOh3vqqjVml+IpA
+         /oVoTsbevNt1j6nVC3lflvr0qXztXhMhFfzj2FH9WpOQMK1xb/RoJpAMAwjNwcoI8AqZ
+         EXaUtWO+KPSQgcrEiq6Ir7J3aheDQm7McNaejVupo4byIrNGC+45TeQkHGE82e7Ag+4W
+         EZ58kVC92TOnTSVYm9CdC8J3DHSlWkkFFo0AbYmZMpXgj4oI8D2bTbNhkcDZ8RYm74du
+         3xjw==
+X-Gm-Message-State: AOAM532xLiBSRbOU+WYtTVhWn8q6+KRtyK3W1dBe+oxJmYy0Wt+BAoDs
+        /oKWjWWnTTLZ9049Adw7Omg=
+X-Google-Smtp-Source: ABdhPJyHlqvfci/YuAW+2Gt3SujyDI3ByTQjqXR4Y3e/CADuk9tv5Oct1IGQ2W64dxDzr0IRcVS9kQ==
+X-Received: by 2002:a63:2402:: with SMTP id k2mr34056993pgk.353.1638171805588;
+        Sun, 28 Nov 2021 23:43:25 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:f5d5:95ab:43b1:99a9])
+        by smtp.gmail.com with ESMTPSA id u6sm16162233pfg.157.2021.11.28.23.43.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Nov 2021 23:43:24 -0800 (PST)
+Date:   Sun, 28 Nov 2021 23:43:22 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     linux-input@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] Input: iqs626a - prohibit inlining of channel parsing
+ functions
+Message-ID: <YaSEmkjei5Ml+t7Y@google.com>
+References: <20211129004104.453930-1-jeff@labundy.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: 2.000.000,00. Euro
-To:     Recipients <yperez@vallenar.cl>
-From:   "manuel franco" <yperez@vallenar.cl>
-Date:   Sun, 28 Nov 2021 16:29:08 +0200
-Reply-To: manuelfrancospende00@gmail.com
-Message-Id: <20211128142140.34B4A1D08CA5@mail.vallenar.cl>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211129004104.453930-1-jeff@labundy.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Sie haben eine Spende von 2.000.000,00. Euro
+On Sun, Nov 28, 2021 at 06:41:04PM -0600, Jeff LaBundy wrote:
+> Some automated builds report a stack frame size in excess
+> of 2 kB for iqs626_probe(); the culprit appears to be the
+> call to iqs626_parse_prop().
+> 
+> To solve this problem, specify noinline_for_stack for all
+> of the iqs626_parse_*() helper functions which are called
+> inside a for loop within iqs626_parse_prop().
+> 
+> As a result, a build with '-Wframe-larger-than' as low as
+> 512 is free of any such warnings.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 
-Mein Name ist Manuel Franco aus den Vereinigten Staaten.
-Ich habe die Amerika-Lotterie im Wert von 768 Millionen US-Dollar gewonnen =
-und spende einen Teil davon an nur 5 gl=FCckliche Menschen und ein paar Wai=
-senh=E4user als Wohlwollen f=FCr die Menschheit.
+Applied, thank you.
+
+-- 
+Dmitry
