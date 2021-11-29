@@ -2,82 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3880460F87
-	for <lists+linux-input@lfdr.de>; Mon, 29 Nov 2021 08:45:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76625460F88
+	for <lists+linux-input@lfdr.de>; Mon, 29 Nov 2021 08:45:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240920AbhK2Hsz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Nov 2021 02:48:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34682 "EHLO
+        id S238289AbhK2HtE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Nov 2021 02:49:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238289AbhK2Hqz (ORCPT
+        with ESMTP id S236077AbhK2HrE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Nov 2021 02:46:55 -0500
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29369C0613F1
-        for <linux-input@vger.kernel.org>; Sun, 28 Nov 2021 23:43:26 -0800 (PST)
-Received: by mail-pg1-x52a.google.com with SMTP id c29so4242477pgl.12
-        for <linux-input@vger.kernel.org>; Sun, 28 Nov 2021 23:43:26 -0800 (PST)
+        Mon, 29 Nov 2021 02:47:04 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E80AC061748;
+        Sun, 28 Nov 2021 23:43:47 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id j5-20020a17090a318500b001a6c749e697so11225173pjb.1;
+        Sun, 28 Nov 2021 23:43:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=ep4+IvQK2q9+7Qz5pTGwIihA0IWGVUMcxXrRLICeZN0=;
-        b=Dy8xjqSFadU86p7O2LSrvkanbnccCvczO1obU7wNyPxAOThSQSjqAFoGe1Evdk88Pk
-         YlM2vlH5iXGqZD1tguU4KQ8LMnFhXREdvgenQ3RnZtYvdTHSJqbMv+yChGxHQCLomJ76
-         Wf+uaYeMJOZhCpDVhi/+7idMjU9PDu6vRux9QwnEtgzByl0aaxTwNlT9Dc6UKintt3z5
-         M2C1vBluiyjUQeI2D06JnkwG2nw7n3lU9BKqNgIJAqL1xkFKr2heJoxT5izHpNBBkEzY
-         D8JxcPxlm7cjHMfOrvjtZ+qOwHOL2hNVkLPXjuLShzEK5nUOzpEXbqiOOu9oln7WHfev
-         rkTw==
+        bh=jBSH9BqMj+eVa+z/SQExKiI011v81dod+DkP2K0g2qk=;
+        b=aaXOqK607emJ8ktpAovEAgGIt+ckwWjBoJchYAgjMwPrRk3h6CetAVhwQhNzggSoMM
+         /l+A4J+KnoLE22MH/yNQT9aNLBkrmMEumV5x5VBYmdcEk+82EYFDTQUxSwgfsi4dOubL
+         xhR/n1gVe3w9QqFEyIf7qR1Absk/Ty9iCq/VuZHv2yqa/juO3IDbDrnpuV0Rt8jbKW6M
+         5t4435QG+YwjIFuB6UR+yX4CUS6yXjqOYB03fvGQ10yAXwKzLuiPrHzpr4ZxP/oRGAnP
+         3dZ9fsu7yKpm/XutzdRMtyURhPlaV/5b/yzP7uFghOZ1Dq7Wj76qdYfNhKJSfPl6yoPX
+         Xr4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=ep4+IvQK2q9+7Qz5pTGwIihA0IWGVUMcxXrRLICeZN0=;
-        b=FJhq2EEmfTJ1MrVVwS7LFMJm+XH2ozAhxS0LNKeu9XLuxxhVHBtCkujJBFP80QAnI+
-         VG4nVpJOCdaxCmYoTVfKhinxjSEjGv767HmgnXP7R8eu5NqPauE3vGOh3vqqjVml+IpA
-         /oVoTsbevNt1j6nVC3lflvr0qXztXhMhFfzj2FH9WpOQMK1xb/RoJpAMAwjNwcoI8AqZ
-         EXaUtWO+KPSQgcrEiq6Ir7J3aheDQm7McNaejVupo4byIrNGC+45TeQkHGE82e7Ag+4W
-         EZ58kVC92TOnTSVYm9CdC8J3DHSlWkkFFo0AbYmZMpXgj4oI8D2bTbNhkcDZ8RYm74du
-         3xjw==
-X-Gm-Message-State: AOAM532xLiBSRbOU+WYtTVhWn8q6+KRtyK3W1dBe+oxJmYy0Wt+BAoDs
-        /oKWjWWnTTLZ9049Adw7Omg=
-X-Google-Smtp-Source: ABdhPJyHlqvfci/YuAW+2Gt3SujyDI3ByTQjqXR4Y3e/CADuk9tv5Oct1IGQ2W64dxDzr0IRcVS9kQ==
-X-Received: by 2002:a63:2402:: with SMTP id k2mr34056993pgk.353.1638171805588;
-        Sun, 28 Nov 2021 23:43:25 -0800 (PST)
+        bh=jBSH9BqMj+eVa+z/SQExKiI011v81dod+DkP2K0g2qk=;
+        b=0mOiTyomgyWh2YfkT5qabZGY8z2vpoPL4Fc31VferqtQaCUtQB2IcGgPLweLfDcXKC
+         DPB0KGsZvIbjEHpFNQO0bARhXoyHRGNXvAkYu/vpf3drGpbufqkW77KDe5KQwchsodNt
+         K32nlD107Q6cwl7sjLS9519V3TyEHBVjxlcnAWHpUz9bnZ4lNlW6ruGlAraUwMM/2mBB
+         GY7lsahy9+oRr5f1MpJwcrOsgCEeEeMtyX+jICCdg6WexQXvFrrTJtTqumyQwSuh6SeB
+         jV5E9xPt/UxTf5seqQ43tUy6iCTofx0VD3oyZHPwLNLNo78ZgEIwUjHGUfTzKaeAadQ4
+         plYg==
+X-Gm-Message-State: AOAM533JY/xEvWcqHoimEGa15sld86NtD7noZs3ZosVpYrLjr74TNOcZ
+        LUYyYSzH5wFCBVm2kyeyA1WST/+IlI4=
+X-Google-Smtp-Source: ABdhPJwTBHzLp5vMylmN0QgUHmUSgfhVCqwHcYf4sxf5rV/BX80WstG+wj3poViLAvSKnU3wUQfagg==
+X-Received: by 2002:a17:902:d34d:b0:143:c927:dc48 with SMTP id l13-20020a170902d34d00b00143c927dc48mr58764468plk.71.1638171826826;
+        Sun, 28 Nov 2021 23:43:46 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:f5d5:95ab:43b1:99a9])
-        by smtp.gmail.com with ESMTPSA id u6sm16162233pfg.157.2021.11.28.23.43.24
+        by smtp.gmail.com with ESMTPSA id a13sm17997274pfv.99.2021.11.28.23.43.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 23:43:24 -0800 (PST)
-Date:   Sun, 28 Nov 2021 23:43:22 -0800
+        Sun, 28 Nov 2021 23:43:46 -0800 (PST)
+Date:   Sun, 28 Nov 2021 23:43:43 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     linux-input@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] Input: iqs626a - prohibit inlining of channel parsing
- functions
-Message-ID: <YaSEmkjei5Ml+t7Y@google.com>
-References: <20211129004104.453930-1-jeff@labundy.com>
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH v2] Input: i8042 - Add deferred probe support
+Message-ID: <YaSEr9qctLBXFFzd@google.com>
+References: <20211117063757.11380-1-tiwai@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211129004104.453930-1-jeff@labundy.com>
+In-Reply-To: <20211117063757.11380-1-tiwai@suse.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Nov 28, 2021 at 06:41:04PM -0600, Jeff LaBundy wrote:
-> Some automated builds report a stack frame size in excess
-> of 2 kB for iqs626_probe(); the culprit appears to be the
-> call to iqs626_parse_prop().
+On Wed, Nov 17, 2021 at 07:37:57AM +0100, Takashi Iwai wrote:
+> We've got a bug report about the non-working keyboard on ASUS ZenBook
+> UX425UA.  It seems that the PS/2 device isn't ready immediately at
+> boot but takes some seconds to get ready.  Until now, the only
+> workaround is to defer the probe, but it's available only when the
+> driver is a module.  However, many distros, including openSUSE as in
+> the original report, build the PS/2 input drivers into kernel, hence
+> it won't work easily.
 > 
-> To solve this problem, specify noinline_for_stack for all
-> of the iqs626_parse_*() helper functions which are called
-> inside a for loop within iqs626_parse_prop().
+> This patch adds the support for the deferred probe for i8042 stuff as
+> a workaround of the problem above.  When the deferred probe mode is
+> enabled and the device couldn't be probed, it'll be repeated with the
+> standard deferred probe mechanism.
 > 
-> As a result, a build with '-Wframe-larger-than' as low as
-> 512 is free of any such warnings.
+> The deferred probe mode is enabled either via the new option
+> i8042.probe_defer or via the quirk table entry.  As of this patch, the
+> quirk table contains only ASUS ZenBook UX425UA.
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> The deferred probe part is based on Fabio's initial work.
+> 
+> BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1190256
+> Link: https://lore.kernel.org/r/s5ho890n1rh.wl-tiwai@suse.de
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 
 Applied, thank you.
 
