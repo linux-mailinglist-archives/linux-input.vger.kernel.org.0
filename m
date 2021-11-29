@@ -2,35 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 563B6462320
-	for <lists+linux-input@lfdr.de>; Mon, 29 Nov 2021 22:19:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D50BA462357
+	for <lists+linux-input@lfdr.de>; Mon, 29 Nov 2021 22:29:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229910AbhK2VWS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Nov 2021 16:22:18 -0500
-Received: from mga18.intel.com ([134.134.136.126]:44670 "EHLO mga18.intel.com"
+        id S229572AbhK2Vck (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Nov 2021 16:32:40 -0500
+Received: from mga12.intel.com ([192.55.52.136]:58475 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230335AbhK2VUO (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Nov 2021 16:20:14 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="222963051"
+        id S232604AbhK2Vak (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 29 Nov 2021 16:30:40 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="216098170"
 X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; 
-   d="scan'208";a="222963051"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2021 13:13:22 -0800
+   d="scan'208";a="216098170"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2021 13:27:22 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; 
-   d="scan'208";a="559000568"
+   d="scan'208";a="499497954"
 Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 29 Nov 2021 13:13:20 -0800
+  by orsmga007.jf.intel.com with ESMTP; 29 Nov 2021 13:27:20 -0800
 Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1mrnxf-000CLT-NV; Mon, 29 Nov 2021 21:13:19 +0000
-Date:   Tue, 30 Nov 2021 05:12:16 +0800
+        id 1mroBD-000CMM-U1; Mon, 29 Nov 2021 21:27:19 +0000
+Date:   Tue, 30 Nov 2021 05:26:32 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- 1d72d9f960ccf1052a0630a68c3d358791dbdaaa
-Message-ID: <61a54230.bsGX0rL69m2/v0Ji%lkp@intel.com>
+Subject: [dtor-input:next] BUILD SUCCESS
+ fafc66387dc069140e52739c0c86c8169d44c2dc
+Message-ID: <61a54588.WMzKIEy6Y6mzLTG7%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -39,10 +39,10 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: 1d72d9f960ccf1052a0630a68c3d358791dbdaaa  Input: elantech - fix stack out of bound access in elantech_change_report_id()
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: fafc66387dc069140e52739c0c86c8169d44c2dc  Input: wacom_i2c - clean up the query device fields
 
-elapsed time: 724m
+elapsed time: 730m
 
 configs tested: 262
 configs skipped: 3
@@ -85,10 +85,10 @@ arm                        multi_v5_defconfig
 m68k                           sun3_defconfig
 powerpc                     tqm8540_defconfig
 um                                  defconfig
-sh                 kfr2r09-romimage_defconfig
-arm                             mxs_defconfig
 mips                          ath79_defconfig
 arm                              alldefconfig
+sh                 kfr2r09-romimage_defconfig
+arm                             mxs_defconfig
 arm                        mini2440_defconfig
 powerpc                 mpc85xx_cds_defconfig
 arm                        spear3xx_defconfig
@@ -130,10 +130,6 @@ s390                       zfcpdump_defconfig
 mips                      pic32mzda_defconfig
 sparc64                          alldefconfig
 arm                           viper_defconfig
-arc                        vdk_hs38_defconfig
-arm                            lart_defconfig
-mips                         mpc30x_defconfig
-mips                             allyesconfig
 powerpc                         ps3_defconfig
 powerpc                      ep88xc_defconfig
 powerpc                 linkstation_defconfig
@@ -192,6 +188,7 @@ openrisc                            defconfig
 arm                          pcm027_defconfig
 mips                 decstation_r4k_defconfig
 arm                       omap2plus_defconfig
+mips                             allyesconfig
 mips                          rb532_defconfig
 powerpc                  iss476-smp_defconfig
 arm                          simpad_defconfig
@@ -199,6 +196,7 @@ m68k                       m5249evb_defconfig
 mips                      bmips_stb_defconfig
 arm                          ep93xx_defconfig
 arm                        neponset_defconfig
+arc                        vdk_hs38_defconfig
 arm                         socfpga_defconfig
 ia64                          tiger_defconfig
 powerpc64                        alldefconfig
@@ -258,26 +256,26 @@ i386                 randconfig-a003-20211129
 x86_64               randconfig-a011-20211128
 x86_64               randconfig-a014-20211128
 x86_64               randconfig-a012-20211128
-x86_64               randconfig-a016-20211128
 x86_64               randconfig-a013-20211128
 x86_64               randconfig-a015-20211128
-i386                 randconfig-a015-20211128
-i386                 randconfig-a016-20211128
+x86_64               randconfig-a016-20211128
 i386                 randconfig-a013-20211128
 i386                 randconfig-a012-20211128
-i386                 randconfig-a014-20211128
 i386                 randconfig-a011-20211128
+i386                 randconfig-a015-20211128
+i386                 randconfig-a016-20211128
+i386                 randconfig-a014-20211128
+arc                  randconfig-r043-20211129
 arc                  randconfig-r043-20211128
 s390                 randconfig-r044-20211128
 riscv                randconfig-r042-20211128
-arc                  randconfig-r043-20211129
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
 riscv                             allnoconfig
 riscv                               defconfig
-riscv                          rv32_defconfig
 riscv                            allmodconfig
+riscv                            allyesconfig
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
 x86_64                    rhel-8.3-kselftests
 um                           x86_64_defconfig
 um                             i386_defconfig
@@ -307,16 +305,18 @@ i386                 randconfig-a006-20211128
 i386                 randconfig-a005-20211128
 i386                 randconfig-a004-20211128
 i386                 randconfig-a003-20211128
-i386                 randconfig-a015-20211129
-i386                 randconfig-a016-20211129
 i386                 randconfig-a013-20211129
 i386                 randconfig-a012-20211129
 i386                 randconfig-a014-20211129
 i386                 randconfig-a011-20211129
+i386                 randconfig-a015-20211129
+i386                 randconfig-a016-20211129
 hexagon              randconfig-r045-20211129
 hexagon              randconfig-r041-20211129
 s390                 randconfig-r044-20211129
 riscv                randconfig-r042-20211129
+hexagon              randconfig-r045-20211128
+hexagon              randconfig-r041-20211128
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
