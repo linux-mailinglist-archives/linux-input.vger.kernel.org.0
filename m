@@ -2,153 +2,322 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71615461CFB
-	for <lists+linux-input@lfdr.de>; Mon, 29 Nov 2021 18:48:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 563B6462320
+	for <lists+linux-input@lfdr.de>; Mon, 29 Nov 2021 22:19:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241596AbhK2Rvd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Nov 2021 12:51:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53274 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350491AbhK2Rtd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Nov 2021 12:49:33 -0500
-Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com [IPv6:2a00:1450:4864:20::34a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F0BAC0C2371
-        for <linux-input@vger.kernel.org>; Mon, 29 Nov 2021 06:38:51 -0800 (PST)
-Received: by mail-wm1-x34a.google.com with SMTP id l4-20020a05600c1d0400b00332f47a0fa3so10956289wms.8
-        for <linux-input@vger.kernel.org>; Mon, 29 Nov 2021 06:38:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=ruCX8eVoLcb4z++H1NLtf45ZxtBRAGKbWDTghqrPFNY=;
-        b=miHBgUQ+3jfhOTuy0GpMzV/ZUPgGU4FuNGA62qvFpnLInuIe5FLGynU2KOe8fAPugF
-         yBJO+jabdN6Z4AUnfQsv29FpSQRMpG7Zr+BbGmdQBUGjT/KJR83X7FQt4r8QCtO3NHNW
-         yuMC2wPlaHY+jNJoCg+VsvwfSl2kGQJ+Pi9Zf8cQ4yvR3nD1tSP2HSy9en/d/ZBaf+yP
-         73b/y+R+oNvL0RW7r/Petaf6NnPpNxuN4SdoHmmYzsSnC6NoJckt0jibKXrJxHOLLJum
-         EboYZ4c98U+gfVo7kZX3pFjlv73yt4eqQU65m1r0KxzFxF6S9qpQdS6+ccFPFbDEl5sn
-         CcRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=ruCX8eVoLcb4z++H1NLtf45ZxtBRAGKbWDTghqrPFNY=;
-        b=wNV8rU0EmoLfCysn8/b/yb8noa3E/eA9iyleUSxp13mAhMjtZAFfIpCsxrR7jm+bLy
-         2f5tmL5r/U4DFeEF3wSdrHw+4H7HqUuh9/hJjyc9JhsAkTDZhnQesM0sJoAuiqQZjtq/
-         ovEq4WGbfV0iopPN34EHbBeMm4hw0XKJ8S5m8pQ51PSqwqfBH6ba2rjB4DhIdZHLA8od
-         JHVSpDAS+/opXnwO8dIs7X1TS8G6Lu04S2MAuFHES2KePBUieREH5E1EY1giE4/j8sPg
-         meGxFWVUV5vCUkEbzwpBWgFVMb08JWvAE1g0VyAFVqQMV/a4XqHZrx/uDcqkcScIuIjY
-         gsZg==
-X-Gm-Message-State: AOAM533UXu+jJzJ0Lw7euaFrUwh9xiizi2WikEUxLK2DegEZzWs8sEqk
-        15ex5sc8TGxV2FcxbC7RgPVK8b07Ads=
-X-Google-Smtp-Source: ABdhPJyhn9AjqM0Cvl9RFbCpH4MtFTipANOCb9YbzhBVrvtGF9QIvnRl3EPmCWMYp051rdDhiM8/BueiBL8=
-X-Received: from glider.muc.corp.google.com ([2a00:79e0:15:13:3b16:acb1:567a:b459])
- (user=glider job=sendgmr) by 2002:a05:600c:378b:: with SMTP id
- o11mr37775192wmr.157.1638196729551; Mon, 29 Nov 2021 06:38:49 -0800 (PST)
-Date:   Mon, 29 Nov 2021 15:38:45 +0100
-Message-Id: <20211129143845.1472453-1-glider@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
-Subject: [PATCH] Input: psmouse: check the result of PSMOUSE_CMD_GET* commands
-From:   Alexander Potapenko <glider@google.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     dvyukov@google.com, elver@google.com, linux-input@vger.kernel.org,
-        Alexander Potapenko <glider@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S229910AbhK2VWS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Nov 2021 16:22:18 -0500
+Received: from mga18.intel.com ([134.134.136.126]:44670 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230335AbhK2VUO (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 29 Nov 2021 16:20:14 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="222963051"
+X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; 
+   d="scan'208";a="222963051"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2021 13:13:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; 
+   d="scan'208";a="559000568"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 29 Nov 2021 13:13:20 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mrnxf-000CLT-NV; Mon, 29 Nov 2021 21:13:19 +0000
+Date:   Tue, 30 Nov 2021 05:12:16 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 1d72d9f960ccf1052a0630a68c3d358791dbdaaa
+Message-ID: <61a54230.bsGX0rL69m2/v0Ji%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Execution of a PSMOUSE_CMD_GET* command may fail, leaving the output
-buffer uninitialized. Make sure to check the return value of
-ps2_command() and bail out before checking the buffer contents.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 1d72d9f960ccf1052a0630a68c3d358791dbdaaa  Input: elantech - fix stack out of bound access in elantech_change_report_id()
 
-The use of uninitialized data in genius_detect() was detected by KMSAN,
-other places were fixed for the sake of uniformity.
+elapsed time: 724m
 
-Signed-off-by: Alexander Potapenko <glider@google.com>
+configs tested: 262
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20211128
+nios2                            alldefconfig
+arm                        shmobile_defconfig
+mips                      fuloong2e_defconfig
+arc                            hsdk_defconfig
+powerpc                      pasemi_defconfig
+powerpc                 mpc832x_mds_defconfig
+xtensa                    smp_lx200_defconfig
+arm                          iop32x_defconfig
+mips                        vocore2_defconfig
+powerpc                     mpc5200_defconfig
+sh                           se7751_defconfig
+xtensa                  nommu_kc705_defconfig
+powerpc                   bluestone_defconfig
+sh                          rsk7269_defconfig
+sh                          sdk7780_defconfig
+powerpc                   lite5200b_defconfig
+powerpc                        warp_defconfig
+mips                       capcella_defconfig
+powerpc                     tqm8555_defconfig
+arm                         mv78xx0_defconfig
+s390                          debug_defconfig
+arm                         axm55xx_defconfig
+sh                             espt_defconfig
+sh                        apsh4ad0a_defconfig
+arm                        multi_v5_defconfig
+m68k                           sun3_defconfig
+powerpc                     tqm8540_defconfig
+um                                  defconfig
+sh                 kfr2r09-romimage_defconfig
+arm                             mxs_defconfig
+mips                          ath79_defconfig
+arm                              alldefconfig
+arm                        mini2440_defconfig
+powerpc                 mpc85xx_cds_defconfig
+arm                        spear3xx_defconfig
+arc                          axs103_defconfig
+arm                     davinci_all_defconfig
+mips                malta_qemu_32r6_defconfig
+powerpc                      cm5200_defconfig
+mips                        qi_lb60_defconfig
+mips                         cobalt_defconfig
+sh                           se7619_defconfig
+sh                   rts7751r2dplus_defconfig
+powerpc                        icon_defconfig
+powerpc                     akebono_defconfig
+powerpc                 xes_mpc85xx_defconfig
+powerpc                       ebony_defconfig
+mips                          rm200_defconfig
+sh                   sh7770_generic_defconfig
+arm                          lpd270_defconfig
+h8300                       h8s-sim_defconfig
+sh                         ap325rxa_defconfig
+mips                  decstation_64_defconfig
+powerpc                     skiroot_defconfig
+powerpc                     kmeter1_defconfig
+sparc                               defconfig
+arm                        magician_defconfig
+arm                          exynos_defconfig
+ia64                            zx1_defconfig
+mips                         tb0219_defconfig
+arm                            qcom_defconfig
+mips                           xway_defconfig
+parisc                generic-64bit_defconfig
+powerpc                      makalu_defconfig
+arm                             rpc_defconfig
+nios2                         3c120_defconfig
+arc                              allyesconfig
+xtensa                    xip_kc705_defconfig
+powerpc                 mpc836x_mds_defconfig
+s390                       zfcpdump_defconfig
+mips                      pic32mzda_defconfig
+sparc64                          alldefconfig
+arm                           viper_defconfig
+arc                        vdk_hs38_defconfig
+arm                            lart_defconfig
+mips                         mpc30x_defconfig
+mips                             allyesconfig
+powerpc                         ps3_defconfig
+powerpc                      ep88xc_defconfig
+powerpc                 linkstation_defconfig
+mips                           mtx1_defconfig
+arm                            dove_defconfig
+arm                          pxa168_defconfig
+m68k                             alldefconfig
+mips                        maltaup_defconfig
+arm                            xcep_defconfig
+sh                  sh7785lcr_32bit_defconfig
+arm                        realview_defconfig
+powerpc                     taishan_defconfig
+arm                         palmz72_defconfig
+powerpc                         wii_defconfig
+mips                       rbtx49xx_defconfig
+sh                          rsk7201_defconfig
+arm                        mvebu_v7_defconfig
+x86_64                              defconfig
+arm                       versatile_defconfig
+microblaze                      mmu_defconfig
+arm                         orion5x_defconfig
+mips                           ip22_defconfig
+arm                       imx_v4_v5_defconfig
+sh                                  defconfig
+arm                         s3c6400_defconfig
+powerpc                      ppc40x_defconfig
+arm                      jornada720_defconfig
+powerpc                    socrates_defconfig
+riscv             nommu_k210_sdcard_defconfig
+sparc                       sparc32_defconfig
+sh                           se7722_defconfig
+arc                                 defconfig
+mips                        omega2p_defconfig
+parisc                           allyesconfig
+mips                           ip28_defconfig
+mips                  maltasmvp_eva_defconfig
+m68k                        m5407c3_defconfig
+arc                        nsim_700_defconfig
+arm                         lubbock_defconfig
+sh                     magicpanelr2_defconfig
+powerpc                     redwood_defconfig
+arm                     am200epdkit_defconfig
+powerpc                     ksi8560_defconfig
+powerpc                     tqm8541_defconfig
+i386                             alldefconfig
+sh                           se7712_defconfig
+mips                    maltaup_xpa_defconfig
+mips                           ip32_defconfig
+mips                           gcw0_defconfig
+arm                       imx_v6_v7_defconfig
+mips                           rs90_defconfig
+arm                           h5000_defconfig
+arc                     haps_hs_smp_defconfig
+m68k                       bvme6000_defconfig
+openrisc                            defconfig
+arm                          pcm027_defconfig
+mips                 decstation_r4k_defconfig
+arm                       omap2plus_defconfig
+mips                          rb532_defconfig
+powerpc                  iss476-smp_defconfig
+arm                          simpad_defconfig
+m68k                       m5249evb_defconfig
+mips                      bmips_stb_defconfig
+arm                          ep93xx_defconfig
+arm                        neponset_defconfig
+arm                         socfpga_defconfig
+ia64                          tiger_defconfig
+powerpc64                        alldefconfig
+arm                   milbeaut_m10v_defconfig
+sh                            shmin_defconfig
+m68k                        m5272c3_defconfig
+arm                        trizeps4_defconfig
+powerpc                       maple_defconfig
+openrisc                  or1klitex_defconfig
+sparc                            allyesconfig
+xtensa                              defconfig
+powerpc                 mpc837x_rdb_defconfig
+powerpc                 mpc834x_itx_defconfig
+m68k                          atari_defconfig
+arm                          ixp4xx_defconfig
+arm                         cm_x300_defconfig
+powerpc                     ep8248e_defconfig
+arm                         shannon_defconfig
+sh                          rsk7203_defconfig
+arm                           u8500_defconfig
+arm                        cerfcube_defconfig
+arm                  randconfig-c002-20211128
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+s390                                defconfig
+i386                             allyesconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a001-20211129
+i386                 randconfig-a002-20211129
+i386                 randconfig-a006-20211129
+i386                 randconfig-a005-20211129
+i386                 randconfig-a004-20211129
+i386                 randconfig-a003-20211129
+x86_64               randconfig-a011-20211128
+x86_64               randconfig-a014-20211128
+x86_64               randconfig-a012-20211128
+x86_64               randconfig-a016-20211128
+x86_64               randconfig-a013-20211128
+x86_64               randconfig-a015-20211128
+i386                 randconfig-a015-20211128
+i386                 randconfig-a016-20211128
+i386                 randconfig-a013-20211128
+i386                 randconfig-a012-20211128
+i386                 randconfig-a014-20211128
+i386                 randconfig-a011-20211128
+arc                  randconfig-r043-20211128
+s390                 randconfig-r044-20211128
+riscv                randconfig-r042-20211128
+arc                  randconfig-r043-20211129
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+um                            kunit_defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
+
+clang tested configs:
+s390                 randconfig-c005-20211128
+i386                 randconfig-c001-20211128
+riscv                randconfig-c006-20211128
+arm                  randconfig-c002-20211128
+powerpc              randconfig-c003-20211128
+x86_64               randconfig-c007-20211128
+mips                 randconfig-c004-20211128
+x86_64               randconfig-a001-20211128
+x86_64               randconfig-a006-20211128
+x86_64               randconfig-a003-20211128
+x86_64               randconfig-a005-20211128
+x86_64               randconfig-a004-20211128
+x86_64               randconfig-a002-20211128
+i386                 randconfig-a001-20211128
+i386                 randconfig-a002-20211128
+i386                 randconfig-a006-20211128
+i386                 randconfig-a005-20211128
+i386                 randconfig-a004-20211128
+i386                 randconfig-a003-20211128
+i386                 randconfig-a015-20211129
+i386                 randconfig-a016-20211129
+i386                 randconfig-a013-20211129
+i386                 randconfig-a012-20211129
+i386                 randconfig-a014-20211129
+i386                 randconfig-a011-20211129
+hexagon              randconfig-r045-20211129
+hexagon              randconfig-r041-20211129
+s390                 randconfig-r044-20211129
+riscv                randconfig-r042-20211129
+
 ---
- drivers/input/mouse/psmouse-base.c | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
-index 0b4a3039f312f..a3305653ce891 100644
---- a/drivers/input/mouse/psmouse-base.c
-+++ b/drivers/input/mouse/psmouse-base.c
-@@ -546,13 +546,16 @@ static int genius_detect(struct psmouse *psmouse, bool set_properties)
- {
- 	struct ps2dev *ps2dev = &psmouse->ps2dev;
- 	u8 param[4];
-+	int error;
- 
- 	param[0] = 3;
- 	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
- 	ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
- 	ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
- 	ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
--	ps2_command(ps2dev, param, PSMOUSE_CMD_GETINFO);
-+	error = ps2_command(ps2dev, param, PSMOUSE_CMD_GETINFO);
-+	if (error)
-+		return error;
- 
- 	if (param[0] != 0x00 || param[1] != 0x33 || param[2] != 0x55)
- 		return -ENODEV;
-@@ -578,6 +581,7 @@ static int intellimouse_detect(struct psmouse *psmouse, bool set_properties)
- {
- 	struct ps2dev *ps2dev = &psmouse->ps2dev;
- 	u8 param[2];
-+	int error;
- 
- 	param[0] = 200;
- 	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
-@@ -585,7 +589,9 @@ static int intellimouse_detect(struct psmouse *psmouse, bool set_properties)
- 	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
- 	param[0] =  80;
- 	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
--	ps2_command(ps2dev, param, PSMOUSE_CMD_GETID);
-+	error = ps2_command(ps2dev, param, PSMOUSE_CMD_GETID);
-+	if (error)
-+		return error;
- 
- 	if (param[0] != 3)
- 		return -ENODEV;
-@@ -611,6 +617,7 @@ static int im_explorer_detect(struct psmouse *psmouse, bool set_properties)
- {
- 	struct ps2dev *ps2dev = &psmouse->ps2dev;
- 	u8 param[2];
-+	int error;
- 
- 	intellimouse_detect(psmouse, 0);
- 
-@@ -620,7 +627,9 @@ static int im_explorer_detect(struct psmouse *psmouse, bool set_properties)
- 	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
- 	param[0] =  80;
- 	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
--	ps2_command(ps2dev, param, PSMOUSE_CMD_GETID);
-+	error = ps2_command(ps2dev, param, PSMOUSE_CMD_GETID);
-+	if (error)
-+		return error;
- 
- 	if (param[0] != 4)
- 		return -ENODEV;
-@@ -658,7 +667,7 @@ static int thinking_detect(struct psmouse *psmouse, bool set_properties)
- 	struct ps2dev *ps2dev = &psmouse->ps2dev;
- 	u8 param[2];
- 	static const u8 seq[] = { 20, 60, 40, 20, 20, 60, 40, 20, 20 };
--	int i;
-+	int error, i;
- 
- 	param[0] = 10;
- 	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
-@@ -668,7 +677,9 @@ static int thinking_detect(struct psmouse *psmouse, bool set_properties)
- 		param[0] = seq[i];
- 		ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
- 	}
--	ps2_command(ps2dev, param, PSMOUSE_CMD_GETID);
-+	error = ps2_command(ps2dev, param, PSMOUSE_CMD_GETID);
-+	if (error)
-+		return error;
- 
- 	if (param[0] != 2)
- 		return -ENODEV;
--- 
-2.34.0.rc2.393.gf8c9666880-goog
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
