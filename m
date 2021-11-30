@@ -2,206 +2,228 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 624B6463B69
-	for <lists+linux-input@lfdr.de>; Tue, 30 Nov 2021 17:13:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA543463F5E
+	for <lists+linux-input@lfdr.de>; Tue, 30 Nov 2021 21:35:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232399AbhK3QQx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Nov 2021 11:16:53 -0500
-Received: from mga02.intel.com ([134.134.136.20]:30423 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231614AbhK3QQu (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Nov 2021 11:16:50 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="223477101"
-X-IronPort-AV: E=Sophos;i="5.87,276,1631602800"; 
-   d="scan'208";a="223477101"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2021 08:13:30 -0800
-X-IronPort-AV: E=Sophos;i="5.87,276,1631602800"; 
-   d="scan'208";a="512253127"
-Received: from felsner-mobl2.ger.corp.intel.com (HELO [10.249.36.147]) ([10.249.36.147])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2021 08:13:28 -0800
-Subject: Re: [RFCv2 0/8] USI stylus support series
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        lkml <linux-kernel@vger.kernel.org>,
+        id S240347AbhK3UjI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Nov 2021 15:39:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240316AbhK3UjI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 30 Nov 2021 15:39:08 -0500
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E68B1C061746
+        for <linux-input@vger.kernel.org>; Tue, 30 Nov 2021 12:35:48 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id k4so15852903plx.8
+        for <linux-input@vger.kernel.org>; Tue, 30 Nov 2021 12:35:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=y/+JMc6P+2DILAxzT6vHIVjj72p4WgUHRERhEb0JWAI=;
+        b=TRDZdT5/0nAgD8EJU47Q+qOUulsY1koh+IROAAXpxHwgxkiKbXJuVwaFXQzsvn8/zG
+         UeDFKIO5jIkbZxbbRjCxeGDENrUMV5UgdvAw/4E7KCZUKBInK4KiurmZMv1kGQbc4ove
+         bQm7PltsGlI1Tl/UEc0ATdxDhnW69YHsxpjh4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=y/+JMc6P+2DILAxzT6vHIVjj72p4WgUHRERhEb0JWAI=;
+        b=T+u+cLRFLpBO/vsiqc63Oh8GVxHsUx8bsq0c5ZCc2PDbJCX323ambkZh0+bDzW63iV
+         X8FbEXJoxAM88T1owZIptCtvAHITqspQeJq5WwbsWSOpt8wrP1VtQWDgm08kyz982ffP
+         i3ZG2okEWP7lnNbEw1RJmj1lYRIgtzhlzm4CE3sgJYPUw2EFmJ8AYuWcBJZ/Lo6awvn7
+         UchwANY19J3Fd6vIRD8VlJvM6c2OupWUi5d3yBXhK8vGBeQXU+7nceUpGmzy0P0QlW9H
+         +ZCS4i7xMo2qXL0umQ9yL5CjBeJh5eyiGbDfbpSBUACxZ+e/ECpomFmFG3AKAGeIDbx8
+         LxhA==
+X-Gm-Message-State: AOAM531caG94c2Ku2LTnMAFWFL4WbGjex5f32D+rmxmrcYHNslf2JElt
+        k/2RcO3nFVys4I4304BIum2IyQ==
+X-Google-Smtp-Source: ABdhPJwBQcxNDL+HCc+SWd+QFd0ftGsNC3PgaBIbyK3wmRUzN+yZtaqDVNIwVDRr0TgCWO6pZ5ei1g==
+X-Received: by 2002:a17:90b:1bcf:: with SMTP id oa15mr1619570pjb.161.1638304548319;
+        Tue, 30 Nov 2021 12:35:48 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:7a91:7d6:9e7b:1894])
+        by smtp.gmail.com with ESMTPSA id mz7sm3330437pjb.7.2021.11.30.12.35.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Nov 2021 12:35:47 -0800 (PST)
+Date:   Tue, 30 Nov 2021 12:35:45 -0800
+From:   Brian Norris <briannorris@chromium.org>
+To:     Pekka Paalanen <ppaalanen@gmail.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robdclark@chromium.org>,
+        David Airlie <airlied@linux.ie>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Doug Anderson <dianders@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        "Kristian H . Kristensen" <hoegsberg@google.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        linux-input@vger.kernel.org, Simon Ser <contact@emersion.fr>,
         Peter Hutterer <peter.hutterer@who-t.net>
-References: <20211126130141.1811848-1-tero.kristo@linux.intel.com>
- <CAO-hwJLq6Jnvos=CR_-D6FD-7W56q2eYRVyRMbmE5NFaXLHrng@mail.gmail.com>
-From:   Tero Kristo <tero.kristo@linux.intel.com>
-Message-ID: <4c87f439-f6d0-97e7-156e-90e9baab4b01@linux.intel.com>
-Date:   Tue, 30 Nov 2021 18:13:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Subject: Re: [PATCH v2 1/2] drm/input_helper: Add new input-handling helper
+Message-ID: <YaaLITQF+lngE+VZ@google.com>
+References: <20211117224841.3442482-1-briannorris@chromium.org>
+ <20211117144807.v2.1.I09b516eff75ead160a6582dd557e7e7e900c9e8e@changeid>
+ <20211118123928.545dec8a@eldfell>
+ <YZcB4ooqpvP3gHdx@google.com>
+ <20211119123841.1d628cb6@eldfell>
 MIME-Version: 1.0
-In-Reply-To: <CAO-hwJLq6Jnvos=CR_-D6FD-7W56q2eYRVyRMbmE5NFaXLHrng@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20211119123841.1d628cb6@eldfell>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
+Hi Pekka,
 
-On 30/11/2021 16:44, Benjamin Tissoires wrote:
-> Hi Tero,
->
-> On Fri, Nov 26, 2021 at 2:02 PM Tero Kristo <tero.kristo@linux.intel.com> wrote:
->> Hi,
->>
->> This series is an update based on comments from Benjamin. What is done
->> is this series is to ditch the separate hid-driver for USI, and add the
->> generic support to core layers. This part basically brings the support
->> for providing USI events, without programmability (patches 1-6).
-> That part seems to be almost good for now. I have a few things to check:
-> - patch2: "HID: hid-input: Add suffix also for HID_DG_PEN" I need to
-> ensure there are no touchscreens affected by this (there used to be a
-> mess with some vendors where they would not declare things properly)
-> - patch5: "HID: core: map USI pen style reports directly" this one
-> feels plain wrong. I would need to have a look at the report
-> descriptor but this is too specific in a very generic code
+On Fri, Nov 19, 2021 at 12:38:41PM +0200, Pekka Paalanen wrote:
+> On Thu, 18 Nov 2021 17:46:10 -0800
+> Brian Norris <briannorris@chromium.org> wrote:
+> > On Thu, Nov 18, 2021 at 12:39:28PM +0200, Pekka Paalanen wrote:
+> > > On Wed, 17 Nov 2021 14:48:40 -0800
+> > > Brian Norris <briannorris@chromium.org> wrote:
+> > > If KMS gets a pageflip or modeset in no time after an input event, then
+> > > what's the gain. OTOH, if the display server is locking on to vblank,
+> > > there might be a delay worth avoiding. But then, is it worth
+> > > short-circuiting the wake-up in kernel vs. adding a new ioctl that
+> > > userspace could hit to start the warming up process?  
+> > 
+> > Rob responded to the first part to some extent (there is definitely gain
+> > to be had).
+> > 
+> > To the last part: I wrote a simple debugfs hook to allow user space to
+> > force a PSR exit, and then a simple user space program to read input
+> > events and smash that debugfs file whenever it sees one. Testing in the
+> > same scenarios, this appears to lose less than 100 microseconds versus
+> > the in-kernel approach, which is negligible for this use case. (I'm not
+> > sure about the other use cases.)
+> > 
+> > So, this is technically doable in user space.
+> 
+> This is crucial information I would like you to include in some commit
+> message. I think it is very interesting for the reviewers. Maybe also
+> copy that in the cover letter.
+> 
+> In my opinion there is a clear and obvious decision due that
+> measurement: Add the new ioctl for userspace to hit, do not try to
+> hardcode or upload the wake-up policy into the kernel.
 
-Relevant part of the report descriptor is here:
+Perhaps.
 
-     Field(8)
-       Physical(Digitizers.Stylus)
-       Logical(Digitizers.Preferred Line Style)
-       Application(Digitizers.Pen)
-       Usage(6)
-         Digitizers.Ink
-         Digitizers.Pencil
-         Digitizers.Highlighter
-         Digitizers.Chisel Marker
-         Digitizers.Brush
-         Digitizers.No Preference
-       Logical Minimum(1)
-       Logical Maximum(6)
-       Physical Minimum(0)
-       Physical Maximum(255)
-       Unit Exponent(-1)
-       Unit(SI Linear : Centimeter)
-       Report Size(8)
-       Report Count(1)
-       Report Offset(88)
-       Flags( Variable Absolute NoPreferredState )
+I'll admit, I'm not eager to go write the fd-passing solutions that
+others are designing on the fly. I'm currently torn on whether I'll just
+live with this current patch set out-of-tree (or, y'all can decide that
+a simple, 99% working solution is better than no solution), because it's
+simple; or possibly figuring out how to utilize such an ioctl cleanly
+within our display manager. I'm not super hopeful on the latter.
 
-To me, it looks almost like it is a bug in the report descriptor itself; 
-as you see there are 6 usage values but the report size / count is 1 
-byte. The fact that there are 6 usage values in the field confuses 
-hid-core. Basically the usage values are used as encoded content for the 
-field.
+IOW, I'm approximately in line with Doug's thoughts:
+https://lore.kernel.org/all/CAD=FV=XARhZoj+0p-doxcbC=4K+NuMc=uR6wqG6kWk-MkPkNdQ@mail.gmail.com/
+But then, we're obviously biased.
 
-Alternatively I think this could be patched up in the BPF program, as I 
-am modifying the content of the raw hid report already; I could just as 
-well modify this one also. Or, maybe I could fix the report descriptor 
-itself to act as a sane variable, as I am parsing the report descriptor 
-already?
+> > I can't speak to the ease of _actually_ integrating this into even our
+> > own Chrome display manager, but I highly doubt it will get integrated
+> > into others. I'd posit this should weigh into the relative worth, but
+> > otherwise can't really give you an answer there.
+> 
+> I think such a thing would be very simple to add to any display server.
+> They already have hooks for things like resetting idle timeout timers on
+> any relevant input event.
+> 
+> > I'd also note, software-directed PSR is so far designed to be completely
+> > opaque to user space. There's no way to disable it; no way to know it's
+> > active; and no way to know anything about the parameters it's computing
+> > (like average entry/exit delay). Would you suggest a whole set of new
+> > IOCTLs for this?
+> 
+> Just one ioctl on the DRM device: "Hey, wake up!". Because that's what
+> your patch does in-kernel, right?
 
->
->> Additionally, a HID-BPF based sample is provided which can be used to
->> program / query pen parameters in comparison to the old driver level
->> implementation (patches 7-8, patch #8 is an incremental change on top of
->> patch #7 which just converts the fifo to socket so that the client can
->> also get results back from the server.)
-> After a few more thoughts, I wondered what your input is on this. We
-> should be able to do the very same with plain hidraw... However, you
-> added a `hid/raw_event` processing that will still be kept in the
-> kernel, so maybe bpf would be useful for that at least.
+Well, we'd at least want something to advertise that the feature does
+something ("is supported") I think, otherwise we're just asking user
+space to do useless work.
 
-Yes, plain hidraw can be sort of used to program the values, however the 
-interface is kind of annoying to use for the USI pens. You need to be 
-touching the display with the pen before anything is accepted. Maybe 
-writing some support code to the libevdev would help.
+> If there are use case specific parameters, then how did you intend to
+> allow adjusting those in your proposal?
 
-The hidraw hook is needed for processing the cached values also, USI 
-pens report their parameters with a delay of some few hundred ms 
-depending on controller vendor. And in some cases they don't report 
-anything back before forcibly querying the value from the controller, 
-and also the write mechanism acts differently; some controllers report 
-the programmed value back, others keep reporting the old value until the 
-pen leaves the screen and touches it again.
+Another commenter mentioned the latency tradeoff -- it's possible that
+there are panels/eDP-links that resume fast enough that one doesn't care
+to use this ioctl. For an in-kernel solution, one has all the data
+available and could use hardware information to make decisions, if
+needed. For a user space solution, we won't have any of that, and we'd
+have to work to expose that information.
 
+I suppose we could ignore that problem and only expose a minimal UAPI
+until we need something more, but it feels like exposing a UAPI for
+something is a critical point where one should make sure it's reasonably
+descriptive and useful.
 
->
->> The whole series is based on top of Benjamin's hid-bpf support work, and
->> I've pushed a branch at [1] with a series that works and brings in
->> the dependency. There are also a few separate patches in this series to
->> fix the problems I found from Benjamin's initial work for hid-bpf; I
->> wasn't able to get things working without those. The branch is also
->> based on top of 5.16-rc2 which required some extra changes to the
->> patches from Benjamin.
-> Yeah, I also rebased on top of 5.16 shortly after sharing that branch
-> and got roughly the same last fix (HID: bpf: compile fix for
-> bpf_hid_foreach_rdesc_item). I am *very* interested in your "HID: bpf:
-> execute BPF programs in proper context" because that is something that
-> was bothering me a lot :)
+> > > How do you know userspace is using this input device at all? If
+> > > userspace is not using the input device, then DRM should not be opening
+> > > it either, as it must have no effect on anything.
+> > > 
+> > > If you open an input device that userspace does not use, you also cause
+> > > a power consumption regression, because now the input device itself is
+> > > active and possibly flooding the kernel with events (e.g. an
+> > > accelerometer).  
+> > 
+> > Well, I don't think accelerometers show up as input devices, but I
+> > suppose your point could apply to actual input devices.
+> 
+> My understanding is that accelerometers are evdev (input) devices,
+> especially when used as input e.g. for controlling games. I'm not aware
+> of any other interface for it.
 
-Right, I think I have plenty of lockdep / scheduler checks enabled in my 
-kernel. They generate plenty of spam with i2c-hid without that patch. 
-The same issue may not be visible with some other low level hid devices 
-though, I don't have testing capability for anything but the i2c-hid 
-right now. I2C is quite notorious for the locking aspects as it is slow 
-and is used to control some pretty low level stuff like power management 
-etc.
+I'm not familiar with game-controlling accelerometers, but many types of
+accelerometers are serviced by drivers/iio/.
 
->
-> "HID: bpf: add expected_attach_type to bpf prog during detach" is
-> something I'll need to bring in too
->
-> but "HID: bpf: fix file mapping" is actually wrong. I initially wanted
-> to attach BPF programs to hidraw, but shortly realized that this is
-> not working because the `hid/rdesc_fixup` kills the hidraw node and so
-> releases the BPF programs. The way I am now attaching it is to use the
-> fd associated with the modalias in the sysfs file (for instance: `sudo
-> ./hid_surface_dial /sys/bus/hid/devices/0005:045E:091B.*/modalias`).
-> This way, the reference to the struct hid_device is kept even if we
-> disconnect the device and reprobe it.
-Ok I can check this out if it works me also. The samples lead me to 
-/dev/hidraw usage.
->
-> Thanks again for your work, and I'd be curious to have your thoughts
-> on hid-bpf and if you think it is better than hidraw/evdev write/new
-> ioctls for your use case.
+And even if they register as input devices, do they match the ID list in
+this patch?
 
-The new driver was 777 lines diff, the BPF one is 496 lines so it 
-appears smaller. The driver did support two different vendors though 
-(ELAN+Goodix, with their specific quirks in place), the BPF only a 
-single one right now (ELAN).
+> Even audio sockets are input devices for detecting whether a plug has
+> been plugged in, but those probably wouldn't flood anything.
 
-The vendor specific quirks are a question, do we want to support that 
-somehow in a single BPF binary, or should we attach vendor specific BPF 
-programs?
+They also won't match the input_handler ID list, because they won't
+support the key or position combinations in the heuristic.
 
-Chromium-os devices are one of the main customers for USI pens right 
-now, and I am not sure how well they will take the BPF concept. :) I did 
-ask their feedback though, and I'll come back on this once I have something.
+> > > Yet another problem here is that this completely ignores the concept of
+> > > physical seats. Of course it does so, because seats are a pure
+> > > userspace concept.
+> > > 
+> > > The kernel VT console already has problems because the kernel has no
+> > > concept of seats, which means that if there is a second seat defined and
+> > > a desktop running on it, while the first seat is in the normal VT text
+> > > mode, then everything typed in the desktop will be delivered to the VT
+> > > shell as well! (This has a possible workaround in userspace [1], by opening
+> > > the evdev input devices in some kind of exclusive mode - which is not
+> > > common practise AFAIK.)  
+> > 
+> > Sure.
+> > 
+> > I'd bet the intersection of systems that use SW-directed PSR and
+> > "multi-seat" is negligibly close to zero, but I can't guarantee that.
+> > Chalk one up for a user space policy.
+> 
+> Your cover letter has also the other bullet point: ramping up GPUs.
+> That applies to a lot more systems than PSR, right?
+> 
+> Maybe that is an acceptable trade-off: be 100 �s faster (your
+> measurement) by ramping up all GPUs in a system instead of only the
+> relevant ones?
+> 
+> Or maybe that will hurt normal gaming computers by ramping up the iGPU
+> when the OS and game only uses the dGPU, which makes iGPU eat away the
+> CPU power budget, causing the CPU to slow down? I suppose that would be
+> handled by ramping up only GPUs that userspace has opened.
 
-Personally, I don't have much preference either way at this moment, both 
-seem like feasible options. I might lean a bit towards evdev/ioctl as it 
-seems a cleaner implementation as of now. The write mechanism I 
-implemented for the USI-BPF is a bit hacky, as it just directly writes 
-to a shared memory buffer and the buffer gets parsed by the kernel part 
-when it processes hidraw event. Anyways, do you have any feedback on 
-that part? BPF is completely new to me again so would love to get some 
-feedback.
+FWIW, the current work we have out-of-tree involves only select GPU
+drivers that know they are slow to ramp up. If this were generalized,
+then yes, it could potentially have undesireable side effects. I'm
+certainly not an expert on Rob's work though, so I can't speak to this
+very much, but I imagine we could resolve the {d,i}GPU problem easily.
 
-One option is of course to push the write portion of the code to 
-userspace and just use hidraw, but we still need to filter out the bogus 
-events somehow, and do that in vendor specific manner. I don't think 
-this can be done on userspace, as plenty of information that would be 
-needed to do this properly has been lost at the input-event level.
-
--Tero
-
->
-> Cheers,
-> Benjamin
->
->> -Tero
->>
->> [1] https://github.com/t-kristo/linux/tree/usi-5.16-rfc-v2-bpf
->>
->>
+Brian
