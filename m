@@ -2,45 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2093E46384C
-	for <lists+linux-input@lfdr.de>; Tue, 30 Nov 2021 15:56:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 209BB463915
+	for <lists+linux-input@lfdr.de>; Tue, 30 Nov 2021 16:04:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243366AbhK3O7O (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Nov 2021 09:59:14 -0500
-Received: from sin.source.kernel.org ([145.40.73.55]:60462 "EHLO
-        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243345AbhK3O5L (ORCPT
+        id S245446AbhK3PHQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Nov 2021 10:07:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60844 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243510AbhK3O4y (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Nov 2021 09:57:11 -0500
+        Tue, 30 Nov 2021 09:56:54 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA802C0698C1;
+        Tue, 30 Nov 2021 06:51:04 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 121F0CE1A7B;
-        Tue, 30 Nov 2021 14:53:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78A02C53FC7;
-        Tue, 30 Nov 2021 14:53:47 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 94606B81A4D;
+        Tue, 30 Nov 2021 14:51:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C493C53FD1;
+        Tue, 30 Nov 2021 14:51:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638284028;
-        bh=xmNekxp+A3vErmOByE54PNDSH6nmAIKlZIJkIAXTX0s=;
+        s=k20201202; t=1638283862;
+        bh=jG04/GIRk/SCkFli3pFrAuZURh04n6uUKX+i9hJgAn0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BsusRRSY/woAsV2DCWaJR3/z2Od46LyQ3KAlL6J1tTUjtd98D6QuJdvmjzpDC3eVj
-         I+FgbKC7waHE8wkSBN1BSCy0tSOMN7QAuGwWWKSQlnR6keQriFKU1li7K9gF4JwrZC
-         2qc4S/tzS3g7sl+TgoRh1NzarU5FueQqcHtvTCrGHKZg1iNZQZBUXCTBqg2LESvV6e
-         lSJ8rRJI/qsFjMqgQqL1PXPAq9j1Fu3NZckD31t3gnIVQylQUBjzSQ51vbOtQgJauu
-         FlEo8YxpVcILNCWbuLiPRvEwV9v+y6hjF5kD9VSRmvOS7omJWVWLyxoig0xbAjBC+K
-         7WJh863jbi29Q==
+        b=Mh10EYDITiZyGMkTdtqAZT9MuluEXHPwGogyWoKXjO4cKYby8b9TuXAG3yKos9Kwl
+         4LRu3Aumrurmh7gzSyMJ+hHCcZ39OOvrPNqgSaLdAWU2wIRWffjIodLkTj92yaY7Ah
+         I9zzVYF+O15x4OzAEuQ0lVZGAG0K6EhRRjdzjBZ9F9qDx0oivAX7rLyfUhqrQW31UJ
+         tNjOLS0jwDKJFMVCUgGAa3dywDN/S9uf00F4WgS8JcXyWEEykyKqEv2S/D+i3IU8GT
+         izIRBU6aPOtdQN8f1As11kxSe99DtQ+ayx9yzyQiDrf3nW+E2W+TuyJZY6OYo6VTII
+         GrF7RfhJBFQbA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Ondrej Zary <linux@zary.sk>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         jikos@kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 04/12] HID: multitouch: Fix Iiyama ProLite T1931SAW (0eef:0001 again!)
-Date:   Tue, 30 Nov 2021 09:53:32 -0500
-Message-Id: <20211130145341.946891-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 16/43] HID: multitouch: Fix Iiyama ProLite T1931SAW (0eef:0001 again!)
+Date:   Tue, 30 Nov 2021 09:49:53 -0500
+Message-Id: <20211130145022.945517-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211130145341.946891-1-sashal@kernel.org>
-References: <20211130145341.946891-1-sashal@kernel.org>
+In-Reply-To: <20211130145022.945517-1-sashal@kernel.org>
+References: <20211130145022.945517-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -73,10 +76,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 258a50ec15727..b1853f8f6af4e 100644
+index e5a3704b9fe8f..1c9c4523691e7 100644
 --- a/drivers/hid/hid-multitouch.c
 +++ b/drivers/hid/hid-multitouch.c
-@@ -1277,6 +1277,11 @@ static const struct hid_device_id mt_devices[] = {
+@@ -1846,6 +1846,11 @@ static const struct hid_device_id mt_devices[] = {
  		MT_USB_DEVICE(USB_VENDOR_ID_CVTOUCH,
  			USB_DEVICE_ID_CVTOUCH_SCREEN) },
  
