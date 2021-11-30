@@ -2,45 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2CDA463763
-	for <lists+linux-input@lfdr.de>; Tue, 30 Nov 2021 15:50:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 420DD4637BD
+	for <lists+linux-input@lfdr.de>; Tue, 30 Nov 2021 15:53:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232628AbhK3Ox1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Nov 2021 09:53:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60052 "EHLO
+        id S237696AbhK3Ozm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Nov 2021 09:55:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242736AbhK3Owg (ORCPT
+        with ESMTP id S243108AbhK3OyN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Nov 2021 09:52:36 -0500
+        Tue, 30 Nov 2021 09:54:13 -0500
 Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7202C0613ED;
-        Tue, 30 Nov 2021 06:48:22 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3980CC061372;
+        Tue, 30 Nov 2021 06:49:14 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 91C8CCE1A3E;
-        Tue, 30 Nov 2021 14:48:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09E87C53FD3;
-        Tue, 30 Nov 2021 14:48:18 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 8517ECE1A58;
+        Tue, 30 Nov 2021 14:49:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE41BC53FD1;
+        Tue, 30 Nov 2021 14:49:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638283699;
-        bh=odx8qL1TMIvvlfh1vMm6j9AVYLh6gBs/yL2ViP2g4R4=;
+        s=k20201202; t=1638283750;
+        bh=Gw5VQ3RYUXRNsUiATi1GYRmPBWdQxHeYZIBJlwYHLnY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mjEsoyOVljNAkeMN+ZxTl7+0MfYDr1u0d1zR9EBnvhjHxYgwgNbbvAZ9BQRW4E56q
-         cdWINq0JlvyKNlU2SG4Y3GUoqe00kEG+P6hmkBC/8CAwTzFkqf7y5jNmRYQYMKAECr
-         m2CXvE05JSYdoNBSMIS0S93Baob3sEMZRT/52l1p0YOS+2Q6hiZkykuyaVPv286X+Q
-         RALyn1hUg3uz6nBveiEzt7rWVHZKZ41Dlied+jXxgCToJ7z6tKRWTrsDTBuSOXLx1c
-         4o47hl/0hfmZRuVhCjZsH0WjBEtyK3HPqMY8qojZrjJWFB00S9RNWXI2KiPW9OqgZC
-         kBTGMVWk3oZ5Q==
+        b=UbHT917w5sbc5FLhlCDUTHfQoevGT+ykC1Xo+FPPzepoU+mXmuKdP/4ZdrvLklWnN
+         Fpno/yBqaHqFKOzWTShzFU+yLtMEJ/j+6AlzyqBH+rnKltgIH+qFy3GXr6BmJ/TPwJ
+         26lDtMEu+fwn/KMzlzL+NDjRx8m03eT4AixbUZwAkbFjn6tdfHNBlYOANWpnMShDrQ
+         IUHvS74R0QDKEpCNlvylxSPXhxUvIAz8mjbz9rerpkCycITu4q+2MS/Gd46l4Aomcb
+         HsUO5JLlRuvqCLf05d1kkFIoLaLU4X59vRhcitSyIltcxxoEv7a/9QAW8M3iVZetRT
+         eHP6SUg86swfw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Ondrej Zary <linux@zary.sk>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        jikos@kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 25/68] HID: multitouch: Fix Iiyama ProLite T1931SAW (0eef:0001 again!)
-Date:   Tue, 30 Nov 2021 09:46:21 -0500
-Message-Id: <20211130144707.944580-25-sashal@kernel.org>
+Cc:     Juergen Gross <jgross@suse.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Sasha Levin <sashal@kernel.org>, dmitry.torokhov@gmail.com,
+        linux-input@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org, xen-devel@lists.xenproject.org
+Subject: [PATCH AUTOSEL 5.15 48/68] xen: add "not_essential" flag to struct xenbus_driver
+Date:   Tue, 30 Nov 2021 09:46:44 -0500
+Message-Id: <20211130144707.944580-48-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211130144707.944580-1-sashal@kernel.org>
 References: <20211130144707.944580-1-sashal@kernel.org>
@@ -52,45 +53,100 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Ondrej Zary <linux@zary.sk>
+From: Juergen Gross <jgross@suse.com>
 
-[ Upstream commit 32bea35746097985c48cec836d5f557a3b66b60a ]
+[ Upstream commit 37a72b08a3e1eb28053214dd8211eb09c2fd3187 ]
 
-Iiyama ProLite T1931SAW does not work with Linux - input devices are
-created but cursor does not move.
+When booting the xenbus driver will wait for PV devices to have
+connected to their backends before continuing. The timeout is different
+between essential and non-essential devices.
 
-It has the infamous 0eef:0001 ID which has been reused for various
-devices before.
+Non-essential devices are identified by their nodenames directly in the
+xenbus driver, which requires to update this list in case a new device
+type being non-essential is added (this was missed for several types
+in the past).
 
-It seems to require export_all_inputs = true.
+In order to avoid this problem, add a "not_essential" flag to struct
+xenbus_driver which can be set to "true" by the respective frontend.
 
-Hopefully there are no HID devices using this ID that will break.
-It should not break non-HID devices (handled by usbtouchscreen).
+Set this flag for the frontends currently regarded to be not essential
+(vkbs and vfb) and use it for testing in the xenbus driver.
 
-Signed-off-by: Ondrej Zary <linux@zary.sk>
-Reviewed-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Juergen Gross <jgross@suse.com>
+Link: https://lore.kernel.org/r/20211022064800.14978-2-jgross@suse.com
+Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Signed-off-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-multitouch.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/input/misc/xen-kbdfront.c          |  1 +
+ drivers/video/fbdev/xen-fbfront.c          |  1 +
+ drivers/xen/xenbus/xenbus_probe_frontend.c | 14 +++-----------
+ include/xen/xenbus.h                       |  1 +
+ 4 files changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index e1afddb7b33d8..082376a6cb3d7 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -1888,6 +1888,11 @@ static const struct hid_device_id mt_devices[] = {
- 		MT_USB_DEVICE(USB_VENDOR_ID_CVTOUCH,
- 			USB_DEVICE_ID_CVTOUCH_SCREEN) },
+diff --git a/drivers/input/misc/xen-kbdfront.c b/drivers/input/misc/xen-kbdfront.c
+index 4ff5cd2a6d8de..3d17a0b3fe511 100644
+--- a/drivers/input/misc/xen-kbdfront.c
++++ b/drivers/input/misc/xen-kbdfront.c
+@@ -542,6 +542,7 @@ static struct xenbus_driver xenkbd_driver = {
+ 	.remove = xenkbd_remove,
+ 	.resume = xenkbd_resume,
+ 	.otherend_changed = xenkbd_backend_changed,
++	.not_essential = true,
+ };
  
-+	/* eGalax devices (SAW) */
-+	{ .driver_data = MT_CLS_EXPORT_ALL_INPUTS,
-+		MT_USB_DEVICE(USB_VENDOR_ID_DWAV,
-+			USB_DEVICE_ID_EGALAX_TOUCHCONTROLLER) },
-+
- 	/* eGalax devices (resistive) */
- 	{ .driver_data = MT_CLS_EGALAX,
- 		MT_USB_DEVICE(USB_VENDOR_ID_DWAV,
+ static int __init xenkbd_init(void)
+diff --git a/drivers/video/fbdev/xen-fbfront.c b/drivers/video/fbdev/xen-fbfront.c
+index 5ec51445bee88..6826f986da436 100644
+--- a/drivers/video/fbdev/xen-fbfront.c
++++ b/drivers/video/fbdev/xen-fbfront.c
+@@ -695,6 +695,7 @@ static struct xenbus_driver xenfb_driver = {
+ 	.remove = xenfb_remove,
+ 	.resume = xenfb_resume,
+ 	.otherend_changed = xenfb_backend_changed,
++	.not_essential = true,
+ };
+ 
+ static int __init xenfb_init(void)
+diff --git a/drivers/xen/xenbus/xenbus_probe_frontend.c b/drivers/xen/xenbus/xenbus_probe_frontend.c
+index 480944606a3c9..07b010a68fcf9 100644
+--- a/drivers/xen/xenbus/xenbus_probe_frontend.c
++++ b/drivers/xen/xenbus/xenbus_probe_frontend.c
+@@ -211,19 +211,11 @@ static int is_device_connecting(struct device *dev, void *data, bool ignore_none
+ 	if (drv && (dev->driver != drv))
+ 		return 0;
+ 
+-	if (ignore_nonessential) {
+-		/* With older QEMU, for PVonHVM guests the guest config files
+-		 * could contain: vfb = [ 'vnc=1, vnclisten=0.0.0.0']
+-		 * which is nonsensical as there is no PV FB (there can be
+-		 * a PVKB) running as HVM guest. */
++	xendrv = to_xenbus_driver(dev->driver);
+ 
+-		if ((strncmp(xendev->nodename, "device/vkbd", 11) == 0))
+-			return 0;
++	if (ignore_nonessential && xendrv->not_essential)
++		return 0;
+ 
+-		if ((strncmp(xendev->nodename, "device/vfb", 10) == 0))
+-			return 0;
+-	}
+-	xendrv = to_xenbus_driver(dev->driver);
+ 	return (xendev->state < XenbusStateConnected ||
+ 		(xendev->state == XenbusStateConnected &&
+ 		 xendrv->is_ready && !xendrv->is_ready(xendev)));
+diff --git a/include/xen/xenbus.h b/include/xen/xenbus.h
+index b94074c827721..b13eb86395e05 100644
+--- a/include/xen/xenbus.h
++++ b/include/xen/xenbus.h
+@@ -112,6 +112,7 @@ struct xenbus_driver {
+ 	const char *name;       /* defaults to ids[0].devicetype */
+ 	const struct xenbus_device_id *ids;
+ 	bool allow_rebind; /* avoid setting xenstore closed during remove */
++	bool not_essential;     /* is not mandatory for boot progress */
+ 	int (*probe)(struct xenbus_device *dev,
+ 		     const struct xenbus_device_id *id);
+ 	void (*otherend_changed)(struct xenbus_device *dev,
 -- 
 2.33.0
 
