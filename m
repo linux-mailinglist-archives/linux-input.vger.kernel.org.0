@@ -2,124 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C70504646EE
-	for <lists+linux-input@lfdr.de>; Wed,  1 Dec 2021 06:56:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 763CC464CEF
+	for <lists+linux-input@lfdr.de>; Wed,  1 Dec 2021 12:34:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231482AbhLAGAJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Dec 2021 01:00:09 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:54967 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229561AbhLAGAJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 1 Dec 2021 01:00:09 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 866915C0094;
-        Wed,  1 Dec 2021 00:56:48 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Wed, 01 Dec 2021 00:56:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=l
-        o8mU9kXYXfa+p+Bapf1IJs4wvyj8j/AWtM7bGAUlM0=; b=mxz2PFtqDSGJs3Hdp
-        vaueAgj4AXLg9pSSTnWorJK8yJj8KWyXwiftzzJCaJfM6jPKM6uNDlZzeHks805c
-        yQS+ZCRWdIMaVQ7sdfRDoHr681tn/9bOc/h1D2w23NwaTM0H3HS3UwEMWlin6lRG
-        eUfy2ZYYnctUsDzmjfmPIDnTkVr7gseBDQcgiQbXjVGXg5XszwU9JZZrxTb/kviC
-        L1eEI6tJQ6tLOUhT/dkFPg5XpGVjFM8z77HJ6d+mH7+ViIpw1aVsjq/xRtTQv+xC
-        tlvNMnnKBZgzp5xOW9qgRHKIagj73REJM0mmmi+CAmFoatv/5NeyH3eT+BWd4DfQ
-        5y3AQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; bh=lo8mU9kXYXfa+p+Bapf1IJs4wvyj8j/AWtM7bGAUl
-        M0=; b=DupXmSP6uHUHqxjCFlQPKyHt7amIUO0UtFekjdMMiYxdgx8zg1E6ybWYl
-        TLvhArXR3n7p5TCXY9ise61lmYH88iWUBPODc99cAfzctUwxJbn1EocY/NP5Q1bG
-        wOPunrswhXw+ml0puMnOQyQJtUprhqFCTBHG9mKsr2MC78pZ4kfGJJh4a1+C3Mal
-        ONtRBA/J0Xtmy3hYLCxuhsdHWtqwdzTVpkWmKwH9oU9VgYniFbp49IP7EHp7IknX
-        yqN/E3E3OzcSnJxtBGJ/1HiNW0NyWGzeMn1coq/xFfMvn36CnqrpvLA+Y3VO4vUI
-        RlsksLqjNd8GUn+8QOnzODxETzGJw==
-X-ME-Sender: <xms:oA6nYa_qvVLP8lPH6nH6oCXBS8142xddBao_zeGGyg_k0CWvfmcKng>
-    <xme:oA6nYatCAD9OnolQo8zs7VN6IJa59bEdLMXKGSUHaRRUybKUzavz4FTTC6BwEVWnN
-    W0Teq3jlPzNJnBjVCE>
-X-ME-Received: <xmr:oA6nYQBdBsY8_cz3sQC6GmeS3VhlvuI4MqyoF1JCrOrd7yBVJxiur1qvO421NXSAZc0LCu-KTa7AKqRjnw7X1qPBzixaGzxpnTwN>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddriedvgdeltdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvghtvghr
-    ucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
-    eqnecuggftrfgrthhtvghrnhepffefffekvdekleehledtffeihffhiefhleehtddtueeg
-    jeefhfetledvgeevteelnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpd
-    hmihgtrhhoshhofhhtrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
-    pehmrghilhhfrhhomhepphgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvght
-X-ME-Proxy: <xmx:oA6nYScFJwmhUASXPurD94zkUY6FSX_laxTg59sCeYmrFIO0cOZcrw>
-    <xmx:oA6nYfP_dcKfIL5aaxeJLb6yUKk_ZIHBy5BIP6ehZMTTLiGoXwXnIA>
-    <xmx:oA6nYcnoHP88rlEYmLKkPrAH48y4dLxAWcn7UgzCiI1hvOL57aSiQw>
-    <xmx:oA6nYYo-BDmNQPl2WmtWaQ8Z4gDC-z0ygQ8VbIYADV8gFBfqDmI0Qg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Dec 2021 00:56:46 -0500 (EST)
-Date:   Wed, 1 Dec 2021 15:56:41 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/1] Do not map BTN_RIGHT/MIDDLE on buttonpads
-Message-ID: <YacOmYorwAIB4Q3c@quokka>
-References: <20211123191238.12472-1-jose.exposito89@gmail.com>
- <CAO-hwJLB8h6fQRF8UjN3rER_6xS2Shi3ffEr92PhkVCijtYRpQ@mail.gmail.com>
+        id S1349001AbhLALhs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Dec 2021 06:37:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33582 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349008AbhLALhi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Dec 2021 06:37:38 -0500
+Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BE16C06179C
+        for <linux-input@vger.kernel.org>; Wed,  1 Dec 2021 03:34:10 -0800 (PST)
+Received: by mail-ua1-x92d.google.com with SMTP id a14so48267014uak.0
+        for <linux-input@vger.kernel.org>; Wed, 01 Dec 2021 03:34:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=nKE9e+4jEQRb21OhoYPSbxPLfJ2IuSmNXU0U6wmcP4ykCacrWpdbtE0jjuz/hSLLGi
+         3CHjeG+lFmWzoULwCsmlhVFgDEk5dLFaYb51pw7bXGjZ9H8t0j91dP9aL17MRQYkMPZK
+         Snvty/Yp8/ZrWZr2EuFXHqBxUdbU8X39ik45viERJ1Dn7qW8BPCFp2vlafV2okU0kn5j
+         QPTIDY8QJSy8zAVbK10d6+AY0lky+mrQRAAg0uS1DacQStzD/dQtt/uBz/RlGIdZCai/
+         BHep24kmiLdl1nvBvHYMFonu8NoJvJlErv7lbZlg2+2c277BpkzmDA4WwPZoxzlIf0Mh
+         Af5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=KBZGQw7dNmHNJTBv8P/0XR8786fT/5g2QvJhFGSyZJeIEjvKqBB4726vXYzhN7dBCL
+         8VkH20dY6QF5tJ78ldbwjEUlBf5DvNdXvngBbSIhBtDzOHqSN536pEvRm7WgdlLF5Ops
+         hHDQWGTHwLJ6PQbDd3jz4gKAPBG1aM4/ad38x+lo1sTDFFZa1edbCFZ2IlASZj9H72gS
+         sN0Ph0BRCeY3Kx8GiBLJDGgf7aVPUYpndf8YnUaeomQ3fYAXl4ONoyRJdGZaTFeFKOnz
+         MytrQ7vMJJ43IAhyVMeHnfApxKLnHS+NtHmkVzS/S/ts5+c8461G1vec3yEWqWYE4mpY
+         QjIg==
+X-Gm-Message-State: AOAM5313IJ0phzqI3igaQmwf7arGKstp1tcjco5uLyWuZkeBfXgDXujm
+        tPKJwu+yLoKNb0bDmbIue418QEFYnuiA+q/+AJQz5xob7p0=
+X-Google-Smtp-Source: ABdhPJwK+H50pzFgfv5CJPfAwBzUdMqIKHh+Ckkuju2lG2knVlJrzqINPiiwPjc/Uz6xuSJez7Fkn5YZPcfa5CPpvro=
+X-Received: by 2002:a67:ef4d:: with SMTP id k13mr6266305vsr.4.1638358439020;
+ Wed, 01 Dec 2021 03:33:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAO-hwJLB8h6fQRF8UjN3rER_6xS2Shi3ffEr92PhkVCijtYRpQ@mail.gmail.com>
+Sender: unitednationawardwinner@gmail.com
+Received: by 2002:ab0:6c55:0:0:0:0:0 with HTTP; Wed, 1 Dec 2021 03:33:58 -0800 (PST)
+From:   "Mrs. Orgil Baatar" <mrs.orgilbaatar21@gmail.com>
+Date:   Wed, 1 Dec 2021 03:33:58 -0800
+X-Google-Sender-Auth: uTQ_nfkzXaWGWaTWp1BSFqK3Ucs
+Message-ID: <CAJ4dHaSrD-X=xpfKNZV-hXSiMV6mNYrgy5vWCNkKm6iu5RQStg@mail.gmail.com>
+Subject: Your long awaited part payment of $2.5.000.00Usd
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 24, 2021 at 10:39:02AM +0100, Benjamin Tissoires wrote:
-> Hi José,
-> 
-> On Tue, Nov 23, 2021 at 8:12 PM José Expósito <jose.exposito89@gmail.com> wrote:
-> >
-> > Hi all,
-> >
-> > Historically, libinput has relayed on the INPUT_PROP_BUTTONPAD property
-> > to detect buttonpads.
-> >
-> > Since buttonpads are expected to have only one button (BTN_LEFT),
-> > recently we added a new rule to detect buttonpads: Where a touchpad
-> > maps the BTN_RIGHT bit, libinput assumes it is NOT a buttonpad.
-> >
-> > However, this change leaded to several false possitives, so we ended up
-> > reverting it. For more context:
-> > https://gitlab.freedesktop.org/libinput/libinput/-/issues/704
-> >
-> > And for a full list of affected hardware, HID reports and bug reports
-> > please see:
-> > https://gitlab.freedesktop.org/libinput/libinput/-/merge_requests/726
-> >
-> > My understanding is that buttonpads should not map BTN_RIGHT and/or
-> > BTN_MIDDLE and to avoid it I would like to fix the required drivers.
-> 
-> As long as udev intrinsic is happy with it (and it correctly tags the
-> touchpad as ID_INPUT_something), I'm fine with it.
+Attention: Beneficiary, Your long awaited part payment of
+$2.5.000.00Usd (TWO MILLION FIVE Hundred Thousand United State
+Dollars) is ready for immediate release to you, and it was
+electronically credited into an ATM Visa Card for easy delivery.
 
-fwiw, udev's builtin input-id touchpad check is
-  ABS_X && ABS_Y && BTN_TOOL_FINGER && !BTN_TOOL_PEN && !INPUT_PROP_DIRECT
-it doesn't care about the actual buttons so this patch wouldn't affect it.
+Your new Payment Reference No.- 6363836,
+Pin Code No: 1787
+Your Certificate of Merit Payment No: 05872,
 
-> Also, you might want to point at the specification regarding button
-> pads: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/touchpad-windows-precision-touchpad-collection#device-capabilities-feature-report
-> 
-> The way I read it: if the device exports the Button type value
-> feature, and it is 0 or 1 (click-pad or pressure-pad), there should
-> not be discrete buttons.
+Your Names: |
+Address: |
 
-Yeah, it sounds like there *should* not be any buttons but 
-There is nothing to explicitly forbid extra buttons for click/pressurepads
-which is probably how those devices get past the windows driver
-implementation.
+Person to Contact:MR KELLY HALL the Director of the International
+Audit unit ATM Payment Center,
 
-Cheers,
-   Peter
+Email: uba-bf@e-ubabf.com
+TELEPHONE: +226 64865611 You can whatsApp the bank
+
+Regards.
+Mrs ORGIL BAATAR
