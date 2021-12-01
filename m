@@ -2,224 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C06E8465322
-	for <lists+linux-input@lfdr.de>; Wed,  1 Dec 2021 17:44:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22FC746534C
+	for <lists+linux-input@lfdr.de>; Wed,  1 Dec 2021 17:47:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351655AbhLAQrj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Dec 2021 11:47:39 -0500
-Received: from mga12.intel.com ([192.55.52.136]:26296 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1351622AbhLAQr1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 1 Dec 2021 11:47:27 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10185"; a="216512582"
-X-IronPort-AV: E=Sophos;i="5.87,279,1631602800"; 
-   d="scan'208";a="216512582"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2021 08:43:31 -0800
-X-IronPort-AV: E=Sophos;i="5.87,279,1631602800"; 
-   d="scan'208";a="512784042"
-Received: from razaahme-mobl.ger.corp.intel.com (HELO tkristo-desk.intel.com) ([10.252.36.3])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2021 08:43:29 -0800
-From:   Tero Kristo <tero.kristo@linux.intel.com>
-To:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
-        jikos@kernel.org, mika.westerberg@linux.intel.com,
-        tero.kristo@linux.intel.com
-Cc:     linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
-        peter.hutterer@who-t.net
-Subject: [RFCv3 7/7] samples: hid: convert USI sample to use unix socket for comms
-Date:   Wed,  1 Dec 2021 18:43:01 +0200
-Message-Id: <20211201164301.44653-8-tero.kristo@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211201164301.44653-1-tero.kristo@linux.intel.com>
-References: <20211201164301.44653-1-tero.kristo@linux.intel.com>
+        id S238499AbhLAQut (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Dec 2021 11:50:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49810 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231604AbhLAQur (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Dec 2021 11:50:47 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37E44C061574
+        for <linux-input@vger.kernel.org>; Wed,  1 Dec 2021 08:47:26 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 8CA2DCE1D80
+        for <linux-input@vger.kernel.org>; Wed,  1 Dec 2021 16:47:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 381B6C53FAD;
+        Wed,  1 Dec 2021 16:47:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1638377242;
+        bh=ZyrJ00LaWUO5YZDaqneRniX0vmINqs9SYoITySPY5OY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ut7PUGUHZXa44MkBuaeg6X2vxKvm43LpHxjQ4xh30NZ3FNCwx/mMVzNIvgMCiUqRh
+         F7eCAcOBTkLFNYMopbSrRTvy21L9iWPZdLZRQV8zJQiAbArDPdisng8eHEkeA8kJVd
+         X5ViGCvLpD4Ftqchsppj/ZTjEUjx9tcuSJZxPH9M=
+Date:   Wed, 1 Dec 2021 17:47:20 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Michael Zaidman <michael.zaidman@gmail.com>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>
+Subject: Re: [PATCH 2/2] HID: check for valid USB device for many HID drivers
+Message-ID: <YaenGMpE8Atsfiyc@kroah.com>
+References: <20211201141513.2107815-1-gregkh@linuxfoundation.org>
+ <20211201141513.2107815-2-gregkh@linuxfoundation.org>
+ <CAO-hwJJHrpUkbqCr2psqF62v0rR6E6zSUryee=S6SSwGfHCNhQ@mail.gmail.com>
+ <YaeKH4E/cPfDkerc@kroah.com>
+ <CAO-hwJ+HQxdVWA_Q3O+i7-Ur3RfeZ6VDZPJepb2Bx87Yhj1Ymw@mail.gmail.com>
+ <4c57c020-a708-aa61-8d68-23f691dffa4c@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4c57c020-a708-aa61-8d68-23f691dffa4c@redhat.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Convert USI hid sample userspace interface from using unix fifo to unix
-socket. This allows sending results back via the communication channel
-also.
+On Wed, Dec 01, 2021 at 05:38:49PM +0100, Benjamin Tissoires wrote:
+> 
+> 
+> On Wed, Dec 1, 2021 at 4:05 PM Benjamin Tissoires <benjamin.tissoires@redhat.com> wrote:
+> > > > FWIW, I am also working on a test that generates all registered USB
+> > > > vid/pids from the currently running kernel and will try to inject them
+> > > > in the testsuite. This should validate this patch and prevent future
+> > > > mishaps.
+> > >
+> > > That would be great to see.  Let me know if you want these broken up
+> > > smaller, and I will go fix the above issues.
+> > 
+> > https://gitlab.freedesktop.org/bentiss/hid-tools/-/commit/2b04c6cf46c7405c8a916f324988660cb54dadea
+> > 
+> > This seems sufficient to make an unpatched kernel scream :)
+> 
+> I have now opened https://gitlab.freedesktop.org/libevdev/hid-tools/-/merge_requests/122
+> with a quicker solution.
+> 
+> This leads apparently to 2 extra crashes:
+> - one in hid-holtek-kbd -> hid_is_usb() is called *after* hid_parse(), so
+>   report_fixup is actually called for uhid devices.
 
-Signed-off-by: Tero Kristo <tero.kristo@linux.intel.com>
----
- samples/bpf/hid_usi_user.c | 73 ++++++++++++++++++++++++++------------
- 1 file changed, 50 insertions(+), 23 deletions(-)
+Fixed that one in my v2 patch submission.
 
-diff --git a/samples/bpf/hid_usi_user.c b/samples/bpf/hid_usi_user.c
-index b05a3f768835..5bf5ebc21a30 100644
---- a/samples/bpf/hid_usi_user.c
-+++ b/samples/bpf/hid_usi_user.c
-@@ -14,6 +14,8 @@
- #include <libgen.h>
- #include <sys/resource.h>
- #include <getopt.h>
-+#include <sys/socket.h>
-+#include <sys/un.h>
- 
- #include "bpf_util.h"
- #include <bpf/bpf.h>
-@@ -24,15 +26,15 @@
- #include "hid_usi.h"
- 
- static char *sysfs_path;
--static char *fifoname = "/tmp/usi";
-+static char *sockname = "/tmp/usi";
- static int sysfs_fd;
--static int fifo_fd;
-+static int sock_fd;
- static int prog_count;
- static int cache, wr_cache;
- 
- static const struct option long_options[] = {
- 	{ "help", no_argument, NULL, 'h' },
--	{ "fifo", required_argument, NULL, 'f' },
-+	{ "sock", required_argument, NULL, 's' },
- };
- 
- struct prog {
-@@ -53,15 +55,15 @@ static void int_exit(int sig)
- 	}
- 
- 	close(sysfs_fd);
--	close(fifo_fd);
--	remove(fifoname);
-+	close(sock_fd);
-+	remove(sockname);
- 	exit(0);
- }
- 
- static void usage(const char *prog)
- {
- 	fprintf(stderr,
--		"usage: %s [-f <fifoname>] /dev/HIDRAW\n\n",
-+		"usage: %s [-s <sockname>] /dev/HIDRAW\n\n",
- 		prog);
- }
- 
-@@ -84,15 +86,17 @@ static int write_value(const char *param, int value)
- 
- 	printf("%s: param=%s (%d), value=%d\n", __func__, param, idx, value);
- 	err = bpf_map_update_elem(wr_cache, &idx, &value, BPF_ANY);
--	if (err)
-+	if (err) {
- 		printf("Update failed for %d, err=%d\n", idx, err);
-+		return err;
-+	}
- 
- 	return 0;
- }
- 
- static int read_value(const char *param)
- {
--	int value;
-+	int value = -ENOENT;
- 	int idx = param_to_idx(param);
- 
- 	printf("%s: param=%s (%d)\n", __func__, param, idx);
-@@ -102,7 +106,7 @@ static int read_value(const char *param)
- 	else
- 		printf("Value for %d = %d\n", idx, value);
- 
--	return 0;
-+	return value;
- }
- 
- static int attach_progs(int argc, char **argv)
-@@ -118,6 +122,9 @@ static int attach_progs(int argc, char **argv)
- 	char op[8];
- 	int value;
- 	int m, n;
-+	struct sockaddr_un addr;
-+	struct sockaddr_un from;
-+	socklen_t from_len = sizeof(from);
- 
- 	snprintf(filename, sizeof(filename), "%s_kern.o", argv[0]);
- 	obj = bpf_object__open_file(filename, NULL);
-@@ -177,28 +184,48 @@ static int attach_progs(int argc, char **argv)
- 		goto cleanup;
- 	}
- 
--	mkfifo(fifoname, 0666);
-+	sock_fd = socket(PF_UNIX, SOCK_DGRAM, 0);
-+	if (sock_fd < 0) {
-+		perror("socket open error.\n");
-+		err = sock_fd;
-+		goto cleanup;
-+	}
-+
-+	addr.sun_family = AF_UNIX;
-+	strcpy(addr.sun_path, sockname);
-+	unlink(sockname);
- 
--	fifo_fd = open(fifoname, O_RDWR);
--	if (fifo_fd < 0) {
--		perror("Fifo open error.\n");
--		err = fifo_fd;
-+	if (bind(sock_fd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-+		perror("bind");
- 		goto cleanup;
- 	}
- 
- 	while (1) {
--		n = read(fifo_fd, buf, BUFSIZ);
-+		n = recvfrom(sock_fd, buf, BUFSIZ, 0, (struct sockaddr *)&from,
-+			     &from_len);
- 		if (n < 0)
- 			break;
- 		buf[n] = 0;
- 
- 		printf("%s: received '%s'\n", __func__, buf);
- 
-+		printf("%s: from_len=%d, from=%s\n", __func__, from_len,
-+		       from.sun_path);
-+
- 		m = sscanf(buf, "%16s %8s %d", param, op, &value);
--		if (m == 2 && strcmp(op, "get") == 0)
--			read_value(param);
--		else if (m == 3 && strcmp(op, "set") == 0)
--			write_value(param, value);
-+		if (m == 2 && strcmp(op, "get") == 0) {
-+			value = read_value(param);
-+			sprintf(buf, "%s: %d\n", param, value);
-+			printf("%s: sending '%s'\n", __func__, buf);
-+			sendto(sock_fd, buf, strlen(buf) + 1, 0,
-+			       (struct sockaddr *)&from, from_len);
-+		} else if (m == 3 && strcmp(op, "set") == 0) {
-+			err = write_value(param, value);
-+			sprintf(buf, "%s: %d, err=%d\n", param, value, err);
-+			printf("%s: sending '%s'\n", __func__, buf);
-+			sendto(sock_fd, buf, strlen(buf) + 1, 0,
-+			       (struct sockaddr *)&from, from_len);
-+		}
- 	}
- 
- 	return 0;
-@@ -217,11 +244,11 @@ int main(int argc, char **argv)
- {
- 	int opt;
- 
--	while ((opt = getopt_long(argc, argv, "f:", long_options,
-+	while ((opt = getopt_long(argc, argv, "s:", long_options,
- 				  NULL)) != -1) {
- 		switch (opt) {
--		case 'f':
--			fifoname = optarg;
-+		case 's':
-+			sockname = optarg;
- 			break;
- 		default:
- 			usage(basename(argv[0]));
-@@ -240,7 +267,7 @@ int main(int argc, char **argv)
- 		return 1;
- 	}
- 
--	printf("fifoname: %s\n", fifoname);
-+	printf("sockname: %s\n", sockname);
- 	printf("sysfs_path: %s\n", sysfs_path);
- 
- 	return attach_progs(argc, argv);
--- 
-2.25.1
+> - another in bigbenff which is fixed by the following patch:
+> 
+> ---
+> diff --git a/drivers/hid/hid-bigbenff.c b/drivers/hid/hid-bigbenff.c
+> index db6da21ade06..74ad8bf98bfd 100644
+> --- a/drivers/hid/hid-bigbenff.c
+> +++ b/drivers/hid/hid-bigbenff.c
+> @@ -191,7 +191,7 @@ static void bigben_worker(struct work_struct *work)
+>  		struct bigben_device, worker);
+>  	struct hid_field *report_field = bigben->report->field[0];
+> -	if (bigben->removed)
+> +	if (bigben->removed || !report_field)
 
+I don't see how this is a "USB device" issue.  It's a good "fuzz the
+driver with invalid data" fix though :)
+
+thanks,
+
+greg k-h
