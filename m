@@ -2,67 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6E9E463FD3
-	for <lists+linux-input@lfdr.de>; Tue, 30 Nov 2021 22:21:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C70504646EE
+	for <lists+linux-input@lfdr.de>; Wed,  1 Dec 2021 06:56:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343996AbhK3VYc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Nov 2021 16:24:32 -0500
-Received: from mail-oi1-f170.google.com ([209.85.167.170]:43943 "EHLO
-        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343986AbhK3VY2 (ORCPT
+        id S231482AbhLAGAJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Dec 2021 01:00:09 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:54967 "EHLO
+        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229561AbhLAGAJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Nov 2021 16:24:28 -0500
-Received: by mail-oi1-f170.google.com with SMTP id o4so43917721oia.10;
-        Tue, 30 Nov 2021 13:21:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=EnYmfx8giShC8GUrgXBqC90GxezVG9WH5oK6EegRgDM=;
-        b=f6+RjPJxhKNPoNlJpOw0ZgdxPb+AKQxjlgItB71vjqbs64i19LHnw0OnGkm9DI6maE
-         3e5Zfgq0rjymi++9Xd0HEiEUt136tmq6Qe+Em0rvKI3C2THEk89nMmqXu/Xe+axHxj+a
-         TWLXVxzVYItYB9dIeEwWpYiqYxQD5XfaIatZNmgRfKO1iu9WtdufkuNKB5Y9JYuOh94m
-         9AsRbF4pUPo8pqNaY2MZwuUkIS60MwQlJYw34M/Az6C1zFpT7prI9O6OkWwdF62lyQYW
-         vQ0gJnzCLP+K7lfjNK+KLUIe+Sf6H5XdF0KGH3BWHKzTePZWqjbtcrkE0MjMZlpBLKu9
-         VxOQ==
-X-Gm-Message-State: AOAM533yg6pFg38ynFyA5yACR6qiOXuOAIhI54Qam0YcmQzSKQUCFX1X
-        +2G+Z9mfxgoGc1oyAevdUQ==
-X-Google-Smtp-Source: ABdhPJwqgJnjlll5pKM1eVokAMQhADor5WcEjU1sCUKxsLFRE16yTxFbtFpZW/mK1PWS2rvESLgAaA==
-X-Received: by 2002:aca:eb53:: with SMTP id j80mr1508357oih.85.1638307268309;
-        Tue, 30 Nov 2021 13:21:08 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id s17sm3353352otp.20.2021.11.30.13.21.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Nov 2021 13:21:07 -0800 (PST)
-Received: (nullmailer pid 3031642 invoked by uid 1000);
-        Tue, 30 Nov 2021 21:21:06 -0000
-Date:   Tue, 30 Nov 2021 15:21:06 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Vincent Knecht <vincent.knecht@mailoo.org>
-Cc:     linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        robh+dt@kernel.org, stephan@gerhold.net,
-        phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [RESEND PATCH 4/5] dt-bindings: input: touchscreen: msg2638:
- Document keys support
-Message-ID: <YaaVwqCW7XgP6Srm@robh.at.kernel.org>
-References: <20211123081433.2797395-1-vincent.knecht@mailoo.org>
- <20211123081433.2797395-5-vincent.knecht@mailoo.org>
+        Wed, 1 Dec 2021 01:00:09 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 866915C0094;
+        Wed,  1 Dec 2021 00:56:48 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Wed, 01 Dec 2021 00:56:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=l
+        o8mU9kXYXfa+p+Bapf1IJs4wvyj8j/AWtM7bGAUlM0=; b=mxz2PFtqDSGJs3Hdp
+        vaueAgj4AXLg9pSSTnWorJK8yJj8KWyXwiftzzJCaJfM6jPKM6uNDlZzeHks805c
+        yQS+ZCRWdIMaVQ7sdfRDoHr681tn/9bOc/h1D2w23NwaTM0H3HS3UwEMWlin6lRG
+        eUfy2ZYYnctUsDzmjfmPIDnTkVr7gseBDQcgiQbXjVGXg5XszwU9JZZrxTb/kviC
+        L1eEI6tJQ6tLOUhT/dkFPg5XpGVjFM8z77HJ6d+mH7+ViIpw1aVsjq/xRtTQv+xC
+        tlvNMnnKBZgzp5xOW9qgRHKIagj73REJM0mmmi+CAmFoatv/5NeyH3eT+BWd4DfQ
+        5y3AQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; bh=lo8mU9kXYXfa+p+Bapf1IJs4wvyj8j/AWtM7bGAUl
+        M0=; b=DupXmSP6uHUHqxjCFlQPKyHt7amIUO0UtFekjdMMiYxdgx8zg1E6ybWYl
+        TLvhArXR3n7p5TCXY9ise61lmYH88iWUBPODc99cAfzctUwxJbn1EocY/NP5Q1bG
+        wOPunrswhXw+ml0puMnOQyQJtUprhqFCTBHG9mKsr2MC78pZ4kfGJJh4a1+C3Mal
+        ONtRBA/J0Xtmy3hYLCxuhsdHWtqwdzTVpkWmKwH9oU9VgYniFbp49IP7EHp7IknX
+        yqN/E3E3OzcSnJxtBGJ/1HiNW0NyWGzeMn1coq/xFfMvn36CnqrpvLA+Y3VO4vUI
+        RlsksLqjNd8GUn+8QOnzODxETzGJw==
+X-ME-Sender: <xms:oA6nYa_qvVLP8lPH6nH6oCXBS8142xddBao_zeGGyg_k0CWvfmcKng>
+    <xme:oA6nYatCAD9OnolQo8zs7VN6IJa59bEdLMXKGSUHaRRUybKUzavz4FTTC6BwEVWnN
+    W0Teq3jlPzNJnBjVCE>
+X-ME-Received: <xmr:oA6nYQBdBsY8_cz3sQC6GmeS3VhlvuI4MqyoF1JCrOrd7yBVJxiur1qvO421NXSAZc0LCu-KTa7AKqRjnw7X1qPBzixaGzxpnTwN>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddriedvgdeltdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvghtvghr
+    ucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+    eqnecuggftrfgrthhtvghrnhepffefffekvdekleehledtffeihffhiefhleehtddtueeg
+    jeefhfetledvgeevteelnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpd
+    hmihgtrhhoshhofhhtrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+    pehmrghilhhfrhhomhepphgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvght
+X-ME-Proxy: <xmx:oA6nYScFJwmhUASXPurD94zkUY6FSX_laxTg59sCeYmrFIO0cOZcrw>
+    <xmx:oA6nYfP_dcKfIL5aaxeJLb6yUKk_ZIHBy5BIP6ehZMTTLiGoXwXnIA>
+    <xmx:oA6nYcnoHP88rlEYmLKkPrAH48y4dLxAWcn7UgzCiI1hvOL57aSiQw>
+    <xmx:oA6nYYo-BDmNQPl2WmtWaQ8Z4gDC-z0ygQ8VbIYADV8gFBfqDmI0Qg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 1 Dec 2021 00:56:46 -0500 (EST)
+Date:   Wed, 1 Dec 2021 15:56:41 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/1] Do not map BTN_RIGHT/MIDDLE on buttonpads
+Message-ID: <YacOmYorwAIB4Q3c@quokka>
+References: <20211123191238.12472-1-jose.exposito89@gmail.com>
+ <CAO-hwJLB8h6fQRF8UjN3rER_6xS2Shi3ffEr92PhkVCijtYRpQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20211123081433.2797395-5-vincent.knecht@mailoo.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAO-hwJLB8h6fQRF8UjN3rER_6xS2Shi3ffEr92PhkVCijtYRpQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 23 Nov 2021 09:14:32 +0100, Vincent Knecht wrote:
-> Document optional linux,keycodes support.
+On Wed, Nov 24, 2021 at 10:39:02AM +0100, Benjamin Tissoires wrote:
+> Hi José,
 > 
-> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
-> ---
->  .../devicetree/bindings/input/touchscreen/mstar,msg2638.yaml  | 4 ++++
->  1 file changed, 4 insertions(+)
+> On Tue, Nov 23, 2021 at 8:12 PM José Expósito <jose.exposito89@gmail.com> wrote:
+> >
+> > Hi all,
+> >
+> > Historically, libinput has relayed on the INPUT_PROP_BUTTONPAD property
+> > to detect buttonpads.
+> >
+> > Since buttonpads are expected to have only one button (BTN_LEFT),
+> > recently we added a new rule to detect buttonpads: Where a touchpad
+> > maps the BTN_RIGHT bit, libinput assumes it is NOT a buttonpad.
+> >
+> > However, this change leaded to several false possitives, so we ended up
+> > reverting it. For more context:
+> > https://gitlab.freedesktop.org/libinput/libinput/-/issues/704
+> >
+> > And for a full list of affected hardware, HID reports and bug reports
+> > please see:
+> > https://gitlab.freedesktop.org/libinput/libinput/-/merge_requests/726
+> >
+> > My understanding is that buttonpads should not map BTN_RIGHT and/or
+> > BTN_MIDDLE and to avoid it I would like to fix the required drivers.
 > 
+> As long as udev intrinsic is happy with it (and it correctly tags the
+> touchpad as ID_INPUT_something), I'm fine with it.
 
-Acked-by: Rob Herring <robh@kernel.org>
+fwiw, udev's builtin input-id touchpad check is
+  ABS_X && ABS_Y && BTN_TOOL_FINGER && !BTN_TOOL_PEN && !INPUT_PROP_DIRECT
+it doesn't care about the actual buttons so this patch wouldn't affect it.
+
+> Also, you might want to point at the specification regarding button
+> pads: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/touchpad-windows-precision-touchpad-collection#device-capabilities-feature-report
+> 
+> The way I read it: if the device exports the Button type value
+> feature, and it is 0 or 1 (click-pad or pressure-pad), there should
+> not be discrete buttons.
+
+Yeah, it sounds like there *should* not be any buttons but 
+There is nothing to explicitly forbid extra buttons for click/pressurepads
+which is probably how those devices get past the windows driver
+implementation.
+
+Cheers,
+   Peter
