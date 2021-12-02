@@ -2,98 +2,149 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA45F4664D4
-	for <lists+linux-input@lfdr.de>; Thu,  2 Dec 2021 14:58:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 660B4466659
+	for <lists+linux-input@lfdr.de>; Thu,  2 Dec 2021 16:21:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346979AbhLBOBe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Dec 2021 09:01:34 -0500
-Received: from mail-oi1-f170.google.com ([209.85.167.170]:36458 "EHLO
-        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbhLBOBe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Dec 2021 09:01:34 -0500
-Received: by mail-oi1-f170.google.com with SMTP id t23so55640537oiw.3;
-        Thu, 02 Dec 2021 05:58:11 -0800 (PST)
+        id S1347574AbhLBPZH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Dec 2021 10:25:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53119 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237545AbhLBPZH (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 2 Dec 2021 10:25:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1638458504;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=MXVY1jd1P/jiZwwjBkA5YOoVT9Jc+hR1K31ujw2Of2c=;
+        b=QwznYlVlugVxMMSbIc5ZyZ319j005S5+orwNWauy4g9aC9LYzWt50/KRG5sSSk0mz1xbVR
+        C7v6NR6gQeQBAlsKiTv/we3jzkijroyYyHFNQHUG4VGkcNn3Lyn6IImICcLdK4ARQyYgaQ
+        GNkZo1cr5CqZkOffZkNYrBVXCe04poo=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-405-AZ3fY-79M5yCd5wQJW-Q-g-1; Thu, 02 Dec 2021 10:21:43 -0500
+X-MC-Unique: AZ3fY-79M5yCd5wQJW-Q-g-1
+Received: by mail-pj1-f72.google.com with SMTP id b8-20020a17090a10c800b001a61dff6c9dso6276pje.5
+        for <linux-input@vger.kernel.org>; Thu, 02 Dec 2021 07:21:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=Df6A8ZCj8jAntS5m/T7MbnScF8iQqMky7Mr+fltLqXo=;
-        b=a7NJG7fsVPQJRcfOYrl+QeEHUTU3aRvWk8x0CVg0CoPdX/Y7+YkMHBoYldPreu3Ei9
-         /mA+//TZwcuTRwOlTbtWVQin+p2QQctx1ERMYWqViRhiS03Vxhfm5y8YExzd+HN1nsL1
-         uo+eIDK7VcbvJr+z1pKtkrjVMEBUo8xLZzZlM1B9cWy3bdH+rMQFvRlixIa+9U8U4rw/
-         J35xDJBwPfDEIb8LjCZMXIueErSnr3UspU6QNvj/uChb0nXdn03NZydNWzXWKTH8Js2G
-         2LuUqL7/qZpvIih3g07ghM+vT7Oz11OkBl01FSjZtMWhuCRQiPqUjEhJvmXDEwXs9ZCR
-         +feQ==
-X-Gm-Message-State: AOAM530YQXun4mnbQvdY9w8GMqDgwCZNWfSc8tbDwQsIfGPG88ntPNhV
-        7d1LOz5DVGaiT27xiOnxLA==
-X-Google-Smtp-Source: ABdhPJxVMtzg5mG1HA6ZHixHwfv25SBNbtvJ/MS50AjJUTNe2/cadboBU/e6WW4F5ChRbYM82qbBpA==
-X-Received: by 2002:a05:6808:4d2:: with SMTP id a18mr4465310oie.99.1638453491230;
-        Thu, 02 Dec 2021 05:58:11 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id v19sm1154298ott.13.2021.12.02.05.58.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Dec 2021 05:58:10 -0800 (PST)
-Received: (nullmailer pid 3736889 invoked by uid 1000);
-        Thu, 02 Dec 2021 13:58:09 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Alistair Francis <alistair@alistair23.me>
-Cc:     linus.walleij@linaro.org, andreas@kemnade.info,
-        linux-arm-kernel@lists.infradead.org, alistair23@gmail.com,
-        dmitry.torokhov@gmail.com, robh+dt@kernel.org, rydberg@bitmath.org,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        =?utf-8?q?Myl=C3=A8ne_Josserand?= 
-        <mylene.josserand@free-electrons.com>
-In-Reply-To: <20211202122021.43124-3-alistair@alistair23.me>
-References: <20211202122021.43124-1-alistair@alistair23.me> <20211202122021.43124-3-alistair@alistair23.me>
-Subject: Re: [PATCH v3 2/4] Documentation: DT: bindings: input: Add documentation for cyttsp5
-Date:   Thu, 02 Dec 2021 07:58:09 -0600
-Message-Id: <1638453489.512611.3736888.nullmailer@robh.at.kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MXVY1jd1P/jiZwwjBkA5YOoVT9Jc+hR1K31ujw2Of2c=;
+        b=y7mBxSU6couZV6SgRaFzwe2kBx3InUbQ4sJJAm6nd8c9xNZdfynX47XzQ1teuhS/F3
+         wiKGckf3SS2MQN0gk2GW9QvbqHk9A/yHlOVjQaLo6nUzO6GXoPcHV7aGEgaBmT7GBvI7
+         /rsVIhpQlGHX24vR0gw/fjcri0dKVoahTIzzepT4kSoIHmDqymFuCY5Z8l5GGrJyfr+F
+         Vl2wdFvtY9/+nx3+bVqoPqSLXZc8LAxrl7wE/ih4Fm7eEuX1ziBgdYRqU2W8QczFYzzW
+         miH0CuIR5c8lCykK8sFa58PLV9a2lCXmgl53/ULpWz6ubcFWsGy2BpygOmH09rQar64i
+         vTew==
+X-Gm-Message-State: AOAM533lBcIxF6BX8m0DpmI9XiISqCEDSnrnRfXmlQWOTVV0CrFLMGtI
+        R62bVchtq9ibw94U3fbmmmAfehvRYa9q8A2KuHKKY5MZianXefZ7nOFbMoJOMFC2GfK/Au/Vdz+
+        JHOxKNGVlPnXl2V4Zj67kzlXLKf29fBfd20s9o60=
+X-Received: by 2002:a63:1805:: with SMTP id y5mr9738149pgl.191.1638458502499;
+        Thu, 02 Dec 2021 07:21:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyrSoqQqfOh0ha3ghdguDhjqW40RH/C2mhmRMXd5OOsPh0L42Al1jCmWJ2D8QRol86doZ7CsIgvtcKgef88se8=
+X-Received: by 2002:a63:1805:: with SMTP id y5mr9738130pgl.191.1638458502291;
+ Thu, 02 Dec 2021 07:21:42 -0800 (PST)
+MIME-Version: 1.0
+References: <20211201183503.2373082-1-gregkh@linuxfoundation.org>
+ <20211201183503.2373082-3-gregkh@linuxfoundation.org> <CAO-hwJJ5=SCNypQJP2V3DdjwLoo23DuMuZ8w_fejp17cytznQw@mail.gmail.com>
+ <YaiRGg+gmJgcT8uA@kroah.com> <Yaiz/U9POyHfCs1M@kroah.com>
+In-Reply-To: <Yaiz/U9POyHfCs1M@kroah.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 2 Dec 2021 16:21:31 +0100
+Message-ID: <CAO-hwJJC1JLVYNVTXS72Z+_FduG2=zqKJjry1kcGRTFgi9AANg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] HID: check for valid USB device for many HID drivers
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Michael Zaidman <michael.zaidman@gmail.com>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 02 Dec 2021 22:20:19 +1000, Alistair Francis wrote:
-> From: Mylène Josserand <mylene.josserand@free-electrons.com>
-> 
-> Add the Cypress TrueTouch Generation 5 touchscreen device tree bindings
-> documentation. It can use I2C or SPI bus.
-> This touchscreen can handle some defined zone that are designed and
-> sent as button. To be able to customize the keycode sent, the
-> "linux,code" property in a "button" sub-node can be used.
-> 
-> Signed-off-by: Mylène Josserand <mylene.josserand@free-electrons.com>
-> Message-Id: <20170529144538.29187-3-mylene.josserand@free-electrons.com>
-> Signed-off-by: Alistair Francis <alistair@alistair23.me>
-> ---
->  .../input/touchscreen/cypress,tt21000.yaml    | 92 +++++++++++++++++++
->  1 file changed, 92 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
-> 
+On Thu, Dec 2, 2021 at 12:54 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, Dec 02, 2021 at 10:25:46AM +0100, Greg Kroah-Hartman wrote:
+> > On Thu, Dec 02, 2021 at 10:08:07AM +0100, Benjamin Tissoires wrote:
+> > > On Wed, Dec 1, 2021 at 7:35 PM Greg Kroah-Hartman
+> > > <gregkh@linuxfoundation.org> wrote:
+> > > >
+> > > > Many HID drivers assume that the HID device assigned to them is a USB
+> > > > device as that was the only way HID devices used to be able to be
+> > > > created in Linux.  However, with the additional ways that HID devices
+> > > > can be created for many different bus types, that is no longer true, so
+> > > > properly check that we have a USB device associated with the HID device
+> > > > before allowing a driver that makes this assumption to claim it.
+> > > >
+> > > > Cc: Jiri Kosina <jikos@kernel.org>
+> > > > Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > > > Cc: Michael Zaidman <michael.zaidman@gmail.com>
+> > > > Cc: Stefan Achatz <erazor_de@users.sourceforge.net>
+> > > > Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> > > > Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> > > > Cc: linux-input@vger.kernel.org
+> > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > ---
+> > > > v3: add check in hid-sony based on fix from Benjamin.
+> > >
+> > > Sigh. This morning I realized my fix was incomplete as the error path
+> > > of the GHL devices handling is not releasing the hidraw node.
+> > > I have a followup patch ready that I am about to send as soon as I get
+> > > the full tests run.
+> > >
+> > > Also, I guess we want this series to land in 5.16-rc4 or rc5 and mark
+> > > it as stable, no?
+> > > If so, I'll add the cc stable@vger.kernel.org marks so you don't need
+> > > to keep tabs on it.
+> >
+> > That would be great, thanks!
+> >
+> > > Besides that, I tested the wacom change on an I2C screen, and it is
+> > > still working as expected, so I think the wacom changes are safe.
+> > > The full series is
+> > > Tested-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> >
+> > Wonderful.
+> >
+> > Note, I did just get some really odd 0-day error messages from this
+> > patch series:
+> >       https://lore.kernel.org/r/202112021000.3GKuE8mS-lkp@intel.com
+> >       https://lore.kernel.org/r/202112020808.AZ5usuXj-lkp@intel.com
+> >
+> > Which looks like a dependancy issue that might have always been there.
+> > I'll work on resolving that after lunch...
+>
+> Now sent:
+>         https://lore.kernel.org/r/20211202114819.2511954-1-gregkh@linuxfoundation.org
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+\o/
 
-yamllint warnings/errors:
+>
+> I can resend it as a v4 series that adds this to the end of the series
+> if you want me to.
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.example.dts:37.26-39.19: Warning (unit_address_vs_reg): /example-0/i2c/touchscreen@24/button@0: node has a unit name, but no reg or ranges property
-Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.example.dts:41.26-43.19: Warning (unit_address_vs_reg): /example-0/i2c/touchscreen@24/button@1: node has a unit name, but no reg or ranges property
-Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.example.dts:45.26-47.19: Warning (unit_address_vs_reg): /example-0/i2c/touchscreen@24/button@2: node has a unit name, but no reg or ranges property
-Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.example.dt.yaml:0:0: /example-0/i2c/touchscreen@24: failed to match any schema with compatible: ['cypress,tt2100']
+That's fine. I already locally scheduled the v3, this other series
+above and my 2 first patches from my series that you reviewed today.
+I also added the cc: stable markers (though I haven't checked exactly
+which versions it applies to).
 
-doc reference errors (make refcheckdocs):
+Once my automated suite is happy I'll push them to hid.git.
 
-See https://patchwork.ozlabs.org/patch/1562669
+Thanks for your time Greg!
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+Cheers,
+Benjamin
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+>
+> thanks,
+>
+> greg k-h
+>
 
