@@ -2,104 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99E8F46604E
-	for <lists+linux-input@lfdr.de>; Thu,  2 Dec 2021 10:25:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 809CF4660F0
+	for <lists+linux-input@lfdr.de>; Thu,  2 Dec 2021 10:54:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356406AbhLBJ3Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Dec 2021 04:29:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50926 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356409AbhLBJ3O (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Dec 2021 04:29:14 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1716C06174A
-        for <linux-input@vger.kernel.org>; Thu,  2 Dec 2021 01:25:52 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1356692AbhLBJ5f (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Dec 2021 04:57:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45249 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1356912AbhLBJ5F (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 2 Dec 2021 04:57:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1638438822;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Ihb1r64gOGbJUKMXKVMB9tzffqjZmKffkBLeYuYdb9A=;
+        b=N+OWXpa5t2FguG9hWTI5R1UbkO7v+PhfYwSAylm2bihgTyzIDrcQc2ktVF6e2/fYwV9Can
+        JeYLIa5B+0dw4S95io4RKru7B5mQahmBz4KIHf3jtjOWbYU4EsauIsj+W5BYlS40N3EQfc
+        MldzsWKRLnybpi5gR9ElD6nQC8t6yZs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-188-kKym0-7TMzqh25HoYg-reQ-1; Thu, 02 Dec 2021 04:53:38 -0500
+X-MC-Unique: kKym0-7TMzqh25HoYg-reQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 19B74CE21E1
-        for <linux-input@vger.kernel.org>; Thu,  2 Dec 2021 09:25:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2C99C53FD0;
-        Thu,  2 Dec 2021 09:25:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1638437149;
-        bh=WmEVglCL4Zcfl9VAMN6D0zYs2IPgG9DRkCC53YuOKGI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=A/07kGm9Y9C2tk27/HgHaNr+E+La9UWkOaetfBLlKdXTL1CUn1xB9uoXdByyfx5B3
-         mntFF2tN6CZlOoKREryLNMbXM7BE3kCl7+Kc6/qyfsYi0MqKLVJQpt+41poK8fBbUR
-         qU1G9aSxoFoWN3ttPUtPnwnNfii/M7FumBideHUw=
-Date:   Thu, 2 Dec 2021 10:25:46 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Michael Zaidman <michael.zaidman@gmail.com>,
-        Stefan Achatz <erazor_de@users.sourceforge.net>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>
-Subject: Re: [PATCH v3 3/3] HID: check for valid USB device for many HID
- drivers
-Message-ID: <YaiRGg+gmJgcT8uA@kroah.com>
-References: <20211201183503.2373082-1-gregkh@linuxfoundation.org>
- <20211201183503.2373082-3-gregkh@linuxfoundation.org>
- <CAO-hwJJ5=SCNypQJP2V3DdjwLoo23DuMuZ8w_fejp17cytznQw@mail.gmail.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A82EE10151E0;
+        Thu,  2 Dec 2021 09:53:37 +0000 (UTC)
+Received: from xps-13.redhat.com (unknown [10.39.195.108])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3804319C46;
+        Thu,  2 Dec 2021 09:53:36 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH 0/4] HID: followup of uhid crashes, and couple of core
+Date:   Thu,  2 Dec 2021 10:53:30 +0100
+Message-Id: <20211202095334.14399-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAO-hwJJ5=SCNypQJP2V3DdjwLoo23DuMuZ8w_fejp17cytznQw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Dec 02, 2021 at 10:08:07AM +0100, Benjamin Tissoires wrote:
-> On Wed, Dec 1, 2021 at 7:35 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > Many HID drivers assume that the HID device assigned to them is a USB
-> > device as that was the only way HID devices used to be able to be
-> > created in Linux.  However, with the additional ways that HID devices
-> > can be created for many different bus types, that is no longer true, so
-> > properly check that we have a USB device associated with the HID device
-> > before allowing a driver that makes this assumption to claim it.
-> >
-> > Cc: Jiri Kosina <jikos@kernel.org>
-> > Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > Cc: Michael Zaidman <michael.zaidman@gmail.com>
-> > Cc: Stefan Achatz <erazor_de@users.sourceforge.net>
-> > Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> > Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> > Cc: linux-input@vger.kernel.org
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > ---
-> > v3: add check in hid-sony based on fix from Benjamin.
-> 
-> Sigh. This morning I realized my fix was incomplete as the error path
-> of the GHL devices handling is not releasing the hidraw node.
-> I have a followup patch ready that I am about to send as soon as I get
-> the full tests run.
-> 
-> Also, I guess we want this series to land in 5.16-rc4 or rc5 and mark
-> it as stable, no?
-> If so, I'll add the cc stable@vger.kernel.org marks so you don't need
-> to keep tabs on it.
+Hi,
 
-That would be great, thanks!
+this is a followup of Greg's series[0].
+hid-sony is having a wrong error path leading to unreleased
+hidraw nodes, and bigbenff is having a crash when used with
+a wrong report descriptor in uhid.
 
-> Besides that, I tested the wacom change on an I2C screen, and it is
-> still working as expected, so I think the wacom changes are safe.
-> The full series is
-> Tested-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Those 2 first patches should IMO go into 5.16.
 
-Wonderful.
+The 2 others are some core changes I had locally stacked and
+which should be ready to go now. They can be scheduled for 5.16
+or 5.17, there is no rush for them.
 
-Note, I did just get some really odd 0-day error messages from this
-patch series:
-	https://lore.kernel.org/r/202112021000.3GKuE8mS-lkp@intel.com
-	https://lore.kernel.org/r/202112020808.AZ5usuXj-lkp@intel.com
+Cheers,
+Benjamin
 
-Which looks like a dependancy issue that might have always been there.
-I'll work on resolving that after lunch...
 
-thanks,
+[0] https://lore.kernel.org/linux-input/20211201183503.2373082-1-gregkh@linuxfoundation.org/
 
-greg k-h
+
+Benjamin Tissoires (4):
+  HID: sony: fix error path in probe
+  HID: bigbenff: prevent null pointer dereference
+  HID: add suspend/resume helpers
+  HID: do not inline some hid_hw_ functions
+
+ drivers/hid/hid-bigbenff.c                 |  2 +-
+ drivers/hid/hid-core.c                     | 93 ++++++++++++++++++++++
+ drivers/hid/hid-sony.c                     | 22 +++--
+ drivers/hid/i2c-hid/i2c-hid-core.c         | 15 +---
+ drivers/hid/surface-hid/surface_hid_core.c | 25 ++----
+ drivers/hid/usbhid/hid-core.c              | 19 ++---
+ include/linux/hid.h                        | 78 ++++--------------
+ 7 files changed, 142 insertions(+), 112 deletions(-)
+
+-- 
+2.33.1
+
