@@ -2,226 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B62B84660F9
-	for <lists+linux-input@lfdr.de>; Thu,  2 Dec 2021 10:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3268546620C
+	for <lists+linux-input@lfdr.de>; Thu,  2 Dec 2021 12:08:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346053AbhLBJ6d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Dec 2021 04:58:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43725 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1356786AbhLBJ5K (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 2 Dec 2021 04:57:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638438827;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fV6MddJ34nvL6SN6OucVEqPOcOC0ApCN730v736bDgw=;
-        b=ay8F0AHHMG9j61/ol7B9tPSth9i/9cztunqxldHlmTqp0IBRABHA0xcyWKjyJszlu5tm2z
-        yBlEYB7txmr21ZdvpkLeQr0HwiSdPwOV2q9etoAhv4LoSKIGvWAasOTQ+yWYIpw1erRcUr
-        Zz+ogStlt4KnUH5D5Jk3kJ4qIXd9kEc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-331-HUmXPeToPLG9EYyZoDhiOw-1; Thu, 02 Dec 2021 04:53:46 -0500
-X-MC-Unique: HUmXPeToPLG9EYyZoDhiOw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BFC81934105;
-        Thu,  2 Dec 2021 09:53:45 +0000 (UTC)
-Received: from xps-13.redhat.com (unknown [10.39.195.108])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AC64C19C46;
-        Thu,  2 Dec 2021 09:53:43 +0000 (UTC)
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH 4/4] HID: do not inline some hid_hw_ functions
-Date:   Thu,  2 Dec 2021 10:53:34 +0100
-Message-Id: <20211202095334.14399-5-benjamin.tissoires@redhat.com>
-In-Reply-To: <20211202095334.14399-1-benjamin.tissoires@redhat.com>
-References: <20211202095334.14399-1-benjamin.tissoires@redhat.com>
+        id S1357171AbhLBLLi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Dec 2021 06:11:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46652 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229948AbhLBLLi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Dec 2021 06:11:38 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6DDDC06174A;
+        Thu,  2 Dec 2021 03:08:15 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id o13so58680040wrs.12;
+        Thu, 02 Dec 2021 03:08:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nD9MSEk9daW4cqdY2jf/MSQE0CWeuPy5ffaqqG4xnRk=;
+        b=BBLLlm2/UMlXC7tA7IeujNzV+sYj2IHr2GZKfGC+B4MHHJJ1eLA2R1KPzVvvCunE+n
+         SFisjYarrxHOwGWw1Zk3ubElnOJUUKTsNqeIU+TjdgMKPUlqudN3sdQDSCOVvfqaeQjz
+         eqgxyHGZKM3F145/sSOM3FBvCLXiFj2mZOxkFgAxAwCctopJgHBHvVbGsiz8K8soJY4u
+         dxegt4mqRCMR965UMTR+8MxrDztae1iUqPvPYrD4dvr4B69F1AuUntxvz73+tzaicEFT
+         MeGkvCtCgoHB5fIZTHLkWMquJEz4uFEbNeYlcjghArKwOZ3wBTdikM4XkHx6YPE1ifJm
+         yEoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nD9MSEk9daW4cqdY2jf/MSQE0CWeuPy5ffaqqG4xnRk=;
+        b=BrrY6JToS4PVbG33p+CYHHWwsAswNPqSd9XkcQNh/0TtLclDx5q8aZYLWJCbyrEZsm
+         YMjLRfqGHCVFIFed0Iwb0R4Qx/IRpCOWWfczzjHs8EG2fIrRZ7Pdc7jqRW4MJ5q/eXvp
+         rXlux3DyXL125vMO2C00I87LBEk80JeboC4Mle9DJSdpqMfZdWkPm6YA1pi69SwsQXHF
+         VlQ4OG0kUDhZwgvXxCOuk298ovqXR3CLxncWqiY3x/nmCLK+xL1BwoECg3caE0x+nt5J
+         HFaZzUmsdvuwr15FoE2DZbdnGRN7A47rwU3D8mtkVpRa2XguxZ13rK3pUkmU5LtS1Exe
+         iBOw==
+X-Gm-Message-State: AOAM530kT6hmvD4QhAUikSLUTHYyQmevWk7V5+ZxjcZXERgBCuTZftUv
+        TG0+aiQjNW4//AlMzVHkpTE=
+X-Google-Smtp-Source: ABdhPJwtt+VGC514k6+e0UasR0Wv2dHoDKloWioR7kAX8xkxuaiRwzo8O7JH+CqnsvtL/1GNEc4/nw==
+X-Received: by 2002:a05:6000:1141:: with SMTP id d1mr13637129wrx.342.1638443294334;
+        Thu, 02 Dec 2021 03:08:14 -0800 (PST)
+Received: from localhost.localdomain ([217.113.240.86])
+        by smtp.gmail.com with ESMTPSA id o5sm2163495wrx.83.2021.12.02.03.08.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Dec 2021 03:08:13 -0800 (PST)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, peter.hutterer@who-t.net,
+        roderick.colenbrander@sony.com, dmitry.torokhov@gmail.com,
+        pali@kernel.org, rydberg@bitmath.org, nick@shmanahar.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH v2 0/2] Do not map BTN_RIGHT/MIDDLE on buttonpads
+Date:   Thu,  2 Dec 2021 12:08:05 +0100
+Message-Id: <20211202110807.6783-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-We don't gain much by having them as inline, and it
-actually prevents us to attach a probe to those helpers.
+Hi all,
 
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
----
- drivers/hid/hid-core.c | 64 +++++++++++++++++++++++++++++++++++++++
- include/linux/hid.h    | 68 ++++--------------------------------------
- 2 files changed, 70 insertions(+), 62 deletions(-)
+This patchset implements the changes to buttonpads discussed in v1:
 
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 5402329d6eca..f1aed5bbd000 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -2126,6 +2126,70 @@ void hid_hw_close(struct hid_device *hdev)
- }
- EXPORT_SYMBOL_GPL(hid_hw_close);
- 
-+/**
-+ * hid_hw_request - send report request to device
-+ *
-+ * @hdev: hid device
-+ * @report: report to send
-+ * @reqtype: hid request type
-+ */
-+void hid_hw_request(struct hid_device *hdev,
-+		    struct hid_report *report, int reqtype)
-+{
-+	if (hdev->ll_driver->request)
-+		return hdev->ll_driver->request(hdev, report, reqtype);
-+
-+	__hid_request(hdev, report, reqtype);
-+}
-+EXPORT_SYMBOL_GPL(hid_hw_request);
-+
-+/**
-+ * hid_hw_raw_request - send report request to device
-+ *
-+ * @hdev: hid device
-+ * @reportnum: report ID
-+ * @buf: in/out data to transfer
-+ * @len: length of buf
-+ * @rtype: HID report type
-+ * @reqtype: HID_REQ_GET_REPORT or HID_REQ_SET_REPORT
-+ *
-+ * Return: count of data transferred, negative if error
-+ *
-+ * Same behavior as hid_hw_request, but with raw buffers instead.
-+ */
-+int hid_hw_raw_request(struct hid_device *hdev,
-+		       unsigned char reportnum, __u8 *buf,
-+		       size_t len, unsigned char rtype, int reqtype)
-+{
-+	if (len < 1 || len > HID_MAX_BUFFER_SIZE || !buf)
-+		return -EINVAL;
-+
-+	return hdev->ll_driver->raw_request(hdev, reportnum, buf, len,
-+					    rtype, reqtype);
-+}
-+EXPORT_SYMBOL_GPL(hid_hw_raw_request);
-+
-+/**
-+ * hid_hw_output_report - send output report to device
-+ *
-+ * @hdev: hid device
-+ * @buf: raw data to transfer
-+ * @len: length of buf
-+ *
-+ * Return: count of data transferred, negative if error
-+ */
-+int hid_hw_output_report(struct hid_device *hdev, __u8 *buf, size_t len)
-+{
-+	if (len < 1 || len > HID_MAX_BUFFER_SIZE || !buf)
-+		return -EINVAL;
-+
-+	if (hdev->ll_driver->output_report)
-+		return hdev->ll_driver->output_report(hdev, buf, len);
-+
-+	return -ENOSYS;
-+}
-+EXPORT_SYMBOL_GPL(hid_hw_output_report);
-+
- #ifdef CONFIG_PM
- int hid_driver_suspend(struct hid_device *hdev, pm_message_t state)
- {
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index cce1b01b3055..313fa4a2554f 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -1071,6 +1071,12 @@ int __must_check hid_hw_start(struct hid_device *hdev,
- void hid_hw_stop(struct hid_device *hdev);
- int __must_check hid_hw_open(struct hid_device *hdev);
- void hid_hw_close(struct hid_device *hdev);
-+void hid_hw_request(struct hid_device *hdev,
-+		    struct hid_report *report, int reqtype);
-+int hid_hw_raw_request(struct hid_device *hdev,
-+		       unsigned char reportnum, __u8 *buf,
-+		       size_t len, unsigned char rtype, int reqtype);
-+int hid_hw_output_report(struct hid_device *hdev, __u8 *buf, size_t len);
- 
- /**
-  * hid_hw_power - requests underlying HW to go into given power mode
-@@ -1088,68 +1094,6 @@ static inline int hid_hw_power(struct hid_device *hdev, int level)
- }
- 
- 
--/**
-- * hid_hw_request - send report request to device
-- *
-- * @hdev: hid device
-- * @report: report to send
-- * @reqtype: hid request type
-- */
--static inline void hid_hw_request(struct hid_device *hdev,
--				  struct hid_report *report, int reqtype)
--{
--	if (hdev->ll_driver->request)
--		return hdev->ll_driver->request(hdev, report, reqtype);
--
--	__hid_request(hdev, report, reqtype);
--}
--
--/**
-- * hid_hw_raw_request - send report request to device
-- *
-- * @hdev: hid device
-- * @reportnum: report ID
-- * @buf: in/out data to transfer
-- * @len: length of buf
-- * @rtype: HID report type
-- * @reqtype: HID_REQ_GET_REPORT or HID_REQ_SET_REPORT
-- *
-- * Return: count of data transferred, negative if error
-- *
-- * Same behavior as hid_hw_request, but with raw buffers instead.
-- */
--static inline int hid_hw_raw_request(struct hid_device *hdev,
--				  unsigned char reportnum, __u8 *buf,
--				  size_t len, unsigned char rtype, int reqtype)
--{
--	if (len < 1 || len > HID_MAX_BUFFER_SIZE || !buf)
--		return -EINVAL;
--
--	return hdev->ll_driver->raw_request(hdev, reportnum, buf, len,
--						    rtype, reqtype);
--}
--
--/**
-- * hid_hw_output_report - send output report to device
-- *
-- * @hdev: hid device
-- * @buf: raw data to transfer
-- * @len: length of buf
-- *
-- * Return: count of data transferred, negative if error
-- */
--static inline int hid_hw_output_report(struct hid_device *hdev, __u8 *buf,
--					size_t len)
--{
--	if (len < 1 || len > HID_MAX_BUFFER_SIZE || !buf)
--		return -EINVAL;
--
--	if (hdev->ll_driver->output_report)
--		return hdev->ll_driver->output_report(hdev, buf, len);
--
--	return -ENOSYS;
--}
--
- /**
-  * hid_hw_idle - send idle request to device
-  *
+https://lore.kernel.org/linux-input/YacOmYorwAIB4Q3c@quokka/T/#t
+
+I'd be great to know if maintainers are interested in migrating the
+other properties to use the new function (input_set_property).
+If so, I can send the patches :)
+
+Thanks,
+Jose
+
+José Expósito (2):
+  Input: add input_set_property()
+  Input: set INPUT_PROP_BUTTONPAD using input_set_property()
+
+ drivers/hid/hid-alps.c                   |  2 +-
+ drivers/hid/hid-asus.c                   |  3 +-
+ drivers/hid/hid-elan.c                   |  3 +-
+ drivers/hid/hid-logitech-hidpp.c         |  2 +-
+ drivers/hid/hid-magicmouse.c             |  8 ++----
+ drivers/hid/hid-multitouch.c             |  2 +-
+ drivers/hid/hid-playstation.c            |  3 +-
+ drivers/hid/hid-sony.c                   |  4 +--
+ drivers/input/input.c                    | 35 ++++++++++++++++++++++++
+ drivers/input/keyboard/applespi.c        |  2 +-
+ drivers/input/mouse/alps.c               |  3 +-
+ drivers/input/mouse/bcm5974.c            |  2 +-
+ drivers/input/mouse/cyapa.c              |  2 +-
+ drivers/input/mouse/elan_i2c_core.c      |  2 +-
+ drivers/input/mouse/elantech.c           |  6 ++--
+ drivers/input/mouse/focaltech.c          |  4 +--
+ drivers/input/mouse/synaptics.c          |  2 +-
+ drivers/input/rmi4/rmi_f30.c             |  2 +-
+ drivers/input/rmi4/rmi_f3a.c             |  2 +-
+ drivers/input/touchscreen/atmel_mxt_ts.c |  2 +-
+ include/linux/input.h                    |  1 +
+ 21 files changed, 57 insertions(+), 35 deletions(-)
+
 -- 
-2.33.1
+2.25.1
 
