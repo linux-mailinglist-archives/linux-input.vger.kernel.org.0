@@ -2,177 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A83F54662EB
-	for <lists+linux-input@lfdr.de>; Thu,  2 Dec 2021 12:57:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7D9746637C
+	for <lists+linux-input@lfdr.de>; Thu,  2 Dec 2021 13:22:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357497AbhLBMAQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Dec 2021 07:00:16 -0500
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:47151 "EHLO
+        id S1357937AbhLBMYC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Dec 2021 07:24:02 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:59649 "EHLO
         new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1357554AbhLBMAM (ORCPT
+        by vger.kernel.org with ESMTP id S1357932AbhLBMXv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 2 Dec 2021 07:00:12 -0500
+        Thu, 2 Dec 2021 07:23:51 -0500
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 6B5965801C3;
-        Thu,  2 Dec 2021 06:56:49 -0500 (EST)
+        by mailnew.nyi.internal (Postfix) with ESMTP id 3E10558030B;
+        Thu,  2 Dec 2021 07:20:28 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Thu, 02 Dec 2021 06:56:49 -0500
+  by compute3.internal (MEProxy); Thu, 02 Dec 2021 07:20:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
-         h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm2; bh=FvePu4DfaAI5Y
-        pELNve5G7W9fZNbhwwYhYrMJeaayx4=; b=KM9Tlfq7ZmpHTvPmaRA34UC0sPEDr
-        vw2MhIE4MjaCdy8UYkIDSJbYG/a7g00m74637K1pxIE1U0hg6gkv055KxctnDaJY
-        3CjmVh6p4DLC7K9XOBfHHMSSZxPEytaajWHSm6IEApeGtUSe0IuwBtBg6q0uVzVb
-        TABaJ61R8V8VU4X7UdM7sPIhELt9p5lQwxPGc720frZD28hIqVAm109vAXN6WlSL
-        9RmJtNcGUzCa23bijVIE5RO1vQaSUkbyHda+pMAEZkYk03Uujk8Seo7EoKtRyKb+
-        S51DoDAyBB3uqYCf+RbV3LGYJjnnAwuo7gGHp1kB26YwUpGzyY6efghmw==
+         h=from:to:cc:subject:date:message-id:mime-version:content-type
+        :content-transfer-encoding; s=fm2; bh=nFpd1cboO2xZsxTL6uy9AKL5Uy
+        6bj9BzOleJyoKqzCo=; b=x0Bb2FkWXHXVxFIephoeZcZ0kVvUq9EKv8PsZzqTKg
+        37e9wYLc58oVY2mtNO/5JeVDzVvUatA+WLvBjJz2ZBskee+3fUNVl9bGAngspM1j
+        e2CBN3RQQ7cFMU6dRtA0YDboW7lB2DPYWIjzWRI1upIHvBBA25Y68xQ4cJl0rsE5
+        ALR0U9NVmx1q/ivoJwJI5rFWExFr7R0Q6ztEye3zKDKEXXibaQFH/UAqLpYJQ/p5
+        kxLYh1NUXqit2LJQYIqmSMs4TARPnWjd6rv7PwOmWrPQR5lhlN5ASHFkt9i9TmBk
+        rnFLNddLKbe/k+iS5wx8vMg96n5tj7kIAoujsNyGSlqw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=FvePu4DfaAI5YpELNve5G7W9fZNbhwwYhYrMJeaayx4=; b=OcL96ON+
-        2kK5nKID4pKY8sAR2jgd055cIdIfEfE50Jv23ZYgSf33eKMgAKzlfW2XdJIxTcxy
-        4y/R+lSbf2NX4uC3o9mIcn/NSllVmoJUarNlaF9PZNJyvg7A8ierXHhpiTCcvZ1k
-        GEUnPzwf8I9JBoAanlVyUp9Z1YXKsclv5hp17w4JkZRd5/SLV9GsT10fqjz2nRff
-        bFSgNYfDXzLzVYxHeD/3D08t1Y4BmKy/2n8WGnATpPnLdXgQwAY7WXlAX4vX0QDe
-        vbjzWCxGrzlzvs0B74PdZtt2W8bQUUJwY0Z7yYMHj9GuOeln6mMgVLBVjDC157sT
-        eM1Q9zrR/5yUdA==
-X-ME-Sender: <xms:gbSoYVY_ULyAdOTcAMS-Jz4Os2TigV2whre8e34ZE4yDrGlUhbji-A>
-    <xme:gbSoYcZXUIaZOVKZNrtXZtHRENOc98ax5AdlraVs0iI1q8DeOrIoHZT_MrXfOUps3
-    _RmE6q0e1HWU2oK_Dc>
-X-ME-Received: <xmr:gbSoYX-b-fRFHYvk4LHntCZ0RrObWK6TvuB1IyKZlCmRZkErr8U1y9ip5_U1PFUbF2RB5AfQvdMyzqh_aiXLszz0EQ3c4KbgXBq7G0DfwfQns-o>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrieehgdefgecutefuodetggdotefrodftvf
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:message-id:mime-version:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=nFpd1c
+        boO2xZsxTL6uy9AKL5Uy6bj9BzOleJyoKqzCo=; b=Mk0lZ9Gd2+G4bm/d+6ZNsX
+        uOySrk82VpgDxnrvN/XaTsLIKEWUkg6fSuaaLHmUP0UDzAGGZ6lIetrKjPRtLyPt
+        xVW5MCB6W4BOLCYnYzQiJT6BG79wJberk1B34swKjN44ythE+ZXM3EzhZcP/Hdk4
+        FwHPp9fiARCiHvQKecej96kJBqnJLBKcUvh0lH89OZwPkrNg1mzW8jUlEUI3dHqI
+        B4OH+BDu+udBg8nJBm2Yjt4OsATm+682Aq8PDaiU4T1a19eeXgpRdTeP82+VhCZR
+        XqIg07tg5wkIufUMZ5hYja81yYsa31+hVRp4GdqSY4hR8ztkM1TW9uBm/Gcg571w
+        ==
+X-ME-Sender: <xms:C7qoYSQ-HrvAr01oVa1MI7_RMWiOF_WDZVEXuV9Jsc9Kxvdae_Vd2w>
+    <xme:C7qoYXzp2qAON01MUKDTY-A49jrA1GsNc7XFblC7Eq5XYobUYs9RZrXiol6UpTrqF
+    v_wMEqZ-fv9GKeJXj0>
+X-ME-Received: <xmr:C7qoYf0pq-ge-2T5ToqTAzc2DcVw849DUYdHA4qsYfCP6Vz0AJZsOuq6eZpVFUl_f7iMPi3ZcNlQAgrV-opeKMbJS8jLIQu0oVeecUACZiyDCkg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrieehgdeflecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
-    ertddtnecuhfhrohhmpeetlhhishhtrghirhcuhfhrrghntghishcuoegrlhhishhtrghi
-    rhesrghlihhsthgrihhrvdefrdhmvgeqnecuggftrfgrthhtvghrnhepgeegtdetjeekge
-    eguefgheeuvedugedvteejveeiudegvddtkeffkeehtdetudfhnecuvehluhhsthgvrhfu
-    ihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrsegrlhhish
-    htrghirhdvfedrmhgv
-X-ME-Proxy: <xmx:gbSoYTq78k_wz74P_YUwEIa18MBW3YlnZsTvFhYYJd81HseoC4OlYg>
-    <xmx:gbSoYQqYS0CWN0cveqIR7MQUUiuLVvvOGgy-oOUr1cFZT7J1ohZuSQ>
-    <xmx:gbSoYZRU56AB5Hj0IBtF_PrWxGVAcnoSUhG0AvlCEltMmRyj_0-wTQ>
-    <xmx:gbSoYbAZt0MRhZgp3ThTuzpiUsr-_lIde68L3OsSPTE_6L_FHPfukg>
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffogggtgfesthhqredtre
+    dtjeenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhr
+    segrlhhishhtrghirhdvfedrmhgvqeenucggtffrrghtthgvrhhnpeffledvgeevfeevfe
+    dvvdffieetfefgjeevgeeitefhkeeghfelueekhfejheffgfenucffohhmrghinheplhif
+    nhdrnhgvthdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgv
+X-ME-Proxy: <xmx:C7qoYeCauTjP4KKLk-dHgq4TbcAJDGxZdBuXFKJxRf0cxnWO1CxSYw>
+    <xmx:C7qoYbj17yrDk5tXvTc1R5CKwiAbnfgZD_pLNFOm4_5zMYfAfLj6jg>
+    <xmx:C7qoYaqLdXUycdK5WB6b03iYUQ0m90lMSCsErG67W58VEbBgNKLVYw>
+    <xmx:DLqoYaMz6yTuTXnilluy4VHZusqIxJOCNDIRWFImKNqJoGB-rQ0CdQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 2 Dec 2021 06:56:43 -0500 (EST)
+ 2 Dec 2021 07:20:23 -0500 (EST)
 From:   Alistair Francis <alistair@alistair23.me>
-To:     benjamin.tissoires@redhat.com, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, dmitry.torokhov@gmail.com
-Cc:     Ping.Cheng@wacom.com, linux-arm-kernel@lists.infradead.org,
-        linux-imx@nxp.com, alistair23@gmail.com,
-        tatsunosuke.tobita@wacom.com, linux-input@vger.kernel.org,
-        Jason.Gerecke@wacom.com, linux-kernel@vger.kernel.org,
-        jikos@kernel.org, martin.chen@wacom.com,
-        devicetree@vger.kernel.org,
-        Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH v15 3/3] ARM: dts: imx7d: remarkable2: add wacom digitizer device
-Date:   Thu,  2 Dec 2021 21:56:22 +1000
-Message-Id: <20211202115622.40153-4-alistair@alistair23.me>
+To:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc:     robh+dt@kernel.org, andreas@kemnade.info, alistair23@gmail.com,
+        dmitry.torokhov@gmail.com, linus.walleij@linaro.org,
+        rydberg@bitmath.org, Alistair Francis <alistair@alistair23.me>
+Subject: [PATCH v3 0/4] Add support for the Cypress cyttsp5
+Date:   Thu,  2 Dec 2021 22:20:17 +1000
+Message-Id: <20211202122021.43124-1-alistair@alistair23.me>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211202115622.40153-1-alistair@alistair23.me>
-References: <20211202115622.40153-1-alistair@alistair23.me>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
----
- arch/arm/boot/dts/imx7d-remarkable2.dts | 59 +++++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
-
-diff --git a/arch/arm/boot/dts/imx7d-remarkable2.dts b/arch/arm/boot/dts/imx7d-remarkable2.dts
-index 89cbf13097a4..a2a91bfdd98e 100644
---- a/arch/arm/boot/dts/imx7d-remarkable2.dts
-+++ b/arch/arm/boot/dts/imx7d-remarkable2.dts
-@@ -34,6 +34,19 @@ reg_brcm: regulator-brcm {
- 		startup-delay-us = <150>;
- 	};
- 
-+	reg_digitizer: regulator-digitizer {
-+		compatible = "regulator-fixed";
-+		regulator-name = "VDD_3V3_DIGITIZER";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		pinctrl-names = "default", "sleep";
-+		pinctrl-0 = <&pinctrl_digitizer_reg>;
-+		pinctrl-1 = <&pinctrl_digitizer_reg>;
-+		gpio = <&gpio1 6 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+		startup-delay-us = <100000>; /* 100 ms */
-+	};
-+
- 	wifi_pwrseq: wifi_pwrseq {
- 		compatible = "mmc-pwrseq-simple";
- 		pinctrl-names = "default";
-@@ -51,6 +64,26 @@ &clks {
- 	assigned-clock-rates = <0>, <32768>;
- };
- 
-+&i2c1 {
-+	clock-frequency = <400000>;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i2c1>;
-+	status = "okay";
-+
-+	wacom_digitizer: digitizer@9 {
-+		compatible = "hid-over-i2c";
-+		reg = <0x09>;
-+		hid-descr-addr = <0x01>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_wacom>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <1 IRQ_TYPE_LEVEL_LOW>;
-+		touchscreen-inverted-x;
-+		touchscreen-inverted-y;
-+		vdd-supply = <&reg_digitizer>;
-+	};
-+};
-+
- &snvs_pwrkey {
- 	status = "okay";
- };
-@@ -117,6 +150,25 @@ &wdog1 {
- 	fsl,ext-reset-output;
- };
- 
-+&iomuxc_lpsr {
-+	pinctrl_digitizer_reg: digitizerreggrp {
-+		fsl,pins = <
-+			/* DIGITIZER_PWR_EN */
-+			MX7D_PAD_LPSR_GPIO1_IO06__GPIO1_IO6	0x14
-+		>;
-+	};
-+
-+	pinctrl_wacom: wacomgrp {
-+		fsl,pins = <
-+			/*MX7D_PAD_LPSR_GPIO1_IO05__GPIO1_IO5	0x00000014 FWE */
-+			MX7D_PAD_LPSR_GPIO1_IO04__GPIO1_IO4	0x00000074 /* PDCTB */
-+			MX7D_PAD_LPSR_GPIO1_IO01__GPIO1_IO1	0x00000034 /* WACOM INT */
-+			/*MX7D_PAD_LPSR_GPIO1_IO06__GPIO1_IO6	0x00000014 WACOM PWR ENABLE */
-+			/*MX7D_PAD_LPSR_GPIO1_IO00__GPIO1_IO0	0x00000074 WACOM RESET */
-+		>;
-+	};
-+};
-+
- &iomuxc {
- 	pinctrl_brcm_reg: brcmreggrp {
- 		fsl,pins = <
-@@ -125,6 +177,13 @@ MX7D_PAD_SAI1_TX_BCLK__GPIO6_IO13	0x14
- 		>;
- 	};
- 
-+	pinctrl_i2c1: i2c1grp {
-+		fsl,pins = <
-+			MX7D_PAD_I2C1_SDA__I2C1_SDA		0x4000007f
-+			MX7D_PAD_I2C1_SCL__I2C1_SCL		0x4000007f
-+		>;
-+	};
-+
- 	pinctrl_uart1: uart1grp {
- 		fsl,pins = <
- 			MX7D_PAD_UART1_TX_DATA__UART1_DCE_TX	0x79
--- 
-2.31.1
-
+This patch series builds on top of [1] and adds support for the cyttsp5=0D
+touchscreen controller for the reMarkable 2.=0D
+=0D
+I first tried to add an I2C HID device. Although the cyttsp5 has some HID=0D
+looking aspects it is not HID compatible. Just in trying to probe the devic=
+e=0D
+I found:=0D
+ - The HID descriptor has extra padding=0D
+ - The HID descriptor sets the high bytes of the descriptor length=0D
+ - The HID descriptor has extra unrecognised tags=0D
+ - The HID reset command doesn't appear to work=0D
+=0D
+I don't think there is a way to use the I2C HID framework with the cyttsp5.=
+=0D
+For anyone interested you can see the work here [2]. In that branch though =
+I=0D
+can only obtain a HID descriptor, nothing else works without more core=0D
+changes.=0D
+=0D
+So instead I rebased the series from [1]. Converted to the new yaml DTS=0D
+documentation, added regulator support and fixed a x/y miscalculation bug.=
+=0D
+=0D
+1: https://lwn.net/ml/linux-kernel/20180703094309.18514-1-mylene.josserand@=
+bootlin.com/=0D
+2: https://github.com/alistair23/linux/commits/rM2-mainline-cyttsp5-hid=0D
+=0D
+Alistair Francis (2):=0D
+  ARM: imx_v6_v7_defconfig: Enable the cyttsp5 touchscreen=0D
+  ARM: dts: imx7d: remarkable2: Enable the cyttsp5=0D
+=0D
+Myl=C3=A8ne Josserand (2):=0D
+  Input: Add driver for Cypress Generation 5 touchscreen=0D
+  Documentation: DT: bindings: input: Add documentation for cyttsp5=0D
+=0D
+ .../input/touchscreen/cypress,tt21000.yaml    |   92 ++=0D
+ arch/arm/boot/dts/imx7d-remarkable2.dts       |   89 ++=0D
+ arch/arm/configs/imx_v6_v7_defconfig          |    1 +=0D
+ drivers/input/touchscreen/Kconfig             |   14 +=0D
+ drivers/input/touchscreen/Makefile            |    1 +=0D
+ drivers/input/touchscreen/cyttsp5.c           | 1002 +++++++++++++++++=0D
+ 6 files changed, 1199 insertions(+)=0D
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cyp=
+ress,tt21000.yaml=0D
+ create mode 100644 drivers/input/touchscreen/cyttsp5.c=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
