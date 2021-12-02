@@ -2,150 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28D7746689D
-	for <lists+linux-input@lfdr.de>; Thu,  2 Dec 2021 17:48:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B6AD46689B
+	for <lists+linux-input@lfdr.de>; Thu,  2 Dec 2021 17:48:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359457AbhLBQwI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Dec 2021 11:52:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31156 "EHLO
+        id S1359686AbhLBQvW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Dec 2021 11:51:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20200 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1359444AbhLBQwF (ORCPT
+        by vger.kernel.org with ESMTP id S1359624AbhLBQvV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 2 Dec 2021 11:52:05 -0500
+        Thu, 2 Dec 2021 11:51:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638463723;
+        s=mimecast20190719; t=1638463678;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=nWYMvmHi1IetsBgWf1lP6BikYoWmyQ1Zpnr1brTeF0E=;
-        b=fe573YQ+EDGHjzyeF07TkZxqN8JdLrXROmDK8vDYUC1YZXmUB9DPH0rbFRDp6faRQ7/2XG
-        QMCVYKN0kx2ww29ZMeq8eJoOGgUsMqJoCj2oA73FIY5wLQuMShP0ftwR5xsr05hpARGccK
-        2h7pgjuRpmeKjcsoiyC0n8ZNMIvv+hM=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=ykeJUEQSLS8rDie95cw3mZQtWn2NauSN5lC82eJY5xA=;
+        b=UzRxD0FZKAtoKeQc7ahAdtoiRpXhECV3gVmqfQZn3eIkbjAiwRUYA6I6WhqwjSkCnDIIK0
+        eWnIyT1POObaOHPVsOJti5mLC7ITl19rHJHpHCF3oAp0kIQsISV+46/iMaSKpE9/7Bk49s
+        RHhwA+EX4vt1qrNuLOeuE/zZalY/H6c=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-2-Fd93KZ78M4yU_tSZtm0jaQ-1; Thu, 02 Dec 2021 11:47:38 -0500
-X-MC-Unique: Fd93KZ78M4yU_tSZtm0jaQ-1
-Received: by mail-pj1-f72.google.com with SMTP id bf17-20020a17090b0b1100b001a634dbd737so2315657pjb.9
-        for <linux-input@vger.kernel.org>; Thu, 02 Dec 2021 08:47:37 -0800 (PST)
+ us-mta-471-cUMNDsdCMxOvkkbSdKaIew-1; Thu, 02 Dec 2021 11:47:57 -0500
+X-MC-Unique: cUMNDsdCMxOvkkbSdKaIew-1
+Received: by mail-pg1-f198.google.com with SMTP id m129-20020a632687000000b00324df4ad6c7so152073pgm.19
+        for <linux-input@vger.kernel.org>; Thu, 02 Dec 2021 08:47:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nWYMvmHi1IetsBgWf1lP6BikYoWmyQ1Zpnr1brTeF0E=;
-        b=32RCsjrfAmGBa23ZtxnwS9mSMs9PJ9G1wpECXnpLhp1WthKjHKMIOcYX4hwh2+C5IJ
-         SDyYE6yAR/G9Tds3di5l/F45D+jhznoptbbrTOJUNkvOsyeRRKU/nn8tctnT2nxQEZtt
-         ZZ9b8QVVHP1DFrdGCceYg1tmmrONjdE77JAdhOmvjjUu4aSUHATUhZZ5oiXKSb6bRoW+
-         VPeiXo3LfuPrtjMaR67VcAfDbS/DQKlSTC3RIuir8exPzGZebAQmFhsf8FjT+HqIngTs
-         1ZT/MT6mtjLplJeY1sYWjk8aI+INLthrDCJuK46yuDuUMdh2qvajrnhBYa0nAi1RBRDR
-         CnOA==
-X-Gm-Message-State: AOAM531zdjWHFm9II3Y+u77iS9lGBmnhnyytv+BtiVfG6qSGM6J86+If
-        S/SmtikQnHqiYQ+WAIgQihhNMGEvKMvY5q6xI2lolZLE38q3cosiE9KlNYwAWp7VnA2d4WBJ/yB
-        UbYj7y/MNOtzseZS1tWUw1KrEMVtk7qLrfsHN/Io=
-X-Received: by 2002:a17:903:1c7:b0:141:e630:130c with SMTP id e7-20020a17090301c700b00141e630130cmr16423270plh.80.1638463656607;
-        Thu, 02 Dec 2021 08:47:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJylj6I1e0tyNlmszcQF1L+TKeQBO8xXs2S2Wpark0m/HZ2aVsgJOLfHiesuoEowFq6o+VRA9QagBX+klTU19lY=
-X-Received: by 2002:a17:903:1c7:b0:141:e630:130c with SMTP id
- e7-20020a17090301c700b00141e630130cmr16423240plh.80.1638463656360; Thu, 02
- Dec 2021 08:47:36 -0800 (PST)
+        bh=ykeJUEQSLS8rDie95cw3mZQtWn2NauSN5lC82eJY5xA=;
+        b=wY+wNs1CybhjSdKWHOrz72KTR8ttTVCm+uyPYiNcynP3IJLJLlqjoV1IRcoOGXtG7E
+         A6hI9rqLlsHq9jpwLNcsw0IKgo2tHjHODuO9noZVuOC0E9LUPbVHu6iDz9uWimTijClO
+         MWknBR4VphBMnWMM6fCJrgdLsKNGX6z/DH46b3lqMDMcvWUoFo7vwhvS8d9FXqraVj89
+         7P6OTz9zbsT50nzEqIYNl0tl4ALhBw31OQ2SR2DK/h0TIP2Y9I2AR9dXCN7TMCNYr2U7
+         x1enO27ayZK+GzTPbVuY9hwrGsM5nn8iwvyyjqBOpV2WoDhlBMCmyofF9jU6l5RazTKg
+         E+aw==
+X-Gm-Message-State: AOAM533DapzZ/d7UjIqL4o7pc5yNfOapjCx7GhpuCe7IPtInxCZJg1fk
+        Ud4BRd4WEV/D8bCkqZrZQWxUnAscZd/rjfRQbbVJxMJ2zZtwAXXOtqeoqPK/BfwqAcRoTAaXD/9
+        rlK751bI71KZ9sdO5bX7AwMfsuyhJyc7HmE6NCxs=
+X-Received: by 2002:a17:902:8e87:b0:143:759c:6a2d with SMTP id bg7-20020a1709028e8700b00143759c6a2dmr16109202plb.59.1638463676189;
+        Thu, 02 Dec 2021 08:47:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxwht9ink/ExlmlqPYvOtnB+nF1fANTwDkX3uod8vaV+RLom7iLxqhpl1koRSQZ/NzxRwmZCAk6/I7XNSFgAcs=
+X-Received: by 2002:a17:902:8e87:b0:143:759c:6a2d with SMTP id
+ bg7-20020a1709028e8700b00143759c6a2dmr16109177plb.59.1638463675960; Thu, 02
+ Dec 2021 08:47:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20211201183503.2373082-1-gregkh@linuxfoundation.org>
- <20211201183503.2373082-3-gregkh@linuxfoundation.org> <CAO-hwJJ5=SCNypQJP2V3DdjwLoo23DuMuZ8w_fejp17cytznQw@mail.gmail.com>
- <YaiRGg+gmJgcT8uA@kroah.com> <Yaiz/U9POyHfCs1M@kroah.com> <CAO-hwJJC1JLVYNVTXS72Z+_FduG2=zqKJjry1kcGRTFgi9AANg@mail.gmail.com>
-In-Reply-To: <CAO-hwJJC1JLVYNVTXS72Z+_FduG2=zqKJjry1kcGRTFgi9AANg@mail.gmail.com>
+References: <20211202114819.2511954-1-gregkh@linuxfoundation.org>
+In-Reply-To: <20211202114819.2511954-1-gregkh@linuxfoundation.org>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 2 Dec 2021 17:47:25 +0100
-Message-ID: <CAO-hwJ+bpm5c3LKDWFPndiccap3R_59sPa7wg2xmVkTJdNsfpQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] HID: check for valid USB device for many HID drivers
+Date:   Thu, 2 Dec 2021 17:47:45 +0100
+Message-ID: <CAO-hwJJO2v+exB_ORoC7Y3xk8LaDBrSYPtqOnoCrZTDv=bZdzA@mail.gmail.com>
+Subject: Re: [PATCH] HID: add USB_HID dependancy on some USB HID drivers
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Jiri Kosina <jikos@kernel.org>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Michael Zaidman <michael.zaidman@gmail.com>,
-        Stefan Achatz <erazor_de@users.sourceforge.net>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>
+        kernel test robot <lkp@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Dec 2, 2021 at 4:21 PM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
+On Thu, Dec 2, 2021 at 12:48 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
-> On Thu, Dec 2, 2021 at 12:54 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Thu, Dec 02, 2021 at 10:25:46AM +0100, Greg Kroah-Hartman wrote:
-> > > On Thu, Dec 02, 2021 at 10:08:07AM +0100, Benjamin Tissoires wrote:
-> > > > On Wed, Dec 1, 2021 at 7:35 PM Greg Kroah-Hartman
-> > > > <gregkh@linuxfoundation.org> wrote:
-> > > > >
-> > > > > Many HID drivers assume that the HID device assigned to them is a USB
-> > > > > device as that was the only way HID devices used to be able to be
-> > > > > created in Linux.  However, with the additional ways that HID devices
-> > > > > can be created for many different bus types, that is no longer true, so
-> > > > > properly check that we have a USB device associated with the HID device
-> > > > > before allowing a driver that makes this assumption to claim it.
-> > > > >
-> > > > > Cc: Jiri Kosina <jikos@kernel.org>
-> > > > > Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > > > > Cc: Michael Zaidman <michael.zaidman@gmail.com>
-> > > > > Cc: Stefan Achatz <erazor_de@users.sourceforge.net>
-> > > > > Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> > > > > Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> > > > > Cc: linux-input@vger.kernel.org
-> > > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > > ---
-> > > > > v3: add check in hid-sony based on fix from Benjamin.
-> > > >
-> > > > Sigh. This morning I realized my fix was incomplete as the error path
-> > > > of the GHL devices handling is not releasing the hidraw node.
-> > > > I have a followup patch ready that I am about to send as soon as I get
-> > > > the full tests run.
-> > > >
-> > > > Also, I guess we want this series to land in 5.16-rc4 or rc5 and mark
-> > > > it as stable, no?
-> > > > If so, I'll add the cc stable@vger.kernel.org marks so you don't need
-> > > > to keep tabs on it.
-> > >
-> > > That would be great, thanks!
-> > >
-> > > > Besides that, I tested the wacom change on an I2C screen, and it is
-> > > > still working as expected, so I think the wacom changes are safe.
-> > > > The full series is
-> > > > Tested-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > >
-> > > Wonderful.
-> > >
-> > > Note, I did just get some really odd 0-day error messages from this
-> > > patch series:
-> > >       https://lore.kernel.org/r/202112021000.3GKuE8mS-lkp@intel.com
-> > >       https://lore.kernel.org/r/202112020808.AZ5usuXj-lkp@intel.com
-> > >
-> > > Which looks like a dependancy issue that might have always been there.
-> > > I'll work on resolving that after lunch...
-> >
-> > Now sent:
-> >         https://lore.kernel.org/r/20211202114819.2511954-1-gregkh@linuxfoundation.org
+> Some HID drivers are only for USB drivers, yet did not depend on
+> CONFIG_USB_HID.  This was hidden by the fact that the USB functions were
+> stubbed out in the past, but now that drivers are checking for USB
+> devices properly, build errors can occur with some random
+> configurations.
 >
-> \o/
->
-> >
-> > I can resend it as a v4 series that adds this to the end of the series
-> > if you want me to.
->
-> That's fine. I already locally scheduled the v3, this other series
-> above and my 2 first patches from my series that you reviewed today.
-> I also added the cc: stable markers (though I haven't checked exactly
-> which versions it applies to).
->
-> Once my automated suite is happy I'll push them to hid.git.
->
-> Thanks for your time Greg!
->
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
 
-Series is applied to hid.git branch for-5.16/upstream-fixes
+Now applied to hid.git branch for-5.16/upstream-fixes
 
 Cheers,
 Benjamin
+
+>  drivers/hid/Kconfig | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index 9f5435b55949..828c2995ec34 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -214,7 +214,7 @@ config HID_CHICONY
+>
+>  config HID_CORSAIR
+>         tristate "Corsair devices"
+> -       depends on HID && USB && LEDS_CLASS
+> +       depends on USB_HID && LEDS_CLASS
+>         help
+>         Support for Corsair devices that are not fully compliant with the
+>         HID standard.
+> @@ -560,7 +560,7 @@ config HID_LENOVO
+>
+>  config HID_LOGITECH
+>         tristate "Logitech devices"
+> -       depends on HID
+> +       depends on USB_HID
+>         depends on LEDS_CLASS
+>         default !EXPERT
+>         help
+> @@ -951,7 +951,7 @@ config HID_SAITEK
+>
+>  config HID_SAMSUNG
+>         tristate "Samsung InfraRed remote control or keyboards"
+> -       depends on HID
+> +       depends on USB_HID
+>         help
+>         Support for Samsung InfraRed remote control or keyboards.
+>
+> --
+> 2.34.1
+>
 
