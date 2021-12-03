@@ -2,139 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6A57467056
-	for <lists+linux-input@lfdr.de>; Fri,  3 Dec 2021 03:57:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76A02467068
+	for <lists+linux-input@lfdr.de>; Fri,  3 Dec 2021 04:01:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243021AbhLCDAp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Dec 2021 22:00:45 -0500
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:60939 "EHLO
-        wout4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S242005AbhLCDAp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 2 Dec 2021 22:00:45 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailout.west.internal (Postfix) with ESMTP id 6C40D3201134;
-        Thu,  2 Dec 2021 21:57:21 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Thu, 02 Dec 2021 21:57:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=PlXh0FiZ7NUPdbaXGu8vcmpZDWB
-        lIttRE8J0nknpW0o=; b=Kr6NO5wrwovFzO3Q3kzP+S+zJWs92ZxCuVD/EFaAprl
-        60DsxVUuva7LnqOQ4j76MkN6ql5TkNLVSmYdqxSxzUsrLniltDqWGezgJZ7436qL
-        SxmClSe0Jux/Zu66Et4tS3Oc4BjBcC8Ys7IXvJhRtX2Wbu6GuuzP8MGFCJrTQcKR
-        7AR4BWkbUScOtDYiYhA++ZPeTtbUouicNi66Rtm+yiVq+lGjwprneBAEe/5F9EFp
-        2YNMrFHZbMJ/DYsE9YQyU4HEGecSSjVAa2hZgBl1XX6X6b3KdnGibwmCPyBQjMxG
-        yqkjwqQvwAnCRO/NCmxccqCk4aBYz7JafgjdfoMjkkw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=PlXh0F
-        iZ7NUPdbaXGu8vcmpZDWBlIttRE8J0nknpW0o=; b=M1LGsW8flhY9NnHdVFxQaN
-        hl3bzzYutLjNbjVr9T/x25ExXbKGeFn50U+7tJYbwt8AGjlzoCl9+IaY4p3ScNc3
-        X8kOiZI0oYcwa4q55Qyzvc0rVl+Gu/i7H+3szJ3YEwJ7Is8ru9ih9okgSLxS0Hlp
-        IVj/iUs2WcLazQlWQMF71Gku2Fo685+sm5HCFqV1N3laM89YFo1Ks6BcETI+Q8Yh
-        ImQ72D1G7BKjrAIbK60qz+FsG+ayxM+8evoFxtrodNQzLVHLhwxDw9ZDN7rNxZsl
-        CraRQDAQ2F3fx26XFoDA9XH4ZAC1u37ZeJT3EWNvP6dY5PqIuaCqMSSaZ4ID0M/A
-        ==
-X-ME-Sender: <xms:kIepYV5_oogA-ahgM4o9ffN797FukWUXG6jrET3nNEeHevyEQ4BfwQ>
-    <xme:kIepYS7LPGKkoDa_zY-m75P1ueKgMtKYa_UZ805BeKgi3KciaVk3XFGYeesPwKYM3
-    TRyyQn1QtZ96Auyvo4>
-X-ME-Received: <xmr:kIepYccuNpwY_5D4AKgi8R5itCu_8tds4TxePSGt7T95JOQZiCjiOfgUfb1EWXvUKBSbifaofnmWofYyxAmmlfxNT09z65nRrOqy>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrieeigdehfecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgvrhcu
-    jfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtqe
-    enucggtffrrghtthgvrhhnpeehhfehfffgheelgeeuudelhefgvdefveekudevjeevjeev
-    vefggefguddufeeuveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
-X-ME-Proxy: <xmx:kIepYeIgcCfIBAEeuv2cZ2iP9xmKCosg-WOPkmLKoI-HcsOxp44ReA>
-    <xmx:kIepYZLQ5BAYWFPXpPMPJCXnAuxaR6sFt_OtfuwYBwXvT-dNJ0z1cw>
-    <xmx:kIepYXyWTiiGAR9DFyOThncb5uTZiKWCj0FBI5VimvD1khYeheFEyQ>
-    <xmx:kIepYWET64eAZwDmak6ATtGVes7M4SDENeJWZzbMEZOWNNLAtMfXDQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 2 Dec 2021 21:57:18 -0500 (EST)
-Date:   Fri, 3 Dec 2021 12:57:12 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Angela Czubak <acz@semihalf.com>
-Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        seobrien@chromium.org, jikos@kernel.org,
-        Dmitry Torokhov <dtor@chromium.org>
-Subject: Re: Forcepad interface design proposal
-Message-ID: <YamHiBW8nI8Lxeef@quokka>
-References: <CAB4aORVm7hFDVE_zekZZxTEkXgBJD=HzEekMWNAZs3kV05JU7w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAB4aORVm7hFDVE_zekZZxTEkXgBJD=HzEekMWNAZs3kV05JU7w@mail.gmail.com>
+        id S1347836AbhLCDEu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Dec 2021 22:04:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38060 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243973AbhLCDEu (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Dec 2021 22:04:50 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DF6EC061757
+        for <linux-input@vger.kernel.org>; Thu,  2 Dec 2021 19:01:27 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id iq11so1258323pjb.3
+        for <linux-input@vger.kernel.org>; Thu, 02 Dec 2021 19:01:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=huaqin-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=flNl4+wOdPQZ7BpJ4HcBce/7klXuEOQ0vt7dFvL/gho=;
+        b=XC/Yz4sYM1Arbp2e3E2wVTt//UL4M7PuJO7JTzib1PPRdSPgHChxeRRPSEzI3PvlJg
+         NJpusJcEW+xLJUEeh+qL4A0YzLt4HJusHf4g6Oj5CbivdLsMxJUrYCNJnDmbN99oRcee
+         jj2goEz/txZZtcAFe41LlyFtnO18yNiJuKnho/Db+3KNLbG2GqQSYeFbo8Ppdhrw4M/a
+         bkCsXGcN+5w7jL++b5w7wbIE/xuNEqOpOdvFwitzZX/UPpgaHHsuNZ8AAJ71vyQbUla0
+         6BWRHg80BLEncUvFuXMyumxfhZiq2kyrkknfyHCAVEFYopBy2j7nRcYNNVza06aUfXSY
+         1dLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=flNl4+wOdPQZ7BpJ4HcBce/7klXuEOQ0vt7dFvL/gho=;
+        b=ELeixBued7VscAO4YD3HbOTr0OdEsAAiWQ6xqEtncdIdXiiv0rXeuXZLgO4N5HCJdP
+         afc90OBYC4cHsQtqaSUu/JiSDibYvzDCLYgz5tTAZ+in6c9zH293e3mSPiiL07x/cC8b
+         92AlTiYc0xbA7mZDiDf/CxJ3+47d89PmuyPAV1pe9K/epmKkSFAmWfpjEgmhY9vSicu/
+         N+dRuouM4Qy6MDmfPSLTzmEgIjGFLRm9nv8abx7UQGtwN2yvR8vjecpz1h4ax9n3tHse
+         vou4TCkYyz/ZCt87Nl/mXVseK2eaqhZu3u0KsLRcv5KGa2paNZKTK9G7YKBUk9vPUCy6
+         5/Yg==
+X-Gm-Message-State: AOAM532Ho/KACj8Ytz70SJLzkPopIZ8Z5K64bCQ1AAhqRun3lBBS12So
+        gk8UIvvNBVO3oezjH5054xbCmQ==
+X-Google-Smtp-Source: ABdhPJzt+6XC66+2G5EwGqBuBxlxbAKK0cPUS/l0GmnEfaLzUfQst1xZqtaaxooHw+a8jZ46Cz+iog==
+X-Received: by 2002:a17:90a:e00f:: with SMTP id u15mr10570528pjy.123.1638500486530;
+        Thu, 02 Dec 2021 19:01:26 -0800 (PST)
+Received: from ubuntu.huaqin.com ([101.78.151.213])
+        by smtp.gmail.com with ESMTPSA id n16sm737476pja.46.2021.12.02.19.01.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Dec 2021 19:01:26 -0800 (PST)
+From:   xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        phoenixshen@google.com,
+        xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+Subject: [PATCH] HID: google: add eel USB id
+Date:   Fri,  3 Dec 2021 11:01:19 +0800
+Message-Id: <20211203030119.28612-1-xiazhengqiao@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Angela,
+Add one additional hammer-like device.
 
-On Tue, Nov 30, 2021 at 02:51:48PM +0100, Angela Czubak wrote:
-> Hi Benjamin and Peter,
-> 
-> I am refreshing this old thread in order to clarify some things
-> discussed here :)
-> I specifically got lost when reading about virtual IDs for effects.
-> Asking more inline.
+Signed-off-by: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+---
+ drivers/hid/hid-google-hammer.c | 2 ++
+ drivers/hid/hid-ids.h           | 1 +
+ 2 files changed, 3 insertions(+)
 
-[...]
+diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
+index 8123b871a3eb..0403beb3104b 100644
+--- a/drivers/hid/hid-google-hammer.c
++++ b/drivers/hid/hid-google-hammer.c
+@@ -585,6 +585,8 @@ static void hammer_remove(struct hid_device *hdev)
+ static const struct hid_device_id hammer_devices[] = {
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_DON) },
++	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
++		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_EEL) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_HAMMER) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 96a455921c67..b02d8b1d907a 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -501,6 +501,7 @@
+ #define USB_DEVICE_ID_GOOGLE_MAGNEMITE	0x503d
+ #define USB_DEVICE_ID_GOOGLE_MOONBALL	0x5044
+ #define USB_DEVICE_ID_GOOGLE_DON	0x5050
++#define USB_DEVICE_ID_GOOGLE_EEL	0x5057
+ 
+ #define USB_VENDOR_ID_GOTOP		0x08f2
+ #define USB_DEVICE_ID_SUPER_Q2		0x007f
+-- 
+2.17.1
 
-> > > > > > > So, the solution we came to this morning, while talking to Peter, was
-> > > > > > > that the HID driver for a simple haptic HID device would allocate a
-> > > > > > > virtual device memory to store the effects and the parameters.
-> > > > > > >
-> > > > > > > This way, we can:
-> > > > > > > - upload effect WAVEFORM_RELEASE with its parameters in id 0 of the
-> > > > > > > drvdata of the device
-> > > > > > > - upload effect WAVEFORM_PRESS with its parameters in id 1 of the
-> > > > > > > drvdata of the device
-> > > > > > > - ...
-> > > > > > > - upload effect WAVEFORM_VENDOR_ZZZ_ZZZ with its parameters in id N of
-> > > > > > > the drvdata of the device -> userspace will use it while scrolling for
-> > > > > > > instance
-> > > > > > > - ...
-> > > > > > >
-> > > > > > > Then the kernel on BTN_LEFT press can automatically trigger the effect
-> > > > > > > with id 1 and the one with id 0 on release in the case of the
-> > > > > > > autonomous mode mentioned below.
-> > > > > > >
-> > > > > > > To solve the question of knowing which effect should be loaded in
-> > > > > > > which slot, I think we should rely on a userspace helper (udev?).
-> > > > > > > We definitively not want the kernel to keep a list of devices to
-> > > > > > > effects matches, but having a udev database (hwdb and intrinsic?)
-> > > > > > > would nicely solve the issue as we do not need to update the kernel
-> > > > > > > for each new device coming in.
-> > > > > > >
-> > > > > > > From the kernel driver, we can populate the WAVEFORM_PRESS and
-> > > > > > > WAVEFORM_RELEASE with some sensible parameters, but userspace should
-> > > > > > > be allowed to override them.
-> > > > > > >
-> > > > > > > The advantage of having this virtual memory of device effects, is that
-> > > > > > > each userspace implementation could use its own matching for effects.
-> > > > > > > For example, libinput might want to say:
-> > > > > > > - id 0 -> BTN_LEFT released
-> > > > > > > - id 1 -> BTN_LEFT pressed
-> > > > > > > - id 0x1000 -> scrolling up
-> > > > > > > - id 0x1001 -> scrolling down
-> > > > > > > - id 0x2042 -> hard press
-> > > > > > >
-> Was there some idea up then to implement virtual effect IDs? Right now
-> it seems that
-> the number of possible FF effects is limited to FF_MAX_EFFECTS and
-> that it is the kernel
-> and not the user space that assigns the ID when an effect is uploaded.
-> Or was it more of a suggestion for the future than a requirement
-> regarding the simple haptic feedback implementation?
-
-I have to admit I barely remember any of this, it happend around a very busy
-time and i have little recollection beyond re-reading this thread. The above
-was an idea on how to handle custom waveforms, we never went past what was
-suggested in this thread.
-
-Cheers,
-   Peter
