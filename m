@@ -2,139 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8056467376
-	for <lists+linux-input@lfdr.de>; Fri,  3 Dec 2021 09:45:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4F6046787D
+	for <lists+linux-input@lfdr.de>; Fri,  3 Dec 2021 14:35:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379325AbhLCItS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 3 Dec 2021 03:49:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20118 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1379318AbhLCItS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 3 Dec 2021 03:49:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638521154;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=wr5FuvjVcX7SC5c2qwRq/4np3gbYK+aB0OUFPg2us1g=;
-        b=eTVkikQeA1ui8qJOeFggtyMRsGhyuO+88aCi7kq1js52GJkRXV0S5LwkpV/Z+oXfjYi6mF
-        LE4N+OGlEN4z1Vt7JZ8RHVdUL091so5syN4Btxx/X7/O2EysEjh27tNxaOUdDpWSAnUfcf
-        eNAjdLwkLL/enrnmjDxItmTgMUZ+H2A=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-385-kwGBxeMbMOW8ATU0dNp9YQ-1; Fri, 03 Dec 2021 03:45:53 -0500
-X-MC-Unique: kwGBxeMbMOW8ATU0dNp9YQ-1
-Received: by mail-pl1-f199.google.com with SMTP id l3-20020a170902f68300b00142892d0a86so613895plg.13
-        for <linux-input@vger.kernel.org>; Fri, 03 Dec 2021 00:45:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=wr5FuvjVcX7SC5c2qwRq/4np3gbYK+aB0OUFPg2us1g=;
-        b=ArLSaVwvu++6kjpKbL7o8BGyuNWTys2FVUmLYjz4AK6HuQOeIZX9ckBU9+72fHW0lr
-         gxgvTIQXA5AqBL7tPUMI8YuDV4uV5gLn9cOcWi1uMP8krv0kgeChKHETOFUTK+7jlVYM
-         TSXCX1TOah2ZI7C6Vrh1K7QHXPOhd+cP3/M2VWaZ0ldKxzj57eyEF73nPqAcJ+xODjth
-         X+kMcM+p/aU2B919/qlGptqqhGtyMP87+r4allO7W2SDo6hCvDyC/Lg0JfhRheP/+Zok
-         ggPYEcC63da2mNJzWjaUr/bUKdZEt4s+BmTQrMPdgq8q0qdIfHaN2Tfwp11dXmv1VVoF
-         aAew==
-X-Gm-Message-State: AOAM532Et57I0mXhB2CB9YHzsKkm1eaKCbEIqCZWoqALJyYp/vsibrf+
-        3Ni7tLGgx+sUzqtRSfYNUc33J0+vWUrX1hSxxFtjZeJ9rv+YVhzfVkEceuHLuKk7vjMEsbpDESC
-        ZGQhTp+MSlRyJBwDTx7BjGLD6Sx14rChN+0LYq/I=
-X-Received: by 2002:a17:903:1c7:b0:141:e630:130c with SMTP id e7-20020a17090301c700b00141e630130cmr21352723plh.80.1638521152213;
-        Fri, 03 Dec 2021 00:45:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwvs+4WyxBsI0PowrRG0Yz/rESddXVKNX1pGr8vIxAXqTpV2FXSAFuNa5ZcbscddqQPJag+OktCbi1zZBRw0CI=
-X-Received: by 2002:a17:903:1c7:b0:141:e630:130c with SMTP id
- e7-20020a17090301c700b00141e630130cmr21352701plh.80.1638521151949; Fri, 03
- Dec 2021 00:45:51 -0800 (PST)
+        id S1381161AbhLCNip (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 3 Dec 2021 08:38:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40830 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1381191AbhLCNii (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Dec 2021 08:38:38 -0500
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C25B1C061395
+        for <linux-input@vger.kernel.org>; Fri,  3 Dec 2021 05:35:13 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:3191:9890:620a:6f4])
+        by albert.telenet-ops.be with bizsmtp
+        id RpbA2600G3eLghq06pbAi1; Fri, 03 Dec 2021 14:35:11 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mt8iT-002LQW-RS; Fri, 03 Dec 2021 14:35:09 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mt8iT-000kka-5i; Fri, 03 Dec 2021 14:35:09 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, Marc Zyngier <maz@kernel.org>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/3] Input: gpio-keys - Interrupt-related fixes
+Date:   Fri,  3 Dec 2021 14:35:05 +0100
+Message-Id: <cover.1638538079.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211130060117.3026-1-linux@weissschuh.net> <2a336482fb73d8093ed284942c6b63c53b9a8727.camel@linux.intel.com>
-In-Reply-To: <2a336482fb73d8093ed284942c6b63c53b9a8727.camel@linux.intel.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 3 Dec 2021 09:45:41 +0100
-Message-ID: <CAO-hwJKkCZg7JbAk=hj=X80tB744F5_F9_TgR0DibcRKk-fNPA@mail.gmail.com>
-Subject: Re: [PATCH] HID: intel-ish-hid: ipc: only enable IRQ wakeup when requested
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Daniel Drubin <daniel.drubin@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Dec 1, 2021 at 2:35 PM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> On Tue, 2021-11-30 at 07:01 +0100, Thomas Wei=C3=9Fschuh wrote:
-> > Fixes spurious wakeups from s0ix on Lenovo ThinkPad X1 Cargon Gen 9
-> > on
-> > lid close.
-> >
-> > These wakeups are generated by interrupts from the ISH on changes to
-> > the
-> > lid status.
-> >
-> > By disabling the wake IRQ from the ISH we inhibit these spurious
-> > wakeups while keeping the resume from LID open through the ACPI
-> > interrupt.
-> >
-> > Reports on the Lenovo forums indicate that Lenovo ThinkPad X1 Yoga
-> > Gen6
-> > is also affected.
-> >
-> > Fixes: ae02e5d40d5f ("HID: intel-ish-hid: ipc layer")
-> > BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=3D214855
-> > Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+	Hi all,
 
-Applied to for-5.16/upstream-fixes in hid.git
+This patch series contains two interrupt-related fixes for the gpio-keys
+DT bindings and driver, and a small clean-up.
+The first two patches can be applied independently.
+The third patch, which is marked RFC, depends on the second.
 
-thanks
+Thanks for your comments!
 
-Cheers,
-Benjamin
+Geert Uytterhoeven (3):
+  dt-bindings: input: gpio-keys: Fix interrupts in example
+  Input: gpio-keys - Use input_report_key()
+  [WIP] [RFC] Input: gpio-keys - Fix ghost events with both-edge irqs
 
->
-> > ---
-> >  drivers/hid/intel-ish-hid/ipc/pci-ish.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> > b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> > index 1c5039081db2..8e9d9450cb83 100644
-> > --- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> > +++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> > @@ -266,7 +266,8 @@ static void __maybe_unused
-> > ish_resume_handler(struct work_struct *work)
-> >
-> >         if (ish_should_leave_d0i3(pdev) && !dev->suspend_flag
-> >                         && IPC_IS_ISH_ILUP(fwsts)) {
-> > -               disable_irq_wake(pdev->irq);
-> > +               if (device_may_wakeup(&pdev->dev))
-> > +                       disable_irq_wake(pdev->irq);
-> >
-> >                 ish_set_host_ready(dev);
-> >
-> > @@ -337,7 +338,8 @@ static int __maybe_unused ish_suspend(struct device
-> > *device)
-> >                          */
-> >                         pci_save_state(pdev);
-> >
-> > -                       enable_irq_wake(pdev->irq);
-> > +                       if (device_may_wakeup(&pdev->dev))
-> > +                               enable_irq_wake(pdev->irq);
-> >                 }
-> >         } else {
-> >                 /*
-> >
-> > base-commit: d58071a8a76d779eedab38033ae4c821c30295a5
->
->
+ .../devicetree/bindings/input/gpio-keys.yaml  |  2 +-
+ drivers/input/keyboard/gpio_keys.c            | 38 ++++++++++++-------
+ 2 files changed, 25 insertions(+), 15 deletions(-)
 
+-- 
+2.25.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
