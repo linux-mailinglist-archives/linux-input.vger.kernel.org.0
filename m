@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA611467876
-	for <lists+linux-input@lfdr.de>; Fri,  3 Dec 2021 14:35:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7211846787C
+	for <lists+linux-input@lfdr.de>; Fri,  3 Dec 2021 14:35:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381052AbhLCNim (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 3 Dec 2021 08:38:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40762 "EHLO
+        id S1381124AbhLCNio (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 3 Dec 2021 08:38:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381150AbhLCNig (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Dec 2021 08:38:36 -0500
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA4E4C061784
-        for <linux-input@vger.kernel.org>; Fri,  3 Dec 2021 05:35:12 -0800 (PST)
+        with ESMTP id S1381192AbhLCNii (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Dec 2021 08:38:38 -0500
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC2FDC061394
+        for <linux-input@vger.kernel.org>; Fri,  3 Dec 2021 05:35:13 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:3191:9890:620a:6f4])
-        by michel.telenet-ops.be with bizsmtp
-        id RpbA2600D3eLghq06pbAZm; Fri, 03 Dec 2021 14:35:10 +0100
+        by albert.telenet-ops.be with bizsmtp
+        id RpbA2600A3eLghq06pbAhz; Fri, 03 Dec 2021 14:35:11 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1mt8iT-002LQX-Rt; Fri, 03 Dec 2021 14:35:09 +0100
+        id 1mt8iT-002LQY-Ph; Fri, 03 Dec 2021 14:35:09 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1mt8iT-000kke-6z; Fri, 03 Dec 2021 14:35:09 +0100
+        id 1mt8iT-000kkk-7l; Fri, 03 Dec 2021 14:35:09 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>, Marc Zyngier <maz@kernel.org>
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 1/3] dt-bindings: input: gpio-keys: Fix interrupts in example
-Date:   Fri,  3 Dec 2021 14:35:06 +0100
-Message-Id: <47ecd2d8efcf09f8ab47de87a7bcfafc82208776.1638538079.git.geert+renesas@glider.be>
+Subject: [PATCH 2/3] Input: gpio-keys - Use input_report_key()
+Date:   Fri,  3 Dec 2021 14:35:07 +0100
+Message-Id: <ec7f7eac6c603fb4b17725556cc3df87627c9a11.1638538079.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1638538079.git.geert+renesas@glider.be>
 References: <cover.1638538079.git.geert+renesas@glider.be>
@@ -43,32 +43,41 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The "interrupts" property in the example looks weird:
-  - The type is not in the last cell,
-  - Level interrupts don't work well with gpio-keys, as they keep the
-    interrupt asserted as long as the key is pressed, causing an
-    interrupt storm.
-
-Use a more realistic falling-edge interrupt instead.
+Use the input_report_key() helper instead of open-coding the same
+operation.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- Documentation/devicetree/bindings/input/gpio-keys.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/input/keyboard/gpio_keys.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/input/gpio-keys.yaml b/Documentation/devicetree/bindings/input/gpio-keys.yaml
-index 060a309ff8e7c757..dbe7ecc19ccb9423 100644
---- a/Documentation/devicetree/bindings/input/gpio-keys.yaml
-+++ b/Documentation/devicetree/bindings/input/gpio-keys.yaml
-@@ -142,7 +142,7 @@ examples:
-         down {
-             label = "GPIO Key DOWN";
-             linux,code = <108>;
--            interrupts = <1 IRQ_TYPE_LEVEL_HIGH 7>;
-+            interrupts = <1 IRQ_TYPE_EDGE_FALLING>;
-         };
-     };
+diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
+index fc706918d7b103cb..ab077dfb90a76ac3 100644
+--- a/drivers/input/keyboard/gpio_keys.c
++++ b/drivers/input/keyboard/gpio_keys.c
+@@ -456,7 +456,7 @@ static enum hrtimer_restart gpio_keys_irq_timer(struct hrtimer *t)
+ 	struct input_dev *input = bdata->input;
  
+ 	if (bdata->key_pressed) {
+-		input_event(input, EV_KEY, *bdata->code, 0);
++		input_report_key(input, *bdata->code, 0);
+ 		input_sync(input);
+ 		bdata->key_pressed = false;
+ 	}
+@@ -478,11 +478,11 @@ static irqreturn_t gpio_keys_irq_isr(int irq, void *dev_id)
+ 		if (bdata->button->wakeup)
+ 			pm_wakeup_event(bdata->input->dev.parent, 0);
+ 
+-		input_event(input, EV_KEY, *bdata->code, 1);
++		input_report_key(input, *bdata->code, 1);
+ 		input_sync(input);
+ 
+ 		if (!bdata->release_delay) {
+-			input_event(input, EV_KEY, *bdata->code, 0);
++			input_report_key(input, *bdata->code, 0);
+ 			input_sync(input);
+ 			goto out;
+ 		}
 -- 
 2.25.1
 
