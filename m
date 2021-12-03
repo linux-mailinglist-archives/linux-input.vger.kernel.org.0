@@ -2,74 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F7E346736D
-	for <lists+linux-input@lfdr.de>; Fri,  3 Dec 2021 09:44:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8056467376
+	for <lists+linux-input@lfdr.de>; Fri,  3 Dec 2021 09:45:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238810AbhLCIrp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 3 Dec 2021 03:47:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52682 "EHLO
+        id S1379325AbhLCItS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 3 Dec 2021 03:49:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20118 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1351243AbhLCIro (ORCPT
+        by vger.kernel.org with ESMTP id S1379318AbhLCItS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 3 Dec 2021 03:47:44 -0500
+        Fri, 3 Dec 2021 03:49:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638521060;
+        s=mimecast20190719; t=1638521154;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=OwOgBsAqeM8nCc99h1P3E89qpglyfHpzTAJ8c3y42RU=;
-        b=EptM6ht/wCAef7cRjcsDdn+sALLH3RktmTrmaYg9K1U1DI228nmQUXyOGNJcZEFQlrL2CM
-        thEycqDxI4WfNO/yZUOAoqjOOup+GIQqzPgrVXpdgdLZsaVpp842WYCHfx6B62C/3do5E1
-        rSzyhb1DWBykuE3UG9WrNeR7FdZghyQ=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=wr5FuvjVcX7SC5c2qwRq/4np3gbYK+aB0OUFPg2us1g=;
+        b=eTVkikQeA1ui8qJOeFggtyMRsGhyuO+88aCi7kq1js52GJkRXV0S5LwkpV/Z+oXfjYi6mF
+        LE4N+OGlEN4z1Vt7JZ8RHVdUL091so5syN4Btxx/X7/O2EysEjh27tNxaOUdDpWSAnUfcf
+        eNAjdLwkLL/enrnmjDxItmTgMUZ+H2A=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-571-QH6CkxqiO9qWvLmVhU06Gw-1; Fri, 03 Dec 2021 03:44:19 -0500
-X-MC-Unique: QH6CkxqiO9qWvLmVhU06Gw-1
-Received: by mail-pf1-f198.google.com with SMTP id z13-20020a627e0d000000b004a2849e589aso1584797pfc.0
-        for <linux-input@vger.kernel.org>; Fri, 03 Dec 2021 00:44:19 -0800 (PST)
+ us-mta-385-kwGBxeMbMOW8ATU0dNp9YQ-1; Fri, 03 Dec 2021 03:45:53 -0500
+X-MC-Unique: kwGBxeMbMOW8ATU0dNp9YQ-1
+Received: by mail-pl1-f199.google.com with SMTP id l3-20020a170902f68300b00142892d0a86so613895plg.13
+        for <linux-input@vger.kernel.org>; Fri, 03 Dec 2021 00:45:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OwOgBsAqeM8nCc99h1P3E89qpglyfHpzTAJ8c3y42RU=;
-        b=kjOLnHKCKIqPGj/k3HpMSTdA0sWfZPC6RRgZZzvpoqMxXZMbOCwY4mIvEst1JX/KxE
-         QV0FK9oridiJAhFybpEr3HuQ6poR6GeAI/PML7K10IM5RfvdOKoSZiE63sYYRsSOoRSE
-         ZOHVTMq9rya8xFhuf5a+ApB/40R4tGc7c2JWw4xSHG/71aYAyyIFlL8ABAnU7DN/iOYW
-         Fx8a0F6AwspSxtXKF1e9hir9UtcooAgR7sp2O4GmeZdpFOwUeYNSRF5bvhM1lcuGfm0P
-         7mQs7CvA6uxmx6nV9OWqovYwWShPgnZHXR+SpvDHyy0EIdLGToc1FlizTcNXeOt2O3Yg
-         DWeQ==
-X-Gm-Message-State: AOAM531/OOoetRr7CNvGcD3tjg3NnqBg3SDt6S/MybdPcKHYr5QPimBU
-        EUM6nG4YJ42BYef1cI8NijE8sNh/G1zsZQi0JHB9zwK4byKwE2Jg9UpQ6p0ypBH+kREPo51rccH
-        abfNUrTAdCK22uNO1Ci9C5n8wnU4nJ5cxtx4aUSc=
-X-Received: by 2002:a05:6a00:1741:b0:4a6:3de7:a816 with SMTP id j1-20020a056a00174100b004a63de7a816mr18228912pfc.29.1638521058369;
-        Fri, 03 Dec 2021 00:44:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzcFgiszaGcpNTDAyqOTnAd7lzOOq04bLVpu+i3J2p9LDN9SMN6RsYGzYHtQFhVPg/ujvYDj7XnUe8+M+7jQ5o=
-X-Received: by 2002:a05:6a00:1741:b0:4a6:3de7:a816 with SMTP id
- j1-20020a056a00174100b004a63de7a816mr18228884pfc.29.1638521058050; Fri, 03
- Dec 2021 00:44:18 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=wr5FuvjVcX7SC5c2qwRq/4np3gbYK+aB0OUFPg2us1g=;
+        b=ArLSaVwvu++6kjpKbL7o8BGyuNWTys2FVUmLYjz4AK6HuQOeIZX9ckBU9+72fHW0lr
+         gxgvTIQXA5AqBL7tPUMI8YuDV4uV5gLn9cOcWi1uMP8krv0kgeChKHETOFUTK+7jlVYM
+         TSXCX1TOah2ZI7C6Vrh1K7QHXPOhd+cP3/M2VWaZ0ldKxzj57eyEF73nPqAcJ+xODjth
+         X+kMcM+p/aU2B919/qlGptqqhGtyMP87+r4allO7W2SDo6hCvDyC/Lg0JfhRheP/+Zok
+         ggPYEcC63da2mNJzWjaUr/bUKdZEt4s+BmTQrMPdgq8q0qdIfHaN2Tfwp11dXmv1VVoF
+         aAew==
+X-Gm-Message-State: AOAM532Et57I0mXhB2CB9YHzsKkm1eaKCbEIqCZWoqALJyYp/vsibrf+
+        3Ni7tLGgx+sUzqtRSfYNUc33J0+vWUrX1hSxxFtjZeJ9rv+YVhzfVkEceuHLuKk7vjMEsbpDESC
+        ZGQhTp+MSlRyJBwDTx7BjGLD6Sx14rChN+0LYq/I=
+X-Received: by 2002:a17:903:1c7:b0:141:e630:130c with SMTP id e7-20020a17090301c700b00141e630130cmr21352723plh.80.1638521152213;
+        Fri, 03 Dec 2021 00:45:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwvs+4WyxBsI0PowrRG0Yz/rESddXVKNX1pGr8vIxAXqTpV2FXSAFuNa5ZcbscddqQPJag+OktCbi1zZBRw0CI=
+X-Received: by 2002:a17:903:1c7:b0:141:e630:130c with SMTP id
+ e7-20020a17090301c700b00141e630130cmr21352701plh.80.1638521151949; Fri, 03
+ Dec 2021 00:45:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20211203030119.28612-1-xiazhengqiao@huaqin.corp-partner.google.com>
-In-Reply-To: <20211203030119.28612-1-xiazhengqiao@huaqin.corp-partner.google.com>
+References: <20211130060117.3026-1-linux@weissschuh.net> <2a336482fb73d8093ed284942c6b63c53b9a8727.camel@linux.intel.com>
+In-Reply-To: <2a336482fb73d8093ed284942c6b63c53b9a8727.camel@linux.intel.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 3 Dec 2021 09:44:07 +0100
-Message-ID: <CAO-hwJKA-+Vu44RnOAjkBB12QOWaq68sHngy=gX+dAgeFztiZA@mail.gmail.com>
-Subject: Re: [PATCH] HID: google: add eel USB id
-To:     xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
+Date:   Fri, 3 Dec 2021 09:45:41 +0100
+Message-ID: <CAO-hwJKkCZg7JbAk=hj=X80tB744F5_F9_TgR0DibcRKk-fNPA@mail.gmail.com>
+Subject: Re: [PATCH] HID: intel-ish-hid: ipc: only enable IRQ wakeup when requested
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Jiri Kosina <jikos@kernel.org>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>, phoenixshen@google.com
+        lkml <linux-kernel@vger.kernel.org>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Daniel Drubin <daniel.drubin@intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Dec 3, 2021 at 4:01 AM xiazhengqiao
-<xiazhengqiao@huaqin.corp-partner.google.com> wrote:
+On Wed, Dec 1, 2021 at 2:35 PM Srinivas Pandruvada
+<srinivas.pandruvada@linux.intel.com> wrote:
 >
-> Add one additional hammer-like device.
->
-> Signed-off-by: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+> On Tue, 2021-11-30 at 07:01 +0100, Thomas Wei=C3=9Fschuh wrote:
+> > Fixes spurious wakeups from s0ix on Lenovo ThinkPad X1 Cargon Gen 9
+> > on
+> > lid close.
+> >
+> > These wakeups are generated by interrupts from the ISH on changes to
+> > the
+> > lid status.
+> >
+> > By disabling the wake IRQ from the ISH we inhibit these spurious
+> > wakeups while keeping the resume from LID open through the ACPI
+> > interrupt.
+> >
+> > Reports on the Lenovo forums indicate that Lenovo ThinkPad X1 Yoga
+> > Gen6
+> > is also affected.
+> >
+> > Fixes: ae02e5d40d5f ("HID: intel-ish-hid: ipc layer")
+> > BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=3D214855
+> > Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
 Applied to for-5.16/upstream-fixes in hid.git
 
@@ -78,37 +101,40 @@ thanks
 Cheers,
 Benjamin
 
-> ---
->  drivers/hid/hid-google-hammer.c | 2 ++
->  drivers/hid/hid-ids.h           | 1 +
->  2 files changed, 3 insertions(+)
 >
-> diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-> index 8123b871a3eb..0403beb3104b 100644
-> --- a/drivers/hid/hid-google-hammer.c
-> +++ b/drivers/hid/hid-google-hammer.c
-> @@ -585,6 +585,8 @@ static void hammer_remove(struct hid_device *hdev)
->  static const struct hid_device_id hammer_devices[] = {
->         { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
->                      USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_DON) },
-> +       { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-> +                    USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_EEL) },
->         { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
->                      USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_HAMMER) },
->         { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index 96a455921c67..b02d8b1d907a 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -501,6 +501,7 @@
->  #define USB_DEVICE_ID_GOOGLE_MAGNEMITE 0x503d
->  #define USB_DEVICE_ID_GOOGLE_MOONBALL  0x5044
->  #define USB_DEVICE_ID_GOOGLE_DON       0x5050
-> +#define USB_DEVICE_ID_GOOGLE_EEL       0x5057
+> > ---
+> >  drivers/hid/intel-ish-hid/ipc/pci-ish.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+> > b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+> > index 1c5039081db2..8e9d9450cb83 100644
+> > --- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+> > +++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+> > @@ -266,7 +266,8 @@ static void __maybe_unused
+> > ish_resume_handler(struct work_struct *work)
+> >
+> >         if (ish_should_leave_d0i3(pdev) && !dev->suspend_flag
+> >                         && IPC_IS_ISH_ILUP(fwsts)) {
+> > -               disable_irq_wake(pdev->irq);
+> > +               if (device_may_wakeup(&pdev->dev))
+> > +                       disable_irq_wake(pdev->irq);
+> >
+> >                 ish_set_host_ready(dev);
+> >
+> > @@ -337,7 +338,8 @@ static int __maybe_unused ish_suspend(struct device
+> > *device)
+> >                          */
+> >                         pci_save_state(pdev);
+> >
+> > -                       enable_irq_wake(pdev->irq);
+> > +                       if (device_may_wakeup(&pdev->dev))
+> > +                               enable_irq_wake(pdev->irq);
+> >                 }
+> >         } else {
+> >                 /*
+> >
+> > base-commit: d58071a8a76d779eedab38033ae4c821c30295a5
 >
->  #define USB_VENDOR_ID_GOTOP            0x08f2
->  #define USB_DEVICE_ID_SUPER_Q2         0x007f
-> --
-> 2.17.1
 >
 
