@@ -2,153 +2,135 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DEC1467880
-	for <lists+linux-input@lfdr.de>; Fri,  3 Dec 2021 14:35:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 406BF4678EE
+	for <lists+linux-input@lfdr.de>; Fri,  3 Dec 2021 14:58:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352576AbhLCNiq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 3 Dec 2021 08:38:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40832 "EHLO
+        id S1381211AbhLCOCA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 3 Dec 2021 09:02:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381190AbhLCNii (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Dec 2021 08:38:38 -0500
+        with ESMTP id S1357684AbhLCOB6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Dec 2021 09:01:58 -0500
 Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3485C061396
-        for <linux-input@vger.kernel.org>; Fri,  3 Dec 2021 05:35:13 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E774C061757
+        for <linux-input@vger.kernel.org>; Fri,  3 Dec 2021 05:58:34 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:3191:9890:620a:6f4])
         by albert.telenet-ops.be with bizsmtp
-        id RpbA260083eLghq06pbAhy; Fri, 03 Dec 2021 14:35:11 +0100
+        id RpyY2600D3eLghq06pyYiP; Fri, 03 Dec 2021 14:58:32 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1mt8iT-002LQZ-La; Fri, 03 Dec 2021 14:35:09 +0100
+        id 1mt956-002LiF-2g; Fri, 03 Dec 2021 14:58:32 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1mt8iT-000kks-8R; Fri, 03 Dec 2021 14:35:09 +0100
+        id 1mt954-000lZ6-Ve; Fri, 03 Dec 2021 14:58:31 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, Marc Zyngier <maz@kernel.org>
+        Rob Herring <robh+dt@kernel.org>,
+        Joe Hung <joe_hung@ilitek.com>, Marek Vasut <marex@denx.de>
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH RFC 3/3] Input: gpio-keys - Fix ghost events with both-edge irqs
-Date:   Fri,  3 Dec 2021 14:35:08 +0100
-Message-Id: <356b31ade897af77a06d6567601f038f56b3b2a2.1638538079.git.geert+renesas@glider.be>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v2] dt-bindings: input: touchscreen: ilitek_ts_i2c: Absorb ili2xxx bindings
+Date:   Fri,  3 Dec 2021 14:58:26 +0100
+Message-Id: <0c5f06c9d262c1720b40d068b6eefe58ca406601.1638539806.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1638538079.git.geert+renesas@glider.be>
-References: <cover.1638538079.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When using interrupts instead of GPIOs, the driver auto-generates
-key-release events, either immediately or after a delay.  This works
-fine with rising-edge or falling-edge interrupts, but causes ghost
-events with both-edge interrupts.  Indeed, the driver will generate a
-pair of key press/release events when pressing the key, and another pair
-when releasing the key.
+While Linux uses a different driver, the Ilitek
+ILI210x/ILI2117/ILI2120/ILI251x touchscreen controller Device Tree
+binding documentation is very similar.
 
-Fix this by not auto-generating key-release events for both-edge
-interrupts.  Rename release_delay to auto_release_delay to clarify its
-use.
-
-Note that unlike with GPIOs, the driver cannot know the state of the key
-at initialization time, or after resume.  Hence the driver assumes the
-key is not pressed at initialization time, and does not reconfigure the
-trigger type for wakeup.
+  - Drop the fixed reg value, as some controllers use a different
+    address,
+  - Make reset-gpios optional, as it is not always wired.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
-Tested on rskrza1.
-
-Are these limitations acceptable? Or should users only use rising-edge
-or falling-edge interrupts?
-There are several existing users of IRQ_TYPE_EDGE_BOTH.
+v2:
+  - Add Reviewed-by.
 ---
- drivers/input/keyboard/gpio_keys.c | 34 +++++++++++++++++++-----------
- 1 file changed, 22 insertions(+), 12 deletions(-)
+ .../bindings/input/ilitek,ili2xxx.txt         | 27 -------------------
+ .../input/touchscreen/ilitek_ts_i2c.yaml      |  7 +++--
+ 2 files changed, 5 insertions(+), 29 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt
 
-diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-index ab077dfb90a76ac3..dfcbedec226cb4cf 100644
---- a/drivers/input/keyboard/gpio_keys.c
-+++ b/drivers/input/keyboard/gpio_keys.c
-@@ -38,7 +38,8 @@ struct gpio_button_data {
- 	unsigned short *code;
+diff --git a/Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt b/Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt
+deleted file mode 100644
+index cdcaa3f52d253670..0000000000000000
+--- a/Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt
++++ /dev/null
+@@ -1,27 +0,0 @@
+-Ilitek ILI210x/ILI2117/ILI2120/ILI251x touchscreen controller
+-
+-Required properties:
+-- compatible:
+-    ilitek,ili210x for ILI210x
+-    ilitek,ili2117 for ILI2117
+-    ilitek,ili2120 for ILI2120
+-    ilitek,ili251x for ILI251x
+-
+-- reg: The I2C address of the device
+-
+-- interrupts: The sink for the touchscreen's IRQ output
+-    See ../interrupt-controller/interrupts.txt
+-
+-Optional properties for main touchpad device:
+-
+-- reset-gpios: GPIO specifier for the touchscreen's reset pin (active low)
+-
+-Example:
+-
+-	touchscreen@41 {
+-		compatible = "ilitek,ili251x";
+-		reg = <0x41>;
+-		interrupt-parent = <&gpio4>;
+-		interrupts = <7 IRQ_TYPE_EDGE_FALLING>;
+-		reset-gpios = <&gpio5 21 GPIO_ACTIVE_LOW>;
+-	};
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml b/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml
+index a190e7baac3162a3..9f732899975683a8 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml
+@@ -15,6 +15,9 @@ allOf:
+ properties:
+   compatible:
+     enum:
++      - ilitek,ili210x
++      - ilitek,ili2117
++      - ilitek,ili2120
+       - ilitek,ili2130
+       - ilitek,ili2131
+       - ilitek,ili2132
+@@ -22,11 +25,12 @@ properties:
+       - ilitek,ili2322
+       - ilitek,ili2323
+       - ilitek,ili2326
++      - ilitek,ili251x
+       - ilitek,ili2520
+       - ilitek,ili2521
  
- 	struct hrtimer release_timer;
--	unsigned int release_delay;	/* in msecs, for IRQ-only buttons */
-+	int auto_release_delay;	/* in msecs, for IRQ-only buttons */
-+				/* a negative value means no auto-release */
+   reg:
+-    const: 0x41
++    maxItems: 1
  
- 	struct delayed_work work;
- 	struct hrtimer debounce_timer;
-@@ -474,25 +475,25 @@ static irqreturn_t gpio_keys_irq_isr(int irq, void *dev_id)
+   interrupts:
+     maxItems: 1
+@@ -50,7 +54,6 @@ required:
+   - compatible
+   - reg
+   - interrupts
+-  - reset-gpios
  
- 	spin_lock_irqsave(&bdata->lock, flags);
- 
--	if (!bdata->key_pressed) {
-+	if (!bdata->key_pressed || bdata->auto_release_delay < 0) {
- 		if (bdata->button->wakeup)
- 			pm_wakeup_event(bdata->input->dev.parent, 0);
- 
--		input_report_key(input, *bdata->code, 1);
-+		input_report_key(input, *bdata->code, !bdata->key_pressed);
- 		input_sync(input);
- 
--		if (!bdata->release_delay) {
-+		if (!bdata->auto_release_delay) {
- 			input_report_key(input, *bdata->code, 0);
- 			input_sync(input);
- 			goto out;
- 		}
- 
--		bdata->key_pressed = true;
-+		bdata->key_pressed = !bdata->key_pressed;
- 	}
- 
--	if (bdata->release_delay)
-+	if (bdata->auto_release_delay > 0)
- 		hrtimer_start(&bdata->release_timer,
--			      ms_to_ktime(bdata->release_delay),
-+			      ms_to_ktime(bdata->auto_release_delay),
- 			      HRTIMER_MODE_REL_HARD);
- out:
- 	spin_unlock_irqrestore(&bdata->lock, flags);
-@@ -630,7 +631,6 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
- 			return -EINVAL;
- 		}
- 
--		bdata->release_delay = button->debounce_interval;
- 		hrtimer_init(&bdata->release_timer,
- 			     CLOCK_REALTIME, HRTIMER_MODE_REL_HARD);
- 		bdata->release_timer.function = gpio_keys_irq_timer;
-@@ -638,10 +638,20 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
- 		isr = gpio_keys_irq_isr;
- 		irqflags = 0;
- 
--		/*
--		 * For IRQ buttons, there is no interrupt for release.
--		 * So we don't need to reconfigure the trigger type for wakeup.
--		 */
-+		if (irq_get_trigger_type(bdata->irq) == IRQ_TYPE_EDGE_BOTH) {
-+			bdata->auto_release_delay = -1;
-+			/*
-+			 * Unlike with GPIOs, we do not know what the state of
-+			 * the key is at initialization time, or after resume.
-+			 * So we don't reconfigure the trigger type for wakeup.
-+			 */
-+		} else {
-+			bdata->auto_release_delay = button->debounce_interval;
-+			/*
-+			 * There is no interrupt for release.  So we don't
-+			 * need to reconfigure the trigger type for wakeup.
-+			 */
-+		}
- 	}
- 
- 	bdata->code = &ddata->keymap[idx];
+ examples:
+   - |
 -- 
 2.25.1
 
