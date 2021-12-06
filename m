@@ -2,163 +2,153 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBAFE469219
-	for <lists+linux-input@lfdr.de>; Mon,  6 Dec 2021 10:11:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20028469425
+	for <lists+linux-input@lfdr.de>; Mon,  6 Dec 2021 11:47:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240135AbhLFJOz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Dec 2021 04:14:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56818 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S240113AbhLFJOy (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 6 Dec 2021 04:14:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638781886;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Wa3WpmpH0IbGokyHbF+rFyNHzMjiOuSen/H5CZS+YdI=;
-        b=SkLL0SgXiz9gsUAwIBHTVYdnPF095rrmA+hsbNrylaxvlvnQzKv+YvobUF28041y35lKwi
-        5XwAsfNYeF5tuRebCYtYXc8y0kVGc3O+4kHduVk6MWPwBGu3SXMqucJD8c499bjhGUDCO5
-        o3lu5N5Wbm4zsaOloHhbDSe/gSQo31M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-364-6-QMwYcMNKmYMH4okz9ZaA-1; Mon, 06 Dec 2021 04:11:23 -0500
-X-MC-Unique: 6-QMwYcMNKmYMH4okz9ZaA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B576F1006AA0;
-        Mon,  6 Dec 2021 09:11:19 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.194.76])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C34DA1000324;
-        Mon,  6 Dec 2021 09:11:18 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
-Subject: [PATCH regression fix 1/1] Input: goodix - Try not to touch the reset-pin on x86/ACPI devices
-Date:   Mon,  6 Dec 2021 10:11:16 +0100
-Message-Id: <20211206091116.44466-2-hdegoede@redhat.com>
-In-Reply-To: <20211206091116.44466-1-hdegoede@redhat.com>
-References: <20211206091116.44466-1-hdegoede@redhat.com>
+        id S239676AbhLFKuq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Dec 2021 05:50:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49598 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239526AbhLFKuq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Dec 2021 05:50:46 -0500
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA8D6C061746;
+        Mon,  6 Dec 2021 02:47:17 -0800 (PST)
+Received: by mail-il1-x135.google.com with SMTP id a11so9721810ilj.6;
+        Mon, 06 Dec 2021 02:47:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Um61Hr3jidIBFZSxFnTK93vDCH499LbCZV9DwbMfXng=;
+        b=WLJgtSv+9cZ4KsNSDg/qz7ADMMWthNnKPcJTlClkuzTW8W51Z00OEGzB/VTimXR8Wn
+         aFXa045HUfYtWdeJ9JHw2mMKbEXWKe+O8jszXQ4cEu9tssgOeR3SwrWVLmtrhdUDIYnS
+         Z9DIbsGqAn2SZbvkgXgps20UDdMkzR0H7GQjAFfgJIEs7kYNEvBCVmyB7l6TA43VUU8p
+         lkjKw2jRg9P1IPBQeGY4USGVg4cTCTW0GDoQ4t/WBIlj2KvRrGV384/ZlT6j6x+0n67D
+         oam5ncSKZJxc7L3Se+tIu/YnwhGh1tAsE7pAvHqz5vXqHwrztaApWD4Il51+Wh/qaApb
+         rluA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Um61Hr3jidIBFZSxFnTK93vDCH499LbCZV9DwbMfXng=;
+        b=JaPj+bsFMpT6qSsrrslscx9PqTB+ROISXyb19bmXpIPvnb5UNkivWgOPQWrHO1b8wi
+         JcqKyqaGRL7wbHLtPOie/AidnVSB+IC0vUv11HXRnJv+BjR1Bw6tLCb3l284+pM3Tlos
+         F79U3qtAsng3fYgZHbf+63aVhzh395cUaQhdGSzFb2bJmnGN3xnD+evf21cZCQRQQ5jO
+         Iw12zrcit+xpjbowOapImQA3SdnofSWbc14md/c5yVYCShWrBjsdgF0jW/8eIBQYMYFJ
+         koyhqOKXP3sQrrgBn0WF7yDlMYF+XnDyQvUbS5WPE/jW06+FzvjSb8bedNDIbKF9BLz/
+         TPWQ==
+X-Gm-Message-State: AOAM5339d5sYm1EZpLpWYWILIdaZjGXicQZREIK9RNQJU2jQ6dZk4jlZ
+        xySf2Zgq1YWncqSG//ucO8qcRx6+VQs/xy2NJB8=
+X-Google-Smtp-Source: ABdhPJzS8MaGOfxEKT8Wz+Oz+dyTmUiCjIopWOmUAkZATpwgn3INJ5OZmxv0t1dTyYDZUh0IeE2t6BgKq8PHHIao9c4=
+X-Received: by 2002:a05:6e02:1b08:: with SMTP id i8mr26502232ilv.74.1638787637173;
+ Mon, 06 Dec 2021 02:47:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <20211202122021.43124-1-alistair@alistair23.me>
+ <20211202122021.43124-2-alistair@alistair23.me> <20211204233233.6c55875c@aktux>
+In-Reply-To: <20211204233233.6c55875c@aktux>
+From:   Alistair Francis <alistair23@gmail.com>
+Date:   Mon, 6 Dec 2021 20:46:50 +1000
+Message-ID: <CAKmqyKPDROFkAFgSjSDeTfhtZsArn4BbON9tyb1qTb_QcV5=xg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] Input: Add driver for Cypress Generation 5 touchscreen
+To:     Andreas Kemnade <andreas@kemnade.info>
+Cc:     Alistair Francis <alistair@alistair23.me>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        =?UTF-8?Q?Myl=C3=A8ne_Josserand?= <mylene.josserand@bootlin.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Unless the controller is not responding at boot or after suspend/resume,
-the driver never resets the controller on x86/ACPI platforms. The driver
-still requesting the reset pin at probe() though in case it needs it.
+On Sun, Dec 5, 2021 at 8:32 AM Andreas Kemnade <andreas@kemnade.info> wrote=
+:
+>
+> Hi,
+>
+>
+> On Thu,  2 Dec 2021 22:20:18 +1000
+> Alistair Francis <alistair@alistair23.me> wrote:
+>
+> > From: Myl=C3=A8ne Josserand <mylene.josserand@bootlin.com>
+> >
+> > This is the basic driver for the Cypress TrueTouch Gen5 touchscreen
+> > controllers. This driver supports only the I2C bus but it uses regmap
+> > so SPI support could be added later.
+> > The touchscreen can retrieve some defined zone that are handled as
+> > buttons (according to the hardware). That is why it handles
+> > button and multitouch events.
+> >
+> > Reviewed-by: Maxime Ripard <maxime.ripard@bootlin.com>
+> > Signed-off-by: Myl=C3=A8ne Josserand <mylene.josserand@bootlin.com>
+> > Message-Id: <20180703094309.18514-2-mylene.josserand@bootlin.com>
+> > Signed-off-by: Alistair Francis <alistair@alistair23.me>
+>
+> I finally got it working. The order of initialisation is important.
+> Params are copied on input_mt_init_slots() from ABS_MT* to ABS_*, so you
+> have to set params first.
+>
+> Here is the patch i need on top of this one to make it actually work
+> with X (evdev and libinput is tested):
+>
+> diff --git a/drivers/input/touchscreen/cyttsp5.c b/drivers/input/touchscr=
+een/cyttsp5.c
+> index b5d96eb71e46..3894ec85a732 100644
+> --- a/drivers/input/touchscreen/cyttsp5.c
+> +++ b/drivers/input/touchscreen/cyttsp5.c
+> @@ -415,19 +415,12 @@ static int cyttsp5_setup_input_device(struct device=
+ *dev)
+>         int max_x_tmp, max_y_tmp;
+>         int error;
+>
+> -       __set_bit(EV_REL, ts->input->evbit);
 
-Until now the driver has always requested the reset pin with GPIOD_IN
-as type. The idea being to put the pin in high-impedance mode to save
-power until the driver actually wants to issue a reset.
+Does it work with this still included? I need this for my userspace program=
+.
 
-But this means that just requesting the pin can cause issues, since
-requesting it in another mode then GPIOD_ASIS may cause the pinctrl
-driver to touch the pin settings. We have already had issues before
-due to a bug in the pinctrl-cherryview.c driver which has been fixed in
-commit 921daeeca91b ("pinctrl: cherryview: Preserve
-CHV_PADCTRL1_INVRXTX_TXDATA flag on GPIOs").
+Alistair
 
-And now it turns out that requesting the reset-pin as GPIOD_IN also stops
-the touchscreen from working on the GPD P2 max mini-laptop. The behavior
-of putting the pin in high-impedance mode relies on there being some
-external pull-up to keep it high and there seems to be no pull-up on the
-GPD P2 max, causing things to break.
-
-This commit fixes this by requesting the reset pin as is when using
-the x86/ACPI code paths to lookup the GPIOs; and by not dropping it
-back into input-mode in case the driver does end up issuing a reset
-for error-recovery.
-
-BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=209061
-Fixes: a7d4b171660c ("Input: goodix - add support for getting IRQ + reset GPIOs on Cherry Trail devices")
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/input/touchscreen/goodix.c | 30 +++++++++++++++++++++++++-----
- drivers/input/touchscreen/goodix.h |  1 +
- 2 files changed, 26 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index b5cc91788195..eaa659969097 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -650,10 +650,16 @@ int goodix_reset_no_int_sync(struct goodix_ts_data *ts)
- 
- 	usleep_range(6000, 10000);		/* T4: > 5ms */
- 
--	/* end select I2C slave addr */
--	error = gpiod_direction_input(ts->gpiod_rst);
--	if (error)
--		goto error;
-+	/*
-+	 * Put the reset pin back in to input / high-impedance mode to save
-+	 * power. Only do this in the non ACPI case since some ACPI boards
-+	 * don't have a pull-up, so there the reset pin must stay active-high.
-+	 */
-+	if (ts->irq_pin_access_method == IRQ_PIN_ACCESS_GPIO) {
-+		error = gpiod_direction_input(ts->gpiod_rst);
-+		if (error)
-+			goto error;
-+	}
- 
- 	return 0;
- 
-@@ -787,6 +793,14 @@ static int goodix_add_acpi_gpio_mappings(struct goodix_ts_data *ts)
- 		return -EINVAL;
- 	}
- 
-+	/*
-+	 * Normally we put the reset pin in input / high-impedance mode to save
-+	 * power. But some x86/ACPI boards don't have a pull-up, so for the ACPI
-+	 * case, leave the pin as is. This results in the pin not being touched
-+	 * at all on x86/ACPI boards, except when needed for error-recover.
-+	 */
-+	ts->gpiod_rst_flags = GPIOD_ASIS;
-+
- 	return devm_acpi_dev_add_driver_gpios(dev, gpio_mapping);
- }
- #else
-@@ -812,6 +826,12 @@ static int goodix_get_gpio_config(struct goodix_ts_data *ts)
- 		return -EINVAL;
- 	dev = &ts->client->dev;
- 
-+	/*
-+	 * By default we request the reset pin as input, leaving it in
-+	 * high-impedance when not resetting the controller to save power.
-+	 */
-+	ts->gpiod_rst_flags = GPIOD_IN;
-+
- 	ts->avdd28 = devm_regulator_get(dev, "AVDD28");
- 	if (IS_ERR(ts->avdd28)) {
- 		error = PTR_ERR(ts->avdd28);
-@@ -849,7 +869,7 @@ static int goodix_get_gpio_config(struct goodix_ts_data *ts)
- 	ts->gpiod_int = gpiod;
- 
- 	/* Get the reset line GPIO pin number */
--	gpiod = devm_gpiod_get_optional(dev, GOODIX_GPIO_RST_NAME, GPIOD_IN);
-+	gpiod = devm_gpiod_get_optional(dev, GOODIX_GPIO_RST_NAME, ts->gpiod_rst_flags);
- 	if (IS_ERR(gpiod)) {
- 		error = PTR_ERR(gpiod);
- 		if (error != -EPROBE_DEFER)
-diff --git a/drivers/input/touchscreen/goodix.h b/drivers/input/touchscreen/goodix.h
-index 62138f930d1a..02065d1c3263 100644
---- a/drivers/input/touchscreen/goodix.h
-+++ b/drivers/input/touchscreen/goodix.h
-@@ -87,6 +87,7 @@ struct goodix_ts_data {
- 	struct gpio_desc *gpiod_rst;
- 	int gpio_count;
- 	int gpio_int_idx;
-+	enum gpiod_flags gpiod_rst_flags;
- 	char id[GOODIX_ID_MAX_LEN + 1];
- 	char cfg_name[64];
- 	u16 version;
--- 
-2.33.1
-
+> -
+>         max_x_tmp =3D si->sensing_conf_data.res_x;
+>         max_y_tmp =3D si->sensing_conf_data.res_y;
+>         max_x =3D max_x_tmp - 1;
+>         max_y =3D max_y_tmp - 1;
+>         max_p =3D si->sensing_conf_data.max_z;
+>
+> -       error =3D input_mt_init_slots(ts->input, si->tch_abs[CY_TCH_T].ma=
+x,
+> -               INPUT_MT_DROP_UNUSED | INPUT_MT_POINTER);
+> -       if (error < 0)
+> -               return error;
+> -
+>         input_set_abs_params(ts->input, ABS_MT_POSITION_X, 0, max_x, 0, 0=
+);
+>         input_set_abs_params(ts->input, ABS_MT_POSITION_Y, 0, max_y, 0, 0=
+);
+>         input_set_abs_params(ts->input, ABS_MT_PRESSURE, 0, max_p, 0, 0);
+> @@ -435,6 +428,11 @@ static int cyttsp5_setup_input_device(struct device =
+*dev)
+>         input_set_abs_params(ts->input, ABS_MT_TOUCH_MAJOR, 0, MAX_AREA, =
+0, 0);
+>         input_set_abs_params(ts->input, ABS_MT_TOUCH_MINOR, 0, MAX_AREA, =
+0, 0);
+>
+> +       error =3D input_mt_init_slots(ts->input, si->tch_abs[CY_TCH_T].ma=
+x,
+> +               INPUT_MT_DROP_UNUSED | INPUT_MT_DIRECT);
+> +       if (error < 0)
+> +               return error;
+> +
+>         error =3D input_register_device(ts->input);
+>         if (error < 0)
+>                 dev_err(dev, "Error, failed register input device r=3D%d\=
+n", error);
+>
