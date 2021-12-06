@@ -2,75 +2,158 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64EC6468F76
-	for <lists+linux-input@lfdr.de>; Mon,  6 Dec 2021 04:00:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9CFF468F7F
+	for <lists+linux-input@lfdr.de>; Mon,  6 Dec 2021 04:03:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235408AbhLFDEM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 5 Dec 2021 22:04:12 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:45978 "EHLO
+        id S235518AbhLFDHX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 5 Dec 2021 22:07:23 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:47182 "EHLO
         ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235402AbhLFDEL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Dec 2021 22:04:11 -0500
+        with ESMTP id S235402AbhLFDHX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Dec 2021 22:07:23 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 746F7B80E5C;
-        Mon,  6 Dec 2021 03:00:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D134C00446;
-        Mon,  6 Dec 2021 03:00:38 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 74413B80EE3;
+        Mon,  6 Dec 2021 03:03:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 911BFC00446;
+        Mon,  6 Dec 2021 03:03:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638759641;
-        bh=9cNh3RaFJCMKVcO5Axb4MRechF03pDBvYKBusB/8Ne4=;
+        s=k20201202; t=1638759833;
+        bh=hqhG2Y9st+pVq0sURpovbuLgs/PcAjMH+0qgkDxyZBg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DnY1Iv1Ig7bbKpMO8If+A+18dXLv8SSNpWLXWgfvzb1S/5RZY1TowaCgsFmFNEfJL
-         P37weL1L4jo9vwk/Ft1FVzbWZgkbmPPoKCoPVWZ2MqV34Sl6pj+ob4Ljsur8qGWai9
-         XLnIIMVleJuOo8BSZaphwy0oG3O4JW4qV3NX60o/64p9QjxzsCM/TWQ3+WR5IUK35d
-         92tYOHVghRt9XeqKN6vXsZrjn+MO5vPCjj9qcFdq4+6lfaY6rmNbN0c3dyxQeHCEOw
-         1ZxNLo7Qpojff/NuEL08nEYwXt10g8xPkiPumW1zZeeQA5plDJVqO/zDr0TcB8M14r
-         z9+o3wyQjo5CA==
-Date:   Mon, 6 Dec 2021 11:00:34 +0800
+        b=AfJdR9r58mmPGF44Jyo/fLSCKZx7fnFibjC0ElMOhr0sBOc+IiLPIHDUJBXZ2Bdy0
+         kCHYZmB3UOS8z3ZMb+RIuvKpZKnrHYn2WfwVMapUT1U/jMdILU+3462G0ye2w6y8DA
+         7zH11TQ0ICZ8UXYmxeMHRvcbRhJL/kuvcF0D+Yx0kRkRYle74FWAUNBbplDmdJ7xwk
+         fzaIFioLwPwVNS//xBR2TjjB1zVBIcgbARV9SA4Z10XpfNuNRtzvqmqFGGhuAiP3cK
+         nZ8bWWNSJ6QtSWMaAGCuHsKsw4JT3m7HErmSADYQHwFhE606IooH2n9+a3f3uAngNq
+         r5kyIh1NPaEWg==
+Date:   Mon, 6 Dec 2021 11:03:46 +0800
 From:   Shawn Guo <shawnguo@kernel.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Alistair Francis <alistair@alistair23.me>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ping Cheng <Ping.Cheng@wacom.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        Alistair Francis <alistair23@gmail.com>,
-        tatsunosuke.tobita@wacom.com,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Jason Gerecke <Jason.Gerecke@wacom.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>, martin.chen@wacom.com,
-        DTML <devicetree@vger.kernel.org>
+To:     Alistair Francis <alistair@alistair23.me>
+Cc:     benjamin.tissoires@redhat.com, s.hauer@pengutronix.de,
+        dmitry.torokhov@gmail.com, Ping.Cheng@wacom.com,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        alistair23@gmail.com, tatsunosuke.tobita@wacom.com,
+        linux-input@vger.kernel.org, Jason.Gerecke@wacom.com,
+        linux-kernel@vger.kernel.org, jikos@kernel.org,
+        martin.chen@wacom.com, devicetree@vger.kernel.org
 Subject: Re: [PATCH v15 3/3] ARM: dts: imx7d: remarkable2: add wacom
  digitizer device
-Message-ID: <20211206030033.GZ4216@dragon>
+Message-ID: <20211206030343.GA4216@dragon>
 References: <20211202115622.40153-1-alistair@alistair23.me>
  <20211202115622.40153-4-alistair@alistair23.me>
- <CAO-hwJJ7jJJkExu+GxwiGn=6t+aUow9ktmCedMRCfNF0bLAXfQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAO-hwJJ7jJJkExu+GxwiGn=6t+aUow9ktmCedMRCfNF0bLAXfQ@mail.gmail.com>
+In-Reply-To: <20211202115622.40153-4-alistair@alistair23.me>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Dec 03, 2021 at 04:57:11PM +0100, Benjamin Tissoires wrote:
-> On Thu, Dec 2, 2021 at 12:56 PM Alistair Francis <alistair@alistair23.me> wrote:
-> >
-> > Signed-off-by: Alistair Francis <alistair@alistair23.me>
-> > ---
-> >  arch/arm/boot/dts/imx7d-remarkable2.dts | 59 +++++++++++++++++++++++++
-> 
-> I think I am always asking the same question, but is it fine for me to
-> take this patch through the hid tree?
-> I seem to remember that this was a little bit free for all but I'd
-> like to get the confirmation first.
+On Thu, Dec 02, 2021 at 09:56:22PM +1000, Alistair Francis wrote:
+> Signed-off-by: Alistair Francis <alistair@alistair23.me>
 
-I will take care of dts patch.
+Please write up some commit log.
 
 Shawn
+
+> ---
+>  arch/arm/boot/dts/imx7d-remarkable2.dts | 59 +++++++++++++++++++++++++
+>  1 file changed, 59 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/imx7d-remarkable2.dts b/arch/arm/boot/dts/imx7d-remarkable2.dts
+> index 89cbf13097a4..a2a91bfdd98e 100644
+> --- a/arch/arm/boot/dts/imx7d-remarkable2.dts
+> +++ b/arch/arm/boot/dts/imx7d-remarkable2.dts
+> @@ -34,6 +34,19 @@ reg_brcm: regulator-brcm {
+>  		startup-delay-us = <150>;
+>  	};
+>  
+> +	reg_digitizer: regulator-digitizer {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "VDD_3V3_DIGITIZER";
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +		pinctrl-names = "default", "sleep";
+> +		pinctrl-0 = <&pinctrl_digitizer_reg>;
+> +		pinctrl-1 = <&pinctrl_digitizer_reg>;
+> +		gpio = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+> +		enable-active-high;
+> +		startup-delay-us = <100000>; /* 100 ms */
+> +	};
+> +
+>  	wifi_pwrseq: wifi_pwrseq {
+>  		compatible = "mmc-pwrseq-simple";
+>  		pinctrl-names = "default";
+> @@ -51,6 +64,26 @@ &clks {
+>  	assigned-clock-rates = <0>, <32768>;
+>  };
+>  
+> +&i2c1 {
+> +	clock-frequency = <400000>;
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&pinctrl_i2c1>;
+> +	status = "okay";
+> +
+> +	wacom_digitizer: digitizer@9 {
+> +		compatible = "hid-over-i2c";
+> +		reg = <0x09>;
+> +		hid-descr-addr = <0x01>;
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&pinctrl_wacom>;
+> +		interrupt-parent = <&gpio1>;
+> +		interrupts = <1 IRQ_TYPE_LEVEL_LOW>;
+> +		touchscreen-inverted-x;
+> +		touchscreen-inverted-y;
+> +		vdd-supply = <&reg_digitizer>;
+> +	};
+> +};
+> +
+>  &snvs_pwrkey {
+>  	status = "okay";
+>  };
+> @@ -117,6 +150,25 @@ &wdog1 {
+>  	fsl,ext-reset-output;
+>  };
+>  
+> +&iomuxc_lpsr {
+> +	pinctrl_digitizer_reg: digitizerreggrp {
+> +		fsl,pins = <
+> +			/* DIGITIZER_PWR_EN */
+> +			MX7D_PAD_LPSR_GPIO1_IO06__GPIO1_IO6	0x14
+> +		>;
+> +	};
+> +
+> +	pinctrl_wacom: wacomgrp {
+> +		fsl,pins = <
+> +			/*MX7D_PAD_LPSR_GPIO1_IO05__GPIO1_IO5	0x00000014 FWE */
+> +			MX7D_PAD_LPSR_GPIO1_IO04__GPIO1_IO4	0x00000074 /* PDCTB */
+> +			MX7D_PAD_LPSR_GPIO1_IO01__GPIO1_IO1	0x00000034 /* WACOM INT */
+> +			/*MX7D_PAD_LPSR_GPIO1_IO06__GPIO1_IO6	0x00000014 WACOM PWR ENABLE */
+> +			/*MX7D_PAD_LPSR_GPIO1_IO00__GPIO1_IO0	0x00000074 WACOM RESET */
+> +		>;
+> +	};
+> +};
+> +
+>  &iomuxc {
+>  	pinctrl_brcm_reg: brcmreggrp {
+>  		fsl,pins = <
+> @@ -125,6 +177,13 @@ MX7D_PAD_SAI1_TX_BCLK__GPIO6_IO13	0x14
+>  		>;
+>  	};
+>  
+> +	pinctrl_i2c1: i2c1grp {
+> +		fsl,pins = <
+> +			MX7D_PAD_I2C1_SDA__I2C1_SDA		0x4000007f
+> +			MX7D_PAD_I2C1_SCL__I2C1_SCL		0x4000007f
+> +		>;
+> +	};
+> +
+>  	pinctrl_uart1: uart1grp {
+>  		fsl,pins = <
+>  			MX7D_PAD_UART1_TX_DATA__UART1_DCE_TX	0x79
+> -- 
+> 2.31.1
+> 
