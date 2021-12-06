@@ -2,89 +2,189 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8D5646AE4F
-	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 00:17:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19BD946AE96
+	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 00:48:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351293AbhLFXUj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Dec 2021 18:20:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60238 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245463AbhLFXUi (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Dec 2021 18:20:38 -0500
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A585FC061746
-        for <linux-input@vger.kernel.org>; Mon,  6 Dec 2021 15:17:09 -0800 (PST)
-Received: by mail-il1-x12a.google.com with SMTP id i9so11907823ilu.1
-        for <linux-input@vger.kernel.org>; Mon, 06 Dec 2021 15:17:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Vm8GdCARQBzQb8w6JP72xJNdjEOS7+JFZhU7UA4rycE=;
-        b=LPIBnC+QJRQSKFsrkV1kHMmX5fEmdH+c8bWRNIT7SdJWmCPijyxt9x57JBlXJRaziD
-         haTH9G30Mq/u56uSuIJ6/JGEDfl8X6la1/ee5vMQu5cX+CzqslN/+efixVkfC7hHXChQ
-         /FeqSJbEyVG1qRYg00jxBWabgscwKUvf3B6FiKycJQQfLYz30HeNIlBvRMQhnWegvTA1
-         T9Jv+hYoBmBTtQiPTevO5HTKb/Rx0Z+HOZbLk/sudcvUPEzxdl5VeR0AGjQsMM6QHa8C
-         IAQL2dtd8vI0YEXj34ADkAIKlvpXfwLvPKbhUPVivP+p2jhSFNBWfDB88SK/jCi4eWWR
-         dsYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Vm8GdCARQBzQb8w6JP72xJNdjEOS7+JFZhU7UA4rycE=;
-        b=vctl5SIbvbAAk7JoIolvcVIO1wPlNtEcDK5Q7pxQdrIucHjjqh9tbZ7k/HkJqyWNET
-         YnxgYk+4hLbSe6Av5Xi17kTZV7opl1Vd5M7N+tjgo+7HuXNhTA8zqCCKmdWeIAkEKz5Q
-         CoPdtUeXaCbs/SSatBtAkwX0y00q0Qvde+q13VYEUcOO7U7r5HijylRh5+c6wOlz/11x
-         Ji1+jiFw1LDiz68nk0pRZZbC84WmNVN3qfFOcHwZP0o7Ygs4Immq2jUp3xMu3vd0iOH+
-         p9Vtm6+KbtP5Wt9EgpSOP2FRwWAo0cc9+Hhp489JWoCAKsmO5pXhi75v5iiO4KrQgjIm
-         nErQ==
-X-Gm-Message-State: AOAM530BymLLKLyM1EdMFGcIXyqd64upzgsVozW2vmjwnhX+9UTa5Ybf
-        Fwqb7IBUHrvjHl8p/RyE8KtIbAEczY1VaTVB
-X-Google-Smtp-Source: ABdhPJxSyI0mPYIBvSNI9eHXb5ILrt5bnQ6cRkbcQkRkeY4nzSmFSeu7J4ZXY/L6QzoCyUXwAuO7jQ==
-X-Received: by 2002:a05:6e02:1a81:: with SMTP id k1mr33180396ilv.291.1638832628722;
-        Mon, 06 Dec 2021 15:17:08 -0800 (PST)
-Received: from ruineka-amd-laptop.. (173-23-172-244.client.mchsi.com. [173.23.172.244])
-        by smtp.gmail.com with ESMTPSA id l3sm9101821ilv.37.2021.12.06.15.17.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 15:17:08 -0800 (PST)
-From:   Matthew Anderson <ruinairas1992@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     Matthew Anderson <ruinairas1992@gmail.com>
-Subject: [PATCH] Added device IDs for the OneXPlayer handheld to get the gamepad working.
-Date:   Mon,  6 Dec 2021 17:16:50 -0600
-Message-Id: <20211206231650.503680-1-ruinairas1992@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        id S230043AbhLFXv4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Dec 2021 18:51:56 -0500
+Received: from mga06.intel.com ([134.134.136.31]:63765 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1377492AbhLFXv4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 6 Dec 2021 18:51:56 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10190"; a="298234314"
+X-IronPort-AV: E=Sophos;i="5.87,292,1631602800"; 
+   d="scan'208";a="298234314"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2021 15:48:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,292,1631602800"; 
+   d="scan'208";a="611435632"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 06 Dec 2021 15:48:23 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1muNiZ-000LsT-28; Mon, 06 Dec 2021 23:48:23 +0000
+Date:   Tue, 7 Dec 2021 07:47:53 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Alistair Francis <alistair@alistair23.me>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc:     kbuild-all@lists.01.org, robh+dt@kernel.org, andreas@kemnade.info,
+        alistair23@gmail.com, dmitry.torokhov@gmail.com,
+        linus.walleij@linaro.org, rydberg@bitmath.org
+Subject: Re: [PATCH v3 1/4] Input: Add driver for Cypress Generation 5
+ touchscreen
+Message-ID: <202112070710.hut43Md3-lkp@intel.com>
+References: <20211202122021.43124-2-alistair@alistair23.me>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211202122021.43124-2-alistair@alistair23.me>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Signed-off-by: Matthew Anderson <ruinairas1992@gmail.com>
+Hi Alistair,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on linux/master]
+[also build test ERROR on robh/for-next linus/master v5.16-rc4 next-20211206]
+[cannot apply to dtor-input/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Alistair-Francis/Add-support-for-the-Cypress-cyttsp5/20211202-202300
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 136057256686de39cc3a07c2e39ef6bc43003ff6
+config: microblaze-randconfig-m031-20211207 (https://download.01.org/0day-ci/archive/20211207/202112070710.hut43Md3-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/737a89fa2dc4a337dea6a131b8b94fcc49fdcec5
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Alistair-Francis/Add-support-for-the-Cypress-cyttsp5/20211202-202300
+        git checkout 737a89fa2dc4a337dea6a131b8b94fcc49fdcec5
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=microblaze SHELL=/bin/bash drivers/input/touchscreen/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/input/touchscreen/cyttsp5.c: In function 'cyttsp5_probe':
+>> drivers/input/touchscreen/cyttsp5.c:931:26: error: implicit declaration of function 'devm_gpiod_get_optional'; did you mean 'devm_regulator_get_optional'? [-Werror=implicit-function-declaration]
+     931 |         ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~
+         |                          devm_regulator_get_optional
+>> drivers/input/touchscreen/cyttsp5.c:931:64: error: 'GPIOD_OUT_HIGH' undeclared (first use in this function); did you mean 'GPIOF_INIT_HIGH'?
+     931 |         ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+         |                                                                ^~~~~~~~~~~~~~
+         |                                                                GPIOF_INIT_HIGH
+   drivers/input/touchscreen/cyttsp5.c:931:64: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/input/touchscreen/cyttsp5.c:937:9: error: implicit declaration of function 'gpiod_set_value'; did you mean 'gpio_set_value'? [-Werror=implicit-function-declaration]
+     937 |         gpiod_set_value(ts->reset_gpio, 0);
+         |         ^~~~~~~~~~~~~~~
+         |         gpio_set_value
+   cc1: some warnings being treated as errors
+
+
+vim +931 drivers/input/touchscreen/cyttsp5.c
+
+   881	
+   882	static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
+   883				 const char *name)
+   884	{
+   885		struct cyttsp5 *ts;
+   886		struct cyttsp5_sysinfo *si;
+   887		int error, i;
+   888	
+   889		ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
+   890		if (!ts)
+   891			return -ENOMEM;
+   892	
+   893		/* Initialize device info */
+   894		ts->regmap = regmap;
+   895		ts->dev = dev;
+   896		si = &ts->sysinfo;
+   897		dev_set_drvdata(dev, ts);
+   898	
+   899		/* Initialize wait queue */
+   900		init_waitqueue_head(&ts->wait_q);
+   901	
+   902		/* Power up the device */
+   903		ts->vdd = regulator_get(dev, "vdd");
+   904		if (IS_ERR(ts->vdd)) {
+   905			error = PTR_ERR(ts->vdd);
+   906			dev_set_drvdata(dev, NULL);
+   907			kfree(ts);
+   908			return error;
+   909		}
+   910	
+   911		error = regulator_enable(ts->vdd);
+   912		if (error) {
+   913			regulator_put(ts->vdd);
+   914			dev_set_drvdata(dev, NULL);
+   915			kfree(ts);
+   916			return error;
+   917		}
+   918	
+   919		ts->input = devm_input_allocate_device(dev);
+   920		if (!ts->input) {
+   921			dev_err(dev, "Error, failed to allocate input device\n");
+   922			return -ENODEV;
+   923		}
+   924	
+   925		ts->input->name = "cyttsp5";
+   926		scnprintf(ts->phys, sizeof(ts->phys), "%s/input0", dev_name(dev));
+   927		ts->input->phys = ts->phys;
+   928		input_set_drvdata(ts->input, ts);
+   929	
+   930		/* Reset the gpio to be in a reset state */
+ > 931		ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+   932		if (IS_ERR(ts->reset_gpio)) {
+   933			error = PTR_ERR(ts->reset_gpio);
+   934			dev_err(dev, "Failed to request reset gpio, error %d\n", error);
+   935			return error;
+   936		}
+ > 937		gpiod_set_value(ts->reset_gpio, 0);
+   938	
+   939		/* Need a delay to have device up */
+   940		msleep(20);
+   941	
+   942		error = devm_request_threaded_irq(dev, irq, NULL, cyttsp5_handle_irq,
+   943					       IRQF_ONESHOT, name, ts);
+   944		if (error) {
+   945			dev_err(dev, "unable to request IRQ\n");
+   946			return error;
+   947		}
+   948	
+   949		error = cyttsp5_startup(ts);
+   950		if (error) {
+   951			dev_err(ts->dev, "Fail initial startup r=%d\n", error);
+   952			return error;
+   953		}
+   954	
+   955		error = cyttsp5_parse_dt_key_code(dev);
+   956		if (error < 0) {
+   957			dev_err(ts->dev, "Error while parsing dts %d\n", error);
+   958			return error;
+   959		}
+   960	
+   961		touchscreen_parse_properties(ts->input, true, &ts->prop);
+   962	
+   963		__set_bit(EV_KEY, ts->input->evbit);
+   964		for (i = 0; i < si->num_btns; i++)
+   965			__set_bit(si->key_code[i], ts->input->keybit);
+   966	
+   967		return cyttsp5_setup_input_device(dev);
+   968	}
+   969	
+
 ---
- drivers/input/joystick/xpad.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 4c914f75a902..362845f36592 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -337,6 +337,7 @@ static const struct xpad_device {
- 	{ 0x3285, 0x0607, "Nacon GC-100", 0, XTYPE_XBOX360 },
- 	{ 0x3767, 0x0101, "Fanatec Speedster 3 Forceshock Wheel", 0, XTYPE_XBOX },
- 	{ 0xffff, 0xffff, "Chinese-made Xbox Controller", 0, XTYPE_XBOX },
-+	{ 0x2563, 0x058d, "OneXPlayer Gamepad", 0, XTYPE_XBOX360 },
- 	{ 0x0000, 0x0000, "Generic X-Box pad", 0, XTYPE_UNKNOWN }
- };
- 
-@@ -453,6 +454,7 @@ static const struct usb_device_id xpad_table[] = {
- 	XPAD_XBOXONE_VENDOR(0x2e24),		/* Hyperkin Duke X-Box One pad */
- 	XPAD_XBOX360_VENDOR(0x2f24),		/* GameSir Controllers */
- 	XPAD_XBOX360_VENDOR(0x3285),		/* Nacon GC-100 */
-+	XPAD_XBOX360_VENDOR(0x2563),		/* OneXPlayer Gamepad */
- 	{ }
- };
- 
--- 
-2.30.2
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
