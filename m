@@ -2,158 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D9CFF468F7F
-	for <lists+linux-input@lfdr.de>; Mon,  6 Dec 2021 04:03:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7F974690E5
+	for <lists+linux-input@lfdr.de>; Mon,  6 Dec 2021 08:45:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235518AbhLFDHX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 5 Dec 2021 22:07:23 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:47182 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235402AbhLFDHX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Dec 2021 22:07:23 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 74413B80EE3;
-        Mon,  6 Dec 2021 03:03:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 911BFC00446;
-        Mon,  6 Dec 2021 03:03:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638759833;
-        bh=hqhG2Y9st+pVq0sURpovbuLgs/PcAjMH+0qgkDxyZBg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AfJdR9r58mmPGF44Jyo/fLSCKZx7fnFibjC0ElMOhr0sBOc+IiLPIHDUJBXZ2Bdy0
-         kCHYZmB3UOS8z3ZMb+RIuvKpZKnrHYn2WfwVMapUT1U/jMdILU+3462G0ye2w6y8DA
-         7zH11TQ0ICZ8UXYmxeMHRvcbRhJL/kuvcF0D+Yx0kRkRYle74FWAUNBbplDmdJ7xwk
-         fzaIFioLwPwVNS//xBR2TjjB1zVBIcgbARV9SA4Z10XpfNuNRtzvqmqFGGhuAiP3cK
-         nZ8bWWNSJ6QtSWMaAGCuHsKsw4JT3m7HErmSADYQHwFhE606IooH2n9+a3f3uAngNq
-         r5kyIh1NPaEWg==
-Date:   Mon, 6 Dec 2021 11:03:46 +0800
-From:   Shawn Guo <shawnguo@kernel.org>
-To:     Alistair Francis <alistair@alistair23.me>
-Cc:     benjamin.tissoires@redhat.com, s.hauer@pengutronix.de,
-        dmitry.torokhov@gmail.com, Ping.Cheng@wacom.com,
-        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-        alistair23@gmail.com, tatsunosuke.tobita@wacom.com,
-        linux-input@vger.kernel.org, Jason.Gerecke@wacom.com,
-        linux-kernel@vger.kernel.org, jikos@kernel.org,
-        martin.chen@wacom.com, devicetree@vger.kernel.org
-Subject: Re: [PATCH v15 3/3] ARM: dts: imx7d: remarkable2: add wacom
- digitizer device
-Message-ID: <20211206030343.GA4216@dragon>
-References: <20211202115622.40153-1-alistair@alistair23.me>
- <20211202115622.40153-4-alistair@alistair23.me>
+        id S238537AbhLFHsj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Dec 2021 02:48:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27039 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238503AbhLFHsi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 6 Dec 2021 02:48:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1638776709;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=0dKb0kOkklPwAp+HaAd/9ZIxbT61a1WHxt78m0N/Py0=;
+        b=CQVR7lmV51m3TW01e/hJJlZzQomLPTsBAdKIwlN4qub4DF3nW1UMrc+f4CdBfA4a7TIyvh
+        Y80XxOoig4lfKAsN/mKb7zSfNd604JV54M0RTq8wTTaKmMlQT7+Qy9h7SzMsErXF9zhOQU
+        5wMXAQgcugTblNzzC4ZlOu1pjDjWYZ4=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-96-eYXe9GTiOwWwltelKAxHpw-1; Mon, 06 Dec 2021 02:45:08 -0500
+X-MC-Unique: eYXe9GTiOwWwltelKAxHpw-1
+Received: by mail-pg1-f198.google.com with SMTP id s8-20020a63af48000000b002e6c10ac245so6202638pgo.21
+        for <linux-input@vger.kernel.org>; Sun, 05 Dec 2021 23:45:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0dKb0kOkklPwAp+HaAd/9ZIxbT61a1WHxt78m0N/Py0=;
+        b=D4MoFAclNt6wNXtDUqAWQD5xlny8HBO6E1nlblSFX964rHzVGiW1u+tAbLhkWKF9Vr
+         xcGW+XufKzoyGpmhDl0Xkb7P/SmHe2Abxkr7Y8swvWP+DmiyjOJN7B367f16pjD0DF+h
+         whO6YEDq/JDcqQh3qtvroCnojGN4XXxhvlMsi9g3K2OVEYUABws0A8UDRI0jdgXUsMLq
+         vjo/98TAQdnaPiCpj7z1JPVbilnQLacrG2OSh1vRYYsxd2Yl+o8izifJFght0ajOuwiz
+         gCLRfrv45x4RLKTzvRXKdRK1si8mBEg+Rv9vzpgmONPHH1gsdC1fexYO8GqDns0XU4O6
+         O4OA==
+X-Gm-Message-State: AOAM530lH1pXvCZMyvsQpS5QS9FGpxAF/vY9DVeC3V1Pa3XRS9x+l0dD
+        I9VAUPKhhYJ8fZma+FeQMS7P3BN17bUiInRnIpamQVRimsEEI+nHPo5mjQUS8+qx5tojLIW1xOO
+        zoKT/9Db+hpdxoNPKaX4O3nLQscoi9htJYJnY04A=
+X-Received: by 2002:a17:90b:1648:: with SMTP id il8mr34293726pjb.246.1638776707413;
+        Sun, 05 Dec 2021 23:45:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzJoSPn8ntMUaQBKWCcmnF08/27uwMa/Y6ogSQsJsFjqRB4wjHAvDr/qkY3QTQPlwpjTlXweyOmbZHTkhBa9dA=
+X-Received: by 2002:a17:90b:1648:: with SMTP id il8mr34293706pjb.246.1638776707237;
+ Sun, 05 Dec 2021 23:45:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211202115622.40153-4-alistair@alistair23.me>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20211203185928.821497-1-arnd@kernel.org>
+In-Reply-To: <20211203185928.821497-1-arnd@kernel.org>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 6 Dec 2021 08:44:56 +0100
+Message-ID: <CAO-hwJLsijqibqARiWP0tPnmSDnrPsxSXDsvkgTV0=R7kQ1oOQ@mail.gmail.com>
+Subject: Re: [PATCH] HID: prodikeys: add USB_HID dependency
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Jiri Kosina <jikos@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        "Daniel J. Ogorchock" <djogorchock@gmail.com>,
+        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Dec 02, 2021 at 09:56:22PM +1000, Alistair Francis wrote:
-> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+Hi Arnd,
 
-Please write up some commit log.
-
-Shawn
-
+On Fri, Dec 3, 2021 at 8:07 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> Like with the other drivers that recently got fixed, this one
+> fails to link if USB_HID is disabled or unreachable:
+>
+> ERROR: modpost: "usb_hid_driver" [drivers/hid/hid-prodikeys.ko] undefined!
+>
+> Fixes: f237d9028f84 ("HID: add USB_HID dependancy on some USB HID drivers")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  arch/arm/boot/dts/imx7d-remarkable2.dts | 59 +++++++++++++++++++++++++
->  1 file changed, 59 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/imx7d-remarkable2.dts b/arch/arm/boot/dts/imx7d-remarkable2.dts
-> index 89cbf13097a4..a2a91bfdd98e 100644
-> --- a/arch/arm/boot/dts/imx7d-remarkable2.dts
-> +++ b/arch/arm/boot/dts/imx7d-remarkable2.dts
-> @@ -34,6 +34,19 @@ reg_brcm: regulator-brcm {
->  		startup-delay-us = <150>;
->  	};
->  
-> +	reg_digitizer: regulator-digitizer {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "VDD_3V3_DIGITIZER";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		pinctrl-names = "default", "sleep";
-> +		pinctrl-0 = <&pinctrl_digitizer_reg>;
-> +		pinctrl-1 = <&pinctrl_digitizer_reg>;
-> +		gpio = <&gpio1 6 GPIO_ACTIVE_HIGH>;
-> +		enable-active-high;
-> +		startup-delay-us = <100000>; /* 100 ms */
-> +	};
-> +
->  	wifi_pwrseq: wifi_pwrseq {
->  		compatible = "mmc-pwrseq-simple";
->  		pinctrl-names = "default";
-> @@ -51,6 +64,26 @@ &clks {
->  	assigned-clock-rates = <0>, <32768>;
->  };
->  
-> +&i2c1 {
-> +	clock-frequency = <400000>;
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_i2c1>;
-> +	status = "okay";
-> +
-> +	wacom_digitizer: digitizer@9 {
-> +		compatible = "hid-over-i2c";
-> +		reg = <0x09>;
-> +		hid-descr-addr = <0x01>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&pinctrl_wacom>;
-> +		interrupt-parent = <&gpio1>;
-> +		interrupts = <1 IRQ_TYPE_LEVEL_LOW>;
-> +		touchscreen-inverted-x;
-> +		touchscreen-inverted-y;
-> +		vdd-supply = <&reg_digitizer>;
-> +	};
-> +};
-> +
->  &snvs_pwrkey {
->  	status = "okay";
->  };
-> @@ -117,6 +150,25 @@ &wdog1 {
->  	fsl,ext-reset-output;
->  };
->  
-> +&iomuxc_lpsr {
-> +	pinctrl_digitizer_reg: digitizerreggrp {
-> +		fsl,pins = <
-> +			/* DIGITIZER_PWR_EN */
-> +			MX7D_PAD_LPSR_GPIO1_IO06__GPIO1_IO6	0x14
-> +		>;
-> +	};
-> +
-> +	pinctrl_wacom: wacomgrp {
-> +		fsl,pins = <
-> +			/*MX7D_PAD_LPSR_GPIO1_IO05__GPIO1_IO5	0x00000014 FWE */
-> +			MX7D_PAD_LPSR_GPIO1_IO04__GPIO1_IO4	0x00000074 /* PDCTB */
-> +			MX7D_PAD_LPSR_GPIO1_IO01__GPIO1_IO1	0x00000034 /* WACOM INT */
-> +			/*MX7D_PAD_LPSR_GPIO1_IO06__GPIO1_IO6	0x00000014 WACOM PWR ENABLE */
-> +			/*MX7D_PAD_LPSR_GPIO1_IO00__GPIO1_IO0	0x00000074 WACOM RESET */
-> +		>;
-> +	};
-> +};
-> +
->  &iomuxc {
->  	pinctrl_brcm_reg: brcmreggrp {
->  		fsl,pins = <
-> @@ -125,6 +177,13 @@ MX7D_PAD_SAI1_TX_BCLK__GPIO6_IO13	0x14
->  		>;
->  	};
->  
-> +	pinctrl_i2c1: i2c1grp {
-> +		fsl,pins = <
-> +			MX7D_PAD_I2C1_SDA__I2C1_SDA		0x4000007f
-> +			MX7D_PAD_I2C1_SCL__I2C1_SCL		0x4000007f
-> +		>;
-> +	};
-> +
->  	pinctrl_uart1: uart1grp {
->  		fsl,pins = <
->  			MX7D_PAD_UART1_TX_DATA__UART1_DCE_TX	0x79
-> -- 
-> 2.31.1
-> 
+
+Looks like you already been beaten to it by Greg:
+https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?h=for-5.16/upstream-fixes&id=30cb3c2ad24b66fb7639a6d1f4390c74d6e68f94
+
+But thanks!
+
+Cheers,
+Benjamin
+
+>  drivers/hid/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index 74ce789f8636..48d18559670f 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -246,7 +246,7 @@ config HID_MACALLY
+>
+>  config HID_PRODIKEYS
+>         tristate "Prodikeys PC-MIDI Keyboard support"
+> -       depends on HID && SND
+> +       depends on USB_HID && SND
+>         select SND_RAWMIDI
+>         help
+>         Support for Prodikeys PC-MIDI Keyboard device support.
+> --
+> 2.29.2
+>
+
