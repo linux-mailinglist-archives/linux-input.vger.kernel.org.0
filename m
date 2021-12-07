@@ -2,84 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3123746B3CD
-	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 08:23:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C998B46B3E4
+	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 08:29:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229718AbhLGH04 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Dec 2021 02:26:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56350 "EHLO
+        id S230057AbhLGHdR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Dec 2021 02:33:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229710AbhLGH0x (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Dec 2021 02:26:53 -0500
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42036C061746;
-        Mon,  6 Dec 2021 23:23:23 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id m24so1381207pgn.7;
-        Mon, 06 Dec 2021 23:23:23 -0800 (PST)
+        with ESMTP id S229765AbhLGHdR (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Dec 2021 02:33:17 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84098C061746
+        for <linux-input@vger.kernel.org>; Mon,  6 Dec 2021 23:29:47 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id h24so9651171pjq.2
+        for <linux-input@vger.kernel.org>; Mon, 06 Dec 2021 23:29:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=zjS51En7n8gHrcWP/egVu3VHwRNlf0avUlOLs1QnapQ=;
-        b=BBpa3nWIrGZ1flMBMsERcvYMGG0rm6vSv0vllKB7Az0QXGmSCFHa/NKP1kfb7XF8cC
-         zXtjjOFBE1tbBC2GacT126muJ91Rlort9R+7UTaBNarmqYw5gBjaOWXG3mZctZmzoLrs
-         oDAZuIZE8nus4KMMJIbPRaQaEec0yU41JwZ+EA8oaBcn+6onV7XE+Z0ZSZH29fZHbYB2
-         KORI0/InWX4G+gCBwQInk4YEzHencJtw+aw2pkVHh1dYiR2eYg/IGU61D69kEaCGe4n7
-         tP/8FvM1/JcF0K9/h9vIPCtyQvXuQ6Mb0EfJonmAuO6VBaAjkvGB7uhYhUnrZmEiH1eB
-         fp5A==
+        bh=CVZBYPlBQBtdrAGgdx4kWlClTmpMkFGMwQqfZI4FrTs=;
+        b=Ic/4cY4Y+i9FKSC1bCxyBWppKADXZv7YFwSCGuRgMJHkygXS5ICiUuRbCPx9rFBUoM
+         TPCcnm0gYGsFkRzFJtk91swTB+cG9U+Bih2ETt4hTzpoAUyoqJVlFr/1HBWXRaXSZIg2
+         9kRbSAIjjAUwCixr+SjGvazgtC7b08+ciUYnG6aJJRI9oDHVXPF9aVNlvBYZ7uvX2G6J
+         5aY/1T1nXd3yh/lI9PSrzYrNZaooIp8Cuf3DZGkUdNoKGm+KgwiAwQMgp/sOvDDagFRq
+         eGmNFMsezT+cGDg4cLyUsrV46EtnSO2Ir5bWSeehUlnwM7BPhIi3rKw/0xNBD6Vv0JEt
+         HDPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=zjS51En7n8gHrcWP/egVu3VHwRNlf0avUlOLs1QnapQ=;
-        b=IGkr6tAMzirjfma26ZOxwMxjNLW/Yqo8MRPCWQ1YVN0FIHURlF1oqNz7h7mr/nrmPJ
-         aeSlHxl5M+SzNsDHSwXYqzabPI8MaHJv9N2275aoDO9BINjEywvib0Dzo6nsx7Oh2nvM
-         E/3L4qU/sT24yOW0b2qBlthmzTtk71rHACi0YT3KVZg8MypqjiABzPmG9ydjcNjUxVk3
-         /hIgyFYnJUEFLnVJwct7Lph+O+napVXFf9nmLgZYqC6ICo5Hvc9mrOOU6zFuR3rTATL7
-         /+pju1ngNOKF5/yTaZxqe097WnZP2OUEr0zdlSxOMr3LVVI2z5fVANFL2+2I8j0dUT1b
-         Trog==
-X-Gm-Message-State: AOAM530fNAQJWkiclLCMnk6J0d9A/IdwyWjTLJdnv/pBh4jxYsGvI/rh
-        wiZq64cbVKjZTJ3wgnUzB45I5lBf8n4=
-X-Google-Smtp-Source: ABdhPJzL9q+yGpYrRF8Wlz/n+/OmUlhngRHFwepBpr2M2lbOC8TLhwTXT95fYaZI9C+bSuT2fdB2rQ==
-X-Received: by 2002:a63:6cc2:: with SMTP id h185mr23717412pgc.306.1638861802664;
-        Mon, 06 Dec 2021 23:23:22 -0800 (PST)
+        bh=CVZBYPlBQBtdrAGgdx4kWlClTmpMkFGMwQqfZI4FrTs=;
+        b=TMfPJgY6aqCSU09SGfDYu67qCA+7cgjtpo0/eIyiBuGU7Fq1LAOCvNJqD7XHKdLHJM
+         GOyRyBtjyRqFMMAxQYc/OnsUFFwOU7zcYZ5KLAeLdiiTGmyxbHBGyzqT4Hg6tQGIZRuP
+         sR1HQVUM8K/44q2FWqqPRkC2I6Qj6jt8IHPRZJsuR2WysA/4ko/gus8rRs5O9ocT2UuI
+         fgy5XHIslCMpI4V39L/1fD66PFYM5/Wv4xkJkp8xRAjCpHFfHAQAdkyDnT0vlloeVx9h
+         U7lqSUAAl9y6HKgMUOfRkDE6YzmxFdPQZlk3eZqry8xUDFCnxk8YCZcGFzkJI2KS3ptO
+         fAcA==
+X-Gm-Message-State: AOAM5333t1wtL9lrnaq8Tllgm/xZnQqPQIPTZbFY1QQIc+8qnq9+VTwh
+        Dbfj9FDPzxphzMJGs0htwMnGCpSsDCU=
+X-Google-Smtp-Source: ABdhPJxQVWKK/ligdnhZNEw6elcQD31d4ymUq/XqIhaASBv1yWYuFoH3geVw2eFUElRbKxvavbbHVQ==
+X-Received: by 2002:a17:90b:124d:: with SMTP id gx13mr4632126pjb.106.1638862186972;
+        Mon, 06 Dec 2021 23:29:46 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:25b0:d110:b844:ea00])
-        by smtp.gmail.com with ESMTPSA id g18sm14527030pfb.103.2021.12.06.23.23.21
+        by smtp.gmail.com with ESMTPSA id d12sm15611931pfu.91.2021.12.06.23.29.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 23:23:21 -0800 (PST)
-Date:   Mon, 6 Dec 2021 23:23:19 -0800
+        Mon, 06 Dec 2021 23:29:46 -0800 (PST)
+Date:   Mon, 6 Dec 2021 23:29:43 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc:     linux-input@vger.kernel.org, patches@opensource.cirrus.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: ff-core - Correct magnitude setting for rumble
- compatibility
-Message-ID: <Ya8L5x7cL5GKmL0y@google.com>
-References: <20211130135039.13726-1-ckeepax@opensource.cirrus.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
+Subject: Re: [PATCH 1/4] Input: goodix - Add id->model mapping for the "9111"
+ model
+Message-ID: <Ya8NZ3R5AZt7+a1Y@google.com>
+References: <20211206164747.197309-1-hdegoede@redhat.com>
+ <20211206164747.197309-2-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211130135039.13726-1-ckeepax@opensource.cirrus.com>
+In-Reply-To: <20211206164747.197309-2-hdegoede@redhat.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Nov 30, 2021 at 01:50:39PM +0000, Charles Keepax wrote:
-> When converting a rumble into a periodic effect, for compatibility,
-> the magnitude is effectively calculated using:
+On Mon, Dec 06, 2021 at 05:47:44PM +0100, Hans de Goede wrote:
+> Add d->model mapping for the "9111" model, this fixes uses using
+> a wrong config_len of 240 bytes while the "9111" model uses
+> only 186 bytes of config.
 > 
-> magnitude = max(strong_rubble / 3 + weak_rubble / 6, 0x7fff);
-> 
-> The rumble magnitudes are both u16 and the resulting magnitude is
-> s16. The max is presumably an attempt to limit the result of the
-> calculation to the maximum possible magnitude for the s16 result,
-> and thus should be a min.
-> 
-> However in the case of strong = weak = 0xffff, the result of the first
-> part of the calculation is 0x7fff, meaning that the min would be
-> redundant anyway, so simply remove the current max.
-> 
-> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
 Applied, thank you.
 
