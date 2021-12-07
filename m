@@ -2,301 +2,261 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A01446C21E
-	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 18:50:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DA8046C617
+	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 22:05:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240187AbhLGRyG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Dec 2021 12:54:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37340 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240180AbhLGRyG (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Dec 2021 12:54:06 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1635C061574
-        for <linux-input@vger.kernel.org>; Tue,  7 Dec 2021 09:50:35 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id np3so29049pjb.4
-        for <linux-input@vger.kernel.org>; Tue, 07 Dec 2021 09:50:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xMNTKIQszHFbXUKwq72VNL0JX+EwjepHXW8gG/8mKyk=;
-        b=MYvbh8hKFnhSqMpa0PsdSEfAA+HnMqwW3Rwk5Sd0DL2cngJRIz0zeYUMKkXJLZnuUG
-         NMSAyZoowXGOgjSL9l7hmG5j+AOL0SAfVEZkNiT62mC9IjYxqG3P9h7qaSTYajrE/KYB
-         9qx7DNSCXxzgHVspzNtwFxODD+KYh+PDhPINucdC5JI7jXF2jmWyH1H2pT4OIlOzzxky
-         v0yFSbJzrvUBN+RrK7Ugv5LXCDbunOn7t9V1pHJ9lSl+0i97oMOVUIh560QSWJz+bmSj
-         reX9a7VqacRDXayjYEpCPyWqmh9Oal1LpcBuuPTJOGFt7fdEHYDs+YmbIBIGstdICdcv
-         Eq3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xMNTKIQszHFbXUKwq72VNL0JX+EwjepHXW8gG/8mKyk=;
-        b=tJ17rUxefk6Na8F6t5IoBCyFt2MFfa4ZOrEI3sae++LXPomFFAVDYbWhIi6g2opL9p
-         FZCs+x9vFzMzQWOVkW6DWHRUhRHZ1igy6NAnOUPhxDjl6AB1XJbkoZKlaE877Rg9OuBT
-         8HMzO22pv9HXRqbcXsPvLxDWnbNuVmWvewBOBaAWcxHMg2kOYrbOd1chKfxNbxEHGyTG
-         40ewWM4XH4iq9JupAvlw5uayu2rQ9oANmP9QqgnkHs4ThZiyVT8svJ67cM7y7RiFN+VL
-         uL5DFL6a37M2MjmTKGQb4thAD42u6U2gHovjKQbLq7O+MaybNT060DFNPIPjA/Qh1V1j
-         Xz+w==
-X-Gm-Message-State: AOAM530jBU2LujL+ZLom1Yv5eb9ccCFz/Mo9bjKwu2iSaP15Xm9Tmwto
-        4XiLCtomF0oCTnPwe+IWkBe//upW5CA=
-X-Google-Smtp-Source: ABdhPJw9cVrHZ3wUy9cuaWfvEBuV83rCzQ7JEPNeA7dbuYuaR3FKYR9GzQGoNA/+GXTZWO41wY6LHg==
-X-Received: by 2002:a17:903:185:b0:141:f5f3:dae with SMTP id z5-20020a170903018500b00141f5f30daemr53250557plg.56.1638899435120;
-        Tue, 07 Dec 2021 09:50:35 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:b77e:2967:5c50:8e5c])
-        by smtp.gmail.com with ESMTPSA id a1sm384843pfv.99.2021.12.07.09.50.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Dec 2021 09:50:33 -0800 (PST)
-Date:   Tue, 7 Dec 2021 09:50:31 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
-Subject: Re: [PATCH 4/4] Input: goodix - Add pen support
-Message-ID: <Ya+e5+TLgyLeTnhp@google.com>
-References: <20211206164747.197309-1-hdegoede@redhat.com>
- <20211206164747.197309-5-hdegoede@redhat.com>
+        id S238249AbhLGVJU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Dec 2021 16:09:20 -0500
+Received: from mga07.intel.com ([134.134.136.100]:55291 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238370AbhLGVJG (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 7 Dec 2021 16:09:06 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10191"; a="301069993"
+X-IronPort-AV: E=Sophos;i="5.87,295,1631602800"; 
+   d="scan'208";a="301069993"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2021 13:05:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,295,1631602800"; 
+   d="scan'208";a="479664206"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 07 Dec 2021 13:05:14 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1muheD-000MyP-L5; Tue, 07 Dec 2021 21:05:13 +0000
+Date:   Wed, 08 Dec 2021 05:04:41 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 81e818869be522bc8fa6f7df1b92d7e76537926c
+Message-ID: <61afcc69.L2P1UFvf2C/1QBk8%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211206164747.197309-5-hdegoede@redhat.com>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Dec 06, 2021 at 05:47:47PM +0100, Hans de Goede wrote:
-> Some Goodix touchscreens have support for a (Goodix) active pen, add
-> support for this. The info on how to detect when a pen is down and to
-> detect when the stylus buttons are pressed was lifted from the out
-> of tree Goodix driver with pen support written by Adya:
-> https://gitlab.com/AdyaAdya/goodix-touchscreen-linux-driver/
-> 
-> Since there is no way to tell if pen support is present, the registering
-> of the pen input_dev is delayed till the first pen event is detected.
-> 
-> This has been tested on a Trekstor Surftab duo W1, a Chuwi Hi13 and
-> a Cyberbook T116 tablet.
-> 
-> Link: https://gitlab.com/AdyaAdya/goodix-touchscreen-linux-driver/
-> BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=202161
-> BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=204513
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/input/touchscreen/goodix.c | 122 ++++++++++++++++++++++++++++-
->  drivers/input/touchscreen/goodix.h |   1 +
->  2 files changed, 121 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-> index 2d38a941e7e4..691e4505cf4a 100644
-> --- a/drivers/input/touchscreen/goodix.c
-> +++ b/drivers/input/touchscreen/goodix.c
-> @@ -298,6 +298,107 @@ static int goodix_ts_read_input_report(struct goodix_ts_data *ts, u8 *data)
->  	return -ENOMSG;
->  }
->  
-> +static struct input_dev *goodix_create_pen_input(struct goodix_ts_data *ts)
-> +{
-> +	struct device *dev = &ts->client->dev;
-> +	struct input_dev *input;
-> +
-> +	input = devm_input_allocate_device(dev);
-> +	if (!input)
-> +		return NULL;
-> +
-> +	input_alloc_absinfo(input);
-> +	if (!input->absinfo) {
-> +		input_free_device(input);
-> +		return NULL;
-> +	}
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 81e818869be522bc8fa6f7df1b92d7e76537926c  Input: goodix - add id->model mapping for the "9111" model
 
-Please drop this as input_abs_set_max() will do allocation and
-input_register_device() will reject device with ABS_* events without
-absinfo allocated.
+elapsed time: 722m
 
-> +
-> +	input->absinfo[ABS_X] = ts->input_dev->absinfo[ABS_MT_POSITION_X];
+configs tested: 201
+configs skipped: 3
 
-	input_abs_set_max(input, ABS_X,
-		input_abs_get_max(input, ABS_MT_POSITION_X);
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-or even maybe
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20211207
+sparc                            allyesconfig
+arm                         axm55xx_defconfig
+sh                         microdev_defconfig
+mips                     loongson1c_defconfig
+s390                             allmodconfig
+sh                     sh7710voipgw_defconfig
+powerpc                  iss476-smp_defconfig
+arm                       omap2plus_defconfig
+sh                             sh03_defconfig
+arm                       cns3420vb_defconfig
+mips                           rs90_defconfig
+powerpc                     skiroot_defconfig
+sh                                  defconfig
+m68k                             alldefconfig
+arc                           tb10x_defconfig
+arm                           tegra_defconfig
+powerpc                 mpc837x_rdb_defconfig
+powerpc                 mpc836x_rdk_defconfig
+m68k                            q40_defconfig
+riscv                            alldefconfig
+arm                           u8500_defconfig
+mips                        workpad_defconfig
+m68k                        m5307c3_defconfig
+m68k                         apollo_defconfig
+m68k                          atari_defconfig
+arm                       multi_v4t_defconfig
+xtensa                  nommu_kc705_defconfig
+h8300                            allyesconfig
+h8300                     edosk2674_defconfig
+mips                      maltasmvp_defconfig
+nds32                            alldefconfig
+powerpc                     redwood_defconfig
+sh                          sdk7786_defconfig
+arm                           h5000_defconfig
+powerpc                mpc7448_hpc2_defconfig
+powerpc                     ppa8548_defconfig
+mips                      malta_kvm_defconfig
+riscv                    nommu_virt_defconfig
+powerpc                     taishan_defconfig
+arm                          iop32x_defconfig
+arm                         mv78xx0_defconfig
+arc                     nsimosci_hs_defconfig
+arm                         bcm2835_defconfig
+sh                        apsh4ad0a_defconfig
+arm                         vf610m4_defconfig
+sh                          lboxre2_defconfig
+sh                           se7705_defconfig
+mips                           xway_defconfig
+powerpc                      cm5200_defconfig
+sparc64                             defconfig
+powerpc                         wii_defconfig
+mips                          rm200_defconfig
+mips                        maltaup_defconfig
+mips                          ath79_defconfig
+arm                         lpc32xx_defconfig
+h8300                    h8300h-sim_defconfig
+sh                   rts7751r2dplus_defconfig
+powerpc                   motionpro_defconfig
+parisc                           alldefconfig
+arm                           h3600_defconfig
+mips                      loongson3_defconfig
+sh                  sh7785lcr_32bit_defconfig
+mips                           ip22_defconfig
+arm                        shmobile_defconfig
+powerpc                 mpc8313_rdb_defconfig
+arm                       imx_v4_v5_defconfig
+arm                           sama7_defconfig
+arm                           omap1_defconfig
+powerpc                       holly_defconfig
+arm                      pxa255-idp_defconfig
+openrisc                         alldefconfig
+powerpc                   lite5200b_defconfig
+mips                         mpc30x_defconfig
+powerpc                 xes_mpc85xx_defconfig
+parisc                generic-64bit_defconfig
+m68k                       bvme6000_defconfig
+sh                              ul2_defconfig
+arc                         haps_hs_defconfig
+sparc                            alldefconfig
+arm                         s5pv210_defconfig
+powerpc                     stx_gp3_defconfig
+riscv             nommu_k210_sdcard_defconfig
+sh                         ecovec24_defconfig
+arm                         orion5x_defconfig
+sh                           se7780_defconfig
+xtensa                generic_kc705_defconfig
+arm                        mvebu_v7_defconfig
+xtensa                  audio_kc705_defconfig
+powerpc                    ge_imp3a_defconfig
+sh                             espt_defconfig
+powerpc                   microwatt_defconfig
+mips                         tb0226_defconfig
+arm                          pxa910_defconfig
+powerpc                     pq2fads_defconfig
+mips                        omega2p_defconfig
+arm                        keystone_defconfig
+arm                        cerfcube_defconfig
+mips                     decstation_defconfig
+powerpc                        fsp2_defconfig
+powerpc                 mpc836x_mds_defconfig
+powerpc                     powernv_defconfig
+arc                      axs103_smp_defconfig
+mips                     cu1000-neo_defconfig
+arm                  colibri_pxa270_defconfig
+sh                           se7722_defconfig
+arm                          moxart_defconfig
+nds32                             allnoconfig
+powerpc                     tqm8548_defconfig
+sh                        sh7757lcr_defconfig
+mips                  cavium_octeon_defconfig
+mips                           mtx1_defconfig
+sh                   sh7770_generic_defconfig
+alpha                               defconfig
+arm                      jornada720_defconfig
+sh                 kfr2r09-romimage_defconfig
+arm                         at91_dt_defconfig
+sparc                               defconfig
+mips                       rbtx49xx_defconfig
+arm                  randconfig-c002-20211207
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a006-20211207
+x86_64               randconfig-a005-20211207
+x86_64               randconfig-a001-20211207
+x86_64               randconfig-a002-20211207
+x86_64               randconfig-a004-20211207
+x86_64               randconfig-a003-20211207
+i386                 randconfig-a001-20211207
+i386                 randconfig-a005-20211207
+i386                 randconfig-a002-20211207
+i386                 randconfig-a003-20211207
+i386                 randconfig-a006-20211207
+i386                 randconfig-a004-20211207
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+um                            kunit_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
 
-	input_set_abs_params(input, ABS_X,
-		0, input_abs_get_max(input, ABS_MT_POSITION_X), 0, 0);
+clang tested configs:
+x86_64               randconfig-c007-20211207
+arm                  randconfig-c002-20211207
+riscv                randconfig-c006-20211207
+mips                 randconfig-c004-20211207
+i386                 randconfig-c001-20211207
+powerpc              randconfig-c003-20211207
+s390                 randconfig-c005-20211207
+x86_64               randconfig-a016-20211207
+x86_64               randconfig-a011-20211207
+x86_64               randconfig-a013-20211207
+x86_64               randconfig-a014-20211207
+x86_64               randconfig-a015-20211207
+x86_64               randconfig-a012-20211207
+i386                 randconfig-a016-20211207
+i386                 randconfig-a013-20211207
+i386                 randconfig-a011-20211207
+i386                 randconfig-a014-20211207
+i386                 randconfig-a012-20211207
+i386                 randconfig-a015-20211207
+hexagon              randconfig-r045-20211207
+s390                 randconfig-r044-20211207
+riscv                randconfig-r042-20211207
+hexagon              randconfig-r041-20211207
 
-
-> +	input->absinfo[ABS_Y] = ts->input_dev->absinfo[ABS_MT_POSITION_Y];
-> +	__set_bit(ABS_X, input->absbit);
-> +	__set_bit(ABS_Y, input->absbit);
-
-This might not be needed, depending...
-
-> +	input_set_abs_params(input, ABS_PRESSURE, 0, 255, 0, 0);
-> +
-> +	input_set_capability(input, EV_KEY, BTN_TOUCH);
-> +	input_set_capability(input, EV_KEY, BTN_TOOL_PEN);
-> +	input_set_capability(input, EV_KEY, BTN_STYLUS);
-> +	input_set_capability(input, EV_KEY, BTN_STYLUS2);
-> +	__set_bit(INPUT_PROP_DIRECT, input->propbit);
-> +	/*
-> +	 * The resolution of these touchscreens is about 10 units/mm, the actual
-> +	 * resolution does not matter much since we set INPUT_PROP_DIRECT.
-> +	 * Userspace wants something here though, so just set it to 10 units/mm.
-> +	 */
-> +	input_abs_set_res(input, ABS_X, 10);
-> +	input_abs_set_res(input, ABS_Y, 10);
-
-Could it be moved next to setting up axes?
-
-> +
-> +	input->name = "Goodix Active Pen";
-> +	input->phys = "input/pen";
-> +	input->id.bustype = BUS_I2C;
-> +	if (kstrtou16(ts->id, 10, &input->id.product))
-> +		input->id.product = 0x1001;
-> +	input->id.version = ts->version;
-> +
-> +	if (input_register_device(input) != 0) {
-> +		input_free_device(input);
-
-Warrants a comment on why we need to free devm.
-
-Is it going to be safely destroyed on removal? It is likely to happen
-very first thing, before we deal with interrupts, etc.
-
-
-> +		return NULL;
-> +	}
-> +
-> +	return input;
-> +}
-> +
-> +static void goodix_ts_report_pen_down(struct goodix_ts_data *ts, u8 *data)
-> +{
-> +	int input_x, input_y, input_w;
-> +	u8 key_value;
-> +
-> +	if (!ts->input_pen) {
-> +		ts->input_pen = goodix_create_pen_input(ts);
-> +		if (!ts->input_pen)
-> +			return;
-> +	}
-> +
-> +	if (ts->contact_size == 9) {
-> +		input_x = get_unaligned_le16(&data[4]);
-> +		input_y = get_unaligned_le16(&data[6]);
-> +		input_w = get_unaligned_le16(&data[8]);
-> +	} else {
-> +		input_x = get_unaligned_le16(&data[2]);
-> +		input_y = get_unaligned_le16(&data[4]);
-> +		input_w = get_unaligned_le16(&data[6]);
-> +	}
-> +
-> +	touchscreen_report_pos(ts->input_pen, &ts->prop, input_x, input_y, false);
-> +	input_report_abs(ts->input_pen, ABS_PRESSURE, input_w);
-> +
-> +	input_report_key(ts->input_pen, BTN_TOUCH, 1);
-> +	input_report_key(ts->input_pen, BTN_TOOL_PEN, 1);
-> +
-> +	if (data[0] & GOODIX_HAVE_KEY) {
-> +		key_value = data[1 + ts->contact_size];
-> +		input_report_key(ts->input_pen, BTN_STYLUS, key_value & 0x10);
-> +		input_report_key(ts->input_pen, BTN_STYLUS2, key_value & 0x20);
-
-Use BIT?
-
-> +	} else {
-> +		input_report_key(ts->input_pen, BTN_STYLUS, 0);
-> +		input_report_key(ts->input_pen, BTN_STYLUS2, 0);
-> +	}
-> +
-> +	input_sync(ts->input_pen);
-> +}
-> +
-> +static void goodix_ts_report_pen_up(struct goodix_ts_data *ts)
-> +{
-> +	if (!ts->input_pen)
-> +		return;
-> +
-> +	input_report_key(ts->input_pen, BTN_TOUCH, 0);
-> +	input_report_key(ts->input_pen, BTN_TOOL_PEN, 0);
-> +	input_report_key(ts->input_pen, BTN_STYLUS, 0);
-> +	input_report_key(ts->input_pen, BTN_STYLUS2, 0);
-> +
-> +	input_sync(ts->input_pen);
-> +}
-> +
->  static void goodix_ts_report_touch_8b(struct goodix_ts_data *ts, u8 *coor_data)
->  {
->  	int id = coor_data[0] & 0x0F;
-> @@ -328,6 +429,14 @@ static void goodix_ts_report_touch_9b(struct goodix_ts_data *ts, u8 *coor_data)
->  	input_report_abs(ts->input_dev, ABS_MT_WIDTH_MAJOR, input_w);
->  }
->  
-> +static void goodix_ts_release_keys(struct goodix_ts_data *ts)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < GOODIX_MAX_KEYS; i++)
-> +		input_report_key(ts->input_dev, ts->keymap[i], 0);
-> +}
-> +
->  static void goodix_ts_report_key(struct goodix_ts_data *ts, u8 *data)
->  {
->  	int touch_num;
-> @@ -342,8 +451,7 @@ static void goodix_ts_report_key(struct goodix_ts_data *ts, u8 *data)
->  				input_report_key(ts->input_dev,
->  						 ts->keymap[i], 1);
->  	} else {
-> -		for (i = 0; i < GOODIX_MAX_KEYS; i++)
-> -			input_report_key(ts->input_dev, ts->keymap[i], 0);
-> +		goodix_ts_release_keys(ts);
->  	}
->  }
->  
-> @@ -365,6 +473,15 @@ static void goodix_process_events(struct goodix_ts_data *ts)
->  	if (touch_num < 0)
->  		return;
->  
-> +	/* The pen being down is always reported as a single touch */
-> +	if (touch_num == 1 && (point_data[1] & 0x80)) {
-> +		goodix_ts_report_pen_down(ts, point_data);
-> +		goodix_ts_release_keys(ts);
-> +		goto sync; /* Release any previousle registered touches */
-> +	} else {
-
-Not sure why we need else with goto...
-
-> +		goodix_ts_report_pen_up(ts);
-> +	}
-> +
->  	goodix_ts_report_key(ts, point_data);
->  
->  	for (i = 0; i < touch_num; i++)
-> @@ -375,6 +492,7 @@ static void goodix_process_events(struct goodix_ts_data *ts)
->  			goodix_ts_report_touch_8b(ts,
->  				&point_data[1 + ts->contact_size * i]);
->  
-> +sync:
->  	input_mt_sync_frame(ts->input_dev);
->  	input_sync(ts->input_dev);
->  }
-> diff --git a/drivers/input/touchscreen/goodix.h b/drivers/input/touchscreen/goodix.h
-> index 02065d1c3263..fa8602e78a64 100644
-> --- a/drivers/input/touchscreen/goodix.h
-> +++ b/drivers/input/touchscreen/goodix.h
-> @@ -76,6 +76,7 @@ struct goodix_chip_data {
->  struct goodix_ts_data {
->  	struct i2c_client *client;
->  	struct input_dev *input_dev;
-> +	struct input_dev *input_pen;
->  	const struct goodix_chip_data *chip;
->  	const char *firmware_name;
->  	struct touchscreen_properties prop;
-> -- 
-> 2.33.1
-> 
-
-Thanks.
-
--- 
-Dmitry
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
