@@ -2,210 +2,261 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80AD846C675
-	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 22:12:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5ABD46C697
+	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 22:19:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241699AbhLGVQ1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Dec 2021 16:16:27 -0500
-Received: from mail-oo1-f53.google.com ([209.85.161.53]:36378 "EHLO
-        mail-oo1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241674AbhLGVQ1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Dec 2021 16:16:27 -0500
-Received: by mail-oo1-f53.google.com with SMTP id g11-20020a4a754b000000b002c679a02b18so150808oof.3;
-        Tue, 07 Dec 2021 13:12:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=eo21eWMJN2rAZ8++LaOblIQsug85M+gQqpl2yK+WXkc=;
-        b=eU//mVAAFa68im6fi3kaxrc5iw2/bTHpiduVWcFNbSwioN6X5gttzt0CasnKzaLD8/
-         mpyosxrSK/ZUf+revY6kEs5Dga6OdlXsTqdia9qe2H8dG3sGbsPRPrk9EQ/gm8yw0wJQ
-         1DJVcWhUrJ1l+0VSEkAzdWyuDvC2JVFA+AtYXla1WV0XRrSfi55UGlX30Ca0E8zZ2CHt
-         QLw4PSjRj8boI6moES9ADO2teNgOl0K/r0xh6DqVEB0fbLnnUI8CnWcUe7VcBCYUHnln
-         iCcZ03uG6PaPu2JeZMBPvWNT7Za7sAZKGr4ShIdrF0joB6a5gxbaWVmhnCFDZ4ce/IJM
-         b0PA==
-X-Gm-Message-State: AOAM530bFgoowAIOc8+uz/JoauCnXzDJ/fwRed4njm0nM3K7RHyc7QCt
-        kcWPY/XI3jktgEEnIjWN0w==
-X-Google-Smtp-Source: ABdhPJzITAt2Uteo8b4ECbO9D7wITz3gthziIwEy57cAREbwksMIjJf2ZMfadsjoEfS3ebc9LabV/g==
-X-Received: by 2002:a4a:af02:: with SMTP id w2mr28825840oon.7.1638911575927;
-        Tue, 07 Dec 2021 13:12:55 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id l6sm138044otu.12.2021.12.07.13.12.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Dec 2021 13:12:55 -0800 (PST)
-Received: (nullmailer pid 839945 invoked by uid 1000);
-        Tue, 07 Dec 2021 21:12:54 -0000
-Date:   Tue, 7 Dec 2021 15:12:54 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     David Heidelberg <david@ixit.cz>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        ~okias/devicetree@lists.sr.ht, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: input: pwm-vibrator: Convert txt bindings
- to yaml
-Message-ID: <Ya/OVqLj5gbkBpuj@robh.at.kernel.org>
-References: <20211127130941.38684-1-david@ixit.cz>
+        id S232518AbhLGVWr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Dec 2021 16:22:47 -0500
+Received: from mga03.intel.com ([134.134.136.65]:27365 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235125AbhLGVWr (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 7 Dec 2021 16:22:47 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10191"; a="237632469"
+X-IronPort-AV: E=Sophos;i="5.87,295,1631602800"; 
+   d="scan'208";a="237632469"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2021 13:19:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,295,1631602800"; 
+   d="scan'208";a="563827271"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 07 Dec 2021 13:19:14 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1muhrm-000MzK-5i; Tue, 07 Dec 2021 21:19:14 +0000
+Date:   Wed, 08 Dec 2021 05:18:50 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:master] BUILD SUCCESS
+ 8c374ef45416281c7172dc29ed438dfb445795f1
+Message-ID: <61afcfba.fVXnCVlLn0do1QO2%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211127130941.38684-1-david@ixit.cz>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Nov 27, 2021 at 02:09:40PM +0100, David Heidelberg wrote:
-> Converts txt binding to new YAML format and simplify example.
-> 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
->  .../bindings/input/pwm-vibrator.txt           | 66 -------------------
->  .../bindings/input/pwm-vibrator.yaml          | 59 +++++++++++++++++
->  2 files changed, 59 insertions(+), 66 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/pwm-vibrator.txt
->  create mode 100644 Documentation/devicetree/bindings/input/pwm-vibrator.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/pwm-vibrator.txt b/Documentation/devicetree/bindings/input/pwm-vibrator.txt
-> deleted file mode 100644
-> index 88c775a3fe21..000000000000
-> --- a/Documentation/devicetree/bindings/input/pwm-vibrator.txt
-> +++ /dev/null
-> @@ -1,66 +0,0 @@
-> -* PWM vibrator device tree bindings
-> -
-> -Registers a PWM device as vibrator. It is expected, that the vibrator's
-> -strength increases based on the duty cycle of the enable PWM channel
-> -(100% duty cycle meaning strongest vibration, 0% meaning no vibration).
-> -
-> -The binding supports an optional direction PWM channel, that can be
-> -driven at fixed duty cycle. If available this is can be used to increase
-> -the vibration effect of some devices.
-> -
-> -Required properties:
-> -- compatible: should contain "pwm-vibrator"
-> -- pwm-names: Should contain "enable" and optionally "direction"
-> -- pwms: Should contain a PWM handle for each entry in pwm-names
-> -
-> -Optional properties:
-> -- vcc-supply: Phandle for the regulator supplying power
-> -- direction-duty-cycle-ns: Duty cycle of the direction PWM channel in
-> -                           nanoseconds, defaults to 50% of the channel's
-> -			   period.
-> -
-> -Example from Motorola Droid 4:
-> -
-> -&omap4_pmx_core {
-> -	vibrator_direction_pin: pinmux_vibrator_direction_pin {
-> -		pinctrl-single,pins = <
-> -		OMAP4_IOPAD(0x1ce, PIN_OUTPUT | MUX_MODE1) /* dmtimer8_pwm_evt (gpio_27) */
-> -		>;
-> -	};
-> -
-> -	vibrator_enable_pin: pinmux_vibrator_enable_pin {
-> -		pinctrl-single,pins = <
-> -		OMAP4_IOPAD(0X1d0, PIN_OUTPUT | MUX_MODE1) /* dmtimer9_pwm_evt (gpio_28) */
-> -		>;
-> -	};
-> -};
-> -
-> -/ {
-> -	pwm8: dmtimer-pwm {
-> -		pinctrl-names = "default";
-> -		pinctrl-0 = <&vibrator_direction_pin>;
-> -
-> -		compatible = "ti,omap-dmtimer-pwm";
-> -		#pwm-cells = <3>;
-> -		ti,timers = <&timer8>;
-> -		ti,clock-source = <0x01>;
-> -	};
-> -
-> -	pwm9: dmtimer-pwm {
-> -		pinctrl-names = "default";
-> -		pinctrl-0 = <&vibrator_enable_pin>;
-> -
-> -		compatible = "ti,omap-dmtimer-pwm";
-> -		#pwm-cells = <3>;
-> -		ti,timers = <&timer9>;
-> -		ti,clock-source = <0x01>;
-> -	};
-> -
-> -	vibrator {
-> -		compatible = "pwm-vibrator";
-> -		pwms = <&pwm9 0 1000000000 0>,
-> -                       <&pwm8 0 1000000000 0>;
-> -		pwm-names = "enable", "direction";
-> -		direction-duty-cycle-ns = <1000000000>;
-> -	};
-> -};
-> diff --git a/Documentation/devicetree/bindings/input/pwm-vibrator.yaml b/Documentation/devicetree/bindings/input/pwm-vibrator.yaml
-> new file mode 100644
-> index 000000000000..ec2466c63fe6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/pwm-vibrator.yaml
-> @@ -0,0 +1,59 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/input/pwm-vibrator.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: PWM vibrator
-> +
-> +maintainers:
-> +  - Sebastian Reichel <sre@kernel.org>
-> +
-> +description: >
-> +  Registers a PWM device as vibrator. It is expected, that the vibrator's
-> +  strength increases based on the duty cycle of the enable PWM channel
-> +  (100% duty cycle meaning strongest vibration, 0% meaning no vibration).
-> +
-> +  The binding supports an optional direction PWM channel, that can be
-> +  driven at fixed duty cycle. If available this is can be used to increase
-> +  the vibration effect of some devices.
-> +
-> +properties:
-> +  compatible:
-> +    const: pwm-vibrator
-> +
-> +  pwm-names:
-> +    anyOf:
-> +      - items:
-> +          - const: enable
-> +      - items:
-> +          - const: enable
-> +          - const: direction
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
+branch HEAD: 8c374ef45416281c7172dc29ed438dfb445795f1  Input: ff-core - correct magnitude setting for rumble compatibility
 
-This can be expressed with just the 2nd entry and 'minItems: 1'.
+elapsed time: 727m
 
-> +
-> +  pwms:
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  vcc-supply: true
-> +
-> +  direction-duty-cycle-ns:
-> +    description: >
-> +      Duty cycle of the direction PWM channel in nanoseconds,
-> +      defaults to 50% of the channel's period.
-> +
-> +required:
-> +  - compatible
-> +  - pwm-names
-> +  - pwms
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    vibrator {
-> +        compatible = "pwm-vibrator";
-> +        pwms = <&pwm9 0 1000000000 0>,
-> +               <&pwm8 0 1000000000 0>;
-> +        pwm-names = "enable", "direction";
-> +        direction-duty-cycle-ns = <1000000000>;
-> +    };
-> -- 
-> 2.33.0
-> 
-> 
+configs tested: 201
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20211207
+arm                         axm55xx_defconfig
+sh                         microdev_defconfig
+mips                     loongson1c_defconfig
+s390                             allmodconfig
+sh                     sh7710voipgw_defconfig
+powerpc                  iss476-smp_defconfig
+arm                       omap2plus_defconfig
+sh                             sh03_defconfig
+arm                       cns3420vb_defconfig
+mips                           rs90_defconfig
+powerpc                     skiroot_defconfig
+sh                                  defconfig
+m68k                             alldefconfig
+arc                           tb10x_defconfig
+arm                           tegra_defconfig
+powerpc                 mpc837x_rdb_defconfig
+powerpc                 mpc836x_rdk_defconfig
+m68k                            q40_defconfig
+riscv                            alldefconfig
+arm                           u8500_defconfig
+mips                        workpad_defconfig
+m68k                        m5307c3_defconfig
+m68k                         apollo_defconfig
+m68k                          atari_defconfig
+arm                       multi_v4t_defconfig
+xtensa                  nommu_kc705_defconfig
+h8300                            allyesconfig
+h8300                     edosk2674_defconfig
+mips                      maltasmvp_defconfig
+nds32                            alldefconfig
+powerpc                     redwood_defconfig
+sh                          sdk7786_defconfig
+arm                           h5000_defconfig
+powerpc                mpc7448_hpc2_defconfig
+powerpc                     ppa8548_defconfig
+mips                      malta_kvm_defconfig
+riscv                    nommu_virt_defconfig
+powerpc                     taishan_defconfig
+arm                          iop32x_defconfig
+arm                         mv78xx0_defconfig
+arc                     nsimosci_hs_defconfig
+arm                         bcm2835_defconfig
+sh                        apsh4ad0a_defconfig
+arm                         vf610m4_defconfig
+sh                          lboxre2_defconfig
+sh                           se7705_defconfig
+mips                           xway_defconfig
+powerpc                      cm5200_defconfig
+sparc64                             defconfig
+powerpc                         wii_defconfig
+mips                          rm200_defconfig
+mips                        maltaup_defconfig
+mips                          ath79_defconfig
+arm                         lpc32xx_defconfig
+h8300                    h8300h-sim_defconfig
+sh                   rts7751r2dplus_defconfig
+powerpc                   motionpro_defconfig
+parisc                           alldefconfig
+arm                           h3600_defconfig
+mips                      loongson3_defconfig
+sh                  sh7785lcr_32bit_defconfig
+mips                           ip22_defconfig
+arm                        shmobile_defconfig
+powerpc                 mpc8313_rdb_defconfig
+arm                       imx_v4_v5_defconfig
+arm                           sama7_defconfig
+arm                           omap1_defconfig
+powerpc                       holly_defconfig
+arm                      pxa255-idp_defconfig
+openrisc                         alldefconfig
+powerpc                   lite5200b_defconfig
+mips                         mpc30x_defconfig
+powerpc                 xes_mpc85xx_defconfig
+parisc                generic-64bit_defconfig
+m68k                       bvme6000_defconfig
+sh                              ul2_defconfig
+arc                         haps_hs_defconfig
+sparc                            alldefconfig
+arm                         s5pv210_defconfig
+powerpc                     stx_gp3_defconfig
+riscv             nommu_k210_sdcard_defconfig
+sh                         ecovec24_defconfig
+arm                         orion5x_defconfig
+sh                           se7780_defconfig
+xtensa                generic_kc705_defconfig
+arm                        mvebu_v7_defconfig
+xtensa                  audio_kc705_defconfig
+powerpc                    ge_imp3a_defconfig
+sh                             espt_defconfig
+powerpc                   microwatt_defconfig
+mips                         tb0226_defconfig
+arm                          pxa910_defconfig
+powerpc                     pq2fads_defconfig
+mips                        omega2p_defconfig
+arm                        keystone_defconfig
+arm                        cerfcube_defconfig
+mips                     decstation_defconfig
+powerpc                        fsp2_defconfig
+powerpc                 mpc836x_mds_defconfig
+powerpc                     powernv_defconfig
+arc                      axs103_smp_defconfig
+mips                     cu1000-neo_defconfig
+arm                  colibri_pxa270_defconfig
+sh                           se7722_defconfig
+arm                          moxart_defconfig
+nds32                             allnoconfig
+powerpc                     tqm8548_defconfig
+sh                        sh7757lcr_defconfig
+mips                  cavium_octeon_defconfig
+mips                           mtx1_defconfig
+sh                   sh7770_generic_defconfig
+alpha                               defconfig
+arm                      jornada720_defconfig
+sh                 kfr2r09-romimage_defconfig
+arm                         at91_dt_defconfig
+sparc                               defconfig
+mips                       rbtx49xx_defconfig
+arm                  randconfig-c002-20211207
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a006-20211207
+x86_64               randconfig-a005-20211207
+x86_64               randconfig-a001-20211207
+x86_64               randconfig-a002-20211207
+x86_64               randconfig-a004-20211207
+x86_64               randconfig-a003-20211207
+i386                 randconfig-a001-20211207
+i386                 randconfig-a005-20211207
+i386                 randconfig-a002-20211207
+i386                 randconfig-a003-20211207
+i386                 randconfig-a006-20211207
+i386                 randconfig-a004-20211207
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+um                            kunit_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-c007-20211207
+arm                  randconfig-c002-20211207
+riscv                randconfig-c006-20211207
+mips                 randconfig-c004-20211207
+i386                 randconfig-c001-20211207
+powerpc              randconfig-c003-20211207
+s390                 randconfig-c005-20211207
+x86_64               randconfig-a016-20211207
+x86_64               randconfig-a011-20211207
+x86_64               randconfig-a013-20211207
+x86_64               randconfig-a014-20211207
+x86_64               randconfig-a015-20211207
+x86_64               randconfig-a012-20211207
+i386                 randconfig-a016-20211207
+i386                 randconfig-a013-20211207
+i386                 randconfig-a011-20211207
+i386                 randconfig-a014-20211207
+i386                 randconfig-a012-20211207
+i386                 randconfig-a015-20211207
+hexagon              randconfig-r045-20211207
+s390                 randconfig-r044-20211207
+riscv                randconfig-r042-20211207
+hexagon              randconfig-r041-20211207
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
