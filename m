@@ -2,76 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C998B46B3E4
-	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 08:29:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C75346B3F0
+	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 08:31:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230057AbhLGHdR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Dec 2021 02:33:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57826 "EHLO
+        id S230181AbhLGHe7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Dec 2021 02:34:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229765AbhLGHdR (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Dec 2021 02:33:17 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84098C061746
-        for <linux-input@vger.kernel.org>; Mon,  6 Dec 2021 23:29:47 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id h24so9651171pjq.2
-        for <linux-input@vger.kernel.org>; Mon, 06 Dec 2021 23:29:47 -0800 (PST)
+        with ESMTP id S230199AbhLGHe7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Dec 2021 02:34:59 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6BF1C061746
+        for <linux-input@vger.kernel.org>; Mon,  6 Dec 2021 23:31:29 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id r130so12647362pfc.1
+        for <linux-input@vger.kernel.org>; Mon, 06 Dec 2021 23:31:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=CVZBYPlBQBtdrAGgdx4kWlClTmpMkFGMwQqfZI4FrTs=;
-        b=Ic/4cY4Y+i9FKSC1bCxyBWppKADXZv7YFwSCGuRgMJHkygXS5ICiUuRbCPx9rFBUoM
-         TPCcnm0gYGsFkRzFJtk91swTB+cG9U+Bih2ETt4hTzpoAUyoqJVlFr/1HBWXRaXSZIg2
-         9kRbSAIjjAUwCixr+SjGvazgtC7b08+ciUYnG6aJJRI9oDHVXPF9aVNlvBYZ7uvX2G6J
-         5aY/1T1nXd3yh/lI9PSrzYrNZaooIp8Cuf3DZGkUdNoKGm+KgwiAwQMgp/sOvDDagFRq
-         eGmNFMsezT+cGDg4cLyUsrV46EtnSO2Ir5bWSeehUlnwM7BPhIi3rKw/0xNBD6Vv0JEt
-         HDPA==
+        bh=6nLvbjupngxfBXZ8TAXmJA0YBCO+Y2SDz7EjIW0Fu+k=;
+        b=VJIoq6JdVluONsjF/m9VV3Q0Fp/5hWzaypGIScCwr9bV3edZZBi0dxzzfh9lGY5zkv
+         9MIjuR/tkD/QVaXRpEyLqryBiarmMKBxjMgovJZuT5gBHlYgaYOuRL3u/64eQQq+C59g
+         y4nGMoVIJ9A2vMc1I0uNbb6rfs+xjif5U1OCVRLFuohmO5o6/h0EKPWxVTuyWb8BnvHo
+         T68iW2V2woIiI5oTxeC9SnfXSo71OaanOdTLEenNcUNK3OUeXF8qBecpk5z+wIWmjQ3w
+         hZXKEqghcS5vEjrexja+Hrf+KG9sGwA+1EBWssrCc7ZuNLpopkPmlzvZRDnS2gGA+UHB
+         1ISQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=CVZBYPlBQBtdrAGgdx4kWlClTmpMkFGMwQqfZI4FrTs=;
-        b=TMfPJgY6aqCSU09SGfDYu67qCA+7cgjtpo0/eIyiBuGU7Fq1LAOCvNJqD7XHKdLHJM
-         GOyRyBtjyRqFMMAxQYc/OnsUFFwOU7zcYZ5KLAeLdiiTGmyxbHBGyzqT4Hg6tQGIZRuP
-         sR1HQVUM8K/44q2FWqqPRkC2I6Qj6jt8IHPRZJsuR2WysA/4ko/gus8rRs5O9ocT2UuI
-         fgy5XHIslCMpI4V39L/1fD66PFYM5/Wv4xkJkp8xRAjCpHFfHAQAdkyDnT0vlloeVx9h
-         U7lqSUAAl9y6HKgMUOfRkDE6YzmxFdPQZlk3eZqry8xUDFCnxk8YCZcGFzkJI2KS3ptO
-         fAcA==
-X-Gm-Message-State: AOAM5333t1wtL9lrnaq8Tllgm/xZnQqPQIPTZbFY1QQIc+8qnq9+VTwh
-        Dbfj9FDPzxphzMJGs0htwMnGCpSsDCU=
-X-Google-Smtp-Source: ABdhPJxQVWKK/ligdnhZNEw6elcQD31d4ymUq/XqIhaASBv1yWYuFoH3geVw2eFUElRbKxvavbbHVQ==
-X-Received: by 2002:a17:90b:124d:: with SMTP id gx13mr4632126pjb.106.1638862186972;
-        Mon, 06 Dec 2021 23:29:46 -0800 (PST)
+        bh=6nLvbjupngxfBXZ8TAXmJA0YBCO+Y2SDz7EjIW0Fu+k=;
+        b=ZLeRmN0P5uLPF3VWEeVEGt0s49+vSOllmESjv9S3UME8yK4ecH3r4iToS8QsZvadIy
+         WdWl6ShQK/11xccPa2I5xS34VHA14FZzzqRgNK60wuL33p48z0JERx7QVUwDO1C80KUZ
+         J85WDENPe+HDI+1JlpTLLheD8nEgpbM4PXy3tG6VP2mh3OGN3c07A7zpeWf3nZQVrjSf
+         C6VJD6HOMP/+oGhG6J0xtdYOs1A1uKkIkMGjD7cIl+hv8b5nZojwNGnBVV3TLbLzU2Hx
+         26b+ZuGBk+rJ06nu0rVXCecSjhGyER8TnCKB45DlGzpnhgvg9HbY3qkHHmin4KRiL3Xo
+         H27Q==
+X-Gm-Message-State: AOAM532uzFQLFsU4qq3qfom1yp1eFRR3FOOflpLnx6IUEVTEYIPpoKsE
+        70kwxtlZCyUURAfxsEGigi0=
+X-Google-Smtp-Source: ABdhPJzSNL/ZzhpznVPOTreVYXLXk3xhebtJJXjgcEVHq6+VuajBYS18F7GSayTp7xhTRHMbUYIFNA==
+X-Received: by 2002:a05:6a00:2349:b0:4a8:d87:e8ad with SMTP id j9-20020a056a00234900b004a80d87e8admr41456844pfj.15.1638862289163;
+        Mon, 06 Dec 2021 23:31:29 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:25b0:d110:b844:ea00])
-        by smtp.gmail.com with ESMTPSA id d12sm15611931pfu.91.2021.12.06.23.29.45
+        by smtp.gmail.com with ESMTPSA id h6sm16218504pfh.82.2021.12.06.23.31.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 23:29:46 -0800 (PST)
-Date:   Mon, 6 Dec 2021 23:29:43 -0800
+        Mon, 06 Dec 2021 23:31:28 -0800 (PST)
+Date:   Mon, 6 Dec 2021 23:31:26 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/4] Input: goodix - Add id->model mapping for the "9111"
- model
-Message-ID: <Ya8NZ3R5AZt7+a1Y@google.com>
+Subject: Re: [PATCH 2/4] Input: goodix - Improve gpiod_get() error logging
+Message-ID: <Ya8Nzkh+VwcQCUIi@google.com>
 References: <20211206164747.197309-1-hdegoede@redhat.com>
- <20211206164747.197309-2-hdegoede@redhat.com>
+ <20211206164747.197309-3-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211206164747.197309-2-hdegoede@redhat.com>
+In-Reply-To: <20211206164747.197309-3-hdegoede@redhat.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Dec 06, 2021 at 05:47:44PM +0100, Hans de Goede wrote:
-> Add d->model mapping for the "9111" model, this fixes uses using
-> a wrong config_len of 240 bytes while the "9111" model uses
-> only 186 bytes of config.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Hi Hans,
 
-Applied, thank you.
+On Mon, Dec 06, 2021 at 05:47:45PM +0100, Hans de Goede wrote:
+> goodix_get_gpio_config() errors are fatal (abort probe()) so log them
+> at KERN_ERR level rather then as debug messages.
+> 
+> This change uses dev_err_probe() to automatically suppress the errors
+> in case of -EPROBE_DEFER.
+
+I really believe that dev_err_probe() is wrong API as the providers
+should be setting the reason for deferred probe failures.
+
+Could you simply swap dev_dbg() for dev_err()?
+
+Thanks.
 
 -- 
 Dmitry
