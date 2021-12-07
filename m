@@ -2,189 +2,256 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19BD946AE96
-	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 00:48:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6907B46B150
+	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 04:16:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230043AbhLFXv4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Dec 2021 18:51:56 -0500
-Received: from mga06.intel.com ([134.134.136.31]:63765 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1377492AbhLFXv4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 6 Dec 2021 18:51:56 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10190"; a="298234314"
-X-IronPort-AV: E=Sophos;i="5.87,292,1631602800"; 
-   d="scan'208";a="298234314"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2021 15:48:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,292,1631602800"; 
-   d="scan'208";a="611435632"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 06 Dec 2021 15:48:23 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1muNiZ-000LsT-28; Mon, 06 Dec 2021 23:48:23 +0000
-Date:   Tue, 7 Dec 2021 07:47:53 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Alistair Francis <alistair@alistair23.me>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc:     kbuild-all@lists.01.org, robh+dt@kernel.org, andreas@kemnade.info,
-        alistair23@gmail.com, dmitry.torokhov@gmail.com,
-        linus.walleij@linaro.org, rydberg@bitmath.org
-Subject: Re: [PATCH v3 1/4] Input: Add driver for Cypress Generation 5
- touchscreen
-Message-ID: <202112070710.hut43Md3-lkp@intel.com>
-References: <20211202122021.43124-2-alistair@alistair23.me>
+        id S233716AbhLGDUA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Dec 2021 22:20:00 -0500
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:45407 "EHLO
+        wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229653AbhLGDUA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 6 Dec 2021 22:20:00 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.west.internal (Postfix) with ESMTP id 76D0D2B000FE;
+        Mon,  6 Dec 2021 22:16:28 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Mon, 06 Dec 2021 22:16:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=K
+        DwpeRiMBZ51a/1N537G6MpuhOZKtEbUes449q2dxHA=; b=aMSVqlTgdlw0z4qzM
+        jhsxSmzCok04+3Ub8TZuJRQFEilsZUiVfV5tRwxqtKK7Kvkuwkx2LXPvycBx2d7l
+        9N8VmLkcPANwMi6mSuo3tSQjEQg1ZchvrtMJ73faDvC9mPDDJyOUd2CDzU56jcSx
+        N/ibXUgMxl83B9tf4KZVGfabXL8MfAyJvhbwNHQiHiZosl+r97LFopr2VXOZUNxT
+        ztaabFr8IqjrxRO6RtWoJygsRezHqXXOqBYorI2X4D7WhezS3a0J05KT7f6jV6m+
+        8UzIrlu+cHtjBO74JbIDSIMy+bOd9+UIUHqs0qkt4LtHcqjVZqnj90EDjt1qJRHA
+        jVkxQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; bh=KDwpeRiMBZ51a/1N537G6MpuhOZKtEbUes449q2dx
+        HA=; b=Wjgizc0i5kuQ49PQnaS0dZyj7XWwusgQ8K38W5zQ2uHc/bhPBd6l/TUnc
+        ndCtVqqYhudhtuWA05eAOXHfYP4toV/TYqp0PX6xlEPkdVxu3VbtZ1qc+1IgnNRD
+        zeVruVhdGtzVslfW6YAbCSBjw/SHBNDPnqhthtz9Q/9sOOiAGpGJ6FN61gIkc2Na
+        oUIY6B5cKUbhe5mkhXJ3WUocdM7633zG3HKOoEYC8xlrbH9c0fsHpZx0InB2HlJe
+        MNdHzbn6hf4uG3UcXpAlNOKyBzPgrE4pfZOQ80pId3YHL7kCgq7ncXKRn7uOuFfD
+        nAP0e7A2TZGlPX9l0Izunr3+3oTfQ==
+X-ME-Sender: <xms:C9KuYY3yF_ZwjRG9Xv3bxTZesMsUR4MqCTjytAZW6Rcfb4CQPONoeQ>
+    <xme:C9KuYTEQD3RbrHY7ir45q9C8NR74L6Gs76FIPpwQ0wLTKIDmsbwGbnug34Zth8F7v
+    GgHWTYT-z0fR21EaEg>
+X-ME-Received: <xmr:C9KuYQ5DglWL4yyQjaK65vj9wf3eDjNIxzXVHTUYw_bKjI4RipH5k9RNFzifW7edKAYflvvII8QqSNUmlrEMjT5YVkDI5EPuogTL>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrjeeggdehiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvghtvghr
+    ucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+    eqnecuggftrfgrthhtvghrnhepveeuveeifeetgedvvdehgeefieehveekffevteeiudei
+    hfevvdejieeuleefleefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhht
+    thgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:C9KuYR2NgKorlsKgWHKhNABkmON_FpvJAX2Yp0yhLyHCUpx24z9b-Q>
+    <xmx:C9KuYbHng5AsCOalPPnoCNqeqRC92Np16M2wRpd2DaOUCdEQDHXX0A>
+    <xmx:C9KuYa9IZaBsRgGQ3CjK6qn6kafZOkXZ4K1WSbVQ8_-ZFf3D4nqe9g>
+    <xmx:C9KuYYdQupVdu8lccYCGrOfdRRLo-5bYAkb2_01tz5y2qrYgiGRJXqmF9nQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 Dec 2021 22:16:22 -0500 (EST)
+Date:   Tue, 7 Dec 2021 13:16:16 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Brian Norris <briannorris@chromium.org>
+Cc:     Pekka Paalanen <ppaalanen@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robdclark@chromium.org>,
+        David Airlie <airlied@linux.ie>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Doug Anderson <dianders@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        "Kristian H . Kristensen" <hoegsberg@google.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        linux-input@vger.kernel.org, Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v2 1/2] drm/input_helper: Add new input-handling helper
+Message-ID: <Ya7SAHD39m/CLJqw@quokka>
+References: <20211117224841.3442482-1-briannorris@chromium.org>
+ <20211117144807.v2.1.I09b516eff75ead160a6582dd557e7e7e900c9e8e@changeid>
+ <20211118123928.545dec8a@eldfell>
+ <YZcB4ooqpvP3gHdx@google.com>
+ <20211119123841.1d628cb6@eldfell>
+ <YaaLITQF+lngE+VZ@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20211202122021.43124-2-alistair@alistair23.me>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YaaLITQF+lngE+VZ@google.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Alistair,
+On Tue, Nov 30, 2021 at 12:35:45PM -0800, Brian Norris wrote:
+> Hi Pekka,
+> 
+> On Fri, Nov 19, 2021 at 12:38:41PM +0200, Pekka Paalanen wrote:
+> > On Thu, 18 Nov 2021 17:46:10 -0800
+> > Brian Norris <briannorris@chromium.org> wrote:
+> > > On Thu, Nov 18, 2021 at 12:39:28PM +0200, Pekka Paalanen wrote:
+> > > > On Wed, 17 Nov 2021 14:48:40 -0800
+> > > > Brian Norris <briannorris@chromium.org> wrote:
+> > > > If KMS gets a pageflip or modeset in no time after an input event, then
+> > > > what's the gain. OTOH, if the display server is locking on to vblank,
+> > > > there might be a delay worth avoiding. But then, is it worth
+> > > > short-circuiting the wake-up in kernel vs. adding a new ioctl that
+> > > > userspace could hit to start the warming up process?  
+> > > 
+> > > Rob responded to the first part to some extent (there is definitely gain
+> > > to be had).
+> > > 
+> > > To the last part: I wrote a simple debugfs hook to allow user space to
+> > > force a PSR exit, and then a simple user space program to read input
+> > > events and smash that debugfs file whenever it sees one. Testing in the
+> > > same scenarios, this appears to lose less than 100 microseconds versus
+> > > the in-kernel approach, which is negligible for this use case. (I'm not
+> > > sure about the other use cases.)
+> > > 
+> > > So, this is technically doable in user space.
+> > 
+> > This is crucial information I would like you to include in some commit
+> > message. I think it is very interesting for the reviewers. Maybe also
+> > copy that in the cover letter.
+> > 
+> > In my opinion there is a clear and obvious decision due that
+> > measurement: Add the new ioctl for userspace to hit, do not try to
+> > hardcode or upload the wake-up policy into the kernel.
+> 
+> Perhaps.
+> 
+> I'll admit, I'm not eager to go write the fd-passing solutions that
+> others are designing on the fly. I'm currently torn on whether I'll just
+> live with this current patch set out-of-tree (or, y'all can decide that
+> a simple, 99% working solution is better than no solution), because it's
+> simple; or possibly figuring out how to utilize such an ioctl cleanly
+> within our display manager. I'm not super hopeful on the latter.
+> 
+> IOW, I'm approximately in line with Doug's thoughts:
+> https://lore.kernel.org/all/CAD=FV=XARhZoj+0p-doxcbC=4K+NuMc=uR6wqG6kWk-MkPkNdQ@mail.gmail.com/
+> But then, we're obviously biased.
+> 
+> > > I can't speak to the ease of _actually_ integrating this into even our
+> > > own Chrome display manager, but I highly doubt it will get integrated
+> > > into others. I'd posit this should weigh into the relative worth, but
+> > > otherwise can't really give you an answer there.
+> > 
+> > I think such a thing would be very simple to add to any display server.
+> > They already have hooks for things like resetting idle timeout timers on
+> > any relevant input event.
+> > 
+> > > I'd also note, software-directed PSR is so far designed to be completely
+> > > opaque to user space. There's no way to disable it; no way to know it's
+> > > active; and no way to know anything about the parameters it's computing
+> > > (like average entry/exit delay). Would you suggest a whole set of new
+> > > IOCTLs for this?
+> > 
+> > Just one ioctl on the DRM device: "Hey, wake up!". Because that's what
+> > your patch does in-kernel, right?
+> 
+> Well, we'd at least want something to advertise that the feature does
+> something ("is supported") I think, otherwise we're just asking user
+> space to do useless work.
+> 
+> > If there are use case specific parameters, then how did you intend to
+> > allow adjusting those in your proposal?
+> 
+> Another commenter mentioned the latency tradeoff -- it's possible that
+> there are panels/eDP-links that resume fast enough that one doesn't care
+> to use this ioctl. For an in-kernel solution, one has all the data
+> available and could use hardware information to make decisions, if
+> needed. For a user space solution, we won't have any of that, and we'd
+> have to work to expose that information.
+> 
+> I suppose we could ignore that problem and only expose a minimal UAPI
+> until we need something more, but it feels like exposing a UAPI for
+> something is a critical point where one should make sure it's reasonably
+> descriptive and useful.
+> 
+> > > > How do you know userspace is using this input device at all? If
+> > > > userspace is not using the input device, then DRM should not be opening
+> > > > it either, as it must have no effect on anything.
+> > > > 
+> > > > If you open an input device that userspace does not use, you also cause
+> > > > a power consumption regression, because now the input device itself is
+> > > > active and possibly flooding the kernel with events (e.g. an
+> > > > accelerometer).  
+> > > 
+> > > Well, I don't think accelerometers show up as input devices, but I
+> > > suppose your point could apply to actual input devices.
 
-Thank you for the patch! Yet something to improve:
+fwiw, filtering INPUT_PROP_ACCELEROMETER would go a long way towards ignoring
+accelerometers.
 
-[auto build test ERROR on linux/master]
-[also build test ERROR on robh/for-next linus/master v5.16-rc4 next-20211206]
-[cannot apply to dtor-input/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+> > My understanding is that accelerometers are evdev (input) devices,
+> > especially when used as input e.g. for controlling games. I'm not aware
+> > of any other interface for it.
 
-url:    https://github.com/0day-ci/linux/commits/Alistair-Francis/Add-support-for-the-Cypress-cyttsp5/20211202-202300
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 136057256686de39cc3a07c2e39ef6bc43003ff6
-config: microblaze-randconfig-m031-20211207 (https://download.01.org/0day-ci/archive/20211207/202112070710.hut43Md3-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/737a89fa2dc4a337dea6a131b8b94fcc49fdcec5
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Alistair-Francis/Add-support-for-the-Cypress-cyttsp5/20211202-202300
-        git checkout 737a89fa2dc4a337dea6a131b8b94fcc49fdcec5
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=microblaze SHELL=/bin/bash drivers/input/touchscreen/
+> I'm not familiar with game-controlling accelerometers, but many types of
+> accelerometers are serviced by drivers/iio/.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+you can also unbind devices and use hidraw directly.
 
-All errors (new ones prefixed by >>):
+> And even if they register as input devices, do they match the ID list in
+> this patch?
 
-   drivers/input/touchscreen/cyttsp5.c: In function 'cyttsp5_probe':
->> drivers/input/touchscreen/cyttsp5.c:931:26: error: implicit declaration of function 'devm_gpiod_get_optional'; did you mean 'devm_regulator_get_optional'? [-Werror=implicit-function-declaration]
-     931 |         ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~
-         |                          devm_regulator_get_optional
->> drivers/input/touchscreen/cyttsp5.c:931:64: error: 'GPIOD_OUT_HIGH' undeclared (first use in this function); did you mean 'GPIOF_INIT_HIGH'?
-     931 |         ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-         |                                                                ^~~~~~~~~~~~~~
-         |                                                                GPIOF_INIT_HIGH
-   drivers/input/touchscreen/cyttsp5.c:931:64: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/input/touchscreen/cyttsp5.c:937:9: error: implicit declaration of function 'gpiod_set_value'; did you mean 'gpio_set_value'? [-Werror=implicit-function-declaration]
-     937 |         gpiod_set_value(ts->reset_gpio, 0);
-         |         ^~~~~~~~~~~~~~~
-         |         gpio_set_value
-   cc1: some warnings being treated as errors
+device type assignment is problematic, but i think in this case it doesn't
+matter if the associations are a bit rough. You don't care about the type of
+device, you merely care about "is this likely to be used". And I think for
+that the list is good enough.
 
+though tbh, having this policy in userspace would still be better IMO.
 
-vim +931 drivers/input/touchscreen/cyttsp5.c
+Cheers,
+  Peter
 
-   881	
-   882	static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
-   883				 const char *name)
-   884	{
-   885		struct cyttsp5 *ts;
-   886		struct cyttsp5_sysinfo *si;
-   887		int error, i;
-   888	
-   889		ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
-   890		if (!ts)
-   891			return -ENOMEM;
-   892	
-   893		/* Initialize device info */
-   894		ts->regmap = regmap;
-   895		ts->dev = dev;
-   896		si = &ts->sysinfo;
-   897		dev_set_drvdata(dev, ts);
-   898	
-   899		/* Initialize wait queue */
-   900		init_waitqueue_head(&ts->wait_q);
-   901	
-   902		/* Power up the device */
-   903		ts->vdd = regulator_get(dev, "vdd");
-   904		if (IS_ERR(ts->vdd)) {
-   905			error = PTR_ERR(ts->vdd);
-   906			dev_set_drvdata(dev, NULL);
-   907			kfree(ts);
-   908			return error;
-   909		}
-   910	
-   911		error = regulator_enable(ts->vdd);
-   912		if (error) {
-   913			regulator_put(ts->vdd);
-   914			dev_set_drvdata(dev, NULL);
-   915			kfree(ts);
-   916			return error;
-   917		}
-   918	
-   919		ts->input = devm_input_allocate_device(dev);
-   920		if (!ts->input) {
-   921			dev_err(dev, "Error, failed to allocate input device\n");
-   922			return -ENODEV;
-   923		}
-   924	
-   925		ts->input->name = "cyttsp5";
-   926		scnprintf(ts->phys, sizeof(ts->phys), "%s/input0", dev_name(dev));
-   927		ts->input->phys = ts->phys;
-   928		input_set_drvdata(ts->input, ts);
-   929	
-   930		/* Reset the gpio to be in a reset state */
- > 931		ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-   932		if (IS_ERR(ts->reset_gpio)) {
-   933			error = PTR_ERR(ts->reset_gpio);
-   934			dev_err(dev, "Failed to request reset gpio, error %d\n", error);
-   935			return error;
-   936		}
- > 937		gpiod_set_value(ts->reset_gpio, 0);
-   938	
-   939		/* Need a delay to have device up */
-   940		msleep(20);
-   941	
-   942		error = devm_request_threaded_irq(dev, irq, NULL, cyttsp5_handle_irq,
-   943					       IRQF_ONESHOT, name, ts);
-   944		if (error) {
-   945			dev_err(dev, "unable to request IRQ\n");
-   946			return error;
-   947		}
-   948	
-   949		error = cyttsp5_startup(ts);
-   950		if (error) {
-   951			dev_err(ts->dev, "Fail initial startup r=%d\n", error);
-   952			return error;
-   953		}
-   954	
-   955		error = cyttsp5_parse_dt_key_code(dev);
-   956		if (error < 0) {
-   957			dev_err(ts->dev, "Error while parsing dts %d\n", error);
-   958			return error;
-   959		}
-   960	
-   961		touchscreen_parse_properties(ts->input, true, &ts->prop);
-   962	
-   963		__set_bit(EV_KEY, ts->input->evbit);
-   964		for (i = 0; i < si->num_btns; i++)
-   965			__set_bit(si->key_code[i], ts->input->keybit);
-   966	
-   967		return cyttsp5_setup_input_device(dev);
-   968	}
-   969	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> > Even audio sockets are input devices for detecting whether a plug has
+> > been plugged in, but those probably wouldn't flood anything.
+> 
+> They also won't match the input_handler ID list, because they won't
+> support the key or position combinations in the heuristic.
+> 
+> > > > Yet another problem here is that this completely ignores the concept of
+> > > > physical seats. Of course it does so, because seats are a pure
+> > > > userspace concept.
+> > > > 
+> > > > The kernel VT console already has problems because the kernel has no
+> > > > concept of seats, which means that if there is a second seat defined and
+> > > > a desktop running on it, while the first seat is in the normal VT text
+> > > > mode, then everything typed in the desktop will be delivered to the VT
+> > > > shell as well! (This has a possible workaround in userspace [1], by opening
+> > > > the evdev input devices in some kind of exclusive mode - which is not
+> > > > common practise AFAIK.)  
+> > > 
+> > > Sure.
+> > > 
+> > > I'd bet the intersection of systems that use SW-directed PSR and
+> > > "multi-seat" is negligibly close to zero, but I can't guarantee that.
+> > > Chalk one up for a user space policy.
+> > 
+> > Your cover letter has also the other bullet point: ramping up GPUs.
+> > That applies to a lot more systems than PSR, right?
+> > 
+> > Maybe that is an acceptable trade-off: be 100 µs faster (your
+> > measurement) by ramping up all GPUs in a system instead of only the
+> > relevant ones?
+> > 
+> > Or maybe that will hurt normal gaming computers by ramping up the iGPU
+> > when the OS and game only uses the dGPU, which makes iGPU eat away the
+> > CPU power budget, causing the CPU to slow down? I suppose that would be
+> > handled by ramping up only GPUs that userspace has opened.
+> 
+> FWIW, the current work we have out-of-tree involves only select GPU
+> drivers that know they are slow to ramp up. If this were generalized,
+> then yes, it could potentially have undesireable side effects. I'm
+> certainly not an expert on Rob's work though, so I can't speak to this
+> very much, but I imagine we could resolve the {d,i}GPU problem easily.
+> 
+> Brian
