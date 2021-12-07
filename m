@@ -2,81 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 221BB46B3C0
-	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 08:21:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3123746B3CD
+	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 08:23:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229978AbhLGHYb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Dec 2021 02:24:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55682 "EHLO
+        id S229718AbhLGH04 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Dec 2021 02:26:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230120AbhLGHYX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Dec 2021 02:24:23 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C681DC0698C3;
-        Mon,  6 Dec 2021 23:20:49 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id f18-20020a17090aa79200b001ad9cb23022so1890499pjq.4;
-        Mon, 06 Dec 2021 23:20:49 -0800 (PST)
+        with ESMTP id S229710AbhLGH0x (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Dec 2021 02:26:53 -0500
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42036C061746;
+        Mon,  6 Dec 2021 23:23:23 -0800 (PST)
+Received: by mail-pg1-x52d.google.com with SMTP id m24so1381207pgn.7;
+        Mon, 06 Dec 2021 23:23:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=7NhaFlgTlpHBmCQ/Myhs69h/DpMo/3O0GaxFUNvHdeg=;
-        b=GssPBZJrHosVhYrE6JSKGMJEBG/mCYU1HptrhLmrC0yxSWidCbmNJWKePmUAXY2PYX
-         HAcnUYkl1IoKnKJVYCWiC+5MotxtIkMBrydN782o5f06NCaXeZx0et/p7+QH0NkuWf1s
-         qdryt+TdREQECxXqrWW7IRkkPRB4425nRqpp3nrBLJEIfjQ0DsRKJlVOg1jfsyOZQyjp
-         MyuwivhPGCeD15uA0ZMnBWgRqMqSjoaSoyYL7iJ9i3VMtSvoEqXfsGgf9VO2H0NGzVFN
-         Ag3fKtNJKtBV7Z1c8prsflvNb/O2QqPu/qWyBKEPD7lfdqysb1bz/tGZztENW1vYP7wU
-         Yvlg==
+         :content-disposition:in-reply-to;
+        bh=zjS51En7n8gHrcWP/egVu3VHwRNlf0avUlOLs1QnapQ=;
+        b=BBpa3nWIrGZ1flMBMsERcvYMGG0rm6vSv0vllKB7Az0QXGmSCFHa/NKP1kfb7XF8cC
+         zXtjjOFBE1tbBC2GacT126muJ91Rlort9R+7UTaBNarmqYw5gBjaOWXG3mZctZmzoLrs
+         oDAZuIZE8nus4KMMJIbPRaQaEec0yU41JwZ+EA8oaBcn+6onV7XE+Z0ZSZH29fZHbYB2
+         KORI0/InWX4G+gCBwQInk4YEzHencJtw+aw2pkVHh1dYiR2eYg/IGU61D69kEaCGe4n7
+         tP/8FvM1/JcF0K9/h9vIPCtyQvXuQ6Mb0EfJonmAuO6VBaAjkvGB7uhYhUnrZmEiH1eB
+         fp5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=7NhaFlgTlpHBmCQ/Myhs69h/DpMo/3O0GaxFUNvHdeg=;
-        b=rq4GaVOcxd1a6FNL1tTFa1cKNR7amWs11WnVmEif3UqZP9JRsZSZEMs4t0Y1k18zef
-         q9YrIICXGuhgzcVlIG1oPeCr9+MkBZ8tgcqf4DrTXhRMs1E78tkbX5mJoEJOtbmE0VzL
-         RLYdtG5ZQkN13XnWg6kPMLmxILxczAPmKJ7nBxDC5ldW2LgNmGLXBGsPZvfcOMQ82Y0O
-         SwVsdaCyGK4vWI6huzBIV6q4AyTOlTy1aAUK+ndotU7YsBwMTwIK6Fm/hvMkjPVGXWDg
-         VVzXqPRRLQKfocm8DwpmJKe59STo26H+x/Du06lt7t2y9QQt4AGZyL8XA1C+4joYTIRM
-         XcIw==
-X-Gm-Message-State: AOAM532HU64muxhiWMq6N3XVEDo1BKMRGew3+jyTp4qMu6VSiMRy3h39
-        V9RIaxD+w3T8q5MrNO7BToYuCgHoLWU=
-X-Google-Smtp-Source: ABdhPJxpEekoP7HBjFGLmfa7yIPRnVHIp5Repv9gpdjevv9e+73db6NSsrzU7ANQ5A28mSIFVZ6n+Q==
-X-Received: by 2002:a17:902:f545:b0:145:4402:c334 with SMTP id h5-20020a170902f54500b001454402c334mr48514899plf.65.1638861649290;
-        Mon, 06 Dec 2021 23:20:49 -0800 (PST)
+         :mime-version:content-disposition:in-reply-to;
+        bh=zjS51En7n8gHrcWP/egVu3VHwRNlf0avUlOLs1QnapQ=;
+        b=IGkr6tAMzirjfma26ZOxwMxjNLW/Yqo8MRPCWQ1YVN0FIHURlF1oqNz7h7mr/nrmPJ
+         aeSlHxl5M+SzNsDHSwXYqzabPI8MaHJv9N2275aoDO9BINjEywvib0Dzo6nsx7Oh2nvM
+         E/3L4qU/sT24yOW0b2qBlthmzTtk71rHACi0YT3KVZg8MypqjiABzPmG9ydjcNjUxVk3
+         /hIgyFYnJUEFLnVJwct7Lph+O+napVXFf9nmLgZYqC6ICo5Hvc9mrOOU6zFuR3rTATL7
+         /+pju1ngNOKF5/yTaZxqe097WnZP2OUEr0zdlSxOMr3LVVI2z5fVANFL2+2I8j0dUT1b
+         Trog==
+X-Gm-Message-State: AOAM530fNAQJWkiclLCMnk6J0d9A/IdwyWjTLJdnv/pBh4jxYsGvI/rh
+        wiZq64cbVKjZTJ3wgnUzB45I5lBf8n4=
+X-Google-Smtp-Source: ABdhPJzL9q+yGpYrRF8Wlz/n+/OmUlhngRHFwepBpr2M2lbOC8TLhwTXT95fYaZI9C+bSuT2fdB2rQ==
+X-Received: by 2002:a63:6cc2:: with SMTP id h185mr23717412pgc.306.1638861802664;
+        Mon, 06 Dec 2021 23:23:22 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:25b0:d110:b844:ea00])
-        by smtp.gmail.com with ESMTPSA id j127sm14737783pfg.14.2021.12.06.23.20.48
+        by smtp.gmail.com with ESMTPSA id g18sm14527030pfb.103.2021.12.06.23.23.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 23:20:48 -0800 (PST)
-Date:   Mon, 6 Dec 2021 23:20:46 -0800
+        Mon, 06 Dec 2021 23:23:21 -0800 (PST)
+Date:   Mon, 6 Dec 2021 23:23:19 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Samuel =?utf-8?B?xIxhdm9q?= <samuel@cavoj.net>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH] Input: i8042 - enable deferred probe quirk for ASUS
- UM325UA
-Message-ID: <Ya8LTs/l5xAJKymP@google.com>
-References: <20211204015615.232948-1-samuel@cavoj.net>
+To:     Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc:     linux-input@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: ff-core - Correct magnitude setting for rumble
+ compatibility
+Message-ID: <Ya8L5x7cL5GKmL0y@google.com>
+References: <20211130135039.13726-1-ckeepax@opensource.cirrus.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211204015615.232948-1-samuel@cavoj.net>
+In-Reply-To: <20211130135039.13726-1-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Dec 04, 2021 at 02:56:16AM +0100, Samuel Čavoj wrote:
-> The ASUS UM325UA suffers from the same issue as the ASUS UX425UA, which
-> is a very similar laptop. The i8042 device is not usable immediately
-> after boot and fails to initialize, requiring a deferred retry.
+On Tue, Nov 30, 2021 at 01:50:39PM +0000, Charles Keepax wrote:
+> When converting a rumble into a periodic effect, for compatibility,
+> the magnitude is effectively calculated using:
 > 
-> Enable the deferred probe quirk for the UM325UA.
+> magnitude = max(strong_rubble / 3 + weak_rubble / 6, 0x7fff);
 > 
-> BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1190256
-> Signed-off-by: Samuel Čavoj <samuel@cavoj.net>
-> Cc: Takashi Iwai <tiwai@suse.de>
-> Link: https://lore.kernel.org/r/20211117063757.11380-1-tiwai@suse.de
+> The rumble magnitudes are both u16 and the resulting magnitude is
+> s16. The max is presumably an attempt to limit the result of the
+> calculation to the maximum possible magnitude for the s16 result,
+> and thus should be a min.
+> 
+> However in the case of strong = weak = 0xffff, the result of the first
+> part of the calculation is 0x7fff, meaning that the min would be
+> redundant anyway, so simply remove the current max.
+> 
+> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
 Applied, thank you.
 
