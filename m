@@ -2,82 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C75346B3F0
-	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 08:31:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD2DF46B86C
+	for <lists+linux-input@lfdr.de>; Tue,  7 Dec 2021 11:07:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230181AbhLGHe7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Dec 2021 02:34:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58240 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230199AbhLGHe7 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Dec 2021 02:34:59 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6BF1C061746
-        for <linux-input@vger.kernel.org>; Mon,  6 Dec 2021 23:31:29 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id r130so12647362pfc.1
-        for <linux-input@vger.kernel.org>; Mon, 06 Dec 2021 23:31:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=6nLvbjupngxfBXZ8TAXmJA0YBCO+Y2SDz7EjIW0Fu+k=;
-        b=VJIoq6JdVluONsjF/m9VV3Q0Fp/5hWzaypGIScCwr9bV3edZZBi0dxzzfh9lGY5zkv
-         9MIjuR/tkD/QVaXRpEyLqryBiarmMKBxjMgovJZuT5gBHlYgaYOuRL3u/64eQQq+C59g
-         y4nGMoVIJ9A2vMc1I0uNbb6rfs+xjif5U1OCVRLFuohmO5o6/h0EKPWxVTuyWb8BnvHo
-         T68iW2V2woIiI5oTxeC9SnfXSo71OaanOdTLEenNcUNK3OUeXF8qBecpk5z+wIWmjQ3w
-         hZXKEqghcS5vEjrexja+Hrf+KG9sGwA+1EBWssrCc7ZuNLpopkPmlzvZRDnS2gGA+UHB
-         1ISQ==
+        id S234093AbhLGKKh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Dec 2021 05:10:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29616 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233954AbhLGKKh (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 7 Dec 2021 05:10:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1638871626;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=g5cxoOGjq9/E6NG8Fl68igBfTvJ0A+RYvfCE9iD4rhA=;
+        b=il89dFNYMKqtMgZgGMcfPgn4U5m6VQjuVI+43yJ2WSFxyyecc1jpJWKY9BNNQ3oWaUojmR
+        3j2sIMglIvWUkiuhfmO/EtZxvnd66/MOmD2/WWVT6NfSBbbjh5tg4YiJekvph4CWPFja8U
+        TP+jCXB3r/WsfDTXlcRFYRqZd1QTvQM=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-589-KbEtvzdGP2OFBBCKxXvjYQ-1; Tue, 07 Dec 2021 05:07:05 -0500
+X-MC-Unique: KbEtvzdGP2OFBBCKxXvjYQ-1
+Received: by mail-ed1-f69.google.com with SMTP id m17-20020aa7d351000000b003e7c0bc8523so11006997edr.1
+        for <linux-input@vger.kernel.org>; Tue, 07 Dec 2021 02:07:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6nLvbjupngxfBXZ8TAXmJA0YBCO+Y2SDz7EjIW0Fu+k=;
-        b=ZLeRmN0P5uLPF3VWEeVEGt0s49+vSOllmESjv9S3UME8yK4ecH3r4iToS8QsZvadIy
-         WdWl6ShQK/11xccPa2I5xS34VHA14FZzzqRgNK60wuL33p48z0JERx7QVUwDO1C80KUZ
-         J85WDENPe+HDI+1JlpTLLheD8nEgpbM4PXy3tG6VP2mh3OGN3c07A7zpeWf3nZQVrjSf
-         C6VJD6HOMP/+oGhG6J0xtdYOs1A1uKkIkMGjD7cIl+hv8b5nZojwNGnBVV3TLbLzU2Hx
-         26b+ZuGBk+rJ06nu0rVXCecSjhGyER8TnCKB45DlGzpnhgvg9HbY3qkHHmin4KRiL3Xo
-         H27Q==
-X-Gm-Message-State: AOAM532uzFQLFsU4qq3qfom1yp1eFRR3FOOflpLnx6IUEVTEYIPpoKsE
-        70kwxtlZCyUURAfxsEGigi0=
-X-Google-Smtp-Source: ABdhPJzSNL/ZzhpznVPOTreVYXLXk3xhebtJJXjgcEVHq6+VuajBYS18F7GSayTp7xhTRHMbUYIFNA==
-X-Received: by 2002:a05:6a00:2349:b0:4a8:d87:e8ad with SMTP id j9-20020a056a00234900b004a80d87e8admr41456844pfj.15.1638862289163;
-        Mon, 06 Dec 2021 23:31:29 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:25b0:d110:b844:ea00])
-        by smtp.gmail.com with ESMTPSA id h6sm16218504pfh.82.2021.12.06.23.31.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 23:31:28 -0800 (PST)
-Date:   Mon, 6 Dec 2021 23:31:26 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
-Subject: Re: [PATCH 2/4] Input: goodix - Improve gpiod_get() error logging
-Message-ID: <Ya8Nzkh+VwcQCUIi@google.com>
-References: <20211206164747.197309-1-hdegoede@redhat.com>
- <20211206164747.197309-3-hdegoede@redhat.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=g5cxoOGjq9/E6NG8Fl68igBfTvJ0A+RYvfCE9iD4rhA=;
+        b=dleGz0wWW3Oaux4N9WHLyux/Kbkq4KSD/7m4pUn4pAbPuzjRkN2kDnY56CPvEBLWVM
+         czJKqzUpk+7fCenYunb6Le2OIuN6J7DOK2Y/5ojWTjthk364Gr9fUttvV2irb7zd3RHj
+         ZU9U9kX9H/h4bH0pGaxz9Zyv9yudqHyZjDIrgxDebCvCZBbJE/JZYwW23Jo36FBYaYYj
+         GHCwyO8Meily9vX11B59b6kCV6CZdaCZskpsm7NADvm/vIo4Hn1h92PzYgMq5mNihV4C
+         MHCbSs5iU5ALyAamTjtdaTcdqm5Lxb3lIvmZMj4ijIBnK2Bg4xtzw0IrDB5JiX1BHFx6
+         gHrw==
+X-Gm-Message-State: AOAM531zdy8wXcIZgPVvH/GujpZNFnNgEJek/Kq9wk2xxqm0x30WfdZP
+        C8mmvxM4ND4hET1hYr5h5QruK/oanczxYQAzcsGO1BObMwJnFJmPivlhImiT2zfPAsMeA75PgkG
+        OhU+MRXQnRAUu9MotDgBQBCU=
+X-Received: by 2002:a17:907:7094:: with SMTP id yj20mr51797430ejb.265.1638871624555;
+        Tue, 07 Dec 2021 02:07:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzB3ItxP8+xgxlGraaPtQUUiqaZTHZxV2s2bOvo603ccpIFjFlLaG3FSlMpJly8G/UiZl7Fqg==
+X-Received: by 2002:a17:907:7094:: with SMTP id yj20mr51797393ejb.265.1638871624170;
+        Tue, 07 Dec 2021 02:07:04 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id e26sm10081417edr.82.2021.12.07.02.07.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Dec 2021 02:07:03 -0800 (PST)
+Message-ID: <90d371ae-550c-c2ee-a475-93d29f8c06d0@redhat.com>
+Date:   Tue, 7 Dec 2021 11:07:03 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211206164747.197309-3-hdegoede@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 2/4] Input: goodix - Improve gpiod_get() error logging
+Content-Language: en-US
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
+References: <20211206164747.197309-1-hdegoede@redhat.com>
+ <20211206164747.197309-3-hdegoede@redhat.com> <Ya8Nzkh+VwcQCUIi@google.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Ya8Nzkh+VwcQCUIi@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hans,
+Hi Dmitry,
 
-On Mon, Dec 06, 2021 at 05:47:45PM +0100, Hans de Goede wrote:
-> goodix_get_gpio_config() errors are fatal (abort probe()) so log them
-> at KERN_ERR level rather then as debug messages.
+On 12/7/21 08:31, Dmitry Torokhov wrote:
+> Hi Hans,
 > 
-> This change uses dev_err_probe() to automatically suppress the errors
-> in case of -EPROBE_DEFER.
+> On Mon, Dec 06, 2021 at 05:47:45PM +0100, Hans de Goede wrote:
+>> goodix_get_gpio_config() errors are fatal (abort probe()) so log them
+>> at KERN_ERR level rather then as debug messages.
+>>
+>> This change uses dev_err_probe() to automatically suppress the errors
+>> in case of -EPROBE_DEFER.
+> 
+> I really believe that dev_err_probe() is wrong API as the providers
+> should be setting the reason for deferred probe failures.
+> 
+> Could you simply swap dev_dbg() for dev_err()?
 
-I really believe that dev_err_probe() is wrong API as the providers
-should be setting the reason for deferred probe failures.
+Done for v2, which I'm sending out right away.
 
-Could you simply swap dev_dbg() for dev_err()?
+Note I've dropped the first patch for v2 since you said you
+applied this.
 
-Thanks.
+Regards,
 
--- 
-Dmitry
+Hans
+
+
+p.s.
+
+Any chance you could also take a look at this 2 patch patch-series,
+this has been pending for a while now:
+
+https://lore.kernel.org/linux-input/20211122220637.11386-1-hdegoede@redhat.com/T/#t
+
