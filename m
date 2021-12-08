@@ -2,59 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6843246D638
-	for <lists+linux-input@lfdr.de>; Wed,  8 Dec 2021 15:56:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9317E46D659
+	for <lists+linux-input@lfdr.de>; Wed,  8 Dec 2021 16:03:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229677AbhLHPAK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Dec 2021 10:00:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53398 "EHLO
+        id S231965AbhLHPGs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Dec 2021 10:06:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45881 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235579AbhLHPAK (ORCPT
+        by vger.kernel.org with ESMTP id S229479AbhLHPGr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 8 Dec 2021 10:00:10 -0500
+        Wed, 8 Dec 2021 10:06:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638975397;
+        s=mimecast20190719; t=1638975795;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=aUQBozpU4Y1KYDGIdgsjepFLOb8OgoY8mq/2uMsvGYc=;
-        b=HSXVoTG77bj9sNRWSSjoztY41CYoj57Y/omIEjb9LvLzyHObMR5wewQYPcr01jIDxt/iB/
-        rI779w1fa1H51woWeZ4Hthw0cOcTGV/c2GvF7gtyvWfnCJ3M6+dq2/YZMSPOvxUZtwpN0o
-        e3Xz9HfQZCZfire6k8W0l4h3m8lrv9o=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=G0rnmLYR2bGbskKPMuNtMTb9vCsJDvOb8DdKbW9eR5k=;
+        b=Yx1XLn10x2oGrsXLT7x9PqjX0eHwr49/std0VRVljzcpyngSA/QhJES+aw7FS2KxHYHxfV
+        zqjiuN1iB5hutbXOPU79D1hBfiO/rvP/b4JK+DAS88KqJsH7YDSZzEnkWCDJD63o3DdPua
+        L3jIIlGI4EUOdLzYbjI//9Q0U78ycOQ=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-353-Jz77CUOVNXusNMhwTLdpug-1; Wed, 08 Dec 2021 09:56:36 -0500
-X-MC-Unique: Jz77CUOVNXusNMhwTLdpug-1
-Received: by mail-pj1-f72.google.com with SMTP id h15-20020a17090a648f00b001a96c2c97abso1733688pjj.9
-        for <linux-input@vger.kernel.org>; Wed, 08 Dec 2021 06:56:36 -0800 (PST)
+ us-mta-358-GtCY94fgPtyGXuEFO6tVOg-1; Wed, 08 Dec 2021 10:03:14 -0500
+X-MC-Unique: GtCY94fgPtyGXuEFO6tVOg-1
+Received: by mail-pf1-f199.google.com with SMTP id e7-20020aa798c7000000b004a254db7946so1698798pfm.17
+        for <linux-input@vger.kernel.org>; Wed, 08 Dec 2021 07:03:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aUQBozpU4Y1KYDGIdgsjepFLOb8OgoY8mq/2uMsvGYc=;
-        b=mIViC9OggJoIFK0TgJaQAnq4/CGFPHqa74jdSbzS4I33FgxmYmgKRXulW1BJXyJbXi
-         3kXfUMsRJ1/tsyjhm5crBShdDg6BG4QJ8hmAg7Q9dizOfAPYhwk80fmLrVWnu5gGxblI
-         ZZwNzwYltkqpl79A1SGKz12Nq/R+uGAApQWfxBbyBk/U8BnsiWhbR6fiSGEupYUjrMZW
-         73OmT8n++pf/cteB462+y4nBN5NcesiK+Ry44jroCuyRUwrr/DlnlvPJ/6GfbJtAU7cR
-         AWJfJI3rVc/PbqPq9OOq1tyydG2NBlitwLOwq7MUTtdwF4H+uTebEdqfKTOPRDoUM1Tm
-         1MVQ==
-X-Gm-Message-State: AOAM532/xqFbOgYbzdWp+8rrkYrKRRv72M6yVAJdQlFINPfwqoWin4fk
-        JPrnYkJgkK+asmf8Vsr8C9P5Jf/zWIbt0xy+ihgbBJoGoDLHdAOxZhUI2ycwL4LChDLDdjFvyv8
-        vQyTbF6n7n6eUSGm39/LE4KzPQ2+G2aVeb17pLes=
-X-Received: by 2002:a17:90b:1648:: with SMTP id il8mr7719687pjb.246.1638975393252;
-        Wed, 08 Dec 2021 06:56:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxNWqUQECE85jaWpXQ0jpgu5hGh9MP0rynZaapLa7L6Spt5hemRU4LdKrcN7YWSjhYHRuFjkTVs9C2DZ7fv4ks=
-X-Received: by 2002:a17:90b:1648:: with SMTP id il8mr7719650pjb.246.1638975392832;
- Wed, 08 Dec 2021 06:56:32 -0800 (PST)
+        bh=G0rnmLYR2bGbskKPMuNtMTb9vCsJDvOb8DdKbW9eR5k=;
+        b=AwQbeCk3ntZvLfZpd/AQ6yw6YRHFLCAMvTK64AB7dw0HLVztw4u9MmhkSbkt4cYqQJ
+         lagHkVh6o25RGs1D6zpRtq7TR3tCoeTdVF2jDhS3tg95Udyoo/yZ2HsKh0fkkJu26Oqi
+         zkdmLZOjI3RNktH8mitnvYiEmRhngFFmd6ViU+Mlexqk/YIYQedieOd+pdSrW+4/966D
+         Ta+iyK22tByfUKDZwjQ6DldEDCxCI/mK9nDe5zUtncYF+D7Q05ZC3XWxvZ3ODaPCKsYG
+         5JVWly2N1MaO5tYCDsaynBNbvtArbworjcHRkWU7PXmpf5YxwWym455BnJWSEX0LegpT
+         CuLA==
+X-Gm-Message-State: AOAM530TRjvvx2JZ/yCwEaNu0CkeirvAFRNJei1sQbDAfsuS3tUPUqU4
+        MmwaGIAuO+YcKUCiiociUE4oUaZQGIJmOHi2Kl/PkeyQ5sWlBDXbEotf/XE6vHY3NUHT75zhW4K
+        pIwawMoRQ21LyJhw/IhxTwOFFA3saO50cbWGyJoc=
+X-Received: by 2002:a17:90b:224f:: with SMTP id hk15mr8092426pjb.173.1638975793404;
+        Wed, 08 Dec 2021 07:03:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJywtfz1ltbCX4prsJ8HbqB9JwqPfaHTvYGKf+nVFZN2jXpJAsM7q+H1iNlV/lsatBP8IZ65BiteYAl2G/zyQQo=
+X-Received: by 2002:a17:90b:224f:: with SMTP id hk15mr8092399pjb.173.1638975793135;
+ Wed, 08 Dec 2021 07:03:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20211126130141.1811848-1-tero.kristo@linux.intel.com>
- <CAO-hwJLq6Jnvos=CR_-D6FD-7W56q2eYRVyRMbmE5NFaXLHrng@mail.gmail.com> <4c87f439-f6d0-97e7-156e-90e9baab4b01@linux.intel.com>
-In-Reply-To: <4c87f439-f6d0-97e7-156e-90e9baab4b01@linux.intel.com>
+References: <20211201164301.44653-1-tero.kristo@linux.intel.com> <20211201164301.44653-2-tero.kristo@linux.intel.com>
+In-Reply-To: <20211201164301.44653-2-tero.kristo@linux.intel.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 8 Dec 2021 15:56:21 +0100
-Message-ID: <CAO-hwJ+Vt81ZKR0Ywa5ffDW1R586dDcPQgOoe8awUOdYWV0Y7Q@mail.gmail.com>
-Subject: Re: [RFCv2 0/8] USI stylus support series
+Date:   Wed, 8 Dec 2021 16:03:02 +0100
+Message-ID: <CAO-hwJLUA8ErS-s3mA351WH48ebXCYJ-s5xj-oVarqAz43DUkg@mail.gmail.com>
+Subject: Re: [RFCv3 1/7] HID: Add map_msc() to avoid boilerplate code
 To:     Tero Kristo <tero.kristo@linux.intel.com>
 Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
         Jiri Kosina <jikos@kernel.org>,
@@ -67,233 +66,67 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Tero,
-
-On Tue, Nov 30, 2021 at 5:13 PM Tero Kristo <tero.kristo@linux.intel.com> wrote:
+On Wed, Dec 1, 2021 at 5:43 PM Tero Kristo <tero.kristo@linux.intel.com> wrote:
 >
-> Hi Benjamin,
+> From: Mika Westerberg <mika.westerberg@linux.intel.com>
 >
-> On 30/11/2021 16:44, Benjamin Tissoires wrote:
-> > Hi Tero,
-> >
-> > On Fri, Nov 26, 2021 at 2:02 PM Tero Kristo <tero.kristo@linux.intel.com> wrote:
-> >> Hi,
-> >>
-> >> This series is an update based on comments from Benjamin. What is done
-> >> is this series is to ditch the separate hid-driver for USI, and add the
-> >> generic support to core layers. This part basically brings the support
-> >> for providing USI events, without programmability (patches 1-6).
-> > That part seems to be almost good for now. I have a few things to check:
-> > - patch2: "HID: hid-input: Add suffix also for HID_DG_PEN" I need to
-> > ensure there are no touchscreens affected by this (there used to be a
-> > mess with some vendors where they would not declare things properly)
-> > - patch5: "HID: core: map USI pen style reports directly" this one
-> > feels plain wrong. I would need to have a look at the report
-> > descriptor but this is too specific in a very generic code
+> Since we are going to have more MSC events too, add map_msc() that can
+> be used to fill in necessary fields and avoid boilerplate code.
 >
-> Relevant part of the report descriptor is here:
->
->      Field(8)
->        Physical(Digitizers.Stylus)
->        Logical(Digitizers.Preferred Line Style)
->        Application(Digitizers.Pen)
->        Usage(6)
->          Digitizers.Ink
->          Digitizers.Pencil
->          Digitizers.Highlighter
->          Digitizers.Chisel Marker
->          Digitizers.Brush
->          Digitizers.No Preference
->        Logical Minimum(1)
->        Logical Maximum(6)
->        Physical Minimum(0)
->        Physical Maximum(255)
->        Unit Exponent(-1)
->        Unit(SI Linear : Centimeter)
->        Report Size(8)
->        Report Count(1)
->        Report Offset(88)
->        Flags( Variable Absolute NoPreferredState )
->
-> To me, it looks almost like it is a bug in the report descriptor itself;
-> as you see there are 6 usage values but the report size / count is 1
-> byte. The fact that there are 6 usage values in the field confuses
-> hid-core. Basically the usage values are used as encoded content for the
-> field.
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 
-It took me a few days but I finally understand that this report
-descriptor is actually correct.
+This one looks good to me and I should be able to take it in v5.17.
 
-The descriptor gives an array of 1 element of size 8, which is enough
-to give an index within the available values being [Digitizers.Ink,
-Digitizers.Pencil, Digitizers.Highlighter, Digitizers.Chisel Marker,
-Digitizers.Brush, Digitizers.No Preference]
-
-Given that logical min is 1, this index is 1-based.
-
-So the job of the kernel is to provide the event
-Digitizers.Highlighter whenever the value here is 3. The mapping 3 <->
-Digitizers.Highlighter is specific to this report descriptor and
-should not be forwarded to user space.
-
->
-> Alternatively I think this could be patched up in the BPF program, as I
-> am modifying the content of the raw hid report already; I could just as
-> well modify this one also. Or, maybe I could fix the report descriptor
-> itself to act as a sane variable, as I am parsing the report descriptor
-> already?
-
-I couldn't understand the fix you did in the BPF program. Can you
-explain it by also giving me an example of raw event from the device
-and the outputs (fixed and not fixed) of the kernel?
-
-
-Talking about that, I realized that you gave me the report descriptor
-of the Acer panel in an other version of this RFC. Could you give me:
-- the bus used (USB or I2C)?
-- the vendor ID?
-- the product ID?
-- and the same for the other panel, with its report descriptor?
-
-This way I can add them in the testsuite, and start playing with them.
-
->
-> >
-> >> Additionally, a HID-BPF based sample is provided which can be used to
-> >> program / query pen parameters in comparison to the old driver level
-> >> implementation (patches 7-8, patch #8 is an incremental change on top of
-> >> patch #7 which just converts the fifo to socket so that the client can
-> >> also get results back from the server.)
-> > After a few more thoughts, I wondered what your input is on this. We
-> > should be able to do the very same with plain hidraw... However, you
-> > added a `hid/raw_event` processing that will still be kept in the
-> > kernel, so maybe bpf would be useful for that at least.
->
-> Yes, plain hidraw can be sort of used to program the values, however the
-> interface is kind of annoying to use for the USI pens. You need to be
-> touching the display with the pen before anything is accepted. Maybe
-> writing some support code to the libevdev would help.
->
-> The hidraw hook is needed for processing the cached values also, USI
-> pens report their parameters with a delay of some few hundred ms
-> depending on controller vendor. And in some cases they don't report
-> anything back before forcibly querying the value from the controller,
-> and also the write mechanism acts differently; some controllers report
-> the programmed value back, others keep reporting the old value until the
-> pen leaves the screen and touches it again.
-
-Hmm, not sure I follow this entirely. I guess I would need to have one
-of such devices in my hands :(
-
->
->
-> >
-> >> The whole series is based on top of Benjamin's hid-bpf support work, and
-> >> I've pushed a branch at [1] with a series that works and brings in
-> >> the dependency. There are also a few separate patches in this series to
-> >> fix the problems I found from Benjamin's initial work for hid-bpf; I
-> >> wasn't able to get things working without those. The branch is also
-> >> based on top of 5.16-rc2 which required some extra changes to the
-> >> patches from Benjamin.
-> > Yeah, I also rebased on top of 5.16 shortly after sharing that branch
-> > and got roughly the same last fix (HID: bpf: compile fix for
-> > bpf_hid_foreach_rdesc_item). I am *very* interested in your "HID: bpf:
-> > execute BPF programs in proper context" because that is something that
-> > was bothering me a lot :)
->
-> Right, I think I have plenty of lockdep / scheduler checks enabled in my
-> kernel. They generate plenty of spam with i2c-hid without that patch.
-> The same issue may not be visible with some other low level hid devices
-> though, I don't have testing capability for anything but the i2c-hid
-> right now. I2C is quite notorious for the locking aspects as it is slow
-> and is used to control some pretty low level stuff like power management
-> etc.
-
-As a rule of thumb, hid_hw_raw_request() can not and should not be
-called in IRQ.
-I tested your patch with a USB device, and got plenty of complaints too.
-
-I know bpf now has the ability to defer a function call with timers,
-so maybe that's what we need here.
-
->
-> >
-> > "HID: bpf: add expected_attach_type to bpf prog during detach" is
-> > something I'll need to bring in too
-> >
-> > but "HID: bpf: fix file mapping" is actually wrong. I initially wanted
-> > to attach BPF programs to hidraw, but shortly realized that this is
-> > not working because the `hid/rdesc_fixup` kills the hidraw node and so
-> > releases the BPF programs. The way I am now attaching it is to use the
-> > fd associated with the modalias in the sysfs file (for instance: `sudo
-> > ./hid_surface_dial /sys/bus/hid/devices/0005:045E:091B.*/modalias`).
-> > This way, the reference to the struct hid_device is kept even if we
-> > disconnect the device and reprobe it.
-> Ok I can check this out if it works me also. The samples lead me to
-> /dev/hidraw usage.
-> >
-> > Thanks again for your work, and I'd be curious to have your thoughts
-> > on hid-bpf and if you think it is better than hidraw/evdev write/new
-> > ioctls for your use case.
->
-> The new driver was 777 lines diff, the BPF one is 496 lines so it
-> appears smaller. The driver did support two different vendors though
-> (ELAN+Goodix, with their specific quirks in place), the BPF only a
-> single one right now (ELAN).
->
-> The vendor specific quirks are a question, do we want to support that
-> somehow in a single BPF binary, or should we attach vendor specific BPF
-> programs?
-
-Good question.
-The plan I had was to basically pre-compile BPF programs for the
-various devices, but having them separated into generic + vendor
-specifics seems interesting too.
-
-I don't have a good answer right now.
-
->
-> Chromium-os devices are one of the main customers for USI pens right
-> now, and I am not sure how well they will take the BPF concept. :) I did
-> ask their feedback though, and I'll come back on this once I have something.
-
-Cool thanks.
-
->
-> Personally, I don't have much preference either way at this moment, both
-> seem like feasible options. I might lean a bit towards evdev/ioctl as it
-> seems a cleaner implementation as of now. The write mechanism I
-> implemented for the USI-BPF is a bit hacky, as it just directly writes
-> to a shared memory buffer and the buffer gets parsed by the kernel part
-> when it processes hidraw event. Anyways, do you have any feedback on
-> that part? BPF is completely new to me again so would love to get some
-> feedback.
-
-Yeah, this feels wrong to me too.
-I guess what we want is to run a BPF call initiated from the
-userspace. I am not sure if this is doable. I'll need to dig further
-too (I am relatively new to BPF too as a matter of facts).
+Reviewed-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
 Cheers,
 Benjamin
 
+> ---
+>  drivers/hid/hid-input.c | 6 ++----
+>  include/linux/hid.h     | 4 ++++
+>  2 files changed, 6 insertions(+), 4 deletions(-)
 >
-> One option is of course to push the write portion of the code to
-> userspace and just use hidraw, but we still need to filter out the bogus
-> events somehow, and do that in vendor specific manner. I don't think
-> this can be done on userspace, as plenty of information that would be
-> needed to do this properly has been lost at the input-event level.
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index 2c72ce4147b1..39ebedb2323b 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -52,6 +52,7 @@ static const struct {
+>  #define map_rel(c)     hid_map_usage(hidinput, usage, &bit, &max, EV_REL, (c))
+>  #define map_key(c)     hid_map_usage(hidinput, usage, &bit, &max, EV_KEY, (c))
+>  #define map_led(c)     hid_map_usage(hidinput, usage, &bit, &max, EV_LED, (c))
+> +#define map_msc(c)     hid_map_usage(hidinput, usage, &bit, &max, EV_MSC, (c))
 >
-> -Tero
+>  #define map_abs_clear(c)       hid_map_usage_clear(hidinput, usage, &bit, \
+>                 &max, EV_ABS, (c))
+> @@ -872,10 +873,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
 >
-> >
-> > Cheers,
-> > Benjamin
-> >
-> >> -Tero
-> >>
-> >> [1] https://github.com/t-kristo/linux/tree/usi-5.16-rfc-v2-bpf
-> >>
-> >>
+>                 case 0x5b: /* TransducerSerialNumber */
+>                 case 0x6e: /* TransducerSerialNumber2 */
+> -                       usage->type = EV_MSC;
+> -                       usage->code = MSC_SERIAL;
+> -                       bit = input->mscbit;
+> -                       max = MSC_MAX;
+> +                       map_msc(MSC_SERIAL);
+>                         break;
+>
+>                 default:  goto unknown;
+> diff --git a/include/linux/hid.h b/include/linux/hid.h
+> index e95800bab56a..96eaca0d5322 100644
+> --- a/include/linux/hid.h
+> +++ b/include/linux/hid.h
+> @@ -766,6 +766,10 @@ static inline void hid_map_usage(struct hid_input *hidinput,
+>                 bmap = input->ledbit;
+>                 limit = LED_MAX;
+>                 break;
+> +       case EV_MSC:
+> +               bmap = input->mscbit;
+> +               limit = MSC_MAX;
+> +               break;
+>         }
+>
+>         if (unlikely(c > limit || !bmap)) {
+> --
+> 2.25.1
 >
 
