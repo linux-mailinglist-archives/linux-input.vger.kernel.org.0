@@ -2,197 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F57E46DB2B
-	for <lists+linux-input@lfdr.de>; Wed,  8 Dec 2021 19:34:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0298D46DDFC
+	for <lists+linux-input@lfdr.de>; Wed,  8 Dec 2021 23:05:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238962AbhLHSiL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Dec 2021 13:38:11 -0500
-Received: from ixit.cz ([94.230.151.217]:33328 "EHLO ixit.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238954AbhLHSiL (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 8 Dec 2021 13:38:11 -0500
-Received: from localhost.localdomain (unknown [213.151.89.154])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by ixit.cz (Postfix) with ESMTPSA id 3990221F5E;
-        Wed,  8 Dec 2021 19:34:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-        t=1638988476;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=Cq8s/Jy9V1OTXNRQdifNniAnhlZAOYvwgu+gFPAuA1Q=;
-        b=WTICIv2uzuwyuXeAUDBj5vXPOFIYcGiiSkGkv9VPDKkhJEOcqhxIl4tgVMDLa2x1Y/Bd01
-        EUNQiLJUqRnfFFv9RUm5orlk5a2SmpOtHol6PoJUA0nvyHqjmGcrF6TRZ4An3G9jyNti7c
-        +sB2qGuh11KUQd4Ax9bm/msi9rld1bU=
-From:   David Heidelberg <david@ixit.cz>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>
-Cc:     ~okias/devicetree@lists.sr.ht, David Heidelberg <david@ixit.cz>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        id S240001AbhLHWIa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Dec 2021 17:08:30 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:50073 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S229531AbhLHWIa (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Dec 2021 17:08:30 -0500
+Received: (qmail 588686 invoked by uid 1000); 8 Dec 2021 17:04:57 -0500
+Date:   Wed, 8 Dec 2021 17:04:57 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Yinbo Zhu <zhuyinbo@loongson.cn>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Rajat Jain <rajatja@google.com>,
+        Chris Chiu <chris.chiu@canonical.com>,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2] dt-bindings: input: pwm-vibrator: Convert txt bindings to yaml
-Date:   Wed,  8 Dec 2021 19:34:34 +0100
-Message-Id: <20211208183434.98087-1-david@ixit.cz>
-X-Mailer: git-send-email 2.33.0
+Subject: Re: [PATCH v1 2/2] usb: core: enable remote wakeup function for usb
+ controller
+Message-ID: <YbEsCSwYLgQefQxU@rowland.harvard.edu>
+References: <1638956391-20149-1-git-send-email-zhuyinbo@loongson.cn>
+ <1638956391-20149-2-git-send-email-zhuyinbo@loongson.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1638956391-20149-2-git-send-email-zhuyinbo@loongson.cn>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Converts txt binding to new YAML format and simplify example.
+On Wed, Dec 08, 2021 at 05:39:51PM +0800, Yinbo Zhu wrote:
+> The remote wake up function is a regular function on usb device and
+> I think keeping it enabled by default will make the usb application
+> more convenient and usb device remote wake up function keep enabled
+> that ask usb controller remote wake up was enabled at first.
+> 
+> This patch only enable wake up on usb root hub device, among which,
 
-Reviewed-by: Sebastian Reichel <sre@kernel.org>
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
-v2:
- - added Sebastian review
- - replace anyOf with minItems
+You say the patch only affects root hub devices, but this doesn't appear 
+to be true.
 
- .../bindings/input/pwm-vibrator.txt           | 66 -------------------
- .../bindings/input/pwm-vibrator.yaml          | 57 ++++++++++++++++
- 2 files changed, 57 insertions(+), 66 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/pwm-vibrator.txt
- create mode 100644 Documentation/devicetree/bindings/input/pwm-vibrator.yaml
+> usb3.0 root hub doesn't be set wakeup node property but use command
+> USB_INTRF_FUNC_SUSPEND to enable remote wake up function.
+> 
+> Signed-off-by: Yinbo Zhu <zhuyinbo@loongson.cn>
+> ---
+>  drivers/usb/core/hub.c | 20 ++++++++++++++++++--
+>  include/linux/usb.h    |  4 +++-
+>  2 files changed, 21 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index 86658a8..cb4b956 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -2509,6 +2509,8 @@ static void set_usb_port_removable(struct usb_device *udev)
+>   */
+>  int usb_new_device(struct usb_device *udev)
+>  {
+> +	struct usb_host_config *config;
+> +	int ncfg;
+>  	int err;
+>  
+>  	if (udev->parent) {
+> @@ -2540,6 +2542,18 @@ int usb_new_device(struct usb_device *udev)
+>  	udev->dev.devt = MKDEV(USB_DEVICE_MAJOR,
+>  			(((udev->bus->busnum-1) * 128) + (udev->devnum-1)));
+>  
+> +	for (ncfg = 0; ncfg < udev->descriptor.bNumConfigurations; ncfg++) {
+> +		config = &udev->config[ncfg];
+> +		if ((config->desc.bmAttributes & (1 << 5)) == 0)
+> +			break;
+> +		if (ncfg + 1 == udev->descriptor.bNumConfigurations) {
+> +			err = usb_enable_remote_wakeup(udev);
+> +			if (err)
+> +				dev_dbg(&udev->dev,
+> +				      "won't remote wakeup, err %d\n", err);
+> +		}
+> +	}
 
-diff --git a/Documentation/devicetree/bindings/input/pwm-vibrator.txt b/Documentation/devicetree/bindings/input/pwm-vibrator.txt
-deleted file mode 100644
-index 88c775a3fe21..000000000000
---- a/Documentation/devicetree/bindings/input/pwm-vibrator.txt
-+++ /dev/null
-@@ -1,66 +0,0 @@
--* PWM vibrator device tree bindings
--
--Registers a PWM device as vibrator. It is expected, that the vibrator's
--strength increases based on the duty cycle of the enable PWM channel
--(100% duty cycle meaning strongest vibration, 0% meaning no vibration).
--
--The binding supports an optional direction PWM channel, that can be
--driven at fixed duty cycle. If available this is can be used to increase
--the vibration effect of some devices.
--
--Required properties:
--- compatible: should contain "pwm-vibrator"
--- pwm-names: Should contain "enable" and optionally "direction"
--- pwms: Should contain a PWM handle for each entry in pwm-names
--
--Optional properties:
--- vcc-supply: Phandle for the regulator supplying power
--- direction-duty-cycle-ns: Duty cycle of the direction PWM channel in
--                           nanoseconds, defaults to 50% of the channel's
--			   period.
--
--Example from Motorola Droid 4:
--
--&omap4_pmx_core {
--	vibrator_direction_pin: pinmux_vibrator_direction_pin {
--		pinctrl-single,pins = <
--		OMAP4_IOPAD(0x1ce, PIN_OUTPUT | MUX_MODE1) /* dmtimer8_pwm_evt (gpio_27) */
--		>;
--	};
--
--	vibrator_enable_pin: pinmux_vibrator_enable_pin {
--		pinctrl-single,pins = <
--		OMAP4_IOPAD(0X1d0, PIN_OUTPUT | MUX_MODE1) /* dmtimer9_pwm_evt (gpio_28) */
--		>;
--	};
--};
--
--/ {
--	pwm8: dmtimer-pwm {
--		pinctrl-names = "default";
--		pinctrl-0 = <&vibrator_direction_pin>;
--
--		compatible = "ti,omap-dmtimer-pwm";
--		#pwm-cells = <3>;
--		ti,timers = <&timer8>;
--		ti,clock-source = <0x01>;
--	};
--
--	pwm9: dmtimer-pwm {
--		pinctrl-names = "default";
--		pinctrl-0 = <&vibrator_enable_pin>;
--
--		compatible = "ti,omap-dmtimer-pwm";
--		#pwm-cells = <3>;
--		ti,timers = <&timer9>;
--		ti,clock-source = <0x01>;
--	};
--
--	vibrator {
--		compatible = "pwm-vibrator";
--		pwms = <&pwm9 0 1000000000 0>,
--                       <&pwm8 0 1000000000 0>;
--		pwm-names = "enable", "direction";
--		direction-duty-cycle-ns = <1000000000>;
--	};
--};
-diff --git a/Documentation/devicetree/bindings/input/pwm-vibrator.yaml b/Documentation/devicetree/bindings/input/pwm-vibrator.yaml
-new file mode 100644
-index 000000000000..a70a636ee112
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/pwm-vibrator.yaml
-@@ -0,0 +1,57 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/input/pwm-vibrator.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+
-+title: PWM vibrator
-+
-+maintainers:
-+  - Sebastian Reichel <sre@kernel.org>
-+
-+description: >
-+  Registers a PWM device as vibrator. It is expected, that the vibrator's
-+  strength increases based on the duty cycle of the enable PWM channel
-+  (100% duty cycle meaning strongest vibration, 0% meaning no vibration).
-+
-+  The binding supports an optional direction PWM channel, that can be
-+  driven at fixed duty cycle. If available this is can be used to increase
-+  the vibration effect of some devices.
-+
-+properties:
-+  compatible:
-+    const: pwm-vibrator
-+
-+  pwm-names:
-+    items:
-+      - const: enable
-+      - const: direction
-+    minItems: 1
-+
-+  pwms:
-+    minItems: 1
-+    maxItems: 2
-+
-+  vcc-supply: true
-+
-+  direction-duty-cycle-ns:
-+    description: >
-+      Duty cycle of the direction PWM channel in nanoseconds,
-+      defaults to 50% of the channel's period.
-+
-+required:
-+  - compatible
-+  - pwm-names
-+  - pwms
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    vibrator {
-+        compatible = "pwm-vibrator";
-+        pwms = <&pwm9 0 1000000000 0>,
-+               <&pwm8 0 1000000000 0>;
-+        pwm-names = "enable", "direction";
-+        direction-duty-cycle-ns = <1000000000>;
-+    };
--- 
-2.33.0
+I don't see anything in there which treats root hubs differently from 
+other devices.
 
+Besides, enabling wakeup for root hubs is generally a bad idea.  Suppose 
+you closed a laptop's lid and then unplugged a USB device -- with wakeup 
+enabled, the unplug would cause the laptop to wake up again without your 
+knowledge.
+
+Alan Stern
