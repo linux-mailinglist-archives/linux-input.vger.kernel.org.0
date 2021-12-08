@@ -2,358 +2,174 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3912846D87B
-	for <lists+linux-input@lfdr.de>; Wed,  8 Dec 2021 17:34:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6E0246D925
+	for <lists+linux-input@lfdr.de>; Wed,  8 Dec 2021 18:02:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231432AbhLHQhe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Dec 2021 11:37:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23263 "EHLO
+        id S237490AbhLHRGK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Dec 2021 12:06:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21880 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237116AbhLHQhb (ORCPT
+        by vger.kernel.org with ESMTP id S237475AbhLHRGJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 8 Dec 2021 11:37:31 -0500
+        Wed, 8 Dec 2021 12:06:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638981239;
+        s=mimecast20190719; t=1638982956;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=kHcHzSpXdlOuf9C78Arorh98ECVCOMGS+rBAQ8eq7VE=;
-        b=RTGyPdlKYZ34UcLA7MDvWvLKOJuLNc1E0h88KztcjNoSX7z2Nc4Np3ogSTJOjk/FkLds6w
-        wijtswZbZ/yrHHeLWQ9svfO3vgPLuUnDLuj9wwZDwHkImHsqtSJIq96X5VisR9FOHI/pNM
-        RVmlxUKqnRbEIOodbDL0fLWsHzErYCQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=9lVwmqtKRie2Iep4VqFyYKx2/FXXLfsLDgXUVPbyLlo=;
+        b=MSM5ZeJ8tgnUqgZ8N/cRDrsNNgWq8x6nCqOz4cWqI1rfu5UAiaZF/5Kx/6JwSAEJFrKQyN
+        CLrYoW5CcWA4Z3tDfFBQiqlGefaMX0UaUoXYSJGDRTglLubKypk6lWX8oF8w8oNlBNmc6s
+        HiQe6GSMuj/vAr+z48W8J7RSl67NuH0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-340-Rm8rPcM5NLWHI0HRgJfTzw-1; Wed, 08 Dec 2021 11:33:53 -0500
-X-MC-Unique: Rm8rPcM5NLWHI0HRgJfTzw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C17C110247A6;
-        Wed,  8 Dec 2021 16:33:50 +0000 (UTC)
-Received: from [10.39.192.155] (unknown [10.39.192.155])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C00AF10016F5;
-        Wed,  8 Dec 2021 16:33:48 +0000 (UTC)
-Message-ID: <b2c95cd3-27b3-9248-e689-b8a47a831225@redhat.com>
-Date:   Wed, 8 Dec 2021 17:33:47 +0100
+ us-mta-265-uoe24duzML2N9R2xLzaD4A-1; Wed, 08 Dec 2021 12:02:35 -0500
+X-MC-Unique: uoe24duzML2N9R2xLzaD4A-1
+Received: by mail-ed1-f69.google.com with SMTP id v22-20020a50a456000000b003e7cbfe3dfeso2662096edb.11
+        for <linux-input@vger.kernel.org>; Wed, 08 Dec 2021 09:02:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=9lVwmqtKRie2Iep4VqFyYKx2/FXXLfsLDgXUVPbyLlo=;
+        b=u/rKnBcqk/BwudhdJMrYIa/CBwzZem/kiY+saf8JDAi4/KZkt0+rdARLSu5ypAbrNX
+         TkWag8BmsdHUIzBuKvDaZR4G9Lkmj3VfIZabHHINQJPGYlHVcd+zI5iYRnMe9Eo/WEAx
+         L1shDaB4RmWA4ZI3BidN9NqZpFpYViY0fP3x+YV4INtu8vi3qGKxdeXRzz25Mq78eUWX
+         5xLfhtP89IsRx1DEhBxKnAa4nKyDRj1sjT0mM7qUDxgxI8IoViET/Ss05lPJ8l3JcWp1
+         EL5ObOJYOS1Zl2b3jqrP8jjEVnBWwsd20q77QUs4Z9DqAAO0+mFCGyY3TvcfwvYassu3
+         Vjtg==
+X-Gm-Message-State: AOAM530R+nc0z8bE5bNnRlvkgHSnVsEPF/HmvcBj32G018idRbr2nYRu
+        myE7rFmsRARIDyM5fty3hx4vLbVZLjN4voOkLL2yi0z4EmNPfUWnZ+ayEKC2a5vDBfo2L36tSyV
+        1OSafs/KoqYwSy+lKn5XJAFk=
+X-Received: by 2002:a17:906:489b:: with SMTP id v27mr8635444ejq.567.1638982954067;
+        Wed, 08 Dec 2021 09:02:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxPQPvMLVF9KROx2+cHR5ueViilv2D7VjA3s50pScw3QQ6pT6I3kYM/HVib8pncEP+RzY7PIg==
+X-Received: by 2002:a17:906:489b:: with SMTP id v27mr8635345ejq.567.1638982953357;
+        Wed, 08 Dec 2021 09:02:33 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id r11sm2404642edd.70.2021.12.08.09.02.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Dec 2021 09:02:32 -0800 (PST)
+Message-ID: <5d5b1910-8231-f1be-40e2-1964ab825fc5@redhat.com>
+Date:   Wed, 8 Dec 2021 18:02:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFCv3 3/7] HID: core: Add support for USI style events
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 4/4] Input: goodix - Add pen support
 Content-Language: en-US
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Tero Kristo <tero.kristo@linux.intel.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>
-References: <20211201164301.44653-1-tero.kristo@linux.intel.com>
- <20211201164301.44653-4-tero.kristo@linux.intel.com>
- <CAO-hwJ+hzHNZVUrL9vC02t4GMBnaLym_vz7JT6+_cKEK8wEAMA@mail.gmail.com>
-In-Reply-To: <CAO-hwJ+hzHNZVUrL9vC02t4GMBnaLym_vz7JT6+_cKEK8wEAMA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Bastien Nocera <hadess@hadess.net>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+References: <20211206164747.197309-1-hdegoede@redhat.com>
+ <20211206164747.197309-5-hdegoede@redhat.com> <Ya+e5+TLgyLeTnhp@google.com>
+ <aa558a20-37d0-dbf0-740f-2813609fe3b5@redhat.com>
+ <CAKdAkRTHa1oRJ1VpoFxfsKjUW7KStCXkYZ2AdB1jVCHa=pjZAA@mail.gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAKdAkRTHa1oRJ1VpoFxfsKjUW7KStCXkYZ2AdB1jVCHa=pjZAA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 12/8/21 16:18, Benjamin Tissoires wrote:
-> On Wed, Dec 1, 2021 at 5:43 PM Tero Kristo <tero.kristo@linux.intel.com> wrote:
->>
->> Add support for Universal Stylus Interface (USI) style events to the HID
->> core and input layers.
->>
->> Signed-off-by: Tero Kristo <tero.kristo@linux.intel.com>
->> ---
->>   drivers/hid/hid-input.c                | 18 ++++++++++++++++++
->>   include/linux/mod_devicetable.h        |  2 +-
->>   include/uapi/linux/hid.h               | 10 ++++++++++
->>   include/uapi/linux/input-event-codes.h | 22 ++++++++++++++--------
->>   4 files changed, 43 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
->> index 73c2edda742e..b428ee9b4d9b 100644
->> --- a/drivers/hid/hid-input.c
->> +++ b/drivers/hid/hid-input.c
->> @@ -829,6 +829,10 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->>                          }
->>                          break;
->>
->> +               case 0x38: /* Transducer Index */
->> +                       map_msc(MSC_PEN_ID);
-> 
-> This is the new slot version for pens, I am not sure we really want to
-> blindly introduce that without testing.
-> 
-> Do you have a panel that supports multiple values (at once) for this
-> usage (2 pens???). If not, I would simply skip that usage until we get
-> an actual hardware that makes use of it.
-> 
->> +                       break;
->> +
->>                  case 0x3b: /* Battery Strength */
->>                          hidinput_setup_battery(device, HID_INPUT_REPORT, field, false);
->>                          usage->type = EV_PWR;
->> @@ -876,6 +880,20 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->>                          map_msc(MSC_SERIAL);
->>                          break;
->>
->> +               case 0x5c: map_msc(MSC_PEN_COLOR);              break;
->> +               case 0x5e: map_msc(MSC_PEN_LINE_WIDTH);         break;
-> 
-> We already have ABS_TOOL_WIDTH which seems to relate to that very closely.
-> 
->> +
->> +               case 0x70:
->> +               case 0x71:
->> +               case 0x72:
->> +               case 0x73:
->> +               case 0x74:
->> +               case 0x75:
->> +               case 0x76:
->> +               case 0x77:
->> +                       map_msc(MSC_PEN_LINE_STYLE);
-> 
-> Nope, this is wrong. It took me a long time to understand the report
-> descriptor (see my last reply to your v2).
-> Basically, we need one input event for each value between 0x72 and
-> 0x77. HID core should translate the array of 1 element into a set of
-> {depressed usage, pressed usage} and from the user-space, we will get
-> "MSC_PEN_STYLE_CHISEL_MARKER 1" for instance.
+Hi Dmitry,
 
-This seems to be working (on top of this RFC):
----
-diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-index cec0470e5485..18035c63c358 100644
---- a/drivers/hid/hid-debug.c
-+++ b/drivers/hid/hid-debug.c
-@@ -1027,8 +1027,12 @@ static const char *misc[MSC_MAX + 1] = {
-  	[MSC_SERIAL] = "Serial",	[MSC_PULSELED] = "Pulseled",
-  	[MSC_GESTURE] = "Gesture",	[MSC_RAW] = "RawData",
-  	[MSC_PEN_ID] = "PenID",		[MSC_PEN_COLOR] "PenColor",
--	[MSC_PEN_LINE_WIDTH] = "PenLineWidth",
--	[MSC_PEN_LINE_STYLE] = "PenLineStyle",
-+	[MSC_PEN_LINE_STYLE_INK] = "PenLineStyleInk",
-+	[MSC_PEN_LINE_STYLE_PENCIL] = "PenLineStylePencil",
-+	[MSC_PEN_LINE_STYLE_HIGHLIGHTER] = "PenLineStyleHighlighter",
-+	[MSC_PEN_LINE_STYLE_CHISEL_MARKER] = "PenLineStyleChiselMarker",
-+	[MSC_PEN_LINE_STYLE_BRUSH] = "PenLineStyleBrush",
-+	[MSC_PEN_LINE_STYLE_NO_PREFERENCE] = "PenLineStyleNoPreference",
-  };
-  
-  static const char *leds[LED_MAX + 1] = {
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 079e67c5168f..837585f4e673 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -832,8 +832,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
-  			break;
-  
-  		case 0x38: /* Transducer Index */
--			map_msc(MSC_PEN_ID);
--			break;
-+			goto ignore;
-  
-  		case 0x3b: /* Battery Strength */
-  			hidinput_setup_battery(device, HID_INPUT_REPORT, field, false);
-@@ -882,18 +881,36 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
-  			map_msc(MSC_SERIAL);
-  			break;
-  
--		case 0x5c: map_msc(MSC_PEN_COLOR);		break;
--		case 0x5e: map_msc(MSC_PEN_LINE_WIDTH);		break;
--
--		case 0x70:
--		case 0x71:
--		case 0x72:
--		case 0x73:
--		case 0x74:
--		case 0x75:
--		case 0x76:
--		case 0x77:
--			map_msc(MSC_PEN_LINE_STYLE);
-+		case 0x5c: /* Digitizer Preferred Color */
-+			map_msc(MSC_PEN_COLOR);
-+			break;
-+
-+		case 0x5e: /* Digitizer Preferred Line Width */
-+			map_abs_clear(ABS_TOOL_WIDTH);
-+			break;
-+
-+
-+		case 0x70: /* Preferred Line Style -> not an input usage*/
-+		case 0x71: /* Preferred Line Style is Locked */
-+			goto ignore;
-+
-+		case 0x72: /* Ink */
-+			map_msc(MSC_PEN_LINE_STYLE_INK);
-+			break;
-+		case 0x73: /* Pencil */
-+			map_msc(MSC_PEN_LINE_STYLE_PENCIL);
-+			break;
-+		case 0x74: /* Highlighter */
-+			map_msc(MSC_PEN_LINE_STYLE_HIGHLIGHTER);
-+			break;
-+		case 0x75: /* Chisel Marker */
-+			map_msc(MSC_PEN_LINE_STYLE_CHISEL_MARKER);
-+			break;
-+		case 0x76: /* Brush */
-+			map_msc(MSC_PEN_LINE_STYLE_BRUSH);
-+			break;
-+		case 0x77: /* No Preference */
-+			map_msc(MSC_PEN_LINE_STYLE_NO_PREFERENCE);
-  			break;
-  
-  		default:  goto unknown;
-diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-index a76d37082ab5..bf2b76a6e7e8 100644
---- a/include/linux/mod_devicetable.h
-+++ b/include/linux/mod_devicetable.h
-@@ -322,7 +322,7 @@ struct pcmcia_device_id {
-  #define INPUT_DEVICE_ID_KEY_MAX		0x2ff
-  #define INPUT_DEVICE_ID_REL_MAX		0x0f
-  #define INPUT_DEVICE_ID_ABS_MAX		0x3f
--#define INPUT_DEVICE_ID_MSC_MAX		0x09
-+#define INPUT_DEVICE_ID_MSC_MAX		0x0d
-  #define INPUT_DEVICE_ID_LED_MAX		0x0f
-  #define INPUT_DEVICE_ID_SND_MAX		0x07
-  #define INPUT_DEVICE_ID_FF_MAX		0x7f
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 98295f71941a..ff705245b7ae 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -908,12 +908,16 @@
-  #define MSC_SCAN			0x04
-  #define MSC_TIMESTAMP			0x05
-  /* USI Pen events */
--#define MSC_PEN_ID			0x06
--#define MSC_PEN_COLOR			0x07
--#define MSC_PEN_LINE_WIDTH		0x08
--#define MSC_PEN_LINE_STYLE		0x09
-+#define MSC_PEN_ID				0x06
-+#define MSC_PEN_COLOR				0x07
-+#define MSC_PEN_LINE_STYLE_INK			0x08
-+#define MSC_PEN_LINE_STYLE_PENCIL		0x09
-+#define MSC_PEN_LINE_STYLE_HIGHLIGHTER		0x0a
-+#define MSC_PEN_LINE_STYLE_CHISEL_MARKER	0x0b
-+#define MSC_PEN_LINE_STYLE_BRUSH		0x0c
-+#define MSC_PEN_LINE_STYLE_NO_PREFERENCE	0x0d
-  /* TODO: Add USI diagnostic & battery events too */
--#define MSC_MAX				0x09
-+#define MSC_MAX				0x0d
-  #define MSC_CNT				(MSC_MAX + 1)
-  
-  /*
----
+On 12/8/21 09:51, Dmitry Torokhov wrote:
+> On Wed, Dec 8, 2021 at 12:37 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> Hi Dmitry,
+>>
+>> Thank you for the review.
+>>
+>> On 12/7/21 18:50, Dmitry Torokhov wrote:
+>>> On Mon, Dec 06, 2021 at 05:47:47PM +0100, Hans de Goede wrote:
+>>>> Some Goodix touchscreens have support for a (Goodix) active pen, add
+>>>> support for this. The info on how to detect when a pen is down and to
+>>>> detect when the stylus buttons are pressed was lifted from the out
+>>>> of tree Goodix driver with pen support written by Adya:
+>>>> https://gitlab.com/AdyaAdya/goodix-touchscreen-linux-driver/
+>>>>
+>>>> Since there is no way to tell if pen support is present, the registering
+>>>> of the pen input_dev is delayed till the first pen event is detected.
+>>>>
+>>>> This has been tested on a Trekstor Surftab duo W1, a Chuwi Hi13 and
+>>>> a Cyberbook T116 tablet.
+>>>>
+>>>> Link: https://gitlab.com/AdyaAdya/goodix-touchscreen-linux-driver/
+>>>> BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=202161
+>>>> BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=204513
+>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>>>> ---
+>>>>  drivers/input/touchscreen/goodix.c | 122 ++++++++++++++++++++++++++++-
+>>>>  drivers/input/touchscreen/goodix.h |   1 +
+>>>>  2 files changed, 121 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+>>>> index 2d38a941e7e4..691e4505cf4a 100644
+>>>> --- a/drivers/input/touchscreen/goodix.c
+>>>> +++ b/drivers/input/touchscreen/goodix.c
+>>>> @@ -298,6 +298,107 @@ static int goodix_ts_read_input_report(struct goodix_ts_data *ts, u8 *data)
+>>>>      return -ENOMSG;
+>>>>  }
+>>>>
+>>>> +static struct input_dev *goodix_create_pen_input(struct goodix_ts_data *ts)
+>>>> +{
+>>>> +    struct device *dev = &ts->client->dev;
+>>>> +    struct input_dev *input;
+>>>> +
+>>>> +    input = devm_input_allocate_device(dev);
+>>>> +    if (!input)
+>>>> +            return NULL;
+>>>> +
+>>>> +    input_alloc_absinfo(input);
+>>>> +    if (!input->absinfo) {
+>>>> +            input_free_device(input);
+>>>> +            return NULL;
+>>>> +    }
+>>>
+>>> Please drop this as input_abs_set_max() will do allocation and
+>>> input_register_device() will reject device with ABS_* events without
+>>> absinfo allocated.
+>>>
+>>>> +
+>>>> +    input->absinfo[ABS_X] = ts->input_dev->absinfo[ABS_MT_POSITION_X];
+>>>
+>>>       input_abs_set_max(input, ABS_X,
+>>>               input_abs_get_max(input, ABS_MT_POSITION_X);
+>>>
+>>> or even maybe
+>>>
+>>>       input_set_abs_params(input, ABS_X,
+>>>               0, input_abs_get_max(input, ABS_MT_POSITION_X), 0, 0);
+>>
+>> The reason why I'm just copying the entire absinfo struct
+>> (and thus need the NULL check above) is because this driver uses
+>> touchscreen_parse_properties(), so the min and fuzz values
+>> might (theoretically) also be set through device-properties and
+>> I wanted to cover that.
+>>
+>> Since you don't like the above approach, I will go with the following
+>> for the next version:
+>>
+>>         input_set_abs_params(input, ABS_X,
+>>                              input_abs_get_min(ts->input_dev, ABS_MT_POSITION_X),
+>>                              input_abs_get_max(ts->input_dev, ABS_MT_POSITION_X),
+>>                              input_abs_get_fuzz(ts->input_dev, ABS_MT_POSITION_X),
+>>                              input_abs_get_flat(ts->input_dev, ABS_MT_POSITION_X));
+>>
+>> (and the same for the Y axis).
+> 
+> Ah, sorry, I misread the code. It is fine as is then, or we could even
+> consider adding input_copy_abs(input, axis, src) that would allocate
+> absinfo if needed, set capability, and do the copy.
 
-Cheers,
-Benjamin
+Oh, I think that adding an input_copy_abs() helper for this is actually
+a good idea. I'll do that for the next version (in a separate patch of course).
 
-> 
-> And *maybe* we could even use KEY events there, so we could remap them
-> (but that's a very distant maybe).
-> 
->> +                       break;
->> +
->>                  default:  goto unknown;
->>                  }
->>                  break;
->> diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
->> index ae2e75d15b21..4ff40be7676b 100644
->> --- a/include/linux/mod_devicetable.h
->> +++ b/include/linux/mod_devicetable.h
->> @@ -322,7 +322,7 @@ struct pcmcia_device_id {
->>   #define INPUT_DEVICE_ID_KEY_MAX                0x2ff
->>   #define INPUT_DEVICE_ID_REL_MAX                0x0f
->>   #define INPUT_DEVICE_ID_ABS_MAX                0x3f
->> -#define INPUT_DEVICE_ID_MSC_MAX                0x07
->> +#define INPUT_DEVICE_ID_MSC_MAX                0x09
->>   #define INPUT_DEVICE_ID_LED_MAX                0x0f
->>   #define INPUT_DEVICE_ID_SND_MAX                0x07
->>   #define INPUT_DEVICE_ID_FF_MAX         0x7f
->> diff --git a/include/uapi/linux/hid.h b/include/uapi/linux/hid.h
->> index 861bfbbfc565..60ef9b615a1a 100644
->> --- a/include/uapi/linux/hid.h
->> +++ b/include/uapi/linux/hid.h
->> @@ -255,6 +255,7 @@
->>   #define HID_DG_TOUCH                           0x000d0033
->>   #define HID_DG_UNTOUCH                         0x000d0034
->>   #define HID_DG_TAP                             0x000d0035
->> +#define HID_DG_TRANSDUCER_INDEX                        0x000d0038
->>   #define HID_DG_TABLETFUNCTIONKEY               0x000d0039
->>   #define HID_DG_PROGRAMCHANGEKEY                        0x000d003a
->>   #define HID_DG_BATTERYSTRENGTH                 0x000d003b
->> @@ -267,6 +268,15 @@
->>   #define HID_DG_BARRELSWITCH                    0x000d0044
->>   #define HID_DG_ERASER                          0x000d0045
->>   #define HID_DG_TABLETPICK                      0x000d0046
->> +#define HID_DG_PEN_COLOR                       0x000d005c
->> +#define HID_DG_PEN_LINE_WIDTH                  0x000d005e
->> +#define HID_DG_PEN_LINE_STYLE                  0x000d0070
->> +#define HID_DG_PEN_LINE_STYLE_INK              0x000d0072
->> +#define HID_DG_PEN_LINE_STYLE_PENCIL           0x000d0073
->> +#define HID_DG_PEN_LINE_STYLE_HIGHLIGHTER      0x000d0074
->> +#define HID_DG_PEN_LINE_STYLE_CHISEL_MARKER    0x000d0075
->> +#define HID_DG_PEN_LINE_STYLE_BRUSH            0x000d0076
->> +#define HID_DG_PEN_LINE_STYLE_NO_PREFERENCE    0x000d0077
-> 
-> Could you integrate that patch before my patch "HID: export the
-> various HID defines from the spec in the uapi"? And also have it as a
-> separate patch from the mapping?
-> This way I can schedule that part earlier before we settle on the
-> actual user space usages.
-> 
->>
->>   #define HID_CP_CONSUMERCONTROL                 0x000c0001
->>   #define HID_CP_NUMERICKEYPAD                   0x000c0002
->> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
->> index 225ec87d4f22..98295f71941a 100644
->> --- a/include/uapi/linux/input-event-codes.h
->> +++ b/include/uapi/linux/input-event-codes.h
->> @@ -901,14 +901,20 @@
->>    * Misc events
->>    */
->>
->> -#define MSC_SERIAL             0x00
->> -#define MSC_PULSELED           0x01
->> -#define MSC_GESTURE            0x02
->> -#define MSC_RAW                        0x03
->> -#define MSC_SCAN               0x04
->> -#define MSC_TIMESTAMP          0x05
->> -#define MSC_MAX                        0x07
->> -#define MSC_CNT                        (MSC_MAX+1)
->> +#define MSC_SERIAL                     0x00
->> +#define MSC_PULSELED                   0x01
->> +#define MSC_GESTURE                    0x02
->> +#define MSC_RAW                                0x03
->> +#define MSC_SCAN                       0x04
->> +#define MSC_TIMESTAMP                  0x05
->> +/* USI Pen events */
->> +#define MSC_PEN_ID                     0x06
->> +#define MSC_PEN_COLOR                  0x07
->> +#define MSC_PEN_LINE_WIDTH             0x08
-> 
-> PEN_LINE_WIDTH should be dropped.
-> 
->> +#define MSC_PEN_LINE_STYLE             0x09
-> 
-> Again, PEN_LINE_STYLE is HID only and we should only map the values,
-> not the title of the array.
-> 
-> Cheers,
-> Benjamin
-> 
->> +/* TODO: Add USI diagnostic & battery events too */
->> +#define MSC_MAX                                0x09
->> +#define MSC_CNT                                (MSC_MAX + 1)
->>
->>   /*
->>    * LEDs
->> --
->> 2.25.1
->>
+Regards,
+
+Hans
 
