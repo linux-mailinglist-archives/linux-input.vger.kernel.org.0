@@ -2,96 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0298D46DDFC
-	for <lists+linux-input@lfdr.de>; Wed,  8 Dec 2021 23:05:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 481C646E382
+	for <lists+linux-input@lfdr.de>; Thu,  9 Dec 2021 08:51:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240001AbhLHWIa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Dec 2021 17:08:30 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:50073 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S229531AbhLHWIa (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Dec 2021 17:08:30 -0500
-Received: (qmail 588686 invoked by uid 1000); 8 Dec 2021 17:04:57 -0500
-Date:   Wed, 8 Dec 2021 17:04:57 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Yinbo Zhu <zhuyinbo@loongson.cn>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Rajat Jain <rajatja@google.com>,
-        Chris Chiu <chris.chiu@canonical.com>,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] usb: core: enable remote wakeup function for usb
- controller
-Message-ID: <YbEsCSwYLgQefQxU@rowland.harvard.edu>
-References: <1638956391-20149-1-git-send-email-zhuyinbo@loongson.cn>
- <1638956391-20149-2-git-send-email-zhuyinbo@loongson.cn>
+        id S232491AbhLIHz0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Dec 2021 02:55:26 -0500
+Received: from mga07.intel.com ([134.134.136.100]:38704 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232321AbhLIHz0 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 9 Dec 2021 02:55:26 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="301424989"
+X-IronPort-AV: E=Sophos;i="5.88,191,1635231600"; 
+   d="scan'208";a="301424989"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2021 23:51:53 -0800
+X-IronPort-AV: E=Sophos;i="5.88,191,1635231600"; 
+   d="scan'208";a="658675694"
+Received: from imihalc-mobl1.ger.corp.intel.com (HELO [10.252.52.209]) ([10.252.52.209])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2021 23:51:51 -0800
+Subject: Re: [RFCv3 0/7] USI stylus support series
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>
+References: <20211201164301.44653-1-tero.kristo@linux.intel.com>
+ <CAO-hwJJRXrMAxi_cWng=vuQv4Ej7_AFweZTxVqu9_uy+C6sfzg@mail.gmail.com>
+From:   Tero Kristo <tero.kristo@linux.intel.com>
+Message-ID: <8e35543a-78f0-985f-808c-b07622ba814e@linux.intel.com>
+Date:   Thu, 9 Dec 2021 09:51:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1638956391-20149-2-git-send-email-zhuyinbo@loongson.cn>
+In-Reply-To: <CAO-hwJJRXrMAxi_cWng=vuQv4Ej7_AFweZTxVqu9_uy+C6sfzg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Dec 08, 2021 at 05:39:51PM +0800, Yinbo Zhu wrote:
-> The remote wake up function is a regular function on usb device and
-> I think keeping it enabled by default will make the usb application
-> more convenient and usb device remote wake up function keep enabled
-> that ask usb controller remote wake up was enabled at first.
-> 
-> This patch only enable wake up on usb root hub device, among which,
+Hi Benjamin,
 
-You say the patch only affects root hub devices, but this doesn't appear 
-to be true.
+On 08/12/2021 17:30, Benjamin Tissoires wrote:
+> Hi Tero,
+>
+> On Wed, Dec 1, 2021 at 5:43 PM Tero Kristo <tero.kristo@linux.intel.com> wrote:
+>> Hi,
+>>
+>> Another update here based on received feedback. Main change compared to v2:
+> If that's OK with you, I'd like to cherry-pick some patches from the
+> series: 1/7, 2/7 (the version from v4 because I requested changes),
+> 4/7 and a lighter 5/7 where we don't have the MSC events we are still
+> discussing.
+>
+> So Ideally, can you post a v4 based on top of hid.git/for-next
+> (without my hid-bpf changes) with those 4 patches?
 
-> usb3.0 root hub doesn't be set wakeup node property but use command
-> USB_INTRF_FUNC_SUSPEND to enable remote wake up function.
-> 
-> Signed-off-by: Yinbo Zhu <zhuyinbo@loongson.cn>
-> ---
->  drivers/usb/core/hub.c | 20 ++++++++++++++++++--
->  include/linux/usb.h    |  4 +++-
->  2 files changed, 21 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 86658a8..cb4b956 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -2509,6 +2509,8 @@ static void set_usb_port_removable(struct usb_device *udev)
->   */
->  int usb_new_device(struct usb_device *udev)
->  {
-> +	struct usb_host_config *config;
-> +	int ncfg;
->  	int err;
->  
->  	if (udev->parent) {
-> @@ -2540,6 +2542,18 @@ int usb_new_device(struct usb_device *udev)
->  	udev->dev.devt = MKDEV(USB_DEVICE_MAJOR,
->  			(((udev->bus->busnum-1) * 128) + (udev->devnum-1)));
->  
-> +	for (ncfg = 0; ncfg < udev->descriptor.bNumConfigurations; ncfg++) {
-> +		config = &udev->config[ncfg];
-> +		if ((config->desc.bmAttributes & (1 << 5)) == 0)
-> +			break;
-> +		if (ncfg + 1 == udev->descriptor.bNumConfigurations) {
-> +			err = usb_enable_remote_wakeup(udev);
-> +			if (err)
-> +				dev_dbg(&udev->dev,
-> +				      "won't remote wakeup, err %d\n", err);
-> +		}
-> +	}
+Yes, I can post these.
 
-I don't see anything in there which treats root hubs differently from 
-other devices.
+>
+> Patch 3 is still up for discussion, and patches 6 and 7 are obviously RFC.
+>
+> Actually, Patch 3 could be split into a part where you add the HID
+> usages and a part with the mapping of them. The HID usages part can be
+> integrated now too, and we'll have the USI mapping that would require
+> Dmitry's ack in a separate patch.
+Ok, I'll take a look at this part also.
+>
+> But if you prefer having everything in one series, that's fine by me too.
 
-Besides, enabling wakeup for root hubs is generally a bad idea.  Suppose 
-you closed a laptop's lid and then unplugged a USB device -- with wakeup 
-enabled, the unplug would cause the laptop to wake up again without your 
-knowledge.
+No, I am fine with splitting things up and start getting things integrated.
 
-Alan Stern
+-Tero
+
+>
+> Cheers,
+> Benjamin
+>
+>> - Dropped patch #5 : HID: core: map USI pen style reports directly
+>>    This is not needed anymore, as the same result can be reached by
+>>    modifying the flags of the relevant field in rdesc. This is done now
+>>    as part of patch #7 in the BPF code.
+>>
+>> I also dropped one of the fixes from my test branch [1] as pointed out
+>> by Benjamin, it is not needed if the BPF program is executed with the
+>> modalias link.
+>>
+>> Updated test branch can be found from [2].
+>>
+>> -Tero
+>>
+>> [1]
+>> https://github.com/t-kristo/linux/commit/81b27fd46780ce67c2706d586c0f4a437e87dbf6
+>> (HID: bpf: fix file mapping)
+>> [2] https://github.com/t-kristo/linux/commits/usi-5.16-rfc-v3-bpf
+>>
+>>
