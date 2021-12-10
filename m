@@ -2,266 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9395D46F53F
-	for <lists+linux-input@lfdr.de>; Thu,  9 Dec 2021 21:51:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93EF746F91F
+	for <lists+linux-input@lfdr.de>; Fri, 10 Dec 2021 03:27:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231253AbhLIUxP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Dec 2021 15:53:15 -0500
-Received: from mga04.intel.com ([192.55.52.120]:14986 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229842AbhLIUxP (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 9 Dec 2021 15:53:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639082981; x=1670618981;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=sl9mxyAw6Bhlvxo5iMfXL9JC80OkYZ0/lxdr25/e0Dk=;
-  b=j3eX5b2vSc7B1byJqHqhunh7S1CG6UL9xMHxRwPHru59wlEk4KERVwIP
-   TnYc8br7PUYt2klluFWq19ZTBerPxl03thdDMg783U98blG4sdHQ1Ijj+
-   ntdEdtBoKn8wP0mvcoRkYFSGzyJeIJtGV7+DLcq0Xq2yO81x58zC+uR/0
-   dfXQorgyWeFJgtBvMwPKzU28Frlk+QDQk1OW4qI3Ta/u0Xm0rPhGV5nyj
-   vX1acUedSiTYbqXVKyRiYfS1f2EpU9hw7Lotdbv6IFmJQjGfGJjACT7ek
-   Xk0je1NA/S2sdZGq16ZFWWMhbpAUlZScXAukWEYyPoihye4O3BRWOpKbJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="236940839"
-X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; 
-   d="scan'208";a="236940839"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2021 12:49:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; 
-   d="scan'208";a="503644372"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 09 Dec 2021 12:49:39 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mvQME-0002N8-Jc; Thu, 09 Dec 2021 20:49:38 +0000
-Date:   Fri, 10 Dec 2021 04:49:32 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 5ede7f0cfb93f0f8edf2245671e18e982a247f55
-Message-ID: <61b26bdc.aVk8QCRLjQ0I+S53%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S235928AbhLJCaf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Dec 2021 21:30:35 -0500
+Received: from mail-0301.mail-europe.com ([188.165.51.139]:45068 "EHLO
+        mail-0301.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235960AbhLJCaf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Dec 2021 21:30:35 -0500
+Date:   Fri, 10 Dec 2021 02:26:47 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
+        s=protonmail; t=1639103217;
+        bh=mu0sqQvUggygf7jKzEWPGl0UelkYU3w40dJw8wgxBlw=;
+        h=Date:To:From:Cc:Reply-To:Subject:Message-ID:From:To:Cc;
+        b=GNF8V+oQyEMMQAWhqMvw0m37ieasw0tmQ/6vl1VeJG9LqdAWQNa2nj6aMZQ205H1X
+         sdyB3eNYCd9kFOy+8NZlDc/u0MQtw9zwvU2NWsqll7bmvWpm9yPgbbNul04+k5uOC+
+         djvMa/6ak9/KlsYwyImgjxiQoOMNhNlX5/pGYgrU=
+To:     caleb@connolly.tech, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, phone-devel@vger.kernel.org
+From:   Caleb Connolly <caleb@connolly.tech>
+Cc:     Jami Kettunen <jami.kettunen@somainline.org>,
+        Joel Selvaraj <jo@jsfamily.in>
+Reply-To: Caleb Connolly <caleb@connolly.tech>
+Subject: [PATCH v4 0/6] input: Introduce support for SPMI haptics found on Qcom PMICs
+Message-ID: <20211210022639.2779173-1-caleb@connolly.tech>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+        mailout.protonmail.ch
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 5ede7f0cfb93f0f8edf2245671e18e982a247f55  Input: goodix - add pen support
+This series introduces a driver for the SPMI haptics hardware block
+found in Qualcomm PMICs. SPMI haptics support LRA (Linear Resonant
+Actuator) style haptics, as well as ERM (Eccentric Rotating Mass).
+It also supports several modes of driving the haptics, e.g. by loading
+the pattern to play into an internal buffer, or using PWM.
 
-elapsed time: 730m
+More information about the hardware can be found here:
+        https://gitlab.com/sdm845-mainline/linux/-/wikis/PMI8998-QPNP-Hapti=
+cs
 
-configs tested: 193
-configs skipped: 4
+This driver has been written based on downstream sources as no public
+documentation is available. It includes initial support for LRA haptics
+in buffer mode, this combination seems to be the most common and will
+enable haptics on the OnePlus 6 and 6T, PocoPhone F1, OnePlus 5 and
+several other Qualcomm devices with mainline kernel support.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+The driver is implemented using the ff-memless (forcefeedback) input
+framework and makes an attempt to control the strength of vibration relativ=
+e
+to the magnitude set from userspace.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20211209
-x86_64                           allyesconfig
-arc                      axs103_smp_defconfig
-powerpc                      mgcoge_defconfig
-arm                        mvebu_v7_defconfig
-m68k                        stmark2_defconfig
-arm                          imote2_defconfig
-arm                          pxa3xx_defconfig
-m68k                       m5475evb_defconfig
-ia64                            zx1_defconfig
-ia64                      gensparse_defconfig
-powerpc                      chrp32_defconfig
-arm                         hackkit_defconfig
-arm                             mxs_defconfig
-powerpc                       holly_defconfig
-mips                         mpc30x_defconfig
-sh                           se7206_defconfig
-mips                           mtx1_defconfig
-m68k                       m5249evb_defconfig
-arm                           spitz_defconfig
-powerpc64                        alldefconfig
-sh                            titan_defconfig
-powerpc                  storcenter_defconfig
-arm                          lpd270_defconfig
-powerpc                    sam440ep_defconfig
-powerpc                      tqm8xx_defconfig
-m68k                        m5307c3_defconfig
-sh                        apsh4ad0a_defconfig
-alpha                            allyesconfig
-mips                          rm200_defconfig
-arm                        keystone_defconfig
-mips                      loongson3_defconfig
-xtensa                  nommu_kc705_defconfig
-arm                            pleb_defconfig
-ia64                        generic_defconfig
-mips                          malta_defconfig
-h8300                    h8300h-sim_defconfig
-openrisc                 simple_smp_defconfig
-sh                        sh7763rdp_defconfig
-powerpc                 mpc834x_mds_defconfig
-powerpc                     kilauea_defconfig
-powerpc                      makalu_defconfig
-sh                          lboxre2_defconfig
-powerpc                      pasemi_defconfig
-m68k                        mvme16x_defconfig
-arm                             rpc_defconfig
-mips                        bcm63xx_defconfig
-mips                     loongson2k_defconfig
-sh                          kfr2r09_defconfig
-arc                 nsimosci_hs_smp_defconfig
-arm                            dove_defconfig
-powerpc                     tqm8548_defconfig
-mips                        workpad_defconfig
-arm                           corgi_defconfig
-s390                             allyesconfig
-alpha                               defconfig
-arm                  colibri_pxa270_defconfig
-powerpc                     stx_gp3_defconfig
-powerpc                       ebony_defconfig
-powerpc                        fsp2_defconfig
-powerpc                      ppc6xx_defconfig
-riscv                             allnoconfig
-mips                           ip27_defconfig
-powerpc                 xes_mpc85xx_defconfig
-powerpc                    socrates_defconfig
-nds32                             allnoconfig
-mips                  maltasmvp_eva_defconfig
-mips                           rs90_defconfig
-mips                         tb0287_defconfig
-sh                          landisk_defconfig
-powerpc                 mpc8313_rdb_defconfig
-arm                      pxa255-idp_defconfig
-riscv                               defconfig
-mips                       lemote2f_defconfig
-sh                           se7705_defconfig
-sh                          sdk7786_defconfig
-arm                           sama7_defconfig
-mips                         cobalt_defconfig
-sh                          rsk7201_defconfig
-arm                        multi_v5_defconfig
-arm                             pxa_defconfig
-riscv                    nommu_k210_defconfig
-powerpc                   lite5200b_defconfig
-riscv                    nommu_virt_defconfig
-powerpc                       eiger_defconfig
-powerpc                     ppa8548_defconfig
-m68k                          hp300_defconfig
-arm                       omap2plus_defconfig
-ia64                                defconfig
-powerpc                     ep8248e_defconfig
-arm                             ezx_defconfig
-arm                       multi_v4t_defconfig
-h8300                       h8s-sim_defconfig
-sh                   sh7724_generic_defconfig
-powerpc               mpc834x_itxgp_defconfig
-um                                  defconfig
-arc                     nsimosci_hs_defconfig
-powerpc                   motionpro_defconfig
-mips                           gcw0_defconfig
-arm                        mvebu_v5_defconfig
-sh                           se7721_defconfig
-arm                    vt8500_v6_v7_defconfig
-nios2                         3c120_defconfig
-arm                        spear6xx_defconfig
-arc                            hsdk_defconfig
-powerpc                 canyonlands_defconfig
-powerpc                     tqm8560_defconfig
-arm                         cm_x300_defconfig
-arm                      tct_hammer_defconfig
-m68k                        m5272c3_defconfig
-powerpc                 mpc836x_rdk_defconfig
-xtensa                generic_kc705_defconfig
-sh                           se7712_defconfig
-sh                   secureedge5410_defconfig
-sparc64                             defconfig
-arm                  randconfig-c002-20211209
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a006-20211209
-x86_64               randconfig-a005-20211209
-x86_64               randconfig-a001-20211209
-x86_64               randconfig-a002-20211209
-x86_64               randconfig-a004-20211209
-x86_64               randconfig-a003-20211209
-i386                 randconfig-a001-20211209
-i386                 randconfig-a005-20211209
-i386                 randconfig-a003-20211209
-i386                 randconfig-a002-20211209
-i386                 randconfig-a006-20211209
-i386                 randconfig-a004-20211209
-riscv                            allyesconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
+Changes since v3:
+ - Adjust example DTS to avoid creating new warnings in dt_binding_check
+ - Address warnings from kernel test robot.
 
-clang tested configs:
-arm                  randconfig-c002-20211209
-x86_64               randconfig-c007-20211209
-riscv                randconfig-c006-20211209
-i386                 randconfig-c001-20211209
-mips                 randconfig-c004-20211209
-powerpc              randconfig-c003-20211209
-s390                 randconfig-c005-20211209
-x86_64               randconfig-a016-20211209
-x86_64               randconfig-a011-20211209
-x86_64               randconfig-a013-20211209
-x86_64               randconfig-a015-20211209
-x86_64               randconfig-a012-20211209
-x86_64               randconfig-a014-20211209
-i386                 randconfig-a013-20211209
-i386                 randconfig-a016-20211209
-i386                 randconfig-a011-20211209
-i386                 randconfig-a014-20211209
-i386                 randconfig-a012-20211209
-i386                 randconfig-a015-20211209
-hexagon              randconfig-r045-20211209
-s390                 randconfig-r044-20211209
-hexagon              randconfig-r041-20211209
-riscv                randconfig-r042-20211209
+Changes since v2:
+ - Addressed Rob's comments on dt-bindings (I'm not sure what to do
+   about the pmic compatible?)
+ - Fixed some typos
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Changes since v1:
+ - Replace old QPNP naming with SPMI
+ - Address Bjorn's comments on the driver, various style and code cleanups
+ - Address Bjorn's comments on the DT bindings and DTS
+ - Pickup patches from Joel and Jami to enable haptics on the OnePlus 5
+   and Poco F1.
+
+Caleb Connolly (4):
+  dt-bindings: input: add Qualcomm SPMI haptics driver
+  input: add Qualcomm SPMI haptics driver
+  arm64: dts: qcom: pmi8998: introduce spmi haptics
+  arm64: dts: qcom: sdm845-oneplus-common: add haptics
+
+Jami Kettunen (1):
+  arm64: dts: qcom: msm8998-oneplus-common: Enable PMI8998 haptics
+
+Joel Selvaraj (1):
+  arm64: dts: qcom: sdm845-xiaomi-beryllium: add haptics
+
+ .../bindings/input/qcom,spmi-haptics.yaml     | 123 +++
+ .../boot/dts/qcom/msm8998-oneplus-common.dtsi |   6 +
+ arch/arm64/boot/dts/qcom/pmi8998.dtsi         |  15 +
+ .../boot/dts/qcom/sdm845-oneplus-common.dtsi  |   6 +
+ .../boot/dts/qcom/sdm845-xiaomi-beryllium.dts |   5 +
+ drivers/input/misc/Kconfig                    |  12 +
+ drivers/input/misc/Makefile                   |   1 +
+ drivers/input/misc/qcom-spmi-haptics.c        | 977 ++++++++++++++++++
+ include/dt-bindings/input/qcom,spmi-haptics.h |  32 +
+ 9 files changed, 1177 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/qcom,spmi-hapti=
+cs.yaml
+ create mode 100644 drivers/input/misc/qcom-spmi-haptics.c
+ create mode 100644 include/dt-bindings/input/qcom,spmi-haptics.h
+
+--
+2.34.1
+
+
