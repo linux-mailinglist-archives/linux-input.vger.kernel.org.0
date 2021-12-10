@@ -2,142 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECA68470584
-	for <lists+linux-input@lfdr.de>; Fri, 10 Dec 2021 17:21:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB4334705CE
+	for <lists+linux-input@lfdr.de>; Fri, 10 Dec 2021 17:35:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240945AbhLJQZB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Dec 2021 11:25:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53772 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236537AbhLJQZB (ORCPT
+        id S243618AbhLJQil (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Dec 2021 11:38:41 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:47641 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S243604AbhLJQik (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Dec 2021 11:25:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639153285;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=JRTa1IW1x5mHDhMMijsmQ1M232y0DfMQoKwLDpRfU1o=;
-        b=Eicb/mMeGAb1RERxmr/az3OQUY7sasDJtcWw7FxHhcP5PBCzwXCMqvl4xXIG0YU6XoFzSG
-        ph0bUwK1bfTSvS/CZxAmkkuuFjDw/5Oczudp4spKcXGVzh/VlZD9W2s80MrUtPax1XM8c1
-        gyP5+FyY6v3LoZtePxP2BN0P5n2I40Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-36-iQBUMMxOPJi2OR4Tal-DFA-1; Fri, 10 Dec 2021 11:21:24 -0500
-X-MC-Unique: iQBUMMxOPJi2OR4Tal-DFA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22F79102C8B8;
-        Fri, 10 Dec 2021 16:21:23 +0000 (UTC)
-Received: from [10.39.192.155] (unknown [10.39.192.155])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9D0847A220;
-        Fri, 10 Dec 2021 16:21:21 +0000 (UTC)
-Message-ID: <c8854f9b-8200-ee10-fe83-77a776ddff95@redhat.com>
-Date:   Fri, 10 Dec 2021 17:21:20 +0100
+        Fri, 10 Dec 2021 11:38:40 -0500
+Received: (qmail 644048 invoked by uid 1000); 10 Dec 2021 11:35:05 -0500
+Date:   Fri, 10 Dec 2021 11:35:05 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     zhuyinbo <zhuyinbo@loongson.cn>
+Cc:     Jiri Kosina <jikos@kernel.org>, benjamin.tissoires@redhat.com,
+        gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
+        mathias.nyman@linux.intel.com, rajatja@google.com,
+        chris.chiu@canonical.com, linux-usb@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] usb: core: enable remote wakeup function for usb
+ controller
+Message-ID: <YbOBuZ77BAdoAdew@rowland.harvard.edu>
+References: <1638956391-20149-1-git-send-email-zhuyinbo@loongson.cn>
+ <1638956391-20149-2-git-send-email-zhuyinbo@loongson.cn>
+ <YbEsCSwYLgQefQxU@rowland.harvard.edu>
+ <fbd46e52-054c-8aea-2f06-3af74c95e5e0@loongson.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCHv4 2/5] HID: hid-input: Add suffix also for HID_DG_PEN
-To:     Tero Kristo <tero.kristo@linux.intel.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>
-References: <20211210111138.1248187-1-tero.kristo@linux.intel.com>
- <20211210111138.1248187-3-tero.kristo@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <20211210111138.1248187-3-tero.kristo@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fbd46e52-054c-8aea-2f06-3af74c95e5e0@loongson.cn>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Fri, Dec 10, 2021 at 05:27:30PM +0800, zhuyinbo wrote:
+> 
+> 
+> 在 2021/12/9 上午6:04, Alan Stern 写道:
+> > On Wed, Dec 08, 2021 at 05:39:51PM +0800, Yinbo Zhu wrote:
+> > > The remote wake up function is a regular function on usb device and
+> > > I think keeping it enabled by default will make the usb application
+> > > more convenient and usb device remote wake up function keep enabled
+> > > that ask usb controller remote wake up was enabled at first.
+> > > 
+> > > This patch only enable wake up on usb root hub device, among which,
+> > 
+> > You say the patch only affects root hub devices, but this doesn't appear
+> > to be true.
+> > 
+> > > usb3.0 root hub doesn't be set wakeup node property but use command
+> > > USB_INTRF_FUNC_SUSPEND to enable remote wake up function.
+> > > 
+> > > Signed-off-by: Yinbo Zhu <zhuyinbo@loongson.cn>
+> > > ---
+> > >   drivers/usb/core/hub.c | 20 ++++++++++++++++++--
+> > >   include/linux/usb.h    |  4 +++-
+> > >   2 files changed, 21 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> > > index 86658a8..cb4b956 100644
+> > > --- a/drivers/usb/core/hub.c
+> > > +++ b/drivers/usb/core/hub.c
+> > > @@ -2509,6 +2509,8 @@ static void set_usb_port_removable(struct usb_device *udev)
+> > >    */
+> > >   int usb_new_device(struct usb_device *udev)
+> > >   {
+> > > +	struct usb_host_config *config;
+> > > +	int ncfg;
+> > >   	int err;
+> > >   	if (udev->parent) {
+> > > @@ -2540,6 +2542,18 @@ int usb_new_device(struct usb_device *udev)
+> > >   	udev->dev.devt = MKDEV(USB_DEVICE_MAJOR,
+> > >   			(((udev->bus->busnum-1) * 128) + (udev->devnum-1)));
+> > > +	for (ncfg = 0; ncfg < udev->descriptor.bNumConfigurations; ncfg++) {
+> > > +		config = &udev->config[ncfg];
+> > > +		if ((config->desc.bmAttributes & (1 << 5)) == 0)
+> > > +			break;
+> > > +		if (ncfg + 1 == udev->descriptor.bNumConfigurations) {
+> > > +			err = usb_enable_remote_wakeup(udev);
+> > > +			if (err)
+> > > +				dev_dbg(&udev->dev,
+> > > +				      "won't remote wakeup, err %d\n", err);
+> > > +		}
+> > > +	}
+> > 
+> > I don't see anything in there which treats root hubs differently from
+> > other devices.
+> > 
+> Hi Alan Stern,
+> 
+> You can find following code, non-root-hub had removed Wakeup sysfs
+> attributes and disabled wakeup and root-hub had added wakeup sysfs attibutes
+> before call usb_new_device, so this patch was only enabled
+> remote wakeup for root-hub device.
+> int usb_new_device(struct usb_device *udev)
+> {
+>         if (udev->parent) {
+>                 /* Initialize non-root-hub device wakeup to disabled;
+>                  * device (un)configuration controls wakeup capable
+>                  * sysfs power/wakeup controls wakeup enabled/disabled
+>                  */
+>                 device_init_wakeup(&udev->dev, 0);
+>         }
 
+Okay.  But in any case, you're doing this in the wrong place.  Remote 
+wakeup capability depends on the configuration, so you must not enable 
+in usb_new_device() before the configuration has been chosen.
 
-On Fri, Dec 10, 2021 at 12:12 PM Tero Kristo <tero.kristo@linux.intel.com> wrote:
->
-> From: Mika Westerberg <mika.westerberg@linux.intel.com>
->
-> This and HID_DG_STYLUS are pretty much the same thing so add suffix for
-> HID_DG_PEN too. This makes the input device name look better.
->
-> While doing this, remove the suffix override from hid-multitouch, as it
-> is now handled by hid-input. Also, the suffix override done by
-> hid-multitouch was wrong, as it mapped HID_DG_PEN => "Stylus" and
-> HID_DG_STYLUS => "Pen".
+Furthermore, remote wakeup gets turned on only at the time when the 
+device is suspended.  We don't leave it on all the time.
 
-FWIW, I was thinking at the following:
----
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 837585f4e673..fe0da7bf24a9 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -1775,6 +1775,15 @@ static struct hid_input *hidinput_allocate(struct hid_device *hid,
-                         suffix = "Mouse";
-                         break;
-                 case HID_DG_PEN:
-+                       /*
-+                        * yes, there is an issue here:
-+                        *  DG_PEN -> "Stylus"
-+                        *  DG_STYLUS -> "Pen"
-+                        * But changing this now means users with config snippets
-+                        * will have to change it and the test suite will not be happy.
-+                        */
-+                       suffix = "Stylus";
-+                       break;
-                 case HID_DG_STYLUS:
-                         suffix = "Pen";
-                         break;
----
+> > Besides, enabling wakeup for root hubs is generally a bad idea.  Suppose
+> > you closed a laptop's lid and then unplugged a USB device -- with wakeup
+> > enabled, the unplug would cause the laptop to wake up again without your
+> > knowledge.
+> > 
+> > Alan Stern
+> when closed laptop's lid and then unplugged a non-hid usb device it doesn't
+> cause laptop to wakeup. and if that usb device is hid type and cause laptop
+> into wakeup state then system will continue into suspend state becuase
+> system ask that need accepted a acpi lid open event.
 
-Because the current patch breaks the test suite.
+Not all laptops have ACPI.
 
-Cheers,
-Benjamin
+> and for laptop usb wakeup that as general ask bios to enable usb wakeup then
+> if need do more things to enable usb wakeup I think this usb wakeup function
+> isn't friendly and inconveient, so enable it by default.
+> after add this patch, if want to use usb wakeup function it only need enable
+> bios configure it think it is appropriate.
 
->
-> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Signed-off-by: Tero Kristo <tero.kristo@linux.intel.com>
-> ---
->  drivers/hid/hid-input.c      | 1 +
->  drivers/hid/hid-multitouch.c | 3 ---
->  2 files changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index ad718ceb8af3..78205e445652 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -1741,6 +1741,7 @@ static struct hid_input *hidinput_allocate(struct hid_device *hid,
->                 case HID_GD_MOUSE:
->                         suffix = "Mouse";
->                         break;
-> +               case HID_DG_PEN:
->                 case HID_DG_STYLUS:
->                         suffix = "Pen";
->                         break;
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index 082376a6cb3d..99eabfb4145b 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -1606,9 +1606,6 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
->         case HID_DG_STYLUS:
->                 /* force BTN_STYLUS to allow tablet matching in udev */
->                 __set_bit(BTN_STYLUS, hi->input->keybit);
-> -               fallthrough;
-> -       case HID_DG_PEN:
-> -               suffix = "Stylus";
->                 break;
->         default:
->                 suffix = "UNKNOWN";
-> --
-> 2.25.1
->
+The decision about whether or not to enable remote wakeup for a USB 
+device is a matter of policy.  It has to be decided by the user, not by 
+the kernel.
 
+This is why there are userspace tools, like Powertop, that 
+automatically enable remote wakeup when devices are detected and that 
+allow the user to control which devices get enabled.  Using these tools 
+is easy and convenient -- that's why they exist -- so the kernel's 
+interface does not need to be friendly.
+
+Alan Stern
