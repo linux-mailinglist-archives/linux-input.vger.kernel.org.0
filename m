@@ -2,78 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE11D471012
-	for <lists+linux-input@lfdr.de>; Sat, 11 Dec 2021 03:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9525471106
+	for <lists+linux-input@lfdr.de>; Sat, 11 Dec 2021 03:55:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345626AbhLKCEP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Dec 2021 21:04:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47736 "EHLO
+        id S234502AbhLKC6k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Dec 2021 21:58:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345609AbhLKCEO (ORCPT
+        with ESMTP id S229886AbhLKC6k (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Dec 2021 21:04:14 -0500
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E952C061353
-        for <linux-input@vger.kernel.org>; Fri, 10 Dec 2021 18:00:38 -0800 (PST)
-Received: by mail-lf1-x144.google.com with SMTP id m6so9330794lfu.1
-        for <linux-input@vger.kernel.org>; Fri, 10 Dec 2021 18:00:38 -0800 (PST)
+        Fri, 10 Dec 2021 21:58:40 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2A0CC061714
+        for <linux-input@vger.kernel.org>; Fri, 10 Dec 2021 18:55:04 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id u17so7470590plg.9
+        for <linux-input@vger.kernel.org>; Fri, 10 Dec 2021 18:55:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=UB8HPXfiFrSS8lJHVD9imqT8IM8lXgQeVTQMVTTdoew=;
-        b=JCsw4jOipMM2NQNMZXp6QizwJUHIwDzeO2Y8iQAOjp+Jha/m6XSK1Mp0rSo5X4xj5/
-         ra62wA9M29Kv3v26XdhtYfHl78HWfdHAzWZoawQBmD/f5HctnV3IDOhopHsfUEVKdc3U
-         zjgTs8kaP1GhoPoSSRRMs2H48YL4whQ07Q9gL+TKLR3Ej/+NXmB6gktiiQtCGROuxCip
-         azRcgSpJPEVAmzBSIGs8uTeu5gSEROUAGTlDnvAO293BRFtxBT6pH2u6lqSxSWYO1mdi
-         OgUvbMvACUi3QhA01V+Fa5ongtyngGSTsG3iTMSWnQqmHYynLlOpPl52O41EVB0FfiQa
-         lw2g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=u6UINwAiRcE7wCLiBJfKgp3sPIgnXfXsL6Z+nwcpcjQ=;
+        b=CsLkmCfwScNkFQzisxx5X7CdpWcAYttE5CXSt11wYX27YwRub+X325mVOnmvuS3RRi
+         tCUcOWagAS0f+cMgU+m0GNMBV0ljZ/KHGodLvGy854B/89a9GW5UwcfnL0FIr6/tTneq
+         ikWmPapoMZD2IhtXBi52l6eZtezu8X1+4Co5GWM3TiROC2XduiPVH9j02O56lDoSc51M
+         TKMOMgOnFv63ZfM9aoVzEjx7gbfve37L2ksMAkORWPTwSaqzg4WPS7M+DI0f0y7fv9ze
+         r4lfnM1xKx4u+RGYdgVIeW/0zYuo2b9KuYfkhA8Nd1uNOnt7Byi3cczs/PSq6SO5+spO
+         VdiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=UB8HPXfiFrSS8lJHVD9imqT8IM8lXgQeVTQMVTTdoew=;
-        b=SnpRT+pB5imaqelo2vBAuIBZDnyEOB4MYtQjOCJtPObx6womiy766365Go2gVsMtE3
-         Gv0SRP7z6xhetKonypb1JzpygU9b/MLzHSjaeSynPlb+cO3emXvfVcD7xfqgJVQOSaou
-         JhW1t5CvVnA45kCF6fiANo3eZnF1YnAJDnRvyuSeJuuQD2fdgY96J17mZ2BxAh7XcKes
-         VvJh5gE8U1FGXCIL4fjQK/wsTvsHTq6SE6ZrCq7zAaUZAcsXS9YgfOXV+f8mv2BMXwSc
-         aFEuTrqcCj0hJQrpHUm6Oeap0GzeErRqNwStppPip6CppvLdUVAZO3GTgLyLInLPHEBD
-         fMeQ==
-X-Gm-Message-State: AOAM530hbC8YF5iZk2m7nNUWwdDnf66hiLFMV+OfXSBznEepKQr/v82f
-        zpBtrVDtpJ1EGv0VtRG6oynTMC0zLH4AF1lMDho=
-X-Google-Smtp-Source: ABdhPJyhXjcWPQSJn2BIAWx1wPs1aT43EsGt8LpVsp+ZiGbG+YkA+4EsSistpTPGdfJjrWjDwUlXhweFa5fipF4Svk8=
-X-Received: by 2002:a05:6512:6cb:: with SMTP id u11mr15747983lff.626.1639188035818;
- Fri, 10 Dec 2021 18:00:35 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=u6UINwAiRcE7wCLiBJfKgp3sPIgnXfXsL6Z+nwcpcjQ=;
+        b=bSiNVpbBK9H3uhuOUcWGN0RMnxjbp+YF8fubUyvIp7LmF8dHrGgZcrNgiJnHQLL/9F
+         3F+RCVLeycPnqVvNF/Q2UdQtbXnfT2JvAYL+LexWUVH/Z52KvNluJgzMuE64Hdq1EG4q
+         CgxtKpOrefD+ctcXkrmMbAxw8BT41e7st7+UhBq6SOInOOlNXtO5WJe+wUre3iAeqXnF
+         riyr2g1e52g38mQHbH89Glwz4Qwmi52YBqOq+0KN90IV2lXODnF8zQUfimq5rZeu9DLl
+         EUZjzYlqW4noj+T2ocmG3hydyN91lM72ZvKL9dbuCwCT/HGhujbyWsA6HDRRSt3Waove
+         cEpg==
+X-Gm-Message-State: AOAM532IQNL4nZVK0RArLQ7RUxAMTmGwg/6HdgnygmIYsNwFfVxrcD4L
+        fN0APjwuxEfoA5QSe1WPRq4oPcm+zdE=
+X-Google-Smtp-Source: ABdhPJxoTWx3CSIC9VRdeWZGqmeq2mtoWIFoEn7Wd3EQjB03g3J4YdNuDwqvenBRc7cFYfrO8DVsOg==
+X-Received: by 2002:a17:90b:3b8d:: with SMTP id pc13mr27932007pjb.112.1639191304015;
+        Fri, 10 Dec 2021 18:55:04 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:749:db5e:6dc8:be24])
+        by smtp.gmail.com with ESMTPSA id c18sm5102860pfl.201.2021.12.10.18.55.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Dec 2021 18:55:02 -0800 (PST)
+Date:   Fri, 10 Dec 2021 18:54:59 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Alexander Potapenko <glider@google.com>
+Cc:     dvyukov@google.com, elver@google.com, linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: psmouse: check the result of PSMOUSE_CMD_GET*
+ commands
+Message-ID: <YbQTA9NWoDAknJKB@google.com>
+References: <20211129143845.1472453-1-glider@google.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6512:12c7:0:0:0:0 with HTTP; Fri, 10 Dec 2021 18:00:34
- -0800 (PST)
-Reply-To: internationallmonetary695@gmail.com
-From:   International Monetary fund <abubakarsadiq1297@gmail.com>
-Date:   Fri, 10 Dec 2021 18:00:34 -0800
-Message-ID: <CAHXNoSg31e+rkvOac1aWFWRjy_1TohUzLuRX4cOSGPtScWYE6w@mail.gmail.com>
-Subject: Dear Beneficiary,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211129143845.1472453-1-glider@google.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Alexander,
+
+On Mon, Nov 29, 2021 at 03:38:45PM +0100, Alexander Potapenko wrote:
+> Execution of a PSMOUSE_CMD_GET* command may fail, leaving the output
+> buffer uninitialized. Make sure to check the return value of
+> ps2_command() and bail out before checking the buffer contents.
+> 
+> The use of uninitialized data in genius_detect() was detected by KMSAN,
+> other places were fixed for the sake of uniformity.
+> 
+> Signed-off-by: Alexander Potapenko <glider@google.com>
+> ---
+>  drivers/input/mouse/psmouse-base.c | 21 ++++++++++++++++-----
+>  1 file changed, 16 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
+> index 0b4a3039f312f..a3305653ce891 100644
+> --- a/drivers/input/mouse/psmouse-base.c
+> +++ b/drivers/input/mouse/psmouse-base.c
+> @@ -546,13 +546,16 @@ static int genius_detect(struct psmouse *psmouse, bool set_properties)
+>  {
+>  	struct ps2dev *ps2dev = &psmouse->ps2dev;
+>  	u8 param[4];
+> +	int error;
+>  
+>  	param[0] = 3;
+>  	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
+>  	ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
+>  	ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
+>  	ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
+> -	ps2_command(ps2dev, param, PSMOUSE_CMD_GETINFO);
+> +	error = ps2_command(ps2dev, param, PSMOUSE_CMD_GETINFO);
+> +	if (error)
+> +		return error;
+
+If we care about this I think we should care about errors from the rest
+of ps2_command()s. Otherwise we might have buffer initialized, but we
+are still checking potential garbage in it.
+
+Thanks.
+
 -- 
- I.M.F Head Office
-#1900 Pennsylvania Ave NW,
-Washington, DC 20431
-INTERNATIONAL MONETARY FUND.
-REF:-XVGNN82010
-internationallmonetary695@gmail.com
-Telephone : +12062785473
-
-This message is from International Monetary fund (IMF) I am Mr Bo Li
-deputy to  Kristalina Georgieva the current president of International
-  Monetary fund (IMF) We are aware of the stress you have been passing
-through and how you have lost your money trying to claim your fund ,
-you have to worry no more for the international monetary fund is fully
- in-charge of your fund now, contact  me for more info on how you will
-receive your fund( internationallmonetary695@gmail.com) or call me
-on-Telephone : +12062785473 for more info.
-
-Regards,
-Mr Bo Li
+Dmitry
