@@ -2,106 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D9525471106
-	for <lists+linux-input@lfdr.de>; Sat, 11 Dec 2021 03:55:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E125471119
+	for <lists+linux-input@lfdr.de>; Sat, 11 Dec 2021 04:08:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234502AbhLKC6k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Dec 2021 21:58:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60268 "EHLO
+        id S244380AbhLKDLh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Dec 2021 22:11:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229886AbhLKC6k (ORCPT
+        with ESMTP id S235308AbhLKDLf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Dec 2021 21:58:40 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2A0CC061714
-        for <linux-input@vger.kernel.org>; Fri, 10 Dec 2021 18:55:04 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id u17so7470590plg.9
-        for <linux-input@vger.kernel.org>; Fri, 10 Dec 2021 18:55:04 -0800 (PST)
+        Fri, 10 Dec 2021 22:11:35 -0500
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21637C061714
+        for <linux-input@vger.kernel.org>; Fri, 10 Dec 2021 19:08:00 -0800 (PST)
+Received: by mail-pg1-x533.google.com with SMTP id f125so9669231pgc.0
+        for <linux-input@vger.kernel.org>; Fri, 10 Dec 2021 19:08:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=u6UINwAiRcE7wCLiBJfKgp3sPIgnXfXsL6Z+nwcpcjQ=;
-        b=CsLkmCfwScNkFQzisxx5X7CdpWcAYttE5CXSt11wYX27YwRub+X325mVOnmvuS3RRi
-         tCUcOWagAS0f+cMgU+m0GNMBV0ljZ/KHGodLvGy854B/89a9GW5UwcfnL0FIr6/tTneq
-         ikWmPapoMZD2IhtXBi52l6eZtezu8X1+4Co5GWM3TiROC2XduiPVH9j02O56lDoSc51M
-         TKMOMgOnFv63ZfM9aoVzEjx7gbfve37L2ksMAkORWPTwSaqzg4WPS7M+DI0f0y7fv9ze
-         r4lfnM1xKx4u+RGYdgVIeW/0zYuo2b9KuYfkhA8Nd1uNOnt7Byi3cczs/PSq6SO5+spO
-         VdiA==
+        bh=ZYuPI5JDGqtSlz4m93OTZDUKcTmGD/YMg+nA3qYi7fw=;
+        b=XFgmIpumDWXcprp5be/9ldQaorwtO2/q6HpRoIdU9Hl1bY7icf1PHgcR4F+g/0obRw
+         jJBsycChSTQhSVSVhLBswmZuzzT/qRrzkzeKJGYtN4bxuHUBmF4PM+c7bonjyIvCUHZW
+         NVbV3/c66WO7SwqyplLu6sAqeKNjhDSZpY9e9hfQmaHg6FRTygcBkGrhqrPgKcr4lTzT
+         vn6fa/iFP9Et1vkGGY5b3ZajXkt0ySsq2yE6+oyGlMfVUQ732QIFiTUnZzxF4OUogaGi
+         urEncxmy5OoMbraoYvVRMjlRxGqc7fkfD60wyTX31Bwmw3YbWb+/58dHifF5gwH3eaO1
+         g2oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=u6UINwAiRcE7wCLiBJfKgp3sPIgnXfXsL6Z+nwcpcjQ=;
-        b=bSiNVpbBK9H3uhuOUcWGN0RMnxjbp+YF8fubUyvIp7LmF8dHrGgZcrNgiJnHQLL/9F
-         3F+RCVLeycPnqVvNF/Q2UdQtbXnfT2JvAYL+LexWUVH/Z52KvNluJgzMuE64Hdq1EG4q
-         CgxtKpOrefD+ctcXkrmMbAxw8BT41e7st7+UhBq6SOInOOlNXtO5WJe+wUre3iAeqXnF
-         riyr2g1e52g38mQHbH89Glwz4Qwmi52YBqOq+0KN90IV2lXODnF8zQUfimq5rZeu9DLl
-         EUZjzYlqW4noj+T2ocmG3hydyN91lM72ZvKL9dbuCwCT/HGhujbyWsA6HDRRSt3Waove
-         cEpg==
-X-Gm-Message-State: AOAM532IQNL4nZVK0RArLQ7RUxAMTmGwg/6HdgnygmIYsNwFfVxrcD4L
-        fN0APjwuxEfoA5QSe1WPRq4oPcm+zdE=
-X-Google-Smtp-Source: ABdhPJxoTWx3CSIC9VRdeWZGqmeq2mtoWIFoEn7Wd3EQjB03g3J4YdNuDwqvenBRc7cFYfrO8DVsOg==
-X-Received: by 2002:a17:90b:3b8d:: with SMTP id pc13mr27932007pjb.112.1639191304015;
-        Fri, 10 Dec 2021 18:55:04 -0800 (PST)
+        bh=ZYuPI5JDGqtSlz4m93OTZDUKcTmGD/YMg+nA3qYi7fw=;
+        b=VpPluF3neXQYkGruPdC8guXpNHYqEP7wzqNcDw9H0wOzDcAZRsr0q2QF3UD2S6ZA/k
+         8ImF0IzAl6l9S9ZtDm4l211dcHrR7+aKICHIEDbG+2gdjnHj78ltL2v71j5ADDJuyTF6
+         MbgofFYFZ/MTTpXULuk2G+SrrSoOjfjcEbfRoyTKZAoH598p+ajpFvEQq1YFLOOQRhHU
+         M3jbkSaSrBUNZHmE9sVQqndieogDrx9JO+lSKvvQSk81VbrHPmZX1BoZhILs3eWeayEL
+         peZ83DtgMAS5Ww0AU/NV6m6z/pg1W5J82TbZ8WT5zDwUn4xGf0lm4T+EAcn7yhTsd9oK
+         VraA==
+X-Gm-Message-State: AOAM531DIjmTkMnJ2kN/6yPbIHU3nhYUG237zlPr30nFREe7bvaj+nCF
+        LWRPXD445Uy8z+dbwuirw88=
+X-Google-Smtp-Source: ABdhPJxGsUJiAoSsTwKNYuEBE1Qwmvgl0nk6i8i/dyc7JbgEzaPFfL6/FxYaxffL1ZGuJV7iVIyV1w==
+X-Received: by 2002:a63:6b83:: with SMTP id g125mr41276200pgc.578.1639192079519;
+        Fri, 10 Dec 2021 19:07:59 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:749:db5e:6dc8:be24])
-        by smtp.gmail.com with ESMTPSA id c18sm5102860pfl.201.2021.12.10.18.55.01
+        by smtp.gmail.com with ESMTPSA id lb4sm342266pjb.18.2021.12.10.19.07.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Dec 2021 18:55:02 -0800 (PST)
-Date:   Fri, 10 Dec 2021 18:54:59 -0800
+        Fri, 10 Dec 2021 19:07:58 -0800 (PST)
+Date:   Fri, 10 Dec 2021 19:07:56 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Alexander Potapenko <glider@google.com>
-Cc:     dvyukov@google.com, elver@google.com, linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: psmouse: check the result of PSMOUSE_CMD_GET*
- commands
-Message-ID: <YbQTA9NWoDAknJKB@google.com>
-References: <20211129143845.1472453-1-glider@google.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH resend 2/2] Input: silead - Add pen support
+Message-ID: <YbQWDAPw/zpO0y9x@google.com>
+References: <20211122220637.11386-1-hdegoede@redhat.com>
+ <20211122220637.11386-3-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211129143845.1472453-1-glider@google.com>
+In-Reply-To: <20211122220637.11386-3-hdegoede@redhat.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Alexander,
+Hi Hans,
 
-On Mon, Nov 29, 2021 at 03:38:45PM +0100, Alexander Potapenko wrote:
-> Execution of a PSMOUSE_CMD_GET* command may fail, leaving the output
-> buffer uninitialized. Make sure to check the return value of
-> ps2_command() and bail out before checking the buffer contents.
-> 
-> The use of uninitialized data in genius_detect() was detected by KMSAN,
-> other places were fixed for the sake of uniformity.
-> 
-> Signed-off-by: Alexander Potapenko <glider@google.com>
-> ---
->  drivers/input/mouse/psmouse-base.c | 21 ++++++++++++++++-----
->  1 file changed, 16 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
-> index 0b4a3039f312f..a3305653ce891 100644
-> --- a/drivers/input/mouse/psmouse-base.c
-> +++ b/drivers/input/mouse/psmouse-base.c
-> @@ -546,13 +546,16 @@ static int genius_detect(struct psmouse *psmouse, bool set_properties)
->  {
->  	struct ps2dev *ps2dev = &psmouse->ps2dev;
->  	u8 param[4];
-> +	int error;
->  
->  	param[0] = 3;
->  	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
->  	ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
->  	ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
->  	ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
-> -	ps2_command(ps2dev, param, PSMOUSE_CMD_GETINFO);
-> +	error = ps2_command(ps2dev, param, PSMOUSE_CMD_GETINFO);
-> +	if (error)
-> +		return error;
+On Mon, Nov 22, 2021 at 11:06:37PM +0100, Hans de Goede wrote:
+> +	input_set_capability(data->pen_input, EV_KEY, BTN_TOUCH);
+> +	input_set_capability(data->pen_input, EV_KEY, BTN_TOOL_PEN);
+> +	/*
+> +	 * We never report BTN_STYLUS but userspace want to see this in order
+> +	 * for the device to be recognized as a pen / drawing-tablet.
+> +	 */
 
-If we care about this I think we should care about errors from the rest
-of ps2_command()s. Otherwise we might have buffer initialized, but we
-are still checking potential garbage in it.
+What userspace is that? I see that udev recognizes devices with either
+stylus or pen  as tablets since at least 2015.
+
+I am really hesitant adding synthetic capabilities that do not have real
+events behind them.
 
 Thanks.
 
