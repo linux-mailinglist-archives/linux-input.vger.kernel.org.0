@@ -2,105 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C415471A0D
-	for <lists+linux-input@lfdr.de>; Sun, 12 Dec 2021 13:36:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C92BF471A20
+	for <lists+linux-input@lfdr.de>; Sun, 12 Dec 2021 13:42:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230385AbhLLMgJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Dec 2021 07:36:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49927 "EHLO
+        id S230434AbhLLMmr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Dec 2021 07:42:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35215 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229787AbhLLMgJ (ORCPT
+        by vger.kernel.org with ESMTP id S230388AbhLLMmr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Dec 2021 07:36:09 -0500
+        Sun, 12 Dec 2021 07:42:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639312568;
+        s=mimecast20190719; t=1639312966;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=1HdZ3llytC9WX6eHq8hM22Xb7M78+nc2H1t226gUBMM=;
-        b=Xq2pSuwJCauobeIHakiukOBklQR1NwKFflF4+rfzihjw+Wzamnhla0QAD+iqHgpvz2AWTU
-        PYhOCBCvN1copyHq8NHYEyVF8qtUsEf4T7g3jVt/i/3IQAWzf7eOYX1cN845Gm3YDzpKHA
-        tSnoabjU+s1rBTBsOfppiHYIw59TKH0=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=2x2kQpEbWm8UcPo8q/e5/l5qscacBVoskUf6jWsSdxk=;
+        b=BPZjcpx/1gQ7uEM+whohKsm8PxQQzhJwUfQrITU+vakzJf0wMnhkNO8tQPmRsXLEb5VIta
+        9rqnMhmK0mOPdyiibEQvIqnorKkCjZFxPrOukJ2RdaF9yqjQjI//zPBptKXuhkYQH9ONMy
+        NL8FfOC551kdctNy2CPUFeZou4IijJc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-290--MkGOs0LOSST3_snOxWvPg-1; Sun, 12 Dec 2021 07:36:07 -0500
-X-MC-Unique: -MkGOs0LOSST3_snOxWvPg-1
-Received: by mail-ed1-f72.google.com with SMTP id k7-20020aa7c387000000b003e7ed87fb31so11810496edq.3
-        for <linux-input@vger.kernel.org>; Sun, 12 Dec 2021 04:36:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=1HdZ3llytC9WX6eHq8hM22Xb7M78+nc2H1t226gUBMM=;
-        b=r5tB2iL8q96uRMPTzStFBXKyUHuxVbqPPe0E8RTuh0x8/rUAV3n+ZvQbjqtTltRdhC
-         x0hZ5fk8l4wlcSoa7xMDt7K4KMfMw0lIv3/bXGeRdvWZP3mg5L/x5+PDmoli6kTlGH3r
-         fcketcIyxbct+HFJn+EIrRxPSmrqLIOyXorvDMskjaIMf9w5GvprZ0vtA83+9BbLePjT
-         /KkFpSJwbkvgJNGlQCKvUM0//XfsCTIocwRW5OZ+zO/ctG+CQj1y42yagfwATWloCP0J
-         Jmq7wvtukp3+5XgcD/3lHkK551XmhBYgLfXfYTvJBNammSzZkcIrgv77oI4ZynNFjzwY
-         WEFA==
-X-Gm-Message-State: AOAM532yHrjYb21tJWhOlZZ5d6xRupvKBLHBx9fM3xek/jcykbHoDxIy
-        Pj9iEG0KQj6HI+cNii2P9Bit1ryY0XgPOfOiIlPI7XRi1817zu2OXGcH2Wv6HBRVD+nyztjWB/g
-        UMo5zhfOz9tLSFRDcOP+72FY=
-X-Received: by 2002:a05:6402:16cd:: with SMTP id r13mr55585985edx.264.1639312566325;
-        Sun, 12 Dec 2021 04:36:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwPaY9n9rXNi90tqoVQxXAnFUy/zO3OOfYY9Xt4S2rvJwEa/nXcOGfrH/MwqFJeUr8A99+mkQ==
-X-Received: by 2002:a05:6402:16cd:: with SMTP id r13mr55585969edx.264.1639312566117;
-        Sun, 12 Dec 2021 04:36:06 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id cq19sm4516868edb.33.2021.12.12.04.36.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Dec 2021 04:36:05 -0800 (PST)
-Message-ID: <5e2253c6-0d1f-51ec-9817-0c83fff2724e@redhat.com>
-Date:   Sun, 12 Dec 2021 13:36:04 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH resend 2/2] Input: silead - Add pen support
-Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-References: <20211122220637.11386-1-hdegoede@redhat.com>
- <20211122220637.11386-3-hdegoede@redhat.com> <YbQWDAPw/zpO0y9x@google.com>
+ us-mta-144-J1miYsMOMO6Cnd94kbzKtg-1; Sun, 12 Dec 2021 07:42:45 -0500
+X-MC-Unique: J1miYsMOMO6Cnd94kbzKtg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C05118A0F1B;
+        Sun, 12 Dec 2021 12:42:44 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.192.36])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6E6E05D6D7;
+        Sun, 12 Dec 2021 12:42:43 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <YbQWDAPw/zpO0y9x@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
+Subject: [PATCH 0/5] Input: goodix - Various fixes and improvements
+Date:   Sun, 12 Dec 2021 13:42:37 +0100
+Message-Id: <20211212124242.81019-1-hdegoede@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 Hi Dmitry,
 
-On 12/11/21 04:07, Dmitry Torokhov wrote:
-> Hi Hans,
-> 
-> On Mon, Nov 22, 2021 at 11:06:37PM +0100, Hans de Goede wrote:
->> +	input_set_capability(data->pen_input, EV_KEY, BTN_TOUCH);
->> +	input_set_capability(data->pen_input, EV_KEY, BTN_TOOL_PEN);
->> +	/*
->> +	 * We never report BTN_STYLUS but userspace want to see this in order
->> +	 * for the device to be recognized as a pen / drawing-tablet.
->> +	 */
-> 
-> What userspace is that? I see that udev recognizes devices with either
-> stylus or pen  as tablets since at least 2015.
-> 
-> I am really hesitant adding synthetic capabilities that do not have real
-> events behind them.
+Here is a series with some fixes and improvements for the Goodix
+touchscreen driver based on your review of my recent patch to
+add pen support (which has already been merged).
 
-You are completely right, I added this when GNOME3 / libinput would not
-recognize the pen (looking at other stylus/pen drivers) but IIRC things
-then still did not work and then I also added code to set the resolution.
-
-I just tested without setting BTN_STYLUS and things still work fine,
-so the comment and the line setting BTN_STYLUS can be dropped while
-merging this. Let me know if you want me to do a new version with this
-dropped instead.
+This is based on goodix.c with all goodix patches from both
+input/for-next and input/for-linux applied so that it is tested
+against what goodix.c will look like in 5.17-rc1 when both branches
+are merged. I don't expect this to cause any problems applying,
+but let me know if you want me to rebase on just input/for-next.
 
 Regards,
 
 Hans
+
+
+Hans de Goede (5):
+  Input: Add input_copy_abs() function
+  Input: goodix - Use input_copy_abs() helper
+  Input: goodix - Improve gpiod_get() error logging
+  Input: goodix - 2 small fixes for pen support
+  Input: goodix - Fix race on driver unbind
+
+ drivers/input/input.c              | 34 ++++++++++++++++
+ drivers/input/touchscreen/goodix.c | 65 +++++++++++++++---------------
+ drivers/input/touchscreen/goodix.h |  1 +
+ include/linux/input.h              |  2 +
+ 4 files changed, 69 insertions(+), 33 deletions(-)
+
+-- 
+2.33.1
 
