@@ -2,79 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04EDD4716EE
-	for <lists+linux-input@lfdr.de>; Sat, 11 Dec 2021 22:58:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C415471A0D
+	for <lists+linux-input@lfdr.de>; Sun, 12 Dec 2021 13:36:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231622AbhLKV6U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 Dec 2021 16:58:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54044 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231590AbhLKV6T (ORCPT
+        id S230385AbhLLMgJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Dec 2021 07:36:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49927 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229787AbhLLMgJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 Dec 2021 16:58:19 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F7D6C061714
-        for <linux-input@vger.kernel.org>; Sat, 11 Dec 2021 13:58:19 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id r11so39951142edd.9
-        for <linux-input@vger.kernel.org>; Sat, 11 Dec 2021 13:58:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=hD0jfu1MWy/UXBkBYsVvOAZPApZLyir6gKavdc4BceI=;
-        b=SOBkDHN1upt351fJGA10IENq8Lskn6OtfiA/mtFXWwbxNo6rK0VqMIikUbNdR10QL9
-         NEz57nH7+DwD4ui2QjR5G0PDUg/x30DeYlpAViKmfLpj6c8owgTXHIRe2HlXrWJIYspc
-         p1qexb7VgQzyxOs2U317jKWC2PVt5FsJQNP/qzuU8HlodfKZxoIrg2Y5u0+UlgiuF7n+
-         KF6xHlFhNhhV0WZH+n1XpQNFkro1//sIniT/eC7+Qq7omDixZHJ42uWefxucVRQsgqoP
-         MP9jAyQEdDJw2KiXunMshfyB4wcDGfWvxehuLHSr6op0i/Er4qRI4zT2OKxsbV2QjSnP
-         PYpQ==
+        Sun, 12 Dec 2021 07:36:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639312568;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1HdZ3llytC9WX6eHq8hM22Xb7M78+nc2H1t226gUBMM=;
+        b=Xq2pSuwJCauobeIHakiukOBklQR1NwKFflF4+rfzihjw+Wzamnhla0QAD+iqHgpvz2AWTU
+        PYhOCBCvN1copyHq8NHYEyVF8qtUsEf4T7g3jVt/i/3IQAWzf7eOYX1cN845Gm3YDzpKHA
+        tSnoabjU+s1rBTBsOfppiHYIw59TKH0=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-290--MkGOs0LOSST3_snOxWvPg-1; Sun, 12 Dec 2021 07:36:07 -0500
+X-MC-Unique: -MkGOs0LOSST3_snOxWvPg-1
+Received: by mail-ed1-f72.google.com with SMTP id k7-20020aa7c387000000b003e7ed87fb31so11810496edq.3
+        for <linux-input@vger.kernel.org>; Sun, 12 Dec 2021 04:36:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=hD0jfu1MWy/UXBkBYsVvOAZPApZLyir6gKavdc4BceI=;
-        b=LHkUtcSJNXLIrDhtgSrVQYEdutB5AQdggCU4BW6iJfTncuCjYpbQpF3gHST/tYGYCb
-         fk5Y0i0fXcT5XJRm/CoiWClMznhqaFzyHaAgN56ip/qjiqcqnuKFcykYEg+gzNMBxzBk
-         mAYXGrUS/0i/DUKS3tvmnUlgb/40CMdxcNU8hSAPel/ddQ7ZTWwHY1jsVevUDRpFo6Un
-         uUJCIPG8uBTpu1oic0evHdnIv1IaoTc9lV3zS3yioUborz4yKsNsFvUU5EoJ1SReqQnp
-         rlBJxzvtfipsmqdAJEuXF7PjR7OWL2zTKBX6PS2JAAZpt9mCY0PFeORVjA2cnNzSNpof
-         /dyQ==
-X-Gm-Message-State: AOAM531vg5wN56752N1zkom8wr3GcAmp1Pa0XM9lMawyK5QnQhXvIzp7
-        sNIjrz4Dyepb8nHM6IzbSd14bvzXyV+JhXtYYxs=
-X-Google-Smtp-Source: ABdhPJxTVLquc00JfCv8xmVg6F+Df36Ax6F8m8eI1vWHtjjPBaUzu2dvtxl/29t2QJINStCFpJhLct20UqzajIEroTA=
-X-Received: by 2002:a17:907:6da2:: with SMTP id sb34mr33325880ejc.509.1639259897490;
- Sat, 11 Dec 2021 13:58:17 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=1HdZ3llytC9WX6eHq8hM22Xb7M78+nc2H1t226gUBMM=;
+        b=r5tB2iL8q96uRMPTzStFBXKyUHuxVbqPPe0E8RTuh0x8/rUAV3n+ZvQbjqtTltRdhC
+         x0hZ5fk8l4wlcSoa7xMDt7K4KMfMw0lIv3/bXGeRdvWZP3mg5L/x5+PDmoli6kTlGH3r
+         fcketcIyxbct+HFJn+EIrRxPSmrqLIOyXorvDMskjaIMf9w5GvprZ0vtA83+9BbLePjT
+         /KkFpSJwbkvgJNGlQCKvUM0//XfsCTIocwRW5OZ+zO/ctG+CQj1y42yagfwATWloCP0J
+         Jmq7wvtukp3+5XgcD/3lHkK551XmhBYgLfXfYTvJBNammSzZkcIrgv77oI4ZynNFjzwY
+         WEFA==
+X-Gm-Message-State: AOAM532yHrjYb21tJWhOlZZ5d6xRupvKBLHBx9fM3xek/jcykbHoDxIy
+        Pj9iEG0KQj6HI+cNii2P9Bit1ryY0XgPOfOiIlPI7XRi1817zu2OXGcH2Wv6HBRVD+nyztjWB/g
+        UMo5zhfOz9tLSFRDcOP+72FY=
+X-Received: by 2002:a05:6402:16cd:: with SMTP id r13mr55585985edx.264.1639312566325;
+        Sun, 12 Dec 2021 04:36:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwPaY9n9rXNi90tqoVQxXAnFUy/zO3OOfYY9Xt4S2rvJwEa/nXcOGfrH/MwqFJeUr8A99+mkQ==
+X-Received: by 2002:a05:6402:16cd:: with SMTP id r13mr55585969edx.264.1639312566117;
+        Sun, 12 Dec 2021 04:36:06 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id cq19sm4516868edb.33.2021.12.12.04.36.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Dec 2021 04:36:05 -0800 (PST)
+Message-ID: <5e2253c6-0d1f-51ec-9817-0c83fff2724e@redhat.com>
+Date:   Sun, 12 Dec 2021 13:36:04 +0100
 MIME-Version: 1.0
-Reply-To: martinafrancis022@gmail.com
-Sender: rebeccaalhajidangombe@gmail.com
-Received: by 2002:a17:907:94d3:0:0:0:0 with HTTP; Sat, 11 Dec 2021 13:58:16
- -0800 (PST)
-From:   Martina Francis <martinafrancis61@gmail.com>
-Date:   Sat, 11 Dec 2021 13:58:16 -0800
-X-Google-Sender-Auth: QI6h_ccu4Os7HpLN5lf7FmNkMqQ
-Message-ID: <CANadOMYJBdKak2aObykULF4gdU88=OTR03g+XDqpCofMfFracg@mail.gmail.com>
-Subject: Bom Dia meu querido
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH resend 2/2] Input: silead - Add pen support
+Content-Language: en-US
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+References: <20211122220637.11386-1-hdegoede@redhat.com>
+ <20211122220637.11386-3-hdegoede@redhat.com> <YbQWDAPw/zpO0y9x@google.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <YbQWDAPw/zpO0y9x@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---=20
-Bom Dia meu querido,
-Como vai voc=C3=AA hoje, meu nome =C3=A9 Dona Martina Francis, uma vi=C3=BA=
-va doente.
-Eu tenho um fundo de doa=C3=A7=C3=A3o de ($ 2.700.000,00 USD) MILH=C3=95ES =
-que quero
-doar atrav=C3=A9s de voc=C3=AA para ajudar os =C3=B3rf=C3=A3os, vi=C3=BAvas=
-, deficientes
-f=C3=ADsicos e casas de caridade.
+Hi Dmitry,
 
-Por favor, volte para mim imediatamente ap=C3=B3s ler esta mensagem para
-obter mais detalhes sobre esta agenda humanit=C3=A1ria.
+On 12/11/21 04:07, Dmitry Torokhov wrote:
+> Hi Hans,
+> 
+> On Mon, Nov 22, 2021 at 11:06:37PM +0100, Hans de Goede wrote:
+>> +	input_set_capability(data->pen_input, EV_KEY, BTN_TOUCH);
+>> +	input_set_capability(data->pen_input, EV_KEY, BTN_TOOL_PEN);
+>> +	/*
+>> +	 * We never report BTN_STYLUS but userspace want to see this in order
+>> +	 * for the device to be recognized as a pen / drawing-tablet.
+>> +	 */
+> 
+> What userspace is that? I see that udev recognizes devices with either
+> stylus or pen  as tablets since at least 2015.
+> 
+> I am really hesitant adding synthetic capabilities that do not have real
+> events behind them.
 
-Deus te aben=C3=A7oe enquanto espero sua resposta.
-Sua irm=C3=A3.
+You are completely right, I added this when GNOME3 / libinput would not
+recognize the pen (looking at other stylus/pen drivers) but IIRC things
+then still did not work and then I also added code to set the resolution.
 
-Sra. Martina Francis.
+I just tested without setting BTN_STYLUS and things still work fine,
+so the comment and the line setting BTN_STYLUS can be dropped while
+merging this. Let me know if you want me to do a new version with this
+dropped instead.
+
+Regards,
+
+Hans
+
