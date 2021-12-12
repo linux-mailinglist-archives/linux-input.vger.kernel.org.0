@@ -2,63 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9114F471C31
-	for <lists+linux-input@lfdr.de>; Sun, 12 Dec 2021 19:21:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA296471CC4
+	for <lists+linux-input@lfdr.de>; Sun, 12 Dec 2021 20:44:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231292AbhLLSVL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Dec 2021 13:21:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35888 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229997AbhLLSVJ (ORCPT
+        id S229687AbhLLToQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Dec 2021 14:44:16 -0500
+Received: from mail-wm1-f43.google.com ([209.85.128.43]:46893 "EHLO
+        mail-wm1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229595AbhLLToQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Dec 2021 13:21:09 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9285C061751;
-        Sun, 12 Dec 2021 10:21:08 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id d24so23681806wra.0;
-        Sun, 12 Dec 2021 10:21:08 -0800 (PST)
+        Sun, 12 Dec 2021 14:44:16 -0500
+Received: by mail-wm1-f43.google.com with SMTP id c6-20020a05600c0ac600b0033c3aedd30aso10316108wmr.5;
+        Sun, 12 Dec 2021 11:44:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=NX6glLrIhrFAeV+2sLrwAejToH2nkjjgEtF8KiG6Dgc=;
-        b=DW2/UiVaUlSbuzR+l2ag6jTSbeJaDVqab+lSd/dJev63JJM/UwY1cF8OXw/0QS/Mmo
-         Hj82YYUE4HEhH6agr8gJmpSVyjs2fuXsjpBKGtvkigPZ4/PINUu276UKPMqdEClldUnu
-         zmwbXtoRMnmFiYKjtp7hAUw2IbzGjPpI5e7S4XsdOEq7PSFf9jgnTvU0nETOXhlw6anW
-         xzYdnk5OfL3c9ewkVmDAgon3dLRSP6dDX0F+l6E7vsSFBMuLLDrbuV7OqladmVs2vB1c
-         yBVDibJ28I1r7xk3/kYTywrVwkdLmcCl2i3hA1fhvJDXzO/Qm9SMWJ99G68FuBl4bLfK
-         Zxyg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LRousCXFOC0F6QOu13tbWukFrc1SAj/+edjxroiXx+E=;
+        b=A7tyUFhmaS3hRJtsUMJboj9hGAaAkJbaMlW9gttUsdbX+mG/bR7OKk937t+rLhuFwr
+         Wzgt5u6WR1FuuP8LQLVAzRgfCBPo+n6Sqt8S+xYnPNw6vwKCa4PjfF1X/MOqrdgmpvIL
+         gE+WmUxwyCmZagtUeQ4M1B78JvVE4ngei7RCuwcrYyrFKQ2UJEga91tHhuLLgVEqXsHY
+         hxyiQOCBQOnhPRers+vKsiMWCenaDdHDcgERPs1uConfp70XfJypPwM9kLUpUv6vf2ia
+         mdRhJS/zOWhVdQD/qvg0E7eA7h6on/biskmrCnSPpKNAf/B8vLwinxEvLJ3h5bxkRsbT
+         vgxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=NX6glLrIhrFAeV+2sLrwAejToH2nkjjgEtF8KiG6Dgc=;
-        b=jCjXxyv8St065SUoFQ5JhpxGXiJlndyksImq3Ggq7cKgfSM8yJ/vRcqwp44HChkrV2
-         LLalf1fArE7DqWvLBJzWg1X6LUSq/HoXBuqOKllpIcJg8gvGAiRS/xVtlsiDDb+7C7uI
-         DfucwACiOjtanYGUXCSJt0SyprQBEu6iH+RpOuS+QOB4CjVVpqxw4XOSsiEZdLkAjabh
-         VZ7Ax2ERQMhvkRi5Lrqnm0a46hHqwSbjo1BHt28MY9fS9vZEG3hz/QnVPSMVuOdp1G2a
-         /KK2akZJRNv/DRijt8NLPPXRDCyELPGMiXHNG14RlD+tbRt+4oOevxpHZ4LDfRVP/oR+
-         4Lfw==
-X-Gm-Message-State: AOAM532FDUDllhucumcm2w9DT20isa441C1INshbzFNW8wqaYVElvUI4
-        LcpDJri75ItziYzCWPSnHU0=
-X-Google-Smtp-Source: ABdhPJzFn2ywU0qLuijjPAVSuNhbOAN7Z7ClbfVlW0+gIRMqB2Xv0GSNx1A5QDfhLyqgXs2iHVo/jg==
-X-Received: by 2002:a5d:5147:: with SMTP id u7mr26559316wrt.233.1639333267341;
-        Sun, 12 Dec 2021 10:21:07 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LRousCXFOC0F6QOu13tbWukFrc1SAj/+edjxroiXx+E=;
+        b=spUHdtEGnXcWBvvtzohiPmeeihfUc1yaxqk7/eHuVYKv0K9x4l0VvrTxZH3Z8+YySe
+         QQPfJnydosRhhD2MEuSkwMiH8h1nB4HbwNXRxTvYpErzWYsIK/B6wzW18vaq05+EIy4Y
+         t6UhDnZxYDKXbIR9+L0nRx0IhvW2vr8pHtAj4YSdAAVI1LitxxxFCAhFgkcVWJTbV4gM
+         m1ZpYahJEjwaYMGQ/gwKY27QNuru9LgQRtDbuaPAQEhOMxQwEdGOCV+YDo6mqmo0hyY/
+         S4y8wrlKbtVJgfAPO1xbB5w4+l0PCJFummtH/9w7CaC270FzR4C9KKFzGGOWGmNXOQAJ
+         dUqw==
+X-Gm-Message-State: AOAM5316FIsyfqYEtPT1SI6w92/LvJTw6W5OVAw5GHaLN21E6lLL1H9y
+        S8Y5OhdPnm0FaMQQdsGmQoJTQnuhxzFPKA==
+X-Google-Smtp-Source: ABdhPJzw7b4cFWTxEdHQTvrN/Om1kmk5Ahc1qxaJM4OEsjKxT2D/0tvAzprvE+WPm/MOYKI9Aa2ucA==
+X-Received: by 2002:a05:600c:4e91:: with SMTP id f17mr32712478wmq.195.1639338195132;
+        Sun, 12 Dec 2021 11:43:15 -0800 (PST)
 Received: from localhost.localdomain ([217.113.240.86])
-        by smtp.gmail.com with ESMTPSA id r62sm4667421wmr.35.2021.12.12.10.21.06
+        by smtp.gmail.com with ESMTPSA id h27sm5372370wmc.43.2021.12.12.11.43.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Dec 2021 10:21:06 -0800 (PST)
+        Sun, 12 Dec 2021 11:43:14 -0800 (PST)
 From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, rydberg@bitmath.org,
+To:     nick@shmanahar.org
+Cc:     dmitry.torokhov@gmail.com, rydberg@bitmath.org,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH 2/2] HID: magicmouse: set Magic Trackpad 2021 name
-Date:   Sun, 12 Dec 2021 19:21:00 +0100
-Message-Id: <20211212182100.40968-3-jose.exposito89@gmail.com>
+Subject: [PATCH] Input: atmel_mxt_ts - fix double free in mxt_read_info_block
+Date:   Sun, 12 Dec 2021 20:42:57 +0100
+Message-Id: <20211212194257.68879-1-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211212182100.40968-1-jose.exposito89@gmail.com>
-References: <20211212182100.40968-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -66,53 +61,30 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Apple Magic Trackpad 2021 (3rd generation) has the same product ID
-as the 2nd generation. However, when connected through Bluetooth, the
-version has changed from 0x107 to 0x110.
+The "id_buf" buffer is stored in "data->raw_info_block" and freed by
+"mxt_free_object_table" in case of error.
 
-The other meaningful change is that the name has dropped the generation
-number and now it is just "Apple Inc. Magic Trackpad", like the first
-generation model.
+Return instead of jumping to avoid a double free.
 
-Set the device name correctly to ensure the same driver settings are
-loaded, whether connected via Bluetooth or USB.
-
+Addresses-Coverity-ID: 1474582 ("Double free")
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/hid/hid-magicmouse.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
-index e650ade15a7f..2ccded36dafd 100644
---- a/drivers/hid/hid-magicmouse.c
-+++ b/drivers/hid/hid-magicmouse.c
-@@ -51,6 +51,8 @@ static bool report_undeciphered;
- module_param(report_undeciphered, bool, 0644);
- MODULE_PARM_DESC(report_undeciphered, "Report undeciphered multi-touch state field using a MSC_RAW event");
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index 05de92c0293b..eb66cd2689b7 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -1882,7 +1882,7 @@ static int mxt_read_info_block(struct mxt_data *data)
+ 	if (error) {
+ 		dev_err(&client->dev, "Error %d parsing object table\n", error);
+ 		mxt_free_object_table(data);
+-		goto err_free_mem;
++		return error;
+ 	}
  
-+#define TRACKPAD2_2021_BT_VERSION 0x110
-+
- #define TRACKPAD_REPORT_ID 0x28
- #define TRACKPAD2_USB_REPORT_ID 0x02
- #define TRACKPAD2_BT_REPORT_ID 0x31
-@@ -546,10 +548,14 @@ static int magicmouse_setup_input(struct input_dev *input, struct hid_device *hd
- 		 * Set the device name to ensure the same driver settings get
- 		 * loaded, whether connected through bluetooth or USB.
- 		 */
--		if (hdev->vendor == BT_VENDOR_ID_APPLE)
--			input->name = "Apple Inc. Magic Trackpad 2";
--		else /* USB_VENDOR_ID_APPLE */
-+		if (hdev->vendor == BT_VENDOR_ID_APPLE) {
-+			if (input->id.version == TRACKPAD2_2021_BT_VERSION)
-+				input->name = "Apple Inc. Magic Trackpad";
-+			else
-+				input->name = "Apple Inc. Magic Trackpad 2";
-+		} else { /* USB_VENDOR_ID_APPLE */
- 			input->name = hdev->name;
-+		}
- 
- 		__clear_bit(EV_MSC, input->evbit);
- 		__clear_bit(BTN_0, input->keybit);
+ 	data->object_table = (struct mxt_object *)(id_buf + MXT_OBJECT_START);
 -- 
 2.25.1
 
