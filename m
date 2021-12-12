@@ -2,113 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EDDE471A38
-	for <lists+linux-input@lfdr.de>; Sun, 12 Dec 2021 13:55:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4953C471C2E
+	for <lists+linux-input@lfdr.de>; Sun, 12 Dec 2021 19:21:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230472AbhLLMzD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Dec 2021 07:55:03 -0500
-Received: from smtp-34-i2.italiaonline.it ([213.209.12.34]:37160 "EHLO
-        libero.it" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229997AbhLLMzC (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Dec 2021 07:55:02 -0500
-Received: from passgat-Modern-14-A10M.homenet.telecomitalia.it
- ([82.50.51.121])
-        by smtp-34.iol.local with ESMTPA
-        id wOMammqwPUpmcwOMcmGyK7; Sun, 12 Dec 2021 13:54:02 +0100
-x-libjamoibt: 1601
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2021;
-        t=1639313642; bh=XB3UsxbeGSGlitHS0T7zXuAeheulVRHT3ylsFJWY7RA=;
-        h=From;
-        b=ZwtshlG9C0YZNYSxyOlodJ7wBNMvdpVxpX0Q/X6wq6QhBQZKXOcHUHLiq1RoVa7Of
-         7gNXIu80nhElOTMM3p62BbFTgNkS1EVYh9o5366SbyFsiq2LbQiGLXcGoGZsBhZ6yR
-         k5Po007Lmep19FDkT3ORMHxFxDkFGSoVLD0pbgd56R25QePqJKv2K5pTGXGLdqCU+U
-         AqQF8yjLoc7slsrPNSHqj0EwnHyHVo8Ik6TV346lNFbVYfhlWxV6b7zxTE6T19Fpn4
-         jNC52XpxuX/WuhoFCKUnpfyCu20FVcsiduJa8aBJxMfm+ghJk2J3HGIhrwUD4uW032
-         p7KQKDcsP3G9Q==
-X-CNFS-Analysis: v=2.4 cv=VsDmv86n c=1 sm=1 tr=0 ts=61b5f0ea cx=a_exe
- a=xtCFBUu/Ze6RtP+zVSd77w==:117 a=xtCFBUu/Ze6RtP+zVSd77w==:17
- a=VZkyjkMPts0tdjHXfkQA:9
-From:   Dario Binacchi <dariobin@libero.it>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Andrew F . Davis" <afd@ti.com>, Felipe Balbi <balbi@ti.com>,
-        Rachna Patil <rachna@ti.com>, Wolfram Sang <wsa@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Jeff Lance <j-lance1@ti.com>,
-        Zubair Lutfullah <zubair.lutfullah@gmail.com>,
-        Vignesh R <vigneshr@ti.com>, Dave Gerlach <d-gerlach@ti.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Brad Griffis <bgriffis@ti.com>,
-        Dario Binacchi <dariobin@libero.it>
-Subject: [RESEND PATCH 3/3] input: ti_am335x_tsc: lower the X and Y sampling time
-Date:   Sun, 12 Dec 2021 13:53:58 +0100
-Message-Id: <20211212125358.14416-4-dariobin@libero.it>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211212125358.14416-1-dariobin@libero.it>
-References: <20211212125358.14416-1-dariobin@libero.it>
-X-CMAE-Envelope: MS4xfCr2tNHPJS5M42ZQsU6d1R66UV4G0n0glQqdeKDjfAiyeLTueeEPu2fSFu5P77D/aBTX8p44qql16w5nDlGsxoeoG5IUD4BWbixP9BIYI6DywAO78p4m
- 9RifdIxgOv44xlkDzDu7JKcfVb7jU6d0TEDqGAGyVZr8z4YmGH9hZGCQrYNEwUA0txz76AEg19uczYTu9II3AZiNiYuMqlfRDszrHVC1sSDdVj7jqOZJqNxj
- J+6uVhJdEBiX0m26d+No8aHmOcbleXa1jW9q+GabG2FA2N+iIth3SeXGkN6H9jtps6lGIwZusGm5sogwGev9RcuRTB/4TLVsGe0c2Vjc3n5HzlurANqtzWmp
- 5yg5WLI2/NLpth7wrPwAPM7o6076wRRD0VjVJSOagAlNNfz9wUl1TlniEiQ1GQ8zXNDfaVSjDwlZS3XG6sNH3yWObfedJ0APPYdS75WJ6ZlaslFV972rN+BR
- CiFyAgaWFZJkjNZa9O5KcAyc3FzI3iU4QeG0qT6bM0A/Bp7GtYrobs+cM6HIlGsfYqv3KBMzX7EBERMuP44hJPtORl4liJtVo7TvJJ5uS5PABFB1WCCF8VMO
- JI7AJ5ufkoXW2fRX/tXElkhQMgtXC97qSS50lj7VvPmKAy4meUC+E11Bs9w9LrRNzvs=
+        id S230079AbhLLSVH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Dec 2021 13:21:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35878 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229997AbhLLSVH (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 12 Dec 2021 13:21:07 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2453C061714;
+        Sun, 12 Dec 2021 10:21:06 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id a9so23524849wrr.8;
+        Sun, 12 Dec 2021 10:21:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=heLImKmZeqCt6AqybtVYurhnUTJKAIiih42DM1JeSzo=;
+        b=WaofHUGtJVhFrxdvwTJWIrlzVfi7jyo+Db6W6/8vI7aUKxGvhiuxzvdsnq/X9KOtYd
+         59mVcqGg6I+7v9+FsI4buXyboUJyUKDxlJzLq3ziPRkOpGGmgSBc5nSccxoxyvLGOXS7
+         JniGZ4kedliXun1ignNJ9sOjkdwGpmBow+h2bBKpCV4Er5UZyfmLRuk6pSJSFBb9xq5L
+         SNSXrnxYQYqZ8sa5cSXFWj5V2CEAB2Bd6dX38K0S/j52h8Xvt0jftvbaX/CFdYrLoFAP
+         v3x41p2p4k27Qjn9VpN1XrF2as8xDmtzLAFuUcNvpZ2ceQmr9QXJEvb1nzHCzTVlLP9x
+         PKww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=heLImKmZeqCt6AqybtVYurhnUTJKAIiih42DM1JeSzo=;
+        b=s5CLXp2iZuIZh7nZ3LkPYc/iSAsgQTika95Lq9TvgGq2kO8EXX4dFkr0TxC+nem7l4
+         fnpB3K8CnAlxDmF0Bpoj1aZBJbmqGRLIwGJVXV4TWQHw1P0z/CBCDhYEsD8ZW75Zf4bk
+         1EO7e1JU/h57XxzJ3xo9yCYz6ZgwUw3ubLupQDbx3BxlZIwNkBUHf1pZ7ReqW4OgZe6F
+         japVTiWcxIhGIq3WfV+Buyhi4cmT1p1fCgn6BAnqEvELWl0oI6xmZTVytHfdSh4I9K/L
+         SwSVm75cRdL+qMPcfd3KmPuheAio4nCL4Sxr+JRSN+vGPvJxROuVV3e20x+A8NHLMaS0
+         7ytw==
+X-Gm-Message-State: AOAM532fntWLaXmgxQffpzy832cp4fTcPpuJ83Dz9cexYTNhTvvWo3ws
+        f0OD647jQ8K/vfodROsnrjg=
+X-Google-Smtp-Source: ABdhPJzlu5vOSE8a2BdaJMhKPsBdWhxEXAsAj6guc3c+5heIaijVDHrCJ+fb7U9tnqneA9MKEzIIDg==
+X-Received: by 2002:adf:a404:: with SMTP id d4mr27495404wra.556.1639333265441;
+        Sun, 12 Dec 2021 10:21:05 -0800 (PST)
+Received: from localhost.localdomain ([217.113.240.86])
+        by smtp.gmail.com with ESMTPSA id r62sm4667421wmr.35.2021.12.12.10.21.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Dec 2021 10:21:04 -0800 (PST)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, rydberg@bitmath.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH 0/2] Add Apple Magic Trackpad 2021 support
+Date:   Sun, 12 Dec 2021 19:20:58 +0100
+Message-Id: <20211212182100.40968-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The open delay time has to be applied only on the first sample of the
-X/Y coordinates because on the following samples the ADC channel is not
-changed. Removing this time from the samples after the first one,
-"ti,coordinate-readouts" greater than 1, decreases the total acquisition
-time, allowing to increase the number of acquired coordinates in the time
-unit.
+The Apple Magic Trackpad 2021 (3rd generation) is almost identical
+to the 2nd generation devices.
 
-Signed-off-by: Dario Binacchi <dariobin@libero.it>
+The only meaningful change from the driver point of view is that
+its name has changed.
 
----
+This small series adds support for the device and solves a bug
+caused when the default name of the device has been personalized.
 
- drivers/input/touchscreen/ti_am335x_tsc.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/input/touchscreen/ti_am335x_tsc.c b/drivers/input/touchscreen/ti_am335x_tsc.c
-index cfc943423241..f4ef218bc1b8 100644
---- a/drivers/input/touchscreen/ti_am335x_tsc.c
-+++ b/drivers/input/touchscreen/ti_am335x_tsc.c
-@@ -126,7 +126,7 @@ static int titsc_config_wires(struct titsc *ts_dev)
- static void titsc_step_config(struct titsc *ts_dev)
- {
- 	unsigned int	config;
--	int i;
-+	int i, n;
- 	int end_step, first_step, tsc_steps;
- 	u32 stepenable;
- 
-@@ -151,9 +151,11 @@ static void titsc_step_config(struct titsc *ts_dev)
- 	first_step = TOTAL_STEPS - tsc_steps;
- 	/* Steps 16 to 16-coordinate_readouts is for X */
- 	end_step = first_step + tsc_steps;
-+	n = 0;
- 	for (i = end_step - ts_dev->coordinate_readouts; i < end_step; i++) {
- 		titsc_writel(ts_dev, REG_STEPCONFIG(i), config);
--		titsc_writel(ts_dev, REG_STEPDELAY(i), STEPCONFIG_OPENDLY);
-+		titsc_writel(ts_dev, REG_STEPDELAY(i),
-+			     n++ == 0 ? STEPCONFIG_OPENDLY : 0);
- 	}
- 
- 	config = 0;
-@@ -175,9 +177,11 @@ static void titsc_step_config(struct titsc *ts_dev)
- 
- 	/* 1 ... coordinate_readouts is for Y */
- 	end_step = first_step + ts_dev->coordinate_readouts;
-+	n = 0;
- 	for (i = first_step; i < end_step; i++) {
- 		titsc_writel(ts_dev, REG_STEPCONFIG(i), config);
--		titsc_writel(ts_dev, REG_STEPDELAY(i), STEPCONFIG_OPENDLY);
-+		titsc_writel(ts_dev, REG_STEPDELAY(i),
-+			     n++ == 0 ? STEPCONFIG_OPENDLY : 0);
- 	}
- 
- 	/* Make CHARGECONFIG same as IDLECONFIG */
+José Expósito (2):
+  HID: magicmouse: set device name when it has been personalized
+  HID: magicmouse: set Magic Trackpad 2021 name
+
+ drivers/hid/hid-magicmouse.c | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
+
 -- 
-2.17.1
+2.25.1
 
