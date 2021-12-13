@@ -2,75 +2,228 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12F6E472058
-	for <lists+linux-input@lfdr.de>; Mon, 13 Dec 2021 06:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D3C24720AA
+	for <lists+linux-input@lfdr.de>; Mon, 13 Dec 2021 06:45:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230008AbhLMFUz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Dec 2021 00:20:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52666 "EHLO
+        id S231896AbhLMFpy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Dec 2021 00:45:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229738AbhLMFUz (ORCPT
+        with ESMTP id S230204AbhLMFpx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Dec 2021 00:20:55 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36EADC06173F;
-        Sun, 12 Dec 2021 21:20:55 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id cq22-20020a17090af99600b001a9550a17a5so13816682pjb.2;
-        Sun, 12 Dec 2021 21:20:55 -0800 (PST)
+        Mon, 13 Dec 2021 00:45:53 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AADB8C06173F;
+        Sun, 12 Dec 2021 21:45:53 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id 8so13978126pfo.4;
+        Sun, 12 Dec 2021 21:45:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=NYNZee22XbkwXg1taiKBO3ZWqciR+IbR7q5WucxbMWY=;
-        b=Jy/fsc+d4epQNjGtp7iVz37bvhv+yrKOWHIJ3q7YWsZVCtdTn3xgnByqbh2VwnFBiM
-         OgDjXUhR4mWEEC+rWmMdu+rzn+12n6ilC6kcHHs5T6tIouyzYqzN+zVcG8Q8b2v+LVp5
-         zgCsv0grMjikrO+r/2Ggyg0lvte5lF8sh9gKRWdXvcSZYQQzIuQdCXDPzd+8bpBkPyJ2
-         HteVY96KR0A4EvUD73wzIJGYhchxBTOEmmKTp/Uh0yTc3mqkI8fKB6shfkw/wLJRuewK
-         cAHi20rRBWBgprXOYfuagRlIJLIYgWI56YZTUuq9NvvaGmzagf8KJdczXwGH/ENIFHsG
-         6MXg==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=YxTqaHrb1WONr4bzbFg9s07xU3CclGU8fXdbhcxL4wY=;
+        b=HrwQaPS9mX/xUntq2L4rPSLlfvXt8WxPbyDS1O81vEPuznXszRyVBMEpIQ4jUGYr+d
+         n3hpK21TmtA97jBvAb9Ml9Samja179i6QsL8zq0chSGWstVYH2g2NlcXim+ROrJd31TB
+         upHt1ukE/j5f24oq8kOyeTyw2ti7EkoCRfrpCwFq7qh04ZPK0nzWy3HaEu4wYtBTaxjU
+         8B1dVPArY3cDt4LIWdIcPQG5SEXaMMw2f0bmsvIwh9R9chh2xCcM/5PKlnv4PfMY37gR
+         BFcL3i7lfZG7UDnsT947ul+rwowo1kOwvqE+L1rPJdMFbUxeTC8pNtVpMPkoV4PwAg84
+         SOvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=NYNZee22XbkwXg1taiKBO3ZWqciR+IbR7q5WucxbMWY=;
-        b=DZMgOl4wBgr8aGKZRpY1HlscVirwR0rnDv+56P3DoUEC0H97G+beIIDQgaWGng2T1j
-         yCjV8P/8pHRyrbMlHfXx/AH5DgpOPiifMUMKs4HSnOK/MOs9QE9uVBnPXTHCHgDjzKFW
-         vhz2NuitqDDOp4IJdt1MGLbVJfG0MTB5xmNfz4YFdoT77Xzbn5JG3muBK4p8dPPlZGJH
-         5MU9fFya43zn5JuTajzcuoQB7s70FUpAYhlXeZEwFvtl6vKYkf8h9WE1fGbXEAHek3YW
-         fTVMpNpI+4QLDJ29tAet6cn13uYtiZXF0L4Ba+lCzgVTDEuy3P7U/F0lrwQi0i1b45su
-         uDGg==
-X-Gm-Message-State: AOAM530wzn69dH4nwLluwL52jZj1co2jzY2BD6BaWN7nMKE5faykWHN/
-        J9b7w9PD//VEpNVluN3gDINrKGxUEng=
-X-Google-Smtp-Source: ABdhPJzbxLwcUsNy36h8YtA2ItwOld6HAjYU2c7I1vzBDCu/k0bSBQb5TTzE1qPsRhDT6swE+TweEQ==
-X-Received: by 2002:a17:903:2305:b0:142:1bca:72eb with SMTP id d5-20020a170903230500b001421bca72ebmr93274358plh.67.1639372854567;
-        Sun, 12 Dec 2021 21:20:54 -0800 (PST)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=YxTqaHrb1WONr4bzbFg9s07xU3CclGU8fXdbhcxL4wY=;
+        b=OPRHMk4w7yNq3yQv/snDtvhlFVlvLreWKw3oV1Y8XuKKoUrN2KLyDxFFKakudHXNoH
+         zOgsOymWH/2fCKmZKvGQWmzzQpIDkLg6Mvv5R0nUTKA9zszSKfNY+yIFQg6hzzurIAdP
+         A+FFdLkCRtfPFKB441Kr8BJ3N7uAsBRWQjqqdvuF7G0VFNHlP4oKW60tk4F8ujCqC/xe
+         4sgXHhiqjAnbIpCqcwbrIgy/R+KHSOtVfBGQB4RiCU9hGYcPFtnp/r/um1XGI7Vc5Fq6
+         tozdbA2G7VABIDMSO709T5cGoMd9vnFI8WUDXCksGxZhxjASURZ1ULCkskDG7doAPMm4
+         CkYw==
+X-Gm-Message-State: AOAM5309j8poMD/j88fCTkL/WVHjl/dGONg7btfxF7m/07obBEQyUr9o
+        lc4wUuvml1DJL6VdnzKSjwc=
+X-Google-Smtp-Source: ABdhPJxSAkGXd7eqoG11hnQsbGyVxpD1ryL7wjbnVUDsr9Yqg6avZ0fCzJ7Z0d4Br6GhMorxKY+8Vg==
+X-Received: by 2002:aa7:93c4:0:b0:49f:a7f5:7f5a with SMTP id y4-20020aa793c4000000b0049fa7f57f5amr31796521pff.8.1639374353027;
+        Sun, 12 Dec 2021 21:45:53 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:e537:8856:7d40:7c6])
-        by smtp.gmail.com with ESMTPSA id md6sm5481358pjb.22.2021.12.12.21.20.53
+        by smtp.gmail.com with ESMTPSA id mq14sm5553657pjb.54.2021.12.12.21.45.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Dec 2021 21:20:53 -0800 (PST)
-Date:   Sun, 12 Dec 2021 21:20:51 -0800
+        Sun, 12 Dec 2021 21:45:51 -0800 (PST)
+Date:   Sun, 12 Dec 2021 21:45:48 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Colin Ian King <colin.i.king@gmail.com>
-Cc:     linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: ucb1400_ts: remove redundant variable penup
-Message-ID: <YbbYM/P1d6eMd0nW@google.com>
-References: <20211205000525.153999-1-colin.i.king@gmail.com>
+To:     Alistair Francis <alistair23@gmail.com>
+Cc:     Alistair Francis <alistair@alistair23.me>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mylene Josserand <mylene.josserand@free-electrons.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andreas Kemnade <andreas@kemnade.info>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        =?iso-8859-1?Q?Myl=E8ne?= Josserand 
+        <mylene.josserand@bootlin.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>
+Subject: Re: [PATCH v2 1/4] Input: Add driver for Cypress Generation 5
+ touchscreen
+Message-ID: <YbbeDFJERtP0mAIQ@google.com>
+References: <20211103114830.62711-1-alistair@alistair23.me>
+ <20211103114830.62711-2-alistair@alistair23.me>
+ <YYYk/uisKqPNgRu0@google.com>
+ <CAKmqyKOFZOLpjMY+kj2CLibFhYJ3-tL+9+cKEVzgSn9Mzq30gw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211205000525.153999-1-colin.i.king@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKmqyKOFZOLpjMY+kj2CLibFhYJ3-tL+9+cKEVzgSn9Mzq30gw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Dec 05, 2021 at 12:05:25AM +0000, Colin Ian King wrote:
-> Variable penup is assigned a value but penup is never read later, it
-> is redundant and can be removed.
+On Wed, Dec 01, 2021 at 10:27:46PM +1000, Alistair Francis wrote:
+>  On Sat, Nov 6, 2021 at 4:47 PM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> >
+> > Hi Alistair,
+> >
+> > On Wed, Nov 03, 2021 at 09:48:27PM +1000, Alistair Francis wrote:
+> > > From: Mylčne Josserand <mylene.josserand@bootlin.com>
+> > >
+...
+> > > +                            si->tch_hdr.max,
+> > > +                            si->xy_mode + 3 + si->tch_hdr.ofs,
+> > > +                            si->tch_hdr.bofs);
+> > > +
+> > > +     num_cur_tch = tch.hdr;
+> > > +     if (num_cur_tch > max_tch) {
+> > > +             dev_err(dev, "Num touch err detected (n=%d)\n", num_cur_tch);
+> > > +             num_cur_tch = max_tch;
+> > > +     }
+> > > +
+> > > +     if (num_cur_tch == 0 && ts->num_prv_rec == 0)
+> > > +             return 0;
+> > > +
+> > > +     /* extract xy_data for all currently reported touches */
+> > > +     if (num_cur_tch)
+> > > +             cyttsp5_get_mt_touches(ts, &tch, num_cur_tch);
+> > > +     else
+> > > +             cyttsp5_mt_lift_all(ts);
+> >
+> > Not needed with INPUT_MT_DROP_UNUSED.
 > 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> I tried INPUT_MT_DROP_UNUSED and I still need this function
 
-Applied, thank you.
+I am curious why that is. Probably call to input_mt_sync_frame() was in
+a wrong place?
+
+...
+
+> > > +
+> > > +static int cyttsp5_deassert_int(struct cyttsp5 *ts)
+> > > +{
+> > > +     u16 size;
+> > > +     u8 buf[2];
+> > > +     int rc;
+> > > +
+> > > +     rc = regmap_bulk_read(ts->regmap, HID_INPUT_REG, buf, 2);
+> > > +     if (rc < 0)
+> > > +             return rc;
+> > > +
+> > > +     size = get_unaligned_le16(&buf[0]);
+> > > +     if (size == 2 || size == 0)
+> > > +             return 0;
+> >
+> > If you were to use level interrupts this probably would not be needed.
+> 
+> I have tried with/without this and I still can't get level interrupts working.
+
+Does the platform support level interrupts?
+
+...
+> > > +static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
+> > > +                      const char *name)
+> > > +{
+> > > +     struct cyttsp5 *ts;
+> > > +     struct cyttsp5_sysinfo *si;
+> > > +     int rc = 0, i;
+> > > +
+> > > +     ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
+> > > +     if (!ts)
+> > > +             return -ENOMEM;
+> > > +
+> > > +     /* Initialize device info */
+> > > +     ts->regmap = regmap;
+> > > +     ts->dev = dev;
+> > > +     si = &ts->sysinfo;
+> > > +     dev_set_drvdata(dev, ts);
+> > > +
+> > > +     /* Initialize mutexes and spinlocks */
+> > > +     mutex_init(&ts->system_lock);
+> > > +
+> > > +     /* Initialize wait queue */
+> > > +     init_waitqueue_head(&ts->wait_q);
+> > > +
+> > > +     /* Power up the device */
+> > > +     ts->vdd = regulator_get(dev, "vdd");
+> >
+> > Do not mix managed an unmanaged resources. You are leaking this
+> > regulator.
+> 
+> I'm not clear what I should do differently here.
+
+devm_regulator_get().
+
+> 
+> >
+> > > +     if (IS_ERR(ts->vdd)) {
+> > > +             rc = PTR_ERR(ts->vdd);
+> > > +             dev_set_drvdata(dev, NULL);
+> > > +             kfree(ts);
+
+You can't call kfree() for memory allocated with devm_kzalloc().
+
+> > > +             return rc;
+> > > +     }
+> > > +
+> > > +     rc = regulator_enable(ts->vdd);
+> > > +     if (rc) {
+> > > +             regulator_put(ts->vdd);
+> > > +             dev_set_drvdata(dev, NULL);
+> > > +             kfree(ts);
+> > > +             return rc;
+> > > +     }
+> > > +
+> > > +     /* Reset the gpio to be in a reset state */
+> > > +     ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+> > > +     if (IS_ERR(ts->reset_gpio)) {
+> > > +             rc = PTR_ERR(ts->reset_gpio);
+> > > +             dev_err(dev, "Failed to request reset gpio, error %d\n", rc);
+> > > +             return rc;
+> > > +     }
+> > > +     gpiod_set_value(ts->reset_gpio, 1);
+> > > +
+> > > +     /* Need a delay to have device up */
+> > > +     msleep(20);
+> > > +
+> > > +     rc = devm_request_threaded_irq(dev, irq, NULL, cyttsp5_handle_irq,
+> > > +                                    IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+> >
+> > Please do not override platform setup with hardcoded triggers. Also, it
+> > is strongly recommended to use level interrupts for these peripherals.
+> >
+> > This is also likely unsafe if controller is not completely shut off and
+> > is capable of generating interrupts given input device is not yet
+> > allocated.
+> 
+> I have dropped the `IRQF_TRIGGER_FALLING |`
+> 
+> I have tried to use level interrupts, but I can't get the device
+> working with them.
+
+That is weird, does the interrupt controller support level interrupts?
+
+Thanks.
 
 -- 
 Dmitry
