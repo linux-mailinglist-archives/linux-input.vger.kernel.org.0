@@ -2,145 +2,240 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A3D5472B51
-	for <lists+linux-input@lfdr.de>; Mon, 13 Dec 2021 12:27:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A432472B5B
+	for <lists+linux-input@lfdr.de>; Mon, 13 Dec 2021 12:28:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231512AbhLML1W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Dec 2021 06:27:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53228 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230209AbhLML1V (ORCPT
+        id S232747AbhLML2Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Dec 2021 06:28:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39917 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232732AbhLML2Y (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Dec 2021 06:27:21 -0500
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AE5CC061574
-        for <linux-input@vger.kernel.org>; Mon, 13 Dec 2021 03:27:21 -0800 (PST)
-Received: by mail-qv1-xf2d.google.com with SMTP id m17so14047870qvx.8
-        for <linux-input@vger.kernel.org>; Mon, 13 Dec 2021 03:27:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=I1ZAuLx8I80pMQaUrC8Y4DeMnmBoIz4StJRLHGV/Wyw=;
-        b=L4LPsWigT9OiVBlsfSg3hReTSIlGQDDx0uHiDOhIqwgrnG9BaD0ir/XXql17+ezTfD
-         IlZoBIBtQHCS0w9loUPYENudSErNf7XQvcer1R5Eu9a8fxE/Iq0XUboum9oCdvSNxbOc
-         g0aJWL7p9Dm+ltHJR3IwjktQQoHwpTqOUYKem7ULuZbSA+JQP9wGLD8HN7FQomNcTVHZ
-         OEt8nY69xxqvEPL+PTOjz3g01Sm4NWJlay9ZBOPAq0qgEhjc9WZPZ5ZNr0ts/MPwza/Z
-         tDmSiYW5CAXUi7WzNvHcVpCWwb0mTPCp2NVCWQWmqrknOy7OITA3WF+x/zgVsSYK2+oH
-         wQxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=I1ZAuLx8I80pMQaUrC8Y4DeMnmBoIz4StJRLHGV/Wyw=;
-        b=zlQS4TZBGeMMgNnG6I0f9uTeiw5CxdZ+M403NA38u+fl4LCJqVFCGF5fKT88G2BxgD
-         HK/6/Nm7r6TaxEnRbc49JOAXPD+Lox9ID9u2ibFTcJNBpurEu0HDRDft5i1mAtujen08
-         1UXah/mUu55jstjcquNdwj07J+leAe7//lpMm+rOeUSF6VuBpqL8uRIlY1Gq54GhEEBD
-         CzFzRTQwvqw08sSEOdWKYsOvdrVEx0UDfn57Hvg/IU5WMbGsCulxQJIcRWKaLHsYLYY7
-         J7S8Np12r01jAMf7XwEf0zMNtopVPPaQx0g361Ev7BYDBbakeA03oEEm6muEEvJ0xEoC
-         jgTQ==
-X-Gm-Message-State: AOAM530dk6pyKnGrwK1GtdiMsKwnsEqE5bGd+JYOwZCiGcB3TVJU4CHT
-        by85NVc4tcsMmWELc+sIDixAajasgsaKnU7p0DySoA==
-X-Google-Smtp-Source: ABdhPJx3p3AU8sVc0C/DeMjb4FWPYiGkcfZcqgZA7dRXxy40gWIH35pzen/G8vBhRylKIPWC/+Zz06jC/N1x3jCRX/w=
-X-Received: by 2002:a05:6214:238c:: with SMTP id fw12mr41713397qvb.103.1639394840414;
- Mon, 13 Dec 2021 03:27:20 -0800 (PST)
+        Mon, 13 Dec 2021 06:28:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639394903;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=49IXfwSMYuzdL01r4rIJ5dsEZzYtD7h3rOZZT+C9p4U=;
+        b=E4cDhG9EiD2nqHJ2kAXEyZU47cJ84sGCQBQtOGbfTPnpqPS+7ITiCWQwmUgvgyv0kMzk80
+        Dh9jl521R1VHsQu5CPoXC2OeFY8gBlkGEzQa8EKrZkrRBuKo5clCPtwShEXiOp6YcQe8/H
+        ViAdEORJkMYjyKUsHk5bqH+Sko5BjFQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-445-17AJkUrPNZK51aNPUdPJZw-1; Mon, 13 Dec 2021 06:28:20 -0500
+X-MC-Unique: 17AJkUrPNZK51aNPUdPJZw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC692801962;
+        Mon, 13 Dec 2021 11:28:18 +0000 (UTC)
+Received: from [10.39.195.18] (unknown [10.39.195.18])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id ACA024ABA9;
+        Mon, 13 Dec 2021 11:28:17 +0000 (UTC)
+Message-ID: <b9ca5d3b-abda-5195-4c17-fa3b49d37334@redhat.com>
+Date:   Mon, 13 Dec 2021 12:28:16 +0100
 MIME-Version: 1.0
-References: <20211129143845.1472453-1-glider@google.com> <YbQTA9NWoDAknJKB@google.com>
-In-Reply-To: <YbQTA9NWoDAknJKB@google.com>
-From:   Alexander Potapenko <glider@google.com>
-Date:   Mon, 13 Dec 2021 12:26:43 +0100
-Message-ID: <CAG_fn=V=vykKUHxa2dTxehgdifP4-8R2LKcOXrEmRbfO1DRnng@mail.gmail.com>
-Subject: Re: [PATCH] Input: psmouse: check the result of PSMOUSE_CMD_GET* commands
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     dvyukov@google.com, elver@google.com, linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH 1/2] HID: logitech-dj: add support for the new lightspeed
+ receiver iteration
+To:     =?UTF-8?Q?Filipe_La=c3=adns?= <lains@archlinux.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>
+References: <20210123180334.3062995-1-lains@archlinux.org>
+ <CAO-hwJKdfAy9i28iFEKi5DWU0SPOopiEyjT_2HdpL7ahFhdGFg@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAO-hwJKdfAy9i28iFEKi5DWU0SPOopiEyjT_2HdpL7ahFhdGFg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Dec 11, 2021 at 3:55 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
+Hi Filipe,
+
+On Mon, Mar 1, 2021 at 3:46 PM Benjamin Tissoires <benjamin.tissoires@redhat.com> wrote:
 >
-> Hi Alexander,
->
-> On Mon, Nov 29, 2021 at 03:38:45PM +0100, Alexander Potapenko wrote:
-> > Execution of a PSMOUSE_CMD_GET* command may fail, leaving the output
-> > buffer uninitialized. Make sure to check the return value of
-> > ps2_command() and bail out before checking the buffer contents.
+> On Sat, Jan 23, 2021 at 7:03 PM Filipe Laíns <lains@archlinux.org> wrote:
 > >
-> > The use of uninitialized data in genius_detect() was detected by KMSAN,
-> > other places were fixed for the sake of uniformity.
+> > From: Filipe Laíns <lains@riseup.net>
 > >
-> > Signed-off-by: Alexander Potapenko <glider@google.com>
+> > Tested with the G Pro X Superlight. libratbag sees the device, as
+> > expected, and input events are passing trough.
+> >
+> > https://github.com/libratbag/libratbag/pull/1122
+> >
+> > The receiver has a quirk where the moused interface doesn't have a
+> > report ID, I am not sure why, perhaps they forgot. All other interfaces
+> > have report IDs so I am left scratching my head.
+> > Since this driver doesn't have a quirk system, I simply implemented it
+> > as a different receiver type, which is true, it just wouldn't be the
+> > prefered approach :P
+> >
+> > Signed-off-by: Filipe Laíns <lains@riseup.net>
 > > ---
-> >  drivers/input/mouse/psmouse-base.c | 21 ++++++++++++++++-----
-> >  1 file changed, 16 insertions(+), 5 deletions(-)
+> >  drivers/hid/hid-ids.h         |  1 +
+> >  drivers/hid/hid-logitech-dj.c | 49 +++++++++++++++++++++++++----------
+> >  2 files changed, 37 insertions(+), 13 deletions(-)
 > >
-> > diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/p=
-smouse-base.c
-> > index 0b4a3039f312f..a3305653ce891 100644
-> > --- a/drivers/input/mouse/psmouse-base.c
-> > +++ b/drivers/input/mouse/psmouse-base.c
-> > @@ -546,13 +546,16 @@ static int genius_detect(struct psmouse *psmouse,=
- bool set_properties)
-> >  {
-> >       struct ps2dev *ps2dev =3D &psmouse->ps2dev;
-> >       u8 param[4];
-> > +     int error;
+> > diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> > index 4c5f23640f9c..8eac3c93fa38 100644
+> > --- a/drivers/hid/hid-ids.h
+> > +++ b/drivers/hid/hid-ids.h
+> > @@ -803,6 +803,7 @@
+> >  #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1      0xc539
+> >  #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1    0xc53f
+> >  #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_POWERPLAY 0xc53a
+> > +#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_2    0xc547
+> >  #define USB_DEVICE_ID_SPACETRAVELLER   0xc623
+> >  #define USB_DEVICE_ID_SPACENAVIGATOR   0xc626
+> >  #define USB_DEVICE_ID_DINOVO_DESKTOP   0xc704
+> > diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+> > index 1401ee2067ca..6596c81947a8 100644
+> > --- a/drivers/hid/hid-logitech-dj.c
+> > +++ b/drivers/hid/hid-logitech-dj.c
+> > @@ -114,6 +114,7 @@ enum recvr_type {
+> >         recvr_type_dj,
+> >         recvr_type_hidpp,
+> >         recvr_type_gaming_hidpp,
+> > +       recvr_type_gaming_hidpp_missing_mse_report_id,  /* lightspeed receiver missing the mouse report ID */
+> >         recvr_type_mouse_only,
+> >         recvr_type_27mhz,
+> >         recvr_type_bluetooth,
+> > @@ -1360,6 +1361,7 @@ static int logi_dj_ll_parse(struct hid_device *hid)
+> >                 dbg_hid("%s: sending a mouse descriptor, reports_supported: %llx\n",
+> >                         __func__, djdev->reports_supported);
+> >                 if (djdev->dj_receiver_dev->type == recvr_type_gaming_hidpp ||
+> > +                   djdev->dj_receiver_dev->type == recvr_type_gaming_hidpp_missing_mse_report_id ||
+> >                     djdev->dj_receiver_dev->type == recvr_type_mouse_only)
+> >                         rdcat(rdesc, &rsize, mse_high_res_descriptor,
+> >                               sizeof(mse_high_res_descriptor));
+> > @@ -1605,19 +1607,35 @@ static int logi_dj_raw_event(struct hid_device *hdev,
+> >                         data[0] = data[1];
+> >                         data[1] = 0;
+> >                 }
+> > -               /*
+> > -                * Mouse-only receivers send unnumbered mouse data. The 27 MHz
+> > -                * receiver uses 6 byte packets, the nano receiver 8 bytes.
+> > -                */
+> > -               if (djrcv_dev->unnumbered_application == HID_GD_MOUSE &&
+> > -                   size <= 8) {
+> > -                       u8 mouse_report[9];
+> > -
+> > -                       /* Prepend report id */
+> > -                       mouse_report[0] = REPORT_TYPE_MOUSE;
+> > -                       memcpy(mouse_report + 1, data, size);
+> > -                       logi_dj_recv_forward_input_report(hdev, mouse_report,
+> > -                                                         size + 1);
+> > +
+> > +
+> > +               if (djrcv_dev->unnumbered_application == HID_GD_MOUSE) {
+> > +                       /*
+> > +                        * Mouse-only receivers send unnumbered mouse data. The 27 MHz
+> > +                        * receiver uses 6 byte packets, the nano receiver 8 bytes.
+> > +                        */
+> > +                       if (size <= 8) {
+> > +                               u8 mouse_report[9];
+>
+> Hmm, as stated above, the 27 MHz receiver already does the exact same thing.
+>
+> Can't we just bump the array size and check above to the following:
+>
+> if (size <= 16) {
+>   u8 mouse_report[17];
+>
+> The property "djrcv_dev->unnumbered_application" is based on the
+> report descriptor entirely, and they are just following the HID norm
+> here. So I think this should be enough.
+
+I've been pinged last week about the G Pro X superlight, and Peter found
+that this patch never got into upstream.
+
+AFAICT, compared to upstream the following code change should have the
+same effect that what you proposed here:
+---
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index 7106b921b53c..f5cdfce272e7 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -1691,11 +1691,12 @@ static int logi_dj_raw_event(struct hid_device *hdev,
+                 }
+                 /*
+                  * Mouse-only receivers send unnumbered mouse data. The 27 MHz
+-                * receiver uses 6 byte packets, the nano receiver 8 bytes.
++                * receiver uses 6 byte packets, the nano receiver 8 bytes and
++                * some gaming ones are using 16 bytes.
+                  */
+                 if (djrcv_dev->unnumbered_application == HID_GD_MOUSE &&
+-                   size <= 8) {
+-                       u8 mouse_report[9];
++                   size <= 16) {
++                       u8 mouse_report[17];
+  
+                         /* Prepend report id */
+                         mouse_report[0] = REPORT_TYPE_MOUSE;
+---
+
+Would you mind sending a v2 of the patch updated to the current for-next so we can schedule this for 5.17?
+
+
+Cheers,
+Benjamin
+
+>
+> Cheers,
+> Benjamin
+>
+> > +
+> > +                               /* Prepend report id */
+> > +                               mouse_report[0] = REPORT_TYPE_MOUSE;
+> > +                               memcpy(mouse_report + 1, data, size);
+> > +                               logi_dj_recv_forward_input_report(hdev, mouse_report,
+> > +                                                                 size + 1);
+> > +
+> > +                       /*
+> > +                        * A variant of the ligtpseed receivers is missing the mouse
+> > +                        * report ID.
+> > +                        */
+> > +                       } else if (djrcv_dev->type == recvr_type_gaming_hidpp_missing_mse_report_id) {
+> > +                               u8 mouse_report[17];
+> > +
+> > +                               /* Prepend report id */
+> > +                               mouse_report[0] = REPORT_TYPE_MOUSE;
+> > +                               memcpy(mouse_report + 1, data, size);
+> > +                               logi_dj_recv_forward_input_report(hdev, mouse_report,
+> > +                                                                 size + 1);
+> > +                       }
+> >                 }
 > >
-> >       param[0] =3D 3;
-> >       ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
-> >       ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
-> >       ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
-> >       ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
-> > -     ps2_command(ps2dev, param, PSMOUSE_CMD_GETINFO);
-> > +     error =3D ps2_command(ps2dev, param, PSMOUSE_CMD_GETINFO);
-> > +     if (error)
-> > +             return error;
->
-> If we care about this I think we should care about errors from the rest
-> of ps2_command()s. Otherwise we might have buffer initialized, but we
-> are still checking potential garbage in it.
+> >                 return false;
+> > @@ -1688,6 +1706,7 @@ static int logi_dj_probe(struct hid_device *hdev,
+> >         case recvr_type_dj:             no_dj_interfaces = 3; break;
+> >         case recvr_type_hidpp:          no_dj_interfaces = 2; break;
+> >         case recvr_type_gaming_hidpp:   no_dj_interfaces = 3; break;
+> > +       case recvr_type_gaming_hidpp_missing_mse_report_id: no_dj_interfaces = 3; break;
+> >         case recvr_type_mouse_only:     no_dj_interfaces = 2; break;
+> >         case recvr_type_27mhz:          no_dj_interfaces = 2; break;
+> >         case recvr_type_bluetooth:      no_dj_interfaces = 2; break;
+> > @@ -1886,6 +1905,10 @@ static const struct hid_device_id logi_dj_receivers[] = {
+> >           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+> >                 USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1),
+> >          .driver_data = recvr_type_gaming_hidpp},
+> > +       { /* Logitech lightspeed receiver (0xc547) */
+> > +         HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+> > +               USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_2),
+> > +        .driver_data = recvr_type_gaming_hidpp_missing_mse_report_id},
+> >         { /* Logitech 27 MHz HID++ 1.0 receiver (0xc513) */
+> >           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_MX3000_RECEIVER),
+> >          .driver_data = recvr_type_27mhz},
+> > --
+> > 2.30.0
+> >
 
-Ok, I am going to add error checking to ps2_command()s that occur in
-the device detection code, because it's a sane assumption that every
-command in the device handshake should succeed.
-The only exception I see is the IntelliMouse 4.0 support code in
-im_explorer_detect
-(https://elixir.bootlin.com/linux/latest/source/drivers/input/mouse/psmouse=
--base.c#L628),
-where it is unclear whether these functions must succeed or not.
-I also won't be touching calls to ps2_command() in void functions
-which do not return errors anyway, and PSMOUSE_CMD_RESET_DIS commands,
-for which it is also unclear what to return.
-
-
-I think it makes sense to bail out if one of the ps2_command()
-preceding PSMOUSE_CMD_GET* returned an error, but am not sure
-
-The bugs caused by incorrect uses of PSMOUSE_CMD_GET are blocking
-KMSAN builds on syzbot, so we can immediately test the effect of the
-proposed change.
-
-If there were
-
-
-> Thanks.
->
-> --
-> Dmitry
-
-
-
---=20
-Alexander Potapenko
-Software Engineer
-
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
