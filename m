@@ -2,109 +2,201 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A631472B76
-	for <lists+linux-input@lfdr.de>; Mon, 13 Dec 2021 12:33:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C8BB472FF7
+	for <lists+linux-input@lfdr.de>; Mon, 13 Dec 2021 16:01:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232673AbhLMLdI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Dec 2021 06:33:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54752 "EHLO
+        id S234842AbhLMPBy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Dec 2021 10:01:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232749AbhLMLdH (ORCPT
+        with ESMTP id S234258AbhLMPBx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Dec 2021 06:33:07 -0500
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87629C061574
-        for <linux-input@vger.kernel.org>; Mon, 13 Dec 2021 03:33:07 -0800 (PST)
-Received: by mail-qk1-x729.google.com with SMTP id d21so6254957qkl.3
-        for <linux-input@vger.kernel.org>; Mon, 13 Dec 2021 03:33:07 -0800 (PST)
+        Mon, 13 Dec 2021 10:01:53 -0500
+Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com [IPv6:2a00:1450:4864:20::34a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A68AC06173F
+        for <linux-input@vger.kernel.org>; Mon, 13 Dec 2021 07:01:53 -0800 (PST)
+Received: by mail-wm1-x34a.google.com with SMTP id 201-20020a1c04d2000000b003335bf8075fso9777809wme.0
+        for <linux-input@vger.kernel.org>; Mon, 13 Dec 2021 07:01:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=TQXJztY8oqvTFgPuG2hsiXVSvzBdv0hhl/dvwVF0OnA=;
-        b=r8u6RbSPvDTQbi9AJTB2x3hFmaf0xoHiEPAZqLneg/4jcqXdY7nxlZy0c5zRl12eZy
-         ngxVLsgF6gcdPfAlLSIcVvM0HqPpk9GJAdzst1/FDmnSspfRPnjPPFp/7DECxJFBXTlq
-         dtoSMTfhbqJF+cpg2/ehHUFpUteNKeI+6iDGdAMO1w/N8TyffJjVTisdQ4e0uuS5MpJ8
-         Sde5lafUuOOGcVnscl8DJdjcVP60AQgci6yqW5QwxnpgaYcaknu9uyp+gKIz5DYAHbCv
-         IVDdXs0jFJ8vLZmppXNQiAjmcmzc2StO6qDp89MYznBAL5utNWwyE+Myqnmth0Sy4jEz
-         oFyA==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=T7ZsL74YHfrK4rku8LRlqTa6ouyF11q8KOjqIGzbLUg=;
+        b=Xpf41EfT0t5rN6abRKDGUJC8e1FeR3ypM3sEkxaAzW1QQ7rEzsKsDTPSCAzoULSwuU
+         YkQ8q8TgxxwCnj0CptNrdov46KhMh/GypUzU3OuCj7frhMIB6xaB5H9vVlRb9MCcqwYl
+         bAAJJ6OuLPHpeXe4F6ancZOReWQHmPMfufUHrh9aVhpljSnupm5+y6ErQXq419XWJln6
+         JkTgaGsOZgGfem9Dgt14m+Qsud+/yFkQBShzajdJ7aRvYxFuENsASHGh0wmAf9lnR8y3
+         CPFt2sUMXwmMYB6BI6Vt5rWpCu53u+8ficB2N5vO5GSobiY0fXEyto6HTSLq+aQlYvWV
+         btbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=TQXJztY8oqvTFgPuG2hsiXVSvzBdv0hhl/dvwVF0OnA=;
-        b=su1tgKc1wLNEj6x5SNeqCEBjzHJq1IghFCPLT/kWCmMHGSO8IxRDFR6IyZJlys+FdM
-         xpiF4g/+J9W0sc/6LujLJJCw2KRMcdsBPHqq2U33UyrCdUMFq/XxY83hwp1/xpEeLV34
-         5BaIsg91O5cuH0Mc5rBZE61q5CXAbpQZbueqTOy8RpgQJR8pl4fZVrHdHCo5rTZ08vdO
-         JWhib6DHn5LlzEpq0GK4B6p8MLMEXWC4jyAUw15kadlJx2jt4c2MrcwArzk2Q2cL+ysV
-         t/tpbIF0PwgXQiq6id/9fy5X9No8Ll0W95L+F0GriYIjBX/jfO0p+SJIOEAqfMebmOrc
-         hksQ==
-X-Gm-Message-State: AOAM532BS0QnXH2DlhCLPU18xobvEJvryT7dipDqbm8ZjIj48f8O1gqf
-        nFJgkUBeOkmi/cyBqcaHrbibuuaNg9l1P1GWgg8h6iWhSjM=
-X-Google-Smtp-Source: ABdhPJzq4ZR9N54jll8sAWn9JdMe97r61rRSdsq3a4Qo3BT2XsByg+sSN4YUjl6x81M65jqxj7i/+phKCSH2QC3dzWc=
-X-Received: by 2002:a05:620a:2848:: with SMTP id h8mr32780087qkp.610.1639395186461;
- Mon, 13 Dec 2021 03:33:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20211129143845.1472453-1-glider@google.com> <YbQTA9NWoDAknJKB@google.com>
- <CAG_fn=V=vykKUHxa2dTxehgdifP4-8R2LKcOXrEmRbfO1DRnng@mail.gmail.com>
-In-Reply-To: <CAG_fn=V=vykKUHxa2dTxehgdifP4-8R2LKcOXrEmRbfO1DRnng@mail.gmail.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=T7ZsL74YHfrK4rku8LRlqTa6ouyF11q8KOjqIGzbLUg=;
+        b=chM6TZFrI+332gksU9doSo8npUMOEqvNMb10ANen480QW1NzGg1AlYcKQ3YP0sC1cy
+         5/q8yB9yj3MG1qawdPkWC/1YWse1YK33Iw+wRzdK3OIpfuoPN9on3Kxi3qOZAgA/s6UQ
+         5DwygOyUsJt5H9YeBw2hy0P6GUyzRbgdTGMN3fN8De1FzTUkrLWitwEr624N9Oqf7bPh
+         BZMgArOwRCh4dYXp1bC77w1khphNNikD8/vW6WGKOey0jXM/xU7LjB0LozXuP7IfCXgE
+         MqSVHSwHQofr2gGZD1iLcBR2TL/hDJf/QxQPKrwyU5GKSXR9DrTPG8s8zfRsbx3fn5ol
+         7Fag==
+X-Gm-Message-State: AOAM532LlLfQSc2chjjQ0pH+Zh1X/k1MbhFyxF1j/+EEFCw1emSXEL0O
+        fylVJLkT46ySiuYU0VuWwiAMpCh3A+I=
+X-Google-Smtp-Source: ABdhPJxyjj1Z9/q85KUVIZ0KP3MTYl53m1c0NKGgRJxJF50ylGFX6fTWvt+JoPlyNVxRTNl89t21TZeJpfw=
+X-Received: from glider.muc.corp.google.com ([2a00:79e0:15:13:b44d:3c17:9f9b:c6b1])
+ (user=glider job=sendgmr) by 2002:a1c:4e17:: with SMTP id g23mr40036711wmh.158.1639407711022;
+ Mon, 13 Dec 2021 07:01:51 -0800 (PST)
+Date:   Mon, 13 Dec 2021 16:01:46 +0100
+Message-Id: <20211213150146.4000441-1-glider@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.173.g76aa8bc2d0-goog
+Subject: [PATCH v2] Input: psmouse: check the result of ps2_command() when
+ detecting devices
 From:   Alexander Potapenko <glider@google.com>
-Date:   Mon, 13 Dec 2021 12:32:30 +0100
-Message-ID: <CAG_fn=UwADkNqzinHS=DmfYbHBvWm-oQfmr5pHq82ZAKyFyzxQ@mail.gmail.com>
-Subject: Re: [PATCH] Input: psmouse: check the result of PSMOUSE_CMD_GET* commands
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     dvyukov@google.com, elver@google.com, linux-input@vger.kernel.org
+To:     dmitry.torokhov@gmail.com
+Cc:     dvyukov@google.com, elver@google.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Alexander Potapenko <glider@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-> I think it makes sense to bail out if one of the ps2_command()
-> preceding PSMOUSE_CMD_GET* returned an error, but am not sure
-Sorry, please disregard this part.
+Execution of ps2_command() may fail, leaving the device in inconsistent
+state. If the command was supposed to write into @param buffer, that one
+may remain uninitialized.
 
-> The bugs caused by incorrect uses of PSMOUSE_CMD_GET are blocking
-> KMSAN builds on syzbot, so we can immediately test the effect of the
-> proposed change.
-This was meant to give some context, but I failed to finish my thought prop=
-erly.
-Syzbot doesn't cover anything past mouse detection, so changing
-anything besides that couldn't be tested anyway.
+Ensure that ps2_command() failure in device detection functions also
+results in them returning an error.
 
-> If there were
-Disregard this as well.
+Signed-off-by: Alexander Potapenko <glider@google.com>
+---
+v2:
+ - add checking to PSMOUSE_CMD_SET* functions
+---
+ drivers/input/mouse/psmouse-base.c | 73 ++++++++++++++++++++++--------
+ 1 file changed, 55 insertions(+), 18 deletions(-)
 
->
-> > Thanks.
-> >
-> > --
-> > Dmitry
->
->
->
-> --
-> Alexander Potapenko
-> Software Engineer
->
-> Google Germany GmbH
-> Erika-Mann-Stra=C3=9Fe, 33
-> 80636 M=C3=BCnchen
->
-> Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-> Registergericht und -nummer: Hamburg, HRB 86891
-> Sitz der Gesellschaft: Hamburg
+diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
+index 0b4a3039f312f..9dde7fd818136 100644
+--- a/drivers/input/mouse/psmouse-base.c
++++ b/drivers/input/mouse/psmouse-base.c
+@@ -546,13 +546,24 @@ static int genius_detect(struct psmouse *psmouse, bool set_properties)
+ {
+ 	struct ps2dev *ps2dev = &psmouse->ps2dev;
+ 	u8 param[4];
++	int error;
+ 
+ 	param[0] = 3;
+-	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
+-	ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
+-	ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
+-	ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
+-	ps2_command(ps2dev, param, PSMOUSE_CMD_GETINFO);
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
++	if (error)
++		return error;
++	error = ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
++	if (error)
++		return error;
++	error = ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
++	if (error)
++		return error;
++	error = ps2_command(ps2dev,  NULL, PSMOUSE_CMD_SETSCALE11);
++	if (error)
++		return error;
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_GETINFO);
++	if (error)
++		return error;
+ 
+ 	if (param[0] != 0x00 || param[1] != 0x33 || param[2] != 0x55)
+ 		return -ENODEV;
+@@ -578,14 +589,23 @@ static int intellimouse_detect(struct psmouse *psmouse, bool set_properties)
+ {
+ 	struct ps2dev *ps2dev = &psmouse->ps2dev;
+ 	u8 param[2];
++	int error;
+ 
+ 	param[0] = 200;
+-	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++	if (error)
++		return error;
+ 	param[0] = 100;
+-	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++	if (error)
++		return error;
+ 	param[0] =  80;
+-	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
+-	ps2_command(ps2dev, param, PSMOUSE_CMD_GETID);
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++	if (error)
++		return error;
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_GETID);
++	if (error)
++		return error;
+ 
+ 	if (param[0] != 3)
+ 		return -ENODEV;
+@@ -611,16 +631,25 @@ static int im_explorer_detect(struct psmouse *psmouse, bool set_properties)
+ {
+ 	struct ps2dev *ps2dev = &psmouse->ps2dev;
+ 	u8 param[2];
++	int error;
+ 
+ 	intellimouse_detect(psmouse, 0);
+ 
+ 	param[0] = 200;
+-	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++	if (error)
++		return error;
+ 	param[0] = 200;
+-	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++	if (error)
++		return error;
+ 	param[0] =  80;
+-	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
+-	ps2_command(ps2dev, param, PSMOUSE_CMD_GETID);
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++	if (error)
++		return error;
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_GETID);
++	if (error)
++		return error;
+ 
+ 	if (param[0] != 4)
+ 		return -ENODEV;
+@@ -658,17 +687,25 @@ static int thinking_detect(struct psmouse *psmouse, bool set_properties)
+ 	struct ps2dev *ps2dev = &psmouse->ps2dev;
+ 	u8 param[2];
+ 	static const u8 seq[] = { 20, 60, 40, 20, 20, 60, 40, 20, 20 };
+-	int i;
++	int error, i;
+ 
+ 	param[0] = 10;
+-	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++	if (error)
++		return error;
+ 	param[0] = 0;
+-	ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
++	if (error)
++		return error;
+ 	for (i = 0; i < ARRAY_SIZE(seq); i++) {
+ 		param[0] = seq[i];
+-		ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++		error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
++		if (error)
++			return error;
+ 	}
+-	ps2_command(ps2dev, param, PSMOUSE_CMD_GETID);
++	error = ps2_command(ps2dev, param, PSMOUSE_CMD_GETID);
++	if (error)
++		return error;
+ 
+ 	if (param[0] != 2)
+ 		return -ENODEV;
+-- 
+2.34.1.173.g76aa8bc2d0-goog
 
-
-
---=20
-Alexander Potapenko
-Software Engineer
-
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
