@@ -2,145 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F1B9472021
-	for <lists+linux-input@lfdr.de>; Mon, 13 Dec 2021 05:56:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C428472022
+	for <lists+linux-input@lfdr.de>; Mon, 13 Dec 2021 05:56:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231757AbhLME4d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Dec 2021 23:56:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47364 "EHLO
+        id S231768AbhLME4m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Dec 2021 23:56:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229990AbhLME4c (ORCPT
+        with ESMTP id S229990AbhLME4m (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Dec 2021 23:56:32 -0500
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A546C06173F
-        for <linux-input@vger.kernel.org>; Sun, 12 Dec 2021 20:56:31 -0800 (PST)
-Received: by mail-pg1-x52b.google.com with SMTP id l10so2541272pgm.7
-        for <linux-input@vger.kernel.org>; Sun, 12 Dec 2021 20:56:31 -0800 (PST)
+        Sun, 12 Dec 2021 23:56:42 -0500
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F3C7C06173F
+        for <linux-input@vger.kernel.org>; Sun, 12 Dec 2021 20:56:42 -0800 (PST)
+Received: by mail-pg1-x530.google.com with SMTP id d11so4858990pgl.1
+        for <linux-input@vger.kernel.org>; Sun, 12 Dec 2021 20:56:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=LlOEZ+huj6VqYduHjpAo5nvRFAbnJuliocEvAQBkmH8=;
-        b=NAnhfUq5GqapUj+zaTBINyyJmLhFcwV1a/WMkfSKYmMQwme13Q49FDjUJU+8Rp5bOx
-         6QraiX8OespRZY6447KDH+1XAeZPMTatqaySmjyBiMAoUnvnmu0ffynDzYDHooA8xdoe
-         VY/Ewon/jKe5fe0RAO6kroaFlGN+JAvFclZtQCQ4/26KzgByHbE8chqch4FP8jEk+zfN
-         oCzs5HLt9qzirNPoVxuKVtXP42p6X9Llqy/gLIVzaL3m1+Tiba+DqZSg5k9NB0J1Qlt9
-         WE8jU5Aal6zTUyTg8YQoglVx/pEcKmRsGX9jrc2LzET53li5VMbTlCI3AgwoXKEKlhRh
-         Nglw==
+        bh=UfGKoE9+J+pgpwAHXTs0K/iGocKeOoGPwzeiHUPQ6QI=;
+        b=YtNfHR4Ek6MHam+MNb26gvss0bZv0OW6JqFZ3vb52JlQpMwHLvFV8/Q/CxbY5SmRH3
+         qzC1twO873GEsBT2Layz0LbQZocr2MjUvVy950xhifFvgujm1Fno/YWTw+8p4a4tb3Kn
+         hp0sCGjrp15K7uJsnSXSN9biP/K2GGoRZDHjMdcoYzYweo65dbZkcFaFY9R4zEdxp4zA
+         gU6sPBFHPQqzo1qIpH9v2YtFw484Xe2NaGFwEMTn7szYTAWas2vdoo+m5TqEHdhFmnKV
+         Fw4nl5QPuHwbjDf3R5uW7Y+/SymDWgqY0YRCaW4U6jjwzmFtFf1lm4ulYC6l5ntsrVj1
+         XJ7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=LlOEZ+huj6VqYduHjpAo5nvRFAbnJuliocEvAQBkmH8=;
-        b=MhXD5nMuZk+rjrZGjqM70kYX++G0assiRHWeJxaDc/Y4Hu39aGWcZKHDP3xDNvXFrS
-         r1oU0fgNl3liJExjZ5QgZNVXTb9L19XcKYAqGv9x801MuyfK2K74pGY6FCTaS8hCK6sb
-         7eqK3UD7KVGxN33aShiGIjwhICGhieJWftnCUu2TCPvdWcO/Y9vqeSBno689wf8N1yvp
-         ABxvHPoW73i3x2AQnU3s2UIfwfL+ljcDTZBCQRdTalAPZBMp5jBcAAYveC23DjqcDFtZ
-         reVvuL3FQWsRmXVHcJo3+9+WPzgFsKoU4AAF2pPuDm975eqy0hCPVePwNdWFQUkYRUu9
-         T1uQ==
-X-Gm-Message-State: AOAM531LcI580hjRIp0Pf97jZU6dCZ5T8CRMH+Afs0Ru9NB1tjzvROZ1
-        yE28xroTcl3nZgOBYXrB3K5ipQ5wtzg=
-X-Google-Smtp-Source: ABdhPJz+Bve2mwcpw+nAoQk58Xy5/JFYzvenzulvDrOtu6+hwwiYOEgUoxHMaFpl00/MkAkD4KYOAg==
-X-Received: by 2002:aa7:948b:0:b0:4b1:7b0:56ba with SMTP id z11-20020aa7948b000000b004b107b056bamr19355495pfk.54.1639371390926;
-        Sun, 12 Dec 2021 20:56:30 -0800 (PST)
+        bh=UfGKoE9+J+pgpwAHXTs0K/iGocKeOoGPwzeiHUPQ6QI=;
+        b=QlIpFfSNeTMxR6O6zYU/4zVQ8J+g8Ir3zmbSUkcg/glfgLJrcjvz1/5Z2OLKy2/JzW
+         0ez2KbWzZP5Mrz/gAph3C5Xgg6SqyambuIZkE+SKW80uN/d7F2UYe6FBaarG75JvEIWm
+         UJ9Ut0pfHEc6GwumWjV+OpnqooLf5TTosLpIeHa4amVRfsAV6//c1zzPRGfY/q1KtKXy
+         KYIfB30sz8qmeFHX898q6IovQGA0AA1QNvL2xvXj0zBkBT0hBRBWwjLJ9lBlSjOe75hz
+         P0DxvoP7F1juDzweUZcxXOp/i2wQU40KlRNWhQNUYuchlaVDIsF1i33YrDLwXpdNJeat
+         fksg==
+X-Gm-Message-State: AOAM531DM4jdO+Jbj1fc6BSKT3Ncy1brvRtjzNASg3JMvsYzDfMX27ss
+        F6y/3hulnBhdDLUm6KkDZycx9lMiKhY=
+X-Google-Smtp-Source: ABdhPJz1SPZ9wFCsD2i7KCUsvqAnEwTT9tCxX9HR/4HvvlYBtz6xnL5o6Y2g7h9XMKX9D58FT3bZ0A==
+X-Received: by 2002:a63:6881:: with SMTP id d123mr49371012pgc.497.1639371401642;
+        Sun, 12 Dec 2021 20:56:41 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:e537:8856:7d40:7c6])
-        by smtp.gmail.com with ESMTPSA id z2sm10573786pff.107.2021.12.12.20.56.29
+        by smtp.gmail.com with ESMTPSA id h13sm10082434pfv.37.2021.12.12.20.56.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Dec 2021 20:56:29 -0800 (PST)
-Date:   Sun, 12 Dec 2021 20:56:27 -0800
+        Sun, 12 Dec 2021 20:56:40 -0800 (PST)
+Date:   Sun, 12 Dec 2021 20:56:38 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
-Subject: Re: [PATCH 5/5] Input: goodix - Fix race on driver unbind
-Message-ID: <YbbSe/G6wv7FMwjB@google.com>
+Subject: Re: [PATCH 3/5] Input: goodix - Improve gpiod_get() error logging
+Message-ID: <YbbShrjk5KlcgxLB@google.com>
 References: <20211212124242.81019-1-hdegoede@redhat.com>
- <20211212124242.81019-6-hdegoede@redhat.com>
+ <20211212124242.81019-4-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211212124242.81019-6-hdegoede@redhat.com>
+In-Reply-To: <20211212124242.81019-4-hdegoede@redhat.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hans,
-
-On Sun, Dec 12, 2021 at 01:42:42PM +0100, Hans de Goede wrote:
-> Because there is no way to detect if the touchscreen has pen support,
-> the driver is allocating and registering the input_pen input_dev on
-> receiving the first pen event.
-> 
-> But this means that the input_dev gets allocated after the request_irq()
-> call which means that the devm framework will free it before disabling
-> the irq, leaving a window where the irq handler may run and reference the
-> free-ed input_dev.
-> 
-> To fix this move the allocation of the input_pen input_dev to before
-> the request_irq() call, while still only registering it on the first pen
-> event so that the driver does not advertise pen capability on touchscreens
-> without it (most goodix touchscreens do not have pen support).
+On Sun, Dec 12, 2021 at 01:42:40PM +0100, Hans de Goede wrote:
+> goodix_get_gpio_config() errors are fatal (abort probe()) so log them
+> at KERN_ERR level rather then as debug messages.
 > 
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/input/touchscreen/goodix.c | 32 ++++++++++++++++++------------
->  drivers/input/touchscreen/goodix.h |  1 +
->  2 files changed, 20 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-> index 04baf5a770f5..1ada40fa6de6 100644
-> --- a/drivers/input/touchscreen/goodix.c
-> +++ b/drivers/input/touchscreen/goodix.c
-> @@ -297,14 +297,14 @@ static int goodix_ts_read_input_report(struct goodix_ts_data *ts, u8 *data)
->  	return -ENOMSG;
->  }
->  
-> -static struct input_dev *goodix_create_pen_input(struct goodix_ts_data *ts)
-> +static int goodix_create_pen_input(struct goodix_ts_data *ts)
->  {
->  	struct device *dev = &ts->client->dev;
->  	struct input_dev *input;
->  
->  	input = devm_input_allocate_device(dev);
->  	if (!input)
-> -		return NULL;
-> +		return -ENOMEM;
->  
->  	input_copy_abs(input, ABS_X, ts->input_dev, ABS_MT_POSITION_X);
->  	input_copy_abs(input, ABS_Y, ts->input_dev, ABS_MT_POSITION_Y);
-> @@ -331,23 +331,18 @@ static struct input_dev *goodix_create_pen_input(struct goodix_ts_data *ts)
->  		input->id.product = 0x1001;
->  	input->id.version = ts->version;
->  
-> -	if (input_register_device(input) != 0) {
-> -		input_free_device(input);
-> -		return NULL;
-> -	}
-> -
-> -	return input;
-> +	ts->input_pen = input;
-> +	return 0;
->  }
->  
->  static void goodix_ts_report_pen_down(struct goodix_ts_data *ts, u8 *data)
->  {
-> -	int input_x, input_y, input_w;
-> +	int input_x, input_y, input_w, error;
->  	u8 key_value;
->  
-> -	if (!ts->input_pen) {
-> -		ts->input_pen = goodix_create_pen_input(ts);
-> -		if (!ts->input_pen)
-> -			return;
-> +	if (!ts->pen_input_registered) {
-> +		error = input_register_device(ts->input_pen);
-> +		ts->pen_input_registered = error == 0;
 
-I do not think you want to try and re-register input device if first
-registration failed. You probably also don't want to waste time and
-return early from here in case of failures.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
