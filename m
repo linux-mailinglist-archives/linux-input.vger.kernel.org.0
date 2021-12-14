@@ -2,69 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7E4C473EA3
-	for <lists+linux-input@lfdr.de>; Tue, 14 Dec 2021 09:49:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BED047428E
+	for <lists+linux-input@lfdr.de>; Tue, 14 Dec 2021 13:30:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230054AbhLNItk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 14 Dec 2021 03:49:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38440 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbhLNItk (ORCPT
+        id S231844AbhLNMaL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 Dec 2021 07:30:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60507 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229867AbhLNMaL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 14 Dec 2021 03:49:40 -0500
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05BEFC061574
-        for <linux-input@vger.kernel.org>; Tue, 14 Dec 2021 00:49:40 -0800 (PST)
-Received: by mail-lf1-x144.google.com with SMTP id b1so35486478lfs.13
-        for <linux-input@vger.kernel.org>; Tue, 14 Dec 2021 00:49:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=lLKg5+si4bkxsbvGeNcSKDL9joZRAGyEtpR0PZy5CaM=;
-        b=Z1STuB8rJleXNRE0iKbiZ1ETNwm2aoUebe3FourN4rfWlhsTbYoaOYbF6Dgdyck3fX
-         OMth0t3LiRv2vprE3KUnZa+3n0bkrfCxW9NaMfgIilh+0ueLRkgH7873SdYR8i2m15GY
-         8Nkv8IS8LxtcYKBbgV9ti05V7ftSbdwm1w2hBCAQAWYf3uahFNfQI/nAaVQ2xoGOTQyi
-         bcTlOUS6iVsSD4feUQDbXxHAhk508RohLn9k4b7H8DlmiIZKO4ht7fvkt/CmUX/d6cv8
-         EiTfG+DfrwtjV0DtP6hW3Bx2HQ88tFeX5wEPx+KT3S+nBGoDYG4n2woButGxnZx6uGv2
-         S+Kw==
+        Tue, 14 Dec 2021 07:30:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639485010;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=eTyFG3YsB7tsSM37catQ8Lu85xm2DMPfWO+OkIfmBBA=;
+        b=I3q8W67chYcLkBoLRkk/iG2CcmfPBK8R7pSN8ILaY1pvRUp2gZZnA3bkQ1v3nTNYz3ufhW
+        ksFT+kPdpODqZSZ7nNs22+u6Y0AUe7wdkxgM9lDOkmgZbcLgoJEiACZHWW5hehd9nXaxkI
+        bnvtwMI5VnZP3nZHNRqsk8eKKib5rBc=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-318-zCMmdimJO1uENAjNQDjIxw-1; Tue, 14 Dec 2021 07:30:09 -0500
+X-MC-Unique: zCMmdimJO1uENAjNQDjIxw-1
+Received: by mail-pf1-f199.google.com with SMTP id a23-20020a62bd17000000b004a3f6892612so11733537pff.22
+        for <linux-input@vger.kernel.org>; Tue, 14 Dec 2021 04:30:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=lLKg5+si4bkxsbvGeNcSKDL9joZRAGyEtpR0PZy5CaM=;
-        b=tXAIDNTv03JapjNOGGJtKTtEXljaLbG+q14I+MtiOUWwRCnzPE66k8f23u1X3TsoqQ
-         +pMa7pIVyLgJ03S9j4M1L8948xJMjm1VvryMvU1nPC8ggiQMes7DCKKD3K30rEhvgxfD
-         fhm/3j1/7ODChA/2emKOvCPB8FYFrDZFuijgSXe4SI5sLviMjnH5BoiGbYRtKYDuxr7h
-         5oDUFdEpLML13L4z4Ji0PpRoB27nzl2ZeMkemI61Rg5CxgjfbR+KJO7B215FUVv/sDYo
-         qq/cZtpJuhBRYrP2lZWN0OlrqV07GdDleT9w4kNbs++93Ihu7v7LdhaIaxOYCdx7Mvxm
-         6mtw==
-X-Gm-Message-State: AOAM532dJ0trAI2aIj/T4xjhOwv8c0S1w6uxtHaJzb66tK7SSXettrCt
-        GOIqrSoQB4MAx73Hd/TP6Xd8SU6Y8himaNhPCXk=
-X-Google-Smtp-Source: ABdhPJxoCJbCgJTguAamU1uc99GPblJ5jXZsJ7rxLFFj5f6aKie6Wv0sv12lwZnb3C6WqxaACZvjcJsTSzIq6b5i0qc=
-X-Received: by 2002:a05:6512:3a88:: with SMTP id q8mr3857903lfu.140.1639471778244;
- Tue, 14 Dec 2021 00:49:38 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eTyFG3YsB7tsSM37catQ8Lu85xm2DMPfWO+OkIfmBBA=;
+        b=iBazXe2eh4NJ/04atDYp+YVTRHRq5jGnTym0y/90rk1Jqh5EPhVjBjXy3tBVJ6bAwu
+         2lTafCgwpaJMjrXki8tOlhvFvSywZdUbWPhZ70sr/losqUDPy0Jfg/8qDDGhoo9EiqhU
+         WuRTmLMB8lT7pU3eAtl3IdSItyRQcLP6OnfghydkPfYYxh6RUp97PtNd0XE4w4xF2YbT
+         7kOy6R7n7B+ECm3Z80ryp/ppJs5AmAw192uHxasoS/r1UVWSnWt9pi5iaRMjD9GdPtE+
+         lVYQZ/HVCZJMJoXRu5IGQroMSM2MB+KVeqLyDwU8nLRshiRARyfdTJHi0dRaP6d8xCGM
+         Jmsw==
+X-Gm-Message-State: AOAM530W6ltnjYr6OBkhjYghMyNbkeRRCrSQXo8Tj/3Ydsok2RE2u6Ka
+        kTpkSrybld2uO7QJR6DvbWq/zQS/xynNHZ9h3BnQ7sNlN+NqqRvtgAcg2da2XWKdqR14eHMTP9N
+        HNC6lU97sh+SZ5QPOgbRcOjGsVwQq/B8XLtM2+1I=
+X-Received: by 2002:a17:902:6acb:b0:142:76c3:d35f with SMTP id i11-20020a1709026acb00b0014276c3d35fmr5472920plt.89.1639485008524;
+        Tue, 14 Dec 2021 04:30:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx6mDUnSBRe9EuywU5VMlaoigZvD5cthorjYWy2TS8h5Ou6Ps7fBokraV9xsXSIWnH5IKI0i8VhUTjngJhNgWo=
+X-Received: by 2002:a17:902:6acb:b0:142:76c3:d35f with SMTP id
+ i11-20020a1709026acb00b0014276c3d35fmr5472887plt.89.1639485008236; Tue, 14
+ Dec 2021 04:30:08 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a2e:978c:0:0:0:0:0 with HTTP; Tue, 14 Dec 2021 00:49:37
- -0800 (PST)
-Reply-To: mrs.aishaa@yahoo.com
-From:   Mrs Aisha Al-Qaddafi <adamam489@gmail.com>
-Date:   Tue, 14 Dec 2021 08:49:37 +0000
-Message-ID: <CAH-qvqV35oSDCBXZdtughjkX-mtix01sHCGSTStjYkiwpFNc8g@mail.gmail.com>
-Subject: Dear Partner,
-To:     undisclosed-recipients:;
+References: <20211109082610.131341-1-chi.minghao@zte.com.cn>
+In-Reply-To: <20211109082610.131341-1-chi.minghao@zte.com.cn>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 14 Dec 2021 13:29:57 +0100
+Message-ID: <CAO-hwJL5wqfF48FFyGXFyLcuRJ0czJJjt9g=7jfdcSCumACfcQ@mail.gmail.com>
+Subject: Re: [PATCH] drivers:hid: use swap() to make code cleaner
+To:     cgel.zte@gmail.com
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        chiminghao <chi.minghao@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Partner,
+Hi,
 
-I came across your contact during my private search Mrs Aisha Al-Qaddafi is
-my name, the only daughter of late Libyan president, I have funds the sum
-of $27.5 million USD for investment, I am interested in you for investment
-project assistance in your country, i shall compensate you 30% of the total
-sum after the funds are transfer into your account, Reply me urgent for
-more details. Please kindly respond quickly for further details through my
-private e_mail address:mrs.aishaa@yahoo.com
+On Tue, Nov 9, 2021 at 9:26 AM <cgel.zte@gmail.com> wrote:
+>
+> From: chiminghao <chi.minghao@zte.com.cn>
+>
+> Fix the following coccicheck REVIEW:
+> Use swap() instead of reimplementing it.
+>
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: chiminghao <chi.minghao@zte.com.cn>
+> ---
 
-Mrs Aisha Al-Qaddafi.
+Amended the commit title to match what we do generally in the HID tree
+and applied to for-5.17/thrustmaster.
+
+Thanks for the patch!
+
+Cheers,
+Benjamin
+
+>  drivers/hid/hid-tmff.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/hid/hid-tmff.c b/drivers/hid/hid-tmff.c
+> index 90acef304536..4040cd98dafe 100644
+> --- a/drivers/hid/hid-tmff.c
+> +++ b/drivers/hid/hid-tmff.c
+> @@ -78,7 +78,6 @@ static int tmff_play(struct input_dev *dev, void *data,
+>         struct hid_field *ff_field = tmff->ff_field;
+>         int x, y;
+>         int left, right;        /* Rumbling */
+> -       int motor_swap;
+>
+>         switch (effect->type) {
+>         case FF_CONSTANT:
+> @@ -104,11 +103,8 @@ static int tmff_play(struct input_dev *dev, void *data,
+>                                         ff_field->logical_maximum);
+>
+>                 /* 2-in-1 strong motor is left */
+> -               if (hid->product == THRUSTMASTER_DEVICE_ID_2_IN_1_DT) {
+> -                       motor_swap = left;
+> -                       left = right;
+> -                       right = motor_swap;
+> -               }
+> +               if (hid->product == THRUSTMASTER_DEVICE_ID_2_IN_1_DT)
+> +                       swap(left, right);
+>
+>                 dbg_hid("(left,right)=(%08x, %08x)\n", left, right);
+>                 ff_field->value[0] = left;
+> --
+> 2.25.1
+>
+
