@@ -2,148 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8155E4742EC
-	for <lists+linux-input@lfdr.de>; Tue, 14 Dec 2021 13:50:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 433FF474468
+	for <lists+linux-input@lfdr.de>; Tue, 14 Dec 2021 15:04:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234144AbhLNMut (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 14 Dec 2021 07:50:49 -0500
-Received: from mga18.intel.com ([134.134.136.126]:17107 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232332AbhLNMus (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 14 Dec 2021 07:50:48 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="225829147"
-X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
-   d="scan'208";a="225829147"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 04:50:48 -0800
-X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
-   d="scan'208";a="518224917"
-Received: from maboudiw-mobl1.ger.corp.intel.com (HELO [10.252.53.239]) ([10.252.53.239])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 04:50:46 -0800
-Subject: Re: [PATCHv4 2/5] HID: hid-input: Add suffix also for HID_DG_PEN
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>
-References: <20211210111138.1248187-1-tero.kristo@linux.intel.com>
- <20211210111138.1248187-3-tero.kristo@linux.intel.com>
- <c8854f9b-8200-ee10-fe83-77a776ddff95@redhat.com>
- <fb99885c-a9ff-d3e7-ce72-a123cadcd9da@linux.intel.com>
- <CAO-hwJKk55uDCaEr5MVZCUc1p215a3kZqq5zi3oE3fhED7Yavg@mail.gmail.com>
-From:   Tero Kristo <tero.kristo@linux.intel.com>
-Message-ID: <3ff83be0-7732-053e-8d5a-818049070e8a@linux.intel.com>
-Date:   Tue, 14 Dec 2021 14:50:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S230117AbhLNOEb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 Dec 2021 09:04:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54878 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232589AbhLNOE1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 14 Dec 2021 09:04:27 -0500
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1B5EC061574
+        for <linux-input@vger.kernel.org>; Tue, 14 Dec 2021 06:04:26 -0800 (PST)
+Received: by mail-ed1-x544.google.com with SMTP id o20so63755723eds.10
+        for <linux-input@vger.kernel.org>; Tue, 14 Dec 2021 06:04:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=KzLgDz7d2Gll4mrNvllKXj4KFgN8S+Ovisil7/bb6fs=;
+        b=HqFqmjtMDyiuOIBeZUI4Q3iO+B16eE72juDRl5OiAGP1HUfPGDlv7gw0t+ogx8TzzO
+         upBqnagUvq3kJVNOOxyThPmgMsV03OUsNuK0E8DUDFqpwPiuGwHrRzXdUONgwXlEjivE
+         qvGb4+oqd3+bGYfF2aKtcq5kX6Ow3RrHxkbc6FKHVbrNIkgiKUQOnyplMY0NNCTZwVxl
+         gfBY6H0PUWLJr44YO2O39j9wPr2J18AIC0zKU3Q4sTc+Y+AQ+MoY7uT3AuEFGEtmUGOX
+         uud7Cd9FtaZ1WKcbl4khBkKcLldN+FuKdL9fYTuz3tL6nt9yaqrOsBAs2bhyfEjh1NwF
+         cbhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=KzLgDz7d2Gll4mrNvllKXj4KFgN8S+Ovisil7/bb6fs=;
+        b=R4dqUI6ujrEHNZYTw9znzR3Xb1gNRbXdy4H4UW0ueqkgEGC48b8mQqCKZXGkCos0tZ
+         BgXT4rAW18kzSlLoIlQRYTSNHaiJ6yb3lKTg4T0JZt/25WpC7RFc0eFurQvqyftKn38O
+         gywVBxvxdYznzl4tH3yJDi6fzMzUbIZDByW1CpAkTASWynCPSjSwgp1zubN8AQNOAZS1
+         qmGLAcKLylK/scaQ4IhSoMZ6BBlP8XYhOVaYJnorBIgRiKVK7WaCAk+KcNv3tUmozGbc
+         GuyKPY4wJ3Vt23sCgwo6G2OM0oz9JZgoTD1b/i58GzG979oDassxglpCo0P8LQdofVg4
+         s05Q==
+X-Gm-Message-State: AOAM531n57ytXvKdaH5zfbz2m0jdJSrOySIwcVOlAdBa9PyByJiAtcLP
+        JNlYCBeFMzG2MAzLb1V63Wfy2i2/3yBvcx/aJNY=
+X-Google-Smtp-Source: ABdhPJzMPgNLGNUyYChC6fkXnWGUjSvq43kb1Q4ODWjH6hDqdSzwxwwG9hRY/FZEbpkLVnusYQX8Q2vO42pGadDIZyQ=
+X-Received: by 2002:a50:ce4a:: with SMTP id k10mr8250317edj.31.1639490663810;
+ Tue, 14 Dec 2021 06:04:23 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAO-hwJKk55uDCaEr5MVZCUc1p215a3kZqq5zi3oE3fhED7Yavg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Received: by 2002:a54:3842:0:0:0:0:0 with HTTP; Tue, 14 Dec 2021 06:04:23
+ -0800 (PST)
+Reply-To: uchennailobitenone@gmail.com
+From:   uchenna <okeyyoyopa@gmail.com>
+Date:   Tue, 14 Dec 2021 06:04:23 -0800
+Message-ID: <CAHTws=LK5XsNV6u+P07_gC-PEffdPoA0NR=J9YS1qJoSZpLn3A@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+May the Almighty Lord be with you....
+Am A WIDOW TO LATE MR David HOLLAND,  I AM 59 .YEARS OLD. My name is
+Josephine HOLLAND.  I am married to Late Mr. David HOLLAND, who worked
+in the France Embassy a here in Lome -Togo West Africa for nine years
+before he died in the
+year 2019.
 
-On 14/12/2021 14:35, Benjamin Tissoires wrote:
-> On Fri, Dec 10, 2021 at 6:51 PM Tero Kristo <tero.kristo@linux.intel.com> wrote:
->>
->> On 10/12/2021 18:21, Benjamin Tissoires wrote:
->>>
->>> On Fri, Dec 10, 2021 at 12:12 PM Tero Kristo
->>> <tero.kristo@linux.intel.com> wrote:
->>>> From: Mika Westerberg <mika.westerberg@linux.intel.com>
->>>>
->>>> This and HID_DG_STYLUS are pretty much the same thing so add suffix for
->>>> HID_DG_PEN too. This makes the input device name look better.
->>>>
->>>> While doing this, remove the suffix override from hid-multitouch, as it
->>>> is now handled by hid-input. Also, the suffix override done by
->>>> hid-multitouch was wrong, as it mapped HID_DG_PEN => "Stylus" and
->>>> HID_DG_STYLUS => "Pen".
->>> FWIW, I was thinking at the following:
->>> ---
->>> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
->>> index 837585f4e673..fe0da7bf24a9 100644
->>> --- a/drivers/hid/hid-input.c
->>> +++ b/drivers/hid/hid-input.c
->>> @@ -1775,6 +1775,15 @@ static struct hid_input
->>> *hidinput_allocate(struct hid_device *hid,
->>>                          suffix = "Mouse";
->>>                          break;
->>>                  case HID_DG_PEN:
->>> +                       /*
->>> +                        * yes, there is an issue here:
->>> +                        *  DG_PEN -> "Stylus"
->>> +                        *  DG_STYLUS -> "Pen"
->>> +                        * But changing this now means users with
->>> config snippets
->>> +                        * will have to change it and the test suite
->>> will not be happy.
->>> +                        */
->>> +                       suffix = "Stylus";
->>> +                       break;
->>>                  case HID_DG_STYLUS:
->>>                          suffix = "Pen";
->>>                          break;
->>> ---
->>>
->>> Because the current patch breaks the test suite.
->> Ah I see, do you want me to re-post in this form?
-> Nah, no need for a repost. I fixed the patch locally and pushed to
-> for-5.17/core.
+You are chosen to Receive A Donation Cash Grant of my late husband
+that funds $5.7,000,  000,00 (Five Million Seven Hundred Thousand
+United States Dollars) to help the poor and orphanages through your
+sincere help before my death. I am suffering from long time cancer of
+the Breast, from all indication my conditions is really deteriorating
+and it is quite obvious that I wouldn't live any more longer according
+to my doctor because the cancer has gotten to a very bad stage that no
+hope for me to be a living person again, All i need from you is your
+sincerity to use this funds to do this project as i desired and I need
+your information as where My Bank will be sending the funds,
 
-Thanks a lot!
+such as:
+Receiver's name:_ Address:_ Phone
+number:_ Country:_
 
--Tero
+Please do not be offended by the way or manner I came to you as a
+stranger to do this, it is about the only way I could get to you after
+going through your contacts Id. I shall give you the contacts of the
+bank. For legitimacy with  a letter of authority that will establish
+you as my appointed beneficiary of this money.
 
+I am waiting for your reply.
+From Sister Josephine HOLLAND.
 
-> Cheers,
-> Benjamin
->
->> -Tero
->>
->>> Cheers,
->>> Benjamin
->>>
->>>> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
->>>> Signed-off-by: Tero Kristo <tero.kristo@linux.intel.com>
->>>> ---
->>>>   drivers/hid/hid-input.c      | 1 +
->>>>   drivers/hid/hid-multitouch.c | 3 ---
->>>>   2 files changed, 1 insertion(+), 3 deletions(-)
->>>>
->>>> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
->>>> index ad718ceb8af3..78205e445652 100644
->>>> --- a/drivers/hid/hid-input.c
->>>> +++ b/drivers/hid/hid-input.c
->>>> @@ -1741,6 +1741,7 @@ static struct hid_input
->>>> *hidinput_allocate(struct hid_device *hid,
->>>>                  case HID_GD_MOUSE:
->>>>                          suffix = "Mouse";
->>>>                          break;
->>>> +               case HID_DG_PEN:
->>>>                  case HID_DG_STYLUS:
->>>>                          suffix = "Pen";
->>>>                          break;
->>>> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
->>>> index 082376a6cb3d..99eabfb4145b 100644
->>>> --- a/drivers/hid/hid-multitouch.c
->>>> +++ b/drivers/hid/hid-multitouch.c
->>>> @@ -1606,9 +1606,6 @@ static int mt_input_configured(struct
->>>> hid_device *hdev, struct hid_input *hi)
->>>>          case HID_DG_STYLUS:
->>>>                  /* force BTN_STYLUS to allow tablet matching in udev */
->>>>                  __set_bit(BTN_STYLUS, hi->input->keybit);
->>>> -               fallthrough;
->>>> -       case HID_DG_PEN:
->>>> -               suffix = "Stylus";
->>>>                  break;
->>>>          default:
->>>>                  suffix = "UNKNOWN";
->>>> --
->>>> 2.25.1
->>>>
+You should contact me through my private email address:
+
+mrsjosephineoneholland@gmail.com
