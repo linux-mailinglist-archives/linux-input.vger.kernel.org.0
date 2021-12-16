@@ -2,65 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 721E2476876
-	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 04:08:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 231E84768EB
+	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 05:02:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233212AbhLPDIl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Dec 2021 22:08:41 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:46600 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230176AbhLPDIl (ORCPT
+        id S231321AbhLPEBv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Dec 2021 23:01:51 -0500
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:52555 "EHLO
+        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231278AbhLPEBv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Dec 2021 22:08:41 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AE1E661BEA;
-        Thu, 16 Dec 2021 03:08:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A4CC36AE0;
-        Thu, 16 Dec 2021 03:08:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639624120;
-        bh=TXBIFGc25Qw13VvCSpXb5l6XQy5Lk9QgDInhZ1JSPxs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U0btZ2F/JmvVDA6I1p+rmUiHpmddV+nwOeVu7UTej/X1evMDLHwurBwFoRA7JgURf
-         VFSIUFPc9hONPzQUfTZQOaa+yd52wn4byeB7eXz4Ms/9xKSD2h4C7THnUj/BJRjTnU
-         I/CB/K+nL32H11kDV8v8dMD78F+Axv491BBs1t6t8vfOww8MDFjsd0Ornlgegdeb8G
-         0DjMEZ2Pg8JIMq4MjZtPZBf+zmukKWjufRvw+oqTSefmFbxQEHd51PYwQBL/SYV695
-         Oi26xJv4Up+VTzp5f+p7FK4tI1NyNp5jKU82hAI4RaST9vKWIbpdq2bJUKxYazChMu
-         q/ziOVEihrjHg==
-Date:   Thu, 16 Dec 2021 11:08:33 +0800
-From:   Shawn Guo <shawnguo@kernel.org>
-To:     Alistair Francis <alistair@alistair23.me>
-Cc:     s.hauer@pengutronix.de, dmitry.torokhov@gmail.com,
-        benjamin.tissoires@redhat.com, jikos@kernel.org,
-        linux-kernel@vger.kernel.org, alistair23@gmail.com,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        Jason.Gerecke@wacom.com, linux-imx@nxp.com, Ping.Cheng@wacom.com,
-        devicetree@vger.kernel.org, martin.chen@wacom.com,
-        tatsunosuke.tobita@wacom.com
-Subject: Re: [PATCH v16 3/3] ARM: dts: imx7d: remarkable2: add wacom
- digitizer device
-Message-ID: <20211216030833.GQ4216@dragon>
-References: <20211208124045.61815-1-alistair@alistair23.me>
- <20211208124045.61815-4-alistair@alistair23.me>
+        Wed, 15 Dec 2021 23:01:51 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R601e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0V-meZ4O_1639627308;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0V-meZ4O_1639627308)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 16 Dec 2021 12:01:49 +0800
+From:   Yang Li <yang.lee@linux.alibaba.com>
+To:     srinivas.pandruvada@linux.intel.com
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH -next] HID: intel-ish-hid: ishtp-fw-loader: Fix a kernel-doc formatting issue
+Date:   Thu, 16 Dec 2021 12:01:46 +0800
+Message-Id: <20211216040146.89075-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211208124045.61815-4-alistair@alistair23.me>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Dec 08, 2021 at 10:40:45PM +1000, Alistair Francis wrote:
-> Add Wacom I2C support for the reMarkable 2 eInk tablet using the
-> generic I2C HID framework.
-> 
-> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+This function had kernel-doc that not used a hash to separate
+the function name from the one line description.
 
-I updated the subject prefix like below.
+The warning was found by running scripts/kernel-doc, which is
+caused by using 'make W=1'.
 
- ARM: dts: imx7d-remarkable2:
+drivers/hid/intel-ish-hid/ishtp-fw-loader.c:271: warning: This comment
+starts with '/**', but isn't a kernel-doc comment. Refer
+Documentation/doc-guide/kernel-doc.rst
 
-Applied, thanks!
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/hid/intel-ish-hid/ishtp-fw-loader.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
+index 0e1183e96147..e24988586710 100644
+--- a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
++++ b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
+@@ -268,7 +268,8 @@ static int get_firmware_variant(struct ishtp_cl_data *client_data,
+ }
+ 
+ /**
+- * loader_cl_send()	Send message from host to firmware
++ * loader_cl_send() - Send message from host to firmware
++ *
+  * @client_data:	Client data instance
+  * @out_msg:		Message buffer to be sent to firmware
+  * @out_size:		Size of out going message
+-- 
+2.20.1.7.g153144c
+
