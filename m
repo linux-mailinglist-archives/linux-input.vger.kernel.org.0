@@ -2,63 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61E77476BE6
-	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 09:28:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25265476D6C
+	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 10:29:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232270AbhLPI2F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Dec 2021 03:28:05 -0500
-Received: from smtpbg127.qq.com ([109.244.180.96]:30253 "EHLO smtpbg.qq.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231771AbhLPI2F (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Dec 2021 03:28:05 -0500
-X-QQ-mid: bizesmtp49t1639643265txy3paag
-Received: from wangx.lan (unknown [218.88.124.63])
-        by esmtp6.qq.com (ESMTP) with 
-        id ; Thu, 16 Dec 2021 16:27:36 +0800 (CST)
-X-QQ-SSF: 0100000000200090C000B00A0000000
-X-QQ-FEAT: ALI+OuUAduxoHWx0Y3MhqQgu4GNgLtEIvAMXOXTQB1paT/WHHMt1wDgu6Syo7
-        JNhKv0uGLVeIZp03yGkV1COUzNzDdXLGCV3Z1WwuZodbuZdtV0XNxNyuKyg1yF3eC55g8A6
-        tVys9QxwOJmst8Ys72ouXUtS/WFaAqXcjWrxUfBQib0disY7Xzso8oIJ1a2iXFP4Aiu36xE
-        Iyjr4Ex/t2TqmGQZ+8D9t1ZI32vTT96JyTPeWygMT4+uROJqYRxHwW3lktqqdSYOLRGJckV
-        UtbRrrGf0CLslptX+NIPWCmCV+iqqXm6db7jCnTpzhlnGxf5C3isiJ9T48GbeZFcdT+gtaG
-        4T9/zu6dSauz4h4PVb2xdwhKd0saA==
-X-QQ-GoodBg: 0
-From:   Xiang wangx <wangxiang@cdjrlc.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xiang wangx <wangxiang@cdjrlc.com>
-Subject: [PATCH] Input: byd - fix typo in a comment
-Date:   Thu, 16 Dec 2021 16:27:35 +0800
-Message-Id: <20211216082735.11948-1-wangxiang@cdjrlc.com>
-X-Mailer: git-send-email 2.20.1
+        id S235419AbhLPJ3R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Dec 2021 04:29:17 -0500
+Received: from bosmailout07.eigbox.net ([66.96.185.7]:40863 "EHLO
+        bosmailout07.eigbox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235412AbhLPJ3R (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 16 Dec 2021 04:29:17 -0500
+X-Greylist: delayed 1835 seconds by postgrey-1.27 at vger.kernel.org; Thu, 16 Dec 2021 04:29:16 EST
+Received: from bosmailscan01.eigbox.net ([10.20.15.1])
+        by bosmailout07.eigbox.net with esmtp (Exim)
+        id 1mxmb1-0002Bn-Bd; Thu, 16 Dec 2021 03:58:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=ewhac.org;
+         s=dkim; h=Sender:In-Reply-To:Content-Type:MIME-Version:References:Message-ID
+        :Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=bHYYfQ4Cj+cqneseigspjoQQhJPicbxi/z8SoMuQsiE=; b=xPlYxW7uM7xjoJlpWF94xb/El/
+        8YwQg1jrjp8FrFecBKoVGho7F+vE/3HbWDlD+eSuwZz8/RZWwAe0YMmxW6a1QVt2m4BgwO0ZpAs9c
+        6flnC6PVc07gmelquGjpoa6uWBniE/BdEokbz2rs1mg2Gx06zlMSStQlAtsPiEAg4ZrA4+8ndrolQ
+        YPEbY+zI+TQgaPfWj2kRmwOJYv4ffUFcl2Xnwz0Xacj1+C+eBjBDiWubey1Jzc1NmzW7K6uXAfvpV
+        +iIY9s7czIMwpUNDo0DgjRo8n9h2HZPZpNgplv7u7w2dBEuROKrmRthlkeaOV+m7g2BvgiTcE7zaY
+        SEqYSaIA==;
+Received: from [10.115.3.33] (helo=bosimpout13)
+        by bosmailscan01.eigbox.net with esmtp (Exim)
+        id 1mxmb0-00053n-W8; Thu, 16 Dec 2021 03:58:39 -0500
+Received: from bosauthsmtp19.yourhostingaccount.com ([10.20.18.19])
+        by bosimpout13 with 
+        id Wwyb260090QhFXN01wyeyX; Thu, 16 Dec 2021 03:58:38 -0500
+X-Authority-Analysis: v=2.3 cv=RNUo47q+ c=1 sm=1 tr=0
+ a=9UqFsMnAB6EOkiq4MrOclQ==:117 a=lOZ7gjDonWBvovu+dU3iMA==:17
+ a=kj9zAlcOel0A:10 a=IOMw9HtfNCkA:10 a=ltsmEuTAGloA:10 a=fmD_JHji_u0A:10
+ a=fYNHH8dQZQOtrz4ChQEA:9 a=CjuIK1q_8ugA:10 a=Ixuhb_GfD2BeaOSowo0a:22
+ a=HH7FIXwXL_sUf1zzYxQd:22
+Received: from [135.180.175.56] (port=34520 helo=walkies.ewhac.org)
+        by bosauthsmtp19.eigbox.net with esmtpa (Exim)
+        id 1mxmax-0008Ou-Oa; Thu, 16 Dec 2021 03:58:35 -0500
+Received: from ewhac by walkies.ewhac.org with local (Exim 4.95)
+        (envelope-from <ewhac@ewhac.org>)
+        id 1mxmaw-001eaX-I0;
+        Thu, 16 Dec 2021 00:58:34 -0800
+Date:   Thu, 16 Dec 2021 00:58:34 -0800
+From:   "Leo L. Schwab" <ewhac@ewhac.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: spaceball - fix parsing of movement data packets
+Message-ID: <Ybr/uvSVd/TSwuNM@ewhac.org>
+References: <20210727040625.2159196-1-ewhac@ewhac.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210727040625.2159196-1-ewhac@ewhac.org>
+X-EN-UserInfo: a76222b247b80e113a63936ffdc903eb:931c98230c6409dcc37fa7e93b490c27
+X-EN-AuthUser: ewhac@ewhac.org
+Sender:  "Leo L. Schwab" <ewhac@ewhac.org>
+X-EN-OrigIP: 135.180.175.56
+X-EN-OrigHost: unknown
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The double `the' in a comment is repeated, thus it should be removed.
+On Mon, Jul 26, 2021 at 09:06:24PM -0700, Leo L. Schwab wrote:
+> The spaceball.c module was not properly parsing the movement reports
+> coming from the device.  [ ... ]
 
-Signed-off-by: Xiang wangx <wangxiang@cdjrlc.com>
----
- drivers/input/mouse/byd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+	Um...  Ping?  This issue still exists, and it's been around a really
+long time.  I've been using this patch to successfully fly around QuakeWorld
+for several months now.
 
-diff --git a/drivers/input/mouse/byd.c b/drivers/input/mouse/byd.c
-index 6e0c5f5a2713..221a553f45cd 100644
---- a/drivers/input/mouse/byd.c
-+++ b/drivers/input/mouse/byd.c
-@@ -191,7 +191,7 @@
- 
- /*
-  * The touchpad generates a mixture of absolute and relative packets, indicated
-- * by the the last byte of each packet being set to one of the following:
-+ * by the last byte of each packet being set to one of the following:
-  */
- #define BYD_PACKET_ABSOLUTE			0xf8
- #define BYD_PACKET_RELATIVE			0x00
--- 
-2.20.1
-
+					Schwab
