@@ -2,93 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD8E94768F5
-	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 05:08:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61E77476BE6
+	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 09:28:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231309AbhLPEIb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Dec 2021 23:08:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41594 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231303AbhLPEIb (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Dec 2021 23:08:31 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECA45C061574;
-        Wed, 15 Dec 2021 20:08:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=tfRydSG9UvslEfDaf+mltZ2vp8UyubsrzsjWaUyNOdQ=; b=MeE7Jb2LioOmOnHPBRtEgJO9xb
-        awtEVX5KC8x0c9K06Es1tt1udMIB1Yr03WLuRawFzv0TrQNOnSh6yVC/u4QvZaTg8z2hCvWs/6CiZ
-        BcffeAHQnukzxHfKchGT8iCg/09HP1DID45VvLT+Tfqy/kmmNv2hCys32BTBfkzd3vng+UhMc5jCS
-        chmrdZpquLWq19E5mEfz9gGgxx/jqyoHomlBIl/sNj57QLhWblZ6yyqTtJpMLFOeRbifKlE7zH1OW
-        cINxzdO1dnax4V47wOJGn/emuOz4jKumMzBpfTBRIhBB0gBIJP5iWAGyd1ilMSoIudNsaeyvvrKZ5
-        oP+OF7yA==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mxi3t-001d8z-1q; Thu, 16 Dec 2021 04:08:09 +0000
-Message-ID: <42b7c12f-659b-409a-f4e3-c7a0560b3ce6@infradead.org>
-Date:   Wed, 15 Dec 2021 20:08:04 -0800
+        id S232270AbhLPI2F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Dec 2021 03:28:05 -0500
+Received: from smtpbg127.qq.com ([109.244.180.96]:30253 "EHLO smtpbg.qq.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231771AbhLPI2F (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 16 Dec 2021 03:28:05 -0500
+X-QQ-mid: bizesmtp49t1639643265txy3paag
+Received: from wangx.lan (unknown [218.88.124.63])
+        by esmtp6.qq.com (ESMTP) with 
+        id ; Thu, 16 Dec 2021 16:27:36 +0800 (CST)
+X-QQ-SSF: 0100000000200090C000B00A0000000
+X-QQ-FEAT: ALI+OuUAduxoHWx0Y3MhqQgu4GNgLtEIvAMXOXTQB1paT/WHHMt1wDgu6Syo7
+        JNhKv0uGLVeIZp03yGkV1COUzNzDdXLGCV3Z1WwuZodbuZdtV0XNxNyuKyg1yF3eC55g8A6
+        tVys9QxwOJmst8Ys72ouXUtS/WFaAqXcjWrxUfBQib0disY7Xzso8oIJ1a2iXFP4Aiu36xE
+        Iyjr4Ex/t2TqmGQZ+8D9t1ZI32vTT96JyTPeWygMT4+uROJqYRxHwW3lktqqdSYOLRGJckV
+        UtbRrrGf0CLslptX+NIPWCmCV+iqqXm6db7jCnTpzhlnGxf5C3isiJ9T48GbeZFcdT+gtaG
+        4T9/zu6dSauz4h4PVb2xdwhKd0saA==
+X-QQ-GoodBg: 0
+From:   Xiang wangx <wangxiang@cdjrlc.com>
+To:     dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xiang wangx <wangxiang@cdjrlc.com>
+Subject: [PATCH] Input: byd - fix typo in a comment
+Date:   Thu, 16 Dec 2021 16:27:35 +0800
+Message-Id: <20211216082735.11948-1-wangxiang@cdjrlc.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH -next] HID: intel-ish-hid: ishtp-fw-loader: Fix a
- kernel-doc formatting issue
-Content-Language: en-US
-To:     Yang Li <yang.lee@linux.alibaba.com>,
-        srinivas.pandruvada@linux.intel.com
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Abaci Robot <abaci@linux.alibaba.com>
-References: <20211216040146.89075-1-yang.lee@linux.alibaba.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20211216040146.89075-1-yang.lee@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam1
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+The double `the' in a comment is repeated, thus it should be removed.
 
-On 12/15/21 20:01, Yang Li wrote:
-> This function had kernel-doc that not used a hash to separate
+Signed-off-by: Xiang wangx <wangxiang@cdjrlc.com>
+---
+ drivers/input/mouse/byd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-                               that did not use a dash or hyphen to separate
-
-Patch looks good. Thanks.
-
-> the function name from the one line description.
-> 
-> The warning was found by running scripts/kernel-doc, which is
-> caused by using 'make W=1'.
-> 
-> drivers/hid/intel-ish-hid/ishtp-fw-loader.c:271: warning: This comment
-> starts with '/**', but isn't a kernel-doc comment. Refer
-> Documentation/doc-guide/kernel-doc.rst
-> 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
-> ---
->  drivers/hid/intel-ish-hid/ishtp-fw-loader.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-> index 0e1183e96147..e24988586710 100644
-> --- a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-> +++ b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-> @@ -268,7 +268,8 @@ static int get_firmware_variant(struct ishtp_cl_data *client_data,
->  }
->  
->  /**
-> - * loader_cl_send()	Send message from host to firmware
-> + * loader_cl_send() - Send message from host to firmware
-> + *
->   * @client_data:	Client data instance
->   * @out_msg:		Message buffer to be sent to firmware
->   * @out_size:		Size of out going message
-> 
-
+diff --git a/drivers/input/mouse/byd.c b/drivers/input/mouse/byd.c
+index 6e0c5f5a2713..221a553f45cd 100644
+--- a/drivers/input/mouse/byd.c
++++ b/drivers/input/mouse/byd.c
+@@ -191,7 +191,7 @@
+ 
+ /*
+  * The touchpad generates a mixture of absolute and relative packets, indicated
+- * by the the last byte of each packet being set to one of the following:
++ * by the last byte of each packet being set to one of the following:
+  */
+ #define BYD_PACKET_ABSOLUTE			0xf8
+ #define BYD_PACKET_RELATIVE			0x00
 -- 
-~Randy
+2.20.1
+
