@@ -2,281 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 978D2477660
-	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 16:52:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8BEE47796B
+	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 17:40:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232798AbhLPPwe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Dec 2021 10:52:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54080 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232619AbhLPPwd (ORCPT
+        id S233653AbhLPQkp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Dec 2021 11:40:45 -0500
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:46652
+        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233484AbhLPQkp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Dec 2021 10:52:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639669953;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=zu3j2FVXDiktdfEB46lEm/u6oaFAHWC3ABCIi1VCxYs=;
-        b=S4U0DPcM2p7H68yKKpGid2JKt5WLAhecEi1A6RJSePCOG2Nf70ORLyzIzDSxsf5PEDvD8S
-        hpp5szd+K/zqDYVh7JOWbwRSVLpVeVSy8QyH0SOWLSIjCAfoiRscQnJiA1uUCotX2jTbC5
-        nbLbmWJIbPv071GgkQ0M120cS6b5Ioc=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-_WAsVhEbPRKl1f6S_eyaUA-1; Thu, 16 Dec 2021 10:52:32 -0500
-X-MC-Unique: _WAsVhEbPRKl1f6S_eyaUA-1
-Received: by mail-pj1-f71.google.com with SMTP id t22-20020a17090a0d1600b001b0e394b0b6so4714306pja.0
-        for <linux-input@vger.kernel.org>; Thu, 16 Dec 2021 07:52:31 -0800 (PST)
+        Thu, 16 Dec 2021 11:40:45 -0500
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id EC93A405F6
+        for <linux-input@vger.kernel.org>; Thu, 16 Dec 2021 16:40:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1639672842;
+        bh=wzGK8JrM0qK5K+9nNV1QJqS+dRB/4uLBgfT0d3ILjG4=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+        b=U2sp5KY4LwJyJPo2WsS22N4c9IBud9s0QcqI7kjM/V7cBBYAulcPgWl/51eYpS3Ev
+         3XnyUh00sg70248URVsL4bKpxTnrpWGdLfCknFN/Qv4xhQwxwoWvM3A1tzlAqfF6Np
+         0H2GJYf75gbNt2PHqltdLULrxNw+H2fmhje8v3hQLv9LfI6OFF0QS52fMoo2SNlbpb
+         cArMHm//e8JFE5He/68sJ0cmPf9h4cuNJ5GFUtIKWYmoQEwwVnd7MopJPHB+usuGbg
+         4MMqAQZeMojffegdVK0dPN6+Mp8SH3SNinNnPdIw60NgZw0E0bilRgDFfBAWfMCNQ4
+         hpCPWJvxDOZ/w==
+Received: by mail-wm1-f69.google.com with SMTP id z199-20020a1c7ed0000000b003456affcffaso1530017wmc.2
+        for <linux-input@vger.kernel.org>; Thu, 16 Dec 2021 08:40:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zu3j2FVXDiktdfEB46lEm/u6oaFAHWC3ABCIi1VCxYs=;
-        b=ICXOG57kg+qsQ195vNwGK9ojinvDfym1ciIPVY1L1tIT8lBkflVyWcOY1a1oWY+lJT
-         IFiDBFlye8wEeAeg2Urhcqxrv6tAEZleezs9lUz6qVKmgOHsSdDLN623mWOhK3AglciV
-         HOAMxO1RexZ/QTWMZropl/GC8XktyCmh766EPfZZkCyvOQDQNIUBPn2SxnFbThhTEluE
-         RF0h32rcugfC9nxwmdGD5+OTMyYT06QeO4eJJw2UlY1s88y5GchuhiRf7O3Ul0KTBfJN
-         j5/abdoWJyOocJlwd974wSDxNMgKjPk01EgFMV2wwk4AMDlR+DhB/kSnrHA5K4GUHHcF
-         9tIw==
-X-Gm-Message-State: AOAM531DMWAxY5OBKAt+KQft73sULjwFkWjFkDo0g5CHZu8Dm331Mt1K
-        zb7noyI4/Uv2P6zf5wLApejKUMuLPWavBOL7BoXqrYLiw2rMBKzzFRutUc3Q6b4XFKIRaxmFK5m
-        dWhI+KAQ/rlDf4Earul1aw6ZHMGzwlEPOWpHiu3w=
-X-Received: by 2002:a17:902:ecc9:b0:142:f90:f4a1 with SMTP id a9-20020a170902ecc900b001420f90f4a1mr17076498plh.73.1639669950588;
-        Thu, 16 Dec 2021 07:52:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyV4j9seQoEP2BunFy8c3hyFc0uA2irhDI3LAlmuY/AbAVtQ+EtNarfvZJIsK2kOFnt7tmirk0WgRvZF1ofTCY=
-X-Received: by 2002:a17:902:ecc9:b0:142:f90:f4a1 with SMTP id
- a9-20020a170902ecc900b001420f90f4a1mr17076462plh.73.1639669950196; Thu, 16
- Dec 2021 07:52:30 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wzGK8JrM0qK5K+9nNV1QJqS+dRB/4uLBgfT0d3ILjG4=;
+        b=4a4lRFMehpME34F60OKNrxznDCHK7uA+s2rV3rYSOMezlZZyM/dX1TlGV6ykGitl1H
+         cwKYW8lHg5WgUuJJTzUPnjhEgErC1DkTv89jPqGm6V8xSBJEz+THsWC7oBnqbQhBAAOM
+         HlHhV+KkJ50eR/Sy+UdJ+mQx8sBHw9QOBeO2OYCioPQAC4Db5BbiImrMO9QGb0HDhp7A
+         xkBuZDULNVejaJ1ZLB3A5jn1p14pHk6m2EqaR3+lJaC82BoQ4S9xQAODpdr5IyWbg09f
+         U8eRwZHYfyBQNx5gI5P0cY5Vbf1cBFnFnLZNY0P1vmnaMeDaY9mXmZpHMRmGr2heoEYY
+         kUAQ==
+X-Gm-Message-State: AOAM530WsoTaULqaN2+FelJ7xMFqpXTBBrLGSGQ4pmOb/Db+yQhanyLr
+        x/kss9smxwmXeZzQj/VieQTylF0fsmoqNZXcmALP4C8E5aMFdWEJYxiD0cpWy7e3Krj2TZFRjLj
+        0BJe54djhqHTHIIoySHl1TMhQqOyYA4j1utqqGY80
+X-Received: by 2002:adf:eb4c:: with SMTP id u12mr4157674wrn.707.1639672842473;
+        Thu, 16 Dec 2021 08:40:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwMEaAfgUDbbHkpgBFCHapS6AIPsW5OiAs1LX+6oRtRz2kYhV8oYHhxxQZU7b3y6qvplc2a+w==
+X-Received: by 2002:adf:eb4c:: with SMTP id u12mr4157652wrn.707.1639672842269;
+        Thu, 16 Dec 2021 08:40:42 -0800 (PST)
+Received: from alex.home (lfbn-gre-1-195-1.w90-112.abo.wanadoo.fr. [90.112.158.1])
+        by smtp.gmail.com with ESMTPSA id o4sm3938290wmc.43.2021.12.16.08.40.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Dec 2021 08:40:41 -0800 (PST)
+From:   Alexandre Ghiti <alexandre.ghiti@canonical.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-watchdog@vger.kernel.org
+Cc:     Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Subject: [PATCH v2 1/2] dt-bindings: mfd: Fix typo "DA9093" -> "DA9063"
+Date:   Thu, 16 Dec 2021 17:40:36 +0100
+Message-Id: <20211216164037.2888316-1-alexandre.ghiti@canonical.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20211215134220.1735144-1-tero.kristo@linux.intel.com>
- <CAO-hwJ+nm3jUo9znsROjc0=e_3aGOq-L43OVvUHwBewtwODJfA@mail.gmail.com> <813c7709-e8f8-85ce-9868-3e850f65d651@linux.intel.com>
-In-Reply-To: <813c7709-e8f8-85ce-9868-3e850f65d651@linux.intel.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 16 Dec 2021 16:52:18 +0100
-Message-ID: <CAO-hwJL6gj++gTz+pFyfxbRTB9ncVsBAyAcwyPrvC+=VYgj8BQ@mail.gmail.com>
-Subject: Re: [RFCv5 0/2] HID: Add USI support
-To:     Tero Kristo <tero.kristo@linux.intel.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Dec 16, 2021 at 1:28 PM Tero Kristo <tero.kristo@linux.intel.com> wrote:
->
-> Hi Benjamin,
->
-> On 16/12/2021 12:36, Benjamin Tissoires wrote:
-> > Hi Tero,
-> >
-> > On Wed, Dec 15, 2021 at 2:42 PM Tero Kristo <tero.kristo@linux.intel.com> wrote:
-> >> Hi,
-> >>
-> >> These two patches add the missing pieces for HID USI support. First one
-> >> adds the HID core changes to support the new Misc events for pen ID,
-> >> line color and line style. The second patch adds a BPF program on top of
-> >> the HID-BPF driver which adds support for writing the Pen parameters
-> >> from userspace, and to add filtering of HID low level events for ELAN
-> >> USI controller. The BPF programs are not built by the kernel as of now
-> >> (there are no Makefile changes), as there is a plan to most likely
-> >> integrate these to a kernel external repository. I have tested these in
-> >> my own external build setup though, and I can provide the makefile for
-> >> that if needed. Also a sample client program is provided for
-> >> communicating with the D-BUS server.
-> > I had a deeper look at the recordings, and I am very worried in what I
-> > am seeing:
-> > - the USI parameters seems to be transmitted only after the touch
-> Yes, they don't get updated before the pen touches the screen.
+The device described is the "DA9063", not "DA9093", so fix this typo.
 
-Looking at the logs you provided, and when you switch pens, it seems
-the serial number in the Elan case is updated while hovering (but it
-takes 3 seconds to get to that point).
-Also, the first time you hovered the pen, the inrange slot was not
-long enough to be 3 seconds, so maybe that's the time the controller
-needs to manually update the information.
+Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+---
+ Documentation/devicetree/bindings/mfd/da9063.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-OTOH, on the Goodix one, if you initiated the GET_REPORT after the
-first touch, the information came in a few ms.
-
-So I wonder, what if you take the BPF program from the goodix and
-start querying the information as soon as the pen is hovering in the
-Elan case. Would that accelerate the time it fetches them?
-
-> > - the USI parameters takes *a lot* of time to be transmitted (2 bytes
-> > every 2 reports)
-> Yes, there appears to be a very large latency when they are transmitted
-> from the pen to controller. Apparently the controller queries each
-> parameter from the pen individually and caches the received values
-> internally, and then passes these out via input reports.
-
-And of course, Goodix doesn't even bother with the serial number.
-
-> > - the recording of the goodix one starts with a stylus touch without hovering
-> This is a glitch I think, I'll capture a new log.
-> > - the only "reliable" information we get when hovering seems to be the
-> > transducer index
->
-> Yes, however even this one is a static constant of "1" for the current
-> controllers.
-
-Ouch. Well, that also means that this is used as an index and if the
-controller were to support more than a pen, the index would be 2 for
-the second pen when the first is touching...
-So this is not reliable for now, but is consistent with a multi-pen scenario.
-
->
->
-> >
-> > So I am wondering a few things:
-> > - what happens when you switch between pens?
-> >    * Do we immediately get a different transducer index?
-> No, the transducer index gets re-allocated, effectively the first pen is
-> going to use transducer index 1, and the second pen is going to re-use
-> that and still report it as 1. This is a highly annoying feature.
-
-Well, that also means that we can ignore this field until we see
-controllers capable of handling more than one pen.
-
-> >    * Are the values right there or do they also take time to be updated?
-> They take time to update. If you are using the same pen, the values are
-> retained in the cache and report correct values immediately, but if you
-> switch pens, they start updating with the same latency as initial pen touch.
-
-That is worrying. The serial number is also cached and we don't know
-if we are using the same pen or not way too long after the pen touched
-the surface.
-
-
-> > - on the goodix one, do you still need to issue a get_report on the
-> > feature to get the USI parameters, even when you change the pen?
->
-> Yes, goodix reports 0xff,0xff,0x77 for the parameters until a GET_REPORT
-> is issued, after which it notices the parameter that was queried has
-> changed and updates its cached value. Also, see how it reports 0x77,
-> instead of an index to the usages array.
-
-The 0x77 doesn't bother me too much. This should not trigger an input
-event because we are out of the usage range.
-
->
->
-> >
-> > Could you give me the following recording (with an updated hid-tools
-> > master branch):
-> > - on the Elan:
-> >    * start the recording from a fresh boot (no BPF loaded)
-> >    * hover for a few secs the first USI pen you have
-> >    * touch it for a few secs
-> >    * release, then out of proximity
-> >    * approach the other pen
-> >    * touch
-> >    * release, out of prox
-> >    * then once again with the first pen
-> >    * then once again with the second pen
-> >
-> > - on the goodix: same thing
-> >
-> > - on the goodix: same thing but with a BPF program to trigger the
-> > GET_REPORT if you can cook one quickly (not a big issue if you can
-> > not).
-> >
-> > The reason I am asking about those recordings is because with the 2
-> > logs you kindly provided, there is no way we can forward the raw
-> > information to userspace. So I am slightly tempted to only rely on a
-> > USI manager, in the form of the BPF program in 2/2 to transmit that
-> > information to userspace.
-> >
-> > If this is bulky just for the first event, then the input events might
-> > be OK, we can assume when the application needs those events they will
-> > be there.
->
-> See attached tarball. All three logs are in it, I crafted a BPF program
-> for Goodix controller also. Wasn't that bad actually, a few line change
-> so it might be possible to use the same program at least for these two
-> controllers.
-
-\o/
-
->
->
-> >
-> >> I have also a kernel testing branch available at [1], which contains a
-> >> few fix patches on top of Benjamin's HID-BPF driver work, and is rebased
-> >> on top of latest hid/for-next. The HID-BPF fixes have been cleaned up a
-> >> bit compared to previous setup. There are also a couple of new patches
-> >> for adding support for a delayed_work BPF program on top of the
-> >> hid-bpf driver; this is used to execute the raw_requests in non-irq
-> >> context.
-> > Thanks for that. I had a very quick look. I thought we could directly
-> > use the bpf_timer_* functions instead of having to cook another API.
-> > I'll play around with this, but thanks for pushing forward :)
->
-> Yeah, I am kicked by someone on this so want to proceed. ;)
->
-> According to documentation, bpf_timer callbacks are executed in soft-irq
-> context, so we can't use it at least for sending the raw_requests which
-> is needed for USI.
-
-I might be wrong, but I am not sure if soft IRQs are incompatible with
-hid_hw_raw_request.
-Anyway, I gave it a shot today and I am hitting the fact that we lose
-the BPF context in the timer callback. So we might actually need a new
-API :/
-
->
-> >
-> > IIRC you asked me when I was counting on submitting the HID BPF work.
-> >
-> > So my answer is that I wanted to submit it by the end of 2021, but it
-> > looks like I have only one week to finalize this :/
-> Ok, sounds like you want to submit it probably early next year then. I
-> just wanted to have some sort of ballpark estimate, and this is good
-> enough for me, thanks.
-
-Yeah, sorry for the delay.
-
-> >
-> > The current missing points are:
-> > - add selftests for all the new API introduced
-> > - review the entire API to not have to deal with a mistake forever
-> > - rebase against bpf-next
-> If you need my help on any of these items, let me know.
-> >
-> > One part of the API I am wondering is whether it is good or not to
-> > have bpf_hid_foreach_rdesc_item(). This function is complex and we
-> > could in theory parse the report descriptor in userspace, even before
-> > we load the program. So all the parameters you need in the various
-> > raw_event functions could be computed in user space, leading to a much
-> > smaller API. The other benefit would be that the API would only deal
-> > with arrays of bytes, which is a small enough and versatile enough API
-> > :)
->
-> This might be a good idea. Assuming the BPF programs end up in the
-> hid-tools repo, there could be a generic library for parsing the rdescs
-> also which the userspace programs could use.
-
-Oh. Glad to see that this is something you find interesting. Peter
-Hutterer mentioned that idea and I am still not 100% sure about it,
-but if you also think it'll make things easier, then why not :)
-
-Cheers,
-Benjamin
-
->
-> -Tero
->
-> >
-> > Cheers,
-> > Benjamin
-> >
-> >> -Tero
-> >>
-> >> [1] https://github.com/t-kristo/linux/tree/usi-5.16-v5-bpf
-> >>
-> >>
+diff --git a/Documentation/devicetree/bindings/mfd/da9063.txt b/Documentation/devicetree/bindings/mfd/da9063.txt
+index 8da879935c59..91b79a21d403 100644
+--- a/Documentation/devicetree/bindings/mfd/da9063.txt
++++ b/Documentation/devicetree/bindings/mfd/da9063.txt
+@@ -1,6 +1,6 @@
+ * Dialog DA9063/DA9063L Power Management Integrated Circuit (PMIC)
+ 
+-DA9093 consists of a large and varied group of sub-devices (I2C Only):
++DA9063 consists of a large and varied group of sub-devices (I2C Only):
+ 
+ Device                   Supply Names    Description
+ ------                   ------------    -----------
+-- 
+2.32.0
 
