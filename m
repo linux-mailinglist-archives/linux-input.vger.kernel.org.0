@@ -2,87 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4996047799B
-	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 17:49:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C60D047801F
+	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 23:46:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235091AbhLPQtK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Dec 2021 11:49:10 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:45534 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232590AbhLPQtJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Dec 2021 11:49:09 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 70D9C61EBB;
-        Thu, 16 Dec 2021 16:49:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 084F6C36AE4;
-        Thu, 16 Dec 2021 16:49:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639673347;
-        bh=1Cn/YaBA1mXDfkWjv49bj322yFYnapcjg344B018UkQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GKBo/uDHNX4zOxMt+onveypXwa9GFl5ANDl+OHlA43ytPl4lDYMFAv3+/HAcR4zz4
-         yePSYt+psIebVP7KeGQvupZL4sVL3/hTRa0zgkmYkhzegu1ICEO3SVVl/z+pjyi0uG
-         BZhT0uLNHUG3OezGLCGGFw6Kh0PtcuvsAYNWkCf93RGKPXhnjiD/c3hOSjd8PKbjbG
-         K4bpXnY4XhBeuDF2CmCM7DB1TnxtD364e/HlKXFSFHH6VhLDtWVWPQY/BSTFydHJDM
-         ETKvk59O5w11yJAKYGQstCpdOWTIxZjWjbszhZx5PitFxpG/wUpVFaOj6MhYSnWlGW
-         FdT6rFbUotVEg==
-Date:   Thu, 16 Dec 2021 16:49:00 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] dt-bindings: Migrate DA9063 text bindings to YAML
-Message-ID: <Ybtt/DEpZfuLmbK4@sirena.org.uk>
-References: <20211216164037.2888316-1-alexandre.ghiti@canonical.com>
- <20211216164037.2888316-2-alexandre.ghiti@canonical.com>
+        id S230462AbhLPWqi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Dec 2021 17:46:38 -0500
+Received: from mail.valdk.tel ([185.177.150.13]:41562 "EHLO mail.valdk.tel"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236351AbhLPWqi (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 16 Dec 2021 17:46:38 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7B81C2C17D4;
+        Fri, 17 Dec 2021 01:46:31 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valdikss.org.ru;
+        s=msrv; t=1639694792; h=from:subject:date:message-id:to:cc:mime-version:
+         content-transfer-encoding; bh=vSHVvgqhSmlITFdSMhLO+nEvHQqtBecNMT6ZPuYVu6M=;
+        b=d5zFRDlYODhCe+60uz7qYADJ+vxyeFxbOPomOxnUDX4o2nKHJGh/4K2fF8WOJQ6hmdKfmU
+        rrNsgAb3exmMt1f5nVv5L0ct8mB/B5S1+QWBYORqTX5Uz6nJtXyTZC2Nb4lGY+fBFRGW89
+        4rdectWY+QG9wFx+djRbDavOax1O9ozAE5D8jL+5FEYI7zJt/a8bYgp7oXSCCTE9VwA7+K
+        70Dce+A6ad4wmU/Y23j7aCiimW5ZDQfdAzUpl5q3ZVm2xB+/hspvk1lNDaPtf9qLT/03jJ
+        fK9E74aDFjPVmisJjLEroLG2Js4sS7E2ONObCmqeaAmZ1wRXnt06SqBzZMkgGQ==
+From:   ValdikSS <iam@valdikss.org.ru>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [PATCH v2 0/3] HID: lenovo: ThinkPad TrackPoint Keyboard II support
+Date:   Fri, 17 Dec 2021 01:46:08 +0300
+Message-Id: <20211216224611.440397-1-iam@valdikss.org.ru>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="7UPpL9eSKpRqGuyR"
-Content-Disposition: inline
-In-Reply-To: <20211216164037.2888316-2-alexandre.ghiti@canonical.com>
-X-Cookie: No solicitors.
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+This patchset adds support for Lenovo ThinkPad TrackPoint Keyboard II,
+in both USB and Bluetooth modes.
 
---7UPpL9eSKpRqGuyR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+It brings additional functional keys mapping, native vertical and horizontal
+scrolling, trackpoint sensitivity configuration and Fn-Lock sync.
 
-On Thu, Dec 16, 2021 at 05:40:37PM +0100, Alexandre Ghiti wrote:
-> DA9063 devices bindings used text format, so migrate those bindings to YAML
-> format before adding any new bindings.
+There is no code difference between the previous patchset, only minor
+patch subject changes and code/comments split.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+ValdikSS (3):
+  HID: lenovo: Add support for ThinkPad TrackPoint Keyboard II
+  HID: lenovo: Sync Fn-lock state on button press for Compact and
+    TrackPoint II keyboards
+  HID: lenovo: Add note about different report numbers
 
---7UPpL9eSKpRqGuyR
-Content-Type: application/pgp-signature; name="signature.asc"
+ drivers/hid/hid-ids.h    |   2 +
+ drivers/hid/hid-lenovo.c | 174 +++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 170 insertions(+), 6 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.31.1
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmG7bfsACgkQJNaLcl1U
-h9AU4wf+NQMl2BzpsI732uzQnsyi7tWtsifci5XFZQKXDbrG+O49GavA7WWKttTs
-hfQAcN7IH/OkUlomNNzudjYA4fNXA7ssYYibtMMYl2XHp65Z5oaWUs7pn8HFbek1
-iP6Ycb2NL8zGP9AHv0hvnjAOGB0LCPHl1AmjE8KjWtu6sAuHX4rkY5b60SOxfHQw
-AKRQ0o10LcHHouIYYbZMfkuZNsKbn1DQCs2bS3ZrrZjoaZ11XirIzZmukL1upU8x
-Kiuz4sReSR4XVd9I0RdkJ//XH73bgLKB2/ftU8JQjsGRIViccgNYtOb8Xe2lOGyj
-jIlD/BGjBvv/SBwpTRVK9ByivuDYCA==
-=ZZh+
------END PGP SIGNATURE-----
-
---7UPpL9eSKpRqGuyR--
