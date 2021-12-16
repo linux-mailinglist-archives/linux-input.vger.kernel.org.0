@@ -2,98 +2,171 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D2B0476D4E
-	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 10:22:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85C6F476EF6
+	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 11:36:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235217AbhLPJWN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Dec 2021 04:22:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235158AbhLPJWM (ORCPT
+        id S231292AbhLPKgx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Dec 2021 05:36:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31644 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236125AbhLPKgw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Dec 2021 04:22:12 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69BE3C061574;
-        Thu, 16 Dec 2021 01:22:12 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id t18so42884225wrg.11;
-        Thu, 16 Dec 2021 01:22:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=JzmZnw9w12jnhEnVgbRw3kRkLf6hu57Yrckak9H1oPM=;
-        b=ZRmx1zNAZjDwnqSeqDGTIEnhGfUEdpS/Mo5/SNagjhmXA1BlXThj/bRtYhhiDfBX6L
-         j4PpRuMGFir9Ue7Eump3JFHS3picyQv0Ua3br4dK4+NFyQ8avTtDErGqxrhAFo9vhh0l
-         yyp/pvjn8i6lYUf3CkUfs9Q+BMvf5JI5aTe7O7qHC6UztVQYi8y1MagKSrK2ziBmqC1y
-         VD+Ro47/0mbSfH7qeg9hIFmN3Bc8P+3OEoN5tfnqFFTxHBnpY4rq+4CUQW5RbeOVsnRQ
-         MldK/E0gpV/bU97CWFlHYn2+nKrCUdIRISuClKaTDh2MqCHSXkWslYuAeGClEmJXQnn7
-         7FKw==
+        Thu, 16 Dec 2021 05:36:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639651011;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZNKVWqh9lxh9Grr+ulLOOV8QYTTYcK7iY8OykZzbHhQ=;
+        b=Hsxq2EN2kWMul+VyKzWLmy9C2QFM32dgDmVP2TnaS26c4LQ5r0Geam0q7QP8F7Lt10LPtG
+        mz2bQbxqKShYeVGEx7UpA69H7yrZuyQJ+SNPDoG8/fq5KCnbg9PfRnXxMsXs+fBqVsUF2X
+        aThgigeSGw3XHKeXSsSU0imR27P9NmM=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-616-iRydSHPFN9OUWqSUQeLWXA-1; Thu, 16 Dec 2021 05:36:50 -0500
+X-MC-Unique: iRydSHPFN9OUWqSUQeLWXA-1
+Received: by mail-pf1-f197.google.com with SMTP id c6-20020aa781c6000000b004a4fcdf1d6dso15164267pfn.4
+        for <linux-input@vger.kernel.org>; Thu, 16 Dec 2021 02:36:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=JzmZnw9w12jnhEnVgbRw3kRkLf6hu57Yrckak9H1oPM=;
-        b=DnF4EJV1OS+f9k5eiXf6jNLLg4Vc779uKigaT7Y+5EkIS6MlPvsOUeMDrdXqn5Be0a
-         6154MxwTR6zc0hDRInzdGAVtXT5XQLLNeKqJuCYWgZSd6oxMbziqSkSR8XMZmtNNecgI
-         ru6aXFbSE1JnHRukgHplE0t0L93+5lWlCD860l3VL+W0vkTwX07Bx3ZsO0k3Zz4jPLGh
-         05yUk25ffBalcHAp830MJRgNsfWlsRuWRLrg/Eq5YnPEvLVbnGgyx60znW8mn5ka96QU
-         de+fFl9dxBQJpyrUm4s5wFKyQsSvqnEz0c5ckWRr0YzHyicAdZtWL5dRJoO3H+Zh75We
-         iAiQ==
-X-Gm-Message-State: AOAM532MZaGcmwVtxdJapNu0Ned/IgkcdrXy7uMHgA0q7fUYB6nubFea
-        0Q5mpix5JLpWO9vdm0ECL1Yoj5W0yK0=
-X-Google-Smtp-Source: ABdhPJwKtUkCsXljUJ9vO22KqT5+192jrHDhWPt397Y0gwY9TFqGZtsUJ61lgKspMWFMCtGOCFyDRQ==
-X-Received: by 2002:a5d:6da1:: with SMTP id u1mr7504507wrs.535.1639646530903;
-        Thu, 16 Dec 2021 01:22:10 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:267b:1200:18af:bb55:aabf:94a8])
-        by smtp.gmail.com with ESMTPSA id y3sm2068981wrq.12.2021.12.16.01.22.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 01:22:10 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] HID: address kernel-doc warnings
-Date:   Thu, 16 Dec 2021 10:21:57 +0100
-Message-Id: <20211216092157.26912-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZNKVWqh9lxh9Grr+ulLOOV8QYTTYcK7iY8OykZzbHhQ=;
+        b=WcWgUqiDyfby7NQyY3vn0C0sdPH9XH6Te4D6M5QMo4P1/Gs84yLuXhn2vnRdzkfIyE
+         Ult4nWu3iZs9dbV8TM0c7rzZoUd6suKgM5je3bgn/OPb9jjgJTxazyPuK8+Sk/yxv8rL
+         pdgc0VAjKhFYH6rmsuFDHS8l4EpcFaeEwRrugSh+RkhXd8ZRjz6xlq091mw/+tSLE21D
+         86PimRDJbA8voYKndX3N+VXquWup2CcmhCUqiQn2upHu48re54T2aYm88ZRF9sWvqxAJ
+         fc2IdDmvTk2sNGZ4TNNV8N8EuzUTVN3ZLk1H11lGPWioN+pnP3XCkQYB7EsvK1yYUuOw
+         16Cw==
+X-Gm-Message-State: AOAM530AbW+l2n5p36Pvg28/B4e9mFHYchp4F6peVespbZLQ2FSMbEv1
+        TO4FK/lh62UsPfoSc7iwhtqbYIMkRIQ0BwGn9hqrfucTXivZsLYklXkXAjfp4IOvBxWw3yySlYa
+        X2o65Bn9wtq3fKXW38fPNbfXkVomM+1q/B6Yqatc=
+X-Received: by 2002:a63:ea51:: with SMTP id l17mr11594798pgk.363.1639651009530;
+        Thu, 16 Dec 2021 02:36:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx8BgAyAP7ogoS70w55qoy/NR8MoIchYzF9iRxpRTE6C/dcU+rowv7TA61xTF+tB2Mqi/JKOnRQHRwo8GDEOv8=
+X-Received: by 2002:a63:ea51:: with SMTP id l17mr11594781pgk.363.1639651009203;
+ Thu, 16 Dec 2021 02:36:49 -0800 (PST)
+MIME-Version: 1.0
+References: <20211215134220.1735144-1-tero.kristo@linux.intel.com>
+In-Reply-To: <20211215134220.1735144-1-tero.kristo@linux.intel.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 16 Dec 2021 11:36:37 +0100
+Message-ID: <CAO-hwJ+nm3jUo9znsROjc0=e_3aGOq-L43OVvUHwBewtwODJfA@mail.gmail.com>
+Subject: Re: [RFCv5 0/2] HID: Add USI support
+To:     Tero Kristo <tero.kristo@linux.intel.com>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The command ./scripts/kernel-doc -none include/linux/hid.h reports:
+Hi Tero,
 
-  include/linux/hid.h:818: warning: cannot understand function prototype: 'struct hid_ll_driver '
-  include/linux/hid.h:1135: warning: expecting prototype for hid_may_wakeup(). Prototype was for hid_hw_may_wakeup() instead
+On Wed, Dec 15, 2021 at 2:42 PM Tero Kristo <tero.kristo@linux.intel.com> wrote:
+>
+> Hi,
+>
+> These two patches add the missing pieces for HID USI support. First one
+> adds the HID core changes to support the new Misc events for pen ID,
+> line color and line style. The second patch adds a BPF program on top of
+> the HID-BPF driver which adds support for writing the Pen parameters
+> from userspace, and to add filtering of HID low level events for ELAN
+> USI controller. The BPF programs are not built by the kernel as of now
+> (there are no Makefile changes), as there is a plan to most likely
+> integrate these to a kernel external repository. I have tested these in
+> my own external build setup though, and I can provide the makefile for
+> that if needed. Also a sample client program is provided for
+> communicating with the D-BUS server.
 
-Address those kernel-doc warnings.
+I had a deeper look at the recordings, and I am very worried in what I
+am seeing:
+- the USI parameters seems to be transmitted only after the touch
+- the USI parameters takes *a lot* of time to be transmitted (2 bytes
+every 2 reports)
+- the recording of the goodix one starts with a stylus touch without hovering
+- the only "reliable" information we get when hovering seems to be the
+transducer index
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- include/linux/hid.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+So I am wondering a few things:
+- what happens when you switch between pens?
+  * Do we immediately get a different transducer index?
+  * Are the values right there or do they also take time to be updated?
+- on the goodix one, do you still need to issue a get_report on the
+feature to get the USI parameters, even when you change the pen?
 
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 3d83e7022f6c..7487b0586fe6 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -800,7 +800,7 @@ struct hid_driver {
- 	container_of(pdrv, struct hid_driver, driver)
- 
- /**
-- * hid_ll_driver - low level driver callbacks
-+ * struct hid_ll_driver - low level driver callbacks
-  * @start: called on probe to start the device
-  * @stop: called on remove
-  * @open: called by input layer on open
-@@ -1127,7 +1127,7 @@ static inline int hid_hw_idle(struct hid_device *hdev, int report, int idle,
- }
- 
- /**
-- * hid_may_wakeup - return if the hid device may act as a wakeup source during system-suspend
-+ * hid_hw_may_wakeup - return if the hid device may act as a wakeup source during system-suspend
-  *
-  * @hdev: hid device
-  */
--- 
-2.17.1
+Could you give me the following recording (with an updated hid-tools
+master branch):
+- on the Elan:
+  * start the recording from a fresh boot (no BPF loaded)
+  * hover for a few secs the first USI pen you have
+  * touch it for a few secs
+  * release, then out of proximity
+  * approach the other pen
+  * touch
+  * release, out of prox
+  * then once again with the first pen
+  * then once again with the second pen
+
+- on the goodix: same thing
+
+- on the goodix: same thing but with a BPF program to trigger the
+GET_REPORT if you can cook one quickly (not a big issue if you can
+not).
+
+The reason I am asking about those recordings is because with the 2
+logs you kindly provided, there is no way we can forward the raw
+information to userspace. So I am slightly tempted to only rely on a
+USI manager, in the form of the BPF program in 2/2 to transmit that
+information to userspace.
+
+If this is bulky just for the first event, then the input events might
+be OK, we can assume when the application needs those events they will
+be there.
+
+>
+> I have also a kernel testing branch available at [1], which contains a
+> few fix patches on top of Benjamin's HID-BPF driver work, and is rebased
+> on top of latest hid/for-next. The HID-BPF fixes have been cleaned up a
+> bit compared to previous setup. There are also a couple of new patches
+> for adding support for a delayed_work BPF program on top of the
+> hid-bpf driver; this is used to execute the raw_requests in non-irq
+> context.
+
+Thanks for that. I had a very quick look. I thought we could directly
+use the bpf_timer_* functions instead of having to cook another API.
+I'll play around with this, but thanks for pushing forward :)
+
+IIRC you asked me when I was counting on submitting the HID BPF work.
+
+So my answer is that I wanted to submit it by the end of 2021, but it
+looks like I have only one week to finalize this :/
+
+The current missing points are:
+- add selftests for all the new API introduced
+- review the entire API to not have to deal with a mistake forever
+- rebase against bpf-next
+
+One part of the API I am wondering is whether it is good or not to
+have bpf_hid_foreach_rdesc_item(). This function is complex and we
+could in theory parse the report descriptor in userspace, even before
+we load the program. So all the parameters you need in the various
+raw_event functions could be computed in user space, leading to a much
+smaller API. The other benefit would be that the API would only deal
+with arrays of bytes, which is a small enough and versatile enough API
+:)
+
+Cheers,
+Benjamin
+
+>
+> -Tero
+>
+> [1] https://github.com/t-kristo/linux/tree/usi-5.16-v5-bpf
+>
+>
 
