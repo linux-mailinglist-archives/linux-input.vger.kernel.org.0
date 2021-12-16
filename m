@@ -2,105 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 210C0475F18
-	for <lists+linux-input@lfdr.de>; Wed, 15 Dec 2021 18:31:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72AF9476782
+	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 02:47:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245351AbhLOR1j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Dec 2021 12:27:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35220 "EHLO
+        id S232629AbhLPBry (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Dec 2021 20:47:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343602AbhLOR02 (ORCPT
+        with ESMTP id S229555AbhLPBry (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Dec 2021 12:26:28 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0B47C07E5C7
-        for <linux-input@vger.kernel.org>; Wed, 15 Dec 2021 09:25:50 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id i12so17149483wmq.4
-        for <linux-input@vger.kernel.org>; Wed, 15 Dec 2021 09:25:50 -0800 (PST)
+        Wed, 15 Dec 2021 20:47:54 -0500
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 063BEC061574;
+        Wed, 15 Dec 2021 17:47:54 -0800 (PST)
+Received: by mail-pg1-x530.google.com with SMTP id k4so21618940pgb.8;
+        Wed, 15 Dec 2021 17:47:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Hp2wuf+GFIgPk2krY9oLPCwUDqecUtCiJ9IkJj6FAwY=;
-        b=cJlDUfpq46FBvNkVqLdgj18Rg1pAxJtGFVkJcLJKl30hPbe2xQVyhgQWoW1d2lXEEh
-         C8PBY8w63Pt8eeQsGSLKWHKgNOTGT3uZTgPjf15asCS0I8nZhfufl1APElY2ecpKoY9i
-         giCxeqg1cduFIgZqbqZxckqJqWozDoq7wngC0Gvq1q8TwPPGWTyH2tSqZpLvOH2qDc5F
-         Mm25cIp7AZESyTDNdbQL7PCy/j0OKxCrTiEhSNeJlyqRn7Gc0xm8p+GbK38QekLxArnc
-         gVoUT3DAaWi+rLvuKt+q1teZDMi5q1a3FSlupC/coKcc6aGNLcv3PI01yZbZXLg0TY70
-         lomA==
+        h=from:to:cc:subject:date:message-id;
+        bh=I+AOmwm2BG541EsRFlS96j4s+ZQa+V+JtdC+54LpZE0=;
+        b=MkZM9t8FM37d+qg+Qp6jvP/F7EjoAXrYnR5fGp3I5M1uO82mxywxp6pg0rlAsCAIYS
+         M6qrOxuFC54DFAg2wdsgtSC2BjFXtHtgJDaU3KoxkO4dVyDrCG6F8fssms7UaTY0hbfz
+         c1I2HiGlVAiR38w3zMcjAw8CNaKMPx03SiV6gQZzAWzCohl03pi7ArVQ7OyTZtHn7UOw
+         m9vbTxhT/aCJMneQLM40Vpw6V4FmR2lG9e1YQZWam5K0mTWdgB9lcmmZriihbRN1Egeq
+         mMaGxklrkgFNkp4aZBZ2Gta3xHDMwsl3hffTPltwkqbmLyfoIsgW5qyQltUiPR+zOm7o
+         8h1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to:content-transfer-encoding;
-        bh=Hp2wuf+GFIgPk2krY9oLPCwUDqecUtCiJ9IkJj6FAwY=;
-        b=blTrYi0LyWPEad2FUMYUD4C5QgqfwTKgGk6zQfuUdLx4lNYSj5nn4v4M1Jw5Zl3aeQ
-         v+IzqAwvqZkgEMsNH0+rGSMdwAqAqshu1TI8krrIF2K6H0oyjiCya9SUKQVJ/TwWl5c5
-         3J8k12YtlOyTEuJ0qEZ1xrhTWCZ0itPW7tDVbMlHBbT4TSTfIvvf8CEeylmPW8gTqvc6
-         /73oKFRlzgGqe9dOC37jKu9WfKiDcDo8rBbGwlNe41kxp/VxUzvmRbZ7g90qq1n00Ihq
-         5DIchLBDQjAvnGtq5JZHvoRwD3RSEy9wL7d+Wn8B07O0HKXfKS4ktZWC98UfRrdSJoNa
-         dKjg==
-X-Gm-Message-State: AOAM531AbZYDVAFzn4BW52N3qlVHvPdSXEDG3r7pcxmy3hb4GdTFNnRA
-        XmkUyiAfVu2h97kH/mQyhvxjXwimL/ZOPKjR+OY=
-X-Google-Smtp-Source: ABdhPJzRnwzQ/5F4rhSxrQnNlB9PpQLBHPvH6HtGcgdhNhce2mo1/jx92j50Qs2H3/Xyc99Lx1SNMoU2jYKvxKmsdBU=
-X-Received: by 2002:a7b:c5cc:: with SMTP id n12mr962639wmk.162.1639589149481;
- Wed, 15 Dec 2021 09:25:49 -0800 (PST)
-MIME-Version: 1.0
-Sender: donnalouisemchince@gmail.com
-Received: by 2002:a5d:674f:0:0:0:0:0 with HTTP; Wed, 15 Dec 2021 09:25:49
- -0800 (PST)
-From:   DINA MCKENNA <dinamckennahowley@gmail.com>
-Date:   Wed, 15 Dec 2021 17:25:49 +0000
-X-Google-Sender-Auth: kMiTZ3QE85-_xNffHzgb-NGmk9E
-Message-ID: <CA+4Ruvsyza7nAVVhc_6qSTrEQ2M1yG7bVS7TUvTqPCD2cft0XA@mail.gmail.com>
-Subject: Hello,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=I+AOmwm2BG541EsRFlS96j4s+ZQa+V+JtdC+54LpZE0=;
+        b=D+7sJwPQpNAbTuzHb3rBy/I5j+4Zi8zSmfQcfpXg4iqSckNgLNcp3RplWZgewPXpTA
+         prV2mmADCqlg4xKnT0ow31tGAdL+J5k5u0GdEPzjnuio2wPnD7yeSXQ87rLEToUxqnv1
+         9esEi4XgXx2hWeKm7F6/GzGgsTc9ro37le1PbbDkwbc33NxeV3mNzmEo2f0mr1E+SVwn
+         my0+/YWIV/5W1snScpIny0YCmFP8KGMo3ACkFl1p2u2PJaKOiDxOcynGIcW4Xr8v9Jem
+         vqBAj4haR03RDx9TxM5eFJG/GSs/mQb+6AYrL7pDyv9mAMKAiSfweXWbONcGQBtk5iAE
+         eSpA==
+X-Gm-Message-State: AOAM533z/cL2xO1krblcYEBQn89zXSLh79Fb7kSMqQRqDawzJdJcPoHA
+        /YPMcT+OntxK6ZduEGlVy8w=
+X-Google-Smtp-Source: ABdhPJxWPJyMEb1mIndwQ5pxfrUxe8JmopVqieVpWYe/VMB+iRM4KKtGpSFCGwft5lSxa7KGavzmhw==
+X-Received: by 2002:a63:6ac2:: with SMTP id f185mr10194403pgc.198.1639619273526;
+        Wed, 15 Dec 2021 17:47:53 -0800 (PST)
+Received: from localhost.localdomain ([2402:7500:468:5e1b:4e:ef0f:3395:e69f])
+        by smtp.gmail.com with ESMTPSA id qe12sm6384691pjb.29.2021.12.15.17.47.50
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 15 Dec 2021 17:47:53 -0800 (PST)
+From:   Johnny Chuang <johnny.chuang.emc@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Harry Cutts <hcutts@chromium.org>,
+        Johnny Chuang <johnny.chuang@emc.com.tw>
+Cc:     James Chen <james.chen@emc.com.tw>,
+        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
+        Paul Liang <paul.liang@emc.com.tw>,
+        Jeff Chuang <jeff.chuang@emc.com.tw>
+Subject: [PATCH] Input: elants_i2c - fix to check the Remark ID of the updated firmware
+Date:   Thu, 16 Dec 2021 09:53:23 +0800
+Message-Id: <1639619603-20616-1-git-send-email-johnny.chuang.emc@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello my dear,
+The eKTH3900/eKTH5312 series do not support
+the firmware update rules of Remark ID.
+Exclude two series and keep the original rules to check the Remark ID.
 
- I sent this mail praying it will get to you in a good condition of
-health, since I myself are in a very critical health condition in
-which I sleep every night without knowing if I may be alive to see the
-next day. I bring peace and love to you. It is by the grace of God, I
-had no choice than to do what is lawful and right in the sight of God
-for eternal life and in the sight of man, for witness of God=E2=80=99s merc=
-y
-and glory upon my life. I am Mrs. Dina Howley Mckenna, a widow. I am
-suffering from a long time brain tumor, It has defiled all forms of
-medical treatment, and right now I have about a few months to leave,
-according to medical experts. The situation has gotten complicated
-recently with my inability to hear proper, am communicating with you
-with the help of the chief nurse herein the hospital, from all
-indication my conditions is really deteriorating and it is quite
-obvious that, according to my doctors they have advised me that I may
-not live too long, Because this illness has gotten to a very bad
-stage. I plead that you will not expose or betray this trust and
-confidence that I am about to repose on you for the mutual benefit of
-the orphans and the less privilege. I have some funds I inherited from
-my late husband, the sum of ($ 11,000,000.00, Eleven Million Dollars).
-Having known my condition, I decided to donate this fund to you
-believing that you will utilize it the way i am going to instruct
-herein. I need you to assist me and reclaim this money and use it for
-Charity works therein your country  for orphanages and gives justice
-and help to the poor, needy and widows says The Lord." Jeremiah
-22:15-16.=E2=80=9C and also build schools for less privilege that will be
-named after my late husband if possible and to promote the word of God
-and the effort that the house of God is maintained. I do not want a
-situation where this money will be used in an ungodly manner. That's
-why I'm taking this decision. I'm not afraid of death, so I know where
-I'm going. I accept this decision because I do not have any child who
-will inherit this money after I die.. Please I want your sincerely and
-urgent answer to know if you will be able to execute this project for
-the glory of God, and I will give you more information on how the fund
-will be transferred to your bank account.. May the grace, peace, love
-and the truth in the Word of God be with you and all those that you
-love and care for.
+Signed-off-by: Johnny Chuang <johnny.chuang.emc@gmail.com>
+---
+ drivers/input/touchscreen/elants_i2c.c | 48 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 47 insertions(+), 1 deletion(-)
 
-I'm waiting for your immediate reply..
+diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
+index 7e13a66..99151a1 100644
+--- a/drivers/input/touchscreen/elants_i2c.c
++++ b/drivers/input/touchscreen/elants_i2c.c
+@@ -117,6 +117,19 @@
+ #define ELAN_POWERON_DELAY_USEC	500
+ #define ELAN_RESET_DELAY_MSEC	20
+ 
++/* FW boot code version */
++#define BC_VER_H_BYTE_FOR_EKTH3900x1_I2C        0x72
++#define BC_VER_H_BYTE_FOR_EKTH3900x2_I2C        0x82
++#define BC_VER_H_BYTE_FOR_EKTH3900x3_I2C        0x92
++#define BC_VER_H_BYTE_FOR_EKTH5312x1_I2C        0x6D
++#define BC_VER_H_BYTE_FOR_EKTH5312x2_I2C        0x6E
++#define BC_VER_H_BYTE_FOR_EKTH5312cx1_I2C       0x77
++#define BC_VER_H_BYTE_FOR_EKTH5312cx2_I2C       0x78
++#define BC_VER_H_BYTE_FOR_EKTH5312x1_I2C_USB    0x67
++#define BC_VER_H_BYTE_FOR_EKTH5312x2_I2C_USB    0x68
++#define BC_VER_H_BYTE_FOR_EKTH5312cx1_I2C_USB   0x74
++#define BC_VER_H_BYTE_FOR_EKTH5312cx2_I2C_USB   0x75
++
+ enum elants_chip_id {
+ 	EKTH3500,
+ 	EKTF3624,
+@@ -736,6 +749,37 @@ static int elants_i2c_validate_remark_id(struct elants_data *ts,
+ 	return 0;
+ }
+ 
++static bool elants_i2c_check_remark_id(struct elants_data *ts)
++{
++	struct i2c_client *client = ts->client;
++	bool check;
++	const u8 bootcode_version = ts->iap_version;
++
++	/* I2C eKTH3900 and eKTH5312 are NOT support Remark ID */
++	if ((bootcode_version == BC_VER_H_BYTE_FOR_EKTH3900x1_I2C) ||
++	    (bootcode_version == BC_VER_H_BYTE_FOR_EKTH3900x2_I2C) ||
++	    (bootcode_version == BC_VER_H_BYTE_FOR_EKTH3900x3_I2C) ||
++	    (bootcode_version == BC_VER_H_BYTE_FOR_EKTH5312x1_I2C) ||
++	    (bootcode_version == BC_VER_H_BYTE_FOR_EKTH5312x2_I2C) ||
++	    (bootcode_version == BC_VER_H_BYTE_FOR_EKTH5312cx1_I2C) ||
++	    (bootcode_version == BC_VER_H_BYTE_FOR_EKTH5312cx2_I2C) ||
++	    (bootcode_version == BC_VER_H_BYTE_FOR_EKTH5312x1_I2C_USB) ||
++	    (bootcode_version == BC_VER_H_BYTE_FOR_EKTH5312x2_I2C_USB) ||
++	    (bootcode_version == BC_VER_H_BYTE_FOR_EKTH5312cx1_I2C_USB) ||
++	    (bootcode_version == BC_VER_H_BYTE_FOR_EKTH5312cx2_I2C_USB)) {
++		dev_dbg(&client->dev,
++			"eKTH3900/eKTH5312(0x%02x) are not support remark id\n",
++			bootcode_version);
++		check = false;
++	} else if (bootcode_version >= 0x60) {
++		check = true;
++	} else {
++		check = false;
++	}
++
++	return check;
++}
++
+ static int elants_i2c_do_update_firmware(struct i2c_client *client,
+ 					 const struct firmware *fw,
+ 					 bool force)
+@@ -749,7 +793,9 @@ static int elants_i2c_do_update_firmware(struct i2c_client *client,
+ 	u16 send_id;
+ 	int page, n_fw_pages;
+ 	int error;
+-	bool check_remark_id = ts->iap_version >= 0x60;
++	bool check_remark_id;
++
++	check_remark_id = elants_i2c_check_remark_id(ts);
+ 
+ 	/* Recovery mode detection! */
+ 	if (force) {
+-- 
+2.7.4
 
-May God Bless you,
-Mrs. Dina Howley Mckenna.
