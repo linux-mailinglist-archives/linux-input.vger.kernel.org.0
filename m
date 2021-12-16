@@ -2,171 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85C6F476EF6
-	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 11:36:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D22E7476F4E
+	for <lists+linux-input@lfdr.de>; Thu, 16 Dec 2021 11:59:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231292AbhLPKgx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Dec 2021 05:36:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31644 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236125AbhLPKgw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Dec 2021 05:36:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639651011;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZNKVWqh9lxh9Grr+ulLOOV8QYTTYcK7iY8OykZzbHhQ=;
-        b=Hsxq2EN2kWMul+VyKzWLmy9C2QFM32dgDmVP2TnaS26c4LQ5r0Geam0q7QP8F7Lt10LPtG
-        mz2bQbxqKShYeVGEx7UpA69H7yrZuyQJ+SNPDoG8/fq5KCnbg9PfRnXxMsXs+fBqVsUF2X
-        aThgigeSGw3XHKeXSsSU0imR27P9NmM=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-iRydSHPFN9OUWqSUQeLWXA-1; Thu, 16 Dec 2021 05:36:50 -0500
-X-MC-Unique: iRydSHPFN9OUWqSUQeLWXA-1
-Received: by mail-pf1-f197.google.com with SMTP id c6-20020aa781c6000000b004a4fcdf1d6dso15164267pfn.4
-        for <linux-input@vger.kernel.org>; Thu, 16 Dec 2021 02:36:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZNKVWqh9lxh9Grr+ulLOOV8QYTTYcK7iY8OykZzbHhQ=;
-        b=WcWgUqiDyfby7NQyY3vn0C0sdPH9XH6Te4D6M5QMo4P1/Gs84yLuXhn2vnRdzkfIyE
-         Ult4nWu3iZs9dbV8TM0c7rzZoUd6suKgM5je3bgn/OPb9jjgJTxazyPuK8+Sk/yxv8rL
-         pdgc0VAjKhFYH6rmsuFDHS8l4EpcFaeEwRrugSh+RkhXd8ZRjz6xlq091mw/+tSLE21D
-         86PimRDJbA8voYKndX3N+VXquWup2CcmhCUqiQn2upHu48re54T2aYm88ZRF9sWvqxAJ
-         fc2IdDmvTk2sNGZ4TNNV8N8EuzUTVN3ZLk1H11lGPWioN+pnP3XCkQYB7EsvK1yYUuOw
-         16Cw==
-X-Gm-Message-State: AOAM530AbW+l2n5p36Pvg28/B4e9mFHYchp4F6peVespbZLQ2FSMbEv1
-        TO4FK/lh62UsPfoSc7iwhtqbYIMkRIQ0BwGn9hqrfucTXivZsLYklXkXAjfp4IOvBxWw3yySlYa
-        X2o65Bn9wtq3fKXW38fPNbfXkVomM+1q/B6Yqatc=
-X-Received: by 2002:a63:ea51:: with SMTP id l17mr11594798pgk.363.1639651009530;
-        Thu, 16 Dec 2021 02:36:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx8BgAyAP7ogoS70w55qoy/NR8MoIchYzF9iRxpRTE6C/dcU+rowv7TA61xTF+tB2Mqi/JKOnRQHRwo8GDEOv8=
-X-Received: by 2002:a63:ea51:: with SMTP id l17mr11594781pgk.363.1639651009203;
- Thu, 16 Dec 2021 02:36:49 -0800 (PST)
+        id S236200AbhLPK7d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Dec 2021 05:59:33 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:58942 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229621AbhLPK7d (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 16 Dec 2021 05:59:33 -0500
+Received: from [10.180.13.92] (unknown [10.180.13.92])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx7NwAHLthrWkBAA--.5917S2;
+        Thu, 16 Dec 2021 18:59:13 +0800 (CST)
+Subject: Re: [PATCH v1 1/2] HID: usbhid: enable remote wakeup function for
+ usbhid device
+To:     Oliver Neukum <oneukum@suse.com>, gregkh@linuxfoundation.org,
+        Jiri Kosina <jikos@kernel.org>, benjamin.tissoires@redhat.com,
+        gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
+        mathias.nyman@linux.intel.com, stern@rowland.harvard.edu,
+        gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
+        mathias.nyman@linux.intel.com, stern@rowland.harvard.edu,
+        rajatja@google.com, chris.chiu@canonical.com,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1638956391-20149-1-git-send-email-zhuyinbo@loongson.cn>
+ <caf93951-4c63-d0f1-e3f4-d0d49dec6a47@suse.com>
+ <d2e4a97a-b89b-eaf4-5aaf-89af22227746@loongson.cn>
+ <654e90fb-2f04-1f87-f56c-792757e140a0@suse.com>
+From:   zhuyinbo <zhuyinbo@loongson.cn>
+Cc:     rajatja@google.com, chris.chiu@canonical.com,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, zhuyinbo@loongson.cn
+Message-ID: <8ed3dbee-c51c-db54-37b7-182d5a75fff8@loongson.cn>
+Date:   Thu, 16 Dec 2021 18:59:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20211215134220.1735144-1-tero.kristo@linux.intel.com>
-In-Reply-To: <20211215134220.1735144-1-tero.kristo@linux.intel.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 16 Dec 2021 11:36:37 +0100
-Message-ID: <CAO-hwJ+nm3jUo9znsROjc0=e_3aGOq-L43OVvUHwBewtwODJfA@mail.gmail.com>
-Subject: Re: [RFCv5 0/2] HID: Add USI support
-To:     Tero Kristo <tero.kristo@linux.intel.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <654e90fb-2f04-1f87-f56c-792757e140a0@suse.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dx7NwAHLthrWkBAA--.5917S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7AFWDXr1rXFykAFykWw13XFb_yoW8CF1rpw
+        40yw109r1DZryrKrZFkwn7Jw1Yyr4vyanxCF95ArykJ3y7Aa409rs0qrZ8uanrZrs3Cr4Y
+        q3y2g348u3WqyaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUU9C14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+        JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+        0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I
+        8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
+        xVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
+        AFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8I
+        cIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI
+        0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQvtAUUUUU=
+X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Tero,
 
-On Wed, Dec 15, 2021 at 2:42 PM Tero Kristo <tero.kristo@linux.intel.com> wrote:
->
+
+在 2021/12/14 下午10:21, Oliver Neukum 写道:
+> 
+> On 10.12.21 10:50, zhuyinbo wrote:
 > Hi,
->
-> These two patches add the missing pieces for HID USI support. First one
-> adds the HID core changes to support the new Misc events for pen ID,
-> line color and line style. The second patch adds a BPF program on top of
-> the HID-BPF driver which adds support for writing the Pen parameters
-> from userspace, and to add filtering of HID low level events for ELAN
-> USI controller. The BPF programs are not built by the kernel as of now
-> (there are no Makefile changes), as there is a plan to most likely
-> integrate these to a kernel external repository. I have tested these in
-> my own external build setup though, and I can provide the makefile for
-> that if needed. Also a sample client program is provided for
-> communicating with the D-BUS server.
+>> system ask that must it must be accped a acpi lid open event then
+>> system will always into resume state for laptop, otherwise, eventhough
+>> that system be wakeuped by other event then system will continue into
+>> suspend.
+> Lid events are necesarily for the whole system.
+>>
+>> and for laptop usb wakeup that as general ask bios to enable usb
+>> wakeup then if need do more things to enable usb wakeup I think this
+>> usb wakeup function isn't friendly and inconveient, so enable it by
+>> default.
+>> after add this patch, if want to use usb wakeup function it only need
+>> enable bios configure it think it is appropriate.
+>>
+> No. If you wish your laptop to be resumed by USB events, that is one thing.
+> You can alter the system settings. That must work. But it is a different
+> issue
+Hi Oliver,
 
-I had a deeper look at the recordings, and I am very worried in what I
-am seeing:
-- the USI parameters seems to be transmitted only after the touch
-- the USI parameters takes *a lot* of time to be transmitted (2 bytes
-every 2 reports)
-- the recording of the goodix one starts with a stylus touch without hovering
-- the only "reliable" information we get when hovering seems to be the
-transducer index
+if you only talk about wakeup source you can think that usb-wakeup 
+source and acpi-lid wakeup source was different things. but if you talk 
+about laptop and distinguish lid and other event and you shoud know the 
+cannotation why system still continue sleep when lid closed then system 
+by other event wakeup. if you need test usb-wakeup for laptop and that 
+lid shouldn't be closed.
+> 
+> from the default.
+> 
+> In general any HID device must have wakeup capability to be usable for
+> selective suspend. You cannot draw conclusions from that.
+you still can has wakeup capability, but it should be keep enabled by 
+default. because the hid device should be convenient for human, if you 
+don't think so and I think HID definition is ridiculous.
 
-So I am wondering a few things:
-- what happens when you switch between pens?
-  * Do we immediately get a different transducer index?
-  * Are the values right there or do they also take time to be updated?
-- on the goodix one, do you still need to issue a get_report on the
-feature to get the USI parameters, even when you change the pen?
-
-Could you give me the following recording (with an updated hid-tools
-master branch):
-- on the Elan:
-  * start the recording from a fresh boot (no BPF loaded)
-  * hover for a few secs the first USI pen you have
-  * touch it for a few secs
-  * release, then out of proximity
-  * approach the other pen
-  * touch
-  * release, out of prox
-  * then once again with the first pen
-  * then once again with the second pen
-
-- on the goodix: same thing
-
-- on the goodix: same thing but with a BPF program to trigger the
-GET_REPORT if you can cook one quickly (not a big issue if you can
-not).
-
-The reason I am asking about those recordings is because with the 2
-logs you kindly provided, there is no way we can forward the raw
-information to userspace. So I am slightly tempted to only rely on a
-USI manager, in the form of the BPF program in 2/2 to transmit that
-information to userspace.
-
-If this is bulky just for the first event, then the input events might
-be OK, we can assume when the application needs those events they will
-be there.
-
->
-> I have also a kernel testing branch available at [1], which contains a
-> few fix patches on top of Benjamin's HID-BPF driver work, and is rebased
-> on top of latest hid/for-next. The HID-BPF fixes have been cleaned up a
-> bit compared to previous setup. There are also a couple of new patches
-> for adding support for a delayed_work BPF program on top of the
-> hid-bpf driver; this is used to execute the raw_requests in non-irq
-> context.
-
-Thanks for that. I had a very quick look. I thought we could directly
-use the bpf_timer_* functions instead of having to cook another API.
-I'll play around with this, but thanks for pushing forward :)
-
-IIRC you asked me when I was counting on submitting the HID BPF work.
-
-So my answer is that I wanted to submit it by the end of 2021, but it
-looks like I have only one week to finalize this :/
-
-The current missing points are:
-- add selftests for all the new API introduced
-- review the entire API to not have to deal with a mistake forever
-- rebase against bpf-next
-
-One part of the API I am wondering is whether it is good or not to
-have bpf_hid_foreach_rdesc_item(). This function is complex and we
-could in theory parse the report descriptor in userspace, even before
-we load the program. So all the parameters you need in the various
-raw_event functions could be computed in user space, leading to a much
-smaller API. The other benefit would be that the API would only deal
-with arrays of bytes, which is a small enough and versatile enough API
-:)
-
-Cheers,
-Benjamin
-
->
-> -Tero
->
-> [1] https://github.com/t-kristo/linux/tree/usi-5.16-v5-bpf
->
->
+In addition, I had said that laptop usb wakeup was disabled in system 
+bios by default and if user want enable usb wakeup that was only by 
+configure bios and doesn't need enable wakeup node if my patch was applied
+> 
+>      Regards
+>          Oliver
+> 
 
