@@ -2,117 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 24E944783C2
-	for <lists+linux-input@lfdr.de>; Fri, 17 Dec 2021 04:47:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27694478554
+	for <lists+linux-input@lfdr.de>; Fri, 17 Dec 2021 08:00:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231405AbhLQDrg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Dec 2021 22:47:36 -0500
-Received: from mail-ot1-f47.google.com ([209.85.210.47]:41842 "EHLO
-        mail-ot1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231143AbhLQDrg (ORCPT
+        id S232454AbhLQHAR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Dec 2021 02:00:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52262 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232292AbhLQHAQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Dec 2021 22:47:36 -0500
-Received: by mail-ot1-f47.google.com with SMTP id n17-20020a9d64d1000000b00579cf677301so1312486otl.8;
-        Thu, 16 Dec 2021 19:47:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=IjN1lQ8TMy6cozBFxz44Wo6W8rmof9sCHtnvpj2Bo38=;
-        b=uAGH3B6sc+JS3vMNEzOZb41oxZ1e2DuebanCRayHkCw3WnfJ40SipX0IoGdoJ4X+oe
-         FMMl7X5Zs3+pKsptPlvMd9eTs+U35uUoFtGM+41zaTui2NB7C/ikqQ47gtsEFvNLUaB/
-         K77L3ddR3ZdAAHQNv4eWbmggnf2XjjcPSun8W/n/a6MFIj740/aEYtTmmxm3yvygciAY
-         qmzI7K61tPKVUKzXSaTeXnpg0ta6Y4TvbwxChi/HpdNkqmzd64/QQl4CCXN1rbcB9gUb
-         dhAxnBLax0oG7Eq1jUiAJS0YXSCQBHCYmZBuf+bkZigarAsWuGI4wpDUQfUnZBgVynsI
-         uhEg==
-X-Gm-Message-State: AOAM531EBGbNyleBfwQa8RJxB5CdyH1b7NV10+mHL+QH7Ht/MzM5ydB1
-        Xk0U5g4tee9UPem8If22wR6KmtKUeQ==
-X-Google-Smtp-Source: ABdhPJy/kY6Z89M12GyVScc3+lNAcRyL5J+2ADa1Hgwv/kSmIaRfly5bpkzE/qTvRVurygXzGDxbLA==
-X-Received: by 2002:a9d:73d7:: with SMTP id m23mr877918otk.380.1639712855192;
-        Thu, 16 Dec 2021 19:47:35 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id p14sm1386195oou.31.2021.12.16.19.47.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 19:47:34 -0800 (PST)
-Received: (nullmailer pid 1677946 invoked by uid 1000);
-        Fri, 17 Dec 2021 03:47:33 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Cc:     Lee Jones <lee.jones@linaro.org>, linux-rtc@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Mark Brown <broonie@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
-        Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <20211216164037.2888316-2-alexandre.ghiti@canonical.com>
-References: <20211216164037.2888316-1-alexandre.ghiti@canonical.com> <20211216164037.2888316-2-alexandre.ghiti@canonical.com>
-Subject: Re: [PATCH v2 2/2] dt-bindings: Migrate DA9063 text bindings to YAML
-Date:   Thu, 16 Dec 2021 21:47:33 -0600
-Message-Id: <1639712853.383823.1677945.nullmailer@robh.at.kernel.org>
+        Fri, 17 Dec 2021 02:00:16 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 866FAC061574;
+        Thu, 16 Dec 2021 23:00:16 -0800 (PST)
+Received: from ip4d173d4a.dynamic.kabel-deutschland.de ([77.23.61.74] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1my7Dx-0007dP-0K; Fri, 17 Dec 2021 08:00:13 +0100
+Message-ID: <e4efbf13-bd8d-0370-629b-6c80c0044b15@leemhuis.info>
+Date:   Fri, 17 Dec 2021 08:00:10 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Content-Language: en-BS
+From:   Thorsten Leemhuis <regressions@leemhuis.info>
+To:     "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     tlinux@cebula.eu.org, linux-input@vger.kernel.org,
+        "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: FWD: Holtek mouse stopped working after kernel upgrade from 5.15.7 to
+ 5.15.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1639724416;0930b3b8;
+X-HE-SMSGID: 1my7Dx-0007dP-0K
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 16 Dec 2021 17:40:37 +0100, Alexandre Ghiti wrote:
-> DA9063 devices bindings used text format, so migrate those bindings to YAML
-> format before adding any new bindings.
+Hi, this is your Linux kernel regression tracker speaking.
+
+I noticed a bugreport from Tomasz C. (CCed) that sounds a lot like a
+regression between v5.15.7..v5.15.8 and likely better dealt with by email:
+
+To quote from: https://bugzilla.kernel.org/show_bug.cgi?id=215341
+
+> After updating kernel from 5.15.7 to 5.15.8 on ArchLinux distribution, Holtek USB mouse stopped working.
+> Exact model:
+> 04d9:a067 Holtek Semiconductor, Inc. USB Gaming Mouse
 > 
-> Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
-> ---
+> The dmesg output for this device from kernel version 5.15.8:
 > 
-> Changes in v2:
-> - Fix all errors detected with make dt_binding_checks
+> [    2.501958] usb 2-1.2.3: new full-speed USB device number 6 using ehci-pci
+> [    2.624369] usb 2-1.2.3: New USB device found, idVendor=04d9, idProduct=a067, bcdDevice= 1.16
+> [    2.624376] usb 2-1.2.3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [    2.624379] usb 2-1.2.3: Product: USB Gaming Mouse
+> [    2.624382] usb 2-1.2.3: Manufacturer: Holtek
 > 
->  .../bindings/input/da9063-onkey.yaml          |  39 ++++++
->  .../devicetree/bindings/mfd/da9063.txt        | 111 ------------------
->  .../devicetree/bindings/mfd/da9063.yaml       | 105 +++++++++++++++++
->  .../bindings/regulator/da9063-regulator.yaml  |  51 ++++++++
->  .../devicetree/bindings/rtc/da9063-rtc.yaml   |  31 +++++
->  .../bindings/watchdog/da9063-watchdog.yaml    |  31 +++++
->  6 files changed, 257 insertions(+), 111 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/input/da9063-onkey.yaml
->  delete mode 100644 Documentation/devicetree/bindings/mfd/da9063.txt
->  create mode 100644 Documentation/devicetree/bindings/mfd/da9063.yaml
->  create mode 100644 Documentation/devicetree/bindings/regulator/da9063-regulator.yaml
->  create mode 100644 Documentation/devicetree/bindings/rtc/da9063-rtc.yaml
->  create mode 100644 Documentation/devicetree/bindings/watchdog/da9063-watchdog.yaml
+> After disconnecting and connecting the USB:
 > 
+> [   71.976731] usb 2-1.2.3: USB disconnect, device number 6
+> [   75.013021] usb 2-1.2.3: new full-speed USB device number 8 using ehci-pci
+> [   75.135865] usb 2-1.2.3: New USB device found, idVendor=04d9, idProduct=a067, bcdDevice= 1.16
+> [   75.135873] usb 2-1.2.3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [   75.135877] usb 2-1.2.3: Product: USB Gaming Mouse
+> [   75.135880] usb 2-1.2.3: Manufacturer: Holtek
+> 
+> 
+> On kernel version 5.15.7:
+> 
+> [    2.280515] usb 2-1.2.3: new full-speed USB device number 6 using ehci-pci
+> [    2.379777] usb 2-1.2.3: New USB device found, idVendor=04d9, idProduct=a067, bcdDevice= 1.16
+> [    2.379784] usb 2-1.2.3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [    2.379787] usb 2-1.2.3: Product: USB Gaming Mouse
+> [    2.379790] usb 2-1.2.3: Manufacturer: Holtek
+> [    2.398578] input: Holtek USB Gaming Mouse as /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2.3/2-1.2.3:1.0/0003:04D9:A067.0005/input/input11
+> [    2.450977] holtek_mouse 0003:04D9:A067.0005: input,hidraw4: USB HID v1.10 Keyboard [Holtek USB Gaming Mouse] on usb-0000:00:1d.0-1.2.3/input0
+> [    2.451013] holtek_mouse 0003:04D9:A067.0006: Fixing up report descriptor
+> [    2.452189] input: Holtek USB Gaming Mouse as /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2.3/2-1.2.3:1.1/0003:04D9:A067.0006/input/input12
+> [    2.468510] usb 2-1.2.4: new high-speed USB device number 7 using ehci-pci
+> [    2.503913] holtek_mouse 0003:04D9:A067.0006: input,hiddev96,hidraw5: USB HID v1.10 Mouse [Holtek USB Gaming Mouse] on usb-0000:00:1d.0-1.2.3/input1
+> [    2.504105] holtek_mouse 0003:04D9:A067.0007: hiddev97,hidraw6: USB HID v1.10 Device [Holtek USB Gaming Mouse] on usb-0000:00:1d.0-1.2.3/input2
+> 
+> Rolling back the kernel to version 5.15.7 solves the problem.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+[TLDR for the rest of the mail: adding this regression to regzbot; most
+text you find below is compiled from a few templates paragraphs some of
+you might have seen already.]
 
-yamllint warnings/errors:
+To be sure this issue doesn't fall through the cracks unnoticed, I'm
+adding it to regzbot, my Linux kernel regression tracking bot:
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/da9063.example.dt.yaml: da9063@58: 'interrupt-controller', 'onkey', 'regulators', 'rtc', 'wdt' do not match any of the regexes: 'pinctrl-[0-9]+'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/trivial-devices.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/da9063.example.dt.yaml: da9063@58: regulators: 'compatible' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/da9063.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/da9063.example.dt.yaml: da9063@58: regulators: 'bcore1', 'ldo11' do not match any of the regexes: 'pinctrl-[0-9]+'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/da9063.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/da9063.example.dt.yaml: da9063@58: 'wdt' does not match any of the regexes: 'pinctrl-[0-9]+'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/da9063.yaml
+#regzbot introduced v5.15.7..v5.15.8
+#regzbot title usb: Holtek mouse stopped working
 
-doc reference errors (make refcheckdocs):
-Documentation/devicetree/bindings/input/da9062-onkey.txt: Documentation/devicetree/bindings/mfd/da9063.txt
+Reminder: when fixing the issue, please add a 'Link:' tag with the URL
+to this report and the bugzilla ticket, then regzbot will automatically
+mark the regression as resolved once the fix lands in the appropriate
+tree. For more details about regzbot see footer.
 
-See https://patchwork.ozlabs.org/patch/1569315
+Ciao, Thorsten (wearing his 'Linux kernel regression tracker' hat).
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+P.S.: As a Linux kernel regression tracker I'm getting a lot of reports
+on my table. I can only look briefly into most of them. Unfortunately
+therefore I sometimes will get things wrong or miss something important.
+I hope that's not the case here; if you think it is, don't hesitate to
+tell me about it in a public reply. That's in everyone's interest, as
+what I wrote above might be misleading to everyone reading this; any
+suggestion I gave thus might sent someone reading this down the wrong
+rabbit hole, which none of us wants.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+BTW, I have no personal interest in this issue, which is tracked using
+regzbot, my Linux kernel regression tracking bot
+(https://linux-regtracking.leemhuis.info/regzbot/). I'm only posting
+this mail to get things rolling again and hence don't need to be CC on
+all further activities wrt to this regression.
