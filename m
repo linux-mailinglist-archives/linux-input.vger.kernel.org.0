@@ -2,98 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84AF2478E91
-	for <lists+linux-input@lfdr.de>; Fri, 17 Dec 2021 15:53:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4889B47901A
+	for <lists+linux-input@lfdr.de>; Fri, 17 Dec 2021 16:41:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237614AbhLQOx5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Dec 2021 09:53:57 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:42566 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237613AbhLQOx5 (ORCPT
+        id S234767AbhLQPlD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Dec 2021 10:41:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59862 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234760AbhLQPlC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Dec 2021 09:53:57 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 8960CB828A1
-        for <linux-input@vger.kernel.org>; Fri, 17 Dec 2021 14:53:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C6B0C36AEA
-        for <linux-input@vger.kernel.org>; Fri, 17 Dec 2021 14:53:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639752835;
-        bh=WX/w0GI+tdcOl+rwdlQQFE74jZDb6imi/Sa9xysvhSo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=C5Ko/6WP1fgrfXUPJawX+ZGyD0Q+Zjgoqb3romp4/D3cNVnp7aGRh7e/Ie/Ik9crA
-         h0ubkcwlG4XLfshaO4Kp2+XuCkxlOry9Bzq3VszSYDF4LDwTo788dENba8jVewFV69
-         qmVecCE2/SrEspdqsVkLK3Zk3cxUQJsBkyaoVQ3IGqMAs2UhyA9VdYMN30US9ELzJ+
-         msc/o1neUT9O5YZObvSqxpIrQbd5ArW1tEmUsGIdpDaG70C05S3owTq/WSDWHRE0eM
-         sGcTyn1x0a9HfyBP2PfqJZ2SBXMMtPUByFH+AlUemhtTSHBMF5A3eDFo6EbFn6x3SV
-         BuEPPmrdCu/hw==
-Received: by mail-ed1-f52.google.com with SMTP id y22so8862489edq.2
-        for <linux-input@vger.kernel.org>; Fri, 17 Dec 2021 06:53:55 -0800 (PST)
-X-Gm-Message-State: AOAM533kRyDEko38ECAElA+pNhYXaJBmK5ESJiIVV4MzkohupBccEnDC
-        gzsRiIfGXML5uEksaScnaLWxvphgWoR0sdEyWA==
-X-Google-Smtp-Source: ABdhPJx4Sw1UBpaP+7VleoOo6T9BBScAxd6GshHmWebG24z0KGCgNEDH7mgmjKpIkt+ZhSzJq8cKfNGyC7hMkhYv114=
-X-Received: by 2002:aa7:cc82:: with SMTP id p2mr3149955edt.201.1639752833704;
- Fri, 17 Dec 2021 06:53:53 -0800 (PST)
+        Fri, 17 Dec 2021 10:41:02 -0500
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2996BC061747
+        for <linux-input@vger.kernel.org>; Fri, 17 Dec 2021 07:41:02 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id bg2-20020a05600c3c8200b0034565c2be15so4356514wmb.0
+        for <linux-input@vger.kernel.org>; Fri, 17 Dec 2021 07:41:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=xQrYULKok+hL+AIRGJuG9CojAZcnV9Xr+it7yxQJVlY=;
+        b=ljOQPBXgp9Smquj8Ng29odlWvElKpDTqPPRQidAvnJdl86g5nPxdxVOZaobu1aloU+
+         BxF5ZdXve/fC4OuYzbHgAUFAehuKXONKOPKgrIHUWfGLCcOJX/U/gOYdmBq6WyLeERdT
+         ozYUTpfSpt07FF5ffiTm4B7CQSEO1ZBiQTa06KV8GgCOIdCJFutYQjrAan6yxWHvjBqu
+         s3jFIVsLoZ/IZoqi6JKr/nIv3vj8GNx282V5ptrp/uJp9JZwAiAOsq6cpABPaCV7OhgW
+         cmo1ALjk+DwDVXAHtO3FpoIc4cmbInE/sdkNMZBNe1A/Dl1L5RcE6GwljTHvXJv+iTxY
+         +fzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=xQrYULKok+hL+AIRGJuG9CojAZcnV9Xr+it7yxQJVlY=;
+        b=qgFxlTk9nVx2JvAO99xi9vy+s/1lHD7p9mCUPMHlIALJ1/Pu1CgOrSh3TqUSLDob0W
+         1Md8/bSNiDmhy4GNEmWhzVxvwaZ5uGXpESHihJsqFM8CaJkdI8PsnjqUnxMmVOXK8hyO
+         0p50Ne8d0kESCR2148uMb35HHoMeAE0FMqZVPaDhegOgV9UhtNsh0f2Pk8uMp6f+Dbna
+         UCAoW4YM1fb9gZp3JpHmh984V9jkfia3LWbzco0tWi0ojPUw0HfZDBrzeatqnNSTzikA
+         mLnVKTNrTy6fqzGagcjf3x0K9TalWXlDvVV4DicJ0Dd/vfOpCuCSPyHepw3GlmqSFx1N
+         VapQ==
+X-Gm-Message-State: AOAM532uJaC+UDdV0AVQFV/KQbFADS0cYAL8JYSLt0R0uau56jaj4xBR
+        LhhvRqTjyLKA0jhD0Tnsy5FYq+EaDmOLxn7m5uA=
+X-Google-Smtp-Source: ABdhPJxfsjQgHDN6hfp0UDJtilGfevXXUtMuuj2tGJDfuwC3m9wsAQWz0ZAPQHNXJPjD271t7JZ3GM4XtKA/wSbdlVU=
+X-Received: by 2002:a7b:c256:: with SMTP id b22mr9903656wmj.176.1639755660466;
+ Fri, 17 Dec 2021 07:41:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20211216233041.1220-1-tharvey@gateworks.com> <20211216233041.1220-2-tharvey@gateworks.com>
-In-Reply-To: <20211216233041.1220-2-tharvey@gateworks.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Fri, 17 Dec 2021 08:53:42 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJTWK=MdswGDUv3OBvCm+O5pwFHM+2MP=pjfbMYG4QVdg@mail.gmail.com>
-Message-ID: <CAL_JsqJTWK=MdswGDUv3OBvCm+O5pwFHM+2MP=pjfbMYG4QVdg@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/4] dt-bindings: input: touchscreen: edt-ft5x06: add poll-interval
-To:     Tim Harvey <tharvey@gateworks.com>
-Cc:     Linux Input <linux-input@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Received: by 2002:a5d:5284:0:0:0:0:0 with HTTP; Fri, 17 Dec 2021 07:41:00
+ -0800 (PST)
+Reply-To: mrsaishag45@gmail.com
+From:   Mrs Aisha Al-Qaddafi <mrsaishag88@gmail.com>
+Date:   Fri, 17 Dec 2021 07:41:00 -0800
+Message-ID: <CAFGDMRtKGyZiiTfzULTKo4ohvL3kRgZ2x9vYGqnnjd75dhsEEw@mail.gmail.com>
+Subject: Dear Friend,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Dec 16, 2021 at 5:30 PM Tim Harvey <tharvey@gateworks.com> wrote:
->
+Dear Friend,
 
-Please CC the DT list.
+I came across your e-mail contact prior to a private search while in
+need of your assistance. I am Aisha Al-Qaddafi, the only biological
+Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
+single Mother and a Widow with three Children.
 
-> Some devices might not provide an interrupt line for the touchscreen.
-> In that case the driver defaults to using a polled interface.
->
-> Cc: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> Signed-off-by: Tim Harvey <tharvey@gateworks.com>
-> ---
->  .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml   | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> index 2e8da7470513..a0d4dabf03b8 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> @@ -47,6 +47,11 @@ properties:
->    interrupts:
->      maxItems: 1
->
-> +  poll-interval:
-> +    description: Poll interval time in milliseconds, only relevant if no
-> +                 interrupt was provided.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
+I have investment funds worth Twenty Seven Million Five Hundred
+Thousand United State Dollar ($27.500.000.00 ) and i need a trusted
+investment Manager/Partner because of my current refugee status,
+however, I am interested in you for investment project assistance in
+your country, may be from there, we can build business relationship in
+the nearest future.
 
-Reference input.yaml so we aren't redefining this property.
+I am willing to negotiate an investment/business profit sharing ratio
+with you based on the future investment earning profits.
 
-> +
->    reset-gpios:
->      maxItems: 1
->
-> @@ -99,7 +104,6 @@ additionalProperties: false
->  required:
->    - compatible
->    - reg
-> -  - interrupts
->
->  examples:
->    - |
-> --
-> 2.17.1
->
+If you are willing to handle this project on my behalf kindly reply
+urgently to enable me to provide you more information about the
+investment funds.
+
+Your Urgent Reply Will Be Appreciated
+
+Best Regards
+Mrs Aisha Al-Qaddafi
