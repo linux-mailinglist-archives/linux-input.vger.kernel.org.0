@@ -2,70 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F64C478B65
-	for <lists+linux-input@lfdr.de>; Fri, 17 Dec 2021 13:33:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BECA478BFB
+	for <lists+linux-input@lfdr.de>; Fri, 17 Dec 2021 14:09:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236285AbhLQMdJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Dec 2021 07:33:09 -0500
-Received: from mga04.intel.com ([192.55.52.120]:2609 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236284AbhLQMdI (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Dec 2021 07:33:08 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10200"; a="238488180"
-X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; 
-   d="scan'208";a="238488180"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2021 04:33:08 -0800
-X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; 
-   d="scan'208";a="465108799"
-Received: from jvowlesx-mobl.amr.corp.intel.com ([10.212.181.65])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2021 04:33:07 -0800
-Message-ID: <4d8308f4a3249b662536371e14e6cd6ef723f5a9.camel@linux.intel.com>
-Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Specify no cache snooping on
- TGL and ADL
-From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Ye Xiang <xiang.ye@intel.com>, jikos@kernel.org, jic23@kernel.org
-Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Fri, 17 Dec 2021 04:33:07 -0800
-In-Reply-To: <20211217074541.4705-1-xiang.ye@intel.com>
-References: <20211217074541.4705-1-xiang.ye@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        id S236535AbhLQNJD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Dec 2021 08:09:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52070 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236527AbhLQNJD (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 17 Dec 2021 08:09:03 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEE64C061574
+        for <linux-input@vger.kernel.org>; Fri, 17 Dec 2021 05:09:02 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id v16so2244547pjn.1
+        for <linux-input@vger.kernel.org>; Fri, 17 Dec 2021 05:09:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=tae0FHT3ZqD+RvdWX1lbfakFhzTrRMo572y1EVHGuEI=;
+        b=cRblF/t6sGB4qRZ8Y32V4TwuV5lhuJJPkv8y+K7G9jmfdZbwyEyyHshBZrAmVLacDd
+         Y7RY+wZLHzSyf23fOZTdCUD0WJq4mx5X8zwaL6YunELvWMMwN6D+j6iKdNJJQEGz7bG4
+         QI388cMIfvuZxgufdHYITst/3sxgpd8s6lmix+lm2iviDDVLJRymOipm5I36j4V/ugfe
+         MkQBrNh+DABL8P9eFyz1IudZ5ZysXrqTWy51EZ/NhTr/2GdOSHnt1hSW8/9PBZP2hrm8
+         vvdmZIapDp7WVMqzMbh09xm4nqMIbySdhmAgsFl4r8lbb0HKsEbFqiSNDR8L6VblDBUj
+         lHCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=tae0FHT3ZqD+RvdWX1lbfakFhzTrRMo572y1EVHGuEI=;
+        b=hxwaEKYIEfNThQnffDgaQaPxlzvuovQsc5/lcOxVskO3ORb7FTmUP/DNDDAIZissS6
+         9qMrR/vFsqwpOFbceOuJ+X2lc3Spqk/Hx1vQ4XjejS0fo8zkQJ7ejjcc0uuWBPkjxmZL
+         aGfaN66vfyn94kFmOO1DYh77rdcyFr4JcYFzJMVer/PLjoL8mNzuxccG7RNlOR7g9qef
+         uyw9ABG1Qv6aKH+IVv/Nc9F06ALeveocxiwuaRm2q66xX8sCxnOecAjatOXZyDQnVznv
+         kkx2uua77MILb4obydyJnrsE/mDbdSzeQ2FeMefR7BZvldxWxODNcpHoJNYzjYwcqqNF
+         IMJQ==
+X-Gm-Message-State: AOAM5300t6rNlk7JWJcf7vRVX++X3LwOjkTHVBVWPzK9IUc3b9B6OQoS
+        sdWVE0tgjDmdM+3+RBkK/AxUjumKB66OauHPP5k=
+X-Google-Smtp-Source: ABdhPJzAyu5zcR+PqUbsYUNI7QFq1+CvbYe25a7D0v45LmQSfwvTwy4ZaKRbHYpBcOCTjGRiPmyb7NuYv/K1ompF5GM=
+X-Received: by 2002:a17:902:f689:b0:148:a2e8:2766 with SMTP id
+ l9-20020a170902f68900b00148a2e82766mr2973531plg.109.1639746542536; Fri, 17
+ Dec 2021 05:09:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a05:6a10:a4d1:0:0:0:0 with HTTP; Fri, 17 Dec 2021 05:09:01
+ -0800 (PST)
+Reply-To: dvocate.barisozdogans@gmail.com
+From:   =?UTF-8?Q?Baris_=C3=96zdogan?= <davidcarpentter.lawfirm@gmail.com>
+Date:   Fri, 17 Dec 2021 13:09:01 +0000
+Message-ID: <CALw_r9Cybeuq7=yA2Y=YZhyZPCwbZymEKNz2_dG-0E8ObNFfUA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 2021-12-17 at 15:45 +0800, Ye Xiang wrote:
-> Specify that both TGL and ADL don't support DMA cache snooping.
-> 
-> Signed-off-by: Ye Xiang <xiang.ye@intel.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-
-> ---
->  drivers/hid/intel-ish-hid/ipc/ipc.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-
-> ish-hid/ipc/ipc.c
-> index 45e0c7b1c9ec..8ccb246b0114 100644
-> --- a/drivers/hid/intel-ish-hid/ipc/ipc.c
-> +++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
-> @@ -909,7 +909,11 @@ static uint32_t ish_ipc_get_header(struct
-> ishtp_device *dev, int length,
->   */
->  static bool _dma_no_cache_snooping(struct ishtp_device *dev)
->  {
-> -       return dev->pdev->device == EHL_Ax_DEVICE_ID;
-> +       return (dev->pdev->device == EHL_Ax_DEVICE_ID ||
-> +               dev->pdev->device == TGL_LP_DEVICE_ID ||
-> +               dev->pdev->device == TGL_H_DEVICE_ID ||
-> +               dev->pdev->device == ADL_S_DEVICE_ID ||
-> +               dev->pdev->device == ADL_P_DEVICE_ID);
->  }
->  
->  static const struct ishtp_hw_ops ish_hw_ops = {
-
-
+Hello friend,
+ How are you doing ?compliment of the season .
+Dear friend i have a deal to decious
+with you please ,hope to hear from you as soon as you see the message.
+BEST Regard,
+   Advocate Baris Ozdogan.
