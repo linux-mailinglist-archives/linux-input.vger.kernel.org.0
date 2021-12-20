@@ -2,124 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2284047A679
-	for <lists+linux-input@lfdr.de>; Mon, 20 Dec 2021 09:59:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 191BB47A7FF
+	for <lists+linux-input@lfdr.de>; Mon, 20 Dec 2021 11:56:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234798AbhLTI7Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Dec 2021 03:59:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37752 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231351AbhLTI7Z (ORCPT
+        id S229979AbhLTK4m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Dec 2021 05:56:42 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:40161 "EHLO
+        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229619AbhLTK4m (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Dec 2021 03:59:25 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E618C061574;
-        Mon, 20 Dec 2021 00:59:25 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id f18-20020a17090aa79200b001ad9cb23022so9501270pjq.4;
-        Mon, 20 Dec 2021 00:59:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ag/PVuEKPdNk+t23oDeU2ZtisthZFVlOsdVmHB0QsKE=;
-        b=NErUy55XjpS6yp+oshdPS28fHs618cJjr7EW6wkrD6+AqnDgFpzUI+swCPqyi9sqo8
-         sjMxQNEpcL7pRAjwex+kPG6zZajdctiKZTsYGo1lYBWW1SzsEXnUQA/VICiTdBzX6bbZ
-         UTFr7r3tZWGrfE2rLVb6M8QAeC1dHFRprtvspqAT98CYDtEui6diXpLNCfNsBWV1B+lz
-         AkbhrdV8YgLfoLNjdg7jxlZcRBV2ec+Jo2oFblVshKohHuRu/uKABzbEAvJl02S80UTx
-         Yi07NI/V/6jg2Y1wC2mw+y+lMv3MyFOUQp+F3D6FH3oV/Hca0p17Z8YP1mWpOB8HvlpM
-         S5Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ag/PVuEKPdNk+t23oDeU2ZtisthZFVlOsdVmHB0QsKE=;
-        b=4xsF7TKypY9fZUvEhIattaoxusSYCzifzQWWECilpqE04l+VjLGdUtlG7ZjG8gPeZb
-         2kJILxsEpsvJeR7TupqBUmdrftlkREsjcnDx8a9Yc6uD6z56YHnr0SzuydMKzR+ihk3X
-         taHVSLElQ+VjDHKeRBiPiZCouAQSuaoIfaLh0rBnJOM1hruBWWNUEsHJWE6sCxagY0u5
-         fVj2rEUqMhBNrM5KmD2dG6Qh9Wv80L2QxDLt/YSRNCGx6VNbZmE+kUb1RlSiL1fk5hTN
-         4Y+1PC4k5Lp/sHXruIFLnTOJJkDgBHC3XrddqZR60MvHsM1V8iFW+gatnDDXxH3zLbCC
-         olag==
-X-Gm-Message-State: AOAM533evQqGlZwNlGcwz2za53ikVu4ZA1C6ISeUCVcn1+IBCoM4RT0d
-        bhOllH8cpG8Z7+IlNphk3YE=
-X-Google-Smtp-Source: ABdhPJwV6UbdVdIa3nrmH31LONCme65fPeNl3BP5X6RSzEp97ZJ6At6nvBuNUDaoroczfIVoEunvdw==
-X-Received: by 2002:a17:90b:4d86:: with SMTP id oj6mr11327733pjb.185.1639990764626;
-        Mon, 20 Dec 2021 00:59:24 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:3e2e:1228:8845:1f8d])
-        by smtp.gmail.com with ESMTPSA id ot6sm3964705pjb.32.2021.12.20.00.59.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 00:59:23 -0800 (PST)
-Date:   Mon, 20 Dec 2021 00:59:21 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Leo L. Schwab" <ewhac@ewhac.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: spaceball - fix parsing of movement data packets
-Message-ID: <YcBF6bnRjYRMp2Cq@google.com>
-References: <20210727040625.2159196-1-ewhac@ewhac.org>
+        Mon, 20 Dec 2021 05:56:42 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 690E3580181;
+        Mon, 20 Dec 2021 05:56:41 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Mon, 20 Dec 2021 05:56:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=9AcYE0yu0KZhD7v7tPxMpIY4EGh
+        I9m76hau90FdriAM=; b=HoCN2BIqhNywUybo+xIOXPLbX7P84T+CYEmLAZOIKJ9
+        c83H7+kqtlp3Nx3E+/deJu+Qjke34mCR78u6odtJbdUEvOoSoaAnKi3vUV3kpHuL
+        AY4Ead3yT/T1KRFXsgJn3mR1v5+z4Bx8IkYfoSGc9/BDfBvdihPBq18JeQmkXlyP
+        N1i7BO1m0cNOXYWAthpiMe/R9G09OjMeEJ7OgugAYpxEhs56PEUITrK/a7vWWbeJ
+        Oqp1qf2MLSHGLX74/Q7xtYUVUnZbFfn+SKw4mmN1AJWNQbYz732CzQGdw7tUnOiP
+        iM6KUNcjWxuE/Aq2NYKUGKCFvCbHN1LMFg863XUrq8g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=9AcYE0
+        yu0KZhD7v7tPxMpIY4EGhI9m76hau90FdriAM=; b=Rk5L5LcXg1bgmarW4jCPdP
+        rvyJnMYqy5LpgpCwgZgWG+hRL6ADmLR/MfWsD8k9aBB7RtImv55MqZ7Y4F8vuTx5
+        NKFLuVlWToNYl7gSC35eW9RMEKAE88tjPe86usCKxLW6K6TcEG8qL5RH5SPYBNAN
+        Y3dBGFLF7IpGyI14Iwa76M+pZh6J489SiYRD3O0rUIzH35eAQRczVTxfH3j1wW0t
+        +EHSji4uEIjYG1vbgdK5vVG0nTtOFgLvSI5vrRnC7JdFzjZg/DHTjH1CZwTpxaa/
+        vBd+6BIgtX79T3Bp162Fq9eZc+idLrkCYMH6vGqTRDDgG7jsW1DNRc4hDaLCInkw
+        ==
+X-ME-Sender: <xms:aGHAYWuAnwt8-6iZmqtmblceEtttJyfj92CG0GzMbRbyXeXkCrAcJw>
+    <xme:aGHAYbfr47SkUyvDrQo9_gECgXEi4dPlw-rESlyW-o9uuP_YXlkD4WDOLpbSHemvB
+    SR7V4cZ5mYieA>
+X-ME-Received: <xmr:aGHAYRwf5sCTwbQTX6thYMK_S7GkRBesT01DMSOfX7fHRZsYP8H7ZXij1wGNdwzRbAMGPKusDhIbFdNItta_qjsohErXp5Lq>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddruddtvddgvddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
+    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpefgteefff
+    etvdffledtgeduudetffdutdduveefvedtueegueeggfeiteehfeetfeenucffohhmrghi
+    nhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:aGHAYRPToRypfycYbanRoBLhJwYAQJO0JbIc7iP67zB2MZ6rZ7Hpfg>
+    <xmx:aGHAYW-1UeAtg5aEZ2_Kxybu-Xnu-1UNAuEfKEXuiNR7CIYlmAK6Yw>
+    <xmx:aGHAYZWWBvEkTnj_bDpbSQCkR1sle0t0uStglgypDBqeKTDguiB6OQ>
+    <xmx:aWHAYelmdg3AwCxbYeFPmPuPhpHnqIr955Hp_d_1FQcccQb4o6PVRQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 20 Dec 2021 05:56:40 -0500 (EST)
+Date:   Mon, 20 Dec 2021 11:56:37 +0100
+From:   Greg KH <greg@kroah.com>
+To:     Anders Roxell <anders.roxell@linaro.org>
+Cc:     stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+        woojung.huh@microchip.com, UNGLinuxDriver@microchip.com,
+        davem@davemloft.net, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, clang-built-linux@googlegroups.com,
+        ulli.kroll@googlemail.com, linux@armlinux.org.uk,
+        linux-arm-kernel@lists.infradead.org, amitkarwar@gmail.com,
+        nishants@marvell.com, gbhat@marvell.com, huxinming820@gmail.com,
+        kvalo@codeaurora.org, linux-wireless@vger.kernel.org,
+        rostedt@goodmis.org, mingo@redhat.com, dmitry.torokhov@gmail.com,
+        ndesaulniers@google.com, nathan@kernel.org,
+        linux-input@vger.kernel.org,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Andy Lavr <andy.lavr@gmail.com>
+Subject: Re: [PATCH 4.19 3/6] mwifiex: Remove unnecessary braces from
+ HostCmd_SET_SEQ_NO_BSS_INFO
+Message-ID: <YcBhZdeTQfD0Sjtq@kroah.com>
+References: <20211217144119.2538175-1-anders.roxell@linaro.org>
+ <20211217144119.2538175-4-anders.roxell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210727040625.2159196-1-ewhac@ewhac.org>
+In-Reply-To: <20211217144119.2538175-4-anders.roxell@linaro.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Leo,
-
-On Mon, Jul 26, 2021 at 09:06:24PM -0700, Leo L. Schwab wrote:
-> The spaceball.c module was not properly parsing the movement reports
-> coming from the device.  The code read axis data as signed 16-bit
-> little-endian values starting at offset 2.
+On Fri, Dec 17, 2021 at 03:41:16PM +0100, Anders Roxell wrote:
+> From: Nathan Chancellor <natechancellor@gmail.com>
 > 
-> In fact, axis data in Spaceball movement reports are signed 16-bit
-> big-endian values starting at offset 3.  This was determined first by
-> visually inspecting the data packets, and later verified by consulting:
-> http://spacemice.org/pdf/SpaceBall_2003-3003_Protocol.pdf
+> commit 6a953dc4dbd1c7057fb765a24f37a5e953c85fb0 upstream.
 > 
-> If this ever worked properly, it was in the time before Git...
-
-Thank you for the patch.
-
+> A new warning in clang points out when macro expansion might result in a
+> GNU C statement expression. There is an instance of this in the mwifiex
+> driver:
 > 
-> Signed-off-by: Leo L. Schwab <ewhac@ewhac.org>
+> drivers/net/wireless/marvell/mwifiex/cmdevt.c:217:34: warning: '}' and
+> ')' tokens terminating statement expression appear in different macro
+> expansion contexts [-Wcompound-token-split-by-macro]
+>         host_cmd->seq_num = cpu_to_le16(HostCmd_SET_SEQ_NO_BSS_INFO
+>                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/net/wireless/marvell/mwifiex/fw.h:519:46: note: expanded from
+> macro 'HostCmd_SET_SEQ_NO_BSS_INFO'
+>         (((type) & 0x000f) << 12);                  }
+>                                                     ^
+> 
+> This does not appear to be a real issue. Removing the braces and
+> replacing them with parentheses will fix the warning and not change the
+> meaning of the code.
+> 
+> Fixes: 5e6e3a92b9a4 ("wireless: mwifiex: initial commit for Marvell mwifiex driver")
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1146
+> Reported-by: Andy Lavr <andy.lavr@gmail.com>
+> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> Signed-off-by: Kalle Valo <kvalo@codeaurora.org>
+> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
 > ---
->  drivers/input/joystick/spaceball.c | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/input/joystick/spaceball.c b/drivers/input/joystick/spaceball.c
-> index 429411c6c0a8..43bfb3d2fa8a 100644
-> --- a/drivers/input/joystick/spaceball.c
-> +++ b/drivers/input/joystick/spaceball.c
-> @@ -74,10 +74,20 @@ static void spaceball_process_packet(struct spaceball* spaceball)
->  	switch (spaceball->data[0]) {
->  
->  		case 'D':					/* Ball data */
-> +			/*
-> +			 * Skip first three bytes; read six axes worth of data.
-> +			 * Axis values are signed 16-bit big-endian.
-> +			 */
->  			if (spaceball->idx != 15) return;
-> -			for (i = 0; i < 6; i++)
-> -				input_report_abs(dev, spaceball_axes[i],
-> -					(__s16)((data[2 * i + 3] << 8) | data[2 * i + 2]));
-> +			data += 3;
-> +			for (i = 0;
-> +			     i < ARRAY_SIZE(spaceball_axes);
-> +			     ++i, data += sizeof(__s16)) {
-> +				input_report_abs(
-> +					dev,
-> +					spaceball_axes[i],
-> +					(__s16)((data[0] << 8) | data[1]));
-> +			}
+>  drivers/net/wireless/marvell/mwifiex/cmdevt.c | 4 ++--
+>  drivers/net/wireless/marvell/mwifiex/fw.h     | 8 ++++----
+>  2 files changed, 6 insertions(+), 6 deletions(-)
 
-Could we write
-
-			for (i == 0; i < ARRAY_SIZE(spaceball_axes); i++)
-				input_report_abs(dev, spaceball_axes[i],
-					(__s16)(get_unaligned_be16(&data[i * 2]);
-
-instead?
-
-Thanks!
-
--- 
-Dmitry
+Also needed in 5.4.y, right?
