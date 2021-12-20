@@ -2,243 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BB0147B5EA
-	for <lists+linux-input@lfdr.de>; Mon, 20 Dec 2021 23:33:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6981F47B63B
+	for <lists+linux-input@lfdr.de>; Tue, 21 Dec 2021 00:43:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229624AbhLTWda (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Dec 2021 17:33:30 -0500
-Received: from mga17.intel.com ([192.55.52.151]:31377 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229474AbhLTWd3 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Dec 2021 17:33:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1640039609; x=1671575609;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=19WTHUkRRXajrFtQ3TUseSoLPFKWsEAhdK1anJOUlew=;
-  b=GyhQfZWCb9i9orYCT2XsGZo0SPTn+Relbrk3qb2NNfoLrDowrvbZ/vcb
-   fueRsN89ZwhWbQXkEoX2B9crUCasN69ukP5K/GLa4tIz5PgDayEb+r0Xb
-   wrRkehhIpdK8s+AOlSRKg+uwj9/RDSDAMoB0KxCj+UGxiM0J5SH3q9P3l
-   9kZrmfX7TzgLHblscwejA0OWa+fKnxw55xCmigMmUw/5IcMY2xp7GF/We
-   O62ghKwQZ4ccWwTFotEGOfhCiwdqLqk9pA6NWQPu6A8fCz2ioTyDRBZb6
-   Xw0rsYQcvwUn35uIesAcgw4OiwldICdZaDI+asaGlIedgcepJ21ZMQtNk
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10204"; a="220956444"
-X-IronPort-AV: E=Sophos;i="5.88,221,1635231600"; 
-   d="scan'208";a="220956444"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2021 14:33:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,221,1635231600"; 
-   d="scan'208";a="507852541"
-Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 20 Dec 2021 14:33:26 -0800
-Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mzRDh-0008Kz-Mm; Mon, 20 Dec 2021 22:33:25 +0000
-Date:   Tue, 21 Dec 2021 06:33:02 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 652c0441de588dafb68516eccd4a89662830d23b
-Message-ID: <61c1049e.QU3MensoPPK3UPxl%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S232738AbhLTXny (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Dec 2021 18:43:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43438 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229690AbhLTXny (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 20 Dec 2021 18:43:54 -0500
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D21FCC061574
+        for <linux-input@vger.kernel.org>; Mon, 20 Dec 2021 15:43:53 -0800 (PST)
+Received: by mail-il1-x12c.google.com with SMTP id b1so2973332ilj.2
+        for <linux-input@vger.kernel.org>; Mon, 20 Dec 2021 15:43:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fuk981h/JwwEukQqDrCN6TplRzzxHwXHU9q0PW9TWTk=;
+        b=dWk7p4U08pJPiiQP0oNJbOkWyEyHAxtUf5F4QJpOfJ5PfPeYq6GiCWyD5Ms2VfG+Hy
+         ggCUx95jYjNxqTP1+wXlwgZU0GZ/eXhMn5r623ebWGkGFDVU6i1Z754ZZK8fLw+KvsQ6
+         w2/taL96V+Zte8O2jlUvUslpet7EzrMlDrkDg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fuk981h/JwwEukQqDrCN6TplRzzxHwXHU9q0PW9TWTk=;
+        b=u/gZDncbM6wZUwmYgfb0bA+OcVrDW4lM9UhbA1iJAyeuCs/w0kuSDKqNhTjntCd1Pa
+         /NgGsk7LnB0mNJfWRf6cOW9jiEUirrR/fpo5qa3ZBgyED5l2QWRX1h/aH7C4fdu5HoFK
+         d2dD5wUEDpG8xQFmwI2pPsXp46rWrSQJK0Xp7tRFYyQ0FC9t/mqX+Lx+Drx1Z0jBdMC7
+         4FBiwnKUToLWSjLWjZrNBk6BbKT+lUwT51cDxZYPG1sZFgxqxrU32t/ATlsE1I2smV6B
+         dCHhjSwQnt4Z96Qo5GnW4UnHbJQzSltOjpseedVqtR1lN8CgyyNILd7dI5hJcIREis6Q
+         gGug==
+X-Gm-Message-State: AOAM530hc+iYkl57PTsPAk9j5gbklFs/LSFQ73SC3mA1t4/4jarx4qu/
+        JF7Ypl4Mg8Eddold1M5BoscJwA==
+X-Google-Smtp-Source: ABdhPJwIAhanF5Z6e4QFvcKdv/Wjg/7UG9n/TCqU4Ce+9fWTbvdl1BF1NCFN7wij20S22nHqJ8leMg==
+X-Received: by 2002:a05:6e02:1529:: with SMTP id i9mr220230ilu.6.1640043832892;
+        Mon, 20 Dec 2021 15:43:52 -0800 (PST)
+Received: from rrangel920.bld.corp.google.com (h24-56-189-219.arvdco.broadband.dynamic.tds.net. [24.56.189.219])
+        by smtp.gmail.com with ESMTPSA id k19sm4077521ilr.34.2021.12.20.15.43.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Dec 2021 15:43:52 -0800 (PST)
+From:   Raul E Rangel <rrangel@chromium.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     mario.limonciello@amd.com, linux-input@vger.kernel.org,
+        dianders@chromium.org, Raul E Rangel <rrangel@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Benson Leung <bleung@chromium.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Prashant Malani <pmalani@chromium.org>,
+        "jingle.wu" <jingle.wu@emc.com.tw>
+Subject: [PATCH 0/3] Fix spurious wakes on ACPI platforms
+Date:   Mon, 20 Dec 2021 16:43:43 -0700
+Message-Id: <20211220234346.2798027-1-rrangel@chromium.org>
+X-Mailer: git-send-email 2.34.1.307.g9b7440fafd-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 652c0441de588dafb68516eccd4a89662830d23b  Input: byd - fix typo in a comment
+d62bd5ce12d7 ("pinctrl: amd: Implement irq_set_wake") gave the kernel
+the ability to control the GPIO wake bit on AMD platforms. This
+uncovered various drivers that were manually managing their wake
+capabilities. This is problematic on ACPI systems because the ACPI
+subsystem is responsible for managing the wake capabilities for the
+device. ACPI devices need to define the `_PRW` property that defines the
+GPE or GPIO that will be used to wake the system, and also the power
+resources that must be enabled for the device to issue a wake.
 
-elapsed time: 730m
+The following real world example shows the problem:
+* We have an ACPI HID device that has a power resource defined in `_PR0`
+  and `_PR3`. It doesn't have `_PRW` so that means the device can't wake
+  the system.
+* The IRQ line is active level low for this device and is pulled up by the
+  power resource defined in `_PR0`/`_PR3`.
 
-configs tested: 172
-configs skipped: 3
+The i2c-hid driver manually sets the device as wake capable, and the wake
+flag gets set on the IRQ GPIO when entering suspend. As part of suspend,
+ACPI will turn off the devices power resources since the device isn't a
+wake source. This immediately triggers a wake because the IRQ line is
+now low.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+For devices that are marked as being wake capable (via `_PRW`), they
+might use GPEs for wakes, while others might use the GPIO controller
+(via _AEI). We need to respect the firmware configuration so we don't
+have both the GPE and GPIO triggering a wake.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-sh                      rts7751r2d1_defconfig
-arc                     haps_hs_smp_defconfig
-sh                ecovec24-romimage_defconfig
-ia64                        generic_defconfig
-powerpc                 mpc837x_rdb_defconfig
-m68k                       m5208evb_defconfig
-mips                         bigsur_defconfig
-arm                        magician_defconfig
-powerpc                mpc7448_hpc2_defconfig
-m68k                        m5272c3_defconfig
-powerpc                 mpc85xx_cds_defconfig
-powerpc                       maple_defconfig
-arm                       imx_v4_v5_defconfig
-sh                           se7712_defconfig
-arm                        vexpress_defconfig
-mips                       bmips_be_defconfig
-mips                             allmodconfig
-mips                     cu1830-neo_defconfig
-sparc                       sparc32_defconfig
-xtensa                  nommu_kc705_defconfig
-i386                             allyesconfig
-powerpc                 mpc8313_rdb_defconfig
-powerpc                     sequoia_defconfig
-arm                        cerfcube_defconfig
-h8300                    h8300h-sim_defconfig
-xtensa                              defconfig
-arm                       spear13xx_defconfig
-powerpc                      ep88xc_defconfig
-powerpc                 xes_mpc85xx_defconfig
-arm                          iop32x_defconfig
-arm                         s3c2410_defconfig
-powerpc                      chrp32_defconfig
-csky                                defconfig
-parisc                           allyesconfig
-arm                      integrator_defconfig
-sh                        edosk7705_defconfig
-sh                             sh03_defconfig
-powerpc                 mpc832x_mds_defconfig
-riscv             nommu_k210_sdcard_defconfig
-powerpc                 canyonlands_defconfig
-powerpc                      ppc44x_defconfig
-powerpc                           allnoconfig
-powerpc                     tqm8541_defconfig
-m68k                             alldefconfig
-sh                          urquell_defconfig
-sh                             shx3_defconfig
-powerpc                        warp_defconfig
-powerpc                     tqm8548_defconfig
-arm                        oxnas_v6_defconfig
-arm                          collie_defconfig
-openrisc                  or1klitex_defconfig
-powerpc                     tqm5200_defconfig
-arm                           omap1_defconfig
-arm                     davinci_all_defconfig
-sh                          rsk7269_defconfig
-arm                            mmp2_defconfig
-h8300                            alldefconfig
-nios2                               defconfig
-powerpc                      walnut_defconfig
-powerpc64                        alldefconfig
-arm                         hackkit_defconfig
-powerpc                 mpc832x_rdb_defconfig
-parisc                generic-64bit_defconfig
-powerpc                       eiger_defconfig
-sh                            hp6xx_defconfig
-m68k                          hp300_defconfig
-powerpc                    amigaone_defconfig
-sh                           se7750_defconfig
-arm                         lubbock_defconfig
-alpha                               defconfig
-powerpc                   currituck_defconfig
-arm                          exynos_defconfig
-sh                     magicpanelr2_defconfig
-s390                       zfcpdump_defconfig
-sh                          landisk_defconfig
-sh                        sh7763rdp_defconfig
-arm                       versatile_defconfig
-mips                      pic32mzda_defconfig
-arm                        neponset_defconfig
-mips                        jmr3927_defconfig
-arc                              alldefconfig
-arm                         nhk8815_defconfig
-nios2                         3c120_defconfig
-powerpc                 mpc834x_itx_defconfig
-um                             i386_defconfig
-powerpc                      pmac32_defconfig
-sh                         apsh4a3a_defconfig
-sh                        edosk7760_defconfig
-arm                          ixp4xx_defconfig
-sh                           se7619_defconfig
-arm                  randconfig-c002-20211220
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-xtensa                           allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-s390                                defconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-powerpc                          allmodconfig
-powerpc                          allyesconfig
-x86_64               randconfig-a001-20211220
-x86_64               randconfig-a003-20211220
-x86_64               randconfig-a006-20211220
-x86_64               randconfig-a004-20211220
-x86_64               randconfig-a002-20211220
-x86_64               randconfig-a005-20211220
-i386                 randconfig-a006-20211220
-i386                 randconfig-a004-20211220
-i386                 randconfig-a002-20211220
-i386                 randconfig-a003-20211220
-i386                 randconfig-a005-20211220
-i386                 randconfig-a001-20211220
-i386                 randconfig-a013-20211219
-i386                 randconfig-a011-20211219
-i386                 randconfig-a016-20211219
-i386                 randconfig-a015-20211219
-i386                 randconfig-a014-20211219
-i386                 randconfig-a012-20211219
-arc                  randconfig-r043-20211220
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
+So when using ACPI, the correct thing to do is remove the driver from
+managing the wake configuration. The ACPI subsystem has more knowledge of
+the platform topology than the driver does.
 
-clang tested configs:
-x86_64               randconfig-a011-20211220
-x86_64               randconfig-a016-20211220
-x86_64               randconfig-a012-20211220
-x86_64               randconfig-a013-20211220
-x86_64               randconfig-a015-20211220
-x86_64               randconfig-a014-20211220
-i386                 randconfig-a011-20211220
-i386                 randconfig-a014-20211220
-i386                 randconfig-a012-20211220
-i386                 randconfig-a013-20211220
-i386                 randconfig-a015-20211220
-i386                 randconfig-a016-20211220
-s390                 randconfig-r044-20211220
-hexagon              randconfig-r041-20211220
-hexagon              randconfig-r045-20211220
-riscv                randconfig-r042-20211220
+This patch series fixes a few drivers that I noticed were incorrectly
+setting the GPIO wake bit on my Guybrush Chromebook. I'm sure there will
+be more.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+I will be OOO until the New Year, so my responses will be delayed.
+
+
+Raul E Rangel (3):
+  HID: i2c-hid-acpi: Remove explicit device_set_wakeup_capable
+  Input: elan_i2c - Use PM subsystem to manage wake irq
+  platform/chrome: cros_ec: Don't enable wake pin if ACPI managed
+
+ drivers/hid/i2c-hid/i2c-hid-acpi.c          |  5 -----
+ drivers/input/mouse/elan_i2c_core.c         | 21 +++++++--------------
+ drivers/platform/chrome/cros_ec.c           |  8 ++++++--
+ include/linux/platform_data/cros_ec_proto.h |  1 -
+ 4 files changed, 13 insertions(+), 22 deletions(-)
+
+-- 
+2.34.1.307.g9b7440fafd-goog
+
