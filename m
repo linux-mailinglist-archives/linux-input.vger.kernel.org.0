@@ -2,119 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FCA047A5E1
-	for <lists+linux-input@lfdr.de>; Mon, 20 Dec 2021 09:19:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50CAC47A60D
+	for <lists+linux-input@lfdr.de>; Mon, 20 Dec 2021 09:31:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234649AbhLTIT6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Dec 2021 03:19:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56960 "EHLO
+        id S234470AbhLTIb2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Dec 2021 03:31:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231147AbhLTIT6 (ORCPT
+        with ESMTP id S231287AbhLTIb1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Dec 2021 03:19:58 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3106C061574;
-        Mon, 20 Dec 2021 00:19:57 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id a11-20020a17090a854b00b001b11aae38d6so9423735pjw.2;
-        Mon, 20 Dec 2021 00:19:57 -0800 (PST)
+        Mon, 20 Dec 2021 03:31:27 -0500
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B83E7C061574;
+        Mon, 20 Dec 2021 00:31:27 -0800 (PST)
+Received: by mail-pg1-x535.google.com with SMTP id r5so8755198pgi.6;
+        Mon, 20 Dec 2021 00:31:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=EnWZaMVaub9bhuoJRmTQ6iCKZ/plnA1dGYyz2w8wNeg=;
-        b=GV0fGLWuAUCiC02QPyI+3zEM+kPGREQnUpDRLMmICxTXkbtIFZ2AB5CXMFgMP0cOqG
-         qAr1ke0MGRzLRhQuJUr+GyM5v6G/eJ5tDKu3wEo8iotkZE2w9ImqMfgHuh4HKmqOFiGH
-         0fR50tIYNnF9zC+A+1ela+NtdfYj9wNRfWpNQvxZCuSKNktgLuvcDnW/emkdANgPjsRF
-         o6Bx/Q6qRID5HbVpZu4n+Z+zC7+Dac6+//Us+HK0sdVTEE6WLLdUlO8pyfJiuShWWgA5
-         biVe8qVFD691mlCV4Gx5+dHrONEfSZZ+K4WKbfrYta9EiM9f6dIEFYYj9HuVdmsxmlyM
-         4qKA==
+        bh=Sxzh8vv+UDF1ozr4skh8dPpXzZBnoOuB4sgIDP3qnZc=;
+        b=lyzkvbefg3LK3OejbCJKGaiCJ8IP2bqb4NE6s3tUteH2fP6IOx8fQBCNScfbwLK+zu
+         Ae1iFgPPrGDIrTurycWjhFGmRXzzL6SrvACDBpLJWQhXnN1uCNTsXWqmoubuGSj3Tc5o
+         PUCXiRBQPr15u+doLAbMKdI4xTM6lq3rPoGs27SWyeT8NtRsaUGoz5ys0Ioszm7Ww87c
+         5pGerS5q/i6fZ2k7XneTCNrebgGQ1igr17Y3cGXSWtZcHNoEzH8QQLRY9nRN+3cHQ8s8
+         AngMl1hQUolxSjke73H7vPW3YIfBLXivVFy2oT0eaQM1djrZzrbl6TaRpgTCFzsF6C+U
+         h1KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=EnWZaMVaub9bhuoJRmTQ6iCKZ/plnA1dGYyz2w8wNeg=;
-        b=uKdk+v4pq93qwt7fFGe7uKYy/SJ7WDKww3KYLV7fiCHyFn2BKNDVJtkjxwU0PR4L+1
-         5kHbkMxDSZN90dErGrsQETAKaO5dWfTjYcUMGxY1kMLzj5sq7cItAN1X/+mKmwqv8oY+
-         qoG8ot0csJzFFavnLjMcqrIKIit2KMrXiwQGBICo/CbgwWyEvy+mDXGrCpsXR200A9Vk
-         Dhc6CwSqxezTZVkRUu/y/qrkxSNJFdJWAO7zEfnhR8cXZfE83xgWIiU39Fk1F5B/A/jU
-         q0Jb7Inx+0rrJdVbNkB1gkcDgPhETEkpb+UDW4FOS4o4qn1VCsONAwUni7kh2VxuTx0z
-         GhDg==
-X-Gm-Message-State: AOAM530/Me8MNDnlog7MULhqD9AvwmTjAAsbncu0c+lHdNgUvCSOivpA
-        rR43Qw4qwG2vJhKz3+S9QIU=
-X-Google-Smtp-Source: ABdhPJwgkvVMmnEbIFrcZvx8hOqLQBi+JM2r6aklfpVaZ2uX6vk+jnsl6y+C7uMvPDQ94XBg2gUpJA==
-X-Received: by 2002:a17:90a:b94c:: with SMTP id f12mr11773171pjw.211.1639988397288;
-        Mon, 20 Dec 2021 00:19:57 -0800 (PST)
+        bh=Sxzh8vv+UDF1ozr4skh8dPpXzZBnoOuB4sgIDP3qnZc=;
+        b=pnC0WxTlftRsavKA2Vg6qEQMxuvR4tLjE2BoxPX2xCH83g+aTPWhYg+eDW1lUS48Do
+         d758G5Qvi84KDOT9bTA2WplFKC49fVJd6OnLRCM0ETLqvRkiXzhLQEUbtani297RN6RX
+         HIunEguVHFKA/fbwkrao2/1Vss1CP5zhvwEZSlqb28FVGLV+hTY4v/LNUVkI7UseSl13
+         xMzU8KrM3ENaDaGQ76vtGL0I/hUXU1LbpuxuTbWy0DEn2ie1nuG1qVpMLpaI5OaXeKEe
+         NMXavdq5/PzZyz/54LD02JcNWDRzE6v3BRZJcuF1XONM0wpdu+EvG/kOdnq529WtVPvt
+         djUg==
+X-Gm-Message-State: AOAM533wuxu1vDrImz7/KJmEklgirf0z63UgsNQeiVzH/xrizHkzBSV+
+        ohP/MKBUgRigSCt8pGhSMWmKS9QATec=
+X-Google-Smtp-Source: ABdhPJzJVJN8fqxR1TBsbo2jyQreqtdnUPXezPHhgiIOE/Ndf22BeGYKLCs1dtF6WorWIM31o7pFPA==
+X-Received: by 2002:a63:1b0a:: with SMTP id b10mr14202344pgb.183.1639989087134;
+        Mon, 20 Dec 2021 00:31:27 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:3e2e:1228:8845:1f8d])
-        by smtp.gmail.com with ESMTPSA id w8sm4486622pfu.162.2021.12.20.00.19.55
+        by smtp.gmail.com with ESMTPSA id me3sm2627335pjb.47.2021.12.20.00.31.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 00:19:56 -0800 (PST)
-Date:   Mon, 20 Dec 2021 00:19:53 -0800
+        Mon, 20 Dec 2021 00:31:25 -0800 (PST)
+Date:   Mon, 20 Dec 2021 00:31:23 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Dongliang Mu <mudongliangabcd@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@suse.de>,
-        syzbot+9780d2b05ac158d32284@syzkaller.appspotmail.com,
-        Dmitry Torokhov <dtor@insightbb.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] driver: powermate: kill urb in the disconnect function
-Message-ID: <YcA8qX3irdSSJnN+@google.com>
-References: <20211219060241.4125076-1-mudongliangabcd@gmail.com>
+To:     Johnny Chuang <johnny.chuang.emc@gmail.com>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Harry Cutts <hcutts@chromium.org>,
+        Johnny Chuang <johnny.chuang@emc.com.tw>,
+        James Chen <james.chen@emc.com.tw>,
+        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
+        Paul Liang <paul.liang@emc.com.tw>,
+        Jeff Chuang <jeff.chuang@emc.com.tw>
+Subject: Re: [PATCH] Input: elants_i2c - fix to check the Remark ID of the
+ updated firmware
+Message-ID: <YcA/W2wEk0wm7O8t@google.com>
+References: <1639619603-20616-1-git-send-email-johnny.chuang.emc@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211219060241.4125076-1-mudongliangabcd@gmail.com>
+In-Reply-To: <1639619603-20616-1-git-send-email-johnny.chuang.emc@gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dongliang,
-
-On Sun, Dec 19, 2021 at 02:02:15PM +0800, Dongliang Mu wrote:
-> In powermate_disconnect, powermate_pulse_led will invoke
-> powermate_sync_state and submit one urb with pm as its context.
-> If powermate disconnect before the execution of complete handler,
-> the pm will become a dangling pointer and lead to UAF.
+On Thu, Dec 16, 2021 at 09:53:23AM +0800, Johnny Chuang wrote:
+> The eKTH3900/eKTH5312 series do not support
+> the firmware update rules of Remark ID.
+> Exclude two series and keep the original rules to check the Remark ID.
 > 
-> Fix this by calling usb_kill_urb(pm->config) in the disconnect function.
-> Note that, the error handling error does not need to take care of this.
+> Signed-off-by: Johnny Chuang <johnny.chuang.emc@gmail.com>
 
-Unfortunately this analysis is not correct and adding usb_kill_urb()
-does not really help, as while input device is registered there may be
-new events coming into the driver that may cause config URB be submitted
-again.
-
-What actually happens is that call to usb_free_urb(pm->config) below
-tries to properly shutdown and destroy URB, but unfortunately
-powermate_config_complete() handler only uses urb->status to print error
-message, and resubmits the URB that is about to be freed again.
-
-The URB completion handler needs to check for -ESHUTDOWN (-108) and
-other terminal error codes before attempting to resubmit the URB.
-
-> 
-> Reported-by: syzbot+9780d2b05ac158d32284@syzkaller.appspotmail.com
-> Fixes: ba0acb5ee318901 ("Input: move USB miscellaneous devices under drivers/input/misc")
-> Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
-> ---
->  drivers/input/misc/powermate.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/input/misc/powermate.c b/drivers/input/misc/powermate.c
-> index c4e0e1886061..903993469fde 100644
-> --- a/drivers/input/misc/powermate.c
-> +++ b/drivers/input/misc/powermate.c
-> @@ -424,6 +424,7 @@ static void powermate_disconnect(struct usb_interface *intf)
->  	if (pm) {
->  		pm->requires_update = 0;
->  		usb_kill_urb(pm->irq);
-> +		usb_kill_urb(pm->config);
->  		input_unregister_device(pm->input);
->  		usb_free_urb(pm->irq);
->  		usb_free_urb(pm->config);
-> -- 
-> 2.25.1
-> 
-
-Thanks.
+Applied, with minor edits, thank you.
 
 -- 
 Dmitry
