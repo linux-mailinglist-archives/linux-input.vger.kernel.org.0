@@ -2,63 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EE1047C9CE
-	for <lists+linux-input@lfdr.de>; Wed, 22 Dec 2021 00:40:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED64B47C9E1
+	for <lists+linux-input@lfdr.de>; Wed, 22 Dec 2021 00:51:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238064AbhLUXka (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Dec 2021 18:40:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60038 "EHLO
+        id S235218AbhLUXvu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Dec 2021 18:51:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbhLUXk3 (ORCPT
+        with ESMTP id S238132AbhLUXvt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Dec 2021 18:40:29 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FD9CC061574
-        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 15:40:29 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id r5so421810pgi.6
-        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 15:40:29 -0800 (PST)
+        Tue, 21 Dec 2021 18:51:49 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19077C061574
+        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 15:51:49 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id gj24so702542pjb.0
+        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 15:51:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=DSPR9pWAr3YhNMZgod8HUQOfMEPkKfEHfnuMqXG2h1c=;
-        b=jkt4O395IccIsXChLBDjgCY/WZm2HWKft/6E6FWhp+BAbqXmtXg6ZyLAehZYSq7uot
-         wStmzUN6eSR4HYAdWFCVp+OH0O2dOY8GyxZu6g8Tt++C3YQAHQvyYQ+6GUeFibxI2qDK
-         yvUYIg2nu38m7Qboxe7PuKraBxkXyM7kMOfVI=
+        bh=tp2DnvKyLJtpECaFqmhOaYcsLjvUwB2kkdoaGVrA2uQ=;
+        b=mp9H7Kq+YBT0OApPNaEJLvNvx7UhJ3CFub2MkIi6tBcZCiAT99JKijqIQFsVg3rWKa
+         hsmHUYp/ylvTbWTwRXP9PUkNRqnMOQU6B7BQjTFyudkxagezOPkf9t/vkMvMxVuX9v0D
+         lLRUJQ7O/QRwM7bNUzWfr+qYq9FNp+Ayic880=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DSPR9pWAr3YhNMZgod8HUQOfMEPkKfEHfnuMqXG2h1c=;
-        b=N8hwYy2CDEUemcDruKcREjZE3f/8BcqfboGfeEXRtVFeWZQJnyggOEur+n+lM4fmYJ
-         yG6WLgrFKtHp7TEcadAJISqUx+4PR9Lqh+qNhuqTZA65wJ2hZ+UBqBhFOfyUSWUS8WjH
-         VCRG9O53qmS31mWJgzHgqTlOkxiDl146poXx+4p4BgDVU5qzmsOD0lmgNzc8ASt0x62L
-         CpXVohurb4ur97ConV5VN3t0QGgCRYY0kpdvDWaFjea1z3F8XQ5VRvS+4c9oeHEHvxft
-         VVurC+z7U+uEJ5LdIOjKUU8zkiBAtd57/uJIY5t5LKCCgwjTASWf1Ou4YMDCP2DZLJJH
-         j41w==
-X-Gm-Message-State: AOAM533ALy9v2PPxCovEm46kpWQZkwfb5/ImbSNwqJtjjoqCevA3G2/N
-        Wk0X6iEV70m3cL22DWE+ikqS/7G58R1sIA==
-X-Google-Smtp-Source: ABdhPJzW+4jHuBbsChMufH2vxKu4zku+0Tf0Z78zVBb7SUX+9S3JMoMK4s4BCAAylgnpiqfLvDeaEQ==
-X-Received: by 2002:a63:5c0a:: with SMTP id q10mr543310pgb.213.1640130028297;
-        Tue, 21 Dec 2021 15:40:28 -0800 (PST)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com. [209.85.215.177])
-        by smtp.gmail.com with ESMTPSA id k8sm187979pfu.72.2021.12.21.15.40.27
+        bh=tp2DnvKyLJtpECaFqmhOaYcsLjvUwB2kkdoaGVrA2uQ=;
+        b=dHIIU43TGgsMUBsynbbia3jJHVUjiyFlNWZg8S/EsFC7wDiD9+VOfHQU88JM092ZII
+         /Zty+TBiS7wadYh61rU/uQCF9LjJTrz8Ffk+B9KXufx2XN7/QxCpxiT4tnxri0uPZt8b
+         KPSYHE9krdGoPACI5G1WFNUI72M03+RjtlwRtPV+wKusxK9fm/Yw3sdWlpfmvffNSGCI
+         YqzSGdjxeLXqVojDDouT33OPMezQdxOaXd0wCyERoRTvzppuNCtbYUS7V1jlXavoP0YD
+         OmQsMSO3rmufw5J2YyxC7gKuiECmp7qvoT1pvqFm+dSGoOKtriYHFt7FCeVOdynsdd2G
+         Mr8A==
+X-Gm-Message-State: AOAM530DLVuDZ/oTwYo/xsaf3clvqbP4P5+ydCG3QXBeU9IQYYP9czNW
+        6acc4lp/O3eUPqs8eL6GsN7B2OjhW21xuA==
+X-Google-Smtp-Source: ABdhPJz17xBfbVKxYJh3Nmj2NtDOlKI5Ar0KKBD/YSOM35VeJJzhiMSi6OgAklFUPfpW5xvEwB3qZQ==
+X-Received: by 2002:a17:90b:4b04:: with SMTP id lx4mr613409pjb.11.1640130708471;
+        Tue, 21 Dec 2021 15:51:48 -0800 (PST)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com. [209.85.216.43])
+        by smtp.gmail.com with ESMTPSA id b11sm158228pge.84.2021.12.21.15.51.48
         for <linux-input@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Dec 2021 15:40:27 -0800 (PST)
-Received: by mail-pg1-f177.google.com with SMTP id l10so415852pgm.7
-        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 15:40:27 -0800 (PST)
-X-Received: by 2002:a05:6a00:198a:b0:4bb:4621:f074 with SMTP id
- d10-20020a056a00198a00b004bb4621f074mr409931pfl.69.1640130026974; Tue, 21 Dec
- 2021 15:40:26 -0800 (PST)
+        Tue, 21 Dec 2021 15:51:48 -0800 (PST)
+Received: by mail-pj1-f43.google.com with SMTP id n15-20020a17090a160f00b001a75089daa3so4049235pja.1
+        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 15:51:48 -0800 (PST)
+X-Received: by 2002:a17:90a:b303:: with SMTP id d3mr842480pjr.115.1640130707643;
+ Tue, 21 Dec 2021 15:51:47 -0800 (PST)
 MIME-Version: 1.0
 References: <20211220234346.2798027-1-rrangel@chromium.org>
  <20211220163823.1.Ie20ca47a26d3ea68124d8197b67bb1344c67f650@changeid> <7d4f20da-f18b-eccf-19c4-ea7c15492634@redhat.com>
 In-Reply-To: <7d4f20da-f18b-eccf-19c4-ea7c15492634@redhat.com>
 From:   Raul Rangel <rrangel@chromium.org>
-Date:   Tue, 21 Dec 2021 16:40:15 -0700
-X-Gmail-Original-Message-ID: <CAHQZ30BSLE9G_fw3n4aSW_YOYc6w08eGiXdwa6eJxpR6eFpc+A@mail.gmail.com>
-Message-ID: <CAHQZ30BSLE9G_fw3n4aSW_YOYc6w08eGiXdwa6eJxpR6eFpc+A@mail.gmail.com>
+Date:   Tue, 21 Dec 2021 16:51:36 -0700
+X-Gmail-Original-Message-ID: <CAHQZ30Czx_ZOPHBBc0yRqdcyVqrT9nxqKTpe8QZU2-fJGVs9_A@mail.gmail.com>
+Message-ID: <CAHQZ30Czx_ZOPHBBc0yRqdcyVqrT9nxqKTpe8QZU2-fJGVs9_A@mail.gmail.com>
 Subject: Re: [PATCH 1/3] HID: i2c-hid-acpi: Remove explicit device_set_wakeup_capable
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     linux-kernel@vger.kernel.org,
@@ -97,37 +96,30 @@ On Tue, Dec 21, 2021 at 11:49 AM Hans de Goede <hdegoede@redhat.com> wrote:
 > the removed code claims the device is wakeup *capable*, but is also
 > explicitly calls device_set_wakeup_enable(dev, false), disabling wakeup.
 >
+
+I thought of something else:
+
 > And i2c-hid suspend does:
 >
 >         if (device_may_wakeup(&client->dev)) {
 >                 wake_status = enable_irq_wake(client->irq);
 >
+
+I think we also need to guard the enable_irq_wake call with
+`!ACPI_COMPANION(dev)`.
+ACPI will handle enabling the correct GPIO or GPE defined in `_PRW`.
+
+We might also be able to remove manually calling {enable,disable}_irq_wake by
+switching over to `dev_pm_set_wake_irq`. I did this for the elan_i2c
+driver in the 2nd patch:
+https://patchwork.kernel.org/project/linux-input/patch/20211220163823.2.Id022caf53d01112188308520915798f08a33cd3e@changeid/
+
 > And device_may_wakeup() checks the wakeup *enabled* setting AFAIK.
 >
 > I've added Rafael to the Cc since he knows all this a lot better then me.
 >
 > I have the feeling that your userspace is perhaps poking the
 > wakeup settings in sysfs, triggering this issue.
-
-You are correct, I added some printks in and it is userspace enabling the wake:
-
-    [    3.280464] i2c_hid_acpi i2c-GDIX0000:00: wakeup_store: start: disabled
-    [    3.280502] i2c_hid_acpi i2c-GDIX0000:00: wakeup_store: start: enabled
-    [    3.280537] i2c_hid_acpi i2c-GDIX0000:00: device_wakeup_enable: start
-    [    3.280541] CPU: 0 PID: 1248 Comm: powerd Not tainted 5.10.83
-#151 c334d4c4185a84ded39aafcb495de6870a8e5161
-    [    3.280545] Hardware name: Google Guybrush/Guybrush, BIOS
-Google_Guybrush.4.15-624-g9d80a9c6aa40 12/21/2021
-    [    3.280548] Call Trace:
-    [    3.280554]  dump_stack+0x9c/0xe7
-    [    3.280560]  device_wakeup_enable+0x136/0x172
-    [    3.280564]  wakeup_store+0xbc/0xc4
-    [    3.280572]  kernfs_fop_write_iter+0x10b/0x18a
-    [    3.280576]  vfs_write+0x383/0x405
-    [    3.280579]  ksys_write+0x74/0xd4
-    [    3.280583]  do_syscall_64+0x43/0x55
-    [    3.280587]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-
 >
 > > As part of suspend, ACPI will power down
 > > the device since it's not a wake source. When the device is powered
@@ -135,31 +127,13 @@ Google_Guybrush.4.15-624-g9d80a9c6aa40 12/21/2021
 >
 > To me that sounds like the device is not wakeup *capable* at all, so
 > its ACPI node should not set the ACPI_FADT_LOW_POWER_S0 flag at all.
-
-The ACPI_FADT_LOW_POWER_S0 flag is a system level flag. The
-system is wake capable and supports S0ix. The touchscreen device
-does not support waking the system because it doesn't provide
-a `_PRW`.
-
 >
 > Note I'm not certain about this at all, but at a first look this feels
 > like it is not the right fix for your problem.
-
-We can't have the `i2c-hid-acpi` driver calling `device_set_wakeup_capable`.
-This will make the kernel expose the wakeup sysfs entry to userspace
-regardless if the device supports wakeup or not. This would require userspace
-to know that enabling this wake source will cause suspend problems and to
-avoid it.
-
 >
 > Regards,
 >
 > Hans
-
-Thanks for the review!
-
-Raul
-
 >
 >
 > >
