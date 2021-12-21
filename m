@@ -2,48 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 460A847C75E
+	by mail.lfdr.de (Postfix) with ESMTP id DAE4347C75F
 	for <lists+linux-input@lfdr.de>; Tue, 21 Dec 2021 20:17:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241752AbhLUTRz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Dec 2021 14:17:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57876 "EHLO
+        id S241755AbhLUTR4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Dec 2021 14:17:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241746AbhLUTRz (ORCPT
+        with ESMTP id S241754AbhLUTRz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Tue, 21 Dec 2021 14:17:55 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 054CCC061574
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 760D9C06173F
         for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 11:17:55 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id 203-20020a1c01d4000000b00345bf98da86so1161856wmb.3
-        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 11:17:54 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id j140-20020a1c2392000000b003399ae48f58so2401939wmj.5
+        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 11:17:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=semihalf-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=rbHTAoCtRAdudEsITz3WZkrHYqvrwmEh06T/gjLvpRk=;
-        b=gN+ndH2d4QS3MC6v3wck1U4EpnounPoiDmS5KPhC3uZwb3R0Cw6pAGFX2fjlnQNtid
-         npKqh9o2+cfdTwlTTQOiS5HTfIn4shua5XQfFaaQseEqsbTzknz6nrI+2dBTEcEO8G15
-         8B3fSjwb8vUd+GF9knz9EXJLlgKFPVrEBxDWkq3Q7ZJs7vP0T4M3ylx97N9uXEMCHDUl
-         MnMrbnQ1fSrCmP4Qwj5BvmCx5VB8PqMlnsah8L8Yw0UZeJLmzSrRtygLtqmBiTRn4VFp
-         af1k+DF/dBbFc2jrB3ogCS+oCpkQW0MSvsNmNsiYgkp81Br21TRduRmnyVqumsmFFth6
-         +JWw==
+        bh=9DSFngfggMTRU52qjDLCHxShA19z3IYvtKyKtu3j4z8=;
+        b=WO3nfI/GdUOiP6AfWmOzgudE4OABCS8qWUW1n4G4uFIXYuMvTQV32sBBTV6cwXufpI
+         r6Csdcq6ksgzhLak7Ansn5A7IhHfI11E1bmJV+F5izXCH+EmMzszfK3aaKRxLkIb6g+l
+         sNSiydjKg8x2p6G/VwfG2LWYBF7rjnyCGtVsf5pKCN9R7YkahOo93MAA91oNKU/COsv+
+         EP1VuW1sHlSUn9c6dCz7NpfNVBrKM+FRLNM+tQc7EUjpKUydOgsmm6UME/XvaFMHosf5
+         eo4eLiIPAn0JD98yxLYGYmMB4O4AaB4qOVOBt5nbAkfcVzpyVOAwMFbAI/+b/fA7LLYr
+         Yw9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rbHTAoCtRAdudEsITz3WZkrHYqvrwmEh06T/gjLvpRk=;
-        b=O/dbutZ1gx4ICLbGdflQ5JzJ8VbD1VP+bdwyOTqu2AbKtwRUXYO7G96ujRKAK0KkR6
-         EUTpsNcOYp05y9Ep+sGPHzVJ16EVEdn4/Hdgw4V1zPjLlpt1fDrbT11BplTo9IqnEQeD
-         KbjQllhdu2yKiizRHfC+BG1qEvuvk3KtYYREbpsxUaFpDFD2b2uHwXtCyG+9xKOsTtGx
-         oLY4EQqxPZQ2yweLySt1JrhDo/vDSuSqn3A86YJJ2eT8ahCKjTzBlYt9EAyD+XGqn0kb
-         q5MZX1+yx2wSbSr6MyxWy96pB38s2lWpWz2f3V046tiE11WUSQccht9x+lbgI0NAc3CD
-         GYmw==
-X-Gm-Message-State: AOAM533q5vwHZmxWAmhIGrCJ1R4cCZNMSf39Phgs0rILLgyN71DSQXej
-        mGcFmuz8gjk2PP+UjvafWJ3AJjnZdyvGxGrNqGc=
-X-Google-Smtp-Source: ABdhPJycfHcBpQz4OnU2TbkkYyw/n0Kw71KAyzsDxUdOc0wAFu4cMbWNxf1R8eC4hKBId/626DD4AA==
-X-Received: by 2002:a7b:c08e:: with SMTP id r14mr3923328wmh.68.1640114273621;
-        Tue, 21 Dec 2021 11:17:53 -0800 (PST)
+        bh=9DSFngfggMTRU52qjDLCHxShA19z3IYvtKyKtu3j4z8=;
+        b=l7wsp739M74Ot34hAziJIl64AeV7JVArmZGW87fSmjl5JbYbV69VwugHf06tz8yCoV
+         T639o7i+1E42hX3kbCyex9NmQav+POdSSWAb3H4RDWKyX7cBmEOuADuEZ+SDVHHU/1tW
+         hvLFSshGBXVwVL/Jm61GNLPxCw4Y71//PSdQc2YnTyaxnN+CYqvd89NHIWgFqB7fITlb
+         xwaCrYAHXDj+dJHQbOmA7YEFr+r6uXBv+UVjO7VxtsI/TBBg4Yehija+0fh2QxAotNHm
+         XmjOJQAwBhxmHEFUOB7d4xM9E6Ukj5q4B23xgW3/eFNkLdbmZOS/o4zEMUp44aAFrtK6
+         5Kcg==
+X-Gm-Message-State: AOAM533/FhOi7z+UTz23xSPKto/AeKbo9XCSKNajCPB8/VZx/YS5Xd1E
+        VHxPBLpf3q7Y5IAHlNoi17v29GWs+t1VCI7ST7s=
+X-Google-Smtp-Source: ABdhPJxvHX8WLsvCcIqUAanqMioG/bNqidxVgeq3VSTy0oUSoQLiYglyOklAm/UmwDbmO+MwMa20Dg==
+X-Received: by 2002:a7b:c202:: with SMTP id x2mr4006943wmi.57.1640114274051;
+        Tue, 21 Dec 2021 11:17:54 -0800 (PST)
 Received: from aczubak.c.googlers.com.com (109.36.187.35.bc.googleusercontent.com. [35.187.36.109])
         by smtp.gmail.com with ESMTPSA id t8sm3994846wmq.32.2021.12.21.11.17.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -52,9 +52,9 @@ From:   Angela Czubak <acz@semihalf.com>
 To:     linux-input@vger.kernel.org
 Cc:     upstream@semihalf.com, dmitry.torokhov@gmail.com,
         Angela Czubak <acz@semihalf.com>
-Subject: [PATCH 12/18] HID: haptic: add functions handling events
-Date:   Tue, 21 Dec 2021 19:17:37 +0000
-Message-Id: <20211221191743.1893185-13-acz@semihalf.com>
+Subject: [PATCH 13/18] Input: MT - toggle ABS_PRESSURE pointer emulation
+Date:   Tue, 21 Dec 2021 19:17:38 +0000
+Message-Id: <20211221191743.1893185-14-acz@semihalf.com>
 X-Mailer: git-send-email 2.34.1.307.g9b7440fafd-goog
 In-Reply-To: <20211221191743.1893185-1-acz@semihalf.com>
 References: <20211221191743.1893185-1-acz@semihalf.com>
@@ -64,157 +64,92 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Implement hid_haptic_handle_press_release() which generates haptic feedback
-as well as saves the pressed state of the haptic device.
-Function hid_haptic_handle_input() inserts BTN_LEFT and ABS_PRESSURE events
-if the device is in kernel mode.
-Add functions to increase and reset the state of the pressure detected by
-the device.
+Add a function to switch off ABS_PRESSURE generation if necessary.
+This may be helpful in case drivers want to generate ABS_PRESSURE events
+themselves from ABS_MT_PRESSURE.
 
 Signed-off-by: Angela Czubak <acz@semihalf.com>
 ---
- drivers/hid/hid-haptic.c | 72 +++++++++++++++++++++++++++++++++++++++-
- drivers/hid/hid-haptic.h | 20 +++++++++++
- 2 files changed, 91 insertions(+), 1 deletion(-)
+ drivers/input/input-mt.c | 18 ++++++++++++++++--
+ include/linux/input/mt.h |  4 ++++
+ 2 files changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hid/hid-haptic.c b/drivers/hid/hid-haptic.c
-index ad458bc7d4c5..85c4711f685e 100644
---- a/drivers/hid/hid-haptic.c
-+++ b/drivers/hid/hid-haptic.c
-@@ -51,8 +51,13 @@ bool hid_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
- 				    struct hid_input *hi, struct hid_field *field)
- {
- 	/* Accepted units are either grams or newtons. */
--	if (field->unit == 0x0101 || field->unit == 0xe111)
-+	if (field->unit == 0x0101 || field->unit == 0xe111) {
-+		haptic->force_logical_minimum = field->logical_minimum;
-+		haptic->force_physical_minimum = field->physical_minimum;
-+		haptic->force_resolution = input_abs_get_res(hi->input,
-+							     ABS_MT_PRESSURE);
- 		return true;
-+	}
- 	return false;
- }
- EXPORT_SYMBOL_GPL(hid_haptic_check_pressure_unit);
-@@ -352,6 +357,13 @@ static void hid_haptic_destroy(struct ff_device *ff)
- 	module_put(THIS_MODULE);
- }
+diff --git a/drivers/input/input-mt.c b/drivers/input/input-mt.c
+index 44fe6f2f063c..e0bf5917a8b5 100644
+--- a/drivers/input/input-mt.c
++++ b/drivers/input/input-mt.c
+@@ -52,6 +52,7 @@ int input_mt_init_slots(struct input_dev *dev, unsigned int num_slots,
  
-+static __u32 convert_force_to_logical(struct hid_haptic_device *haptic,
-+					 __u32 value)
-+{
-+	return (value - haptic->force_physical_minimum) *
-+		haptic->force_resolution + haptic->force_logical_minimum;
-+}
-+
- int hid_haptic_init(struct hid_device *hdev,
- 		    struct hid_haptic_device **haptic_ptr)
- {
-@@ -459,6 +471,13 @@ int hid_haptic_init(struct hid_device *hdev,
- 	fill_effect_buf(haptic, &stop_effect, &haptic->stop_effect,
- 			HID_HAPTIC_ORDINAL_WAVEFORMSTOP);
+ 	mt->num_slots = num_slots;
+ 	mt->flags = flags;
++	mt->abs_pressure_gen = true;
+ 	input_set_abs_params(dev, ABS_MT_SLOT, 0, num_slots - 1, 0, 0);
+ 	input_set_abs_params(dev, ABS_MT_TRACKING_ID, 0, TRKID_MAX, 0, 0);
  
-+	haptic->mode = HID_HAPTIC_MODE_DEVICE;
-+	haptic->press_threshold = convert_force_to_logical(haptic,
-+							   HID_HAPTIC_PRESS_THRESH);
-+	haptic->release_threshold = convert_force_to_logical(haptic,
-+							     HID_HAPTIC_RELEASE_THRESH);
-+
-+
- 	input_set_capability(dev, EV_FF, FF_HID);
+@@ -244,12 +245,14 @@ void input_mt_report_pointer_emulation(struct input_dev *dev, bool use_count)
+ 		input_event(dev, EV_ABS, ABS_X, x);
+ 		input_event(dev, EV_ABS, ABS_Y, y);
  
- 	flush = dev->flush;
-@@ -550,3 +569,54 @@ int hid_haptic_init(struct hid_device *hdev,
- 	return ret;
+-		if (test_bit(ABS_MT_PRESSURE, dev->absbit)) {
++		if (test_bit(ABS_MT_PRESSURE, dev->absbit) &&
++		    mt->abs_pressure_gen) {
+ 			int p = input_mt_get_value(oldest, ABS_MT_PRESSURE);
+ 			input_event(dev, EV_ABS, ABS_PRESSURE, p);
+ 		}
+ 	} else {
+-		if (test_bit(ABS_MT_PRESSURE, dev->absbit))
++		if (test_bit(ABS_MT_PRESSURE, dev->absbit) &&
++		    mt->abs_pressure_gen)
+ 			input_event(dev, EV_ABS, ABS_PRESSURE, 0);
+ 	}
  }
- EXPORT_SYMBOL_GPL(hid_haptic_init);
-+
-+void hid_haptic_handle_press_release(struct hid_haptic_device *haptic)
+@@ -312,6 +315,17 @@ void input_mt_sync_frame(struct input_dev *dev)
+ }
+ EXPORT_SYMBOL(input_mt_sync_frame);
+ 
++void input_mt_pressure_toggle(struct input_dev *dev, bool toggle)
 +{
-+	int prev_pressed_state = haptic->pressed_state;
-+	struct input_dev *input = haptic->input_dev;
-+	unsigned long flags;
++	struct input_mt *mt = dev->mt;
 +
-+	if (haptic->pressure_sum > haptic->press_threshold)
-+		haptic->pressed_state = 1;
-+	else if (haptic->pressure_sum < haptic->release_threshold)
-+		haptic->pressed_state = 0;
-+	if (!prev_pressed_state && haptic->pressed_state &&
-+	    haptic->mode == HID_HAPTIC_MODE_KERNEL) {
-+		spin_lock_irqsave(&input->event_lock, flags);
-+		input->ff->playback(input, PRESS_HID_EFFECT_ID, 1);
-+		spin_unlock_irqrestore(&input->event_lock, flags);
-+	}
-+	if (prev_pressed_state && !haptic->pressed_state &&
-+	    haptic->mode == HID_HAPTIC_MODE_KERNEL) {
-+		spin_lock_irqsave(&input->event_lock, flags);
-+		input->ff->playback(input, RELEASE_HID_EFFECT_ID, 1);
-+		spin_unlock_irqrestore(&input->event_lock, flags);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(hid_haptic_handle_press_release);
++	if (!mt)
++		return;
 +
-+bool hid_haptic_handle_input(struct hid_haptic_device *haptic)
-+{
-+	if (haptic->mode == HID_HAPTIC_MODE_KERNEL) {
-+		input_event(haptic->input_dev, EV_KEY, BTN_LEFT,
-+			    haptic->pressed_state);
-+		input_event(haptic->input_dev, EV_ABS, ABS_PRESSURE,
-+			    haptic->pressure_sum);
-+		return true;
-+	}
-+	return false;
++	mt->abs_pressure_gen = toggle;
 +}
-+EXPORT_SYMBOL_GPL(hid_haptic_handle_input);
++EXPORT_SYMBOL(input_mt_pressure_toggle);
 +
-+void hid_haptic_pressure_reset(struct hid_haptic_device *haptic)
-+{
-+	haptic->pressure_sum = 0;
-+}
-+EXPORT_SYMBOL_GPL(hid_haptic_pressure_reset);
-+
-+void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
-+				 __s32 pressure)
-+{
-+	haptic->pressure_sum += pressure;
-+}
-+EXPORT_SYMBOL_GPL(hid_haptic_pressure_increase);
-diff --git a/drivers/hid/hid-haptic.h b/drivers/hid/hid-haptic.h
-index 2581833125dd..27ae1ed576c4 100644
---- a/drivers/hid/hid-haptic.h
-+++ b/drivers/hid/hid-haptic.h
-@@ -83,6 +83,11 @@ int hid_haptic_input_configured(struct hid_device *hdev,
- 				struct hid_haptic_device *haptic,
- 				struct hid_input *hi);
- int hid_haptic_init(struct hid_device *hdev, struct hid_haptic_device **haptic_ptr);
-+void hid_haptic_handle_press_release(struct hid_haptic_device *haptic);
-+bool hid_haptic_handle_input(struct hid_haptic_device *haptic);
-+void hid_haptic_pressure_reset(struct hid_haptic_device *haptic);
-+void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
-+				  __s32 pressure);
- #else
- static inline
- void hid_haptic_feature_mapping(struct hid_device *hdev,
-@@ -117,4 +122,19 @@ int hid_haptic_init(struct hid_device *hdev, struct hid_haptic_device **haptic_p
+ static int adjust_dual(int *begin, int step, int *end, int eq, int mu)
  {
- 	return 0;
- }
-+static inline
-+void hid_haptic_handle_press_release(struct hid_haptic_device *haptic)
-+{}
-+static inline
-+bool hid_haptic_handle_input(struct hid_haptic_device *haptic)
-+{
-+	return false;
-+}
-+static inline
-+void hid_haptic_pressure_reset(struct hid_haptic_device *haptic)
-+{}
-+static inline
-+void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
-+				  __s32 pressure)
-+{}
- #endif
+ 	int f, *p, s, c;
+diff --git a/include/linux/input/mt.h b/include/linux/input/mt.h
+index 3b8580bd33c1..c870a513bde1 100644
+--- a/include/linux/input/mt.h
++++ b/include/linux/input/mt.h
+@@ -38,6 +38,7 @@ struct input_mt_slot {
+  * @flags: input_mt operation flags
+  * @frame: increases every time input_mt_sync_frame() is called
+  * @red: reduced cost matrix for in-kernel tracking
++ * @abs_pressure_gen: emulate pointer pressure
+  * @slots: array of slots holding current values of tracked contacts
+  */
+ struct input_mt {
+@@ -47,6 +48,7 @@ struct input_mt {
+ 	unsigned int flags;
+ 	unsigned int frame;
+ 	int *red;
++	bool abs_pressure_gen;
+ 	struct input_mt_slot slots[];
+ };
+ 
+@@ -111,6 +113,8 @@ void input_mt_drop_unused(struct input_dev *dev);
+ 
+ void input_mt_sync_frame(struct input_dev *dev);
+ 
++void input_mt_pressure_toggle(struct input_dev *dev, bool toggle);
++
+ /**
+  * struct input_mt_pos - contact position
+  * @x: horizontal coordinate
 -- 
 2.34.1.307.g9b7440fafd-goog
 
