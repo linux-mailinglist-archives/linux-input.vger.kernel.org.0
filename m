@@ -2,162 +2,155 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD6CA47C6EC
-	for <lists+linux-input@lfdr.de>; Tue, 21 Dec 2021 19:49:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 537F647C752
+	for <lists+linux-input@lfdr.de>; Tue, 21 Dec 2021 20:17:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241535AbhLUStn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Dec 2021 13:49:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56229 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S241501AbhLUStn (ORCPT
+        id S229659AbhLUTRt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Dec 2021 14:17:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57830 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229436AbhLUTRt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Dec 2021 13:49:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1640112582;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=vARMTVo1VrfVGVXiFzEjZdP3U1cg4RJvquwDM2LMhlA=;
-        b=LUKhbMwmvoybI68cNOSv6+7vcocJfcvNbrdBO85kC3rEsrJ2xRU1SJb7hKlsSUkn9lErZZ
-        2ofc/9I7Bi8Zc+WL0ESlTWA+88h/nQ8ymlR5QTgFI/lNMeFhQ1n1U/G0YDwXatH2TB2sq9
-        QwmHzWy0xXJqkYPdo0JiRcmh3MvRqjw=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-ImRvc8rxNLyHl5toKw2zkg-1; Tue, 21 Dec 2021 13:49:41 -0500
-X-MC-Unique: ImRvc8rxNLyHl5toKw2zkg-1
-Received: by mail-ed1-f72.google.com with SMTP id f20-20020a056402355400b003f81df0975bso10072844edd.9
-        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 10:49:40 -0800 (PST)
+        Tue, 21 Dec 2021 14:17:49 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED063C061574
+        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 11:17:48 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id v7so21605351wrv.12
+        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 11:17:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=semihalf-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WEC/BJKasGICE07SGr/lFwnSLBsLIZqrufOeY9yV/Z4=;
+        b=4lbE/EijSVLdKqTOhSHRdmxJDJaGS3cjZGBiwPdgdYe35wSWqFWvQLNUO+VNmWXsnf
+         LUWzokUJf1xT6oAQiSetT8TCqloJDJuFYITJsb28zCCbIitKDAj5zIHa11JV+P9MPbUJ
+         0OEw6JGI5Fuwttf6QQY6qwItVnoM+LVG4PwTZ5gGKrKbh2Y1lJc/UTsL41ZqqD89XkO0
+         uTJd4huMskvfb4y9p1QDZGpI8TnKpSEn9uXXk7GXKtVl/74ifLEBrjzbxvX5Ge3JOjDk
+         DqEYRRGBIoK+serGUYi+0KTTGmMi5nqExZe7yh/+/vs9vDHkzp2sxSovkKFJKnE5aULW
+         7p+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=vARMTVo1VrfVGVXiFzEjZdP3U1cg4RJvquwDM2LMhlA=;
-        b=NgAzc+GdfahP3our4oPFXkR/ngDmt87FSJI7CdyvnEMk8xezviJHot+Y6Jk/aTwGju
-         /EjDO07T7AjA7BCCCM8JJyCl2dzctH6kUrnZCpZU66jozAdHGyva9gOrJ2PJHiuBaWH6
-         OPNZU/uGw73bcTYYOq5RCUq992pnOo20tLcU1z1WBC277jzuQiBqyTcozL9PQeojr8DQ
-         XrTNRKBIMUyCe/9XUUFvepMVKKImZLnoaln8Ha/OHt+JQAYmtT1krV1FYFDvZBIbdmOK
-         +sCZh4kFUMcAFXkKKF4JvjE+bzA7aPAXpaRFRpwj+nAB5DNke7euCgEIF+jGNWz5mMXz
-         knvg==
-X-Gm-Message-State: AOAM532YEIDZvaKq6kBJ48YNFzbcprzAMKTbZG374VTwOy7rOuoWhEYp
-        7WvLOEjneIxSQBC+DiHDI3XXaKzfyPjYFcjGke1fvXvOwWdXJScuCg+rMCreUKNR2ANpesLB5D7
-        9cHQNzAehWpCtfA+fuhYa+gw=
-X-Received: by 2002:a17:906:7942:: with SMTP id l2mr3991862ejo.730.1640112580044;
-        Tue, 21 Dec 2021 10:49:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyyO538Lipz6cNX+mZBtLLJWpIHrSR/4+UTj3o1R2kN4X0xf64zHHFF4HFEzKkD96jK5RxqoA==
-X-Received: by 2002:a17:906:7942:: with SMTP id l2mr3991851ejo.730.1640112579875;
-        Tue, 21 Dec 2021 10:49:39 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
-        by smtp.gmail.com with ESMTPSA id hw8sm3680167ejc.198.2021.12.21.10.49.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Dec 2021 10:49:39 -0800 (PST)
-Message-ID: <7d4f20da-f18b-eccf-19c4-ea7c15492634@redhat.com>
-Date:   Tue, 21 Dec 2021 19:49:38 +0100
+        bh=WEC/BJKasGICE07SGr/lFwnSLBsLIZqrufOeY9yV/Z4=;
+        b=bE/K7fkC2VjmX/jyLT/8WcYNQm4Sc3rVLbwoRT1+7ZcW9S8ZyI1qrIM3TVNjUdcSKA
+         CL0YhSFLbQkawHnZSjT6q1pzGOzUvpVQcQwwCh/Q/0zvv0+6sg03thrFftKz4EaoUgG9
+         cI6bsXNs8N+mIfeGcRbTGJ4fethWlCrbgDwBCQlLoeS1wPXXNv2HfOAhpDQAy8rT8eyP
+         Z0bPxHhynARTjRDLP+o4dqoHgW7kFEJwepNfUClpiV/hcSmG/h2QUG8ikHOnxeelIIf6
+         WWTMLt6R8P6R4/cN1BHuB7eMBow6gJZ1T0eqZADFNeuDtdkg3EWLiRGFCCkhqSnOlyeO
+         8zgA==
+X-Gm-Message-State: AOAM531QQwSFKHBGn1/M09qQ1Q8SZnAfLtMt/m6ghjLtIeP6cp5PKpoD
+        4aujAAUMXRzR6kMQ4QcVcvurkiulqaLILUgJ/Gc=
+X-Google-Smtp-Source: ABdhPJw6DxDxzS1C+2+L8ZUyn8MfbPqUMSvkKSzp2Zh25MbKRSsM3GGZHTpdmIMQn1Fd6W7vZpk7Fg==
+X-Received: by 2002:a5d:6a81:: with SMTP id s1mr3913478wru.36.1640114267579;
+        Tue, 21 Dec 2021 11:17:47 -0800 (PST)
+Received: from aczubak.c.googlers.com.com (109.36.187.35.bc.googleusercontent.com. [35.187.36.109])
+        by smtp.gmail.com with ESMTPSA id t8sm3994846wmq.32.2021.12.21.11.17.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Dec 2021 11:17:47 -0800 (PST)
+From:   Angela Czubak <acz@semihalf.com>
+To:     linux-input@vger.kernel.org
+Cc:     upstream@semihalf.com, dmitry.torokhov@gmail.com,
+        Angela Czubak <acz@semihalf.com>
+Subject: [PATCH 00/18] *** Implement simple haptic HID support ***
+Date:   Tue, 21 Dec 2021 19:17:25 +0000
+Message-Id: <20211221191743.1893185-1-acz@semihalf.com>
+X-Mailer: git-send-email 2.34.1.307.g9b7440fafd-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 1/3] HID: i2c-hid-acpi: Remove explicit
- device_set_wakeup_capable
-Content-Language: en-US
-To:     Raul E Rangel <rrangel@chromium.org>, linux-kernel@vger.kernel.org,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>
-Cc:     mario.limonciello@amd.com, linux-input@vger.kernel.org,
-        dianders@chromium.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-References: <20211220234346.2798027-1-rrangel@chromium.org>
- <20211220163823.1.Ie20ca47a26d3ea68124d8197b67bb1344c67f650@changeid>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20211220163823.1.Ie20ca47a26d3ea68124d8197b67bb1344c67f650@changeid>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+This patch series introduces changes necessary to support devices
+using simple haptic HID pages.
+Implementation attempts to follow the discussion below:
+https://www.spinics.net/lists/linux-input/msg61091.html
 
-On 12/21/21 00:43, Raul E Rangel wrote:
-> The ACPI subsystem is responsible for managing the power and wake
-> sources for an ACPI device. By explicitly calling
-> device_set_wakeup_capable, we are circumvent the ACPI subsystem and
-> setting wake capabilities on the device when it doesn't support it.
-> 
-> Take the following example:
-> * We have an ACPI HID device that has `_PR0` and `_PR3`. It doesn't have
-> `_PRW` so that means the device can't wake the system.
-> * The IRQ line is active level low for this device and is pulled up by the
-> power resource defined in `_PR0`/`_PR3`.
-> 
-> Since the i2c-hid driver has set the device as wake capable, the wake
-> pin gets enabled on suspend.
+Introduce new haptic defines as specified in HID Usage Tables.
 
-The IRQ pin should only have a enable_irq_wake() called on it if
-something has actually requested the i2c-HID device to be a wakeup source,
-the removed code claims the device is wakeup *capable*, but is also
-explicitly calls device_set_wakeup_enable(dev, false), disabling wakeup.
+Add new force feedback effect type in order to facilitate using
+simple haptic force feedback.
 
-And i2c-hid suspend does:
+Add INPUT_PROP_HAPTIC_TOUCHPAD to mark touchpad exposing simple haptic
+support.
 
-        if (device_may_wakeup(&client->dev)) {
-                wake_status = enable_irq_wake(client->irq);
+Add new struct hid_haptic_device so as to gather simple haptic related
+configuration and current state of the device.
 
-And device_may_wakeup() checks the wakeup *enabled* setting AFAIK.
+Function mt_get_feature() gets renamed to hid_get_feature() and is moved
+to hid-core.c as it is not specific to hid multitouch driver and may be
+reused, for instance by simple haptic specific source.
 
-I've added Rafael to the Cc since he knows all this a lot better then me.
+Add new functions to be triggered during HID input mapping and
+configuration in order to detect simple haptic devices.
 
-I have the feeling that your userspace is perhaps poking the
-wakeup settings in sysfs, triggering this issue.
+Modify HID input so that haptic output reports are parsed.
 
-> As part of suspend, ACPI will power down
-> the device since it's not a wake source. When the device is powered
-> down, the IRQ line will drop, and it will trigger a wake event.
+Initialize a haptic device.
 
-To me that sounds like the device is not wakeup *capable* at all, so
-its ACPI node should not set the ACPI_FADT_LOW_POWER_S0 flag at all.
+Modify FF core so that effect IDs can be shared between multiple open file
+handles.
 
-Note I'm not certain about this at all, but at a first look this feels
-like it is not the right fix for your problem.
+Add shared release and press effects for a simple haptic device.
 
-Regards,
+Calculate pressure resolution if units are grams or newtons.
 
-Hans
+Add support for kernel-driven mode of simple haptic device.
 
+Toggle ABS_PRESSURE generation by input-mt on request.
 
-> 
-> See the following debug log:
-> [   42.335804] PM: Suspending system (s2idle)
-> [   42.340186] amd_gpio AMD0030:00: RX: Setting wake for pin 89 to enable
-> [   42.467736]     power-0416 __acpi_power_off      : Power resource [PR00] turned off
-> [   42.467739] device_pm-0280 device_set_power      : Device [H05D] transitioned to D3cold
-> [   42.475210] PM: pm_system_irq_wakeup: 11 triggered pinctrl_amd
-> [   42.535293] PM: Wakeup unrelated to ACPI SCI
-> [   42.535294] PM: resume from suspend-to-idle
-> 
-> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
-> ---
-> 
->  drivers/hid/i2c-hid/i2c-hid-acpi.c | 5 -----
->  1 file changed, 5 deletions(-)
-> 
-> diff --git a/drivers/hid/i2c-hid/i2c-hid-acpi.c b/drivers/hid/i2c-hid/i2c-hid-acpi.c
-> index a6f0257a26de..fc311a19a19d 100644
-> --- a/drivers/hid/i2c-hid/i2c-hid-acpi.c
-> +++ b/drivers/hid/i2c-hid/i2c-hid-acpi.c
-> @@ -105,11 +105,6 @@ static int i2c_hid_acpi_probe(struct i2c_client *client)
->  
->  	acpi_device_fix_up_power(adev);
->  
-> -	if (acpi_gbl_FADT.flags & ACPI_FADT_LOW_POWER_S0) {
-> -		device_set_wakeup_capable(dev, true);
-> -		device_set_wakeup_enable(dev, false);
-> -	}
-> -
->  	return i2c_hid_core_probe(client, &ihid_acpi->ops,
->  				  hid_descriptor_address);
->  }
-> 
+Implement functions allowing switching between kernel-managed mode
+and autonomous mode.
+
+Add simple haptic support for hid-multitouch driver.
+
+Implement EVIOCFF(TAKE|RELEASE)CONTROL ioctls so that userspace can take
+and release control of shared release and press effects.
+
+Fix i2c_hid_set_or_send_report so that report IDs larger than 0xF are
+handled correctly.
+
+Angela Czubak (18):
+  HID: add haptics page defines
+  Input: add FF_HID effect type
+  Input: add INPUT_PROP_HAPTIC_TOUCHPAD
+  HID: haptic: introduce hid_haptic_device
+  HID: introduce hid_get_feature
+  HID: haptic: add functions for mapping and configuration
+  HID: input: allow mapping of haptic output
+  HID: haptic: initialize haptic device
+  Input: add shared effects
+  HID: haptic: implement release and press effects
+  HID: input: calculate resolution for pressure
+  HID: haptic: add functions handling events
+  Input: MT - toggle ABS_PRESSURE pointer emulation
+  HID: haptic: add hid_haptic_switch_mode
+  HID: multitouch: add haptic multitouch support
+  Input: introduce EVIOCFF(TAKE|RELEASE)CONTROL
+  HID: haptic: add hid_haptic_change_control
+  HID: i2c-hid: fix i2c_hid_set_or_send_report
+
+ drivers/hid/Kconfig                    |  15 +
+ drivers/hid/Makefile                   |   1 +
+ drivers/hid/hid-core.c                 |  39 ++
+ drivers/hid/hid-haptic.c               | 745 +++++++++++++++++++++++++
+ drivers/hid/hid-haptic.h               | 150 +++++
+ drivers/hid/hid-input.c                |  18 +-
+ drivers/hid/hid-multitouch.c           | 109 ++--
+ drivers/hid/i2c-hid/i2c-hid-core.c     |  12 +-
+ drivers/input/evdev.c                  |   6 +
+ drivers/input/ff-core.c                | 129 ++++-
+ drivers/input/input-mt.c               |  18 +-
+ include/linux/hid.h                    |  24 +
+ include/linux/input.h                  |   5 +
+ include/linux/input/mt.h               |   4 +
+ include/uapi/linux/input-event-codes.h |   1 +
+ include/uapi/linux/input.h             |  26 +-
+ 16 files changed, 1247 insertions(+), 55 deletions(-)
+ create mode 100644 drivers/hid/hid-haptic.c
+ create mode 100644 drivers/hid/hid-haptic.h
+
+-- 
+2.34.1.307.g9b7440fafd-goog
 
