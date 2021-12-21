@@ -2,130 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38BEF47B640
-	for <lists+linux-input@lfdr.de>; Tue, 21 Dec 2021 00:44:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B29047B86D
+	for <lists+linux-input@lfdr.de>; Tue, 21 Dec 2021 03:41:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233165AbhLTXoA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Dec 2021 18:44:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43472 "EHLO
+        id S232937AbhLUClP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Dec 2021 21:41:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233131AbhLTXoA (ORCPT
+        with ESMTP id S231833AbhLUClP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Dec 2021 18:44:00 -0500
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 224D3C061574
-        for <linux-input@vger.kernel.org>; Mon, 20 Dec 2021 15:44:00 -0800 (PST)
-Received: by mail-io1-xd31.google.com with SMTP id e128so15533402iof.1
-        for <linux-input@vger.kernel.org>; Mon, 20 Dec 2021 15:44:00 -0800 (PST)
+        Mon, 20 Dec 2021 21:41:15 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F42C061574;
+        Mon, 20 Dec 2021 18:41:14 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id t123so8983092pfc.13;
+        Mon, 20 Dec 2021 18:41:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qPLa+lTt8vCW4IqiZRoAjFD2+DlmxgEl4wmSi4FTuOw=;
-        b=O9l0LEb7TUTSspyh/AxCMkfk93Be4GaRLHafsGgHpnuCZ44FW2+fOwGF33R7FZiIk+
-         HaBxmoAoqGeayPqmlu/1yOxD+aemuqviVdRi3nLfpJVTx0VhJJiO1eGIkEzSyTeYJxdC
-         VwX0i/zyKbxKb9Obr+VcykFgeAWGZ56+0Gp54=
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=afti1NXvSIwBw8US5gzMRH6ZikCTI5DK3ck1t2Ge/2s=;
+        b=J3uv/O/S+HSTaa2LdazRFnAe5WNXJLOy6PA+B7U4tshjAacxGvSQclIlAynOcZT/CN
+         CQpGZtGaQEFewu+j5wDytaXzaLG9kx4rd8rMmJMEne3uNxQzL4AP/lwekxPj3v3TFOCV
+         6X+UD3Xro49FkcqML18U5jslu4oDep6EA9f400IDpalDyZLMYH7hZjfANOWHloE1fL7D
+         L+7ZK6wgEnRgwbaO7KWOCgJYjoy5RkpM8K86Ci5fYIRMSDM5eWBlw7XCvqZjjr+C6BQc
+         kVwROulXy2ch1EGfKBDzZeSfT+pVB4vKUjzH5G6z/uOyTgMGgePWRuspyQB9b13MujKb
+         9F4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qPLa+lTt8vCW4IqiZRoAjFD2+DlmxgEl4wmSi4FTuOw=;
-        b=BpnU+u3fGcG7e4HLC79a6zcJLAe5AaHW3sNODWddzB5kFcecLsQpi8JJa3HSIsWlwB
-         t/6m9OA6lHNkwocEFIzxRDp1WREL9Iwo0Gmp52MO9+mzLJqCTC5ikwlTqmX2EQK4DWZ+
-         IEElPtkuc35JChJuroIg0YsAYgbHCYmaEhADyzuWyQgx8jYYUTKWhq3WtiaPCMIVJL3R
-         OozcIgYQBSUe69WlMpaVp6a6uY0HpxPpMfTX+ielnjh76c7JncAq/hQim1lteFGyWUSf
-         lKp29TeXdjJP25VAnrzYjXDIdrZpuRWGhRe6sEb9HDkanwmH3wO5Mr0kniSHH1Aahsv9
-         bo/w==
-X-Gm-Message-State: AOAM5335uCvtd+zycKXu53r3J9+SlYA+YUFHEoVYRhusaG3+qSu3G1pr
-        uDNPgcqIoc2dTuaB0SAgiazVUA==
-X-Google-Smtp-Source: ABdhPJxt7kvyeNHdnIFlVtQ7EkSTD2BNbhkBbLVbnBSYJW9499zBRWaFWT7dSKIXap6NXxEEnSftAg==
-X-Received: by 2002:a05:6638:25cd:: with SMTP id u13mr392376jat.8.1640043839566;
-        Mon, 20 Dec 2021 15:43:59 -0800 (PST)
-Received: from rrangel920.bld.corp.google.com (h24-56-189-219.arvdco.broadband.dynamic.tds.net. [24.56.189.219])
-        by smtp.gmail.com with ESMTPSA id k19sm4077521ilr.34.2021.12.20.15.43.59
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=afti1NXvSIwBw8US5gzMRH6ZikCTI5DK3ck1t2Ge/2s=;
+        b=6QPGFKCLtiK+nDcs1ZOhhFqvzPthBIkMwYtzKwNK+G4F8H0kn19vD2SoKWwqSpGsLA
+         nK4EvdpPX7AZCjkyhFqoksxe+krceNjwchFZGA4JkW6fmY3dzceVEpCXI+Q6hOS6QqY/
+         xeKbbDsuR/XDONCH8zXayeAOeuGlPUk81FbVsYWgTDFaRQ7FF+tf8/+4qh0MeutS4b5h
+         E1ifuyTwyIZjbk7wAPXvZLib17ydjmxDcgVWvrPmyorMlaSU94SLLaFnu2/VwtDddDzf
+         pEWaPHC7q3vqYFculKQ04b4vLnzK2C3am9PAbuI4sXakCNNp1oJrobIZ60l8GBpMMWBu
+         psbQ==
+X-Gm-Message-State: AOAM532r44nbFGD1oa/mub/J3WPmFX8EpjlIKw/fMUZCIvJdsBfWXGvu
+        BcBT1ebCdK/UdriE09VRoI8=
+X-Google-Smtp-Source: ABdhPJxbRUfeiNisUkz//f/ap0uiQ4vbYAccA0RhpZjFSVQEJMcTMzFEpu+yc6yWie1WSmLvwjtHrw==
+X-Received: by 2002:a63:2b05:: with SMTP id r5mr1023137pgr.0.1640054474022;
+        Mon, 20 Dec 2021 18:41:14 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:9632:a1c4:968a:6f66])
+        by smtp.gmail.com with ESMTPSA id pc1sm718411pjb.5.2021.12.20.18.41.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 15:43:59 -0800 (PST)
-From:   Raul E Rangel <rrangel@chromium.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     mario.limonciello@amd.com, linux-input@vger.kernel.org,
-        dianders@chromium.org, Raul E Rangel <rrangel@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Prashant Malani <pmalani@chromium.org>
-Subject: [PATCH 3/3] platform/chrome: cros_ec: Don't enable wake pin if ACPI managed
-Date:   Mon, 20 Dec 2021 16:43:46 -0700
-Message-Id: <20211220163823.3.I2339b40dd2ed02569ba204734dc335866a1c5b98@changeid>
-X-Mailer: git-send-email 2.34.1.307.g9b7440fafd-goog
-In-Reply-To: <20211220234346.2798027-1-rrangel@chromium.org>
+        Mon, 20 Dec 2021 18:41:12 -0800 (PST)
+Date:   Mon, 20 Dec 2021 18:41:10 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Raul E Rangel <rrangel@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, mario.limonciello@amd.com,
+        linux-input@vger.kernel.org, dianders@chromium.org,
+        "jingle.wu" <jingle.wu@emc.com.tw>
+Subject: Re: [PATCH 2/3] Input: elan_i2c - Use PM subsystem to manage wake irq
+Message-ID: <YcE+xrSnS7qw0G1/@google.com>
 References: <20211220234346.2798027-1-rrangel@chromium.org>
+ <20211220163823.2.Id022caf53d01112188308520915798f08a33cd3e@changeid>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211220163823.2.Id022caf53d01112188308520915798f08a33cd3e@changeid>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In ACPI managed systems, the `_PRW` method defines the wake source for
-the device. This could be a GPE or a GPIO not related to the IRQ. The
-way the cros_ec_lpc driver works is that the irq field is optional. The
-IRQ defined in the `_CRS` is only used to speed up sensor event
-processing. Before this change, the SYNC_IRQ GPIO would have its wake
-bit enabled. This means that we now have two wake sources defined for
-the EC. This change makes the CrOS EC driver leave wake configuration
-alone if the device is ACPI managed.
+Hi Raul,
 
-I tested this on guybrush and no longer see the EC SYNC IRQ enabled as a
-wake source when suspending.
+On Mon, Dec 20, 2021 at 04:43:45PM -0700, Raul E Rangel wrote:
+> @@ -1368,11 +1367,13 @@ static int elan_probe(struct i2c_client *client,
+>  	}
+>  
+>  	/*
+> -	 * Systems using device tree should set up wakeup via DTS,
+> +	 * Systems using device tree or ACPI should set up wakeup via DTS/ACPI,
+>  	 * the rest will configure device as wakeup source by default.
+>  	 */
+> -	if (!dev->of_node)
+> +	if (!dev->of_node && !ACPI_COMPANION(dev)) {
 
-Signed-off-by: Raul E Rangel <rrangel@chromium.org>
----
+I think this will break our Rambis that use ACPI for enumeration but
+actually lack _PRW. As far as I remember their trackpads were capable
+of waking up the system.
 
- drivers/platform/chrome/cros_ec.c           | 8 ++++++--
- include/linux/platform_data/cros_ec_proto.h | 1 -
- 2 files changed, 6 insertions(+), 3 deletions(-)
+I think we should remove this chunk completely and instead add necessary
+code to drivers/platform/chrome/chrome-laptop.c (I suppose we need to
+have additional member in struct acpi_peripheral to indicate whether
+device needs to be configured for wakeup and then act upon it in
+chromeos_laptop_adjust_client().
 
-diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-index fc5aa1525d13..81e334157338 100644
---- a/drivers/platform/chrome/cros_ec.c
-+++ b/drivers/platform/chrome/cros_ec.c
-@@ -9,6 +9,7 @@
-  * battery charging and regulator control, firmware update.
-  */
- 
-+#include <linux/acpi.h>
- #include <linux/of_platform.h>
- #include <linux/interrupt.h>
- #include <linux/slab.h>
-@@ -336,11 +337,14 @@ int cros_ec_suspend(struct cros_ec_device *ec_dev)
- 		dev_dbg(ec_dev->dev, "Error %d sending suspend event to ec",
- 			ret);
- 
--	if (device_may_wakeup(dev))
-+	/*
-+	 * For non-ACPI subsystems we need to explicitly enable the wake source.
-+	 * For ACPI systems, the ACPI subsystem will handle all the details.
-+	 */
-+	if (device_may_wakeup(dev) && !ACPI_COMPANION(ec_dev->dev))
- 		ec_dev->wake_enabled = !enable_irq_wake(ec_dev->irq);
- 
- 	disable_irq(ec_dev->irq);
--	ec_dev->was_wake_device = ec_dev->wake_enabled;
- 	ec_dev->suspended = true;
- 
- 	return 0;
-diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
-index 992796e40cd6..054d28ddb4c1 100644
---- a/include/linux/platform_data/cros_ec_proto.h
-+++ b/include/linux/platform_data/cros_ec_proto.h
-@@ -139,7 +139,6 @@ struct cros_ec_device {
- 	/* These are used by other drivers that want to talk to the EC */
- 	const char *phys_name;
- 	struct device *dev;
--	bool was_wake_device;
- 	struct class *cros_class;
- 	int (*cmd_readmem)(struct cros_ec_device *ec, unsigned int offset,
- 			   unsigned int bytes, void *dest);
+>  		device_init_wakeup(dev, true);
+> +		dev_pm_set_wake_irq(dev, client->irq);
+> +	}
+>  
+>  	return 0;
+>  }
+
+Thanks.
+
 -- 
-2.34.1.307.g9b7440fafd-goog
-
+Dmitry
