@@ -2,119 +2,162 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B684B47C60D
-	for <lists+linux-input@lfdr.de>; Tue, 21 Dec 2021 19:13:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD6CA47C6EC
+	for <lists+linux-input@lfdr.de>; Tue, 21 Dec 2021 19:49:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241041AbhLUSN1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Dec 2021 13:13:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42652 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240915AbhLUSN1 (ORCPT
+        id S241535AbhLUStn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Dec 2021 13:49:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56229 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S241501AbhLUStn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Dec 2021 13:13:27 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C83C06173F
-        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 10:13:27 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id c7so2595468plg.5
-        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 10:13:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Se/jMdO3lDy18GPtd6C/UaFTcUtBEhTlI63VIgUJKbI=;
-        b=OAAGJZ/k6du3aY4MYLwbI7qVREdnfHW/lIsDSfbXDKoDVOk6b4z1UaVA6Mu7yL+6Ea
-         dHweB4V1bq+rIpTz4/crOaiR0D1tRqtpv0dA+pesstD1a0VUgrXa8xwZD7uwIqoJ0X9s
-         smJlNw0NHYX+cdI26ZId2BH7F+e9nnfExjYXw=
+        Tue, 21 Dec 2021 13:49:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1640112582;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=vARMTVo1VrfVGVXiFzEjZdP3U1cg4RJvquwDM2LMhlA=;
+        b=LUKhbMwmvoybI68cNOSv6+7vcocJfcvNbrdBO85kC3rEsrJ2xRU1SJb7hKlsSUkn9lErZZ
+        2ofc/9I7Bi8Zc+WL0ESlTWA+88h/nQ8ymlR5QTgFI/lNMeFhQ1n1U/G0YDwXatH2TB2sq9
+        QwmHzWy0xXJqkYPdo0JiRcmh3MvRqjw=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-661-ImRvc8rxNLyHl5toKw2zkg-1; Tue, 21 Dec 2021 13:49:41 -0500
+X-MC-Unique: ImRvc8rxNLyHl5toKw2zkg-1
+Received: by mail-ed1-f72.google.com with SMTP id f20-20020a056402355400b003f81df0975bso10072844edd.9
+        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 10:49:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Se/jMdO3lDy18GPtd6C/UaFTcUtBEhTlI63VIgUJKbI=;
-        b=h7Jz9s294evvTlkZyS7Xo4pyeYJcBfD/XmfBKCwZNHMNOqMvPrXQFqD9ERygwWVVGf
-         1zJhKeAL8mb6qUU/6d/NagonJOZRbbLjofYC3JImGHd20LWq7odampeQw+O7Oj8NwdTD
-         SZpNM/GPUAH1d/un+tFmgeyhtNn05b0JC+oHNhf3O/rSZ275FgfzMi+OTDKee21rGzdt
-         z1uXYOiGnHNPUN/Nam4m0xgyE/3paTzl73E+fQpsaEMaVuTlzfluEYptp4Xp75ZbS80p
-         TwTuD0S0m8l1RJhR0XClmaRA8IUMwB8L33dW0y9OgLnyeWfDPIME1xvkvHQfXppgaiGc
-         UeKA==
-X-Gm-Message-State: AOAM531eDUCJHsoNlqSm6XkIUzIi4aAL9fuc7tQvJLDF3ENa2kqO3bq3
-        d2GrXByWIfe3jMeqvQubaOAGNcjlT8wvOA==
-X-Google-Smtp-Source: ABdhPJxxWwABLG2M1F9BtCtcS94Psjz6ddC+uUiX/D/SOWadFPDYelFn8YV3J1gcaduRNRV9ardoyA==
-X-Received: by 2002:a17:90a:f001:: with SMTP id bt1mr5531940pjb.60.1640110406138;
-        Tue, 21 Dec 2021 10:13:26 -0800 (PST)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com. [209.85.215.174])
-        by smtp.gmail.com with ESMTPSA id s192sm14290274pgc.7.2021.12.21.10.13.25
-        for <linux-input@vger.kernel.org>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=vARMTVo1VrfVGVXiFzEjZdP3U1cg4RJvquwDM2LMhlA=;
+        b=NgAzc+GdfahP3our4oPFXkR/ngDmt87FSJI7CdyvnEMk8xezviJHot+Y6Jk/aTwGju
+         /EjDO07T7AjA7BCCCM8JJyCl2dzctH6kUrnZCpZU66jozAdHGyva9gOrJ2PJHiuBaWH6
+         OPNZU/uGw73bcTYYOq5RCUq992pnOo20tLcU1z1WBC277jzuQiBqyTcozL9PQeojr8DQ
+         XrTNRKBIMUyCe/9XUUFvepMVKKImZLnoaln8Ha/OHt+JQAYmtT1krV1FYFDvZBIbdmOK
+         +sCZh4kFUMcAFXkKKF4JvjE+bzA7aPAXpaRFRpwj+nAB5DNke7euCgEIF+jGNWz5mMXz
+         knvg==
+X-Gm-Message-State: AOAM532YEIDZvaKq6kBJ48YNFzbcprzAMKTbZG374VTwOy7rOuoWhEYp
+        7WvLOEjneIxSQBC+DiHDI3XXaKzfyPjYFcjGke1fvXvOwWdXJScuCg+rMCreUKNR2ANpesLB5D7
+        9cHQNzAehWpCtfA+fuhYa+gw=
+X-Received: by 2002:a17:906:7942:: with SMTP id l2mr3991862ejo.730.1640112580044;
+        Tue, 21 Dec 2021 10:49:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyyO538Lipz6cNX+mZBtLLJWpIHrSR/4+UTj3o1R2kN4X0xf64zHHFF4HFEzKkD96jK5RxqoA==
+X-Received: by 2002:a17:906:7942:: with SMTP id l2mr3991851ejo.730.1640112579875;
+        Tue, 21 Dec 2021 10:49:39 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
+        by smtp.gmail.com with ESMTPSA id hw8sm3680167ejc.198.2021.12.21.10.49.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Dec 2021 10:13:25 -0800 (PST)
-Received: by mail-pg1-f174.google.com with SMTP id k4so13047018pgb.8
-        for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 10:13:25 -0800 (PST)
-X-Received: by 2002:a63:f254:: with SMTP id d20mr3992697pgk.127.1640110404524;
- Tue, 21 Dec 2021 10:13:24 -0800 (PST)
+        Tue, 21 Dec 2021 10:49:39 -0800 (PST)
+Message-ID: <7d4f20da-f18b-eccf-19c4-ea7c15492634@redhat.com>
+Date:   Tue, 21 Dec 2021 19:49:38 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 1/3] HID: i2c-hid-acpi: Remove explicit
+ device_set_wakeup_capable
+Content-Language: en-US
+To:     Raul E Rangel <rrangel@chromium.org>, linux-kernel@vger.kernel.org,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>
+Cc:     mario.limonciello@amd.com, linux-input@vger.kernel.org,
+        dianders@chromium.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>
 References: <20211220234346.2798027-1-rrangel@chromium.org>
- <20211220163823.2.Id022caf53d01112188308520915798f08a33cd3e@changeid> <YcE+xrSnS7qw0G1/@google.com>
-In-Reply-To: <YcE+xrSnS7qw0G1/@google.com>
-From:   Raul Rangel <rrangel@chromium.org>
-Date:   Tue, 21 Dec 2021 11:13:13 -0700
-X-Gmail-Original-Message-ID: <CAHQZ30ASMkwR32iT+cs2hq5q9ZYNuJY2ezqnC_HfKhgQ1=f90g@mail.gmail.com>
-Message-ID: <CAHQZ30ASMkwR32iT+cs2hq5q9ZYNuJY2ezqnC_HfKhgQ1=f90g@mail.gmail.com>
-Subject: Re: [PATCH 2/3] Input: elan_i2c - Use PM subsystem to manage wake irq
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, mario.limonciello@amd.com,
-        linux-input@vger.kernel.org, dianders@chromium.org,
-        "jingle.wu" <jingle.wu@emc.com.tw>,
-        Matt DeVillier <matt.devillier@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ <20211220163823.1.Ie20ca47a26d3ea68124d8197b67bb1344c67f650@changeid>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20211220163823.1.Ie20ca47a26d3ea68124d8197b67bb1344c67f650@changeid>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Dec 20, 2021 at 7:41 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Raul,
->
-> On Mon, Dec 20, 2021 at 04:43:45PM -0700, Raul E Rangel wrote:
-> > @@ -1368,11 +1367,13 @@ static int elan_probe(struct i2c_client *client,
-> >       }
-> >
-> >       /*
-> > -      * Systems using device tree should set up wakeup via DTS,
-> > +      * Systems using device tree or ACPI should set up wakeup via DTS/ACPI,
-> >        * the rest will configure device as wakeup source by default.
-> >        */
-> > -     if (!dev->of_node)
-> > +     if (!dev->of_node && !ACPI_COMPANION(dev)) {
->
-> I think this will break our Rambis that use ACPI for enumeration but
-> actually lack _PRW. As far as I remember their trackpads were capable
-> of waking up the system.
+Hi,
 
-Looks like the _PRW was only added for the atmel touchscreen:
-https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/third_party/coreboot/src/mainboard/google/rambi/acpi/touchscreen_atmel.asl;l=42
+On 12/21/21 00:43, Raul E Rangel wrote:
+> The ACPI subsystem is responsible for managing the power and wake
+> sources for an ACPI device. By explicitly calling
+> device_set_wakeup_capable, we are circumvent the ACPI subsystem and
+> setting wake capabilities on the device when it doesn't support it.
+> 
+> Take the following example:
+> * We have an ACPI HID device that has `_PR0` and `_PR3`. It doesn't have
+> `_PRW` so that means the device can't wake the system.
+> * The IRQ line is active level low for this device and is pulled up by the
+> power resource defined in `_PR0`/`_PR3`.
+> 
+> Since the i2c-hid driver has set the device as wake capable, the wake
+> pin gets enabled on suspend.
 
-I'm assuming this was before we had the `drivers/i2c/hid` chip driver.
+The IRQ pin should only have a enable_irq_wake() called on it if
+something has actually requested the i2c-HID device to be a wakeup source,
+the removed code claims the device is wakeup *capable*, but is also
+explicitly calls device_set_wakeup_enable(dev, false), disabling wakeup.
 
->
-> I think we should remove this chunk completely and instead add necessary
-> code to drivers/platform/chrome/chrome-laptop.c (I suppose we need to
-> have additional member in struct acpi_peripheral to indicate whether
-> device needs to be configured for wakeup and then act upon it in
-> chromeos_laptop_adjust_client().
+And i2c-hid suspend does:
 
-I think that's a good idea. Should I add all the mainboards defined
-here: https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/third_party/coreboot/src/mainboard/google/rambi/Kconfig;l=48
-?
+        if (device_may_wakeup(&client->dev)) {
+                wake_status = enable_irq_wake(client->irq);
 
->
-> >               device_init_wakeup(dev, true);
-> > +             dev_pm_set_wake_irq(dev, client->irq);
-> > +     }
-> >
-> >       return 0;
-> >  }
->
-> Thanks.
->
-> --
-> Dmitry
+And device_may_wakeup() checks the wakeup *enabled* setting AFAIK.
+
+I've added Rafael to the Cc since he knows all this a lot better then me.
+
+I have the feeling that your userspace is perhaps poking the
+wakeup settings in sysfs, triggering this issue.
+
+> As part of suspend, ACPI will power down
+> the device since it's not a wake source. When the device is powered
+> down, the IRQ line will drop, and it will trigger a wake event.
+
+To me that sounds like the device is not wakeup *capable* at all, so
+its ACPI node should not set the ACPI_FADT_LOW_POWER_S0 flag at all.
+
+Note I'm not certain about this at all, but at a first look this feels
+like it is not the right fix for your problem.
+
+Regards,
+
+Hans
+
+
+> 
+> See the following debug log:
+> [   42.335804] PM: Suspending system (s2idle)
+> [   42.340186] amd_gpio AMD0030:00: RX: Setting wake for pin 89 to enable
+> [   42.467736]     power-0416 __acpi_power_off      : Power resource [PR00] turned off
+> [   42.467739] device_pm-0280 device_set_power      : Device [H05D] transitioned to D3cold
+> [   42.475210] PM: pm_system_irq_wakeup: 11 triggered pinctrl_amd
+> [   42.535293] PM: Wakeup unrelated to ACPI SCI
+> [   42.535294] PM: resume from suspend-to-idle
+> 
+> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+> ---
+> 
+>  drivers/hid/i2c-hid/i2c-hid-acpi.c | 5 -----
+>  1 file changed, 5 deletions(-)
+> 
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-acpi.c b/drivers/hid/i2c-hid/i2c-hid-acpi.c
+> index a6f0257a26de..fc311a19a19d 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-acpi.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-acpi.c
+> @@ -105,11 +105,6 @@ static int i2c_hid_acpi_probe(struct i2c_client *client)
+>  
+>  	acpi_device_fix_up_power(adev);
+>  
+> -	if (acpi_gbl_FADT.flags & ACPI_FADT_LOW_POWER_S0) {
+> -		device_set_wakeup_capable(dev, true);
+> -		device_set_wakeup_enable(dev, false);
+> -	}
+> -
+>  	return i2c_hid_core_probe(client, &ihid_acpi->ops,
+>  				  hid_descriptor_address);
+>  }
+> 
+
