@@ -2,102 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B29047B86D
-	for <lists+linux-input@lfdr.de>; Tue, 21 Dec 2021 03:41:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E8DC47BBF2
+	for <lists+linux-input@lfdr.de>; Tue, 21 Dec 2021 09:36:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232937AbhLUClP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Dec 2021 21:41:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231833AbhLUClP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Dec 2021 21:41:15 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F42C061574;
-        Mon, 20 Dec 2021 18:41:14 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id t123so8983092pfc.13;
-        Mon, 20 Dec 2021 18:41:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=afti1NXvSIwBw8US5gzMRH6ZikCTI5DK3ck1t2Ge/2s=;
-        b=J3uv/O/S+HSTaa2LdazRFnAe5WNXJLOy6PA+B7U4tshjAacxGvSQclIlAynOcZT/CN
-         CQpGZtGaQEFewu+j5wDytaXzaLG9kx4rd8rMmJMEne3uNxQzL4AP/lwekxPj3v3TFOCV
-         6X+UD3Xro49FkcqML18U5jslu4oDep6EA9f400IDpalDyZLMYH7hZjfANOWHloE1fL7D
-         L+7ZK6wgEnRgwbaO7KWOCgJYjoy5RkpM8K86Ci5fYIRMSDM5eWBlw7XCvqZjjr+C6BQc
-         kVwROulXy2ch1EGfKBDzZeSfT+pVB4vKUjzH5G6z/uOyTgMGgePWRuspyQB9b13MujKb
-         9F4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=afti1NXvSIwBw8US5gzMRH6ZikCTI5DK3ck1t2Ge/2s=;
-        b=6QPGFKCLtiK+nDcs1ZOhhFqvzPthBIkMwYtzKwNK+G4F8H0kn19vD2SoKWwqSpGsLA
-         nK4EvdpPX7AZCjkyhFqoksxe+krceNjwchFZGA4JkW6fmY3dzceVEpCXI+Q6hOS6QqY/
-         xeKbbDsuR/XDONCH8zXayeAOeuGlPUk81FbVsYWgTDFaRQ7FF+tf8/+4qh0MeutS4b5h
-         E1ifuyTwyIZjbk7wAPXvZLib17ydjmxDcgVWvrPmyorMlaSU94SLLaFnu2/VwtDddDzf
-         pEWaPHC7q3vqYFculKQ04b4vLnzK2C3am9PAbuI4sXakCNNp1oJrobIZ60l8GBpMMWBu
-         psbQ==
-X-Gm-Message-State: AOAM532r44nbFGD1oa/mub/J3WPmFX8EpjlIKw/fMUZCIvJdsBfWXGvu
-        BcBT1ebCdK/UdriE09VRoI8=
-X-Google-Smtp-Source: ABdhPJxbRUfeiNisUkz//f/ap0uiQ4vbYAccA0RhpZjFSVQEJMcTMzFEpu+yc6yWie1WSmLvwjtHrw==
-X-Received: by 2002:a63:2b05:: with SMTP id r5mr1023137pgr.0.1640054474022;
-        Mon, 20 Dec 2021 18:41:14 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:9632:a1c4:968a:6f66])
-        by smtp.gmail.com with ESMTPSA id pc1sm718411pjb.5.2021.12.20.18.41.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 18:41:12 -0800 (PST)
-Date:   Mon, 20 Dec 2021 18:41:10 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Raul E Rangel <rrangel@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, mario.limonciello@amd.com,
-        linux-input@vger.kernel.org, dianders@chromium.org,
-        "jingle.wu" <jingle.wu@emc.com.tw>
-Subject: Re: [PATCH 2/3] Input: elan_i2c - Use PM subsystem to manage wake irq
-Message-ID: <YcE+xrSnS7qw0G1/@google.com>
-References: <20211220234346.2798027-1-rrangel@chromium.org>
- <20211220163823.2.Id022caf53d01112188308520915798f08a33cd3e@changeid>
+        id S235681AbhLUIgY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Dec 2021 03:36:24 -0500
+Received: from mail.neweas.com ([80.211.187.56]:51390 "EHLO mail.neweas.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232308AbhLUIgX (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 21 Dec 2021 03:36:23 -0500
+Received: by mail.neweas.com (Postfix, from userid 1001)
+        id 5509EA2827; Tue, 21 Dec 2021 08:36:14 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=neweas.com; s=mail;
+        t=1640075802; bh=344ka1ykJ0mvfujTlqCYPtTosUKgQHFWZmLJzFrWq60=;
+        h=Date:From:To:Subject:From;
+        b=arGhOKFdi4OmF/UqBQ+kIq6CibniHGe8ARBqc1ujm+dopFm/2whJJD+2vinBPE4XI
+         gowWdixLVPVVHdCqfyMFxssrU1nut/DXTazP7nsfMlrso/WyRKpExIFgkXHNuVaFg7
+         za3tLkENKOSj0MA/sK1fTuguMUjrKh6To3zyI/UYzBtmQNZ9+SYhOd72qQQfBjCWQQ
+         DmW6rBy3mteGt865GifKMDyJswesRrz66WcbnL4e10rGTCI8z3YtjpoPbIwPlynrta
+         H5GEYNtg9vfOrrlrKZEUOdzKzqaq8fsauhipLN8lbshih9d9j+y/R5fEexv34whEBR
+         w0AJjvVL9kRug==
+Received: by mail.neweas.com for <linux-input@vger.kernel.org>; Tue, 21 Dec 2021 08:35:59 GMT
+Message-ID: <20211221074500-0.1.33.fmdw.0.qqcforafik@neweas.com>
+Date:   Tue, 21 Dec 2021 08:35:59 GMT
+From:   =?UTF-8?Q? "Miguel_Rodr=C3=ADguez_Garc=C3=ADa" ?= 
+        <miguel.garcia@neweas.com>
+To:     <linux-input@vger.kernel.org>
+Subject: Servicio de la flota
+X-Mailer: mail.neweas.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211220163823.2.Id022caf53d01112188308520915798f08a33cd3e@changeid>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Raul,
+Buenos d=C3=ADas:
 
-On Mon, Dec 20, 2021 at 04:43:45PM -0700, Raul E Rangel wrote:
-> @@ -1368,11 +1367,13 @@ static int elan_probe(struct i2c_client *client,
->  	}
->  
->  	/*
-> -	 * Systems using device tree should set up wakeup via DTS,
-> +	 * Systems using device tree or ACPI should set up wakeup via DTS/ACPI,
->  	 * the rest will configure device as wakeup source by default.
->  	 */
-> -	if (!dev->of_node)
-> +	if (!dev->of_node && !ACPI_COMPANION(dev)) {
+Le escribo para hablarle sobre una de las mejores herramientas GPS en el =
+mercado.
 
-I think this will break our Rambis that use ACPI for enumeration but
-actually lack _PRW. As far as I remember their trackpads were capable
-of waking up the system.
+La herramienta, que me gustar=C3=ADa presentarle brevemente, dispone de m=
+uchas funciones =C3=BAtiles para su trabajo, que optimizan los procesos d=
+e transporte y le ayudan a realizar tareas de campo de manera m=C3=A1s ef=
+iciente.
 
-I think we should remove this chunk completely and instead add necessary
-code to drivers/platform/chrome/chrome-laptop.c (I suppose we need to
-have additional member in struct acpi_peripheral to indicate whether
-device needs to be configured for wakeup and then act upon it in
-chromeos_laptop_adjust_client().
+=C2=BFQuiere conocer los detalles?
 
->  		device_init_wakeup(dev, true);
-> +		dev_pm_set_wake_irq(dev, client->irq);
-> +	}
->  
->  	return 0;
->  }
 
-Thanks.
-
--- 
-Dmitry
+Atentamente,
+Miguel Rodr=C3=ADguez Garc=C3=ADa
