@@ -2,98 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 437D347D926
-	for <lists+linux-input@lfdr.de>; Wed, 22 Dec 2021 23:06:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB01047DE27
+	for <lists+linux-input@lfdr.de>; Thu, 23 Dec 2021 04:52:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230328AbhLVWG5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Dec 2021 17:06:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43171 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230063AbhLVWG5 (ORCPT
+        id S242048AbhLWDwU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Dec 2021 22:52:20 -0500
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:38683 "EHLO
+        wout1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S242010AbhLWDwT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Dec 2021 17:06:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1640210816;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=5bAK5sdieX4U9atiGAI5totDiEEK1BezJsS+15eJ3kU=;
-        b=SceITGq2yRlIumV9cXJItUYS7kXmJqSV4fa100ewxrAykhg77GCndMkXb1g4fTlsBhgvWN
-        eqCKICw1rom1UNgGlDOZK0wBN9bBDePPPZiTC3wAgZv2r89QEjudAbNZvitcJRoowPykWp
-        5Yi2l4gN6R8qyh4Do00Eb3UII67YS+0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-120-_i8_VqdcP4eEjsHSWwYX8A-1; Wed, 22 Dec 2021 17:06:53 -0500
-X-MC-Unique: _i8_VqdcP4eEjsHSWwYX8A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB1F3760C5;
-        Wed, 22 Dec 2021 22:06:51 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.45])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 213217ED87;
-        Wed, 22 Dec 2021 22:06:46 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Jingle Wu <jingle.wu@emc.com.tw>, linux-input@vger.kernel.org
-Subject: [PATCH] Input: elan_i2c - Fix regulator enable count imbalance after suspend/resume
-Date:   Wed, 22 Dec 2021 23:06:41 +0100
-Message-Id: <20211222220641.439863-1-hdegoede@redhat.com>
+        Wed, 22 Dec 2021 22:52:19 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.west.internal (Postfix) with ESMTP id 9F4C73200645;
+        Wed, 22 Dec 2021 22:52:18 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 22 Dec 2021 22:52:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=turner.link; h=
+        from:to:cc:subject:date:message-id:mime-version:content-type; s=
+        fm1; bh=zfn54E2SBrZu6H5DGu4dRs4BpFYiiAH0eP8Vbw7z++g=; b=g5MFb7PX
+        Vh9Ktk6G/uJRagauc+M9gwPpFy8wg0jHFRzwUKu5DKdRj6fzIQiorkacmCaY2Tf0
+        MuvqHOGSE5ioUG/2CQfwb01bMOeB5CR9Jy1F1PsJKtrTXbqX8yZ1Lepa583++uCx
+        OJleL4pwa4a0wWzRa7FPftxvqzBs++FPkDw62gEI4/IyHavDm2/Oqt79hJQjcuoi
+        EJqLgB4Qrn6vLKiRMFq+q3Mws32lZqiOqgSBqwXbvANS2WjZPzjfICrx6qaqJFw9
+        0/Oq51UmMnqsOMFUmGMWxIO6JTxK9gJ3YEXkrjMqNH+T1uTUITV/M2tNL3AS/12p
+        PVO5tbOTqHpjkg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:message-id
+        :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm1; bh=zfn54E2SBrZu6H5DGu4dRs4BpFYii
+        AH0eP8Vbw7z++g=; b=dBEVlp9MwvpibRr2Lq1hZrLDQvISD3aWqthztsyHiSeZH
+        BAZg++MhbVIcxxB/+DwUx8ym56TUrRaD9EwG7vgbGiFUg4VyIpY6bQcVL7Ig5Wwv
+        10oQAQ9Nh3MseZkfRN2089jLiKShSURZTssRtVqysffCnMz0kJizQAbFWYO8jLiu
+        7TX6broVlcEnrC5K3T3ruWysiUq2/We8EqEBb0V9XkZPU22y3o6CJCFTo401wTsk
+        p+b/QCu6RsM8xaExer72p66vpkzSZ+OVRoVn81pUzAS2KO95iHyRW2v6MGrynvBj
+        doUTh7EdwXRUKuHuSAixvz9SGk1cIO6sskuvk7EAg==
+X-ME-Sender: <xms:cfLDYZ125QeC9YVQx9Z7ygsuVII-wF7Furas8WzU5w5ir8JS-L0UhQ>
+    <xme:cfLDYQGr9ksdD9x9APO2by__Kc1R843PoUgjLgIPkbIbZeayt88XlG1jrIGJeKQD9
+    RpCGL6fIcSLP-hPpg>
+X-ME-Received: <xmr:cfLDYZ4N9m9BmoaP8tIkfXYkw34Oq82VLwCRcY8jn0TiAQdFlI5yAFKUFtOkKo--SjlWBrRBIQ7C2xfmNQcJ_lFy995gbrEm6Q4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddruddtjedgieegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkfggtgesthdtredttddttdenucfhrhhomhepfdflrghmvghsucff
+    rdcuvfhurhhnvghrfdcuoehlihhnuhigkhgvrhhnvghlrdhfohhsshesughmrghrtgdqnh
+    honhgvrdhtuhhrnhgvrhdrlhhinhhkqeenucggtffrrghtthgvrhhnpedttdelffeuhedt
+    fedtteeitdejueegfefgvefgkeejkeefffejheelieetheehhfenucffohhmrghinhepkh
+    gvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+    lhhfrhhomheplhhinhhugihkvghrnhgvlhdrfhhoshhssegumhgrrhgtqdhnohhnvgdrth
+    hurhhnvghrrdhlihhnkh
+X-ME-Proxy: <xmx:cfLDYW0si5J9avodckNPtsdhW4F97cc2szlwQoQFDAvjMsXdYiglyg>
+    <xmx:cfLDYcGc6yU7ytz2h5DwsGhHvbAU7-6d877g6RiQ8fBFtaAELl8yNw>
+    <xmx:cfLDYX_A-TSvEynL5tjkFJSAWw6TkBcHi6OTtLEyFEuahfihDHT4RQ>
+    <xmx:cvLDYR69wRYI_i7XG9dpJD11r6YrUtXJ0ke1XU5Tf1oK6eyvMOF-8Q>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Dec 2021 22:52:17 -0500 (EST)
+From:   "James D. Turner" <linuxkernel.foss@dmarc-none.turner.link>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Jiri Kosina" <jikos@kernel.org>,
+        "Benjamin Tissoires" <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, stable@vger.kernel.org
+Subject: [PATCH] HID: holtek-mouse: start hardware in probe
+Date:   Tue, 21 Dec 2021 21:21:41 -0500
+Message-ID: <875yrgf05r.fsf@turner.link>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Before these changes elan_suspend() would only call elan_disable_power()
-when device_may_wakeup() returns false; whereas elan_resume() would
-unconditionally call elan_enable_power(), leading to an enable count
-imbalance when device_may_wakeup() returns true.
+The holtek_mouse_probe() function is missing the necessary code to
+start the hardware. When an Etekcity Scroll X1 (M555) USB mouse is
+plugged in, the mouse receives power and the kernel recognizes it as a
+USB device, but the system does not respond to any movement, clicking,
+or scrolling of the mouse. Presumably, this bug also affects all other
+mice supported by the hid-holtek-mouse driver, although this has not
+been tested. On the stable linux-5.15.y branch, testing confirms that
+the bug was introduced in commit a579510a64ed ("HID: check for valid
+USB device for many HID drivers"), which was first included in
+v5.15.8. Based on the source code, this bug appears to be present in
+all currently-supported kernels (mainline, stable, and all LTS
+kernels). Testing on hardware confirms that this proposed patch fixes
+the bug for kernel v5.15.10. Fix holtek_mouse_probe() to call the
+necessary functions to start the hardware.
 
-This triggers the "WARN_ON(regulator->enable_count)" in regulator_put()
-when the elan_i2c driver gets unbound, this happens e.g. with the
-hot-plugable dock with Elan I2C touchpad for the Asus TF103C 2-in-1.
-
-Fix this by making the elan_enable_power() call also be conditional
-on device_may_wakeup() returning false.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Fixes: 93020953d0fa ("HID: check for valid USB device for many HID drivers")
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: linux-input@vger.kernel.org
+Cc: stable@vger.kernel.org
+Signed-off-by: James D. Turner <linuxkernel.foss@dmarc-none.turner.link>
 ---
- drivers/input/mouse/elan_i2c_core.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+This is my first time submitting a kernel patch. I think I've followed
+all the directions, but please let me know if I should do something
+differently.
 
-diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
-index 47af62c12267..cdb36d35ffa4 100644
---- a/drivers/input/mouse/elan_i2c_core.c
-+++ b/drivers/input/mouse/elan_i2c_core.c
-@@ -1412,17 +1412,17 @@ static int __maybe_unused elan_resume(struct device *dev)
- 	struct elan_tp_data *data = i2c_get_clientdata(client);
- 	int error;
+In addition to testing this patch for the stable v5.15.10 kernel on real
+hardware, I also tested it for the latest master of the hid repository
+(commit 03090cc76ee3 ("Merge branch 'for-linus' of
+git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid")) using a VM with
+USB passthrough.
+
+ drivers/hid/hid-holtek-mouse.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-holtek-mouse.c b/drivers/hid/hid-holtek-mouse.c
+index b7172c48ef..29e41c97ec 100644
+--- a/drivers/hid/hid-holtek-mouse.c
++++ b/drivers/hid/hid-holtek-mouse.c
+@@ -65,9 +65,16 @@ static __u8 *holtek_mouse_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ static int holtek_mouse_probe(struct hid_device *hdev,
+ 			      const struct hid_device_id *id)
+ {
++	int ret;
++
+ 	if (!hid_is_usb(hdev))
+ 		return -EINVAL;
+-	return 0;
++
++	ret = hid_parse(hdev);
++	if (!ret)
++		ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
++
++	return ret;
+ }
  
--	if (device_may_wakeup(dev) && data->irq_wake) {
-+	if (!device_may_wakeup(dev)) {
-+		error = elan_enable_power(data);
-+		if (error) {
-+			dev_err(dev, "power up when resuming failed: %d\n", error);
-+			goto err;
-+		}
-+	} else if (data->irq_wake) {
- 		disable_irq_wake(client->irq);
- 		data->irq_wake = false;
- 	}
- 
--	error = elan_enable_power(data);
--	if (error) {
--		dev_err(dev, "power up when resuming failed: %d\n", error);
--		goto err;
--	}
--
- 	error = elan_initialize(data, data->quirks & ETP_QUIRK_QUICK_WAKEUP);
- 	if (error)
- 		dev_err(dev, "initialize when resuming failed: %d\n", error);
+ static const struct hid_device_id holtek_mouse_devices[] = {
+
+base-commit: 03090cc76ee3298cc70bce26bbe93a0cb50e42a2
 -- 
-2.33.1
+2.34.1
 
