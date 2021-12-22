@@ -2,205 +2,169 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A28847D265
-	for <lists+linux-input@lfdr.de>; Wed, 22 Dec 2021 13:46:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 479D047D4FF
+	for <lists+linux-input@lfdr.de>; Wed, 22 Dec 2021 17:17:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241042AbhLVMqd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Dec 2021 07:46:33 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:58343 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S241016AbhLVMqc (ORCPT
+        id S234704AbhLVQRR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Dec 2021 11:17:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58508 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233896AbhLVQRQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Dec 2021 07:46:32 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.nyi.internal (Postfix) with ESMTP id AEA275803DA;
-        Wed, 22 Dec 2021 07:46:31 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 22 Dec 2021 07:46:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
-         h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm2; bh=liWNH9cngrKwH
-        G/iQAoSwWAxTQqxW15kZvnIgwu8SwU=; b=N+IGqbnou+seL9Ny+yn3XiNkHPRRp
-        Hab2YkcarkqS15cAYeD5hPSp2Jg4A5xdQd1JPQWGPWjJ3h4u0TSvfAOT6dzpBsyu
-        +Etjap+fxYoTlWGAUcr5XTaIbvUCSUILsqx+l5cw5jjkheKQGGqjxR8Iawd9qOxD
-        hs6ZTADSnZgSl+OV5rl88UM642fFe74T9KBckeHsvvXJ2qiQUOcG3mSmup/s95yy
-        1eymaTxziHjkIBws26QKlUaYj6CzpGLGb9v87eWtJW8rUMuynHrp4FPRg1hoJSwj
-        fHymcfhtmzmKhuQS8Seq4BsjHqWXlRWvg07IbFhXu/Px8oud5/eb/puhA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=liWNH9cngrKwHG/iQAoSwWAxTQqxW15kZvnIgwu8SwU=; b=PBuJWE4G
-        Z+ZVuYxsSrz1trfZ0WSTz1FfL1uJcKoCzMNGuB428SdMIYJzl2BgxCc3j/d2RqCI
-        r7ylIp8iFbC9gGU+JwznKK2jmzORvH7OvKHBsCwmEoW6sCBSKuN/m9G8Qw8YjdPR
-        xJPWtApch244ILnu2BKb43jQk+LFTi2zWPX6LUimPLp35ootBUYRWbVWHKJv+YCb
-        cm9YB3wLAu/RvB85XrvjY9x/4xZqCkIoBgY0hoAQvLFdqSEeeRfzK1fpG2G08ME9
-        cSL2EeoB05LakQlhhSkdNwKspGt97XRv6HomHsj2N349FWPciwCjLUkTm2BrBup8
-        LQ/sRmyprXhTeA==
-X-ME-Sender: <xms:Jx7DYWX_JR7l8elWKKfdIErAszGkkyvVrbRKyFQSn-4nq73KlRgQAQ>
-    <xme:Jx7DYSmYtEhgepYgPNrcbS6kmC6hf6fbCjjA1w5DJGTRSEgKN6u_Qy8pZBCZukJpI
-    NwQaV8KS4Zcuy_hgtI>
-X-ME-Received: <xmr:Jx7DYab3xQCiGmy2B2o8RwH1mzMIKOeYMrzWMQe2gr-6N5IAZdhaTbO4QOuAwcAlvInze_e15Ok>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddruddtiedgfeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
-    dtredttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgr
-    ihhrsegrlhhishhtrghirhdvfedrmhgvqeenucggtffrrghtthgvrhhnpeeggedtteejke
-    eggeeugfehueevudegvdetjeeviedugedvtdekffekhedtteduhfenucevlhhushhtvghr
-    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrlhhishhtrghirhesrghlih
-    hsthgrihhrvdefrdhmvg
-X-ME-Proxy: <xmx:Jx7DYdUBtbY9PYNgIdgtesMY8jAiwhQG-wXpDVzc4HpSoagVT0DLDQ>
-    <xmx:Jx7DYQnqVg2PlaURARGturzNhYcPbBONBeO38RRnVzj4q8h8ip62yg>
-    <xmx:Jx7DYSdYeNPPJ6uU7ydK_KFTPJl49S8VWGMMXvR7R7Zggyxerq9jOA>
-    <xmx:Jx7DYdhBkp_uOFN2-fHbLHwJX9u3IzQPFz3FHw69uWIpgJBzkEbv_g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Dec 2021 07:46:27 -0500 (EST)
-From:   Alistair Francis <alistair@alistair23.me>
-To:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     dmitry.torokhov@gmail.com, alistair23@gmail.com,
-        robh+dt@kernel.org, linus.walleij@linaro.org, rydberg@bitmath.org,
-        andreas@kemnade.info, Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH v4 4/4] ARM: dts: imx7d-remarkable2: Enable the cyttsp5
-Date:   Wed, 22 Dec 2021 22:46:03 +1000
-Message-Id: <20211222124603.326920-5-alistair@alistair23.me>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211222124603.326920-1-alistair@alistair23.me>
-References: <20211222124603.326920-1-alistair@alistair23.me>
+        Wed, 22 Dec 2021 11:17:16 -0500
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F162C061574
+        for <linux-input@vger.kernel.org>; Wed, 22 Dec 2021 08:17:16 -0800 (PST)
+Received: by mail-yb1-xb35.google.com with SMTP id y68so8218747ybe.1
+        for <linux-input@vger.kernel.org>; Wed, 22 Dec 2021 08:17:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=My1rPklHk3pMY7yidI1fnwAebi914opKirFtYScQP6c=;
+        b=Lg0CLmjUs1S9AhW88gdsKz7WG60oNEcO2je98utcfbefPUAG9fWok7czjY+0A3Bta5
+         05ozLU1NYy7bGlz5beaZO60M6irZTqBTlbRgtlZBgTgw7foDgyyA9NZzAm5yByD93V8O
+         0NNmN1S93J1+JItdCE09l/aMS+VHPXVs2+OCueuwPCckaA0IQAS7EAzn3M3tVLxk8fl5
+         Cvq0H+PeAYmZBbC/klmLRSnB/8YQpevyc0VuAFI3s5Alm1tgY0jHPsAj9EzPalTLjtv0
+         mvq0mtloZMmbkSf1qB6Pr0STPJ36+p/L1x5z/TMEUhKVJ9rcQveGg27n1tGnLqHzsIbV
+         2THw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=My1rPklHk3pMY7yidI1fnwAebi914opKirFtYScQP6c=;
+        b=SoJsZJsEdbOmOI1LnZGOW98JDOolDXOT9oTiy1my8Yo4PjxE3AIB6rLx3xoYQNvjer
+         +jjhdrOGDLbFikuXx/RtaSsEultpphU659Y7gZLN5oZufisK9CxE5TyZ8SEpS5Su4Pmt
+         QDFHThO5O3FmKOJ/7cekMalFVQle2rI4t1KgFYzrZK/ZINMNrAANQipoT7i3iTOcu3Kf
+         +WFKk00SM07W3mLJoFFFjHNbLBeG4x7YF+VqVuquAaBz5yYy9RCNJbYFSrtJSlZcmQTQ
+         3b+X+SFOi1lCfcd8prfIMZJvbljs4QGXr/rEalQjKXa0tDSImM8voCwWmCB1h7bqhcNV
+         p4kw==
+X-Gm-Message-State: AOAM531mgNzah9aINJ6xGXgshHS6q1zGhot21vJCDkAPdWPahVt1sU+a
+        hOr9dwahs0rrJyL0Q3n+wYF1aAagVnwtbWsFc7gUuznI
+X-Google-Smtp-Source: ABdhPJyHiGPKSPz0CVlxG12CNTBfinFDXRhpnmEl22+vlYizrcmYl3ieMx+ujL0Ov6uSVthJBi8JxzXigasCbcghvaU=
+X-Received: by 2002:a25:2d6d:: with SMTP id s45mr5143494ybe.532.1640189835570;
+ Wed, 22 Dec 2021 08:17:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211221191743.1893185-1-acz@semihalf.com>
+In-Reply-To: <20211221191743.1893185-1-acz@semihalf.com>
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Wed, 22 Dec 2021 08:17:04 -0800
+Message-ID: <CAEc3jaD97Oq2uJ4g=5hOzHmOBCvyj2k=++cMSFGhvp8GBadedg@mail.gmail.com>
+Subject: Re: [PATCH 00/18] *** Implement simple haptic HID support ***
+To:     Angela Czubak <acz@semihalf.com>
+Cc:     linux-input <linux-input@vger.kernel.org>, upstream@semihalf.com,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for the cyttsp5 touchscreen controller for the reMarkable 2.
+Hi Angela,
 
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
----
- arch/arm/boot/dts/imx7d-remarkable2.dts | 89 +++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
+Thanks for sharing. I would like to have a look as well at this
+series. As I briefly mentioned in another thread at Sony we have a
+need for haptics as well for our DualSense controller for the
+PlayStation 5. There is some overlap and differences. For our use
+case, FF is really showing its limits (it really doesn't work). The
+key question I have is whether FF is really a good fit for your use
+case or not. I don't understand this type of device well enough yet.
+There might be enough demand for either a new framework (or it is the
+end of the road for evdev).
 
-diff --git a/arch/arm/boot/dts/imx7d-remarkable2.dts b/arch/arm/boot/dts/imx7d-remarkable2.dts
-index 89cbf13097a4..f12d6805b214 100644
---- a/arch/arm/boot/dts/imx7d-remarkable2.dts
-+++ b/arch/arm/boot/dts/imx7d-remarkable2.dts
-@@ -8,6 +8,7 @@
- /dts-v1/;
- 
- #include "imx7d.dtsi"
-+#include <dt-bindings/input/linux-event-codes.h>
- 
- / {
- 	model = "reMarkable 2.0";
-@@ -34,6 +35,18 @@ reg_brcm: regulator-brcm {
- 		startup-delay-us = <150>;
- 	};
- 
-+	reg_touch: regulator-touch {
-+		compatible = "regulator-fixed";
-+		regulator-name = "VDD_3V3_TOUCH";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		pinctrl-names = "default", "sleep";
-+		pinctrl-0 = <&pinctrl_touch_reg>;
-+		pinctrl-1 = <&pinctrl_touch_reg>;
-+		gpio = <&gpio1 11 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+	};
-+
- 	wifi_pwrseq: wifi_pwrseq {
- 		compatible = "mmc-pwrseq-simple";
- 		pinctrl-names = "default";
-@@ -51,6 +64,59 @@ &clks {
- 	assigned-clock-rates = <0>, <32768>;
- };
- 
-+&i2c3 {
-+	clock-frequency = <100000>;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i2c3>;
-+	status = "okay";
-+
-+	tsc@24 {
-+		compatible = "cypress,tt21000";
-+		reg = <0x24>;
-+
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_touch>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <14 IRQ_TYPE_EDGE_FALLING>;
-+		reset-gpios = <&gpio1 13 GPIO_ACTIVE_LOW>;
-+		vdd-supply = <&reg_touch>;
-+		touchscreen-size-x = <880>;
-+		touchscreen-size-y = <1280>;
-+
-+		button-0 {
-+			linux,code = <KEY_HOMEPAGE>;
-+		};
-+
-+		button-1 {
-+			linux,code = <KEY_MENU>;
-+		};
-+
-+		button-2 {
-+			linux,code = <KEY_BACK>;
-+		};
-+
-+		button-3 {
-+			linux,code = <KEY_SEARCH>;
-+		};
-+
-+		button-4 {
-+			linux,code = <KEY_VOLUMEDOWN>;
-+		};
-+
-+		button-5 {
-+			linux,code = <KEY_VOLUMEUP>;
-+		};
-+
-+		button-6 {
-+			linux,code = <KEY_CAMERA>;
-+		};
-+
-+		button-7 {
-+			linux,code = <KEY_POWER>;
-+		};
-+	};
-+};
-+
- &snvs_pwrkey {
- 	status = "okay";
- };
-@@ -125,6 +191,29 @@ MX7D_PAD_SAI1_TX_BCLK__GPIO6_IO13	0x14
- 		>;
- 	};
- 
-+	pinctrl_touch: touchgrp {
-+		fsl,pins = <
-+			/* CYTTSP interrupt */
-+			MX7D_PAD_GPIO1_IO14__GPIO1_IO14		0x54
-+			/* CYTTSP reset */
-+			MX7D_PAD_GPIO1_IO13__GPIO1_IO13		0x04
-+		>;
-+	};
-+
-+	pinctrl_i2c3: i2c3grp {
-+		fsl,pins = <
-+			MX7D_PAD_I2C3_SDA__I2C3_SDA		0x4000007f
-+			MX7D_PAD_I2C3_SCL__I2C3_SCL		0x4000007f
-+		>;
-+	};
-+
-+	pinctrl_touch_reg: touchreggrp {
-+		fsl,pins = <
-+			/* TOUCH_PWR_EN */
-+			MX7D_PAD_GPIO1_IO11__GPIO1_IO11		0x14
-+		>;
-+	};
-+
- 	pinctrl_uart1: uart1grp {
- 		fsl,pins = <
- 			MX7D_PAD_UART1_TX_DATA__UART1_DCE_TX	0x79
--- 
-2.31.1
+Thanks,
+Roderick
 
+On Wed, Dec 22, 2021 at 7:59 AM Angela Czubak <acz@semihalf.com> wrote:
+>
+> This patch series introduces changes necessary to support devices
+> using simple haptic HID pages.
+> Implementation attempts to follow the discussion below:
+> https://www.spinics.net/lists/linux-input/msg61091.html
+>
+> Introduce new haptic defines as specified in HID Usage Tables.
+>
+> Add new force feedback effect type in order to facilitate using
+> simple haptic force feedback.
+>
+> Add INPUT_PROP_HAPTIC_TOUCHPAD to mark touchpad exposing simple haptic
+> support.
+>
+> Add new struct hid_haptic_device so as to gather simple haptic related
+> configuration and current state of the device.
+>
+> Function mt_get_feature() gets renamed to hid_get_feature() and is moved
+> to hid-core.c as it is not specific to hid multitouch driver and may be
+> reused, for instance by simple haptic specific source.
+>
+> Add new functions to be triggered during HID input mapping and
+> configuration in order to detect simple haptic devices.
+>
+> Modify HID input so that haptic output reports are parsed.
+>
+> Initialize a haptic device.
+>
+> Modify FF core so that effect IDs can be shared between multiple open file
+> handles.
+>
+> Add shared release and press effects for a simple haptic device.
+>
+> Calculate pressure resolution if units are grams or newtons.
+>
+> Add support for kernel-driven mode of simple haptic device.
+>
+> Toggle ABS_PRESSURE generation by input-mt on request.
+>
+> Implement functions allowing switching between kernel-managed mode
+> and autonomous mode.
+>
+> Add simple haptic support for hid-multitouch driver.
+>
+> Implement EVIOCFF(TAKE|RELEASE)CONTROL ioctls so that userspace can take
+> and release control of shared release and press effects.
+>
+> Fix i2c_hid_set_or_send_report so that report IDs larger than 0xF are
+> handled correctly.
+>
+> Angela Czubak (18):
+>   HID: add haptics page defines
+>   Input: add FF_HID effect type
+>   Input: add INPUT_PROP_HAPTIC_TOUCHPAD
+>   HID: haptic: introduce hid_haptic_device
+>   HID: introduce hid_get_feature
+>   HID: haptic: add functions for mapping and configuration
+>   HID: input: allow mapping of haptic output
+>   HID: haptic: initialize haptic device
+>   Input: add shared effects
+>   HID: haptic: implement release and press effects
+>   HID: input: calculate resolution for pressure
+>   HID: haptic: add functions handling events
+>   Input: MT - toggle ABS_PRESSURE pointer emulation
+>   HID: haptic: add hid_haptic_switch_mode
+>   HID: multitouch: add haptic multitouch support
+>   Input: introduce EVIOCFF(TAKE|RELEASE)CONTROL
+>   HID: haptic: add hid_haptic_change_control
+>   HID: i2c-hid: fix i2c_hid_set_or_send_report
+>
+>  drivers/hid/Kconfig                    |  15 +
+>  drivers/hid/Makefile                   |   1 +
+>  drivers/hid/hid-core.c                 |  39 ++
+>  drivers/hid/hid-haptic.c               | 745 +++++++++++++++++++++++++
+>  drivers/hid/hid-haptic.h               | 150 +++++
+>  drivers/hid/hid-input.c                |  18 +-
+>  drivers/hid/hid-multitouch.c           | 109 ++--
+>  drivers/hid/i2c-hid/i2c-hid-core.c     |  12 +-
+>  drivers/input/evdev.c                  |   6 +
+>  drivers/input/ff-core.c                | 129 ++++-
+>  drivers/input/input-mt.c               |  18 +-
+>  include/linux/hid.h                    |  24 +
+>  include/linux/input.h                  |   5 +
+>  include/linux/input/mt.h               |   4 +
+>  include/uapi/linux/input-event-codes.h |   1 +
+>  include/uapi/linux/input.h             |  26 +-
+>  16 files changed, 1247 insertions(+), 55 deletions(-)
+>  create mode 100644 drivers/hid/hid-haptic.c
+>  create mode 100644 drivers/hid/hid-haptic.h
+>
+> --
+> 2.34.1.307.g9b7440fafd-goog
+>
