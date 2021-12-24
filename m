@@ -2,171 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FC6847E905
-	for <lists+linux-input@lfdr.de>; Thu, 23 Dec 2021 22:21:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0DC847EDED
+	for <lists+linux-input@lfdr.de>; Fri, 24 Dec 2021 10:42:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245108AbhLWVVZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Dec 2021 16:21:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53372 "EHLO
+        id S1344050AbhLXJm1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 Dec 2021 04:42:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233222AbhLWVVY (ORCPT
+        with ESMTP id S241700AbhLXJm1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Dec 2021 16:21:24 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9686C061401;
-        Thu, 23 Dec 2021 13:21:24 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id gj24so6039421pjb.0;
-        Thu, 23 Dec 2021 13:21:24 -0800 (PST)
+        Fri, 24 Dec 2021 04:42:27 -0500
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15EFCC061757
+        for <linux-input@vger.kernel.org>; Fri, 24 Dec 2021 01:42:27 -0800 (PST)
+Received: by mail-qk1-x741.google.com with SMTP id r139so7011950qke.9
+        for <linux-input@vger.kernel.org>; Fri, 24 Dec 2021 01:42:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=DTIdj4RaXLtlrp+r65BDVsD3Sau1mr41CGpuUX0r64Y=;
-        b=O8AWEdwEPgElj8UoLoYPC3gMFYVKmTGtAbCF2OMgxvBAVeKpFkPBwmRGRua5mdsUjR
-         KG51Jj8S82+QkbUdOCobo0mVG3QN5zBvIe4stqrO7mjvbuLDjKadUDYUOfTRnTKCafeS
-         T2KoDprD7zKSaxa8pGwQ1ONOKIZs+J3tqFLbBT2mF/LYpxDpILKxBjs44iV6LQgrUD7x
-         eDfAeDjRhrcMazqp8W2XH8Fr1EQ0cvgeL+WhoHMa8gkddXBmUhjycDtsAnzz/nBcZEPs
-         krdvAinmw9wjjloveywVgNpLlkTUbigGE8TVq0uVoxBZ+F4FW+GoxtwhYjSDbllW+36r
-         4Kyg==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=DA2RfWm5BfTc8dY4tRUxJejPvziWb2AgHmDwtjqgqi8=;
+        b=dyHvoMtjBFNWAAdvj+YIuUUNZScz1A0Wot5mxpv0TLLxTKXYbTLEerQQ9Ry9+91Z0D
+         pkF4KzUFIu04sIxHJTCQ4+9v3HN9xL5WvgqIeAS2aop6kQCdp0+2VysUMbHXqH17/Rtl
+         YES4mGDZWbgOpJ/D6hwulx0BhBeD8Oqy5IYvDRRJgwVR4Ol1X/Z4g/nC4+JKQ9f7RavR
+         24YQwamKY4SKWbBKe6yoJap5hvFxNXoWh9iFUxEJN7ykH6RC268Ka5crfFMP/8I1c+7f
+         ZzH/uLohI4uxp9ys5EYvwJi+65LjDgB08/t0e/7DkLYY7jxJIZTSpQ9283sh7tYHTvOJ
+         boNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DTIdj4RaXLtlrp+r65BDVsD3Sau1mr41CGpuUX0r64Y=;
-        b=N9LFkTcp82TCAcBiyq4/SED+rgx1ml8UuibGozWqpNv3kLAQrqbFin17bPCl/kVPXy
-         UR3A3+2uoeUb5PkOxnNhBIqtCwmk9UXw/KwNwds1VovlqxqBbkGUA2/i7IvEI4qpXT58
-         aH2j6X87LrZiNu6UKoU2K7DIe2/COSAwpJ/MjMX1E6sDsHSw4YsS1P9dTJ1i1LUJT8/+
-         2oCXaAKGJHtuKozhx5gIJGP3HWcJMSfQiLDbl4wofyBLPCwFBonIKj3G01brxYOX4GP/
-         Dxmq1nQ5cx2xHTsrxCI8x/LrgkNyn2XytVrJmc27Y36WLaIS5yb4Efvc9ubNb1xx1KKx
-         NsjQ==
-X-Gm-Message-State: AOAM532mcvnlVvMzqcpw6KVOPZcNz/eiUMcrJdhSHjULAWgqxDnNoX6i
-        T62+ci2BdVtiw9hzusHaAxO8JqX6ch8=
-X-Google-Smtp-Source: ABdhPJzyidRIMksQmItyUN0kVoD0eAGTAfAPwMFUhHo4dUqWYQ3CTokDzTe5t60mHIp4I8++YVjWVg==
-X-Received: by 2002:a17:90b:3b46:: with SMTP id ot6mr4540663pjb.62.1640294484114;
-        Thu, 23 Dec 2021 13:21:24 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:e54e:1f66:583f:ea16])
-        by smtp.gmail.com with ESMTPSA id y65sm5630284pgd.79.2021.12.23.13.21.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Dec 2021 13:21:22 -0800 (PST)
-Date:   Thu, 23 Dec 2021 13:21:20 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Raul E Rangel <rrangel@chromium.org>, linux-kernel@vger.kernel.org,
-        mario.limonciello@amd.com, linux-input@vger.kernel.org,
-        dianders@chromium.org, "jingle.wu" <jingle.wu@emc.com.tw>
-Subject: Re: [PATCH 2/3] Input: elan_i2c - Use PM subsystem to manage wake irq
-Message-ID: <YcToUCQ8gzzSWbrm@google.com>
-References: <20211220234346.2798027-1-rrangel@chromium.org>
- <20211220163823.2.Id022caf53d01112188308520915798f08a33cd3e@changeid>
- <YcE+xrSnS7qw0G1/@google.com>
- <9b004b3d-deed-1b63-2344-a445a9e53b61@redhat.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=DA2RfWm5BfTc8dY4tRUxJejPvziWb2AgHmDwtjqgqi8=;
+        b=BbRi17v3d65+x3QYsbeQeoqbqbKdQ9n15tBJBJs3TTuTQMtaVXM0NSF+a/S/22K16/
+         dQNhBN+u+byfPJ260yL6eIJy1sgttJb+E7MClXvC/ExfiwCoCmLNXChUqGPppwq1AjlC
+         nJakmuELYmrb4vHr9kBCrFFnj/haYjvVKrIRYp3sv8dKSTf2BePlErTlIRqyKXeD+S7M
+         39zC1rEQurVbIL70ognFoIIZUv7OXGQi0sQCRhZAXtcjXet5b0qSY/1SMhCU4LY45WAg
+         UOi8Q2GYaz/6x3e6ppmP5gC2s/ZG36MoYbLNCVgEr3cGmbn5jAzAzz64OuvVpuomgLrm
+         e4Tw==
+X-Gm-Message-State: AOAM532dyqfNlvdveM1021S4KEdsyOn1hNR+QgphSI/3ZcRuX+OPJW7B
+        DS2a+xAc4Bq/jiZ92eahYBG0NO/OH0gWmO6W+/o=
+X-Google-Smtp-Source: ABdhPJyr95YBajg0XKAtGm2jESiArSObdnbA+OOxz1jMBuNccawlQpue45fDH/ebYevw7xMfCEUott5vRdFEb5LL6wA=
+X-Received: by 2002:a37:9d14:: with SMTP id g20mr4193044qke.324.1640338946277;
+ Fri, 24 Dec 2021 01:42:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9b004b3d-deed-1b63-2344-a445a9e53b61@redhat.com>
+Received: by 2002:ad4:5c62:0:0:0:0:0 with HTTP; Fri, 24 Dec 2021 01:42:26
+ -0800 (PST)
+Reply-To: williamsreneta2019@gmail.com
+From:   MISS WILLIAMS <info.turvateealfastar@gmail.com>
+Date:   Fri, 24 Dec 2021 01:42:26 -0800
+Message-ID: <CAM-qQYbWOeZ0BXYNED1JS-+koVcTTcorM_nkymCAUQjs=yjQvg@mail.gmail.com>
+Subject: Greetings Dearest One,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Dec 23, 2021 at 03:42:24PM +0100, Hans de Goede wrote:
-> Hi,
-> 
-> On 12/21/21 03:41, Dmitry Torokhov wrote:
-> > Hi Raul,
-> > 
-> > On Mon, Dec 20, 2021 at 04:43:45PM -0700, Raul E Rangel wrote:
-> >> @@ -1368,11 +1367,13 @@ static int elan_probe(struct i2c_client *client,
-> >>  	}
-> >>  
-> >>  	/*
-> >> -	 * Systems using device tree should set up wakeup via DTS,
-> >> +	 * Systems using device tree or ACPI should set up wakeup via DTS/ACPI,
-> >>  	 * the rest will configure device as wakeup source by default.
-> >>  	 */
-> >> -	if (!dev->of_node)
-> >> +	if (!dev->of_node && !ACPI_COMPANION(dev)) {
-> > 
-> > I think this will break our Rambis that use ACPI for enumeration but
-> > actually lack _PRW. As far as I remember their trackpads were capable
-> > of waking up the system.
-> > 
-> > I think we should remove this chunk completely and instead add necessary
-> > code to drivers/platform/chrome/chrome-laptop.c (I suppose we need to
-> > have additional member in struct acpi_peripheral to indicate whether
-> > device needs to be configured for wakeup and then act upon it in
-> > chromeos_laptop_adjust_client().
+Greetings Dearest One,
 
-FWIW I looked at Rambi some more and I see that it actually defines a
-separate device an ACPI to handle wakeups, it is separate from the ACPI
-node for the trackpad:
+How are you today, together with your family?Hope fine.I would like to
+use this opportunity to introduce myself to you. I am Miss Reneta
+Williams, From Benin Republic, West Africa. And my late parents are
+Mr. and Mrs. Dikko Williams; my father was a highly reputable business
+magnet who operated in Benin Republic during his days.
 
-Scope (\_SB)
-{
-#ifdef BOARD_TRACKPAD_IRQ
-        /* Wake device for touchpad */
-        Device (TPAD)
-        {
-                Name (_HID, EisaId ("PNP0C0E"))
-                Name (_UID, 1)
-                Name (_PRW, Package() { BOARD_TRACKPAD_WAKE_GPIO, 0x3 })
+I am writing this mail to you with tears and sorrow from my heart.
+With due respect trust and humanity, I know this mail will come to you
+as a surprise since we haven't known or come across each other before,
+considering the fact that I sourced your email contact through the
+Internet in search of trusted person who can be trusted and will
+assist me.
 
-                Name (RBUF, ResourceTemplate()
-                {
-                        Interrupt (ResourceConsumer, Level, ActiveLow)
-                        {
-                                BOARD_TRACKPAD_IRQ
-                        }
-                })
+It is sad to say that he passed away mysteriously in France during one
+of his business trips abroad. Though his sudden death was linked or
+rather suspected to have been masterminded by an uncle of his who
+traveled with him at that time. But God knows the truth! My mother
+died when I was just 6yrs old, and since then my father took me so
+special.
 
-                Method (_CRS)
-                {
-                        /* Only return interrupt if I2C1 is PCI mode */
-                        If (LEqual (\S1EN, 0)) {
-                                Return (^RBUF)
-                        }
+Before his death, he called me and informed me that he has the sum of
+Eighteen Million Five Hundred , United State Dollar
+(USD$18.500,000.00) left in fixed deposit account in one of the
+leading banks in Africa. He further told me that he deposited the
+money in my name, and also gave me all the necessary but legal
+documents to this fund with the bank.
 
-                        /* Return empty resource template otherwise */
-                        Return (ResourceTemplate() {})
-                }
-        }
-#endif
+I am 21 years old and a university undergraduate and really don't know
+what to do. Now I want an account overseas where I can transfer this
+funds and after the transaction I will come and reside permanently in
+your country till such a time that it will be convenient for me to
+return back home if I so desire.
 
-I am not quite sure why we did this...
+The death of my father actually brought sorrow to my life. I also want
+to invest the fund under your care because I am ignorant of business
+world. I am in a sincere desire of your humble assistance in this
+regards. Your suggestions and ideas will be highly regarded.
 
-> > 
-> >>  		device_init_wakeup(dev, true);
-> >> +		dev_pm_set_wake_irq(dev, client->irq);
-> >> +	}
-> 
-> As I already mentioned in my other reply in this thread:
-> 
-> https://lore.kernel.org/linux-input/f594afab-8c1a-8821-a775-e5512e17ce8f@redhat.com/
-> 
-> AFAICT most x86 ACPI laptops do not use GPEs for wakeup by touchpad and
-> as such they do not have a _PRW method.
-> 
-> So for wakeup by elan_i2c touchpads to keep working this code is not
-> just necessary for some ChromeOS devices, but it is necessary on
-> most ACPI devices.
-> 
-> The problem of not making these calls on devices where a GPE is actually
-> used for touchpad wakeup (which at least for now is the exception not
-> the rule) should probably be fixed by no running this "chunk"
-> when the device has an ACPI_COMPANION (as this patch already checks)
-> *and* that ACPI_COMPANION has a valid _PRW method.
-> 
-> Simply removing this chunk, or taking this patch as is will very
-> likely lead to regressions on various x86 laptop models.
+Now permit me to ask these few questions:
 
-Hans, could you share a couple of DSDTs for devices that do not use GPEs
-for wakeup?
+1. Can you honestly help me from your heart?
 
-For OF we already recognize that wakeup source/interrupt might differ
-from "main" I2C interrupt, I guess we need to do similar for ACPI cases.
-The question is to how determine if a device is supposed to be a wakeup
-source if it does not have _PRW.
+2. Can I completely trust you?
 
-Thanks.
+3. What percentage of the total amount in question will be good for
+you after the money is in your account?
 
--- 
-Dmitry
+Please, consider this and get back to me as soon as
+possible.Immediately and confirm your willingness on this my
+email(williamsreneta2019@gmail.com), here is one of my Picture and
+also i will inform you more details involved in this matter.
+
+Regards,
+
+Miss Reneta Williams.
