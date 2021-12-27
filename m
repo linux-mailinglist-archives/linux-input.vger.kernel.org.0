@@ -2,45 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83210480388
-	for <lists+linux-input@lfdr.de>; Mon, 27 Dec 2021 20:03:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0D9048038F
+	for <lists+linux-input@lfdr.de>; Mon, 27 Dec 2021 20:04:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231768AbhL0TDs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Dec 2021 14:03:48 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:39072 "EHLO
+        id S231970AbhL0TEG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Dec 2021 14:04:06 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:39276 "EHLO
         dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231755AbhL0TDs (ORCPT
+        with ESMTP id S231903AbhL0TED (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Dec 2021 14:03:48 -0500
+        Mon, 27 Dec 2021 14:04:03 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2E2BB61159;
-        Mon, 27 Dec 2021 19:03:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC631C36AE7;
-        Mon, 27 Dec 2021 19:03:46 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B35861161;
+        Mon, 27 Dec 2021 19:04:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98660C36AEA;
+        Mon, 27 Dec 2021 19:04:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1640631827;
-        bh=3WKmSonnl1XSUm/bIhq79dd3uWLrJ0bg5iLYC5CZJks=;
+        s=k20201202; t=1640631842;
+        bh=eIhGmX8+z6x2AibWPj9WdrnKNb/9c/wmYoCBUossBXA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qmFmzqkDaMZIYaLtwdVSaulSYXwlZELcgGwKQeQDsiVWFrYjoSNeBGF25hWHst3Sm
-         FsAiVsms2dQsXgT87ViUy099Av5RvLmwHrI8xjIR/iCAEE9PB2nDehE/QanH7zRJqM
-         +njbSVvbAbOqsIyFtUcl8G2Mtsw/l+n65RGhXCEAkGgUev5GKljcMJ7WXNUpVq+uSl
-         XWyBiYCEGhduBjVwI6x/Kw9YrGPjbck/8/FNCpkQzJkwe4eAPdyAgZO4VhQ3sR+Rid
-         vBZfEZLIzFXpHL8mErACcUZC+lJr/n+18O3NC6knFiFP++K7SZRqMQXLQY+UGqWC/E
-         ir70jgGaCV7NA==
+        b=iQgYbCL1M2XAflXNcA88m6tsaJxzdswlP/ozv98m63LGkElBRzWdUPvdxGL/K6rMO
+         6Y0C0An8zwctd1GL25XsZyJIwbePXeGkPDRA4C5le5AAUFi1MksJ3W8FmzqIeZFz6k
+         t4gk549I/glxguIIiUEdxKaNO8JZjfeRvD/epxUebeFBrwJ3RNt6KvSYXLv7nRbbVF
+         lEGcSSLLly/+4T5DL0HoAIQojngNJEEbbXVi1dhkbzt9kYr4hsuUpyrqbyAbf2HEAY
+         pQUH43od7u6BOAxRz1xBVD4n61YPJylH4/tXRIfpwJ5Q8E76lZUoeznWpi6jziD9f9
+         T1Zk0g4YA03Sg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jeff LaBundy <jeff@labundy.com>, kernel test robot <lkp@intel.com>,
+Cc:     =?UTF-8?q?Samuel=20=C4=8Cavoj?= <samuel@cavoj.net>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 03/26] Input: iqs626a - prohibit inlining of channel parsing functions
-Date:   Mon, 27 Dec 2021 14:03:04 -0500
-Message-Id: <20211227190327.1042326-3-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, mpdesouza@suse.com,
+        tiwai@suse.de, arnd@arndb.de, po-hsu.lin@canonical.com,
+        adobriyan@gmail.com, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 06/26] Input: i8042 - enable deferred probe quirk for ASUS UM325UA
+Date:   Mon, 27 Dec 2021 14:03:07 -0500
+Message-Id: <20211227190327.1042326-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211227190327.1042326-1-sashal@kernel.org>
 References: <20211227190327.1042326-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -48,75 +51,43 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jeff LaBundy <jeff@labundy.com>
+From: Samuel Čavoj <samuel@cavoj.net>
 
-[ Upstream commit e1f5e848209a1b51ccae50721b27684c6f9d978f ]
+[ Upstream commit 44ee250aeeabb28b52a10397ac17ffb8bfe94839 ]
 
-Some automated builds report a stack frame size in excess of 2 kB for
-iqs626_probe(); the culprit appears to be the call to iqs626_parse_prop().
+The ASUS UM325UA suffers from the same issue as the ASUS UX425UA, which
+is a very similar laptop. The i8042 device is not usable immediately
+after boot and fails to initialize, requiring a deferred retry.
 
-To solve this problem, specify noinline_for_stack for all of the
-iqs626_parse_*() helper functions which are called inside a for loop
-within iqs626_parse_prop().
+Enable the deferred probe quirk for the UM325UA.
 
-As a result, a build with '-Wframe-larger-than' as low as 512 is free of
-any such warnings.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-Link: https://lore.kernel.org/r/20211129004104.453930-1-jeff@labundy.com
+BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1190256
+Signed-off-by: Samuel Čavoj <samuel@cavoj.net>
+Link: https://lore.kernel.org/r/20211204015615.232948-1-samuel@cavoj.net
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/misc/iqs626a.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ drivers/input/serio/i8042-x86ia64io.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/input/misc/iqs626a.c b/drivers/input/misc/iqs626a.c
-index d57e996732cf4..23b5dd9552dcc 100644
---- a/drivers/input/misc/iqs626a.c
-+++ b/drivers/input/misc/iqs626a.c
-@@ -456,9 +456,10 @@ struct iqs626_private {
- 	unsigned int suspend_mode;
+diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
+index 1acc7c8449294..148a7c5fd0e22 100644
+--- a/drivers/input/serio/i8042-x86ia64io.h
++++ b/drivers/input/serio/i8042-x86ia64io.h
+@@ -1003,6 +1003,13 @@ static const struct dmi_system_id i8042_dmi_probe_defer_table[] __initconst = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "ZenBook UX425UA"),
+ 		},
+ 	},
++	{
++		/* ASUS ZenBook UM325UA */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "ZenBook UX325UA_UM325UA"),
++		},
++	},
+ 	{ }
  };
  
--static int iqs626_parse_events(struct iqs626_private *iqs626,
--			       const struct fwnode_handle *ch_node,
--			       enum iqs626_ch_id ch_id)
-+static noinline_for_stack int
-+iqs626_parse_events(struct iqs626_private *iqs626,
-+		    const struct fwnode_handle *ch_node,
-+		    enum iqs626_ch_id ch_id)
- {
- 	struct iqs626_sys_reg *sys_reg = &iqs626->sys_reg;
- 	struct i2c_client *client = iqs626->client;
-@@ -604,9 +605,10 @@ static int iqs626_parse_events(struct iqs626_private *iqs626,
- 	return 0;
- }
- 
--static int iqs626_parse_ati_target(struct iqs626_private *iqs626,
--				   const struct fwnode_handle *ch_node,
--				   enum iqs626_ch_id ch_id)
-+static noinline_for_stack int
-+iqs626_parse_ati_target(struct iqs626_private *iqs626,
-+			const struct fwnode_handle *ch_node,
-+			enum iqs626_ch_id ch_id)
- {
- 	struct iqs626_sys_reg *sys_reg = &iqs626->sys_reg;
- 	struct i2c_client *client = iqs626->client;
-@@ -885,9 +887,10 @@ static int iqs626_parse_trackpad(struct iqs626_private *iqs626,
- 	return 0;
- }
- 
--static int iqs626_parse_channel(struct iqs626_private *iqs626,
--				const struct fwnode_handle *ch_node,
--				enum iqs626_ch_id ch_id)
-+static noinline_for_stack int
-+iqs626_parse_channel(struct iqs626_private *iqs626,
-+		     const struct fwnode_handle *ch_node,
-+		     enum iqs626_ch_id ch_id)
- {
- 	struct iqs626_sys_reg *sys_reg = &iqs626->sys_reg;
- 	struct i2c_client *client = iqs626->client;
 -- 
 2.34.1
 
