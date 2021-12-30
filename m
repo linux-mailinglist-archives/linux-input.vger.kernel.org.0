@@ -2,63 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7B6B481DB5
-	for <lists+linux-input@lfdr.de>; Thu, 30 Dec 2021 16:31:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F097E481E2B
+	for <lists+linux-input@lfdr.de>; Thu, 30 Dec 2021 17:36:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234169AbhL3Pbv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Dec 2021 10:31:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53312 "EHLO
+        id S241230AbhL3QgU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Dec 2021 11:36:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232569AbhL3Pbv (ORCPT
+        with ESMTP id S241253AbhL3QgS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Dec 2021 10:31:51 -0500
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF0C2C061574
-        for <linux-input@vger.kernel.org>; Thu, 30 Dec 2021 07:31:50 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id g13so29009899ljj.10
-        for <linux-input@vger.kernel.org>; Thu, 30 Dec 2021 07:31:50 -0800 (PST)
+        Thu, 30 Dec 2021 11:36:18 -0500
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99673C061756
+        for <linux-input@vger.kernel.org>; Thu, 30 Dec 2021 08:36:18 -0800 (PST)
+Received: by mail-ed1-x543.google.com with SMTP id bm14so100074034edb.5
+        for <linux-input@vger.kernel.org>; Thu, 30 Dec 2021 08:36:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:cc;
-        bh=Genm2kBwggT+tRKC4Ww57neAip8nzQoAltuiY/IW1e0=;
-        b=i4Is1732XNx32bu2kA8eXy5A7BN0qPFh3CigW6tT3QrbXoy8P2a0itEX2bWtYC69eq
-         2d+Z4xc0BZYfaaNhEKzcMev2OdhLyKR2T/qwCzTarbVvhafOFAFNLQRz2nbGbsuZgNC5
-         8R10DFRXuM10Ppx1ep13+uIZOg4IN9ijxO+AEXom8kwogZ+3Jh84FwE6NGdL1PyRaWGN
-         QtsqQyE4gHnC9wcKrHZPJA01Ux88z57PrKIBuZdv9O9mQyod7h5xgLVGuH7ZH7vlasxT
-         wMf1r5u+xCnWpcZoJp1wKDK7ZJyyfJnnE+kadqlKsyApnY/82HKhokDWwTe2J7Zp88Ui
-         FI6g==
+        h=mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=tJuk50ldQ3muMSuXbgoS9j25a+T88Kj8cRwalO+iQW8=;
+        b=Tl2guSR4m3xEw3rpULIHJ++wqFW/SYEQmQ7WMIbnHy2zYaUoARg7cK9PknZf6cN0W3
+         Peuy4aLjRGAefGaAUwuauVVgDEtZLCzlwjNxLtx80PQlCxoGSnVjxl5sdsVysUIYKcXe
+         ZHEvY5FhgjEl58lOLJ1A9t4h30umP/Ypa+sfhqsYwU7Yrt1WkeUurBVz0ENELi+zsR3u
+         BJQNY1VfxHUUaE/8TT5cdKRGj8c4KYFh+H7dGlxuQ+DG6onDg8Jr518b+Y5yocGrGcCe
+         yh+h+XVHDxXODtQ3qlmex9RXZy1vi5EDfVkrKOrMBn882gkRab822AE3oOXEEvSNp6yc
+         Cq3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:cc;
-        bh=Genm2kBwggT+tRKC4Ww57neAip8nzQoAltuiY/IW1e0=;
-        b=RGmW9yOHI2iOT1GUvC8rgWKWxf0cKbroOzQDO+Nre4Key/1xfuh4jBbfAZCKhw+zoU
-         7XsHZJqGaYh9m4a//iWk3+qL1Q+FqtnNF/akcOThAF0OZ0IFt+hdoV24BWGL8R6CqCan
-         3Nfjg2n1N+6zHfAFETfWCyJb46FRvkUJ2SeuBCSGoFbSV5Oe5rv9kuujHOs/5FKf59TC
-         +4OIN/j88Whdk/WXv3HQk19XMnniAo7Ls1RAx5LG80rW2APilqSmDV0nsxQkK5036xUn
-         gFfw25RNjZSCsbRu9e2cpE3LCMAmYzisweBKALXzrbfI7NofdrtpdAEDuwkYQ5pBnR00
-         kHjg==
-X-Gm-Message-State: AOAM533uv51NKQZ4CxjtqEHvUQG92ufBhJ4Ds7YPWJXftRyHFbhAwDDH
-        qOCoJ+wvq330t3WEgVVXsQiFX9FXUJ7gGPCT9hU=
-X-Received: by 2002:a2e:9886:: with SMTP id b6mt8950324ljj.526.1640878309241;
- Thu, 30 Dec 2021 07:31:49 -0800 (PST)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=tJuk50ldQ3muMSuXbgoS9j25a+T88Kj8cRwalO+iQW8=;
+        b=o2LCfQDnEdjUaiGe/iWpDQ3wPWj4emGRbkuHiwJpCn9eOFGI30xE4cW4fykbc30Jfv
+         qldFuMHkbu6YgXKCmJzULfgoY6TnwPObmJHHS4Y6YBqT0dE1C1MkKpwv9b94/iCjQzAU
+         AiMSLa8gOz2mHlancZ7oWCEmTejO4p9UqnDII9xhAXtBqprc3IdrdYEMvEMSIDfVgTxC
+         tK28Iyq5l5habNV31FW+X56MgM/wuw5oAVHeEib3CTXdY2G4+UwpOEvdGiO7UGlBblwv
+         xNAPMQCHsdtYEyf8hb8rJTsjGP9yecJ6IVR5CDly3CaaHPatbxtn89H2DE/hQape5JmG
+         +G3A==
+X-Gm-Message-State: AOAM532XCPhLMpTLBCAVFgVxBX4AhE+JMBUw5BJPBEbsESWwoUSpTaFg
+        Iv5vETNBZIvDgzEkNU8w2yeD4+gI/UotVSjpg/8=
+X-Google-Smtp-Source: ABdhPJzOomp7dfsSHzp32oQmbyN2PzdvUl16PkfjdGA/zQ1JLDHrj2HPGycg1+BKCtW6WdYSjbqXMvD8Y4OnayGP3mo=
+X-Received: by 2002:a17:907:9805:: with SMTP id ji5mr25733798ejc.431.1640882176818;
+ Thu, 30 Dec 2021 08:36:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20211207133603.4947-1-peckishrine@gmail.com>
-In-Reply-To: <20211207133603.4947-1-peckishrine@gmail.com>
-From:   Desmond Lim <peckishrine@gmail.com>
-Date:   Thu, 30 Dec 2021 23:31:37 +0800
-Message-ID: <CAHEqh5GQSpyxaZtsNSh477VBpj6Jfyc9g+4CTs+ycgFhFuG94g@mail.gmail.com>
-Subject: Re: [PATCH v2] HID: sigmamicro: Fix modifier keys for SiGma Micro
- based keyboards
-Cc:     Kinglong Mee <kinglongmee@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Received: by 2002:a05:6402:524a:0:0:0:0 with HTTP; Thu, 30 Dec 2021 08:36:16
+ -0800 (PST)
+From:   saleem norman <norsaleem74@gmail.com>
+Date:   Thu, 30 Dec 2021 08:36:16 -0800
+Message-ID: <CALzdWh_x5jjnnv1r9eGK9qr1a48HO-KCPT0FhG6Jv8RmohjA0g@mail.gmail.com>
+Subject: DEAR FRIEND CONTACTS MY SECRETARY HIS E-MAIL nelson_salah@aol.com.
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Superseded by "[PATCH v3] HID: add SiGma Micro driver"
-https://lore.kernel.org/lkml/20211230152758.79104-1-peckishrine@gmail.com/
+I'M SORRY BUT HAPPY TO INFORM YOU ABOUT MY SUCCESS IN GETTING THOSE
+FUNDS TRANSFERRED UNDER THE CO-OPERATION OF A NEW PARTNER FROM
+PARAGUAY THOUGH I TRIED MY BEST TO INVOLVE YOU IN THE GOLD/DIAMOND
+BUSINESS BUT GOD DECIDED THE WHOLE SITUATIONS. PRESENTLY AM IN UNITED
+ARAB EMIRATES FOR INVESTMENT PROJECTS WITH MY OWN SHARE OF THE TOTAL
+SUM OF THE MONEY. MEANWHILE, I DIDN'T FORGET YOU=E2=80=99RE PAST EFFORTS AN=
+D
+ATTEMPTS TO ASSIST ME IN TRANSFERRING THOSE FUNDS DESPITE THAT
+EVERYTHING FAILED US SOMEHOW. NOW CONTACT MY SECRETARY IN BURKINA
+FASO. MR. NELSON SALAH BY NAME: HIS E-MAIL nelson_salah@aol.com.
+
+ASK HIM TO SEND YOU THE VISA CARD TOTAL SUM OF $2.500, 000.00.USD
+WHICH I KEPT FOR YOUR COMPENSATION FOR ALL THE PAST EFFORTS AND
+ATTEMPT TO ASSIST ME IN THIS MATTER. I DEEPLY APPRECIATED YOUR EFFORTS
+AT THAT TIME VERY MUCH. SO FEEL FREE AND KEEP IN TOUCHED WITH MY
+SECRETARY; MR. NELSON SALAH AND INSTRUCT HIM WHERE TO SEND THE VISA
+CARD VALUE SUM OF $2.500, 000.00.USD TO YOU. NOW THIS AMOUNT IS ME AND
+THE NEW PARTNER CONTRIBUTE AND OFFER YOU THIS AMOUNT
+$1.500.000.00.USD. IS FROM MY OWN SHARE WHILE MY NEW PARTNER SUPPORTED
+YOU ALSO WITH SUM OF $ 1000000.USD. FROM HIS OWN SHARE ALSO BECAUSE I
+EXPLAIN THE WHOLE FACTS TO HIM THAT YOU ARE THE FIRST PERSON I
+CONTACTED THAT WANTED TO ASSIST ME WHILE YOU COULD NOT MAKE IT AND HE
+SAID OKAY THERE'S NO PROBLEM.
+
+SO YOU HAVE TO KEEP THE WHOLE SECRET ABOUT MY SUCCESS, BECAUSE I
+BELIEVE ONLY YOU KNOW HOW I MADE THIS MONEY SO TRY TO KEEP EVERYTHING
+SECRET. I HOPE YOU UNDERSTAND THE REASON WHY THIS HUGE AMOUNT OF FUNDS
+WAS KEPT FOR YOU? PLEASE DO LET ME KNOW IMMEDIATELY YOU RECEIVE THE
+VISA CARD SO THAT WE CAN SHARE THE JOY AFTER ALL THE SUFFERINGS AT
+THAT TIME; IN THIS MOMENT OF TIME, I'M VERY BUSY HERE BECAUSE OF THE
+INVESTMENT PROJECTS WHICH MYSELF AND THE NEW PARTNER ARE HAVING AT
+HAND, FINALLY;
+
+REMEMBER THAT I HAVE ALREADY FORWARD THE INSTRUCTION TO THE SECRETARY
+ON YOUR BEHALF TO RECEIVE THAT MONEY, SO FEEL FREE TO KEEP IN TOUCH
+WITH HIM, SO THAT HE WILL SEND THE VISA CARD VALUE SUM OF
+$2.500,000.00.USD. TWO MILLION FIVE HUNDRED THOUSAND UNITED STATE
+DOLLARS TO YOU WITHOUT ANY DELAY.
+
+BEST REGARDS,
+MR. NORMAN SALEEM.
