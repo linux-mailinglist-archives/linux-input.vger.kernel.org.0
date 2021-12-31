@@ -2,143 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B4D5481E4A
-	for <lists+linux-input@lfdr.de>; Thu, 30 Dec 2021 17:42:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 024E2482212
+	for <lists+linux-input@lfdr.de>; Fri, 31 Dec 2021 06:04:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240245AbhL3QmA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Dec 2021 11:42:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40564 "EHLO
+        id S232142AbhLaFEc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 31 Dec 2021 00:04:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240031AbhL3QmA (ORCPT
+        with ESMTP id S234691AbhLaFE2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Dec 2021 11:42:00 -0500
-Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com [IPv6:2607:f8b0:4864:20::930])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F154DC061574
-        for <linux-input@vger.kernel.org>; Thu, 30 Dec 2021 08:41:59 -0800 (PST)
-Received: by mail-ua1-x930.google.com with SMTP id t18so35918502uaj.1
-        for <linux-input@vger.kernel.org>; Thu, 30 Dec 2021 08:41:59 -0800 (PST)
+        Fri, 31 Dec 2021 00:04:28 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CDF1C061396;
+        Thu, 30 Dec 2021 21:04:23 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id m1so22876584pfk.8;
+        Thu, 30 Dec 2021 21:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XrRySsKXOf0uloNIkK67SgKW95Rk+XuwYN9d+/9OLzw=;
-        b=KuGju6DExzC2z2N6h7dzkCQHUM5HPOLU7zCfT+7XO/rGlyhUei8oK09rEF3GN4PKUD
-         nkiF0z+9La4jP6f0iAm/r3lDzTRLNDMzev8vo+Yfi4XbjZdJAZB+6x4xRS1ZHUY7WhXP
-         ujl7srAtxy9qLdS6qh07LzfBWoG3DbEoDRKMA=
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Jv3w8ysID9bIetc2OrmK9ofIibDjY1UTgwH1tyTgknM=;
+        b=UQik1Bm7JhtWirI+JIelxhnGBp+K+kC5f3J3KIkbaERNBoP8cj873RRDIkmWi4VxAm
+         wuDuYKsF7Hv0tcJO8ZQcKScLVZGYlRaBOg5SWSsB415XYzCmR/6ksW69jt1ujH/15Nwe
+         8AF2q/o69XN8XcznhFKD9hocYPnVroLcjhx5eszoRISoVoO8wTW3AY2s+oLrKbFbe3Rw
+         jq9fAnqdZUvuXwM/Gups9NqUw3MdugBYV77IZI2gW8vGbiL6dOtHTY1p7QVve2VlyLwN
+         /l38q01peucbO1LW0UgpKa5JZhONC4TUC9K8SMmkzq4Ut5kPpdmw33oaMLvLsqPZPSyo
+         52jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XrRySsKXOf0uloNIkK67SgKW95Rk+XuwYN9d+/9OLzw=;
-        b=vTk05Wn6Iq7IiFIrMeWekCfW6Fqro9dNkkr1Q6KGb0JRIS4vcN3JLFcoqQj25dP173
-         rVOj6DM7S+sa632tit0+8n/5ElgEk4Cac+f4+MQWUQCXXmdLxuAkbt4399gK8yzovQA6
-         2yfrE0W0sI1wqjlxOC5EU41/O2i7h0aGBQ77g8C88Y5kh99N3wBBqhV6zNo3KezIPA5N
-         lNh4YpyczvDRXraEHhdy9ivZ51bezlh85QB383xVIV+boIOXbphOubhlgs/ZJfxk1fhN
-         JM1KDhJ7khBtBQCINHm0DrbbJKaizd7dtvUxoXj0pBAT2WGLRySJq5SO7mgPXHBvfJf8
-         O6ug==
-X-Gm-Message-State: AOAM532HChy0olnmmvIYkyAoiTgshaiEovBiQm6xL2v3/oznJWcMUZ7d
-        aA6gDcuoIMVs4k8fnt5gbfwnP5b5KHpa6w==
-X-Google-Smtp-Source: ABdhPJzZc3mmoM3fwN7h75ZehtvJV6nYdi5dWuJNbDtxj02C1DSIb/mfwh/5QEzxEzTzT/N3whyYYw==
-X-Received: by 2002:a05:6102:237a:: with SMTP id o26mr9123859vsa.79.1640882518888;
-        Thu, 30 Dec 2021 08:41:58 -0800 (PST)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id i28sm4923893vkr.16.2021.12.30.08.41.58
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Dec 2021 08:41:58 -0800 (PST)
-Received: by mail-ua1-f47.google.com with SMTP id p2so43245709uad.11
-        for <linux-input@vger.kernel.org>; Thu, 30 Dec 2021 08:41:58 -0800 (PST)
-X-Received: by 2002:a9f:2383:: with SMTP id 3mr9941461uao.77.1640882517657;
- Thu, 30 Dec 2021 08:41:57 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Jv3w8ysID9bIetc2OrmK9ofIibDjY1UTgwH1tyTgknM=;
+        b=FJo/US/UX6iduHVl+oOoqBqaSyDrYsChG5zKwXNn+IEiWRxyVv/wUVehDFCmZPtfgT
+         IybAZzP9bmTqphrNWuTcIgAdDepD4W/sUI4s2SZdcLsnfMV/0fZMy7VCMyG89bkhaKqc
+         WymIjoOuFNt0W4B8fx4xK8uBqoxgE2uTQYLiLM1NoP0ty/2jppRQWmnFdjEpGnuMHJvu
+         2NEsV2IzqWxBgcgPm4KKH6FwC0p+ZY4DTehFgSDysdYW91ZEyVATiCYoOZoOvFzHa2Wt
+         rVVKtgLgfe1SDj6GxBGILcnCI89TCiktsi0CjUNv6al1KfLDt0CUd2GcUg1OVc54Tdby
+         yA4Q==
+X-Gm-Message-State: AOAM533gnc6vStSwcQWllYHDd93MbH3a8jcB/0zQW8WVj/adCXWuoke6
+        ZXOeaGgI5AkU63B8canxA00=
+X-Google-Smtp-Source: ABdhPJz/RJrMGYChq/MXzCqULBB2tzlvAn2H0bZW/JDf6Zw8jzay7WamvklxRmTY9+I/ZacKI07+dg==
+X-Received: by 2002:a63:20f:: with SMTP id 15mr30710800pgc.490.1640927062455;
+        Thu, 30 Dec 2021 21:04:22 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:ecb6:a6a9:17cc:2829])
+        by smtp.gmail.com with ESMTPSA id p37sm24929343pfh.97.2021.12.30.21.04.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Dec 2021 21:04:21 -0800 (PST)
+Date:   Thu, 30 Dec 2021 21:04:18 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Pavel Skripkin <paskripkin@gmail.com>
+Cc:     kernel@nn7.de, mjg59@srcf.ucam.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        syzbot+b88c5eae27386b252bbd@syzkaller.appspotmail.com
+Subject: Re: [PATCH] input: appletouch: initialize work before device
+ registration
+Message-ID: <Yc6PUmjd4BDctN9h@google.com>
+References: <20211230141151.17300-1-paskripkin@gmail.com>
 MIME-Version: 1.0
-References: <20211221191743.1893185-1-acz@semihalf.com> <20211221191743.1893185-3-acz@semihalf.com>
-In-Reply-To: <20211221191743.1893185-3-acz@semihalf.com>
-From:   Harry Cutts <hcutts@chromium.org>
-Date:   Thu, 30 Dec 2021 08:41:46 -0800
-X-Gmail-Original-Message-ID: <CA+jURctAgdaZqZNtV_39PiX4c7fKBB31wki4LmD3Fxe47cqojw@mail.gmail.com>
-Message-ID: <CA+jURctAgdaZqZNtV_39PiX4c7fKBB31wki4LmD3Fxe47cqojw@mail.gmail.com>
-Subject: Re: [PATCH 02/18] Input: add FF_HID effect type
-To:     Angela Czubak <acz@semihalf.com>
-Cc:     linux-input <linux-input@vger.kernel.org>, upstream@semihalf.com,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211230141151.17300-1-paskripkin@gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Angela,
+On Thu, Dec 30, 2021 at 05:11:51PM +0300, Pavel Skripkin wrote:
+> Syzbot has reported warning in __flush_work(). This warning is caused by
+> work->func == NULL, which means missing work initialization.
+> 
+> This may happen, since input_dev->close() calls cancel_work_sync(&dev->work),
+> but dev->work initalization happens _after_ input_register_device()
+> call.
+> 
+> So this patch moves dev->work initialization before registering input
+> device
+> 
+> Fixes: 5a6eb676d3bc ("Input: appletouch - improve powersaving for Geyser3 devices")
+> Reported-and-tested-by: syzbot+b88c5eae27386b252bbd@syzkaller.appspotmail.com
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 
-On Tue, 21 Dec 2021 at 11:17, Angela Czubak <acz@semihalf.com> wrote:
->
-> FF_HID effect type can be used to trigger haptic feedback with HID simple
-> haptic usages.
->
-> Signed-off-by: Angela Czubak <acz@semihalf.com>
-> ---
->  include/uapi/linux/input.h | 22 +++++++++++++++++++++-
->  1 file changed, 21 insertions(+), 1 deletion(-)
->
-> diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
-> index ee3127461ee0..0d4d426cf75a 100644
-> --- a/include/uapi/linux/input.h
-> +++ b/include/uapi/linux/input.h
-> @@ -424,6 +424,24 @@ struct ff_rumble_effect {
->         __u16 weak_magnitude;
->  };
->
-> +/**
-> + * struct ff_hid_effect
-> + * @hid_usage: hid_usage according to Haptics page (WAVEFORM_CLICK, etc.)
-> + * @vendor_id: the waveform vendor ID if hid_usage is in the vendor-defined range
-> + * @vendor_id: the vendor waveform page if hid_usage is in the vendor-defined range
+Applied, thank you.
 
-Looks like you forgot to change vendor_id to vendor_waveform_page on
-the line above.
-
-> + * @intensity: strength of the effect as percentage
-> + * @repeat_count: number of times to retrigger effect
-> + * @retrigger_period: time before effect is retriggered (in ms)
-> + */
-> +struct ff_hid_effect {
-> +       __u16 hid_usage;
-> +       __u16 vendor_id;
-> +       __u8  vendor_waveform_page;
-> +       __u16 intensity;
-> +       __u16 repeat_count;
-> +       __u16 retrigger_period;
-> +};
-> +
->  /**
->   * struct ff_effect - defines force feedback effect
->   * @type: type of the effect (FF_CONSTANT, FF_PERIODIC, FF_RAMP, FF_SPRING,
-> @@ -460,6 +478,7 @@ struct ff_effect {
->                 struct ff_periodic_effect periodic;
->                 struct ff_condition_effect condition[2]; /* One for each axis */
->                 struct ff_rumble_effect rumble;
-> +               struct ff_hid_effect hid;
->         } u;
->  };
->
-> @@ -467,6 +486,7 @@ struct ff_effect {
->   * Force feedback effect types
->   */
->
-> +#define FF_HID         0x4f
->  #define FF_RUMBLE      0x50
->  #define FF_PERIODIC    0x51
->  #define FF_CONSTANT    0x52
-> @@ -476,7 +496,7 @@ struct ff_effect {
->  #define FF_INERTIA     0x56
->  #define FF_RAMP                0x57
->
-> -#define FF_EFFECT_MIN  FF_RUMBLE
-> +#define FF_EFFECT_MIN  FF_HID
->  #define FF_EFFECT_MAX  FF_RAMP
->
->  /*
-> --
-> 2.34.1.307.g9b7440fafd-goog
->
-
-Harry Cutts
-Chrome OS Touch/Input team
+-- 
+Dmitry
