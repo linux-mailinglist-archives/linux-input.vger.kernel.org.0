@@ -2,83 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FFB4482214
-	for <lists+linux-input@lfdr.de>; Fri, 31 Dec 2021 06:10:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E27B648232E
+	for <lists+linux-input@lfdr.de>; Fri, 31 Dec 2021 11:15:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230208AbhLaFKq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 31 Dec 2021 00:10:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34566 "EHLO
+        id S229817AbhLaKPA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 31 Dec 2021 05:15:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbhLaFKq (ORCPT
+        with ESMTP id S229850AbhLaKO7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 31 Dec 2021 00:10:46 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C637C061574;
-        Thu, 30 Dec 2021 21:10:46 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id n30-20020a17090a5aa100b001b2b6509685so7555337pji.3;
-        Thu, 30 Dec 2021 21:10:46 -0800 (PST)
+        Fri, 31 Dec 2021 05:14:59 -0500
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80038C061574
+        for <linux-input@vger.kernel.org>; Fri, 31 Dec 2021 02:14:59 -0800 (PST)
+Received: by mail-qk1-x744.google.com with SMTP id 69so24789361qkd.6
+        for <linux-input@vger.kernel.org>; Fri, 31 Dec 2021 02:14:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=e0YefREn4gELMGJZJ+pkh6rFK9yjum+kekppiSmQYkk=;
-        b=FSnV/pMiUeqAg14q11imoCyrwOAdR0DDRrEVOpCWGv0+Q5Gtavh7LpUDB1rsCE+zfS
-         z16YXRC6GAnrmxqHZBF9gWreOxpAFyaNNfkJ5E41N4k3BB+xjwKNBzFuIOA2mcZ2hTfe
-         44GME3G5WrF5PGXL0qb732Ze9fCt7oT9XL4ic1Q06OyOm/ZFDtnEv4cUM72Bbg/EBasK
-         7LHZ98sbVJvnGkubUgog4cNHTVWNSy/AJLGaRp5kG+ixPJWLJsNYOJR7quTcskprKaDP
-         pAx5OkoJNXl3Eee0GeHGNxRTNQW4xGkWp9Kwu2EMYWunO2VsWOT2pYYR8wZe+ryb7ffE
-         KXfA==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=VdA5tNEGmf6YfnBvDRBkc4FxKi+BlJJE8RTYLhAdrWY=;
+        b=ZnOKAfY4MwgQNwJTmdhqx8fLvhWdOGOwz4vCS3KCGhsh/uOtxLeRDdctR9C8gkky1o
+         rX1+axsOicS/eMpJ/ISMcdPdiKhH6uWALstCDV7gibw2jW5Ay7Qu4Elz6dErbOv4RP3P
+         GFbXXeZoBNSRyo7MwbInn/9DlLXmwYvA+4Cvjvke47PxwsJL0lCJsawmyIKkuH0Hc6aZ
+         2Cz0Jz69s4MjwReEb5cL4JoscFulRTRPe+90MoYgr7M/d7Bu+h2osSRUg/3/A5PKuJ39
+         4UW5fiKdB4MudDZYZF4WXJl0kKDjJuFGo060CCs97zy2bEhgtfx3jnBwLC986LT+Buw3
+         KVYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=e0YefREn4gELMGJZJ+pkh6rFK9yjum+kekppiSmQYkk=;
-        b=wMbdv94AImhQaAvuLCzUb7xbobQXNX+agz+pqLakyquEgTS8XrMczcezNsW5svhGPk
-         0BBAeGvv3D1yFebwTLLfQxLewb7gH386DsmzprOoH3L8hH3jljsejfERqzVKjST3gYCb
-         VZdveP+ZRGtQ/QacNpvvYgaZfr8FXVK4nD9wFUw/tgISV7O+BZVcES+r7bGQe/MJW0so
-         pQNhZnx9afLb5iQ58ZhgQmazghRQnHqOn4h51fNZ8k3xKjtHDPVYAvSxDih2LUJX8OQ3
-         flB/ldzyA7rJij9SV13YUL2W6wEUkcOSOSjx3fv50PS8D3ljtO6JdnJeUtk/AZq0ihtQ
-         WIJg==
-X-Gm-Message-State: AOAM533/pmlW8zuSXvQ5yUMpcd/W2/cRLJPe/6GKYOkSichiVbT22UD2
-        ngoEOk1R+5X13G9t4HO4aoxqYwtE65c=
-X-Google-Smtp-Source: ABdhPJybFD+6RW3rZV6Lxx2VEorevHsCNtXLiUCU2yrrfZF1WCUPFSKoiA3l/brIykmBuUZMh9nMTA==
-X-Received: by 2002:a17:90a:1919:: with SMTP id 25mr29757112pjg.181.1640927445433;
-        Thu, 30 Dec 2021 21:10:45 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:ecb6:a6a9:17cc:2829])
-        by smtp.gmail.com with ESMTPSA id z2sm29877144pfh.188.2021.12.30.21.10.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Dec 2021 21:10:44 -0800 (PST)
-Date:   Thu, 30 Dec 2021 21:10:42 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Leo L. Schwab" <ewhac@ewhac.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Input: spaceball - fix parsing of movement data
- packets
-Message-ID: <Yc6Q0tqQzHcFdlyU@google.com>
-References: <20211221101630.1146385-1-ewhac@ewhac.org>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=VdA5tNEGmf6YfnBvDRBkc4FxKi+BlJJE8RTYLhAdrWY=;
+        b=sxQPDJKHFvFBCBNjrGWav/tLhqt5OE5Lc4fCfw6neivEnivtY3acbGAZWADhagbQwO
+         NeYPmSf/f0zd2Wgz/fZmEUh9S+dFRIitZ69mLRNGDipLZgUtLgOFtv5D4HRnX6ma4oBq
+         +EsRiaFhGPhlWxkppWua3R2jLj1oUrIQLippiRg9S7VN7P8pRkJY9hacFZdVMXIY1CU2
+         MidDJfDtBvb0c6URWXJz/xCWIfjunCnmeLTPUyqag4i1EvkpzM/qq19YkOxSkgShJn8+
+         Rz8r5qtwj4IrfzSwbgtPXHyENVIERNglAwkCMrDvZZ8/on689IJTde5KxRrH4AkCCVCR
+         3bLQ==
+X-Gm-Message-State: AOAM532N30SxBPqH3U3I3fy2+VDmyJFXg7lVragTgx+dNgTDghCjT0Lw
+        T35iKAa+0WBJoRnx/DTk3NkRPA16hVmyOVgumQ4=
+X-Google-Smtp-Source: ABdhPJy+5uzuxTCmCy3P1MAwT/x2dwIm+vZSpraSxXIURUUvNnWMCkuhPOmwytfzIugVfYYe+oXj2iP1+QXBWPrTjUI=
+X-Received: by 2002:ae9:ef17:: with SMTP id d23mr23364137qkg.409.1640945698626;
+ Fri, 31 Dec 2021 02:14:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211221101630.1146385-1-ewhac@ewhac.org>
+Received: by 2002:ac8:598c:0:0:0:0:0 with HTTP; Fri, 31 Dec 2021 02:14:58
+ -0800 (PST)
+From:   james moten <jamesmoten22222@gmail.com>
+Date:   Fri, 31 Dec 2021 11:14:58 +0100
+Message-ID: <CACaGj9Dzf3DeBmGi=O2kPG=4wF0P-816GMWtkCoGwYLOGnYcAw@mail.gmail.com>
+Subject: Hello Dear,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 21, 2021 at 02:16:31AM -0800, Leo L. Schwab wrote:
-> The spaceball.c module was not properly parsing the movement reports
-> coming from the device.  The code read axis data as signed 16-bit
-> little-endian values starting at offset 2.
-> 
-> In fact, axis data in Spaceball movement reports are signed 16-bit
-> big-endian values starting at offset 3.  This was determined first by
-> visually inspecting the data packets, and later verified by consulting:
-> http://spacemice.org/pdf/SpaceBall_2003-3003_Protocol.pdf
-> 
-> If this ever worked properly, it was in the time before Git...
-> 
-> Signed-off-by: Leo L. Schwab <ewhac@ewhac.org>
+Hello Dear,
 
-Applied, thank you.
+My Name is Captain James Moten, i hope all is well with you? I am a
+Captain working as United Nations peace keeping troop in Iraq  on war
+against terrorism. I have in my possession the sum of $5.200.000.00
+millions USD Which i made here in Iraq ,
+I deposited this money with a Red Cross agent. I want you to stand as
 
--- 
-Dmitry
+my beneficiary and receive the fund and keep it safe so that as soon
+as am through with my mission here in Iraq ,you will assist me to
+invest it in a good profitable venture, I will give you 40% of the
+total money for your assistance after you have receive the money.
+please reply back to me if you are willing to work with me so that i
+can send you the information where the money is been deposited,
+your urgent reply is needed a
+
+Best Regards.
+
+Captain James Moten
