@@ -2,245 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AE59482580
-	for <lists+linux-input@lfdr.de>; Fri, 31 Dec 2021 19:21:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FB9048267A
+	for <lists+linux-input@lfdr.de>; Sat,  1 Jan 2022 05:37:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230286AbhLaSVK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 31 Dec 2021 13:21:10 -0500
-Received: from mga09.intel.com ([134.134.136.24]:7436 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229583AbhLaSVK (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 31 Dec 2021 13:21:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1640974870; x=1672510870;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=nGCbR6/2HXWS5zyHHFZ+3LOy7cXMVnDnCEtBwDW/TnU=;
-  b=G7ZBYjouTzZQnLvzxzred7LvT51Ps4yUcS+K+7XI81RJa6NA3TLFXn/f
-   iTn581Q+PFPFrUyfJcs3N/fCI58wSZOwlrQWO6Fk7pp6OZTLFGyrEM4Ae
-   UMmyLLmkHXXqXk1pygbmZMI0bQAeKj4DecBck5cQbXnxOpJeb1mshsT3v
-   Oi3UkF1pGYWKoCx1ZhPCkT0Qvx0T2NptaSCg3aFfYObJsKb1Sx38GSMZp
-   GI6ZHUxWyCmZDrtJ+Y78YEg/3QbjjE9gARWI5D3D1gkQyqnOtHUHMuSUy
-   JRwWTDSSe/FaxG9h+WW7V1zjrYXCc5153E5U7EmVof/ikVjd+sGE9RDT+
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10213"; a="241634444"
-X-IronPort-AV: E=Sophos;i="5.88,252,1635231600"; 
-   d="scan'208";a="241634444"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2021 10:21:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,252,1635231600"; 
-   d="scan'208";a="687547450"
-Received: from lkp-server01.sh.intel.com (HELO e357b3ef1427) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 31 Dec 2021 10:21:08 -0800
-Received: from kbuild by e357b3ef1427 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1n3MWa-000BZT-67; Fri, 31 Dec 2021 18:21:08 +0000
-Date:   Sat, 01 Jan 2022 02:20:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- bc7ec91718c49d938849697cfad98fcd9877cc26
-Message-ID: <61cf49dd.Y8TKeComXldszNBv%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S232056AbiAAEgz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 31 Dec 2021 23:36:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54618 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232051AbiAAEgz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 31 Dec 2021 23:36:55 -0500
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73ADBC061574;
+        Fri, 31 Dec 2021 20:36:54 -0800 (PST)
+Received: by mail-pg1-x52a.google.com with SMTP id r5so25317729pgi.6;
+        Fri, 31 Dec 2021 20:36:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=gpKMMQn6Jo2a1SXx5hA6obprwYv9X7YlYc0fVgeLv08=;
+        b=BHTMfXiVeeVzAzP5SnJ6Gf8hxQBk4ilUtVTmh5thQ8cV645ec6hgMkKC5mlJWVeRXe
+         4B+xsRRBGAf6UhO1uGmpP8aM87+OWCNBXk6zjLz3AClg/Y6bT0aIJjpYV7jCti0DxORE
+         agPU8CqCat5E0N/Dm5ys0VjSQQi1Kv2eRfdAR0zzFc1G53otbZkSpKULomBheDY2LS+D
+         XPoDDchKHOw8XASGBvMO1UacXwm5XalrABjhEh77YCSl6qHeK+Kn2YsuW04OBMQanRz+
+         iIKgZg0//fhezgaQ5Ui0sPkzDGRgLcoUkEG6uFDxZLpAFqkFUdmTRTN6LwbVTXO4xNEx
+         cU1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=gpKMMQn6Jo2a1SXx5hA6obprwYv9X7YlYc0fVgeLv08=;
+        b=PPo1botyjbJU2d99VOarS7g+k/e5OLbzhkhAN7I6yinAm+gAS7TXhw79Lpvf2yR587
+         EjNplr4JW+Gvlk8GhG1FkBZcoKHdYOJ4TBw1SIWggkoJrIG8jlbjvSSwAQsDBKnRrPdz
+         itdEIC5MBj5eGw37uvlFBJPzwBg0CbSSmHMNN4DbM/HgdpDrGgqQ32J+LYuiP6y9/nVs
+         m5b2lWRbUpE92Xosq7Me5owSKHK8dtne6JhfpMJ+h1Iie2+QsNf4chXSPYXs0AGA4lK2
+         Aec0Pm2RkMt3IcbBILDwkSnEbQuSCwvgA+xgt1RcxWtjkxruncvhneVQHa0q1FQJD3RC
+         rkOw==
+X-Gm-Message-State: AOAM530pn5X0M55O2x87XsG865CAqmLFiwMwt13krFyHzQ0iga34y8jQ
+        QYvzQ/oBtgdI7TOwKFtoQKQ=
+X-Google-Smtp-Source: ABdhPJzOtwbgzwkB32sW/Np8tW7hzswI7YRbizP8ASITiU+nY+6MURnTiWA+g2uVeJs2Abgs7zBGXA==
+X-Received: by 2002:aa7:91c2:0:b0:4bc:6c97:401 with SMTP id z2-20020aa791c2000000b004bc6c970401mr6988081pfa.17.1641011813728;
+        Fri, 31 Dec 2021 20:36:53 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:d687:7e27:2823:d142])
+        by smtp.gmail.com with ESMTPSA id k18sm34184538pfc.155.2021.12.31.20.36.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Dec 2021 20:36:53 -0800 (PST)
+Date:   Fri, 31 Dec 2021 20:36:50 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v5.16-rc7
+Message-ID: <Yc/aYq9oWoj3byBe@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: bc7ec91718c49d938849697cfad98fcd9877cc26  Input: spaceball - fix parsing of movement data packets
+Hi Linus,
 
-elapsed time: 722m
+Please pull from:
 
-configs tested: 169
-configs skipped: 3
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+to receive updates for the input subsystem. You will get 2 small fixups
+for spaceball joystick driver and appletouch touchpad driver.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20211231
-arm                        shmobile_defconfig
-mips                        maltaup_defconfig
-arm                          pxa910_defconfig
-alpha                            allyesconfig
-sh                            shmin_defconfig
-arm                            dove_defconfig
-sh                  sh7785lcr_32bit_defconfig
-arm                            lart_defconfig
-parisc                generic-64bit_defconfig
-arm                            mps2_defconfig
-nds32                             allnoconfig
-parisc                              defconfig
-powerpc                      walnut_defconfig
-powerpc                     pseries_defconfig
-sh                             shx3_defconfig
-arm                         cm_x300_defconfig
-arm                           corgi_defconfig
-m68k                            q40_defconfig
-arm                       cns3420vb_defconfig
-powerpc                    gamecube_defconfig
-arm                          gemini_defconfig
-mips                      maltasmvp_defconfig
-powerpc                 mpc832x_mds_defconfig
-sh                            titan_defconfig
-h8300                    h8300h-sim_defconfig
-riscv                          rv32_defconfig
-mips                  maltasmvp_eva_defconfig
-openrisc                            defconfig
-alpha                               defconfig
-arm                         shannon_defconfig
-mips                         tb0287_defconfig
-mips                           ci20_defconfig
-powerpc                 mpc837x_rdb_defconfig
-ia64                             allmodconfig
-sh                 kfr2r09-romimage_defconfig
-powerpc                      cm5200_defconfig
-powerpc                    sam440ep_defconfig
-h8300                       h8s-sim_defconfig
-sparc                            allyesconfig
-um                                  defconfig
-powerpc                      chrp32_defconfig
-i386                                defconfig
-arc                          axs103_defconfig
-m68k                       m5475evb_defconfig
-sh                           sh2007_defconfig
-xtensa                           alldefconfig
-microblaze                          defconfig
-alpha                            alldefconfig
-mips                         db1xxx_defconfig
-parisc                generic-32bit_defconfig
-h8300                               defconfig
-powerpc                 linkstation_defconfig
-powerpc                     taishan_defconfig
-arm                        realview_defconfig
-arm                           omap1_defconfig
-mips                         mpc30x_defconfig
-arc                     nsimosci_hs_defconfig
-powerpc                      tqm8xx_defconfig
-sh                           se7722_defconfig
-mips                       rbtx49xx_defconfig
-arm                            qcom_defconfig
-mips                     loongson1b_defconfig
-powerpc                       holly_defconfig
-m68k                       bvme6000_defconfig
-arm                        oxnas_v6_defconfig
-powerpc                  storcenter_defconfig
-arm                           spitz_defconfig
-sh                        sh7785lcr_defconfig
-powerpc                 mpc836x_mds_defconfig
-sparc                       sparc64_defconfig
-sh                              ul2_defconfig
-microblaze                      mmu_defconfig
-sh                   sh7724_generic_defconfig
-powerpc                    socrates_defconfig
-mips                            e55_defconfig
-sh                        edosk7705_defconfig
-arm                  randconfig-c002-20211231
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-arc                                 defconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                               defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a002-20211231
-x86_64               randconfig-a001-20211231
-x86_64               randconfig-a003-20211231
-x86_64               randconfig-a006-20211231
-x86_64               randconfig-a004-20211231
-x86_64               randconfig-a005-20211231
-i386                 randconfig-a001-20211231
-i386                 randconfig-a005-20211231
-i386                 randconfig-a004-20211231
-i386                 randconfig-a002-20211231
-i386                 randconfig-a006-20211231
-i386                 randconfig-a003-20211231
-arc                  randconfig-r043-20211231
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-x86_64                    rhel-8.3-kselftests
-um                            kunit_defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
+Happy New Year!
 
-clang tested configs:
-riscv                randconfig-c006-20211231
-arm                  randconfig-c002-20211231
-mips                 randconfig-c004-20211231
-powerpc              randconfig-c003-20211231
-x86_64               randconfig-c007-20211231
-i386                 randconfig-c001-20211231
-powerpc                   lite5200b_defconfig
-powerpc                          allmodconfig
-arm                         orion5x_defconfig
-arm                          moxart_defconfig
-mips                          ath25_defconfig
-mips                      maltaaprp_defconfig
-mips                     cu1830-neo_defconfig
-powerpc                     skiroot_defconfig
-x86_64                           allyesconfig
-powerpc                      acadia_defconfig
-arm                            dove_defconfig
-arm                         socfpga_defconfig
-powerpc                 xes_mpc85xx_defconfig
-arm                  colibri_pxa270_defconfig
-x86_64               randconfig-a013-20211231
-x86_64               randconfig-a012-20211231
-x86_64               randconfig-a011-20211231
-x86_64               randconfig-a016-20211231
-x86_64               randconfig-a014-20211231
-x86_64               randconfig-a015-20211231
-i386                 randconfig-a016-20211231
-i386                 randconfig-a011-20211231
-i386                 randconfig-a012-20211231
-i386                 randconfig-a013-20211231
-i386                 randconfig-a014-20211231
-i386                 randconfig-a015-20211231
-hexagon              randconfig-r041-20211231
-hexagon              randconfig-r045-20211231
-riscv                randconfig-r042-20211231
-s390                 randconfig-r044-20211231
+Changelog:
+---------
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Leo L. Schwab (1):
+      Input: spaceball - fix parsing of movement data packets
+
+Pavel Skripkin (1):
+      Input: appletouch - initialize work before device registration
+
+Diffstat:
+--------
+
+ drivers/input/joystick/spaceball.c | 11 +++++++++--
+ drivers/input/mouse/appletouch.c   |  4 ++--
+ 2 files changed, 11 insertions(+), 4 deletions(-)
+
+Thanks.
+
+
+-- 
+Dmitry
