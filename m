@@ -2,59 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17CF0482795
-	for <lists+linux-input@lfdr.de>; Sat,  1 Jan 2022 13:21:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 831D848283C
+	for <lists+linux-input@lfdr.de>; Sat,  1 Jan 2022 19:41:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232382AbiAAMVh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 1 Jan 2022 07:21:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40858 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232376AbiAAMVg (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 1 Jan 2022 07:21:36 -0500
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 896E7C06173F
-        for <linux-input@vger.kernel.org>; Sat,  1 Jan 2022 04:21:36 -0800 (PST)
-Received: by mail-yb1-xb2b.google.com with SMTP id w184so66494062ybg.5
-        for <linux-input@vger.kernel.org>; Sat, 01 Jan 2022 04:21:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=VS5pNjM+dtzy9PLwNcG+/sVOQHrdlQb2MUBNj5cMGEA=;
-        b=XcovfPYpj8B+gmJL+evuMdkKyntDSD6J9972raID5WdeBsVCVUbU/J0RDGouQH+F4X
-         7Ga4l6H3NayI5YfE90aZNMHRdpgOIQ4WbmCxSZNEMJ7KX8adA2qQyYt6yG6IVH6w9w2w
-         j7sYSxwjPtMP85GrNaNiOqvatlwEjg2Eyw59bqBeBPlNx9mDaIc7QBkgspyUnQGVyfTb
-         I2hxUY0+Q8c/Czcq3Pjp26LYq1/zwvKK+p0OedsDQRf+BnMbnQuVO+Pn2ZAcrtdvYGw7
-         24ibDZHRi7+WaffOIqNktcDzSCwguHXaZFOy4OPEKNdO0CZxjji3cj9zEOL1iZNGK+QI
-         6Vdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=VS5pNjM+dtzy9PLwNcG+/sVOQHrdlQb2MUBNj5cMGEA=;
-        b=rZYCRdE2fdLeFuHQfutv4/Z8nKJAFmIBFjYWfrOF6fz8rmsj7T8AgAZ2EranwY+3tL
-         WZ4ZuWQwGTth0NR36jKS4OhSWY8aIE1td5bxxbXhPLF9BtVR0jGyt/WNAMlet1CbbKgQ
-         uXmW9J+dR1jS0r1FZbWE6MnvEbgx2jYVoS+kFM0HhOWuyTAb1ajtBlgMOjtMu6TXy5Qd
-         raj3vBbRG6aaCGf7r1q1Ti0gLhlW3T8IrcT7RMbrKU9jbAx7/Ilgoq3coRDQWLZfT2dZ
-         gpLRTIdwQM6smCMfgsL6TAdZ0FG49AljV4+dMP7DJEE5omd/LucRYBLX6aiSYLKWDY66
-         szeA==
-X-Gm-Message-State: AOAM533mfunQEaBeMPQWsUJhJEsH51XSxDN7FKdeO+/geGpj8JJy1xSj
-        oUgMxsLf/Z6hlGVtdGRbDQ8EPe2Ch9v1YpbqussfCjCQTAY=
-X-Google-Smtp-Source: ABdhPJxtuy81C2AJwWuFCGGdCTLgbC098urapuaFXmNf3GSnUWe+gcVorZ09NAXfesoDsh53AzDG9c+Ffn1Z461bRLc=
-X-Received: by 2002:a25:3716:: with SMTP id e22mr33489367yba.57.1641039695631;
- Sat, 01 Jan 2022 04:21:35 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a0d:d48e:0:0:0:0:0 with HTTP; Sat, 1 Jan 2022 04:21:35 -0800 (PST)
-Reply-To: fionahill.usa@hotmail.com
-From:   Fiona Hill <mrs.isabellahelmreich@gmail.com>
-Date:   Sat, 1 Jan 2022 04:21:35 -0800
-Message-ID: <CAFwWomdCJQ1E8aMqNL2_xR7v5qZ5khmc0XrEU9Xu0qNd5Y1yEQ@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        id S231484AbiAASlV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 1 Jan 2022 13:41:21 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:52376 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231447AbiAASlU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 1 Jan 2022 13:41:20 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 54CE060B6F;
+        Sat,  1 Jan 2022 18:41:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B6458C36AEC;
+        Sat,  1 Jan 2022 18:41:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641062479;
+        bh=7a7oAGXWOWMWI6Gns9V7h0YPUM+AboUDHuLqBQp1L64=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=ufQYKEcXEvz23PEajeVCGcT/eqqZdIAWx+fMIjnGUkdtS7c9GoQspTd/jXkYAShRz
+         2guWUsM3HwMbVuti/PWDRmDicW40qWwlc4hcOhvujfIac0sjTMvFM1YxEFpAP9EyCZ
+         OeoeXXsias2vX4jzg+eQrLAJghigKR2gWA6wlnb2C6EMEetbqezCmNvmX97Z1MDPSG
+         bpVRCblkyULDGgBHXgnigPuwf43t2teGq+CbSwUAT0YLzveQcVbLKHajTAbe72kdvb
+         ZSILGafM7xnRnzAeut0RJCKegr4ZSJDuKlDba29lrTglnBSCqGRxxl7twyA/SlBqnK
+         n5EH+Ox8IIT6A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A29DEC395E3;
+        Sat,  1 Jan 2022 18:41:19 +0000 (UTC)
+Subject: Re: [git pull] Input updates for v5.16-rc7
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <Yc/aYq9oWoj3byBe@google.com>
+References: <Yc/aYq9oWoj3byBe@google.com>
+X-PR-Tracked-List-Id: <linux-input.vger.kernel.org>
+X-PR-Tracked-Message-Id: <Yc/aYq9oWoj3byBe@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+X-PR-Tracked-Commit-Id: bc7ec91718c49d938849697cfad98fcd9877cc26
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 278218f6778bc7d6f8b67199446c56cec7ebb841
+Message-Id: <164106247965.24142.5313419530910729338.pr-tracker-bot@kernel.org>
+Date:   Sat, 01 Jan 2022 18:41:19 +0000
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
--- 
+The pull request you sent on Fri, 31 Dec 2021 20:36:50 -0800:
 
-Happy new year to you. Please  did you receive my message i send to you?
+> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/278218f6778bc7d6f8b67199446c56cec7ebb841
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
