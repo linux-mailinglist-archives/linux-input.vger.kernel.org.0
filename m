@@ -2,63 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E846482C4D
-	for <lists+linux-input@lfdr.de>; Sun,  2 Jan 2022 18:05:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44D94482C58
+	for <lists+linux-input@lfdr.de>; Sun,  2 Jan 2022 18:20:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229837AbiABRE7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 2 Jan 2022 12:04:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43216 "EHLO
+        id S230023AbiABRU4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 2 Jan 2022 12:20:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbiABRE6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Jan 2022 12:04:58 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17814C061761;
-        Sun,  2 Jan 2022 09:04:58 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id l4so20220070wmq.3;
-        Sun, 02 Jan 2022 09:04:58 -0800 (PST)
+        with ESMTP id S229446AbiABRU4 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Jan 2022 12:20:56 -0500
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86717C061761
+        for <linux-input@vger.kernel.org>; Sun,  2 Jan 2022 09:20:55 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id p1-20020a1c7401000000b00345c2d068bdso17522913wmc.3
+        for <linux-input@vger.kernel.org>; Sun, 02 Jan 2022 09:20:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=L3boBvFJeKQxpTMzKTlBE3Vnj/eOP88tQipRCfi3Teg=;
-        b=d0iokJiEd40r0UmcUsVrnhkvwIa0OfS7C/AzULxKac7BTk///7pEJvxXoMcDSSVNQM
-         eJOq0ad7oRzeQLkZzZFMjw/y5dnJizyJThsdjSuWUQIO5Cb4sMYjFCRpAd9aMvCakhoW
-         ntN2nbiDizuNgwJy3FMdVYoMgIjy06+AqyWRFu0GgyETzhR56xVF78Xt4TxXXDLK1aOj
-         QD+IG91UJwLNpwH9EQWj86wR8lWzzvyIHEFh/s/4WwwF027GW8sLEeXNGvGBS9cHAHcm
-         cXL6VVE/CdJM+vouA/OpdbSeML0mOmnaWNDkAkK8pRWVE5I0cRprS50rHaDMHFbsCqAW
-         gpgA==
+        bh=fTS/g3wvn8ZwWJw7+1qQI6MgKYVnxcDrR7zo/fd7qFc=;
+        b=LLNQtpXfaYSuGNglIoZFjV7l4fC9Pp8viL4GDOv5s0MjLP/zm6eoopqwA5uOGUjVNW
+         oqRxT9tMq85UBQAiA7Xb1RjtCiA/ONADaujzg3qN6xEahTpdbIpcVAx3acY7aUAv7L86
+         Bioov+6XqPWMMBZWaOvPpEAvp6QfeBiaNbzsDwgvRO76/teEBNQXMwOqnTV32+hiNDbo
+         AqT8n0GGlVuqCQ5YfGco/NBrifMUtju4BiLqmHZylkpKgoaWQxyC71vzPSDlnCzu+7L/
+         jiax1PEkMS9HHOJj4WAO5a1iGqgIOLPu+ppoVK5KEkB7l3sKxZyq29e0Pblt/ALkIC/H
+         Kj+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=L3boBvFJeKQxpTMzKTlBE3Vnj/eOP88tQipRCfi3Teg=;
-        b=NFYWoe6AhKRw1GBxvyJ0w8diPjMiR2l/qYtM6UWR6oKXfMEBXzyeEU56H66ulzEdpZ
-         +vnBhHLKXKXXjy4oeLO2n/SJ8I+psL1zm+aZUUjKfKviqkHq8tRq59ZUvKyP08Bx64rc
-         /50Gt2OpWaJV/tCvbWM2k5xEL57Gv57CwaLoHE061E6FzjmroBu+SAdniHLUrUuqS3o1
-         8lhYP1vFmdff0M/ErPmtxBsW3Fu9VN+BxuNESr+w0IZZ5J0zmRHn8vwMQN/8QF4zNEpL
-         /rxRXfgbyVTbKeWqLLDrGmdkPHIcvkquMeBfqJq7wE3LGpwWhZGUYoP1PieaJjuGeIdY
-         6L1g==
-X-Gm-Message-State: AOAM532TJeGh+AwVlq/g2OmqwN0Q7V0r+ZoH8aoIl8XYRRmWdst1XayF
-        vQ/JBM9K5kc9CW8DZoKTPQo=
-X-Google-Smtp-Source: ABdhPJwe83dtZDpqhiUjphmosusV20Q9sphZnCUgQZkrgjYoPzxYNyJHYEUsSv+8IbGLEdYj3LidXQ==
-X-Received: by 2002:a1c:7209:: with SMTP id n9mr35880616wmc.92.1641143096585;
-        Sun, 02 Jan 2022 09:04:56 -0800 (PST)
+        bh=fTS/g3wvn8ZwWJw7+1qQI6MgKYVnxcDrR7zo/fd7qFc=;
+        b=ciOKilsTTOo5ZruXDyLmj2ATJq1EFYNrDZt1CNeA3jmxl3htBWXanOFHd5mUw7+gFu
+         5ff3uB+HBQ+aHseIiOu1+GmuYHKLCZb7cInDw+XnNssLZ03Jwe209japcMTXEXKyAOo/
+         nogEtdYj4jI7qutTzaQpfUz+Qz6fai9Fr+vLwOYU3CeVC1PHNVSzkbklmjWsTq0vGM69
+         k0/Z2YNfmdh42cFqv+623qOjK47bedYeNAUCGTxAEK0L4Mk2IqXLR+s96nDHmW35nI65
+         Za9WLvJ3f4JJQ8RhA+qBXZWWuwTxSEtcdYxFimeOcqoViOuZBgT1Z+pRAUT+T8I1kCSd
+         ZeqQ==
+X-Gm-Message-State: AOAM533iPhUVbvDnsVQLHxWuIjFsqtKNXtor/6ks6QCe0YJxCh1e+wDZ
+        vJMqUWSWCoFDOdg+nMnG0ZE=
+X-Google-Smtp-Source: ABdhPJyySOfJjRFkk/NXrmoBAe4P8MqsL/tpSnQO92Q5ypF5gSbQ0EqcVvjRj0cpzUHUFaBR1Y8zkQ==
+X-Received: by 2002:a05:600c:4f91:: with SMTP id n17mr33146278wmq.195.1641144053643;
+        Sun, 02 Jan 2022 09:20:53 -0800 (PST)
 Received: from localhost.localdomain ([217.113.240.86])
-        by smtp.gmail.com with ESMTPSA id a204sm34869172wmd.39.2022.01.02.09.04.55
+        by smtp.gmail.com with ESMTPSA id b2sm36010766wrd.35.2022.01.02.09.20.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Jan 2022 09:04:56 -0800 (PST)
+        Sun, 02 Jan 2022 09:20:53 -0800 (PST)
 From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, rydberg@bitmath.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        alexhenrie24@gmail.com,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH 1/1] HID: apple: Report Magic Keyboard 2021 with fingerprint reader battery over USB
-Date:   Sun,  2 Jan 2022 18:04:47 +0100
-Message-Id: <20220102170447.159959-2-jose.exposito89@gmail.com>
+To:     alexhenrie24@gmail.com
+Cc:     bberg@redhat.com, benjamin@sipsolutions.net, jikos@kernel.org,
+        jose.exposito89@gmail.com, linux-input@vger.kernel.org
+Subject: Re: [PATCH 2/2] HID: apple: Add 2021 Magic Keyboard with number pad
+Date:   Sun,  2 Jan 2022 18:20:45 +0100
+Message-Id: <20220102172045.164534-1-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220102170447.159959-1-jose.exposito89@gmail.com>
-References: <20220102170447.159959-1-jose.exposito89@gmail.com>
+In-Reply-To: <20211202061651.115548-2-alexhenrie24@gmail.com>
+References: <20211202061651.115548-2-alexhenrie24@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -66,41 +64,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Like the Apple Magic Keyboard 2015, when connected over USB, the 2021
-version with fingerprint reader registers 2 different interfaces. One of
-them is used to report the battery level.
+Hi!
 
-However, unlike when connected over Bluetooth, the battery level is not
-reported automatically and it is required to fetch it manually.
+Thanks a lot for the patches Alex.
 
-Add the APPLE_RDESC_BATTERY quirk to fix the battery report descriptor
-and manually fetch the battery level.
+I tested them on the following hardware:
 
-Tested with the ANSI variant of the keyboard with and without numpad.
+ - Magic Keyboard 2021 without fingerprint reader. ANSI, ISO and JIS.
+ - Magic Keyboard 2021 with fingerprint reader. ANSI.
+ - Magic Keyboard 2021 with fingerprint reader and numpad. ANSI
 
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
----
- drivers/hid/hid-apple.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Code looks good as well.
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index e40cd17c7f40..8054a130fc91 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -723,11 +723,11 @@ static const struct hid_device_id apple_devices[] = {
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021),
- 		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
--		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK | APPLE_RDESC_BATTERY },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
- 		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021),
--		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK | APPLE_RDESC_BATTERY },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021),
- 		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 
--- 
-2.25.1
+Tested-by: José Expósito <jose.exposito89@gmail.com>
 
