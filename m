@@ -2,61 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44D94482C58
-	for <lists+linux-input@lfdr.de>; Sun,  2 Jan 2022 18:20:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1AA7482C76
+	for <lists+linux-input@lfdr.de>; Sun,  2 Jan 2022 18:51:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230023AbiABRU4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 2 Jan 2022 12:20:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46826 "EHLO
+        id S229699AbiABRvW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 2 Jan 2022 12:51:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbiABRU4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Jan 2022 12:20:56 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86717C061761
-        for <linux-input@vger.kernel.org>; Sun,  2 Jan 2022 09:20:55 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id p1-20020a1c7401000000b00345c2d068bdso17522913wmc.3
-        for <linux-input@vger.kernel.org>; Sun, 02 Jan 2022 09:20:55 -0800 (PST)
+        with ESMTP id S229555AbiABRvW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Jan 2022 12:51:22 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF74DC061761;
+        Sun,  2 Jan 2022 09:51:21 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id a83-20020a1c9856000000b00344731e044bso17269004wme.1;
+        Sun, 02 Jan 2022 09:51:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=fTS/g3wvn8ZwWJw7+1qQI6MgKYVnxcDrR7zo/fd7qFc=;
-        b=LLNQtpXfaYSuGNglIoZFjV7l4fC9Pp8viL4GDOv5s0MjLP/zm6eoopqwA5uOGUjVNW
-         oqRxT9tMq85UBQAiA7Xb1RjtCiA/ONADaujzg3qN6xEahTpdbIpcVAx3acY7aUAv7L86
-         Bioov+6XqPWMMBZWaOvPpEAvp6QfeBiaNbzsDwgvRO76/teEBNQXMwOqnTV32+hiNDbo
-         AqT8n0GGlVuqCQ5YfGco/NBrifMUtju4BiLqmHZylkpKgoaWQxyC71vzPSDlnCzu+7L/
-         jiax1PEkMS9HHOJj4WAO5a1iGqgIOLPu+ppoVK5KEkB7l3sKxZyq29e0Pblt/ALkIC/H
-         Kj+g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pnD/k5dOnRMWbk+gLPrEGJiWu/w2QcrrSuk3ehIWI2k=;
+        b=KglIZXQLmSy7G9nRuroDU70PORuR8Mfv16kpEG//7PO0M/M3CyNyrEBg9yZWk7FYnr
+         /OMSuhotjlbcIAgXWg7UcABpN5fRbqbx1qTKsZnBxRrXCzKznyUqQSGBLPXRroOpdhHQ
+         yTFoep8bI++sOeCGYYjVNk1rcGcN34c8jaIPhrV0n1qcn3H1MlHmpuXlaEi6yTQoKOsb
+         fMWQK7yhC+3f8Qf9mfGe55V31NP5HssysFlLW6M12ft2FTuvy0asbvoEJmtT8NHk4Qt/
+         QHz7LRP267lwPKKhG1BGtQ0jg+LWxaGq9JmQRjwurxVZcid5SrEF6m7mPMGwnyUM28cO
+         KhDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=fTS/g3wvn8ZwWJw7+1qQI6MgKYVnxcDrR7zo/fd7qFc=;
-        b=ciOKilsTTOo5ZruXDyLmj2ATJq1EFYNrDZt1CNeA3jmxl3htBWXanOFHd5mUw7+gFu
-         5ff3uB+HBQ+aHseIiOu1+GmuYHKLCZb7cInDw+XnNssLZ03Jwe209japcMTXEXKyAOo/
-         nogEtdYj4jI7qutTzaQpfUz+Qz6fai9Fr+vLwOYU3CeVC1PHNVSzkbklmjWsTq0vGM69
-         k0/Z2YNfmdh42cFqv+623qOjK47bedYeNAUCGTxAEK0L4Mk2IqXLR+s96nDHmW35nI65
-         Za9WLvJ3f4JJQ8RhA+qBXZWWuwTxSEtcdYxFimeOcqoViOuZBgT1Z+pRAUT+T8I1kCSd
-         ZeqQ==
-X-Gm-Message-State: AOAM533iPhUVbvDnsVQLHxWuIjFsqtKNXtor/6ks6QCe0YJxCh1e+wDZ
-        vJMqUWSWCoFDOdg+nMnG0ZE=
-X-Google-Smtp-Source: ABdhPJyySOfJjRFkk/NXrmoBAe4P8MqsL/tpSnQO92Q5ypF5gSbQ0EqcVvjRj0cpzUHUFaBR1Y8zkQ==
-X-Received: by 2002:a05:600c:4f91:: with SMTP id n17mr33146278wmq.195.1641144053643;
-        Sun, 02 Jan 2022 09:20:53 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pnD/k5dOnRMWbk+gLPrEGJiWu/w2QcrrSuk3ehIWI2k=;
+        b=zwVlm6JHGSE/YPBiuZeE69vwBfL054qNAfhURhZwzK5R63+4uojGtT+rhE3Dykuiax
+         4kDmXsrlCfXTBMUgYobmN3mI1Up3kwSDs37Ixq5m326S3B5CQpnYD0D5eBfeJ8R5WMHf
+         j0f9Yc3EF/LmRMKtXRUnbsBGK8StUc+vPPQ986nHJ4iekVp8v7okYuvAwNK1ag8D2YHl
+         CYhDllrP496lQ/O9bue1Mg9/wxDSzNBDFzqD07oj99SeGdisOHRtb0AfHztGN1Ask1bt
+         5TgHjiNj4qwzM3Co7XPxY2Z0jeA/A5jLAmWK+NnQWNqGlDnrrNLDV7+OncjwX7CDMJA6
+         Y2HA==
+X-Gm-Message-State: AOAM530QwdVHTI2ta5kU1TDboQlFa/1oOImc7qR3YbaT99UcJGEyMEaQ
+        lQBd6j30HpCS20ljUoqj87o=
+X-Google-Smtp-Source: ABdhPJy2tMf1pUxRsfR9XXtLSzdQFFewogSTQv/P9NaorkMoiROMrRQgB9mhnIUhXetl+EK1StZ+zQ==
+X-Received: by 2002:a05:600c:4e46:: with SMTP id e6mr36539943wmq.132.1641145880423;
+        Sun, 02 Jan 2022 09:51:20 -0800 (PST)
 Received: from localhost.localdomain ([217.113.240.86])
-        by smtp.gmail.com with ESMTPSA id b2sm36010766wrd.35.2022.01.02.09.20.52
+        by smtp.gmail.com with ESMTPSA id l17sm22564593wms.24.2022.01.02.09.51.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Jan 2022 09:20:53 -0800 (PST)
+        Sun, 02 Jan 2022 09:51:20 -0800 (PST)
 From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To:     alexhenrie24@gmail.com
-Cc:     bberg@redhat.com, benjamin@sipsolutions.net, jikos@kernel.org,
-        jose.exposito89@gmail.com, linux-input@vger.kernel.org
-Subject: Re: [PATCH 2/2] HID: apple: Add 2021 Magic Keyboard with number pad
-Date:   Sun,  2 Jan 2022 18:20:45 +0100
-Message-Id: <20220102172045.164534-1-jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, alexhenrie24@gmail.com,
+        bberg@redhat.com,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH 0/1] Magic Keyboard 2021 with fingerprint reader FN key mapping
+Date:   Sun,  2 Jan 2022 18:51:12 +0100
+Message-Id: <20220102175113.174642-1-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211202061651.115548-2-alexhenrie24@gmail.com>
-References: <20211202061651.115548-2-alexhenrie24@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -64,17 +64,23 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi!
+Hi all,
 
-Thanks a lot for the patches Alex.
+This patch is meant to be applied after [1] and [2].
 
-I tested them on the following hardware:
+Thanks a lot in advance,
+José Expósito
 
- - Magic Keyboard 2021 without fingerprint reader. ANSI, ISO and JIS.
- - Magic Keyboard 2021 with fingerprint reader. ANSI.
- - Magic Keyboard 2021 with fingerprint reader and numpad. ANSI
+[1] https://lore.kernel.org/linux-input/20211202061651.115548-1-alexhenrie24@gmail.com/T/
+[2] https://lore.kernel.org/linux-input/CAMMLpeSdmc1Ti4EZ9Tm7eq3a3+u46TEMWSaqD=USSnSRnZMYTg@mail.gmail.com/T/
 
-Code looks good as well.
+José Expósito (1):
+  HID: apple: Add Magic Keyboard 2021 with fingerprint reader FN key
+    mapping
 
-Tested-by: José Expósito <jose.exposito89@gmail.com>
+ drivers/hid/hid-apple.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+-- 
+2.25.1
 
