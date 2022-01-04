@@ -2,132 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DC4E484637
-	for <lists+linux-input@lfdr.de>; Tue,  4 Jan 2022 17:50:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C159E48488C
+	for <lists+linux-input@lfdr.de>; Tue,  4 Jan 2022 20:29:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235543AbiADQut (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Jan 2022 11:50:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59266 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235540AbiADQur (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Jan 2022 11:50:47 -0500
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D59CC061785;
-        Tue,  4 Jan 2022 08:50:47 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id v7so77303574wrv.12;
-        Tue, 04 Jan 2022 08:50:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qkRyZwwwvuFV2iTyBghAYS+hboYnE7R/cOKdtqbNnzQ=;
-        b=cfrHVWcmKgHS25weZcQRTRhDYb6y9dtFc/U8dRiicmRs3OWCz9gueVm1R8f8r1IobA
-         GX0U/6VePS3vNGv8n7DoGhVZdax1d5yqYEjOnuZa6tsxaseNjc70jf69DmoWkTNuOct2
-         wYTi4QsXMuo8QO07nnjQwYhWDf7BZJB/XNnsdUIRsOvcCSQNnpjO/L8UxZqxU76uMkfp
-         vjmLH/bR83jtRW2nmuYrfKDd7N7P6HHseGrCcUpCsMGerBykdmR9gDXpiYXHhRkKaF+p
-         JlkntTtcF6gsGo+unlBhel8v+6fSYV8yRmQmCvHkOUZUT8UkDpCJx1KEmIIKHtYAEFOM
-         RPrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qkRyZwwwvuFV2iTyBghAYS+hboYnE7R/cOKdtqbNnzQ=;
-        b=vXfdV5YN3GcHxWnfI7mBGhsEASze0Tmdt3fskMhW/CNjY9tFOdsE00xvhmQd2MMy9I
-         mAuRCOrqixuRb7Q+zZeARP+R0MkNR3aiBUnL4ICM+FJy1q+icdzHpiz2mz9eJ/ySwWPj
-         EJ6yIEqSL28IKB3byFbiUI9te3xbj99MO4QbzOpA2eIAYT0B8cif4Kl945kKi3hYT5jG
-         YtafEFII1I3qdU1vAKYx7Oir2a4W/qK+e9WM5p9MIZ478uvTnocXtyoWJHDHlkNIgqYs
-         ymPXo1nT+MkERtcyD+WUlIQ06Y8fVzjpw9vQyzEppq557Z5UBRpeEVbIkYYtz5/30OLm
-         uMEw==
-X-Gm-Message-State: AOAM531zlB2qahNBQsL3hLk98w12cDnjyXv7v0lvgTDcQFw75JlUPvC1
-        cxoNWVnro95WxZ6PGOIJCmA=
-X-Google-Smtp-Source: ABdhPJzTjjwZCnF268yPf+Kz4Z3Izx70sFV4Q43tyjgppysrDpXjPBDgmMQIGJod8LX/zAe1WzjwhQ==
-X-Received: by 2002:adf:9f02:: with SMTP id l2mr44357561wrf.617.1641315045900;
-        Tue, 04 Jan 2022 08:50:45 -0800 (PST)
-Received: from localhost.localdomain ([217.113.240.86])
-        by smtp.gmail.com with ESMTPSA id j85sm417696wmj.3.2022.01.04.08.50.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jan 2022 08:50:45 -0800 (PST)
-From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, alexhenrie24@gmail.com,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH 3/3] HID: apple: Magic Keyboard 2015 FN key mapping
-Date:   Tue,  4 Jan 2022 17:50:33 +0100
-Message-Id: <20220104165033.29421-4-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220104165033.29421-1-jose.exposito89@gmail.com>
-References: <20220104165033.29421-1-jose.exposito89@gmail.com>
+        id S229547AbiADT3M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Jan 2022 14:29:12 -0500
+Received: from mga01.intel.com ([192.55.52.88]:2545 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229508AbiADT3M (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 4 Jan 2022 14:29:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641324552; x=1672860552;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vi3Hr9QrGL0MHtXejx0LbthB/M/Aq0RVeumcTwtJXSc=;
+  b=lVfmNFoCb2AN+mQj/UVwsJB+wooEEoUGvSvJ0Bs5XN2qQpUupA8QThLj
+   hyh+VVSfq1E9mRldj2uRvBAQOywriqUWzC2Sxhemh2W12aPY//EoDSzxc
+   XMGAbNqqnJfnH4lKBg8Bn5EY4OWmwtB0Wwn15lXnh9l+28LBCqWZVUANg
+   nf4/IOlCI+ExPzrU4ymJ9MQttnn1B6OQRb0TuL0+jTMptfY8S1QPegte1
+   NAaFUfuMbBCofyWBMV95gau3ahBt1pzoE/n/EPVoIPQLJjwi42fcWCvHL
+   W5FZ7Hb6tD78As2MITYReGrTUxdYIl/aK1eccED5ZAogphhUTuJKhIlQw
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="266555630"
+X-IronPort-AV: E=Sophos;i="5.88,261,1635231600"; 
+   d="scan'208";a="266555630"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2022 11:29:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,261,1635231600"; 
+   d="scan'208";a="472177084"
+Received: from lkp-server01.sh.intel.com (HELO e357b3ef1427) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 04 Jan 2022 11:29:07 -0800
+Received: from kbuild by e357b3ef1427 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1n4pUY-000FnN-RJ; Tue, 04 Jan 2022 19:29:06 +0000
+Date:   Wed, 05 Jan 2022 03:28:50 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:master] BUILD SUCCESS
+ 08a6df09063818d55c1f0aa8cf3385d8d217b506
+Message-ID: <61d49ff2.KPzkLGeLb4pxAbBb%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Magic Keyboard 2015 function key mapping was not present and the
-default mapping was used.
-While this worked for most keys, the F5 and F6 keys were sending
-KEY_KBDILLUMDOWN and KEY_KBDILLUMUP; however, the keyboard is not
-backlited.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
+branch HEAD: 08a6df09063818d55c1f0aa8cf3385d8d217b506  Input: gpio-keys - avoid clearing twice some memory
 
-Add a custom translation table for the keyboard leaving F5 and F6
-unassigned to mimic the default behavior on macOS.
+elapsed time: 727m
 
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+configs tested: 54
+configs skipped: 4
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+ia64                                defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+csky                                defconfig
+alpha                               defconfig
+nds32                               defconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
+
 ---
- drivers/hid/hid-apple.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index bea752da4ac3..d0f23da11dfd 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -91,6 +91,26 @@ static const struct apple_key_translation magic_keyboard_alu_fn_keys[] = {
- 	{ }
- };
- 
-+static const struct apple_key_translation magic_keyboard_2015_fn_keys[] = {
-+	{ KEY_BACKSPACE, KEY_DELETE },
-+	{ KEY_ENTER,	KEY_INSERT },
-+	{ KEY_F1,	KEY_BRIGHTNESSDOWN, APPLE_FLAG_FKEY },
-+	{ KEY_F2,	KEY_BRIGHTNESSUP,   APPLE_FLAG_FKEY },
-+	{ KEY_F3,	KEY_SCALE,          APPLE_FLAG_FKEY },
-+	{ KEY_F4,	KEY_DASHBOARD,      APPLE_FLAG_FKEY },
-+	{ KEY_F7,	KEY_PREVIOUSSONG,   APPLE_FLAG_FKEY },
-+	{ KEY_F8,	KEY_PLAYPAUSE,      APPLE_FLAG_FKEY },
-+	{ KEY_F9,	KEY_NEXTSONG,       APPLE_FLAG_FKEY },
-+	{ KEY_F10,	KEY_MUTE,           APPLE_FLAG_FKEY },
-+	{ KEY_F11,	KEY_VOLUMEDOWN,     APPLE_FLAG_FKEY },
-+	{ KEY_F12,	KEY_VOLUMEUP,       APPLE_FLAG_FKEY },
-+	{ KEY_UP,	KEY_PAGEUP },
-+	{ KEY_DOWN,	KEY_PAGEDOWN },
-+	{ KEY_LEFT,	KEY_HOME },
-+	{ KEY_RIGHT,	KEY_END },
-+	{ }
-+};
-+
- static const struct apple_key_translation macbookair_fn_keys[] = {
- 	{ KEY_BACKSPACE, KEY_DELETE },
- 	{ KEY_ENTER,	KEY_INSERT },
-@@ -254,6 +274,9 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- 		    hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ISO ||
- 		    hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_JIS)
- 			table = magic_keyboard_alu_fn_keys;
-+		else if (hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2015 ||
-+			 hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2015)
-+			table = magic_keyboard_2015_fn_keys;
- 		else if (hid->product >= USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
- 				hid->product <= USB_DEVICE_ID_APPLE_WELLSPRING4A_JIS)
- 			table = macbookair_fn_keys;
-@@ -407,6 +430,7 @@ static void apple_setup_input(struct input_dev *input)
- 	apple_setup_key_translation(input, powerbook_numlock_keys);
- 	apple_setup_key_translation(input, apple_iso_keyboard);
- 	apple_setup_key_translation(input, magic_keyboard_alu_fn_keys);
-+	apple_setup_key_translation(input, magic_keyboard_2015_fn_keys);
- 
- 	if (swap_fn_leftctrl)
- 		apple_setup_key_translation(input, swapped_fn_leftctrl_keys);
--- 
-2.25.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
