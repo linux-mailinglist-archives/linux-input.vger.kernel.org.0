@@ -2,141 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40FB5485602
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jan 2022 16:39:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08A7B48573B
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jan 2022 18:29:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241572AbiAEPiw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Jan 2022 10:38:52 -0500
-Received: from mga03.intel.com ([134.134.136.65]:13792 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230307AbiAEPiu (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 5 Jan 2022 10:38:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641397130; x=1672933130;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Udd+hqo7mjhdSgvH5P3a4lWSts8UFfCNta3ovtkSO6c=;
-  b=KexXNOutqlJ4oAfe5EVWcd62QggYHX503loDTBwE9a2ISOpDNnHkmlnS
-   dlCypG0T2nJOq/HZH6ImiHGc/BYCukACfdmQI3a/2r1HoecyF4/ztcQL2
-   rbfrJxYhLcJwSi2F60GhC1IxCtYEtyjCI/Qz4mxFwLrwTc3hChyk6zZMA
-   j0aZzpza8TziLRuTiH1/TdN/ebX3ab7kO3YG8srmO7585Nx4muFZ5Asqd
-   KDc0ALE4BsXQ2fWuhhl2/TBOenL/FhhPk6ggMEyoWJQOpiT3V9Jc6ExrJ
-   SloWsb8BOpPH9H83lfgRGukceNdP7aIGaVuz5L313DCdDiY0PPGThJm4o
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="242423546"
-X-IronPort-AV: E=Sophos;i="5.88,264,1635231600"; 
-   d="scan'208";a="242423546"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2022 07:38:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,264,1635231600"; 
-   d="scan'208";a="512991328"
-Received: from lkp-server01.sh.intel.com (HELO e357b3ef1427) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 05 Jan 2022 07:38:45 -0800
-Received: from kbuild by e357b3ef1427 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1n58NA-000Go7-IG; Wed, 05 Jan 2022 15:38:44 +0000
-Date:   Wed, 5 Jan 2022 23:38:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Nikita Travkin <nikita@trvn.ru>, dmitry.torokhov@gmail.com
-Cc:     kbuild-all@lists.01.org, robh+dt@kernel.org,
-        Michael.Srba@seznam.cz, linus.walleij@linaro.org,
-        broonie@kernel.org, luca@z3ntu.xyz, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] input: zinitix: Add touchkey support
-Message-ID: <202201052355.c806rw3s-lkp@intel.com>
-References: <20220105060323.7928-7-nikita@trvn.ru>
+        id S242233AbiAER3X (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Jan 2022 12:29:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55078 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242255AbiAER3W (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Jan 2022 12:29:22 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA9BDC061201;
+        Wed,  5 Jan 2022 09:29:21 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id e5so84509309wrc.5;
+        Wed, 05 Jan 2022 09:29:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pLJ0atlZelpnb95O2mRH3Zdf/JvlCYdoZsqjm3uLcC4=;
+        b=Gzy5I4vJIEmLsZZ5y0qgeS/aSqMzGqt2EZmUDLbSVxQmks023qGvD1ytTjPdLO39AJ
+         +3jvwDN+pJv6VIb819YSHFHYm4s5a7XQnDLQ1YyflsZTLSIKN86+r4pFUmZ8+v0adGcn
+         vn5oIs2UoB0r4RvT2E51r54tJr38EU2Irc9/llTCZeWaXQSF6FGU2+TDD9ubrPnbGZG9
+         ugiBLLYM8Dexkkz7UaXz7FFZxOjuFCzomMMne5NOH8KeKNZmVp1pXAbgvyl02FmAAxYo
+         oTdMr4A7kmX7vnunCzmE8TTH3AMb6e7oVmWJtwi8aqMrzaQ7wfW5kMDVXqZ4vMoadmxD
+         Tb6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pLJ0atlZelpnb95O2mRH3Zdf/JvlCYdoZsqjm3uLcC4=;
+        b=sv8S2Qyf9iC7B3bAIfC3KIYd7psdtGiiGAJ+NQFZJfAlOff3tBfpuZAtxzoPWFh2Vk
+         blCVQnqEZDVXO0ysqBL6UzxMbP1bNt+eAG0PdQO6BaAj0gUYVL90up6/8ESycWivdiae
+         W8v4q5NpfwpYhkJ3aN2RPdNIa6DDS9GN40bMCCtngYU1jzSoeJY4z2YbRrIca3E090NE
+         JfFsnsVgUp/eH3fIH200PGyabwmKIp+59BrdEtwkxvjL7De2kjuKbvrPTQv3b1FIjwNS
+         2xG2iWbGcFdFJZHSYR0lDl9dPMZq3nfuFpBCuIRrHe73W3dyL8jaaW4Ml6oOVedBUPY+
+         e18w==
+X-Gm-Message-State: AOAM532SNQwcHi/jni1M77gi8MAKK5LWDht/YNv3pnLpSaQQClyBdx8X
+        8I6QLlkyz2ccXA/0AfVGifk=
+X-Google-Smtp-Source: ABdhPJwgvi2gCbOTJoe+m+KLQHatR0exAU9ZHyDFQO3YliCy/uwOfTcC+C20ZISbcDOWvDXclP5kuA==
+X-Received: by 2002:adf:e904:: with SMTP id f4mr47248973wrm.245.1641403760315;
+        Wed, 05 Jan 2022 09:29:20 -0800 (PST)
+Received: from localhost.localdomain ([217.113.240.86])
+        by smtp.gmail.com with ESMTPSA id g6sm43071442wri.67.2022.01.05.09.29.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jan 2022 09:29:19 -0800 (PST)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, spbnick@gmail.com,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH 0/4] HID: hid-uclogic-params: Fix NULL pointer dereferences
+Date:   Wed,  5 Jan 2022 18:29:11 +0100
+Message-Id: <20220105172915.131091-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220105060323.7928-7-nikita@trvn.ru>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Nikita,
+Hi everyone,
 
-Thank you for the patch! Perhaps something to improve:
+This series fixes 4 possible NULL pointer dereference errors
+present in hid-uclogic-params.c found by Coverity.
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on robh/for-next hid/for-next linus/master v5.16-rc8 next-20220105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Even though the fixes are small and very similar I made them
+in 4 patches to include the Coverity ID on each of them and
+make Coverity happy.
 
-url:    https://github.com/0day-ci/linux/commits/Nikita-Travkin/Add-touch-keys-support-to-the-Zinitix-touch-driver/20220105-140610
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-config: powerpc-randconfig-s031-20220105 (https://download.01.org/0day-ci/archive/20220105/202201052355.c806rw3s-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/545e0de93da58f29350c2908498a4621f5ef59e4
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Nikita-Travkin/Add-touch-keys-support-to-the-Zinitix-touch-driver/20220105-140610
-        git checkout 545e0de93da58f29350c2908498a4621f5ef59e4
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/ata/ drivers/input/touchscreen/
+I didn't find any code calling the functions with invalid
+params, but since the check is there, it's better to make sure
+that it's doing its job.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Thanks,
+José Expósito
 
+José Expósito (4):
+  HID: hid-uclogic-params: Invalid parameter check in
+    uclogic_params_init
+  HID: hid-uclogic-params: Invalid parameter check in
+    uclogic_params_get_str_desc
+  HID: hid-uclogic-params: Invalid parameter check in
+    uclogic_params_huion_init
+  HID: hid-uclogic-params: Invalid parameter check in
+    uclogic_params_frame_init_v1_buttonpad
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/input/touchscreen/zinitix.c:371:24: sparse: sparse: restricted __le16 degrades to integer
+ drivers/hid/hid-uclogic-params.c | 31 ++++++++++++++++++++++---------
+ 1 file changed, 22 insertions(+), 9 deletions(-)
 
-vim +371 drivers/input/touchscreen/zinitix.c
+-- 
+2.25.1
 
-   352	
-   353	static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
-   354	{
-   355		struct bt541_ts_data *bt541 = bt541_handler;
-   356		struct i2c_client *client = bt541->client;
-   357		struct touch_event touch_event;
-   358		int error;
-   359		int i;
-   360		__le16 icon_events = 0;
-   361	
-   362		memset(&touch_event, 0, sizeof(struct touch_event));
-   363	
-   364		error = zinitix_read_data(bt541->client, BT541_POINT_STATUS_REG,
-   365					  &touch_event, sizeof(struct touch_event));
-   366		if (error) {
-   367			dev_err(&client->dev, "Failed to read in touchpoint struct\n");
-   368			goto out;
-   369		}
-   370	
- > 371		if (touch_event.status & BIT_ICON_EVENT) {
-   372			error = zinitix_read_data(bt541->client, BT541_ICON_STATUS_REG,
-   373						  &icon_events, sizeof(icon_events));
-   374			if (error) {
-   375				dev_err(&client->dev, "Failed to read icon events\n");
-   376				goto out;
-   377			}
-   378	
-   379			zinitix_report_keys(bt541, le16_to_cpu(icon_events));
-   380		}
-   381	
-   382		for (i = 0; i < MAX_SUPPORTED_FINGER_NUM; i++)
-   383			if (touch_event.point_coord[i].sub_status & SUB_BIT_EXIST)
-   384				zinitix_report_finger(bt541, i,
-   385						      &touch_event.point_coord[i]);
-   386	
-   387		input_mt_sync_frame(bt541->input_dev);
-   388		input_sync(bt541->input_dev);
-   389	
-   390	out:
-   391		zinitix_write_cmd(bt541->client, BT541_CLEAR_INT_STATUS_CMD);
-   392		return IRQ_HANDLED;
-   393	}
-   394	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
