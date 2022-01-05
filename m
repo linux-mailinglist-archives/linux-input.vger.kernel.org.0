@@ -2,202 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A92D6484DF3
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jan 2022 07:04:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C560C485210
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jan 2022 12:53:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237664AbiAEGEG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Jan 2022 01:04:06 -0500
-Received: from box.trvn.ru ([194.87.146.52]:55751 "EHLO box.trvn.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237646AbiAEGEE (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 5 Jan 2022 01:04:04 -0500
-Received: from authenticated-user (box.trvn.ru [194.87.146.52])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by box.trvn.ru (Postfix) with ESMTPSA id D1E214207A;
-        Wed,  5 Jan 2022 11:04:01 +0500 (+05)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trvn.ru; s=mail;
-        t=1641362642; bh=9zCO4y0WdmaObCtQHo6frc57v48/0fUW1a+wyWnbof8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=n/JI8RYKFh1SDIXs72MpT4899WpfohZ47EeNpMDpEPqlGNw4GdTBH7YOgiKEhEkHC
-         DHLC8srTgnxkLCYJuQGQlY2NZgwSL4cuD3iHlRjhbbvUjYgjcy/pe96f9I3nZYFLwU
-         is1Q57W+08o7cadbfaN3xbrVQWfbM6d7yt+7LluICBFj2CLN9FXTxe1ouC8bn1Wf9X
-         hmhS6ONexvn0mCfqw4t9/BhyiWHNNy937N+cmy2UtthBtxDV7VXzWr65abQtZOZL0B
-         75+4rZxz3StoKcHzxrhbYuyofTeddihuR7j8VbGr+AcI6czHkzXJHr1Dmmei/08iMY
-         6577a3I7nvhGg==
-From:   Nikita Travkin <nikita@trvn.ru>
-To:     dmitry.torokhov@gmail.com
-Cc:     robh+dt@kernel.org, Michael.Srba@seznam.cz,
-        linus.walleij@linaro.org, broonie@kernel.org, luca@z3ntu.xyz,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        phone-devel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        Nikita Travkin <nikita@trvn.ru>
-Subject: [PATCH v2 6/6] input: zinitix: Add touchkey support
-Date:   Wed,  5 Jan 2022 11:03:23 +0500
-Message-Id: <20220105060323.7928-7-nikita@trvn.ru>
-In-Reply-To: <20220105060323.7928-1-nikita@trvn.ru>
-References: <20220105060323.7928-1-nikita@trvn.ru>
+        id S235557AbiAELxe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Jan 2022 06:53:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34438 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235507AbiAELxO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Jan 2022 06:53:14 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04C5EC061785
+        for <linux-input@vger.kernel.org>; Wed,  5 Jan 2022 03:53:14 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id l10so1089409wrh.7
+        for <linux-input@vger.kernel.org>; Wed, 05 Jan 2022 03:53:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=msm4RixDwEFMfe+7jyY/ubZlcJMsRCU7XocB5DrglG4=;
+        b=J0kzprD8KYjERwmuoa7xxl6eCyd7SvDCsmSlWm68iyU1HJyzJD14I2cu1DmWpTFoP0
+         RGs97n66mX1QZxC//cWKAqCC0781P1QVwoW/NWK4pl9T550+Eo5rRxZyQlmZg1DcvK/i
+         Zh5sv+NVcw8ppbUf9IC11N8ubJ1V4q0/IVw1bZf2Oi3RZuPS2YERj8aAEy5S81UuHYPP
+         KqpSFQ2s1g17smjCCKVT8RBtnhrytMJ4qoLnVthWhKVDxN3aIRDXzytQfyGc/WpF7nYJ
+         3FXnnpuxvDko7aN+NHruql1m+x5W4uDsSPOFFFgiyBoOm6WjfpkTVoAW7mw89IeuIt4w
+         kXGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=msm4RixDwEFMfe+7jyY/ubZlcJMsRCU7XocB5DrglG4=;
+        b=ZjbJPXhxifbyDqVxZ3+sII4qmfnlQc/XlfWEFzz9ogzdsHcpHxBgnx0NSdXRbbVnjo
+         Y8qyO5vr3d+IGRFBxyrJluBk4L9V9gANaNjhQNGq5QxpwPLsJ4/Gf0PBOXc2fCisrEYJ
+         V42Ni1kqxWej2wHlj/yJGHWFJOh0zv6LoL9Y+tYS6KuWDwh2k1zevCnyFektoWCK726j
+         +31CmTloYavqI6hyW4avWBO/zsZNHbR/Ux20qGQy0a+h9/LK6RsEAuHUGH+mEw2rsUE7
+         6mj3xJm0Y84p7/Q9Y47MQ0cyz7qlDewDbJs6qJuf8pU70GTvGbQW/P9EkH62CD50Pb7E
+         I98g==
+X-Gm-Message-State: AOAM530tC0tdl++vkCc6hyt20HTfdpqrAGaX1P+2EACELIzILF2TT/mC
+        oXut++1HSi6G5xc9ZmXnB/V/DUU5Co8=
+X-Google-Smtp-Source: ABdhPJxGuW57C/TPVBlpGzEptvDB5+7EmxqECeWGY5HXouxCpikeN3VyeiWLTZ0HTeZIY9EB167Zuw==
+X-Received: by 2002:a5d:64e2:: with SMTP id g2mr16024861wri.690.1641383592504;
+        Wed, 05 Jan 2022 03:53:12 -0800 (PST)
+Received: from rechenknecht2k11 ([2001:16b8:4562:6f00:2ba5:b93:e9c0:439b])
+        by smtp.googlemail.com with ESMTPSA id a3sm5743605wri.89.2022.01.05.03.53.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jan 2022 03:53:12 -0800 (PST)
+Date:   Wed, 5 Jan 2022 12:53:10 +0100
+From:   Benjamin Valentin <benpicco@googlemail.com>
+To:     Cameron Gutman <aicommander@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
+        lawl <github@dumbinter.net>
+Subject: [RESEND][PATCH v2] Input: xpad - Poweroff XBOX360W on mode button
+ long press
+Message-ID: <20220105125310.1f3328a5@rechenknecht2k11>
+In-Reply-To: <3b25f4b1-3ec0-0878-99bc-0da06ce7c2f2@gmail.com>
+References: <20211113141155.26217b44@rechenknecht2k11>
+ <3b25f4b1-3ec0-0878-99bc-0da06ce7c2f2@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Zinitix touch controllers can use some of the sense lines for virtual
-keys (like those found on many phones). Add support for those keys.
+Newer gamepads turn themselves off when the mode button is held down.
+For XBOX360W gamepads we must do this in the driver.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Nikita Travkin <nikita@trvn.ru>
----
-Changes in v2:
- - Add missing le16_to_cpu()
----
- drivers/input/touchscreen/zinitix.c | 61 +++++++++++++++++++++++++++--
- 1 file changed, 58 insertions(+), 3 deletions(-)
+Power off the gamepad after 5s of holding down the button.
 
-diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
-index 7c82c4f5fa6b..a1c2620507b4 100644
---- a/drivers/input/touchscreen/zinitix.c
-+++ b/drivers/input/touchscreen/zinitix.c
-@@ -119,6 +119,7 @@
- 
- #define DEFAULT_TOUCH_POINT_MODE		2
- #define MAX_SUPPORTED_FINGER_NUM		5
-+#define MAX_SUPPORTED_BUTTON_NUM		8
- 
- #define CHIP_ON_DELAY				15 // ms
- #define FIRMWARE_ON_DELAY			40 // ms
-@@ -146,6 +147,8 @@ struct bt541_ts_data {
- 	struct touchscreen_properties prop;
- 	struct regulator_bulk_data supplies[2];
- 	u32 zinitix_mode;
-+	u32 keycodes[MAX_SUPPORTED_BUTTON_NUM];
-+	int num_keycodes;
+Signed-off-by: lawl <github@dumbinter.net>
+Signed-off-by: Benjamin Valentin <benpicco@googlemail.com>
+---
+Changed the timeout back to 5s
+
+ drivers/input/joystick/xpad.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 18caaf436ed4..e36c4b0abd4b 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -619,11 +619,13 @@ struct usb_xpad {
+ 	int pad_nr;			/* the order x360 pads were attached */
+ 	const char *name;		/* name of the device */
+ 	struct work_struct work;	/* init/remove device from callback */
++	time64_t mode_btn_down_ts;	/* timestamp when mode button was pressed */
  };
  
- static int zinitix_read_data(struct i2c_client *client,
-@@ -195,6 +198,7 @@ static int zinitix_init_touch(struct bt541_ts_data *bt541)
- 	struct i2c_client *client = bt541->client;
- 	int i;
- 	int error;
-+	u16 int_flags = 0;
+ static int xpad_init_input(struct usb_xpad *xpad);
+ static void xpad_deinit_input(struct usb_xpad *xpad);
+ static void xpadone_ack_mode_report(struct usb_xpad *xpad, u8 seq_num);
++static void xpad360w_poweroff_controller(struct usb_xpad *xpad);
  
- 	error = zinitix_write_cmd(client, BT541_SWRESET_CMD);
- 	if (error) {
-@@ -225,6 +229,11 @@ static int zinitix_init_touch(struct bt541_ts_data *bt541)
- 	if (error)
- 		return error;
- 
-+	error = zinitix_write_u16(client, BT541_BUTTON_SUPPORTED_NUM,
-+				  bt541->num_keycodes);
-+	if (error)
-+		return error;
-+
- 	error = zinitix_write_u16(client, BT541_INITIAL_TOUCH_MODE,
- 				  bt541->zinitix_mode);
- 	if (error)
-@@ -235,9 +244,12 @@ static int zinitix_init_touch(struct bt541_ts_data *bt541)
- 	if (error)
- 		return error;
- 
--	error = zinitix_write_u16(client, BT541_INT_ENABLE_FLAG,
--				  BIT_PT_CNT_CHANGE | BIT_DOWN | BIT_MOVE |
--					BIT_UP);
-+	int_flags = BIT_PT_CNT_CHANGE | BIT_DOWN | BIT_MOVE | BIT_UP;
-+
-+	if (bt541->num_keycodes)
-+		int_flags |= BIT_ICON_EVENT;
-+
-+	error = zinitix_write_u16(client, BT541_INT_ENABLE_FLAG, int_flags);
- 	if (error)
- 		return error;
- 
-@@ -329,6 +341,15 @@ static void zinitix_report_finger(struct bt541_ts_data *bt541, int slot,
- 	input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR, p->width);
- }
- 
-+static void zinitix_report_keys(struct bt541_ts_data *bt541, u16 icon_events)
-+{
-+	int i;
-+
-+	for (i = 0; i < bt541->num_keycodes; i++)
-+		input_report_key(bt541->input_dev,
-+				 bt541->keycodes[i], !!(icon_events & BIT(i)));
-+}
-+
- static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
- {
- 	struct bt541_ts_data *bt541 = bt541_handler;
-@@ -336,6 +357,7 @@ static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
- 	struct touch_event touch_event;
- 	int error;
- 	int i;
-+	__le16 icon_events = 0;
- 
- 	memset(&touch_event, 0, sizeof(struct touch_event));
- 
-@@ -346,6 +368,17 @@ static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
- 		goto out;
+ /*
+  *	xpad_process_packet
+@@ -775,6 +777,24 @@ static void xpad360_process_packet(struct usb_xpad *xpad, struct input_dev *dev,
  	}
  
-+	if (touch_event.status & BIT_ICON_EVENT) {
-+		error = zinitix_read_data(bt541->client, BT541_ICON_STATUS_REG,
-+					  &icon_events, sizeof(icon_events));
-+		if (error) {
-+			dev_err(&client->dev, "Failed to read icon events\n");
-+			goto out;
+ 	input_sync(dev);
++
++	/* xbox360w controllers can't be turned off without driver assistance */
++	if (xpad->xtype == XTYPE_XBOX360W) {
++		if (xpad->mode_btn_down_ts > 0
++		    && xpad->pad_present
++		    /* send power off after 5s of holding the button */
++		    && (ktime_get_seconds() - xpad->mode_btn_down_ts) >= 5) {
++			xpad360w_poweroff_controller(xpad);
++			xpad->mode_btn_down_ts = 0;
++			return;
 +		}
 +
-+		zinitix_report_keys(bt541, le16_to_cpu(icon_events));
++		/* mode button down/up */
++		if (data[3] & 0x04)
++			xpad->mode_btn_down_ts = ktime_get_seconds();
++		else
++			xpad->mode_btn_down_ts = 0;
 +	}
-+
- 	for (i = 0; i < MAX_SUPPORTED_FINGER_NUM; i++)
- 		if (touch_event.point_coord[i].sub_status & SUB_BIT_EXIST)
- 			zinitix_report_finger(bt541, i,
-@@ -427,6 +460,7 @@ static int zinitix_init_input_dev(struct bt541_ts_data *bt541)
- {
- 	struct input_dev *input_dev;
- 	int error;
-+	int i;
+ }
  
- 	input_dev = devm_input_allocate_device(&bt541->client->dev);
- 	if (!input_dev) {
-@@ -444,6 +478,14 @@ static int zinitix_init_input_dev(struct bt541_ts_data *bt541)
- 	input_dev->open = zinitix_input_open;
- 	input_dev->close = zinitix_input_close;
- 
-+	if (bt541->num_keycodes) {
-+		input_dev->keycode = bt541->keycodes;
-+		input_dev->keycodemax = bt541->num_keycodes;
-+		input_dev->keycodesize = sizeof(bt541->keycodes[0]);
-+		for (i = 0; i < bt541->num_keycodes; i++)
-+			input_set_capability(input_dev, EV_KEY, bt541->keycodes[i]);
-+	}
-+
- 	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_X);
- 	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_Y);
- 	input_set_abs_params(input_dev, ABS_MT_WIDTH_MAJOR, 0, 255, 0, 0);
-@@ -508,6 +550,19 @@ static int zinitix_ts_probe(struct i2c_client *client)
- 		return error;
- 	}
- 
-+	bt541->num_keycodes = of_property_read_variable_u32_array(
-+					client->dev.of_node, "linux,keycodes",
-+					bt541->keycodes, 0,
-+					ARRAY_SIZE(bt541->keycodes));
-+	if (bt541->num_keycodes == -EINVAL) {
-+		bt541->num_keycodes = 0;
-+	} else if (bt541->num_keycodes < 0) {
-+		dev_err(&client->dev,
-+			"Unable to parse \"linux,keycodes\" property: %d\n",
-+			bt541->num_keycodes);
-+		return bt541->num_keycodes;
-+	}
-+
- 	error = zinitix_init_input_dev(bt541);
- 	if (error) {
- 		dev_err(&client->dev,
+ static void xpad_presence_work(struct work_struct *work)
 -- 
-2.30.2
-
+2.32.0
