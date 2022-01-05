@@ -2,81 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18829484D60
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jan 2022 06:19:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1C57484DE4
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jan 2022 07:04:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233382AbiAEFTw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Jan 2022 00:19:52 -0500
-Received: from box.trvn.ru ([194.87.146.52]:39589 "EHLO box.trvn.ru"
+        id S237616AbiAEGD7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Jan 2022 01:03:59 -0500
+Received: from box.trvn.ru ([194.87.146.52]:55879 "EHLO box.trvn.ru"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233204AbiAEFTw (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 5 Jan 2022 00:19:52 -0500
-X-Greylist: delayed 545 seconds by postgrey-1.27 at vger.kernel.org; Wed, 05 Jan 2022 00:19:51 EST
+        id S236299AbiAEGD5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 5 Jan 2022 01:03:57 -0500
 Received: from authenticated-user (box.trvn.ru [194.87.146.52])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by box.trvn.ru (Postfix) with ESMTPSA id 53095403F4;
-        Wed,  5 Jan 2022 10:10:42 +0500 (+05)
+        by box.trvn.ru (Postfix) with ESMTPSA id CA02A403F1;
+        Wed,  5 Jan 2022 11:03:53 +0500 (+05)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trvn.ru; s=mail;
-        t=1641359443; bh=viEaMU43NGKgfhxi+YoGuWp9iDZfP0psKjUGoHbDMPk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=azHBU5xzOQpuEcOIHgaXFUz2tLSlqIB+0k6A1TAe5DZ9WOnib06td1iXdli4z/dno
-         jAMTSf/nD1sivc/b81F1ptq5LNA6oZfk/bsa81sGBMSlf0r+FYP4TxPikskB40KQz8
-         MnblIfqQedE8YGF9ITmJtRNlZwbUHV3uDqfNkwVZqNap8K6TBnjkW/EyVcYKf04Bra
-         TdHWiDgBsiyzcrmPnzof9RVy0n+ypzoks7WtJrhNTYeYHK5Y5ksz/TecptjClvCqst
-         91UtQxTEpG/fYNSyEoUuw7UXj2x6k+Z1OVQ+qI2XAj26DAjClGt1BD+0+41nN6dpKA
-         uTnzJV2g39tUg==
-MIME-Version: 1.0
-Date:   Wed, 05 Jan 2022 10:10:41 +0500
+        t=1641362635; bh=0AK0sJT4llPAlmM503xOe/kxnJz+trGyjkDwN14mYGk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=su4oHd98ySITA8xqDt7pLPqqHdXYW1XCIvfyEnwYTzsqk6vTB9gqCU6/Jl/iGrdfF
+         feRVfrO3DflH0NHeu/DAjy2kqT+QRIXT3CDHaYN85hdlC3/ahDYIe3W2T4BCXnZ1Kd
+         X2TeAYI3xbHY7gVHm4JBprG6+WVdDoLjmoxm4WaB7/oKcknKgMorIviitVl6NlsDNP
+         P/n6nmzIxk5iLdhwFhD7H2VHa8X87a6LZTXec8POYRiawXvIkaKqgs+bWkvmDa0LWY
+         WZOvRzdp7i4bUGPVFejz5E+zzTLsnsyKV4mcFIp/ffLlEop7YVpa9mvjcVjPW1FxE1
+         KIsUssWvWtkPw==
 From:   Nikita Travkin <nikita@trvn.ru>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        Michael.Srba@seznam.cz, broonie@kernel.org,
+To:     dmitry.torokhov@gmail.com
+Cc:     robh+dt@kernel.org, Michael.Srba@seznam.cz,
+        linus.walleij@linaro.org, broonie@kernel.org, luca@z3ntu.xyz,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         phone-devel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 0/6] Add touch-keys support to the Zinitix touch driver
-In-Reply-To: <CACRpkdaumfXijp_QGU8hL9TTmFYBNaaBe+_fuc1hCJnA_CfWNw@mail.gmail.com>
-References: <20211027181350.91630-1-nikita@trvn.ru>
- <CACRpkdaumfXijp_QGU8hL9TTmFYBNaaBe+_fuc1hCJnA_CfWNw@mail.gmail.com>
-Message-ID: <f20420dbaa8fbf667b701ab51aba9720@trvn.ru>
-X-Sender: nikita@trvn.ru
-Content-Type: text/plain; charset=UTF-8
+        ~postmarketos/upstreaming@lists.sr.ht,
+        Nikita Travkin <nikita@trvn.ru>
+Subject: [PATCH v2 0/6] Add touch-keys support to the Zinitix touch driver
+Date:   Wed,  5 Jan 2022 11:03:17 +0500
+Message-Id: <20220105060323.7928-1-nikita@trvn.ru>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Linus Walleij писал(а) 05.01.2022 02:04:
-> Hi Nikita,
-> 
-> On Wed, Oct 27, 2021 at 8:15 PM Nikita Travkin <nikita@trvn.ru> wrote:
-> 
->> This series adds support for the touch-keys that can be present on some
->> touchscreen configurations, adds the compatible for bt532 and fixes a
->> small race condition bug in the driver probe function.
-> 
-> This appears unaddressed since October?
-> I see there are just some small nits in patch 5 & 6 to fix, then
-> it is finished.
-> 
+This series adds support for the touch-keys that can be present on some
+touchscreen configurations, adds the compatible for bt532 and fixes a
+small race condition bug in the driver probe function.
 
-Hi, I was planning to include the fix for the message reporting
-to the next version as well but then I got rather low on time
-and could never finish that bit. As it seem to only affect my
-device, there was not really much stopping me from submitting
-a next version without that fix other than my "irrational
-perfectionism" which I should probably learn to recognize better...
+I also pick up the series that converts the dt bindings to yaml
+initially submitted by Linus Walleij in [1].
+I made some minor changes to those patches:
+ - Fixed dt_schema_check error
+ - Adressed the review comments from Dmitry on the original series
 
-> Do you have time to pick it up for kernel v5.17 instead?
-> Make sure to collect all Reviewed-by on this series.
-> 
+[1] https://lore.kernel.org/linux-input/20210625113435.2539282-1-linus.walleij@linaro.org/
 
-I will try to submit a new version with review fixes and
-tags shortly.
+Changes in v2:
+- Use input.yaml in the dt binding for the touchkey
+- Add missing le16_to_cpu()
 
-Thanks,
-Nikita
+Linus Walleij (2):
+  dt-bindings: input/ts/zinitix: Convert to YAML, fix and extend
+  Input: zinitix - Handle proper supply names
 
-> Yours,
-> Linus Walleij
+Nikita Travkin (4):
+  input: zinitix: Make sure the IRQ is allocated before it gets enabled
+  input: zinitix: Add compatible for bt532
+  dt-bindings: input: zinitix: Document touch-keys support
+  input: zinitix: Add touchkey support
+
+ .../input/touchscreen/zinitix,bt400.yaml      | 125 ++++++++++++++++++
+ .../bindings/input/touchscreen/zinitix.txt    |  40 ------
+ drivers/input/touchscreen/zinitix.c           | 101 +++++++++++---
+ 3 files changed, 209 insertions(+), 57 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix,bt400.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix.txt
+
+-- 
+2.30.2
+
