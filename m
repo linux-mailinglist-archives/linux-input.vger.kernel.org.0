@@ -2,111 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E3884869DE
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jan 2022 19:27:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8246A486BF1
+	for <lists+linux-input@lfdr.de>; Thu,  6 Jan 2022 22:33:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242712AbiAFS1m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Jan 2022 13:27:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55134 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242700AbiAFS1m (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Jan 2022 13:27:42 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1552EC061245;
-        Thu,  6 Jan 2022 10:27:42 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id w7so3016786plp.13;
-        Thu, 06 Jan 2022 10:27:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Mskw7uRlhAFhUG1ieckeOXErw6hEhTea/5asqxMmxpk=;
-        b=i/GcDhyaX50tOzDh3q0HK6hf76bXDlavHTpMP1l9tTv/MYIcVbDSpaK6lbV9Lw50bo
-         PZk1n9aH2f04xN/8pNrmF9i1gtFdmBjJwU/cW32nSbm2RZSy3x4Izu8Iv5pNlqBgy7rj
-         3PEwL6pRG9GCSOz7l1CREcgEV8ks93l/ad7kiy9UM7lWvNs0f7vTu0spcBr9xsc4rVZC
-         S+lgtkpixDb8KU96kydlqPSZ7heDqYXeLXL2IyPCaBgLx4IEUumkz63L6C7or8+oEchY
-         gp030+AJSvDk4mUPmz79366wP8JJ6LNTgRKLmYnt6b4A/NNesmluLZfI9joSkMqieTWf
-         6PnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Mskw7uRlhAFhUG1ieckeOXErw6hEhTea/5asqxMmxpk=;
-        b=l6lLuwChfzZGGM2Qfx0VKnrMtx3FMb4FuXDsmtnCh1mwLjhpJitGKuAjzGrt0+ZxAs
-         D9sbOVSbDLTsX9kEfpocbUlB2Cs9pNDXD4/PXbFohbfSLRJi8ghf6uJGuYy4/wacaC83
-         G/kYbN5OUU1dQiGyNUwMnR4dNUycELsH73AWOKiwa+BhsZplCLj2DWNCYNcIAsx6h+Yy
-         WpnovHtkVf9ylFWUKypvOz7m7tcTBKGtQhNcwryQzpya5GKQPlMlcu35HwU3QJ8jZ+45
-         zwfcKpwguojF37gK7GgVtn5PgeEepx3wIx0JgUDzAaX/WdkYoEY7og1Z5LBYU/tdOz21
-         Kq4A==
-X-Gm-Message-State: AOAM533JD+9nqtuKFfRQ0o2aGm+RvkEKdm7SRX1MQUm4yDDUayXQVfs5
-        GhJ0XAUyqOcrc2LQHU1NG+V9xtAIrhFfF8wz0kDse3Hwrfw=
-X-Google-Smtp-Source: ABdhPJxioa7rcwPE0lFktDCQ6DbH1RYvLWNIoLFDp+0GzCd8NClECEKzb9SGrRzq+r7SW1t8P3DUUPpAX1xAmYQNmtc=
-X-Received: by 2002:a17:90b:17cb:: with SMTP id me11mr11426840pjb.28.1641493661438;
- Thu, 06 Jan 2022 10:27:41 -0800 (PST)
-MIME-Version: 1.0
-References: <CAPoEpV0ZSidL6aMXvB6LN1uS-3CUHS4ggT8RwFgmkzzCiYJ-XQ@mail.gmail.com>
- <f8c13907-d296-baa6-7637-c5f8aa96b7ff@gmail.com>
-In-Reply-To: <f8c13907-d296-baa6-7637-c5f8aa96b7ff@gmail.com>
-From:   Andrea Ippolito <andrea.ippo@gmail.com>
-Date:   Thu, 6 Jan 2022 19:27:05 +0100
-Message-ID: <CAGhUXvCMyVD3aP7Mi+i2hz0A0FePJvPSceubXm=u+4AR+wgesA@mail.gmail.com>
-Subject: Re: Wrong piix4_smbus address / slow trackpoint on Thinkpad P14s gen
- 2 (AMD)
-To:     =?UTF-8?Q?Miroslav_Bend=C3=ADk?= <miroslav.bendik@gmail.com>
-Cc:     linux-i2c@vger.kernel.org, linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S244255AbiAFVd2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Jan 2022 16:33:28 -0500
+Received: from mout.gmx.net ([212.227.17.22]:44181 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S244236AbiAFVd1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 6 Jan 2022 16:33:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1641504800;
+        bh=UMvIoROr/73nG2EcGTazV53/qUgYAF8KyqXKOfOpYLM=;
+        h=X-UI-Sender-Class:From:Subject:Date:References:Cc:In-Reply-To:To;
+        b=ctkrLWH/HgbRn2mlMx45AIG6TT6WrYveii41h46AT93R7LhkfcGP/g354QWsIOBWj
+         OqiJbUGCRS7RXWC7NHviVKMyXhF5GzOuOcLZYjShTdPF/HKeNo14rzrCOg0cYYjMc1
+         4cn0mHJsoE0tJWQA0bKxD5S34AJ5WAOc+AIWKsfU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from smtpclient.apple ([46.114.34.17]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MbAgq-1mYjbT41m4-00bajE; Thu, 06
+ Jan 2022 22:33:20 +0100
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+From:   Sebastian Parschauer <s.parschauer@gmx.de>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] HID: quirks: Always poll Anne Pro 2(C15) Keyboard
+Date:   Thu, 6 Jan 2022 22:33:18 +0100
+Message-Id: <3DB5A377-5918-4304-BB35-589B594A5E82@gmx.de>
+References: <61b44254.1c69fb81.ca496.5d65@mx.google.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <61b44254.1c69fb81.ca496.5d65@mx.google.com>
+To:     kortanzh@gmail.com
+X-Mailer: iPhone Mail (18H17)
+X-Provags-ID: V03:K1:Q0YLyumya81FczRiWG/CXmts1FXXLWSpTgOFJQxa+qibH3PKpqn
+ VkJbx1P8dj9mxwn5nz0IalogaaijMXPFDhCGAmjrOzzM7NQ3cz5aqhEybXhHHtDT+sVqJb4
+ IF9D9YMax1WvTETZlYkuF5lFMsM/GQYCUVorYlhCJXQr7df4fKuM8BQoYElPM6OI9klNdRj
+ +uejTo6YsXf0aNox6RKmg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:HG8J6o0vkhs=:FSuXykpHlWBrDOslgBT2ON
+ InAM7gmg5DtrFu//ElMtgG7HA+hkFP1rG4M+eUdFaGw3JI6CW+zIKdF7aVBKHJxojSqHRS1a0
+ YjsBBb+nUv1tqoQ45hda1tkqsB4a/hXQHQah488L6ulQrv7fFeYW5cuILy5h6WDKW1nTK5B18
+ nPtQJLZoa5Tas9gb/f/s7DfJxBeTuZlfjD+BbCYLNksJ8jXMKBSPRCrTtMU/imtqsL5mSkRXV
+ tFDnIozX7XDAaXT2fqblKAS2fAYeISrBSY50Jnsi2rlkBrDQkkOM8/FJKPpkWrxSTi8ODFwQT
+ JicviqRdZyhLNIeXGY/nMusCZ7BAIM/Xd27WzmdUZVM93uWKg2vmgPQvF1EZFEgMwA/gTJJbt
+ xulXEREkOt7AZTJKpncpsj71S9Z+gfR33SBjXmaaYEwUFkg5Vz3WvQRllgnVsNDegMJp5w+OI
+ tVVeqlkijKDUv/AYynzTV0ZyDtgu7aduquNnCGfpyU3RbiFGAU46RttCMekPuJHgF6V6hnJkp
+ 5HoRFr0oWOq1pIITekZlCYOABEsnIbponaWqEc7OZ0WtCB3rDSdGmcMiPcWJoy8ManB6hkyNg
+ Lw2ZBVg2E2X+endKrUeqbI5tKr6ykq43y+RB+zmnrvIEPIyUgA9bXMOgUWNLp/4po3aGyh0vu
+ Q5srO7f0kSEr3NdxRI/SglemDSZyeqCewa8eRUbcGR78Wdmddz5cTcC17T+S5W8b4+QgjCqhG
+ kqyVPQiA1EQAlk57JVOWVwVIxImOzcRLXtgYWa6Ak7nEXi+y2sdfHytpU/cUQoh6MUHZPjZWH
+ 5o1qC/nBAIHkxsdj7U7fCsuzG4HSZ2MFG2GG01cKRy0HolfDArtdS2OXaL+P4K4WhbbjcRro2
+ 9kbKlpsB5AQOqRwB+xUQFA7+4v6y/nPpogMouefkLh3VCjI4VUXpJzFMIhnX1HNfRTGLtmu+4
+ qTMzReOo1EC8FK548qP0mdVcC5UzmD0XUrKuWgBS9vNNsR4twebox7sk140zyLmezn4DTS05n
+ OZW0Ag7vZJJnv5eEEiXf4zoSPFwnpH/ZxZqn6nXMpFXVdRgcRhfERSrmS9S2ccRODiA/k3+z6
+ cuUzCuoGHj8Uqc=
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Miroslav,
 
-forgive me if it's a dumb question, but would this also apply to Intel
-platforms, or this kind of stuff chip maker specific?
 
-I got an Intel Tiger Lake.
+> Am 11.12.2021 um 07:16 schrieb kortanzh@gmail.com:
+>=20
+> =EF=BB=BFFrom: Kortan <kortanzh@gmail.com>
+>=20
+> According to https://openannepro.github.io/ap2_revisionas, Anne Pro 2
+> keyboard has two hardware revisions, C15(04d9:a292) and C18(04d9:a293).
+>=20
+> Previous patch submitted by Sebastian only fix the C18 revision. This
+> patch add missing C15 revision support.
+>=20
+> Fixes: ca28aff0e1dc ("HID: quirks: Always poll Obins Anne Pro 2 keyboard")=
 
-Thanks!
-Andrea IPPOLITO
+> Signed-off-by: Kortan <kortanzh@gmail.com>
 
-Il giorno gio 6 gen 2022 alle ore 16:03 Miroslav Bend=C3=ADk
-<miroslav.bendik@gmail.com> ha scritto:
->
-> Address detection does not work because cd6h/cd7h port io can be
-> disabled, but
-> it's accessible using mmio. This patch:
-> https://lore.kernel.org/all/20210715221828.244536-1-Terry.Bowman@amd.com/
-> with
-> modified AMD_PCI_SMBUS_REVISION_MMIO fixed base address detection.
->
-> Problem with RMI4 touchpad / trackpoint remains, because rmi4-smbus
-> needs host
-> notify feature. I have tried implement this feature, without success.
-> Interrupts
-> on IRQ 7 (SMBus) are generated only for block data transfers, but not for
-> trackpoint / touchpad move actions. I have looked at pinctrl_amd and it
-> looks,
-> that activity is signaled using GPIO. This looks promising:
->
-> cat /sys/kernel/debug/pinctrl/AMDI0030:00/pingroups:
->
-> group: i2c0
-> pin 145 (GPIO_145)
-> pin 146 (GPIO_146)
->
-> group: i2c1
-> pin 147 (GPIO_147)
-> pin 148 (GPIO_148)
->
-> group: i2c2
-> pin 113 (GPIO_113)
-> pin 114 (GPIO_114)
->
-> group: i2c3
-> pin 19 (GPIO_19)
-> pin 20 (GPIO_20)
->
-> After loading psmouse with forced enabled intertouch pin 19/20 started
-> generating events.
->
+Thanks for the patch. I was actually the first one reporting the bug to them=
+. They replied with something like =E2=80=9EWhy do you do a kernel patch? No=
+body reported this bug before. We will fix our firmware.=E2=80=9C That react=
+ion actually surprised me. Does this mean they didn=E2=80=99t?
+
+They didn=E2=80=99t say anything about a second hardware revision which migh=
+t be affected.=
+
