@@ -2,112 +2,158 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D3D2486674
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jan 2022 16:04:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB43A4868D5
+	for <lists+linux-input@lfdr.de>; Thu,  6 Jan 2022 18:41:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240274AbiAFPEB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Jan 2022 10:04:01 -0500
-Received: from mail.valdk.tel ([185.177.150.13]:36854 "EHLO mail.valdk.tel"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240267AbiAFPEB (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 6 Jan 2022 10:04:01 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 928AE2E0B9D;
-        Thu,  6 Jan 2022 18:03:52 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valdikss.org.ru;
-        s=msrv; t=1641481435;
-        h=from:subject:date:message-id:to:cc:mime-version:content-type:
-         content-language:in-reply-to:references;
-        bh=jgVtGL+u8w/VUfBfQqu8KKoHRrnFMRoItHaBmW7hF/Y=;
-        b=bK2kOn5ryyPN61Ximq6f/NG3paxPH5BJcsnKWoiJTRYRb3entFlkqTJajA8VHwhcuIlMTa
-        +3tN8n8mo0IN+LGqlOZxRCDbacvS2GwCsXZtK6Ztn9BxNxPS97AT1TBMnFHom3iiugZ4zh
-        d/g/6RfKZOCY8jvEpFdLOFL2AsoXEzSKt9nzWNQqkuqC6GSIY3YDzaLtaaSeP8krtvSEEZ
-        GptPS50yefn0yZ5k8BfDmeQumWe6st5Cw7QjmsSWTU3Pbs/YsYTlTZa9HjCXN7BJfY7ZDE
-        WjbDtYdCVD1O2Edcq52hKmrE4kL47peUB09S8yQ8YUsvN3lUPbeKM7olen9p5Q==
-Message-ID: <e9e1f6ce-f12c-291b-81a8-c76f72ee29f2@valdikss.org.ru>
-Date:   Thu, 6 Jan 2022 18:03:49 +0300
+        id S242123AbiAFRl0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Jan 2022 12:41:26 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:4360 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241966AbiAFRlY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Jan 2022 12:41:24 -0500
+Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.226])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JVD6c3dG6z67wb3;
+        Fri,  7 Jan 2022 01:36:24 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 6 Jan 2022 18:41:19 +0100
+Received: from [10.47.27.56] (10.47.27.56) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Thu, 6 Jan
+ 2022 17:41:15 +0000
+Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
+To:     Bjorn Helgaas <helgaas@kernel.org>
+CC:     Niklas Schnelle <schnelle@linux.ibm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Ettore Chimenti <ek5.chimenti@gmail.com>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+        "Damien Le Moal" <damien.lemoal@opensource.wdc.com>,
+        Ian Abbott <abbotti@mev.co.uk>,
+        "H Hartley Sweeten" <hsweeten@visionengravers.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Karsten Keil <isdn@linux-pingi.de>,
+        "Sathya Prakash" <sathya.prakash@broadcom.com>,
+        Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+        Suganath Prabu Subramani 
+        <suganath-prabu.subramani@broadcom.com>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Jakub Kicinski" <kuba@kernel.org>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Kalle Valo <kvalo@kernel.org>, Jouni Malinen <j@w1.fi>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Hannes Reinecke <hare@suse.com>,
+        Kashyap Desai <kashyap.desai@broadcom.com>,
+        Sumit Saxena <sumit.saxena@broadcom.com>,
+        Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+        Nilesh Javali <njavali@marvell.com>,
+        <GR-QLogic-Storage-Upstream@marvell.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        "Teddy Wang" <teddy.wang@siliconmotion.com>,
+        Forest Bond <forest@alittletooquiet.net>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "Wim Van Sebroeck" <wim@linux-watchdog.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        "Takashi Iwai" <tiwai@suse.com>, <linux-kernel@vger.kernel.org>,
+        <linux-arch@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>, <linux-csky@vger.kernel.org>,
+        <linux-ide@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+        <linux-hwmon@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <MPT-FusionLinux.pdl@broadcom.com>,
+        <linux-scsi@vger.kernel.org>, <intel-wired-lan@lists.osuosl.org>,
+        <linux-wireless@vger.kernel.org>, <megaraidlinux.pdl@broadcom.com>,
+        <linux-spi@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
+        <linux-serial@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linux-watchdog@vger.kernel.org>
+References: <20220105194748.GA215560@bhelgaas>
+From:   John Garry <john.garry@huawei.com>
+Message-ID: <74bf4fde-3972-1c36-ca04-58089da0d82b@huawei.com>
+Date:   Thu, 6 Jan 2022 17:41:00 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.5.0) Gecko/20100101,
- Thunderbird/78.5.0
-Subject: Re: [PATCH v2 0/3] HID: lenovo: ThinkPad TrackPoint Keyboard II
- support
+In-Reply-To: <20220105194748.GA215560@bhelgaas>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-References: <20211216224611.440397-1-iam@valdikss.org.ru>
- <nycvar.YFH.7.76.2201061419420.16505@cbobk.fhfr.pm>
-From:   ValdikSS <iam@valdikss.org.ru>
-In-Reply-To: <nycvar.YFH.7.76.2201061419420.16505@cbobk.fhfr.pm>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------JNw0wf76m6L7r3gevhDok4cJ"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.27.56]
+X-ClientProxiedBy: lhreml736-chm.china.huawei.com (10.201.108.87) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------JNw0wf76m6L7r3gevhDok4cJ
-Content-Type: multipart/mixed; boundary="------------Wk34WYXMLMwx78KJ6T4poOu2";
- protected-headers="v1"
-From: ValdikSS <iam@valdikss.org.ru>
-To: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- linux-input@vger.kernel.org
-Message-ID: <e9e1f6ce-f12c-291b-81a8-c76f72ee29f2@valdikss.org.ru>
-Subject: Re: [PATCH v2 0/3] HID: lenovo: ThinkPad TrackPoint Keyboard II
- support
-References: <20211216224611.440397-1-iam@valdikss.org.ru>
- <nycvar.YFH.7.76.2201061419420.16505@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2201061419420.16505@cbobk.fhfr.pm>
+On 05/01/2022 19:47, Bjorn Helgaas wrote:
+>>>>>   ok if the PCI maintainers decide otherwise.
+>>>> I don't really like the "LEGACY_PCI" Kconfig option.  "Legacy" just
+>>>> means something old and out of favor; it doesn't say*what*  that
+>>>> something is.
+>>>>
+>>>> I think you're specifically interested in I/O port space usage, and it
+>>>> seems that you want all PCI drivers that*only*  use I/O port space to
+>>>> depend on LEGACY_PCI?  Drivers that can use either I/O or memory
+>>>> space or both would not depend on LEGACY_PCI?  This seems a little
+>>>> murky and error-prone.
+>>> I'd like to hear Arnd's opinion on this but you're the PCI maintainer
+>>> so of course your buy-in would be quite important for such an option.
+> I'd like to hear Arnd's opinion, too.  If we do add LEGACY_PCI, I
+> think we need a clear guide for when to use it, e.g., "a PCI driver
+> that uses inb() must depend on LEGACY_PCI" or whatever it is.
+> 
+> I must be missing something because I don't see what we gain from
+> this.  We have PCI drivers, e.g., megaraid [1], for devices that have
+> either MEM or I/O BARs.  I think we want to build drivers like that on
+> any arch that supports PCI.
+> 
+> If the arch doesn't support I/O port space, devices that only have I/O
+> BARs won't work, of course, and hopefully the PCI core and driver can
+> figure that out and gracefully fail the probe.
+> 
+> But that same driver should still work with devices that have MEM
+> BARs.  If inb() isn't always present, I guess we could litter these
+> drivers with #ifdefs, but that would be pretty ugly. 
 
---------------Wk34WYXMLMwx78KJ6T4poOu2
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+There were some ifdefs added to the 8250 drivers in Arnd's original 
+patch [0], but it does not seem included here.
 
-T24gMDYuMDEuMjAyMiAxNjoxOSwgSmlyaSBLb3NpbmEgd3JvdGU6DQo+IE9uIEZyaSwgMTcg
-RGVjIDIwMjEsIFZhbGRpa1NTIHdyb3RlOg0KPiANCj4+IFRoaXMgcGF0Y2hzZXQgYWRkcyBz
-dXBwb3J0IGZvciBMZW5vdm8gVGhpbmtQYWQgVHJhY2tQb2ludCBLZXlib2FyZCBJSSwNCj4+
-IGluIGJvdGggVVNCIGFuZCBCbHVldG9vdGggbW9kZXMuDQo+Pg0KPj4gSXQgYnJpbmdzIGFk
-ZGl0aW9uYWwgZnVuY3Rpb25hbCBrZXlzIG1hcHBpbmcsIG5hdGl2ZSB2ZXJ0aWNhbCBhbmQg
-aG9yaXpvbnRhbA0KPj4gc2Nyb2xsaW5nLCB0cmFja3BvaW50IHNlbnNpdGl2aXR5IGNvbmZp
-Z3VyYXRpb24gYW5kIEZuLUxvY2sgc3luYy4NCj4+DQo+PiBUaGVyZSBpcyBubyBjb2RlIGRp
-ZmZlcmVuY2UgYmV0d2VlbiB0aGUgcHJldmlvdXMgcGF0Y2hzZXQsIG9ubHkgbWlub3INCj4+
-IHBhdGNoIHN1YmplY3QgY2hhbmdlcyBhbmQgY29kZS9jb21tZW50cyBzcGxpdC4NCj4+DQo+
-PiBWYWxkaWtTUyAoMyk6DQo+PiAgICBISUQ6IGxlbm92bzogQWRkIHN1cHBvcnQgZm9yIFRo
-aW5rUGFkIFRyYWNrUG9pbnQgS2V5Ym9hcmQgSUkNCj4+ICAgIEhJRDogbGVub3ZvOiBTeW5j
-IEZuLWxvY2sgc3RhdGUgb24gYnV0dG9uIHByZXNzIGZvciBDb21wYWN0IGFuZA0KPj4gICAg
-ICBUcmFja1BvaW50IElJIGtleWJvYXJkcw0KPj4gICAgSElEOiBsZW5vdm86IEFkZCBub3Rl
-IGFib3V0IGRpZmZlcmVudCByZXBvcnQgbnVtYmVycw0KPiANCj4gVGhhbmtzIGZvciB0aGUg
-cGF0Y2hlcy4gQ291bGQgeW91IGhvd2V2ZXIsIHBsZWFzZSwgcmVzdWJtaXQgd2l0aCB5b3Vy
-IHJlYWwNCj4gbmFtZSwgYXMgb3V0bGluZWQgaW4gRG9jdW1lbnRhdGlvbi9wcm9jZXNzL3N1
-Ym1pdHRpbmctcGF0Y2hlcy5yc3QgPw0KPiANCg0KSSBwcmVmZXIgdG8gdXNlIG15IGludGVy
-bmV0IGlkZW50aXR5IG9uIHRoZSBpbnRlcm5ldC4gSWYgdGhpcyBpcyBhIA0Kc3RyaWN0IGVu
-Zm9yY2VtZW50LCBJIGRvbid0IG1pbmQgaWYgeW91IGFwcGx5IHRoZSBwYXRjaGVzIGZyb20g
-eW91ciANCm5hbWUsIGFzIGEgSElEIGlucHV0IG1haW50YWluZXIsIGlmIHRoYXQncyBwb3Nz
-aWJsZS4NCg==
+Niklas, what happened to the 8250 and the other driver changes?
 
---------------Wk34WYXMLMwx78KJ6T4poOu2--
+[0] 
+https://lore.kernel.org/lkml/CAK8P3a0MNbx-iuzW_-=0ab6-TTZzwV-PT_6gAC1Gp5PgYyHcrA@mail.gmail.com/
 
---------------JNw0wf76m6L7r3gevhDok4cJ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> IMO inb() should
+> be present but do something innocuous like return ~0, as it would if
+> I/O port space is supported but there's no device at that address.
+> 
+> [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/scsi/megaraid.c?id=v5.15#n4210
+> 
 
------BEGIN PGP SIGNATURE-----
+That driver would prob not be used on systems which does not support 
+PIO, and so could have a HAS_IOPORT dependency. But it is not strictly 
+necessary.
 
-wsF5BAABCAAjFiEEMiogvXcpmS32v71gXNcgLu+I93IFAmHXBNUFAwAAAAAACgkQXNcgLu+I93Iz
-EA/7BKYLAzC9IxkH9yaK1GpJBRZyiXbk2q1bBMC9sOiSsXZju6Wir/Z6IhbZ6CHMZe4PwI8g6FNp
-MC0dKLU9/kkV0UNoQa/AAN/1X98kQi+bhTv9cZEK+pq0BKjwIGwAbnGAfrbZnZB+NRNJhUCZT6rb
-pn54XKIyv6uFfMqYbjjWIDwb5sBCGNBRn6IG7NIyRJ3BcGqa8VNgZVCNXwrSmuSAm1xQYYMGW0tf
-gn8j+JAJZy1JZjOxkx1nY08G0TIuiWZ1pG7HURVN6kHBwvmp0l5ppRja72WjFjcQTP7IOTxAkO76
-H7tnb5D6sqmZF/LA4iuxL2L9p79yLwtkVfIN1y5pqv6e8JbUDkZlkRTT2cb0qM/upDM2FwGuPasX
-RTF3FGCqzkX1TYuHpM42zJ/kdSMMs9ujhGqTXVFPKPgMJBVoTHtlTcgV/q0/5PlNcJ+emqpvo+fU
-X6slqnS113auvdHUD+hkDruQFmqL8qSkHfCrIRH3jNQ06ieGOooej5h5tXObUBiPzlKJKqtM7Y5g
-5SuPuyRU0rvJQOgpkA9czBHOhgpZu7oNjIgemmDKbBkJoFO++It+Dwh/wcPUJ2JJHVwBQH1p6K4H
-cr4uI0Zp7nUN6PZJ2dryOC9b6yIeMT5w5qst/KgDNfteG2x9rwlt23nyMAki457p4LNR3oJXBrKw
-Q+A=
-=zaQO
------END PGP SIGNATURE-----
+Anyway, it would be good to have an idea of how much ifdeffery is 
+required in drivers.
 
---------------JNw0wf76m6L7r3gevhDok4cJ--
+Thanks,
+John
