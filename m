@@ -2,74 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E96B486621
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jan 2022 15:34:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D3D2486674
+	for <lists+linux-input@lfdr.de>; Thu,  6 Jan 2022 16:04:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240169AbiAFOeq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Jan 2022 09:34:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58274 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240163AbiAFOeq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Jan 2022 09:34:46 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4232EC061245;
-        Thu,  6 Jan 2022 06:34:46 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id j21so10124859edt.9;
-        Thu, 06 Jan 2022 06:34:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BUe6YDJn8/YUK5uuxVc1cV6eQGCStzVD0xbFRP9ogOY=;
-        b=duw5Vuz9b4CX2X7CiJTPr1yyK7urT9/yj2Vxr+YIjLbxxUyEuuDqCNNSZ+hK3RSFmK
-         AZt+QyN5fHV7uFx5nhtSWGobfCYdkClopP4JnnMhkSo4bskbuQw47SvlvvzSYXbi31cT
-         F8u+lFV5BASlwYUROhG199fexFzH/skaDYbRmoCBspGooorNv/u+FzXsYN3fym+yf3GI
-         WXyEwHBydOU2VYOlmkPDxoOuK5FhQC9CAMDFka9qqgVvngiqY7SZdVFZ36YQ6hKpwAWv
-         4IAYsMO9SsRpmF43NJWl3WJOUQaPmFFjz6XvTDmpfC5uIkJGVcjp4AUakH2me4klAi6R
-         6XgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BUe6YDJn8/YUK5uuxVc1cV6eQGCStzVD0xbFRP9ogOY=;
-        b=ipm0AgrI67S3ZLOYmheyxcD8gidhOc7TsaNLSPosvfegJVqlnqhmW/W5gMa0rw1dZT
-         SqD7MDc3ImFUDdDWIt1Y7aLO4FDyTQVe1wPARFXr5cZLvZqhQ/WDnWUEZ6uUn4Jn2JoV
-         21gNomFeqe8FRgHyH0ldy/QqxKiygge/ff2MzbtaifumZ4cKgCZgSvQluQX1L1oaj0zD
-         NzfXptbyXdeSk3XuRa13oGk6aQJAoz/d2OHY3Ol6HCDTGoLa5/9jSNUTcz0+Kg7VI5ma
-         dsOzJhgqwo/vgds3S0HPCcSD991OXcD/3LYUWXNB77r21t6OskZraG9inJBvPjxqv5xV
-         jblw==
-X-Gm-Message-State: AOAM530QKYbqn4pL89nFzw8CKoWTBF60dCoeyQlmKHiRwHM/98q4/NDp
-        fJwnl/dKB1TzVDJG7codMBEF2RUQjoGRwWzjzBo=
-X-Google-Smtp-Source: ABdhPJxFeIxFijPPQQXMHowmkJMvHVjo68XMpUtPKIAZQ9cWkWbNrblNY3txHDmJtv7AvsYmTMIE5v2/pJUK2t041ZA=
-X-Received: by 2002:a05:6402:12c4:: with SMTP id k4mr56539100edx.218.1641479684878;
- Thu, 06 Jan 2022 06:34:44 -0800 (PST)
+        id S240274AbiAFPEB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Jan 2022 10:04:01 -0500
+Received: from mail.valdk.tel ([185.177.150.13]:36854 "EHLO mail.valdk.tel"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240267AbiAFPEB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 6 Jan 2022 10:04:01 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 928AE2E0B9D;
+        Thu,  6 Jan 2022 18:03:52 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valdikss.org.ru;
+        s=msrv; t=1641481435;
+        h=from:subject:date:message-id:to:cc:mime-version:content-type:
+         content-language:in-reply-to:references;
+        bh=jgVtGL+u8w/VUfBfQqu8KKoHRrnFMRoItHaBmW7hF/Y=;
+        b=bK2kOn5ryyPN61Ximq6f/NG3paxPH5BJcsnKWoiJTRYRb3entFlkqTJajA8VHwhcuIlMTa
+        +3tN8n8mo0IN+LGqlOZxRCDbacvS2GwCsXZtK6Ztn9BxNxPS97AT1TBMnFHom3iiugZ4zh
+        d/g/6RfKZOCY8jvEpFdLOFL2AsoXEzSKt9nzWNQqkuqC6GSIY3YDzaLtaaSeP8krtvSEEZ
+        GptPS50yefn0yZ5k8BfDmeQumWe6st5Cw7QjmsSWTU3Pbs/YsYTlTZa9HjCXN7BJfY7ZDE
+        WjbDtYdCVD1O2Edcq52hKmrE4kL47peUB09S8yQ8YUsvN3lUPbeKM7olen9p5Q==
+Message-ID: <e9e1f6ce-f12c-291b-81a8-c76f72ee29f2@valdikss.org.ru>
+Date:   Thu, 6 Jan 2022 18:03:49 +0300
 MIME-Version: 1.0
-References: <20220106053810.934797-1-kai.heng.feng@canonical.com>
-In-Reply-To: <20220106053810.934797-1-kai.heng.feng@canonical.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 6 Jan 2022 16:34:08 +0200
-Message-ID: <CAHp75Vf3OAoPvz_iO4FHb=uwj6yiJeiZDpy6+aNs+nJ5wXUC7g@mail.gmail.com>
-Subject: Re: [PATCH] Input: adxl34x: Add ACPI HID table
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        linux-input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.5.0) Gecko/20100101,
+ Thunderbird/78.5.0
+Subject: Re: [PATCH v2 0/3] HID: lenovo: ThinkPad TrackPoint Keyboard II
+ support
+Content-Language: en-US
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+References: <20211216224611.440397-1-iam@valdikss.org.ru>
+ <nycvar.YFH.7.76.2201061419420.16505@cbobk.fhfr.pm>
+From:   ValdikSS <iam@valdikss.org.ru>
+In-Reply-To: <nycvar.YFH.7.76.2201061419420.16505@cbobk.fhfr.pm>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------JNw0wf76m6L7r3gevhDok4cJ"
+X-Last-TLS-Session-Version: TLSv1.3
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jan 6, 2022 at 7:38 AM Kai-Heng Feng
-<kai.heng.feng@canonical.com> wrote:
->
-> x86 boards may use ACPI HID "ADS0345" to for adxl34x device.
->
-> So add an ACPI match table for that accordingly.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------JNw0wf76m6L7r3gevhDok4cJ
+Content-Type: multipart/mixed; boundary="------------Wk34WYXMLMwx78KJ6T4poOu2";
+ protected-headers="v1"
+From: ValdikSS <iam@valdikss.org.ru>
+To: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-input@vger.kernel.org
+Message-ID: <e9e1f6ce-f12c-291b-81a8-c76f72ee29f2@valdikss.org.ru>
+Subject: Re: [PATCH v2 0/3] HID: lenovo: ThinkPad TrackPoint Keyboard II
+ support
+References: <20211216224611.440397-1-iam@valdikss.org.ru>
+ <nycvar.YFH.7.76.2201061419420.16505@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2201061419420.16505@cbobk.fhfr.pm>
 
-All the same comments as per hdc100x patch.
+--------------Wk34WYXMLMwx78KJ6T4poOu2
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
--- 
-With Best Regards,
-Andy Shevchenko
+T24gMDYuMDEuMjAyMiAxNjoxOSwgSmlyaSBLb3NpbmEgd3JvdGU6DQo+IE9uIEZyaSwgMTcg
+RGVjIDIwMjEsIFZhbGRpa1NTIHdyb3RlOg0KPiANCj4+IFRoaXMgcGF0Y2hzZXQgYWRkcyBz
+dXBwb3J0IGZvciBMZW5vdm8gVGhpbmtQYWQgVHJhY2tQb2ludCBLZXlib2FyZCBJSSwNCj4+
+IGluIGJvdGggVVNCIGFuZCBCbHVldG9vdGggbW9kZXMuDQo+Pg0KPj4gSXQgYnJpbmdzIGFk
+ZGl0aW9uYWwgZnVuY3Rpb25hbCBrZXlzIG1hcHBpbmcsIG5hdGl2ZSB2ZXJ0aWNhbCBhbmQg
+aG9yaXpvbnRhbA0KPj4gc2Nyb2xsaW5nLCB0cmFja3BvaW50IHNlbnNpdGl2aXR5IGNvbmZp
+Z3VyYXRpb24gYW5kIEZuLUxvY2sgc3luYy4NCj4+DQo+PiBUaGVyZSBpcyBubyBjb2RlIGRp
+ZmZlcmVuY2UgYmV0d2VlbiB0aGUgcHJldmlvdXMgcGF0Y2hzZXQsIG9ubHkgbWlub3INCj4+
+IHBhdGNoIHN1YmplY3QgY2hhbmdlcyBhbmQgY29kZS9jb21tZW50cyBzcGxpdC4NCj4+DQo+
+PiBWYWxkaWtTUyAoMyk6DQo+PiAgICBISUQ6IGxlbm92bzogQWRkIHN1cHBvcnQgZm9yIFRo
+aW5rUGFkIFRyYWNrUG9pbnQgS2V5Ym9hcmQgSUkNCj4+ICAgIEhJRDogbGVub3ZvOiBTeW5j
+IEZuLWxvY2sgc3RhdGUgb24gYnV0dG9uIHByZXNzIGZvciBDb21wYWN0IGFuZA0KPj4gICAg
+ICBUcmFja1BvaW50IElJIGtleWJvYXJkcw0KPj4gICAgSElEOiBsZW5vdm86IEFkZCBub3Rl
+IGFib3V0IGRpZmZlcmVudCByZXBvcnQgbnVtYmVycw0KPiANCj4gVGhhbmtzIGZvciB0aGUg
+cGF0Y2hlcy4gQ291bGQgeW91IGhvd2V2ZXIsIHBsZWFzZSwgcmVzdWJtaXQgd2l0aCB5b3Vy
+IHJlYWwNCj4gbmFtZSwgYXMgb3V0bGluZWQgaW4gRG9jdW1lbnRhdGlvbi9wcm9jZXNzL3N1
+Ym1pdHRpbmctcGF0Y2hlcy5yc3QgPw0KPiANCg0KSSBwcmVmZXIgdG8gdXNlIG15IGludGVy
+bmV0IGlkZW50aXR5IG9uIHRoZSBpbnRlcm5ldC4gSWYgdGhpcyBpcyBhIA0Kc3RyaWN0IGVu
+Zm9yY2VtZW50LCBJIGRvbid0IG1pbmQgaWYgeW91IGFwcGx5IHRoZSBwYXRjaGVzIGZyb20g
+eW91ciANCm5hbWUsIGFzIGEgSElEIGlucHV0IG1haW50YWluZXIsIGlmIHRoYXQncyBwb3Nz
+aWJsZS4NCg==
+
+--------------Wk34WYXMLMwx78KJ6T4poOu2--
+
+--------------JNw0wf76m6L7r3gevhDok4cJ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEEMiogvXcpmS32v71gXNcgLu+I93IFAmHXBNUFAwAAAAAACgkQXNcgLu+I93Iz
+EA/7BKYLAzC9IxkH9yaK1GpJBRZyiXbk2q1bBMC9sOiSsXZju6Wir/Z6IhbZ6CHMZe4PwI8g6FNp
+MC0dKLU9/kkV0UNoQa/AAN/1X98kQi+bhTv9cZEK+pq0BKjwIGwAbnGAfrbZnZB+NRNJhUCZT6rb
+pn54XKIyv6uFfMqYbjjWIDwb5sBCGNBRn6IG7NIyRJ3BcGqa8VNgZVCNXwrSmuSAm1xQYYMGW0tf
+gn8j+JAJZy1JZjOxkx1nY08G0TIuiWZ1pG7HURVN6kHBwvmp0l5ppRja72WjFjcQTP7IOTxAkO76
+H7tnb5D6sqmZF/LA4iuxL2L9p79yLwtkVfIN1y5pqv6e8JbUDkZlkRTT2cb0qM/upDM2FwGuPasX
+RTF3FGCqzkX1TYuHpM42zJ/kdSMMs9ujhGqTXVFPKPgMJBVoTHtlTcgV/q0/5PlNcJ+emqpvo+fU
+X6slqnS113auvdHUD+hkDruQFmqL8qSkHfCrIRH3jNQ06ieGOooej5h5tXObUBiPzlKJKqtM7Y5g
+5SuPuyRU0rvJQOgpkA9czBHOhgpZu7oNjIgemmDKbBkJoFO++It+Dwh/wcPUJ2JJHVwBQH1p6K4H
+cr4uI0Zp7nUN6PZJ2dryOC9b6yIeMT5w5qst/KgDNfteG2x9rwlt23nyMAki457p4LNR3oJXBrKw
+Q+A=
+=zaQO
+-----END PGP SIGNATURE-----
+
+--------------JNw0wf76m6L7r3gevhDok4cJ--
