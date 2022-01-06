@@ -2,86 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C848D48618C
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jan 2022 09:42:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FA0A486203
+	for <lists+linux-input@lfdr.de>; Thu,  6 Jan 2022 10:21:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236842AbiAFImd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Jan 2022 03:42:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35600 "EHLO
+        id S237317AbiAFJVI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Jan 2022 04:21:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236839AbiAFImc (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Jan 2022 03:42:32 -0500
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C51ABC061245;
-        Thu,  6 Jan 2022 00:42:31 -0800 (PST)
-Received: by mail-pf1-x429.google.com with SMTP id u20so1929139pfi.12;
-        Thu, 06 Jan 2022 00:42:31 -0800 (PST)
+        with ESMTP id S237292AbiAFJVH (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Jan 2022 04:21:07 -0500
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4A38C061245
+        for <linux-input@vger.kernel.org>; Thu,  6 Jan 2022 01:21:07 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id t19so2007057pfg.9
+        for <linux-input@vger.kernel.org>; Thu, 06 Jan 2022 01:21:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yt0rtZoVf/LFU96gxwDi5D6C9OB9ceL1t7u8+Oncfhg=;
-        b=XNb74cgNPAWvdk2PghjCprJe0xxYmSb0Ayh8CJ46Tro1mzO6k22rEpFuPHtTM7N9G7
-         GinjHvictuSMtNiPpvZjG+YtIY6ZMqchNfmyFqdxVqM2mCuyNwmYV0ei4gYDbhbzBel4
-         nDvKCiWpew53QXCEznn1oaY3yJkD7JIzVRqtivRcVlAElDi2B5r/8OE7lqv85qavUM96
-         FHXEqQxg+9Wrx/ECeInAxD3Lvgk+SQVrQ5eILQCyfzud6FxLHKWQRQJV6fEjyTkxqQy8
-         kg04OuG3P5UZO3Jm35wIGvjCJRoq8wWlISvxQUHC4ED6yZkmEmUJYi5smefHDszg49tT
-         Jk7w==
+        d=huaqin-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=Fzgt9zxSHcPkh1WkdxXMfweNiiTBX5PEz7HmeOWT72Q=;
+        b=xoAuLNJ9bvyJ8CGNT5J54S/w/ze31xAIvby4o95vD1lBjujxunZXp9gJ8X0ahDAOWq
+         KsWBKyH/BAy4hQEtaFfExdVBYZULlGbVJ900Jdj5CtNg5fRUjN11j26fYqXGwUjoaTkQ
+         oiMmYaqWIihvOf8KuoSLx4ror9iZzooiFYeNtxlroaRErX4SQmS/Lb6anQ86b9SqJSND
+         wZYJtGe1uRnVdUBoMFlJgmpQ7YIzwMNUWYKs3qzdTUATQXiohO0+7G7032MqgZ5eWTHy
+         T2Mpz7SM8dCRqFVR6iPswoeRi40ODQ99DZF7JRILgI9tPirNDjbt9FkYotJSZo6X30Fl
+         oTwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yt0rtZoVf/LFU96gxwDi5D6C9OB9ceL1t7u8+Oncfhg=;
-        b=MJm/yjFskb3SJiLxVvMLoGH9af19dFiMeapDns5JGJAS/B1hJc3TIx+AbyrL1XwJta
-         CZPaGxP8RuiO7LbJ9nXEUjVFFiFOn2k975M0fZkmtS0Pr4mnBuaqdCOMxJ/SOd1gz8JJ
-         tmCGUlYZDHReDb6bwfRgfKRhpCNavX4ppcjMGAjXTVz6isqVyf1s34YcrVmcuLKLSXIP
-         J+n3jdggNBDOl0/Y5OR4tcNh+01Mm/UX5KpUuMpPGLkf5rPe8KnZP8pj7nCdwBgIg+6D
-         ec7vtYmncDIQ6zziojyZJhqYlq81yWAr0lZEY1T82cpyPnk/BrmQ4cEdJoF0BTn27EIu
-         INVQ==
-X-Gm-Message-State: AOAM532/3+wgbGwr1u+0Sge3G/0BcARLDUmxcxBpADwS/vusmBlILpSu
-        K18tqDgIA/8K2ob4uMU4Efg=
-X-Google-Smtp-Source: ABdhPJxiL4Id4MVmdReZ96UdALca1Yhtw4nImcfjBO2n/RsuyBNfCPuGMPqyd87/59K92lRspbn//g==
-X-Received: by 2002:a63:b245:: with SMTP id t5mr5981223pgo.231.1641458551416;
-        Thu, 06 Jan 2022 00:42:31 -0800 (PST)
-Received: from localhost.localdomain ([94.177.118.151])
-        by smtp.googlemail.com with ESMTPSA id mu2sm1696200pjb.43.2022.01.06.00.42.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=Fzgt9zxSHcPkh1WkdxXMfweNiiTBX5PEz7HmeOWT72Q=;
+        b=I4nNLaUIR41iimKJqOnkaaaGFPPHuFTccYkgHhEOhYD1Yrcpg6oxrdRBnBYGjxi8pa
+         nAaX9BuyoceZv/00utxSxW5zmyL4F4e51oh4lYvNEqeAEt3R60riZPieQsAnnpJesGaU
+         gV+VD18dYvMqdL2AKk5i3mYE8niSeYhKABTerNq8/+J5N6gb8Y0Wdc9FpEjR/3kijxdv
+         Ye9l/EC70Kkrf3BMfCCUgRskcCoN487S1Pzm+S7s9BPpXEB2G0tqhXt8C5sv5OnEJLVG
+         E8pc2QUJfrjVLVlnJ2fyVTHFuhIlQ6yWgPG28Ubu1yMyopCdvHikgVggoicNB8po0kAC
+         XRpQ==
+X-Gm-Message-State: AOAM532foWemNMgXLMVAVLX4mJH/dtgDZ6IcQUFZVrb8rxhJGA3SN0cA
+        niI/Rizvfgzg2R7opEFo2W1lhQ==
+X-Google-Smtp-Source: ABdhPJyjUy+PMpsgqKthOHIuAudhDSM/tYbR3spYsGrZeQtiJXV91F8xbkATdwPhlfz2kHYI+UFL1w==
+X-Received: by 2002:a05:6a00:a84:b0:4ba:557e:12cb with SMTP id b4-20020a056a000a8400b004ba557e12cbmr58762298pfl.85.1641460867294;
+        Thu, 06 Jan 2022 01:21:07 -0800 (PST)
+Received: from ubuntu.huaqin.com ([101.78.151.213])
+        by smtp.gmail.com with ESMTPSA id v70sm1423214pgd.91.2022.01.06.01.21.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jan 2022 00:42:31 -0800 (PST)
-From:   Qinghua Jin <qhjin.dev@gmail.com>
-Cc:     Qinghua Jin <qhjin.dev@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thu, 06 Jan 2022 01:21:06 -0800 (PST)
+From:   xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: ti_am335x_tsc: Fix typo
-Date:   Thu,  6 Jan 2022 16:42:14 +0800
-Message-Id: <20220106084215.355295-1-qhjin.dev@gmail.com>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Cc:     phoenixshen@google.com
+Subject: Re: [PATCH] HID: google: modify HID device groups of eel
+Date:   Thu,  6 Jan 2022 17:21:03 +0800
+Message-Id: <20220106092103.2283-1-xiazhengqiao@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20211228114650.31981-1-xiazhengqiao@huaqin.corp-partner.google.com>
+References: <20211228114650.31981-1-xiazhengqiao@huaqin.corp-partner.google.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-change 'postion' to 'position'
+  EEL keyboard belongs to VIVALDI device. I have tested it.
 
-Signed-off-by: Qinghua Jin <qhjin.dev@gmail.com>
----
- drivers/input/touchscreen/ti_am335x_tsc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+please help to review this.
 
-diff --git a/drivers/input/touchscreen/ti_am335x_tsc.c b/drivers/input/touchscreen/ti_am335x_tsc.c
-index 83e685557a19..d77555e0571e 100644
---- a/drivers/input/touchscreen/ti_am335x_tsc.c
-+++ b/drivers/input/touchscreen/ti_am335x_tsc.c
-@@ -310,7 +310,7 @@ static irqreturn_t titsc_irq(int irq, void *dev)
- 			/*
- 			 * Calculate pressure using formula
- 			 * Resistance(touch) = x plate resistance *
--			 * x postion/4096 * ((z2 / z1) - 1)
-+			 * x position/4096 * ((z2 / z1) - 1)
- 			 */
- 			z = z1 - z2;
- 			z *= x;
--- 
-2.30.2
-
+thanks.
