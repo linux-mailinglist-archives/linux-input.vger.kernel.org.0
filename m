@@ -2,127 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB3F8486979
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jan 2022 19:14:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E3884869DE
+	for <lists+linux-input@lfdr.de>; Thu,  6 Jan 2022 19:27:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242509AbiAFSOQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Jan 2022 13:14:16 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:57816 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241192AbiAFSOM (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Jan 2022 13:14:12 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4870561D17;
-        Thu,  6 Jan 2022 18:14:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A780C36AEB;
-        Thu,  6 Jan 2022 18:14:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641492850;
-        bh=pk9c3vFsS24A9H9YRNmuoLU04tTgveyiSfxz/RguLrg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=tWL9ah320xPJ7ZLvQrLFkjIeV1LTlPrJ2qSY/t0fKFbU+5MxnpWBBUesVfIjO0xOO
-         l+Yvi8TANgRjNK2vReZYRlLqehfzP4qE2oNJarfvWixIS0OfQkuKWpI6rrQEfWGn25
-         oroVHI/IQA8JEpMkHqxWMkHxAKg+IVXn/Zqji7RoVtpWyymeRt5WcM4qay0A7EFOWe
-         jnI4JpbaAmAttF9a/Yhl/wWUUgx6A1s8zF9Wpc8ft5Y9hFSMLv91rRujQQ/od6scnA
-         LsHiF+8iYMGoQ6RcvIn/+ZU8WqHN0Y3LnsXMJdYHRbXi/+K/WGfnGi+pM9zExj10bs
-         +smYL/+iBYHZg==
-Date:   Thu, 6 Jan 2022 12:14:09 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     John Garry <john.garry@huawei.com>
-Cc:     Niklas Schnelle <schnelle@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ettore Chimenti <ek5.chimenti@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Ian Abbott <abbotti@mev.co.uk>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Karsten Keil <isdn@linux-pingi.de>,
-        Sathya Prakash <sathya.prakash@broadcom.com>,
-        Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
-        Suganath Prabu Subramani 
-        <suganath-prabu.subramani@broadcom.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Kalle Valo <kvalo@kernel.org>, Jouni Malinen <j@w1.fi>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Hannes Reinecke <hare@suse.com>,
-        Kashyap Desai <kashyap.desai@broadcom.com>,
-        Sumit Saxena <sumit.saxena@broadcom.com>,
-        Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-        Nilesh Javali <njavali@marvell.com>,
-        GR-QLogic-Storage-Upstream@marvell.com,
-        Mark Brown <broonie@kernel.org>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Teddy Wang <teddy.wang@siliconmotion.com>,
-        Forest Bond <forest@alittletooquiet.net>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org,
-        linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
-        linux-scsi@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-wireless@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
-        linux-spi@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-watchdog@vger.kernel.org
-Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
-Message-ID: <20220106181409.GA297735@bhelgaas>
+        id S242712AbiAFS1m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Jan 2022 13:27:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55134 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242700AbiAFS1m (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Jan 2022 13:27:42 -0500
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1552EC061245;
+        Thu,  6 Jan 2022 10:27:42 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id w7so3016786plp.13;
+        Thu, 06 Jan 2022 10:27:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Mskw7uRlhAFhUG1ieckeOXErw6hEhTea/5asqxMmxpk=;
+        b=i/GcDhyaX50tOzDh3q0HK6hf76bXDlavHTpMP1l9tTv/MYIcVbDSpaK6lbV9Lw50bo
+         PZk1n9aH2f04xN/8pNrmF9i1gtFdmBjJwU/cW32nSbm2RZSy3x4Izu8Iv5pNlqBgy7rj
+         3PEwL6pRG9GCSOz7l1CREcgEV8ks93l/ad7kiy9UM7lWvNs0f7vTu0spcBr9xsc4rVZC
+         S+lgtkpixDb8KU96kydlqPSZ7heDqYXeLXL2IyPCaBgLx4IEUumkz63L6C7or8+oEchY
+         gp030+AJSvDk4mUPmz79366wP8JJ6LNTgRKLmYnt6b4A/NNesmluLZfI9joSkMqieTWf
+         6PnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Mskw7uRlhAFhUG1ieckeOXErw6hEhTea/5asqxMmxpk=;
+        b=l6lLuwChfzZGGM2Qfx0VKnrMtx3FMb4FuXDsmtnCh1mwLjhpJitGKuAjzGrt0+ZxAs
+         D9sbOVSbDLTsX9kEfpocbUlB2Cs9pNDXD4/PXbFohbfSLRJi8ghf6uJGuYy4/wacaC83
+         G/kYbN5OUU1dQiGyNUwMnR4dNUycELsH73AWOKiwa+BhsZplCLj2DWNCYNcIAsx6h+Yy
+         WpnovHtkVf9ylFWUKypvOz7m7tcTBKGtQhNcwryQzpya5GKQPlMlcu35HwU3QJ8jZ+45
+         zwfcKpwguojF37gK7GgVtn5PgeEepx3wIx0JgUDzAaX/WdkYoEY7og1Z5LBYU/tdOz21
+         Kq4A==
+X-Gm-Message-State: AOAM533JD+9nqtuKFfRQ0o2aGm+RvkEKdm7SRX1MQUm4yDDUayXQVfs5
+        GhJ0XAUyqOcrc2LQHU1NG+V9xtAIrhFfF8wz0kDse3Hwrfw=
+X-Google-Smtp-Source: ABdhPJxioa7rcwPE0lFktDCQ6DbH1RYvLWNIoLFDp+0GzCd8NClECEKzb9SGrRzq+r7SW1t8P3DUUPpAX1xAmYQNmtc=
+X-Received: by 2002:a17:90b:17cb:: with SMTP id me11mr11426840pjb.28.1641493661438;
+ Thu, 06 Jan 2022 10:27:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <74bf4fde-3972-1c36-ca04-58089da0d82b@huawei.com>
+References: <CAPoEpV0ZSidL6aMXvB6LN1uS-3CUHS4ggT8RwFgmkzzCiYJ-XQ@mail.gmail.com>
+ <f8c13907-d296-baa6-7637-c5f8aa96b7ff@gmail.com>
+In-Reply-To: <f8c13907-d296-baa6-7637-c5f8aa96b7ff@gmail.com>
+From:   Andrea Ippolito <andrea.ippo@gmail.com>
+Date:   Thu, 6 Jan 2022 19:27:05 +0100
+Message-ID: <CAGhUXvCMyVD3aP7Mi+i2hz0A0FePJvPSceubXm=u+4AR+wgesA@mail.gmail.com>
+Subject: Re: Wrong piix4_smbus address / slow trackpoint on Thinkpad P14s gen
+ 2 (AMD)
+To:     =?UTF-8?Q?Miroslav_Bend=C3=ADk?= <miroslav.bendik@gmail.com>
+Cc:     linux-i2c@vger.kernel.org, linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jan 06, 2022 at 05:41:00PM +0000, John Garry wrote:
-> On 05/01/2022 19:47, Bjorn Helgaas wrote:
+Hello Miroslav,
 
-> > IMO inb() should
-> > be present but do something innocuous like return ~0, as it would if
-> > I/O port space is supported but there's no device at that address.
-> > 
-> > [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/scsi/megaraid.c?id=v5.15#n4210
-> > 
-> 
-> That driver would prob not be used on systems which does not support PIO,
-> and so could have a HAS_IOPORT dependency. But it is not strictly necessary.
+forgive me if it's a dumb question, but would this also apply to Intel
+platforms, or this kind of stuff chip maker specific?
 
-I don't want the path of "this driver isn't needed because the device
-is unlikely to be used on this arch."
+I got an Intel Tiger Lake.
 
-Maybe it's not _always_ possible, but if the device can be plugged
-into the platform, I think we should be able to build the driver for
-it.
+Thanks!
+Andrea IPPOLITO
 
-If the device requires I/O port space and the platform doesn't support
-it, the PCI core or the driver should detect that and give a useful
-diagnostic.
-
-Bjorn
+Il giorno gio 6 gen 2022 alle ore 16:03 Miroslav Bend=C3=ADk
+<miroslav.bendik@gmail.com> ha scritto:
+>
+> Address detection does not work because cd6h/cd7h port io can be
+> disabled, but
+> it's accessible using mmio. This patch:
+> https://lore.kernel.org/all/20210715221828.244536-1-Terry.Bowman@amd.com/
+> with
+> modified AMD_PCI_SMBUS_REVISION_MMIO fixed base address detection.
+>
+> Problem with RMI4 touchpad / trackpoint remains, because rmi4-smbus
+> needs host
+> notify feature. I have tried implement this feature, without success.
+> Interrupts
+> on IRQ 7 (SMBus) are generated only for block data transfers, but not for
+> trackpoint / touchpad move actions. I have looked at pinctrl_amd and it
+> looks,
+> that activity is signaled using GPIO. This looks promising:
+>
+> cat /sys/kernel/debug/pinctrl/AMDI0030:00/pingroups:
+>
+> group: i2c0
+> pin 145 (GPIO_145)
+> pin 146 (GPIO_146)
+>
+> group: i2c1
+> pin 147 (GPIO_147)
+> pin 148 (GPIO_148)
+>
+> group: i2c2
+> pin 113 (GPIO_113)
+> pin 114 (GPIO_114)
+>
+> group: i2c3
+> pin 19 (GPIO_19)
+> pin 20 (GPIO_20)
+>
+> After loading psmouse with forced enabled intertouch pin 19/20 started
+> generating events.
+>
