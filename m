@@ -2,86 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8246A486BF1
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jan 2022 22:33:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2F374872CB
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jan 2022 06:41:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244255AbiAFVd2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Jan 2022 16:33:28 -0500
-Received: from mout.gmx.net ([212.227.17.22]:44181 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244236AbiAFVd1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 6 Jan 2022 16:33:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1641504800;
-        bh=UMvIoROr/73nG2EcGTazV53/qUgYAF8KyqXKOfOpYLM=;
-        h=X-UI-Sender-Class:From:Subject:Date:References:Cc:In-Reply-To:To;
-        b=ctkrLWH/HgbRn2mlMx45AIG6TT6WrYveii41h46AT93R7LhkfcGP/g354QWsIOBWj
-         OqiJbUGCRS7RXWC7NHviVKMyXhF5GzOuOcLZYjShTdPF/HKeNo14rzrCOg0cYYjMc1
-         4cn0mHJsoE0tJWQA0bKxD5S34AJ5WAOc+AIWKsfU=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from smtpclient.apple ([46.114.34.17]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MbAgq-1mYjbT41m4-00bajE; Thu, 06
- Jan 2022 22:33:20 +0100
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Sebastian Parschauer <s.parschauer@gmx.de>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH] HID: quirks: Always poll Anne Pro 2(C15) Keyboard
-Date:   Thu, 6 Jan 2022 22:33:18 +0100
-Message-Id: <3DB5A377-5918-4304-BB35-589B594A5E82@gmx.de>
-References: <61b44254.1c69fb81.ca496.5d65@mx.google.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <61b44254.1c69fb81.ca496.5d65@mx.google.com>
-To:     kortanzh@gmail.com
-X-Mailer: iPhone Mail (18H17)
-X-Provags-ID: V03:K1:Q0YLyumya81FczRiWG/CXmts1FXXLWSpTgOFJQxa+qibH3PKpqn
- VkJbx1P8dj9mxwn5nz0IalogaaijMXPFDhCGAmjrOzzM7NQ3cz5aqhEybXhHHtDT+sVqJb4
- IF9D9YMax1WvTETZlYkuF5lFMsM/GQYCUVorYlhCJXQr7df4fKuM8BQoYElPM6OI9klNdRj
- +uejTo6YsXf0aNox6RKmg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HG8J6o0vkhs=:FSuXykpHlWBrDOslgBT2ON
- InAM7gmg5DtrFu//ElMtgG7HA+hkFP1rG4M+eUdFaGw3JI6CW+zIKdF7aVBKHJxojSqHRS1a0
- YjsBBb+nUv1tqoQ45hda1tkqsB4a/hXQHQah488L6ulQrv7fFeYW5cuILy5h6WDKW1nTK5B18
- nPtQJLZoa5Tas9gb/f/s7DfJxBeTuZlfjD+BbCYLNksJ8jXMKBSPRCrTtMU/imtqsL5mSkRXV
- tFDnIozX7XDAaXT2fqblKAS2fAYeISrBSY50Jnsi2rlkBrDQkkOM8/FJKPpkWrxSTi8ODFwQT
- JicviqRdZyhLNIeXGY/nMusCZ7BAIM/Xd27WzmdUZVM93uWKg2vmgPQvF1EZFEgMwA/gTJJbt
- xulXEREkOt7AZTJKpncpsj71S9Z+gfR33SBjXmaaYEwUFkg5Vz3WvQRllgnVsNDegMJp5w+OI
- tVVeqlkijKDUv/AYynzTV0ZyDtgu7aduquNnCGfpyU3RbiFGAU46RttCMekPuJHgF6V6hnJkp
- 5HoRFr0oWOq1pIITekZlCYOABEsnIbponaWqEc7OZ0WtCB3rDSdGmcMiPcWJoy8ManB6hkyNg
- Lw2ZBVg2E2X+endKrUeqbI5tKr6ykq43y+RB+zmnrvIEPIyUgA9bXMOgUWNLp/4po3aGyh0vu
- Q5srO7f0kSEr3NdxRI/SglemDSZyeqCewa8eRUbcGR78Wdmddz5cTcC17T+S5W8b4+QgjCqhG
- kqyVPQiA1EQAlk57JVOWVwVIxImOzcRLXtgYWa6Ak7nEXi+y2sdfHytpU/cUQoh6MUHZPjZWH
- 5o1qC/nBAIHkxsdj7U7fCsuzG4HSZ2MFG2GG01cKRy0HolfDArtdS2OXaL+P4K4WhbbjcRro2
- 9kbKlpsB5AQOqRwB+xUQFA7+4v6y/nPpogMouefkLh3VCjI4VUXpJzFMIhnX1HNfRTGLtmu+4
- qTMzReOo1EC8FK548qP0mdVcC5UzmD0XUrKuWgBS9vNNsR4twebox7sk140zyLmezn4DTS05n
- OZW0Ag7vZJJnv5eEEiXf4zoSPFwnpH/ZxZqn6nXMpFXVdRgcRhfERSrmS9S2ccRODiA/k3+z6
- cuUzCuoGHj8Uqc=
+        id S229603AbiAGFlz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 Jan 2022 00:41:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229585AbiAGFly (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Jan 2022 00:41:54 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86F49C061245;
+        Thu,  6 Jan 2022 21:41:54 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id o6so18011819edc.4;
+        Thu, 06 Jan 2022 21:41:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=2ANbtFqGg8wvu20ZoWjIUj0175zsTGDLyAKMlzgkjfw=;
+        b=ey4NNdPFSA6sD+hPblZd+kIyzk9uAzGkSRfl5w4/Ibh9kwv67eopxethlouxN59h4L
+         ucrgqeP1cJFupfe6dZ61/zY2ldAbatvf+1VWXjQIt0CzrDQacpAtP/d36HuG9g5Odg2k
+         V9EKPQoTph7jqgIpPsLVv05ffZ4UFRtl8tlx21+qQ8CzAqSh7MUzXPEasfZV0iWPxREn
+         tW819A1PHSfjMtoHtq0nxGn3d2/JzcSfaoyjL0CVOSF8WISz/nyctaV9LtJ9MBJhRBcq
+         EfAPp32gd54u4tgbkKE87oYBrNTCMwppmxEpPIvXLSga+j297xdep5nMpq627hXNQ9Qq
+         OTdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=2ANbtFqGg8wvu20ZoWjIUj0175zsTGDLyAKMlzgkjfw=;
+        b=YqrY3ekqON7EOiSH8ZM8SoHJEOQNewR2n0JpMcRUVDZIzc7J1FZyQR8iPDuFQKRQtZ
+         aYmHYPb/H0lTs5w72EQS43iHXB2OvhuCu28dVYgBULKv0WOtxUJp1+OaWs5+QF8C5+uV
+         0/ZRR1JJmgDg/w9In5Xr71oLCs2eEonk+e2Q6Ir8qeEZh/VDH3gtPFtiD7kskHXhXiel
+         O28jdvwuH3udqsbVMC8eGFOJpCe08mG5G7FBg96A0KdMu1GKi6iY/YPhorNt6ykeTfMz
+         TYvz4Ch7ynNWU5TwleSOxMwFqPMueGoGXK/i0eV06xBXwpY7WmPUxhbVkQGhEs3O5oZV
+         nFLQ==
+X-Gm-Message-State: AOAM532idqSZOs7xtd+Y/0L47cdR4Agjb4BRRoPKksH9npJe7hBtWCO1
+        axcbDFEpGDnPDht/7ika7Lo9cspDttgSvg==
+X-Google-Smtp-Source: ABdhPJz+SDOhk6IB3e3UyfEvuMBGMsLe2jNAl2n9kPWmf9CFS/wrrqu2VRtBnuiGfh4poRm40j3hag==
+X-Received: by 2002:aa7:d783:: with SMTP id s3mr60707815edq.172.1641534113062;
+        Thu, 06 Jan 2022 21:41:53 -0800 (PST)
+Received: from [192.168.1.103] (ip-46.34.226.0.o2inet.sk. [46.34.226.0])
+        by smtp.gmail.com with ESMTPSA id z10sm1627498edb.45.2022.01.06.21.41.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Jan 2022 21:41:52 -0800 (PST)
+Message-ID: <5cc9b754-e680-30f5-914d-d3b1c8c01092@gmail.com>
+Date:   Fri, 7 Jan 2022 06:41:50 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: Wrong piix4_smbus address / slow trackpoint on Thinkpad P14s gen
+ 2 (AMD)
+Content-Language: en-US
+To:     Andrea Ippolito <andrea.ippo@gmail.com>
+Cc:     linux-i2c@vger.kernel.org, linux-input@vger.kernel.org
+References: <CAPoEpV0ZSidL6aMXvB6LN1uS-3CUHS4ggT8RwFgmkzzCiYJ-XQ@mail.gmail.com>
+ <f8c13907-d296-baa6-7637-c5f8aa96b7ff@gmail.com>
+ <CAGhUXvCMyVD3aP7Mi+i2hz0A0FePJvPSceubXm=u+4AR+wgesA@mail.gmail.com>
+From:   =?UTF-8?Q?Miroslav_Bend=c3=adk?= <miroslav.bendik@gmail.com>
+In-Reply-To: <CAGhUXvCMyVD3aP7Mi+i2hz0A0FePJvPSceubXm=u+4AR+wgesA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hello,
 
+> forgive me if it's a dumb question, but would this also apply to Intel
+> platforms, or this kind of stuff chip maker specific?
 
-> Am 11.12.2021 um 07:16 schrieb kortanzh@gmail.com:
->=20
-> =EF=BB=BFFrom: Kortan <kortanzh@gmail.com>
->=20
-> According to https://openannepro.github.io/ap2_revisionas, Anne Pro 2
-> keyboard has two hardware revisions, C15(04d9:a292) and C18(04d9:a293).
->=20
-> Previous patch submitted by Sebastian only fix the C18 revision. This
-> patch add missing C15 revision support.
->=20
-> Fixes: ca28aff0e1dc ("HID: quirks: Always poll Obins Anne Pro 2 keyboard")=
-
-> Signed-off-by: Kortan <kortanzh@gmail.com>
-
-Thanks for the patch. I was actually the first one reporting the bug to them=
-. They replied with something like =E2=80=9EWhy do you do a kernel patch? No=
-body reported this bug before. We will fix our firmware.=E2=80=9C That react=
-ion actually surprised me. Does this mean they didn=E2=80=99t?
-
-They didn=E2=80=99t say anything about a second hardware revision which migh=
-t be affected.=
+this is specific problem with SMBus without host notify function. I don't know
+if new intel hardware has problem with host notify.
 
