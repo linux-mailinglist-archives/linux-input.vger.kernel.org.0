@@ -2,96 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E12BA487EBA
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jan 2022 23:01:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B116487EC4
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jan 2022 23:07:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230322AbiAGWBF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 Jan 2022 17:01:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33918 "EHLO
+        id S230411AbiAGWHy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 Jan 2022 17:07:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230292AbiAGWBF (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Jan 2022 17:01:05 -0500
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6160C061574
-        for <linux-input@vger.kernel.org>; Fri,  7 Jan 2022 14:01:04 -0800 (PST)
-Received: by mail-pf1-x429.google.com with SMTP id t187so6211107pfb.11
-        for <linux-input@vger.kernel.org>; Fri, 07 Jan 2022 14:01:04 -0800 (PST)
+        with ESMTP id S230397AbiAGWHy (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Jan 2022 17:07:54 -0500
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0652C061574
+        for <linux-input@vger.kernel.org>; Fri,  7 Jan 2022 14:07:53 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id s1so6620382pga.5
+        for <linux-input@vger.kernel.org>; Fri, 07 Jan 2022 14:07:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=F7zcf4TrJEprlTvIf884EySlyFlFeiMUA2eoZolnPWI=;
-        b=m70BQCq/p6quIsWrDElb1HtajDEesxmZEq8L7+a8KWvwIQ1xluWVSCJ7kVCN7uW1P6
-         1cN0rONV9iIaicfLOOERdcPRday8eRoO8/vQemAGTPF3+jnrvjVzzJ08PL9zoTmHnl9Z
-         EqgrLsmxwO2BdA9U+2ikbmwBKat/bXlRXuKFRClYL0e8VLRRUvOpKCvk8UMlgUFyAALg
-         0eGoFxVXydzGruzguU2xnWI1iF08XA5GMw3dVyq5m8x6eIfcWNvpgblU6bQjtj9TW/QA
-         ESxXfm96uweTYJZqbtdWYPY+Z3cI/5JK/ABebsDEbwo5Wxq0MiCyItMuPReEbTMQxIuK
-         d5Yg==
+        bh=8A8iKkbeW/oKo7eGFKakGvv3qh+5pLCIfMGGzUt6vpo=;
+        b=FAG9OVb+cIqT+e/ozjNQOOGJfamMoMBTPHiiNB0V11sGoQHh6c+Q+Zz815nmHDO6Q7
+         zp+Yyfju+IhdQwRjPPPgfYQjgNKFTx0I1Ri+J55E9Gjs7j5boMtpL1Nzu7FzDe3cmNeF
+         B68k5IxP+RI6paPQYIcm6iXKBL5DMlAC9AwzrgYwBDdVc04hBuihtegumRp7OlHJF0si
+         fpvUgHWmiMJfuj32VhVQW4sPqm1mCUXV/XNszDDu+6rDXEZGpb0mQz6uqEAxR4/5jtDh
+         bSsb0DgtVIziHzxuKfgC2elVbnWspk3h/D4ORAOPCstylBDlMiXXrphxCi5/zYXzt0lx
+         y2ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=F7zcf4TrJEprlTvIf884EySlyFlFeiMUA2eoZolnPWI=;
-        b=47PeiFbf+kRLYx7i78AU3o9vc8nCgB5bvWFQcSesfCXgWHKeIF3YnjXgV1p46XCTaC
-         pHcOjssM+0Jl3dhtsnsKmkim6KUp0kjwXB14MGkIaINXcSU4M6mOesOKcd3NTb7czbNc
-         CHlX2m3i5f1KzMp8LTIK5xQ7mrQ7bAoTqGLEm5JIJBRPCrxyyHvw8siHpV527ovDig6q
-         T52UtNv8GZdJKwWWZxmBjIl3K8aiuY0sepfeSPgBJWL0qBOfMhbdjBoPY9ikjB+gK/8V
-         fdKxN2TFT9ssnwLZ2IIVoXfwr83qu621l2oVWpR1Y3E0mfrbk2BSkr2RbgiHx/4u0Chh
-         UCmQ==
-X-Gm-Message-State: AOAM531MWrmGnlRLWXsZhzQScC8XH9zcJktZpPHkQX4jXIoDTy9zFvSj
-        0I+7J0Fhj2MecF/i6Dhn1NE=
-X-Google-Smtp-Source: ABdhPJzaL8XibBjDbffq87bk3/Ej3bVKDK9qucc4fCKZq7D4H33qvFJp8+4vw7MhL4TcbouEl1J5mA==
-X-Received: by 2002:a05:6a00:b89:b0:4bb:15c:908c with SMTP id g9-20020a056a000b8900b004bb015c908cmr67339607pfj.34.1641592864287;
-        Fri, 07 Jan 2022 14:01:04 -0800 (PST)
+        bh=8A8iKkbeW/oKo7eGFKakGvv3qh+5pLCIfMGGzUt6vpo=;
+        b=CuvxuQJ5Hqq7DLT9uCNfSfBnZ+N1W4ZNwUiBSiu90WMSFZ88eYVU4E7iW7n1QPF1tV
+         6k78W1+o27qsc2eyI7mfuRa/A0OymeHcq600gK+9/5/NjoGju3JbYb/W5s1N+QAJIH1o
+         eSywvagyfAUVEPvozX+/X40r7gN4fWP+Nfe10uBGDwH7ZsYfuS5lJvxZrKQbiv6dQY6a
+         Q+u+nuMJ8KMJGLiQG464TE/P0hOp3xxUnmVd/F3yVG1PFlFGDO4vEv3m9wELH1BOfpBN
+         SN0k7kCORq7T8bjmmJypxaIb8W//r9tv7i5feh2f0DHwjDV5v1ISegXNX5RfEZcx7h6q
+         pulA==
+X-Gm-Message-State: AOAM531Z7VpnIbuLaYn11ZhP52MClCefPo4+7EBbVanQo8Y+c9Or/xg2
+        KrC+BEGhvxN1mkRIGVcgBOyd+MNeIVU=
+X-Google-Smtp-Source: ABdhPJxo6fBdc/r8s48Qe/RsinOL3R77GbJOsPvp3kNPWitUUmCFuOaiZbGMsOE5x5Q3XPONxgG0yw==
+X-Received: by 2002:a05:6a00:2182:b0:4a7:ec46:29da with SMTP id h2-20020a056a00218200b004a7ec4629damr65786814pfi.68.1641593273278;
+        Fri, 07 Jan 2022 14:07:53 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:4a85:a3d:72a9:2009])
-        by smtp.gmail.com with ESMTPSA id k6sm7194459pff.17.2022.01.07.14.01.02
+        by smtp.gmail.com with ESMTPSA id m12sm6733pfh.64.2022.01.07.14.07.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 14:01:03 -0800 (PST)
-Date:   Fri, 7 Jan 2022 14:01:01 -0800
+        Fri, 07 Jan 2022 14:07:52 -0800 (PST)
+Date:   Fri, 7 Jan 2022 14:07:50 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Angela Czubak <acz@semihalf.com>
 Cc:     linux-input@vger.kernel.org, upstream@semihalf.com
-Subject: Re: [PATCH 05/18] HID: introduce hid_get_feature
-Message-ID: <Ydi4HRZs079kA/OU@google.com>
+Subject: Re: [PATCH 13/18] Input: MT - toggle ABS_PRESSURE pointer emulation
+Message-ID: <Ydi4/xYdgTv9Umqh@google.com>
 References: <20211221191743.1893185-1-acz@semihalf.com>
- <20211221191743.1893185-6-acz@semihalf.com>
+ <20211221191743.1893185-14-acz@semihalf.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211221191743.1893185-6-acz@semihalf.com>
+In-Reply-To: <20211221191743.1893185-14-acz@semihalf.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 21, 2021 at 07:17:30PM +0000, Angela Czubak wrote:
-> Move mt_get_feature from hid-multitouch to hid-core as it is a generic
-> function that can be used by other drivers as well.
-> 
-> Signed-off-by: Angela Czubak <acz@semihalf.com>
-> ---
->  drivers/hid/hid-core.c       | 39 ++++++++++++++++++++++++++++++++++++
->  drivers/hid/hid-multitouch.c | 38 +++--------------------------------
->  include/linux/hid.h          |  1 +
->  3 files changed, 43 insertions(+), 35 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> index dbed2524fd47..c11cb7324157 100644
-> --- a/drivers/hid/hid-core.c
-> +++ b/drivers/hid/hid-core.c
-> @@ -1796,6 +1796,45 @@ int hid_report_raw_event(struct hid_device *hid, int type, u8 *data, u32 size,
->  }
->  EXPORT_SYMBOL_GPL(hid_report_raw_event);
->  
-> +/**
-> + * hid_get_feature - retrieve feature report from device
-> + *
-> + * @hdev: hid device
-> + * @report: hid report to retrieve
-> + */
-> +void hid_get_feature(struct hid_device *hdev, struct hid_report *report)
+Hi Angela,
 
-If this is a generic API I believe it should return success/error code
-so that users can decide what to do.
+On Tue, Dec 21, 2021 at 07:17:38PM +0000, Angela Czubak wrote:
+> Add a function to switch off ABS_PRESSURE generation if necessary.
+> This may be helpful in case drivers want to generate ABS_PRESSURE events
+> themselves from ABS_MT_PRESSURE.
+
+This needs better explanation for why it is needed. I assume this is to
+use ABS_PRESSURE to report "true force" for devices. If this is correct
+then I believe we should define a new flag for input_mt_init_slots()
+and check it here and also use it to calculate the force across contacts
+in input_mt_sync_frame().
+
+Or did I misunderstand the point?
 
 Thanks.
 
