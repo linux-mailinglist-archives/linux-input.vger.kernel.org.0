@@ -2,212 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D01E9487EDE
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jan 2022 23:18:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BEAE487EE6
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jan 2022 23:23:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231127AbiAGWSI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 Jan 2022 17:18:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37720 "EHLO
+        id S231162AbiAGWXy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 Jan 2022 17:23:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230393AbiAGWSI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Jan 2022 17:18:08 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5437AC061574
-        for <linux-input@vger.kernel.org>; Fri,  7 Jan 2022 14:18:08 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id s15so5912276plg.12
-        for <linux-input@vger.kernel.org>; Fri, 07 Jan 2022 14:18:08 -0800 (PST)
+        with ESMTP id S230104AbiAGWXx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Jan 2022 17:23:53 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E68D3C061574
+        for <linux-input@vger.kernel.org>; Fri,  7 Jan 2022 14:23:52 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id l10-20020a17090a384a00b001b22190e075so13368938pjf.3
+        for <linux-input@vger.kernel.org>; Fri, 07 Jan 2022 14:23:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=TAJmGYC/D26EnQvrs8mWkPfX2wxh4O0uPeI7CcvLKwc=;
-        b=CxU1HbjZEaEbQVntmTRf09rTujEopSoHZ3XIxDNQBid5ustoHjWbAi9v/V9g3Kq/uE
-         Ecz0F6IPdiOaIuvlpI0fSCs8RX5FUFjPi3LnHtulO8a/8jKAHIgPYSW3L1PlVEjca7tS
-         iF8jr61GkWejZWPF5bFBSmg7DMbHAgoPfSzUHr6UMqJAtGf8RjrZGHUxoIsGR+hWq3U1
-         k0HBHYaYpXI+mXTKvKiRY1C9k/hXYeTWmNHpY569PvDG/MdEIB12lYbrk4a21s65o2Ik
-         OsQIYDpvtTQVRsfZy+eWx9Rd0KV5I+4AlAy/6vd/NbCIcJN+Z4hnZuf0atuebZDZWiLp
-         GXAw==
+        bh=pDCymwx8Omad7zdyAEK0ypzRZXkTchT6a4PkPrHqPTo=;
+        b=jueF4apKS6Z9ICRlqJCpWJBHZCJseuciDWA0huUGrSTczDQrPLCtPVtbthB8tp0Um0
+         wb/Cla6kn6WjGPSEBdI5lQl8550dws8iosmxpy4czM8OrJ4+r0t29bPGx+m8d858hHJd
+         QabMi/6t8Oich/UmuwULlXcNho6PQzxqOdtRs3Y9wIdwSa8WGiieDdE26GMTfhuFHhjo
+         6XMVA4vhvnc5VV519MPTDyLeaq3IlcQHthMiyG1/LrShYAK9tgJGEVsy0Qz8h0Xu3I8W
+         FrB9RterzYJ9i0AKTrIHPGqc/6jq+FvJQeRzOkNc5jcwIZVacsZ2VyeHqjSbg1x7h760
+         jywA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=TAJmGYC/D26EnQvrs8mWkPfX2wxh4O0uPeI7CcvLKwc=;
-        b=Re40D11jVF4zyl7Ie6GsXk0zeq5mPCXnK5HVdoFh5peNHfd27U7JCJtU8lqwzXMZbh
-         27rX9tPwvZDdSU9fwxkWrfYPEW52kDyWnscoKiYtnWdMAEI4xH3heMLDq3C/uD1c5VDE
-         QV/wWAspxK/aZmlwjsDxEfn8tFfJFTHo1xESzlzoki5FvN0iIczzbbI51Wh2uGZ9MDkD
-         /yzhlIBQhPPnAk69vafyVRW2/ZRn26zkCQXvBGI6wy1b00CqCzBusnu+C9Ic5K961Jdp
-         s50j79vRmVJ2nocXrFGUSrY0dNKRrCHNxcfopIaREzhdgn7Pu0zwMrn1v0U4Od4499Rf
-         3jGw==
-X-Gm-Message-State: AOAM532hozFltr+y/fQwnI+g4N4cXU1UjrJUeoASNHAodcrpR+m/kL3s
-        e9lU51BGu2VX5Z0jdkLrc8g=
-X-Google-Smtp-Source: ABdhPJyuKTvmZR4SUbkrRUF6qylAf0RCMn8sO988oWz40b0yNSQPT8u0b03SPaUzHuOCGF9BLYZYwQ==
-X-Received: by 2002:a17:90b:14e:: with SMTP id em14mr15791294pjb.12.1641593887628;
-        Fri, 07 Jan 2022 14:18:07 -0800 (PST)
+        bh=pDCymwx8Omad7zdyAEK0ypzRZXkTchT6a4PkPrHqPTo=;
+        b=Tn7Llzel2zPv5QudwKkAycI/tjpf9f0M5V4THUpoGMbqV0gkTDVdgLT4cQkuFweUuh
+         p/hxapaP+MxNZE/GQqCG3j5QQ2J5eofS+aCkv9h71qbZtLaD0Rd2nlBRENIT1osAPNvL
+         kDBnEkkBtKlNSgxiDSyY/IDyQT/agKRLmLfxJncHEwwfsS4yIgAEgmZPxsiWdpL3gLr9
+         EaYwRXk5DMGR7q57H8msKyJwcFjnhjXdgqMnwFGPQHYm6MD72Tgz19c3hdK3/gcOI0Qj
+         AxrsWXTgczP5HZZjz7y/NT2DAXbqOddYKuN1LsO33Wcrjt3jPao5XngimMpOHstiYndp
+         q5MQ==
+X-Gm-Message-State: AOAM533COhA+mfzztEVqLglScsTArUOipuumaKJS8TIMAuwK2zE6tIuE
+        Phh++QZFl6ZJfxTSDBMP6FRqcaIak2A=
+X-Google-Smtp-Source: ABdhPJyhXApAPwOZiIUEpLongfn2XoOViYujQPD/Nvsc0lBvlnlZJgqka/FdnpOmnKLQWaWcM5sTbw==
+X-Received: by 2002:a17:90a:c917:: with SMTP id v23mr1698876pjt.32.1641594232346;
+        Fri, 07 Jan 2022 14:23:52 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:4a85:a3d:72a9:2009])
-        by smtp.gmail.com with ESMTPSA id k2sm7013353pfc.53.2022.01.07.14.18.06
+        by smtp.gmail.com with ESMTPSA id h7sm7024926pfc.152.2022.01.07.14.23.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 14:18:06 -0800 (PST)
-Date:   Fri, 7 Jan 2022 14:18:04 -0800
+        Fri, 07 Jan 2022 14:23:51 -0800 (PST)
+Date:   Fri, 7 Jan 2022 14:23:49 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Angela Czubak <acz@semihalf.com>
 Cc:     linux-input@vger.kernel.org, upstream@semihalf.com
-Subject: Re: [PATCH 04/18] HID: haptic: introduce hid_haptic_device
-Message-ID: <Ydi8HAdQWjEOn+Jj@google.com>
+Subject: Re: [PATCH 11/18] HID: input: calculate resolution for pressure
+Message-ID: <Ydi9dULolfUyygzB@google.com>
 References: <20211221191743.1893185-1-acz@semihalf.com>
- <20211221191743.1893185-5-acz@semihalf.com>
+ <20211221191743.1893185-12-acz@semihalf.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211221191743.1893185-5-acz@semihalf.com>
+In-Reply-To: <20211221191743.1893185-12-acz@semihalf.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 21, 2021 at 07:17:29PM +0000, Angela Czubak wrote:
-> Define a new structure that contains simple haptic device configuration
-> as well as current state.
+On Tue, Dec 21, 2021 at 07:17:36PM +0000, Angela Czubak wrote:
+> Assume that if the pressure is given in newtons it should be normalized
+> to grams. If the pressure has no unit do not calculate resolution.
 > 
 > Signed-off-by: Angela Czubak <acz@semihalf.com>
 > ---
->  drivers/hid/Kconfig      |  4 +++
->  drivers/hid/Makefile     |  1 +
->  drivers/hid/hid-haptic.c | 10 ++++++
->  drivers/hid/hid-haptic.h | 68 ++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 83 insertions(+)
->  create mode 100644 drivers/hid/hid-haptic.c
->  create mode 100644 drivers/hid/hid-haptic.h
+>  drivers/hid/hid-input.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> index a7c78ac96270..8d1eb4491a7f 100644
-> --- a/drivers/hid/Kconfig
-> +++ b/drivers/hid/Kconfig
-> @@ -89,6 +89,10 @@ config HID_GENERIC
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index 81eb277dee91..b680641a30c0 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -257,6 +257,19 @@ __s32 hidinput_calc_abs_res(const struct hid_field *field, __u16 code)
+>  		}
+>  		break;
 >  
->  	If unsure, say Y.
->  
-> +config HID_HAPTIC
-> +	bool
-> +	default n
+> +	case ABS_PRESSURE:
+> +	case ABS_MT_PRESSURE:
+> +		if (field->unit == 0xe111) {		/* If newtons */
 
-'n' is the default, no need to have it explicit.
+Using a named constant would be great.
 
-> +
->  menu "Special HID drivers"
->  	depends on HID
->  
-> diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> index 55a6fa3eca5a..65d54ccd4574 100644
-> --- a/drivers/hid/Makefile
-> +++ b/drivers/hid/Makefile
-> @@ -4,6 +4,7 @@
->  #
->  hid-y			:= hid-core.o hid-input.o hid-quirks.o
->  hid-$(CONFIG_DEBUG_FS)		+= hid-debug.o
-> +hid-$(CONFIG_HID_HAPTIC)	+= hid-haptic.o
->  
->  obj-$(CONFIG_HID)		+= hid.o
->  obj-$(CONFIG_UHID)		+= uhid.o
-> diff --git a/drivers/hid/hid-haptic.c b/drivers/hid/hid-haptic.c
-> new file mode 100644
-> index 000000000000..0910d8af9f38
-> --- /dev/null
-> +++ b/drivers/hid/hid-haptic.c
-> @@ -0,0 +1,10 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + *  HID Haptic support for Linux
-> + *
-> + *  Copyright (c) 2021 Angela Czubak
-> + */
-> +
-> +/*
-> + */
+> +			/* Convert to grams */
 
-What is this comment block for? Actually I do not see why this needs to
-be a separate patch.
+If you could add to the comment that 1 newton is 101.97 grams that would
+be great.
 
-> +#include "hid-haptic.h"
-> diff --git a/drivers/hid/hid-haptic.h b/drivers/hid/hid-haptic.h
-> new file mode 100644
-> index 000000000000..41f19cd22f75
-> --- /dev/null
-> +++ b/drivers/hid/hid-haptic.h
-> @@ -0,0 +1,68 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + *  HID Haptic support for Linux
-> + *
-> + *  Copyright (c) 2021 Angela Czubak
-> + */
-> +
-> +/*
-> + */
-> +
-> +
-> +#include <linux/hid.h>
-> +
-> +#define HID_HAPTIC_ORDINAL_WAVEFORMNONE 1
-> +#define HID_HAPTIC_ORDINAL_WAVEFORMSTOP 2
-> +
-> +#define HID_HAPTIC_PRESS_THRESH 200
-> +#define HID_HAPTIC_RELEASE_THRESH 180
-> +
-> +#define HID_HAPTIC_MODE_DEVICE 0
-> +#define HID_HAPTIC_MODE_KERNEL 1
-> +
-> +struct hid_haptic_effect {
-> +	__u8 *report_buf;
-
-This is a matter of preference, but in kernel we normally use u8, s16,
-etc, and underscored versions are for headers that are part of uapi.
-
-> +	struct input_dev *input_dev;
-> +	struct work_struct work;
-> +	struct list_head control;
-> +	struct mutex control_mutex;
-> +};
-> +
-> +struct hid_haptic_effect_node {
-> +	struct list_head node;
-> +	struct file *file;
-> +};
-> +
-> +struct hid_haptic_device {
-> +	struct input_dev *input_dev;
-> +	struct hid_device *hdev;
-> +	struct hid_report *auto_trigger_report;
-> +	struct mutex auto_trigger_mutex;
-> +	struct workqueue_struct *wq;
-> +	struct hid_report *manual_trigger_report;
-> +	struct mutex manual_trigger_mutex;
-> +	size_t manual_trigger_report_len;
-> +	int pressed_state;
-> +	__s32 pressure_sum;
-> +	__s32 force_logical_minimum;
-> +	__s32 force_physical_minimum;
-> +	__s32 force_resolution;
-> +	__u32 press_threshold;
-> +	__u32 release_threshold;
-> +	__u32 mode;
-> +	__u32 default_auto_trigger;
-> +	__u32 vendor_page;
-> +	__u32 vendor_id;
-> +	__u32 max_waveform_id;
-> +	__u32 max_duration_id;
-> +	__u16 *hid_usage_map;
-> +	__u32 *duration_map;
-> +	__u16 press_ordinal_orig;
-> +	__u16 press_ordinal_cur;
-> +	__u16 release_ordinal_orig;
-> +	__u16 release_ordinal_cur;
-> +#define HID_HAPTIC_RELEASE_EFFECT_ID 0
-> +#define HID_HAPTIC_PRESS_EFFECT_ID 1
-
-Why these definitions are here?
-
-> +	struct hid_haptic_effect *effect;
-> +	struct hid_haptic_effect stop_effect;
-> +};
+> +			prev = physical_extents;
+> +			physical_extents *= 10197;
+> +			if (physical_extents < prev)
+> +				return 0;
+> +			unit_exponent -= 2;
+> +		} else if (field->unit != 0x101) {	/* If not grams */
+> +			return 0;
+> +		}
+> +		break;
+>  	default:
+>  		return 0;
+>  	}
 > -- 
 > 2.34.1.307.g9b7440fafd-goog
 > 
