@@ -2,165 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE37E4881E4
-	for <lists+linux-input@lfdr.de>; Sat,  8 Jan 2022 07:46:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1952048820C
+	for <lists+linux-input@lfdr.de>; Sat,  8 Jan 2022 08:17:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229913AbiAHGqK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 8 Jan 2022 01:46:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36110 "EHLO
+        id S233652AbiAHHRj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 8 Jan 2022 02:17:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231821AbiAHGqJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 8 Jan 2022 01:46:09 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9E04C06173E
-        for <linux-input@vger.kernel.org>; Fri,  7 Jan 2022 22:46:09 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id h1so6698119pls.11
-        for <linux-input@vger.kernel.org>; Fri, 07 Jan 2022 22:46:09 -0800 (PST)
+        with ESMTP id S231136AbiAHHRj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 8 Jan 2022 02:17:39 -0500
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE7A6C06173E
+        for <linux-input@vger.kernel.org>; Fri,  7 Jan 2022 23:17:38 -0800 (PST)
+Received: by mail-yb1-xb2e.google.com with SMTP id y130so23140568ybe.8
+        for <linux-input@vger.kernel.org>; Fri, 07 Jan 2022 23:17:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=tDvuS8BnGebyVFOAY/uhAVOmPK399miSdD1tYKxRZBE=;
-        b=Or0cRMerLIUL6X5SYsle5y0mUIa4mtcLjfzJXVKuWOPrpQJPA56fcqenPMOD74Y89E
-         w3mZXJwJFLqAO5Djxi/v+x8iP6OXSBJHqG0FRNdEfTBBTXwtqIvw0pImfIQO8c5fvkkK
-         oEdeE+mbs2AqO3rflxd8G0BSpsTKQUl6lo8beQAG6MS27CvcFfJ1xtosV5y8CTmFfBcy
-         5uslf3ng83haA3GX7lezEEKG2VHmmafMdfliU0mVLvhdKodmLki9WEt4+7yz0dC5H8aB
-         Q9/2qlaYV5tM3xzPyQIZ4L4e6emzwhkMVOhsdBN9868dv0GKYQlwi54utWxJVegJpoZK
-         q5nA==
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=FRPPY5MAn+t4RekFXaenM3Ts2hEbAKwsckjDxJ4s190=;
+        b=HgE5EqgnNoRAB6RN3XVircLMmknO4rHmYgjR0yujU8DI3VAOjVmyr1L4b4YJtyVhFd
+         Q7/7gNyRTEC3Sw9iovlCE4MocIjjDodyXPuxqzTu7Lff9PrwdI0MwdJHMT+Bss0NuZgi
+         JyBY0wC+VBjYMka391BAAplQlZCRNe3SiRR4+S9ocjuMX5JmCcWFWcQD67NgJcnsIzzS
+         4VgHS5/NBNNsTzkm3R71tZaPOU3Z+734FRUkvlzUQMt4gL7U/t/W8i4S030XCW1loN8t
+         3ws0lfbWE006KJutVb/+TjDdpnKsMmuZy+7GrEz3yhyirz4/HjJMtjeZWL5ylNHIsvT3
+         CZlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=tDvuS8BnGebyVFOAY/uhAVOmPK399miSdD1tYKxRZBE=;
-        b=LNtCFtRdt4tmNCb+BMGqnTnK6OLiVQoukDLiflNHJqBdVmNrliPCBpMsEHE9qM/wp6
-         0VD0Vopq2tx/Of7SzHYnh1xQ4dMoNCYhCHwK1JdvKVWuXT1MqJUeccj8pGGGr7P7aFjT
-         gVduGYTTeZsPpCPKZTH9NBh4h9ZQLTDm07gwwxQ+/M00lgpMXfZr4rNGHHmV9ToKM42K
-         joO2bpbuu5qp/QM2rB8BH311LACo7o/pMRXViJI4l/m6/nB44/bWYvjL/KOfMZ3CwcDS
-         KJZtHajVa5jlhWyEGinWH6WWgJ19mJlNPrHlo21slFtHGL5WNCych5406bhcDx7sz2tP
-         2tpA==
-X-Gm-Message-State: AOAM532tWp0Dgx3cX0dzvkPI8ttxamp5FoNeB6NBuaAsOEZU9VlYmOst
-        zT7WMQcH85vfNTJrdeOk0RM=
-X-Google-Smtp-Source: ABdhPJyvFj5QQ18oP0bNG9ZYLmenspw0xWxVJtOd5d/OyET/2XvdLZpLW6Rvr+IxfTCkM1Tc5s/TMg==
-X-Received: by 2002:a17:90b:4b0e:: with SMTP id lx14mr19617193pjb.66.1641624369081;
-        Fri, 07 Jan 2022 22:46:09 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:4a85:a3d:72a9:2009])
-        by smtp.gmail.com with ESMTPSA id w6sm725913pga.25.2022.01.07.22.46.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 22:46:07 -0800 (PST)
-Date:   Fri, 7 Jan 2022 22:46:05 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Angela Czubak <acz@semihalf.com>
-Cc:     linux-input@vger.kernel.org, upstream@semihalf.com,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-Subject: Re: [PATCH 18/18] HID: i2c-hid: fix i2c_hid_set_or_send_report
-Message-ID: <YdkzLZzDIgWrel0O@google.com>
-References: <20211221191743.1893185-1-acz@semihalf.com>
- <20211221191743.1893185-19-acz@semihalf.com>
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=FRPPY5MAn+t4RekFXaenM3Ts2hEbAKwsckjDxJ4s190=;
+        b=ptZAOS2AtOZ6d0CoH67hXF4Ff9K1RANTTGSiwfZyx2gJOV3YL7O0esFrEeBfxOy7t4
+         mWrs4Djz30R3rG8zRFyE1sd1T/1JCou8NXRQQZQnR4RojI+Pay4YJHcNVkLWuz1OR05j
+         6CUttuAqvj2gaMQlOUsZ0P86MgQDwC4z+iJArfB38vwQyuTX7/IILGk0r/BpW7yGHl2h
+         jA830DJO/Xye29VUDu2HSPGdGHf9T3o15pVYU/mIaV2tc8c7QWeZR1ZeViz1Ma/ACjKE
+         pijjnmiEvPztVPYOMQjzU0vOHWH6CzXJAnFTAT8WU5JkTLMFtgcLQjcNHQm+QD+i3Eya
+         vQhA==
+X-Gm-Message-State: AOAM533fpcsRULbBl/3AXq7ftSCxRJxjnpLliEVa9SjKx3+C3+4finwM
+        qyWqMorDJJDRtzqu2o1qo9b7HbGPXsqae24j40s=
+X-Google-Smtp-Source: ABdhPJzAGuqjwBxLdLgkZGf8Q77j/fswa51Jfd0HYLREqDttXEPjr9nhtCPDjNuZxCu5chwnIvOUka4QcEjIcWMZ2R4=
+X-Received: by 2002:a25:da44:: with SMTP id n65mr5220878ybf.259.1641626257917;
+ Fri, 07 Jan 2022 23:17:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211221191743.1893185-19-acz@semihalf.com>
+Sender: adonald323@gmail.com
+Received: by 2002:a05:7000:aa27:0:0:0:0 with HTTP; Fri, 7 Jan 2022 23:17:37
+ -0800 (PST)
+From:   Aisha Al-Qaddafi <aishagaddafi1894@gmail.com>
+Date:   Sat, 8 Jan 2022 07:17:37 +0000
+X-Google-Sender-Auth: zY76MOhAOJgZG9CdDTENqxGzLDg
+Message-ID: <CANHbP4N4N-XN+JRL+AE9iOW9X0efog8SrS_wR+=a+PytYdwLyA@mail.gmail.com>
+Subject: Investment offer,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Angela,
+Hello Dear Friend,
 
-On Tue, Dec 21, 2021 at 07:17:43PM +0000, Angela Czubak wrote:
-> If command & data registers are to be used and report ID >= 0xF
-> use the sentinel value for report ID in the command.
-> Do not alter the report ID itself as it needs to be inserted into the args
-> buffer. If output register is to be used there is no need to insert
-> report IDs >= 0xF.
+With due respect to your person and much sincerity of purpose I wish
+to write to you today for our mutual benefit in this investment
+transaction.
+I'm Mrs. Aisha Al-Gaddafi, presently residing herein Oman the
+Southeastern coast of the Arabian Peninsula in Western Asia, I'm a
+single Mother and a widow with three Children. I am the only
+biological Daughter of the late Libyan President (Late Colonel Muammar
+Gaddafi). I have an investment funds worth Twenty Seven Million Five
+Hundred Thousand United State Dollars ($27.500.000.00 ) and i need an
+investment Manager/Partner and because of my Asylum Status I will
+authorize you the ownership of the investment funds, However, I am
+interested in you for investment project assistance in your country,
+may be from there,. we can build a business relationship in the
+nearest future.
 
-OK, I see what you mean, but I believe that i2c_hid_set_or_send_report()
-is the wrong place to implement this handling to begin with. How about a
-modified version of your patch that I am pasting below (not tested)?
+I am willing to negotiate an investment/business profit sharing ratio
+with you based on the future investment earning profits. If you are
+willing to handle this project kindly reply urgently to enable me to
+provide you more information about the investment funds..
 
-Thanks,
-Dmitry
-
--- >8 -- >8 --
-
-
-HID: i2c-hid: fix handling numbered reports with IDs of 15 and above
-
-From: Angela Czubak <acz@semihalf.com>
-
-Special handling of numbered reports with IDs of 15 and above is only
-needed when executing what HID-I2C spec is calling "Class Specific
-Requests", and not when simply sending output reports.
-
-Additionally, our mangling of report ID in i2c_hid_set_or_send_report()
-resulted in incorrect report ID being written into SET_REPORT command
-payload.
-
-To solve it let's move all the report ID manipulation into
-__i2c_hid_command() where we form the command data structure.
-
-Signed-off-by: Angela Czubak <acz@semihalf.com>
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/hid/i2c-hid/i2c-hid-core.c |   22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 517141138b00..9381a70b2948 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -97,6 +97,7 @@ union command {
- 		__le16 reg;
- 		__u8 reportTypeID;
- 		__u8 opcode;
-+		__u8 reportID;
- 	} __packed c;
- };
- 
-@@ -232,7 +233,13 @@ static int __i2c_hid_command(struct i2c_client *client,
- 
- 	if (length > 2) {
- 		cmd->c.opcode = command->opcode;
--		cmd->c.reportTypeID = reportID | reportType << 4;
-+		if (reportID < 0x0F) {
-+			cmd->c.reportTypeID = reportType << 4 | reportID;
-+		} else {
-+			cmd->c.reportTypeID = reportType << 4 | 0x0F;
-+			cmd->c.reportID = reportID;
-+			length++;
-+		}
- 	}
- 
- 	memcpy(cmd->data + length, args, args_len);
-@@ -300,11 +307,6 @@ static int i2c_hid_get_report(struct i2c_client *client, u8 reportType,
- 
- 	i2c_hid_dbg(ihid, "%s\n", __func__);
- 
--	if (reportID >= 0x0F) {
--		args[args_len++] = reportID;
--		reportID = 0x0F;
--	}
--
- 	args[args_len++] = readRegister & 0xFF;
- 	args[args_len++] = readRegister >> 8;
- 
-@@ -350,18 +352,12 @@ static int i2c_hid_set_or_send_report(struct i2c_client *client, u8 reportType,
- 	size =		2			/* size */ +
- 			(reportID ? 1 : 0)	/* reportID */ +
- 			data_len		/* buf */;
--	args_len =	(reportID >= 0x0F ? 1 : 0) /* optional third byte */ +
--			2			/* dataRegister */ +
-+	args_len =	2			/* dataRegister */ +
- 			size			/* args */;
- 
- 	if (!use_data && maxOutputLength == 0)
- 		return -ENOSYS;
- 
--	if (reportID >= 0x0F) {
--		args[index++] = reportID;
--		reportID = 0x0F;
--	}
--
- 	/*
- 	 * use the data register for feature reports or if the device does not
- 	 * support the output register
+Your urgent reply will be appreciated if only you are interested in
+this investment project.
+Best Regards
+Mrs. Aisha Al-Gaddafi..
