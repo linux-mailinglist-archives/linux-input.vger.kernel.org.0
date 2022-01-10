@@ -2,68 +2,163 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62B9D48906A
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jan 2022 07:55:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46DEA48931B
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jan 2022 09:14:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235089AbiAJGzX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Jan 2022 01:55:23 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:45880 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232399AbiAJGzW (ORCPT
+        id S239797AbiAJIOj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Jan 2022 03:14:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232809AbiAJIOj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Jan 2022 01:55:22 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E7558B80E87;
-        Mon, 10 Jan 2022 06:55:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18FD1C36AED;
-        Mon, 10 Jan 2022 06:55:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1641797719;
-        bh=ivoy7dYTby1hHVGDZtmIJCibvuxZns2thdhxmWukwGM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JInc3EvdGPAdOamGiZc47YM7y9tOOHX3QcFGpNwduaomQtbbILi3B8MGK91+GbJ/D
-         b4y6PO4xkoBTc/dvr3ErXzvAmI0O1k+4Ria7iWWuaeb/aSK5RIrXDKBWfBS5nQsGVW
-         4n4c/LVyZBrhXnWUTnebrlkW5o1vfJCxCb50R7gE=
-Date:   Mon, 10 Jan 2022 07:55:17 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Karl Kurbjun <kkurbjun@gmail.com>
-Cc:     linux-input@vger.kernel.org, Jiri Kosina <jkosina@suse.cz>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] HID: Ignore battery for Elan touchscreen on HP Envy X360
- 15t-dr100
-Message-ID: <YdvYVQub0+pu5ahg@kroah.com>
-References: <20220110034935.15623-1-kkurbjun@gmail.com>
+        Mon, 10 Jan 2022 03:14:39 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BDD3C06173F;
+        Mon, 10 Jan 2022 00:14:39 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id c14-20020a17090a674e00b001b31e16749cso20018404pjm.4;
+        Mon, 10 Jan 2022 00:14:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=xN1vtAyh+kwI83JTVy+mkGHjlZGHaJa9aANamWLa06M=;
+        b=TIDkriRBhYYvmbd1QbK8yfZ29G2Ssa6/Il2alwx/UJko/44M150ltIrZd9tlsExply
+         EPe9GwL9vkk8hpeVzZlB7Ftr1tJF57o2aD2NSpf9oj90G7V9BuL51rYr/fis5aA+Slgf
+         totHpWMOjsYh5vbG9GN5baAL1uvAalyN8jXxju9PKiLAWzsUKNgn3/FTj7prFqaQp0OP
+         IvGily4+3Jcqc7vj8dCx72ehwAL/K4Db0UjJlcxjzofaZL4JeVn6R2kwdb2v5ktG3Cqv
+         QsQMLq+V0oOmFy+GovSpGFu4ctiQQvDNn4L05LtDibHjnxummFPmbqnYV8jCi6uv5poa
+         7M3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xN1vtAyh+kwI83JTVy+mkGHjlZGHaJa9aANamWLa06M=;
+        b=29ebhFDSlIa3ceh1wRdDgeS7UmgK97G1ycSLWnJUr0uK1guP04l9zwcG0P4C8ZixWH
+         e29NTJhQ52dBfPNoTBnol4o2x4dz4KFI6laeVAvC5Vs+Bhvi9hha4wF7ci2MGdjTa24U
+         9g37Ny6AeytdYt2wOwnvZ1urFv4jsx4yHpjo0DBHdy/jzDvI76xNp1RTQR9xpXhd5t49
+         0yeL9lrFGwdHic4E73zwaT+FNv+UoalP0JXaAtJUaTGok5Dq0vzLka10POvSX40bY34G
+         Hj2/H7rndKUHhEpMMbqFVVOHkBylTtblXn2/EquzewiABd/0CqZkNn8QTWiStWKUf9sd
+         HHGA==
+X-Gm-Message-State: AOAM533+GpxLHXmHOYCUZGFR6KCVCOV+JDpbrtMZ/FzsWtAqXwxp4Gfn
+        rr70GTHCRFDjYaB6QfhUxb0=
+X-Google-Smtp-Source: ABdhPJxOsLGlBEucz1/2525I+3enC/3LGB3tNEm52E/BDyRSXKVPxCxb8353YYhp9dRuvYgv1nZmZw==
+X-Received: by 2002:a17:90a:6c05:: with SMTP id x5mr10454391pjj.61.1641802478491;
+        Mon, 10 Jan 2022 00:14:38 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:1d28:509e:281:5bca])
+        by smtp.gmail.com with ESMTPSA id a3sm5929723pfv.47.2022.01.10.00.14.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jan 2022 00:14:36 -0800 (PST)
+Date:   Mon, 10 Jan 2022 00:14:34 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Sean O'Brien <seobrien@chromium.org>,
+        Ting Shen <phoenixshen@google.com>,
+        Stephen Boyd <swboyd@google.com>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: vivaldi: fix handling devices not using numbered
+ reports
+Message-ID: <Ydvq6sgHzNzAy0ud@google.com>
+References: <YdieAFj0ppmAtQxS@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220110034935.15623-1-kkurbjun@gmail.com>
+In-Reply-To: <YdieAFj0ppmAtQxS@google.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Jan 09, 2022 at 08:49:35PM -0700, Karl Kurbjun wrote:
-> Battery status on Elan tablet driver is reported for the HP ENVY x360
-> 15t-dr100. There is no separate battery for the Elan controller resulting
-> in a battery level report of 0% or 1% depending on whether a stylus has
-> interacted with the screen. These low battery level reports causes a
-> variety of bad behavior in desktop environments. This patch adds the
-> appropriate quirk to indicate that the batery status is unused for this
-> target.
+On Fri, Jan 07, 2022 at 12:09:36PM -0800, Dmitry Torokhov wrote:
+> Unfortunately details of USB HID transport bled into HID core and
+> handling of numbered/unnumbered reports is quite a mess, with
+> hid_report_len() calculating the length according to USB rules,
+> and hid_hw_raw_request() adding report ID to the buffer for both
+> numbered and unnumbered reports.
 > 
-> Signed-off-by: Karl Kurbjun <kkurbjun@gmail.com>
+> Untangling it all requres a lot of changes in HID, so for now let's
+> handle this in the driver.
+> 
+> Fixes: 14c9c014babe ("HID: add vivaldi HID driver")
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 > ---
->  drivers/hid/hid-ids.h   | 1 +
->  drivers/hid/hid-input.c | 2 ++
->  2 files changed, 3 insertions(+)
+> 
+> CrOS folks, please help testing this as I do not have the affected
+> hardware.
+> 
+> Thanks!
+> 
+>  drivers/hid/hid-vivaldi.c | 34 ++++++++++++++++++++++++++++------
+>  1 file changed, 28 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-vivaldi.c b/drivers/hid/hid-vivaldi.c
+> index cd7ada48b1d9..1804de1ef9b8 100644
+> --- a/drivers/hid/hid-vivaldi.c
+> +++ b/drivers/hid/hid-vivaldi.c
+> @@ -71,10 +71,11 @@ static void vivaldi_feature_mapping(struct hid_device *hdev,
+>  				    struct hid_usage *usage)
+>  {
+>  	struct vivaldi_data *drvdata = hid_get_drvdata(hdev);
+> +	struct hid_report *report = field->report;
+>  	int fn_key;
+>  	int ret;
+>  	u32 report_len;
+> -	u8 *buf;
+> +	u8 *report_data, *buf;
+>  
+>  	if (field->logical != HID_USAGE_FN_ROW_PHYSMAP ||
+>  	    (usage->hid & HID_USAGE_PAGE) != HID_UP_ORDINAL)
+> @@ -86,12 +87,24 @@ static void vivaldi_feature_mapping(struct hid_device *hdev,
+>  	if (fn_key > drvdata->max_function_row_key)
+>  		drvdata->max_function_row_key = fn_key;
+>  
+> -	buf = hid_alloc_report_buf(field->report, GFP_KERNEL);
+> -	if (!buf)
+> +	report_data = buf = hid_alloc_report_buf(report, GFP_KERNEL);
+> +	if (!report_data)
+>  		return;
+>  
+> -	report_len = hid_report_len(field->report);
+> -	ret = hid_hw_raw_request(hdev, field->report->id, buf,
+> +	report_len = hid_report_len(report);
+> +	if (!report->id) {
+> +		/*
+> +		 * hid_hw_raw_request() will stuff report ID (which will be 0)
+> +		 * into the first byte of the buffer even for unnumbered
+> +		 * reports, so we need to account for this to avoid getting
+> +		 * -EOVERFLOW in return.
+> +		 * Note that hid_alloc_report_buf() adds 7 bytes to the size
+> +		 * so we can safely say that we have space for an extra byte.
+> +		 */
+> +		report_len++;
+> +	}
+> +
+> +	ret = hid_hw_raw_request(hdev, field->report->id, report_data,
 
+This can be changed to "report->id", sorry I missed it.
 
-<formletter>
+>  				 report_len, HID_FEATURE_REPORT,
+>  				 HID_REQ_GET_REPORT);
+>  	if (ret < 0) {
+> @@ -100,7 +113,16 @@ static void vivaldi_feature_mapping(struct hid_device *hdev,
+>  		goto out;
+>  	}
+>  
+> -	ret = hid_report_raw_event(hdev, HID_FEATURE_REPORT, buf,
+> +	if (!report->id) {
+> +		/*
+> +		 * Undo the damage from hid_hw_raw_request() for unnumbered
+> +		 * reports.
+> +		 */
+> +		report_data++;
+> +		report_len--;
+> +	}
+> +
+> +	ret = hid_report_raw_event(hdev, HID_FEATURE_REPORT, report_data,
+>  				   report_len, 0);
+>  	if (ret) {
+>  		dev_warn(&hdev->dev, "failed to report feature %d\n",
 
-This is not the correct way to submit patches for inclusion in the
-stable kernel tree.  Please read:
-    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-for how to do this properly.
+Thanks.
 
-</formletter>
+-- 
+Dmitry
