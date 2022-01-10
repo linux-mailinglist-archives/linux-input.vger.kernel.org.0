@@ -2,56 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A24648A050
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jan 2022 20:43:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D209F48A052
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jan 2022 20:43:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243853AbiAJTnL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Jan 2022 14:43:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51374 "EHLO
+        id S241122AbiAJTnW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Jan 2022 14:43:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243901AbiAJTnK (ORCPT
+        with ESMTP id S243901AbiAJTnV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Jan 2022 14:43:10 -0500
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BBF3C061748
-        for <linux-input@vger.kernel.org>; Mon, 10 Jan 2022 11:43:10 -0800 (PST)
-Received: by mail-yb1-xb2b.google.com with SMTP id p5so33729181ybd.13
-        for <linux-input@vger.kernel.org>; Mon, 10 Jan 2022 11:43:10 -0800 (PST)
+        Mon, 10 Jan 2022 14:43:21 -0500
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60AE3C06173F
+        for <linux-input@vger.kernel.org>; Mon, 10 Jan 2022 11:43:21 -0800 (PST)
+Received: by mail-yb1-xb30.google.com with SMTP id d7so8061466ybo.5
+        for <linux-input@vger.kernel.org>; Mon, 10 Jan 2022 11:43:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=semihalf-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=B5WE5kxgKlxQok90BZHzEGg23pNqVw6gSb/pfspjUi0=;
-        b=E+ov3M8uLyYaRC8iIb4HOHXHxGWRc9h9tyzIy5yhKGum/gaJnrDKIwapst5/axhOtj
-         k8WP2R/Phhg4Qg7cmxbCYoTf9GQ/QuNDrNqHl6BijI26YO+rGwWBNGqfmYJAthDX0BGp
-         F0AK3ILzZ0IVhaqzCTLNHlRkQOafQTnay27ViYgb3royV1rEOBffj2RSHaXOvFjXbBlI
-         ChppeXbNBFqutL09+7sGBWl4IVr7io3v2OXNIalAmGiI8L9NGHVT180RRZ5gEta3Ze4P
-         FdreMM+YbwHakbcZWIiHPi6N/P3/9FGQecB3TBieBGj/psWxWJSK0tIoQW4n/QPr64vo
-         +HIA==
+        bh=Q6GIsVHGycnihTR184e+rpJjR6hG9DKaUq/mUMDfAuU=;
+        b=wEmz+MVCRiTzzlWzwBU+N4Wb8igM77Rq2sBFeGJNAi+oUXip3DmO64Po/T9kTkHYLs
+         1dYIggcwJnLZE1nMy/ZvA7eeaVhIvKQtH3xw4CDRl1Wpc3LU7ARhi9TMye3ME88GTEni
+         rdgGj+krSKiFlrrqWVV4oboEuO+4yw38JtCT89Qy0ybWgKAUWgquF9YzX3HAacrTWk5q
+         fxpYgL50Qw7cDv/lrOtBxNRnU3mFXG9P6+7npcZbX83CyWD5aahGuxatrNCMgoqoSt+K
+         cfymmSVAJQYWq3ONXdQUYYVT+wpu7M/H0VjRN+HfP0n7gygTYwSgGGG552y8NEAZgq6E
+         zLDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=B5WE5kxgKlxQok90BZHzEGg23pNqVw6gSb/pfspjUi0=;
-        b=Oh1zqq8e5mDw97c+z+0vg23wR7iF/xjD54s6k35Evm+2Duk5fhw+vfNqj15NlJizNg
-         ocPOJRdlf5IffS4+HCgPlb2bRfXQlS56g/CUA4wVTFoyxA8ri+Mbuz/tCfugzhA+fVe0
-         zymj+vtIU06FWiY8juTZse8ONYPW1qRTApB3gwwS+gX27XV69P6WiyqP8oy30Oj28GWb
-         kDw1DEXAlwgw0JlxfkwAYhcTgshIREvBOqyMVWywe6CE11V6EeGFXkqpR5JGJSK4KIPR
-         w/fPG2+LQN6VGrtkTXX4LzmRiig/D0NdA/plgJzLH08Cmo72dm+4qgn/sXK+1quT83WP
-         Qc0A==
-X-Gm-Message-State: AOAM532vKln8U1pkx+gd9Fsg9KAuxewVj2Fr5mdCWqtJFGfrw1plKJrz
-        xdd0JxzLko1LivHNWd8Pr0v40PZLinn7bnruo+0rDg==
-X-Google-Smtp-Source: ABdhPJyWNMyDQcoWLk4JrtUeKKyFVhQKXWZLa6f8brtOXjEuS9lKYcuPozhDPWAWX9AsKSvEE5ugwdjuuGWTQfOYuak=
-X-Received: by 2002:a25:287:: with SMTP id 129mr1548066ybc.670.1641843789209;
- Mon, 10 Jan 2022 11:43:09 -0800 (PST)
+        bh=Q6GIsVHGycnihTR184e+rpJjR6hG9DKaUq/mUMDfAuU=;
+        b=8PRwRhtMjEr1zVCt96Obj+jOa9XE6Sdl72Usf4ZjV18dHPxFMHIBeTPvlAxzUFmSJJ
+         91jjsdt71y0UnhhOTQ9J6m3iYfdsDQma99B4D2R9zMJYSUznySyN3pJ3L1Cvo8J7to8d
+         RHG+BHWnryHhZ6NTFtYNZbpYF/sh9hPNJR62jP9ez68I4/KGo0/Uund2lXJixfGJZQ42
+         0I7CVckXDMn08p3us1au9NIt8M45QuWidmBk4n7hHgUpwNttzjHda6LNQLSN+E8VGaBc
+         8UZbsFTLhKptOm5S93820P+pfLsNaL+oTz1acTwBKaAVgCzEw9mqepe0qhsBLzBCb81j
+         QaOQ==
+X-Gm-Message-State: AOAM532rTvU99OVJz3icQPzno9tAVxdbCgb8aysa4bFhtwFqnWNpUtvv
+        5WYzqk/aInIse2Zh+d7mPK4ffHk2jKJZFO8mbiLikA==
+X-Google-Smtp-Source: ABdhPJwzcC6oJ7Q5d4ljeChMyDdTW4T4K+pcA3GTSGgVapDstsdgv1u0Pbjv+lexq2ToePk+PrLNF1bYmnp1vbnoOeY=
+X-Received: by 2002:a25:ae64:: with SMTP id g36mr1441186ybe.748.1641843800625;
+ Mon, 10 Jan 2022 11:43:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20211221191743.1893185-1-acz@semihalf.com> <20211221191743.1893185-5-acz@semihalf.com>
- <Ydi8HAdQWjEOn+Jj@google.com>
-In-Reply-To: <Ydi8HAdQWjEOn+Jj@google.com>
+References: <20211221191743.1893185-1-acz@semihalf.com> <20211221191743.1893185-6-acz@semihalf.com>
+ <Ydi4HRZs079kA/OU@google.com>
+In-Reply-To: <Ydi4HRZs079kA/OU@google.com>
 From:   Angela Czubak <acz@semihalf.com>
-Date:   Mon, 10 Jan 2022 20:42:56 +0100
-Message-ID: <CAB4aORWG5_+qAdqVJh5wjBEWMiC8Z1Wuy=sRA-JwthOksrhkLw@mail.gmail.com>
-Subject: Re: [PATCH 04/18] HID: haptic: introduce hid_haptic_device
+Date:   Mon, 10 Jan 2022 20:43:08 +0100
+Message-ID: <CAB4aORWUh1cVujyDBHfOqK9rcgixf8c8M47r8RaV_X=1hR6QhA@mail.gmail.com>
+Subject: Re: [PATCH 05/18] HID: introduce hid_get_feature
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-input@vger.kernel.org, upstream@semihalf.com
 Content-Type: text/plain; charset="UTF-8"
@@ -59,173 +59,43 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jan 7, 2022 at 11:18 PM Dmitry Torokhov
+On Fri, Jan 7, 2022 at 11:01 PM Dmitry Torokhov
 <dmitry.torokhov@gmail.com> wrote:
 >
-> On Tue, Dec 21, 2021 at 07:17:29PM +0000, Angela Czubak wrote:
-> > Define a new structure that contains simple haptic device configuration
-> > as well as current state.
+> On Tue, Dec 21, 2021 at 07:17:30PM +0000, Angela Czubak wrote:
+> > Move mt_get_feature from hid-multitouch to hid-core as it is a generic
+> > function that can be used by other drivers as well.
 > >
 > > Signed-off-by: Angela Czubak <acz@semihalf.com>
 > > ---
-> >  drivers/hid/Kconfig      |  4 +++
-> >  drivers/hid/Makefile     |  1 +
-> >  drivers/hid/hid-haptic.c | 10 ++++++
-> >  drivers/hid/hid-haptic.h | 68 ++++++++++++++++++++++++++++++++++++++++
-> >  4 files changed, 83 insertions(+)
-> >  create mode 100644 drivers/hid/hid-haptic.c
-> >  create mode 100644 drivers/hid/hid-haptic.h
+> >  drivers/hid/hid-core.c       | 39 ++++++++++++++++++++++++++++++++++++
+> >  drivers/hid/hid-multitouch.c | 38 +++--------------------------------
+> >  include/linux/hid.h          |  1 +
+> >  3 files changed, 43 insertions(+), 35 deletions(-)
 > >
-> > diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> > index a7c78ac96270..8d1eb4491a7f 100644
-> > --- a/drivers/hid/Kconfig
-> > +++ b/drivers/hid/Kconfig
-> > @@ -89,6 +89,10 @@ config HID_GENERIC
+> > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > index dbed2524fd47..c11cb7324157 100644
+> > --- a/drivers/hid/hid-core.c
+> > +++ b/drivers/hid/hid-core.c
+> > @@ -1796,6 +1796,45 @@ int hid_report_raw_event(struct hid_device *hid, int type, u8 *data, u32 size,
+> >  }
+> >  EXPORT_SYMBOL_GPL(hid_report_raw_event);
 > >
-> >       If unsure, say Y.
-> >
-> > +config HID_HAPTIC
-> > +     bool
-> > +     default n
->
-> 'n' is the default, no need to have it explicit.
->
-Ack.
-> > +
-> >  menu "Special HID drivers"
-> >       depends on HID
-> >
-> > diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> > index 55a6fa3eca5a..65d54ccd4574 100644
-> > --- a/drivers/hid/Makefile
-> > +++ b/drivers/hid/Makefile
-> > @@ -4,6 +4,7 @@
-> >  #
-> >  hid-y                        := hid-core.o hid-input.o hid-quirks.o
-> >  hid-$(CONFIG_DEBUG_FS)               += hid-debug.o
-> > +hid-$(CONFIG_HID_HAPTIC)     += hid-haptic.o
-> >
-> >  obj-$(CONFIG_HID)            += hid.o
-> >  obj-$(CONFIG_UHID)           += uhid.o
-> > diff --git a/drivers/hid/hid-haptic.c b/drivers/hid/hid-haptic.c
-> > new file mode 100644
-> > index 000000000000..0910d8af9f38
-> > --- /dev/null
-> > +++ b/drivers/hid/hid-haptic.c
-> > @@ -0,0 +1,10 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +/*
-> > + *  HID Haptic support for Linux
+> > +/**
+> > + * hid_get_feature - retrieve feature report from device
 > > + *
-> > + *  Copyright (c) 2021 Angela Czubak
+> > + * @hdev: hid device
+> > + * @report: hid report to retrieve
 > > + */
-> > +
-> > +/*
-> > + */
+> > +void hid_get_feature(struct hid_device *hdev, struct hid_report *report)
 >
-> What is this comment block for? Actually I do not see why this needs to
-> be a separate patch.
+> If this is a generic API I believe it should return success/error code
+> so that users can decide what to do.
 >
-I have seen this kind of comment block in both hid-multitouch.c and
-hid-core.c, though I can remove it.
-Just to be sure: is it OK to introduce all fields/structures at once
-with path no 8 ("HID: haptic: initialize haptic device")? Or would you
-prefer if I extend the structures as necessary?
-
-> > +#include "hid-haptic.h"
-> > diff --git a/drivers/hid/hid-haptic.h b/drivers/hid/hid-haptic.h
-> > new file mode 100644
-> > index 000000000000..41f19cd22f75
-> > --- /dev/null
-> > +++ b/drivers/hid/hid-haptic.h
-> > @@ -0,0 +1,68 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> > +/*
-> > + *  HID Haptic support for Linux
-> > + *
-> > + *  Copyright (c) 2021 Angela Czubak
-> > + */
-> > +
-> > +/*
-> > + */
-> > +
-> > +
-> > +#include <linux/hid.h>
-> > +
-> > +#define HID_HAPTIC_ORDINAL_WAVEFORMNONE 1
-> > +#define HID_HAPTIC_ORDINAL_WAVEFORMSTOP 2
-> > +
-> > +#define HID_HAPTIC_PRESS_THRESH 200
-> > +#define HID_HAPTIC_RELEASE_THRESH 180
-> > +
-> > +#define HID_HAPTIC_MODE_DEVICE 0
-> > +#define HID_HAPTIC_MODE_KERNEL 1
-> > +
-> > +struct hid_haptic_effect {
-> > +     __u8 *report_buf;
->
-> This is a matter of preference, but in kernel we normally use u8, s16,
-> etc, and underscored versions are for headers that are part of uapi.
->
-> > +     struct input_dev *input_dev;
-> > +     struct work_struct work;
-> > +     struct list_head control;
-> > +     struct mutex control_mutex;
-> > +};
-> > +
-> > +struct hid_haptic_effect_node {
-> > +     struct list_head node;
-> > +     struct file *file;
-> > +};
-> > +
-> > +struct hid_haptic_device {
-> > +     struct input_dev *input_dev;
-> > +     struct hid_device *hdev;
-> > +     struct hid_report *auto_trigger_report;
-> > +     struct mutex auto_trigger_mutex;
-> > +     struct workqueue_struct *wq;
-> > +     struct hid_report *manual_trigger_report;
-> > +     struct mutex manual_trigger_mutex;
-> > +     size_t manual_trigger_report_len;
-> > +     int pressed_state;
-> > +     __s32 pressure_sum;
-> > +     __s32 force_logical_minimum;
-> > +     __s32 force_physical_minimum;
-> > +     __s32 force_resolution;
-> > +     __u32 press_threshold;
-> > +     __u32 release_threshold;
-> > +     __u32 mode;
-> > +     __u32 default_auto_trigger;
-> > +     __u32 vendor_page;
-> > +     __u32 vendor_id;
-> > +     __u32 max_waveform_id;
-> > +     __u32 max_duration_id;
-> > +     __u16 *hid_usage_map;
-> > +     __u32 *duration_map;
-> > +     __u16 press_ordinal_orig;
-> > +     __u16 press_ordinal_cur;
-> > +     __u16 release_ordinal_orig;
-> > +     __u16 release_ordinal_cur;
-> > +#define HID_HAPTIC_RELEASE_EFFECT_ID 0
-> > +#define HID_HAPTIC_PRESS_EFFECT_ID 1
->
-> Why these definitions are here?
->
-I use them as indices in the effect array of effects below, though
-they are actually mentioned in Sean O'Brien's kernel design proposal.
-Please let me know if you would rather move them above. Perhaps it
-should be even somehow exported via uapi (so that userspace does not
-hardcode it separately).
-
-
-> > +     struct hid_haptic_effect *effect;
-> > +     struct hid_haptic_effect stop_effect;
-> > +};
-> > --
-> > 2.34.1.307.g9b7440fafd-goog
-> >
->
+Does it mean I should also modify hid-multitouch.c so that the return
+value is actually checked? Currently it seems to ignore any failures.
 > Thanks.
+
 >
 > --
 > Dmitry
