@@ -2,199 +2,192 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49470489559
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jan 2022 10:36:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1339648991A
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jan 2022 14:02:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243131AbiAJJgo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Jan 2022 04:36:44 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43238 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S243029AbiAJJgH (ORCPT
+        id S232378AbiAJNBs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Jan 2022 08:01:48 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:54198 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233538AbiAJNAe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Jan 2022 04:36:07 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20A8SpK3001224;
-        Mon, 10 Jan 2022 09:34:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=LTgj9BMo0PeVOTmHS425bgS3Erf/sk7QZhpGDMjgyhM=;
- b=ZeBWbN0MuX3/AcZ5RKWxlntTjtiYf7I8s1BDSqtpXcjWdKYreu00C0yIuS54bslUb+Qr
- i8eYw95JaW/kRkoSt2zAHTinIjB+A7CPiMdtyB681hPeHcfgnzR85uHf321nrRQFc1lp
- la9fqV0TOWpjT+vO0xEhhgF1o49lWVqwByJ8qBn2XaRUDR7r5LiwvirD3oVxz1l/G8aA
- GGCXA11FLJGWT7f5iLejA1BYwhyVqSkuX7XlV9iM6xmQILJKk4eoCpwa9+QQDTpFWY9O
- RafQfotY4ReY1g/9giu+qtTtTZzWY7egugKozzrEpyohVjle6LQRR+kd516WluIEvvXn Gw== 
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3dfm1hp8jh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 10 Jan 2022 09:34:44 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
-        by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20A9Rlj5003316;
-        Mon, 10 Jan 2022 09:34:41 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
-        by ppma06fra.de.ibm.com with ESMTP id 3df1vj2baj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 10 Jan 2022 09:34:41 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 20A9Ydft44106206
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 10 Jan 2022 09:34:39 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CCEA2A405B;
-        Mon, 10 Jan 2022 09:34:38 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id F191AA4065;
-        Mon, 10 Jan 2022 09:34:34 +0000 (GMT)
-Received: from sig-9-145-16-13.uk.ibm.com (unknown [9.145.16.13])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon, 10 Jan 2022 09:34:34 +0000 (GMT)
-Message-ID: <822ad0da702f0953b7aae1febd2c4dfcc4707864.camel@linux.ibm.com>
-Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
-From:   Niklas Schnelle <schnelle@linux.ibm.com>
-To:     John Garry <john.garry@huawei.com>,
-        Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ettore Chimenti <ek5.chimenti@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Ian Abbott <abbotti@mev.co.uk>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Karsten Keil <isdn@linux-pingi.de>,
-        Sathya Prakash <sathya.prakash@broadcom.com>,
-        Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
-        Suganath Prabu Subramani 
-        <suganath-prabu.subramani@broadcom.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Kalle Valo <kvalo@kernel.org>, Jouni Malinen <j@w1.fi>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Hannes Reinecke <hare@suse.com>,
-        Kashyap Desai <kashyap.desai@broadcom.com>,
-        Sumit Saxena <sumit.saxena@broadcom.com>,
-        Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-        Nilesh Javali <njavali@marvell.com>,
-        GR-QLogic-Storage-Upstream@marvell.com,
-        Mark Brown <broonie@kernel.org>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Teddy Wang <teddy.wang@siliconmotion.com>,
-        Forest Bond <forest@alittletooquiet.net>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org,
-        linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
-        linux-scsi@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-wireless@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
-        linux-spi@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-watchdog@vger.kernel.org
-Date:   Mon, 10 Jan 2022 10:34:34 +0100
-In-Reply-To: <74bf4fde-3972-1c36-ca04-58089da0d82b@huawei.com>
-References: <20220105194748.GA215560@bhelgaas>
-         <74bf4fde-3972-1c36-ca04-58089da0d82b@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: RBwht8yqbe4Zp6W3roxBtkr5zQL4IA2M
-X-Proofpoint-ORIG-GUID: RBwht8yqbe4Zp6W3roxBtkr5zQL4IA2M
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-10_04,2022-01-07_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
- impostorscore=0 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
- phishscore=0 adultscore=0 spamscore=0 clxscore=1015 mlxscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201100067
+        Mon, 10 Jan 2022 08:00:34 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7B76C611D3;
+        Mon, 10 Jan 2022 13:00:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75A9DC36AE3;
+        Mon, 10 Jan 2022 13:00:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641819631;
+        bh=QdtjSakUg51i/7yyEyIdy/BhlnAD5GLpLw0nBl9BWtA=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=sUrvm7kg+guo01PWBZZ6D2pT6NQiy0WiChQ5bjmmKaHvcvNE5qH+gdhTWh/MEQ0Db
+         0LzkB52pCupbrw8VHsIXUTvKttWbGj9rR52MwXjK0bmdZab6sqDtg23aeeLFwAxYp7
+         KGhUxdlS8DdQSs8yJRtR14cFUIJaQieBR7j5iamhoDCmfjew8W/7ftfC4we+Vdu3+5
+         Y+A1nvj5dXHdmNnG0riLvj4zj7wX6bKoOaKxi/qjsYm8WQySt9Dadn2hseyBcaW7F4
+         SP6WFPu179MDb7oWCed5KAZTWc6eZba+Vsd4l+owlppsgLAyDxthFlINMsNs8llqsr
+         0Qp/bNJCMFRQQ==
+Date:   Mon, 10 Jan 2022 14:00:27 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Thorsten Leemhuis <regressions@leemhuis.info>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+        casteyde.christian@free.fr, Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [regression] Touchpad is not working after suspend to RAM since
+ kernel 5.14 (fwd from b.k.o bug 214667)
+In-Reply-To: <12b9a10a-626b-cafd-05d6-cf0a116aa39b@leemhuis.info>
+Message-ID: <nycvar.YFH.7.76.2201101359080.28059@cbobk.fhfr.pm>
+References: <12b9a10a-626b-cafd-05d6-cf0a116aa39b@leemhuis.info>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2022-01-06 at 17:41 +0000, John Garry wrote:
-> On 05/01/2022 19:47, Bjorn Helgaas wrote:
-> > > > > >   ok if the PCI maintainers decide otherwise.
-> > > > > I don't really like the "LEGACY_PCI" Kconfig option.  "Legacy" just
-> > > > > means something old and out of favor; it doesn't say*what*  that
-> > > > > something is.
-> > > > > 
-> > > > > I think you're specifically interested in I/O port space usage, and it
-> > > > > seems that you want all PCI drivers that*only*  use I/O port space to
-> > > > > depend on LEGACY_PCI?  Drivers that can use either I/O or memory
-> > > > > space or both would not depend on LEGACY_PCI?  This seems a little
-> > > > > murky and error-prone.
-> > > > I'd like to hear Arnd's opinion on this but you're the PCI maintainer
-> > > > so of course your buy-in would be quite important for such an option.
-> > I'd like to hear Arnd's opinion, too.  If we do add LEGACY_PCI, I
-> > think we need a clear guide for when to use it, e.g., "a PCI driver
-> > that uses inb() must depend on LEGACY_PCI" or whatever it is.
-> > 
-> > I must be missing something because I don't see what we gain from
-> > this.  We have PCI drivers, e.g., megaraid [1], for devices that have
-> > either MEM or I/O BARs.  I think we want to build drivers like that on
-> > any arch that supports PCI.
-> > 
-> > If the arch doesn't support I/O port space, devices that only have I/O
-> > BARs won't work, of course, and hopefully the PCI core and driver can
-> > figure that out and gracefully fail the probe.
-> > 
-> > But that same driver should still work with devices that have MEM
-> > BARs.  If inb() isn't always present, I guess we could litter these
-> > drivers with #ifdefs, but that would be pretty ugly.
+On Tue, 28 Dec 2021, Thorsten Leemhuis wrote:
 
-I think this is the big question here. If we do go with a compile-time
-solution as requested by Linus we will either get a lot of #ifdeffery,
-coarse driver dependencies or as proposed by Alan Stern for the USB
-#ifdefs might end up turning inb() into a compile-time nop.
-
-The originally proposed change that returned ~0 from inb() and printed
-a warning clearly is the simpler change and sure we could also drop the
-warning. I'm honestly torn, I do agree with Linus that we shouldn't
-have run-time things that we know at compile-time will not work but I
-also dislike all the #ifdeffery a compile-time solution requires. Sadly
-C really doesn't give us any better tools here.
-
-Also I 100% agree with you Bjorn how likely it is to see a device on a
-platform really shouldn't matter. Without going into details, on s390
-we have already beneffited from PCI drivers working with 0 changes to
-support devices we previously didn't have on the platform or
-anticipated we would get in the future. Consequently drivers that could
-work in principle should be built.
-
-> >  
+> Hi, this is your Linux kernel regression tracker speaking.
 > 
-> There were some ifdefs added to the 8250 drivers in Arnd's original 
-> patch [0], but it does not seem included here.
+> Forwarding a regression reported by Christian Casteyde (CCed) in
+> bugzilla.kernel.org which apparently has fallen through the cracks.
 > 
-> Niklas, what happened to the 8250 and the other driver changes?
+> https://bugzilla.kernel.org/show_bug.cgi?id=214667
+> 
+> A few quotes from comments in the ticket:
+> 
+> > Since Kernel 5.14 (probably 5.14-rc5 indeed) the touchpad does not
+> > work anymore after resume from suspend to RAM. Was working with 5.13
+> > kernel.
+> > 
+> > I've bisected the bug, first bad commit is: 
+> > b3e29642548258c7cd2cb3326a776fff84cd6b69 is the first bad commit
+> > 
+> > SC[33mcommit b3e29642548258c7cd2cb3326a776fff84cd6b69ESC[m Merge:
+> > 8f4ef88 498d0dd Author: Jiri Kosina <jkosina@suse.cz> Date:   Wed Jun
+> > 30 09:15:15 2021 +0200
+> > 
+> > Merge branch 'for-5.14/multitouch' into for-linus
+> > 
+> > - patch series that ensures that hid-multitouch driver disables touch
+> > and button-press reporting on hid-mt devices during suspend when the
+> > device is not configured as a wakeup-source, from Hans de Goede
+> > 
+> > Seem to be related with the observed behaviour.
+> 
+> Yes, that's a merge, but it contains code changes, maybe something went
+> wrong there.
 
-I missed it during the rebase, likely because the changed files compile
-depend on !S390 via config SERIAL_8250 and thus didn't cause any errors
-for my allyesconfig. That !S390 dependency is of course not really what
-we want if the driver can use MEM BARs.
+CCing Hans, as that merge commit brought his series "disable touch and 
+button-press during suspend" series.
 
+It's strange though that bisection points to a merge commit and not a 
+commit in that series.
+
+> 
+> > Update with kernel 5.15-rc7
+> > 
+> > Still present. However, I noticed dmesg ouput interesting messages
+> > telling there is a transfer from the ELAN touchpad while suspended,
+> > it failed to suspend, then failed to resume. The interesting thing is
+> > if I try to suspend a second time, at resume the touchpad manages to
+> > resume. Appending dmesg output for reference.
+> 
+> 
+> > The problem is still present in 5.16-rc7, but indeed it got worse
+> > (and indeed is now critical). a) After the first "suspend" tentative
+> > (closing the lid), the laptop doesn't suspend (only the screen is
+> > blanked) b) When I reopen the lid, the touchpad stays disabled c)
+> > When I try to suspend a second time (closing the lid), the system
+> > totally freeze (without any info in dmesg) and I need to reset it
+> > totally. I'll open a separate bug report for this one, when bisected,
+> > and will try to post it to the suspend maintainer together with the
+> > mailing list (I'm not accustomed to mailing lists).
+> 
+> FWIW, Christian did this here:
+> https://lore.kernel.org/all/256689953.114854578.1640622738334.JavaMail.root@zimbra40-e7.priv.proxad.net/
+> 
+> > FYI, if I remember well, reverting this single commit fixed the issue
+> > and the diff was making sense (try to disable the touchpad before
+> > going to sleep to prevent unexpected event from it while
+> > suspending... if I understood well the code).
+> 
+> To be sure this issue doesn't again fall through the cracks unnoticed,
+> I'm adding it to regzbot, my Linux kernel regression tracking bot:
+> 
+> #regzbot introduced b3e29642548258c7cd2cb3326a776fff84cd6b69ESC
+> #regzbot title hid: touchpad is not working after suspend to RAM
+> #regzbot from: Christian Casteyde <casteyde.christian@free.fr>
+> #regzbot ignore-activity
+> 
+> Reminder: when fixing the issue, please add a 'Link:' tag with the URL
+> to the report (the parent of this mail) using the kernel.org redirector,
+> as explained in 'Documentation/process/submitting-patches.rst'. Regzbot
+> then will automatically mark the regression as resolved once the fix
+> lands in the appropriate tree. For more details about regzbot see footer.
+> 
+> Sending this to everyone that got the initial report, to make all aware
+> of the tracking. I also hope that messages like this motivate people to
+> directly get at least the regression mailing list and ideally even
+> regzbot involved when dealing with regressions, as messages like this
+> wouldn't be needed then.
+> 
+> Don't worry, I'll send further messages wrt to this regression just to
+> the lists (with a tag in the subject so people can filter them away), as
+> long as they are intended just for regzbot. With a bit of luck no such
+> messages will be needed anyway.
+> 
+> 
+> 
+> Ciao, Thorsten (wearing his 'Linux kernel regression tracker' hat).
+> 
+> P.S.: As a Linux kernel regression tracker I'm getting a lot of reports
+> on my table. I can only look briefly into most of them. Unfortunately
+> therefore I sometimes will get things wrong or miss something important.
+> I hope that's not the case here; if you think it is, don't hesitate to
+> tell me about it in a public reply. That's in everyone's interest, as
+> what I wrote above might be misleading to everyone reading this; any
+> suggestion I gave thus might sent someone reading this down the wrong
+> rabbit hole, which none of us wants.
+> 
+> BTW, I have no personal interest in this issue, which is tracked using
+> regzbot, my Linux kernel regression tracking bot
+> (https://linux-regtracking.leemhuis.info/regzbot/). I'm only posting
+> this mail to get things rolling again and hence don't need to be CC on
+> all further activities wrt to this regression.
+> 
+> ---
+> Additional information about regzbot:
+> 
+> If you want to know more about regzbot, check out its web-interface, the
+> getting start guide, and/or the references documentation:
+> 
+> https://linux-regtracking.leemhuis.info/regzbot/
+> https://gitlab.com/knurd42/regzbot/-/blob/main/docs/getting_started.md
+> https://gitlab.com/knurd42/regzbot/-/blob/main/docs/reference.md
+> 
+> The last two documents will explain how you can interact with regzbot
+> yourself if your want to.
+> 
+> Hint for reporters: when reporting a regression it's in your interest to
+> tell #regzbot about it in the report, as that will ensure the regression
+> gets on the radar of regzbot and the regression tracker. That's in your
+> interest, as they will make sure the report won't fall through the
+> cracks unnoticed.
+> 
+> Hint for developers: you normally don't need to care about regzbot once
+> it's involved. Fix the issue as you normally would, just remember to
+> include a 'Link:' tag to the report in the commit message, as explained
+> in Documentation/process/submitting-patches.rst
+> That aspect was recently was made more explicit in commit 1f57bd42b77c:
+> https://git.kernel.org/linus/1f57bd42b77c
+> 
+
+-- 
+Jiri Kosina
+SUSE Labs
 
