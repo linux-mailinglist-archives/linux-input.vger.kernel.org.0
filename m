@@ -2,98 +2,160 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9962948ADAE
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jan 2022 13:35:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5321148B2E1
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jan 2022 18:07:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239455AbiAKMfu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Jan 2022 07:35:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58448 "EHLO
+        id S241420AbiAKRHP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Jan 2022 12:07:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238836AbiAKMfu (ORCPT
+        with ESMTP id S244267AbiAKRHK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Jan 2022 07:35:50 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A17AC06173F;
-        Tue, 11 Jan 2022 04:35:50 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 21C76B81A40;
-        Tue, 11 Jan 2022 12:35:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3358EC36AE3;
-        Tue, 11 Jan 2022 12:35:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641904547;
-        bh=GO/szbmELDFw8N+MgQtTrbzGUFSfmQgPaTGmU3ddDWw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CWvg4Z/dFVxcWVUAFZdNOF87HhOCbVfGObLbvjPmDdjOSAQxn/LtxHQaQqfuMy6dR
-         zxrPHYtqD0T53XO/0gNJH35TnuxrmmhNxma/edFcKpDMA+ythaX6SuE6Nh8JbNxzGO
-         9LlI6cx1w2NNg3Uh4HoxxOKW023Ul/nCh1Jyg3HGIeMP06JoFX6tScvf9QhA63xCTh
-         v58qp7hPWwkdDec1aCYGiuV9dJ+sZmpz4So4Iw/QW186UoVZl6U8ZLYB3bSofG5Dz8
-         6O9Ad2X24e5CzvvakJELoHrXBdGsS9eYq1M3x6eH9pV9nVhgV7HMAZPJ5aC9QESVvh
-         TQkfky/4N/TMg==
-Date:   Tue, 11 Jan 2022 13:35:40 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Miroslav =?utf-8?Q?Bend=C3=ADk?= <miroslav.bendik@gmail.com>
-Cc:     linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        Mario Limonciello <superm1@gmail.com>,
-        Andrew Duggan <aduggan@synaptics.com>
-Subject: Re: Wrong piix4_smbus address / slow trackpoint on Thinkpad P14s gen
- 2 (AMD)
-Message-ID: <Yd15nIpHgnkRTp64@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Miroslav =?utf-8?Q?Bend=C3=ADk?= <miroslav.bendik@gmail.com>,
-        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        Mario Limonciello <superm1@gmail.com>,
-        Andrew Duggan <aduggan@synaptics.com>
-References: <CAPoEpV0ZSidL6aMXvB6LN1uS-3CUHS4ggT8RwFgmkzzCiYJ-XQ@mail.gmail.com>
- <5fc2c68d-a9df-402a-58b5-fdd531f86b55@gmail.com>
+        Tue, 11 Jan 2022 12:07:10 -0500
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2261C061759
+        for <linux-input@vger.kernel.org>; Tue, 11 Jan 2022 09:07:09 -0800 (PST)
+Received: by mail-yb1-xb2d.google.com with SMTP id m6so38885953ybc.9
+        for <linux-input@vger.kernel.org>; Tue, 11 Jan 2022 09:07:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=semihalf-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RoieBvZr9Ds2K/8bQiFn+5KCoZa8TpU1EiZgaLVNmkc=;
+        b=4M8zhbdkLjlqMjt4r+HeJAEYMSvcefbhUXDJ+m/7sK5knySxwvnN9acOVHD0VYnVhR
+         Nb0hupfgiksAgwpCikVdT7M+TvIdNGQbSw55zQysRu8Kl6+4xh+9qG+HJ7/cIMOxQksU
+         vrw/8TLd9AoTiE4WJkSqa3z/sJOOGWN7bJZGyB3LAAHUWfYqxEigD2r95VBR1vLtZrfr
+         jU3yC/kpXQ5TQjFOQyrWNiV9uj2fbP46l/dvDZAzdb82Xe7EzHpIFj86ZPkjLaFednIg
+         PkyWF3zlFcgerqF1TCLVe5l01ckofeKnov/gYovj+RuXeHEa27WqTjc1za/gM6ef39Dl
+         BGJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RoieBvZr9Ds2K/8bQiFn+5KCoZa8TpU1EiZgaLVNmkc=;
+        b=MopeMJf/POr+llBmkN3+iUWl641uARUGkqbf3B1WtWFzkmQ1ENvdErmIzt9FmqQJ/I
+         fAdRS2Ig4yBy6GJDmbzxNuTtkTWGA/rLhBUWnyOQuUukq+QxWXtEzBOVe4jRULMc+9ji
+         3a+sfyqmatuI06QMW4TySeJ0CEW25CC7zyo+nw3s6WHp4GSvnkFe1QSLTUwKTpGYJXsE
+         GmYBok0Tw0uEHNp1VJzlj/wA/x/AlUgW9JefexWrjsJ2xBpq3Z6HTwMWEntFcKobUeMe
+         WBJBLHsPcU6MhnfC8WD/k+uVFjBWrTy8BLXWsd1WPui5Qd+nXzuuBDBWo+EEPtC5vU/l
+         dtRA==
+X-Gm-Message-State: AOAM533VPrnnS7LpjD+z6tB9PdHknKNFW1D9gt+OxezMTwAmzcbvhAl3
+        tPUar6kwy4n3WwOXyfFjEUYbqBbiNgFmJsnXbrIn0A==
+X-Google-Smtp-Source: ABdhPJyT7m72hl8gdS1lof1otpUDlJYZIPVAZDhta6xC8zR7FKoKua1kTYxSeiUQHZFhUW8yBoBpopxWiJ2cXavbohg=
+X-Received: by 2002:a25:ae64:: with SMTP id g36mr6785121ybe.748.1641920829092;
+ Tue, 11 Jan 2022 09:07:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="+HdZKm6gajalGUaA"
-Content-Disposition: inline
-In-Reply-To: <5fc2c68d-a9df-402a-58b5-fdd531f86b55@gmail.com>
+References: <20211221191743.1893185-1-acz@semihalf.com> <20211221191743.1893185-14-acz@semihalf.com>
+ <Ydi4/xYdgTv9Umqh@google.com> <CAB4aORUgGcPCLZ8iWAorCPbW53Q7c-YiDC4qau-w7G9sYjCvfg@mail.gmail.com>
+ <Ydye8C1MjxpHHF5P@google.com>
+In-Reply-To: <Ydye8C1MjxpHHF5P@google.com>
+From:   Angela Czubak <acz@semihalf.com>
+Date:   Tue, 11 Jan 2022 18:06:57 +0100
+Message-ID: <CAB4aORU35k1zuMPaKsa09Qr34wgurYw1F-Mpyn2WZN77+5R+7A@mail.gmail.com>
+Subject: Re: [PATCH 13/18] Input: MT - toggle ABS_PRESSURE pointer emulation
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>, seobrien@chromium.org
+Cc:     linux-input@vger.kernel.org, upstream@semihalf.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Mon, Jan 10, 2022 at 10:02 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Mon, Jan 10, 2022 at 08:43:28PM +0100, Angela Czubak wrote:
+> > Hi Dmitry,
+> >
+> > On Fri, Jan 7, 2022 at 11:07 PM Dmitry Torokhov
+> > <dmitry.torokhov@gmail.com> wrote:
+> > >
+> > > Hi Angela,
+> > >
+> > > On Tue, Dec 21, 2021 at 07:17:38PM +0000, Angela Czubak wrote:
+> > > > Add a function to switch off ABS_PRESSURE generation if necessary.
+> > > > This may be helpful in case drivers want to generate ABS_PRESSURE events
+> > > > themselves from ABS_MT_PRESSURE.
+> > >
+> > > This needs better explanation for why it is needed. I assume this is to
+> > > use ABS_PRESSURE to report "true force" for devices. If this is correct
+> > > then I believe we should define a new flag for input_mt_init_slots()
+> > > and check it here and also use it to calculate the force across contacts
+> > > in input_mt_sync_frame().
+> > >
+> > > Or did I misunderstand the point?
+> > >
+> > I would say you understood it correctly, though to my mind it is not a
+> > static behaviour,
+>
+> It should be, otherwise how will userspace know the meaning of the
+> event?
+>
+Fair point.
 
---+HdZKm6gajalGUaA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> > i.e. we may want to switch this kind of calculation on and off.
+> > Are flags intended to be modified at runtime?
+>
+> No.
+>
+> > For instance, if user decides to remove the release or press effect (previously
+> > uploaded by them) and there is no default one per device, then we should switch
+> > the haptic handling from kernel mode back to device mode.
+>
+> Why? I think if user removes effects then they do not want to have
+> haptics effects. I am wondering if this whole thing made too complex.
+>
+> In my mind we have following cases:
+>
+> - OS does not know about these haptics devices (touchpads). They work in
+>   device (?) mode and provide haptic feedback on their own.
+>
+> - OS does know about haptics devices (that includes having both kernel
+>   *and* userspace support for them. If one is missing then the other
+>   should not be enabled, it is up to the distro to make sure all pieces
+>   are there). In this case OS controls haptics effects all the time,
+>   except:
+>
+> - OS supports haptics, but switched it to device mode to allow haptics
+>   effect playback when waking up.
+>
+Perhaps switching between modes should be a separate discussion.
+Right now it seems to me that your suggestion could be that if
+INPUT_PROP_HAPTIC_TOUCHPAD is set it should be followed by setting
+something like INPUT_MT_PRESSURE_SUM in mt_flags, which should mean
+every ABS_PRESSURE event should actually be a sum of pressures/true forces
+across all slots. Does it sound right?
+If so, I suppose I will implement it. It should be completely independent from
+device/kernel mode and, what is more, if hid_haptic_init() fails for any reason
+the pressure sum still gets calculated.
 
+Sean, is it OK for the device to keep kernel mode in the event no
+default press/release
+waveform is defined in the waveform list and the user removes relevant effects
+(after having uploaded them)? I think it was desired to remain in the
+device mode
+if no such waveforms/effects are defined and, thus, I assumed that removing
+following effects (in case no press/release waveforms in the waveform
+list) should
+trigger coming back to device mode.
+Right now it seems that switching back to device mode should be
+allowed only when
+suspending the device.
 
-> Summary of synaptics_intertouch problem on Thinkpad with Ryzen 5850U:
+Now, the question would be where BTN_LEFT events should be generated.
+Normally it happens in hid-multitouch and I override it in hid-haptic.c
+This means I calculate the pressure sum as well in hid-haptic/hid-multitouch.
+Does anyone mind such behaviour?
 
-A pity the threads are a bit mixed, but some more information about
-previous attempts can be found in this thread:
+> > Currently it
+> > also means
+> > that the driver stops generating ABS_PRESSURE events on its own and so
+> > input-mt layer may/should be used again (i.e. mt report pointer emulation).
+> > Anyhow, if it would be actually better to calculate the true force in
+> > input_mt_sync_frame()/input_mt_report_pointer_emulation()
+>
+(I suppose I wanted to say I would implement it in such case)
 
-https://lore.kernel.org/r/42c83ec8-bbac-85e2-9ab5-87e59a679f95@redhat.com
-
-> Problem with wrong base address is fixed using this patch:
-> https://lore.kernel.org/all/20210715221828.244536-1-Terry.Bowman@amd.com/
-
-This patch is under discussion again.
-
-
---+HdZKm6gajalGUaA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmHdeZgACgkQFA3kzBSg
-KbZlJA/+KBw0X+sTXV37AMv9K6E6qnSsZyh9YaY5zXauioOl8/OdoVwXG8HUP/S5
-h4eEOoJUX1vnFt8ZOietm9dd7wREf5EIuTjAX1Zi8UGe5kl5+IR7vb9JwWagbQ6o
-J3tvnND3e+1wSNPadhgzUe0QOrdnskkOBvTlWdzCbVgUCWVwDGHrdT+NS7xcKd3u
-H1nggc5TkPOceZd/kT/ihn0gfI//P/t+QuoHRVNx6GECaULwoNDjt5v9eg1ziFN4
-KJciA8GUg5/W2dJfC4R+52z3nP1r1T3+yiXZHcuRo2IBnTEfDbwQF9Gs6SJ8b4BO
-MpBzekCX0JtxRUEqGcimde1sFqxp3QO26cB0Nm6i8zBa5L8K/YyIknixjlMCRX5W
-vLz6a2Ccno7jg3RfhL4kftzI8SxmlxypuOjb1GcDrCAziiq2uhqCV8qXVjy0wecZ
-mPB0b2VDYDLI82isqWr8vjWrB4PlahDvC1MFxthuNl6dWM9Q1ykzBC0JAn8Zi05X
-BO5vRlwgobWSwx+147JzkpepxPpe1N3aQCFFJx1gxjUEvQxqd9m1IUvNTGJl1TiK
-Q/GEkuKj+xTT0e10geAK5qTJM/+A4gcnKun9HBFmZPQw94wti8/T6EVYiKtjZYs6
-Ctx9in5gTR0qvvQ2BWrkDXEkKeYVLl9eywhU4k0O3YjBOwwHL6w=
-=8o2s
------END PGP SIGNATURE-----
-
---+HdZKm6gajalGUaA--
+> Thanks.
+>
+> --
+> Dmitry
