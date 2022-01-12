@@ -2,121 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4D3B48C135
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jan 2022 10:43:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D141D48C208
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jan 2022 11:13:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352159AbiALJny (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Jan 2022 04:43:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53940 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1346466AbiALJnx (ORCPT
+        id S1352412AbiALKN5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Jan 2022 05:13:57 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:54214 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1352380AbiALKN5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Jan 2022 04:43:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1641980632;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2QGd/oMFcr6Ir+/XaEdR55weZ768VSZZbW/LYHrL9+M=;
-        b=Xg6C2URg2AEYJt2fIam9GCduQuQRkwv3aA+NTTi2EL7PxSlr5Kvpv/gDigdzHYNJs7nR8H
-        NLEbBzR5+9604BuJOCZ6YhhBJnCZAy2BbgHBNtv+nQARhnrtzq5l68CJCVxYZvqLxr5dOK
-        Tkhpsaf2CYCwvueVHFV2B8XnDiwjczc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-435-ZWtc7wjgPQaliFxNXStJvA-1; Wed, 12 Jan 2022 04:43:51 -0500
-X-MC-Unique: ZWtc7wjgPQaliFxNXStJvA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Wed, 12 Jan 2022 05:13:57 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9209564083;
-        Wed, 12 Jan 2022 09:43:50 +0000 (UTC)
-Received: from [10.39.192.199] (unknown [10.39.192.199])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A26A754558;
-        Wed, 12 Jan 2022 09:43:49 +0000 (UTC)
-Message-ID: <92b7b0ec-6764-64d2-2ded-01bff7cc2193@redhat.com>
-Date:   Wed, 12 Jan 2022 10:43:48 +0100
+        by ams.source.kernel.org (Postfix) with ESMTPS id 35671B81EA2;
+        Wed, 12 Jan 2022 10:13:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CA70C36AEA;
+        Wed, 12 Jan 2022 10:13:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641982434;
+        bh=l/MAPuhYehSWlPQXLxWyJUNQ64woevtj4J1Obqd0MXk=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=Xnxqlbzjk3oP0RWroREu3bGetH+k92YlBtOhyHD9hNjit5kAxDGu5omh4BrhRvK3X
+         Tonc1UdtNmxfU0b+7s1f1hDaKfRZFcahPe9HOTiTBm0PF23aSc4L5OjQqhkzbuwgLm
+         bqg3xMLQE2A5hPEO8tf7NXFtVnE7l8AtmWlCliyssi4vZy+fyxfwWrzbxNz8SX6v6x
+         FpqdvEkY2Jqe5rWISOSngVvIuhUkx30a4YOiv3oPeKbpHC9Xc/bGbDEYPnZxl215ds
+         mAec8OOF9/P2mNZSewEN33E2XgA3Q9CQSWUMtUn1ObHUweX6GqVI+hz9LM59zMPxME
+         zalqR7py+UY6g==
+Date:   Wed, 12 Jan 2022 11:13:51 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Karl Kurbjun <kkurbjun@gmail.com>
+cc:     linux-input@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] HID: Ignore battery for Elan touchscreen on HP Envy X360
+ 15t-dr100
+In-Reply-To: <20220110034935.15623-1-kkurbjun@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2201121113230.28059@cbobk.fhfr.pm>
+References: <20220110034935.15623-1-kkurbjun@gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 05/18] HID: introduce hid_get_feature
-Content-Language: en-US
-To:     Angela Czubak <acz@semihalf.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, upstream@semihalf.com
-References: <20211221191743.1893185-1-acz@semihalf.com>
- <20211221191743.1893185-6-acz@semihalf.com> <Ydi4HRZs079kA/OU@google.com>
- <CAB4aORWUh1cVujyDBHfOqK9rcgixf8c8M47r8RaV_X=1hR6QhA@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-In-Reply-To: <CAB4aORWUh1cVujyDBHfOqK9rcgixf8c8M47r8RaV_X=1hR6QhA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 1/10/22 20:43, Angela Czubak wrote:
-> On Fri, Jan 7, 2022 at 11:01 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
->>
->> On Tue, Dec 21, 2021 at 07:17:30PM +0000, Angela Czubak wrote:
->>> Move mt_get_feature from hid-multitouch to hid-core as it is a generic
->>> function that can be used by other drivers as well.
->>>
->>> Signed-off-by: Angela Czubak <acz@semihalf.com>
->>> ---
->>>   drivers/hid/hid-core.c       | 39 ++++++++++++++++++++++++++++++++++++
->>>   drivers/hid/hid-multitouch.c | 38 +++--------------------------------
->>>   include/linux/hid.h          |  1 +
->>>   3 files changed, 43 insertions(+), 35 deletions(-)
->>>
->>> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
->>> index dbed2524fd47..c11cb7324157 100644
->>> --- a/drivers/hid/hid-core.c
->>> +++ b/drivers/hid/hid-core.c
->>> @@ -1796,6 +1796,45 @@ int hid_report_raw_event(struct hid_device *hid, int type, u8 *data, u32 size,
->>>   }
->>>   EXPORT_SYMBOL_GPL(hid_report_raw_event);
->>>
->>> +/**
->>> + * hid_get_feature - retrieve feature report from device
->>> + *
->>> + * @hdev: hid device
->>> + * @report: hid report to retrieve
->>> + */
->>> +void hid_get_feature(struct hid_device *hdev, struct hid_report *report)
->>
->> If this is a generic API I believe it should return success/error code
->> so that users can decide what to do.
->>
-> Does it mean I should also modify hid-multitouch.c so that the return
-> value is actually checked? Currently it seems to ignore any failures.
->> Thanks.
+On Sun, 9 Jan 2022, Karl Kurbjun wrote:
 
-Honestly that function is a hack in hid-multitouch. You can replace it by:
-
-```
-hid_device_io_start(hid);
-hid_hw_request(hid, report, HID_REQ_GET_REPORT);
-hid_hw_wait(hid);
-hid_device_io_stop(hid);
-```
-
-The hack allows to not have to use hid_device_io_{start|stop}(), which 
-is probably not clean.
-
-As for the return value, hid_hw_request() can be used as asynchronous, 
-which is why it returns void. However, returning an actual int would 
-definitively be better because some cases are failing silently (like if 
-the device is not io started).
-
-Cheers,
-Benjamin
-
+> Battery status on Elan tablet driver is reported for the HP ENVY x360
+> 15t-dr100. There is no separate battery for the Elan controller resulting
+> in a battery level report of 0% or 1% depending on whether a stylus has
+> interacted with the screen. These low battery level reports causes a
+> variety of bad behavior in desktop environments. This patch adds the
+> appropriate quirk to indicate that the batery status is unused for this
+> target.
 > 
->>
->> --
->> Dmitry
+> Signed-off-by: Karl Kurbjun <kkurbjun@gmail.com>
+
+I've added Cc: stable and applied to hid.git#for-5.17/upstream-fixes
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
 
