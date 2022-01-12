@@ -2,48 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8504648C403
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jan 2022 13:30:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CA7D48C408
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jan 2022 13:31:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353141AbiALMaI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Jan 2022 07:30:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47852 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240498AbiALMaI (ORCPT
+        id S238102AbiALMba (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Jan 2022 07:31:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20535 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1353148AbiALMb1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Jan 2022 07:30:08 -0500
-X-Greylist: delayed 513 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 12 Jan 2022 04:30:07 PST
-Received: from server00.inetadmin.eu (server00.inetadmin.eu [IPv6:2a01:390:1:2:e1b1:2:0:d7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB06BC06173F;
-        Wed, 12 Jan 2022 04:30:07 -0800 (PST)
-Received: from [192.168.1.103] (ip-46.34.226.0.o2inet.sk [46.34.226.0])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: miroslav@wisdomtech.sk)
-        by server00.inetadmin.eu (Postfix) with ESMTPSA id 709D413A569;
-        Wed, 12 Jan 2022 13:21:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wisdomtech.sk;
-        s=dkiminetadmin; t=1641990089;
+        Wed, 12 Jan 2022 07:31:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1641990686;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=PrJWjC6rXy/yziDCyLYQTnCgivshgKBhKhOEpfD/N0Q=;
-        b=kVwogiEB7OXO3+wwYhozP2E3z5QphjWPAVi/fCUvECmjE/5Mqnqm0h6Pael4O3vB+/nA+h
-        D9si/yy1gPEnP8R6sAYFRbpU+X8bhFaigfyaWorpKt4Y0jqj/3O71CCKmcA1C0+AZrOhRN
-        ZCYQ+MRHZP4PUk8Ogak5vZcEV2+kEQg=
-Message-ID: <596d6af1-d67c-b9aa-0496-bd898350865c@wisdomtech.sk>
-Date:   Wed, 12 Jan 2022 13:21:27 +0100
+        bh=tpJ4zcL8zME16M97y3IC2Y4DEC9svpHZ7qIBIrbUhks=;
+        b=SDyh9VLbEUEIZ951TFQDMHokzf8oT5Xd0jGvD0eKR2iHon5s8vkvtCp/HbEmVB/1AOaTM1
+        a3u5YEsC2bpbhysaR1+i1MLjnJJekWP04mb9oy7Z1zSbQbTHAxiUO1Uq0eiOAI4tOR8HRf
+        rIdvF8HpZ0FRn7r6GdysBtDEpUVRGsc=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-32-YyuYuR9iOAuJouQFhoAYiA-1; Wed, 12 Jan 2022 07:31:25 -0500
+X-MC-Unique: YyuYuR9iOAuJouQFhoAYiA-1
+Received: by mail-ed1-f72.google.com with SMTP id y18-20020a056402271200b003fa16a5debcso2113643edd.14
+        for <linux-input@vger.kernel.org>; Wed, 12 Jan 2022 04:31:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=tpJ4zcL8zME16M97y3IC2Y4DEC9svpHZ7qIBIrbUhks=;
+        b=NoHTLS7wD577lX2i3G1bpUjvSaGnRVqlU/YuO+rwEzAdBtSZXAmgHSDu5PtgUnI+Wj
+         q64NA/69d82r0CMZ1Q8dSvLjRMvUc9jnXBa9l0C9m1mALuJwLc19H6jhy07ZtwYpCP1y
+         icH8IqfS52+VM2RNZ9sDZ39EhYmmVWe9UT+ZALKBR9yCZBRbC/szW4SG+C0KRvUFMs44
+         CeSP21w1ufLxMASDiCDWWwbaWUlV/VeZEakXuJT3XsWEUKlMluVAd3Y2vsIQpSZs1YiH
+         osZYeK/BYX3fUF22bgu1sDs+kFRrAhgZGX0xrabCdVSqhG6rMaVajV6OxXVr6vCuBKAH
+         w2/g==
+X-Gm-Message-State: AOAM530Rkzg6xgb4xlyZim+cBzywD1Ksr6Tl80fXosANp/+JrVqW90ai
+        aY/2BJMYNIhTiDeTeUmvlufwT4AzlaBNuDrtBcAYaEiSpcDuT235mNet8UJyI+BkCRJkri33Zn3
+        rFIbqXSiYnZE3gnoCWvBdd9Y=
+X-Received: by 2002:a17:906:b854:: with SMTP id ga20mr7356654ejb.605.1641990683837;
+        Wed, 12 Jan 2022 04:31:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyLf12Kfn3ZQIzFIrLAhx6O3rrxDsG8k2/3avuyLvm56f0J0xGRmpemO3K3JdMIsJbzPJ6Q3A==
+X-Received: by 2002:a17:906:b854:: with SMTP id ga20mr7356636ejb.605.1641990683644;
+        Wed, 12 Jan 2022 04:31:23 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
+        by smtp.gmail.com with ESMTPSA id w17sm705292edr.68.2022.01.12.04.31.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Jan 2022 04:31:23 -0800 (PST)
+Message-ID: <8a693ece-5466-69b9-4d9a-2f1cef0a5ae2@redhat.com>
+Date:   Wed, 12 Jan 2022 13:31:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
+ Thunderbird/91.3.0
 Subject: Re: Touchpad stickiness on AMD laptops (was Dell Inspiron/XPS)
 Content-Language: en-US
 To:     Wolfram Sang <wsa@kernel.org>,
         "Limonciello, Mario" <mario.limonciello@amd.com>,
         Benjamin Tissoires <btissoir@redhat.com>,
-        Hans de Goede <hdegoede@redhat.com>,
         Andrea Ippolito <andrea.ippo@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Alex Hung <alex.hung@canonical.com>,
@@ -58,70 +77,44 @@ References: <CAGhUXvBw4rzCQrqttyyS=Psxmhppk79c6fDoxPbV91jE7fO_9A@mail.gmail.com>
  <42c83ec8-bbac-85e2-9ab5-87e59a679f95@redhat.com>
  <CAO-hwJJ9ALxpd5oRU8SQ3F65hZjDitR=MzmwDk=uiEguaXZYtw@mail.gmail.com>
  <5409e747-0c51-24e2-7ffa-7dd9c8a7aec7@amd.com> <Yd6SRl7sm8zS85Al@ninjato>
-From:   =?UTF-8?Q?Miroslav_Bend=c3=adk?= <miroslav@wisdomtech.sk>
+From:   Hans de Goede <hdegoede@redhat.com>
 In-Reply-To: <Yd6SRl7sm8zS85Al@ninjato>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
- > IIRC tests done by Miroslav showed that interrupt 7 was used for
- > completing SMBus Block transfers and alike, but not for HostNotify. He
- > suspects this is wired via GPIO somehow.
+Hi,
 
-This is just speculation. It may be routed to GPIO pin, but think it's more
-likely that AMD implements host notify. I have looked at windwos drivers and
-there is only SMBus driver bundled with synaptics.
+On 1/12/22 09:33, Wolfram Sang wrote:
+> Hi Mario,
+> 
+> thanks for joining the discussion!
+> 
+>> 1) Systems returning SMBUS address 0xff
+>>
+>> The address can be potentially be returned using port I/O or it can be done
+>> using MMIO.
+>>
+>> There is already a thread in process to add support for MMIO, but last I
+>> heard it's waiting for review comments.
+>>
+>> https://lore.kernel.org/all/20210715221828.244536-1-Terry.Bowman@amd.com/
+> 
+> This thread is under active discussion again.
+> 
+>> Now something else interesting - the SMBUS controller in these laptops often
+>> is listed in the ACPI tables on IRQ7 with a _HID of SMB0001.
+> 
+> IIRC tests done by Miroslav showed that interrupt 7 was used for
+> completing SMBus Block transfers and alike, but not for HostNotify. He
+> suspects this is wired via GPIO somehow.
 
-Lets look at https://www.intel.com/Assets/PDF/datasheet/290562.pdf 
-(PIIX4 from
-Intel). There is SMBSLVCNT register (page 152). Last bit (Slave Enable) 
-should
-enable interrupt on host notify if slave address matches content of SMBSLVC.
-This register is described on page 135 (SMBUS SLAVE COMMAND). Registers are
-accessible using PCI configuration registers. I have tried this code before
-enabling interrupts without success:
+I expect host-notify to use IRQ7 too, but that it first needs to be
+enabled by poking some registers in the SMBUS controller.
 
-pci_write_config_word(dev, SMBSLVC, 0x2c); // synaptics
+Regards,
 
-I don't know if this PDF is relevant for AMD. Newest documentation from AMD,
-which i found is:
-https://www.amd.com/system/files/TechDocs/55072_AMD_Family_15h_Models_70h-7Fh_BKDG.pdf
-
-This document describes SMBusSlaveControl on same address (0x08) and 
-SlaveEnable
-looks almost identical.
-
-The interesting part is:
-
-"address that matches the host controller slave port of 10h, a command field
-that matches the SMBus slave control register, and a match of corresponding
-enabled events"
-
-Slave device should send address 10h automatically. Enabled events can 
-be set
-using SMBusSlaveEvent register. I have enabled all (set 0xff to 0x0a / 0x0b
-registers), but i don't know how to set "command field". There is no 
-register
-named "command field". Intel has SMBSLVC, but i can't find corresponding
-register on AMD.
-
-Constant activity on I2C pins can be repeated host notify request from 
-synaptics.
-
-Last interesting fact:
-
-I have recorded register value (except 0x02 and 0x07) after each SMBus
-transaction. This is from last 2 transactions:
-
-0200 0004 5801 0000 0fa9 00ff ff00 a8aa
-0200 0001 5802 0000 0fa9 40ff ff00 a8aa
-
-Every call has SMBusSlaveEvent (register 0x0a) 0x00 except of last 
-command after
-which device is initialized. After this call register has value 0x40. I have
-written 0xff to this register to enable all events in probe function. I 
-don't
-know why it's 0x00 until last transaction.
+Hans
 
