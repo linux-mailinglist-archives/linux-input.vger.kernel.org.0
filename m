@@ -2,137 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E56548C311
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jan 2022 12:26:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8504648C403
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jan 2022 13:30:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352852AbiALL0S (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Jan 2022 06:26:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33508 "EHLO
+        id S1353141AbiALMaI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Jan 2022 07:30:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238954AbiALL0R (ORCPT
+        with ESMTP id S240498AbiALMaI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Jan 2022 06:26:17 -0500
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E9CFC061748
-        for <linux-input@vger.kernel.org>; Wed, 12 Jan 2022 03:26:17 -0800 (PST)
-Received: by mail-yb1-xb2b.google.com with SMTP id c6so5442907ybk.3
-        for <linux-input@vger.kernel.org>; Wed, 12 Jan 2022 03:26:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=semihalf-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EOVtvAG3jiVM1uqMjRCJ69WgZs1pBSw0+4Cf6BaQIKU=;
-        b=b2RIcNKiKjFgFCUD7bQL53jkCuy2cxmY33FbpWzwZNWg45cQa4LG++F12Y5DwZUS3j
-         smTfaD1WUjrjCpTFQt63IHLuJ/NR8bHTtSwpp9COWOt6jR25OXyAATfEQZ0B9sYjLynE
-         BiusCB5SEOPoZ3HKEZ2romspNWsXcGQ4e7Jy6+jwpCy5iGs6cq05eh+ph3AVsFzgUW49
-         V3A3Ph5p02eg75XWevGeJ+Ht+BCtU/hAXinTbNA3NeJW0PfVJ9Rdwr5IxvuyrD8dQSAb
-         ODPjFhHWeQ9meaxRAdGcqN4N7QhfJyShAfyFKSoQaUJz2HTb8QmANmQHyHj437tlDdVe
-         EbRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EOVtvAG3jiVM1uqMjRCJ69WgZs1pBSw0+4Cf6BaQIKU=;
-        b=dmYp2V81NB462EmOj/4TzZAX/9ewX2De0l+7PqJhzuEM3bi8qh1JllTqQKfvGovryp
-         mX6i3HEZ0x6NU3LZ5ytdfQEoARMBl4vwuMip7f7JUNMHmzO2T79BHCwYTGIIqPg4Rx11
-         9GC7rFrhaMuTzbhNaK1nkxk3zZEUNS2jVrPVT7msZ7PI0rNYpzBqf207NLFjqVOlO/As
-         bImRjsvO8uYaGtk78g2du6JoPlDP693a11OXPhQTqKpoVgKy5teNfP+AE7nkkV/2Hr27
-         /tQyPuQEa2sScd9YWnwnw2x3hGoKYImml6EUHhAaW/J/w2OwZcSuw6VjUQiBY7GY7ohd
-         slXQ==
-X-Gm-Message-State: AOAM531pIF+hxoMTcjNNJkg+GpUVswVxNegILDVJDnt7bzb0QXmgxkWe
-        THO6vU5TFQyfFX+dDTTs2KFoEcWViVHImT1beC7GSg==
-X-Google-Smtp-Source: ABdhPJzzO+yHRCqqpZMdGnSY3eY5pZ3e2cCqYrpkQA3KBkpLVQukD0/T6Aq2S4MJ82hwcmEG8EKNsTDOX7RYragybfM=
-X-Received: by 2002:a25:198a:: with SMTP id 132mr11712651ybz.273.1641986776542;
- Wed, 12 Jan 2022 03:26:16 -0800 (PST)
+        Wed, 12 Jan 2022 07:30:08 -0500
+X-Greylist: delayed 513 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 12 Jan 2022 04:30:07 PST
+Received: from server00.inetadmin.eu (server00.inetadmin.eu [IPv6:2a01:390:1:2:e1b1:2:0:d7])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB06BC06173F;
+        Wed, 12 Jan 2022 04:30:07 -0800 (PST)
+Received: from [192.168.1.103] (ip-46.34.226.0.o2inet.sk [46.34.226.0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: miroslav@wisdomtech.sk)
+        by server00.inetadmin.eu (Postfix) with ESMTPSA id 709D413A569;
+        Wed, 12 Jan 2022 13:21:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wisdomtech.sk;
+        s=dkiminetadmin; t=1641990089;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PrJWjC6rXy/yziDCyLYQTnCgivshgKBhKhOEpfD/N0Q=;
+        b=kVwogiEB7OXO3+wwYhozP2E3z5QphjWPAVi/fCUvECmjE/5Mqnqm0h6Pael4O3vB+/nA+h
+        D9si/yy1gPEnP8R6sAYFRbpU+X8bhFaigfyaWorpKt4Y0jqj/3O71CCKmcA1C0+AZrOhRN
+        ZCYQ+MRHZP4PUk8Ogak5vZcEV2+kEQg=
+Message-ID: <596d6af1-d67c-b9aa-0496-bd898350865c@wisdomtech.sk>
+Date:   Wed, 12 Jan 2022 13:21:27 +0100
 MIME-Version: 1.0
-References: <20211221191743.1893185-1-acz@semihalf.com> <20211221191743.1893185-6-acz@semihalf.com>
- <Ydi4HRZs079kA/OU@google.com> <CAB4aORWUh1cVujyDBHfOqK9rcgixf8c8M47r8RaV_X=1hR6QhA@mail.gmail.com>
- <92b7b0ec-6764-64d2-2ded-01bff7cc2193@redhat.com>
-In-Reply-To: <92b7b0ec-6764-64d2-2ded-01bff7cc2193@redhat.com>
-From:   Angela Czubak <acz@semihalf.com>
-Date:   Wed, 12 Jan 2022 12:26:04 +0100
-Message-ID: <CAB4aORWWLWzWCmvx_EvmG6zuiO-5GfmT_73+eZR3sMw7RP52gw@mail.gmail.com>
-Subject: Re: [PATCH 05/18] HID: introduce hid_get_feature
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, upstream@semihalf.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: Touchpad stickiness on AMD laptops (was Dell Inspiron/XPS)
+Content-Language: en-US
+To:     Wolfram Sang <wsa@kernel.org>,
+        "Limonciello, Mario" <mario.limonciello@amd.com>,
+        Benjamin Tissoires <btissoir@redhat.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andrea Ippolito <andrea.ippo@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Alex Hung <alex.hung@canonical.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "Shah, Nehal-bakulchandra" <Nehal-bakulchandra.Shah@amd.com>
+References: <CAGhUXvBw4rzCQrqttyyS=Psxmhppk79c6fDoxPbV91jE7fO_9A@mail.gmail.com>
+ <CAGhUXvDNj2v3O==+wWWKPYVzej8Vq+WNiBtPwmYxSQ2dTuLb9Q@mail.gmail.com>
+ <CAGhUXvC8eHfxEKzkGN06VvRU6Z0ko7MJ9hF6uXNq+PxRZSbEmQ@mail.gmail.com>
+ <70cbe360-6385-2536-32bd-ae803517d2b2@redhat.com> <YdbrLz3tU4ohANDk@ninjato>
+ <42c83ec8-bbac-85e2-9ab5-87e59a679f95@redhat.com>
+ <CAO-hwJJ9ALxpd5oRU8SQ3F65hZjDitR=MzmwDk=uiEguaXZYtw@mail.gmail.com>
+ <5409e747-0c51-24e2-7ffa-7dd9c8a7aec7@amd.com> <Yd6SRl7sm8zS85Al@ninjato>
+From:   =?UTF-8?Q?Miroslav_Bend=c3=adk?= <miroslav@wisdomtech.sk>
+In-Reply-To: <Yd6SRl7sm8zS85Al@ninjato>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jan 12, 2022 at 10:43 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> On 1/10/22 20:43, Angela Czubak wrote:
-> > On Fri, Jan 7, 2022 at 11:01 PM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> >>
-> >> On Tue, Dec 21, 2021 at 07:17:30PM +0000, Angela Czubak wrote:
-> >>> Move mt_get_feature from hid-multitouch to hid-core as it is a generic
-> >>> function that can be used by other drivers as well.
-> >>>
-> >>> Signed-off-by: Angela Czubak <acz@semihalf.com>
-> >>> ---
-> >>>   drivers/hid/hid-core.c       | 39 ++++++++++++++++++++++++++++++++++++
-> >>>   drivers/hid/hid-multitouch.c | 38 +++--------------------------------
-> >>>   include/linux/hid.h          |  1 +
-> >>>   3 files changed, 43 insertions(+), 35 deletions(-)
-> >>>
-> >>> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> >>> index dbed2524fd47..c11cb7324157 100644
-> >>> --- a/drivers/hid/hid-core.c
-> >>> +++ b/drivers/hid/hid-core.c
-> >>> @@ -1796,6 +1796,45 @@ int hid_report_raw_event(struct hid_device *hid, int type, u8 *data, u32 size,
-> >>>   }
-> >>>   EXPORT_SYMBOL_GPL(hid_report_raw_event);
-> >>>
-> >>> +/**
-> >>> + * hid_get_feature - retrieve feature report from device
-> >>> + *
-> >>> + * @hdev: hid device
-> >>> + * @report: hid report to retrieve
-> >>> + */
-> >>> +void hid_get_feature(struct hid_device *hdev, struct hid_report *report)
-> >>
-> >> If this is a generic API I believe it should return success/error code
-> >> so that users can decide what to do.
-> >>
-> > Does it mean I should also modify hid-multitouch.c so that the return
-> > value is actually checked? Currently it seems to ignore any failures.
-> >> Thanks.
->
-> Honestly that function is a hack in hid-multitouch. You can replace it by:
->
-> ```
-> hid_device_io_start(hid);
-> hid_hw_request(hid, report, HID_REQ_GET_REPORT);
-> hid_hw_wait(hid);
-> hid_device_io_stop(hid);
-> ```
->
-> The hack allows to not have to use hid_device_io_{start|stop}(), which
-> is probably not clean.
->
-> As for the return value, hid_hw_request() can be used as asynchronous,
-> which is why it returns void. However, returning an actual int would
-> definitively be better because some cases are failing silently (like if
-> the device is not io started).
->
-I am slightly confused; it is hid_hw_raw_request() that is used and it does
-not seem asynchronous to me; is there no guarantee that the response
-has already been received? It seemed to me that the main purpose of
-this function is to retrieve information an have it correctly parsed.
-I literally issue it once to learn if auto trigger has been set by default and
-to know the durations of waveforms, learn ordinals etc.
-I could introduce a new function for the purpose of haptic API, it just
-seemed redundant as the one in hid-multitouch.c does what I need.
+ > IIRC tests done by Miroslav showed that interrupt 7 was used for
+ > completing SMBus Block transfers and alike, but not for HostNotify. He
+ > suspects this is wired via GPIO somehow.
 
-> Cheers,
-> Benjamin
->
-> >
-> >>
-> >> --
-> >> Dmitry
->
+This is just speculation. It may be routed to GPIO pin, but think it's more
+likely that AMD implements host notify. I have looked at windwos drivers and
+there is only SMBus driver bundled with synaptics.
+
+Lets look at https://www.intel.com/Assets/PDF/datasheet/290562.pdf 
+(PIIX4 from
+Intel). There is SMBSLVCNT register (page 152). Last bit (Slave Enable) 
+should
+enable interrupt on host notify if slave address matches content of SMBSLVC.
+This register is described on page 135 (SMBUS SLAVE COMMAND). Registers are
+accessible using PCI configuration registers. I have tried this code before
+enabling interrupts without success:
+
+pci_write_config_word(dev, SMBSLVC, 0x2c); // synaptics
+
+I don't know if this PDF is relevant for AMD. Newest documentation from AMD,
+which i found is:
+https://www.amd.com/system/files/TechDocs/55072_AMD_Family_15h_Models_70h-7Fh_BKDG.pdf
+
+This document describes SMBusSlaveControl on same address (0x08) and 
+SlaveEnable
+looks almost identical.
+
+The interesting part is:
+
+"address that matches the host controller slave port of 10h, a command field
+that matches the SMBus slave control register, and a match of corresponding
+enabled events"
+
+Slave device should send address 10h automatically. Enabled events can 
+be set
+using SMBusSlaveEvent register. I have enabled all (set 0xff to 0x0a / 0x0b
+registers), but i don't know how to set "command field". There is no 
+register
+named "command field". Intel has SMBSLVC, but i can't find corresponding
+register on AMD.
+
+Constant activity on I2C pins can be repeated host notify request from 
+synaptics.
+
+Last interesting fact:
+
+I have recorded register value (except 0x02 and 0x07) after each SMBus
+transaction. This is from last 2 transactions:
+
+0200 0004 5801 0000 0fa9 00ff ff00 a8aa
+0200 0001 5802 0000 0fa9 40ff ff00 a8aa
+
+Every call has SMBusSlaveEvent (register 0x0a) 0x00 except of last 
+command after
+which device is initialized. After this call register has value 0x40. I have
+written 0xff to this register to enable all events in probe function. I 
+don't
+know why it's 0x00 until last transaction.
+
