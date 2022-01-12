@@ -2,63 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB79E48C0A1
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jan 2022 10:03:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A34D48C0D8
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jan 2022 10:17:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351881AbiALJDI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Jan 2022 04:03:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57510 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238265AbiALJDI (ORCPT
+        id S1351992AbiALJRw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Jan 2022 04:17:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32177 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1351991AbiALJRw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Jan 2022 04:03:08 -0500
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3DAFC06173F
-        for <linux-input@vger.kernel.org>; Wed, 12 Jan 2022 01:03:07 -0800 (PST)
-Received: by mail-yb1-xb29.google.com with SMTP id v186so4525600ybg.1
-        for <linux-input@vger.kernel.org>; Wed, 12 Jan 2022 01:03:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=semihalf-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AfZVk+WDg2JoyvKbXzjnd4lu4wghNAIwwzEcwPuOW0Y=;
-        b=I2/0+Bq63xYBrKJGwrkQZj2yPTpnEKvFBbmBvrw5+AARtJrb8ryNbTd8vyoxkpmDxH
-         eGSXivQ0Of9mPegQbTd4fZFn30mqZbOrrywoQhnFN3aSWkuXagbzt9Ml0IkinsX3gcXS
-         HsQ7gGP8q9fElcia6HALZdqj8w66/YXVg2yt9COBpJEfdQbchFSdPxzaf2GcajGiR+hH
-         dgq8pml60vvF10+G+6T1C/J4sC1pC3yeUzkuaqqbIG/DTQ//ucTmW6IxfOnQMXnILK2Z
-         De5hN9NzaJFAXuyDgeNCTnbYSxjTY1wMmANlwbC0IzcBh4au2cHEOCOKtUTK0jFOOG1V
-         Gmtg==
+        Wed, 12 Jan 2022 04:17:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1641979071;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=0gs2zaLTW9dXxuzKMhz/4418adUyLD9WvDTe4/ObO4A=;
+        b=C4Kim7LnWz1zWowDU7camkVlsHzywjXMxkd+KGzrfL6lnq9zBd5udkC/D6nW1wTBbLbkib
+        uE0bHgDB1jFHyCS1JS9nTm6TJY7l3zLNtV1/OQ8Ib0VY6556t7mfpgecUGplxKvCkCxO52
+        mscNcHLHL7c7af8CriWyS9qHvDN90r8=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-262-tT7yHcdxMym8zNtHDVZ3hw-1; Wed, 12 Jan 2022 04:17:50 -0500
+X-MC-Unique: tT7yHcdxMym8zNtHDVZ3hw-1
+Received: by mail-pl1-f198.google.com with SMTP id e10-20020a17090301ca00b001491f26bcd4so2124172plh.23
+        for <linux-input@vger.kernel.org>; Wed, 12 Jan 2022 01:17:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=AfZVk+WDg2JoyvKbXzjnd4lu4wghNAIwwzEcwPuOW0Y=;
-        b=hL4cW3Ouq++YpKMSIyzwwcppAV5hzMwaEvL55VHUb1ezkUjQ2VAgmk19HVG9Fe3jcb
-         cOhQF1OUqk6wXD80Yc6n/62DLtZ9Vw4eIWBwYdXP23RIeanj/ih7eNU1rClWAKy/CbVV
-         xux/gcmGy0KvOLtQcwU/4zd3R3MEWHOhF+HbecGOfBnNdDcD792j+zyVjRDn6r4CqsVu
-         NSWb8o8CwpfskGDL9XMDP07OuUEjyJsgud+9bebH5gmKdMUqXZhCxdhl12R7uMSb+BAA
-         ft/FWl0C26Yf5CYivdJtBypM0yRPgeWD68liN/qq1i9NbWWKiVbQhJUHQW8Ch9pbsXN3
-         3JzA==
-X-Gm-Message-State: AOAM531DKoOlClSuKVdptOE4AbAgTBJZ7RyqJyFvWJAvuVkGr0vzyW7x
-        qZWBJMKD3zF9t6cdY2o4jBIsAQ20o7+FAYAVx0U1DQ==
-X-Google-Smtp-Source: ABdhPJxwXFGx81h7W8eGovZgB5srjQI3iSXu6z3M/PWi3KPiERt0gdwWOt95TbKxodbB3AdAOEMkKQvAtxOQUsCNEOo=
-X-Received: by 2002:a5b:281:: with SMTP id x1mr10719545ybl.41.1641978186949;
- Wed, 12 Jan 2022 01:03:06 -0800 (PST)
+        bh=0gs2zaLTW9dXxuzKMhz/4418adUyLD9WvDTe4/ObO4A=;
+        b=P6lDYbIFgmqAja7E6oI0U0C4YxLi6Z+f6GCPdeswpkwfWzPovoCPsvRevr2xeZz0E7
+         sv6s51JmYSIRPZ6s3XSA9tfhjCGynGBcBKUHND/UOkuglIqavY/oV9tV7UxU81LvzKAI
+         xrxvMmP2VMNg8Mr92lYPITxFDqNe/gBpBI9K9SdDr0WeK9OiYQF8xfgf+7MPc/Xt/BvX
+         4Ink0gPr/+VR79gGNNK+I5IrVJh7mdYGUyoepb9BpyY45CNT8DYdm9DRsEqghDhsabZ2
+         NE1lokki1HYv516OYRnwIwYUVPti6LajESUuSsqYr9x3L8OY/ahAhb4U2Nu9Bf3zXO9X
+         /0YQ==
+X-Gm-Message-State: AOAM5326zyytQ7sefHJPBOGzNk3IKPayqwx3oCRzxoPIt93/tNDBq2fb
+        nBO6leV+v4+QdTBIvOmWh5FN1mWdTw8WeRbSkHEvez48GD6Z8quoz/6lS+16Dw4y2bYEOtog9n0
+        uIqeX/oN2XSzoX3FhfYeNFGntlqfd4K3Sd+2aEYI=
+X-Received: by 2002:a63:78c5:: with SMTP id t188mr7820338pgc.363.1641979068982;
+        Wed, 12 Jan 2022 01:17:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJweIQqah2wAb70kixsYS+BEAEc3zemSRKKOwDsJA8yNMyWAjnX7MeEIVRJq6SnYjsBC1U7mSlhsb+wp7oJae7k=
+X-Received: by 2002:a63:78c5:: with SMTP id t188mr7820312pgc.363.1641979068634;
+ Wed, 12 Jan 2022 01:17:48 -0800 (PST)
 MIME-Version: 1.0
 References: <20211221191743.1893185-1-acz@semihalf.com> <20211221191743.1893185-14-acz@semihalf.com>
  <Ydi4/xYdgTv9Umqh@google.com> <CAB4aORUgGcPCLZ8iWAorCPbW53Q7c-YiDC4qau-w7G9sYjCvfg@mail.gmail.com>
  <Ydye8C1MjxpHHF5P@google.com> <CAB4aORU35k1zuMPaKsa09Qr34wgurYw1F-Mpyn2WZN77+5R+7A@mail.gmail.com>
  <CAOOzhkrzawfAxbFmQb-D39cAS3tt05qL-4dpj0X+ncxEFU3z_A@mail.gmail.com> <Yd5CayeX+hsZz7ZP@google.com>
 In-Reply-To: <Yd5CayeX+hsZz7ZP@google.com>
-From:   Angela Czubak <acz@semihalf.com>
-Date:   Wed, 12 Jan 2022 10:02:54 +0100
-Message-ID: <CAB4aORUVFS+=KnWJnTeJLcDycMk7xBgbgeZtX5NK=BPJbEUk_w@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 12 Jan 2022 10:17:37 +0100
+Message-ID: <CAO-hwJ+761zH0FqYULUtfXGvGfvutXWD+APLibBgBho6h-8LNA@mail.gmail.com>
 Subject: Re: [PATCH 13/18] Input: MT - toggle ABS_PRESSURE pointer emulation
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     "Sean O'Brien" <seobrien@chromium.org>,
-        linux-input@vger.kernel.org, upstream@semihalf.com,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
+        Angela Czubak <acz@semihalf.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        upstream@semihalf.com, Jiri Kosina <jikos@kernel.org>,
         Peter Hutterer <peter.hutterer@who-t.net>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
@@ -142,23 +145,22 @@ On Wed, Jan 12, 2022 at 3:52 AM Dmitry Torokhov
 > I'd say that if hid_haptic_init() fails we should not say that the
 > device is INPUT_PROP_HAPTIC_TOUCHPAD (if we even decide to continue with
 > the device instantiation, which we probably should not).
+
+Agree. Userspace should know that the device is a pressure pad based
+on the unit provided in ABS_MT_PRESSURE IIRC.
+So setting the resolution is enough for userspace to emulate the
+button clicks based on the pressure. libinput already has code for
+that.
+
+So basically, INPUT_PROP_HAPTIC_TOUCHPAD is only an indication that
+the haptic is configurable. And if haptic_init() fails, it should not
+expose that property.
+
+And BTW, why "TOUCHPAD" in INPUT_PROP_HAPTIC_TOUCHPAD? The Surface
+Dial could benefit from that implementation and it is not a
+touchpad...
+
 >
-It would still be a haptic touchpad, I suppose; the fact that
-initialization failed isn't going
-to do anything with the device, really, rather some failure in memory
-allocation etc.
-If you are worried about how the userspace can be sure that
-initialization succeeded,
-if hid_haptic_init() succeeds then the device should report EV_FF
-events, otherwise not.
-From my point of view it would be also somewhat unnecessary for
-hid_haptic_init()
-failure to break device instantiation as it would mean that the touchpad gets
-nonfunctional.
-Please let me know if there are any known obstacles that should discourage us
-from using the device after failed hid_haptic_init() or you have some
-more thoughts on
-INPUT_PROP_HAPTIC_TOUCHPAD.
 > > >
 > > > Sean, is it OK for the device to keep kernel mode in the event no
 > > > default press/release
@@ -186,17 +188,47 @@ INPUT_PROP_HAPTIC_TOUCHPAD.
 > think we will reduce a lot of complexity.
 >
 > Benjamin, Jiri, Peter, I'd like you to chime in please.
+
+[FWIW, lei saved me on this one for not being Cc-ed since the
+beginning of this thread]
+
+I think we should keep it simple:
+- the device configuration should be static (i.e.
+ABS_PRESSURE/ABS_MT_PRESSURE, pointer emulation, button emulation,
+...) always present
+- userspace should pick up what it needs based on its own state:
+  if there is a need to compute a total pressure, userspace is capable
+of computing itself, and generates its own button press/release
+- the haptic is a global state of the device, so any decision you make
+is going to have corner cases with more than one userspace (or if the
+userspace daemon/lib is restarted)
+
+So to me, we should keep the kernel device emulation, export what
+needs to be for userspace to make its own decision and have the haptic
+side as a "nice to have" feature but distinct from the event
+processing.
+
+I didn't want to chime into this thread because I am currently working
+on 2 big series that might also be helpful here:
+- the first one, which is almost ready, consists in rethinking how the
+HID events are processed, meaning we can ensure that some events are
+always processed before others. The net benefit is that I can now
+express the Win8 multitouch protocol in hid-generic without too much
+pain, meaning that hid-haptic.c could be a leaf driver instead of
+being an API.
+The net benefit of not having hid-haptic.c as an API is that we can
+always rmmod it to disable the entire haptic system if there is
+something wrong.
+
+- the second one is the eBPF bindings for HID (see
+https://lore.kernel.org/all/20211215134220.1735144-1-tero.kristo@linux.intel.com/
+and the other versions for some more discussions)
+Basically BPF allows to avoid specific kernel APIs and userspace is in
+charge of loading the bridge between its API and the device. It
+definitely has the potential to solve many limitations we are seeing
+now in all the various input/ff protocols IMO.
+
 >
-Dmitry, just to be sure, are you suggesting that kernel should not
-trigger haptic feedback
-at all as well?
-I suppose most of the cases a haptic device will supply waveforms for
-press and release in
-its waveformlist (exposed in autotrigger report) and so the kernel
-will use them.
-I am just mentioning a case where switching back to device/autonomous
-mode would be
-somehow justifiable.
 > >
 > > This also allows for the case where userspace may want to send haptics for UX
 > > effects, while still relying on the device for traditional press and release
@@ -206,23 +238,22 @@ somehow justifiable.
 > Again, what is the difference between press/release and other UX
 > effects? They seem to be the same to me...
 >
-I suppose the userspace may want the user to feel a different
-sensation at times.
-For instance, let's say that user tries to click on a button/switch
-that is blocked for them
-(perhaps this option is not allowed by their admin?). The userspace
-may want to trigger
-a different haptic effect to let them know in yet another way that
-their actions haven't
-succeeded, something is prohibited etc.
-Sean, you may have some better real-life applications, perhaps it
-should be you to
-explain this point more clearly.
 > > >
 > > > Now, the question would be where BTN_LEFT events should be generated.
 > > > Normally it happens in hid-multitouch and I override it in hid-haptic.c
 > > > This means I calculate the pressure sum as well in hid-haptic/hid-multitouch.
 > > > Does anyone mind such behaviour?
+
+Again, why is there a need to have some complex behavior there? Just
+let userspace do its own fancy computation and keep it simple in the
+kernel.
+Well, with eBPF, you could let userspace put the BTN_LEFT emulation in
+the kernel by loading a specific program, but that would be in charge
+of the userspace to make this choice, not the kernel.
+
+Cheers,
+Benjamin
+
 > > >
 > > > > > Currently it
 > > > > > also means
@@ -237,3 +268,5 @@ explain this point more clearly.
 >
 > --
 > Dmitry
+>
+
