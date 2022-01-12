@@ -2,118 +2,135 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B101048BECC
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jan 2022 08:04:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B94E748BFF4
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jan 2022 09:33:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232181AbiALHDz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Jan 2022 02:03:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58618 "EHLO
+        id S1350488AbiALIdT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Jan 2022 03:33:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351092AbiALHDw (ORCPT
+        with ESMTP id S238074AbiALIdS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Jan 2022 02:03:52 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70506C06173F;
-        Tue, 11 Jan 2022 23:03:52 -0800 (PST)
+        Wed, 12 Jan 2022 03:33:18 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3063CC06173F;
+        Wed, 12 Jan 2022 00:33:18 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 266E4B818BD;
-        Wed, 12 Jan 2022 07:03:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50AA4C36AE9;
-        Wed, 12 Jan 2022 07:03:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1641971030;
-        bh=GMpGBehdAz9+K5BoERP8asUPg6bAWLb0QZ6i4XTmtbg=;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C4D6360AF5;
+        Wed, 12 Jan 2022 08:33:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8946FC36AEA;
+        Wed, 12 Jan 2022 08:33:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641976397;
+        bh=g/tmk3pAfTDGQWS5JwOnqJTU1VMtm32sdiN4+TEMDRw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vCDfe+/+If4bwLtCvdqRtlqWGSV58LuyFgB5/Togt3iUbgykndsswhuy1LjgSQJi8
-         gbqOFRtvzzN4DE7WaZtaPePC23Vjpg2kOM9D8Q85k1WuX1HIlsXyqBTZxv6EuzU51+
-         TX1qkLOEC8Rj80B+vfRS1b7lFJTOZqPV/hb63hdM=
-Date:   Wed, 12 Jan 2022 08:03:47 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Karl Kurbjun <kkurbjun@gmail.com>
-Cc:     linux-input@vger.kernel.org, Jiri Kosina <jkosina@suse.cz>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] HID: Ignore battery for Elan touchscreen on HP Envy X360
- 15t-dr100
-Message-ID: <Yd59U8SbtPeWwRwM@kroah.com>
-References: <20220110034935.15623-1-kkurbjun@gmail.com>
- <YdvYVQub0+pu5ahg@kroah.com>
- <6735bf4f-b5e1-a982-6502-bd62c7715443@gmail.com>
+        b=g4RGnzJ/ULsyzn67BO0tvOKxkRDlahw1Oo5I8yOXkEMRLVdhEf1bUa1qjsubTnEsZ
+         EFnqdAWsyl6e7M52dHqaz9drgPI/B76yVVDvspClUl5v+T/57oBPAwdH9Kk2MUHX8E
+         agyJ3v0Efn5GGLekM1qc4q9YIgavaIedHQJKkG2O9bv6RvQEc6LzbBnDbVdYC0SFKF
+         VwHsOzLSgy4Itmxnf0aWDwX4+2Ihs/LJjo0MSHDzXofwApcIGF/kdVUbeubGOnIAmo
+         iDsz2eOCvfhXKVa7ISxhQWzqe/+HG3Arnafs24Dq7BA/6WEsThF2RGERbxDdhgWfW0
+         D8K73Loz0+f3w==
+Date:   Wed, 12 Jan 2022 09:33:10 +0100
+From:   Wolfram Sang <wsa@kernel.org>
+To:     "Limonciello, Mario" <mario.limonciello@amd.com>
+Cc:     Benjamin Tissoires <btissoir@redhat.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andrea Ippolito <andrea.ippo@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Alex Hung <alex.hung@canonical.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "Shah, Nehal-bakulchandra" <Nehal-bakulchandra.Shah@amd.com>
+Subject: Re: Touchpad stickiness on AMD laptops (was Dell Inspiron/XPS)
+Message-ID: <Yd6SRl7sm8zS85Al@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        "Limonciello, Mario" <mario.limonciello@amd.com>,
+        Benjamin Tissoires <btissoir@redhat.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andrea Ippolito <andrea.ippo@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Alex Hung <alex.hung@canonical.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "Shah, Nehal-bakulchandra" <Nehal-bakulchandra.Shah@amd.com>
+References: <CAGhUXvBw4rzCQrqttyyS=Psxmhppk79c6fDoxPbV91jE7fO_9A@mail.gmail.com>
+ <CAGhUXvDNj2v3O==+wWWKPYVzej8Vq+WNiBtPwmYxSQ2dTuLb9Q@mail.gmail.com>
+ <CAGhUXvC8eHfxEKzkGN06VvRU6Z0ko7MJ9hF6uXNq+PxRZSbEmQ@mail.gmail.com>
+ <70cbe360-6385-2536-32bd-ae803517d2b2@redhat.com>
+ <YdbrLz3tU4ohANDk@ninjato>
+ <42c83ec8-bbac-85e2-9ab5-87e59a679f95@redhat.com>
+ <CAO-hwJJ9ALxpd5oRU8SQ3F65hZjDitR=MzmwDk=uiEguaXZYtw@mail.gmail.com>
+ <5409e747-0c51-24e2-7ffa-7dd9c8a7aec7@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="orTsQsEWg79dvGxB"
 Content-Disposition: inline
-In-Reply-To: <6735bf4f-b5e1-a982-6502-bd62c7715443@gmail.com>
+In-Reply-To: <5409e747-0c51-24e2-7ffa-7dd9c8a7aec7@amd.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jan 11, 2022 at 07:54:16PM -0700, Karl Kurbjun wrote:
-> On 1/9/22 23:55, Greg KH wrote:
-> > On Sun, Jan 09, 2022 at 08:49:35PM -0700, Karl Kurbjun wrote:
-> > > Battery status on Elan tablet driver is reported for the HP ENVY x360
-> > > 15t-dr100. There is no separate battery for the Elan controller resulting
-> > > in a battery level report of 0% or 1% depending on whether a stylus has
-> > > interacted with the screen. These low battery level reports causes a
-> > > variety of bad behavior in desktop environments. This patch adds the
-> > > appropriate quirk to indicate that the batery status is unused for this
-> > > target.
-> > > 
-> > > Signed-off-by: Karl Kurbjun <kkurbjun@gmail.com>
-> > > ---
-> > >   drivers/hid/hid-ids.h   | 1 +
-> > >   drivers/hid/hid-input.c | 2 ++
-> > >   2 files changed, 3 insertions(+)
-> > 
-> > 
-> > <formletter>
-> > 
-> > This is not the correct way to submit patches for inclusion in the
-> > stable kernel tree.  Please read:
-> >      https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-> > for how to do this properly.
-> > 
-> > </formletter>
-> 
-> Thanks Greg,
-> 
-> Sorry for the mix-up on my side.  I read that page before I submitted the
-> patch but I went back and reread it.  I was trying to follow "option 1" but
-> I am guessing what I messed up was the cc in the signed-off area rather than
-> the cc through email?
 
-Yes, please just put it in the signed-off-by area.
+--orTsQsEWg79dvGxB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> I was looking for an example of that - I found these threads:
-> https://lore.kernel.org/lkml/20130618161238.626277186@linuxfoundation.org/
-> and this one was what I was originally modeling my submission off of:
-> https://lore.kernel.org/lkml/20210125183218.373193047@linuxfoundation.org/
-> 
-> Is there an example of how I should add the cc to the sign-off area.  As I
-> read those threads the stable list was added to the email cc?  Should I
-> resubmit it to the linux-input with the appropriate change or follow a
-> different flow now that the first email went out?
-> 
-> If I were going to resubmit I think I would need to to like so:
-> 
-> ...
-> > target.
-> >
-> Cc: stable@vger.kernel.org
-> > Signed-off-by: Karl Kurbjun <kkurbjun@gmail.com>
-> > ---
-> >  drivers/hid/hid-ids.h   | 1 +
-> >  drivers/hid/hid-input.c | 2 ++
-> >  2 files changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> > index 19da07777d62..a5a5a64c7abc 100644
-> ...
-> 
-> Is that correct?
+Hi Mario,
 
-Yes, that is correct.
+thanks for joining the discussion!
 
-thanks,
+> 1) Systems returning SMBUS address 0xff
+>=20
+> The address can be potentially be returned using port I/O or it can be do=
+ne
+> using MMIO.
+>=20
+> There is already a thread in process to add support for MMIO, but last I
+> heard it's waiting for review comments.
+>=20
+> https://lore.kernel.org/all/20210715221828.244536-1-Terry.Bowman@amd.com/
 
-greg k-h
+This thread is under active discussion again.
+
+> Now something else interesting - the SMBUS controller in these laptops of=
+ten
+> is listed in the ACPI tables on IRQ7 with a _HID of SMB0001.
+
+IIRC tests done by Miroslav showed that interrupt 7 was used for
+completing SMBus Block transfers and alike, but not for HostNotify. He
+suspects this is wired via GPIO somehow.
+
+Would be really cool if we can fix the bugzilla entry you mentioned as
+well during all this!
+
+Happy hacking,
+
+   Wolfram
+
+
+--orTsQsEWg79dvGxB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmHekkIACgkQFA3kzBSg
+KbZT8w//XYOkaE+SCx4hZcqIYSK0qr9wH7cbYqwfTh+oZv6nMMMxCxTRHjWy3thM
+J8uT+/Cgnpjqj+ewXgS892gpum16MZ+iqa3HGPt4XXtkQjmzJ+mfAXnRmK9SyhAU
+wro340uGVWxw2XwY9pf0RVadqLrCvMZhO+n8p+RTlnJhUQxtVYsIKz+hbzzRWCio
+QQJ2qdoSjbGbEo/DEk5LeYgDY5uwZ4apBaQ/NTe9nmEJiwwBnMXkbPoP2mYJzdsv
+0yc5OElbaNEoxz0G2joc9/ko0yecbvQazlvwkBQv6U22i+XwfKCZut3gOOkvnR5A
+JJ+1C3m0/fuX6MmyCi2jKuH6v5ylOuVNDqxKX8umMOhYSrxCAh6rtD0K/YF+nS0h
+cjw5h3OGWCSMf4rSbLYEekFWjyUeJwNUq9G9TkicplpHMGfeZbPQgsNSknL8286r
+7/bLXHa9kdoLr3TWvROXHeXeBubd+N5F2te8SO9h2FMcK6+INx9lT39lK+YECZjL
+zKtDP4ya7BdunCB6OuGmUgkMo7vPbhdDFPF5PG2pUXHAes5Uzt8G4oniTgADZh2M
+pApLv8lQY8zDHxrFhxOMn7qvWl2EWkDUxcOisEsr4+eT1Aw+1ZZxzSJyidCdsd8G
+azWzMhlJWUjzjfPSSK4L0U83Pd4cm1DVWkMrPH7GL5QOZz1WmWE=
+=6bmH
+-----END PGP SIGNATURE-----
+
+--orTsQsEWg79dvGxB--
