@@ -2,67 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 323E848DAC4
-	for <lists+linux-input@lfdr.de>; Thu, 13 Jan 2022 16:40:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5881D48E07C
+	for <lists+linux-input@lfdr.de>; Thu, 13 Jan 2022 23:41:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236164AbiAMPkR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Jan 2022 10:40:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52196 "EHLO
+        id S238049AbiAMWly (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Jan 2022 17:41:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236160AbiAMPkR (ORCPT
+        with ESMTP id S233645AbiAMWlx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Jan 2022 10:40:17 -0500
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE86DC061574
-        for <linux-input@vger.kernel.org>; Thu, 13 Jan 2022 07:40:16 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id s30so20890094lfo.7
-        for <linux-input@vger.kernel.org>; Thu, 13 Jan 2022 07:40:16 -0800 (PST)
+        Thu, 13 Jan 2022 17:41:53 -0500
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3A43C061574
+        for <linux-input@vger.kernel.org>; Thu, 13 Jan 2022 14:41:52 -0800 (PST)
+Received: by mail-pg1-x542.google.com with SMTP id j27so1163214pgj.3
+        for <linux-input@vger.kernel.org>; Thu, 13 Jan 2022 14:41:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=QN0N+AKpheanluf1vTzub6eAJJLvzk1oql8qt6U8QbY=;
-        b=FLG2bk2rGjruq9CXFGV6JRVO/dqp8qnYR3M4YRY1ww5XDBWcjOQqyC4lEl0xESYJZA
-         0BsOjXNRm6P4mXgDBTqbM0+xa4Eyz1+oi0+z7v6pXvMojErvZCwFRD3G8IfzV2oPuxgm
-         D+WKx8ZwUINJus9YTqC5QqAjqZ4dMMdyGsiW2r+BjhhG04jsyflHwYq8mQ2JQZFkIF1K
-         MaIwqAwcLGqJMmGTwW6F8yknGlNlrafGvGQSshUPOiZWvwTJJVJ3kqj622Szgtwp4ma1
-         xJgSLKrhngQH8YRZxS7kN7cNtejma6doii3jIA6maFF/mwKJKbZfFl563mJzXiLBE11r
-         IGpg==
+        bh=YbEI3Q/NEjCtDTVCV1jkA7nYNYBH/Wfa2wk3IkVyJko=;
+        b=OZP/QoKN8ru5XovrHZZEtRGAPOqy8yRZtZX0efEKVWs/Q7f6+2JX3Mloojh5SZ/AxH
+         cPAHMJhJrLRzzoPYh5n9fG2/pMOrYfS/PU2zx88sTYLTj0Dv1cVWivcA/TNU5IJgRtzI
+         yyO22l7H4XiZ577o8zD4nj2E5AestX9VYls3ntwqOHZNPl0OsU/EptDmXh66odxZFNCy
+         EIQC+hO6HyVDK/x5ziZcfqIxZJTlgvB+YGNZLq+4zSXQW5IZ9FoHkF7Eb5K19JwK6tqA
+         L1pbJiPTkM7B36B6kKA792uSFGR69D9KVeYMTQ95Fzk4WvuXfGt3UHBLmZ7aOqdAe8eh
+         8P+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to;
-        bh=QN0N+AKpheanluf1vTzub6eAJJLvzk1oql8qt6U8QbY=;
-        b=N5yK+XI1vWDj3DMSMvzJz+t8kctS+8V8vjvVo9o6M0EOWEUkyibIC1CWcCqXeNNInP
-         ggSBohAvt+gil6ExRoD6RPnvVchoXUnmaUuwIoSlhokmJJN1NGZ3qV4NGyXbrkgKb/Qo
-         KepaPu4ia+exR1VIAQYrnJPNdpBOwEkbHZ3Dqkx+mG+jxnI5ci1gtls75Azw4uFiodbW
-         cfzex8SA3hfmh4cJm2iLA86VTycOnPQ72dtvK9zYZJnjKaeaOrg+RP/79GRNEFHA/x0N
-         Dw5uddNXegln3G7U01fGU6r7LzDw0uPPybXDSoT8EZtlhX/lkrF7zz0SpCkt+DTPPdFO
-         PPhw==
-X-Gm-Message-State: AOAM531dCpjXYs0t43Hq/hHUXZ1ok+iC2VNGbU55EkP1orDsDGv7hz6R
-        PA/EbOPCCIpuYH3A2g91Roh7X9z3dBdI23Ekwao=
-X-Google-Smtp-Source: ABdhPJx7rC9ShIGmyFMvpbhKpYYqCRJEFsx7MXSDEUgdEbDGR+n/HInouw7y5EcqNLATZaop0fxnhAfe+vdUBrEfFys=
-X-Received: by 2002:a05:6512:6c4:: with SMTP id u4mr3868813lff.297.1642088415095;
- Thu, 13 Jan 2022 07:40:15 -0800 (PST)
+        bh=YbEI3Q/NEjCtDTVCV1jkA7nYNYBH/Wfa2wk3IkVyJko=;
+        b=gRiIQ927UG62g13bSmUbnpfkUBfGooDtIDucSw93VRXGzAEE9PJaz4UorTuprBmzZN
+         37ZjsjyLjNV55L8Hl7hLfWsnzJ/GGlxfQfOCLOJ8iY6IYNlV4FsuQCOAuyiZyr4c4AR4
+         fcHU4BKF12FqrmxUBSGiZsNJ3py2cklBSIfNujFbCLYDhKwe4XpBAnInDqn1k3CdJXhF
+         v6jCjWJtdPLluNRWd9q2WJKs05mAxiH8Pt2jwUiNGtJedqIM26qigmhcCrltHJ0Ilkm0
+         wHnR4TTFOqjFz6T/3+SK72bE2Cz6dhaYbpOtoxp4eX107MrxAJ+x7iIR8pCwW2/qt+YE
+         6oPQ==
+X-Gm-Message-State: AOAM531lrJbupAXyfhWrUTjOJMiEuhWNMoeoMmULScdos5swbYOecqe/
+        +USinpQ1psjX08PaqOQ06vh8DgIu205BiT85Q/U=
+X-Google-Smtp-Source: ABdhPJwo/BFuE/MyrXvV4Wc2jiueqzTZxw+feN+I2rvhYn2V6MZ0AjtfVc00EmStBrmKGTDtifrnIaK8zXPI0L+vd18=
+X-Received: by 2002:a63:4507:: with SMTP id s7mr5556975pga.252.1642113712456;
+ Thu, 13 Jan 2022 14:41:52 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:ac2:4db2:0:0:0:0:0 with HTTP; Thu, 13 Jan 2022 07:40:14
+Received: by 2002:a05:6a10:f38c:0:0:0:0 with HTTP; Thu, 13 Jan 2022 14:41:52
  -0800 (PST)
-Reply-To: mrsbillchantal2022@mail.com
-From:   "Mrs. bill Chantal" <chigoziechukwuekezie@gmail.com>
-Date:   Thu, 13 Jan 2022 16:40:14 +0100
-Message-ID: <CAPnr8MEZkELndXWecFhOg2-eLkRAiQq30Jssm6C2CrtH0Y3cLg@mail.gmail.com>
-Subject: Dear Friend
+Reply-To: mchristophdaniel@gmail.com
+From:   Marcus Galois <marcus.galois@gmail.com>
+Date:   Thu, 13 Jan 2022 23:41:52 +0100
+Message-ID: <CANqBaXVSfOGLj7J26QWPsx3dwN0Cxmg71Yc9hV9b7yv0f0E1qQ@mail.gmail.com>
+Subject: Good News Finally.
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello my Dearest
-You have been compensated with the sum of 5.4 million dollars in this
-united nation the payment will be Issue into ATM visa card and send to
-you from the bank,we need your address, passport and your WhatsApp
-Number.
+Hello friend.
 
-Thanks
+You might find it so difficult to remember me, though it is indeed a
+very long time, I am much delighted to contact you again after a long
+period of time, I remember you despite circumstances that made things
+not worked out as we projected then. I want to inform you that the
+transaction we're doing together then finally worked out and I decided
+to contact you and to let you know because of your tremendous effort
+to make things work out then.
 
-Mrs.Bill Chantal
+Meanwhile I must inform you that I'm presently in Caribbean Island for
+numerous business negotiation with some partners. with my sincere
+heart i have decided to compensate you with USD$900,000 for your
+dedication then on our transaction, you tried so much that period and
+I appreciated your effort. I wrote a cheque/check on your name, as
+soon as you receive it, you let me know.
+
+Contact my secretary now on his email: mchristophdaniel@gmail.com
+Name: Mr. Christoph Daniel
+
+You are to forward to him your Name........ Address.......,Phone
+number......for shipment/dispatch of the cheque/Check to you
+
+Regards,
+Mr. Marcus Galois
