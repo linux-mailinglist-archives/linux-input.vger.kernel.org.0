@@ -2,75 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7302248E7D9
-	for <lists+linux-input@lfdr.de>; Fri, 14 Jan 2022 10:52:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B580D48E89C
+	for <lists+linux-input@lfdr.de>; Fri, 14 Jan 2022 11:52:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237425AbiANJvm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Jan 2022 04:51:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43324 "EHLO
+        id S233121AbiANKwm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Jan 2022 05:52:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229785AbiANJvm (ORCPT
+        with ESMTP id S229648AbiANKwm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Jan 2022 04:51:42 -0500
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14D77C061574
-        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 01:51:42 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id i17so2303846pfk.11
-        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 01:51:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ysgOIMLFm9/wdxG1WZrFppzGrq/rNzk9Sz1dF/VX8Zg=;
-        b=jhca76/HF9VStbVqQPiEkxUAb1CGhhBO61CeZXd6/En6ggqj2B0KY2xpKtzWdlLaLo
-         gU6zAc9aifO17oKvHQkRUlxHHujYa4lK6nPHatbGKnH0ef5o5PNSzdZEA6RFoHiA+nlC
-         0K2kamUHnAz4ABVJpZQxoHEVvNbydt+iN6JkCaaLS/Vqc3S7lOv0xmmdhePg14pciV7O
-         29EAkj02MnlvfW+KZ9Yueh1juDLFWkioEl3+i6zPf357Juh5M5SiPpBEbqGt7qmi0Zo7
-         qQaWwqp+98bAhYAiIJtw4pIxcalamVw/fgR7PQPDwozxET6DQbOp84k7fAoy1PJc2Mc6
-         abuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ysgOIMLFm9/wdxG1WZrFppzGrq/rNzk9Sz1dF/VX8Zg=;
-        b=01g/AYxlu5qfbPD7IC26MiUK0AJWrvSvd/Na3qbh6jUDzKO6tiEHet15Z3GxMGhuoh
-         uzOSH1FjOgEkcvlKlNOV8Nr6CDNUbe13qsbjGLMfW0aTxv7tS/8j3OT259Lr/YHj2alP
-         +lYGSRkzTrVSpKWjx72j2Hxyqxv/hWPvcgMswML6H39Cit+zbCT13BQ+WpD4Ri57MuL/
-         5oeUkmFilIJLvr9WNPNw2yi+8TIeqGZ7sGa5ZBgApUdVPDO3rjeep7vqnAdU6xbW3wey
-         F0Sky4bJsu+pQF3ci3VBDq5Lf3uZV+NQmHJrhUP8YRv65UMXVN8/1IVe/2izOptxXr+/
-         nk8Q==
-X-Gm-Message-State: AOAM5330i2LQmEBXEx5uhgjGAxJVFowiiAQfXnqGkVeiwtFLyWW/SQs7
-        5L/TUWiZlzyiWwK88iTahSx/BYma/FkBFYI5bydUxfTBuDI=
-X-Google-Smtp-Source: ABdhPJyjesBgfdl+0lL1gHGDe1NpB328vYyr5h9V/3NoXq+OWa9x8K9fwvoVR1js5yQxEcG/Fze8lNCw8tUb1lZjS+I=
-X-Received: by 2002:aa7:9ecc:0:b0:4c0:aac7:59ad with SMTP id
- r12-20020aa79ecc000000b004c0aac759admr8068529pfq.79.1642153901517; Fri, 14
- Jan 2022 01:51:41 -0800 (PST)
+        Fri, 14 Jan 2022 05:52:42 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 330EEC061574;
+        Fri, 14 Jan 2022 02:52:42 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E94B3B82476;
+        Fri, 14 Jan 2022 10:52:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C573C36AEA;
+        Fri, 14 Jan 2022 10:52:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642157559;
+        bh=wo2dhJtJfnIqUDQ1rm2VSd0RBlNXRccjQS6OJ+p7tT0=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=lCoGDwZ77hekEv1USTc1TlU5PJWyHIKu1yoEQiByztBfqfO97l28+mu936v0202Lf
+         X9QgrH57iEUtRc/6dDeA2ZkmhJyn+uWVumQmKl8EoJQCQ5qAijX0lElzm4eJV7ZUF+
+         H4MvhpVHIKj0Kse13yjmc5zc1ogCKr2wf30myocr/SE9PcD2jERmPJdfd9Y+LnM0Ca
+         svVOMZdo7GSmernlTYFYr3+Y/uUsjPQEAXWq9FXUO5rmWKbguQJnM8C7NZVxYJ9/aE
+         fquo+9rJEVYQeztp5Q2nB2XNwZXNLdJ/Z7Hy5aqI+3oNBztxhbCLg+DTXjy2Pt2WdO
+         EE8TZtfrNzs+A==
+Date:   Fri, 14 Jan 2022 11:52:36 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Stephen Boyd <swboyd@chromium.org>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Sean O'Brien <seobrien@chromium.org>,
+        Ting Shen <phoenixshen@chromium.org>
+Subject: Re: [PATCH] HID: vivaldi: Minor cleanups
+In-Reply-To: <20220107232305.3190198-1-swboyd@chromium.org>
+Message-ID: <nycvar.YFH.7.76.2201141152210.28059@cbobk.fhfr.pm>
+References: <20220107232305.3190198-1-swboyd@chromium.org>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-References: <1637085699-1914-1-git-send-email-loic.poulain@linaro.org>
-In-Reply-To: <1637085699-1914-1-git-send-email-loic.poulain@linaro.org>
-From:   Loic Poulain <loic.poulain@linaro.org>
-Date:   Fri, 14 Jan 2022 11:03:30 +0100
-Message-ID: <CAMZdPi_aF0MgVJmZ36r6=n7xbyWcyGCOGBD6cZHbDeVZU5rufQ@mail.gmail.com>
-Subject: Re: [PATCH] Input: synaptics-rmi4 - Add I2C wakeup support
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+On Fri, 7 Jan 2022, Stephen Boyd wrote:
 
-On Tue, 16 Nov 2021 at 18:50, Loic Poulain <loic.poulain@linaro.org> wrote:
->
-> This adds wakeup capability to the I2C bus, and prevents regulator
-> shutdown when activated.
->
-> Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
-> ---
+> Perform some minor cleanups on this driver. Include header files for
+> struct definitions that are used, drop a forward declaration that isn't
+> useful, and mark a sysfs attribute static as it isn't used outside this
+> file.
+> 
+> Cc: Sean O'Brien <seobrien@chromium.org>
+> Cc: Ting Shen <phoenixshen@chromium.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 
-I Submitted a few changes for rmi4, still in new state. Should I
-resend, is there anyone else I can include for review?
+Applied to hid.git#for-5.17/upstream-fixes
 
-Thanks,
-Loic
+-- 
+Jiri Kosina
+SUSE Labs
+
