@@ -2,87 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83FE648E6AC
-	for <lists+linux-input@lfdr.de>; Fri, 14 Jan 2022 09:38:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7302248E7D9
+	for <lists+linux-input@lfdr.de>; Fri, 14 Jan 2022 10:52:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236087AbiANIi2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Jan 2022 03:38:28 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:40420 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235865AbiANIi2 (ORCPT
+        id S237425AbiANJvm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Jan 2022 04:51:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43324 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229785AbiANJvm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Jan 2022 03:38:28 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0415161998;
-        Fri, 14 Jan 2022 08:38:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82238C36AEA;
-        Fri, 14 Jan 2022 08:38:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642149507;
-        bh=eZrXkNR6tZSOqnbZSgDUYGUa4OUgT1vmZJRjI6HEcWo=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=rgeQIwTi6xxD2/JDO4eHkieOHB1e/6jWY32qRKsWsrmda0EkSyt/6AVBcIAk0zhQA
-         NDMvBB80uj6Z3mJaLnYvr8T4UWFhcS0xSUeYwo4MmSp14UIsAeh5dENpgdcSasEQjr
-         tZjUwOZ9LkCihPzLmrA817Wzbw2ze0H1GKMgXz0BO0wdHCSIuQZZC1SC5MoGe8Iwgj
-         pvvCHrpx6B/wTEwOXs8o+f/xx+8iXDiEY0rzEMWqNcJGyB2j88NI4mhW3pwNrMR0hJ
-         hccHlWlqRzKJYd4gONXW4UYhiXepmyqkQA77ldQ5SD5ICULmXXLYiaz4kfMjeS3LNA
-         /2VqvB/hWhFwQ==
-Date:   Fri, 14 Jan 2022 09:38:23 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dianders@google.com,
-        Wei-Ning Huang <wnhuang@google.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Sean O'Brien <seobrien@chromium.org>
-Subject: Re: [PATCH v2] HID: google: modify HID device groups of eel
-In-Reply-To: <20220107091357.28960-1-xiazhengqiao@huaqin.corp-partner.google.com>
-Message-ID: <nycvar.YFH.7.76.2201140935460.28059@cbobk.fhfr.pm>
-References: <20220107091357.28960-1-xiazhengqiao@huaqin.corp-partner.google.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Fri, 14 Jan 2022 04:51:42 -0500
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14D77C061574
+        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 01:51:42 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id i17so2303846pfk.11
+        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 01:51:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ysgOIMLFm9/wdxG1WZrFppzGrq/rNzk9Sz1dF/VX8Zg=;
+        b=jhca76/HF9VStbVqQPiEkxUAb1CGhhBO61CeZXd6/En6ggqj2B0KY2xpKtzWdlLaLo
+         gU6zAc9aifO17oKvHQkRUlxHHujYa4lK6nPHatbGKnH0ef5o5PNSzdZEA6RFoHiA+nlC
+         0K2kamUHnAz4ABVJpZQxoHEVvNbydt+iN6JkCaaLS/Vqc3S7lOv0xmmdhePg14pciV7O
+         29EAkj02MnlvfW+KZ9Yueh1juDLFWkioEl3+i6zPf357Juh5M5SiPpBEbqGt7qmi0Zo7
+         qQaWwqp+98bAhYAiIJtw4pIxcalamVw/fgR7PQPDwozxET6DQbOp84k7fAoy1PJc2Mc6
+         abuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ysgOIMLFm9/wdxG1WZrFppzGrq/rNzk9Sz1dF/VX8Zg=;
+        b=01g/AYxlu5qfbPD7IC26MiUK0AJWrvSvd/Na3qbh6jUDzKO6tiEHet15Z3GxMGhuoh
+         uzOSH1FjOgEkcvlKlNOV8Nr6CDNUbe13qsbjGLMfW0aTxv7tS/8j3OT259Lr/YHj2alP
+         +lYGSRkzTrVSpKWjx72j2Hxyqxv/hWPvcgMswML6H39Cit+zbCT13BQ+WpD4Ri57MuL/
+         5oeUkmFilIJLvr9WNPNw2yi+8TIeqGZ7sGa5ZBgApUdVPDO3rjeep7vqnAdU6xbW3wey
+         F0Sky4bJsu+pQF3ci3VBDq5Lf3uZV+NQmHJrhUP8YRv65UMXVN8/1IVe/2izOptxXr+/
+         nk8Q==
+X-Gm-Message-State: AOAM5330i2LQmEBXEx5uhgjGAxJVFowiiAQfXnqGkVeiwtFLyWW/SQs7
+        5L/TUWiZlzyiWwK88iTahSx/BYma/FkBFYI5bydUxfTBuDI=
+X-Google-Smtp-Source: ABdhPJyjesBgfdl+0lL1gHGDe1NpB328vYyr5h9V/3NoXq+OWa9x8K9fwvoVR1js5yQxEcG/Fze8lNCw8tUb1lZjS+I=
+X-Received: by 2002:aa7:9ecc:0:b0:4c0:aac7:59ad with SMTP id
+ r12-20020aa79ecc000000b004c0aac759admr8068529pfq.79.1642153901517; Fri, 14
+ Jan 2022 01:51:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <1637085699-1914-1-git-send-email-loic.poulain@linaro.org>
+In-Reply-To: <1637085699-1914-1-git-send-email-loic.poulain@linaro.org>
+From:   Loic Poulain <loic.poulain@linaro.org>
+Date:   Fri, 14 Jan 2022 11:03:30 +0100
+Message-ID: <CAMZdPi_aF0MgVJmZ36r6=n7xbyWcyGCOGBD6cZHbDeVZU5rufQ@mail.gmail.com>
+Subject: Re: [PATCH] Input: synaptics-rmi4 - Add I2C wakeup support
+To:     dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 7 Jan 2022, Zhengqiao Xia wrote:
+Hi Dmitry,
 
-> If HID_GROUP of eel is set to HID_GROUP_GENERIC, Whiskers Tablet
-> Mode Switch of eel hammer will not be detected by system. when it
-> is set to HID_GROUP_VIVALDI, system will detect Whiskers Tablet
-> Mode Switch successfully.
-> 
-> Signed-off-by: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+On Tue, 16 Nov 2021 at 18:50, Loic Poulain <loic.poulain@linaro.org> wrote:
+>
+> This adds wakeup capability to the I2C bus, and prevents regulator
+> shutdown when activated.
+>
+> Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
 > ---
->  drivers/hid/hid-google-hammer.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-> index 0403beb3104b..e5acd15f4a55 100644
-> --- a/drivers/hid/hid-google-hammer.c
-> +++ b/drivers/hid/hid-google-hammer.c
-> @@ -585,7 +585,7 @@ static void hammer_remove(struct hid_device *hdev)
->  static const struct hid_device_id hammer_devices[] = {
->  	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
->  		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_DON) },
-> -	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-> +	{ HID_DEVICE(BUS_USB, HID_GROUP_VIVALDI,
->  		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_EEL) },
->  	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
 
-Color me confused, but anything with HID_GROUP_VIVALDI should be matched 
-by hid-vivaldi driver, so what is this about?
-
-Adding some more CCs.
+I Submitted a few changes for rmi4, still in new state. Should I
+resend, is there anyone else I can include for review?
 
 Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Loic
