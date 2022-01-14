@@ -2,38 +2,34 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 723DD48EF10
-	for <lists+linux-input@lfdr.de>; Fri, 14 Jan 2022 18:10:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4627948EF1B
+	for <lists+linux-input@lfdr.de>; Fri, 14 Jan 2022 18:12:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243767AbiANRKX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Jan 2022 12:10:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60622 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243782AbiANRKT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Jan 2022 12:10:19 -0500
-X-Greylist: delayed 586 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 14 Jan 2022 09:10:19 PST
-Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D819C06173E
-        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 09:10:19 -0800 (PST)
+        id S235260AbiANRMJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Jan 2022 12:12:09 -0500
+Received: from srv6.fidu.org ([159.69.62.71]:47180 "EHLO srv6.fidu.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235457AbiANRMI (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 14 Jan 2022 12:12:08 -0500
+X-Greylist: delayed 694 seconds by postgrey-1.27 at vger.kernel.org; Fri, 14 Jan 2022 12:12:08 EST
 Received: from localhost (localhost.localdomain [127.0.0.1])
-        by srv6.fidu.org (Postfix) with ESMTP id B1951C800BB;
-        Fri, 14 Jan 2022 18:00:30 +0100 (CET)
+        by srv6.fidu.org (Postfix) with ESMTP id 59856C800BB;
+        Fri, 14 Jan 2022 18:12:07 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
 Received: from srv6.fidu.org ([127.0.0.1])
         by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
-        with LMTP id Od9T7Fi7LaNx; Fri, 14 Jan 2022 18:00:30 +0100 (CET)
+        with LMTP id 9NTNw1QoIz6q; Fri, 14 Jan 2022 18:12:07 +0100 (CET)
 Received: from wsembach-tuxedo.fritz.box (host-212-18-30-247.customer.m-online.net [212.18.30.247])
         (Authenticated sender: wse@tuxedocomputers.com)
-        by srv6.fidu.org (Postfix) with ESMTPA id 37E9FC80094;
-        Fri, 14 Jan 2022 18:00:30 +0100 (CET)
+        by srv6.fidu.org (Postfix) with ESMTPA id D1E13C80094;
+        Fri, 14 Jan 2022 18:12:06 +0100 (CET)
 From:   Werner Sembach <wse@tuxedocomputers.com>
 To:     dmitry.torokhov@gmail.com, tiwai@suse.com, mpdesouza@suse.com,
         arnd@arndb.de, samuel@cavoj.net, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] input/i8042: Add quirk table to disable aux port on Clevo NS70MU
-Date:   Fri, 14 Jan 2022 18:00:30 +0100
-Message-Id: <20220114170030.599494-1-wse@tuxedocomputers.com>
+Subject: [PATCH][RESEND] input/i8042: Add quirk table to disable aux port on Clevo NS70MU
+Date:   Fri, 14 Jan 2022 18:12:06 +0100
+Message-Id: <20220114171206.682113-1-wse@tuxedocomputers.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
