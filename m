@@ -2,145 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E9B948EFFA
-	for <lists+linux-input@lfdr.de>; Fri, 14 Jan 2022 19:32:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 39C8748F06F
+	for <lists+linux-input@lfdr.de>; Fri, 14 Jan 2022 20:25:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243088AbiANScr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Jan 2022 13:32:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50700 "EHLO
+        id S233751AbiANTZO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Jan 2022 14:25:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243089AbiANScj (ORCPT
+        with ESMTP id S231594AbiANTZO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Jan 2022 13:32:39 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39099C061746
-        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 10:32:39 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id s6-20020a7bc386000000b0034a89445406so5076683wmj.2
-        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 10:32:39 -0800 (PST)
+        Fri, 14 Jan 2022 14:25:14 -0500
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E8C5C061574
+        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 11:25:14 -0800 (PST)
+Received: by mail-ot1-x333.google.com with SMTP id w19-20020a056830061300b0058f1dd48932so11172093oti.11
+        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 11:25:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=semihalf-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PPhgwQ8WkgPyMrOjDMnndrFsC54fCBYnmYW2kzBu0ks=;
-        b=6jt6q+eiZcRb6bVZKY3YXveqMzOJsrBjufmuIYrDC3kAfSw0ZxD9DXEqrI6MeqYjF4
-         Q7ujBuJW2uV/Wy7Wm6HQLqV1L/N38VZUiDLiYeNU0snkSpcLg8u3XG6Rb0WSpjnBl5Hl
-         JmNcT1l1sxtIQRZv65/NAkfMY10FSIgjY9l7kogUqcRpHGjut6rniPtNuoC3qvUN2sE+
-         HURkYixhtttwEq/d/730S+YjBz78dfAjsd+n68NORAZsVGXbk+kG3XvkrGAhlvKN8vYf
-         ZCi8U14q4uZa5Ypt01OWZ0Kox8UO3vIqzUT5L7bWRkWJD5lIFRVr2ccHKPuqfJp1AjWM
-         amAA==
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=oi38lNbF2nCViHYOk3ZTIpO9qvlEErwQJAzcfemw1uo=;
+        b=j+NXxFC+a5tmI+S+u8A/WWv9YGt9fS/U2yQDmTjMDqshvap+8Y9IIwTqPMbVdTttW0
+         XHv6RmZcqWi98cuyRWxGrsTaZvydtCXjj9g0ZwztxBcMzwnAIxRwclgCczlDReIr8CZq
+         oc4/zqCHmhcb5iJ31KiauDT3Jm9CIBZnhhAbQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PPhgwQ8WkgPyMrOjDMnndrFsC54fCBYnmYW2kzBu0ks=;
-        b=KtIuCeAgpHSabcYFBAsGQx+xrfdHT7e9ptMxl2sh71s18AgUIzZ7HYkQiXwT8cZ6FQ
-         L3hZOMBqCbR6op8I5I9x+wxZr9z7LuuVnrd5nTRagERHiWzK0SHYDWLUu640UKCao0Gh
-         /clXYXj5BK7bWnVEqw5TKfH7SY+S+GVH1kIcWzRihOaD0BM+QQmluDsbubHCj0KthOgg
-         sL+7tfRz0VBsr1RpYs3Y2q4q6dhn1jAxIYkyLLNTlpcEnHqlwycTGT/maskANqRiWBAY
-         5Ghnft8BLzc0hYsdhZ7mAETitjQXCVQf+zNqTLVlZI7p9VnNSxRXjSL+i7MAtozBE8+l
-         k9KQ==
-X-Gm-Message-State: AOAM532Ol0hs+tog3rWf410ZRLYar6ErPMbxBX2Lvdy9hMBw5nQ0Hymq
-        g8JIXMrTrvX8yzBGUDwW7mJr0UBYwWE6Y5VI0WQ=
-X-Google-Smtp-Source: ABdhPJy6zTyMjXBX9Im3H2yOaVVK5nUvF17gSJSLXvlvlIqiTCo3uGMpztee8ccrSP2VVTfzBZDofw==
-X-Received: by 2002:a05:600c:21cf:: with SMTP id x15mr9280402wmj.8.1642185157885;
-        Fri, 14 Jan 2022 10:32:37 -0800 (PST)
-Received: from aczubak.c.googlers.com.com (109.36.187.35.bc.googleusercontent.com. [35.187.36.109])
-        by smtp.gmail.com with ESMTPSA id az4sm6410984wrb.14.2022.01.14.10.32.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jan 2022 10:32:37 -0800 (PST)
-From:   Angela Czubak <acz@semihalf.com>
-To:     linux-input@vger.kernel.org
-Cc:     upstream@semihalf.com, dmitry.torokhov@gmail.com,
-        benjamin.tissoires@redhat.com, jikos@kernel.org,
-        Angela Czubak <acz@semihalf.com>
-Subject: [PATCH v2 16/16] HID: i2c-hid: fix handling numbered reports with IDs of 15 and above
-Date:   Fri, 14 Jan 2022 18:31:52 +0000
-Message-Id: <20220114183152.1691659-17-acz@semihalf.com>
-X-Mailer: git-send-email 2.34.1.703.g22d0c6ccf7-goog
-In-Reply-To: <20220114183152.1691659-1-acz@semihalf.com>
-References: <20220114183152.1691659-1-acz@semihalf.com>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=oi38lNbF2nCViHYOk3ZTIpO9qvlEErwQJAzcfemw1uo=;
+        b=DfuMxq+RDyOufl10B1hVYwGDx2bCLeDRaJS0xHhgQw3KVIo5tpxumQGJhhhcmcKUHt
+         Hp2TXh8fQgEJYPKJ4nX9tNhMq9/SmvCOtJFQXXnryf8TQmjBPDdfmFTFPEKH8qzWLCqg
+         4sLzHWujJHFK8RheE0SJko07rU9vJ4qTl0gOEqvQO3eQgRW83t/x0P1+S5/Eajv+sl5i
+         4QwXdTm7nYNyRzpBPIzf8XGjHNXoRkCIEf5KmnkLUwhJUI6ytcM1BAs44JIaY/4BBkOn
+         QEzQiF0dHhOs74+Kup5U2wTLt7TIHUJzY3qmSa/gZMK4DTie0NX9ST2cQXT1lg8Qxfsz
+         /7WQ==
+X-Gm-Message-State: AOAM5314l/pPGqgmB7ci5qrNGvt+Bh6gpMAImfAebcKfZR3cEU/QL8nN
+        eC01piJ0YtQA16ETVp279t10149uXaiAMd/SlCp3Ew==
+X-Google-Smtp-Source: ABdhPJxmzGznCHPz5Ktyt+OWUw/Pygrg4y+fUDgM2f+GRqnM9vz++Zjyencyk8k6Fw+S6E7benyRMBCKUlGdLhbcTS4=
+X-Received: by 2002:a9d:2243:: with SMTP id o61mr7938721ota.126.1642188313396;
+ Fri, 14 Jan 2022 11:25:13 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 14 Jan 2022 13:25:12 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <nycvar.YFH.7.76.2201140935460.28059@cbobk.fhfr.pm>
+References: <20220107091357.28960-1-xiazhengqiao@huaqin.corp-partner.google.com>
+ <nycvar.YFH.7.76.2201140935460.28059@cbobk.fhfr.pm>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date:   Fri, 14 Jan 2022 13:25:12 -0600
+Message-ID: <CAE-0n53M723sZ7H-f0SF=AoTrwznmTRhKPapgHe5H7Mw6bPb7Q@mail.gmail.com>
+Subject: Re: [PATCH v2] HID: google: modify HID device groups of eel
+To:     Jiri Kosina <jikos@kernel.org>,
+        Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dianders@chromium.org,
+        Wei-Ning Huang <wnhuang@google.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        "Sean O'Brien" <seobrien@chromium.org>, phoenixshen@chromium.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Special handling of numbered reports with IDs of 15 and above is only
-needed when executing what HID-I2C spec is calling "Class Specific
-Requests", and not when simply sending output reports.
+Quoting Jiri Kosina (2022-01-14 00:38:23)
+> On Fri, 7 Jan 2022, Zhengqiao Xia wrote:
+>
+> > If HID_GROUP of eel is set to HID_GROUP_GENERIC, Whiskers Tablet
+> > Mode Switch of eel hammer will not be detected by system. when it
+> > is set to HID_GROUP_VIVALDI, system will detect Whiskers Tablet
+> > Mode Switch successfully.
+> >
+> > Signed-off-by: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+> > ---
+> >  drivers/hid/hid-google-hammer.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
+> > index 0403beb3104b..e5acd15f4a55 100644
+> > --- a/drivers/hid/hid-google-hammer.c
+> > +++ b/drivers/hid/hid-google-hammer.c
+> > @@ -585,7 +585,7 @@ static void hammer_remove(struct hid_device *hdev)
+> >  static const struct hid_device_id hammer_devices[] = {
+> >       { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+> >                    USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_DON) },
+> > -     { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+> > +     { HID_DEVICE(BUS_USB, HID_GROUP_VIVALDI,
+> >                    USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_EEL) },
+> >       { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+>
+> Color me confused, but anything with HID_GROUP_VIVALDI should be matched
+> by hid-vivaldi driver, so what is this about?
+>
 
-Additionally, our mangling of report ID in i2c_hid_set_or_send_report()
-resulted in incorrect report ID being written into SET_REPORT command
-payload.
+My understanding is that 'vivaldi' is mostly a keyboard layout and
+'hammer' is a detachable keyboard. We want to prevent the hid-vivaldi
+driver from probing this particular device because the hid-vivaldi
+driver doesn't know about detachable keyboards. Hammer devices also
+support 360 degree wraparound so we know that the keyboard has been put
+behind the screen or that it's being used to stand up the device on a
+table.
 
-To solve it let's move all the report ID manipulation into
-__i2c_hid_command() where we form the command data structure.
-
-Signed-off-by: Angela Czubak <acz@semihalf.com>
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/hid/i2c-hid/i2c-hid-core.c | 22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 6726567d7297..3195a1ffae23 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -97,6 +97,7 @@ union command {
- 		__le16 reg;
- 		__u8 reportTypeID;
- 		__u8 opcode;
-+		__u8 reportID;
- 	} __packed c;
- };
- 
-@@ -232,7 +233,13 @@ static int __i2c_hid_command(struct i2c_client *client,
- 
- 	if (length > 2) {
- 		cmd->c.opcode = command->opcode;
--		cmd->c.reportTypeID = reportID | reportType << 4;
-+		if (reportID < 0x0F) {
-+			cmd->c.reportTypeID = reportType << 4 | reportID;
-+		} else {
-+			cmd->c.reportTypeID = reportType << 4 | 0x0F;
-+			cmd->c.reportID = reportID;
-+			length++;
-+		}
- 	}
- 
- 	memcpy(cmd->data + length, args, args_len);
-@@ -300,11 +307,6 @@ static int i2c_hid_get_report(struct i2c_client *client, u8 reportType,
- 
- 	i2c_hid_dbg(ihid, "%s\n", __func__);
- 
--	if (reportID >= 0x0F) {
--		args[args_len++] = reportID;
--		reportID = 0x0F;
--	}
--
- 	args[args_len++] = readRegister & 0xFF;
- 	args[args_len++] = readRegister >> 8;
- 
-@@ -350,18 +352,12 @@ static int i2c_hid_set_or_send_report(struct i2c_client *client, u8 reportType,
- 	size =		2			/* size */ +
- 			(reportID ? 1 : 0)	/* reportID */ +
- 			data_len		/* buf */;
--	args_len =	(reportID >= 0x0F ? 1 : 0) /* optional third byte */ +
--			2			/* dataRegister */ +
-+	args_len =	2			/* dataRegister */ +
- 			size			/* args */;
- 
- 	if (!use_data && maxOutputLength == 0)
- 		return -ENOSYS;
- 
--	if (reportID >= 0x0F) {
--		args[index++] = reportID;
--		reportID = 0x0F;
--	}
--
- 	/*
- 	 * use the data register for feature reports or if the device does not
- 	 * support the output register
--- 
-2.34.1.703.g22d0c6ccf7-goog
-
+Given all that, I'm still confused. If we make the hid-google-hammer
+driver probe this device and the keyboard layout is vivaldi then we'd
+want the part of the vivaldi driver that exposes the
+function_row_physmap through sysfs. Otherwise userspace won't know how
+to handle the function row properly. I think we need the device to stack
+two drivers here. Does that happen with HID?
