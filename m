@@ -2,137 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 690D048F0B8
-	for <lists+linux-input@lfdr.de>; Fri, 14 Jan 2022 20:59:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76D3B48F1BD
+	for <lists+linux-input@lfdr.de>; Fri, 14 Jan 2022 21:56:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244187AbiANT7z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Jan 2022 14:59:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41836 "EHLO
+        id S229491AbiANUzv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Jan 2022 15:55:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbiANT7z (ORCPT
+        with ESMTP id S229487AbiANUzu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Jan 2022 14:59:55 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 067C6C061574;
-        Fri, 14 Jan 2022 11:59:55 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id f13so3705169plg.0;
-        Fri, 14 Jan 2022 11:59:55 -0800 (PST)
+        Fri, 14 Jan 2022 15:55:50 -0500
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65702C06161C
+        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 12:55:50 -0800 (PST)
+Received: by mail-ot1-x32b.google.com with SMTP id z25-20020a0568301db900b005946f536d85so2485791oti.9
+        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 12:55:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=D0wKk3vGKLq9UCyFJhVh9PflC/XZziG3O4cSoYLFQ14=;
-        b=CMGGmJ6D3NMsRS4cRVv7aywNPWWrW3P/NYH+BuqdX73hVb24Xw4ruWbjUtGgua+dDa
-         g7HSHshblLY2yOYIwtAWsouqlwb4tu38D2UL1hM2fC/N3T8kLA8i1VXQ8CO430ag2B5M
-         mfm2TwS+IPJ/KnkbQAq7cA/+3PB0PMr+XAjINM7eL1u7YKRlOBTYVQ9xWpVXG/jaBLn2
-         +x7GvAulvRNdRhrmSieJjNEwxKTzeN5ZP6PF1LvJhBRrdsGdUmm0pSL+Ap8HyVLBWVvL
-         ySuqjvBYN9OK0enYKzEOksdLASixmODRrAsAjhjILS/rrtVZRBJBG8Z8aq2l4vSOUQwx
-         3ssg==
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=kZlcK6bzk2i8yDVBkb61iS5h5fQfrdP5oTJGQdHluU8=;
+        b=TsQm+oAzKNnCJ4v024+FpUVdSx0j6IuMd+HlMYnTIuQfYA4xMIFvWyEkWD7qgiPmqk
+         WYwR7hi3YJ2qM5lSGaQRvov0csEpAdxMoJk85UB5SOeAqACTVZQPYhi/AJuwY5kXHXI/
+         Q5hJgwUHVrXBKac+U2t6XQ3I0l0SIvlxe8wVA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=D0wKk3vGKLq9UCyFJhVh9PflC/XZziG3O4cSoYLFQ14=;
-        b=izF2V6qIdAmZEIIX+v0z/k3o8pHf5izlB+S90xxs6gsmkvxh8tF5Iscn3QS3mCfuqc
-         HCYNpKQGD73ipDRlaUv2ENR0YdIcayDv5FsbVybOtna+w4Ky4EHU527Icu9yXSR8EeWh
-         Uk/k4SEvyyFpdytMkgPv2YgbzP4LRP+sDApe+2i0XjSyqoOkYupFbCJXG5CSOXlZh61H
-         X2fNLmreZntkrUvg207M9lHwy3tf1d0lBU8QaBQiwMArtdzfTgTeY78k7Nz28Gx6ay47
-         JZrFKRv4frgFSWruIKvoACdlSUu2oJ2/RGHxF9xTf07siyaoQjl3NnJFMzJfa4eLCx3m
-         WP4w==
-X-Gm-Message-State: AOAM533m9YbHorvGkn/fMKVXXpe6QRzFPTIQfwyBvz5JSKOjf27osBRr
-        jyI0fjHtoqH96DCrtZcLZt8=
-X-Google-Smtp-Source: ABdhPJydHKeHi0WAuDG7E8O8JcRh2QkqgprHJfyoPXoR9K601QF4x+ZcgLz720gFAD+4TaRmv1aK0w==
-X-Received: by 2002:a17:90a:4214:: with SMTP id o20mr12625102pjg.80.1642190394344;
-        Fri, 14 Jan 2022 11:59:54 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:20f0:3cd3:13fc:6b46])
-        by smtp.gmail.com with ESMTPSA id n15sm11813121pjj.12.2022.01.14.11.59.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jan 2022 11:59:53 -0800 (PST)
-Date:   Fri, 14 Jan 2022 11:59:50 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Stephen Boyd <swboyd@chromium.org>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=kZlcK6bzk2i8yDVBkb61iS5h5fQfrdP5oTJGQdHluU8=;
+        b=56iiVdhVQYHgwHxWDqd2t5IUyBV3pBmxke2asU9XOKxD771Ri38lJZqALBU/W3Zzn4
+         +OLix6vIHa+PvyFgof33USsRMEWbGGaAluBnq7iHLjs9jE92F6IK+cLrAoPG/3hWW9+U
+         qogoOH5gbpxJW2QSd4hPzgNNw5FZB/u1xwsCfvYGVcMA7qytW+ui/NlZurKUGQkZyD0H
+         D4WHQTqHiCU/EXPL8ktyUWzyIQOu1qnse7A6+a4mrp1qjQ5O0F/HQYe6/GTv1AThnzPn
+         xG5DHm7Utp6qPnte9wC4WZoljrenMVh2fEILNlhyUjrfOCGQ9fa3QyVsmZ06bhLaaHJ3
+         p0NA==
+X-Gm-Message-State: AOAM531PMayKpfb9yUUQc9biEetbNJ//H6k2Utlwy2kkqTV1f2fgneDc
+        6dBfVnURR8mun1iNNhmlXuWyAnl/1kPld4l102xD0kcRwtM=
+X-Google-Smtp-Source: ABdhPJzzp8E4NOSV2XzSq+cs6x37dxauIKu6zpkuVpKATYcGEIUh/HC5MNTbrioYLy7iARwikOhEYirsEKJu8hhT6CU=
+X-Received: by 2002:a9d:2243:: with SMTP id o61mr8151551ota.126.1642193749461;
+ Fri, 14 Jan 2022 12:55:49 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 14 Jan 2022 14:55:49 -0600
+MIME-Version: 1.0
+In-Reply-To: <YeHWNtl0Or1dgadz@google.com>
+References: <20220107091357.28960-1-xiazhengqiao@huaqin.corp-partner.google.com>
+ <nycvar.YFH.7.76.2201140935460.28059@cbobk.fhfr.pm> <CAE-0n53M723sZ7H-f0SF=AoTrwznmTRhKPapgHe5H7Mw6bPb7Q@mail.gmail.com>
+ <YeHWNtl0Or1dgadz@google.com>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date:   Fri, 14 Jan 2022 14:55:49 -0600
+Message-ID: <CAE-0n51TAtifbbruKhCJ_u5xH1j0zKjWOehGQFFdCez=RubxVA@mail.gmail.com>
+Subject: Re: [PATCH v2] HID: google: modify HID device groups of eel
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Jiri Kosina <jikos@kernel.org>,
         Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>,
         benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org, dianders@chromium.org,
         Wei-Ning Huang <wnhuang@google.com>,
         Nicolas Boichat <drinkcat@chromium.org>,
-        Sean O'Brien <seobrien@chromium.org>, phoenixshen@chromium.org
-Subject: Re: [PATCH v2] HID: google: modify HID device groups of eel
-Message-ID: <YeHWNtl0Or1dgadz@google.com>
-References: <20220107091357.28960-1-xiazhengqiao@huaqin.corp-partner.google.com>
- <nycvar.YFH.7.76.2201140935460.28059@cbobk.fhfr.pm>
- <CAE-0n53M723sZ7H-f0SF=AoTrwznmTRhKPapgHe5H7Mw6bPb7Q@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAE-0n53M723sZ7H-f0SF=AoTrwznmTRhKPapgHe5H7Mw6bPb7Q@mail.gmail.com>
+        "Sean O'Brien" <seobrien@chromium.org>, phoenixshen@chromium.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jan 14, 2022 at 01:25:12PM -0600, Stephen Boyd wrote:
-> Quoting Jiri Kosina (2022-01-14 00:38:23)
-> > On Fri, 7 Jan 2022, Zhengqiao Xia wrote:
+Quoting Dmitry Torokhov (2022-01-14 11:59:50)
+> On Fri, Jan 14, 2022 at 01:25:12PM -0600, Stephen Boyd wrote:
 > >
-> > > If HID_GROUP of eel is set to HID_GROUP_GENERIC, Whiskers Tablet
-> > > Mode Switch of eel hammer will not be detected by system. when it
-> > > is set to HID_GROUP_VIVALDI, system will detect Whiskers Tablet
-> > > Mode Switch successfully.
-> > >
-> > > Signed-off-by: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
-> > > ---
-> > >  drivers/hid/hid-google-hammer.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-> > > index 0403beb3104b..e5acd15f4a55 100644
-> > > --- a/drivers/hid/hid-google-hammer.c
-> > > +++ b/drivers/hid/hid-google-hammer.c
-> > > @@ -585,7 +585,7 @@ static void hammer_remove(struct hid_device *hdev)
-> > >  static const struct hid_device_id hammer_devices[] = {
-> > >       { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-> > >                    USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_DON) },
-> > > -     { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-> > > +     { HID_DEVICE(BUS_USB, HID_GROUP_VIVALDI,
-> > >                    USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_EEL) },
-> > >       { HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+> > My understanding is that 'vivaldi' is mostly a keyboard layout and
+> > 'hammer' is a detachable keyboard. We want to prevent the hid-vivaldi
+> > driver from probing this particular device because the hid-vivaldi
+> > driver doesn't know about detachable keyboards. Hammer devices also
+> > support 360 degree wraparound so we know that the keyboard has been put
+> > behind the screen or that it's being used to stand up the device on a
+> > table.
 > >
-> > Color me confused, but anything with HID_GROUP_VIVALDI should be matched
-> > by hid-vivaldi driver, so what is this about?
+> > Given all that, I'm still confused. If we make the hid-google-hammer
+> > driver probe this device and the keyboard layout is vivaldi then we'd
+> > want the part of the vivaldi driver that exposes the
+> > function_row_physmap through sysfs. Otherwise userspace won't know how
+> > to handle the function row properly. I think we need the device to stack
+> > two drivers here. Does that happen with HID?
+>
+> As far as I know HID does not easily allow "stacking" drivers like that.
 
-We need this particular chunk because hid_scan_collection() forces all
-devices that declare usage 0x01 from the Google Vendor page to be marked
-as HID_GROUP_VIVALDI, so without it the hammer driver will not match
-eel.
+Ok.
 
-However this change (I believe) will break vivaldi functionality
-(reporting of the top row map) so we can't apply this as is.
+>
+> Probably the easiest way would be to export vivaldi_feature_mapping()
+> and the show method for the physical row map and call them from the
+> hammer driver.
+>
 
-> >
-> 
-> My understanding is that 'vivaldi' is mostly a keyboard layout and
-> 'hammer' is a detachable keyboard. We want to prevent the hid-vivaldi
-> driver from probing this particular device because the hid-vivaldi
-> driver doesn't know about detachable keyboards. Hammer devices also
-> support 360 degree wraparound so we know that the keyboard has been put
-> behind the screen or that it's being used to stand up the device on a
-> table.
-> 
-> Given all that, I'm still confused. If we make the hid-google-hammer
-> driver probe this device and the keyboard layout is vivaldi then we'd
-> want the part of the vivaldi driver that exposes the
-> function_row_physmap through sysfs. Otherwise userspace won't know how
-> to handle the function row properly. I think we need the device to stack
-> two drivers here. Does that happen with HID?
-
-As far as I know HID does not easily allow "stacking" drivers like that.
-
-Probably the easiest way would be to export vivaldi_feature_mapping()
-and the show method for the physical row map and call them from the
-hammer driver.
-
-Thanks.
-
--- 
-Dmitry
+I worry about builtin vs. modular drivers so probably ought to make some
+hid-vivaldi-common.c file that has the physmap code and then have both
+drivers call that mini-library. The 'vivaldi_data' structure would need
+to be figured out too. The hammer driver stores 'hammer_kbd_leds' in the
+hid_get_drvdata() whereas the vivaldi driver stores 'vivalid_data' so we
+can't simply call the show method for the sysfs attribute without some
+minor surgery.
