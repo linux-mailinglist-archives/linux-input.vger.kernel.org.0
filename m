@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74FB648EFF6
+	by mail.lfdr.de (Postfix) with ESMTP id BF44C48EFF8
 	for <lists+linux-input@lfdr.de>; Fri, 14 Jan 2022 19:32:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243143AbiANSco (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Jan 2022 13:32:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50676 "EHLO
+        id S243123AbiANScp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Jan 2022 13:32:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243123AbiANScg (ORCPT
+        with ESMTP id S243050AbiANSch (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Jan 2022 13:32:36 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C634C061574
-        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 10:32:36 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id ay4-20020a05600c1e0400b0034a81a94607so6318232wmb.1
-        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 10:32:36 -0800 (PST)
+        Fri, 14 Jan 2022 13:32:37 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52619C06173F
+        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 10:32:37 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id l4so7657402wmq.3
+        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 10:32:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=semihalf-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PayoLFvRwC+37a4oakMmMBF6Q5SFDBpj4RWVePynPxo=;
-        b=c4LkiYwffb39zsEmgIz+bGA02zqLWHItPK9DSorW9/8J6tosUJ2whjV8iTipO3HbJA
-         nF7pjV4JXt78kGhVgKMDcsCHJbSYVXoqtPODxSDhHE60AuSUrfTyPZ6UncZsiGH710QP
-         I9Z33+lk6B+Dv+6dQ0ucBRHF05Y3akW/Ar2xlXBVsFQzrwtNfrgNB443ONlJ5ze1uH7E
-         /MCz5AXqSYl5l1kBTON02i+erj66kA9vPDSYi7ZQ+CLgZhxpi1N3PnDb9WF6GcN5kGRx
-         j/yMmDUVuRV9gSOXZAZ2CEcgTihIKgIQBBR63eycD/fR107yQXUqycokvpAxqt6h4QPM
-         UtJg==
+        bh=76JfNjVFSUsVS8oWMOx2DCBRy/YQ+e0AT9T0ErYf4Kc=;
+        b=dsccLJPiAHFgpSQ7rbkaDWEVbAhP0uBfDlvIKVPpAWVfPAHYRS6N43mCh8L0nj0MmE
+         iBrw5MKTIdSyx6FCVd1gghLfeBnCK2Z4i0DmVLchRHEjLUgfshGOZOx4oqmKmNvE+CoE
+         y6BLe29JRE5bKMcpANRXa3AXJR677KSCSb8QCjMSz7gt3ryVihVDuYP7Lu23hsUbHgMc
+         BxJ/Z1KVEb8DIv0MBRD87HCIDxqm5Zol3uwPW5Tn15LVc4b/SF/XpNXwkiUpK+AciAES
+         upZ3LHodC6paSCWrzZhcBXBJVU0mA9VbO68TwrQi4zU0/SQZ+CdTcJDPuLDZY4K0hjdI
+         KyeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PayoLFvRwC+37a4oakMmMBF6Q5SFDBpj4RWVePynPxo=;
-        b=djq8/sXfzbS+Y4366VS1jPRTDWr28zNZDm78BEOBHIlDcpPMxYUWxTXlNpkOX6w9yw
-         LURgp1PrinbdtKRW9v0CW2tL6m1BZLejGruoFWCQVPR5Px/XqMo8qro3n5tQu8Ns0YKc
-         qIVz7+qQkFYnkWgCsaYYv5ZOE0dmDRkIzfIHumAdvsfC0zbREfPCdwKUO928ovlwKxlv
-         Vk2zJ3JfXkHTN2b/WXdGFwtX+Td0sEBQ8u7/rq7xjSgLNsrlfsbakX4g8owxWZyTkYHH
-         3pzFd9Ov5oX2JxynQ6IJ/hIBtn8YhsIrBYDTLecHrc4gmtQOYBgYqb3mW5yLvye5eMyo
-         doZA==
-X-Gm-Message-State: AOAM533LpooI/xepeU3eKi8pGKbsDuBq+qJTxcw5Hgrd0eEYUfmVXVAI
-        gVR2XwtreTxYxBwwuWE8t3GmIC4fUp3ECFZSRiU=
-X-Google-Smtp-Source: ABdhPJxUumeoJo+uP6/WboGqTv5cQk3DqKo/V6LKfiBxxu2TlsQ8jae67wEBy+kL5Gs00wCwX/ME8w==
-X-Received: by 2002:adf:fa02:: with SMTP id m2mr8943201wrr.571.1642185154831;
-        Fri, 14 Jan 2022 10:32:34 -0800 (PST)
+        bh=76JfNjVFSUsVS8oWMOx2DCBRy/YQ+e0AT9T0ErYf4Kc=;
+        b=XE869Boxc+tbHDr+OE9kAyuldsfJymgYwcZEN5/5sJaW/Il1ITBRuoMdt4b/vnfkRp
+         8ez9ZM4QCHS93z9UqerWIOiZt753siwl/d2g+kPQF3MW6ecOurRqutXwOdSUEXGTk9GO
+         rIGictJn+AgLIgrEvPJJuLZHfHFG1MzZxd+fYwsLfL0atljeXROgjWEIgwvkMU9o4jhj
+         M00KeBsdH/BuHq86zbnBZxpJ1tllXr4aiwLlCh3pJfJANe0O1NoNiWqOdEV7Vhd7H15g
+         JE+1Unfj/fM65op/m5MOOPCCRxQ9T7kF2/3PicxuREIsL7Zcaf8HxFwfYS8OlKXdcfVC
+         lPkQ==
+X-Gm-Message-State: AOAM531jFhh9PUXykIG+tVvhR1YZpnRbSpX2ynL+55C6aAc+A/HHtuYT
+        D6TTnruvuFa0WuQpB+qwVX3X/xwA66CTvnW8CU8=
+X-Google-Smtp-Source: ABdhPJzMDovZr3wd1DuxsR6OlMLA/T6IiYrrcIJ4h9wjNNYMbDaGFyBKVHAaDyBFszSk3DAN2bozoA==
+X-Received: by 2002:a5d:584f:: with SMTP id i15mr9298235wrf.361.1642185155879;
+        Fri, 14 Jan 2022 10:32:35 -0800 (PST)
 Received: from aczubak.c.googlers.com.com (109.36.187.35.bc.googleusercontent.com. [35.187.36.109])
-        by smtp.gmail.com with ESMTPSA id az4sm6410984wrb.14.2022.01.14.10.32.34
+        by smtp.gmail.com with ESMTPSA id az4sm6410984wrb.14.2022.01.14.10.32.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jan 2022 10:32:34 -0800 (PST)
+        Fri, 14 Jan 2022 10:32:35 -0800 (PST)
 From:   Angela Czubak <acz@semihalf.com>
 To:     linux-input@vger.kernel.org
 Cc:     upstream@semihalf.com, dmitry.torokhov@gmail.com,
         benjamin.tissoires@redhat.com, jikos@kernel.org,
         Angela Czubak <acz@semihalf.com>
-Subject: [PATCH v2 13/16] HID: multitouch: add haptic multitouch support
-Date:   Fri, 14 Jan 2022 18:31:49 +0000
-Message-Id: <20220114183152.1691659-14-acz@semihalf.com>
+Subject: [PATCH v2 14/16] Input: introduce EVIOCFF(TAKE|RELEASE)CONTROL
+Date:   Fri, 14 Jan 2022 18:31:50 +0000
+Message-Id: <20220114183152.1691659-15-acz@semihalf.com>
 X-Mailer: git-send-email 2.34.1.703.g22d0c6ccf7-goog
 In-Reply-To: <20220114183152.1691659-1-acz@semihalf.com>
 References: <20220114183152.1691659-1-acz@semihalf.com>
@@ -65,247 +65,189 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add new option (MULTITOUCH_HAPTIC) to mark whether hid-multitouch
-should try and configure simple haptic device.
-Once this option is configured, and the device is recognized to have simple
-haptic capabilities, check input frames for pressure and handle it using
-hid_haptic_* API.
+Add new ioctls which can be used for simple haptic force feedback effects.
+Once the control is taken over the effect the kernel does not generate it
+on its own (EVIOCFFTAKECONTROL).
+To revert this action use EVIOCFFRELEASECONTROL.
 
 Signed-off-by: Angela Czubak <acz@semihalf.com>
 ---
- drivers/hid/Kconfig          | 11 ++++++
- drivers/hid/hid-multitouch.c | 74 +++++++++++++++++++++++++++++++++++-
- 2 files changed, 83 insertions(+), 2 deletions(-)
+ drivers/input/evdev.c      |  6 +++
+ drivers/input/ff-core.c    | 89 +++++++++++++++++++++++++++++++++++++-
+ include/linux/input.h      |  5 +++
+ include/uapi/linux/input.h |  4 ++
+ 4 files changed, 103 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 3e7555b868e7..a202f01de912 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -755,6 +755,17 @@ config HID_MULTITOUCH
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called hid-multitouch.
+diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
+index 95f90699d2b1..6d25eb19e28e 100644
+--- a/drivers/input/evdev.c
++++ b/drivers/input/evdev.c
+@@ -1076,6 +1076,12 @@ static long evdev_do_ioctl(struct file *file, unsigned int cmd,
+ 	case EVIOCRMFF:
+ 		return input_ff_erase(dev, (int)(unsigned long) p, file);
  
-+config MULTITOUCH_HAPTIC
-+	bool "Simple haptic multitouch support"
-+	depends on HID_MULTITOUCH
-+	select HID_HAPTIC
-+	default n
-+	help
-+	Support for simple multitouch haptic devices.
-+	Adds extra parsing and FF device for the hid multitouch driver.
-+	It can be used for Elan 2703 haptic touchpad.
-+	To enable, say Y.
++	case EVIOCFFTAKECONTROL:
++		return input_ff_take_control(dev, (int)(unsigned long) p, file);
 +
- config HID_NINTENDO
- 	tristate "Nintendo Joy-Con and Pro Controller support"
- 	depends on HID
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 99eabfb4145b..ec51e189bb1d 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -48,6 +48,8 @@ MODULE_LICENSE("GPL");
- 
- #include "hid-ids.h"
- 
-+#include "hid-haptic.h"
++	case EVIOCFFRELEASECONTROL:
++		return input_ff_release_control(dev, (int)(unsigned long) p, file);
 +
- /* quirks to control the device */
- #define MT_QUIRK_NOT_SEEN_MEANS_UP	BIT(0)
- #define MT_QUIRK_SLOT_IS_CONTACTID	BIT(1)
-@@ -159,11 +161,13 @@ struct mt_report_data {
- struct mt_device {
- 	struct mt_class mtclass;	/* our mt device class */
- 	struct timer_list release_timer;	/* to release sticky fingers */
-+	struct hid_haptic_device *haptic;	/* haptic related configuration */
- 	struct hid_device *hdev;	/* hid_device we're attached to */
- 	unsigned long mt_io_flags;	/* mt flags (MT_IO_FLAGS_*) */
- 	__u8 inputmode_value;	/* InputMode HID feature value */
- 	__u8 maxcontacts;
- 	bool is_buttonpad;	/* is this device a button pad? */
-+	bool is_haptic_touchpad;	/* is this device a haptic touchpad? */
- 	bool serial_maybe;	/* need to check for serial protocol */
- 
- 	struct list_head applications;
-@@ -501,6 +505,8 @@ static void mt_feature_mapping(struct hid_device *hdev,
- 			mt_get_feature(hdev, field->report);
- 		break;
- 	}
-+
-+	hid_haptic_feature_mapping(hdev, td->haptic, field, usage);
+ 	case EVIOCGEFFECTS:
+ 		i = test_bit(EV_FF, dev->evbit) ?
+ 				dev->ff->max_effects : 0;
+diff --git a/drivers/input/ff-core.c b/drivers/input/ff-core.c
+index 960ae0e29348..7536274141e7 100644
+--- a/drivers/input/ff-core.c
++++ b/drivers/input/ff-core.c
+@@ -252,6 +252,91 @@ int input_ff_erase(struct input_dev *dev, int effect_id, struct file *file)
  }
+ EXPORT_SYMBOL_GPL(input_ff_erase);
  
- static void set_abs(struct input_dev *input, unsigned int code,
-@@ -831,6 +837,9 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 		case HID_DG_TIPPRESSURE:
- 			set_abs(hi->input, ABS_MT_PRESSURE, field,
- 				cls->sn_pressure);
-+			td->is_haptic_touchpad =
-+				hid_haptic_check_pressure_unit(td->haptic,
-+							       hi, field);
- 			MT_STORE_FIELD(p);
- 			return 1;
- 		case HID_DG_SCANTIME:
-@@ -944,8 +953,16 @@ static void mt_release_pending_palms(struct mt_device *td,
- static void mt_sync_frame(struct mt_device *td, struct mt_application *app,
- 			  struct input_dev *input)
- {
--	if (app->quirks & MT_QUIRK_WIN8_PTP_BUTTONS)
--		input_event(input, EV_KEY, BTN_LEFT, app->left_button_state);
-+	if (td->is_haptic_touchpad)
-+		hid_haptic_handle_press_release(td->haptic);
++/*
++ * Take control over the effect if the requester is also the effect owner.
++ * The mutex should already be locked before calling this function.
++ */
++static int control_effect(struct input_dev *dev, int effect_id,
++			  struct file *file, int take)
++{
++	struct ff_device *ff = dev->ff;
++	int error;
 +
-+	if (app->quirks & MT_QUIRK_WIN8_PTP_BUTTONS) {
-+		if (!(td->is_haptic_touchpad &&
-+		    hid_haptic_handle_input(td->haptic))) {
-+			input_event(input, EV_KEY, BTN_LEFT,
-+				    app->left_button_state);
-+		}
++	error = check_effect_access(ff, effect_id, file);
++	if (error) {
++		error = check_effect_shared(ff, effect_id);
++		if (error)
++			return error;
 +	}
- 
- 	input_mt_sync_frame(input);
- 	input_event(input, EV_MSC, MSC_TIMESTAMP, app->timestamp);
-@@ -955,6 +972,8 @@ static void mt_sync_frame(struct mt_device *td, struct mt_application *app,
- 
- 	app->num_received = 0;
- 	app->left_button_state = 0;
-+	if (td->is_haptic_touchpad)
-+		hid_haptic_pressure_reset(td->haptic);
- 
- 	if (test_bit(MT_IO_FLAGS_ACTIVE_SLOTS, &td->mt_io_flags))
- 		set_bit(MT_IO_FLAGS_PENDING_SLOTS, &td->mt_io_flags);
-@@ -1104,6 +1123,9 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
- 			minor = minor >> 1;
- 		}
- 
-+		if (td->is_haptic_touchpad)
-+			hid_haptic_pressure_increase(td->haptic, *slot->p);
 +
- 		input_event(input, EV_ABS, ABS_MT_POSITION_X, *slot->x);
- 		input_event(input, EV_ABS, ABS_MT_POSITION_Y, *slot->y);
- 		input_event(input, EV_ABS, ABS_MT_TOOL_X, *slot->cx);
-@@ -1278,6 +1300,9 @@ static int mt_touch_input_configured(struct hid_device *hdev,
- 	if (cls->is_indirect)
- 		app->mt_flags |= INPUT_MT_POINTER;
- 
-+	if (td->is_haptic_touchpad)
-+		app->mt_flags |= INPUT_MT_TOTAL_FORCE;
++	if (ff->change_control) {
++		error = ff->change_control(dev, effect_id, file, take);
++		if (error)
++			return error;
++	}
 +
- 	if (app->quirks & MT_QUIRK_NOT_SEEN_MEANS_UP)
- 		app->mt_flags |= INPUT_MT_DROP_UNUSED;
- 
-@@ -1313,6 +1338,7 @@ static int mt_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 	struct mt_device *td = hid_get_drvdata(hdev);
- 	struct mt_application *application;
- 	struct mt_report_data *rdata;
++	return 0;
++}
++/**
++ * input_ff_take_control - take control over a force-feedback effect from kernel
++ * @dev: input device to take control over effect from
++ * @effect_id: id of the effect to take control over
++ * @file: purported owner of the request
++ *
++ * This function switches user-controlled mode on for the given force-feedback
++ * effect. The user-mode will persist unitl the last caller releases control.
++ * The effect will only be taken control of if it was uploaded through the same
++ * file handle that is requesting taking control or for simple haptic effects
++ * 0 and 1.
++ * Valid only for simple haptic effects (ff_hid_effect).
++ */
++int input_ff_take_control(struct input_dev *dev, int effect_id,
++			  struct file *file)
++{
++	struct ff_device *ff = dev->ff;
 +	int ret;
- 
- 	rdata = mt_find_report_data(td, field->report);
- 	if (!rdata) {
-@@ -1375,6 +1401,11 @@ static int mt_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 	if (field->physical == HID_DG_STYLUS)
- 		hi->application = HID_DG_STYLUS;
- 
-+	ret = hid_haptic_input_mapping(hdev, td->haptic, hi, field, usage, bit,
-+				       max);
-+	if (ret != 0)
-+		return ret;
 +
- 	/* let hid-core decide for the others */
- 	return 0;
- }
-@@ -1568,6 +1599,14 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
- 	struct hid_report *report;
- 	int ret;
++	if (!test_bit(EV_FF, dev->evbit))
++		return -EINVAL;
++
++	mutex_lock(&ff->mutex);
++	ret = control_effect(dev, effect_id, file, 1);
++	mutex_unlock(&ff->mutex);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(input_ff_take_control);
++
++/**
++ * input_ff_release_control - release control over a force-feedback effect
++ * @dev: input device to release control over effect to
++ * @effect_id: id of the effect to release control
++ * @file: purported owner of the request
++ *
++ * This function switches user-controlled mode off for the given force-feedback
++ * effect. The user-mode will persist unitl the last caller releases control.
++ * The control will be released of if it was uploaded through the same
++ * file handle that is requesting taking control or for simple haptic effects
++ * 0 and 1.
++ * Valid only for simple haptic effects (ff_hid_effect).
++ */
++int input_ff_release_control(struct input_dev *dev, int effect_id,
++			     struct file *file)
++{
++	struct ff_device *ff = dev->ff;
++	int ret;
++
++	if (!test_bit(EV_FF, dev->evbit))
++		return -EINVAL;
++
++	mutex_lock(&ff->mutex);
++	ret = control_effect(dev, effect_id, file, 0);
++	mutex_unlock(&ff->mutex);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(input_ff_release_control);
++
+ /*
+  * input_ff_flush - erase all effects owned by a file handle
+  * @dev: input device to erase effect from
+@@ -270,8 +355,10 @@ int input_ff_flush(struct input_dev *dev, struct file *file)
  
-+	if (td->is_haptic_touchpad && (td->mtclass.name == MT_CLS_WIN_8 ||
-+	    td->mtclass.name == MT_CLS_WIN_8_FORCE_MULTI_INPUT)) {
-+		if (hid_haptic_input_configured(hdev, td->haptic, hi) == 0)
-+			td->is_haptic_touchpad = false;
-+	} else {
-+		td->is_haptic_touchpad = false;
+ 	mutex_lock(&ff->mutex);
+ 
+-	for (i = 0; i < ff->max_effects; i++)
++	for (i = 0; i < ff->max_effects; i++) {
++		control_effect(dev, i, file, 0);
+ 		erase_effect(dev, i, file);
 +	}
-+
- 	list_for_each_entry(report, &hi->reports, hidinput_list) {
- 		rdata = mt_find_report_data(td, report);
- 		if (!rdata) {
-@@ -1713,6 +1752,9 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		dev_err(&hdev->dev, "cannot allocate multitouch data\n");
- 		return -ENOMEM;
- 	}
-+	td->haptic = kzalloc(sizeof(*(td->haptic)), GFP_KERNEL);
-+	if (!td->haptic)
-+		return -ENOMEM;
- 	td->hdev = hdev;
- 	td->mtclass = *mtclass;
- 	td->inputmode_value = MT_INPUTMODE_TOUCHSCREEN;
-@@ -1764,6 +1806,17 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
  
- 	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
+ 	mutex_unlock(&ff->mutex);
  
-+	if (td->is_haptic_touchpad) {
-+		if (hid_haptic_init(hdev, &td->haptic)) {
-+			dev_warn(&hdev->dev, "Cannot allocate haptic for %s\n",
-+				 hdev->name);
-+			td->is_haptic_touchpad = false;
-+			kfree(td->haptic);
-+		}
-+	} else {
-+		kfree(td->haptic);
-+	}
-+
- 	return 0;
- }
+diff --git a/include/linux/input.h b/include/linux/input.h
+index 0354b298d874..cc432ff6a427 100644
+--- a/include/linux/input.h
++++ b/include/linux/input.h
+@@ -519,6 +519,7 @@ extern struct class input_class;
+  * @upload: Called to upload an new effect into device
+  * @erase: Called to erase an effect from device
+  * @playback: Called to request device to start playing specified effect
++ * @change_control: Called to change control over specified effect
+  * @set_gain: Called to set specified gain
+  * @set_autocenter: Called to auto-center device
+  * @destroy: called by input core when parent input device is being
+@@ -547,6 +548,8 @@ struct ff_device {
+ 	int (*erase)(struct input_dev *dev, int effect_id);
  
-@@ -1771,6 +1824,7 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- static int mt_suspend(struct hid_device *hdev, pm_message_t state)
- {
- 	struct mt_device *td = hid_get_drvdata(hdev);
-+	struct hid_haptic_device *haptic = td->haptic;
+ 	int (*playback)(struct input_dev *dev, int effect_id, int value);
++	int (*change_control)(struct input_dev *dev, int effect_id,
++			      struct file *file, int take);
+ 	void (*set_gain)(struct input_dev *dev, u16 gain);
+ 	void (*set_autocenter)(struct input_dev *dev, u16 magnitude);
  
- 	/* High latency is desirable for power savings during S3/S0ix */
- 	if ((td->mtclass.quirks & MT_QUIRK_DISABLE_WAKEUP) ||
-@@ -1779,18 +1833,31 @@ static int mt_suspend(struct hid_device *hdev, pm_message_t state)
- 	else
- 		mt_set_modes(hdev, HID_LATENCY_HIGH, true, true);
+@@ -570,6 +573,8 @@ int input_ff_event(struct input_dev *dev, unsigned int type, unsigned int code,
  
-+	if (td->is_haptic_touchpad)
-+		hid_haptic_resume(hdev, haptic);
-+
- 	return 0;
- }
+ int input_ff_upload(struct input_dev *dev, struct ff_effect *effect, struct file *file);
+ int input_ff_erase(struct input_dev *dev, int effect_id, struct file *file);
++int input_ff_take_control(struct input_dev *dev, int effect_id, struct file *file);
++int input_ff_release_control(struct input_dev *dev, int effect_id, struct file *file);
+ int input_ff_flush(struct input_dev *dev, struct file *file);
  
- static int mt_reset_resume(struct hid_device *hdev)
- {
-+	struct mt_device *td = hid_get_drvdata(hdev);
-+	struct hid_haptic_device *haptic = td->haptic;
-+
- 	mt_release_contacts(hdev);
- 	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
-+
-+	if (td->is_haptic_touchpad)
-+		hid_haptic_resume(hdev, haptic);
-+
- 	return 0;
- }
+ int input_ff_create_memless(struct input_dev *dev, void *data,
+diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
+index ccf43a21d43d..cce37336ab38 100644
+--- a/include/uapi/linux/input.h
++++ b/include/uapi/linux/input.h
+@@ -178,6 +178,10 @@ struct input_mask {
  
- static int mt_resume(struct hid_device *hdev)
- {
-+	struct mt_device *td = hid_get_drvdata(hdev);
-+	struct hid_haptic_device *haptic = td->haptic;
-+
- 	/* Some Elan legacy devices require SET_IDLE to be set on resume.
- 	 * It should be safe to send it to other devices too.
- 	 * Tested on 3M, Stantum, Cypress, Zytronic, eGalax, and Elan panels. */
-@@ -1799,6 +1866,9 @@ static int mt_resume(struct hid_device *hdev)
+ #define EVIOCSFF		_IOW('E', 0x80, struct ff_effect)	/* send a force effect to a force feedback device */
+ #define EVIOCRMFF		_IOW('E', 0x81, int)			/* Erase a force effect */
++/* Take control over a force effect */
++#define EVIOCFFTAKECONTROL	_IOW('E', 0x82, int)
++/* Release control over a force effect */
++#define EVIOCFFRELEASECONTROL	_IOW('E', 0x83, int)
+ #define EVIOCGEFFECTS		_IOR('E', 0x84, int)			/* Report number of effects playable at the same time */
  
- 	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
- 
-+	if (td->is_haptic_touchpad)
-+		hid_haptic_suspend(hdev, haptic);
-+
- 	return 0;
- }
- #endif
+ #define EVIOCGRAB		_IOW('E', 0x90, int)			/* Grab/Release device */
 -- 
 2.34.1.703.g22d0c6ccf7-goog
 
