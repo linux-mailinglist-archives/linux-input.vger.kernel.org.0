@@ -2,101 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD44748F2D6
-	for <lists+linux-input@lfdr.de>; Sat, 15 Jan 2022 00:10:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80AC248F467
+	for <lists+linux-input@lfdr.de>; Sat, 15 Jan 2022 03:31:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229533AbiANXJk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Jan 2022 18:09:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56678 "EHLO
+        id S232184AbiAOCbk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Jan 2022 21:31:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbiANXJk (ORCPT
+        with ESMTP id S232179AbiAOCbk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Jan 2022 18:09:40 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABEACC061574
-        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 15:09:39 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id x22so34900521lfd.10
-        for <linux-input@vger.kernel.org>; Fri, 14 Jan 2022 15:09:39 -0800 (PST)
+        Fri, 14 Jan 2022 21:31:40 -0500
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 357B3C061574;
+        Fri, 14 Jan 2022 18:31:40 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id i17so4362811pfk.11;
+        Fri, 14 Jan 2022 18:31:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nJcYrW1BzDTS3hAvukSNP/dUwd9d+rpzUo6aQUPhYv8=;
-        b=CeXVQutWHpcalaCzYVV6a7KhlM1FYTPICKu75ygT3YFv1kzKm972ErmTtavV7svgc1
-         mNbd6pnzsM5BDZOuu8wJlQqflQqAN/brBZczrDDyLb2JOXQecWb581ULEz5bd7PTEO64
-         Au13AwrAwP9Ee2rAV9Uny2dxWweIKgAjlsz/1mSD+ZvPKmZ+w4w/iyyj7Szt/Dfj1Xhm
-         J1rRAd7rgKdLgaw94qAHugtuZ0kw1Zh4eLAPxXk1Bh2qE1PGsFiW87aNKJcp5Slh5f6Y
-         VVet8cv7BaM9YmsdwtdR9zHLZExxO/rpC+a3y/azErxEU6Nm9P3GLIjdXp/1YVgh2oFB
-         hxCw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aQWlGJA/87lu3B9ptH8VcvnpE+ppPbV/Z9mGI73dEIc=;
+        b=oduxCJyoWNpm9/ihf7E9qVuLeKeXGUJjShwxh60TjjIL/z73sLxzNQGpmH5ZctqSDA
+         qd7krj/MaYtdmrzIWp14Cr6IPFdJQsLMtXklUDnKGi0zxGV/pLJt9yhkI91nDbvsPEP4
+         6zi9VUAPP8WqCbBAkxQjYBL5OMoFHJRBcns/35a855Ui0e5Md7KQ4t91gJcgSjCBSDQd
+         8KXQvyObMqiDMWrQza6MCJohEyLoV4VWtTmBdJ47AJce7LeKLMRiFl59BR6ISaF3qanS
+         itXJK8Nj8vmNPX5twl1xWgEES8BCLt3exLkjvU3Gr3cdhxb4OECOsRF9Iwx/miZeyF2+
+         WCaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nJcYrW1BzDTS3hAvukSNP/dUwd9d+rpzUo6aQUPhYv8=;
-        b=lHx4uziQWEn0L1rwulv1fOh5swCErG7NUh56bB/PkTnMXKqqJqvXMVlq/A6n/Aq3Ln
-         xnPEDaRGaBFIYIbjgxjCeIRrxz8LcwQhpdS1ZHPbynC8bvp/+iEdtMfQOXO25ftFYde/
-         hEphI8FtGtTaYf5urWWPWBVTGi8m3SROha8lh5ukpqyFDF5xWru97o0vcDipnnmST4YB
-         rgYNxcFqBQ5tT/VCyo+IStc9kF7n3wcRG3QBv72ApVGP7/tmdrEGY6a1RbPfsEsSJT9d
-         MRQgbPSI01hupuhqqCUYNe3vv2XHJloG0bj36J1a2lBJq4/Z/OSBxTQNoQwQ6PMO8aBm
-         /+6w==
-X-Gm-Message-State: AOAM530X4dbW+SZhFFKbZrT2tB8R6W4yzgTH1eGY9Kv7fs4p4UP2n+/N
-        OFCM/cbHHikszBHX+rFtnkt8frVgxj8rBcwVFhJzEH/1
-X-Google-Smtp-Source: ABdhPJzH42M7eu2WbEeOiePoK85mcjw0RakO01ph5T38eW9H0/NDowXSkPeWwHTmBQmf8df9zk279XdDSsO2Wh6PhLY=
-X-Received: by 2002:a2e:a361:: with SMTP id i1mr8366154ljn.392.1642201778012;
- Fri, 14 Jan 2022 15:09:38 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aQWlGJA/87lu3B9ptH8VcvnpE+ppPbV/Z9mGI73dEIc=;
+        b=F0/MlZT6MBXAgXANPNORI/qJ7UHRwUligao2WBkvqbUdP35R1cNKs6j7a2QFVgW/rH
+         WQdysPed9ErUJg9h7bjYOt25KeM7Dh3QJfgZ7yWa1lD7TI0IvCeeHuCJvIwY2dTAOzP9
+         DDJj6846ZOq93ObKCBPa4oE0gUnc0g05b8E0/+1YGQC9sWCOGMKyvSqapRMffo0a/Jx2
+         O21reaFx80OuotB84uKLIh6XmiauTieKpHBSWD6XAvdVWuXyk2ZuqitMn7dJiMtX+Ou1
+         gDz+Ju9536aqYWikToL7faK8942m97NRlatAn8zQBPy4BHExk66n4W5N0daadwbNtkzM
+         7vDg==
+X-Gm-Message-State: AOAM533DKzuWIbQw4vTwnPDOo4wK8znXl2l9IBDzHFEIGRmgYqjQdjC+
+        ElF0vWSW6/eYTphXCdv9TxY3E+dAu9c=
+X-Google-Smtp-Source: ABdhPJyCZnkGkjAGAiAfdX6a66BSn4hjmMrHamtM1k+79yX1HUne2NzGKJtN9QMYhMg2yLvXasZb+g==
+X-Received: by 2002:a63:aa4a:: with SMTP id x10mr10246609pgo.589.1642213899593;
+        Fri, 14 Jan 2022 18:31:39 -0800 (PST)
+Received: from thelio.corp.microsoft.com ([2001:4898:80e8:38:6d64:e944:7a7c:3d])
+        by smtp.gmail.com with ESMTPSA id oo14sm6874500pjb.34.2022.01.14.18.31.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jan 2022 18:31:39 -0800 (PST)
+From:   Dmitry Antipov <daantipov@gmail.com>
+X-Google-Original-From: Dmitry Antipov <dmanti@microsoft.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-spi@vger.kernel.org, Dmitry Antipov <dmanti@microsoft.com>
+Subject: [PATCH v3 0/5] Add spi-hid, transport for HID over SPI bus
+Date:   Fri, 14 Jan 2022 18:31:30 -0800
+Message-Id: <20220115023135.234667-1-dmanti@microsoft.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <7bc98e92-bebc-e765-8d40-75f9a932f392@gmail.com>
-In-Reply-To: <7bc98e92-bebc-e765-8d40-75f9a932f392@gmail.com>
-From:   Alex Henrie <alexhenrie24@gmail.com>
-Date:   Fri, 14 Jan 2022 16:09:26 -0700
-Message-ID: <CAMMLpeSeoXSz2fTA_gYP+4=Sw_ckxkHw3BK57c6HurODxzqsZQ@mail.gmail.com>
-Subject: Re: About the Apple tilde key quirk
-To:     Markus Wageringel <markus.wageringel@gmail.com>
-Cc:     jkosina@suse.cz,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jan 14, 2022 at 2:37 PM Markus Wageringel
-<markus.wageringel@gmail.com> wrote:
->
-> Hi Alex,
->
-> regarding the changes around commit [1] that made it into kernel 5.16, I
-> hope you do not mind if I message you directly, as I am not sure where
-> else to bring this up.
->
-> Apparently, the default behavior (when the iso_layout flag is not
-> configured explicitly) has flipped for my keyboard.
->
->      $ lsusb | grep Keyboard
->      Bus 001 Device 004: ID 05ac:0246 Apple, Inc. Internal
-> Keyboard/Trackpad (ISO)
->      $ cat /sys/bus/hid/devices/0003\:05AC\:0246.000{2,3}/country
->      0d
->      00
->
-> As my keyboard is rather old (internal German keyboard of MacBookPro8,1
-> 2011), maybe nothing needs to be done about this, so feel free to ignore
-> this email. After all, one gets the correct behavior by explicitly
-> setting `iso_layout=1` now, which used to be the default.
->
-> Kind regards,
-> Markus
->
-> [1]
-> https://github.com/torvalds/linux/commit/d58cf34a594d34de1a6843f576f82fae40adc0c2
+Surface Duo devices use a touch digitizer that communicates to the main
+SoC via SPI and presents itself as a HID device. This patch's goal is to
+add the spi-hid transport driver to drivers/hid. The driver follows the
+publically available HID Over SPI Protocol Specification version 1.0.
 
-Hi Markus,
+The specification is available at
+https://www.microsoft.com/en-us/download/details.aspx?id=103325.
 
-Thank you for reporting this to me. Unfortunately, I didn't have any
-foreign MacBooks to test, so I had no way of knowing if any of their
-keyboards had the quirk. But based on your report, I think it's safe
-to say that the quirk is present on the "Wellspring 5" and later
-models. I will send a patch to fix them up.
+In the initial commits there are some HID core changes to support a SPI
+device, a change to HID documentation, HID over SPI Device Tree
+bindings, and finally the SPI HID transport driver.
 
-Do you have any other MacBooks that you could test (especially super old ones)?
+Dmitry Antipov (5):
+  HID: Add BUS_SPI support when printing out device info in
+    hid_connect()
+  HID: define HID_SPI_DEVICE macro in hid.h
+  Documentation: DT bindings for HID over SPI.
+  Documentation: Correction in HID output_report callback description.
+  HID: add spi-hid, transport driver for HID over SPI bus
 
--Alex
+ .../bindings/input/hid-over-spi.txt           |   43 +
+ Documentation/hid/hid-transport.rst           |    4 +-
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/hid/Kconfig                           |    2 +
+ drivers/hid/Makefile                          |    1 +
+ drivers/hid/hid-core.c                        |    3 +
+ drivers/hid/spi-hid/Kconfig                   |   25 +
+ drivers/hid/spi-hid/Makefile                  |   12 +
+ drivers/hid/spi-hid/spi-hid-core.c            | 1328 +++++++++++++++++
+ drivers/hid/spi-hid/spi-hid-core.h            |  188 +++
+ drivers/hid/spi-hid/spi-hid-of.c              |  148 ++
+ drivers/hid/spi-hid/spi-hid-of.h              |   34 +
+ drivers/hid/spi-hid/spi-hid_trace.h           |  198 +++
+ drivers/hid/spi-hid/trace.c                   |   11 +
+ include/linux/hid.h                           |    2 +
+ 15 files changed, 1998 insertions(+), 2 deletions(-)
+ create mode 100755 Documentation/devicetree/bindings/input/hid-over-spi.txt
+ create mode 100644 drivers/hid/spi-hid/Kconfig
+ create mode 100644 drivers/hid/spi-hid/Makefile
+ create mode 100644 drivers/hid/spi-hid/spi-hid-core.c
+ create mode 100644 drivers/hid/spi-hid/spi-hid-core.h
+ create mode 100755 drivers/hid/spi-hid/spi-hid-of.c
+ create mode 100755 drivers/hid/spi-hid/spi-hid-of.h
+ create mode 100644 drivers/hid/spi-hid/spi-hid_trace.h
+ create mode 100644 drivers/hid/spi-hid/trace.c
+
+-- 
+2.25.1
+
