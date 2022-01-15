@@ -2,104 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9563048F62F
-	for <lists+linux-input@lfdr.de>; Sat, 15 Jan 2022 10:39:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2FC248F634
+	for <lists+linux-input@lfdr.de>; Sat, 15 Jan 2022 10:47:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232738AbiAOJjZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 15 Jan 2022 04:39:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52466 "EHLO
+        id S232745AbiAOJrZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 15 Jan 2022 04:47:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231480AbiAOJjZ (ORCPT
+        with ESMTP id S231547AbiAOJrY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 15 Jan 2022 04:39:25 -0500
-Received: from server00.inetadmin.eu (server00.inetadmin.eu [IPv6:2a01:390:1:2:e1b1:2:0:d7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB30EC061574;
-        Sat, 15 Jan 2022 01:39:24 -0800 (PST)
-Received: from [192.168.1.103] (ip-46.34.226.0.o2inet.sk [46.34.226.0])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: miroslav@wisdomtech.sk)
-        by server00.inetadmin.eu (Postfix) with ESMTPSA id F3AA713A1C6;
-        Sat, 15 Jan 2022 10:39:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wisdomtech.sk;
-        s=dkiminetadmin; t=1642239559;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gfeDWExe+wd+3DQxVnBg4hJPgt0RAPzKVg6T6rM3vFE=;
-        b=aAwwPXkU/0mS6EVYioVb2wEL0ikrtJF9rDiZAeI2JWOITiyKlPUvb04T4m6+zQDeh9grAf
-        oh8192Vdc+H5j0f9TG+1RDm+ynwkzI4dBL6MYpKvS9n20qSWsoL3hAtRxoBruIDLjGJEiw
-        GLS2CSogwzgPBSVCZROwR2CYpNfP3aM=
-Message-ID: <5c0ed06a-617e-077a-a4a4-549e91d372ba@wisdomtech.sk>
-Date:   Sat, 15 Jan 2022 10:39:16 +0100
+        Sat, 15 Jan 2022 04:47:24 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A400C061574
+        for <linux-input@vger.kernel.org>; Sat, 15 Jan 2022 01:47:24 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id d187-20020a1c1dc4000000b003474b4b7ebcso10243384wmd.5
+        for <linux-input@vger.kernel.org>; Sat, 15 Jan 2022 01:47:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=xXIlm8HOFzSwOzD8FItOn15UbpQBeIesDyoBmLlJzug=;
+        b=VOYePVuZZB8gz/IQNsiVTYrNTBvMrg2HdHl2/EEJwCHYApf9EmTeWrEwrET0AfkWGg
+         Q6g9SpcC5oCtaE8xpoKr9BA+Sox5PPG4WN6Ktj1SydXdGwMUmJGheDUNEpOgJEo6QbvE
+         9sXLYQH0hy+WexaP0HdDOiUfd2SPQl1wkisDIMt7scSry9I2LeOFDCDcW7C4u6xBGsjF
+         n70HhmabSQii1BrUEgEPPZzhc891SCb1zXHZ0WxbbBGBGlshql1z8+GCD5i5i9TsuUEh
+         BLm5RzsIyzhbJ5aJ5ShQjqR3xYjBCfTfZpfDPgVWP/MsQVS4CCafnXuBcU6Su+vzRjBp
+         MMBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=xXIlm8HOFzSwOzD8FItOn15UbpQBeIesDyoBmLlJzug=;
+        b=geObILkZkqENNTvBzeWcLkcgtbgwLdYXXVVo/jLdnd/KDdUd5F5r3M0NAxfZml5SO/
+         zY28wsUkTl/ta0DMYKIa4V5R2kUceydLgHqlEjfzb7M1HoJch5qyy/tv7wXEn0WHoIqn
+         lbfYiYYsCVKuAijp9zu0nfdQ9s6e90CgD+GJLpiQ0eqeBdIeQeHPGpK8/zG43yPZgtHO
+         op59qPdeaIsEoiQe6xN31HX0+jD8RZBAExunqG0bNZivROP5kry67IGVIiD9Fjl44sjn
+         q2qmZxiXWnk/4d9bjU0lh5EIsHZ9M8YGqKm4qAJlYSTf2nEIppn8+7MRqouPWedXAS/9
+         LBHw==
+X-Gm-Message-State: AOAM532hdwsNXA7wBObmtLSqdqD86M5cUx7Jq0w3VUU1VWS0FkHRpoXv
+        8aGbDFVpFO8cKU53VSbr7D95ACpF4Hs=
+X-Google-Smtp-Source: ABdhPJxlr824zlh0PDYenJsl/BTg1YLb/vUI1u4pOM+z3PXoLaz6z9sAVw39tW10oSs9X3Y8ABvfCQ==
+X-Received: by 2002:a05:600c:34d2:: with SMTP id d18mr11914864wmq.71.1642240042806;
+        Sat, 15 Jan 2022 01:47:22 -0800 (PST)
+Received: from ?IPV6:2a02:8109:1a3f:a0e0::150d? ([2a02:8109:1a3f:a0e0::150d])
+        by smtp.gmail.com with ESMTPSA id l4sm7728362wru.74.2022.01.15.01.47.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 Jan 2022 01:47:22 -0800 (PST)
+Message-ID: <fe5f3548-8eb8-0213-0312-e061e5711188@gmail.com>
+Date:   Sat, 15 Jan 2022 10:47:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: Touchpad stickiness on AMD laptops (was Dell Inspiron/XPS)
+ Thunderbird/91.5.0
+Subject: Re: About the Apple tilde key quirk
 Content-Language: en-US
-To:     "Limonciello, Mario" <mario.limonciello@amd.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Benjamin Tissoires <btissoir@redhat.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Andrea Ippolito <andrea.ippo@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Alex Hung <alex.hung@canonical.com>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "Shah, Nehal-bakulchandra" <Nehal-bakulchandra.Shah@amd.com>
-References: <CAGhUXvBw4rzCQrqttyyS=Psxmhppk79c6fDoxPbV91jE7fO_9A@mail.gmail.com>
- <CAGhUXvDNj2v3O==+wWWKPYVzej8Vq+WNiBtPwmYxSQ2dTuLb9Q@mail.gmail.com>
- <CAGhUXvC8eHfxEKzkGN06VvRU6Z0ko7MJ9hF6uXNq+PxRZSbEmQ@mail.gmail.com>
- <70cbe360-6385-2536-32bd-ae803517d2b2@redhat.com> <YdbrLz3tU4ohANDk@ninjato>
- <42c83ec8-bbac-85e2-9ab5-87e59a679f95@redhat.com>
- <CAO-hwJJ9ALxpd5oRU8SQ3F65hZjDitR=MzmwDk=uiEguaXZYtw@mail.gmail.com>
- <5409e747-0c51-24e2-7ffa-7dd9c8a7aec7@amd.com> <Yd6SRl7sm8zS85Al@ninjato>
- <596d6af1-d67c-b9aa-0496-bd898350865c@wisdomtech.sk>
- <d39101a9-adc6-df32-12f5-fccc8fd34515@amd.com>
-From:   =?UTF-8?Q?Miroslav_Bend=c3=adk?= <miroslav@wisdomtech.sk>
-In-Reply-To: <d39101a9-adc6-df32-12f5-fccc8fd34515@amd.com>
+To:     Alex Henrie <alexhenrie24@gmail.com>
+Cc:     jkosina@suse.cz,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+References: <7bc98e92-bebc-e765-8d40-75f9a932f392@gmail.com>
+ <CAMMLpeSeoXSz2fTA_gYP+4=Sw_ckxkHw3BK57c6HurODxzqsZQ@mail.gmail.com>
+From:   Markus Wageringel <markus.wageringel@gmail.com>
+In-Reply-To: <CAMMLpeSeoXSz2fTA_gYP+4=Sw_ckxkHw3BK57c6HurODxzqsZQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
- > I think "SMBUSx11 I2CCommand" may be what you're looking for.
+On 1/15/22 00:09, Alex Henrie wrote:
+> On Fri, Jan 14, 2022 at 2:37 PM Markus Wageringel
+> <markus.wageringel@gmail.com> wrote:
+>>
+>> Hi Alex,
+>>
+>> regarding the changes around commit [1] that made it into kernel 5.16, I
+>> hope you do not mind if I message you directly, as I am not sure where
+>> else to bring this up.
+>>
+>> Apparently, the default behavior (when the iso_layout flag is not
+>> configured explicitly) has flipped for my keyboard.
+>>
+>>       $ lsusb | grep Keyboard
+>>       Bus 001 Device 004: ID 05ac:0246 Apple, Inc. Internal
+>> Keyboard/Trackpad (ISO)
+>>       $ cat /sys/bus/hid/devices/0003\:05AC\:0246.000{2,3}/country
+>>       0d
+>>       00
+>>
+>> As my keyboard is rather old (internal German keyboard of MacBookPro8,1
+>> 2011), maybe nothing needs to be done about this, so feel free to ignore
+>> this email. After all, one gets the correct behavior by explicitly
+>> setting `iso_layout=1` now, which used to be the default.
+>>
+>> Kind regards,
+>> Markus
+>>
+>> [1]
+>> https://github.com/torvalds/linux/commit/d58cf34a594d34de1a6843f576f82fae40adc0c2
+> 
+> Hi Markus,
+> 
+> Thank you for reporting this to me. Unfortunately, I didn't have any
+> foreign MacBooks to test, so I had no way of knowing if any of their
+> keyboards had the quirk. But based on your report, I think it's safe
+> to say that the quirk is present on the "Wellspring 5" and later
+> models. I will send a patch to fix them up.
+> 
+> Do you have any other MacBooks that you could test (especially super old ones)?
+> 
+> -Alex
 
-This has no effect and i know (probably) why.
+Thank you, Alex. Unfortunately, I do not have access to any other models.
 
-In AMD documentation is address ending with 0x20 ASF, not SMBus. Some 
-registers
-have same function and this is probably reason, why communication works.
-
-This code should write 0x2c address to I2CCommand. If this is RW, then 
-reading
-should return 0x2c, but it returns 0x00.
-
-outb_p(0x2c, (0x11 + piix4_smba)); // I2CCommand
-printk(KERN_INFO "smbus I2CCommand %02x\n", inb_p(0x11 + piix4_smba));
-
-If this is ASF, then 0x11 is read only. 0x0e, 0x0f should have initial value
-0xa8 0xaa. Here is register dump:
-
-0000 0002 5802 0000 0f59 00ff ff00 a8aa  0000 0081 0002 0400 0000 0000 
-0000 0000
-
-Now i am trying to change ASF registers instead of SMBus registers.
-
-I have tried to enable interrupts and set listen address, but it don't 
-work or
-i can't recognize the difference between interrupts generated by 
-transfers and
-interrupts generated from slave.
-
-outb_p(0x02, 0x15 + piix4_smba); // SlaveIntrListenEn
-outb_p(0x2c << 1 | 0x01, 0x09 + piix4_smba); // ListenAdr | ListenAdrEn
-
-Here is register dump for interrupts:
-
-https://pastebin.com/eYnb30sL
-
+Markus
