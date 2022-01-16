@@ -2,155 +2,141 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66BA448FF6C
-	for <lists+linux-input@lfdr.de>; Sun, 16 Jan 2022 23:08:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADFBD48FF97
+	for <lists+linux-input@lfdr.de>; Mon, 17 Jan 2022 00:03:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236329AbiAPWH6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 16 Jan 2022 17:07:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44776 "EHLO
+        id S236419AbiAPXCb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 16 Jan 2022 18:02:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230171AbiAPWH5 (ORCPT
+        with ESMTP id S233896AbiAPXCb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 16 Jan 2022 17:07:57 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B71BC061574;
-        Sun, 16 Jan 2022 14:07:57 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id l21-20020a17090b079500b001b49df5c4dfso1549034pjz.2;
-        Sun, 16 Jan 2022 14:07:57 -0800 (PST)
+        Sun, 16 Jan 2022 18:02:31 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59D27C061574
+        for <linux-input@vger.kernel.org>; Sun, 16 Jan 2022 15:02:31 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id n16-20020a17090a091000b001b46196d572so6070945pjn.5
+        for <linux-input@vger.kernel.org>; Sun, 16 Jan 2022 15:02:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=M2veCCmWFE1gjuS1WjHHYX1pPVCrH6un9yG9kmaxmLw=;
-        b=AQowX1sr42Qg5V4hFnvSSXhLiRpVnH3vaxSQnU0bB5wVNelKXIprNZxK52/NlnvDDK
-         d4bSMzVJDdocK7AVwDLCRcYZEEocaNEvG4jBWKWj2eMGAr/O9lPUWf7zcdPRwepxQPTZ
-         lVW2Tiw2xRFQSrLZZgH+FMPBNKkY5VnX4PeK94wEQEwBSg2NjByAQSqCHqGA1qf2LD2Y
-         9YvHXKg/Njub+g+ZWa1iCLLC81Fjw2Sz6kyyYqO85dLUVSXk6V32x8qho+ZJt2CL/k0E
-         PTQIlgeu6Z4O67Gr/fEQ/t4HCkkxKv0lT7LT4mIf/t53tEzZ/3JZWs+CG1aptf9a0QWI
-         AliQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eh+0A8N3fYO5wfBPNNAUlzLTG/yLc9vb0BzlExuRavI=;
+        b=gzFFyElkY0fQjGTQYcxxE4DvoNE17Xqpk0HMhXj9UWHUR9VM6pMBCnWFOYgtdFQt9e
+         8Ioce+5s7a67GDYjJ/+p/QJeTBJ/v9HWdtsjD++PRdIbXfzUOaLnZuONEadPfxPpk5NZ
+         /VnT6FqDCBKJ7Rsd6E8WTRQV1D2gMYvHAchQNRO0HxjbKnZ69yLCSUeeBOWgMwda/k2+
+         ia8qDdbb/DqUcH2U+ZhJTJsQDtKZ5Z6Y5UqwgTFRzx3KV4iTsnJEYW86GTN3lBxPb/37
+         6/zIqIMHz6NxKTabXhJDFCKxZukkvEd6h6O2HkWdNz3mp1QQb6eepXx7aaQCehnoYhfo
+         QIhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=M2veCCmWFE1gjuS1WjHHYX1pPVCrH6un9yG9kmaxmLw=;
-        b=as/7QhCwsM8rSwOKNGhYBUZI/9QO28sY8jcNzTBRO4WgeP5WG2Fn9vsOZmX98MVgUN
-         n9eoczsX8IdDWe2TEV6YEos/Fdewfj9bjMqM2B66AeKbP52TyVU5V9aNb5/pKMSIjfQy
-         SakvXVUxlElfdw5sO+LVWSIImCxSJuU/7lr3D2I1Va+bNBMH1NMqscst09QpZ58Ti2dP
-         iHbVbNXBaMzDs7Df0CjdIoDKSVLHLxVDVeq3y/Gof5m/4QLR8GdCz/OKxy4gnfLV55FT
-         fBL9AvD2yzcvHdkAfolp3GA7D09R/1s/nq6LfpuGeDmWL9UUaohS8aL5wbiJhHq7Yyzh
-         rKnA==
-X-Gm-Message-State: AOAM530MUavCeQNL4KUflgpYo4RVkUtiKiwKmQbggGhrFK4xwJ8IMTL7
-        USYzfK0XBQgP22mrhUIPrj06wU7eimU=
-X-Google-Smtp-Source: ABdhPJwpho4X/3I1qIa9lHTTirRHkdYwPzyZk3fOqiB4tLVa3q3wF19VY924xXO0Chz6mrUef2EXFw==
-X-Received: by 2002:a17:90a:de08:: with SMTP id m8mr21885784pjv.102.1642370876551;
-        Sun, 16 Jan 2022 14:07:56 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:f7d7:da1d:6c29:1bd6])
-        by smtp.gmail.com with ESMTPSA id u64sm11275757pfb.208.2022.01.16.14.07.55
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eh+0A8N3fYO5wfBPNNAUlzLTG/yLc9vb0BzlExuRavI=;
+        b=5pReN/j+RFLCjg2Bp90V4dwMi8XGnBfV3i8zae+F9lUef9ZwlBxjaNe7wLSjhGtlJG
+         RtJmF1lVfAqEQZl8sluBcXaooE+Oa0SGDbvRioy+8yVvnEXc7Fql/CuBlZsrEr6cFgqY
+         2Gfns05STiPlG/A5jKjjQ+3D0arWf+yRqIl3EybAPcFBtONCgEBDVusvesmjrgmtr8D6
+         ARUnxkpwt/HTf8SxNCSQY8gxOh+CY3x2guHfgdLYOYmnZ1x7hR+tbA+Viw0LObriOVhj
+         3V9rU1yRctvuqrOlI7j6FLnXO2xEqYOojvQEnrajx+nL8lqcD52iluYnuxoJn9x3KaKc
+         Gn8Q==
+X-Gm-Message-State: AOAM533s1/oF6H0ut0GMox2XpcBJvVv0CtHHV+4+3GUb89DoofZD8l7N
+        FBXdeyk/xqEHiKDmn6j6rBx/jBuUXW0=
+X-Google-Smtp-Source: ABdhPJzjiItlrgUpI07j46U+6vqfwar+ISECIG/PIsAt+vUZnmtDsDYacj9K4C8FbJxJS1XCBHu/cg==
+X-Received: by 2002:a17:902:e544:b0:14a:586c:1336 with SMTP id n4-20020a170902e54400b0014a586c1336mr20657556plf.41.1642374150498;
+        Sun, 16 Jan 2022 15:02:30 -0800 (PST)
+Received: from xavier.lan ([2001:470:b:114::cc1])
+        by smtp.gmail.com with ESMTPSA id j22sm11878236pfj.102.2022.01.16.15.02.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Jan 2022 14:07:55 -0800 (PST)
-Date:   Sun, 16 Jan 2022 14:07:53 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v5.17-rc0
-Message-ID: <YeSXOaSWDSjMykUO@google.com>
+        Sun, 16 Jan 2022 15:02:30 -0800 (PST)
+From:   Alex Henrie <alexhenrie24@gmail.com>
+To:     linux-input@vger.kernel.org, jkosina@suse.cz
+Cc:     Alex Henrie <alexhenrie24@gmail.com>,
+        Markus Wageringel <markus.wageringel@gmail.com>
+Subject: [PATCH] HID: apple: Set the tilde quirk flag on the Wellspring 5 and later
+Date:   Sun, 16 Jan 2022 16:01:58 -0700
+Message-Id: <20220116230158.29596-1-alexhenrie24@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+Markus reports that his 2011 MacBook with a German ISO keyboard (USB
+product code 05ac:0246, HID country code 13) has the tilde key quirk.
+Seeing as all of the standalone Apple ISO keyboards since about 2008
+have the quirk, it seems reasonable to assume that once the integrated
+laptop keyboards started having the quirk, they likewise never stopped
+having it.
 
-Please pull from:
+Reported-by: Markus Wageringel <markus.wageringel@gmail.com>
+Signed-off-by: Alex Henrie <alexhenrie24@gmail.com>
+---
+ drivers/hid/hid-apple.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-
-to receive updates for the input subsystem. You will get updates to
-Goodix touchscreen driver (addition of pen support) and Silead
-touchscreen driver (also addition of pen support and parsing of
-embedded firmware to determine screen size), along with assorted
-fixes for other drivers.
-
-Note that you will get a merge conflict in axp20x-pek driver, please
-resolve it so it looks as follows (axp20x_pek_probe):
-
-	axp20x_pek->axp20x = dev_get_drvdata(pdev->dev.parent);
-
-	if (axp20x_pek_should_register_input(axp20x_pek)) {
-		error = axp20x_pek_probe_input_device(axp20x_pek, pdev);
-		if (error)
-			return error;
-	}
-
-Changelog:
----------
-
-Alistair Francis (1):
-      Input: wacom_i2c - clean up the query device fields
-
-Charles Keepax (1):
-      Input: ff-core - correct magnitude setting for rumble compatibility
-
-Christophe JAILLET (1):
-      Input: gpio-keys - avoid clearing twice some memory
-
-Colin Ian King (2):
-      Input: palmas-pwrbutton - make a couple of arrays static const
-      Input: ucb1400_ts - remove redundant variable penup
-
-Dario Binacchi (3):
-      Input: ti_am335x_tsc - set ADCREFM for X configuration
-      Input: ti_am335x_tsc - fix STEPCONFIG setup for Z2
-      Input: ti_am335x_tsc - lower the X and Y sampling time
-
-Geert Uytterhoeven (1):
-      Input: palmas-pwrbutton - use bitfield helpers
-
-Hans de Goede (6):
-      Input: goodix - add pen support
-      Input: goodix - improve gpiod_get() error logging
-      Input: goodix - 2 small fixes for pen support
-      Input: silead - add support for EFI-embedded fw using different min/max coordinates
-      Input: silead - add pen support
-      Input: axp20x-pek - revert "always register interrupt handlers" change
-
-Linus Walleij (2):
-      dt-bindings: input/ts/zinitix: Convert to YAML, fix and extend
-      Input: zinitix - handle proper supply names
-
-Nikita Travkin (1):
-      Input: zinitix - add compatible for bt532
-
-Qinghua Jin (1):
-      Input: ti_am335x_tsc - fix a typo in a comment
-
-Xiang wangx (1):
-      Input: byd - fix typo in a comment
-
-Diffstat:
---------
-
- .../bindings/input/touchscreen/zinitix,bt400.yaml  | 115 ++++++++++++++
- .../bindings/input/touchscreen/zinitix.txt         |  40 -----
- drivers/input/ff-core.c                            |   2 +-
- drivers/input/keyboard/gpio_keys.c                 |   2 +-
- drivers/input/misc/axp20x-pek.c                    |  72 +++++----
- drivers/input/misc/palmas-pwrbutton.c              |   9 +-
- drivers/input/mouse/byd.c                          |   2 +-
- drivers/input/touchscreen/goodix.c                 | 127 ++++++++++++++-
- drivers/input/touchscreen/goodix.h                 |   1 +
- drivers/input/touchscreen/silead.c                 | 172 ++++++++++++++++++++-
- drivers/input/touchscreen/ti_am335x_tsc.c          |  20 ++-
- drivers/input/touchscreen/ucb1400_ts.c             |   4 +-
- drivers/input/touchscreen/wacom_i2c.c              |  44 +++---
- drivers/input/touchscreen/zinitix.c                |  22 ++-
- 14 files changed, 507 insertions(+), 125 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix,bt400.yaml
- delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix.txt
-
-Thanks.
-
-
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index 24802a4a636e..7dc89dc6b0f0 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -691,49 +691,49 @@ static const struct hid_device_id apple_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING5_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING5_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING5_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING6_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING6_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING6_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING6A_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING6A_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING6A_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING5A_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING5A_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING5A_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING7_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING7_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING7_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING7A_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING7A_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING7A_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING8_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING8_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING8_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING9_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING9_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING9_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ANSI),
 -- 
-Dmitry
+2.34.1
+
