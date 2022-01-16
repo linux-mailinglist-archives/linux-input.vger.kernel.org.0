@@ -2,93 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CA7948F8A4
-	for <lists+linux-input@lfdr.de>; Sat, 15 Jan 2022 19:11:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB35C48F9FE
+	for <lists+linux-input@lfdr.de>; Sun, 16 Jan 2022 01:34:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233368AbiAOSK6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 15 Jan 2022 13:10:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50466 "EHLO
+        id S233969AbiAPAem (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 15 Jan 2022 19:34:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232288AbiAOSK6 (ORCPT
+        with ESMTP id S229622AbiAPAem (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 15 Jan 2022 13:10:58 -0500
-Received: from server00.inetadmin.eu (server00.inetadmin.eu [IPv6:2a01:390:1:2:e1b1:2:0:d7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33619C061574;
-        Sat, 15 Jan 2022 10:10:57 -0800 (PST)
-Received: from [192.168.1.103] (ip-46.34.226.0.o2inet.sk [46.34.226.0])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: miroslav@wisdomtech.sk)
-        by server00.inetadmin.eu (Postfix) with ESMTPSA id 897F313A19F;
-        Sat, 15 Jan 2022 19:10:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wisdomtech.sk;
-        s=dkiminetadmin; t=1642270254;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=NBB3VSrjVv5/iGxbGXnadU4umYpW7eQgvDcAeuNsDGI=;
-        b=KK3MdG1N6zZVCV1QIjORmAWKXPHGgpu3mY0nSJDQ/+tSutWrWDLLs5+OZTSVSK/xk1YZ7Z
-        R3ZNbk9zLcCkXJydXD/evcy+NJlyIt6jPOfpiWWWFL8OAkYWi/Vr1E9S1fxZ6b48H2NWje
-        Wb9XeT6RPKdlO1jx9LKzNHFpaYOWBwA=
-Message-ID: <487a967b-11a3-ae0e-5429-f207b49edfbf@wisdomtech.sk>
-Date:   Sat, 15 Jan 2022 19:10:50 +0100
+        Sat, 15 Jan 2022 19:34:42 -0500
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC95EC061574
+        for <linux-input@vger.kernel.org>; Sat, 15 Jan 2022 16:34:41 -0800 (PST)
+Received: by mail-ot1-x331.google.com with SMTP id 60-20020a9d0142000000b0059103eb18d4so14958223otu.2
+        for <linux-input@vger.kernel.org>; Sat, 15 Jan 2022 16:34:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ZzvCLaxte6t1+ns9ZlRppkBkDjsfJFHHvFmlzKogF6Q=;
+        b=hUFil8u8LU6GPrMUqmFlfmRZGj7f4UwgoZLx152kmtl7i7SoEMgSYZ4dlmkhmvXKCx
+         RIF7PbEWdXly4mEPcLmwxmAVq1XP4pAS+jNbub1RyfWY/l6Bv2S0z95fit/eTVXZP2h4
+         DsRzXSBKTOzRXrP37EtkfV1t5Ijwf45lFkp3D/9V5mvj/nbOuctS0klEsEMHNPY0ABrU
+         X8cepU57/vNoN5xKMhWxooAgi01+5LZsulJEVNT6hwZAiHGjawusOAh1qkklgxXLh44u
+         l3UPpzurWGxJc4fHv354hy/p3wkbjJXD3A33fd94boM03pYe1tdwsAdcomoiC+moGPTC
+         FFkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ZzvCLaxte6t1+ns9ZlRppkBkDjsfJFHHvFmlzKogF6Q=;
+        b=hQ4EEGkGFsp2/RYQTQJGpejN1JfkFS6EtPafA/YDAQsEF8IRy8/+kHj+AJxYY3GS2b
+         YBEzDPptjQ6aQ0dB865aWTQQTSkGrbkcw5Bpeo4BcevKVLTjq5ARU0CC4lus1ZpSoZGF
+         1ct36c0fxonvRlOvr6PtP75HbE7gy3z9XU7Y0emyn2112P1fSpCRZCASWYSpvIQHsV5A
+         uZQoVrUr7F0tj0Uvmd6JeaklBlCXmk5TIlAnkqmM5Pp028+9tty9fhl1xyT5OsxIyYFj
+         tMAd+NPo5DDshg22WYwm4SvyboPiKZe7jBavVDq4NOiTt+q66dAPEqzYoHg4+uIYf/HA
+         0oZA==
+X-Gm-Message-State: AOAM533PWEoVj7djvJLBhNlnKjbXNDPGydoVLc7gV4SYuWLUjKgHxe3Y
+        4FzQcwFPmSjaYzmMKV2c1uSafovAG+qTaIJxRa7rAg==
+X-Google-Smtp-Source: ABdhPJwJpGCm5V68sgM58qpJsDpihskxpQISyTShDKElb0SqKN6QicmPUUkLunpx2G+ZLVjrIcCx+8/2QJlNQHQRNHw=
+X-Received: by 2002:a9d:a42:: with SMTP id 60mr11992209otg.179.1642293281169;
+ Sat, 15 Jan 2022 16:34:41 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: Touchpad stickiness on AMD laptops (was Dell Inspiron/XPS)
-Content-Language: en-US
-To:     "Limonciello, Mario" <Mario.Limonciello@amd.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Benjamin Tissoires <btissoir@redhat.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Andrea Ippolito <andrea.ippo@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Alex Hung <alex.hung@canonical.com>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "Shah, Nehal-bakulchandra" <Nehal-bakulchandra.Shah@amd.com>
-References: <CAGhUXvBw4rzCQrqttyyS=Psxmhppk79c6fDoxPbV91jE7fO_9A@mail.gmail.com>
- <CAGhUXvDNj2v3O==+wWWKPYVzej8Vq+WNiBtPwmYxSQ2dTuLb9Q@mail.gmail.com>
- <CAGhUXvC8eHfxEKzkGN06VvRU6Z0ko7MJ9hF6uXNq+PxRZSbEmQ@mail.gmail.com>
- <70cbe360-6385-2536-32bd-ae803517d2b2@redhat.com> <YdbrLz3tU4ohANDk@ninjato>
- <42c83ec8-bbac-85e2-9ab5-87e59a679f95@redhat.com>
- <CAO-hwJJ9ALxpd5oRU8SQ3F65hZjDitR=MzmwDk=uiEguaXZYtw@mail.gmail.com>
- <5409e747-0c51-24e2-7ffa-7dd9c8a7aec7@amd.com> <Yd6SRl7sm8zS85Al@ninjato>
- <596d6af1-d67c-b9aa-0496-bd898350865c@wisdomtech.sk>
- <d39101a9-adc6-df32-12f5-fccc8fd34515@amd.com>
- <5c0ed06a-617e-077a-a4a4-549e91d372ba@wisdomtech.sk>
- <BL1PR12MB5157412781B6C84B97C2A3E7E2559@BL1PR12MB5157.namprd12.prod.outlook.com>
-From:   =?UTF-8?Q?Miroslav_Bend=c3=adk?= <miroslav@wisdomtech.sk>
-In-Reply-To: <BL1PR12MB5157412781B6C84B97C2A3E7E2559@BL1PR12MB5157.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220109115331.388633-1-alistair@alistair23.me> <20220109115331.388633-3-alistair@alistair23.me>
+In-Reply-To: <20220109115331.388633-3-alistair@alistair23.me>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 16 Jan 2022 01:34:29 +0100
+Message-ID: <CACRpkdYQEBiSsnwrV1jMks3UYcbnwZLtN8dnUPdsKB3rLcwDjg@mail.gmail.com>
+Subject: Re: [PATCH v5 2/4] dt-bindings: input: Add Cypress TT2100 touchscreen controller
+To:     Alistair Francis <alistair@alistair23.me>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        dmitry.torokhov@gmail.com, rydberg@bitmath.org,
+        andreas@kemnade.info, alistair23@gmail.com, robh+dt@kernel.org,
+        =?UTF-8?Q?Myl=C3=A8ne_Josserand?= 
+        <mylene.josserand@free-electrons.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-> [AMD Official Use Only]
+On Sun, Jan 9, 2022 at 12:53 PM Alistair Francis <alistair@alistair23.me> w=
+rote:
+
+> From: Myl=C3=A8ne Josserand <mylene.josserand@free-electrons.com>
 >
->> Now i am trying to change ASF registers instead of SMBus registers.
->> I have tried to enable interrupts and set listen address, but it don't
->> work or
->> i can't recognize the difference between interrupts generated by
->> transfers and
->> interrupts generated from slave.
-> Try reading the value of SFx0A ASFStatus bit 5 (it's write to clear if it's an interrupt).
+> Add the Cypress TrueTouch Generation 5 touchscreen device tree bindings
+> documentation. It can use I2C or SPI bus.
+> This touchscreen can handle some defined zone that are designed and
+> sent as button. To be able to customize the keycode sent, the
+> "linux,code" property in a "button" sub-node can be used.
 >
->> outb_p(0x02, 0x15 + piix4_smba); // SlaveIntrListenEn
->> outb_p(0x2c << 1 | 0x01, 0x09 + piix4_smba); // ListenAdr | ListenAdrEn
-> ASFx04 SlaveAddress instead of  ASFx09 ListenAdr
-> ?
+> Signed-off-by: Myl=C3=A8ne Josserand <mylene.josserand@free-electrons.com=
+>
+> Signed-off-by: Alistair Francis <alistair@alistair23.me>
 
-Without change, but this (0x08 or 0x10, both are not needed) starts 
-generating interrupts
+Looks good to me!
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-outb_p(0x08 << 1 | 0x01, 0x09 + piix4_smba);
-outb_p(0x10 << 1 | 0x01, 0x09 + piix4_smba);
-
-It generates interrupts with frequency 10 Hz - 0.01 Hz. I don't see correlation with trackpoint / touchpad.
-
+Yours,
+Linus Walleij
