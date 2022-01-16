@@ -2,180 +2,155 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C98E048FE50
-	for <lists+linux-input@lfdr.de>; Sun, 16 Jan 2022 19:00:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66BA448FF6C
+	for <lists+linux-input@lfdr.de>; Sun, 16 Jan 2022 23:08:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235953AbiAPSAL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 16 Jan 2022 13:00:11 -0500
-Received: from mga09.intel.com ([134.134.136.24]:28190 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235951AbiAPSAL (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 16 Jan 2022 13:00:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642356011; x=1673892011;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9yaUJzVxEjOehQbeRgX9W6PQw4kEUjXdLop9o9duCq0=;
-  b=kqoQmRqnmI9RQU8v4mwofBS9Mbjm9njx/mMzkRhb5MUAx9qo0yBDMy8B
-   txreVp/XdeG3kGCpE+Twa6uh/lw8viRUaErwd9eP8L75rxVrC4NdZfVCR
-   ljbNGbCStbWsYTJD1WR/qapNE1VCANA5zen3yOZ5cWcqBN3HWppZiHf3K
-   tCVcWbTr/nXDQPDI69kUqNFNt6sssEPyLqvCYlpYhUDmY9yZgC12Zy07N
-   QVOrJF6FZJDy0e3bGuDzQb0sZ+RSqdJetducj1bIy+bAoK8XdMNiXxjIy
-   dnQ87wfPzoe7GtLxFY52CUHQtwjdw3E5g4uBVScgx0/ouwFfjmFN+oTjs
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10228"; a="244303350"
-X-IronPort-AV: E=Sophos;i="5.88,293,1635231600"; 
-   d="scan'208";a="244303350"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2022 10:00:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,293,1635231600"; 
-   d="scan'208";a="692830322"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 16 Jan 2022 10:00:08 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1n99p1-000AtO-Mb; Sun, 16 Jan 2022 18:00:07 +0000
-Date:   Mon, 17 Jan 2022 01:59:11 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- 762f99f4f3cb41a775b5157dd761217beba65873
-Message-ID: <61e45cef.BNtLwWTlFdpoYgVb%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S236329AbiAPWH6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 16 Jan 2022 17:07:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44776 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230171AbiAPWH5 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 16 Jan 2022 17:07:57 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B71BC061574;
+        Sun, 16 Jan 2022 14:07:57 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id l21-20020a17090b079500b001b49df5c4dfso1549034pjz.2;
+        Sun, 16 Jan 2022 14:07:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=M2veCCmWFE1gjuS1WjHHYX1pPVCrH6un9yG9kmaxmLw=;
+        b=AQowX1sr42Qg5V4hFnvSSXhLiRpVnH3vaxSQnU0bB5wVNelKXIprNZxK52/NlnvDDK
+         d4bSMzVJDdocK7AVwDLCRcYZEEocaNEvG4jBWKWj2eMGAr/O9lPUWf7zcdPRwepxQPTZ
+         lVW2Tiw2xRFQSrLZZgH+FMPBNKkY5VnX4PeK94wEQEwBSg2NjByAQSqCHqGA1qf2LD2Y
+         9YvHXKg/Njub+g+ZWa1iCLLC81Fjw2Sz6kyyYqO85dLUVSXk6V32x8qho+ZJt2CL/k0E
+         PTQIlgeu6Z4O67Gr/fEQ/t4HCkkxKv0lT7LT4mIf/t53tEzZ/3JZWs+CG1aptf9a0QWI
+         AliQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=M2veCCmWFE1gjuS1WjHHYX1pPVCrH6un9yG9kmaxmLw=;
+        b=as/7QhCwsM8rSwOKNGhYBUZI/9QO28sY8jcNzTBRO4WgeP5WG2Fn9vsOZmX98MVgUN
+         n9eoczsX8IdDWe2TEV6YEos/Fdewfj9bjMqM2B66AeKbP52TyVU5V9aNb5/pKMSIjfQy
+         SakvXVUxlElfdw5sO+LVWSIImCxSJuU/7lr3D2I1Va+bNBMH1NMqscst09QpZ58Ti2dP
+         iHbVbNXBaMzDs7Df0CjdIoDKSVLHLxVDVeq3y/Gof5m/4QLR8GdCz/OKxy4gnfLV55FT
+         fBL9AvD2yzcvHdkAfolp3GA7D09R/1s/nq6LfpuGeDmWL9UUaohS8aL5wbiJhHq7Yyzh
+         rKnA==
+X-Gm-Message-State: AOAM530MUavCeQNL4KUflgpYo4RVkUtiKiwKmQbggGhrFK4xwJ8IMTL7
+        USYzfK0XBQgP22mrhUIPrj06wU7eimU=
+X-Google-Smtp-Source: ABdhPJwpho4X/3I1qIa9lHTTirRHkdYwPzyZk3fOqiB4tLVa3q3wF19VY924xXO0Chz6mrUef2EXFw==
+X-Received: by 2002:a17:90a:de08:: with SMTP id m8mr21885784pjv.102.1642370876551;
+        Sun, 16 Jan 2022 14:07:56 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:f7d7:da1d:6c29:1bd6])
+        by smtp.gmail.com with ESMTPSA id u64sm11275757pfb.208.2022.01.16.14.07.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Jan 2022 14:07:55 -0800 (PST)
+Date:   Sun, 16 Jan 2022 14:07:53 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v5.17-rc0
+Message-ID: <YeSXOaSWDSjMykUO@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: 762f99f4f3cb41a775b5157dd761217beba65873  Merge branch 'next' into for-linus
+Hi Linus,
 
-elapsed time: 1210m
+Please pull from:
 
-configs tested: 107
-configs skipped: 3
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+to receive updates for the input subsystem. You will get updates to
+Goodix touchscreen driver (addition of pen support) and Silead
+touchscreen driver (also addition of pen support and parsing of
+embedded firmware to determine screen size), along with assorted
+fixes for other drivers.
 
-gcc tested configs:
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm64                               defconfig
-arm64                            allyesconfig
-i386                          randconfig-c001
-m68k                             allmodconfig
-powerpc                          allmodconfig
-m68k                             allyesconfig
-s390                             allmodconfig
-powerpc                          allyesconfig
-s390                             allyesconfig
-mips                      fuloong2e_defconfig
-sh                           se7343_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                  nommu_kc705_defconfig
-powerpc                       maple_defconfig
-sh                               j2_defconfig
-xtensa                          iss_defconfig
-sh                            hp6xx_defconfig
-sh                  sh7785lcr_32bit_defconfig
-arm                        trizeps4_defconfig
-arm                     eseries_pxa_defconfig
-powerpc                        cell_defconfig
-arm                          simpad_defconfig
-powerpc                           allnoconfig
-powerpc                       ppc64_defconfig
-arm                  randconfig-c002-20220116
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                                defconfig
-nds32                               defconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-parisc                              defconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-nds32                             allnoconfig
-nios2                               defconfig
-arc                              allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-i386                          randconfig-a003
-i386                          randconfig-a001
-i386                          randconfig-a005
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-arc                  randconfig-r043-20220116
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
+Note that you will get a merge conflict in axp20x-pek driver, please
+resolve it so it looks as follows (axp20x_pek_probe):
 
-clang tested configs:
-arm                  randconfig-c002-20220116
-x86_64                        randconfig-c007
-powerpc              randconfig-c003-20220116
-i386                          randconfig-c001
-mips                 randconfig-c004-20220116
-s390                 randconfig-c005-20220116
-riscv                randconfig-c006-20220116
-powerpc                      acadia_defconfig
-arm                      pxa255-idp_defconfig
-powerpc                     kmeter1_defconfig
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a011
-i386                          randconfig-a013
-i386                          randconfig-a015
-hexagon              randconfig-r045-20220116
-riscv                randconfig-r042-20220116
-s390                 randconfig-r044-20220116
-hexagon              randconfig-r041-20220116
+	axp20x_pek->axp20x = dev_get_drvdata(pdev->dev.parent);
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+	if (axp20x_pek_should_register_input(axp20x_pek)) {
+		error = axp20x_pek_probe_input_device(axp20x_pek, pdev);
+		if (error)
+			return error;
+	}
+
+Changelog:
+---------
+
+Alistair Francis (1):
+      Input: wacom_i2c - clean up the query device fields
+
+Charles Keepax (1):
+      Input: ff-core - correct magnitude setting for rumble compatibility
+
+Christophe JAILLET (1):
+      Input: gpio-keys - avoid clearing twice some memory
+
+Colin Ian King (2):
+      Input: palmas-pwrbutton - make a couple of arrays static const
+      Input: ucb1400_ts - remove redundant variable penup
+
+Dario Binacchi (3):
+      Input: ti_am335x_tsc - set ADCREFM for X configuration
+      Input: ti_am335x_tsc - fix STEPCONFIG setup for Z2
+      Input: ti_am335x_tsc - lower the X and Y sampling time
+
+Geert Uytterhoeven (1):
+      Input: palmas-pwrbutton - use bitfield helpers
+
+Hans de Goede (6):
+      Input: goodix - add pen support
+      Input: goodix - improve gpiod_get() error logging
+      Input: goodix - 2 small fixes for pen support
+      Input: silead - add support for EFI-embedded fw using different min/max coordinates
+      Input: silead - add pen support
+      Input: axp20x-pek - revert "always register interrupt handlers" change
+
+Linus Walleij (2):
+      dt-bindings: input/ts/zinitix: Convert to YAML, fix and extend
+      Input: zinitix - handle proper supply names
+
+Nikita Travkin (1):
+      Input: zinitix - add compatible for bt532
+
+Qinghua Jin (1):
+      Input: ti_am335x_tsc - fix a typo in a comment
+
+Xiang wangx (1):
+      Input: byd - fix typo in a comment
+
+Diffstat:
+--------
+
+ .../bindings/input/touchscreen/zinitix,bt400.yaml  | 115 ++++++++++++++
+ .../bindings/input/touchscreen/zinitix.txt         |  40 -----
+ drivers/input/ff-core.c                            |   2 +-
+ drivers/input/keyboard/gpio_keys.c                 |   2 +-
+ drivers/input/misc/axp20x-pek.c                    |  72 +++++----
+ drivers/input/misc/palmas-pwrbutton.c              |   9 +-
+ drivers/input/mouse/byd.c                          |   2 +-
+ drivers/input/touchscreen/goodix.c                 | 127 ++++++++++++++-
+ drivers/input/touchscreen/goodix.h                 |   1 +
+ drivers/input/touchscreen/silead.c                 | 172 ++++++++++++++++++++-
+ drivers/input/touchscreen/ti_am335x_tsc.c          |  20 ++-
+ drivers/input/touchscreen/ucb1400_ts.c             |   4 +-
+ drivers/input/touchscreen/wacom_i2c.c              |  44 +++---
+ drivers/input/touchscreen/zinitix.c                |  22 ++-
+ 14 files changed, 507 insertions(+), 125 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix,bt400.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix.txt
+
+Thanks.
+
+
+-- 
+Dmitry
