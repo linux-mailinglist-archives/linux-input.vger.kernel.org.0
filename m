@@ -2,45 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 794AD4919B4
-	for <lists+linux-input@lfdr.de>; Tue, 18 Jan 2022 03:55:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BEB6491C0C
+	for <lists+linux-input@lfdr.de>; Tue, 18 Jan 2022 04:14:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347653AbiARCzf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Jan 2022 21:55:35 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:54926 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349583AbiARCtt (ORCPT
+        id S1349497AbiARDNQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Jan 2022 22:13:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37236 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347681AbiARC5T (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Jan 2022 21:49:49 -0500
+        Mon, 17 Jan 2022 21:57:19 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AF91C0613BA;
+        Mon, 17 Jan 2022 18:44:56 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5F060B81235;
-        Tue, 18 Jan 2022 02:49:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EFF0C36AF2;
-        Tue, 18 Jan 2022 02:49:46 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3DF3FB8125D;
+        Tue, 18 Jan 2022 02:44:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 308C9C36AE3;
+        Tue, 18 Jan 2022 02:44:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642474187;
-        bh=RKOUeEIT2OTdH0HT/qTJnMAncQPd625vzYG4H7TFQig=;
+        s=k20201202; t=1642473895;
+        bh=1AC9kSNkKHKjHLUFTivSrUAlNSvN3ie5d3LvlLeVE9I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZZ0RUYuOwsl61YFhY1GsPrvUlcB/0LE67VO7lhDVvXmQRMsb9zERF7LfhuLtarCuu
-         owTIAY6HvfxOijXW8b5WOE2QDG+Im2DQTdl6ZaDRuajIQ2ZGXlEBhXVqQddTacjDi5
-         kLJDKKwFiABsSyV8uJhD1aF7N2JQm6H3Q26DoBQw6rLKFnih8aFYl+5SBVke6l+xh6
-         12bwwx5e9S8MgUW7ALPidsZiT3sfsF3y3NiDZ2EmAk11nhJ/eQ2oqdlGO4Dcy/pHWY
-         ot/EyN836TVVGoRTR4Y5MVHmGckheCm/z+GMgAPZI55fPLy+N9ydJDGWm1mEvojlL8
-         uPQdAdHk2EOKw==
+        b=NnfxzOd5KkwGfktcf0150s/X+Tq6bj6PycsfHdHW/R40cvkxQPNTdvyEmKa2nNNU4
+         gqFyst3E+w34c9xDz4eQditiHZdo6vEOTaku+Fjyn+EMOYQQjS2DQTgPQ14ZiGW8m6
+         uvYjJvfqTkLb815FOjVZJp2kYo9/7JrsNgClWQBLOkWuS6bCZF9CDdz3ftWZrSFFm3
+         p4mBFhGZbFzta/EHU3XRbFKkFk9Dg4piAcvIYlbQGEJP4VYlp38CWDt/QGTjHBzp5w
+         caMg+S2mYdghT8AoIcJSW8qJ866RWhRArkYcfJpMpGMbqugY+v0xkwtZwiCzS5XN7i
+         BXDHoneb/+6zw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 13/56] HID: apple: Do not reset quirks when the Fn key is not found
-Date:   Mon, 17 Jan 2022 21:48:25 -0500
-Message-Id: <20220118024908.1953673-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 11/73] HID: apple: Do not reset quirks when the Fn key is not found
+Date:   Mon, 17 Jan 2022 21:43:30 -0500
+Message-Id: <20220118024432.1952028-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118024908.1953673-1-sashal@kernel.org>
-References: <20220118024908.1953673-1-sashal@kernel.org>
+In-Reply-To: <20220118024432.1952028-1-sashal@kernel.org>
+References: <20220118024432.1952028-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -65,10 +68,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 4e3dd3f55a963..80ecbf14d3c82 100644
+index 07df64daf7dae..efce31d035ef5 100644
 --- a/drivers/hid/hid-apple.c
 +++ b/drivers/hid/hid-apple.c
-@@ -392,7 +392,7 @@ static int apple_input_configured(struct hid_device *hdev,
+@@ -389,7 +389,7 @@ static int apple_input_configured(struct hid_device *hdev,
  
  	if ((asc->quirks & APPLE_HAS_FN) && !asc->fn_found) {
  		hid_info(hdev, "Fn key not found (Apple Wireless Keyboard clone?), disabling Fn key handling\n");
