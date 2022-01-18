@@ -2,51 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82375491584
-	for <lists+linux-input@lfdr.de>; Tue, 18 Jan 2022 03:28:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B171491717
+	for <lists+linux-input@lfdr.de>; Tue, 18 Jan 2022 03:38:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245683AbiARC2h (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Jan 2022 21:28:37 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:43700 "EHLO
+        id S1344949AbiARChy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Jan 2022 21:37:54 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:51522 "EHLO
         dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245528AbiARC0d (ORCPT
+        with ESMTP id S1344058AbiARCeQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Jan 2022 21:26:33 -0500
+        Mon, 17 Jan 2022 21:34:16 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AF5276111D;
-        Tue, 18 Jan 2022 02:26:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6870AC36AEB;
-        Tue, 18 Jan 2022 02:26:30 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6079061157;
+        Tue, 18 Jan 2022 02:34:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB118C36AEF;
+        Tue, 18 Jan 2022 02:34:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642472792;
-        bh=liI5oHo+hy1bS9c8mmeSTwJK7B/DrVx+fsHTX63n/SY=;
+        s=k20201202; t=1642473254;
+        bh=1EyoLpH3u/C9VtsMId1mXlNNHGrLClCkoMSf0/DC940=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KEPOgSaA5lATNLEEo78tdl7CgKpjl9Ba7S3V11d6jev22jE1iBWUB5Ax4tXm+gA3m
-         xjvaTi+OfT9rlwdUvnZSnHrU36TpD5BsJSy77Ix9sSv3rDH3JZretkVt6csXbJF/Kx
-         M7mujfm7WDMM3PHESKHOUDGvhyQ8qRyUY5dE6V9wkKCh/9bRtxMXq5KMuqfEv2IE2z
-         cqOnBbzcUlFTmeVA+lRIA33v7S9R4YUhJgjjkWShD6HX+3ErRR2rtqcF1FZ0v8OdOx
-         JMr9K+YqmcKz7HJmDod8sI8myd5wWYyrcEydDNlrJ3CUArf4bQtXEQCYHWElYigph0
-         GM9ydAjvbVqXA==
+        b=fr+jYlhtHE7U8VPQqP8W/xIpFLl388fZnpCJ59C9Iio/mKq3Sv5i6Y3IT5WeBgBaL
+         oWseebWsnhYRY9PDW+we73ExOIbqqk/gUwi1JI/zvgs1yLlQ7kzTD4U6UzUF+ox/Nq
+         lG2k3tGC3swzVe+G98Hzl0HSm6Luv8NqA5gVea5Rs91BaPzBqw4IJRbDnwgPK+Jd6a
+         X1NbDyPgpqt/gDyks0huZd00qe0ck9VbmC+1lNjSAVeiuauHX/6t3wVK3Z67qE8ais
+         ZjOeoz3l8XgDtgr8WhNQmQIVwZq7p0YcgykQKDR78WegHhX5Svvp948UEoKGoIXdGn
+         YVWGHF9Ts+UgA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Alistair Francis <alistair@alistair23.me>,
-        Rob Herring <robh@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, dmitry.torokhov@gmail.com,
-        robh+dt@kernel.org, jikos@kernel.org,
-        andriy.shevchenko@linux.intel.com, dianders@chromium.org,
-        hdegoede@redhat.com, johnny.chuang.emc@gmail.com,
-        jbroadus@gmail.com, mka@chromium.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 133/217] HID: i2c-hid-of: Expose the touchscreen-inverted properties
-Date:   Mon, 17 Jan 2022 21:18:16 -0500
-Message-Id: <20220118021940.1942199-133-sashal@kernel.org>
+Cc:     =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 042/188] HID: magicmouse: Report battery level over USB
+Date:   Mon, 17 Jan 2022 21:29:26 -0500
+Message-Id: <20220118023152.1948105-42-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118021940.1942199-1-sashal@kernel.org>
-References: <20220118021940.1942199-1-sashal@kernel.org>
+In-Reply-To: <20220118023152.1948105-1-sashal@kernel.org>
+References: <20220118023152.1948105-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -54,138 +50,184 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Alistair Francis <alistair@alistair23.me>
+From: José Expósito <jose.exposito89@gmail.com>
 
-[ Upstream commit b60d3c803d7603432a08aeaf988aff53b3a5ec64 ]
+[ Upstream commit 0b91b4e4dae63cd43871fc2012370b86ee588f91 ]
 
-Allow the touchscreen-inverted-x/y device tree properties to control the
-HID_QUIRK_X_INVERT/HID_QUIRK_Y_INVERT quirks for the hid-input device.
+When connected over USB, the Apple Magic Mouse 2 and the Apple Magic
+Trackpad 2 register multiple interfaces, one of them is used to report
+the battery level.
 
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
-Acked-by: Rob Herring <robh@kernel.org>
-[bentiss: silence checkpatch warnings]
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Link: https://lore.kernel.org/r/20211208124045.61815-3-alistair@alistair23.me
+However, unlike when connected over Bluetooth, the battery level is not
+reported automatically and it is required to fetch it manually.
+
+Fix the battery report descriptor and add a timer to fetch the battery
+level.
+
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../devicetree/bindings/input/hid-over-i2c.txt         |  2 ++
- drivers/hid/i2c-hid/i2c-hid-acpi.c                     |  2 +-
- drivers/hid/i2c-hid/i2c-hid-core.c                     |  4 +++-
- drivers/hid/i2c-hid/i2c-hid-of-goodix.c                |  2 +-
- drivers/hid/i2c-hid/i2c-hid-of.c                       | 10 +++++++++-
- drivers/hid/i2c-hid/i2c-hid.h                          |  2 +-
- 6 files changed, 17 insertions(+), 5 deletions(-)
+ drivers/hid/hid-magicmouse.c | 94 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 88 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/input/hid-over-i2c.txt b/Documentation/devicetree/bindings/input/hid-over-i2c.txt
-index c76bafaf98d2f..34c43d3bddfd1 100644
---- a/Documentation/devicetree/bindings/input/hid-over-i2c.txt
-+++ b/Documentation/devicetree/bindings/input/hid-over-i2c.txt
-@@ -32,6 +32,8 @@ device-specific compatible properties, which should be used in addition to the
- - vdd-supply: phandle of the regulator that provides the supply voltage.
- - post-power-on-delay-ms: time required by the device after enabling its regulators
-   or powering it on, before it is ready for communication.
-+- touchscreen-inverted-x: See touchscreen.txt
-+- touchscreen-inverted-y: See touchscreen.txt
- 
- Example:
- 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-acpi.c b/drivers/hid/i2c-hid/i2c-hid-acpi.c
-index a6f0257a26de3..b96ae15e0ad91 100644
---- a/drivers/hid/i2c-hid/i2c-hid-acpi.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-acpi.c
-@@ -111,7 +111,7 @@ static int i2c_hid_acpi_probe(struct i2c_client *client)
- 	}
- 
- 	return i2c_hid_core_probe(client, &ihid_acpi->ops,
--				  hid_descriptor_address);
-+				  hid_descriptor_address, 0);
- }
- 
- static const struct acpi_device_id i2c_hid_acpi_match[] = {
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 517141138b007..4804d71e5293a 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -912,7 +912,7 @@ static void i2c_hid_core_shutdown_tail(struct i2c_hid *ihid)
- }
- 
- int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
--		       u16 hid_descriptor_address)
-+		       u16 hid_descriptor_address, u32 quirks)
- {
- 	int ret;
- 	struct i2c_hid *ihid;
-@@ -1009,6 +1009,8 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
- 		goto err_mem_free;
- 	}
- 
-+	hid->quirks |= quirks;
+diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
+index d7687ce706144..eba1e8087bfd1 100644
+--- a/drivers/hid/hid-magicmouse.c
++++ b/drivers/hid/hid-magicmouse.c
+@@ -57,6 +57,8 @@ MODULE_PARM_DESC(report_undeciphered, "Report undeciphered multi-touch state fie
+ #define MOUSE_REPORT_ID    0x29
+ #define MOUSE2_REPORT_ID   0x12
+ #define DOUBLE_REPORT_ID   0xf7
++#define USB_BATTERY_TIMEOUT_MS 60000
 +
- 	return 0;
+ /* These definitions are not precise, but they're close enough.  (Bits
+  * 0x03 seem to indicate the aspect ratio of the touch, bits 0x70 seem
+  * to be some kind of bit mask -- 0x20 may be a near-field reading,
+@@ -140,6 +142,7 @@ struct magicmouse_sc {
  
- err_mem_free:
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-index 52674149a2750..b4dad66fa954d 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-@@ -150,7 +150,7 @@ static int i2c_hid_of_goodix_probe(struct i2c_client *client,
- 		goodix_i2c_hid_deassert_reset(ihid_goodix, true);
- 	mutex_unlock(&ihid_goodix->regulator_mutex);
- 
--	return i2c_hid_core_probe(client, &ihid_goodix->ops, 0x0001);
-+	return i2c_hid_core_probe(client, &ihid_goodix->ops, 0x0001, 0);
- }
- 
- static const struct goodix_i2c_hid_timing_data goodix_gt7375p_timing_data = {
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of.c b/drivers/hid/i2c-hid/i2c-hid-of.c
-index 4bf7cea926379..97a27a803f58d 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of.c
-@@ -21,6 +21,7 @@
- 
- #include <linux/delay.h>
- #include <linux/device.h>
-+#include <linux/hid.h>
- #include <linux/i2c.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-@@ -71,6 +72,7 @@ static int i2c_hid_of_probe(struct i2c_client *client,
- 	struct device *dev = &client->dev;
- 	struct i2c_hid_of *ihid_of;
- 	u16 hid_descriptor_address;
-+	u32 quirks = 0;
- 	int ret;
- 	u32 val;
- 
-@@ -105,8 +107,14 @@ static int i2c_hid_of_probe(struct i2c_client *client,
- 	if (ret)
- 		return ret;
- 
-+	if (device_property_read_bool(dev, "touchscreen-inverted-x"))
-+		quirks |= HID_QUIRK_X_INVERT;
-+
-+	if (device_property_read_bool(dev, "touchscreen-inverted-y"))
-+		quirks |= HID_QUIRK_Y_INVERT;
-+
- 	return i2c_hid_core_probe(client, &ihid_of->ops,
--				  hid_descriptor_address);
-+				  hid_descriptor_address, quirks);
- }
- 
- static const struct of_device_id i2c_hid_of_match[] = {
-diff --git a/drivers/hid/i2c-hid/i2c-hid.h b/drivers/hid/i2c-hid/i2c-hid.h
-index 05a7827d211af..236cc062d5ef8 100644
---- a/drivers/hid/i2c-hid/i2c-hid.h
-+++ b/drivers/hid/i2c-hid/i2c-hid.h
-@@ -32,7 +32,7 @@ struct i2chid_ops {
+ 	struct hid_device *hdev;
+ 	struct delayed_work work;
++	struct timer_list battery_timer;
  };
  
- int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
--		       u16 hid_descriptor_address);
-+		       u16 hid_descriptor_address, u32 quirks);
- int i2c_hid_core_remove(struct i2c_client *client);
+ static int magicmouse_firm_touch(struct magicmouse_sc *msc)
+@@ -738,6 +741,44 @@ static void magicmouse_enable_mt_work(struct work_struct *work)
+ 		hid_err(msc->hdev, "unable to request touch data (%d)\n", ret);
+ }
  
- void i2c_hid_core_shutdown(struct i2c_client *client);
++static int magicmouse_fetch_battery(struct hid_device *hdev)
++{
++#ifdef CONFIG_HID_BATTERY_STRENGTH
++	struct hid_report_enum *report_enum;
++	struct hid_report *report;
++
++	if (!hdev->battery || hdev->vendor != USB_VENDOR_ID_APPLE ||
++	    (hdev->product != USB_DEVICE_ID_APPLE_MAGICMOUSE2 &&
++	     hdev->product != USB_DEVICE_ID_APPLE_MAGICTRACKPAD2))
++		return -1;
++
++	report_enum = &hdev->report_enum[hdev->battery_report_type];
++	report = report_enum->report_id_hash[hdev->battery_report_id];
++
++	if (!report || report->maxfield < 1)
++		return -1;
++
++	if (hdev->battery_capacity == hdev->battery_max)
++		return -1;
++
++	hid_hw_request(hdev, report, HID_REQ_GET_REPORT);
++	return 0;
++#else
++	return -1;
++#endif
++}
++
++static void magicmouse_battery_timer_tick(struct timer_list *t)
++{
++	struct magicmouse_sc *msc = from_timer(msc, t, battery_timer);
++	struct hid_device *hdev = msc->hdev;
++
++	if (magicmouse_fetch_battery(hdev) == 0) {
++		mod_timer(&msc->battery_timer,
++			  jiffies + msecs_to_jiffies(USB_BATTERY_TIMEOUT_MS));
++	}
++}
++
+ static int magicmouse_probe(struct hid_device *hdev,
+ 	const struct hid_device_id *id)
+ {
+@@ -745,11 +786,6 @@ static int magicmouse_probe(struct hid_device *hdev,
+ 	struct hid_report *report;
+ 	int ret;
+ 
+-	if (id->vendor == USB_VENDOR_ID_APPLE &&
+-	    id->product == USB_DEVICE_ID_APPLE_MAGICTRACKPAD2 &&
+-	    hdev->type != HID_TYPE_USBMOUSE)
+-		return -ENODEV;
+-
+ 	msc = devm_kzalloc(&hdev->dev, sizeof(*msc), GFP_KERNEL);
+ 	if (msc == NULL) {
+ 		hid_err(hdev, "can't alloc magicmouse descriptor\n");
+@@ -775,6 +811,16 @@ static int magicmouse_probe(struct hid_device *hdev,
+ 		return ret;
+ 	}
+ 
++	timer_setup(&msc->battery_timer, magicmouse_battery_timer_tick, 0);
++	mod_timer(&msc->battery_timer,
++		  jiffies + msecs_to_jiffies(USB_BATTERY_TIMEOUT_MS));
++	magicmouse_fetch_battery(hdev);
++
++	if (id->vendor == USB_VENDOR_ID_APPLE &&
++	    (id->product == USB_DEVICE_ID_APPLE_MAGICMOUSE2 ||
++	     (id->product == USB_DEVICE_ID_APPLE_MAGICTRACKPAD2 && hdev->type != HID_TYPE_USBMOUSE)))
++		return 0;
++
+ 	if (!msc->input) {
+ 		hid_err(hdev, "magicmouse input not registered\n");
+ 		ret = -ENOMEM;
+@@ -835,17 +881,52 @@ static void magicmouse_remove(struct hid_device *hdev)
+ {
+ 	struct magicmouse_sc *msc = hid_get_drvdata(hdev);
+ 
+-	if (msc)
++	if (msc) {
+ 		cancel_delayed_work_sync(&msc->work);
++		del_timer_sync(&msc->battery_timer);
++	}
+ 
+ 	hid_hw_stop(hdev);
+ }
+ 
++static __u8 *magicmouse_report_fixup(struct hid_device *hdev, __u8 *rdesc,
++				     unsigned int *rsize)
++{
++	/*
++	 * Change the usage from:
++	 *   0x06, 0x00, 0xff, // Usage Page (Vendor Defined Page 1)  0
++	 *   0x09, 0x0b,       // Usage (Vendor Usage 0x0b)           3
++	 * To:
++	 *   0x05, 0x01,       // Usage Page (Generic Desktop)        0
++	 *   0x09, 0x02,       // Usage (Mouse)                       2
++	 */
++	if (hdev->vendor == USB_VENDOR_ID_APPLE &&
++	    (hdev->product == USB_DEVICE_ID_APPLE_MAGICMOUSE2 ||
++	     hdev->product == USB_DEVICE_ID_APPLE_MAGICTRACKPAD2) &&
++	    *rsize == 83 && rdesc[46] == 0x84 && rdesc[58] == 0x85) {
++		hid_info(hdev,
++			 "fixing up magicmouse battery report descriptor\n");
++		*rsize = *rsize - 1;
++		rdesc = kmemdup(rdesc + 1, *rsize, GFP_KERNEL);
++		if (!rdesc)
++			return NULL;
++
++		rdesc[0] = 0x05;
++		rdesc[1] = 0x01;
++		rdesc[2] = 0x09;
++		rdesc[3] = 0x02;
++	}
++
++	return rdesc;
++}
++
+ static const struct hid_device_id magic_mice[] = {
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE,
+ 		USB_DEVICE_ID_APPLE_MAGICMOUSE), .driver_data = 0 },
+ 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE,
+ 		USB_DEVICE_ID_APPLE_MAGICMOUSE2), .driver_data = 0 },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
++		USB_DEVICE_ID_APPLE_MAGICMOUSE2), .driver_data = 0 },
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE,
+ 		USB_DEVICE_ID_APPLE_MAGICTRACKPAD), .driver_data = 0 },
+ 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE,
+@@ -861,6 +942,7 @@ static struct hid_driver magicmouse_driver = {
+ 	.id_table = magic_mice,
+ 	.probe = magicmouse_probe,
+ 	.remove = magicmouse_remove,
++	.report_fixup = magicmouse_report_fixup,
+ 	.raw_event = magicmouse_raw_event,
+ 	.event = magicmouse_event,
+ 	.input_mapping = magicmouse_input_mapping,
 -- 
 2.34.1
 
