@@ -2,137 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B9D449253D
-	for <lists+linux-input@lfdr.de>; Tue, 18 Jan 2022 12:55:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A06849262B
+	for <lists+linux-input@lfdr.de>; Tue, 18 Jan 2022 13:56:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237942AbiARLzg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 Jan 2022 06:55:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49360 "EHLO
+        id S241199AbiARM4b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 Jan 2022 07:56:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230274AbiARLzg (ORCPT
+        with ESMTP id S241087AbiARM4b (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 Jan 2022 06:55:36 -0500
-Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB259C061574
-        for <linux-input@vger.kernel.org>; Tue, 18 Jan 2022 03:55:35 -0800 (PST)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by srv6.fidu.org (Postfix) with ESMTP id DBA76C80073;
-        Tue, 18 Jan 2022 12:55:32 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
-        by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
-        with LMTP id aeAXiSTbaRAH; Tue, 18 Jan 2022 12:55:32 +0100 (CET)
-Received: from wsembach-tuxedo.fritz.box (host-212-18-30-247.customer.m-online.net [212.18.30.247])
-        (Authenticated sender: wse@tuxedocomputers.com)
-        by srv6.fidu.org (Postfix) with ESMTPA id 649D5C8006F;
-        Tue, 18 Jan 2022 12:55:32 +0100 (CET)
-From:   Werner Sembach <wse@tuxedocomputers.com>
-To:     dmitry.torokhov@gmail.com, tiwai@suse.com, mpdesouza@suse.com,
-        arnd@arndb.de, samuel@cavoj.net, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] input/i8042: Add quirk table to disable aux port on Clevo NS70MU
-Date:   Tue, 18 Jan 2022 12:55:32 +0100
-Message-Id: <20220118115532.33011-1-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 18 Jan 2022 07:56:31 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6CE0C06161C
+        for <linux-input@vger.kernel.org>; Tue, 18 Jan 2022 04:56:30 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id ay4-20020a05600c1e0400b0034a81a94607so7184669wmb.1
+        for <linux-input@vger.kernel.org>; Tue, 18 Jan 2022 04:56:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=kt7BSYvG+rr2bLEECwLOEMCvBVZotJIk44/4XcKD9H0=;
+        b=qVnMKKFkDFfregDqIMLKYbf/6Rfv7ZYgGOembxhYq270XML2HKFtTQgZWIe4suSlTH
+         9ZzqBt5SMc2HUATvpaoydj6CpAH75hfC5DF+qG4KwifTo4DrFaHm4c8fs1QJQm7jolVG
+         Yz4zXdaQM20LOthQjIWFNEHmWnNyurUbd97AZ4ibUQhIkLNbnMtMag6Xrg6QZ8gZZqDm
+         AhE1vYxascg6oV2aYaMhw3KgbAVODS8uHXaxJLKE26GX1yPfuLfQGBvcHdmtP8IdG3mL
+         tZhPduIc/yXpUOsnqZjXTAJXBz08l+EgG80HPIwCF9codvQmj8aBOWuUqBF+k09ulJ3k
+         hb2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=kt7BSYvG+rr2bLEECwLOEMCvBVZotJIk44/4XcKD9H0=;
+        b=rmrfNqTdWLM15XkP4p0wneteOWKzZJpIcWmn0F8jsnX2xkV+3f8lI+yIKb756CeKjs
+         7dL8E+9KT8vv9mYDdR4Btn5VGXYOKEMCqW6Gu9gbcQE34aT35fE8C39luOSNvfQfM3Z3
+         Grbm+VfWWilaZqBPVfdEpURMRYiu7SsDnIXkafYI7rWl03PbSqNRgMu6qUIukzi7y6+S
+         pN8QequrQuv6oesfOuGikUfLCvIIRoPKCzyHmefHrfce0iIDdrypy5BUoWoiuroE8kcq
+         IddmEDJTyv9KDEgcOv6eSBwdRs1k85NYn9DwceRLWGCTDoJRo9a+kUbZmf0KyrBX/ytW
+         3OXw==
+X-Gm-Message-State: AOAM533UVNTgJHcBvXhhH6Rn5AVkxRgjkGI4KJbbCEj45IvtB/dkQ+AQ
+        VVMH0bgqgasvUL7vSfCqxKMPEVEKHaFdyF8JzNk=
+X-Google-Smtp-Source: ABdhPJxGKt76Lg3GTqSnJwaq8ce07osyp5P35JeSOcN9tb1VXjOIJO04UXEDjKYPd9tAaf1+CAAgchajeREZcdHreE4=
+X-Received: by 2002:a05:6000:1b0e:: with SMTP id f14mr24751578wrz.100.1642510589314;
+ Tue, 18 Jan 2022 04:56:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:adf:e18f:0:0:0:0:0 with HTTP; Tue, 18 Jan 2022 04:56:28
+ -0800 (PST)
+Reply-To: mohsheikhalhamed@gmail.com
+From:   bratikox <bratikox@gmail.com>
+Date:   Tue, 18 Jan 2022 13:56:28 +0100
+Message-ID: <CAFuXTSxdo5QqN-cWu1zvOLDOxST9c2oW0BX-ZHL4Uwk2Qh45dA@mail.gmail.com>
+Subject: Salam Alaikum /ADIA LOAN OFFER
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-At least one modern Clevo barebone has the touchpad connected both via PS/2
-and i2c interface. This causes a race condition between the psmouse and
-i2c-hid driver. Since the full capability if the touchpad is available via
-the i2c interface and the device has no external PS/2 port, it is save to
-just ignore all ps2 mouses here to avoid this issue.
+Salam Alaikum,
 
-The know affected device is the Clevo NS70MU.
+We are a United Arab Emirates based investment company known as Abu
+Dhabi Investment Authority working on expanding its portfolio globally
+and financing projects.
 
-This patch adds a new i8042_dmi_noaux_table with the dmi strings of the
-affected device of different revisions. The table is then evaluated like
-the other quirk tables in the i8042 driver.
+We are offering Corporate and Personal Loan at 3.5% Interest Rate for
+a duration of 5 to 10 years.
 
-This is revision 2 as I got aware that there are yet another 2 dmi string
-combinations identifying the same device.
+Please get back to us on Email: mohsheikhalhamed@gmail.com ,if you are
+interested for further embellishment.
 
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-Cc: stable@vger.kernel.org
----
- drivers/input/serio/i8042-x86ia64io.h | 54 +++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+We also pay 2% commission to brokers who introduce project owners for
+finance or other opportunities.
 
-diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
-index 148a7c5fd0e2..e39d3d840a31 100644
---- a/drivers/input/serio/i8042-x86ia64io.h
-+++ b/drivers/input/serio/i8042-x86ia64io.h
-@@ -1013,6 +1013,57 @@ static const struct dmi_system_id i8042_dmi_probe_defer_table[] __initconst = {
- 	{ }
- };
- 
-+static const struct dmi_system_id i8042_dmi_noaux_table[] __initconst = {
-+	/*
-+	 * At least one modern Clevo barebone has the touchpad connected
-+	 * both via PS/2 and i2c interface. This causes a race condition
-+	 * between the psmouse and i2c-hid driver. Since the full
-+	 * capability if the touchpad is available via the i2c interface
-+	 * and the device has no external PS/2 port, it is save to just
-+	 * ignore all ps2 mouses here to avoid this issue.
-+	 * The know affected device is the
-+	 * TUXEDO InfinityBook S17 Gen6 / Clevo NS70MU which comes with
-+	 * one of the 6 different dmi string combinations below.
-+	 */
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
-+			DMI_MATCH(DMI_BOARD_NAME, "NS50MU"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
-+			DMI_MATCH(DMI_BOARD_NAME, "NS50_70MU"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "SchenkerTechnologiesGmbH"),
-+			DMI_MATCH(DMI_BOARD_NAME, "NS50MU"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "SchenkerTechnologiesGmbH"),
-+			DMI_MATCH(DMI_BOARD_NAME, "NS50_70MU"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Notebook"),
-+			DMI_MATCH(DMI_BOARD_NAME, "NS50MU"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Notebook"),
-+			DMI_MATCH(DMI_BOARD_NAME, "NS50_70MU"),
-+		},
-+	},
-+	{ }
-+};
-+
- #endif /* CONFIG_X86 */
- 
- #ifdef CONFIG_PNP
-@@ -1336,6 +1387,9 @@ static int __init i8042_platform_init(void)
- 	if (dmi_check_system(i8042_dmi_probe_defer_table))
- 		i8042_probe_defer = true;
- 
-+	if (dmi_check_system(i8042_dmi_noaux_table))
-+		i8042_noaux = true;
-+
- 	/*
- 	 * A20 was already enabled during early kernel init. But some buggy
- 	 * BIOSes (in MSI Laptops) require A20 to be enabled using 8042 to
--- 
-2.25.1
 
+ Yours truly,
+ Hamed Mohammad
+ (Personal Assistant)
+ Abu Dhabi Investment Authority
+ 211 Corniche, P.O Box 3600
+ Abu Dhabi,United Arab Emirates
