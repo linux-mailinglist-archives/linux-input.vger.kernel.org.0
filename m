@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 352CE4930E7
-	for <lists+linux-input@lfdr.de>; Tue, 18 Jan 2022 23:38:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AE754930ED
+	for <lists+linux-input@lfdr.de>; Tue, 18 Jan 2022 23:39:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240886AbiARWiQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 Jan 2022 17:38:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56906 "EHLO
+        id S1344904AbiARWi4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 Jan 2022 17:38:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240802AbiARWiP (ORCPT
+        with ESMTP id S240802AbiARWix (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 Jan 2022 17:38:15 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1ED0C061574;
-        Tue, 18 Jan 2022 14:38:14 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id z17-20020a17090ab11100b001b4d8817e04so3391853pjq.2;
-        Tue, 18 Jan 2022 14:38:14 -0800 (PST)
+        Tue, 18 Jan 2022 17:38:53 -0500
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0CD0C061574;
+        Tue, 18 Jan 2022 14:38:53 -0800 (PST)
+Received: by mail-pf1-x435.google.com with SMTP id i129so654045pfe.13;
+        Tue, 18 Jan 2022 14:38:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZbU8JFNz8EJwN7FgVu0cRZAO8izn8Kn18zUzADS8gd4=;
-        b=qLB+fZQTeul3PaPNLzabru6EfFjb//O5L/H/oGiKJk6TaaSEMrWTOhEWbZPsWk1pjV
-         M/HVD2P/vAS/4eRozOAAnO8w0x4yFENI/51hKy494g2CGbfV9vUIiqymYiTIiVqeWQSW
-         WrmsgPiaf0Tf0wIk6Hc6U6qHMXSatSkClsyRzPyZRj4EkWuTOTlGOYE7wKsqTCM2tX2N
-         wqOApjbBiBop50XZfY4uyGQLhpy71ajc8x6itLLzdFYGN8sdSC3kFDvaaTppbrRIIFya
-         bxzEzyDMOHCsUkzMgWmLXUU4vamt9/hPXpQj0Y1QIauOwskTbI97TBfVi/DV/tdUOE/x
-         o7PA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uOGvUUzuJX9YKCxOe9YLRXRye1b5vrA9LrzACjIeYmE=;
+        b=YAj8C1CGqbzdUw599ssYVjQh9WjrrLHabGBGRFcdZ9OUmTA5loEfRUdxh1UZzrXMpw
+         qKWXm+VXmqJdtvbN4ma0cqRznWJi2FcSAla3aQdMLsIZzcgYcmaz8AeaBN9WSPukts+l
+         p+Jmi0KX+c/sRbDZ7dXM8DCBq+5Otsz5UicEyGGcd2u9leavSkDIZQIojw92+1zqalDS
+         mq+02GSul8vd0k95A7zDp/l3aNccZN9kE2SMysROti/Y7yWWyU/+QBOlCgC3nwIr6yBQ
+         RZxqC9eH0HZmwwh3JDOeu8YnOMyCCG8fqZOeJHob+FHKNJzNOQC3ceMAeGIIDmVvHQ0j
+         pfFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZbU8JFNz8EJwN7FgVu0cRZAO8izn8Kn18zUzADS8gd4=;
-        b=Y3eXMPkdO9Dug68CNxyf3afTXlP0QLvtVs7RCUjWWJX1VxSl/gaO0uCNjeMeM/CwNm
-         vEoxlUBX4vPJRBD0U/3LiTeKe3EZpi3RsBmFlWO7T4rT0Wl6xJ9P07DFofjQetLivT0g
-         /MUH5X9ALO6bTJK6VjF3SfMNwSMle6C/wx1EpRyA3yZ4wkEHYe6MFRLG4zVH7ppxHarx
-         E1pGenyWk8hlMkguQMyZaPdqXNLuSgU3jyd8Io0odlMESZdNl1HzPS9FGG6BoioH1O8t
-         PzdpVC27LYoTXAd9kIPHjO0XaU0fjYA21vjXyuUz7cJTjvzHVQKXCkC4M6FAq8y24bT/
-         IPqw==
-X-Gm-Message-State: AOAM5325y9kv6jKdwK1x1LPNFW9C60nrbZRvCELS4qNf67YQdmCu24DJ
-        ZJV5qaZ7y2GUebwG8ERawP9ZMSKX+T4=
-X-Google-Smtp-Source: ABdhPJy8NmyV4OoqB4rgP4Cm4SB/wZYyrZBmDQQ3COSOsm2/hnk+FnumY4KbscTnDAiRl/RLxL/q2g==
-X-Received: by 2002:a17:902:bf02:b0:149:c653:22af with SMTP id bi2-20020a170902bf0200b00149c65322afmr29852473plb.139.1642545494367;
-        Tue, 18 Jan 2022 14:38:14 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uOGvUUzuJX9YKCxOe9YLRXRye1b5vrA9LrzACjIeYmE=;
+        b=ZgFOrrvwIljZciFpGzhXlP40EOneAusye0UzBSGVHrm7t0wSOxNo29T9GT4yH6PG6v
+         If1W5onVwoZb4QFy2RuV4tKqaJW/zZFuC77s+pecWcDL89ygtXo1T9/ar5J/vgRCW21w
+         u5nEA+9+ADq1UVDXeU8kyMHtb4CxRblI3hq2nkYMGEfnkAGWtgLgmcyNTkTQ4xbapGIk
+         K1rJZFsMzyuCMspxwHzyi2NHvUnwA/iRQxKmfDD5VQPI6AN8AigwSLWNmtqypaJxGH30
+         +1MVssQmQHKP3qpdrAZ5laSgcpSX13RJg8khGuffXlwrM6Ah66lul3LYEmAlclskFGa8
+         g6nA==
+X-Gm-Message-State: AOAM531jJBwJMgz2fkfiD+GAFne5LgIznqd/MA1yFOMR4aKrbAhQG5ef
+        ZWGqffN5egJkvdq3NBP8ovNPZP/3eq0=
+X-Google-Smtp-Source: ABdhPJyCNuqM1wGkg6Z3hTznjOqW8F8aoo98xeiVJBTEDidhS+92cxYgwWjvaz7qUBVSAh+9IoM4yw==
+X-Received: by 2002:a63:154f:: with SMTP id 15mr24602005pgv.521.1642545533048;
+        Tue, 18 Jan 2022 14:38:53 -0800 (PST)
 Received: from horus.lan (75-164-184-207.ptld.qwest.net. [75.164.184.207])
-        by smtp.gmail.com with ESMTPSA id pf16sm3433250pjb.35.2022.01.18.14.38.13
+        by smtp.gmail.com with ESMTPSA id om6sm3680713pjb.48.2022.01.18.14.38.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jan 2022 14:38:13 -0800 (PST)
+        Tue, 18 Jan 2022 14:38:52 -0800 (PST)
 From:   Jason Gerecke <killertofu@gmail.com>
 X-Google-Original-From: Jason Gerecke <jason.gerecke@wacom.com>
 To:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
@@ -57,89 +57,51 @@ Cc:     Ping Cheng <pinglinux@gmail.com>,
         Joshua Dickens <Joshua@Joshua-Dickens.com>,
         Jason Gerecke <jason.gerecke@wacom.com>,
         stable@vger.kernel.org, Ping Cheng <ping.cheng@wacom.com>
-Subject: [PATCH 2/2] HID: wacom: Ignore the confidence flag when a touch is removed
-Date:   Tue, 18 Jan 2022 14:37:56 -0800
-Message-Id: <20220118223756.45624-2-jason.gerecke@wacom.com>
+Subject: [PATCH] HID: wacom: Avoid using stale array indicies to read contact count
+Date:   Tue, 18 Jan 2022 14:38:41 -0800
+Message-Id: <20220118223841.45870-1-jason.gerecke@wacom.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118223756.45624-1-jason.gerecke@wacom.com>
-References: <20220118223756.45624-1-jason.gerecke@wacom.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-AES hardware may internally re-classify a contact that it thought was
-intentional as a palm. Intentional contacts are reported as "down" with
-the confidence bit set. When this re-classification occurs, however, the
-state transitions to "up" with the confidence bit cleared. This kind of
-transition appears to be legal according to Microsoft docs, but we do
-not handle it correctly. Because the confidence bit is clear, we don't
-call `wacom_wac_finger_slot` and update userspace. This causes hung
-touches that confuse userspace and interfere with pen arbitration.
+If we ever see a touch report with contact count data we initialize
+several variables used to read the contact count in the pre-report
+phase. These variables are never reset if we process a report which
+doesn't contain a contact count, however. This can cause the pre-
+report function to trigger a read of arbitrary memory (e.g. NULL
+if we're lucky) and potentially crash the driver.
 
-This commit adds a special case to ignore the confidence flag if a contact
-is reported as removed. This ensures we do not leave a hung touch if one
-of these re-classification events occured. Ideally we'd have some way to
-also let userspace know that the touch has been re-classified as a palm
-and needs to be canceled, but that's not possible right now :)
+This commit restores resetting of the variables back to default
+"none" values that were used prior to the commit mentioned
+below.
 
-Link: https://github.com/linuxwacom/input-wacom/issues/288
-Fixes: 7fb0413baa7f (HID: wacom: Use "Confidence" flag to prevent reporting invalid contacts)
+Link: https://github.com/linuxwacom/input-wacom/issues/276
+Fixes: 003f50ab673c (HID: wacom: Update last_slot_field during pre_report phase)
 CC: stable@vger.kernel.org
 Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
 Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
 ---
- drivers/hid/wacom_wac.c | 29 ++++++++++++++++++++++++++---
- 1 file changed, 26 insertions(+), 3 deletions(-)
+ drivers/hid/wacom_wac.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 5978399ae7d2..92b52b1de526 100644
+index 92b52b1de526..a7176fc0635d 100644
 --- a/drivers/hid/wacom_wac.c
 +++ b/drivers/hid/wacom_wac.c
-@@ -2588,6 +2588,24 @@ static void wacom_wac_finger_slot(struct wacom_wac *wacom_wac,
- 	}
- }
+@@ -2682,6 +2682,10 @@ static void wacom_wac_finger_pre_report(struct hid_device *hdev,
  
-+static bool wacom_wac_slot_is_active(struct input_dev *dev, int key)
-+{
-+	struct input_mt *mt = dev->mt;
-+	struct input_mt_slot *s;
-+
-+	if (!mt)
-+		return false;
-+
-+	for (s = mt->slots; s != mt->slots + mt->num_slots; s++) {
-+		if (s->key == key &&
-+			input_mt_get_value(s, ABS_MT_TRACKING_ID) >= 0) {
-+			return true;
-+		}
-+	}
-+
-+	return false;
-+}
-+
- static void wacom_wac_finger_event(struct hid_device *hdev,
- 		struct hid_field *field, struct hid_usage *usage, __s32 value)
- {
-@@ -2638,9 +2656,14 @@ static void wacom_wac_finger_event(struct hid_device *hdev,
- 	}
+ 	hid_data->confidence = true;
  
- 	if (usage->usage_index + 1 == field->report_count) {
--		if (equivalent_usage == wacom_wac->hid_data.last_slot_field &&
--		    wacom_wac->hid_data.confidence)
--			wacom_wac_finger_slot(wacom_wac, wacom_wac->touch_input);
-+		if (equivalent_usage == wacom_wac->hid_data.last_slot_field) {
-+			bool touch_removed = wacom_wac_slot_is_active(wacom_wac->touch_input,
-+				wacom_wac->hid_data.id) && !wacom_wac->hid_data.tipswitch;
++	hid_data->cc_report = 0;
++	hid_data->cc_index = -1;
++	hid_data->cc_value_index = -1;
 +
-+			if (wacom_wac->hid_data.confidence || touch_removed) {
-+				wacom_wac_finger_slot(wacom_wac, wacom_wac->touch_input);
-+			}
-+		}
- 	}
- }
- 
+ 	for (i = 0; i < report->maxfield; i++) {
+ 		struct hid_field *field = report->field[i];
+ 		int j;
 -- 
 2.34.1
 
