@@ -2,215 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB36D492D9E
-	for <lists+linux-input@lfdr.de>; Tue, 18 Jan 2022 19:43:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 713DA4930E6
+	for <lists+linux-input@lfdr.de>; Tue, 18 Jan 2022 23:38:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239612AbiARSnH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 Jan 2022 13:43:07 -0500
-Received: from mga02.intel.com ([134.134.136.20]:40314 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232540AbiARSnG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 Jan 2022 13:43:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642531386; x=1674067386;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=WI+3eL+7V0qTqayaD6JxQ2BWkbKBKG9WMeFd49mZHQE=;
-  b=ap7CuBDukbqT0/Iwz69C6HdzNmPFcSUW166TdCRJ0cNG/+gyW/kJ/1Xw
-   EP5/+gfrubP8bGLJQM4vE+DPsqg4ssLBeO0ijE0Mo9nvJ8oJTiW9WTAWe
-   5vhB45LVKyuyONiNMdJEdMC8MwbBRMYTcdVCskf4EANByuVYSclR7ea3y
-   c6zLwGQsCNAwkrEQFX/9SKCaT9fkWPZRPLvos/bezk2ShxiiGEcOw0QnX
-   suDX/FlWcTNETAlx7LhDnxYKzlsgA/Ph1D2UZw/zdiz9d0Q6TfIH+eG3v
-   t+qoEF9K0fgZgQJ4HuNDbkIVUqLD0EA6ukqfBu1lBtmMJY49Z6z9T8Nfe
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="232247234"
-X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; 
-   d="scan'208";a="232247234"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2022 10:43:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; 
-   d="scan'208";a="474856835"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 18 Jan 2022 10:43:04 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1n9tRg-000Cqf-8Z; Tue, 18 Jan 2022 18:43:04 +0000
-Date:   Wed, 19 Jan 2022 02:42:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:master] BUILD SUCCESS
- 87a0b2fafc09766d8c55461a18345a1cfb10a7fe
-Message-ID: <61e70a00.5fTBuaFMC7ZgdrsP%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S240516AbiARWiM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 Jan 2022 17:38:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56890 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237195AbiARWiM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 18 Jan 2022 17:38:12 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 555FDC061574;
+        Tue, 18 Jan 2022 14:38:12 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id i8-20020a17090a138800b001b3936fb375so4237566pja.1;
+        Tue, 18 Jan 2022 14:38:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vqR4N7krQJrOILNCzXEdQTQxOcbR9JvCWiyukEJ9ZNY=;
+        b=OKkAj2NEFHHn8Xsv/uA8eGcjb7rHMIU9SMEWXHvaFRPdEtFCOwCcwb4IJk8eJ7I/bz
+         2zrzSYWXpYvvYTHM2xw89AFZ2K+S+Y9A2bR3v8VvLkWy8b071ucXYHZR92tC8o5NV8NB
+         8RjdsI13fkboKqizvmncCtfFDcLS1ov5d2wsCfMAOEbRRVN+qohpqPi3b7F9kbkrAySb
+         fXZzHR126pIuF0RskYM8UrYrXkYhv6dhJRUUleanB9rVzrrBczstHfPyrtTuHfLn2IYW
+         qf2iiA7qKBXJOPwI1/f7lWCarUM3RV7B02k12kSD3hINX4+rhZciJNDR1SmEIGbC/cTE
+         DwkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vqR4N7krQJrOILNCzXEdQTQxOcbR9JvCWiyukEJ9ZNY=;
+        b=xekxr5DVpV6pRio7/ADiSYqngZ2pbnPu71mWUULdzKK4uciPWj8jO9NnBVyI3K+Zh5
+         zIMhq2Z1FpMny8e4c7oPAcZTlwzo48NtN57hoIDSwRs8MvRBqFIVT1WL3ro2V82wHvIO
+         exKKv/i+cfCIAtzU0Uku7DECvQyDgsMrC+p9GDBlgWTtLM8A8tcY6RTbD8JY9mb/M/3H
+         4Q3ReGgd38HrSva/fkkXFyNH3GrAXg8Ycu0YQswkiZ/sZmp0gMJkG2ISNqXJc2YqanIA
+         QTrMcUY1bEniH0g3ajoysPRU6hDr7mDODtMTVXczlJfQA3wevo4Xb6q/gHKp1f+qnQMZ
+         EaNw==
+X-Gm-Message-State: AOAM530N/aKVs4TyFSAi/5s4SW9TFroAHzapxOhNX3+lB33/afG1jOFw
+        zBKkZ6wreuhtMw5nxfOFBqgk9rJ0RaY=
+X-Google-Smtp-Source: ABdhPJwOh8YIusc2fX/enHKj0su7dB4pzy4ncSMZAa8QHLZrMlQx9rr8dTnuXh13moQoG2yUdVbMyQ==
+X-Received: by 2002:a17:90b:3e8e:: with SMTP id rj14mr823152pjb.179.1642545491603;
+        Tue, 18 Jan 2022 14:38:11 -0800 (PST)
+Received: from horus.lan (75-164-184-207.ptld.qwest.net. [75.164.184.207])
+        by smtp.gmail.com with ESMTPSA id pf16sm3433250pjb.35.2022.01.18.14.38.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jan 2022 14:38:10 -0800 (PST)
+From:   Jason Gerecke <killertofu@gmail.com>
+X-Google-Original-From: Jason Gerecke <jason.gerecke@wacom.com>
+To:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Joshua Dickens <Joshua@Joshua-Dickens.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        stable@vger.kernel.org, Ping Cheng <ping.cheng@wacom.com>
+Subject: [PATCH 1/2] HID: wacom: Reset expected and received contact counts at the same time
+Date:   Tue, 18 Jan 2022 14:37:55 -0800
+Message-Id: <20220118223756.45624-1-jason.gerecke@wacom.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
-branch HEAD: 87a0b2fafc09766d8c55461a18345a1cfb10a7fe  Merge tag 'v5.16' into next
+These two values go hand-in-hand and must be valid for the driver to
+behave correctly. We are currently lazy about updating the values and
+rely on the "expected" code flow to take care of making sure they're
+valid at the point they're needed. The "expected" flow changed somewhat
+with commit f8b6a74719b5 ("HID: wacom: generic: Support multiple tools
+per report"), however. This led to problems with the DTH-2452 due (in
+part) to *all* contacts being fully processed -- even those past the
+expected contact count. Specifically, the received count gets reset to
+0 once all expected fingers are processed, but not the expected count.
+The rest of the contacts in the report are then *also* processed since
+now the driver thinks we've only processed 0 of N expected contacts.
 
-elapsed time: 720m
+Later commits such as 7fb0413baa7f (HID: wacom: Use "Confidence" flag to
+prevent reporting invalid contacts) worked around the DTH-2452 issue by
+skipping the invalid contacts at the end of the report, but this is not
+a complete fix. The confidence flag cannot be relied on when a contact
+is removed (see the following patch), and dealing with that condition
+re-introduces the DTH-2452 issue unless we also address this contact
+count laziness. By resetting expected and received counts at the same
+time we ensure the driver understands that there are 0 more contacts
+expected in the report. Similarly, we also make sure to reset the
+received count if for some reason we're out of sync in the pre-report
+phase.
 
-configs tested: 139
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm                              allmodconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-arm64                               defconfig
-powerpc              randconfig-c003-20220118
-i386                 randconfig-c001-20220117
-arm64                            alldefconfig
-arm                      integrator_defconfig
-powerpc                     redwood_defconfig
-powerpc                     tqm8548_defconfig
-arm                        oxnas_v6_defconfig
-xtensa                    xip_kc705_defconfig
-powerpc                      pasemi_defconfig
-powerpc                 mpc837x_rdb_defconfig
-sh                          sdk7786_defconfig
-arm                           tegra_defconfig
-sh                           se7722_defconfig
-arm                        mini2440_defconfig
-arc                        nsimosci_defconfig
-powerpc                  iss476-smp_defconfig
-arm                      jornada720_defconfig
-powerpc                mpc7448_hpc2_defconfig
-arm                           corgi_defconfig
-mips                  decstation_64_defconfig
-sh                              ul2_defconfig
-arm                        spear6xx_defconfig
-arm                             pxa_defconfig
-m68k                       m5208evb_defconfig
-arm                  randconfig-c002-20220117
-arm                  randconfig-c002-20220118
-arm                  randconfig-c002-20220116
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nds32                               defconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-xtensa                           allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-nds32                             allnoconfig
-nios2                               defconfig
-arc                              allyesconfig
-sparc                               defconfig
-sparc                            allyesconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allmodconfig
-mips                             allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-powerpc                          allyesconfig
-x86_64               randconfig-a012-20220117
-x86_64               randconfig-a013-20220117
-x86_64               randconfig-a011-20220117
-x86_64               randconfig-a014-20220117
-x86_64               randconfig-a015-20220117
-x86_64               randconfig-a016-20220117
-i386                 randconfig-a014-20220117
-i386                 randconfig-a011-20220117
-i386                 randconfig-a013-20220117
-i386                 randconfig-a012-20220117
-i386                 randconfig-a015-20220117
-i386                 randconfig-a016-20220117
-riscv                randconfig-r042-20220117
-arc                  randconfig-r043-20220116
-arc                  randconfig-r043-20220117
-s390                 randconfig-r044-20220117
-arc                  randconfig-r043-20220118
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-x86_64                    rhel-8.3-kselftests
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                          rhel-8.3-func
-x86_64                              defconfig
-x86_64                                  kexec
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-
-clang tested configs:
-riscv                randconfig-c006-20220118
-riscv                randconfig-c006-20220116
-powerpc              randconfig-c003-20220116
-powerpc              randconfig-c003-20220118
-mips                 randconfig-c004-20220118
-mips                 randconfig-c004-20220116
-s390                 randconfig-c005-20220116
-x86_64                        randconfig-c007
-i386                          randconfig-c001
-s390                 randconfig-c005-20220118
-arm                  randconfig-c002-20220116
-arm                  randconfig-c002-20220118
-mips                      bmips_stb_defconfig
-powerpc                     skiroot_defconfig
-arm                         lpc32xx_defconfig
-powerpc                  mpc885_ads_defconfig
-powerpc                    socrates_defconfig
-riscv                             allnoconfig
-mips                       lemote2f_defconfig
-powerpc                    gamecube_defconfig
-arm                  colibri_pxa300_defconfig
-powerpc                     pseries_defconfig
-i386                             allyesconfig
-powerpc                      walnut_defconfig
-x86_64               randconfig-a001-20220117
-x86_64               randconfig-a002-20220117
-x86_64               randconfig-a003-20220117
-x86_64               randconfig-a004-20220117
-i386                 randconfig-a002-20220117
-i386                 randconfig-a003-20220117
-i386                 randconfig-a001-20220117
-i386                 randconfig-a004-20220117
-i386                 randconfig-a006-20220117
-i386                 randconfig-a005-20220117
-riscv                randconfig-r042-20220118
-hexagon              randconfig-r045-20220117
-riscv                randconfig-r042-20220116
-hexagon              randconfig-r041-20220118
-s390                 randconfig-r044-20220118
-s390                 randconfig-r044-20220116
-hexagon              randconfig-r041-20220116
-hexagon              randconfig-r041-20220117
-hexagon              randconfig-r045-20220116
-hexagon              randconfig-r045-20220118
-x86_64               randconfig-a006-20220117
-x86_64               randconfig-a005-20220117
-
+Link: https://github.com/linuxwacom/input-wacom/issues/288
+Fixes: f8b6a74719b5 ("HID: wacom: generic: Support multiple tools per report")
+CC: stable@vger.kernel.org
+Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/hid/wacom_wac.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+index 2a4cc39962e7..5978399ae7d2 100644
+--- a/drivers/hid/wacom_wac.c
++++ b/drivers/hid/wacom_wac.c
+@@ -2692,11 +2692,14 @@ static void wacom_wac_finger_pre_report(struct hid_device *hdev,
+ 	    hid_data->cc_index >= 0) {
+ 		struct hid_field *field = report->field[hid_data->cc_index];
+ 		int value = field->value[hid_data->cc_value_index];
+-		if (value)
++		if (value) {
+ 			hid_data->num_expected = value;
++			hid_data->num_received = 0;
++		}
+ 	}
+ 	else {
+ 		hid_data->num_expected = wacom_wac->features.touch_max;
++		hid_data->num_received = 0;
+ 	}
+ }
+ 
+@@ -2724,6 +2727,7 @@ static void wacom_wac_finger_report(struct hid_device *hdev,
+ 
+ 	input_sync(input);
+ 	wacom_wac->hid_data.num_received = 0;
++	wacom_wac->hid_data.num_expected = 0;
+ 
+ 	/* keep touch state for pen event */
+ 	wacom_wac->shared->touch_down = wacom_wac_finger_count_touches(wacom_wac);
+-- 
+2.34.1
+
