@@ -2,86 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E094D49390F
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jan 2022 11:57:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E6D5493C6C
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jan 2022 15:59:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346911AbiASK55 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Jan 2022 05:57:57 -0500
-Received: from mx0a-001ae601.pphosted.com ([67.231.149.25]:13802 "EHLO
-        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1353723AbiASK5z (ORCPT
+        id S1355368AbiASO7w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Jan 2022 09:59:52 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:52882 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349566AbiASO7v (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Jan 2022 05:57:55 -0500
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-        by mx0a-001ae601.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20J5aNQc003098;
-        Wed, 19 Jan 2022 04:57:27 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=PODMain02222019;
- bh=YeXjvt2a/3UPggig0LgeC8zG+kAXAN5PBZnu2EVj7xY=;
- b=LrPgXwdH8VKL3HwRWaA6o8fKipetDIcgkbBL5GAST84W3pDLptBnYV5kxG7+L+BbEBid
- C/Kjm8mA761mT3PTXrMT6e2sJhJhnYD244TOsdNmGn+NRzc8LW0N6W5mbj0Kp77ZK0vy
- eg+1iuwXVygQPud3lxG8lHsCtImFhokOD9Kz372YX4Y2m9Qkj24Nd34Dah9erEYj5Ppt
- tw9PMtj8Fdj9uEXqGIth5cdSwAYKw4vbuKmE2Fz9kuj3JEAcwzaTwdpX7Rh5UP5chgwo
- knQP6V666OzxQe8dcg4399G7genTjTRx6DRYBytS3Fi4tggXiLKofGKaTqQ6xyxhj3aM lQ== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3dnaxhtd5c-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Wed, 19 Jan 2022 04:57:27 -0600
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 19 Jan
- 2022 10:57:25 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.18 via Frontend
- Transport; Wed, 19 Jan 2022 10:57:25 +0000
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 89617B0E;
-        Wed, 19 Jan 2022 10:57:24 +0000 (UTC)
-Date:   Wed, 19 Jan 2022 10:57:24 +0000
-From:   Charles Keepax <ckeepax@opensource.cirrus.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     Sandy Huang <hjc@rock-chips.com>,
-        Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        - <patches@opensource.cirrus.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH] dt-bindings: Drop unnecessary pinctrl properties
-Message-ID: <20220119105724.GQ18506@ediswmail.ad.cirrus.com>
-References: <20220119015325.2438277-1-robh@kernel.org>
+        Wed, 19 Jan 2022 09:59:51 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6737B61325;
+        Wed, 19 Jan 2022 14:59:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6780CC004E1;
+        Wed, 19 Jan 2022 14:59:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642604390;
+        bh=Co6GqO2izoHEvb/easQuwemJ2ju1jNCgw+sJ4K1Ty4Y=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=VL4STJPe0VttSVxK9oVqxhtUWcEQg5+P62qF7F0KseezRYR31NL5uQHn3hddqW3Nf
+         03/vxTTM6uDolssjxZF7Uxk+a9OtSYo43EJGqrMjaFtNRjHhmsEF1PHjkHgZE/TEJt
+         6SOnkHiZhPDFB/2im3Iji/6QIMQ+iQZbeEwzgnH8mslJJQ00H0CUadNAda2W/gvUB3
+         AbDCT4eBOAw8Qc0mftnGlcRIRikwBzKVnl4Pg+s4fQmWNU+mf2yeQskeUPtKOPBdbx
+         XjpbqNWdkVAtjiG5hzfLEu3x8Hi0XtiSfwZ5WuoZ5a7I8aQ5k1ZuE1OIHyuqgwQP3/
+         lxf3lRt8xLonQ==
+Date:   Wed, 19 Jan 2022 15:59:47 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Jann Horn <jannh@google.com>
+cc:     David Rheinsberg <david.rheinsberg@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] HID: uhid: Fix worker destroying device without any
+ protection
+In-Reply-To: <20220114133331.873057-1-jannh@google.com>
+Message-ID: <nycvar.YFH.7.76.2201191559280.28059@cbobk.fhfr.pm>
+References: <20220114133331.873057-1-jannh@google.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220119015325.2438277-1-robh@kernel.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: qX5Mw540ExmwrU_vS7Og4PEUG2Xrc84A
-X-Proofpoint-ORIG-GUID: qX5Mw540ExmwrU_vS7Og4PEUG2Xrc84A
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jan 18, 2022 at 07:53:25PM -0600, Rob Herring wrote:
-> For a single pinctrl mode, it is not necessary to define pinctrl
-> properties as the tools always allow pinctrl properties.
+On Fri, 14 Jan 2022, Jann Horn wrote:
+
+> uhid has to run hid_add_device() from workqueue context while allowing
+> parallel use of the userspace API (which is protected with ->devlock).
+> But hid_add_device() can fail. Currently, that is handled by immediately
+> destroying the associated HID device, without using ->devlock - but if
+> there are concurrent requests from userspace, that's wrong and leads to
+> NULL dereferences and/or memory corruption (via use-after-free).
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
+> Fix it by leaving the HID device as-is in the worker. We can clean it up
+> later, either in the UHID_DESTROY command handler or in the ->release()
+> handler.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 67f8ecc550b5 ("HID: uhid: fix timeout when probe races with IO")
+> Signed-off-by: Jann Horn <jannh@google.com>
 
-Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+I've queued both patches for 5.17, thanks a lot for fixing this.
 
-Thanks,
-Charles
+-- 
+Jiri Kosina
+SUSE Labs
+
