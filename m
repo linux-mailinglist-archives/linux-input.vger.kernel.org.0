@@ -2,174 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AD5E493297
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jan 2022 02:54:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2563F49331D
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jan 2022 03:47:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350790AbiASByo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 Jan 2022 20:54:44 -0500
-Received: from mail-ot1-f44.google.com ([209.85.210.44]:33473 "EHLO
-        mail-ot1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350779AbiASByn (ORCPT
+        id S1350796AbiASCrp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 Jan 2022 21:47:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55784 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351075AbiASCrl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 Jan 2022 20:54:43 -0500
-Received: by mail-ot1-f44.google.com with SMTP id y11-20020a0568302a0b00b0059a54d66106so1103811otu.0;
-        Tue, 18 Jan 2022 17:54:42 -0800 (PST)
+        Tue, 18 Jan 2022 21:47:41 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D8F2C06161C
+        for <linux-input@vger.kernel.org>; Tue, 18 Jan 2022 18:47:41 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id i129so1138915pfe.13
+        for <linux-input@vger.kernel.org>; Tue, 18 Jan 2022 18:47:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=UTann2Srql5tgXPh+TG2Ub/jQKYOsrhCVsZWHj7az7Y=;
+        b=fN8Co7YOK/xIWMC392mZ0oQnPf4ECFAXrFypU3p214JnhXVPT4L+7QS9Cn2oRhQC1K
+         Y9kT1GYrVVjlaHrOznwbwHyGsIJiVsfd6F/fzxkG/z0kvWYrp7hE6qM1wTTpYdbnuGn+
+         GvRMNn9VTzpw13hjJwNOSX424ox+KtmC/MgRNiF0FXDXSPD8F0DO95+Ps+c7fff6L4hi
+         AXgLHN2xqot7u/EQwgdHquHEu1el92CyrMc41EId/4f5Qu3D6pqoAoCh4BUnK5CELSIq
+         IcJfioRTrjmojBkqHHiqK8lzPtUth1m5ocKmQyhnzwMezMB88DrGB+xFsRj01waJNRRi
+         0JrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qwNF7gDQbaVP4ndpQ6YMR5OTB3DEGyDODGB0cvvqRfI=;
-        b=Uv2i19NbpnnyyV2GJmevQVO2Sq8KR+/9DN9Td27rdvyhK0AJwiPDv8mdmZbyOfC/Bt
-         JLmuwZR03YB1bTXyYIyUnU6a8G41XrXL2/dkYooz2sPXfHJdEZI19LwSaa0nfNuN8unJ
-         0qN6LmcNPFK+p/aaWz3GAumICtL9F5zzSS/TIJOwNOYd5lFy+kksTO1GdGpTokAbC6tL
-         OEzS80qJMJ++BcMV9D1uBk4JLZuZjcWOu6kPJ+eVG+AEmwuvmBX0keJk0u2HMOXMxHQX
-         1V4tPegfRUqVqgccgwX8HvcrVN/AP6NnDrbfaEYUE8nS+YS3yOGVxcD9J3CFXGwFJha7
-         hRIg==
-X-Gm-Message-State: AOAM5310ful6QlKImfmatHT6c6C3fOZ6w7bLV5hhtE/TFmEhoO4cROcA
-        W+47O6sZfYiFgdr9NRRRhQ==
-X-Google-Smtp-Source: ABdhPJzVUKXAC2YcMFSv4hVv2ACgxjnkM4ifG2UCVa32kabvoUCd5Cz5lVIyctz4yYEGV/7yATw++g==
-X-Received: by 2002:a9d:4b13:: with SMTP id q19mr22246546otf.300.1642557282257;
-        Tue, 18 Jan 2022 17:54:42 -0800 (PST)
-Received: from xps15.herring.priv (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.googlemail.com with ESMTPSA id x26sm8030086ote.78.2022.01.18.17.54.40
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UTann2Srql5tgXPh+TG2Ub/jQKYOsrhCVsZWHj7az7Y=;
+        b=GuD1IR/UOEhZOgLdud/2oFfbiA3YWWuIel7WX0US8XXmfgKGVA3/3jQWX4f+mZ2OTi
+         V2gRIS6OlDGHyn8Ed4e+8CYqF8g/3fafiArfqP2shm0PwU/bo5sFROUORpjkKcBd55di
+         gRt4uHLMRDTxEA9DayVuVwqBK27aXryHttzK+p/9o/WAa7LUe8a9Uw2AvI9VgUaTc/p6
+         SSEIVA8zLyutoghR2AP4jCtnsh9Rvl9raIlr7ZwaMvjINZCXmYSmfEjXBxrHTSbkN61P
+         Jmih9LO21SVEkefQSlVbAGvxZsKIqk7RZTZ2Xoa5sgSJcMPMNKxSmEkCTIEJ+KHXcy03
+         4VJA==
+X-Gm-Message-State: AOAM533gvBzYiDFRlmcNs0PVmVpvZ4XEQrg/4AQGCH3cTUK3BIrpXq9J
+        8JmFnnaoyWFxQlIFhhbm1KCW67GpIAQ=
+X-Google-Smtp-Source: ABdhPJwNwmnBIoFNkQIvPnd85tMP12R4p/xFbBVCpz/le9+GbTM3G/vZeJQA3hJif1kezhBGzU/lXw==
+X-Received: by 2002:a65:5bc4:: with SMTP id o4mr25459392pgr.489.1642560460452;
+        Tue, 18 Jan 2022 18:47:40 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:bf2e:59:5029:f4c5])
+        by smtp.gmail.com with ESMTPSA id oc11sm4617746pjb.5.2022.01.18.18.47.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jan 2022 17:54:41 -0800 (PST)
-From:   Rob Herring <robh@kernel.org>
-To:     Sandy Huang <hjc@rock-chips.com>,
-        =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        - <patches@opensource.cirrus.com>
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-gpio@vger.kernel.org,
-        alsa-devel@alsa-project.org
-Subject: [PATCH] dt-bindings: Drop unnecessary pinctrl properties
-Date:   Tue, 18 Jan 2022 19:53:25 -0600
-Message-Id: <20220119015325.2438277-1-robh@kernel.org>
-X-Mailer: git-send-email 2.32.0
+        Tue, 18 Jan 2022 18:47:39 -0800 (PST)
+Date:   Tue, 18 Jan 2022 18:47:37 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Minh Yuan <yuanmingbuaa@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: A concurrency uaf in psmouse_smbus_init
+Message-ID: <Yed7yT+iA4fE++3R@google.com>
+References: <CAH5WSp41FN6wjmKW0CsgODiyWDm0WAs-gucTcskdifqY3FQuRQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAH5WSp41FN6wjmKW0CsgODiyWDm0WAs-gucTcskdifqY3FQuRQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-For a single pinctrl mode, it is not necessary to define pinctrl
-properties as the tools always allow pinctrl properties.
+Hi,
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../display/rockchip/rockchip,rk3066-hdmi.yaml         |  8 --------
- Documentation/devicetree/bindings/input/gpio-keys.yaml |  6 ------
- .../devicetree/bindings/pinctrl/cirrus,lochnagar.yaml  |  9 ---------
- .../devicetree/bindings/pinctrl/cirrus,madera.yaml     | 10 ----------
- .../devicetree/bindings/sound/samsung-i2s.yaml         |  6 ------
- 5 files changed, 39 deletions(-)
+On Mon, Jan 17, 2022 at 10:17:25PM +0800, Minh Yuan wrote:
+> Hi,
+> 
+> Our analysis tool detected  a potential concurrency UAF in
+> psmouse_smbus_init in drivers/input/mouse/psmouse-smbus.c.
+> 
+> One possible thread interleaving is as follows:
+> 
+> Thread 1 Thread 2
+> int psmouse_smbus_init(struct psmouse *psmouse, ...)
+> {
+> mutex_lock(&psmouse_smbus_mutex);
+> list_add_tail(&smbdev->node, &psmouse_smbus_list);
+> mutex_unlock(&psmouse_smbus_mutex);
+> void psmouse_smbus_cleanup(struct psmouse *psmouse)
 
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.yaml
-index 008c144257cb..1a68a940d165 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.yaml
-@@ -26,14 +26,6 @@ properties:
-   clock-names:
-     const: hclk
- 
--  pinctrl-0:
--    maxItems: 2
--
--  pinctrl-names:
--    const: default
--    description:
--      Switch the iomux for the HPD/I2C pins to HDMI function.
--
-   power-domains:
-     maxItems: 1
- 
-diff --git a/Documentation/devicetree/bindings/input/gpio-keys.yaml b/Documentation/devicetree/bindings/input/gpio-keys.yaml
-index dbe7ecc19ccb..7fe1966ea28a 100644
---- a/Documentation/devicetree/bindings/input/gpio-keys.yaml
-+++ b/Documentation/devicetree/bindings/input/gpio-keys.yaml
-@@ -88,12 +88,6 @@ patternProperties:
-             which can be disabled to suppress events from the button.
-           type: boolean
- 
--        pinctrl-0:
--          maxItems: 1
--
--        pinctrl-names:
--          maxItems: 1
--
-       required:
-         - linux,code
- 
-diff --git a/Documentation/devicetree/bindings/pinctrl/cirrus,lochnagar.yaml b/Documentation/devicetree/bindings/pinctrl/cirrus,lochnagar.yaml
-index 80020539c3bb..5cd512b7d5ba 100644
---- a/Documentation/devicetree/bindings/pinctrl/cirrus,lochnagar.yaml
-+++ b/Documentation/devicetree/bindings/pinctrl/cirrus,lochnagar.yaml
-@@ -51,15 +51,6 @@ properties:
-       appropriate of the LOCHNAGARx_PIN_NUM_GPIOS define, see [3].
-     maxItems: 1
- 
--  pinctrl-0:
--    description:
--      A phandle to the default pinctrl state.
--
--  pinctrl-names:
--    description:
--      A pinctrl state named "default" must be defined.
--    const: default
--
-   pin-settings:
-     type: object
-     patternProperties:
-diff --git a/Documentation/devicetree/bindings/pinctrl/cirrus,madera.yaml b/Documentation/devicetree/bindings/pinctrl/cirrus,madera.yaml
-index e50d7ad5c229..c85f759ae5a3 100644
---- a/Documentation/devicetree/bindings/pinctrl/cirrus,madera.yaml
-+++ b/Documentation/devicetree/bindings/pinctrl/cirrus,madera.yaml
-@@ -30,16 +30,6 @@ description: |
-     Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
- 
- properties:
--  pinctrl-0:
--    description:
--      A phandle to the node containing the subnodes containing default
--      configurations.
--
--  pinctrl-names:
--    description:
--      A pinctrl state named "default" must be defined.
--    const: default
--
-   pin-settings:
-     description:
-       One subnode is required to contain the default settings. It
-diff --git a/Documentation/devicetree/bindings/sound/samsung-i2s.yaml b/Documentation/devicetree/bindings/sound/samsung-i2s.yaml
-index 2e3628ef48df..84c4d6cba521 100644
---- a/Documentation/devicetree/bindings/sound/samsung-i2s.yaml
-+++ b/Documentation/devicetree/bindings/sound/samsung-i2s.yaml
-@@ -110,12 +110,6 @@ properties:
-       Internal DMA register base address of the audio
-       subsystem (used in secondary sound source).
- 
--  pinctrl-0:
--    description: Should specify pin control groups used for this controller.
--
--  pinctrl-names:
--    const: default
--
-   power-domains:
-     maxItems: 1
- 
+init and cleanup will not be running concurrently for the same device,
+and smbus companion is not shared between psmouse istances.
+
+Thanks.
+
 -- 
-2.32.0
-
+Dmitry
