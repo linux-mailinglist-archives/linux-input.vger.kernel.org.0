@@ -2,110 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7D87493588
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jan 2022 08:36:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E094D49390F
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jan 2022 11:57:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352037AbiASHfw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Jan 2022 02:35:52 -0500
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:37854
-        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1352033AbiASHfv (ORCPT
+        id S1346911AbiASK55 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Jan 2022 05:57:57 -0500
+Received: from mx0a-001ae601.pphosted.com ([67.231.149.25]:13802 "EHLO
+        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1353723AbiASK5z (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Jan 2022 02:35:51 -0500
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 869ED40049
-        for <linux-input@vger.kernel.org>; Wed, 19 Jan 2022 07:35:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1642577745;
-        bh=ov9egi5r5E4XVL9ynR9hw1P76CtrpDcSLc1Oc2aKDbw=;
-        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-         In-Reply-To:Content-Type;
-        b=gxLylVZri5t+kiY0MNzi0fhQ8Dl/PG54f5u9ZZcsY628Q/6i+R64bBocxz65P7+vl
-         VNxRJUMyFasYobCA3ZS8bYm15EF2VXHOIH7B2714u4BVzRK3cIRzc/Da1MILNdqfq3
-         bfEj6dlhcCz3JeF+AwEf0fNY0VVpwaSOgUAAEHQ+ePTPnWVW8I19kCn2rLCTyiS5UZ
-         vSTxd8pGkb/qxMQA5KG95pmfC9KufIfWCIh+l+EVz5pqR08qNDU4+OdL+5kPkUOMcq
-         gxqAa5PWcR4Rfh5MfUPPbOk+R4tZL+ENpuveMWlnd8cKgI3eTOAt4UvJLpKgavUm69
-         sguu60/4Uxr4Q==
-Received: by mail-ed1-f71.google.com with SMTP id h11-20020a05640250cb00b003fa024f87c2so1469753edb.4
-        for <linux-input@vger.kernel.org>; Tue, 18 Jan 2022 23:35:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=ov9egi5r5E4XVL9ynR9hw1P76CtrpDcSLc1Oc2aKDbw=;
-        b=V31oNL1HYT0lxKW3jIwMyNfPHH8BN4KqLWzhAoFKW1iWH+UG4RO27glKDqSWhLMe0F
-         77p5pN8t1LNdTcMBu8YkEprW1wcuwbKowmHiFgHT1D/lcYTa94BhMDcGYJS6oTZiJS90
-         TUTt19p2WvqGSD39DD/3fGdfghrsEYI6f3hUI3dSh1W07FQXy5zUYeixfFX4GTR4Y30U
-         h2K02cTk9lorDvpdaEVskFIATVVefMQZcP3GoxgzC8u+M5XFOfecRJqTcDk3os5Bn8Hx
-         gJYuM6k3cKpShTFnA431yi4jUTjGiJ899q38fo+1hG9lEkLgOwGZnCYE10UXQid5hLvK
-         qVJg==
-X-Gm-Message-State: AOAM53094YgBeYDqnTkIek1KmdT8/XQzKwDx/98oW/Kdqfu+G78eek27
-        n/g+3Z38A7n6iRcuRR5RCw6m7ByFm/NudytXGrfLrT36IrsSggUWdQGu5h6S7JhJjHRh95d/UKN
-        gZREzpmDfa8Sy7hDJtuhYA4/l8d1ZINfgB31Yylun
-X-Received: by 2002:a05:6402:214b:: with SMTP id bq11mr21727234edb.380.1642577745079;
-        Tue, 18 Jan 2022 23:35:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzGlkI4a+0j+FDYNuwrTHdaztz/FiAtsum5k959TJvtVGlwEMpbTA7l76r5zGrSraIO2PK8xw==
-X-Received: by 2002:a05:6402:214b:: with SMTP id bq11mr21727224edb.380.1642577744928;
-        Tue, 18 Jan 2022 23:35:44 -0800 (PST)
-Received: from [192.168.0.42] (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id t25sm779819edr.90.2022.01.18.23.35.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Jan 2022 23:35:44 -0800 (PST)
-Message-ID: <b303e38e-109b-e049-f536-c5b00830249b@canonical.com>
-Date:   Wed, 19 Jan 2022 08:35:42 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH] dt-bindings: Drop unnecessary pinctrl properties
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
-        =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
+        Wed, 19 Jan 2022 05:57:55 -0500
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+        by mx0a-001ae601.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20J5aNQc003098;
+        Wed, 19 Jan 2022 04:57:27 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=PODMain02222019;
+ bh=YeXjvt2a/3UPggig0LgeC8zG+kAXAN5PBZnu2EVj7xY=;
+ b=LrPgXwdH8VKL3HwRWaA6o8fKipetDIcgkbBL5GAST84W3pDLptBnYV5kxG7+L+BbEBid
+ C/Kjm8mA761mT3PTXrMT6e2sJhJhnYD244TOsdNmGn+NRzc8LW0N6W5mbj0Kp77ZK0vy
+ eg+1iuwXVygQPud3lxG8lHsCtImFhokOD9Kz372YX4Y2m9Qkj24Nd34Dah9erEYj5Ppt
+ tw9PMtj8Fdj9uEXqGIth5cdSwAYKw4vbuKmE2Fz9kuj3JEAcwzaTwdpX7Rh5UP5chgwo
+ knQP6V666OzxQe8dcg4399G7genTjTRx6DRYBytS3Fi4tggXiLKofGKaTqQ6xyxhj3aM lQ== 
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3dnaxhtd5c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Wed, 19 Jan 2022 04:57:27 -0600
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 19 Jan
+ 2022 10:57:25 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.18 via Frontend
+ Transport; Wed, 19 Jan 2022 10:57:25 +0000
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 89617B0E;
+        Wed, 19 Jan 2022 10:57:24 +0000 (UTC)
+Date:   Wed, 19 Jan 2022 10:57:24 +0000
+From:   Charles Keepax <ckeepax@opensource.cirrus.com>
+To:     Rob Herring <robh@kernel.org>
+CC:     Sandy Huang <hjc@rock-chips.com>,
+        Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
         Richard Fitzgerald <rf@opensource.cirrus.com>,
         Linus Walleij <linus.walleij@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
         Sylwester Nawrocki <s.nawrocki@samsung.com>,
         Liam Girdwood <lgirdwood@gmail.com>,
         Mark Brown <broonie@kernel.org>,
-        - <patches@opensource.cirrus.com>
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-gpio@vger.kernel.org,
-        alsa-devel@alsa-project.org
+        - <patches@opensource.cirrus.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <alsa-devel@alsa-project.org>
+Subject: Re: [PATCH] dt-bindings: Drop unnecessary pinctrl properties
+Message-ID: <20220119105724.GQ18506@ediswmail.ad.cirrus.com>
 References: <20220119015325.2438277-1-robh@kernel.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 In-Reply-To: <20220119015325.2438277-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: qX5Mw540ExmwrU_vS7Og4PEUG2Xrc84A
+X-Proofpoint-ORIG-GUID: qX5Mw540ExmwrU_vS7Og4PEUG2Xrc84A
+X-Proofpoint-Spam-Reason: safe
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 19/01/2022 02:53, Rob Herring wrote:
+On Tue, Jan 18, 2022 at 07:53:25PM -0600, Rob Herring wrote:
 > For a single pinctrl mode, it is not necessary to define pinctrl
 > properties as the tools always allow pinctrl properties.
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
->  .../display/rockchip/rockchip,rk3066-hdmi.yaml         |  8 --------
->  Documentation/devicetree/bindings/input/gpio-keys.yaml |  6 ------
->  .../devicetree/bindings/pinctrl/cirrus,lochnagar.yaml  |  9 ---------
->  .../devicetree/bindings/pinctrl/cirrus,madera.yaml     | 10 ----------
->  .../devicetree/bindings/sound/samsung-i2s.yaml         |  6 ------
->  5 files changed, 39 deletions(-)
-> 
 
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-
-
-Best regards,
-Krzysztof
+Thanks,
+Charles
