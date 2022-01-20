@@ -2,90 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A40E495546
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jan 2022 21:08:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 746A1495590
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jan 2022 21:42:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377579AbiATUH4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Jan 2022 15:07:56 -0500
-Received: from mail-oi1-f177.google.com ([209.85.167.177]:39657 "EHLO
-        mail-oi1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347187AbiATUHz (ORCPT
+        id S1377658AbiATUmZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Jan 2022 15:42:25 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:29437 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1377625AbiATUmV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Jan 2022 15:07:55 -0500
-Received: by mail-oi1-f177.google.com with SMTP id e81so10549365oia.6;
-        Thu, 20 Jan 2022 12:07:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=0IU04w6lXoVf2p8qlGn0KSlHKzkwLNdQp08IC4sJHbo=;
-        b=afkR/fLP9KfMj2MQk0KGnuzDwVGXM0UhWaKNPW+d8C9Wyx2gRJRzg6oMNtyjYGC9mE
-         Cci3xhS0frKRgql2n8csxwNtn8prDRlKsVW+RdzJ2bLdgDrM+Wan7T+2Mq3y3sWA0Bqn
-         eAmO/SLB+8A11cCVxk/L+eo+AkoMMI8/vl00gKgS15o4ihZTtBVVmDC86MrUVJApCtMz
-         Qs6bD7CeWZehATB4uiniHx7oAP1r7dz+tqVHG9XncqsPp4kcnbBEM7qKV4cWYSVBk4sl
-         3OWiUCpEpO/AmLcEOQ8b6LCXo34ieAbRkLR/8HcEaA6rDLrf3Xcy1ZeaIefRUAj+d3/9
-         qkWQ==
-X-Gm-Message-State: AOAM532l7SRTpsCvrIhpBU4TefrlyIIcXlfvDbukXoElXGYiSLOfGcan
-        VElZsxbfGI47EH0oSk3i1w==
-X-Google-Smtp-Source: ABdhPJx04gzaTtiJD4/qo81zwd+L6nmtQ3jKG8vFtLsOLkkLlLZCH9dgBA3lT8xK8Z4bIGFl1vz3pw==
-X-Received: by 2002:aca:702:: with SMTP id 2mr507991oih.44.1642709274761;
-        Thu, 20 Jan 2022 12:07:54 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id z18sm71856oot.33.2022.01.20.12.07.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jan 2022 12:07:54 -0800 (PST)
-Received: (nullmailer pid 1859159 invoked by uid 1000);
-        Thu, 20 Jan 2022 20:07:52 -0000
-Date:   Thu, 20 Jan 2022 14:07:52 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc:     Benson Leung <bleung@chromium.org>, linux-i2c@vger.kernel.org,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        devicetree@vger.kernel.org,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Guenter Roeck <groeck@chromium.org>,
-        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        linux-iio@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Simon Glass <sjg@chromium.org>
-Subject: Re: [PATCH 2/2] dt-bindings: google,cros-ec: drop Enric Balletbo i
- Serra from maintainers
-Message-ID: <YenBGONi2YNjyXPb@robh.at.kernel.org>
-References: <20220120104009.159147-1-krzysztof.kozlowski@canonical.com>
- <20220120104009.159147-2-krzysztof.kozlowski@canonical.com>
+        Thu, 20 Jan 2022 15:42:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1642711341; x=1674247341;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=hBqGHWmF6+FBl2MOZaRLl1N1kSXW8IuLzw3JcOYlYm4=;
+  b=OqXCThhimrMJQRvyKHtLnZK15rCeXdXl4Ju0x9XTpT3v4RKbMr79VACu
+   jqtxoNxbCvEi1c0sX7hc5kaYYucbXGw60/ZPUFhFoksQH6L/c0NncD1u0
+   XDCKwI5873ta4kO/tnrnQZXQmaOQpLFoVG0uTAHpBMDL2pX2GG6Du/hb3
+   s=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 20 Jan 2022 12:42:20 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2022 12:42:20 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Thu, 20 Jan 2022 12:42:19 -0800
+Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Thu, 20 Jan 2022 12:42:19 -0800
+From:   Anjelique Melendez <quic_amelende@quicinc.com>
+To:     <dmitry.torokhov@gmail.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <collinsd@codeaurora.org>,
+        <bjorn.andersson@linaro.org>, <swboyd@chromium.org>,
+        <skakit@codeaurora.org>,
+        Anjelique Melendez <quic_amelende@quicinc.com>
+Subject: [PATCH 0/3] Add support for pm8941-pwrkey.c 
+Date:   Thu, 20 Jan 2022 12:41:30 -0800
+Message-ID: <20220120204132.17875-1-quic_amelende@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220120104009.159147-2-krzysztof.kozlowski@canonical.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 20 Jan 2022 11:40:09 +0100, Krzysztof Kozlowski wrote:
-> Enric Balletbo i Serra emails bounce:
-> 
->   <enric.balletbo@collabora.com>: Recipient address rejected: User unknown in  local recipient table
-> 
-> so drop him from the maintainers, similarly to commit 3119c28634dd
-> ("MAINTAINERS: Chrome: Drop Enric Balletbo i Serra").
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> ---
->  .../devicetree/bindings/extcon/extcon-usbc-cros-ec.yaml          | 1 -
->  .../devicetree/bindings/i2c/google,cros-ec-i2c-tunnel.yaml       | 1 -
->  .../bindings/iio/proximity/google,cros-ec-mkbp-proximity.yaml    | 1 -
->  Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml | 1 -
->  Documentation/devicetree/bindings/mfd/google,cros-ec.yaml        | 1 -
->  5 files changed, 5 deletions(-)
-> 
+This change series includes support and fixes in pm8941-pwrkey.c.
+Change details and description can be found in each patch. Thanks!
 
-Applied, thanks!
+David Collins (3):
+  input: misc: pm8941-pwrkey: simulate missed key press events
+  input: misc: pm8941-pwrkey: add software key press debouncing support
+  input: misc: pm8941-pwrkey: avoid potential null pointer dereference
+
+ drivers/input/misc/pm8941-pwrkey.c | 130 ++++++++++++++++++++++++++---
+ 1 file changed, 120 insertions(+), 10 deletions(-)
+
+-- 
+2.34.1
+
