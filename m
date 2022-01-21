@@ -2,43 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F11C4961DF
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jan 2022 16:16:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BCBB496202
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jan 2022 16:24:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351281AbiAUPQo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Jan 2022 10:16:44 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:50946 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351244AbiAUPQm (ORCPT
+        id S1351352AbiAUPYq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Jan 2022 10:24:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57168 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1381552AbiAUPYl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Jan 2022 10:16:42 -0500
+        Fri, 21 Jan 2022 10:24:41 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0382BC06173B
+        for <linux-input@vger.kernel.org>; Fri, 21 Jan 2022 07:24:41 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 89C2A61913
-        for <linux-input@vger.kernel.org>; Fri, 21 Jan 2022 15:16:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31A27C340E1;
-        Fri, 21 Jan 2022 15:16:40 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9E557618DF
+        for <linux-input@vger.kernel.org>; Fri, 21 Jan 2022 15:24:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20862C340E1;
+        Fri, 21 Jan 2022 15:24:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642778201;
-        bh=5qWEvcmx1Nmszwc4A9wJ9+18AAtJZEQU3f8jyB3111Y=;
+        s=k20201202; t=1642778680;
+        bh=SFpvqzgukhmKBMHyNHw/RZnbbGUiv2OpPjSdSMj/ie4=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=pWojXCBPVAg/S70d4tPDgkodi7LxowcSuo5CK52zcCRRZSjkr6ISkoxi/rkYFcTXb
-         st/1a2Cq0Pj6JsrWi21YUA9TL8LHOhcCod21VzHfNmYcPu3EhQ2QYp9iE2Ub+NWvQZ
-         dZD3H648cg8UnIHGhcV4EAv8ojJ9dHBGZz22ppd/pfiDHtHE9+z+HOCe50CfQnMPco
-         1HpxjHtJIlH50fh7NjGDWxu1wNAV2YKcvjx5obfbmnWDsgoAHuLxfmH1WfifJZrxYO
-         DQDDxmlDbBxpNVV/Glr+X/BLhgfWTdS//NNv0Jku+PWFy2QDWIqBvOX2WPTI6A+FYM
-         4lxUFNSNwIelA==
-Date:   Fri, 21 Jan 2022 16:16:38 +0100 (CET)
+        b=OCZghMcbMVW0B4gfy+dLs3sUpFDTyq/aFqxEhJhPe/Mr5ytWA/FkB/i2A8Zw6XwIA
+         o3O5aMMJ3wICeTt/66qc+8M/NkPIybKVaAQZqxxItQGZ55B+TZmswpF5SuhYdfYdZh
+         CQXUF59LiQUMznDpkHHTTds1swgZpxK9zfs/GV9Z51nGO/5XTWvt2RYSk7ID2CsRf5
+         NCp6fJyosLVLtuwQeijujJl+tO6AfSnehzXhUAqmHVtSFT7njljdzcoLTr7PSkvaDB
+         Vfv0E7Aa79hwDoqPPGNtC3dumX3e/+N2C5X+k5b8TkBpXmJSuw5im54CBdWFLNekKn
+         g36Mbob7xad+g==
+Date:   Fri, 21 Jan 2022 16:24:37 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Alex Henrie <alexhenrie24@gmail.com>
-cc:     linux-input@vger.kernel.org,
-        Markus Wageringel <markus.wageringel@gmail.com>
-Subject: Re: [PATCH] HID: apple: Set the tilde quirk flag on the Wellspring
- 5 and later
-In-Reply-To: <20220116230158.29596-1-alexhenrie24@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2201211616290.28059@cbobk.fhfr.pm>
-References: <20220116230158.29596-1-alexhenrie24@gmail.com>
+To:     Florian Klink <flokli@flokli.de>
+cc:     ValdikSS <iam@valdikss.org.ru>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] HID: lenovo: ThinkPad TrackPoint Keyboard II
+ support
+In-Reply-To: <20220121124116.cj6xtxvzw7rbkcs6@tp>
+Message-ID: <nycvar.YFH.7.76.2201211624150.28059@cbobk.fhfr.pm>
+References: <20211216224611.440397-1-iam@valdikss.org.ru> <nycvar.YFH.7.76.2201061419420.16505@cbobk.fhfr.pm> <e9e1f6ce-f12c-291b-81a8-c76f72ee29f2@valdikss.org.ru> <20220121124116.cj6xtxvzw7rbkcs6@tp>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -46,19 +50,12 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 16 Jan 2022, Alex Henrie wrote:
+On Fri, 21 Jan 2022, Florian Klink wrote:
 
-> Markus reports that his 2011 MacBook with a German ISO keyboard (USB
-> product code 05ac:0246, HID country code 13) has the tilde key quirk.
-> Seeing as all of the standalone Apple ISO keyboards since about 2008
-> have the quirk, it seems reasonable to assume that once the integrated
-> laptop keyboards started having the quirk, they likewise never stopped
-> having it.
-> 
-> Reported-by: Markus Wageringel <markus.wageringel@gmail.com>
-> Signed-off-by: Alex Henrie <alexhenrie24@gmail.com>
+> I tested the driver and it's a big improvement. I just sent a v3 with my
+> name in the Signed-Off-By field.
 
-Applied, thank you.
+Thanks. Where did you send it to? :) I don't seem to have it in my inbox.
 
 -- 
 Jiri Kosina
