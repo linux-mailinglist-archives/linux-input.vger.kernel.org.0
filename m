@@ -2,213 +2,348 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FE83495BE4
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jan 2022 09:27:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA899495F2A
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jan 2022 13:42:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379574AbiAUI1P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Jan 2022 03:27:15 -0500
-Received: from mail-ma1ind01olkn0143.outbound.protection.outlook.com ([104.47.100.143]:59954
-        "EHLO IND01-MA1-obe.outbound.protection.outlook.com"
+        id S1350478AbiAUMmP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Jan 2022 07:42:15 -0500
+Received: from mail.zeus.flokli.de ([88.198.15.28]:35162 "EHLO zeus.flokli.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1379573AbiAUI1N (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Jan 2022 03:27:13 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XmRwhMTaEAk8zsX0J3z8a5t7oZaOPuQ44M+VwbE7JWl5/zlAKnrbGWn0DHOQQpum8VKTkjf2QRRX1EXB4j4IrvnULNuafcACUYnV9/h9DriABAQTfr0iZmQTowfKbMRbC8t8Qcp0SNCoh0HT8zhlnWrst7wspak7UOvJpLCyfuBjUkMWqc6zfdIO9y5lkSiWGwTwjFktPcqItTp4fojc2W+khsYQX3km4aaKu2Ak0+2WvprC0z1nndMnFtFdgcqKPzaRWlWJZXY+kJcE9whswpKqUGxgzGfxi31mQHhh5/gFMp3M6X0M1ksqQKeeQYPEu1HbmRXa3a4N6Mbm9TuK5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4f42ynkZbwP5ZUApWLBQZYEGltlRoeTZrg9e2f+bVwU=;
- b=ne2AHurCPzobPYLEB0izGwpb0wM8Kp4IEQHS2YkGOsItp5BaT9TEsZq7sDYn4sonhCi+yvOc23iIiXrYJ0EeC6KW1PEiF84IywnQXDYFc7dTz2EGWykIuS9sAMOfSl3bUw3ARi+100dKtSvTLQqiCokSAgYIwjrlXm3YIh1i2g2rGflsV1PDLgWnrL+QAb++93Y9tfYDaWUtflfm9gOWKeTAHVfz7tgCuBa1TAtXh880RtkQYkvzLexjhYjk/ylRhc625w5IwZeQtXqSBLdVlWMqKTSB81hngJgaTIqYVsnkaGrj8q4LaDiZB2lzTqOQPx7PEGzgMdI01CuUCDtT6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4f42ynkZbwP5ZUApWLBQZYEGltlRoeTZrg9e2f+bVwU=;
- b=Kjb2fUVDtbgh2qhZVto54Zt42eXeb7aWhX2s2tS1wRhhi1FXbyV2FYjexU0GMbfTl+7XEHTIni8V0LFaI1yWI9ZBKSV54JDowRg9xJFOrJcQF/BHoucyYHlLswfEF9gXJCDVt+pE3+YzTFa4+EZb3G6vfbJVUKp2LTtwd5ZOiLGlClnrCB1sbC61I4Itln992PON6BjNH4DSgplKfVU/IxtEauoxwm/DHPbgLm/0b/hLdq1LNaW5Q1VVpsndJXZdxl0XbkvOci/RAR93BnbDDv2vRcpN1g7Bi7TyT/L2vV/TE6N94ujvqhRS+PgcHmNOhVWWlp9TOb/Bot5EOrwzNQ==
-Received: from PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1b::13)
- by PNZPR01MB4912.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:2d::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.7; Fri, 21 Jan
- 2022 08:27:08 +0000
-Received: from PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::d19b:7cd1:3760:b055]) by PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::d19b:7cd1:3760:b055%6]) with mapi id 15.20.4909.010; Fri, 21 Jan 2022
- 08:27:08 +0000
-From:   Aditya Garg <gargaditya08@live.com>
-To:     "jikos@kernel.org" <jikos@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-CC:     "paul@mrarm.io" <paul@mrarm.io>, Aun-Ali Zaidi <admin@kodeit.net>,
-        Orlando Chamberlain <redecorating@protonmail.com>
-Subject: [PATCH 3/3] HID: apple: Add fn mapping for MacBook Pros with Touch
- Bar
-Thread-Topic: [PATCH 3/3] HID: apple: Add fn mapping for MacBook Pros with
- Touch Bar
-Thread-Index: AQHYDqCtf+L8VNoQhkWQ1a/1M58sqw==
-Date:   Fri, 21 Jan 2022 08:27:08 +0000
-Message-ID: <658FB7A9-FFE1-43B3-8826-F06F4933DE76@live.com>
-References: <CA294A24-E279-47FE-A5E3-E47F1A2619B5@live.com>
- <C6DEF799-EEC2-42FC-84C1-CA942A614864@live.com>
-In-Reply-To: <C6DEF799-EEC2-42FC-84C1-CA942A614864@live.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [/sfbNiChjDc2wttft6A+hb4rDXgLEYU8vp2wI2w5gE2M05vnQxEseJtUZAEFBNxk]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8fb7b702-2c52-4ed5-7b27-08d9dcb7d055
-x-ms-traffictypediagnostic: PNZPR01MB4912:EE_
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: aUsA/mb/90JpmGXyyCdXOl+lNXhBJooQIfZwK7RZ9FiIbiH2KhMlY4yJbC6YLDHa7BeQB1CQTbgS6pd2WKjhSVXXbyIREmSTqkHBGOBSg6njWorD6Y3d3aYZdEWelNJwZWMQVv8DjxCBtrgb87R1pWxjMrrGaGz7QgpUZ+uZMYOGy36A7kf9UP56QStTvvnPb8FkyHwd6U4XslWeNrm3QdTXHrKFeuDEVC4uSK0TFIAVaTpwlajJg6DDkS3mS54Cx2iC1DbkvQiFueqETf9JHK5cOyb50BUF5tjt9/g9+pjUXQSL1mheHoNDJXLNaTr/Z6aMz75qPqFxsOIBMKoSN0P8UCPXv2ZfRXFo6tbogd/ynqf4aohWGDL/a3GlcdekUQ02giLrnpZcF3vgEKbUHQaFeAyiDkSNFSECnq+Rzo7vzuoagGdXpeOjv7c/SJjb9bFdxQtwM7ZZrfiHIZFnhXhNBIeLKUKXdBa6icM0K0bP/fCsYxr7daPOROgjkTq59OxmHzWwXvSKvX+Y9tjcQ7YWottnnX6Q3HkAbvaoO8BLUo/ohlwCSPyVHxCJnZlyDpSYrz6SxSt/VfH7Hp8oaw==
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?CNP7ayXmtbQubBdoQbiOnk6R4LHc6Py7SRTv9jqlEEpBeks50ECIxnxSamuV?=
- =?us-ascii?Q?GhvBleRSzvI1B+BaiwMgR+IhU+xlvER0f0OxEHJShGIJ/E2vNDDv9P35B0rS?=
- =?us-ascii?Q?FcBUu9nKnwWwJSfBDpHX7XOMgXqycL/e4sLbY5boYCWXkN/XkwPJ1X9hAvor?=
- =?us-ascii?Q?dUP0m+3sNLCnBSzlOYqLkPh3lKmRcJdQaiurNqyQUZBSusBMJZ+Ur+js4cd+?=
- =?us-ascii?Q?6rtRsGdH1U/GgNJWxgQbzu5BT+r0OB5tTrxKI9eHnHNo9r4aXbqR2u5SBWqQ?=
- =?us-ascii?Q?TMqH44GXJcC2f7Td3fDl111bOtlSgD+qlaneFAMAvVPWyf+/oK5nRgbJhIw4?=
- =?us-ascii?Q?vweA7g4qjzQ4ADTLMpm3URHwYyjp9bZeaZtN+yJU3xuCMAh/vb3d//V7GUCa?=
- =?us-ascii?Q?hzOaA02ooxKQkMpY1yqWaH5Rke3FmHwxM87F8JrzpgjCPwZ1C/9IARBrqL+i?=
- =?us-ascii?Q?5qGC3okaR8h8cuvKy1ZE004CxzxvgCOsJuypq/QPwLr1T0jssjtwRyFSubTU?=
- =?us-ascii?Q?p6oH0fSSoga7kkw/igpDpPJ5Oxer6u5Y1XP1htNtVP4qgdOf9VofwtPyjWkE?=
- =?us-ascii?Q?thnXANMz2Z6zrMUw5kPRCe5M9P89AX0gmTAcZJnGI6/VqVNxKLZmgMRgDlib?=
- =?us-ascii?Q?xNrjBVbeoZmwW25+pYLrNDSoOBDMgg3wsCwTS212XW1KV16WI3SZ3dGh4RZw?=
- =?us-ascii?Q?flaJiFizatk1HO2PTTPylj52o3LblL1Fw+5prDcE2OJYAMbxZ1VHCDgoU2+x?=
- =?us-ascii?Q?JGP4xbhWQHEi+Tvp1p8gDhbzOAotPHiP0/2zDsoO6KQMZWyyduxNlm5fxvHa?=
- =?us-ascii?Q?f/tDzbWHU+gWf+dIY6e+QWxSKU2NyUtunsMdhNzTooHu4u3dDobaMF0U7nZQ?=
- =?us-ascii?Q?j3m8ZBd55S7/vNNhRmkJoUhj9Ley6I9DFL0Z6Gi4hsvsXOuP7WnLZpLMjz1H?=
- =?us-ascii?Q?WgJp6tP7kaOPoCKmpZZPF2gL8J3MHwA8vntR+jspahKtgkVBtyvOuN9XnqX/?=
- =?us-ascii?Q?DQRZvoq4vH+pbex4mJmpZHYH7A=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <0BEC3BFC18F6C049A97C07550AE38246@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+        id S1380407AbiAUMmP (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 21 Jan 2022 07:42:15 -0500
+Received: by zeus.flokli.de (Postfix, from userid 207)
+        id D00AA1276C1D; Fri, 21 Jan 2022 12:41:28 +0000 (UTC)
+Received: by zeus.flokli.de (Postfix, from userid 207)
+        id 3B6521276BFF; Fri, 21 Jan 2022 12:36:52 +0000 (UTC)
+Received: by zeus.flokli.de (Postfix, from userid 207)
+        id 44BCB1276BCB; Fri, 21 Jan 2022 12:34:44 +0000 (UTC)
+Received: from localhost (ip-178-200-100-55.hsi07.unitymediagroup.de [178.200.100.55])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: flokli@flokli.de)
+        by zeus.flokli.de (Postfix) with ESMTPSA id 2C4B51276B98;
+        Fri, 21 Jan 2022 12:32:36 +0000 (UTC)
+From:   Florian Klink <flokli@flokli.de>
+To:     linux-input@vger.kernel.org
+Cc:     ValdikSS <iam@valdikss.org.ru>, Florian Klink <flokli@flokli.de>
+Subject: [PATCH v3 1/3] HID: lenovo: Add support for ThinkPad TrackPoint Keyboard II
+Date:   Fri, 21 Jan 2022 13:32:04 +0100
+Message-Id: <20220121123206.36978-1-flokli@flokli.de>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <e9e1f6ce-f12c-291b-81a8-c76f72ee29f2@valdikss.org.ru>
+References: <e9e1f6ce-f12c-291b-81a8-c76f72ee29f2@valdikss.org.ru>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8fb7b702-2c52-4ed5-7b27-08d9dcb7d055
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jan 2022 08:27:08.1400
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PNZPR01MB4912
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Aditya Garg <gargaditya08@live.com>
+From: ValdikSS <iam@valdikss.org.ru>
 
-This patch adds the Fn mapping for keyboards on certain T2 Macs.
+This keyboard has two modes: regular HID and a native mode, which is used
+in Windows driver. Native mode disables (poor) middle mouse button
+scrolling emulation and reports middle button and scrolling events with a
+custom report ID, which could be better handled in the driver.
 
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
+This commit adds functional button mapping and native scrolling support.
+
+HID collection in Bluetooth mode for custom report ID=5 is broken and
+is patched upon connection. The collection initially contains incorrect
+Usage Minimum/Usage Maximum numbers and, more importantly, marks Input
+as Variable, not Array, while reporting values as in Array.
+
+The keyboard is very similar to Compact USB/Bluetooth Keyboard with
+TrackPoint, that's why this patch reuses all of cptkbd functions, except
+for input mapping.
+
+Signed-off-by: Florian Klink <flokli@flokli.de>
 ---
- drivers/hid/hid-apple.c | 70 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+ drivers/hid/hid-ids.h    |   2 +
+ drivers/hid/hid-lenovo.c | 160 +++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 156 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 823021c24..c4d21c617 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -142,6 +142,51 @@ static const struct apple_key_translation macbookair_f=
-n_keys[] =3D {
- 	{ }
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 26cee452ec44..16c171d3e116 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -752,7 +752,9 @@
+ #define USB_VENDOR_ID_LENOVO		0x17ef
+ #define USB_DEVICE_ID_LENOVO_TPKBD	0x6009
+ #define USB_DEVICE_ID_LENOVO_CUSBKBD	0x6047
++#define USB_DEVICE_ID_LENOVO_TPIIUSBKBD	0x60ee
+ #define USB_DEVICE_ID_LENOVO_CBTKBD	0x6048
++#define USB_DEVICE_ID_LENOVO_TPIIBTKBD	0x60e1
+ #define USB_DEVICE_ID_LENOVO_SCROLLPOINT_OPTICAL	0x6049
+ #define USB_DEVICE_ID_LENOVO_TP10UBKBD	0x6062
+ #define USB_DEVICE_ID_LENOVO_TPPRODOCK	0x6067
+diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
+index 93b1f935e526..a612ae7dfbfc 100644
+--- a/drivers/hid/hid-lenovo.c
++++ b/drivers/hid/hid-lenovo.c
+@@ -4,6 +4,7 @@
+  *  - ThinkPad USB Keyboard with TrackPoint (tpkbd)
+  *  - ThinkPad Compact Bluetooth Keyboard with TrackPoint (cptkbd)
+  *  - ThinkPad Compact USB Keyboard with TrackPoint (cptkbd)
++ *  - ThinkPad TrackPoint Keyboard II USB/Bluetooth (cptkbd/tpIIkbd)
+  *
+  *  Copyright (c) 2012 Bernhard Seibold
+  *  Copyright (c) 2014 Jamie Lentin <jm@lentin.co.uk>
+@@ -110,6 +111,23 @@ static const __u8 lenovo_pro_dock_need_fixup_collection[] = {
+ 	0x2a, 0xff, 0xff,	/*  Usage Maximum (65535)		*/
  };
-=20
-+static const struct apple_key_translation macbookpro_no_esc_fn_keys[] =3D =
-{
-+	{ KEY_BACKSPACE, KEY_DELETE },
-+	{ KEY_ENTER,	KEY_INSERT },
-+	{ KEY_GRAVE,	KEY_ESC },
-+	{ KEY_1,	KEY_F1 },
-+	{ KEY_2,	KEY_F2 },
-+	{ KEY_3,	KEY_F3 },
-+	{ KEY_4,	KEY_F4 },
-+	{ KEY_5,	KEY_F5 },
-+	{ KEY_6,	KEY_F6 },
-+	{ KEY_7,	KEY_F7 },
-+	{ KEY_8,	KEY_F8 },
-+	{ KEY_9,	KEY_F9 },
-+	{ KEY_0,	KEY_F10 },
-+	{ KEY_MINUS,	KEY_F11 },
-+	{ KEY_EQUAL,	KEY_F12 },
-+	{ KEY_UP,	KEY_PAGEUP },
-+	{ KEY_DOWN,	KEY_PAGEDOWN },
-+	{ KEY_LEFT,	KEY_HOME },
-+	{ KEY_RIGHT,	KEY_END },
-+	{ }
+ 
++/* Broken ThinkPad TrackPoint II collection (Bluetooth mode) */
++static const __u8 lenovo_tpIIbtkbd_need_fixup_collection[] = {
++	0x06, 0x00, 0xFF,	/* Usage Page (Vendor Defined 0xFF00) */
++	0x09, 0x01,		/* Usage (0x01) */
++	0xA1, 0x01,		/* Collection (Application) */
++	0x85, 0x05,		/*   Report ID (5) */
++	0x1A, 0xF1, 0x00,	/*   Usage Minimum (0xF1) */
++	0x2A, 0xFC, 0x00,	/*   Usage Maximum (0xFC) */
++	0x15, 0x00,		/*   Logical Minimum (0) */
++	0x25, 0x01,		/*   Logical Maximum (1) */
++	0x75, 0x01,		/*   Report Size (1) */
++	0x95, 0x0D,		/*   Report Count (13) */
++	0x81, 0x02,		/*   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position) */
++	0x95, 0x03,		/*   Report Count (3) */
++	0x81, 0x01,		/*   Input (Const,Array,Abs,No Wrap,Linear,Preferred State,No Null Position) */
 +};
 +
-+static const struct apple_key_translation macbookpro_dedicated_esc_fn_keys=
-[] =3D {
-+	{ KEY_BACKSPACE, KEY_DELETE },
-+	{ KEY_ENTER,	KEY_INSERT },
-+	{ KEY_1,	KEY_F1 },
-+	{ KEY_2,	KEY_F2 },
-+	{ KEY_3,	KEY_F3 },
-+	{ KEY_4,	KEY_F4 },
-+	{ KEY_5,	KEY_F5 },
-+	{ KEY_6,	KEY_F6 },
-+	{ KEY_7,	KEY_F7 },
-+	{ KEY_8,	KEY_F8 },
-+	{ KEY_9,	KEY_F9 },
-+	{ KEY_0,	KEY_F10 },
-+	{ KEY_MINUS,	KEY_F11 },
-+	{ KEY_EQUAL,	KEY_F12 },
-+	{ KEY_UP,	KEY_PAGEUP },
-+	{ KEY_DOWN,	KEY_PAGEDOWN },
-+	{ KEY_LEFT,	KEY_HOME },
-+	{ KEY_RIGHT,	KEY_END },
-+	{ }
-+};
+ static __u8 *lenovo_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 		unsigned int *rsize)
+ {
+@@ -126,6 +144,19 @@ static __u8 *lenovo_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 			rdesc[152] = 0x00;
+ 		}
+ 		break;
++	case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
++		if (*rsize >= 263 &&
++		    memcmp(&rdesc[234], lenovo_tpIIbtkbd_need_fixup_collection,
++			  sizeof(lenovo_tpIIbtkbd_need_fixup_collection)) == 0) {
++			rdesc[244] = 0x00; /* usage minimum = 0x00 */
++			rdesc[247] = 0xff; /* usage maximum = 0xff */
++			rdesc[252] = 0xff; /* logical maximum = 0xff */
++			rdesc[254] = 0x08; /* report size = 0x08 */
++			rdesc[256] = 0x01; /* report count = 0x01 */
++			rdesc[258] = 0x00; /* input = 0x00 */
++			rdesc[260] = 0x01; /* report count (2) = 0x01 */
++		}
++		break;
+ 	}
+ 	return rdesc;
+ }
+@@ -217,6 +248,101 @@ static int lenovo_input_mapping_cptkbd(struct hid_device *hdev,
+ 	return 0;
+ }
+ 
++static int lenovo_input_mapping_tpIIkbd(struct hid_device *hdev,
++		struct hid_input *hi, struct hid_field *field,
++		struct hid_usage *usage, unsigned long **bit, int *max)
++{
++	/*
++	 * 0xff0a0000 = USB, HID_UP_MSVENDOR = BT.
++	 *
++	 * In BT mode, there are two HID_UP_MSVENDOR pages.
++	 * Use only the page that contains report ID == 5.
++	 */
++	if (((usage->hid & HID_USAGE_PAGE) == 0xff0a0000 ||
++	    (usage->hid & HID_USAGE_PAGE) == HID_UP_MSVENDOR) &&
++	    field->report->id == 5) {
++		switch (usage->hid & HID_USAGE) {
++		case 0x00bb: /* Fn-F4: Mic mute */
++			map_key_clear(LENOVO_KEY_MICMUTE);
++			return 1;
++		case 0x00c3: /* Fn-F5: Brightness down */
++			map_key_clear(KEY_BRIGHTNESSDOWN);
++			return 1;
++		case 0x00c4: /* Fn-F6: Brightness up */
++			map_key_clear(KEY_BRIGHTNESSUP);
++			return 1;
++		case 0x00c1: /* Fn-F8: Notification center */
++			map_key_clear(KEY_NOTIFICATION_CENTER);
++			return 1;
++		case 0x00bc: /* Fn-F9: Control panel */
++			map_key_clear(KEY_CONFIG);
++			return 1;
++		case 0x00b6: /* Fn-F10: Bluetooth */
++			map_key_clear(KEY_BLUETOOTH);
++			return 1;
++		case 0x00b7: /* Fn-F11: Keyboard config */
++			map_key_clear(KEY_KEYBOARD);
++			return 1;
++		case 0x00b8: /* Fn-F12: User function */
++			map_key_clear(KEY_PROG1);
++			return 1;
++		case 0x00b9: /* Fn-PrtSc: Snipping tool */
++			map_key_clear(KEY_SELECTIVE_SCREENSHOT);
++			return 1;
++		case 0x00b5: /* Fn-Esc: Fn-lock toggle */
++			map_key_clear(KEY_FN_ESC);
++			return 1;
++		}
++	}
 +
- static const struct apple_key_translation apple_fn_keys[] =3D {
- 	{ KEY_BACKSPACE, KEY_DELETE },
- 	{ KEY_ENTER,	KEY_INSERT },
-@@ -272,6 +317,25 @@ static int hidinput_apple_event(struct hid_device *hid=
-, struct input_dev *input,
- 		else if (hid->product >=3D USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
- 				hid->product <=3D USB_DEVICE_ID_APPLE_WELLSPRING4A_JIS)
- 			table =3D macbookair_fn_keys;
-+		else if (hid->product >=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J140K &&
-+				hid->product <=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J152F) {
-+				switch (hid->product) {
-+				/* MacBook Pros with esc on the touchbar */
-+				case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J132:
-+				case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J680:
-+				case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J213:
-+					table =3D macbookpro_no_esc_fn_keys;
-+					break;
-+				/* MacBook Pros with a dedicated esc key */
-+				case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J214K:
-+				case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J223:
-+				case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J152F:
-+					table =3D macbookpro_dedicated_esc_fn_keys;
-+					break;
-+				default:
-+					table =3D apple_fn_keys;
-+				}
-+			}
- 		else if (hid->product < 0x21d || hid->product >=3D 0x300)
- 			table =3D powerbook_fn_keys;
- 		else
-@@ -480,6 +544,12 @@ static void apple_setup_input(struct input_dev *input)
- 	set_bit(KEY_NUMLOCK, input->keybit);
-=20
- 	/* Enable all needed keys */
-+	for (trans =3D macbookpro_no_esc_fn_keys; trans->from; trans++)
-+		set_bit(trans->to, input->keybit);
++	if ((usage->hid & HID_USAGE_PAGE) == 0xffa00000) {
++		switch (usage->hid & HID_USAGE) {
++		case 0x00fb: /* Middle mouse (in native USB mode) */
++			map_key_clear(BTN_MIDDLE);
++			return 1;
++		}
++	}
 +
-+	for (trans =3D macbookpro_dedicated_esc_fn_keys; trans->from; trans++)
-+		set_bit(trans->to, input->keybit);
++	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_MSVENDOR &&
++	    field->report->id == 21) {
++		switch (usage->hid & HID_USAGE) {
++		case 0x0004: /* Middle mouse (in native Bluetooth mode) */
++			map_key_clear(BTN_MIDDLE);
++			return 1;
++		}
++	}
 +
- 	for (trans =3D apple_fn_keys; trans->from; trans++)
- 		set_bit(trans->to, input->keybit);
-=20
---=20
-2.25.1
-
++	/* Compatibility middle/wheel mappings should be ignored */
++	if (usage->hid == HID_GD_WHEEL)
++		return -1;
++	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_BUTTON &&
++			(usage->hid & HID_USAGE) == 0x003)
++		return -1;
++	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_CONSUMER &&
++			(usage->hid & HID_USAGE) == 0x238)
++		return -1;
++
++	/* Map wheel emulation reports: 0xff10 */
++	if ((usage->hid & HID_USAGE_PAGE) == 0xff100000) {
++		field->flags |= HID_MAIN_ITEM_RELATIVE | HID_MAIN_ITEM_VARIABLE;
++		field->logical_minimum = -127;
++		field->logical_maximum = 127;
++
++		switch (usage->hid & HID_USAGE) {
++		case 0x0000:
++			hid_map_usage(hi, usage, bit, max, EV_REL, REL_HWHEEL);
++			return 1;
++		case 0x0001:
++			hid_map_usage(hi, usage, bit, max, EV_REL, REL_WHEEL);
++			return 1;
++		default:
++			return -1;
++		}
++	}
++
++	return 0;
++}
++
+ static int lenovo_input_mapping_scrollpoint(struct hid_device *hdev,
+ 		struct hid_input *hi, struct hid_field *field,
+ 		struct hid_usage *usage, unsigned long **bit, int *max)
+@@ -326,6 +452,10 @@ static int lenovo_input_mapping(struct hid_device *hdev,
+ 	case USB_DEVICE_ID_LENOVO_CBTKBD:
+ 		return lenovo_input_mapping_cptkbd(hdev, hi, field,
+ 							usage, bit, max);
++	case USB_DEVICE_ID_LENOVO_TPIIUSBKBD:
++	case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
++		return lenovo_input_mapping_tpIIkbd(hdev, hi, field,
++							usage, bit, max);
+ 	case USB_DEVICE_ID_IBM_SCROLLPOINT_III:
+ 	case USB_DEVICE_ID_IBM_SCROLLPOINT_PRO:
+ 	case USB_DEVICE_ID_IBM_SCROLLPOINT_OPTICAL:
+@@ -363,10 +493,12 @@ static int lenovo_send_cmd_cptkbd(struct hid_device *hdev,
+ 
+ 	switch (hdev->product) {
+ 	case USB_DEVICE_ID_LENOVO_CUSBKBD:
++	case USB_DEVICE_ID_LENOVO_TPIIUSBKBD:
+ 		ret = hid_hw_raw_request(hdev, 0x13, buf, 3,
+ 					HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
+ 		break;
+ 	case USB_DEVICE_ID_LENOVO_CBTKBD:
++	case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
+ 		ret = hid_hw_output_report(hdev, buf, 3);
+ 		break;
+ 	default:
+@@ -422,6 +554,8 @@ static ssize_t attr_fn_lock_store(struct device *dev,
+ 	switch (hdev->product) {
+ 	case USB_DEVICE_ID_LENOVO_CUSBKBD:
+ 	case USB_DEVICE_ID_LENOVO_CBTKBD:
++	case USB_DEVICE_ID_LENOVO_TPIIUSBKBD:
++	case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
+ 		lenovo_features_set_cptkbd(hdev);
+ 		break;
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+@@ -568,6 +702,8 @@ static int lenovo_event(struct hid_device *hdev, struct hid_field *field,
+ 	switch (hdev->product) {
+ 	case USB_DEVICE_ID_LENOVO_CUSBKBD:
+ 	case USB_DEVICE_ID_LENOVO_CBTKBD:
++	case USB_DEVICE_ID_LENOVO_TPIIUSBKBD:
++	case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
+ 		return lenovo_event_cptkbd(hdev, field, usage, value);
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+ 	case USB_DEVICE_ID_LENOVO_X1_TAB:
+@@ -960,8 +1096,9 @@ static int lenovo_probe_cptkbd(struct hid_device *hdev)
+ 	struct lenovo_drvdata *cptkbd_data;
+ 
+ 	/* All the custom action happens on the USBMOUSE device for USB */
+-	if (hdev->product == USB_DEVICE_ID_LENOVO_CUSBKBD
+-			&& hdev->type != HID_TYPE_USBMOUSE) {
++	if (((hdev->product == USB_DEVICE_ID_LENOVO_CUSBKBD) ||
++	    (hdev->product == USB_DEVICE_ID_LENOVO_TPIIUSBKBD)) &&
++	    hdev->type != HID_TYPE_USBMOUSE) {
+ 		hid_dbg(hdev, "Ignoring keyboard half of device\n");
+ 		return 0;
+ 	}
+@@ -977,11 +1114,14 @@ static int lenovo_probe_cptkbd(struct hid_device *hdev)
+ 
+ 	/*
+ 	 * Tell the keyboard a driver understands it, and turn F7, F9, F11 into
+-	 * regular keys
++	 * regular keys (Compact only)
+ 	 */
+-	ret = lenovo_send_cmd_cptkbd(hdev, 0x01, 0x03);
+-	if (ret)
+-		hid_warn(hdev, "Failed to switch F7/9/11 mode: %d\n", ret);
++	if (hdev->product == USB_DEVICE_ID_LENOVO_CUSBKBD ||
++	    hdev->product == USB_DEVICE_ID_LENOVO_CBTKBD) {
++		ret = lenovo_send_cmd_cptkbd(hdev, 0x01, 0x03);
++		if (ret)
++			hid_warn(hdev, "Failed to switch F7/9/11 mode: %d\n", ret);
++	}
+ 
+ 	/* Switch middle button to native mode */
+ 	ret = lenovo_send_cmd_cptkbd(hdev, 0x09, 0x01);
+@@ -1088,6 +1228,8 @@ static int lenovo_probe(struct hid_device *hdev,
+ 		break;
+ 	case USB_DEVICE_ID_LENOVO_CUSBKBD:
+ 	case USB_DEVICE_ID_LENOVO_CBTKBD:
++	case USB_DEVICE_ID_LENOVO_TPIIUSBKBD:
++	case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
+ 		ret = lenovo_probe_cptkbd(hdev);
+ 		break;
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+@@ -1154,6 +1296,8 @@ static void lenovo_remove(struct hid_device *hdev)
+ 		break;
+ 	case USB_DEVICE_ID_LENOVO_CUSBKBD:
+ 	case USB_DEVICE_ID_LENOVO_CBTKBD:
++	case USB_DEVICE_ID_LENOVO_TPIIUSBKBD:
++	case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
+ 		lenovo_remove_cptkbd(hdev);
+ 		break;
+ 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+@@ -1172,6 +1316,8 @@ static int lenovo_input_configured(struct hid_device *hdev,
+ 		case USB_DEVICE_ID_LENOVO_TPKBD:
+ 		case USB_DEVICE_ID_LENOVO_CUSBKBD:
+ 		case USB_DEVICE_ID_LENOVO_CBTKBD:
++		case USB_DEVICE_ID_LENOVO_TPIIUSBKBD:
++		case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
+ 			if (test_bit(EV_REL, hi->input->evbit)) {
+ 				/* set only for trackpoint device */
+ 				__set_bit(INPUT_PROP_POINTER, hi->input->propbit);
+@@ -1188,7 +1334,9 @@ static int lenovo_input_configured(struct hid_device *hdev,
+ static const struct hid_device_id lenovo_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_TPKBD) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_CUSBKBD) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_TPIIUSBKBD) },
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_CBTKBD) },
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_TPIIBTKBD) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_TPPRODOCK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_IBM, USB_DEVICE_ID_IBM_SCROLLPOINT_III) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_IBM, USB_DEVICE_ID_IBM_SCROLLPOINT_PRO) },
+-- 
+2.34.1
 
