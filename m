@@ -2,55 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18D814958A9
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jan 2022 04:51:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 259644958C2
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jan 2022 05:08:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233642AbiAUDvt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Jan 2022 22:51:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42544 "EHLO
+        id S233915AbiAUEIQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Jan 2022 23:08:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233633AbiAUDvt (ORCPT
+        with ESMTP id S233889AbiAUEIP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Jan 2022 22:51:49 -0500
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C7D7C06173F
-        for <linux-input@vger.kernel.org>; Thu, 20 Jan 2022 19:51:49 -0800 (PST)
-Received: by mail-ot1-x333.google.com with SMTP id v8-20020a9d6048000000b005960952c694so10229560otj.12
-        for <linux-input@vger.kernel.org>; Thu, 20 Jan 2022 19:51:49 -0800 (PST)
+        Thu, 20 Jan 2022 23:08:15 -0500
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B5A1C061401
+        for <linux-input@vger.kernel.org>; Thu, 20 Jan 2022 20:08:15 -0800 (PST)
+Received: by mail-oi1-x22b.google.com with SMTP id bb37so12004583oib.1
+        for <linux-input@vger.kernel.org>; Thu, 20 Jan 2022 20:08:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:in-reply-to:references:from:user-agent:date:message-id
          :subject:to:cc;
-        bh=Zw1xGM3pPLEzfNT4ahmA+22OV1IFhkPDNDA/xee9U6A=;
-        b=Fohh4ir2XtxYGDzTYT3a1zOzmn7NemInzjufhZGhE9kjaycZw3rvx/ZTOJMWAql8+u
-         kjWXZNqWBTkh9C7rHMoQbzUi5zy88CG5B1mj9ubIOiYH94ZxbWuVjysjy10qmPvIK31v
-         yat5XS6hJlkC47ErkXZpKGpn0rf2V0uEoSJUg=
+        bh=7Kn05henpg5pbL6jUmiTf8Wb4r1PXGs3Ie4dJfSb7xM=;
+        b=CVb7A/h3inhfWvli9MZEAAUchbGrGGtbRcRlSTmNLWvEUYVCsiyJAAVnpDmkY3qPk4
+         ouE4WBbntnUEyyOIE/QdxIWmhk/IabEkD/LkaAh1merrEO1Qn0JmbZ+fXVy2giAN2KdG
+         WI2TP8vpXsy+Zhfn60nzicWNnuuDLLqOGq1oY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:in-reply-to:references:from
          :user-agent:date:message-id:subject:to:cc;
-        bh=Zw1xGM3pPLEzfNT4ahmA+22OV1IFhkPDNDA/xee9U6A=;
-        b=z7NeONkP9416/iK3AtvvBOmSSMB6aUOJat3VloBKQ36CiuqsFVICOgZSvHLgbgm0qW
-         N9WwwB2rJy36iHPQIpOfLwtUi2mOTBMLH/eL8+4lacsop3rAE+pQLk/9iJ9GamB16GuY
-         nA7uinTAjOh6UPMbrvVrR5X0o/fSZpdGQ5nm0W5/o1Laaax/oBPez3kfrEUfzPD+8bQ2
-         h1rGRRGD0o2/r0dh41xpzoPipiBLrMPOajyG8MsaHNh763x6pzQPFBP5/XPXXaFTA1+m
-         CejVOT4gzSL0KlWon8ylSw6XlKgFSUD/y63d3jTaoMshzLUaqJr5SU+Bj2wBZr/GjM0g
-         YtnQ==
-X-Gm-Message-State: AOAM530kU6YPpfHYBoD5Jyi4R/wIycDJdwhJs8Psxe8e+F70pEu2Ee1p
-        nGdoieGEMzzeDSXzxglGUIl1MZmhM1jOUlY9tPUawA==
-X-Google-Smtp-Source: ABdhPJzOelKqjZaLkZxZNxOOsZNh2/VT97M0GdTnwWRDH9mrRyfMV1pVkXwDFHR/qX7u73GKaERNQBUCZpdLMd7EyYo=
-X-Received: by 2002:a9d:7f93:: with SMTP id t19mr1422121otp.159.1642737108375;
- Thu, 20 Jan 2022 19:51:48 -0800 (PST)
+        bh=7Kn05henpg5pbL6jUmiTf8Wb4r1PXGs3Ie4dJfSb7xM=;
+        b=C1IU6oIKkuxs5kRpCNzxhl4JJllo7+NZ8Nesqc0FwGcrKdGr+66T9L3lZWrdD9FRg2
+         2tV3NnYeZq5T/69WooR8Pu7Ypsua7ZJNNZunmQwah8RWeKQ+yTS6RdNLVh+6i+W28ejq
+         4x7MWDEpibSNefzvk2oBJrZ4gWNZPAC60liNJwF16C97ZQoa7ZSPFB8mUqZ0BLX50tPe
+         qvpN7hN8TKQRhJqrbdnncyPaGSwqdch5U0WrFy/o3k2p1kcWVc4PDLWTZ1l4g/be9dmO
+         q0SdmdkL/1/pg/AmjyfG4+tLyJkra1zmGq/G0WOppkmMypPlyC9rC3FbNHBFi/LX7NqM
+         4ZLw==
+X-Gm-Message-State: AOAM5311YsYYc0nR2c8XiHTGNmYgDJVCWc0EGAtcIWmKUJF+BtQnYbc5
+        6bNlgAtMTSmCQkShZ0WimH24G+r3hrOnXk+59T6g/Q==
+X-Google-Smtp-Source: ABdhPJzHOQhOvtVQ00p9naRyc70i/YMRXtUEJognG5vEVTXrGPIlc9qTKQRuxCRMq25sUcnx1qBsmtgWWyuruLqtcWo=
+X-Received: by 2002:aca:f241:: with SMTP id q62mr1848226oih.64.1642738094606;
+ Thu, 20 Jan 2022 20:08:14 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 20 Jan 2022 19:51:48 -0800
+ HTTPREST; Thu, 20 Jan 2022 20:08:13 -0800
 MIME-Version: 1.0
-In-Reply-To: <20220120204132.17875-1-quic_amelende@quicinc.com>
-References: <20220120204132.17875-1-quic_amelende@quicinc.com>
+In-Reply-To: <20220120204132.17875-2-quic_amelende@quicinc.com>
+References: <20220120204132.17875-1-quic_amelende@quicinc.com> <20220120204132.17875-2-quic_amelende@quicinc.com>
 From:   Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date:   Thu, 20 Jan 2022 19:51:47 -0800
-Message-ID: <CAE-0n530ddsusCO7ZB1X2GZ8NN4dPphdhAYCbexEr5jRPoACVA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Add support for pm8941-pwrkey.c
+Date:   Thu, 20 Jan 2022 20:08:13 -0800
+Message-ID: <CAE-0n508nxF_c9pzsTaQfSi42ZGQXkqb3NyQebuMBec2DCV0KA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] input: misc: pm8941-pwrkey: add software key press
+ debouncing support
 To:     Anjelique Melendez <quic_amelende@quicinc.com>,
         dmitry.torokhov@gmail.com
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -61,14 +62,216 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-"Add support" in the subject sounds like it is new. Maybe "extend
-pm8941-pwrkey driver" would be more appropriate.
-
-Quoting Anjelique Melendez (2022-01-20 12:41:30)
-> This change series includes support and fixes in pm8941-pwrkey.c.
-> Change details and description can be found in each patch. Thanks!
+Quoting Anjelique Melendez (2022-01-20 12:41:33)
+> From: David Collins <collinsd@codeaurora.org>
 >
-> David Collins (3):
->   input: misc: pm8941-pwrkey: simulate missed key press events
->   input: misc: pm8941-pwrkey: add software key press debouncing support
->   input: misc: pm8941-pwrkey: avoid potential null pointer dereference
+> On certain PMICs, an unexpected assertion of KPDPWR_DEB (the
+> positive logic hardware debounced power key signal) may be seen
+> during the falling edge of KPDPWR_N (i.e. a power key press) when
+> it occurs close to the rising edge of SLEEP_CLK.  This then
+> triggers a spurious KPDPWR interrupt.
+>
+> Handle this issue by adding software debouncing support to ignore
+> key events that occur within the hardware debounce delay after the
+> most recent key release event.
+>
+> Change-Id: Ifa3809935c01aab9078ba2302397bc9ebf390021
+
+Please remove change-id when upstreaming.
+
+> Signed-off-by: David Collins <collinsd@codeaurora.org>
+> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+> ---
+> diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
+> index 33609603245d..b912ce00ce1c 100644
+> --- a/drivers/input/misc/pm8941-pwrkey.c
+> +++ b/drivers/input/misc/pm8941-pwrkey.c
+> @@ -126,19 +144,65 @@ static irqreturn_t pm8941_pwrkey_irq(int irq, void *_data)
+>         struct pm8941_pwrkey *pwrkey = _data;
+>         unsigned int sts;
+>         int error;
+> +       u64 elapsed_us;
+> +
+> +       if (pwrkey->sw_debounce_time_us) {
+> +               elapsed_us = ktime_us_delta(ktime_get(),
+> +                                           pwrkey->last_release_time);
+> +               if (elapsed_us < pwrkey->sw_debounce_time_us) {
+
+Perhaps storing last_release_time + sw_debounce_time_us via
+ktime_add_us() in the struct would be better. Then this line would be
+
+	if (ktime_before(debounce_end, ktime_get()))
+
+and we'd avoid a division when converting to microseconds to compare
+time.
+
+> +                       dev_dbg(pwrkey->dev, "ignoring key event received after %llu us, debounce time=%u us\n",
+> +                               elapsed_us, pwrkey->sw_debounce_time_us);
+> +                       return IRQ_HANDLED;
+> +               }
+> +       }
+>
+>         error = regmap_read(pwrkey->regmap,
+>                             pwrkey->baseaddr + PON_RT_STS, &sts);
+
+Nitpick: I'd prefer this be on one line. And 'ret' or 'err' be used as
+it's shorter.
+
+>         if (error)
+>                 return IRQ_HANDLED;
+>
+> -       input_report_key(pwrkey->input, pwrkey->code,
+> -                        sts & pwrkey->data->status_bit);
+> +       sts &= pwrkey->data->status_bit;
+> +
+> +       if (pwrkey->sw_debounce_time_us && !sts)
+> +               pwrkey->last_release_time = ktime_get();
+> +
+> +       input_report_key(pwrkey->input, pwrkey->code, sts);
+>         input_sync(pwrkey->input);
+>
+>         return IRQ_HANDLED;
+>  }
+>
+> +static int pm8941_pwrkey_sw_debounce_init(struct pm8941_pwrkey *pwrkey)
+> +{
+> +       unsigned int val, addr;
+> +       int error;
+> +
+> +       if (pwrkey->data->has_pon_pbs && !pwrkey->pon_pbs_baseaddr) {
+> +               dev_err(pwrkey->dev, "PON_PBS address missing, can't read HW debounce time\n");
+> +               return 0;
+> +       }
+> +
+> +       if (pwrkey->pon_pbs_baseaddr)
+> +               addr = pwrkey->pon_pbs_baseaddr + PON_DBC_CTL;
+> +       else
+> +               addr = pwrkey->baseaddr + PON_DBC_CTL;
+> +       error = regmap_read(pwrkey->regmap, addr, &val);
+> +       if (error)
+> +               return error;
+> +
+> +       if (pwrkey->subtype >= PON_SUBTYPE_GEN2_PRIMARY)
+> +               pwrkey->sw_debounce_time_us = 2 * USEC_PER_SEC /
+> +                                               (1 << (0xf - (val & 0xf)));
+> +       else
+> +               pwrkey->sw_debounce_time_us = 2 * USEC_PER_SEC /
+> +                                               (1 << (0x7 - (val & 0x7)));
+
+Can we have one more local variable like 'mask' or 'offset'. Then the
+code would be easier to read
+
+	if (pwrkey->subtype >= PON_SUBTYPE_GEN2_PRIMARY)
+		mask = 0xf;
+	else
+		mask = 0x7
+	
+	pwrkey->sw_debounce_time_us = 2 * USEC_PER_SEC / (1 << mask - (val & 0x7));
+
+> +
+> +       dev_dbg(pwrkey->dev, "SW debounce time = %u us\n",
+> +               pwrkey->sw_debounce_time_us);
+> +
+> +       return 0;
+> +}
+> +
+>  static int __maybe_unused pm8941_pwrkey_suspend(struct device *dev)
+>  {
+>         struct pm8941_pwrkey *pwrkey = dev_get_drvdata(dev);
+> @@ -167,6 +231,8 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+>         struct pm8941_pwrkey *pwrkey;
+>         bool pull_up;
+>         struct device *parent;
+> +       struct device_node *regmap_node;
+> +       const __be32 *addr;
+>         u32 req_delay;
+>         int error;
+>
+> @@ -188,8 +254,10 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+>         pwrkey->data = of_device_get_match_data(&pdev->dev);
+>
+>         parent = pdev->dev.parent;
+> +       regmap_node = pdev->dev.of_node;
+>         pwrkey->regmap = dev_get_regmap(parent, NULL);
+>         if (!pwrkey->regmap) {
+> +               regmap_node = parent->of_node;
+>                 /*
+>                  * We failed to get regmap for parent. Let's see if we are
+>                  * a child of pon node and read regmap and reg from its
+> @@ -200,15 +268,21 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+>                         dev_err(&pdev->dev, "failed to locate regmap\n");
+>                         return -ENODEV;
+>                 }
+> +       }
+>
+> -               error = of_property_read_u32(parent->of_node,
+> -                                            "reg", &pwrkey->baseaddr);
+> -       } else {
+> -               error = of_property_read_u32(pdev->dev.of_node, "reg",
+> -                                            &pwrkey->baseaddr);
+> +       addr = of_get_address(regmap_node, 0, NULL, NULL);
+> +       if (!addr) {
+> +               dev_err(&pdev->dev, "reg property missing\n");
+> +               return -EINVAL;
+> +       }
+> +       pwrkey->baseaddr = be32_to_cpu(*addr);
+
+Can this hunk be split off? A new API is used and it doesn't look
+relevant to this patch.
+
+> +
+> +       if (pwrkey->data->has_pon_pbs) {
+> +               /* PON_PBS base address is optional */
+> +               addr = of_get_address(regmap_node, 1, NULL, NULL);
+> +               if (addr)
+> +                       pwrkey->pon_pbs_baseaddr = be32_to_cpu(*addr);
+>         }
+> -       if (error)
+> -               return error;
+>
+>         pwrkey->irq = platform_get_irq(pdev, 0);
+>         if (pwrkey->irq < 0)
+> @@ -217,7 +291,14 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+>         error = regmap_read(pwrkey->regmap, pwrkey->baseaddr + PON_REV2,
+>                             &pwrkey->revision);
+>         if (error) {
+> -               dev_err(&pdev->dev, "failed to set debounce: %d\n", error);
+> +               dev_err(&pdev->dev, "failed to read revision: %d\n", error);
+
+Nice error message fix!
+
+> +               return error;
+> +       }
+> +
+> +       error = regmap_read(pwrkey->regmap, pwrkey->baseaddr + PON_SUBTYPE,
+> +                           &pwrkey->subtype);
+> +       if (error) {
+> +               dev_err(&pdev->dev, "failed to read subtype: %d\n", error);
+>                 return error;
+>         }
+>
+> @@ -255,6 +336,12 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+>                 }
+>         }
+>
+> +       if (pwrkey->data->needs_sw_debounce) {
+> +               error = pm8941_pwrkey_sw_debounce_init(pwrkey);
+> +               if (error)
+> +                       return error;
+> +       }
+> +
+>         if (pwrkey->data->pull_up_bit) {
+>                 error = regmap_update_bits(pwrkey->regmap,
+>                                            pwrkey->baseaddr + PON_PULL_CTL,
+> @@ -316,6 +403,8 @@ static const struct pm8941_data pwrkey_data = {
+>         .phys = "pm8941_pwrkey/input0",
+>         .supports_ps_hold_poff_config = true,
+>         .supports_debounce_config = true,
+> +       .needs_sw_debounce = true,
+
+needs_sw_debounce is always true? Why is it even an option then?
+
+> +       .has_pon_pbs = false,
+>  };
+>
+>  static const struct pm8941_data resin_data = {
