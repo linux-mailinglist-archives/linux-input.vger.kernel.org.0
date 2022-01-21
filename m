@@ -2,110 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39C79496055
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jan 2022 15:04:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 539E0496080
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jan 2022 15:11:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380974AbiAUOES (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Jan 2022 09:04:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38254 "EHLO
+        id S1349885AbiAUOLt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Jan 2022 09:11:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380878AbiAUOEJ (ORCPT
+        with ESMTP id S1344906AbiAUOLs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Jan 2022 09:04:09 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61492C061763
-        for <linux-input@vger.kernel.org>; Fri, 21 Jan 2022 06:03:32 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id n8so18147299wmk.3
-        for <linux-input@vger.kernel.org>; Fri, 21 Jan 2022 06:03:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=loBYM0CvRSmbYDvfbUBNz4qYHn2wRGpqqQjyZhyXZLU=;
-        b=IBdLRh3GfWtpz9wVQJ4xWuWdyqUBqcu2/DG846I5k5YYLKBKHhiL418mxXKdYBztaN
-         qdXWkHF5UDFbawXQlr0ZzIea4m+fHilr3D6gUNN99tKSc2+5e3WwdD3XWcTzh8vUjorD
-         Rtbfrg+NQsdJTOItj7h2sOOlMKjRuBmgHqyinlsUW6WS+GE1aOn/ABvcsMwnywrJJYde
-         qUvL7VRhP0abO0aBWYyv3rW+k9qlOvdU+MKYW1FIcrUpooRTpevYryNFRz0rb6Xd51WG
-         kOHOX4CuojJ5vHG07Tkl1V2MG9biEcOLWD6anj3eWiQEt+5DhoZs1PY2hjZ6HmeKd8i1
-         HfFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=loBYM0CvRSmbYDvfbUBNz4qYHn2wRGpqqQjyZhyXZLU=;
-        b=p+4swIvlmzhN9fuiazyHQSnuZKQjfBTFnx0sJHIRLlrbqVi9l1d2bQY1VLlMHaj3n7
-         3uRlO89JTh6xxOIozbhb4N4jg9pawhXE7nExRMwYkVGMF7zmCZkQoAUnGI4Gkx7ycZyd
-         x8W6YXhimLNF5Gthvo1VXzQApbNc3TlC8zX5HDkWU6Dk/Kk1QzD6CZJG6hIUriTvOhyM
-         0J8HJtM3gabVvScmBJv8/pK0e8jt4n5FiDmUVCRRH5eWVEwxjqt5hTctXAo+QVPk4i4n
-         By8XEq1cnW5V3S/0pLEOxZVZhJyky2AiCI1vwLmWSpO/+o9yLUKn+V7rnmF69shNEbgn
-         Nxzg==
-X-Gm-Message-State: AOAM530Oqlynsiwqds35N6VJn1pX26pAu7HB5lgYLAOIu+IXeFX2uC7C
-        bpKj/wiSpHyR3hZVt5xH4n6SPYI2dbF5nw==
-X-Google-Smtp-Source: ABdhPJydtfNsdqeZZA9fWZU8clNybEl4YDGRvOfTL+ORNNu48acgumv2Axn2vVIs5i6oDvNkpO+iHw==
-X-Received: by 2002:a5d:4b87:: with SMTP id b7mr3858530wrt.327.1642773810915;
-        Fri, 21 Jan 2022 06:03:30 -0800 (PST)
-Received: from groot.home (lfbn-tou-1-205-205.w86-201.abo.wanadoo.fr. [86.201.52.205])
-        by smtp.gmail.com with ESMTPSA id p29sm9225129wms.5.2022.01.21.06.03.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jan 2022 06:03:30 -0800 (PST)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Fabien Parent <fparent@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Subject: [PATCH v4 4/4] arm64: dts: mt6358: add mt6358-keys node
-Date:   Fri, 21 Jan 2022 15:03:23 +0100
-Message-Id: <20220121140323.4080640-5-mkorpershoek@baylibre.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220121140323.4080640-1-mkorpershoek@baylibre.com>
-References: <20220121140323.4080640-1-mkorpershoek@baylibre.com>
+        Fri, 21 Jan 2022 09:11:48 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E772C061574;
+        Fri, 21 Jan 2022 06:11:48 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1A4036175E;
+        Fri, 21 Jan 2022 14:11:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAB94C340E1;
+        Fri, 21 Jan 2022 14:11:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642774307;
+        bh=aU/a/VZKaBk3Zf+73rhngb0wPbazkC1pZlQcUuQUeoc=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=Yf3jweMEulrli5G6DUs3aDkFmS5QrvfDpOSW1U97G7HhJV+uu69c24T/rkVd79r3h
+         hmXeTVFZPw4D0bq1KwzVjIUk5PQZHSQII1LUHH2rweTS9hGRSQFBsUgHziF+6nfZpD
+         YU6/iJbnrFDaTqK7CnsYp7hBgfYt+cbcvJQi80IVvfW6YYgDoCAiNqbpmLvIC7bp0S
+         z3aN8+SsN3IUk65MJ2tXOuosbUIvx6F3MB2/oeZ0zmeCXAoW8nGJ57sTd/PSgY5LgH
+         HkltPx4JSDenLYArtOCGklK/LmKS6qdHTlG1MKvQTI8lURvZNxCjo8KBP+/Ipx8X60
+         S5lFO/1ToXuUQ==
+Date:   Fri, 21 Jan 2022 15:11:43 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Jason Gerecke <killertofu@gmail.com>
+cc:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Joshua Dickens <Joshua@Joshua-Dickens.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        stable@vger.kernel.org, Ping Cheng <ping.cheng@wacom.com>
+Subject: Re: [PATCH 1/2] HID: wacom: Reset expected and received contact
+ counts at the same time
+In-Reply-To: <20220118223756.45624-1-jason.gerecke@wacom.com>
+Message-ID: <nycvar.YFH.7.76.2201211511330.28059@cbobk.fhfr.pm>
+References: <20220118223756.45624-1-jason.gerecke@wacom.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This enables the power,home keys on MediaTek boards with a mt6358 pmic.
+On Tue, 18 Jan 2022, Jason Gerecke wrote:
 
-Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
----
- arch/arm64/boot/dts/mediatek/mt6358.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+> These two values go hand-in-hand and must be valid for the driver to
+> behave correctly. We are currently lazy about updating the values and
+> rely on the "expected" code flow to take care of making sure they're
+> valid at the point they're needed. The "expected" flow changed somewhat
+> with commit f8b6a74719b5 ("HID: wacom: generic: Support multiple tools
+> per report"), however. This led to problems with the DTH-2452 due (in
+> part) to *all* contacts being fully processed -- even those past the
+> expected contact count. Specifically, the received count gets reset to
+> 0 once all expected fingers are processed, but not the expected count.
+> The rest of the contacts in the report are then *also* processed since
+> now the driver thinks we've only processed 0 of N expected contacts.
+> 
+> Later commits such as 7fb0413baa7f (HID: wacom: Use "Confidence" flag to
+> prevent reporting invalid contacts) worked around the DTH-2452 issue by
+> skipping the invalid contacts at the end of the report, but this is not
+> a complete fix. The confidence flag cannot be relied on when a contact
+> is removed (see the following patch), and dealing with that condition
+> re-introduces the DTH-2452 issue unless we also address this contact
+> count laziness. By resetting expected and received counts at the same
+> time we ensure the driver understands that there are 0 more contacts
+> expected in the report. Similarly, we also make sure to reset the
+> received count if for some reason we're out of sync in the pre-report
+> phase.
+> 
+> Link: https://github.com/linuxwacom/input-wacom/issues/288
+> Fixes: f8b6a74719b5 ("HID: wacom: generic: Support multiple tools per report")
+> CC: stable@vger.kernel.org
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt6358.dtsi b/arch/arm64/boot/dts/mediatek/mt6358.dtsi
-index 95145076b7e6..98f3b0e0c9f6 100644
---- a/arch/arm64/boot/dts/mediatek/mt6358.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt6358.dtsi
-@@ -2,6 +2,7 @@
- /*
-  * Copyright (c) 2020 MediaTek Inc.
-  */
-+#include <dt-bindings/input/input.h>
- 
- &pwrap {
- 	pmic: mt6358 {
-@@ -357,5 +358,16 @@ mt6358_vsim2_reg: ldo_vsim2 {
- 		mt6358rtc: mt6358rtc {
- 			compatible = "mediatek,mt6358-rtc";
- 		};
-+
-+		mt6358keys: mt6358keys {
-+			compatible = "mediatek,mt6358-keys";
-+			power {
-+				linux,keycodes = <KEY_POWER>;
-+				wakeup-source;
-+			};
-+			home {
-+				linux,keycodes = <KEY_HOME>;
-+			};
-+		};
- 	};
- };
+Both patches applied, thanks.
+
 -- 
-2.32.0
+Jiri Kosina
+SUSE Labs
 
