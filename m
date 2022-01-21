@@ -2,94 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7B0B49632F
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jan 2022 17:54:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03A2F4963B4
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jan 2022 18:24:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379151AbiAUQyo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Jan 2022 11:54:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49488 "EHLO
+        id S1379503AbiAURYi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Jan 2022 12:24:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379312AbiAUQye (ORCPT
+        with ESMTP id S1379502AbiAURY0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Jan 2022 11:54:34 -0500
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 862E3C06173B;
-        Fri, 21 Jan 2022 08:54:34 -0800 (PST)
-Received: by mail-oi1-x234.google.com with SMTP id s127so14381111oig.2;
-        Fri, 21 Jan 2022 08:54:34 -0800 (PST)
+        Fri, 21 Jan 2022 12:24:26 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B269C06173B
+        for <linux-input@vger.kernel.org>; Fri, 21 Jan 2022 09:24:26 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id pf13so9891260pjb.0
+        for <linux-input@vger.kernel.org>; Fri, 21 Jan 2022 09:24:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gMvwDdKHz8SxD4XNsSXi0ifYKZbrqBGSjCLlHvwqADI=;
-        b=bFxWZzsGiGVdBe5x6szZZuz5pjdNt6E15NqjGO8IZpJRKXyU1CUVtQfiS7nQ85w9Hr
-         a2F1y2md9h0rVZQajdIrclWiJ+nPA3vP/ZbKGqY1iQ5LhRK5axOYZFH1PI5vO/zWWhHl
-         Eor7nYxkOYgUmAvJXNbqMrfjOckjduoYsdX4Y6JNRzNb3G1lgccNCs7Y980we11ot3UN
-         XHQSZwNj5VD7/nnNJ8r4qN9vTm6Bj+G85IZM4HPdO+1G2RHVJXmzMRqb+7g60TcsjCK4
-         wuMh1c/1/kQbcrDd8GS8Jj8JzJYBPQdU0Ypn6G0fz+xx25Wr4xWQNsmqWf1XxJQQbtiZ
-         KVQg==
+        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=O7Sb8E6DceJOcbBFaMrKVfeTv5l1u+z4k+rnKP7OXSA=;
+        b=WWuJfMcspU3xmDwqq4WvhSXfJJVjE7G/l4UrQn71/xN8RmR+YM8T0RQJL3wNUiM5wP
+         /0DqBmAQav6UKwamFKrJu2AuYMNulX7RpsG5Wce4J6/hx6rlx3zgOVpMZ25hup8izjwa
+         SZLEVllcOLM8JH9k5FTIidzumtpm6gxDW8ysJg5CweUhuM/URQVDghV+0Jx0CVdIo8es
+         97aUiYdSqcm9wXoZV8Iq8G+bELL7GrTiSLJ5yO9OBX4hDUq2x8sKMdF7UVNYDhPPyDqI
+         fFHjlWQx/rMJmEj71gYtckfUNYZumntjg4524qPWRD81PoExoAZ3BvJ804CKFKe0L+pD
+         aIyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gMvwDdKHz8SxD4XNsSXi0ifYKZbrqBGSjCLlHvwqADI=;
-        b=v6NZrRcc03i/LAx1MtmQH/zsI3ox74a08ew4B2sK0zop3ll94wwmMr8qkDKWbac48/
-         Gjl1DtXTn5shBeK3f4HEWrHBfeU4xiX89XpGk3ZQAU/btCgvLptYNLFv7J7iEkRBrcdh
-         wN2hNE/F4r9FOOl4OWCgurdXtiS9VTk9LAVsSJGBbsGSNSdhSZ/iM0HQhLheho9cyzFd
-         gY/AxgMuzSCfLxL+Lsc+91TNrNZz4rWjeGJy5QGDfZRiCQTuJlxfCH1yP/WqyByOrNnu
-         VSCxhljM7hHWIQnSCCg/be+/5q1Raq2MiD5w5BmnOg47bs3bvPZX0Q+u6vSq3GKnPENr
-         hizg==
-X-Gm-Message-State: AOAM533X99YDAl/Qj01E6p/xeeJiHtdw471z2LKx/RV/11aWKu72DYdS
-        O+glebWAECoSg1ZFgzJN1e0=
-X-Google-Smtp-Source: ABdhPJynqGcrSez4vywi3ZAwZ9c1EdrO57Z15fp5aZAFGlBkrVlL1jMCkHBNN5fSrWBvd5Uebtem0g==
-X-Received: by 2002:a05:6808:171c:: with SMTP id bc28mr1273461oib.102.1642784073967;
-        Fri, 21 Jan 2022 08:54:33 -0800 (PST)
-Received: from thinkpad.localdomain ([2804:14d:5cd1:5d03:cf72:4317:3105:f6e5])
-        by smtp.gmail.com with ESMTPSA id y8sm1089271oou.23.2022.01.21.08.54.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jan 2022 08:54:33 -0800 (PST)
-From:   Luiz Sampaio <sampaio.ime@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc:     linux-kernel@vger.kernel.org, Luiz Sampaio <sampaio.ime@gmail.com>,
-        linux-input@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 07/31] input: touchscreen: changing LED_* from enum led_brightness to actual value
-Date:   Fri, 21 Jan 2022 13:54:12 -0300
-Message-Id: <20220121165436.30956-8-sampaio.ime@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220121165436.30956-1-sampaio.ime@gmail.com>
-References: <20220121165436.30956-1-sampaio.ime@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=O7Sb8E6DceJOcbBFaMrKVfeTv5l1u+z4k+rnKP7OXSA=;
+        b=CA2CX7jvclnPqemrwnkf9BqK/zNNgJwUwS8/zKjHXvEJD/F24VVIRtHrGO5jGqPcWI
+         YM+nNzhmCqhMvbmcftAHZU1/oHZI0bTaCUl3cDq7qw5635pZd1HV203YRnv4mep7jA1o
+         IpoGQKUNZRHjjFHQrdEFGY2cVhj687AuctHE99T3X/F2J6kHCyAC/2c9DaqDknhg5eYZ
+         /v9NoeHeHYhFPZtb84nR9+dRZDZ9DrStWvay7pbwrAy3phifkjkfu3Nh0ssNjXyzDf3d
+         Yk5iYtCYeqTy1Z5dxiwCfZpZftQWftRfpZa42ZOlxRc7AfSR8JIdY8LNOk5YaO4TsgCu
+         sRug==
+X-Gm-Message-State: AOAM533GxZuFCQK1EF+bEWo50tPR8wxbjfTIaf51aSp9gNYUChhpOVGz
+        /ePGR+EEW70eh//uNu67nrVhQ21BR3jElzss4JNnvGYwWzs3fA==
+X-Google-Smtp-Source: ABdhPJw8nhoj3FQEuiXpQgxCE63krjR0YT7t4Wk4bu+Hg7UaC8BPkvRBEinh5fF9sh2Xa5WdpVoUTtf8nTt98u1csyU=
+X-Received: by 2002:a17:902:ceca:b0:14a:3eba:41ed with SMTP id
+ d10-20020a170902ceca00b0014a3eba41edmr4507957plg.118.1642785864774; Fri, 21
+ Jan 2022 09:24:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211216233041.1220-1-tharvey@gateworks.com>
+In-Reply-To: <20211216233041.1220-1-tharvey@gateworks.com>
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Fri, 21 Jan 2022 09:24:12 -0800
+Message-ID: <CAJ+vNU341Qg_YDWR=0O2Ne4VF=W5kh3+WHuy8OGT+CfrmKiBgw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] input: edt-ft5x06: add support for DFROBOT touch
+ controller to
+To:     linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The enum led_brightness, which contains the declaration of LED_OFF,
-LED_ON, LED_HALF and LED_FULL is obsolete, as the led class now supports
-max_brightness.
----
- drivers/input/touchscreen/stmfts.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Thu, Dec 16, 2021 at 3:30 PM Tim Harvey <tharvey@gateworks.com> wrote:
+>
+> The DFROBOT DFR0678 [1] and DFR0550 [2] touchscreen displays are meant
+> to be compatible with the official RaspberryPi 7in display. However
+> instead of directly conntecting the FT5x06 touch controller to the I2C
+> bus going to the host processor they route it through an MCU and emulate
+> a virtual FT5x06 controller but don't do a very good job at it. The
+> method the RaspberryPi firmware used to read the touch data is supported
+> (which consists of reading R2 to get the number of touch points, then
+> reading 4 bytes of data for each point in discrete I2C transactions. If
+> you try to use the FT5x06 driver which reads all registers starting at
+> R0 at once you will get invalid point data.
+>
+> Additionally the RaspberryPi displays like these do not have a touch
+> controller IRQ so polling mode has to be added.
+>
+> Also additionally these controllers do not appear to send UP events so
+> an additional patch slightly modified from the raspberry-pi kernel is used
+> to  track ID's and report up events.
+>
+> I'm sending this series as an RFC as I'm not really clear if this is the
+> best approach vs just adding a new touchscreen driver (which I have
+> prepared and will probably send in another RFC).
+>
+> Tim
+> [1] - https://www.dfrobot.com/product-2193.html
+> [2] - https://www.dfrobot.com/product-1784.html
+>
+> Tim Harvey (4):
+>   dt-bindings: input: touchscreen: edt-ft5x06: add poll-interval
+>   input: edt-ft5x06 - add polled input support
+>   input: edt-ft5x06 - add support for DFROBOT touch controllers
+>   input: edt-ft5x06 - Handle unreliable TOUCH_UP events
+>
+>  .../input/touchscreen/edt-ft5x06.yaml         |   7 +-
+>  drivers/input/touchscreen/edt-ft5x06.c        | 144 ++++++++++++++----
+>  2 files changed, 123 insertions(+), 28 deletions(-)
+>
+> --
 
-diff --git a/drivers/input/touchscreen/stmfts.c b/drivers/input/touchscreen/stmfts.c
-index bc11203c9cf7..7e7cb5f4d6d3 100644
---- a/drivers/input/touchscreen/stmfts.c
-+++ b/drivers/input/touchscreen/stmfts.c
-@@ -608,8 +608,8 @@ static int stmfts_enable_led(struct stmfts_data *sdata)
- 		return PTR_ERR(sdata->ledvdd);
- 
- 	sdata->led_cdev.name = STMFTS_DEV_NAME;
--	sdata->led_cdev.max_brightness = LED_ON;
--	sdata->led_cdev.brightness = LED_OFF;
-+	sdata->led_cdev.max_brightness = 1;
-+	sdata->led_cdev.brightness = 0;
- 	sdata->led_cdev.brightness_set_blocking = stmfts_brightness_set;
- 	sdata->led_cdev.brightness_get = stmfts_brightness_get;
- 
--- 
-2.34.1
+Any feedback on this?
 
+The other approach I posted an RFC series for was to add a completely
+new driver [1]
+
+Best regards,
+
+Tim
+[1] https://patchwork.kernel.org/project/linux-input/list/?series=596975
