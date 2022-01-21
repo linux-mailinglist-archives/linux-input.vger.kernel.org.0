@@ -2,121 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8487949574D
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jan 2022 01:25:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18D814958A9
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jan 2022 04:51:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348138AbiAUAZ3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Jan 2022 19:25:29 -0500
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:59998 "EHLO
-        alexa-out-sd-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230379AbiAUAZ2 (ORCPT
+        id S233642AbiAUDvt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Jan 2022 22:51:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42544 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233633AbiAUDvt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Jan 2022 19:25:28 -0500
+        Thu, 20 Jan 2022 22:51:49 -0500
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C7D7C06173F
+        for <linux-input@vger.kernel.org>; Thu, 20 Jan 2022 19:51:49 -0800 (PST)
+Received: by mail-ot1-x333.google.com with SMTP id v8-20020a9d6048000000b005960952c694so10229560otj.12
+        for <linux-input@vger.kernel.org>; Thu, 20 Jan 2022 19:51:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1642724728; x=1674260728;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=t2YxuKttgVah2lM2twk9tkIYIwUdg0peTdAk1kq1K4o=;
-  b=gZotGw2bSPosillhuBEaEcoyjj0cUTwMwUoIw8aI1PwnGwMwwHqrzcB6
-   65ZF2Yg3El4qSUnEVq4wF8le1QSBpnFHjGY7yS5id+p56EMd9eMUlz3sj
-   b9yUb6iI2VmYwidowH3p/YNGQHL2FSBnUYqvwUPOD4tNcPpdDRWtdOd+O
-   o=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 20 Jan 2022 16:25:28 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2022 16:25:27 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Thu, 20 Jan 2022 16:25:27 -0800
-Received: from [10.110.112.109] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Thu, 20 Jan
- 2022 16:25:27 -0800
-Message-ID: <e2015c19-b73b-39a7-ba73-708b2c4552c7@quicinc.com>
-Date:   Thu, 20 Jan 2022 16:25:26 -0800
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=Zw1xGM3pPLEzfNT4ahmA+22OV1IFhkPDNDA/xee9U6A=;
+        b=Fohh4ir2XtxYGDzTYT3a1zOzmn7NemInzjufhZGhE9kjaycZw3rvx/ZTOJMWAql8+u
+         kjWXZNqWBTkh9C7rHMoQbzUi5zy88CG5B1mj9ubIOiYH94ZxbWuVjysjy10qmPvIK31v
+         yat5XS6hJlkC47ErkXZpKGpn0rf2V0uEoSJUg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=Zw1xGM3pPLEzfNT4ahmA+22OV1IFhkPDNDA/xee9U6A=;
+        b=z7NeONkP9416/iK3AtvvBOmSSMB6aUOJat3VloBKQ36CiuqsFVICOgZSvHLgbgm0qW
+         N9WwwB2rJy36iHPQIpOfLwtUi2mOTBMLH/eL8+4lacsop3rAE+pQLk/9iJ9GamB16GuY
+         nA7uinTAjOh6UPMbrvVrR5X0o/fSZpdGQ5nm0W5/o1Laaax/oBPez3kfrEUfzPD+8bQ2
+         h1rGRRGD0o2/r0dh41xpzoPipiBLrMPOajyG8MsaHNh763x6pzQPFBP5/XPXXaFTA1+m
+         CejVOT4gzSL0KlWon8ylSw6XlKgFSUD/y63d3jTaoMshzLUaqJr5SU+Bj2wBZr/GjM0g
+         YtnQ==
+X-Gm-Message-State: AOAM530kU6YPpfHYBoD5Jyi4R/wIycDJdwhJs8Psxe8e+F70pEu2Ee1p
+        nGdoieGEMzzeDSXzxglGUIl1MZmhM1jOUlY9tPUawA==
+X-Google-Smtp-Source: ABdhPJzOelKqjZaLkZxZNxOOsZNh2/VT97M0GdTnwWRDH9mrRyfMV1pVkXwDFHR/qX7u73GKaERNQBUCZpdLMd7EyYo=
+X-Received: by 2002:a9d:7f93:: with SMTP id t19mr1422121otp.159.1642737108375;
+ Thu, 20 Jan 2022 19:51:48 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 20 Jan 2022 19:51:48 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 3/3] input: misc: pm8941-pwrkey: avoid potential null
- pointer dereference
-Content-Language: en-US
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-CC:     <dmitry.torokhov@gmail.com>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <collinsd@codeaurora.org>, <swboyd@chromium.org>,
-        <skakit@codeaurora.org>
+In-Reply-To: <20220120204132.17875-1-quic_amelende@quicinc.com>
 References: <20220120204132.17875-1-quic_amelende@quicinc.com>
- <20220120204132.17875-4-quic_amelende@quicinc.com> <YenpwnE3WrIEAOlm@ripper>
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-In-Reply-To: <YenpwnE3WrIEAOlm@ripper>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date:   Thu, 20 Jan 2022 19:51:47 -0800
+Message-ID: <CAE-0n530ddsusCO7ZB1X2GZ8NN4dPphdhAYCbexEr5jRPoACVA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Add support for pm8941-pwrkey.c
+To:     Anjelique Melendez <quic_amelende@quicinc.com>,
+        dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, collinsd@codeaurora.org,
+        bjorn.andersson@linaro.org, skakit@codeaurora.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+"Add support" in the subject sounds like it is new. Maybe "extend
+pm8941-pwrkey driver" would be more appropriate.
 
-On 1/20/2022 3:01 PM, Bjorn Andersson wrote:
-> On Thu 20 Jan 12:41 PST 2022, Anjelique Melendez wrote:
+Quoting Anjelique Melendez (2022-01-20 12:41:30)
+> This change series includes support and fixes in pm8941-pwrkey.c.
+> Change details and description can be found in each patch. Thanks!
 >
->> From: David Collins <collinsd@codeaurora.org>
->>
->> Add a null check for the pwrkey->data pointer after it is assigned
->> in pm8941_pwrkey_probe().  This avoids a potential null pointer
->> dereference when pwrkey->data->has_pon_pbs is accessed later in
->> the probe function.
->>
->> Change-Id: I589c4851e544d79a1863fd110b32a0b45ac03caf
->> Signed-off-by: David Collins <collinsd@codeaurora.org>
->> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
->> ---
->>  drivers/input/misc/pm8941-pwrkey.c | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
->> index 0ce00736e695..ac08ed025802 100644
->> --- a/drivers/input/misc/pm8941-pwrkey.c
->> +++ b/drivers/input/misc/pm8941-pwrkey.c
->> @@ -263,6 +263,10 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
->>  
->>  	pwrkey->dev = &pdev->dev;
->>  	pwrkey->data = of_device_get_match_data(&pdev->dev);
->> +	if (!pwrkey->data) {
-> The only way this can happen is if you add a new compatible and forget
-> to specify data and when that happens you will get a print in the log
-> somewhere, which once you realize that you don't have your pwrkey you
-> might be able to find among all the other prints.
->
-> If you instead don't NULL check this pointer you will get a large splat
-> in the log, with callstack and all, immediately hinting you that
-> pwrkey->data is NULL.
->
->
-> In other words, there's already a print, a much larger print and I don't
-> think there's value in handling this mistake gracefully.
->
-> Regards,
-> Bjorn
-
-
-We would like to the null pointer check in place to avoid static analysis
-
-warnings that can be easily fixed.
-
-
->
->> +		dev_err(&pdev->dev, "match data not found\n");
->> +		return -ENODEV;
->> +	}
->>  
->>  	parent = pdev->dev.parent;
->>  	regmap_node = pdev->dev.of_node;
->> -- 
->> 2.34.1
->>
+> David Collins (3):
+>   input: misc: pm8941-pwrkey: simulate missed key press events
+>   input: misc: pm8941-pwrkey: add software key press debouncing support
+>   input: misc: pm8941-pwrkey: avoid potential null pointer dereference
