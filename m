@@ -2,48 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC8F4496083
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jan 2022 15:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F11C4961DF
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jan 2022 16:16:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350712AbiAUOMH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Jan 2022 09:12:07 -0500
-Received: from sin.source.kernel.org ([145.40.73.55]:32850 "EHLO
-        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344906AbiAUOMG (ORCPT
+        id S1351281AbiAUPQo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Jan 2022 10:16:44 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:50946 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351244AbiAUPQm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Jan 2022 09:12:06 -0500
+        Fri, 21 Jan 2022 10:16:42 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id D74ACCE2257;
-        Fri, 21 Jan 2022 14:12:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EE4EC340E1;
-        Fri, 21 Jan 2022 14:12:01 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 89C2A61913
+        for <linux-input@vger.kernel.org>; Fri, 21 Jan 2022 15:16:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31A27C340E1;
+        Fri, 21 Jan 2022 15:16:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642774323;
-        bh=dJVzX8AqdFEZTA6/cEJjBrcTDRe91D49kYaTPY+SeFg=;
+        s=k20201202; t=1642778201;
+        bh=5qWEvcmx1Nmszwc4A9wJ9+18AAtJZEQU3f8jyB3111Y=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=jTEbATWXAR6fgcNIRjcbEziTnM4fd2HMkYlC5sWnluVTfiZgCWM2oYoRltyGscpTK
-         dzwysrh1frD2a5qjta/BKpYHQmS2L9jA7hknFdM6r/F8TRLi4B9MdXsYxP5lKGssNT
-         4ZAiggHc1NusOBiip23ZtpSzwsudEHqhCxTcMqT6YTqiHWQ3IpSQhReDjKTZjPzR9h
-         pJfnOBqK4Hm2IZThmUdEmBpU+KnETtphHXmFhhk6j6xlv+UTpsOlAFf1S0Dtjc0HPb
-         dbvVq1WwOxR6CC0IeS402afA1YwOIlzjObgnDg6VmuBUUHnYuDw48SkdAX0sWhREN3
-         azBvFI0iQttnQ==
-Date:   Fri, 21 Jan 2022 15:11:59 +0100 (CET)
+        b=pWojXCBPVAg/S70d4tPDgkodi7LxowcSuo5CK52zcCRRZSjkr6ISkoxi/rkYFcTXb
+         st/1a2Cq0Pj6JsrWi21YUA9TL8LHOhcCod21VzHfNmYcPu3EhQ2QYp9iE2Ub+NWvQZ
+         dZD3H648cg8UnIHGhcV4EAv8ojJ9dHBGZz22ppd/pfiDHtHE9+z+HOCe50CfQnMPco
+         1HpxjHtJIlH50fh7NjGDWxu1wNAV2YKcvjx5obfbmnWDsgoAHuLxfmH1WfifJZrxYO
+         DQDDxmlDbBxpNVV/Glr+X/BLhgfWTdS//NNv0Jku+PWFy2QDWIqBvOX2WPTI6A+FYM
+         4lxUFNSNwIelA==
+Date:   Fri, 21 Jan 2022 16:16:38 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Jason Gerecke <killertofu@gmail.com>
+To:     Alex Henrie <alexhenrie24@gmail.com>
 cc:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Joshua Dickens <Joshua@Joshua-Dickens.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        stable@vger.kernel.org, Ping Cheng <ping.cheng@wacom.com>
-Subject: Re: [PATCH] HID: wacom: Avoid using stale array indicies to read
- contact count
-In-Reply-To: <20220118223841.45870-1-jason.gerecke@wacom.com>
-Message-ID: <nycvar.YFH.7.76.2201211511490.28059@cbobk.fhfr.pm>
-References: <20220118223841.45870-1-jason.gerecke@wacom.com>
+        Markus Wageringel <markus.wageringel@gmail.com>
+Subject: Re: [PATCH] HID: apple: Set the tilde quirk flag on the Wellspring
+ 5 and later
+In-Reply-To: <20220116230158.29596-1-alexhenrie24@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2201211616290.28059@cbobk.fhfr.pm>
+References: <20220116230158.29596-1-alexhenrie24@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -51,24 +46,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 18 Jan 2022, Jason Gerecke wrote:
+On Sun, 16 Jan 2022, Alex Henrie wrote:
 
-> If we ever see a touch report with contact count data we initialize
-> several variables used to read the contact count in the pre-report
-> phase. These variables are never reset if we process a report which
-> doesn't contain a contact count, however. This can cause the pre-
-> report function to trigger a read of arbitrary memory (e.g. NULL
-> if we're lucky) and potentially crash the driver.
+> Markus reports that his 2011 MacBook with a German ISO keyboard (USB
+> product code 05ac:0246, HID country code 13) has the tilde key quirk.
+> Seeing as all of the standalone Apple ISO keyboards since about 2008
+> have the quirk, it seems reasonable to assume that once the integrated
+> laptop keyboards started having the quirk, they likewise never stopped
+> having it.
 > 
-> This commit restores resetting of the variables back to default
-> "none" values that were used prior to the commit mentioned
-> below.
-> 
-> Link: https://github.com/linuxwacom/input-wacom/issues/276
-> Fixes: 003f50ab673c (HID: wacom: Update last_slot_field during pre_report phase)
-> CC: stable@vger.kernel.org
-> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-> Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
+> Reported-by: Markus Wageringel <markus.wageringel@gmail.com>
+> Signed-off-by: Alex Henrie <alexhenrie24@gmail.com>
 
 Applied, thank you.
 
