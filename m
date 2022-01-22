@@ -2,77 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A01B9496879
-	for <lists+linux-input@lfdr.de>; Sat, 22 Jan 2022 01:04:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74437496B97
+	for <lists+linux-input@lfdr.de>; Sat, 22 Jan 2022 10:59:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229995AbiAVAE5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Jan 2022 19:04:57 -0500
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:4706 "EHLO
-        alexa-out-sd-01.qualcomm.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229517AbiAVAE5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Jan 2022 19:04:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1642809897; x=1674345897;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=M4xJpCeE5aKhJ84AV5MByeatBIkGIFocgtR0PeuZbQA=;
-  b=hkjdMJiF8jjFsvgrR4mAKbXSqynY/x6TiTJyQosEPgJOFqkxN7HqDtvT
-   dexoILSoPWpD22NjM8qNeMSWkjtItubg+7elTfHKT3spvVlc/tm7+YVQ0
-   MFoNqNlKJn2G8OwZbf9DHXcSYb1WYPdPtK0JXsK0fg29WwJB0/ivxIEgg
-   I=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 21 Jan 2022 16:04:57 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2022 16:04:57 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Fri, 21 Jan 2022 16:04:56 -0800
-Received: from [10.110.112.109] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Fri, 21 Jan
- 2022 16:04:56 -0800
-Message-ID: <11a2047f-86b8-1bea-ff99-d708429327fd@quicinc.com>
-Date:   Fri, 21 Jan 2022 16:04:55 -0800
+        id S232089AbiAVJ7Y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 22 Jan 2022 04:59:24 -0500
+Received: from hust.edu.cn ([202.114.0.240]:31741 "EHLO hust.edu.cn"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229773AbiAVJ7Y (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 22 Jan 2022 04:59:24 -0500
+X-Greylist: delayed 607 seconds by postgrey-1.27 at vger.kernel.org; Sat, 22 Jan 2022 04:59:23 EST
+Received: from localhost.localdomain ([172.16.0.254])
+        (user=dzm91@hust.edu.cn mech=LOGIN bits=0)
+        by mx1.hust.edu.cn  with ESMTP id 20M9mYeN013481-20M9mYeQ013481
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+        Sat, 22 Jan 2022 17:48:39 +0800
+From:   Dongliang Mu <dzm91@hust.edu.cn>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Salah Triki <salah.triki@gmail.com>
+Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
+        syzkaller <syzkaller@googlegroups.com>,
+        Jiri Kosina <jkosina@suse.cz>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] hid: elo: fix memory leak in elo_probe
+Date:   Sat, 22 Jan 2022 17:48:26 +0800
+Message-Id: <20220122094827.684542-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 0/3] Add support for pm8941-pwrkey.c
-Content-Language: en-US
-To:     Stephen Boyd <swboyd@chromium.org>, <dmitry.torokhov@gmail.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <collinsd@codeaurora.org>,
-        <bjorn.andersson@linaro.org>, <skakit@codeaurora.org>
-References: <20220120204132.17875-1-quic_amelende@quicinc.com>
- <CAE-0n530ddsusCO7ZB1X2GZ8NN4dPphdhAYCbexEr5jRPoACVA@mail.gmail.com>
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-In-Reply-To: <CAE-0n530ddsusCO7ZB1X2GZ8NN4dPphdhAYCbexEr5jRPoACVA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
+X-FEAS-AUTH-USER: dzm91@hust.edu.cn
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+From: Dongliang Mu <mudongliangabcd@gmail.com>
 
+When hid_parse in elo_probe fails, it forgets to call usb_put_dev to
+decrease the refcount.
 
-On 1/20/2022 7:51 PM, Stephen Boyd wrote:
-> "Add support" in the subject sounds like it is new. Maybe "extend
-> pm8941-pwrkey driver" would be more appropriate.
+Fix this by adding usb_put_dev in the error handling code of elo_probe
 
-Will update subject in upcoming version.
+Fixes: fbf42729d0e9 ("HID: elo: update the reference count of the usb device structure")
+Reported-by: syzkaller <syzkaller@googlegroups.com>
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+---
+ drivers/hid/hid-elo.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> Quoting Anjelique Melendez (2022-01-20 12:41:30)
->> This change series includes support and fixes in pm8941-pwrkey.c.
->> Change details and description can be found in each patch. Thanks!
->>
->> David Collins (3):
->>   input: misc: pm8941-pwrkey: simulate missed key press events
->>   input: misc: pm8941-pwrkey: add software key press debouncing support
->>   input: misc: pm8941-pwrkey: avoid potential null pointer dereference
+diff --git a/drivers/hid/hid-elo.c b/drivers/hid/hid-elo.c
+index 8e960d7b233b..9b42b0cdeef0 100644
+--- a/drivers/hid/hid-elo.c
++++ b/drivers/hid/hid-elo.c
+@@ -262,6 +262,7 @@ static int elo_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 
+ 	return 0;
+ err_free:
++	usb_put_dev(udev);
+ 	kfree(priv);
+ 	return ret;
+ }
+-- 
+2.25.1
 
