@@ -2,841 +2,451 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AABF4973BA
-	for <lists+linux-input@lfdr.de>; Sun, 23 Jan 2022 18:38:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E4B44973E2
+	for <lists+linux-input@lfdr.de>; Sun, 23 Jan 2022 18:53:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239316AbiAWRiX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 23 Jan 2022 12:38:23 -0500
-Received: from mail-4317.proton.ch ([185.70.43.17]:39673 "EHLO
-        mail-4317.proton.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239314AbiAWRiW (ORCPT
+        id S239373AbiAWRxa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 23 Jan 2022 12:53:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43036 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239390AbiAWRx2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 23 Jan 2022 12:38:22 -0500
-Date:   Sun, 23 Jan 2022 17:38:15 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
-        s=protonmail; t=1642959499;
-        bh=Qf+0G/vNvsPSOhdptviIIOyzdnIqt+s5w5bcbOwWUzA=;
-        h=Date:To:From:Reply-To:Subject:Message-ID:From:To:Cc;
-        b=aZjz54pSYym/REbsjyKq25OJR3aF7wP5osqpeP/utr7rSTMWnROe3mEPnZ7399kCC
-         8Pxd3XOIQJr9Sh+dlnHIa3AVj/MT3zC4JZQMhlYIT4a91uX4Zrj/up0xKonjwgoQPe
-         CNhtTaVeVXPCxH+b0E+9Tt+OXHPaL47bfH4lv0ac=
-To:     Thierry Reding <thierry.reding@gmail.com>,
+        Sun, 23 Jan 2022 12:53:28 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08994C061751
+        for <linux-input@vger.kernel.org>; Sun, 23 Jan 2022 09:53:27 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nBh2H-0007aG-Mg; Sun, 23 Jan 2022 18:52:17 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nBh28-00BycE-Ac; Sun, 23 Jan 2022 18:52:07 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nBh26-000tzT-Dk; Sun, 23 Jan 2022 18:52:06 +0100
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Sam Ravnborg <sam@ravnborg.org>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
+        Markuss Broks <markuss.broks@gmail.com>,
+        Emma Anholt <emma@anholt.net>,
+        David Lechner <david@lechnology.com>,
+        Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+        =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dan Robertson <dan@dlrobertson.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Marcus Folkesson <marcus.folkesson@gmail.com>,
+        Kent Gustavsson <kent@minoris.se>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Harigovindan P <harigovi@codeaurora.org>,
-        Caleb Connolly <caleb@connolly.tech>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        Alexander Martinz <amartinz@shiftphones.com>
-From:   Caleb Connolly <caleb@connolly.tech>
-Reply-To: Caleb Connolly <caleb@connolly.tech>
-Subject: [PATCH 6/6] arm64: dts: qcom: sdm845: add device tree for SHIFT6mq
-Message-ID: <20220123173650.290349-7-caleb@connolly.tech>
+        Pavel Machek <pavel@ucw.cz>,
+        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Charles-Antoine Couret <charles-antoine.couret@nexvision.fr>,
+        Antti Palosaari <crope@iki.fi>,
+        Lee Jones <lee.jones@linaro.org>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Eric Piel <eric.piel@tremplin-utc.net>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Thomas Kopp <thomas.kopp@microchip.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        =?utf-8?q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Harry Morris <h.morris@cascoda.com>,
+        Varka Bhadram <varkabhadram@gmail.com>,
+        Xue Liu <liuxuenetmail@gmail.com>, Alan Ott <alan@signal11.us>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Christian Lamparter <chunkeey@googlemail.com>,
+        Kalle Valo <kvalo@kernel.org>,
+        Ajay Singh <ajay.kathat@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Solomon Peachy <pizza@shaftnet.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Mark Greer <mgreer@animalcreek.com>,
+        Benson Leung <bleung@chromium.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?utf-8?b?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        James Schulman <james.schulman@cirrus.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Lucas Tanure <tanureal@opensource.cirrus.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Alexandru Ardelean <ardeleanalex@gmail.com>,
+        Mike Looijmans <mike.looijmans@topic.nl>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Cai Huoqing <caihuoqing@baidu.com>,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        Antoniu Miclaus <antoniu.miclaus@analog.com>,
+        Julia Lawall <Julia.Lawall@inria.fr>,
+        =?utf-8?q?Ronald_Tschal=C3=A4r?= <ronald@innovation.ch>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Heiko Schocher <hs@denx.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Colin Ian King <colin.king@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Matt Kline <matt@bitbashing.io>,
+        Torin Cooper-Bennun <torin@maxiluxsystems.com>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        =?utf-8?q?Stefan_M=C3=A4tje?= <stefan.maetje@esd.eu>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>,
+        Wei Yongjun <weiyongjun1@huawei.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nanyong Sun <sunnanyong@huawei.com>,
+        Yang Shen <shenyang39@huawei.com>,
+        dingsenjie <dingsenjie@yulong.com>,
+        Aditya Srivastava <yashsri421@gmail.com>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Michael Walle <michael@walle.cc>,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        wengjianfeng <wengjianfeng@yulong.com>,
+        Sidong Yang <realwakka@gmail.com>,
+        Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
+        Zhang Qilong <zhangqilong3@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        Mark Tomlinson <mark.tomlinson@alliedtelesis.co.nz>,
+        Davidlohr Bueso <dbueso@suse.de>, Claudius Heine <ch@denx.de>,
+        Jiri Prchal <jiri.prchal@aksignal.cz>,
+        linux-kernel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
+        linux-wireless@vger.kernel.org, libertas-dev@lists.infradead.org,
+        platform-driver-x86@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-omap@vger.kernel.org,
+        kernel@pengutronix.de, Noralf Tronnes <notro@tronnes.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Guenter Roeck <groeck@google.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Subject: [PATCH 0/5] spi: make remove callback a void function
+Date:   Sun, 23 Jan 2022 18:51:56 +0100
+Message-Id: <20220123175201.34839-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13159; h=from:subject; bh=owUsrJiUxQg0WH9JiyxXcWg2QcQX/yEwEp5ObL2T9n0=; b=owGbwMvMwMV48I9IxdpTbzgZT6slMSS+nbpcuF1aSOHc7VvcKru0ItTvBT39tGSS6+W7Qqqsga+6 XV/1dDIaszAwcjHIiimy1BVpiU2QWPPfrmQJN8wgViaQKQxcnAIwkQJ1DoZJL1o6pbJMnj7jmr4qUS z5cENAvodiUGgJM7vdWk2x1lkXfyiGhedIbP/1ivHDvGRTmXL/wIg7PG/WnKtj3+Cxw3vSTCnTOzOd yi9M2O48eVabWmdxdar48r4nD8SX8C08EDSTi+vRDt+c6nvV3NfNWBp1n+gr+KXecpB0EyurXNg2We Uo48mJf1OlAs7efhjiFRf3rvCxJsfV54c496b3NyuWHJzSmuayo0HlZt6l61nCfqtvRPNVJB6OfXdb hs8hRbB7TVzWu4TqJTmrVkWmKp/49rnOYBtTkkTTztLDU1/M/GPS5CYxR5hB+kNfXS1Xv6L8fpUOs7 C3m3IdIjib3pfmHW2edIvrx04rAA==
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Alexander Martinz <amartinz@shiftphones.com>
+Hello,
 
-Add initial support for the SHIFT SHIFT6mq (axolotl) based on
-the sdm845-mtp DT.
+this series goal is to change the spi remove callback's return value to void.
+After numerous patches nearly all drivers already return 0 unconditionally.
+The four first patches in this series convert the remaining three drivers to
+return 0, the final patch changes the remove prototype and converts all
+implementers.
 
-Currently supported features:
-* Buttons (power, volume)
-* Bluetooth, DSPs and modem
-* Display and GPU
-* Touch
-* UART
-* USB peripheral mode
-* WLAN
+The driver core doesn't support error handling on remove, the spi core issues
+only a very generic warning when a remove callback returns an error. If there
+is really the need for a function call that can fail, the driver can issue a
+more helpful error message. I didn't find a single driver where returning
+an error code and error handling in the spi core would have been helpful.
 
-Co-developed-by: Caleb Connolly <caleb@connolly.tech>
-Signed-off-by: Caleb Connolly <caleb@connolly.tech>
-Signed-off-by: Alexander Martinz <amartinz@shiftphones.com>
----
- arch/arm64/boot/dts/qcom/Makefile             |   1 +
- .../boot/dts/qcom/sdm845-shift-axolotl.dts    | 736 ++++++++++++++++++
- 2 files changed, 737 insertions(+)
- create mode 100644 arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
+So change the prototype of the remove function to make it obvious for driver
+authors that there is no error handling in the spi core.
 
-diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/M=
-akefile
-index f7232052d286..6e6f53f501e6 100644
---- a/arch/arm64/boot/dts/qcom/Makefile
-+++ b/arch/arm64/boot/dts/qcom/Makefile
-@@ -103,6 +103,7 @@ dtb-$(CONFIG_ARCH_QCOM)=09+=3D sdm845-sony-xperia-tama-=
-akari.dtb
- dtb-$(CONFIG_ARCH_QCOM)=09+=3D sdm845-sony-xperia-tama-akatsuki.dtb
- dtb-$(CONFIG_ARCH_QCOM)=09+=3D sdm845-sony-xperia-tama-apollo.dtb
- dtb-$(CONFIG_ARCH_QCOM)=09+=3D sdm845-xiaomi-beryllium.dtb
-+dtb-$(CONFIG_ARCH_QCOM)=09+=3D sdm845-shift-axolotl.dtb
- dtb-$(CONFIG_ARCH_QCOM)=09+=3D sdm850-lenovo-yoga-c630.dtb
- dtb-$(CONFIG_ARCH_QCOM)=09+=3D sm6125-sony-xperia-seine-pdx201.dtb
- dtb-$(CONFIG_ARCH_QCOM)=09+=3D sm6350-sony-xperia-lena-pdx213.dtb
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts b/arch/arm64=
-/boot/dts/qcom/sdm845-shift-axolotl.dts
-new file mode 100644
-index 000000000000..8553c8bf79bd
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-@@ -0,0 +1,736 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2022, Alexander Martinz <amartinz@shiftphones.com>
-+ * Copyright (c) 2022, Caleb Connolly <caleb@connolly.tech>
-+ */
-+
-+/dts-v1/;
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/regulator/qcom,rpmh-regulator.h>
-+#include "sdm845.dtsi"
-+#include "pm8998.dtsi"
-+#include "pmi8998.dtsi"
-+
-+/ {
-+=09model =3D "SHIFT SHIFT6mq";
-+=09compatible =3D "shift,axolotl", "qcom,sdm845";
-+=09qcom,msm-id =3D <321 0x20001>;
-+=09qcom,board-id =3D <11 0>;
-+
-+=09aliases {
-+=09=09display0 =3D &framebuffer0;
-+=09=09serial0 =3D &uart9;
-+=09};
-+
-+=09chosen {
-+=09=09#address-cells =3D <2>;
-+=09=09#size-cells =3D <2>;
-+=09=09ranges;
-+
-+=09=09stdout-path =3D "serial0";
-+
-+=09=09/* Use framebuffer setup by the bootloader. */
-+=09=09framebuffer0: framebuffer@9d400000 {
-+=09=09=09compatible =3D "simple-framebuffer";
-+=09=09=09reg =3D <0x0 0x9d400000 0x0 (1080 * 2160 * 4)>;
-+=09=09=09width =3D <1080>;
-+=09=09=09height =3D <2160>;
-+=09=09=09stride =3D <(1080 * 4)>;
-+=09=09=09format =3D "a8r8g8b8";
-+=09=09};
-+=09};
-+
-+=09gpio-keys {
-+=09=09compatible =3D "gpio-keys";
-+=09=09autorepeat;
-+
-+=09=09pinctrl-names =3D "default";
-+=09=09pinctrl-0 =3D <&volume_up_gpio>;
-+
-+=09=09vol-up {
-+=09=09=09label =3D "volume_up";
-+=09=09=09linux,code =3D <KEY_VOLUMEUP>;
-+=09=09=09gpios =3D <&pm8998_gpio 6 GPIO_ACTIVE_LOW>;
-+=09=09=09debounce-interval =3D <15>;
-+=09=09};
-+=09};
-+
-+=09reserved-memory {
-+=09=09framebuffer_region@9d400000 {
-+=09=09=09reg =3D <0x0 0x9d400000 0x0 (1080 * 2160 * 4)>;
-+=09=09=09no-map;
-+=09=09};
-+
-+=09=09ramoops: ramoops@b0000000 {
-+=09=09=09compatible =3D "ramoops";
-+=09=09=09reg =3D <0 0xb0000000 0 0x00400000>;
-+=09=09=09record-size =3D <0x40000>;
-+=09=09=09console-size =3D <0x40000>;
-+=09=09=09ftrace-size =3D <0x40000>;
-+=09=09=09pmsg-size =3D <0x200000>;
-+=09=09=09ecc-size =3D <0x0>;
-+=09=09};
-+=09};
-+
-+=09battery: battery {
-+=09=09compatible =3D "simple-battery";
-+
-+=09=09charge-full-design-microamp-hours =3D <3850000>;
-+=09=09voltage-min-design-microvolt =3D <3600000>;
-+=09=09voltage-max-design-microvolt =3D <4400000>;
-+=09};
-+
-+=09vph_pwr: vph-pwr-regulator {
-+=09=09compatible =3D "regulator-fixed";
-+=09=09regulator-name =3D "vph_pwr";
-+=09=09regulator-min-microvolt =3D <3700000>;
-+=09=09regulator-max-microvolt =3D <3700000>;
-+=09};
-+
-+=09vreg_s4a_1p8: pm8998-smps4 {
-+=09=09compatible =3D "regulator-fixed";
-+=09=09regulator-name =3D "vreg_s4a_1p8";
-+
-+=09=09regulator-min-microvolt =3D <1800000>;
-+=09=09regulator-max-microvolt =3D <1800000>;
-+
-+=09=09regulator-always-on;
-+=09=09regulator-boot-on;
-+
-+=09=09vin-supply =3D <&vph_pwr>;
-+=09};
-+};
-+
-+&adsp_pas {
-+=09status =3D "okay";
-+=09firmware-name =3D "qcom/sdm845/axolotl/adsp.mbn";
-+};
-+
-+&apps_rsc {
-+=09pm8998-rpmh-regulators {
-+=09=09compatible =3D "qcom,pm8998-rpmh-regulators";
-+=09=09qcom,pmic-id =3D "a";
-+
-+=09=09vdd-s1-supply =3D <&vph_pwr>;
-+=09=09vdd-s2-supply =3D <&vph_pwr>;
-+=09=09vdd-s3-supply =3D <&vph_pwr>;
-+=09=09vdd-s4-supply =3D <&vph_pwr>;
-+=09=09vdd-s5-supply =3D <&vph_pwr>;
-+=09=09vdd-s6-supply =3D <&vph_pwr>;
-+=09=09vdd-s7-supply =3D <&vph_pwr>;
-+=09=09vdd-s8-supply =3D <&vph_pwr>;
-+=09=09vdd-s9-supply =3D <&vph_pwr>;
-+=09=09vdd-s10-supply =3D <&vph_pwr>;
-+=09=09vdd-s11-supply =3D <&vph_pwr>;
-+=09=09vdd-s12-supply =3D <&vph_pwr>;
-+=09=09vdd-s13-supply =3D <&vph_pwr>;
-+=09=09vdd-l1-l27-supply =3D <&vreg_s7a_1p025>;
-+=09=09vdd-l2-l8-l17-supply =3D <&vreg_s3a_1p35>;
-+=09=09vdd-l3-l11-supply =3D <&vreg_s7a_1p025>;
-+=09=09vdd-l4-l5-supply =3D <&vreg_s7a_1p025>;
-+=09=09vdd-l6-supply =3D <&vph_pwr>;
-+=09=09vdd-l7-l12-l14-l15-supply =3D <&vreg_s5a_2p04>;
-+=09=09vdd-l9-supply =3D <&vreg_bob>;
-+=09=09vdd-l10-l23-l25-supply =3D <&vreg_bob>;
-+=09=09vdd-l13-l19-l21-supply =3D <&vreg_bob>;
-+=09=09vdd-l16-l28-supply =3D <&vreg_bob>;
-+=09=09vdd-l18-l22-supply =3D <&vreg_bob>;
-+=09=09vdd-l20-l24-supply =3D <&vreg_bob>;
-+=09=09vdd-l26-supply =3D <&vreg_s3a_1p35>;
-+=09=09vin-lvs-1-2-supply =3D <&vreg_s4a_1p8>;
-+
-+=09=09vreg_s2a_1p125: smps2 {
-+=09=09=09regulator-min-microvolt =3D <1100000>;
-+=09=09=09regulator-max-microvolt =3D <1100000>;
-+=09=09};
-+
-+=09=09vreg_s3a_1p35: smps3 {
-+=09=09=09regulator-min-microvolt =3D <1352000>;
-+=09=09=09regulator-max-microvolt =3D <1352000>;
-+=09=09};
-+
-+=09=09vreg_s5a_2p04: smps5 {
-+=09=09=09regulator-min-microvolt =3D <1904000>;
-+=09=09=09regulator-max-microvolt =3D <2040000>;
-+=09=09};
-+
-+=09=09vreg_s7a_1p025: smps7 {
-+=09=09=09regulator-min-microvolt =3D <900000>;
-+=09=09=09regulator-max-microvolt =3D <1028000>;
-+=09=09};
-+
-+=09=09vdd_qusb_hs0:
-+=09=09vdda_hp_pcie_core:
-+=09=09vdda_mipi_csi0_0p9:
-+=09=09vdda_mipi_csi1_0p9:
-+=09=09vdda_mipi_csi2_0p9:
-+=09=09vdda_mipi_dsi0_pll:
-+=09=09vdda_mipi_dsi1_pll:
-+=09=09vdda_qlink_lv:
-+=09=09vdda_qlink_lv_ck:
-+=09=09vdda_qrefs_0p875:
-+=09=09vdda_pcie_core:
-+=09=09vdda_pll_cc_ebi01:
-+=09=09vdda_pll_cc_ebi23:
-+=09=09vdda_sp_sensor:
-+=09=09vdda_ufs1_core:
-+=09=09vdda_ufs2_core:
-+=09=09vdda_usb1_ss_core:
-+=09=09vdda_usb2_ss_core:
-+=09=09vreg_l1a_0p875: ldo1 {
-+=09=09=09regulator-min-microvolt =3D <880000>;
-+=09=09=09regulator-max-microvolt =3D <880000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vddpx_10:
-+=09=09vreg_l2a_1p2: ldo2 {
-+=09=09=09regulator-min-microvolt =3D <1200000>;
-+=09=09=09regulator-max-microvolt =3D <1200000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09=09regulator-always-on;
-+=09=09};
-+
-+=09=09vreg_l3a_1p0: ldo3 {
-+=09=09=09regulator-min-microvolt =3D <1000000>;
-+=09=09=09regulator-max-microvolt =3D <1000000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vdd_wcss_cx:
-+=09=09vdd_wcss_mx:
-+=09=09vdda_wcss_pll:
-+=09=09vreg_l5a_0p8: ldo5 {
-+=09=09=09regulator-min-microvolt =3D <800000>;
-+=09=09=09regulator-max-microvolt =3D <800000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vddpx_13:
-+=09=09vreg_l6a_1p8: ldo6 {
-+=09=09=09regulator-min-microvolt =3D <1856000>;
-+=09=09=09regulator-max-microvolt =3D <1856000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l7a_1p8: ldo7 {
-+=09=09=09regulator-min-microvolt =3D <1800000>;
-+=09=09=09regulator-max-microvolt =3D <1800000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l8a_1p2: ldo8 {
-+=09=09=09regulator-min-microvolt =3D <1200000>;
-+=09=09=09regulator-max-microvolt =3D <1248000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l9a_1p8: ldo9 {
-+=09=09=09regulator-min-microvolt =3D <1704000>;
-+=09=09=09regulator-max-microvolt =3D <2928000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l10a_1p8: ldo10 {
-+=09=09=09regulator-min-microvolt =3D <1704000>;
-+=09=09=09regulator-max-microvolt =3D <2928000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l11a_1p0: ldo11 {
-+=09=09=09regulator-min-microvolt =3D <1000000>;
-+=09=09=09regulator-max-microvolt =3D <1048000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vdd_qfprom:
-+=09=09vdd_qfprom_sp:
-+=09=09vdda_apc1_cs_1p8:
-+=09=09vdda_gfx_cs_1p8:
-+=09=09vdda_qrefs_1p8:
-+=09=09vdda_qusb_hs0_1p8:
-+=09=09vddpx_11:
-+=09=09vreg_l12a_1p8: ldo12 {
-+=09=09=09regulator-min-microvolt =3D <1800000>;
-+=09=09=09regulator-max-microvolt =3D <1800000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vddpx_2:
-+=09=09vreg_l13a_2p95: ldo13 {
-+=09=09=09regulator-min-microvolt =3D <1800000>;
-+=09=09=09regulator-max-microvolt =3D <2960000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l14a_1p88: ldo14 {
-+=09=09=09regulator-min-microvolt =3D <1800000>;
-+=09=09=09regulator-max-microvolt =3D <1800000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l15a_1p8: ldo15 {
-+=09=09=09regulator-min-microvolt =3D <1800000>;
-+=09=09=09regulator-max-microvolt =3D <1800000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l16a_2p7: ldo16 {
-+=09=09=09regulator-min-microvolt =3D <2704000>;
-+=09=09=09regulator-max-microvolt =3D <2704000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l17a_1p3: ldo17 {
-+=09=09=09regulator-min-microvolt =3D <1304000>;
-+=09=09=09regulator-max-microvolt =3D <1304000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l18a_2p7: ldo18 {
-+=09=09=09regulator-min-microvolt =3D <2704000>;
-+=09=09=09regulator-max-microvolt =3D <2960000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l19a_3p0: ldo19 {
-+=09=09=09regulator-min-microvolt =3D <2856000>;
-+=09=09=09regulator-max-microvolt =3D <3104000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l20a_2p95: ldo20 {
-+=09=09=09regulator-min-microvolt =3D <2704000>;
-+=09=09=09regulator-max-microvolt =3D <2960000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l21a_2p95: ldo21 {
-+=09=09=09regulator-min-microvolt =3D <2704000>;
-+=09=09=09regulator-max-microvolt =3D <2960000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l22a_2p85: ldo22 {
-+=09=09=09regulator-min-microvolt =3D <2864000>;
-+=09=09=09regulator-max-microvolt =3D <3312000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l23a_3p3: ldo23 {
-+=09=09=09regulator-min-microvolt =3D <3000000>;
-+=09=09=09regulator-max-microvolt =3D <3312000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vdda_qusb_hs0_3p1:
-+=09=09vreg_l24a_3p075: ldo24 {
-+=09=09=09regulator-min-microvolt =3D <3088000>;
-+=09=09=09regulator-max-microvolt =3D <3088000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l25a_3p3: ldo25 {
-+=09=09=09regulator-min-microvolt =3D <3300000>;
-+=09=09=09regulator-max-microvolt =3D <3312000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vdda_hp_pcie_1p2:
-+=09=09vdda_hv_ebi0:
-+=09=09vdda_hv_ebi1:
-+=09=09vdda_hv_ebi2:
-+=09=09vdda_hv_ebi3:
-+=09=09vdda_mipi_csi_1p25:
-+=09=09vdda_mipi_dsi0_1p2:
-+=09=09vdda_mipi_dsi1_1p2:
-+=09=09vdda_pcie_1p2:
-+=09=09vdda_ufs1_1p2:
-+=09=09vdda_ufs2_1p2:
-+=09=09vdda_usb1_ss_1p2:
-+=09=09vdda_usb2_ss_1p2:
-+=09=09vreg_l26a_1p2: ldo26 {
-+=09=09=09regulator-min-microvolt =3D <1200000>;
-+=09=09=09regulator-max-microvolt =3D <1200000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_l28a_3p0: ldo28 {
-+=09=09=09regulator-min-microvolt =3D <2856000>;
-+=09=09=09regulator-max-microvolt =3D <3008000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
-+=09=09};
-+
-+=09=09vreg_lvs1a_1p8: lvs1 {
-+=09=09=09regulator-min-microvolt =3D <1800000>;
-+=09=09=09regulator-max-microvolt =3D <1800000>;
-+=09=09};
-+
-+=09=09vreg_lvs2a_1p8: lvs2 {
-+=09=09=09regulator-min-microvolt =3D <1800000>;
-+=09=09=09regulator-max-microvolt =3D <1800000>;
-+=09=09};
-+=09};
-+
-+=09pmi8998-rpmh-regulators {
-+=09=09compatible =3D "qcom,pmi8998-rpmh-regulators";
-+=09=09qcom,pmic-id =3D "b";
-+
-+=09=09vdd-bob-supply =3D <&vph_pwr>;
-+
-+=09=09vreg_bob: bob {
-+=09=09=09regulator-min-microvolt =3D <3312000>;
-+=09=09=09regulator-max-microvolt =3D <3600000>;
-+=09=09=09regulator-initial-mode =3D <RPMH_REGULATOR_MODE_AUTO>;
-+=09=09=09regulator-allow-bypass;
-+=09=09};
-+=09};
-+
-+=09pm8005-rpmh-regulators {
-+=09=09compatible =3D "qcom,pm8005-rpmh-regulators";
-+=09=09qcom,pmic-id =3D "c";
-+
-+=09=09vdd-s1-supply =3D <&vph_pwr>;
-+=09=09vdd-s2-supply =3D <&vph_pwr>;
-+=09=09vdd-s3-supply =3D <&vph_pwr>;
-+=09=09vdd-s4-supply =3D <&vph_pwr>;
-+
-+=09=09vreg_s3c_0p6: smps3 {
-+=09=09=09regulator-min-microvolt =3D <600000>;
-+=09=09=09regulator-max-microvolt =3D <600000>;
-+=09=09};
-+=09};
-+};
-+
-+&cdsp_pas {
-+=09status =3D "okay";
-+=09firmware-name =3D "qcom/sdm845/axolotl/cdsp.mbn";
-+};
-+
-+&dsi0 {
-+=09status =3D "okay";
-+=09vdda-supply =3D <&vdda_mipi_dsi0_1p2>;
-+
-+=09panel@0 {
-+=09=09compatible =3D "visionox,rm69299-shift";
-+=09=09status =3D "okay";
-+=09=09reg =3D <0>;
-+=09=09vdda-supply =3D <&vreg_l14a_1p88>;
-+=09=09vdd3p3-supply =3D <&vreg_l28a_3p0>;
-+
-+=09=09#address-cells =3D <1>;
-+=09=09#size-cells =3D <0>;
-+
-+=09=09reset-gpios =3D <&tlmm 6 GPIO_ACTIVE_HIGH>;
-+
-+=09=09pinctrl-names =3D "default", "sleep";
-+=09=09pinctrl-0 =3D <&sde_dsi_active &sde_te_active>;
-+=09=09pinctrl-1 =3D <&sde_dsi_suspend &sde_te_suspend>;
-+
-+=09=09port {
-+=09=09=09panel_in_0: endpoint {
-+=09=09=09=09remote-endpoint =3D <&dsi0_out>;
-+=09=09=09};
-+=09=09};
-+=09};
-+};
-+
-+&dsi0_out {
-+=09remote-endpoint =3D <&panel_in_0>;
-+=09data-lanes =3D <0 1 2 3>;
-+};
-+
-+&dsi0_phy {
-+=09status =3D "okay";
-+=09vdds-supply =3D <&vdda_mipi_dsi0_pll>;
-+};
-+
-+&gcc {
-+=09protected-clocks =3D <GCC_QSPI_CORE_CLK>,
-+=09=09=09   <GCC_QSPI_CORE_CLK_SRC>,
-+=09=09=09   <GCC_QSPI_CNOC_PERIPH_AHB_CLK>,
-+=09=09=09   <GCC_LPASS_Q6_AXI_CLK>,
-+=09=09=09   <GCC_LPASS_SWAY_CLK>;
-+};
-+
-+&gmu {
-+=09status =3D "okay";
-+};
-+
-+&gpu {
-+=09status =3D "okay";
-+
-+=09zap-shader {
-+=09=09memory-region =3D <&gpu_mem>;
-+=09=09firmware-name =3D "qcom/sdm845/axolotl/a630_zap.mbn";
-+=09};
-+};
-+
-+&i2c5 {
-+=09status=3D"okay";
-+
-+=09touchscreen@38 {
-+=09=09compatible =3D "focaltech,fts8719";
-+=09=09reg =3D <0x38>;
-+=09=09wakeup-source;
-+=09=09interrupt-parent =3D <&tlmm>;
-+=09=09interrupts =3D <125 0x2>;
-+=09=09vdd-supply =3D <&vreg_l28a_3p0>;
-+=09=09vcc-i2c-supply =3D <&vreg_l14a_1p88>;
-+
-+=09=09pinctrl-names =3D "default", "suspend";
-+=09=09pinctrl-0 =3D <&ts_int_active &ts_reset_active>;
-+=09=09pinctrl-1 =3D <&ts_int_suspend &ts_reset_suspend>;
-+
-+=09=09reset-gpio =3D <&tlmm 99 GPIO_ACTIVE_HIGH>;
-+=09=09irq-gpio =3D <&tlmm 125 GPIO_TRANSITORY>;
-+=09=09touchscreen-size-x =3D <1080>;
-+=09=09touchscreen-size-y =3D <2160>;
-+=09=09focaltech,max-touch-number =3D <5>;
-+=09};
-+};
-+
-+&ipa {
-+=09status =3D "okay";
-+
-+=09memory-region =3D <&ipa_fw_mem>;
-+=09firmware-name =3D "qcom/sdm845/axolotl/ipa_fws.mbn";
-+};
-+
-+&mdss {
-+=09status =3D "okay";
-+};
-+
-+&mss_pil {
-+=09status =3D "okay";
-+=09firmware-name =3D "qcom/sdm845/axolotl/mba.mbn", "qcom/sdm845/axolotl/m=
-odem.mbn";
-+};
-+
-+&pm8998_gpio {
-+=09volume_up_gpio: pm8998_gpio6 {
-+=09=09pinconf {
-+=09=09=09pins =3D "gpio6";
-+=09=09=09function =3D "normal";
-+=09=09=09input-enable;
-+=09=09=09bias-pull-up;
-+=09=09=09qcom,drive-strength =3D <0>;
-+=09=09};
-+=09};
-+};
-+
-+&pm8998_pon {
-+=09volume_down_resin: resin {
-+=09=09compatible =3D "qcom,pm8941-resin";
-+=09=09interrupts =3D <0x0 0x8 1 IRQ_TYPE_EDGE_BOTH>;
-+=09=09debounce =3D <15625>;
-+=09=09bias-pull-up;
-+=09=09linux,code =3D <KEY_VOLUMEDOWN>;
-+=09};
-+};
-+
-+&qup_uart9_default {
-+=09pinconf-rx {
-+=09=09pins =3D "gpio5";
-+=09=09drive-strength =3D <2>;
-+=09=09bias-pull-up;
-+=09};
-+
-+=09pinconf-tx {
-+=09=09pins =3D "gpio4";
-+=09=09drive-strength =3D <2>;
-+=09=09bias-disable;
-+=09};
-+};
-+
-+&qupv3_id_0 {
-+=09status =3D "okay";
-+};
-+
-+&qupv3_id_1 {
-+=09status =3D "okay";
-+};
-+
-+&tlmm {
-+=09gpio-reserved-ranges =3D <0 4>, <81 4>;
-+
-+=09sde_dsi_active: sde-dsi-active {
-+=09=09mux {
-+=09=09=09pins =3D "gpio6", "gpio11";
-+=09=09=09function =3D "gpio";
-+=09=09};
-+
-+=09=09config {
-+=09=09=09pins =3D "gpio6", "gpio11";
-+=09=09=09drive-strength =3D <8>;
-+=09=09=09bias-disable =3D <0>;
-+=09=09};
-+=09};
-+
-+=09sde_dsi_suspend: sde-dsi-suspend {
-+=09=09mux {
-+=09=09=09pins =3D "gpio6", "gpio11";
-+=09=09=09function =3D "gpio";
-+=09=09};
-+
-+=09=09config {
-+=09=09=09pins =3D "gpio6", "gpio11";
-+=09=09=09drive-strength =3D <2>;
-+=09=09=09bias-pull-down;
-+=09=09};
-+=09};
-+
-+=09sde_te_active: sde-te-active {
-+=09=09mux {
-+=09=09=09pins =3D "gpio10";
-+=09=09=09function =3D "mdp_vsync";
-+=09=09};
-+
-+=09=09config {
-+=09=09=09pins =3D "gpio10";
-+=09=09=09drive-strength =3D <2>;
-+=09=09=09bias-pull-down;
-+=09=09};
-+=09};
-+
-+=09sde_te_suspend: sde-te-suspend {
-+=09=09mux {
-+=09=09=09pins =3D "gpio10";
-+=09=09=09function =3D "mdp_vsync";
-+=09=09};
-+
-+=09=09config {
-+=09=09=09pins =3D "gpio10";
-+=09=09=09drive-strength =3D <2>;
-+=09=09=09bias-pull-down;
-+=09=09};
-+=09};
-+
-+=09ts_int_active: ts-int-active {
-+=09=09mux {
-+=09=09=09pins =3D "gpio125";
-+=09=09=09function =3D "gpio";
-+=09=09};
-+
-+=09=09config {
-+=09=09=09pins =3D "gpio125";
-+=09=09=09drive-strength =3D <8>;
-+=09=09=09bias-pull-up;
-+=09=09=09input-enable;
-+=09=09};
-+=09};
-+
-+=09ts_int_suspend: ts-int-suspend {
-+=09=09mux {
-+=09=09=09pins =3D "gpio125";
-+=09=09=09function =3D "gpio";
-+=09=09};
-+
-+=09=09config {
-+=09=09=09pins =3D "gpio125";
-+=09=09=09drive-strength =3D <2>;
-+=09=09=09bias-pull-down;
-+=09=09=09input-enable;
-+=09=09};
-+=09};
-+
-+=09ts_reset_active: ts-reset-active {
-+=09=09mux {
-+=09=09=09pins =3D "gpio99";
-+=09=09=09function =3D "gpio";
-+=09=09};
-+
-+=09=09config {
-+=09=09=09pins =3D "gpio99";
-+=09=09=09drive-strength =3D <8>;
-+=09=09=09bias-pull-up;
-+=09=09};
-+=09};
-+
-+=09ts_reset_suspend: ts-reset-suspend {
-+=09=09mux {
-+=09=09=09pins =3D "gpio99";
-+=09=09=09function =3D "gpio";
-+=09=09};
-+
-+=09=09config {
-+=09=09=09pins =3D "gpio99";
-+=09=09=09drive-strength =3D <2>;
-+=09=09=09bias-pull-down;
-+=09=09};
-+=09};
-+};
-+
-+&uart6 {
-+=09status =3D "okay";
-+
-+=09bluetooth {
-+=09=09compatible =3D "qcom,wcn3990-bt";
-+
-+=09=09vddio-supply =3D <&vreg_s4a_1p8>;
-+=09=09vddxo-supply =3D <&vreg_l7a_1p8>;
-+=09=09vddrf-supply =3D <&vreg_l17a_1p3>;
-+=09=09vddch0-supply =3D <&vreg_l25a_3p3>;
-+=09=09max-speed =3D <3200000>;
-+=09};
-+};
-+
-+&uart9 {
-+=09status =3D "okay";
-+};
-+
-+&ufs_mem_hc {
-+=09status =3D "okay";
-+
-+=09reset-gpios =3D <&tlmm 150 GPIO_ACTIVE_LOW>;
-+
-+=09vcc-supply =3D <&vreg_l20a_2p95>;
-+=09vcc-max-microamp =3D <600000>;
-+};
-+
-+&ufs_mem_phy {
-+=09status =3D "okay";
-+
-+=09vdda-phy-supply =3D <&vdda_ufs1_core>;
-+=09vdda-pll-supply =3D <&vdda_ufs1_1p2>;
-+};
-+
-+&usb_1 {
-+=09status =3D "okay";
-+};
-+
-+&usb_1_dwc3 {
-+=09dr_mode =3D "peripheral";
-+};
-+
-+&usb_1_hsphy {
-+=09status =3D "okay";
-+
-+=09vdd-supply =3D <&vreg_l1a_0p875>;
-+=09vdda-phy-dpdm-supply =3D <&vreg_l24a_3p075>;
-+=09vdda-pll-supply =3D <&vreg_l12a_1p8>;
-+};
-+
-+&usb_1_qmpphy {
-+=09status =3D "okay";
-+
-+=09vdda-phy-supply =3D <&vreg_l26a_1p2>;
-+=09vdda-pll-supply =3D <&vreg_l1a_0p875>;
-+};
-+
-+&venus {
-+=09status =3D "okay";
-+=09firmware-name =3D "qcom/sdm845/axolotl/venus.mbn";
-+};
-+
-+&wifi {
-+=09status =3D "okay";
-+
-+=09vdd-0.8-cx-mx-supply =3D <&vreg_l5a_0p8>;
-+=09vdd-1.3-rfa-supply =3D <&vreg_l17a_1p3>;
-+=09vdd-1.8-xo-supply =3D <&vreg_l7a_1p8>;
-+=09vdd-3.3-ch0-supply =3D <&vreg_l25a_3p3>;
-+=09vdd-3.3-ch1-supply =3D <&vreg_l23a_3p3>;
-+
-+=09qcom,snoc-host-cap-8bit-quirk;
-+};
---
+The four preparatory patches were already send out, but not yet taken into
+next.
+
+Assuming Mark is fine with this change I'd like to have this go in during the
+next merge window. I guess we need a tag that can be pulled into trees that add
+a new driver in the next cycle. I can provide such a tag, but I'm open to
+alternatives.
+
+The patch set survived an allmodconfig build on various archs (arm64 m68k
+powerpc riscv s390 sparc64 x86_64) after the following two commits from
+next-20220121 were added to fix an unrelated build problem:
+
+        be973481daaa ("pinctrl: thunderbay: rework loops looking for groups names")
+        8687999e47d4 ("pinctrl: thunderbay: comment process of building functions a bit")
+
+Best regards
+Uwe
+
+Uwe Kleine-König (5):
+  staging: fbtft: Fix error path in fbtft_driver_module_init()
+  staging: fbtft: Deduplicate driver registration macros
+  tpm: st33zp24: Make st33zp24_remove() a void function
+  platform/chrome: cros_ec: Make cros_ec_unregister() return void
+  spi: make remove callback a void function
+
+ drivers/bus/moxtet.c                          |  4 +-
+ drivers/char/tpm/st33zp24/i2c.c               |  5 +-
+ drivers/char/tpm/st33zp24/spi.c               |  9 +-
+ drivers/char/tpm/st33zp24/st33zp24.c          |  3 +-
+ drivers/char/tpm/st33zp24/st33zp24.h          |  2 +-
+ drivers/char/tpm/tpm_tis_spi_main.c           |  3 +-
+ drivers/clk/clk-lmk04832.c                    |  4 +-
+ drivers/gpio/gpio-74x164.c                    |  4 +-
+ drivers/gpio/gpio-max3191x.c                  |  4 +-
+ drivers/gpio/gpio-max7301.c                   |  4 +-
+ drivers/gpio/gpio-mc33880.c                   |  4 +-
+ drivers/gpio/gpio-pisosr.c                    |  4 +-
+ drivers/gpu/drm/panel/panel-abt-y030xx067a.c  |  4 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9322.c  |  4 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c  |  3 +-
+ drivers/gpu/drm/panel/panel-innolux-ej030na.c |  4 +-
+ drivers/gpu/drm/panel/panel-lg-lb035q02.c     |  4 +-
+ drivers/gpu/drm/panel/panel-lg-lg4573.c       |  4 +-
+ drivers/gpu/drm/panel/panel-nec-nl8048hl11.c  |  4 +-
+ drivers/gpu/drm/panel/panel-novatek-nt39016.c |  4 +-
+ drivers/gpu/drm/panel/panel-samsung-db7430.c  |  3 +-
+ drivers/gpu/drm/panel/panel-samsung-ld9040.c  |  4 +-
+ drivers/gpu/drm/panel/panel-samsung-s6d27a1.c |  3 +-
+ .../gpu/drm/panel/panel-samsung-s6e63m0-spi.c |  3 +-
+ .../gpu/drm/panel/panel-sitronix-st7789v.c    |  4 +-
+ drivers/gpu/drm/panel/panel-sony-acx565akm.c  |  4 +-
+ drivers/gpu/drm/panel/panel-tpo-td028ttec1.c  |  4 +-
+ drivers/gpu/drm/panel/panel-tpo-td043mtea1.c  |  4 +-
+ drivers/gpu/drm/panel/panel-tpo-tpg110.c      |  3 +-
+ .../gpu/drm/panel/panel-widechips-ws2401.c    |  3 +-
+ drivers/gpu/drm/tiny/hx8357d.c                |  4 +-
+ drivers/gpu/drm/tiny/ili9163.c                |  4 +-
+ drivers/gpu/drm/tiny/ili9225.c                |  4 +-
+ drivers/gpu/drm/tiny/ili9341.c                |  4 +-
+ drivers/gpu/drm/tiny/ili9486.c                |  4 +-
+ drivers/gpu/drm/tiny/mi0283qt.c               |  4 +-
+ drivers/gpu/drm/tiny/repaper.c                |  4 +-
+ drivers/gpu/drm/tiny/st7586.c                 |  4 +-
+ drivers/gpu/drm/tiny/st7735r.c                |  4 +-
+ drivers/hwmon/adcxx.c                         |  4 +-
+ drivers/hwmon/adt7310.c                       |  3 +-
+ drivers/hwmon/max1111.c                       |  3 +-
+ drivers/hwmon/max31722.c                      |  4 +-
+ drivers/iio/accel/bma400_spi.c                |  4 +-
+ drivers/iio/accel/bmc150-accel-spi.c          |  4 +-
+ drivers/iio/accel/bmi088-accel-spi.c          |  4 +-
+ drivers/iio/accel/kxsd9-spi.c                 |  4 +-
+ drivers/iio/accel/mma7455_spi.c               |  4 +-
+ drivers/iio/accel/sca3000.c                   |  4 +-
+ drivers/iio/adc/ad7266.c                      |  4 +-
+ drivers/iio/adc/ltc2496.c                     |  4 +-
+ drivers/iio/adc/mcp320x.c                     |  4 +-
+ drivers/iio/adc/mcp3911.c                     |  4 +-
+ drivers/iio/adc/ti-adc12138.c                 |  4 +-
+ drivers/iio/adc/ti-ads7950.c                  |  4 +-
+ drivers/iio/adc/ti-ads8688.c                  |  4 +-
+ drivers/iio/adc/ti-tlc4541.c                  |  4 +-
+ drivers/iio/amplifiers/ad8366.c               |  4 +-
+ drivers/iio/common/ssp_sensors/ssp_dev.c      |  4 +-
+ drivers/iio/dac/ad5360.c                      |  4 +-
+ drivers/iio/dac/ad5380.c                      |  4 +-
+ drivers/iio/dac/ad5446.c                      |  4 +-
+ drivers/iio/dac/ad5449.c                      |  4 +-
+ drivers/iio/dac/ad5504.c                      |  4 +-
+ drivers/iio/dac/ad5592r.c                     |  4 +-
+ drivers/iio/dac/ad5624r_spi.c                 |  4 +-
+ drivers/iio/dac/ad5686-spi.c                  |  4 +-
+ drivers/iio/dac/ad5761.c                      |  4 +-
+ drivers/iio/dac/ad5764.c                      |  4 +-
+ drivers/iio/dac/ad5791.c                      |  4 +-
+ drivers/iio/dac/ad8801.c                      |  4 +-
+ drivers/iio/dac/ltc1660.c                     |  4 +-
+ drivers/iio/dac/ltc2632.c                     |  4 +-
+ drivers/iio/dac/mcp4922.c                     |  4 +-
+ drivers/iio/dac/ti-dac082s085.c               |  4 +-
+ drivers/iio/dac/ti-dac7311.c                  |  3 +-
+ drivers/iio/frequency/adf4350.c               |  4 +-
+ drivers/iio/gyro/bmg160_spi.c                 |  4 +-
+ drivers/iio/gyro/fxas21002c_spi.c             |  4 +-
+ drivers/iio/health/afe4403.c                  |  4 +-
+ drivers/iio/magnetometer/bmc150_magn_spi.c    |  4 +-
+ drivers/iio/magnetometer/hmc5843_spi.c        |  4 +-
+ drivers/iio/potentiometer/max5487.c           |  4 +-
+ drivers/iio/pressure/ms5611_spi.c             |  4 +-
+ drivers/iio/pressure/zpa2326_spi.c            |  4 +-
+ drivers/input/keyboard/applespi.c             |  4 +-
+ drivers/input/misc/adxl34x-spi.c              |  4 +-
+ drivers/input/touchscreen/ads7846.c           |  4 +-
+ drivers/input/touchscreen/cyttsp4_spi.c       |  4 +-
+ drivers/input/touchscreen/tsc2005.c           |  4 +-
+ drivers/leds/leds-cr0014114.c                 |  4 +-
+ drivers/leds/leds-dac124s085.c                |  4 +-
+ drivers/leds/leds-el15203000.c                |  4 +-
+ drivers/leds/leds-spi-byte.c                  |  4 +-
+ drivers/media/spi/cxd2880-spi.c               |  4 +-
+ drivers/media/spi/gs1662.c                    |  4 +-
+ drivers/media/tuners/msi001.c                 |  3 +-
+ drivers/mfd/arizona-spi.c                     |  4 +-
+ drivers/mfd/da9052-spi.c                      |  3 +-
+ drivers/mfd/ezx-pcap.c                        |  4 +-
+ drivers/mfd/madera-spi.c                      |  4 +-
+ drivers/mfd/mc13xxx-spi.c                     |  3 +-
+ drivers/mfd/rsmu_spi.c                        |  4 +-
+ drivers/mfd/stmpe-spi.c                       |  4 +-
+ drivers/mfd/tps65912-spi.c                    |  4 +-
+ drivers/misc/ad525x_dpot-spi.c                |  3 +-
+ drivers/misc/eeprom/eeprom_93xx46.c           |  4 +-
+ drivers/misc/lattice-ecp3-config.c            |  4 +-
+ drivers/misc/lis3lv02d/lis3lv02d_spi.c        |  4 +-
+ drivers/mmc/host/mmc_spi.c                    |  3 +-
+ drivers/mtd/devices/mchp23k256.c              |  4 +-
+ drivers/mtd/devices/mchp48l640.c              |  4 +-
+ drivers/mtd/devices/mtd_dataflash.c           |  4 +-
+ drivers/mtd/devices/sst25l.c                  |  4 +-
+ drivers/net/can/m_can/tcan4x5x-core.c         |  4 +-
+ drivers/net/can/spi/hi311x.c                  |  4 +-
+ drivers/net/can/spi/mcp251x.c                 |  4 +-
+ .../net/can/spi/mcp251xfd/mcp251xfd-core.c    |  4 +-
+ drivers/net/dsa/b53/b53_spi.c                 |  4 +-
+ drivers/net/dsa/microchip/ksz8795_spi.c       |  4 +-
+ drivers/net/dsa/microchip/ksz9477_spi.c       |  4 +-
+ drivers/net/dsa/sja1105/sja1105_main.c        |  6 +-
+ drivers/net/dsa/vitesse-vsc73xx-spi.c         |  6 +-
+ drivers/net/ethernet/asix/ax88796c_main.c     |  4 +-
+ drivers/net/ethernet/micrel/ks8851_spi.c      |  4 +-
+ drivers/net/ethernet/microchip/enc28j60.c     |  4 +-
+ drivers/net/ethernet/microchip/encx24j600.c   |  4 +-
+ drivers/net/ethernet/qualcomm/qca_spi.c       |  4 +-
+ drivers/net/ethernet/vertexcom/mse102x.c      |  4 +-
+ drivers/net/ethernet/wiznet/w5100-spi.c       |  4 +-
+ drivers/net/ieee802154/adf7242.c              |  4 +-
+ drivers/net/ieee802154/at86rf230.c            |  4 +-
+ drivers/net/ieee802154/ca8210.c               |  6 +-
+ drivers/net/ieee802154/cc2520.c               |  4 +-
+ drivers/net/ieee802154/mcr20a.c               |  4 +-
+ drivers/net/ieee802154/mrf24j40.c             |  4 +-
+ drivers/net/phy/spi_ks8995.c                  |  4 +-
+ drivers/net/wan/slic_ds26522.c                |  3 +-
+ drivers/net/wireless/intersil/p54/p54spi.c    |  4 +-
+ .../net/wireless/marvell/libertas/if_spi.c    |  4 +-
+ drivers/net/wireless/microchip/wilc1000/spi.c |  4 +-
+ drivers/net/wireless/st/cw1200/cw1200_spi.c   |  4 +-
+ drivers/net/wireless/ti/wl1251/spi.c          |  4 +-
+ drivers/net/wireless/ti/wlcore/spi.c          |  4 +-
+ drivers/nfc/nfcmrvl/spi.c                     |  3 +-
+ drivers/nfc/st-nci/spi.c                      |  4 +-
+ drivers/nfc/st95hf/core.c                     |  4 +-
+ drivers/nfc/trf7970a.c                        |  4 +-
+ drivers/platform/chrome/cros_ec.c             |  4 +-
+ drivers/platform/chrome/cros_ec.h             |  2 +-
+ drivers/platform/chrome/cros_ec_i2c.c         |  4 +-
+ drivers/platform/chrome/cros_ec_lpc.c         |  4 +-
+ drivers/platform/chrome/cros_ec_spi.c         |  4 +-
+ drivers/platform/olpc/olpc-xo175-ec.c         |  4 +-
+ drivers/rtc/rtc-ds1302.c                      |  3 +-
+ drivers/rtc/rtc-ds1305.c                      |  4 +-
+ drivers/rtc/rtc-ds1343.c                      |  4 +-
+ drivers/spi/spi-mem.c                         |  6 +-
+ drivers/spi/spi-slave-system-control.c        |  3 +-
+ drivers/spi/spi-slave-time.c                  |  3 +-
+ drivers/spi/spi-tle62x0.c                     |  3 +-
+ drivers/spi/spi.c                             | 11 +--
+ drivers/spi/spidev.c                          |  4 +-
+ drivers/staging/fbtft/fbtft.h                 | 97 ++++++++-----------
+ drivers/staging/pi433/pi433_if.c              |  4 +-
+ drivers/staging/wfx/bus_spi.c                 |  3 +-
+ drivers/tty/serial/max3100.c                  |  5 +-
+ drivers/tty/serial/max310x.c                  |  3 +-
+ drivers/tty/serial/sc16is7xx.c                |  4 +-
+ drivers/usb/gadget/udc/max3420_udc.c          |  4 +-
+ drivers/usb/host/max3421-hcd.c                |  3 +-
+ drivers/video/backlight/ams369fg06.c          |  3 +-
+ drivers/video/backlight/corgi_lcd.c           |  3 +-
+ drivers/video/backlight/ili922x.c             |  3 +-
+ drivers/video/backlight/l4f00242t03.c         |  3 +-
+ drivers/video/backlight/lms501kf03.c          |  3 +-
+ drivers/video/backlight/ltv350qv.c            |  3 +-
+ drivers/video/backlight/tdo24m.c              |  3 +-
+ drivers/video/backlight/tosa_lcd.c            |  4 +-
+ drivers/video/backlight/vgg2432a4.c           |  4 +-
+ drivers/video/fbdev/omap/lcd_mipid.c          |  4 +-
+ .../displays/panel-lgphilips-lb035q02.c       |  4 +-
+ .../omapfb/displays/panel-nec-nl8048hl11.c    |  4 +-
+ .../omapfb/displays/panel-sony-acx565akm.c    |  4 +-
+ .../omapfb/displays/panel-tpo-td028ttec1.c    |  4 +-
+ .../omapfb/displays/panel-tpo-td043mtea1.c    |  4 +-
+ include/linux/spi/spi.h                       |  2 +-
+ sound/pci/hda/cs35l41_hda_spi.c               |  4 +-
+ sound/soc/codecs/adau1761-spi.c               |  3 +-
+ sound/soc/codecs/adau1781-spi.c               |  3 +-
+ sound/soc/codecs/cs35l41-spi.c                |  4 +-
+ sound/soc/codecs/pcm3168a-spi.c               |  4 +-
+ sound/soc/codecs/pcm512x-spi.c                |  3 +-
+ sound/soc/codecs/tlv320aic32x4-spi.c          |  4 +-
+ sound/soc/codecs/tlv320aic3x-spi.c            |  4 +-
+ sound/soc/codecs/wm0010.c                     |  4 +-
+ sound/soc/codecs/wm8804-spi.c                 |  3 +-
+ sound/spi/at73c213.c                          |  4 +-
+ 198 files changed, 248 insertions(+), 617 deletions(-)
+
+
+base-commit: e783362eb54cd99b2cac8b3a9aeac942e6f6ac07
+-- 
 2.34.1
-
 
