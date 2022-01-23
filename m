@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1617497546
-	for <lists+linux-input@lfdr.de>; Sun, 23 Jan 2022 20:43:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17F38497548
+	for <lists+linux-input@lfdr.de>; Sun, 23 Jan 2022 20:43:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234820AbiAWTnE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 23 Jan 2022 14:43:04 -0500
+        id S234849AbiAWTnG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 23 Jan 2022 14:43:06 -0500
 Received: from mail-dm6nam10on2072.outbound.protection.outlook.com ([40.107.93.72]:41949
         "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230038AbiAWTnB (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 23 Jan 2022 14:43:01 -0500
+        id S229681AbiAWTnC (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 23 Jan 2022 14:43:02 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hh7pRbcuNbsBFu/aY22/D+AW3evcbtSgb5Q7aMlZRKhj15fI25Iqv4B4nbnsbz9cwAa6fCSj5qrqW4+KekyvmCR4VghY3I9YXGeIxuU7ZZTXtGIwgAE+OpN+uZ9Rl+N/7OdLqS1MKMeb4jcCKbHp2ZS9AJo1/e6jNOavd95wY7W8LJizynNkQJ/P+AuRcL5WF4ySZCqZde6VL9de3UKgv/qWHDyRbI+TtAduBZdWI6fHycshgGxKMbx71Lj2QaCk/KgmM3kbtXnQiHiDKYNAdhMrXKORBfpcVUkpyksig9z3ZIB9EjXABrhb93YZr0mFoqzbtmzH+oqLHHfXasnInA==
+ b=A4k0CusRoIH+Pnc4HeweNj+NxPxNUTDho6i8u4MYe+qGlVCTu28L7qaDXnHDKor/gxncv9h2c2/xm8w5qmKEbAGTExezyDdrKQkStLZiWiBch6MhXacQU5V1csCrgeIkGTgmpV86Y0AEw93ECdijKOR8agIz0avbB4zweEtaR6RPDWsCEyoK0JEKflZWzwQ4+V/1slEssxyb8iP5JowbwJd4Rio9G/yyqbnFaOuEdRovNJxRVWNiwq61uG/IZfBYqtaWfZtVt/uxch1MLkcr/nY4XBO7I68oXJT06OuUbnYSK+XQktVGaEjbl2ZbYwQ9/0EidEFPpPx6dOUa3bk0Ag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Axfw9nnnlOazI/97zHJStx/5z3JyY2OM/uYyma4Y7sc=;
- b=QU4TMX1keGPuoicd2rIs8zbieE0E5PrNTLodN797qeDNDXAGk/QQ7ag3jTVhon5sz0jtmHavani+td7M43mlPFPnyYUIQhpBTg/hWn17T9zQweB24U7LFYGvpIqvO9TGYHuH3f7C8/XN2aLFG+lkFJvTw2nDBOM5rrZDoZDQFIwlFnMZrHpU+jfanWhB5gDqgAksFRwU9bTcZNU5Vs+AZv7UA4CkREOO82hp/Jd1iEqHTzKiBa/n/6LcDNxCR7kfiNCWQ1BNZtGSciTMVR7PQcOYADgRFr8V9dWeXGlWiswT8sXVCPuAO+1NWmYxT10vLbyjak2eB7JADneIwxenvw==
+ bh=2yrm0EBnGri1FSJQucChbd+pKgkLmJgdpB60s6nPvbw=;
+ b=SL/NOi7QaFBPdPOBySBbfz94WJz6y4Qz5BOw8nL6afjJhlxgkfLYiFlCEHeoTKvQ92eNaocO4bc+qXyQH2zZW1RepQkkccKR/kEnU8uNn4uDKi32sEfrcGSeHZWmaaHat1QfPlurCoYlYEtGwSDR7nOwIZWsVYxyDSFCSAAEG4E16f0LhaHy4UpSeB7L6f7R+vxcQ68zdeZ+ZHp3Z100XfQVHftOberMdmBv0dyNlsBYZBsdhnEPB551gRDxpjQirO2bihNAmZ6c4sSvK4e12zfPJjvLqAG5CXAcVTbVPKOc1UukCahsZfPAsSvfm5PuvYMpvcEHSwKcar2HhKYPCg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Axfw9nnnlOazI/97zHJStx/5z3JyY2OM/uYyma4Y7sc=;
- b=PSGNoAXiCBdMA9kCg0gbXtma7pBl6zKyqJG9+0bg9WfUpqwXNwdRS8L5DSextLbpx3LECtpKQvSWjCjNNJ7vbI1Y65w6pfliTdo1T2t2pTWavBCdbYry1owbscd/lI/qYjNN0tuxppS0Odjfig8/Jpnoteh0qu7NsM1vtfYtFxQ=
+ bh=2yrm0EBnGri1FSJQucChbd+pKgkLmJgdpB60s6nPvbw=;
+ b=YSM1CkLTXihr/BuHbsrexZrljA4V090oa3f0MI7Kp6OMiegyGdPVjX6TYIBPUHMnnTchVb08SbzqGwr/FoUHoTOfk+aV1Yc7/FbJooMYhHwRnSg0o1CZaFk+oVyce5rQuTemHlKc48zF0UQs786OPErvkj0ksb6XMw2f4k2lsyQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from SJ0PR08MB6544.namprd08.prod.outlook.com (2603:10b6:a03:2d3::16)
@@ -41,9 +41,9 @@ From:   Jeff LaBundy <jeff@labundy.com>
 To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         Jeff LaBundy <jeff@labundy.com>
-Subject: [PATCH 1/2] dt-bindings: input: Add bindings for Azoteq IQS7222A/B/C
-Date:   Sun, 23 Jan 2022 13:42:31 -0600
-Message-Id: <20220123194232.85288-2-jeff@labundy.com>
+Subject: [PATCH 2/2] Input: add support for Azoteq IQS7222A/B/C
+Date:   Sun, 23 Jan 2022 13:42:32 -0600
+Message-Id: <20220123194232.85288-3-jeff@labundy.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220123194232.85288-1-jeff@labundy.com>
 References: <20220123194232.85288-1-jeff@labundy.com>
@@ -54,1041 +54,2494 @@ X-ClientProxiedBy: SA0PR11CA0064.namprd11.prod.outlook.com
  (2603:10b6:a03:2d3::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b4e0b1e8-d8fe-4b9e-0a0b-08d9dea88e82
+X-MS-Office365-Filtering-Correlation-Id: b4f5dd66-d2e9-4e4a-3ad8-08d9dea88eda
 X-MS-TrafficTypeDiagnostic: SN6PR08MB4783:EE_
-X-Microsoft-Antispam-PRVS: <SN6PR08MB4783D11874F41028C6BFE8E5D35D9@SN6PR08MB4783.namprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2000;
+X-Microsoft-Antispam-PRVS: <SN6PR08MB4783AAA810004B631B39B36ED35D9@SN6PR08MB4783.namprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RVoVsdYJzImbe4jFmtQeVIYy64zUg6+0z/12seIQx2pY/Tkb4ouYFZfnj2Y3lEWucK0tXUu9QHLK5NhpJuRMlfSXFdEVg1umzSvWb5v8/ATDAu8X+Wu5WLtwgNMQs1FcGfZkFVfWzuSK4hwYMNol36iVablnOYdDU7lvqcgdDDvb6Fz6Z1IKWA7JWriTIBV479/SUyEjPU6QM9/ME9mTkLZyH/EgeV+iQag0Gl5Hk3adfS6DdS8wZuZGne8CHfRm2p5zXZsnJNAy8GGtOgDlScN2pQH81eqPQRdzLLlT3RixcuBpRnnV8zhL5yDIZWZ4BeixEiA8YlgnT8Hmk53R0pX6cSMcPhc7xG72AYualdwkv0Ww7FQE+Da6ge97Z91O0m5IgB9dZlbmgyDEpD6qaNtuQ1g9uBV+o18AKp+bxmv5tvdy4SY+viXhzDDpf5ZgXe6HGg78CMAGbOyTte/Jxz5fTdZPaOU2utvU88Pw1OjmE3ILi+B43pgm1MgM6ACbkSyMU4ovkWm9MnKDW2CYS50DQQeaHzkHa82vymIqyM++shzeomY4yt4LUo1SIg1YDkjHPQALvEkbYZePlLouZc8u50nrTuU+YD0ryi/aQmkuryBkcYsO2IDN+h/AKq0AVn9mKHANr46wmi3OoOjruLKAOo3xUeoLXVWbYweQ+Hd7iMsOFppjIRrt0PjHVFdBEztO5OgWAFA5aBJmqokxlL5p4jaf6e2mrd/pB7qz8LZ2BFeHpuEYB+O1iXunk314DmRVJml+8OTCywX3aOItXA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR08MB6544.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(346002)(39830400003)(136003)(366004)(396003)(508600001)(107886003)(5660300002)(66556008)(26005)(316002)(1076003)(66946007)(66476007)(966005)(2906002)(30864003)(6486002)(83380400001)(52116002)(4326008)(6666004)(8936002)(38100700002)(186003)(8676002)(6512007)(86362001)(6506007)(36756003)(2616005)(38350700002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: oepxdt57K8z0pjPROV53gj5ZSaomFJvfmkNxa2CB5fbLCxecGKZD2glmbsv7y2dnLWsXvBL/BrHAqMX+x1dBTH90PPEexA2CNLqD/23oyQkGnczyijMEx4OmsnDuh+1DMEdBabt4gXCwy+OnrPvMGI59xlVcZlGDof/pSCtPZj1KPvymvx7ZV740XgFlpAyYGT9vjtUVS02dWP3ea1pX6+z13o3onuaB0xrxhwP2s8Qnqz/Rj8ccgFxdtNP0nJUNLvMZL5CuIBv2OcyoJFPK3YP8msbVTTI2hyHM6MuaTRgCuBAEfJB55kRDONO8TNCWCBeC0w/QsJewHL8iBjIhukvBxHO1cI8TNwuSsOrYmEvU/X/diwniZN7LTKbtUnyolDNe/ddARBItDXPwz/OWmUVNldwRzF64D0zQuSfd0xkiGW/OyYXnkYQJydd0XIhXd6snPUcFsYyzs3zevpQYU143g3cBoshVwDP/jrGEkCKDYWuc0lwKfco8bt+u6SZjAns9UgMkl8W97FCCO4q0zVfotAnDprSlAebJX7C8wABXN7jI760FA4uBWUP7P8HRNVuRL2goRYqOCNu9H0butprxrTMkH6DV6HiDlRWIC4D5Nub8GPHQ1LInHhFe4c2w+77wUKGfNVT6CTeDv2DDAg5pPDB7s0kdNPIFEUQPI+MMcYgOAxtrz7pNIrnvJoeVsutOdorpGDA3lQEiJ+kJKg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR08MB6544.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(346002)(39830400003)(136003)(366004)(396003)(508600001)(107886003)(5660300002)(66556008)(26005)(316002)(1076003)(66946007)(66476007)(2906002)(30864003)(6486002)(83380400001)(52116002)(4326008)(6666004)(8936002)(38100700002)(186003)(8676002)(6512007)(86362001)(6506007)(36756003)(2616005)(38350700002)(579004)(559001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kyscFr+EQVNjCWFPUl+qkeoO7neY3ICmsQRoz7XkOAS0bDDG9Pf5UK795lDp?=
- =?us-ascii?Q?aPPJ/229J6y4aaK7LKgaS0yUEQJTNI+ci3S7E6UZCHmz/RO8Ta5QU4h4PIZK?=
- =?us-ascii?Q?6nscwITkkooFp2dhrsAJ1/wnQSuurrSmHiguor53p1v76D/eMvbi9VQYho68?=
- =?us-ascii?Q?TzY1mbE/NxnRQJHO7COca7LlJxkG36MN6aO0OVgbfwSN0ZkfSMitqjo+665l?=
- =?us-ascii?Q?zDN9xEMmeaUPxYB+gl0rRtPzKkAlQ/w1Iokl3dg0N03MEgv9ZfzT/43R00/i?=
- =?us-ascii?Q?9x5qUGHnHT201wEJ/kjN7hM+pP4tIx/nlHrJW3gVWdfy0BtRKAPoBSlzBBxv?=
- =?us-ascii?Q?QC4+QG1/UenpcbMpTXEuwiveoUb+zBoXRkFots6gj3eQy37lANU6UFH1edRf?=
- =?us-ascii?Q?MGKwv7fiAeuwafw6rrY25PMiLlTOv5LPJI0IRLNOfVRgbDvZgAvQDabKGuRt?=
- =?us-ascii?Q?UF1+qCbhJ8po3xbi6g0cKp1nokgWiQn7tfEWZGvSxzJeOU7hkPwhfrzwNlsa?=
- =?us-ascii?Q?NAKAsSQDYJBvq/ylHuHzm0wrQXhiCsl4ZObP1CxQi2v8oAc/hlrfQWOeZs2g?=
- =?us-ascii?Q?8A0+Slz7jAqGPxw4U+c710yFvQHyxQMeKKU1ZPkKRPXUT5yViB8fXW1d8Nv6?=
- =?us-ascii?Q?+bddh8tfDCR3UmWlLz711arQ364ImqF+95+Hwt+8jZLj9YUjnEtGRjbsblau?=
- =?us-ascii?Q?Yt5DbhwJPuQmm6TpJBGTZy7lGcc7m2E9hGS0fapoG74JQUl0iaWJAopoQCDS?=
- =?us-ascii?Q?082BHsj9tRQlmfzAMTLzxXdfOBoaMDptaYwENId3R2KCWHvxctRbrTUkF8Au?=
- =?us-ascii?Q?dB5eJ9q46zyep+OqSNCuB/Q3TDnUlFF8x1cXKTUUO0i1+OX6JCoDYDLmGyah?=
- =?us-ascii?Q?yvS6M+XVCplRLPW/0sV5fm7gwSYfzf7/Ir4i/2FanHRJR7StDy+hHySVuNmI?=
- =?us-ascii?Q?iW59H5i2Ex5SfAAA/wZ95CHrrpXlbmLqdbpHCz9bzJ92x8gaOaTpu3QTnbOI?=
- =?us-ascii?Q?XOgsx7NvXh3ptwtCv8ZUG+qUsI1h3GmrBmYZNJfcokNZOM14NTaf2mSXeulS?=
- =?us-ascii?Q?DJsSf2SsUctWnVphAUj1CeQPWdTFpzstGOMJtLMbukNBsC/fqHrSeAFLOkbj?=
- =?us-ascii?Q?KZJfsWvTDODpBSg+uGKLWlhxcbGZdgxxq3xwJewFpFj62Qhp3THQICjj27UT?=
- =?us-ascii?Q?zcuNnruQHQAdnu+GCJKUr4DN5223q9p2Y6jUJ+Tb+z5jQJjRMUbLUkIsfApG?=
- =?us-ascii?Q?oFCd6K6qG0HRg7yL+BiAjg8U0C6RjXCwDzkbr3TaF3PGC+/1NV3HY8rLm7dE?=
- =?us-ascii?Q?5S7T2B9IzjZPeIrxtK/UzRUWpNNZgrln10Vg+OugznVZglA1f71wNrVmYW7n?=
- =?us-ascii?Q?Qhkr4ptppMoMUtKDVgno6UCbCMsOSw2/ty0Ci52CAThRNFo0iXiWIVteOA3H?=
- =?us-ascii?Q?N3CvbbOisZ4VoUe1fcAoH1iKTD1NkCKNEANKwtysYk+AxkWWcmR9x89kBXo5?=
- =?us-ascii?Q?V4bq06+gcXGedjIRO7VUwW6OIdSq+DqKc+6RAYsEIWAs+hftY8pav3mdayIa?=
- =?us-ascii?Q?oGXKsoL2+FoVopOSf9BJFFPjIjvzccd1hmOZlPOBRyOhnWf4tdfknVD/AQQ7?=
- =?us-ascii?Q?f813yeOsHgIeJb8RRqNxJ8A=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?G7itZjDdpLcNpiwFp0ANkN4Swlq6zHZH0qwYcRNNSONH4MQU9BMkAbrQL7cz?=
+ =?us-ascii?Q?FexEbYkCcaQjwqXo8KQquuGMAIxinnKhDe2Vfd44L2R5KV+3kQjccyOt2mmg?=
+ =?us-ascii?Q?b49aAptBNTwUfYdwam6tYK8SPb+x/GY3/SZ/LsX75mFkM0KYcYFnlh1vBpsL?=
+ =?us-ascii?Q?ySShXDkta8OTyg/2WI5VrrG5xBPeryMwEvnBafUCZAhu6e/rEjqGYV5Z2fFl?=
+ =?us-ascii?Q?YS8piHqvFcKWSLwRIuRf1LsW6rOqq/UZ+6m6yDC6F5jBng7kMt8t6pZavxjl?=
+ =?us-ascii?Q?6zDtVqnblWys4oFinSArWAD9438o3m5/6S/WCfBpMa46Ot/XS/eTuGu8qgiH?=
+ =?us-ascii?Q?R2htEFSDPqwggm3wPoDOPYd9CVeDanAIcpCMBfeTN4gDd1UZZUp9Umn4GuSz?=
+ =?us-ascii?Q?pHw+NRTV6rGiVjXrvnpccWYe82H7KdC189f71ATTuTdy6et6bq6YsJON4kRF?=
+ =?us-ascii?Q?iN/uGsGY5yWtVlK2WjQcIs1wVBZZ6SsAvULbbysxmBKLVK2KtnUgd9IqJhNh?=
+ =?us-ascii?Q?AowWdvjOHUn6H3NsnuxvnQktJ/mQ8DQ/T3QZRfnWot8syY4PPOa0Mah29IKl?=
+ =?us-ascii?Q?lwhRONi6OVpype2aHKOTcS9HCyksq+yrG8DGuL4YpVqhFl45/gvh2yfNufFe?=
+ =?us-ascii?Q?pjVHsk16/mzJdvU8oLedxUKzrpBlBOnsj91/FZf5kd9FFhG8zQHifuUnG/ro?=
+ =?us-ascii?Q?kfah14ykUlv3J8hYvW2C4NBzonoKTWOt/+4YsaTP69+2nxvKK8GuB70vN6J4?=
+ =?us-ascii?Q?Reu+IDBmN34CyxvCPoFPGqrs/AIdWlTrlPCFyytRR7UkCUGndeEQPptt7oTF?=
+ =?us-ascii?Q?bDNuQ5rUDKrGO5PRXi8pfDus8ql5mxfD0aMULYa5MaTu1MobXEDKuOLvCE6O?=
+ =?us-ascii?Q?AABTdx7S/SZMjD8u5V5gAMwf+HVoEWTFGbEQMO3uIPFgZD84mzyle9K++Qs1?=
+ =?us-ascii?Q?LOsWb4RgwIjAObKI5Vtup/oMue+XprtUey13ouBMRjlXe/CAvwXeZWK0d/yK?=
+ =?us-ascii?Q?JzKP9UBmhi7PWhzFwUXTHjOfYezVgQgFQOARi/vgYnkZrphhPAMFbUbsdi2i?=
+ =?us-ascii?Q?T4GMAIHbPG1U8+L+EVNVtYRR7+KAkmvZ5rkpm7757BFqfo8y6/LPyxIYxsfM?=
+ =?us-ascii?Q?GqRjgy7hywvPl4PfosSH9if07VqVWnxyGDh2sERzEwte64Mxrs5pcyQloK39?=
+ =?us-ascii?Q?2LTnaq8ETwnES7DfucH9OCtMEfodRAcwyLzm3A+VOfbTNKgvlJs3sj07G/WK?=
+ =?us-ascii?Q?iZhMLFM229wEm0915H9XDpRCr3U/DoaREFQhdE4fbqoIgUXhms4uRo/bQZAd?=
+ =?us-ascii?Q?OBiNRKN+Ief77jud8O6NUSA/F3yRije3C8WRXyHrHohuhsE9atb/DgxPN9zm?=
+ =?us-ascii?Q?wd9dOyoQuG2Gzm8sE6syd75V7cvGJgU+TorFCPokgBt4eEY19G9RIcC+4JrB?=
+ =?us-ascii?Q?kk/UxLSVa0P+as0P8t7DIKEkoaOLtVbLlhnKcn6tE41igGa7/0hFohxzJaFq?=
+ =?us-ascii?Q?RHELPoXIa660me8jDw3Y7lMRJ2C0ZPZ364TD4URJR1r5D6AA+Bn345tfM1Hs?=
+ =?us-ascii?Q?1Om4WBeRfLVQH3fe65JqIe19f7wvIZFLaj7VY2ajMog99K/8jrWEa9GtCMoH?=
+ =?us-ascii?Q?CVsofgxe8q4R4WHMqMRxE6s=3D?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4e0b1e8-d8fe-4b9e-0a0b-08d9dea88e82
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4f5dd66-d2e9-4e4a-3ad8-08d9dea88eda
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR08MB6544.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2022 19:42:57.7487
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2022 19:42:58.3268
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +RCQqwB/8y+54KqfNrJLH4P3zIes/FB40SR21TNa1bEXc+fCmLMvSedhbjcdmRAY4slJVPV/f/hEDTK6X4dXfw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: /XA/NAFyLW9TyZEsE2wxdX36Pe6koH3tupBf0Ha5I7pBgdv+muCZatBj+dqL1ZECj+Xlrb6JjSvv1svoQG1Xjw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB4783
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds bindings for the Azoteq IQS7222A/B/C family of
+This patch adds support for the Azoteq IQS7222A/B/C family of
 capacitive touch controllers.
 
 Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 ---
- .../devicetree/bindings/input/iqs7222.yaml    | 967 ++++++++++++++++++
- 1 file changed, 967 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/iqs7222.yaml
+ drivers/input/misc/Kconfig   |   10 +
+ drivers/input/misc/Makefile  |    1 +
+ drivers/input/misc/iqs7222.c | 2385 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 2396 insertions(+)
+ create mode 100644 drivers/input/misc/iqs7222.c
 
-diff --git a/Documentation/devicetree/bindings/input/iqs7222.yaml b/Documentation/devicetree/bindings/input/iqs7222.yaml
+diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+index dd5227cf8696..a18ab7358d8f 100644
+--- a/drivers/input/misc/Kconfig
++++ b/drivers/input/misc/Kconfig
+@@ -762,6 +762,16 @@ config INPUT_IQS626A
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called iqs626a.
+ 
++config INPUT_IQS7222
++	tristate "Azoteq IQS7222A/B/C capacitive touch controller"
++	depends on I2C
++	help
++	  Say Y to enable support for the Azoteq IQS7222A/B/C family
++	  of capacitive touch controllers.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called iqs7222.
++
+ config INPUT_CMA3000
+ 	tristate "VTI CMA3000 Tri-axis accelerometer"
+ 	help
+diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+index b92c53a6b5ae..28dfc444f0a9 100644
+--- a/drivers/input/misc/Makefile
++++ b/drivers/input/misc/Makefile
+@@ -44,6 +44,7 @@ obj-$(CONFIG_HP_SDC_RTC)		+= hp_sdc_rtc.o
+ obj-$(CONFIG_INPUT_IMS_PCU)		+= ims-pcu.o
+ obj-$(CONFIG_INPUT_IQS269A)		+= iqs269a.o
+ obj-$(CONFIG_INPUT_IQS626A)		+= iqs626a.o
++obj-$(CONFIG_INPUT_IQS7222)		+= iqs7222.o
+ obj-$(CONFIG_INPUT_KEYSPAN_REMOTE)	+= keyspan_remote.o
+ obj-$(CONFIG_INPUT_KXTJ9)		+= kxtj9.o
+ obj-$(CONFIG_INPUT_M68K_BEEP)		+= m68kspkr.o
+diff --git a/drivers/input/misc/iqs7222.c b/drivers/input/misc/iqs7222.c
 new file mode 100644
-index 000000000000..0c23d1d49ebd
+index 000000000000..806cd54d593a
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/input/iqs7222.yaml
-@@ -0,0 +1,967 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/iqs7222.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Azoteq IQS7222A/B/C Capacitive Touch Controller
-+
-+maintainers:
-+  - Jeff LaBundy <jeff@labundy.com>
-+
-+description: |
-+  The Azoteq IQS7222A, IQS7222B and IQS7222C are multichannel capacitive touch
-+  controllers that feature additional sensing capabilities.
-+
-+  Link to datasheets: https://www.azoteq.com/
-+
-+properties:
-+  compatible:
-+    enum:
-+      - azoteq,iqs7222a
-+      - azoteq,iqs7222b
-+      - azoteq,iqs7222c
-+
-+  reg:
-+    maxItems: 1
-+
-+  irq-gpios:
-+    maxItems: 1
-+    description:
-+      Specifies the GPIO connected to the device's active-low RDY output.
-+
-+  reset-gpios:
-+    maxItems: 1
-+    description:
-+      Specifies the GPIO connected to the device's active-low MCLR input. The
-+      device is temporarily held in hardware reset prior to initialization if
-+      this property is present.
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 0
-+
-+  azoteq,rf-filt-enable:
-+    type: boolean
-+    description: Enables the device's internal RF filter.
-+
-+  azoteq,max-counts:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0, 1, 2, 3]
-+    description: |
-+      Specifies the maximum counts as follows:
-+      0: 1023
-+      1: 2047
-+      2: 4095
-+      3: 16384
-+
-+  azoteq,auto-mode:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0, 1, 2, 3]
-+    description: |
-+      Specifies the number of conversions to occur before an interrupt is
-+      generated as follows:
-+      0: 4
-+      1: 8
-+      2: 16
-+      3: 32
-+
-+  azoteq,ati-frac-div-fine:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 31
-+    description: Specifies the preloaded ATI fine fractional divider.
-+
-+  azoteq,ati-frac-div-coarse:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 31
-+    description: Specifies the preloaded ATI coarse fractional divider.
-+
-+  azoteq,ati-comp-select:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 1023
-+    description: Specifies the preloaded ATI compensation selection.
-+
-+  azoteq,lta-beta-lp:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 15
-+    description:
-+      Specifies the long-term average filter damping factor to be applied during
-+      low-power mode.
-+
-+  azoteq,lta-beta-np:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 15
-+    description:
-+      Specifies the long-term average filter damping factor to be applied during
-+      normal-power mode.
-+
-+  azoteq,counts-beta-lp:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 15
-+    description:
-+      Specifies the counts filter damping factor to be applied during low-power
-+      mode.
-+
-+  azoteq,counts-beta-np:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 15
-+    description:
-+      Specifies the counts filter damping factor to be applied during normal-
-+      power mode.
-+
-+  azoteq,lta-fast-beta-lp:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 15
-+    description:
-+      Specifies the long-term average filter fast damping factor to be applied
-+      during low-power mode.
-+
-+  azoteq,lta-fast-beta-np:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 15
-+    description:
-+      Specifies the long-term average filter fast damping factor to be applied
-+      during normal-power mode.
-+
-+  azoteq,timeout-ati-ms:
-+    multipleOf: 500
-+    minimum: 0
-+    maximum: 32767500
-+    description:
-+      Specifies the delay (in ms) before ATI is retried following an ATI error.
-+
-+  azoteq,rate-ati-ms:
-+    minimum: 0
-+    maximum: 65535
-+    description: Specifies the rate (in ms) at which ATI status is evaluated.
-+
-+  azoteq,timeout-np-ms:
-+    minimum: 0
-+    maximum: 65535
-+    description:
-+      Specifies the length of time (in ms) to wait for an event before moving
-+      from normal-power mode to low-power mode.
-+
-+  azoteq,rate-np-ms:
-+    minimum: 0
-+    maximum: 3000
-+    description: Specifies the report rate (in ms) during normal-power mode.
-+
-+  azoteq,timeout-lp-ms:
-+    minimum: 0
-+    maximum: 65535
-+    description:
-+      Specifies the length of time (in ms) to wait for an event before moving
-+      from low-power mode to ultra-low-power mode.
-+
-+  azoteq,rate-lp-ms:
-+    minimum: 0
-+    maximum: 3000
-+    description: Specifies the report rate (in ms) during low-power mode.
-+
-+  azoteq,timeout-ulp-ms:
-+    minimum: 0
-+    maximum: 65535
-+    description:
-+      Specifies the rate (in ms) at which channels not regularly sampled during
-+      ultra-low-power mode are updated.
-+
-+  azoteq,rate-ulp-ms:
-+    minimum: 0
-+    maximum: 3000
-+    description: Specifies the report rate (in ms) during ultra-low-power mode.
-+
-+patternProperties:
-+  "^cycle-[0-9]$":
-+    type: object
-+    description: Represents a conversion cycle serving two sensing channels.
-+
-+    properties:
-+      azoteq,conv-period:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 255
-+        description: Specifies the cycle's conversion period.
-+
-+      azoteq,conv-frac:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 255
-+        description: Specifies the cycle's conversion frequency fraction.
-+
-+      azoteq,tx-enable:
-+        $ref: /schemas/types.yaml#/definitions/uint32-array
-+        minItems: 1
-+        maxItems: 9
-+        items:
-+          minimum: 0
-+          maximum: 8
-+        description: Specifies the CTx pin(s) associated with the cycle.
-+
-+      azoteq,rx-float-inactive:
-+        type: boolean
-+        description: Floats any inactive CRx pins instead of grounding them.
-+
-+      azoteq,dead-time-enable:
-+        type: boolean
-+        description:
-+          Increases the denominator of the conversion frequency formula by one.
-+
-+      azoteq,tx-freq-fosc:
-+        type: boolean
-+        description:
-+          Fixes the conversion frequency to that of the device's core clock.
-+
-+      azoteq,vbias-enable:
-+        type: boolean
-+        description: Enables the bias voltage for use during inductive sensing.
-+
-+      azoteq,sense-mode:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        enum: [0, 1, 2, 3]
-+        description: |
-+          Specifies the cycle's sensing mode as follows:
-+          0: None
-+          1: Self capacitive
-+          2: Mutual capacitive
-+          3: Inductive
-+
-+          Note that in the case of IQS7222A, cycles 5 and 6 are restricted to
-+          Hall-effect sensing.
-+
-+      azoteq,iref-enable:
-+        type: boolean
-+        description:
-+          Enables the current reference for use during various sensing modes.
-+
-+      azoteq,iref-level:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 15
-+        description: Specifies the cycle's current reference level.
-+
-+      azoteq,iref-trim:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 15
-+        description: Specifies the cycle's current reference trim.
-+
-+    dependencies:
-+      azoteq,iref-level: ["azoteq,iref-enable"]
-+      azoteq,iref-trim: ["azoteq,iref-enable"]
-+
-+    additionalProperties: false
-+
-+  "^channel-[0-19]$":
-+    type: object
-+    description:
-+      Represents a single sensing channel. A channel is active if defined and
-+      inactive otherwise.
-+
-+      Note that in the case of IQS7222A, channels 10 and 11 are restricted to
-+      Hall-effect sensing with events reported on channel 10 only.
-+
-+    properties:
-+      azoteq,ulp-allow:
-+        type: boolean
-+        description:
-+          Permits the device to enter ultra-low-power mode while the channel
-+          lies in a state of touch or proximity.
-+
-+      azoteq,ref-select:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 9
-+        description: Specifies a separate reference channel to be followed.
-+
-+      azoteq,ref-weight:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 65535
-+        description: Specifies the relative weight of the reference channel.
-+
-+      azoteq,use-prox:
-+        type: boolean
-+        description:
-+          Activates the reference channel in response to proximity events
-+          instead of touch events.
-+
-+      azoteq,ati-band:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        enum: [0, 1, 2, 3]
-+        description: |
-+          Specifies the channel's ATI band as a fraction of its ATI target as
-+          follows:
-+          0: 1/16
-+          1: 1/8
-+          2: 1/4
-+          3: 1/2
-+
-+      azoteq,global-halt:
-+        type: boolean
-+        description:
-+          Specifies that the channel's long-term average is to freeze if any
-+          other participating channel lies in a proximity or touch state.
-+
-+      azoteq,invert-enable:
-+        type: boolean
-+        description:
-+          Inverts the polarity of the states reported for proximity and touch
-+          events relative to their respective thresholds.
-+
-+      azoteq,dual-direction:
-+        type: boolean
-+        description:
-+          Specifies that the channel's long-term average is to freeze in the
-+          presence of either increasing or decreasing counts, thereby permit-
-+          ting events to be reported in either direction.
-+
-+      azoteq,rx-enable:
-+        $ref: /schemas/types.yaml#/definitions/uint32-array
-+        minItems: 1
-+        maxItems: 4
-+        items:
-+          minimum: 0
-+          maximum: 7
-+        description: Specifies the CRx pin(s) associated with the channel.
-+
-+      azoteq,samp-cap-double:
-+        type: boolean
-+        description: Doubles the sampling capacitance from 40 pF to 80 pF.
-+
-+      azoteq,vref-half:
-+        type: boolean
-+        description: Halves the discharge threshold from 1.0 V to 0.5 V.
-+
-+      azoteq,proj-bias:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        enum: [0, 1, 2, 3]
-+        description: |
-+          Specifies the bias current applied during mutual (projected)
-+          capacitive sensing as follows:
-+          0: 2 uA
-+          1: 5 uA
-+          2: 7 uA
-+          3: 10 uA
-+
-+      azoteq,ati-target:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        multipleOf: 8
-+        minimum: 0
-+        maximum: 2040
-+        description: Specifies the channel's ATI target.
-+
-+      azoteq,ati-base:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        multipleOf: 16
-+        minimum: 0
-+        maximum: 496
-+        description: Specifies the channel's ATI base.
-+
-+      azoteq,ati-mode:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        enum: [0, 1, 2, 3, 4, 5]
-+        description: |
-+          Specifies the channel's ATI mode as follows:
-+          0: Disabled
-+          1: Compensation
-+          2: Compensation divider
-+          3: Fine fractional divider
-+          4: Coarse fractional divider
-+          5: Full
-+
-+      azoteq,ati-frac-div-fine:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 31
-+        description: Specifies the channel's ATI fine fractional divider.
-+
-+      azoteq,ati-frac-mult-coarse:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 15
-+        description: Specifies the channel's ATI coarse fractional multiplier.
-+
-+      azoteq,ati-frac-div-coarse:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 31
-+        description: Specifies the channel's ATI coarse fractional divider.
-+
-+      azoteq,ati-comp-div:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 31
-+        description: Specifies the channel's ATI compensation divider.
-+
-+      azoteq,ati-comp-select:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 1023
-+        description: Specifies the channel's ATI compensation selection.
-+
-+      azoteq,debounce-enter:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 15
-+        description: Specifies the channel's debounce entrance factor.
-+
-+      azoteq,debounce-exit:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 15
-+        description: Specifies the channel's debounce exit factor.
-+
-+    patternProperties:
-+      "^event-(prox|touch)$":
-+        type: object
-+        description:
-+          Represents a proximity or touch event reported by the channel.
-+
-+        properties:
-+          azoteq,gpio-select:
-+            $ref: /schemas/types.yaml#/definitions/uint32-array
-+            minItems: 1
-+            maxItems: 3
-+            items:
-+              minimum: 0
-+              maximum: 2
-+            description: |
-+              Specifies one or more GPIO mapped to the event as follows:
-+              0: GPIO0
-+              1: GPIO3 (IQS7222C only)
-+              2: GPIO4 (IQS7222C only)
-+
-+              Note that although multiple events can be mapped to a single
-+              GPIO, they must all be of the same type (proximity, touch or
-+              slider gesture).
-+
-+          azoteq,thresh:
-+            $ref: /schemas/types.yaml#/definitions/uint32
-+            description:
-+              Specifies the threshold for the event. Valid entries range from
-+              0-127 and 0-255 for proximity and touch events, respectively.
-+
-+          azoteq,hyst:
-+            $ref: /schemas/types.yaml#/definitions/uint32
-+            minimum: 0
-+            maximum: 255
-+            description:
-+              Specifies the hysteresis for the event (touch events only).
-+
-+          azoteq,timeout-press-ms:
-+            multipleOf: 500
-+            minimum: 0
-+            maximum: 127500
-+            description:
-+              Specifies the length of time (in ms) to wait before automatically
-+              releasing a press event. Specify zero to allow the press state to
-+              persist indefinitely.
-+
-+              The IQS7222B does not feature channel-specific timeouts; the time-
-+              out specified for any one channel applies to all channels.
-+
-+          linux,code:
-+            $ref: /schemas/types.yaml#/definitions/uint32
-+            description:
-+              Numeric key or switch code associated with the event. Specify
-+              KEY_RESERVED (0) to opt out of event reporting.
-+
-+          linux,input-type:
-+            $ref: /schemas/types.yaml#/definitions/uint32
-+            enum: [1, 5]
-+            default: 1
-+            description:
-+              Specifies whether the event is to be interpreted as a key (1)
-+              or a switch (5).
-+
-+        required:
-+          - linux,code
-+
-+        additionalProperties: false
-+
-+    dependencies:
-+      azoteq,ref-weight: ["azoteq,ref-select"]
-+      azoteq,use-prox: ["azoteq,ref-select"]
-+
-+    additionalProperties: false
-+
-+  "^slider-[0-1]$":
-+    type: object
-+    description: Represents a slider comprising three or four channels.
-+
-+    properties:
-+      azoteq,channel-select:
-+        $ref: /schemas/types.yaml#/definitions/uint32-array
-+        minItems: 3
-+        maxItems: 4
-+        items:
-+          minimum: 0
-+          maximum: 9
-+        description:
-+          Specifies the order of the channels that participate in the slider.
-+
-+      azoteq,slider-size:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 65535
-+        description:
-+          Specifies the slider's one-dimensional resolution, equal to the
-+          maximum coordinate plus one.
-+
-+      azoteq,lower-cal:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 255
-+        description: Specifies the slider's lower starting point.
-+
-+      azoteq,upper-cal:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 255
-+        description: Specifies the slider's upper starting point.
-+
-+      azoteq,top-speed:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 65535
-+        description:
-+          Specifies the speed of movement after which coordinate filtering is
-+          no longer applied.
-+
-+      azoteq,bottom-speed:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        multipleOf: 4
-+        minimum: 0
-+        maximum: 1020
-+        description:
-+          Specifies the speed of movement after which coordinate filtering is
-+          linearly reduced.
-+
-+      azoteq,bottom-beta:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        minimum: 0
-+        maximum: 7
-+        description:
-+          Specifies the coordinate filter damping factor to be applied
-+          while the speed of movement is below that which is specified
-+          by azoteq,bottom-speed.
-+
-+      azoteq,static-beta:
-+        type: boolean
-+        description:
-+          Applies the coordinate filter damping factor specified by
-+          azoteq,bottom-beta regardless of the speed of movement.
-+
-+      azoteq,use-prox:
-+        type: boolean
-+        description:
-+          Directs the slider to respond to the proximity states of the selected
-+          channels instead of their corresponding touch states. Note the slider
-+          cannot report granular coordinates during a state of proximity.
-+
-+      linux,axis:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Specifies the absolute axis to which coordinates are mapped. Specify
-+          ABS_WHEEL to operate the slider as a wheel (IQS7222C only).
-+
-+    patternProperties:
-+      "^event-(press|tap|(swipe|flick)-(pos|neg))$":
-+        type: object
-+        description:
-+          Represents a press or gesture (IQS7222A only) event reported by
-+          the slider.
-+
-+        properties:
-+          linux,code:
-+            $ref: /schemas/types.yaml#/definitions/uint32
-+            description: Numeric key code associated with the event.
-+
-+          azoteq,gesture-max-ms:
-+            multipleOf: 4
-+            minimum: 0
-+            maximum: 1020
-+            description:
-+              Specifies the length of time (in ms) within which a tap, swipe
-+              or flick gesture must be completed in order to be acknowledged
-+              by the device. The number specified for any one swipe or flick
-+              gesture applies to all remaining swipe or flick gestures.
-+
-+          azoteq,gesture-min-ms:
-+            multipleOf: 4
-+            minimum: 0
-+            maximum: 124
-+            description:
-+              Specifies the length of time (in ms) for which a tap gesture must
-+              be held in order to be acknowledged by the device.
-+
-+          azoteq,gesture-dist:
-+            $ref: /schemas/types.yaml#/definitions/uint32
-+            multipleOf: 16
-+            minimum: 0
-+            maximum: 4080
-+            description:
-+              Specifies the distance across which a swipe or flick gesture must
-+              travel in order to be acknowledged by the device. The number spec-
-+              ified for any one swipe or flick gesture applies to all remaining
-+              swipe or flick gestures.
-+
-+          azoteq,gpio-select:
-+            $ref: /schemas/types.yaml#/definitions/uint32-array
-+            minItems: 1
-+            maxItems: 1
-+            items:
-+              minimum: 0
-+              maximum: 0
-+            description: |
-+              Specifies an individual GPIO mapped to a tap, swipe or flick
-+              gesture as follows:
-+              0: GPIO0
-+              1: GPIO3 (reserved)
-+              2: GPIO4 (reserved)
-+
-+              Note that although multiple events can be mapped to a single
-+              GPIO, they must all be of the same type (proximity, touch or
-+              slider gesture).
-+
-+        required:
-+          - linux,code
-+
-+        additionalProperties: false
-+
-+    required:
-+      - azoteq,channel-select
-+
-+    additionalProperties: false
-+
-+  "^gpio-[0-2]$":
-+    type: object
-+    description: |
-+      Represents a GPIO mapped to one or more events as follows:
-+      gpio-0: GPIO0
-+      gpio-1: GPIO3 (IQS7222C only)
-+      gpio-2: GPIO4 (IQS7222C only)
-+
-+    allOf:
-+      - $ref: ../pinctrl/pincfg-node.yaml#
-+
-+    properties:
-+      drive-open-drain: true
-+
-+    additionalProperties: false
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: azoteq,iqs7222b
-+
-+    then:
-+      patternProperties:
-+        "^cycle-[0-9]$":
-+          properties:
-+            azoteq,iref-enable: false
-+
-+        "^channel-[0-19]$":
-+          properties:
-+            azoteq,ref-select: false
-+
-+          patternProperties:
-+            "^event-(prox|touch)$":
-+              properties:
-+                azoteq,gpio-select: false
-+
-+        "^slider-[0-1]$": false
-+
-+        "^gpio-[0-2]$": false
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: azoteq,iqs7222a
-+
-+    then:
-+      patternProperties:
-+        "^channel-[0-19]$":
-+          patternProperties:
-+            "^event-(prox|touch)$":
-+              properties:
-+                azoteq,gpio-select:
-+                  maxItems: 1
-+                  items:
-+                    maximum: 0
-+
-+        "^slider-[0-1]$":
-+          properties:
-+            azoteq,slider-size:
-+              multipleOf: 16
-+              maximum: 4080
-+
-+            azoteq,top-speed:
-+              multipleOf: 4
-+              maximum: 1020
-+
-+    else:
-+      patternProperties:
-+        "^channel-[0-19]$":
-+          properties:
-+            azoteq,ulp-allow: false
-+
-+        "^slider-[0-1]$":
-+          patternProperties:
-+            "^event-(press|tap|(swipe|flick)-(pos|neg))$":
-+              properties:
-+                azoteq,gesture-max-ms: false
-+
-+                azoteq,gesture-min-ms: false
-+
-+                azoteq,gesture-dist: false
-+
-+                azoteq,gpio-select: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - irq-gpios
-+  - "#address-cells"
-+  - "#size-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/input/input.h>
-+
-+    i2c {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            iqs7222a@44 {
-+                    compatible = "azoteq,iqs7222a";
-+                    reg = <0x44>;
-+                    irq-gpios = <&gpio 4 GPIO_ACTIVE_LOW>;
-+                    azoteq,lta-beta-lp = <7>;
-+                    azoteq,lta-beta-np = <8>;
-+                    azoteq,counts-beta-lp = <2>;
-+                    azoteq,counts-beta-np = <3>;
-+                    azoteq,lta-fast-beta-lp = <3>;
-+                    azoteq,lta-fast-beta-np = <4>;
-+
-+                    cycle-0 {
-+                            azoteq,conv-period = <5>;
-+                            azoteq,conv-frac = <127>;
-+                            azoteq,tx-enable = <1>, <2>, <4>, <5>;
-+                            azoteq,dead-time-enable;
-+                            azoteq,sense-mode = <2>;
-+                    };
-+
-+                    cycle-1 {
-+                            azoteq,conv-period = <5>;
-+                            azoteq,conv-frac = <127>;
-+                            azoteq,tx-enable = <5>;
-+                            azoteq,dead-time-enable;
-+                            azoteq,sense-mode = <2>;
-+                    };
-+
-+                    cycle-2 {
-+                            azoteq,conv-period = <5>;
-+                            azoteq,conv-frac = <127>;
-+                            azoteq,tx-enable = <4>;
-+                            azoteq,dead-time-enable;
-+                            azoteq,sense-mode = <2>;
-+                    };
-+
-+                    cycle-3 {
-+                            azoteq,conv-period = <5>;
-+                            azoteq,conv-frac = <127>;
-+                            azoteq,tx-enable = <2>;
-+                            azoteq,dead-time-enable;
-+                            azoteq,sense-mode = <2>;
-+                    };
-+
-+                    cycle-4 {
-+                            azoteq,conv-period = <5>;
-+                            azoteq,conv-frac = <127>;
-+                            azoteq,tx-enable = <1>;
-+                            azoteq,dead-time-enable;
-+                            azoteq,sense-mode = <2>;
-+                    };
-+
-+                    cycle-5 {
-+                            azoteq,conv-period = <2>;
-+                            azoteq,conv-frac = <0>;
-+                    };
-+
-+                    cycle-6 {
-+                            azoteq,conv-period = <2>;
-+                            azoteq,conv-frac = <0>;
-+                    };
-+
-+                    channel-0 {
-+                            azoteq,ulp-allow;
-+                            azoteq,global-halt;
-+                            azoteq,invert-enable;
-+                            azoteq,rx-enable = <3>;
-+                            azoteq,ati-target = <800>;
-+                            azoteq,ati-base = <208>;
-+                            azoteq,ati-mode = <5>;
-+                    };
-+
-+                    channel-1 {
-+                            azoteq,global-halt;
-+                            azoteq,invert-enable;
-+                            azoteq,rx-enable = <3>;
-+                            azoteq,ati-target = <496>;
-+                            azoteq,ati-base = <208>;
-+                            azoteq,ati-mode = <5>;
-+                    };
-+
-+                    channel-2 {
-+                            azoteq,global-halt;
-+                            azoteq,invert-enable;
-+                            azoteq,rx-enable = <3>;
-+                            azoteq,ati-target = <496>;
-+                            azoteq,ati-base = <208>;
-+                            azoteq,ati-mode = <5>;
-+                    };
-+
-+                    channel-3 {
-+                            azoteq,global-halt;
-+                            azoteq,invert-enable;
-+                            azoteq,rx-enable = <3>;
-+                            azoteq,ati-target = <496>;
-+                            azoteq,ati-base = <208>;
-+                            azoteq,ati-mode = <5>;
-+                    };
-+
-+                    channel-4 {
-+                            azoteq,global-halt;
-+                            azoteq,invert-enable;
-+                            azoteq,rx-enable = <3>;
-+                            azoteq,ati-target = <496>;
-+                            azoteq,ati-base = <208>;
-+                            azoteq,ati-mode = <5>;
-+                    };
-+
-+                    channel-5 {
-+                            azoteq,ulp-allow;
-+                            azoteq,global-halt;
-+                            azoteq,invert-enable;
-+                            azoteq,rx-enable = <6>;
-+                            azoteq,ati-target = <800>;
-+                            azoteq,ati-base = <144>;
-+                            azoteq,ati-mode = <5>;
-+                    };
-+
-+                    channel-6 {
-+                            azoteq,global-halt;
-+                            azoteq,invert-enable;
-+                            azoteq,rx-enable = <6>;
-+                            azoteq,ati-target = <496>;
-+                            azoteq,ati-base = <160>;
-+                            azoteq,ati-mode = <5>;
-+
-+                            event-touch {
-+                                    linux,code = <KEY_MUTE>;
-+                            };
-+                    };
-+
-+                    channel-7 {
-+                            azoteq,global-halt;
-+                            azoteq,invert-enable;
-+                            azoteq,rx-enable = <6>;
-+                            azoteq,ati-target = <496>;
-+                            azoteq,ati-base = <160>;
-+                            azoteq,ati-mode = <5>;
-+
-+                            event-touch {
-+                                    linux,code = <KEY_VOLUMEDOWN>;
-+                            };
-+                    };
-+
-+                    channel-8 {
-+                            azoteq,global-halt;
-+                            azoteq,invert-enable;
-+                            azoteq,rx-enable = <6>;
-+                            azoteq,ati-target = <496>;
-+                            azoteq,ati-base = <160>;
-+                            azoteq,ati-mode = <5>;
-+
-+                            event-touch {
-+                                    linux,code = <KEY_VOLUMEUP>;
-+                            };
-+                    };
-+
-+                    channel-9 {
-+                            azoteq,global-halt;
-+                            azoteq,invert-enable;
-+                            azoteq,rx-enable = <6>;
-+                            azoteq,ati-target = <496>;
-+                            azoteq,ati-base = <160>;
-+                            azoteq,ati-mode = <5>;
-+
-+                            event-touch {
-+                                    linux,code = <KEY_POWER>;
-+                            };
-+                    };
-+
-+                    channel-10 {
-+                            azoteq,ulp-allow;
-+                            azoteq,ati-target = <496>;
-+                            azoteq,ati-base = <112>;
-+
-+                            event-touch {
-+                                    linux,code = <SW_LID>;
-+                                    linux,input-type = <EV_SW>;
-+                            };
-+                    };
-+
-+                    channel-11 {
-+                            azoteq,ati-target = <496>;
-+                            azoteq,ati-base = <112>;
-+                    };
-+
-+                    slider-0 {
-+                            azoteq,channel-select = <1>, <2>, <3>, <4>;
-+                            azoteq,slider-size = <4080>;
-+                            azoteq,upper-cal = <50>;
-+                            azoteq,lower-cal = <30>;
-+                            azoteq,top-speed = <200>;
-+                            azoteq,bottom-speed = <1>;
-+                            azoteq,bottom-beta = <3>;
-+
-+                            event-tap {
-+                                    linux,code = <KEY_PLAYPAUSE>;
-+                                    azoteq,gesture-max-ms = <600>;
-+                                    azoteq,gesture-min-ms = <24>;
-+                            };
-+
-+                            event-flick-pos {
-+                                    linux,code = <KEY_NEXTSONG>;
-+                                    azoteq,gesture-max-ms = <600>;
-+                                    azoteq,gesture-dist = <816>;
-+                            };
-+
-+                            event-flick-neg {
-+                                    linux,code = <KEY_PREVIOUSSONG>;
-+                            };
-+                    };
-+            };
-+    };
-+
-+...
++++ b/drivers/input/misc/iqs7222.c
+@@ -0,0 +1,2385 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Azoteq IQS7222A/B/C Capacitive Touch Controller
++ *
++ * Copyright (C) 2022 Jeff LaBundy <jeff@labundy.com>
++ */
++
++#include <linux/bits.h>
++#include <linux/delay.h>
++#include <linux/device.h>
++#include <linux/err.h>
++#include <linux/gpio/consumer.h>
++#include <linux/i2c.h>
++#include <linux/input.h>
++#include <linux/interrupt.h>
++#include <linux/kernel.h>
++#include <linux/ktime.h>
++#include <linux/module.h>
++#include <linux/of_device.h>
++#include <linux/property.h>
++#include <linux/slab.h>
++#include <asm/unaligned.h>
++
++#define IQS7222_PROD_NUM			0x00
++#define IQS7222_PROD_NUM_A			840
++#define IQS7222_PROD_NUM_B			698
++#define IQS7222_PROD_NUM_C			863
++
++#define IQS7222_SYS_STATUS			0x10
++#define IQS7222_SYS_STATUS_RESET		BIT(3)
++#define IQS7222_SYS_STATUS_ATI_ERROR		BIT(1)
++#define IQS7222_SYS_STATUS_ATI_ACTIVE		BIT(0)
++
++#define IQS7222_CHAN_SETUP_0_REF_MODE_MASK	GENMASK(15, 14)
++#define IQS7222_CHAN_SETUP_0_REF_MODE_FOLLOW	BIT(15)
++#define IQS7222_CHAN_SETUP_0_REF_MODE_REF	BIT(14)
++#define IQS7222_CHAN_SETUP_0_CHAN_EN		BIT(8)
++
++#define IQS7222_SLDR_SETUP_0_CHAN_CNT_MASK	GENMASK(2, 0)
++#define IQS7222_SLDR_SETUP_2_RES_MASK		GENMASK(15, 8)
++#define IQS7222_SLDR_SETUP_2_RES_SHIFT		8
++#define IQS7222_SLDR_SETUP_2_TOP_SPEED_MASK	GENMASK(7, 0)
++#define IQS7222_SLDR_SETUP_3_CHAN_SEL_MASK	GENMASK(9, 0)
++
++#define IQS7222_GPIO_SETUP_0_GPIO_EN		BIT(0)
++
++#define IQS7222_SYS_SETUP			0xD0
++#define IQS7222_SYS_SETUP_INTF_MODE_MASK	GENMASK(7, 6)
++#define IQS7222_SYS_SETUP_INTF_MODE_TOUCH	BIT(7)
++#define IQS7222_SYS_SETUP_INTF_MODE_EVENT	BIT(6)
++#define IQS7222_SYS_SETUP_PWR_MODE_MASK		GENMASK(5, 4)
++#define IQS7222_SYS_SETUP_PWR_MODE_AUTO		IQS7222_SYS_SETUP_PWR_MODE_MASK
++#define IQS7222_SYS_SETUP_REDO_ATI		BIT(2)
++#define IQS7222_SYS_SETUP_ACK_RESET		BIT(0)
++
++#define IQS7222_EVENT_MASK_ATI			BIT(12)
++#define IQS7222_COMMS_HOLD			BIT(0)
++#define IQS7222_COMMS_ERROR			0xEEEE
++
++#define IQS7222_MAX_COLS_STAT			8
++#define IQS7222_MAX_COLS_CYCLE			3
++#define IQS7222_MAX_COLS_GLBL			3
++#define IQS7222_MAX_COLS_BTN			3
++#define IQS7222_MAX_COLS_CHAN			6
++#define IQS7222_MAX_COLS_FILT			2
++#define IQS7222_MAX_COLS_SLDR			11
++#define IQS7222_MAX_COLS_GPIO			3
++#define IQS7222_MAX_COLS_SYS			13
++#define IQS7222_MAX_COLS_ALL			IQS7222_MAX_COLS_SYS
++
++#define IQS7222_MAX_CHAN			20
++#define IQS7222_MAX_SLDR			2
++
++#define IQS7222_ATI_TIMEOUT_MS			2000
++#define IQS7222_IRQ_TIMEOUT_MS			100
++#define IQS7222_NUM_RETRIES			5
++#define IQS7222_REG_OFFSET			0x100
++
++enum iqs7222_reg_key_id {
++	IQS7222_REG_KEY_NONE,
++	IQS7222_REG_KEY_PROX,
++	IQS7222_REG_KEY_TOUCH,
++	IQS7222_REG_KEY_DEBOUNCE,
++	IQS7222_REG_KEY_TAP,
++	IQS7222_REG_KEY_AXIAL,
++	IQS7222_REG_KEY_WHEEL,
++	IQS7222_REG_KEY_NO_WHEEL,
++	IQS7222_REG_KEY_RESERVED
++};
++
++enum iqs7222_reg_grp_id {
++	IQS7222_REG_GRP_STAT,
++	IQS7222_REG_GRP_CYCLE,
++	IQS7222_REG_GRP_GLBL,
++	IQS7222_REG_GRP_BTN,
++	IQS7222_REG_GRP_CHAN,
++	IQS7222_REG_GRP_FILT,
++	IQS7222_REG_GRP_SLDR,
++	IQS7222_REG_GRP_GPIO,
++	IQS7222_REG_GRP_SYS,
++	IQS7222_NUM_REG_GRPS
++};
++
++static const char * const iqs7222_reg_grp_names[] = {
++	[IQS7222_REG_GRP_CYCLE] = "cycle",
++	[IQS7222_REG_GRP_CHAN] = "channel",
++	[IQS7222_REG_GRP_SLDR] = "slider",
++	[IQS7222_REG_GRP_GPIO] = "gpio",
++};
++
++static const unsigned int iqs7222_max_cols[] = {
++	[IQS7222_REG_GRP_STAT] = IQS7222_MAX_COLS_STAT,
++	[IQS7222_REG_GRP_CYCLE] = IQS7222_MAX_COLS_CYCLE,
++	[IQS7222_REG_GRP_GLBL] = IQS7222_MAX_COLS_GLBL,
++	[IQS7222_REG_GRP_BTN] = IQS7222_MAX_COLS_BTN,
++	[IQS7222_REG_GRP_CHAN] = IQS7222_MAX_COLS_CHAN,
++	[IQS7222_REG_GRP_FILT] = IQS7222_MAX_COLS_FILT,
++	[IQS7222_REG_GRP_SLDR] = IQS7222_MAX_COLS_SLDR,
++	[IQS7222_REG_GRP_GPIO] = IQS7222_MAX_COLS_GPIO,
++	[IQS7222_REG_GRP_SYS] = IQS7222_MAX_COLS_SYS,
++};
++
++static const unsigned int iqs7222_gpio_links[] = { 2, 5, 6, };
++
++struct iqs7222_event_desc {
++	const char *name;
++	u16 mask;
++	u16 val;
++	u16 enable;
++	enum iqs7222_reg_key_id reg_key;
++};
++
++static const struct iqs7222_event_desc iqs7222_kp_events[] = {
++	{
++		.name = "event-prox",
++		.enable = BIT(0),
++		.reg_key = IQS7222_REG_KEY_PROX,
++	},
++	{
++		.name = "event-touch",
++		.enable = BIT(1),
++		.reg_key = IQS7222_REG_KEY_TOUCH,
++	},
++};
++
++static const struct iqs7222_event_desc iqs7222_sl_events[] = {
++	{ .name = "event-press", },
++	{
++		.name = "event-tap",
++		.mask = BIT(0),
++		.val = BIT(0),
++		.enable = BIT(0),
++		.reg_key = IQS7222_REG_KEY_TAP,
++	},
++	{
++		.name = "event-swipe-pos",
++		.mask = BIT(5) | BIT(1),
++		.val = BIT(1),
++		.enable = BIT(1),
++		.reg_key = IQS7222_REG_KEY_AXIAL,
++	},
++	{
++		.name = "event-swipe-neg",
++		.mask = BIT(5) | BIT(1),
++		.val = BIT(5) | BIT(1),
++		.enable = BIT(1),
++		.reg_key = IQS7222_REG_KEY_AXIAL,
++	},
++	{
++		.name = "event-flick-pos",
++		.mask = BIT(5) | BIT(2),
++		.val = BIT(2),
++		.enable = BIT(2),
++		.reg_key = IQS7222_REG_KEY_AXIAL,
++	},
++	{
++		.name = "event-flick-neg",
++		.mask = BIT(5) | BIT(2),
++		.val = BIT(5) | BIT(2),
++		.enable = BIT(2),
++		.reg_key = IQS7222_REG_KEY_AXIAL,
++	},
++};
++
++struct iqs7222_reg_grp_desc {
++	u16 base;
++	int num_row;
++	int num_col;
++};
++
++struct iqs7222_dev_desc {
++	u16 prod_num;
++	u16 fw_major;
++	u16 fw_minor;
++	u16 sldr_res;
++	u16 touch_link;
++	u16 wheel_enable;
++	int allow_offset;
++	int event_offset;
++	int comms_offset;
++	struct iqs7222_reg_grp_desc reg_grps[IQS7222_NUM_REG_GRPS];
++};
++
++static const struct iqs7222_dev_desc iqs7222_devs[] = {
++	{
++		.prod_num = IQS7222_PROD_NUM_A,
++		.fw_major = 1,
++		.fw_minor = 12,
++		.sldr_res = U8_MAX * 16,
++		.touch_link = 1768,
++		.allow_offset = 9,
++		.event_offset = 10,
++		.comms_offset = 12,
++		.reg_grps = {
++			[IQS7222_REG_GRP_STAT] = {
++				.base = IQS7222_SYS_STATUS,
++				.num_row = 1,
++				.num_col = 8,
++			},
++			[IQS7222_REG_GRP_CYCLE] = {
++				.base = 0x8000,
++				.num_row = 7,
++				.num_col = 3,
++			},
++			[IQS7222_REG_GRP_GLBL] = {
++				.base = 0x8700,
++				.num_row = 1,
++				.num_col = 3,
++			},
++			[IQS7222_REG_GRP_BTN] = {
++				.base = 0x9000,
++				.num_row = 12,
++				.num_col = 3,
++			},
++			[IQS7222_REG_GRP_CHAN] = {
++				.base = 0xA000,
++				.num_row = 12,
++				.num_col = 6,
++			},
++			[IQS7222_REG_GRP_FILT] = {
++				.base = 0xAC00,
++				.num_row = 1,
++				.num_col = 2,
++			},
++			[IQS7222_REG_GRP_SLDR] = {
++				.base = 0xB000,
++				.num_row = 2,
++				.num_col = 11,
++			},
++			[IQS7222_REG_GRP_GPIO] = {
++				.base = 0xC000,
++				.num_row = 1,
++				.num_col = 3,
++			},
++			[IQS7222_REG_GRP_SYS] = {
++				.base = IQS7222_SYS_SETUP,
++				.num_row = 1,
++				.num_col = 13,
++			},
++		},
++	},
++	{
++		.prod_num = IQS7222_PROD_NUM_B,
++		.fw_major = 1,
++		.fw_minor = 27,
++		.reg_grps = {
++			[IQS7222_REG_GRP_STAT] = {
++				.base = IQS7222_SYS_STATUS,
++				.num_row = 1,
++				.num_col = 6,
++			},
++			[IQS7222_REG_GRP_CYCLE] = {
++				.base = 0x8000,
++				.num_row = 10,
++				.num_col = 2,
++			},
++			[IQS7222_REG_GRP_GLBL] = {
++				.base = 0x8A00,
++				.num_row = 1,
++				.num_col = 3,
++			},
++			[IQS7222_REG_GRP_BTN] = {
++				.base = 0x9000,
++				.num_row = 20,
++				.num_col = 2,
++			},
++			[IQS7222_REG_GRP_CHAN] = {
++				.base = 0xB000,
++				.num_row = 20,
++				.num_col = 4,
++			},
++			[IQS7222_REG_GRP_FILT] = {
++				.base = 0xC400,
++				.num_row = 1,
++				.num_col = 2,
++			},
++			[IQS7222_REG_GRP_SYS] = {
++				.base = IQS7222_SYS_SETUP,
++				.num_row = 1,
++				.num_col = 10,
++			},
++		},
++	},
++	{
++		.prod_num = IQS7222_PROD_NUM_C,
++		.fw_major = 2,
++		.fw_minor = 23,
++		.sldr_res = U16_MAX,
++		.touch_link = 1686,
++		.wheel_enable = BIT(3),
++		.event_offset = 9,
++		.comms_offset = 10,
++		.reg_grps = {
++			[IQS7222_REG_GRP_STAT] = {
++				.base = IQS7222_SYS_STATUS,
++				.num_row = 1,
++				.num_col = 6,
++			},
++			[IQS7222_REG_GRP_CYCLE] = {
++				.base = 0x8000,
++				.num_row = 5,
++				.num_col = 3,
++			},
++			[IQS7222_REG_GRP_GLBL] = {
++				.base = 0x8500,
++				.num_row = 1,
++				.num_col = 3,
++			},
++			[IQS7222_REG_GRP_BTN] = {
++				.base = 0x9000,
++				.num_row = 10,
++				.num_col = 3,
++			},
++			[IQS7222_REG_GRP_CHAN] = {
++				.base = 0xA000,
++				.num_row = 10,
++				.num_col = 6,
++			},
++			[IQS7222_REG_GRP_FILT] = {
++				.base = 0xAA00,
++				.num_row = 1,
++				.num_col = 2,
++			},
++			[IQS7222_REG_GRP_SLDR] = {
++				.base = 0xB000,
++				.num_row = 2,
++				.num_col = 10,
++			},
++			[IQS7222_REG_GRP_GPIO] = {
++				.base = 0xC000,
++				.num_row = 3,
++				.num_col = 3,
++			},
++			[IQS7222_REG_GRP_SYS] = {
++				.base = IQS7222_SYS_SETUP,
++				.num_row = 1,
++				.num_col = 12,
++			},
++		},
++	},
++	{
++		.prod_num = IQS7222_PROD_NUM_C,
++		.fw_major = 1,
++		.fw_minor = 13,
++		.sldr_res = U16_MAX,
++		.touch_link = 1674,
++		.wheel_enable = BIT(3),
++		.event_offset = 9,
++		.comms_offset = 10,
++		.reg_grps = {
++			[IQS7222_REG_GRP_STAT] = {
++				.base = IQS7222_SYS_STATUS,
++				.num_row = 1,
++				.num_col = 6,
++			},
++			[IQS7222_REG_GRP_CYCLE] = {
++				.base = 0x8000,
++				.num_row = 5,
++				.num_col = 3,
++			},
++			[IQS7222_REG_GRP_GLBL] = {
++				.base = 0x8500,
++				.num_row = 1,
++				.num_col = 3,
++			},
++			[IQS7222_REG_GRP_BTN] = {
++				.base = 0x9000,
++				.num_row = 10,
++				.num_col = 3,
++			},
++			[IQS7222_REG_GRP_CHAN] = {
++				.base = 0xA000,
++				.num_row = 10,
++				.num_col = 6,
++			},
++			[IQS7222_REG_GRP_FILT] = {
++				.base = 0xAA00,
++				.num_row = 1,
++				.num_col = 2,
++			},
++			[IQS7222_REG_GRP_SLDR] = {
++				.base = 0xB000,
++				.num_row = 2,
++				.num_col = 10,
++			},
++			[IQS7222_REG_GRP_GPIO] = {
++				.base = 0xC000,
++				.num_row = 1,
++				.num_col = 3,
++			},
++			[IQS7222_REG_GRP_SYS] = {
++				.base = IQS7222_SYS_SETUP,
++				.num_row = 1,
++				.num_col = 11,
++			},
++		},
++	},
++};
++
++struct iqs7222_prop_desc {
++	const char *name;
++	enum iqs7222_reg_grp_id reg_grp;
++	enum iqs7222_reg_key_id reg_key;
++	int reg_offset;
++	int reg_shift;
++	int reg_width;
++	int val_pitch;
++	int val_min;
++	int val_max;
++	bool invert;
++	const char *label;
++};
++
++static const struct iqs7222_prop_desc iqs7222_props[] = {
++	{
++		.name = "azoteq,conv-period",
++		.reg_grp = IQS7222_REG_GRP_CYCLE,
++		.reg_offset = 0,
++		.reg_shift = 8,
++		.reg_width = 8,
++		.label = "conversion period",
++	},
++	{
++		.name = "azoteq,conv-frac",
++		.reg_grp = IQS7222_REG_GRP_CYCLE,
++		.reg_offset = 0,
++		.reg_shift = 0,
++		.reg_width = 8,
++		.label = "conversion frequency fractional divider",
++	},
++	{
++		.name = "azoteq,rx-float-inactive",
++		.reg_grp = IQS7222_REG_GRP_CYCLE,
++		.reg_offset = 1,
++		.reg_shift = 6,
++		.reg_width = 1,
++		.invert = true,
++	},
++	{
++		.name = "azoteq,dead-time-enable",
++		.reg_grp = IQS7222_REG_GRP_CYCLE,
++		.reg_offset = 1,
++		.reg_shift = 5,
++		.reg_width = 1,
++	},
++	{
++		.name = "azoteq,tx-freq-fosc",
++		.reg_grp = IQS7222_REG_GRP_CYCLE,
++		.reg_offset = 1,
++		.reg_shift = 4,
++		.reg_width = 1,
++	},
++	{
++		.name = "azoteq,vbias-enable",
++		.reg_grp = IQS7222_REG_GRP_CYCLE,
++		.reg_offset = 1,
++		.reg_shift = 3,
++		.reg_width = 1,
++	},
++	{
++		.name = "azoteq,sense-mode",
++		.reg_grp = IQS7222_REG_GRP_CYCLE,
++		.reg_offset = 1,
++		.reg_shift = 0,
++		.reg_width = 3,
++		.val_max = 3,
++		.label = "sensing mode",
++	},
++	{
++		.name = "azoteq,iref-enable",
++		.reg_grp = IQS7222_REG_GRP_CYCLE,
++		.reg_offset = 2,
++		.reg_shift = 10,
++		.reg_width = 1,
++	},
++	{
++		.name = "azoteq,iref-level",
++		.reg_grp = IQS7222_REG_GRP_CYCLE,
++		.reg_offset = 2,
++		.reg_shift = 4,
++		.reg_width = 4,
++		.label = "current reference level",
++	},
++	{
++		.name = "azoteq,iref-trim",
++		.reg_grp = IQS7222_REG_GRP_CYCLE,
++		.reg_offset = 2,
++		.reg_shift = 0,
++		.reg_width = 4,
++		.label = "current reference trim",
++	},
++	{
++		.name = "azoteq,rf-filt-enable",
++		.reg_grp = IQS7222_REG_GRP_GLBL,
++		.reg_offset = 0,
++		.reg_shift = 15,
++		.reg_width = 1,
++	},
++	{
++		.name = "azoteq,max-counts",
++		.reg_grp = IQS7222_REG_GRP_GLBL,
++		.reg_offset = 0,
++		.reg_shift = 13,
++		.reg_width = 2,
++		.label = "maximum counts",
++	},
++	{
++		.name = "azoteq,auto-mode",
++		.reg_grp = IQS7222_REG_GRP_GLBL,
++		.reg_offset = 0,
++		.reg_shift = 2,
++		.reg_width = 2,
++		.label = "number of conversions",
++	},
++	{
++		.name = "azoteq,ati-frac-div-fine",
++		.reg_grp = IQS7222_REG_GRP_GLBL,
++		.reg_offset = 1,
++		.reg_shift = 9,
++		.reg_width = 5,
++		.label = "ATI fine fractional divider",
++	},
++	{
++		.name = "azoteq,ati-frac-div-coarse",
++		.reg_grp = IQS7222_REG_GRP_GLBL,
++		.reg_offset = 1,
++		.reg_shift = 0,
++		.reg_width = 5,
++		.label = "ATI coarse fractional divider",
++	},
++	{
++		.name = "azoteq,ati-comp-select",
++		.reg_grp = IQS7222_REG_GRP_GLBL,
++		.reg_offset = 2,
++		.reg_shift = 0,
++		.reg_width = 10,
++		.label = "ATI compensation selection",
++	},
++	{
++		.name = "azoteq,ati-band",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 0,
++		.reg_shift = 12,
++		.reg_width = 2,
++		.label = "ATI band",
++	},
++	{
++		.name = "azoteq,global-halt",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 0,
++		.reg_shift = 11,
++		.reg_width = 1,
++	},
++	{
++		.name = "azoteq,invert-enable",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 0,
++		.reg_shift = 10,
++		.reg_width = 1,
++	},
++	{
++		.name = "azoteq,dual-direction",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 0,
++		.reg_shift = 9,
++		.reg_width = 1,
++	},
++	{
++		.name = "azoteq,samp-cap-double",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 0,
++		.reg_shift = 3,
++		.reg_width = 1,
++	},
++	{
++		.name = "azoteq,vref-half",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 0,
++		.reg_shift = 2,
++		.reg_width = 1,
++	},
++	{
++		.name = "azoteq,proj-bias",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 0,
++		.reg_shift = 0,
++		.reg_width = 2,
++		.label = "projected bias current",
++	},
++	{
++		.name = "azoteq,ati-target",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 1,
++		.reg_shift = 8,
++		.reg_width = 8,
++		.val_pitch = 8,
++		.label = "ATI target",
++	},
++	{
++		.name = "azoteq,ati-base",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 1,
++		.reg_shift = 3,
++		.reg_width = 5,
++		.val_pitch = 16,
++		.label = "ATI base",
++	},
++	{
++		.name = "azoteq,ati-mode",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 1,
++		.reg_shift = 0,
++		.reg_width = 3,
++		.val_max = 5,
++		.label = "ATI mode",
++	},
++	{
++		.name = "azoteq,ati-frac-div-fine",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 2,
++		.reg_shift = 9,
++		.reg_width = 5,
++		.label = "ATI fine fractional divider",
++	},
++	{
++		.name = "azoteq,ati-frac-mult-coarse",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 2,
++		.reg_shift = 5,
++		.reg_width = 4,
++		.label = "ATI coarse fractional multiplier",
++	},
++	{
++		.name = "azoteq,ati-frac-div-coarse",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 2,
++		.reg_shift = 0,
++		.reg_width = 5,
++		.label = "ATI coarse fractional divider",
++	},
++	{
++		.name = "azoteq,ati-comp-div",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 3,
++		.reg_shift = 11,
++		.reg_width = 5,
++		.label = "ATI compensation divider",
++	},
++	{
++		.name = "azoteq,ati-comp-select",
++		.reg_grp = IQS7222_REG_GRP_CHAN,
++		.reg_offset = 3,
++		.reg_shift = 0,
++		.reg_width = 10,
++		.label = "ATI compensation selection",
++	},
++	{
++		.name = "azoteq,debounce-exit",
++		.reg_grp = IQS7222_REG_GRP_BTN,
++		.reg_key = IQS7222_REG_KEY_DEBOUNCE,
++		.reg_offset = 0,
++		.reg_shift = 12,
++		.reg_width = 4,
++		.label = "debounce exit factor",
++	},
++	{
++		.name = "azoteq,debounce-enter",
++		.reg_grp = IQS7222_REG_GRP_BTN,
++		.reg_key = IQS7222_REG_KEY_DEBOUNCE,
++		.reg_offset = 0,
++		.reg_shift = 8,
++		.reg_width = 4,
++		.label = "debounce entrance factor",
++	},
++	{
++		.name = "azoteq,thresh",
++		.reg_grp = IQS7222_REG_GRP_BTN,
++		.reg_key = IQS7222_REG_KEY_PROX,
++		.reg_offset = 0,
++		.reg_shift = 0,
++		.reg_width = 8,
++		.val_max = 127,
++		.label = "threshold",
++	},
++	{
++		.name = "azoteq,thresh",
++		.reg_grp = IQS7222_REG_GRP_BTN,
++		.reg_key = IQS7222_REG_KEY_TOUCH,
++		.reg_offset = 1,
++		.reg_shift = 0,
++		.reg_width = 8,
++		.label = "threshold",
++	},
++	{
++		.name = "azoteq,hyst",
++		.reg_grp = IQS7222_REG_GRP_BTN,
++		.reg_key = IQS7222_REG_KEY_TOUCH,
++		.reg_offset = 1,
++		.reg_shift = 8,
++		.reg_width = 8,
++		.label = "hysteresis",
++	},
++	{
++		.name = "azoteq,lta-beta-lp",
++		.reg_grp = IQS7222_REG_GRP_FILT,
++		.reg_offset = 0,
++		.reg_shift = 12,
++		.reg_width = 4,
++		.label = "low-power mode long-term average beta",
++	},
++	{
++		.name = "azoteq,lta-beta-np",
++		.reg_grp = IQS7222_REG_GRP_FILT,
++		.reg_offset = 0,
++		.reg_shift = 8,
++		.reg_width = 4,
++		.label = "normal-power mode long-term average beta",
++	},
++	{
++		.name = "azoteq,counts-beta-lp",
++		.reg_grp = IQS7222_REG_GRP_FILT,
++		.reg_offset = 0,
++		.reg_shift = 4,
++		.reg_width = 4,
++		.label = "low-power mode counts beta",
++	},
++	{
++		.name = "azoteq,counts-beta-np",
++		.reg_grp = IQS7222_REG_GRP_FILT,
++		.reg_offset = 0,
++		.reg_shift = 0,
++		.reg_width = 4,
++		.label = "normal-power mode counts beta",
++	},
++	{
++		.name = "azoteq,lta-fast-beta-lp",
++		.reg_grp = IQS7222_REG_GRP_FILT,
++		.reg_offset = 1,
++		.reg_shift = 4,
++		.reg_width = 4,
++		.label = "low-power mode long-term average fast beta",
++	},
++	{
++		.name = "azoteq,lta-fast-beta-np",
++		.reg_grp = IQS7222_REG_GRP_FILT,
++		.reg_offset = 1,
++		.reg_shift = 0,
++		.reg_width = 4,
++		.label = "normal-power mode long-term average fast beta",
++	},
++	{
++		.name = "azoteq,lower-cal",
++		.reg_grp = IQS7222_REG_GRP_SLDR,
++		.reg_offset = 0,
++		.reg_shift = 8,
++		.reg_width = 8,
++		.label = "lower calibration",
++	},
++	{
++		.name = "azoteq,static-beta",
++		.reg_grp = IQS7222_REG_GRP_SLDR,
++		.reg_key = IQS7222_REG_KEY_NO_WHEEL,
++		.reg_offset = 0,
++		.reg_shift = 6,
++		.reg_width = 1,
++	},
++	{
++		.name = "azoteq,bottom-beta",
++		.reg_grp = IQS7222_REG_GRP_SLDR,
++		.reg_key = IQS7222_REG_KEY_NO_WHEEL,
++		.reg_offset = 0,
++		.reg_shift = 3,
++		.reg_width = 3,
++		.label = "bottom beta",
++	},
++	{
++		.name = "azoteq,static-beta",
++		.reg_grp = IQS7222_REG_GRP_SLDR,
++		.reg_key = IQS7222_REG_KEY_WHEEL,
++		.reg_offset = 0,
++		.reg_shift = 7,
++		.reg_width = 1,
++	},
++	{
++		.name = "azoteq,bottom-beta",
++		.reg_grp = IQS7222_REG_GRP_SLDR,
++		.reg_key = IQS7222_REG_KEY_WHEEL,
++		.reg_offset = 0,
++		.reg_shift = 4,
++		.reg_width = 3,
++		.label = "bottom beta",
++	},
++	{
++		.name = "azoteq,bottom-speed",
++		.reg_grp = IQS7222_REG_GRP_SLDR,
++		.reg_offset = 1,
++		.reg_shift = 8,
++		.reg_width = 8,
++		.label = "bottom speed",
++	},
++	{
++		.name = "azoteq,upper-cal",
++		.reg_grp = IQS7222_REG_GRP_SLDR,
++		.reg_offset = 1,
++		.reg_shift = 0,
++		.reg_width = 8,
++		.label = "upper calibration",
++	},
++	{
++		.name = "azoteq,gesture-max-ms",
++		.reg_grp = IQS7222_REG_GRP_SLDR,
++		.reg_key = IQS7222_REG_KEY_TAP,
++		.reg_offset = 9,
++		.reg_shift = 8,
++		.reg_width = 8,
++		.val_pitch = 4,
++		.label = "maximum gesture time",
++	},
++	{
++		.name = "azoteq,gesture-min-ms",
++		.reg_grp = IQS7222_REG_GRP_SLDR,
++		.reg_key = IQS7222_REG_KEY_TAP,
++		.reg_offset = 9,
++		.reg_shift = 3,
++		.reg_width = 5,
++		.val_pitch = 4,
++		.label = "minimum gesture time",
++	},
++	{
++		.name = "azoteq,gesture-dist",
++		.reg_grp = IQS7222_REG_GRP_SLDR,
++		.reg_key = IQS7222_REG_KEY_AXIAL,
++		.reg_offset = 10,
++		.reg_shift = 8,
++		.reg_width = 8,
++		.val_pitch = 16,
++		.label = "gesture distance",
++	},
++	{
++		.name = "azoteq,gesture-max-ms",
++		.reg_grp = IQS7222_REG_GRP_SLDR,
++		.reg_key = IQS7222_REG_KEY_AXIAL,
++		.reg_offset = 10,
++		.reg_shift = 0,
++		.reg_width = 8,
++		.val_pitch = 4,
++		.label = "maximum gesture time",
++	},
++	{
++		.name = "drive-open-drain",
++		.reg_grp = IQS7222_REG_GRP_GPIO,
++		.reg_offset = 0,
++		.reg_shift = 1,
++		.reg_width = 1,
++	},
++	{
++		.name = "azoteq,timeout-ati-ms",
++		.reg_grp = IQS7222_REG_GRP_SYS,
++		.reg_offset = 1,
++		.reg_shift = 0,
++		.reg_width = 16,
++		.val_pitch = 500,
++		.label = "ATI error timeout",
++	},
++	{
++		.name = "azoteq,rate-ati-ms",
++		.reg_grp = IQS7222_REG_GRP_SYS,
++		.reg_offset = 2,
++		.reg_shift = 0,
++		.reg_width = 16,
++		.label = "ATI report rate",
++	},
++	{
++		.name = "azoteq,timeout-np-ms",
++		.reg_grp = IQS7222_REG_GRP_SYS,
++		.reg_offset = 3,
++		.reg_shift = 0,
++		.reg_width = 16,
++		.label = "normal-power mode timeout",
++	},
++	{
++		.name = "azoteq,rate-np-ms",
++		.reg_grp = IQS7222_REG_GRP_SYS,
++		.reg_offset = 4,
++		.reg_shift = 0,
++		.reg_width = 16,
++		.val_max = 3000,
++		.label = "normal-power mode report rate",
++	},
++	{
++		.name = "azoteq,timeout-lp-ms",
++		.reg_grp = IQS7222_REG_GRP_SYS,
++		.reg_offset = 5,
++		.reg_shift = 0,
++		.reg_width = 16,
++		.label = "low-power mode timeout",
++	},
++	{
++		.name = "azoteq,rate-lp-ms",
++		.reg_grp = IQS7222_REG_GRP_SYS,
++		.reg_offset = 6,
++		.reg_shift = 0,
++		.reg_width = 16,
++		.val_max = 3000,
++		.label = "low-power mode report rate",
++	},
++	{
++		.name = "azoteq,timeout-ulp-ms",
++		.reg_grp = IQS7222_REG_GRP_SYS,
++		.reg_offset = 7,
++		.reg_shift = 0,
++		.reg_width = 16,
++		.label = "ultra-low-power mode timeout",
++	},
++	{
++		.name = "azoteq,rate-ulp-ms",
++		.reg_grp = IQS7222_REG_GRP_SYS,
++		.reg_offset = 8,
++		.reg_shift = 0,
++		.reg_width = 16,
++		.val_max = 3000,
++		.label = "ultra-low-power mode report rate",
++	},
++};
++
++struct iqs7222_private {
++	const struct iqs7222_dev_desc *dev_desc;
++	struct gpio_desc *reset_gpio;
++	struct gpio_desc *irq_gpio;
++	struct i2c_client *client;
++	struct input_dev *keypad;
++	unsigned int kp_type[IQS7222_MAX_CHAN][ARRAY_SIZE(iqs7222_kp_events)];
++	unsigned int kp_code[IQS7222_MAX_CHAN][ARRAY_SIZE(iqs7222_kp_events)];
++	unsigned int sl_code[IQS7222_MAX_SLDR][ARRAY_SIZE(iqs7222_sl_events)];
++	unsigned int sl_axis[IQS7222_MAX_SLDR];
++	u16 cycle_setup[IQS7222_MAX_CHAN / 2][IQS7222_MAX_COLS_CYCLE];
++	u16 glbl_setup[IQS7222_MAX_COLS_GLBL];
++	u16 btn_setup[IQS7222_MAX_CHAN][IQS7222_MAX_COLS_BTN];
++	u16 chan_setup[IQS7222_MAX_CHAN][IQS7222_MAX_COLS_CHAN];
++	u16 filt_setup[IQS7222_MAX_COLS_FILT];
++	u16 sldr_setup[IQS7222_MAX_SLDR][IQS7222_MAX_COLS_SLDR];
++	u16 gpio_setup[ARRAY_SIZE(iqs7222_gpio_links)][IQS7222_MAX_COLS_GPIO];
++	u16 sys_setup[IQS7222_MAX_COLS_SYS];
++};
++
++static u16 *iqs7222_setup(struct iqs7222_private *iqs7222,
++			  enum iqs7222_reg_grp_id reg_grp, int row)
++{
++	switch (reg_grp) {
++	case IQS7222_REG_GRP_CYCLE:
++		return iqs7222->cycle_setup[row];
++
++	case IQS7222_REG_GRP_GLBL:
++		return iqs7222->glbl_setup;
++
++	case IQS7222_REG_GRP_BTN:
++		return iqs7222->btn_setup[row];
++
++	case IQS7222_REG_GRP_CHAN:
++		return iqs7222->chan_setup[row];
++
++	case IQS7222_REG_GRP_FILT:
++		return iqs7222->filt_setup;
++
++	case IQS7222_REG_GRP_SLDR:
++		return iqs7222->sldr_setup[row];
++
++	case IQS7222_REG_GRP_GPIO:
++		return iqs7222->gpio_setup[row];
++
++	case IQS7222_REG_GRP_SYS:
++		return iqs7222->sys_setup;
++
++	default:
++		return NULL;
++	}
++}
++
++static int iqs7222_irq_poll(struct iqs7222_private *iqs7222)
++{
++	ktime_t irq_timeout = ktime_add_ms(ktime_get(), IQS7222_IRQ_TIMEOUT_MS);
++	int ret;
++
++	do {
++		usleep_range(1000, 1100);
++
++		ret = gpiod_get_value_cansleep(iqs7222->irq_gpio);
++		if (ret < 0)
++			return ret;
++		else if (ret > 0)
++			return 0;
++	} while (ktime_compare(ktime_get(), irq_timeout) < 0);
++
++	return -EBUSY;
++}
++
++static int iqs7222_hard_reset(struct iqs7222_private *iqs7222)
++{
++	if (!iqs7222->reset_gpio)
++		return 0;
++
++	gpiod_set_value_cansleep(iqs7222->reset_gpio, 1);
++	usleep_range(1000, 1100);
++
++	gpiod_set_value_cansleep(iqs7222->reset_gpio, 0);
++
++	return iqs7222_irq_poll(iqs7222);
++}
++
++static int iqs7222_force_comms(struct iqs7222_private *iqs7222)
++{
++	u8 mbuf[] = { 0xFF, 0x00, };
++	int ret;
++
++	/*
++	 * The device cannot communicate until it asserts its interrupt (RDY)
++	 * pin. Attempts to do so while RDY is deasserted return an ACK; how-
++	 * ever all write data is ignored, and all read data returns 0xEE.
++	 *
++	 * Unsolicited communication must be preceded by a special force com-
++	 * munication command, after which the device eventually asserts its
++	 * RDY pin and agrees to communicate.
++	 *
++	 * Regardless of whether communication is forced or the result of an
++	 * interrupt, the device automatically deasserts its RDY pin once it
++	 * detects an I2C stop condition, or a timeout expires.
++	 */
++	ret = gpiod_get_value_cansleep(iqs7222->irq_gpio);
++	if (ret < 0)
++		return ret;
++	else if (ret > 0)
++		return 0;
++
++	ret = i2c_master_send(iqs7222->client, mbuf, sizeof(mbuf));
++	if (ret < 0)
++		return ret;
++	else if (ret < sizeof(mbuf))
++		return -EIO;
++
++	return iqs7222_irq_poll(iqs7222);
++}
++
++static int iqs7222_read_burst(struct iqs7222_private *iqs7222,
++			      u16 reg, void *val, u16 len)
++{
++	u8 reg_buf[sizeof(__be16)];
++	int ret, i;
++	struct i2c_client *client = iqs7222->client;
++	struct i2c_msg msg[] = {
++		{
++			.addr = client->addr,
++			.flags = 0,
++			.buf = reg_buf,
++		},
++		{
++			.addr = client->addr,
++			.flags = I2C_M_RD,
++			.len = len,
++			.buf = (u8 *)val,
++		},
++	};
++
++	if (len % sizeof(__le16))
++		return -EINVAL;
++
++	if (reg > U8_MAX) {
++		put_unaligned_be16(reg, reg_buf);
++		msg[0].len = sizeof(reg_buf);
++	} else {
++		*reg_buf = (u8)reg;
++		msg[0].len = sizeof(u8);
++	}
++
++	/*
++	 * The following loop protects against an edge case in which the RDY
++	 * pin is automatically deasserted just as the read is initiated. In
++	 * that case, the read must be retried using forced communication.
++	 */
++	for (i = 0; i < IQS7222_NUM_RETRIES; i++) {
++		ret = iqs7222_force_comms(iqs7222);
++		if (ret < 0)
++			continue;
++
++		ret = i2c_transfer(client->adapter, msg, ARRAY_SIZE(msg));
++		if (ret < 0)
++			return ret;
++		else if (ret < ARRAY_SIZE(msg))
++			return -EIO;
++
++		/*
++		 * The following delay allows the device to deassert the RDY
++		 * pin after receiving an I2C stop condition.
++		 */
++		usleep_range(50, 100);
++
++		if (get_unaligned_le16(msg[1].buf) != IQS7222_COMMS_ERROR)
++			return 0;
++
++		ret = -ENODATA;
++	}
++
++	return ret;
++}
++
++static int iqs7222_read_word(struct iqs7222_private *iqs7222, u16 reg, u16 *val)
++{
++	__le16 val_buf;
++	int error;
++
++	error = iqs7222_read_burst(iqs7222, reg, &val_buf, sizeof(val_buf));
++	if (error)
++		return error;
++
++	*val = le16_to_cpu(val_buf);
++
++	return 0;
++}
++
++static int iqs7222_write_burst(struct iqs7222_private *iqs7222,
++			       u16 reg, const void *val, u16 len)
++{
++	u8 mbuf[sizeof(reg) + IQS7222_MAX_COLS_ALL * sizeof(__le16)];
++	int mlen, ret, i;
++
++	if (len % sizeof(__le16))
++		return -EINVAL;
++
++	if (reg > U8_MAX) {
++		put_unaligned_be16(reg, mbuf);
++		mlen = sizeof(reg);
++	} else {
++		*mbuf = (u8)reg;
++		mlen = sizeof(u8);
++	}
++
++	if (mlen + len > sizeof(mbuf))
++		return -ENOMEM;
++
++	memcpy(mbuf + mlen, val, len);
++	mlen += len;
++
++	/*
++	 * The following loop protects against an edge case in which the RDY
++	 * pin is automatically asserted just before the force communication
++	 * command is sent.
++	 *
++	 * In that case, the subsequent I2C stop condition tricks the device
++	 * into preemptively deasserting the RDY pin and the command must be
++	 * sent again.
++	 */
++	for (i = 0; i < IQS7222_NUM_RETRIES; i++) {
++		ret = iqs7222_force_comms(iqs7222);
++		if (ret < 0)
++			continue;
++
++		ret = i2c_master_send(iqs7222->client, mbuf, mlen);
++		if (ret < 0)
++			return ret;
++		else if (ret < mlen)
++			return -EIO;
++
++		usleep_range(50, 100);
++
++		return 0;
++	}
++
++	return ret;
++}
++
++static int iqs7222_write_word(struct iqs7222_private *iqs7222, u16 reg, u16 val)
++{
++	__le16 val_buf = cpu_to_le16(val);
++
++	return iqs7222_write_burst(iqs7222, reg, &val_buf, sizeof(val_buf));
++}
++
++static int iqs7222_dev_init(struct iqs7222_private *iqs7222, int dir)
++{
++	const struct iqs7222_dev_desc *dev_desc = iqs7222->dev_desc;
++	struct i2c_client *client = iqs7222->client;
++	int comms_offset = dev_desc->comms_offset;
++	int error, i, j, k;
++
++	/*
++	 * Take advantage of the stop-bit disable function, if available, to
++	 * save the trouble of having to reopen a communication window after
++	 * each burst read or write.
++	 */
++	if (comms_offset) {
++		u16 comms_setup;
++
++		error = iqs7222_read_word(iqs7222,
++					  IQS7222_SYS_SETUP + comms_offset,
++					  &comms_setup);
++		if (error)
++			return error;
++
++		error = iqs7222_write_word(iqs7222,
++					   IQS7222_SYS_SETUP + comms_offset,
++					   comms_setup | IQS7222_COMMS_HOLD);
++		if (error)
++			return error;
++	}
++
++	for (i = 0; i < IQS7222_NUM_REG_GRPS; i++) {
++		int num_row = dev_desc->reg_grps[i].num_row;
++		int num_col = dev_desc->reg_grps[i].num_col;
++		u16 reg = dev_desc->reg_grps[i].base;
++		int len = num_col * sizeof(__le16);
++		__le16 *val_buf;
++		u16 *val;
++
++		if (!len)
++			continue;
++
++		val = iqs7222_setup(iqs7222, i, 0);
++		if (!val)
++			continue;
++
++		val_buf = kcalloc(num_col, sizeof(__le16), GFP_KERNEL);
++		if (!val_buf)
++			return -ENOMEM;
++
++		for (j = 0; j < num_row; j++) {
++			switch (dir) {
++			case READ:
++				error = iqs7222_read_burst(iqs7222, reg,
++							   val_buf, len);
++				for (k = 0; k < num_col; k++)
++					val[k] = le16_to_cpu(val_buf[k]);
++				break;
++
++			case WRITE:
++				for (k = 0; k < num_col; k++)
++					val_buf[k] = cpu_to_le16(val[k]);
++				error = iqs7222_write_burst(iqs7222, reg,
++							    val_buf, len);
++				break;
++
++			default:
++				error = -EINVAL;
++			}
++
++			if (error)
++				break;
++
++			reg += IQS7222_REG_OFFSET;
++			val += iqs7222_max_cols[i];
++		}
++
++		kfree(val_buf);
++
++		if (error)
++			return error;
++	}
++
++	if (comms_offset) {
++		u16 comms_setup;
++
++		error = iqs7222_read_word(iqs7222,
++					  IQS7222_SYS_SETUP + comms_offset,
++					  &comms_setup);
++		if (error)
++			return error;
++
++		error = iqs7222_write_word(iqs7222,
++					   IQS7222_SYS_SETUP + comms_offset,
++					   comms_setup & ~IQS7222_COMMS_HOLD);
++		if (error)
++			return error;
++	}
++
++	if (dir == READ)
++		return 0;
++
++	for (i = 0; i < IQS7222_NUM_RETRIES; i++) {
++		u16 sys_setup = iqs7222->sys_setup[0]
++			      & ~IQS7222_SYS_SETUP_ACK_RESET;
++		u16 sys_status = 0;
++		ktime_t ati_timeout;
++
++		/*
++		 * Trigger ATI from streaming and normal-power modes so that
++		 * the RDY pin continues to be asserted during ATI.
++		 */
++		error = iqs7222_write_word(iqs7222, IQS7222_SYS_SETUP,
++					   sys_setup |
++					   IQS7222_SYS_SETUP_REDO_ATI);
++		if (error)
++			return error;
++
++		ati_timeout = ktime_add_ms(ktime_get(), IQS7222_ATI_TIMEOUT_MS);
++
++		do {
++			error = iqs7222_irq_poll(iqs7222);
++			if (error)
++				continue;
++
++			error = iqs7222_read_word(iqs7222, IQS7222_SYS_STATUS,
++						  &sys_status);
++			if (error)
++				return error;
++
++			if (sys_status & IQS7222_SYS_STATUS_ATI_ACTIVE)
++				continue;
++
++			if (sys_status & IQS7222_SYS_STATUS_ATI_ERROR)
++				break;
++
++			/*
++			 * Use stream-in-touch mode if either slider reports
++			 * absolute position.
++			 */
++			sys_setup |= test_bit(EV_ABS, iqs7222->keypad->evbit)
++				   ? IQS7222_SYS_SETUP_INTF_MODE_TOUCH
++				   : IQS7222_SYS_SETUP_INTF_MODE_EVENT;
++			sys_setup |= IQS7222_SYS_SETUP_PWR_MODE_AUTO;
++
++			return iqs7222_write_word(iqs7222, IQS7222_SYS_SETUP,
++						  sys_setup);
++		} while (ktime_compare(ktime_get(), ati_timeout) < 0);
++
++		dev_err(&client->dev,
++			"ATI attempt %d of %d failed with status 0x%02x, %s\n",
++			i + 1, IQS7222_NUM_RETRIES, (u8)sys_status,
++			i < IQS7222_NUM_RETRIES ? "retrying..." : "stopping");
++	}
++
++	return -ETIMEDOUT;
++}
++
++static int iqs7222_dev_info(struct iqs7222_private *iqs7222)
++{
++	struct i2c_client *client = iqs7222->client;
++	unsigned int fw_ver = 0;
++	__le16 mbuf[3];
++	int error, i;
++
++	error = iqs7222_read_burst(iqs7222, IQS7222_PROD_NUM, mbuf,
++				   sizeof(mbuf));
++	if (error)
++		return error;
++
++	for (i = 0; i < ARRAY_SIZE(iqs7222_devs); i++) {
++		unsigned int fw_ver_min = (iqs7222_devs[i].fw_major << 16) +
++					   iqs7222_devs[i].fw_minor;
++
++		if (le16_to_cpu(mbuf[0]) != iqs7222_devs[i].prod_num)
++			continue;
++
++		fw_ver = (le16_to_cpu(mbuf[1]) << 16) + le16_to_cpu(mbuf[2]);
++		if (fw_ver < fw_ver_min)
++			continue;
++
++		iqs7222->dev_desc = &iqs7222_devs[i];
++
++		return 0;
++	}
++
++	if (fw_ver)
++		dev_err(&client->dev, "Unsupported firmware revision: %u.%u\n",
++			le16_to_cpu(mbuf[1]), le16_to_cpu(mbuf[2]));
++	else
++		dev_err(&client->dev, "Unrecognized product number: %u\n",
++			le16_to_cpu(mbuf[0]));
++
++	return -EINVAL;
++}
++
++static int iqs7222_gpio_select(struct iqs7222_private *iqs7222,
++			       struct fwnode_handle *child_node,
++			       int child_enable, u16 child_link)
++{
++	const struct iqs7222_dev_desc *dev_desc = iqs7222->dev_desc;
++	struct i2c_client *client = iqs7222->client;
++	int num_gpio = dev_desc->reg_grps[IQS7222_REG_GRP_GPIO].num_row;
++	int error, count, i;
++	unsigned int gpio_sel[ARRAY_SIZE(iqs7222_gpio_links)];
++
++	if (!num_gpio)
++		return 0;
++
++	if (!fwnode_property_present(child_node, "azoteq,gpio-select"))
++		return 0;
++
++	count = fwnode_property_count_u32(child_node, "azoteq,gpio-select");
++	if (count > num_gpio) {
++		dev_err(&client->dev, "Invalid number of %s GPIOs\n",
++			fwnode_get_name(child_node));
++		return -EINVAL;
++	} else if (count < 0) {
++		dev_err(&client->dev, "Failed to count %s GPIOs: %d\n",
++			fwnode_get_name(child_node), count);
++		return count;
++	}
++
++	error = fwnode_property_read_u32_array(child_node,
++					       "azoteq,gpio-select",
++					       gpio_sel, count);
++	if (error) {
++		dev_err(&client->dev, "Failed to read %s GPIOs: %d\n",
++			fwnode_get_name(child_node), error);
++		return error;
++	}
++
++	for (i = 0; i < count; i++) {
++		u16 *gpio_setup;
++
++		if (gpio_sel[i] >= num_gpio) {
++			dev_err(&client->dev, "Invalid %s GPIO: %u\n",
++				fwnode_get_name(child_node), gpio_sel[i]);
++			return -EINVAL;
++		}
++
++		gpio_setup = iqs7222->gpio_setup[gpio_sel[i]];
++
++		if (gpio_setup[2] && child_link != gpio_setup[2]) {
++			dev_err(&client->dev,
++				"Conflicting GPIO %u event types\n",
++				gpio_sel[i]);
++			return -EINVAL;
++		}
++
++		gpio_setup[0] |= IQS7222_GPIO_SETUP_0_GPIO_EN;
++		gpio_setup[1] |= child_enable;
++		gpio_setup[2] = child_link;
++	}
++
++	return 0;
++}
++
++static int iqs7222_parse_props(struct iqs7222_private *iqs7222,
++			       struct fwnode_handle **child_node,
++			       int child_index,
++			       enum iqs7222_reg_grp_id reg_grp,
++			       enum iqs7222_reg_key_id reg_key)
++{
++	u16 *setup = iqs7222_setup(iqs7222, reg_grp, child_index);
++	struct fwnode_handle *reg_grp_node = *child_node;
++	struct i2c_client *client = iqs7222->client;
++	char reg_grp_name[16];
++	int i;
++
++	switch (reg_grp) {
++	case IQS7222_REG_GRP_CYCLE:
++	case IQS7222_REG_GRP_CHAN:
++	case IQS7222_REG_GRP_SLDR:
++	case IQS7222_REG_GRP_GPIO:
++	case IQS7222_REG_GRP_BTN:
++		/*
++		 * These groups derive a child node and return it to the caller
++		 * for additional group-specific processing. In some cases, the
++		 * child node may have already been derived.
++		 */
++		if (*child_node)
++			break;
++
++		snprintf(reg_grp_name, sizeof(reg_grp_name), "%s-%d",
++			 iqs7222_reg_grp_names[reg_grp], child_index);
++
++		reg_grp_node = device_get_named_child_node(&client->dev,
++							   reg_grp_name);
++		if (!reg_grp_node)
++			return 0;
++
++		*child_node = reg_grp_node;
++		break;
++
++	case IQS7222_REG_GRP_GLBL:
++	case IQS7222_REG_GRP_FILT:
++	case IQS7222_REG_GRP_SYS:
++		/*
++		 * These groups are not organized beneath a child node, nor are
++		 * they subject to any additional processing by the caller.
++		 */
++		reg_grp_node = dev_fwnode(&client->dev);
++		break;
++
++	default:
++		return -EINVAL;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(iqs7222_props); i++) {
++		const char *name = iqs7222_props[i].name;
++		int reg_offset = iqs7222_props[i].reg_offset;
++		int reg_shift = iqs7222_props[i].reg_shift;
++		int reg_width = iqs7222_props[i].reg_width;
++		int val_pitch = iqs7222_props[i].val_pitch ? : 1;
++		int val_min = iqs7222_props[i].val_min;
++		int val_max = iqs7222_props[i].val_max;
++		bool invert = iqs7222_props[i].invert;
++		const char *label = iqs7222_props[i].label ? : name;
++		unsigned int val;
++		int error;
++
++		if (iqs7222_props[i].reg_grp != reg_grp ||
++		    iqs7222_props[i].reg_key != reg_key)
++			continue;
++
++		/*
++		 * Boolean register fields are one bit wide; they are forcibly
++		 * reset to provide a means to undo changes by a bootloader if
++		 * necessary.
++		 *
++		 * Scalar fields, on the other hand, are left untouched unless
++		 * their corresponding properties are present.
++		 */
++		if (reg_width == 1) {
++			if (invert)
++				setup[reg_offset] |= BIT(reg_shift);
++			else
++				setup[reg_offset] &= ~BIT(reg_shift);
++		}
++
++		if (!fwnode_property_present(reg_grp_node, name))
++			continue;
++
++		if (reg_width == 1) {
++			if (invert)
++				setup[reg_offset] &= ~BIT(reg_shift);
++			else
++				setup[reg_offset] |= BIT(reg_shift);
++
++			continue;
++		}
++
++		error = fwnode_property_read_u32(reg_grp_node, name, &val);
++		if (error) {
++			dev_err(&client->dev, "Failed to read %s %s: %d\n",
++				fwnode_get_name(reg_grp_node), label, error);
++			return error;
++		}
++
++		if (!val_max)
++			val_max = GENMASK(reg_width - 1, 0) * val_pitch;
++
++		if (val < val_min || val > val_max) {
++			dev_err(&client->dev, "Invalid %s %s: %u\n",
++				fwnode_get_name(reg_grp_node), label, val);
++			return -EINVAL;
++		}
++
++		setup[reg_offset] &= ~GENMASK(reg_shift + reg_width - 1,
++					      reg_shift);
++		setup[reg_offset] |= (val / val_pitch << reg_shift);
++	}
++
++	return 0;
++}
++
++static int iqs7222_parse_cycle(struct iqs7222_private *iqs7222, int cycle_index)
++{
++	u16 *cycle_setup = iqs7222->cycle_setup[cycle_index];
++	struct i2c_client *client = iqs7222->client;
++	struct fwnode_handle *cycle_node = NULL;
++	unsigned int pins[9];
++	int error, count, i;
++
++	/*
++	 * Each channel shares a cycle with one other channel; the mapping of
++	 * channels to cycles is fixed. Properties defined for a cycle impact
++	 * both channels tied to the cycle.
++	 */
++	error = iqs7222_parse_props(iqs7222, &cycle_node, cycle_index,
++				    IQS7222_REG_GRP_CYCLE,
++				    IQS7222_REG_KEY_NONE);
++	if (error)
++		return error;
++
++	if (!cycle_node)
++		return 0;
++
++	/*
++	 * Unlike channels which are restricted to a select range of CRx pins
++	 * based on channel number, any cycle can claim any of the device's 9
++	 * CTx pins (CTx0-8).
++	 */
++	if (!fwnode_property_present(cycle_node, "azoteq,tx-enable"))
++		return 0;
++
++	count = fwnode_property_count_u32(cycle_node, "azoteq,tx-enable");
++	if (count > ARRAY_SIZE(pins)) {
++		dev_err(&client->dev, "Invalid number of %s CTx pins\n",
++			fwnode_get_name(cycle_node));
++		return -EINVAL;
++	} else if (count < 0) {
++		dev_err(&client->dev, "Failed to count %s CTx pins: %d\n",
++			fwnode_get_name(cycle_node), count);
++		return count;
++	}
++
++	error = fwnode_property_read_u32_array(cycle_node, "azoteq,tx-enable",
++					       pins, count);
++	if (error) {
++		dev_err(&client->dev, "Failed to read %s CTx pins: %d\n",
++			fwnode_get_name(cycle_node), error);
++		return error;
++	}
++
++	cycle_setup[1] &= ~GENMASK(7 + ARRAY_SIZE(pins) - 1, 7);
++
++	for (i = 0; i < count; i++) {
++		if (pins[i] > 8) {
++			dev_err(&client->dev, "Invalid %s CTx pin: %u\n",
++				fwnode_get_name(cycle_node), pins[i]);
++			return -EINVAL;
++		}
++
++		cycle_setup[1] |= BIT(pins[i] + 7);
++	}
++
++	return 0;
++}
++
++static int iqs7222_parse_chan(struct iqs7222_private *iqs7222, int chan_index)
++{
++	const struct iqs7222_dev_desc *dev_desc = iqs7222->dev_desc;
++	struct i2c_client *client = iqs7222->client;
++	struct fwnode_handle *chan_node = NULL;
++	int num_chan = dev_desc->reg_grps[IQS7222_REG_GRP_CHAN].num_row;
++	int ext_chan = rounddown(num_chan, 10);
++	int error, i;
++	u16 *chan_setup = iqs7222->chan_setup[chan_index];
++	u16 *sys_setup = iqs7222->sys_setup;
++	unsigned int val;
++
++	error = iqs7222_parse_props(iqs7222, &chan_node, chan_index,
++				    IQS7222_REG_GRP_CHAN,
++				    IQS7222_REG_KEY_NONE);
++	if (error)
++		return error;
++
++	if (!chan_node)
++		return 0;
++
++	if (dev_desc->allow_offset) {
++		sys_setup[dev_desc->allow_offset] |= BIT(chan_index);
++		if (fwnode_property_present(chan_node, "azoteq,ulp-allow"))
++			sys_setup[dev_desc->allow_offset] &= ~BIT(chan_index);
++	}
++
++	chan_setup[0] |= IQS7222_CHAN_SETUP_0_CHAN_EN;
++
++	/*
++	 * The reference channel function allows for differential measurements
++	 * and is only available in the case of IQS7222A or IQS7222C.
++	 */
++	if (dev_desc->reg_grps[IQS7222_REG_GRP_CHAN].num_col > 4 &&
++	    fwnode_property_present(chan_node, "azoteq,ref-select")) {
++		u16 *ref_setup;
++
++		error = fwnode_property_read_u32(chan_node, "azoteq,ref-select",
++						 &val);
++		if (error) {
++			dev_err(&client->dev,
++				"Failed to read %s reference channel: %d\n",
++				fwnode_get_name(chan_node), error);
++			return error;
++		}
++
++		if (val >= ext_chan) {
++			dev_err(&client->dev,
++				"Invalid %s reference channel: %u\n",
++				fwnode_get_name(chan_node), val);
++			return -EINVAL;
++		}
++
++		ref_setup = iqs7222->chan_setup[val];
++
++		/*
++		 * Configure the current channel as a follower of the selected
++		 * reference channel.
++		 */
++		chan_setup[0] |= IQS7222_CHAN_SETUP_0_REF_MODE_FOLLOW;
++		chan_setup[4] = val * 42 + 1048;
++
++		if (!fwnode_property_read_u32(chan_node, "azoteq,ref-weight",
++					      &val)) {
++			if (val > U16_MAX) {
++				dev_err(&client->dev,
++					"Invalid %s reference weight: %u\n",
++					fwnode_get_name(chan_node), val);
++				return -EINVAL;
++			}
++
++			chan_setup[5] = val;
++		}
++
++		/*
++		 * Configure the selected channel as a reference channel which
++		 * serves the current channel.
++		 */
++		ref_setup[0] |= IQS7222_CHAN_SETUP_0_REF_MODE_REF;
++		ref_setup[5] |= BIT(chan_index);
++
++		ref_setup[4] = dev_desc->touch_link;
++		if (fwnode_property_present(chan_node, "azoteq,use-prox"))
++			ref_setup[4] -= 2;
++	}
++
++	if (fwnode_property_present(chan_node, "azoteq,rx-enable")) {
++		/*
++		 * Each channel can claim up to 4 CRx pins. The first half of
++		 * the channels can use CRx0-3, while the second half can use
++		 * CRx4-7.
++		 */
++		unsigned int pins[4];
++		int count;
++
++		count = fwnode_property_count_u32(chan_node,
++						  "azoteq,rx-enable");
++		if (count > ARRAY_SIZE(pins)) {
++			dev_err(&client->dev,
++				"Invalid number of %s CRx pins\n",
++				fwnode_get_name(chan_node));
++			return -EINVAL;
++		} else if (count < 0) {
++			dev_err(&client->dev,
++				"Failed to count %s CRx pins: %d\n",
++				fwnode_get_name(chan_node), count);
++			return count;
++		}
++
++		error = fwnode_property_read_u32_array(chan_node,
++						       "azoteq,rx-enable",
++						       pins, count);
++		if (error) {
++			dev_err(&client->dev,
++				"Failed to read %s CRx pins: %d\n",
++				fwnode_get_name(chan_node), error);
++			return error;
++		}
++
++		chan_setup[0] &= ~GENMASK(4 + ARRAY_SIZE(pins) - 1, 4);
++
++		for (i = 0; i < count; i++) {
++			int min_crx = chan_index < ext_chan / 2 ? 0 : 4;
++
++			if (pins[i] < min_crx || pins[i] > min_crx + 3) {
++				dev_err(&client->dev,
++					"Invalid %s CRx pin: %u\n",
++					fwnode_get_name(chan_node), pins[i]);
++				return -EINVAL;
++			}
++
++			chan_setup[0] |= BIT(pins[i] + 4 - min_crx);
++		}
++	}
++
++	for (i = 0; i < ARRAY_SIZE(iqs7222_kp_events); i++) {
++		const char *event_name = iqs7222_kp_events[i].name;
++		u16 event_enable = iqs7222_kp_events[i].enable;
++		struct fwnode_handle *event_node;
++
++		event_node = fwnode_get_named_child_node(chan_node, event_name);
++		if (!event_node)
++			continue;
++
++		error = iqs7222_parse_props(iqs7222, &event_node, chan_index,
++					    IQS7222_REG_GRP_BTN,
++					    iqs7222_kp_events[i].reg_key);
++		if (error)
++			return error;
++
++		error = iqs7222_gpio_select(iqs7222, event_node,
++					    BIT(chan_index),
++					    dev_desc->touch_link - (i ? 0 : 2));
++		if (error)
++			return error;
++
++		if (!fwnode_property_read_u32(event_node,
++					      "azoteq,timeout-press-ms",
++					      &val)) {
++			/*
++			 * The IQS7222B employs a global pair of press timeout
++			 * registers as opposed to channel-specific registers.
++			 */
++			u16 *setup = dev_desc->reg_grps
++				     [IQS7222_REG_GRP_BTN].num_col > 2 ?
++				     &iqs7222->btn_setup[chan_index][2] :
++				     &sys_setup[9];
++
++			if (val > U8_MAX * 500) {
++				dev_err(&client->dev,
++					"Invalid %s press timeout: %u\n",
++					fwnode_get_name(chan_node), val);
++				return -EINVAL;
++			}
++
++			*setup &= ~(U8_MAX << i * 8);
++			*setup |= (val / 500 << i * 8);
++		}
++
++		error = fwnode_property_read_u32(event_node, "linux,code",
++						 &val);
++		if (error) {
++			dev_err(&client->dev, "Failed to read %s code: %d\n",
++				fwnode_get_name(chan_node), error);
++			return error;
++		}
++
++		iqs7222->kp_code[chan_index][i] = val;
++		iqs7222->kp_type[chan_index][i] = EV_KEY;
++
++		if (fwnode_property_present(event_node, "linux,input-type")) {
++			error = fwnode_property_read_u32(event_node,
++							 "linux,input-type",
++							 &val);
++			if (error) {
++				dev_err(&client->dev,
++					"Failed to read %s input type: %d\n",
++					fwnode_get_name(chan_node), error);
++				return error;
++			}
++
++			if (val != EV_KEY && val != EV_SW) {
++				dev_err(&client->dev,
++					"Invalid %s input type: %u\n",
++					fwnode_get_name(chan_node), val);
++				return -EINVAL;
++			}
++
++			iqs7222->kp_type[chan_index][i] = val;
++		}
++
++		/*
++		 * Reference channels can opt out of event reporting by using
++		 * KEY_RESERVED in place of a true key or switch code.
++		 */
++		if (iqs7222->kp_type[chan_index][i] == EV_KEY &&
++		    iqs7222->kp_code[chan_index][i] == KEY_RESERVED)
++			continue;
++
++		input_set_capability(iqs7222->keypad,
++				     iqs7222->kp_type[chan_index][i],
++				     iqs7222->kp_code[chan_index][i]);
++
++		if (!dev_desc->event_offset)
++			continue;
++
++		sys_setup[dev_desc->event_offset] |= event_enable;
++	}
++
++	/*
++	 * The following call handles a special pair of properties that apply
++	 * to a channel node, but reside within the button (event) group.
++	 */
++	return iqs7222_parse_props(iqs7222, &chan_node, chan_index,
++				   IQS7222_REG_GRP_BTN,
++				   IQS7222_REG_KEY_DEBOUNCE);
++}
++
++static int iqs7222_parse_sldr(struct iqs7222_private *iqs7222, int sldr_index)
++{
++	const struct iqs7222_dev_desc *dev_desc = iqs7222->dev_desc;
++	struct i2c_client *client = iqs7222->client;
++	struct fwnode_handle *sldr_node = NULL;
++	int num_chan = dev_desc->reg_grps[IQS7222_REG_GRP_CHAN].num_row;
++	int ext_chan = rounddown(num_chan, 10);
++	int count, error, reg_offset, i;
++	u16 *sldr_setup = iqs7222->sldr_setup[sldr_index];
++	u16 *sys_setup = iqs7222->sys_setup;
++	unsigned int chan_sel[4], val;
++
++	error = iqs7222_parse_props(iqs7222, &sldr_node, sldr_index,
++				    IQS7222_REG_GRP_SLDR,
++				    IQS7222_REG_KEY_NONE);
++	if (error)
++		return error;
++
++	if (!sldr_node)
++		return 0;
++
++	/*
++	 * Each slider can be spread across 3 to 4 channels. It is possible to
++	 * select only 2 channels, but doing so prevents the slider from using
++	 * the specified resolution.
++	 */
++	count = fwnode_property_count_u32(sldr_node, "azoteq,channel-select");
++	if (count < 3 || count > ARRAY_SIZE(chan_sel)) {
++		dev_err(&client->dev, "Invalid number of %s channels\n",
++			fwnode_get_name(sldr_node));
++		return -EINVAL;
++	} else if (count < 0) {
++		dev_err(&client->dev, "Failed to count %s channels: %d\n",
++			fwnode_get_name(sldr_node), count);
++		return count;
++	}
++
++	error = fwnode_property_read_u32_array(sldr_node,
++					       "azoteq,channel-select",
++					       chan_sel, count);
++	if (error) {
++		dev_err(&client->dev, "Failed to read %s channels: %d\n",
++			fwnode_get_name(sldr_node), error);
++		return error;
++	}
++
++	/*
++	 * Resolution and top speed, if small enough, are packed into a single
++	 * register. Otherwise, each occupies its own register and the rest of
++	 * the slider-related register addresses are offset by one.
++	 */
++	reg_offset = dev_desc->sldr_res < U16_MAX ? 0 : 1;
++
++	sldr_setup[0] |= count;
++	sldr_setup[3 + reg_offset] &= ~IQS7222_SLDR_SETUP_3_CHAN_SEL_MASK;
++
++	for (i = 0; i < ARRAY_SIZE(chan_sel); i++) {
++		sldr_setup[5 + reg_offset + i] = 0;
++		if (i >= count)
++			continue;
++
++		if (chan_sel[i] >= ext_chan) {
++			dev_err(&client->dev, "Invalid %s channel: %u\n",
++				fwnode_get_name(sldr_node), chan_sel[i]);
++			return -EINVAL;
++		}
++
++		/*
++		 * The following fields indicate which channels participate in
++		 * the slider, as well as each channel's relative placement.
++		 */
++		sldr_setup[3 + reg_offset] |= BIT(chan_sel[i]);
++		sldr_setup[5 + reg_offset + i] = chan_sel[i] * 42 + 1080;
++	}
++
++	sldr_setup[4 + reg_offset] = dev_desc->touch_link;
++	if (fwnode_property_present(sldr_node, "azoteq,use-prox"))
++		sldr_setup[4 + reg_offset] -= 2;
++
++	if (!fwnode_property_read_u32(sldr_node, "azoteq,slider-size", &val)) {
++		if (!val || val > dev_desc->sldr_res) {
++			dev_err(&client->dev, "Invalid %s size: %u\n",
++				fwnode_get_name(sldr_node), val);
++			return -EINVAL;
++		}
++
++		if (reg_offset) {
++			sldr_setup[3] = val;
++		} else {
++			sldr_setup[2] &= ~IQS7222_SLDR_SETUP_2_RES_MASK;
++			sldr_setup[2] |= (val / 16 <<
++					  IQS7222_SLDR_SETUP_2_RES_SHIFT);
++		}
++	}
++
++	if (!fwnode_property_read_u32(sldr_node, "azoteq,top-speed", &val)) {
++		if (val > (reg_offset ? U16_MAX : U8_MAX * 4)) {
++			dev_err(&client->dev, "Invalid %s top speed: %u\n",
++				fwnode_get_name(sldr_node), val);
++			return -EINVAL;
++		}
++
++		if (reg_offset) {
++			sldr_setup[2] = val;
++		} else {
++			sldr_setup[2] &= ~IQS7222_SLDR_SETUP_2_TOP_SPEED_MASK;
++			sldr_setup[2] |= (val / 4);
++		}
++	}
++
++	if (!fwnode_property_read_u32(sldr_node, "linux,axis", &val)) {
++		u16 sldr_max = sldr_setup[3] - 1;
++
++		if (!reg_offset) {
++			sldr_max = sldr_setup[2];
++
++			sldr_max &= IQS7222_SLDR_SETUP_2_RES_MASK;
++			sldr_max >>= IQS7222_SLDR_SETUP_2_RES_SHIFT;
++
++			sldr_max = sldr_max * 16 - 1;
++		}
++
++		input_set_abs_params(iqs7222->keypad, val, 0, sldr_max, 0, 0);
++		iqs7222->sl_axis[sldr_index] = val;
++	}
++
++	if (dev_desc->wheel_enable) {
++		sldr_setup[0] &= ~dev_desc->wheel_enable;
++		if (iqs7222->sl_axis[sldr_index] == ABS_WHEEL)
++			sldr_setup[0] |= dev_desc->wheel_enable;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(iqs7222_sl_events); i++) {
++		const char *event_name = iqs7222_sl_events[i].name;
++		struct fwnode_handle *event_node;
++
++		/*
++		 * The absence of a register offset means the remaining fields
++		 * in the group represent gesture settings.
++		 */
++		if (iqs7222_sl_events[i].enable && !reg_offset)
++			sldr_setup[9] &= ~iqs7222_sl_events[i].enable;
++
++		event_node = fwnode_get_named_child_node(sldr_node, event_name);
++		if (!event_node)
++			continue;
++
++		error = iqs7222_parse_props(iqs7222, &event_node, sldr_index,
++					    IQS7222_REG_GRP_SLDR,
++					    reg_offset ?
++					    IQS7222_REG_KEY_RESERVED :
++					    iqs7222_sl_events[i].reg_key);
++		if (error)
++			return error;
++
++		error = fwnode_property_read_u32(event_node, "linux,code",
++						 &val);
++		if (error) {
++			dev_err(&client->dev, "Failed to read %s code: %d\n",
++				fwnode_get_name(sldr_node), error);
++			return error;
++		}
++
++		iqs7222->sl_code[sldr_index][i] = val;
++		input_set_capability(iqs7222->keypad, EV_KEY, val);
++
++		/*
++		 * The press/release event is determined based on whether the
++		 * coordinate field reports 0xFFFF and has no explicit enable
++		 * control.
++		 */
++		if (!iqs7222_sl_events[i].enable || reg_offset)
++			continue;
++
++		sldr_setup[9] |= iqs7222_sl_events[i].enable;
++
++		error = iqs7222_gpio_select(iqs7222, event_node,
++					    iqs7222_sl_events[i].enable,
++					    1568 + sldr_index * 30);
++		if (error)
++			return error;
++
++		if (!dev_desc->event_offset)
++			continue;
++
++		sys_setup[dev_desc->event_offset] |= BIT(10 + sldr_index);
++	}
++
++	/*
++	 * The following call handles a special pair of properties that shift
++	 * to make room for a wheel enable control in the case of IQS7222C.
++	 */
++	return iqs7222_parse_props(iqs7222, &sldr_node, sldr_index,
++				   IQS7222_REG_GRP_SLDR,
++				   dev_desc->wheel_enable ?
++				   IQS7222_REG_KEY_WHEEL :
++				   IQS7222_REG_KEY_NO_WHEEL);
++}
++
++static int iqs7222_parse_all(struct iqs7222_private *iqs7222)
++{
++	const struct iqs7222_dev_desc *dev_desc = iqs7222->dev_desc;
++	const struct iqs7222_reg_grp_desc *reg_grps = dev_desc->reg_grps;
++	u16 *sys_setup = iqs7222->sys_setup;
++	int error, i;
++
++	if (dev_desc->event_offset)
++		sys_setup[dev_desc->event_offset] = IQS7222_EVENT_MASK_ATI;
++
++	for (i = 0; i < reg_grps[IQS7222_REG_GRP_CYCLE].num_row; i++) {
++		error = iqs7222_parse_cycle(iqs7222, i);
++		if (error)
++			return error;
++	}
++
++	error = iqs7222_parse_props(iqs7222, NULL, 0, IQS7222_REG_GRP_GLBL,
++				    IQS7222_REG_KEY_NONE);
++	if (error)
++		return error;
++
++	for (i = 0; i < reg_grps[IQS7222_REG_GRP_GPIO].num_row; i++) {
++		struct fwnode_handle *gpio_node = NULL;
++		u16 *gpio_setup = iqs7222->gpio_setup[i];
++		int j;
++
++		gpio_setup[0] &= ~IQS7222_GPIO_SETUP_0_GPIO_EN;
++		gpio_setup[1] = 0;
++		gpio_setup[2] = 0;
++
++		error = iqs7222_parse_props(iqs7222, &gpio_node, i,
++					    IQS7222_REG_GRP_GPIO,
++					    IQS7222_REG_KEY_NONE);
++		if (error)
++			return error;
++
++		if (reg_grps[IQS7222_REG_GRP_GPIO].num_row == 1)
++			continue;
++
++		/*
++		 * The IQS7222C exposes multiple GPIO and must be informed
++		 * as to which GPIO this group represents.
++		 */
++		for (j = 0; j < ARRAY_SIZE(iqs7222_gpio_links); j++)
++			gpio_setup[0] &= ~BIT(iqs7222_gpio_links[j]);
++
++		gpio_setup[0] |= BIT(iqs7222_gpio_links[i]);
++	}
++
++	for (i = 0; i < reg_grps[IQS7222_REG_GRP_CHAN].num_row; i++) {
++		u16 *chan_setup = iqs7222->chan_setup[i];
++
++		chan_setup[0] &= ~IQS7222_CHAN_SETUP_0_REF_MODE_MASK;
++		chan_setup[0] &= ~IQS7222_CHAN_SETUP_0_CHAN_EN;
++
++		chan_setup[5] = 0;
++	}
++
++	for (i = 0; i < reg_grps[IQS7222_REG_GRP_CHAN].num_row; i++) {
++		error = iqs7222_parse_chan(iqs7222, i);
++		if (error)
++			return error;
++	}
++
++	error = iqs7222_parse_props(iqs7222, NULL, 0, IQS7222_REG_GRP_FILT,
++				    IQS7222_REG_KEY_NONE);
++	if (error)
++		return error;
++
++	for (i = 0; i < reg_grps[IQS7222_REG_GRP_SLDR].num_row; i++) {
++		u16 *sldr_setup = iqs7222->sldr_setup[i];
++
++		sldr_setup[0] &= ~IQS7222_SLDR_SETUP_0_CHAN_CNT_MASK;
++
++		error = iqs7222_parse_sldr(iqs7222, i);
++		if (error)
++			return error;
++	}
++
++	sys_setup[0] &= ~IQS7222_SYS_SETUP_INTF_MODE_MASK;
++	sys_setup[0] &= ~IQS7222_SYS_SETUP_PWR_MODE_MASK;
++
++	sys_setup[0] |= IQS7222_SYS_SETUP_ACK_RESET;
++
++	return iqs7222_parse_props(iqs7222, NULL, 0, IQS7222_REG_GRP_SYS,
++				   IQS7222_REG_KEY_NONE);
++}
++
++static int iqs7222_report(struct iqs7222_private *iqs7222)
++{
++	const struct iqs7222_dev_desc *dev_desc = iqs7222->dev_desc;
++	struct i2c_client *client = iqs7222->client;
++	u16 sys_setup = iqs7222->sys_setup[0] & ~IQS7222_SYS_SETUP_ACK_RESET;
++	int num_chan = dev_desc->reg_grps[IQS7222_REG_GRP_CHAN].num_row;
++	int num_stat = dev_desc->reg_grps[IQS7222_REG_GRP_STAT].num_col;
++	int error, i, j;
++	__le16 mbuf[IQS7222_MAX_COLS_STAT];
++
++	error = iqs7222_read_burst(iqs7222, IQS7222_SYS_STATUS, mbuf,
++				   num_stat * sizeof(__le16));
++	if (error) {
++		dev_err(&client->dev, "Failed to read device status: %d\n",
++			error);
++		return error;
++	}
++
++	if (le16_to_cpu(mbuf[0]) & IQS7222_SYS_STATUS_RESET) {
++		dev_err(&client->dev, "Unexpected device reset\n");
++
++		error = iqs7222_dev_init(iqs7222, WRITE);
++		if (error)
++			dev_err(&client->dev,
++				"Failed to initialize device: %d\n", error);
++
++		return error;
++	}
++
++	if (le16_to_cpu(mbuf[0]) & IQS7222_SYS_STATUS_ATI_ERROR) {
++		dev_err(&client->dev, "Unexpected ATI error\n");
++
++		error = iqs7222_write_word(iqs7222, IQS7222_SYS_SETUP,
++					   sys_setup |
++					   IQS7222_SYS_SETUP_REDO_ATI);
++		if (error)
++			dev_err(&client->dev,
++				"Failed to trigger ATI: %d\n", error);
++
++		return error;
++	}
++
++	if (le16_to_cpu(mbuf[0]) & IQS7222_SYS_STATUS_ATI_ACTIVE)
++		return 0;
++
++	for (i = 0; i < num_chan; i++) {
++		u16 *chan_setup = iqs7222->chan_setup[i];
++
++		if (!(chan_setup[0] & IQS7222_CHAN_SETUP_0_CHAN_EN))
++			continue;
++
++		for (j = 0; j < ARRAY_SIZE(iqs7222_kp_events); j++) {
++			/*
++			 * Proximity state begins at offset 2 and spills into
++			 * offset 3 for devices with more than 16 channels.
++			 *
++			 * Touch state begins at the first offset immediately
++			 * following proximity state.
++			 */
++			int k = 2 + j * (num_chan > 16 ? 2 : 1);
++			u16 state = le16_to_cpu(mbuf[k + i / 16]);
++
++			input_event(iqs7222->keypad,
++				    iqs7222->kp_type[i][j],
++				    iqs7222->kp_code[i][j],
++				    !!(state & BIT(i % 16)));
++		}
++	}
++
++	for (i = 0; i < dev_desc->reg_grps[IQS7222_REG_GRP_SLDR].num_row; i++) {
++		u16 *sldr_setup = iqs7222->sldr_setup[i];
++		u16 sldr_pos = le16_to_cpu(mbuf[4 + i]);
++		u16 state = le16_to_cpu(mbuf[6 + i]);
++
++		if (!(sldr_setup[0] & IQS7222_SLDR_SETUP_0_CHAN_CNT_MASK))
++			continue;
++
++		if (sldr_pos < dev_desc->sldr_res)
++			input_report_abs(iqs7222->keypad, iqs7222->sl_axis[i],
++					 sldr_pos);
++
++		for (j = 0; j < ARRAY_SIZE(iqs7222_sl_events); j++) {
++			u16 mask = iqs7222_sl_events[j].mask;
++			u16 val = iqs7222_sl_events[j].val;
++
++			if (!iqs7222_sl_events[j].enable) {
++				input_report_key(iqs7222->keypad,
++						 iqs7222->sl_code[i][j],
++						 sldr_pos < dev_desc->sldr_res);
++				continue;
++			}
++
++			/*
++			 * The remaining offsets represent gesture state, and
++			 * are discarded in the case of IQS7222C because only
++			 * absolute position is reported.
++			 */
++			if (num_stat < IQS7222_MAX_COLS_STAT)
++				continue;
++
++			input_report_key(iqs7222->keypad,
++					 iqs7222->sl_code[i][j],
++					 (state & mask) == val);
++		}
++	}
++
++	input_sync(iqs7222->keypad);
++
++	return 0;
++}
++
++static irqreturn_t iqs7222_irq(int irq, void *context)
++{
++	struct iqs7222_private *iqs7222 = context;
++
++	return iqs7222_report(iqs7222) ? IRQ_NONE : IRQ_HANDLED;
++}
++
++static int iqs7222_probe(struct i2c_client *client)
++{
++	struct iqs7222_private *iqs7222;
++	unsigned long irq_flags;
++	int error, irq;
++
++	iqs7222 = devm_kzalloc(&client->dev, sizeof(*iqs7222), GFP_KERNEL);
++	if (!iqs7222)
++		return -ENOMEM;
++
++	i2c_set_clientdata(client, iqs7222);
++	iqs7222->client = client;
++
++	iqs7222->keypad = devm_input_allocate_device(&client->dev);
++	if (!iqs7222->keypad)
++		return -ENOMEM;
++
++	iqs7222->keypad->name = client->name;
++	iqs7222->keypad->id.bustype = BUS_I2C;
++
++	/*
++	 * The RDY pin behaves as an interrupt, but must also be polled ahead
++	 * of unsolicited I2C communication. As such, it is first opened as a
++	 * GPIO and then passed to gpiod_to_irq() to register the interrupt.
++	 */
++	iqs7222->irq_gpio = devm_gpiod_get(&client->dev, "irq", GPIOD_IN);
++	if (IS_ERR(iqs7222->irq_gpio)) {
++		error = PTR_ERR(iqs7222->irq_gpio);
++		dev_err(&client->dev, "Failed to request IRQ GPIO: %d\n",
++			error);
++		return error;
++	}
++
++	iqs7222->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
++						      GPIOD_OUT_HIGH);
++	if (IS_ERR(iqs7222->reset_gpio)) {
++		error = PTR_ERR(iqs7222->reset_gpio);
++		dev_err(&client->dev, "Failed to request reset GPIO: %d\n",
++			error);
++		return error;
++	}
++
++	error = iqs7222_hard_reset(iqs7222);
++	if (error)
++		return error;
++
++	error = iqs7222_dev_info(iqs7222);
++	if (error)
++		return error;
++
++	error = iqs7222_dev_init(iqs7222, READ);
++	if (error)
++		return error;
++
++	error = iqs7222_parse_all(iqs7222);
++	if (error)
++		return error;
++
++	error = iqs7222_dev_init(iqs7222, WRITE);
++	if (error)
++		return error;
++
++	error = iqs7222_report(iqs7222);
++	if (error)
++		return error;
++
++	error = input_register_device(iqs7222->keypad);
++	if (error) {
++		dev_err(&client->dev, "Failed to register device: %d\n", error);
++		return error;
++	}
++
++	irq = gpiod_to_irq(iqs7222->irq_gpio);
++	if (irq < 0)
++		return irq;
++
++	irq_flags = gpiod_is_active_low(iqs7222->irq_gpio) ? IRQF_TRIGGER_LOW
++							   : IRQF_TRIGGER_HIGH;
++	irq_flags |= IRQF_ONESHOT;
++
++	error = devm_request_threaded_irq(&client->dev, irq, NULL, iqs7222_irq,
++					  irq_flags, client->name, iqs7222);
++	if (error)
++		dev_err(&client->dev, "Failed to request IRQ: %d\n", error);
++
++	return error;
++}
++
++static const struct of_device_id iqs7222_of_match[] = {
++	{ .compatible = "azoteq,iqs7222a" },
++	{ .compatible = "azoteq,iqs7222b" },
++	{ .compatible = "azoteq,iqs7222c" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, iqs7222_of_match);
++
++static struct i2c_driver iqs7222_i2c_driver = {
++	.driver = {
++		.name = "iqs7222",
++		.of_match_table = iqs7222_of_match,
++	},
++	.probe_new = iqs7222_probe,
++};
++module_i2c_driver(iqs7222_i2c_driver);
++
++MODULE_AUTHOR("Jeff LaBundy <jeff@labundy.com>");
++MODULE_DESCRIPTION("Azoteq IQS7222A/B/C Capacitive Touch Controller");
++MODULE_LICENSE("GPL");
 -- 
 2.25.1
 
