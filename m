@@ -2,209 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FB8A497391
-	for <lists+linux-input@lfdr.de>; Sun, 23 Jan 2022 18:25:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3FF049739E
+	for <lists+linux-input@lfdr.de>; Sun, 23 Jan 2022 18:37:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239236AbiAWRZo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 23 Jan 2022 12:25:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36872 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239220AbiAWRZo (ORCPT
+        id S239259AbiAWRh1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 23 Jan 2022 12:37:27 -0500
+Received: from mail-4317.proton.ch ([185.70.43.17]:28214 "EHLO
+        mail-4317.proton.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233077AbiAWRh1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 23 Jan 2022 12:25:44 -0500
-Received: from server00.inetadmin.eu (server00.inetadmin.eu [IPv6:2a01:390:1:2:e1b1:2:0:d7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCCF8C06173B;
-        Sun, 23 Jan 2022 09:25:43 -0800 (PST)
-Received: from [192.168.1.103] (ip-46.34.226.180.o2inet.sk [46.34.226.180])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: miroslav@wisdomtech.sk)
-        by server00.inetadmin.eu (Postfix) with ESMTPSA id 574EE13A07D;
-        Sun, 23 Jan 2022 18:25:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wisdomtech.sk;
-        s=dkiminetadmin; t=1642958738;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=N+EE9E69tKIOkQyXfJAlJTexkD+QVb4eCukmRvui30w=;
-        b=cnWkMDM9CkOqhbN405GVVC0VL4FwDl8owce82eg2JODTXB3WG9gmvoyh0sbcTcpQIJUsdv
-        8LAwFRPp4bNOdFlo8iXCWBgLPEnRAXiKnVjM0jURaFiKbihsjwZDApKv3Ytpwe38ZIu8Fl
-        fgzIwqn0AA8X/etRGQXBiVVI6RPis0E=
-Message-ID: <cb4e9d68-78b0-583d-fa15-a841b0606785@wisdomtech.sk>
-Date:   Sun, 23 Jan 2022 18:25:37 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: Touchpad stickiness on AMD laptops (was Dell Inspiron/XPS)
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>,
-        "Limonciello, Mario" <Mario.Limonciello@amd.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Benjamin Tissoires <btissoir@redhat.com>,
-        Andrea Ippolito <andrea.ippo@gmail.com>,
+        Sun, 23 Jan 2022 12:37:27 -0500
+Date:   Sun, 23 Jan 2022 17:37:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
+        s=protonmail; t=1642959445;
+        bh=EG8WM13QcPrV2AZ3laZQJnqld2O70XozKuQoHTXOykA=;
+        h=Date:To:From:Reply-To:Subject:Message-ID:From:To:Cc;
+        b=no9GFqAecOd2zVW/NKbjqQ6dAkxhAnyQVsIpGamsco/5BHwbufZ584C65Y/k4QVNC
+         gC1vLEs+2VpeXG3F4EKWfU4ZKpMwl6q45GE1X8CP8uJ/6qP46AttvNokVDVjBzrGjV
+         23pJqhjXzQQ/EsMvnOe7VGQBYY9A2fAHyoPFJr9U=
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Alex Hung <alex.hung@canonical.com>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "Shah, Nehal-bakulchandra" <Nehal-bakulchandra.Shah@amd.com>
-References: <CAGhUXvBw4rzCQrqttyyS=Psxmhppk79c6fDoxPbV91jE7fO_9A@mail.gmail.com>
- <CAGhUXvDNj2v3O==+wWWKPYVzej8Vq+WNiBtPwmYxSQ2dTuLb9Q@mail.gmail.com>
- <CAGhUXvC8eHfxEKzkGN06VvRU6Z0ko7MJ9hF6uXNq+PxRZSbEmQ@mail.gmail.com>
- <70cbe360-6385-2536-32bd-ae803517d2b2@redhat.com> <YdbrLz3tU4ohANDk@ninjato>
- <42c83ec8-bbac-85e2-9ab5-87e59a679f95@redhat.com>
- <CAO-hwJJ9ALxpd5oRU8SQ3F65hZjDitR=MzmwDk=uiEguaXZYtw@mail.gmail.com>
- <5409e747-0c51-24e2-7ffa-7dd9c8a7aec7@amd.com> <Yd6SRl7sm8zS85Al@ninjato>
- <596d6af1-d67c-b9aa-0496-bd898350865c@wisdomtech.sk>
- <d39101a9-adc6-df32-12f5-fccc8fd34515@amd.com>
- <5c0ed06a-617e-077a-a4a4-549e91d372ba@wisdomtech.sk>
- <BL1PR12MB5157412781B6C84B97C2A3E7E2559@BL1PR12MB5157.namprd12.prod.outlook.com>
- <541865be-207d-01db-efc4-7eff600d56dc@wisdomtech.sk>
- <cf3c89a5-f242-2c1f-f636-fd3241b18ff1@redhat.com>
-From:   =?UTF-8?Q?Miroslav_Bend=c3=adk?= <miroslav@wisdomtech.sk>
-In-Reply-To: <cf3c89a5-f242-2c1f-f636-fd3241b18ff1@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Harigovindan P <harigovi@codeaurora.org>,
+        Caleb Connolly <caleb@connolly.tech>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Alexander Martinz <amartinz@shiftphones.com>
+From:   Caleb Connolly <caleb@connolly.tech>
+Reply-To: Caleb Connolly <caleb@connolly.tech>
+Subject: [PATCH 0/6] Add support for the SHIFT SHIFT6mq
+Message-ID: <20220123173650.290349-1-caleb@connolly.tech>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+        mailout.protonmail.ch
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+This series adds initial support for the SHIFT6mq. SHIFT are a sustainably
+oriented device manufacturer who aim to build repairable devices with long
+lifespans.
 
-Dňa 17. 1. 2022 o 10:08 Hans de Goede napísal(a):
-> Hi,
->
-> On 1/17/22 09:39, Miroslav Bendík wrote:
->>> [AMD Official Use Only]
->>>
->>>> Now i am trying to change ASF registers instead of SMBus registers.
->>>> I have tried to enable interrupts and set listen address, but it don't
->>>> work or
->>>> i can't recognize the difference between interrupts generated by
->>>> transfers and
->>>> interrupts generated from slave.
->>> Try reading the value of SFx0A ASFStatus bit 5 (it's write to clear if it's an interrupt).
->>>
->>>> outb_p(0x02, 0x15 + piix4_smba); // SlaveIntrListenEn
->>>> outb_p(0x2c << 1 | 0x01, 0x09 + piix4_smba); // ListenAdr | ListenAdrEn
->>> ASFx04 SlaveAddress instead of  ASFx09 ListenAdr
->>> ?
->>>
->>>
->> Little bit more informations:
->>
->> Interrupts are generated only if ASFx09 ListenAdr is:
->>
->> (0x08 << 1) | 0x01
->> (0x10 << 1) | 0x01
->>
->> and touchpad is initialized with synaptics_intertouch=1
->>
->> There is maybe small correlation between frequency and touch, but i am
->> not 100% sure.
-> I know very litlle about this, but I believe that when using
-> host-notify that after receiving the host-notify you are supposed to
-> do an I2C read from the SMBus Alert Response Address (ARA, 0x0c) to find
-> out the source of the notify (since multiple devices on the bus may
-> be notify capable). I guess that the controller may not do that itself
-> and that as long as you have not done it the touchpad may keep repeating
-> the notify.
->
-> But as said I know very little about this, so take this with a big
-> grain of salt :)  I guess you may want to read up a bit on how this
-> is supposed to work at the bus level. I believe that the SMBUS spec
-> is public.
->
-> Regards,
->
-> Hans
->
->
->
->
->> There are no register changed in interrupt handler except of
->> ASFx13 DataBankSel. I can't determine if interrupt is generated from
->> transfer, or from external event.
->>
->> ASF should be system for remote management. It should have access to
->> SMBus and data / command registers are identical, this means, that SMBus
->> should work (except block transfers).
->>
->> If ASF just mirrors SMBus, then question is, why i can't access to
->> touchpad using SMBus? One strange thing is, that i2cdetect on standard
->> SMbus (0xb00), port 0 returns:
->>
->>       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
->> 00:                         -- -- -- -- -- -- -- --
->> 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
->> 20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
->> 30: -- -- -- -- -- -- 36 37 -- -- -- -- -- -- -- --
->> 40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
->> 50: 50 -- -- -- -- -- -- -- 58 -- -- -- -- -- -- --
->> 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
->> 70: -- -- -- -- -- -- -- --
->>
->> Address 0x58 is exactly 0x2c (synaptics) moved 1 bit left, but i2c-piix4
->> correctly moves address.
->>
-Hello,
-i have no response from 0x0c (ARA). It returns -6 (ENXIO).
+The SHIFT6mq is a Snapdragon 845 based device, it features a 1080p OLED pan=
+el,
+8GB of RAM, 128GB of UFS storage and display port alt mode. The device also
+ships with secure-boot off, potentially allowing end-users to modify usuall=
+y
+inaccesible parts of the device like the bootloader. They've been keen to s=
+ee
+their devices supported upstream kernels!
 
-Exact call is:
+This brings up initial support for the device, with all core features worki=
+ng:
 
-i2c_smbus_xfer(piix4_aux_adapter, 0x0c, 0x00, I2C_SMBUS_READ, 0x00, 
-I2C_SMBUS_BYTE, &data)
+* Display / GPU / touch
+* WIFI
+* Modem (sms and mobile data are supported with ModemManager)
 
-I hava played with ARP (address 0x61), but alweays without response (-6).
+- Caleb
 
-I have tried to read event status from ASF. Exact command is 0000 0001b
-and subcommand 0001 0010b from ASF reference documentation. I have
-enabled automatic PEC appending. I have tried to manually calculate PEC
-too. To calculate PEC i have called i2c_smbus_pec with data {0xaa/b,
-0x01, 0x03, 0x12, 0x10, 0x00} and then set PEC byte register, but every
-call ends wih -6 (no response from device).
+Alexander Martinz (1):
+  arm64: dts: qcom: sdm845: add device tree for SHIFT6mq
 
-ASF sensor address should be 0x55 is (from register ASFx0F SensorAdr
-- 0xaa shifted 1 bit right).
+Caleb Connolly (5):
+  dt-bindings: input: touchscreen: add bindings for focaltech,fts
+  input: touchscreen: add focaltech FTS driver
+  dt-bindings: display: visionox-rm69299: document new compatible string
+  drm/panel: visionox-rm69299: support the variant found in the SHIFT6mq
+  dt-bindings: vendor-prefixes: add vendor prefix for SHIFT
 
-Exact code:
+ .../display/panel/visionox,rm69299.yaml       |   4 +-
+ .../input/touchscreen/focaltech,fts.yaml      |  78 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm64/boot/dts/qcom/Makefile             |   1 +
+ .../boot/dts/qcom/sdm845-shift-axolotl.dts    | 736 +++++++++++++++
+ .../gpu/drm/panel/panel-visionox-rm69299.c    | 281 ++++--
+ drivers/input/touchscreen/Kconfig             |   9 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/focaltech_fts.c     | 870 ++++++++++++++++++
+ 9 files changed, 1921 insertions(+), 61 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/foc=
+altech,fts.yaml
+ create mode 100644 arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
+ create mode 100644 drivers/input/touchscreen/focaltech_fts.c
 
-outb_p(0x20, SMBHSTCNT); // Automatically append PEC
+--
+2.34.1
 
-data.block[0] = 0x03; // size
-data.block[1] = 0x12; // subcommand
-data.block[2] = 0x10; // version
-data.block[3] = 0x00; // reserved
-status = i2c_smbus_xfer(piix4_aux_adapter, 0x55, 0x00, I2C_SMBUS_WRITE, 
-0x01, I2C_SMBUS_BLOCK_DATA, &data);
-
-Interrupts are always generated after transactions. Following conditions
-are necessary to generate interrupts spontaneously:
-
-- SlaveIntrListenEn of ASFx15 SlaveEn bit set
-- ListenAdr of ASFx09 set to 0x08 or 0x10
-- ListenAdrEn of ASFx09 bit set
-- psmouse loaded with synaptics_intertouch=1
-
-Only ASFx13 DataBankSel is modified externally. Value is always 0x8?.
-I have tried to check Databank?Full and if it set i am calling
-i2c_handle_smbus_host_notify and cleaning bit. Sometimes it responds to
-cursor move action, sometimes not. Sampling rate varies.
-
-I don't know if this interrupt is host notify. It has some corellation,
-but it may be something like bus error or event buffer full. I don't
-know.
-
-Here is video demonstration:
-
-https://youtu.be/9pjxyiWA1a8
-
-Before loading psmouse with synaptics_intertouch there are no
-interrupts. After unloading, there are again no interrupts.
-
-In ASF documentation is description of ASF_ALRT field of ASF!
-description table, but my bios contains only ASFT record of MNVS
-OperationRegion. I don't know if i should access this, or something
-else.
 
