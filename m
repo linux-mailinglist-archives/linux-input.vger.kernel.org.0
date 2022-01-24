@@ -2,89 +2,160 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3F3E49840D
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jan 2022 17:01:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCB0C4991C7
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jan 2022 21:18:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243360AbiAXQBV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Jan 2022 11:01:21 -0500
-Received: from mail-oo1-f49.google.com ([209.85.161.49]:46866 "EHLO
-        mail-oo1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243298AbiAXQBS (ORCPT
+        id S1355587AbiAXUOP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Jan 2022 15:14:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34512 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1379719AbiAXUMP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Jan 2022 11:01:18 -0500
-Received: by mail-oo1-f49.google.com with SMTP id k13-20020a4a310d000000b002e6c0c05892so2041674ooa.13;
-        Mon, 24 Jan 2022 08:01:18 -0800 (PST)
+        Mon, 24 Jan 2022 15:12:15 -0500
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33DCAC028C26
+        for <linux-input@vger.kernel.org>; Mon, 24 Jan 2022 11:33:54 -0800 (PST)
+Received: by mail-ot1-x336.google.com with SMTP id l64-20020a9d1b46000000b005983a0a8aaaso23707289otl.3
+        for <linux-input@vger.kernel.org>; Mon, 24 Jan 2022 11:33:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=v4SG+DqwLKzywP0j01kwA66yUj5lO6i+67mlhA4ZOG4=;
+        b=R3PLwXkZGrs9ceWT1j8dt5GiDq1FaY0RBbkRiyJ5xFRj8KlGtFPGfM5BNZYqW+ONq8
+         aFLQeCr3namNypqS03nc7dxIQhBmcXckv0nuEMmiDcz1gA5NSNsaiIdUN/qLotSFxGMn
+         kiH4+VNO9kusFxuqPy0o4vKumCh+SifaZiN9Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=cLihXDdsVsXzrgv9MgfjxTwK/WNvncmIfx+sTySIEAk=;
-        b=x80rYVjz8B7/qytbkfgjNgCAf7m9xwiVoVSbjShoip5nLdNgmjg4eJ+p+vGRZjXq6C
-         PPriNwQFUl9Lk/zckz9p9ap4AWF5iLSJ8YH3vS4V2sfxklS0mssUrj6L/GYQGoRCUjQ6
-         WIxdddE74+tCapqt2/5TAJ3TCR3MMHyzk0Cfwn5sXs4OnLCLyuGYHwpNPwhttGr6q2K9
-         HliqmRJK9aGLNqM0Vfuoq1gr0VwPfooBDxq6HVMlFxfH65lpogEb2n173aTls9DdWNpY
-         5fXRez0WJqPuH441LPJGdgZZOJUhwJr6qQXHdN02KFjA+kNMMrIJwhp4bXerpFiIjSE7
-         bW6w==
-X-Gm-Message-State: AOAM530LFqUnQMg4JxxO7ZqEcPvZnQyEiM3FS739CGmDTFnm2lytuzpS
-        7iGzxbqhdzKcQHA0zjTLlw==
-X-Google-Smtp-Source: ABdhPJwgZIHI70X6BuPAo/MsW0tFg0C+V3+e2hRxrNXqL0m2DS5cON22/EFoC1DceRovbw2qpdVvkg==
-X-Received: by 2002:a4a:420a:: with SMTP id h10mr410739ooj.13.1643040078030;
-        Mon, 24 Jan 2022 08:01:18 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id f6sm4348069oos.7.2022.01.24.08.01.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 08:01:17 -0800 (PST)
-Received: (nullmailer pid 3901531 invoked by uid 1000);
-        Mon, 24 Jan 2022 16:01:12 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        robh+dt@kernel.org, dmitry.torokhov@gmail.com
-In-Reply-To: <20220123194232.85288-2-jeff@labundy.com>
-References: <20220123194232.85288-1-jeff@labundy.com> <20220123194232.85288-2-jeff@labundy.com>
-Subject: Re: [PATCH 1/2] dt-bindings: input: Add bindings for Azoteq IQS7222A/B/C
-Date:   Mon, 24 Jan 2022 10:01:12 -0600
-Message-Id: <1643040072.594821.3901530.nullmailer@robh.at.kernel.org>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=v4SG+DqwLKzywP0j01kwA66yUj5lO6i+67mlhA4ZOG4=;
+        b=4XVJgUy3wDwaor1hcQ0/AxDe41NrdoXRQSraaYF8fTjCWoIe3itSvGoFkqeZfMu+rZ
+         5WfW9O0nDTHTBUIY09WPk+Su7WWQ/0Wmifp/opf7RXvDhqOOPXXlG9+d4tW/HTQgf0he
+         Gva3hVYt20uL1RJ6BVjOUw5i0xGzlm3nzjikct1Knsddh2RtTESNjRGn02FvZvgmZTjr
+         aByRNB+LVk0HPQUB8CYpajX2vWVxTmHPF4SBqSwixxM8K6HsjbPs5i1bCI7DjXJlwlt7
+         J+kuahqJ+Mmm12IoKc85k5qbL9qlGGMubcy27lt52FhtEvpKLJghONCy9JtKClk/pBvc
+         GQtQ==
+X-Gm-Message-State: AOAM531twLxWpkhO8hfHvsoTV9GFPPszVisrE/yXjlxTnC7dk48YWKO+
+        3wEOMHorf/22VnRAtPd8TgIAWlWSnC7AmhzMpb0jqxWXKT0=
+X-Google-Smtp-Source: ABdhPJxerNGg5PQ/cE7yz50qIfApJ1R8+nvofzeC6d9N1nf/CtJn5zcX/vn8QEy6PjgNpOeM0zb4zAeqFy0ndz+r+Dw=
+X-Received: by 2002:a9d:410d:: with SMTP id o13mr5394273ote.77.1643052833561;
+ Mon, 24 Jan 2022 11:33:53 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 24 Jan 2022 11:33:53 -0800
+MIME-Version: 1.0
+In-Reply-To: <efa57fd8-d2ac-4c02-04ac-c62315b3b28c@quicinc.com>
+References: <20220120204132.17875-1-quic_amelende@quicinc.com>
+ <20220120204132.17875-2-quic_amelende@quicinc.com> <CAE-0n508nxF_c9pzsTaQfSi42ZGQXkqb3NyQebuMBec2DCV0KA@mail.gmail.com>
+ <efa57fd8-d2ac-4c02-04ac-c62315b3b28c@quicinc.com>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date:   Mon, 24 Jan 2022 11:33:53 -0800
+Message-ID: <CAE-0n51GUGskL17MGhk-=-dbdPU_3ChE37Hbzq6VBZc2Ge0vkA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] input: misc: pm8941-pwrkey: add software key press
+ debouncing support
+To:     Anjelique Melendez <quic_amelende@quicinc.com>,
+        dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, collinsd@codeaurora.org,
+        bjorn.andersson@linaro.org, skakit@codeaurora.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 23 Jan 2022 13:42:31 -0600, Jeff LaBundy wrote:
-> This patch adds bindings for the Azoteq IQS7222A/B/C family of
-> capacitive touch controllers.
-> 
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-> ---
->  .../devicetree/bindings/input/iqs7222.yaml    | 967 ++++++++++++++++++
->  1 file changed, 967 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/iqs7222.yaml
-> 
+Quoting Anjelique Melendez (2022-01-21 16:04:13)
+>
+>
+> On 1/20/2022 8:08 PM, Stephen Boyd wrote:
+> > Quoting Anjelique Melendez (2022-01-20 12:41:33)
+> >> @@ -200,15 +268,21 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+> >>                         dev_err(&pdev->dev, "failed to locate regmap\n");
+> >>                         return -ENODEV;
+> >>                 }
+> >> +       }
+> >>
+> >> -               error = of_property_read_u32(parent->of_node,
+> >> -                                            "reg", &pwrkey->baseaddr);
+> >> -       } else {
+> >> -               error = of_property_read_u32(pdev->dev.of_node, "reg",
+> >> -                                            &pwrkey->baseaddr);
+> >> +       addr = of_get_address(regmap_node, 0, NULL, NULL);
+> >> +       if (!addr) {
+> >> +               dev_err(&pdev->dev, "reg property missing\n");
+> >> +               return -EINVAL;
+> >> +       }
+> >> +       pwrkey->baseaddr = be32_to_cpu(*addr);
+> > Can this hunk be split off? A new API is used and it doesn't look
+> > relevant to this patch.
+>
+> In PMK8350 and following chips the reg property will have the pon hlos address first,
+> followed by a second pon pbs address. This change is needed so that both the older chipsets
+> and the newer can be used regardless of how many reg addresses are being used.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Got it, but do we ned to change to of_get_address() in this patch? I was
+suggesting that the change to the new API be done first so that it's
+clearer what's going on with the change in address location.
 
-yamllint warnings/errors:
+>
+> >
+> >> +
+> >> +       if (pwrkey->data->has_pon_pbs) {
+> >> +               /* PON_PBS base address is optional */
+> >> +               addr = of_get_address(regmap_node, 1, NULL, NULL);
+> >> +               if (addr)
+> >> +                       pwrkey->pon_pbs_baseaddr = be32_to_cpu(*addr);
+> >>         }
+> >> -       if (error)
+> >> -               return error;
+> >>
+> >>         pwrkey->irq = platform_get_irq(pdev, 0);
+> >>         if (pwrkey->irq < 0)
+> >> @@ -217,7 +291,14 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+> >>         error = regmap_read(pwrkey->regmap, pwrkey->baseaddr + PON_REV2,
+> >>                             &pwrkey->revision);
+> >>         if (error) {
+> >> -               dev_err(&pdev->dev, "failed to set debounce: %d\n", error);
+> >> +               dev_err(&pdev->dev, "failed to read revision: %d\n", error);
+> > Nice error message fix!
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/iqs7222.example.dt.yaml: iqs7222a@44: '#address-cells' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/iqs7222.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/iqs7222.example.dt.yaml: iqs7222a@44: '#size-cells' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/iqs7222.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/iqs7222.example.dt.yaml: iqs7222a@44: 'channel-10', 'channel-11', 'channel-2', 'channel-3', 'channel-4', 'channel-5', 'channel-6', 'channel-7', 'channel-8' do not match any of the regexes: '^channel-[0-19]$', '^cycle-[0-9]$', '^gpio-[0-2]$', '^slider-[0-1]$', 'pinctrl-[0-9]+'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/iqs7222.yaml
+This can be split off to a different patch as well.
 
-doc reference errors (make refcheckdocs):
+> >
+> >> +               return error;
+> >> +       }
+> >> +
+> >> +       error = regmap_read(pwrkey->regmap, pwrkey->baseaddr + PON_SUBTYPE,
+> >> +                           &pwrkey->subtype);
+> >> +       if (error) {
+> >> +               dev_err(&pdev->dev, "failed to read subtype: %d\n", error);
+> >>                 return error;
+> >>         }
+> >>
+> >> @@ -255,6 +336,12 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+> >>                 }
+> >>         }
+> >>
+> >> +       if (pwrkey->data->needs_sw_debounce) {
+> >> +               error = pm8941_pwrkey_sw_debounce_init(pwrkey);
+> >> +               if (error)
+> >> +                       return error;
+> >> +       }
+> >> +
+> >>         if (pwrkey->data->pull_up_bit) {
+> >>                 error = regmap_update_bits(pwrkey->regmap,
+> >>                                            pwrkey->baseaddr + PON_PULL_CTL,
+> >> @@ -316,6 +403,8 @@ static const struct pm8941_data pwrkey_data = {
+> >>         .phys = "pm8941_pwrkey/input0",
+> >>         .supports_ps_hold_poff_config = true,
+> >>         .supports_debounce_config = true,
+> >> +       .needs_sw_debounce = true,
+> > needs_sw_debounce is always true? Why is it even an option then?
+>
+> As of right now the "needs_sw_debounce" property is being used for a sw work around for a hw
+> problem. We anticipate that chips in the future will fix this hw problem and we would then have
+> devices where needs_sw_debounce would be set to false.
 
-See https://patchwork.ozlabs.org/patch/1583181
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+Hmm ok. Why can't future chips be supported in this series? What happens
+if nobody ever adds support for the new chips? We're left with this
+condition that looks like dead code.
