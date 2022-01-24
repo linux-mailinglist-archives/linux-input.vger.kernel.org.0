@@ -2,53 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 943AE497B1F
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jan 2022 10:11:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86900497D39
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jan 2022 11:33:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242603AbiAXJLX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Jan 2022 04:11:23 -0500
-Received: from mail.portyid.pl ([192.36.61.58]:51262 "EHLO mail.portyid.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242593AbiAXJLV (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Jan 2022 04:11:21 -0500
-Received: by mail.portyid.pl (Postfix, from userid 1001)
-        id 327FC41201; Mon, 24 Jan 2022 10:11:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=portyid.pl; s=mail;
-        t=1643015475; bh=+PMi7irkA4XlRgpdW2HqpqcJeZNxKGysf407T0katTE=;
-        h=Date:From:To:Subject:From;
-        b=Wc+fx6YSoJYjFQtpHR64N92NCy/QzHeKk5BtTWMhwTK+tE3wvDJJeT+kitcmc2G7X
-         Z8Zri6n3DhU1y58ypZ/VjpPyKzNCXxlPwg8Xk8JpQSZaMp0zCqOybWc0OSyDJpQqO6
-         YUX7A364EBOqcfk/XjVInq2YywvNnFwZg4DY8hWj3QYO1qgnojPkKPQQsIacJPvnQ+
-         RwblaXhIiJsa2qj9FmAq041MR3pbYoJphEEnb6YcjVoV9sGLZxsvcm8YlnC68Z/nHj
-         tPDBN4W8SLr6Ul0iF+oeNzD6h3USn34sZCMue8Ji1Xz5LUP+xBqPyjn5Sd5QQWYyaN
-         c7WhUWj1zIflQ==
-Received: by mail.portyid.pl for <linux-input@vger.kernel.org>; Mon, 24 Jan 2022 09:11:00 GMT
-Message-ID: <20220124084500-0.1.1b.5fbf.0.seqn4a5jn7@portyid.pl>
-Date:   Mon, 24 Jan 2022 09:11:00 GMT
-From:   =?UTF-8?Q? "Pawe=C5=82_Jasi=C5=84ski" ?= 
-        <pawel.jasinski@portyid.pl>
-To:     <linux-input@vger.kernel.org>
-Subject: Fotowoltaika - nowe warunki
-X-Mailer: mail.portyid.pl
+        id S229908AbiAXKdX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Jan 2022 05:33:23 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:52472 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229780AbiAXKdX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 24 Jan 2022 05:33:23 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BCF39612DA;
+        Mon, 24 Jan 2022 10:33:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2EA3C340E1;
+        Mon, 24 Jan 2022 10:33:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643020402;
+        bh=ZDpY32bf3JRg/e5KevpUlzOgP1yoitkBK5SwPkIgfuU=;
+        h=References:From:To:Cc:Subject:Date:In-reply-to:From;
+        b=buKebxZmE+b0j5nd7P6irbxaH7Ch1p/vnXDys/cKf3S/1IsAbuUZpouHHX17bfuGz
+         LWRO3krfbtyBqQD9PDuOYt4aCJgfFG0neE5HTElKpxjDfJuDtpT67fxTdX10m7/6f4
+         2tmH6iig5sqJ8DesVpitGa657qjzXOqbU7jzspoOctppr/yX2uvFrNtdGaKjs/wziG
+         PYLBeW8Q41ZNxSkJ20AbXTf+KXUqn1N/EnxxXAwlxmeBZF7QfRYqYbGSKY/rDisZet
+         gx0O33uEZR0cILsVimPkKsmYGTF1wFLMGSs3b1e4FaaZuwUxqUMqj2ZmEaKUYjwMfv
+         kkF+tvf/HK1zQ==
+References: <20220115023135.234667-1-dmanti@microsoft.com>
+ <20220115023135.234667-4-dmanti@microsoft.com>
+User-agent: mu4e 1.6.10; emacs 28.0.90
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Dmitry Antipov <daantipov@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Brown <broonie@kernel.org>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-spi@vger.kernel.org,
+        Dmitry Antipov <dmanti@microsoft.com>
+Subject: Re: [PATCH v3 3/5] Documentation: DT bindings for HID over SPI.
+Date:   Mon, 24 Jan 2022 12:32:39 +0200
+In-reply-to: <20220115023135.234667-4-dmanti@microsoft.com>
+Message-ID: <87v8y9779v.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dzie=C5=84 dobry,
 
-jeszcze w pierwszej po=C5=82owie 2022 roku wzrosn=C4=85 ceny za wykup ene=
-rgii dla posiadaczy fotowoltaiki.=20
+Dmitry Antipov <daantipov@gmail.com> writes:
 
-Aby unikn=C4=85=C4=87 umowy na nowych zasadach trzeba zdecydowa=C4=87 si=C4=
-=99 na instalacj=C4=99 paneli PV do ko=C5=84ca marca.=20
+> From: Dmitry Antipov <dmanti@microsoft.com>
+>
+> Added documentation describes the required properties for implementing
+> Device Tree for a device supporting HID over SPI and also provides an
+> example.
+>
+> Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
+> ---
+>  .../bindings/input/hid-over-spi.txt           | 43 +++++++++++++++++++
+>  1 file changed, 43 insertions(+)
+>  create mode 100755 Documentation/devicetree/bindings/input/hid-over-spi.txt
+>
+> diff --git a/Documentation/devicetree/bindings/input/hid-over-spi.txt b/Documentation/devicetree/bindings/input/hid-over-spi.txt
+> new file mode 100755
+> index 000000000000..5eba95b5724e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/hid-over-spi.txt
+> @@ -0,0 +1,43 @@
+> +* HID over SPI Device-Tree bindings
+> +
 
-Jako firma specjalizuj=C4=85ca si=C4=99 w monta=C5=BCu i serwisie fotowol=
-taiki ch=C4=99tnie podejmiemy si=C4=99 realizacji ca=C5=82ego projektu. S=
-=C4=85 Pa=C5=84stwo zainteresowani?
+Some windows-style line endings leaked here. Perhaps run dos2unix on the file?
 
-
-Pozdrawiam
-Pawe=C5=82 Jasi=C5=84ski
+-- 
+balbi
