@@ -2,56 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AC20498FAF
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jan 2022 20:55:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA3C3499AE0
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jan 2022 22:58:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351688AbiAXTyO convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Mon, 24 Jan 2022 14:54:14 -0500
-Received: from [103.153.79.64] ([103.153.79.64]:61220 "EHLO [103.153.79.64]"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236045AbiAXTsO (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Jan 2022 14:48:14 -0500
-Reply-To: Nasser Rashid <nasserrashid.uae@gmail.com>
-From:   Nasser Rashid <anice.fronteracapitalgroup@gmail.com>
-To:     linux-input@vger.kernel.org
-Subject: EXPO 2020 BUSINESS PROPOSAL
-Date:   24 Jan 2022 11:48:17 -0800
-Message-ID: <20220124114817.97A73FEF67CD07F0@gmail.com>
+        id S1379020AbiAXVra (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Jan 2022 16:47:30 -0500
+Received: from isilmar-4.linta.de ([136.243.71.142]:53874 "EHLO
+        isilmar-4.linta.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1376896AbiAXVQe (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 24 Jan 2022 16:16:34 -0500
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+Received: from owl.dominikbrodowski.net (owl.brodo.linta [10.2.0.111])
+        by isilmar-4.linta.de (Postfix) with ESMTPSA id 7CF74200230;
+        Mon, 24 Jan 2022 21:16:25 +0000 (UTC)
+Received: by owl.dominikbrodowski.net (Postfix, from userid 1000)
+        id 49054809C2; Mon, 24 Jan 2022 22:15:21 +0100 (CET)
+Date:   Mon, 24 Jan 2022 22:15:21 +0100
+From:   Dominik Brodowski <linux@dominikbrodowski.net>
+To:     andrew.shadura@collabora.co.uk
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-crypto@vger.kernel.org, herbert@gondor.apana.org.au
+Subject: hid-u2fzero.c - hw_random quality set to 1?
+Message-ID: <Ye8W6bOh85JILMrp@owl.dominikbrodowski.net>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Greetings!
+Hi,
 
-I'm Nasser Rashid, a business financial specialist and investment 
-expert. consultant experienced in financial funding services. I 
-have a
+is there any specific rationale why the quality of the hid-u2fzero.c hw
+rng is set to 1, meaning that only 1 bit of entrop is added per 1024 bits
+of input (see drivers/char/hw_random/core.c)? That actually means that
+currently no entropy is credited at all, as this driver will return not
+more than 64 bytes (= rc), and then
 
-I have a serious business investment opportunity to discuss with 
-you. Century Financial Dubai is the home of discerning investors.
-We
+	rc * current_quality * 8 >> 10
 
-We offer independent financial advice and assist our clients in 
-making sound investment decisions from a variety of investment 
-options.
+evaluates to 0. While this is addressed by a patch I just submitted,[*]
+I'd like to know whether this low quality setting is correct.
 
-Opportunities are available.
+Thanks,
+	Dominik
 
-Our company is structured to provide personalized services to As 
-a result, capital security and adequate funding are ensured.
-
-returns on investment. Our investors are ready to provide funding 
-for your business expansion, such as debt and equity.
-
-financing. If you require funding, we would be able to partner 
-with you. We look forward to your response.
-
-Thank you and stay safe,
-
-Nasser Rashid, CFA,
-
-Century Financial
+[*] https://lore.kernel.org/linux-crypto/20220124202951.28579-6-linux@dominikbrodowski.net/
