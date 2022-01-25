@@ -2,170 +2,159 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CAB749BB61
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jan 2022 19:37:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9FA349BC00
+	for <lists+linux-input@lfdr.de>; Tue, 25 Jan 2022 20:24:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232797AbiAYSgo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Jan 2022 13:36:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38646 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232775AbiAYSgn (ORCPT
+        id S229897AbiAYTYm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Jan 2022 14:24:42 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:13638 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229849AbiAYTYi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Jan 2022 13:36:43 -0500
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED28C06173B
-        for <linux-input@vger.kernel.org>; Tue, 25 Jan 2022 10:36:43 -0800 (PST)
-Received: by mail-oi1-x22c.google.com with SMTP id s9so32715187oib.11
-        for <linux-input@vger.kernel.org>; Tue, 25 Jan 2022 10:36:43 -0800 (PST)
+        Tue, 25 Jan 2022 14:24:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=SxZoYrbO6Ef17p8OqD68kIBpBg+bCtqCFo+bkhGmNNQ=;
-        b=fzL68KEeCP4UgED294GYG/eyK5b0BragCU+4mlnREQa76YxYhFwi9qr7EjQHzMhvZp
-         mdfnIHWi1WRlef3q5We7mwP3UsN6HM9OEjTspU1GV7eKU+WVM6E0nsFJvyznk9n1J4XC
-         mIj9htFQHaLx2r7j5niLmFyMK0gDCTofGYLswSzICA+yc0TQ74Mb4DdbsrGfxJsgZge6
-         21uIanhxi36yBKSBwfDc7tDqKS3DBw4LvI6AWqP/IfK6fAe93fGaR4oiut7F874S5bLe
-         zt52JSm86bP06oUlQUxCyMkxaDMe/PJtRNqW3Yl/uK31UJ/cMuzgMc8eJ/gmQJDQ3xUk
-         UA9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=SxZoYrbO6Ef17p8OqD68kIBpBg+bCtqCFo+bkhGmNNQ=;
-        b=1zl1VEV8h+e/sRmZR1IN58P4+H+M0Wcyx9F6OonP4HbnO4K/dW1R5xofnX8zqNbRMR
-         dlrwpbi6OV2ASp9Upu1Oi2uU1HG+Uu3Xdz2BqIMV+1FlKGD9pzHEJ/92862WNw5lGTqG
-         joarjrh/4+bbl6dqOZ0XnE9BHO1Hsk2Xp0eoOurCOsQnHXNu1oldtmUgwXoDbWycj5Io
-         AZFjaSHvAN4WeY5SPZWu40qA5PRvRPRXJhea3efyDxeQTvwL17fVGuo9w5YsLW6YD+yj
-         IHvKoggEX7OMDE1aoMIW4tWE7mVHQpBZCVc13GNr1cDEYoX5tmKe03GktGDBcRWrJhE9
-         GoZw==
-X-Gm-Message-State: AOAM530mN+HWNwYQ7TuVxZsGVz8fyM+iEiv0tM41CXPSQ9SspBho7JUc
-        9KyW07Nkb5YVrWOOTE7eQbI9yw==
-X-Google-Smtp-Source: ABdhPJyX1CpJBMK7MpYrdOLjRh+epx5+C9H+o/upp01WwUGlJrqQbQXGfcELn1ur8rYKZslPgbCAnw==
-X-Received: by 2002:a05:6808:1184:: with SMTP id j4mr1555706oil.200.1643135802430;
-        Tue, 25 Jan 2022 10:36:42 -0800 (PST)
-Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
-        by smtp.gmail.com with ESMTPSA id 71sm1381668otn.43.2022.01.25.10.36.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jan 2022 10:36:41 -0800 (PST)
-Date:   Tue, 25 Jan 2022 10:37:09 -0800
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Anjelique Melendez <quic_amelende@quicinc.com>,
-        dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        collinsd@codeaurora.org, skakit@codeaurora.org
-Subject: Re: [PATCH 3/3] input: misc: pm8941-pwrkey: avoid potential null
- pointer dereference
-Message-ID: <YfBDVQeEsLv6Yj9g@ripper>
-References: <20220120204132.17875-1-quic_amelende@quicinc.com>
- <20220120204132.17875-4-quic_amelende@quicinc.com>
- <YenpwnE3WrIEAOlm@ripper>
- <e2015c19-b73b-39a7-ba73-708b2c4552c7@quicinc.com>
- <CAE-0n50+1OU2yt2gihHHCEn-cE-CZuqa_U9W=xWCuYeCQdzExw@mail.gmail.com>
- <Ye8nmnQ3F4QcTIJs@ripper>
- <CAE-0n51bYEkvxu8z2gc_KUv0u+J2Esg0_3AiQRLyTaouNoa78g@mail.gmail.com>
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1643138678; x=1674674678;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=uJ9S2I9JwIcsZP3Xg/NZAPRy9Xc3MsaKcTkgUlFWqcQ=;
+  b=KIbcWQm4tptz1WSlYFCodAjdzNjGdcU9qRj6gEaCm1TXrkQvgT0FuW0s
+   PkEX5qWHA5ylEQis7FT4RF6UrR6Bci3Kp+Td6G4vWBFZC4Qg4eV8LBBjr
+   bosYehPmHZ88x+2DP7djZBMT5QNx/Rs/dMDwtG82RnsZHs4vQNdANahY2
+   k=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 25 Jan 2022 11:24:37 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2022 11:24:36 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Tue, 25 Jan 2022 11:24:36 -0800
+Received: from [10.110.14.237] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Tue, 25 Jan
+ 2022 11:24:35 -0800
+Message-ID: <15868e85-d48e-e2a8-a8da-c7b87c22564a@quicinc.com>
+Date:   Tue, 25 Jan 2022 11:24:35 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAE-0n51bYEkvxu8z2gc_KUv0u+J2Esg0_3AiQRLyTaouNoa78g@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/3] input: misc: pm8941-pwrkey: add software key press
+ debouncing support
+Content-Language: en-US
+To:     Stephen Boyd <swboyd@chromium.org>, <dmitry.torokhov@gmail.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <collinsd@codeaurora.org>,
+        <bjorn.andersson@linaro.org>, <skakit@codeaurora.org>
+References: <20220120204132.17875-1-quic_amelende@quicinc.com>
+ <20220120204132.17875-2-quic_amelende@quicinc.com>
+ <CAE-0n508nxF_c9pzsTaQfSi42ZGQXkqb3NyQebuMBec2DCV0KA@mail.gmail.com>
+ <efa57fd8-d2ac-4c02-04ac-c62315b3b28c@quicinc.com>
+ <CAE-0n51GUGskL17MGhk-=-dbdPU_3ChE37Hbzq6VBZc2Ge0vkA@mail.gmail.com>
+From:   Anjelique Melendez <quic_amelende@quicinc.com>
+In-Reply-To: <CAE-0n51GUGskL17MGhk-=-dbdPU_3ChE37Hbzq6VBZc2Ge0vkA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon 24 Jan 17:55 PST 2022, Stephen Boyd wrote:
 
-> Quoting Bjorn Andersson (2022-01-24 14:26:34)
-> > On Thu 20 Jan 20:18 PST 2022, Stephen Boyd wrote:
-> >
-> > > Quoting Anjelique Melendez (2022-01-20 16:25:26)
-> > > >
-> > > > On 1/20/2022 3:01 PM, Bjorn Andersson wrote:
-> > > > > On Thu 20 Jan 12:41 PST 2022, Anjelique Melendez wrote:
-> > > > >
-> > > > >> From: David Collins <collinsd@codeaurora.org>
-> > > > >>
-> > > > >> Add a null check for the pwrkey->data pointer after it is assigned
-> > > > >> in pm8941_pwrkey_probe().  This avoids a potential null pointer
-> > > > >> dereference when pwrkey->data->has_pon_pbs is accessed later in
-> > > > >> the probe function.
-> > > > >>
-> > > > >> Change-Id: I589c4851e544d79a1863fd110b32a0b45ac03caf
-> > > > >> Signed-off-by: David Collins <collinsd@codeaurora.org>
-> > > > >> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
-> > > > >> ---
-> > > > >>  drivers/input/misc/pm8941-pwrkey.c | 4 ++++
-> > > > >>  1 file changed, 4 insertions(+)
-> > > > >>
-> > > > >> diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
-> > > > >> index 0ce00736e695..ac08ed025802 100644
-> > > > >> --- a/drivers/input/misc/pm8941-pwrkey.c
-> > > > >> +++ b/drivers/input/misc/pm8941-pwrkey.c
-> > > > >> @@ -263,6 +263,10 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
-> > > > >>
-> > > > >>      pwrkey->dev = &pdev->dev;
-> > > > >>      pwrkey->data = of_device_get_match_data(&pdev->dev);
-> > > > >> +    if (!pwrkey->data) {
-> > > > > The only way this can happen is if you add a new compatible and forget
-> > > > > to specify data and when that happens you will get a print in the log
-> > > > > somewhere, which once you realize that you don't have your pwrkey you
-> > > > > might be able to find among all the other prints.
-> > > > >
-> > > > > If you instead don't NULL check this pointer you will get a large splat
-> > > > > in the log, with callstack and all, immediately hinting you that
-> > > > > pwrkey->data is NULL.
-> > > > >
-> > > > >
-> > > > > In other words, there's already a print, a much larger print and I don't
-> > > > > think there's value in handling this mistake gracefully.
-> > > > >
-> > > > > Regards,
-> > > > > Bjorn
-> > > >
-> > > >
-> > > > We would like to the null pointer check in place to avoid static analysis
-> > > >
-> > > > warnings that can be easily fixed.
-> > > >
-> > >
-> > > Many drivers check that their device_get_match_data() returns a valid
-> > > pointer. I'd like to see that API used in addition to checking the
-> > > return value for NULL so that we can keep the static analysis tools
-> > > happy. Yes it's an impossible case assuming the driver writer didn't
-> > > mess up but it shuts SA up and we don't really have a better solution
-> > > to tell tools that device_get_match_data() can't return NULL.
-> >
-> > I'm not saying that device_get_match_data() can't return NULL,
-> 
-> Indeed, I wasn't implying that you were saying that.
-> 
-> > I'm
-> > saying that in the very specific cases that it would return NULL it's
-> > useful to have a kernel panic - as that's a much faster way to figure
-> > out that something is wrong.
-> 
-> I see it as more annoying, but maybe that's my workflow? When my kernel
-> oopses I have to go back to a recovery kernel, which takes me a few more
-> seconds to "repair" my device. If the driver only failed to probe then
-> I'd probably be able to boot far enough to get networking and more
-> easily replace my kernel with a working device. And I'd have userspace
-> access so I could poke around and figure out why the driver failed to
-> probe. Now obviously a big stacktrace would be helpful to know that it's
-> the power key driver that's busted, but it's not like we're calling some
-> internal API here. We're trying to probe a driver and if that oopses
-> because the driver writer failed at their job then it's bad on them for
-> writing a bad patch but also annoying for the integrator who has to deal
-> with the mess they created. I'd rather have a half working system here
-> vs. a totally broken one.
 
-Forgot about your recovery cycle, on most of my boards I just load a new
-kernel every boot, so there's no cost of recovering from a panic, it
-might even save me some time if it crashes completely before userspace
-starts consuming cycles.
+On 1/24/2022 11:33 AM, Stephen Boyd wrote:
+> Quoting Anjelique Melendez (2022-01-21 16:04:13)
+>>
+>> On 1/20/2022 8:08 PM, Stephen Boyd wrote:
+>>> Quoting Anjelique Melendez (2022-01-20 12:41:33)
+>>>> @@ -200,15 +268,21 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+>>>>                         dev_err(&pdev->dev, "failed to locate regmap\n");
+>>>>                         return -ENODEV;
+>>>>                 }
+>>>> +       }
+>>>>
+>>>> -               error = of_property_read_u32(parent->of_node,
+>>>> -                                            "reg", &pwrkey->baseaddr);
+>>>> -       } else {
+>>>> -               error = of_property_read_u32(pdev->dev.of_node, "reg",
+>>>> -                                            &pwrkey->baseaddr);
+>>>> +       addr = of_get_address(regmap_node, 0, NULL, NULL);
+>>>> +       if (!addr) {
+>>>> +               dev_err(&pdev->dev, "reg property missing\n");
+>>>> +               return -EINVAL;
+>>>> +       }
+>>>> +       pwrkey->baseaddr = be32_to_cpu(*addr);
+>>> Can this hunk be split off? A new API is used and it doesn't look
+>>> relevant to this patch.
+>> In PMK8350 and following chips the reg property will have the pon hlos address first,
+>> followed by a second pon pbs address. This change is needed so that both the older chipsets
+>> and the newer can be used regardless of how many reg addresses are being used.
+> Got it, but do we ned to change to of_get_address() in this patch? I was
+> suggesting that the change to the new API be done first so that it's
+> clearer what's going on with the change in address location.
 
-My only concern is that this "sets" a quite fuzzy precedence. I don't
-want us to just fix SA warnings all over the place, but I don't want it
-to be inconvenient to work on the kernel...
+Ok, makes sense. Will separate this into it's own patch for v2.
 
-Regards,
-Bjorn
+>>>> +
+>>>> +       if (pwrkey->data->has_pon_pbs) {
+>>>> +               /* PON_PBS base address is optional */
+>>>> +               addr = of_get_address(regmap_node, 1, NULL, NULL);
+>>>> +               if (addr)
+>>>> +                       pwrkey->pon_pbs_baseaddr = be32_to_cpu(*addr);
+>>>>         }
+>>>> -       if (error)
+>>>> -               return error;
+>>>>
+>>>>         pwrkey->irq = platform_get_irq(pdev, 0);
+>>>>         if (pwrkey->irq < 0)
+>>>> @@ -217,7 +291,14 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+>>>>         error = regmap_read(pwrkey->regmap, pwrkey->baseaddr + PON_REV2,
+>>>>                             &pwrkey->revision);
+>>>>         if (error) {
+>>>> -               dev_err(&pdev->dev, "failed to set debounce: %d\n", error);
+>>>> +               dev_err(&pdev->dev, "failed to read revision: %d\n", error);
+>>> Nice error message fix!
+> This can be split off to a different patch as well.
+
+Will do.
+
+>>>> +               return error;
+>>>> +       }
+>>>> +
+>>>> +       error = regmap_read(pwrkey->regmap, pwrkey->baseaddr + PON_SUBTYPE,
+>>>> +                           &pwrkey->subtype);
+>>>> +       if (error) {
+>>>> +               dev_err(&pdev->dev, "failed to read subtype: %d\n", error);
+>>>>                 return error;
+>>>>         }
+>>>>
+>>>> @@ -255,6 +336,12 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+>>>>                 }
+>>>>         }
+>>>>
+>>>> +       if (pwrkey->data->needs_sw_debounce) {
+>>>> +               error = pm8941_pwrkey_sw_debounce_init(pwrkey);
+>>>> +               if (error)
+>>>> +                       return error;
+>>>> +       }
+>>>> +
+>>>>         if (pwrkey->data->pull_up_bit) {
+>>>>                 error = regmap_update_bits(pwrkey->regmap,
+>>>>                                            pwrkey->baseaddr + PON_PULL_CTL,
+>>>> @@ -316,6 +403,8 @@ static const struct pm8941_data pwrkey_data = {
+>>>>         .phys = "pm8941_pwrkey/input0",
+>>>>         .supports_ps_hold_poff_config = true,
+>>>>         .supports_debounce_config = true,
+>>>> +       .needs_sw_debounce = true,
+>>> needs_sw_debounce is always true? Why is it even an option then?
+>> As of right now the "needs_sw_debounce" property is being used for a sw work around for a hw
+>> problem. We anticipate that chips in the future will fix this hw problem and we would then have
+>> devices where needs_sw_debounce would be set to false.
+> Hmm ok. Why can't future chips be supported in this series? What happens
+> if nobody ever adds support for the new chips? We're left with this
+> condition that looks like dead code.
+
+Sure, makes sense. Will remove "needs_sw_debounce" property for V2.
