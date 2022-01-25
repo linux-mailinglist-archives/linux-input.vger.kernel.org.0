@@ -2,73 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E66149AD07
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jan 2022 08:08:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18A6649B03B
+	for <lists+linux-input@lfdr.de>; Tue, 25 Jan 2022 10:42:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376630AbiAYHGJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Jan 2022 02:06:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45772 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376641AbiAYHEF (ORCPT
+        id S1456530AbiAYJaI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Jan 2022 04:30:08 -0500
+Received: from mail.belongsenergy.pl ([185.45.112.191]:37784 "EHLO
+        mail.belongsenergy.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1388634AbiAYJS4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Jan 2022 02:04:05 -0500
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0995FC02B77E
-        for <linux-input@vger.kernel.org>; Mon, 24 Jan 2022 21:41:53 -0800 (PST)
-Received: by mail-yb1-xb2e.google.com with SMTP id 23so58322822ybf.7
-        for <linux-input@vger.kernel.org>; Mon, 24 Jan 2022 21:41:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
-        b=omchJdYJcVvbnbx3iWDsqNfzfvgFxRY5UV8d5JFHFd0Qxp4Fs99oOTWbnsLJvmkGLO
-         KJ9h0aIZipzZCxLYUC1EbKJQXjsTnrYD4skWPu5L6KEa7WwksJ/DgfAKn2I//FvNz16e
-         yvRSMjBJIkfJOiN7QosmIFzfX6t0OymUxXq/kzoldmt5Tk4SMXy3poAlzZfnj4tLqkCO
-         r1uVZjBjIcfKcTHUm4yIRwmNGijXGA0OAhFYRol/6hiAAZJ37V1K6a3bLM+XpGdFXGos
-         hPiIHyT9XSW8aiVFGjIdHRgRcnWLHkX21ZW87GvspRwlXlL9xuI6dXFZXWxBZnRTJWgA
-         Bk5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
-        b=UHWRQ0nGXF9IUhsBLQDxymuN72Vju9Zhw+vTyAlcYpHV1lXTBhf2J2YF9et9fhQ81h
-         19sZHTvjuNI25waBhYIKP7mifKIIHCI8PBIW/ZIpxZzWXptPbuK3HWrDUvlDtvFNRtcv
-         aTkFNkLHKGpbj66rJbdo4mGnSsPuco4NnT12E/EUJ30cC1amQ5mZbh3v23l/AliK5qem
-         VMdNLYqIqqsrB4+K49jnT1x8602LjmjFdt9wH3H7SifQl0qdsZCMqlhB1//W+vyvPjPT
-         V9x4iWAIlmTA9QEbBgr2fxnkppAR0LKB0EVEzkXRDkXgHii1X1DG6dpj/uoQBJCdHbcl
-         bOXQ==
-X-Gm-Message-State: AOAM533Yb+PEl723vl6Qh+x0F9KUqVD2JHypjmCoMnW43plf8P4TT3nl
-        +gRqxk6oR+Eq8E+RbfNcTbQSUMx1XFL+6ZmvynTqC6S2o78=
-X-Google-Smtp-Source: ABdhPJwywiwyTtOCXfovmJIEM7Vqt+PFDzMW3tzxRj90P3fJDPhIlV2jOd/vI9WPw47eCab8Z7S4n4qldrLRD5Ly+Sc=
-X-Received: by 2002:a25:d783:: with SMTP id o125mr27594671ybg.710.1643089301256;
- Mon, 24 Jan 2022 21:41:41 -0800 (PST)
+        Tue, 25 Jan 2022 04:18:56 -0500
+Received: by mail.belongsenergy.pl (Postfix, from userid 1001)
+        id 7C4CF26678; Tue, 25 Jan 2022 09:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=belongsenergy.pl;
+        s=mail; t=1643101821;
+        bh=JAEkA4FCBmQ7T7M+WVau75EdqeDf4MEEr9hE2/l61BA=;
+        h=Date:From:To:Subject:From;
+        b=YAPUllRtbyAV/QpL6N6uLqZKlV3B/CRdwnJc4OKWQcCakBPQ5qUGDYKWMK4u+/Nk3
+         Msw0mx+w+I9dZ8x1sV5xY423X+tXW39yFZ+xOZZJparV2zUNMGrfk92ASb2iWE0ujA
+         7CLKbYluhFWHeLHepvhStCoenXB33eICiCNB1UCKTFwL66goePfRk4Z+eW3op14nJQ
+         b2G8JoUJ/oKA4L+3jXP811vyWSmzvyXENbZQRlzdFEZKhxj6omNYr30CgMFUWL3OvE
+         f4+I59zPVeFdTb03U0hAq0ArTkSgRZdr4Xckf+8pleGyEgXShR9r+/8Gjm/goBNzg/
+         nhJK0x7ku36fQ==
+Received: by mail.belongsenergy.pl for <linux-input@vger.kernel.org>; Tue, 25 Jan 2022 09:10:08 GMT
+Message-ID: <20220125074500-0.1.7.2rg.0.7c4no0b1rg@belongsenergy.pl>
+Date:   Tue, 25 Jan 2022 09:10:08 GMT
+From:   "Maciej Nitycz" <maciej.nitycz@belongsenergy.pl>
+To:     <linux-input@vger.kernel.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.belongsenergy.pl
 MIME-Version: 1.0
-Received: by 2002:a05:7000:ad9d:0:0:0:0 with HTTP; Mon, 24 Jan 2022 21:41:40
- -0800 (PST)
-Reply-To: danielseyba@yahoo.com
-From:   Seyba Daniel <mrssuzaramaling19@gmail.com>
-Date:   Tue, 25 Jan 2022 06:41:40 +0100
-Message-ID: <CAKN-9XgQjuMspSnu-F01fv+Bgr6eZEygpsR3pZ-5cF=m78av-Q@mail.gmail.com>
-Subject: Hello,
-To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+Dzie=C5=84 dobry,
 
-I am so sorry contacting you in this means especially when we have never
-met before. I urgently seek your service to represent me in investing in
-your region / country and you will be rewarded for your service without
-affecting your present job with very little time invested in it.
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-My interest is in buying real estate, private schools or companies with
-potentials for rapid growth in long terms.
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
 
-So please confirm interest by responding back.
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
 
-My dearest regards
 
-Seyba Daniel
+Pozdrawiam,
+Maciej Nitycz
