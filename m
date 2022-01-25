@@ -2,240 +2,224 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBF9149B242
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jan 2022 11:54:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA5DD49B97C
+	for <lists+linux-input@lfdr.de>; Tue, 25 Jan 2022 18:00:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352268AbiAYKrS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Tue, 25 Jan 2022 05:47:18 -0500
-Received: from mail-ua1-f51.google.com ([209.85.222.51]:34740 "EHLO
-        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359754AbiAYKnd (ORCPT
+        id S1344398AbiAYQ7t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Jan 2022 11:59:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43806 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1587067AbiAYQ5l (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Jan 2022 05:43:33 -0500
-Received: by mail-ua1-f51.google.com with SMTP id y4so36590173uad.1;
-        Tue, 25 Jan 2022 02:43:29 -0800 (PST)
+        Tue, 25 Jan 2022 11:57:41 -0500
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1521AC06176A
+        for <linux-input@vger.kernel.org>; Tue, 25 Jan 2022 08:56:30 -0800 (PST)
+Received: by mail-yb1-xb2d.google.com with SMTP id 23so63444652ybf.7
+        for <linux-input@vger.kernel.org>; Tue, 25 Jan 2022 08:56:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=semihalf-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Bwg1+MbF6nQcF67kiwVJxTyVEApFWhKPyOngVONrtE0=;
+        b=PaSW+WT+MIxqR9c9m3RlTVpchvwkGHEs9f/NTzrclqSNuM5hyDGAKB9DTMXOyQiC3K
+         KmVYt7u9GxgUggzxakBvEOyL3Wa7/1tJEtsFPNbcqtRSGrkFLkrcW1aEIJoNUoAwAb+f
+         M2wtLbMhARPKGLDgJ9N7Nh97rE6W7DNeUtD41DGWOoNQ1k7cBTsfYZDvc2FyOjnhziAW
+         G+ODgBhEQvJLIlgH9YZ6dlX3jnqHo5qjUwrQFFwUUg5n3maFahK6JF0icnyze0xdhxdd
+         ZfHOyHr935yrHbljDj1bLsy/IYEgsvo4+AFWzqAbzO5Yv9ZmrZr3WWGo/7p36ZlkhYFL
+         jyeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=KUBI31PDeAnUzGFlBJuIh4dmvfrE44RhBRVMq2wEYSI=;
-        b=jEQDW5yodRmRVP9NIHGKf/Zqv7fciKPRB1CkTV3fKwnJqJOR9nObuvchECsV6CkowS
-         0RXMHwpiWGb2Tc8Kq8ywS8r7D5Ou/pBi+AuAod7u3AaDFL1+Z/eF6fLMeHVSznOTnWUW
-         90tv/NIVrXuMtI8sY04pwv/Mro4kUzc+Bpth5wWllcKADG4aGhnhIjbJhQzaV5RtPjzw
-         s1FdjjAQnwFOzetd3JADKbmMtsbUPpwqNRzajLB0hDQGa0Rgfbp8HOVlhxI+mK2MNTJd
-         Q5wTqyofT3OihGmTPOd6QhPLpcrEB7UCAoEmrVZTRCK/nWOxls32FCorF6O1NqCujuDv
-         dJSg==
-X-Gm-Message-State: AOAM531YcK63o+balcc5pV241srngLS5LTpT15FAMrvagHXIW5gKB3jS
-        U2c1AOPoRhAwTItUF4uz4P44uZUF4VS28vTX
-X-Google-Smtp-Source: ABdhPJwAP7sGEC010JKTiaYioiu/UTc4Mp89rGwnkrkLZob5IjBWSJ5wyDMZldWcel/u/8J+O6Kjog==
-X-Received: by 2002:a67:e146:: with SMTP id o6mr1664843vsl.4.1643107407326;
-        Tue, 25 Jan 2022 02:43:27 -0800 (PST)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
-        by smtp.gmail.com with ESMTPSA id s134sm3300983vkb.16.2022.01.25.02.43.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jan 2022 02:43:27 -0800 (PST)
-Received: by mail-vk1-f178.google.com with SMTP id j185so8365206vkc.1;
-        Tue, 25 Jan 2022 02:43:27 -0800 (PST)
-X-Received: by 2002:a05:6102:34e:: with SMTP id e14mr295625vsa.68.1643107051968;
- Tue, 25 Jan 2022 02:37:31 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=Bwg1+MbF6nQcF67kiwVJxTyVEApFWhKPyOngVONrtE0=;
+        b=rFecxqbZFv8mN+mrWFqgUvyxGEgwWM9TjViHbzJG/OsxRGZ4zm/is0MacFZ+Qr93BK
+         n/Lvtn7j6GpVpaDlr8ArYCyRL1EtIZhA+tcDampDI91Y56yYnXKopLChSRZO4PbSLjA9
+         8AhMwYFsJqE/zd+2KSwG8/h9JN0x6UBWvDgkFGjeI0hX5bwKIWuBC3k2S4qmSsn8GsA3
+         /vHGbGKWIXslNdjrVWQzljVzJ89CK930691MXyD5tARpFeaUpk9BL86bQ5Jbq4n099Ze
+         Z+Pn4Y1s7mXSerSujBonHjn4LYS8uUKfWLrN+dZI4MDph4YpVASR9+KDpQ9MTD0nLn+c
+         G77Q==
+X-Gm-Message-State: AOAM533mCVQ2st4+32/4fZofUA8CEbA68HGQ2ek9hFPD/sRM2Hre3xen
+        4RwjIrOZVuA3eoMdntGwKaWi6Oiaw+nZNQAjY4GzcQ==
+X-Google-Smtp-Source: ABdhPJx/RItTreStK3blEjb31GTWPNHxPJmtGMUmGga8bJkg/DbZwKYtkRxzc8wu5u8/7uNCR23eG1bLkI5LjJS3nU0=
+X-Received: by 2002:a5b:281:: with SMTP id x1mr29925525ybl.41.1643129789215;
+ Tue, 25 Jan 2022 08:56:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20220123175201.34839-1-u.kleine-koenig@pengutronix.de> <20220123175201.34839-6-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20220123175201.34839-6-u.kleine-koenig@pengutronix.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Jan 2022 11:37:19 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWCRyyq1=5+YnXgt2=B-qXMGWXC4XtnP_GHGvghdaH_XQ@mail.gmail.com>
-Message-ID: <CAMuHMdWCRyyq1=5+YnXgt2=B-qXMGWXC4XtnP_GHGvghdaH_XQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] spi: make remove callback a void function
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Mark Brown <broonie@kernel.org>,
-        =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Markuss Broks <markuss.broks@gmail.com>,
-        Emma Anholt <emma@anholt.net>,
-        David Lechner <david@lechnology.com>,
-        Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
-        =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dan Robertson <dan@dlrobertson.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Marcus Folkesson <marcus.folkesson@gmail.com>,
-        Kent Gustavsson <kent@minoris.se>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
+References: <20211221191743.1893185-1-acz@semihalf.com> <20211221191743.1893185-14-acz@semihalf.com>
+ <Ydi4/xYdgTv9Umqh@google.com> <CAB4aORUgGcPCLZ8iWAorCPbW53Q7c-YiDC4qau-w7G9sYjCvfg@mail.gmail.com>
+ <Ydye8C1MjxpHHF5P@google.com> <CAB4aORU35k1zuMPaKsa09Qr34wgurYw1F-Mpyn2WZN77+5R+7A@mail.gmail.com>
+ <CAOOzhkrzawfAxbFmQb-D39cAS3tt05qL-4dpj0X+ncxEFU3z_A@mail.gmail.com>
+ <Yd5CayeX+hsZz7ZP@google.com> <YepOXFQUrMB/TNDX@quokka>
+In-Reply-To: <YepOXFQUrMB/TNDX@quokka>
+From:   Angela Czubak <acz@semihalf.com>
+Date:   Tue, 25 Jan 2022 17:56:17 +0100
+Message-ID: <CAB4aORUn6b47qxqr6Sre6U5dSwnS3bjOkPOyh7iM826mZ_mSJg@mail.gmail.com>
+Subject: Re: [PATCH 13/18] Input: MT - toggle ABS_PRESSURE pointer emulation
+To:     Peter Hutterer <peter.hutterer@who-t.net>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Charles-Antoine Couret <charles-antoine.couret@nexvision.fr>,
-        Antti Palosaari <crope@iki.fi>,
-        Lee Jones <lee.jones@linaro.org>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Eric Piel <eric.piel@tremplin-utc.net>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Thomas Kopp <thomas.kopp@microchip.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Harry Morris <h.morris@cascoda.com>,
-        Varka Bhadram <varkabhadram@gmail.com>,
-        Xue Liu <liuxuenetmail@gmail.com>, Alan Ott <alan@signal11.us>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Christian Lamparter <chunkeey@googlemail.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        Ajay Singh <ajay.kathat@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Solomon Peachy <pizza@shaftnet.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Mark Greer <mgreer@animalcreek.com>,
-        Benson Leung <bleung@chromium.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        James Schulman <james.schulman@cirrus.com>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        Lucas Tanure <tanureal@opensource.cirrus.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        Alexandru Ardelean <ardeleanalex@gmail.com>,
-        Mike Looijmans <mike.looijmans@topic.nl>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Cai Huoqing <caihuoqing@baidu.com>,
-        Minghao Chi <chi.minghao@zte.com.cn>,
-        Antoniu Miclaus <antoniu.miclaus@analog.com>,
-        Julia Lawall <Julia.Lawall@inria.fr>,
-        =?UTF-8?Q?Ronald_Tschal=C3=A4r?= <ronald@innovation.ch>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Heiko Schocher <hs@denx.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Colin Ian King <colin.king@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Matt Kline <matt@bitbashing.io>,
-        Torin Cooper-Bennun <torin@maxiluxsystems.com>,
-        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        =?UTF-8?Q?Stefan_M=C3=A4tje?= <stefan.maetje@esd.eu>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        Wei Yongjun <weiyongjun1@huawei.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Nanyong Sun <sunnanyong@huawei.com>,
-        Yang Shen <shenyang39@huawei.com>,
-        dingsenjie <dingsenjie@yulong.com>,
-        Aditya Srivastava <yashsri421@gmail.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Michael Walle <michael@walle.cc>,
-        Yang Li <yang.lee@linux.alibaba.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        wengjianfeng <wengjianfeng@yulong.com>,
-        Sidong Yang <realwakka@gmail.com>,
-        Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
-        Zhang Qilong <zhangqilong3@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Tomlinson <mark.tomlinson@alliedtelesis.co.nz>,
-        Davidlohr Bueso <dbueso@suse.de>, Claudius Heine <ch@denx.de>,
-        Jiri Prchal <jiri.prchal@aksignal.cz>,
-        linux-kernel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
-        linux-wireless@vger.kernel.org, libertas-dev@lists.infradead.org,
-        platform-driver-x86@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-omap@vger.kernel.org,
-        kernel@pengutronix.de
+        "Sean O'Brien" <seobrien@chromium.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        upstream@semihalf.com, Jiri Kosina <jikos@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Jan 23, 2022 at 6:54 PM Uwe Kleine-König
-<u.kleine-koenig@pengutronix.de> wrote:
-> The value returned by an spi driver's remove function is mostly ignored.
-> (Only an error message is printed if the value is non-zero that the
-> error is ignored.)
+Hi Peter, Dmitry, Benjamin, Sean,
+
+On Fri, Jan 21, 2022 at 7:10 AM Peter Hutterer <peter.hutterer@who-t.net> wrote:
 >
-> So change the prototype of the remove function to return no value. This
-> way driver authors are not tempted to assume that passing an error to
-> the upper layer is a good idea. All drivers are adapted accordingly.
-> There is no intended change of behaviour, all callbacks were prepared to
-> return 0 before.
+> On Tue, Jan 11, 2022 at 06:52:27PM -0800, Dmitry Torokhov wrote:
+> > On Tue, Jan 11, 2022 at 09:19:19PM -0500, Sean O'Brien wrote:
+> > > On Tue, Jan 11, 2022 at 12:07 PM Angela Czubak <acz@semihalf.com> wrote:
+> > > >
+> > > > On Mon, Jan 10, 2022 at 10:02 PM Dmitry Torokhov
+> > > > <dmitry.torokhov@gmail.com> wrote:
+> > > > >
+> > > > > On Mon, Jan 10, 2022 at 08:43:28PM +0100, Angela Czubak wrote:
+> > > > > > Hi Dmitry,
+> > > > > >
+> > > > > > On Fri, Jan 7, 2022 at 11:07 PM Dmitry Torokhov
+> > > > > > <dmitry.torokhov@gmail.com> wrote:
+> > > > > > >
+> > > > > > > Hi Angela,
+> > > > > > >
+> > > > > > > On Tue, Dec 21, 2021 at 07:17:38PM +0000, Angela Czubak wrote:
+> > > > > > > > Add a function to switch off ABS_PRESSURE generation if necessary.
+> > > > > > > > This may be helpful in case drivers want to generate ABS_PRESSURE events
+> > > > > > > > themselves from ABS_MT_PRESSURE.
+> > > > > > >
+> > > > > > > This needs better explanation for why it is needed. I assume this is to
+> > > > > > > use ABS_PRESSURE to report "true force" for devices. If this is correct
+> > > > > > > then I believe we should define a new flag for input_mt_init_slots()
+> > > > > > > and check it here and also use it to calculate the force across contacts
+> > > > > > > in input_mt_sync_frame().
+> > > > > > >
+> > > > > > > Or did I misunderstand the point?
+> > > > > > >
+> > > > > > I would say you understood it correctly, though to my mind it is not a
+> > > > > > static behaviour,
+> > > > >
+> > > > > It should be, otherwise how will userspace know the meaning of the
+> > > > > event?
+> > > > >
+> > > > Fair point.
+> > > >
+> > > > > > i.e. we may want to switch this kind of calculation on and off.
+> > > > > > Are flags intended to be modified at runtime?
+> > > > >
+> > > > > No.
+> > > > >
+> > > > > > For instance, if user decides to remove the release or press effect (previously
+> > > > > > uploaded by them) and there is no default one per device, then we should switch
+> > > > > > the haptic handling from kernel mode back to device mode.
+> > > > >
+> > > > > Why? I think if user removes effects then they do not want to have
+> > > > > haptics effects. I am wondering if this whole thing made too complex.
+> > > > >
+> > > > > In my mind we have following cases:
+> > > > >
+> > > > > - OS does not know about these haptics devices (touchpads). They work in
+> > > > >   device (?) mode and provide haptic feedback on their own.
+> > > > >
+> > > > > - OS does know about haptics devices (that includes having both kernel
+> > > > >   *and* userspace support for them. If one is missing then the other
+> > > > >   should not be enabled, it is up to the distro to make sure all pieces
+> > > > >   are there). In this case OS controls haptics effects all the time,
+> > > > >   except:
+> > > > >
+> > > > > - OS supports haptics, but switched it to device mode to allow haptics
+> > > > >   effect playback when waking up.
+> > > > >
+> > > > Perhaps switching between modes should be a separate discussion.
+> > > > Right now it seems to me that your suggestion could be that if
+> > > > INPUT_PROP_HAPTIC_TOUCHPAD is set it should be followed by setting
+> > > > something like INPUT_MT_PRESSURE_SUM in mt_flags, which should mean
+> > > > every ABS_PRESSURE event should actually be a sum of pressures/true forces
+> > > > across all slots. Does it sound right?
+> > > > If so, I suppose I will implement it. It should be completely independent from
+> > > > device/kernel mode and, what is more, if hid_haptic_init() fails for any reason
+> > > > the pressure sum still gets calculated.
+> >
+> > I'd say that if hid_haptic_init() fails we should not say that the
+> > device is INPUT_PROP_HAPTIC_TOUCHPAD (if we even decide to continue with
+> > the device instantiation, which we probably should not).
+> >
+> > > >
+> > > > Sean, is it OK for the device to keep kernel mode in the event no
+> > > > default press/release
+> > > > waveform is defined in the waveform list and the user removes relevant effects
+> > > > (after having uploaded them)? I think it was desired to remain in the
+> > > > device mode
+> > > > if no such waveforms/effects are defined and, thus, I assumed that removing
+> > > > following effects (in case no press/release waveforms in the waveform
+> > > > list) should
+> > > > trigger coming back to device mode.
+> > > > Right now it seems that switching back to device mode should be
+> > > > allowed only when
+> > > > suspending the device.
+> > >
+> > > I agree that we should switch to device-controlled mode if press/release are
+> > > not defined by the device, and userspace has not supplied alternative
+> > > waveforms for either. If we kept it in kernel-controlled mode, there would be
+> > > no effect for click/release. This can be achieved by userspace by emitting
+> > > EVIOCFFTAKECONTROL for click and release, and never sending haptic commands.
+> >
+> > What is wrong for not having effect for press/release if userspace did
+> > not bother to set it up? I think this is reasonably to expect that if
+> > user enabled support for haptic touchpad in kernel they should also have
+> > userspace that knows how to handle it. If we go with this requirement I
+> > think we will reduce a lot of complexity.
+> >
+> > Benjamin, Jiri, Peter, I'd like you to chime in please.
+> >
+> > >
+> > > This also allows for the case where userspace may want to send haptics for UX
+> > > effects, while still relying on the device for traditional press and release
+> > > haptics (in the case where the device doesn't define press/release
+> > > waveforms).
+> >
+> > Again, what is the difference between press/release and other UX
+> > effects? They seem to be the same to me...
 >
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> Agree with Dmitry here - have a sensible default in the kernel and if
+> userspace changes it, it's now userspace's problem to do it right. Anything
+> more complex is just making things more complicated for niche cases that may
+> never happen.
+>
 
->  drivers/spi/spi-slave-system-control.c                |  3 +--
->  drivers/spi/spi-slave-time.c                          |  3 +--
->  drivers/spi/spi.c                                     | 11 ++---------
->  drivers/spi/spidev.c                                  |  4 +---
+Could you please relate to the following statements/questions? I would like to
+make sure I am nearer to your understanding of how the things should be.
+I wouldn't say they constitute my plan, I am just wondering if shared effects
+are acceptable at all since their handling seems questionable.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+1. Kernel mode - is it OK to have any default at all? Or would you rather say
+   it's userspace's responsibility to issue force feedback entirely? I am just
+   wondering how much simplification you would actually prefer to have.
+   In the current patchset the kernel can issue haptic feedback itself
+   (based on the pressure/force sums calculated).
+2. The patches introduce shared effects. This allows userspace to modify
+   kernel mode behaviour, i.e. the waveforms it issues when press/release
+   has been detected, which means both uploading and erasing those
+   effects is possible.
+   On the other hand, closing event fd triggers removing effects uploaded for
+   that fd. I would assume removing shared effects is allowed as well
+   since we can update them with upload. Should it be disallowed/prohibited?
+   I mean that perhaps erasing shared effects should never really take place
+   as we may end up removing something that has not been altered by
+   userspace.
+   I am worried since simply opening and closing the event file could possibly
+   cause a change in behaviour if we actually let effects be completely
+   removed.
+3. Switching to kernel mode should happen at the instantiation and then only
+   during suspend/resume cycle. If the shared press/release effect gets
+   removed (even caused by input device flush), then we don't want any haptic
+   feedback in kernel mode anyway.
+4. Should I just not care and not sum the pressures across all slots? It just
+   seemed to me there was a reason to choose one slot and pass it as
+   ABS_PRESSURE in input-mt.c, and I just suspected it would be more
+   logical to pass the sum of forces if the unit suggests it is force.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Cheers,
+>   Peter
