@@ -2,114 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6097549CCDA
-	for <lists+linux-input@lfdr.de>; Wed, 26 Jan 2022 15:55:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B99C49CE9B
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jan 2022 16:35:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242359AbiAZOzX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Jan 2022 09:55:23 -0500
-Received: from mx1.riseup.net ([198.252.153.129]:47108 "EHLO mx1.riseup.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242415AbiAZOzT (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Jan 2022 09:55:19 -0500
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-         client-signature RSA-PSS (2048 bits) client-digest SHA256)
-        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4JkRbW3PjkzF4TX;
-        Wed, 26 Jan 2022 06:55:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1643208919; bh=FF68SLiqc8b5fH7Zc/D77KvbJQeyA0oyuLSsKGxo1l0=;
-        h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-        b=ORnQiz/JkGZs0/0i3ikX/PDVzc/cmiPjbDpMdAAhhIbSaIhUX8QUqab2T1A1uNvl8
-         XFiclKMiCDX2HMBVKswwlTkPsMCZze3NKzuiTHed8J8zZJgwTJbYlwT3VoWHytNVIy
-         6b8kALNXvO10Q/un+PaAK8E0592XfcAdtBQxjbrk=
-X-Riseup-User-ID: 4C4FACAA98837759C447321967370CADB64E81B0CFA66B90AE86480C2FF5498C
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by fews1.riseup.net (Postfix) with ESMTPSA id 4JkRbT5vxqz5vkm;
-        Wed, 26 Jan 2022 06:55:17 -0800 (PST)
-Message-ID: <15ef80cc2ecdcc993043aa0c1d5ea88f41f9b67b.camel@riseup.net>
-Subject: Re: [PATCH] HID: logitech-dj: add new lightspeed receiver id
-From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Lucas Zampieri <lzampier@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-In-Reply-To: <CAO-hwJ+KyV+Ks38DDF8EuT9kEc9jd9SvNn=nGyTwjkD3GOQ+RA@mail.gmail.com>
-References: <20220126144400.130797-1-lzampier@redhat.com>
-         <CAO-hwJ+KyV+Ks38DDF8EuT9kEc9jd9SvNn=nGyTwjkD3GOQ+RA@mail.gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-ZtH0jJT5Y0ZBG7kBkzTc"
-Date:   Wed, 26 Jan 2022 14:54:33 +0000
+        id S242919AbiAZPf1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Jan 2022 10:35:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46424 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242910AbiAZPfZ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 Jan 2022 10:35:25 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46716C061747
+        for <linux-input@vger.kernel.org>; Wed, 26 Jan 2022 07:35:25 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id v13so26429217wrv.10
+        for <linux-input@vger.kernel.org>; Wed, 26 Jan 2022 07:35:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3U2VlbaDiL8zCwzswKdJmuhmgZcDC5jFlEtFb0awmuo=;
+        b=H63H9mJZx+2wNR4miZeP2BG9jFbtr6BXJRaDXRJB7+UM87PNnkEuDk4JU86/Uuj4nU
+         o74Z1FhfadPMea+oscObqeq5MTVxmYqEVr7LaHsT0WU46Z1aN4ZAK7VLijKdpn/rNwTw
+         B3zZi6kW/J7SScpS7ZZvEeV43gZZvIN18CxSDu147n+JJfmHEI+kHWAijEFYhz+rBMCH
+         7stkchPJ7/1oyNDPCV/DO6HNvgP87Vq4WvLeCA7V+sdluRStNy3PqpjTOLkyygD12tn/
+         4wC9Ggh63fA3g/fKGbTNpsyhiZQdduKj5JEpa//INoJmnGun9M6uL6NVUksz3A1otNvo
+         w2UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3U2VlbaDiL8zCwzswKdJmuhmgZcDC5jFlEtFb0awmuo=;
+        b=LX2UQQyCP2yEL15uoXg2jCDCERAly2On6pKQt61wMl9sisx1yl7xqKxE+vuHTs/TpV
+         D9cpOFBPixU74tJ9T6BpNTPxMKpJqEAGIJrQm5k7D5tG2A1scvi6tOGRejnS+EvG1OyK
+         TK308wGOasdDLlvoTrZ+tLu0Ue5+fIegiLNzwtnzFN6XvyBJa6oUZaRp5a6febvJzSzd
+         PJ0e1UMF/U0ANinpawAysp6rDJm40ZJUOKmYFkmMx7MJp4K6Zuj+NuKDZWZhyJ1bWPSP
+         1OYVWaQOS3bxXGVxyEV67eTEn94sHUo2fnc77NSd+jTpS4uHsG/LMKTkR1wiGZsz5Qa/
+         NRmw==
+X-Gm-Message-State: AOAM5335rDKvQrEUXEDnN/GrkDGAdPOHyZlNsn9pO3dymt6nCmwAIbIW
+        b6KEsIvm//8K3Nyk2MPeFaWXAA==
+X-Google-Smtp-Source: ABdhPJz2hfUkHjqnjSjNIHx9xgMie+71LhrZ6IWHyS38Ps4va/mJ4GSkip4hIiWw/0AIIgt4hddUww==
+X-Received: by 2002:a5d:508a:: with SMTP id a10mr6584123wrt.360.1643211323734;
+        Wed, 26 Jan 2022 07:35:23 -0800 (PST)
+Received: from mkorpershoek-XPS-13-9370.. (laubervilliers-656-1-151-143.w92-154.abo.wanadoo.fr. [92.154.18.143])
+        by smtp.gmail.com with ESMTPSA id n10sm3360958wmr.25.2022.01.26.07.35.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jan 2022 07:35:23 -0800 (PST)
+From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Fengping Yu <fengping.yu@mediatek.com>,
+        Yingjoe Chen <yingjoe.chen@mediatek.com>
+Cc:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Fabien Parent <fparent@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v19 0/3] Add matrix keypad driver support for Mediatek SoCs
+Date:   Wed, 26 Jan 2022 16:35:16 +0100
+Message-Id: <20220126153519.3637496-1-mkorpershoek@baylibre.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Dear all,
 
---=-ZtH0jJT5Y0ZBG7kBkzTc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This is a follow-up on an abandoned series, see [1]
 
-On Wed, 2022-01-26 at 15:47 +0100, Benjamin Tissoires wrote:
-> On Wed, Jan 26, 2022 at 3:44 PM Lucas Zampieri <lzampier@redhat.com> wrot=
-e:
-> >=20
-> > As of logitech lightspeed receiver fw version 04.02.B0009,
-> > HIDPP_PARAM_DEVICE_INFO is being reported as 0x11.
-> >=20
-> > With patch "HID: logitech-dj: add support for the new lightspeed receiv=
-er
-> > iteration", the mouse starts to error out with:
-> > =C2=A0 logitech-djreceiver: unusable device of type UNKNOWN (0x011) con=
-nected on
-> > =C2=A0 slot 1
-> > and becomes unusable.
-> >=20
-> > This has been noticed on a Logitech G Pro X Superlight fw MPM 25.01.B00=
-18.
->=20
-> The patch looks good to me.
->=20
-> Reviewed-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
->=20
-> Ideally, Nestor, can you confirm this is expected and that we won't
-> have any bad surprises there?
->=20
-> I think we probably want this to be Cc-ed to stable once it gets
-> merged (we can add the tag as we merge it).
->=20
-> Cheers,
-> Benjamin
+Since Dmitry seemed generally happy with the driver, I applied his rename
+recommendations.
+I also did a couple of binding fixes which were needed to pass "make dt_binding_check".
 
-This is likely a different connection type, so it should probably get its o=
-wn
-case statement, but let's let Nestor confirm :)
+Thus, I have made the following:
 
-Cheers,
-Filipe La=C3=ADns
+* All Reviewed-By: tags were kept
+* Applied Marco's reviewed by on the bindings (since he approved v10)
+* Fengping is still the maintainer since he is the original author of this driver
+* The binding license is not changed even if checkpatch recommended it:
+  > WARNING: DT binding documents should be licensed (GPL-2.0-only OR BSD-2-Clause)
 
---=-ZtH0jJT5Y0ZBG7kBkzTc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+Please tell me if you would rather have me do things differently.
 
------BEGIN PGP SIGNATURE-----
+[1] https://lore.kernel.org/all/20200909072159.14888-1-fengping.yu@mediatek.com/
 
-iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAmHxYKkACgkQ+JPGdIFq
-qV38xhAAnjELLgF7c3FigXFEzvruKFTxNgNyxMnmFmuAp0baGSbK6BaPn0b6U00x
-0crpSY9q1/uxoIludufS5D1+f6r8GZnYwgghA72Y80HFOFIA1YqoZCmpKpPXMK0n
-YUu8HU+yqq1NGfSITFSR5rYq3lwnR2sVU6t5e0LYhW4q96sUrBP1udoE0BoEOxWv
-I6APDgGdvfy9BuC0+eJ+xUfDILc0wUuUgtYexUraKpIMxRldylYiwb9VQgTrshvU
-kwVfvv2+HOY4HBlIab0K9/aYIGkJUFQPlKnnxgUpE25nE9NKnrgI+ECDupzpAYRC
-87kf2JdrpqfVpXarHzSCGciQ861hSg7eQe+oDf9qwygTJu66UDqDAEE65DrA71g1
-3u9PBZtowsWwr6AJgt0MmEi3doBfqcdn8qZHGliRDLiWCUszw19h9x1835FRbXsJ
-iijr11o7BCs6dttmb3d2YkKIJZ1E/2p9V+WWmDBV+2OOOFMZ8S90GQXUgZAzaP0P
-87qzXgBkXoy855DSxOsAaeDcp4Q9riAeFcXs75fiJzkXpq/q+XVYxechOZ9mUM2M
-cHv+XmuTaSiPhZCt49RfIeFHOELnj1EOAS8TZavudoubo/HkgY9tRXvLBXNXhVFL
-u2tN19cNDtJpy866157RH5Sx0tD1MhA/1NxJQYUcwgBQxt4xYI8=
-=XWgf
------END PGP SIGNATURE-----
+v18 -> v19:
+- bindings: fix maintainer -> maintainers keyword
+- bindings: add matrix-keymap.yaml ref and remove included properties
+- bindings: fix compatible strings (reported by make dt_binding_check)
+- bindings: reorder properties to match the required ones
+- bindings: remove un-necessary descriptions
+- bindings: fix multiline description for mediatek,debounce-us
+- bindings: fix example to pass make dt_binding_check
+- bindings: fixed licence to GPL-2.0 only (checkpatch)
+- bindings: rename to mediatek,mt6779-keypad.yaml to match driver
+- rename driver to mt6779-keypad.c
+- prefix function names with mt6779_keypad_
+- prefix globals with mt6779_keypad_
+- rename CONFIG_KEYBOARD_MTK_KPD to CONFIG_KEYBOARD_MT6779
+- rename module name to mt6779-keypad
+- update copyright year to 2022
 
---=-ZtH0jJT5Y0ZBG7kBkzTc--
+fengping.yu (3):
+  dt-bindings: input: Add bindings for Mediatek matrix keypad
+  Input: mt6779-keypad - Add MediaTek keypad driver
+  arm64: defconfig: Add CONFIG_KEYBOARD_MT6779=m
+
+ .../input/mediatek,mt6779-keypad.yaml         |  80 +++++++
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/input/keyboard/Kconfig                |  12 +
+ drivers/input/keyboard/Makefile               |   1 +
+ drivers/input/keyboard/mt6779-keypad.c        | 218 ++++++++++++++++++
+ 5 files changed, 312 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
+ create mode 100644 drivers/input/keyboard/mt6779-keypad.c
+
+
+base-commit: 87a0b2fafc09766d8c55461a18345a1cfb10a7fe
+-- 
+2.32.0
+
