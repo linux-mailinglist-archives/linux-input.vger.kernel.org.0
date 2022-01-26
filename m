@@ -2,39 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52C6349CF69
+	by mail.lfdr.de (Postfix) with ESMTP id 9CB3249CF6A
 	for <lists+linux-input@lfdr.de>; Wed, 26 Jan 2022 17:19:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242774AbiAZQTG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S242980AbiAZQTG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Wed, 26 Jan 2022 11:19:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51209 "EHLO
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31091 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S242785AbiAZQTE (ORCPT
+        by vger.kernel.org with ESMTP id S243012AbiAZQTF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Jan 2022 11:19:04 -0500
+        Wed, 26 Jan 2022 11:19:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1643213944;
+        s=mimecast20190719; t=1643213945;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=LTEskCYipmEYa3P9pdqv0PwdXf6r+e7EEf/JZcOom+Y=;
-        b=YfMOmGPRWLwCUR/Hn8Q9yKurWl3b9SPzc7fXB/As90vahZAeX/1+zmWF1BV19hRfQ6VlHR
-        rnk3y2KroS8/1jsJb6y8FYAGVQYtWdHfJLXD2PE/lWUSBOffsahXeNoS1itFoPC539UqDP
-        rotShbAUL/1TJboEw+dcPRZICRpsKIM=
+        bh=tuAKfawLm+JaDbn81DenL5Yg02akDAVQDmdL6NAxhv0=;
+        b=SHIetzQYRXJCYScdJJNoLLIdaJIRObOq/07obDY3U7I8XjfOkRT53GaRnmaMI4m6vJMCtC
+        V85078BeR/s3VhhdUk+Cfp2/04JGGAFyL5E+MPsLwwbdgTQDW3VX76+dKppxuLVFfqZ6kT
+        xaSt0ZmJeQeW3F2zdEBX06uXfBM25j8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-317-zQ91oVP8OcmwEdQlzWXtDQ-1; Wed, 26 Jan 2022 11:19:00 -0500
-X-MC-Unique: zQ91oVP8OcmwEdQlzWXtDQ-1
+ us-mta-167-y0ghpiLfMGiQW11K8j1bVQ-1; Wed, 26 Jan 2022 11:19:03 -0500
+X-MC-Unique: y0ghpiLfMGiQW11K8j1bVQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E30FD10247A8;
-        Wed, 26 Jan 2022 16:18:58 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3CFD87498D;
+        Wed, 26 Jan 2022 16:19:01 +0000 (UTC)
 Received: from plouf.redhat.com (unknown [10.39.193.93])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3A76E798DD;
-        Wed, 26 Jan 2022 16:18:56 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4535B798DD;
+        Wed, 26 Jan 2022 16:18:59 +0000 (UTC)
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
 To:     Jiri Kosina <jikos@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -48,9 +48,9 @@ To:     Jiri Kosina <jikos@kernel.org>,
 Cc:     linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH 05/12] HID: input: rework spaghetti code with switch statements
-Date:   Wed, 26 Jan 2022 17:18:25 +0100
-Message-Id: <20220126161832.3193805-6-benjamin.tissoires@redhat.com>
+Subject: [PATCH 06/12] HID: input: move up out-of-range processing of input values
+Date:   Wed, 26 Jan 2022 17:18:26 +0100
+Message-Id: <20220126161832.3193805-7-benjamin.tissoires@redhat.com>
 In-Reply-To: <20220126161832.3193805-1-benjamin.tissoires@redhat.com>
 References: <20220126161832.3193805-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
@@ -60,137 +60,80 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Instead of using multiple `if (a == b)`, use the switch statement
-which has been done exactly for that.
-
-There should be no functional change (I don't expect moving down
-HID_QUIRK_{X|Y}_INVERT having any impact.
+It actually makes sense to clamp the value to its boundaries before
+doing further processing.
 
 Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 ---
- drivers/hid/hid-input.c | 80 ++++++++++++++++++++++-------------------
- 1 file changed, 43 insertions(+), 37 deletions(-)
+ drivers/hid/hid-input.c | 48 ++++++++++++++++++++---------------------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index d2562497a726..54b3e9c5ccc4 100644
+index 54b3e9c5ccc4..8770d9a2b2af 100644
 --- a/drivers/hid/hid-input.c
 +++ b/drivers/hid/hid-input.c
-@@ -1354,12 +1354,6 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+@@ -1364,6 +1364,30 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+ 		return;
+ 	}
  
- 	input = field->hidinput->input;
++	/*
++	 * Ignore out-of-range values as per HID specification,
++	 * section 5.10 and 6.2.25, when NULL state bit is present.
++	 * When it's not, clamp the value to match Microsoft's input
++	 * driver as mentioned in "Required HID usages for digitizers":
++	 * https://msdn.microsoft.com/en-us/library/windows/hardware/dn672278(v=vs.85).asp
++	 *
++	 * The logical_minimum < logical_maximum check is done so that we
++	 * don't unintentionally discard values sent by devices which
++	 * don't specify logical min and max.
++	 */
++	if ((field->flags & HID_MAIN_ITEM_VARIABLE) &&
++	    field->logical_minimum < field->logical_maximum) {
++		if (field->flags & HID_MAIN_ITEM_NULL_STATE &&
++		    (value < field->logical_minimum ||
++		     value > field->logical_maximum)) {
++			dbg_hid("Ignoring out-of-range value %x\n", value);
++			return;
++		}
++		value = clamp(value,
++			      field->logical_minimum,
++			      field->logical_maximum);
++	}
++
+ 	switch (usage->hid) {
+ 	case HID_DG_INVERT:
+ 		*quirks = value ? (*quirks | HID_QUIRK_INVERT) : (*quirks & ~HID_QUIRK_INVERT);
+@@ -1431,30 +1455,6 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+ 		break;
+ 	}
  
--	if (usage->type == EV_ABS &&
--	    (((*quirks & HID_QUIRK_X_INVERT) && usage->code == ABS_X) ||
--	     ((*quirks & HID_QUIRK_Y_INVERT) && usage->code == ABS_Y))) {
--		value = field->logical_maximum - value;
+-	/*
+-	 * Ignore out-of-range values as per HID specification,
+-	 * section 5.10 and 6.2.25, when NULL state bit is present.
+-	 * When it's not, clamp the value to match Microsoft's input
+-	 * driver as mentioned in "Required HID usages for digitizers":
+-	 * https://msdn.microsoft.com/en-us/library/windows/hardware/dn672278(v=vs.85).asp
+-	 *
+-	 * The logical_minimum < logical_maximum check is done so that we
+-	 * don't unintentionally discard values sent by devices which
+-	 * don't specify logical min and max.
+-	 */
+-	if ((field->flags & HID_MAIN_ITEM_VARIABLE) &&
+-	    (field->logical_minimum < field->logical_maximum)) {
+-		if (field->flags & HID_MAIN_ITEM_NULL_STATE &&
+-		    (value < field->logical_minimum ||
+-		     value > field->logical_maximum)) {
+-			dbg_hid("Ignoring out-of-range value %x\n", value);
+-			return;
+-		}
+-		value = clamp(value,
+-			      field->logical_minimum,
+-			      field->logical_maximum);
 -	}
 -
- 	if (usage->hat_min < usage->hat_max || usage->hat_dir) {
- 		int hat_dir = usage->hat_dir;
- 		if (!hat_dir)
-@@ -1370,12 +1364,12 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
- 		return;
- 	}
- 
--	if (usage->hid == HID_DG_INVERT) {
-+	switch (usage->hid) {
-+	case HID_DG_INVERT:
- 		*quirks = value ? (*quirks | HID_QUIRK_INVERT) : (*quirks & ~HID_QUIRK_INVERT);
- 		return;
--	}
- 
--	if (usage->hid == HID_DG_INRANGE) {
-+	case HID_DG_INRANGE:
- 		if (value) {
- 			input_event(input, usage->type, (*quirks & HID_QUIRK_INVERT) ? BTN_TOOL_RUBBER : usage->code, 1);
- 			return;
-@@ -1383,46 +1377,58 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
- 		input_event(input, usage->type, usage->code, 0);
- 		input_event(input, usage->type, BTN_TOOL_RUBBER, 0);
- 		return;
--	}
- 
--	if (usage->hid == HID_DG_TIPPRESSURE && (*quirks & HID_QUIRK_NOTOUCH)) {
--		int a = field->logical_minimum;
--		int b = field->logical_maximum;
--		input_event(input, EV_KEY, BTN_TOUCH, value > a + ((b - a) >> 3));
--	}
-+	case HID_DG_TIPPRESSURE:
-+		if (*quirks & HID_QUIRK_NOTOUCH) {
-+			int a = field->logical_minimum;
-+			int b = field->logical_maximum;
-+
-+			input_event(input, EV_KEY, BTN_TOUCH, value > a + ((b - a) >> 3));
-+		}
-+		break;
- 
--	if (usage->hid == (HID_UP_PID | 0x83UL)) { /* Simultaneous Effects Max */
-+	case HID_UP_PID | 0x83UL: /* Simultaneous Effects Max */
- 		dbg_hid("Maximum Effects - %d\n",value);
- 		return;
--	}
- 
--	if (usage->hid == (HID_UP_PID | 0x7fUL)) {
-+	case HID_UP_PID | 0x7fUL:
- 		dbg_hid("PID Pool Report\n");
- 		return;
- 	}
- 
--	if ((usage->type == EV_KEY) && (usage->code == 0)) /* Key 0 is "unassigned", not KEY_UNKNOWN */
--		return;
-+	switch (usage->type) {
-+	case EV_KEY:
-+		if (usage->code == 0) /* Key 0 is "unassigned", not KEY_UNKNOWN */
-+			return;
-+		break;
- 
--	if ((usage->type == EV_REL) && (usage->code == REL_WHEEL_HI_RES ||
--					usage->code == REL_HWHEEL_HI_RES)) {
--		hidinput_handle_scroll(usage, input, value);
--		return;
--	}
-+	case EV_REL:
-+		if (usage->code == REL_WHEEL_HI_RES ||
-+		    usage->code == REL_HWHEEL_HI_RES) {
-+			hidinput_handle_scroll(usage, input, value);
-+			return;
-+		}
-+		break;
- 
--	if ((usage->type == EV_ABS) && (field->flags & HID_MAIN_ITEM_RELATIVE) &&
--			(usage->code == ABS_VOLUME)) {
--		int count = abs(value);
--		int direction = value > 0 ? KEY_VOLUMEUP : KEY_VOLUMEDOWN;
--		int i;
-+	case EV_ABS:
-+		if ((field->flags & HID_MAIN_ITEM_RELATIVE) &&
-+		    usage->code == ABS_VOLUME) {
-+			int count = abs(value);
-+			int direction = value > 0 ? KEY_VOLUMEUP : KEY_VOLUMEDOWN;
-+			int i;
-+
-+			for (i = 0; i < count; i++) {
-+				input_event(input, EV_KEY, direction, 1);
-+				input_sync(input);
-+				input_event(input, EV_KEY, direction, 0);
-+				input_sync(input);
-+			}
-+			return;
- 
--		for (i = 0; i < count; i++) {
--			input_event(input, EV_KEY, direction, 1);
--			input_sync(input);
--			input_event(input, EV_KEY, direction, 0);
--			input_sync(input);
--		}
--		return;
-+		} else if (((*quirks & HID_QUIRK_X_INVERT) && usage->code == ABS_X) ||
-+			   ((*quirks & HID_QUIRK_Y_INVERT) && usage->code == ABS_Y))
-+			value = field->logical_maximum - value;
-+		break;
- 	}
- 
  	/*
+ 	 * Ignore reports for absolute data if the data didn't change. This is
+ 	 * not only an optimization but also fixes 'dead' key reports. Some
 -- 
 2.33.1
 
