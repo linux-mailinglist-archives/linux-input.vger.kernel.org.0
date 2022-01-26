@@ -2,94 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B950F49D4B0
-	for <lists+linux-input@lfdr.de>; Wed, 26 Jan 2022 22:47:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6195549D506
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jan 2022 23:11:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232743AbiAZVru (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Jan 2022 16:47:50 -0500
-Received: from mail.zeus.flokli.de ([88.198.15.28]:56238 "EHLO zeus.flokli.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230126AbiAZVrt (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Jan 2022 16:47:49 -0500
-Received: from localhost (ip-178-200-100-55.hsi07.unitymediagroup.de [178.200.100.55])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: flokli@flokli.de)
-        by zeus.flokli.de (Postfix) with ESMTPSA id 5E6C1127F480;
-        Wed, 26 Jan 2022 21:47:47 +0000 (UTC)
-Date:   Wed, 26 Jan 2022 22:47:46 +0100
-From:   Florian Klink <flokli@flokli.de>
-To:     ValdikSS <iam@valdikss.org.ru>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] HID: lenovo: ThinkPad TrackPoint Keyboard II
- support
-Message-ID: <20220126214746.76z5hqayn5qwc3gz@tp>
-References: <20211216224611.440397-1-iam@valdikss.org.ru>
- <20220124122417.pl4qhpb644xp4ax3@tp>
- <2f7053b2-4e47-e4f6-6a66-08067f30ed3b@valdikss.org.ru>
- <3e11f0cb-aeb1-6101-5b7e-c68cddfae0a7@valdikss.org.ru>
- <20220124134017.z2qiyf3uilnwt6ss@tp>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ewp4elzpfl5ukmsc"
-Content-Disposition: inline
-In-Reply-To: <20220124134017.z2qiyf3uilnwt6ss@tp>
+        id S232977AbiAZWLA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Jan 2022 17:11:00 -0500
+Received: from mail-ot1-f51.google.com ([209.85.210.51]:39702 "EHLO
+        mail-ot1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232901AbiAZWK5 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 Jan 2022 17:10:57 -0500
+Received: by mail-ot1-f51.google.com with SMTP id c3-20020a9d6c83000000b00590b9c8819aso689339otr.6;
+        Wed, 26 Jan 2022 14:10:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=ErA2xJGyfWSYJZEIE4ymjWq+FHZjiaQLmgdO3g2KNUc=;
+        b=nNkfgUjnFJpXvcgvN4xBa4ZJNjcekXkuZiXAi19Tsa3/uc7HQQGVUVk2TFS+ycDGyo
+         8pHReW14/iq+Shww4peZfxxJcSyYM9gpO+AMvKs7HUPCJIu1MgwDHmj6SjqE1Xh/ztpO
+         JAusvhMZfC6AI7g3U8o00eeHNYkOllGGOtWaA11Fj4oS8UJstoYjC6y4YZXGEIza0gP2
+         /Og092SYMG+x8J8sbztHb8Hg302wviO7W7ga3v7enH+CmmRJA1L2j0Yk16J2/xNYu21Q
+         ClUaogwkIvmq6XjEJNTg6qqJMllpXGGmeka3V29YAzZz11z1M77iKskUB+PPaospICrA
+         4LeA==
+X-Gm-Message-State: AOAM532OxMOyEBam7Nv9NSneggEZaKgEPVaEihQgW3FhfjRX0OQoeQ2Y
+        v7WhFW4XwLjUg9C7k9giNiw7br9xgA==
+X-Google-Smtp-Source: ABdhPJxTBZ7c6Wq5DHgltU/Q1WMSaZYDKppblBxy9TQyb8u7AQ+3YgLWJ4jobGbI7xEs0woA2CBcMg==
+X-Received: by 2002:a9d:4c0f:: with SMTP id l15mr538154otf.104.1643235056485;
+        Wed, 26 Jan 2022 14:10:56 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id b8sm6704762otk.36.2022.01.26.14.10.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jan 2022 14:10:55 -0800 (PST)
+Received: (nullmailer pid 1535098 invoked by uid 1000);
+        Wed, 26 Jan 2022 22:10:52 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Yingjoe Chen <yingjoe.chen@mediatek.com>,
+        Fengping Yu <fengping.yu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        devicetree@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, Fabien Parent <fparent@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        linux-mediatek@lists.infradead.org, linux-input@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20220126153519.3637496-2-mkorpershoek@baylibre.com>
+References: <20220126153519.3637496-1-mkorpershoek@baylibre.com> <20220126153519.3637496-2-mkorpershoek@baylibre.com>
+Subject: Re: [PATCH v19 1/3] dt-bindings: input: Add bindings for Mediatek matrix keypad
+Date:   Wed, 26 Jan 2022 16:10:52 -0600
+Message-Id: <1643235052.864878.1535097.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Wed, 26 Jan 2022 16:35:17 +0100, Mattijs Korpershoek wrote:
+> From: "fengping.yu" <fengping.yu@mediatek.com>
+> 
+> This patch add devicetree bindings for Mediatek matrix keypad driver.
+> 
+> Signed-off-by: fengping.yu <fengping.yu@mediatek.com>
+> Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
+> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+> ---
+>  .../input/mediatek,mt6779-keypad.yaml         | 80 +++++++++++++++++++
+>  1 file changed, 80 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
+> 
 
---ewp4elzpfl5ukmsc
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
->>>>Quick follow-up question on this - did you do any tinkering with battery
->>>>status?
->>>>
->>>>I realized there's a
->>>>/sys/devices/pci0000:00/0000:00:08.1/0000:07:00.4/usb6/6-2/6-2:1.1/0003=
-:17EF:60EE.001F/power_supply/hid-0003:17EF:60EE.001F-battery
->>>>
->>>>in my system, which knows about model_name, but things like "capacity"
->>>>and "status" return a "No data available".
->>>>
->>>
->>>Hello, no, I didn't do anything. It works for me just fine, it=20
->>>shows battery status in KDE applet.
->>
->>Note: I'm using the keyboard over Bluetooth.
->
->Hm, over bluetooth, there's a `/sys/devices/virtual/misc/uhid/0005:17EF:60=
-E1.0030/power_supply/hid-*-battery` directory with the same files, and they=
- also have the same "No data available" thing.
->
->For now I'll just assume it's due to the controller internally still
->calibrating and not exposing anything - the keyboard is fairly new.
->
->Thanks for confirming it should work in theory :-)
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml:28:13: [warning] wrong indentation: expected 14 but found 12 (indentation)
+./Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml:43:8: [warning] wrong indentation: expected 6 but found 7 (indentation)
 
-Alright, I now also see battery levels (that also go down after
-continued use) - needed to enable upower on my system. Works like a
-charm!
+dtschema/dtc warnings/errors:
 
-Florian
+doc reference errors (make refcheckdocs):
 
---ewp4elzpfl5ukmsc
-Content-Type: application/pgp-signature; name="signature.asc"
+See https://patchwork.ozlabs.org/patch/1584526
 
------BEGIN PGP SIGNATURE-----
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
-iQEzBAABCAAdFiEEdQpT8aoDC+ls4wqU86BgVS9TAioFAmHxwYIACgkQ86BgVS9T
-AipBRgf+IjA+qgoG1C5mhk+fSJI7kyXtpcfhkpsJg5AnKw8zu59MXbeLcWAOEdpH
-+MrLQQ+lbXht/bkgcr3sXQPMPwxrF/lqBZXpzdYfz1pKrBC6j9RIISGWZhH9udvc
-LEezGACdO8obDwBMsXFP/Btaj1pUyMgO+jtK8Zi3wHjecoJvhGwGdUKjNCNmOZE7
-W+r0c8G188btqGNsH6TOcXyvfLcgNuOJ8F849n3kIpJn7hE/zY6ZQVrzqnRGsbq1
-4rweXXe7uNoFLwTSWuiQG2KVDbUROAtZi3iIhWXhJ7NKvQSxAWyxmD7PBjhudLpd
-0Ei/t28kQj0b3+W01we16+Lem3O2Dg==
-=8QCo
------END PGP SIGNATURE-----
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
---ewp4elzpfl5ukmsc--
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
