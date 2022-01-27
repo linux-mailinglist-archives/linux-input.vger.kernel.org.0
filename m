@@ -2,56 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19E8D49EE2B
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jan 2022 23:41:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CABAC49EE39
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jan 2022 23:44:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236316AbiA0WlG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Jan 2022 17:41:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51744 "EHLO
+        id S240553AbiA0WoO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Jan 2022 17:44:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235788AbiA0WlG (ORCPT
+        with ESMTP id S236161AbiA0WoN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Jan 2022 17:41:06 -0500
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BA44C061714
-        for <linux-input@vger.kernel.org>; Thu, 27 Jan 2022 14:41:06 -0800 (PST)
-Received: by mail-ot1-x334.google.com with SMTP id x52-20020a05683040b400b0059ea92202daso4007746ott.7
-        for <linux-input@vger.kernel.org>; Thu, 27 Jan 2022 14:41:06 -0800 (PST)
+        Thu, 27 Jan 2022 17:44:13 -0500
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F58C061714
+        for <linux-input@vger.kernel.org>; Thu, 27 Jan 2022 14:44:13 -0800 (PST)
+Received: by mail-oi1-x230.google.com with SMTP id p203so8806055oih.10
+        for <linux-input@vger.kernel.org>; Thu, 27 Jan 2022 14:44:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:in-reply-to:references:from:user-agent:date:message-id
          :subject:to:cc;
-        bh=C79nec5d4UWFoxeuqvc4pTvKWdk7yx+4+JUc6wJBQYE=;
-        b=IIkUwq5frbe8Fuxr7LiChay7jMsr50X27LAdiOIiSi6CTTvrZlPi65qZPJ5ZcAd1Ma
-         BiTTL5IgCMax9MQJEm5SMrp1iqBP895vbaQ7PzuQVDUMOnGdrEaoqwhrISUH28jJ5Pof
-         s9TH1wGmSt5TMSq6VARBdJm3eopMzgfWE3mbo=
+        bh=qSVKg7QZolISP6CL5b8ywycxZ4eSO4ME5S7Xwxs213U=;
+        b=lCcj/YjgaTpAlalRmpvtJQ/UCinvUZbRA9eUiHZhQD7E5jN4xLRKHLDlDIcMCnTRCu
+         VGfKHHUcHcpwOTrk8eglOlSjaQhDiWgqp0SO+CizBk+xAeTcKf5e892ZE/dIRY76sHjZ
+         C17pHcz6fmaFbkfIIu7hBgPWOgnL1lDwUjWE8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:in-reply-to:references:from
          :user-agent:date:message-id:subject:to:cc;
-        bh=C79nec5d4UWFoxeuqvc4pTvKWdk7yx+4+JUc6wJBQYE=;
-        b=gYDya6cwvo3GB4JpKwvRqYRF11J4ARt5EQoowOdCaTPmOcqI1aylF9qSDlOXqs5wwr
-         q7dALtlAor4l709tdSdHkdaDtLJ45dz9g5mO1J2fc6s4eaNwmsRZ0iPkJnYYuIv6ZVzM
-         biwsxEyiZc3x6TnXXmqASWkzqZuhfMYKgSvEEh0mXZSfaw8/S74os4hj+o5ba4w4UoOo
-         MFU1H4+Xe8RiRiby25i34BU4th4ofSdMLg3uPEKoCdptgiJvnDOKKvaruBO+ThUTFbp7
-         8+3jxV1mTZRzWN8qJyQG0f6F0rTMPA/sONzVUVrGMPVcV/7jcloDMbByb5ZZ78CP7PMq
-         TZAw==
-X-Gm-Message-State: AOAM530hpERAz2OTG2wAbosc3/49cavjK7FMZ2H5jQaZ6MGHYyeIhIAa
-        h00ZT1T8HKhhU5J1meuFAlngUfPI81JTYa1vIgFwZg==
-X-Google-Smtp-Source: ABdhPJwEVMVdW2UZvQhaXtEbQBFp75r9XdNB5RKn5cJ9Z8p872vkLHsuYPuDaieQcnKb114ZraXLMuYgUbl81wcf0gs=
-X-Received: by 2002:a9d:6f06:: with SMTP id n6mr3225915otq.159.1643323265903;
- Thu, 27 Jan 2022 14:41:05 -0800 (PST)
+        bh=qSVKg7QZolISP6CL5b8ywycxZ4eSO4ME5S7Xwxs213U=;
+        b=gK2agJDhJXs3HlpWOUt9KBjjQ7JHAoL2xx5XFKKAAB5LLxTwymW/T2tX0d4c0/yyV4
+         HoyWk1y1EjPFpVhJRA8nqP3A4iI4EXsunE5pcnk6EPg2WWPRqJdnZpYxUUqZd3OCmSav
+         WauVHQXVo2YZmFP9NGhVdx3MKvUoxDF0HBCVUWdAK/c6bw1u7kh+LgS5+p6v4bZs3k/3
+         Zs4Zi967j4bKmc5Bqo4YcUERh7Rrg9cAlpnPNMgo9/77UyBJ/3YlPAE8p4HVNxNDp0v3
+         EnHQq+B/o6SiiyOhb6Ru8TxS25Ys9a2aPG1jqJE+SVfQ7Dt1/E+rdEgaLzySNHSoFYcH
+         wrhA==
+X-Gm-Message-State: AOAM533CAMf499SsJcE/fBPNAVsn10kaBqYLsY6xDAIlBxjAMs4zyGsC
+        T+N1zm5AWtxOCX6BAbC3KBkzDv975LQ8aOw1ETksZQ==
+X-Google-Smtp-Source: ABdhPJxeu4g7MfMP+1tgPBzH30aCdvexTG7BkQSmwQCJuBHQCEk/KNDciKzXewaSrUaJUSrJfMRHftNA2sOuP6IbKd4=
+X-Received: by 2002:a05:6808:190f:: with SMTP id bf15mr8419513oib.40.1643323453189;
+ Thu, 27 Jan 2022 14:44:13 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 27 Jan 2022 14:41:05 -0800
+ HTTPREST; Thu, 27 Jan 2022 14:44:12 -0800
 MIME-Version: 1.0
-In-Reply-To: <20220127210024.25597-3-quic_amelende@quicinc.com>
-References: <20220127210024.25597-1-quic_amelende@quicinc.com> <20220127210024.25597-3-quic_amelende@quicinc.com>
+In-Reply-To: <20220127210024.25597-4-quic_amelende@quicinc.com>
+References: <20220127210024.25597-1-quic_amelende@quicinc.com> <20220127210024.25597-4-quic_amelende@quicinc.com>
 From:   Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date:   Thu, 27 Jan 2022 14:41:05 -0800
-Message-ID: <CAE-0n50UzVw4wqpV1v-T3k2if+m6jv-Tx7+N2kD4O=J60zmuoA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] input: misc: pm8941-pwrkey: add support for PON
- GEN3 base addresses
+Date:   Thu, 27 Jan 2022 14:44:12 -0800
+Message-ID: <CAE-0n53oQEs+GO8+SXf1Zp4RT3FNvFzpDT+jYJA4fub77w+utw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] input: misc: pm8941-pwrkey: add software key press
+ debouncing support
 To:     Anjelique Melendez <quic_amelende@quicinc.com>,
         dmitry.torokhov@gmail.com
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -62,43 +62,51 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Quoting Anjelique Melendez (2022-01-27 13:00:25)
+Quoting Anjelique Melendez (2022-01-27 13:00:27)
 > diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
-> index e0240db12d4f..7005aede4f81 100644
+> index 7005aede4f81..bcdbe260b684 100644
 > --- a/drivers/input/misc/pm8941-pwrkey.c
 > +++ b/drivers/input/misc/pm8941-pwrkey.c
-> @@ -200,15 +207,21 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
->                         dev_err(&pdev->dev, "failed to locate regmap\n");
->                         return -ENODEV;
->                 }
-> +       }
+[...]
 >
-> -               error = of_property_read_u32(parent->of_node,
-> -                                            "reg", &pwrkey->baseaddr);
-> -       } else {
-> -               error = of_property_read_u32(pdev->dev.of_node, "reg",
-> -                                            &pwrkey->baseaddr);
-> +       addr = of_get_address(regmap_node, 0, NULL, NULL);
-> +       if (!addr) {
-> +               dev_err(&pdev->dev, "reg property missing\n");
-> +               return -EINVAL;
+> +static int pm8941_pwrkey_sw_debounce_init(struct pm8941_pwrkey *pwrkey)
+> +{
+> +       unsigned int val, addr, mask;
+> +       int error;
+> +
+> +       if (pwrkey->data->has_pon_pbs && !pwrkey->pon_pbs_baseaddr) {
+> +               dev_err(pwrkey->dev, "PON_PBS address missing, can't read HW debounce time\n");
+> +               return 0;
 > +       }
-> +       pwrkey->baseaddr = be32_to_cpu(*addr);
+> +
+> +       if (pwrkey->pon_pbs_baseaddr)
+> +               addr = pwrkey->pon_pbs_baseaddr + PON_DBC_CTL;
+> +       else
+> +               addr = pwrkey->baseaddr + PON_DBC_CTL;
+> +       error = regmap_read(pwrkey->regmap, addr, &val);
+> +       if (error)
+> +               return error;
+> +
+> +       if (pwrkey->subtype >= PON_SUBTYPE_GEN2_PRIMARY)
+> +               mask = 0xf;
+> +       else
+> +               mask = 0x7;
+> +
+> +       pwrkey->sw_debounce_time_us = 2 * USEC_PER_SEC /
+> +                                               (1 << (mask - (val & mask)));
 
-Isn't this supposed to be be32_to_cpup(addr)?
+         pwrkey->sw_debounce_time_us = 2 * USEC_PER_SEC / (1 << (mask
+- (val & mask)));
+
+Nitpick: Put this one one line?
 
 > +
-> +       if (pwrkey->data->has_pon_pbs) {
-> +               /* PON_PBS base address is optional */
-> +               addr = of_get_address(regmap_node, 1, NULL, NULL);
-> +               if (addr)
-> +                       pwrkey->pon_pbs_baseaddr = be32_to_cpu(*addr);
-
-Isn't this supposed to be be32_to_cpup(addr)?
-
->         }
-> -       if (error)
-> -               return error;
->
->         pwrkey->irq = platform_get_irq(pdev, 0);
->         if (pwrkey->irq < 0)
+> +       dev_dbg(pwrkey->dev, "SW debounce time = %u us\n",
+> +               pwrkey->sw_debounce_time_us);
+> +
+> +       return 0;
+> +}
+> +
+>  static int __maybe_unused pm8941_pwrkey_suspend(struct device *dev)
+>  {
+>         struct pm8941_pwrkey *pwrkey = dev_get_drvdata(dev);
