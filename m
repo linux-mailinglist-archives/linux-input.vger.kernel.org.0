@@ -2,186 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EE8849D599
-	for <lists+linux-input@lfdr.de>; Wed, 26 Jan 2022 23:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 252B049E06B
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jan 2022 12:15:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbiAZWoT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Jan 2022 17:44:19 -0500
-Received: from sin.source.kernel.org ([145.40.73.55]:57508 "EHLO
-        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229672AbiAZWoS (ORCPT
+        id S240065AbiA0LPq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Jan 2022 06:15:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60134 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233389AbiA0LPp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Jan 2022 17:44:18 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id A7155CE201F;
-        Wed, 26 Jan 2022 22:44:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1624AC340EB;
-        Wed, 26 Jan 2022 22:44:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643237055;
-        bh=y/Mn6WMyowhUwFg1pZOGbMOw2rX3GAWfKHnGb9hEs2k=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ST5dBhAhtZHMP7ctBq0g6FaaT4UTuSDI2f6ajL6s9VerhSVMtzOnWDqZRXo764Er1
-         LgChrU5h0qeWbku9O32E4q49O0pW4ksTADYYk2g6O5x6x4hfn0hwSKKkM9NSu1Nl8s
-         BUT6T6LEypTD7dAyhMxQjxEgmPaSi3tyD7xcpJDzEkTxn77yo/1nJaixVIy4JUdKWH
-         KdsjhHriL1hCKPJw1nD+KTcOw4IJFdho2MTTee5K+Ej7RmWvVi4+bJWQXmatP/+xnu
-         829ty8EAnn8Mdf+XD8HkkKJvP6krv8gQ2+us9QPu/wYMrMSkoGGNEmBfDyUV1X02E4
-         gT7lwMh9KW7Ow==
-Received: by mail-ej1-f41.google.com with SMTP id a8so1640440ejc.8;
-        Wed, 26 Jan 2022 14:44:14 -0800 (PST)
-X-Gm-Message-State: AOAM533yKPG1qIhsE+A/1Qf9S73cwW6S0OlzSMWg5Ex7Dgx8H6l6jllu
-        sylFC8x5Arsvrs+sN6cINT6lqrS0g6/B6YmUlQ==
-X-Google-Smtp-Source: ABdhPJxQpcTptVwH1RXtvAItUlZfMfM9tVi2cRVDvZfIZOdYYY0gY9RtGoNrbyzmloNW/C5frceQJnrfFpDbFId1lOQ=
-X-Received: by 2002:a17:906:9748:: with SMTP id o8mr780497ejy.20.1643237053306;
- Wed, 26 Jan 2022 14:44:13 -0800 (PST)
-MIME-Version: 1.0
-References: <20220126153519.3637496-1-mkorpershoek@baylibre.com> <20220126153519.3637496-2-mkorpershoek@baylibre.com>
-In-Reply-To: <20220126153519.3637496-2-mkorpershoek@baylibre.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Wed, 26 Jan 2022 16:44:01 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJfHhucrfj5rXeNqFJLSj=7Oy7AcPCscd+_pRNhz46btQ@mail.gmail.com>
-Message-ID: <CAL_JsqJfHhucrfj5rXeNqFJLSj=7Oy7AcPCscd+_pRNhz46btQ@mail.gmail.com>
-Subject: Re: [PATCH v19 1/3] dt-bindings: input: Add bindings for Mediatek
- matrix keypad
-To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thu, 27 Jan 2022 06:15:45 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B55DC061714
+        for <linux-input@vger.kernel.org>; Thu, 27 Jan 2022 03:15:45 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id u15so4125693wrt.3
+        for <linux-input@vger.kernel.org>; Thu, 27 Jan 2022 03:15:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AqCQ3Cv7kubS972WRmyqz9Ovn66XN6I/kVUjqRm07dI=;
+        b=FTCageDzja7MDHvfCdCrAWTT1F+s07YyGIVA7XEv4aLKB2thbXHqzqoYf2B1gCt55v
+         FPdI0kwpmhullu7lusRBsFROrm+KGgOqAtkHTjjbNhm6h5D9+3Ne1tFsyO728iltINTl
+         dBQs0alpeVpfV3Ha9RCcABOFdXRj9F9nclZzHbGfx/nZgyAVj22++a7xGi+3VV6O+50e
+         YlO6CPOAiBrbTNpl7iW6UryfHdGsLmrXnjHP5ob91ye0kIvslaoJHzzvOTBaqn/RosYg
+         tF9a1eLC1+aX8lSTzRPeyy00PR6DzazDjd+e9EaH2EA5Y4Nck7tI0AegXRpMNS2yhmF1
+         WXLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AqCQ3Cv7kubS972WRmyqz9Ovn66XN6I/kVUjqRm07dI=;
+        b=hR7inotuQ1AFPMtxFmGJKf7sVY/kUrIPP5UJWAqWNPmEdF4YU3j/MvbvhWIeWuIxLT
+         itasFZg+tF/vmgurSQ66TFVLRlfe9CXYkDBuEq7RebhiaqgXsJDgZcchB0H/VAcKGZr6
+         9sU00YwIgBBMHBPNa17LGRLFVbGfjBvN7A4WzU4F9bkoYHkjRfSq3Xh+7ejuWVGJhZ28
+         Wc85rpzdoEIGMVPArPkiyatOlHyp2fuy1IVMbhVLkd+HtQ/lynE8cQlwYzZgW7mTjZnD
+         wGTEeu5W2F67o3jj/lKZ7/ziu29ZfeM//tqn+ZmuC7Xt8yKd5BfRUKuSIJYdFAvR6dwA
+         Pf0Q==
+X-Gm-Message-State: AOAM533i5AeItdfwLPritIzbV7aqo8aBP3BDPdxRvt4FtLuJD4p+C6Jp
+        RwJStiPZsu91llzts2joDhA4lw==
+X-Google-Smtp-Source: ABdhPJwjpkby8GQSoY8fsnnpW0eosHE4KMSv6I6bmTxLodSfB9LUCloN8JxTHyEdgsOEm+5ExtPVTQ==
+X-Received: by 2002:adf:d1ef:: with SMTP id g15mr2661269wrd.418.1643282143753;
+        Thu, 27 Jan 2022 03:15:43 -0800 (PST)
+Received: from localhost.localdomain ([2a01:cb19:8b2c:5e00:7d3d:d638:46ec:78dd])
+        by smtp.gmail.com with ESMTPSA id r7sm5956311wma.39.2022.01.27.03.15.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jan 2022 03:15:43 -0800 (PST)
+From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Marco Felsch <m.felsch@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Fengping Yu <fengping.yu@mediatek.com>,
-        Yingjoe Chen <yingjoe.chen@mediatek.com>,
+        Yingjoe Chen <yingjoe.chen@mediatek.com>
+Cc:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
         Fabien Parent <fparent@baylibre.com>,
         Kevin Hilman <khilman@baylibre.com>,
-        Linux Input <linux-input@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v20 0/3] Add matrix keypad driver support for Mediatek SoCs
+Date:   Thu, 27 Jan 2022 12:15:23 +0100
+Message-Id: <20220127111526.3716689-1-mkorpershoek@baylibre.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jan 26, 2022 at 9:35 AM Mattijs Korpershoek
-<mkorpershoek@baylibre.com> wrote:
->
-> From: "fengping.yu" <fengping.yu@mediatek.com>
->
-> This patch add devicetree bindings for Mediatek matrix keypad driver.
->
-> Signed-off-by: fengping.yu <fengping.yu@mediatek.com>
-> Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
-> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-> ---
->  .../input/mediatek,mt6779-keypad.yaml         | 80 +++++++++++++++++++
->  1 file changed, 80 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
->
-> diff --git a/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml b/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
-> new file mode 100644
-> index 000000000000..2c76029224a0
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
-> @@ -0,0 +1,80 @@
-> +# SPDX-License-Identifier: GPL-2.0
+Dear all,
 
-dual license new bindings
+This is a follow-up on an abandoned series, see [1]
 
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/mediatek,mt6779-keypad.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek's Keypad Controller device tree bindings
-> +
-> +maintainers:
-> +  - Fengping Yu <fengping.yu@mediatek.com>
-> +
-> +allOf:
-> +  - $ref: "/schemas/input/matrix-keymap.yaml#"
-> +
-> +description: |
-> +  Mediatek's Keypad controller is used to interface a SoC with a matrix-type
-> +  keypad device. The keypad controller supports multiple row and column lines.
-> +  A key can be placed at each intersection of a unique row and a unique column.
-> +  The keypad controller can sense a key-press and key-release and report the
-> +  event using a interrupt to the cpu.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: mediatek,mt6779-keypad
-> +      - items:
-> +          - enum:
-> +            - mediatek,mt6873-keypad
-> +          - const: mediatek,mt6779-keypad
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    description: Names of the clocks listed in clocks property in the same order
+Since Dmitry seemed generally happy with the driver, I applied his rename
+recommendations.
 
-Drop generic descriptions.
+Thus, I have made the following:
 
-> +    items:
-> +       - const: kpd
-> +
-> +  wakeup-source:
-> +    description: use any event on keypad as wakeup event
-> +    type: boolean
-> +
-> +  mediatek,debounce-us:
+* All Reviewed-By: tags were kept
+* Applied Marco's Reviewed-By: on the bindings (since he approved v10)
+* Fengping is still the maintainer since he is the original author of this driver
 
-We already a somewhat common property: debounce-delay-ms
+Please tell me if you would rather have me do things differently.
 
-> +    description: |
-> +      Debounce interval in microseconds, if not specified, the default
-> +      value is 16000
-> +    maximum: 256000
+[1] https://lore.kernel.org/all/20200909072159.14888-1-fengping.yu@mediatek.com/
 
-default: 16000
+v19 -> v20:
+bindings: use dual license
+bindings: fixed 2 indentation issues found by yamllint
+bindings: drop clock-names description
+bindings: use standard keyboard node name for example
+bindings: use default: keyword for default values
+use debounce-delay-ms property instead of mediatek,debounce-us
+
+fengping.yu (3):
+  dt-bindings: input: Add bindings for Mediatek matrix keypad
+  Input: mt6779-keypad - Add MediaTek keypad driver
+  arm64: defconfig: Add CONFIG_KEYBOARD_MT6779=m
+
+ .../input/mediatek,mt6779-keypad.yaml         |  77 +++++++
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/input/keyboard/Kconfig                |  12 +
+ drivers/input/keyboard/Makefile               |   1 +
+ drivers/input/keyboard/mt6779-keypad.c        | 218 ++++++++++++++++++
+ 5 files changed, 309 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
+ create mode 100644 drivers/input/keyboard/mt6779-keypad.c
 
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/input/input.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        kp@10010000 {
+base-commit: 87a0b2fafc09766d8c55461a18345a1cfb10a7fe
+-- 
+2.32.0
 
-Use a standard node name: keyboard@... or keys@...
-
-> +          compatible = "mediatek,mt6779-keypad";
-> +          reg = <0 0x10010000 0 0x1000>;
-> +          interrupts = <GIC_SPI 75 IRQ_TYPE_EDGE_FALLING>;
-> +          clocks = <&clk26m>;
-> +          clock-names = "kpd";
-> +        };
-> +    };
-> --
-> 2.32.0
->
