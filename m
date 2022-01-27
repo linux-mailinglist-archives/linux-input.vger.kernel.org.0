@@ -2,67 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 401B449EE09
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jan 2022 23:23:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0177949EE26
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jan 2022 23:38:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240795AbiA0WX4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Jan 2022 17:23:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47952 "EHLO
+        id S242188AbiA0WiS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Jan 2022 17:38:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240782AbiA0WXy (ORCPT
+        with ESMTP id S241601AbiA0WiR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Jan 2022 17:23:54 -0500
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F804C06173B
-        for <linux-input@vger.kernel.org>; Thu, 27 Jan 2022 14:23:54 -0800 (PST)
-Received: by mail-pg1-x541.google.com with SMTP id v3so3585562pgc.1
-        for <linux-input@vger.kernel.org>; Thu, 27 Jan 2022 14:23:54 -0800 (PST)
+        Thu, 27 Jan 2022 17:38:17 -0500
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD0CDC06173B
+        for <linux-input@vger.kernel.org>; Thu, 27 Jan 2022 14:38:16 -0800 (PST)
+Received: by mail-ot1-x336.google.com with SMTP id d18-20020a9d51d2000000b005a09728a8c2so4021053oth.3
+        for <linux-input@vger.kernel.org>; Thu, 27 Jan 2022 14:38:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=1+sPWmEINYwV5j6AH03BgWzieqWNgkAGSl51hw0Ky8k=;
-        b=YhlyI0L/SFHOKEsxuYC02TRb5cZYhP+8FlL9zsjb6UqYtEe12gz1feVIrYREsENezQ
-         vgnDVlh7A21YWKHAmQR6OcvS/gehVu3uIqptXEJt6nZ2cphmB/NKgRustTuCwe1FlJ6E
-         ypZrtVjS/2fRSSULV9KCrQIBWxNPYUtMdVO2cl2ZsV/ttsprXmO4sA77LuFUSQrmhpFN
-         fjX9b2dArQ8Q924XyFziRw/s7V+gIMiURNN9Zd/nzmSuDdKPuprDhdKa7oSIcYsTbjY6
-         FCyw9JTmZaSvaCRxPfhQL/L+93IN3xvrIuD/ripu0qpPVEVlVwTOLwvraldScv9l476w
-         oYsA==
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=aWR05E2RbmTNpLCVEo/Nlpzpd++Ks+Sv/wViyuVZ2Rg=;
+        b=kr3dWMmJobBg6sNZ1ICv7/u1CP5GdbsvIczxiNurwvUB1VlunPRxvusxmu5XNwGTSp
+         iPeFwaNVErAcmADRBOtbxeXPIggXATkkMb8TiX7U6wGWu8DMmHNsr7ZpgOpGKSizQlu9
+         GC0idl+9+QMH3pSaf1EnuSyXKFs2eDQMyeCcI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=1+sPWmEINYwV5j6AH03BgWzieqWNgkAGSl51hw0Ky8k=;
-        b=mFmCFZ4dlh4c4GiPBe8Zi/ULFa4nGyDJ0kTauApFtboqt5rT/XEExQGFGrZOrrmVp5
-         mU4XYbkCMuGD4NrICpyvRYKUbs8RpfaawERRkTDps1k2q+Wkl4jwySo8b/M7K4n4EEQu
-         kLfn7cvbpVVYOaHgg1YKRJzK9t1mvsCtVRnSe0/RMGvP+8aVQjTPmBAxa+6hpboWaUMw
-         Jr/EmvEd8znRoFLd9qW/7AuMCj9/87o5QRVm+p/mfXfC9MRCxcb3r2fY3TNXJfc0+0mS
-         3QnDlk6twcE9IU2+RZjDjql7i+aFBcLfi23+p5WLi/a7NJwTYeFH0MGYZI2DpJWYVhaB
-         UPgw==
-X-Gm-Message-State: AOAM532sHWT6lmIeOor72SDkyQt5CZ7rWlh3b6GMPdAL2TbnoxExViQI
-        +voY0A3W7HyBbpZWI3ExZ+vfmfE93HXIjMkwT84=
-X-Google-Smtp-Source: ABdhPJyJLyXbhqRdGjA2Pa/yGn3GlM305ryCNPvUv2tVjgOpCs69vG4ZUavtnqtXP8KVNrMlNtJt5Hjd6/4eBQ6SLV4=
-X-Received: by 2002:a05:6a00:2408:: with SMTP id z8mr3897206pfh.68.1643322233533;
- Thu, 27 Jan 2022 14:23:53 -0800 (PST)
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=aWR05E2RbmTNpLCVEo/Nlpzpd++Ks+Sv/wViyuVZ2Rg=;
+        b=b+8BJ78YC0jg19BXTNCuVpWK/nD/OaaYuHRW4JblXZkLO4a8A7h1LvKIS+I8rmSNrg
+         6gYZ8CgVFNkoTKN6vuOqOUw3pHM2afY6JRtcdS8TNBU7lJJzDtQqhQg4Pfkme3kA9aSz
+         NzSxevwCCX5kkpHJPopSN/yu7nz0j5jkQ8Gh29v1kFXQNqvG1l9LVrtGxsklGM1Q5xKj
+         s2BH8vsZmwnzhX+xnF8c5aM9SBOy8LLfeQNxDkJDWz23bPGjwzBL3jaNAjiV0X1f578B
+         lBqgeDkkxxULdB6weozfe8e43JHQoPRATO2g+uygSM40K3zWfN9/zPf/8JmSkRJFoB3s
+         LyaQ==
+X-Gm-Message-State: AOAM531D3G9yQYv/IkJgUOAVER9wmTlobfnZ36pv+l78qT8A+sCdKy1T
+        vfZ9Tb6biv1Bo/ObSm9QB8brcLcXnkciqTCtoJ1Kf3LGpwM=
+X-Google-Smtp-Source: ABdhPJwOl4nucpur1NNMFQb0AV1jZ4bD7IxweXx7PXRCypu/M+7h5rfna8Nc2q9193z3yZhBOWplxPqRgMkAyzl6ZaI=
+X-Received: by 2002:a05:6830:1489:: with SMTP id s9mr3462776otq.126.1643323096056;
+ Thu, 27 Jan 2022 14:38:16 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 27 Jan 2022 14:38:15 -0800
 MIME-Version: 1.0
-Received: by 2002:a17:90a:4603:0:0:0:0 with HTTP; Thu, 27 Jan 2022 14:23:52
- -0800 (PST)
-Reply-To: wijh555@gmail.com
-From:   "Dr. Irene Lam" <mdmd14521@gmail.com>
-Date:   Thu, 27 Jan 2022 14:23:52 -0800
-Message-ID: <CABxW77aM+aHLhnhQtcAsVnd+=AqYGobTQ5tu+Q0BH4cXNYr4fA@mail.gmail.com>
-Subject: Greetings,
-To:     undisclosed-recipients:;
+In-Reply-To: <20220127210024.25597-2-quic_amelende@quicinc.com>
+References: <20220127210024.25597-1-quic_amelende@quicinc.com> <20220127210024.25597-2-quic_amelende@quicinc.com>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date:   Thu, 27 Jan 2022 14:38:15 -0800
+Message-ID: <CAE-0n505BCr5sJ_21WpAYJmEddsgOtCUMqG=vnjo_VVTjQ3SHQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] input: misc: pm8941-pwrkey: fix error message
+To:     Anjelique Melendez <quic_amelende@quicinc.com>,
+        dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, collinsd@codeaurora.org,
+        bjorn.andersson@linaro.org, skakit@codeaurora.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
--- 
-Greetings,
-I'm Dr. Irene Lam, please a huge amount of payment was made into your
-account. as soon as your respond is noted the payment confirmation
-slip will immediately send to you.  please do not hesitate to reply as
-soon as you receive this message. awaiting your urgent reply please.
+Quoting Anjelique Melendez (2022-01-27 13:00:23)
+> Currently, error message reads "failed to set debounce". However,
+> code is attempting to read revision not set debounce. Fix this.
+>
+> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+> ---
 
-Sincerely
-Dr. Irene Lam
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
