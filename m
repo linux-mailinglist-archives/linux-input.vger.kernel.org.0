@@ -2,82 +2,236 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B99C49FB4F
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jan 2022 15:06:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31E1D49FFC3
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jan 2022 18:48:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344745AbiA1OGv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Jan 2022 09:06:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37808 "EHLO
+        id S243866AbiA1RsZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Jan 2022 12:48:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344330AbiA1OGt (ORCPT
+        with ESMTP id S234400AbiA1RsY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Jan 2022 09:06:49 -0500
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C39AC061714;
-        Fri, 28 Jan 2022 06:06:49 -0800 (PST)
-Received: by mail-ej1-x632.google.com with SMTP id a8so16318351ejc.8;
-        Fri, 28 Jan 2022 06:06:49 -0800 (PST)
+        Fri, 28 Jan 2022 12:48:24 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80093C06173B
+        for <linux-input@vger.kernel.org>; Fri, 28 Jan 2022 09:48:24 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id u15so12326817wrt.3
+        for <linux-input@vger.kernel.org>; Fri, 28 Jan 2022 09:48:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=V90r59PqZxvu1aYpRHwQxj9CjfznCDlFhS5gKOQxDqI=;
-        b=F9hGRyzkpH2M5+KDdfdNdn7LwMNCxKlT2MfqGjs6wNBz/hl7zuOwFkhU42+kl1tJpn
-         mChrQE7ABryFYz5r/27dCKspkGbVlO3pkKNbZppwi0Qof6zTbX+s2XPmEM0QHNMIx7Zg
-         U8p0+kKlmtpsTihYIwhqh3DrnBnzh2ZkZScq8zse/yH7ymgiOrFo7ctBEaY/IYHv8AR1
-         bnhy/xmkTz0iQa3q5hejXpRT+o0ixt1QqodzsjYUkOyRtq9U9/BRBy7wCZMfarD0KGTJ
-         55qQ5HEV46F58kiN9SH5BAk1A4clrurJWt6YIO54m1aHsDKfb3X0E5OMOWVqIZsKR4IG
-         d+UA==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iqkFOAkjr/CoSvch7L8qUsJD6WSchp1qw+iBKpjdcjw=;
+        b=IP7iqnbYkgR7H0maenHsfs8aIxyeccBCnu+GtQn83TJPALAizbxKU2QMU7ihlvMdF4
+         yN9bK4iQjdB2OyGt9pOrV8oEJLGs8A6sFtmXdqylWXCDa2jCwiP0rHdc8mKMF2yLW4qq
+         X7rGimp1FDvdP0M2pJ+NYq/rVLheJAyPbIfFk3gnEetpMbvR2fqzKJQT851q3TWNQF+n
+         7hiYxbpRNvccEKXYFBqZHz5mGSguEmUcmRGg9YGCg9lOhLLLcxpYzQwCHIx2k3Zffw5n
+         eV/z68kL0yA303RNgn1qZp50F3UBcxBax6J2lHsq7Q9PHacGlbU+9kw9ns3KyWxkl3vQ
+         EE1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=V90r59PqZxvu1aYpRHwQxj9CjfznCDlFhS5gKOQxDqI=;
-        b=eep8dTZtjNOm6XIk2j/hZiZPuWl8na3AOvIhQROejb7ABvusnUrYuYDGZvXDBQD0YO
-         veYfpC7XEb/9uXwtZZX7y49KQ6JRFd52VIEDMob66aYj53Cu+HuYBETdJYgkINoc4w0H
-         +yvIGHgIwJJgnTMChfc8xPKqSxbFPOdL3uwLAKf9MW5eNcAMDn+ezi6jI6IjcRrxC0Bb
-         i19iYHdlgK5KdmNuD0aKoiz9yrIQ5W0Pww0HKtCIzaJq/5wL5cwlyCUoFjQsNqyIWb/B
-         9FEDVMULoxUNWquzw8rHgPBqi3ijERI0GihKAK7M93K/LXtMyXVWnkV1D6UdZbElP9Ql
-         nDTA==
-X-Gm-Message-State: AOAM5335dOqASPYqeDiUSN4UqnjDcoEXRIUwU1G1olaWC47N0ALsPUDU
-        J4x4fzm+xRHB0P7BqY2l/kInvKrImKRLoI6WiuCc2In/vn0f91WG
-X-Google-Smtp-Source: ABdhPJytN1RgypEc3MnBCQEniu6x9owRgmxL1r5jJqWOr08GuE/9g+DHM6rJ6NXg2bSu4IOzO48Ts3xUWDMylyjFKI4=
-X-Received: by 2002:a17:906:604d:: with SMTP id p13mr6820778ejj.639.1643378807748;
- Fri, 28 Jan 2022 06:06:47 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iqkFOAkjr/CoSvch7L8qUsJD6WSchp1qw+iBKpjdcjw=;
+        b=KtgRdlFqmUrH44Z0JQaxMiRi+B0pr1W3ZdEvVKGcnrqs3Aopmkgm3O1MdYQ0fheC4L
+         zVWjzh3uJDrWHAqfPEPuV4TQTeqkJvW3in/I5TgXTLVTR92arziuvDlPmJMQwh3aYodt
+         VfPdkZ+VNbR+O58ZpXiXS/e9GeQ5wrDwGfKK3tHtrHNeGEes46JpIWhbfOGkXz9a3+Q2
+         /TGZ+SyYrijDPbB/GxeDOXlsdbHCd54tKou6Nq0I+Y+SkFd6dJovqOEloqA3Vlrkkb4O
+         LGpEkZhK8qcwOKx0o4abybWqzGoPPyOOwtBdVoRu79i/0drTMUL4DT5iWMmDkmz/IqW8
+         oTBQ==
+X-Gm-Message-State: AOAM53078DqvHXVBFdkAZnAu+2Io8wi6vtrKqGYRFvnJWTVGMrlYaWyY
+        MAu6xoQN7xk1lUiDs0PIlPyttQ==
+X-Google-Smtp-Source: ABdhPJwyuV1GmA1fW5Dt7efa808kcWDbfbLETNXASznINJTGYA1I/UsORm2utPT1LAFfpI6nKS0csA==
+X-Received: by 2002:a5d:63d1:: with SMTP id c17mr7925324wrw.6.1643392102996;
+        Fri, 28 Jan 2022 09:48:22 -0800 (PST)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
+        by smtp.gmail.com with ESMTPSA id b1sm6067090wrd.12.2022.01.28.09.48.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jan 2022 09:48:22 -0800 (PST)
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Daniel Thompson <daniel.thompson@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: i2c-hid: goodix: Fix a lockdep splat
+Date:   Fri, 28 Jan 2022 17:46:25 +0000
+Message-Id: <20220128174625.321750-1-daniel.thompson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220128055604.2077738-1-kai.heng.feng@canonical.com> <CAHp75Vcz01FwHUF5NAUhn4mfTgzoHBMEBkqPbfPHU=tNr_9Zdw@mail.gmail.com>
-In-Reply-To: <CAHp75Vcz01FwHUF5NAUhn4mfTgzoHBMEBkqPbfPHU=tNr_9Zdw@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 28 Jan 2022 16:05:09 +0200
-Message-ID: <CAHp75Veti6hPmESaeD8obV0F3zZ7cpcK8mXdReJXb8+1oPp_hg@mail.gmail.com>
-Subject: Re: [PATCH v2] Input: adxl34x: Add ACPI HID table
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        linux-input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jan 28, 2022 at 4:01 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Fri, Jan 28, 2022 at 7:56 AM Kai-Heng Feng
-> <kai.heng.feng@canonical.com> wrote:
+I'm was on the receiving end of a lockdep splat from this driver and after
+scratching my head I couldn't be entirely sure it was a false positive
+given we would also have to think about whether the regulator locking is
+safe (since the notifier is called whilst holding regulator locks which
+are also needed for regulator_is_enabled() ).
 
-...
+Regardless of whether it is a real bug or not, the mutex isn't needed.
+We can use reference counting tricks instead to avoid races with the
+notifier calls.
 
-> >  drivers/input/misc/adxl34x-i2c.c | 7 +++++++
+The observed splat follows:
 
-Hold on, why in this driver and not
+------------------------------------------------------
+kworker/u16:3/127 is trying to acquire lock:
+ffff00008021fb20 (&ihid_goodix->regulator_mutex){+.+.}-{4:4}, at: ihid_goodix_vdd_notify+0x30/0x94
 
-drivers/iio/accel/adxl345_i2c.c
-drivers/iio/accel/adxl345_spi.c
+but task is already holding lock:
+ffff0000835c60c0 (&(&rdev->notifier)->rwsem){++++}-{4:4}, at: blocking_notifier_call_chain+0x30/0x70
 
-?
+which lock already depends on the new lock.
 
--- 
-With Best Regards,
-Andy Shevchenko
+
+the existing dependency chain (in reverse order) is:
+
+-> #1 (&(&rdev->notifier)->rwsem){++++}-{4:4}:
+       down_write+0x68/0x8c
+       blocking_notifier_chain_register+0x54/0x70
+       regulator_register_notifier+0x1c/0x24
+       devm_regulator_register_notifier+0x58/0x98
+       i2c_hid_of_goodix_probe+0xdc/0x158
+       i2c_device_probe+0x25d/0x270
+       really_probe+0x174/0x2cc
+       __driver_probe_device+0xc0/0xd8
+       driver_probe_device+0x50/0xe4
+       __device_attach_driver+0xa8/0xc0
+       bus_for_each_drv+0x9c/0xc0
+       __device_attach_async_helper+0x6c/0xbc
+       async_run_entry_fn+0x38/0x100
+       process_one_work+0x294/0x438
+       worker_thread+0x180/0x258
+       kthread+0x120/0x130
+       ret_from_fork+0x10/0x20
+
+-> #0 (&ihid_goodix->regulator_mutex){+.+.}-{4:4}:
+       __lock_acquire+0xd24/0xfe8
+       lock_acquire+0x288/0x2f4
+       __mutex_lock+0xa0/0x338
+       mutex_lock_nested+0x3c/0x5c
+       ihid_goodix_vdd_notify+0x30/0x94
+       notifier_call_chain+0x6c/0x8c
+       blocking_notifier_call_chain+0x48/0x70
+       _notifier_call_chain.isra.0+0x18/0x20
+       _regulator_enable+0xc0/0x178
+       regulator_enable+0x40/0x7c
+       goodix_i2c_hid_power_up+0x18/0x20
+       i2c_hid_core_power_up.isra.0+0x1c/0x2c
+       i2c_hid_core_probe+0xd8/0x3d4
+       i2c_hid_of_goodix_probe+0x14c/0x158
+       i2c_device_probe+0x25c/0x270
+       really_probe+0x174/0x2cc
+       __driver_probe_device+0xc0/0xd8
+       driver_probe_device+0x50/0xe4
+       __device_attach_driver+0xa8/0xc0
+       bus_for_each_drv+0x9c/0xc0
+       __device_attach_async_helper+0x6c/0xbc
+       async_run_entry_fn+0x38/0x100
+       process_one_work+0x294/0x438
+       worker_thread+0x180/0x258
+       kthread+0x120/0x130
+       ret_from_fork+0x10/0x20
+
+other info that might help us debug this:
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&(&rdev->notifier)->rwsem);
+                               lock(&ihid_goodix->regulator_mutex);
+                               lock(&(&rdev->notifier)->rwsem);
+  lock(&ihid_goodix->regulator_mutex);
+
+ *** DEADLOCK ***
+
+Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
+---
+ drivers/hid/i2c-hid/i2c-hid-of-goodix.c | 28 +++++++++++--------------
+ 1 file changed, 12 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
+index b4dad66fa954d..ec6c73f75ffe0 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
++++ b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
+@@ -27,7 +27,6 @@ struct i2c_hid_of_goodix {
+
+ 	struct regulator *vdd;
+ 	struct notifier_block nb;
+-	struct mutex regulator_mutex;
+ 	struct gpio_desc *reset_gpio;
+ 	const struct goodix_i2c_hid_timing_data *timings;
+ };
+@@ -67,8 +66,6 @@ static int ihid_goodix_vdd_notify(struct notifier_block *nb,
+ 		container_of(nb, struct i2c_hid_of_goodix, nb);
+ 	int ret = NOTIFY_OK;
+
+-	mutex_lock(&ihid_goodix->regulator_mutex);
+-
+ 	switch (event) {
+ 	case REGULATOR_EVENT_PRE_DISABLE:
+ 		gpiod_set_value_cansleep(ihid_goodix->reset_gpio, 1);
+@@ -87,8 +84,6 @@ static int ihid_goodix_vdd_notify(struct notifier_block *nb,
+ 		break;
+ 	}
+
+-	mutex_unlock(&ihid_goodix->regulator_mutex);
+-
+ 	return ret;
+ }
+
+@@ -102,8 +97,6 @@ static int i2c_hid_of_goodix_probe(struct i2c_client *client,
+ 	if (!ihid_goodix)
+ 		return -ENOMEM;
+
+-	mutex_init(&ihid_goodix->regulator_mutex);
+-
+ 	ihid_goodix->ops.power_up = goodix_i2c_hid_power_up;
+ 	ihid_goodix->ops.power_down = goodix_i2c_hid_power_down;
+
+@@ -130,25 +123,28 @@ static int i2c_hid_of_goodix_probe(struct i2c_client *client,
+ 	 *   long. Holding the controller in reset apparently draws extra
+ 	 *   power.
+ 	 */
+-	mutex_lock(&ihid_goodix->regulator_mutex);
+ 	ihid_goodix->nb.notifier_call = ihid_goodix_vdd_notify;
+ 	ret = devm_regulator_register_notifier(ihid_goodix->vdd, &ihid_goodix->nb);
+-	if (ret) {
+-		mutex_unlock(&ihid_goodix->regulator_mutex);
++	if (ret)
+ 		return dev_err_probe(&client->dev, ret,
+ 			"regulator notifier request failed\n");
+-	}
+
+ 	/*
+ 	 * If someone else is holding the regulator on (or the regulator is
+ 	 * an always-on one) we might never be told to deassert reset. Do it
+-	 * now. Here we'll assume that someone else might have _just
+-	 * barely_ turned the regulator on so we'll do the full
+-	 * "post_power_delay" just in case.
++	 * now... and temporarily bump the regulator reference count just to
++	 * make sure it is impossible for this to race with our own notifier!
++	 * We also assume that someone else might have _just barely_ turned
++	 * the regulator on so we'll do the full "post_power_delay" just in
++	 * case.
+ 	 */
+-	if (ihid_goodix->reset_gpio && regulator_is_enabled(ihid_goodix->vdd))
++	if (ihid_goodix->reset_gpio && regulator_is_enabled(ihid_goodix->vdd)) {
++		ret = regulator_enable(ihid_goodix->vdd);
++		if (ret)
++			return ret;
+ 		goodix_i2c_hid_deassert_reset(ihid_goodix, true);
+-	mutex_unlock(&ihid_goodix->regulator_mutex);
++		regulator_disable(ihid_goodix->vdd);
++	}
+
+ 	return i2c_hid_core_probe(client, &ihid_goodix->ops, 0x0001, 0);
+ }
+
+base-commit: e783362eb54cd99b2cac8b3a9aeac942e6f6ac07
+--
+2.34.1
+
