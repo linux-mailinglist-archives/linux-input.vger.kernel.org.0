@@ -2,111 +2,258 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CABAC49EE39
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jan 2022 23:44:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F385149F2FA
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jan 2022 06:25:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240553AbiA0WoO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Jan 2022 17:44:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52484 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236161AbiA0WoN (ORCPT
+        id S241465AbiA1FZU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Jan 2022 00:25:20 -0500
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:54745 "EHLO
+        wout1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231458AbiA1FZT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Jan 2022 17:44:13 -0500
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F58C061714
-        for <linux-input@vger.kernel.org>; Thu, 27 Jan 2022 14:44:13 -0800 (PST)
-Received: by mail-oi1-x230.google.com with SMTP id p203so8806055oih.10
-        for <linux-input@vger.kernel.org>; Thu, 27 Jan 2022 14:44:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=qSVKg7QZolISP6CL5b8ywycxZ4eSO4ME5S7Xwxs213U=;
-        b=lCcj/YjgaTpAlalRmpvtJQ/UCinvUZbRA9eUiHZhQD7E5jN4xLRKHLDlDIcMCnTRCu
-         VGfKHHUcHcpwOTrk8eglOlSjaQhDiWgqp0SO+CizBk+xAeTcKf5e892ZE/dIRY76sHjZ
-         C17pHcz6fmaFbkfIIu7hBgPWOgnL1lDwUjWE8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=qSVKg7QZolISP6CL5b8ywycxZ4eSO4ME5S7Xwxs213U=;
-        b=gK2agJDhJXs3HlpWOUt9KBjjQ7JHAoL2xx5XFKKAAB5LLxTwymW/T2tX0d4c0/yyV4
-         HoyWk1y1EjPFpVhJRA8nqP3A4iI4EXsunE5pcnk6EPg2WWPRqJdnZpYxUUqZd3OCmSav
-         WauVHQXVo2YZmFP9NGhVdx3MKvUoxDF0HBCVUWdAK/c6bw1u7kh+LgS5+p6v4bZs3k/3
-         Zs4Zi967j4bKmc5Bqo4YcUERh7Rrg9cAlpnPNMgo9/77UyBJ/3YlPAE8p4HVNxNDp0v3
-         EnHQq+B/o6SiiyOhb6Ru8TxS25Ys9a2aPG1jqJE+SVfQ7Dt1/E+rdEgaLzySNHSoFYcH
-         wrhA==
-X-Gm-Message-State: AOAM533CAMf499SsJcE/fBPNAVsn10kaBqYLsY6xDAIlBxjAMs4zyGsC
-        T+N1zm5AWtxOCX6BAbC3KBkzDv975LQ8aOw1ETksZQ==
-X-Google-Smtp-Source: ABdhPJxeu4g7MfMP+1tgPBzH30aCdvexTG7BkQSmwQCJuBHQCEk/KNDciKzXewaSrUaJUSrJfMRHftNA2sOuP6IbKd4=
-X-Received: by 2002:a05:6808:190f:: with SMTP id bf15mr8419513oib.40.1643323453189;
- Thu, 27 Jan 2022 14:44:13 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 27 Jan 2022 14:44:12 -0800
+        Fri, 28 Jan 2022 00:25:19 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id EB9CA3202313;
+        Fri, 28 Jan 2022 00:25:18 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Fri, 28 Jan 2022 00:25:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; bh=s4a6GNp5bkAqZ/nsCp3QVHutHIwMQ/yFsgimEK
+        Iaw80=; b=bwvHjJDJ/vYdHX8mbmGqsAP/g3/SF9/BpbwzXFf92f8E4QjjFKrqXb
+        BIRkorcIpifMpjQnBR0Me88vh5C7RSNtamnZ7yHrfMTSw4hnRQ1a7m7JnMg9ByTl
+        q0SBJsP72/Kv9MGwAegw6E/jly0iCKzk6DXpGk6pQ8KKZBYXQnUiSx8vCQvXizp1
+        53BXTx/Fx/4uJRXneZRrFAwes5lPYqTKZoyq/CXzliXTfbJ3HCtQQhYrHxrHzLDn
+        Y2WOx1jwYJgDFBivh00f7i/pyhE9N/K7POpcpQRsB4z75CFiI/jAGscOye1CO4kB
+        UhJt7fkUvxpp1naEaAq8plii83ebcaBg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=s4a6GNp5bkAqZ/nsC
+        p3QVHutHIwMQ/yFsgimEKIaw80=; b=OC8Q6cYQRUfTQfnsO8UVPbxqgFBaZ+yZ8
+        z842KgpBxa01nh1G/8c07uSRxWhunW1OV1+zaG6dDWFMZtZ/C5BJ3uHMxoB1r5eY
+        IrQHauJ/WWJQ1XJuL6riW2ivK9kuH2lTf2AVQlyNb4M7pzZkrYLbND1n1LOiJWtC
+        vUGZIn3g4rvW5ROFenexlrHfgsL+tSqWPbqUSEIUsZHV9AHNGYnk0UTRMt+4K5e3
+        RbOYSwzFGfVzoENgErdFWMxat0ps5CGjuxiZnhcXwI+BDPBUas7xYotMogAt2sxW
+        rX8BqZBQPT/XsT+qCzmW4mRcY1beADJfOuCGjcf+1VmzfpoRs0yNw==
+X-ME-Sender: <xms:Pn7zYTEnAHW3L1ZNMKd20tVaiaC8Py8JtL3kdLWkr5xLYZHUDHAlOQ>
+    <xme:Pn7zYQXSaNt8atcCwp8IPewPNSLWUzRCmMWLNC7CTGDC9x4jXh5gpBZw0VeHYj3gt
+    IocdHZG2gx1cB1PhC4>
+X-ME-Received: <xmr:Pn7zYVJCToKqc37p2XNUf0EUXTxBjIfB2HSEuVFZTC1NxiLpD_8jHYVZwQTW2NAsD3iFsTzZgV-52WlPYQQ52HrQ6ISVyE40sEIc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfeeggdejlecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgvrhcu
+    jfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtqe
+    enucggtffrrghtthgvrhhnpeehhfehfffgheelgeeuudelhefgvdefveekudevjeevjeev
+    vefggefguddufeeuveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+    hlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:Pn7zYRFVY08uvg3cclqGi47B1bdDtFzUibeMcRbLBwbto6YFcuIwOg>
+    <xmx:Pn7zYZVCqHEX6jOH77R2hMUwXP5R0-jIvxm9bhnZg0iJ62_0d6J9GQ>
+    <xmx:Pn7zYcPTuKib-LELRWth3fBjADQGFIXLbzafOFLhlPaLsDQYVArLnw>
+    <xmx:Pn7zYXeJcDTuFfU_MGbCoZ-oP4kNPzWSfM5XADJFALHKiKdnXRDzIw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 28 Jan 2022 00:25:15 -0500 (EST)
+Date:   Fri, 28 Jan 2022 15:25:10 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Angela Czubak <acz@semihalf.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sean O'Brien <seobrien@chromium.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        upstream@semihalf.com, Jiri Kosina <jikos@kernel.org>
+Subject: Re: [PATCH 13/18] Input: MT - toggle ABS_PRESSURE pointer emulation
+Message-ID: <YfN+NtT7NM92LW2W@quokka>
+References: <20211221191743.1893185-1-acz@semihalf.com>
+ <20211221191743.1893185-14-acz@semihalf.com>
+ <Ydi4/xYdgTv9Umqh@google.com>
+ <CAB4aORUgGcPCLZ8iWAorCPbW53Q7c-YiDC4qau-w7G9sYjCvfg@mail.gmail.com>
+ <Ydye8C1MjxpHHF5P@google.com>
+ <CAB4aORU35k1zuMPaKsa09Qr34wgurYw1F-Mpyn2WZN77+5R+7A@mail.gmail.com>
+ <CAOOzhkrzawfAxbFmQb-D39cAS3tt05qL-4dpj0X+ncxEFU3z_A@mail.gmail.com>
+ <Yd5CayeX+hsZz7ZP@google.com>
+ <YepOXFQUrMB/TNDX@quokka>
+ <CAB4aORUn6b47qxqr6Sre6U5dSwnS3bjOkPOyh7iM826mZ_mSJg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220127210024.25597-4-quic_amelende@quicinc.com>
-References: <20220127210024.25597-1-quic_amelende@quicinc.com> <20220127210024.25597-4-quic_amelende@quicinc.com>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date:   Thu, 27 Jan 2022 14:44:12 -0800
-Message-ID: <CAE-0n53oQEs+GO8+SXf1Zp4RT3FNvFzpDT+jYJA4fub77w+utw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] input: misc: pm8941-pwrkey: add software key press
- debouncing support
-To:     Anjelique Melendez <quic_amelende@quicinc.com>,
-        dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, collinsd@codeaurora.org,
-        bjorn.andersson@linaro.org, skakit@codeaurora.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAB4aORUn6b47qxqr6Sre6U5dSwnS3bjOkPOyh7iM826mZ_mSJg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Quoting Anjelique Melendez (2022-01-27 13:00:27)
-> diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
-> index 7005aede4f81..bcdbe260b684 100644
-> --- a/drivers/input/misc/pm8941-pwrkey.c
-> +++ b/drivers/input/misc/pm8941-pwrkey.c
-[...]
->
-> +static int pm8941_pwrkey_sw_debounce_init(struct pm8941_pwrkey *pwrkey)
-> +{
-> +       unsigned int val, addr, mask;
-> +       int error;
-> +
-> +       if (pwrkey->data->has_pon_pbs && !pwrkey->pon_pbs_baseaddr) {
-> +               dev_err(pwrkey->dev, "PON_PBS address missing, can't read HW debounce time\n");
-> +               return 0;
-> +       }
-> +
-> +       if (pwrkey->pon_pbs_baseaddr)
-> +               addr = pwrkey->pon_pbs_baseaddr + PON_DBC_CTL;
-> +       else
-> +               addr = pwrkey->baseaddr + PON_DBC_CTL;
-> +       error = regmap_read(pwrkey->regmap, addr, &val);
-> +       if (error)
-> +               return error;
-> +
-> +       if (pwrkey->subtype >= PON_SUBTYPE_GEN2_PRIMARY)
-> +               mask = 0xf;
-> +       else
-> +               mask = 0x7;
-> +
-> +       pwrkey->sw_debounce_time_us = 2 * USEC_PER_SEC /
-> +                                               (1 << (mask - (val & mask)));
+On Tue, Jan 25, 2022 at 05:56:17PM +0100, Angela Czubak wrote:
+> Hi Peter, Dmitry, Benjamin, Sean,
+> 
+> On Fri, Jan 21, 2022 at 7:10 AM Peter Hutterer <peter.hutterer@who-t.net> wrote:
+> >
+> > On Tue, Jan 11, 2022 at 06:52:27PM -0800, Dmitry Torokhov wrote:
+> > > On Tue, Jan 11, 2022 at 09:19:19PM -0500, Sean O'Brien wrote:
+> > > > On Tue, Jan 11, 2022 at 12:07 PM Angela Czubak <acz@semihalf.com> wrote:
+> > > > >
+> > > > > On Mon, Jan 10, 2022 at 10:02 PM Dmitry Torokhov
+> > > > > <dmitry.torokhov@gmail.com> wrote:
+> > > > > >
+> > > > > > On Mon, Jan 10, 2022 at 08:43:28PM +0100, Angela Czubak wrote:
+> > > > > > > Hi Dmitry,
+> > > > > > >
+> > > > > > > On Fri, Jan 7, 2022 at 11:07 PM Dmitry Torokhov
+> > > > > > > <dmitry.torokhov@gmail.com> wrote:
+> > > > > > > >
+> > > > > > > > Hi Angela,
+> > > > > > > >
+> > > > > > > > On Tue, Dec 21, 2021 at 07:17:38PM +0000, Angela Czubak wrote:
+> > > > > > > > > Add a function to switch off ABS_PRESSURE generation if necessary.
+> > > > > > > > > This may be helpful in case drivers want to generate ABS_PRESSURE events
+> > > > > > > > > themselves from ABS_MT_PRESSURE.
+> > > > > > > >
+> > > > > > > > This needs better explanation for why it is needed. I assume this is to
+> > > > > > > > use ABS_PRESSURE to report "true force" for devices. If this is correct
+> > > > > > > > then I believe we should define a new flag for input_mt_init_slots()
+> > > > > > > > and check it here and also use it to calculate the force across contacts
+> > > > > > > > in input_mt_sync_frame().
+> > > > > > > >
+> > > > > > > > Or did I misunderstand the point?
+> > > > > > > >
+> > > > > > > I would say you understood it correctly, though to my mind it is not a
+> > > > > > > static behaviour,
+> > > > > >
+> > > > > > It should be, otherwise how will userspace know the meaning of the
+> > > > > > event?
+> > > > > >
+> > > > > Fair point.
+> > > > >
+> > > > > > > i.e. we may want to switch this kind of calculation on and off.
+> > > > > > > Are flags intended to be modified at runtime?
+> > > > > >
+> > > > > > No.
+> > > > > >
+> > > > > > > For instance, if user decides to remove the release or press effect (previously
+> > > > > > > uploaded by them) and there is no default one per device, then we should switch
+> > > > > > > the haptic handling from kernel mode back to device mode.
+> > > > > >
+> > > > > > Why? I think if user removes effects then they do not want to have
+> > > > > > haptics effects. I am wondering if this whole thing made too complex.
+> > > > > >
+> > > > > > In my mind we have following cases:
+> > > > > >
+> > > > > > - OS does not know about these haptics devices (touchpads). They work in
+> > > > > >   device (?) mode and provide haptic feedback on their own.
+> > > > > >
+> > > > > > - OS does know about haptics devices (that includes having both kernel
+> > > > > >   *and* userspace support for them. If one is missing then the other
+> > > > > >   should not be enabled, it is up to the distro to make sure all pieces
+> > > > > >   are there). In this case OS controls haptics effects all the time,
+> > > > > >   except:
+> > > > > >
+> > > > > > - OS supports haptics, but switched it to device mode to allow haptics
+> > > > > >   effect playback when waking up.
+> > > > > >
+> > > > > Perhaps switching between modes should be a separate discussion.
+> > > > > Right now it seems to me that your suggestion could be that if
+> > > > > INPUT_PROP_HAPTIC_TOUCHPAD is set it should be followed by setting
+> > > > > something like INPUT_MT_PRESSURE_SUM in mt_flags, which should mean
+> > > > > every ABS_PRESSURE event should actually be a sum of pressures/true forces
+> > > > > across all slots. Does it sound right?
+> > > > > If so, I suppose I will implement it. It should be completely independent from
+> > > > > device/kernel mode and, what is more, if hid_haptic_init() fails for any reason
+> > > > > the pressure sum still gets calculated.
+> > >
+> > > I'd say that if hid_haptic_init() fails we should not say that the
+> > > device is INPUT_PROP_HAPTIC_TOUCHPAD (if we even decide to continue with
+> > > the device instantiation, which we probably should not).
+> > >
+> > > > >
+> > > > > Sean, is it OK for the device to keep kernel mode in the event no
+> > > > > default press/release
+> > > > > waveform is defined in the waveform list and the user removes relevant effects
+> > > > > (after having uploaded them)? I think it was desired to remain in the
+> > > > > device mode
+> > > > > if no such waveforms/effects are defined and, thus, I assumed that removing
+> > > > > following effects (in case no press/release waveforms in the waveform
+> > > > > list) should
+> > > > > trigger coming back to device mode.
+> > > > > Right now it seems that switching back to device mode should be
+> > > > > allowed only when
+> > > > > suspending the device.
+> > > >
+> > > > I agree that we should switch to device-controlled mode if press/release are
+> > > > not defined by the device, and userspace has not supplied alternative
+> > > > waveforms for either. If we kept it in kernel-controlled mode, there would be
+> > > > no effect for click/release. This can be achieved by userspace by emitting
+> > > > EVIOCFFTAKECONTROL for click and release, and never sending haptic commands.
+> > >
+> > > What is wrong for not having effect for press/release if userspace did
+> > > not bother to set it up? I think this is reasonably to expect that if
+> > > user enabled support for haptic touchpad in kernel they should also have
+> > > userspace that knows how to handle it. If we go with this requirement I
+> > > think we will reduce a lot of complexity.
+> > >
+> > > Benjamin, Jiri, Peter, I'd like you to chime in please.
+> > >
+> > > >
+> > > > This also allows for the case where userspace may want to send haptics for UX
+> > > > effects, while still relying on the device for traditional press and release
+> > > > haptics (in the case where the device doesn't define press/release
+> > > > waveforms).
+> > >
+> > > Again, what is the difference between press/release and other UX
+> > > effects? They seem to be the same to me...
+> >
+> > Agree with Dmitry here - have a sensible default in the kernel and if
+> > userspace changes it, it's now userspace's problem to do it right. Anything
+> > more complex is just making things more complicated for niche cases that may
+> > never happen.
+> >
+> 
+> Could you please relate to the following statements/questions? I would like to
+> make sure I am nearer to your understanding of how the things should be.
+> I wouldn't say they constitute my plan, I am just wondering if shared effects
+> are acceptable at all since their handling seems questionable.
+> 
+> 1. Kernel mode - is it OK to have any default at all? Or would you rather say
+>    it's userspace's responsibility to issue force feedback entirely? I am just
+>    wondering how much simplification you would actually prefer to have.
+>    In the current patchset the kernel can issue haptic feedback itself
+>    (based on the pressure/force sums calculated).
 
-         pwrkey->sw_debounce_time_us = 2 * USEC_PER_SEC / (1 << (mask
-- (val & mask)));
+IMO the kernel should have a default. without any force feedback the devices
+are going to be difficult to use.
 
-Nitpick: Put this one one line?
+> 2. The patches introduce shared effects. This allows userspace to modify
+>    kernel mode behaviour, i.e. the waveforms it issues when press/release
+>    has been detected, which means both uploading and erasing those
+>    effects is possible.
+>    On the other hand, closing event fd triggers removing effects uploaded for
+>    that fd. I would assume removing shared effects is allowed as well
+>    since we can update them with upload. Should it be disallowed/prohibited?
+>    I mean that perhaps erasing shared effects should never really take place
+>    as we may end up removing something that has not been altered by
+>    userspace.
+>    I am worried since simply opening and closing the event file could possibly
+>    cause a change in behaviour if we actually let effects be completely
+>    removed.
 
-> +
-> +       dev_dbg(pwrkey->dev, "SW debounce time = %u us\n",
-> +               pwrkey->sw_debounce_time_us);
-> +
-> +       return 0;
-> +}
-> +
->  static int __maybe_unused pm8941_pwrkey_suspend(struct device *dev)
->  {
->         struct pm8941_pwrkey *pwrkey = dev_get_drvdata(dev);
+if you remove effects on fd close, you're effectively enforcing that some
+process always needs to keep the fd to this device open just to have it
+respond correctly. It may also prevent the device from going to sleep, right?
+
+So I think there's an argument to leaving the configured waveforms there after
+closing the effect - similar things already happen with other evdev ioctls.
+
+> 3. Switching to kernel mode should happen at the instantiation and then only
+>    during suspend/resume cycle. If the shared press/release effect gets
+>    removed (even caused by input device flush), then we don't want any haptic
+>    feedback in kernel mode anyway.
+> 4. Should I just not care and not sum the pressures across all slots? It just
+>    seemed to me there was a reason to choose one slot and pass it as
+>    ABS_PRESSURE in input-mt.c, and I just suspected it would be more
+>    logical to pass the sum of forces if the unit suggests it is force.
+
+I'm not quite keeping up with the details in the patches but - whatever is the
+most accurate physical measurement? :)
+
+Cheers,
+  Peter
