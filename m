@@ -2,85 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 421B749FAA1
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jan 2022 14:24:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFB6949FB2D
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jan 2022 15:03:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232369AbiA1NY3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Jan 2022 08:24:29 -0500
-Received: from mga06.intel.com ([134.134.136.31]:58913 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229625AbiA1NY2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Jan 2022 08:24:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643376268; x=1674912268;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dee8gZqixv/3uVG/nwblVNmvk6RueJi96F9bnNNOp0I=;
-  b=VI/MwdwKH4Xx6gwiyWzuqhWj7xgTI4ZZ6PfVqzHOhM4bR1Lx6XO2F5Tv
-   vBxcL24JExEZvfBI2OsbwrYdhGineD+nLVAFrcCLdeR64QWIx1Bf8usWm
-   1UpLpMg+TMDmAnhOzclVUWKv3/kEEKQL3bIu7oU3ylYqv7+vYr2ZrkBTW
-   58+tfNJ0MFRObEAH0vtVewBeSvd/AVrO4VdqavcCsH9WJhfUPLsTgzU5E
-   1tiePjxZoKpqzjtJ4fq/WoVWh0sS4bU38HsWpj+3opUkCWqfb/jnVXHbA
-   lI3aIL/XisikDS6hgGmJGAbSz3LIpkg1ldMfZGWE9uxQcmmS5thPsPfzD
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10240"; a="307833878"
-X-IronPort-AV: E=Sophos;i="5.88,324,1635231600"; 
-   d="scan'208";a="307833878"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2022 05:24:28 -0800
-X-IronPort-AV: E=Sophos;i="5.88,324,1635231600"; 
-   d="scan'208";a="625632618"
-Received: from smile.fi.intel.com ([10.237.72.61])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2022 05:24:24 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nDRDj-00FQOE-Os;
-        Fri, 28 Jan 2022 15:23:19 +0200
-Date:   Fri, 28 Jan 2022 15:23:19 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Fengping Yu <fengping.yu@mediatek.com>,
-        Yingjoe Chen <yingjoe.chen@mediatek.com>,
-        Fabien Parent <fparent@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v20 2/3] Input: mt6779-keypad - Add MediaTek keypad driver
-Message-ID: <YfPuR/Q5//hSQYKG@smile.fi.intel.com>
-References: <20220127111526.3716689-1-mkorpershoek@baylibre.com>
- <20220127111526.3716689-3-mkorpershoek@baylibre.com>
- <YfK4UcuCfF7JfI7H@smile.fi.intel.com>
- <87v8y4p483.fsf@baylibre.com>
+        id S239377AbiA1ODW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Jan 2022 09:03:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36962 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238986AbiA1ODV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 28 Jan 2022 09:03:21 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 577B7C061714;
+        Fri, 28 Jan 2022 06:03:21 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id s5so16403176ejx.2;
+        Fri, 28 Jan 2022 06:03:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1LJkgBxQZGz+DBCDqTCv/zlH6Pf6EPJaEcwYrjb9pWI=;
+        b=J5JhoCWcxWO7nN7IEpEBYaQzLhmcZpmAIVyRqe6sm45L7acqIKxsXW/mE29spAU3UN
+         yuGsRZnGQQZEM3PFzAfP8ric79ObM7f69lRlimzVuSmYrRafJpAfy8NHi4eh3rKKW15P
+         SjdfbfH0YUJGG405tVNPbMpInHh0izSvR18GsXoqMpc6wnNUMTfOGWsHdsFQO8k8CWRr
+         bGfyBBa1xBS3byorg1zARbW0dQ5zpszNET8vkVl6+/NQ2x1iI2Q48+njzcoYh6Eh+dlE
+         36syofIRL27r6YJ4PdDzie8Uc133DkoDzGomYvdobj3L8LKzdvA8pwKc/+rM5mw1/eE2
+         Fzvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1LJkgBxQZGz+DBCDqTCv/zlH6Pf6EPJaEcwYrjb9pWI=;
+        b=OmQlxaC4YrnPLK2vbiMX2r/BUD4UjLQtGyrGBBpu4IWGitfQKXSgCpr1QE/DeITgSa
+         TV56qzJO3dTmOWgurZc0EaB/OsuYaBILCBNkJ0PdclQ25pdJ/gK6adxgh/vQ3za2xGte
+         Q2KLRsGgKm0sme39mzAKju7ooyfsK6TyCAvbf4IHAHlqrB+oCXTjXQ9+XhU6gxJuoYh9
+         z/fJK5P374lg4ZGxI8ERt/830Ab9Gnxhimoz+kpCeVgm/hSdhQLJaXJlazLjWT/lBwvC
+         kGE4neWgJYKF2dfdJKP/DFmKMWIjJzDmQGgAZ6QI+Md+c76gJbzoMFPuSdsMqUTfOrhv
+         gXFg==
+X-Gm-Message-State: AOAM531u8rf26EhfT+qf4dx0FORhPIPoCbNJb6MFVeBhusGdf70+32uJ
+        epHMDGPyN/+b7X9iC2bvcwrrCnKX9XWkAvYiYac=
+X-Google-Smtp-Source: ABdhPJwDNhPs1YDqEHAdWX84zLhRjEXZ+jIj1Fk6pGf01xg1LP+H0kz88ItE8Gkigt8fi+9typWdCYl8rVFF4VPEwis=
+X-Received: by 2002:a17:907:94d5:: with SMTP id dn21mr7325773ejc.77.1643378599791;
+ Fri, 28 Jan 2022 06:03:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87v8y4p483.fsf@baylibre.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220128055604.2077738-1-kai.heng.feng@canonical.com>
+In-Reply-To: <20220128055604.2077738-1-kai.heng.feng@canonical.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 28 Jan 2022 16:01:42 +0200
+Message-ID: <CAHp75Vcz01FwHUF5NAUhn4mfTgzoHBMEBkqPbfPHU=tNr_9Zdw@mail.gmail.com>
+Subject: Re: [PATCH v2] Input: adxl34x: Add ACPI HID table
+To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        linux-input <linux-input@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jan 28, 2022 at 11:03:08AM +0100, Mattijs Korpershoek wrote:
-> On Thu, Jan 27, 2022 at 17:20, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> > On Thu, Jan 27, 2022 at 12:15:25PM +0100, Mattijs Korpershoek wrote:
+On Fri, Jan 28, 2022 at 7:56 AM Kai-Heng Feng
+<kai.heng.feng@canonical.com> wrote:
+>
+> x86 boards may use ACPI HID "ADS0345" for adxl34x device.
 
-...
+the adxl34x
 
-> > Up to you.
+> Analog replied:
+> "ADS034X is not a valid PNP ID. ADS0345 would be.
+> I'm not aware that this ID is already taken.
+> Feel free to submit a mainline Linux input mailing list patch."
+>
+> So add an ACPI match table for that accordingly.
 
-> Thank you for your review and your suggestions.
-
-Yes, as I said it you need a new version and consider them good.
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Thanks!
+
+> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> ---
+> v2:
+>  - Drop ACPI_PTR()
+>  - Drop redundant empty line and comma
+>  - Add info from vendor
+>
+>  drivers/input/misc/adxl34x-i2c.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/drivers/input/misc/adxl34x-i2c.c b/drivers/input/misc/adxl34x-i2c.c
+> index a3b5f88d2bd16..b9af581cde800 100644
+> --- a/drivers/input/misc/adxl34x-i2c.c
+> +++ b/drivers/input/misc/adxl34x-i2c.c
+> @@ -155,11 +155,18 @@ static const struct of_device_id adxl34x_of_id[] = {
+>
+>  MODULE_DEVICE_TABLE(of, adxl34x_of_id);
+>
+> +static const struct acpi_device_id adxl34x_acpi_match[] = {
+> +       { "ADS0345" },
+> +       { }
+> +};
+> +MODULE_DEVICE_TABLE(acpi, adxl34x_acpi_match);
+> +
+>  static struct i2c_driver adxl34x_driver = {
+>         .driver = {
+>                 .name = "adxl34x",
+>                 .pm = &adxl34x_i2c_pm,
+>                 .of_match_table = adxl34x_of_id,
+> +               .acpi_match_table = adxl34x_acpi_match,
+>         },
+>         .probe    = adxl34x_i2c_probe,
+>         .remove   = adxl34x_i2c_remove,
+> --
+> 2.33.1
+>
+
 
 -- 
 With Best Regards,
 Andy Shevchenko
-
-
