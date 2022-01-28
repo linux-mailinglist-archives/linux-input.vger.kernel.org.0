@@ -2,54 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFB6949FB2D
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jan 2022 15:03:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B99C49FB4F
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jan 2022 15:06:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239377AbiA1ODW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Jan 2022 09:03:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36962 "EHLO
+        id S1344745AbiA1OGv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Jan 2022 09:06:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238986AbiA1ODV (ORCPT
+        with ESMTP id S1344330AbiA1OGt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Jan 2022 09:03:21 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 577B7C061714;
-        Fri, 28 Jan 2022 06:03:21 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id s5so16403176ejx.2;
-        Fri, 28 Jan 2022 06:03:21 -0800 (PST)
+        Fri, 28 Jan 2022 09:06:49 -0500
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C39AC061714;
+        Fri, 28 Jan 2022 06:06:49 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id a8so16318351ejc.8;
+        Fri, 28 Jan 2022 06:06:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=1LJkgBxQZGz+DBCDqTCv/zlH6Pf6EPJaEcwYrjb9pWI=;
-        b=J5JhoCWcxWO7nN7IEpEBYaQzLhmcZpmAIVyRqe6sm45L7acqIKxsXW/mE29spAU3UN
-         yuGsRZnGQQZEM3PFzAfP8ric79ObM7f69lRlimzVuSmYrRafJpAfy8NHi4eh3rKKW15P
-         SjdfbfH0YUJGG405tVNPbMpInHh0izSvR18GsXoqMpc6wnNUMTfOGWsHdsFQO8k8CWRr
-         bGfyBBa1xBS3byorg1zARbW0dQ5zpszNET8vkVl6+/NQ2x1iI2Q48+njzcoYh6Eh+dlE
-         36syofIRL27r6YJ4PdDzie8Uc133DkoDzGomYvdobj3L8LKzdvA8pwKc/+rM5mw1/eE2
-         Fzvg==
+        bh=V90r59PqZxvu1aYpRHwQxj9CjfznCDlFhS5gKOQxDqI=;
+        b=F9hGRyzkpH2M5+KDdfdNdn7LwMNCxKlT2MfqGjs6wNBz/hl7zuOwFkhU42+kl1tJpn
+         mChrQE7ABryFYz5r/27dCKspkGbVlO3pkKNbZppwi0Qof6zTbX+s2XPmEM0QHNMIx7Zg
+         U8p0+kKlmtpsTihYIwhqh3DrnBnzh2ZkZScq8zse/yH7ymgiOrFo7ctBEaY/IYHv8AR1
+         bnhy/xmkTz0iQa3q5hejXpRT+o0ixt1QqodzsjYUkOyRtq9U9/BRBy7wCZMfarD0KGTJ
+         55qQ5HEV46F58kiN9SH5BAk1A4clrurJWt6YIO54m1aHsDKfb3X0E5OMOWVqIZsKR4IG
+         d+UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1LJkgBxQZGz+DBCDqTCv/zlH6Pf6EPJaEcwYrjb9pWI=;
-        b=OmQlxaC4YrnPLK2vbiMX2r/BUD4UjLQtGyrGBBpu4IWGitfQKXSgCpr1QE/DeITgSa
-         TV56qzJO3dTmOWgurZc0EaB/OsuYaBILCBNkJ0PdclQ25pdJ/gK6adxgh/vQ3za2xGte
-         Q2KLRsGgKm0sme39mzAKju7ooyfsK6TyCAvbf4IHAHlqrB+oCXTjXQ9+XhU6gxJuoYh9
-         z/fJK5P374lg4ZGxI8ERt/830Ab9Gnxhimoz+kpCeVgm/hSdhQLJaXJlazLjWT/lBwvC
-         kGE4neWgJYKF2dfdJKP/DFmKMWIjJzDmQGgAZ6QI+Md+c76gJbzoMFPuSdsMqUTfOrhv
-         gXFg==
-X-Gm-Message-State: AOAM531u8rf26EhfT+qf4dx0FORhPIPoCbNJb6MFVeBhusGdf70+32uJ
-        epHMDGPyN/+b7X9iC2bvcwrrCnKX9XWkAvYiYac=
-X-Google-Smtp-Source: ABdhPJwDNhPs1YDqEHAdWX84zLhRjEXZ+jIj1Fk6pGf01xg1LP+H0kz88ItE8Gkigt8fi+9typWdCYl8rVFF4VPEwis=
-X-Received: by 2002:a17:907:94d5:: with SMTP id dn21mr7325773ejc.77.1643378599791;
- Fri, 28 Jan 2022 06:03:19 -0800 (PST)
+        bh=V90r59PqZxvu1aYpRHwQxj9CjfznCDlFhS5gKOQxDqI=;
+        b=eep8dTZtjNOm6XIk2j/hZiZPuWl8na3AOvIhQROejb7ABvusnUrYuYDGZvXDBQD0YO
+         veYfpC7XEb/9uXwtZZX7y49KQ6JRFd52VIEDMob66aYj53Cu+HuYBETdJYgkINoc4w0H
+         +yvIGHgIwJJgnTMChfc8xPKqSxbFPOdL3uwLAKf9MW5eNcAMDn+ezi6jI6IjcRrxC0Bb
+         i19iYHdlgK5KdmNuD0aKoiz9yrIQ5W0Pww0HKtCIzaJq/5wL5cwlyCUoFjQsNqyIWb/B
+         9FEDVMULoxUNWquzw8rHgPBqi3ijERI0GihKAK7M93K/LXtMyXVWnkV1D6UdZbElP9Ql
+         nDTA==
+X-Gm-Message-State: AOAM5335dOqASPYqeDiUSN4UqnjDcoEXRIUwU1G1olaWC47N0ALsPUDU
+        J4x4fzm+xRHB0P7BqY2l/kInvKrImKRLoI6WiuCc2In/vn0f91WG
+X-Google-Smtp-Source: ABdhPJytN1RgypEc3MnBCQEniu6x9owRgmxL1r5jJqWOr08GuE/9g+DHM6rJ6NXg2bSu4IOzO48Ts3xUWDMylyjFKI4=
+X-Received: by 2002:a17:906:604d:: with SMTP id p13mr6820778ejj.639.1643378807748;
+ Fri, 28 Jan 2022 06:06:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20220128055604.2077738-1-kai.heng.feng@canonical.com>
-In-Reply-To: <20220128055604.2077738-1-kai.heng.feng@canonical.com>
+References: <20220128055604.2077738-1-kai.heng.feng@canonical.com> <CAHp75Vcz01FwHUF5NAUhn4mfTgzoHBMEBkqPbfPHU=tNr_9Zdw@mail.gmail.com>
+In-Reply-To: <CAHp75Vcz01FwHUF5NAUhn4mfTgzoHBMEBkqPbfPHU=tNr_9Zdw@mail.gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 28 Jan 2022 16:01:42 +0200
-Message-ID: <CAHp75Vcz01FwHUF5NAUhn4mfTgzoHBMEBkqPbfPHU=tNr_9Zdw@mail.gmail.com>
+Date:   Fri, 28 Jan 2022 16:05:09 +0200
+Message-ID: <CAHp75Veti6hPmESaeD8obV0F3zZ7cpcK8mXdReJXb8+1oPp_hg@mail.gmail.com>
 Subject: Re: [PATCH v2] Input: adxl34x: Add ACPI HID table
 To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -62,60 +62,21 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jan 28, 2022 at 7:56 AM Kai-Heng Feng
-<kai.heng.feng@canonical.com> wrote:
->
-> x86 boards may use ACPI HID "ADS0345" for adxl34x device.
+On Fri, Jan 28, 2022 at 4:01 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> On Fri, Jan 28, 2022 at 7:56 AM Kai-Heng Feng
+> <kai.heng.feng@canonical.com> wrote:
 
-the adxl34x
+...
 
-> Analog replied:
-> "ADS034X is not a valid PNP ID. ADS0345 would be.
-> I'm not aware that this ID is already taken.
-> Feel free to submit a mainline Linux input mailing list patch."
->
-> So add an ACPI match table for that accordingly.
+> >  drivers/input/misc/adxl34x-i2c.c | 7 +++++++
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Thanks!
+Hold on, why in this driver and not
 
-> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> ---
-> v2:
->  - Drop ACPI_PTR()
->  - Drop redundant empty line and comma
->  - Add info from vendor
->
->  drivers/input/misc/adxl34x-i2c.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/drivers/input/misc/adxl34x-i2c.c b/drivers/input/misc/adxl34x-i2c.c
-> index a3b5f88d2bd16..b9af581cde800 100644
-> --- a/drivers/input/misc/adxl34x-i2c.c
-> +++ b/drivers/input/misc/adxl34x-i2c.c
-> @@ -155,11 +155,18 @@ static const struct of_device_id adxl34x_of_id[] = {
->
->  MODULE_DEVICE_TABLE(of, adxl34x_of_id);
->
-> +static const struct acpi_device_id adxl34x_acpi_match[] = {
-> +       { "ADS0345" },
-> +       { }
-> +};
-> +MODULE_DEVICE_TABLE(acpi, adxl34x_acpi_match);
-> +
->  static struct i2c_driver adxl34x_driver = {
->         .driver = {
->                 .name = "adxl34x",
->                 .pm = &adxl34x_i2c_pm,
->                 .of_match_table = adxl34x_of_id,
-> +               .acpi_match_table = adxl34x_acpi_match,
->         },
->         .probe    = adxl34x_i2c_probe,
->         .remove   = adxl34x_i2c_remove,
-> --
-> 2.33.1
->
+drivers/iio/accel/adxl345_i2c.c
+drivers/iio/accel/adxl345_spi.c
 
+?
 
 -- 
 With Best Regards,
