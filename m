@@ -2,169 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F5E04A03E9
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jan 2022 23:48:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6788A4A3279
+	for <lists+linux-input@lfdr.de>; Sun, 30 Jan 2022 00:00:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243833AbiA1Wss (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Jan 2022 17:48:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44714 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236704AbiA1Wss (ORCPT
+        id S1353076AbiA2XAr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 29 Jan 2022 18:00:47 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:36141 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1347650AbiA2XAq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Jan 2022 17:48:48 -0500
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20144C061714
-        for <linux-input@vger.kernel.org>; Fri, 28 Jan 2022 14:48:48 -0800 (PST)
-Received: by mail-io1-xd2c.google.com with SMTP id h7so9612793iof.3
-        for <linux-input@vger.kernel.org>; Fri, 28 Jan 2022 14:48:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yvLd1RoPgxdjs/CS1R/zUtrJGEBOzBTdt2+fSzjXWoA=;
-        b=hEyqVJl2jGpTFgcQRsaYFO9EpYdj6EhqInBVBrGk+cKuX5AF2bk65TFsaWKrVoivom
-         qQY8OXSllrQ6oU/HsnCIkhWMQJ1zUFigIEMiKRdyaG1bkuLPzCxDi04meuyTJSD1bKLj
-         olIEgHJk9Y+pivpPPa0dEKVOqI9KTdj/EKU1k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yvLd1RoPgxdjs/CS1R/zUtrJGEBOzBTdt2+fSzjXWoA=;
-        b=Ban09slCi5GV2lfTf1I2pDoruduH6G33va59dbYhEnHyyMPQDpW9bq9zErWVn358x4
-         J66cZ8lHVdHKYGsVfTMHYc75t3NjXtMWCJA9RpqVWDhj5IFaouRy9YNgvhGDr65Pr8K6
-         Fi90uQFHWb+zfJUPXtRfkWKReklQAJhr/LrxLRFWMUyPjtL5/+iYUkqErJ0CTxs8dMvp
-         k6OHiDwEBYM6FfZLLZGUcsCqs2s+1odi/JbQ10TzF9QqOWsyDkN4Dy/khYVhhKZBq8LS
-         0G5+uBX+Ng4kiMLL64/kRvFYMmzXWL6vQoL+C2n3RgdLISGAGiqVwAIIpssK0IWxYBIv
-         ngkg==
-X-Gm-Message-State: AOAM532RbhIGn1y5dpXZfAt7EV1qCNG7eyU4vW1f/5vnneTrVu/xK7Qj
-        ogrYfeltqdXLkFGO5I1RKvFcfJcDMZIRTQ==
-X-Google-Smtp-Source: ABdhPJwFP7Dx/CQWYUinl15T1y8u9MxDCbOqZZQHxY9USusIt221S91aMSzuUEN1+8i1fx/FvCv7aQ==
-X-Received: by 2002:a5e:a806:: with SMTP id c6mr6482527ioa.112.1643410127237;
-        Fri, 28 Jan 2022 14:48:47 -0800 (PST)
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com. [209.85.166.43])
-        by smtp.gmail.com with ESMTPSA id r189sm10647885ior.2.2022.01.28.14.48.46
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jan 2022 14:48:46 -0800 (PST)
-Received: by mail-io1-f43.google.com with SMTP id z199so9595031iof.10
-        for <linux-input@vger.kernel.org>; Fri, 28 Jan 2022 14:48:46 -0800 (PST)
-X-Received: by 2002:a02:b70f:: with SMTP id g15mr5801773jam.263.1643410126258;
- Fri, 28 Jan 2022 14:48:46 -0800 (PST)
+        Sat, 29 Jan 2022 18:00:46 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id ACE413200BD2;
+        Sat, 29 Jan 2022 18:00:45 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Sat, 29 Jan 2022 18:00:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm1; bh=YkxZLU31+SkUNlHUtOK24HTfoaFsFV9ZeL8fTN7IANU=; b=DN0Cs
+        Y0uL7OacJJP6DjMeWSLekJ6lxxoVeNK90E0du8bUpWM2Qgtwmh1Wyke7caOOtuCP
+        IpqxXmF+1cbUCQgDyWofmBJ+xt+yeF6wz4xWCBFsHYoLg1JOJesyPaoC9RyjomD0
+        GxMScCieoDnO600IrdespphnKXITwGGPtPpBqVCXiu7A2WZNv8qG7oMagfRTAnVe
+        lXXTjCCh1bwhKMJAu8BhUZ4XXCWTiY+gvrH1FBHOTbLncv51cM73Z/CxW9A/whbf
+        5mysNnrXDADlP//G2XvlYhTicfVlPWyaEfRNasAMrVXlv2s0H6KKJpU4zUh4+u5C
+        64jSaDt03T2axw1Fg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm1; bh=YkxZLU31+SkUNlHUtOK24HTfoaFsF
+        V9ZeL8fTN7IANU=; b=f2ozszpEHxp86CgfPJ37x3TzJZOpnxqDEpObalYk9rQYj
+        uX8vqPGJyBOocABslqqqnaGAH59lbWqImEDbkmSRcI4z8CE3++1Jrtt5c6MjGT/C
+        B4StSLuM5A777OuClAwCwDWDjX4w6A2c/314rh+Pzw4GW7eaNjuiTb9EG5cLfwB1
+        ShSzZh9/btJtCGnt7fow7ho7hDd5lz5ACSRzWGzSa/w9ULro6odkUhcQiMWHrwp2
+        rAc3vxkB99lA10cdQvlIe3Pooa8URW6lJPA0lf009RkcrWRai9Hgg4XW4ybpNnka
+        3SUom63aBPLn7LHj1LWrAY0IWS1MnA+N51Mi1+lXw==
+X-ME-Sender: <xms:HMf1YUJjm6ltiifLxT_XCNkDgsFzqxq6KlgfV8g582Eoxdvg7W2WXw>
+    <xme:HMf1YUKrJNf0_eetJiqrVFQiYracB8YA2xVItWXSTkpiu-4DpmdC1zZF_zTKWAhkH
+    kxX8pIKhqp0jb6nPQ>
+X-ME-Received: <xmr:HMf1YUuPsqDVkfY2o_2Vhta85ZJmliyHLXjD8o7a1OppkvXeE7_VsTSeK9RC9VZDoStKEY1_MR4yUBZ07Pdr-lFiFFmTAk4JIdgLChdK7YaU2WwB27yDgWWM1B1UAuF2J_ehqA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfeejgdduieelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeekkeefjeekvdetheejheekvdfgkeeigfffudehudeihfektdetheegiedv
+    gfevudenucffohhmrghinhepmhgvghhouhhsrdgtohhmpdhkvghrnhgvlhdrohhrghenuc
+    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgv
+    lhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:HMf1YRbRy0COhWV-STAEzQksBuJ0zQdfuzAJC6C_qAvQe1vTWiPGiw>
+    <xmx:HMf1YbaOLcX-nE9qCB8wbGuTO6x9QBDVL-J4j5b0fLrZD5vo5EJR1Q>
+    <xmx:HMf1YdDjS8c72uamIVrBLZWFPFJZaErZ71oy20sJ_aoeO-dMJ__03Q>
+    <xmx:Hcf1Yf6J9zVDXkjaI5xW6Z5p1sFhfpfFG6KKMc0hAe52AAHKgqvX7g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 29 Jan 2022 18:00:44 -0500 (EST)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Wolfram Sang <wsa@kernel.org>, Ondrej Jirman <x@xff.cz>,
+        Samuel Holland <samuel@sholland.org>
+Subject: [PATCH 0/5] Pine64 PinePhone keyboard support
+Date:   Sat, 29 Jan 2022 17:00:37 -0600
+Message-Id: <20220129230043.12422-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20220128174625.321750-1-daniel.thompson@linaro.org>
-In-Reply-To: <20220128174625.321750-1-daniel.thompson@linaro.org>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Fri, 28 Jan 2022 14:48:34 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VpQoYkTiKVmC7hMX=bWVYW0rkHWMKU7CqyW_2tanPEpQ@mail.gmail.com>
-Message-ID: <CAD=FV=VpQoYkTiKVmC7hMX=bWVYW0rkHWMKU7CqyW_2tanPEpQ@mail.gmail.com>
-Subject: Re: [PATCH] HID: i2c-hid: goodix: Fix a lockdep splat
-To:     Daniel Thompson <daniel.thompson@linaro.org>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+This series adds support for the official keyboard case for the Pine64
+PinePhone and PinePhone Pro. This accessory contains a keyboard MCU and
+an IP5209 power bank IC. The keyboard MCU firmware[0] is free software.
+It exposes the keyboard scan matrix over I2C, and also provides commands
+for SMBus access to the IP5209. In order to keep the IP5209 driver[1]
+generic, this is modeled as an I2C bus child of the keyboard.
 
-On Fri, Jan 28, 2022 at 9:48 AM Daniel Thompson
-<daniel.thompson@linaro.org> wrote:
->
-> I'm was on the receiving end of a lockdep splat from this driver and after
-> scratching my head I couldn't be entirely sure it was a false positive
-> given we would also have to think about whether the regulator locking is
-> safe (since the notifier is called whilst holding regulator locks which
-> are also needed for regulator_is_enabled() ).
->
-> Regardless of whether it is a real bug or not, the mutex isn't needed.
-> We can use reference counting tricks instead to avoid races with the
-> notifier calls.
->
-> The observed splat follows:
->
-> ------------------------------------------------------
-> kworker/u16:3/127 is trying to acquire lock:
-> ffff00008021fb20 (&ihid_goodix->regulator_mutex){+.+.}-{4:4}, at: ihid_goodix_vdd_notify+0x30/0x94
->
-> but task is already holding lock:
-> ffff0000835c60c0 (&(&rdev->notifier)->rwsem){++++}-{4:4}, at: blocking_notifier_call_chain+0x30/0x70
->
-> which lock already depends on the new lock.
->
->
-> the existing dependency chain (in reverse order) is:
->
-> -> #1 (&(&rdev->notifier)->rwsem){++++}-{4:4}:
->        down_write+0x68/0x8c
->        blocking_notifier_chain_register+0x54/0x70
->        regulator_register_notifier+0x1c/0x24
->        devm_regulator_register_notifier+0x58/0x98
->        i2c_hid_of_goodix_probe+0xdc/0x158
->        i2c_device_probe+0x25d/0x270
->        really_probe+0x174/0x2cc
->        __driver_probe_device+0xc0/0xd8
->        driver_probe_device+0x50/0xe4
->        __device_attach_driver+0xa8/0xc0
->        bus_for_each_drv+0x9c/0xc0
->        __device_attach_async_helper+0x6c/0xbc
->        async_run_entry_fn+0x38/0x100
->        process_one_work+0x294/0x438
->        worker_thread+0x180/0x258
->        kthread+0x120/0x130
->        ret_from_fork+0x10/0x20
->
-> -> #0 (&ihid_goodix->regulator_mutex){+.+.}-{4:4}:
->        __lock_acquire+0xd24/0xfe8
->        lock_acquire+0x288/0x2f4
->        __mutex_lock+0xa0/0x338
->        mutex_lock_nested+0x3c/0x5c
->        ihid_goodix_vdd_notify+0x30/0x94
->        notifier_call_chain+0x6c/0x8c
->        blocking_notifier_call_chain+0x48/0x70
->        _notifier_call_chain.isra.0+0x18/0x20
->        _regulator_enable+0xc0/0x178
->        regulator_enable+0x40/0x7c
->        goodix_i2c_hid_power_up+0x18/0x20
->        i2c_hid_core_power_up.isra.0+0x1c/0x2c
->        i2c_hid_core_probe+0xd8/0x3d4
->        i2c_hid_of_goodix_probe+0x14c/0x158
->        i2c_device_probe+0x25c/0x270
->        really_probe+0x174/0x2cc
->        __driver_probe_device+0xc0/0xd8
->        driver_probe_device+0x50/0xe4
->        __device_attach_driver+0xa8/0xc0
->        bus_for_each_drv+0x9c/0xc0
->        __device_attach_async_helper+0x6c/0xbc
->        async_run_entry_fn+0x38/0x100
->        process_one_work+0x294/0x438
->        worker_thread+0x180/0x258
->        kthread+0x120/0x130
->        ret_from_fork+0x10/0x20
->
-> other info that might help us debug this:
->
->  Possible unsafe locking scenario:
->
->        CPU0                    CPU1
->        ----                    ----
->   lock(&(&rdev->notifier)->rwsem);
->                                lock(&ihid_goodix->regulator_mutex);
->                                lock(&(&rdev->notifier)->rwsem);
->   lock(&ihid_goodix->regulator_mutex);
->
->  *** DEADLOCK ***
->
-> Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
-> ---
->  drivers/hid/i2c-hid/i2c-hid-of-goodix.c | 28 +++++++++++--------------
->  1 file changed, 12 insertions(+), 16 deletions(-)
+[0]: https://megous.com/git/pinephone-keyboard/about/
+[1]: https://lore.kernel.org/lkml/20220129222424.45707-1-samuel@sholland.org/T/
 
-Yes, this seems like a reasonable solution, thanks! Probably want:
 
-Fixes: 18eeef46d359 ("HID: i2c-hid: goodix: Tie the reset line to true
-state of the regulator")
+Samuel Holland (5):
+  dt-bindings: input: Add the PinePhone keyboard binding
+  Input: pinephone-keyboard - Add PinePhone keyboard driver
+  Input: pinephone-keyboard - Build in the default keymap
+  Input: pinephone-keyboard - Support the proxied I2C bus
+  [DO NOT MERGE] arm64: dts: allwinner: pinephone: Add keyboard
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+ .../input/pine64,pinephone-keyboard.yaml      |  90 ++++
+ MAINTAINERS                                   |   6 +
+ .../dts/allwinner/sun50i-a64-pinephone.dtsi   |  18 +
+ drivers/input/keyboard/Kconfig                |  10 +
+ drivers/input/keyboard/Makefile               |   1 +
+ drivers/input/keyboard/pinephone-keyboard.c   | 449 ++++++++++++++++++
+ 6 files changed, 574 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/pine64,pinephone-keyboard.yaml
+ create mode 100644 drivers/input/keyboard/pinephone-keyboard.c
+
+-- 
+2.33.1
+
