@@ -2,32 +2,32 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 833594A3519
-	for <lists+linux-input@lfdr.de>; Sun, 30 Jan 2022 09:14:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EF564A3521
+	for <lists+linux-input@lfdr.de>; Sun, 30 Jan 2022 09:20:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350209AbiA3IOM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 30 Jan 2022 03:14:12 -0500
-Received: from smtp06.smtpout.orange.fr ([80.12.242.128]:49827 "EHLO
+        id S1354379AbiA3IUt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 30 Jan 2022 03:20:49 -0500
+Received: from smtp06.smtpout.orange.fr ([80.12.242.128]:50259 "EHLO
         smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346785AbiA3IOL (ORCPT
+        with ESMTP id S234792AbiA3IUr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 30 Jan 2022 03:14:11 -0500
+        Sun, 30 Jan 2022 03:20:47 -0500
 Received: from pop-os.home ([90.126.236.122])
         by smtp.orange.fr with ESMTPA
-        id E5LenTNY7uCn2E5Len1jfK; Sun, 30 Jan 2022 09:14:10 +0100
+        id E5S2nTPu9uCn2E5S2n1kH4; Sun, 30 Jan 2022 09:20:46 +0100
 X-ME-Helo: pop-os.home
 X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Sun, 30 Jan 2022 09:14:10 +0100
+X-ME-Date: Sun, 30 Jan 2022 09:20:46 +0100
 X-ME-IP: 90.126.236.122
 From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sachin Kamat <sachin.kamat@linaro.org>
+        Viresh Kumar <viresh.kumar@linaro.org>
 Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
         Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
         linux-input@vger.kernel.org
-Subject: [PATCH] Input: samsung-keypad - Simplify resource management
-Date:   Sun, 30 Jan 2022 09:14:08 +0100
-Message-Id: <8877b9db412fbeb3b43ba4a3ff6c4b39a5440c70.1643530436.git.christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] Input: spear-keyboard - Simplify resource management
+Date:   Sun, 30 Jan 2022 09:20:44 +0100
+Message-Id: <c4b6e8b122259198ce76f42bf786b75cfd0cbffc.1643530826.git.christophe.jaillet@wanadoo.fr>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -35,31 +35,30 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Since the commit in the Fixes tag below, 'keypad->input_dev' is a managed
-resource that doesn't need to be explicitly unregistered or freed (see
+Since the commit in the Fixes tag below, 'kbd->input' is a managed resource
+that doesn't need to be explicitly unregistered or freed (see
 devm_input_allocate_device() documentation)
 
-So, remove some unless line of code to slightly simplify it.
+So, remove a unless line of code to slightly simplify it.
 
-Fixes: a57da3479545 ("Input: samsung-keypad - switch to using managed resources")
+Fixes: 6102752eb354 ("Input: spear-keyboard - switch to using managed resources")
 Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
 Compile tested only
 ---
- drivers/input/keyboard/samsung-keypad.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/input/keyboard/spear-keyboard.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/input/keyboard/samsung-keypad.c b/drivers/input/keyboard/samsung-keypad.c
-index df0258dcf89e..b6c3c6399b2e 100644
---- a/drivers/input/keyboard/samsung-keypad.c
-+++ b/drivers/input/keyboard/samsung-keypad.c
-@@ -451,8 +451,6 @@ static int samsung_keypad_remove(struct platform_device *pdev)
+diff --git a/drivers/input/keyboard/spear-keyboard.c b/drivers/input/keyboard/spear-keyboard.c
+index 9838c79cb288..c36836159fb3 100644
+--- a/drivers/input/keyboard/spear-keyboard.c
++++ b/drivers/input/keyboard/spear-keyboard.c
+@@ -278,7 +278,6 @@ static int spear_kbd_remove(struct platform_device *pdev)
+ {
+ 	struct spear_kbd *kbd = platform_get_drvdata(pdev);
  
- 	pm_runtime_disable(&pdev->dev);
- 
--	input_unregister_device(keypad->input_dev);
--
- 	clk_unprepare(keypad->clk);
+-	input_unregister_device(kbd->input);
+ 	clk_unprepare(kbd->clk);
  
  	return 0;
 -- 
