@@ -2,109 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBEBF4A4970
-	for <lists+linux-input@lfdr.de>; Mon, 31 Jan 2022 15:36:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2AE64A4A60
+	for <lists+linux-input@lfdr.de>; Mon, 31 Jan 2022 16:19:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237185AbiAaOgC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Jan 2022 09:36:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50474 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237583AbiAaOgC (ORCPT
+        id S1349220AbiAaPTh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Jan 2022 10:19:37 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:58244 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243672AbiAaPTf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Jan 2022 09:36:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1643639762;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=lou0y89ZbWs+PPQBKFmRO0jUwiQnv5MhO1SocSooLxM=;
-        b=Zwru/nu8/bcyMPKBQIqS7YKxP+QFMLrDh0SVF5F7Kmi4W5xjZLYy0uCmRm/9IDhTJwAviv
-        dyUJ0IJx4vtmUluwPEyNpIspcXTmpyCLrch3ln0iJDxj4gbyT3j9/f5OeiS8OPAAbZTn8f
-        6vITthtGynVoKXWCuyJTIOI6c5yYPNM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-588-xW2yp5IzPh-pzoq6v4_I-A-1; Mon, 31 Jan 2022 09:36:00 -0500
-X-MC-Unique: xW2yp5IzPh-pzoq6v4_I-A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Mon, 31 Jan 2022 10:19:35 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 755BB1091DA0;
-        Mon, 31 Jan 2022 14:35:59 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.194.59])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 091952376A;
-        Mon, 31 Jan 2022 14:35:57 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
-Subject: [PATCH v2 5/5] Input: goodix - Use the new soc_intel_is_byt() helper
-Date:   Mon, 31 Jan 2022 15:35:39 +0100
-Message-Id: <20220131143539.109142-5-hdegoede@redhat.com>
-In-Reply-To: <20220131143539.109142-1-hdegoede@redhat.com>
-References: <20220131143539.109142-1-hdegoede@redhat.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4C8EC6136E;
+        Mon, 31 Jan 2022 15:19:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A771C340E8;
+        Mon, 31 Jan 2022 15:19:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643642374;
+        bh=22wprm+poGEnOpfPLghnWFdYNEbG343GxfTtoARThUs=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=OXn5E61HYagB6ljowhjsk3TIRAmDOT17XEALV2kLpncFwxGPEXZXCewPFh3/qMU+4
+         r+FhSr41z8KOiSa9L9CZyGKIrcJczPo18zXIhN33i3MgxDYD0BrkJwOUovqGMunn6+
+         XPsJXj6BnfGUkfOOcpmotZ4Iv590sJo4FXEJIfWDT06HhbxjzKpdrUZe6IQQ28Yjr1
+         9Dyfrlu4ywQJclZwBCL9uSVmg5XJhV1M/zvXRHcG2XqH9nnn+8VExPkrvy9v47p+EG
+         ACnQhGi00bg95kve4MWIUOLXXxKCGbtfJ5mTOw5Ep/nlGeCsK77X5apGX2DC0wyYGq
+         3I/QfStCBBjXg==
+From:   Mark Brown <broonie@kernel.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Charles Keepax <ckeepax@opensource.wolfsonmicro.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <87dce7e80ea9b191843fa22415ca3aef5f3cc2e6.1643529968.git.christophe.jaillet@wanadoo.fr>
+References: <87dce7e80ea9b191843fa22415ca3aef5f3cc2e6.1643529968.git.christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] Input: wm97xx: Simplify resource management
+Message-Id: <164364237288.3159052.16795963706278985978.b4-ty@kernel.org>
+Date:   Mon, 31 Jan 2022 15:19:32 +0000
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use the new soc_intel_is_byt() helper from
-linux/platform_data/x86/soc.h.
+On Sun, 30 Jan 2022 09:06:36 +0100, Christophe JAILLET wrote:
+> Since the commit in the Fixes tag below, 'wm->input_dev' is a managed
+> resource that doesn't need to be explicitly unregistered or freed (see
+> devm_input_allocate_device() documentation)
+> 
+> So, remove some unless line of code to slightly simplify it.
+> 
+> 
+> [...]
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v2:
-- No changes
----
- drivers/input/touchscreen/goodix.c | 18 ++----------------
- 1 file changed, 2 insertions(+), 16 deletions(-)
+Applied to
 
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index b055815611de..dac19a790c35 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -18,6 +18,7 @@
- #include <linux/delay.h>
- #include <linux/irq.h>
- #include <linux/interrupt.h>
-+#include <linux/platform_data/x86/soc.h>
- #include <linux/slab.h>
- #include <linux/acpi.h>
- #include <linux/of.h>
-@@ -795,21 +796,6 @@ static int goodix_reset(struct goodix_ts_data *ts)
- }
- 
- #ifdef ACPI_GPIO_SUPPORT
--#include <asm/cpu_device_id.h>
--#include <asm/intel-family.h>
--
--static const struct x86_cpu_id baytrail_cpu_ids[] = {
--	{ X86_VENDOR_INTEL, 6, INTEL_FAM6_ATOM_SILVERMONT, X86_FEATURE_ANY, },
--	{}
--};
--
--static inline bool is_byt(void)
--{
--	const struct x86_cpu_id *id = x86_match_cpu(baytrail_cpu_ids);
--
--	return !!id;
--}
--
- static const struct acpi_gpio_params first_gpio = { 0, 0, false };
- static const struct acpi_gpio_params second_gpio = { 1, 0, false };
- 
-@@ -893,7 +879,7 @@ static int goodix_add_acpi_gpio_mappings(struct goodix_ts_data *ts)
- 		dev_info(dev, "Using ACPI INTI and INTO methods for IRQ pin access\n");
- 		ts->irq_pin_access_method = IRQ_PIN_ACCESS_ACPI_METHOD;
- 		gpio_mapping = acpi_goodix_reset_only_gpios;
--	} else if (is_byt() && ts->gpio_count == 2 && ts->gpio_int_idx == -1) {
-+	} else if (soc_intel_is_byt() && ts->gpio_count == 2 && ts->gpio_int_idx == -1) {
- 		dev_info(dev, "No ACPI GpioInt resource, assuming that the GPIO order is reset, int\n");
- 		ts->irq_pin_access_method = IRQ_PIN_ACCESS_ACPI_GPIO;
- 		gpio_mapping = acpi_goodix_int_last_gpios;
--- 
-2.33.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-linus
 
+Thanks!
+
+[1/1] Input: wm97xx: Simplify resource management
+      commit: a4f399a1416f645ac701064a55b0cb5203707ac9
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
