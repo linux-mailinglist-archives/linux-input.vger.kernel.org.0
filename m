@@ -2,269 +2,161 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3ED904A4764
-	for <lists+linux-input@lfdr.de>; Mon, 31 Jan 2022 13:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66FE14A47F0
+	for <lists+linux-input@lfdr.de>; Mon, 31 Jan 2022 14:21:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377728AbiAaMlY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Jan 2022 07:41:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42009 "EHLO
+        id S244517AbiAaNVJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Jan 2022 08:21:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21402 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235040AbiAaMlY (ORCPT
+        by vger.kernel.org with ESMTP id S231808AbiAaNVI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Jan 2022 07:41:24 -0500
+        Mon, 31 Jan 2022 08:21:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1643632882;
+        s=mimecast20190719; t=1643635267;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=qt1+nFSvJqevzO6PMZIwNYLup/Fi9aN0xmv9H7RymyU=;
-        b=V+3gBUtMS3wPWlazshBVNPcCGy6yp8uGYyR84O/OFxr5PdxxAxzsj+rwJ18KO2+Mm1zyH8
-        eqVihrbtSwo0JMW9uer6Cvw0EBVkTzkIzGTEl1HLop78MRmV0JNMsnB3zpifoWq+YKCYvu
-        3G5yNChSfny6FpO9rxiOiTu1PrwKnuw=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=G/KPezsCASiBPxJkLUR0Vur9OVvC7o/MlYUL6QGttbs=;
+        b=gUp7ffv3sY2Ichsqf74ZluvdR9CE405z+fqpGXFKHQ8C0F/ZbVMG9ZD9W+hnqjR9aFVYx4
+        +VOvKi4mMtpKqgiiIGGWUGzRKT5Q6CPSKO9Pdes+gwiZ/KVgyYV2p9eomzQ8eMxQb7b0ah
+        kFN5tY07u2YV/hJLQCej6lovnBHszvI=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-537-oNjGhtFFMb6cMzYZfGGwVA-1; Mon, 31 Jan 2022 07:41:21 -0500
-X-MC-Unique: oNjGhtFFMb6cMzYZfGGwVA-1
-Received: by mail-ej1-f69.google.com with SMTP id i21-20020a1709063c5500b006b4c7308c19so4934836ejg.14
-        for <linux-input@vger.kernel.org>; Mon, 31 Jan 2022 04:41:21 -0800 (PST)
+ us-mta-385-T7jIreJ4OROUh-7BMuqOdQ-1; Mon, 31 Jan 2022 08:21:06 -0500
+X-MC-Unique: T7jIreJ4OROUh-7BMuqOdQ-1
+Received: by mail-ej1-f72.google.com with SMTP id mp5-20020a1709071b0500b0069f2ba47b20so4932774ejc.19
+        for <linux-input@vger.kernel.org>; Mon, 31 Jan 2022 05:21:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=qt1+nFSvJqevzO6PMZIwNYLup/Fi9aN0xmv9H7RymyU=;
-        b=1d85crWPmXv/5y+DYS8zzvgjkORO9SKzCAi0MvKHaIObedUD8XrHs3fltXGt7Ea5/4
-         Z4u1r2g1tXaGj2PzcXDsF0i1mf+9UN7pGFd1ts7jytDWnJEVev4aKF1um/ezAQj5bxyN
-         RiRKt2COMjKcNTv5y9PoVdQc1v5qJ7jmL+kffDCPOBo62g0WTP+M8rU3aYt4MqOD8dBt
-         9KcD7qx/5OnP8HfrtYQA2MMZQRzSw8oZaXSnRQUJDalYDxQ8dcpocv+YqKEL9X7Io5ye
-         1Ru9iDquL7J1QllDN5WAgRGDRwRoB4vYLx/YWK/SjxQfAFsu0JMXc+k0KxnT60FKyTCD
-         qrXQ==
-X-Gm-Message-State: AOAM5324Sjo2vIL/2YozkoPzijEzloWDxSk9/sdXwmRigZqtH6kOhm8p
-        oiHaD87+btv5/1xuVuX6pLzES4yw5FQk1snnXhMebSTF+mNPO1XwFFHR7vhNRN3k/jRnywtzIsW
-        qxQwArStzPk/qRCp5Wa4U0Qg=
-X-Received: by 2002:a50:ef16:: with SMTP id m22mr20200852eds.340.1643632880115;
-        Mon, 31 Jan 2022 04:41:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwQ6d7vknpVMrqsiFrnxh7Kz+ptHRrnjLItook1VhqGXJmnCpynol6i83bZWb5jVzaQfdyLgw==
-X-Received: by 2002:a50:ef16:: with SMTP id m22mr20200834eds.340.1643632879835;
-        Mon, 31 Jan 2022 04:41:19 -0800 (PST)
+        bh=G/KPezsCASiBPxJkLUR0Vur9OVvC7o/MlYUL6QGttbs=;
+        b=7MwWiJ4QLhLM7/yrUjDR/zjG02z08Wy53ivITQgzSdjQNFn8WDfKQMo560nHpQZ6yo
+         Ef4/Gsu3DbGCNyPY00hmE6xHpAG6Dt1hdlD9BhKLrAV8gnp+/QnM27trFw4kHGdf+AmD
+         Si7wxpQINxkmFvFzWs/pk2Vlmf4nqB/zapqu+PQ8sUpKRes2gziXhkIo1TSTcaJQgV3F
+         NV/c0qqh99hgc+7eTB5xc0lBGmv9fLNLILVUKZVBRob5amM4ebTJozHYhNcsDoL30mSo
+         tzPSlGyiJym3unRvlO9dLBZ9yv7RxtWMxZpBQIqRzu3i914qNNVtuHqix1JcA8CU6uHs
+         C4Rg==
+X-Gm-Message-State: AOAM532EBPKOdqp56GSM9BWISPS3suPRREqp/qZVeP9cQJg7YYEAb/nB
+        jrBBVFYj3bLd9YLMilo9/N5cE+5k8OTzgS0OEjykLCJpGcAubo1eqdaCtE/4ME6E7Ud8HB+47aY
+        Iyrvju4dnYCysg4XcUu/RpLo=
+X-Received: by 2002:a17:906:7307:: with SMTP id di7mr16532484ejc.485.1643635264997;
+        Mon, 31 Jan 2022 05:21:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzRqUOooqiHitiZYmuhloTTt5Ox6qy42+2pHFBs8Kov9H9QFn4xzCps1YXpNAFdk7Nq35VJwQ==
+X-Received: by 2002:a17:906:7307:: with SMTP id di7mr16532470ejc.485.1643635264798;
+        Mon, 31 Jan 2022 05:21:04 -0800 (PST)
 Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id fn3sm13371826ejc.58.2022.01.31.04.41.18
+        by smtp.gmail.com with ESMTPSA id bo19sm16484814edb.56.2022.01.31.05.21.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jan 2022 04:41:19 -0800 (PST)
-Message-ID: <bf11034c-54c1-c4eb-dc26-0a6872e04121@redhat.com>
-Date:   Mon, 31 Jan 2022 13:41:18 +0100
+        Mon, 31 Jan 2022 05:21:03 -0800 (PST)
+Message-ID: <939ea349-bfd7-4580-0745-013fcbc98100@redhat.com>
+Date:   Mon, 31 Jan 2022 14:21:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 2/3] Input: elan_i2c - Use PM subsystem to manage wake irq
+Subject: Re: [PATCH 1/5] Input: Add input_copy_abs() function
 Content-Language: en-US
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Raul E Rangel <rrangel@chromium.org>,
-        linux-kernel@vger.kernel.org, Mario.Limonciello@amd.com,
-        linux-input@vger.kernel.org, dianders@chromium.org,
-        "jingle.wu" <jingle.wu@emc.com.tw>
-References: <20211220234346.2798027-1-rrangel@chromium.org>
- <20211220163823.2.Id022caf53d01112188308520915798f08a33cd3e@changeid>
- <YcE+xrSnS7qw0G1/@google.com>
- <9b004b3d-deed-1b63-2344-a445a9e53b61@redhat.com>
- <YcToUCQ8gzzSWbrm@google.com>
- <a71d4e73-6db8-16e7-2a3c-e50e26c0a07e@redhat.com>
- <CAAd53p4UbV=M_GrDMFz7qqqWRF23mXD=D7bDj-4b6rxgWupDMA@mail.gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
+References: <20211212124242.81019-1-hdegoede@redhat.com>
+ <20211212124242.81019-2-hdegoede@redhat.com> <YbbTERA000U9bPPR@google.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAAd53p4UbV=M_GrDMFz7qqqWRF23mXD=D7bDj-4b6rxgWupDMA@mail.gmail.com>
+In-Reply-To: <YbbTERA000U9bPPR@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Dmitry,
 
-On 12/25/21 14:51, Kai-Heng Feng wrote:
-> On Fri, Dec 24, 2021 at 7:11 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> On 12/23/21 22:21, Dmitry Torokhov wrote:
->>> On Thu, Dec 23, 2021 at 03:42:24PM +0100, Hans de Goede wrote:
->>>> Hi,
->>>>
->>>> On 12/21/21 03:41, Dmitry Torokhov wrote:
->>>>> Hi Raul,
->>>>>
->>>>> On Mon, Dec 20, 2021 at 04:43:45PM -0700, Raul E Rangel wrote:
->>>>>> @@ -1368,11 +1367,13 @@ static int elan_probe(struct i2c_client *client,
->>>>>>    }
->>>>>>
->>>>>>    /*
->>>>>> -   * Systems using device tree should set up wakeup via DTS,
->>>>>> +   * Systems using device tree or ACPI should set up wakeup via DTS/ACPI,
->>>>>>     * the rest will configure device as wakeup source by default.
->>>>>>     */
->>>>>> -  if (!dev->of_node)
->>>>>> +  if (!dev->of_node && !ACPI_COMPANION(dev)) {
->>>>>
->>>>> I think this will break our Rambis that use ACPI for enumeration but
->>>>> actually lack _PRW. As far as I remember their trackpads were capable
->>>>> of waking up the system.
->>>>>
->>>>> I think we should remove this chunk completely and instead add necessary
->>>>> code to drivers/platform/chrome/chrome-laptop.c (I suppose we need to
->>>>> have additional member in struct acpi_peripheral to indicate whether
->>>>> device needs to be configured for wakeup and then act upon it in
->>>>> chromeos_laptop_adjust_client().
->>>
->>> FWIW I looked at Rambi some more and I see that it actually defines a
->>> separate device an ACPI to handle wakeups, it is separate from the ACPI
->>> node for the trackpad:
->>>
->>> Scope (\_SB)
->>> {
->>> #ifdef BOARD_TRACKPAD_IRQ
->>>         /* Wake device for touchpad */
->>>         Device (TPAD)
->>>         {
->>>                 Name (_HID, EisaId ("PNP0C0E"))
->>>                 Name (_UID, 1)
->>>                 Name (_PRW, Package() { BOARD_TRACKPAD_WAKE_GPIO, 0x3 })
->>>
->>>                 Name (RBUF, ResourceTemplate()
->>>                 {
->>>                         Interrupt (ResourceConsumer, Level, ActiveLow)
->>>                         {
->>>                                 BOARD_TRACKPAD_IRQ
->>>                         }
->>>                 })
->>>
->>>                 Method (_CRS)
->>>                 {
->>>                         /* Only return interrupt if I2C1 is PCI mode */
->>>                         If (LEqual (\S1EN, 0)) {
->>>                                 Return (^RBUF)
->>>                         }
->>>
->>>                         /* Return empty resource template otherwise */
->>>                         Return (ResourceTemplate() {})
->>>                 }
->>>         }
->>> #endif
->>>
->>> I am not quite sure why we did this...
->>>
->>>>>
->>>>>>            device_init_wakeup(dev, true);
->>>>>> +          dev_pm_set_wake_irq(dev, client->irq);
->>>>>> +  }
->>>>
->>>> As I already mentioned in my other reply in this thread:
->>>>
->>>> https://lore.kernel.org/linux-input/f594afab-8c1a-8821-a775-e5512e17ce8f@redhat.com/
->>>>
->>>> AFAICT most x86 ACPI laptops do not use GPEs for wakeup by touchpad and
->>>> as such they do not have a _PRW method.
->>>>
->>>> So for wakeup by elan_i2c touchpads to keep working this code is not
->>>> just necessary for some ChromeOS devices, but it is necessary on
->>>> most ACPI devices.
->>>>
->>>> The problem of not making these calls on devices where a GPE is actually
->>>> used for touchpad wakeup (which at least for now is the exception not
->>>> the rule) should probably be fixed by no running this "chunk"
->>>> when the device has an ACPI_COMPANION (as this patch already checks)
->>>> *and* that ACPI_COMPANION has a valid _PRW method.
->>>>
->>>> Simply removing this chunk, or taking this patch as is will very
->>>> likely lead to regressions on various x86 laptop models.
->>>
->>> Hans, could you share a couple of DSDTs for devices that do not use GPEs
->>> for wakeup?
->>>
->>> For OF we already recognize that wakeup source/interrupt might differ
->>> from "main" I2C interrupt, I guess we need to do similar for ACPI cases.
->>> The question is to how determine if a device is supposed to be a wakeup
->>> source if it does not have _PRW.
->>
->> With s2idle (rather then S3) we never really suspend, we just put
->> everything in an as low power state as possible and call halt on the
->> CPU and then hope that the SoC power-management-unit shuts of a whole
->> bunch of power-planes based on all the devices being in a low power
->> state.
->>
->> This means that in practice with s2idle any device can be a wakeup
->> device since regular IRQs work fine as wakeup sources in s2idle.
->>
->> This is what the s2idle support in the i2c-hid code is based on:
->> drivers/hid/i2c-hid/i2c-hid-acpi.c:
->>
->>         if (acpi_gbl_FADT.flags & ACPI_FADT_LOW_POWER_S0) {
->>                 device_set_wakeup_capable(dev, true);
->>                 device_set_wakeup_enable(dev, false);
->>         }
->>
->> So I did just test this on a Lenovo ThinkPad X1 carbon gen 8, which
->> uses i2c_hid_acpi as driver for its touchpad and if I echo
->> enabled to the wakeup attr there, then wakeup by touchpad does work.
->>
->> One interesting thing there is that the touchpad ACPI node does not
->> have _PS0 and _PS3. Which means that the touchpad working as wakeup
->> device makes sense, since it can not be turned off at all.
->>
->> So I guess we could extend the above check in the i2c-hid-acpi
->> code to read:
->>
->>         if ((acpi_gbl_FADT.flags & ACPI_FADT_LOW_POWER_S0) &&
->>             !adev->flags.power_manageable) {
->>                 device_set_wakeup_capable(dev, true);
->>                 device_set_wakeup_enable(dev, false);
->>         }
->>
->> Because if there is a _PS3, which presumably is the case for
->> the troublesome touchscreen Raul is trying to fix, then we
->> will call that on suspend; and after that it is likely that
->> the device will not work as a wakeup source.
->>
->> And I just checked the DSDT of a couple of devices where I'm
->> reasonable sure that the touchpad uses I2C-HID and none of
->> them define _PS0/_PS3 methods on the touchpad ACPI node.
->>
->> So I think that the above suggestion should fix things
->> for the i2c-hid case.
->>
->> I've added Kai-Heng, the author of the original change
->> introducing the device_set_wakeup_capable() call, to the Cc.
->> Kai-Heng what do you think about this ?
->>
->> Raul, can you check if this resolves your issue?
->>
->> FWIW here is an acpidump of the X1C8:
->> https://fedorapeople.org/~jwrdegoede/acpidump-lenovo-x1c8
->>
->> Regards,
->>
->> Hans
->>
->>
->> p.s.
->>
->> An other interesting datapoint is that despite not declaring
->> a _PRW method the DSDTs which I've checked do all 3 contain
->> an _S0W method, returning 3 or 4. Which suggests that maybe the
->> ACPI code should look at _S0W even when no GPE is being used?
->>
+Thank you for your review of this patch series; and sorry for
+being so slow in getting back to you on this.
 
-Sorry for being slow to respond.
+On 12/13/21 05:58, Dmitry Torokhov wrote:
+> Hi Hans,
+> 
+> On Sun, Dec 12, 2021 at 01:42:38PM +0100, Hans de Goede wrote:
+>> Add a new helper function to copy absinfo from one input_dev to
+>> another input_dev.
+>>
+>> This is useful to e.g. setup a pen/stylus input-device for combined
+>> touchscreen/pen hardware where the pen uses the same coordinates as
+>> the touchscreen.
+>>
+>> Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>  drivers/input/input.c | 34 ++++++++++++++++++++++++++++++++++
+>>  include/linux/input.h |  2 ++
+>>  2 files changed, 36 insertions(+)
+>>
+>> diff --git a/drivers/input/input.c b/drivers/input/input.c
+>> index ccaeb2426385..60f3eb38906f 100644
+>> --- a/drivers/input/input.c
+>> +++ b/drivers/input/input.c
+>> @@ -526,6 +526,40 @@ void input_set_abs_params(struct input_dev *dev, unsigned int axis,
+>>  }
+>>  EXPORT_SYMBOL(input_set_abs_params);
+>>  
+>> +/**
+>> + * input_copy_abs - Copy absinfo from one input_dev to another
+>> + * @dst: Destination input device to copy the abs settings to
+>> + * @dst_axis: ABS_* value selecting the destination axis
+>> + * @src: Source input device to copy the abs settings from
+>> + * @src_axis: ABS_* value selecting the source axis
+>> + *
+>> + * Set absinfo for the selected destination axis by copying it from
+>> + * the specified source input device's source axis.
+>> + * This is useful to e.g. setup a pen/stylus input-device for combined
+>> + * touchscreen/pen hardware where the pen uses the same coordinates as
+>> + * the touchscreen.
+>> + */
+>> +void input_copy_abs(struct input_dev *dst, unsigned int dst_axis,
+>> +		    const struct input_dev *src, unsigned int src_axis)
+>> +{
+>> +	/*
+>> +	 * input_alloc_absinfo() may have failed for the source. Our caller is
+>> +	 * expected to catch this when registering the input devices, which may
+>> +	 * happen after the input_copy_abs() call.
+>> +	 */
+>> +	if (!src->absinfo)
+>> +		return;
+> 
+> I'd probably check if source device actually declared EV_ABS/src_axis
+> and yelled loudly (WARN?) in such case.
 
-> Maybe "ExclusiveAndWake" in _CRS is enough? ACPI spec says "whether it
-> is capable of waking the system from a low-power idle or system sleep
-> state" without mentioning the need for _PRW.
+Ack, I will add this for v2.
 
-Ah yes checking for that is probable even better. We probably need to
-add some ACPI helper for that though.
+> 
+>> +
+>> +	input_alloc_absinfo(dst);
+>> +	if (!dst->absinfo)
+>> +		return;
+>> +
+>> +	dst->absinfo[dst_axis] = src->absinfo[src_axis];
+>> +
+>> +	__set_bit(EV_ABS, dst->evbit);
+>> +	__set_bit(dst_axis, dst->absbit);
+> 
+> input_set_capability() ?
+
+Ack.
 
 Regards,
 
-hans
+Hans
+
+
+
+> 
+>> +}
+>> +EXPORT_SYMBOL(input_copy_abs);
+> 
+> Thanks.
+> 
 
