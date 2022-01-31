@@ -2,115 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3B244A4ECF
-	for <lists+linux-input@lfdr.de>; Mon, 31 Jan 2022 19:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD79D4A4FA6
+	for <lists+linux-input@lfdr.de>; Mon, 31 Jan 2022 20:46:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357767AbiAaSr4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Jan 2022 13:47:56 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:50845 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357574AbiAaSro (ORCPT
+        id S1345382AbiAaTp7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Jan 2022 14:45:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53912 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240770AbiAaTp6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Jan 2022 13:47:44 -0500
+        Mon, 31 Jan 2022 14:45:58 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4F88C061714;
+        Mon, 31 Jan 2022 11:45:58 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id g15-20020a17090a67cf00b001b7d5b6bedaso145559pjm.4;
+        Mon, 31 Jan 2022 11:45:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1643654864; x=1675190864;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=IYhSZ/tzFqcI2juAz94tHNjGagZXt+e1KImDPdpb4Bo=;
-  b=r7bZgf3XeY2ddfI0ElDypk5MC+E1lYyowymakwHA8am0INIxp4ybe1th
-   GzA64i8u/7tKsAXp/MecWLo+QArKGUBDJ9m0kDk8c8D9ifuOkYAxBrs7o
-   qjUQVlj8HAukj1b1VsCFjgH6UgTnMD8u7Rb4tWWUbOTTkPokJ6Hib8s4M
-   M=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
-  by alexa-out.qualcomm.com with ESMTP; 31 Jan 2022 10:47:44 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 10:47:43 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Mon, 31 Jan 2022 10:47:03 -0800
-Received: from [10.110.97.226] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Mon, 31 Jan
- 2022 10:47:02 -0800
-Message-ID: <6a00d247-da34-c499-8d2a-b3f336a3d136@quicinc.com>
-Date:   Mon, 31 Jan 2022 10:47:00 -0800
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=006/8OHX6+u1AjFJpDJySc+x8beZciHLwH0JdA+GUO8=;
+        b=SntdH3KcRPQuJaaaWW/tEIrTqX0yFOqperUWrHPQOV39kP/sJnfoYUrHuY9Y742lUy
+         FDG4oakJInYuEmGnFUZcVgtz6ShkUMCX4Mis18QoVpScnASqCO+MHONdqh8u2CkQYZge
+         O95oArvcKJ/8gGZKnTKrou3HNkpcGGwH/+4DH2vTZzwY/fQJLrXNuyI0plNINYArAODi
+         C7I6DdDJX1i1PfxTZUa04ce+I7Y/3zMQSTsHdDC2i2e8y1oO3p23IfB5FeEOtwxefEcJ
+         manz77JprbE3RQBrkvimBH4ULR0OnWaRwaTpMhyQFovSDGxQzPB+iXR6jQzxTucUqFLD
+         4XMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=006/8OHX6+u1AjFJpDJySc+x8beZciHLwH0JdA+GUO8=;
+        b=PuSg8kpECE8kzUN87hz4dHMa9HHAKZFfYhDUvIL8QNxkJQICgJw3dYqHqALogd+5/g
+         CzA2Su8UzoH6dltwhh1Ibd7sq5GDjI08F6VP2ld42F78EAFpy7x3FhBdFrX9AZmOW/Qy
+         UQdYcq5SjzP/NmdiLe6X3ZmAeGG9M8vcAT51OF1ClpLplx+azGXCWu/w9DGRzsCoQDSD
+         PpEQuFksV+8ggGpfy1p3b3nWuEIJu5gI/r9MLQhlu2W4BkuQ0ADiWw/4NZDvF7k98D2L
+         G1piHU993/dZ6Bk8n1UMZQWh75rJtVm5QxZGZF7lhimQcdBXIgfhKLvl5WbO+BCfn0Cr
+         JK2w==
+X-Gm-Message-State: AOAM533G3Y172xI6wKWu6aVC6CQuRHimlBY3dTM+WMipIj5AIxTuPk5W
+        cMhSbfWhzuNFHw6SQfIXYUk=
+X-Google-Smtp-Source: ABdhPJxdho/GYn9CZr1JaFtmoVh/TWWDKrfEjn7oaS42OK1py2xdKQ/BKiZd9f9EgA9xgHL7ZffBTQ==
+X-Received: by 2002:a17:90a:8c8b:: with SMTP id b11mr3732073pjo.197.1643658358046;
+        Mon, 31 Jan 2022 11:45:58 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:6213:1c4:865f:204c])
+        by smtp.gmail.com with ESMTPSA id j12sm19276170pgf.63.2022.01.31.11.45.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Jan 2022 11:45:56 -0800 (PST)
+Date:   Mon, 31 Jan 2022 11:45:54 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-i2c@vger.kernel.org, Wolfram Sang <wsa@kernel.org>,
+        Ondrej Jirman <x@xff.cz>
+Subject: Re: [PATCH 3/5] Input: pinephone-keyboard - Build in the default
+ keymap
+Message-ID: <Yfg8crUuCLO0SxVj@google.com>
+References: <20220129230043.12422-1-samuel@sholland.org>
+ <20220129230043.12422-4-samuel@sholland.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 3/4] input: misc: pm8941-pwrkey: add software key press
- debouncing support
-Content-Language: en-US
-To:     Stephen Boyd <swboyd@chromium.org>, <dmitry.torokhov@gmail.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <collinsd@codeaurora.org>,
-        <bjorn.andersson@linaro.org>, <skakit@codeaurora.org>
-References: <20220127210024.25597-1-quic_amelende@quicinc.com>
- <20220127210024.25597-4-quic_amelende@quicinc.com>
- <CAE-0n53oQEs+GO8+SXf1Zp4RT3FNvFzpDT+jYJA4fub77w+utw@mail.gmail.com>
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-In-Reply-To: <CAE-0n53oQEs+GO8+SXf1Zp4RT3FNvFzpDT+jYJA4fub77w+utw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220129230043.12422-4-samuel@sholland.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Samuel,
 
+On Sat, Jan 29, 2022 at 05:00:40PM -0600, Samuel Holland wrote:
+> The PinePhone keyboard comes with removable keys, but there is a default
+> layout labeled from the factory. Use this keymap if none is provided in
+> the devicetree.
 
-On 1/27/2022 2:44 PM, Stephen Boyd wrote:
-> Quoting Anjelique Melendez (2022-01-27 13:00:27)
->> diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
->> index 7005aede4f81..bcdbe260b684 100644
->> --- a/drivers/input/misc/pm8941-pwrkey.c
->> +++ b/drivers/input/misc/pm8941-pwrkey.c
-> [...]
->> +static int pm8941_pwrkey_sw_debounce_init(struct pm8941_pwrkey *pwrkey)
->> +{
->> +       unsigned int val, addr, mask;
->> +       int error;
->> +
->> +       if (pwrkey->data->has_pon_pbs && !pwrkey->pon_pbs_baseaddr) {
->> +               dev_err(pwrkey->dev, "PON_PBS address missing, can't read HW debounce time\n");
->> +               return 0;
->> +       }
->> +
->> +       if (pwrkey->pon_pbs_baseaddr)
->> +               addr = pwrkey->pon_pbs_baseaddr + PON_DBC_CTL;
->> +       else
->> +               addr = pwrkey->baseaddr + PON_DBC_CTL;
->> +       error = regmap_read(pwrkey->regmap, addr, &val);
->> +       if (error)
->> +               return error;
->> +
->> +       if (pwrkey->subtype >= PON_SUBTYPE_GEN2_PRIMARY)
->> +               mask = 0xf;
->> +       else
->> +               mask = 0x7;
->> +
->> +       pwrkey->sw_debounce_time_us = 2 * USEC_PER_SEC /
->> +                                               (1 << (mask - (val & mask)));
->          pwrkey->sw_debounce_time_us = 2 * USEC_PER_SEC / (1 << (mask
-> - (val & mask)));
->
-> Nitpick: Put this one one line?
+Why can't we require to have it in device tree?
 
-ACK
+Thanks.
 
->
->> +
->> +       dev_dbg(pwrkey->dev, "SW debounce time = %u us\n",
->> +               pwrkey->sw_debounce_time_us);
->> +
->> +       return 0;
->> +}
->> +
->>  static int __maybe_unused pm8941_pwrkey_suspend(struct device *dev)
->>  {
->>         struct pm8941_pwrkey *pwrkey = dev_get_drvdata(dev);
-
+-- 
+Dmitry
