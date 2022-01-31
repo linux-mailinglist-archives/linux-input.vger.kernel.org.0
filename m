@@ -2,104 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2DAA4A4B90
-	for <lists+linux-input@lfdr.de>; Mon, 31 Jan 2022 17:14:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4EB24A4B98
+	for <lists+linux-input@lfdr.de>; Mon, 31 Jan 2022 17:15:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380101AbiAaQOf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Jan 2022 11:14:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60980 "EHLO
+        id S1349065AbiAaQPY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Jan 2022 11:15:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380125AbiAaQOS (ORCPT
+        with ESMTP id S244114AbiAaQPX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Jan 2022 11:14:18 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B8C7C06173E;
-        Mon, 31 Jan 2022 08:14:14 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id c3so12769691pls.5;
-        Mon, 31 Jan 2022 08:14:14 -0800 (PST)
+        Mon, 31 Jan 2022 11:15:23 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE48AC061714;
+        Mon, 31 Jan 2022 08:15:23 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id o16-20020a17090aac1000b001b62f629953so11355814pjq.3;
+        Mon, 31 Jan 2022 08:15:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=/pdltBI+iiGeQ5gA5f30zIEh19HygeH9zPLuWiWvMYQ=;
-        b=hMCRiA3Ypccpm1omtUm1SKb0pg6mhtSck6YQpU3BXGcopcjYu4+UcFrhhHCzbG9Ej9
-         b9RO8SXkEaltRLYWHr+NG5KBfeTLHb7sj0sU/j//BOa53i4PifpAuIXqf9GJ7395biD5
-         rcgJ5dnFsLLXFd+hjx33NM79aGFTWjGjA5ZQoVGQSyCVgDhvXIpu+DPMvX1f8xq+faaV
-         KwCuHp0h1hggK/FeVoXQE6CiS6hSie/rTda5HN8H5zbUOEgFwo8h39Ynd4mZe5qDRjy2
-         oCv+6pEMyPH00nAyemaNrOyVAZ9YK6B8fhZhavHaflGlepWFIiU39YHHgkiUBSWKxhCK
-         Z1zQ==
+        bh=5uZdVWjoxhGFYA4YBIqUe/MBlikRDu2EIuXigUfny90=;
+        b=oXRLDPEH8AVlANH6vdTalKtCkhVKMT14DaYRCck6DHCJtoJIp7tn4u2SjCdVrsSBFu
+         E7pvcJtSFTlVSsUlEz3Fawx+zkcF1yoaxq+mrG3GFJrV82bTJDyx0IT6HxZw/R92X2UR
+         AP9DK1Z/KXKi9dHcxc9kqOkbdQ7dT7QYYWihCwfziuMdr83llOUxMJK1CL4UBORzK3cR
+         T06LKgZRO0yzboIbTUNT1viraucpCjk9NbhcoBBlubmFMKWRmf5h8j0A0UnIdAsS5vol
+         +S3Asl1ysNFX5VIQqZqOf7m/P77iECcXg+C6yK8pNWvuSkv2bBXjK9qjnpTElxz4uv3Y
+         wiAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=/pdltBI+iiGeQ5gA5f30zIEh19HygeH9zPLuWiWvMYQ=;
-        b=VSh8y8i6HmwvGpLOkou34npmp5XvY68PUGIiSYR2WnvV6OQIkWIAlBQOjB8eRxGYOI
-         6EnQ8/uS7uVjeZIZxij42qI63lDZW93hhubSGCta0p3jC74K34+Cq43lydUP5H4Px0TW
-         472e+X/2hA3EM4q1snVZgVWXA5++HYwmoU0DOGFY8/eMn11GSUCyDSu9v8+32LUIYLq0
-         vZECUnua2wyIzOcmJD8UDSLda/d1AL/6eGI+E5BUPbY53nGdBxuNcfqw6Bwnx7hbnLTE
-         hHE3qRkPt4oY2MCiVMjt4Kd3VIRTDK6rH1DWxJSBAJ2cZniscF207MS5aNvizyzXiCFe
-         RsDQ==
-X-Gm-Message-State: AOAM530TwVNrXcyDSy2I3nkpXF3trGLhcPJt5vwbZ08lnRilvqRm39k9
-        ROcencBuwBYnZ7geH04srIE=
-X-Google-Smtp-Source: ABdhPJxH23jNKrR3GSuqq3WTLpUnzOJ3BOcW6Gf9gby0rv87tmtdNi4iF48J2d83ZzhTJyt7SAHuCg==
-X-Received: by 2002:a17:90b:1e41:: with SMTP id pi1mr24736555pjb.62.1643645653725;
-        Mon, 31 Jan 2022 08:14:13 -0800 (PST)
+        bh=5uZdVWjoxhGFYA4YBIqUe/MBlikRDu2EIuXigUfny90=;
+        b=ukj+0HW/IHm6eS2lI7Y3HnsMRkblnjGxjGn7nOWcUmJb7tNfWLXZZK2Z5JXShs3R6X
+         APlIOIE5vCZJEir1MxEuguM0xyDKt7jTTS2YgrvN+8xzplM92kx9RxNNVhNsdObNz9+n
+         dUtbriK+K6h10hqu6tIfaTKhzLMwbNik0Aqcuq31BEK7kYMfLzSmhuPDKW/VIjE4EqKm
+         Lr1B7fQqM86QizvNrzxMIsmI1hD1xjQ19SoirUNmyphhHdkl0mVpvD7e4Q/PmtNBlO1q
+         73sC98RriV97HZlQlXTUI7N7LT/Jda/6vTnxmJFrhPEHw5D2DNaakVoEBr0w9YUWg4/v
+         SrcQ==
+X-Gm-Message-State: AOAM530S8b1S163ialcpN23So2aqlmMKJx7fUB927Sh79ms+0cPoSxEc
+        eymCjoppG+Us00d44D8cn54=
+X-Google-Smtp-Source: ABdhPJzqfE5lcy9pvkNWJyr+blfeSltYancWrC5kZUylapUH26mElwHhpAQoZJzAGqJzNJILftolYQ==
+X-Received: by 2002:a17:90a:c68c:: with SMTP id n12mr20218277pjt.219.1643645723102;
+        Mon, 31 Jan 2022 08:15:23 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:6213:1c4:865f:204c])
-        by smtp.gmail.com with ESMTPSA id lt17sm11335673pjb.41.2022.01.31.08.14.11
+        by smtp.gmail.com with ESMTPSA id u16sm19342543pfg.192.2022.01.31.08.15.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jan 2022 08:14:12 -0800 (PST)
-Date:   Mon, 31 Jan 2022 08:14:09 -0800
+        Mon, 31 Jan 2022 08:15:21 -0800 (PST)
+Date:   Mon, 31 Jan 2022 08:15:17 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Sachin Kamat <sachin.kamat@linaro.org>,
+Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
         linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
         linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: samsung-keypad - Simplify resource management
-Message-ID: <YfgK0RPYbXSJ8fJ9@google.com>
-References: <8877b9db412fbeb3b43ba4a3ff6c4b39a5440c70.1643530436.git.christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] Input: spear-keyboard - Simplify resource management
+Message-ID: <YfgLFXZkbsIFJzP6@google.com>
+References: <c4b6e8b122259198ce76f42bf786b75cfd0cbffc.1643530826.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8877b9db412fbeb3b43ba4a3ff6c4b39a5440c70.1643530436.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <c4b6e8b122259198ce76f42bf786b75cfd0cbffc.1643530826.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Christophe,
-
-On Sun, Jan 30, 2022 at 09:14:08AM +0100, Christophe JAILLET wrote:
-> Since the commit in the Fixes tag below, 'keypad->input_dev' is a managed
-> resource that doesn't need to be explicitly unregistered or freed (see
+On Sun, Jan 30, 2022 at 09:20:44AM +0100, Christophe JAILLET wrote:
+> Since the commit in the Fixes tag below, 'kbd->input' is a managed resource
+> that doesn't need to be explicitly unregistered or freed (see
 > devm_input_allocate_device() documentation)
 > 
-> So, remove some unless line of code to slightly simplify it.
+> So, remove a unless line of code to slightly simplify it.
 > 
-> Fixes: a57da3479545 ("Input: samsung-keypad - switch to using managed resources")
+> Fixes: 6102752eb354 ("Input: spear-keyboard - switch to using managed resources")
 > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 > ---
 > Compile tested only
 > ---
->  drivers/input/keyboard/samsung-keypad.c | 2 --
->  1 file changed, 2 deletions(-)
+>  drivers/input/keyboard/spear-keyboard.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/drivers/input/keyboard/samsung-keypad.c b/drivers/input/keyboard/samsung-keypad.c
-> index df0258dcf89e..b6c3c6399b2e 100644
-> --- a/drivers/input/keyboard/samsung-keypad.c
-> +++ b/drivers/input/keyboard/samsung-keypad.c
-> @@ -451,8 +451,6 @@ static int samsung_keypad_remove(struct platform_device *pdev)
+> diff --git a/drivers/input/keyboard/spear-keyboard.c b/drivers/input/keyboard/spear-keyboard.c
+> index 9838c79cb288..c36836159fb3 100644
+> --- a/drivers/input/keyboard/spear-keyboard.c
+> +++ b/drivers/input/keyboard/spear-keyboard.c
+> @@ -278,7 +278,6 @@ static int spear_kbd_remove(struct platform_device *pdev)
+>  {
+>  	struct spear_kbd *kbd = platform_get_drvdata(pdev);
 >  
->  	pm_runtime_disable(&pdev->dev);
->  
-> -	input_unregister_device(keypad->input_dev);
-> -
+> -	input_unregister_device(kbd->input);
+>  	clk_unprepare(kbd->clk);
 
-This is wrong; the order of operations is important and you do not want
-to call clk_enable/disable on an unprepared clock.
+This is wrong for the same reason as the other patch: it changes the
+order of operations.
 
-If you want to do this you need to also replace clk_prepare/unprepare
-with devm_ variant.
-
->  	clk_unprepare(keypad->clk);
 >  
 >  	return 0;
 > -- 
