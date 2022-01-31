@@ -2,78 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC4304A400C
-	for <lists+linux-input@lfdr.de>; Mon, 31 Jan 2022 11:23:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F0C34A40F1
+	for <lists+linux-input@lfdr.de>; Mon, 31 Jan 2022 12:01:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358134AbiAaKXG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Jan 2022 05:23:06 -0500
-Received: from mx0a-001ae601.pphosted.com ([67.231.149.25]:57566 "EHLO
-        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1358119AbiAaKXC (ORCPT
+        id S1358453AbiAaLBM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Jan 2022 06:01:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42830 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1358467AbiAaLAU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Jan 2022 05:23:02 -0500
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-        by mx0a-001ae601.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20V8u3mh010749;
-        Mon, 31 Jan 2022 04:22:50 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=PODMain02222019;
- bh=1LxMoGxnvs16zzdk3JQdyN+Uxz944Fqx8Dah0ipLXRo=;
- b=glXKKufiBp/JxUJepJd5gEsY8EHQQAAdeRFhdMZbt12ytRN01tghxWQk92N4o0FKUw39
- tsFUf7YZX0in4aSnoMvREX2TbDKcoTvI4PLbgPY6g0qbr1lmyuZZ3cqzc4OFl+Ccwd6w
- wVtKhed4RcFgOdXlh2VxvqdK5j64nNYMXX2HgijVe5MKUucG0xNux2dICSc/5CW4MVSB
- RMMFmK6vAx75gyq/jlUtDzOoBq+PRiF1isW+MLuDyyCmVLhwy73R3kWqb/vNAc4ranQD
- 4Y1sNTQFmp9c8T4AHg/dVxHLQeiwh8J0GvSnd5s0P39igEaVCLXZyB0CLbg9ZVgAk0/6 Mw== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3dw3v6agwv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Mon, 31 Jan 2022 04:22:50 -0600
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 31 Jan
- 2022 10:22:48 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.18 via Frontend
- Transport; Mon, 31 Jan 2022 10:22:48 +0000
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 8944CB0E;
-        Mon, 31 Jan 2022 10:22:48 +0000 (UTC)
-Date:   Mon, 31 Jan 2022 10:22:48 +0000
-From:   Charles Keepax <ckeepax@opensource.cirrus.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Charles Keepax <ckeepax@opensource.wolfsonmicro.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Mark Brown <broonie@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
-        <patches@opensource.cirrus.com>, <linux-input@vger.kernel.org>
-Subject: Re: [PATCH] Input: wm97xx: Simplify resource management
-Message-ID: <20220131102248.GX18506@ediswmail.ad.cirrus.com>
-References: <87dce7e80ea9b191843fa22415ca3aef5f3cc2e6.1643529968.git.christophe.jaillet@wanadoo.fr>
+        Mon, 31 Jan 2022 06:00:20 -0500
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E65DC06177C
+        for <linux-input@vger.kernel.org>; Mon, 31 Jan 2022 02:59:32 -0800 (PST)
+Received: by mail-io1-xd41.google.com with SMTP id p63so15481233iod.11
+        for <linux-input@vger.kernel.org>; Mon, 31 Jan 2022 02:59:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=FANIUiWvB3mdY3zLX2DODg2pUIL5eGT5wlydl6jYk40=;
+        b=Hy4QzdJnSxdg5GIgw0nCwmi0gjML3n5cny2gld+5/rI5196yLd12xvP6N7LBmx65/n
+         qILZMxYOlb+VBzjZrCg896+CVlR2SLc6f+WpN6lyRLTkfyWxlYA63cI2QUMsEgTIYq1c
+         VRL4HNNC2kIyU16xAe6VyoHlNhIHv9mczE1zssIxdDBygn6D2BPwo/XAWJNqRMASZ2Dq
+         yZxWrv8DUbv+uMJverpu1MhsgcV4b3vRNoXa2uyn5bo25Pb/5p2hQlMsoWmYebCBDCJD
+         GjDhDoBcmmXgZL74zftZAkr0Rw6FLwL0/jzp5kj/UR37sO8Js0t8mGwGyrpI2mLOPNpu
+         0GuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=FANIUiWvB3mdY3zLX2DODg2pUIL5eGT5wlydl6jYk40=;
+        b=DHnq5lSXQbg58CrobEygZslinLiBbherUEunQCt94Zx4Dv6Y4CC2kIMvtAPnTGf3Jh
+         DQIH1C7qOi6VacI/hjEd+WIjc4HO8vN/zEUR+pB4koGcKJbiErOjVX3oTttS8Zu4vlcr
+         pVKHBECL14yA0RGCrpguSIVlcNA8ID8sXjX2HaGpottmwHzKcIIaQrQJ8o70yAnsRUQh
+         YOOsxDIE88Ccc2dK3NVn38GYfYshn6mvGMS4f1WB6tCmu1PA8IHL9+t3iMsvAf1JMyt6
+         b0w0g3E3cRmMX3d61aFs7c6OgDExSLms4wLJ5wFt1CFTmNJHLhtxFWFsPf8TlJe68/yT
+         jayA==
+X-Gm-Message-State: AOAM533+qm3DWtVINcIw50gpLGLHBivOSYnrCM01AgBg6frvboVTry9j
+        uXPmxD59xOuXEWY9jOvkS8Hw5lQjwJMbDpQYpd0=
+X-Google-Smtp-Source: ABdhPJyia9VIjicXafubC2VjGdU01tny+88l0Ycxe3DKaKeOyUTFlA4LLKTxDKWWNigVvRhiFi9kYx5K7cHHm0s8/hs=
+X-Received: by 2002:a02:aa09:: with SMTP id r9mr10286804jam.199.1643626771044;
+ Mon, 31 Jan 2022 02:59:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <87dce7e80ea9b191843fa22415ca3aef5f3cc2e6.1643529968.git.christophe.jaillet@wanadoo.fr>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: Q45GjBQNoz-z6kcUdPSZxz0Ty83Mv4lK
-X-Proofpoint-ORIG-GUID: Q45GjBQNoz-z6kcUdPSZxz0Ty83Mv4lK
-X-Proofpoint-Spam-Reason: safe
+Reply-To: daniellakyle60@gmail.com
+Sender: drdanielmorris11111@gmail.com
+Received: by 2002:a05:6638:1248:0:0:0:0 with HTTP; Mon, 31 Jan 2022 02:59:30
+ -0800 (PST)
+From:   Mrs daniell akyle <daniellakyle60@gmail.com>
+Date:   Mon, 31 Jan 2022 11:59:30 +0100
+X-Google-Sender-Auth: 5pmMZCS9vXWmOwBoU1Dt2uIUmsw
+Message-ID: <CAKFcj-MtTareGvTX3Yo749sS2d4H56Fxx0cF0uKGPGQc=0xqUA@mail.gmail.com>
+Subject: Ahoj
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Jan 30, 2022 at 09:06:36AM +0100, Christophe JAILLET wrote:
-> Since the commit in the Fixes tag below, 'wm->input_dev' is a managed
-> resource that doesn't need to be explicitly unregistered or freed (see
-> devm_input_allocate_device() documentation)
-> 
-> So, remove some unless line of code to slightly simplify it.
-> 
-> Fixes: c72f61e74073 ("Input: wm97xx: split out touchscreen registering")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
-
-Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-
-Thanks,
-Charles
+Pozdravy
+Jmenuji se pan=C3=AD Daniella Kyleov=C3=A1, je mi 58 let
+Filip=C3=ADny. V sou=C4=8Dasn=C3=A9 dob=C4=9B jsem hospitalizov=C3=A1n na F=
+ilip=C3=ADn=C3=A1ch, kde jsem
+podstupuje l=C3=A9=C4=8Dbu akutn=C3=ADho karcinomu j=C3=ADcnu. jsem um=C3=
+=ADraj=C3=ADc=C3=AD,
+vdova, kter=C3=A1 se rozhodla darovat =C4=8D=C3=A1st sv=C3=A9ho majetku spo=
+lehliv=C3=A9 osob=C4=9B
+kter=C3=A1 tyto pen=C3=ADze pou=C5=BEije na pomoc chud=C3=BDm a m=C3=A9n=C4=
+=9B privilegovan=C3=BDm. Chci
+poskytnout dar ve v=C3=BD=C5=A1i 3 700 000 =C2=A3 na sirotky nebo charitati=
+vn=C3=AD organizace
+ve va=C5=A1=C3=AD oblasti. Zvl=C3=A1dne=C5=A1 to? Pokud jste ochotni tuto n=
+ab=C3=ADdku p=C5=99ijmout
+a ud=C4=9Blejte p=C5=99esn=C4=9B tak, jak v=C3=A1m =C5=99=C3=ADk=C3=A1m, pa=
+k se mi vra=C5=A5te pro dal=C5=A1=C3=AD vysv=C4=9Btlen=C3=AD.
+pozdravy
+Pan=C3=AD Daniella Kyleov=C3=A1
