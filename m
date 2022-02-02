@@ -2,133 +2,139 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05A4C4A72DA
-	for <lists+linux-input@lfdr.de>; Wed,  2 Feb 2022 15:19:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A76C54A74AA
+	for <lists+linux-input@lfdr.de>; Wed,  2 Feb 2022 16:36:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231854AbiBBOTD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Feb 2022 09:19:03 -0500
-Received: from mail-ma1ind01olkn0142.outbound.protection.outlook.com ([104.47.100.142]:32310
-        "EHLO IND01-MA1-obe.outbound.protection.outlook.com"
+        id S1344811AbiBBPfs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Feb 2022 10:35:48 -0500
+Received: from mail-dm6nam12on2047.outbound.protection.outlook.com ([40.107.243.47]:21472
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230171AbiBBOTD (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 2 Feb 2022 09:19:03 -0500
+        id S1345505AbiBBPfq (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 2 Feb 2022 10:35:46 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kaOvzixmz00463s5vULn5eAwAi+K6rtQU+Yu6kDhXwAPO38UPJOja3wYOZQ62fE+5meFy4NUFYinlnCtPOHT8gpiC3wGhgglGl+gqX7KbAZuDhR+RwZopls6OfRQzXlWkepD1JNbLs9BfOQesH33SHtmL+D7KLY5T4qxsz1PljUVKBSgGSSjuBm5sO5COcrfEtKyDmqPvUkesbYKyxxRWmVenwF192GERAX/fug5V4duQ9EHJtkkJg0Llv3XSB08Ar2WtExzCmg1jFHrwOhg+BErTDZVLO9tlANdXvcWhf1TG+fpiR3un+zZ3G0p3kyYfR9dM2/nJAeafYtLrxxF1A==
+ b=mPYjeWP3FZoRyJi9KcTIATczWkNOWuRywrjGqiY/BajDqS3lRl9l6FhC4UMJVoWmqhgLeaVZncACY/WdQVyf94VSOIF+F+vDAfAQ2TkOyB5vwN8ggpCqFtIWwp8F9h8Als2WLY3N6SXMUgKo6a+zisx52xKF6PHDbqx61uMOlW4gbdmeynFY6VBosSTOpuOqRDCS3K12btLBd+FdZFlDohdm4eh9yCFWro615mWWqESVGg3nLIXnSGgvbjXMDA3epvmIyvNL9DqLYakVf8hGvc1Jv5Q9EUhhv7HXBheLBE6frsCSfl+eW+M9DGtpsHrfJ+0z3wxKJceVQvDAd5lp6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pKcRlRGnjUxasz+Vniie9H8iGmkK4UqmYKp/BadT99A=;
- b=ahnz1a3opzPqFM9dJYKMdSC18khV2e6wmRX8xlDoKPPdhYi3LQf8LbjZo4py30Ru7yPVattDybWlTZtBgMgzpIZo3jSbClOD02wV/7PiG7MDvnhAboV71kE2DohadUnozfLDqONEPtUUdrofl2xdZIgf4S+o5ZvllL45lmTnlqfr9bWnO+mGQRaEB3fmWG6NnswJvraiA8kqj5Dcs2EYrhLbxw1pfGe8WAc6+X5JpGezeg6IoWfdwzbLG+6XMngKiTiFYGYXvKuNqEWbNANHFRVRY0HiEPnZ8AfFkHCNZU+N5R0O/uaN8Tz7Uo0dsMIVl0hS1NsOf1Df05Ck2VpgAg==
+ bh=15Gq/4ImGcoaOh281qmpYyej9nV1hKjAtP3KKJwDgYo=;
+ b=O6Fl2VoJpIfH+SHj37KCdjn7QXIqNA50a3g4Vt+nqNt7C6u1VU5ltAYJ3N/ndtR/g55iilDv345jbhObJ++KNgpTRfm8zA/uLpUfy2ZcSqHf0KeUmEadRtsZp3Agx7QcioJc193LVPK127fpao9A8IP8VbSsxAmhkr0kHGx/8YoxmFdtnmzD3ssV1QrDwSNOQGsqTFUZLMOMB2q+ZXSpbrnGA+gCF0TNEeCAVgN+SInMFxjw62BB2X2albZhy4/uOAha6+yn2S1UrPUvL1fxPJTug/iSUp9O8ON9Hud1fp2I8n718wXzmij3tI2ubgw6MK3awEXZkJy2yb7/1uVK6A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pKcRlRGnjUxasz+Vniie9H8iGmkK4UqmYKp/BadT99A=;
- b=nda8Z2czOu2MmT8I6vfXiok2al+i1HpZQfWcMUZd2OzpUQCqY7IOAmg6Les2XJExLqb+7WnaQuPot+A30xU6sRqUaf/nUwaiRcNSbgC1D+aMXlSvhfGMB/GTa7lUmRFoTNQq8O3RRJ7SnBzHrjOaKghDml3TR21o9UQaxkoZ4iO9zktYEGowxvQz4fkt1XDoeS8+Gzn7K3e1kM/KHqzUigd8+fyIokl9DiP5AKWFw+DnjhVin0DB1hXqr2uUEFYc++K5ejvgRwjgfV9Lk/1IThI+ZNX+YW/qOrGc8QCGilEHavn6yWsUvrU+NdHTOsTjcNdo7iSJl8kWPgo72GUk7Q==
-Received: from PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1b::13)
- by BM1PR01MB3489.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:6b::13) with
+ bh=15Gq/4ImGcoaOh281qmpYyej9nV1hKjAtP3KKJwDgYo=;
+ b=fT1oMuDywywW6XL1CkctaLJZKh7GMmJ3bePCn9iKozC8uvMBu2P6J24l45dbPYEH6aPZuFOkSofEiGc2WOC9iocA4QcXRyvGfN5DhCOlEKdWMjRbelYcl9DDjGmK4ZB1N3URNKvdXzZ21lJVtHedUJmFYrH0hSDjO4z/sXpy7Iw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
+ by DM5PR12MB1849.namprd12.prod.outlook.com (2603:10b6:3:107::23) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.11; Wed, 2 Feb
- 2022 14:18:58 +0000
-Received: from PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::d19b:7cd1:3760:b055]) by PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::d19b:7cd1:3760:b055%9]) with mapi id 15.20.4951.012; Wed, 2 Feb 2022
- 14:18:58 +0000
-From:   Aditya Garg <gargaditya08@live.com>
-To:     Jiri Kosina <jikos@kernel.org>
-CC:     "alexhenrie24@gmail.com" <alexhenrie24@gmail.com>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "paul@mrarm.io" <paul@mrarm.io>, Aun-Ali Zaidi <admin@kodeit.net>,
-        Orlando Chamberlain <redecorating@protonmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 1/3] HID: apple: Add support for keyboard backlight on
- certain T2 Macs.
-Thread-Topic: [PATCH v2 1/3] HID: apple: Add support for keyboard backlight on
- certain T2 Macs.
-Thread-Index: AQHYETQ7eA8f8fgzvkGVPkQueNltWax9E1WAgAM/AQCAAArkAA==
-Date:   Wed, 2 Feb 2022 14:18:58 +0000
-Message-ID: <DBCC31F7-C8EF-4248-B439-DE6501925CD0@live.com>
-References: <67E7EA8B-CF21-4794-B7B4-96873EE70EF6@live.com>
- <9B28205B-24B2-449F-A6B9-BE87C1B9A39E@live.com>
- <nycvar.YFH.7.76.2202021439120.11721@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2202021439120.11721@cbobk.fhfr.pm>
-Accept-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Wed, 2 Feb
+ 2022 15:35:45 +0000
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::84cf:cad7:192:8089]) by DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::84cf:cad7:192:8089%8]) with mapi id 15.20.4951.012; Wed, 2 Feb 2022
+ 15:35:45 +0000
+Message-ID: <578673a3-920f-25f3-c9f7-7f1812c3e731@amd.com>
+Date:   Wed, 2 Feb 2022 21:05:31 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 0/2] Fixes to amd_sfh driver
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [raO2/9PD2TvuwAxIueOQA7EpPdB6I5m0fZ3tb8EWcSCDbascgr2aqd2mUkAMBLTh]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9b8ebfe2-624e-487e-6019-08d9e656f415
-x-ms-traffictypediagnostic: BM1PR01MB3489:EE_
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: z+zW14DdOGkCZOP/hRp3dx17OdsSfqPZ/S/wUR/a5fOFmEFhte1LirMptczWT+APh9ErEi5ZMuT8Dj4GtTcNJfQWzqduV+Kryrma20Se+uEgUEaL6W0bpR2LKJBa4nfq3rp+tT1kXDwWa4CWSMjOgdDRNN++hjLLHBQMeAZYqAel2ivu36zZ5JqFnERXUORwWn/RR8H74a5Pjq5akzjf9/3vWO+uI/eWmhqnJJ8u965KW5nZGHvpTDpEaQMih31HV3p/O0bolfkT3mWB4M+i7SFB++dJdagj4HhAjwOgZkHCQrJledMVP0A9wwGCYR095+LWYvNf/qlyTwb6g04NoxQ5O9X+oDhq249aW8f9sg60U6EJrfSfmxHp0cGA6XMjhfKwFgC1hfCwWc41YSPT4Ik0OVz7wd4nwHmxbB7M2xfUv82T7F3qjWFdp5U60Rh2tlw48LlBavBBjEa9hhD1z0S+VGZ/R1awpsCr+nFjj8FQdVEl+0+raLecR+gXuxJJ9DEfg0QZn6oYfnb4UiqP7FIllkRGck9kVAKLQ3qIi28lUKwb5tc1o5fX0A041sjIpVt6iDWAlcpQfuej9F5z+g==
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?dwjHg97pvSQiEx6LNcUBCqXXDp3+56CK899aP4GaJ18y+jZXE4SkL5po9uWJ?=
- =?us-ascii?Q?8KJN+sWeQyArwjcQLE8h2CzxSl0FeEUbxUfOkJOBBEJQBnPYv1QIaRbJVIpA?=
- =?us-ascii?Q?DoImKp/iVxkdY3J1iXhnwPd/ZW64ooLKgHaxmzuZJ+FkoHftThvNLaUWrOU2?=
- =?us-ascii?Q?iKZTT+2SYnxcRsyjk6fsBcBB34Aoh2WX6r1SlBdEP8kcdDi8qpW0hWxa2w+F?=
- =?us-ascii?Q?tuH8mlrTXwZiAMU22naBidC/yQqs6j9UGDDP5G+u3Tu7SQkypXicebPdF0P3?=
- =?us-ascii?Q?D6+8sbQ9hzi8vOU8e/ILL+dY0UORNe3DAti4n6xTXh0B5iWMq/paqKxuDuH+?=
- =?us-ascii?Q?Io6GjXfDpaNlPETm1Hq08bqVAyRloL7IMTvRKMIkmtl2OZYn7jB8f86z9Ju2?=
- =?us-ascii?Q?4zFRZ0njQwOZst5YiYk8WV21YvEohWDK8wGpNc2wHN2/R8fP95Il62d4c8Uz?=
- =?us-ascii?Q?f7RjAADHcgn/ZPBFr3V9zHbanvn5j2DS82f3Xv0c19ZZDiBZxdeS53wuNAC+?=
- =?us-ascii?Q?8W6yQRF+FQynw4XfGTxaFFQ78vZej5Az2+KHMyl3mTvPYOZjPxnLLHN4Ab6J?=
- =?us-ascii?Q?ZN8fynn00qVniekCabgXdsLGSiSUgFScJ+aDsDtIgmyiDfX781q3MDK2jHfb?=
- =?us-ascii?Q?Fc4Tsca3YoodPbQISWbBWtV8yS9BuVza4yTEd+NOyUHt/kie38VzxSw4Vk7f?=
- =?us-ascii?Q?PfxkUi7CcVaeFbra7OP97xsGT/mNtMicFFXbP6kpz/y30qzSdREHdFVDPRnT?=
- =?us-ascii?Q?K+UbZ5GF9N4KfaiWP7BtIMbkSLzfduVNojVFCgzPcw9JeCG4ONV+q7owiP2o?=
- =?us-ascii?Q?2Gde7wRX1cw6w6Jj/7RAOyS3JZOy11SWHd4VkrmEqPtMhC+Ta1+wYYrsav3a?=
- =?us-ascii?Q?uDivWaPJVvnQnxt2PoxE/5u+w4YOzYzj18GiwFxcrQR2TQ6d2xUfhF0WQ+Le?=
- =?us-ascii?Q?jkE2wNHhSdhYkB35yEe4pXQeJA7DbcynKxiGbuAKOEtmJ8kQcQGysZ0t7onb?=
- =?us-ascii?Q?x1Zi4NZiNIfivkgHUDvCfW2wFA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <41D76251A2C25E498B04E406510522D5@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+To:     Jiri Kosina <jikos@kernel.org>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        Nehal-Bakulchandra.shah@amd.com
+References: <20220131171833.3998492-1-Basavaraj.Natikar@amd.com>
+ <nycvar.YFH.7.76.2202021504470.11721@cbobk.fhfr.pm>
+From:   Basavaraj Natikar <bnatikar@amd.com>
+In-Reply-To: <nycvar.YFH.7.76.2202021504470.11721@cbobk.fhfr.pm>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BM1PR0101CA0069.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:19::31) To DM4PR12MB5040.namprd12.prod.outlook.com
+ (2603:10b6:5:38b::19)
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 393084ee-5840-4c6b-1c9a-08d9e661ada5
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1849:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1849F04565E7B979BAA2253CE6279@DM5PR12MB1849.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4D+0pu+EXPLVQ67FNklsUgFp8RN9kTjqmn4WKLCzGz/Ais67OKBV2LUVUg8GozY9K2gFTc4po/2/cfLOwRpkW3tipdp7iOP8YiPydhZ20wrmbPiAlPVxysQW01JKlJ9ni+lsdYajgUQLkRpm8DygiKv5iUw+jDqn2A4Y/yka+VH3ZDItSNGv/P/JhPRsmR1mY4xi3B/af98xnrGE0tH77nZDeSxymniI9Sb/6mtAPGrD3seKcNx76uMlu0jv/va8SIdiWEr3iibTX7kJNOHQP9H/wR3Dq4r3FQOxFnpF7+tWOrqeBRMWkeXBh+GqTuCc8cpXt3ny+98Tbs4ANjQ+o//ZwYsynW9L8rjmWEOj9Gbo3yrUkPDXE+UCbjY1CHa5ebe9b0JHJI+mjufL067Z9q3twYV19SdCC9pLxo1AE+fm+Pi5vLFCfDpbHufKfarW8mKmob15p2e469i5sXjrjyFKrblq/bVXhTL1IVkF4MzG8dOz5DooqxMzF/hozcd7VdSxZoqyprTl57lsehGGU42Ga2NyXEcP3IQq3rpbxPt8o3dsAhDmi4uT0O6EB9lymdcGfn5wRFeaS59VDvaIxqR0EjnPK/ZUzNPWS5nD0TUF4Rj+dZT4GUEB5s4oAsQoLA9JiEbzO/gdCC6UeezI3X05lcd+4MFauwJq7IkJfiueunTur8nr8pVQs1eQwCuDySO+j59EgK5I6PcQfYv5hMbF7jDwWFsUvtTAX9jVVxg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(83380400001)(186003)(26005)(38100700002)(2616005)(2906002)(31686004)(66946007)(66476007)(4326008)(8936002)(66556008)(8676002)(4744005)(5660300002)(36756003)(316002)(31696002)(508600001)(6666004)(6506007)(53546011)(6512007)(6486002)(6636002)(110136005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGZKSkJVNlAzNC9QdGx0OU84WkFWTjZudlBLSlJCcU4vSXFya3ViSU5WWnAv?=
+ =?utf-8?B?QjZ4cDJ2ZjhEWEUrWUsreDVoYlplTTdleGpnaDdnVGdIVlh2UmVJbm1XOXZa?=
+ =?utf-8?B?YTRFU3ZpdGFpbk41ZGFOSjVQQWVvd3JESk5xa1drQmdaYnhNL01mV21wS1lI?=
+ =?utf-8?B?V1lXQWJ6OHNXeWZadXpldlRuYTN4dFA3TmRLNTk2WEROR2NIYzFLZVRGN0FH?=
+ =?utf-8?B?eHpTejcxZHhFZTA2NjJaLy9JakZDaHZVaHNSNTY2V2JPcWsvRkM1UDdpS3pI?=
+ =?utf-8?B?QVl2S3cyZlZncjF3eE1IZHpOYUQ5TkdXcE9sY1NMT1EyS3pCbitpWVZiTitQ?=
+ =?utf-8?B?NSsvUzNraUV5dTBWa3pLb1NtTTRnRkZxRGNJcFNMTlVkNTlOc2hBNjc0UGNL?=
+ =?utf-8?B?MWJrNlVqcUl2MWxzNDV5dzlZNDFYSjN1b2I2NlUrbU43U3A2UFNGOTFZSGpK?=
+ =?utf-8?B?THdsWHpiTWFUaE1yR1VKZjQwdWUxQXRpSTRDaW42RUVuY25mYkhIVktFMGZD?=
+ =?utf-8?B?Zmc5RjhqdDc5bi93TGxndVdvOWJJNDF6YWpIM0pZL1pnQXBqRC80MVVFbjlv?=
+ =?utf-8?B?Wm93Y3ozc1dvRmVZeWtqRXAvZTJKM1hjd29abGtpdFlpcjFCY0hsbThkejdM?=
+ =?utf-8?B?ajI1eVJtUHp3dGI3d2VZMElxTGQ0S3VhUHQwd21KU1BnTnliSHdVZmpRdXNS?=
+ =?utf-8?B?bUh0K01MckxkUm9MSDF3VHVIeXZrYUhjczd1NStGVUlwc0lDYjc1TUxvZTk2?=
+ =?utf-8?B?YUN1YWdHVHpoL2srbldIRE5KWkxoTHJtamVnRXNFdzIrTmMwRTRzVzZPamdo?=
+ =?utf-8?B?YTM4Q3FBRDlHaDZyN2c3Vm1vcVBUSm8yWXdpbWFLR09MT0xyOGJBU2ZvN0k4?=
+ =?utf-8?B?WVF4YmhDMVpWRXlxaDllUVljZ3piVWs5RXFycGdzVXZjUVFWZVY4dkRaN3ZX?=
+ =?utf-8?B?YUF2ZEpsbnlKR3VTU1lnM2p2UVVqaFM0QU04SHVkUS9JL0pxYklOWE94M0ZO?=
+ =?utf-8?B?dDcrME9QRTduTWEvZkk3UWcrenZXalZLcjAxN1lGazJaWVJqejN2TE5hWCtI?=
+ =?utf-8?B?dGVwY05BMkNvNXVDZGN1ZCtaN1phSHlYbmVRZmE3ZjB6M0FYOFBKZXVheFEy?=
+ =?utf-8?B?RlpZelN0WURkd2VkYmhXdXBqNllWZ282QlpZczJKc1p4WkZPcGNGM0RTVjVh?=
+ =?utf-8?B?UWhyL2hPS1IzUXlva2ZXUmpQMkNUZXVVaUlmMG92ZE5paUJzKzdsNndWSjVW?=
+ =?utf-8?B?MnRVaW8xbW0rZGcvbU1sK2hPZ2pLRnN1UkF3RzRzTzZhT1pqY2JieXZ5T21B?=
+ =?utf-8?B?eW1zSmwxcHZZMGFQM2JnRmQ4ZEt4S3NsSkdVNzdyS1ZUL3Eya2RiYUVESlQ2?=
+ =?utf-8?B?VlZPT1Myc1JoRkVrWmJORGdHRnRFenRXZXJTNTlVeTgzWnFabmtpd1BwR3hU?=
+ =?utf-8?B?aXh2ZEZDMnlhUGNlK2pCVmg4RzRDcldvWEJRU1ZYb2FIZ2owTk93ampZMjZP?=
+ =?utf-8?B?RWVla3oxR0tHUk9zYnZCcHFBUkpNL1gxU3hiendPM2doYUhUVVpXZk8xMU9X?=
+ =?utf-8?B?MnVHb3kxZ1hybjZBcldEOFRSR1ZRSGNvSng5cm9BNzBWeDhvakpreDVkakxQ?=
+ =?utf-8?B?TGZPazFIUFB4aUFYWGVBeGRTMWRLaGh1cUJmeGN5ak5SbW9rT1lUN0RVcTN6?=
+ =?utf-8?B?c2RKNzNNdmxHbVFUQ3BHN0JkUjNiQVRZMFJYT3RWSXZpS2NtME93aWhHTzcy?=
+ =?utf-8?B?RW5FaDFnZnRLSG1HZFZlL1N4TmJDRWx6WDVJbFV1eHZhbjRKelFDZXhDcFRh?=
+ =?utf-8?B?RkRJbGRsVWpJcTJWSE80VzVKMjFoNjFxSXlUeHErYzI1eW9qTXYvUmpzSU9N?=
+ =?utf-8?B?OGhjOWtqUlI1V3pTcHBXb2ZLKzRmQ0xHOTRPcVZtUW1PRWRET1lmOGVjZWtU?=
+ =?utf-8?B?eXVXNmpObDlpVElad1krYlNrS3Z1TjB5Qy80TzhaTTF4S1BXUXRpOVFiWU45?=
+ =?utf-8?B?KytBYXdya2VqNWNmVmY2M2hMSVl6T1pKYnBHMXZTSzlDSitEK3ZsTTMzUEsr?=
+ =?utf-8?B?ZTlkNDNxYjZaVk1QNVBWZ2JSN1JVVTl2U2FZUmtaR2ZuMnlhNysrNHBuU2Jn?=
+ =?utf-8?B?V1hVV1R6Wm0zWTlidnc4SjIvUUFhSnJYQ3J2YU5OUytxa0Q0dlpBSHFmck13?=
+ =?utf-8?Q?gkYIJ/BF9wI1/WvH3+gAAFk=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 393084ee-5840-4c6b-1c9a-08d9e661ada5
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b8ebfe2-624e-487e-6019-08d9e656f415
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Feb 2022 14:18:58.5784
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2022 15:35:45.3952
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BM1PR01MB3489
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ciYJoK/LSpmkTWT/XHYVzRGTE3qAqntJkOZa1pNTt0SMLQcivND/XzP9UdaVlQs+BI2TPH8i8zt9WXv49z+l3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1849
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
+On 2/2/2022 7:35 PM, Jiri Kosina wrote:
+> On Mon, 31 Jan 2022, Basavaraj Natikar wrote:
+>
+>> Changes include increasing sensor command timeout and
+>> adding illuminance mask value.
+>>
+>> Basavaraj Natikar (2):
+>>   amd_sfh: Increase sensor command timeout
+>>   amd_sfh: Add illuminance mask to limit ALS max value
+> Please make sure to follow the convention and always prefix HID patches 
+> with 'HID: ' in the shortlog.
+>
+> I've fixed that up on my side now and applied for 5.17. Thanks,
+>
+Thanks for the feedback. Sure, I will follow this for future patches.
 
-> On 02-Feb-2022, at 7:10 PM, Jiri Kosina <jikos@kernel.org> wrote:
->=20
-> On Mon, 31 Jan 2022, Aditya Garg wrote:
->=20
->> It has been a week since I have sent this series of patches, but I=20
->> haven't got a reply yet. Before that, I had sent a v1 of the same, on=20
->> which I wasn't contacted as well. May I have an update on this series.=20
->> No reply for a long time is something which doesn't sound good.
->=20
-> A week during merge window and -rc1 phase is not that horrible, please be=
-=20
-> a little bit more patient.
->=20
-Sorry for being impatient :)
-> The patchset hasn't been lost, it's on my radar and I'll process it this=
-=20
-> week still.
-Thanks
->=20
-> Thanks,
->=20
-> --=20
-> Jiri Kosina
-> SUSE Labs
->=20
+- Basavaraj
 
