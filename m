@@ -2,51 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0D164A71B4
-	for <lists+linux-input@lfdr.de>; Wed,  2 Feb 2022 14:40:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E5224A71EC
+	for <lists+linux-input@lfdr.de>; Wed,  2 Feb 2022 14:48:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232180AbiBBNkU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Feb 2022 08:40:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58430 "EHLO
+        id S240220AbiBBNse (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Feb 2022 08:48:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230331AbiBBNkU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Feb 2022 08:40:20 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BB81C061714;
-        Wed,  2 Feb 2022 05:40:20 -0800 (PST)
+        with ESMTP id S229526AbiBBNsd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Feb 2022 08:48:33 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E880C06173D;
+        Wed,  2 Feb 2022 05:48:33 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 21D9EB82FDD;
-        Wed,  2 Feb 2022 13:40:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2EFCC004E1;
-        Wed,  2 Feb 2022 13:40:15 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F56461785;
+        Wed,  2 Feb 2022 13:48:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 755E7C340ED;
+        Wed,  2 Feb 2022 13:48:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643809217;
-        bh=uqlgSWB1fXNOD3jiBiSCYNWp2ABp5Qyvc8zIPcxCmII=;
+        s=k20201202; t=1643809712;
+        bh=XjTJem+30ZyIBwh4Nkm1WxzMwfFDFgfZ62ha20UK10c=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=sfQiysi6EwLbKVW5ZHfzzcTXqnuYmwWXbONYt20afH4k4PJBlNdf/FP8TXAkilWzb
-         NIADC2xYATQy6p+9UP82nRRUKk4ZXaIrYWeQsy/cpUN8fXnVeJ+eHwciGow9WbzLSV
-         Mgv8cArJvyzv+Tey0VnhJAtl5j6JBfZJ9Vfx1FUjpZDAZoZ9HgA42UJ54H7Ba9E0pj
-         JPD45iDVL218fF3BUWy+E5bHNgW6ieU7tjKdr8cHpboJSeGGz3EQdEkfCqLU9Vv2oF
-         5W4rzCyTk4nim76YDoYgfHJKJDm/VvOBgbBGkSXC4RiOcN/QqFVehe/YVHVTP89+DA
-         kKN4qJ7WWq2bg==
-Date:   Wed, 2 Feb 2022 14:40:00 +0100 (CET)
+        b=VbC/Pd7AddMBKKCY3dFEPFxZqDASVrLnoXy+LqbP1fEMUKfIQuFJwYTwTqWPfSYkK
+         k/xosadkPqb/Ql9BBpyY99i9c/wGmGC5QlpdS/3Xe3TB/1zdyMt83k6qrdu3bxEo5l
+         LpqpL9+Mpxtt555O1kdceLfTMPjgfFdSmv9lp8CdcyCqOqNWLwLU76b37naN6HQavS
+         JNX/d925kXDEvXyWUKKM9DjQ0CRPun2UE4RQSB0V5BrWphvxuvZcnwvtDoaXtFNXe+
+         UkROIpaZ74UELCi/I3u14GR2i6wIjsdGeTMbBxA5M07jFxuU3yLqviiGhefitu+4oy
+         BCCBFDbmVKviw==
+Date:   Wed, 2 Feb 2022 14:48:29 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Aditya Garg <gargaditya08@live.com>
-cc:     "alexhenrie24@gmail.com" <alexhenrie24@gmail.com>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "paul@mrarm.io" <paul@mrarm.io>, Aun-Ali Zaidi <admin@kodeit.net>,
-        Orlando Chamberlain <redecorating@protonmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 1/3] HID: apple: Add support for keyboard backlight
- on certain T2 Macs.
-In-Reply-To: <9B28205B-24B2-449F-A6B9-BE87C1B9A39E@live.com>
-Message-ID: <nycvar.YFH.7.76.2202021439120.11721@cbobk.fhfr.pm>
-References: <67E7EA8B-CF21-4794-B7B4-96873EE70EF6@live.com> <9B28205B-24B2-449F-A6B9-BE87C1B9A39E@live.com>
+To:     Doug Anderson <dianders@chromium.org>
+cc:     Daniel Thompson <daniel.thompson@linaro.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] HID: i2c-hid: goodix: Fix a lockdep splat
+In-Reply-To: <CAD=FV=VpQoYkTiKVmC7hMX=bWVYW0rkHWMKU7CqyW_2tanPEpQ@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2202021448060.11721@cbobk.fhfr.pm>
+References: <20220128174625.321750-1-daniel.thompson@linaro.org> <CAD=FV=VpQoYkTiKVmC7hMX=bWVYW0rkHWMKU7CqyW_2tanPEpQ@mail.gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -54,20 +49,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 31 Jan 2022, Aditya Garg wrote:
+On Fri, 28 Jan 2022, Doug Anderson wrote:
 
-> It has been a week since I have sent this series of patches, but I 
-> haven't got a reply yet. Before that, I had sent a v1 of the same, on 
-> which I wasn't contacted as well. May I have an update on this series. 
-> No reply for a long time is something which doesn't sound good.
+> > I'm was on the receiving end of a lockdep splat from this driver and after
+> > scratching my head I couldn't be entirely sure it was a false positive
+> > given we would also have to think about whether the regulator locking is
+> > safe (since the notifier is called whilst holding regulator locks which
+> > are also needed for regulator_is_enabled() ).
+[ ... snip ... ]
+> > Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
+> > ---
+> >  drivers/hid/i2c-hid/i2c-hid-of-goodix.c | 28 +++++++++++--------------
+> >  1 file changed, 12 insertions(+), 16 deletions(-)
+> 
+> Yes, this seems like a reasonable solution, thanks! Probably want:
+> 
+> Fixes: 18eeef46d359 ("HID: i2c-hid: goodix: Tie the reset line to true
+> state of the regulator")
+> 
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-A week during merge window and -rc1 phase is not that horrible, please be 
-a little bit more patient.
-
-The patchset hasn't been lost, it's on my radar and I'll process it this 
-week still.
-
-Thanks,
+Thanks, queued for 5.17.
 
 -- 
 Jiri Kosina
