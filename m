@@ -2,58 +2,349 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A3C04A6F60
-	for <lists+linux-input@lfdr.de>; Wed,  2 Feb 2022 12:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D5634A6E30
+	for <lists+linux-input@lfdr.de>; Wed,  2 Feb 2022 10:54:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343635AbiBBLCK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Feb 2022 06:02:10 -0500
-Received: from mail.profitfirm24.com.pl ([212.237.10.110]:58638 "EHLO
-        mail.profitfirm24.com.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343617AbiBBLCJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Feb 2022 06:02:09 -0500
-Received: by mail.profitfirm24.com.pl (Postfix, from userid 1001)
-        id 8877FAA64F; Tue,  1 Feb 2022 09:17:38 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=profitfirm24.com.pl;
-        s=mail; t=1643707572;
-        bh=M1ZVeu3q6Upppe+FUx/3rgI7MKJXh389NZDbgCK1SX4=;
-        h=Date:From:To:Subject:From;
-        b=I7a3kg7oXrGCo2JbHIwWQQec3+bdRj21nYyb8kWkNgZG2j8sM3w3UhBxSCCjoABWO
-         E4R8BfDyDDh4gQxdf3WwIL8Wr45afis7MqUxhNDogyNbecJKgbbgItp6U0HTk0f5Wk
-         ADgm0P7F7Tq/hmX2sY79kfFr11uA5qwrZ1mxONqzsFQoce40KGLQLSoTaWzR0P2S95
-         W/iwir6qkRIr5gT7DsIiMUeYsCpU9Ing2S5qwPd6aMFgWLUipT4RgSeX4tVbfZLHaI
-         tTlI/QgTYfL/NMBTIzA3DR/GYYSpSPU4S/1w82wiMW7Dg4ioIyvezBJv7XmO8BGtiT
-         OW8YjrKke/bJA==
-Received: by profitfirm24.com.pl for <linux-input@vger.kernel.org>; Tue,  1 Feb 2022 09:17:20 GMT
-Message-ID: <20220201074652-0.1.b.2z3n.0.252qqfjmo8@profitfirm24.com.pl>
-Date:   Tue,  1 Feb 2022 09:17:20 GMT
-From:   =?UTF-8?Q? "Arkadiusz_Soko=C5=82owski" ?= 
-        <arkadiusz.sokolowski@profitfirm24.com.pl>
-To:     <linux-input@vger.kernel.org>
-Subject: Koszty instalacji fotowoltaicznej
-X-Mailer: mail.profitfirm24.com.pl
+        id S245653AbiBBJyi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Feb 2022 04:54:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58505 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230256AbiBBJyh (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 2 Feb 2022 04:54:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1643795677;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1ZM3D7gzWYfBkbqDJgiHcJO8vfBgGoOljpivQC1NMN8=;
+        b=Y4gJsk1RDBvf5KUA52Vn1J99ssC4P4/huboXciNPgwZ0Y7QVDyh/TpDCDpHk4LT/mefkW1
+        wazH9hSKOunipWcleMBQHj7y+XwfQ01oFUoTBMJF8hAPNC4ZxO2ZHLAc38diI6eMhQF7DZ
+        deyAgeIKMOnJalVyJoVGHdVjsdaRTGY=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-42-oI__JlekM4-YaIY0Q7Sl9g-1; Wed, 02 Feb 2022 04:54:36 -0500
+X-MC-Unique: oI__JlekM4-YaIY0Q7Sl9g-1
+Received: by mail-pj1-f72.google.com with SMTP id n9-20020a17090a73c900b001b5cafefa27so3439166pjk.2
+        for <linux-input@vger.kernel.org>; Wed, 02 Feb 2022 01:54:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1ZM3D7gzWYfBkbqDJgiHcJO8vfBgGoOljpivQC1NMN8=;
+        b=PQeOsB8vtVHG79QFPety9EUCrJ1DncOxuuUPUZWfYe49oatvqN11JCy9YNUUsrqgyD
+         Om9Mxp6wtIEA8jaXVYDf0pkn1GKUH2584O/I9qvl7SZmceEWkWHBVXn5zQAgbXXJSFWk
+         w8Pt3wAmSJXutlq6gi5vvCGgGSDNZ9rOW5IAlDd1kFdRYvhsxJYCthhnB9Iz5HVwwH67
+         KNgTidr+2OuIiwf5FOqYJhM/QzdnBjbxKLaKzWsS47j9iGB4hHVpGXJhygEWOEWl2HUx
+         qsDl2gAi5BEiPHtJ4KGaKXipNXpZwws9K6U0B1pZt8yk2rbK30M4fgKbWTZCysEJZH/q
+         qjsw==
+X-Gm-Message-State: AOAM533rzFowMoVPTMGUuZaYip2G89v2wQ0yoXBwBAMb9zGrXeE925em
+        glVjgvZCJXvFB+UkMa6dmO6N7olySr8p9xGiLo+eTXAO49/R7CYPTVYOKSaz7GI0Cqw237YLIwN
+        1pCdJ0ZcFwuQxddDuNQKlXVQoiHIYqusWEQ/CuUk=
+X-Received: by 2002:a17:903:1c2:: with SMTP id e2mr30071699plh.73.1643795674901;
+        Wed, 02 Feb 2022 01:54:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyIW3+RRUW5vhPwtJYn1LLbrZN10RQ3Dg4P63uFPKBaQIFtjxr1eD6F6vtCxH99ntnub4l1zwteC/bIUDqEvwg=
+X-Received: by 2002:a17:903:1c2:: with SMTP id e2mr30071674plh.73.1643795674535;
+ Wed, 02 Feb 2022 01:54:34 -0800 (PST)
 MIME-Version: 1.0
+References: <20220126161832.3193805-1-benjamin.tissoires@redhat.com>
+ <20220126161832.3193805-11-benjamin.tissoires@redhat.com> <CAF8JNhLCXT7N4DubYYT12eMphDH-6U69ci7zFisJfZwsviJGkQ@mail.gmail.com>
+In-Reply-To: <CAF8JNhLCXT7N4DubYYT12eMphDH-6U69ci7zFisJfZwsviJGkQ@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 2 Feb 2022 10:54:23 +0100
+Message-ID: <CAO-hwJ+sBKvE_STnTHsfTTXvZYHn4hcp81h735JUOu3vp7TrXA@mail.gmail.com>
+Subject: Re: [PATCH 10/12] HID: input: remove the need for HID_QUIRK_INVERT
+To:     Ping Cheng <pinglinux@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Ahelenia_Ziemia=C5=84ska?= 
+        <nabijaczleweli@nabijaczleweli.xyz>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hi Ping,
 
-stworzyli=C5=9Bmy specjaln=C4=85 ofert=C4=99 dla firm, na kompleksow=C4=85=
- obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99. =20
+On Wed, Feb 2, 2022 at 6:43 AM Ping Cheng <pinglinux@gmail.com> wrote:
+>
+> Hi Benjamin,
+>
+> Thank you for taking care of the issue. The whole set looks good to me, e=
+xcept this one. xf86-input-wacom would not process the events properly if p=
+en and eraser events are reported through the same EV_SYN frame. That's mai=
+nly because the tool out of prox will reset all values, while some values t=
+he next tool may rely on. Please see my detailed comments inline.
+>
+> On Wed, Jan 26, 2022 at 8:19 AM Benjamin Tissoires <benjamin.tissoires@re=
+dhat.com> wrote:
+>>
+>> HID_QUIRK_INVERT is kind of complex to deal with and was bogus.
+>>
+>> Furthermore, it didn't make sense to use a global per struct hid_device
+>> quirk for something dynamic as the current state.
+>>
+>> Store the current tool information in the report itself, and re-order
+>> the processing of the fields to enforce having all the tablet "state"
+>> fields before getting to In Range and other input fields.
+>>
+>> This way, we now have all the information whether a tool is present
+>> or not while processing In Range.
+>>
+>> This new behavior enforces that only one tool gets forwarded to userspac=
+e
+>> at the same time, and that if either eraser or invert is set, we enforce
+>>
+>> BTN_TOOL_RUBBER.
+>>
+>> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>> ---
+>>  drivers/hid/hid-input.c | 66 +++++++++++++++++++++++++++++++++++------
+>>  include/linux/hid.h     |  6 +++-
+>>  2 files changed, 62 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+>> index 61d91117f4ae..2d13d3ad9d3c 100644
+>> --- a/drivers/hid/hid-input.c
+>> +++ b/drivers/hid/hid-input.c
+>> @@ -63,8 +63,11 @@ static const struct {
+>>   * This still leaves us 65535 individual priority values.
+>>   */
+>>  static const __u32 hidinput_usages_priorities[] =3D {
+>> +       HID_DG_ERASER,          /* Eraser (eraser touching) must always =
+come before tipswitch */
+>>         HID_DG_INVERT,          /* Invert must always come before In Ran=
+ge */
+>> -       HID_DG_INRANGE,
+>> +       HID_DG_TIPSWITCH,       /* Is the tip of the tool touching? */
+>> +       HID_DG_TIPPRESSURE,     /* Tip Pressure might emulate tip switch=
+ */
+>> +       HID_DG_INRANGE,         /* In Range needs to come after the othe=
+r tool states */
+>>  };
+>>
+>>  #define map_abs(c)     hid_map_usage(hidinput, usage, &bit, &max, EV_AB=
+S, (c))
+>> @@ -1368,6 +1371,7 @@ static void hidinput_handle_scroll(struct hid_usag=
+e *usage,
+>>  void hidinput_hid_event(struct hid_device *hid, struct hid_field *field=
+, struct hid_usage *usage, __s32 value)
+>>  {
+>>         struct input_dev *input;
+>> +       struct hid_report *report =3D field->report;
+>>         unsigned *quirks =3D &hid->quirks;
+>>
+>>         if (!usage->type)
+>> @@ -1418,25 +1422,69 @@ void hidinput_hid_event(struct hid_device *hid, =
+struct hid_field *field, struct
+>>         }
+>>
+>>         switch (usage->hid) {
+>> +       case HID_DG_ERASER:
+>> +               report->tool_active |=3D !!value;
+>> +
+>> +               /*
+>> +                * if eraser is set, we must enforce BTN_TOOL_RUBBER
+>> +                * to accommodate for devices not following the spec.
+>> +                */
+>> +               if (value)
+>> +                       report->tool =3D BTN_TOOL_RUBBER;
+>> +
+>> +               /* let hid-input set BTN_TOUCH */
+>> +               break;
+>> +
+>>         case HID_DG_INVERT:
+>> -               *quirks =3D value ? (*quirks | HID_QUIRK_INVERT) : (*qui=
+rks & ~HID_QUIRK_INVERT);
+>> +               report->tool_active |=3D !!value;
+>> +
+>> +               /*
+>> +                * If invert is set, we store BTN_TOOL_RUBBER.
+>> +                */
+>> +               if (value)
+>> +                       report->tool =3D BTN_TOOL_RUBBER;
+>> +
+>> +               /* no further processing */
+>>                 return;
+>>
+>>         case HID_DG_INRANGE:
+>> -               if (value) {
+>> -                       input_event(input, usage->type, (*quirks & HID_Q=
+UIRK_INVERT) ? BTN_TOOL_RUBBER : usage->code, 1);
+>> -                       return;
+>> -               }
+>> -               input_event(input, usage->type, usage->code, 0);
+>> -               input_event(input, usage->type, BTN_TOOL_RUBBER, 0);
+>> +               report->tool_active |=3D !!value;
+>> +
+>> +               /*
+>> +                * If the tool is in used (any of TipSwitch, Erase, Inve=
+rt,
+>> +                * InRange), and if tool is not set, store our mapping
+>> +                */
+>> +               if (report->tool_active && !report->tool)
+>> +                       report->tool =3D usage->code;
+>> +
+>> +               input_event(input, EV_KEY, usage->code, report->tool =3D=
+=3D usage->code);
+>> +               input_event(input, EV_KEY, BTN_TOOL_RUBBER, report->tool=
+ =3D=3D BTN_TOOL_RUBBER);
+>
+>
+> When usage->code changes value, for userspace clients, such as X driver, =
+one of the tools in the frame would not have its own input events since the=
+re is only one set of input event values in the frame. X driver stores the =
+values in different arrays/channels for each tool to post the events for ea=
+ch tool after all the values are processed.
+>
+> If we can always post the tool that goes out of prox with an EV_SYN first=
+, the other tool would take the coming input events without problem. The to=
+ol that goes out of prox doesn't care about any of the other input events s=
+ince its value will be reset.
 
-Specjalizujemy si=C4=99 w zakresie doboru, monta=C5=BCu i serwisie instal=
-acji fotowoltaicznych, dysponujemy najnowocze=C5=9Bniejszymi rozwi=C4=85z=
-ania, kt=C3=B3re zapewni=C4=85 Pa=C5=84stwu oczekiwane rezultaty.
+OK. Right now, this series ensures we get
+ERASER/TIPSWITCH/INVERT/INRANGE first before processing any other
+events.
 
-Mo=C5=BCemy przygotowa=C4=87 dla Pa=C5=84stwa wst=C4=99pn=C4=85 kalkulacj=
-=C4=99 i przeanalizowa=C4=87 efekty mo=C5=BCliwe do osi=C4=85gni=C4=99cia=
-=2E
+Given that ERASER/TIPSWITCH are responsible for BTN_TOUCH, I'd like to
+get some clarifications (sorry dumping my brain here):
 
-Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
-temacie?
+In the example of the pen moving from erasing to touching without the
+intent to erase:
 
+The HID event sequence would be:
+Eraser: 1, Invert: 1, Tipswitch: 0, InRange: 1, X, Y, etc...
+then
+Eraser: 0, Invert: 0, Tipswitch: 1, InRange: 1, X, Y, etc...
 
-Pozdrawiam
-Arkadiusz Soko=C5=82owski
+In this current series we would get:
+BTN_TOUCH 1, BTN_TOOL_RUBBER 1, X, Y, etc...
+then
+BTN_TOUCH 0, BTN_TOUCH 1, BTN_TOOL_PEN 1, BTN_TOOL_RUBBER 0, X, Y, etc...
+
+(yeah, oops, there are 2 BTN_TOUCH in this sequence)
+
+A naive change would do (instead of the last evdev event):
+BTN_TOUCH 0, BTN_TOUCH 1, BTN_TOOL_RUBBER 0, *EV_SYN*, BTN_TOOL_PEN 1,
+X, Y, etc...
+
+However, I wonder if we should not have instead:
+BTN_TOUCH 0, BTN_TOOL_RUBBER 0, *EV_SYN*, BTN_TOUCH 1, BTN_TOOL_PEN 1,
+X, Y, etc...
+
+That change should be easy to handle actually.
+
+I am a little bit more concerned the other way around:
+touching without the intent to erase to erase:
+HID events:
+Eraser: 0, Invert: 0, Tipswitch: 1, InRange: 1, X, Y, etc...
+Eraser: 1, Invert: 1, Tipswitch: 0, InRange: 1, X, Y, etc...
+
+The current series gives:
+BTN_TOUCH 1, BTN_TOOL_PEN 1, X, Y, etc...
+then
+BTN_TOOL_PEN 1, BTN_TOOL_RUBBER 1, X, Y, etc...
+
+(no BTN_TOUCH events)
+
+And I think to get to the "correct" sequence I would have to store more sta=
+tes:
+BTN_TOUCH 0, BTN_TOOL_PEN 0, *EV_SYN*, BTN_TOUCH 1, BTN_TOOL_RUBBER 1,
+X, Y, etc...
+
+I think the main problem is how to handle BTN_TOUCH correctly (and
+PRESSURE is also in the middle). When this event is not set, it should
+be easier to add the EV_SYN between the BTN_TOOL_*.
+
+>
+> We could update X driver, if libinput is capable of processing two tools =
+in the same EV_SYN frame. This is more like a special multi-pen situation w=
+here two styli share the same set of input event values. The regular multi-=
+pen logic would not process it right, I think.
+
+Well, there is already the problem of that BTN_TOUCH 0/1 in one frame
+that is not very clean. And if we can not break userspace that would
+be best (note that the current kernel is completely sending random
+events for those transitions, so in a way it's still slightly better).
+
+Cheers,
+Benjamin
+
+>
+> Cheers,
+> Ping
+>
+>> +
+>> +               /* reset tool and tool_active for the next event */
+>> +               report->tool =3D 0;
+>> +               report->tool_active =3D false;
+>> +
+>> +               /* no further processing */
+>>                 return;
+>>
+>> +       case HID_DG_TIPSWITCH:
+>> +               report->tool_active |=3D !!value;
+>> +
+>> +               /* if tool is set we should ignore the current value */
+>> +               if (report->tool)
+>> +                       return;
+>> +
+>> +               break;
+>> +
+>>         case HID_DG_TIPPRESSURE:
+>>                 if (*quirks & HID_QUIRK_NOTOUCH) {
+>>                         int a =3D field->logical_minimum;
+>>                         int b =3D field->logical_maximum;
+>>
+>> -                       input_event(input, EV_KEY, BTN_TOUCH, value > a =
++ ((b - a) >> 3));
+>> +                       if (value > a + ((b - a) >> 3)) {
+>> +                               input_event(input, EV_KEY, BTN_TOUCH, 1)=
+;
+>> +                               report->tool_active =3D true;
+>> +                       }
+>>                 }
+>>                 break;
+>>
+>> diff --git a/include/linux/hid.h b/include/linux/hid.h
+>> index eaad0655b05c..feb8df61168f 100644
+>> --- a/include/linux/hid.h
+>> +++ b/include/linux/hid.h
+>> @@ -347,7 +347,7 @@ struct hid_item {
+>>   */
+>>  #define MAX_USBHID_BOOT_QUIRKS 4
+>>
+>> -#define HID_QUIRK_INVERT                       BIT(0)
+>> +/* BIT(0) reserved for backward compatibility, was HID_QUIRK_INVERT */
+>>  #define HID_QUIRK_NOTOUCH                      BIT(1)
+>>  #define HID_QUIRK_IGNORE                       BIT(2)
+>>  #define HID_QUIRK_NOGET                                BIT(3)
+>> @@ -515,6 +515,10 @@ struct hid_report {
+>>         unsigned maxfield;                              /* maximum valid=
+ field index */
+>>         unsigned size;                                  /* size of the r=
+eport (bits) */
+>>         struct hid_device *device;                      /* associated de=
+vice */
+>> +
+>> +       /* tool related state */
+>> +       bool tool_active;                               /* whether the c=
+urrent tool is active */
+>> +       unsigned int tool;                              /* BTN_TOOL_* */
+>>  };
+>>
+>>  #define HID_MAX_IDS 256
+>> --
+>> 2.33.1
+>>
+
