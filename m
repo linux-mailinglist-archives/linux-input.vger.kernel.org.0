@@ -2,46 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E5224A71EC
-	for <lists+linux-input@lfdr.de>; Wed,  2 Feb 2022 14:48:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A71F24A726D
+	for <lists+linux-input@lfdr.de>; Wed,  2 Feb 2022 14:56:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240220AbiBBNse (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Feb 2022 08:48:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60292 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbiBBNsd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Feb 2022 08:48:33 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E880C06173D;
-        Wed,  2 Feb 2022 05:48:33 -0800 (PST)
+        id S233792AbiBBN4i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Feb 2022 08:56:38 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:45408 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232613AbiBBN4i (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Feb 2022 08:56:38 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F56461785;
-        Wed,  2 Feb 2022 13:48:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 755E7C340ED;
-        Wed,  2 Feb 2022 13:48:31 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E290EB830CE;
+        Wed,  2 Feb 2022 13:56:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74964C004E1;
+        Wed,  2 Feb 2022 13:56:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643809712;
-        bh=XjTJem+30ZyIBwh4Nkm1WxzMwfFDFgfZ62ha20UK10c=;
+        s=k20201202; t=1643810195;
+        bh=i3Wl1PIcI1R8gZONAXMRTX8wXCIK09GZNAlBvHC4fQ8=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=VbC/Pd7AddMBKKCY3dFEPFxZqDASVrLnoXy+LqbP1fEMUKfIQuFJwYTwTqWPfSYkK
-         k/xosadkPqb/Ql9BBpyY99i9c/wGmGC5QlpdS/3Xe3TB/1zdyMt83k6qrdu3bxEo5l
-         LpqpL9+Mpxtt555O1kdceLfTMPjgfFdSmv9lp8CdcyCqOqNWLwLU76b37naN6HQavS
-         JNX/d925kXDEvXyWUKKM9DjQ0CRPun2UE4RQSB0V5BrWphvxuvZcnwvtDoaXtFNXe+
-         UkROIpaZ74UELCi/I3u14GR2i6wIjsdGeTMbBxA5M07jFxuU3yLqviiGhefitu+4oy
-         BCCBFDbmVKviw==
-Date:   Wed, 2 Feb 2022 14:48:29 +0100 (CET)
+        b=T/ZSDiJe218DWQXungnNozQ68nnU0HzrBOnMFfY1WSWexVnpBIsRZkBJrXqvTfn3Y
+         Op8O+tz8t3dyHq9+LOytosMmxPQ0mTRCIoBNyIHUzzd+wL/lKBJ1CFJeqvlH4JBvX5
+         C2y7WM5Vqjlx+EWliW4ocLVrRVu1E4/ysaA+FT/4sZpheVi5pjooZQVB+k+pBLmXpX
+         2/5Qohkx6k5oZdlh9tBKvZ2/mCAADiayQO2G9wvXgL87PFx84Jln5+qnhPt3DNgf+h
+         gTB4kgAnaFs+bIkcsHjNYrMztZ58TT7vJA3V3qDKyXsD1ph7rqnTDT3GBgCYvtlmB+
+         v+tMNkPXqTSjA==
+Date:   Wed, 2 Feb 2022 14:56:32 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Doug Anderson <dianders@chromium.org>
-cc:     Daniel Thompson <daniel.thompson@linaro.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] HID: i2c-hid: goodix: Fix a lockdep splat
-In-Reply-To: <CAD=FV=VpQoYkTiKVmC7hMX=bWVYW0rkHWMKU7CqyW_2tanPEpQ@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2202021448060.11721@cbobk.fhfr.pm>
-References: <20220128174625.321750-1-daniel.thompson@linaro.org> <CAD=FV=VpQoYkTiKVmC7hMX=bWVYW0rkHWMKU7CqyW_2tanPEpQ@mail.gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Angela Czubak <acz@semihalf.com>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/12] i2c-hid: fixes for unnumbered reports and other
+ improvements
+In-Reply-To: <20220118072628.1617172-1-dmitry.torokhov@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2202021456020.11721@cbobk.fhfr.pm>
+References: <20220118072628.1617172-1-dmitry.torokhov@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -49,27 +46,42 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 28 Jan 2022, Doug Anderson wrote:
+On Mon, 17 Jan 2022, Dmitry Torokhov wrote:
 
-> > I'm was on the receiving end of a lockdep splat from this driver and after
-> > scratching my head I couldn't be entirely sure it was a false positive
-> > given we would also have to think about whether the regulator locking is
-> > safe (since the notifier is called whilst holding regulator locks which
-> > are also needed for regulator_is_enabled() ).
-[ ... snip ... ]
-> > Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
-> > ---
-> >  drivers/hid/i2c-hid/i2c-hid-of-goodix.c | 28 +++++++++++--------------
-> >  1 file changed, 12 insertions(+), 16 deletions(-)
+> Hi,
 > 
-> Yes, this seems like a reasonable solution, thanks! Probably want:
+> This series came about after I reviewed Angela's patch that fixed issues
+> with incorrect handling of high-numbered reports (15 and above) in
+> i2c-hid driver:
 > 
-> Fixes: 18eeef46d359 ("HID: i2c-hid: goodix: Tie the reset line to true
-> state of the regulator")
+> - it appears to me that the driver did not handle unnumbered reports
+>   correctly as the kernel internally expects unnumbered reports to be
+>   still prepended with report number 0, but i2c_hid_get_raw_report() and
+>   i2c_hid_output_raw_report() only expected report ID to be present for
+>   numbered reports.
 > 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> - the driver tried to consolidate both command handling and sending
+>   output reports in __i2c_hid_command() but the rules for different
+>   commands vary significantly and because of that the logic was hard to
+>   follow and it bled out from __i2c_hid_command() to callers. I decided
+>   to introduce a few simple helpers and have the data encoding for
+>   individual commands done at the call site. I believe this made it
+>   easier to validate the rules and the logic and allowed to remove
+>   special handling for the HID descriptor retrieval, among other things.
+> 
+> - the driver does too many copying of data; encoding the data for
+>   commands at the call site allowed to only copy data once into the
+>   transfer buffers.
+> 
+> I tested this on a couple of Chromebooks with i2c-hid touchscreens, but
+> it would be great if other folks tried it out as well.
 
-Thanks, queued for 5.17.
+Benjamin,
+
+is this something you could feed into your testing machinery as well? (not 
+sure whether it's handling i2c-hid specifics).
+
+Thanks!
 
 -- 
 Jiri Kosina
