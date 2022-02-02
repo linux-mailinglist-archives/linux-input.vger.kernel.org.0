@@ -2,71 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0922E4A7048
-	for <lists+linux-input@lfdr.de>; Wed,  2 Feb 2022 12:49:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0D164A71B4
+	for <lists+linux-input@lfdr.de>; Wed,  2 Feb 2022 14:40:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344004AbiBBLs5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Feb 2022 06:48:57 -0500
-Received: from vps.xff.cz ([195.181.215.36]:38674 "EHLO vps.xff.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230257AbiBBLs5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 2 Feb 2022 06:48:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-        t=1643802535; bh=/hgS+imZp3qk+AdUYYHI9PR8cjgjAJL5NVJsn6Y/Qfo=;
-        h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-        b=OUAQ0Y9X5VJIeaAlKm6JLf233KpCdiNhEK913DmP088solZNxLLJ1cHObgtdaByCt
-         RVo9X+LxOKl0cfpryd8OLNqFVhw6SWitYp0Ectv/sZTaOY48gAqckVW7XaiX53OhX5
-         Uq/PX26yq/eCN+3os6vwMC7TqB4zNAb0edMfuDAM=
-Date:   Wed, 2 Feb 2022 12:48:55 +0100
-From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <x@xff.cz>
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-i2c@vger.kernel.org, Wolfram Sang <wsa@kernel.org>
-Subject: Re: [PATCH 2/5] Input: pinephone-keyboard - Add PinePhone keyboard
- driver
-Message-ID: <20220202114855.p36wlh4s3plpdyft@core.my.home>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <x@xff.cz>,
-        Samuel Holland <samuel@sholland.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-i2c@vger.kernel.org, Wolfram Sang <wsa@kernel.org>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20220129230043.12422-1-samuel@sholland.org>
- <20220129230043.12422-3-samuel@sholland.org>
+        id S232180AbiBBNkU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Feb 2022 08:40:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58430 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230331AbiBBNkU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Feb 2022 08:40:20 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BB81C061714;
+        Wed,  2 Feb 2022 05:40:20 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 21D9EB82FDD;
+        Wed,  2 Feb 2022 13:40:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2EFCC004E1;
+        Wed,  2 Feb 2022 13:40:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643809217;
+        bh=uqlgSWB1fXNOD3jiBiSCYNWp2ABp5Qyvc8zIPcxCmII=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=sfQiysi6EwLbKVW5ZHfzzcTXqnuYmwWXbONYt20afH4k4PJBlNdf/FP8TXAkilWzb
+         NIADC2xYATQy6p+9UP82nRRUKk4ZXaIrYWeQsy/cpUN8fXnVeJ+eHwciGow9WbzLSV
+         Mgv8cArJvyzv+Tey0VnhJAtl5j6JBfZJ9Vfx1FUjpZDAZoZ9HgA42UJ54H7Ba9E0pj
+         JPD45iDVL218fF3BUWy+E5bHNgW6ieU7tjKdr8cHpboJSeGGz3EQdEkfCqLU9Vv2oF
+         5W4rzCyTk4nim76YDoYgfHJKJDm/VvOBgbBGkSXC4RiOcN/QqFVehe/YVHVTP89+DA
+         kKN4qJ7WWq2bg==
+Date:   Wed, 2 Feb 2022 14:40:00 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Aditya Garg <gargaditya08@live.com>
+cc:     "alexhenrie24@gmail.com" <alexhenrie24@gmail.com>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "paul@mrarm.io" <paul@mrarm.io>, Aun-Ali Zaidi <admin@kodeit.net>,
+        Orlando Chamberlain <redecorating@protonmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2 1/3] HID: apple: Add support for keyboard backlight
+ on certain T2 Macs.
+In-Reply-To: <9B28205B-24B2-449F-A6B9-BE87C1B9A39E@live.com>
+Message-ID: <nycvar.YFH.7.76.2202021439120.11721@cbobk.fhfr.pm>
+References: <67E7EA8B-CF21-4794-B7B4-96873EE70EF6@live.com> <9B28205B-24B2-449F-A6B9-BE87C1B9A39E@live.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220129230043.12422-3-samuel@sholland.org>
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello again Samuel,
+On Mon, 31 Jan 2022, Aditya Garg wrote:
 
-On Sat, Jan 29, 2022 at 05:00:39PM -0600, Samuel Holland wrote:
-> The official Pine64 PinePhone keyboard case contains a matrix keypad and
-> a MCU which runs a libre firmware. Add support for its I2C interface.
+> It has been a week since I have sent this series of patches, but I 
+> haven't got a reply yet. Before that, I had sent a v1 of the same, on 
+> which I wasn't contacted as well. May I have an update on this series. 
+> No reply for a long time is something which doesn't sound good.
 
-I had one bug report from a user that reminded me of something that's
-missing in the driver.
+A week during merge window and -rc1 phase is not that horrible, please be 
+a little bit more patient.
 
-Please add a regulator support for power supply for the keyboard. On Pinephone
-the keyboard needs USB-5V regulator to be enabled, because final version of the
-keyboard is supplied from the VBAT POGO pin and not internally from kb battery,
-as on the prototypes.
+The patchset hasn't been lost, it's on my radar and I'll process it this 
+week still.
 
-If this regulator is not enabled the keyboard will be supplied from battery
-- voltage drop on a boost regulator diode, which causes very frequent brownouts
-of the keyboard MCU.
+Thanks,
 
-Users don't notice, becuse MCU recovers quickly and only a key or two is missed
-every once in a while, but it should be fixed. And this problem probably only
-shows up when the phone battery is either quite discharged, or random load
-spikes push its voltage bellow what's necessary for the MCU to run, temporarily.
+-- 
+Jiri Kosina
+SUSE Labs
 
-kind regards,
-	o.
