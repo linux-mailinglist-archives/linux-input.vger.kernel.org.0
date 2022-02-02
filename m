@@ -2,41 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D54864A72AA
-	for <lists+linux-input@lfdr.de>; Wed,  2 Feb 2022 15:05:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F01BD4A72BC
+	for <lists+linux-input@lfdr.de>; Wed,  2 Feb 2022 15:11:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239255AbiBBOFW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Feb 2022 09:05:22 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:33606 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235355AbiBBOFV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Feb 2022 09:05:21 -0500
+        id S1344690AbiBBOKK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Feb 2022 09:10:10 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:52032 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231518AbiBBOKJ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Feb 2022 09:10:09 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3CA736185C
-        for <linux-input@vger.kernel.org>; Wed,  2 Feb 2022 14:05:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97F93C004E1;
-        Wed,  2 Feb 2022 14:05:19 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A7017B830F5;
+        Wed,  2 Feb 2022 14:10:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FBCAC340EB;
+        Wed,  2 Feb 2022 14:10:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643810720;
-        bh=7e0Ryuce30XX2NnMZHZ/MK+7uZFBS9sALNKkbx1rJNQ=;
+        s=k20201202; t=1643811007;
+        bh=6uznsR4H3yFEQiaP1m7THbQ2MOu1Lo/N213pW2a1JJY=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=hXFyTvC3rAgal6/vCrlkF7FOU8eNFQ10BSnDH/MIhmjDuMcCkTPyArOYgja5R4Qgb
-         g2Yna1tXJeY1hvjo+CbtSP99Ri+JT+9xel2yVDOsvteYEL5Gg9CEWedBLQWHH4ws/N
-         UHyrQq1rWsIwoItbDmIJNx8BMzAhoBMXxO1I9nhsKCC2EElvLBgo65m6bnxXe9RPE5
-         LaN91etXvmAQDpT/fPFTLKq1L1PYwhvEHKLYM2x4A6ZTAtw32xjcuFCYlo/sr+JTpN
-         hNP+zOdbS3z2BqOUfDABt0v9ZDBdd9aTwWhhJ1dJJ5+nQ/CYxroohNvR/8zxph4Yd2
-         acl0LVCuHRevg==
-Date:   Wed, 2 Feb 2022 15:05:17 +0100 (CET)
+        b=WEV1GWOwYGozfq3wU15ekgvJTOvdsgSPY/6lUN4aU02JNoheDkT2IhXaDaT/X85ny
+         ZZvZTlwsNBcN7Tsl58q2ngqPNEalQg6kN/QAiwk8n7elVGe7ToMfMq1b/0kdFwrz8B
+         RTvl9ZWvL+dj+uX/4YX/v5TPVaH+BWmrUcWvZgeXlq56zknzL5PYEGa6BaHoSfpEqR
+         YOL0cqH0Oh0hFSQ9UxgALB1X6pwTAQLtooj+iFFqsmWBKBdgAoD+Cw98MyNZ8ZOtfr
+         CIcwDdx5CbS0OVkWaHhEbRnUpLkZwzGlUmM4rW+q+EBtPW522AFSAxqyEe9lyXOfUM
+         JuxspxCupXCcA==
+Date:   Wed, 2 Feb 2022 15:10:04 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        Nehal-Bakulchandra.shah@amd.com
-Subject: Re: [PATCH 0/2] Fixes to amd_sfh driver 
-In-Reply-To: <20220131171833.3998492-1-Basavaraj.Natikar@amd.com>
-Message-ID: <nycvar.YFH.7.76.2202021504470.11721@cbobk.fhfr.pm>
-References: <20220131171833.3998492-1-Basavaraj.Natikar@amd.com>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH][next] HID: google: Use struct_size() helper in
+ kzalloc()
+In-Reply-To: <20220125233744.GA81239@embeddedor>
+Message-ID: <nycvar.YFH.7.76.2202021509550.11721@cbobk.fhfr.pm>
+References: <20220125233744.GA81239@embeddedor>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,19 +46,19 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 31 Jan 2022, Basavaraj Natikar wrote:
+On Tue, 25 Jan 2022, Gustavo A. R. Silva wrote:
 
-> Changes include increasing sensor command timeout and
-> adding illuminance mask value.
+> Make use of the struct_size() helper instead of an open-coded version,
+> in order to avoid any potential type mistakes or integer overflows that,
+> in the worst scenario, could lead to heap overflows.
 > 
-> Basavaraj Natikar (2):
->   amd_sfh: Increase sensor command timeout
->   amd_sfh: Add illuminance mask to limit ALS max value
+> Also, address the following sparse warnings:
+> drivers/hid/hid-google-hammer.c:61:23: warning: using sizeof on a flexible structure
+> 
+> Link: https://github.com/KSPP/linux/issues/174
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-Please make sure to follow the convention and always prefix HID patches 
-with 'HID: ' in the shortlog.
-
-I've fixed that up on my side now and applied for 5.17. Thanks,
+Applied, thank you Gustavo.
 
 -- 
 Jiri Kosina
