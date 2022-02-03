@@ -2,38 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A7E84A7D36
-	for <lists+linux-input@lfdr.de>; Thu,  3 Feb 2022 02:07:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BD444A7D42
+	for <lists+linux-input@lfdr.de>; Thu,  3 Feb 2022 02:09:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348740AbiBCBGq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Feb 2022 20:06:46 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:30582 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348744AbiBCBGp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Feb 2022 20:06:45 -0500
+        id S1348761AbiBCBJG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Feb 2022 20:09:06 -0500
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:23112 "EHLO
+        alexa-out-sd-01.qualcomm.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233416AbiBCBJF (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 2 Feb 2022 20:09:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1643850405; x=1675386405;
+  t=1643850545; x=1675386545;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=hPmeaTQkE8t0r9ja4Vb3oUit07T6g2hJbPlhxveWK7g=;
-  b=o6JQAP0QMRrfGZr64fiPik50jP/9ePMbHH+OCvBRcWcdVkvCKYm6/JEl
-   MbakoaEN+ao5xOCE4jKOY57DFPuNNYSizy4QcCVLXABxX24iCDyKwCO/u
-   YYg/xZFyifbfcSVYgt44K/1Qtxcj7r4jgvuO7GReqSngS96tyHObYd6h6
-   I=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 02 Feb 2022 17:06:45 -0800
+  bh=AnJQX6Hs108noH/jyS1i5d0WXn1WwhOydCmt3EILaKM=;
+  b=V99RXqN531TveJlp4japdtsXKpELG6WJ+cBtdh+8KmcjbcWjP35v0CLA
+   FLX3iWxCs1wIziu+6dKzx+TWIkM45dXCeK4sefhRfEc3tR1VVMEU8Zt7w
+   jsfju/zHmjBYdWhjbM5Sw94whp3z6eZ3b8WBxpkXK6MQM/YIFAuP1B0WG
+   k=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 02 Feb 2022 17:09:05 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2022 17:06:44 -0800
+  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2022 17:09:04 -0800
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Wed, 2 Feb 2022 17:06:44 -0800
+ 15.2.922.19; Wed, 2 Feb 2022 17:09:04 -0800
 Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Wed, 2 Feb 2022 17:06:43 -0800
+ 15.2.922.19; Wed, 2 Feb 2022 17:09:03 -0800
 From:   Anjelique Melendez <quic_amelende@quicinc.com>
 To:     <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
@@ -41,9 +42,9 @@ CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <bjorn.andersson@linaro.org>, <swboyd@chromium.org>,
         <skakit@codeaurora.org>,
         Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: [PATCH v3 0/4] Extend pm8941-pwrkey driver 
-Date:   Wed, 2 Feb 2022 17:06:26 -0800
-Message-ID: <20220203010630.20627-1-quic_amelende@quicinc.com>
+Subject: [PATCH v3 1/4] input: misc: pm8941-pwrkey: fix error message
+Date:   Wed, 2 Feb 2022 17:08:03 -0800
+Message-ID: <20220203010804.20883-2-quic_amelende@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -55,32 +56,28 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Changes from v2:
-  - Addressed Stephen's comments
-    - Add Stephen's reviewed by tag for 1/4
-    - Fixed style for 2/4
-    - Corrected function call to use correct function for 3/4
+Currently, error message reads "failed to set debounce". However,
+code is attempting to read revision not set debounce. Fix this.
 
-Changes from v1:
-  - Removed Change-Id from all patches
-  - Updated subject line of cover letter
-  - Addressed Stephen's comments for v1 1/3
-    - Separated error message fix to own patch (v2 1/4)
-    - Separated PON GEN3 base address changes to own patch (v2 2/4)
-    - Added new variables and functions to make code more readable
-  - Removed v1 3/3 as per Bjorn's comments
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+---
+ drivers/input/misc/pm8941-pwrkey.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Anjelique Melendez (2):
-  input: misc: pm8941-pwrkey: fix error message
-  input: misc: pm8941-pwrkey: add support for PON GEN3 base addresses
-
-David Collins (2):
-  input: misc: pm8941-pwrkey: add software key press debouncing support
-  input: misc: pm8941-pwrkey: simulate missed key press events
-
- drivers/input/misc/pm8941-pwrkey.c | 124 +++++++++++++++++++++++++----
- 1 file changed, 110 insertions(+), 14 deletions(-)
-
+diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
+index 33609603245d..e0240db12d4f 100644
+--- a/drivers/input/misc/pm8941-pwrkey.c
++++ b/drivers/input/misc/pm8941-pwrkey.c
+@@ -217,7 +217,7 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+ 	error = regmap_read(pwrkey->regmap, pwrkey->baseaddr + PON_REV2,
+ 			    &pwrkey->revision);
+ 	if (error) {
+-		dev_err(&pdev->dev, "failed to set debounce: %d\n", error);
++		dev_err(&pdev->dev, "failed to read revision: %d\n", error);
+ 		return error;
+ 	}
+ 
 -- 
 2.34.1
 
