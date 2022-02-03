@@ -2,213 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B49AE4A83C0
-	for <lists+linux-input@lfdr.de>; Thu,  3 Feb 2022 13:23:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AD124A85FA
+	for <lists+linux-input@lfdr.de>; Thu,  3 Feb 2022 15:17:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229379AbiBCMXI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Feb 2022 07:23:08 -0500
-Received: from mail-bmxind01olkn2074.outbound.protection.outlook.com ([40.92.103.74]:3758
-        "EHLO IND01-BMX-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231842AbiBCMXH (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 3 Feb 2022 07:23:07 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WnSnL6JHc6DiAI5E7XUQDz0fsi8pdhrdXXyBYoYcUY/gsPXV/yXOzBPyqYYMq0voJyhoxaNYG//9cmg82b7U5YuZYPV9ZVP/POP9LjCly9ibJmsVaGIaTE42evpKb+JipBuIgOA2OAU9l9g5lCnXdgr/LrdbFt+v3JJQ4DaZzHTAUJbkSdtoBVDBnNAphnVKf/lvfJxMW0OE6mjb3kvbhUig1i2LNcayvk5fP6NP8XKCQFiizXteRk5O9pKMSIczzElpKTVn0BIjlfmEYEfigBsNE9tYFlNmvGV1PTX5G7M1hAjqLFdXIaQ32vcy2HJwSN6cwQuF5zwbxVz/HnRAmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=31G4u6wEIIkwYzOfWErw6RaNsoVqvqzkGZmfnLC8M+Y=;
- b=kmtv0R/YAdjy8m6FfE5zJl5p+pGunrcAEEvdpc4Bd4zlDyySdFTmW9P7D6pOjsTiVBSZ82LXCxXltuHRYye2femg4/zsg/7AR7g78uEA4lwUcBWoJ72mDfxzbDgv5Vm71hxyv0SD6h3OmL6v6WozKl+3FsV+16ZUpsnqqPi53e6orZrKXedTZaw6r7fSIdqDgYN7+wYZ3c9LZ3sJvz/MaoeE1rW6YuMXUpDfqqGbVoCXSyK3nZLo+pq6JrlZLn1cfxFawezBT50mr6Wf4R5YugUq/ng0//GUcbOPcsRC9reTNbrZYdwI7XJehnBpKS9P7ZyJL1FdswWoclIQWvb36Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=31G4u6wEIIkwYzOfWErw6RaNsoVqvqzkGZmfnLC8M+Y=;
- b=XhdIt85AOVY7Lg8OcBZ8gwWvSLaWlNY43XJaMu3E8s3GZ2bx4hJdLBWPRPjghiiTx0Zfot5xu5ml1y117oQPut82r6dazKZmmPC4nGajfA524AresKuvbwhPQCpzOuMOq0CdLPKJCTVN64s3NmEPc/D50k9m26EJOvr1O77yY0GyDvLhYTLa3TRD2YjxdCE3l2ytnYwqHwhP3VLMeqw3Dc+qr0YxL32mk8Didpw8SlU8EnteJqh9yYnV6+l/qDXlO0O+Z9v4MLYjeRA3wjr4O6jo8Hzea8fpsbT52afjSKUjVCt8ypxNJf10JIfxL2XzDKn9ga5dTj5pKrdGk6mQbQ==
-Received: from PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1b::13)
- by PN3PR01MB6934.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:a9::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.17; Thu, 3 Feb
- 2022 12:23:02 +0000
-Received: from PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::d19b:7cd1:3760:b055]) by PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::d19b:7cd1:3760:b055%9]) with mapi id 15.20.4951.012; Thu, 3 Feb 2022
- 12:23:02 +0000
-From:   Aditya Garg <gargaditya08@live.com>
-To:     "jkosina@suse.cz" <jkosina@suse.cz>,
-        Jiri Kosina <jikos@kernel.org>,
-        "alexhenrie24@gmail.com" <alexhenrie24@gmail.com>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-CC:     "paul@mrarm.io" <paul@mrarm.io>, Aun-Ali Zaidi <admin@kodeit.net>,
-        Orlando Chamberlain <redecorating@protonmail.com>
-Subject: [PATCH v3 3/3] HID: apple: Add fn mapping for MacBook Pros with Touch
- Bar
-Thread-Topic: [PATCH v3 3/3] HID: apple: Add fn mapping for MacBook Pros with
- Touch Bar
-Thread-Index: AQHYGPjJEELh7X6UMkCMSdLNxORFRg==
-Date:   Thu, 3 Feb 2022 12:23:02 +0000
-Message-ID: <B17D84D1-F91C-4CF0-A931-C19D0278E329@live.com>
-References: <67E7EA8B-CF21-4794-B7B4-96873EE70EF6@live.com>
- <1088ECFE-B356-4731-AC8A-09A4421DD7D1@live.com>
- <D0C26284-966C-4581-BE37-78A6B0B367BB@live.com>
- <9981348D-0D48-4613-A46E-03E9A1897E59@live.com>
-In-Reply-To: <9981348D-0D48-4613-A46E-03E9A1897E59@live.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [v8fSPPYqYFnVLCqIq7YI6GxCi/p4bvY2Z2Lbi1V86uaCoOfE6euGa2B9aCccVU+r]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c62a2cce-35d7-45e5-1d25-08d9e70fec6e
-x-ms-traffictypediagnostic: PN3PR01MB6934:EE_
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XXQD3jKnoQgTbErPoBCYKew7C60DuJP8YbnpIf5A18qMHzGRzGLuoeFBBVFymo/JTSVoD17tlDPTAW1eVuI7Csy7TS9DbTvO17NrOiJb0bZ5HVqlp2nBgmXQQK2ftDshOOvdv1FZwiGz9IHLFHS+3Kec+85ePOK5pYnn7CVzT+jTWfS4RvGYwE8+aEQA5DJdUcZ5/WYgsNhsVsqhF76CbItPexnlAvlenHM7y6gaKLaEllV0jDSBuouxpCISEkpFviSsHqTl6c2TWPLgAy+gAUR43MppxzsUNf2FdcKClr0T52cYh02wasqupAubDCmhXTwg51Kf58mL4ApBSms2/QkrtHVH0LAGke2alPLlG2AvqhlcnGdzRrR6j0yHGvFjHq1hvav0p61dqDgcndZNMJopR7R1VeL7P3i+epTudGNVHRu40LGZFf07aP27l81Bzpsj9ZPcLIYBBIVJ+WWdWSnN5g+8Vwezy0unBqULtGixjyDDXnxrIy76rYgVReZpRhAttL1cyVoPECCfFtB58T8JGZFVKuRJJxm9tpwqiAv8dM849CgPckwQ7bL+rWRJ62R6mJQZQfe3jalrT9Qesg==
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?zXHt7zcLPsz8DdSZ96MaMT3uTMG5SrSyf07dks1bdPUEKSMS8o5b3dUSjQjo?=
- =?us-ascii?Q?U7UJT2/TFyA+TDHno+DbwTqQPKKtphbBxNimB9pLPj2CpUNCjtdUfKGFLPGU?=
- =?us-ascii?Q?SeWCMRd5L7hEOB9hz9RQDMkny4y5tjkc47YNFU/LkdB02JlrhXq3MFameUT7?=
- =?us-ascii?Q?Nq4u5m5Jc9Oir+fxPSa3JLHqP3TDmue2jOtPvo+HqkvTi05DGXcXmUlq/Do4?=
- =?us-ascii?Q?6G0EgDcCFxaZv7GCipRnUJJwS8AAYhuFq49a/3bZPN4U6DI1qivHTdUfRJ0b?=
- =?us-ascii?Q?ffKrrdKD3MsQ2eMZbx9S44zTmrvWuTBxkbrU3A1kZR8gZdnY/rhgRcgsqeB+?=
- =?us-ascii?Q?MohM553V3gYDUeR9zl+fjgJZWBxfpJV1/FiB+m5hKdFDyK2npaQnuWFKnMIw?=
- =?us-ascii?Q?KHbaWq0EehZRjH7qhyfVtaNl+d1OvvC8DbDlqWFbLrOBDyT7q3F9osqF5kz0?=
- =?us-ascii?Q?48g3YLB+ve/8APE+S7EpBoa1SSLZXypBR0xjdFWp95n5b3oD5v1D1pLw0s4s?=
- =?us-ascii?Q?c6p/H5I+0FsErD1B2aU7dRPsaiS3tF/ddHKkNGY2xAdKx48wFk77rmkTMTtk?=
- =?us-ascii?Q?OwMcXmBNFk8LZxAarTLFlAkjwALZoI7gTzOi2TP/jc4z3gU/ZL4vx0UFVqol?=
- =?us-ascii?Q?MDrluAj+e28BmEGLv4qRAWBVq0v+qU/Bbh1E/s94FX/6/4unM74KLl5JCmXo?=
- =?us-ascii?Q?Xej2EsI6yCKQjj21Ojvel9EgzQABTUUirWVbYubvzLsKIEvd3iqt1HiyxuXY?=
- =?us-ascii?Q?RJrxHMPM3IHLrJA/neZiUUk7HTU6Pf+v7KFiiKSUihMKWr3xww1RjbEV+g+M?=
- =?us-ascii?Q?45zjGSXE3nuX6zV5AiT/ZPRZskfL7I1Zbsg1ROu05vNamQ2SBSzQwxar7SJr?=
- =?us-ascii?Q?ZxJDVkn+d4jN/hu1jkCWtaXPlWO2tqOxwg4vUwyFvPL3pQnn2I5iTN2MvNZQ?=
- =?us-ascii?Q?dlI+R/LOQERXd0qy3MPTfO2SpE6/pC72WU/MUUYfT+t/kk1tCcf/8l30K3tc?=
- =?us-ascii?Q?g/1t0XwBnMyWHwHAroB3c1j/pw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <4B76671B3AEB7E42AA39D2E1335B6AA6@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+        id S242051AbiBCOQ7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Feb 2022 09:16:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42287 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234727AbiBCOQ7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 3 Feb 2022 09:16:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1643897818;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9esUFsQ0EqpNJmVQV/p3LlASEe/bz2qMgKZNx2dDMYY=;
+        b=FF+jsj5CnLJS3F3bC+5WUgY0Mb6CpQFS4RMfC0J3Tq5apsaVZjK+dC0xEsOwuWHze3FbFG
+        3RoSIevYaJNWmop+i/XXWsr+edktLz3gEPT/sMAps8//n1+Y0Hfgayml6PZJdLAMyya6vO
+        vK2H61bO+TUnJjGQ8ySxrEp87irqbQQ=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-299-ICEf06F0NzKnoszn5dL5og-1; Thu, 03 Feb 2022 09:16:57 -0500
+X-MC-Unique: ICEf06F0NzKnoszn5dL5og-1
+Received: by mail-pl1-f199.google.com with SMTP id a9-20020a170902710900b0014c8132e8b8so1273699pll.10
+        for <linux-input@vger.kernel.org>; Thu, 03 Feb 2022 06:16:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9esUFsQ0EqpNJmVQV/p3LlASEe/bz2qMgKZNx2dDMYY=;
+        b=IBsJ78DSxZhjaQjl2pNguGnyrR0LpAgzffALYugGE4kuAoKiLN0YMZ1qhjMZwA1lc3
+         wB1iZqldbTBXMVmm/88NI+Q5rMaxBrYzNU7h2ixVivfpQGSEXKFALPvAslasK/T1h00V
+         w2WigNLy7xkOhdFYhP8FFMNB0zHObpbyUOgsi5qdp4QEvb8LrUXQw58Kb91zHciQxKjV
+         w2Eyll760/9rDMdlSZOWT5AZ5Ct5IRJY9icdL9i1XIRZ6/00e4D1EckB1KioisxK2ooJ
+         bbWeqREqRp6mS68VMxECtARFZVokxAUwT3c3vNEs5nxOCRIrNW4VfeNlUt8RjRQI+OrY
+         8ysA==
+X-Gm-Message-State: AOAM533yxvjaCnajhTD9qo+4rjqEmgdJKhEQgSR7AgfWAXDb58qYbcnS
+        g25sBXxsWnUcXcw3R+Q74SZAvxWqpDUnB+nsgzqmW+bM9NJqmI8CtQ1WtJWC/jEKCCjQc+JBHqO
+        GReifIfQZ2qc3nIjO1RG4ZZvakr+P2eQCdIGUr70=
+X-Received: by 2002:a63:fc0b:: with SMTP id j11mr6436190pgi.146.1643897816479;
+        Thu, 03 Feb 2022 06:16:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzqw1ZFdcHPox8+/Kuak9eHhAQsDFBKmjWwyFfUHS7qWXF5R9y+Lnq3ZI1Wcn6EgGNKCoITKT+PaGnVIiUBc1A=
+X-Received: by 2002:a63:fc0b:: with SMTP id j11mr6436163pgi.146.1643897816099;
+ Thu, 03 Feb 2022 06:16:56 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: c62a2cce-35d7-45e5-1d25-08d9e70fec6e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Feb 2022 12:23:02.6488
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB6934
+References: <20220118072628.1617172-1-dmitry.torokhov@gmail.com> <20220118072628.1617172-3-dmitry.torokhov@gmail.com>
+In-Reply-To: <20220118072628.1617172-3-dmitry.torokhov@gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 3 Feb 2022 15:16:44 +0100
+Message-ID: <CAO-hwJL2HKT-7n8ATO-HcY6FP5pHb2C2xgSvdbd7teL_jqL_+g@mail.gmail.com>
+Subject: Re: [PATCH 02/12] HID: i2c-hid: fix GET/SET_REPORT for unnumbered reports
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>, Angela Czubak <acz@semihalf.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Aditya Garg <gargaditya08@live.com>
+On Tue, Jan 18, 2022 at 8:26 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> Internally kernel prepends all report buffers, for both numbered and
+> unnumbered reports, with report ID, therefore to properly handle unnumbered
+> reports we should
 
-This patch adds the Fn mapping for keyboards on certain T2 Macs.
+Nitpick but it seems that this sentence is not
 
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
----
-v2 :- Use better approach to map fn keys
-v3 :- Use BIT(10) for APPLE_BACKLIGHT_CTL since 0x0200 (BIT (9)) has been u=
-sed.
- drivers/hid/hid-apple.c | 62 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+:)
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 658d79375..5448e5a66 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -142,6 +142,51 @@ static const struct apple_key_translation macbookair_f=
-n_keys[] =3D {
- 	{ }
- };
-=20
-+static const struct apple_key_translation macbookpro_no_esc_fn_keys[] =3D =
-{
-+	{ KEY_BACKSPACE, KEY_DELETE },
-+	{ KEY_ENTER,	KEY_INSERT },
-+	{ KEY_GRAVE,	KEY_ESC },
-+	{ KEY_1,	KEY_F1 },
-+	{ KEY_2,	KEY_F2 },
-+	{ KEY_3,	KEY_F3 },
-+	{ KEY_4,	KEY_F4 },
-+	{ KEY_5,	KEY_F5 },
-+	{ KEY_6,	KEY_F6 },
-+	{ KEY_7,	KEY_F7 },
-+	{ KEY_8,	KEY_F8 },
-+	{ KEY_9,	KEY_F9 },
-+	{ KEY_0,	KEY_F10 },
-+	{ KEY_MINUS,	KEY_F11 },
-+	{ KEY_EQUAL,	KEY_F12 },
-+	{ KEY_UP,	KEY_PAGEUP },
-+	{ KEY_DOWN,	KEY_PAGEDOWN },
-+	{ KEY_LEFT,	KEY_HOME },
-+	{ KEY_RIGHT,	KEY_END },
-+	{ }
-+};
-+
-+static const struct apple_key_translation macbookpro_dedicated_esc_fn_keys=
-[] =3D {
-+	{ KEY_BACKSPACE, KEY_DELETE },
-+	{ KEY_ENTER,	KEY_INSERT },
-+	{ KEY_1,	KEY_F1 },
-+	{ KEY_2,	KEY_F2 },
-+	{ KEY_3,	KEY_F3 },
-+	{ KEY_4,	KEY_F4 },
-+	{ KEY_5,	KEY_F5 },
-+	{ KEY_6,	KEY_F6 },
-+	{ KEY_7,	KEY_F7 },
-+	{ KEY_8,	KEY_F8 },
-+	{ KEY_9,	KEY_F9 },
-+	{ KEY_0,	KEY_F10 },
-+	{ KEY_MINUS,	KEY_F11 },
-+	{ KEY_EQUAL,	KEY_F12 },
-+	{ KEY_UP,	KEY_PAGEUP },
-+	{ KEY_DOWN,	KEY_PAGEDOWN },
-+	{ KEY_LEFT,	KEY_HOME },
-+	{ KEY_RIGHT,	KEY_END },
-+	{ }
-+};
-+
- static const struct apple_key_translation apple_fn_keys[] =3D {
- 	{ KEY_BACKSPACE, KEY_DELETE },
- 	{ KEY_ENTER,	KEY_INSERT },
-@@ -269,6 +314,17 @@ static int hidinput_apple_event(struct hid_device *hid=
-, struct input_dev *input,
- 		    hid->product =3D=3D USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2=
-021 ||
- 		    hid->product =3D=3D USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021)
- 			table =3D apple2021_fn_keys;
-+		else if (hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J132 ||
-+			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J680 ||
-+			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J213)
-+				table =3D macbookpro_no_esc_fn_keys;
-+		else if (hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J214K ||
-+			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J223 ||
-+			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J152F)
-+				table =3D macbookpro_dedicated_esc_fn_keys;
-+		else if (hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J140K ||
-+			 hid->product =3D=3D USB_DEVICE_ID_APPLE_WELLSPRINGT2_J230K)
-+				table =3D apple_fn_keys;
- 		else if (hid->product >=3D USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
- 				hid->product <=3D USB_DEVICE_ID_APPLE_WELLSPRING4A_JIS)
- 			table =3D macbookair_fn_keys;
-@@ -480,6 +536,12 @@ static void apple_setup_input(struct input_dev *input)
- 	set_bit(KEY_NUMLOCK, input->keybit);
-=20
- 	/* Enable all needed keys */
-+	for (trans =3D macbookpro_no_esc_fn_keys; trans->from; trans++)
-+		set_bit(trans->to, input->keybit);
-+
-+	for (trans =3D macbookpro_dedicated_esc_fn_keys; trans->from; trans++)
-+		set_bit(trans->to, input->keybit);
-+
- 	for (trans =3D apple_fn_keys; trans->from; trans++)
- 		set_bit(trans->to, input->keybit);
-=20
---=20
-2.25.1
+Cheers,
+Benjamin
 
+>
+> For the same reason we should skip the first byte of the buffer when
+> calling i2c_hid_set_or_send_report() which then will take care of properly
+> formatting the transfer buffer based on its separate report ID argument
+> along with report payload.
+>
+> Fixes: 9b5a9ae88573 ("HID: i2c-hid: implement ll_driver transport-layer callbacks")
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>  drivers/hid/i2c-hid/i2c-hid-core.c | 32 ++++++++++++++++++++++--------
+>  1 file changed, 24 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+> index bd7b0eeca3ea..b383003ff676 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> @@ -611,6 +611,17 @@ static int i2c_hid_get_raw_report(struct hid_device *hid,
+>         if (report_type == HID_OUTPUT_REPORT)
+>                 return -EINVAL;
+>
+> +       /*
+> +        * In case of unnumbered reports the response from the device will
+> +        * not have the report ID that the upper layers expect, so we need
+> +        * to stash it the buffer ourselves and adjust the data size.
+> +        */
+> +       if (!report_number) {
+> +               buf[0] = 0;
+> +               buf++;
+> +               count--;
+> +       }
+> +
+>         /* +2 bytes to include the size of the reply in the query buffer */
+>         ask_count = min(count + 2, (size_t)ihid->bufsize);
+>
+> @@ -632,6 +643,9 @@ static int i2c_hid_get_raw_report(struct hid_device *hid,
+>         count = min(count, ret_count - 2);
+>         memcpy(buf, ihid->rawbuf + 2, count);
+>
+> +       if (!report_number)
+> +               count++;
+> +
+>         return count;
+>  }
+>
+> @@ -648,17 +662,19 @@ static int i2c_hid_output_raw_report(struct hid_device *hid, __u8 *buf,
+>
+>         mutex_lock(&ihid->reset_lock);
+>
+> -       if (report_id) {
+> -               buf++;
+> -               count--;
+> -       }
+> -
+> +       /*
+> +        * Note that both numbered and unnumbered reports passed here
+> +        * are supposed to have report ID stored in the 1st byte of the
+> +        * buffer, so we strip it off unconditionally before passing payload
+> +        * to i2c_hid_set_or_send_report which takes care of encoding
+> +        * everything properly.
+> +        */
+>         ret = i2c_hid_set_or_send_report(client,
+>                                 report_type == HID_FEATURE_REPORT ? 0x03 : 0x02,
+> -                               report_id, buf, count, use_data);
+> +                               report_id, buf + 1, count - 1, use_data);
+>
+> -       if (report_id && ret >= 0)
+> -               ret++; /* add report_id to the number of transfered bytes */
+> +       if (ret >= 0)
+> +               ret++; /* add report_id to the number of transferred bytes */
+>
+>         mutex_unlock(&ihid->reset_lock);
+>
+> --
+> 2.34.1.703.g22d0c6ccf7-goog
+>
 
