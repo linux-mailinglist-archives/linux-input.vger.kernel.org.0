@@ -2,298 +2,247 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 912364A7E04
-	for <lists+linux-input@lfdr.de>; Thu,  3 Feb 2022 03:40:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6E1F4A7F36
+	for <lists+linux-input@lfdr.de>; Thu,  3 Feb 2022 07:10:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349064AbiBCCkm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Feb 2022 21:40:42 -0500
-Received: from mga14.intel.com ([192.55.52.115]:44673 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1349057AbiBCCkl (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 2 Feb 2022 21:40:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643856041; x=1675392041;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=l45lVgeFoDmyu7LIRd40q5vSoxl1folQLuv3T+fdiL4=;
-  b=m/TtNi/RpK3aX6SfPgi1nZgwNjOsSCESSkR+3d0OIWRBtYZ5cBsYLySl
-   fHLAxOdJThkW8oPnoKkic9LxFULkAlia6x4IHsmnhFUG5sna4lWWKqGBH
-   4Nt7Wxx71ImunC0F0bQ0C50NG8YCkLjMdT8bogh4l2YOkswc/U0bN9HtX
-   IAqbbliwu2B3t8I5ebKAtJ0/XgOj/pM8OvQ2C6iUDIBS/tAdExHlEMVeg
-   fpWZPdk5K7LMIh2lIT7OBA5YCNIg2WMM0LDbrbvYEnmJlQcZ41/JBYLQH
-   Djq7NdVXV7xPORKCGl3IW+XFZ+l0SPh2YWiPt2+nd4yoNqFF3/xLmQ59O
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10246"; a="248281652"
-X-IronPort-AV: E=Sophos;i="5.88,338,1635231600"; 
-   d="scan'208";a="248281652"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2022 18:40:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,338,1635231600"; 
-   d="scan'208";a="676642550"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2022 18:40:38 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nFS34-000VRz-BY; Thu, 03 Feb 2022 02:40:38 +0000
-Date:   Thu, 3 Feb 2022 10:39:48 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Anjelique Melendez <quic_amelende@quicinc.com>,
-        dmitry.torokhov@gmail.com
-Cc:     kbuild-all@lists.01.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        collinsd@codeaurora.org, bjorn.andersson@linaro.org,
-        swboyd@chromium.org, skakit@codeaurora.org,
-        Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: Re: [PATCH v3 2/4] input: misc: pm8941-pwrkey: add support for PON
- GEN3 base addresses
-Message-ID: <202202031020.M3pmrtmN-lkp@intel.com>
-References: <20220203010804.20883-3-quic_amelende@quicinc.com>
+        id S236271AbiBCGKF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Feb 2022 01:10:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58332 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231594AbiBCGKE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Feb 2022 01:10:04 -0500
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB1BC061714
+        for <linux-input@vger.kernel.org>; Wed,  2 Feb 2022 22:10:04 -0800 (PST)
+Received: by mail-oi1-x22c.google.com with SMTP id q8so2551861oiw.7
+        for <linux-input@vger.kernel.org>; Wed, 02 Feb 2022 22:10:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MKmeM+WnoFLvijb23qV4KsBBJEj03nwFt1YSDu6ck9w=;
+        b=rTELHwKDKHUPUfPNLKe26ftWpLHryGiAGNR6VLZhSkOCPZQzOwKalebQHsf7hfdWMr
+         74zLVwiW5GxdfsOkZuFx0XLivm3B0HOHzR4cgC4Gky8Nlqgvb7i6Mm7WLoLrmYEZHVzh
+         IE22ruwfcfznkkpbXejlhOZ7X4REG5riFD3xaJCJrzvukwD07kl08453mXj9Fw5J5Uuh
+         eeHMQB2BFmYLwKpUdY7TDXLf4A1uXEwA8eZg8sSnrFZ+Yh8Ra4ZACimzp7X/ADVA1BDU
+         dWT4ITMFLE7scRSWoXbONeuI5zywvo7RCb6DuPxDfQXXxInux783WBV8f7TRj5BoPhxf
+         vG2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MKmeM+WnoFLvijb23qV4KsBBJEj03nwFt1YSDu6ck9w=;
+        b=4MOtZTqF6Y0N9gZINYi5DNt483EJ3FI2stc26WJ60oOPhWaT9QBfymfJdZ1E0Ij9yd
+         ndGL3cUxU5imnnm2p/TQvQkn9cOHHZuW7QElv1ByJHU7hCjCqy2kkJM/q4Hk1q5eelhg
+         KDA7tg/r8OU0S5KKlPfYeQ7RvMDHTUwgnvW9aWApipZWsGDjWjOldxx/5JWiEx0Hyxdm
+         pecOJM44KE2cCa1bnpqsQbTdvmKuKfW3U2g3KS9wqoEHMcpKqfXRQW4V0LAX2zBxtJa9
+         quwfABnfNq0dNR5edtFkOsOeKer+zLpuoQ7G/RxRR4LeGDgIzF9mmkB2hC7AO75zGJrB
+         m2yA==
+X-Gm-Message-State: AOAM532C+laQuU1uKcc1wM8ny6hltounAxcG2brSElVNGhkJBlrCTWXw
+        atco1rI4Y/qJU4vn6Lj8c++Edk1+hN8mgDIEsbiN+Q==
+X-Google-Smtp-Source: ABdhPJyb+iak7jAKX3etgUFSk4G3NxcTObpkuNM3U8QnJ1nLiB/+NGh5qZHKdgDivSKvBl1Ybc0YqDbLmjl/dpYodgo=
+X-Received: by 2002:a05:6808:21a5:: with SMTP id be37mr7298797oib.339.1643868603470;
+ Wed, 02 Feb 2022 22:10:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220203010804.20883-3-quic_amelende@quicinc.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <0000000000000560cc05d4bce058@google.com> <00000000000064159d05d703d683@google.com>
+ <20220203040227.2057-1-hdanton@sina.com>
+In-Reply-To: <20220203040227.2057-1-hdanton@sina.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Thu, 3 Feb 2022 07:09:52 +0100
+Message-ID: <CACT4Y+bm+S-_b3saGichr3aA06rvsXyp28og_CONrh5fRhe8Eg@mail.gmail.com>
+Subject: Re: [syzbot] general protection fault in hidraw_release
+To:     Hillf Danton <hdanton@sina.com>
+Cc:     syzbot <syzbot+953a33deaf38c66a915e@syzkaller.appspotmail.com>,
+        benjamin.tissoires@redhat.com, jikos@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Anjelique,
+On Thu, 3 Feb 2022 at 05:02, Hillf Danton <hdanton@sina.com> wrote:
+>
+> On Tue, 01 Feb 2022 23:19:25 -0800
+> > syzbot has found a reproducer for the following issue on:
+> >
+> > HEAD commit:    9f7fb8de5d9b Merge tag 'spi-fix-v5.17-rc2' of git://git.ke..
+> > git tree:       upstream
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=1653b6cbb00000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3e56c9b92aaaee24
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=953a33deaf38c66a915e
+> > compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15fff530700000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=106469f0700000
+> >
+> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> > Reported-by: syzbot+953a33deaf38c66a915e@syzkaller.appspotmail.com
+> >
+> > ==================================================================
+> > BUG: KASAN: use-after-free in __list_del_entry_valid+0xe0/0xf0 lib/list_debug.c:51
+> > Read of size 8 at addr ffff8880143e8eb0 by task syz-executor753/4862
+> >
+> > CPU: 0 PID: 4862 Comm: syz-executor753 Not tainted 5.17.0-rc2-syzkaller-00039-g9f7fb8de5d9b #0
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> > Call Trace:
+> >  <TASK>
+> >  __dump_stack lib/dump_stack.c:88 [inline]
+> >  dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+> >  print_address_description.constprop.0.cold+0x8d/0x303 mm/kasan/report.c:255
+> >  __kasan_report mm/kasan/report.c:442 [inline]
+> >  kasan_report.cold+0x83/0xdf mm/kasan/report.c:459
+> >  __list_del_entry_valid+0xe0/0xf0 lib/list_debug.c:51
+> >  __list_del_entry include/linux/list.h:134 [inline]
+> >  list_del include/linux/list.h:148 [inline]
+>
+> What is difficult to follow is syzbot instead did not complain at the spin_lock
+> prior to list_del in regard to uaf.
+>
+> Any light on the difficulty is welcome.
 
-Thank you for the patch! Perhaps something to improve:
+Hi Hillf,
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on hid/for-next linux/master linus/master v5.17-rc2 next-20220202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+If you mean these lock/unlock:
 
-url:    https://github.com/0day-ci/linux/commits/Anjelique-Melendez/input-misc-pm8941-pwrkey-fix-error-message/20220203-091113
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20220203/202202031020.M3pmrtmN-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/11f3823037831d0412ab1a6895c5bcf204a3c3b1
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Anjelique-Melendez/input-misc-pm8941-pwrkey-fix-error-message/20220203-091113
-        git checkout 11f3823037831d0412ab1a6895c5bcf204a3c3b1
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=s390 SHELL=/bin/bash drivers/input/misc/
+spin_lock_irqsave(&hidraw_table[minor]->list_lock, flags);
+list_del(&list->node);
+spin_unlock_irqrestore(&hidraw_table[minor]->list_lock, flags);
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/input/misc/pm8941-pwrkey.c: In function 'pm8941_pwrkey_probe':
->> drivers/input/misc/pm8941-pwrkey.c:221:41: warning: passing argument 1 of '__be32_to_cpup' makes pointer from integer without a cast [-Wint-conversion]
-     221 |         pwrkey->baseaddr = be32_to_cpup(*addr);
-         |                                         ^~~~~
-         |                                         |
-         |                                         __be32 {aka unsigned int}
-   In file included from include/linux/byteorder/big_endian.h:5,
-                    from arch/s390/include/uapi/asm/byteorder.h:5,
-                    from include/asm-generic/bitops/le.h:7,
-                    from arch/s390/include/asm/bitops.h:393,
-                    from include/linux/bitops.h:33,
-                    from include/linux/thread_info.h:27,
-                    from arch/s390/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:78,
-                    from arch/s390/include/asm/percpu.h:5,
-                    from include/linux/irqflags.h:17,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/delay.h:23,
-                    from drivers/input/misc/pm8941-pwrkey.c:7:
-   include/uapi/linux/byteorder/big_endian.h:81:59: note: expected 'const __be32 *' {aka 'const unsigned int *'} but argument is of type '__be32' {aka 'unsigned int'}
-      81 | static __always_inline __u32 __be32_to_cpup(const __be32 *p)
-         |                                             ~~~~~~~~~~~~~~^
-   drivers/input/misc/pm8941-pwrkey.c:227:65: warning: passing argument 1 of '__be32_to_cpup' makes pointer from integer without a cast [-Wint-conversion]
-     227 |                         pwrkey->pon_pbs_baseaddr = be32_to_cpup(*addr);
-         |                                                                 ^~~~~
-         |                                                                 |
-         |                                                                 __be32 {aka unsigned int}
-   In file included from include/linux/byteorder/big_endian.h:5,
-                    from arch/s390/include/uapi/asm/byteorder.h:5,
-                    from include/asm-generic/bitops/le.h:7,
-                    from arch/s390/include/asm/bitops.h:393,
-                    from include/linux/bitops.h:33,
-                    from include/linux/thread_info.h:27,
-                    from arch/s390/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:78,
-                    from arch/s390/include/asm/percpu.h:5,
-                    from include/linux/irqflags.h:17,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/delay.h:23,
-                    from drivers/input/misc/pm8941-pwrkey.c:7:
-   include/uapi/linux/byteorder/big_endian.h:81:59: note: expected 'const __be32 *' {aka 'const unsigned int *'} but argument is of type '__be32' {aka 'unsigned int'}
-      81 | static __always_inline __u32 __be32_to_cpup(const __be32 *p)
-         |                                             ~~~~~~~~~~~~~~^
+They seem to operate on a global hidraw_table locks.
+I would assume only this file is corrupted/bad, but the global lock
+table is fine.
 
 
-vim +/__be32_to_cpup +221 drivers/input/misc/pm8941-pwrkey.c
-
-   168	
-   169	static SIMPLE_DEV_PM_OPS(pm8941_pwr_key_pm_ops,
-   170				 pm8941_pwrkey_suspend, pm8941_pwrkey_resume);
-   171	
-   172	static int pm8941_pwrkey_probe(struct platform_device *pdev)
-   173	{
-   174		struct pm8941_pwrkey *pwrkey;
-   175		bool pull_up;
-   176		struct device *parent;
-   177		struct device_node *regmap_node;
-   178		const __be32 *addr;
-   179		u32 req_delay;
-   180		int error;
-   181	
-   182		if (of_property_read_u32(pdev->dev.of_node, "debounce", &req_delay))
-   183			req_delay = 15625;
-   184	
-   185		if (req_delay > 2000000 || req_delay == 0) {
-   186			dev_err(&pdev->dev, "invalid debounce time: %u\n", req_delay);
-   187			return -EINVAL;
-   188		}
-   189	
-   190		pull_up = of_property_read_bool(pdev->dev.of_node, "bias-pull-up");
-   191	
-   192		pwrkey = devm_kzalloc(&pdev->dev, sizeof(*pwrkey), GFP_KERNEL);
-   193		if (!pwrkey)
-   194			return -ENOMEM;
-   195	
-   196		pwrkey->dev = &pdev->dev;
-   197		pwrkey->data = of_device_get_match_data(&pdev->dev);
-   198	
-   199		parent = pdev->dev.parent;
-   200		regmap_node = pdev->dev.of_node;
-   201		pwrkey->regmap = dev_get_regmap(parent, NULL);
-   202		if (!pwrkey->regmap) {
-   203			regmap_node = parent->of_node;
-   204			/*
-   205			 * We failed to get regmap for parent. Let's see if we are
-   206			 * a child of pon node and read regmap and reg from its
-   207			 * parent.
-   208			 */
-   209			pwrkey->regmap = dev_get_regmap(parent->parent, NULL);
-   210			if (!pwrkey->regmap) {
-   211				dev_err(&pdev->dev, "failed to locate regmap\n");
-   212				return -ENODEV;
-   213			}
-   214		}
-   215	
-   216		addr = of_get_address(regmap_node, 0, NULL, NULL);
-   217		if (!addr) {
-   218			dev_err(&pdev->dev, "reg property missing\n");
-   219			return -EINVAL;
-   220		}
- > 221		pwrkey->baseaddr = be32_to_cpup(*addr);
-   222	
-   223		if (pwrkey->data->has_pon_pbs) {
-   224			/* PON_PBS base address is optional */
-   225			addr = of_get_address(regmap_node, 1, NULL, NULL);
-   226			if (addr)
-   227				pwrkey->pon_pbs_baseaddr = be32_to_cpup(*addr);
-   228		}
-   229	
-   230		pwrkey->irq = platform_get_irq(pdev, 0);
-   231		if (pwrkey->irq < 0)
-   232			return pwrkey->irq;
-   233	
-   234		error = regmap_read(pwrkey->regmap, pwrkey->baseaddr + PON_REV2,
-   235				    &pwrkey->revision);
-   236		if (error) {
-   237			dev_err(&pdev->dev, "failed to read revision: %d\n", error);
-   238			return error;
-   239		}
-   240	
-   241		error = of_property_read_u32(pdev->dev.of_node, "linux,code",
-   242					     &pwrkey->code);
-   243		if (error) {
-   244			dev_dbg(&pdev->dev,
-   245				"no linux,code assuming power (%d)\n", error);
-   246			pwrkey->code = KEY_POWER;
-   247		}
-   248	
-   249		pwrkey->input = devm_input_allocate_device(&pdev->dev);
-   250		if (!pwrkey->input) {
-   251			dev_dbg(&pdev->dev, "unable to allocate input device\n");
-   252			return -ENOMEM;
-   253		}
-   254	
-   255		input_set_capability(pwrkey->input, EV_KEY, pwrkey->code);
-   256	
-   257		pwrkey->input->name = pwrkey->data->name;
-   258		pwrkey->input->phys = pwrkey->data->phys;
-   259	
-   260		if (pwrkey->data->supports_debounce_config) {
-   261			req_delay = (req_delay << 6) / USEC_PER_SEC;
-   262			req_delay = ilog2(req_delay);
-   263	
-   264			error = regmap_update_bits(pwrkey->regmap,
-   265						   pwrkey->baseaddr + PON_DBC_CTL,
-   266						   PON_DBC_DELAY_MASK,
-   267						   req_delay);
-   268			if (error) {
-   269				dev_err(&pdev->dev, "failed to set debounce: %d\n",
-   270					error);
-   271				return error;
-   272			}
-   273		}
-   274	
-   275		if (pwrkey->data->pull_up_bit) {
-   276			error = regmap_update_bits(pwrkey->regmap,
-   277						   pwrkey->baseaddr + PON_PULL_CTL,
-   278						   pwrkey->data->pull_up_bit,
-   279						   pull_up ? pwrkey->data->pull_up_bit :
-   280							     0);
-   281			if (error) {
-   282				dev_err(&pdev->dev, "failed to set pull: %d\n", error);
-   283				return error;
-   284			}
-   285		}
-   286	
-   287		error = devm_request_threaded_irq(&pdev->dev, pwrkey->irq,
-   288						  NULL, pm8941_pwrkey_irq,
-   289						  IRQF_ONESHOT,
-   290						  pwrkey->data->name, pwrkey);
-   291		if (error) {
-   292			dev_err(&pdev->dev, "failed requesting IRQ: %d\n", error);
-   293			return error;
-   294		}
-   295	
-   296		error = input_register_device(pwrkey->input);
-   297		if (error) {
-   298			dev_err(&pdev->dev, "failed to register input device: %d\n",
-   299				error);
-   300			return error;
-   301		}
-   302	
-   303		if (pwrkey->data->supports_ps_hold_poff_config) {
-   304			pwrkey->reboot_notifier.notifier_call = pm8941_reboot_notify;
-   305			error = register_reboot_notifier(&pwrkey->reboot_notifier);
-   306			if (error) {
-   307				dev_err(&pdev->dev, "failed to register reboot notifier: %d\n",
-   308					error);
-   309				return error;
-   310			}
-   311		}
-   312	
-   313		platform_set_drvdata(pdev, pwrkey);
-   314		device_init_wakeup(&pdev->dev, 1);
-   315	
-   316		return 0;
-   317	}
-   318	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> >  hidraw_release+0xd5/0x370 drivers/hid/hidraw.c:353
+> >  __fput+0x286/0x9f0 fs/file_table.c:311
+> >  task_work_run+0xdd/0x1a0 kernel/task_work.c:164
+> >  exit_task_work include/linux/task_work.h:32 [inline]
+> >  do_exit+0xb29/0x2a30 kernel/exit.c:806
+> >  do_group_exit+0xd2/0x2f0 kernel/exit.c:935
+> >  __do_sys_exit_group kernel/exit.c:946 [inline]
+> >  __se_sys_exit_group kernel/exit.c:944 [inline]
+> >  __x64_sys_exit_group+0x3a/0x50 kernel/exit.c:944
+> >  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+> >  do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+> >  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> > RIP: 0033:0x7f4256d1c749
+> > Code: Unable to access opcode bytes at RIP 0x7f4256d1c71f.
+> > RSP: 002b:00007fffddc9a4e8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+> > RAX: ffffffffffffffda RBX: 00007f4256d913f0 RCX: 00007f4256d1c749
+> > RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000000
+> > RBP: 0000000000000000 R08: ffffffffffffffc0 R09: 00007fffddc9a560
+> > R10: 0000000000000000 R11: 0000000000000246 R12: 00007f4256d913f0
+> > R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
+> >  </TASK>
+> >
+> > Allocated by task 20:
+> >  kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+> >  kasan_set_track mm/kasan/common.c:45 [inline]
+> >  set_alloc_info mm/kasan/common.c:436 [inline]
+> >  ____kasan_kmalloc mm/kasan/common.c:515 [inline]
+> >  ____kasan_kmalloc mm/kasan/common.c:474 [inline]
+> >  __kasan_kmalloc+0xa6/0xd0 mm/kasan/common.c:524
+> >  kasan_kmalloc include/linux/kasan.h:270 [inline]
+> >  kmem_cache_alloc_trace+0x1ea/0x4a0 mm/slab.c:3567
+> >  kmalloc include/linux/slab.h:581 [inline]
+> >  kzalloc include/linux/slab.h:715 [inline]
+> >  hidraw_connect+0x4b/0x440 drivers/hid/hidraw.c:543
+> >  hid_connect+0x5be/0xbc0 drivers/hid/hid-core.c:1960
+> >  hid_hw_start drivers/hid/hid-core.c:2059 [inline]
+> >  hid_hw_start+0xa2/0x130 drivers/hid/hid-core.c:2050
+> >  hid_generic_probe drivers/hid/hid-generic.c:67 [inline]
+> >  hid_generic_probe+0x6d/0x90 drivers/hid/hid-generic.c:56
+> >  hid_device_probe+0x2bd/0x3f0 drivers/hid/hid-core.c:2380
+> >  call_driver_probe drivers/base/dd.c:517 [inline]
+> >  really_probe+0x245/0xcc0 drivers/base/dd.c:596
+> >  __driver_probe_device+0x338/0x4d0 drivers/base/dd.c:752
+> >  driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:782
+> >  __device_attach_driver+0x20b/0x2f0 drivers/base/dd.c:899
+> >  bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
+> >  __device_attach+0x228/0x4a0 drivers/base/dd.c:970
+> >  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
+> >  device_add+0xc17/0x1ee0 drivers/base/core.c:3405
+> >  hid_add_device+0x344/0x9d0 drivers/hid/hid-core.c:2530
+> >  uhid_device_add_worker+0x36/0x60 drivers/hid/uhid.c:73
+> >  process_one_work+0x9ac/0x1650 kernel/workqueue.c:2307
+> >  worker_thread+0x657/0x1110 kernel/workqueue.c:2454
+> >  kthread+0x2e9/0x3a0 kernel/kthread.c:377
+> >  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+> >
+> > Freed by task 4861:
+> >  kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+> >  kasan_set_track+0x21/0x30 mm/kasan/common.c:45
+> >  kasan_set_free_info+0x20/0x30 mm/kasan/generic.c:370
+> >  ____kasan_slab_free mm/kasan/common.c:366 [inline]
+> >  ____kasan_slab_free mm/kasan/common.c:328 [inline]
+> >  __kasan_slab_free+0xee/0x130 mm/kasan/common.c:374
+> >  kasan_slab_free include/linux/kasan.h:236 [inline]
+> >  __cache_free mm/slab.c:3437 [inline]
+> >  kfree+0xf6/0x290 mm/slab.c:3794
+> >  drop_ref+0x28f/0x390 drivers/hid/hidraw.c:335
+> >  hidraw_release+0x255/0x370 drivers/hid/hidraw.c:357
+> >  __fput+0x286/0x9f0 fs/file_table.c:311
+> >  task_work_run+0xdd/0x1a0 kernel/task_work.c:164
+> >  exit_task_work include/linux/task_work.h:32 [inline]
+> >  do_exit+0xb29/0x2a30 kernel/exit.c:806
+> >  do_group_exit+0xd2/0x2f0 kernel/exit.c:935
+> >  __do_sys_exit_group kernel/exit.c:946 [inline]
+> >  __se_sys_exit_group kernel/exit.c:944 [inline]
+> >  __x64_sys_exit_group+0x3a/0x50 kernel/exit.c:944
+> >  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+> >  do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+> >  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> >
+> > The buggy address belongs to the object at ffff8880143e8e00
+> >  which belongs to the cache kmalloc-192 of size 192
+> > The buggy address is located 176 bytes inside of
+> >  192-byte region [ffff8880143e8e00, ffff8880143e8ec0)
+> > The buggy address belongs to the page:
+> > page:ffffea000050fa00 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x143e8
+> > flags: 0xfff00000000200(slab|node=0|zone=1|lastcpupid=0x7ff)
+> > raw: 00fff00000000200 ffffea000050f188 ffffea000050fc48 ffff888010c40000
+> > raw: 0000000000000000 ffff8880143e8000 0000000100000010 0000000000000000
+> > page dumped because: kasan: bad access detected
+> > page_owner tracks the page as allocated
+> > page last allocated via order 0, migratetype Unmovable, gfp_mask 0x2420c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_COMP|__GFP_THISNODE), pid 1, ts 2151082992, free_ts 0
+> >  prep_new_page mm/page_alloc.c:2434 [inline]
+> >  get_page_from_freelist+0xa72/0x2f50 mm/page_alloc.c:4165
+> >  __alloc_pages+0x1b2/0x500 mm/page_alloc.c:5389
+> >  __alloc_pages_node include/linux/gfp.h:572 [inline]
+> >  kmem_getpages mm/slab.c:1378 [inline]
+> >  cache_grow_begin+0x75/0x350 mm/slab.c:2584
+> >  cache_alloc_refill+0x27f/0x380 mm/slab.c:2957
+> >  ____cache_alloc mm/slab.c:3040 [inline]
+> >  ____cache_alloc mm/slab.c:3023 [inline]
+> >  __do_cache_alloc mm/slab.c:3267 [inline]
+> >  slab_alloc mm/slab.c:3308 [inline]
+> >  kmem_cache_alloc_trace+0x380/0x4a0 mm/slab.c:3565
+> >  kmalloc include/linux/slab.h:581 [inline]
+> >  kzalloc include/linux/slab.h:715 [inline]
+> >  call_usermodehelper_setup+0x9d/0x340 kernel/umh.c:365
+> >  kobject_uevent_env+0xf28/0x1600 lib/kobject_uevent.c:614
+> >  kernel_add_sysfs_param kernel/params.c:816 [inline]
+> >  param_sysfs_builtin kernel/params.c:851 [inline]
+> >  param_sysfs_init+0x367/0x43b kernel/params.c:970
+> >  do_one_initcall+0x103/0x650 init/main.c:1300
+> >  do_initcall_level init/main.c:1373 [inline]
+> >  do_initcalls init/main.c:1389 [inline]
+> >  do_basic_setup init/main.c:1408 [inline]
+> >  kernel_init_freeable+0x6b1/0x73a init/main.c:1613
+> >  kernel_init+0x1a/0x1d0 init/main.c:1502
+> >  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+> > page_owner free stack trace missing
+> >
+> > Memory state around the buggy address:
+> >  ffff8880143e8d80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+> >  ffff8880143e8e00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > >ffff8880143e8e80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+> >                                      ^
+> >  ffff8880143e8f00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> >  ffff8880143e8f80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+> > ==================================================================
+>
+> --
+> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/20220203040227.2057-1-hdanton%40sina.com.
