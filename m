@@ -2,173 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C8D04A9DCE
-	for <lists+linux-input@lfdr.de>; Fri,  4 Feb 2022 18:39:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0CB64A9ED9
+	for <lists+linux-input@lfdr.de>; Fri,  4 Feb 2022 19:21:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376940AbiBDRjz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Feb 2022 12:39:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51288 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S242179AbiBDRjz (ORCPT
+        id S1351766AbiBDSU7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Feb 2022 13:20:59 -0500
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:12986 "EHLO
+        alexa-out-sd-01.qualcomm.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234002AbiBDSU7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 4 Feb 2022 12:39:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1643996394;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=RwdlLaI9hrL3aoBPofjWPEzosZqB3Rl5UgTRRI9h+2k=;
-        b=hYdMuCF5bOL/PhoR9dW5/8zh3OAwBm5Wn1/z54eVDFVL0vKjf4gxXGdTib46kPtpfrKod0
-        Jj2L0nHzeRc59wUyC4xpixrr2bPQVr41UsewH1E9tniZ97yLNSEF7iRxGf8iqC6rAZ5ieL
-        QTrJ2vltZuFa9XTbNhyGafZ2MOmd74U=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-401-MQUfhIsSOOmTj26RSZZIdg-1; Fri, 04 Feb 2022 12:39:53 -0500
-X-MC-Unique: MQUfhIsSOOmTj26RSZZIdg-1
-Received: by mail-pj1-f69.google.com with SMTP id y14-20020a17090ad70e00b001b4fc2943b3so9076257pju.8
-        for <linux-input@vger.kernel.org>; Fri, 04 Feb 2022 09:39:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RwdlLaI9hrL3aoBPofjWPEzosZqB3Rl5UgTRRI9h+2k=;
-        b=TQpsAERVRrBmS8g5CpHlf3zzDSoKBVmk65xvvx74o9MpNF5otlMbPh24moNIfm8mCc
-         aDpQ91BTmY5tB/Q3zY1Jug5KOX1MJ90nyhZK/lNDp+vei4MHJTFF7RhZK8wK12VYouD+
-         +PlPQ+cAGgqsPaaBgNmiFM5/ZJ0GMzemqMRXVehTAX4ALjPmVyRnBmufV/2wnsGfZ7Y5
-         U8v5J0Y2c/Txh0Ann0ff9RjvAWMcEMny+GjwyPvZH6+hr1rsHwRXcPcrIMCbRrQe3cwF
-         MyzK92e4rme54WkHdxNr4mUZFmAplJ7S/G3i1IvORXNvrZaVx3gLkigt2dYpSTK7OiT4
-         Ur/Q==
-X-Gm-Message-State: AOAM530P+3ewnPpmZBU59fsqTKSAQrq0JCTMNM+B4a0EdXSdVwY7JRj7
-        dKVQAc9IbxQTU4D4yewuTm7Lo9PBXNnKAlCfbCYjxN7hL5HIZ8vRTc8Wf0MuN6f9tePpCsceK9N
-        W+XQ+M85ocvjpz/MRsJKJW02V/E/BRBL3u2RrtL4=
-X-Received: by 2002:a63:e84f:: with SMTP id a15mr66520pgk.191.1643996392133;
-        Fri, 04 Feb 2022 09:39:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJydOlFPrtJ/KJ9iJkO5qRi/aNsHQgT5KgAkBYsEISuEh4KZOhObQkWNCKuDo38mudAyxgehndeKd7BrobueX6Q=
-X-Received: by 2002:a63:e84f:: with SMTP id a15mr66497pgk.191.1643996391763;
- Fri, 04 Feb 2022 09:39:51 -0800 (PST)
+        Fri, 4 Feb 2022 13:20:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1643998859; x=1675534859;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=QNQNR8pSD+bvmM7QVunNiubutry5FOQGRyE/RWkBNGQ=;
+  b=RTcirssTTj+yIsmm6lDPWOtmS7Qyx7Q/dq4qMCCKmdpPumLLwiSS4Dqr
+   3S4f4iRJ6uLfwM2dbWYd2sJiSRLfGmyOMEghw4IRGGUZjEUaYRNZUfIZ8
+   jXOmLYkrMHeVnN4o463mB91hhKdXDL4xeK8OxeaTXVINfnRbTKcXb9NgB
+   c=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 04 Feb 2022 10:20:59 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2022 10:20:58 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Fri, 4 Feb 2022 10:20:58 -0800
+Received: from [10.110.74.239] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Fri, 4 Feb 2022
+ 10:20:58 -0800
+Message-ID: <8ccb18ce-5d86-47dd-dec1-8fc1c27dcba1@quicinc.com>
+Date:   Fri, 4 Feb 2022 10:20:57 -0800
 MIME-Version: 1.0
-References: <s5hleyqwowl.wl-tiwai@suse.de>
-In-Reply-To: <s5hleyqwowl.wl-tiwai@suse.de>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 4 Feb 2022 18:39:40 +0100
-Message-ID: <CAO-hwJK-7migm7VWkwvTPHwxgTZEbNX0XYpk0A1pr6N2jkYrxw@mail.gmail.com>
-Subject: Re: Wrongly bound Elantech touchpad on Lenovo Yoga Slim 7
-To:     Takashi Iwai <tiwai@suse.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans De Goede <hdegoede@redhat.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 2/4] input: misc: pm8941-pwrkey: add support for PON
+ GEN3 base addresses
+Content-Language: en-US
+To:     Stephen Boyd <swboyd@chromium.org>, <dmitry.torokhov@gmail.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <collinsd@codeaurora.org>,
+        <bjorn.andersson@linaro.org>, <skakit@codeaurora.org>
+References: <20220203010804.20883-2-quic_amelende@quicinc.com>
+ <20220203010804.20883-3-quic_amelende@quicinc.com>
+ <CAE-0n51vAD-_0e0sBKECfx51B2a6-BK59LnRp6uGHejU_f3rGQ@mail.gmail.com>
+From:   Anjelique Melendez <quic_amelende@quicinc.com>
+In-Reply-To: <CAE-0n51vAD-_0e0sBKECfx51B2a6-BK59LnRp6uGHejU_f3rGQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
 
-[adding Dmitry, the maintainer of the input tree and Hans, a colleague of mine]
 
-On Fri, Feb 4, 2022 at 5:57 PM Takashi Iwai <tiwai@suse.de> wrote:
->
-> Hi,
->
-> we've got a bug report on openSUSE Bugzilla about the broken touchpad
-> on Lenovo Yoga Slim 7:
->   https://bugzilla.opensuse.org/show_bug.cgi?id=1193064
->
-> The touchpad is an Elantech one, connected over i2c, and there are two
-> drivers supporting it.  Unfortunately, the default one the system
-> binds, elan-i2c input driver, doesn't seem working properly, while
-> i2c-hid driver works.
+On 2/3/2022 1:16 PM, Stephen Boyd wrote:
+> Quoting Anjelique Melendez (2022-02-02 17:08:05)
+>> diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
+>> index e0240db12d4f..2a42a676b021 100644
+>> --- a/drivers/input/misc/pm8941-pwrkey.c
+>> +++ b/drivers/input/misc/pm8941-pwrkey.c
+>> @@ -200,15 +207,21 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+>>                         dev_err(&pdev->dev, "failed to locate regmap\n");
+>>                         return -ENODEV;
+>>                 }
+>> +       }
+>>
+>> -               error = of_property_read_u32(parent->of_node,
+>> -                                            "reg", &pwrkey->baseaddr);
+>> -       } else {
+>> -               error = of_property_read_u32(pdev->dev.of_node, "reg",
+>> -                                            &pwrkey->baseaddr);
+>> +       addr = of_get_address(regmap_node, 0, NULL, NULL);
+>> +       if (!addr) {
+>> +               dev_err(&pdev->dev, "reg property missing\n");
+>> +               return -EINVAL;
+>> +       }
+>> +       pwrkey->baseaddr = be32_to_cpup(*addr);
+>> +
+>> +       if (pwrkey->data->has_pon_pbs) {
+>> +               /* PON_PBS base address is optional */
+>> +               addr = of_get_address(regmap_node, 1, NULL, NULL);
+>> +               if (addr)
+>> +                       pwrkey->pon_pbs_baseaddr = be32_to_cpup(*addr);
+> 
+> With the deref dropped.
+> 
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 
-Hans, we do have a similar bug on RHEL at
-https://bugzilla.redhat.com/show_bug.cgi?id=2029078 (sorry, private
-bug).
-
-IIRC you worked on the discrimination between i2c-hid and elan_i2c (I
-might be completely wrong though).
-Would this patch be OK with you?
-
-Cheers,
-Benjamin
-
->
-> I'm not sure what's the best fix for this, but below a quick
-> workaround using a deny list with DMI matching.
-> If this is OK, I can resubmit the patch for merging.
->
-> Any comments appreciated.
->
->
-> thanks,
->
-> Takashi
->
-> -- 8< --
-> From: Takashi Iwai <tiwai@suse.de>
-> Subject: [PATCH] Input: elan_i2c: Add deny list for Lenovo Yoga Slim 7
->
-> The touchpad on Lenovo Yoga Slim 7 doesn't work well with elan-i2c but
-> rather better with i2c-hid.  Add a deny list for avoiding to bind with
-> elan-i2c.
->
-> BugLink: https://bugzilla.opensuse.org/show_bug.cgi?id=1193064
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->  drivers/input/mouse/elan_i2c_core.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
-> index 47af62c12267..fd08481f7aea 100644
-> --- a/drivers/input/mouse/elan_i2c_core.c
-> +++ b/drivers/input/mouse/elan_i2c_core.c
-> @@ -18,6 +18,7 @@
->  #include <linux/acpi.h>
->  #include <linux/delay.h>
->  #include <linux/device.h>
-> +#include <linux/dmi.h>
->  #include <linux/firmware.h>
->  #include <linux/i2c.h>
->  #include <linux/init.h>
-> @@ -1222,6 +1223,20 @@ static void elan_disable_regulator(void *_data)
->         regulator_disable(data->vcc);
->  }
->
-> +static const struct dmi_system_id elan_i2c_denylist[] __initconst = {
-> +#if IS_ENABLED(CONFIG_I2C_HID_ACPI)
-> +       {
-> +               /* Lenovo Yoga Slim 7 is better supported by i2c-hid */
-> +               .matches = {
-> +                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> +                       DMI_MATCH(DMI_PRODUCT_NAME, "82A3"),
-> +                       DMI_MATCH(DMI_PRODUCT_VERSION, "Yoga Slim 7 14ITL05"),
-> +               },
-> +       },
-> +#endif
-> +       { }
-> +};
-> +
->  static int elan_probe(struct i2c_client *client,
->                       const struct i2c_device_id *dev_id)
->  {
-> @@ -1233,6 +1248,10 @@ static int elan_probe(struct i2c_client *client,
->
->         if (IS_ENABLED(CONFIG_MOUSE_ELAN_I2C_I2C) &&
->             i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-> +               if (dmi_check_system(elan_i2c_denylist)) {
-> +                       dev_info(dev, "Hits deny list, skipping\n");
-> +                       return -ENODEV;
-> +               }
->                 transport_ops = &elan_i2c_ops;
->         } else if (IS_ENABLED(CONFIG_MOUSE_ELAN_I2C_SMBUS) &&
->                    i2c_check_functionality(client->adapter,
-> --
-> 2.31.1
->
->
->
->
->
->
->
-
+ACK
