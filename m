@@ -2,48 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B5F24AA10F
+	by mail.lfdr.de (Postfix) with ESMTP id A62014AA110
 	for <lists+linux-input@lfdr.de>; Fri,  4 Feb 2022 21:20:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237040AbiBDUU1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Feb 2022 15:20:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45550 "EHLO
+        id S237211AbiBDUU2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Feb 2022 15:20:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235602AbiBDUU1 (ORCPT
+        with ESMTP id S235784AbiBDUU1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>); Fri, 4 Feb 2022 15:20:27 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF67FC061714
-        for <linux-input@vger.kernel.org>; Fri,  4 Feb 2022 12:20:23 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id oa14-20020a17090b1bce00b001b61aed4a03so7103294pjb.5
-        for <linux-input@vger.kernel.org>; Fri, 04 Feb 2022 12:20:23 -0800 (PST)
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4187C06173E
+        for <linux-input@vger.kernel.org>; Fri,  4 Feb 2022 12:20:24 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id l1so1635550pjn.4
+        for <linux-input@vger.kernel.org>; Fri, 04 Feb 2022 12:20:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dLARV2vLdWLNe3OrNFwcSKvwDX7YeJ8H8pVDXRolev4=;
-        b=ND6Z5G67g+DxqXki7u9odJVfwkIKOrMaJ5SU5867ElihufYb/a9f5JSf5tVgRu/t7O
-         EDPs6hyiXSQYbgVgy8aLchl6WVEpG+h5VYAc/wwiFPE/tzWC7s47ewqB04+ysgLxb1ns
-         k98R/bMDTgRKp8JYJEB89ifjYvf1/LYmcldLo=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=hIUv1MO1iy6sJ6WYNc3M1xUaiyEzoDA2Zqsi2W+B1jw=;
+        b=B8DEv/UQfza4NiLvx5+FMWS6eWfCad/NG2Iuh8em+mborNFxW36oGKfNmHA+k4EKbv
+         34upCx6i1VyR6H4elqTcDjAe8qi1FNjWGIiP8Vy04zHa2/mbZA7gHiEaFMqZMA+Xl/+9
+         79Vo0YX5u7mvKXUbwRZGUMoxx0AoPsQNr3aTE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dLARV2vLdWLNe3OrNFwcSKvwDX7YeJ8H8pVDXRolev4=;
-        b=vZreyqm3BZUk/AdxhwzDrPkzeUB8N7vvapC9pIk7QRT9AvlYPLxFWt7PgBTR2SslOw
-         7HX2qD8rDK7ug7yh864vfWlJYTnDkTQ0TaoWLs3UDgPsAezIN64elPWbKNg8vyqR1NvX
-         Cz5WuoxD+kk9zd9zPNWFjyA5xQQiBRDPRci6CuRZcKNqBZzKuvanlIsZkuXpD9CMnc/1
-         mXy4K81S6Eha8wYjuVOQSJex/fxNzrxnUtEl2pzaJyxsMi1tuy8UuDzPmVYtBdEK8Dke
-         P27WjLFOU0YrSETKeNebwYDOZ8rOUhChRD/J2GlhHHirQiWDBi2ezSpD4qjDYBZ2+zcb
-         7zow==
-X-Gm-Message-State: AOAM533E2DFFXP9oR2BuhMULQVXnmmPFEHYFeNfmeZsLX8loi/laJqD5
-        PJy9VCXx1i1pk7a8WxDsDgTdSQ==
-X-Google-Smtp-Source: ABdhPJzm3EO4H389nY6yX0Tt9nBk2CzFTDFDs0/faYX3/qgT+O8jdGNioVY+F+7LIKavGkvjo9EH5g==
-X-Received: by 2002:a17:90b:3698:: with SMTP id mj24mr5035079pjb.220.1644006023368;
-        Fri, 04 Feb 2022 12:20:23 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=hIUv1MO1iy6sJ6WYNc3M1xUaiyEzoDA2Zqsi2W+B1jw=;
+        b=uUunLNr6XEvStr7XieeD7OZMtuWggZboyGmwQCJXD/5g5+MHeO+P7onyFvmiFJr219
+         aIBTr8cURQTYJKG8ok6eGyv2zYbkeKtEZ8ejtVZaxGgD83Daxt3EmQ21mqFNYlj9C6/2
+         iYZC1UUsfmt6EEH+AQCaTzgdK3oUgkCXXIb5otvAloXON11noxMTcw9Ri/TTSgRqt+ic
+         HXLvxwLpC+bdX4qmHD68NaQxSqmpfya5L5PZWihpspJSrMit5SoKKo/OnItmmXfF0xw7
+         2bQwM2pzSAXg/xPBrBqNRXcvqv6xTpQLrrsP7XsGeED0hMuklzwkw0rafFI1KvPrzHUS
+         yQ3w==
+X-Gm-Message-State: AOAM531DmiN8kVqfKuQ9rWsGnRJ+k46/NunhDUENYwCnyXaopXPpYDhF
+        hfbtEtXAsUQ7djrIP61tHPFlygIOKwGsKw==
+X-Google-Smtp-Source: ABdhPJycvyGMuUD4ZFKKoIUOW4gSawF+pLMxgQJKQNHGGkgRQruC7lpRN2AOdG33xdVZhvw1ElNrNA==
+X-Received: by 2002:a17:903:41c6:: with SMTP id u6mr4932478ple.6.1644006024339;
+        Fri, 04 Feb 2022 12:20:24 -0800 (PST)
 Received: from smtp.gmail.com ([2620:15c:202:201:1ba2:dd59:3b59:18bc])
-        by smtp.gmail.com with ESMTPSA id q17sm3385561pfk.108.2022.02.04.12.20.22
+        by smtp.gmail.com with ESMTPSA id q17sm3385561pfk.108.2022.02.04.12.20.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Feb 2022 12:20:22 -0800 (PST)
+        Fri, 04 Feb 2022 12:20:24 -0800 (PST)
 From:   Stephen Boyd <swboyd@chromium.org>
 To:     benjamin.tissoires@redhat.com,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -52,63 +52,77 @@ Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         "Sean O'Brien" <seobrien@chromium.org>,
         Douglas Anderson <dianders@chromium.org>,
         Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
-Subject: [PATCH 0/5] Input/HID: Consolidate ChromeOS Vivaldi keyboard logic
-Date:   Fri,  4 Feb 2022 12:20:16 -0800
-Message-Id: <20220204202021.895426-1-swboyd@chromium.org>
+Subject: [PATCH 1/5] Input: atkbd: Convert function_row_physmap to u16 array
+Date:   Fri,  4 Feb 2022 12:20:17 -0800
+Message-Id: <20220204202021.895426-2-swboyd@chromium.org>
 X-Mailer: git-send-email 2.35.0.263.gb82422642f-goog
+In-Reply-To: <20220204202021.895426-1-swboyd@chromium.org>
+References: <20220204202021.895426-1-swboyd@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This is a follow-on to this thread[1] where we discussed the need to
-support the vivaldi keyboard function row keys in the google hammer
-driver. I've extracted the common code into a new vivaldi-keymap.c file
-that can be used by the various keyboard drivers used on ChromeOS
-devices to expose the function_row_physmap sysfs attribute. That's a
-good place to keep the HID parsing logic for the vivaldi and hammer
-keyboards too, so one function goes there for that as well. Finally, we
-add support for the function row physmap attribute to the hammer driver.
+This is a u32 array because the device property is an array of u32s.
+Convert this to a u16 array to save a little space and to ease the
+transition to a common physmap function in the next patch.
 
-Cc: Jiri Kosina <jikos@kernel.org> 
+Cc: Jiri Kosina <jikos@kernel.org>
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: "Sean O'Brien" <seobrien@chromium.org>
 Cc: Douglas Anderson <dianders@chromium.org>
 Cc: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+---
 
-Stephen Boyd (4):
-  Input: atkbd: Convert function_row_physmap to u16 array
-  Input: Extract ChromeOS vivaldi physmap show function
-  HID: Extract vivaldi hid feature mapping for use in hid-hammer
-  HID: google: Add support for vivaldi to hid-hammer
+Note this makes a large array on the stack (32 * 24 = 768 bytes). It
+could be moved to the heap with a kmalloc or we could accept the extra
+16 * 24 = 384 bytes for the vivaldi_data struct if it has a u32, or we
+can be more precise and make that a u16 pointer in vivaldi_data and move 
+the array to the heap.
 
-Zhengqiao Xia (1):
-  HID: google: modify HID device groups of eel
+ drivers/input/keyboard/atkbd.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
- drivers/hid/Kconfig                   |   2 +
- drivers/hid/hid-google-hammer.c       |  97 +++++++++++++++-----
- drivers/hid/hid-vivaldi.c             |  88 +-----------------
- drivers/input/Kconfig                 |   7 ++
- drivers/input/Makefile                |   1 +
- drivers/input/keyboard/Kconfig        |   2 +
- drivers/input/keyboard/atkbd.c        |  27 +++---
- drivers/input/keyboard/cros_ec_keyb.c |  30 +++----
- drivers/input/vivaldi-keymap.c        | 125 ++++++++++++++++++++++++++
- include/linux/input/vivaldi-keymap.h  |  37 ++++++++
- 10 files changed, 274 insertions(+), 142 deletions(-)
- create mode 100644 drivers/input/vivaldi-keymap.c
- create mode 100644 include/linux/input/vivaldi-keymap.h
-
-[1] https://lore.kernel.org/r/nycvar.YFH.7.76.2201140935460.28059@cbobk.fhfr.pm
-
-base-commit: 26291c54e111ff6ba87a164d85d4a4e134b7315c
+diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
+index fbdef95291e9..721cde982637 100644
+--- a/drivers/input/keyboard/atkbd.c
++++ b/drivers/input/keyboard/atkbd.c
+@@ -237,7 +237,7 @@ struct atkbd {
+ 	/* Serializes reconnect(), attr->set() and event work */
+ 	struct mutex mutex;
+ 
+-	u32 function_row_physmap[MAX_FUNCTION_ROW_KEYS];
++	u16 function_row_physmap[MAX_FUNCTION_ROW_KEYS];
+ 	int num_function_row_keys;
+ };
+ 
+@@ -1202,14 +1202,17 @@ static void atkbd_parse_fwnode_data(struct serio *serio)
+ {
+ 	struct atkbd *atkbd = serio_get_drvdata(serio);
+ 	struct device *dev = &serio->dev;
+-	int n;
++	int i, n;
++	u32 physmap[MAX_FUNCTION_ROW_KEYS];
+ 
+ 	/* Parse "function-row-physmap" property */
+ 	n = device_property_count_u32(dev, "function-row-physmap");
+ 	if (n > 0 && n <= MAX_FUNCTION_ROW_KEYS &&
+ 	    !device_property_read_u32_array(dev, "function-row-physmap",
+-					    atkbd->function_row_physmap, n)) {
++					    physmap, n)) {
+ 		atkbd->num_function_row_keys = n;
++		for (i = 0; i < n; i++)
++			atkbd->function_row_physmap[i] = physmap[i];
+ 		dev_dbg(dev, "FW reported %d function-row key locations\n", n);
+ 	}
+ }
 -- 
 https://chromeos.dev
 
