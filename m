@@ -2,106 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFD314AA3B5
-	for <lists+linux-input@lfdr.de>; Fri,  4 Feb 2022 23:57:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EF994AA3F3
+	for <lists+linux-input@lfdr.de>; Sat,  5 Feb 2022 00:05:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356699AbiBDW5f (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Feb 2022 17:57:35 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:32505 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356551AbiBDW5f (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Feb 2022 17:57:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1644015455; x=1675551455;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Ss1yJ8C2o2JNvk+SxQ1vw9WaY3rA4Jk7i+Ds45rTd/o=;
-  b=ozg4RIcACpBmObsDl69zuqi+FFLiiyJp8dhNymFU0FOpZ+ADDZAgQD0L
-   n7UFRJmEhkHIUZTyVSyUI6K3fXBo268IgwlPIpcG0IWvmLPvIq/0r2yhB
-   7nYDeM4eSaFFUEl9HKl2HLXzbmkQ8jeeWMmAv/r1UtnJmmdd9sdDrSaFx
-   0=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 04 Feb 2022 14:57:35 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2022 14:57:34 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Fri, 4 Feb 2022 14:57:34 -0800
-Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Fri, 4 Feb 2022 14:57:33 -0800
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-To:     <dmitry.torokhov@gmail.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <collinsd@codeaurora.org>,
-        <bjorn.andersson@linaro.org>, <swboyd@chromium.org>,
-        <skakit@codeaurora.org>,
-        Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: [PATCH v4 4/4] input: misc: pm8941-pwrkey: simulate missed key press events
-Date:   Fri, 4 Feb 2022 14:56:04 -0800
-Message-ID: <20220204225600.1663-5-quic_amelende@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220204225600.1663-1-quic_amelende@quicinc.com>
-References: <20220204225600.1663-1-quic_amelende@quicinc.com>
+        id S1377247AbiBDXE7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Feb 2022 18:04:59 -0500
+Received: from mga18.intel.com ([134.134.136.126]:46407 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1376312AbiBDXE6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 4 Feb 2022 18:04:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644015898; x=1675551898;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=861LxwAxTcjqLzCznC0PQu9lKsLTusKaC3uSWwNiJDk=;
+  b=i2Z4fMSDNaMRPpt+mN2QnimW80NHZ+a0MsEIHht3X5pgbDdiS8WGBM+V
+   aMu6ayC2gomljPBWU3+19cu1YaW8pamUBqqluZZz8uEbvY34eOY2KZSsM
+   iGzyX1Oxt2y9BRSCA50hlTkHmEziyMdNlkxGw2Sl96hsdnznfcME032iB
+   SSg94vkfIwJ645lLese518upXGRYoWnqrK6AHLtcMGe5yfY5HZNGcOFUA
+   I9VOPaqoSC8mmvPU2BI2n5po3G+SvPOvdkFkk7E7rtmj7BPye6paDln7f
+   fNxWe1OAbgKK3hNotnF79HRxN3tLxSrzs+qp0XvC0yBO07nPjBbcNAIB1
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10248"; a="232024503"
+X-IronPort-AV: E=Sophos;i="5.88,344,1635231600"; 
+   d="scan'208";a="232024503"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2022 15:04:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,344,1635231600"; 
+   d="scan'208";a="631843346"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 04 Feb 2022 15:04:56 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nG7dP-000YHT-FE; Fri, 04 Feb 2022 23:04:55 +0000
+Date:   Sat, 5 Feb 2022 07:04:36 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org
+Subject: Re: Wrongly bound Elantech touchpad on Lenovo Yoga Slim 7
+Message-ID: <202202050657.m9Z8VsGr-lkp@intel.com>
+References: <s5hleyqwowl.wl-tiwai@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <s5hleyqwowl.wl-tiwai@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: David Collins <collinsd@codeaurora.org>
+Hi Takashi,
 
-The status of the keys connected to the KPDPWR_N and RESIN_N pins
-is identified by reading corresponding bits in the interrupt real
-time status register.  If the status has changed by the time that
-the interrupt is handled then a press event will be missed.
+I love your patch! Perhaps something to improve:
 
-Maintain a last known status variable to find unbalanced release
-events and simulate press events for each accordingly.
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on hid/for-next linux/master linus/master v5.17-rc2 next-20220204]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Signed-off-by: David Collins <collinsd@codeaurora.org>
-Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+url:    https://github.com/0day-ci/linux/commits/Takashi-Iwai/Wrongly-bound-Elantech-touchpad-on-Lenovo-Yoga-Slim-7/20220205-005753
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+config: x86_64-randconfig-a003-20220131 (https://download.01.org/0day-ci/archive/20220205/202202050657.m9Z8VsGr-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/0day-ci/linux/commit/9f3fbdd527662d97eb0bece1005d96a0a1b0fac2
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Takashi-Iwai/Wrongly-bound-Elantech-touchpad-on-Lenovo-Yoga-Slim-7/20220205-005753
+        git checkout 9f3fbdd527662d97eb0bece1005d96a0a1b0fac2
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+>> WARNING: modpost: vmlinux.o(.text+0x87e136): Section mismatch in reference from the function elan_probe() to the variable .init.rodata:elan_i2c_denylist
+The function elan_probe() references
+the variable __initconst elan_i2c_denylist.
+This is often because elan_probe lacks a __initconst
+annotation or the annotation of elan_i2c_denylist is wrong.
+
 ---
- drivers/input/misc/pm8941-pwrkey.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
-index 881943ab4d55..3519152759dd 100644
---- a/drivers/input/misc/pm8941-pwrkey.c
-+++ b/drivers/input/misc/pm8941-pwrkey.c
-@@ -76,6 +76,7 @@ struct pm8941_pwrkey {
- 	u32 code;
- 	u32 sw_debounce_time_us;
- 	ktime_t sw_debounce_end_time;
-+	bool last_status;
- 	const struct pm8941_data *data;
- };
- 
-@@ -162,6 +163,16 @@ static irqreturn_t pm8941_pwrkey_irq(int irq, void *_data)
- 		pwrkey->sw_debounce_end_time = ktime_add_us(ktime_get(),
- 						pwrkey->sw_debounce_time_us);
- 
-+	/*
-+	 * Simulate a press event in case a release event occurred without a
-+	 * corresponding press event.
-+	 */
-+	if (!pwrkey->last_status && !sts) {
-+		input_report_key(pwrkey->input, pwrkey->code, 1);
-+		input_sync(pwrkey->input);
-+	}
-+	pwrkey->last_status = sts;
-+
- 	input_report_key(pwrkey->input, pwrkey->code, sts);
- 	input_sync(pwrkey->input);
- 
--- 
-2.34.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
