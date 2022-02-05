@@ -2,235 +2,507 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 955994AA847
-	for <lists+linux-input@lfdr.de>; Sat,  5 Feb 2022 12:12:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41D014AA861
+	for <lists+linux-input@lfdr.de>; Sat,  5 Feb 2022 12:38:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240613AbiBELMQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Feb 2022 06:12:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29132 "EHLO
+        id S1349151AbiBELiD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Feb 2022 06:38:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23257 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233255AbiBELMQ (ORCPT
+        by vger.kernel.org with ESMTP id S1350839AbiBELiB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 5 Feb 2022 06:12:16 -0500
+        Sat, 5 Feb 2022 06:38:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1644059535;
+        s=mimecast20190719; t=1644061081;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=HxRKbMd6yJD0WTJ1BQa8FtU2nYlcfxwjlj/el9ULOxc=;
-        b=PNZdrptAsCpzTOIjASegxYzaNU6GaQCU4YP0R2RTvzCR2QYSm2O8UG5MIq9oiGAlEjbsb4
-        MPTBzOWGXs/Nm7gb8hnPISSA7unU70fTYSZcq7rVp8SJB1C69RGi2UvCHbA5f5te9vZv2s
-        zDAr4fQInGS33ZTfZQ6mFu3wfYSMkdU=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=I03UYyBR4DDR6soPAszfzrWM+t2I/Ka8QbsXH4Pkbno=;
+        b=fJNXywuvBUeGaaqlftCTFjGaOlIlTXUfacMTcoSkwde0SdbG8x+nJYlYdj2byc3rOSbynC
+        JrMIcP7jm6UhPdI41TxizkvcyqKY8meB1axTisaGCGemyz2W0l74xqcfKp51ON41DPRlvE
+        CRc+agdz2HgZ+4/LnoNV0F9XWHsVacM=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-b0tR84_7P9iyXwUAUV3pDg-1; Sat, 05 Feb 2022 06:12:13 -0500
-X-MC-Unique: b0tR84_7P9iyXwUAUV3pDg-1
-Received: by mail-ed1-f71.google.com with SMTP id bq19-20020a056402215300b0040f276105a4so935877edb.2
-        for <linux-input@vger.kernel.org>; Sat, 05 Feb 2022 03:12:13 -0800 (PST)
+ us-mta-261-cpeKgYl1O9qQa6rjGfK7vA-1; Sat, 05 Feb 2022 06:37:59 -0500
+X-MC-Unique: cpeKgYl1O9qQa6rjGfK7vA-1
+Received: by mail-pf1-f199.google.com with SMTP id u80-20020a627953000000b004c82105f20dso4547132pfc.11
+        for <linux-input@vger.kernel.org>; Sat, 05 Feb 2022 03:37:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=HxRKbMd6yJD0WTJ1BQa8FtU2nYlcfxwjlj/el9ULOxc=;
-        b=06XzUr4mSsFZfG3qtGGda27Gc8FN7STQByJBZLOSZZO5yPwf8uSgPdTCvaAW3QZoSS
-         TBAyHseKxDBzkimVNBTOqAiZtq+oajC/4MnFr6YCu6DD1pRYrjI7C2gR0llKtYNkauUL
-         nKeQBAb/R6Bt5QWH/XidkueiOLLIA6LYvPdYJnpYIVL+5FBy+Bb78eiLLawVnuSi8B+A
-         rMd8l2Zeg3OPUBaCA07Pcy084UsqfccnFvZNgVlHlcME8UD7TyiYAMHs9acd5LPnl6C5
-         oYXSZWpx5ui39WpOys68ZM+Pllueb2S/HtycbwSYRlx7DEoyixu5c4SdoOsB1SShHcml
-         dRqA==
-X-Gm-Message-State: AOAM530J1cPMztx/uBq3/bXIbPZW+cNQLgFKn1XPtKhmf4wd3ubOkeX5
-        6XIgO92Ms0g2+Ia7JG48JcVvmpB8n4v/Un5F9Sp3t7ijffcbGYWBz6UiJZjixYpkEUWoFhWOGGK
-        UWJIJRwZgZs4jxhsuObsPoWY=
-X-Received: by 2002:a05:6402:4385:: with SMTP id o5mr3910663edc.48.1644059532541;
-        Sat, 05 Feb 2022 03:12:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxf0nwNP4MQHLuEUoev9Jx+1p/wmKAruyS0lSh+DlBNq/siLqNWSIjOwctVLGsAmWy29oOpHg==
-X-Received: by 2002:a05:6402:4385:: with SMTP id o5mr3910641edc.48.1644059532163;
-        Sat, 05 Feb 2022 03:12:12 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
-        by smtp.gmail.com with ESMTPSA id d18sm1517919ejd.95.2022.02.05.03.12.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Feb 2022 03:12:11 -0800 (PST)
-Message-ID: <0af0150d-c66e-3f46-f9a5-bb2886045e03@redhat.com>
-Date:   Sat, 5 Feb 2022 12:12:11 +0100
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=I03UYyBR4DDR6soPAszfzrWM+t2I/Ka8QbsXH4Pkbno=;
+        b=71TCYuzS39nLFuv5SsGzSAA4O1codQySNtqGku7RNbP5kYT7R//Rah2CZ4FZewYl9z
+         ZBrfEpKWLTOQb5Qx+MMU1Q8l571gSctK6jUxTbr5CCCXy4hxVzulhCAH0F0cBGp6HKHo
+         AJxorejw8aeZ8Z9j4Gg8nwIeBLDTPckurG/qX5ZlCvLyeNe3Y0wl7Kj56wjDsyZcnti5
+         MX+6fz409tOC8k1c5n0EWNk6sYskA0cilaFiX97Uxzg5lhDWEYidJoZhONBZXvchsPDD
+         hMAAttJj5xmY47dn1Gq9sTlO+I9oLCKikufCxbmyvvHLmBiWzEd3Y+hiJetmfsucpaUg
+         NQTA==
+X-Gm-Message-State: AOAM531qSGMv5MN308HsPGHxt/JL9NRkgxZMKinrYZlFtPaYpWRRdtN6
+        WdnTYniCH8QoVPCV8KpNemawGOKqwfw8ea1d72AYMj80c3CERIHH3TG32GUEqMnVcbLAwO8S85H
+        5quc0TvUWIYpnEzniBcIQZvn2WlPLr276slgUDDQ=
+X-Received: by 2002:a05:6a00:15d0:: with SMTP id o16mr7464184pfu.13.1644061077999;
+        Sat, 05 Feb 2022 03:37:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz/SFm9EqJ01dnJkvBMsYkeUTidoOvPaZRH00H5+cDCppyBkHqQrY1jaU5Fojyeu62KeJ4xN25u57Xz8CIKIHk=
+X-Received: by 2002:a05:6a00:15d0:: with SMTP id o16mr7464157pfu.13.1644061077630;
+ Sat, 05 Feb 2022 03:37:57 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: Wrongly bound Elantech touchpad on Lenovo Yoga Slim 7
-Content-Language: en-US
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Takashi Iwai <tiwai@suse.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+References: <6e8bd24e-3fad-b0c3-971b-cfd9152bf349@gmail.com>
+ <CAO-hwJLB2EvMecPrvk+_BaC7zKChh8efaiF_YAqeaoO4jJXWyQ@mail.gmail.com>
+ <7a47c92b-85f2-1fca-4cff-5024d43d2cd2@gmail.com> <CAO-hwJKwW-ymA9tR68BNu6gwpUE1YgfaPjvPEGQ8gGwgcvX37g@mail.gmail.com>
+ <63dece1d-91ca-1b1b-d90d-335be66896be@gmail.com>
+In-Reply-To: <63dece1d-91ca-1b1b-d90d-335be66896be@gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Sat, 5 Feb 2022 12:37:46 +0100
+Message-ID: <CAO-hwJ+imwiV1AA=KQaPwBBJBon65ncmiHhghTaFBB9ZE+bJ1A@mail.gmail.com>
+Subject: Re: [PATCH] HID:Add support for UGTABLET WP5540 with new quirk
+To:     Sergio Costas <rastersoft@gmail.com>
 Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-References: <s5hleyqwowl.wl-tiwai@suse.de>
- <CAO-hwJK-7migm7VWkwvTPHwxgTZEbNX0XYpk0A1pr6N2jkYrxw@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAO-hwJK-7migm7VWkwvTPHwxgTZEbNX0XYpk0A1pr6N2jkYrxw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Jiri Kosina <jikos@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Sergio,
 
-On 2/4/22 18:39, Benjamin Tissoires wrote:
-> Hi,
-> 
-> [adding Dmitry, the maintainer of the input tree and Hans, a colleague of mine]
-> 
-> On Fri, Feb 4, 2022 at 5:57 PM Takashi Iwai <tiwai@suse.de> wrote:
->>
->> Hi,
->>
->> we've got a bug report on openSUSE Bugzilla about the broken touchpad
->> on Lenovo Yoga Slim 7:
->>   https://bugzilla.opensuse.org/show_bug.cgi?id=1193064
->>
->> The touchpad is an Elantech one, connected over i2c, and there are two
->> drivers supporting it.  Unfortunately, the default one the system
->> binds, elan-i2c input driver, doesn't seem working properly, while
->> i2c-hid driver works.
-> 
-> Hans, we do have a similar bug on RHEL at
-> https://bugzilla.redhat.com/show_bug.cgi?id=2029078 (sorry, private
-> bug).
-> 
-> IIRC you worked on the discrimination between i2c-hid and elan_i2c (I
-> might be completely wrong though).
+On Fri, Feb 4, 2022 at 11:09 AM Sergio Costas <rastersoft@gmail.com> wrote:
+>
+> Hi Benjamin:
+>
+> Ops! My fault (I'm still a newcomer to the kernel). Here it is.
 
-Yes I did work on that, but then the other way around making sure
-that the i2c-hid driver would not bind to some devices which need
-the elan_i2c touch*pad* driver.
+Ok, thanks. A few notes for your next submission:
+- never ever use the gmail web UI to send your patches. It completely
+mangled the lines and I had to manually apply it, change the commit
+author/date to look like it was yours
+- only use git send-email to send a patch (like the first version I think)
+- if you need to add some blurb to your patch, after your
+Signed-off-by, add on the next line '---' (without the quotes), then a
+new line and put whatever you want there. This will be ignored by git
+am when applying the patch. FYI, I often add those on my local tree so
+I keep the changes in the versions in the tree, git format-patch will
+keep those annotations, but they will be stripped out when applied :)
 
-And indeed as Dmitry points out:
+Anyway, I have now pushed your change to for-5.17/upstream-fixes and
+added the stable@vger.kernel.org marker, meaning that when the patch
+lands into Linus' tree, it will be automatically backported to older
+kernels.
 
-> I believe we need to do what Hans did for Elan Touch*screen* driver and
-> avoid binding to the device if it has i2c-hid-specific _DMS in ACPI.
-> I.e. we need to replicate elants_acpi_is_hid_device().
-> 
-> Even better would be to factor it out, maybe not into a shared module
-> but simply shared header with static inline function that we could share
-> between elan drivers and maybe others as well.
+Cheers,
+Benjamin
 
-I did fix a similar problem for the touchscreen driver last year or so.
-
-I agree with Dmitry that we should try to avoid DMI matching here;
-and I also agree that having some header with a static inline
-acpi_is_hid_device() device helper would be good.
-
-I'm a bit worried about the acpi_is_hid_device() approach though,
-there is a lot of copy and pasting going on when vendors create
-ACPI tables and sometimes a "PNP0C50" CID is present combined
-with a valid i2c-hid _DSM method even though the device is not
-an i2c-hid device, also see the i2c_hid_acpi_blacklist[] in
-drivers/hid/i2c-hid/i2c-hid-acpi.c .
-
-It seems to me that the problem is that the Lenovo Yoga Slim 7
-is using what seems to be a very generic "ELAN0000" ACPI hardware
-id instead of one of the many more specific ones.
-
-So we could limit the acpi_is_hid_device() check to just the
-"ELAN0000" ACPI hardware id I guess?
-
-So I see the following 2 options:
-
-1. Add an unconditional acpi_is_hid_device() check to elan_probe()
-   and watch out for any bug-reports that this is causing breakage
-   elsehwere
-2. Add an acpi_is_hid_device() check to elan_probe() for ACPI enumerated
-   touchpads with a hardware-id of ELAN0000 only; and still
-   watch out for any bug-reports that this is causing breakage
-   elsehwere just to be sure
-
-Regards,
-
-Hans
-
-
-
-
-
->> I'm not sure what's the best fix for this, but below a quick
->> workaround using a deny list with DMI matching.
->> If this is OK, I can resubmit the patch for merging.
->>
->> Any comments appreciated.
->>
->>
->> thanks,
->>
->> Takashi
->>
->> -- 8< --
->> From: Takashi Iwai <tiwai@suse.de>
->> Subject: [PATCH] Input: elan_i2c: Add deny list for Lenovo Yoga Slim 7
->>
->> The touchpad on Lenovo Yoga Slim 7 doesn't work well with elan-i2c but
->> rather better with i2c-hid.  Add a deny list for avoiding to bind with
->> elan-i2c.
->>
->> BugLink: https://bugzilla.opensuse.org/show_bug.cgi?id=1193064
->> Signed-off-by: Takashi Iwai <tiwai@suse.de>
->> ---
->>  drivers/input/mouse/elan_i2c_core.c | 19 +++++++++++++++++++
->>  1 file changed, 19 insertions(+)
->>
->> diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
->> index 47af62c12267..fd08481f7aea 100644
->> --- a/drivers/input/mouse/elan_i2c_core.c
->> +++ b/drivers/input/mouse/elan_i2c_core.c
->> @@ -18,6 +18,7 @@
->>  #include <linux/acpi.h>
->>  #include <linux/delay.h>
->>  #include <linux/device.h>
->> +#include <linux/dmi.h>
->>  #include <linux/firmware.h>
->>  #include <linux/i2c.h>
->>  #include <linux/init.h>
->> @@ -1222,6 +1223,20 @@ static void elan_disable_regulator(void *_data)
->>         regulator_disable(data->vcc);
->>  }
->>
->> +static const struct dmi_system_id elan_i2c_denylist[] __initconst = {
->> +#if IS_ENABLED(CONFIG_I2C_HID_ACPI)
->> +       {
->> +               /* Lenovo Yoga Slim 7 is better supported by i2c-hid */
->> +               .matches = {
->> +                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
->> +                       DMI_MATCH(DMI_PRODUCT_NAME, "82A3"),
->> +                       DMI_MATCH(DMI_PRODUCT_VERSION, "Yoga Slim 7 14ITL05"),
->> +               },
->> +       },
->> +#endif
->> +       { }
->> +};
->> +
->>  static int elan_probe(struct i2c_client *client,
->>                       const struct i2c_device_id *dev_id)
->>  {
->> @@ -1233,6 +1248,10 @@ static int elan_probe(struct i2c_client *client,
->>
->>         if (IS_ENABLED(CONFIG_MOUSE_ELAN_I2C_I2C) &&
->>             i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
->> +               if (dmi_check_system(elan_i2c_denylist)) {
->> +                       dev_info(dev, "Hits deny list, skipping\n");
->> +                       return -ENODEV;
->> +               }
->>                 transport_ops = &elan_i2c_ops;
->>         } else if (IS_ENABLED(CONFIG_MOUSE_ELAN_I2C_SMBUS) &&
->>                    i2c_check_functionality(client->adapter,
->> --
->> 2.31.1
->>
->>
->>
->>
->>
->>
->>
-> 
+>
+>
+> From 7caa5076eb61a667a3ccc1ecae377b270760c464 Mon Sep 17 00:00:00 2001
+> From: Sergio Costas <rastersoft@gmail.com>
+> Date: Fri, 4 Feb 2022 10:01:17 +0100
+> Subject: [PATCH] HID:Add support for UGTABLET WP5540
+>
+> This patch adds support for the UGTABLET WP5540 digitizer tablet
+> devices. Without it, the pen moves the cursor, but neither the
+> buttons nor the tap sensor in the tip do work.
+>
+> Signed-off-by: Sergio Costas <rastersoft@gmail.com>
+> ---
+>   drivers/hid/hid-ids.h    | 1 +
+>   drivers/hid/hid-quirks.c | 1 +
+>   2 files changed, 2 insertions(+)
+>
+> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> index 85975031389b..78bd3ddda442 100644
+> --- a/drivers/hid/hid-ids.h
+> +++ b/drivers/hid/hid-ids.h
+> @@ -1370,6 +1370,7 @@
+>   #define USB_VENDOR_ID_UGTIZER            0x2179
+>   #define USB_DEVICE_ID_UGTIZER_TABLET_GP0610    0x0053
+>   #define USB_DEVICE_ID_UGTIZER_TABLET_GT5040    0x0077
+> +#define USB_DEVICE_ID_UGTIZER_TABLET_WP5540    0x0004
+>
+>   #define USB_VENDOR_ID_VIEWSONIC            0x0543
+>   #define USB_DEVICE_ID_VIEWSONIC_PD1011        0xe621
+> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+> index 9af1dc8ae3a2..c066ba901867 100644
+> --- a/drivers/hid/hid-quirks.c
+> +++ b/drivers/hid/hid-quirks.c
+> @@ -187,6 +187,7 @@ static const struct hid_device_id hid_quirks[] =3D {
+>       { HID_USB_DEVICE(USB_VENDOR_ID_TURBOX,
+> USB_DEVICE_ID_TURBOX_KEYBOARD), HID_QUIRK_NOGET },
+>       { HID_USB_DEVICE(USB_VENDOR_ID_UCLOGIC,
+> USB_DEVICE_ID_UCLOGIC_TABLET_KNA5), HID_QUIRK_MULTI_INPUT },
+>       { HID_USB_DEVICE(USB_VENDOR_ID_UCLOGIC,
+> USB_DEVICE_ID_UCLOGIC_TABLET_TWA60), HID_QUIRK_MULTI_INPUT },
+> +    { HID_USB_DEVICE(USB_VENDOR_ID_UGTIZER,
+> USB_DEVICE_ID_UGTIZER_TABLET_WP5540), HID_QUIRK_MULTI_INPUT },
+>       { HID_USB_DEVICE(USB_VENDOR_ID_WALTOP,
+> USB_DEVICE_ID_WALTOP_MEDIA_TABLET_10_6_INCH), HID_QUIRK_MULTI_INPUT },
+>       { HID_USB_DEVICE(USB_VENDOR_ID_WALTOP,
+> USB_DEVICE_ID_WALTOP_MEDIA_TABLET_14_1_INCH), HID_QUIRK_MULTI_INPUT },
+>       { HID_USB_DEVICE(USB_VENDOR_ID_WALTOP,
+> USB_DEVICE_ID_WALTOP_SIRIUS_BATTERY_FREE_TABLET), HID_QUIRK_MULTI_INPUT }=
+,
+> --
+> 2.34.1
+>
+>
+>
+> El 4/2/22 a las 10:45, Benjamin Tissoires escribi=C3=B3:
+> > On Fri, Feb 4, 2022 at 10:08 AM Sergio Costas <rastersoft@gmail.com> wr=
+ote:
+> >> Hi Benjamin:
+> >>
+> >> You are absolutely right. Here is the new patch. It works perfectly to=
+o,
+> >> and is much simpler.
+> > Great, thanks.
+> >
+> > Can you please resubmit it with your Signed-of-by line?
+> >
+> > I should be able to apply it to the for-5.17 tree and add the stable@
+> > tag but I can not do that without this tiny line :)
+> >
+> > Cheers,
+> > Benjamin
+> >
+> >>   From 139638a264bdbc47e4f55c484c58867e2dbd4ddc Mon Sep 17 00:00:00 20=
+01
+> >> From: Sergio Costas <rastersoft@gmail.com>
+> >> Date: Fri, 4 Feb 2022 10:01:17 +0100
+> >> Subject: [PATCH] HID:Add support for UGTABLET WP5540
+> >>
+> >> This patch adds support for the UGTABLET WP5540 digitizer tablet
+> >> devices. Without it, the pen moves the cursor, but neither the
+> >> buttons nor the tap sensor in the tip do work.
+> >> ---
+> >>    drivers/hid/hid-ids.h    | 1 +
+> >>    drivers/hid/hid-quirks.c | 1 +
+> >>    2 files changed, 2 insertions(+)
+> >>
+> >> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> >> index 85975031389b..78bd3ddda442 100644
+> >> --- a/drivers/hid/hid-ids.h
+> >> +++ b/drivers/hid/hid-ids.h
+> >> @@ -1370,6 +1370,7 @@
+> >>    #define USB_VENDOR_ID_UGTIZER            0x2179
+> >>    #define USB_DEVICE_ID_UGTIZER_TABLET_GP0610    0x0053
+> >>    #define USB_DEVICE_ID_UGTIZER_TABLET_GT5040    0x0077
+> >> +#define USB_DEVICE_ID_UGTIZER_TABLET_WP5540    0x0004
+> >>
+> >>    #define USB_VENDOR_ID_VIEWSONIC            0x0543
+> >>    #define USB_DEVICE_ID_VIEWSONIC_PD1011        0xe621
+> >> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+> >> index 9af1dc8ae3a2..c066ba901867 100644
+> >> --- a/drivers/hid/hid-quirks.c
+> >> +++ b/drivers/hid/hid-quirks.c
+> >> @@ -187,6 +187,7 @@ static const struct hid_device_id hid_quirks[] =3D=
+ {
+> >>        { HID_USB_DEVICE(USB_VENDOR_ID_TURBOX,
+> >> USB_DEVICE_ID_TURBOX_KEYBOARD), HID_QUIRK_NOGET },
+> >>        { HID_USB_DEVICE(USB_VENDOR_ID_UCLOGIC,
+> >> USB_DEVICE_ID_UCLOGIC_TABLET_KNA5), HID_QUIRK_MULTI_INPUT },
+> >>        { HID_USB_DEVICE(USB_VENDOR_ID_UCLOGIC,
+> >> USB_DEVICE_ID_UCLOGIC_TABLET_TWA60), HID_QUIRK_MULTI_INPUT },
+> >> +    { HID_USB_DEVICE(USB_VENDOR_ID_UGTIZER,
+> >> USB_DEVICE_ID_UGTIZER_TABLET_WP5540), HID_QUIRK_MULTI_INPUT },
+> >>        { HID_USB_DEVICE(USB_VENDOR_ID_WALTOP,
+> >> USB_DEVICE_ID_WALTOP_MEDIA_TABLET_10_6_INCH), HID_QUIRK_MULTI_INPUT },
+> >>        { HID_USB_DEVICE(USB_VENDOR_ID_WALTOP,
+> >> USB_DEVICE_ID_WALTOP_MEDIA_TABLET_14_1_INCH), HID_QUIRK_MULTI_INPUT },
+> >>        { HID_USB_DEVICE(USB_VENDOR_ID_WALTOP,
+> >> USB_DEVICE_ID_WALTOP_SIRIUS_BATTERY_FREE_TABLET), HID_QUIRK_MULTI_INPU=
+T },
+> >> --
+> >> 2.34.1
+> >>
+> >> El 4/2/22 a las 9:03, Benjamin Tissoires escribi=C3=B3:
+> >>> Hi Sergio,
+> >>>
+> >>> On Thu, Feb 3, 2022 at 7:40 PM Sergio Costas <rastersoft@gmail.com> w=
+rote:
+> >>>>    From 82e513c85f4bdc027e5b907000a3bbaf74314bcb Mon Sep 17 00:00:00=
+ 2001
+> >>>> From: Sergio Costas <rastersoft@gmail.com>
+> >>>> Date: Thu, 3 Feb 2022 14:15:07 +0100
+> >>>> Subject: [PATCH] HID:Add support for UGTABLET WP5540 with new quirk
+> >>>>
+> >>>> This patch adds a new quirk to HID, allowing to configure the
+> >>>> usage rules in reverse order. This is needed to enable the use
+> >>>> of the UGTABLET WP5540 USB digitizer tablet.
+> >>>>
+> >>>> This tablet defines three HID collections: one for a digitizer
+> >>>> device and two for mouse devices, the first one with relative
+> >>>> coordinates, and the second one with absolute coordinates.
+> >>>> The problem is that both mouse devices share the "button 1",
+> >>>> "button 2" and "button 3" usages, but the Linux HID driver
+> >>>> doesn't support that, so those usages remain unassigned for
+> >>>> the second mouse because they are considered "duplicated".
+> >>>> Unfortunately, the second mouse is, really, the pencil,
+> >>>> which means that the movements are detected and managed,
+> >>>> but not the pencil touch or any button press, because those
+> >>>> usages are already assigned to the first mouse (I suspect
+> >>>> that the chip used in this tablet is designed to work both
+> >>>> with pencils and with uncorded mouses, allowing dual devices
+> >>>> where both a pencil and a mouse can be used over the same
+> >>>> rug).
+> >>>>
+> >>>> The result is that the user can move the cursor with the pencil,
+> >>>> but can't "paint" things because the "touch" action doesn't
+> >>>> work.
+> >>>>
+> >>>> Currently there is already a quirk that, at first glance, could
+> >>>> seem as the solution to this problem. That quirk is
+> >>>> HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE. Unfortunately, the
+> >>>> result is that the "pencil touch" and "press button" actions
+> >>>> are translated into "previous page", "next page"... and so on,
+> >>>> which is not a desirable option. Although those events could
+> >>>> be reasigned in user space using xmodmap, it requires actions
+> >>>> from the user, and also could interfere with other devices,
+> >>>> like multibutton mouses.
+> >>>>
+> >>>> I also tried to remove the duplicate test, but the system
+> >>>> hangs as soon as it receives an event from the tablet.
+> >>>>
+> >>>> This patch aims to fix this by configuring the entries in
+> >>>> reverse order, thus giving priority to the pencil over the
+> >>>> mouse. This makes sense today, because it is more common to
+> >>>> use optical mouses instead of tablet-based ones, and also
+> >>>> ensures that devices marketed only with the pencil but
+> >>>> using this chip do work out-of-the-box.
+> >>>>
+> >>>> To do this, the patch adds a new quirk:
+> >>>> HID_QUIRK_REVERSE_CONFIGURE_USAGES, which can be enabled for
+> >>>> an specific device, and it does assign the actions in reverse
+> >>>> order, thus reversing the priority. This quirk can still be
+> >>>> combined with HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE, so the
+> >>>> events from the physical mouse could still be received, but
+> >>>> giving priority to the digitizer, which makes more sense.
+> >>> This seems extremely over-engineered. Have you tried the quirk
+> >>> HID_QUIRK_MULTI_INPUT?
+> >>> This quirk should create one independent input node per input report,
+> >>> and I suspect your tablet is using different report IDs for the 2
+> >>> mices.
+> >>>
+> >>> Cheers,
+> >>> Benjamin
+> >>>
+> >>>> With this new quirk enabled for it, the UGTABLET WP5540
+> >>>> digitizer tablet works like a charm.
+> >>>>
+> >>>> Signed-off-by: Sergio Costas <rastersoft@gmail.com>
+> >>>> ---
+> >>>>     drivers/hid/hid-ids.h    |   1 +
+> >>>>     drivers/hid/hid-input.c  | 101 +++++++++++++++++++++++++++------=
+------
+> >>>>     drivers/hid/hid-quirks.c |   1 +
+> >>>>     include/linux/hid.h      |   1 +
+> >>>>     4 files changed, 73 insertions(+), 31 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> >>>> index 85975031389b..78bd3ddda442 100644
+> >>>> --- a/drivers/hid/hid-ids.h
+> >>>> +++ b/drivers/hid/hid-ids.h
+> >>>> @@ -1370,6 +1370,7 @@
+> >>>>     #define USB_VENDOR_ID_UGTIZER            0x2179
+> >>>>     #define USB_DEVICE_ID_UGTIZER_TABLET_GP0610    0x0053
+> >>>>     #define USB_DEVICE_ID_UGTIZER_TABLET_GT5040    0x0077
+> >>>> +#define USB_DEVICE_ID_UGTIZER_TABLET_WP5540    0x0004
+> >>>>
+> >>>>     #define USB_VENDOR_ID_VIEWSONIC            0x0543
+> >>>>     #define USB_DEVICE_ID_VIEWSONIC_PD1011        0xe621
+> >>>> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> >>>> index 112901d2d8d2..8cf4f63581cf 100644
+> >>>> --- a/drivers/hid/hid-input.c
+> >>>> +++ b/drivers/hid/hid-input.c
+> >>>> @@ -1938,6 +1938,56 @@ static inline void
+> >>>> hidinput_configure_usages(struct hid_input *hidinput,
+> >>>>                              report->field[i]->usage + j);
+> >>>>     }
+> >>>>
+> >>>> +static inline void hidinput_configure_usages_reversed(struct hid_in=
+put
+> >>>> *hidinput,
+> >>>> +                              struct hid_report *report)
+> >>>> +{
+> >>>> +    int i, j;
+> >>>> +
+> >>>> +    for (i =3D report->maxfield; i > 0 ; i--)
+> >>>> +        for (j =3D report->field[i-1]->maxusage; j > 0 ; j--)
+> >>>> +            hidinput_configure_usage(hidinput, report->field[i-1],
+> >>>> +                         report->field[i-1]->usage + j - 1);
+> >>>> +}
+> >>>> +
+> >>>> +static bool hidinput_configure_usage_list(struct hid_device *hid,
+> >>>> +                      struct hid_report *report,
+> >>>> +                      bool reverse)
+> >>>> +{
+> >>>> +
+> >>>> +    unsigned int application;
+> >>>> +    struct hid_input *hidinput =3D NULL;
+> >>>> +
+> >>>> +    application =3D report->application;
+> >>>> +
+> >>>> +    /*
+> >>>> +     * Find the previous hidinput report attached
+> >>>> +     * to this report id.
+> >>>> +     */
+> >>>> +    if (hid->quirks & HID_QUIRK_MULTI_INPUT)
+> >>>> +        hidinput =3D hidinput_match(report);
+> >>>> +    else if (hid->maxapplication > 1 &&
+> >>>> +            (hid->quirks & HID_QUIRK_INPUT_PER_APP))
+> >>>> +        hidinput =3D hidinput_match_application(report);
+> >>>> +
+> >>>> +    if (!hidinput) {
+> >>>> +        hidinput =3D hidinput_allocate(hid, application);
+> >>>> +        if (!hidinput)
+> >>>> +            return true;
+> >>>> +    }
+> >>>> +
+> >>>> +    if (reverse)
+> >>>> +        hidinput_configure_usages_reversed(hidinput, report);
+> >>>> +    else
+> >>>> +        hidinput_configure_usages(hidinput, report);
+> >>>> +
+> >>>> +    if (hid->quirks & HID_QUIRK_MULTI_INPUT)
+> >>>> +        hidinput->report =3D report;
+> >>>> +
+> >>>> +    list_add_tail(&report->hidinput_list,
+> >>>> +              &hidinput->reports);
+> >>>> +    return false;
+> >>>> +}
+> >>>> +
+> >>>>     /*
+> >>>>      * Register the input device; print a message.
+> >>>>      * Configure the input layer interface
+> >>>> @@ -1949,8 +1999,7 @@ int hidinput_connect(struct hid_device *hid,
+> >>>> unsigned int force)
+> >>>>         struct hid_driver *drv =3D hid->driver;
+> >>>>         struct hid_report *report;
+> >>>>         struct hid_input *next, *hidinput =3D NULL;
+> >>>> -    unsigned int application;
+> >>>> -    int i, k;
+> >>>> +    int i, k, l;
+> >>>>
+> >>>>         INIT_LIST_HEAD(&hid->inputs);
+> >>>>         INIT_WORK(&hid->led_work, hidinput_led_worker);
+> >>>> @@ -1972,41 +2021,31 @@ int hidinput_connect(struct hid_device *hid,
+> >>>> unsigned int force)
+> >>>>
+> >>>>         report_features(hid);
+> >>>>
+> >>>> -    for (k =3D HID_INPUT_REPORT; k <=3D HID_OUTPUT_REPORT; k++) {
+> >>>> +    for (l =3D HID_INPUT_REPORT; l <=3D HID_OUTPUT_REPORT; l++) {
+> >>>> +        if (hid->quirks & HID_QUIRK_REVERSE_CONFIGURE_USAGES)
+> >>>> +            k =3D HID_OUTPUT_REPORT - l + HID_INPUT_REPORT;
+> >>>> +        else
+> >>>> +            k =3D l;
+> >>>>             if (k =3D=3D HID_OUTPUT_REPORT &&
+> >>>>                 hid->quirks & HID_QUIRK_SKIP_OUTPUT_REPORTS)
+> >>>>                 continue;
+> >>>>
+> >>>> -        list_for_each_entry(report, &hid->report_enum[k].report_lis=
+t,
+> >>>> list) {
+> >>>> -
+> >>>> -            if (!report->maxfield)
+> >>>> -                continue;
+> >>>> -
+> >>>> -            application =3D report->application;
+> >>>> -
+> >>>> -            /*
+> >>>> -             * Find the previous hidinput report attached
+> >>>> -             * to this report id.
+> >>>> -             */
+> >>>> -            if (hid->quirks & HID_QUIRK_MULTI_INPUT)
+> >>>> -                hidinput =3D hidinput_match(report);
+> >>>> -            else if (hid->maxapplication > 1 &&
+> >>>> -                 (hid->quirks & HID_QUIRK_INPUT_PER_APP))
+> >>>> -                hidinput =3D hidinput_match_application(report);
+> >>>> -
+> >>>> -            if (!hidinput) {
+> >>>> -                hidinput =3D hidinput_allocate(hid, application);
+> >>>> -                if (!hidinput)
+> >>>> +        if (hid->quirks & HID_QUIRK_REVERSE_CONFIGURE_USAGES) {
+> >>>> +            list_for_each_entry_reverse(report,
+> >>>> + &hid->report_enum[k].report_list,
+> >>>> +                            list) {
+> >>>> +                if (!report->maxfield)
+> >>>> +                    continue;
+> >>>> +                if (hidinput_configure_usage_list(hid, report, true=
+))
+> >>>> +                    goto out_unwind;
+> >>>> +            }
+> >>>> +        } else {
+> >>>> +            list_for_each_entry(report,
+> >>>> &hid->report_enum[k].report_list, list) {
+> >>>> +                if (!report->maxfield)
+> >>>> +                    continue;
+> >>>> +                if (hidinput_configure_usage_list(hid, report, fals=
+e))
+> >>>>                         goto out_unwind;
+> >>>>                 }
+> >>>> -
+> >>>> -            hidinput_configure_usages(hidinput, report);
+> >>>> -
+> >>>> -            if (hid->quirks & HID_QUIRK_MULTI_INPUT)
+> >>>> -                hidinput->report =3D report;
+> >>>> -
+> >>>> -            list_add_tail(&report->hidinput_list,
+> >>>> -                      &hidinput->reports);
+> >>>>             }
+> >>>>         }
+> >>>>
+> >>>> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+> >>>> index 9af1dc8ae3a2..a59510bc76a1 100644
+> >>>> --- a/drivers/hid/hid-quirks.c
+> >>>> +++ b/drivers/hid/hid-quirks.c
+> >>>> @@ -187,6 +187,7 @@ static const struct hid_device_id hid_quirks[] =
+=3D {
+> >>>>         { HID_USB_DEVICE(USB_VENDOR_ID_TURBOX,
+> >>>> USB_DEVICE_ID_TURBOX_KEYBOARD), HID_QUIRK_NOGET },
+> >>>>         { HID_USB_DEVICE(USB_VENDOR_ID_UCLOGIC,
+> >>>> USB_DEVICE_ID_UCLOGIC_TABLET_KNA5), HID_QUIRK_MULTI_INPUT },
+> >>>>         { HID_USB_DEVICE(USB_VENDOR_ID_UCLOGIC,
+> >>>> USB_DEVICE_ID_UCLOGIC_TABLET_TWA60), HID_QUIRK_MULTI_INPUT },
+> >>>> +    { HID_USB_DEVICE(USB_VENDOR_ID_UGTIZER,
+> >>>> USB_DEVICE_ID_UGTIZER_TABLET_WP5540), HID_QUIRK_REVERSE_CONFIGURE_US=
+AGES },
+> >>>>         { HID_USB_DEVICE(USB_VENDOR_ID_WALTOP,
+> >>>> USB_DEVICE_ID_WALTOP_MEDIA_TABLET_10_6_INCH), HID_QUIRK_MULTI_INPUT =
+},
+> >>>>         { HID_USB_DEVICE(USB_VENDOR_ID_WALTOP,
+> >>>> USB_DEVICE_ID_WALTOP_MEDIA_TABLET_14_1_INCH), HID_QUIRK_MULTI_INPUT =
+},
+> >>>>         { HID_USB_DEVICE(USB_VENDOR_ID_WALTOP,
+> >>>> USB_DEVICE_ID_WALTOP_SIRIUS_BATTERY_FREE_TABLET), HID_QUIRK_MULTI_IN=
+PUT },
+> >>>> diff --git a/include/linux/hid.h b/include/linux/hid.h
+> >>>> index 7487b0586fe6..61bf462ca658 100644
+> >>>> --- a/include/linux/hid.h
+> >>>> +++ b/include/linux/hid.h
+> >>>> @@ -361,6 +361,7 @@ struct hid_item {
+> >>>>     #define HID_QUIRK_INPUT_PER_APP            BIT(11)
+> >>>>     #define HID_QUIRK_X_INVERT            BIT(12)
+> >>>>     #define HID_QUIRK_Y_INVERT            BIT(13)
+> >>>> +#define HID_QUIRK_REVERSE_CONFIGURE_USAGES    BIT(14)
+> >>>>     #define HID_QUIRK_SKIP_OUTPUT_REPORTS        BIT(16)
+> >>>>     #define HID_QUIRK_SKIP_OUTPUT_REPORT_ID        BIT(17)
+> >>>>     #define HID_QUIRK_NO_OUTPUT_REPORTS_ON_INTR_EP    BIT(18)
+> >>>> --
+> >>>> 2.34.1
+> >>>>
+> >>>>
+> >>>>
+> >> --
+> >> Nos leemos
+> >>                           RASTER    (Linux user #228804)
+> >> rastersoft@gmail.com                https://www.rastersoft.com
+> >>
+> --
+> Nos leemos
+>                          RASTER    (Linux user #228804)
+> rastersoft@gmail.com                https://www.rastersoft.com
+>
 
