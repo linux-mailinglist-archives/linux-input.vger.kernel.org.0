@@ -2,96 +2,235 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE6894AA62A
-	for <lists+linux-input@lfdr.de>; Sat,  5 Feb 2022 04:20:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 955994AA847
+	for <lists+linux-input@lfdr.de>; Sat,  5 Feb 2022 12:12:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379117AbiBEDUK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Feb 2022 22:20:10 -0500
-Received: from mga18.intel.com ([134.134.136.126]:61519 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238357AbiBEDUK (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 4 Feb 2022 22:20:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644031210; x=1675567210;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yM5X09rRZwT5cEQ9imFXrwu+8OaDAuvFupGBrgF+5Zo=;
-  b=KRH6ztpenLw/mfw2lJWVxXdmU/+pwfzSr8ZLv1A86l8P2Ym4SSQGLJO0
-   A6CF6FD5CCKCt7SsQHSLyujDz+y9CmnGVh1cztYVT3r/Leys3mWDAgbnw
-   bt4ZhLbAr/nwSPT8/cGOPzzgI/qeJgzpVt//SWpAu9yzWOYGsFNCB6p4o
-   zCCIsreCLXwdByyTsviptZskh/nocGJzniaLQnO5+fD9UY/UOgN3nXkCt
-   qJcIhA28CnfMG3xz0E22eAQhpBALO2la1IeMJWgAaTOrWIILXg+zuyUzp
-   VbIoaBZh839bMT2nGbE5RjX0kB9pH7VXaxKjfDotVyc0FY/SWeDboFvS6
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10248"; a="232050680"
-X-IronPort-AV: E=Sophos;i="5.88,344,1635231600"; 
-   d="scan'208";a="232050680"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2022 19:20:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,344,1635231600"; 
-   d="scan'208";a="584320627"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 04 Feb 2022 19:20:07 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nGBcM-000YUa-Nx; Sat, 05 Feb 2022 03:20:06 +0000
-Date:   Sat, 5 Feb 2022 11:19:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Stephen Boyd <swboyd@chromium.org>, benjamin.tissoires@redhat.com,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, Sean O'Brien <seobrien@chromium.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
-Subject: Re: [PATCH 3/5] HID: Extract vivaldi hid feature mapping for use in
- hid-hammer
-Message-ID: <202202051134.yIxi48BD-lkp@intel.com>
-References: <20220204202021.895426-4-swboyd@chromium.org>
+        id S240613AbiBELMQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Feb 2022 06:12:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29132 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233255AbiBELMQ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 5 Feb 2022 06:12:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1644059535;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HxRKbMd6yJD0WTJ1BQa8FtU2nYlcfxwjlj/el9ULOxc=;
+        b=PNZdrptAsCpzTOIjASegxYzaNU6GaQCU4YP0R2RTvzCR2QYSm2O8UG5MIq9oiGAlEjbsb4
+        MPTBzOWGXs/Nm7gb8hnPISSA7unU70fTYSZcq7rVp8SJB1C69RGi2UvCHbA5f5te9vZv2s
+        zDAr4fQInGS33ZTfZQ6mFu3wfYSMkdU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-518-b0tR84_7P9iyXwUAUV3pDg-1; Sat, 05 Feb 2022 06:12:13 -0500
+X-MC-Unique: b0tR84_7P9iyXwUAUV3pDg-1
+Received: by mail-ed1-f71.google.com with SMTP id bq19-20020a056402215300b0040f276105a4so935877edb.2
+        for <linux-input@vger.kernel.org>; Sat, 05 Feb 2022 03:12:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=HxRKbMd6yJD0WTJ1BQa8FtU2nYlcfxwjlj/el9ULOxc=;
+        b=06XzUr4mSsFZfG3qtGGda27Gc8FN7STQByJBZLOSZZO5yPwf8uSgPdTCvaAW3QZoSS
+         TBAyHseKxDBzkimVNBTOqAiZtq+oajC/4MnFr6YCu6DD1pRYrjI7C2gR0llKtYNkauUL
+         nKeQBAb/R6Bt5QWH/XidkueiOLLIA6LYvPdYJnpYIVL+5FBy+Bb78eiLLawVnuSi8B+A
+         rMd8l2Zeg3OPUBaCA07Pcy084UsqfccnFvZNgVlHlcME8UD7TyiYAMHs9acd5LPnl6C5
+         oYXSZWpx5ui39WpOys68ZM+Pllueb2S/HtycbwSYRlx7DEoyixu5c4SdoOsB1SShHcml
+         dRqA==
+X-Gm-Message-State: AOAM530J1cPMztx/uBq3/bXIbPZW+cNQLgFKn1XPtKhmf4wd3ubOkeX5
+        6XIgO92Ms0g2+Ia7JG48JcVvmpB8n4v/Un5F9Sp3t7ijffcbGYWBz6UiJZjixYpkEUWoFhWOGGK
+        UWJIJRwZgZs4jxhsuObsPoWY=
+X-Received: by 2002:a05:6402:4385:: with SMTP id o5mr3910663edc.48.1644059532541;
+        Sat, 05 Feb 2022 03:12:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxf0nwNP4MQHLuEUoev9Jx+1p/wmKAruyS0lSh+DlBNq/siLqNWSIjOwctVLGsAmWy29oOpHg==
+X-Received: by 2002:a05:6402:4385:: with SMTP id o5mr3910641edc.48.1644059532163;
+        Sat, 05 Feb 2022 03:12:12 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
+        by smtp.gmail.com with ESMTPSA id d18sm1517919ejd.95.2022.02.05.03.12.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Feb 2022 03:12:11 -0800 (PST)
+Message-ID: <0af0150d-c66e-3f46-f9a5-bb2886045e03@redhat.com>
+Date:   Sat, 5 Feb 2022 12:12:11 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220204202021.895426-4-swboyd@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: Wrongly bound Elantech touchpad on Lenovo Yoga Slim 7
+Content-Language: en-US
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Takashi Iwai <tiwai@suse.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+References: <s5hleyqwowl.wl-tiwai@suse.de>
+ <CAO-hwJK-7migm7VWkwvTPHwxgTZEbNX0XYpk0A1pr6N2jkYrxw@mail.gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAO-hwJK-7migm7VWkwvTPHwxgTZEbNX0XYpk0A1pr6N2jkYrxw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Stephen,
+Hi,
 
-I love your patch! Yet something to improve:
+On 2/4/22 18:39, Benjamin Tissoires wrote:
+> Hi,
+> 
+> [adding Dmitry, the maintainer of the input tree and Hans, a colleague of mine]
+> 
+> On Fri, Feb 4, 2022 at 5:57 PM Takashi Iwai <tiwai@suse.de> wrote:
+>>
+>> Hi,
+>>
+>> we've got a bug report on openSUSE Bugzilla about the broken touchpad
+>> on Lenovo Yoga Slim 7:
+>>   https://bugzilla.opensuse.org/show_bug.cgi?id=1193064
+>>
+>> The touchpad is an Elantech one, connected over i2c, and there are two
+>> drivers supporting it.  Unfortunately, the default one the system
+>> binds, elan-i2c input driver, doesn't seem working properly, while
+>> i2c-hid driver works.
+> 
+> Hans, we do have a similar bug on RHEL at
+> https://bugzilla.redhat.com/show_bug.cgi?id=2029078 (sorry, private
+> bug).
+> 
+> IIRC you worked on the discrimination between i2c-hid and elan_i2c (I
+> might be completely wrong though).
 
-[auto build test ERROR on 26291c54e111ff6ba87a164d85d4a4e134b7315c]
+Yes I did work on that, but then the other way around making sure
+that the i2c-hid driver would not bind to some devices which need
+the elan_i2c touch*pad* driver.
 
-url:    https://github.com/0day-ci/linux/commits/Stephen-Boyd/Input-HID-Consolidate-ChromeOS-Vivaldi-keyboard-logic/20220205-042211
-base:   26291c54e111ff6ba87a164d85d4a4e134b7315c
-config: s390-randconfig-r014-20220130 (https://download.01.org/0day-ci/archive/20220205/202202051134.yIxi48BD-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/83759eb892fd16fd0bb7ff4bb0c4baa4e7a0283e
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Stephen-Boyd/Input-HID-Consolidate-ChromeOS-Vivaldi-keyboard-logic/20220205-042211
-        git checkout 83759eb892fd16fd0bb7ff4bb0c4baa4e7a0283e
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=s390 SHELL=/bin/bash
+And indeed as Dmitry points out:
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+> I believe we need to do what Hans did for Elan Touch*screen* driver and
+> avoid binding to the device if it has i2c-hid-specific _DMS in ACPI.
+> I.e. we need to replicate elants_acpi_is_hid_device().
+> 
+> Even better would be to factor it out, maybe not into a shared module
+> but simply shared header with static inline function that we could share
+> between elan drivers and maybe others as well.
 
-All errors (new ones prefixed by >>):
+I did fix a similar problem for the touchscreen driver last year or so.
 
-   s390-linux-ld: drivers/dma/idma64.o: in function `idma64_platform_probe':
-   idma64.c:(.text+0x1336): undefined reference to `devm_ioremap_resource'
-   s390-linux-ld: drivers/input/vivaldi-keymap.o: in function `vivaldi_hid_feature_mapping':
->> (.text+0x13e): undefined reference to `hid_alloc_report_buf'
->> s390-linux-ld: (.text+0x18c): undefined reference to `hid_hw_raw_request'
->> s390-linux-ld: (.text+0x1e8): undefined reference to `hid_report_raw_event'
+I agree with Dmitry that we should try to avoid DMI matching here;
+and I also agree that having some header with a static inline
+acpi_is_hid_device() device helper would be good.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+I'm a bit worried about the acpi_is_hid_device() approach though,
+there is a lot of copy and pasting going on when vendors create
+ACPI tables and sometimes a "PNP0C50" CID is present combined
+with a valid i2c-hid _DSM method even though the device is not
+an i2c-hid device, also see the i2c_hid_acpi_blacklist[] in
+drivers/hid/i2c-hid/i2c-hid-acpi.c .
+
+It seems to me that the problem is that the Lenovo Yoga Slim 7
+is using what seems to be a very generic "ELAN0000" ACPI hardware
+id instead of one of the many more specific ones.
+
+So we could limit the acpi_is_hid_device() check to just the
+"ELAN0000" ACPI hardware id I guess?
+
+So I see the following 2 options:
+
+1. Add an unconditional acpi_is_hid_device() check to elan_probe()
+   and watch out for any bug-reports that this is causing breakage
+   elsehwere
+2. Add an acpi_is_hid_device() check to elan_probe() for ACPI enumerated
+   touchpads with a hardware-id of ELAN0000 only; and still
+   watch out for any bug-reports that this is causing breakage
+   elsehwere just to be sure
+
+Regards,
+
+Hans
+
+
+
+
+
+>> I'm not sure what's the best fix for this, but below a quick
+>> workaround using a deny list with DMI matching.
+>> If this is OK, I can resubmit the patch for merging.
+>>
+>> Any comments appreciated.
+>>
+>>
+>> thanks,
+>>
+>> Takashi
+>>
+>> -- 8< --
+>> From: Takashi Iwai <tiwai@suse.de>
+>> Subject: [PATCH] Input: elan_i2c: Add deny list for Lenovo Yoga Slim 7
+>>
+>> The touchpad on Lenovo Yoga Slim 7 doesn't work well with elan-i2c but
+>> rather better with i2c-hid.  Add a deny list for avoiding to bind with
+>> elan-i2c.
+>>
+>> BugLink: https://bugzilla.opensuse.org/show_bug.cgi?id=1193064
+>> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+>> ---
+>>  drivers/input/mouse/elan_i2c_core.c | 19 +++++++++++++++++++
+>>  1 file changed, 19 insertions(+)
+>>
+>> diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+>> index 47af62c12267..fd08481f7aea 100644
+>> --- a/drivers/input/mouse/elan_i2c_core.c
+>> +++ b/drivers/input/mouse/elan_i2c_core.c
+>> @@ -18,6 +18,7 @@
+>>  #include <linux/acpi.h>
+>>  #include <linux/delay.h>
+>>  #include <linux/device.h>
+>> +#include <linux/dmi.h>
+>>  #include <linux/firmware.h>
+>>  #include <linux/i2c.h>
+>>  #include <linux/init.h>
+>> @@ -1222,6 +1223,20 @@ static void elan_disable_regulator(void *_data)
+>>         regulator_disable(data->vcc);
+>>  }
+>>
+>> +static const struct dmi_system_id elan_i2c_denylist[] __initconst = {
+>> +#if IS_ENABLED(CONFIG_I2C_HID_ACPI)
+>> +       {
+>> +               /* Lenovo Yoga Slim 7 is better supported by i2c-hid */
+>> +               .matches = {
+>> +                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+>> +                       DMI_MATCH(DMI_PRODUCT_NAME, "82A3"),
+>> +                       DMI_MATCH(DMI_PRODUCT_VERSION, "Yoga Slim 7 14ITL05"),
+>> +               },
+>> +       },
+>> +#endif
+>> +       { }
+>> +};
+>> +
+>>  static int elan_probe(struct i2c_client *client,
+>>                       const struct i2c_device_id *dev_id)
+>>  {
+>> @@ -1233,6 +1248,10 @@ static int elan_probe(struct i2c_client *client,
+>>
+>>         if (IS_ENABLED(CONFIG_MOUSE_ELAN_I2C_I2C) &&
+>>             i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+>> +               if (dmi_check_system(elan_i2c_denylist)) {
+>> +                       dev_info(dev, "Hits deny list, skipping\n");
+>> +                       return -ENODEV;
+>> +               }
+>>                 transport_ops = &elan_i2c_ops;
+>>         } else if (IS_ENABLED(CONFIG_MOUSE_ELAN_I2C_SMBUS) &&
+>>                    i2c_check_functionality(client->adapter,
+>> --
+>> 2.31.1
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+> 
+
