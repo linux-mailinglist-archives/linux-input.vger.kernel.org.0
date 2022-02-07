@@ -2,152 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BF614ACB77
-	for <lists+linux-input@lfdr.de>; Mon,  7 Feb 2022 22:42:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ED984ACD58
+	for <lists+linux-input@lfdr.de>; Tue,  8 Feb 2022 02:08:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241520AbiBGVmO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Feb 2022 16:42:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57968 "EHLO
+        id S234467AbiBHBFo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Feb 2022 20:05:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241483AbiBGVmN (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Feb 2022 16:42:13 -0500
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C489C0612A4
-        for <linux-input@vger.kernel.org>; Mon,  7 Feb 2022 13:42:13 -0800 (PST)
-Received: by mail-pl1-x62f.google.com with SMTP id z5so12167013plg.8
-        for <linux-input@vger.kernel.org>; Mon, 07 Feb 2022 13:42:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ue8QPi/NxIX+XwjTFDBLsJTr3FjLwob22M4ctmUnrR4=;
-        b=LV2RIaevhTGJaAB2yuv0gnq6xeoKNSu73CeOcAYIVh3hp849FmGZlZtJRd3k3PArTp
-         eMu2cdnTkOKjmnD+rs4SZnWGToC5hLZZXa3ofOIegbZ/PuHbaxcheiXmSTZviVhYWyvh
-         MGAznJiLAhF4+JLED6K5pXqbDP6Yk9NzcNZLyH1FrmHh2vy7ZpXos4hOArIdOCARfnZX
-         lFk2NDWiQBZloSHSjLfLeio307PxPyiAak3ZHrTO5klsA4kykuMCk1jzQaGxI5nGC4J+
-         WFH3kTPlfwIcb6Bqm/SU5ZasdeBi7iQPwMS01hL/qwUzh4BjmvPkIvkx77ZFrvRpv4ov
-         qzZA==
+        with ESMTP id S241653AbiBGXdp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Feb 2022 18:33:45 -0500
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F240AC061355;
+        Mon,  7 Feb 2022 15:33:44 -0800 (PST)
+Received: by mail-oo1-f52.google.com with SMTP id q145-20020a4a3397000000b002e85c7234b1so15604687ooq.8;
+        Mon, 07 Feb 2022 15:33:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ue8QPi/NxIX+XwjTFDBLsJTr3FjLwob22M4ctmUnrR4=;
-        b=NzJWKpyOdRIb3pu8CerCFcy9eScPJRrXc9FrwDxCoUu+qYxGf1b35zEv1uD1wmNrRV
-         VIZW3im8ppued43DAKjQNJ78DvRSUDR8nD6ytTqsQWucK33S6n5VmVW3PscXu76JpV1G
-         HLji5YRcSCIfmf6K5Z7xMfT7dNpsp1hqRE47h/gvnFQXkQyczCZzWWHzpPeFE2+NWzAs
-         XiO8GCXanVmchvutyH2+/U0rKmXw1xup5bs1SvZYbUR0uJlDaJLJeCoD4sl+Y2LwYIpE
-         Z12Ot4F9ipDoRukGXBNqJ+pkunzSjDP8tkQ2U24krh36e9rjZ83VHs/4Md4eIw25BUiI
-         a6jw==
-X-Gm-Message-State: AOAM532YTQdrsgANCkT7yElyoB5a2IpvBey3e8Rw68spR3oPwzjX8YN4
-        n9BlB5VcF6lvjIYBO+hab37NIxE8DRGuPC8GZvKXcA==
-X-Google-Smtp-Source: ABdhPJynmSC+eH1Rc/LMtMTGYYFzuJoeRv2tRZelbMGBI3InPfpklZDaqWp87SGtTe0tTlBvUiGrc5S+5gM28jEv9CA=
-X-Received: by 2002:a17:90a:f485:: with SMTP id bx5mr1012434pjb.46.1644270132376;
- Mon, 07 Feb 2022 13:42:12 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eD+WbFNgoiVOWs2+mRiGqAg5p4oZ63XL14CKRP0Hztk=;
+        b=yw1+RUppI70W6ANKDtxpI2/MxQ3fQ4yjS1OsC+DqDRas5+ukbmAP9sxlvgyUR08HEs
+         7aYwtSAqGyxj5mYZTA28ah+cTvFPRObY0jGPtxIaDIMKd6obsznFpCGtEd4jM81/PSwA
+         Ghs8EkeZHBL4nf6BlCD3WCIODzH5ou0JpKGEp1lcY829cSymnK/C2aZG+eI5v4sogrri
+         r60T8b+85Ez7mROkH/a96ssyoFsk1BC9+CVyNogt4kTLjsm0EC3o50ECR+0Zx8Zg80Ab
+         fFyskRdjv5GmPmVZWioLKdF/ak0gvqNOFEVIboVkM3Ri8Zppun558nIj1LgfkFUkh0Xf
+         /07g==
+X-Gm-Message-State: AOAM531v32t31sf6fBfUv1xRUn5HT/+jTo2ndwmcscysPvc3Pb9lLFJK
+        2scTs3x/mSzAUOouYzwaOQ==
+X-Google-Smtp-Source: ABdhPJwfq4DJq1b0SJyD+QTW8RjwU7x0Hk110ctjUsDCjQw3ledmXS2oTNIV7EBNIzAK1+oIhAQQUw==
+X-Received: by 2002:a05:6870:1942:: with SMTP id m2mr448317oak.152.1644276824260;
+        Mon, 07 Feb 2022 15:33:44 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id v78sm4844873oie.18.2022.02.07.15.33.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Feb 2022 15:33:43 -0800 (PST)
+Received: (nullmailer pid 1136265 invoked by uid 1000);
+        Mon, 07 Feb 2022 23:33:42 -0000
+Date:   Mon, 7 Feb 2022 17:33:42 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: Add bindings for Azoteq
+ IQS7222A/B/C
+Message-ID: <YgGsVmxoA2szjJqv@robh.at.kernel.org>
+References: <20220126030723.223809-1-jeff@labundy.com>
+ <20220126030723.223809-2-jeff@labundy.com>
 MIME-Version: 1.0
-References: <89456fcd-a113-4c82-4b10-a9bcaefac68f@google.com>
- <YgF/0QGFN4SppLKg@shikoro> <CACK8Z6Etj-gq1VKpkUBstiXEETekPWG9p9gKBtuFaZF05pQEvQ@mail.gmail.com>
-In-Reply-To: <CACK8Z6Etj-gq1VKpkUBstiXEETekPWG9p9gKBtuFaZF05pQEvQ@mail.gmail.com>
-From:   Rajat Jain <rajatja@google.com>
-Date:   Mon, 7 Feb 2022 13:41:36 -0800
-Message-ID: <CACK8Z6FUsceYgBoaAtN8o4m9HpZaBZMt0Nqtvw0a1Z3EuD_nWg@mail.gmail.com>
-Subject: Re: 5.17-rc regression: rmi4 clients cannot deal with asynchronous
- suspend? (was: X1 Carbon touchpad not resumed)
-To:     Wolfram Sang <wsa@kernel.org>, Hugh Dickins <hughd@google.com>,
-        Derek Basehore <dbasehore@chromium.org>,
-        Rajat Jain <rajatja@google.com>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Thorsten Leemhuis <regressions@leemhuis.info>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>
-Cc:     "loic.poulain@linaro.org" <loic.poulain@linaro.org>,
-        Andrew Duggan <aduggan@synaptics.com>,
-        vincent.huang@tw.synaptics.com, cheiny@synaptics.com,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-input <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220126030723.223809-2-jeff@labundy.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-+linux-input@vger.kernel.org
+On Tue, 25 Jan 2022 21:07:22 -0600, Jeff LaBundy wrote:
+> This patch adds bindings for the Azoteq IQS7222A/B/C family of
+> capacitive touch controllers.
+> 
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> ---
+> Changes in v2:
+>  - Renamed binding to include vendor prefix
+>  - Corrected error in channel node name regex
+>  - Removed superfluous '#address-cells' and '#size-cells' properties
+>  - Added more detail to 'azoteq,max-counts' property
+> 
+>  .../bindings/input/azoteq,iqs7222.yaml        | 960 ++++++++++++++++++
+>  1 file changed, 960 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
+> 
 
-On Mon, Feb 7, 2022 at 1:09 PM Rajat Jain <rajatja@google.com> wrote:
->
-> +Rafael (for any inputs on asynchronous suspend / resume)
-> +Dmitry Torokhov (since no other maintainer of rmi4 in MAINTAINERS file)
-> +loic.poulain@linaro.org (who fixed RMI device hierarchy recently)
-> + Some Synaptics folks (from recent commits - Vincent Huang, Andrew
-> Duggan, Cheiny)
->
-> On Mon, Feb 7, 2022 at 12:23 PM Wolfram Sang <wsa@kernel.org> wrote:
-> >
-> > Hello Hugh,
-> >
-> > > Bisection led to 172d931910e1db800f4e71e8ed92281b6f8c6ee2
-> > > ("i2c: enable async suspend/resume on i2c client devices")
-> > > and reverting that fixes it for me.
-> >
-> > Thank you for the report plus bisection and sorry for the regression!
->
-> +1, Thanks for the bisection, and apologies for the inconveniences.
->
-> The problem here seems to be that for some reason, some devices (all
-> connected to rmi4 adapter) failed to resume, but only when
-> asynchronous suspend is enabled (by 172d931910e1):
->
-> [   79.221064] rmi4_smbus 6-002c: failed to get SMBus version number!
-> [   79.265074] rmi4_physical rmi4-00: rmi_driver_reset_handler: Failed
-> to read current IRQ mask.
-> [   79.308330] rmi4_f01 rmi4-00.fn01: Failed to restore normal operation: -6.
-> [   79.308335] rmi4_f01 rmi4-00.fn01: Resume failed with code -6.
-> [   79.308339] rmi4_physical rmi4-00: Failed to suspend functions: -6
-> [   79.308342] rmi4_smbus 6-002c: Failed to resume device: -6
-> [   79.351967] rmi4_physical rmi4-00: Failed to read irqs, code=-6
->
-> A resume failure that only shows up during asynchronous resume,
-> typically means that the device is dependent on some other device to
-> resume first, but this dependency is NOT established in a parent child
-> relationship (which is wrong and needs to be fixed, perhaps using
-> device_add_link()). Thus the kernel may be resuming these devices
-> without first resuming some other device that these devices need to
-> depend on.
->
-> TBH, I'm not sure how to fix this. The only hint I see is that all of
-> these devices seem to be attached to rmi4 device so perhaps something
-> there? I see 6e4860410b828f recently fixed device hierarchy for rmi4,
-> and so seemingly should have fixed this very issue (as also seen in
-> commit message)?
->
-> >
-> > I will wait a few days if people come up with a fix. If not, I will
-> > revert the offending commit.
->
-> While I'll be sad because this means no i2c-client can now resume in
-> parallel and increases resume latency by a *LOT* (hundreds of ms on
-> all Linux systems), I understand that this needs to be done unless
-> someone comes up with a fix.
->
-> I wanted to confirm that the following patches shall continue to stay?
->
-> d320ec7acc83 i2c: enable async suspend/resume for i2c adapters
-> 7c5b3c158b38 i2c: designware: Enable async suspend / resume of
-> designware devices
->
-> Thanks & Best Regards,
->
-> Rajat
->
->
-> >
-> > All the best,
-> >
-> >    Wolfram
-> >
+Reviewed-by: Rob Herring <robh@kernel.org>
