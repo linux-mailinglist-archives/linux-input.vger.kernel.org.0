@@ -2,178 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B6914AE220
-	for <lists+linux-input@lfdr.de>; Tue,  8 Feb 2022 20:20:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A3CB4AE430
+	for <lists+linux-input@lfdr.de>; Tue,  8 Feb 2022 23:27:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385966AbiBHTUJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Feb 2022 14:20:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33182 "EHLO
+        id S1386270AbiBHW0i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Feb 2022 17:26:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353717AbiBHTUI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Feb 2022 14:20:08 -0500
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81733C0612C1
-        for <linux-input@vger.kernel.org>; Tue,  8 Feb 2022 11:20:06 -0800 (PST)
-Received: by mail-yb1-xb2f.google.com with SMTP id v47so27822630ybi.4
-        for <linux-input@vger.kernel.org>; Tue, 08 Feb 2022 11:20:06 -0800 (PST)
+        with ESMTP id S1386594AbiBHU5t (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Feb 2022 15:57:49 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01A6CC0612C3;
+        Tue,  8 Feb 2022 12:57:49 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id w1so398572plb.6;
+        Tue, 08 Feb 2022 12:57:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=semihalf-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4JxTFoE10Xqe5d3z4zOPiFNFHsiuqJzkr1QYZntPRQM=;
-        b=GTHGYForIk5Fc+B3ly6NQIqzu76350nZw/zcVJV1GYoex90pIOQWA5cBUqP0smIYOa
-         HoI4ymg+6rnCuRF0IYyh2u8IB3AN7ya9qi1ZcKuD0JhuFUjll+OYHAemD5SRnJ0u3G2w
-         cpY6mwL4z3I7a3vVzUU/4NI9HcfSvwHaNLUH4nEynWyqhoaKFIvaRzHSDEcXjNPolrw1
-         Z5gyGFKMgPcanS5YHmm3T1UzXQHrVwk7PD5lFHrHIIbrjTtDMnKIsST02C+7PqDe/OWZ
-         fpPH7qXeuZ7u4FAjrwZvMT4oxhZ8xlYN6n/RXkTjwhverTuHFhg3ZMfVs5WU/j0MCByG
-         +5og==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=lER0Yn2EpeMSnVJPYoZJVlBcAkY3FCI93VU6xZwJrHE=;
+        b=DR4hOjfQMDg56Ra5Gcb+pNcHpV3LBEcOn5SQ/ZzCsKGrKBq1HQFmyEzf7GgN42JujR
+         nzXgmsfhSsO2CDqmgur4Hi/VMyUrx0wGzZtTiLIiGVI2ZYwxgOqJeAks9XECFpd/AgcG
+         1QyRsg9s0BTKMJPVb+8c/SS7JVko9ew1/oEZE/LVhESBmLzBv7gDHZiSHDDyF8N+4HF/
+         XtRxoBUBoMNdeKRi1obyUsESFfYu5Yp4lIe2vxx/4fnk3WaBwiIdxhIMtetuYbdjBe9g
+         BB3kTzDOVS8vJc4GG0HfhqSbSW1Gk1PpV+2EathmCnaTpaK7W1leiapaOvDDMKgjJ6jV
+         t+dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4JxTFoE10Xqe5d3z4zOPiFNFHsiuqJzkr1QYZntPRQM=;
-        b=2hA4b3TNeTC8hX9RJmygz4N/58xfXHEl5JdOLOHEzaR1GzV5JNpk0zbd5LUsobZCaS
-         0zzvgCz9lOj58toHme1BB8yFmbYoS7EC22cDZ/dqDVG/V7jPBszjv+qAV6ZlXkOg0S35
-         K4pB/GdZRV/7kdG2XDHBrnkCzw/YAlGRS4hzz7JzMoFXZBLw1uw53NKBN9Uzwvq26m1Q
-         ItYVDz32XKu0+F/CXLokz8Q6LLqe50RAMNBPFZEQsYxISg16wmraZK4nyVMeMrHc13AW
-         CmXyxRkoMk68X10tD5h6VjZiAGkdeu6LXZQFxOGJ/4X3oP8LfHkaz6O3J3Ndw0whVKyb
-         S6Pw==
-X-Gm-Message-State: AOAM532l8/EQGckkrq/4NUL2BkAK2ENafBTxDCRV71fWwJwIKpD1/WJw
-        Zam+AhHFpUcYBdMG7S3+7WpltlxiDSSzJkkadOPbqA==
-X-Google-Smtp-Source: ABdhPJy/2ZJsdNIpfT19XC99EZa++n0vY+09GTEwdIyYzwjIrajZCMmDIQh50dNobDk17ev42L4L5l7uya+oNR03sQ0=
-X-Received: by 2002:a0d:e305:: with SMTP id m5mr6327794ywe.375.1644348005640;
- Tue, 08 Feb 2022 11:20:05 -0800 (PST)
-MIME-Version: 1.0
-References: <20220126161832.3193805-1-benjamin.tissoires@redhat.com>
-In-Reply-To: <20220126161832.3193805-1-benjamin.tissoires@redhat.com>
-From:   Angela Czubak <acz@semihalf.com>
-Date:   Tue, 8 Feb 2022 20:19:54 +0100
-Message-ID: <CAB4aORW_b+6=a-fXCL-MJoM9uNvjeYL01W85Rb=6rMP-Nm11QQ@mail.gmail.com>
-Subject: Re: [PATCH 00/12] HID: fix for generic input processing
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Ahelenia_Ziemia=C5=84ska?= 
-        <nabijaczleweli@nabijaczleweli.xyz>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=lER0Yn2EpeMSnVJPYoZJVlBcAkY3FCI93VU6xZwJrHE=;
+        b=OG6cLLmFi4r9bTxy3hu2PVsKWJlf3xpEAmLUyBiqunmEt+pZjKTXQ+JTzuL446uB8h
+         azf72FT7mCWAn4sLIa6fZLTZckhjVIAzHepnGGaZPKA5TCZ8TF2WI2/zHCPp0nYwzHeN
+         VFoGxvoViu68ab6bDMRsPRV/xWJRURnNnDCd2UZm00qVi+JZyhA4jNALNzt8f4q2q0G0
+         l78wPHXnajjz9hlrmnudpSRJaw8+83dyYo68Yd6gqJlcIGl5zEYPSRtAeeAvD9vhmQZb
+         cppluBxdX15WXhWzQ8+MSvVrUc9pc88455bllyOSR3LnsVGR3JGAf+Gcvc1ylY+6PQkQ
+         3gnQ==
+X-Gm-Message-State: AOAM530NNQr86ZLYp9jpCZ4dP/ARWnmktAL68HwmPfEPmO6JA/Ngo1gl
+        7etvZpXq1fqBDRCofUSTWMlF9NgFbQc=
+X-Google-Smtp-Source: ABdhPJyD1XSVqyDQR8eoIbfVTTIK7WZth2TwLe+zSUDXHBELSyDkPp+Hst2Y7r4jyog9YA4ytner2Q==
+X-Received: by 2002:a17:902:e844:: with SMTP id t4mr6280526plg.104.1644353867631;
+        Tue, 08 Feb 2022 12:57:47 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:3a7a:5580:400f:1e51])
+        by smtp.gmail.com with ESMTPSA id b24sm12184296pgs.1.2022.02.08.12.57.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 12:57:46 -0800 (PST)
+Date:   Tue, 8 Feb 2022 12:57:44 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc:     rydberg@bitmath.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Peter Hutterer <peter.hutterer@who-t.net>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jkosina@suse.cz>
+Subject: Re: [PATCH RESEND v3] Input: clear BTN_RIGHT/MIDDLE on buttonpads
+Message-ID: <YgLZSNqx0BN1JXhC@google.com>
+References: <20220208174806.17183-1-jose.exposito89@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220208174806.17183-1-jose.exposito89@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
+On Tue, Feb 08, 2022 at 06:48:06PM +0100, José Expósito wrote:
+> Buttonpads are expected to map the INPUT_PROP_BUTTONPAD property bit
+> and the BTN_LEFT key bit.
+> 
+> As explained in the specification, where a device has a button type
+> value of 0 (click-pad) or 1 (pressure-pad) there should not be
+> discrete buttons:
+> https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/touchpad-windows-precision-touchpad-collection#device-capabilities-feature-report
+> 
+> However, some drivers map the BTN_RIGHT and/or BTN_MIDDLE key bits even
+> though the device is a buttonpad and therefore does not have those
+> buttons.
+> 
+> This behavior has forced userspace applications like libinput to
+> implement different workarounds and quirks to detect buttonpads and
+> offer to the user the right set of features and configuration options.
+> For more information:
+> https://gitlab.freedesktop.org/libinput/libinput/-/merge_requests/726
+> 
+> In order to avoid this issue clear the BTN_RIGHT and BTN_MIDDLE key
+> bits when the input device is register if the INPUT_PROP_BUTTONPAD
+> property bit is set.
+> 
+> Notice that this change will not affect udev because it does not check
+> for buttons. See systemd/src/udev/udev-builtin-input_id.c.
+> 
+> List of known affected hardware:
+> 
+>  - Chuwi AeroBook Plus
+>  - Chuwi Gemibook
+>  - Framework Laptop
+>  - GPD Win Max
+>  - Huawei MateBook 2020
+>  - Prestigio Smartbook 141 C2
+>  - Purism Librem 14v1
+>  - StarLite Mk II   - AMI firmware
+>  - StarLite Mk II   - Coreboot firmware
+>  - StarLite Mk III  - AMI firmware
+>  - StarLite Mk III  - Coreboot firmware
+>  - StarLabTop Mk IV - AMI firmware
+>  - StarLabTop Mk IV - Coreboot firmware
+>  - StarBook Mk V
+> 
+> Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
+> Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Acked-by: Jiri Kosina <jkosina@suse.cz>
+> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> 
 
-On Wed, Jan 26, 2022 at 5:18 PM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> Hi,
->
-> This is a followup of the discussion we had between Wacom and
-> the maintainers, and a followup of those 2 patch series:
->
-> https://lore.kernel.org/r/20211022232837.18988-1-ping.cheng@wacom.com/
-> https://lore.kernel.org/r/2ca91ac7cf92e3048a236db3cd519f04e12c1e61.1615224800.git.nabijaczleweli@nabijaczleweli.xyz/
->
-> It took me a while to get it right, but I finally can submit the
-> series:
->
-> - the first 8 patches are some cleanup in the hid-input.c and
->   hid-core.c code. They also create a list of input fields that
->   is then used to process the event, in the priority we think
->   is good.
->
->   For instance, on multitouch devices, it is better to have
->   Contact Count before processing all touches, and in each
->   touch, having Contact ID first is better. This series doesn't
->   cover hid-multitouch, but I have a series on top of this one that
->   does cover it.
->
->   Anyway, in our case, here, we need to process Invert before
->   In Range for tablets so we can make a decision whether the user
->   has the intend to erase or not.
->
-> - patch 9 enforces the invert usage before In Range as mentioned
->   above
->
-> - patch 10 is the actual bulk of processing that should fix the
->   generic tablet handling. Now that we have a reliable ordering
->   of the fields, we can compute the state of the tool in a reliable
->   way, and be kinder to userspace by not sending to it 2 tools at
->   the same time.
->
->   This patch has been extensively tested by hid-tools with the new
->   MR I submitted that add tests for tablets [0].
->
-> - patch 11 is a nice to have that I need for my second series regarding
->   hid-multitouch. It is not mandatory with that series, but given
->   that it changes the format of the priorities in hid-input.c I thought
->   it would be best to send it as part of this series.
->
->   Note that now we are tagging the *reports* and the individual fields
->   when they are part of a multitouch collection, which should help
->   the drivers that implement this processing (hid-multitouch and wacom).
->
-> - last, patch 12 is an attempt at fixing the documentation regarding
->   BTN_TOOL_* (requested by Peter).
->
->   Dmitry, feel free to take this one through your tree if you prefer
->   to do so (and if you are happy with it), otherwise we can take it
->   through the hid tree.
->
-> As mentioned above, I have a followup series not entirely tidied up
-> that implements the processing of Win8 mutltiouch devices in
-> hid-input.c.
-> There are several benefits for that: we should be able to drop the
-> multitouch code in wacom.ko, we can simplify part of hid-multitouch,
-> and we will be able to quirk a particular device in a separate module,
-> without touching at the generic code (in hid-multitouch or hid-input).
->
-> Anyway, I am missing a few bits for that so that's coming in later.
->
+Applied, thank you.
 
-Is there any timeline for the followup series? I am wondering how that
-would affect haptic support implementation.
-
-> Cheers,
-> Benjamin
->
->
-> [0] https://gitlab.freedesktop.org/libevdev/hid-tools/-/merge_requests/127
->
-> Benjamin Tissoires (12):
->   HID: core: statically allocate read buffers
->   HID: core: de-duplicate some code in hid_input_field()
->   HID: core: split data fetching from processing in hid_input_field()
->   HID: input: tag touchscreens as such if the physical is not there
->   HID: input: rework spaghetti code with switch statements
->   HID: input: move up out-of-range processing of input values
->   HID: compute an ordered list of input fields to process
->   HID: core: for input reports, process the usages by priority list
->   HID: input: enforce Invert usage to be processed before InRange
->   HID: input: remove the need for HID_QUIRK_INVERT
->   HID: input: accommodate priorities for slotted devices
->   Input: docs: add more details on the use of BTN_TOOL
->
->  Documentation/input/event-codes.rst |   5 +-
->  drivers/hid/hid-core.c              | 280 ++++++++++++++++++++---
->  drivers/hid/hid-input.c             | 330 ++++++++++++++++++++++------
->  include/linux/hid.h                 |  23 +-
->  4 files changed, 533 insertions(+), 105 deletions(-)
->
-> --
-> 2.33.1
->
-
-Does this patch series introduce the leaf driver support you mentioned
-in the haptic review?
+-- 
+Dmitry
