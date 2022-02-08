@@ -2,62 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 932C84AE0ED
-	for <lists+linux-input@lfdr.de>; Tue,  8 Feb 2022 19:37:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6850D4AE177
+	for <lists+linux-input@lfdr.de>; Tue,  8 Feb 2022 19:51:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385001AbiBHShQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Feb 2022 13:37:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33988 "EHLO
+        id S1385507AbiBHSuR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Feb 2022 13:50:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231149AbiBHShP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Feb 2022 13:37:15 -0500
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED7F7C061579;
-        Tue,  8 Feb 2022 10:37:14 -0800 (PST)
-Received: by mail-wm1-x32b.google.com with SMTP id q198-20020a1ca7cf000000b0037bb52545c6so1803333wme.1;
-        Tue, 08 Feb 2022 10:37:14 -0800 (PST)
+        with ESMTP id S239828AbiBHSuQ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Feb 2022 13:50:16 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB769C0613CB;
+        Tue,  8 Feb 2022 10:50:15 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id i15so50563wrb.3;
+        Tue, 08 Feb 2022 10:50:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qFTo/bi+FjWLNEXhekC/MI3dMk+TubwGuk6yd0dpJGU=;
-        b=kiwXSfLsrQfkGXvJ7u+3BTLh8Fcruy6Dz1BVftSQVcfGbjRNmavlyTm7omSEKy50Wj
-         bpUIaKp1lb529BdXhTnrYZSqOUzmMBYwN+uxUp+QxGeBYUBcl0CH9n3+UK9RwJGd80Xy
-         9ehirjizBu2j5EHIsxF8yiuRgCswq//ZKLHAnakvXH/KMcXPSYOIsraO96a/T7Qavpc+
-         gOvH8qG9OisNBZA/gV3N2sD2Ny89eYPiAO3V0w8gO9HJJyuyYT6dDZm2h0F3TQWB2h8a
-         Q8xamO+Wp1IpncPU8ilyYvIZ7aMlv0SSRkJmSJawl6RIGakpALSjQVZcq1svY4Z3KBPl
-         rVPw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+bW4/d1RmPrcFkBPFnS9TEkSFkwgeh0dGJKR1Tr/Tag=;
+        b=gA8E/iaX8ZYazGtleR4LppT76qqFGqWeQMVCvagIzF9Bs1x2SnfR/OcI2cxB8uDGzx
+         HbCcOPQNhAzMFwXdZDFbqpEZAbOTLVJc0JijlqBZwI5qVpeaAm2H5UOXRoO33KAQQ9xm
+         STfhTCz7XcrevNkV1JNxkS6Foi1W1K42hNSVx0wE/xpE35t1IdJ9lO8Qt2eAEajeOAoX
+         6TaGuUk+WlqVj7EoeflwW+easwYPITv3+L6pml7OFYFP8pM+8EpG5ER02wgz1/HhAefL
+         l4EqLBZ/7BBlqWVWshV7ozHfwxHbuetCsVFAW4mytjGHctJLV0KZmxD+FRXGMC4WCxRH
+         hmGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qFTo/bi+FjWLNEXhekC/MI3dMk+TubwGuk6yd0dpJGU=;
-        b=DDWh79JGqKAeEjM0pApTZDYvfJEoexLXs/SyKSzFmShrUG0sw97PryVfWfcrIv/bTa
-         YIHeg6UX54RYRtWv64i0ZCDZvQHvRixJt50/rF6yzYsIXuPcsUg7lBSl8IhjstSPo/L9
-         QvvecwlTp0cpiDi3bC2OR7MaDe11P9Umnv2DGRPvUOa+kKd8fzKy0e70KVlZaaYwHPWo
-         ZhiTQL42nrw5a6DlwZGjZSmOBFNORB+VGZiRaUstESqf1RrBdHsfwWMM3TG9lYSrc1EZ
-         3K7tPm3WlVR/VCbjvYx9Gga7h7fOiowHq7xpZ9DSufTfbd82nVD5dZ/nTwSaR/6WSC60
-         VG1Q==
-X-Gm-Message-State: AOAM530R6YHyVz4jAVFTT/xXUfBVvKOx73P9quLTo6lzIBKPck3i0cA+
-        bvKFKcsb7djAyjUh8IsfJ/s=
-X-Google-Smtp-Source: ABdhPJxwpFPd8NjSVfFji4x1ADJbmOdeyIXwd1HIXa+5Zx6tcA/BS2T1SRS9Z62RzwrT00NVD62afA==
-X-Received: by 2002:a05:600c:3ac5:: with SMTP id d5mr2137484wms.107.1644345433388;
-        Tue, 08 Feb 2022 10:37:13 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+bW4/d1RmPrcFkBPFnS9TEkSFkwgeh0dGJKR1Tr/Tag=;
+        b=MRB8mwTGvuStsTPDDfftGVupLtFMqeM2t5qX9hxQ1D2CXy7aO7xp9v2hscGIikPS6g
+         GoxQBZNtKBdLzRUFBLi4UKmoplMq66muzGXHkQgSgThtQOlpR1PJIA0usb2kE9CLERvy
+         N7cBraxvzZ/vrB6vWi1ae6tpGBdS/atJ/fZyfiJXCMQPnfe6aOV7CxCDS/dkVNRTSC/M
+         2Ye+2j3TCgGLlU+UAI+YrsYbxprXZSmAUkqB0cKZeiFsklIJeMrKYz+5chvzdY2rnd2L
+         kdfVjBoUStm+HtnPFzIm3uukSoQPuuQ31KFfbVxH80BfoaOOtBmQ+zAdQNXHIWExrVR6
+         7Ouw==
+X-Gm-Message-State: AOAM533HaloaiYxYwMSSEOruUAjujSydUR33ESy8mfuvul20fSHdWOPL
+        FObDXRBqCMsct5zaCaSOLu8=
+X-Google-Smtp-Source: ABdhPJz45ZFJM/Fwd9aGG9iOwkXkrrtyioQdxXvuQ1/MTPwTjXGfU2eF5zizwbWX6o+YR4FVI+kUMg==
+X-Received: by 2002:a5d:64ad:: with SMTP id m13mr4635534wrp.671.1644346214253;
+        Tue, 08 Feb 2022 10:50:14 -0800 (PST)
 Received: from localhost.localdomain ([94.73.33.246])
-        by smtp.gmail.com with ESMTPSA id l20sm2945308wmq.22.2022.02.08.10.37.12
+        by smtp.gmail.com with ESMTPSA id g20sm4242982wmq.9.2022.02.08.10.50.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 10:37:13 -0800 (PST)
+        Tue, 08 Feb 2022 10:50:13 -0800 (PST)
 From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To:     jikos@kernel.org
 Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v2 3/3] HID: apple: Magic Keyboard 2015 FN key mapping
-Date:   Tue,  8 Feb 2022 19:37:04 +0100
-Message-Id: <20220208183704.40101-4-jose.exposito89@gmail.com>
+Subject: [PATCH v2] HID: apple: Report Magic Keyboard 2021 battery over USB
+Date:   Tue,  8 Feb 2022 19:50:09 +0100
+Message-Id: <20220208185009.49100-1-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220208183704.40101-1-jose.exposito89@gmail.com>
-References: <20220208183704.40101-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -71,69 +69,40 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Magic Keyboard 2015 function key mapping was not present and the
-default mapping was used.
-While this worked for most keys, the F5 and F6 keys were sending
-KEY_KBDILLUMDOWN and KEY_KBDILLUMUP; however, the keyboard is not
-backlited.
+Like the Apple Magic Keyboard 2015, when connected over USB, the 2021
+version registers 2 different interfaces. One of them is used to report
+the battery level.
 
-Add a custom translation table for the keyboard leaving F5 and F6
-unassigned to mimic the default behavior on macOS.
+However, unlike when connected over Bluetooth, the battery level is not
+reported automatically and it is required to fetch it manually.
+
+Add the APPLE_RDESC_BATTERY quirk to fix the battery report descriptor
+and manually fetch the battery level.
+
+Tested with the ANSI, ISO and JIS variants of the keyboard.
 
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+
 ---
- drivers/hid/hid-apple.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+
+v2: Rebased on master, it was for-next
+---
+ drivers/hid/hid-apple.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index c140146e2370..4a458e7fab42 100644
+index 24802a4a636e..ce88f8645155 100644
 --- a/drivers/hid/hid-apple.c
 +++ b/drivers/hid/hid-apple.c
-@@ -97,6 +97,26 @@ static const struct apple_key_translation magic_keyboard_alu_fn_keys[] = {
- 	{ }
- };
- 
-+static const struct apple_key_translation magic_keyboard_2015_fn_keys[] = {
-+	{ KEY_BACKSPACE, KEY_DELETE },
-+	{ KEY_ENTER,	KEY_INSERT },
-+	{ KEY_F1,	KEY_BRIGHTNESSDOWN, APPLE_FLAG_FKEY },
-+	{ KEY_F2,	KEY_BRIGHTNESSUP,   APPLE_FLAG_FKEY },
-+	{ KEY_F3,	KEY_SCALE,          APPLE_FLAG_FKEY },
-+	{ KEY_F4,	KEY_DASHBOARD,      APPLE_FLAG_FKEY },
-+	{ KEY_F7,	KEY_PREVIOUSSONG,   APPLE_FLAG_FKEY },
-+	{ KEY_F8,	KEY_PLAYPAUSE,      APPLE_FLAG_FKEY },
-+	{ KEY_F9,	KEY_NEXTSONG,       APPLE_FLAG_FKEY },
-+	{ KEY_F10,	KEY_MUTE,           APPLE_FLAG_FKEY },
-+	{ KEY_F11,	KEY_VOLUMEDOWN,     APPLE_FLAG_FKEY },
-+	{ KEY_F12,	KEY_VOLUMEUP,       APPLE_FLAG_FKEY },
-+	{ KEY_UP,	KEY_PAGEUP },
-+	{ KEY_DOWN,	KEY_PAGEDOWN },
-+	{ KEY_LEFT,	KEY_HOME },
-+	{ KEY_RIGHT,	KEY_END },
-+	{ }
-+};
-+
- static const struct apple_key_translation apple2021_fn_keys[] = {
- 	{ KEY_BACKSPACE, KEY_DELETE },
- 	{ KEY_ENTER,	KEY_INSERT },
-@@ -282,6 +302,9 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- 		    hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ISO ||
- 		    hid->product == USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_JIS)
- 			table = magic_keyboard_alu_fn_keys;
-+		else if (hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2015 ||
-+			 hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2015)
-+			table = magic_keyboard_2015_fn_keys;
- 		else if (hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021 ||
- 			 hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021 ||
- 			 hid->product == USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021)
-@@ -500,6 +523,7 @@ static void apple_setup_input(struct input_dev *input)
- 	apple_setup_key_translation(input, powerbook_numlock_keys);
- 	apple_setup_key_translation(input, apple_iso_keyboard);
- 	apple_setup_key_translation(input, magic_keyboard_alu_fn_keys);
-+	apple_setup_key_translation(input, magic_keyboard_2015_fn_keys);
- 	apple_setup_key_translation(input, apple2021_fn_keys);
- 
- 	if (swap_fn_leftctrl)
+@@ -748,7 +748,7 @@ static const struct hid_device_id apple_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER1_TP_ONLY),
+ 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021),
+-		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK | APPLE_RDESC_BATTERY },
+ 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021),
+ 		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
 -- 
 2.25.1
 
