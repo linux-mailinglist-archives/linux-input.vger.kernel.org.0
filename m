@@ -2,42 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 327074AD8DA
-	for <lists+linux-input@lfdr.de>; Tue,  8 Feb 2022 14:16:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B9274AD8D5
+	for <lists+linux-input@lfdr.de>; Tue,  8 Feb 2022 14:16:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243057AbiBHNQD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Feb 2022 08:16:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53852 "EHLO
+        id S1347205AbiBHNP7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Feb 2022 08:15:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355703AbiBHMVy (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Feb 2022 07:21:54 -0500
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2047.outbound.protection.outlook.com [40.107.220.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5B2AC03FECA
-        for <linux-input@vger.kernel.org>; Tue,  8 Feb 2022 04:21:53 -0800 (PST)
+        with ESMTP id S1356057AbiBHMV4 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Feb 2022 07:21:56 -0500
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2079.outbound.protection.outlook.com [40.107.220.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D494C03FEC0
+        for <linux-input@vger.kernel.org>; Tue,  8 Feb 2022 04:21:55 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N01kt4ScD0Fua9HxFHBYjlc8GZeTnxE1/8JVvvq2glNHebTPa/HY5miA0mV7n7PydTfOa7KNDAk7iAA4tnMpfPYukfw3Y1ARkM8Z7Iytq3VcDoA8cVKMNlw0padJsUudG1LcM2L4f6tXYCWnedqAwlmUqaH2MJyESgiYmDQ8Ev8FMOQ2nVsheQm1gk8wUeHaI6bxvFInyU0+OkbSro84Tt2c+axO0qr/4rRGi2sdsSh6wUyXtkVY1tch5LJoGUyPFBmSwqjk5ZK5yGayI/Cixt5YMx2UHCa/Px0RiyPovf4d79oqus+OSdmdAF1BIkI7Ca98VdRbfHf0hzp4cViYxA==
+ b=Wh96nR5nsmlZf/V9xtMfS3xDuN47KT11GxSuAmH1FA395bavMy7KGuCrWedVi3Agf2GJZ4FTYz1ljZre5Guu0y72hIuq+sUBsLt6AbDjN2nfQopPCCaqTDAE7DtRdioqcAAXjoN8TOE6Wm2Iji0Rzp6oQLHN0hQKWahcLPoIHnDZnDNu571olIy+sLo3nOtiYaDsvxtlm8qrWj1W0j0F/FXr2mvFQN3o+fTT75FePp/sRK5TZ8SujrQjrutbbtSIAvhMH5mEAusjW0zA4v/bHLi1Gx0TLelcszMt/hFLh0yjO+5b48quGG7gfI5Jf9aToEQeDVg9NMhYU1qNztvkLw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e9GP3wa/BO3DMAA2lMoClvvg0oCUDBnFECoqBoZMSmM=;
- b=n6PoDmzruCvem2PJgosmQd2yaJOM/Qj85EBe93ibFwPqpnydli9PKWqlcTrD3+mMGTPfau4HF0F5ilo835w8MqepuIp3g8Lh/pLgnerjE658hEvI3hxzHWRn0svHVF+mrNJiSUpSUvx3coczSt2OPzbcEjcrXwEVcZCAVQLaa+29hLUPKP35dY7feqSbVMbu8mMCVyPknNTW9cVjraKDG+zpIKyH9RDcwH3b/E/S5TEYRGL4mXVNioU2QQi+0NiK8x0rbN4zebmyb/zF0HT3XhadP+hgH+ar3KC+xrYh1tJ2+e6RfkUlAY2mPIGbBFHc8rZ3J6Fv/eR1aLqgsfBpKg==
+ bh=cRArr+WmYcgUvnQ2G9JrB7/0BsFvS2ZpdEHbC41T9iE=;
+ b=d+aPYP1YM5NEGrf90sfm6J3MDKAHZh4PI5u3oMTncS2AOg//sUiN75cyVO9aFn2myKaFupcHWCTLYPIBRPWiHpmMc/CREkQBBJEpsoPj0i0zsMPGC7l/EAplayisdULOR1Hglps379J48q5Owz1Tn6+Ark0eTb6/LgFMQkWHRnoCCStxhfxvSJTlhOCJ+sqx8VDt0ef8qPTDna/wlB83ORjjr5bhE9B97DX+OPGnmRkS2ZkfU590rzqDWoMeCs1eoEWGgN6Zy6sOjswr+MesZ0d9Tipapc5LV5eOhNQHVTAsQ0ZiNlihhqjM13I776aSDmGVx2lbuNIn0eFwQ8PEGg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e9GP3wa/BO3DMAA2lMoClvvg0oCUDBnFECoqBoZMSmM=;
- b=wKqIqxMfRB32l695dqRLNXMr7mhrUQ27Ddkz03JXfraDPMQuMnEVv2Sted1mZIRvQRH6Lmhk2vqTiOmsNGGKPBdoAGsDwgTIWYFOQ+9gCc0KVcwzzWkByZ4v/qNbWICBpgwA6wDB4Ja192cWtpwWJgWZHVaITyp2u/i3u4MLfJY=
-Received: from MWHPR14CA0022.namprd14.prod.outlook.com (2603:10b6:300:ae::32)
- by DM5PR12MB1515.namprd12.prod.outlook.com (2603:10b6:4:6::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4975.11; Tue, 8 Feb 2022 12:21:51 +0000
-Received: from CO1NAM11FT036.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:ae:cafe::3f) by MWHPR14CA0022.outlook.office365.com
- (2603:10b6:300:ae::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12 via Frontend
- Transport; Tue, 8 Feb 2022 12:21:51 +0000
+ bh=cRArr+WmYcgUvnQ2G9JrB7/0BsFvS2ZpdEHbC41T9iE=;
+ b=FczYVUxUqc3+VCxr82sve1T2b/oFzRQNWnPgBxrcovZoKMgWdsZnRAcHjw70Y0q1dkJ+0XmNFsRc3BXDo9OCX7Qs7119YT/iJoJjDVRIVj7LPpAHrF92xl9LjZmSjyq36mEF2tHSGx2yXO2P3AdGsmkswiFmv0s+j8I1EHBDmXY=
+Received: from MWHPR20CA0034.namprd20.prod.outlook.com (2603:10b6:300:ed::20)
+ by CH2PR12MB3894.namprd12.prod.outlook.com (2603:10b6:610:2b::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Tue, 8 Feb
+ 2022 12:21:53 +0000
+Received: from CO1NAM11FT019.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:300:ed:cafe::23) by MWHPR20CA0034.outlook.office365.com
+ (2603:10b6:300:ed::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.19 via Frontend
+ Transport; Tue, 8 Feb 2022 12:21:53 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,20 +46,20 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT036.mail.protection.outlook.com (10.13.174.124) with Microsoft SMTP
+ CO1NAM11FT019.mail.protection.outlook.com (10.13.175.57) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4951.12 via Frontend Transport; Tue, 8 Feb 2022 12:21:50 +0000
+ 15.20.4951.12 via Frontend Transport; Tue, 8 Feb 2022 12:21:53 +0000
 Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 8 Feb
- 2022 06:21:48 -0600
+ 2022 06:21:50 -0600
 From:   Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
         <linux-input@vger.kernel.org>, <Nehal-Bakulchandra.shah@amd.com>
 CC:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Subject: [PATCH 4/5] HID: amd_sfh: Add functionality to clear interrupts
-Date:   Tue, 8 Feb 2022 17:51:11 +0530
-Message-ID: <20220208122112.942471-5-Basavaraj.Natikar@amd.com>
+Subject: [PATCH 5/5] HID: amd_sfh: Add interrupt handler to process interrupts
+Date:   Tue, 8 Feb 2022 17:51:12 +0530
+Message-ID: <20220208122112.942471-6-Basavaraj.Natikar@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220208122112.942471-1-Basavaraj.Natikar@amd.com>
 References: <20220208122112.942471-1-Basavaraj.Natikar@amd.com>
@@ -70,25 +71,25 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fe7ebf5a-f4d7-413e-d24c-08d9eafd95e0
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1515:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1515D8F85D12D29453715568E62D9@DM5PR12MB1515.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-MS-Office365-Filtering-Correlation-Id: 23f25c91-246b-4357-f4c3-08d9eafd9731
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3894:EE_
+X-Microsoft-Antispam-PRVS: <CH2PR12MB3894EE57FC80CBA54133D08FE62D9@CH2PR12MB3894.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JXSpxPTnli9yYk5Sif4kTvWntb1XKBh2/UaBls1RauZq2Uee7gjjy0ljDi6+4Ii6Zc7IHQ4A3MeakaTcnWpwDmfA2XrSSWPlp2Obk8DkMAFaYdyr1K2Nx1LiMbQb1cI+o7NqZtpqfwA0PbHJVFD3HcdWGyWfSn70WE8AqzA36GA1Vx4kLbTM4JUDG857qSAQO0N/qU0Oi2Q17kZb+RgGMGdVWHqhdeE/HAtqlf+8Pub9PHMsXfxRuz6n9EMJMJ5YkAP8/mtn7EWgZICoefUU2KgeLvXAeg5QX+ZEb1857S/OB7KJd36uoUYKrlzNMe5CnILrjx0y3XofjZdqX6wuczBl3Tqg39wAkFLkwXDVceppjFDos/yTKeXPTg4Lmq+6beHKFDeDEFDSmfyxbtGnyYL5sYv7CO6KLn5bDf1YFdiYVcygwfw35fZWaUbg5ICSfexYi+Oas6Dd67uGV64ks8SlJ2qPGJ9w3GNFBMrRsDSu1jNGkTpZ+p16dm67iDCwp/70J07PESthMMjOVTlY0li08FexwSx2yMghSkdKivbc6SQ5qOu4n5daiwoZN0EBRjqb4YgObaIRlDIYrejfKrccuQ8seN+8PA3dkTgzPH/J2Cz3BKBEwY1SrzWEYx0uEF1IJycC6JWpyrc+fiWaVM9iPAmJ10RKCkUIzC7Ap1wEw015DbA3isCTyimSjYUiuGKBLm+U/gsdLB/mq3jpBQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(70586007)(36756003)(6666004)(8676002)(5660300002)(4326008)(70206006)(8936002)(508600001)(316002)(40460700003)(2906002)(83380400001)(426003)(356005)(1076003)(110136005)(16526019)(6636002)(26005)(81166007)(86362001)(2616005)(7696005)(336012)(47076005)(36860700001)(82310400004)(186003)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: Y7s4b9r0RNhytstVV2vtur1r3IX4oymB6Yig+Jt+vknVliLjRm6ODh8QFjfzuBs8NxJv2y2Hyz+L4QkUQlX49Dx2d7HjNMyLP9mceO8egePODgsi56KzzX/i4damZ1IkAvrNgaC9DINUv5lsSuPcdae6InJO07/j6jfDcU8Q/grahE4VJFqK3krHSHTKwi0Fb4E2Rtc/IOrlqgj3RwJPiLc4NXR/rOKtfCu64z45rHjVV+ojkkp6+i+3D/5tfd/zb4ADqDLOGpB4KQVLCKQh8nJsCJ9+LgxyaKA3nHcGY2gq8SuMB39Xg3AScMAca4fyxIMD7XI748jglko8Y2aY/B2yYZXCqSpXN87aGhl61+WMB+uBGSOBOH/6pracy7MlZwu34OSK4wNvYHCGo4+VBhEoUBfZ2U5kNVi0uwT419VMwaJ+f1xNUV3VscUiUK9TmIAm7lIxDicPYcg9k1SPohbLz80xYtgXpTnp5H9+kOhc3afJxd52chF5YuNciJg45End7434q6nvIakUqjurAx6wTr6E68pSisDdbmaO0Chz9kFMq4rWoY9A357b8uqSKn/8BHEspLJgfGuTUTsOgU/kwmEthFCjkh4NQkKhUab9OPulij2S/vDW/doBOl2ELZClvWq/Gydsfg3B9+VZdU24QJPHhG8jxnwHapodwsMzM6zWEBh2cyX3vw1PBK1fnoJiok+pAXzTmYN0xJTkgQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(83380400001)(47076005)(82310400004)(86362001)(186003)(336012)(426003)(40460700003)(356005)(70586007)(81166007)(70206006)(16526019)(1076003)(2616005)(8936002)(26005)(110136005)(36756003)(316002)(6636002)(8676002)(5660300002)(2906002)(4326008)(36860700001)(6666004)(7696005)(508600001)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2022 12:21:50.9925
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2022 12:21:53.2019
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe7ebf5a-f4d7-413e-d24c-08d9eafd95e0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23f25c91-246b-4357-f4c3-08d9eafd9731
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT036.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT019.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1515
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3894
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -99,100 +100,108 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Newer AMD platforms with SFH may generate interrupts on some events
-which are unwarranted. Until this is cleared the actual MP2 data
-processing maybe stalled in some cases.
+On newer AMD platforms with SFH, it is observed that random interrupts
+get generated on the SFH hardware and until this is cleared the firmware
+sensor processing is stalled, resulting in no data been received to
+driver side.
 
-Add a mechanism to clear the pending interrupts (if any) during the
-driver initialization and sensor command operations.
+Add routines to handle these interrupts, so that firmware operations are
+not stalled.
 
 Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 ---
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 25 ++++++++++++++++++++++++-
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 40 ++++++++++++++++++++++++++
  drivers/hid/amd-sfh-hid/amd_sfh_pcie.h |  1 +
- 2 files changed, 25 insertions(+), 1 deletion(-)
+ 2 files changed, 41 insertions(+)
 
 diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index 16670e910014..7236b223fb68 100644
+index 7236b223fb68..19fa734a9a79 100644
 --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
 +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -92,6 +92,20 @@ static void amd_stop_all_sensor_v2(struct amd_mp2_dev *privdata)
- 	writel(cmd_base.ul, privdata->mmio + AMD_C2P_MSG0);
+@@ -106,6 +106,30 @@ static void amd_sfh_clear_intr(struct amd_mp2_dev *privdata)
+ 		privdata->mp2_ops->clear_intr(privdata);
  }
  
-+static void amd_sfh_clear_intr_v2(struct amd_mp2_dev *privdata)
++static irqreturn_t amd_sfh_irq_handler(int irq, void *data)
 +{
-+	if (readl(privdata->mmio + AMD_P2C_MSG(4))) {
-+		writel(0, privdata->mmio + AMD_P2C_MSG(4));
-+		writel(0xf, privdata->mmio + AMD_P2C_MSG(5));
-+	}
++	amd_sfh_clear_intr(data);
++
++	return IRQ_HANDLED;
 +}
 +
-+static void amd_sfh_clear_intr(struct amd_mp2_dev *privdata)
++static int amd_sfh_irq_init_v2(struct amd_mp2_dev *privdata)
 +{
-+	if (privdata->mp2_ops->clear_intr)
-+		privdata->mp2_ops->clear_intr(privdata);
++	int rc;
++
++	pci_intx(privdata->pdev, true);
++
++	rc = devm_request_irq(&privdata->pdev->dev, privdata->pdev->irq,
++			      amd_sfh_irq_handler, 0, DRIVER_NAME, privdata);
++	if (rc) {
++		dev_err(&privdata->pdev->dev, "failed to request irq %d err=%d\n",
++			privdata->pdev->irq, rc);
++		return rc;
++	}
++
++	return 0;
 +}
 +
  void amd_start_sensor(struct amd_mp2_dev *privdata, struct amd_mp2_sensor_info info)
  {
  	union sfh_cmd_param cmd_param;
-@@ -196,6 +210,7 @@ static void amd_mp2_pci_remove(void *privdata)
+@@ -210,6 +234,7 @@ static void amd_mp2_pci_remove(void *privdata)
  	struct amd_mp2_dev *mp2 = privdata;
  	amd_sfh_hid_client_deinit(privdata);
  	mp2->mp2_ops->stop_all(mp2);
-+	amd_sfh_clear_intr(mp2);
++	pci_intx(mp2->pdev, false);
+ 	amd_sfh_clear_intr(mp2);
  }
  
- static const struct amd_mp2_ops amd_sfh_ops_v2 = {
-@@ -203,6 +218,7 @@ static const struct amd_mp2_ops amd_sfh_ops_v2 = {
- 	.stop = amd_stop_sensor_v2,
+@@ -219,6 +244,7 @@ static const struct amd_mp2_ops amd_sfh_ops_v2 = {
  	.stop_all = amd_stop_all_sensor_v2,
  	.response = amd_sfh_wait_response_v2,
-+	.clear_intr = amd_sfh_clear_intr_v2,
+ 	.clear_intr = amd_sfh_clear_intr_v2,
++	.init_intr = amd_sfh_irq_init_v2,
  };
  
  static const struct amd_mp2_ops amd_sfh_ops = {
-@@ -265,8 +281,13 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+@@ -244,6 +270,14 @@ static void mp2_select_ops(struct amd_mp2_dev *privdata)
+ 	}
+ }
+ 
++static int amd_sfh_irq_init(struct amd_mp2_dev *privdata)
++{
++	if (privdata->mp2_ops->init_intr)
++		return privdata->mp2_ops->init_intr(privdata);
++
++	return 0;
++}
++
+ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+ 	struct amd_mp2_dev *privdata;
+@@ -280,6 +314,12 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 
  	mp2_select_ops(privdata);
  
- 	rc = amd_sfh_hid_client_init(privdata);
--	if (rc)
++	rc = amd_sfh_irq_init(privdata);
 +	if (rc) {
-+		amd_sfh_clear_intr(privdata);
-+		dev_err(&pdev->dev, "amd_sfh_hid_client_init failed\n");
- 		return rc;
++		dev_err(&pdev->dev, "amd_sfh_irq_init failed\n");
++		return rc;
 +	}
 +
-+	amd_sfh_clear_intr(privdata);
- 
- 	return devm_add_action_or_reset(&pdev->dev, amd_mp2_pci_remove, privdata);
- }
-@@ -294,6 +315,7 @@ static int __maybe_unused amd_mp2_pci_resume(struct device *dev)
- 	}
- 
- 	schedule_delayed_work(&cl_data->work_buffer, msecs_to_jiffies(AMD_SFH_IDLE_LOOP));
-+	amd_sfh_clear_intr(mp2);
- 
- 	return 0;
- }
-@@ -318,6 +340,7 @@ static int __maybe_unused amd_mp2_pci_suspend(struct device *dev)
- 	}
- 
- 	cancel_delayed_work_sync(&cl_data->work_buffer);
-+	amd_sfh_clear_intr(mp2);
- 
- 	return 0;
- }
+ 	rc = amd_sfh_hid_client_init(privdata);
+ 	if (rc) {
+ 		amd_sfh_clear_intr(privdata);
 diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-index 8a9c544c27ae..61de09ba5124 100644
+index 61de09ba5124..97b99861fae2 100644
 --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
 +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-@@ -141,5 +141,6 @@ struct amd_mp2_ops {
- 	 void (*stop)(struct amd_mp2_dev *privdata, u16 sensor_idx);
+@@ -142,5 +142,6 @@ struct amd_mp2_ops {
  	 void (*stop_all)(struct amd_mp2_dev *privdata);
  	 int (*response)(struct amd_mp2_dev *mp2, u8 sid, u32 sensor_sts);
-+	 void (*clear_intr)(struct amd_mp2_dev *privdata);
+ 	 void (*clear_intr)(struct amd_mp2_dev *privdata);
++	 int (*init_intr)(struct amd_mp2_dev *privdata);
  };
  #endif
 -- 
