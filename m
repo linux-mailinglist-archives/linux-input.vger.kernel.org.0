@@ -2,128 +2,250 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A3CB4AE430
-	for <lists+linux-input@lfdr.de>; Tue,  8 Feb 2022 23:27:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B3394AE4BE
+	for <lists+linux-input@lfdr.de>; Tue,  8 Feb 2022 23:37:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386270AbiBHW0i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Feb 2022 17:26:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60796 "EHLO
+        id S1350417AbiBHWeR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Feb 2022 17:34:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1386594AbiBHU5t (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Feb 2022 15:57:49 -0500
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01A6CC0612C3;
-        Tue,  8 Feb 2022 12:57:49 -0800 (PST)
-Received: by mail-pl1-x630.google.com with SMTP id w1so398572plb.6;
-        Tue, 08 Feb 2022 12:57:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=lER0Yn2EpeMSnVJPYoZJVlBcAkY3FCI93VU6xZwJrHE=;
-        b=DR4hOjfQMDg56Ra5Gcb+pNcHpV3LBEcOn5SQ/ZzCsKGrKBq1HQFmyEzf7GgN42JujR
-         nzXgmsfhSsO2CDqmgur4Hi/VMyUrx0wGzZtTiLIiGVI2ZYwxgOqJeAks9XECFpd/AgcG
-         1QyRsg9s0BTKMJPVb+8c/SS7JVko9ew1/oEZE/LVhESBmLzBv7gDHZiSHDDyF8N+4HF/
-         XtRxoBUBoMNdeKRi1obyUsESFfYu5Yp4lIe2vxx/4fnk3WaBwiIdxhIMtetuYbdjBe9g
-         BB3kTzDOVS8vJc4GG0HfhqSbSW1Gk1PpV+2EathmCnaTpaK7W1leiapaOvDDMKgjJ6jV
-         t+dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=lER0Yn2EpeMSnVJPYoZJVlBcAkY3FCI93VU6xZwJrHE=;
-        b=OG6cLLmFi4r9bTxy3hu2PVsKWJlf3xpEAmLUyBiqunmEt+pZjKTXQ+JTzuL446uB8h
-         azf72FT7mCWAn4sLIa6fZLTZckhjVIAzHepnGGaZPKA5TCZ8TF2WI2/zHCPp0nYwzHeN
-         VFoGxvoViu68ab6bDMRsPRV/xWJRURnNnDCd2UZm00qVi+JZyhA4jNALNzt8f4q2q0G0
-         l78wPHXnajjz9hlrmnudpSRJaw8+83dyYo68Yd6gqJlcIGl5zEYPSRtAeeAvD9vhmQZb
-         cppluBxdX15WXhWzQ8+MSvVrUc9pc88455bllyOSR3LnsVGR3JGAf+Gcvc1ylY+6PQkQ
-         3gnQ==
-X-Gm-Message-State: AOAM530NNQr86ZLYp9jpCZ4dP/ARWnmktAL68HwmPfEPmO6JA/Ngo1gl
-        7etvZpXq1fqBDRCofUSTWMlF9NgFbQc=
-X-Google-Smtp-Source: ABdhPJyD1XSVqyDQR8eoIbfVTTIK7WZth2TwLe+zSUDXHBELSyDkPp+Hst2Y7r4jyog9YA4ytner2Q==
-X-Received: by 2002:a17:902:e844:: with SMTP id t4mr6280526plg.104.1644353867631;
-        Tue, 08 Feb 2022 12:57:47 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:3a7a:5580:400f:1e51])
-        by smtp.gmail.com with ESMTPSA id b24sm12184296pgs.1.2022.02.08.12.57.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 12:57:46 -0800 (PST)
-Date:   Tue, 8 Feb 2022 12:57:44 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc:     rydberg@bitmath.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jkosina@suse.cz>
-Subject: Re: [PATCH RESEND v3] Input: clear BTN_RIGHT/MIDDLE on buttonpads
-Message-ID: <YgLZSNqx0BN1JXhC@google.com>
-References: <20220208174806.17183-1-jose.exposito89@gmail.com>
+        with ESMTP id S1388584AbiBHWdO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Feb 2022 17:33:14 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09C5AC01CB35
+        for <linux-input@vger.kernel.org>; Tue,  8 Feb 2022 14:25:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644359114; x=1675895114;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7+0zZWxH92THZStgmoh8ItFFO9wTYO2mFFpVJY2xJwc=;
+  b=ai66XILYRAlkxy3cBr+i1kYlSDfM7tvVHfnFbyCF79TwoHqpnR/DB4IX
+   3t7mCe4IOLNF01bm6nJfNktKuLZz65Y6GlMFIKCILPDXGZ3R5vhdMPJlf
+   M6ei9YXn0IcsZ9iqv3DjoWckP2QCue2xOzkk/oq+GJ/dlnOeVvwuib9r7
+   bbNY6icBrRJAeZVlJCBpEHpQ2wcxB0ubOiUEwq9VR2gKTC5tla6h40yj9
+   F4wae+9VrqFki6phPFulPiSE9aztckEDeAaTOO1C8u5rzqsJ9Dh5zV8Tb
+   RV0LJ+fDPG4LwZ+v8CIB4EpVfdJH+bAIZGuw8jlO5EM4DaGQvu4NwVYGa
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="232631437"
+X-IronPort-AV: E=Sophos;i="5.88,353,1635231600"; 
+   d="scan'208";a="232631437"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2022 14:25:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,353,1635231600"; 
+   d="scan'208";a="484977950"
+Received: from lkp-server01.sh.intel.com (HELO d95dc2dabeb1) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 08 Feb 2022 14:25:12 -0800
+Received: from kbuild by d95dc2dabeb1 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nHYv9-0000pK-P5; Tue, 08 Feb 2022 22:25:11 +0000
+Date:   Wed, 09 Feb 2022 06:24:37 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 994673dc66578be75bf32b6046c0d3df9e6dae1c
+Message-ID: <6202eda5.duVMKUk6nJUV+LMm%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220208174806.17183-1-jose.exposito89@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Feb 08, 2022 at 06:48:06PM +0100, José Expósito wrote:
-> Buttonpads are expected to map the INPUT_PROP_BUTTONPAD property bit
-> and the BTN_LEFT key bit.
-> 
-> As explained in the specification, where a device has a button type
-> value of 0 (click-pad) or 1 (pressure-pad) there should not be
-> discrete buttons:
-> https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/touchpad-windows-precision-touchpad-collection#device-capabilities-feature-report
-> 
-> However, some drivers map the BTN_RIGHT and/or BTN_MIDDLE key bits even
-> though the device is a buttonpad and therefore does not have those
-> buttons.
-> 
-> This behavior has forced userspace applications like libinput to
-> implement different workarounds and quirks to detect buttonpads and
-> offer to the user the right set of features and configuration options.
-> For more information:
-> https://gitlab.freedesktop.org/libinput/libinput/-/merge_requests/726
-> 
-> In order to avoid this issue clear the BTN_RIGHT and BTN_MIDDLE key
-> bits when the input device is register if the INPUT_PROP_BUTTONPAD
-> property bit is set.
-> 
-> Notice that this change will not affect udev because it does not check
-> for buttons. See systemd/src/udev/udev-builtin-input_id.c.
-> 
-> List of known affected hardware:
-> 
->  - Chuwi AeroBook Plus
->  - Chuwi Gemibook
->  - Framework Laptop
->  - GPD Win Max
->  - Huawei MateBook 2020
->  - Prestigio Smartbook 141 C2
->  - Purism Librem 14v1
->  - StarLite Mk II   - AMI firmware
->  - StarLite Mk II   - Coreboot firmware
->  - StarLite Mk III  - AMI firmware
->  - StarLite Mk III  - Coreboot firmware
->  - StarLabTop Mk IV - AMI firmware
->  - StarLabTop Mk IV - Coreboot firmware
->  - StarBook Mk V
-> 
-> Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
-> Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Acked-by: Jiri Kosina <jkosina@suse.cz>
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 994673dc66578be75bf32b6046c0d3df9e6dae1c  Input: mtk-pmic-keys - add support for MT6358
 
-Applied, thank you.
+elapsed time: 835m
 
--- 
-Dmitry
+configs tested: 167
+configs skipped: 4
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                          randconfig-c001
+sh                          sdk7780_defconfig
+sh                         apsh4a3a_defconfig
+ia64                             alldefconfig
+powerpc                 mpc837x_rdb_defconfig
+sh                          rsk7264_defconfig
+mips                  decstation_64_defconfig
+powerpc                     tqm8541_defconfig
+arm                         axm55xx_defconfig
+powerpc                 mpc85xx_cds_defconfig
+sh                           se7750_defconfig
+openrisc                         alldefconfig
+sparc                       sparc64_defconfig
+m68k                        m5272c3_defconfig
+powerpc                        warp_defconfig
+alpha                               defconfig
+mips                         cobalt_defconfig
+sh                          rsk7203_defconfig
+arc                      axs103_smp_defconfig
+mips                         db1xxx_defconfig
+arc                    vdk_hs38_smp_defconfig
+powerpc                     sequoia_defconfig
+powerpc                mpc7448_hpc2_defconfig
+arm64                            alldefconfig
+sh                          r7785rp_defconfig
+arm                      footbridge_defconfig
+mips                     decstation_defconfig
+sh                               j2_defconfig
+sh                           se7712_defconfig
+arm                        mini2440_defconfig
+powerpc                      cm5200_defconfig
+h8300                    h8300h-sim_defconfig
+sh                        sh7785lcr_defconfig
+arm                            xcep_defconfig
+arm                          iop32x_defconfig
+arm                      jornada720_defconfig
+sh                                  defconfig
+sh                             shx3_defconfig
+sh                           se7780_defconfig
+arm                     eseries_pxa_defconfig
+powerpc                 mpc8540_ads_defconfig
+sh                           se7724_defconfig
+mips                      fuloong2e_defconfig
+mips                        bcm47xx_defconfig
+xtensa                  nommu_kc705_defconfig
+arm                           corgi_defconfig
+mips                       capcella_defconfig
+powerpc                     tqm8555_defconfig
+riscv             nommu_k210_sdcard_defconfig
+sh                            shmin_defconfig
+parisc                           alldefconfig
+m68k                        m5407c3_defconfig
+powerpc                     tqm8548_defconfig
+arm                            zeus_defconfig
+nios2                            alldefconfig
+powerpc                 mpc837x_mds_defconfig
+powerpc                  storcenter_defconfig
+arm                         assabet_defconfig
+sh                           se7343_defconfig
+mips                 decstation_r4k_defconfig
+powerpc                     ep8248e_defconfig
+m68k                          sun3x_defconfig
+powerpc                 canyonlands_defconfig
+s390                       zfcpdump_defconfig
+arm                  randconfig-c002-20220208
+ia64                                defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64                        randconfig-a006
+x86_64                        randconfig-a002
+x86_64                        randconfig-a004
+i386                          randconfig-a003
+i386                          randconfig-a001
+i386                          randconfig-a005
+x86_64                        randconfig-a011
+x86_64                        randconfig-a013
+x86_64                        randconfig-a015
+i386                          randconfig-a016
+i386                          randconfig-a012
+i386                          randconfig-a014
+arc                  randconfig-r043-20220208
+riscv                    nommu_virt_defconfig
+riscv                    nommu_k210_defconfig
+riscv                          rv32_defconfig
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                            allmodconfig
+riscv                               defconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
+x86_64                              defconfig
+
+clang tested configs:
+riscv                randconfig-c006-20220208
+x86_64                        randconfig-c007
+powerpc              randconfig-c003-20220208
+mips                 randconfig-c004-20220208
+arm                  randconfig-c002-20220208
+i386                          randconfig-c001
+mips                        qi_lb60_defconfig
+arm                          ixp4xx_defconfig
+mips                           ip27_defconfig
+arm                  colibri_pxa270_defconfig
+powerpc                   bluestone_defconfig
+powerpc                          allyesconfig
+arm                          ep93xx_defconfig
+mips                      bmips_stb_defconfig
+arm                        spear3xx_defconfig
+mips                  cavium_octeon_defconfig
+powerpc                     kmeter1_defconfig
+arm                         orion5x_defconfig
+arm                         hackkit_defconfig
+powerpc                     mpc512x_defconfig
+arm                          pcm027_defconfig
+powerpc                 mpc8272_ads_defconfig
+arm                        neponset_defconfig
+x86_64                        randconfig-a005
+x86_64                        randconfig-a003
+x86_64                        randconfig-a001
+i386                          randconfig-a004
+i386                          randconfig-a002
+i386                          randconfig-a006
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a015
+i386                          randconfig-a013
+i386                          randconfig-a011
+hexagon              randconfig-r045-20220208
+hexagon              randconfig-r041-20220208
+riscv                randconfig-r042-20220208
+s390                 randconfig-r044-20220208
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
