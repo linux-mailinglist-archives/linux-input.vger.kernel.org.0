@@ -2,66 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 67F2B4AE191
-	for <lists+linux-input@lfdr.de>; Tue,  8 Feb 2022 19:56:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B6914AE220
+	for <lists+linux-input@lfdr.de>; Tue,  8 Feb 2022 20:20:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385532AbiBHSzi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Feb 2022 13:55:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47530 "EHLO
+        id S1385966AbiBHTUJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Feb 2022 14:20:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385551AbiBHSzh (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Feb 2022 13:55:37 -0500
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA5A9C0612C0;
-        Tue,  8 Feb 2022 10:55:36 -0800 (PST)
-Received: by mail-wm1-x333.google.com with SMTP id r7so12891811wmq.5;
-        Tue, 08 Feb 2022 10:55:36 -0800 (PST)
+        with ESMTP id S1353717AbiBHTUI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Feb 2022 14:20:08 -0500
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81733C0612C1
+        for <linux-input@vger.kernel.org>; Tue,  8 Feb 2022 11:20:06 -0800 (PST)
+Received: by mail-yb1-xb2f.google.com with SMTP id v47so27822630ybi.4
+        for <linux-input@vger.kernel.org>; Tue, 08 Feb 2022 11:20:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=s2rLFrwGSf/fjUuAvUVyqkzahpLoS6qof5NPWyop7JA=;
-        b=EK3T3ZR1A7H31bUygylx4Ud9sCiarT3y28W/L+LJ7Q2Z8G3xmKezXiw/q9adC1ar4i
-         PRnlYBsJrSSwSAExNZkYsQ+1TYLC+vWf9wo2aLAc+OSbtN3+z8znofX7nmWwdiUlEA1c
-         p3VnU7ENuGTTwEQ25sQZ5R3LlIAf9udJr4YAoTSffFGUWGwG8MDav4aqv9csrZ38uRLZ
-         oCchCrOEqf+jb50ezwbdxdTmlobOkW9rsy5+RHORovdwzpocRiFmqc/ki44CU8cHjJ40
-         jbpwMGzt9GHw8Q/yGzPoSuDIHZeLhEOU4thfyaoEL1aPaY+6U92nL1mCLCGdJVBeOxg1
-         lVmQ==
+        d=semihalf-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4JxTFoE10Xqe5d3z4zOPiFNFHsiuqJzkr1QYZntPRQM=;
+        b=GTHGYForIk5Fc+B3ly6NQIqzu76350nZw/zcVJV1GYoex90pIOQWA5cBUqP0smIYOa
+         HoI4ymg+6rnCuRF0IYyh2u8IB3AN7ya9qi1ZcKuD0JhuFUjll+OYHAemD5SRnJ0u3G2w
+         cpY6mwL4z3I7a3vVzUU/4NI9HcfSvwHaNLUH4nEynWyqhoaKFIvaRzHSDEcXjNPolrw1
+         Z5gyGFKMgPcanS5YHmm3T1UzXQHrVwk7PD5lFHrHIIbrjTtDMnKIsST02C+7PqDe/OWZ
+         fpPH7qXeuZ7u4FAjrwZvMT4oxhZ8xlYN6n/RXkTjwhverTuHFhg3ZMfVs5WU/j0MCByG
+         +5og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=s2rLFrwGSf/fjUuAvUVyqkzahpLoS6qof5NPWyop7JA=;
-        b=iq8G4XIwNifhsbeZOV8DTgb1QAAreyCiNWPHXb8lqsgFWURp9+WrB1JVemvMO/zYDt
-         m5S70cYmt5Gw8Aa/7e/Qfim66IWVVu8JknW2NuVF+U5TNoN8d5mUY7OejTR6uIuAUPov
-         B39VhPwDsN3+7WHZkCo/crQCoQl4Eh05NCYl5k55V81JZZIz0ljk/d2z6BcNl3Zsq/CX
-         PqMdBw4qrOAge1/Z0/I5Oly+SiDQjjxNOc2n3b3TKQY/yV8+tcUL5/DirmIX3b4lXGCX
-         35EacApmTTxnzLOcLKcYnqVOeh9HiA5SOUUYhwyPl2DBHDfJu0Rcsl9ZIdJBa3D95O8s
-         5pcw==
-X-Gm-Message-State: AOAM530BdrOXyS6bwHB8xT2gLQQVXs5D9UZTgHF4G+J9aZe3he+e5H6H
-        tvFUnpneVtyxmhghQjweYLI=
-X-Google-Smtp-Source: ABdhPJy+NGsLX5KnwKNlbDgAb6Z0yHzKcjQnt/ojyVP35AQc8/ANOmzJAIjSf9RSIaEAtI8uEhhBiA==
-X-Received: by 2002:a05:600c:3552:: with SMTP id i18mr2256601wmq.21.1644346535282;
-        Tue, 08 Feb 2022 10:55:35 -0800 (PST)
-Received: from localhost.localdomain ([94.73.33.246])
-        by smtp.gmail.com with ESMTPSA id w6sm11897613wrp.51.2022.02.08.10.55.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 10:55:35 -0800 (PST)
-From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v2] HID: apple: Report Magic Keyboard 2021 with fingerprint reader battery over USB
-Date:   Tue,  8 Feb 2022 19:55:30 +0100
-Message-Id: <20220208185530.51690-1-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4JxTFoE10Xqe5d3z4zOPiFNFHsiuqJzkr1QYZntPRQM=;
+        b=2hA4b3TNeTC8hX9RJmygz4N/58xfXHEl5JdOLOHEzaR1GzV5JNpk0zbd5LUsobZCaS
+         0zzvgCz9lOj58toHme1BB8yFmbYoS7EC22cDZ/dqDVG/V7jPBszjv+qAV6ZlXkOg0S35
+         K4pB/GdZRV/7kdG2XDHBrnkCzw/YAlGRS4hzz7JzMoFXZBLw1uw53NKBN9Uzwvq26m1Q
+         ItYVDz32XKu0+F/CXLokz8Q6LLqe50RAMNBPFZEQsYxISg16wmraZK4nyVMeMrHc13AW
+         CmXyxRkoMk68X10tD5h6VjZiAGkdeu6LXZQFxOGJ/4X3oP8LfHkaz6O3J3Ndw0whVKyb
+         S6Pw==
+X-Gm-Message-State: AOAM532l8/EQGckkrq/4NUL2BkAK2ENafBTxDCRV71fWwJwIKpD1/WJw
+        Zam+AhHFpUcYBdMG7S3+7WpltlxiDSSzJkkadOPbqA==
+X-Google-Smtp-Source: ABdhPJy/2ZJsdNIpfT19XC99EZa++n0vY+09GTEwdIyYzwjIrajZCMmDIQh50dNobDk17ev42L4L5l7uya+oNR03sQ0=
+X-Received: by 2002:a0d:e305:: with SMTP id m5mr6327794ywe.375.1644348005640;
+ Tue, 08 Feb 2022 11:20:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220126161832.3193805-1-benjamin.tissoires@redhat.com>
+In-Reply-To: <20220126161832.3193805-1-benjamin.tissoires@redhat.com>
+From:   Angela Czubak <acz@semihalf.com>
+Date:   Tue, 8 Feb 2022 20:19:54 +0100
+Message-ID: <CAB4aORW_b+6=a-fXCL-MJoM9uNvjeYL01W85Rb=6rMP-Nm11QQ@mail.gmail.com>
+Subject: Re: [PATCH 00/12] HID: fix for generic input processing
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Ahelenia_Ziemia=C5=84ska?= 
+        <nabijaczleweli@nabijaczleweli.xyz>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,45 +72,108 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Like the Apple Magic Keyboard 2015, when connected over USB, the 2021
-version with fingerprint reader registers 2 different interfaces. One of
-them is used to report the battery level.
+Hi Benjamin,
 
-However, unlike when connected over Bluetooth, the battery level is not
-reported automatically and it is required to fetch it manually.
+On Wed, Jan 26, 2022 at 5:18 PM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> Hi,
+>
+> This is a followup of the discussion we had between Wacom and
+> the maintainers, and a followup of those 2 patch series:
+>
+> https://lore.kernel.org/r/20211022232837.18988-1-ping.cheng@wacom.com/
+> https://lore.kernel.org/r/2ca91ac7cf92e3048a236db3cd519f04e12c1e61.1615224800.git.nabijaczleweli@nabijaczleweli.xyz/
+>
+> It took me a while to get it right, but I finally can submit the
+> series:
+>
+> - the first 8 patches are some cleanup in the hid-input.c and
+>   hid-core.c code. They also create a list of input fields that
+>   is then used to process the event, in the priority we think
+>   is good.
+>
+>   For instance, on multitouch devices, it is better to have
+>   Contact Count before processing all touches, and in each
+>   touch, having Contact ID first is better. This series doesn't
+>   cover hid-multitouch, but I have a series on top of this one that
+>   does cover it.
+>
+>   Anyway, in our case, here, we need to process Invert before
+>   In Range for tablets so we can make a decision whether the user
+>   has the intend to erase or not.
+>
+> - patch 9 enforces the invert usage before In Range as mentioned
+>   above
+>
+> - patch 10 is the actual bulk of processing that should fix the
+>   generic tablet handling. Now that we have a reliable ordering
+>   of the fields, we can compute the state of the tool in a reliable
+>   way, and be kinder to userspace by not sending to it 2 tools at
+>   the same time.
+>
+>   This patch has been extensively tested by hid-tools with the new
+>   MR I submitted that add tests for tablets [0].
+>
+> - patch 11 is a nice to have that I need for my second series regarding
+>   hid-multitouch. It is not mandatory with that series, but given
+>   that it changes the format of the priorities in hid-input.c I thought
+>   it would be best to send it as part of this series.
+>
+>   Note that now we are tagging the *reports* and the individual fields
+>   when they are part of a multitouch collection, which should help
+>   the drivers that implement this processing (hid-multitouch and wacom).
+>
+> - last, patch 12 is an attempt at fixing the documentation regarding
+>   BTN_TOOL_* (requested by Peter).
+>
+>   Dmitry, feel free to take this one through your tree if you prefer
+>   to do so (and if you are happy with it), otherwise we can take it
+>   through the hid tree.
+>
+> As mentioned above, I have a followup series not entirely tidied up
+> that implements the processing of Win8 mutltiouch devices in
+> hid-input.c.
+> There are several benefits for that: we should be able to drop the
+> multitouch code in wacom.ko, we can simplify part of hid-multitouch,
+> and we will be able to quirk a particular device in a separate module,
+> without touching at the generic code (in hid-multitouch or hid-input).
+>
+> Anyway, I am missing a few bits for that so that's coming in later.
+>
 
-Add the APPLE_RDESC_BATTERY quirk to fix the battery report descriptor
-and manually fetch the battery level.
+Is there any timeline for the followup series? I am wondering how that
+would affect haptic support implementation.
 
-Tested with the ANSI variant of the keyboard with and without numpad.
+> Cheers,
+> Benjamin
+>
+>
+> [0] https://gitlab.freedesktop.org/libevdev/hid-tools/-/merge_requests/127
+>
+> Benjamin Tissoires (12):
+>   HID: core: statically allocate read buffers
+>   HID: core: de-duplicate some code in hid_input_field()
+>   HID: core: split data fetching from processing in hid_input_field()
+>   HID: input: tag touchscreens as such if the physical is not there
+>   HID: input: rework spaghetti code with switch statements
+>   HID: input: move up out-of-range processing of input values
+>   HID: compute an ordered list of input fields to process
+>   HID: core: for input reports, process the usages by priority list
+>   HID: input: enforce Invert usage to be processed before InRange
+>   HID: input: remove the need for HID_QUIRK_INVERT
+>   HID: input: accommodate priorities for slotted devices
+>   Input: docs: add more details on the use of BTN_TOOL
+>
+>  Documentation/input/event-codes.rst |   5 +-
+>  drivers/hid/hid-core.c              | 280 ++++++++++++++++++++---
+>  drivers/hid/hid-input.c             | 330 ++++++++++++++++++++++------
+>  include/linux/hid.h                 |  23 +-
+>  4 files changed, 533 insertions(+), 105 deletions(-)
+>
+> --
+> 2.33.1
+>
 
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-
----
-
-v2: Rebased on master, it was for-next
----
- drivers/hid/hid-apple.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 24802a4a636e..5117d354af18 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -752,11 +752,11 @@ static const struct hid_device_id apple_devices[] = {
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021),
- 		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
--		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK | APPLE_RDESC_BATTERY },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
- 		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021),
--		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK | APPLE_RDESC_BATTERY },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021),
- 		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 
--- 
-2.25.1
-
+Does this patch series introduce the leaf driver support you mentioned
+in the haptic review?
