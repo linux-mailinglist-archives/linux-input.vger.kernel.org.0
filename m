@@ -1,91 +1,87 @@
 Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E74574AE67A
-	for <lists+linux-input@lfdr.de>; Wed,  9 Feb 2022 03:39:16 +0100 (CET)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.lfdr.de (Postfix) with ESMTP id 174974AE785
+	for <lists+linux-input@lfdr.de>; Wed,  9 Feb 2022 04:11:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232633AbiBICjI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Feb 2022 21:39:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35940 "EHLO
+        id S243083AbiBIDIf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Feb 2022 22:08:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244578AbiBICKk (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Feb 2022 21:10:40 -0500
-X-Greylist: delayed 392 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 18:10:39 PST
-Received: from relay5.hostedemail.com (relay5.hostedemail.com [64.99.140.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99960C06157B
-        for <linux-input@vger.kernel.org>; Tue,  8 Feb 2022 18:10:39 -0800 (PST)
-Received: from omf18.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay11.hostedemail.com (Postfix) with ESMTP id 166AA80DE7;
-        Wed,  9 Feb 2022 02:04:06 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf18.hostedemail.com (Postfix) with ESMTPA id 5104430;
-        Wed,  9 Feb 2022 02:03:43 +0000 (UTC)
-Message-ID: <d7d764a70d154030fc5e00d6238c8a65b489e456.camel@perches.com>
-Subject: Re: [PATCH] HID: lenovo: replace snprintf with sysfs_emit
-From:   Joe Perches <joe@perches.com>
-To:     davidcomponentone@gmail.com, jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yang Guang <yang.guang5@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cn>
-Date:   Tue, 08 Feb 2022 18:03:58 -0800
-In-Reply-To: <124b72fd0751d7f37c64dd517d386db38cf8c189.1644287860.git.yang.guang5@zte.com.cn>
-References: <124b72fd0751d7f37c64dd517d386db38cf8c189.1644287860.git.yang.guang5@zte.com.cn>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+        with ESMTP id S1350597AbiBIDGu (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Feb 2022 22:06:50 -0500
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFC12C061355;
+        Tue,  8 Feb 2022 19:06:49 -0800 (PST)
+Received: by mail-oi1-f182.google.com with SMTP id u3so1134057oiv.12;
+        Tue, 08 Feb 2022 19:06:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LVeDVNu/BCICylDILAovuwAjxje6g+Ysjhgt1fngzyo=;
+        b=s4KY/WE7aA8yQjdAmtSpuWj3H04Zf0yzuyjnK24hWRtBiq6ayYhHwGQamZNHMeJKAW
+         BLRMDrpGFLWY/0PWT+k+FwFppZmrDcH5ocynxswTRLW6XWluGJ4KxmNl3IVoyydXRSo3
+         b7kmr/liRAFgU38UCi+E34SgMnPsb4lQ5KatvSHTMC+CLA9B0zTlkdCMht2xhyePklen
+         vg7BUjzX5o91RoyV1oyw1yq7cM7O2AkkR+IjlKp5hV4qqzMltq5ERD1iuDCBbYiCdbTE
+         IaP+FDS9Gk4hE3rqthJLLyGR5YwWBa8HLsHdUqCbj/q55pmNUZrD1+u+GPX6r4h8Pu4P
+         naSQ==
+X-Gm-Message-State: AOAM532ExdH1GlsA0g8YLe4Z9GheJ3wHENvuFdRfdYoZptlqrRaqpYof
+        ETkJNE2iT4sT0/muLf0kuA==
+X-Google-Smtp-Source: ABdhPJx7cq9TDX0KZTFuW81BDWG1EoY4kxSCvCuwLrOluU5T0RnjLOr+uJoVJdCOGfn8uJmNHIWu7Q==
+X-Received: by 2002:a05:6808:1702:: with SMTP id bc2mr484788oib.214.1644376009186;
+        Tue, 08 Feb 2022 19:06:49 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id j19sm6006307ots.21.2022.02.08.19.06.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 19:06:47 -0800 (PST)
+Received: (nullmailer pid 3546662 invoked by uid 1000);
+        Wed, 09 Feb 2022 03:06:46 -0000
+Date:   Tue, 8 Feb 2022 21:06:46 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Caleb Connolly <caleb@connolly.tech>
+Cc:     Colin Cross <ccross@android.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Harigovindan P <harigovi@codeaurora.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        devicetree@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, Tony Luck <tony.luck@intel.com>,
+        Kees Cook <keescook@chromium.org>, linux-input@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Alexander Martinz <amartinz@shiftphones.com>,
+        Sam Ravnborg <sam@ravnborg.org>, linux-arm-msm@vger.kernel.org,
+        Andy Gross <agross@kernel.org>
+Subject: Re: [PATCH 3/6] dt-bindings: display: visionox-rm69299: document new
+ compatible string
+Message-ID: <YgMvxpbUpgw3XdxS@robh.at.kernel.org>
+References: <20220123173650.290349-4-caleb@connolly.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: iqs1qxbfo9mznhfqx76ia7kbcdqcigeo
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 5104430
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=unavailable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220123173650.290349-4-caleb@connolly.tech>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18ty/e3+hs8eD8Zb+lkmqGKEYhRakpImEY=
-X-HE-Tag: 1644372223-671604
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 2022-02-09 at 08:39 +0800, davidcomponentone@gmail.com wrote:
-> From: Yang Guang <yang.guang5@zte.com.cn>
-[]
-> Use sysfs_emit instead of scnprintf or sprintf makes more sense.
-[]
-> diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-[]
-> @@ -442,7 +442,7 @@ static ssize_t attr_sensitivity_show_cptkbd(struct device *dev,
->  	struct hid_device *hdev = to_hid_device(dev);
->  	struct lenovo_drvdata *cptkbd_data = hid_get_drvdata(hdev);
->  
-> -	return snprintf(buf, PAGE_SIZE, "%u\n",
-> +	return sysfs_emit(buf, "%u\n",
->  		cptkbd_data->sensitivity);
+On Sun, 23 Jan 2022 17:37:41 +0000, Caleb Connolly wrote:
+> Document a new compatible string for the second panel variant.
+> 
+> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+> ---
+>  .../devicetree/bindings/display/panel/visionox,rm69299.yaml   | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
 
-Please rewrap lines to 80 columns where reasonable.
-
-	return sysfs_emit(buf, "%u\n", cptkbd_data->sensitivity);
-
-[]
-> @@ -723,7 +723,7 @@ static ssize_t attr_sensitivity_show_tpkbd(struct device *dev,
->  	struct hid_device *hdev = to_hid_device(dev);
->  	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
->  
-> -	return snprintf(buf, PAGE_SIZE, "%u\n",
-> +	return sysfs_emit(buf, "%u\n",
->  		data_pointer->sensitivity);
->  }
->  
-> @@ -752,7 +752,7 @@ static ssize_t attr_press_speed_show_tpkbd(struct device *dev,
->  	struct hid_device *hdev = to_hid_device(dev);
->  	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
->  
-> -	return snprintf(buf, PAGE_SIZE, "%u\n",
-> +	return sysfs_emit(buf, "%u\n",
->  		data_pointer->press_speed);
-
-etc...
-
-
+Acked-by: Rob Herring <robh@kernel.org>
