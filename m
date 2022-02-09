@@ -2,116 +2,119 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 917C44B00BB
-	for <lists+linux-input@lfdr.de>; Wed,  9 Feb 2022 23:55:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E96C4B00C1
+	for <lists+linux-input@lfdr.de>; Wed,  9 Feb 2022 23:56:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231361AbiBIWyg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Feb 2022 17:54:36 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:33100 "EHLO
+        id S236573AbiBIWz5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Feb 2022 17:55:57 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:34552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236544AbiBIWyf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Feb 2022 17:54:35 -0500
-X-Greylist: delayed 902 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Feb 2022 14:54:37 PST
-Received: from mickerik.phytec.de (mickerik.phytec.de [195.145.39.210])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6BF6C0219EC
-        for <linux-input@vger.kernel.org>; Wed,  9 Feb 2022 14:54:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
-        q=dns/txt; i=@phytec.de; t=1644446373; x=1647038373;
-        h=From:Sender:Reply-To:Subject:Date:Message-Id:To:Cc:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=EzckGd9Ydqg+0+DJujflO9WgyKd1bNpDeZF5ujGoVhY=;
-        b=qM7mIcK1sMFBFze6SBM+fBGFvvENMoIXas46Ttn8BDpyjrJD6OTvQOEEH2/bnuZb
-        mNi1CK7CjiDipwfLSbTNXRIicWbMG/kDDU/yRq3o3Y+QXVnHYWIptWy2+EhjvmWe
-        jyId/4mCTN6Qd6bqE7sCDPUPC2HHWnnvg+l3jwQ0Frc=;
-X-AuditID: c39127d2-9112070000002a63-fc-620442a57246
-Received: from idefix.phytec.de (Unknown_Domain [172.16.0.10])
-        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id FA.82.10851.5A244026; Wed,  9 Feb 2022 23:39:33 +0100 (CET)
-Received: from augenblix2.phytec.de ([172.16.0.56])
-          by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-          with ESMTP id 2022020923393376-256579 ;
-          Wed, 9 Feb 2022 23:39:33 +0100 
-From:   Yunus Bas <y.bas@phytec.de>
-To:     dmitry.torokhov@gmail.com, yuehaibing@huawei.com,
-        linux-input@vger.kernel.org
-Cc:     u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] Input: tsc200x-core - Add axis inversion and swapping support
-Date:   Wed, 9 Feb 2022 23:39:33 +0100
-Message-Id: <20220209223933.1672782-1-y.bas@phytec.de>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S236557AbiBIWz4 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Feb 2022 17:55:56 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1137C0219EC
+        for <linux-input@vger.kernel.org>; Wed,  9 Feb 2022 14:55:58 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id m7so3579425pjk.0
+        for <linux-input@vger.kernel.org>; Wed, 09 Feb 2022 14:55:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BcFfUoNY4HHUcjlUWbU5C1496bb+P9NZHjZT7bpwHGA=;
+        b=KbW+HY8DgRG+TmRh4TbrFbBzl6xujiJpO4TS2TIDcw6nC5fOgV8xtkphxGKW8ji5uR
+         ymrecwpo87NB/R8gLI5XkSClErCV7KpbGTYTlbBkn1W4DW2nkdEeV7cBPxNi5xO8h4yF
+         AE8kylRc0xWzElF8tpi1DdbV0uDPDT8GMEPWM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BcFfUoNY4HHUcjlUWbU5C1496bb+P9NZHjZT7bpwHGA=;
+        b=02kFk4je/G/lM6Q/sqqmU3i6jWf4S1I+Xegb+fcKxFTQNQoqS1hj1SiYzTc7cmGvsX
+         RjQ45kG+0ujsYY+r41AcNrzzPguRm4a397qub8vx96j8eoTiu++CtGPcZe0ZshfeVkCe
+         tfhSe5YtY5WewhEN5YHAaNG9bUCEUrx/wSpD7ZgimVNjQ99vRk9REC7+BeH7JdjRSChI
+         NfELP+sNNezLhETWQs91A00/7Vg10CK0Ze58Rj2SHkP1pe5xPDnkZL3QEQUuV7L5SA+Z
+         cQ0RdCK6VCZA/GFsEA04+V6V31BP4hBLchJhyuArWzISx52Hh40U+JxEE9ZYi3NSiwjG
+         xqIQ==
+X-Gm-Message-State: AOAM533oMDmS+LGEi7uo+q7avWcLyc09rRheCWE0U/c1dn33hoO7egzI
+        bP/d7x+XbeaxITxyQf4qMn/M4Q==
+X-Google-Smtp-Source: ABdhPJxSeXwyF0F7CE9HSgCb9AbUyBVZ1UQl15I0IKlKbEw0VHVmTAmtk9Ug/V671NFSj/6DiXPr/A==
+X-Received: by 2002:a17:90b:390f:: with SMTP id ob15mr6065545pjb.195.1644447358371;
+        Wed, 09 Feb 2022 14:55:58 -0800 (PST)
+Received: from smtp.gmail.com ([2620:15c:202:201:5193:6865:e38e:3a5b])
+        by smtp.gmail.com with ESMTPSA id b1sm5982015pgb.66.2022.02.09.14.55.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Feb 2022 14:55:58 -0800 (PST)
+From:   Stephen Boyd <swboyd@chromium.org>
+To:     benjamin.tissoires@redhat.com,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        "Sean O'Brien" <seobrien@chromium.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+Subject: [PATCH v2 0/5] Input/HID: Consolidate ChromeOS Vivaldi keyboard logic
+Date:   Wed,  9 Feb 2022 14:55:51 -0800
+Message-Id: <20220209225556.3992827-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 09.02.2022 23:39:33,
-        Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 09.02.2022 23:39:33
-X-TNEFEvaluated: 1
-Content-Transfer-Encoding: quoted-printable
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGLMWRmVeSWpSXmKPExsWyRoCBS3epE0uSwctXxhaHF71gtLj56Rur
-        xeVdc9gsbk+czGhx5+tzFgdWj52z7rJ7tBx5y+rR/9fA4/MmuQCWKC6blNSczLLUIn27BK6M
-        yW+2sRac5q1ov3WGvYFxFXcXIyeHhICJxOQjH9i6GLk4hAS2Mkq0TV7MDOGcY5Q49+MCC0gV
-        m4CixPnbb1lBbBGBQImD/T1ANgcHs4CDREtfOYgpLBAq8WSBNkgFi4CKxPoZ9xlBbF4BM4kZ
-        0zuYIHbJS8y89J0dIi4ocXLmExaQVRICVxgl9kz5wAhRJCRxevFZZhCbWUBbYtnC18wTGPlm
-        IemZhSS1gJFpFaNQbmZydmpRZrZeQUZlSWqyXkrqJkZg2B2eqH5pB2PfHI9DjEwcjIcYJTiY
-        lUR4T9UzJwnxpiRWVqUW5ccXleakFh9ilOZgURLnvd/DlCgkkJ5YkpqdmlqQWgSTZeLglGpg
-        NK06PSd7jsNJ29279jAsiz7y4c6Uq+Yiweu+6BW92JBX2fHo8AdRx7/LGTcpvnE8cm/dyvA0
-        QbaJ0/tnKj+T5Ons/ShrEB7kEl17SUzpXM/Cn3u71LdMe1yYwnfq6MKKnymvN54tfrVc+vQp
-        4dV7ZGxmRIgdLF1TwsRjrHTje9C9W0/+G4QUvVBiKc5INNRiLipOBADBttksKQIAAA==
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Since Commit ed7c9870c9bc ("Input: of=5Ftouchscreen - add support for
-inverted / swapped axes"), the of=5Ftouchscreen interface supports axis
-inverting and swapping through Devicetree properties. Make use of this
-feature.
+This is a follow-on to this thread[1] where we discussed the need to
+support the vivaldi keyboard function row keys in the google hammer
+driver. I've extracted the common code into a new vivaldi-keymap.c file
+that can be used by the various keyboard drivers used on ChromeOS
+devices to expose the function_row_physmap sysfs attribute. That's a
+good place to keep the HID parsing logic for the vivaldi and hammer
+keyboards too, so one function goes there for that as well. Finally, we
+add support for the function row physmap attribute to the hammer driver.
 
-Signed-off-by: Yunus Bas <y.bas@phytec.de>
----
- drivers/input/touchscreen/tsc200x-core.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Changes from v1 (https://lore.kernel.org/r/20220204202021.895426-1-swboyd@chromium.org):
+ * Yet another new file for HID part to fix compilation problems
 
-diff --git a/drivers/input/touchscreen/tsc200x-core.c b/drivers/input/touch=
-screen/tsc200x-core.c
-index 27810f6c69f6..72c7258b93a5 100644
---- a/drivers/input/touchscreen/tsc200x-core.c
-+++ b/drivers/input/touchscreen/tsc200x-core.c
-@@ -88,6 +88,8 @@ struct tsc200x {
- 	int                     in=5Fz1;
- 	int			in=5Fz2;
-=20
-+	struct touchscreen=5Fproperties prop;
-+
- 	spinlock=5Ft		lock;
- 	struct timer=5Flist	penup=5Ftimer;
-=20
-@@ -113,8 +115,7 @@ static void tsc200x=5Fupdate=5Fpen=5Fstate(struct tsc20=
-0x *ts,
- 				     int x, int y, int pressure)
- {
- 	if (pressure) {
--		input=5Freport=5Fabs(ts->idev, ABS=5FX, x);
--		input=5Freport=5Fabs(ts->idev, ABS=5FY, y);
-+		touchscreen=5Freport=5Fpos(ts->idev, &ts->prop, x, y, false);
- 		input=5Freport=5Fabs(ts->idev, ABS=5FPRESSURE, pressure);
- 		if (!ts->pen=5Fdown) {
- 			input=5Freport=5Fkey(ts->idev, BTN=5FTOUCH, !!pressure);
-@@ -533,7 +534,7 @@ int tsc200x=5Fprobe(struct device *dev, int irq, const =
-struct input=5Fid *tsc=5Fid,
- 	input=5Fset=5Fabs=5Fparams(input=5Fdev, ABS=5FPRESSURE,
- 			     0, MAX=5F12BIT, TSC200X=5FDEF=5FP=5FFUZZ, 0);
-=20
--	touchscreen=5Fparse=5Fproperties(input=5Fdev, false, NULL);
-+	touchscreen=5Fparse=5Fproperties(input=5Fdev, false, &ts->prop);
-=20
- 	/* Ensure the touchscreen is off */
- 	tsc200x=5Fstop=5Fscan(ts);
---=20
-2.25.1
+Cc: Jiri Kosina <jikos@kernel.org> 
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: "Sean O'Brien" <seobrien@chromium.org>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+
+Stephen Boyd (4):
+  Input: atkbd: Convert function_row_physmap to u16 array
+  Input: Extract ChromeOS vivaldi physmap show function
+  HID: Extract vivaldi hid feature mapping for use in hid-hammer
+  HID: google: Add support for vivaldi to hid-hammer
+
+Zhengqiao Xia (1):
+  HID: google: modify HID device groups of eel
+
+ drivers/hid/Kconfig                   | 11 +++
+ drivers/hid/Makefile                  |  1 +
+ drivers/hid/hid-google-hammer.c       | 97 +++++++++++++++++++++------
+ drivers/hid/hid-vivaldi-common.c      | 97 +++++++++++++++++++++++++++
+ drivers/hid/hid-vivaldi.c             | 88 ++----------------------
+ drivers/input/Kconfig                 |  7 ++
+ drivers/input/Makefile                |  1 +
+ drivers/input/keyboard/Kconfig        |  2 +
+ drivers/input/keyboard/atkbd.c        | 27 +++-----
+ drivers/input/keyboard/cros_ec_keyb.c | 30 +++------
+ drivers/input/vivaldi-keymap.c        | 39 +++++++++++
+ include/linux/input/vivaldi-keymap.h  | 37 ++++++++++
+ 12 files changed, 295 insertions(+), 142 deletions(-)
+ create mode 100644 drivers/hid/hid-vivaldi-common.c
+ create mode 100644 drivers/input/vivaldi-keymap.c
+ create mode 100644 include/linux/input/vivaldi-keymap.h
+
+[1] https://lore.kernel.org/r/nycvar.YFH.7.76.2201140935460.28059@cbobk.fhfr.pm
+
+base-commit: dfd42facf1e4ada021b939b4e19c935dcdd55566
+-- 
+https://chromeos.dev
 
