@@ -2,38 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67A074AEA2A
-	for <lists+linux-input@lfdr.de>; Wed,  9 Feb 2022 07:18:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF05C4AEAB2
+	for <lists+linux-input@lfdr.de>; Wed,  9 Feb 2022 08:01:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232878AbiBIGRw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Feb 2022 01:17:52 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:35886 "EHLO
+        id S234384AbiBIHA4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Feb 2022 02:00:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243063AbiBIGLy (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Feb 2022 01:11:54 -0500
-X-Greylist: delayed 1846 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 22:11:03 PST
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4C9FE00E16F;
-        Tue,  8 Feb 2022 22:11:01 -0800 (PST)
-Received: from relay12.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::232])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id 4895AC439F;
-        Wed,  9 Feb 2022 05:28:24 +0000 (UTC)
-Received: (Authenticated sender: frank@zago.net)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id C4DA0200002;
-        Wed,  9 Feb 2022 05:28:19 +0000 (UTC)
-From:   frank zago <frank@zago.net>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        frank zago <frank@zago.net>
-Subject: [PATCH] HID: Add support for Mega World controller force feedback
-Date:   Tue,  8 Feb 2022 23:28:07 -0600
-Message-Id: <20220209052807.138007-1-frank@zago.net>
-X-Mailer: git-send-email 2.32.0
+        with ESMTP id S231335AbiBIHAz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Feb 2022 02:00:55 -0500
+X-Greylist: delayed 1800 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 23:00:59 PST
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ED59C0613CB
+        for <linux-input@vger.kernel.org>; Tue,  8 Feb 2022 23:00:59 -0800 (PST)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.west.internal (Postfix) with ESMTP id BBC9D2B000B2;
+        Wed,  9 Feb 2022 01:22:35 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Wed, 09 Feb 2022 01:22:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; bh=uYUsC8D7J1WUo+J6bx2eQOdH/dy8+lejaehWcp
+        k6GBo=; b=Cy6QfLXNK9ddNsaNfHFSY5yUDcum8yl8skzZav/ud1bLyWJm9i+H2N
+        SpS9vCCPJNz3EhdX6R7bNHE5TwnmuGx8hrIQD6Ke0lkHiLJbv+2D2ISJOIreQAHp
+        zlTudmXfA6fgBKWeb4RfttzjZQWairwAi8zEOMgLFJxJY266OitiKMn/iK2MofG9
+        Y032ZMNc6VTvKp3gwHwaew7HWyGX9/QdIbBhf0DRD1wOLtnReaJ41R42SS3SmjEp
+        oq75I4DXcgyUGeXPi/hzmuRgvyhviRaNm0HYMkjmizn113WV1YDKi6lxcqn1pXRx
+        LZ8ZfuZLRFyiOfWDfcDjJKW40pLzzwHw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=uYUsC8D7J1WUo+J6b
+        x2eQOdH/dy8+lejaehWcpk6GBo=; b=l7NWThywEGOkQ9fm/3BjYdHvjllOQdFou
+        P/ktkxkoeOk0+UMQHxyqxLMDe00JvlZvokZFpnP0mutFa97ynWnGo8+GsGhBd7bQ
+        ePyOYOQBz4EOerYi1TAcjt83sS9D43+QnxOXJKeFixmU7+VSypaXxwfmSR1/UvN/
+        lx5NaMEW+l+WJtz1cXJ3QC0HjFm7vfzkWSjLntz67OFr2sSV/QDMd35z/GFGDkZP
+        M9azGwsnoafqZ6IIIiQStgCwZi47lD8Zr5QsdqzprA/ndsSUMehWXwb3ul026Efp
+        V9bPK/e6oTQYP5pUGjW3s6EtWzDNaG+jE+9TgsAf1c4cdmY6Lddrw==
+X-ME-Sender: <xms:ql0DYjgm5-gK4DzlRnIRleaAZC7m7XfnMU0Wlq6trKL31Pi3Sq5Rhg>
+    <xme:ql0DYgCyV-p2SLv-O5gDtlrN1S3jpArysnlnvCNzIc7sOdxPGq1OXKpuLhDiz_QWv
+    zMxZJW8wGosxCtkk5I>
+X-ME-Received: <xmr:ql0DYjEio6Dy3MT-mF99-GHGBP28-voGwekJOer4xggVCP-L0OsKD92Md0SdHKFJTpfVeq7HHyhYLcoYNuN-9MqX0ZWlEZHgvuZP>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheekgdeludcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgvrhcu
+    jfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtqe
+    enucggtffrrghtthgvrhhnpeehhfehfffgheelgeeuudelhefgvdefveekudevjeevjeev
+    vefggefguddufeeuveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+    hlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:q10DYgQBPT5DJBJQNWB7ExStByEz9364Q8QPDZ87bpmbNMuv3Fiozg>
+    <xmx:q10DYgzL1vK-niLoRTf4bygNcsNSdYQc-JjR5Es2zE7QIPnGK_QGTQ>
+    <xmx:q10DYm7Y13cav-dx07gXrcrRCEreoogrWv6gjomlhZs48N16o2KPGw>
+    <xmx:q10DYsdqZFrXGAgzPknSebDMoUCygwA0YN5qVx64BCVCAPD1RcshgxSOYoM>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 9 Feb 2022 01:22:31 -0500 (EST)
+Date:   Wed, 9 Feb 2022 16:22:26 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= 
+        <nabijaczleweli@nabijaczleweli.xyz>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 12/12] Input: docs: add more details on the use of
+ BTN_TOOL
+Message-ID: <YgNdokzzATwy/57P@quokka>
+References: <20220126161832.3193805-1-benjamin.tissoires@redhat.com>
+ <20220126161832.3193805-13-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220126161832.3193805-13-benjamin.tissoires@redhat.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -41,213 +91,40 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds support for one of the several Mega World USB game
-controller with integrated force feedback. It is a HID based
-memory-less game controller, with a weak motor on the left, and a
-strong one on the right.
+On Wed, Jan 26, 2022 at 05:18:32PM +0100, Benjamin Tissoires wrote:
+> The HID core stack used to be very relaxed considering the BTN_TOOL_*
+> usage. With the recent commits, we should now enforce to have only one
+> tool at a time, meaning that we can now express that requirement in the
+> docs.
+> 
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> ---
+>  Documentation/input/event-codes.rst | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
+> index b24ae7d292cc..41b1fa647dab 100644
+> --- a/Documentation/input/event-codes.rst
+> +++ b/Documentation/input/event-codes.rst
+> @@ -137,7 +137,10 @@ A few EV_KEY codes have special meanings:
+>      code should be set to a value of 1. When the tool is no longer interacting
+>      with the input device, the BTN_TOOL_<name> code should be reset to 0. All
+>      trackpads, tablets, and touchscreens should use at least one BTN_TOOL_<name>
+> -    code when events are generated.
+> +    code when events are generated. Likewise all trackpads, tablets, and
+> +    touchscreens should export only one BTN_TOOL_<name> at a time. It is
 
-Signed-off-by: frank zago <frank@zago.net>
----
- drivers/hid/Kconfig         |  14 ++++
- drivers/hid/Makefile        |   1 +
- drivers/hid/hid-ids.h       |   3 +
- drivers/hid/hid-megaworld.c | 136 ++++++++++++++++++++++++++++++++++++
- 4 files changed, 154 insertions(+)
- create mode 100644 drivers/hid/hid-megaworld.c
+s/export/set to nonzero/ to avoid any ambiguity with setting the evbit on the
+device vs setting the value to nonzero.
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index f5544157576c..2344830d3680 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -684,6 +684,20 @@ config HID_MAYFLASH
- 	Say Y here if you have HJZ Mayflash PS3 game controller adapters
- 	and want to enable force feedback support.
- 
-+config HID_MEGAWORLD
-+	tristate "Mega World based game controller support"
-+	depends on HID
-+	help
-+	  Say Y here if you have a Mega World based game controller.
-+
-+config MEGAWORLD_FF
-+	bool "Mega World based game controller force feedback support"
-+	depends on HID_MEGAWORLD
-+	select INPUT_FF_MEMLESS
-+	help
-+	  Say Y here if you have a Mega World based game controller and want
-+	  to have force feedback support for it.
-+
- config HID_REDRAGON
- 	tristate "Redragon keyboards"
- 	depends on HID
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index 6d3e630e81af..4f333881560e 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -76,6 +76,7 @@ obj-$(CONFIG_HID_MAGICMOUSE)	+= hid-magicmouse.o
- obj-$(CONFIG_HID_MALTRON)	+= hid-maltron.o
- obj-$(CONFIG_HID_MCP2221)	+= hid-mcp2221.o
- obj-$(CONFIG_HID_MAYFLASH)	+= hid-mf.o
-+obj-$(CONFIG_HID_MEGAWORLD)	+= hid-megaworld.o
- obj-$(CONFIG_HID_MICROSOFT)	+= hid-microsoft.o
- obj-$(CONFIG_HID_MONTEREY)	+= hid-monterey.o
- obj-$(CONFIG_HID_MULTITOUCH)	+= hid-multitouch.o
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 85975031389b..2588d933c2b5 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -860,6 +860,9 @@
- #define USB_VENDOR_ID_MCS		0x16d0
- #define USB_DEVICE_ID_MCS_GAMEPADBLOCK	0x0bcc
- 
-+#define USB_VENDOR_MEGAWORLD		0x07b5
-+#define USB_DEVICE_ID_MEGAWORLD_GAMEPAD	0x0312
-+
- #define USB_VENDOR_ID_MGE		0x0463
- #define USB_DEVICE_ID_MGE_UPS		0xffff
- #define USB_DEVICE_ID_MGE_UPS1		0x0001
-diff --git a/drivers/hid/hid-megaworld.c b/drivers/hid/hid-megaworld.c
-new file mode 100644
-index 000000000000..3ac247d7bd54
---- /dev/null
-+++ b/drivers/hid/hid-megaworld.c
-@@ -0,0 +1,136 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Vibration support for Mega World controllers
-+ *
-+ * Copyright 2022 Frank Zago
-+ *
-+ * Derived from hid-zpff.c:
-+ *   Copyright (c) 2005, 2006 Anssi Hannula <anssi.hannula@gmail.com>
-+ */
-+
-+#include <linux/hid.h>
-+#include <linux/input.h>
-+#include <linux/module.h>
-+#include <linux/slab.h>
-+
-+#include "hid-ids.h"
-+
-+#ifdef CONFIG_MEGAWORLD_FF
-+
-+struct mwctrl_device {
-+	struct hid_report *report;
-+	s32 *weak;
-+	s32 *strong;
-+};
-+
-+static int mwctrl_play(struct input_dev *dev, void *data,
-+		       struct ff_effect *effect)
-+{
-+	struct hid_device *hid = input_get_drvdata(dev);
-+	struct mwctrl_device *mwctrl = data;
-+
-+	*mwctrl->strong = effect->u.rumble.strong_magnitude >> 8;
-+	*mwctrl->weak = effect->u.rumble.weak_magnitude >> 8;
-+
-+	hid_hw_request(hid, mwctrl->report, HID_REQ_SET_REPORT);
-+
-+	return 0;
-+}
-+
-+static int mwctrl_init(struct hid_device *hid)
-+{
-+	struct mwctrl_device *mwctrl;
-+	struct hid_report *report;
-+	struct hid_input *hidinput;
-+	struct input_dev *dev;
-+	int i, error;
-+
-+	if (list_empty(&hid->inputs)) {
-+		hid_err(hid, "no inputs found\n");
-+		return -ENODEV;
-+	}
-+	hidinput = list_entry(hid->inputs.next, struct hid_input, list);
-+	dev = hidinput->input;
-+
-+	for (i = 0; i < 4; i++) {
-+		report = hid_validate_values(hid, HID_OUTPUT_REPORT, 0, i, 1);
-+		if (!report)
-+			return -ENODEV;
-+	}
-+
-+	mwctrl = kzalloc(sizeof(struct mwctrl_device), GFP_KERNEL);
-+	if (!mwctrl)
-+		return -ENOMEM;
-+
-+	set_bit(FF_RUMBLE, dev->ffbit);
-+
-+	error = input_ff_create_memless(dev, mwctrl, mwctrl_play);
-+	if (error) {
-+		kfree(mwctrl);
-+		return error;
-+	}
-+
-+	mwctrl->report = report;
-+
-+	/* Field 0 is always 2, and field 1 is always 0. The original
-+	 * windows driver has a 5 bytes command, where the 5th byte is
-+	 * a repeat of the 3rd byte, however the device has only 4
-+	 * fields. It could be a bug in the driver, or there is a
-+	 * different device that needs it.
-+	 */
-+	report->field[0]->value[0] = 0x02;
-+
-+	mwctrl->strong = &report->field[2]->value[0];
-+	mwctrl->weak = &report->field[3]->value[0];
-+
-+	return 0;
-+}
-+
-+#else
-+
-+static int mwctrl_init(struct hid_device *hid)
-+{
-+	return 0;
-+}
-+
-+#endif
-+
-+static int mwctrl_probe(struct hid_device *hdev, const struct hid_device_id *id)
-+{
-+	int ret;
-+
-+	ret = hid_parse(hdev);
-+	if (ret) {
-+		hid_err(hdev, "parse failed\n");
-+		return ret;
-+	}
-+
-+	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_FF);
-+	if (ret) {
-+		hid_err(hdev, "hw start failed\n");
-+		return ret;
-+	}
-+
-+	ret = mwctrl_init(hdev);
-+	if (ret)
-+		hid_hw_stop(hdev);
-+
-+	return ret;
-+}
-+
-+static const struct hid_device_id mwctrl_devices[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_MEGAWORLD,
-+			 USB_DEVICE_ID_MEGAWORLD_GAMEPAD) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, mwctrl_devices);
-+
-+static struct hid_driver mwctrl_driver = {
-+	.name = "megaworld",
-+	.id_table = mwctrl_devices,
-+	.probe = mwctrl_probe,
-+};
-+
-+module_hid_driver(mwctrl_driver);
-+
-+MODULE_LICENSE("GPL");
--- 
-2.32.0
+> +    however accepted to switch tool in one EV_SYN frame by setting the old
+> +    BTN_TOOL_<name> at a value of 0 and the new one at 1.
+
+I would even s/accepted/recommended/ but this LGTM to me, thanks.
+
+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
+
+Cheers,
+  Peter
+
 
