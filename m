@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E1CF4AE635
-	for <lists+linux-input@lfdr.de>; Wed,  9 Feb 2022 01:44:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD9D14AE67D
+	for <lists+linux-input@lfdr.de>; Wed,  9 Feb 2022 03:39:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235164AbiBIAoc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Feb 2022 19:44:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43782 "EHLO
+        id S231954AbiBIApe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Feb 2022 19:45:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231954AbiBIAoc (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Feb 2022 19:44:32 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26858C06157B;
-        Tue,  8 Feb 2022 16:44:32 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id u12so775808plq.10;
-        Tue, 08 Feb 2022 16:44:32 -0800 (PST)
+        with ESMTP id S240765AbiBIApd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Feb 2022 19:45:33 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50B05C06157B;
+        Tue,  8 Feb 2022 16:45:32 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id i30so1365699pfk.8;
+        Tue, 08 Feb 2022 16:45:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=PhTkr9X2ah1asuD3CJaoPYxIIUBXeUj/IV+DwOdgVXo=;
-        b=Lp9hYtALz3JjG+ygVTjC/6yQYeq6ycUyyf5FSqYciSLle2keOrS7A85VJ1s/QHxqkn
-         DwBpgRFt7BdEq/3FEN27loA0dh7v5uYwnbXf7hEq66NVlQhl9sS9EiuhGNujx4BknmhZ
-         FBrSxOAPmz4QBqVefdhi0x+ji6IU5sBEFN/T0kzpP1yshJyiusF9MsLKLnO40jDT4rn6
-         waVKeEzoBPoiptU0qX2CAFBQN+gYUoTlghBlMvi0Es4xaBeSteZuKxOsJoySQcVXMDYJ
-         3jqm7XaRVTt5HUgYu2zKtNKQsSjSCrAbGoGjikuPBSf0Q6gBpBaCk7SVxXY4uezq13OQ
-         B0vA==
+        bh=9DZVh/N3QbZRm9DhcTCQab8GXfTQimnfiKDgzwLsBNU=;
+        b=CWnYqVOGH2x1KQBjU1bF6IcAP9hIoQswcMOkRfxerNHyy5bVaxkup0fit/QRJw9Kvg
+         EYTjRVwmzTXsJOZDu2xkGiezAp4meZuan7A6TC1jlv0QQa82mDw2bulMWft459yKSsLW
+         YDQYoGxHA8GdqlEcOjerHkYv2Yv8QYaCVhoSMIcR43r9thRalo3ZRsCxy0YasTB3F6el
+         rDqCcZgIzr8eRbGCAwH/rdgTmRbISEFkthNmC97Ng1r/n1/ADyGUpvCFpAz+79199+mk
+         IwRGimCSV/Wa1J/BwNjZLPN4oK6DUkX4L6jt0w6oQ7+lbYScrvV/RbO23q3BmwLTFCvU
+         +YUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=PhTkr9X2ah1asuD3CJaoPYxIIUBXeUj/IV+DwOdgVXo=;
-        b=UgNWoTsIRc+zl3MpZz98zVFm6lUbNcu+MGMcoWnHs6OkK1JVwrBKFVAnQSxB4RY2XF
-         RSkDxFRzHsZSAiGznfWMGTyfptVvqs9Jh7AE+0Rrd+nOgAuA0zpBQwZUPU0bkDQ1jOlO
-         XpbizGrmtPfzTXzrJINmRT8ix6KR+SJomM2Hmoz757YUjQEIjYFTPeTcokj2d9KFxaWt
-         hZ045dCVQ5uNvuIQgnqLnvziagT5MwDxsxpi5Pq+zZ1vxxMM/QnYOP/4Ri5ncmADZjkk
-         wpiiv0Wo6gIAQI95yYg0iPaYyBf4cKs/OCQDHJXSv0SSJs/Sk1BiPJPI8oR9R2pDkxq6
-         KG0w==
-X-Gm-Message-State: AOAM530HUK9CNeF2PJVEm8NAGvAyThzzeye/wNnY2s64hUS19aWHLB+J
-        De1uU6eiFkm9JZ79Ff5Z1kg=
-X-Google-Smtp-Source: ABdhPJytSqgPHdkgDrOt40m/jphipT+7Bnqd121V07WmUoJqTHxyqx5C0HU0dq8NUKaJM60Z/onu9Q==
-X-Received: by 2002:a17:902:a58b:: with SMTP id az11mr762807plb.138.1644367471668;
-        Tue, 08 Feb 2022 16:44:31 -0800 (PST)
+        bh=9DZVh/N3QbZRm9DhcTCQab8GXfTQimnfiKDgzwLsBNU=;
+        b=DYiWvt6GwECUHTO6LlYs/3GpRiYRvfVWDT8oM5tVscV1iGMssAd3bNit6pAKjHoaOd
+         81RK9GwgY6xNBjt9B/Ebr6Mx+1DfXBcwbu5T80jrQDKDoGcOJvqZ6DyFd5PDlvgPgLf+
+         HJihju2Ww518Bxc6GFsY1HojDRPZkwqsZHPzxir98aJh3gLMIaYfaFBBRLMeZOtVB3l6
+         1Vc8m2KhyVdRClvQPzieMWkk9VURMC9xB1bednz6CyAZjYtDGhEzA/hSUnvVWS1cku5s
+         H8sSx2gJ1Mnud/oqhizwIWrWmfS5U70vTCEGGgqFotQ1kS9v5DVbxP9rWYI3KpDB/V4i
+         vFYA==
+X-Gm-Message-State: AOAM533Qv5U3MHi02z1UhTmPy9xA7zh9j8RLfDPQiaJdq/GVPjYWDF2m
+        y+N2Pey/Uqf81lRXbwRhuFk=
+X-Google-Smtp-Source: ABdhPJxh2vJJjJtZRhTaTcyMu/WE50NXh6IQ5JI9R0o4ajiGaxrShq0Ar6+kiSDbsmbqZsF8vDH9iA==
+X-Received: by 2002:a05:6a00:1acb:: with SMTP id f11mr6876757pfv.28.1644367531887;
+        Tue, 08 Feb 2022 16:45:31 -0800 (PST)
 Received: from localhost.localdomain (192.243.120.166.16clouds.com. [192.243.120.166])
-        by smtp.gmail.com with ESMTPSA id o125sm13339621pfb.116.2022.02.08.16.44.28
+        by smtp.gmail.com with ESMTPSA id c11sm17391258pfv.76.2022.02.08.16.45.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 16:44:31 -0800 (PST)
+        Tue, 08 Feb 2022 16:45:31 -0800 (PST)
 From:   davidcomponentone@gmail.com
-To:     jikos@kernel.org
-Cc:     davidcomponentone@gmail.com, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yang Guang <yang.guang5@zte.com.cn>,
+To:     erazor_de@users.sourceforge.net
+Cc:     davidcomponentone@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Yang Guang <yang.guang5@zte.com.cn>,
         Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH] HID: sony: replace snprintf with sysfs_emit
-Date:   Wed,  9 Feb 2022 08:44:18 +0800
-Message-Id: <2f021167336d2404aaba4c3bd7a075867a6a7e39.1644285940.git.yang.guang5@zte.com.cn>
+Subject: [PATCH] hid: roccat-isku: replace snprintf with sysfs_emit
+Date:   Wed,  9 Feb 2022 08:45:19 +0800
+Message-Id: <e409636333fd11c58847a86aa30239e7f71b2112.1644285832.git.yang.guang5@zte.com.cn>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -72,11 +72,7 @@ X-Mailing-List: linux-input@vger.kernel.org
 From: Yang Guang <yang.guang5@zte.com.cn>
 
 coccinelle report:
-./drivers/hid/hid-sony.c:710:8-16:
-WARNING: use scnprintf or sprintf
-./drivers/hid/hid-sony.c:747:8-16:
-WARNING: use scnprintf or sprintf
-./drivers/hid/hid-sony.c:759:8-16:
+./drivers/hid/hid-roccat-isku.c:66:8-16:
 WARNING: use scnprintf or sprintf
 
 Use sysfs_emit instead of scnprintf or sprintf makes more sense.
@@ -85,40 +81,22 @@ Reported-by: Zeal Robot <zealci@zte.com.cn>
 Signed-off-by: Yang Guang <yang.guang5@zte.com.cn>
 Signed-off-by: David Yang <davidcomponentone@gmail.com>
 ---
- drivers/hid/hid-sony.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/hid/hid-roccat-isku.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-index 60ec2b29d54d..94291472b381 100644
---- a/drivers/hid/hid-sony.c
-+++ b/drivers/hid/hid-sony.c
-@@ -707,7 +707,7 @@ static ssize_t ds4_show_poll_interval(struct device *dev,
- 	struct hid_device *hdev = to_hid_device(dev);
- 	struct sony_sc *sc = hid_get_drvdata(hdev);
- 
--	return snprintf(buf, PAGE_SIZE, "%i\n", sc->ds4_bt_poll_interval);
-+	return sysfs_emit(buf, "%i\n", sc->ds4_bt_poll_interval);
+diff --git a/drivers/hid/hid-roccat-isku.c b/drivers/hid/hid-roccat-isku.c
+index e95d59cd8d07..d356a0ac770c 100644
+--- a/drivers/hid/hid-roccat-isku.c
++++ b/drivers/hid/hid-roccat-isku.c
+@@ -63,7 +63,7 @@ static ssize_t isku_sysfs_show_actual_profile(struct device *dev,
+ {
+ 	struct isku_device *isku =
+ 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
+-	return snprintf(buf, PAGE_SIZE, "%d\n", isku->actual_profile);
++	return sysfs_emit(buf, "%d\n", isku->actual_profile);
  }
  
- static ssize_t ds4_store_poll_interval(struct device *dev,
-@@ -744,7 +744,7 @@ static ssize_t sony_show_firmware_version(struct device *dev,
- 	struct hid_device *hdev = to_hid_device(dev);
- 	struct sony_sc *sc = hid_get_drvdata(hdev);
- 
--	return snprintf(buf, PAGE_SIZE, "0x%04x\n", sc->fw_version);
-+	return sysfs_emit(buf, "0x%04x\n", sc->fw_version);
- }
- 
- static DEVICE_ATTR(firmware_version, 0444, sony_show_firmware_version, NULL);
-@@ -756,7 +756,7 @@ static ssize_t sony_show_hardware_version(struct device *dev,
- 	struct hid_device *hdev = to_hid_device(dev);
- 	struct sony_sc *sc = hid_get_drvdata(hdev);
- 
--	return snprintf(buf, PAGE_SIZE, "0x%04x\n", sc->hw_version);
-+	return sysfs_emit(buf, "0x%04x\n", sc->hw_version);
- }
- 
- static DEVICE_ATTR(hardware_version, 0444, sony_show_hardware_version, NULL);
+ static ssize_t isku_sysfs_set_actual_profile(struct device *dev,
 -- 
 2.30.2
 
