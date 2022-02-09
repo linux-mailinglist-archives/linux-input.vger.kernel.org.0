@@ -2,106 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F3D114B00C6
-	for <lists+linux-input@lfdr.de>; Wed,  9 Feb 2022 23:56:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A2824B0119
+	for <lists+linux-input@lfdr.de>; Thu, 10 Feb 2022 00:17:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236601AbiBIW4M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Feb 2022 17:56:12 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:34808 "EHLO
+        id S231139AbiBIXQR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Feb 2022 18:16:17 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:52670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236641AbiBIW4B (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Feb 2022 17:56:01 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D685E04BEAF
-        for <linux-input@vger.kernel.org>; Wed,  9 Feb 2022 14:56:04 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id t4-20020a17090a510400b001b8c4a6cd5dso3751005pjh.5
-        for <linux-input@vger.kernel.org>; Wed, 09 Feb 2022 14:56:04 -0800 (PST)
+        with ESMTP id S231538AbiBIXQO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Feb 2022 18:16:14 -0500
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DFE2E056C13
+        for <linux-input@vger.kernel.org>; Wed,  9 Feb 2022 15:16:10 -0800 (PST)
+Received: by mail-yb1-xb2b.google.com with SMTP id m6so10419349ybc.9
+        for <linux-input@vger.kernel.org>; Wed, 09 Feb 2022 15:16:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HZuOJxErdx75B/XhX4U4+Jmre2nmp1Aql4lPGNRbh74=;
-        b=BZCYaLZJ72Lr18F9LbSoJpXl8uFXbNwwSa++F3WdUBrC4dx6FmGhX503X68xqi/L8L
-         Iih/akndZicOcnZ5Hn2RpZxC9jEHc5snh7MUeHtg4CRTfsHADPjaF0Lo5N8klocTz5Wo
-         FP90MYvC89pOuv3vNHGs+tV2Cj0gu8vnxN4Ns=
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=aPTFbZr4LhKGppGQDkO7tNLWiZLizgW3cwR+POXjY4E=;
+        b=o2+i+8bbtsAYItL+AAbM6Obip3JpNl8BeQkjtNMgg74EpnFFdD+7E0ZPiXhENHIcYb
+         B6wq4H+NXCThQ0LIqVOGdPr04Qf9eXPn25Nnl07XiepZ1hskOWGSoI5xmRXZcp9wiw2i
+         ZI8OePiW6MX5wy3C0mzw3M12+DvMT7nc2cpGAH3fQFmcEWCLLIMc/4Ch8Q3kvWFVuD91
+         dpsOAA61IY4DaEZKQ2sdb81H62/H+pIU4x6p2I4KnGapGidnga3Uxi7KCCkQcP7zWdPq
+         Sso0gd4Rp/IL+NhNOY9frLZOJtpzZZFymZ0jSsLozY+mDdtleiINWjz7LgQp/6Zwu7P1
+         YRFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HZuOJxErdx75B/XhX4U4+Jmre2nmp1Aql4lPGNRbh74=;
-        b=kDhqnxjRd/pC0tqYwO/o+FCn8PUQUczmQu5INCF3hz9iXQPDab4URj/S4XCxKuW4Tz
-         vUIrbu1vwsxCu89zh4rCmbvBDmtgl9ELOOam81Q7CyCMYO5w5i1J+AGezvcS35oVTSFg
-         6mGDM491DjqxXmwiR8lw8/1H0jyrtuetgwiyE7dlPkS+ZRBdKfscbhu2ws3Nwz6iK4yq
-         zMQwUFXQlI6dSRIfGC20n2lH5DzMlYtarY29mi4ddlwevpQawPcSsX815Z3kI8I0iK7h
-         /XrVaJE616/AmVYMMNDc91/2SPRJX9/3wEjjU/PlJaPsJ64w4ZGMzyxtzZkRGgmeHM0j
-         PDpw==
-X-Gm-Message-State: AOAM532WttJ4Pn8fAVFEyb+UvVHEnufEFYhQG9KUp7lh9WkPzMFlvlMt
-        j6JQUjdB8TXdcslK7YK1RYH64g==
-X-Google-Smtp-Source: ABdhPJzft2yBweLZEkRQW0naWztlGqli0RbJWdb6uQMBO2ybSilpILtlONJZp8fjSTCMMa3zkYrsCA==
-X-Received: by 2002:a17:90b:188a:: with SMTP id mn10mr5884867pjb.186.1644447363867;
-        Wed, 09 Feb 2022 14:56:03 -0800 (PST)
-Received: from smtp.gmail.com ([2620:15c:202:201:5193:6865:e38e:3a5b])
-        by smtp.gmail.com with ESMTPSA id b1sm5982015pgb.66.2022.02.09.14.56.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Feb 2022 14:56:03 -0800 (PST)
-From:   Stephen Boyd <swboyd@chromium.org>
-To:     benjamin.tissoires@redhat.com,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>
-Cc:     Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        "Sean O'Brien" <seobrien@chromium.org>,
-        Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v2 5/5] HID: google: modify HID device groups of eel
-Date:   Wed,  9 Feb 2022 14:55:56 -0800
-Message-Id: <20220209225556.3992827-6-swboyd@chromium.org>
-X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
-In-Reply-To: <20220209225556.3992827-1-swboyd@chromium.org>
-References: <20220209225556.3992827-1-swboyd@chromium.org>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=aPTFbZr4LhKGppGQDkO7tNLWiZLizgW3cwR+POXjY4E=;
+        b=ZfnLu4Ws0tOrarBigfqDtP4Yz3nrg2kON1adwMBpvha1NXxphii9UVTmn2i7Pff8UP
+         vgWvfbiohjFmspqE51RaDcbLXjAWbBKkjHsT4ULXOj44novCGpgE2Q8W6ET2CeqNvwmu
+         aydFnTZDPFcAAdtUTj0rJWm+sTYeEc2KamtKvo3FVtK6a3bxamv5lLuoWjJC+hPpsC5S
+         o+Xtj0qjcxXMAr/dwJGDID951gXqTWVFLETBZkMBX5A/mQiyuZocPllyoWIbtEkYYvnd
+         gn2+rfVE3Unbz1eMObUXhrVFpCw8S3v7sqvUmewk2K3Tz9Mj6NPU3RgiBcO5ATmmosPo
+         Kc4g==
+X-Gm-Message-State: AOAM533Q3iXKCuVkLlWC/Lw0osB0Ushl3NT8dBz9kLtlBorYOj7HEMdV
+        H4qEjkGj44aMrwLcirVRKyjIWVi9OSOhNEuutL8=
+X-Google-Smtp-Source: ABdhPJx4zxALdqPc9jkTYv9jpm7XrTWj7lmYSmhtBGHsbOEth1PVOYwOxtlRwZPVaxpBAjF6ndFCaT/flRvFA4bCHKA=
+X-Received: by 2002:a81:3e1b:: with SMTP id l27mr4475306ywa.68.1644448569952;
+ Wed, 09 Feb 2022 15:16:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a05:7108:6595:0:0:0:0 with HTTP; Wed, 9 Feb 2022 15:16:09
+ -0800 (PST)
+From:   drtracywilliams <mrsalimasanwardu7067@gmail.com>
+Date:   Thu, 10 Feb 2022 07:16:09 +0800
+Message-ID: <CAP65zWvoBb8mhn_OzwTuPqEk_VY9sU3da4iijkQKOFLMgAuuZA@mail.gmail.com>
+Subject: From Dr Tracy from United States
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=1.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLY,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+Hello Dear,
 
-If HID_GROUP of eel is set to HID_GROUP_GENERIC, Whiskers Tablet Mode
-Switch of eel hammer will not be detected by system because the
-hid-vivaldi driver probes the device. When it is set to
-HID_GROUP_VIVALDI, system will detect Whiskers Tablet Mode Switch
-successfully and also support the vivaldi keyboard layout.
+how are you today,I hope you are doing great.
 
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: "Sean O'Brien" <seobrien@chromium.org>
-Cc: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
-[swboyd@chromium.org: Expand on commit text]
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/hid/hid-google-hammer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It is my great pleasure to contact you,I want to make a new and
+special friend,I hope you don't mind. My name is Tracy William from
+the United States, Am an English and French nationalities. I will give
+you pictures and more details about my self as soon as i hear from
+you Kisses.
 
-diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-index e3dd26ddbd43..8ed75bb0878f 100644
---- a/drivers/hid/hid-google-hammer.c
-+++ b/drivers/hid/hid-google-hammer.c
-@@ -636,7 +636,7 @@ static void hammer_remove(struct hid_device *hdev)
- static const struct hid_device_id hammer_devices[] = {
- 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
- 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_DON) },
--	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-+	{ HID_DEVICE(BUS_USB, HID_GROUP_VIVALDI,
- 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_EEL) },
- 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
- 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_HAMMER) },
--- 
-https://chromeos.dev
+Pls resply to my personal email(dr.tracymedicinemed1@gmail.com)
 
+Thanks.
+Tracy,
