@@ -2,476 +2,273 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A8104B1303
-	for <lists+linux-input@lfdr.de>; Thu, 10 Feb 2022 17:39:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CD804B154D
+	for <lists+linux-input@lfdr.de>; Thu, 10 Feb 2022 19:35:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244396AbiBJQhz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Feb 2022 11:37:55 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49066 "EHLO
+        id S232950AbiBJSfJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Feb 2022 13:35:09 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:58488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244358AbiBJQhy (ORCPT
+        with ESMTP id S245755AbiBJSfI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Feb 2022 11:37:54 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D0D1E9E;
-        Thu, 10 Feb 2022 08:37:45 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id d27so6819859wrb.5;
-        Thu, 10 Feb 2022 08:37:45 -0800 (PST)
+        Thu, 10 Feb 2022 13:35:08 -0500
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D2E1192
+        for <linux-input@vger.kernel.org>; Thu, 10 Feb 2022 10:35:08 -0800 (PST)
+Received: by mail-il1-x12a.google.com with SMTP id e11so4143907ils.3
+        for <linux-input@vger.kernel.org>; Thu, 10 Feb 2022 10:35:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=JKzVtAvCwdEpHMxCrDR9AUzhEZaHIpgwBEB3o5kBWNY=;
-        b=LWKzm8KxQYJegGNtE9GlWVJ9tT0pS9v88zmASBYxx3U5u1JzGDu2UM6GYujX11NvFU
-         H1XBTD6rdYCZ+EyT5u5b1lSllIR3f2Bv6OocHccSKXL4ZmJ8t8bpw7dvJyNphA38XZSn
-         O6ckTZ2Des3F7CposhgY8hmcegNPrmZ9wgTLoTtoQ56wAj+zTGuGGg34zxuPGVaKKYPy
-         /tPILriS/zIxyM1pjMs4srN3apLCVS5WVIFxuc3dpEFig3s7v5AX4di/4JbqAcmizU4r
-         AY0fZ9ly1G5EZ7uiLg6HuKU1fttpxsMFbdSHiBa0LzrPkz4J0aOHWcQE+6JsJ3+ciazV
-         Zm5Q==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yNtOnur8vDPCnaXiBVKnLRl+O1P5EYrbuUNVJTJt8ww=;
+        b=XMur54dCp/8EdmKbQXgnGzqzQDDg1rmw7HHH26oeFfRi5BR0bayOnsCkbrGN3PY5zX
+         C+KdIhmqWF5GLh2hMw0fiCH5diNAXM0LE59JgiTDyIBA2TsDrkzWa39vFgLhirpx9qjT
+         RJQO+cdN5yxyQ7n5EGPSFVhvIu0L2ddlbU5mo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=JKzVtAvCwdEpHMxCrDR9AUzhEZaHIpgwBEB3o5kBWNY=;
-        b=7Xb843WVmRT5uyDdhkH7aD19qm4PlicONiVemLcJDHsr8VGJNUUs7xPMKKIQvDwuzw
-         +oSOWrchwpI6TVPCuza7cgyVTNwfebR32yZ4lXmKxDyU4xJ4sTVdEIz2GquDdYij3zNu
-         Zgopp/9+sdU1EADLxRAeioqlKnJB6r4/z67PGZQ469HXEl7RD4Mth8glRlO1o76KfzBZ
-         rL+0Oz50kMpJljvLYp8t1GC45W2enL7g5ICJA0tvSjzI/nMZdpyQdLJ75ypE8wxP2zYX
-         9sXjRQSoIT7yguhJSgmKq5ARgLrELJ+N2NLSlixopuL8NdDCbbF32AyPRQZ4XjSF9TeJ
-         XTyg==
-X-Gm-Message-State: AOAM532vJEAdI+ZBaDpeu/xmFN9jAAv2WhuC6VIe2lU3Wl/2HM392ovQ
-        y+GwDSHevq3KeaR+WUqYSCU79SLDd2NeGg==
-X-Google-Smtp-Source: ABdhPJwrbm00BB15TQ5s9ECqqQ0PxNqD2Ore4tMBI51yODK/zDcsU/HUAnpgoDo5wJDwHdDOCvkXNA==
-X-Received: by 2002:a5d:4e4f:: with SMTP id r15mr2567868wrt.505.1644511063595;
-        Thu, 10 Feb 2022 08:37:43 -0800 (PST)
-Received: from nergzd-desktop.localdomain ([62.122.67.26])
-        by smtp.gmail.com with ESMTPSA id k5sm5871795wrw.117.2022.02.10.08.37.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Feb 2022 08:37:43 -0800 (PST)
-From:   Markuss Broks <markuss.broks@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-        Markuss Broks <markuss.broks@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v2 2/2] Input: add Imagis touchscreen driver
-Date:   Thu, 10 Feb 2022 18:37:07 +0200
-Message-Id: <20220210163708.162866-3-markuss.broks@gmail.com>
-X-Mailer: git-send-email 2.35.0
-In-Reply-To: <20220210163708.162866-1-markuss.broks@gmail.com>
-References: <20220210163708.162866-1-markuss.broks@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yNtOnur8vDPCnaXiBVKnLRl+O1P5EYrbuUNVJTJt8ww=;
+        b=Bo6K5V9cxW8Xs1eB2Ss3XjAGEFoViouYMpf+vB8kqnl/iDRaIqSzJPx/du8euMwww2
+         8AzK+Abnddum2VQ3EiDsXwFW3i2z9LuK2Y2+3iJNy/9wIPupT/rfJ5ZyFrvQR7fdF8Bn
+         lSmAp2fpBd3qzh3BkSJuFrHxRbWtbr3eha7YK+M9db9tfW3vJffFhBM9gG+15iQtmAX6
+         k/aVFdn1XcI9oD0woMgqwtvT8mtDREelFhZ4xdJfTgt226lorakY/pCBsORBdyVvg9OH
+         fo14LD0Q9H46l6qjlWLUd9TV6g8D7ESL9O+osMZzRun+YyeYOmUDjf5vlQJj99lzT9bj
+         msIg==
+X-Gm-Message-State: AOAM531kQjKMNZ9Cf+FXQq2v7zv2vf9DSdD/h+2ok3sXG2lvzFiIW3X4
+        K/tfGoyalsu8Xz3YV4xkO6sRQC1si0oA3D9pPsVRdyP2xvKOXg==
+X-Google-Smtp-Source: ABdhPJy+DPm77GisEXQH4GXRQvHMg8ZPQJ7nS2XpQ3Yl2TkVg6LMs1sD3qqr7RRTYGzCNxr7zSAVeAhq57eVnckzhRA=
+X-Received: by 2002:a05:6e02:158a:: with SMTP id m10mr4916219ilu.59.1644518107906;
+ Thu, 10 Feb 2022 10:35:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220209050947.2119465-1-gwendal@chromium.org>
+ <9ba46bf0894bdee52bc3ebca4527d115ebf067a6.camel@linux.intel.com>
+ <CAPUE2utMOYJobCEj3ZzPfdovRJVXVhNJg3CFHCNt0Jq=w68ovA@mail.gmail.com> <80a7df19f77246450a1a89693d095035881f42b7.camel@linux.intel.com>
+In-Reply-To: <80a7df19f77246450a1a89693d095035881f42b7.camel@linux.intel.com>
+From:   Gwendal Grignou <gwendal@chromium.org>
+Date:   Thu, 10 Feb 2022 10:34:55 -0800
+Message-ID: <CAPUE2uubb6Xbdx9qUSdm3P9ZGmaVcG+6wCgJ_hQ2OEZSYKcJag@mail.gmail.com>
+Subject: Re: [PATCH] HID: intel-ish-hid: Use dma_alloc_coherent for firmware update
+To:     srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     jikos@kernel.org, linux-input@vger.kernel.org,
+        stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for the IST3038C touchscreen IC from Imagis, based on
-downstream driver. The driver supports multi-touch (10 touch points)
-The IST3038C IC supports touch keys, but the support isn't added
-because the touch screen used for testing doesn't utilize touch keys.
-Looking at the downstream driver, it is possible to add support
-for other Imagis ICs of IST30**C series.
+On Wed, Feb 9, 2022 at 6:51 PM srinivas pandruvada
+<srinivas.pandruvada@linux.intel.com> wrote:
+>
+> On Wed, 2022-02-09 at 16:59 -0800, Gwendal Grignou wrote:
+> > On Wed, Feb 9, 2022 at 10:52 AM srinivas pandruvada
+> > <srinivas.pandruvada@linux.intel.com> wrote:
+> > >
+> > > On Tue, 2022-02-08 at 21:09 -0800, Gwendal Grignou wrote:
+> > > > Allocating memory with kmalloc and GPF_DMA32 is not allowed, the
+> > > > allocator will ignore the attribute.
+> > > >
+> > > Looks like there is new error flow added here for this flag.
+> > > Is this just removing GFP_DMA32 not enough?
+> > It was already ignored. It is not enough and I don't know why since
+> > the virtual and physical addresses are in the same range:
+> >
+> > With using kmalloc/dma_single_sync:
+> > 5.10 (firmware not loading)
+> > [    3.837996] ish-loader {C804D06A-55BD-4EA7-ADED-1E31228C76DC}:
+> > kmalloc/dma_map_single: v:0xffff91531ae88000, phy:0x0000000085afe000
+> > [    3.838003] ish-loader {C804D06A-55BD-4EA7-ADED-1E31228C76DC}:
+> > xfer_mode=dma offset=0x00000000 size=0x4000 is_last=0
+> > ddr_phys_addr=0x0000000085afe000
+> > ...
+> >
+> > 4.19 (firmware loading)
+> > [    3.878300] ish-loader {C804D06A-55BD-4EA7-ADED-1E31228C76DC}:
+> > kmalloc/dma_map_single: v:0xffff88c145480000, phy:0x0000000085480000
+> > [    3.878322] ish-loader {C804D06A-55BD-4EA7-ADED-1E31228C76DC}:
+> > xfer_mode=dma offset=0x00000000 size=0x4000 is_last=0
+> > ddr_phys_addr=0x0000000085480000
+> > ...
+> >
+> > I also considered flushing the CPU cache before the
+> > dma_sync_single_for_device call, and calling
+> > dma_sync_single_for_cpu()
+> > after loader_cl_send() to be allowed to write into the buffer again.
+> > But these did not help either.
+> >
+> > But using dma_alloc_coherent() clearly works and its simpler API
+> > makes
+> That is OK.
+>
+> > it more appropriate for the task at hand.
+> >
+> > For reference, the same log when using dma_alloc_coherent().
+> > [    3.779723] ish-loader {C804D06A-55BD-4EA7-ADED-1E31228C76DC}:
+> > dma_alloc_coherent: v:0xffff9beb81048000, phy:0x0000000001048000
+> > [    3.779731] ish-loader {C804D06A-55BD-4EA7-ADED-1E31228C76DC}:
+> > xfer_mode=dma offset=0x00000000 size=0x4000 is_last=0
+> > ddr_phys_addr=0x0000000001048000
+> > ...
+> >
+> > >
+> > > > Instead, use dma_alloc_coherent() API as we allocate a small
+> > > > amount
+> > > > of
+> > > > memory to transfer firmware fragment to the ISH.
+> > > >
+> > > > On Arcada chromebook, after the patch the warning:
+> > > > "Unexpected gfp: 0x4 (GFP_DMA32). Fixing up to gfp: 0xcc0
+> > > > (GFP_KERNEL).  Fix your code!"
+> > > > is gone. The ISH firmware is loaded properly and we can interact
+> > > > with
+> > > > the ISH:
+> > > > > ectool  --name cros_ish version
+> > > > ...
+> > > > Build info:    arcada_ish_v2.0.3661+3c1a1c1ae0 2022-02-08
+> > > > 05:37:47
+> > > > @localhost
+> > > > Tool version:  v2.0.12300-900b03ec7f 2022-02-08 10:01:48
+> > > > @localhost
+> > > >
+> > > > Fixes: commit 91b228107da3 ("HID: intel-ish-hid: ISH firmware
+> > > > loader
+> > > > client driver")
+> > > > Signed-off-by: Gwendal Grignou <gwendal@chromium.org>
+> > > > Cc: stable@vger.kernel.org
+> > > > ---
+> > > >  drivers/hid/intel-ish-hid/ishtp-fw-loader.c | 29 +++------------
+> > > > ----
+> > > > --
+> > > >  1 file changed, 3 insertions(+), 26 deletions(-)
+> > > >
+> > > > diff --git a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
+> > > > b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
+> > > > index e24988586710..16aa030af845 100644
+> > > > --- a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
+> > > > +++ b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
+> > > > @@ -661,21 +661,12 @@ static int ish_fw_xfer_direct_dma(struct
+> > > > ishtp_cl_data *client_data,
+> > > >          */
+> > > >         payload_max_size &= ~(L1_CACHE_BYTES - 1);
+> > > >
+> > > > -       dma_buf = kmalloc(payload_max_size, GFP_KERNEL |
+> > > > GFP_DMA32);
+> > > > +       dma_buf = dma_alloc_coherent(devc, payload_max_size,
+> > > > &dma_buf_phy, GFP_KERNEL);
+> > > >         if (!dma_buf) {
+> > > >                 client_data->flag_retry = true;
+> > > >                 return -ENOMEM;
+> > > >         }
+> > > >
+> > > > -       dma_buf_phy = dma_map_single(devc, dma_buf,
+> > > > payload_max_size,
+> > > > -                                    DMA_TO_DEVICE);
+> > > > -       if (dma_mapping_error(devc, dma_buf_phy)) {
+> > > > -               dev_err(cl_data_to_dev(client_data), "DMA map
+> > > > failed\n");
+> > > > -               client_data->flag_retry = true;
+> > > > -               rv = -ENOMEM;
+> > > > -               goto end_err_dma_buf_release;
+> > > > -       }
+> > > > -
+> > > >         ldr_xfer_dma_frag.fragment.hdr.command =
+> > > > LOADER_CMD_XFER_FRAGMENT;
+> > > >         ldr_xfer_dma_frag.fragment.xfer_mode =
+> > > > LOADER_XFER_MODE_DIRECT_DMA;
+> > > >         ldr_xfer_dma_frag.ddr_phys_addr = (u64)dma_buf_phy;
+> > > > @@ -695,14 +686,7 @@ static int ish_fw_xfer_direct_dma(struct
+> > > > ishtp_cl_data *client_data,
+> > > >                 ldr_xfer_dma_frag.fragment.size = fragment_size;
+> > > >                 memcpy(dma_buf, &fw->data[fragment_offset],
+> > > > fragment_size);
+> > > >
+> > > > -               dma_sync_single_for_device(devc, dma_buf_phy,
+> > > > -                                          payload_max_size,
+> > > > -                                          DMA_TO_DEVICE);
+> > > > -
+> > > Any reason for removal of sync?
+> > It is not needed since we are using dma_alloc_coherent(). From [1]:
+> > """
+> > void *
+> > dma_alloc_coherent(struct device *dev, size_t size,
+> >    dma_addr_t *dma_handle, gfp_t flag)
+> >
+> > Consistent memory is memory for which a write by either the device or
+> > the processor can immediately be read by the processor or device
+> > without having to worry about caching effects.  (You may however need
+> > to make sure to flush the processor's write buffers before telling
+> > devices to read that memory.)
+> >
+> > This routine allocates a region of <size> bytes of consistent memory.
+> > """'
+> >
+>  I checked with some dma folks. This call may still be required for
+> some device. Most likely not as this is on chip device.
+> What happens if you leave this call? I worry for regression on some old
+> systems.
+I truly believe this call is unnecessary: From the docs, dma_sync_...
+is only for streaming DMA mappings, not for coherent memory. Another
+link here: http://lists.infradead.org/pipermail/linux-arm-kernel/2015-May/341712.html
+Looking at older drivers, for instance exec_drive_command() in
+driver/block/mtip32xx/mtip32xx.c, there are no dma_sync_ between
+dma_alloc_ and dma_free_.
+In a simple driver - drivers/scsi/advansys.c - that only uses coherent
+DMA memory, no dma_sync calls are used.
+As long as we have a memory barrier before sending the packet
+downstream, we are covered. I rebooted my machine in a loop without
+error overnight.
 
-Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
----
- MAINTAINERS                        |   6 +
- drivers/input/touchscreen/Kconfig  |  10 +
- drivers/input/touchscreen/Makefile |   1 +
- drivers/input/touchscreen/imagis.c | 329 +++++++++++++++++++++++++++++
- 4 files changed, 346 insertions(+)
- create mode 100644 drivers/input/touchscreen/imagis.c
+Gwendal.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a899828a8d4e..f7f717ae926a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9405,6 +9405,12 @@ F:	Documentation/devicetree/bindings/iio/afe/current-sense-shunt.yaml
- F:	Documentation/devicetree/bindings/iio/afe/voltage-divider.yaml
- F:	drivers/iio/afe/iio-rescale.c
- 
-+IMAGIS TOUCHSCREEN DRIVER
-+M:	Markuss Broks <markuss.broks@gmail.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
-+F:	drivers/input/touchscreen/imagis.c
-+
- IKANOS/ADI EAGLE ADSL USB DRIVER
- M:	Matthieu Castet <castet.matthieu@free.fr>
- M:	Stanislaw Gruszka <stf_xl@wp.pl>
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index 2f6adfb7b938..6810b4b094e8 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -1367,4 +1367,14 @@ config TOUCHSCREEN_ZINITIX
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called zinitix.
- 
-+config TOUCHSCREEN_IMAGIS
-+	tristate "Imagis touchscreen support"
-+	depends on I2C
-+	help
-+		Say Y here if you have an Imagis IST30xxC touchscreen.
-+		If unsure, say N.
-+
-+		To compile this driver as a module, choose M here: the
-+		module will be called imagis.
-+
- endif
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index 39a8127cf6a5..989bb1d563d3 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -115,3 +115,4 @@ obj-$(CONFIG_TOUCHSCREEN_ROHM_BU21023)	+= rohm_bu21023.o
- obj-$(CONFIG_TOUCHSCREEN_RASPBERRYPI_FW)	+= raspberrypi-ts.o
- obj-$(CONFIG_TOUCHSCREEN_IQS5XX)	+= iqs5xx.o
- obj-$(CONFIG_TOUCHSCREEN_ZINITIX)	+= zinitix.o
-+obj-$(CONFIG_TOUCHSCREEN_IMAGIS)	+= imagis.o
-diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen/imagis.c
-new file mode 100644
-index 000000000000..308f097a95c1
---- /dev/null
-+++ b/drivers/input/touchscreen/imagis.c
-@@ -0,0 +1,329 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/delay.h>
-+#include <linux/i2c.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/property.h>
-+#include <linux/input.h>
-+#include <linux/input/mt.h>
-+#include <linux/input/touchscreen.h>
-+
-+#define IST3038_ADDR_LEN		4
-+#define IST3038_DATA_LEN		4
-+#define IST3038_HIB_ACCESS		(0x800B << 16)
-+#define IST3038_DIRECT_ACCESS   BIT(31)
-+#define IST3038_REG_CHIPID      0x40001000
-+
-+#define IST3038_REG_HIB_BASE		(0x30000100)
-+#define IST3038_REG_TOUCH_STATUS        (IST3038_REG_HIB_BASE | IST3038_HIB_ACCESS)
-+#define IST3038_REG_TOUCH_COORD        (IST3038_REG_HIB_BASE | IST3038_HIB_ACCESS | 0x8)
-+#define IST3038_REG_INTR_MESSAGE        (IST3038_REG_HIB_BASE | IST3038_HIB_ACCESS | 0x4)
-+
-+#define IST3038C_WHOAMI			0x38c
-+#define CHIP_ON_DELAY				60 // ms
-+
-+#define I2C_RETRY_COUNT			3
-+
-+#define MAX_SUPPORTED_FINGER_NUM		10
-+
-+struct imagis_ts {
-+	struct i2c_client *client;
-+	struct input_dev *input_dev;
-+	struct touchscreen_properties prop;
-+	struct regulator_bulk_data supplies[2];
-+};
-+
-+static int imagis_i2c_read_reg(struct imagis_ts *ts,
-+			       unsigned int reg, unsigned int *buffer)
-+{
-+	unsigned int reg_be = __cpu_to_be32(reg);
-+	struct i2c_msg msg[] = {
-+		{
-+			.addr = ts->client->addr,
-+			.flags = 0,
-+			.buf = (unsigned char *)&reg_be,
-+			.len = IST3038_ADDR_LEN,
-+		}, {
-+			.addr = ts->client->addr,
-+			.flags = I2C_M_RD,
-+			.buf = (unsigned char *)buffer,
-+			.len = IST3038_DATA_LEN,
-+		},
-+	};
-+	int res;
-+	int error;
-+	int retry = I2C_RETRY_COUNT;
-+
-+	do {
-+		res = i2c_transfer(ts->client->adapter, msg, ARRAY_SIZE(msg));
-+		if (res == ARRAY_SIZE(msg)) {
-+			*buffer = __be32_to_cpu(*buffer);
-+			return 0;
-+		}
-+
-+		error = res < 0 ? res : -EIO;
-+		dev_err(&ts->client->dev,
-+			"%s - i2c_transfer failed: %d (%d)\n",
-+			__func__, error, res);
-+	} while (--retry);
-+
-+	return error;
-+}
-+
-+static irqreturn_t imagis_interrupt(int irq, void *dev_id)
-+{
-+	struct imagis_ts *ts = dev_id;
-+	unsigned int finger_status, intr_message;
-+	int ret, i, finger_count, finger_pressed;
-+
-+	ret = imagis_i2c_read_reg(ts, IST3038_REG_INTR_MESSAGE, &intr_message);
-+	if (ret) {
-+		dev_err(&ts->client->dev, "failed to read the interrupt message\n");
-+		return IRQ_HANDLED;
-+	}
-+
-+	finger_count = (intr_message >> 12) & 0xF;
-+	finger_pressed = intr_message & 0x3FF;
-+	if (finger_count > 10) {
-+		dev_err(&ts->client->dev, "finger count is more than maximum supported\n");
-+		return IRQ_HANDLED;
-+	}
-+
-+	for (i = 0; i < finger_count; i++) {
-+		ret = imagis_i2c_read_reg(ts, IST3038_REG_TOUCH_COORD + (i * 4), &finger_status);
-+		if (ret) {
-+			dev_err(&ts->client->dev, "failed to read coordinates for finger %d\n", i);
-+			return IRQ_HANDLED;
-+		}
-+		input_mt_slot(ts->input_dev, i);
-+		input_mt_report_slot_state(ts->input_dev, MT_TOOL_FINGER,
-+					   (finger_pressed & BIT(i)) ? 1 : 0);
-+		touchscreen_report_pos(ts->input_dev, &ts->prop,
-+				       (finger_status >> 12) & 0xFFF, finger_status & 0xFFF, 1);
-+		input_report_abs(ts->input_dev, ABS_MT_TOUCH_MAJOR, (finger_status >> 24) & 0xFFF);
-+	}
-+	input_mt_sync_frame(ts->input_dev);
-+	input_sync(ts->input_dev);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int imagis_start(struct imagis_ts *ts)
-+{
-+	int error;
-+
-+	error = regulator_bulk_enable(ARRAY_SIZE(ts->supplies),
-+				      ts->supplies);
-+	if (error) {
-+		dev_err(&ts->client->dev,
-+			"Failed to enable regulators: %d\n", error);
-+		return error;
-+	}
-+
-+	msleep(CHIP_ON_DELAY);
-+
-+	enable_irq(ts->client->irq);
-+	return 0;
-+}
-+
-+static int imagis_stop(struct imagis_ts *ts)
-+{
-+	int error;
-+
-+	disable_irq(ts->client->irq);
-+
-+	error = regulator_bulk_disable(ARRAY_SIZE(ts->supplies),
-+				       ts->supplies);
-+	if (error) {
-+		dev_err(&ts->client->dev,
-+			"Failed to disable regulators: %d\n", error);
-+		return error;
-+	}
-+
-+	return 0;
-+}
-+
-+static int imagis_input_open(struct input_dev *dev)
-+{
-+	struct imagis_ts *ts = input_get_drvdata(dev);
-+
-+	return imagis_start(ts);
-+}
-+
-+static void imagis_input_close(struct input_dev *dev)
-+{
-+	struct imagis_ts *ts = input_get_drvdata(dev);
-+
-+	imagis_stop(ts);
-+}
-+
-+static int imagis_init_input_dev(struct imagis_ts *ts)
-+{
-+	struct input_dev *input_dev;
-+	int error;
-+
-+	input_dev = devm_input_allocate_device(&ts->client->dev);
-+	if (!input_dev) {
-+		dev_err(&ts->client->dev,
-+			"Failed to allocate input device.");
-+		return -ENOMEM;
-+	}
-+
-+	ts->input_dev = input_dev;
-+
-+	input_dev->name = "Imagis capacitive touchscreen";
-+	input_dev->phys = "input/ts";
-+	input_dev->id.bustype = BUS_I2C;
-+	input_dev->open = imagis_input_open;
-+	input_dev->close = imagis_input_close;
-+
-+	input_set_drvdata(input_dev, ts);
-+
-+	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_X);
-+	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_Y);
-+	input_set_abs_params(input_dev, ABS_MT_WIDTH_MAJOR, 0, 255, 0, 0);
-+	input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
-+
-+	touchscreen_parse_properties(input_dev, true, &ts->prop);
-+	if (!ts->prop.max_x || !ts->prop.max_y) {
-+		dev_err(&ts->client->dev,
-+			"Touchscreen-size-x and/or touchscreen-size-y not set in dts\n");
-+		return -EINVAL;
-+	}
-+
-+	error = input_mt_init_slots(input_dev, MAX_SUPPORTED_FINGER_NUM,
-+				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
-+	if (error) {
-+		dev_err(&ts->client->dev,
-+			"Failed to initialize MT slots: %d", error);
-+		return error;
-+	}
-+
-+	error = input_register_device(input_dev);
-+	if (error) {
-+		dev_err(&ts->client->dev,
-+			"Failed to register input device: %d", error);
-+		return error;
-+	}
-+
-+	return 0;
-+}
-+
-+static int imagis_init_regulators(struct imagis_ts *ts)
-+{
-+	struct i2c_client *client = ts->client;
-+	int error;
-+
-+	ts->supplies[0].supply = "vdd";
-+	ts->supplies[1].supply = "vddio";
-+	error = devm_regulator_bulk_get(&client->dev,
-+					ARRAY_SIZE(ts->supplies),
-+					ts->supplies);
-+	if (error < 0) {
-+		dev_err(&client->dev, "Failed to get regulators: %d\n", error);
-+		return error;
-+	}
-+
-+	return 0;
-+}
-+
-+static int imagis_probe(struct i2c_client *i2c)
-+{
-+	struct device *dev;
-+	struct imagis_ts *ts;
-+	int chip_id, ret;
-+
-+	dev = &i2c->dev;
-+
-+	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
-+	if (!ts)
-+		return -ENOMEM;
-+
-+	ts->client = i2c;
-+
-+	ret = devm_request_threaded_irq(dev, i2c->irq,
-+					NULL, imagis_interrupt,
-+					IRQF_ONESHOT | IRQF_TRIGGER_FALLING,
-+					"imagis-touchscreen", ts);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "IRQ allocation failure: %d\n", ret);
-+
-+	ret = imagis_init_regulators(ts);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "regulator init error: %d\n", ret);
-+
-+	ret = imagis_start(ts);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "regulator enable error: %d\n", ret);
-+
-+	ret = imagis_i2c_read_reg(ts, IST3038_REG_CHIPID | IST3038_DIRECT_ACCESS, &chip_id);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "chip ID read failure: %d\n", ret);
-+
-+	if (chip_id == IST3038C_WHOAMI)
-+		dev_info(dev, "Detected IST3038C chip\n");
-+	else
-+		return dev_err_probe(dev, -EINVAL, "unknown chip ID: 0x%x\n", chip_id);
-+
-+	ret = imagis_init_input_dev(ts);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "input subsystem init error: %d\n", ret);
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused imagis_suspend(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct imagis_ts *ts = i2c_get_clientdata(client);
-+
-+	mutex_lock(&ts->input_dev->mutex);
-+
-+	if (input_device_enabled(ts->input_dev))
-+		imagis_stop(ts);
-+
-+	mutex_unlock(&ts->input_dev->mutex);
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused imagis_resume(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct imagis_ts *ts = i2c_get_clientdata(client);
-+
-+	mutex_lock(&ts->input_dev->mutex);
-+
-+	if (input_device_enabled(ts->input_dev))
-+		imagis_start(ts);
-+
-+	mutex_unlock(&ts->input_dev->mutex);
-+
-+	return 0;
-+}
-+
-+static SIMPLE_DEV_PM_OPS(imagis_pm_ops, imagis_suspend, imagis_resume);
-+
-+#ifdef CONFIG_OF
-+static const struct of_device_id imagis_of_match[] = {
-+	{ .compatible = "imagis,ist3038c", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(i2c, imagis_of_match);
-+#endif
-+
-+static struct i2c_driver imagis_ts_driver = {
-+	.driver = {
-+		   .name = "imagis-touchscreen",
-+		   .pm = &imagis_pm_ops,
-+		   .of_match_table = of_match_ptr(imagis_of_match),
-+	},
-+	.probe_new	= imagis_probe,
-+};
-+
-+module_i2c_driver(imagis_ts_driver);
-+
-+MODULE_DESCRIPTION("Imagis IST3038C Touchscreen Driver");
-+MODULE_AUTHOR("Markuss Broks <markuss.broks@gmail.com>");
-+MODULE_LICENSE("GPL");
--- 
-2.35.0
-
+>
+> Thanks,
+> Srinivas
+>
+>
+>
+> > > Thanks,
+> > > Srinivas
+> > >
+> > > > -               /*
+> > > > -                * Flush cache here because the
+> > > > dma_sync_single_for_device()
+> > > > -                * does not do for x86.
+> > > > -                */
+> > > > +               /* Flush cache to be sure the data is in main
+> > > > memory.
+> > > > */
+> > > >                 clflush_cache_range(dma_buf, payload_max_size);
+> > > >
+> > > >                 dev_dbg(cl_data_to_dev(client_data),
+> > > > @@ -725,15 +709,8 @@ static int ish_fw_xfer_direct_dma(struct
+> > > > ishtp_cl_data *client_data,
+> > > >                 fragment_offset += fragment_size;
+> > > >         }
+> > > >
+> > > > -       dma_unmap_single(devc, dma_buf_phy, payload_max_size,
+> > > > DMA_TO_DEVICE);
+> > > > -       kfree(dma_buf);
+> > > > -       return 0;
+> > > > -
+> > > >  end_err_resp_buf_release:
+> > > > -       /* Free ISH buffer if not done already, in error case */
+> > > > -       dma_unmap_single(devc, dma_buf_phy, payload_max_size,
+> > > > DMA_TO_DEVICE);
+> > > > -end_err_dma_buf_release:
+> > > > -       kfree(dma_buf);
+> > > > +       dma_free_coherent(devc, payload_max_size, dma_buf,
+> > > > dma_buf_phy);
+> > > >         return rv;
+> > > >  }
+> > > >
+> > >
+> >
+> > [1]https://www.kernel.org/doc/Documentation/DMA-API.txt
+>
