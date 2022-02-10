@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 650594B12DC
-	for <lists+linux-input@lfdr.de>; Thu, 10 Feb 2022 17:36:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99CFA4B130D
+	for <lists+linux-input@lfdr.de>; Thu, 10 Feb 2022 17:39:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244246AbiBJQgG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Feb 2022 11:36:06 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46098 "EHLO
+        id S244344AbiBJQhx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Feb 2022 11:37:53 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232641AbiBJQgF (ORCPT
+        with ESMTP id S244325AbiBJQhw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Feb 2022 11:36:05 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CB71137;
-        Thu, 10 Feb 2022 08:36:06 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id k1so10578702wrd.8;
-        Thu, 10 Feb 2022 08:36:06 -0800 (PST)
+        Thu, 10 Feb 2022 11:37:52 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6923E92;
+        Thu, 10 Feb 2022 08:37:38 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id i14so10546461wrc.10;
+        Thu, 10 Feb 2022 08:37:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=4bsK/ywYRhNd6B9acdjFBjLw6uCbq8GkPqEAUDJ0Iq0=;
-        b=nd/5t16q2dZeSUXeLARHqs1r2kr182kK742RAKdzthI6qpbsztn0Jl15mbQ4Khd7uU
-         IZl1CVv03mdQzSrtA22Rs+EUVMfzQv/TXgFjmEUz7rJ9NSnNFg7hb+/YMHtKAsaYbI7K
-         QwEkvtkdBiIsp/Hop8+q+savBqyxD1bUlsPBg6HK5hSH1GmB2UuVf/WxEFWJd2f/kRYY
-         fCTAs6XR5DJKslcZH7x6Jd150NCyVElAp59wyt9X1jk5tzgI25mh/xn2GAumUy6z6B4K
-         C/DMNmM6OHGaX9clEk1ntOqRpO8uauDjtlCbjdVE3I2Y1yzzZnnIXXv0gkmJLX7flc5c
-         0wmA==
+        b=dKXqotWRGHmTw1XcfRMkhaahkcFHii8qzG21n2LAipNgy4+ZMpWNDEzpbEJeTYQjfB
+         2PS7C8cIdy+KbfDa/XAdIUZIGf9OTZpEKEe1houLFIrEFPllqY8nrI1pl1suLDqq9blR
+         Rf94A2WkkM1GU97wC/Sjpb+Tr2jr2MsX9l1YLGjt7obLRgwS3S1dHX3EYOAeNdMpNfLj
+         YwCUdwSwO5USExY+qg1BM7YqIBdzsO6C5oUe08xwXn6jzBHR1tVjSu7EIJD/XM8noSzX
+         Ufr5hk0kJIwtVjvmB2t+7LXDH2KvvM39BK4VIhOsbhmjmrfpuCC9hsnQBlZRGZSeQvQu
+         06/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=4bsK/ywYRhNd6B9acdjFBjLw6uCbq8GkPqEAUDJ0Iq0=;
-        b=jLbQTQFLpLWNaigM5VoPHZrLRLscs9YlVhq06Qmf5+fszcKzXiKTgCFqzLW2BMdPA/
-         NwenMFWhUYAUqGPgSsca9obN9uN25Us5gbXy885gEIOde1BIvFLz3meSzlEec0VVd3Ul
-         PznxDdwoa0xwpSGm8TjXOnJUAzSBo6qs2wYXw01+QBItoL/L7zuSGWarqi+p7bU/Bw+5
-         EOIxqqhA2Yr2ZNzWdi4sEUsbZwvLaWKczIxW6/xZeXveK/j7vSrU0WY2xArK/dv96FxK
-         1BGcXGHGW1m1rcEyRS9b7ARE4lKrV2ZVCbVbZHkKtuGbkBJM+HXzye1hmvTxEmLP2XHk
-         rmHw==
-X-Gm-Message-State: AOAM530gdjHqgbWWWt6ME1dgG1HQR8bHyMtbvG08fMyN8VK/2h84g2kl
-        LRUiN39lmJSQNisrzX7/f9JIel4/uZD4UA==
-X-Google-Smtp-Source: ABdhPJw3E1DbJcu/NQe2RVRdi2hEvEpWrfv2F9Vzy6kkcP9oZkdso+/gVayKkwaIiZJxNkDECxCTUw==
-X-Received: by 2002:adf:f592:: with SMTP id f18mr7196852wro.179.1644510965064;
-        Thu, 10 Feb 2022 08:36:05 -0800 (PST)
+        b=2TEp0LzfuN4sy+0SZgETWJjdgvQ5E5cXm2PL6nas10+F/W4sh2FqN6860cgRuuwO7U
+         +G9xEG/TQND5E37M3ObPipdbo1wx/zMlbLN9ufdtMLnxeGlfXe7nVQkwOnMkwjefVmBf
+         B2CcWb3Y4xXf8ffhmYslsaptcM6a7zUuuMFhFkTExeaN2hC1LM4wJzmEXiEwkYq/NQfW
+         0FA7U9CXpDtNdXau6RdRd3TDBub2+Ns1XgJUh82jFhZz6HRZyt2lRG2znOuTwYbaNsI6
+         KdxypEZvwzlLKUaEC5IN736l3W8Km6ML0B7fHIBxuyT9mkMZcZESTluLcoKP8o+b+ubc
+         HniA==
+X-Gm-Message-State: AOAM530B9Fr/QCRVBjVRaRFnkG4zgqJV1VBysj0EkK5vIQGg3AA4guOX
+        WgxJKqjUji7mFcZV44hx9zS1v7GoYCfmvg==
+X-Google-Smtp-Source: ABdhPJx6yKBCZ42CNYBGUShy0xul0X1WOmtXVv5/jph8ifV1YyBOgMP7MaAGG9zeGVSjWbKN8V379g==
+X-Received: by 2002:a5d:47cb:: with SMTP id o11mr6943525wrc.138.1644511057211;
+        Thu, 10 Feb 2022 08:37:37 -0800 (PST)
 Received: from nergzd-desktop.localdomain ([62.122.67.26])
-        by smtp.gmail.com with ESMTPSA id i2sm2354057wmq.45.2022.02.10.08.36.03
+        by smtp.gmail.com with ESMTPSA id k5sm5871795wrw.117.2022.02.10.08.37.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Feb 2022 08:36:04 -0800 (PST)
+        Thu, 10 Feb 2022 08:37:36 -0800 (PST)
 From:   Markuss Broks <markuss.broks@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
@@ -58,9 +58,9 @@ Cc:     phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
         Henrik Rydberg <rydberg@bitmath.org>,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH 0/2] Add support for Imagis touchscreens
-Date:   Thu, 10 Feb 2022 18:35:37 +0200
-Message-Id: <20220210163540.162727-1-markuss.broks@gmail.com>
+Subject: [PATCH v2 0/2] Add support for Imagis touchscreens
+Date:   Thu, 10 Feb 2022 18:37:05 +0200
+Message-Id: <20220210163708.162866-1-markuss.broks@gmail.com>
 X-Mailer: git-send-email 2.35.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
