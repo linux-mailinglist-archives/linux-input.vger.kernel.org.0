@@ -2,65 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDE414B185E
-	for <lists+linux-input@lfdr.de>; Thu, 10 Feb 2022 23:40:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D57FD4B19CF
+	for <lists+linux-input@lfdr.de>; Fri, 11 Feb 2022 00:50:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345056AbiBJWkt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Feb 2022 17:40:49 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:58928 "EHLO
+        id S1345895AbiBJXun (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Feb 2022 18:50:43 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345054AbiBJWks (ORCPT
+        with ESMTP id S1345893AbiBJXun (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Feb 2022 17:40:48 -0500
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE91326D4
-        for <linux-input@vger.kernel.org>; Thu, 10 Feb 2022 14:40:48 -0800 (PST)
-Received: by mail-oi1-x235.google.com with SMTP id r27so7649888oiw.4
-        for <linux-input@vger.kernel.org>; Thu, 10 Feb 2022 14:40:48 -0800 (PST)
+        Thu, 10 Feb 2022 18:50:43 -0500
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92EAC5F7B
+        for <linux-input@vger.kernel.org>; Thu, 10 Feb 2022 15:50:41 -0800 (PST)
+Received: by mail-yb1-xb2e.google.com with SMTP id bt13so20221696ybb.2
+        for <linux-input@vger.kernel.org>; Thu, 10 Feb 2022 15:50:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=VRex+gDACPL4ebgCzuLa25Mz65CrUBnkfO3hP0yn1+4=;
-        b=jZDB2DkFpMB9TGv9bpe/0/pvZbbAVeu18g8Zasw6oad1z9t0Z494E15DP4wcK9GnjW
-         34L1M71Yjw3UApwMB+nTnNXlHXc02DCTEBSQAv637p+6lAymOZByY3UKQdg3ZI0AoGQe
-         8v2c4QTGMjtLCt+nldZji2yG9EFr6J8Sk3aHQ=
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Hjqjyiq+YanJM9r+MSYUsXMNcE5U+j3JeGuDxm9l+cg=;
+        b=w6ygwCST3sWTGzR/MzLI+iT1H1xADJpjilEAOb5rqJsuAHmA55nuGfnJtgodvMRgwA
+         YEiQpRvq3ILJlaYM4eMM5+hmKjCPh9hKt9hpxt40nnjSVRx9vOFRL3F+/w7Pg237flYr
+         ffAHqxzfXPXO6kMy+ZE2JR4C3Gb3+c0Jfahrk0qukARaQkGBL/HdUOU23Q73s3RQPpPz
+         AcxdSlWV1qhbyD21BpiVaFdn2m8fvviGUuaeeE0Kl4lVjztribFwuRWG+nfylAkEyxQl
+         ZvmieBVTv6ovduFStnIHmtdB62zGmeH6af9lXrIsBu51iNAmiyO+APtUpJJhroWBXUyR
+         7VLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=VRex+gDACPL4ebgCzuLa25Mz65CrUBnkfO3hP0yn1+4=;
-        b=fFJykM/GEzJYwGzeS71On5zRSMRdqe9IoyVm5SOyDKoUSsYpwtS+0E0AaxyeVpe5o1
-         qLyh+7YxNgFEDZQ0Ec2QWxxQRqcKHb80COsM3mfDAjjLwUZK4BG3y8CBwIaiuCN9Y1t1
-         vu2es80Vii+qlnAIfyJBXWkdd5NRAFV0/PKM/Ycc/XKGaxnqEC/Zjd3q9JJAw0KbX1kr
-         V8+viNlJNR+k/uOgc+6xq9qy4ShUwDZ/rmZ7RgzZUl3rxT6ih1R13+Cy9GFA92M/ICVn
-         3m1NE6nI03ITFU+7jlbbQKh96QFvZm0uikTWjn0QAdfODc8nS6wW+IaCpWEjVH6Ljwuq
-         CUtg==
-X-Gm-Message-State: AOAM530nhmxMawbHfwnaUhXs2oq/ouZvG7tCgKxL17xBr5xSHuq0/ODt
-        Hh94O0tkBwo+PtHvVnmbJJweNsiqfagdUnfLSTRREA==
-X-Google-Smtp-Source: ABdhPJwh+Rcr5IooiCQIQ8w8BQCYJeV9bdPzgybvSewVnppmhSTSRv+3HvgaFBk4Cok75vOEv+QteJVwOb1dYVss5zI=
-X-Received: by 2002:a05:6808:190f:: with SMTP id bf15mr2009290oib.40.1644532848158;
- Thu, 10 Feb 2022 14:40:48 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 10 Feb 2022 14:40:47 -0800
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Hjqjyiq+YanJM9r+MSYUsXMNcE5U+j3JeGuDxm9l+cg=;
+        b=pLrAGqD4ESKog6IIu7p3GuQpts6VBDWv6VIn+LgbIeNLywubZrEoCYg00DzQFaECir
+         lkTTvK24JnsKnfbeN2uW9ClTDw4jfGO0vOrhLcfnxA5kAJTWhJZMbBuT8QjBnZq7Uz6B
+         ldEPVrlCQpSMZ/XixBCQGQqBE0RDyjU/LCRWLkkrOrI3E4k2qK+KMcU2L4kX0IHHan65
+         5eXnkJ1nQJWI6AXuT31TU3Yj1kXz7eHcfhavrw6xyhxLxA+CsGe0LsPXvhB6ScmpOS7d
+         tpORyx+xQF0KvlDgQzAn9TkfLAgsY9RlnpEKKzFAcA986eaLl28Vc8XoR+hP0qkwtQ6V
+         q1sw==
+X-Gm-Message-State: AOAM531C4vZUIz7pmgdAhYe4z+DuHg3lo2tqSCK4wxli4//2qeqgPeSR
+        gfNIfSUan1tyHM50Zs5KGdnd1uL1U2cpOzFUlrSXrg==
+X-Google-Smtp-Source: ABdhPJx908m+swlqxGjab8+arRYZp1wBGa+IaZNrNQ0lnHOGZTX417Fqb41hwAaTjIXE6AhkR+Fsi76lUGckqp4+0zw=
+X-Received: by 2002:a25:5143:: with SMTP id f64mr9885978ybb.520.1644537040823;
+ Thu, 10 Feb 2022 15:50:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220209225556.3992827-1-swboyd@chromium.org>
-References: <20220209225556.3992827-1-swboyd@chromium.org>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date:   Thu, 10 Feb 2022 14:40:47 -0800
-Message-ID: <CAE-0n52vS81GYxBCrxb5jf-BOSebU8j2ZzXB17-tspHbNVGKxA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] Input/HID: Consolidate ChromeOS Vivaldi keyboard logic
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>, benjamin.tissoires@redhat.com
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        "Sean O'Brien" <seobrien@chromium.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+References: <20220210155835.154421-1-markuss.broks@gmail.com> <20220210155835.154421-2-markuss.broks@gmail.com>
+In-Reply-To: <20220210155835.154421-2-markuss.broks@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 11 Feb 2022 00:50:29 +0100
+Message-ID: <CACRpkdZsQyDN+k5r-TmVH5JrJ5EbANTtQ2WGX-WTO+t9usJegw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: input/touchscreen: bindings for Imagis
+To:     Markuss Broks <markuss.broks@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Alistair Francis <alistair@alistair23.me>,
+        Hao Fang <fanghao11@huawei.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Vincent Knecht <vincent.knecht@mailoo.org>,
+        Jeff LaBundy <jeff@labundy.com>,
+        Joe Hung <joe_hung@ilitek.com>,
+        Jonathan Albrieux <jonathan.albrieux@gmail.com>,
+        Giulio Benetti <giulio.benetti@benettiengineering.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,32 +81,15 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Quoting Stephen Boyd (2022-02-09 14:55:51)
-> This is a follow-on to this thread[1] where we discussed the need to
-> support the vivaldi keyboard function row keys in the google hammer
-> driver. I've extracted the common code into a new vivaldi-keymap.c file
-> that can be used by the various keyboard drivers used on ChromeOS
-> devices to expose the function_row_physmap sysfs attribute. That's a
-> good place to keep the HID parsing logic for the vivaldi and hammer
-> keyboards too, so one function goes there for that as well. Finally, we
-> add support for the function row physmap attribute to the hammer driver.
->
-> Changes from v1 (https://lore.kernel.org/r/20220204202021.895426-1-swboyd@chromium.org):
->  * Yet another new file for HID part to fix compilation problems
->
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: "Sean O'Brien" <seobrien@chromium.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
->
-> Stephen Boyd (4):
->   Input: atkbd: Convert function_row_physmap to u16 array
+On Thu, Feb 10, 2022 at 4:59 PM Markuss Broks <markuss.broks@gmail.com> wrote:
 
-I see that this conversion broke stuff. I'll drop this patch and make it
-a u32 and resend.
-
->   Input: Extract ChromeOS vivaldi physmap show function
->   HID: Extract vivaldi hid feature mapping for use in hid-hammer
->   HID: google: Add support for vivaldi to hid-hammer
+> This patch adds device-tree bindings for the Imagis
+> IST3038C touch screen IC.
 >
+> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+
+Looks good to me.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
