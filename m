@@ -2,113 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDD084B2F60
-	for <lists+linux-input@lfdr.de>; Fri, 11 Feb 2022 22:30:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71D9C4B2F6F
+	for <lists+linux-input@lfdr.de>; Fri, 11 Feb 2022 22:36:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353655AbiBKVab (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Feb 2022 16:30:31 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49106 "EHLO
+        id S1353739AbiBKVgL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Feb 2022 16:36:11 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353650AbiBKVa3 (ORCPT
+        with ESMTP id S242318AbiBKVgK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Feb 2022 16:30:29 -0500
-X-Greylist: delayed 400 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 11 Feb 2022 13:30:27 PST
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id ACB02C57
-        for <linux-input@vger.kernel.org>; Fri, 11 Feb 2022 13:30:27 -0800 (PST)
-Received: (qmail 646920 invoked by uid 1000); 11 Feb 2022 16:23:46 -0500
-Date:   Fri, 11 Feb 2022 16:23:46 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     syzbot <syzbot+8caaaec4e7a55d75e243@syzkaller.appspotmail.com>
-Cc:     gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-input@vger.kernel.org, noralf@tronnes.org,
-        syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
-Subject: Re: [syzbot] memory leak in hub_event (3)
-Message-ID: <YgbT4uqSIVY9ku10@rowland.harvard.edu>
-References: <0000000000005cacef05d7c3c10d@google.com>
+        Fri, 11 Feb 2022 16:36:10 -0500
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03B44C62
+        for <linux-input@vger.kernel.org>; Fri, 11 Feb 2022 13:36:09 -0800 (PST)
+Received: by mail-io1-f70.google.com with SMTP id x6-20020a056602160600b00637be03f7b8so7240441iow.17
+        for <linux-input@vger.kernel.org>; Fri, 11 Feb 2022 13:36:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=uZFH8v5hdkuD13HWKXbwlKXOFU1tLj/1KgXaqFsCP+w=;
+        b=NVKnV4DuqUUX9/pLqUjTcYnazkU8PYeic/MraPC+ZxmVmCFerclx9Ckfsw6UUy9cYr
+         942QueF/d2aQaZ+c3OAqtqxtmZzGsFyMgC5MSH+dXtV6p6ljWFBLucYOEIzq9CEBl0t2
+         9xTNFG+PWuOI5hiTMwSYlx7ijA/TABk5llf3zcAaUW/zSp+9Gfe7aA0BzKIOrCR1l77T
+         oWqfLYcE/q35i/qvS+diD3si0RbxducbRZ8OJKXS58Nzu0O26GMiXMFg8IrUIs30BuDI
+         bLHkt0OONxyz2BWXS1Rj0GeyFFzRWmhJCTSaKlxZ7elYkT1Ysjsvw70xq4ex8r5lXkje
+         hKZg==
+X-Gm-Message-State: AOAM533hjrb8nVmuipWPulFB1HQbtgEpiMnp+JCuvIQFM4KDKZd1oPEf
+        ODx0hPzolwxBqqjXVy1bwJk3kLLJL8x1Wfh4GvxRX6yvnRMF
+X-Google-Smtp-Source: ABdhPJxIMl3Dj6whKaFjTGnZrRnkr5JcDWjIWAL80oKZ7CA90a6/GGlca6MO6Yn7/LWch5SH1DLI8BFkEEZ5aN7OR35Og6xECnE3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0000000000005cacef05d7c3c10d@google.com>
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Received: by 2002:a05:6638:164f:: with SMTP id a15mr1964678jat.272.1644615368382;
+ Fri, 11 Feb 2022 13:36:08 -0800 (PST)
+Date:   Fri, 11 Feb 2022 13:36:08 -0800
+In-Reply-To: <YgbT4uqSIVY9ku10@rowland.harvard.edu>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000d31cac05d7c4da7e@google.com>
+Subject: Re: [syzbot] memory leak in hub_event (3)
+From:   syzbot <syzbot+8caaaec4e7a55d75e243@syzkaller.appspotmail.com>
+To:     benjamin.tissoires@redhat.com, gregkh@linuxfoundation.org,
+        heikki.krogerus@linux.intel.com, jikos@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, noralf@tronnes.org,
+        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com,
+        tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Feb 11, 2022 at 12:17:26PM -0800, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    dfd42facf1e4 Linux 5.17-rc3
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=14b4ef7c700000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=48b71604a367da6e
-> dashboard link: https://syzkaller.appspot.com/bug?extid=8caaaec4e7a55d75e243
-> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1396902c700000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1466e662700000
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+8caaaec4e7a55d75e243@syzkaller.appspotmail.com
-> 
-> BUG: memory leak
-> unreferenced object 0xffff88810d49e800 (size 2048):
->   comm "kworker/1:1", pid 25, jiffies 4294954629 (age 16.460s)
->   hex dump (first 32 bytes):
->     ff ff ff ff 31 00 00 00 00 00 00 00 00 00 00 00  ....1...........
->     00 00 00 00 00 00 00 00 00 00 00 00 03 00 00 00  ................
->   backtrace:
->     [<ffffffff82c87a62>] kmalloc include/linux/slab.h:581 [inline]
->     [<ffffffff82c87a62>] kzalloc include/linux/slab.h:715 [inline]
->     [<ffffffff82c87a62>] usb_alloc_dev+0x32/0x450 drivers/usb/core/usb.c:582
->     [<ffffffff82c91a47>] hub_port_connect drivers/usb/core/hub.c:5260 [inline]
->     [<ffffffff82c91a47>] hub_port_connect_change drivers/usb/core/hub.c:5502 [inline]
->     [<ffffffff82c91a47>] port_event drivers/usb/core/hub.c:5660 [inline]
->     [<ffffffff82c91a47>] hub_event+0x1097/0x21a0 drivers/usb/core/hub.c:5742
->     [<ffffffff8126c3ef>] process_one_work+0x2bf/0x600 kernel/workqueue.c:2307
->     [<ffffffff8126ccd9>] worker_thread+0x59/0x5b0 kernel/workqueue.c:2454
->     [<ffffffff81276765>] kthread+0x125/0x160 kernel/kthread.c:377
->     [<ffffffff810022ff>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+Hello,
 
-There's a refcount leak in the probe-failure path of the hid-elo driver.  
-(You can see that this is the relevant driver in the console output.)  
-It doesn't need the refcount anyway, because the elo_priv structure is 
-always deallocated synchronously before the elo_remove routine returns.
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-(Syzbot isn't always all that great at deducing where the real problem 
-lies when something goes wrong.)
+Reported-and-tested-by: syzbot+8caaaec4e7a55d75e243@syzkaller.appspotmail.com
 
-Alan Stern
+Tested on:
 
-#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/ v5.17-rc3
+commit:         dfd42fac Linux 5.17-rc3
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/ v5.17-rc3
+kernel config:  https://syzkaller.appspot.com/x/.config?x=48b71604a367da6e
+dashboard link: https://syzkaller.appspot.com/bug?extid=8caaaec4e7a55d75e243
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=121f0f78700000
 
-Index: usb-devel/drivers/hid/hid-elo.c
-===================================================================
---- usb-devel.orig/drivers/hid/hid-elo.c
-+++ usb-devel/drivers/hid/hid-elo.c
-@@ -239,7 +239,7 @@ static int elo_probe(struct hid_device *
- 
- 	INIT_DELAYED_WORK(&priv->work, elo_work);
- 	udev = interface_to_usbdev(to_usb_interface(hdev->dev.parent));
--	priv->usbdev = usb_get_dev(udev);
-+	priv->usbdev = udev;
- 
- 	hid_set_drvdata(hdev, priv);
- 
-@@ -270,8 +270,6 @@ static void elo_remove(struct hid_device
- {
- 	struct elo_priv *priv = hid_get_drvdata(hdev);
- 
--	usb_put_dev(priv->usbdev);
--
- 	hid_hw_stop(hdev);
- 	cancel_delayed_work_sync(&priv->work);
- 	kfree(priv);
+Note: testing is done by a robot and is best-effort only.
