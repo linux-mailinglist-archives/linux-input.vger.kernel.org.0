@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 327434B1B33
-	for <lists+linux-input@lfdr.de>; Fri, 11 Feb 2022 02:25:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88FB54B1B31
+	for <lists+linux-input@lfdr.de>; Fri, 11 Feb 2022 02:25:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346776AbiBKBZR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S1346792AbiBKBZR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Thu, 10 Feb 2022 20:25:17 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38964 "EHLO
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346775AbiBKBZQ (ORCPT
+        with ESMTP id S1346785AbiBKBZR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Feb 2022 20:25:16 -0500
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A633E26DF
-        for <linux-input@vger.kernel.org>; Thu, 10 Feb 2022 17:25:16 -0800 (PST)
-Received: by mail-pf1-x42e.google.com with SMTP id t36so2627693pfg.0
-        for <linux-input@vger.kernel.org>; Thu, 10 Feb 2022 17:25:16 -0800 (PST)
+        Thu, 10 Feb 2022 20:25:17 -0500
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32AA267F
+        for <linux-input@vger.kernel.org>; Thu, 10 Feb 2022 17:25:17 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id n23so13507012pfo.1
+        for <linux-input@vger.kernel.org>; Thu, 10 Feb 2022 17:25:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=58Fa3Wh9DcmUEAhH/K1NiJCQawyeai7Qep950CRfr5k=;
-        b=C4YaOcDtfxq7kY1jQKvfkU13/vHhbxvHUGn508siIeJtxoEzJEbfHyIkW55YF7eY+e
-         re99s/55elAXpjQqg6FusJ8hNu9KS+yXl6QepnhUO0LCN8PUf4EnA+OdaAIl8xqCIVWE
-         5mgbAIvcnNE0sNCe4BX4JcBgmf1OEn6Ww98xM=
+        bh=HZuOJxErdx75B/XhX4U4+Jmre2nmp1Aql4lPGNRbh74=;
+        b=VliQtmeNRreHnJ4KOoPLej8TJe2SSjJXrSBlQetG7lAR2mEZ1qBxoSCXlP4ZaqhHxo
+         wSnGnSpczuEKkn4z17cjiXz23kUqrVr4yaaqMmpO6fhXtM9DknZnM0o11q7JKewOH2Nr
+         W+l+YslgeGH+I71ZaRKNyrXDZ9vIeQRo+jufo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=58Fa3Wh9DcmUEAhH/K1NiJCQawyeai7Qep950CRfr5k=;
-        b=UmJh+MUyTZ8UdzUZLRqM1txODxoKGtg9RSmpF9Rx+IfsmVXevPEk2BvHW/QRyC/SlE
-         johkF/4fRy7yAbgftuNbYicvL3RTofMZHHKB9jqJtBC+MNJ1n0/0rcfXAIZn9LKlkWcF
-         9utzcRtgXg8/dTRGV5uUnT0QHBOB5ChWtq6m1ZlLfZC0rgy4f1r7U9Sh8eWkJarWBfBe
-         xhMFZV3/l/DX6C7NDIENvn+zDVGWQBC+CYs9ZuHdnZbk/Gc2fboey0YK8P+Z7O66B0Y1
-         GFD7plYJPGPMf3Ox624U3EQcDH09dJOylqoV7+jSRUG6AViaGg6QRpkBnRzysbrYz5fC
-         gghw==
-X-Gm-Message-State: AOAM532meBTc/qvcNNLFnKM/YDKC69Bg7T8b2QI5jlyLd/xOUpXDi7/U
-        2AFB0B4IBywi6e4LvHJsPwPhLQ==
-X-Google-Smtp-Source: ABdhPJxRBDplF5mdHSPHoKJOxY6u2L8GGoZRC7bwbpajUVv6F3KYPcpU50ahsP85IBbznirHfj6zzw==
-X-Received: by 2002:a62:848c:: with SMTP id k134mr10289020pfd.86.1644542716183;
-        Thu, 10 Feb 2022 17:25:16 -0800 (PST)
+        bh=HZuOJxErdx75B/XhX4U4+Jmre2nmp1Aql4lPGNRbh74=;
+        b=J3MGPvNucxHP/qx+I0xmao9ZMw2BrNEOL0/YP6f82cHUYWr4z26NlUgJjowVrvZprS
+         Qrfvgvs+DWN12/WPvpUvxS/AmXniaHtL0RQVqDnP9/RQJSdhSKnZgzQ1NxUAOBCiVEjg
+         QllyyPTfZYSsmnZQqRIplY3QE5Et4alzcGeMq5cfjqV6o5xngZcMXQtlCdROiMCoKvAN
+         EIidDTFTRoMQvxR2QHF1qO7YDZvqDxJ9sC6+qfm5zDw/rfSD6if5IOG/CEaRa1zaobb0
+         b5t0pqZlpIBaao1cYveH2VkGQlAitaKNM1a4A8desxF4h5lR1qf7wSiZBw7XWGX4O2T2
+         nffg==
+X-Gm-Message-State: AOAM531nn9B72SaXfu1uoljiY0bgRmrUOf3ZU28EPk4GAwbTRtARAC0I
+        AChFFcF6fZ2yR4gk/308kD2/mw==
+X-Google-Smtp-Source: ABdhPJxjCv8q/G7jdRRU0IxR1TvXLuWiCtzk7gJfa7sfjOqZHLb9PlMAsIQDud5O/vpcFwX5pNnMmA==
+X-Received: by 2002:a05:6a00:198a:: with SMTP id d10mr10300323pfl.2.1644542717195;
+        Thu, 10 Feb 2022 17:25:17 -0800 (PST)
 Received: from smtp.gmail.com ([2620:15c:202:201:fb9d:6747:c0b4:f7ee])
-        by smtp.gmail.com with ESMTPSA id m13sm23260146pfh.197.2022.02.10.17.25.15
+        by smtp.gmail.com with ESMTPSA id m13sm23260146pfh.197.2022.02.10.17.25.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Feb 2022 17:25:15 -0800 (PST)
+        Thu, 10 Feb 2022 17:25:16 -0800 (PST)
 From:   Stephen Boyd <swboyd@chromium.org>
 To:     benjamin.tissoires@redhat.com,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Jiri Kosina <jikos@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+Cc:     Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         "Sean O'Brien" <seobrien@chromium.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
-Subject: [PATCH v3 3/4] HID: google: Add support for vivaldi to hid-hammer
-Date:   Thu, 10 Feb 2022 17:25:09 -0800
-Message-Id: <20220211012510.1198155-4-swboyd@chromium.org>
+        Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH v3 4/4] HID: google: modify HID device groups of eel
+Date:   Thu, 10 Feb 2022 17:25:10 -0800
+Message-Id: <20220211012510.1198155-5-swboyd@chromium.org>
 X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
 In-Reply-To: <20220211012510.1198155-1-swboyd@chromium.org>
 References: <20220211012510.1198155-1-swboyd@chromium.org>
@@ -63,7 +63,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,206 +71,38 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support to the hammer driver to parse vivaldi keyboard layouts and
-expose them to userspace. This allows hammer devices to use vivaldi
-function row keys while also supporting the other features this driver
-supports, like the CBAS (chrome base attached switch) and a keyboard
-backlight.
+From: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+
+If HID_GROUP of eel is set to HID_GROUP_GENERIC, Whiskers Tablet Mode
+Switch of eel hammer will not be detected by system because the
+hid-vivaldi driver probes the device. When it is set to
+HID_GROUP_VIVALDI, system will detect Whiskers Tablet Mode Switch
+successfully and also support the vivaldi keyboard layout.
 
 Cc: Jiri Kosina <jikos@kernel.org>
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: "Sean O'Brien" <seobrien@chromium.org>
 Cc: Douglas Anderson <dianders@chromium.org>
-Cc: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+Signed-off-by: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+[swboyd@chromium.org: Expand on commit text]
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/hid/Kconfig             |  1 +
- drivers/hid/hid-google-hammer.c | 95 +++++++++++++++++++++++++--------
- 2 files changed, 75 insertions(+), 21 deletions(-)
+ drivers/hid/hid-google-hammer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index ea8fa71c9e9c..4bea966e617b 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -413,6 +413,7 @@ config HID_VIVALDI_COMMON
- config HID_GOOGLE_HAMMER
- 	tristate "Google Hammer Keyboard"
- 	select HID_VIVALDI_COMMON
-+	select INPUT_VIVALDIFMAP
- 	depends on USB_HID && LEDS_CLASS && CROS_EC
- 	help
- 	Say Y here if you have a Google Hammer device.
 diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-index 0403beb3104b..e3dd26ddbd43 100644
+index e3dd26ddbd43..8ed75bb0878f 100644
 --- a/drivers/hid/hid-google-hammer.c
 +++ b/drivers/hid/hid-google-hammer.c
-@@ -15,6 +15,7 @@
- 
- #include <linux/acpi.h>
- #include <linux/hid.h>
-+#include <linux/input/vivaldi-keymap.h>
- #include <linux/leds.h>
- #include <linux/module.h>
- #include <linux/of.h>
-@@ -22,6 +23,7 @@
- #include <linux/platform_data/cros_ec_proto.h>
- #include <linux/platform_device.h>
- #include <linux/pm_wakeup.h>
-+#include <linux/sysfs.h>
- #include <asm/unaligned.h>
- 
- #include "hid-ids.h"
-@@ -300,6 +302,11 @@ struct hammer_kbd_leds {
- 	u8 buf[2] ____cacheline_aligned;
- };
- 
-+struct hammer_drvdata {
-+	struct vivaldi_data vdata;
-+	struct hammer_kbd_leds leds;
-+};
-+
- static int hammer_kbd_brightness_set_blocking(struct led_classdev *cdev,
- 		enum led_brightness br)
- {
-@@ -337,15 +344,11 @@ static int hammer_kbd_brightness_set_blocking(struct led_classdev *cdev,
- 	return ret;
- }
- 
--static int hammer_register_leds(struct hid_device *hdev)
-+static int hammer_register_leds(struct hammer_drvdata *hdata, struct hid_device *hdev)
- {
- 	struct hammer_kbd_leds *kbd_backlight;
--	int error;
--
--	kbd_backlight = kzalloc(sizeof(*kbd_backlight), GFP_KERNEL);
--	if (!kbd_backlight)
--		return -ENOMEM;
- 
-+	kbd_backlight = &hdata->leds;
- 	kbd_backlight->hdev = hdev;
- 	kbd_backlight->cdev.name = "hammer::kbd_backlight";
- 	kbd_backlight->cdev.max_brightness = MAX_BRIGHTNESS;
-@@ -356,26 +359,16 @@ static int hammer_register_leds(struct hid_device *hdev)
- 	/* Set backlight to 0% initially. */
- 	hammer_kbd_brightness_set_blocking(&kbd_backlight->cdev, 0);
- 
--	error = led_classdev_register(&hdev->dev, &kbd_backlight->cdev);
--	if (error)
--		goto err_free_mem;
--
--	hid_set_drvdata(hdev, kbd_backlight);
--	return 0;
--
--err_free_mem:
--	kfree(kbd_backlight);
--	return error;
-+	return led_classdev_register(&hdev->dev, &kbd_backlight->cdev);
- }
- 
- static void hammer_unregister_leds(struct hid_device *hdev)
- {
--	struct hammer_kbd_leds *kbd_backlight = hid_get_drvdata(hdev);
-+	struct hammer_drvdata *hdata = hid_get_drvdata(hdev);
-+	struct hammer_kbd_leds *kbd_backlight = &hdata->leds;
- 
--	if (kbd_backlight) {
-+	if (kbd_backlight)
- 		led_classdev_unregister(&kbd_backlight->cdev);
--		kfree(kbd_backlight);
--	}
- }
- 
- #define HID_UP_GOOGLEVENDOR	0xffd10000
-@@ -385,6 +378,58 @@ static void hammer_unregister_leds(struct hid_device *hdev)
- /* HID usage for keyboard backlight (Alphanumeric display brightness) */
- #define HID_AD_BRIGHTNESS	0x00140046
- 
-+static void hammer_feature_mapping(struct hid_device *hdev,
-+				   struct hid_field *field,
-+				   struct hid_usage *usage)
-+{
-+	struct hammer_drvdata *hdata = hid_get_drvdata(hdev);
-+
-+	vivaldi_hid_feature_mapping(&hdata->vdata, hdev, field, usage);
-+}
-+
-+static ssize_t function_row_physmap_show(struct device *dev,
-+					 struct device_attribute *attr,
-+					 char *buf)
-+{
-+	struct hid_device *hdev = to_hid_device(dev);
-+	struct hammer_drvdata *hdata = hid_get_drvdata(hdev);
-+	struct vivaldi_data *vdata = &hdata->vdata;
-+
-+	return vivaldi_function_row_physmap_show(vdata, buf);
-+}
-+
-+static DEVICE_ATTR_RO(function_row_physmap);
-+static struct attribute *hammer_sysfs_attrs[] = {
-+	&dev_attr_function_row_physmap.attr,
-+	NULL
-+};
-+
-+static umode_t hammer_attr_is_visible(struct kobject *kobj,
-+				      struct attribute *attr, int n)
-+{
-+	struct device *dev = kobj_to_dev(kobj);
-+	struct hid_device *hdev = to_hid_device(dev);
-+	struct hammer_drvdata *hdata = hid_get_drvdata(hdev);
-+	struct vivaldi_data *vdata = &hdata->vdata;
-+
-+	if (attr == &dev_attr_function_row_physmap.attr &&
-+	    !vdata->num_function_row_keys)
-+		return 0;
-+
-+	return attr->mode;
-+}
-+
-+static const struct attribute_group input_attribute_group = {
-+	.is_visible = hammer_attr_is_visible,
-+	.attrs = hammer_sysfs_attrs,
-+};
-+
-+static int hammer_input_configured(struct hid_device *hdev,
-+				   struct hid_input *hidinput)
-+{
-+	return sysfs_create_group(&hdev->dev.kobj, &input_attribute_group);
-+}
-+
- static int hammer_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 				struct hid_field *field,
- 				struct hid_usage *usage,
-@@ -516,6 +561,12 @@ static int hammer_probe(struct hid_device *hdev,
- 			const struct hid_device_id *id)
- {
- 	int error;
-+	struct hammer_drvdata *hdata;
-+
-+	hdata = devm_kzalloc(&hdev->dev, sizeof(*hdata), GFP_KERNEL);
-+	if (!hdata)
-+		return -ENOMEM;
-+	hid_set_drvdata(hdev, hdata);
- 
- 	error = hid_parse(hdev);
- 	if (error)
-@@ -541,7 +592,7 @@ static int hammer_probe(struct hid_device *hdev,
- 	}
- 
- 	if (hammer_has_backlight_control(hdev)) {
--		error = hammer_register_leds(hdev);
-+		error = hammer_register_leds(hdata, hdev);
- 		if (error)
- 			hid_warn(hdev,
- 				"Failed to register keyboard backlight: %d\n",
-@@ -610,6 +661,8 @@ static struct hid_driver hammer_driver = {
- 	.id_table = hammer_devices,
- 	.probe = hammer_probe,
- 	.remove = hammer_remove,
-+	.feature_mapping = hammer_feature_mapping,
-+	.input_configured = hammer_input_configured,
- 	.input_mapping = hammer_input_mapping,
- 	.event = hammer_event,
- };
+@@ -636,7 +636,7 @@ static void hammer_remove(struct hid_device *hdev)
+ static const struct hid_device_id hammer_devices[] = {
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_DON) },
+-	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
++	{ HID_DEVICE(BUS_USB, HID_GROUP_VIVALDI,
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_EEL) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_HAMMER) },
 -- 
 https://chromeos.dev
 
