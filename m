@@ -2,239 +2,193 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 263FB4B1C8A
-	for <lists+linux-input@lfdr.de>; Fri, 11 Feb 2022 03:34:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AAFB04B1D9C
+	for <lists+linux-input@lfdr.de>; Fri, 11 Feb 2022 06:15:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347561AbiBKCdP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Feb 2022 21:33:15 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57550 "EHLO
+        id S233996AbiBKFOy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Feb 2022 00:14:54 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347510AbiBKCdO (ORCPT
+        with ESMTP id S229479AbiBKFOy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Feb 2022 21:33:14 -0500
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2106.outbound.protection.outlook.com [40.107.215.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 741F55FD2;
-        Thu, 10 Feb 2022 18:33:13 -0800 (PST)
+        Fri, 11 Feb 2022 00:14:54 -0500
+X-Greylist: delayed 1628 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 10 Feb 2022 21:14:53 PST
+Received: from mx0a-000eb902.pphosted.com (mx0a-000eb902.pphosted.com [205.220.165.212])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DF38273A;
+        Thu, 10 Feb 2022 21:14:53 -0800 (PST)
+Received: from pps.filterd (m0220296.ppops.net [127.0.0.1])
+        by mx0a-000eb902.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 21B4CVk4004147;
+        Thu, 10 Feb 2022 22:47:44 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com; h=message-id : date :
+ mime-version : subject : to : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pps1;
+ bh=zSet5FsN9a7rqQOjtKaTcm7URg9879iRjiEvcsEBZn0=;
+ b=wPoIDj6ZMQEGUlj/QOhPZRZ9v3nF5Fg8jI+LB2i0MzgQO8xI1HO4ek0axWM0Uwb4Fkzq
+ 2XaPWqGuzpFN8PXI8IEtAo85XGD+RAB+PArc6jkqeOQWYUhfTPKkL9+kcFLf9Ra2gDbf
+ 9VyV1qImL28gVFFXdUqefy+tQzA+s5G08fMOq7l3dfhE+C1sXutJ/+CjO1nZFqJtE2NU
+ FRxhJTWFUTCzZt3/0epNqY6iYDr4bylaKLLsWSMcZMk82HSbjXJ2iyGq8JxIzJia8Fvj
+ hZHUNKRS0ApGcj+r7Dg4geZJcccXHftK//j5/phoYAL8HGVbL2LoGWG06UlJRgWQamJg /w== 
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
+        by mx0a-000eb902.pphosted.com (PPS) with ESMTPS id 3e4n2fanwf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 10 Feb 2022 22:47:43 -0600
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EzfWLT+EzT+znwPSOPxqYdnBY7QKPKT6xxh7031m/bF047AkYSygyMImdSlJl7Xk1sxpnvkh6zhz7seT2CW96QhxMJVhCqD5LV9WGERMvsE0Gna7L5M2WzS0yXlAPR7duJYN4jTiwVUSsJRlWarXn6MDRZvsxk+C9MBlJdH7vBkECxUkfAgU9ypBlSnYDUa2Swk62MZLXf1oK9+yXkxAJTP2LzqepyjlwULEKvvJFTItqrGP8TVa3Bycl+1ArBaczrzGr2vNhVM+ku2hIYZJFZ/Vg65twefXMjvVUo+OErYjB24sIvIjv4GlqtmlF5scHx/AhB1fV43+Mgfe4EMbsw==
+ b=KnJqVP26x8pmQTntBadlmapK/p60zHUroPzgD+Jf67chJ4O3kAUnxV9YK/ZCFvR0HNKX7TXJkr3o9+G/b/h13U0yaKGXNXQFabNoVOMhM1jAGA7KsHofXaKoVjjr3LFvh0f3zKYi+AB4OjCJ2e1DnEsFHcBZGKuRb+HmEdFh/1OIxR+Dbpb9L8+dGstgtGUkeorsIOG1N4BY1kl6o/3EDzF8SFAyH2MSfD31yvAWUfBiwRjRI8ieXmaQpKB1s1nr8csiqyfShzl94Ovywm3w11qEX1UF/floTQnuB7NgzCdij5Q+KuG2ZUunn5vXzG9aYfCyf5nmdq+dqd/hC2kPmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZCGsYVl1Rk2DP391pMDtEyG1sAbTFMqpUMsjQddFGaQ=;
- b=OqMFox67bITNfWyykhjVy4MY+GlnCKsJQHprufDn+2ft5A0WfXVSxd0miXUo+2hqaWTv1OyjH3Yc9wCeTS4evaUftK7N1P2ytElqJHNqBPMzjo/rs9FcBL7XUFpvQoAPYytVsBHlBY/YzqtAX3j3Zfexkin7PIHh+bx4yV0dqfywBE8bBNTZVjcbSl0eIauXfGeP06P6Cj6oyySWn1iiHMbsBLngH5GdjevH+7ZUiF4qfx19fHmbNom3z0efZ5JtUHudRakEKABRCXelIUpeBbU6g48AjqhrrqreAMPceSd9/BsmryGKiH/bGcUJJ8jE5rmT67dyAoq6OeIqzoQ3mQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
- s=selector2-vivo0-onmicrosoft-com;
+ bh=zSet5FsN9a7rqQOjtKaTcm7URg9879iRjiEvcsEBZn0=;
+ b=f6LYVEmy7UNbOcibZZ2tO1Gx+Q9gPC9uKw089H5UPPaMlRfKmZ7jRuADuvxwjLiYe3hmzypW/HNFP9L7U07SgwN5elA52cR6W+B739j+VYuD5XmEerjjM5NZEIxNFc4fnYmNdsl6BOg6hZqGzW/PmYaLyQwirXZ1j2QbB03IS75602tPwpll4tPwTuaYLv4xu+qNSzIR8l32yQVAjja9tjBXbk189utPPoRHjrC/wJHSG9JjRk6dYBCob4fywJnuOdL0XPYxl9klOZLB+YG56Tzm5T915iC7nWyOzzoVSQ9daIpDfYl+J1r2wIp96tasBDQO4D0l7VgFX+OuuqqbuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 204.77.163.244) smtp.rcpttodomain=gmail.com smtp.mailfrom=garmin.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=garmin.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZCGsYVl1Rk2DP391pMDtEyG1sAbTFMqpUMsjQddFGaQ=;
- b=DqJJpqg7B6IBOs5Ucw6n44AN6YSysS3ZJS7oPEefh9yBrmUMJsgFMHhtxGGK/+tJRaE4cZBJVBz+RnUZf9pyt39no9qp39jdOhQXTJHvLEwh/SUQt/bMDEIcTE1zmQOFE0fVDdaTF7YddltOn0vCidp4vW/EEAeXfvTrSAEwJsk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SL2PR06MB3082.apcprd06.prod.outlook.com (2603:1096:100:37::17)
- by PS1PR0601MB3705.apcprd06.prod.outlook.com (2603:1096:300:80::14) with
+ bh=zSet5FsN9a7rqQOjtKaTcm7URg9879iRjiEvcsEBZn0=;
+ b=j+gckeOX+1CI8P9BLfDNW4ha+SjABeObtwditdyIp0wnGBzQB9LV0TX8jhQPPDKH9Gp+1nBnHZpv415D4/wIqSPf9HHqaNk8ZvDHfSAVi/VTNUeFQxj1pgyzNDZJPJa+RrrvUrBO+OTRMzhLPvw4dfLElaANA3yHaUFXgFSro7d8EUF7DFW/qPR9nCNNBhDwBSdmdF7CUyupy5yHl2V/PrQYK/0d46YPV0mTsN8bxR6tMEm3QHaJd/3MMoBl9VjbjIXqSnyXPywKDq6xZ8YHpY1CWz+9kc9DC9C/9+TX6S809e+5drWlaslxaSmIjABI/fNF3OWwYWm2w6sdsnConQ==
+Received: from DM5PR12CA0063.namprd12.prod.outlook.com (2603:10b6:3:103::25)
+ by SJ0PR04MB7728.namprd04.prod.outlook.com (2603:10b6:a03:32d::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Fri, 11 Feb
- 2022 02:33:11 +0000
-Received: from SL2PR06MB3082.apcprd06.prod.outlook.com
- ([fe80::80b4:e787:47a9:41bb]) by SL2PR06MB3082.apcprd06.prod.outlook.com
- ([fe80::80b4:e787:47a9:41bb%4]) with mapi id 15.20.4975.014; Fri, 11 Feb 2022
- 02:33:10 +0000
-From:   Qing Wang <wangqing@vivo.com>
-To:     Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        =?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     Wang Qing <wangqing@vivo.com>
-Subject: [PATCH V2 13/13] media: vivid: use time_is_after_jiffies() instead of jiffies judgment
-Date:   Thu, 10 Feb 2022 18:30:36 -0800
-Message-Id: <1644546640-23283-14-git-send-email-wangqing@vivo.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1644546640-23283-1-git-send-email-wangqing@vivo.com>
-References: <1644546640-23283-1-git-send-email-wangqing@vivo.com>
-Content-Type: text/plain
-X-ClientProxiedBy: HK2PR02CA0178.apcprd02.prod.outlook.com
- (2603:1096:201:21::14) To SL2PR06MB3082.apcprd06.prod.outlook.com
- (2603:1096:100:37::17)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Fri, 11 Feb
+ 2022 04:47:42 +0000
+Received: from DM6NAM10FT031.eop-nam10.prod.protection.outlook.com
+ (2603:10b6:3:103:cafe::3d) by DM5PR12CA0063.outlook.office365.com
+ (2603:10b6:3:103::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.13 via Frontend
+ Transport; Fri, 11 Feb 2022 04:47:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 204.77.163.244)
+ smtp.mailfrom=garmin.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=garmin.com;
+Received-SPF: Pass (protection.outlook.com: domain of garmin.com designates
+ 204.77.163.244 as permitted sender) receiver=protection.outlook.com;
+ client-ip=204.77.163.244; helo=edgetransport.garmin.com;
+Received: from edgetransport.garmin.com (204.77.163.244) by
+ DM6NAM10FT031.mail.protection.outlook.com (10.13.152.157) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4975.11 via Frontend Transport; Fri, 11 Feb 2022 04:47:41 +0000
+Received: from OLAWPA-EXMB12.ad.garmin.com (10.5.144.16) by
+ olawpa-edge3.garmin.com (10.60.4.226) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 10 Feb 2022 22:47:39 -0600
+Received: from [10.30.196.25] (10.5.209.17) by OLAWPA-EXMB12.ad.garmin.com
+ (10.5.144.16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 10 Feb
+ 2022 22:47:41 -0600
+Message-ID: <d12b130d-4c79-25bd-36fc-3566bee37173@garmin.com>
+Date:   Thu, 10 Feb 2022 22:47:40 -0600
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2] input: Add Marine Navigation Keycodes
+Content-Language: en-US
+To:     <dmitry.torokhov@gmail.com>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20210622235708.8828-1-matthew.stephenson2@garmin.com>
+ <20220126211224.28590-1-Shelby.Heffron@garmin.com>
+From:   Shelby Heffron <Shelby.Heffron@garmin.com>
+In-Reply-To: <20220126211224.28590-1-Shelby.Heffron@garmin.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: cv1wpa-exmb1.ad.garmin.com (10.5.144.71) To
+ OLAWPA-EXMB12.ad.garmin.com (10.5.144.16)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6ecfda2a-ef55-44e3-464c-08d9ed06d858
-X-MS-TrafficTypeDiagnostic: PS1PR0601MB3705:EE_
-X-Microsoft-Antispam-PRVS: <PS1PR0601MB37053AFD614E2C1FEAFBD6BABD309@PS1PR0601MB3705.apcprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1107;
+X-MS-Office365-Filtering-Correlation-Id: 365e1abd-8639-4745-02e8-08d9ed19a33f
+X-MS-TrafficTypeDiagnostic: SJ0PR04MB7728:EE_
+X-Microsoft-Antispam-PRVS: <SJ0PR04MB77285057BBA2A7B3E4D6ED1BF2309@SJ0PR04MB7728.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gET8Awy8O3rfEJ2KEFZxWC/slmqXyDgtNj99XlkJW1GWzk84hR/TRK5gKO+GMjL72JwFI6j44TQUDhyT7fJawFzngVXOjZNW+FCCe3vSeBoo9xJOKgQxhSWjwsNyPnsN5QtAphPEQowiinJNUfJGXO4YlIGTyoyPK47tqB7e1ELN/au+VZg2KiVmmdlujxOKh/svgY0Btkt3E1EU9XAaEB/fDl1iFeRBWsyOehLabAOAzB+QTpaJiwz7tTdFl1zm2hEOus6Fm0fQfZvqk7e0K3FB0ES4SOOasvK/MidWtWFzOusgZm2g8OODEW2qChgbIg2e82TJhCANYnYxOzi8e9bEKklSRDc45QifSPZODJHCPBiccXPEwJBMtlg27FzB4C/7N9kSCGDwpu8iJx+Azt+wOrawMWlEco+uFtBmgGZCXWpereILX4Rc2jc7V2AGuLNNTs+gOjMB0zGeJEI9X4q4Qq2u181f0/uja1Bfc4bWCt2sagAz/YMuFQU0PyrnOEIrjC+Dip5zndrETRa7qjBq9QY0yRNQrCZX/j8PyOMfxzDS+WLZNHCFxbFearaLwLx0F0UZUycs9wkTmVmTzZPKD3zwVN6eFYLH3eo+zHNWxp5IEa8sxVkNxTP5j1EaArvagxtVMxLVnAleAObs8ibPNXRtibSSfBbfbrNrXK+43VI5q+1mUQsllCh8Oyviqwm46moiYKGuo49/PM7F2RgyY1Echn1GhCN32kJi9/4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2PR06MB3082.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(186003)(2906002)(7416002)(66946007)(316002)(36756003)(2616005)(107886003)(26005)(921005)(7406005)(110136005)(5660300002)(83380400001)(6486002)(6512007)(6506007)(66556008)(86362001)(6666004)(508600001)(4326008)(52116002)(8676002)(8936002)(66476007)(38100700002)(38350700002)(21314003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?anxVmQzQteJnVybznqZkGfIiz7nVC4C/C1I0BoUPZOiTIogrlkXJQfPjamKT?=
- =?us-ascii?Q?oJ/GBiaYBt42qmKppqJRYlI6K8e8oDSseJKFoNBR04iv6/fm+Lx7GWQvRPd2?=
- =?us-ascii?Q?oa1twpXDMI4qvuvmPwZAkhoKDxF0B174B/eCGvcrZb7MuG3t4wRSryhy++4e?=
- =?us-ascii?Q?x1neH6Wqoj90ulCVvy5lZyrMXkQgTs3QUhg3tOd5nh+d/+3M0Ry0g23wvfNp?=
- =?us-ascii?Q?XjL+GSbFdHDYkdh8FY8WD+0jdtn5kt+zr6DoklFBlihTRmOPDsmAV5lF7ysL?=
- =?us-ascii?Q?7Ot3qkCxkgN6pm8DFreYAQqEpBVcHa9nG/CgeRF7kuwCG4Qp5zSCWpkvAilj?=
- =?us-ascii?Q?+BRyPmamsXHVBCD8KgKSCNvrjxsPNqNfqIOuYlhdCcma00ieIvNk0ZZrkVhg?=
- =?us-ascii?Q?1i6VM7n+qZA599hn/GshE8jQdY3SQ476lJakG6ATJeBo8ph1RCyYfr5vtgx+?=
- =?us-ascii?Q?DuYyutc5Cl7ZbdkYiK0/YjkgOrS6Q91fRSA9ffUTob6enZ3DAwORawFIBL5t?=
- =?us-ascii?Q?CEOPBiHPL4rCujB6wstavCGEUdUniEda70+r8aqtK5YaTkpMa3f/VGGjqYhO?=
- =?us-ascii?Q?RqXiFumiP4zSdqZJULVM5uUUXbVs3ezbCsUaJioSKn0ebUP3bUDyGqPscVKs?=
- =?us-ascii?Q?6SPTJAgp3JhddiZzHFnHbyYlEKO+tPqeIOtQpu/N+JJP+mSJK2CfocrN5A9C?=
- =?us-ascii?Q?H7W35Ydlo5Y7iBCSUa+YM5eGX2PovUV/g5+TJbrVyS1O1VS11FZgsI1ooqiN?=
- =?us-ascii?Q?eY5fqBMZ3IgzHqvBoueLUSCZpUWkoulRF40IN9THC9O2FL4yTz7kJmH6u8DB?=
- =?us-ascii?Q?p4ueZ8ZPfFfUfaser2NE4V2AvtLieom2/4HHb/esIgPzqSNcHy1SMH6Yqu9T?=
- =?us-ascii?Q?ij/kDCVsMQa5ahFGZJicU5qFtwtSDpUMyNkPvUbdMMZkzihwrke1FXD0O1CL?=
- =?us-ascii?Q?LYKOaHRAOc6DGdNZYRTpoNLq047VAMxzRkOHIUUoE5Jq3J9kmtbV+Kk4CVcR?=
- =?us-ascii?Q?/3gPFKfERJ7n2uREHPAqYxq3sjDcxmdPW44xPZKbTq3uE4N4/Z49lO1lzrOE?=
- =?us-ascii?Q?v2a8odAA5+otNk+qAlk0ccQsoMkk3BcwFDNFk7QlIT1UoIrbNhOG3VtEm7hl?=
- =?us-ascii?Q?zI39hCe8/Ebnw4vX6HLRt3KMgLqyCGknQn29QpQgZ/ARx6BCJ19zTEqGeH1F?=
- =?us-ascii?Q?5ocRmCkZMyI8Ke+F6qMylorIcRz6b7721btXextPwLRRMozloFGWmLc5aIb+?=
- =?us-ascii?Q?tMEY/1vMG+D9DmH+eZtYThlQbHn4BQKkZma7/miULWcqc63kQT+hLwhUnj7j?=
- =?us-ascii?Q?v6zcGFy4bbaInAjgb6eoy+3rBMdrA2zJ4VFYdL0zd3z3WxD2sJLfKF35kjEq?=
- =?us-ascii?Q?7wHXFUNq+jRihuVEe2vuTsqTtBwuCDKQW7XklkcaKQ9CZSWh9mt3h7a/jtOu?=
- =?us-ascii?Q?Kg3nYMr0455m7f3VUWVteWlS9A0gtaublibFTjEYc3sGv+xoITeJoQ7Uw+Kw?=
- =?us-ascii?Q?2lWQAREqiQ9wixIO7ywDetYMx7LpB1JoZnJb4gGVHx2QqQPp3bPkXezFKtUq?=
- =?us-ascii?Q?x8GzjbGPH9PpYHBeIIpgbkb8mAtjfKBVfNE8KrxHotMy2YXr+er6qy9SCFw8?=
- =?us-ascii?Q?zXNvEoji+nBbytiph8ID4VM=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ecfda2a-ef55-44e3-464c-08d9ed06d858
-X-MS-Exchange-CrossTenant-AuthSource: SL2PR06MB3082.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2022 02:33:10.8323
+X-Microsoft-Antispam-Message-Info: vICiSK89bAqM1Cm0JY3+RuUtwQYfQ7MRma/1MikZmIJGAsxUham7ipGbVJ5DJ/jSu5+L2S+8b4rAtF/7TLI95eSDo9REYQzot+1KxLzMjTHjEu0X1DYY2QSeRGh3IuW4ESs+7Wv6ifzijKrV0P7aYn5rKiXTKkPFNVz1T8lNsZCq2Dr99ip5HkTq6y383VJPgN/hhhYYCUuXX4Ae/0ucIlgFWzQr/jzIeYPiKkGO4w7Cb9sFu1Xm5dSP7IyC+KwELoxH01gu/CUtoFVRsuzR1t3Hc6bn26/9O3GbLDW998l4L4rSqBLquGIL8hvJNzMOVAVtcBZ7w7dF9v/J6lyup3/vulzVM6B6rlFovUw9dFblKq0D6uCLaLvC6kbe8E8uxW5TkUQlT+JkyXNYag36aqfitA/TfB6GJ4m/Edx2bs/gsHh83c3ohBZOTUuGYHz1edLoO16PhslbVmzJ0wyeD7vtSu5cCLN1JKIdwlgQlNT9y+tsWnb/ZpFNO5pE9jra9r5cFx8AZxd0KOgDYsY/L7jc1thY7ulY/newERSewRIm0K2bRQyax5ZjbMwaLgcVXp/AbbZVAt9R3nYGycxBFssM1iEKljR3KAf61BGE51c48u8XakmhB+eZVejBuAuOk8UubfUJN/nmEgIoHEemZfwzoZQfauZg3v4XuI0r5EHDN7ZLknwYFH9ESqV4/be2/la4VesjnfqnroldgdbaIw==
+X-Forefront-Antispam-Report: CIP:204.77.163.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:edgetransport.garmin.com;PTR:extedge.garmin.com;CAT:NONE;SFS:(13230001)(40470700004)(46966006)(36840700001)(36860700001)(7636003)(36756003)(40460700003)(82310400004)(31696002)(86362001)(356005)(53546011)(8936002)(8676002)(508600001)(70206006)(70586007)(31686004)(336012)(47076005)(66574015)(16576012)(110136005)(426003)(2616005)(5660300002)(316002)(186003)(26005)(2906002)(43740500002);DIR:OUT;SFP:1102;
+X-OriginatorOrg: garmin.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2022 04:47:41.7479
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +8mJtO29nBoysTeez6egaCcwz1EVAAOfzUIKKBW62z5C2FaTL3wFUrZi2JsNpYWrBJ5be6JEHEfDI/DMXA3DLw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS1PR0601MB3705
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-Network-Message-Id: 365e1abd-8639-4745-02e8-08d9ed19a33f
+X-MS-Exchange-CrossTenant-Id: 38d0d425-ba52-4c0a-a03e-2a65c8e82e2d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38d0d425-ba52-4c0a-a03e-2a65c8e82e2d;Ip=[204.77.163.244];Helo=[edgetransport.garmin.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM10FT031.eop-nam10.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7728
+X-Proofpoint-GUID: 5GE86Ttilc0KpH3rAio-lzSbYlVaE_Cn
+X-Proofpoint-ORIG-GUID: 5GE86Ttilc0KpH3rAio-lzSbYlVaE_Cn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-11_01,2022-02-09_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=943
+ clxscore=1015 adultscore=0 priorityscore=1501 lowpriorityscore=0
+ suspectscore=0 impostorscore=0 bulkscore=0 mlxscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202110024
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Wang Qing <wangqing@vivo.com>
+Hello all,
 
-It is better to use time_xxx() directly instead of jiffies judgment
-for understanding.
+On 1/26/2022 3:12 PM, Shelby Heffron wrote:
+> Add keycodes that are used by marine navigation devices
+> 
+> Signed-off-by: Shelby Heffron <Shelby.Heffron@garmin.com>
+> ---
+>   include/uapi/linux/input-event-codes.h | 28 ++++++++++++++++++++++++++
+>   1 file changed, 28 insertions(+)
+> 
+> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+> index 225ec87d4f22..26b6a2f482ab 100644
+> --- a/include/uapi/linux/input-event-codes.h
+> +++ b/include/uapi/linux/input-event-codes.h
+> @@ -660,6 +660,34 @@
+>   /* Select an area of screen to be copied */
+>   #define KEY_SELECTIVE_SCREENSHOT	0x27a
+>   
+> +/* Toggle the focus in or out */
+> +#define KEY_FOCUS_TOGGLE		0x27b
+> +
+> +/* Move between highlightable items */
+> +#define KEY_NEXT_HIGHLIGHT		0x27c
+> +#define KEY_PREVIOUS_HIGHLIGHT		0x27d
+> +
+> +/* Toggle Autopilot enagement */
+> +#define KEY_AUTOPILOT_ENGAGE_TOGGLE	0x27e
+> +
+> +/* Navigate Displays */
+> +#define KEY_NEXT_DISPLAY		0x27f
+> +#define KEY_PREVIOUS_DISPLAY		0x280
+> +
+> +/* Shortcut Keys */
+> +#define KEY_MARK_WAYPOINT		0x281
+> +#define KEY_SOS			0x282
+> +#define KEY_NAV_CHART			0x283
+> +#define KEY_FISHING_CHART		0x284
+> +#define KEY_SINGLE_RANGE_RADAR		0x285
+> +#define KEY_DUAL_RANGE_RADAR		0x286
+> +#define KEY_RADAR_OVERLAY		0x287
+> +#define KEY_TRADITIONAL_SONAR		0x288
+> +#define KEY_CLEARVU_SONAR		0x289
+> +#define KEY_SIDEVU_SONAR		0x28a
+> +#define KEY_NAV_INFO			0x28b
+> +#define KEY_BRIGHTNESS_MENU		0x28c
 
-Signed-off-by: Wang Qing <wangqing@vivo.com>
----
- drivers/media/test-drivers/vivid/vivid-kthread-cap.c   | 3 ++-
- drivers/media/test-drivers/vivid/vivid-kthread-out.c   | 3 ++-
- drivers/media/test-drivers/vivid/vivid-kthread-touch.c | 3 ++-
- drivers/media/test-drivers/vivid/vivid-sdr-cap.c       | 3 ++-
- 4 files changed, 8 insertions(+), 4 deletions(-)
+I am looking for some guidance on if this is the proper place for these 
+keys to be defined? If not, or if they are too specific, do I have any 
+other options?
 
-diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-index 6baa046..295f4a3
---- a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-@@ -18,6 +18,7 @@
- #include <linux/freezer.h>
- #include <linux/random.h>
- #include <linux/v4l2-dv-timings.h>
-+#include <linux/jiffies.h>
- #include <asm/div64.h>
- #include <media/videobuf2-vmalloc.h>
- #include <media/v4l2-dv-timings.h>
-@@ -893,7 +894,7 @@ static int vivid_thread_vid_cap(void *data)
- 			next_jiffies_since_start = jiffies_since_start;
- 
- 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
--		while (jiffies - cur_jiffies < wait_jiffies &&
-+		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
- 		       !kthread_should_stop())
- 			schedule();
- 	}
-diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-out.c b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-index b6d4316..13f737e
---- a/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-+++ b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-@@ -18,6 +18,7 @@
- #include <linux/freezer.h>
- #include <linux/random.h>
- #include <linux/v4l2-dv-timings.h>
-+#include <linux/jiffies.h>
- #include <asm/div64.h>
- #include <media/videobuf2-vmalloc.h>
- #include <media/v4l2-dv-timings.h>
-@@ -234,7 +235,7 @@ static int vivid_thread_vid_out(void *data)
- 			next_jiffies_since_start = jiffies_since_start;
- 
- 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
--		while (jiffies - cur_jiffies < wait_jiffies &&
-+		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
- 		       !kthread_should_stop())
- 			schedule();
- 	}
-diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-index f065faae..8828243
---- a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-+++ b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-@@ -5,6 +5,7 @@
-  */
- 
- #include <linux/freezer.h>
-+#include <linux/jiffies.h>
- #include "vivid-core.h"
- #include "vivid-kthread-touch.h"
- #include "vivid-touch-cap.h"
-@@ -134,7 +135,7 @@ static int vivid_thread_touch_cap(void *data)
- 			next_jiffies_since_start = jiffies_since_start;
- 
- 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
--		while (jiffies - cur_jiffies < wait_jiffies &&
-+		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
- 		       !kthread_should_stop())
- 			schedule();
- 	}
-diff --git a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-index 59fd508..f82856b
---- a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-@@ -17,6 +17,7 @@
- #include <media/v4l2-event.h>
- #include <media/v4l2-dv-timings.h>
- #include <linux/fixp-arith.h>
-+#include <linux/jiffies.h>
- 
- #include "vivid-core.h"
- #include "vivid-ctrls.h"
-@@ -205,7 +206,7 @@ static int vivid_thread_sdr_cap(void *data)
- 			next_jiffies_since_start = jiffies_since_start;
- 
- 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
--		while (jiffies - cur_jiffies < wait_jiffies &&
-+		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
- 		       !kthread_should_stop())
- 			schedule();
- 	}
--- 
-2.7.4
+Thanks.
+Shelby
+
+> +
+>   /*
+>    * Some keyboards have keys which do not have a defined meaning, these keys
+>    * are intended to be programmed / bound to macros by the user. For most
 
