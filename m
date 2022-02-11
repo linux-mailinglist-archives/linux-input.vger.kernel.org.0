@@ -2,114 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B628A4B295A
-	for <lists+linux-input@lfdr.de>; Fri, 11 Feb 2022 16:47:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 942194B2BCA
+	for <lists+linux-input@lfdr.de>; Fri, 11 Feb 2022 18:32:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349019AbiBKPq4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Feb 2022 10:46:56 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57434 "EHLO
+        id S1347067AbiBKRcx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Feb 2022 12:32:53 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234142AbiBKPqz (ORCPT
+        with ESMTP id S239369AbiBKRcx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Feb 2022 10:46:55 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B0C421F;
-        Fri, 11 Feb 2022 07:46:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644594413; x=1676130413;
-  h=message-id:subject:from:to:date:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=pVxiaW+vV0quQ79sfEqbYXTjlLZHvVBgUsqT5Tk+lEY=;
-  b=T9CM3fi5XzxOKxmxDDFxrwCZ/7XfVh0QsmL3voYJQZylHhHJ880b8Shx
-   koP20RAuzPuMChRyjBfHKqZo8dMi60p4EXh2GdWDbwz2pjyOynj31LLs1
-   pAns0uY0l4hUcBuVqJoSDfM4WF6G8+ew4Pt1RGP3f6/Zd3BI9augt+rST
-   scynOEDC8qL0YlcakcUT2elDZmilVwGd+Nm7wewsyz7uAFWl5QNA5UFUi
-   pX+hvRfoyaPIcmSokxNoz1z8/zlQ8qVOUogTNOMJ6hZHYhWbnAGzz24zX
-   DSnDV6ypiojXMvNL8Drzm7IinFHuq9xQSgeLiLHNg5JuXrJ6WCCl5Pn8f
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="248584196"
-X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; 
-   d="scan'208";a="248584196"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 07:46:52 -0800
-X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; 
-   d="scan'208";a="542134195"
-Received: from ankitata-mobl1.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.212.170.20])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 07:46:51 -0800
-Message-ID: <077501bfcb710c66754c61d69e45cac66fccf38a.camel@linux.intel.com>
-Subject: Re: [PATCH V2 5/13] hid: use time_is_after_jiffies() instead of
- jiffies judgment
-From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Qing Wang <wangqing@vivo.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Roger Pau =?ISO-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org
-Date:   Fri, 11 Feb 2022 07:46:51 -0800
-In-Reply-To: <1644546640-23283-6-git-send-email-wangqing@vivo.com>
-References: <1644546640-23283-1-git-send-email-wangqing@vivo.com>
-         <1644546640-23283-6-git-send-email-wangqing@vivo.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+        Fri, 11 Feb 2022 12:32:53 -0500
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB7DF313;
+        Fri, 11 Feb 2022 09:32:51 -0800 (PST)
+Received: by mail-oi1-x236.google.com with SMTP id r27so10318437oiw.4;
+        Fri, 11 Feb 2022 09:32:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w+wyT1oWuhI65Zad/t8RG6/bImnXZf7s8T2d26vS6GI=;
+        b=g6zuw8ukKlTvcbYbOJvN9UU28reWfcDSOsjeaLsnbT/SnnHrf9sL491GAH86Rmz5aX
+         n+rADKqnIEGOCBSVaXpCO4f5iKuF9YcFx6Yc4A2VACltceaomiDFBfe1FBwhJAjLp6v+
+         BQlZPq5hSLwCMnSIiHmkA1nJEkwCXhvYckeE8AQkM5zA/BvrP8CZrY02XTrhCTv0jvMI
+         mmM+A4P+viR4mMOt2da/Z42tjR/STcyyAV3u7PQjGxMHU6YW/cC0l8PHSz1SW7O6CbFU
+         3gNupCiFfKejGEgDpvl5p6y5/sjA+fuSworBYuCN1tNMwVChvsvQgpJZgNQMhLpXNAVk
+         vWcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w+wyT1oWuhI65Zad/t8RG6/bImnXZf7s8T2d26vS6GI=;
+        b=5fkuhR1C8YLbQsOaJC9tP/CkwUFXXjv0dgFb+0gHsSlEvWulMbYXq9DO+XI6wLLB03
+         Z6fxGFMcyiSc67RbjCRB/sWzGB7u+4kS/h72ns23ssrDblGYH/j52BbwisYokhTArnLa
+         v8JicpzFGwcsg/22E3b4aVYTqEQix1AUtnx1HPaCTHzGRMhFnI46CEJFdMreCH4cUpy9
+         LuvajG4PfiGz0K9W9GaVR3kIQwnYvYDH6FXM+PuMiddVaGmEpVUbWggHdqyTyQmiMenv
+         CtMjTvOL5O+Q81iguKvBwLiPwa/2JKoGg7oYjmci2jJP+eLGUcmV9/H/Hfrt3x6A+y2Z
+         u6YQ==
+X-Gm-Message-State: AOAM532jN858P/MZjjsGkcAARlU1G+Ohs8pMFlg/Ou/19kqYVdYKhyAN
+        i4ja2dIeUY7IGocN/0fPscwEZZX8eDZagQ==
+X-Google-Smtp-Source: ABdhPJwspX4Nthj3g0bIF9RBbZ3fm+EfCLVhWUmmCDg7htTjbBt+00Al3v+DTJrDe/DRxQaL3Hqe9g==
+X-Received: by 2002:a05:6808:2204:: with SMTP id bd4mr656487oib.329.1644600770985;
+        Fri, 11 Feb 2022 09:32:50 -0800 (PST)
+Received: from localhost.localdomain ([2804:d51:4934:ba00:77f0:a455:37a3:1b62])
+        by smtp.gmail.com with ESMTPSA id f21sm9314373otq.4.2022.02.11.09.32.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Feb 2022 09:32:50 -0800 (PST)
+From:   Marcos Alano <marcoshalano@gmail.com>
+To:     dmitry.torokhov@gmail.com, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org
+Cc:     Marcos Alano <marcoshalano@gmail.com>
+Subject: [PATCH] Correct the name for Xbox Series S|X controller
+Date:   Fri, 11 Feb 2022 14:32:25 -0300
+Message-Id: <20220211173225.1165722-1-marcoshalano@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2022-02-10 at 18:30 -0800, Qing Wang wrote:
-> From: Wang Qing <wangqing@vivo.com>
-> 
-> It is better to use time_xxx() directly instead of jiffies judgment
-> for understanding.
-> 
-> Signed-off-by: Wang Qing <wangqing@vivo.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Change the name of controller to a more meaningful one.
 
-> ---
->  drivers/hid/intel-ish-hid/ipc/ipc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-
-> ish-hid/ipc/ipc.c
-> index 8ccb246..15e1423
-> --- a/drivers/hid/intel-ish-hid/ipc/ipc.c
-> +++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
-> @@ -578,7 +578,7 @@ static void _ish_sync_fw_clock(struct
-> ishtp_device *dev)
->         static unsigned long    prev_sync;
->         uint64_t        usec;
->  
-> -       if (prev_sync && jiffies - prev_sync < 20 * HZ)
-> +       if (prev_sync && time_is_after_jiffies(prev_sync + 20 * HZ))
->                 return;
->  
->         prev_sync = jiffies;
+Signed-off-by: Marcos Alano <marcoshalano@gmail.com>
+---
+ drivers/input/joystick/xpad.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 4c914f75a902..18190b529bca 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -131,7 +131,7 @@ static const struct xpad_device {
+ 	{ 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0, XTYPE_XBOXONE },
+ 	{ 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
+ 	{ 0x045e, 0x0719, "Xbox 360 Wireless Receiver", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
+-	{ 0x045e, 0x0b12, "Microsoft Xbox One X pad", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
++	{ 0x045e, 0x0b12, "Microsoft Xbox Series S|X Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
+ 	{ 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
+ 	{ 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
+ 	{ 0x046d, 0xc21f, "Logitech Gamepad F710", 0, XTYPE_XBOX360 },
+-- 
+2.35.1
 
