@@ -2,189 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE8F04B26FF
-	for <lists+linux-input@lfdr.de>; Fri, 11 Feb 2022 14:23:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B628A4B295A
+	for <lists+linux-input@lfdr.de>; Fri, 11 Feb 2022 16:47:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350482AbiBKNXs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Feb 2022 08:23:48 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49614 "EHLO
+        id S1349019AbiBKPq4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Feb 2022 10:46:56 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235417AbiBKNXr (ORCPT
+        with ESMTP id S234142AbiBKPqz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Feb 2022 08:23:47 -0500
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2D8ECCF;
-        Fri, 11 Feb 2022 05:23:43 -0800 (PST)
-Received: by mail-io1-f44.google.com with SMTP id i62so11338715ioa.1;
-        Fri, 11 Feb 2022 05:23:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=MM9ApSYTqG0qCaN/6ztjyk0y0g35LdmJiBEhnwEn+Vs=;
-        b=G3jYmly2nC8jwaK5Odo834nFXDY+6SXtX4buCdZZMLTHr+sK349Ji4SGQOHr62lfnM
-         GagNajcYW+REuDmWXG0y3tUXG4pY0YhKfsHLyTFgTtaKcMEhYMPowjo1wLlq+TMsZLNv
-         nDoT+CJAsYYupkEbgccpVklssBDNILggwNdctk9nUxdWpNAOS1Iz0sHq5xy+FI3O19RO
-         FKkU2gVueGgtaTubb6LYPYidd4/erQJeZ0Gk/yoaZddW6gq6Ph4HLEDdKoY0JzisClf+
-         Nt4PAGzJsUTVk16I+gkpFAX0WWk9igqqskFOOsskUVZ/yxbyaDyaJNEuWefrgk273x9q
-         56lw==
-X-Gm-Message-State: AOAM5328V9tfDo/Z9U5i04F+g4lb3QqtP4dkFwUaYiQOQsYo4YmAV75F
-        gXvkVa+/4nKgVWX1TnaW8EFlUGmQBA==
-X-Google-Smtp-Source: ABdhPJwo/cRQLrCRxH4D4zQwZrl4rJHa21iBgfetInmdJwwCSUW0IfYEi5UMMTC7YE+cN0suBUoQ/Q==
-X-Received: by 2002:a05:6638:3003:: with SMTP id r3mr812384jak.239.1644585822896;
-        Fri, 11 Feb 2022 05:23:42 -0800 (PST)
-Received: from robh.at.kernel.org ([172.58.139.71])
-        by smtp.gmail.com with ESMTPSA id k1sm13382645iov.6.2022.02.11.05.23.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Feb 2022 05:23:42 -0800 (PST)
-Received: (nullmailer pid 249238 invoked by uid 1000);
-        Fri, 11 Feb 2022 13:23:38 -0000
-Date:   Fri, 11 Feb 2022 07:23:38 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Wolfram Sang <wsa@kernel.org>, Ondrej Jirman <x@xff.cz>
-Subject: Re: [PATCH 1/5] dt-bindings: input: Add the PinePhone keyboard
- binding
-Message-ID: <YgZjWh6dQQJEK21K@robh.at.kernel.org>
-References: <20220129230043.12422-1-samuel@sholland.org>
- <20220129230043.12422-2-samuel@sholland.org>
+        Fri, 11 Feb 2022 10:46:55 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B0C421F;
+        Fri, 11 Feb 2022 07:46:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644594413; x=1676130413;
+  h=message-id:subject:from:to:date:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=pVxiaW+vV0quQ79sfEqbYXTjlLZHvVBgUsqT5Tk+lEY=;
+  b=T9CM3fi5XzxOKxmxDDFxrwCZ/7XfVh0QsmL3voYJQZylHhHJ880b8Shx
+   koP20RAuzPuMChRyjBfHKqZo8dMi60p4EXh2GdWDbwz2pjyOynj31LLs1
+   pAns0uY0l4hUcBuVqJoSDfM4WF6G8+ew4Pt1RGP3f6/Zd3BI9augt+rST
+   scynOEDC8qL0YlcakcUT2elDZmilVwGd+Nm7wewsyz7uAFWl5QNA5UFUi
+   pX+hvRfoyaPIcmSokxNoz1z8/zlQ8qVOUogTNOMJ6hZHYhWbnAGzz24zX
+   DSnDV6ypiojXMvNL8Drzm7IinFHuq9xQSgeLiLHNg5JuXrJ6WCCl5Pn8f
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="248584196"
+X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; 
+   d="scan'208";a="248584196"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 07:46:52 -0800
+X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; 
+   d="scan'208";a="542134195"
+Received: from ankitata-mobl1.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.212.170.20])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 07:46:51 -0800
+Message-ID: <077501bfcb710c66754c61d69e45cac66fccf38a.camel@linux.intel.com>
+Subject: Re: [PATCH V2 5/13] hid: use time_is_after_jiffies() instead of
+ jiffies judgment
+From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Qing Wang <wangqing@vivo.com>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Roger Pau =?ISO-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org
+Date:   Fri, 11 Feb 2022 07:46:51 -0800
+In-Reply-To: <1644546640-23283-6-git-send-email-wangqing@vivo.com>
+References: <1644546640-23283-1-git-send-email-wangqing@vivo.com>
+         <1644546640-23283-6-git-send-email-wangqing@vivo.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220129230043.12422-2-samuel@sholland.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Jan 29, 2022 at 05:00:38PM -0600, Samuel Holland wrote:
-> Add devicetree support for the PinePhone keyboard case, which provides a
-> matrix keyboard interface and a proxied I2C bus.
+On Thu, 2022-02-10 at 18:30 -0800, Qing Wang wrote:
+> From: Wang Qing <wangqing@vivo.com>
 > 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> It is better to use time_xxx() directly instead of jiffies judgment
+> for understanding.
+> 
+> Signed-off-by: Wang Qing <wangqing@vivo.com>
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+
 > ---
+>  drivers/hid/intel-ish-hid/ipc/ipc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->  .../input/pine64,pinephone-keyboard.yaml      | 90 +++++++++++++++++++
->  1 file changed, 90 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/pine64,pinephone-keyboard.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/pine64,pinephone-keyboard.yaml b/Documentation/devicetree/bindings/input/pine64,pinephone-keyboard.yaml
-> new file mode 100644
-> index 000000000000..00f084b263f0
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/pine64,pinephone-keyboard.yaml
-> @@ -0,0 +1,90 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/pine64,pinephone-keyboard.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Pine64 PinePhone keyboard device tree bindings
-> +
-> +maintainers:
-> +  - Samuel Holland <samuel@sholland.org>
-> +
-> +description:
-> +  A keyboard accessory is available for the Pine64 PinePhone and PinePhone Pro.
-> +  It connects via I2C, providing a raw scan matrix, a flashing interface, and a
-> +  subordinate I2C bus for communication with a battery charger IC.
-> +
-> +allOf:
-> +  - $ref: /schemas/input/matrix-keymap.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: pine64,pinephone-keyboard
-> +
-> +  reg:
-> +    const: 0x15
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  linux,fn-keymap:
+> diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-
+> ish-hid/ipc/ipc.c
+> index 8ccb246..15e1423
+> --- a/drivers/hid/intel-ish-hid/ipc/ipc.c
+> +++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
+> @@ -578,7 +578,7 @@ static void _ish_sync_fw_clock(struct
+> ishtp_device *dev)
+>         static unsigned long    prev_sync;
+>         uint64_t        usec;
+>  
+> -       if (prev_sync && jiffies - prev_sync < 20 * HZ)
+> +       if (prev_sync && time_is_after_jiffies(prev_sync + 20 * HZ))
+>                 return;
+>  
+>         prev_sync = jiffies;
 
-This should be handled in a common way. Not sure if there's anything 
-existing for alternate key maps. Child nodes of alternate maps would 
-scale better than new property name for every alternate map. Or you 
-could make linux,keymap contain multiple maps (e.g. 2x XxY entries) 
-
-Or if the map doesn't change, just put it in the driver.
-
-> +    $ref: /schemas/input/matrix-keymap.yaml#/properties/linux,keymap
-
-Referencing individual properties should be avoided.
-
-> +    description: keymap used when the Fn key is pressed
-> +
-> +  wakeup-source: true
-> +
-> +  i2c-bus:
-> +    $ref: /schemas/i2c/i2c-controller.yaml#
-> +
-> +dependencies:
-> +  linux,fn-keymap: [ 'keypad,num-columns', 'keypad,num-rows' ]
-> +  linux,keymap: [ 'keypad,num-columns', 'keypad,num-rows' ]
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/input/input.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      keyboard@15 {
-> +        compatible = "pine64,pinephone-keyboard";
-> +        reg = <0x15>;
-> +        interrupt-parent = <&r_pio>;
-> +        interrupts = <0 12 IRQ_TYPE_EDGE_FALLING>; /* PL12 */
-> +        keypad,num-rows = <6>;
-> +        keypad,num-columns = <12>;
-> +        linux,fn-keymap = <MATRIX_KEY(0,  0, KEY_FN_ESC)
-> +                           MATRIX_KEY(0,  1, KEY_F1)
-> +                           MATRIX_KEY(0,  2, KEY_F2)
-> +                           /* ... */
-> +                           MATRIX_KEY(5,  2, KEY_FN)
-> +                           MATRIX_KEY(5,  3, KEY_LEFTALT)
-> +                           MATRIX_KEY(5,  5, KEY_RIGHTALT)>;
-> +        linux,keymap = <MATRIX_KEY(0,  0, KEY_ESC)
-> +                        MATRIX_KEY(0,  1, KEY_1)
-> +                        MATRIX_KEY(0,  2, KEY_2)
-> +                        /* ... */
-> +                        MATRIX_KEY(5,  2, KEY_FN)
-> +                        MATRIX_KEY(5,  3, KEY_LEFTALT)
-> +                        MATRIX_KEY(5,  5, KEY_RIGHTALT)>;
-> +
-> +        i2c-bus {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          charger@75 {
-> +            reg = <0x75>;
-> +          };
-> +        };
-> +      };
-> +    };
-> -- 
-> 2.33.1
-> 
-> 
