@@ -2,116 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BD724B3287
-	for <lists+linux-input@lfdr.de>; Sat, 12 Feb 2022 02:59:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E5304B354E
+	for <lists+linux-input@lfdr.de>; Sat, 12 Feb 2022 14:34:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229836AbiBLBuk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Feb 2022 20:50:40 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48824 "EHLO
+        id S235184AbiBLNeD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 12 Feb 2022 08:34:03 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiBLBuk (ORCPT
+        with ESMTP id S231276AbiBLNeC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Feb 2022 20:50:40 -0500
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id DEFE3D99
-        for <linux-input@vger.kernel.org>; Fri, 11 Feb 2022 17:50:37 -0800 (PST)
-Received: (qmail 652714 invoked by uid 1000); 11 Feb 2022 20:50:37 -0500
-Date:   Fri, 11 Feb 2022 20:50:37 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     benjamin.tissoires@redhat.com, jikos@kernel.org,
-        linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
-        noralf@tronnes.org, syzkaller-bugs@googlegroups.com,
-        tzimmermann@suse.de
-Subject: [PATCH] HID: elo: Fix refcount leak in elo_probe()
-Message-ID: <YgcSbUwiALbmoTvL@rowland.harvard.edu>
-References: <YgbT4uqSIVY9ku10@rowland.harvard.edu>
- <000000000000d31cac05d7c4da7e@google.com>
+        Sat, 12 Feb 2022 08:34:02 -0500
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2306522B15;
+        Sat, 12 Feb 2022 05:33:59 -0800 (PST)
+Received: by mail-oi1-x22b.google.com with SMTP id u13so12655650oie.5;
+        Sat, 12 Feb 2022 05:33:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w+wyT1oWuhI65Zad/t8RG6/bImnXZf7s8T2d26vS6GI=;
+        b=gLSbeYhwGwkcXyLJKOhGJ1gPIApGeQKBWZzEuIZFY1jaEVb9CYhpHAepSHmjWxUqBB
+         +ob92FTKpN7PKU4Clqh9aasZJ1inJeASbnRUUlaGUylX/4HmIDSKnF324FMqQxEZcXV2
+         Rd0lX0QDQr/JskJSzilVYr5aOoo+P94d1mT2WMkGFW/9IXDvM+n0Kj6dG/VA/VXo/mzY
+         XnSsTGWh242NHYo93shXrj12pKy2EeJmqecYLBFxspdQdqUokWwd24Uw3b52Z/DhYhVt
+         R6oImWr/urvLOEHvSZssu1oqY7ISL8oX1zoa9oc4NrWMCayo0Cyf+WqHQOJOfCOOSmU9
+         pt0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w+wyT1oWuhI65Zad/t8RG6/bImnXZf7s8T2d26vS6GI=;
+        b=WFSOZ2hDf0c0HN8B6jyDCP9gqlnZp9kvcKSbZW6C9Vg9hYPVGcROYs2q9bIgAJm3wZ
+         R3GygCsZfdizrt5PfOr5ZTQrURRnGp/afFnfKAxhKdIwKzYzEUW0AjwI8tbIayhGkkC6
+         eiQjQKwOe+Ya/a5YfufdZn9gKUemEKFnmqRpwYSRmLSnl9t/OKmlUsln2gaCLgFSzZlI
+         MojTcWZ/tkyJIsXlI0AORmb9J7qsFqI1+de5KPxzpUCo8JnLHD/5/uB2YlhZmCgv2zme
+         LSKduot4dOYGbl4mPxsbCSgHklDtmLQyXM1cdsMkEgIhUwi2oG8NAIrk1pC8HA32bc5C
+         ZKyA==
+X-Gm-Message-State: AOAM530mjbv726BAaJ57OE0zKHjRFPkVg3WvQ0k2puO/dFCwNR5FIf5M
+        FqNX13lWq+NxgT1fLadlPVT+F4olW6dZpQ==
+X-Google-Smtp-Source: ABdhPJyNnhmRTvEIFjo5TjSWNWvTd6jrihUL2ibDHeir2TmC2fFqn/j0PMzSqxjemGAtqYsolODvLA==
+X-Received: by 2002:a05:6808:488:: with SMTP id z8mr2307220oid.220.1644672838406;
+        Sat, 12 Feb 2022 05:33:58 -0800 (PST)
+Received: from localhost.localdomain ([2804:d51:4934:ba00:3201:7b94:7a78:8d5a])
+        by smtp.gmail.com with ESMTPSA id t21sm10492701oor.4.2022.02.12.05.33.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Feb 2022 05:33:57 -0800 (PST)
+From:   Marcos Alano <marcoshalano@gmail.com>
+To:     dmitry.torokhov@gmail.com, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org
+Cc:     Marcos Alano <marcoshalano@gmail.com>
+Subject: [PATCH] Correct the name for Xbox Series S|X controller
+Date:   Sat, 12 Feb 2022 10:33:47 -0300
+Message-Id: <20220212133347.1606190-1-marcoshalano@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <000000000000d31cac05d7c4da7e@google.com>
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,SORTED_RECIPS,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Syzbot identified a refcount leak in the hid-elo driver:
+Change the name of controller to a more meaningful one.
 
-BUG: memory leak
-unreferenced object 0xffff88810d49e800 (size 2048):
-  comm "kworker/1:1", pid 25, jiffies 4294954629 (age 16.460s)
-  hex dump (first 32 bytes):
-    ff ff ff ff 31 00 00 00 00 00 00 00 00 00 00 00  ....1...........
-    00 00 00 00 00 00 00 00 00 00 00 00 03 00 00 00  ................
-  backtrace:
-    [<ffffffff82c87a62>] kmalloc include/linux/slab.h:581 [inline]
-    [<ffffffff82c87a62>] kzalloc include/linux/slab.h:715 [inline]
-    [<ffffffff82c87a62>] usb_alloc_dev+0x32/0x450 drivers/usb/core/usb.c:582
-    [<ffffffff82c91a47>] hub_port_connect drivers/usb/core/hub.c:5260 [inline]
-    [<ffffffff82c91a47>] hub_port_connect_change drivers/usb/core/hub.c:5502 [inline]
-    [<ffffffff82c91a47>] port_event drivers/usb/core/hub.c:5660 [inline]
-    [<ffffffff82c91a47>] hub_event+0x1097/0x21a0 drivers/usb/core/hub.c:5742
-    [<ffffffff8126c3ef>] process_one_work+0x2bf/0x600 kernel/workqueue.c:2307
-    [<ffffffff8126ccd9>] worker_thread+0x59/0x5b0 kernel/workqueue.c:2454
-    [<ffffffff81276765>] kthread+0x125/0x160 kernel/kthread.c:377
-    [<ffffffff810022ff>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
-
-Not shown in the bug report but present in the console log:
-
-[  182.014764][ T3257] elo 0003:04E7:0030.0006: item fetching failed at offset 0/1
-[  182.022255][ T3257] elo 0003:04E7:0030.0006: parse failed
-[  182.027904][ T3257] elo: probe of 0003:04E7:0030.0006 failed with error -22
-[  182.214767][ T3257] usb 1-1: USB disconnect, device number 7
-[  188.090199][ T3604] kmemleak: 3 new suspected memory leaks (see /sys/kernel/debug/kmemleak)
-BUG: memory leak
-
-which points to hid-elo as the buggy driver.
-
-The leak is caused by elo_probe() failing to release the reference it
-holds to the struct usb_device in its failure pathway.  In the end the
-driver doesn't need to take this reference at all, because the
-elo_priv structure is always deallocated synchronously when the driver
-unbinds from the interface.
-
-Therefore this patch fixes the reference leak by not taking the
-reference in the first place.
-
-Reported-and-tested-by: syzbot+8caaaec4e7a55d75e243@syzkaller.appspotmail.com
-Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-CC: <stable@vger.kernel.org>
-
+Signed-off-by: Marcos Alano <marcoshalano@gmail.com>
 ---
+ drivers/input/joystick/xpad.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 4c914f75a902..18190b529bca 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -131,7 +131,7 @@ static const struct xpad_device {
+ 	{ 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0, XTYPE_XBOXONE },
+ 	{ 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
+ 	{ 0x045e, 0x0719, "Xbox 360 Wireless Receiver", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
+-	{ 0x045e, 0x0b12, "Microsoft Xbox One X pad", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
++	{ 0x045e, 0x0b12, "Microsoft Xbox Series S|X Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
+ 	{ 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
+ 	{ 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
+ 	{ 0x046d, 0xc21f, "Logitech Gamepad F710", 0, XTYPE_XBOX360 },
+-- 
+2.35.1
 
-[as1971]
-
-
- drivers/hid/hid-elo.c |    4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-Index: usb-devel/drivers/hid/hid-elo.c
-===================================================================
---- usb-devel.orig/drivers/hid/hid-elo.c
-+++ usb-devel/drivers/hid/hid-elo.c
-@@ -239,7 +239,7 @@ static int elo_probe(struct hid_device *
- 
- 	INIT_DELAYED_WORK(&priv->work, elo_work);
- 	udev = interface_to_usbdev(to_usb_interface(hdev->dev.parent));
--	priv->usbdev = usb_get_dev(udev);
-+	priv->usbdev = udev;
- 
- 	hid_set_drvdata(hdev, priv);
- 
-@@ -270,8 +270,6 @@ static void elo_remove(struct hid_device
- {
- 	struct elo_priv *priv = hid_get_drvdata(hdev);
- 
--	usb_put_dev(priv->usbdev);
--
- 	hid_hw_stop(hdev);
- 	cancel_delayed_work_sync(&priv->work);
- 	kfree(priv);
