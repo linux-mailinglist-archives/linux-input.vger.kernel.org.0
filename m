@@ -2,68 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A44194B3C73
-	for <lists+linux-input@lfdr.de>; Sun, 13 Feb 2022 18:16:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA2324B3DD9
+	for <lists+linux-input@lfdr.de>; Sun, 13 Feb 2022 22:56:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237332AbiBMRQ0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 13 Feb 2022 12:16:26 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38638 "EHLO
+        id S238489AbiBMV4l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 13 Feb 2022 16:56:41 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237357AbiBMRQZ (ORCPT
+        with ESMTP id S238480AbiBMV4l (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 13 Feb 2022 12:16:25 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8C3C59A63
-        for <linux-input@vger.kernel.org>; Sun, 13 Feb 2022 09:16:19 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id w10so5264096edd.11
-        for <linux-input@vger.kernel.org>; Sun, 13 Feb 2022 09:16:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=rQYl0dGLPQaYPKlZy5p+ObPQe0jk7S0A9el98YwShaU=;
-        b=cNDAwwYFmPeLVTViYQOxsGrwgPWtQ2157SqHTdz0SHEHEHMcFVv1Ifd29mytsT/x6w
-         zWF/eA4M3y7+O8TB/k74oNy6OZnWef///qSI93LQRfpP3x1KNN6AJeB/IMOjczivruAS
-         +G+2FPSob0cF73MOsaahsLbrgQE/lSun03Eb8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rQYl0dGLPQaYPKlZy5p+ObPQe0jk7S0A9el98YwShaU=;
-        b=R7l35Wsj22Ys3dlNkJAcziPp2eofyZzuYVkIO8rFIQkPltGy6CHV9Oh+4dpzxNmrka
-         F8RioS9SRjNl0nyJ13Ls6VuYYSEG4JTDZD6OoyiPhxu7Hn22NJIx/40MOISUGMESlapY
-         Y+YZr+Px8IjVT+Gx6tqJFipqlChhHtP+xdOLFIY96l1AZs3MszdqqjiYJqYnEOWKUgNE
-         4YCi5CD64SVRJsbCCwv7o84kPha2Pt/Uy76SCtQIIWqIdmGj80NkDwzQuIN6qshtnA6W
-         824FEbxL/rmSFlKtaVYpcIl2Lq4jj9ZQU2gUgOwUgsu54Grn8FwnThP+prJ70Vu7KtRS
-         JPuA==
-X-Gm-Message-State: AOAM530b9lWrdKENttuUsKw0p43MiD7DwU+FV8pa02U9YfnnIdgQxszW
-        xvIOGHgeuucVxkayGJLG/nNPEg==
-X-Google-Smtp-Source: ABdhPJz1+ElSDy0Xw2owhdJ3AK81iTPSd1fOsrCzNVNkcXAJBwdAWO7NHDNPISa8Vf5xGbuxS7c5cA==
-X-Received: by 2002:a05:6402:4313:: with SMTP id m19mr11792561edc.320.1644772578260;
-        Sun, 13 Feb 2022 09:16:18 -0800 (PST)
-Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it (host-82-52-8-210.retail.telecomitalia.it. [82.52.8.210])
-        by smtp.gmail.com with ESMTPSA id o10sm6598878ejj.6.2022.02.13.09.16.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Feb 2022 09:16:17 -0800 (PST)
-From:   Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-        Michael Trimarchi <michael@amarulasolutions.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Oliver Graute <oliver.graute@kococonnector.com>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        linux-input@vger.kernel.org
-Subject: [PATCH 6/6] Input: edt-ft5x06 - show crc and header errors by sysfs
-Date:   Sun, 13 Feb 2022 18:15:32 +0100
-Message-Id: <20220213171532.346270-7-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220213171532.346270-1-dario.binacchi@amarulasolutions.com>
-References: <20220213171532.346270-1-dario.binacchi@amarulasolutions.com>
+        Sun, 13 Feb 2022 16:56:41 -0500
+Received: from zeus.flokli.de (mail.zeus.flokli.de [88.198.15.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 877E35419B;
+        Sun, 13 Feb 2022 13:56:31 -0800 (PST)
+Received: from localhost (ip-178-200-100-055.um45.pools.vodafone-ip.de [178.200.100.55])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: flokli@flokli.de)
+        by zeus.flokli.de (Postfix) with ESMTPSA id A8E9F1299FB8;
+        Sun, 13 Feb 2022 21:49:48 +0000 (UTC)
+From:   Florian Klink <flokli@flokli.de>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/3] HID: lenovo: Add support for ThinkPad TrackPoint
+Date:   Sun, 13 Feb 2022 22:49:21 +0100
+Message-Id: <20220213214924.32407-1-flokli@flokli.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,87 +40,11 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-M06 sends packets with header and crc for data verification. Now you can
-check at runtime how many packets have been dropped.
+This is a re-roll of v3, fixing the block comment alignment warning
+checkpatch.pl is complaining about.
 
-Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
-Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+It's still complaining about line length of the comment next to the
+magic numbers, but as those comments appear the same in hid-bigbenff.c,
+I assume that's fine.
 
----
-
- drivers/input/touchscreen/edt-ft5x06.c | 30 ++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
-
-diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index 2c946c155108..376aa4405104 100644
---- a/drivers/input/touchscreen/edt-ft5x06.c
-+++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -133,6 +133,8 @@ struct edt_ft5x06_ts_data {
- 
- 	struct edt_reg_addr reg_addr;
- 	enum edt_ver version;
-+	unsigned int crc_errors;
-+	unsigned int header_errors;
- };
- 
- struct edt_i2c_chip_data {
-@@ -181,6 +183,7 @@ static bool edt_ft5x06_ts_check_crc(struct edt_ft5x06_ts_data *tsdata,
- 		crc ^= buf[i];
- 
- 	if (crc != buf[buflen-1]) {
-+		tsdata->crc_errors++;
- 		dev_err_ratelimited(&tsdata->client->dev,
- 				    "crc error: 0x%02x expected, got 0x%02x\n",
- 				    crc, buf[buflen-1]);
-@@ -238,6 +241,7 @@ static irqreturn_t edt_ft5x06_ts_isr(int irq, void *dev_id)
- 	if (tsdata->version == EDT_M06) {
- 		if (rdbuf[0] != 0xaa || rdbuf[1] != 0xaa ||
- 			rdbuf[2] != datalen) {
-+			tsdata->header_errors++;
- 			dev_err_ratelimited(dev,
- 					"Unexpected header: %02x%02x%02x!\n",
- 					rdbuf[0], rdbuf[1], rdbuf[2]);
-@@ -552,6 +556,30 @@ static ssize_t fw_version_show(struct device *dev,
- 
- static DEVICE_ATTR_RO(fw_version);
- 
-+/* m06 only */
-+static ssize_t header_errors_show(struct device *dev,
-+				  struct device_attribute *attr, char *buf)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tsdata->header_errors);
-+}
-+
-+static DEVICE_ATTR_RO(header_errors);
-+
-+/* m06 only */
-+static ssize_t crc_errors_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tsdata->crc_errors);
-+}
-+
-+static DEVICE_ATTR_RO(crc_errors);
-+
- static struct attribute *edt_ft5x06_attrs[] = {
- 	&edt_ft5x06_attr_gain.dattr.attr,
- 	&edt_ft5x06_attr_offset.dattr.attr,
-@@ -561,6 +589,8 @@ static struct attribute *edt_ft5x06_attrs[] = {
- 	&edt_ft5x06_attr_report_rate.dattr.attr,
- 	&dev_attr_model.attr,
- 	&dev_attr_fw_version.attr,
-+	&dev_attr_header_errors.attr,
-+	&dev_attr_crc_errors.attr,
- 	NULL
- };
- 
--- 
-2.32.0
 
