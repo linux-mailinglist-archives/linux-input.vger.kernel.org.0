@@ -2,105 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A330D4B538E
-	for <lists+linux-input@lfdr.de>; Mon, 14 Feb 2022 15:42:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 438FA4B54C7
+	for <lists+linux-input@lfdr.de>; Mon, 14 Feb 2022 16:29:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237294AbiBNOlm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Feb 2022 09:41:42 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47696 "EHLO
+        id S1355533AbiBNP3U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Feb 2022 10:29:20 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231236AbiBNOll (ORCPT
+        with ESMTP id S1345116AbiBNP3T (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Feb 2022 09:41:41 -0500
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 9AD3649277
-        for <linux-input@vger.kernel.org>; Mon, 14 Feb 2022 06:41:33 -0800 (PST)
-Received: (qmail 717174 invoked by uid 1000); 14 Feb 2022 09:41:32 -0500
-Date:   Mon, 14 Feb 2022 09:41:32 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Dongliang Mu <mudongliangabcd@gmail.com>,
-        Salah Triki <salah.triki@gmail.com>
-Cc:     benjamin.tissoires@redhat.com, jikos@kernel.org,
-        linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
-        noralf@tronnes.org,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        tzimmermann@suse.de
-Subject: Re: [PATCH] HID: elo: Fix refcount leak in elo_probe()
-Message-ID: <YgpqHEb1CuhIElIP@rowland.harvard.edu>
-References: <YgbT4uqSIVY9ku10@rowland.harvard.edu>
- <000000000000d31cac05d7c4da7e@google.com>
- <YgcSbUwiALbmoTvL@rowland.harvard.edu>
- <CAD-N9QX6kTf-Fagz8W00KOM1REhoqQvfTckqZZttMcdSCHmSag@mail.gmail.com>
+        Mon, 14 Feb 2022 10:29:19 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 564FBC65
+        for <linux-input@vger.kernel.org>; Mon, 14 Feb 2022 07:29:11 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0D9F4B81151
+        for <linux-input@vger.kernel.org>; Mon, 14 Feb 2022 15:29:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA58EC340E9;
+        Mon, 14 Feb 2022 15:29:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644852548;
+        bh=E50FMKQSthVajpeie4z6fYIy9EMD1LGphBs9FfJdIJU=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=oZxnI9Osef5RUaSu7A2kgFkVbFre9+Yu3ODgc8D5xDDc8SEHaX6ZnYIhe+JWaaoXd
+         Zxa0QXFST9v1UK0ismLT2GnowgsbTEE9cf55kPuJf82HBufQ70Sj9IdNil/27cppNx
+         dq+7n1co73GT97CpF4j61/Fif9IrOl8bJhX6/w/48hxks/d9O0jinlj51C50XnXoaj
+         B1a41kwYy0Jc78juUL7ugJf1PijMFjl1Cz//+fwwd7ssFbzl+aGOo4qO2Vqa3hNDC5
+         OXZxQTmon1YEAXA8EFjKJQaVcv/+hQ+vxj/WmXokayQzEJnKnCvgbYX7dZ0BnRYr8z
+         ukUdAG6UHQzIA==
+Date:   Mon, 14 Feb 2022 16:29:05 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        Nehal-Bakulchandra.shah@amd.com
+Subject: Re: [PATCH 0/5] Handle amd_sfh work buffer and interrupts 
+In-Reply-To: <20220208122112.942471-1-Basavaraj.Natikar@amd.com>
+Message-ID: <nycvar.YFH.7.76.2202141628540.11721@cbobk.fhfr.pm>
+References: <20220208122112.942471-1-Basavaraj.Natikar@amd.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAD-N9QX6kTf-Fagz8W00KOM1REhoqQvfTckqZZttMcdSCHmSag@mail.gmail.com>
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Feb 14, 2022 at 03:34:42PM +0800, Dongliang Mu wrote:
-> On Sat, Feb 12, 2022 at 9:50 AM Alan Stern <stern@rowland.harvard.edu> wrote:
-> >
-> > Syzbot identified a refcount leak in the hid-elo driver:
-> >
-> > BUG: memory leak
-> > unreferenced object 0xffff88810d49e800 (size 2048):
-> >   comm "kworker/1:1", pid 25, jiffies 4294954629 (age 16.460s)
-> >   hex dump (first 32 bytes):
-> >     ff ff ff ff 31 00 00 00 00 00 00 00 00 00 00 00  ....1...........
-> >     00 00 00 00 00 00 00 00 00 00 00 00 03 00 00 00  ................
-> >   backtrace:
-> >     [<ffffffff82c87a62>] kmalloc include/linux/slab.h:581 [inline]
-> >     [<ffffffff82c87a62>] kzalloc include/linux/slab.h:715 [inline]
-> >     [<ffffffff82c87a62>] usb_alloc_dev+0x32/0x450 drivers/usb/core/usb.c:582
-> >     [<ffffffff82c91a47>] hub_port_connect drivers/usb/core/hub.c:5260 [inline]
-> >     [<ffffffff82c91a47>] hub_port_connect_change drivers/usb/core/hub.c:5502 [inline]
-> >     [<ffffffff82c91a47>] port_event drivers/usb/core/hub.c:5660 [inline]
-> >     [<ffffffff82c91a47>] hub_event+0x1097/0x21a0 drivers/usb/core/hub.c:5742
-> >     [<ffffffff8126c3ef>] process_one_work+0x2bf/0x600 kernel/workqueue.c:2307
-> >     [<ffffffff8126ccd9>] worker_thread+0x59/0x5b0 kernel/workqueue.c:2454
-> >     [<ffffffff81276765>] kthread+0x125/0x160 kernel/kthread.c:377
-> >     [<ffffffff810022ff>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
-> >
-> > Not shown in the bug report but present in the console log:
-> >
-> > [  182.014764][ T3257] elo 0003:04E7:0030.0006: item fetching failed at offset 0/1
-> > [  182.022255][ T3257] elo 0003:04E7:0030.0006: parse failed
-> > [  182.027904][ T3257] elo: probe of 0003:04E7:0030.0006 failed with error -22
-> > [  182.214767][ T3257] usb 1-1: USB disconnect, device number 7
-> > [  188.090199][ T3604] kmemleak: 3 new suspected memory leaks (see /sys/kernel/debug/kmemleak)
-> > BUG: memory leak
-> >
-> > which points to hid-elo as the buggy driver.
-> >
-> > The leak is caused by elo_probe() failing to release the reference it
-> > holds to the struct usb_device in its failure pathway.  In the end the
-> > driver doesn't need to take this reference at all, because the
+On Tue, 8 Feb 2022, Basavaraj Natikar wrote:
+
+> Changes include to handle amd_sfh work buffer in PM operations, disable
+> interrupts for sensors commands, process and clear interrupts on 
+> newer AMD platforms like Renoir, Cezanne.
 > 
-> Hi Alan,
+> Basavaraj Natikar (5):
+>   HID: amd_sfh: Handle amd_sfh work buffer in PM ops
+>   HID: amd_sfh: Correct the structure field name
+>   HID: amd_sfh: Disable the interrupt for all command
+>   HID: amd_sfh: Add functionality to clear interrupts
+>   HID: amd_sfh: Add interrupt handler to process interrupts
 > 
-> My patch "[PATCH] hid: elo: fix memory leak in elo_probe" is merged
-> several weeks ago.
+>  drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 72 +++++++++++++++++++++++++-
+>  drivers/hid/amd-sfh-hid/amd_sfh_pcie.h |  4 +-
+>  2 files changed, 74 insertions(+), 2 deletions(-)
 
-Really?  It still isn't in Linus's tree as of 5.17-rc4.  I would expect 
-a bug fix to go upstream as soon as possible.
+I have queued this for 5.17 still.
 
-> However, I fix this bug by modifying the error handling code in
-> elo_probe. If you think the refcount is not necessary, maybe a new
-> patch to remove the refcount is better.
+Thanks,
 
-The refcount was added less than a year ago by Salah Triki in commit 
-fbf42729d0e9 ("HID: elo: update the reference count of the usb device 
-structure"), but the commit message doesn't explain why it is 
-necessary.  There certainly isn't any obvious reason for it; the driver 
-doesn't release any references after elo_remove() returns and we know 
-that the usb_device structure won't be deallocated before the driver 
-gets unbound.
+-- 
+Jiri Kosina
+SUSE Labs
 
-Alan Stern
