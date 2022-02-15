@@ -2,64 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F3804B6344
-	for <lists+linux-input@lfdr.de>; Tue, 15 Feb 2022 07:07:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4268D4B634B
+	for <lists+linux-input@lfdr.de>; Tue, 15 Feb 2022 07:14:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232543AbiBOGHl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Feb 2022 01:07:41 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33638 "EHLO
+        id S232657AbiBOGOm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Feb 2022 01:14:42 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:58070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234308AbiBOGHk (ORCPT
+        with ESMTP id S232560AbiBOGOl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Feb 2022 01:07:40 -0500
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C423C5592
-        for <linux-input@vger.kernel.org>; Mon, 14 Feb 2022 22:07:28 -0800 (PST)
-Received: by mail-pf1-x430.google.com with SMTP id i21so31699683pfd.13
-        for <linux-input@vger.kernel.org>; Mon, 14 Feb 2022 22:07:28 -0800 (PST)
+        Tue, 15 Feb 2022 01:14:41 -0500
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE262F7451;
+        Mon, 14 Feb 2022 22:14:28 -0800 (PST)
+Received: by mail-pj1-x1029.google.com with SMTP id h14-20020a17090a130e00b001b88991a305so1680668pja.3;
+        Mon, 14 Feb 2022 22:14:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=LZujN+PZ6xewyNSqi1pNV5pTrCTfjQ2eJo9kzET7s3g=;
-        b=Udg8KbT4sCVO0oOAxdqPxSbLrSo2R1Zdfer4kTtafMD3TvlBcUykFfMRXgFX4xedQ7
-         fmYB+aTnT2tTvSQXesi2ZxUhE3ILtdEO0MU5ULTeymrrVKOQ7tekf1Av7sOWCiHcdzRB
-         +qpepI/c2nKnc/sQ/NKvhP3LzCLFBgz7DnIqvXZg5w/JSDPpkOfCUSSSMWgbPDPUzcLE
-         moWoCRyzrBM8XLlBGE9HmWoWQzTm8Yj6p21bkApJ3oGPIGYwcEBMF9Hocf69NZBaBh9J
-         /HTciXmfgwrpXjriGLQi4LUiI1ylr4hsmeS4wEeLea+apvCSc5nYPTciOs7vyBpPslZW
-         vn8A==
+        bh=KGkUNGwV+ViRiVqpjq4ZAj2dh3yppjtbQnl5/yidUs0=;
+        b=Ya8vNF9pBA3DXZif23ztEwjerGsnlhe6mPp8HhDtgJjxUJN/kyHEf+g7lOYOPNpVCb
+         /tttUxbzQ3s7g3HPLJ+PTGQFPjE7D1bMPQpU7yGX5UTwjKJ7g6g2gCQ6g1tKT91D0XBD
+         J/qWzP0X76R7ViUz8ihfgO1QXOPoR52VB2WKGG79zpcoFSjIMlAO9/aSYy8Muabus7gp
+         KlQGvu+BT98IGLHwhVwAXvrl7ctp3Kpu4q0ZlN7ah57lgrZXjEj4KdoXcQzGG7ojbkja
+         GoRR/0hnJ2wocBJa30g3nZlT63BPUiLwKmonwunbo+ha6qFeDZsjStYSY1WbuQ1/UCoW
+         BKHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=LZujN+PZ6xewyNSqi1pNV5pTrCTfjQ2eJo9kzET7s3g=;
-        b=7c+sOGxSmevwewZK+hXZBO0Z0156pzvqPcuxASYQ/SC3idhRkFIaHiRfQB2NfBRqg6
-         cVPuQ0Goy20ifAJNxorauJsJ1MJ9qh9Oj/KQscEUKFUWpDJtrFphqT5BGbR6fyjoQCOP
-         9IA9FpESgBnQ8Utg6MYlcpG7Wf1LMaJjjwmhHyp4IabyxAUN9uFuOC64eppUravG0ieQ
-         xDxAuKLoHxqtfL867A992zHiZzQ6OmdCWiZl4fzeDpEOkk3g564h9SDvfBEjubrO8JVI
-         kJoe1L/G1GbBZ+iEgab4YkHCHtXnKaJyMXRbtwOr/LyOh3/CrTd0oLGBermd4jEas4No
-         FTsw==
-X-Gm-Message-State: AOAM531sPa8ddKPZtF5xFAh4TXxxvu5XuhjIOm+a5dDvCe3t6Ge1U7CC
-        JezDwxrkwSmvS+BWrfc25BU=
-X-Google-Smtp-Source: ABdhPJwFJ0KYmMwHj5CMAeShhMu+3zQL7feTZj9rZEX0bLRDLVZG9hBmZmI5KWWMm3J0uWQrtwNcCQ==
-X-Received: by 2002:a05:6a00:1345:: with SMTP id k5mr2763672pfu.37.1644905247303;
-        Mon, 14 Feb 2022 22:07:27 -0800 (PST)
+        bh=KGkUNGwV+ViRiVqpjq4ZAj2dh3yppjtbQnl5/yidUs0=;
+        b=6oJNZfMC6mQvrUsLtDqBZ9y9/AVRZbumBx0b8wkbM23PozTPmZfA8mGszzQi1kHqtJ
+         4SmpZJOGOWYNO/kry9NHV7uqBTyqRgI6XR5KB3A3q7OP9Pi8QcdHzkQX0LfuT6AHbg5Q
+         7y71iCzdAbRVIOQzslh2ulyY9LZeO5YP1C3HJPJqQLMfeDYKprYbkcMfmQkwbJoE7uhT
+         NZzzZLt1pwdAplSKtP5TuH8J+LX/4wmJKROZsmD9cmkrxfx+CT3eAqOfkjhzbVIqqKAV
+         UqcISHbn1e+VoRGgdNwa0wuWdBljNgYk1USoJPTAM0zSQFpyrH1GUkUP+r+vCFetBEx6
+         2Big==
+X-Gm-Message-State: AOAM532/LMZpj0UslTOijFKUsmg9K7PkPhPHuuIAlgAx6sL00m0vknw9
+        DTA3wCOX0xFMe1K8fFtR+Cs=
+X-Google-Smtp-Source: ABdhPJxjivd/uYGEmvJeE+unIr+uEC1tEVKFoNTI/Je7HA2tRorbU9xZknMsw+kXvmK65NVyPpa4Cg==
+X-Received: by 2002:a17:902:ceca:: with SMTP id d10mr2729007plg.48.1644905667807;
+        Mon, 14 Feb 2022 22:14:27 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:fffe:8570:13af:4c81])
-        by smtp.gmail.com with ESMTPSA id q17sm38961737pfk.108.2022.02.14.22.07.26
+        by smtp.gmail.com with ESMTPSA id l8sm1380012pgt.77.2022.02.14.22.14.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Feb 2022 22:07:26 -0800 (PST)
-Date:   Mon, 14 Feb 2022 22:07:24 -0800
+        Mon, 14 Feb 2022 22:14:26 -0800 (PST)
+Date:   Mon, 14 Feb 2022 22:14:24 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-input@vger.kernel.org, Michael Srba <Michael.Srba@seznam.cz>,
-        Nikita Travkin <nikita@trvn.ru>
-Subject: Re: [PATCH] Input: zinitix - Do not report shadow fingers
-Message-ID: <YgtDHDbxfO/4mFRf@google.com>
-References: <20220215001253.1109876-1-linus.walleij@linaro.org>
+To:     Danilo Krummrich <danilokrummrich@dk-develop.de>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linus.walleij@linaro.org
+Subject: Re: [PATCH 1/3] input: ps2-gpio: use ktime for IRQ timekeeping
+Message-ID: <YgtEwMQMrp3uQinK@google.com>
+References: <20220211212258.80345-1-danilokrummrich@dk-develop.de>
+ <20220211212258.80345-2-danilokrummrich@dk-develop.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220215001253.1109876-1-linus.walleij@linaro.org>
+In-Reply-To: <20220211212258.80345-2-danilokrummrich@dk-develop.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -70,183 +71,244 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+Hi Danilo,
 
-On Tue, Feb 15, 2022 at 01:12:53AM +0100, Linus Walleij wrote:
-> I observed the following problem with the BT404 touch pad
-> running the Phosh UI:
+On Fri, Feb 11, 2022 at 10:22:56PM +0100, Danilo Krummrich wrote:
+> Using jiffies for the IRQ timekeeping is not sufficient for two reasons:
 > 
-> When e.g. typing on the virtual keyboard pressing "g" would
-> produce "ggg".
+> (1) Usually jiffies have a resolution of 1ms to 10ms. The IRQ intervals
+>     based on the clock frequency of PS2 protocol specification (10kHz -
+>     16.7kHz) are between ~60us and 100us only. Therefore only those IRQ
+>     intervals can be detected which are either at the end of a transfer
+>     or are overly delayed. While this is sufficient in most cases, since
+>     we have quite a lot of ways to detect faulty transfers, it can
+>     produce false positives in rare cases: When the jiffies value
+>     changes right between two interrupt that are in time, we wrongly
+>     assume that we missed one or more clock cycles.
 > 
-> After some analysis it turns out the firmware reports that three
-> fingers hit that coordinate at the same time, finger 0, 2 and
-> 4 (of the five available 0,1,2,3,4).
+> (2) Some gpio controllers (e.g. the one in the bcm283x chips) may generate
+>     spurious IRQs when processing interrupts in the frequency given by PS2
+>     devices.
 > 
-> DOWN
->   Zinitix-TS 3-0020: finger 0 down (246, 395)
->   Zinitix-TS 3-0020: finger 1 up (0, 0)
->   Zinitix-TS 3-0020: finger 2 down (246, 395)
->   Zinitix-TS 3-0020: finger 3 up (0, 0)
->   Zinitix-TS 3-0020: finger 4 down (246, 395)
-> UP
->   Zinitix-TS 3-0020: finger 0 up (246, 395)
->   Zinitix-TS 3-0020: finger 2 up (246, 395)
->   Zinitix-TS 3-0020: finger 4 up (246, 395)
+> Both issues can be fixed by using ktime resolution for IRQ timekeeping.
 > 
-> This is one touch and release: i.e. this is all reported on
-> touch (down) and release.
+> However, it is still possible to miss clock cycles without detecting
+> them. When the PS2 device generates the falling edge of the clock signal
+> we have between ~30us and 50us to sample the data line, because after
+> this time we reach the next rising edge at which the device changes the
+> data signal already. But, the only thing we can detect is whether the
+> IRQ interval is within the given period. Therefore it is possible to
+> have an IRQ latency greater than ~30us to 50us, sample the wrong bit on
+> the data line and still be on time with the next IRQ. However, this can
+> only happen when within a given transfer the IRQ latency increases
+> slowly.
 > 
-> After augmenting the driver to remember all fingers we report in
-> a single touch event and filter out any duplicates we get this
-> debug print:
+> ___            ______            ______            ______            ___
+>    \          /      \          /      \          /      \          /
+>     \        /        \        /        \        /        \        /
+>      \______/          \______/          \______/          \______/
 > 
-> DOWN
->   Zinitix-TS 3-0020: finger 0 down (257, 664)
->   Zinitix-TS 3-0020: finger 1 up (0, 0)
->   Zinitix-TS 3-0020: ignore shadow finger 2 at (257, 664)
->   Zinitix-TS 3-0020: ignore shadow finger 3 at (0, 0)
->   Zinitix-TS 3-0020: ignore shadow finger 4 at (257, 664)
-> UP
->   Zinitix-TS 3-0020: finger 0 up (257, 664)
->   Zinitix-TS 3-0020: ignore shadow finger 2 at (257, 664)
->   Zinitix-TS 3-0020: ignore shadow finger 4 at (257, 664)
+>     |-----------------|                 |--------|
+>          60us/100us                      30us/50us
 > 
-> As it is physically impossible to place two fingers at the same
-> point at the screen this seems safe to do.
-> 
-> The "finger 1 up (0, 0)" type messages of releaseing ghost
-> fingers does not go away, and even though this is mostly
-> incorrect too, we cannot rule out some finger being released
-> at (0, 0) in the generic case, so it needs to stay.
-> 
-> Notice that the ghostly release of fingers 1 and 3 only
-> happens on finger down events, not on finger up.
-> 
-> This appears to me as the best we can do. After this my
-> screen is nicely interactive.
-
-I see that there is "finger_cnt" that we completely ignore in the
-driver. I wonder if we actually pay attention to it we would not need to
-do all this?
-
-Thanks.
-
-> 
-> Cc: Michael Srba <Michael.Srba@seznam.cz>
-> Cc: Nikita Travkin <nikita@trvn.ru>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Danilo Krummrich <danilokrummrich@dk-develop.de>
 > ---
->  drivers/input/touchscreen/zinitix.c | 78 ++++++++++++++++++++++++-----
->  1 file changed, 66 insertions(+), 12 deletions(-)
+>  drivers/input/serio/ps2-gpio.c | 81 ++++++++++++++++++++++++++++------
+>  1 file changed, 67 insertions(+), 14 deletions(-)
 > 
-> diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
-> index 129ebc810de8..7655a09b65bc 100644
-> --- a/drivers/input/touchscreen/zinitix.c
-> +++ b/drivers/input/touchscreen/zinitix.c
-> @@ -319,14 +319,72 @@ static int zinitix_send_power_on_sequence(struct bt541_ts_data *bt541)
->  	return 0;
->  }
+> diff --git a/drivers/input/serio/ps2-gpio.c b/drivers/input/serio/ps2-gpio.c
+> index 8970b49ea09a..7fef4176bdd1 100644
+> --- a/drivers/input/serio/ps2-gpio.c
+> +++ b/drivers/input/serio/ps2-gpio.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/of.h>
+>  #include <linux/jiffies.h>
+>  #include <linux/delay.h>
+> +#include <linux/timekeeping.h>
 >  
-> -static void zinitix_report_finger(struct bt541_ts_data *bt541, int slot,
-> -				  const struct point_coord *p)
-> +static void zinitix_report_fingers(struct bt541_ts_data *bt541, struct touch_event *te)
->  {
-> -	input_mt_slot(bt541->input_dev, slot);
-> -	input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER, true);
-> -	touchscreen_report_pos(bt541->input_dev, &bt541->prop,
-> -			       le16_to_cpu(p->x), le16_to_cpu(p->y), true);
-> -	input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR, p->width);
-> +	struct point_coord *p;
-> +	u16 reported_x[MAX_SUPPORTED_FINGER_NUM];
-> +	u16 reported_y[MAX_SUPPORTED_FINGER_NUM];
-> +	u16 x, y;
-> +	int i, j;
-> +	int ridx = 0;
-> +	bool ignore;
-> +
-> +	for (i = 0; i < MAX_SUPPORTED_FINGER_NUM; i++) {
-> +		p = &te->point_coord[i];
-> +
-> +		/* Skip nonexisting fingers */
-> +		if (!p->sub_status & SUB_BIT_EXIST)
-> +			continue;
-> +
-> +		x = le16_to_cpu(p->x);
-> +		y = le16_to_cpu(p->y);
-> +
-> +		/*
-> +		 * Check if this has already been reported and is just a shadow
-> +		 * finger
-> +		 */
-> +		ignore = false;
-> +		for (j = 0; j < ridx; j++) {
-> +			if (x == reported_x[j] && y == reported_y[j]) {
-> +				ignore = true;
-> +				break;
-> +			}
-> +		}
-> +
-> +		if (ignore) {
-> +			dev_dbg(&bt541->client->dev,
-> +				"ignore shadow finger %d at (%u, %u)\n", i, x, y);
-> +			continue;
-> +		}
-> +
-> +		input_mt_slot(bt541->input_dev, i);
-> +
-> +		if (p->sub_status & BIT_DOWN) {
-> +			/* Finger down */
-> +			input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER, true);
-> +			touchscreen_report_pos(bt541->input_dev, &bt541->prop, x, y, true);
-> +			input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR, p->width);
-> +			dev_dbg(&bt541->client->dev, "finger %d down (%u, %u)\n", i, x, y);
-> +		} else if (p->sub_status & BIT_UP) {
-> +			/* Release finger */
-> +			input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER, false);
-> +			touchscreen_report_pos(bt541->input_dev, &bt541->prop, x, y, true);
-> +			input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR, 0);
-> +			dev_dbg(&bt541->client->dev, "finger %d up (%u, %u)\n", i, x, y);
-> +		} else if (p->sub_status & BIT_MOVE) {
-> +			/* Finger moves while pressed down */
-> +			input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER, true);
-> +			touchscreen_report_pos(bt541->input_dev, &bt541->prop, x, y, true);
-> +			input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR, p->width);
-> +			dev_dbg(&bt541->client->dev, "finger %d move (%u, %u)\n", i, x, y);
-> +		} else {
-> +			dev_dbg(&bt541->client->dev, "unknown finger event\n");
-> +		}
-> +
-> +		reported_x[ridx] = x;
-> +		reported_y[ridx] = y;
-> +		ridx++;
-> +	}
->  }
+>  #define DRIVER_NAME		"ps2-gpio"
 >  
->  static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
-> @@ -335,7 +393,6 @@ static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
->  	struct i2c_client *client = bt541->client;
->  	struct touch_event touch_event;
->  	int error;
-> -	int i;
+> @@ -44,6 +45,29 @@
 >  
->  	memset(&touch_event, 0, sizeof(struct touch_event));
+>  #define PS2_CMD_RESEND		0xfe
 >  
-> @@ -346,10 +403,7 @@ static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
->  		goto out;
+> +/* The PS2 protocol specifies a clock frequency between 10kHz and 16.7kHz,
+> + * therefore the maximal interrupt interval should be 100us and the minimum
+> + * interrupt interval should be ~60us. Let's allow +/- 20us for frequency
+> + * deviations and interrupt latency.
+> + *
+> + * The data line must be samples after ~30us to 50us after the falling edge,
+> + * since the device updates the data line at the rising edge.
+> + *
+> + * ___            ______            ______            ______            ___
+> + *    \          /      \          /      \          /      \          /
+> + *     \        /        \        /        \        /        \        /
+> + *      \______/          \______/          \______/          \______/
+> + *
+> + *     |-----------------|                 |--------|
+> + *          60us/100us                      30us/50us
+> + */
+> +#define PS2_CLK_FREQ_MIN_HZ		10000
+> +#define PS2_CLK_FREQ_MAX_HZ		16700
+> +#define PS2_CLK_MIN_INTERVAL_US		((1000 * 1000) / PS2_CLK_FREQ_MAX_HZ)
+> +#define PS2_CLK_MAX_INTERVAL_US		((1000 * 1000) / PS2_CLK_FREQ_MIN_HZ)
+> +#define PS2_IRQ_MIN_INTERVAL_US		(PS2_CLK_MIN_INTERVAL_US - 20)
+> +#define PS2_IRQ_MAX_INTERVAL_US		(PS2_CLK_MAX_INTERVAL_US + 20)
+> +
+>  struct ps2_gpio_data {
+>  	struct device *dev;
+>  	struct serio *serio;
+> @@ -59,6 +83,8 @@ struct ps2_gpio_data {
+>  	struct completion tx_done;
+>  	struct mutex tx_mutex;
+>  	struct delayed_work tx_work;
+> +	ktime_t tx_start;
+> +	ktime_t tx_end;
+>  };
+>  
+>  static int ps2_gpio_open(struct serio *serio)
+> @@ -118,6 +144,7 @@ static void ps2_gpio_tx_work_fn(struct work_struct *work)
+>  						    struct ps2_gpio_data,
+>  						    tx_work);
+>  
+> +	drvdata->tx_start = ktime_get();
+>  	enable_irq(drvdata->irq);
+>  	gpiod_direction_output(drvdata->gpio_data, 0);
+>  	gpiod_direction_input(drvdata->gpio_clk);
+> @@ -128,20 +155,33 @@ static irqreturn_t ps2_gpio_irq_rx(struct ps2_gpio_data *drvdata)
+>  	unsigned char byte, cnt;
+>  	int data;
+>  	int rxflags = 0;
+> -	static unsigned long old_jiffies;
+> +	static ktime_t t_last, t_now;
+> +	s64 us_delta;
+>  
+>  	byte = drvdata->rx_byte;
+>  	cnt = drvdata->rx_cnt;
+>  
+> -	if (old_jiffies == 0)
+> -		old_jiffies = jiffies;
+> +	t_now = ktime_get();
+> +	if (t_last == 0)
+
+Instead of checking this every time, do you think we could seed the
+value in ps2_gpio_open() (and also make it per-port, not static)?
+
+> +		t_last = t_now;
+>  
+> -	if ((jiffies - old_jiffies) > usecs_to_jiffies(100)) {
+> +	/* We need to consider spurious interrupts happening right after a TX xfer
+> +	 * finished.
+> +	 */
+> +	if (unlikely(ktime_us_delta(t_now, drvdata->tx_end) <
+> +		     PS2_IRQ_MIN_INTERVAL_US))
+> +		goto end;
+> +
+> +	us_delta = ktime_us_delta(t_now, t_last);
+> +	if (us_delta > PS2_IRQ_MAX_INTERVAL_US && cnt) {
+>  		dev_err(drvdata->dev,
+>  			"RX: timeout, probably we missed an interrupt\n");
+>  		goto err;
+> +	} else if (us_delta < PS2_IRQ_MIN_INTERVAL_US && t_now != t_last) {
+> +		/* Ignore spurious IRQs. */
+> +		goto end;
 >  	}
+> -	old_jiffies = jiffies;
+> +	t_last = t_now;
 >  
-> -	for (i = 0; i < MAX_SUPPORTED_FINGER_NUM; i++)
-> -		if (touch_event.point_coord[i].sub_status & SUB_BIT_EXIST)
-> -			zinitix_report_finger(bt541, i,
-> -					      &touch_event.point_coord[i]);
-> +	zinitix_report_fingers(bt541, &touch_event);
+>  	data = gpiod_get_value(drvdata->gpio_data);
+>  	if (unlikely(data < 0)) {
+> @@ -205,7 +245,7 @@ static irqreturn_t ps2_gpio_irq_rx(struct ps2_gpio_data *drvdata)
+>  			goto err;
+>  		}
+>  		cnt = byte = 0;
+> -		old_jiffies = 0;
+> +
+>  		goto end; /* success */
+>  	default:
+>  		dev_err(drvdata->dev, "RX: got out of sync with the device\n");
+> @@ -217,7 +257,6 @@ static irqreturn_t ps2_gpio_irq_rx(struct ps2_gpio_data *drvdata)
 >  
->  	input_mt_sync_frame(bt541->input_dev);
->  	input_sync(bt541->input_dev);
+>  err:
+>  	cnt = byte = 0;
+> -	old_jiffies = 0;
+>  	__ps2_gpio_write(drvdata->serio, PS2_CMD_RESEND);
+>  end:
+>  	drvdata->rx_cnt = cnt;
+> @@ -229,20 +268,34 @@ static irqreturn_t ps2_gpio_irq_tx(struct ps2_gpio_data *drvdata)
+>  {
+>  	unsigned char byte, cnt;
+>  	int data;
+> -	static unsigned long old_jiffies;
+> +	static ktime_t t_last, t_now;
+> +	s64 us_delta;
+>  
+>  	cnt = drvdata->tx_cnt;
+>  	byte = drvdata->tx_byte;
+>  
+> -	if (old_jiffies == 0)
+> -		old_jiffies = jiffies;
+> +	t_now = ktime_get();
+> +	if (t_last == 0)
+> +		t_last = t_now;
+> +
+> +	/* There might be pending IRQs since we disabled IRQs in __ps2_gpio_write().
+> +	 * We can expect at least one clock period until the device generates the
+> +	 * first falling edge after releasing the clock line.
+> +	 */
+> +	if (unlikely(ktime_us_delta(t_now, drvdata->tx_start) <
+> +		     PS2_CLK_MIN_INTERVAL_US))
+> +		goto end;
+>  
+> -	if ((jiffies - old_jiffies) > usecs_to_jiffies(100)) {
+> +	us_delta = ktime_us_delta(t_now, t_last);
+> +	if (us_delta > PS2_IRQ_MAX_INTERVAL_US && cnt > 1) {
+>  		dev_err(drvdata->dev,
+>  			"TX: timeout, probably we missed an interrupt\n");
+>  		goto err;
+> +	} else if (us_delta < PS2_IRQ_MIN_INTERVAL_US && t_now != t_last) {
+> +		/* Ignore spurious IRQs. */
+> +		goto end;
+>  	}
+> -	old_jiffies = jiffies;
+> +	t_last = t_now;
+>  
+>  	switch (cnt) {
+>  	case PS2_START_BIT:
+> @@ -283,11 +336,11 @@ static irqreturn_t ps2_gpio_irq_tx(struct ps2_gpio_data *drvdata)
+>  			goto err;
+>  		}
+>  
+> +		drvdata->tx_end = ktime_get();
+>  		drvdata->mode = PS2_MODE_RX;
+>  		complete(&drvdata->tx_done);
+>  
+>  		cnt = 1;
+> -		old_jiffies = 0;
+>  		goto end; /* success */
+>  	default:
+>  		/* Probably we missed the stop bit. Therefore we release data
+> @@ -303,7 +356,6 @@ static irqreturn_t ps2_gpio_irq_tx(struct ps2_gpio_data *drvdata)
+>  
+>  err:
+>  	cnt = 1;
+> -	old_jiffies = 0;
+>  	gpiod_direction_input(drvdata->gpio_data);
+>  	__ps2_gpio_write(drvdata->serio, drvdata->tx_byte);
+>  end:
+> @@ -399,6 +451,7 @@ static int ps2_gpio_probe(struct platform_device *pdev)
+>  	drvdata->serio = serio;
+>  	drvdata->dev = dev;
+>  	drvdata->mode = PS2_MODE_RX;
+> +	drvdata->tx_end = 0;
+>  
+>  	/* Tx count always starts at 1, as the start bit is sent implicitly by
+>  	 * host-to-device communication initialization.
 > -- 
 > 2.34.1
 > 
+
+Thanks.
 
 -- 
 Dmitry
