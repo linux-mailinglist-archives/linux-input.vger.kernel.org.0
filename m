@@ -2,220 +2,232 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80C004B6819
-	for <lists+linux-input@lfdr.de>; Tue, 15 Feb 2022 10:47:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EEC404B6A26
+	for <lists+linux-input@lfdr.de>; Tue, 15 Feb 2022 12:02:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235697AbiBOJq5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Feb 2022 04:46:57 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51696 "EHLO
+        id S229729AbiBOLCz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Feb 2022 06:02:55 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:45618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233306AbiBOJqz (ORCPT
+        with ESMTP id S233453AbiBOLCz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Feb 2022 04:46:55 -0500
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 15 Feb 2022 01:46:45 PST
-Received: from esa2.hc3370-68.iphmx.com (esa2.hc3370-68.iphmx.com [216.71.145.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3F4BB10A0;
-        Tue, 15 Feb 2022 01:46:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=citrix.com; s=securemail; t=1644918405;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=iw8WzCaDfNAox61c1XTlHvprnyEm93V7Mqc/NxaYPBw=;
-  b=E5BDwxMx4lydI7sMiopUoxh5fa2QYX+qiBZcogm/JQVd8RCxgax3nsV7
-   ZqLoLHQkN3stbYo5lIlGh60IO/0Rr+nkScNFhpBtWKSBZr6jwDpjY/BL/
-   OdijIB08w+FLIkZ7YCj9+Ww88cUTprXmdCiUIVyuy14Ho7G3a19H5EUi5
-   A=;
-Authentication-Results: esa2.hc3370-68.iphmx.com; dkim=pass (signature verified) header.i=@citrix.onmicrosoft.com
-IronPort-SDR: Wy0OJLz6BuLKyYyzm2UoNMMOAxz6G/3neQcF9aSpcIkhlg978QlODMMVsPPe3DjUQ6eUeSIp/n
- QCthxswFYy1Li6iyC2ZtdJHyNrkEtlM/dJ0mZo+66T22pj6nB9njXhj83O6ONETK/QicZW5wlU
- opmuewDGpJvhcKVUKcG73ea1cuyrrUmc8Oet+JEl0zRkXdWBKLXmJo94XBUDUJudcj5rt8BtvF
- GHjdDsFOUt9K3t/++aa6dj2bPfJTHQwcNP3FvGRMMHD6Z8J9WbzVRwNVJL4cgkHj2UAE6Ds4s+
- 6Tm7v4IVEWwyQ4Vi2lgpkYS8
-X-SBRS: 5.1
-X-MesageID: 64225888
-X-Ironport-Server: esa2.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.83
-X-Policy: $RELAYED
-IronPort-Data: A9a23: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
- NBConD9M3BdGH2yqTr/MhBjvdpa+w==
-IronPort-HdrOrdr: A9a23:W5eZqKtRS/7uml8SUMgj8fDR7skC7oMji2hC6mlwRA09TyXGra
- +TdaUguSMc1gx9ZJhBo7G90KnpewK6yXdQ2/hqAV7EZniahILIFvAY0WKG+VPd8kLFh4xgPM
- tbAs1D4ZjLfCRHZKXBkXiF+rQbsaC6GcmT7I+0pRcdLj2CKZsQlzuRYjzrbHGeLzM2Y6bReq
- Dsgvau8FGbCAsqh4mAdzI4dtmGg+eOuIPtYBYACRJiwA6SjQmw4Lq/NxSDxB8RXx5G3L9nqA
- H+4kHEz5Tml8v+5g7X1mfV4ZgTsNz9yuFbDMjJrsQOMD3jhiuheYwkcbyfuzIepv2p9T8R4Z
- PxiiZlG/42x2Laf2mzrxeo8w780Aw243un8lOciWuLm72OeBsKT+56wa5JeBrQ7EQt+Ptm1r
- hQ4m6fv51LSTvdgSXU/bHzJl9Xv3vxhUBnvf8YjnRZX4dbQqRWt5Yj8ERcF4pFND7m6bogDP
- JlAKjnlblrmGuhHjDkV1RUsZ+RtixZJGbFfqFCgL3Y79FupgE586NCr/Zv20vp9/oGOu55Dq
- r/Q+BVfYp1P7wrhJRGdZM8qPuMexzwqC33QRCvyHTcZeg60iH22tbKCItc3pDeRHVP9up0pK
- j8
-X-IronPort-AV: E=Sophos;i="5.88,370,1635220800"; 
-   d="scan'208";a="64225888"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ilaZ4q+uZdIfts/UFRJeZaM0CaSfhaUI5TOPze+hbufN+hwg5iWKU+RMjTQULAQhBl99p2QyPToVJweQ/2ilYug59c0JmprjOLhZQDG3ejuxIG3vDoO0TxH0SaQ7yxEQUOyLKzn+g3tF9cpUGtvN39RVhZB0k4Bn6TaPQYvfReDO92Mm3wU89wkzKZM5UHWITDAoRioOk6YKm9ad92P2EEW1CRQvEXwPwvrp3TQpF8GLXF/DYX0A/fiv8r59VxMGtizra6BUFqJMriKPpsMKvytZTVuuJKyyn/BIQHU9Pn4Dsqql31vGLQN6XmAN/jFRqCVGbmcWhsovVEp5APThpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZGfL1e1bMDpYfkGiAfrTfHC/8z7eJZ5Kbc5EER5I8Tw=;
- b=g8+HFMAudfrhF88CIlb9USB4nGjlF4auwIeYzZnxFXCbg4+gjWXDgsLiW9mvxTxKAEODZFjcJKVOuXG/mF3DCc7SCg1VEcDmUELS2FfIxT8QnTqBPzAKehh4uJaOe2+JRGiwEwsl83tEXLkmZfZ1UVKZI3aFbEBTwUYI0VaFPSy8z44kxcHyi1KIMWk5JOyMQDbw3ytlnrJxtt2P0Ak+nfRHoQGM0P/y6k6GkeXE/yIZVVjNDuAfd7IwCCExqvi/PqougbcOZOoylnhjhZiEDYZh3XXTUg9NGy7ixAEK4As9so8okofMIfEnghM1FKJ8wDzzGnaHEY3AKmQLzKp0Sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
+        Tue, 15 Feb 2022 06:02:55 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3587C10780A
+        for <linux-input@vger.kernel.org>; Tue, 15 Feb 2022 03:02:45 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id o2so36138602lfd.1
+        for <linux-input@vger.kernel.org>; Tue, 15 Feb 2022 03:02:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=citrix.onmicrosoft.com; s=selector2-citrix-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZGfL1e1bMDpYfkGiAfrTfHC/8z7eJZ5Kbc5EER5I8Tw=;
- b=LNgn9kWhTFP+qaoGPYjaMJr97wkw5aM0jbMVOU7Zv52knzicKXInSAw1GEuD41okAti8/upRUcKLszQsdhK0QdJnyaldk8J2RyLbEgygJkEHUHc948p5HPE44gTp7XPKG4mvavfpk18SKQZVCkGgxiQynn4n3GQQdGMc3DnvsYg=
-Date:   Tue, 15 Feb 2022 10:45:34 +0100
-From:   Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
-To:     Qing Wang <wangqing@vivo.com>
-CC:     Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@redhat.com>, <dm-devel@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        <xen-devel@lists.xenproject.org>, <linux-block@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <intel-gfx@lists.freedesktop.org>,
-        <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
-        <linux-input@vger.kernel.org>, <linux-media@vger.kernel.org>
-Subject: Re: [PATCH V3 1/13] block: xen: use time_is_before_eq_jiffies()
- instead of open coding it
-Message-ID: <Ygt2Pr26MHOMGgR1@Air-de-Roger>
-References: <1644890154-64915-1-git-send-email-wangqing@vivo.com>
- <1644890154-64915-2-git-send-email-wangqing@vivo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1644890154-64915-2-git-send-email-wangqing@vivo.com>
-X-ClientProxiedBy: LO3P265CA0004.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:bb::9) To DS7PR03MB5608.namprd03.prod.outlook.com
- (2603:10b6:5:2c9::18)
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JDWjiPtt7skY7B98WPQRJVVo9ZvVMkXGhmUjt/tjKn4=;
+        b=LlzEw7hX4iP171lkTy4WRc0XFeDxhJC34Z0ylPC2923Z6dZBrgE9Y9J3RsjWOugSBr
+         dlA8PVOaXV4EqIzlHCt1YrYZpEdW0jS4PxnJczSfC+K2c67VNPQVLsSej2cQaXo5ujLM
+         DA34XqODUhpJe4FTt965r7p2u4uDTy+EBvp2JgjXRTgo7KtnF3YtvuH0um1wAy0qKQfE
+         5lC0OQRNfjaza2M7e9Am9yTK8L76iDILRcfBbwvQTbbFvUPXGykM/XZEmwRNZgzTEV/K
+         STVmzKZacj1oW/Nku/tk9rK5y1ASO06rI47CwTDquDrvgBNtZp+a2JlJkB5pGl1zzxy3
+         b5nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JDWjiPtt7skY7B98WPQRJVVo9ZvVMkXGhmUjt/tjKn4=;
+        b=tXQIEs6cPYVUS1f1O3SWIS1sGa0BGdA8jE7Mufgpr1ovkaCXMLfqqVlph+lvH2bcIV
+         c2LKY2LT2Gz1ky0ghsMRvaKoxOFNu9XYqe22zDizisWKfHkBSdU7IZL6g+CFCtu+jzUe
+         NNL12lRByLhgBK7fHjcVtEbNX8ekok63KnpsdWZJ0PAShwfv73zEUO5Gv3aWn6c110PF
+         SQRY+0aOmmmpHWFe1kZp11vGeAsEUhRkQYR3SwwH8jdn2CtUhJzlOad8ktVWmai9sILF
+         DfA+ZYQEIuMPh78Pvrql9L3pPlq5UEIKuhlpPE/BO0RZ8utHIpZOw97BjJebc9+my6tp
+         PxIg==
+X-Gm-Message-State: AOAM533JK7c6eCUHSdE9lJYgtkhfh0/FODJPrwlQdeqQYXG7gqez03P1
+        6F0cV9JRTapiD9o3LW3oKpaF7BvGLRnbEzO5
+X-Google-Smtp-Source: ABdhPJzNcgzja49Yf1rtiR40nyFT+P/Aus3pFQtlWHG0ZumxGVS/T3TveTxS2e4LYgoStxFbykC5xA==
+X-Received: by 2002:a05:6512:3188:: with SMTP id i8mr758583lfe.230.1644922963460;
+        Tue, 15 Feb 2022 03:02:43 -0800 (PST)
+Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+        by smtp.gmail.com with ESMTPSA id a24sm4489046lff.97.2022.02.15.03.02.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Feb 2022 03:02:42 -0800 (PST)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Michael Srba <Michael.Srba@seznam.cz>,
+        Nikita Travkin <nikita@trvn.ru>
+Subject: [PATCH v2] Input: zinitix - Do not report shadow fingers
+Date:   Tue, 15 Feb 2022 12:00:40 +0100
+Message-Id: <20220215110040.1160143-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 32826cc3-a767-4fe8-891b-08d9f067ec86
-X-MS-TrafficTypeDiagnostic: MWHPR03MB3053:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR03MB3053FA0087E2C31570D06F3F8F349@MWHPR03MB3053.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2276;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XwIKyJ1rEAvRB1r6HE88BUpHD6Uz5+G+3zSYNOGigqz7NUTie21YXIqvuU92NqBmDn1nEe6TixP1P9GtV9kGSmnT8Vwgc19Z2lp3C4QZ6/CjCW59WUnCC45bousTjDOBRst8ivXWUQzhtLh35raiJeMPVuhETHIRYjwMsGFYAqcpzk4mHMkhYh4BM41r3YSHn81+32lkPMR8hfMfpv9TGrljmgUFDf9LjzTsKggo3sGJX1sw7aKO27JkXUWgVJghQ7JdIzLPYk+6xRJ1fQggmAEygybuwCCmWXUgCm17rAoi/5cP9XIT/1fxDEWXHqkJml+tMDNRXFTkgkYw+HZRfyXM5fHpZSNaaOyakz9OrexvvD9kHh7aRZefDTkBvUVEpbunNo1Vx2iJ/4jRRbcodDeOi5y44NK+xRwMAiOtVj4dRdvAH3ADF69BndhDJlfK6AUZ4708oRQIQLpFj4jdHSIWgPzy6pfn2A4ZGn/2q5lg39/1u4llA3xZrWUCszX0SaDzb5nZjppoq0bHWESPRtGwqBIpiqKf5lLczaJnAQk1VFU1D6Go3axvQa1KAIDY0Fp12NNs8kw5rkQLTF94F3BJQ2ZRH4Hy6AmY/9nOcwHQ6lx8eMfqJjl2XCUxqxowKpwaYYEp6NaUnEJSSKDJHQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR03MB5608.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(4636009)(366004)(8676002)(66476007)(66556008)(4326008)(558084003)(9686003)(33716001)(6512007)(6666004)(86362001)(85182001)(66946007)(508600001)(8936002)(6506007)(5660300002)(7416002)(6486002)(7406005)(316002)(26005)(186003)(38100700002)(6916009)(82960400001)(2906002)(54906003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q09ReHgwWUdvalprSjFvZXhkNTBSNkl1azRTa2ZUZTBZVWNEdzhYNmtuSWxX?=
- =?utf-8?B?UWR5U2owVUUySG02WlNTdUpuRjVvNnVPdTZkMzF2MWw2QUZFWWZsT0NJakJ6?=
- =?utf-8?B?bkRpNURuYXlpQXZaWTRwQUVIa2pKTEtWOGMvbWNkcmZHNkdSK3ZaYm80UE1n?=
- =?utf-8?B?T0hwRlF4L1BpNlR3bmNDUmRYTkJUMzdGM3cxbmY5UmllUGE0M0tnSTVYNUNa?=
- =?utf-8?B?YTdLa2tNdXVmNG5JQlBQV1ZkUmRHaStOc0hEc3lpVENTd0dVYXFPbnlJbkN1?=
- =?utf-8?B?eWNNbVN2SWZPSkl0SGZEb2h3c1J5MEdMWnVRbDdtcVgvVENNRjdWMlhtZHpZ?=
- =?utf-8?B?V1RFQUI2RjNjc3lBR0pyVnRHZ01SRjBLU25GUjIzR2RPMWtvZk92Vi9tZTFR?=
- =?utf-8?B?UHNDYzExdjdrN3RjUG9pSUxFWHpXL1pQcVJJRVFVa0hUTXBEdGFyRTFkdmIv?=
- =?utf-8?B?bm9pMmt4bWdENEtwdWZMRUc4a21QR1hqbGpjS2JJbktYV3IvbVZod0NaRHFI?=
- =?utf-8?B?QUpjSk80WFlPbUlHUi9icURicW5uMGp6bkJRcDhPVjRQeklnUFBFU1A0TUcw?=
- =?utf-8?B?ZlBPd0U0RGhKUFBnb0g1TEVPajVQTERrb2hwUmZ0T2F1eVQ2VE1nYnZYWFph?=
- =?utf-8?B?b2RreDZHVEJrbjN6OEg5WVZKZW9LVTNMcVhqV2NTTWNVdHpqckU2WGJjYkNC?=
- =?utf-8?B?TzlXdCtGNmk2N05VakVPM1NJZ00yRG1meEVGOVZiNElERGxuUitIWTFDekJx?=
- =?utf-8?B?aDloV0RtUEVvWVVHVDg4QVF3L09mQlY1b1k2MmtjOWJwN0NRVWc2VC8zc2wr?=
- =?utf-8?B?S0xiOXlYK284WmJrRloyUXZZSHFYYkE4OE1TVmtRRHhNbHo0L2NnK1puOUVC?=
- =?utf-8?B?TmZWSm8wVVdhY0g5WjVnUnJkWFBJOGhsaHlOWG1hSm1MOUUwbE1XVEZ6bzVs?=
- =?utf-8?B?OCt0UGN6Umd0Q1lXM25RSTdoT0lkcUl4NklvVjFsbVk1TGk1dW95ZlZyQnc4?=
- =?utf-8?B?MzQycXFZbjBIbEZtcXRtV0pzSFk2NnRHOFpLa3pFTEFuYzdVWmF2VTRiYVZ6?=
- =?utf-8?B?Y1dNaXdORnBDSFlBa3FwdGZQSFFOL0Q5MGs1c0lMbTkxL0xwSEJiNngwV25q?=
- =?utf-8?B?am1ZNVQyUEZUNlYrZjA0OFRHenVZamlZVjd1TUVNVFZ5aEdEQ3M2UGZmZk9B?=
- =?utf-8?B?R1AzZUVqYVV5eW1kTDF0d1pJZmZ3a3NhcmMwREprWnVxOWpNRGwvbW5NcWVi?=
- =?utf-8?B?dWU3UlU2WkExSW5KR2tQMTkvVU42MnlmZ01XWGU3RGhIZUMycnJYNG96aURv?=
- =?utf-8?B?Vktxcmp0YzVaTUJhV0swRUFpUHdIbk9seG0zQlRvbWVKdldYK216THpTU2tz?=
- =?utf-8?B?REEwOHcrb0RHcXNMbkF4Nm9iQmNkMERjTi9kV1NidG4xSVVaL3gweVFmclNu?=
- =?utf-8?B?MXpla0hmU3lEVzNSLzcvdU1zNXV0cUplOHhQbmk0aHMzdS91aDBqaUk5R25o?=
- =?utf-8?B?RWNUVWtiTGVDOEZmempoV3NPMUVsS2JYbmVPaVdIK1JMaEtLbDFJaUt1NHN6?=
- =?utf-8?B?QTNoTUk0K3NCdlV3TkVrU2g1SzFLRnhkODMrVFJGcWYwT3ZwUUpwSlBmbTVB?=
- =?utf-8?B?TkQwd1Q3TFhtWHJqbTZkMWVDMEFzWEhUbUc5S3gwbkphT1ZCdkVRVnVrbk9C?=
- =?utf-8?B?b1crS1lmWlhaSjUxZG43N1ZHZTdPZ1l0d1RTQThvS2JtVGxmSmtRZXdRUDRB?=
- =?utf-8?B?T0xtNXFUWGtON2tlM05FZ25VcmdjblpaelozRnpydU0vU0F0R3BCSEFZdHY5?=
- =?utf-8?B?ay8wZzRrQ3NyZU1TL3FFVGwxeEphSzhicW1aTUUxbi9Ec042cERpSERsNkNn?=
- =?utf-8?B?YW8vOStLOWRuWStJSzYzVCt0dWk4cFpveDJnMmxDeDZjbytOb0NHOTlLUDZn?=
- =?utf-8?B?TkVoL2dRTzlHd3JON0cvV0kyck1GZlM4TEdpYnpOMjlNL29BQmRQdkdkU3lo?=
- =?utf-8?B?T2U4SEpGeDBxa1FGYUlBTjgvVXhQQndFOVVhckdDVzdFenRaMk9MSzRZMGtK?=
- =?utf-8?B?RW9EUlpZeWhIVzI3c0Yxb2JNZ2FOMUMzbG1Od2l2ZWJTYm9kMm1yNHBMR3h0?=
- =?utf-8?B?UGUxeW9TRGRPL2JaaC96L05qSCsrR09tZkxEWWVuUU5RRjlPTU5KNVBNWFM5?=
- =?utf-8?Q?RgJs9iDivClS1Q9nXOcWIRM=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32826cc3-a767-4fe8-891b-08d9f067ec86
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR03MB5608.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2022 09:45:39.1735
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 335836de-42ef-43a2-b145-348c2ee9ca5b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pCZULRE0ypM1MYAFyBxumnnbHYB9R4P24gzY44d0kV4TkZA/k/jKXVcffojdAGeVleKqo682MpIuIeFVQsferg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR03MB3053
-X-OriginatorOrg: citrix.com
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Feb 14, 2022 at 05:55:38PM -0800, Qing Wang wrote:
-> From: Wang Qing <wangqing@vivo.com>
-> 
-> Use the helper function time_is_{before,after}_jiffies() to improve
-> code readability.
-> 
-> Signed-off-by: Wang Qing <wangqing@vivo.com>
+I observed the following problem with the BT404 touch pad
+running the Phosh UI:
 
-Acked-by: Roger Pau Monné <roger.pau@citrix.com>
+When e.g. typing on the virtual keyboard pressing "g" would
+produce "ggg".
 
-Thanks, Roger.
+After some analysis it turns out the firmware reports that three
+fingers hit that coordinate at the same time, finger 0, 2 and
+4 (of the five available 0,1,2,3,4).
+
+DOWN
+  Zinitix-TS 3-0020: finger 0 down (246, 395)
+  Zinitix-TS 3-0020: finger 1 up (0, 0)
+  Zinitix-TS 3-0020: finger 2 down (246, 395)
+  Zinitix-TS 3-0020: finger 3 up (0, 0)
+  Zinitix-TS 3-0020: finger 4 down (246, 395)
+UP
+  Zinitix-TS 3-0020: finger 0 up (246, 395)
+  Zinitix-TS 3-0020: finger 2 up (246, 395)
+  Zinitix-TS 3-0020: finger 4 up (246, 395)
+
+This is one touch and release: i.e. this is all reported on
+touch (down) and release.
+
+There is a field in the struct touch_event called finger_cnt
+which is actually a bitmask of the fingers active in the
+event.
+
+Rename this field finger_mask as this matches the use contents
+better, then use for_each_set_bit() to iterate over just the
+fingers that are actally active.
+
+Factor out a finger reporting function zinitix_report_fingers()
+to handle all fingers.
+
+Also be more careful in reporting finger down/up: we were
+reporting every event with input_mt_report_slot_state(..., true);
+but this should only be reported on finger down or move,
+not on finger up, so also add code to check p->sub_status
+to see what is happening and report correctly.
+
+After this my Zinitix BT404 touchscreen report fingers
+flawlessly.
+
+The vendor drive I have notably does not use the "finger_cnt"
+and contains obviously incorrect code like this:
+
+  if (touch_dev->touch_info.finger_cnt > MAX_SUPPORTED_FINGER_NUM)
+      touch_dev->touch_info.finger_cnt = MAX_SUPPORTED_FINGER_NUM;
+
+As MAX_SUPPORTED_FINGER_NUM is an ordinal and the field is
+a bitmask this seems quite confused.
+
+Cc: Michael Srba <Michael.Srba@seznam.cz>
+Cc: Nikita Travkin <nikita@trvn.ru>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v1->v2:
+- Rewrite to use the mask of active fingers after Dmitry's
+  observation that there is this field in the struct touch_event
+  that is unused (also in the vendor driver).
+---
+ drivers/input/touchscreen/zinitix.c | 60 ++++++++++++++++++++++-------
+ 1 file changed, 47 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
+index 129ebc810de8..5fb1492aa68a 100644
+--- a/drivers/input/touchscreen/zinitix.c
++++ b/drivers/input/touchscreen/zinitix.c
+@@ -135,7 +135,7 @@ struct point_coord {
+ 
+ struct touch_event {
+ 	__le16	status;
+-	u8	finger_cnt;
++	u8	finger_mask;
+ 	u8	time_stamp;
+ 	struct point_coord point_coord[MAX_SUPPORTED_FINGER_NUM];
+ };
+@@ -319,14 +319,52 @@ static int zinitix_send_power_on_sequence(struct bt541_ts_data *bt541)
+ 	return 0;
+ }
+ 
+-static void zinitix_report_finger(struct bt541_ts_data *bt541, int slot,
+-				  const struct point_coord *p)
++static void zinitix_report_fingers(struct bt541_ts_data *bt541, struct touch_event *te)
+ {
+-	input_mt_slot(bt541->input_dev, slot);
+-	input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER, true);
+-	touchscreen_report_pos(bt541->input_dev, &bt541->prop,
+-			       le16_to_cpu(p->x), le16_to_cpu(p->y), true);
+-	input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR, p->width);
++	struct point_coord *p;
++	u16 x, y;
++	unsigned long fmask;
++	int i;
++
++	/*
++	 * If the corresponding finger is not active, do not report
++	 * what is happening on it.
++	 */
++	fmask = te->finger_mask;
++	for_each_set_bit(i, &fmask, MAX_SUPPORTED_FINGER_NUM) {
++		p = &te->point_coord[i];
++
++		/* Skip nonexisting fingers */
++		if (!p->sub_status & SUB_BIT_EXIST)
++			continue;
++
++		x = le16_to_cpu(p->x);
++		y = le16_to_cpu(p->y);
++
++		input_mt_slot(bt541->input_dev, i);
++
++		if (p->sub_status & BIT_DOWN) {
++			/* Finger down */
++			input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER, true);
++			touchscreen_report_pos(bt541->input_dev, &bt541->prop, x, y, true);
++			input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR, p->width);
++			dev_dbg(&bt541->client->dev, "finger %d down (%u, %u)\n", i, x, y);
++		} else if (p->sub_status & BIT_UP) {
++			/* Release finger */
++			input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER, false);
++			touchscreen_report_pos(bt541->input_dev, &bt541->prop, x, y, true);
++			input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR, 0);
++			dev_dbg(&bt541->client->dev, "finger %d up (%u, %u)\n", i, x, y);
++		} else if (p->sub_status & BIT_MOVE) {
++			/* Finger moves while pressed down */
++			input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER, true);
++			touchscreen_report_pos(bt541->input_dev, &bt541->prop, x, y, true);
++			input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR, p->width);
++			dev_dbg(&bt541->client->dev, "finger %d move (%u, %u)\n", i, x, y);
++		} else {
++			dev_dbg(&bt541->client->dev, "unknown finger event\n");
++		}
++	}
+ }
+ 
+ static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
+@@ -335,7 +373,6 @@ static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
+ 	struct i2c_client *client = bt541->client;
+ 	struct touch_event touch_event;
+ 	int error;
+-	int i;
+ 
+ 	memset(&touch_event, 0, sizeof(struct touch_event));
+ 
+@@ -346,10 +383,7 @@ static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
+ 		goto out;
+ 	}
+ 
+-	for (i = 0; i < MAX_SUPPORTED_FINGER_NUM; i++)
+-		if (touch_event.point_coord[i].sub_status & SUB_BIT_EXIST)
+-			zinitix_report_finger(bt541, i,
+-					      &touch_event.point_coord[i]);
++	zinitix_report_fingers(bt541, &touch_event);
+ 
+ 	input_mt_sync_frame(bt541->input_dev);
+ 	input_sync(bt541->input_dev);
+-- 
+2.34.1
+
