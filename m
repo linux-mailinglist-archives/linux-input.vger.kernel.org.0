@@ -2,66 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29BCF4B7ACE
-	for <lists+linux-input@lfdr.de>; Tue, 15 Feb 2022 23:56:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D10D24B7AE5
+	for <lists+linux-input@lfdr.de>; Tue, 15 Feb 2022 23:59:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244696AbiBOW46 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Feb 2022 17:56:58 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33700 "EHLO
+        id S244742AbiBOW7s (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Feb 2022 17:59:48 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244682AbiBOW4z (ORCPT
+        with ESMTP id S244719AbiBOW7j (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Feb 2022 17:56:55 -0500
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F60AB91D0;
-        Tue, 15 Feb 2022 14:56:44 -0800 (PST)
-Received: by mail-pf1-x432.google.com with SMTP id i6so538643pfc.9;
-        Tue, 15 Feb 2022 14:56:44 -0800 (PST)
+        Tue, 15 Feb 2022 17:59:39 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54C85E3891;
+        Tue, 15 Feb 2022 14:59:29 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id k60-20020a17090a4cc200b001b932781f3eso3056814pjh.0;
+        Tue, 15 Feb 2022 14:59:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=POzAhCa4IixjF4ZibUJMWzkiAVUOqTIvtrCBAa9XtUI=;
-        b=QiFT92UGmZJstm3rmmKsxkuPr26DlSc+etVmkyJxJi0aaPC+5KEV7bpl6eAYqH7yiq
-         sfa+8qJjjUFs2LjJEa/vYkiyic+8iNbxu7XMx0whXkq6QU59u80qHT1LmgZUy2+Vcohu
-         SzTxNa186PHJ0xap2EuWJasgvLDcILNi+lWib5d/JgmV4yHczZA4kEyh+n3UpBvXAgzQ
-         vi4UEBx/XemzSdFopgDe7NGuaKm+8hTXLQTlSk00b2XGVNyJlOBFZ8NfusBZub9ywgSK
-         TQ6tGV4c/txf6wu7IDuRVhSpa7Vubx4SILIb2nNIzt0JB7Sbya6Zn5Sav+hQ8bpO9jkd
-         Ub5g==
+        bh=Ydg/QaEHk+YtzGHqWPzjDmBjfyy2f1JmjiAxPzP8crc=;
+        b=neA8UZ+ztvqI+c9Y0GhuINKiFZbH9bwEKDbDdCj/aBEOg8Je4KJR2FY7wqhQqcBAYk
+         3Wy+WGL8h5hMZhHiRrJnELKEzNVne+rWwRiNSK+LaaB40t3gKAMZ5iPl6SH4z0sCF1sK
+         WeebZKAyrtHxpGEBt52RHDKoImWcRYibqiE5YdJSrERCh5ErepkYhiOc7Yw8VRa7JtSJ
+         adEHSUdt8ZETIXkSrLoXpm9wbvKFejNQ1Fv3M/q0bRnt69wRrVeApz/eynGg7QDAnCzT
+         uJF8lE/RahbG4H9xVfC7Tm4Wgh1nT1vyrj+ukgd4F45LFSngNGYO0nz3bd1+0RfzB/uo
+         Q/xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=POzAhCa4IixjF4ZibUJMWzkiAVUOqTIvtrCBAa9XtUI=;
-        b=D2+bZMwah6ZCoQH0NCuJaGw6/NTxkBDeD/2l7zFkNVnGeoYS5cigL0FmsEsDpd0Ve1
-         4boloGSzrRGSoKOpxnZCbEFBLGSwJxPGzXh384cRyWnNm4bHWG/8jCvurkxe8y2KP1AY
-         j99oce9o6KBaVESUwSU2gqxavE2bcSVK3CZWMm0j1APgebOxulZDkVP/vp7FR2iW9ybE
-         WLH33dud4XYK1EHpf3PL2EmUbxIzNDGSoc+5wFOc2ROnJeVnToTJvBoJRL6zhfZ90gxc
-         xWSjisoas1cGRSLEVAbJkl3k0FNpJOhZ9km8W8xHVLzZzELBlPu75ZtoCiqTv+AaXII7
-         tS2g==
-X-Gm-Message-State: AOAM5305wa9lPcPU5/btUTwCKox+lOhVKP+hKhtnDf27jCs5LgXMrEko
-        +uoHPt0aL9TCqFIYN2PahYeOIekDJ0Q=
-X-Google-Smtp-Source: ABdhPJwiSmP3UbUKpZcfA9Hu3zgV9RSr23PPyK2sxzZ7F35qT0pS8xxaPaOaf8fxIAYRq6Crno5ttQ==
-X-Received: by 2002:aa7:83c2:0:b0:4e0:91c1:6795 with SMTP id j2-20020aa783c2000000b004e091c16795mr104375pfn.54.1644965803669;
-        Tue, 15 Feb 2022 14:56:43 -0800 (PST)
+        bh=Ydg/QaEHk+YtzGHqWPzjDmBjfyy2f1JmjiAxPzP8crc=;
+        b=jcyxnoN6sH1LNSWvMVODjrCi1Ms/7ihCiQuLNAMrFzQBcpH/78A0aGGgxNLLgFLTFW
+         WrusZ2fOr9fBta4oykkLyMkUveNo2imJ4f6cbXXPB0XFGhZfh0IbcbZXGAQuk7PIqduF
+         91hPNb5oSKYlfSZysWanByackIqS5vJHMFRjIQP63i4EnO7nJ8059jALZfCxi8AB4I/5
+         gYH7pPleib3Aa008mRWxzzXgO88LhREpfTn+FV5tUnKLWGRtPVlh5++9HQqyb+ryY3VC
+         IP0M/b0m+4C/QfcXd9ucaK/N8LMSlCjuFa6dKZGrQYPKw/tS66KVQ+gLVAkzwrdqTFjS
+         Q83w==
+X-Gm-Message-State: AOAM533xqME4mPEYcYWb4rBukVPdwafCX+GxdAzGg6QAtQaa2ylA5Lw+
+        XR7gFu+igA3JZzd5jbbo3gw=
+X-Google-Smtp-Source: ABdhPJzD5VTWuMUJjUi6d0x1rXiN3okRfTcvfy3+tsDIIsH6bfb6SZ+FiyUr2n1wCBp6WTu5fGOOUA==
+X-Received: by 2002:a17:902:f686:: with SMTP id l6mr1079179plg.7.1644965965923;
+        Tue, 15 Feb 2022 14:59:25 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:4e4a:b0ff:e926:40e2])
-        by smtp.gmail.com with ESMTPSA id u1sm6952013pfg.151.2022.02.15.14.56.42
+        by smtp.gmail.com with ESMTPSA id n85sm10430319pfd.142.2022.02.15.14.59.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Feb 2022 14:56:42 -0800 (PST)
-Date:   Tue, 15 Feb 2022 14:56:40 -0800
+        Tue, 15 Feb 2022 14:59:25 -0800 (PST)
+Date:   Tue, 15 Feb 2022 14:59:21 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Danilo Krummrich <danilokrummrich@dk-develop.de>
-Cc:     krzysztof.kozlowski@canonical.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linus.walleij@linaro.org
-Subject: Re: [PATCH v3 3/3] input: ps2-gpio: enforce GPIOs flag open drain
-Message-ID: <YgwvqAvi8OvGi0Ft@google.com>
-References: <20220215180829.63543-1-danilokrummrich@dk-develop.de>
- <20220215180829.63543-4-danilokrummrich@dk-develop.de>
+To:     Qing Wang <wangqing@vivo.com>
+Cc:     Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH V3 6/13] input: serio: use time_is_before_jiffies()
+ instead of open coding it
+Message-ID: <YgwwSUlZVakiYF8j@google.com>
+References: <1644890154-64915-1-git-send-email-wangqing@vivo.com>
+ <1644890154-64915-7-git-send-email-wangqing@vivo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220215180829.63543-4-danilokrummrich@dk-develop.de>
+In-Reply-To: <1644890154-64915-7-git-send-email-wangqing@vivo.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -72,21 +95,19 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Feb 15, 2022 at 07:08:29PM +0100, Danilo Krummrich wrote:
-> The PS/2 bus defines the data and clock line be open drain, therefore
-> for both enforce the particular GPIO flags in the driver.
-> 
-> Without enforcing to flag at least the clock gpio as open drain we run
-> into the following warning:
-> 
-> WARNING: CPU: 1 PID: 40 at drivers/gpio/gpiolib.c:3175 gpiochip_enable_irq+0x54/0x90
-> 
-> gpiochip_enable_irq() warns on a GPIO being configured as output while
-> serving as IRQ source without being flagged as open drain.
-> 
-> Signed-off-by: Danilo Krummrich <danilokrummrich@dk-develop.de>
+Hi Wang,
 
-Applied, thank you.
+On Mon, Feb 14, 2022 at 05:55:43PM -0800, Qing Wang wrote:
+> From: Wang Qing <wangqing@vivo.com>
+> 
+> Use the helper function time_is_{before,after}_jiffies() to improve
+> code readability.
+
+I applied changes by Danilo Krummrich converting the driver to use
+ktime_t (see https://lore.kernel.org/r/20220215160208.34826-3-danilokrummrich@dk-develop.de)
+which makes this change not applicable.
+
+Thanks.
 
 -- 
 Dmitry
