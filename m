@@ -2,64 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 660CB4B7AC6
-	for <lists+linux-input@lfdr.de>; Tue, 15 Feb 2022 23:56:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29BCF4B7ACE
+	for <lists+linux-input@lfdr.de>; Tue, 15 Feb 2022 23:56:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236035AbiBOW4j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Feb 2022 17:56:39 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33386 "EHLO
+        id S244696AbiBOW46 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Feb 2022 17:56:58 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235253AbiBOW4i (ORCPT
+        with ESMTP id S244682AbiBOW4z (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Feb 2022 17:56:38 -0500
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B80F866AC9;
-        Tue, 15 Feb 2022 14:56:26 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id l73so366828pge.11;
-        Tue, 15 Feb 2022 14:56:26 -0800 (PST)
+        Tue, 15 Feb 2022 17:56:55 -0500
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F60AB91D0;
+        Tue, 15 Feb 2022 14:56:44 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id i6so538643pfc.9;
+        Tue, 15 Feb 2022 14:56:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=F1oWoUo/Pz47AF3QhLhNS8GxP6K0OhjZso/PODj3rEA=;
-        b=oA2SdCzBou6WlDc+wFi3Ojp9YyUq1aopMs9fn0pc//eCouP73Vuva76ZdR0AFPlv2L
-         7vim92sLGeXAHMe0t1eg5veqSVy278GeaYBQGTXFZE8VLuOoulJc0SJ+vG/mzpuzH/Pn
-         YJdufdaHzj+OWAlb7iybv0WTnf1YyEBW6oM2Rs0EKKC/kbp1C4sETQzEBEz3SN9jd4+7
-         azZPmhH1fnnerX7/x/om93bjgg/iC9Qal7SXEI6XZR+W8C+XfFNcK60Pso8g2HJEO3ew
-         H/f7omVdO8Prix3AA8s7m8egOfSb8Ui2qp4i9H2qdz0T9ZnPJQC78mqMYKPOVYV6rGMg
-         KRmw==
+        bh=POzAhCa4IixjF4ZibUJMWzkiAVUOqTIvtrCBAa9XtUI=;
+        b=QiFT92UGmZJstm3rmmKsxkuPr26DlSc+etVmkyJxJi0aaPC+5KEV7bpl6eAYqH7yiq
+         sfa+8qJjjUFs2LjJEa/vYkiyic+8iNbxu7XMx0whXkq6QU59u80qHT1LmgZUy2+Vcohu
+         SzTxNa186PHJ0xap2EuWJasgvLDcILNi+lWib5d/JgmV4yHczZA4kEyh+n3UpBvXAgzQ
+         vi4UEBx/XemzSdFopgDe7NGuaKm+8hTXLQTlSk00b2XGVNyJlOBFZ8NfusBZub9ywgSK
+         TQ6tGV4c/txf6wu7IDuRVhSpa7Vubx4SILIb2nNIzt0JB7Sbya6Zn5Sav+hQ8bpO9jkd
+         Ub5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=F1oWoUo/Pz47AF3QhLhNS8GxP6K0OhjZso/PODj3rEA=;
-        b=jTrHX5CPG+r5bKv6gdaab6jfbk+JItmviGyeOF8XuFC/KqdrJQ0TP0V9sQofJ6/sas
-         +lGAFVzyaxMKsjw/lW6F0GO2f3M9wVkB/GcioDM9/ntDMXqR5R+mSLg87UV/QV/bizXy
-         mPQSs6iH1nz8jP/d/OZYZaDrAw/YJlYaltdCxhpP//Dl8hXBmYF8muMnKYwC2qsKVfPk
-         DatXjBCay89kwISalPu0kr5EuJC3dQfJY99R0rt9ND7MUeayHdIzwmJQ8c8Dur2VZbjo
-         2eafJhBXEoQ1MlSiESXvDt5A0LXmoStMWj8goO23NxqmSQW+M1WA7ZcVnfn8oMqxAhcM
-         oeRw==
-X-Gm-Message-State: AOAM532V5m7VEWfzSd2VSr4emiCWIKbqZedYGVvEwkVHrz0ycs01CAiL
-        +JSA1+2wgc5bovGt7G46Ijyq8qEaHUg=
-X-Google-Smtp-Source: ABdhPJztLBgYoi3wDhawZyaMDvrM19OyxAZJVIsFMod4/uaHZPhoo2S5cmKc9TqXBYa8gRCeXmtEsg==
-X-Received: by 2002:a65:52cc:: with SMTP id z12mr933070pgp.532.1644965786057;
-        Tue, 15 Feb 2022 14:56:26 -0800 (PST)
+        bh=POzAhCa4IixjF4ZibUJMWzkiAVUOqTIvtrCBAa9XtUI=;
+        b=D2+bZMwah6ZCoQH0NCuJaGw6/NTxkBDeD/2l7zFkNVnGeoYS5cigL0FmsEsDpd0Ve1
+         4boloGSzrRGSoKOpxnZCbEFBLGSwJxPGzXh384cRyWnNm4bHWG/8jCvurkxe8y2KP1AY
+         j99oce9o6KBaVESUwSU2gqxavE2bcSVK3CZWMm0j1APgebOxulZDkVP/vp7FR2iW9ybE
+         WLH33dud4XYK1EHpf3PL2EmUbxIzNDGSoc+5wFOc2ROnJeVnToTJvBoJRL6zhfZ90gxc
+         xWSjisoas1cGRSLEVAbJkl3k0FNpJOhZ9km8W8xHVLzZzELBlPu75ZtoCiqTv+AaXII7
+         tS2g==
+X-Gm-Message-State: AOAM5305wa9lPcPU5/btUTwCKox+lOhVKP+hKhtnDf27jCs5LgXMrEko
+        +uoHPt0aL9TCqFIYN2PahYeOIekDJ0Q=
+X-Google-Smtp-Source: ABdhPJwiSmP3UbUKpZcfA9Hu3zgV9RSr23PPyK2sxzZ7F35qT0pS8xxaPaOaf8fxIAYRq6Crno5ttQ==
+X-Received: by 2002:aa7:83c2:0:b0:4e0:91c1:6795 with SMTP id j2-20020aa783c2000000b004e091c16795mr104375pfn.54.1644965803669;
+        Tue, 15 Feb 2022 14:56:43 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:4e4a:b0ff:e926:40e2])
-        by smtp.gmail.com with ESMTPSA id m25sm3697536pgv.4.2022.02.15.14.56.24
+        by smtp.gmail.com with ESMTPSA id u1sm6952013pfg.151.2022.02.15.14.56.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Feb 2022 14:56:25 -0800 (PST)
-Date:   Tue, 15 Feb 2022 14:56:22 -0800
+        Tue, 15 Feb 2022 14:56:42 -0800 (PST)
+Date:   Tue, 15 Feb 2022 14:56:40 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Danilo Krummrich <danilokrummrich@dk-develop.de>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linus.walleij@linaro.org
-Subject: Re: ps2-gpio: use ktime for IRQ timekeeping
-Message-ID: <Ygwvls62iycw12z/@google.com>
-References: <20220215160208.34826-1-danilokrummrich@dk-develop.de>
+Cc:     krzysztof.kozlowski@canonical.com, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linus.walleij@linaro.org
+Subject: Re: [PATCH v3 3/3] input: ps2-gpio: enforce GPIOs flag open drain
+Message-ID: <YgwvqAvi8OvGi0Ft@google.com>
+References: <20220215180829.63543-1-danilokrummrich@dk-develop.de>
+ <20220215180829.63543-4-danilokrummrich@dk-develop.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220215160208.34826-1-danilokrummrich@dk-develop.de>
+In-Reply-To: <20220215180829.63543-4-danilokrummrich@dk-develop.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -70,34 +72,21 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Feb 15, 2022 at 05:02:04PM +0100, Danilo Krummrich wrote:
-> Changes since v1
-> ================
->   - add patch to refactor struct ps2_gpio_data for clear separation between
->     RX and TX
->   - make all variables for IRQ timekeeping per-port and initialize them in
->     ps2_gpio_open()
+On Tue, Feb 15, 2022 at 07:08:29PM +0100, Danilo Krummrich wrote:
+> The PS/2 bus defines the data and clock line be open drain, therefore
+> for both enforce the particular GPIO flags in the driver.
 > 
-> This patch series implements the usage of ktime for IRQ timekeeping to
-> overcome:
+> Without enforcing to flag at least the clock gpio as open drain we run
+> into the following warning:
 > 
-> (1) The resolution limitations of jiffies.
-> (2) Potential spurious IRQs generated by gpio controllers.
+> WARNING: CPU: 1 PID: 40 at drivers/gpio/gpiolib.c:3175 gpiochip_enable_irq+0x54/0x90
 > 
-> Besides that, based on the newly implemented timekeeping, it fixes a wrongly
-> suspected extra clock cycle for TX transfers and a race condition when
-> starting an immediate TX transfer based on data received from an RX transfer.
+> gpiochip_enable_irq() warns on a GPIO being configured as output while
+> serving as IRQ source without being flagged as open drain.
 > 
-> Danilo Krummrich (4):
->       input: ps2-gpio: refactor struct ps2_gpio_data
->       input: ps2-gpio: use ktime for IRQ timekeeping
->       input: ps2-gpio: remove tx timeout from ps2_gpio_irq_tx()
->       input: ps2-gpio: don't send rx data before the stop bit
-> 
->  drivers/input/serio/ps2-gpio.c | 180 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------------------------------------
->  1 file changed, 116 insertions(+), 64 deletions(-)
+> Signed-off-by: Danilo Krummrich <danilokrummrich@dk-develop.de>
 
-Applied the lot, thank you.
+Applied, thank you.
 
 -- 
 Dmitry
