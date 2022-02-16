@@ -2,88 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18A294B804E
-	for <lists+linux-input@lfdr.de>; Wed, 16 Feb 2022 06:49:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5F4D4B804A
+	for <lists+linux-input@lfdr.de>; Wed, 16 Feb 2022 06:49:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344653AbiBPFkn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Feb 2022 00:40:43 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47300 "EHLO
+        id S1344675AbiBPFrU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Feb 2022 00:47:20 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344649AbiBPFkm (ORCPT
+        with ESMTP id S1344669AbiBPFrU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Feb 2022 00:40:42 -0500
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8235BD2ED;
-        Tue, 15 Feb 2022 21:40:30 -0800 (PST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.west.internal (Postfix) with ESMTP id BE76C2B00296;
-        Wed, 16 Feb 2022 00:40:27 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 16 Feb 2022 00:40:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; bh=zLCfwTEqPgbAts1m8jwlP8PVBAXIZUQ47054Ba
-        XjuWY=; b=O59SGJn7XntFau15KVosBLouNjMxmYwm8UF+WWX0P9e0EwfCoUYc1S
-        lc6YM6F5yHeRqe0ZL/mLXQu8UT8N9a8kZ52ecv7cQbYxz9FjL/lnwiVkwYMHa+CH
-        tOtqwEQybObOdBFTh0rTxwgsucQBjP0tQtj0pQ2Sf2LPCW7wk3cB17t428ag4AzB
-        /BCEkJHss6l+9XLaOCz0ADzROfvDCMzYfMjT9KdQp77iOpbjuv75bZMsiIHWHHrO
-        qkbGsGE2xRQh/SO17Cblm4nlN1TqwOAs0pOQjVVhHIBQaqOj8ceyznTKuMAb1XZR
-        5Ux/vz8GprHnlJ2pi8WpcKV83L66FWMg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=zLCfwTEqPgbAts1m8
-        jwlP8PVBAXIZUQ47054BaXjuWY=; b=Zo49S1EPi6J3CgIp82dMnuKxxk9dNijRv
-        E5HYNb6sUgMUvuO3nTdFMV+nJjj4C2gjlLYVo/4rI25261e7q9ZpSEoWh/3XI/MX
-        /Ys3NgTt1MR54NubXbpE35ZOuzJCU1nP3Cbhtc1CFAApl4HqdnZbG5FJqTZ8O5d/
-        nZfoCicWntqje+1Tq2IqMF0dV8OT+lXi9vLmvxeLTl0RZV0tSOcxinwmgyxxewhR
-        8r+NSLdimyXyUX9vS5U1XdUi9CRTKMNBSGu0Abk2ecwiyxGN00+MUBvEv+8G29wV
-        focJsVMfdBVZ+oheV3eR7BDdMRWNlY4gSwdPDeGRc+snwoUF8YfOg==
-X-ME-Sender: <xms:So4MYgnpfovLImmYJP9hZlmB8Wr48TyQrMF9IDvWoZEy8OV9IWQ75g>
-    <xme:So4MYv1qqVSWDMsEeSEKLYrJFoKdPJkqviFudCYeK_tBDx2Poio8y7Bh-ky523m_f
-    3jfCpa1rAk2v5fsY_E>
-X-ME-Received: <xmr:So4MYuoz3kCa2Ly-okMgNSANrM-nHAmwbBLRyIhuoeleES18sslH89CU-VWb1mNEGyEKi3CWCkPWzyoBkMZJ4fkULtdvCv-rE1Lh>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjeehgdekfecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgvrhcu
-    jfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtqe
-    enucggtffrrghtthgvrhhnpeehhfehfffgheelgeeuudelhefgvdefveekudevjeevjeev
-    vefggefguddufeeuveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
-X-ME-Proxy: <xmx:S44MYsnC2027HY2O_ggoA7jlbwEy7k1NIZE2QRnFv0BfxbpSHHFzXQ>
-    <xmx:S44MYu1JIrPHRlPjKQl9F8LdP21A4vDI4_D4xZw9fv57c7I5p2QGeA>
-    <xmx:S44MYjsEZ0HDxq18kszsewLm2BnYv9e3lYu8XgOLEQA3SproGExS1Q>
-    <xmx:S44MYswnezxtDk4uQdE-l-FiFCTnpOB_SE6BELfR_VwttKE_lOG2qDatezM>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Feb 2022 00:40:23 -0500 (EST)
-Date:   Wed, 16 Feb 2022 15:40:18 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= 
-        <nabijaczleweli@nabijaczleweli.xyz>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
-        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 12/12] Input: docs: add more details on the use of
- BTN_TOOL
-Message-ID: <YgyOQuN9+IEsCsoA@quokka>
-References: <20220203143226.4023622-1-benjamin.tissoires@redhat.com>
- <20220203143226.4023622-13-benjamin.tissoires@redhat.com>
+        Wed, 16 Feb 2022 00:47:20 -0500
+X-Greylist: delayed 801 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 15 Feb 2022 21:47:07 PST
+Received: from smtpproxy21.qq.com (smtpbg702.qq.com [203.205.195.102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E4E4EBAF6
+        for <linux-input@vger.kernel.org>; Tue, 15 Feb 2022 21:47:07 -0800 (PST)
+X-QQ-mid: bizesmtp69t1644990406twzmpbu1
+Received: from localhost.localdomain (unknown [123.114.60.34])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Wed, 16 Feb 2022 13:46:45 +0800 (CST)
+X-QQ-SSF: 01400000002000B0L000B00A0000000
+X-QQ-FEAT: ufm+TBkikDO1VZy/15PSXYMTP/JwUeYpZvePpZiDrnel/O2Z3RiU8kZYgLbgI
+        qf0l8KcYiQQerIVQaI6RKOZaI7QxizFji90ExM6tF9FuUieGV9jgmRxLM7eRVqsynxievBF
+        hz3Fa9wkkN8JUCuG2lqavc/CdPZO+h4i/yBzKT1iE8b47xeA4T96spFsnwppaR1yldekV01
+        NyBJWzXUdZfOxpYrVo5iluSuZAfB7nSLTHKhWPdFaAhj2wzAEsQhRZznv0DOim1HA0MJZ6M
+        bP+G2UEWXorBFUu/p2j3BzNQHuNfqpvVqILKRXW+J7DP8Pud/gyUkD0nQMOH4oEhcQ0LOPs
+        4Y83nfmU3BTLWLdlxK+LTtotdHIlL86KZ4bFACP
+X-QQ-GoodBg: 2
+From:   zhaoxiao <zhaoxiao@uniontech.com>
+To:     dmitry.torokhov@gmail.com
+Cc:     support.opensource@diasemi.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, zhaoxiao <zhaoxiao@uniontech.com>
+Subject: [PATCH] input: da7280: Make use of the helper function dev_err_probe()
+Date:   Wed, 16 Feb 2022 13:46:43 +0800
+Message-Id: <20220216054643.21829-1-zhaoxiao@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220203143226.4023622-13-benjamin.tissoires@redhat.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign6
+X-QQ-Bgrelay: 1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -91,51 +51,38 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Feb 03, 2022 at 03:32:26PM +0100, Benjamin Tissoires wrote:
-> The HID core stack used to be very relaxed considering the BTN_TOOL_*
-> usage. With the recent commits, we should now enforce to have only one
-> tool at a time, meaning that we can now express that requirement in the
-> docs.
-> 
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> 
-> ---
-> 
-> changes in v2:
-> - changed to explain that switching tool in one EV_SYN report
->   is not nice for userspace
-> ---
->  Documentation/input/event-codes.rst | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
-> index b24ae7d292cc..8741d390b184 100644
-> --- a/Documentation/input/event-codes.rst
-> +++ b/Documentation/input/event-codes.rst
-> @@ -137,7 +137,11 @@ A few EV_KEY codes have special meanings:
->      code should be set to a value of 1. When the tool is no longer interacting
->      with the input device, the BTN_TOOL_<name> code should be reset to 0. All
->      trackpads, tablets, and touchscreens should use at least one BTN_TOOL_<name>
-> -    code when events are generated.
-> +    code when events are generated. Likewise all trackpads, tablets, and
-> +    touchscreens should export only one BTN_TOOL_<name> at a time. To not break
+devm_pwm_get() can return -EPROBE_DEFER if the pwm regulator is not
+ready yet. Use dev_err_probe() for pwm regulator resources
+to indicate the deferral reason when waiting for the
+resource to come up.
 
-I still think s/export/set to nonzero/ to avoid any ambiguity with setting the
-evbit on the device vs setting the value to nonzero here, but the remainder is
-good, thanks :)
+Signed-off-by: zhaoxiao <zhaoxiao@uniontech.com>
+---
+ drivers/input/misc/da7280.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
-
-Cheers,
-  Peter
+diff --git a/drivers/input/misc/da7280.c b/drivers/input/misc/da7280.c
+index b08610d6e575..16b364a4ef5e 100644
+--- a/drivers/input/misc/da7280.c
++++ b/drivers/input/misc/da7280.c
+@@ -1165,12 +1165,9 @@ static int da7280_probe(struct i2c_client *client,
+ 
+ 	if (haptics->const_op_mode == DA7280_PWM_MODE) {
+ 		haptics->pwm_dev = devm_pwm_get(dev, NULL);
+-		error = PTR_ERR_OR_ZERO(haptics->pwm_dev);
+-		if (error) {
+-			if (error != -EPROBE_DEFER)
+-				dev_err(dev, "Unable to request PWM: %d\n",
+-					error);
+-			return error;
++		if (IS_ERR(haptics->pwm_dev))
++			return dev_err_probe(dev, PTR_ERR(haptics->pwm_dev),
++					"Unable to request PWM\n");
+ 		}
+ 
+ 		/* Sync up PWM state and ensure it is off. */
+-- 
+2.20.1
 
 
-> +    existing userspace, it is recommended to not switch tool in one EV_SYN frame
-> +    but first emitting the old BTN_TOOL_<name> at 0, then emit one SYN_REPORT
-> +    and then set the new BTN_TOOL_<name> at 1.
->  
->  * BTN_TOUCH:
->  
-> -- 
-> 2.33.1
-> 
+
