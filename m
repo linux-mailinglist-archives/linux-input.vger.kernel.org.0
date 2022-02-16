@@ -2,48 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B87474B8C59
-	for <lists+linux-input@lfdr.de>; Wed, 16 Feb 2022 16:26:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EED3F4B8C70
+	for <lists+linux-input@lfdr.de>; Wed, 16 Feb 2022 16:30:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233351AbiBPP0U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Feb 2022 10:26:20 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49730 "EHLO
+        id S233829AbiBPPax (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Feb 2022 10:30:53 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231898AbiBPP0T (ORCPT
+        with ESMTP id S232213AbiBPPaw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Feb 2022 10:26:19 -0500
+        Wed, 16 Feb 2022 10:30:52 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58BB025FE6F;
-        Wed, 16 Feb 2022 07:26:07 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ABE425A94C;
+        Wed, 16 Feb 2022 07:30:40 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 024B1B81F1A;
-        Wed, 16 Feb 2022 15:26:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 428C2C004E1;
-        Wed, 16 Feb 2022 15:26:03 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 487BDB81F21;
+        Wed, 16 Feb 2022 15:30:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFE45C004E1;
+        Wed, 16 Feb 2022 15:30:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645025164;
-        bh=Ou52iRiRLz7OENHYEtdXNdD+r15floyf6qR4WAeGsrc=;
+        s=k20201202; t=1645025437;
+        bh=jgVEEH3eNg0tOO+7PuDSL8BiWihVKmlQ7WkA5FiJu0w=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=CnQa1VHD8SSUONFJzIBUJakD2sKHDYgVwfWPnq/SKzHjQ9hqNUzNXVERZRq/i6CAh
-         IPm2GVCXj2/0mpjV2+CiOMpRX92HeaxchBZZUCh7VpqR6Xbxl1BKJs2jgBYd5oUytx
-         iJ74UxsWpt/ZpU4Mqbr//VwlzpQGHSeepjlwzhJR0ng/tueYdA1q2IiDukzmW7PRTi
-         Fp2WVyBIaUAU7AC0Fuuwj426jLr1tRMbPJVI50DwSR4HCDqzqtMFAo+oLEafhH1lt7
-         yrYS6x3Wj5vyhe7hadD9A03+xfiencuTtqzefV0Bj91CzW/Ky5UylyL2sqYDTkyJJN
-         9ToSLgjflc5Ew==
-Date:   Wed, 16 Feb 2022 16:26:00 +0100 (CET)
+        b=dg3sua0KUzO571dyptHOqjuqrFYjizmZzSMGR/6M6f9vj/KXQrhv0MhOZF0ZNsdQA
+         uAYDOtWhVFkEm5MxQDlB48+a++0Tdm3J0i0O9kaoUIwg4xdeFhXB9tNZ15oE1wFPOd
+         sRrbPwwGSS3GwfbC3tjHtAAKgVR34ME46Zc6tpHRs1mgITeKEviiZdG0GoL6u1lA20
+         q9KOyM15ToCJWfBw+Rv20HzCxK4FNaNf/gjC8uvzOPaerDiOkQfyzRvtthPv/juoZZ
+         63zeNwbaabz+w4uQPkd6xbFVVtNSv7hxvRwlziYTfvZSTB4dwoB4UQzcvwERK8coEV
+         jnQ8YTTS/pSVg==
+Date:   Wed, 16 Feb 2022 16:30:34 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Nestor Lopez Casado <nlopezcasad@logitech.com>
-cc:     =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Lucas Zampieri <lzampier@redhat.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] HID: logitech-dj: add new lightspeed receiver id
-In-Reply-To: <CAE7qMro-ies_7DXhvqWE=aNhGcZKTFGxj9xmU38w12jHTOWbmA@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2202161625300.11721@cbobk.fhfr.pm>
-References: <20220126144400.130797-1-lzampier@redhat.com> <CAO-hwJ+KyV+Ks38DDF8EuT9kEc9jd9SvNn=nGyTwjkD3GOQ+RA@mail.gmail.com> <15ef80cc2ecdcc993043aa0c1d5ea88f41f9b67b.camel@riseup.net> <CAE7qMro-ies_7DXhvqWE=aNhGcZKTFGxj9xmU38w12jHTOWbmA@mail.gmail.com>
+To:     Yang Li <yang.lee@linux.alibaba.com>
+cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH -next] HID: i2c-hid: remove unneeded semicolon
+In-Reply-To: <20220216015042.113021-1-yang.lee@linux.alibaba.com>
+Message-ID: <nycvar.YFH.7.76.2202161630200.11721@cbobk.fhfr.pm>
+References: <20220216015042.113021-1-yang.lee@linux.alibaba.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -57,34 +54,32 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 15 Feb 2022, Nestor Lopez Casado wrote:
+On Wed, 16 Feb 2022, Yang Li wrote:
 
-> > > > As of logitech lightspeed receiver fw version 04.02.B0009,
-> > > > HIDPP_PARAM_DEVICE_INFO is being reported as 0x11.
-> > > >
-> > > > With patch "HID: logitech-dj: add support for the new lightspeed receiver
-> > > > iteration", the mouse starts to error out with:
-> > > >   logitech-djreceiver: unusable device of type UNKNOWN (0x011) connected on
-> > > >   slot 1
-> > > > and becomes unusable.
-> > > >
-> > > > This has been noticed on a Logitech G Pro X Superlight fw MPM 25.01.B0018.
-> > >
-> > > The patch looks good to me.
-> > >
-> > > Reviewed-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > >
-> > > Ideally, Nestor, can you confirm this is expected and that we won't
-> > > have any bad surprises there?
-> Yes, I confirm this matches our specifications, this is an iteration
-> of Lightspeed 1.2
-> No objections on my side.
+> Eliminate the following coccicheck warning:
+> ./drivers/hid/i2c-hid/i2c-hid-core.c:357:56-57: Unneeded semicolon
+> 
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
+>  drivers/hid/i2c-hid/i2c-hid-core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+> index 91b2fa0d33c7..c078f09a2318 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> @@ -354,7 +354,7 @@ static int i2c_hid_set_or_send_report(struct i2c_hid *ihid,
+>  		 * With simple "send report" all data goes into the output
+>  		 * register.
+>  		 */
+> -		*(__le16 *)ihid->cmdbuf = ihid->hdesc.wOutputRegister;;
+> +		*(__le16 *)ihid->cmdbuf = ihid->hdesc.wOutputRegister;
+>  		length += sizeof(__le16);
+>  	}
 
-Thanks. Based on this, I've applied this with
-
-	Acked-by: Nestor Lopez Casado <nlopezcasad@logitech.com>
-
-then. Please shout out loudly if you're not ok with that :)
+Thanks, that was me fat-fingering the fixup in the original patch. 
+Applied.
 
 -- 
 Jiri Kosina
