@@ -2,108 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D50BF4B9202
-	for <lists+linux-input@lfdr.de>; Wed, 16 Feb 2022 21:00:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 639074B930A
+	for <lists+linux-input@lfdr.de>; Wed, 16 Feb 2022 22:15:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238525AbiBPT7z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Feb 2022 14:59:55 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53318 "EHLO
+        id S232349AbiBPVQG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Feb 2022 16:16:06 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:60916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238514AbiBPT7x (ORCPT
+        with ESMTP id S229939AbiBPVQG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Feb 2022 14:59:53 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E5D2225D37
-        for <linux-input@vger.kernel.org>; Wed, 16 Feb 2022 11:59:41 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id u12so2789451plf.13
-        for <linux-input@vger.kernel.org>; Wed, 16 Feb 2022 11:59:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gKkiGODEySwn5Ud6cwmFKt9S5uiVPYEjk/1FwzY1D7M=;
-        b=FbCQhqCgY7+53halAemFJqR+/yEcT2gQBP93JU9UC8PAh275Z04yeP2cnPk8Byycoa
-         /6zwqH/8Dl7HBUIlAHe1l1LWGmjjWLR4OXWCNR8gwqRgFZXOvrZ0JahDSAUi2NXaAJf3
-         UKiz/7cjikcMEKRvFhkHpKC42JAbLsbQvj5zA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gKkiGODEySwn5Ud6cwmFKt9S5uiVPYEjk/1FwzY1D7M=;
-        b=TAdc/E877kkOf4GTnrnSm+naZFH4Nk2Q4duOAQ4pU8M2d0ztjJaYwn1FQFWOvEnS+8
-         c8vJcRMfDKJTVrOvIVlQgitxdUflugr88oHsuPUN9FNIpWl9bOuWLbD/nzj2unf2QbCC
-         BFZ+wq3e+lHyatVT+GX/maTEg19rTKDgHBwfU0m1s/TOR2s7Ywi5DHWx+K4tSjV0NTzD
-         1bEj6XzF248nvgY1JdAzdng0xAxmAbZLR/sexoLX0ZPSSsKXeRT9scHwWoLM/ngbWxhy
-         NVSvcR55jxVK2OStq06uWv1nhiKbqK1znozHWcMWhLXQ4PQUvADWGwxJCRc/CgLjS16u
-         fVGQ==
-X-Gm-Message-State: AOAM531miM04kvyRQTSvBD1g+QtvHwO3cMYP1L+UNxuLGL11QkBtI/SW
-        IILAFG2H/7VPByeVxJCdLJSgvg==
-X-Google-Smtp-Source: ABdhPJwjYxlN7gSR+7kFrYETcwqEK3eVK6gnPbD8ydzhwRC3qOldpUKOhhtBXZcjj79BjVyZBXsn2w==
-X-Received: by 2002:a17:902:b116:b0:14f:460d:bf42 with SMTP id q22-20020a170902b11600b0014f460dbf42mr4195532plr.108.1645041580606;
-        Wed, 16 Feb 2022 11:59:40 -0800 (PST)
-Received: from smtp.gmail.com ([2620:15c:202:201:5f39:68a1:3c2b:3486])
-        by smtp.gmail.com with ESMTPSA id u16sm6078840pgh.54.2022.02.16.11.59.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Feb 2022 11:59:40 -0800 (PST)
-From:   Stephen Boyd <swboyd@chromium.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>,
-        linux-kernel@vger.kernel.org, benjamin.tissoires@redhat.com,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        "Sean O'Brien" <seobrien@chromium.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Jiri Kosina <jkosina@suse.cz>
-Subject: [PATCH v4 4/4] HID: google: modify HID device groups of eel
-Date:   Wed, 16 Feb 2022 11:59:01 -0800
-Message-Id: <20220216195901.1326924-5-swboyd@chromium.org>
-X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
-In-Reply-To: <20220216195901.1326924-1-swboyd@chromium.org>
-References: <20220216195901.1326924-1-swboyd@chromium.org>
+        Wed, 16 Feb 2022 16:16:06 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F7C92B0B0B
+        for <linux-input@vger.kernel.org>; Wed, 16 Feb 2022 13:15:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645046152; x=1676582152;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MOoxN1njQwdjq6AI4eRSswZaAGgK9AdDhhAh6VTw12Q=;
+  b=irGifRH33K734wZ1/5OvdK7tEX+qAzOjy9oN3fmssiBBKhKD2xOFakEf
+   7ox3Ki3YORNMkE+XQdsjRxDEZBpfKnTwawD2C43UtFQn6ObxCf6Zzz/GU
+   55cYFc95uxliWYTHt133R7HbCOwjC1P+52CUvT+5nTlKEUUxMQtvWq0L0
+   UU2YLHEj6hZdNsKhgVADOInQSSKIOSFfbq+MuXnGsMmpYiz3GvygeMnyC
+   ahAQj5Lzlom8bhJN/GKHTHf+uc46mf0sL/DD4CgRF9UszOBr1Bl9TQMki
+   TA00U6dfix+OIDVNdiaZIvG4wC+hnSyGReVZMQSTwq1sxAhqqKGLX6L5q
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="250461297"
+X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; 
+   d="scan'208";a="250461297"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2022 13:15:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; 
+   d="scan'208";a="704470608"
+Received: from lkp-server01.sh.intel.com (HELO d95dc2dabeb1) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 16 Feb 2022 13:15:50 -0800
+Received: from kbuild by d95dc2dabeb1 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nKReP-000B7x-HV; Wed, 16 Feb 2022 21:15:49 +0000
+Date:   Thu, 17 Feb 2022 05:14:58 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Paul Pawlowski <paul@mrarm.io>
+Cc:     kbuild-all@lists.01.org, linux-input@vger.kernel.org,
+        Jiri Kosina <jkosina@suse.cz>,
+        Aun-Ali Zaidi <admin@kodeit.net>,
+        Aditya Garg <gargaditya08@live.com>
+Subject: [hid:for-5.18/apple 6/8] hid-apple.c:undefined reference to
+ `devm_led_classdev_register_ext'
+Message-ID: <202202170548.gIIZ5R9W-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-5.18/apple
+head:   c5f09b1b45cbb90147846f82ec0489789c99667e
+commit: 9018eacbe623b2c3535da37035e5f22d3d70b6ce [6/8] HID: apple: Add support for keyboard backlight on certain T2 Macs.
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20220217/202202170548.gIIZ5R9W-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?id=9018eacbe623b2c3535da37035e5f22d3d70b6ce
+        git remote add hid https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
+        git fetch --no-tags hid for-5.18/apple
+        git checkout 9018eacbe623b2c3535da37035e5f22d3d70b6ce
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
 
-If HID_GROUP of eel is set to HID_GROUP_GENERIC, Whiskers Tablet Mode
-Switch of eel hammer will not be detected by system because the
-hid-vivaldi driver probes the device. When it is set to
-HID_GROUP_VIVALDI, system will detect Whiskers Tablet Mode Switch
-successfully and also support the vivaldi keyboard layout.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Tested-by: "Sean O'Brien" <seobrien@chromium.org>
-Cc: Douglas Anderson <dianders@chromium.org>
-Acked-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
-[swboyd@chromium.org: Expand on commit text]
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+All errors (new ones prefixed by >>):
+
+   /usr/bin/ld: drivers/hid/hid-apple.o: in function `apple_probe':
+>> hid-apple.c:(.text+0x785): undefined reference to `devm_led_classdev_register_ext'
+   collect2: error: ld returned 1 exit status
+
 ---
- drivers/hid/hid-google-hammer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-index f8e6dccf6ed8..8c4881796a0c 100644
---- a/drivers/hid/hid-google-hammer.c
-+++ b/drivers/hid/hid-google-hammer.c
-@@ -636,7 +636,7 @@ static void hammer_remove(struct hid_device *hdev)
- static const struct hid_device_id hammer_devices[] = {
- 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
- 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_DON) },
--	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-+	{ HID_DEVICE(BUS_USB, HID_GROUP_VIVALDI,
- 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_EEL) },
- 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
- 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_HAMMER) },
--- 
-https://chromeos.dev
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
