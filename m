@@ -2,46 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5D314B8CDC
-	for <lists+linux-input@lfdr.de>; Wed, 16 Feb 2022 16:50:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7FA34B8CDE
+	for <lists+linux-input@lfdr.de>; Wed, 16 Feb 2022 16:50:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233973AbiBPPug (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Feb 2022 10:50:36 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42638 "EHLO
+        id S233811AbiBPPvA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Feb 2022 10:51:00 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233811AbiBPPuf (ORCPT
+        with ESMTP id S235765AbiBPPus (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Feb 2022 10:50:35 -0500
+        Wed, 16 Feb 2022 10:50:48 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7628B2A64E8;
-        Wed, 16 Feb 2022 07:50:23 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2AF92A82D2;
+        Wed, 16 Feb 2022 07:50:35 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 321C1B81F39;
-        Wed, 16 Feb 2022 15:50:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3129C004E1;
-        Wed, 16 Feb 2022 15:50:19 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 73BDCB81F39;
+        Wed, 16 Feb 2022 15:50:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22F2CC004E1;
+        Wed, 16 Feb 2022 15:50:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645026620;
-        bh=hY8Ocaeuw/PESJ3cesgcDqgDeuA6MCsn6usv7wvjd4g=;
+        s=k20201202; t=1645026633;
+        bh=l41tHDdLAtkQtvCVNj2n8mCIQt6xzYlxhzyYNAoaFVM=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=uD6ZAIeOPLcnB25OVls2MBk5wsYGG9SoZA+cadA2ftVzFUlDHfaihOdXIjDJBzje3
-         ytJdryOS2/Z8EGQkWOD+0PyaP7absZdgH8SXP3qr1dVYRrlTSrhKSb0g/qlmv3ZexK
-         TvisfE5HfNDQwb2X4J4+NLKTgHTuG8K9p/hebltZo0tyX48HsH+vO1GwH8MWumvRnW
-         rlfuiatTnVYbI/zF6LEeF+98Qxo3q/KBqxxyxT2zeNuTihb7G3yLoocz5i8MTXle5a
-         +6jsoBPJdYzxR4vEyeF2sDLs7fTg/2HDnOUV6aRoIxVMDkdQaG9NRzIqRocJPl2rv7
-         4IT9DepLHeYNQ==
-Date:   Wed, 16 Feb 2022 16:50:17 +0100 (CET)
+        b=D5QyWCoAfxhWNSVHutCMYJLizbVojzCaAw4OjM1HEPkyjE3JEP2t99bF+JivlBVCw
+         WNQgtvg81rGrIuY0l2cSArptTUGVWGGa/s94f9+iHpojo93pWskhjfw05WbVjR/fDv
+         xmXWn0kYkVO9stOcy+MAK8Nz1sni2I1kB0iedgodLhQSI/Y6KAsw45yjBQoZRnXEBx
+         9zLm+NPO+g7pDtciK3xrlEJ9Fl74z/TgxfomW+mEv0+pPltCXLELzT3yeOKiq59eWj
+         PJuOgacPUlakG2oI/2f6DadgPX+gq6OYUQ5M32H9m2jpkV80joNLzDxxB7wy27uiy+
+         sin8b2W9ib73g==
+Date:   Wed, 16 Feb 2022 16:50:30 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
 To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] Magic Keyboard first generation and 2015 FN key
- mapping
-In-Reply-To: <20220208183704.40101-1-jose.exposito89@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2202161650050.11721@cbobk.fhfr.pm>
-References: <20220208183704.40101-1-jose.exposito89@gmail.com>
+Subject: Re: [PATCH v2] HID: apple: Report Magic Keyboard 2021 battery over
+ USB
+In-Reply-To: <20220208185009.49100-1-jose.exposito89@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2202161650240.11721@cbobk.fhfr.pm>
+References: <20220208185009.49100-1-jose.exposito89@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -58,25 +58,21 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 On Tue, 8 Feb 2022, José Expósito wrote:
 
-> Hi everyone,
+> Like the Apple Magic Keyboard 2015, when connected over USB, the 2021
+> version registers 2 different interfaces. One of them is used to report
+> the battery level.
 > 
-> This patchset adds the missing key mapping for the Magic Keyboard first
-> generation and the 2015 models.
+> However, unlike when connected over Bluetooth, the battery level is not
+> reported automatically and it is required to fetch it manually.
 > 
-> Since the first generation model had numlock emulation in place, I
-> decided to fix the bug (described in the patch) and keep it in place
-> just because it has been there for so long that people might use it.
-> Having said that, there is no indication in the keyboard about which
-> keys can be used as numbers or how to enable/disable numlock.
-> I think that a patch removing APPLE_NUMLOCK_EMULATION might make sense,
-> but I didn't want to remove existing functionality without asking :)
+> Add the APPLE_RDESC_BATTERY quirk to fix the battery report descriptor
+> and manually fetch the battery level.
 > 
-> Thanks a lot,
-> José Expósito
+> Tested with the ANSI, ISO and JIS variants of the keyboard.
 > 
-> v2: Resolve conflicts
+> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 
-Queued in hid.git#for-5.18/apple. Thanks José,
+Applied.
 
 -- 
 Jiri Kosina
