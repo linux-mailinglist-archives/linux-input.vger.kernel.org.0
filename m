@@ -2,48 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EED3F4B8C70
-	for <lists+linux-input@lfdr.de>; Wed, 16 Feb 2022 16:30:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 528644B8CBA
+	for <lists+linux-input@lfdr.de>; Wed, 16 Feb 2022 16:43:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233829AbiBPPax (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Feb 2022 10:30:53 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38000 "EHLO
+        id S235639AbiBPPn1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Feb 2022 10:43:27 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232213AbiBPPaw (ORCPT
+        with ESMTP id S235655AbiBPPn1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Feb 2022 10:30:52 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ABE425A94C;
-        Wed, 16 Feb 2022 07:30:40 -0800 (PST)
+        Wed, 16 Feb 2022 10:43:27 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 378382944ED;
+        Wed, 16 Feb 2022 07:43:15 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 487BDB81F21;
-        Wed, 16 Feb 2022 15:30:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFE45C004E1;
-        Wed, 16 Feb 2022 15:30:36 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C84836197E;
+        Wed, 16 Feb 2022 15:43:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21298C004E1;
+        Wed, 16 Feb 2022 15:43:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645025437;
-        bh=jgVEEH3eNg0tOO+7PuDSL8BiWihVKmlQ7WkA5FiJu0w=;
+        s=k20201202; t=1645026194;
+        bh=4HECk7RNZ5X2T8TgSjopIPUWXgzRsIT+6tskb9kRt34=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=dg3sua0KUzO571dyptHOqjuqrFYjizmZzSMGR/6M6f9vj/KXQrhv0MhOZF0ZNsdQA
-         uAYDOtWhVFkEm5MxQDlB48+a++0Tdm3J0i0O9kaoUIwg4xdeFhXB9tNZ15oE1wFPOd
-         sRrbPwwGSS3GwfbC3tjHtAAKgVR34ME46Zc6tpHRs1mgITeKEviiZdG0GoL6u1lA20
-         q9KOyM15ToCJWfBw+Rv20HzCxK4FNaNf/gjC8uvzOPaerDiOkQfyzRvtthPv/juoZZ
-         63zeNwbaabz+w4uQPkd6xbFVVtNSv7hxvRwlziYTfvZSTB4dwoB4UQzcvwERK8coEV
-         jnQ8YTTS/pSVg==
-Date:   Wed, 16 Feb 2022 16:30:34 +0100 (CET)
+        b=oYAuSxPw4iDgjJk9SKZN5etPShh8Vc7f7JReTNPv+cMQUCVyaE3Jrmlvij0LFjkyX
+         PivKWB4HCgFfzGKSfVau422sA2kCe5ZLy1nhbwCpaX5PNA5BgRSj7C4fNBMW/C9RSE
+         ifO5zIwAHJqs/G6LNCv3tO0xmzI5F1gbA8H1Pb+HB2HJ+6zJ20g1dy5t1PA5tR1QXb
+         o/f4f3/3qmpNZRbc7AWVDoF2t1BBvAl6XLMfJSlg88l/Pt+uOVAwLjiEdWMpOZjeCf
+         XqrFtLv2CLeuWD+bZkWtdg7dZM/k9x/H1dm7m1eNsIDz81DLLZFwzN1EilzUPlrddg
+         agXad81CGtQVw==
+Date:   Wed, 16 Feb 2022 16:43:11 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Yang Li <yang.lee@linux.alibaba.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
-Subject: Re: [PATCH -next] HID: i2c-hid: remove unneeded semicolon
-In-Reply-To: <20220216015042.113021-1-yang.lee@linux.alibaba.com>
-Message-ID: <nycvar.YFH.7.76.2202161630200.11721@cbobk.fhfr.pm>
-References: <20220216015042.113021-1-yang.lee@linux.alibaba.com>
+To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/7] DIGImend patches, part one
+In-Reply-To: <20220210190437.50152-1-jose.exposito89@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2202161642180.11721@cbobk.fhfr.pm>
+References: <20220210190437.50152-1-jose.exposito89@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -54,32 +55,38 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 16 Feb 2022, Yang Li wrote:
+On Thu, 10 Feb 2022, José Expósito wrote:
 
-> Eliminate the following coccicheck warning:
-> ./drivers/hid/i2c-hid/i2c-hid-core.c:357:56-57: Unneeded semicolon
+> I'm working on the UC Logic driver to add support for my tablet.
+> After some work, I noticed that I needed some patches from the
+> DIGImend project [1].
 > 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
-> ---
->  drivers/hid/i2c-hid/i2c-hid-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Instead of cherry picking what I needed, I decided to go the hard
+> way and upstream every change present in DIGImend but missing in
+> the kernel with the intention of making development easier in the
+> future for everyone and providing better hardware support.
 > 
-> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-> index 91b2fa0d33c7..c078f09a2318 100644
-> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
-> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-> @@ -354,7 +354,7 @@ static int i2c_hid_set_or_send_report(struct i2c_hid *ihid,
->  		 * With simple "send report" all data goes into the output
->  		 * register.
->  		 */
-> -		*(__le16 *)ihid->cmdbuf = ihid->hdesc.wOutputRegister;;
-> +		*(__le16 *)ihid->cmdbuf = ihid->hdesc.wOutputRegister;
->  		length += sizeof(__le16);
->  	}
+> In a private conversation with DIGImend's maintainer, Nikolai
+> Kondrashov, I asked him for permission to upstream his changes and
+> he said it was fine :) All credit goes to him, I only fixed his
+> patches so they apply, fixed minor checkpatch errors, squashed
+> related changes and reviewed and tested them when my hardware
+> allowed me to.
+> 
+> This is the first series of patches from DIGImend. There are 37
+> patches in total [2], but I can imagine nobody wants to review such
+> a long series, so I'll be sending small groups of related patches...
 
-Thanks, that was me fat-fingering the fixup in the original patch. 
-Applied.
+Thanks a lot for consideration :)
+
+> Unless someone feels brave and tells me to send all of them ;)
+
+Definitely not me :)
+
+The patches look good to me, and I see Nikolai is CCed, so I've now queued 
+them in hid.git#for-5.18/uclogic
+
+Thanks,
 
 -- 
 Jiri Kosina
