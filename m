@@ -2,69 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1C754B816B
-	for <lists+linux-input@lfdr.de>; Wed, 16 Feb 2022 08:22:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57AA14B8160
+	for <lists+linux-input@lfdr.de>; Wed, 16 Feb 2022 08:22:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229831AbiBPHUB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Feb 2022 02:20:01 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:49896 "EHLO
+        id S229928AbiBPHUO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Feb 2022 02:20:14 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:51436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbiBPHUB (ORCPT
+        with ESMTP id S229924AbiBPHUN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Feb 2022 02:20:01 -0500
+        Wed, 16 Feb 2022 02:20:13 -0500
 Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90E63DBD2D
-        for <linux-input@vger.kernel.org>; Tue, 15 Feb 2022 23:19:48 -0800 (PST)
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3881E373D
+        for <linux-input@vger.kernel.org>; Tue, 15 Feb 2022 23:20:01 -0800 (PST)
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com [209.85.221.71])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 2D27D40811
-        for <linux-input@vger.kernel.org>; Wed, 16 Feb 2022 07:19:47 +0000 (UTC)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id A949E40813
+        for <linux-input@vger.kernel.org>; Wed, 16 Feb 2022 07:20:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1644995987;
-        bh=3QteeCZRrYGG8lRD/0x4vggPgtmzvyjVPqyeuzYI/CI=;
+        s=20210705; t=1644996000;
+        bh=7w2DeuDBNiRSAXfzi3M+RcvsldsGybZXzRUnLDhYfvo=;
         h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
          In-Reply-To:Content-Type;
-        b=amsve6dJUYAvb9iA92K/zo+JR23UrvQuNPZ5wtE/CVmmvVK9rP6rg5TpvNDhVuNk3
-         g8BDuylbvJb6eikk0E4urKjlTmrtnkEXaZXsi5589rUeh2XU+t3A2oCVcLA9pkPz6E
-         iAdxGY80N8yisxMl/0BgRY8BMpQWNFObIoFuKsTcPi+Yyt9yW7X/XdUtKezZxRa1XF
-         YNESHwwFqyXgxJdXdmNXm76pEkh62yr0ccWxPH/aym+xVKeZq0uqj4QwoSpAUP5YtK
-         rVWvl7B6dIIEEOE0JZObENMJwhVDKBa79Zw0S1u7peohPC65SeaAkzGNLyX8HZ7AhG
-         4Kc9KuUNB/gKQ==
-Received: by mail-wr1-f70.google.com with SMTP id c9-20020adfa709000000b001dde29c3202so665467wrd.22
-        for <linux-input@vger.kernel.org>; Tue, 15 Feb 2022 23:19:47 -0800 (PST)
+        b=YjEcJCttEwoc00rju/iqMCvGrK0JtWIo9G5/brW50HPJRO2IfWVOradwpsL63TPcA
+         gh4Uk98I2laeUsfHprNok0b5PJ7ZaEpJV3kAgEtpqFObyEvKzzSqlo+ielVWXWaShb
+         dbPZ22KkPx+abbGJnpYOSspf6ZI7vJyX8D1L6njmytuy/8OGt2FpuK2vDBHpESE7gJ
+         nA5nsCrEPkI/osg2ljvS+otrhU23p3qEVCM16fgbncA2TFFpatscA4KzLjUrPu5ODW
+         zm7b+uCf9gEsnAVOBy3qhp8/DHeCk+ofJD2TGXzMFcKNjbr2UlQXwPn3GMA+hVpx08
+         /rdEm55j7UiTQ==
+Received: by mail-wr1-f71.google.com with SMTP id g17-20020adfa591000000b001da86c91c22so682537wrc.5
+        for <linux-input@vger.kernel.org>; Tue, 15 Feb 2022 23:20:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=3QteeCZRrYGG8lRD/0x4vggPgtmzvyjVPqyeuzYI/CI=;
-        b=XXTf4tl3MwBupNZY0ULOIUVRdJ+inVsvc6UzUubLy+hnK9AVt7EZQc5F91CD5ZIuY9
-         Jo5VC7hw75K/rcEubT0n0KPVctPx0Ft6HjeOwm4LhWrsN5DF7zbKVUevWeQz2OcoUEU9
-         cf3+IEDoETtiukYee5xIPeK8AABkiv3yzunQDAZwdFS93GqYraMzi/yib2v2OMrbOMzK
-         r2qbAXD/5R5C+/nvXinfqsh2Qm5RWyjJYZmGAWnjM6ujtpiEV+eLxcL9LJxBiG9YBUZV
-         irBuQY1nq24grLl7MXXfgqRhfHaN6a/AYiOTUKo/i+MWnG/DV6YvozjPkXCWuw+EJxIo
-         gR9A==
-X-Gm-Message-State: AOAM5312uncUTsnhZUQOEpBQzNFaYmoAdb6izvd2rqTlfRebwZJSKJDX
-        cMvhIl3g9pXaUtLM27ClUc72cl52Ryr4ryyaU3OoeJNKC9FdTXXK4xTtMKaiuL8pLjIPT/MIzKQ
-        5xIr6WMEWN6fxN3t23a5kXklHmtE2KqQskWUiTwop
-X-Received: by 2002:a05:600c:2502:b0:37b:ce43:9ac0 with SMTP id d2-20020a05600c250200b0037bce439ac0mr251773wma.37.1644995986826;
-        Tue, 15 Feb 2022 23:19:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz0qUMxjV+5o8oLXBCBqBJN8fqGl7V096OWi35LZe9vA29ZRLzI2LtWlImYQream3SgUc8SdQ==
-X-Received: by 2002:a05:600c:2502:b0:37b:ce43:9ac0 with SMTP id d2-20020a05600c250200b0037bce439ac0mr251757wma.37.1644995986615;
-        Tue, 15 Feb 2022 23:19:46 -0800 (PST)
+        bh=7w2DeuDBNiRSAXfzi3M+RcvsldsGybZXzRUnLDhYfvo=;
+        b=tcq7E9uuuP2mmqyqa4sLZOiy3toYWmdjb5VicanW4+w3ARZNbQiDJH/tRINU08YafY
+         w5U/CXHOyzK08lqGKtvYoWBESDMooA6JDCCMxf23JDQWKmA6nQgD1f4JpLkA6a3Y28/V
+         2Jk+/IAPx/5DToc3VGUqffAE1CvkqZ/Z+OvPXnndPPIbKmeT1UvrjMc1YhJB72LiPynQ
+         JnEXWRzO8rGHwIWgJhDPi4gdpXIs830FEEYPMr3Dp5IgYaU+ElBeM5lVndPOHuw5xJpo
+         P1Cr4N6EeWNeLzA/YJ30nFRf7FbiwKvq9Pre8LVgxKzFNF5w6vaxBBiV0LOYTt5aA4Qf
+         M43A==
+X-Gm-Message-State: AOAM531Yt1k5vbtWb92B2K0tI9CnCWmLufQEims1hsN8AMs3Dtl7Ki7z
+        bCZUCG0RMWm2hvodxi9qMK0P8sJoX0Q4dpRbdNc2mh8CjTwJHq49zMupWkQKoVwhOL+u4fIeFdw
+        fgRvI/STquEPKZlW4SnxamknOz4SjbOZHB0tnIyB+
+X-Received: by 2002:a5d:5045:0:b0:1e3:20ed:4386 with SMTP id h5-20020a5d5045000000b001e320ed4386mr1219903wrt.262.1644995999857;
+        Tue, 15 Feb 2022 23:19:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxb1VVbNY7bGK3DwOXT5yvrd8OpjtnZcWQy8cN8iBkRu2VOhrUSKcPJ5EqScPCYI1d3U5+FbA==
+X-Received: by 2002:a5d:5045:0:b0:1e3:20ed:4386 with SMTP id h5-20020a5d5045000000b001e320ed4386mr1219896wrt.262.1644995999743;
+        Tue, 15 Feb 2022 23:19:59 -0800 (PST)
 Received: from [192.168.0.110] (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id az2sm26332158wmb.2.2022.02.15.23.19.45
+        by smtp.gmail.com with ESMTPSA id d6sm34450578wrs.85.2022.02.15.23.19.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Feb 2022 23:19:46 -0800 (PST)
-Message-ID: <275a4a2e-e8e2-b398-3574-73eae7cc6505@canonical.com>
-Date:   Wed, 16 Feb 2022 08:19:45 +0100
+        Tue, 15 Feb 2022 23:19:59 -0800 (PST)
+Message-ID: <81b4dc29-1402-7eb8-d2d9-c2f09af4c1ab@canonical.com>
+Date:   Wed, 16 Feb 2022 08:19:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 1/3] dt-bindings: ps2-gpio: convert binding to
- json-schema
+Subject: Re: [PATCH v3 2/3] dt-bindings: ps2-gpio: document bus signals open
+ drain
 Content-Language: en-US
 To:     Danilo Krummrich <danilokrummrich@dk-develop.de>,
         dmitry.torokhov@gmail.com, robh+dt@kernel.org,
@@ -72,15 +72,15 @@ To:     Danilo Krummrich <danilokrummrich@dk-develop.de>,
         linux-kernel@vger.kernel.org
 Cc:     linus.walleij@linaro.org
 References: <20220215180829.63543-1-danilokrummrich@dk-develop.de>
- <20220215180829.63543-2-danilokrummrich@dk-develop.de>
+ <20220215180829.63543-3-danilokrummrich@dk-develop.de>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20220215180829.63543-2-danilokrummrich@dk-develop.de>
+In-Reply-To: <20220215180829.63543-3-danilokrummrich@dk-develop.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -88,16 +88,17 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 On 15/02/2022 19:08, Danilo Krummrich wrote:
-> Convert the ps2-gpio dt-binding documentation to DT schema format using
-> the json-schema.
+> The PS/2 bus defines data and clock line to be open drain, this should
+> be reflected in the gpio flags set in the binding.
 > 
+> Especially, this is important since the clock line sometimes is driven
+> by the host while being used as interrupt source.
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 > Signed-off-by: Danilo Krummrich <danilokrummrich@dk-develop.de>
 > ---
->  .../devicetree/bindings/serio/ps2-gpio.txt    | 23 --------
->  .../devicetree/bindings/serio/ps2-gpio.yaml   | 58 +++++++++++++++++++
->  2 files changed, 58 insertions(+), 23 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/serio/ps2-gpio.txt
->  create mode 100644 Documentation/devicetree/bindings/serio/ps2-gpio.yaml
+>  .../devicetree/bindings/serio/ps2-gpio.yaml        | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
 > 
 
 
