@@ -2,124 +2,140 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77DE44B805B
-	for <lists+linux-input@lfdr.de>; Wed, 16 Feb 2022 06:49:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18A294B804E
+	for <lists+linux-input@lfdr.de>; Wed, 16 Feb 2022 06:49:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344613AbiBPFg0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Feb 2022 00:36:26 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59388 "EHLO
+        id S1344653AbiBPFkn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Feb 2022 00:40:43 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230002AbiBPFgZ (ORCPT
+        with ESMTP id S1344649AbiBPFkm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Feb 2022 00:36:25 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ED15FE41F;
-        Tue, 15 Feb 2022 21:36:13 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id 195so1197217pgc.6;
-        Tue, 15 Feb 2022 21:36:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=DHet3yLd9Skx6GUsFhlbjTrUaFrWYl/Ujhg4C1ElY0s=;
-        b=hstIR6P2t0zMgZpmECKtmv0XRUeQRFgHkBIr0NItNxCqpLowRKUHu7rXPyLncUwKn2
-         JqAEP+vSNix1/Pu1lZOIzSS2JpATKHW22y9d8VWAIdtBbHqO0OtkUOO9gW1woUNddrDn
-         0o+2pJTZsJZ12NKEbQ1jmLyFy04zna0YnjqM3sfwdTFhdN3re4G6YlmI1VIB+BL7iNdW
-         ywqh9vTLNWweD5v3pAs/Tw3RulhHSK8rPeJOO3d5CJeGIvnvE1Pu6oenvrS1kipkoiX5
-         crhCV9Vn5F7Xp0La0J8+/PZwct6F6BNSkOTG1N4YEPWezG/JKr7gWPIFCwWTtlKvLsHN
-         B7xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DHet3yLd9Skx6GUsFhlbjTrUaFrWYl/Ujhg4C1ElY0s=;
-        b=WScpXwdQq+BcLTOkq5QkRDn8G/uvbwTvPuw7JDOqseL/5tZ0wDCcD0RSl2nFfPXtAu
-         FS0Q0+4/zILBY96YeXdyFSqbBMBTzBcXWY4f7l7/wPwfugwUcqCy/WvRNuyQPYLpLzLK
-         xwmmseNX/yZe+bJUxJwkPxWasM3aSvx/1FimVu7MXa2+RtuXxhnOrw79EcyhBDXVldzF
-         QbBYuSDYj9vuWjmpPVKUteTyqaIN0sRPRBbcCz33iv5pI04pI2ptW/qamV9H7mIZ95mr
-         kh3iINpU5Z1+ziOOF0gYUbxpVqgQLOkHr3wqTF8YeTfPtXDvyOdOC3Hx8V7FsoT/yata
-         LpFw==
-X-Gm-Message-State: AOAM533mgtfOXxb/WDOpZWVoAr51mnMBT2MUySRc4HBzdoVu/W3xf1q3
-        x1jQRnYG6kSD1kApjqkWd1gIKM9DY88=
-X-Google-Smtp-Source: ABdhPJz2v0OfsBMOzK0oWK/dTBba7wXHr4UlPv6m4CAUvEpZpJ5Shehn+1PQChKGuSnD21yaojvQXA==
-X-Received: by 2002:a05:6a00:10c8:b0:4e1:7e17:9ca0 with SMTP id d8-20020a056a0010c800b004e17e179ca0mr1576787pfu.72.1644989772612;
-        Tue, 15 Feb 2022 21:36:12 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:4e4a:b0ff:e926:40e2])
-        by smtp.gmail.com with ESMTPSA id o7sm4281006pfw.114.2022.02.15.21.36.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Feb 2022 21:36:11 -0800 (PST)
-Date:   Tue, 15 Feb 2022 21:36:09 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     benjamin.tissoires@redhat.com, Jiri Kosina <jikos@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Sean O'Brien <seobrien@chromium.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
-Subject: Re: [PATCH v3 1/4] Input: Extract ChromeOS vivaldi physmap show
- function
-Message-ID: <YgyNScQJNVjJpqEc@google.com>
-References: <20220211012510.1198155-1-swboyd@chromium.org>
- <20220211012510.1198155-2-swboyd@chromium.org>
+        Wed, 16 Feb 2022 00:40:42 -0500
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8235BD2ED;
+        Tue, 15 Feb 2022 21:40:30 -0800 (PST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.west.internal (Postfix) with ESMTP id BE76C2B00296;
+        Wed, 16 Feb 2022 00:40:27 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Wed, 16 Feb 2022 00:40:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; bh=zLCfwTEqPgbAts1m8jwlP8PVBAXIZUQ47054Ba
+        XjuWY=; b=O59SGJn7XntFau15KVosBLouNjMxmYwm8UF+WWX0P9e0EwfCoUYc1S
+        lc6YM6F5yHeRqe0ZL/mLXQu8UT8N9a8kZ52ecv7cQbYxz9FjL/lnwiVkwYMHa+CH
+        tOtqwEQybObOdBFTh0rTxwgsucQBjP0tQtj0pQ2Sf2LPCW7wk3cB17t428ag4AzB
+        /BCEkJHss6l+9XLaOCz0ADzROfvDCMzYfMjT9KdQp77iOpbjuv75bZMsiIHWHHrO
+        qkbGsGE2xRQh/SO17Cblm4nlN1TqwOAs0pOQjVVhHIBQaqOj8ceyznTKuMAb1XZR
+        5Ux/vz8GprHnlJ2pi8WpcKV83L66FWMg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=zLCfwTEqPgbAts1m8
+        jwlP8PVBAXIZUQ47054BaXjuWY=; b=Zo49S1EPi6J3CgIp82dMnuKxxk9dNijRv
+        E5HYNb6sUgMUvuO3nTdFMV+nJjj4C2gjlLYVo/4rI25261e7q9ZpSEoWh/3XI/MX
+        /Ys3NgTt1MR54NubXbpE35ZOuzJCU1nP3Cbhtc1CFAApl4HqdnZbG5FJqTZ8O5d/
+        nZfoCicWntqje+1Tq2IqMF0dV8OT+lXi9vLmvxeLTl0RZV0tSOcxinwmgyxxewhR
+        8r+NSLdimyXyUX9vS5U1XdUi9CRTKMNBSGu0Abk2ecwiyxGN00+MUBvEv+8G29wV
+        focJsVMfdBVZ+oheV3eR7BDdMRWNlY4gSwdPDeGRc+snwoUF8YfOg==
+X-ME-Sender: <xms:So4MYgnpfovLImmYJP9hZlmB8Wr48TyQrMF9IDvWoZEy8OV9IWQ75g>
+    <xme:So4MYv1qqVSWDMsEeSEKLYrJFoKdPJkqviFudCYeK_tBDx2Poio8y7Bh-ky523m_f
+    3jfCpa1rAk2v5fsY_E>
+X-ME-Received: <xmr:So4MYuoz3kCa2Ly-okMgNSANrM-nHAmwbBLRyIhuoeleES18sslH89CU-VWb1mNEGyEKi3CWCkPWzyoBkMZJ4fkULtdvCv-rE1Lh>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjeehgdekfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgvrhcu
+    jfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtqe
+    enucggtffrrghtthgvrhhnpeehhfehfffgheelgeeuudelhefgvdefveekudevjeevjeev
+    vefggefguddufeeuveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+    hlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:S44MYsnC2027HY2O_ggoA7jlbwEy7k1NIZE2QRnFv0BfxbpSHHFzXQ>
+    <xmx:S44MYu1JIrPHRlPjKQl9F8LdP21A4vDI4_D4xZw9fv57c7I5p2QGeA>
+    <xmx:S44MYjsEZ0HDxq18kszsewLm2BnYv9e3lYu8XgOLEQA3SproGExS1Q>
+    <xmx:S44MYswnezxtDk4uQdE-l-FiFCTnpOB_SE6BELfR_VwttKE_lOG2qDatezM>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 16 Feb 2022 00:40:23 -0500 (EST)
+Date:   Wed, 16 Feb 2022 15:40:18 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= 
+        <nabijaczleweli@nabijaczleweli.xyz>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 12/12] Input: docs: add more details on the use of
+ BTN_TOOL
+Message-ID: <YgyOQuN9+IEsCsoA@quokka>
+References: <20220203143226.4023622-1-benjamin.tissoires@redhat.com>
+ <20220203143226.4023622-13-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220211012510.1198155-2-swboyd@chromium.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220203143226.4023622-13-benjamin.tissoires@redhat.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Feb 10, 2022 at 05:25:07PM -0800, Stephen Boyd wrote:
-> Let's introduce a common library file for the physmap show function
-> duplicated between three different keyboard drivers. This largely copies
-> the code from cros_ec_keyb.c which has the most recent version of the
-> show function, while using the vivaldi_data struct from the hid-vivaldi
-> driver. This saves a small amount of space in an allyesconfig build.
+On Thu, Feb 03, 2022 at 03:32:26PM +0100, Benjamin Tissoires wrote:
+> The HID core stack used to be very relaxed considering the BTN_TOOL_*
+> usage. With the recent commits, we should now enforce to have only one
+> tool at a time, meaning that we can now express that requirement in the
+> docs.
 > 
-> $ ./scripts/bloat-o-meter vmlinux.before vmlinux.after
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 > 
-> add/remove: 3/0 grow/shrink: 2/3 up/down: 412/-720 (-308)
-> Function                                     old     new   delta
-> vivaldi_function_row_physmap_show              -     292    +292
-> _sub_I_65535_1                           1057564 1057616     +52
-> _sub_D_65535_0                           1057564 1057616     +52
-> e843419@49f2_00062737_9b04                     -       8      +8
-> e843419@20f6_0002a34d_35bc                     -       8      +8
-> atkbd_parse_fwnode_data                      480     472      -8
-> atkbd_do_show_function_row_physmap           316      76    -240
-> function_row_physmap_show                    620     148    -472
-> Total: Before=285581925, After=285581617, chg -0.00%
-> 
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: "Sean O'Brien" <seobrien@chromium.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 > ---
->  drivers/hid/Kconfig                   |  1 +
->  drivers/hid/hid-vivaldi.c             | 27 +++++--------------
->  drivers/input/Kconfig                 |  7 +++++
->  drivers/input/Makefile                |  1 +
->  drivers/input/keyboard/Kconfig        |  2 ++
->  drivers/input/keyboard/atkbd.c        | 22 +++++----------
->  drivers/input/keyboard/cros_ec_keyb.c | 32 ++++++++--------------
->  drivers/input/vivaldi-keymap.c        | 39 +++++++++++++++++++++++++++
->  include/linux/input/vivaldi-keymap.h  | 28 +++++++++++++++++++
+> 
+> changes in v2:
+> - changed to explain that switching tool in one EV_SYN report
+>   is not nice for userspace
+> ---
+>  Documentation/input/event-codes.rst | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
+> index b24ae7d292cc..8741d390b184 100644
+> --- a/Documentation/input/event-codes.rst
+> +++ b/Documentation/input/event-codes.rst
+> @@ -137,7 +137,11 @@ A few EV_KEY codes have special meanings:
+>      code should be set to a value of 1. When the tool is no longer interacting
+>      with the input device, the BTN_TOOL_<name> code should be reset to 0. All
+>      trackpads, tablets, and touchscreens should use at least one BTN_TOOL_<name>
+> -    code when events are generated.
+> +    code when events are generated. Likewise all trackpads, tablets, and
+> +    touchscreens should export only one BTN_TOOL_<name> at a time. To not break
 
-Since you called the config INPUT_VIVALDIFMAP I think we should call
-these files vivaldi-fmap.(h|c) as well. They are not really keymaps.
+I still think s/export/set to nonzero/ to avoid any ambiguity with setting the
+evbit on the device vs setting the value to nonzero here, but the remainder is
+good, thanks :)
 
-Anyway, this makes sense to me. Jiri, Benjamin, do you want to merge
-this or do you want to take it all throgh your tree?
+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
 
-Thanks.
+Cheers,
+  Peter
 
--- 
-Dmitry
+
+> +    existing userspace, it is recommended to not switch tool in one EV_SYN frame
+> +    but first emitting the old BTN_TOOL_<name> at 0, then emit one SYN_REPORT
+> +    and then set the new BTN_TOOL_<name> at 1.
+>  
+>  * BTN_TOUCH:
+>  
+> -- 
+> 2.33.1
+> 
