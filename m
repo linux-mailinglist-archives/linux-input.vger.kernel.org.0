@@ -2,87 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BEB0C4B9AE8
-	for <lists+linux-input@lfdr.de>; Thu, 17 Feb 2022 09:29:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5107E4B9D89
+	for <lists+linux-input@lfdr.de>; Thu, 17 Feb 2022 11:48:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237622AbiBQI24 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Feb 2022 03:28:56 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36532 "EHLO
+        id S233671AbiBQKsu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Feb 2022 05:48:50 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237578AbiBQI2t (ORCPT
+        with ESMTP id S230033AbiBQKsu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Feb 2022 03:28:49 -0500
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 509E81C4553
-        for <linux-input@vger.kernel.org>; Thu, 17 Feb 2022 00:28:34 -0800 (PST)
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com [209.85.218.69])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id AEF57402E6
-        for <linux-input@vger.kernel.org>; Thu, 17 Feb 2022 08:28:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1645086512;
-        bh=vsKlQAxucxoa2YY4aKRE0fk/SvHQXFadLh+06pTLUSk=;
-        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-         In-Reply-To:Content-Type;
-        b=QLDibmVjRxSPWimBGs0UGeUFLXeDoDrchFPJeUkxRPX/NXLzYxke8/uWPwd8fHP6X
-         Gw4pqPum6CyZ2AXjGk28AcuQcxavNkV4nZforAk54Lt6Ax1vXnRK4pTAmKWmkGy++l
-         4xgdcHTTh3GH/stXL7gWbwL9/EMAgXW8ZmYWMnccGDw+u5DLq7hKz1RYSld31MfmSb
-         E/ybEa//DC1SlXUKAd2gTXQE34bxrONRzvfSgclI7JXC9MDnJM6qIjXBwgtVCi6QKC
-         SXe3pTu6DUW8g4ERh1az5ktmcc7f2Xs4CmCfX/Za4i4bAUsH2Fds+0rbs9xDUibesh
-         8N2QS151XFR4Q==
-Received: by mail-ej1-f69.google.com with SMTP id qf24-20020a1709077f1800b006ce8c140d3dso1140541ejc.18
-        for <linux-input@vger.kernel.org>; Thu, 17 Feb 2022 00:28:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=vsKlQAxucxoa2YY4aKRE0fk/SvHQXFadLh+06pTLUSk=;
-        b=WtBwt8mg75ZxiIuG/Ntt3DxaBciIwe10A/LaWvVNkptfNh770TGedtsl1LHIze5+Yu
-         +kKH158uoGkilB1m2yf3caUmttCEYVh2oQffkZpd1Jfj/ACvPqS9lkH5/s6fyC79mR1b
-         2b0StugY9NhbwTe6xDUPVpwj6EWyI0HlLAgeR8w0Bm6AfzaY+gBLTsGT/bTSGjT05WmL
-         yGzYUCzNkkKiSdS/nxuamuAnTdPBtaDMDCNM7OYwzOuFr49zzdFEJh30v2P+CyDr8XeN
-         Lvna77uxwH7EXgFHxTlmDiLTOlsFwptixWZlgJvTSvZxU4QnmACBD10Rjgks3GyaI7zP
-         hzCQ==
-X-Gm-Message-State: AOAM532UQFbxKt+WAj5HTdP6xhqJwwuy0Y1GGSaODEFzq8s9/1qdSMWN
-        wwqo+UMa1ykr3ueiK7cjwYfcMzXy3ya49dXnfu7VnvUW/J45uzy6Pg8uhvtTcEOKk0qhTB0XQE6
-        9vnlcMO56nCE5zA4zabaTtWEwPuPoMbLz1ON5sT97
-X-Received: by 2002:a17:906:c7cd:b0:6b7:a0ea:81f with SMTP id dc13-20020a170906c7cd00b006b7a0ea081fmr1483500ejb.502.1645086512399;
-        Thu, 17 Feb 2022 00:28:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzckXr6KyD0D4pif9ezfy/FnPfKiNqcN1LK/vCekvssppptudHK4a1hEy0QishrOp1goqNyLA==
-X-Received: by 2002:a17:906:c7cd:b0:6b7:a0ea:81f with SMTP id dc13-20020a170906c7cd00b006b7a0ea081fmr1483494ejb.502.1645086512237;
-        Thu, 17 Feb 2022 00:28:32 -0800 (PST)
-Received: from [192.168.0.110] (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id el5sm2816888edb.71.2022.02.17.00.28.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Feb 2022 00:28:31 -0800 (PST)
-Message-ID: <c3528ff1-878a-5a8a-ae0b-524e4f946743@canonical.com>
-Date:   Thu, 17 Feb 2022 09:28:30 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 1/2] dt-bindings: input/touchscreen: bindings for
- Imagis
-Content-Language: en-US
-To:     Markuss Broks <markuss.broks@gmail.com>,
-        linux-kernel@vger.kernel.org
-Cc:     phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+        Thu, 17 Feb 2022 05:48:50 -0500
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 505581ED1DB;
+        Thu, 17 Feb 2022 02:48:35 -0800 (PST)
+Received: from relay10.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::230])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id 8FCBAC5625;
+        Thu, 17 Feb 2022 10:35:31 +0000 (UTC)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 08D12240006;
+        Thu, 17 Feb 2022 10:35:24 +0000 (UTC)
+Message-ID: <93e5dc0bbeb0b44c9b225946b3ab81d3af3a1789.camel@hadess.net>
+Subject: Re: [PATCH] HID: Add mapping for KEY_APP_LAUNCHER
+From:   Bastien Nocera <hadess@hadess.net>
+To:     William Mahon <wmahon@chromium.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Cc:     William Mahon <wmahon@google.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
-References: <20220216134302.5153-1-markuss.broks@gmail.com>
- <20220216134302.5153-2-markuss.broks@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20220216134302.5153-2-markuss.broks@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org
+Date:   Thu, 17 Feb 2022 11:35:24 +0100
+In-Reply-To: <20220217053354.1.I3a7746ad05d270161a18334ae06e3b6db1a1d339@changeid>
+References: <20220217053354.1.I3a7746ad05d270161a18334ae06e3b6db1a1d339@changeid>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -90,21 +46,75 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 16/02/2022 14:43, Markuss Broks wrote:
-> This patch adds device-tree bindings for the Imagis
-> IST3038C touch screen IC.
+On Thu, 2022-02-17 at 05:33 +0000, William Mahon wrote:
+> The App Launcher key is used to bring up the Launcher menu.
 > 
-> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+> This patch adds a new key definition KEY_APP_LAUNCHER and maps
+> 0x0c02a28
+ 
+Is this a typo? It's not the same format as in your other patch.
+
+KEY_DASHBOARD as used in the Mac keyboard drivers looks like a good
+match for KEY_APP_LAUNCHER. If not, it would be good to explain why in
+the commit message.
+
+See 437184ae8bd1ef923a40b009e37801deae66ad55 for the KEY_DASHBOARD
+addition.
+
+> usage code to this new keycode. Additionally hid-debug is adjusted to
+> recognize this new usage code as well.
+> 
+> Signed-off-by: William Mahon <wmahon@google.com>
 > ---
->  .../input/touchscreen/imagis,ist3038c.yaml    | 74 +++++++++++++++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
->  2 files changed, 76 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
 > 
+>  drivers/hid/hid-debug.c                | 1 +
+>  drivers/hid/hid-input.c                | 2 ++
+>  include/uapi/linux/input-event-codes.h | 2 ++
+>  3 files changed, 5 insertions(+)
+> 
+> diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+> index 01135713e8f9..36a42ad3b7bc 100644
+> --- a/drivers/hid/hid-debug.c
+> +++ b/drivers/hid/hid-debug.c
+> @@ -930,6 +930,7 @@ static const char *keys[KEY_MAX + 1] = {
+>         [KEY_SCREENSAVER] = "ScreenSaver",
+>         [KEY_VOICECOMMAND] = "VoiceCommand",
+>         [KEY_EMOJI_PICKER] = "EmojiPicker",
+> +       [KEY_APP_LAUNCHER] = "AppLauncher",
+>         [KEY_BRIGHTNESS_MIN] = "BrightnessMin",
+>         [KEY_BRIGHTNESS_MAX] = "BrightnessMax",
+>         [KEY_BRIGHTNESS_AUTO] = "BrightnessAuto",
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index eccd89b5ea9f..7c89260826b2 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -1162,6 +1162,8 @@ static void hidinput_configure_usage(struct
+> hid_input *hidinput, struct hid_fiel
+>  
+>                 case 0x29d:
+> map_key_clear(KEY_KBD_LAYOUT_NEXT); break;
+>  
+> +               case 0x2a2:
+> map_key_clear(KEY_APP_LAUNCHER);    break;
+> +
+>                 case 0x2c7:
+> map_key_clear(KEY_KBDINPUTASSIST_PREV);             break;
+>                 case 0x2c8:
+> map_key_clear(KEY_KBDINPUTASSIST_NEXT);             break;
+>                 case 0x2c9:
+> map_key_clear(KEY_KBDINPUTASSIST_PREVGROUP);                break;
+> diff --git a/include/uapi/linux/input-event-codes.h
+> b/include/uapi/linux/input-event-codes.h
+> index 311a57f3e01a..fdf43cf14125 100644
+> --- a/include/uapi/linux/input-event-codes.h
+> +++ b/include/uapi/linux/input-event-codes.h
+> @@ -651,6 +651,8 @@
+>  #define KEY_DATA                       0x277
+>  #define KEY_ONSCREEN_KEYBOARD          0x278
+>  
+> +#define KEY_APP_LAUNCHER               0x27c
+> +
+>  #define BTN_TRIGGER_HAPPY              0x2c0
+>  #define BTN_TRIGGER_HAPPY1             0x2c0
+>  #define BTN_TRIGGER_HAPPY2             0x2c1
 
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-
-
-Best regards,
-Krzysztof
