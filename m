@@ -2,119 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5107E4B9D89
-	for <lists+linux-input@lfdr.de>; Thu, 17 Feb 2022 11:48:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01E9F4B9F6C
+	for <lists+linux-input@lfdr.de>; Thu, 17 Feb 2022 12:54:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233671AbiBQKsu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Feb 2022 05:48:50 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41998 "EHLO
+        id S240040AbiBQLyE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Feb 2022 06:54:04 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230033AbiBQKsu (ORCPT
+        with ESMTP id S233749AbiBQLyE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Feb 2022 05:48:50 -0500
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 505581ED1DB;
-        Thu, 17 Feb 2022 02:48:35 -0800 (PST)
-Received: from relay10.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::230])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id 8FCBAC5625;
-        Thu, 17 Feb 2022 10:35:31 +0000 (UTC)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 08D12240006;
-        Thu, 17 Feb 2022 10:35:24 +0000 (UTC)
-Message-ID: <93e5dc0bbeb0b44c9b225946b3ab81d3af3a1789.camel@hadess.net>
-Subject: Re: [PATCH] HID: Add mapping for KEY_APP_LAUNCHER
-From:   Bastien Nocera <hadess@hadess.net>
-To:     William Mahon <wmahon@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Cc:     William Mahon <wmahon@google.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org
-Date:   Thu, 17 Feb 2022 11:35:24 +0100
-In-Reply-To: <20220217053354.1.I3a7746ad05d270161a18334ae06e3b6db1a1d339@changeid>
-References: <20220217053354.1.I3a7746ad05d270161a18334ae06e3b6db1a1d339@changeid>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+        Thu, 17 Feb 2022 06:54:04 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0DD7291FA6
+        for <linux-input@vger.kernel.org>; Thu, 17 Feb 2022 03:53:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645098829; x=1676634829;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xWW9MhUhwtvErVIWbpcYWoWnb0r1U9w7lWn6Em0RCtc=;
+  b=k/Hum8ScKIZo5c0dFva8xhGRWH2e9qfDu+RK2QB2UTYetIq05v6cxaDB
+   oXPif2Fjp67NgdIVjQE8I7YJD8Phccjn6Xq4KjO/Aakl0qNpEyEoH+zaR
+   jPNElzrw+Yn4hHC/agLBhz6CtuXPMLwBHE83ousHrROP0tacjMXHaYz+Q
+   FvBCSUS3xag+tzwi6+sgIRvyb3q/SQmgHVJx0TEsUY0x9hsHpqGkYBoM6
+   lX1u0u82f/5ujd4+0JiH5lAxe1rKz5tLh5OgohixWA8Jg422fKjjX8qA1
+   l4fM+6Y/dF7AAvPTsJb9ZYS9s1MiTrK9ywR0N/uwtmxqI5kvMlQJXsQoT
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="238260271"
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; 
+   d="scan'208";a="238260271"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2022 03:53:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; 
+   d="scan'208";a="502060977"
+Received: from lkp-server01.sh.intel.com (HELO 6f05bf9e3301) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 17 Feb 2022 03:53:48 -0800
+Received: from kbuild by 6f05bf9e3301 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nKfM3-00009F-F7; Thu, 17 Feb 2022 11:53:47 +0000
+Date:   Thu, 17 Feb 2022 19:53:05 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Jiri Kosina <jkosina@suse.cz>
+Cc:     kbuild-all@lists.01.org, linux-input@vger.kernel.org
+Subject: [hid:for-5.18/apple 9/9] input-leds.c:undefined reference to
+ `led_classdev_unregister'
+Message-ID: <202202171901.BwyfQMby-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2022-02-17 at 05:33 +0000, William Mahon wrote:
-> The App Launcher key is used to bring up the Launcher menu.
-> 
-> This patch adds a new key definition KEY_APP_LAUNCHER and maps
-> 0x0c02a28
- 
-Is this a typo? It's not the same format as in your other patch.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-5.18/apple
+head:   4ea1e06cd2f1db285e662ef20f78fff5f5f32824
+commit: 4ea1e06cd2f1db285e662ef20f78fff5f5f32824 [9/9] HID: apple: properly reflect LEDS dependency
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20220217/202202171901.BwyfQMby-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?id=4ea1e06cd2f1db285e662ef20f78fff5f5f32824
+        git remote add hid https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
+        git fetch --no-tags hid for-5.18/apple
+        git checkout 4ea1e06cd2f1db285e662ef20f78fff5f5f32824
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
 
-KEY_DASHBOARD as used in the Mac keyboard drivers looks like a good
-match for KEY_APP_LAUNCHER. If not, it would be good to explain why in
-the commit message.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-See 437184ae8bd1ef923a40b009e37801deae66ad55 for the KEY_DASHBOARD
-addition.
+All errors (new ones prefixed by >>):
 
-> usage code to this new keycode. Additionally hid-debug is adjusted to
-> recognize this new usage code as well.
-> 
-> Signed-off-by: William Mahon <wmahon@google.com>
-> ---
-> 
->  drivers/hid/hid-debug.c                | 1 +
->  drivers/hid/hid-input.c                | 2 ++
->  include/uapi/linux/input-event-codes.h | 2 ++
->  3 files changed, 5 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-> index 01135713e8f9..36a42ad3b7bc 100644
-> --- a/drivers/hid/hid-debug.c
-> +++ b/drivers/hid/hid-debug.c
-> @@ -930,6 +930,7 @@ static const char *keys[KEY_MAX + 1] = {
->         [KEY_SCREENSAVER] = "ScreenSaver",
->         [KEY_VOICECOMMAND] = "VoiceCommand",
->         [KEY_EMOJI_PICKER] = "EmojiPicker",
-> +       [KEY_APP_LAUNCHER] = "AppLauncher",
->         [KEY_BRIGHTNESS_MIN] = "BrightnessMin",
->         [KEY_BRIGHTNESS_MAX] = "BrightnessMax",
->         [KEY_BRIGHTNESS_AUTO] = "BrightnessAuto",
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index eccd89b5ea9f..7c89260826b2 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -1162,6 +1162,8 @@ static void hidinput_configure_usage(struct
-> hid_input *hidinput, struct hid_fiel
->  
->                 case 0x29d:
-> map_key_clear(KEY_KBD_LAYOUT_NEXT); break;
->  
-> +               case 0x2a2:
-> map_key_clear(KEY_APP_LAUNCHER);    break;
-> +
->                 case 0x2c7:
-> map_key_clear(KEY_KBDINPUTASSIST_PREV);             break;
->                 case 0x2c8:
-> map_key_clear(KEY_KBDINPUTASSIST_NEXT);             break;
->                 case 0x2c9:
-> map_key_clear(KEY_KBDINPUTASSIST_PREVGROUP);                break;
-> diff --git a/include/uapi/linux/input-event-codes.h
-> b/include/uapi/linux/input-event-codes.h
-> index 311a57f3e01a..fdf43cf14125 100644
-> --- a/include/uapi/linux/input-event-codes.h
-> +++ b/include/uapi/linux/input-event-codes.h
-> @@ -651,6 +651,8 @@
->  #define KEY_DATA                       0x277
->  #define KEY_ONSCREEN_KEYBOARD          0x278
->  
-> +#define KEY_APP_LAUNCHER               0x27c
-> +
->  #define BTN_TRIGGER_HAPPY              0x2c0
->  #define BTN_TRIGGER_HAPPY1             0x2c0
->  #define BTN_TRIGGER_HAPPY2             0x2c1
+   /usr/bin/ld: drivers/input/input-leds.o: in function `input_leds_disconnect':
+>> input-leds.c:(.text+0x18): undefined reference to `led_classdev_unregister'
+   /usr/bin/ld: drivers/input/input-leds.o: in function `input_leds_connect':
+>> input-leds.c:(.text+0x24c): undefined reference to `led_classdev_register_ext'
+>> /usr/bin/ld: input-leds.c:(.text+0x2b3): undefined reference to `led_classdev_unregister'
+   /usr/bin/ld: drivers/hid/hid-apple.o: in function `apple_probe':
+   hid-apple.c:(.text+0x7d2): undefined reference to `devm_led_classdev_register_ext'
+   collect2: error: ld returned 1 exit status
 
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for LEDS_CLASS
+   Depends on NEW_LEDS
+   Selected by
+   - HID_APPLE && INPUT && HID
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
