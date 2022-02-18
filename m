@@ -2,328 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A09B04BB811
-	for <lists+linux-input@lfdr.de>; Fri, 18 Feb 2022 12:30:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 311344BB8A0
+	for <lists+linux-input@lfdr.de>; Fri, 18 Feb 2022 12:49:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234506AbiBRLaP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Feb 2022 06:30:15 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48490 "EHLO
+        id S234733AbiBRLtj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Feb 2022 06:49:39 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231172AbiBRLaP (ORCPT
+        with ESMTP id S234581AbiBRLtj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Feb 2022 06:30:15 -0500
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CD892AF906
-        for <linux-input@vger.kernel.org>; Fri, 18 Feb 2022 03:29:58 -0800 (PST)
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com [209.85.218.69])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 888003F203
-        for <linux-input@vger.kernel.org>; Fri, 18 Feb 2022 11:29:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1645183796;
-        bh=5vu8Aw1W8wtoUUoiu3zrUlU5vDSdum5E40oXQSHrvFY=;
-        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-         In-Reply-To:Content-Type;
-        b=oyqHD8G5sahpxXlb/GRpyzFsmr5MOliYiV0SlwBgcsuvs85zpZAanqmL/vHc0mZHu
-         RLcEotbvxCX7NZln0rqS8Zg06WhDnntkc4N0zIqxzQcVPbFxu1E9s9g8z3t6xv6S6n
-         G6wgrP1dMTGggyW7cW1pJM2xX9ZuiqB6LixArR62JlU0pjT7MRZY8+BpWPUglOUt0o
-         zI9Fx2e3U98gMHnPUAuLay29j4h7T6nBA+Q+IECHklCDzipiRGljs8XML8u3htSjIN
-         M+U63Jceq3jv9Lq7y2YMaGAV1opKfLVej2fkr6lltyg+YhxdhgzPFVgyDdsbJB659x
-         qf77MhyluY95w==
-Received: by mail-ej1-f69.google.com with SMTP id gn20-20020a1709070d1400b006cf1fcb4c8dso2926752ejc.12
-        for <linux-input@vger.kernel.org>; Fri, 18 Feb 2022 03:29:56 -0800 (PST)
+        Fri, 18 Feb 2022 06:49:39 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E1DE171292
+        for <linux-input@vger.kernel.org>; Fri, 18 Feb 2022 03:49:22 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id bu29so5031939lfb.0
+        for <linux-input@vger.kernel.org>; Fri, 18 Feb 2022 03:49:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=pvR2wjIpC2T5CmITljP/vaEXSCGtvFfEKXeRfOwBGJs=;
+        b=TjH0MJqzSw0/Nnmu5FnJNC0DKtU/qJVbJtToot5Ym0cxE3Hic+L8agoEmjx0GdtgbD
+         mrFBhjFZh+wOAeZCEsZtOqgWD/crRx9YpnAhBUYxQ01v0XtRaKdUQrqBmKJ9ZfHU2yxz
+         mwoK8DjE+rJmqy0qOawr9XyfIP4tyJrB8zCVxOavzlsL1f3lRVPoFidEPQthmAySOg8O
+         9aNpox/xS0Q7dLAUpI8cGqTtahcRYAWyvSCJDQl0Eygl+NPELcwtGmtRGRlC/rNEEExb
+         YtfHtvKSqX2VcmOhhi4y1pXdtHVLcT3vX81OFgyCLppYXfKW37CE1nvAHiDbVmr7GEAg
+         pn+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=5vu8Aw1W8wtoUUoiu3zrUlU5vDSdum5E40oXQSHrvFY=;
-        b=Ltebl8U8tUeW9cXcWvb4MCUgr+6N+BMcUEUw/ew3H1HBBzodsN1MJADnM3T6tlu88/
-         WqTusu+dh+hq10ScvTFBgYgIb7MWa/mVgvwVaztIkUjBMro4Gz3RtAI88/wMqhE22iP/
-         NbszADXHWZ5wXFGIgeB76Ysf4wp47XW5917n9MCNEGYwzLuit4NG2YFVPO8Ivs2Fepav
-         w1gbLMqMo5thyuh3pJ6g9K1PVyMgcFoZqJL0h/iS0ZdyM24lTZyYVRmB+y2cbt+EoWF6
-         pXisLavtMe1L7yPpEfqlojmFwH5ys9sz4vxWjRFkD6hiFN1HUMi36NTZAq3IDyantGJL
-         ZT2A==
-X-Gm-Message-State: AOAM530Pnd10biinQ6VHtgQZepWEDBS3qHW5RccggDYma1DcVlE56oa6
-        dwtQ/HJAfTJuh9j0+Oo++A0qNmaOSjEcGaSM1dUE+lIiTGqUIizPXIYG1Py+GwQX0TV02eULHHy
-        s5Ij3etw/ahTjB1oyVf9ZbVp95/AoJvs0x9k7WKxx
-X-Received: by 2002:a50:d9ce:0:b0:410:f199:56ab with SMTP id x14-20020a50d9ce000000b00410f19956abmr7555702edj.182.1645183795972;
-        Fri, 18 Feb 2022 03:29:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx15pzi/Z1NawSn2EWE5GK+1O9N+/OnokCiUugNjZZzD6iKk05cmwfAS1/FuQrIi+oq2rOcxA==
-X-Received: by 2002:a50:d9ce:0:b0:410:f199:56ab with SMTP id x14-20020a50d9ce000000b00410f19956abmr7555679edj.182.1645183795698;
-        Fri, 18 Feb 2022 03:29:55 -0800 (PST)
-Received: from [192.168.0.114] (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id b17sm2142489ejd.34.2022.02.18.03.29.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Feb 2022 03:29:54 -0800 (PST)
-Message-ID: <d4fcf76c-5d43-d8fc-bdc7-1a04ab517678@canonical.com>
-Date:   Fri, 18 Feb 2022 12:29:53 +0100
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=pvR2wjIpC2T5CmITljP/vaEXSCGtvFfEKXeRfOwBGJs=;
+        b=1cWMcsVAe1yW8Q3TGNUKDtLyItpmgnuIHjTzmIrf/uKore/A00tNYCcG+cFs7tp8MH
+         8aSsoId8agcvKR0on0RFoUfSK3ollRc0Ag78WpvTq/jDsxQt1J4me5F/Z4IL/G7EUCvV
+         IvGt+t0Xbt7L6HAQi43iLT6+RTvqbPp0XSg3uurJzA5MmmuoTjmjsdEE8oYS68mz6bne
+         8KPtleF9hDKJks1z0bD9OlOkfHS73hl/IThYVepH5NZ0Gp8QottLLasHOHruY/xqBwxz
+         cwXPPqF5QbQV9oAnu+Xb8XXy01dJDOmyGiIF9dAN2bug/7rby7sEFqizEF0gBsg5tD0f
+         Du+w==
+X-Gm-Message-State: AOAM531UKpuGlDeQbvJrGD4ybdkMmLNguPA3hpeUFmnRhHomLPiYT4xi
+        F7/sqpw/+K0/wkSjDtCUNBXyNl42o4NQdUn7UnE=
+X-Google-Smtp-Source: ABdhPJx/WjF/ZOq2Y8ELCgxQFWqxFcDtTY6Wdei6J5kXtmhz8mV9suBP9ppVn6I+7k5VIlpkXZUocTb0artTw7iDfVI=
+X-Received: by 2002:ac2:50d0:0:b0:443:15cc:9f78 with SMTP id
+ h16-20020ac250d0000000b0044315cc9f78mr5077485lfm.80.1645184960600; Fri, 18
+ Feb 2022 03:49:20 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] dt-bindings: nvidia,tegra20-kbc: Convert to json-schema
-Content-Language: en-US
-To:     Max Buchholz <max.buchholz@gmx.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>
-Cc:     David Heidelberg <david@ixit.cz>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220218101011.22988-1-max.buchholz@gmx.de>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20220218101011.22988-1-max.buchholz@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Sender: hgtrduyuihoiygoiu@gmail.com
+Received: by 2002:a05:6520:517:b0:19b:a942:a982 with HTTP; Fri, 18 Feb 2022
+ 03:49:20 -0800 (PST)
+From:   "mrs.sophia.robin" <mrs.sophiar.robin424@gmail.com>
+Date:   Fri, 18 Feb 2022 12:49:20 +0100
+X-Google-Sender-Auth: Pgf39q-TPHtwqSYIyDYtmSyOOsM
+Message-ID: <CAGWMNqqR=e-jcRxfP7qZAGRgKeK1_2tYdNK1zhHCxU=XD4A9NQ@mail.gmail.com>
+Subject: Dearest One,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=7.2 required=5.0 tests=ADVANCE_FEE_5_NEW_FRM_MNY,
+        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FILL_THIS_FORM,FILL_THIS_FORM_LONG,FREEMAIL_FROM,HK_SCAM,LOTS_OF_MONEY,
+        MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_FILL_THIS_FORM_LOAN,T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_MONEY,URG_BIZ autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5002]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [hgtrduyuihoiygoiu[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:12d listed in]
+        [list.dnswl.org]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        *  0.6 URG_BIZ Contains urgent matter
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  0.5 HK_SCAM No description available.
+        *  0.0 FILL_THIS_FORM Fill in a form with personal information
+        *  2.0 FILL_THIS_FORM_LONG Fill in a form with personal information
+        *  0.0 T_FILL_THIS_FORM_LOAN Answer loan question(s)
+        *  0.0 ADVANCE_FEE_5_NEW_FRM_MNY Advance Fee fraud form and lots of
+        *      money
+        *  2.9 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+        *  0.6 MONEY_FRAUD_5 Lots of money and many fraud phrases
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 18/02/2022 11:10, Max Buchholz wrote:
-> From: Max Buchholz <Max.Buchholz@gmx.de>
-> 
-> This converts the Nvidia Tegra keyboard controller bindings to YAML
-> and fix them up a bit.
-> 
-> Acked-by: David Heidelberg <david@ixit.cz>
-> Signed-off-by: Max Buchholz <max.buchholz@gmx.de>
-> ---
->  .../bindings/input/nvidia,tegra20-kbc.txt     |  55 ---------
->  .../bindings/input/nvidia,tegra20-kbc.yaml    | 114 ++++++++++++++++++
->  2 files changed, 114 insertions(+), 55 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
->  create mode 100644 Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt b/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
-> deleted file mode 100644
-> index 1faa7292e21f..000000000000
-> --- a/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
-> +++ /dev/null
-> @@ -1,55 +0,0 @@
-> -* Tegra keyboard controller
-> -The key controller has maximum 24 pins to make matrix keypad. Any pin
-> -can be configured as row or column. The maximum column pin can be 8
-> -and maximum row pins can be 16 for Tegra20/Tegra30.
-> -
-> -Required properties:
-> -- compatible: "nvidia,tegra20-kbc"
-> -- reg: Register base address of KBC.
-> -- interrupts: Interrupt number for the KBC.
-> -- nvidia,kbc-row-pins: The KBC pins which are configured as row. This is an
-> -  array of pin numbers which is used as rows.
-> -- nvidia,kbc-col-pins: The KBC pins which are configured as column. This is an
-> -  array of pin numbers which is used as column.
-> -- linux,keymap: The keymap for keys as described in the binding document
-> -  devicetree/bindings/input/matrix-keymap.txt.
-> -- clocks: Must contain one entry, for the module clock.
-> -  See ../clocks/clock-bindings.txt for details.
-> -- resets: Must contain an entry for each entry in reset-names.
-> -  See ../reset/reset.txt for details.
-> -- reset-names: Must include the following entries:
-> -  - kbc
-> -
-> -Optional properties, in addition to those specified by the shared
-> -matrix-keyboard bindings:
-> -
-> -- linux,fn-keymap: a second keymap, same specification as the
-> -  matrix-keyboard-controller spec but to be used when the KEY_FN modifier
-> -  key is pressed.
-> -- nvidia,debounce-delay-ms: delay in milliseconds per row scan for debouncing
-> -- nvidia,repeat-delay-ms: delay in milliseconds before repeat starts
-> -- nvidia,ghost-filter: enable ghost filtering for this device
-> -- wakeup-source: configure keyboard as a wakeup source for suspend/resume
-> -		 (Legacy property supported: "nvidia,wakeup-source")
-> -
-> -Example:
-> -
-> -keyboard: keyboard {
-> -	compatible = "nvidia,tegra20-kbc";
-> -	reg = <0x7000e200 0x100>;
-> -	interrupts = <0 85 0x04>;
-> -	clocks = <&tegra_car 36>;
-> -	resets = <&tegra_car 36>;
-> -	reset-names = "kbc";
-> -	nvidia,ghost-filter;
-> -	nvidia,debounce-delay-ms = <640>;
-> -	nvidia,kbc-row-pins = <0 1 2>;    /* pin 0, 1, 2 as rows */
-> -	nvidia,kbc-col-pins = <11 12 13>; /* pin 11, 12, 13 as columns */
-> -	linux,keymap = <0x00000074
-> -			0x00010067
-> -			0x00020066
-> -			0x01010068
-> -			0x02000069
-> -			0x02010070
-> -			0x02020071>;
-> -};
-> diff --git a/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml b/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml
-> new file mode 100644
-> index 000000000000..076b347a6f07
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml
-> @@ -0,0 +1,114 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/input/nvidia,tegra20-kbc.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Nvidia Tegra keyboard controller
-> +
-> +maintainers:
-> +  - Max Buchholz <max.buchholz@gmx.de>
+Dearest One,
 
-Maybe also add TEGRA KBC DRIVER maintainer? He was not CC here...
+  am Mrs.Sophia Robin, a citizen of the united state of America, I
+work at HSBC Bank in Milan Italy, as Telex Manager charge of wire
+transfer department, am contacting you personally for investment
+assistance and a long term business relationship in your Country. am
+contacting you for an important and urgent business transaction, I
+want the bank to transfer the money left by Dr.Cheng Chao, a Chinese
+Politician who died, March 17th 2020, without any trace of his family
+members, he used our bank to launder money overseas through the help
+of their Political advisers. and most of the funds which they
+transferred out of the shores of China, were gold and oil money that
+was supposed to have been used to develop the continent.
 
-> +
-> +description: >
-> +  The key controller has maximum 24 pins to make matrix keypad. Any pin
-> +  can be configured as row or column. The maximum column pin can be 8
-> +  and maximum row pins can be 16 for Tegra20/Tegra30.
-> +
-> +properties:
-> +  compatible:
-> +    const: nvidia,tegra20-kbc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
+Can you invest this money and also help the poor? The amount value at
+$15.5million Dollars($US15,500,000),left in his account still
+unclaimed,if you know that you are capable to invest this fund into
+any profitable business in your country kindly send me your details
+information as listed below to enable me draft you an application form
+of claim along with the deposit certificate which you are going to
+fill with your bank account detail necessary and contact the HSBC Bank
+in Italy for immediate transfer of the Amounted sum into your bank
+account direct. Percentage share will be 60,for me/40,for you.
 
-maxItems: 1
+(1) Your full name.....................
+(2) Your address................
+(3) Your Nationality...............
+(4) Your Age/Sex.....................
+(5) Your  Occupation.......................
+(6) Your marital status........................
+(7) Your direct telephone number..................
+(8) Your photo..................
 
-> +    description: Interrupt number for the KBC.
-
-It's fairly obvious, so description can be skipped.
-
-> +
-> +  nvidia,kbc-row-pins:
-> +    description: >
-> +      The KBC pins which are configured as row. This is an
-> +      array of pin numbers which is used as rows.
-
-You basically duplicate the property name in description. "Row" is
-obvious from property name. "Pins" as well. "Array" from the type below.
-Please document the field without repeating the type and property name.
-
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +
-> +  nvidia,kbc-col-pins:
-> +    description: >
-> +      The KBC pins which are configured as column. This is an
-> +      array of pin numbers which is used as column.
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +
-> +  linux,keymap:
-> +    description: >
-> +      The keymap for keys as described in the binding document
-> +      devicetree/bindings/input/matrix-keymap.txt.
-
-1. The file is empty.
-2. Reference matrxi-keymap.yaml instead with allOf.
-
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: >
-> +      Must contain one entry, for the module clock.
-> +      See ../clocks/clock-bindings.txt for details.
-
-Skip description, it's obvious and no need to reference old TXT.
-
-> +
-> +  resets:
-> +    description: >
-> +      Must contain an entry for each entry in reset-names.
-> +      See ../reset/reset.txt for details.
-
-maxItems
-Skip description.
-
-> +
-> +  reset-names:
-> +    const: kbc
-> +
-> +  linux,fn-keymap:
-> +    description: >
-> +      a second keymap, same specification as the
-> +      matrix-keyboard-controller spec but to be used when the KEY_FN modifier
-> +      key is pressed.
-
-Does not look like standard property, so you need type.
-
-> +
-> +  nvidia,debounce-delay-ms:
-> +    description: delay in milliseconds per row scan for debouncing
-> +
-> +  nvidia,repeat-delay-ms:
-> +    description: delay in milliseconds before repeat starts
-> +
-> +  nvidia,ghost-filter:
-> +    description: enable ghost filtering for this device
-> +    type: boolean
-> +
-> +  wakeup-source:
-> +    description: configure keyboard as a wakeup source for suspend/resume
-> +
-> +  nvidia,wakeup-source:
-> +    description: configure keyboard as a wakeup source for suspend/resume
-> +    deprecated: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - nvidia,kbc-row-pins
-> +  - nvidia,kbc-col-pins
-> +  - linux,keymap
-> +  - clocks
-> +  - resets
-> +  - reset-names
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    keyboard: {
-> +        compatible = "nvidia,tegra20-kbc";
-> +        reg = <0x7000e200 0x100>;
-> +        interrupts = <0 85 0x04>;
-
-0 is GIC_SPI?
-0x4 is a speficif flag? Use defines for these.
-
-> +        clocks = <&tegra_car 36>;
-> +        resets = <&tegra_car 36>;
-> +        reset-names = "kbc";
-> +        nvidia,ghost-filter;
-> +        nvidia,debounce-delay-ms = <640>;
-> +        nvidia,kbc-row-pins = <0 1 2>;    /* pin 0, 1, 2 as rows */
-> +        nvidia,kbc-col-pins = <11 12 13>; /* pin 11, 12, 13 as columns */
-> +        linux,keymap = <0x00000074
-> +                0x00010067
-> +                0x00020066
-> +                0x01010068
-> +                0x02000069
-> +                0x02010070
-> +                0x02020071>;
-
-Align with 0x0000074 in first line.
-
-> +    };
-> --
-> 2.35.1
-> 
-
-
-Best regards,
-Krzysztof
+Thanks with my best regards. Mrs.Sophia Robin,
+Telex Manager Milan Italy,(H.S.B.C)
