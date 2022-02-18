@@ -2,92 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D3094BC1BB
-	for <lists+linux-input@lfdr.de>; Fri, 18 Feb 2022 22:18:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 290374BC267
+	for <lists+linux-input@lfdr.de>; Fri, 18 Feb 2022 23:00:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233210AbiBRVRl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Feb 2022 16:17:41 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48510 "EHLO
+        id S240055AbiBRWAx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Feb 2022 17:00:53 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229737AbiBRVRk (ORCPT
+        with ESMTP id S240086AbiBRWAw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Feb 2022 16:17:40 -0500
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CA571D6
-        for <linux-input@vger.kernel.org>; Fri, 18 Feb 2022 13:17:23 -0800 (PST)
-Received: by mail-lj1-x236.google.com with SMTP id e2so2697754ljq.12
-        for <linux-input@vger.kernel.org>; Fri, 18 Feb 2022 13:17:23 -0800 (PST)
+        Fri, 18 Feb 2022 17:00:52 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD6D60D9C
+        for <linux-input@vger.kernel.org>; Fri, 18 Feb 2022 14:00:34 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id m13-20020a17090aab0d00b001bbe267d4d1so1232966pjq.0
+        for <linux-input@vger.kernel.org>; Fri, 18 Feb 2022 14:00:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:from:subject:message-id:date:user-agent:mime-version
-         :content-transfer-encoding:content-language;
-        bh=k7ARL4DCbXIaVCltZLGL8mGK8yEKzeF9wFErbTIFmEY=;
-        b=D67QgQyAhJzA2Oicq5PeezgTpUIQykqJlQvzT53vLWsqYxyhq0Vgt1E+YBgCc7NqfO
-         d/v0Jfo0VO7/idRRAcHwJDG0A+703XX8XiLB9IAOZ/15VrQfJMS4vOeBYeJfkz4TkI6I
-         CJlS+9pifd2ZP4wxaVnpvZo7mkdd5xau9WucwJeekQffHvQKQgl8FESDbEIyJCe54FdL
-         3e+Qv4xTErfTO5+w1zv2k2ENgpWtHnj5Eh8ieG9OxjqKnCbQ0awbpgyp2xDMGsrVs+FJ
-         uFRYlGspypHAbd4pg+iKzVGsa1t5Sgrqb13LnJ7W1TC03lbsTVh50dWaFplHqz2lAuTU
-         BZqA==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sZLwKSjEy/ME5rayoc52rgW3ddgP7xtdGaSWqAl+rBU=;
+        b=mif1AVloBIpbkRLpATD7fmfQIw6RGGHSm7NgqeRuknULpZUC8cnrbwYy80zOJwmo8D
+         A+Gql6BmpZzXBwmpltHVxG5cOtfx/wmteLNVBIn7kqgICH3Jgtdb6/t1LVSTlFdxGpdj
+         BfbBxn4t20fhQFB62mmb5dtVE4uhVW2HqGhMg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-         :mime-version:content-transfer-encoding:content-language;
-        bh=k7ARL4DCbXIaVCltZLGL8mGK8yEKzeF9wFErbTIFmEY=;
-        b=rpqTLk/J6p2mDJt1c1YkxndaiSN9TasnFd5MFJi02jwD5N1yRJ9YzjyDfH1pDQFy4v
-         1NFZzueA3WP6BbkRTzB2R8cIBDrKEUanHb5LuMsSSc68jwK50mHCCWTwQJomPpY/2txT
-         /8TMjrGvv4J7wq7dGnhRO56Vwbx9/y2z60Yt9TuhCqGj7cD1hvikKOY4/Et7sLZkorSq
-         xfOmeVaP8mCaIUr82SSXy6ntz8o5zSyqzpvGwQqPmJCE92MzdKsGakt54PQioWCD5qpl
-         zRtz++6mIsNCNFutUtoIqyKmckfK2w0j1pcNxoGpHLvZnYWDjCs7m7ugS3SbVj16rUUV
-         J8mA==
-X-Gm-Message-State: AOAM530D/JjSrJLzmFoOFhuJ6gqNKz+uigrzHWv8Owd+b2gz/e+QrMfA
-        TMLfUG/anynwgQ2yg3osRSUUQevA4Xo=
-X-Google-Smtp-Source: ABdhPJx68D1CqxSqAAUyhKwgXm6S/0QeAnvNeczVNBZimdUGQ3231n61noXhWijfmIcsGWUU3jAmBg==
-X-Received: by 2002:a05:651c:170d:b0:244:df25:db27 with SMTP id be13-20020a05651c170d00b00244df25db27mr6758802ljb.310.1645219041346;
-        Fri, 18 Feb 2022 13:17:21 -0800 (PST)
-Received: from ?IPv6:2a02:2168:8737:3600:54d1:3e17:47b1:979d? ([2a02:2168:8737:3600:54d1:3e17:47b1:979d])
-        by smtp.gmail.com with ESMTPSA id 16sm371789lfz.245.2022.02.18.13.17.20
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Feb 2022 13:17:20 -0800 (PST)
-To:     linux-input@vger.kernel.org
-From:   Andrey Butirsky <butirsky@gmail.com>
-Subject: Lenovo Legion M600 wireless bluetooth mouse connected and paired yet
- not working
-Message-ID: <9acf2313-1f4e-02ea-1328-1332d676dd8b@gmail.com>
-Date:   Sat, 19 Feb 2022 00:17:19 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sZLwKSjEy/ME5rayoc52rgW3ddgP7xtdGaSWqAl+rBU=;
+        b=j8WjTEvvCwB6w47TSMEn6kUtULmmGH1CICc2iH76CuFUtZtHkR7RsYLDPjsANf5bHx
+         pWSPMc/iD2iP8WL+hzEBSaphHUVM6gKJZ9X/bRHKv3K+/RHFJejcv0APxfq8QRtgUPyP
+         RmhhNTf3CLS8D9r/o7MwYezaX68Z+eccZAdlfnsVijWza02xo1nEPey776V54UU0Wn2G
+         tr9pVdTUL557F3NNOYnisvm6cBUUhAXiY27h9cW2+KlKKr2WMDIAywU+/kUwf+7ttCX9
+         /jQwYjCfjVXFm9AMeFGCXllYZgU4At7aLKFfMVxPO6Wutr8lkHQCk+ck8TPKxhmmg4Ol
+         gJGw==
+X-Gm-Message-State: AOAM530IJmAkc04yeuyMn53hbIGij81gbVr65Zy1MVUPBcy++/rWQT2T
+        eL4NLkcZ1+aTObDyPiaVQgAkVw==
+X-Google-Smtp-Source: ABdhPJz1rF5Jz09SD9USfmfteVEXQVcNRBPn0FNJ2bLonG7qFKB1MtE8MuXRu36OM46fMNwoTr1rIA==
+X-Received: by 2002:a17:902:dacd:b0:14f:4e5d:fe0d with SMTP id q13-20020a170902dacd00b0014f4e5dfe0dmr9162472plx.128.1645221633881;
+        Fri, 18 Feb 2022 14:00:33 -0800 (PST)
+Received: from wmahon.c.googlers.com.com (218.180.124.34.bc.googleusercontent.com. [34.124.180.218])
+        by smtp.gmail.com with ESMTPSA id 13sm306494pje.50.2022.02.18.14.00.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Feb 2022 14:00:33 -0800 (PST)
+From:   William Mahon <wmahon@chromium.org>
+X-Google-Original-From: William Mahon <wmahon@google.com>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     William Mahon <wmahon@google.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH v3] HID: Add mapping for KEY_DICTATE
+Date:   Fri, 18 Feb 2022 21:59:08 +0000
+Message-Id: <20220218215531.1.I5dbf50eb1a7a6734ee727bda4a8573358c6d3ec0@changeid>
+X-Mailer: git-send-email 2.35.1.473.g83b2b277ed-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Numerous keyboards are adding dictate keys which allows for text
+messages to be dictated by a microphone.
 
-the mouse works on Android, Windows(detected as "Bluetooth Low Energy 
-GATT compliant HID device") without additional drivers.
+This patch adds a new key definition KEY_DICTATE and maps 0x0c/0x0d8
+usage code to this new keycode. Additionally hid-debug is adjusted to
+recognize this new usage code as well.
 
-On Linux, it works with USB cable and wireless RF-dongle modes, but not 
-with Bluetooth mode (still it connects fine).
+Signed-off-by: William Mahon <wmahon@google.com>
+---
 
-We did monitoring with btmon and apparently it gets an events, so the 
-problem was considered on HID level.
-See btmon logs and conversation here:
-https://www.spinics.net/lists/linux-bluetooth/msg96904.html
+ drivers/hid/hid-debug.c                | 1 +
+ drivers/hid/hid-input.c                | 1 +
+ include/uapi/linux/input-event-codes.h | 1 +
+ 3 files changed, 3 insertions(+)
 
-I'm trying to understand if the mouse speaks some proprietary protocol 
-and we need additional driver for it, or it's  just generic HID mouse 
-and it doesn't work because of bug somewhere in Linux HID stack?
-
-Could someone give me a clue?
-Thanks.
+diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+index 26c31d759914..8aa68416b1d7 100644
+--- a/drivers/hid/hid-debug.c
++++ b/drivers/hid/hid-debug.c
+@@ -969,6 +969,7 @@ static const char *keys[KEY_MAX + 1] = {
+ 	[KEY_ASSISTANT] = "Assistant",
+ 	[KEY_KBD_LAYOUT_NEXT] = "KbdLayoutNext",
+ 	[KEY_EMOJI_PICKER] = "EmojiPicker",
++	[KEY_DICTATE] = "Dictate",
+ 	[KEY_BRIGHTNESS_MIN] = "BrightnessMin",
+ 	[KEY_BRIGHTNESS_MAX] = "BrightnessMax",
+ 	[KEY_BRIGHTNESS_AUTO] = "BrightnessAuto",
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 112901d2d8d2..ce2b75a67cb8 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -992,6 +992,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 		case 0x0cd: map_key_clear(KEY_PLAYPAUSE);	break;
+ 		case 0x0cf: map_key_clear(KEY_VOICECOMMAND);	break;
+ 
++		case 0x0d8: map_key_clear(KEY_DICTATE);		break;
+ 		case 0x0d9: map_key_clear(KEY_EMOJI_PICKER);	break;
+ 
+ 		case 0x0e0: map_abs_clear(ABS_VOLUME);		break;
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 225ec87d4f22..4db5d41848e4 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -612,6 +612,7 @@
+ #define KEY_ASSISTANT		0x247	/* AL Context-aware desktop assistant */
+ #define KEY_KBD_LAYOUT_NEXT	0x248	/* AC Next Keyboard Layout Select */
+ #define KEY_EMOJI_PICKER	0x249	/* Show/hide emoji picker (HUTRR101) */
++#define KEY_DICTATE		0x24a	/* Start or Stop Voice Dictation Session (HUTRR99) */
+ 
+ #define KEY_BRIGHTNESS_MIN		0x250	/* Set Brightness to Minimum */
+ #define KEY_BRIGHTNESS_MAX		0x251	/* Set Brightness to Maximum */
+-- 
+2.35.1.473.g83b2b277ed-goog
 
