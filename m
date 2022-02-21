@@ -2,110 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 595124BD7B2
-	for <lists+linux-input@lfdr.de>; Mon, 21 Feb 2022 09:40:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C4B74BD823
+	for <lists+linux-input@lfdr.de>; Mon, 21 Feb 2022 09:40:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230347AbiBUIBf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Feb 2022 03:01:35 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53568 "EHLO
+        id S234433AbiBUIMf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Feb 2022 03:12:35 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:45814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346734AbiBUIBb (ORCPT
+        with ESMTP id S237124AbiBUIMd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Feb 2022 03:01:31 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D5A425EA;
-        Mon, 21 Feb 2022 00:01:08 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 43B7160FDA;
-        Mon, 21 Feb 2022 08:01:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F76BC340E9;
-        Mon, 21 Feb 2022 08:01:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645430467;
-        bh=qvDbxDiZRGEUPbWcdjncapc1GDhk0SQWWnmNRy79Mas=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=sM4h5lKiTLkqUCWxFoLINDUqlZ3U6PPvmpfswxsW7S7Kb/80voes0CqIilU1K5ROX
-         2nwG+c8ZsPvxgr87X7MucXAMuUL1a94BjiZW76hbDLwv6tAFCsmaUGpY4m42DcFd3J
-         ntVAIPPH/LO++ZimKpdfYPsAhbhAKT8aDMUHEHGBg8pIsAJ20fOU0g8ZxB0kTZQQlM
-         Q52FWb+Uity8rUcuG2EYeXYteaTlO6rNJ5fWWqHj93xOrDt6Q3GVfyxO7RFQpKM2sq
-         K/6BI4mCI7cJYJPZu3Ai7V4bC/E1X+6QeRqHoa5KOA8JjzDSOYIw7YnqEWD3DgMlpl
-         c2qoWKyS2MYUg==
-Date:   Mon, 21 Feb 2022 09:01:02 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Pavel Skripkin <paskripkin@gmail.com>
-cc:     syzbot <syzbot+35eebd505e97d315d01c@syzkaller.appspotmail.com>,
+        Mon, 21 Feb 2022 03:12:33 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47DF42180;
+        Mon, 21 Feb 2022 00:12:10 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id g39so17048208lfv.10;
+        Mon, 21 Feb 2022 00:12:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=AMtyamgl5K/9e9QFxnyeso28NW8FhnQybeCPePa6FPk=;
+        b=ZF+/+gAukbkASqH8KQFBW49EAEI8jemBYStwFZWE1iAoiEbOewEt695Po5tGz9XBiI
+         lqpJq1zUwdVbFLRbTUvG5/AafkIzNvaiMNrxEWI6P4P3UYA6OnREn5cQMgQIPoQi9ewZ
+         Pk3DOYx3/O+HdSelBws4mzMZqBFNcUaw7oD7JIdYpKJ2L3F8zp+f9e7mPcJhYBjr85Rd
+         mdNDde9WHLOOXS9RcdU2r5U2G+lC7rdcMJdbBBnqJ4hAdnxlkb8wpTi6AwH2q6vuj1IF
+         f8U1CdfcmJHsxbIwv+ph10VwWGLcr2TsTUcOfFUxQrmNgubRPKv+UQJ5lQ33YJFdqqon
+         Z2jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=AMtyamgl5K/9e9QFxnyeso28NW8FhnQybeCPePa6FPk=;
+        b=F9qyGcSzGCp9xA2Rcn2qIEXSdpV/qmk82RwrO1rFGxiSGZe5oW2mz5ZzBiB7GoH7XA
+         2RlPFrFg7TJpJoBBPg0vw8QzE3XLSGf1whvZqNy0oZVQnk15/oByZBuy9AId4iAvcUlA
+         wRkgIQHmq7FzjHvLg3YBFZ/7S/WFGPvQ1nkk/o2cQ4U9oR5JCKKNyA/qLpW980NdCfU8
+         SoUrPA+4btr/S3Cqnf853fPxpijACKCjJVqvsm1T973Ud7swLzNaUKTnPrmtoxje2d9Z
+         h6GE4DT3+cKyaeEsjs4UNqtIfO+N7p4TUaHgot/8MzxTmk6SYjjDlkk72iUNLCNHOqbO
+         Tpuw==
+X-Gm-Message-State: AOAM5325on5FZAjOYBg+R++lcNMTrbxQsz8ZbzwUXpA8yY6qg0D9dibM
+        o/vxrCgCLZWujDiuxQUinw4=
+X-Google-Smtp-Source: ABdhPJywWtoHMTPRyDz+QDtD+lHOHcedBIWHiNA0i4m70aAvOHhtTX3ZJW2OLMRA4O6iGfpngKtM1w==
+X-Received: by 2002:a05:6512:230d:b0:443:972f:fd7e with SMTP id o13-20020a056512230d00b00443972ffd7emr13460544lfu.322.1645431128461;
+        Mon, 21 Feb 2022 00:12:08 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.229.64])
+        by smtp.gmail.com with ESMTPSA id t20sm1036483lfe.277.2022.02.21.00.12.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Feb 2022 00:12:08 -0800 (PST)
+Message-ID: <43992c7a-c8e7-29a6-d0f0-f69abccd62a1@gmail.com>
+Date:   Mon, 21 Feb 2022 11:12:03 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in thrustmaster_probe
+Content-Language: en-US
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     syzbot <syzbot+35eebd505e97d315d01c@syzkaller.appspotmail.com>,
         alexandre.torgue@foss.st.com, benjamin.tissoires@redhat.com,
         linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         linux-stm32@st-md-mailman.stormreply.com,
         mcoquelin.stm32@gmail.com, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in thrustmaster_probe
-In-Reply-To: <cd08c05f-f648-071f-d8f5-0a022cd35b7b@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2202210900420.11721@cbobk.fhfr.pm>
-References: <000000000000d181a205d874c066@google.com> <cd08c05f-f648-071f-d8f5-0a022cd35b7b@gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <000000000000d181a205d874c066@google.com>
+ <cd08c05f-f648-071f-d8f5-0a022cd35b7b@gmail.com>
+ <nycvar.YFH.7.76.2202210900420.11721@cbobk.fhfr.pm>
+From:   Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <nycvar.YFH.7.76.2202210900420.11721@cbobk.fhfr.pm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 20 Feb 2022, Pavel Skripkin wrote:
+Hi Jiri,
 
-> On 2/20/22 18:27, syzbot wrote:
-> > Hello,
-> > 
-> > syzbot found the following issue on:
-> > 
-> > HEAD commit:    c5d9ae265b10 Merge tag 'for-linus' of git://git.kernel.org..
-> > git tree:       upstream
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=14ccc65c700000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=a78b064590b9f912
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=35eebd505e97d315d01c
-> > compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils
-> > for Debian) 2.35.2
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=175ecbf2700000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=109973f2700000
-> > 
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+35eebd505e97d315d01c@syzkaller.appspotmail.com
-> > 
-> > usb 1-1: config 0 interface 0 altsetting 0 endpoint 0x81 has invalid
-> > wMaxPacketSize 0
-> > usb 1-1: New USB device found, idVendor=044f, idProduct=b65d, bcdDevice=
-> > 0.40
-> > usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-> > usb 1-1: config 0 descriptor??
-> > hid-thrustmaster 0003:044F:B65D.0001: unknown main item tag 0x0
-> > hid-thrustmaster 0003:044F:B65D.0001: hidraw0: USB HID v0.00 Device [HID
-> > 044f:b65d] on usb-dummy_hcd.0-1/input0
-> > ==================================================================
-> > BUG: KASAN: slab-out-of-bounds in thrustmaster_interrupts
-> > BUG: KASAN: drivers/hid/hid-thrustmaster.c:162 [inline]
-> > BUG: KASAN: slab-out-of-bounds in thrustmaster_probe+0x8d5/0xb50
-> > BUG: KASAN: drivers/hid/hid-thrustmaster.c:330
-> > Read of size 1 at addr ffff88807f1a59d2 by task kworker/1:1/35
-> > 
+On 2/21/22 11:01, Jiri Kosina wrote:
+>> Looks like missing check for malicious device. Need to check number of
+>> endpoints before accessing endpoints array
+>> 
+>> 
+>> #syz test
+>> git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 > 
-> Looks like missing check for malicious device. Need to check number of
-> endpoints before accessing endpoints array
+> Thanks Pavel. Could you please send the patch with proper changelog and
+> SOB my way?
 > 
-> 
-> #syz test
-> git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 
-Thanks Pavel. Could you please send the patch with proper changelog and 
-SOB my way?
+I've already posted the patch :) You can find it here [1] (you are in CC 
+of course)
 
--- 
-Jiri Kosina
-SUSE Labs
 
+
+[1] 
+https://lore.kernel.org/all/20220220160114.26882-1-paskripkin@gmail.com/
+
+
+
+
+With regards,
+Pavel Skripkin
