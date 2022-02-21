@@ -2,232 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AEF4F4BD20F
-	for <lists+linux-input@lfdr.de>; Sun, 20 Feb 2022 22:37:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEA254BD3E0
+	for <lists+linux-input@lfdr.de>; Mon, 21 Feb 2022 03:57:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237000AbiBTVeV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 20 Feb 2022 16:34:21 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34932 "EHLO
+        id S1343889AbiBUCgm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 20 Feb 2022 21:36:42 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbiBTVeT (ORCPT
+        with ESMTP id S1343899AbiBUCgj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 20 Feb 2022 16:34:19 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6A83377FB
-        for <linux-input@vger.kernel.org>; Sun, 20 Feb 2022 13:33:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645392835; x=1676928835;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=YN0OwfG6Q08+FsMA1jqeu1eZPhFQCbUAKwlZmZp8IgQ=;
-  b=Sl7Gr+PsuXeyb+gq4KmHfo03wf4b2oDIoZLkamFm82BJMnGfY+TdWQOK
-   pnJxW1VXs1jzbzDUABNRs7qlecdVhGouOjlnb3t/7id7qhrMaVgu6Xgk9
-   jB2GmVBX6uneItRtIwHEby3j6eTQBQuh13ukqb5YEJ5P7gMBi9PKLGir3
-   KqQWLyk+urpDaAQYVO9+lix+tIx2G/tBeC+ab4mdagD4yZPnPkmMKpfsu
-   NOYPixefTX+38xKHQvx1m/XR64b0RlcWsw1dXi90SeEF2xVd6UZrZW5fk
-   L0VZnDz7/D1X+kxGQzQPlPg4s2LtocKbj4KU62EJhied77gepCvsuA0eu
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10264"; a="248984511"
-X-IronPort-AV: E=Sophos;i="5.88,384,1635231600"; 
-   d="scan'208";a="248984511"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2022 13:33:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,384,1635231600"; 
-   d="scan'208";a="531616183"
-Received: from lkp-server01.sh.intel.com (HELO da3212ac2f54) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 20 Feb 2022 13:33:54 -0800
-Received: from kbuild by da3212ac2f54 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nLtq5-0000sL-GL; Sun, 20 Feb 2022 21:33:53 +0000
-Date:   Mon, 21 Feb 2022 05:33:35 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 986c6f7c3fc855032f3457a5a1b7fbcc09c375bb
-Message-ID: <6212b3af.i18SeAaOphl40lCv%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_HI,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Sun, 20 Feb 2022 21:36:39 -0500
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF8123DDE0;
+        Sun, 20 Feb 2022 18:36:17 -0800 (PST)
+Received: by mail-il1-f180.google.com with SMTP id v3so3705222ilc.7;
+        Sun, 20 Feb 2022 18:36:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=wRFWj5y7LotFUBPpzxeU6otCQ7nXTU9SS+1E8PK2qJM=;
+        b=mzZ7iR4UMsXBYtdmauaqH3R33lIfa/yioCpz1b3BljoMYTkMbTea45XlxBVGbPzbyb
+         EKlLfM+KkWXgaZUw7TUsWhiqASS+E25PKIZP3jgfPhxg5byt46eBUQgT0XgfKnEb8eKM
+         sOfM1+34y9LBBP9IslYGaBfBJKv6R5iatLY90vVTXEBDKveVIVi3XnbhHvVCNZnCHj7i
+         g7e7nb2S7NofOyWUAAhHH3f+mRvq3sLjob0+2jSC26hXyqKc587zBmCIdNiQ+ny6C16W
+         GZE9A4zpwwtXybHZjoJIBGKbIWFPdSQYVE+7vYBpSOENcPAu2kKBjj4QTNKhkwSxHyKN
+         f3Qg==
+X-Gm-Message-State: AOAM533peMlbzxmNMNaNwCPun4IOmJ7zFVrOEbVuyY9kCMdX/m41diEp
+        2u1sI4aBdC5/kOolg52KjQ==
+X-Google-Smtp-Source: ABdhPJygy6KKg5suAr0e2xSLMVxXh3lQT8BgBETmXxuwuEoAWuxc8fjfq5Z3jV+QHiMRkztWvbEg3A==
+X-Received: by 2002:a05:6e02:1d0d:b0:2c2:1d2c:5b2d with SMTP id i13-20020a056e021d0d00b002c21d2c5b2dmr5666690ila.168.1645410977178;
+        Sun, 20 Feb 2022 18:36:17 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id c21sm4035829ioh.35.2022.02.20.18.36.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Feb 2022 18:36:16 -0800 (PST)
+Received: (nullmailer pid 2041537 invoked by uid 1000);
+        Mon, 21 Feb 2022 02:36:09 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Max Buchholz <max.buchholz@gmx.de>
+Cc:     devicetree@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        David Heidelberg <david@ixit.cz>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-input@vger.kernel.org, Max Buchholz <Max.Buchholz@gmx.de>
+In-Reply-To: <20220218101011.22988-1-max.buchholz@gmx.de>
+References: <20220218101011.22988-1-max.buchholz@gmx.de>
+Subject: Re: [PATCH] dt-bindings: nvidia,tegra20-kbc: Convert to json-schema
+Date:   Sun, 20 Feb 2022 20:36:09 -0600
+Message-Id: <1645410969.330994.2041536.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 986c6f7c3fc855032f3457a5a1b7fbcc09c375bb  Merge tag 'v5.17-rc4' into next
+On Fri, 18 Feb 2022 11:10:10 +0100, Max Buchholz wrote:
+> From: Max Buchholz <Max.Buchholz@gmx.de>
+> 
+> This converts the Nvidia Tegra keyboard controller bindings to YAML
+> and fix them up a bit.
+> 
+> Acked-by: David Heidelberg <david@ixit.cz>
+> Signed-off-by: Max Buchholz <max.buchholz@gmx.de>
+> ---
+>  .../bindings/input/nvidia,tegra20-kbc.txt     |  55 ---------
+>  .../bindings/input/nvidia,tegra20-kbc.yaml    | 114 ++++++++++++++++++
+>  2 files changed, 114 insertions(+), 55 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
+>  create mode 100644 Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml
+> 
 
-elapsed time: 733m
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-configs tested: 147
-configs skipped: 3
+yamllint warnings/errors:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml: properties:nvidia,wakeup-source: 'oneOf' conditional failed, one must be fixed:
+	'type' is a required property
+		hint: A vendor boolean property can use "type: boolean"
+	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml: properties:nvidia,wakeup-source: 'oneOf' conditional failed, one must be fixed:
+		'enum' is a required property
+		'const' is a required property
+		hint: A vendor string property with exact values has an implicit type
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml: properties:nvidia,wakeup-source: 'oneOf' conditional failed, one must be fixed:
+		'$ref' is a required property
+		'allOf' is a required property
+		hint: A vendor property needs a $ref to types.yaml
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.yaml: ignoring, error in schema: properties: nvidia,wakeup-source
+Error: Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.example.dts:19.19-20 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:378: Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1398: dt_binding_check] Error 2
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                          randconfig-c001
-mips                 randconfig-c004-20220220
-sh                           se7619_defconfig
-arm                        clps711x_defconfig
-m68k                        stmark2_defconfig
-mips                        vocore2_defconfig
-mips                 decstation_r4k_defconfig
-powerpc                       eiger_defconfig
-mips                      loongson3_defconfig
-xtensa                    smp_lx200_defconfig
-xtensa                          iss_defconfig
-powerpc                      ppc40x_defconfig
-arm                          iop32x_defconfig
-sh                          r7780mp_defconfig
-powerpc                    klondike_defconfig
-m68k                        m5272c3_defconfig
-xtensa                              defconfig
-arm                         axm55xx_defconfig
-powerpc                     tqm8555_defconfig
-sparc64                          alldefconfig
-arm                       omap2plus_defconfig
-sh                         ap325rxa_defconfig
-powerpc                      pcm030_defconfig
-mips                       bmips_be_defconfig
-h8300                            alldefconfig
-nios2                         10m50_defconfig
-arm                         lubbock_defconfig
-sh                         ecovec24_defconfig
-m68k                        m5407c3_defconfig
-arm                            xcep_defconfig
-arm                          lpd270_defconfig
-arm                           h3600_defconfig
-mips                           xway_defconfig
-arm                            zeus_defconfig
-sh                        sh7763rdp_defconfig
-powerpc                      bamboo_defconfig
-sh                          sdk7780_defconfig
-ia64                         bigsur_defconfig
-arc                            hsdk_defconfig
-h8300                               defconfig
-nds32                               defconfig
-sh                          landisk_defconfig
-powerpc                      ppc6xx_defconfig
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220220
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-nds32                             allnoconfig
-nios2                               defconfig
-arc                              allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-powerpc                          allyesconfig
-i386                          randconfig-a003
-i386                          randconfig-a005
-i386                          randconfig-a001
-x86_64                        randconfig-a002
-x86_64                        randconfig-a004
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-x86_64                        randconfig-a013
-i386                          randconfig-a016
-i386                          randconfig-a012
-i386                          randconfig-a014
-s390                 randconfig-r044-20220220
-arc                  randconfig-r043-20220220
-riscv                randconfig-r042-20220220
-x86_64                        randconfig-a006
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-x86_64                    rhel-8.3-kselftests
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
+doc reference errors (make refcheckdocs):
+Documentation/devicetree/bindings/power/wakeup-source.txt: Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
 
-clang tested configs:
-powerpc              randconfig-c003-20220220
-x86_64                        randconfig-c007
-arm                  randconfig-c002-20220220
-mips                 randconfig-c004-20220220
-i386                          randconfig-c001
-riscv                randconfig-c006-20220220
-mips                          ath79_defconfig
-arm                      pxa255-idp_defconfig
-powerpc                    mvme5100_defconfig
-powerpc                        fsp2_defconfig
-powerpc                 mpc836x_mds_defconfig
-arm                       cns3420vb_defconfig
-mips                           ip27_defconfig
-powerpc                     mpc5200_defconfig
-powerpc                     kilauea_defconfig
-powerpc                    ge_imp3a_defconfig
-arm                         mv78xx0_defconfig
-powerpc                     ppa8548_defconfig
-mips                          rm200_defconfig
-x86_64                           allyesconfig
-arm                          moxart_defconfig
-mips                         tb0287_defconfig
-powerpc                  mpc866_ads_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a006
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a011
-i386                          randconfig-a013
-i386                          randconfig-a015
-x86_64                        randconfig-a005
-hexagon              randconfig-r045-20220220
-hexagon              randconfig-r041-20220220
+See https://patchwork.ozlabs.org/patch/1594620
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
