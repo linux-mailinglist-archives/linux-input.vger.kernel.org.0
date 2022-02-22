@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C66EF4C0317
-	for <lists+linux-input@lfdr.de>; Tue, 22 Feb 2022 21:35:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22BBB4C031B
+	for <lists+linux-input@lfdr.de>; Tue, 22 Feb 2022 21:35:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235539AbiBVUfY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Feb 2022 15:35:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49086 "EHLO
+        id S235551AbiBVUfb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Feb 2022 15:35:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235520AbiBVUfJ (ORCPT
+        with ESMTP id S235517AbiBVUfV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Feb 2022 15:35:09 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A5D13D57F;
-        Tue, 22 Feb 2022 12:34:43 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id h15so22790341edv.7;
-        Tue, 22 Feb 2022 12:34:43 -0800 (PST)
+        Tue, 22 Feb 2022 15:35:21 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACB2113D914;
+        Tue, 22 Feb 2022 12:34:46 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id z22so39769622edd.1;
+        Tue, 22 Feb 2022 12:34:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=C4U82fp6qV13uln58gfJv2W4jtMmn+wW3Vn6D224n38=;
-        b=fCjBsjkjkIT/PmB7vvDuhH3FIXmTG5u4bWzQ6To9nAqts0JLDoF5uz4p6PFHUk3iAI
-         rvgFvCb5WZCIy0GLhi7ochXn6Lrg6ZszROl7fyysMiQuPtI15zrcRylYHHcENFKa8aJW
-         xErit5Pz6qqpb8sjhJk47D/+i1mCyNPR/NfGUJp88CLljiKGQqjbZ/TVu4wHYaSIXI/z
-         crZAGB1oghxdONL/zasWJNayB2wKOkHTvWYry3NJswRVAu880ao8UIpafNH9NX9CxpTa
-         96+oNW9ecwJfgiflZPTvuwbcAyN6dcQ4Yw73QymepZfnn73293kp1zqg1HsQ/CDXZ5hd
-         zZhQ==
+        bh=wsuGGSbWihsWdc16xjyRVZw7HnVu/I+CqsnYa5WGIms=;
+        b=ZeUtiElEjAGMYmFaraQ+6uxVoy3uWHXpc5rQapmsIdFV+p2q3QAkQaQY6S8PcDzfaI
+         AuUz2+T0aypvg1WqDVOPn8IO0HCHNnbc0eYgq2Nq874Fdb/41P+Azl+8P2ENZSXAqaS3
+         DmO74yqH//2yV4I1Z2+mJy41XpMjpF2xkiokRaUbNWgw5MKyNmUCzY6N5SbjrZ/W8Nr9
+         2qJFwEuWDZMbEA187l0XMkLFVvbafJqu/1/gnLDb+XsSn7IWnT71v2iseasgw+RFcd3R
+         adtjJDLP0jFmODW8SyM61uMaMviDsDxdoJMBNbCTYml4T5zTgYXjOUtqYLxdIYZ0ehmf
+         svLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=C4U82fp6qV13uln58gfJv2W4jtMmn+wW3Vn6D224n38=;
-        b=EqLhtWBKZZ4JPITFio/3ptgIkufQG+R0om5CPWtshvOVp3vG7mMIwslNRVEl/6bHsi
-         0EqiXaCOQMlMWxOB7T7vzFdY7xCdihGpHjeAIL90UbZzLOxP7TJiTdy1TnZEUOpm/A5x
-         e3MXZ0fHLQY5FHCeQ/jHgKKUx/Lg2Zrp22Dy07kGRiljRPXUDJyW2hDOvGz/Bl0AQvax
-         Ft6KinfIyCw0pEN7/sl6uqmvR+gJ4EXRMZtqge/98A29/0lUGRrD40W5zw3LxD6KTS7O
-         6T0bnghfKhLTaIPO4Zn2+Ye/3cZkQp3s6CEKHATQQGq3eBnmrVuPqh9yTxLeHPkTpBkU
-         2Gaw==
-X-Gm-Message-State: AOAM533faunrgPhK27QdPsJT4DlN66KanQX5lhbgJIAjVOLfBDGtFy+C
-        Zchz5m2HROmJyytAEM1Vp/Hz3zy/Ipw+0ti4
-X-Google-Smtp-Source: ABdhPJwSVNRbpk9H0kip4fRxnPNW781RLxwTeSOdXdXfUPMw2jAXoDJOLr2yG4qpM4rS0sd1YLOlDw==
-X-Received: by 2002:aa7:df12:0:b0:410:a50b:de00 with SMTP id c18-20020aa7df12000000b00410a50bde00mr28340037edy.2.1645562082273;
-        Tue, 22 Feb 2022 12:34:42 -0800 (PST)
+        bh=wsuGGSbWihsWdc16xjyRVZw7HnVu/I+CqsnYa5WGIms=;
+        b=i8u46EGuFG0xeo6iMTcG9fWLIHPL9CV38MmR8e3Zqsci8Q1HVsno+pGMgAg9vyahIv
+         TDTFz0nwVhEBUIR9Ts3VyRUYfACHHmmWkL67F/12C2Xyh8LyCMCgCpKeDFm9bVvNxSyH
+         wChwUX+mXtGEfjuAXtJVFRK/XxibC6yIIieImiSZa3rW2QlR7iYqJ0xjU4INXYGqYTpT
+         D9iMFKuYbZYgQKYngbh/BnDlHZbX5cA1NN2x+ZGkQv3mDOEKUjQIN5Vy+I8fQHbDOaSn
+         fGCYYvdmVJ/RZzQOptOfjeQMmE+8ePFboLqlwWDts68jGzhE5l2L2IUzRdikHEx2Q2iT
+         B6Bg==
+X-Gm-Message-State: AOAM531z6HvKEIrAPUwwf1eyhm4I2ONR6picyqb9d9G8sU+IyPHrMqsK
+        U3dk/01GTWVEnb/5YezFOgPtlLN9CvjLRNeP
+X-Google-Smtp-Source: ABdhPJyfhXq5JoyNeYA8zvpPeL1b/pPcN/cgTyRzjg26AbFElxe9p5ayEN27/cxqLR+jdFgIOOdCJQ==
+X-Received: by 2002:a05:6402:4495:b0:410:a171:4444 with SMTP id er21-20020a056402449500b00410a1714444mr28132127edb.20.1645562085028;
+        Tue, 22 Feb 2022 12:34:45 -0800 (PST)
 Received: from nergzd-desktop.localdomain ([62.122.67.26])
-        by smtp.gmail.com with ESMTPSA id ec37sm10358388edb.19.2022.02.22.12.34.40
+        by smtp.gmail.com with ESMTPSA id ec37sm10358388edb.19.2022.02.22.12.34.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Feb 2022 12:34:42 -0800 (PST)
+        Tue, 22 Feb 2022 12:34:44 -0800 (PST)
 From:   Markuss Broks <markuss.broks@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
@@ -58,9 +58,9 @@ Cc:     phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
         Henrik Rydberg <rydberg@bitmath.org>,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v6 1/2] dt-bindings: input/touchscreen: bindings for Imagis
-Date:   Tue, 22 Feb 2022 22:34:10 +0200
-Message-Id: <20220222203414.8656-2-markuss.broks@gmail.com>
+Subject: [PATCH v6 2/2] Input: add Imagis touchscreen driver
+Date:   Tue, 22 Feb 2022 22:34:11 +0200
+Message-Id: <20220222203414.8656-3-markuss.broks@gmail.com>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220222203414.8656-1-markuss.broks@gmail.com>
 References: <20220222203414.8656-1-markuss.broks@gmail.com>
@@ -76,111 +76,425 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds device-tree bindings for the Imagis
-IST3038C touch screen IC.
+Add support for the IST3038C touchscreen IC from Imagis, based on
+downstream driver. The driver supports multi-touch (10 touch points)
+The IST3038C IC supports touch keys, but the support isn't added
+because the touch screen used for testing doesn't utilize touch keys.
+Looking at the downstream driver, it is possible to add support
+for other Imagis ICs of IST30**C series.
 
 Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .../input/touchscreen/imagis,ist3038c.yaml    | 74 +++++++++++++++++++
- .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
- 2 files changed, 76 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
+ MAINTAINERS                        |   6 +
+ drivers/input/touchscreen/Kconfig  |  10 +
+ drivers/input/touchscreen/Makefile |   1 +
+ drivers/input/touchscreen/imagis.c | 347 +++++++++++++++++++++++++++++
+ 4 files changed, 364 insertions(+)
+ create mode 100644 drivers/input/touchscreen/imagis.c
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml b/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a899828a8d4e..3b99c60e9f4b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9411,6 +9411,12 @@ M:	Stanislaw Gruszka <stf_xl@wp.pl>
+ S:	Maintained
+ F:	drivers/usb/atm/ueagle-atm.c
+ 
++IMAGIS TOUCHSCREEN DRIVER
++M:	Markuss Broks <markuss.broks@gmail.com>
++S:	Maintained
++F:	Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
++F:	drivers/input/touchscreen/imagis.c
++
+ IMGTEC ASCII LCD DRIVER
+ M:	Paul Burton <paulburton@kernel.org>
+ S:	Maintained
+diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
+index 2f6adfb7b938..f1414f0ad7af 100644
+--- a/drivers/input/touchscreen/Kconfig
++++ b/drivers/input/touchscreen/Kconfig
+@@ -638,6 +638,16 @@ config TOUCHSCREEN_MTOUCH
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called mtouch.
+ 
++config TOUCHSCREEN_IMAGIS
++	tristate "Imagis touchscreen support"
++	depends on I2C
++	help
++	  Say Y here if you have an Imagis IST30xxC touchscreen.
++	  If unsure, say N.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called imagis.
++
+ config TOUCHSCREEN_IMX6UL_TSC
+ 	tristate "Freescale i.MX6UL touchscreen controller"
+ 	depends on ((OF && GPIOLIB) || COMPILE_TEST) && HAS_IOMEM
+diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
+index 39a8127cf6a5..557f84fd2075 100644
+--- a/drivers/input/touchscreen/Makefile
++++ b/drivers/input/touchscreen/Makefile
+@@ -49,6 +49,7 @@ obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix_ts.o
+ obj-$(CONFIG_TOUCHSCREEN_HIDEEP)	+= hideep.o
+ obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
+ obj-$(CONFIG_TOUCHSCREEN_ILITEK)	+= ilitek_ts_i2c.o
++obj-$(CONFIG_TOUCHSCREEN_IMAGIS)	+= imagis.o
+ obj-$(CONFIG_TOUCHSCREEN_IMX6UL_TSC)	+= imx6ul_tsc.o
+ obj-$(CONFIG_TOUCHSCREEN_INEXIO)	+= inexio.o
+ obj-$(CONFIG_TOUCHSCREEN_IPROC)		+= bcm_iproc_tsc.o
+diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen/imagis.c
 new file mode 100644
-index 000000000000..e3a2b871e50c
+index 000000000000..92c6a7e0a15e
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
-@@ -0,0 +1,74 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/touchscreen/imagis,ist3038c.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/input/touchscreen/imagis.c
+@@ -0,0 +1,347 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +
-+title: Imagis IST30XXC family touchscreen controller bindings
++#include <linux/bits.h>
++#include <linux/delay.h>
++#include <linux/i2c.h>
++#include <linux/input.h>
++#include <linux/input/mt.h>
++#include <linux/input/touchscreen.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/property.h>
++#include <linux/regulator/consumer.h>
 +
-+maintainers:
-+  - Markuss Broks <markuss.broks@gmail.com>
++#define IST3038C_HIB_ACCESS		(0x800B << 16)
++#define IST3038C_DIRECT_ACCESS		BIT(31)
++#define IST3038C_REG_CHIPID		0x40001000
++#define IST3038C_REG_HIB_BASE		0x30000100
++#define IST3038C_REG_TOUCH_STATUS		(IST3038C_REG_HIB_BASE | IST3038C_HIB_ACCESS)
++#define IST3038C_REG_TOUCH_COORD		(IST3038C_REG_HIB_BASE | IST3038C_HIB_ACCESS | 0x8)
++#define IST3038C_REG_INTR_MESSAGE		(IST3038C_REG_HIB_BASE | IST3038C_HIB_ACCESS | 0x4)
++#define IST3038C_WHOAMI			0x38c
++#define IST3038C_CHIP_ON_DELAY_MS		60
++#define IST3038C_I2C_RETRY_COUNT		3
++#define IST3038C_MAX_SUPPORTED_FINGER_NUM		10
++#define IST3038C_X_MASK		GENMASK(23, 12)
++#define IST3038C_X_SHIFT		12
++#define IST3038C_Y_MASK		GENMASK(11, 0)
++#define IST3038C_AREA_MASK		GENMASK(27, 24)
++#define IST3038C_AREA_SHIFT		24
++#define IST3038C_FINGER_COUNT_MASK		GENMASK(15, 12)
++#define IST3038C_FINGER_COUNT_SHIFT		12
++#define IST3038C_FINGER_STATUS_MASK		GENMASK(9, 0)
 +
-+allOf:
-+  - $ref: touchscreen.yaml#
++struct imagis_ts {
++	struct i2c_client *client;
++	struct input_dev *input_dev;
++	struct touchscreen_properties prop;
++	struct regulator_bulk_data supplies[2];
++};
 +
-+properties:
-+  $nodename:
-+    pattern: "^touchscreen@[0-9a-f]+$"
++static int imagis_i2c_read_reg(struct imagis_ts *ts,
++			       unsigned int reg, unsigned int *buffer)
++{
++	__be32 reg_be = cpu_to_be32(reg);
++	struct i2c_msg msg[] = {
++		{
++			.addr = ts->client->addr,
++			.flags = 0,
++			.buf = (unsigned char *)&reg_be,
++			.len = sizeof(reg_be),
++		}, {
++			.addr = ts->client->addr,
++			.flags = I2C_M_RD,
++			.buf = (unsigned char *)buffer,
++			.len = sizeof(reg_be),
++		},
++	};
++	int ret, error;
++	int retry = IST3038C_I2C_RETRY_COUNT;
 +
-+  compatible:
-+    enum:
-+      - imagis,ist3038c
++	/* Retry in case the controller fails to respond */
++	do {
++		ret = i2c_transfer(ts->client->adapter, msg, ARRAY_SIZE(msg));
++		if (ret == ARRAY_SIZE(msg)) {
++			*buffer = be32_to_cpu(*buffer);
++			return 0;
++		}
 +
-+  reg:
-+    maxItems: 1
++		error = ret < 0 ? ret : -EIO;
++		dev_err(&ts->client->dev,
++			"%s - i2c_transfer failed: %d (%d)\n",
++			__func__, error, ret);
++	} while (--retry);
 +
-+  interrupts:
-+    maxItems: 1
++	return error;
++}
 +
-+  vdd-supply:
-+    description: Power supply regulator for the chip
++static irqreturn_t imagis_interrupt(int irq, void *dev_id)
++{
++	struct imagis_ts *ts = dev_id;
++	unsigned int finger_status, intr_message;
++	int error, i, finger_count, finger_pressed;
 +
-+  vddio-supply:
-+    description: Power supply regulator for the I2C bus
++	error = imagis_i2c_read_reg(ts, IST3038C_REG_INTR_MESSAGE, &intr_message);
++	if (error) {
++		dev_err(&ts->client->dev, "failed to read the interrupt message\n");
++		return IRQ_HANDLED;
++	}
 +
-+  touchscreen-size-x: true
-+  touchscreen-size-y: true
-+  touchscreen-fuzz-x: true
-+  touchscreen-fuzz-y: true
-+  touchscreen-inverted-x: true
-+  touchscreen-inverted-y: true
-+  touchscreen-swapped-x-y: true
++	finger_count = (intr_message & IST3038C_FINGER_COUNT_MASK) >> IST3038C_FINGER_COUNT_SHIFT;
++	finger_pressed = intr_message & IST3038C_FINGER_STATUS_MASK;
++	if (finger_count > IST3038C_MAX_SUPPORTED_FINGER_NUM) {
++		dev_err(&ts->client->dev, "finger count is more than maximum supported\n");
++		return IRQ_HANDLED;
++	}
 +
-+additionalProperties: false
++	for (i = 0; i < finger_count; i++) {
++		error = imagis_i2c_read_reg(ts, IST3038C_REG_TOUCH_COORD + (i * 4), &finger_status);
++		if (error) {
++			dev_err(&ts->client->dev, "failed to read coordinates for finger %d\n", i);
++			return IRQ_HANDLED;
++		}
++		input_mt_slot(ts->input_dev, i);
++		input_mt_report_slot_state(ts->input_dev, MT_TOOL_FINGER,
++					   finger_pressed & BIT(i));
++		touchscreen_report_pos(ts->input_dev, &ts->prop,
++				       (finger_status & IST3038C_X_MASK) >> IST3038C_X_SHIFT,
++				       finger_status & IST3038C_Y_MASK, 1);
++		input_report_abs(ts->input_dev, ABS_MT_TOUCH_MAJOR,
++				 (finger_status & IST3038C_AREA_MASK) >> IST3038C_AREA_SHIFT);
++	}
++	input_mt_sync_frame(ts->input_dev);
++	input_sync(ts->input_dev);
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - touchscreen-size-x
-+  - touchscreen-size-y
++	return IRQ_HANDLED;
++}
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      touchscreen@50 {
-+        compatible = "imagis,ist3038c";
-+        reg = <0x50>;
-+        interrupt-parent = <&gpio>;
-+        interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
-+        vdd-supply = <&ldo1_reg>;
-+        vddio-supply = <&ldo2_reg>;
-+        touchscreen-size-x = <720>;
-+        touchscreen-size-y = <1280>;
-+        touchscreen-fuzz-x = <10>;
-+        touchscreen-fuzz-y = <10>;
-+        touchscreen-inverted-x;
-+        touchscreen-inverted-y;
-+      };
-+    };
++static int imagis_power_off(struct imagis_ts *ts)
++{
++	int error;
 +
-+...
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index cdc851e275f1..9357cdc5aef5 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -551,6 +551,8 @@ patternProperties:
-     description: Ingenieurburo Fur Ic-Technologie (I/F/I)
-   "^ilitek,.*":
-     description: ILI Technology Corporation (ILITEK)
-+  "^imagis,.*":
-+    description: Imagis Technologies Co., Ltd.
-   "^img,.*":
-     description: Imagination Technologies Ltd.
-   "^imi,.*":
++	error = regulator_bulk_disable(ARRAY_SIZE(ts->supplies),
++				       ts->supplies);
++	if (error)
++		dev_err(&ts->client->dev,
++			"Failed to disable regulators: %d\n", error);
++	return error;
++}
++
++static int imagis_power_on(struct imagis_ts *ts)
++{
++	int error;
++
++	error = regulator_bulk_enable(ARRAY_SIZE(ts->supplies),
++				      ts->supplies);
++	if (error)
++		dev_err(&ts->client->dev,
++			"Failed to enable regulators: %d\n", error);
++	return error;
++}
++
++static int imagis_start(struct imagis_ts *ts)
++{
++	int error;
++
++	error = imagis_power_on(ts);
++	if (error)
++		return error;
++
++	msleep(IST3038C_CHIP_ON_DELAY_MS);
++
++	enable_irq(ts->client->irq);
++	return error;
++}
++
++static int imagis_stop(struct imagis_ts *ts)
++{
++	disable_irq(ts->client->irq);
++
++	return imagis_power_off(ts);
++}
++
++static int imagis_input_open(struct input_dev *dev)
++{
++	struct imagis_ts *ts = input_get_drvdata(dev);
++
++	return imagis_start(ts);
++}
++
++static void imagis_input_close(struct input_dev *dev)
++{
++	struct imagis_ts *ts = input_get_drvdata(dev);
++
++	imagis_stop(ts);
++}
++
++static int imagis_init_input_dev(struct imagis_ts *ts)
++{
++	struct input_dev *input_dev;
++	int error;
++
++	input_dev = devm_input_allocate_device(&ts->client->dev);
++	if (!input_dev)
++		return -ENOMEM;
++
++	ts->input_dev = input_dev;
++
++	input_dev->name = "Imagis capacitive touchscreen";
++	input_dev->phys = "input/ts";
++	input_dev->id.bustype = BUS_I2C;
++	input_dev->open = imagis_input_open;
++	input_dev->close = imagis_input_close;
++
++	input_set_drvdata(input_dev, ts);
++
++	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_X);
++	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_Y);
++	input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
++
++	touchscreen_parse_properties(input_dev, true, &ts->prop);
++	if (!ts->prop.max_x || !ts->prop.max_y) {
++		dev_err(&ts->client->dev,
++			"Touchscreen-size-x and/or touchscreen-size-y not set in dts\n");
++		return -EINVAL;
++	}
++
++	error = input_mt_init_slots(input_dev, IST3038C_MAX_SUPPORTED_FINGER_NUM,
++				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
++	if (error) {
++		dev_err(&ts->client->dev,
++			"Failed to initialize MT slots: %d", error);
++		return error;
++	}
++
++	error = input_register_device(input_dev);
++	if (error) {
++		dev_err(&ts->client->dev,
++			"Failed to register input device: %d", error);
++		return error;
++	}
++
++	return 0;
++}
++
++static int imagis_init_regulators(struct imagis_ts *ts)
++{
++	struct i2c_client *client = ts->client;
++	int error = 0;
++
++	ts->supplies[0].supply = "vdd";
++	ts->supplies[1].supply = "vddio";
++	error = devm_regulator_bulk_get(&client->dev,
++					ARRAY_SIZE(ts->supplies),
++					ts->supplies);
++
++	return error;
++}
++
++static int imagis_probe(struct i2c_client *i2c)
++{
++	struct device *dev;
++	struct imagis_ts *ts;
++	int chip_id, ret, error;
++
++	dev = &i2c->dev;
++
++	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
++	if (!ts)
++		return -ENOMEM;
++
++	ts->client = i2c;
++
++	error = imagis_init_regulators(ts);
++	if (error)
++		return dev_err_probe(dev, error, "regulator init error: %d\n", error);
++
++	error = imagis_power_on(ts);
++	if (error)
++		return dev_err_probe(dev, error, "failed to enable regulators: %d\n", error);
++
++	msleep(IST3038C_CHIP_ON_DELAY_MS);
++
++	ret = imagis_i2c_read_reg(ts, IST3038C_REG_CHIPID | IST3038C_DIRECT_ACCESS, &chip_id);
++	if (ret) {
++		imagis_power_off(ts);
++		return dev_err_probe(dev, error, "chip ID read failure: %d\n", ret);
++	}
++
++	if (chip_id != IST3038C_WHOAMI) {
++		imagis_power_off(ts);
++		return dev_err_probe(dev, -EINVAL, "unknown chip ID: 0x%x\n", chip_id);
++	}
++
++	error = devm_request_threaded_irq(dev, i2c->irq,
++					  NULL, imagis_interrupt,
++					  IRQF_ONESHOT | IRQF_NO_AUTOEN,
++					  "imagis-touchscreen", ts);
++	if (error) {
++		imagis_power_off(ts);
++		return dev_err_probe(dev, error, "IRQ allocation failure: %d\n", error);
++	}
++
++	error = imagis_init_input_dev(ts);
++	if (error) {
++		imagis_power_off(ts);
++		return dev_err_probe(dev, error, "input subsystem init error: %d\n", error);
++	}
++
++	return 0;
++}
++
++static int __maybe_unused imagis_suspend(struct device *dev)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	struct imagis_ts *ts = i2c_get_clientdata(client);
++	int ret;
++
++	mutex_lock(&ts->input_dev->mutex);
++
++	if (input_device_enabled(ts->input_dev))
++		ret = imagis_stop(ts);
++
++	mutex_unlock(&ts->input_dev->mutex);
++
++	return ret;
++}
++
++static int __maybe_unused imagis_resume(struct device *dev)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	struct imagis_ts *ts = i2c_get_clientdata(client);
++	int ret;
++
++	mutex_lock(&ts->input_dev->mutex);
++
++	if (input_device_enabled(ts->input_dev))
++		ret = imagis_start(ts);
++
++	mutex_unlock(&ts->input_dev->mutex);
++
++	return ret;
++}
++
++static SIMPLE_DEV_PM_OPS(imagis_pm_ops, imagis_suspend, imagis_resume);
++
++#ifdef CONFIG_OF
++static const struct of_device_id imagis_of_match[] = {
++	{ .compatible = "imagis,ist3038c", },
++	{ },
++};
++MODULE_DEVICE_TABLE(of, imagis_of_match);
++#endif
++
++static struct i2c_driver imagis_ts_driver = {
++	.driver = {
++		.name = "imagis-touchscreen",
++		.pm = &imagis_pm_ops,
++		.of_match_table = of_match_ptr(imagis_of_match),
++	},
++	.probe_new = imagis_probe,
++};
++
++module_i2c_driver(imagis_ts_driver);
++
++MODULE_DESCRIPTION("Imagis IST3038C Touchscreen Driver");
++MODULE_AUTHOR("Markuss Broks <markuss.broks@gmail.com>");
++MODULE_LICENSE("GPL");
 -- 
 2.35.0
 
