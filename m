@@ -2,93 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46E924C0440
-	for <lists+linux-input@lfdr.de>; Tue, 22 Feb 2022 23:01:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BA294C07CC
+	for <lists+linux-input@lfdr.de>; Wed, 23 Feb 2022 03:28:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235667AbiBVWBx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Feb 2022 17:01:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52792 "EHLO
+        id S234087AbiBWC2v (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Feb 2022 21:28:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235595AbiBVWBw (ORCPT
+        with ESMTP id S231986AbiBWC2u (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Feb 2022 17:01:52 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B19C11861F
-        for <linux-input@vger.kernel.org>; Tue, 22 Feb 2022 14:01:26 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id d3so20399576wrf.1
-        for <linux-input@vger.kernel.org>; Tue, 22 Feb 2022 14:01:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:from:mime-version:content-transfer-encoding
-         :content-description:subject:to:date:reply-to;
-        bh=eaaB5Fi4OIw8X99OdVt3/5VwsoSH3pqqZ03p7mumtcE=;
-        b=egiBm1kuuk0+C0vIeot8eCLW4Q3rNTsUCTHHdfESrmTwc7KBeYASOJnrWTIsDO88tv
-         GGPegaIwJB4rNjMoJ7k3U2kVQHpcakhaq0wl4nPrSQAv2ug4GKIaLcvSKHHaLifrTcCB
-         xlX0+SC4Rqg/oWLSAUfuPtRFZ9xba30CnR3oLpfZA0YLQT/XqLdRnL2/aAFKBDC91Bro
-         7GUs5ZQ0Z57QVEnJABuIK68Hv666N/W0ZztjBnnd8b0lR/rJZV9Y3bThPUWAWNkADSWx
-         0akdGLJR/M9N6CjuxxQa3vN5hfJxA2RqtibsqjxwOHe1I1bCySBzWHKLSO8AyCyo78an
-         mBtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:from:mime-version
-         :content-transfer-encoding:content-description:subject:to:date
-         :reply-to;
-        bh=eaaB5Fi4OIw8X99OdVt3/5VwsoSH3pqqZ03p7mumtcE=;
-        b=WhRdssSqWOelTL1D64goBJBdIjFd3Wgf+fTc2XaCNQxEQUQQIb54X3+4o66+udwUAW
-         wLX8cxhxYhgsELBUO9Wqn5WR/IFDvElFp2NtaGuqny/LL5aoQuRBphQgZeuUSLxQ7oBe
-         2DmhqxGbI07jIYFSG/nkvSanov+BK5fWmijVRBBpoTvCVwSdgILUntkN06fyGVewbMkG
-         x3HHnDSLSwKxQo5oat9MPgXCODWBjiZ8qoPH2caJJbpZmR/5l+/wgVrHgJlBLYV91tLa
-         sjr9z8G0OB7NrDjQTa3FY3zTVgvYwUIySVO4sJkB6yB1Yu+M8k2MiiBmT3V1pApC2Eyu
-         4adg==
-X-Gm-Message-State: AOAM532bs32K3vNrGsEC2co4HhQt5saGmGoK06Tzql8C69G0OqwAWhnK
-        pUSD2Rqn4to24gv2qjI6zdI=
-X-Google-Smtp-Source: ABdhPJxx4jMoTAybW9BX4PsvWOlFDYG+U1eqN8ZopS43rhbq8w6ew1lbUE7jM7DFVWq4A98QiXsvbA==
-X-Received: by 2002:adf:fd4d:0:b0:1ea:9109:dae6 with SMTP id h13-20020adffd4d000000b001ea9109dae6mr3986626wrs.293.1645567285161;
-        Tue, 22 Feb 2022 14:01:25 -0800 (PST)
-Received: from [192.168.0.133] ([5.193.8.34])
-        by smtp.gmail.com with ESMTPSA id d2sm26207622wro.49.2022.02.22.14.01.21
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Tue, 22 Feb 2022 14:01:24 -0800 (PST)
-Message-ID: <62155d34.1c69fb81.33ddf.d2c5@mx.google.com>
-From:   Mrs Maria Elisabeth Schaeffler <chairtydonation5@gmail.com>
-X-Google-Original-From: Mrs Maria Elisabeth Schaeffler
-Content-Type: text/plain; charset="iso-8859-1"
+        Tue, 22 Feb 2022 21:28:50 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 129AD3CA7C;
+        Tue, 22 Feb 2022 18:28:24 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A1F696150E;
+        Wed, 23 Feb 2022 02:28:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1647C340E8;
+        Wed, 23 Feb 2022 02:28:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1645583303;
+        bh=lfkFU3ZHQok4198keqUyJUicoCDvPOvYH5usdDQLzto=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JNoUYRx9nN7ruFvfqf2ngBR4JcCzPWRqeKidwjqmLsyMYPsHx62Kpf8WkMiuSu5+i
+         ly6/DSFOK7veVym9HLLH0Uzz9+dHTsDIEYlgXAhuFUqGwalyMFIYoMQVxAh6j0cMOa
+         8jI2MQoqQmvqgBi2m8gVtwU6yV6hidcC0fjpPsM2oi52zHD3/dl6WcpzuR3WPsSAv3
+         TSrHwcsyQAG4R0QtHLexkX5/kJna3OIQMYIjb+lNWLVxt5Di9JtGUvkD/exKa9fmta
+         5Hod9djEbY9pxBHdvlFwni+mnozr755pRNmh9X4u27shYC2HR4i11jSDd45gaKl9V2
+         gjMjNcG675e6w==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Alex Henrie <alexhenrie24@gmail.com>,
+        Markus Wageringel <markus.wageringel@gmail.com>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 01/30] HID: apple: Set the tilde quirk flag on the Wellspring 5 and later
+Date:   Tue, 22 Feb 2022 21:27:50 -0500
+Message-Id: <20220223022820.240649-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Spende
-To:     Recipients <Mrs@vger.kernel.org>
-Date:   Wed, 23 Feb 2022 02:01:17 +0400
-Reply-To: elisabethschaeffler01@gmail.com
-X-Spam-Status: No, score=2.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,TO_MALFORMED,T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: **
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UPPERCASE_50_75
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hallo,
+From: Alex Henrie <alexhenrie24@gmail.com>
 
-Ich bin Frau Maria Elisabeth Schaeffler, eine deutsche Wirtschaftsmagnatin,=
- Investorin und Philanthropin. Ich bin der Vorsitzende von Wipro Limited. I=
-ch habe 25 Prozent meines pers=F6nlichen Verm=F6gens f=FCr wohlt=E4tige Zwe=
-cke ausgegeben. Und ich habe auch versprochen zu geben
-der Rest von 25% geht dieses Jahr 2021 an Einzelpersonen. Ich habe mich ent=
-schlossen, Ihnen 1.500.000,00 Euro zu spenden. Wenn Sie an meiner Spende in=
-teressiert sind, kontaktieren Sie mich f=FCr weitere Informationen.
+[ Upstream commit e26a78057c25dd56f112d536319c38735ed92ba4 ]
 
-Sie k=F6nnen auch =FCber den untenstehenden Link mehr =FCber mich lesen
+Markus reports that his 2011 MacBook with a German ISO keyboard (USB
+product code 05ac:0246, HID country code 13) has the tilde key quirk.
+Seeing as all of the standalone Apple ISO keyboards since about 2008
+have the quirk, it seems reasonable to assume that once the integrated
+laptop keyboards started having the quirk, they likewise never stopped
+having it.
 
+Reported-by: Markus Wageringel <markus.wageringel@gmail.com>
+Signed-off-by: Alex Henrie <alexhenrie24@gmail.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hid/hid-apple.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-https://en.wikipedia.org/wiki/Maria-Elisabeth_Schaeffler
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index a4ca5ed00e5f5..a050dbcfc60e0 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -580,49 +580,49 @@ static const struct hid_device_id apple_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING5_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING5_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING5_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING6_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING6_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING6_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING6A_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING6A_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING6A_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING5A_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING5A_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING5A_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING7_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING7_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING7_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING7A_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING7A_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING7A_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING8_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING8_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING8_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING9_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING9_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING9_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ANSI),
+-- 
+2.34.1
 
-Sch=F6ne Gr=FC=DFe
-Gesch=E4ftsf=FChrer Wipro Limited
-Maria-Elisabeth_Schaeffler
-Email: elisabethschaeffler01@gmail.com
