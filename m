@@ -2,150 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B3934C1750
-	for <lists+linux-input@lfdr.de>; Wed, 23 Feb 2022 16:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7DA24C17E3
+	for <lists+linux-input@lfdr.de>; Wed, 23 Feb 2022 16:58:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242264AbiBWPnJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Feb 2022 10:43:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55084 "EHLO
+        id S242516AbiBWP62 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Feb 2022 10:58:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242262AbiBWPnI (ORCPT
+        with ESMTP id S229842AbiBWP61 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Feb 2022 10:43:08 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 210D42D1E5;
-        Wed, 23 Feb 2022 07:42:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645630960; x=1677166960;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e4iUHA2a+l+KhADALNLZscJEFxyySLAdMRx9NxqUlUY=;
-  b=GNHIh5uRR7RcnJ11FeOqgVCXkLbsF+4dd992sq4ECeK+3VqBWb3PS83T
-   eSuZ5Is/xdBVdm/JNA1Cc5AiCPurRdkWlIy9SREcP78D6FHSa/J/hPsbx
-   Gmz0XvvgEy1Wig14Ei9c/nPNDEzdGbjS9B+XYm01GxUmAzKb+o+YdQwxV
-   ZxlgiVMW9JJJKGW5uvtKbeM/g09SZ05sUpNBHCSSSD/XpL6UzuFJLyTBY
-   bbHZL/OCuqPjNt1p7fENqaNCagBGFPfmLP0BtK6mnBNzSB56Z8+idasSS
-   jBPY+8O9ceNE9zpOSDukQGCHvOsxflf2sugfaDHaB1EcWY26Fff38tAvp
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="235500200"
-X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; 
-   d="scan'208";a="235500200"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 07:42:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; 
-   d="scan'208";a="591739627"
-Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Feb 2022 07:42:36 -0800
-Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nMtml-0001ZQ-W6; Wed, 23 Feb 2022 15:42:35 +0000
-Date:   Wed, 23 Feb 2022 23:41:41 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Markuss Broks <markuss.broks@gmail.com>,
-        linux-kernel@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, phone-devel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        Markuss Broks <markuss.broks@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+        Wed, 23 Feb 2022 10:58:27 -0500
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52AB8B2D77;
+        Wed, 23 Feb 2022 07:58:00 -0800 (PST)
+Received: by mail-oo1-f54.google.com with SMTP id 189-20020a4a03c6000000b003179d7b30d8so22888636ooi.2;
+        Wed, 23 Feb 2022 07:58:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=MXdhDqHwo9RSoGDS4F+6YXTay9qxmpFa8aYups9hS1A=;
+        b=CLgtxzDivu4bC/JfXabDfvlqvmxET2hwG14oJ0LOIFKJoa9lBEcYyZ7VXsbuUG4B3Q
+         A8Du8iQhZu1cI1Fu/1EsmeqRFl2bLTqI2jWNaYjq3cQ/UxwAsepktyULg4Szu+RkW8dd
+         dGKMNDPiE92B1ymiUMgn9/89IIKyxMAuvIXiSRGYIiDB/f7uRrDexHKeJ6uQA0wVUHM0
+         +V+sNiiVZRUI9DJPfKSNvToEgmLZXHrbJB38dfrmqpZt3KNSJMC3bu8tB6aLCMvpGufv
+         iNV86oxOkCGpkPEK+7a0qHA/CYcrjLeyzcSRvg6JplHWamT8PoGMIDGGtVhNq+GlFwq2
+         LxKA==
+X-Gm-Message-State: AOAM532VF0TRraIFQ4cLNumcQH0LXlALz7SbCFSyFnjAqlx/hn9PLNEl
+        9EcBncMXsj0M/+Y0VM55MyNE14s/fg==
+X-Google-Smtp-Source: ABdhPJxzUe+lJIur2gdc+j9OgKQIEfPj1dm2wxDDipkMIvMR9csXumgpHJcUUi9gfQzfXkkbK1XtsA==
+X-Received: by 2002:a05:6870:8883:b0:d3:6ffa:cf20 with SMTP id m3-20020a056870888300b000d36ffacf20mr4027959oam.104.1645631879697;
+        Wed, 23 Feb 2022 07:57:59 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id q10sm5860otl.1.2022.02.23.07.57.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Feb 2022 07:57:58 -0800 (PST)
+Received: (nullmailer pid 1005248 invoked by uid 1000);
+        Wed, 23 Feb 2022 15:57:58 -0000
+Date:   Wed, 23 Feb 2022 09:57:57 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Markuss Broks <markuss.broks@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
         Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v6 2/2] Input: add Imagis touchscreen driver
-Message-ID: <202202232342.Ew209GPR-lkp@intel.com>
-References: <20220222203414.8656-3-markuss.broks@gmail.com>
+        ~postmarketos/upstreaming@lists.sr.ht, linux-input@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        phone-devel@vger.kernel.org, devicetree@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Subject: Re: [PATCH v6 1/2] dt-bindings: input/touchscreen: bindings for
+ Imagis
+Message-ID: <YhZZhUVldKkSaKsb@robh.at.kernel.org>
+References: <20220222203414.8656-1-markuss.broks@gmail.com>
+ <20220222203414.8656-2-markuss.broks@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220222203414.8656-3-markuss.broks@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220222203414.8656-2-markuss.broks@gmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Markuss,
+On Tue, 22 Feb 2022 22:34:10 +0200, Markuss Broks wrote:
+> This patch adds device-tree bindings for the Imagis
+> IST3038C touch screen IC.
+> 
+> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> ---
+>  .../input/touchscreen/imagis,ist3038c.yaml    | 74 +++++++++++++++++++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+>  2 files changed, 76 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
+> 
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on linux/master robh/for-next linus/master v5.17-rc5 next-20220222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Markuss-Broks/Add-support-for-Imagis-touchscreens/20220223-043645
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-config: arm-randconfig-s031-20220223 (https://download.01.org/0day-ci/archive/20220223/202202232342.Ew209GPR-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/bc77ee5e0d7309edca7d65925c6afa05334b0b01
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Markuss-Broks/Add-support-for-Imagis-touchscreens/20220223-043645
-        git checkout bc77ee5e0d7309edca7d65925c6afa05334b0b01
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/input/touchscreen/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/input/touchscreen/imagis.c:65:35: sparse: sparse: cast to restricted __be32
-
-vim +65 drivers/input/touchscreen/imagis.c
-
-    40	
-    41	static int imagis_i2c_read_reg(struct imagis_ts *ts,
-    42				       unsigned int reg, unsigned int *buffer)
-    43	{
-    44		__be32 reg_be = cpu_to_be32(reg);
-    45		struct i2c_msg msg[] = {
-    46			{
-    47				.addr = ts->client->addr,
-    48				.flags = 0,
-    49				.buf = (unsigned char *)&reg_be,
-    50				.len = sizeof(reg_be),
-    51			}, {
-    52				.addr = ts->client->addr,
-    53				.flags = I2C_M_RD,
-    54				.buf = (unsigned char *)buffer,
-    55				.len = sizeof(reg_be),
-    56			},
-    57		};
-    58		int ret, error;
-    59		int retry = IST3038C_I2C_RETRY_COUNT;
-    60	
-    61		/* Retry in case the controller fails to respond */
-    62		do {
-    63			ret = i2c_transfer(ts->client->adapter, msg, ARRAY_SIZE(msg));
-    64			if (ret == ARRAY_SIZE(msg)) {
-  > 65				*buffer = be32_to_cpu(*buffer);
-    66				return 0;
-    67			}
-    68	
-    69			error = ret < 0 ? ret : -EIO;
-    70			dev_err(&ts->client->dev,
-    71				"%s - i2c_transfer failed: %d (%d)\n",
-    72				__func__, error, ret);
-    73		} while (--retry);
-    74	
-    75		return error;
-    76	}
-    77	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Acked-by: Rob Herring <robh@kernel.org>
