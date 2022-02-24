@@ -2,90 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 495904C25C7
-	for <lists+linux-input@lfdr.de>; Thu, 24 Feb 2022 09:23:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F3284C2A34
+	for <lists+linux-input@lfdr.de>; Thu, 24 Feb 2022 12:05:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230454AbiBXIVk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Feb 2022 03:21:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48438 "EHLO
+        id S233743AbiBXLDb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Feb 2022 06:03:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230446AbiBXIVj (ORCPT
+        with ESMTP id S233715AbiBXLD2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Feb 2022 03:21:39 -0500
-X-Greylist: delayed 1040 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 24 Feb 2022 00:21:10 PST
-Received: from www.kot-begemot.co.uk (ivanoab7.miniserver.com [37.128.132.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7996F25A31E
-        for <linux-input@vger.kernel.org>; Thu, 24 Feb 2022 00:21:10 -0800 (PST)
-Received: from [192.168.18.6] (helo=jain.kot-begemot.co.uk)
-        by www.kot-begemot.co.uk with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <anton.ivanov@cambridgegreys.com>)
-        id 1nN96F-000Ab2-TW; Thu, 24 Feb 2022 08:03:48 +0000
-Received: from jain.kot-begemot.co.uk ([192.168.3.3])
-        by jain.kot-begemot.co.uk with esmtp (Exim 4.94.2)
-        (envelope-from <anton.ivanov@cambridgegreys.com>)
-        id 1nN96C-008sD3-HN; Thu, 24 Feb 2022 08:03:43 +0000
-Subject: Re: [PATCH] Input: samsung-keypad - Properly state IOMEM dependency
-To:     David Gow <davidgow@google.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-um@lists.infradead.org
-References: <20220224035819.1593730-1-davidgow@google.com>
-From:   Anton Ivanov <anton.ivanov@cambridgegreys.com>
-Message-ID: <19c9bf24-c3e1-36a3-376e-7091cc3b3f62@cambridgegreys.com>
-Date:   Thu, 24 Feb 2022 08:03:40 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Thu, 24 Feb 2022 06:03:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 422E928F94A
+        for <linux-input@vger.kernel.org>; Thu, 24 Feb 2022 03:02:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1645700578;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=MSPfmoOzJUMcBzRlalcicBEMDTNz1Ggdh9kgWGb6v0U=;
+        b=UbW6g8CCnBMP7HYzMO+seUKDMCfYEei9zCOUQyjzQ65WKm5fGvt4SXBH0NppjIrGPt/hqG
+        TjsV6dm/JB2BUrh+hfelSbQKnz4owcGh/uZYrzbmcYEVL5kebcFWL4KapnxYGPebX7/3mE
+        tZJdBWaJbwf94gfULLRLozuZdJs7f/M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-177-2CJGrd4IPFuSOoAjxRoMfQ-1; Thu, 24 Feb 2022 06:02:53 -0500
+X-MC-Unique: 2CJGrd4IPFuSOoAjxRoMfQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B194651D5;
+        Thu, 24 Feb 2022 11:02:51 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.195.207])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E6E047B6FD;
+        Thu, 24 Feb 2022 11:02:49 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     "Rafael J . Wysocki" <rafael@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH 0/2] Input: Replace surface3_button code with soc_button_array
+Date:   Thu, 24 Feb 2022 12:02:39 +0100
+Message-Id: <20220224110241.9613-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220224035819.1593730-1-davidgow@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -2.0
-X-Spam-Score: -1.0
-X-Clacks-Overhead: GNU Terry Pratchett
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
-        NICE_REPLY_A,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi All,
+
+I noticed that the surface3_button code was pretty much a 1:1 copy of
+soc_button_array. This series adds support to soc_button_array for the
+MSHW0028 device on the Microsoft Surface 3 (non pro) and removes the
+now no longer needed surface3_button driver.
+
+Rafael, this includes an addition to ignore_serial_bus_ids[] in
+drivers/apci/scan.c, may we have your ack for merging this through
+the input or pdx86 tree please ?
+
+Dmitry, I believe it would be best to keep these 2 patches together
+and merge both through either the input or the pdx86 tree. If you
+are ok with me merging this through the pdx86 tree may I have your
+Ack for that ?
+
+If you prefer merging this through the input tree please consider
+this my ack for also merge 2/2 through the input tree.
+
+Note both patches can also be merged through separate trees without
+issues but keeping them together seems better to me.
+
+Regards,
+
+Hans
 
 
-On 24/02/2022 03:58, David Gow wrote:
-> Make the samsung-keypad driver explicitly depend on CONFIG_IOMEM, as it
-> calls devm_ioremap(). This prevents compile errors in some configs (e.g,
-> allyesconfig/randconfig under UML):
-> 
-> /usr/bin/ld: drivers/input/keyboard/samsung-keypad.o: in function `samsung_keypad_probe':
-> samsung-keypad.c:(.text+0xc60): undefined reference to `devm_ioremap'
-> 
-> Signed-off-by: David Gow <davidgow@google.com>
-> ---
->   drivers/input/keyboard/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
-> index 0c607da9ee10..5c98d5f996e4 100644
-> --- a/drivers/input/keyboard/Kconfig
-> +++ b/drivers/input/keyboard/Kconfig
-> @@ -556,7 +556,7 @@ config KEYBOARD_PMIC8XXX
->   
->   config KEYBOARD_SAMSUNG
->   	tristate "Samsung keypad support"
-> -	depends on HAVE_CLK
-> +	depends on IOMEM && HAVE_CLK
->   	select INPUT_MATRIXKMAP
->   	help
->   	  Say Y here if you want to use the keypad on your Samsung mobile
-> 
-Acked-By: anton ivanov <anton.ivanov@cambridgegreys.com>
+Hans de Goede (2):
+  Input: soc_button_array - add support for Microsoft Surface 3
+    (MSHW0028) buttons
+  platform/surface: Remove Surface 3 Button driver
+
+ drivers/acpi/scan.c                        |   5 +
+ drivers/input/misc/soc_button_array.c      |  24 +-
+ drivers/platform/surface/Kconfig           |   7 -
+ drivers/platform/surface/Makefile          |   1 -
+ drivers/platform/surface/surface3_button.c | 247 ---------------------
+ 5 files changed, 28 insertions(+), 256 deletions(-)
+ delete mode 100644 drivers/platform/surface/surface3_button.c
 
 -- 
-Anton R. Ivanov
-Cambridgegreys Limited. Registered in England. Company Number 10273661
-https://www.cambridgegreys.com/
+2.35.1
+
