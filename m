@@ -2,91 +2,318 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D4D54C2CCE
-	for <lists+linux-input@lfdr.de>; Thu, 24 Feb 2022 14:11:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A0E74C2D95
+	for <lists+linux-input@lfdr.de>; Thu, 24 Feb 2022 14:50:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231549AbiBXNJy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Feb 2022 08:09:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44248 "EHLO
+        id S234993AbiBXNuH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Feb 2022 08:50:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234656AbiBXNJq (ORCPT
+        with ESMTP id S229986AbiBXNuG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Feb 2022 08:09:46 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 427D664BE7;
-        Thu, 24 Feb 2022 05:09:14 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id j17so3017815wrc.0;
-        Thu, 24 Feb 2022 05:09:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=0AbxvT+UyjtLUUrp5lGkKPXG8e9imCtSOESDE/pQxuM=;
-        b=lIXgRwvFNHNnJeIBba6FtLtsdPzBhww7T0PlUQ3GNveupxGShGNu4bQYdbykvAYv2q
-         2YVoIgYrVtcJ5rQaeCSYBjUZKezKLe3bK5M4aWNCbJw1JRS5X9hw3LxURmgBGcHbyBp8
-         sKMKIG8oeSSFjwidD6Dusjo3iLkHGDYaomSD1DCDsEoLrBpBIiCwp3ljttbfr6rn6sBM
-         fMQgrDy9sMbojMM+ryTteps7Q0CDoN7TYgoUxXZFhPOresET8LsPwlC3y8cfMHs2d7KS
-         aAZYBLcoI4WKqvg93LkTTG+cu3BC6SZs18Re4IvnnGBrMvo+qiIcun9FwtvJgTemibsb
-         kz3A==
+        Thu, 24 Feb 2022 08:50:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2B3B82782BA
+        for <linux-input@vger.kernel.org>; Thu, 24 Feb 2022 05:49:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1645710575;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=W72ne0G9b3MyyFBiSEwGqBYz/xzB4RzahKKge7NcOro=;
+        b=X8ghXdUbb9c5nRblZoLAV+on3+vyCKG032dNssXQGSpoW12TdDqOCYjK9RH71urYVLfxZ+
+        wZCysG1DqkzCBtMB1DZSOrB8wIwTPkwEVslTZfZyWwNaMJPWlbxW/rnz1VzgQEqsCrwXSy
+        VCq/UT/eR0sk8mT9f1QWm1RXX4A72JE=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-625-wvl0dY80N2Wb9JHadFODiA-1; Thu, 24 Feb 2022 08:49:34 -0500
+X-MC-Unique: wvl0dY80N2Wb9JHadFODiA-1
+Received: by mail-pf1-f198.google.com with SMTP id j204-20020a6280d5000000b004e107ad3488so1335215pfd.15
+        for <linux-input@vger.kernel.org>; Thu, 24 Feb 2022 05:49:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=0AbxvT+UyjtLUUrp5lGkKPXG8e9imCtSOESDE/pQxuM=;
-        b=Z+HsLyjlCbpZD60AJrUmtZmgjeVu5NZy4AYvbHH6cDrmcXUnSLovKVaTAOwLNbhLU+
-         VVMF2sGTi1knUVyTr0B02Db265h1DXYrbwESKwqQggYwiJ1wsaxTEI9dm0ckknz9edt9
-         SwOzURFwjA2f95sX5EkhWxvyuxvbXJZX2dfaydbE3C+4u4Vhe2NPvNTFFMwukLFWAhcN
-         pUcWfGuvbFamavlSWjm4AMgeOPW/Ta4ypFh3SkVXEa87J5xZRDojEXapeLL0q87ypcKa
-         i/ax67gw8lR84ED1H8JRtNPTA7dV1Bk6jyrxyN8u445yT1zKP/a/o87FWa09MDWNi7GU
-         KhgQ==
-X-Gm-Message-State: AOAM532r5S56LmCMVUEu2fhJ+nTEOW+nW4uEZbVmqDn1vNtzyJ20Yc5Q
-        5YQfvG7CwlQX83wmzRuf5gFRZzqt9kwVZA==
-X-Google-Smtp-Source: ABdhPJwrwJOBEQIN411koZhXcJQVzbWRCkdHf4VrhmdhbK0fuboz36Lw/UjrsU4p4SXyL2FVBU46Qg==
-X-Received: by 2002:a5d:628d:0:b0:1ed:f981:ccc with SMTP id k13-20020a5d628d000000b001edf9810cccmr1520491wru.616.1645708152879;
-        Thu, 24 Feb 2022 05:09:12 -0800 (PST)
-Received: from [10.16.0.7] ([194.126.177.11])
-        by smtp.gmail.com with ESMTPSA id r2-20020a05600c35c200b00352cdcdd7b2sm12326027wmq.0.2022.02.24.05.09.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Feb 2022 05:09:12 -0800 (PST)
-Message-ID: <fc05d480-49f4-bb6f-3f21-531085ec226f@gmail.com>
-Date:   Thu, 24 Feb 2022 14:09:10 +0100
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=W72ne0G9b3MyyFBiSEwGqBYz/xzB4RzahKKge7NcOro=;
+        b=TvUqk87Jom4XUffSVLxMlek+UOuu3YoP0LIANNXS/hwRfzbi8D1PnjtwlQBMxwkiJX
+         830hChYnn8VLn39gE5F4lSsl6M0eAYxNsBFsVp5Au/Oi9UmfxIDFgGTqIyE6jHzGJ0af
+         IKhbF5iinptmwRTWcoNhoWnAngdeNeZuruV10J5AF+n2SuDvnuSXtXuAaksq0kI76mJf
+         OqAfybG8za7+tCa1ixr6dtAuZyqf3CDfK2qRt4rzkcKh9q0P8xoog4eyWqTB7elgqJsK
+         JemWWkRDILTEQqsnR7pbd4p2YfyEqhxB1kgzBPvl5mln+S1t5OveWGT3I2HXguEEnJ0K
+         OcUw==
+X-Gm-Message-State: AOAM5330H+BWGJ+yEbrOWUeJNgUtNWKB+ffE5ftNDOlJesltiQq07FFI
+        UxteKXS/FeKxcPZASMFY/eiPL04iDnJiN0oKtAKue1MXDySJxLIJxLiIzIDaiGGctex9NMYB9EA
+        EnSwhfSrGpm4pFh46DvO9P7xGf4pGUEreNTsEuwo=
+X-Received: by 2002:a63:e043:0:b0:36f:e3b2:1f65 with SMTP id n3-20020a63e043000000b0036fe3b21f65mr2320766pgj.191.1645710572676;
+        Thu, 24 Feb 2022 05:49:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxVsPyxV1f6af6vHhonpw0QODAIZHBBNj9NxHUgER8f4p1IZtmnoRpztn7Iw19G+qUQT9leUes/qss6JhVAQlE=
+X-Received: by 2002:a63:e043:0:b0:36f:e3b2:1f65 with SMTP id
+ n3-20020a63e043000000b0036fe3b21f65mr2320745pgj.191.1645710572314; Thu, 24
+ Feb 2022 05:49:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 2/2] platform/surface: Remove Surface 3 Button driver
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-References: <20220224110241.9613-1-hdegoede@redhat.com>
- <20220224110241.9613-3-hdegoede@redhat.com>
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-In-Reply-To: <20220224110241.9613-3-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220224110828.2168231-1-benjamin.tissoires@redhat.com> <YhdsgokMMSEQ0Yc8@kroah.com>
+In-Reply-To: <YhdsgokMMSEQ0Yc8@kroah.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 24 Feb 2022 14:49:21 +0100
+Message-ID: <CAO-hwJJcepWJaU9Ytuwe_TiuZUGTq_ivKknX8x8Ws=zBFUp0SQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v1 0/6] Introduce eBPF support for HID devices
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Peter Hutterer <peter.hutterer@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2/24/22 12:02, Hans de Goede wrote:
-> The Surface 3 buttons are now handled by the generic soc_button_array
-> driver. As part of adding support to soc_button_array the ACPI code
-> now instantiates a platform_device rather then an i2c_client so there
-> no longer is an i2c_client for this driver to bind to.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Hi Greg,
 
-Looks good to me.
+Thanks for the quick answer :)
 
-Reviewed-by: Maximilian Luz <luzmaximilian@gmail.com
+On Thu, Feb 24, 2022 at 12:31 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, Feb 24, 2022 at 12:08:22PM +0100, Benjamin Tissoires wrote:
+> > Hi there,
+> >
+> > This series introduces support of eBPF for HID devices.
+> >
+> > I have several use cases where eBPF could be interesting for those
+> > input devices:
+> >
+> > - simple fixup of report descriptor:
+> >
+> > In the HID tree, we have half of the drivers that are "simple" and
+> > that just fix one key or one byte in the report descriptor.
+> > Currently, for users of such devices, the process of fixing them
+> > is long and painful.
+> > With eBPF, we could externalize those fixups in one external repo,
+> > ship various CoRe bpf programs and have those programs loaded at boot
+> > time without having to install a new kernel (and wait 6 months for the
+> > fix to land in the distro kernel)
+>
+> Why would a distro update such an external repo faster than they update
+> the kernel?  Many sane distros update their kernel faster than other
+> packages already, how about fixing your distro?  :)
+
+Heh, I'm going to try to dodge the incoming rhel bullet :)
+
+It's true that thanks to the work of the stable folks we don't have to
+wait 6 months for a fix to come in. However, I think having a single
+file to drop in a directory would be easier for development/testing
+(and distribution of that file between developers/testers) than
+requiring people to recompile their kernel.
+
+Brain fart: is there any chance we could keep the validated bpf
+programs in the kernel tree?
+
+>
+> I'm all for the idea of using ebpf for HID devices, but now we have to
+> keep track of multiple packages to be in sync here.  Is this making
+> things harder overall?
+
+Probably, and this is also maybe opening a can of worms. Vendors will
+be able to say "use that bpf program for my HID device because the
+firmware is bogus".
+
+OTOH, as far as I understand, you can not load a BPF program in the
+kernel that uses GPL-declared functions if your BPF program is not
+GPL. Which means that if firmware vendors want to distribute blobs
+through BPF, either it's GPL and they have to provide the sources, or
+it's not happening.
+
+I am not entirely clear on which plan I want to have for userspace.
+I'd like to have libinput on board, but right now, Peter's stance is
+"not in my garden" (and he has good reasons for it).
+So my initial plan is to cook and hold the bpf programs in hid-tools,
+which is the repo I am using for the regression tests on HID.
+
+I plan on building a systemd intrinsic that would detect the HID
+VID/PID and then load the various BPF programs associated with the
+small fixes.
+Note that everything can not be fixed through eBPF, simply because at
+boot we don't always have the root partition mounted.
+
+>
+> > - Universal Stylus Interface (or any other new fancy feature that
+> >   requires a new kernel API)
+> >
+> > See [0].
+> > Basically, USI pens are requiring a new kernel API because there are
+> > some channels of communication our HID and input stack are not capable
+> > of. Instead of using hidraw or creating new sysfs or ioctls, we can rely
+> > on eBPF to have the kernel API controlled by the consumer and to not
+> > impact the performances by waking up userspace every time there is an
+> > event.
+>
+> How is userspace supposed to interact with these devices in a unified
+> way then?  This would allow random new interfaces to be created, one
+> each for each device, and again, be a pain to track for a distro to keep
+> in sync.  And how are you going to keep the ebpf interface these
+> provides in sync with the userspace program?
+
+Right now, the idea we have is to export the USI specifics through
+dbus. This has a couple of advantages: we are not tied to USI and can
+"emulate" those parameters by storing them on disk instead of in the
+pen, and this is easily accessible from all applications directly.
+
+I am trying to push to have one implementation of that dbus service
+with the Intel and ChromeOS folks so general linux doesn't have to
+recreate it. But if you look at it, with hidraw nothing prevents
+someone from writing such a library/daemon in its own world without
+sharing it with anybody.
+
+The main advantage of eBPF compared to hidraw is that you can analyse
+the incoming event without waking userspace and only wake it up when
+there is something noticeable.
+
+In terms of random interfaces, yes, this is a good point. But the way
+I see it is that we can provide one kernel API (eBPF for HID) which we
+will maintain and not have to maintain forever a badly designed kernel
+API for a specific device. Though also note that USI is a HID standard
+(I think there is a second one), so AFAICT, the same bpf program
+should be able to be generic enough to be cross vendor. So there will
+be one provider only for USI.
+
+>
+> > - Surface Dial
+> >
+> > This device is a "puck" from Microsoft, basically a rotary dial with a
+> > push button. The kernel already exports it as such but doesn't handle
+> > the haptic feedback we can get out of it.
+> > Furthermore, that device is not recognized by userspace and so it's a
+> > nice paperwight in the end.
+> >
+> > With eBPF, we can morph that device into a mouse, and convert the dial
+> > events into wheel events.
+>
+> Why can't we do this in the kernel today?
+
+We can do this in the kernel, sure, but that means the kernel has to
+make a choice.
+Right now, the device is exported as a "rotary button". Userspace
+should know what it is, and handle it properly.
+Turns out that there are not so many developers who care about it, so
+there is no implementation of it in userspace.
+
+So the idea to morph it into a special mouse is interesting, but
+suddenly we are lying to userspace about the device, and this can have
+unanticipated consequences.
+
+If we load a bpf program that morphs the device into a mouse, suddenly
+the kernel is not the one responsible for that choice, but the user
+is.
+
+For instance, we could imagine a program that pops up a pie menu like
+Windows does and enables/disables the haptic feedback based on what is
+on screen.
+
+With a kernel implementation, we need a driver with a config
+parameter, a new haptic kernel API which is unlikely to be compatible
+with the forcepad haptic API that Angela is working on :/
+
+>
+> > Also, we can set/unset the haptic feedback
+> > from userspace. The convenient part of BPF makes it that the kernel
+> > doesn't make any choice that would need to be reverted because that
+> > specific userspace doesn't handle it properly or because that other
+> > one expects it to be different.
+>
+> Again, what would the new api for the haptic device be?  Who is going to
+> mantain that on the userspace side?  What library is going to use this?
+> Is libinput going to now be responsible for interacting this way with
+> the kernel?
+
+In that particular case, I don't think the haptic API should be very
+complex. On Windows, you only have a toggle: on/off.
+And actually I'd love to see the haptic feedback enabled or disabled
+based on the context: do you need one tick every 5 degrees? haptic
+enabled, if not (smooth scrolling where every minimal step matters),
+then haptic disabled.
+
+Note that this is also entirely possible to be done in pure hidraw without BPF.
+
+In terms of "who" that's up in the air. I am not using the device
+enough to maintain such a tool (and definitively not skilled enough
+for the UI part).
+
+>
+> > - firewall
+> >
+> > What if we want to prevent other users to access a specific feature of a
+> > device? (think a possibly bonker firmware update entry popint)
+> > With eBPF, we can intercept any HID command emitted to the device and
+> > validate it or not.
+>
+> This I like.
+
+Heh. It's a shame that it's the part I left out from the series :)
+
+>
+> > This also allows to sync the state between the userspace and the
+> > kernel/bpf program because we can intercept any incoming command.
+> >
+> > - tracing
+> >
+> > The last usage I have in mind is tracing events and all the fun we can
+> > do we BPF to summarize and analyze events.
+> > Right now, tracing relies on hidraw. It works well except for a couple
+> > of issues:
+> >  1. if the driver doesn't export a hidraw node, we can't trace anything
+> >     (eBPF will be a "god-mode" there, so it might raise some eyebrows)
+> >  2. hidraw doesn't catch the other process requests to the device, which
+> >     means that we have cases where we need to add printks to the kernel
+> >     to understand what is happening.
+>
+> Tracing is also nice, I like this too.
+>
+> Anyway, I like the idea, I'm just worried we are pushing complexity out
+> into userspace which would make it "someone else's problem."  The job of
+> a kernel is to provide a way to abstract devices in a standard way.  To
+> force userspace to write a "new program per input device" would be a
+> total mess and a step backwards.
+>
+
+Yeah, I completely understand the view. However, please keep in mind
+that most of it (though not firewall and some corner cases of tracing)
+is already possible to do through hidraw.
+One other example of that is SDL. We got Sony involved to create a
+nice driver for the DualSense controller (the PS5 one), but they
+simply ignore it and use plain HID (through hidraw). They have the
+advantage of this being cross-platform and can provide a consistent
+experience across platforms. And as a result, in the kernel, we have
+to hands up the handling of the device whenever somebody opens a
+hidraw node for those devices (Steam is also doing the same FWIW).
+
+Which reminds me that I also have another use-case: joystick
+dead-zone. You can have a small filter that configures the dead zone
+and doesn't even wake up userspace for those hardware glitches...
+
+Anyway, IOW, I think the bpf approach will allow kernel-like
+performances of hidraw applications, and I would be more inclined to
+ask people to move their weird issue in userspace thanks to that.
+
+And I am also open to any suggestions on how to better handle your remarks :)
+
+Cheers,
+Benjamin
+
