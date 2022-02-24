@@ -2,63 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB5824C348D
-	for <lists+linux-input@lfdr.de>; Thu, 24 Feb 2022 19:21:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3CB44C392C
+	for <lists+linux-input@lfdr.de>; Thu, 24 Feb 2022 23:50:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232685AbiBXSVF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Feb 2022 13:21:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43036 "EHLO
+        id S235496AbiBXWui (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Feb 2022 17:50:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232672AbiBXSVE (ORCPT
+        with ESMTP id S235480AbiBXWui (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Feb 2022 13:21:04 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ECC52556E4;
-        Thu, 24 Feb 2022 10:20:34 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9A56D60B0E;
-        Thu, 24 Feb 2022 18:20:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78637C340E9;
-        Thu, 24 Feb 2022 18:20:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1645726833;
-        bh=cLEjIETcg/OJ3fT0H+e8jwtt0eqs6MXPvVtlC2jV8PQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nyqKUgzRU2t7o/ub+aIX9fXlhdK+rfzjWeg6vo2QTWXXEN1cewKOjPJRnXe/Nx2Ou
-         loZukuiIEs4ALvJflu8IX4X2HXaPHATG5b/MavRxbxOwMZJ3wpgQEbE6nNuafSBC7u
-         t9TOIji+xztIIxeN2btLZqJmJZ6ub920T/uymotM=
-Date:   Thu, 24 Feb 2022 19:20:25 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH bpf-next v1 0/6] Introduce eBPF support for HID devices
-Message-ID: <YhfMaYsS3YI9T2nT@kroah.com>
-References: <20220224110828.2168231-1-benjamin.tissoires@redhat.com>
- <YhdsgokMMSEQ0Yc8@kroah.com>
- <f965c04f34aabe93fe8ef91bb4d1ce4d24159173.camel@hadess.net>
+        Thu, 24 Feb 2022 17:50:38 -0500
+Received: from outgoing-stata.csail.mit.edu (outgoing-stata.csail.mit.edu [128.30.2.210])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A2AA3120F7D;
+        Thu, 24 Feb 2022 14:50:07 -0800 (PST)
+Received: from [128.177.79.46] (helo=[10.118.101.22])
+        by outgoing-stata.csail.mit.edu with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.82)
+        (envelope-from <srivatsa@csail.mit.edu>)
+        id 1nNMSg-000HH6-Ik; Thu, 24 Feb 2022 17:19:46 -0500
+Subject: [PATCH v5 0/3] Update VMware maintainer entries
+From:   "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
+To:     jgross@suse.com, x86@kernel.org, pv-drivers@vmware.com,
+        tglx@linutronix.de, bp@alien8.de
+Cc:     linux-graphics-maintainer@vmware.com, Deep Shah <sdeep@vmware.com>,
+        Joe Perches <joe@perches.com>, linux-rdma@vger.kernel.org,
+        Ronak Doshi <doshir@vmware.com>, Nadav Amit <namit@vmware.com>,
+        Alexey Makhalov <amakhalov@vmware.com>,
+        Zack Rusin <zackr@vmware.com>, linux-input@vger.kernel.org,
+        Vivek Thampi <vithampi@vmware.com>, linux-scsi@vger.kernel.org,
+        Vishal Bhakta <vbhakta@vmware.com>, netdev@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, sdeep@vmware.com,
+        vithampi@vmware.com, amakhalov@vmware.com, keerthanak@vmware.com,
+        srivatsab@vmware.com, anishs@vmware.com,
+        linux-kernel@vger.kernel.org, namit@vmware.com, joe@perches.com,
+        kuba@kernel.org, rostedt@goodmis.org, srivatsa@csail.mit.edu
+Date:   Thu, 24 Feb 2022 14:23:48 -0800
+Message-ID: <164574138686.654750.10250173565414769119.stgit@csail.mit.edu>
+User-Agent: StGit/1.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f965c04f34aabe93fe8ef91bb4d1ce4d24159173.camel@hadess.net>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -67,60 +51,33 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Feb 24, 2022 at 06:41:18PM +0100, Bastien Nocera wrote:
-> On Thu, 2022-02-24 at 12:31 +0100, Greg KH wrote:
-> > On Thu, Feb 24, 2022 at 12:08:22PM +0100, Benjamin Tissoires wrote:
-> > > Hi there,
-> > > 
-> > > This series introduces support of eBPF for HID devices.
-> > > 
-> > > I have several use cases where eBPF could be interesting for those
-> > > input devices:
-> > > 
-> > > - simple fixup of report descriptor:
-> > > 
-> > > In the HID tree, we have half of the drivers that are "simple" and
-> > > that just fix one key or one byte in the report descriptor.
-> > > Currently, for users of such devices, the process of fixing them
-> > > is long and painful.
-> > > With eBPF, we could externalize those fixups in one external repo,
-> > > ship various CoRe bpf programs and have those programs loaded at
-> > > boot
-> > > time without having to install a new kernel (and wait 6 months for
-> > > the
-> > > fix to land in the distro kernel)
-> > 
-> > Why would a distro update such an external repo faster than they
-> > update
-> > the kernel?  Many sane distros update their kernel faster than other
-> > packages already, how about fixing your distro?  :)
-> > 
-> > I'm all for the idea of using ebpf for HID devices, but now we have
-> > to
-> > keep track of multiple packages to be in sync here.  Is this making
-> > things harder overall?
-> 
-> I don't quite understand how taking eBPF quirks for HID devices out of
-> the kernel tree is different from taking suspend quirks out of the
-> kernel tree:
-> https://www.spinics.net/lists/linux-usb/msg204506.html
+This series updates a few maintainer entries for VMware-maintained
+subsystems and cleans up references to VMware's private mailing lists
+to make it clear that they are effectively email-aliases to reach out
+to reviewers.
 
-A list of all devices possible, and the policy decisions to make on
-those devices, belongs in userspace, not in the kernel.  That's what the
-hwdb contains.
+Changes from v4->v5:
+- Add Alexey as reviewer for paravirt ops.
 
-Quirks in order to get the device to work properly is not a policy
-decision, they are needed to get the device to work.  If you wish to
-suspend it or not based on the vendor/product id, in order to possibly
-save some more battery life on some types of systems, is something that
-belongs in userspace.
+Changes from v3->v4:
+- Remove Cc: stable@vger.kernel.org from patches 1 and 2.
 
-If you want to replace the existing HID quirk tables with an ebpf
-program that ships with the kernel, wonderful, I have no objection to
-that.  If a user is required to download the external quirk table just
-to get their device to work with the kernel, that's probably something
-you don't want to do.
+Changes from v1->v3:
+- Add Zack as the named maintainer for vmmouse driver
+- Use R: to denote email-aliases for VMware reviewers
 
-thanks,
+Regards,
+Srivatsa
+VMware Photon OS
 
-greg k-h
+---
+
+Srivatsa S. Bhat (VMware) (3):
+      MAINTAINERS: Update maintainers for paravirt ops and VMware hypervisor interface
+      MAINTAINERS: Add Zack as maintainer of vmmouse driver
+      MAINTAINERS: Mark VMware mailing list entries as email aliases
+
+
+ MAINTAINERS | 31 ++++++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
+
