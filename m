@@ -2,64 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D4614C38C1
-	for <lists+linux-input@lfdr.de>; Thu, 24 Feb 2022 23:29:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02F414C3949
+	for <lists+linux-input@lfdr.de>; Thu, 24 Feb 2022 23:58:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235474AbiBXW2Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Feb 2022 17:28:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34200 "EHLO
+        id S231726AbiBXW5a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Feb 2022 17:57:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235479AbiBXW2Y (ORCPT
+        with ESMTP id S230335AbiBXW53 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Feb 2022 17:28:24 -0500
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E968F18647B;
-        Thu, 24 Feb 2022 14:27:53 -0800 (PST)
-Received: by mail-oi1-f171.google.com with SMTP id 12so5378068oix.12;
-        Thu, 24 Feb 2022 14:27:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/Q++PXwW9clpi7EmUird58cb/RjCfYTbDPWAmQD/krg=;
-        b=NSo23BsF2GcfnuiMY8/Bu9zL5r13ggcTQnCjF85JGFDk1UWLEgPIy68ELSPyxXSOuH
-         eCpbzINZ1A26MdgQX7svi0YMHWVsqSHgMtLwAxzyd8OYTg/vZo3p2P1EgTlwVu4ToueA
-         y4HxyIHJnQJSzDtb5YBNF0y+hLBPMUpqUmHGu9mV6l4x5hh5LyRVa+pAjYw4Y/yWUtpA
-         0mZqT9P+snQuzeakOI8k7LCmGBS1HMhULNM17/OTjD/+Hj0rsVELfxNXK9d4ioCXd0iv
-         Xc1j5WlTbMo8mLWjYXe/aSsKzqzIzxCx1U98jrtj1vJ4/qC5KJOZ/lhp6LPzSWHA9AYS
-         0BVQ==
-X-Gm-Message-State: AOAM5332E/hOu70RSLpCBcoSUYkNAanZLnT7ZgXaO9Zyw18+ycPe6e/B
-        NEhhnSTGSQdDdndZbpmY2Q==
-X-Google-Smtp-Source: ABdhPJwx1FD+9eKPTOob58IWuDiHkaicOqaAuTjSLNRT4GyVqROrjSgeyKYq9MX8Tmms8n9PZP6B/A==
-X-Received: by 2002:a05:6870:3121:b0:d2:8163:fd04 with SMTP id v33-20020a056870312100b000d28163fd04mr128825oaa.182.1645741673280;
-        Thu, 24 Feb 2022 14:27:53 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id l34-20020a9d1ca2000000b005acea92e8absm290399ota.42.2022.02.24.14.27.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Feb 2022 14:27:52 -0800 (PST)
-Received: (nullmailer pid 3704065 invoked by uid 1000);
-        Thu, 24 Feb 2022 22:27:51 -0000
-Date:   Thu, 24 Feb 2022 16:27:51 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Michael Trimarchi <michael@amarulasolutions.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 1/6] dt-bindings: input: touchscreen: edt-ft5x06: add
- report-rate
-Message-ID: <YhgGZylBoxlou9ka@robh.at.kernel.org>
-References: <20220217165559.313366-1-dario.binacchi@amarulasolutions.com>
- <20220217165559.313366-2-dario.binacchi@amarulasolutions.com>
+        Thu, 24 Feb 2022 17:57:29 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC20458831;
+        Thu, 24 Feb 2022 14:56:58 -0800 (PST)
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21OL80RZ018478;
+        Thu, 24 Feb 2022 22:56:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=hLMUQDq0hZU27/WUqn+x3uojwC5HLelaS3pmkFmruhI=;
+ b=VZdGmlWPt18YeT0z01npFX4CM7OrJo8BcshOeKt7bk8akb9UcRb/ecV0TAgEyhZtV5jb
+ 1wUbf4jjUiVCmAbvnEGkaCVL+K6j7bc5zqnF6cDu376Y5YIJ3yehzrk8sZPcFJyctpz/
+ MMx0+xJfc2etZIrWcijYHkNcABNbDgzyaa6p/qnHs3PIGaThlg1TuFjoZiMrlI546EwM
+ 6ljlsIg1A0ejVWD5PLNBI5L24Zn515TptgI4OTc1JH5pCv2nG/Z5EMlP6NNW6f0FE/qa
+ SG/maEs4jmnSBUus2SNShFbpNiWTKtQKBymOVb0ttEO3C8aJYTjTAnsRcx4X5G2rodtK 3A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3edpjvq48p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 24 Feb 2022 22:56:53 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21OMk7EL005856;
+        Thu, 24 Feb 2022 22:56:52 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3edpjvq48f-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 24 Feb 2022 22:56:52 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+        by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21OMqHhj006768;
+        Thu, 24 Feb 2022 22:56:51 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+        by ppma02wdc.us.ibm.com with ESMTP id 3ear6bcc84-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 24 Feb 2022 22:56:51 +0000
+Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+        by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 21OMuoud12517692
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 24 Feb 2022 22:56:50 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id AE23D7805E;
+        Thu, 24 Feb 2022 22:56:50 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 53BC87805C;
+        Thu, 24 Feb 2022 22:56:50 +0000 (GMT)
+Received: from v0005c16.aus.stglabs.ibm.com (unknown [9.163.20.50])
+        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Thu, 24 Feb 2022 22:56:50 +0000 (GMT)
+From:   Eddie James <eajames@linux.ibm.com>
+To:     linux-input@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dmitry.torokhov@gmail.com, robh+dt@kernel.org, joel@jms.id.au,
+        Eddie James <eajames@linux.ibm.com>
+Subject: [PATCH v4 0/2] input: misc: Add IBM Operation Panel driver
+Date:   Thu, 24 Feb 2022 16:56:33 -0600
+Message-Id: <20220224225635.40538-1-eajames@linux.ibm.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220217165559.313366-2-dario.binacchi@amarulasolutions.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: dIrw9o-CDiqPA5-TMBpr-Eo3BFp-hDOb
+X-Proofpoint-GUID: 1W8dCxWg2opM4B2REmJnKuM6Ydk2YrWI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-02-24_05,2022-02-24_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 suspectscore=0 adultscore=0 clxscore=1011 mlxscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202240123
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,51 +89,45 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Feb 17, 2022 at 05:55:53PM +0100, Dario Binacchi wrote:
-> It allows to change the M06/M12 default scan rate.
-> 
-> Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
-> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> ---
-> 
-> (no changes since v1)
-> 
->  .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> index 2e8da7470513..aa8517c6f65b 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> @@ -85,6 +85,14 @@ properties:
->      minimum: 0
->      maximum: 80
->  
-> +  report-rate:
+This series adds support for input from the IBM Operation Panel, which is
+a simple controller with three buttons and an LCD display meant for
+interacting with a server. It's connected over I2C, typically to a service
+processor. This series only supports the input from the panel, in which the
+panel masters the I2C bus and sends data to the host system when someone
+presses a button on the controller.
 
-Use property unit suffix: report-rate-hz
+Changes since v3:
+ - Document linux,keycodes property
+ - Use linux,keycodes property to map the buttons
+ - Put the checksumming in a seperate function
+ - Don't do unneccessary input_unregister calls
+ - Minor cleanup and add debug data to dev_dbg calls
 
-This should probably be moved to touchscreen.yaml as it seems common.
+Changes since v2:
+ - Add "additionalProperties: false" to dts doc
+ - Refactor switch statement in the input driver; check command size and call
+   the processing function within the STOP case
+ - Use a different definition name for Aspeed interrupt status mask
 
-> +    description: Allows setting the scan rate.
-> +                 M06 supports range from 3 (30 Hz) to 14 (140 Hz).
+Changes since v1:
+ - Redo DTS documentation example to use I2C_OWN_SLAVE_ADDRESS
+ - Reject commands received in the input driver that are too long
+ - Add a definition for the interrupt status mask in the Aspeed I2C driver
+ - Use I2C_OWN_SLAVE_ADDRESS for both dts additions
 
-You're using 3 or 30 in this case? Should be 30, but it's not clear. I'd 
-just list the range in Hz and leave the conversion detail to the driver.
+Eddie James (2):
+  dt-bindings: input: Add documentation for IBM Operation Panel
+  input: misc: Add IBM Operation Panel driver
 
-> +                 M12 supports range from 1 (1 Hz) to 255 (255 Hz).
+ .../bindings/input/ibm,op-panel.yaml          |  49 +++++
+ MAINTAINERS                                   |   7 +
+ drivers/input/misc/Kconfig                    |  18 ++
+ drivers/input/misc/Makefile                   |   1 +
+ drivers/input/misc/ibm-panel.c                | 198 ++++++++++++++++++
+ 5 files changed, 273 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/ibm,op-panel.yaml
+ create mode 100644 drivers/input/misc/ibm-panel.c
 
-Use '|' if formatting (newline) is significant.
+-- 
+2.27.0
 
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 1
-> +    maximum: 255
-> +
->    touchscreen-size-x: true
->    touchscreen-size-y: true
->    touchscreen-fuzz-x: true
-> -- 
-> 2.32.0
-> 
-> 
