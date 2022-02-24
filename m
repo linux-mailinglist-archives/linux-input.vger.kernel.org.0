@@ -2,58 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B71E4C1E3B
-	for <lists+linux-input@lfdr.de>; Wed, 23 Feb 2022 23:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9B3A4C22C0
+	for <lists+linux-input@lfdr.de>; Thu, 24 Feb 2022 04:59:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238670AbiBWWKG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Feb 2022 17:10:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50128 "EHLO
+        id S229820AbiBXD7F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Feb 2022 22:59:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230527AbiBWWKF (ORCPT
+        with ESMTP id S229815AbiBXD7E (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Feb 2022 17:10:05 -0500
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 557584DF62
-        for <linux-input@vger.kernel.org>; Wed, 23 Feb 2022 14:09:37 -0800 (PST)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2d07ae11467so4247337b3.12
-        for <linux-input@vger.kernel.org>; Wed, 23 Feb 2022 14:09:37 -0800 (PST)
+        Wed, 23 Feb 2022 22:59:04 -0500
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88CD225D26F
+        for <linux-input@vger.kernel.org>; Wed, 23 Feb 2022 19:58:35 -0800 (PST)
+Received: by mail-pl1-x64a.google.com with SMTP id r19-20020a170902be1300b0014edf03f82eso357221pls.20
+        for <linux-input@vger.kernel.org>; Wed, 23 Feb 2022 19:58:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:message-id:mime-version:subject:from:to:cc;
-        bh=vPsoxmLFCGTxgUe4OFTHCzlbKt11DcygrOzYKeDdnVk=;
-        b=PRUFFxCsKwskCyK8djrzZdRUxg2aUez0XnIQ3PU0O84m0VqQodnglL5EIQUJ5fdHas
-         2U14yNj4V0SlRsNnyJapzMrrwLsP0A8132T+cFl02paeTiNmgFe7FleEi9rArnLc7M3/
-         41t0UMnOGDP/GoPs2KoGImPtidj57XNbKhEm0G7MKcbn7SGqubp3tHRooFtj5vT3kf3n
-         KUYgLgJpHe5OtYKX1If+T3kI7ElF3P9/LUX55tlS+sK1Dq7QZzBFK82g3/G72WaeBdYn
-         h3UOw7joRCI5ei3Kj8yPjBwtcfdSGaQlgFHh9VLiFdLVViF53h+LNbxgTBOJHvdzepgX
-         o2aw==
+        bh=S/BktkTRg3IeOBKPRorlYf8cDypH5GwEH28l9JcLNGU=;
+        b=ZQv2vKvk1pOFvbCHKtwEOcwunkRUKdEYXB3FRaaa1IRk3ge8LuaPQw3HhcCu12PSWn
+         kfCVvYbvALDA+VKUM9caWeWM6Vi0SWRYp2nwzvQjeM4t0D+QyxLMhLkLCNlGm455POwQ
+         GEtOAUlw0jbBFQTDccVh/sPZKHD0Is8L0KnY/3UFcE4KlnWmnTv1DgIg3wR9wYaP0j79
+         aWlx8j+W2oMu5a6mOk3M71HzQv63tooHPxgF3QU4KD9NNYO7IfDVitzwHSskyRd2Mcq6
+         ZFQHf1OMvGTZfeBMD+Jv1+6fn4xE4y/xEcb+gkgeBT7Q0YLFmvQceqMZm9Vc7O4ol467
+         XS0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=vPsoxmLFCGTxgUe4OFTHCzlbKt11DcygrOzYKeDdnVk=;
-        b=VwatvK0oXfQw0MzltqhX1ZswVSJ0PI8hSHeDujegZIOJQ+iiS91JBRtD24FpVZgjZx
-         IhgfEcbuyf69WEFa9D3jCUxneUU4+JkgdVuncTO6t2AqJ66DOAzJWY5WG0kHWIHCOPiR
-         zqR5eg2OWgWvKyCew3pIYYqDnncPhmeWuKHTTIMojJ2m9y6SvG78VHoAPfOfLf7LNSXg
-         A+xqZq4pH7wCGFGLoV29KckD8pA2qgvej2XOi4wi7tvksLPHiFp12ADKRksuj0uQLFAB
-         H5xa+H07QY2Xyy5e+08rI0vwuKZVoziQU/8W7IExAuUEjRawh4f6CVRE5+t3eQ5gN7vq
-         X3jg==
-X-Gm-Message-State: AOAM533wtoXO4HRO9584Boif2GQxlhzlFVOp4NEfdwoFuFBlrotFvMH1
-        uDtbidoEw/1PiLA/sDQ3PmYAPto8fGhVbIg=
-X-Google-Smtp-Source: ABdhPJxp71N+rU6Cf2gjQnR8QMeLSwiTiIHv/NNhBYAeIKV2aAc7k+nWHK9+YVI+6TP3Y5YuJftaj+sM4dI+nVA=
-X-Received: from pceballos.nyc.corp.google.com ([2620:0:1003:510:ccf7:25ec:10ba:2169])
- (user=pceballos job=sendgmr) by 2002:a81:9a41:0:b0:2ca:287c:6c65 with SMTP id
- r62-20020a819a41000000b002ca287c6c65mr1609681ywg.266.1645654176518; Wed, 23
- Feb 2022 14:09:36 -0800 (PST)
-Date:   Wed, 23 Feb 2022 17:09:05 -0500
-Message-Id: <20220223170301.1.I7a855580ce9f43fc2f598bdccf088c978d4af822@changeid>
+        bh=S/BktkTRg3IeOBKPRorlYf8cDypH5GwEH28l9JcLNGU=;
+        b=d0aGrChe1cR9XByfdd40K7IbAwXzuO9/78UnQs77c1Uvy0enIE7Ew9rsx9lQU+TrHm
+         pGC7/kjmFTKQVZJtKQteZfezruJzrCppjtZWHHBB/Js2xaM6dGlLezgTLdqv9uaBXZco
+         2Tu6xMeh7o9QpHwSJHA6Ky3zZj50xdsaNcjwUl+/oJr9J5DgYuJwUigHb3ZUubC00wt6
+         0wWW0g5cgMKoS1cQmm8O+jRPsZVVMw1DBQ3j1eCTMzHJTJZIOhOXGXRITnCCMJwyArs8
+         ckuwzutZwy63kpAS/LeT+h0pG51n8FK3ER1ugI+pqQiw2/zY62NRhIjMseXu1HaKvHTY
+         7kEw==
+X-Gm-Message-State: AOAM531b9OSYmuHa+88pOLry6ruavLZe4LwoIW5gKtD+zryik6i+7yeY
+        FiRGb1Vjg7yag3bRBqBAvIznUU9YjLlDNA==
+X-Google-Smtp-Source: ABdhPJwbv0RBFl9Vkc/6rlQfWONrAPccTmsZ4K0XwDlcMLb+tBigsUI7IXGaatRjiIPnuFbk9rpA/+7gWSR9dA==
+X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
+ (user=davidgow job=sendgmr) by 2002:aa7:9911:0:b0:4e1:3a76:96f8 with SMTP id
+ z17-20020aa79911000000b004e13a7696f8mr1055845pff.28.1645675114919; Wed, 23
+ Feb 2022 19:58:34 -0800 (PST)
+Date:   Thu, 24 Feb 2022 11:58:19 +0800
+Message-Id: <20220224035819.1593730-1-davidgow@google.com>
 Mime-Version: 1.0
-X-Mailer: git-send-email 2.35.1.574.g5d30c73bfb-goog
-Subject: [PATCH] HID: Add driver for Google Hangouts Meet Speakermic
-From:   Pablo Ceballos <pceballos@google.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Cc:     Pablo Ceballos <pceballos@google.com>
+X-Mailer: git-send-email 2.35.1.473.g83b2b277ed-goog
+Subject: [PATCH] Input: samsung-keypad - Properly state IOMEM dependency
+From:   David Gow <davidgow@google.com>
+To:     Joonyoung Shim <jy0922.shim@samsung.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     David Gow <davidgow@google.com>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-um@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
@@ -65,114 +65,31 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This driver handles the telephony phone mute HID usage by ignoring it.
-This avoids the default handling by the hid-input driver which is to map
-this to a KEY_MICMUTE event. The issue is that this device implements
-the phone mute HID usage as a toggle switch, where 1 indicates muted,
-and 0 indicates unmuted. However, for an EV_KEY event 1 indicates the
-key has been pressed and 0 indicates it has been released.
+Make the samsung-keypad driver explicitly depend on CONFIG_IOMEM, as it
+calls devm_ioremap(). This prevents compile errors in some configs (e.g,
+allyesconfig/randconfig under UML):
 
-Signed-off-by: Pablo Ceballos <pceballos@google.com>
+/usr/bin/ld: drivers/input/keyboard/samsung-keypad.o: in function `samsung_keypad_probe':
+samsung-keypad.c:(.text+0xc60): undefined reference to `devm_ioremap'
+
+Signed-off-by: David Gow <davidgow@google.com>
 ---
+ drivers/input/keyboard/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/hid/Kconfig            |  6 +++++
- drivers/hid/Makefile           |  1 +
- drivers/hid/hid-google-atrus.c | 44 ++++++++++++++++++++++++++++++++++
- drivers/hid/hid-ids.h          |  1 +
- 4 files changed, 52 insertions(+)
- create mode 100644 drivers/hid/hid-google-atrus.c
-
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index f5544157576c9..d89c57d89a699 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -403,6 +403,12 @@ config HOLTEK_FF
- 	  Say Y here if you have a Holtek On Line Grip based game controller
- 	  and want to have force feedback support for it.
+diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
+index 0c607da9ee10..5c98d5f996e4 100644
+--- a/drivers/input/keyboard/Kconfig
++++ b/drivers/input/keyboard/Kconfig
+@@ -556,7 +556,7 @@ config KEYBOARD_PMIC8XXX
  
-+config HID_GOOGLE_ATRUS
-+	tristate "Google Hangouts Meet Speakermic"
-+	depends on USB_HID
-+	---help---
-+	Say Y here if you have a Google Hangouts Meet Speakermic
-+
- config HID_GOOGLE_HAMMER
- 	tristate "Google Hammer Keyboard"
- 	depends on USB_HID && LEDS_CLASS && CROS_EC
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index 6d3e630e81af5..2ee446b5b953b 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -50,6 +50,7 @@ obj-$(CONFIG_HID_FT260)		+= hid-ft260.o
- obj-$(CONFIG_HID_GEMBIRD)	+= hid-gembird.o
- obj-$(CONFIG_HID_GFRM)		+= hid-gfrm.o
- obj-$(CONFIG_HID_GLORIOUS)  += hid-glorious.o
-+obj-$(CONFIG_HID_GOOGLE_ATRUS)  += hid-google-atrus.o
- obj-$(CONFIG_HID_GOOGLE_HAMMER)	+= hid-google-hammer.o
- obj-$(CONFIG_HID_VIVALDI)	+= hid-vivaldi.o
- obj-$(CONFIG_HID_GT683R)	+= hid-gt683r.o
-diff --git a/drivers/hid/hid-google-atrus.c b/drivers/hid/hid-google-atrus.c
-new file mode 100644
-index 0000000000000..938947417f119
---- /dev/null
-+++ b/drivers/hid/hid-google-atrus.c
-@@ -0,0 +1,44 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ *  HID driver for Google Hangouts Meet Speakermic
-+ *
-+ *  Copyright 2022 Google LLC.
-+ */
-+
-+#include <linux/hid.h>
-+#include <linux/module.h>
-+
-+#include "hid-ids.h"
-+
-+static int atrus_event(struct hid_device *hid, struct hid_field *field,
-+		       struct hid_usage *usage, __s32 value)
-+{
-+	// Return 1 to indicate no further processing should be done for this
-+	// usage.
-+	return 1;
-+}
-+
-+static const struct hid_device_id atrus_devices[] = {
-+	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-+		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_ATRUS) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, atrus_devices);
-+
-+static const struct hid_usage_id atrus_usages[] = {
-+	// Handle only the Telephony Phone Mute usage.
-+	{ HID_UP_TELEPHONY | 0x2f, EV_KEY, HID_ANY_ID },
-+	{ HID_TERMINATOR, HID_TERMINATOR, HID_TERMINATOR }
-+};
-+
-+static struct hid_driver atrus_driver = {
-+	.name = "atrus",
-+	.id_table = atrus_devices,
-+	.usage_table = atrus_usages,
-+	.event = atrus_event,
-+};
-+module_hid_driver(atrus_driver);
-+
-+MODULE_AUTHOR("Pablo Ceballos <pcebalos@google.com>");
-+MODULE_DESCRIPTION("Google Hangouts Meet Speakermic USB HID Driver");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 85975031389b3..9f6fc5cfbeb96 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -506,6 +506,7 @@
- #define USB_DEVICE_ID_GOOGLE_MOONBALL	0x5044
- #define USB_DEVICE_ID_GOOGLE_DON	0x5050
- #define USB_DEVICE_ID_GOOGLE_EEL	0x5057
-+#define USB_DEVICE_ID_GOOGLE_ATRUS	0x8001
- 
- #define USB_VENDOR_ID_GOTOP		0x08f2
- #define USB_DEVICE_ID_SUPER_Q2		0x007f
+ config KEYBOARD_SAMSUNG
+ 	tristate "Samsung keypad support"
+-	depends on HAVE_CLK
++	depends on IOMEM && HAVE_CLK
+ 	select INPUT_MATRIXKMAP
+ 	help
+ 	  Say Y here if you want to use the keypad on your Samsung mobile
 -- 
-2.35.1.574.g5d30c73bfb-goog
+2.35.1.473.g83b2b277ed-goog
 
