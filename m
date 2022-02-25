@@ -2,58 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5BAE4C4736
-	for <lists+linux-input@lfdr.de>; Fri, 25 Feb 2022 15:16:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45F294C473E
+	for <lists+linux-input@lfdr.de>; Fri, 25 Feb 2022 15:16:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240321AbiBYOQp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Feb 2022 09:16:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40130 "EHLO
+        id S234943AbiBYOQm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Feb 2022 09:16:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241704AbiBYOQo (ORCPT
+        with ESMTP id S229872AbiBYOQm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Feb 2022 09:16:44 -0500
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B2FC1FEFB3;
-        Fri, 25 Feb 2022 06:16:12 -0800 (PST)
-Received: by mail-oi1-f176.google.com with SMTP id p15so7566406oip.3;
-        Fri, 25 Feb 2022 06:16:12 -0800 (PST)
+        Fri, 25 Feb 2022 09:16:42 -0500
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D07A52177C0;
+        Fri, 25 Feb 2022 06:16:09 -0800 (PST)
+Received: by mail-oi1-f173.google.com with SMTP id y7so7563499oih.5;
+        Fri, 25 Feb 2022 06:16:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
          :message-id;
-        bh=whxK/TXlb+DFYwGBGz/bUt/Sh+5/wa4c981iioKE+D0=;
-        b=JlX9/l7kgmrt5oSqkPBfRLvyef3zkr1/RtpEK4ybPqHNXLFk9HYMeiAOgDH0MMdkwh
-         v8+DtkbJ6SVsOFowY87UsQiMpynlP76JYcAK5PdjEf9CpS8arL7FzExqv5ShxxJLvcUX
-         rk6Z3JWcm4eJnrGkH4VEIYXGYs1k+0hnIZLfqx1OD3BNyjj8yFiVwTBfCRQE3FKvLXQQ
-         KEh1fXihuaCYGd2n2OYigA0ZsawyJ0ZuCx1kHN4KAp4za68qGY6uVfifgp+yXi7dXcAK
-         L2E3l5H+a0qnvG8XFdGEv4l7gx+LdNLY/ypa5oIBNOHfDTxfq+s1TNfaOGXu1lKMGKM8
-         eW2A==
-X-Gm-Message-State: AOAM532FhPqHwc0erB/vv8Vv3HQpGk+y0JH+0Kq4oL3qFHDpFywE3/BC
-        evnrPzqXVQFeMraLx0jkmMPg3I+Fdg==
-X-Google-Smtp-Source: ABdhPJwu0SE8cZZ/r+xEfNz77uFx9+Ea20npSfAZTWUoKpnnuj7JRKXbD4QOrrf2Gmd4cq34qh5GqA==
-X-Received: by 2002:a05:6808:1304:b0:2d5:4170:e084 with SMTP id y4-20020a056808130400b002d54170e084mr1581990oiv.19.1645798571598;
-        Fri, 25 Feb 2022 06:16:11 -0800 (PST)
+        bh=dRIJc0Yk3FXYXz/Yh0SUlf/wEonYpjpvZAyiUC72gd0=;
+        b=d+8+Nvy2Zb04T/6bCKwgdBkKywjqy9iE7LXkjY4BpDFrSIgsHA+L2aMDftXmnpuzvM
+         NJ2BudlEJGBsrHW0tk//IWRhBPao98MdZZcQU5Tq20WOMYUwAiGLLh5YQeHyGN8CxX38
+         fVyfz9jdosDTDKSAyNqhHGlcLJBvDsm643jY0Zh6TL+oDAbLKDYiqaSawBApwPwA63Y9
+         UQ4Y6Z2Z6p3ocawwwbEjGCRJ8k7D7i5EU9dEODd70UTBqzMfcIJzE8hi39E/U4g3EtML
+         J9duYuRZenn06SWyDWrI2/rLuBCMXo2wNFoAX5JyoLl47t3rWFdfiV/WQ3wQxYUlgdPM
+         leSw==
+X-Gm-Message-State: AOAM533FrpQaFETy1hwN8XWqTRm/Rnua+Vvst65yO/dP/Q2ZeGulnmoR
+        hKlWsqq9lY5vIxIazuX8UAVUB1U0wg==
+X-Google-Smtp-Source: ABdhPJxSQW0T+fA1EUjigvVZ/2B3NsbrmJxB00stlugFweRHMzUXPV47lSjGLz5Z6t+WIOER0M4VkA==
+X-Received: by 2002:aca:5b45:0:b0:2bc:8362:b053 with SMTP id p66-20020aca5b45000000b002bc8362b053mr1612054oib.36.1645798569028;
+        Fri, 25 Feb 2022 06:16:09 -0800 (PST)
 Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id be40-20020a05680821a800b002d06df28063sm1480818oib.5.2022.02.25.06.16.09
+        by smtp.gmail.com with ESMTPSA id lc4-20020a056871418400b000c8a240183csm1202630oab.25.2022.02.25.06.16.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Feb 2022 06:16:10 -0800 (PST)
-Received: (nullmailer pid 857890 invoked by uid 1000);
+        Fri, 25 Feb 2022 06:16:08 -0800 (PST)
+Received: (nullmailer pid 857884 invoked by uid 1000);
         Fri, 25 Feb 2022 14:16:07 -0000
 From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Antipov <daantipov@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>, linux-spi@vger.kernel.org,
-        Dmitry Antipov <dmanti@microsoft.com>,
-        Felipe Balbi <balbi@kernel.org>, linux-input@vger.kernel.org,
+To:     Eddie James <eajames@linux.ibm.com>
+Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, robh+dt@kernel.org, joel@jms.id.au,
         devicetree@vger.kernel.org
-In-Reply-To: <20220225005936.3485405-4-dmanti@microsoft.com>
-References: <20220225005936.3485405-1-dmanti@microsoft.com> <20220225005936.3485405-4-dmanti@microsoft.com>
-Subject: Re: [PATCH v4 3/6] Documentation: DT bindings for Microsoft G6 Touch Digitizer
+In-Reply-To: <20220224225635.40538-2-eajames@linux.ibm.com>
+References: <20220224225635.40538-1-eajames@linux.ibm.com> <20220224225635.40538-2-eajames@linux.ibm.com>
+Subject: Re: [PATCH v4 1/2] dt-bindings: input: Add documentation for IBM Operation Panel
 Date:   Fri, 25 Feb 2022 08:16:07 -0600
-Message-Id: <1645798567.332089.857887.nullmailer@robh.at.kernel.org>
+Message-Id: <1645798567.321012.857881.nullmailer@robh.at.kernel.org>
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
@@ -65,38 +60,37 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 24 Feb 2022 16:59:33 -0800, Dmitry Antipov wrote:
-> From: Dmitry Antipov <dmanti@microsoft.com>
+On Thu, 24 Feb 2022 16:56:34 -0600, Eddie James wrote:
+> Document the bindings for the IBM Operation Panel, which provides
+> a simple interface to control a server. It has a display and three
+> buttons.
+> Also update MAINTAINERS for the new file.
 > 
-> Documentation describes the required and optional properties for
-> implementing Device Tree for a Microsoft G6 Touch Digitizer that
-> supports HID over SPI Protocol 1.0 specification.
-> 
-> Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Acked-by: Joel Stanley <joel@jms.id.au>
 > ---
->  .../input/microsoft,g6-touch-digitizer.yaml   | 105 ++++++++++++++++++
->  1 file changed, 105 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/microsoft,g6-touch-digitizer.yaml
+>  .../bindings/input/ibm,op-panel.yaml          | 49 +++++++++++++++++++
+>  MAINTAINERS                                   |  6 +++
+>  2 files changed, 55 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/ibm,op-panel.yaml
 > 
 
 My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
 on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
 yamllint warnings/errors:
-./Documentation/devicetree/bindings/input/microsoft,g6-touch-digitizer.yaml:22:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
 
 dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/input/microsoft,g6-touch-digitizer.example.dts:23.11-21: Warning (reg_format): /example-0/spi-hid-dev0:reg: property has invalid length (4 bytes) (#address-cells == 1, #size-cells == 1)
-Documentation/devicetree/bindings/input/microsoft,g6-touch-digitizer.example.dts:21.22-37.11: Warning (unit_address_vs_reg): /example-0/spi-hid-dev0: node has a reg or ranges property, but no unit name
-Documentation/devicetree/bindings/input/microsoft,g6-touch-digitizer.example.dt.yaml: Warning (pci_device_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/input/microsoft,g6-touch-digitizer.example.dt.yaml: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/input/microsoft,g6-touch-digitizer.example.dt.yaml: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/input/microsoft,g6-touch-digitizer.example.dt.yaml: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/input/microsoft,g6-touch-digitizer.example.dt.yaml: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+Error: Documentation/devicetree/bindings/input/ibm,op-panel.example.dts:27.35-36 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:378: Documentation/devicetree/bindings/input/ibm,op-panel.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1398: dt_binding_check] Error 2
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/patch/1597405
+See https://patchwork.ozlabs.org/patch/1597387
 
 This check can fail if there are any dependencies. The base for a patch
 series is generally the most recent rc1.
