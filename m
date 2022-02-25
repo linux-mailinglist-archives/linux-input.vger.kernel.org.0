@@ -2,370 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55D794C3947
-	for <lists+linux-input@lfdr.de>; Thu, 24 Feb 2022 23:58:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC75A4C3AB1
+	for <lists+linux-input@lfdr.de>; Fri, 25 Feb 2022 02:01:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233792AbiBXW6K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Feb 2022 17:58:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59568 "EHLO
+        id S231271AbiBYBAN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Feb 2022 20:00:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235859AbiBXW55 (ORCPT
+        with ESMTP id S236091AbiBYBAN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Feb 2022 17:57:57 -0500
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EDB370916;
-        Thu, 24 Feb 2022 14:57:26 -0800 (PST)
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21OKh812021079;
-        Thu, 24 Feb 2022 22:57:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=Aw8Zjth2grm/TJThzsqYEpivXtva3gkoVqqRW+SjPRs=;
- b=LSjWC46K6blEBPLySN9Z8j31AS/jbwssrUpJHi/pc/dHFfRtj2CcPaUIRNjLe4q4azAF
- ATB0OwY2zhL7i+3IL/Q+bAqUrI81hrhaUI29tEOHI7ed6OE0ruWpPKg7VKmNZS9yEmhC
- cIkqgKql+Q4Bqp46J+s9n9C1UWVtCbLigk7hwxRA5O9/GfzyVoM5qHP+E2eKQgQwEdtZ
- qHaKmeuldqnZG5nTPH0+4IWaA20TkNXteeWORvdMqkA00QVLnGE9aJEWkp5bVmosBUXn
- LvC0xTNfAblyX5YzAAguhyCKmZJwTuDH1OB+cbltQWFarnm3x81BpFThDUWNRi3YB4lE 8A== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3edv9q60fq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 24 Feb 2022 22:57:13 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21OMv7cF022527;
-        Thu, 24 Feb 2022 22:57:13 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3edv9q60fp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 24 Feb 2022 22:57:13 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
-        by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21OMqKYS006822;
-        Thu, 24 Feb 2022 22:57:12 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
-        by ppma02wdc.us.ibm.com with ESMTP id 3ear6bccav-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 24 Feb 2022 22:57:12 +0000
-Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
-        by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 21OMvB1X26804528
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 24 Feb 2022 22:57:11 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 51BD77805C;
-        Thu, 24 Feb 2022 22:57:11 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D767B78060;
-        Thu, 24 Feb 2022 22:57:10 +0000 (GMT)
-Received: from v0005c16.aus.stglabs.ibm.com (unknown [9.163.20.50])
-        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Thu, 24 Feb 2022 22:57:10 +0000 (GMT)
-From:   Eddie James <eajames@linux.ibm.com>
-To:     linux-input@vger.kernel.org
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dmitry.torokhov@gmail.com, robh+dt@kernel.org, joel@jms.id.au,
-        Eddie James <eajames@linux.ibm.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH v4 2/2] input: misc: Add IBM Operation Panel driver
-Date:   Thu, 24 Feb 2022 16:56:35 -0600
-Message-Id: <20220224225635.40538-3-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220224225635.40538-1-eajames@linux.ibm.com>
-References: <20220224225635.40538-1-eajames@linux.ibm.com>
+        Thu, 24 Feb 2022 20:00:13 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A6402819A6;
+        Thu, 24 Feb 2022 16:59:42 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id p17so3384729plo.9;
+        Thu, 24 Feb 2022 16:59:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KiS7zOH5DxfqTubKO3X1OdfXi3Y10HKd6+IRDg8Pzvc=;
+        b=l/5nZQNcrYoXeyoWHpZnsfjkyGH0hOrm8sEt0pKyiZwYz9yYl0LW8WT1AniShvkhMX
+         OAbl8fTdI8cxE27BdATCuPJsEGsbc61xLnZE6n2B7XEBOpbh63MXVZEFf4x1yBjtTz7l
+         7Xr9FmJ4P6jQMz9640WXzViGlSdZpaNMrid8j8Sp/VdlSi3QJmA5tuusp0ENVdx2TRTe
+         zM1zdWPOUgj6MGNv7kisVOb0SixFNl0cY3lMd8khRcljCERLtT471Y30gbb2P1n9VNmV
+         aOB/Kd1jEaa04gDwm12gU8GQlIlNkA0Kf4XpV9i5LokhTDcSND2oBXzAGbesn+CpGGGq
+         m/BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KiS7zOH5DxfqTubKO3X1OdfXi3Y10HKd6+IRDg8Pzvc=;
+        b=WjOfBpaSAx09cuJwzfM3uAdvRB3LpzbS3dH0ugw/2rwDzv5X/w3HMFV1G4GdOr+yMb
+         YWjEyZ1ONMgDVW+E4pVk1J54OHfj10e0Uo6CsY8aD3smLvwLu3L2tJW/Em1pPULjDT+I
+         u/FrNMAdBF7bkIZXQ8mnhk11P1lbU5ZkrjcMoz+fqhHADRJUxcsFNo7s+EyGpLU6grMf
+         N4eW+bJR3MoyPe1SJsAo54ljTOnOgmGI5IqLjHNkv6ubRxvcjCZksbtChyqoYDbYoJUx
+         +OXP4OxEQMNnALRSKprPtEcld4OKwQy3rz971MEa2OtqMjeGQT6Yb3+ePPIk9XE1GJle
+         koPw==
+X-Gm-Message-State: AOAM53344vBuRptYXhOr1CUardL9DRs2vAQJC3jr+KPOGz+ycvCpi4Bd
+        qz2LHXd+ZaPAQqh5VaG0M7M=
+X-Google-Smtp-Source: ABdhPJzXNPFmZeZtZk9oSlMbAG48Y0zgkHECLyhKZFU5kWKJIKXyCb/+zLSVlNc0MDaQNl4N+OhY4Q==
+X-Received: by 2002:a17:902:76c5:b0:14e:e325:9513 with SMTP id j5-20020a17090276c500b0014ee3259513mr4990167plt.55.1645750781894;
+        Thu, 24 Feb 2022 16:59:41 -0800 (PST)
+Received: from thelio.corp.microsoft.com ([2001:4898:80e8:36:37cd:6bd:2964:3d5e])
+        by smtp.gmail.com with ESMTPSA id w5-20020a056a0014c500b004f3a5535431sm742070pfu.4.2022.02.24.16.59.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Feb 2022 16:59:41 -0800 (PST)
+From:   Dmitry Antipov <daantipov@gmail.com>
+X-Google-Original-From: Dmitry Antipov <dmanti@microsoft.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-spi@vger.kernel.org, Dmitry Antipov <dmanti@microsoft.com>
+Subject: [PATCH v4 0/6] Add spi-hid, transport for HID over SPI bus
+Date:   Thu, 24 Feb 2022 16:59:30 -0800
+Message-Id: <20220225005936.3485405-1-dmanti@microsoft.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Z2LFPCeEiNfscHuVk10DxqcCj1c2XsA4
-X-Proofpoint-GUID: G9U_Gi42XVhr7GaVtDX5wU6Lf4dAxP2R
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-02-24_05,2022-02-24_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 malwarescore=0
- adultscore=0 impostorscore=0 priorityscore=1501 mlxscore=0
- lowpriorityscore=0 spamscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202240123
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a driver to get the button events from the panel and provide
-them to userspace with the input subsystem. The panel is
-connected with I2C and controls the bus, so the driver registers
-as an I2C slave device.
+Surface Duo devices use a touch digitizer that communicates to the main
+SoC via SPI and presents itself as a HID device. This patch's goal is to
+add the spi-hid transport driver to drivers/hid. The driver follows the
+publically available HID Over SPI Protocol Specification version 1.0.
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com> # I2C slave parts
----
- MAINTAINERS                    |   1 +
- drivers/input/misc/Kconfig     |  18 +++
- drivers/input/misc/Makefile    |   1 +
- drivers/input/misc/ibm-panel.c | 198 +++++++++++++++++++++++++++++++++
- 4 files changed, 218 insertions(+)
- create mode 100644 drivers/input/misc/ibm-panel.c
+The specification is available at
+https://www.microsoft.com/en-us/download/details.aspx?id=103325.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f4c9db336223..c69fd88774d4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9238,6 +9238,7 @@ M:	Eddie James <eajames@linux.ibm.com>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/input/ibm,op-panel.yaml
-+F:	drivers/input/misc/ibm-panel.c
- 
- IBM Power 842 compression accelerator
- M:	Haren Myneni <haren@us.ibm.com>
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index dd5227cf8696..783cc4bf3ef7 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -730,6 +730,24 @@ config INPUT_ADXL34X_SPI
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called adxl34x-spi.
- 
-+config INPUT_IBM_PANEL
-+	tristate "IBM Operation Panel driver"
-+	depends on I2C_SLAVE || COMPILE_TEST
-+	help
-+	  Say Y here if you have an IBM Operation Panel connected to your system
-+	  over I2C. The panel is typically connected only to a system's service
-+	  processor (BMC).
-+
-+	  If unsure, say N.
-+
-+	  The Operation Panel is a controller with some buttons and an LCD
-+	  display that allows someone with physical access to the system to
-+	  perform various administrative tasks. This driver only supports the part
-+	  of the controller that sends commands to the system.
-+
-+	  To compile this driver as a module, choose M here: the module will be
-+	  called ibm-panel.
-+
- config INPUT_IMS_PCU
- 	tristate "IMS Passenger Control Unit driver"
- 	depends on USB
-diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
-index b92c53a6b5ae..970afe013539 100644
---- a/drivers/input/misc/Makefile
-+++ b/drivers/input/misc/Makefile
-@@ -41,6 +41,7 @@ obj-$(CONFIG_INPUT_GPIO_DECODER)	+= gpio_decoder.o
- obj-$(CONFIG_INPUT_GPIO_VIBRA)		+= gpio-vibra.o
- obj-$(CONFIG_INPUT_HISI_POWERKEY)	+= hisi_powerkey.o
- obj-$(CONFIG_HP_SDC_RTC)		+= hp_sdc_rtc.o
-+obj-$(CONFIG_INPUT_IBM_PANEL)		+= ibm-panel.o
- obj-$(CONFIG_INPUT_IMS_PCU)		+= ims-pcu.o
- obj-$(CONFIG_INPUT_IQS269A)		+= iqs269a.o
- obj-$(CONFIG_INPUT_IQS626A)		+= iqs626a.o
-diff --git a/drivers/input/misc/ibm-panel.c b/drivers/input/misc/ibm-panel.c
-new file mode 100644
-index 000000000000..c77cb9b12ebc
---- /dev/null
-+++ b/drivers/input/misc/ibm-panel.c
-@@ -0,0 +1,198 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (C) IBM Corporation 2020
-+ */
-+
-+#include <linux/i2c.h>
-+#include <linux/init.h>
-+#include <linux/input.h>
-+#include <linux/kernel.h>
-+#include <linux/limits.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/spinlock.h>
-+
-+#define DEVICE_NAME		"ibm-panel"
-+#define PANEL_KEYCODES_COUNT	3
-+
-+struct ibm_panel {
-+	u8 idx;
-+	u8 command[11];
-+	u32 keycodes[PANEL_KEYCODES_COUNT];
-+	spinlock_t lock;	/* protects writes to idx and command */
-+	struct input_dev *input;
-+};
-+
-+static u8 ibm_panel_calculate_checksum(struct ibm_panel *panel)
-+{
-+	u8 chksum;
-+	u16 sum = 0;
-+	unsigned int i;
-+
-+	for (i = 0; i < sizeof(panel->command) - 1; ++i) {
-+		sum += panel->command[i];
-+		if (sum & 0xff00) {
-+			sum &= 0xff;
-+			sum++;
-+		}
-+	}
-+
-+	chksum = sum & 0xff;
-+	chksum = ~chksum;
-+	chksum++;
-+
-+	return chksum;
-+}
-+
-+static void ibm_panel_process_command(struct ibm_panel *panel)
-+{
-+	u8 button;
-+	u8 chksum;
-+
-+	if (panel->command[0] != 0xff && panel->command[1] != 0xf0) {
-+		dev_dbg(&panel->input->dev, "command invalid: %02x %02x\n",
-+			panel->command[0], panel->command[1]);
-+		return;
-+	}
-+
-+	chksum = ibm_panel_calculate_checksum(panel);
-+	if (chksum != panel->command[sizeof(panel->command) - 1]) {
-+		dev_dbg(&panel->input->dev,
-+			"command failed checksum: %u != %u\n", chksum,
-+			panel->command[sizeof(panel->command) - 1]);
-+		return;
-+	}
-+
-+	button = panel->command[2] & 0xf;
-+	if (button < PANEL_KEYCODES_COUNT) {
-+		input_report_key(panel->input, panel->keycodes[button],
-+				 !(panel->command[2] & 0x80));
-+		input_sync(panel->input);
-+	} else {
-+		dev_dbg(&panel->input->dev, "unknown button %u\n",
-+			button);
-+	}
-+}
-+
-+static int ibm_panel_i2c_slave_cb(struct i2c_client *client,
-+				  enum i2c_slave_event event, u8 *val)
-+{
-+	unsigned long flags;
-+	struct ibm_panel *panel = i2c_get_clientdata(client);
-+
-+	dev_dbg(&panel->input->dev, "event: %u data: %02x\n", event, *val);
-+
-+	spin_lock_irqsave(&panel->lock, flags);
-+
-+	switch (event) {
-+	case I2C_SLAVE_STOP:
-+		if (panel->idx == sizeof(panel->command))
-+			ibm_panel_process_command(panel);
-+		else
-+			dev_dbg(&panel->input->dev,
-+				"command incorrect size %u\n", panel->idx);
-+		fallthrough;
-+	case I2C_SLAVE_WRITE_REQUESTED:
-+		panel->idx = 0;
-+		break;
-+	case I2C_SLAVE_WRITE_RECEIVED:
-+		if (panel->idx < sizeof(panel->command))
-+			panel->command[panel->idx++] = *val;
-+		else
-+			/*
-+			 * The command is too long and therefore invalid, so set the index
-+			 * to it's largest possible value. When a STOP is finally received,
-+			 * the command will be rejected upon processing.
-+			 */
-+			panel->idx = U8_MAX;
-+		break;
-+	case I2C_SLAVE_READ_REQUESTED:
-+	case I2C_SLAVE_READ_PROCESSED:
-+		*val = 0xff;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	spin_unlock_irqrestore(&panel->lock, flags);
-+
-+	return 0;
-+}
-+
-+static int ibm_panel_probe(struct i2c_client *client,
-+			   const struct i2c_device_id *id)
-+{
-+	int i;
-+	int rc;
-+	struct ibm_panel *panel = devm_kzalloc(&client->dev, sizeof(*panel),
-+					       GFP_KERNEL);
-+
-+	if (!panel)
-+		return -ENOMEM;
-+
-+	panel->input = devm_input_allocate_device(&client->dev);
-+	if (!panel->input)
-+		return -ENOMEM;
-+
-+	panel->input->name = client->name;
-+	panel->input->id.bustype = BUS_I2C;
-+
-+	rc = device_property_read_u32_array(&client->dev, "linux,keycodes",
-+					    panel->keycodes,
-+					    PANEL_KEYCODES_COUNT);
-+	if (rc) {
-+		/*
-+		 * Use gamepad buttons as defaults for compatibility with
-+		 * existing applications.
-+		 */
-+		panel->keycodes[0] = BTN_NORTH;
-+		panel->keycodes[1] = BTN_SOUTH;
-+		panel->keycodes[2] = BTN_SELECT;
-+	}
-+
-+	for (i = 0; i < PANEL_KEYCODES_COUNT; ++i)
-+		input_set_capability(panel->input, EV_KEY, panel->keycodes[i]);
-+
-+	rc = input_register_device(panel->input);
-+	if (rc) {
-+		dev_err(&client->dev, "Failed to register input device: %d\n",
-+			rc);
-+		return rc;
-+	}
-+
-+	spin_lock_init(&panel->lock);
-+
-+	i2c_set_clientdata(client, panel);
-+	rc = i2c_slave_register(client, ibm_panel_i2c_slave_cb);
-+	if (rc)
-+		dev_err(&client->dev, "Failed to register as i2c slave: %d\n",
-+			rc);
-+
-+	return rc;
-+}
-+
-+static int ibm_panel_remove(struct i2c_client *client)
-+{
-+	i2c_slave_unregister(client);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id ibm_panel_match[] = {
-+	{ .compatible = "ibm,op-panel" },
-+	{ }
-+};
-+
-+static struct i2c_driver ibm_panel_driver = {
-+	.driver = {
-+		.name = DEVICE_NAME,
-+		.of_match_table = ibm_panel_match,
-+	},
-+	.probe = ibm_panel_probe,
-+	.remove = ibm_panel_remove,
-+};
-+module_i2c_driver(ibm_panel_driver);
-+
-+MODULE_AUTHOR("Eddie James <eajames@linux.ibm.com>");
-+MODULE_DESCRIPTION("IBM Operation Panel Driver");
-+MODULE_LICENSE("GPL");
+In the initial commits there are some HID core changes to support a SPI
+device, a change to HID documentation, HID over SPI Device Tree
+bindings, and finally the SPI HID transport driver.
+
+Dmitry Antipov (6):
+  HID: Add BUS_SPI support when printing out device info in
+    hid_connect()
+  HID: define HID_SPI_DEVICE macro in hid.h
+  Documentation: DT bindings for Microsoft G6 Touch Digitizer
+  Documentation: Correction in HID output_report callback description.
+  HID: add spi-hid, transport driver for HID over SPI bus
+  Defconfig: add CONFIG_SPI_HID=m
+
+ .../input/microsoft,g6-touch-digitizer.yaml   |  105 ++
+ Documentation/hid/hid-transport.rst           |    4 +-
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/hid/Kconfig                           |    2 +
+ drivers/hid/Makefile                          |    1 +
+ drivers/hid/hid-core.c                        |    3 +
+ drivers/hid/spi-hid/Kconfig                   |   25 +
+ drivers/hid/spi-hid/Makefile                  |   12 +
+ drivers/hid/spi-hid/spi-hid-core.c            | 1326 +++++++++++++++++
+ drivers/hid/spi-hid/spi-hid-core.h            |  188 +++
+ drivers/hid/spi-hid/spi-hid-of.c              |  141 ++
+ drivers/hid/spi-hid/spi-hid-of.h              |   30 +
+ drivers/hid/spi-hid/spi-hid_trace.h           |  194 +++
+ drivers/hid/spi-hid/trace.c                   |    9 +
+ include/linux/hid.h                           |    2 +
+ 15 files changed, 2041 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/microsoft,g6-touch-digitizer.yaml
+ create mode 100644 drivers/hid/spi-hid/Kconfig
+ create mode 100644 drivers/hid/spi-hid/Makefile
+ create mode 100644 drivers/hid/spi-hid/spi-hid-core.c
+ create mode 100644 drivers/hid/spi-hid/spi-hid-core.h
+ create mode 100644 drivers/hid/spi-hid/spi-hid-of.c
+ create mode 100644 drivers/hid/spi-hid/spi-hid-of.h
+ create mode 100644 drivers/hid/spi-hid/spi-hid_trace.h
+ create mode 100644 drivers/hid/spi-hid/trace.c
+
 -- 
-2.27.0
+2.25.1
 
