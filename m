@@ -2,166 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C6DC4C4F25
-	for <lists+linux-input@lfdr.de>; Fri, 25 Feb 2022 20:57:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0D314C52FC
+	for <lists+linux-input@lfdr.de>; Sat, 26 Feb 2022 02:19:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235520AbiBYT6Y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Feb 2022 14:58:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57384 "EHLO
+        id S241231AbiBZBTg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Feb 2022 20:19:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235195AbiBYT6X (ORCPT
+        with ESMTP id S232978AbiBZBTg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Feb 2022 14:58:23 -0500
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70D405674A;
-        Fri, 25 Feb 2022 11:57:50 -0800 (PST)
-Received: by mail-yb1-f182.google.com with SMTP id u12so7948434ybd.7;
-        Fri, 25 Feb 2022 11:57:50 -0800 (PST)
+        Fri, 25 Feb 2022 20:19:36 -0500
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E93C18FAE0;
+        Fri, 25 Feb 2022 17:19:03 -0800 (PST)
+Received: by mail-pf1-x42c.google.com with SMTP id d187so6143930pfa.10;
+        Fri, 25 Feb 2022 17:19:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=Xf19W65T+aquV1Z1erkfVQlxQTRcO+WOHA5YfbjFpt8=;
+        b=a8tbBrwGlVOHOsnoyKWhOvTDR1Cf9SHfvKAVNRRrL7COKs27aA6ywdStVwjvpCXGst
+         GYJcMo2dbLdt8cAxbDNytTj3oPENWquE/I3gzxBTCIg3cmbM402ZUc/h6KgCeZoGbQnE
+         mzMLEdZPjd9QidlBroktklkDLtHLtxtWoed92992F7DF42S4l8KuRRlf15SLOWGnpvMW
+         S9vrOsG2Agrf0N3ZNlvTDfg5UqL1DN1l2C/XR733whZcU9e3WmtX8WC7lPpsb7pc0qb9
+         HetdyFCOfSpEFKsDstYSCH7KInVyra0yb9zJ5T3SW6sYAbO+esjs1U2Q8EucNduZ/OWZ
+         LNCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Wk8QcEWvaTEgu+zJAmFRTMbhtVwPnp1G6zUVaC7ysZM=;
-        b=19xBXEDlQPY/8butZnaZaWsE4/61injou19eOw4XrkO9RUs9mOJlF2Y7lBGOhddM2p
-         bP9jWxjSiNQTCCuZqhVHrHqBxdReJZUHbk011tMCq3la93BTt9lmKgFOTAAuYfni4Gm4
-         /ayAZYi7tyvnsURNAUrOHjKhAyoWRpdWTFQonLlD9C2KTVUiP/q0qG5hrbxQsxVQlbRz
-         IPoTj5rXMT4KoLo8Lb69tCmBG93t3rkveM3A3IBnGCZgMXPowisGI6gofMXerL8F7qPz
-         0EID+HgP/SQfySPieAChFR9OJQMobAWXn1/bufhsDr/l5vRuUXpiRd/eal9w5pl4qoSZ
-         2BBQ==
-X-Gm-Message-State: AOAM532WXS4KhRQn8zrkxlyqK+5g4Ds5Z5+cuFoEwVpW6FMd1HoL1kna
-        IuLec+o1cdPgr6ReC23hA+43Z5p8/Bgyz3/Ydsk=
-X-Google-Smtp-Source: ABdhPJxvTl7Zj3GFzJQbsZAxzJKKXXqAvcRfOEm3IDuy/P3RQHGXt//ZN/cuD42MSaXFxSpXsViqU8Cn+8g8hlOHJVM=
-X-Received: by 2002:a25:d90d:0:b0:615:e400:94c1 with SMTP id
- q13-20020a25d90d000000b00615e40094c1mr8762763ybg.81.1645819069661; Fri, 25
- Feb 2022 11:57:49 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=Xf19W65T+aquV1Z1erkfVQlxQTRcO+WOHA5YfbjFpt8=;
+        b=k9mlnR1bY1fS6vMnYJ1HZbrrlwW6JHdMnpnlsUYGrW8CjOq7uTpALMfJpQnnTKtP7O
+         ZqUVPG/dsJvGqEF5KYxYdcsNqRrW4s7I6PJVzXMIU4cnjVC9BviLa/ZwdWA14qOb9PQ9
+         FZ7QwIZkkEAgujIsk7M3DYiVZupFcT7LXLcJ3bVzLfOR5/ZQlaG2qQBtqFR+Nq9s0qVn
+         6fpC5hTHsesFMRwknh0cfOh044tmHqPjBNFRtIYo6hjhZ3Mvwazn2tbRPeI8HdOEYbwm
+         iEiOdcgRcZMLFNeGzEdYfgxd/iLlcb6gu8MyINkjmSNhMrG+ta8EmiHYG3TxOrdGr17j
+         4eDw==
+X-Gm-Message-State: AOAM532Tac8/b1yHA6bicR7sgeQRHtkSze8z5+Pr4z3ftvsZZ1sNaERY
+        5E+wexq7/FlCRfX1SxmKX4I=
+X-Google-Smtp-Source: ABdhPJwjeRTDm7011IRGtBPbDTV0Te++YAWJ7c4gjaYcwyX8DUUeQvuL0nuNYtqh58upWEp1j5boLQ==
+X-Received: by 2002:a62:e813:0:b0:4e1:922a:2a6d with SMTP id c19-20020a62e813000000b004e1922a2a6dmr10660636pfi.50.1645838342573;
+        Fri, 25 Feb 2022 17:19:02 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:a91a:1bbf:dba0:d0eb])
+        by smtp.gmail.com with ESMTPSA id j19-20020a62b613000000b004e1b0df0713sm4197867pff.188.2022.02.25.17.19.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Feb 2022 17:19:01 -0800 (PST)
+Date:   Fri, 25 Feb 2022 17:18:58 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Stephen Boyd <swboyd@chromium.org>,
+        Sean O'Brien <seobrien@chromium.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: vivaldi: fix sysfs attributes leak
+Message-ID: <YhmAAjNeTjiNoLlJ@google.com>
 MIME-Version: 1.0
-References: <20220224110241.9613-1-hdegoede@redhat.com> <20220224110241.9613-2-hdegoede@redhat.com>
-In-Reply-To: <20220224110241.9613-2-hdegoede@redhat.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Fri, 25 Feb 2022 20:57:38 +0100
-Message-ID: <CAJZ5v0h3_PAwMZxOkqJ-H2ppjgu=3eOUYFuOpipqe_6F+aBjdQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Input: soc_button_array - add support for Microsoft
- Surface 3 (MSHW0028) buttons
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Feb 24, 2022 at 12:03 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> The drivers/platform/surface/surface3_button.c code is alsmost a 1:1 copy
-> of the soc_button_array code.
->
-> The only big difference is that it binds to an i2c_client rather then to
-> a platform_device. The cause of this is the ACPI resources for the MSHW0028
-> device containing a bogus I2cSerialBusV2 resource which causes the kernel
-> to instantiate an i2c_client for it instead of a platform_device.
->
-> Add "MSHW0028" to the ignore_serial_bus_ids[] list in drivers/apci/scan.c,
-> so that a platform_device will be instantiated and add support for
-> the MSHW0028 HID to soc_button_array.
->
-> This fully replaces surface3_button, which will be removed in a separate
-> commit (since it binds to the now no longer created i2c_client it no
-> longer does anyyhing after this commit).
->
-> Note the MSHW0028 id is used by Microsoft to describe the tablet buttons on
-> both the Surface 3 and the Surface 3 Pro and the actual API/implementation
-> for the Surface 3 Pro is quite different. The changes in this commit should
-> not impact the separate surfacepro3_button driver:
->
-> 1. Because of the bogus I2cSerialBusV2 resource problem that driver binds
->    to the acpi_device itself, so instantiating a platform_device instead of
->    an i2c_client does not matter.
->
-> 2. The soc_button_array driver will not bind to the MSHW0028 device on
->    the Surface 3 Pro, because it has no GPIO resources.
->
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+The driver creates the top row map sysfs attribute in input_configured()
+method; unfortunately we do not have a callback that is executed when HID
+interface is unbound, thus we are leaking these sysfs attributes, for
+example when device is disconnected.
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+To fix it let's switch to managed version of adding sysfs attributes which
+will ensure that they are destroyed when the driver is unbound.
 
-for the change in scan.c and I'm expecting that you'll take care of
-this series yourself.  Otherwise, please let me know.
+Fixes: 14c9c014babe ("HID: add vivaldi HID driver")
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
 
-> ---
->  drivers/acpi/scan.c                   |  5 +++++
->  drivers/input/misc/soc_button_array.c | 24 +++++++++++++++++++++++-
->  2 files changed, 28 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-> index 4463c2eda61e..e993c8b253f5 100644
-> --- a/drivers/acpi/scan.c
-> +++ b/drivers/acpi/scan.c
-> @@ -1749,6 +1749,11 @@ static bool acpi_device_enumeration_by_parent(struct acpi_device *device)
->                 {"INT3515", },
->                 /* Non-conforming _HID for Cirrus Logic already released */
->                 {"CLSA0100", },
-> +       /*
-> +        * Some ACPI devs contain SerialBus resources even though they are not
-> +        * attached to a serial bus at all.
-> +        */
-> +               {"MSHW0028", },
->         /*
->          * HIDs of device with an UartSerialBusV2 resource for which userspace
->          * expects a regular tty cdev to be created (instead of the in kernel
-> diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-> index cb6ec59a045d..cbb1599a520e 100644
-> --- a/drivers/input/misc/soc_button_array.c
-> +++ b/drivers/input/misc/soc_button_array.c
-> @@ -469,6 +469,27 @@ static const struct soc_device_data soc_device_INT33D3 = {
->         .button_info = soc_button_INT33D3,
->  };
->
-> +/*
-> + * Button info for Microsoft Surface 3 (non pro), this is indentical to
-> + * the PNP0C40 info except that the home button is active-high.
-> + *
-> + * The Surface 3 Pro also has a MSHW0028 ACPI device, but that uses a custom
-> + * version of the drivers/platform/x86/intel/hid.c 5 button array ACPI API
-> + * instead. A check() callback is not necessary though as the Surface 3 Pro
-> + * MSHW0028 ACPI device's resource table does not contain any GPIOs.
-> + */
-> +static const struct soc_button_info soc_button_MSHW0028[] = {
-> +       { "power", 0, EV_KEY, KEY_POWER, false, true, true },
-> +       { "home", 1, EV_KEY, KEY_LEFTMETA, false, true, false },
-> +       { "volume_up", 2, EV_KEY, KEY_VOLUMEUP, true, false, true },
-> +       { "volume_down", 3, EV_KEY, KEY_VOLUMEDOWN, true, false, true },
-> +       { }
-> +};
-> +
-> +static const struct soc_device_data soc_device_MSHW0028 = {
-> +       .button_info = soc_button_MSHW0028,
-> +};
-> +
->  /*
->   * Special device check for Surface Book 2 and Surface Pro (2017).
->   * Both, the Surface Pro 4 (surfacepro3_button.c) and the above mentioned
-> @@ -535,7 +556,8 @@ static const struct acpi_device_id soc_button_acpi_match[] = {
->         { "ID9001", (unsigned long)&soc_device_INT33D3 },
->         { "ACPI0011", 0 },
->
-> -       /* Microsoft Surface Devices (5th and 6th generation) */
-> +       /* Microsoft Surface Devices (3th, 5th and 6th generation) */
-> +       { "MSHW0028", (unsigned long)&soc_device_MSHW0028 },
->         { "MSHW0040", (unsigned long)&soc_device_MSHW0040 },
->
->         { }
-> --
-> 2.35.1
->
+Compiled only.
+
+ drivers/hid/hid-vivaldi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-vivaldi.c b/drivers/hid/hid-vivaldi.c
+index efa6140915f4..42ceb2058a09 100644
+--- a/drivers/hid/hid-vivaldi.c
++++ b/drivers/hid/hid-vivaldi.c
+@@ -144,7 +144,7 @@ static void vivaldi_feature_mapping(struct hid_device *hdev,
+ static int vivaldi_input_configured(struct hid_device *hdev,
+ 				    struct hid_input *hidinput)
+ {
+-	return sysfs_create_group(&hdev->dev.kobj, &input_attribute_group);
++	return devm_device_add_group(&hdev->dev, &input_attribute_group);
+ }
+ 
+ static const struct hid_device_id vivaldi_table[] = {
+-- 
+2.35.1.574.g5d30c73bfb-goog
+
+
+-- 
+Dmitry
