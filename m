@@ -2,132 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2494D4C5511
-	for <lists+linux-input@lfdr.de>; Sat, 26 Feb 2022 11:04:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 126964C5674
+	for <lists+linux-input@lfdr.de>; Sat, 26 Feb 2022 15:19:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230403AbiBZKFN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 26 Feb 2022 05:05:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53936 "EHLO
+        id S231147AbiBZOOx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 26 Feb 2022 09:14:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229819AbiBZKFN (ORCPT
+        with ESMTP id S229878AbiBZOOw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 26 Feb 2022 05:05:13 -0500
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FBFB1BB738;
-        Sat, 26 Feb 2022 02:04:36 -0800 (PST)
-Received: from g550jk.localnet (ip-213-127-118-180.ip.prioritytelecom.net [213.127.118.180])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 7EFB6C8605;
-        Sat, 26 Feb 2022 10:04:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1645869873; bh=14M++uyqtpJ2bHvbR6v6//O3tEuusNJMpcS+REEUXqs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=xVzzSlMKNrIxQmivffOp0HDrH69r5jo5kBdfQO3N6uXjNTU/3lLz8E1gQ1/Pihy1r
-         ++GwK0syHStoScnp7DOVghgfICns21IPRH4vSkY6ErWDIiML8WfApsyX2rTk1+Koby
-         PjTrTFtPW7eLGWADcvuaanq8w8cCVdHwfysoR+AI=
-From:   Luca Weiss <luca@z3ntu.xyz>
-To:     Shawn Guo <shawn.guo@linaro.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
-        Sebastian Reichel <sre@kernel.org>
-Subject: Re: [PATCH] Input: pm8941-pwrkey - respect reboot_mode for warm reset
-Date:   Sat, 26 Feb 2022 11:04:33 +0100
-Message-ID: <8317341.EvYhyI6sBW@g550jk>
-In-Reply-To: <20210714094045.GD11342@dragon>
-References: <20210629030509.2893-1-shawn.guo@linaro.org> <1824770.6rn2EVs8mz@g550jk> <20210714094045.GD11342@dragon>
+        Sat, 26 Feb 2022 09:14:52 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AA8B267136;
+        Sat, 26 Feb 2022 06:14:17 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id o62-20020a1ca541000000b00380e3cc26b7so3389214wme.0;
+        Sat, 26 Feb 2022 06:14:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:to:cc:subject:from:references:in-reply-to:message-id
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=5nTrGYHaMkCaADmgUeE9yrdGA/c3dVkjpOZFIfwPzX0=;
+        b=BY4PWavxWOifcU+WfEmu5+Q9oKM+GulKK7bZczfu1ObH1TDtCf/n2PyAwubwta7cHL
+         bVavzjzZNnJZay8q2Pm1xMu0oZpf+knqTfaoi3ZOwSpIJpMq9JotMeW8b+AgGe9osCTM
+         Vxc9fedDFcfoHtWjs/oT9ZHGfuxl9fykFcRNm3HrhUNYek1wzBZzFABvQq33Adp8g+qz
+         5rT8VgRqwsQ27XKyEYHImn25vmkF6h0OFi6K4Zdw6J/Vu1aMHb2BzHgUCm/SGRAhmMVI
+         CcRojQ0EoxcRGr2ZktvzOUoAVSlHBiT87s4YPT9DZaXT1az0d4H5OoCNAHpdtmqlkR/k
+         a4tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:to:cc:subject:from:references:in-reply-to
+         :message-id:user-agent:mime-version:content-transfer-encoding;
+        bh=5nTrGYHaMkCaADmgUeE9yrdGA/c3dVkjpOZFIfwPzX0=;
+        b=KmRBgZp2D2O7R/vQPC4x3glFcWJCocgZDgpIv+egZR0RPhO7Fgj3J6rFsSC0+dyvJ+
+         +BTvDOL0S5nTyc9FM2m/2dyd30QyRmkjbiBABNRsXwZ5pcMKsoEQvCWIpkViSfKSuILZ
+         wdQdI+de5cwb5OO4AZFQRXR3TwZ5DC2HAXZDxw4hO+WJuYwihvLkWvgh8R9JwECs0byy
+         9J3wB8k3j1FxfsQZFgzZQ5+bqQ+qC4fvgqSukL2rLnRlPAsQMI0geNHKouyZJEPlSfQu
+         OEjNIy2zt0EdbV1nlsA3kutygxqxVC31E6Cv0fc9/6osyM46xyo6AjNbciMQ0m65Ekrv
+         J9uw==
+X-Gm-Message-State: AOAM531XjzFlvpPA4N/XNsTfNnK16kHxjdhSbxWbjoxa4QLHqgiC5BMW
+        8DmxKXxUDTAOXILMPsg3GCs=
+X-Google-Smtp-Source: ABdhPJwImLJXdcOGttS9UiXdWyPvc9FHR/Nct//7KE+R+EzToewqDQxNU4P/TQXCz52W5WYynD41BA==
+X-Received: by 2002:a05:600c:354e:b0:37c:815f:8a3f with SMTP id i14-20020a05600c354e00b0037c815f8a3fmr6695056wmq.15.1645884855485;
+        Sat, 26 Feb 2022 06:14:15 -0800 (PST)
+Received: from localhost ([2a02:169:1e9::acc])
+        by smtp.gmail.com with ESMTPSA id c12-20020a05600c0a4c00b00381141f4967sm7783710wmq.35.2022.02.26.06.14.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Feb 2022 06:14:14 -0800 (PST)
+Date:   Sat, 26 Feb 2022 15:14:14 +0100
+To:     Jia-Ju Bai <baijiaju1990@gmail.com>
+Cc:     djogorchock@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hid: hid-nintendo: check the return value of
+ alloc_workqueue()
+From:   "Silvan Jegen" <s.jegen@gmail.com>
+References: <20220225034110.13341-1-baijiaju1990@gmail.com>
+In-Reply-To: <20220225034110.13341-1-baijiaju1990@gmail.com>
+Message-Id: <1ZE3UIEB0O2B6.2GHX7WO8NQZUJ@homearch.localdomain>
+User-Agent: mblaze/1.2-4-gbdaf293 (2022-01-29)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
-        PDS_OTHER_BAD_TLD,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Shawn,
+Hi
 
-On Mittwoch, 14. Juli 2021 11:40:46 CET Shawn Guo wrote:
-> Hi Luca,
-> 
-> On Sun, Jul 11, 2021 at 11:57:25AM +0200, Luca Weiss wrote:
-> > Hi Shawn,
-> > 
-> > On Dienstag, 29. Juni 2021 05:05:09 CEST Shawn Guo wrote:
-> > > On some devices, e.g. Sony Xperia M4 Aqua, warm reset is used to reboot
-> > > device into bootloader and recovery mode.  Instead of always doing hard
-> > > reset, add a check on reboot_mode for possible warm reset.
-> > > 
-> > > Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
-> > > ---
-> > > 
-> > >  drivers/input/misc/pm8941-pwrkey.c | 6 +++++-
-> > >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/input/misc/pm8941-pwrkey.c
-> > > b/drivers/input/misc/pm8941-pwrkey.c index cf8104454e74..9b14d6eb1918
-> > > 100644
-> > > --- a/drivers/input/misc/pm8941-pwrkey.c
-> > > +++ b/drivers/input/misc/pm8941-pwrkey.c
-> > > @@ -27,6 +27,7 @@
-> > > 
-> > >  #define PON_PS_HOLD_RST_CTL2		0x5b
-> > >  #define  PON_PS_HOLD_ENABLE		BIT(7)
-> > >  #define  PON_PS_HOLD_TYPE_MASK		0x0f
-> > > 
-> > > +#define  PON_PS_HOLD_TYPE_WARM_RESET	1
-> > > 
-> > >  #define  PON_PS_HOLD_TYPE_SHUTDOWN	4
-> > >  #define  PON_PS_HOLD_TYPE_HARD_RESET	7
-> > > 
-> > > @@ -93,7 +94,10 @@ static int pm8941_reboot_notify(struct notifier_block
-> > > *nb, break;
-> > > 
-> > >  	case SYS_RESTART:
-> > > 
-> > >  	default:
-> > > -		reset_type = PON_PS_HOLD_TYPE_HARD_RESET;
-> > > +		if (reboot_mode == REBOOT_WARM)
-> > 
-> > This doesn't compile with CONFIG_INPUT_PM8941_PWRKEY=m
-> > 
-> >  ERROR: modpost: "reboot_mode" [drivers/input/misc/pm8941-pwrkey.ko]
-> >  undefined!
-> Thanks for the report!  I will add a patch to export the symbol.
-> 
-> > Also just to clarify, this is supposed to trigger when rebooting with
-> > LINUX_REBOOT_CMD_RESTART2 and adding an argument that way, right?
-> 
-> With either of the following two methods, 'reboot_mode' will be turned
-> into REBOOT_WARM.
-> 
-> - Boot kernel with 'reboot=warm' on cmdline
-> 
-> - Set warm mode via sysfs entry
->   $ echo warm > /sys/kernel/reboot/mode
+Jia-Ju Bai <baijiaju1990@gmail.com> wrote:
+> The function alloc_workqueue() in nintendo_hid_probe() can fail, but
+> there is no check of its return value. To fix this bug, its return value
+> should be checked with new error handling code.
+>=20
+> Fixes: c4eae84feff3e ("HID: nintendo: add rumble support")
+> Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+> Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
+> ---
+>  drivers/hid/hid-nintendo.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+> index b6a9a0f3966e..2204de889739 100644
+> --- a/drivers/hid/hid-nintendo.c
+> +++ b/drivers/hid/hid-nintendo.c
+> @@ -2128,6 +2128,10 @@ static int nintendo_hid_probe(struct hid_device *h=
+dev,
+>  	spin_lock_init(&ctlr->lock);
+>  	ctlr->rumble_queue =3D alloc_workqueue("hid-nintendo-rumble_wq",
+>  					     WQ_FREEZABLE | WQ_MEM_RECLAIM, 0);
+> +	if (!ctlr->rumble_queue) {
+> +		ret =3D -ENOMEM;
+> +		goto err;
+> +	}
+>  	INIT_WORK(&ctlr->rumble_worker, joycon_rumble_worker);
+> =20
+>  	ret =3D hid_parse(hdev);
 
-+CC Sebastian Reichel
+LGTM!
 
-Do you have an idea how this situation should look from user space? Just using 
-LINUX_REBOOT_CMD_RESTART2 with the param won't work if the reboot mode also 
-has to be set to work - but that's also not the case on all boards.
-
-Just LINUX_REBOOT_CMD_RESTART2 works fine on newer qcom SoCs that iirc store it 
-in a pmic register that seems to survive a hard reboot.
-
-Would it be a good idea to introduce a new dt property for e.g.
-syscon-reboot-mode that makes it switch to warm reboot mode when a reboot mode 
-is passed to the kernel? That way user space wouldn't need to care whether a 
-particular board needs warm reboot or can just use the default hard reboot.
-
-Regards
-Luca
-
-> Shawn
+Reviewed-by: Silvan Jegen <s.jegen@gmail.com>
 
 
+Cheers,
 
-
+Silvan
