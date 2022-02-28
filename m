@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B4D34C7C53
-	for <lists+linux-input@lfdr.de>; Mon, 28 Feb 2022 22:45:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E20BF4C7D09
+	for <lists+linux-input@lfdr.de>; Mon, 28 Feb 2022 23:09:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230439AbiB1Vq0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Feb 2022 16:46:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50282 "EHLO
+        id S229807AbiB1WKX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Feb 2022 17:10:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230166AbiB1Vq0 (ORCPT
+        with ESMTP id S229634AbiB1WKX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Feb 2022 16:46:26 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D742A7D01F;
-        Mon, 28 Feb 2022 13:45:45 -0800 (PST)
+        Mon, 28 Feb 2022 17:10:23 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 738FCC681F;
+        Mon, 28 Feb 2022 14:09:43 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7242A61242;
-        Mon, 28 Feb 2022 21:45:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B9C7C340EE;
-        Mon, 28 Feb 2022 21:45:37 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 39DA4B81698;
+        Mon, 28 Feb 2022 22:09:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D10FC340EE;
+        Mon, 28 Feb 2022 22:09:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646084744;
-        bh=xNZESzUMzSuk4pAAHRceX1seRWJe9glE5ZOBVSMu+ss=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=kJsao+0jIAu7AXGo4SmZExZXCVdAMoRdI6X/QYb0Jwx69nV5AXxk1KuFrkvkDoBZ8
-         wynJf7Ejzi16ZoB5fMgRDwbiZpcd+/EAx5d25F81iwujuU137kggTAu/Ouyhd6mslo
-         qE1lWNqd/NvyYxD/oyrvBcmlF7sWhF0wdtNX9KoO9XakbyKPyrNllh+oB1O7BVNSpF
-         dyjcppCe9nJobXDjDDRHaOnC4Y5GBT+Wrmd/cpxS8p7+CGMPMv3PCmgoM8Ae/0ptaI
-         3jM8TnpXM4NyIeR9REsX9YfQPND5nJKX1ATaS1f6IV2RiEh5xRTMvwe/eiEwfX2qu8
-         OnaqJZkVhHwKA==
-Date:   Mon, 28 Feb 2022 22:45:34 +0100
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+        s=k20201202; t=1646086180;
+        bh=C3m4pnnTAF+o+8Z+tsT22TMwOAoIvmDl7rQIHuiLdMA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BdRbVBZNF8SyrlpXKAsHjo1A6k3f944Uzsh5hy2UmK5ywn8cPtoiWatoTWpomjQzc
+         x44Jv7/Wzxo8T+fSgsmyLRYgbKXOQkqEy86p/ln+HE5A679Zvs+XoyM7aJWc8wSHt6
+         ACqagutJzp7I7JrJGyMxpDRREGY/HUyTANKgF4FJ/99jkm+o2X+/pda0xDuvY8MbdY
+         Sv4Zfi/zQD1hFPf6GsOnP6lA5hiuplekt76UNCcR1YonNLI47HOJfCmRDkLAT1NcBE
+         yuQHyRRcOkNLJGUq9zBF6RREf+bF8FScygNYfOz5OBENPb041Vfalb0bt696k7uf4U
+         g+dDDXgOJFcHA==
+Date:   Mon, 28 Feb 2022 22:09:31 +0000
+From:   Mark Brown <broonie@kernel.org>
 To:     Rob Herring <robh@kernel.org>
 Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
@@ -52,7 +52,6 @@ Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Sebastian Reichel <sre@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         dri-devel@lists.freedesktop.org,
@@ -64,13 +63,14 @@ Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org
 Subject: Re: [PATCH] dt-bindings: Another pass removing cases of 'allOf'
  containing a '$ref'
-Message-ID: <20220228224534.073ca78a@thinkpad>
-In-Reply-To: <20220228213802.1639658-1-robh@kernel.org>
+Message-ID: <Yh1IG9daOUOB52rf@sirena.org.uk>
 References: <20220228213802.1639658-1-robh@kernel.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="xC2AwCckB4yHmCdp"
+Content-Disposition: inline
+In-Reply-To: <20220228213802.1639658-1-robh@kernel.org>
+X-Cookie: Killing turkeys causes winter.
 X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -81,9 +81,13 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 28 Feb 2022 15:38:02 -0600
-Rob Herring <robh@kernel.org> wrote:
 
+--xC2AwCckB4yHmCdp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Feb 28, 2022 at 03:38:02PM -0600, Rob Herring wrote:
 > Another pass at removing unnecessary use of 'allOf' with a '$ref'.
 >=20
 > json-schema versions draft7 and earlier have a weird behavior in that
@@ -92,6 +96,21 @@ Rob Herring <robh@kernel.org> wrote:
 > in the 2019-09 json-schema spec and '$ref' can be mixed with other
 > keywords.
 
-For Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
+Acked-by: Mark Brown <broonie@kernel.org>
 
-Acked-by: Marek Beh=C3=BAn <kabel@kernel.org>
+--xC2AwCckB4yHmCdp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmIdSBoACgkQJNaLcl1U
+h9Brnwf9Gb7P9H3jku9OngoretGUxGN4DtDmr+0Bvk7ZZFkSIVQYVBROL0mmUfer
+wPLiKHS48VJM6irhxRMqHLa1CrIeAmJHZpkg0R1JH1Iw36fWPZiBTfrDG8qubOti
+l/cEx7Jmxoj2EtB8xcTpbYGqwOqSZtDkAz1smUIh3coKzArwCPjkAYE59GjQ28SS
+F+P6ze1awYqRh/vkZC5ge03hrBhxOKU1iVyqv4iRfWtwCXRxYM3aPTs4aLB/T0NW
+svINogVRgGsGVmY7gRufv1wI7bJle7+MP7byPwsqzx2AXthe0fYt3x457mV59wjc
+Ej2pLNgE/IiOKyZ8gmWU8kkWHOh2hQ==
+=Hxgn
+-----END PGP SIGNATURE-----
+
+--xC2AwCckB4yHmCdp--
