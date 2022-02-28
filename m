@@ -2,62 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E8704C6424
-	for <lists+linux-input@lfdr.de>; Mon, 28 Feb 2022 08:55:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D41D64C6425
+	for <lists+linux-input@lfdr.de>; Mon, 28 Feb 2022 08:55:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233752AbiB1Hzg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Feb 2022 02:55:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52458 "EHLO
+        id S233751AbiB1Hzj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Feb 2022 02:55:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233751AbiB1Hzf (ORCPT
+        with ESMTP id S233756AbiB1Hzj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Feb 2022 02:55:35 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8500768FB2
-        for <linux-input@vger.kernel.org>; Sun, 27 Feb 2022 23:54:57 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id g1so10389875pfv.1
-        for <linux-input@vger.kernel.org>; Sun, 27 Feb 2022 23:54:57 -0800 (PST)
+        Mon, 28 Feb 2022 02:55:39 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 726D4606E5
+        for <linux-input@vger.kernel.org>; Sun, 27 Feb 2022 23:54:59 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id v4so10398614pjh.2
+        for <linux-input@vger.kernel.org>; Sun, 27 Feb 2022 23:54:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=afmbhtxJXuu2P8Qqschaw9Jggn6kd8iv6fg4aLXPxdU=;
-        b=m1YIGzof/6U/6x9Z4Bajw8GzlU4QFrtqCCC7wey5c0y83GyHwL8wCFXYIyJBpEgDkh
-         SwyVaTMnXEpiwHGfi/mqB6R30C1Vu8FZVrUNpF7z586vDA0Ey0RI5KJDBrBIQte15i78
-         8GNYaphpemIjateTFynV72ahtDrnUaJKqZ2Sha629jm/LX7VCirGeqcr23Bqq1wMoeFk
-         3IoMgZclSpJDrV9F5/Z6MwSdijcZL3NQ4f41ksW1IJikMV4fpWYvww7rR3kPszNL0CK0
-         nP8CabiK5GIae26PnwPmFkyLteyEb59grpEvgFhBAu7xYEE/QEoy51fe0u1o0r9emu5F
-         UYcg==
+        bh=H1m4Zi6Ns02mUbm+534InG8jnE+hMLBdIMegNJHG0gs=;
+        b=n66Nb6ih4kVIXFgoUoaIsoH9PyiNVF+SqCUNHizLTZgGOvlvgnsd3yniEzh/ylGOx5
+         4YhqLtQImKkRbTSlIppbjCH0T38UUm7DHVezKFV9GH7ZrTO9UHa/ZuNqsf5ynCY5NOWV
+         mNPKN5bkUk94Z4ueaxuKs6NFSQQZV6ozZ4fD2facfUbLhD0l3D7Y3nbSSlw7VZ19KVTr
+         v2vNupTY6YOmOVM67w6HLrpJ/Xr5Ue3eI07/ywnmg9jSnu4kaEz33q3wvOExjVeRgJfB
+         RnEBcCBXHwTSHJyxPhLYM7E5e14nBwmdBf2XEAkCKQVll4/zO57Kn7fekaw7JZE4GySx
+         ioGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=afmbhtxJXuu2P8Qqschaw9Jggn6kd8iv6fg4aLXPxdU=;
-        b=nfzIIsmE/T/RrsS0RoKdpoBRhg5BnTbYkG+Fr/bjHMqXA+Eh3aQ/qPKC2Xu65/LTqI
-         Jn0hRErPenMhg8vwjKbsL9uzD874MNRq7FSOr5Y5t9rNAisey186cDSVql8ka1Sg4AOl
-         Yl8sH+RhuCBbys1QAIjzbDGoxk8G3kG0Iw8EoD1/nzYhnNSBrMkBiMp4rX9Pxq1Gakj4
-         1JKw1o6MoXEIFm3HHwxkdBKIQjBMmr35A7UQDn0z5Fzr733XDR/qNixrdxJlOnMlx/KT
-         ILBa3+Ecu5wSsEQRjxExrGE8m/SHZm8cSkdjLlS3CW+zdIaTWqnqs903Z1jTfKLVjRp6
-         O/rg==
-X-Gm-Message-State: AOAM531rcCwW7piT5PyRpfuzbl2MEXzTEncMCy1AZNe3QCHwrLD+j+yL
-        J4zWXByosm2YLEJkkQdM1sH+is0+8bo=
-X-Google-Smtp-Source: ABdhPJyZZKyr1JkI/yjvJrg1f/D1kk193Y+GAZ/cSlzy6BuAZkmIUxUrPlQscQ/VEf5yktmXdjgDiQ==
-X-Received: by 2002:a05:6a00:8cc:b0:4cb:b981:2676 with SMTP id s12-20020a056a0008cc00b004cbb9812676mr20270192pfu.5.1646034896529;
-        Sun, 27 Feb 2022 23:54:56 -0800 (PST)
+        bh=H1m4Zi6Ns02mUbm+534InG8jnE+hMLBdIMegNJHG0gs=;
+        b=3KjsaoLEqh4KPjn7mOF+tm0fy8kQC83l3pLt9GhCqGg1w0sJJjoWPbSU9izz6+rFfe
+         cbqAnzT4PnTNa+MDMqJVdllYXuSY1U/pesOH/KIk1MV3nMBXWUzsuHK90e76hYEqwkpZ
+         C3CqOUUZeR02p6tQaETFiVxxGKzQpM2Swyjk1cye7s20goByXyCV4XWKrrLp31r6Ipvm
+         MasE1UYLH8vw9+oc4JtzpPwNNmX798YgEsCiJMf252xT+xZ+u/GbDtDBSQjWIyenYbT7
+         TyZ/kB0YzypC+Y5FTWJfHCHaheOZIJBVWjl2FeH8IkCrQwk4S0R9+7YRhvNE7FhRZlzn
+         nX8A==
+X-Gm-Message-State: AOAM530YlE9Bmushbk9GGS2wzVkQNHtqD1S03kwXvnQRNFZ+Rwzkz+Rb
+        LaRTOMlp0Um/ZooHaZCxpEVmh1JVsj8=
+X-Google-Smtp-Source: ABdhPJxHOqbWdqbdXGss84caU4vpc5Sd3PD7MlaRsV4G2kiyyKKli9a/aH1DIiXY3N7RzbRgsQU2kw==
+X-Received: by 2002:a17:90a:8d85:b0:1b8:a215:e3e4 with SMTP id d5-20020a17090a8d8500b001b8a215e3e4mr15111091pjo.175.1646034898648;
+        Sun, 27 Feb 2022 23:54:58 -0800 (PST)
 Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:43a2:93b6:ebd7:94fd])
-        by smtp.gmail.com with ESMTPSA id d13-20020a17090ac24d00b001bcd7c2b2c3sm10718517pjx.16.2022.02.27.23.54.55
+        by smtp.gmail.com with ESMTPSA id d13-20020a17090ac24d00b001bcd7c2b2c3sm10718517pjx.16.2022.02.27.23.54.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Feb 2022 23:54:55 -0800 (PST)
+        Sun, 27 Feb 2022 23:54:57 -0800 (PST)
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     linux-input@vger.kernel.org
-Cc:     Stephen Boyd <swboyd@chromium.org>, benjamin.tissoires@redhat.com,
-        Jiri Kosina <jikos@kernel.org>,
+Cc:     Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        benjamin.tissoires@redhat.com, Jiri Kosina <jikos@kernel.org>,
         Sean O'Brien <seobrien@chromium.org>,
         "Douglas Anderson linux-kernel @ vger . kernel . org" 
-        <dianders@chromium.org>
-Subject: [PATCH v5 4/5] HID: google: Add support for vivaldi to hid-hammer
-Date:   Sun, 27 Feb 2022 23:54:45 -0800
-Message-Id: <20220228075446.466016-5-dmitry.torokhov@gmail.com>
+        <dianders@chromium.org>, Jiri Kosina <jkosina@suse.cz>
+Subject: [PATCH v5 5/5] HID: google: modify HID device groups of eel
+Date:   Sun, 27 Feb 2022 23:54:46 -0800
+Message-Id: <20220228075446.466016-6-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.35.1.574.g5d30c73bfb-goog
 In-Reply-To: <20220228075446.466016-1-dmitry.torokhov@gmail.com>
 References: <20220228075446.466016-1-dmitry.torokhov@gmail.com>
@@ -73,80 +74,39 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Stephen Boyd <swboyd@chromium.org>
+From: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
 
-Add support to the hammer driver to parse vivaldi keyboard layouts and
-expose them to userspace. This allows hammer devices to use vivaldi
-function row keys while also supporting the other features this driver
-supports, like the CBAS (chrome base attached switch) and a keyboard
-backlight.
+If HID_GROUP of eel is set to HID_GROUP_GENERIC, Whiskers Tablet Mode
+Switch of eel hammer will not be detected by system because the
+hid-vivaldi driver probes the device. When it is set to
+HID_GROUP_VIVALDI, system will detect Whiskers Tablet Mode Switch
+successfully and also support the vivaldi keyboard layout.
 
+Tested-by: "Sean O'Brien" <seobrien@chromium.org>
+Acked-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+[swboyd@chromium.org: Expand on commit text]
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-Link: https://lore.kernel.org/r/20220216195901.1326924-4-swboyd@chromium.org
+Link: https://lore.kernel.org/r/20220216195901.1326924-5-swboyd@chromium.org
+Patchwork-Id: 12748989
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/hid/Kconfig             |  2 ++
- drivers/hid/hid-google-hammer.c | 11 +++++++++++
- 2 files changed, 13 insertions(+)
+ drivers/hid/hid-google-hammer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index f5245c5fe1af..4bea966e617b 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -412,6 +412,8 @@ config HID_VIVALDI_COMMON
- 
- config HID_GOOGLE_HAMMER
- 	tristate "Google Hammer Keyboard"
-+	select HID_VIVALDI_COMMON
-+	select INPUT_VIVALDIFMAP
- 	depends on USB_HID && LEDS_CLASS && CROS_EC
- 	help
- 	Say Y here if you have a Google Hammer device.
 diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-index e7da4e74b4bf..5d774c9c596c 100644
+index 5d774c9c596c..7fd342081183 100644
 --- a/drivers/hid/hid-google-hammer.c
 +++ b/drivers/hid/hid-google-hammer.c
-@@ -15,6 +15,7 @@
- 
- #include <linux/acpi.h>
- #include <linux/hid.h>
-+#include <linux/input/vivaldi-fmap.h>
- #include <linux/leds.h>
- #include <linux/module.h>
- #include <linux/of.h>
-@@ -25,6 +26,7 @@
- #include <asm/unaligned.h>
- 
- #include "hid-ids.h"
-+#include "hid-vivaldi-common.h"
- 
- /*
-  * C(hrome)B(ase)A(ttached)S(witch) - switch exported by Chrome EC and reporting
-@@ -501,8 +503,15 @@ static void hammer_stop(void *hdev)
- static int hammer_probe(struct hid_device *hdev,
- 			const struct hid_device_id *id)
- {
-+	struct vivaldi_data *vdata;
- 	int error;
- 
-+	vdata = devm_kzalloc(&hdev->dev, sizeof(*vdata), GFP_KERNEL);
-+	if (!vdata)
-+		return -ENOMEM;
-+
-+	hid_set_drvdata(hdev, vdata);
-+
- 	error = hid_parse(hdev);
- 	if (error)
- 		return error;
-@@ -598,6 +607,8 @@ static struct hid_driver hammer_driver = {
- 	.id_table = hammer_devices,
- 	.probe = hammer_probe,
- 	.remove = hammer_remove,
-+	.feature_mapping = vivaldi_feature_mapping,
-+	.input_configured = vivaldi_input_configured,
- 	.input_mapping = hammer_input_mapping,
- 	.event = hammer_event,
- };
+@@ -582,7 +582,7 @@ static void hammer_remove(struct hid_device *hdev)
+ static const struct hid_device_id hammer_devices[] = {
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_DON) },
+-	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
++	{ HID_DEVICE(BUS_USB, HID_GROUP_VIVALDI,
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_EEL) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_HAMMER) },
 -- 
 2.35.1.574.g5d30c73bfb-goog
 
