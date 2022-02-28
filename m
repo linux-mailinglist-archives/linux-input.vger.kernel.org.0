@@ -2,58 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D30F44C6B8A
-	for <lists+linux-input@lfdr.de>; Mon, 28 Feb 2022 13:03:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E66F64C6D53
+	for <lists+linux-input@lfdr.de>; Mon, 28 Feb 2022 14:00:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236111AbiB1MEA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Feb 2022 07:04:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44378 "EHLO
+        id S231485AbiB1NBV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Feb 2022 08:01:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236101AbiB1MD6 (ORCPT
+        with ESMTP id S231583AbiB1NBU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Feb 2022 07:03:58 -0500
-X-Greylist: delayed 314 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 28 Feb 2022 04:03:11 PST
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 897AB3ED29;
-        Mon, 28 Feb 2022 04:03:11 -0800 (PST)
-Received: from [192.168.178.30] ([212.18.30.247]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MYvoW-1nkfdr1Xvc-00UrUA; Mon, 28 Feb 2022 12:57:47 +0100
-Message-ID: <9c1abed8-924f-9f88-4a9b-94a9b931c2c3@rdorf.de>
-Date:   Mon, 28 Feb 2022 12:57:46 +0100
+        Mon, 28 Feb 2022 08:01:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 66B3758E66
+        for <linux-input@vger.kernel.org>; Mon, 28 Feb 2022 05:00:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1646053237;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=pTt4lYeTqsTlzf044iKbn+rWbhrDH0dtdcXABS1pKsI=;
+        b=R5qOp2yyQmRgw9wJsf1XHODLegmZHzopaa6AFqwK01nZydnBka9+UUBig8Z+2WxZYGnrPo
+        gMPQhqq3S9nEjKKEewCpp8X4BfzKTKo6Xtqm/5tUXJsDJ+3b8+Dv+SILfmQHpuWoBEL2/i
+        NtNoJFlA4b/DrqxT1kYVThzWt95Tr+8=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-572-7kSXNWUXO0uAZn8spy0Obg-1; Mon, 28 Feb 2022 08:00:33 -0500
+X-MC-Unique: 7kSXNWUXO0uAZn8spy0Obg-1
+Received: by mail-ed1-f70.google.com with SMTP id l24-20020a056402231800b00410f19a3103so5840497eda.5
+        for <linux-input@vger.kernel.org>; Mon, 28 Feb 2022 05:00:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=pTt4lYeTqsTlzf044iKbn+rWbhrDH0dtdcXABS1pKsI=;
+        b=Tt77NHJGRl1X69rSGiRfksdyEgeryWe77wQO4naS/VFFEWCAHnWppRiKKManmXVs8j
+         0BCCg49T1BDekwkzNr4Ib/6atXj5Ort0lHOResW+vWevvV2zAbAdOltgGVDRNPvLlaF8
+         RPJchp5x53rTCvWl8OxGLP+LlYZtWFZz8aAh+HdO3jKMEq1ADitFX553qG/koaEKp54v
+         QVZRbn83afz39966pObJCItT3rFX2tuL0rK/MNEEQ6rTNwQYOFJTV9BpsjaLB7rwShVt
+         XIBTuUhGMSGmsNrKwZesY8BEop1cewW260XZybB5cBKKpLd/mwywNk8/v+j01+W1avJz
+         J0mQ==
+X-Gm-Message-State: AOAM531mN17PLy9Qg8jZCVe9Qh1+PXQT5qAfRfCr5PFcRM122lY9Di58
+        lgjq1z+1XJKy/kKCrsz7YCPHs7ytUrTUhQSLM8FFVMyL4DSXNloDjEUizGL6Ecc/ujz3TYzsEmb
+        sEuNfv5X2qbb/1Z+NKsOZ6Ts=
+X-Received: by 2002:a05:6402:c10:b0:40f:33cd:a39 with SMTP id co16-20020a0564020c1000b0040f33cd0a39mr19233901edb.234.1646053231638;
+        Mon, 28 Feb 2022 05:00:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwwJPeyFgPejYaVxgadpG62Do9kEPvLmj6vQBIwXxheVpNV4BYJ/ZdfJXNTDnIPg8i1fSrBjQ==
+X-Received: by 2002:a05:6402:c10:b0:40f:33cd:a39 with SMTP id co16-20020a0564020c1000b0040f33cd0a39mr19233811edb.234.1646053230657;
+        Mon, 28 Feb 2022 05:00:30 -0800 (PST)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id t14-20020a170906608e00b006d1455acc62sm4349309ejj.74.2022.02.28.05.00.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Feb 2022 05:00:30 -0800 (PST)
+Message-ID: <af476269-0722-218d-0fe6-404a9bab736f@redhat.com>
+Date:   Mon, 28 Feb 2022 14:00:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
+ Thunderbird/91.4.0
 Subject: Re: [PATCH v2] input/i8042: Add TUXEDO/Clevo devices to i8042 quirk
  tables
 Content-Language: en-US
-To:     dmitry.torokhov@gmail.com, tiwai@suse.de, mpdesouza@suse.com,
-        arnd@arndb.de, hdegoede@redhat.com, samuel@cavoj.net,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Werner Sembach <wse@tuxedocomputers.com>
+To:     Werner Sembach <wse@tuxedocomputers.com>,
+        dmitry.torokhov@gmail.com, tiwai@suse.de, mpdesouza@suse.com,
+        arnd@arndb.de, samuel@cavoj.net, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 References: <20220228114819.32949-1-wse@tuxedocomputers.com>
-From:   Werner Sembach <werner@rdorf.de>
+From:   Hans de Goede <hdegoede@redhat.com>
 In-Reply-To: <20220228114819.32949-1-wse@tuxedocomputers.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:C2g3jHncCLBEQt6qPrgNQZPzFpBI9COZt4TXhz53q+d2WqEAfxa
- w+t9SshXxw/PVs1iw3VZyRRWxHrE0SkxqhsajaLS7QOLJkov4jTXEJNB1Str9mB1Xk57Rp5
- i4g3gUUtaZW0R0PekfTocAOn8naH583xH+nz8EpXeXEOoHy56L47Tp4OhVNCAEpTOG6+d3N
- gZT8mp/i2y5MOeFLen55A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:56JUor0o0ho=:vD2Qb09ONHOxJdjWrrWRfO
- xmFcGMuAqXWw0ORu9RiWDQvuhtzxZ2HIOpbiYPVXU8twgJBNCf+TCl5NbKvubAnXXNqheIaVN
- BJBd7ah0OiLWM9xJCqZp4dM7KLrZJgNofqNhcI2LZBF+dIl6/dk+30IzLMb/fLm0R/HXCehfA
- LAkubzy5whCXOJcZts6P2DRwzRVcm6t52tqmBjRg9CJYgggGJV3PFfA5mhA6UxhMcdgNEJyAy
- SJHEGhhLpZzWHhqo/YnQdHLNDEdMBAcqfTm0hnOUAWy6vmXsaBV1gRZseTUc6tyPsKjCaBu/i
- xfrOmdyssYHl0LoYNvY5AO2OZd/l6/Jbw8CS2voLiH4t5OPdETEPbbu5omrg/tdgTWIBo8raK
- YNVemWiiwoe/RrPEBaVS541Q+DJRPBEL4qkPRdbdjs+CSKBsmdsp4ti4zcdjJSZoJ1qb3YL3/
- Qyzn2KbvSxs39LYIHkxgnHKqKA+WNpvebrjm0Jjjq1GcbNcg3X4UpCwE/5iRru8iUQXaLSa5n
- RHI35oHFtGGrR/tShyYIJkkLYgFcy7zH56LJ1KCb27OJVU6CKqDm+kU+C78H2G3VKXmJgWDkg
- Wqb/vqL1aRjEQL+2twxuySYiyoKQSmQOeHI9s2PiSYgWKC9dPpRwQGsBSGjJ953lKew7TrTDJ
- IVgFU4+8H/Yr93eKDEmRAU9xLlPLQbnQKqDE2vKIt/zjztPoTlKYECaFEi1toDPRfa8Q=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,UPPERCASE_50_75 autolearn=no
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,UPPERCASE_50_75 autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,38 +84,129 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi all,
 
+On 2/28/22 12:48, Werner Sembach wrote:
 > A lot of modern Clevo barebones have touchpad and/or keyboard issues after
 > suspend, fixable with reset + nomux + nopnp + noloop. Luckily, none of them
 > have an external PS/2 port so this can safely be set for all of them.
->
+> 
 > I'm not entirely sure if every device listed really needs all four quirks,
 > but after testing and production use. No negative effects could be
 > observed when setting all four.
->
+> 
 > The list is quite massive as neither the TUXEDO nor the Clevo dmi strings
 > have been very consistent historically. I tried to keep the list as short
 > as possible without risking on missing an affected device.
->
+> 
 > This is revision 2 where the Clevo N150CU barebone is removed again, as it
 > might have problems with the fix and needs further investigations. Also
 > the SchenkerTechnologiesGmbH System-/Board-Vendor string variations are
 > added.
-
-I wonder if I should split this patch on a per device basis? As the diff kinda gets a little bit confused with this
-amount of lines added.
-
-Also writing this from my other e-mail address because I wonder if I got spam filtered or something? because my last 2
-patches got no reply.
-
-I also just spotted a formatting error, but I will wait for a reply to my first question before I create a v3.
-
+> 
 > Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 > Cc: stable@vger.kernel.org
+
+Looking at the patch I think it would be better to split this into
+2 patches":
+
+1. Merge all the existing separate tables into 1 table and use the dmi_system_id.driver_data
+field to store which combination of the 4 quirks apply to which models.
+
+This will already help reducing the tables since some of the models are
+already listed in 2 or more tables. So you would get something like this:
+
+#define SERIO_QUIRK_RESET		BIT(0)
+#define SERIO_QUIRK_NOMUX		BIT(1)
+#define SERIO_QUIRK_NOPNP		BIT(2)
+#define SERIO_QUIRK_NOLOOP		BIT(3)
+#define SERIO_QUIRK_NOSELFTEST		BIT(4)
+// etc.
+
+static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+        {
+                /* Entroware Proteus */
+                .matches = {
+                        DMI_MATCH(DMI_SYS_VENDOR, "Entroware"),
+                        DMI_MATCH(DMI_PRODUCT_NAME, "Proteus"),
+                        DMI_MATCH(DMI_PRODUCT_VERSION, "EL07R4"),
+                },
+		.driver_data = (void *)(SERIO_QUIRK_RESET | SERIO_QUIRK_NOMUX)
+        },
+	{}
+};
+
+I picked the Entroware EL07R4 as example here because it needs both the reset and nomux quirks.
+
+And then when checking the quirks do:
+
+#ifdef CONFIG_X86
+	const struct dmi_system_id *dmi_id;
+	long quirks = 0;
+
+	dmi_id = dmi_first_match(i8042_dmi_quirk_table);
+	if (dmi_id)
+		quirks = (long)dmi_id->driver_data;
+
+	if (i8042_reset == I8042_RESET_DEFAULT) {
+		if (quirks & SERIO_QUIRK_RESET)
+			i8042_reset = I8042_RESET_ALWAYS;
+		if (quirks & SERIO_QUIRK_NOSELFTEST)
+			i8042_reset = I8042_RESET_NEVER;
+	}
+
+	//etc.
+
+
+This way you can reduce all the tables to just 1 table. Please
+also sort the table alphabetically, first by vendor, then sub-sort
+by model. This way you can find more entries to merge and it
+is a good idea to have big tables like this sorted in some way
+regardless.
+
+
+And then once this big refactoring patch is done (sorry), you
+can add a second patch on top:
+
+2. Add the models you want to quirk to the new merged tabled
+and now you only need to add 1 table entry per model, rather
+then 4, making the patch much smaller.
+
+
+This is a refactoring which IMHO we should likely already
+have done a while ago, but now with your patch it really is
+time we do this.
+
+I hope the above makes sense, if not don't hesitate to ask
+questions. Also note this is how *I* would do this, but
+I'm not the input subsys-maintainer, ultimately this is
+Dmitry's call and he may actually dislike with I'm proposing!
+
+I don't expect that Dmitry will dislike this, but you never know.
+
+Also unfortunately Dmitry lately has only a limited amount of
+time to spend on input subsys maintenance so in my experience
+it may be a while before you get a reply from Dmitry.
+
+Regards,
+
+Hans
+
+
+
+
+
+
+
+
+
+
+
+
 > ---
 >  drivers/input/serio/i8042-x86ia64io.h | 2384 ++++++++++++++++++++++---
 >  1 file changed, 2116 insertions(+), 268 deletions(-)
->
+> 
 > diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
 > index 148a7c5fd0e2..fb8da60d908f 100644
 > --- a/drivers/input/serio/i8042-x86ia64io.h
@@ -2780,3 +2894,4 @@ I also just spotted a formatting error, but I will wait for a reply to my first 
 >  		},
 >  	},
 >  	{ }
+
