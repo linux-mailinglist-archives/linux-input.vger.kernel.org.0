@@ -2,90 +2,148 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 329834C8620
-	for <lists+linux-input@lfdr.de>; Tue,  1 Mar 2022 09:14:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BF374C864D
+	for <lists+linux-input@lfdr.de>; Tue,  1 Mar 2022 09:19:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229976AbiCAIPV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Mar 2022 03:15:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39096 "EHLO
+        id S233338AbiCAITg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Mar 2022 03:19:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230521AbiCAIPU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Mar 2022 03:15:20 -0500
-X-Greylist: delayed 388 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 01 Mar 2022 00:14:40 PST
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 404B94C7BC
-        for <linux-input@vger.kernel.org>; Tue,  1 Mar 2022 00:14:40 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id E5E4EE0050;
-        Tue,  1 Mar 2022 00:07:41 -0800 (PST)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id NjUDqyp8Owl9; Tue,  1 Mar 2022 00:07:41 -0800 (PST)
-Message-ID: <d73eed98b74535f0b67b843d9c40cac11b41bcb6.camel@puri.sm>
-Subject: Re: [PATCH] input: keyboard: snvs_pwrkey: Fix SNVS_HPVIDR1 register
- address
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+        with ESMTP id S231503AbiCAITf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Mar 2022 03:19:35 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3D7B12609;
+        Tue,  1 Mar 2022 00:18:54 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6776A478;
+        Tue,  1 Mar 2022 09:18:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1646122732;
+        bh=GUeID2Un8vVSdeuDNIEpa8RZjMMEHoy9L8wSmXbuUy8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=miR5YmRNNJOlmDq2Yqs9dB5x+/XGsPj5xCWEd5d4QNz5EOGQpnsdmFZxXhyD4MKIk
+         rbf5ayN8604es0VCCAiQRs20sEQGYm4i485kkz8RqNa01HdgUMWxmhGcc7qoMO3hEb
+         q2nC3FtfDQ133CVtcapt7269jyXQ9M8016CxGHSY=
+Date:   Tue, 1 Mar 2022 10:18:42 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Robin van der Gracht <robin@protonic.nl>,
-        linux-kernel@vger.kernel.org, kernel@puri.sm
-Date:   Tue, 01 Mar 2022 09:07:34 +0100
-In-Reply-To: <20220228184652.277252-1-sebastian.krzyszkowiak@puri.sm>
-References: <20220228184652.277252-1-sebastian.krzyszkowiak@puri.sm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Another pass removing cases of 'allOf'
+ containing a '$ref'
+Message-ID: <Yh3W4r7rNSI60rVT@pendragon.ideasonboard.com>
+References: <20220228213802.1639658-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220228213802.1639658-1-robh@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Am Montag, dem 28.02.2022 um 19:46 +0100 schrieb Sebastian
-Krzyszkowiak:
-> Both i.MX6 and i.MX8 reference manuals list 0xBF8 as SNVS_HPVIDR1
-> (chapters 57.9 and 6.4.5 respectively).
+Hi Rob,
+
+Thank you for the patch.
+
+On Mon, Feb 28, 2022 at 03:38:02PM -0600, Rob Herring wrote:
+> Another pass at removing unnecessary use of 'allOf' with a '$ref'.
 > 
-> Fixes: 1a26c920717a ("Input: snvs_pwrkey - send key events for i.MX6
-> S, DL and Q")
-> Signed-off-by: Sebastian Krzyszkowiak
-> <sebastian.krzyszkowiak@puri.sm>
+> json-schema versions draft7 and earlier have a weird behavior in that
+> any keywords combined with a '$ref' are ignored (silently). The correct
+> form was to put a '$ref' under an 'allOf'. This behavior is now changed
+> in the 2019-09 json-schema spec and '$ref' can be mixed with other
+> keywords.
+> 
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Vignesh Raghavendra <vigneshr@ti.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Kishon Vijay Abraham I <kishon@ti.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-leds@vger.kernel.org
+> Cc: linux-mtd@lists.infradead.org
+> Cc: netdev@vger.kernel.org
+> Cc: linux-phy@lists.infradead.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: linux-remoteproc@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Cc: linux-spi@vger.kernel.org
+> Cc: linux-usb@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Tested-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-
-using evemu-record. Because the commit message doesn't describe it:
-Without this, when "pressing" power key, events "1" and "0" together
-would be delivered in one. With this fix, it's only "1", and when
-"releasing" we see the "0" event as expected.
-
-thank you,
-                             martin
-
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/input/keyboard/snvs_pwrkey.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/keyboard/snvs_pwrkey.c
-> b/drivers/input/keyboard/snvs_pwrkey.c
-> index 65286762b02a..ad8660be0127 100644
-> --- a/drivers/input/keyboard/snvs_pwrkey.c
-> +++ b/drivers/input/keyboard/snvs_pwrkey.c
-> @@ -20,7 +20,7 @@
->  #include <linux/mfd/syscon.h>
->  #include <linux/regmap.h>
->  
-> -#define SNVS_HPVIDR1_REG       0xF8
-> +#define SNVS_HPVIDR1_REG       0xBF8
->  #define SNVS_LPSR_REG          0x4C    /* LP Status Register */
->  #define SNVS_LPCR_REG          0x38    /* LP Control Register */
->  #define SNVS_HPSR_REG          0x14
+>  .../bindings/connector/usb-connector.yaml         |  3 +--
+>  .../bindings/display/brcm,bcm2711-hdmi.yaml       |  3 +--
+>  .../bindings/display/bridge/adi,adv7511.yaml      |  5 ++---
+>  .../bindings/display/bridge/synopsys,dw-hdmi.yaml |  5 ++---
+>  .../bindings/display/panel/display-timings.yaml   |  3 +--
+>  .../devicetree/bindings/display/ste,mcde.yaml     |  4 ++--
+>  .../devicetree/bindings/input/adc-joystick.yaml   |  9 ++++-----
+>  .../bindings/leds/cznic,turris-omnia-leds.yaml    |  3 +--
+>  .../devicetree/bindings/leds/leds-lp50xx.yaml     |  3 +--
+>  .../devicetree/bindings/mfd/google,cros-ec.yaml   | 12 ++++--------
+>  .../devicetree/bindings/mtd/nand-controller.yaml  |  8 +++-----
+>  .../bindings/mtd/rockchip,nand-controller.yaml    |  3 +--
+>  .../devicetree/bindings/net/ti,cpsw-switch.yaml   |  3 +--
+>  .../bindings/phy/phy-stm32-usbphyc.yaml           |  3 +--
+>  .../bindings/power/supply/sbs,sbs-manager.yaml    |  4 +---
+>  .../bindings/remoteproc/ti,k3-r5f-rproc.yaml      |  3 +--
+>  .../devicetree/bindings/soc/ti/ti,pruss.yaml      | 15 +++------------
+>  .../devicetree/bindings/sound/st,stm32-sai.yaml   |  3 +--
+>  .../devicetree/bindings/sound/tlv320adcx140.yaml  | 13 ++++++-------
+>  .../devicetree/bindings/spi/spi-controller.yaml   |  4 +---
+>  .../devicetree/bindings/usb/st,stusb160x.yaml     |  4 +---
+>  21 files changed, 39 insertions(+), 74 deletions(-)
 
+-- 
+Regards,
 
+Laurent Pinchart
