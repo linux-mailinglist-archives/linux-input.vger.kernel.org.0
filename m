@@ -2,50 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B46B04C8E6F
-	for <lists+linux-input@lfdr.de>; Tue,  1 Mar 2022 15:59:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B50B4C8F4F
+	for <lists+linux-input@lfdr.de>; Tue,  1 Mar 2022 16:43:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235489AbiCAO7m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Mar 2022 09:59:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34688 "EHLO
+        id S234739AbiCAPnk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Mar 2022 10:43:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231182AbiCAO7i (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Mar 2022 09:59:38 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EEE1140A8;
-        Tue,  1 Mar 2022 06:58:56 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S230153AbiCAPnj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Mar 2022 10:43:39 -0500
+Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F0384B866;
+        Tue,  1 Mar 2022 07:42:57 -0800 (PST)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by srv6.fidu.org (Postfix) with ESMTP id 69332C8008D;
+        Tue,  1 Mar 2022 16:42:55 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
+Received: from srv6.fidu.org ([127.0.0.1])
+        by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id x_E1zIiXs8qD; Tue,  1 Mar 2022 16:42:55 +0100 (CET)
+Received: from [192.168.176.112] (host-88-217-226-44.customer.m-online.net [88.217.226.44])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 85BE9B81AA6;
-        Tue,  1 Mar 2022 14:58:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E27CC340EE;
-        Tue,  1 Mar 2022 14:58:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646146733;
-        bh=Whkp6sbnmSxppFX3JGsOuKCRNLdvUtUZGKUEI6OjHC4=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=NbpZGqPJFO1XESRp5KovkQPpM9prMZ5aEqNF70m9KC9H6r9HnlgCnssQg7zUYIanL
-         3gjciBx8OK/fO+YzD0GWXuIE9foa5Kszwuuzbeg9Bf8iVv8TIFqgiaVTO60rHhVvnD
-         pfpd1GyOJQjuKtvItgFYKZd0aaitMWqzexnQI065mxm7y8jJQKqFu/a1ErQ62rnEbB
-         9CgiBsD/5BF+yFMrqphI7PCIWPDbHWiuAaGl3dtFnWxqF4kW+Qswqp42fJMVUGp6mo
-         XEWQKVwjOQiwjsO/sMcT91zLijvqcZyTdMyXlxz4/QFP22r6apc/y3vCGdsknZxHUP
-         kjcP1y7DN3+zA==
-Date:   Tue, 1 Mar 2022 15:58:49 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Jia-Ju Bai <baijiaju1990@gmail.com>
-cc:     djogorchock@gmail.com, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hid: hid-nintendo: check the return value of
- alloc_workqueue()
-In-Reply-To: <20220225034110.13341-1-baijiaju1990@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2203011558150.24795@cbobk.fhfr.pm>
-References: <20220225034110.13341-1-baijiaju1990@gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        (Authenticated sender: wse@tuxedocomputers.com)
+        by srv6.fidu.org (Postfix) with ESMTPSA id D1AE9C80089;
+        Tue,  1 Mar 2022 16:42:54 +0100 (CET)
+Message-ID: <16c301ff-6e38-11e9-9305-efb91213e811@tuxedocomputers.com>
+Date:   Tue, 1 Mar 2022 16:42:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2] input/i8042: Add TUXEDO/Clevo devices to i8042 quirk
+ tables
+Content-Language: de-DE
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, tiwai@suse.de,
+        mpdesouza@suse.com, arnd@arndb.de, samuel@cavoj.net,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220228114819.32949-1-wse@tuxedocomputers.com>
+ <af476269-0722-218d-0fe6-404a9bab736f@redhat.com>
+ <a6bfc728-dd47-84fa-1587-3af3049cb0c9@tuxedocomputers.com>
+ <Yh3RRT7xgY+PJfrQ@google.com>
+From:   Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <Yh3RRT7xgY+PJfrQ@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -54,42 +56,134 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 24 Feb 2022, Jia-Ju Bai wrote:
 
-> The function alloc_workqueue() in nintendo_hid_probe() can fail, but
-> there is no check of its return value. To fix this bug, its return value
-> should be checked with new error handling code.
-> 
-> Fixes: c4eae84feff3e ("HID: nintendo: add rumble support")
-> Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
-> Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
-> ---
->  drivers/hid/hid-nintendo.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-> index b6a9a0f3966e..2204de889739 100644
-> --- a/drivers/hid/hid-nintendo.c
-> +++ b/drivers/hid/hid-nintendo.c
-> @@ -2128,6 +2128,10 @@ static int nintendo_hid_probe(struct hid_device *hdev,
->  	spin_lock_init(&ctlr->lock);
->  	ctlr->rumble_queue = alloc_workqueue("hid-nintendo-rumble_wq",
->  					     WQ_FREEZABLE | WQ_MEM_RECLAIM, 0);
-> +	if (!ctlr->rumble_queue) {
-> +		ret = -ENOMEM;
-> +		goto err;
-> +	}
->  	INIT_WORK(&ctlr->rumble_worker, joycon_rumble_worker);
+Am 01.03.22 um 08:54 schrieb Dmitry Torokhov:
+> Hi,
+>
+> On Mon, Feb 28, 2022 at 07:50:55PM +0100, Werner Sembach wrote:
+>> Am 28.02.22 um 14:00 schrieb Hans de Goede:
+>>> Hi all,
+>>>
+>>> On 2/28/22 12:48, Werner Sembach wrote:
+>>>> A lot of modern Clevo barebones have touchpad and/or keyboard issues after
+>>>> suspend, fixable with reset + nomux + nopnp + noloop. Luckily, none of them
+>>>> have an external PS/2 port so this can safely be set for all of them.
+>>>>
+>>>> I'm not entirely sure if every device listed really needs all four quirks,
+>>>> but after testing and production use. No negative effects could be
+>>>> observed when setting all four.
+>>>>
+>>>> The list is quite massive as neither the TUXEDO nor the Clevo dmi strings
+>>>> have been very consistent historically. I tried to keep the list as short
+>>>> as possible without risking on missing an affected device.
+>>>>
+>>>> This is revision 2 where the Clevo N150CU barebone is removed again, as it
+>>>> might have problems with the fix and needs further investigations. Also
+>>>> the SchenkerTechnologiesGmbH System-/Board-Vendor string variations are
+>>>> added.
+>>>>
+>>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+>>>> Cc: stable@vger.kernel.org
+>>> Looking at the patch I think it would be better to split this into
+>>> 2 patches":
+>>>
+>>> 1. Merge all the existing separate tables into 1 table and use the dmi_system_id.driver_data
+>>> field to store which combination of the 4 quirks apply to which models.
+>>>
+>>> This will already help reducing the tables since some of the models are
+>>> already listed in 2 or more tables. So you would get something like this:
+>>>
+>>> #define SERIO_QUIRK_RESET		BIT(0)
+>>> #define SERIO_QUIRK_NOMUX		BIT(1)
+>>> #define SERIO_QUIRK_NOPNP		BIT(2)
+>>> #define SERIO_QUIRK_NOLOOP		BIT(3)
+>>> #define SERIO_QUIRK_NOSELFTEST		BIT(4)
+>>> // etc.
+>>>
+>>> static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>>>         {
+>>>                 /* Entroware Proteus */
+>>>                 .matches = {
+>>>                         DMI_MATCH(DMI_SYS_VENDOR, "Entroware"),
+>>>                         DMI_MATCH(DMI_PRODUCT_NAME, "Proteus"),
+>>>                         DMI_MATCH(DMI_PRODUCT_VERSION, "EL07R4"),
+>>>                 },
+>>> 		.driver_data = (void *)(SERIO_QUIRK_RESET | SERIO_QUIRK_NOMUX)
+>>>         },
+>>> 	{}
+>>> };
+>>>
+>>> I picked the Entroware EL07R4 as example here because it needs both the reset and nomux quirks.
+>>>
+>>> And then when checking the quirks do:
+>>>
+>>> #ifdef CONFIG_X86
+>>> 	const struct dmi_system_id *dmi_id;
+>>> 	long quirks = 0;
+>>>
+>>> 	dmi_id = dmi_first_match(i8042_dmi_quirk_table);
+>>> 	if (dmi_id)
+>>> 		quirks = (long)dmi_id->driver_data;
+>>>
+>>> 	if (i8042_reset == I8042_RESET_DEFAULT) {
+>>> 		if (quirks & SERIO_QUIRK_RESET)
+>>> 			i8042_reset = I8042_RESET_ALWAYS;
+>>> 		if (quirks & SERIO_QUIRK_NOSELFTEST)
+>>> 			i8042_reset = I8042_RESET_NEVER;
+>>> 	}
+>>>
+>>> 	//etc.
+>>>
+>>>
+>>> This way you can reduce all the tables to just 1 table. Please
+>>> also sort the table alphabetically, first by vendor, then sub-sort
+>>> by model. This way you can find more entries to merge and it
+>>> is a good idea to have big tables like this sorted in some way
+>>> regardless.
+>>>
+>>>
+>>> And then once this big refactoring patch is done (sorry), you
+>>> can add a second patch on top:
+>>>
+>>> 2. Add the models you want to quirk to the new merged tabled
+>>> and now you only need to add 1 table entry per model, rather
+>>> then 4, making the patch much smaller.
+>>>
+>>>
+>>> This is a refactoring which IMHO we should likely already
+>>> have done a while ago, but now with your patch it really is
+>>> time we do this.
+>>>
+>>> I hope the above makes sense, if not don't hesitate to ask
+>>> questions. Also note this is how *I* would do this, but
+>>> I'm not the input subsys-maintainer, ultimately this is
+>>> Dmitry's call and he may actually dislike with I'm proposing!
+>> Yes, it does make sense. I could follow you and I too think it's a good idea. I will hopefully find time to work on this
+>> refactoring in the next days.
+> Yes, I think this is a great idea as we have many instances where
+> the same entries are present in several tables.
+No problem. I hope mail mails get through now ^^.
+>
+>>> I don't expect that Dmitry will dislike this, but you never know.
+>>>
+>>> Also unfortunately Dmitry lately has only a limited amount of
+>>> time to spend on input subsys maintenance so in my experience
+>>> it may be a while before you get a reply from Dmitry.
+>> Ok, thanks for the info. As I wrote in the other mail, I was worried (or paranoid xD) that I got flagged as spam or
+>> something.
+> It did indeed, I am not sure why. This does not invalidate what Hans
+> said - lately I was not able to spend as much time on input as I wanted.
+>
+> Regarding this patch - it looks like board names are pretty unique in
+> many cases, so I wonder if we could not save some memory by omitting the
+> vendor info (especially because some, like "Notebook", are very generic
+> anyways) and go simply by the board.
+Think in this case it would be helpful to have a DMI_MATCH_NOT at hand, just in case there is a collision in the future.
 
-Thanks for the patch.
+Kind regards,
 
-For future submissions, please try to make sure to always follow the 
-subsystem-specific formatting of the shortlog (upperacase "HID: " prefix 
-in this case).
+Werner Sembach
 
-I've fixed that up and applied.
-
--- 
-Jiri Kosina
-SUSE Labs
-
+>
+> Thanks.
+>
