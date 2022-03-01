@@ -2,63 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49DBD4C849F
-	for <lists+linux-input@lfdr.de>; Tue,  1 Mar 2022 08:04:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E1374C8510
+	for <lists+linux-input@lfdr.de>; Tue,  1 Mar 2022 08:26:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230095AbiCAHFY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Mar 2022 02:05:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57240 "EHLO
+        id S232906AbiCAH0l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Mar 2022 02:26:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbiCAHFY (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Mar 2022 02:05:24 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 881644B1ED
-        for <linux-input@vger.kernel.org>; Mon, 28 Feb 2022 23:04:43 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id h17-20020a17090acf1100b001bc68ecce4aso1282457pju.4
-        for <linux-input@vger.kernel.org>; Mon, 28 Feb 2022 23:04:43 -0800 (PST)
+        with ESMTP id S232881AbiCAH0k (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Mar 2022 02:26:40 -0500
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 472647B56F;
+        Mon, 28 Feb 2022 23:25:50 -0800 (PST)
+Received: by mail-pf1-x429.google.com with SMTP id z16so13426920pfh.3;
+        Mon, 28 Feb 2022 23:25:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Qb+j1LRO8ddo3zhSqcznN1JkovRLiS/pR+mq8fLnnsc=;
-        b=cIxXsG6s/YcCLI6+oKiBSjSItn/DDxm9JYQshC91Zn47nwvdNEMIOnR2yx9M6Ym6kT
-         oS6/HOXMbCuALZ9ydo/LWEMHq4xc2luxLyCnlfeUCFn9NnBkzOfIHZvyj6qVUBoUfw3L
-         ZYSMK3iSLATOf+dzNbSMpIBa+lwpIrRqvINqlRZGbmMbZeCvUysoNpPkclMjQ//lp12+
-         B0LOWPQuc49Ra1kuF8u+/UcmdxNMJbkGezF7ReyCZVS0yOTZ2lSawieYbxKyzG21h/bS
-         y48dpF3bsH1PYy8Q4kFdGqXYp7Y7jiJKg+dS6jI+k9liRkxEVYQhnsPK7RJA+Jcr23wb
-         qQ2A==
+        bh=1xwPzYLmL8tsAcjKkLlXm2q5GxjDpfr4uBY/mxxN6f0=;
+        b=p0hUnlIqn4nB+9QAy6YtbzwVtFaaRd3iLy5CeGRJu5XFinQuo46QvcMxMAvlZ01ztU
+         +mh6iQ/P7DJY+bwlRLg36NWkpIyniBCQb0arpYppSI5gzAAuBH1Io0jqnjiBD79g4BqT
+         Koo6G2VmqJP+0hONu2wOf6bENkDdMbyj4bwGiBlIstAqz661ZuLR1ELpxudC5PNdg0nM
+         r37aPSH1Sq8Y1mm+MW4EltUhHuUWbCddplrmHG0WGMmFSVdnLDwd5ZYnmf3lVwACKRQv
+         Ly7j+WZVz6RFqrkCEB5o1hiKiSkS57kzfkMfDyfvxAaLw6JY/oor4ije/sbmdKZiwsdp
+         avZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Qb+j1LRO8ddo3zhSqcznN1JkovRLiS/pR+mq8fLnnsc=;
-        b=smqLsV24517vujPfumRpSWUOni8SZ3vI8LFj81nitYbcKDoWL0g2UrInfEH4Wxtp6n
-         Aw/p9uyT/JZuP0b2paIQsR9iJNLAy1vkV2FRYMbSjOt13n4U717UX71pk+zsXZVO6yCZ
-         AzJOdvTnD/xseH0yweGEUAc06zKk8ynE6GdfwnvGbmWRj2uEils8puu5uxrsdlIXH1tu
-         U2+iM7OgKybFpNlgUCNVzfx1jAq/amcgi5EfyuUkAkCzz5T+U3466s5CZhVN39cYMIVt
-         p3IojgIgQ3qlyuexdQ+PX7OpLX/J3R7aZ4clqr66BpYMg/Rc3nh5S/bWYcJ/UwW895og
-         q+CA==
-X-Gm-Message-State: AOAM531d2zU1M9D9vLzNszZAh8nENn5VcVT9bCiJFkf31Ty8s/X32cYE
-        cpsMn2+uMd11kqCTbaMn+snKteVXM9Q=
-X-Google-Smtp-Source: ABdhPJwwSQDk5G9iDm6fb7mF52o4Ps7XsMmQR+wqhVOc1izFiKU2lDbUJcdjW05K/Ei+M7l3zE6IFA==
-X-Received: by 2002:a17:90a:ac14:b0:1bc:2b81:4f5d with SMTP id o20-20020a17090aac1400b001bc2b814f5dmr20392384pjq.207.1646118282931;
-        Mon, 28 Feb 2022 23:04:42 -0800 (PST)
+        bh=1xwPzYLmL8tsAcjKkLlXm2q5GxjDpfr4uBY/mxxN6f0=;
+        b=HQoxAQGY0K1DeezCK3veYbJPxPX+W2hxKWB0gG1d5pIYGoCIZ5NmndiatQDZ3WWTb9
+         Is3KpsAcCNXIAN8t+KnOVPOWNvmuQAjyW1GD4nOTZz92tC/8c+F5PPDR/v3+DlKxgtx1
+         9yk3Iw7XUdfGQMQS55sFZUmIl76RW+qfabJZy5qeJmlPDt7No/s0dDiu6XkX8PRhv7ME
+         6FUQocVq54VFVwobwvadto9xZ9uO7hLTHdkQEwxSjcxEbMVwHa1KPWHWY+DVvuSPKXIP
+         ZXjVo+6Tb7i4Ai9JY5Ze61QLz9qVTFYG16a6FGcFTO1oR40dUpuWUUGDvkAu7l0UmcR9
+         KFbQ==
+X-Gm-Message-State: AOAM530mq7SHM9brWxAF+xuiSNNpX8KnGrOU8l6nbo6DI6wTtzs9NKZW
+        y8y1C8vMfQCfDmARgRjsnKI=
+X-Google-Smtp-Source: ABdhPJxk2kkLGOShKr8fWcTWXMBEiU8Tp/GN26wOurQxDFduiq9JdkHrSPrhG04imVVDVCPRuqu8Bw==
+X-Received: by 2002:a05:6a00:1a04:b0:4e1:786c:cce3 with SMTP id g4-20020a056a001a0400b004e1786ccce3mr25912833pfv.81.1646119549671;
+        Mon, 28 Feb 2022 23:25:49 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:c174:264:5e49:f2cb])
-        by smtp.gmail.com with ESMTPSA id 63-20020a630942000000b00372a99c1821sm11723047pgj.21.2022.02.28.23.04.41
+        by smtp.gmail.com with ESMTPSA id 132-20020a62168a000000b004f40e8b3133sm636489pfw.188.2022.02.28.23.25.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Feb 2022 23:04:42 -0800 (PST)
-Date:   Mon, 28 Feb 2022 23:04:39 -0800
+        Mon, 28 Feb 2022 23:25:48 -0800 (PST)
+Date:   Mon, 28 Feb 2022 23:25:46 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: goodix - Workaround Cherry Trail devices with a
- bogus ACPI Interrupt() resource
-Message-ID: <Yh3Fh5PLPu91CKqn@google.com>
-References: <20220228111613.363336-1-hdegoede@redhat.com>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     Support Opensource <support.opensource@diasemi.com>,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: da9063 - Use devm_delayed_work_autocancel()
+Message-ID: <Yh3KegzMC+JuUOdn@google.com>
+References: <a76ac3f4c7aee205395b89b5b3f587e30a48df96.1645205312.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220228111613.363336-1-hdegoede@redhat.com>
+In-Reply-To: <a76ac3f4c7aee205395b89b5b3f587e30a48df96.1645205312.git.christophe.jaillet@wanadoo.fr>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -69,20 +70,13 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Feb 28, 2022 at 12:16:13PM +0100, Hans de Goede wrote:
-> ACPI/x86 devices with a Cherry Trail SoC should have a GpioInt + a regular
-> GPIO ACPI resource in their ACPI tables.
+On Fri, Feb 18, 2022 at 06:29:13PM +0100, Christophe JAILLET wrote:
+> Use devm_delayed_work_autocancel() instead of hand-writing it.
+> This saves a few lines of code.
 > 
-> Some CHT devices have a bug, where the also is bogus Interrupt resource
-> (likely copied from a previous Bay Trail based generation of the device).
-> 
-> The i2c-core-acpi code will assign the bogus, non-working, Interrupt
-> resource to client->irq. Add a workaround to fix this up.
-> 
-> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=2043960
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-Applied (for 5.17), thank you.
+Applied, thank you.
 
 -- 
 Dmitry
