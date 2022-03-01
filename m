@@ -2,52 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FC2B4C8E54
-	for <lists+linux-input@lfdr.de>; Tue,  1 Mar 2022 15:53:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B46B04C8E6F
+	for <lists+linux-input@lfdr.de>; Tue,  1 Mar 2022 15:59:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235455AbiCAOy1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Mar 2022 09:54:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48228 "EHLO
+        id S235489AbiCAO7m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Mar 2022 09:59:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235453AbiCAOy0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Mar 2022 09:54:26 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2474570CD5;
-        Tue,  1 Mar 2022 06:53:45 -0800 (PST)
+        with ESMTP id S231182AbiCAO7i (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Mar 2022 09:59:38 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EEE1140A8;
+        Tue,  1 Mar 2022 06:58:56 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B57396159A;
-        Tue,  1 Mar 2022 14:53:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 190CCC340EE;
-        Tue,  1 Mar 2022 14:53:41 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 85BE9B81AA6;
+        Tue,  1 Mar 2022 14:58:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E27CC340EE;
+        Tue,  1 Mar 2022 14:58:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646146424;
-        bh=GD3ppfugRqIV23Miab38fww3xcaKUQM6WrDR9+Hobac=;
+        s=k20201202; t=1646146733;
+        bh=Whkp6sbnmSxppFX3JGsOuKCRNLdvUtUZGKUEI6OjHC4=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=OJ7+ZGm984efelp+NWTFaTZSwNtYW/hotKfXQQAbmPQdU2DVLAhJDKxty1YwNe0wF
-         uuW9ZbcHwfWHZSqQ1OL1yL3tumw8R4ryx+4OYpt1149PryFFu7Ac7hOBFA6zFbMTku
-         bW9e8qosXA3Tlfh+OcfCdAHOjFAZrARLsyn1rKGxYm4up4Uku7AP5vrV3Cb3FWjg/Y
-         CxMe4D1OXlGPjDEw/n42MjQ4ImqnzkfNxub9psGTfcTKVKid9TAqCiFpw98pKmMcrh
-         n8dFCGb3GkLb7R4kHn4Ye5eC/vGdQuUJBzEG0Ftyd2Tsn1v0iOLhA6hPH4yei5RT9N
-         k8sic9WuMTR2w==
-Date:   Tue, 1 Mar 2022 15:53:31 +0100 (CET)
+        b=NbpZGqPJFO1XESRp5KovkQPpM9prMZ5aEqNF70m9KC9H6r9HnlgCnssQg7zUYIanL
+         3gjciBx8OK/fO+YzD0GWXuIE9foa5Kszwuuzbeg9Bf8iVv8TIFqgiaVTO60rHhVvnD
+         pfpd1GyOJQjuKtvItgFYKZd0aaitMWqzexnQI065mxm7y8jJQKqFu/a1ErQ62rnEbB
+         9CgiBsD/5BF+yFMrqphI7PCIWPDbHWiuAaGl3dtFnWxqF4kW+Qswqp42fJMVUGp6mo
+         XEWQKVwjOQiwjsO/sMcT91zLijvqcZyTdMyXlxz4/QFP22r6apc/y3vCGdsknZxHUP
+         kjcP1y7DN3+zA==
+Date:   Tue, 1 Mar 2022 15:58:49 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?ISO-8859-2?Q?Ahelenia_Ziemia=F1ska?= 
-        <nabijaczleweli@nabijaczleweli.xyz>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/12] HID: fix for generic input processing
-In-Reply-To: <20220203143226.4023622-1-benjamin.tissoires@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2203011552560.24795@cbobk.fhfr.pm>
-References: <20220203143226.4023622-1-benjamin.tissoires@redhat.com>
+To:     Jia-Ju Bai <baijiaju1990@gmail.com>
+cc:     djogorchock@gmail.com, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hid: hid-nintendo: check the return value of
+ alloc_workqueue()
+In-Reply-To: <20220225034110.13341-1-baijiaju1990@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2203011558150.24795@cbobk.fhfr.pm>
+References: <20220225034110.13341-1-baijiaju1990@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -61,53 +54,40 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 3 Feb 2022, Benjamin Tissoires wrote:
+On Thu, 24 Feb 2022, Jia-Ju Bai wrote:
 
-> Hi,
+> The function alloc_workqueue() in nintendo_hid_probe() can fail, but
+> there is no check of its return value. To fix this bug, its return value
+> should be checked with new error handling code.
 > 
-> this is the v2 of my series which reworks the HID report processing.
+> Fixes: c4eae84feff3e ("HID: nintendo: add rumble support")
+> Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+> Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
+> ---
+>  drivers/hid/hid-nintendo.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> I took Ping's comments into account, and amended my MR with the
-> regression tests[0].
-> More specifically, the tests (and thus this new version of the series)
-> enforces that only one BTN_TOOL_* event gets forwarded between each
-> EV_SYN frame, and that BTN_TOUCH are properly translated too.
-> 
-> This also magivally solved some worrying transitions we had in the
-> pen state machine where the pen was jumping from "eraser" to "in
-> contact". This new behavior enforces a "out-of-range" state in the
-> middle, making it easier for userspace to understand now.
-> 
-> Again, tests are welcome :)
-> 
-> Cheers,
-> Benjamin
-> 
-> [0] https://gitlab.freedesktop.org/libevdev/hid-tools/-/merge_requests/127
-> 
-> Benjamin Tissoires (12):
->   HID: core: statically allocate read buffers
->   HID: core: de-duplicate some code in hid_input_field()
->   HID: core: split data fetching from processing in hid_input_field()
->   HID: input: tag touchscreens as such if the physical is not there
->   HID: input: rework spaghetti code with switch statements
->   HID: input: move up out-of-range processing of input values
->   HID: compute an ordered list of input fields to process
->   HID: core: for input reports, process the usages by priority list
->   HID: input: enforce Invert usage to be processed before InRange
->   HID: input: remove the need for HID_QUIRK_INVERT
->   HID: input: accommodate priorities for slotted devices
->   Input: docs: add more details on the use of BTN_TOOL
-> 
->  Documentation/input/event-codes.rst |   6 +-
->  drivers/hid/hid-core.c              | 280 ++++++++++++++++++---
->  drivers/hid/hid-input.c             | 364 ++++++++++++++++++++++------
->  include/linux/hid.h                 |  23 +-
->  4 files changed, 568 insertions(+), 105 deletions(-)
+> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+> index b6a9a0f3966e..2204de889739 100644
+> --- a/drivers/hid/hid-nintendo.c
+> +++ b/drivers/hid/hid-nintendo.c
+> @@ -2128,6 +2128,10 @@ static int nintendo_hid_probe(struct hid_device *hdev,
+>  	spin_lock_init(&ctlr->lock);
+>  	ctlr->rumble_queue = alloc_workqueue("hid-nintendo-rumble_wq",
+>  					     WQ_FREEZABLE | WQ_MEM_RECLAIM, 0);
+> +	if (!ctlr->rumble_queue) {
+> +		ret = -ENOMEM;
+> +		goto err;
+> +	}
+>  	INIT_WORK(&ctlr->rumble_worker, joycon_rumble_worker);
 
-This is now in hid.git#for-5.18/core.
+Thanks for the patch.
 
-Thanks a lot Benjamin, very nice work.
+For future submissions, please try to make sure to always follow the 
+subsystem-specific formatting of the shortlog (upperacase "HID: " prefix 
+in this case).
+
+I've fixed that up and applied.
 
 -- 
 Jiri Kosina
