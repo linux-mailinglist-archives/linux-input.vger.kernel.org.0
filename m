@@ -2,119 +2,147 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE1064C8526
-	for <lists+linux-input@lfdr.de>; Tue,  1 Mar 2022 08:28:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA1074C857F
+	for <lists+linux-input@lfdr.de>; Tue,  1 Mar 2022 08:51:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229476AbiCAH3g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Mar 2022 02:29:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36946 "EHLO
+        id S233105AbiCAHvz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Mar 2022 02:51:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232413AbiCAH3f (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Mar 2022 02:29:35 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49EA944740;
-        Mon, 28 Feb 2022 23:28:55 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id ev16-20020a17090aead000b001bc3835fea8so1485879pjb.0;
-        Mon, 28 Feb 2022 23:28:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Ux6f0w+/rugl91b1fITi77MXLqhRABNU0vOsRDVUGr8=;
-        b=YTabYLTKvQUeycuTSVEF/GiCuWpt3dgzOnXmHVGIW5yXqUpnGHRl3YRcr38JpbcBBW
-         Dm772Fy0OzObt5rK9mLNV/0VXmDdFEYx+mI41ROMORsvCAd9He+WqFpMQr1bYIavmPLw
-         MsiK3pf7qxNeYndwU8tfJFmIoagPMRRwyMoshRqDaKmolGlQzEuZmumkFKJ7ibMY2Bny
-         IualYTy+dBZltLnDYQuMSVA5Mh2jeC+pIz5I9HFRprbwHNScxq5H7NQ/17cwatg/WdG5
-         UTlzxG8bk0JAp800rnrOmHSkmoTAZHmXw1NALtBdORhqF6bU/ldszfPZ7nLinp9vLLPH
-         bwgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Ux6f0w+/rugl91b1fITi77MXLqhRABNU0vOsRDVUGr8=;
-        b=f5xcHe7zCxCMCpuXuT3PWLuFayFczaVgAuNsZZbNJCIA4EGqCa8s1TfD9CHIo3IEHE
-         upwBrfvb5unNwklALK3aHB4QN/zpDacRnof7mUbSihqy5Ikl6vcasFe+RrKX0kTzKw5q
-         vOM63mZtDpwd/vHnN7V9GaPcRgaVHr+LR62UGcUo1aSd1ynH56DLay0v1FYvY6FBM/1U
-         BLBUiR2I900kFgP126LJ75pHsrgX0IGpJUZPzHrA2KoxUHOsUg6tKk3lnhwl/PgNNE8D
-         4xuXrgYThbvGLcg/NsnYws448xjd3JtFFW5vTqDLAM4bhOoolXy1vo/My4oo9+7xEXC9
-         2Ppw==
-X-Gm-Message-State: AOAM5322Fd0SD2m9L3884mPKFj3qqxAkeGqFnwA0uQDReS8Uni2kddPL
-        +j+txx98akkJQ2iB4vbDkKQ=
-X-Google-Smtp-Source: ABdhPJyCTEG7fLlL28LAVzdKcGkZaYShISnGyiIPsrN+MzQul1f6SxT7Vb0F786PVAqpULT+rWwcRQ==
-X-Received: by 2002:a17:903:1206:b0:151:7d67:2924 with SMTP id l6-20020a170903120600b001517d672924mr2920678plh.45.1646119734656;
-        Mon, 28 Feb 2022 23:28:54 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:c174:264:5e49:f2cb])
-        by smtp.gmail.com with ESMTPSA id w17-20020a056a0014d100b004f1063290basm15953880pfu.15.2022.02.28.23.28.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Feb 2022 23:28:53 -0800 (PST)
-Date:   Mon, 28 Feb 2022 23:28:51 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     William Mahon <wmahon@chromium.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        William Mahon <wmahon@google.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org
-Subject: Re: [PATCH v2] HID: Add mapping for KEY_ALL_APPLICATIONS
-Message-ID: <Yh3LMzmru8cngoGT@google.com>
-References: <20220218233350.1.I3a7746ad05d270161a18334ae06e3b6db1a1d339@changeid>
+        with ESMTP id S232923AbiCAHvy (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Mar 2022 02:51:54 -0500
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABF7970F71;
+        Mon, 28 Feb 2022 23:51:11 -0800 (PST)
+Received: from relay11.mail.gandi.net (unknown [217.70.178.231])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id C52A4C3D50;
+        Tue,  1 Mar 2022 07:40:13 +0000 (UTC)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 2B2C310000D;
+        Tue,  1 Mar 2022 07:40:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1646120409;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1EOlbUxAApC61mQjvw+lG70+JM2jHWLUjBcqvnLcepA=;
+        b=EWUY1TKvGS6Yg129zF29NgHJHMwcv48rJCLCe7SF45JHcNNriVOQo+vcGiYixEAaHnyulB
+        nJQBl068EP/pSVzbkdxbgXCJZTn/Woy6xox0qwrhuWnLDJmO7Aw8fafuMklMsuzENOIIXz
+        c+TC7F7dcVRu1QNFnUnAFY2l+9/i9oBUcQ4iFhctYdJL7TClStx6/rANhA1Sbvyn0M96zz
+        DN43uNBfzPSoxhjSP8ns2qwAGgi1xkMICNqykUP4WLVTs0I1l9IOPWWY8T3PooNnoadHUN
+        InLV/E29BXUcvgd0jZP/wxq0rm/fa2yidd9Or23IERKtnX+02I184mza7r59qQ==
+Date:   Tue, 1 Mar 2022 08:40:01 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Another pass removing cases of 'allOf'
+ containing a '$ref'
+Message-ID: <20220301084001.3771855e@xps13>
+In-Reply-To: <20220228213802.1639658-1-robh@kernel.org>
+References: <20220228213802.1639658-1-robh@kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220218233350.1.I3a7746ad05d270161a18334ae06e3b6db1a1d339@changeid>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Feb 18, 2022 at 11:35:49PM +0000, William Mahon wrote:
-> This patch adds a new key definition for KEY_ALL_APPLICATIONS
-> which is an alias of KEY_DASHBOARD.
-> 
-> It also maps the 0x0c/0x2a2 usage code to KEY_ALL_APPLICATIONS.
+Hi Rob,
 
-Jiri, Benjamin, OK for me to pick it up?
+robh@kernel.org wrote on Mon, 28 Feb 2022 15:38:02 -0600:
 
-> 
-> Signed-off-by: William Mahon <wmahon@google.com>
+> Another pass at removing unnecessary use of 'allOf' with a '$ref'.
+>=20
+> json-schema versions draft7 and earlier have a weird behavior in that
+> any keywords combined with a '$ref' are ignored (silently). The correct
+> form was to put a '$ref' under an 'allOf'. This behavior is now changed
+> in the 2019-09 json-schema spec and '$ref' can be mixed with other
+> keywords.
+>=20
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Vignesh Raghavendra <vigneshr@ti.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Kishon Vijay Abraham I <kishon@ti.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-leds@vger.kernel.org
+> Cc: linux-mtd@lists.infradead.org
+> Cc: netdev@vger.kernel.org
+> Cc: linux-phy@lists.infradead.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: linux-remoteproc@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Cc: linux-spi@vger.kernel.org
+> Cc: linux-usb@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
-> 
->  drivers/hid/hid-input.c                | 2 ++
->  include/uapi/linux/input-event-codes.h | 1 +
->  2 files changed, 3 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index eccd89b5ea9f..c3e303c1d8d1 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -1162,6 +1162,8 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->  
->  		case 0x29d: map_key_clear(KEY_KBD_LAYOUT_NEXT);	break;
->  
-> +		case 0x2a2: map_key_clear(KEY_ALL_APPLICATIONS);	break;
-> +
->  		case 0x2c7: map_key_clear(KEY_KBDINPUTASSIST_PREV);		break;
->  		case 0x2c8: map_key_clear(KEY_KBDINPUTASSIST_NEXT);		break;
->  		case 0x2c9: map_key_clear(KEY_KBDINPUTASSIST_PREVGROUP);		break;
-> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-> index 311a57f3e01a..e520f22c1b8d 100644
-> --- a/include/uapi/linux/input-event-codes.h
-> +++ b/include/uapi/linux/input-event-codes.h
-> @@ -279,6 +279,7 @@
->  #define KEY_PROG3		202
->  #define KEY_PROG4		203
->  #define KEY_DASHBOARD		204	/* AL Dashboard */
-> +#define KEY_ALL_APPLICATIONS KEY_DASHBOARD
->  #define KEY_SUSPEND		205
->  #define KEY_CLOSE		206	/* AC Close */
->  #define KEY_PLAY		207
-> -- 
-> 2.35.1.473.g83b2b277ed-goog
-> 
+>  .../bindings/connector/usb-connector.yaml         |  3 +--
+>  .../bindings/display/brcm,bcm2711-hdmi.yaml       |  3 +--
+>  .../bindings/display/bridge/adi,adv7511.yaml      |  5 ++---
+>  .../bindings/display/bridge/synopsys,dw-hdmi.yaml |  5 ++---
+>  .../bindings/display/panel/display-timings.yaml   |  3 +--
+>  .../devicetree/bindings/display/ste,mcde.yaml     |  4 ++--
+>  .../devicetree/bindings/input/adc-joystick.yaml   |  9 ++++-----
+>  .../bindings/leds/cznic,turris-omnia-leds.yaml    |  3 +--
+>  .../devicetree/bindings/leds/leds-lp50xx.yaml     |  3 +--
+>  .../devicetree/bindings/mfd/google,cros-ec.yaml   | 12 ++++--------
+>  .../devicetree/bindings/mtd/nand-controller.yaml  |  8 +++-----
+>  .../bindings/mtd/rockchip,nand-controller.yaml    |  3 +--
 
--- 
-Dmitry
+For MTD bindings:
+
+Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
+
+Thanks,
+Miqu=C3=A8l
