@@ -2,115 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E25CB4CADDA
-	for <lists+linux-input@lfdr.de>; Wed,  2 Mar 2022 19:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A1D74CB1B2
+	for <lists+linux-input@lfdr.de>; Wed,  2 Mar 2022 23:04:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233700AbiCBSr7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Mar 2022 13:47:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58104 "EHLO
+        id S242825AbiCBWFS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Mar 2022 17:05:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244719AbiCBSr7 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Mar 2022 13:47:59 -0500
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49343D5F7B;
-        Wed,  2 Mar 2022 10:47:15 -0800 (PST)
+        with ESMTP id S238838AbiCBWFS (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Mar 2022 17:05:18 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A23CDC992D;
+        Wed,  2 Mar 2022 14:04:34 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id u16so3081038pfg.12;
+        Wed, 02 Mar 2022 14:04:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1646246835; x=1677782835;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Ss1yJ8C2o2JNvk+SxQ1vw9WaY3rA4Jk7i+Ds45rTd/o=;
-  b=vasoUOvkxgulG9gUFaLhghwKxRHG/W5xD9QUfzETBROht1j7WVXxVCuT
-   Jxa6G+INgcdd1vh/m/phBnmTpgeVu1C9Ln7psc1X1jjjOgasG/I9AL8K6
-   ph+A1BpIR9nMdV7nEn2rdlCtOr/XpNGd+TrneA1UIyuZJngFR4jRuobR+
-   8=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 02 Mar 2022 10:47:15 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2022 10:47:14 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Wed, 2 Mar 2022 10:47:14 -0800
-Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Wed, 2 Mar 2022 10:47:13 -0800
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-To:     <dmitry.torokhov@gmail.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <collinsd@codeaurora.org>,
-        <bjorn.andersson@linaro.org>, <swboyd@chromium.org>,
-        <skakit@codeaurora.org>,
-        Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: [RESEND PATCH v4 4/4] input: misc: pm8941-pwrkey: simulate missed key press events
-Date:   Wed, 2 Mar 2022 10:45:29 -0800
-Message-ID: <20220302184525.19781-5-quic_amelende@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220302184525.19781-1-quic_amelende@quicinc.com>
-References: <20220302184525.19781-1-quic_amelende@quicinc.com>
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vBbzqL5wzXDyYewKK9YMLC34hfMZMISsP5DKji4BCmA=;
+        b=RusE2PCgcFMfdKKim3gWHJLEn0607dTkVampVLsN1xn9JkifVakSEZTZ4Fh+iJqm4T
+         FoyEwSCoemDQDoEkLVvfiYETQXXn1I2d0mKG/futFc2g8P5EZDHmncUZex3ff7VH8IRi
+         tJoui5HpHjfqVlj9zlKpTRTF58kQoBd1rqujKbKgNGYo92y1wnhxOVHZfLzBTBuESso3
+         bz4wQrMQ1TkSOZU6sReOVKiuoTeu8oC1pUwoYn1kKiremw8PhZ0PEp2NQRXstNLOi0DK
+         aH3l5OYhubb7SjTGZhXCP1bdSDO0Pnz9rPALQgNapYJXhP+RXbpjCpn89oqWQLx8JgiB
+         Vwew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vBbzqL5wzXDyYewKK9YMLC34hfMZMISsP5DKji4BCmA=;
+        b=FZIQtEKQwZnnAP10o9WHGlwYAW9WOYiCgw6Z5/mUnl6iDoRJsRUMcD+5pnmTCpP/kF
+         VzwxUhrByW5s+cCw4sNr4fjbPhlEls7URkPHrLBAW9yx9rEhq25qyJTmysl5pnVtPqr3
+         ksREFP3fKjJq194WConehnIKYAndPHZVYdtNyXwjsHcqFvJZUBZaD9GACG+IhAm5OAqH
+         WACkHQsAtPA1SK1WYqX/9zcu7dGWd8IIvpKBU8BJj3X0GZt/5fZ4aArDeXXSmcL4Kbay
+         ZqxsSwuqw2t9dGsFuy//b4U7fwGocXq/t/JGA8jeqjegQWYtyyBkfv/nlOuRbd8J66O0
+         HJZA==
+X-Gm-Message-State: AOAM533pY2lRfssbFaZz0xTRtI3VaKsyWYEto19Uvc/R5b4uZLEhnpK0
+        CGt7mHuxJhplF8qNvxXoBE8=
+X-Google-Smtp-Source: ABdhPJzBawCCDj6DACutvBz+CF09wvWCPc2LPZ2M+2c/U341UijhRcpLO4Eq8QSmRI0cXlQgii98hg==
+X-Received: by 2002:a63:5d0a:0:b0:377:1ad7:5be1 with SMTP id r10-20020a635d0a000000b003771ad75be1mr23721319pgb.576.1646258673997;
+        Wed, 02 Mar 2022 14:04:33 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:f1fc:2949:1f18:b6ff])
+        by smtp.gmail.com with ESMTPSA id k7-20020a6555c7000000b0034e101ca75csm130304pgs.6.2022.03.02.14.04.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Mar 2022 14:04:33 -0800 (PST)
+Date:   Wed, 2 Mar 2022 14:04:30 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     William Mahon <wmahon@chromium.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        William Mahon <wmahon@google.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org
+Subject: Re: [PATCH v3] HID: Add mapping for KEY_DICTATE
+Message-ID: <Yh/p7qOHh3cqANMf@google.com>
+References: <20220218215531.1.I5dbf50eb1a7a6734ee727bda4a8573358c6d3ec0@changeid>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220218215531.1.I5dbf50eb1a7a6734ee727bda4a8573358c6d3ec0@changeid>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: David Collins <collinsd@codeaurora.org>
+Hi William,
 
-The status of the keys connected to the KPDPWR_N and RESIN_N pins
-is identified by reading corresponding bits in the interrupt real
-time status register.  If the status has changed by the time that
-the interrupt is handled then a press event will be missed.
+On Fri, Feb 18, 2022 at 09:59:08PM +0000, William Mahon wrote:
+> Numerous keyboards are adding dictate keys which allows for text
+> messages to be dictated by a microphone.
+> 
+> This patch adds a new key definition KEY_DICTATE and maps 0x0c/0x0d8
+> usage code to this new keycode. Additionally hid-debug is adjusted to
+> recognize this new usage code as well.
+> 
+> Signed-off-by: William Mahon <wmahon@google.com>
 
-Maintain a last known status variable to find unbalanced release
-events and simulate press events for each accordingly.
+Was about to apply but scripts are complaining about difference between
+from and signed-of-by addresses. Could you please make them match?
 
-Signed-off-by: David Collins <collinsd@codeaurora.org>
-Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
----
- drivers/input/misc/pm8941-pwrkey.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Thanks.
 
-diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
-index 881943ab4d55..3519152759dd 100644
---- a/drivers/input/misc/pm8941-pwrkey.c
-+++ b/drivers/input/misc/pm8941-pwrkey.c
-@@ -76,6 +76,7 @@ struct pm8941_pwrkey {
- 	u32 code;
- 	u32 sw_debounce_time_us;
- 	ktime_t sw_debounce_end_time;
-+	bool last_status;
- 	const struct pm8941_data *data;
- };
- 
-@@ -162,6 +163,16 @@ static irqreturn_t pm8941_pwrkey_irq(int irq, void *_data)
- 		pwrkey->sw_debounce_end_time = ktime_add_us(ktime_get(),
- 						pwrkey->sw_debounce_time_us);
- 
-+	/*
-+	 * Simulate a press event in case a release event occurred without a
-+	 * corresponding press event.
-+	 */
-+	if (!pwrkey->last_status && !sts) {
-+		input_report_key(pwrkey->input, pwrkey->code, 1);
-+		input_sync(pwrkey->input);
-+	}
-+	pwrkey->last_status = sts;
-+
- 	input_report_key(pwrkey->input, pwrkey->code, sts);
- 	input_sync(pwrkey->input);
- 
 -- 
-2.34.1
-
+Dmitry
