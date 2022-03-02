@@ -2,137 +2,231 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C03C4CA3D0
-	for <lists+linux-input@lfdr.de>; Wed,  2 Mar 2022 12:34:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 509FF4CAC7D
+	for <lists+linux-input@lfdr.de>; Wed,  2 Mar 2022 18:51:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239603AbiCBLev (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Mar 2022 06:34:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44932 "EHLO
+        id S244269AbiCBRwX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Mar 2022 12:52:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238899AbiCBLeu (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Mar 2022 06:34:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 494EA90CE5
-        for <linux-input@vger.kernel.org>; Wed,  2 Mar 2022 03:34:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1646220846;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=nmyc3zis9Vidz4GdVoKiVRejQJ36tv67RKx82YlH4RU=;
-        b=ej2ESpNbWwCC5bnSDHbKMVejmI5FsHWJ2rVPh7bTxcSymVf7KRv4kiXsHAAHQVTFdmr3bF
-        uvihxTFKchiQkRxCo7LLVR31zzU6YCj5FxcABs3slgmgkp8ujN6yShMZO8S/9q1ShwZ/Ao
-        ufauqPt4NFITLzgbI6Nn4mZz+qKs9V4=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-355-XoxiP0FXOn-EmKlqgMuxMw-1; Wed, 02 Mar 2022 06:34:05 -0500
-X-MC-Unique: XoxiP0FXOn-EmKlqgMuxMw-1
-Received: by mail-ed1-f71.google.com with SMTP id bq19-20020a056402215300b0040f276105a4so840396edb.2
-        for <linux-input@vger.kernel.org>; Wed, 02 Mar 2022 03:34:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=nmyc3zis9Vidz4GdVoKiVRejQJ36tv67RKx82YlH4RU=;
-        b=Fo56VlMEtqrIatBlrEeEs7PyDdPUAIgeoI4Ujj3o+AjkFieC02Vmu1XAeBYtGfoFfz
-         Ai/5dzLMmeaYVUPYTmWJzsKADutJVPlsevT0FQBKmZr+rPg0+TYaCE5/j9GwiedzrA/1
-         gDV8qgzdCLuWQtHRVRH3govGCrbdtLE+pFS76JNUGS9TpvBGLqIRXiH6FsTdiVS9QWgH
-         cG86/h47j8LQrJCTK/02SFeKh0r39hiKsmeS5ZKtGTSPCYW3ChcWCTT4jNxYYBqlP3oz
-         WWcm8F0BjTD9kxr+4rz8SBm6HQNaHRJvO09FNZ9yqvSOvxe+aN9FdmGN/2sEwiS4qzab
-         GuoA==
-X-Gm-Message-State: AOAM531ePF2/oE47AHZe/YuKqlTcZhFTcqRBO7XcJeXbsjXOYissDLaC
-        VhAEcBSqvqjfUOaJniPurkz2iSiAWHhYJyFg/ZS2g7U+/uJ6sXKT7/bZmRJ1GNTdTjCMBRr+DZj
-        jCAS9qe0jo3r9PXdycVCyE3Y=
-X-Received: by 2002:a05:6402:520c:b0:412:7f7d:b06b with SMTP id s12-20020a056402520c00b004127f7db06bmr29408279edd.91.1646220844220;
-        Wed, 02 Mar 2022 03:34:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJySJdp+mFQPWwzc0cLmL1j+t5F7jCz+Z7l+8o8joICmPOdI6f1xoQQsFTpP3NrgbCXq68BjwQ==
-X-Received: by 2002:a05:6402:520c:b0:412:7f7d:b06b with SMTP id s12-20020a056402520c00b004127f7db06bmr29408260edd.91.1646220844017;
-        Wed, 02 Mar 2022 03:34:04 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
-        by smtp.gmail.com with ESMTPSA id l4-20020a170907914400b006d9e0b46fabsm595792ejs.193.2022.03.02.03.34.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Mar 2022 03:34:03 -0800 (PST)
-Message-ID: <13d3e8cd-6ae5-02c7-1489-8dd61a988709@redhat.com>
-Date:   Wed, 2 Mar 2022 12:34:02 +0100
+        with ESMTP id S243537AbiCBRwW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Mar 2022 12:52:22 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 466C43D4A0
+        for <linux-input@vger.kernel.org>; Wed,  2 Mar 2022 09:51:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646243499; x=1677779499;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=w/aKLkzapapvbzesJYN7uH6v9a3gjnTuWEiIgRcHQ/g=;
+  b=cbbPPHjPdeYfTIbm3UGs8d6Kjfxjdjzb0cnzfWWQXeRjxPes3qr/K1Dc
+   6uGF1a7D9VPahx9EwSlEe4IN++pASUO5GXDFd5XjgJbCySTsXknQKR65a
+   8PifYkO9Jyy4EP3eACPLCSh+Evr+huCmWwZt394pPprT9bvqkYmhQmN54
+   XbeXEO3fJPu63wjkJtyTMQhIzs96POeDmctU8eTWdE1OB/K6l7ZfhT/LK
+   Sxueiy1YiTrnN1d/OFCtvkOBTTW4UNXCTwxZ1HyHGZHwtycu5gKxwlg+L
+   aAbDJP49HPew25SND2NM78WHrinTS2Pcv8aFb92L9HXhbiOEMAXc5eAZ8
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="251039538"
+X-IronPort-AV: E=Sophos;i="5.90,149,1643702400"; 
+   d="scan'208";a="251039538"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2022 09:51:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,149,1643702400"; 
+   d="scan'208";a="576190834"
+Received: from lkp-server02.sh.intel.com (HELO e9605edfa585) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 02 Mar 2022 09:51:20 -0800
+Received: from kbuild by e9605edfa585 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nPT8C-0001go-99; Wed, 02 Mar 2022 17:51:20 +0000
+Date:   Thu, 03 Mar 2022 01:50:52 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 04b7762e37c95d9b965d16bb0e18dbd1fa2e2861
+Message-ID: <621fae7c.Dip4RCodl6EL9hv0%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 0/2] Input: Replace surface3_button code with
- soc_button_array
-Content-Language: en-US
-To:     "Rafael J . Wysocki" <rafael@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-References: <20220224110241.9613-1-hdegoede@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220224110241.9613-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-6.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
+        RCVD_IN_DNSWL_HI,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi All,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 04b7762e37c95d9b965d16bb0e18dbd1fa2e2861  Input: elan_i2c - fix regulator enable count imbalance after suspend/resume
 
-On 2/24/22 12:02, Hans de Goede wrote:
-> Hi All,
-> 
-> I noticed that the surface3_button code was pretty much a 1:1 copy of
-> soc_button_array. This series adds support to soc_button_array for the
-> MSHW0028 device on the Microsoft Surface 3 (non pro) and removes the
-> now no longer needed surface3_button driver.
-> 
-> Rafael, this includes an addition to ignore_serial_bus_ids[] in
-> drivers/apci/scan.c, may we have your ack for merging this through
-> the input or pdx86 tree please ?
-> 
-> Dmitry, I believe it would be best to keep these 2 patches together
-> and merge both through either the input or the pdx86 tree. If you
-> are ok with me merging this through the pdx86 tree may I have your
-> Ack for that ?
-> 
-> If you prefer merging this through the input tree please consider
-> this my ack for also merge 2/2 through the input tree.
-> 
-> Note both patches can also be merged through separate trees without
-> issues but keeping them together seems better to me.
+elapsed time: 722m
 
-Thank you all for the reviews + acks,
+configs tested: 147
+configs skipped: 3
 
-I've added this series to my review-hans (soon to be for-next) branch now.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Regards,
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+powerpc              randconfig-c003-20220302
+i386                          randconfig-c001
+mips                 randconfig-c004-20220302
+arm                        clps711x_defconfig
+powerpc                 mpc834x_itx_defconfig
+h8300                               defconfig
+sh                           se7705_defconfig
+sh                          r7780mp_defconfig
+sh                           sh2007_defconfig
+mips                      fuloong2e_defconfig
+mips                     loongson1b_defconfig
+powerpc                    klondike_defconfig
+arm                             ezx_defconfig
+mips                         bigsur_defconfig
+arm                         vf610m4_defconfig
+m68k                          atari_defconfig
+sh                   secureedge5410_defconfig
+arm                          iop32x_defconfig
+arc                     nsimosci_hs_defconfig
+xtensa                  nommu_kc705_defconfig
+mips                        jmr3927_defconfig
+riscv             nommu_k210_sdcard_defconfig
+mips                 decstation_r4k_defconfig
+sparc                            allyesconfig
+sh                        sh7785lcr_defconfig
+arm                        trizeps4_defconfig
+arm                      jornada720_defconfig
+m68k                          hp300_defconfig
+mips                  maltasmvp_eva_defconfig
+powerpc                     rainier_defconfig
+arm                           stm32_defconfig
+xtensa                  cadence_csp_defconfig
+powerpc                      mgcoge_defconfig
+powerpc                     taishan_defconfig
+sparc64                          alldefconfig
+powerpc                     asp8347_defconfig
+parisc64                         alldefconfig
+sh                ecovec24-romimage_defconfig
+sh                            titan_defconfig
+m68k                        m5272c3_defconfig
+powerpc                     tqm8541_defconfig
+sh                          sdk7786_defconfig
+arm                        shmobile_defconfig
+sh                               j2_defconfig
+powerpc                   currituck_defconfig
+powerpc                     pq2fads_defconfig
+powerpc                   motionpro_defconfig
+arm                            qcom_defconfig
+ia64                             alldefconfig
+arm                        oxnas_v6_defconfig
+m68k                        stmark2_defconfig
+m68k                        m5307c3_defconfig
+arc                      axs103_smp_defconfig
+xtensa                generic_kc705_defconfig
+powerpc64                           defconfig
+csky                             alldefconfig
+powerpc                         wii_defconfig
+microblaze                          defconfig
+arm                  randconfig-c002-20220302
+ia64                                defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+nds32                               defconfig
+arc                                 defconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+i386                          randconfig-a003
+i386                          randconfig-a001
+i386                          randconfig-a005
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+arc                  randconfig-r043-20220302
+riscv                randconfig-r042-20220302
+s390                 randconfig-r044-20220302
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+riscv                          rv32_defconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+x86_64                                  kexec
 
-Hans
+clang tested configs:
+powerpc              randconfig-c003-20220302
+riscv                randconfig-c006-20220302
+i386                          randconfig-c001
+arm                  randconfig-c002-20220302
+mips                 randconfig-c004-20220302
+x86_64                        randconfig-c007
+powerpc                 mpc8313_rdb_defconfig
+mips                      bmips_stb_defconfig
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a011
+i386                          randconfig-a013
+i386                          randconfig-a015
+hexagon              randconfig-r045-20220302
+hexagon              randconfig-r041-20220302
 
-
-
-
-> Hans de Goede (2):
->   Input: soc_button_array - add support for Microsoft Surface 3
->     (MSHW0028) buttons
->   platform/surface: Remove Surface 3 Button driver
-> 
->  drivers/acpi/scan.c                        |   5 +
->  drivers/input/misc/soc_button_array.c      |  24 +-
->  drivers/platform/surface/Kconfig           |   7 -
->  drivers/platform/surface/Makefile          |   1 -
->  drivers/platform/surface/surface3_button.c | 247 ---------------------
->  5 files changed, 28 insertions(+), 256 deletions(-)
->  delete mode 100644 drivers/platform/surface/surface3_button.c
-> 
-
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
