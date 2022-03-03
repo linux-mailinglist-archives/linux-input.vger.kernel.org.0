@@ -2,98 +2,153 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23B204CBF44
-	for <lists+linux-input@lfdr.de>; Thu,  3 Mar 2022 14:57:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8D464CC0DA
+	for <lists+linux-input@lfdr.de>; Thu,  3 Mar 2022 16:13:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233112AbiCCN6j convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Thu, 3 Mar 2022 08:58:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45562 "EHLO
+        id S229954AbiCCPNm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Mar 2022 10:13:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231611AbiCCN6h (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Mar 2022 08:58:37 -0500
-Received: from omta013.useast.a.cloudfilter.net (omta013.useast.a.cloudfilter.net [34.195.253.204])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BA5B1262D
-        for <linux-input@vger.kernel.org>; Thu,  3 Mar 2022 05:57:46 -0800 (PST)
-Received: from cxr.smtp.a.cloudfilter.net ([10.0.17.148])
-        by cmsmtp with ESMTP
-        id Pl0KnXkllpH1APlxhneO5G; Thu, 03 Mar 2022 13:57:45 +0000
-Received: from cameron-pc ([68.0.59.20])
-        by cmsmtp with ESMTPA
-        id PlxdnYBHeCmoTPlxhnKTpk; Thu, 03 Mar 2022 13:57:45 +0000
-Authentication-Results: cox.net; auth=pass (LOGIN)
- smtp.auth=cameronghall@cox.net
-X-Authority-Analysis: v=2.4 cv=BbbLb5h2 c=1 sm=1 tr=0 ts=6220c959
- a=YRu6w0iJ0PLxWKpWPKeGRw==:117 a=YRu6w0iJ0PLxWKpWPKeGRw==:17
- a=IkcTkHD0fZMA:10 a=kviXuzpPAAAA:8 a=VwQbUJbxAAAA:8 a=NEAV23lmAAAA:8
- a=7yEQ1vLx07_7ltKuTs0A:9 a=QEXdDO2ut3YA:10 a=fZcHpAbaKMsA:10
- a=uyq5RothENsA:10 a=qrIFiuKZe2vaD64auk6j:22 a=AjGcO6oz07-iQ99wixmX:22
-Date:   Thu, 3 Mar 2022 07:57:36 -0600
-From:   Cameron <cameronghall@cox.net>
-To:     linux-input@vger.kernel.org
-Subject: Update: Wrong button mappings reported by evdev with PowerA
- Nintendo Switch gamepad
-Message-ID: <20220303075736.5ea97dde@cameron-pc>
-In-Reply-To: <51E98AD1-6622-4ED2-8C08-18F1AADC3838@cox.net>
-References: <51E98AD1-6622-4ED2-8C08-18F1AADC3838@cox.net>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-unknown-linux-gnu)
+        with ESMTP id S229716AbiCCPNl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Mar 2022 10:13:41 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8501043397;
+        Thu,  3 Mar 2022 07:12:55 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id u20so9068301lff.2;
+        Thu, 03 Mar 2022 07:12:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KcEw33IhwCSXhCAOEzznBRk7sVuMjubPA9NfR/kktrI=;
+        b=Ui/wIrlfgf+emNcCMxoStcQcqMAbsgijpSRUmw1uLuj1Eo5vXsVexAuQO8IgtbOg7/
+         mgHWCZMbJIU5KbwQYTt6r68ETv0LoH36faM0iw3bOGqw0NGS0horsIDb+0p1xk2GgEQB
+         dE/+xNzLdznQc5gy/lX8yWmeN07J1HFkuAjq27jMpI2LCnv/UL75Tzw8O4buRWw6cIwx
+         wC/LRjC4tuOJy4Dau5/07vtfIGc2YsKNmUHVaEw/yPqJjcs5dUK29O4c2/Gf0RgA+Z+V
+         cZAWUhV8y7Ds4OgvzFLSpZaPOwIK1++GhRAy1wpZwN52bnPpX6J1pPev/ZRovuL9ANOG
+         Nhjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KcEw33IhwCSXhCAOEzznBRk7sVuMjubPA9NfR/kktrI=;
+        b=EqLazuLXClwJiKaK1J9YgTpJVZ/hZwKkH83I2CwHiF6KB/klzIVNL8CBVuCidDMl1L
+         5wfX7IgDjnvaLwFrgvTnipdYfiNZjPMRp2HFEY0Xt5Ipea65daIQUypv011jqBVESJem
+         bmBdRhXG8ILRXKrrEVnP13QoOU4dgdqn0kAEBJ1kwWIbbU6fcZp1trDV7inA/x+gGpz1
+         0pobwD6n+ZeBRiDyBRw8wx+N5Bhu/ABGRoMwnrTQOYxAzVetCNNC2gbeSFT2oulWop0S
+         buGyw/H+rs5o8gh8sRRQ4qSF6M7MbU3T5+WFogK6LpXnOGKcCmKes0SA4G89FP5/k9rV
+         4lVA==
+X-Gm-Message-State: AOAM530cc1DccgAVuuhc7iRGCFM9dScr1ZbLSUVPv+gh+jQb8FUERvdf
+        Ml6Wy9Zw4XwR/guJ+pz2UY/S6i1UiQ80a78o
+X-Google-Smtp-Source: ABdhPJxqHTxQxqL2E/+jznvgRiRNcAJ9/x4px4936ZBMnI/K3XwadC6n+hrgdlOb/eRjuI+TS3Vh+w==
+X-Received: by 2002:a05:6512:1284:b0:445:b88e:dc4a with SMTP id u4-20020a056512128400b00445b88edc4amr5690457lfs.46.1646320370666;
+        Thu, 03 Mar 2022 07:12:50 -0800 (PST)
+Received: from localhost.localdomain ([194.39.226.133])
+        by smtp.gmail.com with ESMTPSA id a10-20020a056512374a00b004438dd764d1sm476022lfs.306.2022.03.03.07.12.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Mar 2022 07:12:50 -0800 (PST)
+From:   Markuss Broks <markuss.broks@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+        jeff@labundy.com, markuss.broks@gmail.com,
+        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski@canonical.com, rydberg@bitmath.com,
+        sfr@canb.auug.org.au, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH v8 0/2] Add support for Imagis touchscreens
+Date:   Thu,  3 Mar 2022 17:12:25 +0200
+Message-Id: <20220303151227.25659-1-markuss.broks@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-CMAE-Envelope: MS4xfM9o+36ei/xM//d7Tbgr59+O3oYsjIju87MZG1YY4Yi2UMG+XoH+SitRFQb64AER5IoryP7AJmNDXeHL7+a3cauc6N0SQJGgDFNBAFYQJqPTSN+0lDoO
- aww3BAIpOx6Jvq/3vpSfsje5Mc+r/I9qXrUMD+yal5cENo2jf8RsFFl+Akc020MmLqqb8DoponvQiA==
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 02 Mar 2022 12:45:17 -0600
-Cameron <cameronghall@cox.net> wrote:
+Add support for Imagis touchscreens, used on various mobile
+devices such as Samsung Galaxy J5 (2015), J3 (2015), J5 (2016).
 
-> Hello all,
-> 
-> This is my first time reporting a kernel issue, so please let me know
-> if this is not the right place to report it. I am using a third party
-> PowerA USB wired Switch controller on Void Linux. Games and
-> applications are able to successfully detect and use the controller,
-> however the button mapping is very wrong in every program I have
-> tested. I tested this with evtest-qt to see what button values evdev
-> is reporting. Since there appears to be no way to remap these from
-> userspace, I suspect the problem lies in the kernel driver.
-> 
-> Pressing the two analog sticks (which should be BTN_THUMBL and
-> BTN_THUMBR) incorrectly generate events for BTN_SELECT and BTN_START,
-> and pressing the + and - buttons (which should be mapped to BTN_START
-> and BTN_SELECT) instead result in BTN_TL2 and BTN_TR2 events.
-> 
-> The device in question (as reported by lsusb) is:
-> Bus 001 Device 003: ID 20d6:a711 Core (Plus) Wired Controller
-> and I am using kernel version 5.15.26_1 on Void Linux.
-> 
-> I understand that this gamepad is intended to be used with the
-> Nintendo Switch console, so it may not be as HID compliant as, say, a
-> Logitech. However the kernel has a standard for how these buttons are
-> to be mapped, which the driver used for this gamepad appears to
-> violate. https://www.kernel.org/doc/html/v4.13/input/gamepad.html
-> Section 4.3 states: "All new gamepads are supposed to comply with
-> this mapping. Please report any bugs, if they don’t."
-> 
-> I can provide more info if needed.
-> 
-> Thanks,
-> Cameron
+v2: rebase on top of the correct tree
+v3:
+- prefix all defines as IST3038C
+- use two tabs for all defines
+- add missing <linux/regulator/consumer.h> header
+- drop ADDR_LEN and DATA_LEN defines; use sizeof(reg_be) instead
+- use __be32 type for reg_be
+- add a comment about i2c read not being successful on first try
+- use "ret" instead of "res" in read_reg function
+- don't use the internal __cpu_to_be32 function, use cpu_to_be32 instead
+- use "error" instead of "ret" in interrupt handler
+- pass the slot state directly, without ternary operator
+- drop the dev_err in init_input_dev function
+- reorder the functions in _probe so that the chipid command is read as fast 
+as possible
+- don't use imagis_start in probe
+- initialize the irq after the chip is powered
+- save the return value in imagis_resume
+- drop WIDTH_MAJOR since only TOUCH_MAJOR is reported
+- the "chip detected" message is now dev_dbg
+- reorder headers so they are in alphabetic order
+- use GENMASK to generate masks for getting the X and Y coordinates and touch area
+- drop *_pressure from device tree bindings since the driver doesn't
+support reporting pressure
+- fix the typo with i2c address in device treee bindings (48 instead of 50)
+- add IRQF_NO_AUTOEN flag to avoid unbalanced irq enable
+v4:
+- alphabetically order MAINTAINERS entry
+- alphabetically order Kconfig and Makefile
+- drop the error message in init_regulators
+- disable regulators on probe error
+- drop IRQF_TRIGGER_FALLING
+- @ is not optional (device tree bindings)
+- don't use items for compatible
+- add maxItems property to reg, drop the comment
+v5:
+- compatible enum is not an item of the list, drop "-"
+v6:
+- add _MS suffix to the delay define, drop the comment
+- change the reason for retry comment
+- add imagis_power_off and imagis_power_on functions to turn regulators
+on and off
+- use imagis_power_on/off in imagis_start and imagis_stop as well as in probe function
+- use error instead of ret in calls to functions which only return 0 or -errno
+- include linux/bits.h
+- proper indentation in Kconfig
+- drop the dev_dbg chip id message
+- MODULE_DEVICE_TABLE(of, ...);
+- no extra tabs in i2c_driver struct
+- save the return value in imagis_suspend
+v7:
+- initialize ret with 0 in _suspend and _resume (kernel test robot)
+- use a separate ret_be variable to avoid casting to __be32 (kernel test robot)
+v8:
+- use poweroff action
+- power_off returns void
+- ret -> error
+- combine dev declaration and assignment
+- use same style for error everywhere
+- return devm_regulator_bulk_get() directly
 
-So, here's an update on this situation. I managed to hack around
-this situation by writing a simple kernel module to override the button
-mapping for this device. The code for the module can be found on my
-GitHub here:
-https://gist.github.com/camthesaxman/af7099505103a555518741b4083eaea8
-I have almost zero experience with kernel development, so I don't know
-how this kind of thing would be properly fixed in-tree (perhaps
-something with hid-quirks.c?) and make a proper patch for the kernel.
+Markuss Broks (2):
+  dt-bindings: input/touchscreen: bindings for Imagis
+  Input: add Imagis touchscreen driver
 
-Thanks,
-Cameron
+ .../input/touchscreen/imagis,ist3038c.yaml    |  74 ++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   6 +
+ drivers/input/touchscreen/Kconfig             |  10 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/imagis.c            | 348 ++++++++++++++++++
+ 6 files changed, 441 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
+ create mode 100644 drivers/input/touchscreen/imagis.c
+
+-- 
+2.20.1
+
