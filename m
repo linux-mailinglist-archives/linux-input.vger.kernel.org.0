@@ -2,71 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 370774CB48A
-	for <lists+linux-input@lfdr.de>; Thu,  3 Mar 2022 02:57:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB54A4CB4C2
+	for <lists+linux-input@lfdr.de>; Thu,  3 Mar 2022 03:20:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231481AbiCCBr5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Mar 2022 20:47:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53702 "EHLO
+        id S231658AbiCCCSH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Mar 2022 21:18:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231548AbiCCBrz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Mar 2022 20:47:55 -0500
-Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 074B81B6E34;
-        Wed,  2 Mar 2022 17:47:09 -0800 (PST)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R491e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0V650W6L_1646272026;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0V650W6L_1646272026)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 03 Mar 2022 09:47:07 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] HID: core: clean up some inconsistent indenting
-Date:   Thu,  3 Mar 2022 09:47:05 +0800
-Message-Id: <20220303014705.88875-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+        with ESMTP id S231645AbiCCCSG (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Mar 2022 21:18:06 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 080B72647
+        for <linux-input@vger.kernel.org>; Wed,  2 Mar 2022 18:17:22 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id o23so3233239pgk.13
+        for <linux-input@vger.kernel.org>; Wed, 02 Mar 2022 18:17:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/Y6AdbsQCsGIi4ikNR94oE8HmTOxGuNWSzajQTJThGg=;
+        b=PdRn3/yKD29Qe8LZeVNjT5+PdDCP+0c7XZkCPuw1+wR8e37bjMVmX3/BpWoDuk9VgU
+         JIa2eVSfWiEs04eXZ6Sgr1RLSoLGz9+gc95OVv3TtcY0WsIqksxCcuFeo+x1+Z+08YTZ
+         6D3v65DRj63kaQx0QvCQ6A8JP0aSUO27+kWA4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/Y6AdbsQCsGIi4ikNR94oE8HmTOxGuNWSzajQTJThGg=;
+        b=H71q7Y1Ujn+b5daire08ABu0EUChqKKLZlr/9d12J8PBiHMP4kfzzcfbMtE3oAQrba
+         KCziZc/5gZ79NLfMPP9iWr4bcQBMR1l9ZQ+XUCfy2d+SCLCkq+ls8EUtydQ2YXMQZNEV
+         1B4MShqW65L17/ELXFzVDSoVPjnZx9lNoXAunP0RsnGsyOEY1E7UiHxU2MC+lbo0fnsC
+         dzLEk1fdj2mi2wicp9/ay0pwaOLwC9ngkC+DSRO47RcBPCGCiIiTjCB4UZVxPyBp7H3/
+         u+MigMLUvR3DrLrLSp1HwblSvRTztIVDxGuIrdVaNUa4WlD3EOzq+aX9wHvuUwCMkSCn
+         M1sw==
+X-Gm-Message-State: AOAM530StNZwzb/1Wl5W0nEoHcjx9cK8NWDg3U45PvFb6lu/bmFvdCOm
+        8u1B4i50D5QYRjc0vj+zGMNbYA==
+X-Google-Smtp-Source: ABdhPJzvicLVEzzO3ISHIRjrq5m6i1lfWUvVT8PGJHNsNPYXmSJNdvK9sI8/7Xbgzr7Rq1GjjzyOaw==
+X-Received: by 2002:a63:f241:0:b0:365:948d:19bb with SMTP id d1-20020a63f241000000b00365948d19bbmr28485780pgk.253.1646273841586;
+        Wed, 02 Mar 2022 18:17:21 -0800 (PST)
+Received: from wmahon.c.googlers.com.com (218.180.124.34.bc.googleusercontent.com. [34.124.180.218])
+        by smtp.gmail.com with ESMTPSA id q91-20020a17090a1b6400b001bc8d59a02fsm357750pjq.35.2022.03.02.18.17.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Mar 2022 18:17:21 -0800 (PST)
+From:   William Mahon <wmahon@chromium.org>
+X-Google-Original-From: William Mahon <wmahon@google.com>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     William Mahon <wmahon@google.com>,
+        William Mahon <wmahon@chromium.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH v4] HID: Add mapping for KEY_DICTATE
+Date:   Thu,  3 Mar 2022 02:17:13 +0000
+Message-Id: <20220303021501.1.I5dbf50eb1a7a6734ee727bda4a8573358c6d3ec0@changeid>
+X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Eliminate the follow smatch warning:
-drivers/hid/hid-core.c:2711 hid_add_device() warn: inconsistent
-indenting
+Numerous keyboards are adding dictate keys which allows for text
+messages to be dictated by a microphone.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+This patch adds a new key definition KEY_DICTATE and maps 0x0c/0x0d8
+usage code to this new keycode. Additionally hid-debug is adjusted to
+recognize this new usage code as well.
+
+Signed-off-by: William Mahon <wmahon@chromium.org>
 ---
- drivers/hid/hid-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index db925794fbe6..2c4fd8cf1c1e 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -2708,10 +2708,10 @@ int hid_add_device(struct hid_device *hdev)
- 	/*
- 	 * Check for the mandatory transport channel.
- 	 */
--	 if (!hdev->ll_driver->raw_request) {
-+	if (!hdev->ll_driver->raw_request) {
- 		hid_err(hdev, "transport driver missing .raw_request()\n");
- 		return -EINVAL;
--	 }
-+	}
+ drivers/hid/hid-debug.c                | 1 +
+ drivers/hid/hid-input.c                | 1 +
+ include/uapi/linux/input-event-codes.h | 1 +
+ 3 files changed, 3 insertions(+)
+
+diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+index 26c31d759914..8aa68416b1d7 100644
+--- a/drivers/hid/hid-debug.c
++++ b/drivers/hid/hid-debug.c
+@@ -969,6 +969,7 @@ static const char *keys[KEY_MAX + 1] = {
+ 	[KEY_ASSISTANT] = "Assistant",
+ 	[KEY_KBD_LAYOUT_NEXT] = "KbdLayoutNext",
+ 	[KEY_EMOJI_PICKER] = "EmojiPicker",
++	[KEY_DICTATE] = "Dictate",
+ 	[KEY_BRIGHTNESS_MIN] = "BrightnessMin",
+ 	[KEY_BRIGHTNESS_MAX] = "BrightnessMax",
+ 	[KEY_BRIGHTNESS_AUTO] = "BrightnessAuto",
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 112901d2d8d2..ce2b75a67cb8 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -992,6 +992,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 		case 0x0cd: map_key_clear(KEY_PLAYPAUSE);	break;
+ 		case 0x0cf: map_key_clear(KEY_VOICECOMMAND);	break;
  
- 	/*
- 	 * Read the device report descriptor once and use as template
++		case 0x0d8: map_key_clear(KEY_DICTATE);		break;
+ 		case 0x0d9: map_key_clear(KEY_EMOJI_PICKER);	break;
+ 
+ 		case 0x0e0: map_abs_clear(ABS_VOLUME);		break;
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 225ec87d4f22..4db5d41848e4 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -612,6 +612,7 @@
+ #define KEY_ASSISTANT		0x247	/* AL Context-aware desktop assistant */
+ #define KEY_KBD_LAYOUT_NEXT	0x248	/* AC Next Keyboard Layout Select */
+ #define KEY_EMOJI_PICKER	0x249	/* Show/hide emoji picker (HUTRR101) */
++#define KEY_DICTATE		0x24a	/* Start or Stop Voice Dictation Session (HUTRR99) */
+ 
+ #define KEY_BRIGHTNESS_MIN		0x250	/* Set Brightness to Minimum */
+ #define KEY_BRIGHTNESS_MAX		0x251	/* Set Brightness to Maximum */
 -- 
-2.20.1.7.g153144c
+2.35.1.616.g0bdcbb4464-goog
 
