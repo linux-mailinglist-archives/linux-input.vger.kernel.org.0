@@ -2,48 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB54A4CB4C2
-	for <lists+linux-input@lfdr.de>; Thu,  3 Mar 2022 03:20:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F9584CB59F
+	for <lists+linux-input@lfdr.de>; Thu,  3 Mar 2022 04:57:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231658AbiCCCSH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Mar 2022 21:18:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56270 "EHLO
+        id S229528AbiCCD6B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Mar 2022 22:58:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231645AbiCCCSG (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Mar 2022 21:18:06 -0500
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 080B72647
-        for <linux-input@vger.kernel.org>; Wed,  2 Mar 2022 18:17:22 -0800 (PST)
-Received: by mail-pg1-x536.google.com with SMTP id o23so3233239pgk.13
-        for <linux-input@vger.kernel.org>; Wed, 02 Mar 2022 18:17:22 -0800 (PST)
+        with ESMTP id S229493AbiCCD6A (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Mar 2022 22:58:00 -0500
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED4A7150402
+        for <linux-input@vger.kernel.org>; Wed,  2 Mar 2022 19:57:15 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id bd1so3375972plb.13
+        for <linux-input@vger.kernel.org>; Wed, 02 Mar 2022 19:57:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=/Y6AdbsQCsGIi4ikNR94oE8HmTOxGuNWSzajQTJThGg=;
-        b=PdRn3/yKD29Qe8LZeVNjT5+PdDCP+0c7XZkCPuw1+wR8e37bjMVmX3/BpWoDuk9VgU
-         JIa2eVSfWiEs04eXZ6Sgr1RLSoLGz9+gc95OVv3TtcY0WsIqksxCcuFeo+x1+Z+08YTZ
-         6D3v65DRj63kaQx0QvCQ6A8JP0aSUO27+kWA4=
+        bh=sN56U/MxzcAq7Ji7ujqvCiSFXq3Px2uncy+XviL6Elo=;
+        b=UzQ9ZzQuF00lfXHKdO8TTfq27JObbQGJkGO7h1nBMLLCb6WKsmcoWsWxBSKHeMcPJr
+         bqIONY1/aUpiDtuKJkzTcvmDgo+MYYpWoPG0MHc6dDCkk8+CZ+a4VpeXH0E2zlbMqwQj
+         xiWw8fjxPVyLy0CcQ4/l5LZrc26kU4GS/iyC0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=/Y6AdbsQCsGIi4ikNR94oE8HmTOxGuNWSzajQTJThGg=;
-        b=H71q7Y1Ujn+b5daire08ABu0EUChqKKLZlr/9d12J8PBiHMP4kfzzcfbMtE3oAQrba
-         KCziZc/5gZ79NLfMPP9iWr4bcQBMR1l9ZQ+XUCfy2d+SCLCkq+ls8EUtydQ2YXMQZNEV
-         1B4MShqW65L17/ELXFzVDSoVPjnZx9lNoXAunP0RsnGsyOEY1E7UiHxU2MC+lbo0fnsC
-         dzLEk1fdj2mi2wicp9/ay0pwaOLwC9ngkC+DSRO47RcBPCGCiIiTjCB4UZVxPyBp7H3/
-         u+MigMLUvR3DrLrLSp1HwblSvRTztIVDxGuIrdVaNUa4WlD3EOzq+aX9wHvuUwCMkSCn
-         M1sw==
-X-Gm-Message-State: AOAM530StNZwzb/1Wl5W0nEoHcjx9cK8NWDg3U45PvFb6lu/bmFvdCOm
-        8u1B4i50D5QYRjc0vj+zGMNbYA==
-X-Google-Smtp-Source: ABdhPJzvicLVEzzO3ISHIRjrq5m6i1lfWUvVT8PGJHNsNPYXmSJNdvK9sI8/7Xbgzr7Rq1GjjzyOaw==
-X-Received: by 2002:a63:f241:0:b0:365:948d:19bb with SMTP id d1-20020a63f241000000b00365948d19bbmr28485780pgk.253.1646273841586;
-        Wed, 02 Mar 2022 18:17:21 -0800 (PST)
+        bh=sN56U/MxzcAq7Ji7ujqvCiSFXq3Px2uncy+XviL6Elo=;
+        b=FvcLJMq7OSk5WGuyGelir7QQKDpHqlvtyWOgqz5d2uzFWbnDsuf9GnawOOFkbd+5u9
+         EO83SUz8IPbgv4VfF55gl4ggTwk4ynWUpFUfgiOhWqv4lCcVrWw/OOutf6qcnWWd3GZ7
+         u+C72/U8sNSPwGmI6cSo8C7W+3wDV+4OxMQjWhrSHFHgViR8bJMHx+fcw9pDWstSbtge
+         fgnXRp/Aw2DSeY4yKf7Fc5viwD838OQZb8NbdGeue/F/mtalfEr1vbC0SswgiU6JSMXa
+         V4tISE2omq3z6y/bneRsuw+U7So+ZBxqOTsoV8FbuMoR3ZMN7KaithfIMI+FAx8pnder
+         T8Rw==
+X-Gm-Message-State: AOAM532mKzogLmgPiIMdIcimkNesayufBZI9OuJ76sZM0RlWtD8Ygy24
+        WmpIb65VSwVLZuNJFO6sK8Uiqg==
+X-Google-Smtp-Source: ABdhPJwcrMOZlFSBfbq4cahkRSQNhcw0qyaNIzWMyJ8sa0tB1anPQEUPy1RXTpva9PR4JSO7Ear/xA==
+X-Received: by 2002:a17:902:e5c3:b0:151:96df:e06a with SMTP id u3-20020a170902e5c300b0015196dfe06amr6430506plf.41.1646279835479;
+        Wed, 02 Mar 2022 19:57:15 -0800 (PST)
 Received: from wmahon.c.googlers.com.com (218.180.124.34.bc.googleusercontent.com. [34.124.180.218])
-        by smtp.gmail.com with ESMTPSA id q91-20020a17090a1b6400b001bc8d59a02fsm357750pjq.35.2022.03.02.18.17.19
+        by smtp.gmail.com with ESMTPSA id m11-20020a17090a3f8b00b001bc299e0aefsm6526366pjc.56.2022.03.02.19.57.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Mar 2022 18:17:21 -0800 (PST)
+        Wed, 02 Mar 2022 19:57:15 -0800 (PST)
 From:   William Mahon <wmahon@chromium.org>
 X-Google-Original-From: William Mahon <wmahon@google.com>
 To:     LKML <linux-kernel@vger.kernel.org>
@@ -52,9 +52,9 @@ Cc:     William Mahon <wmahon@google.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH v4] HID: Add mapping for KEY_DICTATE
-Date:   Thu,  3 Mar 2022 02:17:13 +0000
-Message-Id: <20220303021501.1.I5dbf50eb1a7a6734ee727bda4a8573358c6d3ec0@changeid>
+Subject: [PATCH v3] HID: Add mapping for KEY_ALL_APPLICATIONS
+Date:   Thu,  3 Mar 2022 03:57:03 +0000
+Message-Id: <20220303035618.1.I3a7746ad05d270161a18334ae06e3b6db1a1d339@changeid>
 X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,57 +68,58 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Numerous keyboards are adding dictate keys which allows for text
-messages to be dictated by a microphone.
+This patch adds a new key definition for KEY_ALL_APPLICATIONS
+and aliases KEY_DASHBOARD to it.
 
-This patch adds a new key definition KEY_DICTATE and maps 0x0c/0x0d8
-usage code to this new keycode. Additionally hid-debug is adjusted to
-recognize this new usage code as well.
+It also maps the 0x0c/0x2a2 usage code to KEY_ALL_APPLICATIONS.
 
 Signed-off-by: William Mahon <wmahon@chromium.org>
 ---
 
  drivers/hid/hid-debug.c                | 1 +
- drivers/hid/hid-input.c                | 1 +
- include/uapi/linux/input-event-codes.h | 1 +
- 3 files changed, 3 insertions(+)
+ drivers/hid/hid-input.c                | 2 ++
+ include/uapi/linux/input-event-codes.h | 3 ++-
+ 3 files changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-index 26c31d759914..8aa68416b1d7 100644
+index 01135713e8f9..dbde52bd6585 100644
 --- a/drivers/hid/hid-debug.c
 +++ b/drivers/hid/hid-debug.c
-@@ -969,6 +969,7 @@ static const char *keys[KEY_MAX + 1] = {
- 	[KEY_ASSISTANT] = "Assistant",
- 	[KEY_KBD_LAYOUT_NEXT] = "KbdLayoutNext",
- 	[KEY_EMOJI_PICKER] = "EmojiPicker",
-+	[KEY_DICTATE] = "Dictate",
- 	[KEY_BRIGHTNESS_MIN] = "BrightnessMin",
- 	[KEY_BRIGHTNESS_MAX] = "BrightnessMax",
- 	[KEY_BRIGHTNESS_AUTO] = "BrightnessAuto",
+@@ -939,6 +939,7 @@ static const char *keys[KEY_MAX + 1] = {
+ 	[KEY_KBDINPUTASSIST_NEXTGROUP] = "KbdInputAssistNextGroup",
+ 	[KEY_KBDINPUTASSIST_ACCEPT] = "KbdInputAssistAccept",
+ 	[KEY_KBDINPUTASSIST_CANCEL] = "KbdInputAssistCancel",
++	[KEY_ALL_APPLICATIONS] = "AllApplications",
+ };
+ 
+ static const char *relatives[REL_MAX + 1] = {
 diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 112901d2d8d2..ce2b75a67cb8 100644
+index eccd89b5ea9f..c3e303c1d8d1 100644
 --- a/drivers/hid/hid-input.c
 +++ b/drivers/hid/hid-input.c
-@@ -992,6 +992,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 		case 0x0cd: map_key_clear(KEY_PLAYPAUSE);	break;
- 		case 0x0cf: map_key_clear(KEY_VOICECOMMAND);	break;
+@@ -1162,6 +1162,8 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
  
-+		case 0x0d8: map_key_clear(KEY_DICTATE);		break;
- 		case 0x0d9: map_key_clear(KEY_EMOJI_PICKER);	break;
+ 		case 0x29d: map_key_clear(KEY_KBD_LAYOUT_NEXT);	break;
  
- 		case 0x0e0: map_abs_clear(ABS_VOLUME);		break;
++		case 0x2a2: map_key_clear(KEY_ALL_APPLICATIONS);	break;
++
+ 		case 0x2c7: map_key_clear(KEY_KBDINPUTASSIST_PREV);		break;
+ 		case 0x2c8: map_key_clear(KEY_KBDINPUTASSIST_NEXT);		break;
+ 		case 0x2c9: map_key_clear(KEY_KBDINPUTASSIST_PREVGROUP);		break;
 diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 225ec87d4f22..4db5d41848e4 100644
+index 311a57f3e01a..556aa8f88201 100644
 --- a/include/uapi/linux/input-event-codes.h
 +++ b/include/uapi/linux/input-event-codes.h
-@@ -612,6 +612,7 @@
- #define KEY_ASSISTANT		0x247	/* AL Context-aware desktop assistant */
- #define KEY_KBD_LAYOUT_NEXT	0x248	/* AC Next Keyboard Layout Select */
- #define KEY_EMOJI_PICKER	0x249	/* Show/hide emoji picker (HUTRR101) */
-+#define KEY_DICTATE		0x24a	/* Start or Stop Voice Dictation Session (HUTRR99) */
- 
- #define KEY_BRIGHTNESS_MIN		0x250	/* Set Brightness to Minimum */
- #define KEY_BRIGHTNESS_MAX		0x251	/* Set Brightness to Maximum */
+@@ -278,7 +278,8 @@
+ #define KEY_PAUSECD		201
+ #define KEY_PROG3		202
+ #define KEY_PROG4		203
+-#define KEY_DASHBOARD		204	/* AL Dashboard */
++#define KEY_ALL_APPLICATIONS	204
++#define KEY_DASHBOARD	KEY_ALL_APPLICATIONS /* AL Dashboard */
+ #define KEY_SUSPEND		205
+ #define KEY_CLOSE		206	/* AC Close */
+ #define KEY_PLAY		207
 -- 
 2.35.1.616.g0bdcbb4464-goog
 
