@@ -2,248 +2,567 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CDE1C4CCA08
-	for <lists+linux-input@lfdr.de>; Fri,  4 Mar 2022 00:29:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 558464CCCD0
+	for <lists+linux-input@lfdr.de>; Fri,  4 Mar 2022 06:11:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231938AbiCCX3s (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Mar 2022 18:29:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47408 "EHLO
+        id S233768AbiCDFM3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Mar 2022 00:12:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229809AbiCCX3r (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Mar 2022 18:29:47 -0500
-Received: from mx0a-000eb902.pphosted.com (mx0a-000eb902.pphosted.com [205.220.165.212])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B9CC107A80;
-        Thu,  3 Mar 2022 15:28:59 -0800 (PST)
-Received: from pps.filterd (m0220296.ppops.net [127.0.0.1])
-        by mx0a-000eb902.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 223MA1B0021724;
-        Thu, 3 Mar 2022 17:28:59 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pps1;
- bh=DtV3nTYtmS2I7TK/P+AtMJK8z3lpD/GzHbL8Hp5sJvk=;
- b=wwmczID26tVWe8/xBgo2FfpNSwsPnWUWGWoqVUdB4rtZ8+dIMCdtc6FHHUzr32DB2M2L
- pQbAFVjr/NMKyrzVwz45StBN6d46jkUji2wz6e6SoYOCgIeAIRFTfozFgXM9zBIjw+nj
- 8kyQPjR65O6UJpQ90bUoV26ahdXimqsGfuGwjNs675+6iMHypyvR7oBoGIuqGWu8K7sd
- BG7DcbdlvR3kMLn4Kmyoj2DihD6xpXVfzPeggNxiUSFS5yYJDqQzhC7q6bOMaHMDywXT
- YS2GWYYeIcx8I4QVcAvWpLnwsbHp2B1qOsga6A84lzy29y2w2FG/enj9SghcuI6EI+V+ cQ== 
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2175.outbound.protection.outlook.com [104.47.56.175])
-        by mx0a-000eb902.pphosted.com (PPS) with ESMTPS id 3ek4kbg8hg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 03 Mar 2022 17:28:58 -0600
+        with ESMTP id S230244AbiCDFM2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Mar 2022 00:12:28 -0500
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2086.outbound.protection.outlook.com [40.107.93.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F06617E36F;
+        Thu,  3 Mar 2022 21:11:40 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cjoIh3Pj8uDe+ysPPCQNVtAuUspLy7KZAbwnwPoafgjbRTQ76+fu2YfB2xiNf4E0st2OQVhi8DdFY9DUbPurQniPUIGOhg1k5slskoBRpDh28NkofkSgDgrCVMSf0MPNrDLii8VLDk/rbhCPdgakLEktZwYL8CiULaG4iAExpNzf1T36h60Y1QtouMYR2L8o08fxvUOnBShjXKN9GqGCSKjL7Kpiov236jVebSgh/RlMdjFi3W/L8xlTMy5J1u3nshsWoJuWLjGeX36KB8OonrS2OQLwe/BNUgXz7zYpMWMpougFkKC7gZAZQwbbg/3v+vZft4Arj/36VJPV8PKf2g==
+ b=V7FK5UzYSMklJG8Yq1KxSPHEfeGIWIvhqWuhBIIIIa4b1AhSzS+js/BB1cHkPuHE2mR2bR3jBjNQh1Ns5cB/4Xo5GI15TeS2d6sWCvn6WXVugNT0glUVCQABupromELVznxg/SunHNPG8YAo3ES9TrB7fnlC6S6+jfdl6V2Ih4EV137IP4Rk6LitQIgqri4/vVB0Pqccq8FLoxaG5wvGvNGC2rZbl7+sniMz7DouH5AkvySdSUahaHSy3RUAbuJrlXhuHB14M3f+zfiyGRQf64v0aEF2ShdHnKaEFe8Bt1ScJgohJWteD5knvlDOLP5HkYuuK0edRnsIGjZwEPCvMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DtV3nTYtmS2I7TK/P+AtMJK8z3lpD/GzHbL8Hp5sJvk=;
- b=GFrSoEOhE6F0sEzw6Zv6ORlfoPqsnjCJl1f5C3/5EDaqN7/EXFb3CUn5EIvobqI6MdgkiI+D/ZiKYwvoI7AxUhO7jrdEn4Ju9Qn3+zXf74R4YKW0Z70j47ksz3oWITmm4JAZayIpk3lQoHePezDTy85GPiemdGuC99WJMZZ1DKYxAddQUtzmz4QObJZZ88nCo8xshz/CtMEmqs8j7j2K4Gex9W7H8MLlE0yylB9SKs1EUMfiQpxCZvM/aXtqqMGV8vVSknv9tsdQZS+VFa0YPTS+VafgH/xXvenlJb27iJqVMyvXRtiSRxBl5y9Pv03LAAjOPuUfSR0aVT0mhD1kKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
- is 204.77.163.244) smtp.rcpttodomain=gmail.com smtp.mailfrom=garmin.com;
- dmarc=temperror action=none header.from=garmin.com; dkim=none (message not
- signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com;
- s=selector2;
+ bh=Z4/3pNGmsEnlcNANp8acRKeMv7MDkxM+uRpJWF6ZByA=;
+ b=WZkbWZv0y78eNFwgiNf575MrgRaBiSfEPFBUVGY2N7i/tKmVG/s4AheFsQ0ZoEVJYVOcU+8/1ULZxxA2Ih2VjEjPNCC4aNd+KnVcNCEGUj4zY+NZsReamHdiFR0BP1g29r7jUdxPYTQ8MNSgy6jOgkXuQlItvh0Vf4wvaN28ZRCkm6EzZAT6mF60zHFhLWui9YbnFht0A5/hWoLvo3GCYnMDKRo8U/LijpOStLY34u61+cIHZI2+4qBrxUpiKoBB/pJutpaCUvxBYmIwGDMr3HbgZPiE23mM42QBxGo1A2lk/yGAUYVhJd0P5JAHdGaT6qUxKBpu1l0kLvapn3wYcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DtV3nTYtmS2I7TK/P+AtMJK8z3lpD/GzHbL8Hp5sJvk=;
- b=g+ZsC9H/uGEuORZgrOzQiCI2XK0NEq4PvB1A6mr5mj10Vz6z2NIXeGq3YaNAKx+6+K8F9SnmueW/cze2i6kzOts3tf+VSBglYr/unKqZA5KYrqLRU+iS2qIst4T38eeAiR9Rr/wSbMIMEFtlW6TA541qY0jFvxhscsLowZca0mexKfjt+hEoatczN0vKI+eqga8h25IkRlW1ZPI2zb60KGQfQEFaJinOat2mAtUj5dv2m7tqPt/m3C4R1tsbsXncqBQleMtsgcxkLWYberbFEk/vIN2haj8FZ+Ad3+EsEuNGP3FYxtHefE7fQSW6JzbqcsK8P/vDHcl8zZxBDpbcYQ==
-Received: from DM5PR18CA0072.namprd18.prod.outlook.com (2603:10b6:3:22::34) by
- MWHPR0401MB3610.namprd04.prod.outlook.com (2603:10b6:301:81::22) with
+ bh=Z4/3pNGmsEnlcNANp8acRKeMv7MDkxM+uRpJWF6ZByA=;
+ b=fUqdlAWWcGwL71rMPIxGKDYetTXHQtrplnW6seGb4wuAgupCJfRqLFe3tYowZnBZFrU4z4vPl3vF1+3PQX7AVl+CLdST0RDoa8WaGeil2Hqx0uc9zolB1fIaLxIeEw+4tahU9hQzYQbwiUJ3BHfLhmqW2IyLZuFgPBbLMx8yeRk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=labundy.com;
+Received: from SJ0PR08MB6544.namprd08.prod.outlook.com (2603:10b6:a03:2d3::16)
+ by BN7PR08MB4017.namprd08.prod.outlook.com (2603:10b6:406:87::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.26; Thu, 3 Mar
- 2022 23:28:56 +0000
-Received: from DM6NAM10FT035.eop-nam10.prod.protection.outlook.com
- (2603:10b6:3:22:cafe::ff) by DM5PR18CA0072.outlook.office365.com
- (2603:10b6:3:22::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14 via Frontend
- Transport; Thu, 3 Mar 2022 23:28:55 +0000
-X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
- 204.77.163.244) smtp.mailfrom=garmin.com; dkim=none (message not signed)
- header.d=none;dmarc=temperror action=none header.from=garmin.com;
-Received-SPF: TempError (protection.outlook.com: error in processing during
- lookup of garmin.com: DNS Timeout)
-Received: from edgetransport.garmin.com (204.77.163.244) by
- DM6NAM10FT035.mail.protection.outlook.com (10.13.153.59) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5017.22 via Frontend Transport; Thu, 3 Mar 2022 23:28:54 +0000
-Received: from OLAWPA-EXMB12.ad.garmin.com (10.5.144.16) by
- olawpa-edge2.garmin.com (10.60.4.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Thu, 3 Mar 2022 17:28:47 -0600
-Received: from [10.30.196.25] (10.5.209.17) by OLAWPA-EXMB12.ad.garmin.com
- (10.5.144.16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 3 Mar
- 2022 17:28:53 -0600
-Message-ID: <20556881-1d16-4718-f28c-4a32946d2ecb@garmin.com>
-Date:   Thu, 3 Mar 2022 17:28:52 -0600
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.16; Fri, 4 Mar
+ 2022 05:11:36 +0000
+Received: from SJ0PR08MB6544.namprd08.prod.outlook.com
+ ([fe80::b48c:eec:fcaf:3379]) by SJ0PR08MB6544.namprd08.prod.outlook.com
+ ([fe80::b48c:eec:fcaf:3379%5]) with mapi id 15.20.5038.016; Fri, 4 Mar 2022
+ 05:11:35 +0000
+Date:   Thu, 3 Mar 2022 23:11:27 -0600
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     Markuss Broks <markuss.broks@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, dmitry.torokhov@gmail.com,
+        robh+dt@kernel.org, krzysztof.kozlowski@canonical.com,
+        rydberg@bitmath.com, sfr@canb.auug.org.au,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v9 2/2] Input: add Imagis touchscreen driver
+Message-ID: <20220304051127.GA21279@nixie71>
+References: <20220303163133.1418-1-markuss.broks@gmail.com>
+ <20220303163133.1418-3-markuss.broks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220303163133.1418-3-markuss.broks@gmail.com>
+X-ClientProxiedBy: SN2PR01CA0027.prod.exchangelabs.com (2603:10b6:804:2::37)
+ To SJ0PR08MB6544.namprd08.prod.outlook.com (2603:10b6:a03:2d3::16)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v2] input: Add Marine Navigation Keycodes
-Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20210622235708.8828-1-matthew.stephenson2@garmin.com>
- <20220126211224.28590-1-Shelby.Heffron@garmin.com>
- <Yg9EmVAHpEpmnLok@google.com>
-From:   Shelby Heffron <Shelby.Heffron@garmin.com>
-In-Reply-To: <Yg9EmVAHpEpmnLok@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: cv1wpa-exmb1.ad.garmin.com (10.5.144.71) To
- OLAWPA-EXMB12.ad.garmin.com (10.5.144.16)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1d61f1c2-95c4-4211-48df-08d9fd6d94f7
-X-MS-TrafficTypeDiagnostic: MWHPR0401MB3610:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR0401MB3610D530B62EE41DA3BFC990F2049@MWHPR0401MB3610.namprd04.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 0844fa79-5a39-4424-ac6b-08d9fd9d73e3
+X-MS-TrafficTypeDiagnostic: BN7PR08MB4017:EE_
+X-Microsoft-Antispam-PRVS: <BN7PR08MB4017AA7C44FDD6CF10C22A18D3059@BN7PR08MB4017.namprd08.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QH46wf7sunhGQhfawMMnJf8vAwjyqz5v90RNftFnpqey4JPIHklYCXke5bD6tOS9+jX+IgLvefwU5pVbN0N9NpXG5s7TuDWc/PdcvkI8pr5S6reRHfCdaMpY8ZU70hXARQb6DYeWyOSRp4mrVBvKBBCEFECvjMyxVSzlCElYRjKmTcXts0LRa0IO4kyZpSSgvNxI5TOO6QRJnnxt5NErRrYSakBnwcUgx9i3+H1lQe5Fy5Zhj0WPina7Gz6zTus/l/K5Wxih5N8y2YzWLv3j10nJekGusM8HIik1qiOvqAYgUN/WHilhhdDYqGHTyMqhgWJP5nxQ/Zf8cjT6Jh+wcfHk9u7xNZaT7wU1eb561n5t7+R5Po0kplfs/hHxfICjRBOit2h73+A+r8W17LIs0fvGl75AAt0Pe8opXHGX98yYkJpikq2IrIcyRYYhaZ2mmXwoVdQYuc4uczFM6vQ0Vtte9pbcEBOW1yYa6klQcxMGJ6XdHdUu3EsTe71huOLTDop2JctFsOSTg4+mJpkQjSkSENOJQK4JTGU7HcQ350l6goe06RBLRkoaW9SMiSdztX6W86ymG62SCLZ6IKzAqm+AhDgwwtDWCc3ry3IbTLDAcfFDgpM9X1SASpEd6DTvTXpY7+acdq5yEyfa0P8kX9EyCEpSAfclv8cECXaQOfULxXpcjzSJXPFiG9EyL1xVD7Gn1KYcaU+MnUmlpnqUP9auhZJKUtKrKbDvF+Ombnnof3ZyM9iHbks3kgLVbe865DyY9xwa7H2bEmPXCkwTpPQEl+am0vVxKAN8Oa+VRgs=
-X-Forefront-Antispam-Report: CIP:204.77.163.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:edgetransport.garmin.com;PTR:extedge.garmin.com;CAT:NONE;SFS:(13230001)(40470700004)(36840700001)(46966006)(356005)(7636003)(63350400001)(36756003)(36860700001)(40460700003)(31686004)(47076005)(63370400001)(508600001)(54906003)(6916009)(83380400001)(426003)(336012)(4326008)(2906002)(86362001)(316002)(31696002)(5660300002)(16576012)(26005)(186003)(82310400004)(8676002)(70206006)(70586007)(2616005)(8936002)(43740500002);DIR:OUT;SFP:1102;
-X-OriginatorOrg: garmin.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2022 23:28:54.1195
+X-Microsoft-Antispam-Message-Info: ecn2fuEagPyXOMeehCD098QF2EgjyosJP4iMWxc5qQ6Efb1L1Qk5EdcmpAVoWdlCY+yrEwZ3Pih4tFbveGuxUmSSQNk8psBZJC1iSxECYRJtO8H37ojkWn+ju+0/NQmPsKjZt97j/c3elcOnXRVgSfoPyiHsYHEpvlVfj9hq/mvcymFDe6ub6L+r6qKTAk9K65W7p9phzfr+BNyWyJlBqffmJjEg+9EZUjTSZqTOIJEese7FsGKk9lFQIJOH8DTuF14Y/9QWru1PylajXUwZaSs4lwsb0dHw1i3ug9gqwfOwV1pY+Hq+gDFfgd9ho72IIdu0+rE2lpm7nfoD+CNMpaV0w/JaKke3zIiJvJsa8rTGkqMsw0f4FhFSLLvvnh2sKXXqvnjr7zilJHdYy0mS/noPtZDzEZtAu8vWOruEQlviYi+yJEeoJ2LdpMpX89ATK99oRMnOqR8yg7Qc6ySmWyU1r6FzvgtOL5CneVGp1pEuuncNvKqNahvql0DryKd7Z+j5c8ezG4kOKPBMtfmyELI5zPMpXwTa05wvNw3Gi9kLP7D7mDmFWSxFcGWAjtQBYlG68tJNROnk9LstnR5K+QKDwbxtKYSapFs1AXu4WGAmBCf7ODE7rbBDNfMy8tF9p/hEc2L34+Ln32C2WrXBkp9ExdgMj58JaEaqlT1i77sJgt+g69ddFZi8YIjUiokXZLB6hQrSvSbQRRZlshrCSw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR08MB6544.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(346002)(508600001)(38350700002)(38100700002)(8936002)(26005)(1076003)(186003)(52116002)(6506007)(6512007)(6666004)(9686003)(33716001)(6486002)(8676002)(2906002)(86362001)(66946007)(33656002)(30864003)(6916009)(7416002)(4326008)(83380400001)(66556008)(66476007)(5660300002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?i4mR3524/7DmocVq1dBrsnFTTX6Ahttyv0DdV6bdabesNRDpvd/4V59+Wiiy?=
+ =?us-ascii?Q?16/2iVPJoW5crw+Bco8yW2WwvJOYK0Ss+945F6wXB0WUrlH2fivhgmOhruTq?=
+ =?us-ascii?Q?b8vNX01HWH58zcJF9X6DsxIw4uuvgugBwIxdUI+ANAbKjeJrKOjDh8JCg9CX?=
+ =?us-ascii?Q?tMa4gGaWXA3QQHgKz8J/l8QCY9q1MsY2mGB1N6aba0+cYnfUD4qPJVYEmvmm?=
+ =?us-ascii?Q?zCah7fTkEzxJhACmWEZwtTQ20BN/JA2vpL+K53aD04ESHgOe8DiP9ED/cG1m?=
+ =?us-ascii?Q?4MoQMl8yJUrcS2CriaEBoWBiwAB7Ilv/2XLgjNUAx7HJABaBoNAp2bfUAUol?=
+ =?us-ascii?Q?4gG+C5wm7qfGKAM2rKh7d6smBe0vEVjcClTiH0VVyHceSZoq07sscAMnfj+6?=
+ =?us-ascii?Q?RbraP6v89VAzyHXZ9q5tU5ji3JLAZKkFqu8YFXJb2Bux2GicITtSfZKMyvyJ?=
+ =?us-ascii?Q?Dg2GvZXnYnArse/jdc4aKnghYQlrKx8kwE4osCMPVWzeZCueV695oUyWDlps?=
+ =?us-ascii?Q?ltb7310nVmFMYvWfeLjAXBjF5g+oLYdFpetRlwBBfM52We0WTk5k1imcQ7hp?=
+ =?us-ascii?Q?Etr7j2pHjfRHFyvfcNMP5DcwUA0bfSZvVXLN6qPUADepHPEGT2GoiKVdbGSk?=
+ =?us-ascii?Q?AulmdGWeogiEglG1H8n1FiETDc3MYWkFNJttP4TVlnoP+z2cQie3tblq6g/o?=
+ =?us-ascii?Q?gF6zXTEmn/DQhX1rWFs4GBSEPBwBItwRseV42zIyaCBPeGkGPVUEFhamDHO0?=
+ =?us-ascii?Q?r514dHFdQEhRokkUO+f1Y3tLSTxVnA/js90jnaCli+JbwtZWF9O8RM0E/62/?=
+ =?us-ascii?Q?mXEC7dovq9oL1yA0nrZ30eqMpbyhwCfQKF1mW264JiyGXJ9LAWjSVVwTqfzA?=
+ =?us-ascii?Q?MLuUCK4/Gz3mwKLm7pwOUM5V2rOpL5Mv92nAnfsqmZfcGk5K1+UIRHyg277C?=
+ =?us-ascii?Q?edC4ykUADXJ5PYJ9C8cUCwrzHYclW30Tka4Xe8ekLQ8zcTIOvEOlbKTynWiP?=
+ =?us-ascii?Q?hYX9Z9n3qBqoM+XazfApQYp7nrtE6ac4IUCmV9vw3IfBdPA+WugRAIwEniQr?=
+ =?us-ascii?Q?nezslyKkCm8ghvAKgCQVNiyVVDh5N8AYUAeqBS8kwfyHtISfN6886ChASa7l?=
+ =?us-ascii?Q?XVgybhCsOaUoem0D/mDzWIeFZaXLDPpEzJpmFaeMl9NTLwwP06uqJKCSF8XG?=
+ =?us-ascii?Q?mXogZq0tJ8PJ5powj31cqb53Su47GdPmFUj+mBjGXtuy3UOf0pdtknGk4wEz?=
+ =?us-ascii?Q?dNh0hUX/+UcV0kKZRhO+nUKJAG6K6+TWuvXAB8zu1ouVK9sv6ocEd8u7il7H?=
+ =?us-ascii?Q?5/v/nDgP9PC4EkEsvadf8LpwCuPrffPk+H4p7DTW7IBc7hIUXQLD5Yrs2+Cy?=
+ =?us-ascii?Q?ba/PijYcw/Vfj7HfxbM5lnmJeSeTsLHZg1DBUb/7k/nV0GXSDo2lcJJKzoki?=
+ =?us-ascii?Q?b88O7oQh/txoIsBWbOKepVp3eVTBvklurLkt04ChpU7qHym5zb77FLFZhZDU?=
+ =?us-ascii?Q?2i7u/l0gx5Sjj9et3VSZd5rxJzsn0cVHH3ap94DDwz/Ox6MRwR5IMCOXrqU1?=
+ =?us-ascii?Q?ioJz3IgXTWkDD9m+BeMuVXx2L52nsX2kxcSWZev0WyrDE4V3HS6wRVsxbRlA?=
+ =?us-ascii?Q?kvz93/jFvleHaImKWs6pFYo=3D?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0844fa79-5a39-4424-ac6b-08d9fd9d73e3
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR08MB6544.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2022 05:11:35.2346
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d61f1c2-95c4-4211-48df-08d9fd6d94f7
-X-MS-Exchange-CrossTenant-Id: 38d0d425-ba52-4c0a-a03e-2a65c8e82e2d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38d0d425-ba52-4c0a-a03e-2a65c8e82e2d;Ip=[204.77.163.244];Helo=[edgetransport.garmin.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM10FT035.eop-nam10.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0401MB3610
-X-Proofpoint-ORIG-GUID: 3JR4tSXpZiOjOOci4d7k2Am7Njp--rXk
-X-Proofpoint-GUID: 3JR4tSXpZiOjOOci4d7k2Am7Njp--rXk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-03_14,2022-02-26_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- spamscore=0 mlxscore=0 phishscore=0 clxscore=1011 malwarescore=0
- bulkscore=0 impostorscore=0 mlxlogscore=999 suspectscore=0
- priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2202240000 definitions=main-2203030108
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: i92obF2gRglvROu0X8yoM4A1J9jbtLsSIvUBS/6CF8ZLqUodInjYGmP2Q5Ed+iMHisd/qWqqnXDr0xmvHBE5/w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR08MB4017
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+Hi Markuss,
 
-We would like to take a step back and describe our application in more
-detail. We are supporting global physical keys on devices such as boat
-steering wheels that will interact with multiple marine navigation
-displays on the vessel. Could you please provide some further
-suggestions based on our requested keys and the description below.
+Great work driving this one to the finish line. I caught four remaining
+minor items; once they are fixed for v10, please feel free to add my:
 
-Our marine displays usually show a single fullscreen application which
-may show multiple types of data at the same time. For example, the
-application may be showing a map, RADAR, and some media controls at the
-same time. There can also be a control bar at the bottom of the screen
-giving options to do things like return to the home page or open a menu.
-Multiple network-connected marine displays can interact with each other
-to share a single keyed input device across them. In this setup, there
-will only be one active focus for the set of those connected devices.
-For multi-display setups, the focus can transition between displays
-either through the use of dedicated keys to immediately move the focus
-to the previous or next display or the focus can transition between
-displays automatically (e.g. when the user requests to move the focus to
-the next element but we're already at the current display's last element
-we will move the focus to the first element of the next display).
+Reviewed-by: Jeff LaBundy <jeff@labundy.com>
 
-For the elements displayed on a single marine display, our UI supports
-grouping them together into containers which function somewhat similarly
-to a group of radio buttons in a more-traditional application. We would
-place the previously mentioned map, RADAR, media controls, and bottom
-bar each into their own container. Containers also get used for things
-like menu pages where we have a list of items to scroll through and a
-separate list of buttons that can be used to take actions on the
-currently selected item. The focus can move between items within a
-container by using keys like up, down, left, right, next highlight, and
-previous highlight. To make navigating between these containers more
-convenient, we have a focus key that moves to the next container. This
-focus key behaves similarly to the tab key with a traditional
-application that has multiple sets of radio buttons, but we also have
-support for embedding traditional keyboard input into one of these
-containers where we would need KEY_TAB to behave normally. Our focus key
-does not change the visibility of anything on screen, which made it feel
-a little different than the description of KEY_CYCLEWINDOWS from the
-video remote controller documentation
-(https://www.kernel.org/doc/html/v4.9/media/uapi/rc/rc-tables.html), so
-our initial proposal avoided repurposing that event code.
+On Thu, Mar 03, 2022 at 06:31:33PM +0200, Markuss Broks wrote:
+> Add support for the IST3038C touchscreen IC from Imagis, based on
+> downstream driver. The driver supports multi-touch (10 touch points)
+> The IST3038C IC supports touch keys, but the support isn't added
+> because the touch screen used for testing doesn't utilize touch keys.
+> Looking at the downstream driver, it is possible to add support
+> for other Imagis ICs of IST30**C series.
+> 
+> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+> ---
+>  MAINTAINERS                        |   6 +
+>  drivers/input/touchscreen/Kconfig  |  10 +
+>  drivers/input/touchscreen/Makefile |   1 +
+>  drivers/input/touchscreen/imagis.c | 331 +++++++++++++++++++++++++++++
+>  4 files changed, 348 insertions(+)
+>  create mode 100644 drivers/input/touchscreen/imagis.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d7ea92ce1b1d..feab0c765d4b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9509,6 +9509,12 @@ M:	Stanislaw Gruszka <stf_xl@wp.pl>
+>  S:	Maintained
+>  F:	drivers/usb/atm/ueagle-atm.c
+>  
+> +IMAGIS TOUCHSCREEN DRIVER
+> +M:	Markuss Broks <markuss.broks@gmail.com>
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
+> +F:	drivers/input/touchscreen/imagis.c
+> +
+>  IMGTEC ASCII LCD DRIVER
+>  M:	Paul Burton <paulburton@kernel.org>
+>  S:	Maintained
+> diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
+> index 2f6adfb7b938..f1414f0ad7af 100644
+> --- a/drivers/input/touchscreen/Kconfig
+> +++ b/drivers/input/touchscreen/Kconfig
+> @@ -638,6 +638,16 @@ config TOUCHSCREEN_MTOUCH
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called mtouch.
+>  
+> +config TOUCHSCREEN_IMAGIS
+> +	tristate "Imagis touchscreen support"
+> +	depends on I2C
+> +	help
+> +	  Say Y here if you have an Imagis IST30xxC touchscreen.
+> +	  If unsure, say N.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called imagis.
+> +
+>  config TOUCHSCREEN_IMX6UL_TSC
+>  	tristate "Freescale i.MX6UL touchscreen controller"
+>  	depends on ((OF && GPIOLIB) || COMPILE_TEST) && HAS_IOMEM
+> diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
+> index 39a8127cf6a5..557f84fd2075 100644
+> --- a/drivers/input/touchscreen/Makefile
+> +++ b/drivers/input/touchscreen/Makefile
+> @@ -49,6 +49,7 @@ obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix_ts.o
+>  obj-$(CONFIG_TOUCHSCREEN_HIDEEP)	+= hideep.o
+>  obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
+>  obj-$(CONFIG_TOUCHSCREEN_ILITEK)	+= ilitek_ts_i2c.o
+> +obj-$(CONFIG_TOUCHSCREEN_IMAGIS)	+= imagis.o
+>  obj-$(CONFIG_TOUCHSCREEN_IMX6UL_TSC)	+= imx6ul_tsc.o
+>  obj-$(CONFIG_TOUCHSCREEN_INEXIO)	+= inexio.o
+>  obj-$(CONFIG_TOUCHSCREEN_IPROC)		+= bcm_iproc_tsc.o
+> diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen/imagis.c
+> new file mode 100644
+> index 000000000000..5776bd5c0422
+> --- /dev/null
+> +++ b/drivers/input/touchscreen/imagis.c
+> @@ -0,0 +1,331 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include <linux/bits.h>
+> +#include <linux/delay.h>
+> +#include <linux/i2c.h>
+> +#include <linux/input.h>
+> +#include <linux/input/mt.h>
+> +#include <linux/input/touchscreen.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/property.h>
+> +#include <linux/regulator/consumer.h>
+> +
+> +#define IST3038C_HIB_ACCESS		(0x800B << 16)
+> +#define IST3038C_DIRECT_ACCESS		BIT(31)
+> +#define IST3038C_REG_CHIPID		0x40001000
+> +#define IST3038C_REG_HIB_BASE		0x30000100
+> +#define IST3038C_REG_TOUCH_STATUS		(IST3038C_REG_HIB_BASE | IST3038C_HIB_ACCESS)
+> +#define IST3038C_REG_TOUCH_COORD		(IST3038C_REG_HIB_BASE | IST3038C_HIB_ACCESS | 0x8)
+> +#define IST3038C_REG_INTR_MESSAGE		(IST3038C_REG_HIB_BASE | IST3038C_HIB_ACCESS | 0x4)
+> +#define IST3038C_WHOAMI			0x38c
+> +#define IST3038C_CHIP_ON_DELAY_MS		60
+> +#define IST3038C_I2C_RETRY_COUNT		3
+> +#define IST3038C_MAX_SUPPORTED_FINGER_NUM		10
+> +#define IST3038C_X_MASK		GENMASK(23, 12)
+> +#define IST3038C_X_SHIFT		12
+> +#define IST3038C_Y_MASK		GENMASK(11, 0)
+> +#define IST3038C_AREA_MASK		GENMASK(27, 24)
+> +#define IST3038C_AREA_SHIFT		24
+> +#define IST3038C_FINGER_COUNT_MASK		GENMASK(15, 12)
+> +#define IST3038C_FINGER_COUNT_SHIFT		12
+> +#define IST3038C_FINGER_STATUS_MASK		GENMASK(9, 0)
+> +
+> +struct imagis_ts {
+> +	struct i2c_client *client;
+> +	struct input_dev *input_dev;
+> +	struct touchscreen_properties prop;
+> +	struct regulator_bulk_data supplies[2];
+> +};
+> +
+> +static int imagis_i2c_read_reg(struct imagis_ts *ts,
+> +			       unsigned int reg, unsigned int *buffer)
+> +{
+> +	__be32 ret_be;
+> +	__be32 reg_be = cpu_to_be32(reg);
+> +	struct i2c_msg msg[] = {
+> +		{
+> +			.addr = ts->client->addr,
+> +			.flags = 0,
+> +			.buf = (unsigned char *)&reg_be,
+> +			.len = sizeof(reg_be),
+> +		}, {
+> +			.addr = ts->client->addr,
+> +			.flags = I2C_M_RD,
+> +			.buf = (unsigned char *)&ret_be,
+> +			.len = sizeof(ret_be),
+> +		},
+> +	};
+> +	int ret, error;
+> +	int retry = IST3038C_I2C_RETRY_COUNT;
+> +
+> +	/* Retry in case the controller fails to respond */
+> +	do {
+> +		ret = i2c_transfer(ts->client->adapter, msg, ARRAY_SIZE(msg));
+> +		if (ret == ARRAY_SIZE(msg)) {
+> +			*buffer = be32_to_cpu(ret_be);
+> +			return 0;
+> +		}
+> +
+> +		error = ret < 0 ? ret : -EIO;
+> +		dev_err(&ts->client->dev,
+> +			"%s - i2c_transfer failed: %d (%d)\n",
+> +			__func__, error, ret);
+> +	} while (--retry);
+> +
+> +	return error;
+> +}
+> +
+> +static irqreturn_t imagis_interrupt(int irq, void *dev_id)
+> +{
+> +	struct imagis_ts *ts = dev_id;
+> +	unsigned int finger_status, intr_message;
+> +	int error, i, finger_count, finger_pressed;
+> +
+> +	error = imagis_i2c_read_reg(ts, IST3038C_REG_INTR_MESSAGE, &intr_message);
+> +	if (error) {
+> +		dev_err(&ts->client->dev, "failed to read the interrupt message\n");
+> +		return IRQ_HANDLED;
+> +	}
+> +
+> +	finger_count = (intr_message & IST3038C_FINGER_COUNT_MASK) >> IST3038C_FINGER_COUNT_SHIFT;
+> +	finger_pressed = intr_message & IST3038C_FINGER_STATUS_MASK;
+> +	if (finger_count > IST3038C_MAX_SUPPORTED_FINGER_NUM) {
+> +		dev_err(&ts->client->dev, "finger count is more than maximum supported\n");
+> +		return IRQ_HANDLED;
+> +	}
+> +
+> +	for (i = 0; i < finger_count; i++) {
+> +		error = imagis_i2c_read_reg(ts, IST3038C_REG_TOUCH_COORD + (i * 4), &finger_status);
+> +		if (error) {
+> +			dev_err(&ts->client->dev, "failed to read coordinates for finger %d\n", i);
+> +			return IRQ_HANDLED;
+> +		}
+> +		input_mt_slot(ts->input_dev, i);
+> +		input_mt_report_slot_state(ts->input_dev, MT_TOOL_FINGER,
+> +					   finger_pressed & BIT(i));
+> +		touchscreen_report_pos(ts->input_dev, &ts->prop,
+> +				       (finger_status & IST3038C_X_MASK) >> IST3038C_X_SHIFT,
+> +				       finger_status & IST3038C_Y_MASK, 1);
+> +		input_report_abs(ts->input_dev, ABS_MT_TOUCH_MAJOR,
+> +				 (finger_status & IST3038C_AREA_MASK) >> IST3038C_AREA_SHIFT);
+> +	}
+> +	input_mt_sync_frame(ts->input_dev);
+> +	input_sync(ts->input_dev);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static void imagis_power_off(void *_ts)
+> +{
+> +	struct imagis_ts *ts = _ts;
+> +
+> +	regulator_bulk_disable(ARRAY_SIZE(ts->supplies), ts->supplies);
+> +}
+> +
+> +static int imagis_power_on(struct imagis_ts *ts)
+> +{
+> +	int error;
+> +
+> +	error = regulator_bulk_enable(ARRAY_SIZE(ts->supplies), ts->supplies);
 
- >> +/* Toggle the focus in or out */
- >> +#define KEY_FOCUS_TOGGLE        0x27b
- >
- > Could it be served by KEY_SELECT?
- >
+Please update as follows:
 
-We have a select key on our marine display which is used for actions
-like to select/press the currently-focused button or behave similarly to
-a left mouse click when moving a cursor around on a map. We'd planned on
-using KEY_SELECT for that since its proximity to KEY_OK made us think it
-was intended to confirm selection of an item rather than to select the
-next item.
+        error = regulator_bulk_enable(...);
+        if (error)
+                return error;
 
-In our application, the focus key will move between containers on the
-same display, but we felt it was different than KEY_CYCLEWINDOWS or KEY_TAB=
-.
+        msleep(...);
 
- >> +/* Move between highlightable items */
- >> +#define KEY_NEXT_HIGHLIGHT        0x27c
- >> +#define KEY_PREVIOUS_HIGHLIGHT        0x27d
- >
- > I wonder if KEY_NEXT and KEY_PREVIOUS would be suitable for your
- > application.
- >
+        return 0;
 
-KEY_NEXT/KEY_PREVIOUS seemed to be designated as media-related to
-control chapters in the remote controller documentation, so our initial
-proposal avoided repurposing those event codes. We anticipate needing
-keys for next chapter/previous chapter to control our media inputs in
-the future, so using KEY_NEXT/KEY_PREVIOUS for highlight movement now
-could lead to conflicts for us down the road.
+If the regulators failed to be enabled and the driver needs to bail, there
+is no reason to sleep before doing so.
 
-In our application, the next/previous highlight will transition the
-focus to elements within the same UI container.
+> +	msleep(IST3038C_CHIP_ON_DELAY_MS);
+> +
+> +	return error;
+> +}
+> +
+> +static int imagis_start(struct imagis_ts *ts)
+> +{
+> +	int error;
+> +
+> +	error = imagis_power_on(ts);
+> +	if (error)
+> +		return error;
+> +
+> +	msleep(IST3038C_CHIP_ON_DELAY_MS);
 
- >> +/* Navigate Displays */
- >> +#define KEY_NEXT_DISPLAY        0x27f
- >> +#define KEY_PREVIOUS_DISPLAY        0x280
- >
- > I am not familiar with marine navigation devices, could you please
- > explain a bit more about displays you are navigating. Are there separate
- > physical screens or are there several application screens/views you are
- > switching between?
- >
+This same delay is already administered from imagis_power_on(); I assume it
+is a duplicate?
 
-Correct. These are separate physical screens. These keys would
-transition the current highlight between separate physical screens that
-are located next to each other.
+> +
+> +	enable_irq(ts->client->irq);
+> +	return error;
 
+Nit: error would only ever be zero by this point, so consider simply returning
+zero as you have done in imagis_stop() below.
 
- >> +#define KEY_BRIGHTNESS_MENU        0x28c
- >
- > Do you have multiple menus in the application?
- >
+> +}
+> +
+> +static int imagis_stop(struct imagis_ts *ts)
+> +{
+> +	disable_irq(ts->client->irq);
+> +
+> +	imagis_power_off(ts);
+> +
+> +	return 0;
+> +}
+> +
+> +static int imagis_input_open(struct input_dev *dev)
+> +{
+> +	struct imagis_ts *ts = input_get_drvdata(dev);
+> +
+> +	return imagis_start(ts);
+> +}
+> +
+> +static void imagis_input_close(struct input_dev *dev)
+> +{
+> +	struct imagis_ts *ts = input_get_drvdata(dev);
+> +
+> +	imagis_stop(ts);
+> +}
+> +
+> +static int imagis_init_input_dev(struct imagis_ts *ts)
+> +{
+> +	struct input_dev *input_dev;
+> +	int error;
+> +
+> +	input_dev = devm_input_allocate_device(&ts->client->dev);
+> +	if (!input_dev)
+> +		return -ENOMEM;
+> +
+> +	ts->input_dev = input_dev;
+> +
+> +	input_dev->name = "Imagis capacitive touchscreen";
+> +	input_dev->phys = "input/ts";
+> +	input_dev->id.bustype = BUS_I2C;
+> +	input_dev->open = imagis_input_open;
+> +	input_dev->close = imagis_input_close;
+> +
+> +	input_set_drvdata(input_dev, ts);
+> +
+> +	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_X);
+> +	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_Y);
+> +	input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
+> +
+> +	touchscreen_parse_properties(input_dev, true, &ts->prop);
+> +	if (!ts->prop.max_x || !ts->prop.max_y) {
+> +		dev_err(&ts->client->dev,
+> +			"Touchscreen-size-x and/or touchscreen-size-y not set in dts\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	error = input_mt_init_slots(input_dev, IST3038C_MAX_SUPPORTED_FINGER_NUM,
+> +				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
+> +	if (error) {
+> +		dev_err(&ts->client->dev,
+> +			"Failed to initialize MT slots: %d", error);
+> +		return error;
+> +	}
+> +
+> +	error = input_register_device(input_dev);
+> +	if (error)
+> +		dev_err(&ts->client->dev,
+> +			"Failed to register input device: %d", error);
+> +
+> +	return error;
+> +}
+> +
+> +static int imagis_init_regulators(struct imagis_ts *ts)
+> +{
+> +	struct i2c_client *client = ts->client;
+> +
+> +	ts->supplies[0].supply = "vdd";
+> +	ts->supplies[1].supply = "vddio";
+> +	return devm_regulator_bulk_get(&client->dev,
+> +				       ARRAY_SIZE(ts->supplies),
+> +				       ts->supplies);
+> +
+> +}
+> +
+> +static int imagis_probe(struct i2c_client *i2c)
+> +{
+> +	struct device *dev = &i2c->dev;
+> +	struct imagis_ts *ts;
+> +	int chip_id, error;
+> +
+> +	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
+> +	if (!ts)
+> +		return -ENOMEM;
+> +
+> +	ts->client = i2c;
+> +
+> +	error = imagis_init_regulators(ts);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "regulator init error: %d\n", error);
+> +
+> +	error = devm_add_action_or_reset(dev, imagis_power_off, ts);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "failed to install poweroff action: %d\n", error);
 
-Our marine displays do have multiple menus. This physical key will bring
-up a menu to immediately adjust the display brightness. Our displays go
-extremely bright and extremely dim to support outdoor use during the day
-or at night. This physical key can be used to quickly adjust brightness.
+Note that devm_add_action_or_reset() is special in that if it fails, it
+will call the callback which is imagis_power_off().
 
-Thank you for your assistance.
+In this case, you would disable regulators before they have even been
+enabled which will cause a stack dump. To solve this problem, move the
+call to devm_add_action_or_reset() from here, to...
 
-________________________________
+> +
+> +	error = imagis_power_on(ts);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "failed to enable regulators: %d\n", error);
 
-CONFIDENTIALITY NOTICE: This email and any attachments are for the sole use=
- of the intended recipient(s) and contain information that may be Garmin co=
-nfidential and/or Garmin legally privileged. If you have received this emai=
-l in error, please notify the sender by reply email and delete the message.=
- Any disclosure, copying, distribution or use of this communication (includ=
-ing attachments) by someone other than the intended recipient is prohibited=
-. Thank you.
+...here.
+
+> +
+> +	error = imagis_i2c_read_reg(ts, IST3038C_REG_CHIPID | IST3038C_DIRECT_ACCESS, &chip_id);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "chip ID read failure: %d\n", error);
+> +
+> +	if (chip_id != IST3038C_WHOAMI)
+> +		return dev_err_probe(dev, -EINVAL, "unknown chip ID: 0x%x\n", chip_id);
+> +
+> +	error = devm_request_threaded_irq(dev, i2c->irq,
+> +					  NULL, imagis_interrupt,
+> +					  IRQF_ONESHOT | IRQF_NO_AUTOEN,
+> +					  "imagis-touchscreen", ts);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "IRQ allocation failure: %d\n", error);
+> +
+> +	error = imagis_init_input_dev(ts);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "input subsystem init error: %d\n", error);
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused imagis_suspend(struct device *dev)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct imagis_ts *ts = i2c_get_clientdata(client);
+> +	int error = 0;
+> +
+> +	mutex_lock(&ts->input_dev->mutex);
+> +
+> +	if (input_device_enabled(ts->input_dev))
+> +		error = imagis_stop(ts);
+> +
+> +	mutex_unlock(&ts->input_dev->mutex);
+> +
+> +	return error;
+> +}
+> +
+> +static int __maybe_unused imagis_resume(struct device *dev)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct imagis_ts *ts = i2c_get_clientdata(client);
+> +	int error = 0;
+> +
+> +	mutex_lock(&ts->input_dev->mutex);
+> +
+> +	if (input_device_enabled(ts->input_dev))
+> +		error = imagis_start(ts);
+> +
+> +	mutex_unlock(&ts->input_dev->mutex);
+> +
+> +	return error;
+> +}
+> +
+> +static SIMPLE_DEV_PM_OPS(imagis_pm_ops, imagis_suspend, imagis_resume);
+> +
+> +#ifdef CONFIG_OF
+> +static const struct of_device_id imagis_of_match[] = {
+> +	{ .compatible = "imagis,ist3038c", },
+> +	{ },
+> +};
+> +MODULE_DEVICE_TABLE(of, imagis_of_match);
+> +#endif
+> +
+> +static struct i2c_driver imagis_ts_driver = {
+> +	.driver = {
+> +		.name = "imagis-touchscreen",
+> +		.pm = &imagis_pm_ops,
+> +		.of_match_table = of_match_ptr(imagis_of_match),
+> +	},
+> +	.probe_new = imagis_probe,
+> +};
+> +
+> +module_i2c_driver(imagis_ts_driver);
+> +
+> +MODULE_DESCRIPTION("Imagis IST3038C Touchscreen Driver");
+> +MODULE_AUTHOR("Markuss Broks <markuss.broks@gmail.com>");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.20.1
+> 
+
+Kind regards,
+Jeff LaBundy
