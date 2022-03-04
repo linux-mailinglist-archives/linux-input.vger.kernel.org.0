@@ -2,46 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53D014CD2A0
-	for <lists+linux-input@lfdr.de>; Fri,  4 Mar 2022 11:41:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AF4E4CD2CA
+	for <lists+linux-input@lfdr.de>; Fri,  4 Mar 2022 11:54:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233936AbiCDKlw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Mar 2022 05:41:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51132 "EHLO
+        id S237758AbiCDKys (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Mar 2022 05:54:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231206AbiCDKlw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Mar 2022 05:41:52 -0500
-Received: from ixit.cz (ip-94-112-206-30.net.upcbroadband.cz [94.112.206.30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D61821AAA41;
-        Fri,  4 Mar 2022 02:41:00 -0800 (PST)
-Received: from newone.lan (_gateway [10.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by ixit.cz (Postfix) with ESMTPSA id 25F4B2007F;
-        Fri,  4 Mar 2022 11:40:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-        t=1646390459;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=gi3oag741MmfzNLj56sOKtyORMvHf4rZPmjeOraX1bc=;
-        b=EhvHq2flWaQOrst+UhAEkjP3h48l7aex/820wc7aoecs5QQzb2/RS1qC5oEW9rXKF+Ut4B
-        pDb4hUqo/y73GS3ffQ2sWSCMcIzc92ov+WttjIQLbJwM1pU3ZjUgIYyarWUdIBtEydT40t
-        tKKtVkXwmNmIDQsyJ5iH9txgIq/azWo=
-From:   David Heidelberg <david@ixit.cz>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     David Heidelberg <david@ixit.cz>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: synaptics: change initialization error into warning
-Date:   Fri,  4 Mar 2022 11:40:55 +0100
-Message-Id: <20220304104055.9048-1-david@ixit.cz>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S234789AbiCDKyr (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Mar 2022 05:54:47 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E79F118F208;
+        Fri,  4 Mar 2022 02:53:56 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id F07E31F46564
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1646391234;
+        bh=iyvfPCOywVdYTVL340FKcoWnpL9Q7LDdzRZuLLuLf0I=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=i8EVJZVcAkDv0a4yRg2+xUaJmxcNaMTJ8wMR1qdO/p00rkXl6HGckPXX9CP/dab7G
+         eUkDYd1J9SJkiJL2v3S8YEcBfXuWyBn6Ck8rOkT88Yri8eKSoeqf0gWC16cDULxuhR
+         MDwQp4xWmAA8zQDunNVUP0Quf4OXRdTGPjc7uFXtdqGcNJRaFbnpokRYjMkgX12Zhm
+         /d0ENXnxc1PDjoCBKEbVgesQ+aPfOH+NssrBw1YVJqQKe0Nn+2mm0UhqSzGnekyMmq
+         KqloPbnfxtA/wX75CVIE5YgiZL5d1jvamUt4Z8PVzF/yTgBvBYWxta2PV9EZ2Qnv96
+         8RLK36k87Ny/w==
+Message-ID: <312a66e2-b0da-23a4-d922-0a37e04367d9@collabora.com>
+Date:   Fri, 4 Mar 2022 11:53:51 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_RDNS_DYNAMIC_FP,
-        RDNS_DYNAMIC,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v21 1/3] dt-bindings: input: Add bindings for Mediatek
+ matrix keypad
+Content-Language: en-US
+To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Fengping Yu <fengping.yu@mediatek.com>,
+        Yingjoe Chen <yingjoe.chen@mediatek.com>
+Cc:     Fabien Parent <fparent@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+References: <20220303154302.252041-1-mkorpershoek@baylibre.com>
+ <20220303154302.252041-2-mkorpershoek@baylibre.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220303154302.252041-2-mkorpershoek@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -49,49 +66,20 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Since touchpad work on Dell XPS 9360 as expected while using
-Synopsys DesignWare driver, let's assume
-warning about not loading driver can be lowered from error to warning.
+Il 03/03/22 16:43, Mattijs Korpershoek ha scritto:
+> From: "fengping.yu" <fengping.yu@mediatek.com>
+> 
+> This patch add devicetree bindings for Mediatek matrix keypad driver.
+> 
+> Signed-off-by: fengping.yu <fengping.yu@mediatek.com>
+> Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
+> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-Lower in some cases useless errors like these to warnings:
-psmouse serio1: synaptics: Unable to query device: -5
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- drivers/input/mouse/synaptics.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-index ffad142801b3..ffb13055c7dc 100644
---- a/drivers/input/mouse/synaptics.c
-+++ b/drivers/input/mouse/synaptics.c
-@@ -1668,7 +1668,7 @@ static int __synaptics_init(struct psmouse *psmouse, bool absolute_mode)
- 
- 	error = synaptics_query_hardware(psmouse, &info);
- 	if (error) {
--		psmouse_err(psmouse, "Unable to query device: %d\n", error);
-+		psmouse_warn(psmouse, "Unable to query device: %d\n", error);
- 		return error;
- 	}
- 
-@@ -1824,7 +1824,7 @@ int synaptics_init_smbus(struct psmouse *psmouse)
- 
- 	error = synaptics_query_hardware(psmouse, &info);
- 	if (error) {
--		psmouse_err(psmouse, "Unable to query device: %d\n", error);
-+		psmouse_warn(psmouse, "Unable to query device: %d\n", error);
- 		return error;
- 	}
- 
-@@ -1864,7 +1864,7 @@ int synaptics_init(struct psmouse *psmouse)
- 
- 	error = synaptics_query_hardware(psmouse, &info);
- 	if (error) {
--		psmouse_err(psmouse, "Unable to query device: %d\n", error);
-+		psmouse_warn(psmouse, "Unable to query device: %d\n", error);
- 		return error;
- 	}
- 
--- 
-2.34.1
-
+> ---
+>   .../input/mediatek,mt6779-keypad.yaml         | 77 +++++++++++++++++++
+>   1 file changed, 77 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
+> 
