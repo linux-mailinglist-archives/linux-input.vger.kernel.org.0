@@ -2,301 +2,349 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC44A4CDBBE
-	for <lists+linux-input@lfdr.de>; Fri,  4 Mar 2022 19:05:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A054D4CDC45
+	for <lists+linux-input@lfdr.de>; Fri,  4 Mar 2022 19:21:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241527AbiCDSFr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Mar 2022 13:05:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41458 "EHLO
+        id S234546AbiCDSWN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Mar 2022 13:22:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241495AbiCDSFo (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Mar 2022 13:05:44 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07F871C4B07;
-        Fri,  4 Mar 2022 10:04:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646417096; x=1677953096;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=19rMmk4BxkjjXth3zxKnLHokLNSzgmc3OuMKbnnibxU=;
-  b=ZET83XFvgoQxomUG2bdIjEuAX8ZURWOYf/unG8JFzeFXXCuQfCnMzRCa
-   Gnemht2H6lmmZmWsav2l39+cS3nctzXsqAuD0k276rA8qGrip8mS1X8ZB
-   SfuVEiPYHVFSHJKA0cJJ0uDADXdl0RPvSmQYQfwASy5Mdor2IebJ5yKtw
-   ax0BmqtLEMOOTFJeDYVv6BcRi9uKheV6UdvmeC2zTUN04XtXEtTnI9hZx
-   PUA7r0i1E7xVJuqd8WpxFLVyAbLTnzSEMsvV0RK7ra/b+FRz4jKzG6wDU
-   I4TIhTpIA2qTRQ4uAl/OdATc0iI8A5Ebs1PtKbMsKuGKs1QqRWKd8Ke5w
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10276"; a="252856785"
-X-IronPort-AV: E=Sophos;i="5.90,155,1643702400"; 
-   d="scan'208";a="252856785"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2022 10:04:54 -0800
-X-IronPort-AV: E=Sophos;i="5.90,155,1643702400"; 
-   d="scan'208";a="552308832"
-Received: from qiantong-mobl1.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.212.225.201])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2022 10:04:54 -0800
-Message-ID: <64bc4222d1a1b8129c889f63f57eaeb2cca52770.camel@linux.intel.com>
-Subject: Re: [PATCH] HID: intel-ish-hid: Use dma_alloc_coherent for firmware
- update
-From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Gwendal Grignou <gwendal@chromium.org>
-Cc:     jikos@kernel.org, linux-input@vger.kernel.org,
-        stable@vger.kernel.org
-Date:   Fri, 04 Mar 2022 10:04:54 -0800
-In-Reply-To: <CAPUE2uubb6Xbdx9qUSdm3P9ZGmaVcG+6wCgJ_hQ2OEZSYKcJag@mail.gmail.com>
-References: <20220209050947.2119465-1-gwendal@chromium.org>
-         <9ba46bf0894bdee52bc3ebca4527d115ebf067a6.camel@linux.intel.com>
-         <CAPUE2utMOYJobCEj3ZzPfdovRJVXVhNJg3CFHCNt0Jq=w68ovA@mail.gmail.com>
-         <80a7df19f77246450a1a89693d095035881f42b7.camel@linux.intel.com>
-         <CAPUE2uubb6Xbdx9qUSdm3P9ZGmaVcG+6wCgJ_hQ2OEZSYKcJag@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+        with ESMTP id S229866AbiCDSWN (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Mar 2022 13:22:13 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F2C81D3045;
+        Fri,  4 Mar 2022 10:21:24 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2C56BB82A88;
+        Fri,  4 Mar 2022 18:21:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35D9BC340E9;
+        Fri,  4 Mar 2022 18:21:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1646418081;
+        bh=ijAnT92eJIWDRpJp0pSBCthRFzRenCZ3oVxEs3ekiKQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eJ+8W3M/Fd3dxHBMcadLocUW48x7wlVV3T950BQXjmcgY5tgOPNMVt8kdZ1dQSrAB
+         hSr66zlEH6giXWJvtV6eixvm1ADH1hplwb3t3hegm7uToNSax9wicI9bMEnhFNIcuv
+         CT5YoYXa6T9TA55foie+L9Vi/LsMGqOl6bQ6Tjdk=
+Date:   Fri, 4 Mar 2022 19:21:09 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH bpf-next v2 02/28] bpf: introduce hid program type
+Message-ID: <YiJYlfIywoG5yIMd@kroah.com>
+References: <20220304172852.274126-1-benjamin.tissoires@redhat.com>
+ <20220304172852.274126-3-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220304172852.274126-3-benjamin.tissoires@redhat.com>
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_RED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2022-02-10 at 10:34 -0800, Gwendal Grignou wrote:
-> On Wed, Feb 9, 2022 at 6:51 PM srinivas pandruvada
-> <srinivas.pandruvada@linux.intel.com> wrote:
-> > 
-> > On Wed, 2022-02-09 at 16:59 -0800, Gwendal Grignou wrote:
-> > > On Wed, Feb 9, 2022 at 10:52 AM srinivas pandruvada
-> > > <srinivas.pandruvada@linux.intel.com> wrote:
-> > > > 
-> > > > On Tue, 2022-02-08 at 21:09 -0800, Gwendal Grignou wrote:
-> > > > > Allocating memory with kmalloc and GPF_DMA32 is not allowed,
-> > > > > the
-> > > > > allocator will ignore the attribute.
-> > > > > 
-> > > > Looks like there is new error flow added here for this flag.
-> > > > Is this just removing GFP_DMA32 not enough?
-> > > It was already ignored. It is not enough and I don't know why
-> > > since
-> > > the virtual and physical addresses are in the same range:
-> > > 
-> > > With using kmalloc/dma_single_sync:
-> > > 5.10 (firmware not loading)
-> > > [    3.837996] ish-loader {C804D06A-55BD-4EA7-ADED-1E31228C76DC}:
-> > > kmalloc/dma_map_single: v:0xffff91531ae88000,
-> > > phy:0x0000000085afe000
-> > > [    3.838003] ish-loader {C804D06A-55BD-4EA7-ADED-1E31228C76DC}:
-> > > xfer_mode=dma offset=0x00000000 size=0x4000 is_last=0
-> > > ddr_phys_addr=0x0000000085afe000
-> > > ...
-> > > 
-> > > 4.19 (firmware loading)
-> > > [    3.878300] ish-loader {C804D06A-55BD-4EA7-ADED-1E31228C76DC}:
-> > > kmalloc/dma_map_single: v:0xffff88c145480000,
-> > > phy:0x0000000085480000
-> > > [    3.878322] ish-loader {C804D06A-55BD-4EA7-ADED-1E31228C76DC}:
-> > > xfer_mode=dma offset=0x00000000 size=0x4000 is_last=0
-> > > ddr_phys_addr=0x0000000085480000
-> > > ...
-> > > 
-> > > I also considered flushing the CPU cache before the
-> > > dma_sync_single_for_device call, and calling
-> > > dma_sync_single_for_cpu()
-> > > after loader_cl_send() to be allowed to write into the buffer
-> > > again.
-> > > But these did not help either.
-> > > 
-> > > But using dma_alloc_coherent() clearly works and its simpler API
-> > > makes
-> > That is OK.
-> > 
-> > > it more appropriate for the task at hand.
-> > > 
-> > > For reference, the same log when using dma_alloc_coherent().
-> > > [    3.779723] ish-loader {C804D06A-55BD-4EA7-ADED-1E31228C76DC}:
-> > > dma_alloc_coherent: v:0xffff9beb81048000, phy:0x0000000001048000
-> > > [    3.779731] ish-loader {C804D06A-55BD-4EA7-ADED-1E31228C76DC}:
-> > > xfer_mode=dma offset=0x00000000 size=0x4000 is_last=0
-> > > ddr_phys_addr=0x0000000001048000
-> > > ...
-> > > 
-> > > > 
-> > > > > Instead, use dma_alloc_coherent() API as we allocate a small
-> > > > > amount
-> > > > > of
-> > > > > memory to transfer firmware fragment to the ISH.
-> > > > > 
-> > > > > On Arcada chromebook, after the patch the warning:
-> > > > > "Unexpected gfp: 0x4 (GFP_DMA32). Fixing up to gfp: 0xcc0
-> > > > > (GFP_KERNEL).  Fix your code!"
-> > > > > is gone. The ISH firmware is loaded properly and we can
-> > > > > interact
-> > > > > with
-> > > > > the ISH:
-> > > > > > ectool  --name cros_ish version
-> > > > > ...
-> > > > > Build info:    arcada_ish_v2.0.3661+3c1a1c1ae0 2022-02-08
-> > > > > 05:37:47
-> > > > > @localhost
-> > > > > Tool version:  v2.0.12300-900b03ec7f 2022-02-08 10:01:48
-> > > > > @localhost
-> > > > > 
-> > > > > Fixes: commit 91b228107da3 ("HID: intel-ish-hid: ISH firmware
-> > > > > loader
-> > > > > client driver")
-> > > > > Signed-off-by: Gwendal Grignou <gwendal@chromium.org>
-> > > > > Cc: stable@vger.kernel.org
-> > > > > ---
-> > > > >  drivers/hid/intel-ish-hid/ishtp-fw-loader.c | 29 +++--------
-> > > > > ----
-> > > > > ----
-> > > > > --
-> > > > >  1 file changed, 3 insertions(+), 26 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-> > > > > b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-> > > > > index e24988586710..16aa030af845 100644
-> > > > > --- a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-> > > > > +++ b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-> > > > > @@ -661,21 +661,12 @@ static int
-> > > > > ish_fw_xfer_direct_dma(struct
-> > > > > ishtp_cl_data *client_data,
-> > > > >          */
-> > > > >         payload_max_size &= ~(L1_CACHE_BYTES - 1);
-> > > > > 
-> > > > > -       dma_buf = kmalloc(payload_max_size, GFP_KERNEL |
-> > > > > GFP_DMA32);
-> > > > > +       dma_buf = dma_alloc_coherent(devc, payload_max_size,
-> > > > > &dma_buf_phy, GFP_KERNEL);
-> > > > >         if (!dma_buf) {
-> > > > >                 client_data->flag_retry = true;
-> > > > >                 return -ENOMEM;
-> > > > >         }
-> > > > > 
-> > > > > -       dma_buf_phy = dma_map_single(devc, dma_buf,
-> > > > > payload_max_size,
-> > > > > -                                    DMA_TO_DEVICE);
-> > > > > -       if (dma_mapping_error(devc, dma_buf_phy)) {
-> > > > > -               dev_err(cl_data_to_dev(client_data), "DMA map
-> > > > > failed\n");
-> > > > > -               client_data->flag_retry = true;
-> > > > > -               rv = -ENOMEM;
-> > > > > -               goto end_err_dma_buf_release;
-> > > > > -       }
-> > > > > -
-> > > > >         ldr_xfer_dma_frag.fragment.hdr.command =
-> > > > > LOADER_CMD_XFER_FRAGMENT;
-> > > > >         ldr_xfer_dma_frag.fragment.xfer_mode =
-> > > > > LOADER_XFER_MODE_DIRECT_DMA;
-> > > > >         ldr_xfer_dma_frag.ddr_phys_addr = (u64)dma_buf_phy;
-> > > > > @@ -695,14 +686,7 @@ static int ish_fw_xfer_direct_dma(struct
-> > > > > ishtp_cl_data *client_data,
-> > > > >                 ldr_xfer_dma_frag.fragment.size =
-> > > > > fragment_size;
-> > > > >                 memcpy(dma_buf, &fw->data[fragment_offset],
-> > > > > fragment_size);
-> > > > > 
-> > > > > -               dma_sync_single_for_device(devc, dma_buf_phy,
-> > > > > -                                          payload_max_size,
-> > > > > -                                          DMA_TO_DEVICE);
-> > > > > -
-> > > > Any reason for removal of sync?
-> > > It is not needed since we are using dma_alloc_coherent(). From
-> > > [1]:
-> > > """
-> > > void *
-> > > dma_alloc_coherent(struct device *dev, size_t size,
-> > >    dma_addr_t *dma_handle, gfp_t flag)
-> > > 
-> > > Consistent memory is memory for which a write by either the
-> > > device or
-> > > the processor can immediately be read by the processor or device
-> > > without having to worry about caching effects.  (You may however
-> > > need
-> > > to make sure to flush the processor's write buffers before
-> > > telling
-> > > devices to read that memory.)
-> > > 
-> > > This routine allocates a region of <size> bytes of consistent
-> > > memory.
-> > > """'
-> > > 
-> >  I checked with some dma folks. This call may still be required for
-> > some device. Most likely not as this is on chip device.
-> > What happens if you leave this call? I worry for regression on some
-> > old
-> > systems.
-I couldn't find any Chrome device to experiment.
-Please try with "swiotlb=force" and if it works, then this if fine to
-take the patch as is.
-
-Thanks,
-Srinivas
-
-> I truly believe this call is unnecessary: From the docs, dma_sync_...
-> is only for streaming DMA mappings, not for coherent memory. Another
-> link here:
-> http://lists.infradead.org/pipermail/linux-arm-kernel/2015-May/341712.html
-> Looking at older drivers, for instance exec_drive_command() in
-> driver/block/mtip32xx/mtip32xx.c, there are no dma_sync_ between
-> dma_alloc_ and dma_free_.
-> In a simple driver - drivers/scsi/advansys.c - that only uses
-> coherent
-> DMA memory, no dma_sync calls are used.
-> As long as we have a memory barrier before sending the packet
-> downstream, we are covered. I rebooted my machine in a loop without
-> error overnight.
+On Fri, Mar 04, 2022 at 06:28:26PM +0100, Benjamin Tissoires wrote:
+> HID is a protocol that could benefit from using BPF too.
 > 
-> Gwendal.
+> This patch implements a net-like use of BPF capability for HID.
+> Any incoming report coming from the device can be injected into a series
+> of BPF programs that can modify it or even discard it by setting the
+> size in the context to 0.
 > 
-> > 
-> > Thanks,
-> > Srinivas
-> > 
-> > 
-> > 
-> > > > Thanks,
-> > > > Srinivas
-> > > > 
-> > > > > -               /*
-> > > > > -                * Flush cache here because the
-> > > > > dma_sync_single_for_device()
-> > > > > -                * does not do for x86.
-> > > > > -                */
-> > > > > +               /* Flush cache to be sure the data is in main
-> > > > > memory.
-> > > > > */
-> > > > >                 clflush_cache_range(dma_buf,
-> > > > > payload_max_size);
-> > > > > 
-> > > > >                 dev_dbg(cl_data_to_dev(client_data),
-> > > > > @@ -725,15 +709,8 @@ static int ish_fw_xfer_direct_dma(struct
-> > > > > ishtp_cl_data *client_data,
-> > > > >                 fragment_offset += fragment_size;
-> > > > >         }
-> > > > > 
-> > > > > -       dma_unmap_single(devc, dma_buf_phy, payload_max_size,
-> > > > > DMA_TO_DEVICE);
-> > > > > -       kfree(dma_buf);
-> > > > > -       return 0;
-> > > > > -
-> > > > >  end_err_resp_buf_release:
-> > > > > -       /* Free ISH buffer if not done already, in error case
-> > > > > */
-> > > > > -       dma_unmap_single(devc, dma_buf_phy, payload_max_size,
-> > > > > DMA_TO_DEVICE);
-> > > > > -end_err_dma_buf_release:
-> > > > > -       kfree(dma_buf);
-> > > > > +       dma_free_coherent(devc, payload_max_size, dma_buf,
-> > > > > dma_buf_phy);
-> > > > >         return rv;
-> > > > >  }
-> > > > > 
-> > > > 
-> > > 
-> > > [1]https://www.kernel.org/doc/Documentation/DMA-API.txt
-> > 
+> The kernel/bpf implementation is based on net-namespace.c, with only
+> the bpf_link part kept, there is no real points in keeping the
+> bpf_prog_{attach|detach} API.
+> 
+> The implementation here is only focusing on the bpf changes. The HID
+> changes that hooks onto this are coming in a separate patch.
+> 
+> Given that HID can be compiled in as a module, and the functions that
+> kernel/bpf/hid.c needs to call in hid.ko are exported in struct hid_hooks.
+> 
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> 
+> ---
+> 
+> changes in v2:
+> - split the series by bpf/libbpf/hid/selftests and samples
+> - unsigned long -> __u16 in uapi/linux/bpf_hid.h
+> - change the bpf_ctx to be of variable size, with a min of 1024 bytes
+> - make this 1 kB available directly from bpf program, the rest will
+>   need a helper
+> - add some more doc comments in uapi
+> ---
+>  include/linux/bpf-hid.h        | 108 ++++++++
+>  include/linux/bpf_types.h      |   4 +
+>  include/linux/hid.h            |   5 +
+>  include/uapi/linux/bpf.h       |   7 +
+>  include/uapi/linux/bpf_hid.h   |  39 +++
+>  kernel/bpf/Makefile            |   3 +
+>  kernel/bpf/hid.c               | 437 +++++++++++++++++++++++++++++++++
+>  kernel/bpf/syscall.c           |   8 +
+>  tools/include/uapi/linux/bpf.h |   7 +
+>  9 files changed, 618 insertions(+)
+>  create mode 100644 include/linux/bpf-hid.h
+>  create mode 100644 include/uapi/linux/bpf_hid.h
+>  create mode 100644 kernel/bpf/hid.c
+> 
+> diff --git a/include/linux/bpf-hid.h b/include/linux/bpf-hid.h
+> new file mode 100644
+> index 000000000000..3cda78051b5f
+> --- /dev/null
+> +++ b/include/linux/bpf-hid.h
+> @@ -0,0 +1,108 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _BPF_HID_H
+> +#define _BPF_HID_H
+> +
+> +#include <linux/mutex.h>
+> +#include <uapi/linux/bpf.h>
+> +#include <uapi/linux/bpf_hid.h>
+> +#include <linux/list.h>
+> +#include <linux/slab.h>
+> +
+> +struct bpf_prog;
+> +struct bpf_prog_array;
+> +struct hid_device;
+> +
+> +enum bpf_hid_attach_type {
+> +	BPF_HID_ATTACH_INVALID = -1,
+> +	BPF_HID_ATTACH_DEVICE_EVENT = 0,
+> +	MAX_BPF_HID_ATTACH_TYPE
+> +};
+> +
+> +struct bpf_hid {
+> +	struct hid_bpf_ctx *ctx;
+> +
+> +	/* Array of programs to run compiled from links */
+> +	struct bpf_prog_array __rcu *run_array[MAX_BPF_HID_ATTACH_TYPE];
+> +	struct list_head links[MAX_BPF_HID_ATTACH_TYPE];
+> +};
+> +
+> +static inline enum bpf_hid_attach_type
+> +to_bpf_hid_attach_type(enum bpf_attach_type attach_type)
+> +{
+> +	switch (attach_type) {
+> +	case BPF_HID_DEVICE_EVENT:
+> +		return BPF_HID_ATTACH_DEVICE_EVENT;
+> +	default:
+> +		return BPF_HID_ATTACH_INVALID;
+> +	}
+> +}
+> +
+> +static inline struct hid_bpf_ctx *bpf_hid_allocate_ctx(struct hid_device *hdev,
+> +						       size_t data_size)
+> +{
+> +	struct hid_bpf_ctx *ctx;
+> +
+> +	/* ensure data_size is between min and max */
+> +	data_size = clamp_val(data_size,
+> +			      HID_BPF_MIN_BUFFER_SIZE,
+> +			      HID_BPF_MAX_BUFFER_SIZE);
+
+Do you want to return an error if the data size is not within the range?
+Otherwise people will just start to use crazy values and you will always
+be limiting them?
+
+> +
+> +	ctx = kzalloc(sizeof(*ctx) + data_size, GFP_KERNEL);
+> +	if (!ctx)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	ctx->hdev = hdev;
+> +	ctx->allocated_size = data_size;
+> +
+> +	return ctx;
+> +}
+
+And why is this an inline function?  Why not put it in a .c file?
+
+> +
+> +union bpf_attr;
+> +struct bpf_prog;
+> +
+> +#if IS_ENABLED(CONFIG_HID)
+> +int bpf_hid_prog_query(const union bpf_attr *attr,
+> +		       union bpf_attr __user *uattr);
+> +int bpf_hid_link_create(const union bpf_attr *attr,
+> +			struct bpf_prog *prog);
+> +#else
+> +static inline int bpf_hid_prog_query(const union bpf_attr *attr,
+> +				     union bpf_attr __user *uattr)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static inline int bpf_hid_link_create(const union bpf_attr *attr,
+> +				      struct bpf_prog *prog)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +#endif
+> +
+> +static inline bool bpf_hid_link_empty(struct bpf_hid *bpf,
+> +				      enum bpf_hid_attach_type type)
+> +{
+> +	return list_empty(&bpf->links[type]);
+> +}
+> +
+> +struct bpf_hid_hooks {
+> +	struct hid_device *(*hdev_from_fd)(int fd);
+> +	int (*link_attach)(struct hid_device *hdev, enum bpf_hid_attach_type type);
+> +	void (*array_detached)(struct hid_device *hdev, enum bpf_hid_attach_type type);
+> +};
+> +
+> +#ifdef CONFIG_BPF
+> +int bpf_hid_init(struct hid_device *hdev);
+> +void bpf_hid_exit(struct hid_device *hdev);
+> +void bpf_hid_set_hooks(struct bpf_hid_hooks *hooks);
+> +#else
+> +static inline int bpf_hid_init(struct hid_device *hdev)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void bpf_hid_exit(struct hid_device *hdev) {}
+> +static inline void bpf_hid_set_hooks(struct bpf_hid_hooks *hooks) {}
+> +#endif
+> +
+> +#endif /* _BPF_HID_H */
+> diff --git a/include/linux/bpf_types.h b/include/linux/bpf_types.h
+> index 48a91c51c015..1509862aacc4 100644
+> --- a/include/linux/bpf_types.h
+> +++ b/include/linux/bpf_types.h
+> @@ -76,6 +76,10 @@ BPF_PROG_TYPE(BPF_PROG_TYPE_EXT, bpf_extension,
+>  BPF_PROG_TYPE(BPF_PROG_TYPE_LSM, lsm,
+>  	       void *, void *)
+>  #endif /* CONFIG_BPF_LSM */
+> +#if IS_ENABLED(CONFIG_HID)
+> +BPF_PROG_TYPE(BPF_PROG_TYPE_HID, hid,
+> +	      __u32, u32)
+
+Why the mix of __u32 and u32 here?
+
+> +#endif
+>  #endif
+>  BPF_PROG_TYPE(BPF_PROG_TYPE_SYSCALL, bpf_syscall,
+>  	      void *, void *)
+> diff --git a/include/linux/hid.h b/include/linux/hid.h
+> index 7487b0586fe6..56f6f4ad45a7 100644
+> --- a/include/linux/hid.h
+> +++ b/include/linux/hid.h
+> @@ -15,6 +15,7 @@
+>  
+>  
+>  #include <linux/bitops.h>
+> +#include <linux/bpf-hid.h>
+>  #include <linux/types.h>
+>  #include <linux/slab.h>
+>  #include <linux/list.h>
+> @@ -639,6 +640,10 @@ struct hid_device {							/* device report descriptor */
+>  	struct list_head debug_list;
+>  	spinlock_t  debug_list_lock;
+>  	wait_queue_head_t debug_wait;
+> +
+> +#ifdef CONFIG_BPF
+> +	struct bpf_hid bpf;
+> +#endif
+>  };
+>  
+>  #define to_hid_device(pdev) \
+> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+> index afe3d0d7f5f2..5978b92cacd3 100644
+> --- a/include/uapi/linux/bpf.h
+> +++ b/include/uapi/linux/bpf.h
+> @@ -952,6 +952,7 @@ enum bpf_prog_type {
+>  	BPF_PROG_TYPE_LSM,
+>  	BPF_PROG_TYPE_SK_LOOKUP,
+>  	BPF_PROG_TYPE_SYSCALL, /* a program that can execute syscalls */
+> +	BPF_PROG_TYPE_HID,
+>  };
+>  
+>  enum bpf_attach_type {
+> @@ -997,6 +998,7 @@ enum bpf_attach_type {
+>  	BPF_SK_REUSEPORT_SELECT,
+>  	BPF_SK_REUSEPORT_SELECT_OR_MIGRATE,
+>  	BPF_PERF_EVENT,
+> +	BPF_HID_DEVICE_EVENT,
+>  	__MAX_BPF_ATTACH_TYPE
+>  };
+>  
+> @@ -1011,6 +1013,7 @@ enum bpf_link_type {
+>  	BPF_LINK_TYPE_NETNS = 5,
+>  	BPF_LINK_TYPE_XDP = 6,
+>  	BPF_LINK_TYPE_PERF_EVENT = 7,
+> +	BPF_LINK_TYPE_HID = 8,
+>  
+>  	MAX_BPF_LINK_TYPE,
+>  };
+> @@ -5870,6 +5873,10 @@ struct bpf_link_info {
+>  		struct {
+>  			__u32 ifindex;
+>  		} xdp;
+> +		struct  {
+> +			__s32 hidraw_ino;
+
+"ino"?  We have lots of letters to spell words out :)
+
+> +			__u32 attach_type;
+> +		} hid;
+>  	};
+>  } __attribute__((aligned(8)));
+>  
+> diff --git a/include/uapi/linux/bpf_hid.h b/include/uapi/linux/bpf_hid.h
+> new file mode 100644
+> index 000000000000..975ca5bd526f
+> --- /dev/null
+> +++ b/include/uapi/linux/bpf_hid.h
+> @@ -0,0 +1,39 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later WITH Linux-syscall-note */
+> +
+> +/*
+> + *  HID BPF public headers
+> + *
+> + *  Copyright (c) 2021 Benjamin Tissoires
+
+Did you forget the copyright line on the other .h file above?
+
+> + */
+> +
+> +#ifndef _UAPI__LINUX_BPF_HID_H__
+> +#define _UAPI__LINUX_BPF_HID_H__
+> +
+> +#include <linux/types.h>
+> +
+> +/*
+> + * The first 1024 bytes are available directly in the bpf programs.
+> + * To access the rest of the data (if allocated_size is bigger
+> + * than 1024, you need to use bpf_hid_ helpers.
+> + */
+> +#define HID_BPF_MIN_BUFFER_SIZE		1024
+> +#define HID_BPF_MAX_BUFFER_SIZE		16384		/* in sync with HID_MAX_BUFFER_SIZE */
+
+Can't you just use HID_MAX_BUFFER_SIZE?
+
+Anyway, all minor stuff, looks good!
+
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
