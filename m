@@ -2,135 +2,200 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEFD34CD45B
-	for <lists+linux-input@lfdr.de>; Fri,  4 Mar 2022 13:39:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 434054CDA61
+	for <lists+linux-input@lfdr.de>; Fri,  4 Mar 2022 18:29:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231403AbiCDMjy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Mar 2022 07:39:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34842 "EHLO
+        id S238806AbiCDRaF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Mar 2022 12:30:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229886AbiCDMjy (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Mar 2022 07:39:54 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C530F13FAD2;
-        Fri,  4 Mar 2022 04:39:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646397545; x=1677933545;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QJ5044QybdgyBcGGWpEQ66a2p8/cp1NF4P4f5axlo9k=;
-  b=joUQmOxSdedcN1I9+GCIIO+RMAaKFRpjw5usPStdRAhlmxkAX38OjT2u
-   M1y7wTiV45Y9l0bAM6CE89MQAxrXPLUwYCK6RpXS98UyzEVrS9Z63XJZV
-   +nNNALn9Fg2JYZJ7SB/u7XV2EHtGj+tRmZz9BL5QaZ9gG8PD/iPvgU/1x
-   Ox7zFg2ZOWBfRtL5DM9ejLI+FaQA7VYz4iShZ7+HX8SNKff0AIPHUNJBg
-   51baMoOBS/U+cdEAeZr2qNVtj4I0fxKh/aV0dvTREkRHG5pCip/FBag1x
-   rQpT9UoCBtMaQwvdqVXN3mlGD+aMkwFf9J03F0DiQgKNqbaUT0BAHLKdb
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10275"; a="252793831"
-X-IronPort-AV: E=Sophos;i="5.90,155,1643702400"; 
-   d="scan'208";a="252793831"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2022 04:39:05 -0800
-X-IronPort-AV: E=Sophos;i="5.90,155,1643702400"; 
-   d="scan'208";a="576869293"
-Received: from smile.fi.intel.com ([10.237.72.59])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2022 04:39:01 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nQ7CI-00BDcA-IQ;
-        Fri, 04 Mar 2022 14:38:14 +0200
-Date:   Fri, 4 Mar 2022 14:38:14 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Fengping Yu <fengping.yu@mediatek.com>,
-        Yingjoe Chen <yingjoe.chen@mediatek.com>,
-        Fabien Parent <fparent@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v21 2/3] Input: mt6779-keypad - Add MediaTek keypad driver
-Message-ID: <YiIINpi4zbJq/AZE@smile.fi.intel.com>
-References: <20220303154302.252041-1-mkorpershoek@baylibre.com>
- <20220303154302.252041-3-mkorpershoek@baylibre.com>
- <300114e2-6794-db3c-a51c-3f900b6476f9@collabora.com>
+        with ESMTP id S238586AbiCDRaE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Mar 2022 12:30:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4317A144F41
+        for <linux-input@vger.kernel.org>; Fri,  4 Mar 2022 09:29:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1646414955;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=JLcaNFoE2+O0p0Og9VR8JqYYYchyQ3ie9yDd/O1/oyc=;
+        b=Uftmb+VjS2N6+nd06Mc+vE1JOImM/86003dFyQEcGJRkLSQ13UvUxScsXboK2GFiDcO1BS
+        JlVWkC5+4FGPPc37ekz7yYoNh2HS3+bia2zWWn+ESwka5dlSGHOLml66u9XcXuK0iepmDX
+        PUgKONVBrtFsa45h2W/lgg+E/XlAUrU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-92-k_uNrN6uNGuz396T5P2sYg-1; Fri, 04 Mar 2022 12:29:12 -0500
+X-MC-Unique: k_uNrN6uNGuz396T5P2sYg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CF521006AA5;
+        Fri,  4 Mar 2022 17:29:09 +0000 (UTC)
+Received: from plouf.redhat.com (unknown [10.39.192.55])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2E74386599;
+        Fri,  4 Mar 2022 17:28:58 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>
+Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH bpf-next v2 00/28] Introduce eBPF support for HID devices
+Date:   Fri,  4 Mar 2022 18:28:24 +0100
+Message-Id: <20220304172852.274126-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <300114e2-6794-db3c-a51c-3f900b6476f9@collabora.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Mar 04, 2022 at 11:31:38AM +0100, AngeloGioacchino Del Regno wrote:
-> Il 03/03/22 16:43, Mattijs Korpershoek ha scritto:
-> > From: "fengping.yu" <fengping.yu@mediatek.com>
-> > 
-> > This patch adds matrix keypad support for Mediatek SoCs.
+Hi,
 
-> > +struct mt6779_keypad {
-> > +	struct regmap *regmap;
-> > +	struct input_dev *input_dev;
-> > +	struct clk *clk;
+This is a followup of my v1 at [0].
 
-> > +	void __iomem *base;
+The short summary of the previous cover letter and discussions is that
+HID could benefit from BPF for the following use cases:
 
-Not sure why you need this here.
+- simple fixup of report descriptor:
+  benefits are faster development time and testing, with the produced
+  bpf program being shipped in the kernel directly (the shipping part
+  is *not* addressed here).
 
-> > +	u32 n_rows;
-> > +	u32 n_cols;
-> > +	DECLARE_BITMAP(keymap_state, MTK_KPD_NUM_BITS);
-> > +};
-> > +
-> > +static const struct regmap_config mt6779_keypad_regmap_cfg = {
-> > +	.reg_bits = 32,
-> > +	.val_bits = 32,
-> > +	.reg_stride = sizeof(u32),
-> > +	.max_register = 36,
-> 
-> Are you sure that you can't use .fast_io = true?
-> 
-> Another version for the same question:
-> Are you sure that you need to lock with a mutex here, and not with a spinlock?
-> 
-> Since you're performing reads over a MMIO, I think that there's a very good
-> chance that you can use fast_io.
-> 
-> > +};
+- Universal Stylus Interface:
+  allows a user-space program to define its own kernel interface
 
-...
+- Surface Dial:
+  somehow similar to the previous one except that userspace can decide
+  to change the shape of the exported device
 
-> Please use dev_err_probe() to simplify error handling in probe functions: you've
-> done a great job with adding a devm action for the error cases, avoiding gotos to
-> get out cleanly.. it would be a pity to not finish this to perfection.
-> 
-> I'll give you two examples for this, so that you'll be all set.
-> 
-> 	if (IS_ERR(keypad->regmap))
-> 		return dev_err_probe(&pdev->dev, PTR_ERR(keypad->regmap),
-> 				     "regmap init failed\n");
-> 
-> P.S.: No need for %pe here, as dev_err_probe prints the error number for you!
+- firewall:
+  still partly missing there, there is not yet interception of hidraw
+  calls, but it's coming in a followup series, I promise
 
-Maintainer of the input subsystem is strongly against dev_err_probe() API. See
-other files there. Ditto for other cases you mentioned below.
+- tracing:
+  well, tracing.
+
+
+I tried to address as many comments as I could and here is the short log
+of changes:
+
+v2:
+===
+
+- split the series by subsystem (bpf, HID, libbpf, selftests and
+  samples)
+
+- Added an extra patch at the beginning to not require CAP_NET_ADMIN for
+  BPF_PROG_TYPE_LIRC_MODE2 (please shout if this is wrong)
+
+- made the bpf context attached to HID program of dynamic size:
+  * the first 1 kB will be able to be addressed directly
+  * the rest can be retrieved through bpf_hid_{set|get}_data
+    (note that I am definitivey not happy with that API, because there
+    is part of it in bits and other in bytes. ouch)
+
+- added an extra patch to prevent non GPL HID bpf programs to be loaded
+  of type BPF_PROG_TYPE_HID
+  * same here, not really happy but I don't know where to put that check
+    in verifier.c
+
+- added a new flag BPF_F_INSERT_HEAD for BPF_LINK_CREATE syscall when in
+  used with HID program types.
+  * this flag is used for tracing, to be able to load a program before
+    any others that might already have been inserted and that might
+    change the data stream.
+
+Cheers,
+Benjamin
+
+
+
+[0] https://lore.kernel.org/linux-input/20220224110828.2168231-1-benjamin.tissoires@redhat.com/T/#t
+
+
+Benjamin Tissoires (28):
+  bpf: add new is_sys_admin_prog_type() helper
+  bpf: introduce hid program type
+  HID: hook up with bpf
+  libbpf: add HID program type and API
+  selftests/bpf: add tests for the HID-bpf initial implementation
+  samples/bpf: add new hid_mouse example
+  bpf/hid: add a new attach type to change the report descriptor
+  HID: allow to change the report descriptor from an eBPF program
+  libbpf: add new attach type BPF_HID_RDESC_FIXUP
+  selftests/bpf: add report descriptor fixup tests
+  samples/bpf: add a report descriptor fixup
+  bpf/hid: add hid_{get|set}_data helpers
+  HID: bpf: implement hid_bpf_get|set_data
+  selftests/bpf: add tests for hid_{get|set}_data helpers
+  bpf/hid: add new BPF type to trigger commands from userspace
+  libbpf: add new attach type BPF_HID_USER_EVENT
+  selftests/bpf: add test for user call of HID bpf programs
+  selftests/bpf: hid: rely on uhid event to know if a test device is
+    ready
+  bpf/hid: add bpf_hid_raw_request helper function
+  HID: add implementation of bpf_hid_raw_request
+  selftests/bpf: add tests for bpf_hid_hw_request
+  bpf/verifier: prevent non GPL programs to be loaded against HID
+  HID: bpf: compute only the required buffer size for the device
+  HID: bpf: only call hid_bpf_raw_event() if a ctx is available
+  bpf/hid: Add a flag to add the program at the beginning of the list
+  libbpf: add handling for BPF_F_INSERT_HEAD in HID programs
+  selftests/bpf: Add a test for BPF_F_INSERT_HEAD
+  samples/bpf: fix bpf_program__attach_hid() api change
+
+ drivers/hid/Makefile                         |   1 +
+ drivers/hid/hid-bpf.c                        | 361 +++++++++
+ drivers/hid/hid-core.c                       |  34 +-
+ include/linux/bpf-hid.h                      | 129 +++
+ include/linux/bpf_types.h                    |   4 +
+ include/linux/hid.h                          |  25 +
+ include/uapi/linux/bpf.h                     |  59 ++
+ include/uapi/linux/bpf_hid.h                 |  50 ++
+ kernel/bpf/Makefile                          |   3 +
+ kernel/bpf/hid.c                             | 652 +++++++++++++++
+ kernel/bpf/syscall.c                         |  26 +-
+ kernel/bpf/verifier.c                        |   7 +
+ samples/bpf/.gitignore                       |   1 +
+ samples/bpf/Makefile                         |   4 +
+ samples/bpf/hid_mouse_kern.c                 |  91 +++
+ samples/bpf/hid_mouse_user.c                 | 129 +++
+ tools/include/uapi/linux/bpf.h               |  59 ++
+ tools/lib/bpf/libbpf.c                       |  22 +-
+ tools/lib/bpf/libbpf.h                       |   2 +
+ tools/lib/bpf/libbpf.map                     |   1 +
+ tools/testing/selftests/bpf/prog_tests/hid.c | 788 +++++++++++++++++++
+ tools/testing/selftests/bpf/progs/hid.c      | 216 +++++
+ 22 files changed, 2649 insertions(+), 15 deletions(-)
+ create mode 100644 drivers/hid/hid-bpf.c
+ create mode 100644 include/linux/bpf-hid.h
+ create mode 100644 include/uapi/linux/bpf_hid.h
+ create mode 100644 kernel/bpf/hid.c
+ create mode 100644 samples/bpf/hid_mouse_kern.c
+ create mode 100644 samples/bpf/hid_mouse_user.c
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
+ create mode 100644 tools/testing/selftests/bpf/progs/hid.c
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.35.1
 
