@@ -2,191 +2,301 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D040B4CE1D1
-	for <lists+linux-input@lfdr.de>; Sat,  5 Mar 2022 02:14:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 319904CE22E
+	for <lists+linux-input@lfdr.de>; Sat,  5 Mar 2022 03:15:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230203AbiCEBO7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Mar 2022 20:14:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57398 "EHLO
+        id S229790AbiCECQg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Mar 2022 21:16:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230150AbiCEBO6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Mar 2022 20:14:58 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A57222452A;
-        Fri,  4 Mar 2022 17:14:09 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1478D61760;
-        Sat,  5 Mar 2022 01:14:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F6C9C340F3;
-        Sat,  5 Mar 2022 01:14:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646442848;
-        bh=vaBaHCp9DaFEapWiEZFao3YLd11lfyjPtyNq2m5VXs4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=c5/LqdcZfLOG1K7x4z+crxSvHxys5Zkw7f9QXyqpzs26ZTePy8t+0WwfcqMrN/+bL
-         7OU3ZWZcPFSiJEdUWxHxUilezuEjcF4oQsSLWZDefw7RU7+yQf6JYFeBiiFwNpBL+5
-         zheDWBqq8w34KXW1DeQAcMPyVzSlLEo/C5OUqeffQlUhhh+OQpkVI0aMAEyQVvGbcx
-         090qHvUTuLVHE08zvSEF4KwMRunGPqFd4srcdIieMD2n5NJ9xHH/NMUk5w1fQb/HQ6
-         9b+o7Dum29DB5legGE+aLzgcZ9HbFaFQmb4t6kAzbVMOL7UCGJcFGpDC4c8PC+k3jU
-         14wIbWL4XQElw==
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-2dc28791ecbso96077867b3.4;
-        Fri, 04 Mar 2022 17:14:08 -0800 (PST)
-X-Gm-Message-State: AOAM530yzNX9zSgQtcryoFISWLCal/6lCu7vaUOsPUktTI/EPz/VN4+h
-        aCZR/6uH6VpYMtFQ6xl3bUTbHHS7OYrGElk8Ud8=
-X-Google-Smtp-Source: ABdhPJwbMS+4wemss6vJVt55VmA2cZt2K+EUmtlozCbIK6ZzqQVPdiXo3ZGnJj6Y4ZRvYCbj3HqANRXxoQbmZCW59R8=
-X-Received: by 2002:a81:23ce:0:b0:2dc:b20:cc73 with SMTP id
- j197-20020a8123ce000000b002dc0b20cc73mr1211954ywj.130.1646442847422; Fri, 04
- Mar 2022 17:14:07 -0800 (PST)
+        with ESMTP id S229575AbiCECQe (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Mar 2022 21:16:34 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D34C91DC9AC
+        for <linux-input@vger.kernel.org>; Fri,  4 Mar 2022 18:15:40 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id mv5-20020a17090b198500b001bf2a039831so2689431pjb.5
+        for <linux-input@vger.kernel.org>; Fri, 04 Mar 2022 18:15:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=dI6nGsM9yzEiyYK5KAefaWvjpzRJqsHVRNkCHoeERy4=;
+        b=YDlPnjrzfw6Gifg9p8IaauRI7KCap2k3Wyv1RQLnd++e99HgqZJFkf8vLicjTJkc9b
+         z7cgR1TtsJeC9wtkJFVysKHkYgR2zFllZ1zWSXeMoXTQx5XaDbxiadWWSa5FidczX/hC
+         KnuE3Kg9X8Kk/lgnvNSALIcPDm71CdWd5Oo04U3xwZkLFIivQIO4CbwVg7tsGF3jAtRJ
+         zTwcIHJO5Xjj4I9GYbb6aHosIVxVwrmoc/6p5ChceqyJvxDCosPcnWcmZAM9z9GCEoSO
+         qzoI6hCP94gebdRbG+kkz0ZEFnRnB5vc65F/jRMf7lcEVybU7KJN7LSXgbZOM07B3/DD
+         k1pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=dI6nGsM9yzEiyYK5KAefaWvjpzRJqsHVRNkCHoeERy4=;
+        b=ibhhHGIcxmJ/ObtC6fwuSeKJ/xgjGG0EQ/0+EtGWhZXJVrMVtmPkINFCZv53F5XdMC
+         Qu5SHMpYSiWPE1UuF5Hi6dXqgQCqMbIoyYWsWL+i/6DthJFoE/nDbcGqksJDkam9hfKD
+         bibx+bYAIsn3Bp8NL/JZ2P0Q6sq+ZU+j/89udGoac4x5COskO9EBuJSQbuZlPuwJRsZ7
+         y1inQJKrSrYpmLQaGCkkLfE16jBFQWdfBuhZvsikEw5KI/Fz2M+0hCTD9ibMxpeRuXCp
+         sp7peTHe3u8xauc2wOGI4BY7/FloKwomy79Ftlk6cHRoKhJZ0E+lfyp4TGJrEG9gutc2
+         YUSw==
+X-Gm-Message-State: AOAM531m1FtxntdnfmpzqXGP62mgYYOLPlgU0SnYDE4R+hxt2XeeNPZW
+        gdMuCDvn1kBS1bZKTLSCU9w=
+X-Google-Smtp-Source: ABdhPJwOfDdB0OAIsNlzc5gAavi0R/IGCFGheDYXu58wh+S6xaa8IwlmwXVuqgW5Hf08mbOI9bHhQg==
+X-Received: by 2002:a17:90a:8591:b0:1b9:da10:2127 with SMTP id m17-20020a17090a859100b001b9da102127mr13698116pjn.13.1646446540106;
+        Fri, 04 Mar 2022 18:15:40 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:763d:48b4:9a92:4bce])
+        by smtp.gmail.com with ESMTPSA id n34-20020a056a000d6200b004e1ba1016absm7179512pfv.31.2022.03.04.18.15.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Mar 2022 18:15:38 -0800 (PST)
+Date:   Fri, 4 Mar 2022 18:15:36 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-input@vger.kernel.org, Michael Srba <Michael.Srba@seznam.cz>,
+        Nikita Travkin <nikita@trvn.ru>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH v3] Input: zinitix - Do not report shadow fingers
+Message-ID: <YiLHyOQw/Zp+IQ4+@google.com>
+References: <20220228233017.2270599-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-References: <20220304172852.274126-1-benjamin.tissoires@redhat.com>
-In-Reply-To: <20220304172852.274126-1-benjamin.tissoires@redhat.com>
-From:   Song Liu <song@kernel.org>
-Date:   Fri, 4 Mar 2022 17:13:56 -0800
-X-Gmail-Original-Message-ID: <CAPhsuW5APYjoZWKDkZ9CBZzaF0NfSQQ-OeZSJgDa=wB-5O+Wng@mail.gmail.com>
-Message-ID: <CAPhsuW5APYjoZWKDkZ9CBZzaF0NfSQQ-OeZSJgDa=wB-5O+Wng@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 00/28] Introduce eBPF support for HID devices
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220228233017.2270599-1-linus.walleij@linaro.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Mar 4, 2022 at 9:29 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> Hi,
->
-> This is a followup of my v1 at [0].
->
-> The short summary of the previous cover letter and discussions is that
-> HID could benefit from BPF for the following use cases:
->
-> - simple fixup of report descriptor:
->   benefits are faster development time and testing, with the produced
->   bpf program being shipped in the kernel directly (the shipping part
->   is *not* addressed here).
->
-> - Universal Stylus Interface:
->   allows a user-space program to define its own kernel interface
->
-> - Surface Dial:
->   somehow similar to the previous one except that userspace can decide
->   to change the shape of the exported device
->
-> - firewall:
->   still partly missing there, there is not yet interception of hidraw
->   calls, but it's coming in a followup series, I promise
->
-> - tracing:
->   well, tracing.
->
->
-> I tried to address as many comments as I could and here is the short log
-> of changes:
->
-> v2:
-> ===
->
-> - split the series by subsystem (bpf, HID, libbpf, selftests and
->   samples)
->
-> - Added an extra patch at the beginning to not require CAP_NET_ADMIN for
->   BPF_PROG_TYPE_LIRC_MODE2 (please shout if this is wrong)
->
-> - made the bpf context attached to HID program of dynamic size:
->   * the first 1 kB will be able to be addressed directly
->   * the rest can be retrieved through bpf_hid_{set|get}_data
->     (note that I am definitivey not happy with that API, because there
->     is part of it in bits and other in bytes. ouch)
->
-> - added an extra patch to prevent non GPL HID bpf programs to be loaded
->   of type BPF_PROG_TYPE_HID
->   * same here, not really happy but I don't know where to put that check
->     in verifier.c
->
-> - added a new flag BPF_F_INSERT_HEAD for BPF_LINK_CREATE syscall when in
->   used with HID program types.
->   * this flag is used for tracing, to be able to load a program before
->     any others that might already have been inserted and that might
->     change the data stream.
->
-> Cheers,
-> Benjamin
->
+Hi Linus,
 
-The set looks good so far. I will review the rest later.
+On Tue, Mar 01, 2022 at 12:30:17AM +0100, Linus Walleij wrote:
+> +static void zinitix_report_fingers(struct bt541_ts_data *bt541, struct touch_event *te)
+>  {
+> -	input_mt_slot(bt541->input_dev, slot);
+> -	input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER, true);
+> -	touchscreen_report_pos(bt541->input_dev, &bt541->prop,
+> -			       le16_to_cpu(p->x), le16_to_cpu(p->y), true);
+> -	input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR, p->width);
+> +	struct point_coord *p;
+> +	u16 x, y;
+> +	unsigned long fmask;
+> +	int i;
+> +
+> +	/*
+> +	 * If the corresponding finger is not active, do not report
+> +	 * what is happening on it.
+> +	 */
+> +	fmask = te->finger_mask;
+> +	for_each_set_bit(i, &fmask, MAX_SUPPORTED_FINGER_NUM) {
+> +		p = &te->point_coord[i];
+> +
+> +		/* Skip nonexisting fingers */
+> +		if (!(p->sub_status & SUB_BIT_EXIST))
+> +			continue;
+> +
+> +		x = le16_to_cpu(p->x);
+> +		y = le16_to_cpu(p->y);
+> +
+> +		input_mt_slot(bt541->input_dev, i);
+> +
+> +		if (p->sub_status & BIT_DOWN) {
+> +			/* Finger down */
+> +			input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER, true);
+> +			touchscreen_report_pos(bt541->input_dev, &bt541->prop, x, y, true);
+> +			input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR, p->width);
+> +			dev_dbg(&bt541->client->dev, "finger %d down (%u, %u)\n", i, x, y);
+> +		} else if (p->sub_status & BIT_UP) {
+> +			/* Release finger */
+> +			input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER, false);
+> +			touchscreen_report_pos(bt541->input_dev, &bt541->prop, x, y, true);
+> +			input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR, 0);
+> +			dev_dbg(&bt541->client->dev, "finger %d up (%u, %u)\n", i, x, y);
 
-[...]
+I think reporting releases should be a priority, or at least we should
+not be skipping it if for some reason both up and down bits are set.
+Also I believe we should be using SUB_BIT_* defines here (even though
+they are the same).
 
-A quick note about how we organize these patches. Maybe we can
-merge some of these patches like:
+> +		} else if (p->sub_status & BIT_MOVE) {
+> +			/* Finger moves while pressed down */
+> +			input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER, true);
+> +			touchscreen_report_pos(bt541->input_dev, &bt541->prop, x, y, true);
+> +			input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR, p->width);
+> +			dev_dbg(&bt541->client->dev, "finger %d move (%u, %u)\n", i, x, y);
+> +		} else {
+> +			dev_dbg(&bt541->client->dev, "unknown finger event\n");
+> +		}
+> +	}
+>  }
+>  
+>  static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
+> @@ -335,7 +373,6 @@ static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
+>  	struct i2c_client *client = bt541->client;
+>  	struct touch_event touch_event;
+>  	int error;
+> -	int i;
+>  
+>  	memset(&touch_event, 0, sizeof(struct touch_event));
+>  
+> @@ -346,10 +383,7 @@ static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
+>  		goto out;
+>  	}
+>  
+> -	for (i = 0; i < MAX_SUPPORTED_FINGER_NUM; i++)
+> -		if (touch_event.point_coord[i].sub_status & SUB_BIT_EXIST)
+> -			zinitix_report_finger(bt541, i,
+> -					      &touch_event.point_coord[i]);
+> +	zinitix_report_fingers(bt541, &touch_event);
 
->   bpf: introduce hid program type
->   bpf/hid: add a new attach type to change the report descriptor
->   bpf/hid: add new BPF type to trigger commands from userspace
-I guess the three can merge into one.
+I actually liked that we iterated over individual contacts here. I took
+the liberty to rearrange your patch a bit, could you please tell me if
+the version below looks OK to you?
 
->   HID: hook up with bpf
->   HID: allow to change the report descriptor from an eBPF program
->   HID: bpf: compute only the required buffer size for the device
->   HID: bpf: only call hid_bpf_raw_event() if a ctx is available
-I haven't read through all of them, but I guess they can probably merge
-as well.
+Thanks!
 
->   libbpf: add HID program type and API
->   libbpf: add new attach type BPF_HID_RDESC_FIXUP
->   libbpf: add new attach type BPF_HID_USER_EVENT
-There 3 can merge, and maybe also the one below
->   libbpf: add handling for BPF_F_INSERT_HEAD in HID programs
+-- 
+Dmitry
 
->   samples/bpf: add new hid_mouse example
->   samples/bpf: add a report descriptor fixup
->   samples/bpf: fix bpf_program__attach_hid() api change
-Maybe it makes sense to merge these 3?
+Input: zinitix - do not report shadow fingers
 
->   bpf/hid: add hid_{get|set}_data helpers
->   HID: bpf: implement hid_bpf_get|set_data
->   bpf/hid: add bpf_hid_raw_request helper function
->   HID: add implementation of bpf_hid_raw_request
-We can have 1 or 2 patches for these helpers
+From: Linus Walleij <linus.walleij@linaro.org>
 
->   selftests/bpf: add tests for the HID-bpf initial implementation
->   selftests/bpf: add report descriptor fixup tests
->   selftests/bpf: add tests for hid_{get|set}_data helpers
->   selftests/bpf: add test for user call of HID bpf programs
->   selftests/bpf: hid: rely on uhid event to know if a test device is
->     ready
->   selftests/bpf: add tests for bpf_hid_hw_request
->   selftests/bpf: Add a test for BPF_F_INSERT_HEAD
-These selftests could also merge into 1 or 2 patches I guess.
+I observed the following problem with the BT404 touch pad
+running the Phosh UI:
 
-I understand rearranging these patches may take quite some effort.
-But I do feel that's a cleaner approach (from someone doesn't know
-much about HID). If you really hate it that way, we can discuss...
+When e.g. typing on the virtual keyboard pressing "g" would
+produce "ggg".
 
-Thanks,
-Song
+After some analysis it turns out the firmware reports that three
+fingers hit that coordinate at the same time, finger 0, 2 and
+4 (of the five available 0,1,2,3,4).
+
+DOWN
+  Zinitix-TS 3-0020: finger 0 down (246, 395)
+  Zinitix-TS 3-0020: finger 1 up (0, 0)
+  Zinitix-TS 3-0020: finger 2 down (246, 395)
+  Zinitix-TS 3-0020: finger 3 up (0, 0)
+  Zinitix-TS 3-0020: finger 4 down (246, 395)
+UP
+  Zinitix-TS 3-0020: finger 0 up (246, 395)
+  Zinitix-TS 3-0020: finger 2 up (246, 395)
+  Zinitix-TS 3-0020: finger 4 up (246, 395)
+
+This is one touch and release: i.e. this is all reported on
+touch (down) and release.
+
+There is a field in the struct touch_event called finger_cnt
+which is actually a bitmask of the fingers active in the
+event.
+
+Rename this field finger_mask as this matches the use contents
+better, then use for_each_set_bit() to iterate over just the
+fingers that are actally active.
+
+Factor out a finger reporting function zinitix_report_fingers()
+to handle all fingers.
+
+Also be more careful in reporting finger down/up: we were
+reporting every event with input_mt_report_slot_state(..., true);
+but this should only be reported on finger down or move,
+not on finger up, so also add code to check p->sub_status
+to see what is happening and report correctly.
+
+After this my Zinitix BT404 touchscreen report fingers
+flawlessly.
+
+The vendor drive I have notably does not use the "finger_cnt"
+and contains obviously incorrect code like this:
+
+  if (touch_dev->touch_info.finger_cnt > MAX_SUPPORTED_FINGER_NUM)
+      touch_dev->touch_info.finger_cnt = MAX_SUPPORTED_FINGER_NUM;
+
+As MAX_SUPPORTED_FINGER_NUM is an ordinal and the field is
+a bitmask this seems quite confused.
+
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/touchscreen/zinitix.c |   44 ++++++++++++++++++++++++++++-------
+ 1 file changed, 35 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
+index 129ebc810de8..8bd03278ad9a 100644
+--- a/drivers/input/touchscreen/zinitix.c
++++ b/drivers/input/touchscreen/zinitix.c
+@@ -135,7 +135,7 @@ struct point_coord {
+ 
+ struct touch_event {
+ 	__le16	status;
+-	u8	finger_cnt;
++	u8	finger_mask;
+ 	u8	time_stamp;
+ 	struct point_coord point_coord[MAX_SUPPORTED_FINGER_NUM];
+ };
+@@ -322,11 +322,32 @@ static int zinitix_send_power_on_sequence(struct bt541_ts_data *bt541)
+ static void zinitix_report_finger(struct bt541_ts_data *bt541, int slot,
+ 				  const struct point_coord *p)
+ {
++	u16 x, y;
++
++	if (unlikely(!(p->sub_status &
++		       (SUB_BIT_UP | SUB_BIT_DOWN | SUB_BIT_MOVE)))) {
++		dev_dbg(&bt541->client->dev, "unknown finger event %#02x\n",
++			p->sub_status);
++		return;
++	}
++
++	x = le16_to_cpu(p->x);
++	y = le16_to_cpu(p->y);
++
+ 	input_mt_slot(bt541->input_dev, slot);
+-	input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER, true);
+-	touchscreen_report_pos(bt541->input_dev, &bt541->prop,
+-			       le16_to_cpu(p->x), le16_to_cpu(p->y), true);
+-	input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR, p->width);
++	if (input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER,
++				       !(p->sub_status & SUB_BIT_UP))) {
++		touchscreen_report_pos(bt541->input_dev,
++				       &bt541->prop, x, y, true);
++		input_report_abs(bt541->input_dev,
++				 ABS_MT_TOUCH_MAJOR, p->width);
++		dev_dbg(&bt541->client->dev, "finger %d %s (%u, %u)\n",
++			slot, p->sub_status & SUB_BIT_DOWN ? "down" : "move",
++			x, y);
++	} else {
++		dev_dbg(&bt541->client->dev, "finger %d up (%u, %u)\n",
++			slot, x, y);
++	}
+ }
+ 
+ static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
+@@ -334,6 +355,7 @@ static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
+ 	struct bt541_ts_data *bt541 = bt541_handler;
+ 	struct i2c_client *client = bt541->client;
+ 	struct touch_event touch_event;
++	unsigned long finger_mask;
+ 	int error;
+ 	int i;
+ 
+@@ -346,10 +368,14 @@ static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
+ 		goto out;
+ 	}
+ 
+-	for (i = 0; i < MAX_SUPPORTED_FINGER_NUM; i++)
+-		if (touch_event.point_coord[i].sub_status & SUB_BIT_EXIST)
+-			zinitix_report_finger(bt541, i,
+-					      &touch_event.point_coord[i]);
++	finger_mask = touch_event.finger_mask;
++	for_each_set_bit(i, &finger_mask, MAX_SUPPORTED_FINGER_NUM) {
++		const struct point_coord *p = &touch_event.point_coord[i];
++
++		/* Only process contacts that are actually reported */
++		if (p->sub_status & SUB_BIT_EXIST)
++			zinitix_report_finger(bt541, i, p);
++	}
+ 
+ 	input_mt_sync_frame(bt541->input_dev);
+ 	input_sync(bt541->input_dev);
