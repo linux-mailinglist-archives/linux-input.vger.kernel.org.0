@@ -2,193 +2,160 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC8144CE445
-	for <lists+linux-input@lfdr.de>; Sat,  5 Mar 2022 11:47:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E13614CE61C
+	for <lists+linux-input@lfdr.de>; Sat,  5 Mar 2022 17:54:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231502AbiCEKsN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Mar 2022 05:48:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49164 "EHLO
+        id S229992AbiCEQyc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Mar 2022 11:54:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbiCEKsN (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Mar 2022 05:48:13 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DC0C239698;
-        Sat,  5 Mar 2022 02:47:23 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 27B15B80954;
-        Sat,  5 Mar 2022 10:47:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59833C004E1;
-        Sat,  5 Mar 2022 10:47:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1646477240;
-        bh=8uMCSfZUrz+ebC90sqKQ9bZPdZjBoqwQIf3kRyxg6aA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=z3cPZkm8ZigWMMjxNUWxleDVr430ZYB/C2X3RkLGaOlMGsg4c+S2xdOw7SmuFpTNB
-         L+vNfszXDjZFA615c4GPQaTjgNzjJ0W/UDVVJmlJ8sQbMKHp3dDSEbgv1p2c/WNb1h
-         zfK82FmwkvkyvrshXEI6ZrQPqG0aFD8jRqBh+kpA=
-Date:   Sat, 5 Mar 2022 11:47:17 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH bpf-next v2 12/28] bpf/hid: add hid_{get|set}_data helpers
-Message-ID: <YiM/tTYeuAcnz/Xh@kroah.com>
-References: <20220304172852.274126-1-benjamin.tissoires@redhat.com>
- <20220304172852.274126-13-benjamin.tissoires@redhat.com>
- <YiJdRQxYzfncfTR5@kroah.com>
- <CAO-hwJJ3Yi+JLr40J8nXccjF8PrjiQw1w0Bskz8QHXdNVh1n+A@mail.gmail.com>
+        with ESMTP id S231156AbiCEQyc (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Mar 2022 11:54:32 -0500
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34CCC40900;
+        Sat,  5 Mar 2022 08:53:42 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id f8so14459038edf.10;
+        Sat, 05 Mar 2022 08:53:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZnICtdrKBzusdGxlyHl7enNc8IAVDezeQhCdTV5JKag=;
+        b=p+QjerLuez8O5QBcv+wAfHoueIWcVuxVHRWxCWsoi9AbhnuL/LMyUJa7wxwUAsdRT1
+         MdI7kH0zaUyoK0F+YzOKqk6NQbFaM5Tndnc8tcU7UQb93ncHzA9vxce++bwozjM8PRJn
+         kfipC/QPVMJRrqOCVtuTYkC+DTOQfHgkgeJSwBAT5Lyz9ZxFcbmvTAtoG2wtZkbRpqVi
+         LctAitFRVPcRXrLDBsksQkjh8m7mLVPNnZhvgjnqbrUOwHuMdjkOAjFTBoZ7mTTPS3/X
+         QKC/WiQeKfziKyz+2ZQmEvMXrKEjL79EjIQ/YSzm+THsVsFT5Y9qIMvCFQlkMwFD7Hlk
+         IeAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZnICtdrKBzusdGxlyHl7enNc8IAVDezeQhCdTV5JKag=;
+        b=A3oDFLoG0Ko2WbYXPG0iP8mSFE/dIhZXVQhJp91mu+agx/dHhFsFuyElGxSwgyu/8S
+         wyELnZM3eyXV1UuksDEKvqlbbKx0FueH5/7sbO8sCoz609XUNKqgdXR6gkmu1bDI126k
+         TMmokAO9oBi33M8Q7QiU57zAJtAmMI/NyZoW7hF0D2QMkR444MIj3oxH3wsWxMSV7y0p
+         9DZciNX1R4ICXmWqXjlporM5ntPm8VpdahubMZWJg0QXMbkbb8g9DlPdqMGI/knv9u1i
+         P9R1xpg0LBZ8zidPU6YJ5EqCtfv2swxx3M4/E89s4Ke5D68PiQxUJifKrEBfVhiVKFCd
+         SUyQ==
+X-Gm-Message-State: AOAM532i4tYGr1zHCo8pEIOfpCcDdoBFKp8gFaFtjftqhM9eMCkm+eD8
+        +URNliD6kl328LX/l9xbTfmfmMUbxy4f6w==
+X-Google-Smtp-Source: ABdhPJxoC6PBf31uGQ36r0/k0WVQJF9AnWs1Fmm+0OQR1A+ysmMI7LwQLTkXxDGom+1rHH+8jqte4g==
+X-Received: by 2002:a05:6402:3549:b0:412:b31c:5509 with SMTP id f9-20020a056402354900b00412b31c5509mr3659801edd.224.1646499220498;
+        Sat, 05 Mar 2022 08:53:40 -0800 (PST)
+Received: from localhost.localdomain ([194.39.226.133])
+        by smtp.gmail.com with ESMTPSA id go41-20020a1709070da900b006d643bdd4d4sm2990932ejc.56.2022.03.05.08.53.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Mar 2022 08:53:40 -0800 (PST)
+From:   Markuss Broks <markuss.broks@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+        jeff@labundy.com, markuss.broks@gmail.com,
+        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski@canonical.com, rydberg@bitmath.com,
+        sfr@canb.auug.org.au, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH v10 0/2] Add support for Imagis touchscreens
+Date:   Sat,  5 Mar 2022 18:53:28 +0200
+Message-Id: <20220305165330.13061-1-markuss.broks@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAO-hwJJ3Yi+JLr40J8nXccjF8PrjiQw1w0Bskz8QHXdNVh1n+A@mail.gmail.com>
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Mar 05, 2022 at 11:33:07AM +0100, Benjamin Tissoires wrote:
-> On Fri, Mar 4, 2022 at 7:41 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Fri, Mar 04, 2022 at 06:28:36PM +0100, Benjamin Tissoires wrote:
-> > > When we process an incoming HID report, it is common to have to account
-> > > for fields that are not aligned in the report. HID is using 2 helpers
-> > > hid_field_extract() and implement() to pick up any data at any offset
-> > > within the report.
-> > >
-> > > Export those 2 helpers in BPF programs so users can also rely on them.
-> > > The second net worth advantage of those helpers is that now we can
-> > > fetch data anywhere in the report without knowing at compile time the
-> > > location of it. The boundary checks are done in hid-bpf.c, to prevent
-> > > a memory leak.
-> > >
-> > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > >
-> > > ---
-> > >
-> > > changes in v2:
-> > > - split the patch with libbpf and HID left outside.
-> > > ---
-> > >  include/linux/bpf-hid.h        |  4 +++
-> > >  include/uapi/linux/bpf.h       | 32 ++++++++++++++++++++
-> > >  kernel/bpf/hid.c               | 53 ++++++++++++++++++++++++++++++++++
-> > >  tools/include/uapi/linux/bpf.h | 32 ++++++++++++++++++++
-> > >  4 files changed, 121 insertions(+)
-> > >
-> > > diff --git a/include/linux/bpf-hid.h b/include/linux/bpf-hid.h
-> > > index 0c5000b28b20..69bb28523ceb 100644
-> > > --- a/include/linux/bpf-hid.h
-> > > +++ b/include/linux/bpf-hid.h
-> > > @@ -93,6 +93,10 @@ struct bpf_hid_hooks {
-> > >       int (*link_attach)(struct hid_device *hdev, enum bpf_hid_attach_type type);
-> > >       void (*link_attached)(struct hid_device *hdev, enum bpf_hid_attach_type type);
-> > >       void (*array_detached)(struct hid_device *hdev, enum bpf_hid_attach_type type);
-> > > +     int (*hid_get_data)(struct hid_device *hdev, u8 *buf, size_t buf_size,
-> > > +                         u64 offset, u32 n, u8 *data, u64 data_size);
-> > > +     int (*hid_set_data)(struct hid_device *hdev, u8 *buf, size_t buf_size,
-> > > +                         u64 offset, u32 n, u8 *data, u64 data_size);
-> > >  };
-> > >
-> > >  #ifdef CONFIG_BPF
-> > > diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-> > > index a7a8d9cfcf24..4845a20e6f96 100644
-> > > --- a/include/uapi/linux/bpf.h
-> > > +++ b/include/uapi/linux/bpf.h
-> > > @@ -5090,6 +5090,36 @@ union bpf_attr {
-> > >   *   Return
-> > >   *           0 on success, or a negative error in case of failure. On error
-> > >   *           *dst* buffer is zeroed out.
-> > > + *
-> > > + * int bpf_hid_get_data(void *ctx, u64 offset, u32 n, u8 *data, u64 size)
-> > > + *   Description
-> > > + *           Get the data of size n (in bits) at the given offset (bits) in the
-> > > + *           ctx->event.data field and store it into data.
-> > > + *
-> > > + *           if n is less or equal than 32, we can address with bit precision,
-> > > + *           the value in the buffer. However, data must be a pointer to a u32
-> > > + *           and size must be 4.
-> > > + *
-> > > + *           if n is greater than 32, offset and n must be a multiple of 8
-> > > + *           and the result is working with a memcpy internally.
-> > > + *   Return
-> > > + *           The length of data copied into data. On error, a negative value
-> > > + *           is returned.
-> > > + *
-> > > + * int bpf_hid_set_data(void *ctx, u64 offset, u32 n, u8 *data, u64 size)
-> > > + *   Description
-> > > + *           Set the data of size n (in bits) at the given offset (bits) in the
-> > > + *           ctx->event.data field.
-> > > + *
-> > > + *           if n is less or equal than 32, we can address with bit precision,
-> > > + *           the value in the buffer. However, data must be a pointer to a u32
-> > > + *           and size must be 4.
-> > > + *
-> > > + *           if n is greater than 32, offset and n must be a multiple of 8
-> > > + *           and the result is working with a memcpy internally.
-> > > + *   Return
-> > > + *           The length of data copied into ctx->event.data. On error, a negative
-> > > + *           value is returned.
-> >
-> 
-> Quick answer on this one (before going deeper with the other remarks next week):
-> 
-> > Wait, nevermind my reviewed-by previously, see my comment about how this
-> > might be split into 4:
-> >         bpf_hid_set_bytes()
-> >         bpf_hid_get_bytes()
-> >         bpf_hid_set_bits()
-> >         bpf_hid_get_bits()
-> >
-> > Should be easier to understand and maintain over time, right?
-> 
-> Yes, definitively. I thought about adding a `bytes` suffix to the
-> function name for n > 32, but not the `bits` one, meaning the API was
-> still bunkers in my head.
-> 
-> And as I mentioned in the commit notes, I knew the API proposed in
-> this patch was not correct, simply because while working on the
-> selftests it was completely wrong :)
-> 
-> In terms of API usage, does it feel wrong for you to have only a
-> subset of the array available "for free" and enforce the rest to be
-> used through these helpers?
+Add support for Imagis touchscreens, used on various mobile
+devices such as Samsung Galaxy J5 (2015), J3 (2015), J5 (2016).
 
-It does feel "odd" but:
+v2: rebase on top of the correct tree
+v3:
+- prefix all defines as IST3038C
+- use two tabs for all defines
+- add missing <linux/regulator/consumer.h> header
+- drop ADDR_LEN and DATA_LEN defines; use sizeof(reg_be) instead
+- use __be32 type for reg_be
+- add a comment about i2c read not being successful on first try
+- use "ret" instead of "res" in read_reg function
+- don't use the internal __cpu_to_be32 function, use cpu_to_be32 instead
+- use "error" instead of "ret" in interrupt handler
+- pass the slot state directly, without ternary operator
+- drop the dev_err in init_input_dev function
+- reorder the functions in _probe so that the chipid command is read as fast 
+as possible
+- don't use imagis_start in probe
+- initialize the irq after the chip is powered
+- save the return value in imagis_resume
+- drop WIDTH_MAJOR since only TOUCH_MAJOR is reported
+- the "chip detected" message is now dev_dbg
+- reorder headers so they are in alphabetic order
+- use GENMASK to generate masks for getting the X and Y coordinates and touch area
+- drop *_pressure from device tree bindings since the driver doesn't
+support reporting pressure
+- fix the typo with i2c address in device treee bindings (48 instead of 50)
+- add IRQF_NO_AUTOEN flag to avoid unbalanced irq enable
+v4:
+- alphabetically order MAINTAINERS entry
+- alphabetically order Kconfig and Makefile
+- drop the error message in init_regulators
+- disable regulators on probe error
+- drop IRQF_TRIGGER_FALLING
+- @ is not optional (device tree bindings)
+- don't use items for compatible
+- add maxItems property to reg, drop the comment
+v5:
+- compatible enum is not an item of the list, drop "-"
+v6:
+- add _MS suffix to the delay define, drop the comment
+- change the reason for retry comment
+- add imagis_power_off and imagis_power_on functions to turn regulators
+on and off
+- use imagis_power_on/off in imagis_start and imagis_stop as well as in probe function
+- use error instead of ret in calls to functions which only return 0 or -errno
+- include linux/bits.h
+- proper indentation in Kconfig
+- drop the dev_dbg chip id message
+- MODULE_DEVICE_TABLE(of, ...);
+- no extra tabs in i2c_driver struct
+- save the return value in imagis_suspend
+v7:
+- initialize ret with 0 in _suspend and _resume (kernel test robot)
+- use a separate ret_be variable to avoid casting to __be32 (kernel test robot)
+v8:
+- use poweroff action
+- power_off returns void
+- ret -> error
+- combine dev declaration and assignment
+- use same style for error everywhere
+- return devm_regulator_bulk_get() directly
+v9:
+- don't return in power_off (forgot to commit)
+v10:
+- check for error before sleeping
+- duplicate msleep in imagis_start
+- return 0 since error can only be 0 in imagis_start
+- move poweroff action below imagis_power_off
 
-> That's the point I am not sure but I feel like 1024 (or slightly more)
-> would be enough for most use cases, and when we are dealing with
-> bigger data sets the helpers can be justified.
+Markuss Broks (2):
+  dt-bindings: input/touchscreen: bindings for Imagis
+  Input: add Imagis touchscreen driver
 
-How often are hid reports that big?  If providing access to the first
-1024 or so bytes for free would handle the huge majority of fixup cases,
-and only if you have crazy devices with large reports would you have to
-use the functions, it might be fine.
+ .../input/touchscreen/imagis,ist3038c.yaml    |  74 ++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   6 +
+ drivers/input/touchscreen/Kconfig             |  10 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/imagis.c            | 348 ++++++++++++++++++
+ 6 files changed, 441 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
+ create mode 100644 drivers/input/touchscreen/imagis.c
 
-The problem is, only time will tell, and then, it's too late to change
-the api :)
+-- 
+2.20.1
 
-So I agree with this for now, stick with what you have (if you split
-this into 4 functions), and let's see what happens.
-
-thanks,
-
-greg k-h
