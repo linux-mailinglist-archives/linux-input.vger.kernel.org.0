@@ -2,63 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5D5B4CE41D
-	for <lists+linux-input@lfdr.de>; Sat,  5 Mar 2022 11:10:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 982AA4CE42D
+	for <lists+linux-input@lfdr.de>; Sat,  5 Mar 2022 11:23:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230205AbiCEKLe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Mar 2022 05:11:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38046 "EHLO
+        id S231491AbiCEKY2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Mar 2022 05:24:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230014AbiCEKLe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Mar 2022 05:11:34 -0500
+        with ESMTP id S231483AbiCEKY2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Mar 2022 05:24:28 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BF9944D9FB
-        for <linux-input@vger.kernel.org>; Sat,  5 Mar 2022 02:10:44 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F377A1C7EB4
+        for <linux-input@vger.kernel.org>; Sat,  5 Mar 2022 02:23:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1646475043;
+        s=mimecast20190719; t=1646475817;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=uP1EZwK12VovZoxEdkUXW5CRQDWRv4FFnOIIOb/Aux0=;
-        b=IETLmhnA2bN+25e9unMKV7nVlOb8oK/9T0ip1WXwFapI6O7zzQT1grLRv8FzKhQ7lZNEZN
-        Tlkg2/J0m326BVkPXfDe6tpPre4q+T5TaNzyjR1wq8Pt+dS2wEfEKe+HivOQZfOpi7GSSe
-        dVeulamfmPK0sD5o4DswJaFyS1HH/So=
+        bh=Hvf1qgX47UJYQeYWAdFBUDBszqQVNdTtkeMXNOzeWN0=;
+        b=SOlq9/wY2idMV3sDpkplXowNyaRsQG6bouMgMofvcQg+lkQ5JvvXOPOD/H3zusn8q9Hc4M
+        muobeDQIJNxjk7vL9ZFeVm7+7P/9ytMst1vWSRsL3uIqyZQq8HgjNyi4K+02bwcZ+tFf3U
+        y9cTdw++P3viapC/cr8skJcjlOpxbs4=
 Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
  [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-512-UjVxWGqVOSiSQ9Yz1Zfh_w-1; Sat, 05 Mar 2022 05:10:42 -0500
-X-MC-Unique: UjVxWGqVOSiSQ9Yz1Zfh_w-1
-Received: by mail-pg1-f199.google.com with SMTP id t18-20020a63dd12000000b00342725203b5so5923124pgg.16
-        for <linux-input@vger.kernel.org>; Sat, 05 Mar 2022 02:10:42 -0800 (PST)
+ us-mta-504-5cmgX07pNu6C07Mj24eafw-1; Sat, 05 Mar 2022 05:23:36 -0500
+X-MC-Unique: 5cmgX07pNu6C07Mj24eafw-1
+Received: by mail-pg1-f199.google.com with SMTP id bm16-20020a656e90000000b00372932b1d83so5945043pgb.10
+        for <linux-input@vger.kernel.org>; Sat, 05 Mar 2022 02:23:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uP1EZwK12VovZoxEdkUXW5CRQDWRv4FFnOIIOb/Aux0=;
-        b=bqlDks2wkR0en+WqLwhpxyaXsZhcg8XdmlA5gOFaa305Yc1enZZIG6T9BgTgjvlvOs
-         Rx0FpLcxsWeARJUqlZoblmar5oMpzpAtJqA8MYA7+AP+D/xk6cvxBzLaBCQsDYPqQHQI
-         NY4++QFlph7iSSGArwAfir4yti5jmgxuDC+WOADLwwCDUjuwPd37udupRVXt6DR4iJCI
-         KNhG7W49Gk+QaHmCUzzBsIMFvNWZyfrD12Nv3IOZ0WgJH+uYR0O3FnuY1K8uLpjya+2t
-         7KjHOkPvG+Sjz1JNUP8l+B17luVHmusHQ8PMpiJo/5HJ/NMqkn9fOzkUqmcoB5DDF4Ho
-         Lpcg==
-X-Gm-Message-State: AOAM533BQiGGqxr4wYYeaR2/Dry4zzH52rKfjv2Gdxe+bU9MR6++i8CF
-        ixRXAAIOgGWlSlrESXvw+dIBc+SNiVwku3kk579bWbE1IROh1ivV0QhRNJwpHQCs0aoMda+yt1M
-        m120rEl2sTBFMmwpro5rntLcE6XW1Zdvmi+6nJyg=
-X-Received: by 2002:a05:6a00:3006:b0:4f6:54ba:3581 with SMTP id ay6-20020a056a00300600b004f654ba3581mr3132721pfb.83.1646475041667;
-        Sat, 05 Mar 2022 02:10:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzdMa4XGi5GgPncj0jNwlqnMBkbMcQKLgvKlNPPZy7+Ffim9IJzJb2EaijCC7uk1SuFaJIhvGBjTDkg2OrP65M=
-X-Received: by 2002:a05:6a00:3006:b0:4f6:54ba:3581 with SMTP id
- ay6-20020a056a00300600b004f654ba3581mr3132702pfb.83.1646475041419; Sat, 05
- Mar 2022 02:10:41 -0800 (PST)
+        bh=Hvf1qgX47UJYQeYWAdFBUDBszqQVNdTtkeMXNOzeWN0=;
+        b=u3DpalPJLnWzOMiLqsPlEAEQ9iwhVuyr6CQhDTSzN7a1uck6Xktj4XrHqR8EThCjOq
+         UAxp5GMOq+YPA2/KnPDemALEaj59ee9V+j9+4lnwzrQq8nDPdF7sVh8xbHsDxmKE2xzZ
+         vJmxIC6krS1Jn2BilIE/NUVBt3phha3ADlJvA/ynsyICizaY5/mJnihGb9+DKo/l27+h
+         raWc0j5sMTY0bB5YFbHAMLZKcii2ER1+QBxmC82539BMoHiZ41Gz6LpqmBpZ1rybdExH
+         +y4yjjODZqOo8qLfzQYze53J2hTnNihHPFkC+lIoS6bbI+OjSsAylTcPvNQcST74I7V6
+         buyQ==
+X-Gm-Message-State: AOAM530Xhd9jKTr+aD42lbV45nGybY8FE7Sy2wqwzE9JFD4sqi4veM1E
+        OPIZDGeCeLojwAAVClK1Nb79ZcB8iyXxPDYsNki/84x/tgxg3KWrUNngDfUAel3VaWQuMLKm1RM
+        1/W+wcypGQEsTaTC1R7LVdUALMS8IxjNwf/ZP9LE=
+X-Received: by 2002:a63:5110:0:b0:374:2312:1860 with SMTP id f16-20020a635110000000b0037423121860mr2273158pgb.146.1646475814776;
+        Sat, 05 Mar 2022 02:23:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz5ZMd0uYusP/CiqUmEnrtnVqF5GUNOPwSIzFTbtcHGF3xaobFFlMvqPEEOWLQmwDs9YoDqL5XyWqlpO7HeEtI=
+X-Received: by 2002:a63:5110:0:b0:374:2312:1860 with SMTP id
+ f16-20020a635110000000b0037423121860mr2273127pgb.146.1646475814245; Sat, 05
+ Mar 2022 02:23:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20220304172852.274126-1-benjamin.tissoires@redhat.com>
- <20220304172852.274126-6-benjamin.tissoires@redhat.com> <CAPhsuW63HQE_GWFrz-t9_Uyq3KK3raYeG_x7OYMGR02DHzQ1=g@mail.gmail.com>
-In-Reply-To: <CAPhsuW63HQE_GWFrz-t9_Uyq3KK3raYeG_x7OYMGR02DHzQ1=g@mail.gmail.com>
+References: <20220304172852.274126-1-benjamin.tissoires@redhat.com> <CAPhsuW5APYjoZWKDkZ9CBZzaF0NfSQQ-OeZSJgDa=wB-5O+Wng@mail.gmail.com>
+In-Reply-To: <CAPhsuW5APYjoZWKDkZ9CBZzaF0NfSQQ-OeZSJgDa=wB-5O+Wng@mail.gmail.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Sat, 5 Mar 2022 11:10:30 +0100
-Message-ID: <CAO-hwJLuwiHgzmRonNBOU3yOZJBkBVktqgSC8yzHi_UwnSUyNw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 05/28] selftests/bpf: add tests for the
- HID-bpf initial implementation
+Date:   Sat, 5 Mar 2022 11:23:23 +0100
+Message-ID: <CAO-hwJJkhxDAhT_cwo=Tkx8_=B-MuS=_enByj1t6GEuXD9Lj5Q@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 00/28] Introduce eBPF support for HID devices
 To:     Song Liu <song@kernel.org>
 Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Jiri Kosina <jikos@kernel.org>,
@@ -80,42 +78,176 @@ Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
         RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Mar 5, 2022 at 1:41 AM Song Liu <song@kernel.org> wrote:
+Hi Song,
+
+Thanks a lot for the review.
+
+I'll comment on the review in more details next week, but I have a
+quick question here:
+
+On Sat, Mar 5, 2022 at 2:14 AM Song Liu <song@kernel.org> wrote:
 >
-> On Fri, Mar 4, 2022 at 9:31 AM Benjamin Tissoires
+> On Fri, Mar 4, 2022 at 9:29 AM Benjamin Tissoires
 > <benjamin.tissoires@redhat.com> wrote:
 > >
-> > The test is pretty basic:
-> > - create a virtual uhid device that no userspace will like (to not mess
-> >   up the running system)
-> > - attach a BPF prog to it
-> > - open the matching hidraw node
-> > - inject one event and check:
-> >   * that the BPF program can do something on the event stream
-> >   * can modify the event stream
+> > Hi,
 > >
-> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > This is a followup of my v1 at [0].
+> >
+> > The short summary of the previous cover letter and discussions is that
+> > HID could benefit from BPF for the following use cases:
+> >
+> > - simple fixup of report descriptor:
+> >   benefits are faster development time and testing, with the produced
+> >   bpf program being shipped in the kernel directly (the shipping part
+> >   is *not* addressed here).
+> >
+> > - Universal Stylus Interface:
+> >   allows a user-space program to define its own kernel interface
+> >
+> > - Surface Dial:
+> >   somehow similar to the previous one except that userspace can decide
+> >   to change the shape of the exported device
+> >
+> > - firewall:
+> >   still partly missing there, there is not yet interception of hidraw
+> >   calls, but it's coming in a followup series, I promise
+> >
+> > - tracing:
+> >   well, tracing.
+> >
+> >
+> > I tried to address as many comments as I could and here is the short log
+> > of changes:
+> >
+> > v2:
+> > ===
+> >
+> > - split the series by subsystem (bpf, HID, libbpf, selftests and
+> >   samples)
+> >
+> > - Added an extra patch at the beginning to not require CAP_NET_ADMIN for
+> >   BPF_PROG_TYPE_LIRC_MODE2 (please shout if this is wrong)
+> >
+> > - made the bpf context attached to HID program of dynamic size:
+> >   * the first 1 kB will be able to be addressed directly
+> >   * the rest can be retrieved through bpf_hid_{set|get}_data
+> >     (note that I am definitivey not happy with that API, because there
+> >     is part of it in bits and other in bytes. ouch)
+> >
+> > - added an extra patch to prevent non GPL HID bpf programs to be loaded
+> >   of type BPF_PROG_TYPE_HID
+> >   * same here, not really happy but I don't know where to put that check
+> >     in verifier.c
+> >
+> > - added a new flag BPF_F_INSERT_HEAD for BPF_LINK_CREATE syscall when in
+> >   used with HID program types.
+> >   * this flag is used for tracing, to be able to load a program before
+> >     any others that might already have been inserted and that might
+> >     change the data stream.
+> >
+> > Cheers,
+> > Benjamin
 > >
 >
-> Does this test run with vm (qemu, etc.)? Maybe we need to update
-> tools/testing/selftests/bpf/config ?
+> The set looks good so far. I will review the rest later.
+>
+> [...]
+>
+> A quick note about how we organize these patches. Maybe we can
+> merge some of these patches like:
 
-Good point. I'll give it a shot. I was testing on my devel machine so
-it was quicker to iterate, but I completely forgot to make a run at
-qemu with the scripts in place.
+Just to be sure we are talking about the same thing: you mean squash
+the patch together?
+
+>
+> >   bpf: introduce hid program type
+> >   bpf/hid: add a new attach type to change the report descriptor
+> >   bpf/hid: add new BPF type to trigger commands from userspace
+> I guess the three can merge into one.
+>
+> >   HID: hook up with bpf
+> >   HID: allow to change the report descriptor from an eBPF program
+> >   HID: bpf: compute only the required buffer size for the device
+> >   HID: bpf: only call hid_bpf_raw_event() if a ctx is available
+> I haven't read through all of them, but I guess they can probably merge
+> as well.
+
+There are certainly patches that we could squash together (3 and 4
+from this list into the previous ones), but I'd like to keep some sort
+of granularity here to not have a patch bomb that gets harder to come
+back later.
+
+>
+> >   libbpf: add HID program type and API
+> >   libbpf: add new attach type BPF_HID_RDESC_FIXUP
+> >   libbpf: add new attach type BPF_HID_USER_EVENT
+> There 3 can merge, and maybe also the one below
+> >   libbpf: add handling for BPF_F_INSERT_HEAD in HID programs
+
+Yeah, the libbpf changes are small enough to not really justify
+separate patches.
+
+>
+> >   samples/bpf: add new hid_mouse example
+> >   samples/bpf: add a report descriptor fixup
+> >   samples/bpf: fix bpf_program__attach_hid() api change
+> Maybe it makes sense to merge these 3?
+
+Sure, why not.
+
+>
+> >   bpf/hid: add hid_{get|set}_data helpers
+> >   HID: bpf: implement hid_bpf_get|set_data
+> >   bpf/hid: add bpf_hid_raw_request helper function
+> >   HID: add implementation of bpf_hid_raw_request
+> We can have 1 or 2 patches for these helpers
+
+OK, the patches should be self-contained enough.
+
+>
+> >   selftests/bpf: add tests for the HID-bpf initial implementation
+> >   selftests/bpf: add report descriptor fixup tests
+> >   selftests/bpf: add tests for hid_{get|set}_data helpers
+> >   selftests/bpf: add test for user call of HID bpf programs
+> >   selftests/bpf: hid: rely on uhid event to know if a test device is
+> >     ready
+> >   selftests/bpf: add tests for bpf_hid_hw_request
+> >   selftests/bpf: Add a test for BPF_F_INSERT_HEAD
+> These selftests could also merge into 1 or 2 patches I guess.
+
+I'd still like to link them to the granularity of the bpf changes, so
+I can refer a selftest change to a specific commit/functionality
+added. But that's just my personal taste, and I can be convinced
+otherwise. This should give us maybe 4 patches instead of 7.
+
+>
+> I understand rearranging these patches may take quite some effort.
+> But I do feel that's a cleaner approach (from someone doesn't know
+> much about HID). If you really hate it that way, we can discuss...
+>
+
+No worries. I don't mind iterating on the series. IIRC I already
+rewrote it twice from scratch, and that's when the selftests I
+introduced in the second rewrite were tremendously helpful :) And
+honestly I don't think it'll be too much effort to reorder/squash the
+patches given that the v2 is *very* granular.
+
+Anyway, I prefer having the reviewers happy so we can have a solid
+rock API from day 1 than keeping it obscure for everyone and having to
+deal with design issues forever. So if it takes 10 or 20 revisions to
+have everybody on the same page, that's fine with me (not that I want
+to have that many revisions, just that I won't be afraid of the
+bikeshedding we might have at some point).
 
 Cheers,
 Benjamin
-
->
-> Thanks,
-> Song
->
 
