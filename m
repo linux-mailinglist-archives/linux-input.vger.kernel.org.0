@@ -2,124 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 828AC4CE623
-	for <lists+linux-input@lfdr.de>; Sat,  5 Mar 2022 17:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F40F54CE772
+	for <lists+linux-input@lfdr.de>; Sat,  5 Mar 2022 23:33:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231375AbiCEQ6x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Mar 2022 11:58:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41344 "EHLO
+        id S232742AbiCEWeo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Mar 2022 17:34:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbiCEQ6x (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Mar 2022 11:58:53 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5408E41FA9;
-        Sat,  5 Mar 2022 08:58:02 -0800 (PST)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 47BBB101CB3; Sat,  5 Mar 2022 16:58:00 +0000 (UTC)
-Date:   Sat, 5 Mar 2022 16:58:00 +0000
-From:   Sean Young <sean@mess.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Song Liu <song@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH bpf-next v2 01/28] bpf: add new is_sys_admin_prog_type()
- helper
-Message-ID: <YiOWmG2oARiYmRHr@gofer.mess.org>
-References: <20220304172852.274126-1-benjamin.tissoires@redhat.com>
- <20220304172852.274126-2-benjamin.tissoires@redhat.com>
- <CAPhsuW4otgwwDN6+xcjPXmZyUDiynEKFtXjaFb-=kjz7HzUmZw@mail.gmail.com>
- <CAO-hwJJjDMaTXH9i1UkO7Qy+sbNprDyW67cRp8HryMMWMi5H9w@mail.gmail.com>
+        with ESMTP id S230376AbiCEWen (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Mar 2022 17:34:43 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64C3C5AA49;
+        Sat,  5 Mar 2022 14:33:53 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id kx1-20020a17090b228100b001bf2dd26729so3692088pjb.1;
+        Sat, 05 Mar 2022 14:33:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=cZapo6sd4e3L55/3+wn+gVa77A42F2g2ptUKnd7guMQ=;
+        b=gFICULfuX0JVUB8l5lRUmlwIXPGbq3uIuiwCZMFQhhMbWsnYpJ+mmL5X0KWqCz22eQ
+         YCrM7mbHFO1DJRX1mpcvwrDu2p4OPRNHnGElEQYneiG0xuqhVZGMhDXA2CCN7NrHwqqB
+         CgnRzrp7jqhKUIZ0HbDHABx1ZjINjZ8jfYLVP50EVf729XL2qAy8/+vi0eKeo3WfxB7N
+         ZAFA/t4gs3Vr5yjUXwUHaYB6qqyJ0lsowBMLtLtTMCN5DyIkUsuXzoMTUd0bdZW1wEp/
+         uSlORYQGEKo2yws/Wd/0RACJ6haSy8io99a7RgWV4ytCSGtKoUCtmu0ObrPRpYjitpZH
+         nLiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=cZapo6sd4e3L55/3+wn+gVa77A42F2g2ptUKnd7guMQ=;
+        b=I+oA04dVYPmXZnarjeMptFMZ/h7K3d4k+MD3iek56rhi+F6e9gE8GOWBdSrTdW1RGu
+         hAA6UlXK2dOR/Lyqe+akM5FGvr03xjgCVBWhW9HpWY6wxS1PnxJvLFod2DdnjIVqqBs5
+         oBZ3wyeaPQ8L49zcPjbYdFl+op06FXglTKjxRfINy3hn6jYMPfbQmJDCcyYcJFz7rkvd
+         p/gIgBRF9A3V5KZX8pKRm+0Ybuqug+G7UwMcvU0ccdo0Ikzd1AvEEN/gmmlRaFNrUuKB
+         HhY11fi63Uyv8FoQt5jZrqPu0gd1gXMQHpNvwSGN/z2aX8pnlkzJzVaE0C6XLDWEu59S
+         MFKw==
+X-Gm-Message-State: AOAM530aslKpgUjYHO+S7JeFOPTlit3D4ty9q0r8BVlpYVfQqZOy+s0j
+        1di3qOeu17V+GvuOFhjpzjM=
+X-Google-Smtp-Source: ABdhPJyQs4bpbxDn7b/q1KbHh4DGCVWmb9zwXHBLfc/rUGBBKkuH5wiCzHUVmbs6s30Q+BS+U0q5MA==
+X-Received: by 2002:a17:903:244d:b0:150:1d22:617e with SMTP id l13-20020a170903244d00b001501d22617emr5346439pls.38.1646519632697;
+        Sat, 05 Mar 2022 14:33:52 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:15af:5d15:3044:acb9])
+        by smtp.gmail.com with ESMTPSA id o5-20020a655bc5000000b00372f7ecfcecsm7738582pgr.37.2022.03.05.14.33.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Mar 2022 14:33:52 -0800 (PST)
+Date:   Sat, 5 Mar 2022 14:33:49 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v5.17-rc6
+Message-ID: <YiPlTcVeLWi2pDiq@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAO-hwJJjDMaTXH9i1UkO7Qy+sbNprDyW67cRp8HryMMWMi5H9w@mail.gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Mar 05, 2022 at 11:07:04AM +0100, Benjamin Tissoires wrote:
-> On Sat, Mar 5, 2022 at 12:12 AM Song Liu <song@kernel.org> wrote:
-> >
-> > On Fri, Mar 4, 2022 at 9:30 AM Benjamin Tissoires
-> > <benjamin.tissoires@redhat.com> wrote:
-> > >
-> > > LIRC_MODE2 does not really need net_admin capability, but only sys_admin.
-> > >
-> > > Extract a new helper for it, it will be also used for the HID bpf
-> > > implementation.
-> > >
-> > > Cc: Sean Young <sean@mess.org>
-> > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > >
-> > > ---
-> > >
-> > > new in v2
-> > > ---
-> > >  kernel/bpf/syscall.c | 14 +++++++++++++-
-> > >  1 file changed, 13 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
-> > > index db402ebc5570..cc570891322b 100644
-> > > --- a/kernel/bpf/syscall.c
-> > > +++ b/kernel/bpf/syscall.c
-> > > @@ -2165,7 +2165,6 @@ static bool is_net_admin_prog_type(enum bpf_prog_type prog_type)
-> > >         case BPF_PROG_TYPE_LWT_SEG6LOCAL:
-> > >         case BPF_PROG_TYPE_SK_SKB:
-> > >         case BPF_PROG_TYPE_SK_MSG:
-> > > -       case BPF_PROG_TYPE_LIRC_MODE2:
-> > >         case BPF_PROG_TYPE_FLOW_DISSECTOR:
-> > >         case BPF_PROG_TYPE_CGROUP_DEVICE:
-> > >         case BPF_PROG_TYPE_CGROUP_SOCK:
-> > > @@ -2202,6 +2201,17 @@ static bool is_perfmon_prog_type(enum bpf_prog_type prog_type)
-> > >         }
-> > >  }
-> > >
-> > > +static bool is_sys_admin_prog_type(enum bpf_prog_type prog_type)
-> > > +{
-> > > +       switch (prog_type) {
-> > > +       case BPF_PROG_TYPE_LIRC_MODE2:
-> > > +       case BPF_PROG_TYPE_EXT: /* extends any prog */
-> > > +               return true;
-> > > +       default:
-> > > +               return false;
-> > > +       }
-> > > +}
-> >
-> > I am not sure whether we should do this. This is a behavior change, that may
-> > break some user space. Also, BPF_PROG_TYPE_EXT is checked in
-> > is_perfmon_prog_type(), and this change will make that case useless.
-> 
-> Sure, I can drop it from v3 and make this function appear for HID only.
+Hi Linus,
 
-For BPF_PROG_TYPE_LIRC_MODE2, I don't think this change will break userspace.
-This is called from ir-keytable(1) which is called from udev. It should have
-all the necessary permissions.
+Please pull from:
 
-In addition, the vast majority IR decoders are non-bpf. bpf ir decoders have
-very few users at the moment.
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
 
-I am working on completely new userspace tooling which will make extensive
-use of bpf ir decoding with full lircd and IRP compatibility, but this is not
-finished yet (see https://github.com/seanyoung/cir).
+to receive updates for the input subsystem. You will get:
 
-Thanks
+- a fixup for Goodix touchscreen driver allowing it to work on certain
+  Cherry Trail devices;
 
-Sean
+- a fix for imbalanced enable/disable regulator in Elam touchpad driver
+  that became apparent when used with Asus TF103C 2-in-1 dock;
+
+- a couple new input keycodes used on newer keyboards.
+
+Changelog:
+---------
+
+David Gow (1):
+      Input: samsung-keypad - properly state IOMEM dependency
+
+Hans de Goede (4):
+      Input: goodix - use the new soc_intel_is_byt() helper
+      Input: goodix - workaround Cherry Trail devices with a bogus ACPI Interrupt() resource
+      Input: elan_i2c - move regulator_[en|dis]able() out of elan_[en|dis]able_power()
+      Input: elan_i2c - fix regulator enable count imbalance after suspend/resume
+
+William Mahon (2):
+      HID: add mapping for KEY_DICTATE
+      HID: add mapping for KEY_ALL_APPLICATIONS
+
+Diffstat:
+--------
+
+ drivers/hid/hid-debug.c                |  5 ++-
+ drivers/hid/hid-input.c                |  3 ++
+ drivers/input/keyboard/Kconfig         |  2 +-
+ drivers/input/mouse/elan_i2c_core.c    | 64 ++++++++++++----------------------
+ drivers/input/touchscreen/goodix.c     | 34 +++++++++---------
+ include/uapi/linux/input-event-codes.h |  4 ++-
+ 6 files changed, 51 insertions(+), 61 deletions(-)
+
+Thanks.
+
+
+-- 
+Dmitry
