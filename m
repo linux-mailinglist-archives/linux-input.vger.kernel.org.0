@@ -2,82 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65E024CE7EF
-	for <lists+linux-input@lfdr.de>; Sun,  6 Mar 2022 01:33:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBBF34CE7FA
+	for <lists+linux-input@lfdr.de>; Sun,  6 Mar 2022 01:57:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231350AbiCFAeB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Mar 2022 19:34:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35922 "EHLO
+        id S231467AbiCFA62 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Mar 2022 19:58:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229752AbiCFAeA (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Mar 2022 19:34:00 -0500
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD92E4A907
-        for <linux-input@vger.kernel.org>; Sat,  5 Mar 2022 16:33:09 -0800 (PST)
-Received: by mail-yb1-xb2f.google.com with SMTP id g26so24131101ybj.10
-        for <linux-input@vger.kernel.org>; Sat, 05 Mar 2022 16:33:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=14bhHr2Oz18mK9MX8HsxUdT3wXs21teZRhs9HgCDyWQ=;
-        b=MxeBnTULG7xLPMM53Myaj+W5I0HYO2zU3EyxNc096QpRbZAO63uBFK2NWUAS9ybv3J
-         d5qbpuhE5buMKLODW0Sd8feEvaMTQg6Ehwpv4PKRtBCRXOlwmdHZwKvycU3/Oi77+wpq
-         YEslgl4ySJbJpE+x8B5oCYP+bsQEqBxqUUKynoN8RNDtNOIXhK6wFIxL3v98dtshprFT
-         y3jtCyZ3DsEe029Vy+JVquEbzRYVovfcZpWJWcRYPpn1tTMXUUoNDiXf3kjRH0LTgVL6
-         nvoLC71fDdtAXPpE+soCGd4/630SxeNCft+67PEfwrzeR12NizkmjpiiDLFlD4i9fGaC
-         hzqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=14bhHr2Oz18mK9MX8HsxUdT3wXs21teZRhs9HgCDyWQ=;
-        b=r4YeW2bfigsPsx4S8JKcfJdsShuvw5OwsIYzMeU/VeiIaI3HJReMrHc3EZ7xiVqCDH
-         37zlAhSRlKBJXfNfIAeWEXPppy2GK6vz2dr1G1BWZDaii+7uJnYplK+aldsDSZnrW7TP
-         Gf0pbfcTKeMb0ml12FNc9GjWqV6hW4jOWXKBd+yvu6nZ0UNHr5CgKLzyknAZYdee3+i9
-         VjduqHRmzTc3VP1umh2I+XRoAju+BNh3EfxlNwjV+95UPRffDDFn+A1P6/i9Ki1ErT/U
-         mTZDBw7JipjWnmtBSVZXensr5WgKmQBa5a+dtAg4Ht/+ULd2VNSljfkdfPvRbKbM4Zwp
-         6uxw==
-X-Gm-Message-State: AOAM532dejyApDvd4OcAsfzb8bAD5v/zEVd3Rh+gi7NW1UgkzlQSDoHD
-        nTU4s5tCkuiWKoOjNROpxp0yFZM2DETA8y4MZWOSrg==
-X-Google-Smtp-Source: ABdhPJy1WFWkQCwo+U67VHLywFfGWJriZBc3RcEIOQw7wof1bl/AjHqoFjid/5jE51r6CYyhxSjBSpHwIN5E1I6tw30=
-X-Received: by 2002:a25:ad87:0:b0:628:7be1:f10e with SMTP id
- z7-20020a25ad87000000b006287be1f10emr3750083ybi.514.1646526788935; Sat, 05
- Mar 2022 16:33:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20220228233017.2270599-1-linus.walleij@linaro.org> <YiLHyOQw/Zp+IQ4+@google.com>
-In-Reply-To: <YiLHyOQw/Zp+IQ4+@google.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 6 Mar 2022 01:32:57 +0100
-Message-ID: <CACRpkdZpESVJ4EE9g1DP__o1ZdMT=-mFM=36DLQ5L_BW8DVZVQ@mail.gmail.com>
-Subject: Re: [PATCH v3] Input: zinitix - Do not report shadow fingers
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, Michael Srba <Michael.Srba@seznam.cz>,
-        Nikita Travkin <nikita@trvn.ru>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        with ESMTP id S231194AbiCFA61 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Mar 2022 19:58:27 -0500
+X-Greylist: delayed 383 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 05 Mar 2022 16:57:33 PST
+Received: from slobodenpristap.mk (slobodenpristap.mk [92.55.107.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67FB411C39
+        for <linux-input@vger.kernel.org>; Sat,  5 Mar 2022 16:57:31 -0800 (PST)
+Received: by slobodenpristap.mk (Postfix, from userid 0)
+        id 21BB3C36F2; Sun,  6 Mar 2022 00:50:55 +0000 (UTC)
+Date:   Sun, 06 Mar 2022 00:50:54 +0000
+From:   =?UTF-8?B?0KHQu9C+0LHQvtC00LXQvQ==?=
+         =?UTF-8?B?INCf0YDQuNGB0YLQsNC/?= <imateli@slobodenpristap.mk>
+Reply-To: =?UTF-8?B?0KHQu9C+0LHQvtC00LXQvQ==?=
+           =?UTF-8?B?INCf0YDQuNGB0YLQsNC/?= <imateli@slobodenpristap.mk>
+To:     =?UTF-8?B?8J+NkyBBbmRyZWEgd2FudCB0byBtZWV0IHlvdSEgQ2xpY2sgaGVyZTogaHR0?=
+         =?UTF-8?B?cDovL2lueC5sdi9pQkxBP3BvNjZiIPCfjZM=?= 
+        <linux-input@vger.kernel.org>
+Message-ID: <6224056eb78a3_1c36825946128ca@slobodenpristap.mail>
+Subject: =?UTF-8?Q?=D0=9F=D0=BE=D1=82=D0=B2=D1=80=D0=B4=D0=B5=D1=82=D0=B5?=
+ =?UTF-8?Q?_=D0=B3=D0=BE_=D0=B2=D0=B0=D1=88=D0=B8=D0=BE=D1=82?=
+ =?UTF-8?Q?_=D0=BF=D1=80=D0=BE=D1=84=D0=B8=D0=BB_=D0=BD=D0=B0?=
+ =?UTF-8?Q?_=D0=A1=D0=BB=D0=BE=D0=B1=D0=BE=D0=B4=D0=B5=D0=BD?=
+ =?UTF-8?Q?_=D0=9F=D1=80=D0=B8=D1=81=D1=82=D0=B0=D0=BF?=
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=3.5 required=5.0 tests=BAYES_50,RCVD_IN_PSBL,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
-
-On Sat, Mar 5, 2022 at 3:15 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
-
-> I actually liked that we iterated over individual contacts here. I took
-> the liberty to rearrange your patch a bit, could you please tell me if
-> the version below looks OK to you?
-
-Looks good and works good, gave it a spin on the hardware to make
-sure!
-Tested-by: Linus Walleij <linus.walleij@linaro.org>
-
-Yours,
-Linus Walleij
+8J+NkyBBbmRyZWEgd2FudCB0byBtZWV0IHlvdSEgQ2xpY2sgaGVyZTogaHR0
+cDovL2lueC5sdi9pQkxBP3BvNjZiIPCfjZMsCgrQktC1INC80L7Qu9C40LzQ
+tSDQutC70LjQutC90LXRgtC1INC90LAg0LvQuNC90LrQvtGCINC/0L7QtNC+
+0LvRgyDQt9CwINC00LAg0ZjQsCDQv9C+0YLQstGA0LTQuNGC0LUg0LDQtNGA
+0LXRgdCw0YLQsCDQt9CwINCS0LDRiNCw0YLQsCDQtdC70LXQutGC0YDQvtC9
+0YHQutCwINC/0L7RiNGC0LAuCiDQotC+0LPQsNGIINGc0LUg0LzQvtC20LXR
+gtC1INC00LAg0YHQtSDQvdCw0ZjQsNCy0LjRgtC1INC90LAg0L/QvtGA0YLQ
+sNC70L7RgiDQodC70L7QsdC+0LTQtdC9INCf0YDQuNGB0YLQsNC/OgoKaHR0
+cHM6Ly9zbG9ib2RlbnByaXN0YXAubWsvYy9sZXVzZnN5emJ2ZGJleHRjcDdo
+CgrQktCw0YjQsNGC0LAg0LXQu9C10LrRgtGA0L7QvdGB0LrQsCDQsNC00YDQ
+tdGB0LAg0L3QtdC80LAg0LTQsCDQsdC40LTQtSDRmNCw0LLQvdC+INC+0LHR
+mNCw0LLQtdC90LAg0LHQtdC3INCS0LDRiNCwINGB0L7Qs9C70LDRgdC90L7R
+gdGCLArQvtC00L3QvtGB0L3QviDQutCw0LrQviDRiNGC0L4g0LUg0YPRgNC1
+0LTQtdC90L4g0YHQvtCz0LvQsNGB0L3QviDQv9C+0LfQuNGC0LjQstC90LjR
+gtC1INC30LDQutC+0L3RgdC60Lgg0L/RgNC+0L/QuNGB0LguCgrQodC+INC/
+0L7Rh9C40YIsCgrQodC70L7QsdC+0LTQtdC9INCf0YDQuNGB0YLQsNC/Cg==
