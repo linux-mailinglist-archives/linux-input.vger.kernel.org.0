@@ -2,101 +2,448 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6850B4D04E6
-	for <lists+linux-input@lfdr.de>; Mon,  7 Mar 2022 18:06:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BDC64D05C6
+	for <lists+linux-input@lfdr.de>; Mon,  7 Mar 2022 18:58:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243544AbiCGRHv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Mar 2022 12:07:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56120 "EHLO
+        id S241391AbiCGR7E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Mar 2022 12:59:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235114AbiCGRHu (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Mar 2022 12:07:50 -0500
-Received: from outgoing-stata.csail.mit.edu (outgoing-stata.csail.mit.edu [128.30.2.210])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7ED567C795;
-        Mon,  7 Mar 2022 09:06:52 -0800 (PST)
-Received: from [117.192.122.233] (helo=srivatsab-a02.vmware.com)
-        by outgoing-stata.csail.mit.edu with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-        (Exim 4.82)
-        (envelope-from <srivatsa@csail.mit.edu>)
-        id 1nRGog-000Ti1-FU; Mon, 07 Mar 2022 12:06:38 -0500
-To:     jgross@suse.com, x86@kernel.org, pv-drivers@vmware.com,
-        tglx@linutronix.de, bp@alien8.de
-Cc:     linux-graphics-maintainer@vmware.com, Deep Shah <sdeep@vmware.com>,
-        Joe Perches <joe@perches.com>, linux-rdma@vger.kernel.org,
-        Ronak Doshi <doshir@vmware.com>, Nadav Amit <namit@vmware.com>,
-        Alexey Makhalov <amakhalov@vmware.com>,
-        Zack Rusin <zackr@vmware.com>, linux-input@vger.kernel.org,
-        Vivek Thampi <vithampi@vmware.com>, linux-scsi@vger.kernel.org,
-        Vishal Bhakta <vbhakta@vmware.com>, netdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, keerthanak@vmware.com,
-        srivatsab@vmware.com, anishs@vmware.com,
-        linux-kernel@vger.kernel.org, kuba@kernel.org, rostedt@goodmis.org,
-        Linux Virtualization <virtualization@lists.linux-foundation.org>
-References: <164574138686.654750.10250173565414769119.stgit@csail.mit.edu>
-From:   "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
-Subject: Re: [PATCH v5 0/3] Update VMware maintainer entries
-Message-ID: <b0a49148-de03-a591-0849-6bb7d8e8b659@csail.mit.edu>
-Date:   Mon, 7 Mar 2022 22:36:23 +0530
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.12.0
+        with ESMTP id S234549AbiCGR7D (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Mar 2022 12:59:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3C209DDB
+        for <linux-input@vger.kernel.org>; Mon,  7 Mar 2022 09:58:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1646675887;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=09u9JLzPtVxDRy5KymybGQkLWvhxr6nyrHDbu84UlmM=;
+        b=DSIxEEGqxAA3jL8qtyInCVnLzDiqTd99h7bNpmUB0eCxSnvf3UHEclk7rS3cg86ieAUmhm
+        rywwoNH62Uqbe0sL4+3rW2xy3uqwgbCez8C826LL5+F35O4vn8bJ8UG/PK7N+zflU7BGla
+        qmsPMbSkGM2QG+uSr3thhOSwL20NBtA=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-385-d2f4X3uyNbSTjhd9qojtqw-1; Mon, 07 Mar 2022 12:58:06 -0500
+X-MC-Unique: d2f4X3uyNbSTjhd9qojtqw-1
+Received: by mail-pg1-f198.google.com with SMTP id q7-20020a63e207000000b003801b9bb18dso2677650pgh.15
+        for <linux-input@vger.kernel.org>; Mon, 07 Mar 2022 09:58:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=09u9JLzPtVxDRy5KymybGQkLWvhxr6nyrHDbu84UlmM=;
+        b=6dZKjn/gDgQ3o5WKBTaVNb3d0pc0Cv6gB9RxUJeNoOmXQBKatB+D6LX1ySfONkUwMO
+         WfLG2J+aMkDB7j9vJj8Vxg4KZ0A+CgR4ByuCV9ZCuAaztRYUf6wwhsfIhGxtG6uPKQEd
+         pFRG5srM791yXjV64asqYxpj5XadW8lE6aTGinZkUp4qy/lTpuZ+phbJDPRFRCiYurRz
+         f3SIHhQEdE3LAH64MCNvZDFC8D657Siau+9z8d7RAK90ItVoOFJOgLyYeqp6MIIWrqfH
+         Ish11wws4wb6j5D8bahP5nZAbT0SnmjxtjKhZqyNM0xMn6iMPiRhedz/DiP+AWMD5XIT
+         XXLA==
+X-Gm-Message-State: AOAM533vPKu/KiAMr4hh1ShFOoPEsYjEbD652/KfWWDYm8/TSXdqtLfY
+        INOGT6vHq2MgWe4vaCB8Knd/e81431MSbbkBnqVzH3+AFm81qSL9lYv49vJlwbNSfVXnWJ62aip
+        sSlUjm9Jg7kalhT0HYZTPlluq4/I9NrFDWvZFLEY=
+X-Received: by 2002:a17:90a:560a:b0:1bc:72e7:3c13 with SMTP id r10-20020a17090a560a00b001bc72e73c13mr117256pjf.246.1646675884992;
+        Mon, 07 Mar 2022 09:58:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwdS69KfZP2u4oQXWT/yMi0uEk8IG8gMJ+yzn07MH1yQIxzQm588R7BRzPYd4sUr9Utvgyynhtw+t8BAfdnkGQ=
+X-Received: by 2002:a17:90a:560a:b0:1bc:72e7:3c13 with SMTP id
+ r10-20020a17090a560a00b001bc72e73c13mr117227pjf.246.1646675884637; Mon, 07
+ Mar 2022 09:58:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <164574138686.654750.10250173565414769119.stgit@csail.mit.edu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220304172852.274126-1-benjamin.tissoires@redhat.com>
+ <20220304172852.274126-3-benjamin.tissoires@redhat.com> <YiJYlfIywoG5yIMd@kroah.com>
+In-Reply-To: <YiJYlfIywoG5yIMd@kroah.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 7 Mar 2022 18:57:53 +0100
+Message-ID: <CAO-hwJ+oF+WtsQziHBJ6ZESG+C+zw71Hje+SYa8Zn-V4nPZDMQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 02/28] bpf: introduce hid program type
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-[+virtualization list, which I forgot to CC when posting v5]
+On Fri, Mar 4, 2022 at 7:21 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Mar 04, 2022 at 06:28:26PM +0100, Benjamin Tissoires wrote:
+> > HID is a protocol that could benefit from using BPF too.
+> >
+> > This patch implements a net-like use of BPF capability for HID.
+> > Any incoming report coming from the device can be injected into a series
+> > of BPF programs that can modify it or even discard it by setting the
+> > size in the context to 0.
+> >
+> > The kernel/bpf implementation is based on net-namespace.c, with only
+> > the bpf_link part kept, there is no real points in keeping the
+> > bpf_prog_{attach|detach} API.
+> >
+> > The implementation here is only focusing on the bpf changes. The HID
+> > changes that hooks onto this are coming in a separate patch.
+> >
+> > Given that HID can be compiled in as a module, and the functions that
+> > kernel/bpf/hid.c needs to call in hid.ko are exported in struct hid_hooks.
+> >
+> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> >
+> > ---
+> >
+> > changes in v2:
+> > - split the series by bpf/libbpf/hid/selftests and samples
+> > - unsigned long -> __u16 in uapi/linux/bpf_hid.h
+> > - change the bpf_ctx to be of variable size, with a min of 1024 bytes
+> > - make this 1 kB available directly from bpf program, the rest will
+> >   need a helper
+> > - add some more doc comments in uapi
+> > ---
+> >  include/linux/bpf-hid.h        | 108 ++++++++
+> >  include/linux/bpf_types.h      |   4 +
+> >  include/linux/hid.h            |   5 +
+> >  include/uapi/linux/bpf.h       |   7 +
+> >  include/uapi/linux/bpf_hid.h   |  39 +++
+> >  kernel/bpf/Makefile            |   3 +
+> >  kernel/bpf/hid.c               | 437 +++++++++++++++++++++++++++++++++
+> >  kernel/bpf/syscall.c           |   8 +
+> >  tools/include/uapi/linux/bpf.h |   7 +
+> >  9 files changed, 618 insertions(+)
+> >  create mode 100644 include/linux/bpf-hid.h
+> >  create mode 100644 include/uapi/linux/bpf_hid.h
+> >  create mode 100644 kernel/bpf/hid.c
+> >
+> > diff --git a/include/linux/bpf-hid.h b/include/linux/bpf-hid.h
+> > new file mode 100644
+> > index 000000000000..3cda78051b5f
+> > --- /dev/null
+> > +++ b/include/linux/bpf-hid.h
+> > @@ -0,0 +1,108 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +#ifndef _BPF_HID_H
+> > +#define _BPF_HID_H
+> > +
+> > +#include <linux/mutex.h>
+> > +#include <uapi/linux/bpf.h>
+> > +#include <uapi/linux/bpf_hid.h>
+> > +#include <linux/list.h>
+> > +#include <linux/slab.h>
+> > +
+> > +struct bpf_prog;
+> > +struct bpf_prog_array;
+> > +struct hid_device;
+> > +
+> > +enum bpf_hid_attach_type {
+> > +     BPF_HID_ATTACH_INVALID = -1,
+> > +     BPF_HID_ATTACH_DEVICE_EVENT = 0,
+> > +     MAX_BPF_HID_ATTACH_TYPE
+> > +};
+> > +
+> > +struct bpf_hid {
+> > +     struct hid_bpf_ctx *ctx;
+> > +
+> > +     /* Array of programs to run compiled from links */
+> > +     struct bpf_prog_array __rcu *run_array[MAX_BPF_HID_ATTACH_TYPE];
+> > +     struct list_head links[MAX_BPF_HID_ATTACH_TYPE];
+> > +};
+> > +
+> > +static inline enum bpf_hid_attach_type
+> > +to_bpf_hid_attach_type(enum bpf_attach_type attach_type)
+> > +{
+> > +     switch (attach_type) {
+> > +     case BPF_HID_DEVICE_EVENT:
+> > +             return BPF_HID_ATTACH_DEVICE_EVENT;
+> > +     default:
+> > +             return BPF_HID_ATTACH_INVALID;
+> > +     }
+> > +}
+> > +
+> > +static inline struct hid_bpf_ctx *bpf_hid_allocate_ctx(struct hid_device *hdev,
+> > +                                                    size_t data_size)
+> > +{
+> > +     struct hid_bpf_ctx *ctx;
+> > +
+> > +     /* ensure data_size is between min and max */
+> > +     data_size = clamp_val(data_size,
+> > +                           HID_BPF_MIN_BUFFER_SIZE,
+> > +                           HID_BPF_MAX_BUFFER_SIZE);
+>
+> Do you want to return an error if the data size is not within the range?
 
-Hi Thomas, other x86 maintainers,
+That was not something I was counting on.
+Though I am thinking of not necessarily clamping this value in the end
+because I might have found a way to not do the initial memcpy when
+running a prog, and so not having to limit the size of the data.
 
-On 2/25/22 2:23 PM, Srivatsa S. Bhat wrote:
-> This series updates a few maintainer entries for VMware-maintained
-> subsystems and cleans up references to VMware's private mailing lists
-> to make it clear that they are effectively email-aliases to reach out
-> to reviewers.
-> 
+> Otherwise people will just start to use crazy values and you will always
+> be limiting them?
 
-Since this patchset got ACKs from the relevant subsystem maintainers,
-would you mind taking them through your tree, if this looks good to
-you too?
+The users of this helper are really limited to drivers/hid/hid_pbf.c
+and kernel/bpf/hid.c. And they are known in advance and there must be
+only one user per attach type.
+The only thing where the data might explode is when in used with
+SEC(hid/device_event), because we statically allocate one bpf_ctx
+based on the device report descriptor.
+But if the required size is bigger than HID_BPF_MAX_BUFFER_SIZE, the
+device will not probe or at least already logs something in the dmesg
+that we are using a too big buffer.
 
-Thank you!
+>
+> > +
+> > +     ctx = kzalloc(sizeof(*ctx) + data_size, GFP_KERNEL);
+> > +     if (!ctx)
+> > +             return ERR_PTR(-ENOMEM);
+> > +
+> > +     ctx->hdev = hdev;
+> > +     ctx->allocated_size = data_size;
+> > +
+> > +     return ctx;
+> > +}
+>
+> And why is this an inline function?  Why not put it in a .c file?
 
-Regards,
-Srivatsa
+The problem I have here is that the hid module can be loaded as an
+external module. So I can not directly use that helper from hid.ko
+from kernel/bpf/hid.c (I need it there once for the
+SEC(hid/user_event) bprogram attach type).
 
-> Changes from v4->v5:
-> - Add Alexey as reviewer for paravirt ops.
-> 
-> Changes from v3->v4:
-> - Remove Cc: stable@vger.kernel.org from patches 1 and 2.
-> 
-> Changes from v1->v3:
-> - Add Zack as the named maintainer for vmmouse driver
-> - Use R: to denote email-aliases for VMware reviewers
-> 
-> Regards,
-> Srivatsa
-> VMware Photon OS
-> 
-> ---
-> 
-> Srivatsa S. Bhat (VMware) (3):
->       MAINTAINERS: Update maintainers for paravirt ops and VMware hypervisor interface
->       MAINTAINERS: Add Zack as maintainer of vmmouse driver
->       MAINTAINERS: Mark VMware mailing list entries as email aliases
-> 
-> 
->  MAINTAINERS | 31 ++++++++++++++++++-------------
->  1 file changed, 18 insertions(+), 13 deletions(-)
-> 
+So the solution would be to have the code in the c part of
+kernel/bpf/hid.c and export the function as GPL, but I wanted to have
+the minimum of knowledge of HID-BPF internals in that file. So I ended
+up using an inline so I can reuse it independently in kernel/bpf/hid.c
+and drivers/hid/hid-bpf.c.
 
+>
+> > +
+> > +union bpf_attr;
+> > +struct bpf_prog;
+> > +
+> > +#if IS_ENABLED(CONFIG_HID)
+> > +int bpf_hid_prog_query(const union bpf_attr *attr,
+> > +                    union bpf_attr __user *uattr);
+> > +int bpf_hid_link_create(const union bpf_attr *attr,
+> > +                     struct bpf_prog *prog);
+> > +#else
+> > +static inline int bpf_hid_prog_query(const union bpf_attr *attr,
+> > +                                  union bpf_attr __user *uattr)
+> > +{
+> > +     return -EOPNOTSUPP;
+> > +}
+> > +
+> > +static inline int bpf_hid_link_create(const union bpf_attr *attr,
+> > +                                   struct bpf_prog *prog)
+> > +{
+> > +     return -EOPNOTSUPP;
+> > +}
+> > +#endif
+> > +
+> > +static inline bool bpf_hid_link_empty(struct bpf_hid *bpf,
+> > +                                   enum bpf_hid_attach_type type)
+> > +{
+> > +     return list_empty(&bpf->links[type]);
+> > +}
+> > +
+> > +struct bpf_hid_hooks {
+> > +     struct hid_device *(*hdev_from_fd)(int fd);
+> > +     int (*link_attach)(struct hid_device *hdev, enum bpf_hid_attach_type type);
+> > +     void (*array_detached)(struct hid_device *hdev, enum bpf_hid_attach_type type);
+> > +};
+> > +
+> > +#ifdef CONFIG_BPF
+> > +int bpf_hid_init(struct hid_device *hdev);
+> > +void bpf_hid_exit(struct hid_device *hdev);
+> > +void bpf_hid_set_hooks(struct bpf_hid_hooks *hooks);
+> > +#else
+> > +static inline int bpf_hid_init(struct hid_device *hdev)
+> > +{
+> > +     return 0;
+> > +}
+> > +
+> > +static inline void bpf_hid_exit(struct hid_device *hdev) {}
+> > +static inline void bpf_hid_set_hooks(struct bpf_hid_hooks *hooks) {}
+> > +#endif
+> > +
+> > +#endif /* _BPF_HID_H */
+> > diff --git a/include/linux/bpf_types.h b/include/linux/bpf_types.h
+> > index 48a91c51c015..1509862aacc4 100644
+> > --- a/include/linux/bpf_types.h
+> > +++ b/include/linux/bpf_types.h
+> > @@ -76,6 +76,10 @@ BPF_PROG_TYPE(BPF_PROG_TYPE_EXT, bpf_extension,
+> >  BPF_PROG_TYPE(BPF_PROG_TYPE_LSM, lsm,
+> >              void *, void *)
+> >  #endif /* CONFIG_BPF_LSM */
+> > +#if IS_ENABLED(CONFIG_HID)
+> > +BPF_PROG_TYPE(BPF_PROG_TYPE_HID, hid,
+> > +           __u32, u32)
+>
+> Why the mix of __u32 and u32 here?
+
+This is actually valid. I tracked it down to kernel/bpf/btf.c with:
+
+static union {
+          struct bpf_ctx_convert {
+  #define BPF_PROG_TYPE(_id, _name, prog_ctx_type, kern_ctx_type) \
+          prog_ctx_type _id##_prog; \
+          kern_ctx_type _id##_kern;
+  #include <linux/bpf_types.h>
+  #undef BPF_PROG_TYPE
+          } *__t;
+          /* 't' is written once under lock. Read many times. */
+          const struct btf_type *t;
+} bpf_ctx_convert;
+
+So prog_ctx_type represents a user API, while kern_ctx_type
+represents the kernel counterpart.
+
+That being said, this is plain wrong, because I am not using u32 as
+bpf context, but a properly defined struct :o)
+
+So I probably need to amend this to be either "void *, void *)" or
+something better (I'll ask Song in my reply to him).
+
+
+>
+> > +#endif
+> >  #endif
+> >  BPF_PROG_TYPE(BPF_PROG_TYPE_SYSCALL, bpf_syscall,
+> >             void *, void *)
+> > diff --git a/include/linux/hid.h b/include/linux/hid.h
+> > index 7487b0586fe6..56f6f4ad45a7 100644
+> > --- a/include/linux/hid.h
+> > +++ b/include/linux/hid.h
+> > @@ -15,6 +15,7 @@
+> >
+> >
+> >  #include <linux/bitops.h>
+> > +#include <linux/bpf-hid.h>
+> >  #include <linux/types.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/list.h>
+> > @@ -639,6 +640,10 @@ struct hid_device {                                                      /* device report descriptor */
+> >       struct list_head debug_list;
+> >       spinlock_t  debug_list_lock;
+> >       wait_queue_head_t debug_wait;
+> > +
+> > +#ifdef CONFIG_BPF
+> > +     struct bpf_hid bpf;
+> > +#endif
+> >  };
+> >
+> >  #define to_hid_device(pdev) \
+> > diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+> > index afe3d0d7f5f2..5978b92cacd3 100644
+> > --- a/include/uapi/linux/bpf.h
+> > +++ b/include/uapi/linux/bpf.h
+> > @@ -952,6 +952,7 @@ enum bpf_prog_type {
+> >       BPF_PROG_TYPE_LSM,
+> >       BPF_PROG_TYPE_SK_LOOKUP,
+> >       BPF_PROG_TYPE_SYSCALL, /* a program that can execute syscalls */
+> > +     BPF_PROG_TYPE_HID,
+> >  };
+> >
+> >  enum bpf_attach_type {
+> > @@ -997,6 +998,7 @@ enum bpf_attach_type {
+> >       BPF_SK_REUSEPORT_SELECT,
+> >       BPF_SK_REUSEPORT_SELECT_OR_MIGRATE,
+> >       BPF_PERF_EVENT,
+> > +     BPF_HID_DEVICE_EVENT,
+> >       __MAX_BPF_ATTACH_TYPE
+> >  };
+> >
+> > @@ -1011,6 +1013,7 @@ enum bpf_link_type {
+> >       BPF_LINK_TYPE_NETNS = 5,
+> >       BPF_LINK_TYPE_XDP = 6,
+> >       BPF_LINK_TYPE_PERF_EVENT = 7,
+> > +     BPF_LINK_TYPE_HID = 8,
+> >
+> >       MAX_BPF_LINK_TYPE,
+> >  };
+> > @@ -5870,6 +5873,10 @@ struct bpf_link_info {
+> >               struct {
+> >                       __u32 ifindex;
+> >               } xdp;
+> > +             struct  {
+> > +                     __s32 hidraw_ino;
+>
+> "ino"?  We have lots of letters to spell words out :)
+
+no comments... :)
+
+>
+> > +                     __u32 attach_type;
+> > +             } hid;
+> >       };
+> >  } __attribute__((aligned(8)));
+> >
+> > diff --git a/include/uapi/linux/bpf_hid.h b/include/uapi/linux/bpf_hid.h
+> > new file mode 100644
+> > index 000000000000..975ca5bd526f
+> > --- /dev/null
+> > +++ b/include/uapi/linux/bpf_hid.h
+> > @@ -0,0 +1,39 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-or-later WITH Linux-syscall-note */
+> > +
+> > +/*
+> > + *  HID BPF public headers
+> > + *
+> > + *  Copyright (c) 2021 Benjamin Tissoires
+>
+> Did you forget the copyright line on the other .h file above?
+
+oops
+
+>
+> > + */
+> > +
+> > +#ifndef _UAPI__LINUX_BPF_HID_H__
+> > +#define _UAPI__LINUX_BPF_HID_H__
+> > +
+> > +#include <linux/types.h>
+> > +
+> > +/*
+> > + * The first 1024 bytes are available directly in the bpf programs.
+> > + * To access the rest of the data (if allocated_size is bigger
+> > + * than 1024, you need to use bpf_hid_ helpers.
+> > + */
+> > +#define HID_BPF_MIN_BUFFER_SIZE              1024
+> > +#define HID_BPF_MAX_BUFFER_SIZE              16384           /* in sync with HID_MAX_BUFFER_SIZE */
+>
+> Can't you just use HID_MAX_BUFFER_SIZE?
+
+Call me dumb, but curiously I could not get my code to compile there.
+If I include linux/hid.h, things are getting messy and either the
+tools or the kernel itself was not compiling properly (couldn't really
+remember what was failing exactly, sorry).
+
+>
+> Anyway, all minor stuff, looks good!
+
+Thanks. Not sure I'll keep the bpf_ctx the same after further
+thoughts, but I appreciate the review :)
+
+Cheers,
+Benjamin
+
+>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>
 
