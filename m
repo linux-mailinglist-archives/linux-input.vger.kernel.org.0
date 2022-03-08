@@ -2,223 +2,194 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 872284D0D17
-	for <lists+linux-input@lfdr.de>; Tue,  8 Mar 2022 01:57:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D706D4D0D60
+	for <lists+linux-input@lfdr.de>; Tue,  8 Mar 2022 02:16:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344220AbiCHA6I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Mar 2022 19:58:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52946 "EHLO
+        id S237731AbiCHBRn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Mar 2022 20:17:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344216AbiCHA6H (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Mar 2022 19:58:07 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 334551155;
-        Mon,  7 Mar 2022 16:57:12 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DAF68B8175C;
-        Tue,  8 Mar 2022 00:57:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57A38C340F7;
-        Tue,  8 Mar 2022 00:57:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646701029;
-        bh=je9wh1jfc8vKoLFB/XMs5xZvr+6tezIiCo7tP89tgpY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RtO0co1gSFJwkq5vXNLxKNXO9f+Lqdl/mTUmq3ywOT33iUb4fS3ofFh/GNVp3Qjw+
-         +uzyYNtR5S34pDPFvE4ay2DXgKx2v1Cko9Re1wcy5Ov6cNEVTgmu/A3mEHiUSo8lvZ
-         nycf7fbdhQ5/WKRcp9H+y3P+Pnn/jffuuYCmfsNg/r9k6l6c/Yvl3MZmOwyWd8+ycx
-         /PaAZcNPWQ9UNuvfgUENYGupOJ4rLXnVV+/knXC57CkiHPMTee7WloB3QvyXWpMWv5
-         VOtax9kU/mu2L4xvOPP36dLjxchYBMp7CYManYIXd/f5W/MkTRrZSz16q34atGJ0xm
-         gjoieoE60I1Gw==
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-2dc242a79beso174466237b3.8;
-        Mon, 07 Mar 2022 16:57:09 -0800 (PST)
-X-Gm-Message-State: AOAM531+Xug1aIvWcWQ7dnvy0PBoOEpw99I0r/RvTmHukYfGLwH5SEaz
-        nA/PVsLf9fc9biRWgGvJs6kYjoFmdl2r1sBDyqg=
-X-Google-Smtp-Source: ABdhPJw5iu98Yx0WOcx2dkiKYmMKSq7PTAddXcLAeBR9h8z6v4BOKZMtV6hsGVJoY6yvheeO6z4E3FZsWGXfPBMxJBI=
-X-Received: by 2002:a0d:fb45:0:b0:2d0:d09a:576c with SMTP id
- l66-20020a0dfb45000000b002d0d09a576cmr11184300ywf.447.1646701028244; Mon, 07
- Mar 2022 16:57:08 -0800 (PST)
+        with ESMTP id S231255AbiCHBRm (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Mar 2022 20:17:42 -0500
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com (mail-eopbgr50042.outbound.protection.outlook.com [40.107.5.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D5723631F;
+        Mon,  7 Mar 2022 17:16:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Qophv/cIaRgxgBB/F+XAvUQa9gXN1UJFsAeBKq5NE57LTU7SN6uP7vpXUT+WVUx7NwvQze3bpFQPbAQSFjvZK31ARoGIcd0XwxJEAOR1clPzSAZGIaMFpTl2pOd3rdIU80X14Jh+iFL/IwdlZq4OtyZ2Wgh1afD2wACLZ7hQSDx4NOS+LiAfWwV0JcUJcY409RmaUoscsqeajMZ8qfJEYbtHV8f3fou4PNAfR92EiXZigynHB17CPd0rtUmahGjxpfV51HtYZprAqyKPHQcqzGwOI8o5n/6wf36GCy9O9iBisUmoOIHvU2QlDGxh9uPrV2YmmObOxXHtu7Up4rPSeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7c/ahAfLZtpPOfc5jRiLvdFmDnQnMik3PzpAGyqE+SM=;
+ b=B863MUfssW3OFfGwD8dj02QSSgLQMMZhsbCPhJmLBXO62wV2dV7i+JPDJpwGIHRrB/04BxDvw448t5YCDERijqHTTrbZrxVzcIYgZ//XAZ6i8Z6wurXx3REc2kaU4otQ2wF2lkdtn4IO8viqftow7sqAxe8OsrmSVrMf/A/iZuyqRKgH3/A0kkIyEk9UPvs/eDpSZ3KjjnLTxFeGKa0ZhqftVPlrXhJD6ndLRdF3RL2JKtuJ4h+Snp9YkVTUvUhjgKCp6ExNCWPXCISt10PyUDfeBhQTx4tfTYQbvTQlZ60aKM0iM/HoCObzeWcbx8rkaVLFDhGkJ5dF9NDjtKs2ew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7c/ahAfLZtpPOfc5jRiLvdFmDnQnMik3PzpAGyqE+SM=;
+ b=sQ3K1df3kF5LVOJhLmJlpV/ZKqZ0KbWygNUZDiJwwCgk83Ws3hDJGkNr96a/0mp5Rbc9f2a47V4wufkt1fSp96R0qq7k4sE1pEyhh4EpaveypkknB7WOLLZ2v2i3iO+mKidupyBn2GUFsRkyCtjVUuikqzIFzmGMsc7VvUVVV9s=
+Received: from DB9PR04MB8412.eurprd04.prod.outlook.com (2603:10a6:10:24d::9)
+ by AM0PR04MB4609.eurprd04.prod.outlook.com (2603:10a6:208:6b::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.15; Tue, 8 Mar
+ 2022 01:16:43 +0000
+Received: from DB9PR04MB8412.eurprd04.prod.outlook.com
+ ([fe80::4da8:6419:c67:3ec7]) by DB9PR04MB8412.eurprd04.prod.outlook.com
+ ([fe80::4da8:6419:c67:3ec7%2]) with mapi id 15.20.5038.026; Tue, 8 Mar 2022
+ 01:16:43 +0000
+From:   Jacky Bai <ping.bai@nxp.com>
+To:     Alifer Moraes <alifer.m@variscite.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "eran.m@variscite.com" <eran.m@variscite.com>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Pierluigi Passaro <pierluigi.p@variscite.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        mcontenti <marco.c@variscite.com>
+Subject: RE: [PATCH] input: keyboard: snvs_pwrkey: Add key-release-only
+Thread-Topic: [PATCH] input: keyboard: snvs_pwrkey: Add key-release-only
+Thread-Index: AQHYMi8jzQ/Pq1n1Nk+pJDS5pnj7say0r25w
+Date:   Tue, 8 Mar 2022 01:16:43 +0000
+Message-ID: <DB9PR04MB84120F45E6F1E283B541FF0A87099@DB9PR04MB8412.eurprd04.prod.outlook.com>
+References: <20220307142442.28206-1-alifer.m@variscite.com>
+In-Reply-To: <20220307142442.28206-1-alifer.m@variscite.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 88fe7373-2317-4a48-f1a2-08da00a14e5f
+x-ms-traffictypediagnostic: AM0PR04MB4609:EE_
+x-ld-processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+x-microsoft-antispam-prvs: <AM0PR04MB4609C9F9D19E8AF50F06537487099@AM0PR04MB4609.eurprd04.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: kyBqZDbV/OAx7lCvpO8pA4/XTgf8B9OTKitTznEnwmwe5hEJs4kNihRmwyBYl7AS6YeFXIgYGhfC9tWHZfWT43ha2Ms76Gor5sFjhwEPYJmorGXZiQ6cYYNVSps/q/18LZ4kNW2sY+FHs2O/QBhmPPrcFSxntQL5c8LBv0BhpHXCe9R6GaSKZsWvS+O8RwRn6ne9kBn23Q999AHegJNv+NEA8XMJhxT7iUfCHiWQ3mmZ9M9Rc2E4LciOYKHGvSQgvOB2CJzPDWAF8kmMSJyYnhuefeEPVFGAjBWs2EcJghZ0tbPM+JefJaMgx/OKzvL4MvNFUSyuhPVWT/t0E6OtwjFFdDSy4NznmZdDgsd5fD3boY2ruD9IIkapziOhGKD8LF1J/pvwli6rbY22TmjPxlclySjx3K/i1BbOHp7mWtQre0xKal7a4KHGDfV/3IpZrrqADw8ovzyd/xDsrxwBniHXNOWrrrFVrXeMGEtk8V8nindVpE+CPrleLaav6sCdUD+pTPcJkdO/5P/NWI95EmK7o3qbfpUuV9AFGwLYCZhv0S4oZe68R2qYxBGQeFuykzjEruM1mFtKvC0iU97cpEKOcXH2wXTGEzG9ThGmdV8QFHSAMuFxwZf7Vbg1MCzX3eTKy3ByIOkK8F72q51TVj7upqBlALeBYhKUxtn3p+MMfrte8eAK1xVl0gLJt47RE/bUFc9lLp90GRsLJtGvqA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB8412.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38070700005)(33656002)(86362001)(122000001)(38100700002)(5660300002)(54906003)(110136005)(8936002)(7416002)(8676002)(4326008)(64756008)(76116006)(66446008)(66556008)(66946007)(66476007)(2906002)(83380400001)(52536014)(6506007)(498600001)(7696005)(9686003)(71200400001)(55016003)(186003)(26005);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dFVMSXU5Z3l0aHF5UTdCdDcvRmxYdHVEYlJ2a0t1ZUNNcDZEWGlTVlIxdFh0?=
+ =?utf-8?B?ZTRBL00rdzhpQVJFRFF4TUhXUUF4ckxVUU9hdUxTTy9ieFF3UnVGSS83S0Jp?=
+ =?utf-8?B?eTNrdlFQbFkxWjczVEtXMFV2OEJ0OGhRRjZ0VDJQbVJ0N3dkNTMyekJsSU5I?=
+ =?utf-8?B?OWhYQkliN3k2dmNFTDBmRmpJbTdmaHpaVXViSFNuaElHTHJMK1FYWUNwdWpV?=
+ =?utf-8?B?c2R2Ym5ndThzTWxRVk9wdmtTUlJya1g0Tk9welJ5UlJ5UGxzaFBUTG45VVg0?=
+ =?utf-8?B?NjBKR25pMmhBanNYK2p6bTBrWGlDNjFXWlJ1SFdaaUhNSFVJM1BRK0VDWFFU?=
+ =?utf-8?B?R0JhNmF4UFNsM2MyWjFpWFVPdTM0M01NZGVRMmdQOEpSdXZ3SmxlNGo1VlZs?=
+ =?utf-8?B?QnJ1Tzd5Y3VGK3g3NDczSTBGd3g2UC9TYkpWZXcrM2hMQlJlU2FYZWtTd3k1?=
+ =?utf-8?B?L3ZGaWtUNnI4QzZUSFpkNU9uYnluV2dXblkxcC85dGsrcWR0bXpnRVRmSFMx?=
+ =?utf-8?B?QW5vU0ZvZ3ZFejhuTjZTZHhNenppbFFHT3poaDMxVmJLV2pvZFNaUitFMkl3?=
+ =?utf-8?B?cDErdDUzbjZLT1M1am5LSjRrcjZRM1dEOTlzNU1aSFp4d3lrSVVGTzhpemx0?=
+ =?utf-8?B?OUJLV0VIS3pUQUxFa3dwUWF6M1U1STBDK2FhRWlFSlB3T0RBQ1A0SFhiRHcv?=
+ =?utf-8?B?NVVqZ2xLQnRKTVNoakN0OGFIUTRSeDBQeVQyeUVRWVM5QnVQeDlXdTR1a3BG?=
+ =?utf-8?B?QjJxbVNlWThFRCtIOXdoNUlXUTkrK04vdHBVTzJ5dGNvOS94dlNmTzlNdGs0?=
+ =?utf-8?B?aU43ZjVJN2ttdVlXQzVUSGhnVUovU2d3MkF0WGJCY2d0KzRZK0Z1bjhJRkZS?=
+ =?utf-8?B?NytIZVlNUFEzM0c5cnQrVEQrSllTcVJZN1B1UmVOSG85T2pRalVicVpJVTEz?=
+ =?utf-8?B?dVM4M1VQNW02R0x4V1ppMnUwR2txNlkvdWhKclNBUzBuaDFScC95cUVOZ3cr?=
+ =?utf-8?B?Vy9oSGtFVlVsa3JGS1NzUGRWQjFjcUw2ZmRkTkdoNzVpbFRZbGZBTUcveXFa?=
+ =?utf-8?B?bzhaaHBoSzlvNzV4S1hJYkthdE9vVnpTRDh0TVRSUnJtbWY2c0JPZTJDaXR0?=
+ =?utf-8?B?ZytHNWU3UDZSSlllTVhJSEtPeUpTZFhpQXNqUnd4UTFFNEg3cHhIQldBZzFV?=
+ =?utf-8?B?UTVZQm9zS09ZK0JVK3JzbklpaVhlYVlTZ3c4Z3hDWnFFSG5saWZrakpaajA2?=
+ =?utf-8?B?YnJDb3VKVVdwUmJibWRIdDNoa0kxZk9jQk9hZ2NRT2duZXFXUEV1bWJFMkI2?=
+ =?utf-8?B?TE03Vkt5ODVubFp6ZDl0SVNIblFCUHdRSHh1MXlZNGtLZEJySG11UzBvcC91?=
+ =?utf-8?B?SmpJVHFiaHhwanEySkJHeExTUlFET24wcnBmTDYwK3ovUmFnZkNYNFR4QXAz?=
+ =?utf-8?B?eXJtU1Y3M2JyNmN1NkNkQ0dRemdDZkNXZ0Q1RHdJZXdnQnhZbWV4L1JkU2tJ?=
+ =?utf-8?B?WmMrajZXelVVWnlwUUFUeGhWa1Q3R1V4bkdieUNVVUptQ2xlbXNWSEdPc3lz?=
+ =?utf-8?B?d2R1VWEwVmFVbXRQZHVEdzJYcGdya04yTjVPbVhqb1o5UkpMcTF6R0hxUnoy?=
+ =?utf-8?B?cmVqbVVMZ0xTWjY4QkNvWTF6dWc4K0lQYk5WaFBMSW04U1VLbXV1WVF4M1Bs?=
+ =?utf-8?B?Y1dIMG5YeGV5bEpacFBmVGN2RGR4N3VUbXlyRkdhL1U1bHE5QnRQcUFYc2E1?=
+ =?utf-8?B?QzR3NWljQUlZVWorSk9pbzVQL2NaNzlIT09kc1JvSy84SVhiTVErNnRUSzds?=
+ =?utf-8?B?eHBIK0oyYkxWQk5JVXpsOWlLa1RDSHhpL3Nxb3RLL3lKWSs0YzcvSkZ6ck15?=
+ =?utf-8?B?Rlp5TXRONkNwVmJ6LzVNbTR5VEpiNVFLZGtOZUN5bXFDUTlOUjRYOG1hUXpJ?=
+ =?utf-8?B?dklFSExFUHowZy90VmNiYUdqVWpjbkFTMlFhTjlITSs3cGc1ZDhSaWVCM0tP?=
+ =?utf-8?B?eUtON1grSDFkOHo3a1hkaFdQV1VSNGdRcGJaS0tod0pUWUordWhqSHZIZXFv?=
+ =?utf-8?B?cEYvOWtUOS9MUWUwSXF0L3U2ZlpDcXB0YThGbGx3b1VKWGJJc1dKNVpmS0xX?=
+ =?utf-8?B?V3hoZE44bDNZSUdTNDR3TUNNdmUvMU0rdWVqbng2KzdaeU5UMG1qTWlyekd4?=
+ =?utf-8?B?Umc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20220304172852.274126-1-benjamin.tissoires@redhat.com>
- <20220304172852.274126-3-benjamin.tissoires@redhat.com> <CAPhsuW5CYF9isR4ffRdm3xA_n_FBoL+AGFkzNn4dn2LgRaQQkg@mail.gmail.com>
- <CAO-hwJKFE4Ps962BBubn8=1K0k9mC2qi8VerFbZo1sqpp6yekg@mail.gmail.com>
-In-Reply-To: <CAO-hwJKFE4Ps962BBubn8=1K0k9mC2qi8VerFbZo1sqpp6yekg@mail.gmail.com>
-From:   Song Liu <song@kernel.org>
-Date:   Mon, 7 Mar 2022 16:56:57 -0800
-X-Gmail-Original-Message-ID: <CAPhsuW5mZQ-N7RCndxP0RNi669RU5Tbu-Uu0M-KW2-mPYZbbng@mail.gmail.com>
-Message-ID: <CAPhsuW5mZQ-N7RCndxP0RNi669RU5Tbu-Uu0M-KW2-mPYZbbng@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 02/28] bpf: introduce hid program type
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB8412.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88fe7373-2317-4a48-f1a2-08da00a14e5f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Mar 2022 01:16:43.0210
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fhBVTcAH/9iKd/HDWPBP3oi3kUQLrlHsPXzKYHiOZcM3wBrfEEgCwfKzNsKYMEDh+hmgQADr1PP0dKITOfBb7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB4609
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Mar 7, 2022 at 10:39 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> On Sat, Mar 5, 2022 at 1:03 AM Song Liu <song@kernel.org> wrote:
-> >
-> > On Fri, Mar 4, 2022 at 9:31 AM Benjamin Tissoires
-> > <benjamin.tissoires@redhat.com> wrote:
-> > >
-> > > HID is a protocol that could benefit from using BPF too.
-> >
-> > [...]
-> >
-> > > +#include <linux/list.h>
-> > > +#include <linux/slab.h>
-> > > +
-> > > +struct bpf_prog;
-> > > +struct bpf_prog_array;
-> > > +struct hid_device;
-> > > +
-> > > +enum bpf_hid_attach_type {
-> > > +       BPF_HID_ATTACH_INVALID = -1,
-> > > +       BPF_HID_ATTACH_DEVICE_EVENT = 0,
-> > > +       MAX_BPF_HID_ATTACH_TYPE
-> >
-> > Is it typical to have different BPF programs for different attach types?
-> > Otherwise, (different types may have similar BPF programs), maybe
-> > we can pass type as an argument to the program (shared among
-> > different types)?
->
-> Not quite sure I am entirely following you, but I consider the various
-> attach types to be quite different and thus you can not really reuse
-> the same BPF program with 2 different attach types.
->
-> In my view, we have 4 attach types:
-> - BPF_HID_ATTACH_DEVICE_EVENT: called whenever we receive an IRQ from
-> the given device (so this is net-like event stream)
-> - BPF_HID_ATTACH_RDESC_FIXUP: there can be only one of this type, and
-> this is called to change the device capabilities. So you can not reuse
-> the other programs for this one
-> - BPF_HID_ATTACH_USER_EVENT: called explicitly by the userspace
-> process owning the program. There we can use functions that are
-> sleeping (we are not in IRQ context), so this is also fundamentally
-> different from the 3 others.
-> - BPF_HID_ATTACH_DRIVER_EVENT: whenever the driver gets called into,
-> we get a bpf program run. This can be suspend/resume, or even specific
-> request to the device (change a feature on the device or get its
-> current state). Again, IMO fundamentally different from the others.
->
-> So I'm open to any suggestions, but if we can keep the userspace API
-> being defined with different SEC in libbpf, that would be the best.
-
-Thanks for this information. Different attach_types sound right for the use
-case.
-
->
-> >
-> > [...]
-> >
-> > > +struct hid_device;
-> > > +
-> > > +enum hid_bpf_event {
-> > > +       HID_BPF_UNDEF = 0,
-> > > +       HID_BPF_DEVICE_EVENT,           /* when attach type is BPF_HID_DEVICE_EVENT */
-> > > +};
-> > > +
-> > > +struct hid_bpf_ctx {
-> > > +       enum hid_bpf_event type;        /* read-only */
-> > > +       __u16 allocated_size;           /* the allocated size of data below (RO) */
-> >
-> > There is a (6-byte?) hole here.
-> >
-> > > +       struct hid_device *hdev;        /* read-only */
-> > > +
-> > > +       __u16 size;                     /* used size in data (RW) */
-> > > +       __u8 data[];                    /* data buffer (RW) */
-> > > +};
-> >
-> > Do we really need hit_bpf_ctx in uapi? Maybe we can just use it
-> > from vmlinuxh?
->
-> I had a thought at this context today, and I think I am getting to the
-> limit of what I understand.
->
-> My first worry is that the way I wrote it there, with a variable data
-> field length is that this is not forward compatible. Unless BTF and
-> CORE are making magic, this will bite me in the long run IMO.
->
-> But then, you are talking about not using uapi, and I am starting to
-> wonder: am I doing the things correctly?
->
-> To solve my first issue (and the weird API I had to introduce in the
-> bpf_hid_get/set_data), I came up to the following:
-> instead of exporting the data directly in the context, I could create
-> a helper bpf_hid_get_data_buf(ctx, const uint size) that returns a
-> RET_PTR_TO_ALLOC_MEM_OR_NULL in the same way bpf_ringbuf_reserve()
-> does.
->
-> This way, I can directly access the fields within the bpf program
-> without having to worry about the size.
->
-> But now, I am wondering whether the uapi I defined here is correct in
-> the way CORE works.
->
-> My goal is to have HID-BPF programs to be CORE compatible, and not
-> have to recompile them depending on the underlying kernel.
->
-> I can not understand right now if I need to add some other BTF helpers
-> in the same way the access to struct xdp_md and struct xdp_buff are
-> converted between one and other, or if defining a forward compatible
-> struct hid_bpf_ctx is enough.
-> As far as I understand, .convert_ctx_access allows to export a stable
-> uapi to the bpf prog users with the verifier doing the conversion
-> between the structs for me. But is this really required for all the
-> BPF programs if we want them to be CORE?
->
-> Also, I am starting to wonder if I should not hide fields in the
-> context to the users. The .data field could be a pointer and only
-> accessed through the helper I mentioned above. This would be forward
-> compatible, and also allows to use whatever available memory in the
-> kernel to be forwarded to the BPF program. This way I can skip the
-> memcpy part and work directly with the incoming dma data buffer from
-> the IRQ.
->
-> But is it best practice to do such a thing?
-
-I think .convert_ctx_access is the way to go if we want to access the data
-buffer without memcpy. I am not sure how much work is needed to make
-it compatible with CORE though.
-
-To make sure I understand the case, do we want something like
-
-bpf_prog(struct hid_bpf_ctx *ctx)
-{
-    /* makes sure n < ctx->size */
-    x = ctx->data[n]; /* read data */
-    ctx->data[n] = <something>; /* write data */
-    ctx->size = <something <= n>; /* change data size */
-}
-
-We also need it to be CORE, so that we may modify hid_bpf_ctx by
-inserting more members to it before data.
-
-Is this accurate?
-
-Song
+PiBTdWJqZWN0OiBbUEFUQ0hdIGlucHV0OiBrZXlib2FyZDogc252c19wd3JrZXk6IEFkZCBrZXkt
+cmVsZWFzZS1vbmx5DQo+IA0KPiBGcm9tOiBFcmFuIE1hdGl0eWFodSA8ZXJhbi5tQHZhcmlzY2l0
+ZS5jb20+DQo+IA0KPiBPbiBpbXg2cWRsIHRoZSBpbnRlcnJ1cHQgb25seSB0cmlnZ2VycyBvbiB0
+aGUgcmVsZWFzZSBvZiB0aGUga2V5Lg0KPiBOb3JtYWxseSwgdGhlIGRyaXZlciBpcyBsb29raW5n
+IGZvciBhIGNoYW5nZSBpbiB0aGUgc3RhdGUgb2YgdGhlIGtleSwgYnV0IHNpbmNlIHRoZQ0KPiBp
+bnRlcnJ1cHQgdHJpZ2dlcnMgb24gcmVsZWFzZSB0aGUga2V5IHZhbHVlIGlzIGFsd2F5cyAwLCBz
+byB0aGVyZSB3YXMgbm8gZXZlbnQuDQo+IA0KPiBBZGQgImtleS1yZWxlYXNlLW9ubHkiIGJvb2xl
+YW4gZHRzIHByb3BlcnR5IHRvIGFkZHJlc3MgdGhpcyBpc3N1ZSwgYW5kIGNyZWF0ZQ0KPiBib3Ro
+IGtleSBwcmVzcyBhbmQga2V5IHJlbGVhc2UgZXZlbnRzIHdoZW4gdGhlIGtleSBpcyBhY3R1YWxs
+eSByZWxlYXNlZC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEVyYW4gTWF0aXR5YWh1IDxlcmFuLm1A
+dmFyaXNjaXRlLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogbWNvbnRlbnRpIDxtYXJjby5jQHZhcmlz
+Y2l0ZS5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IEFsaWZlciBNb3JhZXMgPGFsaWZlci5tQHZhcmlz
+Y2l0ZS5jb20+DQo+IC0tLQ0KPiAgYXJjaC9hcm0vYm9vdC9kdHMvaW14NnFkbC5kdHNpICAgICAg
+IHwgIDEgKw0KPiAgZHJpdmVycy9pbnB1dC9rZXlib2FyZC9zbnZzX3B3cmtleS5jIHwgMjEgKysr
+KysrKysrKysrKysrKysrKystDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyks
+IDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9pbXg2
+cWRsLmR0c2kgYi9hcmNoL2FybS9ib290L2R0cy9pbXg2cWRsLmR0c2kNCj4gaW5kZXggZDI3YmVi
+NDdmOWEzLi45ODExZTZiZmQ4ZTUgMTAwNjQ0DQo+IC0tLSBhL2FyY2gvYXJtL2Jvb3QvZHRzL2lt
+eDZxZGwuZHRzaQ0KPiArKysgYi9hcmNoL2FybS9ib290L2R0cy9pbXg2cWRsLmR0c2kNCj4gQEAg
+LTg0NSw2ICs4NDUsNyBAQCBzbnZzX3B3cmtleTogc252cy1wb3dlcmtleSB7DQo+ICAJCQkJCXJl
+Z21hcCA9IDwmc252cz47DQo+ICAJCQkJCWludGVycnVwdHMgPSA8R0lDX1NQSSA0IElSUV9UWVBF
+X0xFVkVMX0hJR0g+Ow0KPiAgCQkJCQlsaW51eCxrZXljb2RlID0gPEtFWV9QT1dFUj47DQo+ICsJ
+CQkJCWtleS1yZWxlYXNlLW9ubHk7DQo+ICAJCQkJCXdha2V1cC1zb3VyY2U7DQo+ICAJCQkJCXN0
+YXR1cyA9ICJkaXNhYmxlZCI7DQo+ICAJCQkJfTsNCg0KZHRzIGNoYW5nZXMgc2hvdWxkIGJlIGlu
+IGEgc2VwYXJhdGUgcGF0Y2guDQoNCkJSDQpKYWNreSBCYWkNCj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvaW5wdXQva2V5Ym9hcmQvc252c19wd3JrZXkuYw0KPiBiL2RyaXZlcnMvaW5wdXQva2V5Ym9h
+cmQvc252c19wd3JrZXkuYw0KPiBpbmRleCA2NTI4Njc2MmIwMmEuLmI1NThlNmY4OThmYSAxMDA2
+NDQNCj4gLS0tIGEvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9zbnZzX3B3cmtleS5jDQo+ICsrKyBi
+L2RyaXZlcnMvaW5wdXQva2V5Ym9hcmQvc252c19wd3JrZXkuYw0KPiBAQCAtNjYsNiArNjYsMjIg
+QEAgc3RhdGljIHZvaWQgaW14X2lteF9zbnZzX2NoZWNrX2Zvcl9ldmVudHMoc3RydWN0DQo+IHRp
+bWVyX2xpc3QgKnQpDQo+ICAJfQ0KPiAgfQ0KPiANCj4gK3N0YXRpYyB2b2lkIGlteF9pbXhfc252
+c19jaGVja19mb3JfcmVsZWFzZV9ldmVudHMoc3RydWN0IHRpbWVyX2xpc3QgKnQpDQo+ICt7DQo+
+ICsJc3RydWN0IHB3cmtleV9kcnZfZGF0YSAqcGRhdGEgPSBmcm9tX3RpbWVyKHBkYXRhLCB0LCBj
+aGVja190aW1lcik7DQo+ICsJc3RydWN0IGlucHV0X2RldiAqaW5wdXQgPSBwZGF0YS0+aW5wdXQ7
+DQo+ICsJdTMyIHN0YXRlOw0KPiArDQo+ICsJLyogaW50ZXJydXB0IG9ubHkgcmVwb3J0cyByZWxl
+YXNlIG9mIGtleSBzbyBkbyBub3Qgd2FpdCBmb3Igc3RhdGUgY2hhbmdlICovDQo+ICsJc3RhdGUg
+PSAxOw0KPiArCWlucHV0X2V2ZW50KGlucHV0LCBFVl9LRVksIHBkYXRhLT5rZXljb2RlLCBzdGF0
+ZSk7DQo+ICsJaW5wdXRfc3luYyhpbnB1dCk7DQo+ICsNCj4gKwlzdGF0ZSA9IDA7DQo+ICsJaW5w
+dXRfZXZlbnQoaW5wdXQsIEVWX0tFWSwgcGRhdGEtPmtleWNvZGUsIHN0YXRlKTsNCj4gKwlpbnB1
+dF9zeW5jKGlucHV0KTsNCj4gK30NCj4gKw0KPiAgc3RhdGljIGlycXJldHVybl90IGlteF9zbnZz
+X3B3cmtleV9pbnRlcnJ1cHQoaW50IGlycSwgdm9pZCAqZGV2X2lkKSAgew0KPiAgCXN0cnVjdCBw
+bGF0Zm9ybV9kZXZpY2UgKnBkZXYgPSBkZXZfaWQ7IEBAIC0xNzcsNyArMTkzLDEwIEBAIHN0YXRp
+YyBpbnQNCj4gaW14X3NudnNfcHdya2V5X3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBk
+ZXYpDQo+ICAJLyogY2xlYXIgdGhlIHVuZXhwZWN0ZWQgaW50ZXJydXB0IGJlZm9yZSBkcml2ZXIg
+cmVhZHkgKi8NCj4gIAlyZWdtYXBfd3JpdGUocGRhdGEtPnNudnMsIFNOVlNfTFBTUl9SRUcsIFNO
+VlNfTFBTUl9TUE8pOw0KPiANCj4gLQl0aW1lcl9zZXR1cCgmcGRhdGEtPmNoZWNrX3RpbWVyLCBp
+bXhfaW14X3NudnNfY2hlY2tfZm9yX2V2ZW50cywgMCk7DQo+ICsJaWYgKG9mX3Byb3BlcnR5X3Jl
+YWRfYm9vbChucCwgImtleS1yZWxlYXNlLW9ubHkiKSkNCj4gKwkJdGltZXJfc2V0dXAoJnBkYXRh
+LT5jaGVja190aW1lciwNCj4gaW14X2lteF9zbnZzX2NoZWNrX2Zvcl9yZWxlYXNlX2V2ZW50cywg
+MCk7DQo+ICsJZWxzZQ0KPiArCQl0aW1lcl9zZXR1cCgmcGRhdGEtPmNoZWNrX3RpbWVyLCBpbXhf
+aW14X3NudnNfY2hlY2tfZm9yX2V2ZW50cywNCj4gMCk7DQo+IA0KPiAgCWlucHV0ID0gZGV2bV9p
+bnB1dF9hbGxvY2F0ZV9kZXZpY2UoJnBkZXYtPmRldik7DQo+ICAJaWYgKCFpbnB1dCkgew0KPiAt
+LQ0KPiAyLjI1LjENCg0K
