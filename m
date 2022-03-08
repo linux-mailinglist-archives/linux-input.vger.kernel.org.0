@@ -2,66 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 458304D0E21
-	for <lists+linux-input@lfdr.de>; Tue,  8 Mar 2022 03:51:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EC3A4D0F7F
+	for <lists+linux-input@lfdr.de>; Tue,  8 Mar 2022 06:52:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231252AbiCHCv7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Mar 2022 21:51:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59056 "EHLO
+        id S236687AbiCHFxO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Mar 2022 00:53:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229906AbiCHCv7 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Mar 2022 21:51:59 -0500
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59B31366B3;
-        Mon,  7 Mar 2022 18:51:03 -0800 (PST)
-Received: by mail-qk1-x733.google.com with SMTP id q4so13730285qki.11;
-        Mon, 07 Mar 2022 18:51:03 -0800 (PST)
+        with ESMTP id S233708AbiCHFxI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Mar 2022 00:53:08 -0500
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77185E25;
+        Mon,  7 Mar 2022 21:52:11 -0800 (PST)
+Received: by mail-io1-xd36.google.com with SMTP id b16so5434460ioz.3;
+        Mon, 07 Mar 2022 21:52:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dHziwswHK6uNSR77kAaO2ffhpQzUQz0uMTDDzxEF4Ok=;
-        b=F+Kwc2v0NjeMR4vC8LyG9ZsURiTPhcvH8Epa7frmH6GHTEIUAHL1iAnRFlZR9OhAVy
-         HtEXQI7Nph4PySyAjpqSf3vKWyyfwvrZb0PSK950nYBCQk3av2NoEcwrLzewuhSx55Lg
-         SBMI5LJJ69CSmcmL303PSjB16okbG3qLF1tllQeG/J6PigTysYUx3hMsIYRu2PjERy4E
-         fHKlvBZYTaWFzi5vPKGlm8AWO6WA7wpgx6HFpFfX3HdSy1WV3s3nN0250Xp/Z2E7WGpS
-         mzwU5ZzizP/oYsFcdRCIKXEEI62xHUBAA6As0l5UmnMcRDkew4HOW7Wz1lrC3FxphPh0
-         OhbA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+aAQ68z5bUdi4gi3f7x74ZA2W3mBI33pygnpmeRuBzI=;
+        b=X1GRs5Yy1RYIEnhBxsIrFW0jFcRRm10ThJfBJUR0L/V6kCShOlw8YoQqlvYXauA+Wj
+         fWm/zqn7vKHkXtPzXYI069QKuog/kXlQtTE6ulEBHFwL1Mgo4fHGVRMKuwQ8pFCnV4sd
+         p6GlqXV2vZ1oRO/hQyp3FZWqzRFl88D0itB78rJZoEq7lKnTHY9wkAgdf5xObI89Pdqm
+         G/e3SICZiEEI6/VZN1EQDzTcyhvN1HK7U8LQFPTfuBwMhDTELpzuHl7/2hfsktGO8qfm
+         HqzNFRXqN8yTpqUqj1nSXqX1NRPDzMc+YKzDHEYM+jp3bYP0bHDxkc4QQx7ctP2J0K/V
+         61LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dHziwswHK6uNSR77kAaO2ffhpQzUQz0uMTDDzxEF4Ok=;
-        b=aCsqLFb85YBlH7g2rlB6YNPUGtQnAgKx7nKJM7mdIbV1OptpG+rX+LKaebpnXhWNqz
-         fgY0uNUPURCP8NQImxr+uAq9mwkzeDpUCz8Z5JEuD7rQlRR8FPjJU2jejaNZ1zxob1rJ
-         g+w1Rj1f3hsHrIDaz1OXkXZpfS07d4KdVPr/W9G9e6QbeZlnq/IMArYz1hAmHRIbgyV4
-         A7J9XJbfb8FeqRFq5frgThdT6ONLmXKj/JLUx5QP9T3cm2yF2OHYKd4NBDhmjmm9amLS
-         0DYO0VbQJER8hakbN7IKxTPp2y2E9DHCrGK+T8cQm/tkHyndZOCRnZudtOnF2b1sgBzI
-         vYNw==
-X-Gm-Message-State: AOAM533iEHq3BqoJ/aZbIqofv7q9Yq3n13NUwHagOiUL+h3nLzDW8soY
-        49jOe8yCIhgc7GNDJmHNS1U=
-X-Google-Smtp-Source: ABdhPJzRTUy5nLA4k0FOzG3DQXk/0Q2mTdSiWzr1tJiLmP001iyJl/Q2/IX8p96NjKA2WEMjYSob6Q==
-X-Received: by 2002:a05:620a:40d1:b0:67b:ce7:702 with SMTP id g17-20020a05620a40d100b0067b0ce70702mr7712663qko.183.1646707862525;
-        Mon, 07 Mar 2022 18:51:02 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id d21-20020a05622a101500b002e07151139fsm244291qte.17.2022.03.07.18.50.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Mar 2022 18:51:01 -0800 (PST)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: lv.ruyi@zte.com.cn
-To:     dmitry.torokhov@gmail.com
-Cc:     matthias.bgg@gmail.com, mkorpershoek@baylibre.com,
-        lv.ruyi@zte.com.cn, fengping.yu@mediatek.com,
-        m.felsch@pengutronix.de, linux-input@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH] input: fix variable type
-Date:   Tue,  8 Mar 2022 02:50:54 +0000
-Message-Id: <20220308025054.2077162-1-lv.ruyi@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+aAQ68z5bUdi4gi3f7x74ZA2W3mBI33pygnpmeRuBzI=;
+        b=x900cMiQC+Cac1WulHU8Ai1/9mp/KBmAjk4Hw9u7M14lZlK2y6O+Rm+MuJ8DkwL+MK
+         WKK0u8iaBiN7XLIR+vpH8PBdV60CQZ3LgJ66wjUXkglmtXhMl/WmABemgmLGsy3OCd1m
+         ThcXOl3JQs0g4cHPVp2BpkvY/pi1oVBQ5UNc3/KDBM60uKOO8IBvl7du8UWR65HqxYGN
+         wr5LuuZaaVCUYEAqj/tHne7UtIn0LcbejZhmiyP43dztOhC3TK1r67InB7Jq1s8+LIv1
+         WG+FLdAos88KtFZqzpMAg30ajlfQUHVrxDW0L0SBQBOq2d/RrplGXqhEJhowgqkU53rE
+         LBNQ==
+X-Gm-Message-State: AOAM531Tc2vncRvZXAWizzUDPgyPxdK9/hFB8PUBZJzrpW5t6wKQ5R7e
+        gm/vO9P218X9ovosVGsKMiPAbWkHeKX0Xj0u7O4x6hdQFxM=
+X-Google-Smtp-Source: ABdhPJzXf9gakKVFrNzk/yuF6YME/q3/SGtybwMxDDTkzyJNgvUtSPyEDmXzmTmerQMwtxhDHNuPNJsWavo9cZPOM6s=
+X-Received: by 2002:a05:6602:1605:b0:644:d491:1bec with SMTP id
+ x5-20020a056602160500b00644d4911becmr13210383iow.63.1646718730922; Mon, 07
+ Mar 2022 21:52:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220304172852.274126-1-benjamin.tissoires@redhat.com>
+ <20220304172852.274126-5-benjamin.tissoires@redhat.com> <CAEf4BzZa8sP4QzEgi4T4L1_tz9D8gNNvjeQt3J0hrV6kq8NfUQ@mail.gmail.com>
+ <D32CC967-8923-4933-A303-8455F32C6DA0@fb.com>
+In-Reply-To: <D32CC967-8923-4933-A303-8455F32C6DA0@fb.com>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Mon, 7 Mar 2022 21:52:00 -0800
+Message-ID: <CAEf4BzaxuYt+0j8z71y9z1+i0a=Q0hS0mb4cEKKzbiq3QAyNaA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 04/28] libbpf: add HID program type and API
+To:     Song Liu <songliubraving@fb.com>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>, Martin Lau <kafai@fb.com>,
+        Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -72,30 +82,98 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Lv Ruyi (CGEL ZTE) <lv.ruyi@zte.com.cn>
+On Mon, Mar 7, 2022 at 5:38 PM Song Liu <songliubraving@fb.com> wrote:
+>
+>
+>
+> > On Mar 7, 2022, at 5:30 PM, Andrii Nakryiko <andrii.nakryiko@gmail.com> wrote:
+> >
+> > On Fri, Mar 4, 2022 at 9:31 AM Benjamin Tissoires
+> > <benjamin.tissoires@redhat.com> wrote:
+> >>
+> >> HID-bpf program type are needing a new SEC.
+> >> To bind a hid-bpf program, we can rely on bpf_program__attach_fd()
+> >> so export a new function to the API.
+> >>
+> >> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> >>
+> >> ---
+> >>
+> >> changes in v2:
+> >> - split the series by bpf/libbpf/hid/selftests and samples
+> >> ---
+> >> tools/lib/bpf/libbpf.c   | 7 +++++++
+> >> tools/lib/bpf/libbpf.h   | 2 ++
+> >> tools/lib/bpf/libbpf.map | 1 +
+> >> 3 files changed, 10 insertions(+)
+> >>
+> >> diff --git a/tools/lib/bpf/libbpf.c b/tools/lib/bpf/libbpf.c
+> >> index 81bf01d67671..356bbd3ad2c7 100644
+> >> --- a/tools/lib/bpf/libbpf.c
+> >> +++ b/tools/lib/bpf/libbpf.c
+> >> @@ -8680,6 +8680,7 @@ static const struct bpf_sec_def section_defs[] = {
+> >>        SEC_DEF("cgroup/setsockopt",    CGROUP_SOCKOPT, BPF_CGROUP_SETSOCKOPT, SEC_ATTACHABLE | SEC_SLOPPY_PFX),
+> >>        SEC_DEF("struct_ops+",          STRUCT_OPS, 0, SEC_NONE),
+> >>        SEC_DEF("sk_lookup",            SK_LOOKUP, BPF_SK_LOOKUP, SEC_ATTACHABLE | SEC_SLOPPY_PFX),
+> >> +       SEC_DEF("hid/device_event",     HID, BPF_HID_DEVICE_EVENT, SEC_ATTACHABLE_OPT | SEC_SLOPPY_PFX),
+> >
+> > no SEC_SLOPPY_PFX for any new program type, please
+> >
+> >
+> >> };
+> >>
+> >> #define MAX_TYPE_NAME_SIZE 32
+> >> @@ -10659,6 +10660,12 @@ static struct bpf_link *attach_iter(const struct bpf_program *prog, long cookie)
+> >>        return bpf_program__attach_iter(prog, NULL);
+> >> }
+> >>
+> >> +struct bpf_link *
+> >> +bpf_program__attach_hid(const struct bpf_program *prog, int hid_fd)
+> >> +{
+> >> +       return bpf_program__attach_fd(prog, hid_fd, 0, "hid");
+> >> +}
+> >> +
+> >> struct bpf_link *bpf_program__attach(const struct bpf_program *prog)
+> >> {
+> >>        if (!prog->sec_def || !prog->sec_def->attach_fn)
+> >> diff --git a/tools/lib/bpf/libbpf.h b/tools/lib/bpf/libbpf.h
+> >> index c8d8daad212e..f677ac0a9ede 100644
+> >> --- a/tools/lib/bpf/libbpf.h
+> >> +++ b/tools/lib/bpf/libbpf.h
+> >> @@ -529,6 +529,8 @@ struct bpf_iter_attach_opts {
+> >> LIBBPF_API struct bpf_link *
+> >> bpf_program__attach_iter(const struct bpf_program *prog,
+> >>                         const struct bpf_iter_attach_opts *opts);
+> >> +LIBBPF_API struct bpf_link *
+> >> +bpf_program__attach_hid(const struct bpf_program *prog, int hid_fd);
+> >>
+> >> /*
+> >>  * Libbpf allows callers to adjust BPF programs before being loaded
+> >> diff --git a/tools/lib/bpf/libbpf.map b/tools/lib/bpf/libbpf.map
+> >> index 47e70c9058d9..fdc6fa743953 100644
+> >> --- a/tools/lib/bpf/libbpf.map
+> >> +++ b/tools/lib/bpf/libbpf.map
+> >> @@ -424,6 +424,7 @@ LIBBPF_0.6.0 {
+> >> LIBBPF_0.7.0 {
+> >>        global:
+> >>                bpf_btf_load;
+> >> +               bpf_program__attach_hid;
+> >
+> > should go into 0.8.0
+>
+> Ah, I missed this one.
+>
+> btw, bpf_xdp_attach and buddies should also go into 0.8.0, no?
 
-The irq is defined unsigned int. If the platform_get_irq return a negative
-value, data type cast may result in error.
+not really, they were released in libbpf v0.7, it's just any new
+incoming API that should go into 0.8.0
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Lv Ruyi (CGEL ZTE) <lv.ruyi@zte.com.cn>
----
- drivers/input/keyboard/mt6779-keypad.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/input/keyboard/mt6779-keypad.c b/drivers/input/keyboard/mt6779-keypad.c
-index 5ff23250ed37..0dbbddc7f298 100644
---- a/drivers/input/keyboard/mt6779-keypad.c
-+++ b/drivers/input/keyboard/mt6779-keypad.c
-@@ -91,7 +91,7 @@ static void mt6779_keypad_clk_disable(void *data)
- static int mt6779_keypad_pdrv_probe(struct platform_device *pdev)
- {
- 	struct mt6779_keypad *keypad;
--	unsigned int irq;
-+	int irq;
- 	u32 debounce;
- 	bool wakeup;
- 	int error;
--- 
-2.25.1
-
+>
+> >
+> >>                bpf_program__expected_attach_type;
+> >>                bpf_program__log_buf;
+> >>                bpf_program__log_level;
+> >> --
+> >> 2.35.1
+> >>
+>
