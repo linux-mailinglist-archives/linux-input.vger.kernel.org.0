@@ -2,62 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E62F24D21CC
-	for <lists+linux-input@lfdr.de>; Tue,  8 Mar 2022 20:44:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F123C4D231B
+	for <lists+linux-input@lfdr.de>; Tue,  8 Mar 2022 22:13:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344473AbiCHTob (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Mar 2022 14:44:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51798 "EHLO
+        id S236072AbiCHVOQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Mar 2022 16:14:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244290AbiCHTo3 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Mar 2022 14:44:29 -0500
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 950D44B877;
-        Tue,  8 Mar 2022 11:43:32 -0800 (PST)
-Received: by mail-lj1-x22a.google.com with SMTP id v28so57505ljv.9;
-        Tue, 08 Mar 2022 11:43:32 -0800 (PST)
+        with ESMTP id S234717AbiCHVOP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Mar 2022 16:14:15 -0500
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B7C32EC0;
+        Tue,  8 Mar 2022 13:13:18 -0800 (PST)
+Received: by mail-vs1-xe2d.google.com with SMTP id a186so184010vsc.3;
+        Tue, 08 Mar 2022 13:13:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DBq+74jsGS12/t26peyLXSXJ4MX0rUkn2P9HFFxGwBo=;
-        b=lUkOC6OSjq2Z/dESjP3coU6U8iWOUb7DpIsCv0FDldqQGDpS2OWkQ86gVwB4kL1XPx
-         zkDD2DuI2jVxYRiOPRltbMWExBuRg4NkveTQJ0nz8vksP1CUq3+j/qBYiWHbwQurW0LX
-         X1mbXDB0bWTs82wE/+Xh6TpLFhGbWKtCEP8K/ZQV52d0AZmffYIAwc9m+FUtK3qi1sRA
-         3Oq6BUSifJgMZlg5yWwzK77R4jXtpLIHOZPC+prbP9Eh9/3bWeYQF6NmYG9To82Jd0nQ
-         PExcosJOxgQI5LAMTFfaFHgz0fcKy1xGoVxC9v80C1HWouADymfljb4RWxh/Dao37Lza
-         jK9Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rFaXmSp0CUO3MUoxtONyEeHswEbCY1B/ujO2ak9ia2U=;
+        b=iGcIaMfp4FsLPBTkkVEWgveu1ZKeaJGm6BV0qJRw/awR3InWaE/GhJaFZTGMfQ25en
+         4ts4sXERNYWH61JPQsci41eJBRu7oml141O22s4Cvv5p7P6FK30dA65l1DWFEhHzOnuI
+         FMLIQ8EeYAINY9ieXQsAOUxEbzJxGpf4helFl+EmaAagwzKO8deFyy2z63r9+H9xs0Fa
+         sH9Er91VVabvh8kiweFm58a6Lr2k8JsQC6Eezx5hQwxf0kYykzxYCAXFZHNj+/58FLj3
+         3JmHBdXja0SU8UCg/AC6lsHzh7+48cRqV3EoQC1C9DDLgJgaE/EGLvPdiQSArdb9MTxh
+         pkXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DBq+74jsGS12/t26peyLXSXJ4MX0rUkn2P9HFFxGwBo=;
-        b=bqyiw7N/7llnY8loMEmkLDPny57e++fM6CEPqet/mcoICRVRsf7pqcdJk/cmkxdq8X
-         EFWgxPwcAP0XG2PvFngCm/KNft7jmQygaYl/414S4fu/MxpKi8DAafJ8LbyKOlXb3zcu
-         7eOj5C8lO6l4C1BAAdVGBh00y3HKdiA8om5e7wQYwFrJ5iFLV9oMbHnVdqKQ9UAjoKX7
-         G2BpBONrW/z7GUlv9pPoy1nmPa8pTf+n3N34/6JbPd/oFoAkVukgkVCfjzLfImN6t0hG
-         ErPVp3GKbGAMJbCCoso6oYfyzdC8Iu7tOZdkrZdpfbUBTiJ8wGybEeGQhQNRUlZjBM+G
-         kbxA==
-X-Gm-Message-State: AOAM530RwSMd+11gcbnbU8mOnCoTpaJGzCbcvGaEwKYf5qdrdvRkkLfL
-        48h8TiOzHxLHzcuLIGw780s=
-X-Google-Smtp-Source: ABdhPJyUFZohD7qdVQ/51M1mbPKE7gr7WnFVzzBnWt5z1sjviZUXLn/OxTXWMyl7oGVm75ec48KRQg==
-X-Received: by 2002:a05:651c:1209:b0:22e:353c:76c0 with SMTP id i9-20020a05651c120900b0022e353c76c0mr11728859lja.139.1646768610857;
-        Tue, 08 Mar 2022 11:43:30 -0800 (PST)
-Received: from localhost.localdomain ([94.103.229.107])
-        by smtp.gmail.com with ESMTPSA id n5-20020a056512388500b004439696b40csm3641856lft.47.2022.03.08.11.43.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Mar 2022 11:43:30 -0800 (PST)
-From:   Pavel Skripkin <paskripkin@gmail.com>
-To:     dmitry.torokhov@gmail.com, vdronov@redhat.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pavel Skripkin <paskripkin@gmail.com>,
-        syzbot+75cccf2b7da87fb6f84b@syzkaller.appspotmail.com
-Subject: [PATCH] Input: aiptek - properly check endpoint type
-Date:   Tue,  8 Mar 2022 22:43:28 +0300
-Message-Id: <20220308194328.26220-1-paskripkin@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rFaXmSp0CUO3MUoxtONyEeHswEbCY1B/ujO2ak9ia2U=;
+        b=rntuuNCnQbhzOR+VsLzdmmqw30zQ/4IUbwz2Y/LGHFNHkBTBEFiYjjVW4SDAQhBqo6
+         UX3+09JvG2WNbViFfItwuZL+ancNzC+t8ny0n7szT/Lz+fnx1IbIrgM7Yj1a2LUKQMSU
+         jgBpeDwevKZG736LACK9M8ykeS+Hka3+/gUFeqwmJbY00xsQztJ0sSP9OTEKrBeaSClp
+         9ojGOwcfID0vxwoziIy602PZ6JD1Kx+P1Rla2gUw9cOgrM869DWXvwjxGXT29wx/9q0o
+         CPMtVOo31qTvCta0tzApVx8IhFIC2tyni2SmIeRp+t17BlCFSMFD9znAZEmPUPW4t04j
+         No0w==
+X-Gm-Message-State: AOAM533T+nOcPG9D1ujPmYPXO51WbmRI6L454Z1fWDl/6/jXXNBmu/15
+        ykDJ4+w7sn6Zg24DfKfqnhrG5py5cdwtSc38l9s=
+X-Google-Smtp-Source: ABdhPJzMtJBKG17xzLUgES2DvaoKKXyIpmlOJpBc3XIO6D0Xqvi6zQf+88WbQ68P2pGj0X13437J2h5rB634DOVQFak=
+X-Received: by 2002:a05:6102:3f01:b0:320:678d:a18a with SMTP id
+ k1-20020a0561023f0100b00320678da18amr8692190vsv.81.1646773997571; Tue, 08 Mar
+ 2022 13:13:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <YhmAAjNeTjiNoLlJ@google.com> <nycvar.YFH.7.76.2203011531370.11721@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2203011531370.11721@cbobk.fhfr.pm>
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Date:   Tue, 8 Mar 2022 13:13:05 -0800
+Message-ID: <CAKdAkRT+X1YXGqcLTvmEyyxrkozmakR=1y8Y4nfK5=G2UYFK_w@mail.gmail.com>
+Subject: Re: [PATCH] HID: vivaldi: fix sysfs attributes leak
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        "Sean O'Brien" <seobrien@chromium.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -68,58 +68,46 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Syzbot reported warning in usb_submit_urb() which is caused by wrong
-endpoint type. There was a check for the number of endpoints, but not
-for the type of endpoint.
+On Tue, Mar 1, 2022 at 6:31 AM Jiri Kosina <jikos@kernel.org> wrote:
+>
+> On Fri, 25 Feb 2022, Dmitry Torokhov wrote:
+>
+> > The driver creates the top row map sysfs attribute in input_configured()
+> > method; unfortunately we do not have a callback that is executed when HID
+> > interface is unbound, thus we are leaking these sysfs attributes, for
+> > example when device is disconnected.
+> >
+> > To fix it let's switch to managed version of adding sysfs attributes which
+> > will ensure that they are destroyed when the driver is unbound.
+> >
+> > Fixes: 14c9c014babe ("HID: add vivaldi HID driver")
+> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > ---
+> >
+> > Compiled only.
+> >
+> >  drivers/hid/hid-vivaldi.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/hid/hid-vivaldi.c b/drivers/hid/hid-vivaldi.c
+> > index efa6140915f4..42ceb2058a09 100644
+> > --- a/drivers/hid/hid-vivaldi.c
+> > +++ b/drivers/hid/hid-vivaldi.c
+> > @@ -144,7 +144,7 @@ static void vivaldi_feature_mapping(struct hid_device *hdev,
+> >  static int vivaldi_input_configured(struct hid_device *hdev,
+> >                                   struct hid_input *hidinput)
+> >  {
+> > -     return sysfs_create_group(&hdev->dev.kobj, &input_attribute_group);
+> > +     return devm_device_add_group(&hdev->dev, &input_attribute_group);
+> >  }
+> >
+> >  static const struct hid_device_id vivaldi_table[] = {
+>
+> Applied, thanks Dmitry.
 
-Fix it by replacing old desc.bNumEndpoints check with
-usb_find_common_endpoints() helper for finding endpoints
+Jiri, are you planning to send this for 5.17 or 5.18?
 
-Fail log:
+Thanks.
 
-usb 5-1: BOGUS urb xfer, pipe 1 != type 3
-WARNING: CPU: 2 PID: 48 at drivers/usb/core/urb.c:502 usb_submit_urb+0xed2/0x18a0 drivers/usb/core/urb.c:502
-Modules linked in:
-CPU: 2 PID: 48 Comm: kworker/2:2 Not tainted 5.17.0-rc6-syzkaller-00226-g07ebd38a0da2 #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
-Workqueue: usb_hub_wq hub_event
-...
-Call Trace:
- <TASK>
- aiptek_open+0xd5/0x130 drivers/input/tablet/aiptek.c:830
- input_open_device+0x1bb/0x320 drivers/input/input.c:629
- kbd_connect+0xfe/0x160 drivers/tty/vt/keyboard.c:1593
-
-Fixes: 8e20cf2bce12 ("Input: aiptek - fix crash on detecting device without endpoints")
-Reported-and-tested-by: syzbot+75cccf2b7da87fb6f84b@syzkaller.appspotmail.com
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- drivers/input/tablet/aiptek.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/input/tablet/aiptek.c b/drivers/input/tablet/aiptek.c
-index fcb1b646436a..5d0dc277bf86 100644
---- a/drivers/input/tablet/aiptek.c
-+++ b/drivers/input/tablet/aiptek.c
-@@ -1787,15 +1787,12 @@ aiptek_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	input_set_abs_params(inputdev, ABS_TILT_Y, AIPTEK_TILT_MIN, AIPTEK_TILT_MAX, 0, 0);
- 	input_set_abs_params(inputdev, ABS_WHEEL, AIPTEK_WHEEL_MIN, AIPTEK_WHEEL_MAX - 1, 0, 0);
- 
--	/* Verify that a device really has an endpoint */
--	if (intf->cur_altsetting->desc.bNumEndpoints < 1) {
-+	err = usb_find_common_endpoints(intf->cur_altsetting, NULL, NULL, &endpoint, NULL);
-+	if (err) {
- 		dev_err(&intf->dev,
--			"interface has %d endpoints, but must have minimum 1\n",
--			intf->cur_altsetting->desc.bNumEndpoints);
--		err = -EINVAL;
-+			"interface has no int in endpoints, but must have minimum 1\n");
- 		goto fail3;
- 	}
--	endpoint = &intf->cur_altsetting->endpoint[0].desc;
- 
- 	/* Go set up our URB, which is called when the tablet receives
- 	 * input.
 -- 
-2.35.1
-
+Dmitry
