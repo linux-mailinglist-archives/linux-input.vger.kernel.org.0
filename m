@@ -2,43 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCA734D3149
-	for <lists+linux-input@lfdr.de>; Wed,  9 Mar 2022 15:53:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 580924D34AD
+	for <lists+linux-input@lfdr.de>; Wed,  9 Mar 2022 17:26:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230457AbiCIOy0 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Wed, 9 Mar 2022 09:54:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37792 "EHLO
+        id S235838AbiCIQ0G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Mar 2022 11:26:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230197AbiCIOyZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Mar 2022 09:54:25 -0500
-Received: from omta013.useast.a.cloudfilter.net (omta013.useast.a.cloudfilter.net [34.195.253.204])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 210EA33EA7
-        for <linux-input@vger.kernel.org>; Wed,  9 Mar 2022 06:53:25 -0800 (PST)
-Received: from cxr.smtp.a.cloudfilter.net ([10.0.17.147])
-        by cmsmtp with ESMTP
-        id RtsUnfr06pH1ARxgqnyQHa; Wed, 09 Mar 2022 14:53:24 +0000
-Received: from [192.168.1.121] ([68.0.59.20])
-        by cmsmtp with ESMTPSA
-        id RxgpnUPygfyzPRxgpnC5cg; Wed, 09 Mar 2022 14:53:24 +0000
-Authentication-Results: cox.net; auth=pass (PLAIN)
- smtp.auth=cameronghall@cox.net
-X-Authority-Analysis: v=2.4 cv=QPV7+yHL c=1 sm=1 tr=0 ts=6228bf64
- a=YRu6w0iJ0PLxWKpWPKeGRw==:117 a=YRu6w0iJ0PLxWKpWPKeGRw==:17
- a=IkcTkHD0fZMA:10 a=NEAV23lmAAAA:8 a=WrZyhvej8QGNWhJhATAA:9 a=QEXdDO2ut3YA:10
-Date:   Wed, 09 Mar 2022 08:53:21 -0600
-User-Agent: K-9 Mail for Android
+        with ESMTP id S238126AbiCIQVW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Mar 2022 11:21:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 679851520E6;
+        Wed,  9 Mar 2022 08:19:00 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 01E336195C;
+        Wed,  9 Mar 2022 16:19:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD358C340F3;
+        Wed,  9 Mar 2022 16:18:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646842739;
+        bh=OHgK3l61XigknepnxkAHN1zj8F8/Ze2Ht/Z9K6dhxxQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=bE76QwFgvK/1ULger5RPLaLPaNNVsjYNkRVgyasAxtui9nyaZiiEG9K7U/vDAWwE5
+         J9TcujiQ3+uXD7DV2ZlgQZpfgtxKNDYnY9ZXaUTmrSYgES+EaPv/gijYcCak8jJ5Dt
+         A0CmFq6v7Cmzm4Pha+yGT/jhTlb3tt/O3YwYOMMFyjPJjEvvPNV/wRCiGPAqGbw926
+         rMmyo9m3Rb2JyIcXQsHZUom664QiH8i40xaSt/f/8rOm8JHLfKZTEqzJYFzYMHJsh8
+         aazlPQerKIJuERZNmqS0WZkyoQmXDTcroJCBtIrixhS3Tlee9+HQPYvtS7pWUhrz2J
+         7h1mduE+zsVIQ==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, hadess@hadess.net,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 19/27] Input: goodix - use the new soc_intel_is_byt() helper
+Date:   Wed,  9 Mar 2022 11:16:56 -0500
+Message-Id: <20220309161711.135679-19-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220309161711.135679-1-sashal@kernel.org>
+References: <20220309161711.135679-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Subject: [Input] Wrong button mappings on PowerA USB gamepad
-To:     linux-kernel@vger.kernel.org
-CC:     linux-input@vger.kernel.org
-From:   Cameron <cameronghall@cox.net>
-Message-ID: <2329F4E9-1A1B-4D8A-B853-F93A62FFC654@cox.net>
-X-CMAE-Envelope: MS4xfO70W8CknrGTnBX98YGYLqVtGOZ7C10yqZr/BFnDr0NymeG7LGtEYeYqs0C/REuECSVrznvFjAhYe/BRFzRh4gp4ClGbuLyHN6wfL3xqm9KGq4kWviBk
- kifoOa9qc8WoRZ+9HP6FQPwm847ewidiyRCIteRXl8Clq2xkdRKcncT6eVBYpjOtx/9vVTUSr+BwtmDtvwKG8USQmDKgMuyf/fvyKNwvx99gc8wZwl6E50+N
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -47,20 +57,63 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello all,
+From: Hans de Goede <hdegoede@redhat.com>
 
-I sent an email about this issue to the linux-input mailing list a week ago, but still haven't heard back, so I am sending it to the generic kernel mailing list.
+[ Upstream commit d176708ffc20332d1c730098d2b111e0b77ece82 ]
 
-I am using a PowerA USB wired Nintendo Switch controller on Void Linux. Games and applications are able to successfully detect and use the controller, however the button mapping is very wrong in every program I have tested. I tested this with evtest-qt to see what button values evdev is reporting. Since there appears to be no way to remap these from userspace, I suspect the problem lies in the kernel driver.
+Use the new soc_intel_is_byt() helper from linux/platform_data/x86/soc.h.
 
-Pressing the two analog sticks (which should be BTN_THUMBL and BTN_THUMBR) incorrectly generate events for BTN_SELECT and BTN_START, and pressing the + and - buttons (which should be mapped to BTN_START and BTN_SELECT) instead result in BTN_TL2 and BTN_TR2 events.
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://lore.kernel.org/r/20220131143539.109142-5-hdegoede@redhat.com
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/input/touchscreen/goodix.c | 18 ++----------------
+ 1 file changed, 2 insertions(+), 16 deletions(-)
 
-The device in question (as reported by lsusb) is:
-Bus 001 Device 003: ID 20d6:a711 Core (Plus) Wired Controller
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index aaa3c455e01e..e053aadea3c9 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -18,6 +18,7 @@
+ #include <linux/delay.h>
+ #include <linux/irq.h>
+ #include <linux/interrupt.h>
++#include <linux/platform_data/x86/soc.h>
+ #include <linux/slab.h>
+ #include <linux/acpi.h>
+ #include <linux/of.h>
+@@ -686,21 +687,6 @@ static int goodix_reset(struct goodix_ts_data *ts)
+ }
+ 
+ #ifdef ACPI_GPIO_SUPPORT
+-#include <asm/cpu_device_id.h>
+-#include <asm/intel-family.h>
+-
+-static const struct x86_cpu_id baytrail_cpu_ids[] = {
+-	{ X86_VENDOR_INTEL, 6, INTEL_FAM6_ATOM_SILVERMONT, X86_FEATURE_ANY, },
+-	{}
+-};
+-
+-static inline bool is_byt(void)
+-{
+-	const struct x86_cpu_id *id = x86_match_cpu(baytrail_cpu_ids);
+-
+-	return !!id;
+-}
+-
+ static const struct acpi_gpio_params first_gpio = { 0, 0, false };
+ static const struct acpi_gpio_params second_gpio = { 1, 0, false };
+ 
+@@ -784,7 +770,7 @@ static int goodix_add_acpi_gpio_mappings(struct goodix_ts_data *ts)
+ 		dev_info(dev, "Using ACPI INTI and INTO methods for IRQ pin access\n");
+ 		ts->irq_pin_access_method = IRQ_PIN_ACCESS_ACPI_METHOD;
+ 		gpio_mapping = acpi_goodix_reset_only_gpios;
+-	} else if (is_byt() && ts->gpio_count == 2 && ts->gpio_int_idx == -1) {
++	} else if (soc_intel_is_byt() && ts->gpio_count == 2 && ts->gpio_int_idx == -1) {
+ 		dev_info(dev, "No ACPI GpioInt resource, assuming that the GPIO order is reset, int\n");
+ 		ts->irq_pin_access_method = IRQ_PIN_ACCESS_ACPI_GPIO;
+ 		gpio_mapping = acpi_goodix_int_last_gpios;
+-- 
+2.34.1
 
-and I am using kernel version 5.15.26_1 on Void Linux.
-
-I wrote a small kernel module to correctly remap the buttons (code is here https://gist.github.com/camthesaxman/af7099505103a555518741b4083eaea8), but I would like to know more about how this kind of situation is handled in the input subsystem in order to create a proper patch.
-
-Thanks,
-Cameron
