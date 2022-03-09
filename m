@@ -2,47 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E3634D34A9
-	for <lists+linux-input@lfdr.de>; Wed,  9 Mar 2022 17:26:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C4E44D34AC
+	for <lists+linux-input@lfdr.de>; Wed,  9 Mar 2022 17:26:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235788AbiCIQ0E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Mar 2022 11:26:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35476 "EHLO
+        id S235820AbiCIQ0F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Mar 2022 11:26:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238131AbiCIQVX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Mar 2022 11:21:23 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 386681520EF;
-        Wed,  9 Mar 2022 08:19:04 -0800 (PST)
+        with ESMTP id S238471AbiCIQWX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Mar 2022 11:22:23 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB687E10;
+        Wed,  9 Mar 2022 08:21:24 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C857A6194C;
-        Wed,  9 Mar 2022 16:19:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 507BBC340E8;
-        Wed,  9 Mar 2022 16:19:00 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 78E346194C;
+        Wed,  9 Mar 2022 16:21:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64F1BC340F4;
+        Wed,  9 Mar 2022 16:21:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646842743;
-        bh=o0lMoPtysunsKgbgzC3/md5VDCnp60LnkLkLaYxOo7Q=;
+        s=k20201202; t=1646842883;
+        bh=CHblr8NWTGcnGBYCwMJgLGnlDhamOLYtaCJlu/aYA1w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LqY5eBpyTvQqJ1hEFURU1omp4VGiTnhny/wtSA/PD0v74+j+VMsZD3wmE5RJvsmNH
-         H1AcNitD5u2ufwHCsDtUpqADgTVyyJNm4fYOfn8KgovrnUi1BNhTyMeGdNZ1dZv/6m
-         /JR1LXtIEdsGKtmbVL3H1QPmczWeHXQQNQC1RE6Ez8HW7jTax88YBJDdyqxItDHsZY
-         7B1VAt2dky5FIlcPYI6vAx1yP76RgATv55pwNaqUnhwpzlIvlqT22ELqrXH8UI7v1T
-         z+SJ3BEhhjnpjo4v9fIkWEdthJwWyI6PNt0h1LvGdVCuKgf6MAtiRTtspQHPfdbF1s
-         5JIn7OTPySkeg==
+        b=Hg3v7PGriZg/HLLSMz2q5PvW65i0iBu/Ms9ypNEHtr05GJOmcW7SnP3QFq8qduXru
+         qbgmkD/T7bMEe7XU6GhJYc59JyxnMT+ctLJ7N7x7gp2tIypKnkaiKXGpp33xVKufiP
+         0gDN4jDnEdZ4z6qe95oILoevXawzYuqxGHT6BJ9Svai+SGopn7RhnOgm+ipH8DxBpZ
+         GQ+MgTFcJzdXqu2FEFOF3MKW4XzoTZOmqoM0rBVgAIGRU1/8RDeowQ2JTKT64XVoq0
+         yCLt9lVeqs7/C9pBC1h2nPcg3orXwxYoP59v+4fIKXlPaZ6pkK/ZZZyZU3cOElh1qN
+         YtA8roNPdHYGA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, hadess@hadess.net,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 20/27] Input: goodix - workaround Cherry Trail devices with a bogus ACPI Interrupt() resource
-Date:   Wed,  9 Mar 2022 11:16:57 -0500
-Message-Id: <20220309161711.135679-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 17/24] Input: goodix - workaround Cherry Trail devices with a bogus ACPI Interrupt() resource
+Date:   Wed,  9 Mar 2022 11:19:36 -0500
+Message-Id: <20220309161946.136122-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220309161711.135679-1-sashal@kernel.org>
-References: <20220309161711.135679-1-sashal@kernel.org>
+In-Reply-To: <20220309161946.136122-1-sashal@kernel.org>
+References: <20220309161946.136122-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -80,10 +80,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index e053aadea3c9..d3136842b717 100644
+index 5051a1766aac..18021ae8183d 100644
 --- a/drivers/input/touchscreen/goodix.c
 +++ b/drivers/input/touchscreen/goodix.c
-@@ -745,7 +745,7 @@ static int goodix_add_acpi_gpio_mappings(struct goodix_ts_data *ts)
+@@ -784,7 +784,7 @@ static int goodix_add_acpi_gpio_mappings(struct goodix_ts_data *ts)
  	const struct acpi_gpio_mapping *gpio_mapping = NULL;
  	struct device *dev = &ts->client->dev;
  	LIST_HEAD(resources);
@@ -92,7 +92,7 @@ index e053aadea3c9..d3136842b717 100644
  
  	ts->gpio_count = 0;
  	ts->gpio_int_idx = -1;
-@@ -758,6 +758,20 @@ static int goodix_add_acpi_gpio_mappings(struct goodix_ts_data *ts)
+@@ -797,6 +797,20 @@ static int goodix_add_acpi_gpio_mappings(struct goodix_ts_data *ts)
  
  	acpi_dev_free_resource_list(&resources);
  
