@@ -2,52 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0B394D2D49
-	for <lists+linux-input@lfdr.de>; Wed,  9 Mar 2022 11:43:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCA734D3149
+	for <lists+linux-input@lfdr.de>; Wed,  9 Mar 2022 15:53:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230147AbiCIKnr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Mar 2022 05:43:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41318 "EHLO
+        id S230457AbiCIOy0 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 9 Mar 2022 09:54:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230156AbiCIKnq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Mar 2022 05:43:46 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E15965F1;
-        Wed,  9 Mar 2022 02:42:45 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 806A761782;
-        Wed,  9 Mar 2022 10:42:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A25F8C340E8;
-        Wed,  9 Mar 2022 10:42:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646822564;
-        bh=rSMc4bqxAq+I7bLtI0sKbI3dBe9JJiNBmFiYMixL7Aw=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=eH9NtVA52YAPi+N4BSF1VamhR6QseVPKvFr/3hD6pfI9nTxRpYDYaHVSBpfsIZchr
-         GqMF5ghgwYsnhNTYuGdb/gczQhBfpueA5IywR6upt3AZC4wwl2JywymtTHt0RlRPu7
-         LAdQUFlUrNBGZqF156afYcJ7i6LlP4m2OhWWDb9/AL+HXe/UF2ULkPvudrivN1FeVr
-         3f0nSOXk/nlI26VpmjlQ+g1suOs6/IOXIW5eNNscWRrhWCaDUlwMW53sdbN2s9QnCA
-         O26Y9I5mVyFE1rud/bMJPTch2/TrhcvUuvksit8WQ0sFSnL4EZaEZ92oKjB33iW2Qf
-         iwgQBxvsTj35w==
-Date:   Wed, 9 Mar 2022 11:42:41 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Sean O'Brien <seobrien@chromium.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] HID: vivaldi: fix sysfs attributes leak
-In-Reply-To: <CAKdAkRT+X1YXGqcLTvmEyyxrkozmakR=1y8Y4nfK5=G2UYFK_w@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2203091142180.24795@cbobk.fhfr.pm>
-References: <YhmAAjNeTjiNoLlJ@google.com> <nycvar.YFH.7.76.2203011531370.11721@cbobk.fhfr.pm> <CAKdAkRT+X1YXGqcLTvmEyyxrkozmakR=1y8Y4nfK5=G2UYFK_w@mail.gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        with ESMTP id S230197AbiCIOyZ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Mar 2022 09:54:25 -0500
+Received: from omta013.useast.a.cloudfilter.net (omta013.useast.a.cloudfilter.net [34.195.253.204])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 210EA33EA7
+        for <linux-input@vger.kernel.org>; Wed,  9 Mar 2022 06:53:25 -0800 (PST)
+Received: from cxr.smtp.a.cloudfilter.net ([10.0.17.147])
+        by cmsmtp with ESMTP
+        id RtsUnfr06pH1ARxgqnyQHa; Wed, 09 Mar 2022 14:53:24 +0000
+Received: from [192.168.1.121] ([68.0.59.20])
+        by cmsmtp with ESMTPSA
+        id RxgpnUPygfyzPRxgpnC5cg; Wed, 09 Mar 2022 14:53:24 +0000
+Authentication-Results: cox.net; auth=pass (PLAIN)
+ smtp.auth=cameronghall@cox.net
+X-Authority-Analysis: v=2.4 cv=QPV7+yHL c=1 sm=1 tr=0 ts=6228bf64
+ a=YRu6w0iJ0PLxWKpWPKeGRw==:117 a=YRu6w0iJ0PLxWKpWPKeGRw==:17
+ a=IkcTkHD0fZMA:10 a=NEAV23lmAAAA:8 a=WrZyhvej8QGNWhJhATAA:9 a=QEXdDO2ut3YA:10
+Date:   Wed, 09 Mar 2022 08:53:21 -0600
+User-Agent: K-9 Mail for Android
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Subject: [Input] Wrong button mappings on PowerA USB gamepad
+To:     linux-kernel@vger.kernel.org
+CC:     linux-input@vger.kernel.org
+From:   Cameron <cameronghall@cox.net>
+Message-ID: <2329F4E9-1A1B-4D8A-B853-F93A62FFC654@cox.net>
+X-CMAE-Envelope: MS4xfO70W8CknrGTnBX98YGYLqVtGOZ7C10yqZr/BFnDr0NymeG7LGtEYeYqs0C/REuECSVrznvFjAhYe/BRFzRh4gp4ClGbuLyHN6wfL3xqm9KGq4kWviBk
+ kifoOa9qc8WoRZ+9HP6FQPwm847ewidiyRCIteRXl8Clq2xkdRKcncT6eVBYpjOtx/9vVTUSr+BwtmDtvwKG8USQmDKgMuyf/fvyKNwvx99gc8wZwl6E50+N
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -56,15 +47,20 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 8 Mar 2022, Dmitry Torokhov wrote:
+Hello all,
 
-> Jiri, are you planning to send this for 5.17 or 5.18?
+I sent an email about this issue to the linux-input mailing list a week ago, but still haven't heard back, so I am sending it to the generic kernel mailing list.
 
-Hi Dmitry,
+I am using a PowerA USB wired Nintendo Switch controller on Void Linux. Games and applications are able to successfully detect and use the controller, however the button mapping is very wrong in every program I have tested. I tested this with evtest-qt to see what button values evdev is reporting. Since there appears to be no way to remap these from userspace, I suspect the problem lies in the kernel driver.
 
-I've sent it to Linus for 5.17-rc still earlier today.
+Pressing the two analog sticks (which should be BTN_THUMBL and BTN_THUMBR) incorrectly generate events for BTN_SELECT and BTN_START, and pressing the + and - buttons (which should be mapped to BTN_START and BTN_SELECT) instead result in BTN_TL2 and BTN_TR2 events.
 
--- 
-Jiri Kosina
-SUSE Labs
+The device in question (as reported by lsusb) is:
+Bus 001 Device 003: ID 20d6:a711 Core (Plus) Wired Controller
 
+and I am using kernel version 5.15.26_1 on Void Linux.
+
+I wrote a small kernel module to correctly remap the buttons (code is here https://gist.github.com/camthesaxman/af7099505103a555518741b4083eaea8), but I would like to know more about how this kind of situation is handled in the input subsystem in order to create a proper patch.
+
+Thanks,
+Cameron
