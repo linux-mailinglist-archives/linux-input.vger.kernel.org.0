@@ -2,303 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B43E84D35C4
-	for <lists+linux-input@lfdr.de>; Wed,  9 Mar 2022 18:42:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FD874D3F66
+	for <lists+linux-input@lfdr.de>; Thu, 10 Mar 2022 03:51:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237043AbiCIRSy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Mar 2022 12:18:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53300 "EHLO
+        id S237029AbiCJCwy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Mar 2022 21:52:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237092AbiCIRSp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Mar 2022 12:18:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D7C4875C15
-        for <linux-input@vger.kernel.org>; Wed,  9 Mar 2022 09:16:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1646846208;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=hYsp5CTOqE7MYUtz4GC4+jPlQ+BmzzCld+8j376Yzmw=;
-        b=df6PLDCnWPtMff7XC8Q6p8x12edJTPC2iyugFdcsPyQoaVL9iFoFUdfEAqKwDYrWcaspyN
-        An1TfpAMB/7fVsWjkS2WaruUyOyjGxMl+8HCZ3OxZgsV/Ej0eC9pVBkABBG9i+UlQIFvbv
-        ErpfZNLcRtyRN1h09d95OpkiG9YDo9w=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-271-BKS-bSRJNTSX5A0mKqmrKA-1; Wed, 09 Mar 2022 12:16:47 -0500
-X-MC-Unique: BKS-bSRJNTSX5A0mKqmrKA-1
-Received: by mail-ej1-f72.google.com with SMTP id h22-20020a1709060f5600b006b11a2d3dcfso1661768ejj.4
-        for <linux-input@vger.kernel.org>; Wed, 09 Mar 2022 09:16:47 -0800 (PST)
+        with ESMTP id S233899AbiCJCwy (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Mar 2022 21:52:54 -0500
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E39F6125CB9
+        for <linux-input@vger.kernel.org>; Wed,  9 Mar 2022 18:51:52 -0800 (PST)
+Received: by mail-il1-x143.google.com with SMTP id b5so2855706ilj.9
+        for <linux-input@vger.kernel.org>; Wed, 09 Mar 2022 18:51:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=4SL1/qbkTptdsuZGoXAM80S4DBJva1Vt53CdfbCl4nw=;
+        b=KsYfuK1VkY2187XWZIYnjdlUWi8A7SbSiSeQ4aBqm/GWTIFLoT76XyjirAKTdU53pb
+         +yrTPnmV10etrPAPlarefR1bNsRzrmQzUyJWCfBQ73Pek+8zvIXOUt/8UgjmD1s1S58I
+         PjWE/fzBA9EietNVAMyoMEOViu+5HI2+amNi2lkrrN57wJ3tUPYSqvSBXW2mrZu8YVsR
+         A0rCXzKYBNbWOpd1/8LJZNqywTJvB9v3pgmxYVhx3D2Us5iXoytodlForERUkQ8LA9Zv
+         s9biZFmWag0oD34HBgroi+x5vBi3UDnDJ/139+kO5l2qG+cyBAdEvFnI+dCl+ozfUO1F
+         4HBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=hYsp5CTOqE7MYUtz4GC4+jPlQ+BmzzCld+8j376Yzmw=;
-        b=m8GjPTk/DgTRYxPgzliRniP+OygmwbQLnCeqlJTnvaZtkauL8Cm9eUB4lPPN6+5O4g
-         oAVuxsaRaJEtbAuqVfFwxGYashJcmZnk0qUd78SphXjrWyE3SdBeXx/ziq+pvHMuMrXu
-         HUkCGjcxWYdUnmEMOERo5pOr2dfvnPVnnBqu/4A26elfASTb2LLXdj3CfLHkWeuoYnxD
-         cD6FWxi+QyhtI0EdC9yl5xUgTxJmCE5H30hj2X9aU5C/P21Suh0IjlykHqKgXRFoJFEM
-         FfEeh3xPJ6j0WX4jI7j2Sf/Ry6l1r6OnPg/bQ1Dp3KWDpjjJkoSAbun9R4vEYGb+E4Tz
-         vvTw==
-X-Gm-Message-State: AOAM530fcJXSLkfiaxoULUx3On1u3b+Xy/A8XSkzbYIKAabMxD2fCSzr
-        PvyVlHNg1D/3CT4f4pznJRMUU68LVU17rvjzXnmcEhJDVMk30Fq9m+1W3WSayosKFs6XezAAu34
-        RLtAUH09/OJQzhOWy8EfgoGU=
-X-Received: by 2002:a17:907:6e90:b0:6da:886b:ab with SMTP id sh16-20020a1709076e9000b006da886b00abmr709110ejc.285.1646846206029;
-        Wed, 09 Mar 2022 09:16:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyjwRtWcwSQ0oQ0ms1LQAAjsV+XW7qqavYnuPjL0jFbbzvuSNOraDbdtQElQdAdyv8yf/6VNw==
-X-Received: by 2002:a17:907:6e90:b0:6da:886b:ab with SMTP id sh16-20020a1709076e9000b006da886b00abmr709096ejc.285.1646846205737;
-        Wed, 09 Mar 2022 09:16:45 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:cdb2:2781:c55:5db0? (2001-1c00-0c1e-bf00-cdb2-2781-0c55-5db0.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:cdb2:2781:c55:5db0])
-        by smtp.gmail.com with ESMTPSA id w15-20020a1709062f8f00b006cd545d4af6sm972978eji.45.2022.03.09.09.16.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Mar 2022 09:16:45 -0800 (PST)
-Message-ID: <e84d98e6-541d-8cc7-626e-f92d76230528@redhat.com>
-Date:   Wed, 9 Mar 2022 18:16:44 +0100
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=4SL1/qbkTptdsuZGoXAM80S4DBJva1Vt53CdfbCl4nw=;
+        b=DZCtSR7ZetA8m38CPMBsE6Whce1P0YTjQsDr1PH2iX40/5EJiM2EFL0xrC4gaPkXz3
+         hRhMcdzyOwbF11LfQTSU2gLKE0IWg2rmLzb21Ihp/jRkrVEYsJkYw6qaKh3Av9mVjwY9
+         WOrs6FxeczclEQi4F+W7EQZpW5HN5rANDbOcpkh+7oar3jzeNS2yFEODDxWZtYIdizQK
+         Q5zmBfRreZY/k/5Oy3fu+mi8YqMct0ZECrIcT6knfdiU6nd6mXDo2N2kPq3kEzMFg+A+
+         8UDJAQ0gZ1AkXc86//wbBLuEQrSjqA3WfqWMhbwmiUz9FETZNgOKgpNgk3o3aXoq6ik5
+         Yg2g==
+X-Gm-Message-State: AOAM533dnbuD5YdwnK6sSEGtwKLhtAjITpKEu93O7bC7O7HTYNy/DSP0
+        udzdsmJGqdqiaj91qgS+Cjw+45xnNE9LhHCd3ZE=
+X-Google-Smtp-Source: ABdhPJx2un4z4qfwzOitIhIz5NWyd45MqmDNAI7vVb0bD1ZUmZx8dS7T0uZnaZsf9hwDZH1MTlWWKgth8BugPy5pqKA=
+X-Received: by 2002:a05:6e02:1be1:b0:2c6:7395:a076 with SMTP id
+ y1-20020a056e021be100b002c67395a076mr1900024ilv.143.1646880712320; Wed, 09
+ Mar 2022 18:51:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v3 1/3] Input/i8042: Merge quirk tables
-Content-Language: en-US
-To:     Werner Sembach <wse@tuxedocomputers.com>,
-        dmitry.torokhov@gmail.com, tiwai@suse.de, mpdesouza@suse.com,
-        arnd@arndb.de, samuel@cavoj.net, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220308170523.783284-1-wse@tuxedocomputers.com>
- <20220308170523.783284-2-wse@tuxedocomputers.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220308170523.783284-2-wse@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Sender: albertgearldo78@gmail.com
+Received: by 2002:a02:b11e:0:0:0:0:0 with HTTP; Wed, 9 Mar 2022 18:51:51 -0800 (PST)
+From:   "Mrs. Latifa Rassim Mohamad" <rassimlatifa400@gmail.com>
+Date:   Wed, 9 Mar 2022 18:51:51 -0800
+X-Google-Sender-Auth: _kE8gKEgw4vbJ2Oy6Kh5dYw8Y2g
+Message-ID: <CAPo9qzONus-Exxr+cwFBfvvdxj_YexUnJ_N5gd3UJqXNitesBA@mail.gmail.com>
+Subject: Hello my beloved.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,HK_NAME_FM_MR_MRS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Greetings dears,
 
-On 3/8/22 18:05, Werner Sembach wrote:
-> Merge i8042 quirk tables to reduce code duplication for devices that need
-> more than one quirk.
-> 
-> Also align quirkable options with command line parameters and make vendor
-> wide quirks per device overwriteable on a per device basis.
-> 
-> Some duplication on the ASUS devices is required to mirror the exact
-> behaviour of the previous code.
+Hello my dear Good evening from here this evening, how are you doing
+today? My name is Mrs.  Latifa Rassim Mohamad from Saudi Arabia, I
+have something very important and serious i will like to discuss with
+you privately, so i hope this is your private email?
 
-Can you explain this a bit more ?
-
-
-
-> 
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> Cc: stable@vger.kernel.org
-> ---
->  drivers/input/serio/i8042-x86ia64io.h | 1125 ++++++++++++++-----------
->  1 file changed, 640 insertions(+), 485 deletions(-)
-> 
-> diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
-> index 148a7c5fd0e2..689b9ee3e742 100644
-> --- a/drivers/input/serio/i8042-x86ia64io.h
-> +++ b/drivers/input/serio/i8042-x86ia64io.h
-> @@ -67,675 +67,821 @@ static inline void i8042_write_command(int val)
->  
->  #include <linux/dmi.h>
->  
-> -static const struct dmi_system_id __initconst i8042_dmi_noloop_table[] = {
-> +#define SERIO_QUIRK_NOKBD		BIT(0)
-> +#define SERIO_QUIRK_NOAUX		BIT(1)
-> +#define SERIO_QUIRK_NOMUX		BIT(2)
-> +#define SERIO_QUIRK_FORCEMUX		BIT(3)
-> +#define SERIO_QUIRK_UNLOCK		BIT(4)
-> +#define SERIO_QUIRK_PROBE_DEFER		BIT(5)
-> +#define SERIO_QUIRK_RESET_ALWAYS	BIT(6)
-> +#define SERIO_QUIRK_RESET_NEVER		BIT(7)
-> +#define SERIO_QUIRK_DIECT		BIT(8)
-> +#define SERIO_QUIRK_DUMBKBD		BIT(9)
-> +#define SERIO_QUIRK_NOLOOP		BIT(10)
-> +#define SERIO_QUIRK_NOTIMEOUT		BIT(11)
-> +#define SERIO_QUIRK_KBDRESET		BIT(12)
-> +#define SERIO_QUIRK_DRITEK		BIT(13)
-> +#define SERIO_QUIRK_NOPNP		BIT(14)
-> +
-> +/* Quirk table for different mainboards. Options similar or identical to i8042
-> + * module parameters.
-> + * ORDERING IS IMPORTANT! The first match will be apllied and the rest ignored.
-> + * This allows entries to overwrite vendor wide quirks on a per device basis.
-> + * Where this is irrelevant, entries are sorted case sensitive by DMI_SYS_VENDOR
-> + * and/or DMI_BOARD_VENDOR to make it easier to avoid dublicate entries.
-> + */
-> +static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
-
-<snip>
-
-> @@ -1167,11 +1307,6 @@ static int __init i8042_pnp_init(void)
->  	bool pnp_data_busted = false;
->  	int err;
->  
-> -#ifdef CONFIG_X86
-> -	if (dmi_check_system(i8042_dmi_nopnp_table))
-> -		i8042_nopnp = true;
-> -#endif
-> -
->  	if (i8042_nopnp) {
->  		pr_info("PNP detection disabled\n");
->  		return 0;
-
-have you checked that i8042_platform_init() *always*
-gets called before i8042_pnp_init()?
-
-Maybe just add something like this:
-
-#ifdef CONFIG_X86
-static void __init i8042_check_quirks(void)
-{
-	const struct dmi_system_id *device_quirk_info;
-	uintptr_t quirks;
-
-	device_quirk_info = dmi_first_match(i8042_dmi_quirk_table);
-	if (!device_quirk_info)
-		return;
-
-	quirks = (uintptr_t)device_quirk_info->driver_data;
-
-	if (i8042_reset == I8042_RESET_DEFAULT) {
-		if (quirks & SERIO_QUIRK_RESET)
-			i8042_reset = I8042_RESET_ALWAYS;
-		if (quirks & SERIO_QUIRK_NOSELFTEST)
-			i8042_reset = I8042_RESET_NEVER;
-	}
-
-	/* Do more quirk checks */
-}
-#else
-static inline void i8042_check_quirks(void) {}
-#endif
-
-(above the declaration of i8042_pnp_init())
-
-And call i8042_check_quirks() in both
-i8042_platform_init() and i8042_platform_init() ?
-
-This also abstracts some of the CONFIG_X86
-ifdef-ery out of the other functions.
-
-
-> @@ -1277,6 +1412,9 @@ static inline void i8042_pnp_exit(void) { }
->  
->  static int __init i8042_platform_init(void)
->  {
-> +	bool i8042_reset_always_quirk = false;
-> +	bool i8042_reset_never_quirk = false;
-
-I'm not a fan of these 2 helper variables, you can do this directly,
-see above.
-
-> +	const struct dmi_system_id *device_quirk_info;
-
-All 3 these variables will trigger unused variable
-settings when compiling without CONFIG_X86 set. Note
-introducing the i8042_check_quirks() helper as I suggest
-above avoids this without needing more #ifdef-ery.
-
->  	int retval;
->  
->  #ifdef CONFIG_X86
-> @@ -1297,6 +1435,44 @@ static int __init i8042_platform_init(void)
->  	i8042_kbd_irq = I8042_MAP_IRQ(1);
->  	i8042_aux_irq = I8042_MAP_IRQ(12);
->  
-> +#ifdef CONFIG_X86
-> +	device_quirk_info = dmi_first_match(i8042_dmi_quirk_table);
-> +	if (device_quirk_info) {
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_NOKBD)
-> +			i8042_nokbd = true;
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_NOAUX)
-> +			i8042_noaux = true;
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_NOMUX)
-> +			i8042_nomux = true;
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_FORCEMUX)
-> +			i8042_nomux = false;
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_UNLOCK)
-> +			i8042_unlock = true;
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_PROBE_DEFER)
-> +			i8042_probe_defer = true;
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_RESET_ALWAYS)
-> +			i8042_reset_always_quirk = true;
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_RESET_NEVER)
-> +			i8042_reset_never_quirk = true;
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_DIECT)
-> +			i8042_direct = true;
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_DUMBKBD)
-> +			i8042_dumbkbd = true;
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_NOLOOP)
-> +			i8042_noloop = true;
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_NOTIMEOUT)
-> +			i8042_notimeout = true;
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_KBDRESET)
-> +			i8042_kbdreset = true;
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_DRITEK)
-> +			i8042_dritek = true;
-> +#ifdef CONFIG_PNP
-> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_NOPNP)
-> +			i8042_nopnp = true;
-> +#endif
-> +	}
-> +#endif
-> +
->  	retval = i8042_pnp_init();
->  	if (retval)
->  		return retval;
-> @@ -1308,34 +1484,13 @@ static int __init i8042_platform_init(void)
->  #ifdef CONFIG_X86
->  	/* Honor module parameter when value is not default */
->  	if (i8042_reset == I8042_RESET_DEFAULT) {
-> -		if (dmi_check_system(i8042_dmi_reset_table))
-> +		if (i8042_reset_always_quirk)
->  			i8042_reset = I8042_RESET_ALWAYS;
->  
-> -		if (dmi_check_system(i8042_dmi_noselftest_table))
-> +		if (i8042_reset_never_quirk)
->  			i8042_reset = I8042_RESET_NEVER;
->  	}
->  
-> -	if (dmi_check_system(i8042_dmi_noloop_table))
-> -		i8042_noloop = true;
-> -
-> -	if (dmi_check_system(i8042_dmi_nomux_table))
-> -		i8042_nomux = true;
-> -
-> -	if (dmi_check_system(i8042_dmi_forcemux_table))
-> -		i8042_nomux = false;
-> -
-> -	if (dmi_check_system(i8042_dmi_notimeout_table))
-> -		i8042_notimeout = true;
-> -
-> -	if (dmi_check_system(i8042_dmi_dritek_table))
-> -		i8042_dritek = true;
-> -
-> -	if (dmi_check_system(i8042_dmi_kbdreset_table))
-> -		i8042_kbdreset = true;
-> -
-> -	if (dmi_check_system(i8042_dmi_probe_defer_table))
-> -		i8042_probe_defer = true;
-> -
->  	/*
->  	 * A20 was already enabled during early kernel init. But some buggy
->  	 * BIOSes (in MSI Laptops) require A20 to be enabled using 8042 to
-
-Regards,
-
-Hans
-
-
+Mrs. Latifa Rassim Mohamad.
