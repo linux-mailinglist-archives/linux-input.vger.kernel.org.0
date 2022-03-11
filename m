@@ -2,87 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 843DD4D6760
-	for <lists+linux-input@lfdr.de>; Fri, 11 Mar 2022 18:17:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FEC94D68DF
+	for <lists+linux-input@lfdr.de>; Fri, 11 Mar 2022 20:05:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350668AbiCKRSG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Mar 2022 12:18:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43132 "EHLO
+        id S1351015AbiCKTGy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Mar 2022 14:06:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350727AbiCKRSC (ORCPT
+        with ESMTP id S1346271AbiCKTGy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Mar 2022 12:18:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 89E931CC7CC
-        for <linux-input@vger.kernel.org>; Fri, 11 Mar 2022 09:16:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647019016;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=frwFvW2tLrfwUW5MlUItxAYVS1OlBuCXSXlaKG/ZWrY=;
-        b=D7t2NDgIwBAscg9E+P9qzcalwvUCekev5uGdlObxChDQ73PO67yZz8qJWomVE/CYFG0Jdq
-        OEXxyMvlw7ZYadqwxXZ3I/87+gOIUTNXcQIu762KbH6H/H/0CRWEUH0/cBxPfPoNhoJmim
-        DpQgBgLRfSUrkA7mt/UTEqSvsq0e3G0=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-368-Rt7Nhv-HMRe5ns-2zw3eJw-1; Fri, 11 Mar 2022 12:16:55 -0500
-X-MC-Unique: Rt7Nhv-HMRe5ns-2zw3eJw-1
-Received: by mail-pl1-f200.google.com with SMTP id d13-20020a170902b70d00b0015317d9f08bso3564468pls.1
-        for <linux-input@vger.kernel.org>; Fri, 11 Mar 2022 09:16:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=frwFvW2tLrfwUW5MlUItxAYVS1OlBuCXSXlaKG/ZWrY=;
-        b=S8ytXzCeAxurzF6VOQVPOYMdhBePyOtkdSjuISTPiWJyudqmehR0D/T2UBTJ0TmUAh
-         y7tYZ7yIJ6U5OcFFN7onqGGzAQX0BusUZ2n/ANMMEghD5T3IGR4rXPDnGNDUbYFkUMd0
-         zuok3p5+jBDQTnSP39Czbgz/o9NnsXJ5ZNrsJtpWl3LMiBBeLv4WMRe8UUjRayJLoSHz
-         ZO3kwjoGSY4TLZx0h5t71z/44uG6UXxEPI83NTj511vSVq3MTDdDmHFsU/OslD2MXfSl
-         pKU4zLhEtI5LoGUdZdRB2sG+Jrg+PszmPgOtjXkI0RzfvE2yZ+ivkZT+J9zoydVZBExV
-         xPCQ==
-X-Gm-Message-State: AOAM531ljJ+JCddzlgDEkO4Q5Bi1EJNtvCD97Cq4ZXLTDHqQ5Ykt9Cv5
-        L3iehhdgDDLCssFB9DKkPTmsi63x7X0tADtViGFE5kWBVC3s5Yz3w2jxOtM4SvxiCEkoUByc3jg
-        +mC1BkZItjYw7gZpaQth2LSdiC40Dojm6RTXUARQ=
-X-Received: by 2002:a05:6a00:781:b0:4f4:2a:2d89 with SMTP id g1-20020a056a00078100b004f4002a2d89mr11163650pfu.13.1647019014154;
-        Fri, 11 Mar 2022 09:16:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzPh5TEv/N8dkshOhalRMOWLJrT3ebEgXJmia3lDbjepQA4T4UD7accir427L3UKac1apLvpE0byE6hTlKuywg=
-X-Received: by 2002:a05:6a00:781:b0:4f4:2a:2d89 with SMTP id
- g1-20020a056a00078100b004f4002a2d89mr11163607pfu.13.1647019013797; Fri, 11
- Mar 2022 09:16:53 -0800 (PST)
+        Fri, 11 Mar 2022 14:06:54 -0500
+Received: from mx0a-000eb902.pphosted.com (mx0a-000eb902.pphosted.com [205.220.165.212])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8933131139;
+        Fri, 11 Mar 2022 11:05:49 -0800 (PST)
+Received: from pps.filterd (m0220296.ppops.net [127.0.0.1])
+        by mx0a-000eb902.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 22B4iq1c008510;
+        Fri, 11 Mar 2022 13:05:48 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com; h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=pps1;
+ bh=NwGDYo9/XKtK4X0zKOSLnJiGDCMkkmt0MOXuyyvt+8s=;
+ b=vQm9p/LtH945qViNtkSffI51uYnMltA60jADhjISd16pKGP061iN6QL5cz0DtMTruc8H
+ E88J+DQtUc8qSrnp0zLDG985rI3FMgfT5BhWopt8UtHKP9AEaGbhqAPD+QhpqWxt/Vc/
+ 3C/Z/IMLWE3Fiv+PRQuPomna27gVHw6tWr4/VWvLAOKmpBAI2VXL9blzqdDzSxZcVy0R
+ QPB/s6ALRnsT1/2uzcN71u+S32FVHgbvXKT+U8mEjw762F5nQsHKYHCg6Tuk47NsvXhc
+ Fqy7xxL7Sn9rUt/0wxU+gvpLMqxEP5x+5fJE2JqGSKsZROzixZ7vKIB463eMZUl6tBuv kA== 
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
+        by mx0a-000eb902.pphosted.com (PPS) with ESMTPS id 3em6493nhm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 11 Mar 2022 13:05:48 -0600
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=je79EiXVzNmu7AS8SCE07hFnyo/QlE9+9UQmBvNkcSRUth85NyMLHD/A+OIMS05uA6lH22/iaHb8ceVoYC+qlqilRxgBcKUGIf4knfjPcn3ZMU1A73a7MajOzBRku48R2zABeMD9GKtodqfGTfYkySV5kOXdN8lcjITVCcPnUnEYVi3U6L/GIOu9GTq6aOcDj7duIjaNFD2cGaOpdJEdbcKalCeRA2dE0KXGai9m2oQQFY7SWR5YNIEqCjpyczqmu8PkI36MWX9H9W3uvYccJ8Nss4cTaFr1KsrGafIBlgzinvMDNBb8+AIedoLBHryDZ9waQkTAW9h/FH8iqFRtLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NwGDYo9/XKtK4X0zKOSLnJiGDCMkkmt0MOXuyyvt+8s=;
+ b=LvOIvMZ8xiDP+vYoIxhKLZwMi4VnRy5N3T25vnaMh/XW8jxrHKsYDULSoO0+wTz2oNZIrFRuYtqVPXkGlmlxkdXgMzu8n9RycKRyBNf+wXasFoRA1i84H/rI3j25a9m6kUwpAo7TeK1jM8WZ0xzhGP/3b23a+0KB5q7rwI6UvJUTgoOq4CXxpubLvV9eZsLtnezLfqXBmMT4oy/cr3EhNvdYg0eD22vzO4xp0FLnTgWE2N+aluJPaHsqlybLoxyeYLIEjQMCC1sYnnhtUipT4Inm2LnqlakschSOzIsFz5ufKwcDhQW17rG9Uop9giKVfrhAByGmWNwrC1WGoSg49g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 204.77.163.244) smtp.rcpttodomain=gmail.com smtp.mailfrom=garmin.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=garmin.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NwGDYo9/XKtK4X0zKOSLnJiGDCMkkmt0MOXuyyvt+8s=;
+ b=XgfrJUngPPGCTYG5fQA7PXpMVtWCls3boyXgynBp6VxWCXAKfMdd8PKnABGYwSAqTOokj0ViG4nSxISheWeQnFwsVGQ5yBM6DJA2BH8l+CU4hXFZu900aaysuoSlkfAQyJCJbV2T1+UDRtumet3eKyW8DfHPtVjjeDAc+AHmJTbMb8WMuSlBrjWPG+gZru755oXWywqbTJgnAjNs3CFk6BMlEqHV9WCn8B5PnSwsXwlAlpBXskoHthC1E8M41fQU9SZ3k0LehHZw1ZqtMsG+XJ3+2iAlBoiXULl+W6272Z4CpMoXJ+n+IzuvYYv4EPQzpA32zzkdi2quK9R+QlHwtg==
+Received: from DM6PR03CA0010.namprd03.prod.outlook.com (2603:10b6:5:40::23) by
+ MN2PR04MB6670.namprd04.prod.outlook.com (2603:10b6:208:1e4::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.22; Fri, 11 Mar
+ 2022 19:05:45 +0000
+Received: from DM6NAM10FT031.eop-nam10.prod.protection.outlook.com
+ (2603:10b6:5:40:cafe::27) by DM6PR03CA0010.outlook.office365.com
+ (2603:10b6:5:40::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.21 via Frontend
+ Transport; Fri, 11 Mar 2022 19:05:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 204.77.163.244)
+ smtp.mailfrom=garmin.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=garmin.com;
+Received-SPF: Pass (protection.outlook.com: domain of garmin.com designates
+ 204.77.163.244 as permitted sender) receiver=protection.outlook.com;
+ client-ip=204.77.163.244; helo=edgetransport.garmin.com;
+Received: from edgetransport.garmin.com (204.77.163.244) by
+ DM6NAM10FT031.mail.protection.outlook.com (10.13.152.157) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5061.22 via Frontend Transport; Fri, 11 Mar 2022 19:05:45 +0000
+Received: from OLAWPA-EXMB12.ad.garmin.com (10.5.144.16) by
+ olawpa-edge1.garmin.com (10.60.4.227) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Fri, 11 Mar 2022 13:05:41 -0600
+Received: from [10.30.196.25] (10.5.209.17) by OLAWPA-EXMB12.ad.garmin.com
+ (10.5.144.16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 11 Mar
+ 2022 13:05:44 -0600
+Message-ID: <ad8c9126-b2df-361e-867d-c23a1d7b7ded@garmin.com>
+Date:   Fri, 11 Mar 2022 13:05:43 -0600
 MIME-Version: 1.0
-References: <20220304172852.274126-1-benjamin.tissoires@redhat.com>
- <20220304172852.274126-3-benjamin.tissoires@redhat.com> <CAPhsuW5CYF9isR4ffRdm3xA_n_FBoL+AGFkzNn4dn2LgRaQQkg@mail.gmail.com>
- <CAO-hwJKFE4Ps962BBubn8=1K0k9mC2qi8VerFbZo1sqpp6yekg@mail.gmail.com>
- <CAPhsuW5mZQ-N7RCndxP0RNi669RU5Tbu-Uu0M-KW2-mPYZbbng@mail.gmail.com> <CAO-hwJ+_aZDdKguze-BC+Ok9=HccAYSUFrNJmQBZfX3oufRGUQ@mail.gmail.com>
-In-Reply-To: <CAO-hwJ+_aZDdKguze-BC+Ok9=HccAYSUFrNJmQBZfX3oufRGUQ@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 11 Mar 2022 18:16:42 +0100
-Message-ID: <CAO-hwJJqP5iivQZOu0LTYa1D5OuM_aVi=LH27Udc_VYkbFsrww@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 02/28] bpf: introduce hid program type
-To:     Song Liu <song@kernel.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v2] input: Add Marine Navigation Keycodes
+Content-Language: en-US
+From:   Shelby Heffron <Shelby.Heffron@garmin.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20210622235708.8828-1-matthew.stephenson2@garmin.com>
+ <20220126211224.28590-1-Shelby.Heffron@garmin.com>
+ <Yg9EmVAHpEpmnLok@google.com>
+ <20556881-1d16-4718-f28c-4a32946d2ecb@garmin.com>
+In-Reply-To: <20556881-1d16-4718-f28c-4a32946d2ecb@garmin.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: OLAWPA-EXMB1.ad.garmin.com (10.5.144.23) To
+ OLAWPA-EXMB12.ad.garmin.com (10.5.144.16)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e0952dcf-4fa8-4534-8ca8-08da03922556
+X-MS-TrafficTypeDiagnostic: MN2PR04MB6670:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR04MB6670C3D4999864B1F01E20C6F20C9@MN2PR04MB6670.namprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4VfJBDZe1io+x9uGl+Qh4jequxv5gs7eA5OADunSBLQ3DoSB/s5S5kUPaM0Bsf7kG8bQz+iCL7yn11Euf6bxCi6wNd/iG2qOjQqjhDDKNwJrJ57Aiu6fnRCZmsgIILQsSj7hiS1jA0t+jvlMq8atLA0UDf8FLrhGV3TrIFUFn0mUjIdOm8RxPZJJ0tT/kXki5O3/5mxvhoRCgYYXEwL+bv6XMnpCON8u7CeaBrqodum2lku0rI6nv0Rxr9hwJ4eN+BUBWVUH1NdXkb/rQHIq7gJDlutvdpzjl45m/yGGD9AY7yLj0nyf3N5L26qXH2a+ifIDfQJvuvRqmGLnNxgoT26OAYXUvlJS3O1Go7xJUcbLBoh1hHW9p9V6feuG/2stTihqt9zJBPVQjDaQ35ksfC051rcuQeetXAny3xdyN2bS2qfs6a5Gw3xux0QGqqeW6IyUSbOWfErGHEQIt7KntAScfRTrVNFAP4qyqDRAnTgYHD1FEshokxxndIBy+/lLuLr0RH8Tbp5ZQkg7DuygC6SwZfjoh/qEBSNmQN4e9r/f2aDsHxUCEX0iM1Xz4HvLsd6gyV9hNnVbQoB3b4qa9dxr3h6oktZ6fuUgbgoH7dk/xeO0GXtQk5vbh6GbGVgnqAY5pVnn2MWRSK5i/2Jc1kZE6FVUvvxpeh0t7uTNVutw4wqasJ9UHfebF/SQ39nTGfmkLEp+1hvcPW2HmKwSJw==
+X-Forefront-Antispam-Report: CIP:204.77.163.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:edgetransport.garmin.com;PTR:extedge.garmin.com;CAT:NONE;SFS:(13230001)(36840700001)(40470700004)(46966006)(31686004)(83380400001)(2906002)(4744005)(508600001)(82310400004)(8936002)(5660300002)(316002)(31696002)(86362001)(36756003)(16576012)(6916009)(54906003)(36860700001)(70586007)(70206006)(4326008)(8676002)(47076005)(7636003)(356005)(26005)(336012)(186003)(426003)(2616005)(40460700003)(43740500002);DIR:OUT;SFP:1102;
+X-OriginatorOrg: garmin.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2022 19:05:45.1790
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0952dcf-4fa8-4534-8ca8-08da03922556
+X-MS-Exchange-CrossTenant-Id: 38d0d425-ba52-4c0a-a03e-2a65c8e82e2d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38d0d425-ba52-4c0a-a03e-2a65c8e82e2d;Ip=[204.77.163.244];Helo=[edgetransport.garmin.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM10FT031.eop-nam10.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB6670
+X-Proofpoint-GUID: EcnAK22LL4Wp43nnkiGjGMwYs7Blxtrt
+X-Proofpoint-ORIG-GUID: EcnAK22LL4Wp43nnkiGjGMwYs7Blxtrt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-11_08,2022-03-11_02,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
+ spamscore=0 adultscore=0 clxscore=1015 priorityscore=1501 mlxscore=0
+ malwarescore=0 mlxlogscore=903 suspectscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203110095
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -90,205 +135,19 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Mar 8, 2022 at 10:20 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> On Tue, Mar 8, 2022 at 1:57 AM Song Liu <song@kernel.org> wrote:
-> >
-> > On Mon, Mar 7, 2022 at 10:39 AM Benjamin Tissoires
-> > <benjamin.tissoires@redhat.com> wrote:
-> > >
-> > > On Sat, Mar 5, 2022 at 1:03 AM Song Liu <song@kernel.org> wrote:
-> > > >
-> > > > On Fri, Mar 4, 2022 at 9:31 AM Benjamin Tissoires
-> > > > <benjamin.tissoires@redhat.com> wrote:
-> > > > >
-[...]
-> > > > > +struct hid_bpf_ctx {
-> > > > > +       enum hid_bpf_event type;        /* read-only */
-> > > > > +       __u16 allocated_size;           /* the allocated size of data below (RO) */
-> > > >
-> > > > There is a (6-byte?) hole here.
-> > > >
-> > > > > +       struct hid_device *hdev;        /* read-only */
-> > > > > +
-> > > > > +       __u16 size;                     /* used size in data (RW) */
-> > > > > +       __u8 data[];                    /* data buffer (RW) */
-> > > > > +};
-> > > >
-> > > > Do we really need hit_bpf_ctx in uapi? Maybe we can just use it
-> > > > from vmlinuxh?
-> > >
-> > > I had a thought at this context today, and I think I am getting to the
-> > > limit of what I understand.
-> > >
-> > > My first worry is that the way I wrote it there, with a variable data
-> > > field length is that this is not forward compatible. Unless BTF and
-> > > CORE are making magic, this will bite me in the long run IMO.
-> > >
-> > > But then, you are talking about not using uapi, and I am starting to
-> > > wonder: am I doing the things correctly?
-> > >
-> > > To solve my first issue (and the weird API I had to introduce in the
-> > > bpf_hid_get/set_data), I came up to the following:
-> > > instead of exporting the data directly in the context, I could create
-> > > a helper bpf_hid_get_data_buf(ctx, const uint size) that returns a
-> > > RET_PTR_TO_ALLOC_MEM_OR_NULL in the same way bpf_ringbuf_reserve()
-> > > does.
-> > >
-> > > This way, I can directly access the fields within the bpf program
-> > > without having to worry about the size.
-> > >
-> > > But now, I am wondering whether the uapi I defined here is correct in
-> > > the way CORE works.
-> > >
-> > > My goal is to have HID-BPF programs to be CORE compatible, and not
-> > > have to recompile them depending on the underlying kernel.
-> > >
-> > > I can not understand right now if I need to add some other BTF helpers
-> > > in the same way the access to struct xdp_md and struct xdp_buff are
-> > > converted between one and other, or if defining a forward compatible
-> > > struct hid_bpf_ctx is enough.
-> > > As far as I understand, .convert_ctx_access allows to export a stable
-> > > uapi to the bpf prog users with the verifier doing the conversion
-> > > between the structs for me. But is this really required for all the
-> > > BPF programs if we want them to be CORE?
-> > >
-> > > Also, I am starting to wonder if I should not hide fields in the
-> > > context to the users. The .data field could be a pointer and only
-> > > accessed through the helper I mentioned above. This would be forward
-> > > compatible, and also allows to use whatever available memory in the
-> > > kernel to be forwarded to the BPF program. This way I can skip the
-> > > memcpy part and work directly with the incoming dma data buffer from
-> > > the IRQ.
-> > >
-> > > But is it best practice to do such a thing?
-> >
-> > I think .convert_ctx_access is the way to go if we want to access the data
-> > buffer without memcpy. I am not sure how much work is needed to make
-> > it compatible with CORE though.
+Hi Dmitry,
 
-I spent the week working on that, and I am really amazed at how smart
-and simple the .convert_ctx_access is working.
+Please let me know if you have any additional feedback after a more
+detailed explanation our application.
 
-With that in place, I can hide the internal fields and export
-"virtual" public fields that are remapped on the fly by the kernel at
-load time :)
+Thank you.
 
-> >
-> > To make sure I understand the case, do we want something like
-> >
-> > bpf_prog(struct hid_bpf_ctx *ctx)
-> > {
-> >     /* makes sure n < ctx->size */
-> >     x = ctx->data[n]; /* read data */
-> >     ctx->data[n] = <something>; /* write data */
-> >     ctx->size = <something <= n>; /* change data size */
-> > }
-> >
-> > We also need it to be CORE, so that we may modify hid_bpf_ctx by
-> > inserting more members to it before data.
-> >
-> > Is this accurate?
-> >
+________________________________
 
-I have been trying to implement that, based on the PTR_TO_PACKET implementation.
-It works, but is kind of verbose while using it because we need to
-teach the verifier about the size of the arrays.
-
-For instance, I have the following:
-
-int bpf_prog(struct hid_bpf_ctx *ctx)
-{
-  /* we need to store a pointer on the stack to store its accessible size */
-  __u8 *data = ctx->data;
-
-  if (data + 3 > ctx->data_end)
-    return 0; /* EPERM, bounds check */
-
-  data[1] = data[0] + 3;
-
-  return 0;
-}
-
-This is OK, but it gets worse if I want to access a random offset:
-
-__s64 offset = 0;
-int bpf_prog(struct hid_bpf_ctx *ctx)
-{
-  __u8 *data = ctx->data;
-  __u16 *x;
-
-  /* first assign the size of data */
-  if (data + 4 > ctx->data_end)
-    return 0; /* EPERM, bounds check */
-
-  /* teach the verifier the range of offset (needs to be a s64) */
-  if (offset >= 0 && offset < 2) {
-    x = (__u16 *)&data[offset];
-
-    /* now store the size of x in its register */
-    if (x + 2 > ctx->data_end)
-      return 0;
-
-    /* finally we can read/write the data */
-    *x += 1;
-  }
-
-  return 0;
-}
-
-OTOH, I managed to define a simpler helper that allows me to return a
-pointer to the internal data:
-
-BPF_CALL_3(bpf_hid_get_data, struct hid_bpf_ctx_kern*, ctx, u64,
-offset, u64, size)
-  {
-          if (!size)
-                  return (unsigned long)0;
-
-          if (offset + size > ctx->data_end - ctx->data)
-                  return (unsigned long)0;
-
-          return (unsigned long)(ctx->data + offset);
-  }
-
-  static const struct bpf_func_proto bpf_hid_get_data_proto = {
-          .func      = bpf_hid_get_data,
-          .gpl_only  = true,
-          .ret_type  = RET_PTR_TO_ALLOC_MEM_OR_NULL,
-          .arg1_type = ARG_PTR_TO_CTX,
-          .arg2_type = ARG_ANYTHING,
-          .arg3_type = ARG_CONST_ALLOC_SIZE_OR_ZERO,
-  };
-
- Which makes the previous bpf code into:
-
-__u64 offset = 0;
-int bpf_prog(struct hid_bpf_ctx *ctx)
-{
-  __u16 *x = bpf_hid_get_data(ctx, offset, 2);
-
-  if (!x)
-    return 0; /* EPERM, bounds check */
-
-  *x += 1;
-
-  return 0;
-}
-
-The advantage of both of those solutions is that they are removing the
-need for bpf_hid_{get|set}_bytes().
-
-The second solution is much simpler in terms of usage, but it doesn't
-feel "right" to have to reimplement the wheel when we should have
-direct array accesses.
-OTOH, the first solution with the packet implementation is bulky and
-requiring users to do that for every single access of the data is IMO
-way too much...
-
-Any thoughts?
-
-Cheers,
-Benjamin
-
+CONFIDENTIALITY NOTICE: This email and any attachments are for the sole use=
+ of the intended recipient(s) and contain information that may be Garmin co=
+nfidential and/or Garmin legally privileged. If you have received this emai=
+l in error, please notify the sender by reply email and delete the message.=
+ Any disclosure, copying, distribution or use of this communication (includ=
+ing attachments) by someone other than the intended recipient is prohibited=
+. Thank you.
