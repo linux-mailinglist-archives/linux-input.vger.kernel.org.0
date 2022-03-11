@@ -2,141 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4E914D56F5
-	for <lists+linux-input@lfdr.de>; Fri, 11 Mar 2022 01:50:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68FC04D5F97
+	for <lists+linux-input@lfdr.de>; Fri, 11 Mar 2022 11:34:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241590AbiCKAvZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Mar 2022 19:51:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45742 "EHLO
+        id S1347965AbiCKKfk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Mar 2022 05:35:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235560AbiCKAvY (ORCPT
+        with ESMTP id S1347969AbiCKKfj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Mar 2022 19:51:24 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1FE12627;
-        Thu, 10 Mar 2022 16:50:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Fri, 11 Mar 2022 05:35:39 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 404141052A7;
+        Fri, 11 Mar 2022 02:34:35 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 50EB5B829A1;
-        Fri, 11 Mar 2022 00:50:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0BD5C340EC;
-        Fri, 11 Mar 2022 00:50:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646959820;
-        bh=IO8rAexqJOVECI+Go6BBgSARYGGCV+CVeaztQWwxRWs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=WyhnZrW4xMPh7AwOByOMM+BFl4aXfTzLqB1YRjo3juB+vJ2k0nsTR+azxWVU7tWFP
-         R5d/R1PfsI0ypQg8RsUa5S7X58+Q4tGqnFYjDzJLAdgWcfUnpgw9JzNDObQdjY3e0u
-         tyM8XFJT7sltSIoLtm44tGez9MYaI3UuRQRmdu36FUwmJH4K7aUh5Mw+45TDQDSXg+
-         h9fK60U45QlYvW5TXmbUh8tAYLnN/MuJMWJ4k9s2/ibSVz79ejwiO+NTYRe/hYYSSw
-         6kqcrxLV/D4pm5BCec7v6PDXaj833bN7NeZHRqBJdzVR4Xh2F6elhbSbBTedMNhoEB
-         8LeeZ0VgGTNKA==
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-2dc348dab52so77794617b3.6;
-        Thu, 10 Mar 2022 16:50:19 -0800 (PST)
-X-Gm-Message-State: AOAM530vjtoHg0d4EG0Hh9DDd0FyJFd7D7tU4dLKnqs5qllkG58wuAt0
-        6rq5XiY9yZoX2eDrNZk7+TCSqa8gLdbygdpEui4=
-X-Google-Smtp-Source: ABdhPJzoUAI9PJqi0lG05QCYxnBzaDHn3B4mCOu0ZTWwZXE5qmKJNqr63ecOqNCkVfXgJ7Bl78VV6iZdL1hSLd6b4gk=
-X-Received: by 2002:a0d:fb45:0:b0:2d0:d09a:576c with SMTP id
- l66-20020a0dfb45000000b002d0d09a576cmr6515180ywf.447.1646959819038; Thu, 10
- Mar 2022 16:50:19 -0800 (PST)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 79D72210FB;
+        Fri, 11 Mar 2022 10:34:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1646994873; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=wxQGvXlNGe5HCBbR63oBE/kK35uYM5cAEXtsbUcwkZQ=;
+        b=iNIvX7qiHCHs8as2v0+a/C6Wf9AM41VW8O+o2xwFxi1cw2QRDGGMgZ/U+wVya50NqXLinC
+        i0LxZhXeNa6Kvoq6FYdE1Rn7t/eAOn4geBVM9tpVaCf3Bq2EMzIQrENQGGyoxOfZbZapRr
+        hZujw3UMlrZhO11g0/T3KzHa4Umc+Jk=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A827013A85;
+        Fri, 11 Mar 2022 10:34:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id Kh3tJ7glK2LxdQAAMHmgww
+        (envelope-from <jgross@suse.com>); Fri, 11 Mar 2022 10:34:32 +0000
+From:   Juergen Gross <jgross@suse.com>
+To:     xen-devel@lists.xenproject.org, linux-kernel@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-integrity@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
+        v9fs-developer@lists.sourceforge.net
+Cc:     Juergen Gross <jgross@suse.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        =?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>,
+        Jens Axboe <axboe@kernel.dk>, Peter Huewe <peterhuewe@gmx.de>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Eric Van Hensbergen <ericvh@gmail.com>,
+        Latchesar Ionkov <lucho@ionkov.net>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Christian Schoenebeck <linux_oss@crudebyte.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org
+Subject: [PATCH 0/2] xen/grant-table: do some cleanup
+Date:   Fri, 11 Mar 2022 11:34:27 +0100
+Message-Id: <20220311103429.12845-1-jgross@suse.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220304172852.274126-1-benjamin.tissoires@redhat.com> <20220304172852.274126-20-benjamin.tissoires@redhat.com>
-In-Reply-To: <20220304172852.274126-20-benjamin.tissoires@redhat.com>
-From:   Song Liu <song@kernel.org>
-Date:   Thu, 10 Mar 2022 16:50:07 -0800
-X-Gmail-Original-Message-ID: <CAPhsuW6Jd_A7J8QQTqDZt9hwcy_Cnqm=9-+9qQ6-KTkLRT8NAA@mail.gmail.com>
-Message-ID: <CAPhsuW6Jd_A7J8QQTqDZt9hwcy_Cnqm=9-+9qQ6-KTkLRT8NAA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 19/28] bpf/hid: add bpf_hid_raw_request helper function
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Mar 4, 2022 at 9:35 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> When we are in a user_event context, we can talk to the device to fetch
-> or set features/outputs/inputs reports.
-> Add a bpf helper to do so. This helper is thus only available to
-> user_events, because calling this function while in IRQ context (any
-> other BPF type) is forbidden.
->
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
->
-> ---
->
-> changes in v2:
-> - split the series by bpf/libbpf/hid/selftests and samples
-> ---
->  include/linux/bpf-hid.h        |  2 ++
->  include/uapi/linux/bpf.h       |  8 ++++++++
->  kernel/bpf/hid.c               | 26 ++++++++++++++++++++++++++
->  tools/include/uapi/linux/bpf.h |  8 ++++++++
->  4 files changed, 44 insertions(+)
->
-> diff --git a/include/linux/bpf-hid.h b/include/linux/bpf-hid.h
-> index 4cf2e99109fe..bd548f6a4a26 100644
-> --- a/include/linux/bpf-hid.h
-> +++ b/include/linux/bpf-hid.h
-> @@ -100,6 +100,8 @@ struct bpf_hid_hooks {
->                             u64 offset, u32 n, u8 *data, u64 data_size);
->         int (*hid_set_data)(struct hid_device *hdev, u8 *buf, size_t buf_size,
->                             u64 offset, u32 n, u8 *data, u64 data_size);
-> +       int (*hid_raw_request)(struct hid_device *hdev, u8 *buf, size_t size,
-> +                              u8 rtype, u8 reqtype);
->  };
->
->  #ifdef CONFIG_BPF
-> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-> index b3063384d380..417cf1c31579 100644
-> --- a/include/uapi/linux/bpf.h
-> +++ b/include/uapi/linux/bpf.h
-> @@ -5121,6 +5121,13 @@ union bpf_attr {
->   *     Return
->   *             The length of data copied into ctx->event.data. On error, a negative
->   *             value is returned.
-> + *
-> + * int bpf_hid_raw_request(void *ctx, void *buf, u64 size, u8 rtype, u8 reqtype)
-> + *     Description
-> + *             communicate with the HID device
+Cleanup grant table code by removing unused functionality.
 
-I think we need more description here, e.g. what are rtype and reqtype here?
+Juergen Gross (2):
+  xen/grant-table: remove gnttab_*transfer*() functions
+  xen/grant-table: remove readonly parameter from functions
 
+ drivers/block/xen-blkfront.c                |   8 +-
+ drivers/char/tpm/xen-tpmfront.c             |   2 +-
+ drivers/gpu/drm/xen/xen_drm_front_evtchnl.c |   2 +-
+ drivers/input/misc/xen-kbdfront.c           |   4 +-
+ drivers/net/xen-netfront.c                  |  13 +-
+ drivers/pci/xen-pcifront.c                  |   2 +-
+ drivers/scsi/xen-scsifront.c                |   4 +-
+ drivers/usb/host/xen-hcd.c                  |   4 +-
+ drivers/xen/gntalloc.c                      |   2 +-
+ drivers/xen/gntdev-dmabuf.c                 |   2 +-
+ drivers/xen/grant-table.c                   | 151 +++-----------------
+ drivers/xen/pvcalls-front.c                 |   6 +-
+ drivers/xen/xen-front-pgdir-shbuf.c         |   3 +-
+ include/xen/grant_table.h                   |  13 +-
+ net/9p/trans_xen.c                          |   8 +-
+ sound/xen/xen_snd_front_evtchnl.c           |   2 +-
+ 16 files changed, 50 insertions(+), 176 deletions(-)
 
-> + *     Return
-> + *             0 on success.
-> + *             negative value on error.
->   */
->  #define __BPF_FUNC_MAPPER(FN)          \
->         FN(unspec),                     \
-> @@ -5317,6 +5324,7 @@ union bpf_attr {
->         FN(copy_from_user_task),        \
->         FN(hid_get_data),               \
->         FN(hid_set_data),               \
-> +       FN(hid_raw_request),            \
->         /* */
-[...]
+-- 
+2.34.1
+
