@@ -2,101 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AB6C4D7807
-	for <lists+linux-input@lfdr.de>; Sun, 13 Mar 2022 20:49:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61F1E4D7BFB
+	for <lists+linux-input@lfdr.de>; Mon, 14 Mar 2022 08:34:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235389AbiCMTuP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 13 Mar 2022 15:50:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47362 "EHLO
+        id S231882AbiCNHf0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Mar 2022 03:35:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbiCMTuO (ORCPT
+        with ESMTP id S229747AbiCNHf0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 13 Mar 2022 15:50:14 -0400
-Received: from EUR02-AM5-obe.outbound.protection.outlook.com (mail-oln040092067049.outbound.protection.outlook.com [40.92.67.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88BF755BF3
-        for <linux-input@vger.kernel.org>; Sun, 13 Mar 2022 12:49:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Vk/0ekT0f8wahDXiJPgUqXHB/+oOPZD0ds/3ynLYsdisw6vFQvKVmanP8kyz4tKw7SCb+5fAiLXqH9HpTiC6lIrrUPYU7RjVpGCWgqQCXCNi57ZXjLwoXFRf9VYqHIK0uSNGSvMhR2+R0cMTZ64/eVx6frekCgaEFU5muskV1AiqbU8W/6/0zKl951sRPXKtCzPnz34Iw30511ShqrW9mOIdl0m/WZRDVdTQWklWkRjmkz6DQRay6WTs3DB3gdLg1UGmjl6LhisQ79P+wQz/p/DahHtN0gzwCejsLz7xAnuF/79jZQebTttaCyPXXsFhA63oHak4Kptdy9MqKwMGWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LWzeuw5eRzcK1gkRodYvAy9TFTl964gIaBPWu54T3pQ=;
- b=AxBa+xcj/UGiUQSvbQsvr48X8LSgXTLQG05EzqULA3FwvQzTlj4ce8WRjiKV2IjB/cBoWzI53OYsxqicEKCIxcVG802P0L4azXIdyATilJviunSbt6iNDD5TtMM/Ij4eRBCV8aUFhReOHQzIWPP5seJXVSEiu1H/yyFly9tVEHbVKHQe2kz2wJVZWFspWq4oKFU9RbwJ2ge+F96HSe3PfmXRrb2CtMuL6PNiTApj9oyo9otiDFCMg+A2ZQ432QbyhPbzCXocbTAVUSuUkiwSyZT3+qn5Ss3ioGQzA8CfKf8s7Qs1ScRJGkputntPnGMN4q1zKaBv76iGJ58uUc+ZYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LWzeuw5eRzcK1gkRodYvAy9TFTl964gIaBPWu54T3pQ=;
- b=aq5Twb7nMOEZsXJrX97SxDr2KBv3V8GMzIQGudwQWsR5dtm5DTtdaCjUs48OSK5zQLCrhIdKDbsYXad0/5Pf5B1/MaaV7pAg/YM1D2B2hUxv/7NdH8Oi8wS7ntFThqM42yb2gx16eRoPmYs28cI+tesm+rjtEq2EnKwc5VZZXBr/7OT56PVDyYAVD3ECaNQLQch/b9qqrwcmq0UCo9fx3B/ovVdYZud7aKnphO2me46uxnfRDV3xd2ojdbfHIsfHShdJ3aDMI9nThO2TgQxdjJcBrHDmc/Jk3Lb7OFAQ/AzovlDxFk1nV1Z0azPzzU8P8MVDVR+D5wpo4kW6acZCtg==
-Received: from DBAPR04MB7366.eurprd04.prod.outlook.com (2603:10a6:10:1a0::23)
- by PA4PR04MB8030.eurprd04.prod.outlook.com (2603:10a6:102:cc::21) with
+        Mon, 14 Mar 2022 03:35:26 -0400
+Received: from eu-smtp-delivery-197.mimecast.com (eu-smtp-delivery-197.mimecast.com [185.58.85.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 416BD3983B
+        for <linux-input@vger.kernel.org>; Mon, 14 Mar 2022 00:34:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=camlingroup.com;
+        s=mimecast20210310; t=1647243253;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=SwSVpdhZAskrbz5koABY9UwZXcplXHiRhFl/wX1tF9w=;
+        b=dgv9ZwAOxGh5xhJoL3JLEezwv6rBw3guNPbGe/MQTsg/+SJuX3/9XgTBg2arp7MXUkfQtA
+        vdTTLd+38cIpwvgyAwZ4uhJ3qNQbFEUhMryVQU9lj/7QhMcFKKqTeYgb+nEb4Dz54evAem
+        2joBLiEpJMnyeI0NQ63nCJxyvUzPrWg=
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com
+ (mail-lo2gbr01lp2057.outbound.protection.outlook.com [104.47.21.57]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ uk-mta-260-rSiLCeSROVaaEX000cLyfA-1; Mon, 14 Mar 2022 07:34:12 +0000
+X-MC-Unique: rSiLCeSROVaaEX000cLyfA-1
+Received: from CWLP123MB5572.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:16b::6)
+ by LOYP123MB2992.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:e8::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.28; Sun, 13 Mar
- 2022 19:49:03 +0000
-Received: from DBAPR04MB7366.eurprd04.prod.outlook.com
- ([fe80::cde2:76e6:f208:6d18]) by DBAPR04MB7366.eurprd04.prod.outlook.com
- ([fe80::cde2:76e6:f208:6d18%6]) with mapi id 15.20.5061.026; Sun, 13 Mar 2022
- 19:49:03 +0000
-From:   Jonathan Teh <jonathan.teh@outlook.com>
-To:     linux-input@vger.kernel.org
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Jonathan Teh <jonathan.teh@outlook.com>
-Subject: [PATCH] HID: hid-led: fix maximum brightness for Dream Cheeky
-Date:   Sun, 13 Mar 2022 19:48:18 +0000
-Message-ID: <DBAPR04MB7366AA271FE1A1022D96C0BD920E9@DBAPR04MB7366.eurprd04.prod.outlook.com>
-X-Mailer: git-send-email 2.35.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN:  [p7uatvXXH/0UKPQqGfqfj1FI7PlioOnx]
-X-ClientProxiedBy: LO2P265CA0296.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:a5::20) To DBAPR04MB7366.eurprd04.prod.outlook.com
- (2603:10a6:10:1a0::23)
-X-Microsoft-Original-Message-ID: <20220313194818.13768-1-jonathan.teh@outlook.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.22; Mon, 14 Mar
+ 2022 07:34:11 +0000
+Received: from CWLP123MB5572.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::e0a5:31a:8eee:5040]) by CWLP123MB5572.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::e0a5:31a:8eee:5040%9]) with mapi id 15.20.5061.028; Mon, 14 Mar 2022
+ 07:34:11 +0000
+Message-ID: <8c32195e-af30-cb8a-1641-77b7ad6e2bd0@camlingroup.com>
+Date:   Mon, 14 Mar 2022 08:34:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Detecting invalid gpio keys configuration
+To:     Jeff LaBundy <jeff@labundy.com>
+CC:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Drobi=c5=84ski?= 
+        <k.drobinski@camlintechnologies.com>,
+        Lech Perczak <l.perczak@camlintechnologies.com>
+References: <5a233ff1-cde4-b432-a170-86379bec972c@camlingroup.com>
+ <20220312011100.GA41683@nixie71>
+From:   =?UTF-8?Q?Tomasz_Mo=c5=84?= <tomasz.mon@camlingroup.com>
+In-Reply-To: <20220312011100.GA41683@nixie71>
+X-ClientProxiedBy: LNXP265CA0081.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:76::21) To CWLP123MB5572.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:16b::6)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 81ef8d79-290e-48c8-ae85-08da052a86c4
-X-MS-Exchange-SLBlob-MailProps: tBYDyRQCPclfnH/0UAfOFg3VcfzM92AUK3/tqtBfiAvTZ+0smU3iArrJS4yZSy2zEJkrGqgNqTvtAKTSKayCtrOGRXF2hQEJyRqerNnDnBnnFYXrXsYOfHICUFDwTsQsj/x9umB1d6/qy6mIDpczVCyx5yNFwNZvl3HH+0HFSrndlxWZMRtNDIltRNlgZmgdDpvb61Twj7EZoYgYogixW5v1IM6bIyWupwYpFNSRm5b9KPahQT8pKcJUJp3wzUnB3pSl0/Kz4J0EE4C0MzcdjX85kQE97icijVQR6MhFpgXjVvXlKxmVdsNMjWPERq6vtJyceWX7FyfaFoz9cllmEirz1BEVsrsShdd0bckmp496eec1w9heC49+H1yMKLgv355/zH/IHZVIxaGhxvK4TeCf9vAIf8lkfvMBQKOlp5lAhk9XvjvFjj3siYij4BNprP0DBi1bu2YiyutwbbMHYbzkAcSwpjYmQxhAILDSP75TA1U1kgrSFtXl2vEVPaqEYsDXDw9Q7DGh/jpLuMSSrrsHyKapm4XarTvAHvmuTyswgkqLlROK2uESHVL/g/GNS25tRWP0QfsFdZpa5pQjuVzgDnAO3Hw752tYUxhp3W6sYQL5OTXHTqfwDNouUi2pPL1X+k2N/vFY4a2s+MWwspujbHCSsqrbDNjG+haZn/OkgUTihz1QE0Gvy8RpDDreoC8wsaqjTcik+riJA7p/CAXOgph4dsFWUM/IAaheIDlenrOji3Et1ygJIdVbA7LyLOQKfDrKZdw=
-X-MS-TrafficTypeDiagnostic: PA4PR04MB8030:EE_
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: I4AHFcmwrHLHmza3eK7iZl73FvZL6PSWzdcnZyQFXXfuF8n+SoOfBIfLGG/I8lPdNq9RByIWEKUdked8QQnibbUcBWn7ncwbeyh4M7syJhUFT2rW3HqY85mO5ZqK462HYZqvbKQQ3Kcm77TJFTu0wqfYmAHiCchmT+C56pSepfEtc9LavaChoaGWB2PRRD2iNcWSS4Jez/a47AJ/Ii7lSEbR11eEDR5n9fh7/iBo43rMbM7A3TtHvzWEtlhMn/NW7kDRbbB9s2wSIDZ2zka35QPP++CbVupuYWjyCRDxjihlaNs8K31zZ1RtsnUem5PF5utbBA1DxI5kgqzjhbkU496jJyfL1zGTCupZC5St4JVfPtvRkT7MMx6XonVLymoM5fIokKch0Zc4GTDmoxQqu09YMZOAZDB0eyAGAoyGiz2IenTU9CEzAciLnb4oNJhWe+4lIJ30pFKfGNBkrDf1Qi3zA4cEkC7bBBeMP/rngzKet8ZJCw81hjRu1q760Xv8ofusdyODvawJD1yebheXl12EZ3iIM50bk8FGVNHT4QooqpT8+i189ImfOqHNDQZpE1HKvtjv8oOlyy4QH4y2GA==
+X-MS-Office365-Filtering-Correlation-Id: 809f294d-7a7e-4acb-df09-08da058d0837
+X-MS-TrafficTypeDiagnostic: LOYP123MB2992:EE_
+X-Microsoft-Antispam-PRVS: <LOYP123MB29922B2A2DBDB4115ABBC416920F9@LOYP123MB2992.GBRP123.PROD.OUTLOOK.COM>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0
+X-Microsoft-Antispam-Message-Info: rbrkjLJ9U7AZzWN4GkdGl7dP7BIXRZHMt0aJMF+AiDOmqAJI03igvH34ZggyMTsS7JChC8zi/MxrPZpH7xNQr/i/KY6lBim8TUtU+XkwcNCu2swo8Qrrav0pmgFUqHlXJ5v7sYC+efFed0C1AuINQzdNJq9tT9GOvn6gQLHiQuQ67hGBLuEok6IHO0ntldq4cqKsnIOm8dWQ9AczRwXDvUGtzU5UusIrkqa2Zldu+a2wbUImNnhjSzK01MhDclKJ6ajynTSC29zfTqMVLyo0hEpqerdsZXqDhrXzZAzRz3NHwBKSyQYGvKxJSZ2A6/0Ybdkj4LN7A5ZfZOx+HgPcl9RApHobytVC58S9ciyoDWumjm4kdOzQTk6p9VC8lMW8MjN629LUigwrt8K4oZ0rgJRuCxL+zd37IoPp1PFb3xwZwjP5C5GIL30LmPeY6Ixq/U9xzSTTppm6DlZLzCvZigiQ3U+jrlomq1hN/AdCwqavpicTsZAEG8UFMhQirwxn6J3QlcqDqi7uqtbxyVvgkFaEy0eYTjDLyMejGnx82iOYs6iwVWuCjRcr9/XaXl3M8a6PZZJJZEl+78qhwLTTlw1qZ3gVV3p1+xt+Y7ETQLCIpzK9rqLIS1sffwDsOnr286wKg6Ayer7rIyMFhRWuGpKxoBYoM4naIt9hx2KhacZYgiiKd/S5QtMNOIAO8Mp3bVUsJjFa77Yu5RawHz1Nj9g6eBG1rkLmDgRUFWeZd/JHnLMewT1bNuqXuQUmAdC4
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB5572.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230001)(366004)(2616005)(107886003)(86362001)(31696002)(8936002)(5660300002)(6486002)(508600001)(6512007)(53546011)(6506007)(2906002)(38100700002)(186003)(26005)(83380400001)(31686004)(66946007)(66476007)(36756003)(66556008)(316002)(4326008)(8676002)(54906003)(6916009)(45980500001)(43740500002);DIR:OUT;SFP:1101
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?eSmMfGRCsm2olG2CIzMtjrHogpsWdZfDpyP0869gDfaFUZN8tKfsmUN0bIbJ?=
- =?us-ascii?Q?qYxwqfqaZbSu213nuSat3eOqPYK79kIHTBq2Yw10rtk2l7f9963gS4btKG2v?=
- =?us-ascii?Q?s4BE7nx4ibyTTNbxX11BUlRC5POCeJ3U9z4NT6ztzWNjb/SYAG4SyKTTfp4T?=
- =?us-ascii?Q?zx2DYySF8Gd/0Q3LK90qPzXgIxnW2VzbcERsvordZjTQP+ULoI6KOPfO45vB?=
- =?us-ascii?Q?qFEg2gyYGIDjmM7LuZvFGY8r1A7Z4dkqU6zeu96jI/m9QbQjoBOduHbFOMDJ?=
- =?us-ascii?Q?vfHTciHtC0aRtm9z4ni5AdjQVEqOkGhy8wHdYURsso44IWhjldDlzCe2zOcs?=
- =?us-ascii?Q?AKvavw2L3dR6t0Jbt1PSaLjUWPpaWb67o2TXOlES71T/YJR5CR4vuHiDdf1M?=
- =?us-ascii?Q?2wWJlu0X6JgVrU37q1ryRNRppJnDUpKZV4E7d//jSwlUqDrnAmNdOOJWY7Ny?=
- =?us-ascii?Q?e5wfqCj+SVVvwCcsnOd2joHkfIsu5qZ4LEKbF9Ap6Gz3nJcecErV3rYbzXes?=
- =?us-ascii?Q?/xF9711TJ0fqyChZotZLfbrtFYkWsZa6x7qg2knmgRbuk38TfuTnB1p+M48d?=
- =?us-ascii?Q?wekor4wtjeeT+mwQcqgXGlfzSoqfv6UYa14Cii7oaHduFsA+6/oNa2mfKA4L?=
- =?us-ascii?Q?QCIUUiComd0237dfNWCz4V2LEvhh3dBujwNS1X830TBT3SynKI+azsMspZgM?=
- =?us-ascii?Q?9VkXankeL3oFBVjC6IV0+cBGDpWyNxRLLF2csWIEtTWFEVukxg1BqfLfkGbe?=
- =?us-ascii?Q?DU7ULsHJBZ+RAfgFITDmQb8CASpNTfT5aeFIJR9XbCX3zeBSwLUgzfuAS20j?=
- =?us-ascii?Q?nOA8YWGJoEONvZF9EUZRVmD/W5rVj0jy9RCDketh/aNcJcKdB6UOi9gv01Eb?=
- =?us-ascii?Q?yFR9XdLpqYWrHmo/fuOZ2k2fbyyEZ4cBcHUQSIXej/YtFoEJUvxp8WkW45fq?=
- =?us-ascii?Q?Nrw9oE0VTyAA1h2CbrIXlE3Joubmdo6mPYIdkoy6NmCA87fu6JC2nOyzYuPT?=
- =?us-ascii?Q?HQpRe/cdiZYelITAImtbaswgrwzhZxajsEwuo4lWj3y8RZbF8asorHy6WB8Z?=
- =?us-ascii?Q?XS5dA3aOT9+Du2DrfVU5HJiOqeBGDa67pQQSG8mbybwdHIShmAZNQw6RqCKE?=
- =?us-ascii?Q?B/bAzB3gL9KAszetg+3AAXYiM6902nbAcQ=3D=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81ef8d79-290e-48c8-ae85-08da052a86c4
-X-MS-Exchange-CrossTenant-AuthSource: DBAPR04MB7366.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hpckLpKP+AvC9c+L2EYhsg2fzx995X2YQNuSr1CZZSG6zUPo9Z8N0iqq1FdE?=
+ =?us-ascii?Q?gr/chskwdQ2MKnJBcUSZtAcbyjONeDgAxXAwAXlh0SLyVqrBoE/Bddw6L//V?=
+ =?us-ascii?Q?0mcbawIYuK4VYQzU34a4DxrmcKyQLcccdQ2S2td9eWobf2rgk53kEj4kuhn5?=
+ =?us-ascii?Q?Yxzi1lMltjlmrIvbpX42MlUoFJnDxGn++5eUjHiaiqAztAz9GuyJvIlgw19I?=
+ =?us-ascii?Q?bm+8bZpChnQLCMiJ27iYP0tRa6TecNUhgDj0yvlhypuDzzzd3/MXrtsOGjTp?=
+ =?us-ascii?Q?3CbnCxZLM0wtHcIaL+6zW7JyqBERV3KF/ipcqTYZE/hQZLyHBbUpxrBVpO81?=
+ =?us-ascii?Q?NCSXdEQMW5GDYa53SJRh7yS/ceuCTMMmAvWJK69ceBT5Wmgv2+piWggWUiA8?=
+ =?us-ascii?Q?sYlxC8tqzEC1wjb/XpvlT32Tk9RwXve7lTOs4PJJGpnXN+4Uxed/pQNm9s4F?=
+ =?us-ascii?Q?D+PvXUkjFr/IByhBW6M+r/B9X4pVKTQvdYLrSqczh7rpaxhuDY0T8o9CoytL?=
+ =?us-ascii?Q?yi8WM5w/AReLH4znyu+Ezr/wFNpMzHH5n//ni2mx2XK3dnZQJ2tPT21h8w2A?=
+ =?us-ascii?Q?kkHqdKa17JeKlxgdQYYrat/ARYlEoBxCnMWobVgL1ylMlc8FckGC/m31cZz1?=
+ =?us-ascii?Q?koKwfN7XEFH+iY8x8lMTZ2sk+hD5K/tkQzdjsumuS7hPc2bf7rO2iumopYFe?=
+ =?us-ascii?Q?Y0PerkDe4zxmSIu6IXoOKnEeWkpW20v+iwsgfjs0ZQYjnWchQTjC+TmBQFNa?=
+ =?us-ascii?Q?P2tNAGIUzB4iukflbzDOdFexbWALVsabg8sHmpITj2kNm3yq68BtY7tmMiJw?=
+ =?us-ascii?Q?G7ZJVMhsylUVbzEBE1hYpT2KLy77yG8mWUIOY7Df7FatU3lWhmnY/RY4N1qW?=
+ =?us-ascii?Q?3nB6GlGuOqIzO+npcQb8NEwFf4SSHlS1HNrVnYZYLYR8yJaV0dNWH8ZLhstl?=
+ =?us-ascii?Q?DlxbRyNQGbV2GotSfRq7FyBfRIb8W+dbNW28QAw3LO/tJai5SWIlZHeaBBTJ?=
+ =?us-ascii?Q?ODisDHxKgNAfuwpL5HcEcvGdVUS52ztXl6OJeO1PyDMFiFKNjiKGpF7AnXTl?=
+ =?us-ascii?Q?ZkdtXGfpyHpEAGxUhSwL1dsgSTQBUo1JFhenrouySeqs063CV1A5RupUitXi?=
+ =?us-ascii?Q?garzD7YWTr708Ux6chkPAj1KDu2tJwMrB3n4LRz6WtLljd18Cr0TTTHu+B2T?=
+ =?us-ascii?Q?vkf+HaDEqPFj4Ov9x7pXdpUn0jNXtDOXbE/WIa3wB2xqHlmOoNWlKKByV/ji?=
+ =?us-ascii?Q?9goTgrBA2QsR1MCZRuqCcWhsGnU4Ip8t9AFPXj+eRu/8LPMT1/JPVx9UW72T?=
+ =?us-ascii?Q?6XOZbWTa843qGbt03oJm2VON6kff7QRh0wawfMhG5mlTNiAesb1UkTHL7DXL?=
+ =?us-ascii?Q?wckvumZ4iRRPsK/ix/s8pEHAwQP8zq+Oy9+/NxIaM1QHP3FZYErnvDcOruYG?=
+ =?us-ascii?Q?CsFCBqisG6IQdox4LzGavvRgO7nsZqTHp9I5kpLsR6fqs33I2TFAKw=3D=3D?=
+X-OriginatorOrg: camlingroup.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 809f294d-7a7e-4acb-df09-08da058d0837
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB5572.GBRP123.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2022 19:49:03.5865
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2022 07:34:11.4159
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB8030
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+X-MS-Exchange-CrossTenant-Id: fd4b1729-b18d-46d2-9ba0-2717b852b252
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0U2TQ0sbNpzHCyhqblnEsNgiP9Un/n48f1PaLD/TTUaK93StndS8R9F/YPGZvHW2NJbgQEX/0oQJ+gzQ0tai4RntSGnmoYd+m3zyENEcIeY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOYP123MB2992
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=CUK97A341 smtp.mailfrom=tomasz.mon@camlingroup.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: camlingroup.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -104,30 +123,36 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Increase maximum brightness for Dream Cheeky to 63. Emperically
-determined based on testing in kernel 4.4 on this device:
+On 12.03.2022 02:11, Jeff LaBundy wrote:
+> Hi Tomasz,
 
-Bus 003 Device 002: ID 1d34:0004 Dream Cheeky Webmail Notifier
+Hi Jeff,
 
-Fixes: 6c7ad07e9e05 ("HID: migrate USB LED driver from usb misc to hid")
-Signed-off-by: Jonathan Teh <jonathan.teh@outlook.com>
----
- drivers/hid/hid-led.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Thu, Mar 10, 2022 at 07:57:53AM +0100, Tomasz Mo=C5=84 wrote:
+>> While provided example hopefully crashes every time making the issue
+>> obvious, other code values can cause much more subtle issues.
+>> Should the input_set_capability() warn if code is outside bitmap range?
+>>
+>> Best Regards,
+>> Tomasz Mon
+>>
+>=20
+> What about something like the patch below? It of course can't prevent
+> dts from specifying something like KEY_ESC as a switch, but should at
+> least prevent kernel panic.
 
-diff --git a/drivers/hid/hid-led.c b/drivers/hid/hid-led.c
-index c2c66ceca132..7d82f8d426bb 100644
---- a/drivers/hid/hid-led.c
-+++ b/drivers/hid/hid-led.c
-@@ -366,7 +366,7 @@ static const struct hidled_config hidled_configs[] = {
- 		.type = DREAM_CHEEKY,
- 		.name = "Dream Cheeky Webmail Notifier",
- 		.short_name = "dream_cheeky",
--		.max_brightness = 31,
-+		.max_brightness = 63,
- 		.num_leds = 1,
- 		.report_size = 9,
- 		.report_type = RAW_REQUEST,
--- 
-2.35.1
+Your patch does prevent the kernel panic. On top of that, it also makes
+troubleshooting much easier. That is, directly pinpointing the issue in
+error message essentially skips the debugging part.
+
+I think this is the only place where a code check is missing. The other
+places do already use is_event_supported() that checks if code is below
+or equal to the maximum allowed.
+
+So I am in favor of your patch.
+
+Reviewed-by: Tomasz Mo=C5=84 <tomasz.mon@camlingroup.com>
+
+Best Regards,
+Tomasz Mon
 
