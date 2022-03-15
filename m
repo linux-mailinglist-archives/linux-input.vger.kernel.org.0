@@ -2,218 +2,244 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 88F5E4DA0D8
-	for <lists+linux-input@lfdr.de>; Tue, 15 Mar 2022 18:07:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FD164DA327
+	for <lists+linux-input@lfdr.de>; Tue, 15 Mar 2022 20:15:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242321AbiCORIP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Mar 2022 13:08:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38824 "EHLO
+        id S237169AbiCOTRD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Mar 2022 15:17:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350485AbiCORHy (ORCPT
+        with ESMTP id S230333AbiCOTRD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Mar 2022 13:07:54 -0400
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 474C5580C0;
-        Tue, 15 Mar 2022 10:06:42 -0700 (PDT)
+        Tue, 15 Mar 2022 15:17:03 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34A6DF31
+        for <linux-input@vger.kernel.org>; Tue, 15 Mar 2022 12:15:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647364002; x=1678900002;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=0XG+gX0DCjUrifLHVo4uvhwaHh2d9IKH+kZXF/KXoOE=;
-  b=O0Wh72+SxpnY1kunIVWqpRmr4AoABFX7eBbg6y+nSJgqUhsBCnEzaG8k
-   CkiKrh4J0d+op01OFDYi7NSYbt2AZoblb8vOYGgjfeXa5uOmCCdTTDPQf
-   sCrvxbs/tamlcpN8vfo0SiPc3BcYFBDzIbtR06QihMJtb6PGuSQXR3PQT
-   CwvRoLg8D/gOfFUHOFsVO7+eQWVQX0qiiuk/ELn7Bxu7eeIiaF/DTKICF
-   X9Xl+kDS9gY29uor9gAaWFpl+cVlmxl4VzX1uPhLBcPt+XUQqYPEAY1vi
-   OgGFKcBoRk1mU1i4prehYC61GUjh0bsg4CUs9dCcHvL8DNiyTDYm86NkR
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="317085653"
+  t=1647371751; x=1678907751;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nqg7o+Zr2gqMdCWXYez6bvEGSU/OAJi7FMoQbnnjGao=;
+  b=QjOk+xQMrkJ1uF1NUX9Mh9q3f9QhmYzbEaz8clpZGNYTu7hvypOPNSND
+   xO0yxQh0Iz+wwxBCSGRUPGZY99aNAfmR15cTVcUF3tMbn5t4kLJe/jwfW
+   KfqT2Wnjp/GKexmx5rsyAQa7KkI2oF0BDj+msTPJS6GcyisaHffJvyjb3
+   VOIWgVqGEcb5NmpcomYuKsxsXGH3dHSn4zy//oC6aUaSj9zzIA7xTb2gc
+   YsrXXRD4UrFb6TGNBwHb6N96MmLFoND3b/EbFlDwf++Y+j5ShozBWKRuw
+   fPZkVnD99mOx81pkHVXjL0zZ0KKaxai352KNt1O7f9Vnq1s0c38CJEng/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="243856886"
 X-IronPort-AV: E=Sophos;i="5.90,184,1643702400"; 
-   d="scan'208";a="317085653"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2022 10:04:26 -0700
+   d="scan'208";a="243856886"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2022 12:15:46 -0700
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,184,1643702400"; 
-   d="scan'208";a="690269219"
-Received: from lepple-mobl1.ger.corp.intel.com (HELO [10.252.56.30]) ([10.252.56.30])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2022 10:04:21 -0700
-Message-ID: <84435254-b072-661f-f108-81a00178d7bc@linux.intel.com>
-Date:   Tue, 15 Mar 2022 19:04:19 +0200
+   d="scan'208";a="540577526"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 15 Mar 2022 12:15:43 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nUCdz-000BOm-56; Tue, 15 Mar 2022 19:15:43 +0000
+Date:   Wed, 16 Mar 2022 03:14:37 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 5600f6986628dde8881734090588474f54a540a8
+Message-ID: <6230e59d.N7ykxLx6tdmTjSv2%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH bpf-next v2 00/28] Introduce eBPF support for HID devices
-Content-Language: en-US
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-References: <20220304172852.274126-1-benjamin.tissoires@redhat.com>
-From:   Tero Kristo <tero.kristo@linux.intel.com>
-In-Reply-To: <20220304172852.274126-1-benjamin.tissoires@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 5600f6986628dde8881734090588474f54a540a8  Input: aiptek - properly check endpoint type
 
-On 04/03/2022 19:28, Benjamin Tissoires wrote:
-> Hi,
->
-> This is a followup of my v1 at [0].
->
-> The short summary of the previous cover letter and discussions is that
-> HID could benefit from BPF for the following use cases:
->
-> - simple fixup of report descriptor:
->    benefits are faster development time and testing, with the produced
->    bpf program being shipped in the kernel directly (the shipping part
->    is *not* addressed here).
->
-> - Universal Stylus Interface:
->    allows a user-space program to define its own kernel interface
->
-> - Surface Dial:
->    somehow similar to the previous one except that userspace can decide
->    to change the shape of the exported device
->
-> - firewall:
->    still partly missing there, there is not yet interception of hidraw
->    calls, but it's coming in a followup series, I promise
->
-> - tracing:
->    well, tracing.
->
->
-> I tried to address as many comments as I could and here is the short log
-> of changes:
->
-> v2:
-> ===
->
-> - split the series by subsystem (bpf, HID, libbpf, selftests and
->    samples)
->
-> - Added an extra patch at the beginning to not require CAP_NET_ADMIN for
->    BPF_PROG_TYPE_LIRC_MODE2 (please shout if this is wrong)
->
-> - made the bpf context attached to HID program of dynamic size:
->    * the first 1 kB will be able to be addressed directly
->    * the rest can be retrieved through bpf_hid_{set|get}_data
->      (note that I am definitivey not happy with that API, because there
->      is part of it in bits and other in bytes. ouch)
->
-> - added an extra patch to prevent non GPL HID bpf programs to be loaded
->    of type BPF_PROG_TYPE_HID
->    * same here, not really happy but I don't know where to put that check
->      in verifier.c
->
-> - added a new flag BPF_F_INSERT_HEAD for BPF_LINK_CREATE syscall when in
->    used with HID program types.
->    * this flag is used for tracing, to be able to load a program before
->      any others that might already have been inserted and that might
->      change the data stream.
->
-> Cheers,
-> Benjamin
+elapsed time: 724m
 
-I posted a couple of comments to the series, but other than that for the 
-whole series you can use:
+configs tested: 158
+configs skipped: 3
 
-Reviewed-by: Tero Kristo <tero.kristo@linux.intel.com>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Tested-by: Tero Kristo <tero.kristo@linux.intel.com>
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20220314
+mips                 randconfig-c004-20220314
+powerpc              randconfig-c003-20220313
+i386                          randconfig-c001
+riscv                            allyesconfig
+um                             i386_defconfig
+mips                             allmodconfig
+riscv                            allmodconfig
+um                           x86_64_defconfig
+mips                             allyesconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+parisc                           allyesconfig
+xtensa                           allyesconfig
+alpha                            allyesconfig
+arc                              allyesconfig
+nios2                            allyesconfig
+powerpc                      pasemi_defconfig
+arm                       imx_v6_v7_defconfig
+x86_64                              defconfig
+xtensa                              defconfig
+arm                         nhk8815_defconfig
+powerpc                 mpc834x_itx_defconfig
+arm                     eseries_pxa_defconfig
+arm                      footbridge_defconfig
+mips                        vocore2_defconfig
+arm                             pxa_defconfig
+sh                             espt_defconfig
+powerpc64                        alldefconfig
+sh                         apsh4a3a_defconfig
+sh                           se7780_defconfig
+arc                          axs101_defconfig
+openrisc                  or1klitex_defconfig
+arm                            xcep_defconfig
+riscv             nommu_k210_sdcard_defconfig
+sh                            migor_defconfig
+powerpc                       ppc64_defconfig
+powerpc                 mpc85xx_cds_defconfig
+sh                           se7705_defconfig
+powerpc                      bamboo_defconfig
+csky                             alldefconfig
+parisc                generic-32bit_defconfig
+powerpc                 mpc837x_mds_defconfig
+powerpc                  storcenter_defconfig
+arm                         vf610m4_defconfig
+s390                       zfcpdump_defconfig
+sh                          r7780mp_defconfig
+powerpc                     tqm8548_defconfig
+um                               alldefconfig
+mips                           jazz_defconfig
+sh                   secureedge5410_defconfig
+arm                         axm55xx_defconfig
+powerpc                      pcm030_defconfig
+arm                        shmobile_defconfig
+arm                          pxa910_defconfig
+arm                        spear6xx_defconfig
+m68k                        mvme147_defconfig
+sh                             shx3_defconfig
+parisc64                            defconfig
+sh                         microdev_defconfig
+sh                     sh7710voipgw_defconfig
+arm                           stm32_defconfig
+arm                            mps2_defconfig
+sh                          lboxre2_defconfig
+powerpc                mpc7448_hpc2_defconfig
+mips                  decstation_64_defconfig
+arm                  randconfig-c002-20220313
+arm                  randconfig-c002-20220314
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                               defconfig
+arc                                 defconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+nios2                               defconfig
+nds32                             allnoconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+i386                 randconfig-a003-20220314
+i386                 randconfig-a004-20220314
+i386                 randconfig-a001-20220314
+i386                 randconfig-a006-20220314
+i386                 randconfig-a002-20220314
+i386                 randconfig-a005-20220314
+x86_64               randconfig-a004-20220314
+x86_64               randconfig-a005-20220314
+x86_64               randconfig-a003-20220314
+x86_64               randconfig-a002-20220314
+x86_64               randconfig-a006-20220314
+x86_64               randconfig-a001-20220314
+arc                  randconfig-r043-20220313
+riscv                randconfig-r042-20220313
+s390                 randconfig-r044-20220313
+arc                  randconfig-r043-20220314
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+x86_64                                  kexec
 
-I did test this with my USI-BPF program + userspace code, they work with 
-few minor updates compared to previous version.
+clang tested configs:
+s390                 randconfig-c005-20220313
+arm                  randconfig-c002-20220313
+x86_64                        randconfig-c007
+powerpc              randconfig-c003-20220313
+riscv                randconfig-c006-20220313
+mips                 randconfig-c004-20220313
+i386                          randconfig-c001
+mips                           mtx1_defconfig
+powerpc                          allyesconfig
+powerpc               mpc834x_itxgp_defconfig
+mips                     cu1000-neo_defconfig
+arm                           omap1_defconfig
+mips                          ath25_defconfig
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64               randconfig-a014-20220314
+x86_64               randconfig-a015-20220314
+x86_64               randconfig-a016-20220314
+x86_64               randconfig-a012-20220314
+x86_64               randconfig-a013-20220314
+x86_64               randconfig-a011-20220314
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a011
+i386                          randconfig-a013
+i386                          randconfig-a015
+i386                 randconfig-a013-20220314
+i386                 randconfig-a015-20220314
+i386                 randconfig-a014-20220314
+i386                 randconfig-a011-20220314
+i386                 randconfig-a016-20220314
+i386                 randconfig-a012-20220314
 
--Tero
-
->
->
->
-> [0] https://lore.kernel.org/linux-input/20220224110828.2168231-1-benjamin.tissoires@redhat.com/T/#t
->
->
-> Benjamin Tissoires (28):
->    bpf: add new is_sys_admin_prog_type() helper
->    bpf: introduce hid program type
->    HID: hook up with bpf
->    libbpf: add HID program type and API
->    selftests/bpf: add tests for the HID-bpf initial implementation
->    samples/bpf: add new hid_mouse example
->    bpf/hid: add a new attach type to change the report descriptor
->    HID: allow to change the report descriptor from an eBPF program
->    libbpf: add new attach type BPF_HID_RDESC_FIXUP
->    selftests/bpf: add report descriptor fixup tests
->    samples/bpf: add a report descriptor fixup
->    bpf/hid: add hid_{get|set}_data helpers
->    HID: bpf: implement hid_bpf_get|set_data
->    selftests/bpf: add tests for hid_{get|set}_data helpers
->    bpf/hid: add new BPF type to trigger commands from userspace
->    libbpf: add new attach type BPF_HID_USER_EVENT
->    selftests/bpf: add test for user call of HID bpf programs
->    selftests/bpf: hid: rely on uhid event to know if a test device is
->      ready
->    bpf/hid: add bpf_hid_raw_request helper function
->    HID: add implementation of bpf_hid_raw_request
->    selftests/bpf: add tests for bpf_hid_hw_request
->    bpf/verifier: prevent non GPL programs to be loaded against HID
->    HID: bpf: compute only the required buffer size for the device
->    HID: bpf: only call hid_bpf_raw_event() if a ctx is available
->    bpf/hid: Add a flag to add the program at the beginning of the list
->    libbpf: add handling for BPF_F_INSERT_HEAD in HID programs
->    selftests/bpf: Add a test for BPF_F_INSERT_HEAD
->    samples/bpf: fix bpf_program__attach_hid() api change
->
->   drivers/hid/Makefile                         |   1 +
->   drivers/hid/hid-bpf.c                        | 361 +++++++++
->   drivers/hid/hid-core.c                       |  34 +-
->   include/linux/bpf-hid.h                      | 129 +++
->   include/linux/bpf_types.h                    |   4 +
->   include/linux/hid.h                          |  25 +
->   include/uapi/linux/bpf.h                     |  59 ++
->   include/uapi/linux/bpf_hid.h                 |  50 ++
->   kernel/bpf/Makefile                          |   3 +
->   kernel/bpf/hid.c                             | 652 +++++++++++++++
->   kernel/bpf/syscall.c                         |  26 +-
->   kernel/bpf/verifier.c                        |   7 +
->   samples/bpf/.gitignore                       |   1 +
->   samples/bpf/Makefile                         |   4 +
->   samples/bpf/hid_mouse_kern.c                 |  91 +++
->   samples/bpf/hid_mouse_user.c                 | 129 +++
->   tools/include/uapi/linux/bpf.h               |  59 ++
->   tools/lib/bpf/libbpf.c                       |  22 +-
->   tools/lib/bpf/libbpf.h                       |   2 +
->   tools/lib/bpf/libbpf.map                     |   1 +
->   tools/testing/selftests/bpf/prog_tests/hid.c | 788 +++++++++++++++++++
->   tools/testing/selftests/bpf/progs/hid.c      | 216 +++++
->   22 files changed, 2649 insertions(+), 15 deletions(-)
->   create mode 100644 drivers/hid/hid-bpf.c
->   create mode 100644 include/linux/bpf-hid.h
->   create mode 100644 include/uapi/linux/bpf_hid.h
->   create mode 100644 kernel/bpf/hid.c
->   create mode 100644 samples/bpf/hid_mouse_kern.c
->   create mode 100644 samples/bpf/hid_mouse_user.c
->   create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
->   create mode 100644 tools/testing/selftests/bpf/progs/hid.c
->
+---
+0-DAY CI Kernel Test Service
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
