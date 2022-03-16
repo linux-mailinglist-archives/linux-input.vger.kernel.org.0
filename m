@@ -2,36 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F3A234DB29A
-	for <lists+linux-input@lfdr.de>; Wed, 16 Mar 2022 15:17:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E6484DB2C4
+	for <lists+linux-input@lfdr.de>; Wed, 16 Mar 2022 15:19:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356621AbiCPOSX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Mar 2022 10:18:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41632 "EHLO
+        id S1356691AbiCPOUP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Mar 2022 10:20:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356578AbiCPOSU (ORCPT
+        with ESMTP id S1356786AbiCPOT3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Mar 2022 10:18:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C66D23D4BB;
-        Wed, 16 Mar 2022 07:16:48 -0700 (PDT)
+        Wed, 16 Mar 2022 10:19:29 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C81C1CFE3;
+        Wed, 16 Mar 2022 07:17:50 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6402A612F4;
-        Wed, 16 Mar 2022 14:16:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C918C340F4;
-        Wed, 16 Mar 2022 14:16:44 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C0798B81B7A;
+        Wed, 16 Mar 2022 14:17:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEE0BC340E9;
+        Wed, 16 Mar 2022 14:17:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647440207;
-        bh=BQG/RH5+pJWh1aMXf0Q5+t1IqUoha19GhFHJmPF5m5c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PbPSDZBO3KXZxOhjYGCDGzIGbGYyrkwe4INxflPFqJJw8JsL7jVOLlXs/W8zSNfE1
-         Wotw53k/eCoBCpCZxpgijHsvH+IlB0ScOnjo/hwRoPpy5FD/cC8DvwCoyYPIHBTmuC
-         Kx37C8OrJPXhGsaYpoN1/KxAGw+dCIOfipr46TKVNoV5rOgWrwSGWxPPk6GgkPpk2A
-         Wx3suOQxHE+sB6tY5lW90Ti+NJDUI3CyDCufiiWOBM/vNwpH+eudVu3pyFAkMXHywu
-         ODzKS52YuqVQgprufA0zSmkNZ5Y8a0Q3j0PgNOrPQFTTqLICVNKzzd5FGraP2AA5eF
-         jqj0gkS3Eq8lg==
+        s=k20201202; t=1647440267;
+        bh=ZqGrjoyTLlzOYsHDVHM6YzmHsPEEPwNgz/tXn328VLA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Qn59ktinCFv4+OrP+0sBx7jj8GD2kkw8BJq6U/SwETYfB++QK7HuTgFT7iXybcDOX
+         3bRCs3N+28b0VjTo1bdxh6hGoo/mrGRHqUFFATfaZ0MG3Zgz79c8jVri9TBL/pWrKD
+         tYSCnG+Des+ngi25d100OyadUOygwifu4rYZwtuKqII5SFE5n1Gw14U2aSlS8yYl3m
+         YlD4Anr5krQMulWKTUPEEP2D2a0hB+aWvnYpJKdSfAafw2swYYYdP8O7XBUCnlUALW
+         qJY35wlP7ue4KWGs5HO+lxpE8g73iGxXnwos94Fp+i2Uye5GiYbkVHrO7PZqsBvVOM
+         lWDEt4XjC3kBg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Lucas Zampieri <lzampier@redhat.com>,
@@ -39,12 +39,10 @@ Cc:     Lucas Zampieri <lzampier@redhat.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 02/12] HID: logitech-dj: add new lightspeed receiver id
-Date:   Wed, 16 Mar 2022 10:16:26 -0400
-Message-Id: <20220316141636.248324-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 1/7] HID: logitech-dj: add new lightspeed receiver id
+Date:   Wed, 16 Mar 2022 10:17:32 -0400
+Message-Id: <20220316141738.248513-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220316141636.248324-1-sashal@kernel.org>
-References: <20220316141636.248324-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -83,7 +81,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-index a311b0a33eba..587259b3db97 100644
+index 4267e2f2e70f..a663cbb7b683 100644
 --- a/drivers/hid/hid-logitech-dj.c
 +++ b/drivers/hid/hid-logitech-dj.c
 @@ -1000,6 +1000,7 @@ static void logi_hidpp_recv_queue_notif(struct hid_device *hdev,
