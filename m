@@ -2,109 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 494AD4DD1E7
-	for <lists+linux-input@lfdr.de>; Fri, 18 Mar 2022 01:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EBCA4DD1F8
+	for <lists+linux-input@lfdr.de>; Fri, 18 Mar 2022 01:32:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbiCRAYk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Mar 2022 20:24:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36422 "EHLO
+        id S230080AbiCRAde (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Mar 2022 20:33:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229988AbiCRAYj (ORCPT
+        with ESMTP id S229499AbiCRAdd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Mar 2022 20:24:39 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B44619D626;
-        Thu, 17 Mar 2022 17:23:21 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id b19so9632112wrh.11;
-        Thu, 17 Mar 2022 17:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EUZS5i1fz1kAVVM80Oyu7b+mX6O5QtCzcdOhcl/QHOU=;
-        b=EqFWZ5eHPSolbx4tQvCZl+Q2JTRB/fXuFH9BjeWTK4jAKAVb6PTRAGug9WAbrk2UXe
-         ciaWvoPFO23aVrZKDwXLh059VIvo8btA5iTGOsiW2bAW/1KEePA1VvheichxFgswdqRn
-         ikJI2ZoE0tUa8rygZTxkWPLCQhcyf+26XSqsJke/Sd5WZ84as7rQl0MiS81U74hyLc55
-         LIu9Gd7JCW3OFke8+RKm0NHtzkFYTyH7lUMNBc5GhizqB808+YBdr/V3oExqSr0E+0Hj
-         r6WQ5xNiTg7voZQNAMuySEwlhQiYB/RG+ryBk3GwvUINdPgSgcKPZ50MpS755BveHCRB
-         caSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EUZS5i1fz1kAVVM80Oyu7b+mX6O5QtCzcdOhcl/QHOU=;
-        b=VO7LFDfK9To/n/jn3zNNigZ0BbzgcahU+0fjBGsxNQ/5G67CbYzSzCEC7yhZSiujRX
-         /KHmdFrmL2iktJawpCBl5B0UG91jVO/UZDsLG6OdbVeGkPGs0edXADu8nOThKTjumu9e
-         Hp0y2rpP+3N3e6qej8kVhO9u4913jsLnxmnrUjZ/KADg8fgia32KOcRB5wHXGSmGCI4g
-         sAG5AqQDl11X97HZZojana24xNBYBvd5dTr8XbHOM0oeMbtMuBsHTBmW1a9UyNYtlnoE
-         Lw+EuGhki90i9N68pLVDFNU3zx/5ebLaxDmB8H5ZFoKTqR2FTNerU/cBPUZEeIoOcl/L
-         QGqw==
-X-Gm-Message-State: AOAM530kQ6fU2m93QfyVE7s9Fsz4opCQ5nD199KR3EtM8mPFcTMqSZKs
-        VUpUBFZZr84lbOOIyaYmzdo=
-X-Google-Smtp-Source: ABdhPJzDt190+x1gAiJfV2NyyJQ7Ohh8/brsXamRrkHlsLOW2WrvCVh6+ledfezGgCck7Y2vWfM3gw==
-X-Received: by 2002:a5d:504d:0:b0:203:e60e:49ef with SMTP id h13-20020a5d504d000000b00203e60e49efmr5835724wrt.546.1647562999664;
-        Thu, 17 Mar 2022 17:23:19 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id g13-20020a05600c4ecd00b0038a0165f2fbsm6207260wmq.17.2022.03.17.17.23.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Mar 2022 17:23:18 -0700 (PDT)
-From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: [PATCH] Input: adi: remove redundant variable z
-Date:   Fri, 18 Mar 2022 00:23:18 +0000
-Message-Id: <20220318002318.80519-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        Thu, 17 Mar 2022 20:33:33 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22343292DA8;
+        Thu, 17 Mar 2022 17:32:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        Subject:From:Cc:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=02hioLSoyIA1XtKWIrkxtX+6sNLC7Bf+ftpgABZAoDM=; b=gkT5DB0mhJguDC+nk9BK1jQxka
+        BhLG4Yox2WvYZwqs0+ZOXgFyy6AkLgwX97/MLWb82kr53GnmR0ny4DOuyeDi+ljajPE9ii0FmrldB
+        dE1EBd4TuMNWlsDbXoeDRnCyn3EduncG2+HdQDGiyg62+lLT2VPay0OdVg2PCHzCBRR5rCoY22ghW
+        NkHDSZXixXCB5KYAN9aWaFC/G0oT0yXSkbbcTSGKg8vG0chS0/j9VWW64FLe/037U/A4RJruPs4hZ
+        VH/H4nhfcaI+tAQZkUCtT3Qj3o82sMaSgmBJ+J53VAA3bi7znrv2PDy5lRjUSpQ3pBaXUJQTE6VP1
+        t/KVhIvA==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nV0XK-007T6c-AG; Fri, 18 Mar 2022 00:32:10 +0000
+Message-ID: <b9d9171d-1287-e5aa-46d2-2475817074ba@infradead.org>
+Date:   Thu, 17 Mar 2022 17:32:06 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+To:     linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Dell.Client.Kernel@dell.com
+Cc:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+        Stuart Hayes <stuart.w.hayes@gmail.com>,
+        Divya Bharathi <divya.bharathi@dell.com>,
+        Prasanth Ksr <prasanth.ksr@dell.com>,
+        Perry Yuan <Perry.Yuan@dell.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: Dell laptop touchpad disabling?
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Variable z is being assigned a value that is never read, the
-variable is redundant and can be removed.
+Hi all,
 
-Cleans up clang scan build warning:
-drivers/input/joystick/adi.c:139:6: warning: Although the
-value stored to 'z' is used in the enclosing expression,
-the value is never actually read from 'z' [deadcode.DeadStores]
+I have a Dell Inspiron 15 5510 laptop. Of course, it has a touchpad
+(which I think of as a nuisance pad).
+I would like to be able to disable the touchpad easily.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/input/joystick/adi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Are there any best practices or suggestions for how to do this?
+(I am using xfce4 as the desktop environment if that matters.)
 
-diff --git a/drivers/input/joystick/adi.c b/drivers/input/joystick/adi.c
-index 592c95b87f54..e10d57bf1180 100644
---- a/drivers/input/joystick/adi.c
-+++ b/drivers/input/joystick/adi.c
-@@ -123,7 +123,7 @@ static void adi_read_packet(struct adi_port *port)
- {
- 	struct adi *adi = port->adi;
- 	struct gameport *gameport = port->gameport;
--	unsigned char u, v, w, x, z;
-+	unsigned char u, v, w, x;
- 	int t[2], s[2], i;
- 	unsigned long flags;
- 
-@@ -136,7 +136,7 @@ static void adi_read_packet(struct adi_port *port)
- 	local_irq_save(flags);
- 
- 	gameport_trigger(gameport);
--	v = z = gameport_read(gameport);
-+	v = gameport_read(gameport);
- 
- 	do {
- 		u = v;
+
+Sometimes the touchpad is discovered as a PS/2 Generic Mouse on
+the i8042 AUX port, and sometimes it is discovered as this
+touchpad: "DELL0B24:00 04F3:3147 Touchpad" on some I2C device:
+"i2c-DELL0B24:00". (The different discoveries might have something
+to do with my kernel configuration/builds, but I don't know that
+for sure.)
+
+I have some very hackish scripts that I can run to toggle the
+'inhibited' flag in sysfs (/sys/class/input/ for the I2C device or
+or /sys/devices/platform/i8042/ for the i8042 AUX port device),
+but that requires root (sudo), so that does not qualify as "easily"
+IMO.
+
+E.g.,
+$ sudo toggle-aux-mouse
+or
+$ sudo toggle-i2c-touchpad
+
+depending on which configuration the device is in.
+
+
+Thanks for any advice etc.
 -- 
-2.35.1
-
+~Randy
