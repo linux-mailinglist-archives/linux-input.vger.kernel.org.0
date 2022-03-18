@@ -2,208 +2,236 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F7054DDDB2
-	for <lists+linux-input@lfdr.de>; Fri, 18 Mar 2022 17:07:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BA994DDE1C
+	for <lists+linux-input@lfdr.de>; Fri, 18 Mar 2022 17:16:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238557AbiCRQHs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Mar 2022 12:07:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33502 "EHLO
+        id S237987AbiCRQRP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Mar 2022 12:17:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238551AbiCRQHV (ORCPT
+        with ESMTP id S238651AbiCRQRM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Mar 2022 12:07:21 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 324F910780E;
-        Fri, 18 Mar 2022 09:05:25 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id p9so12301624wra.12;
-        Fri, 18 Mar 2022 09:05:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=DcA4sJmL1QB2BCHWjNUio1zxaNFvTCw7JphHxVAAEoA=;
-        b=JJHvdmaVym95g2UhAg4NBJbDDWm/Zebay9zZCSUFhMjFa2hqua//t51YUGRvjkKfCq
-         sQ2M++r9mVsNbctEurLszZpw8XXIpVlVwVq3z5qF/K/DHCY8jwtfIFzziAwr77FGyFWf
-         EdEUr21cOi39LRKa89SWa1Wm8tvaqMBCGsgllw9x+Lg3mycoiUHIJUWGVwsAwCaux2fd
-         HcDRWOYSEBLqZDPBdUFOl+JR084a5gzO8qkoCfTbhoWBjematobV8y5omZs6cb7W9ys0
-         TTGBNHppseBhKuasDsIMysdrKU+88K86BjAz5BxLybkF8E/5iT/tbdrFCKktPyLHev3u
-         k/Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=DcA4sJmL1QB2BCHWjNUio1zxaNFvTCw7JphHxVAAEoA=;
-        b=v4ZIzXd8hfPOfp+viEa5BEl6UPl9k3kfZpgkHdDleg1c3icJ6HsdhAgJEv8VyxjJhs
-         aYggxaFUo73YGfaT5D9CioZoQBenSB3irScxajo3u9h1zLSIKjbN/VQDyNuaLw5LBPHU
-         Rof10G9VbwP5e+GWSosqmNpWNsmK3lEwCoSi4KeVfN6dIcCqSJswLC3K2jEEF6Ask8s4
-         4G+e8bfhuHLCbMCD6o6PwBeUab8JPKTCbZpHjP6NujW8pzrlX8DVpsRkeYIfSX33OYVu
-         wpn+ckAYHRXgaARcnJgkSaLX5TBxFYxA9dDc64aH10RjOCHjWv64K81kahGS40kDA931
-         j1sA==
-X-Gm-Message-State: AOAM530SGmm54nDF0m1d1jlRTyJv9hOD9KoEuol9k0jOGMDlz8s6qV9K
-        JBMmj6Wc2OFUFow5jRTi3BEnglMgTvNWLA==
-X-Google-Smtp-Source: ABdhPJwn9UVxOqp4FnLXXmD7jsk7zJUPQN6z4kSBqRl7+VCzvzQ4fKhcOMU+6m7D14IhOfWd6AIPZg==
-X-Received: by 2002:adf:a507:0:b0:203:f522:c01a with SMTP id i7-20020adfa507000000b00203f522c01amr3745533wrb.282.1647619522130;
-        Fri, 18 Mar 2022 09:05:22 -0700 (PDT)
-Received: from elementary ([94.73.33.246])
-        by smtp.gmail.com with ESMTPSA id 14-20020a5d47ae000000b00203f9af38f2sm1582990wrb.94.2022.03.18.09.05.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Mar 2022 09:05:21 -0700 (PDT)
-Date:   Fri, 18 Mar 2022 17:05:18 +0100
-From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        Jiri Kosina <jkosina@suse.cz>, stable@vger.kernel.org,
-        regressions@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [REGRESSION] Right touchpad button disabled on Dell 7750
-Message-ID: <20220318160518.GA2950@elementary>
-References: <s5htubv32s8.wl-tiwai@suse.de>
- <20220318130740.GA33535@elementary>
- <s5hlex72yno.wl-tiwai@suse.de>
- <CAO-hwJK8QMjYhQAC8tp7hLWZjSB3JMBJXgpKmFZRSEqPUn3_iw@mail.gmail.com>
- <s5hh77v2uov.wl-tiwai@suse.de>
+        Fri, 18 Mar 2022 12:17:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 881CA139AF4
+        for <linux-input@vger.kernel.org>; Fri, 18 Mar 2022 09:15:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1647620151;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=g1mbgj0kUt9HOlxHcHj225lXtzgiEcushRQUeJqOcqU=;
+        b=g07WplWLJeIhknFRW82uRJ4k2wwXo9HeztD4DNO2sUdOCLFa0mAEH0qaK1vfn4HTMJPIDM
+        pmCuDCAPDjYE2RfBMr2jgGLAMyXHr+OX+ubL9LQ6d24JbiknCiWoJHCU82dGzNlQQ53yBr
+        QJX/6NzhtcHEmdluA8Egsz1rwlU+3Mg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-320-650TfjtuPgKGivDJH0xQBg-1; Fri, 18 Mar 2022 12:15:46 -0400
+X-MC-Unique: 650TfjtuPgKGivDJH0xQBg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C2712800FFB;
+        Fri, 18 Mar 2022 16:15:44 +0000 (UTC)
+Received: from plouf.redhat.com (unknown [10.39.192.159])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7A1407AD1;
+        Fri, 18 Mar 2022 16:15:41 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH bpf-next v3 00/17] Introduce eBPF support for HID devices
+Date:   Fri, 18 Mar 2022 17:15:11 +0100
+Message-Id: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <s5hh77v2uov.wl-tiwai@suse.de>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Mar 18, 2022 at 03:37:20PM +0100, Takashi Iwai wrote:
-> So is it like below?  I'll build another kernel with that.
-> 
-> 
-> Thanks!
-> 
-> Takashi
-> 
-> -- 8< --
-> From: José Expósito <jose.exposito89@gmail.com>
-> Subject: [PATCH] HID: multitouch: fix Dell Precision 7550 and 7750 button type
-> 
-> The touchpad present in the Dell Precision 7550 and 7750 laptops
-> reports a HID_DG_BUTTONTYPE of type MT_BUTTONTYPE_CLICKPAD. However,
-> the device is not a clickpad, it is a touchpad with physical buttons.
-> 
-> In order to fix this issue, a quirk for the device was introduced in
-> libinput [1] [2] to disable the INPUT_PROP_BUTTONPAD property:
-> 
-> 	[Precision 7x50 Touchpad]
-> 	MatchBus=i2c
-> 	MatchUdevType=touchpad
-> 	MatchDMIModalias=dmi:*svnDellInc.:pnPrecision7?50*
-> 	AttrInputPropDisable=INPUT_PROP_BUTTONPAD
-> 
-> However, because of the change introduced in 37ef4c19b4 ("Input: clear
-> BTN_RIGHT/MIDDLE on buttonpads") the BTN_RIGHT key bit is not mapped
-> anymore breaking the device right click button.
-> 
-> In order to fix the issue, create a quirk for the device forcing its
-> button type to touchpad regardless of the value reported by the
-> firmware.
-> 
-> [1] https://gitlab.freedesktop.org/libinput/libinput/-/merge_requests/481
-> [2] https://bugzilla.redhat.com/show_bug.cgi?id=1868789
-> 
-> [ modified MT_CLS_BUTTONTYPE_TOUCHPAD quirk bits to base on MT_CLS_WIN8
->   as suggested by Benjamin -- tiwai ]
-> 
-> Fixes: 37ef4c19b4 ("Input: clear BTN_RIGHT/MIDDLE on buttonpads")
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> 
-> ---
->  drivers/hid/hid-ids.h        |    3 +++
->  drivers/hid/hid-multitouch.c |   20 ++++++++++++++++++++
->  2 files changed, 23 insertions(+)
-> 
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -285,6 +285,9 @@
->  
->  #define USB_VENDOR_ID_CIDC		0x1677
->  
-> +#define USB_VENDOR_ID_CIRQUE_CORP		0x0488
-> +#define USB_DEVICE_ID_DELL_PRECISION_7X50	0x120A
-> +
->  #define USB_VENDOR_ID_CJTOUCH		0x24b8
->  #define USB_DEVICE_ID_CJTOUCH_MULTI_TOUCH_0020	0x0020
->  #define USB_DEVICE_ID_CJTOUCH_MULTI_TOUCH_0040	0x0040
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -71,6 +71,7 @@ MODULE_LICENSE("GPL");
->  #define MT_QUIRK_SEPARATE_APP_REPORT	BIT(19)
->  #define MT_QUIRK_FORCE_MULTI_INPUT	BIT(20)
->  #define MT_QUIRK_DISABLE_WAKEUP		BIT(21)
-> +#define MT_QUIRK_BUTTONTYPE_TOUCHPAD	BIT(22)
->  
->  #define MT_INPUTMODE_TOUCHSCREEN	0x02
->  #define MT_INPUTMODE_TOUCHPAD		0x03
-> @@ -194,6 +195,7 @@ static void mt_post_parse(struct mt_devi
->  #define MT_CLS_WIN_8_FORCE_MULTI_INPUT		0x0015
->  #define MT_CLS_WIN_8_DISABLE_WAKEUP		0x0016
->  #define MT_CLS_WIN_8_NO_STICKY_FINGERS		0x0017
-> +#define MT_CLS_BUTTONTYPE_TOUCHPAD		0x0018
->  
->  /* vendor specific classes */
->  #define MT_CLS_3M				0x0101
-> @@ -302,6 +304,15 @@ static const struct mt_class mt_classes[
->  			MT_QUIRK_CONTACT_CNT_ACCURATE |
->  			MT_QUIRK_WIN8_PTP_BUTTONS,
->  		.export_all_inputs = true },
-> +	{ .name = MT_CLS_BUTTONTYPE_TOUCHPAD,
-> +		.quirks = MT_QUIRK_ALWAYS_VALID |
-> +			MT_QUIRK_IGNORE_DUPLICATES |
-> +			MT_QUIRK_HOVERING |
-> +			MT_QUIRK_CONTACT_CNT_ACCURATE |
-> +			MT_QUIRK_STICKY_FINGERS |
-> +			MT_QUIRK_WIN8_PTP_BUTTONS |,
-> +			MT_QUIRK_BUTTONTYPE_TOUCHPAD,
-> +		.export_all_inputs = true },
->  
->  	/*
->  	 * vendor specific classes
-> @@ -1286,6 +1297,9 @@ static int mt_touch_input_configured(str
->  	    (app->buttons_count == 1))
->  		td->is_buttonpad = true;
->  
-> +	if (app->quirks & MT_QUIRK_BUTTONTYPE_TOUCHPAD)
-> +		td->is_buttonpad = false;
-> +
->  	if (td->is_buttonpad)
->  		__set_bit(INPUT_PROP_BUTTONPAD, input->propbit);
->  
-> @@ -1875,6 +1889,12 @@ static const struct hid_device_id mt_dev
->  		MT_USB_DEVICE(USB_VENDOR_ID_CHUNGHWAT,
->  			USB_DEVICE_ID_CHUNGHWAT_MULTITOUCH) },
->  
-> +	/* Cirque Corp (Dell Precision 7550 and 7750 touchpad) */
-> +	{ .driver_data = MT_CLS_BUTTONTYPE_TOUCHPAD,
-> +		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-> +			USB_VENDOR_ID_CIRQUE_CORP,
-> +			USB_DEVICE_ID_DELL_PRECISION_7X50) },
-> +
->  	/* CJTouch panels */
->  	{ .driver_data = MT_CLS_NSMU,
->  		MT_USB_DEVICE(USB_VENDOR_ID_CJTOUCH,
+Hi,
+
+This is a followup of my v1 at [0] and v2 at [1].
+
+The short summary of the previous cover letter and discussions is that
+HID could benefit from BPF for the following use cases:
+
+- simple fixup of report descriptor:
+  benefits are faster development time and testing, with the produced
+  bpf program being shipped in the kernel directly (the shipping part
+  is *not* addressed here).
+
+- Universal Stylus Interface:
+  allows a user-space program to define its own kernel interface
+
+- Surface Dial:
+  somehow similar to the previous one except that userspace can decide
+  to change the shape of the exported device
+
+- firewall:
+  still partly missing there, there is not yet interception of hidraw
+  calls, but it's coming in a followup series, I promise
+
+- tracing:
+  well, tracing.
 
 
-Yes, that is the correct patch. The original reporter just emailed me
-and confirmed that the patch works and that the class used by the
-device is MT_CLS_WIN_8, as Benjamin pointed out.
+I think I addressed the comments from the previous version, but there are
+a few things I'd like to note here:
 
-I'll wait a couple of days before sending the patch to the mailing list
-so the other users can test it as well.
+- I did not take the various rev-by and tested-by (thanks a lot for those)
+  because the uapi changed significantly in v3, so I am not very confident
+  in taking those rev-by blindly
 
-Thanks for the quick response,
-Jose
+- I mentioned in my discussion with Song that I'll put a summary of the uapi
+  in the cover letter, but I ended up adding a (long) file in the Documentation
+  directory. So please maybe start by reading 17/17 to have an overview of
+  what I want to achieve
+
+- I added in the libbpf and bpf the new type BPF_HID_DRIVER_EVENT, even though
+  I don't have a user of it right now in the kernel. I wanted to have them in
+  the docs, but we might not want to have them ready here.
+  In terms of code, it just means that we can attach such programs types
+  but that they will never get triggered.
+
+Anyway, I have been mulling on this for the past 2 weeks, and I think that
+maybe sharing this now is better than me just starring at the code over and
+over.
+
+
+Short summary of changes:
+
+v3:
+===
+
+- squashed back together most of the libbpf and bpf changes into bigger
+  commits that give a better overview of the whole interactions
+
+- reworked the user API to not expose .data as a directly accessible field
+  from the context, but instead forces everyone to use hid_bpf_get_data (or
+  get/set_bits)
+
+- added BPF_HID_DRIVER_EVENT (see note above)
+
+- addressed the various nitpicks from v2
+
+- added a big Documentation file (and so adding now the doc maintainers to the
+  long list of recipients)
+
+v2:
+===
+
+- split the series by subsystem (bpf, HID, libbpf, selftests and
+  samples)
+
+- Added an extra patch at the beginning to not require CAP_NET_ADMIN for
+  BPF_PROG_TYPE_LIRC_MODE2 (please shout if this is wrong)
+
+- made the bpf context attached to HID program of dynamic size:
+  * the first 1 kB will be able to be addressed directly
+  * the rest can be retrieved through bpf_hid_{set|get}_data
+    (note that I am definitivey not happy with that API, because there
+    is part of it in bits and other in bytes. ouch)
+
+- added an extra patch to prevent non GPL HID bpf programs to be loaded
+  of type BPF_PROG_TYPE_HID
+  * same here, not really happy but I don't know where to put that check
+    in verifier.c
+
+- added a new flag BPF_F_INSERT_HEAD for BPF_LINK_CREATE syscall when in
+  used with HID program types.
+  * this flag is used for tracing, to be able to load a program before
+    any others that might already have been inserted and that might
+    change the data stream.
+
+Cheers,
+Benjamin
+
+
+
+[0] https://lore.kernel.org/linux-input/20220224110828.2168231-1-benjamin.tissoires@redhat.com/T/#t
+[1] https://lore.kernel.org/linux-input/20220304172852.274126-1-benjamin.tissoires@redhat.com/T/#t
+
+
+Benjamin Tissoires (17):
+  bpf: add new is_sys_admin_prog_type() helper
+  bpf: introduce hid program type
+  bpf/verifier: prevent non GPL programs to be loaded against HID
+  libbpf: add HID program type and API
+  HID: hook up with bpf
+  HID: allow to change the report descriptor from an eBPF program
+  selftests/bpf: add tests for the HID-bpf initial implementation
+  selftests/bpf: add report descriptor fixup tests
+  selftests/bpf: Add a test for BPF_F_INSERT_HEAD
+  selftests/bpf: add test for user call of HID bpf programs
+  samples/bpf: add new hid_mouse example
+  bpf/hid: add more HID helpers
+  HID: bpf: implement hid_bpf_get|set_bits
+  HID: add implementation of bpf_hid_raw_request
+  selftests/bpf: add tests for hid_{get|set}_bits helpers
+  selftests/bpf: add tests for bpf_hid_hw_request
+  Documentation: add HID-BPF docs
+
+ Documentation/hid/hid-bpf.rst                | 444 +++++++++++
+ Documentation/hid/index.rst                  |   1 +
+ drivers/hid/Makefile                         |   1 +
+ drivers/hid/hid-bpf.c                        | 328 ++++++++
+ drivers/hid/hid-core.c                       |  34 +-
+ include/linux/bpf-hid.h                      | 127 +++
+ include/linux/bpf_types.h                    |   4 +
+ include/linux/hid.h                          |  36 +-
+ include/uapi/linux/bpf.h                     |  67 ++
+ include/uapi/linux/bpf_hid.h                 |  71 ++
+ include/uapi/linux/hid.h                     |  10 +
+ kernel/bpf/Makefile                          |   3 +
+ kernel/bpf/btf.c                             |   1 +
+ kernel/bpf/hid.c                             | 728 +++++++++++++++++
+ kernel/bpf/syscall.c                         |  27 +-
+ kernel/bpf/verifier.c                        |   7 +
+ samples/bpf/.gitignore                       |   1 +
+ samples/bpf/Makefile                         |   4 +
+ samples/bpf/hid_mouse_kern.c                 | 117 +++
+ samples/bpf/hid_mouse_user.c                 | 129 +++
+ tools/include/uapi/linux/bpf.h               |  67 ++
+ tools/lib/bpf/libbpf.c                       |  23 +-
+ tools/lib/bpf/libbpf.h                       |   2 +
+ tools/lib/bpf/libbpf.map                     |   1 +
+ tools/testing/selftests/bpf/config           |   3 +
+ tools/testing/selftests/bpf/prog_tests/hid.c | 788 +++++++++++++++++++
+ tools/testing/selftests/bpf/progs/hid.c      | 205 +++++
+ 27 files changed, 3204 insertions(+), 25 deletions(-)
+ create mode 100644 Documentation/hid/hid-bpf.rst
+ create mode 100644 drivers/hid/hid-bpf.c
+ create mode 100644 include/linux/bpf-hid.h
+ create mode 100644 include/uapi/linux/bpf_hid.h
+ create mode 100644 kernel/bpf/hid.c
+ create mode 100644 samples/bpf/hid_mouse_kern.c
+ create mode 100644 samples/bpf/hid_mouse_user.c
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
+ create mode 100644 tools/testing/selftests/bpf/progs/hid.c
+
+-- 
+2.35.1
+
