@@ -2,548 +2,429 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 281154DE122
-	for <lists+linux-input@lfdr.de>; Fri, 18 Mar 2022 19:37:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06C704DE2CB
+	for <lists+linux-input@lfdr.de>; Fri, 18 Mar 2022 21:48:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235969AbiCRSjJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Mar 2022 14:39:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37294 "EHLO
+        id S240775AbiCRUtz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Mar 2022 16:49:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235656AbiCRSjI (ORCPT
+        with ESMTP id S238418AbiCRUtz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Mar 2022 14:39:08 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E89C1B84EA
-        for <linux-input@vger.kernel.org>; Fri, 18 Mar 2022 11:37:48 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id j18so3214038wrd.6
-        for <linux-input@vger.kernel.org>; Fri, 18 Mar 2022 11:37:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:from
-         :subject:to:content-transfer-encoding;
-        bh=KbMZSg9nS0GByy8L1zoggGE7vzF0q6WGd/3xC9aaYE4=;
-        b=E1yHF6XAMgQ9eeXAj2CqYoRqsAKl4NmVXcfnU2cq7mKFprF3GqgCFoZmjPTA37nUbm
-         r7hkdV8RsqynwRii+l7v27UNYbD758CGs/5/szfpZqIkLj9FkedxRB8gBHr9XlD2nVst
-         ofjT2T2rVf1a7MHAqggZ2nRFjJ318jhph/Tzg/hj1d7UypCqNbjru29cqyLgRlCITCH3
-         VCF2OcOfJ30Ex9uxo7owoqgo5nDZrXugsdc4Cx5/W+QWve+160yYP6eHVFO7Z2GsO4nd
-         GtHF6LviMQBSFdqm7pND2eI0Vwu9G0ZkPK98QBzar9bRYpM5xI/9a0evckXjMPu0zEmB
-         jG9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:from:subject:to:content-transfer-encoding;
-        bh=KbMZSg9nS0GByy8L1zoggGE7vzF0q6WGd/3xC9aaYE4=;
-        b=IPW0wiHDJMKNopjaYfoqUBT0sQ/fs1mVlk9XLXtACd97WyUyDvJ9lOKmqq5YMJhSuH
-         SuDVXr78/ENmKYtz2YTW6LFyZK2PtrifzmVmP1pI6v9Hul3Sl5bniMPJTFR0ZbDPgVsi
-         mJCGcNb8sjdz1yOkdqGEcmAuFkjAhG3uUbe4xpWJJHXa7ZFRialHoinyCuHAhMBQSpHw
-         Rubv58jiGdu84fI+kf2O4eJy9qRjHgN9KN/FPuEZgCUsJhOtgFpvlNer+K63IUDxMqRq
-         mZ9Oo5DGgw0qp9M5WN6DApuSgaeO8QgvsBGZ7/vMn6AiuTVqGFkcooq5ITqjeI4X+kvR
-         3itA==
-X-Gm-Message-State: AOAM531V4DGaDbyR1u3LcJovvt1MXq7TV6NgkZTXUflXaBtrZ1K35SED
-        IUGXWZj5NFvgYxhmO+HkVj1MU1/LBx4=
-X-Google-Smtp-Source: ABdhPJxaWCNnrGiIK4wgCw9O4mvU1K0AaS9WD3qijdjA6vA5Dot27Fzw63H6aZqwofOLIGGNjCqsDw==
-X-Received: by 2002:a5d:584a:0:b0:203:97f6:5975 with SMTP id i10-20020a5d584a000000b0020397f65975mr9058035wrf.612.1647628666901;
-        Fri, 18 Mar 2022 11:37:46 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:6d40:29d:ba85:78f8:3d80:548? ([2a02:810d:6d40:29d:ba85:78f8:3d80:548])
-        by smtp.gmail.com with ESMTPSA id c24-20020a7bc018000000b0038a18068cf5sm10062234wmb.15.2022.03.18.11.37.45
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Mar 2022 11:37:46 -0700 (PDT)
-Message-ID: <b401e453-9c66-15e3-1a1d-21f33b7a64e8@gmail.com>
-Date:   Fri, 18 Mar 2022 19:37:41 +0100
+        Fri, 18 Mar 2022 16:49:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1D60F8EF2;
+        Fri, 18 Mar 2022 13:48:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 60D6E60B63;
+        Fri, 18 Mar 2022 20:48:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1BC8C340F3;
+        Fri, 18 Mar 2022 20:48:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647636512;
+        bh=6OTsRaGWWIIN07PPy+vzcT2zKtbU35cgCZ518v/U5iI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=JZawGVTvISjTHDzu71DGyl+uP1t9sBaaAqibaqz3GzK+GR+ahKfcyUvtzd5IKuVO+
+         PkJhqoymwnPfg3kOhT64o13cHF4tsrFXdDJUw+nZL7XdzrWWiWGFQVgJ//7zHA31JL
+         XTtzG9kMSPu7Vt2Q18oK4IosNlm15YXFlBCyaxZ37bNNDJS6jhByG5fFAEaQJ+dn4x
+         8gjmOLYrbrDoBLM5FNnwtMbv0symGeRZgiOL+A2NPYTZgFY03LohrzfhBKD4LhyuHK
+         7lHykLgBs0cfJpe1obkUBKrqV4EqglTXNWaeIg+tRtXUO4ughs0wgkvZJZEyBjdqeR
+         Ht7533wqxSVdQ==
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-2e592e700acso103467077b3.5;
+        Fri, 18 Mar 2022 13:48:32 -0700 (PDT)
+X-Gm-Message-State: AOAM531zdC92U72JtYv8iswIRPQ3WM/RJYjEF5R5wV8vE9t4Zm5RYd8m
+        pYnJh650R/oRc1JkrvhqBzxcXJB5ONJKCaCxyqk=
+X-Google-Smtp-Source: ABdhPJyAJqzK22k10HsduvEfhFAHEbo1x6Da0+PIgRuJO7qR3Qg2nFr2pAcxw0uxvCjA3hQf1vpR2YBkxn+bayN+BR8=
+X-Received: by 2002:a81:951:0:b0:2e5:9e38:147c with SMTP id
+ 78-20020a810951000000b002e59e38147cmr13214784ywj.211.1647636511711; Fri, 18
+ Mar 2022 13:48:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Content-Language: en-US
-From:   Stefan Berzl <stefanberzl@gmail.com>
-Subject: [PATCH] hid: Add support for the xp-pen deco mini7 tablet
-To:     linux-input@vger.kernel.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com> <20220318161528.1531164-3-benjamin.tissoires@redhat.com>
+In-Reply-To: <20220318161528.1531164-3-benjamin.tissoires@redhat.com>
+From:   Song Liu <song@kernel.org>
+Date:   Fri, 18 Mar 2022 13:48:20 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW5qseqVs4=hz3VvSJ2ObqB2kTbKXoaOCh=5vjoU_AXnKQ@mail.gmail.com>
+Message-ID: <CAPhsuW5qseqVs4=hz3VvSJ2ObqB2kTbKXoaOCh=5vjoU_AXnKQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 02/17] bpf: introduce hid program type
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From f9bb82e400effd3aea37b2be710add9e2bb832da Mon Sep 17 00:00:00 2001
-From: Stefan Berzl <stefanberzl@gmail.com>
-Date: Fri, 11 Mar 2022 04:04:30 +0100
-Subject: [PATCH] hid: Add support for the xp-pen deco mini7 tablet
+On Fri, Mar 18, 2022 at 9:16 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+[...]
+>
+> diff --git a/include/linux/bpf-hid.h b/include/linux/bpf-hid.h
+> new file mode 100644
+> index 000000000000..9c8dbd389995
+> --- /dev/null
+> +++ b/include/linux/bpf-hid.h
+>
+[...]
+> +
+> +struct hid_bpf_ctx_kern {
+> +       enum hid_bpf_event type;        /* read-only */
+> +       struct hid_device *hdev;        /* read-only */
+> +
+> +       u16 size;                       /* used size in data (RW) */
+> +       u8 *data;                       /* data buffer (RW) */
+> +       u32 allocated_size;             /* allocated size of data (RO) */
 
-This device is a bit special in that normal reporting of buttons needs to
-be activated through sending a special key packet to a vendor defined
-usage (and page). Then we receive sorta an ack packet which must be
-caught to prevent it from registering as a button input. The person who
-sniffed this out says that a lot of newer xppen tablets act like this,
-so I try to make the code reusable and add "xppen_new" to the names.
+Why u16 size vs. u32 allocated_size? Also, maybe shuffle the members
+to remove some holes?
 
-Signed-off-by: Stefan Berzl <stefanberzl@gmail.com>
----
- drivers/hid/hid-ids.h            |   1 +
- drivers/hid/hid-uclogic-core.c   |   2 +
- drivers/hid/hid-uclogic-params.c | 239 +++++++++++++++++++++++++++++--
- drivers/hid/hid-uclogic-rdesc.c  |  96 +++++++++++++
- drivers/hid/hid-uclogic-rdesc.h  |  14 ++
- 5 files changed, 343 insertions(+), 9 deletions(-)
+> +
+> +       s32 retval;                     /* in use when BPF_HID_ATTACH_USER_EVENT (RW) */
+> +};
+> +
+[...]
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 78bd3ddda442..8d4e28da4449 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1260,6 +1260,7 @@
- #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_G540	0x0075
- #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_G640	0x0094
- #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO01	0x0042
-+#define USB_DEVICE_ID_UGEE_XPPEN_TABLET_MINI7	0x0928
- #define USB_DEVICE_ID_UGEE_TABLET_G5		0x0074
- #define USB_DEVICE_ID_UGEE_TABLET_EX07S		0x0071
- #define USB_DEVICE_ID_UGEE_TABLET_RAINBOW_CV720	0x0055
-diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
-index d8ab0139e5cd..dc76c0424289 100644
---- a/drivers/hid/hid-uclogic-core.c
-+++ b/drivers/hid/hid-uclogic-core.c
-@@ -404,6 +404,8 @@ static const struct hid_device_id uclogic_devices[] = {
- 				USB_DEVICE_ID_UGEE_XPPEN_TABLET_G640) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
- 				USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO01) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
-+				USB_DEVICE_ID_UGEE_XPPEN_TABLET_MINI7) },
- 	{ }
- };
- MODULE_DEVICE_TABLE(hid, uclogic_devices);
-diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
-index 3e70f969fb84..81087e6a0700 100644
---- a/drivers/hid/hid-uclogic-params.c
-+++ b/drivers/hid/hid-uclogic-params.c
-@@ -122,8 +122,9 @@ static void uclogic_params_pen_cleanup(struct uclogic_params_pen *pen)
- }
- 
- /**
-- * uclogic_params_pen_init_v1() - initialize tablet interface pen
-- * input and retrieve its parameters from the device, using v1 protocol.
-+ * uclogic_params_pen_init_v1_with_desc() - initialize tablet interface pen
-+ * input and retrieve its parameters from the device, using v1 protocol
-+ * and a given report descriptor.
-  *
-  * @pen:	Pointer to the pen parameters to initialize (to be
-  *		cleaned up with uclogic_params_pen_cleanup()). Not modified in
-@@ -133,13 +134,20 @@ static void uclogic_params_pen_cleanup(struct uclogic_params_pen *pen)
-  *		incompatible). Not modified in case of error. Cannot be NULL.
-  * @hdev:	The HID device of the tablet interface to initialize and get
-  *		parameters from. Cannot be NULL.
-+ * @desc_ptr:	Report descriptor pointer.
-+ * @desc_size:	Report descriptor size.
-+ * @id:		Report ID used for frame reports, if they should be tweaked,
-+ *		zero if not.
-  *
-  * Returns:
-  *	Zero, if successful. A negative errno code on error.
-  */
--static int uclogic_params_pen_init_v1(struct uclogic_params_pen *pen,
--				      bool *pfound,
--				      struct hid_device *hdev)
-+static int uclogic_params_pen_init_v1_with_desc(struct uclogic_params_pen *pen,
-+						bool *pfound,
-+						struct hid_device *hdev,
-+						const __u8 *template_desc_ptr,
-+						size_t template_desc_size,
-+						unsigned int template_id)
- {
- 	int rc;
- 	bool found = false;
-@@ -207,8 +215,7 @@ static int uclogic_params_pen_init_v1(struct uclogic_params_pen *pen,
- 	 * Generate pen report descriptor
- 	 */
- 	desc_ptr = uclogic_rdesc_template_apply(
--				uclogic_rdesc_pen_v1_template_arr,
--				uclogic_rdesc_pen_v1_template_size,
-+				template_desc_ptr, template_desc_size,
- 				desc_params, ARRAY_SIZE(desc_params));
- 	if (desc_ptr == NULL) {
- 		rc = -ENOMEM;
-@@ -221,8 +228,8 @@ static int uclogic_params_pen_init_v1(struct uclogic_params_pen *pen,
- 	memset(pen, 0, sizeof(*pen));
- 	pen->desc_ptr = desc_ptr;
- 	desc_ptr = NULL;
--	pen->desc_size = uclogic_rdesc_pen_v1_template_size;
--	pen->id = UCLOGIC_RDESC_PEN_V1_ID;
-+	pen->desc_size = template_desc_size;
-+	pen->id = template_id;
- 	pen->inrange = UCLOGIC_PARAMS_PEN_INRANGE_INVERTED;
- 	found = true;
- finish:
-@@ -234,6 +241,33 @@ static int uclogic_params_pen_init_v1(struct uclogic_params_pen *pen,
- 	return rc;
- }
- 
-+/**
-+ * uclogic_params_pen_init_v1() - initialize tablet interface pen
-+ * input and retrieve its parameters from the device, using v1 protocol.
-+ *
-+ * @pen:	Pointer to the pen parameters to initialize (to be
-+ *		cleaned up with uclogic_params_pen_cleanup()). Not modified in
-+ *		case of error, or if parameters are not found. Cannot be NULL.
-+ * @pfound:	Location for a flag which is set to true if the parameters
-+ *		were found, and to false if not (e.g. device was
-+ *		incompatible). Not modified in case of error. Cannot be NULL.
-+ * @hdev:	The HID device of the tablet interface to initialize and get
-+ *		parameters from. Cannot be NULL.
-+ *
-+ * Returns:
-+ *	Zero, if successful. A negative errno code on error.
-+ */
-+static int uclogic_params_pen_init_v1(struct uclogic_params_pen *pen,
-+				      bool *pfound,
-+				      struct hid_device *hdev)
-+{
-+	return uclogic_params_pen_init_v1_with_desc(
-+					pen, pfound, hdev,
-+					uclogic_rdesc_pen_v1_template_arr,
-+					uclogic_rdesc_pen_v1_template_size,
-+					UCLOGIC_RDESC_PEN_V1_ID);
-+}
-+
- /**
-  * uclogic_params_get_le24() - get a 24-bit little-endian number from a
-  * buffer.
-@@ -824,6 +858,187 @@ static int uclogic_params_huion_init(struct uclogic_params *params,
- 	return rc;
- }
- 
-+/**
-+ * uclogic_xppen_new_snd_urb_completion() - The urb completion function for
-+ * sending a key to newer xppen tablets.
-+ *
-+ * @urb:	The urb that has been completed.
-+ */
-+void uclogic_xppen_new_snd_urb_completion(struct urb *urb)
-+{
-+	struct hid_device *hdev = urb->context;
-+
-+	if (urb->status != 0)
-+		hid_err(hdev, "sending the xppen key failed, tablet may not work: %d\n", urb->status);
-+}
-+
-+/**
-+ * uclogic_xppen_new_rcv_urb_completion() - The urb completion function for
-+ * receiving a response after sending a key to newer xppen tablets.
-+ *
-+ * @urb:	The urb that has been completed.
-+ */
-+void uclogic_xppen_new_rcv_urb_completion(struct urb *urb)
-+{
-+	struct hid_device *hdev = urb->context;
-+
-+	if (urb->status != 0)
-+		hid_err(hdev, "receiving the xppen key failed, tablet may not work: %d\n", urb->status);
-+}
-+
-+/**
-+ * uclogic_xppen_new_send_key_urb() - Send a certain vendor defined key to the
-+ * tablet to switch reports to a more useful structure. Also the tablet will
-+ * send a response after receiving the key on the same interface and endpoint
-+ * that pen and button reports are sent henceforth. So we need to catch
-+ * this first report.
-+ *
-+ * @hdev:	The HID device of the tablet interface.
-+ * @key_ptr:	Pointer to the key.
-+ * @key_size:	Size of the key.
-+ *
-+ * Returns:
-+ *	Zero, if successful. A negative errno code on error.
-+ */
-+int uclogic_xppen_new_send_key_urb(struct hid_device *hdev,
-+				   __u8 *key_ptr,
-+				   unsigned int key_size)
-+{
-+	struct usb_device *udev = hid_to_usb_dev(hdev);
-+	struct urb *sndUrb = NULL;
-+	struct urb *rcvUrb = NULL;
-+	__u8 *sndBuf = NULL;
-+	__u8 *rcvBuf = NULL;
-+	int rc;
-+
-+	sndBuf = devm_kzalloc(&hdev->dev, key_size, GFP_KERNEL);
-+	rcvBuf = devm_kzalloc(&hdev->dev, 12, GFP_KERNEL);
-+	if (sndBuf == NULL || rcvBuf == NULL) {
-+		rc = -ENOMEM;
-+		goto cleanup;
-+	}
-+
-+	sndUrb = usb_alloc_urb(0, GFP_KERNEL);
-+	rcvUrb = usb_alloc_urb(0, GFP_KERNEL);
-+	if (sndUrb == NULL || rcvUrb == NULL) {
-+		rc = -ENOMEM;
-+		goto cleanup;
-+	}
-+
-+	memcpy(sndBuf, key_ptr, key_size);
-+	usb_fill_int_urb(sndUrb, udev,
-+			 usb_sndintpipe(udev, 3),
-+			 sndBuf, key_size,
-+			 uclogic_xppen_new_snd_urb_completion, hdev,
-+			 10);
-+
-+	/*
-+	 * TODO: Setting a low interval value in the receive interrupt
-+	 * will slow down the interval persistently and make the device
-+	 * less responsive, even though it's only used once for the initial
-+	 * tablet-key response. Is there a workaround for this?
-+	 * This is the correct value though, so everything is fine.
-+	 */
-+	usb_fill_int_urb(rcvUrb, udev,
-+			 usb_rcvintpipe(udev, 3),
-+			 rcvBuf, 12,
-+			 uclogic_xppen_new_rcv_urb_completion, hdev,
-+			 3);
-+
-+	rc = usb_submit_urb(rcvUrb, GFP_KERNEL);
-+	if (rc != 0)
-+		goto cleanup;
-+
-+	rc = usb_submit_urb(sndUrb, GFP_KERNEL);
-+
-+cleanup:
-+	usb_free_urb(sndUrb);
-+	usb_free_urb(rcvUrb);
-+	return rc;
-+}
-+
-+/**
-+ * uclogic_params_xppen_new_init() - initialize a newer xppen tablet interface
-+ * and discover its parameters.
-+ *
-+ * @params:	Parameters to fill in (to be cleaned with
-+ *		uclogic_params_cleanup()). Not modified in case of error.
-+ *		Cannot be NULL.
-+ * @hdev:	The HID device of the tablet interface to initialize and get
-+ *		parameters from. Cannot be NULL.
-+ *
-+ * Returns:
-+ *	Zero, if successful. A negative errno code on error.
-+ */
-+static int uclogic_params_xppen_new_init(struct uclogic_params *params,
-+					 struct hid_device *hdev)
-+{
-+	struct uclogic_params p = {0, };
-+	bool found;
-+	struct usb_device *udev;
-+	struct usb_interface *iface;
-+	__u8 bInterfaceNumber;
-+	int rc;
-+	__u8 key[] = {
-+		0x02, 0xB0, 0x04, 0x00, 0x00,
-+		0x00, 0x00, 0x00, 0x00, 0x00
-+	};
-+
-+	udev = hid_to_usb_dev(hdev);
-+	iface = to_usb_interface(hdev->dev.parent);
-+	bInterfaceNumber = iface->cur_altsetting->desc.bInterfaceNumber;
-+
-+	/* If it's not the vendor interface */
-+	if (bInterfaceNumber != 2) {
-+		uclogic_params_init_invalid(&p);
-+		goto output;
-+	}
-+
-+	rc = uclogic_xppen_new_send_key_urb(hdev, key, ARRAY_SIZE(key));
-+	if (rc != 0) {
-+		hid_err(hdev, "transmission of xppen key failed: %d\n", rc);
-+		goto cleanup;
-+	}
-+
-+	rc = uclogic_params_pen_init_v1_with_desc(
-+					&p.pen, &found, hdev,
-+					uclogic_rdesc_xppen_new_pen_arr,
-+					uclogic_rdesc_xppen_new_pen_size,
-+					UCLOGIC_RDESC_XPPEN_NEW_PEN_ID);
-+
-+	if (rc != 0) {
-+		hid_err(hdev, "pen probing failed: %d\n", rc);
-+		goto cleanup;
-+	}
-+
-+	rc = uclogic_params_frame_init_with_desc(
-+		&p.frame,
-+		uclogic_rdesc_xppen_new_frame_arr,
-+		uclogic_rdesc_xppen_new_frame_size,
-+		UCLOGIC_RDESC_XPPEN_NEW_FRAME_ID);
-+
-+	if (rc != 0) {
-+		hid_err(hdev, "failed creating buttonpad parameters: %d\n", rc);
-+		goto cleanup;
-+	}
-+
-+	p.pen_frame_flag = 0x10;
-+
-+	if (!found) {
-+		hid_warn(hdev, "pen parameters not found");
-+		uclogic_params_init_invalid(&p);
-+	}
-+
-+output:
-+	/* Output parameters */
-+	memcpy(params, &p, sizeof(*params));
-+	memset(&p, 0, sizeof(p));
-+	rc = 0;
-+cleanup:
-+	uclogic_params_cleanup(&p);
-+	return rc;
-+}
-+
- /**
-  * uclogic_params_init() - initialize a tablet interface and discover its
-  * parameters.
-@@ -1059,6 +1274,12 @@ int uclogic_params_init(struct uclogic_params *params,
- 			uclogic_params_init_with_pen_unused(&p);
- 		}
- 		break;
-+	case VID_PID(USB_VENDOR_ID_UGEE,
-+		     USB_DEVICE_ID_UGEE_XPPEN_TABLET_MINI7):
-+		rc = uclogic_params_xppen_new_init(&p, hdev);
-+		if (rc != 0)
-+			goto cleanup;
-+		break;
- 	case VID_PID(USB_VENDOR_ID_TRUST,
- 		     USB_DEVICE_ID_TRUST_PANORA_TABLET):
- 	case VID_PID(USB_VENDOR_ID_UGEE,
-diff --git a/drivers/hid/hid-uclogic-rdesc.c b/drivers/hid/hid-uclogic-rdesc.c
-index 6dd6dcd09c8b..4bfbaa0ca99f 100644
---- a/drivers/hid/hid-uclogic-rdesc.c
-+++ b/drivers/hid/hid-uclogic-rdesc.c
-@@ -817,6 +817,102 @@ const __u8 uclogic_rdesc_xppen_deco01_frame_arr[] = {
- const size_t uclogic_rdesc_xppen_deco01_frame_size =
- 			sizeof(uclogic_rdesc_xppen_deco01_frame_arr);
- 
-+/* pen report descriptor for newer xppen tablets */
-+__u8 uclogic_rdesc_xppen_new_pen_arr[] = {
-+	0x05, 0x0D,             /*  Usage Page (Digitizer),                 */
-+	0x09, 0x02,             /*  Usage (Pen),                            */
-+	0xA1, 0x01,             /*  Collection (Application),               */
-+	0x85, 0x02,             /*      Report ID (2),                      */
-+	0x09, 0x20,             /*      Usage (Stylus),                     */
-+	0xA0,                   /*      Collection (Physical),              */
-+	0x14,                   /*          Logical Minimum (0),            */
-+	0x25, 0x01,             /*          Logical Maximum (1),            */
-+	0x75, 0x01,             /*          Report Size (1),                */
-+	0x09, 0x42,             /*          Usage (Tip Switch),             */
-+	0x09, 0x44,             /*          Usage (Barrel Switch),          */
-+	0x09, 0x46,             /*          Usage (Tablet Pick),            */
-+	0x95, 0x03,             /*          Report Count (3),               */
-+	0x81, 0x02,             /*          Input (Variable),               */
-+	0x95, 0x03,             /*          Report Count (3),               */
-+	0x81, 0x03,             /*          Input (Constant, Variable),     */
-+	0x09, 0x32,             /*          Usage (In Range),               */
-+	0x95, 0x01,             /*          Report Count (1),               */
-+	0x81, 0x02,             /*          Input (Variable),               */
-+	0x95, 0x01,             /*          Report Count (1),               */
-+	0x81, 0x03,             /*          Input (Constant, Variable),     */
-+	0x95, 0x01,             /*          Report Count (1),               */
-+	0xA4,                   /*          Push,                           */
-+	0x05, 0x01,             /*          Usage Page (Desktop),           */
-+	0x65, 0x13,             /*          Unit (Inch),                    */
-+	0x55, 0xFD,             /*          Unit Exponent (-3),             */
-+	0x75, 0x10,             /*          Report Size (16),               */
-+	0x34,                   /*          Physical Minimum (0),           */
-+	0x09, 0x30,             /*          Usage (X),                      */
-+	0x27, UCLOGIC_RDESC_PEN_PH(X_LM),
-+				/*          Logical Maximum (PLACEHOLDER),  */
-+	0x47, UCLOGIC_RDESC_PEN_PH(X_PM),
-+				/*          Physical Maximum (PLACEHOLDER), */
-+	0x81, 0x02,             /*          Input (Variable),               */
-+	0x09, 0x31,             /*          Usage (Y),                      */
-+	0x27, UCLOGIC_RDESC_PEN_PH(Y_LM),
-+				/*          Logical Maximum (PLACEHOLDER),  */
-+	0x47, UCLOGIC_RDESC_PEN_PH(Y_PM),
-+				/*          Physical Maximum (PLACEHOLDER), */
-+	0x81, 0x02,             /*          Input (Variable),               */
-+	0xB4,                   /*          Pop,                            */
-+	0x09, 0x30,             /*          Usage (Tip Pressure),           */
-+	0x75, 0x10,             /*          Report Size (16),               */
-+	0x27, UCLOGIC_RDESC_PEN_PH(PRESSURE_LM),
-+				/*          Logical Maximum (PLACEHOLDER),  */
-+	0x81, 0x02,             /*          Input (Variable),               */
-+	0x54,                   /*          Unit Exponent (0),              */
-+	0x65, 0x14,             /*          Unit (Degrees),                 */
-+	0x35, 0xC4,             /*          Physical Minimum (-60),         */
-+	0x45, 0x3C,             /*          Physical Maximum (60),          */
-+	0x15, 0xC4,             /*          Logical Minimum (-60),          */
-+	0x25, 0x3C,             /*          Logical Maximum (60),           */
-+	0x75, 0x08,             /*          Report Size (8),                */
-+	0x95, 0x02,             /*          Report Count (2),               */
-+	0x09, 0x3D,             /*          Usage (X Tilt),                 */
-+	0x09, 0x3E,             /*          Usage (Y Tilt),                 */
-+	0x81, 0x02,             /*          Input (Variable),               */
-+	0x75, 0x08,             /*          Report Size (8),                */
-+	0x95, 0x02,             /*          Report Count (2),               */
-+	0x81, 0x03,             /*          Input (Constant, Variable),     */
-+	0xC0,                   /*      End Collection,                     */
-+	0xC0                    /*  End Collection                          */
-+};
-+
-+const size_t uclogic_rdesc_xppen_new_pen_size =
-+			sizeof(uclogic_rdesc_xppen_new_pen_arr);
-+
-+/* button report descriptor for newer xppen tablets */
-+__u8 uclogic_rdesc_xppen_new_frame_arr[] = {
-+	0x05, 0x01, /*  Usage Page (Desktop),               */
-+	0x09, 0x07, /*  Usage (Keypad),                     */
-+	0xA1, 0x01, /*  Collection (Application),           */
-+	0x85, 0xf7, /*      Report ID (247),                */
-+	0x14,       /*      Logical Minimum (0),            */
-+	0x25, 0x01, /*      Logical Maximum (1),            */
-+	0x05, 0x0D, /*      Usage Page (Digitizer),         */
-+	0x09, 0x39, /*      Usage (Tablet Function Keys),   */
-+	0xA0,       /*      Collection (Physical),          */
-+	0x75, 0x08, /*          Report Size (8),            */
-+	0x95, 0x01, /*          Report Count (1),           */
-+	0x81, 0x01, /*          Input (Constant),           */
-+	0x75, 0x01, /*          Report Size (1),            */
-+	0x05, 0x09, /*          Usage Page (Button),        */
-+	0x19, 0x01, /*          Usage Minimum (01h),        */
-+	0x29, 0x08, /*          Usage Maximum (08h),        */
-+	0x95, 0x08, /*          Report Count (8),           */
-+	0x81, 0x02, /*          Input (Variable),           */
-+	0xC0,       /*      End Collection,                 */
-+	0xC0        /*  End Collection                      */
-+};
-+
-+const size_t uclogic_rdesc_xppen_new_frame_size =
-+			sizeof(uclogic_rdesc_xppen_new_frame_arr);
-+
- /**
-  * uclogic_rdesc_template_apply() - apply report descriptor parameters to a
-  * report descriptor template, creating a report descriptor. Copies the
-diff --git a/drivers/hid/hid-uclogic-rdesc.h b/drivers/hid/hid-uclogic-rdesc.h
-index c5da51055af3..1405a4ccffce 100644
---- a/drivers/hid/hid-uclogic-rdesc.h
-+++ b/drivers/hid/hid-uclogic-rdesc.h
-@@ -139,6 +139,20 @@ extern const size_t uclogic_rdesc_ugee_ex07_buttonpad_size;
- extern const __u8 uclogic_rdesc_xppen_deco01_frame_arr[];
- extern const size_t uclogic_rdesc_xppen_deco01_frame_size;
- 
-+/* Report ID for newer xppen pen reports (only mini7 now) */
-+#define UCLOGIC_RDESC_XPPEN_NEW_PEN_ID 0x02
-+
-+/* Report ID for newer xppen frame reports (only mini7 now) */
-+#define UCLOGIC_RDESC_XPPEN_NEW_FRAME_ID 0xf7
-+
-+/* Fixed report descriptor for newer xppen tablet pens (only mini7 now) */
-+extern __u8 uclogic_rdesc_xppen_new_pen_arr[];
-+extern const size_t uclogic_rdesc_xppen_new_pen_size;
-+
-+/* Fixed report desc for newer xppen tablet frame controls (only mini7 now) */
-+extern __u8 uclogic_rdesc_xppen_new_frame_arr[];
-+extern const size_t uclogic_rdesc_xppen_new_frame_size;
-+
- /* Fixed report descriptor for Ugee G5 frame controls */
- extern const __u8 uclogic_rdesc_ugee_g5_frame_arr[];
- extern const size_t uclogic_rdesc_ugee_g5_frame_size;
--- 
-2.35.1
+> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
 
+We need to mirror these changes to tools/include/uapi/linux/bpf.h.
+
+> index 99fab54ae9c0..0e8438e93768 100644
+> --- a/include/uapi/linux/bpf.h
+> +++ b/include/uapi/linux/bpf.h
+> @@ -952,6 +952,7 @@ enum bpf_prog_type {
+>         BPF_PROG_TYPE_LSM,
+>         BPF_PROG_TYPE_SK_LOOKUP,
+>         BPF_PROG_TYPE_SYSCALL, /* a program that can execute syscalls */
+> +       BPF_PROG_TYPE_HID,
+>  };
+[...]
+> +
+>  /* When BPF ldimm64's insn[0].src_reg != 0 then this can have
+>   * the following extensions:
+>   *
+> @@ -5129,6 +5145,16 @@ union bpf_attr {
+>   *             The **hash_algo** is returned on success,
+>   *             **-EOPNOTSUP** if the hash calculation failed or **-EINVAL** if
+>   *             invalid arguments are passed.
+> + *
+> + * void *bpf_hid_get_data(void *ctx, u64 offset, u64 size)
+> + *     Description
+> + *             Returns a pointer to the data associated with context at the given
+> + *             offset and size (in bytes).
+> + *
+> + *             Note: the returned pointer is refcounted and must be dereferenced
+> + *             by a call to bpf_hid_discard;
+> + *     Return
+> + *             The pointer to the data. On error, a null value is returned.
+
+Please use annotations like *size*, **NULL**.
+
+>   */
+>  #define __BPF_FUNC_MAPPER(FN)          \
+>         FN(unspec),                     \
+> @@ -5325,6 +5351,7 @@ union bpf_attr {
+>         FN(copy_from_user_task),        \
+>         FN(skb_set_tstamp),             \
+>         FN(ima_file_hash),              \
+> +       FN(hid_get_data),               \
+>         /* */
+>
+>  /* integer value in 'imm' field of BPF_CALL instruction selects which helper
+> @@ -5925,6 +5952,10 @@ struct bpf_link_info {
+>                 struct {
+>                         __u32 ifindex;
+>                 } xdp;
+> +               struct  {
+> +                       __s32 hidraw_number;
+> +                       __u32 attach_type;
+> +               } hid;
+>         };
+>  } __attribute__((aligned(8)));
+>
+> diff --git a/include/uapi/linux/bpf_hid.h b/include/uapi/linux/bpf_hid.h
+> new file mode 100644
+> index 000000000000..64a8b9dd8809
+> --- /dev/null
+> +++ b/include/uapi/linux/bpf_hid.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later WITH Linux-syscall-note */
+> +
+> +/*
+> + *  HID BPF public headers
+> + *
+> + *  Copyright (c) 2022 Benjamin Tissoires
+> + */
+> +
+> +#ifndef _UAPI__LINUX_BPF_HID_H__
+> +#define _UAPI__LINUX_BPF_HID_H__
+> +
+> +#include <linux/types.h>
+> +
+> +enum hid_bpf_event {
+> +       HID_BPF_UNDEF = 0,
+> +       HID_BPF_DEVICE_EVENT,           /* when attach type is BPF_HID_DEVICE_EVENT */
+> +       HID_BPF_RDESC_FIXUP,            /* ................... BPF_HID_RDESC_FIXUP */
+> +       HID_BPF_USER_EVENT,             /* ................... BPF_HID_USER_EVENT */
+
+Why don't we have a DRIVER_EVENT type here?
+
+>
+[...]
+> +
+> +BPF_CALL_3(bpf_hid_get_data, struct hid_bpf_ctx_kern*, ctx, u64, offset, u64, size)
+> +{
+> +       if (!size)
+> +               return 0UL;
+> +
+> +       if (offset + size > ctx->allocated_size)
+> +               return 0UL;
+> +
+> +       return (unsigned long)(ctx->data + offset);
+> +}
+> +
+> +static const struct bpf_func_proto bpf_hid_get_data_proto = {
+> +       .func      = bpf_hid_get_data,
+> +       .gpl_only  = true,
+> +       .ret_type  = RET_PTR_TO_ALLOC_MEM_OR_NULL,
+> +       .arg1_type = ARG_PTR_TO_CTX,
+> +       .arg2_type = ARG_ANYTHING,
+> +       .arg3_type = ARG_CONST_ALLOC_SIZE_OR_ZERO,
+
+I think we should use ARG_CONST_SIZE or ARG_CONST_SIZE_OR_ZERO?
+
+> +};
+> +
+> +static const struct bpf_func_proto *
+> +hid_func_proto(enum bpf_func_id func_id, const struct bpf_prog *prog)
+> +{
+> +       switch (func_id) {
+> +       case BPF_FUNC_hid_get_data:
+> +               return &bpf_hid_get_data_proto;
+> +       default:
+> +               return bpf_base_func_proto(func_id);
+> +       }
+> +}
+[...]
+> +
+> +static int hid_bpf_prog_test_run(struct bpf_prog *prog,
+> +                                const union bpf_attr *attr,
+> +                                union bpf_attr __user *uattr)
+> +{
+> +       struct hid_device *hdev = NULL;
+> +       struct bpf_prog_array *progs;
+> +       bool valid_prog = false;
+> +       int i;
+> +       int target_fd, ret;
+> +       void __user *data_out = u64_to_user_ptr(attr->test.data_out);
+> +       void __user *data_in = u64_to_user_ptr(attr->test.data_in);
+> +       u32 user_size_in = attr->test.data_size_in;
+> +       u32 user_size_out = attr->test.data_size_out;
+> +       u32 allocated_size = max(user_size_in, user_size_out);
+> +       struct hid_bpf_ctx_kern ctx = {
+> +               .type = HID_BPF_USER_EVENT,
+> +               .allocated_size = allocated_size,
+> +       };
+> +
+> +       if (!hid_hooks.hdev_from_fd)
+> +               return -EOPNOTSUPP;
+> +
+> +       if (attr->test.ctx_size_in != sizeof(int))
+> +               return -EINVAL;
+
+ctx_size_in is always 4 bytes?
+
+> +
+> +       if (allocated_size > HID_MAX_BUFFER_SIZE)
+> +               return -E2BIG;
+> +
+> +       if (copy_from_user(&target_fd, (void *)attr->test.ctx_in, attr->test.ctx_size_in))
+> +               return -EFAULT;
+> +
+> +       hdev = hid_hooks.hdev_from_fd(target_fd);
+> +       if (IS_ERR(hdev))
+> +               return PTR_ERR(hdev);
+> +
+> +       if (allocated_size) {
+> +               ctx.data = kzalloc(allocated_size, GFP_KERNEL);
+> +               if (!ctx.data)
+> +                       return -ENOMEM;
+> +
+> +               ctx.allocated_size = allocated_size;
+> +       }
+> +       ctx.hdev = hdev;
+> +
+> +       ret = mutex_lock_interruptible(&bpf_hid_mutex);
+> +       if (ret)
+> +               return ret;
+> +
+> +       /* check if the given program is of correct type and registered */
+> +       progs = rcu_dereference_protected(hdev->bpf.run_array[BPF_HID_ATTACH_USER_EVENT],
+> +                                         lockdep_is_held(&bpf_hid_mutex));
+> +       if (!progs) {
+> +               ret = -EFAULT;
+> +               goto unlock;
+> +       }
+> +
+> +       for (i = 0; i < bpf_prog_array_length(progs); i++) {
+> +               if (progs->items[i].prog == prog) {
+> +                       valid_prog = true;
+> +                       break;
+> +               }
+> +       }
+> +
+> +       if (!valid_prog) {
+> +               ret = -EINVAL;
+> +               goto unlock;
+> +       }
+> +
+> +       /* copy data_in from userspace */
+> +       if (user_size_in) {
+> +               if (copy_from_user(ctx.data, data_in, user_size_in)) {
+> +                       ret = -EFAULT;
+> +                       goto unlock;
+> +               }
+> +
+> +               ctx.size = user_size_in;
+> +       }
+> +
+> +       migrate_disable();
+> +
+> +       ret = bpf_prog_run(prog, &ctx);
+> +
+> +       migrate_enable();
+> +
+> +       if (user_size_out && data_out) {
+> +               user_size_out = min3(user_size_out, (u32)ctx.size, allocated_size);
+> +
+> +               if (copy_to_user(data_out, ctx.data, user_size_out)) {
+> +                       ret = -EFAULT;
+> +                       goto unlock;
+> +               }
+> +
+> +               if (copy_to_user(&uattr->test.data_size_out,
+> +                                &user_size_out,
+> +                                sizeof(user_size_out))) {
+> +                       ret = -EFAULT;
+> +                       goto unlock;
+> +               }
+> +       }
+> +
+> +       if (copy_to_user(&uattr->test.retval, &ctx.retval, sizeof(ctx.retval)))
+> +               ret = -EFAULT;
+> +
+> +unlock:
+> +       kfree(ctx.data);
+> +
+> +       mutex_unlock(&bpf_hid_mutex);
+> +       return ret;
+> +}
+> +
+> +const struct bpf_prog_ops hid_prog_ops = {
+> +       .test_run = hid_bpf_prog_test_run,
+> +};
+> +
+> +int bpf_hid_init(struct hid_device *hdev)
+> +{
+> +       int type;
+> +
+> +       for (type = 0; type < MAX_BPF_HID_ATTACH_TYPE; type++)
+> +               INIT_LIST_HEAD(&hdev->bpf.links[type]);
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(bpf_hid_init);
+> +
+> +void bpf_hid_exit(struct hid_device *hdev)
+> +{
+> +       enum bpf_hid_attach_type type;
+> +       struct bpf_hid_link *hid_link;
+> +
+> +       mutex_lock(&bpf_hid_mutex);
+> +       for (type = 0; type < MAX_BPF_HID_ATTACH_TYPE; type++) {
+> +               bpf_hid_run_array_detach(hdev, type);
+> +               list_for_each_entry(hid_link, &hdev->bpf.links[type], node) {
+> +                       hid_link->hdev = NULL; /* auto-detach link */
+> +               }
+> +       }
+> +       mutex_unlock(&bpf_hid_mutex);
+> +}
+> +EXPORT_SYMBOL_GPL(bpf_hid_exit);
+> diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
+> index b88688264ad0..d1c05011e5ab 100644
+> --- a/kernel/bpf/syscall.c
+> +++ b/kernel/bpf/syscall.c
+> @@ -3,6 +3,7 @@
+>   */
+>  #include <linux/bpf.h>
+>  #include <linux/bpf-cgroup.h>
+> +#include <linux/bpf-hid.h>
+>  #include <linux/bpf_trace.h>
+>  #include <linux/bpf_lirc.h>
+>  #include <linux/bpf_verifier.h>
+> @@ -2205,6 +2206,7 @@ static bool is_sys_admin_prog_type(enum bpf_prog_type prog_type)
+>  {
+>         switch (prog_type) {
+>         case BPF_PROG_TYPE_LIRC_MODE2:
+> +       case BPF_PROG_TYPE_HID:
+>                 return true;
+>         default:
+>                 return false;
+> @@ -3199,6 +3201,11 @@ attach_type_to_prog_type(enum bpf_attach_type attach_type)
+>                 return BPF_PROG_TYPE_SK_LOOKUP;
+>         case BPF_XDP:
+>                 return BPF_PROG_TYPE_XDP;
+> +       case BPF_HID_DEVICE_EVENT:
+> +       case BPF_HID_RDESC_FIXUP:
+> +       case BPF_HID_USER_EVENT:
+> +       case BPF_HID_DRIVER_EVENT:
+> +               return BPF_PROG_TYPE_HID;
+>         default:
+>                 return BPF_PROG_TYPE_UNSPEC;
+>         }
+> @@ -3342,6 +3349,11 @@ static int bpf_prog_query(const union bpf_attr *attr,
+>         case BPF_SK_MSG_VERDICT:
+>         case BPF_SK_SKB_VERDICT:
+>                 return sock_map_bpf_prog_query(attr, uattr);
+> +       case BPF_HID_DEVICE_EVENT:
+> +       case BPF_HID_RDESC_FIXUP:
+> +       case BPF_HID_USER_EVENT:
+> +       case BPF_HID_DRIVER_EVENT:
+> +               return bpf_hid_prog_query(attr, uattr);
+>         default:
+>                 return -EINVAL;
+>         }
+> @@ -4336,6 +4348,8 @@ static int link_create(union bpf_attr *attr, bpfptr_t uattr)
+>                 ret = bpf_perf_link_attach(attr, prog);
+>                 break;
+>  #endif
+> +       case BPF_PROG_TYPE_HID:
+> +               return bpf_hid_link_create(attr, prog);
+>         default:
+>                 ret = -EINVAL;
+>         }
+> --
+> 2.35.1
+>
