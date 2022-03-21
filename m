@@ -2,83 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00E254E2B40
-	for <lists+linux-input@lfdr.de>; Mon, 21 Mar 2022 15:51:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C6064E2D22
+	for <lists+linux-input@lfdr.de>; Mon, 21 Mar 2022 17:07:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349653AbiCUOwi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Mar 2022 10:52:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55464 "EHLO
+        id S1350661AbiCUQJR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Mar 2022 12:09:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349639AbiCUOwh (ORCPT
+        with ESMTP id S1350637AbiCUQJK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Mar 2022 10:52:37 -0400
+        Mon, 21 Mar 2022 12:09:10 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 67FEA1707D
-        for <linux-input@vger.kernel.org>; Mon, 21 Mar 2022 07:51:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BA62966FA7
+        for <linux-input@vger.kernel.org>; Mon, 21 Mar 2022 09:07:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647874270;
+        s=mimecast20190719; t=1647878857;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=1OQvmSi1v7TzyIiUqNjcmbMBwQ/gG9edcxfp5BL/AO0=;
-        b=TChn09VfViP4tnKG7qKlzzekogY4Kl6sSzl46mmSJT2YbPGPTR5Gwq12EJt/ZcIgRJccAt
-        3K1t9V4HhPUWT4rWx/XLentnc3If0sH2Yvbahw6juA9ftHcY6wWAh6YxRJH371e9sAmQL0
-        2nC2mYUyudiyGYj3CCfmdtwK44qQuX0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=zpcoCC4yHq3ajeXZ8IqHbBVz9eP4OTlopTuEhplFUg4=;
+        b=iIHMcUiXpXOevy4z71I3UcGhsQMHIk7Yg5xxkJfLxPyKHzxRTx2qA8q2rj+WOTNPyuf4CW
+        8/+FG+pflcliq31FSNK9wjOXq251I9N/kUvsrkSfshuFcypqxg/2m/vei5Fs5Flu2qA4ks
+        2MlZqStmLoSi1N781hxlBJx9UahV7MM=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-360-clWPxBK4Ppq10_8wPFjHbQ-1; Mon, 21 Mar 2022 10:51:09 -0400
-X-MC-Unique: clWPxBK4Ppq10_8wPFjHbQ-1
-Received: by mail-ed1-f69.google.com with SMTP id q25-20020a50aa99000000b004192a64d410so2523998edc.16
-        for <linux-input@vger.kernel.org>; Mon, 21 Mar 2022 07:51:08 -0700 (PDT)
+ us-mta-332-lp_-V1y_Mgq5oEGQnQfWIA-1; Mon, 21 Mar 2022 12:07:36 -0400
+X-MC-Unique: lp_-V1y_Mgq5oEGQnQfWIA-1
+Received: by mail-pg1-f198.google.com with SMTP id p21-20020a631e55000000b00372d919267cso7483292pgm.1
+        for <linux-input@vger.kernel.org>; Mon, 21 Mar 2022 09:07:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=1OQvmSi1v7TzyIiUqNjcmbMBwQ/gG9edcxfp5BL/AO0=;
-        b=xKmGZ8bGJci4N5yqUAmy3GVQgzoHOPSgDDmCMej94jloVh3LbUy6zVMv+PVxS8aahW
-         KREKz+hZQjicsyZAAqjACXppm0LtZORTSBhJNfAZJvbYHTmj2LhBqTzUM6Tq/9PS8pyA
-         ertHr4aPEDwNdRMiQ39m7Bo11Lm9GQxoaTtBKtO9ftSquIwSyGaC1K0/op0VMbuzIhMp
-         OcQUvqr2xYPqq/wnQE1ugnkg2pus/fZf34AOt1KBojD3pkh8AKfwD5EktgJWu2mYRDtr
-         u8fS6oCAQti2vslMaVvbVf+eRUFcsRbhUoXCP9QXB+zHEECMwFYoXcmJoBQIsAaNXCS9
-         3PGw==
-X-Gm-Message-State: AOAM533S7rnCYIOig6wnOL9GuyovEwW3DnX9Mb54XXxnpNP/1NXWqPzB
-        0Djwml19cWSFsQU3BeIVcZMggN2NVeNiCMVIBnu6wrUY+zkuydsxx9qgP10/FHGCvbdS89vi71n
-        WHeMG6TX5pnoV7ntxzZLJeJQ=
-X-Received: by 2002:a05:6402:5106:b0:419:45cd:7ab0 with SMTP id m6-20020a056402510600b0041945cd7ab0mr3921959edd.116.1647874267743;
-        Mon, 21 Mar 2022 07:51:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwz+7CqDvAV8oiMke7B1QplTQfvidgOYtlSikp84fgR6zg3qEnucVVCeqMRfVzTimbeDsoedw==
-X-Received: by 2002:a05:6402:5106:b0:419:45cd:7ab0 with SMTP id m6-20020a056402510600b0041945cd7ab0mr3921932edd.116.1647874267461;
-        Mon, 21 Mar 2022 07:51:07 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id a21-20020a170906275500b006d10c07fabesm6973887ejd.201.2022.03.21.07.51.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Mar 2022 07:51:07 -0700 (PDT)
-Message-ID: <69901d1c-4e48-0bcc-7716-f1d88953968d@redhat.com>
-Date:   Mon, 21 Mar 2022 15:51:06 +0100
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zpcoCC4yHq3ajeXZ8IqHbBVz9eP4OTlopTuEhplFUg4=;
+        b=IjPvCGAtM0wzLoxb0kI0/vqkhleQcYokT2oqZhAkOnanIvhqFTeXVk3O56JZTezLz4
+         BoJWgTy6LHkxFbcHSF4Bh9w7xMklyghOvd9OUN555ICeftzX75O5ApKG9bz0WgJvU2oA
+         RsPJN0xXXWUAKQo1e+LTQHhdkOHuowKQlLQJQG2xTclagRhsMJFm3ptaVhgrLDYIKey7
+         lUKGd/nn6jtMYLilqXFV9tvbxbk4iLDVEjyXKTyKWA5lhQnygi8yxuICqtAra2JEVLpX
+         gXzhFPhM0pgND0fvokhvjoAvI56E18k1UtmgRNl9ANZyNKk3/7kOlzrJ1Bc49i2rtPGt
+         jx1A==
+X-Gm-Message-State: AOAM533uNsUvJRvSrtzoBbyf8x6uTdvsAxzMcU92YwrYywVbx/w6rvRd
+        tUJ3SpH2qGGdBuKsF7VVHFhjoAY3icORe2Uyqwz8BRKOx+PZikqEzf72sedS7tYVyzePn6v8QkZ
+        KhR5b51GuySR75728E69p/Bdhi55ycQSf/9jKN3Y=
+X-Received: by 2002:a17:902:c401:b0:154:1398:a16b with SMTP id k1-20020a170902c40100b001541398a16bmr13429797plk.67.1647878853093;
+        Mon, 21 Mar 2022 09:07:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwfR7xojQGSh+SlE52ZB3p3sYi5T6jUKMUP6HdTYmBdE+aOadzDpu21O7Hr0mDvNquBoaR05abTWhccSffR0dM=
+X-Received: by 2002:a17:902:c401:b0:154:1398:a16b with SMTP id
+ k1-20020a170902c40100b001541398a16bmr13429769plk.67.1647878852756; Mon, 21
+ Mar 2022 09:07:32 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v3 1/3] Input/i8042: Merge quirk tables
-Content-Language: en-US
-To:     Werner Sembach <wse@tuxedocomputers.com>,
-        dmitry.torokhov@gmail.com, tiwai@suse.de, mpdesouza@suse.com,
-        arnd@arndb.de, samuel@cavoj.net, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220308170523.783284-1-wse@tuxedocomputers.com>
- <20220308170523.783284-2-wse@tuxedocomputers.com>
- <e84d98e6-541d-8cc7-626e-f92d76230528@redhat.com>
- <e8fa9e33-f8af-d449-b357-6c6f310329ad@tuxedocomputers.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <e8fa9e33-f8af-d449-b357-6c6f310329ad@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
+ <20220318161528.1531164-3-benjamin.tissoires@redhat.com> <CAPhsuW5qseqVs4=hz3VvSJ2ObqB2kTbKXoaOCh=5vjoU_AXnKQ@mail.gmail.com>
+In-Reply-To: <CAPhsuW5qseqVs4=hz3VvSJ2ObqB2kTbKXoaOCh=5vjoU_AXnKQ@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 21 Mar 2022 17:07:21 +0100
+Message-ID: <CAO-hwJ+WSi645HhNV_BYACoJe2UTc4KZzqH0oHocfnBR8xUYEQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 02/17] bpf: introduce hid program type
+To:     Song Liu <song@kernel.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,254 +89,411 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Song,
 
-On 3/21/22 15:25, Werner Sembach wrote:
-> 
-> Am 09.03.22 um 18:16 schrieb Hans de Goede:
->> Hi,
->>
->> On 3/8/22 18:05, Werner Sembach wrote:
->>> Merge i8042 quirk tables to reduce code duplication for devices that need
->>> more than one quirk.
->>>
->>> Also align quirkable options with command line parameters and make vendor
->>> wide quirks per device overwriteable on a per device basis.
->>>
->>> Some duplication on the ASUS devices is required to mirror the exact
->>> behaviour of the previous code.
->> Can you explain this a bit more ?
-> Yes, see next patch
+many thanks for the quick response.
 
-Next patch as in:
+On Fri, Mar 18, 2022 at 9:48 PM Song Liu <song@kernel.org> wrote:
+>
+> On Fri, Mar 18, 2022 at 9:16 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> [...]
+> >
+> > diff --git a/include/linux/bpf-hid.h b/include/linux/bpf-hid.h
+> > new file mode 100644
+> > index 000000000000..9c8dbd389995
+> > --- /dev/null
+> > +++ b/include/linux/bpf-hid.h
+> >
+> [...]
+> > +
+> > +struct hid_bpf_ctx_kern {
+> > +       enum hid_bpf_event type;        /* read-only */
+> > +       struct hid_device *hdev;        /* read-only */
+> > +
+> > +       u16 size;                       /* used size in data (RW) */
+> > +       u8 *data;                       /* data buffer (RW) */
+> > +       u32 allocated_size;             /* allocated size of data (RO) */
+>
+> Why u16 size vs. u32 allocated_size?
 
-https://lore.kernel.org/linux-input/20220308170523.783284-3-wse@tuxedocomputers.com/
+Probably an oversight because I wrote u32 in the public uapi. Will
+change this into u16 too.
 
-? Or do you mean the next version of this patch-set ?
+> Also, maybe shuffle the members
+> to remove some holes?
 
+Ack will do in the next version.
 
->>
->>
->>
->>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->>> Cc: stable@vger.kernel.org
->>> ---
->>>  drivers/input/serio/i8042-x86ia64io.h | 1125 ++++++++++++++-----------
->>>  1 file changed, 640 insertions(+), 485 deletions(-)
->>>
->>> diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
->>> index 148a7c5fd0e2..689b9ee3e742 100644
->>> --- a/drivers/input/serio/i8042-x86ia64io.h
->>> +++ b/drivers/input/serio/i8042-x86ia64io.h
->>> @@ -67,675 +67,821 @@ static inline void i8042_write_command(int val)
->>>  
->>>  #include <linux/dmi.h>
->>>  
->>> -static const struct dmi_system_id __initconst i8042_dmi_noloop_table[] = {
->>> +#define SERIO_QUIRK_NOKBD		BIT(0)
->>> +#define SERIO_QUIRK_NOAUX		BIT(1)
->>> +#define SERIO_QUIRK_NOMUX		BIT(2)
->>> +#define SERIO_QUIRK_FORCEMUX		BIT(3)
->>> +#define SERIO_QUIRK_UNLOCK		BIT(4)
->>> +#define SERIO_QUIRK_PROBE_DEFER		BIT(5)
->>> +#define SERIO_QUIRK_RESET_ALWAYS	BIT(6)
->>> +#define SERIO_QUIRK_RESET_NEVER		BIT(7)
->>> +#define SERIO_QUIRK_DIECT		BIT(8)
->>> +#define SERIO_QUIRK_DUMBKBD		BIT(9)
->>> +#define SERIO_QUIRK_NOLOOP		BIT(10)
->>> +#define SERIO_QUIRK_NOTIMEOUT		BIT(11)
->>> +#define SERIO_QUIRK_KBDRESET		BIT(12)
->>> +#define SERIO_QUIRK_DRITEK		BIT(13)
->>> +#define SERIO_QUIRK_NOPNP		BIT(14)
->>> +
->>> +/* Quirk table for different mainboards. Options similar or identical to i8042
->>> + * module parameters.
->>> + * ORDERING IS IMPORTANT! The first match will be apllied and the rest ignored.
->>> + * This allows entries to overwrite vendor wide quirks on a per device basis.
->>> + * Where this is irrelevant, entries are sorted case sensitive by DMI_SYS_VENDOR
->>> + * and/or DMI_BOARD_VENDOR to make it easier to avoid dublicate entries.
->>> + */
->>> +static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->> <snip>
->>
->>> @@ -1167,11 +1307,6 @@ static int __init i8042_pnp_init(void)
->>>  	bool pnp_data_busted = false;
->>>  	int err;
->>>  
->>> -#ifdef CONFIG_X86
->>> -	if (dmi_check_system(i8042_dmi_nopnp_table))
->>> -		i8042_nopnp = true;
->>> -#endif
->>> -
->>>  	if (i8042_nopnp) {
->>>  		pr_info("PNP detection disabled\n");
->>>  		return 0;
->> have you checked that i8042_platform_init() *always*
->> gets called before i8042_pnp_init()?
-> As far as i can tell i8042_pnp_init() is only ever called inside i8042_platform_init() so moving this check from pnp
-> init to platform init should be no problem.
+>
+> > +
+> > +       s32 retval;                     /* in use when BPF_HID_ATTACH_USER_EVENT (RW) */
+> > +};
+> > +
+> [...]
+>
+> > diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+>
+> We need to mirror these changes to tools/include/uapi/linux/bpf.h.
 
-Ok.
+OK. I did that in patch 4/17 but I can bring in the changes there too.
 
->>
->> Maybe just add something like this:
->>
->> #ifdef CONFIG_X86
->> static void __init i8042_check_quirks(void)
->> {
->> 	const struct dmi_system_id *device_quirk_info;
->> 	uintptr_t quirks;
->>
->> 	device_quirk_info = dmi_first_match(i8042_dmi_quirk_table);
->> 	if (!device_quirk_info)
->> 		return;
->>
->> 	quirks = (uintptr_t)device_quirk_info->driver_data;
->>
->> 	if (i8042_reset == I8042_RESET_DEFAULT) {
->> 		if (quirks & SERIO_QUIRK_RESET)
->> 			i8042_reset = I8042_RESET_ALWAYS;
->> 		if (quirks & SERIO_QUIRK_NOSELFTEST)
->> 			i8042_reset = I8042_RESET_NEVER;
->> 	}
->>
->> 	/* Do more quirk checks */
->> }
->> #else
->> static inline void i8042_check_quirks(void) {}
->> #endif
->>
->> (above the declaration of i8042_pnp_init())
->>
->> And call i8042_check_quirks() in both
->> i8042_platform_init() and i8042_platform_init() ?
->>
->> This also abstracts some of the CONFIG_X86
->> ifdef-ery out of the other functions.
->>
->>
->>> @@ -1277,6 +1412,9 @@ static inline void i8042_pnp_exit(void) { }
->>>  
->>>  static int __init i8042_platform_init(void)
->>>  {
->>> +	bool i8042_reset_always_quirk = false;
->>> +	bool i8042_reset_never_quirk = false;
->> I'm not a fan of these 2 helper variables, you can do this directly,
->> see above.
->>
->>> +	const struct dmi_system_id *device_quirk_info;
->> All 3 these variables will trigger unused variable
->> settings when compiling without CONFIG_X86 set. Note
->> introducing the i8042_check_quirks() helper as I suggest
->> above avoids this without needing more #ifdef-ery.
-> 
-> Fixed by moving it to its own function as you suggested.
-> 
-> My original reasoning for the helper variables was that i didn't want to move the i8042_reset evaluation, but then did
-> it anyways in the next patch after checking that pnp_init doesn't use the variable.
+>
+> > index 99fab54ae9c0..0e8438e93768 100644
+> > --- a/include/uapi/linux/bpf.h
+> > +++ b/include/uapi/linux/bpf.h
+> > @@ -952,6 +952,7 @@ enum bpf_prog_type {
+> >         BPF_PROG_TYPE_LSM,
+> >         BPF_PROG_TYPE_SK_LOOKUP,
+> >         BPF_PROG_TYPE_SYSCALL, /* a program that can execute syscalls */
+> > +       BPF_PROG_TYPE_HID,
+> >  };
+> [...]
+> > +
+> >  /* When BPF ldimm64's insn[0].src_reg != 0 then this can have
+> >   * the following extensions:
+> >   *
+> > @@ -5129,6 +5145,16 @@ union bpf_attr {
+> >   *             The **hash_algo** is returned on success,
+> >   *             **-EOPNOTSUP** if the hash calculation failed or **-EINVAL** if
+> >   *             invalid arguments are passed.
+> > + *
+> > + * void *bpf_hid_get_data(void *ctx, u64 offset, u64 size)
+> > + *     Description
+> > + *             Returns a pointer to the data associated with context at the given
+> > + *             offset and size (in bytes).
+> > + *
+> > + *             Note: the returned pointer is refcounted and must be dereferenced
+> > + *             by a call to bpf_hid_discard;
+> > + *     Return
+> > + *             The pointer to the data. On error, a null value is returned.
+>
+> Please use annotations like *size*, **NULL**.
 
-Ok.
+Ack
 
-Regards,
+>
+> >   */
+> >  #define __BPF_FUNC_MAPPER(FN)          \
+> >         FN(unspec),                     \
+> > @@ -5325,6 +5351,7 @@ union bpf_attr {
+> >         FN(copy_from_user_task),        \
+> >         FN(skb_set_tstamp),             \
+> >         FN(ima_file_hash),              \
+> > +       FN(hid_get_data),               \
+> >         /* */
+> >
+> >  /* integer value in 'imm' field of BPF_CALL instruction selects which helper
+> > @@ -5925,6 +5952,10 @@ struct bpf_link_info {
+> >                 struct {
+> >                         __u32 ifindex;
+> >                 } xdp;
+> > +               struct  {
+> > +                       __s32 hidraw_number;
+> > +                       __u32 attach_type;
+> > +               } hid;
+> >         };
+> >  } __attribute__((aligned(8)));
+> >
+> > diff --git a/include/uapi/linux/bpf_hid.h b/include/uapi/linux/bpf_hid.h
+> > new file mode 100644
+> > index 000000000000..64a8b9dd8809
+> > --- /dev/null
+> > +++ b/include/uapi/linux/bpf_hid.h
+> > @@ -0,0 +1,31 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-or-later WITH Linux-syscall-note */
+> > +
+> > +/*
+> > + *  HID BPF public headers
+> > + *
+> > + *  Copyright (c) 2022 Benjamin Tissoires
+> > + */
+> > +
+> > +#ifndef _UAPI__LINUX_BPF_HID_H__
+> > +#define _UAPI__LINUX_BPF_HID_H__
+> > +
+> > +#include <linux/types.h>
+> > +
+> > +enum hid_bpf_event {
+> > +       HID_BPF_UNDEF = 0,
+> > +       HID_BPF_DEVICE_EVENT,           /* when attach type is BPF_HID_DEVICE_EVENT */
+> > +       HID_BPF_RDESC_FIXUP,            /* ................... BPF_HID_RDESC_FIXUP */
+> > +       HID_BPF_USER_EVENT,             /* ................... BPF_HID_USER_EVENT */
+>
+> Why don't we have a DRIVER_EVENT type here?
 
-Hans
+For driver event, I want to have a little bit more of information
+which tells which event we have:
+- HID_BPF_DRIVER_PROBE
+- HID_BPF_DRIVER_SUSPEND
+- HID_BPF_DRIVER_RAW_REQUEST
+- HID_BPF_DRIVER_RAW_REQUEST_ANSWER
+- etc...
 
+However, I am not entirely sure on the implementation of all of those,
+so I left them aside for now.
 
+I'll work on that for v4.
 
-> 
->>
->>>  	int retval;
->>>  
->>>  #ifdef CONFIG_X86
->>> @@ -1297,6 +1435,44 @@ static int __init i8042_platform_init(void)
->>>  	i8042_kbd_irq = I8042_MAP_IRQ(1);
->>>  	i8042_aux_irq = I8042_MAP_IRQ(12);
->>>  
->>> +#ifdef CONFIG_X86
->>> +	device_quirk_info = dmi_first_match(i8042_dmi_quirk_table);
->>> +	if (device_quirk_info) {
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_NOKBD)
->>> +			i8042_nokbd = true;
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_NOAUX)
->>> +			i8042_noaux = true;
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_NOMUX)
->>> +			i8042_nomux = true;
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_FORCEMUX)
->>> +			i8042_nomux = false;
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_UNLOCK)
->>> +			i8042_unlock = true;
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_PROBE_DEFER)
->>> +			i8042_probe_defer = true;
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_RESET_ALWAYS)
->>> +			i8042_reset_always_quirk = true;
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_RESET_NEVER)
->>> +			i8042_reset_never_quirk = true;
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_DIECT)
->>> +			i8042_direct = true;
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_DUMBKBD)
->>> +			i8042_dumbkbd = true;
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_NOLOOP)
->>> +			i8042_noloop = true;
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_NOTIMEOUT)
->>> +			i8042_notimeout = true;
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_KBDRESET)
->>> +			i8042_kbdreset = true;
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_DRITEK)
->>> +			i8042_dritek = true;
->>> +#ifdef CONFIG_PNP
->>> +		if ((uintptr_t)device_quirk_info->driver_data & SERIO_QUIRK_NOPNP)
->>> +			i8042_nopnp = true;
->>> +#endif
->>> +	}
->>> +#endif
->>> +
->>>  	retval = i8042_pnp_init();
->>>  	if (retval)
->>>  		return retval;
->>> @@ -1308,34 +1484,13 @@ static int __init i8042_platform_init(void)
->>>  #ifdef CONFIG_X86
->>>  	/* Honor module parameter when value is not default */
->>>  	if (i8042_reset == I8042_RESET_DEFAULT) {
->>> -		if (dmi_check_system(i8042_dmi_reset_table))
->>> +		if (i8042_reset_always_quirk)
->>>  			i8042_reset = I8042_RESET_ALWAYS;
->>>  
->>> -		if (dmi_check_system(i8042_dmi_noselftest_table))
->>> +		if (i8042_reset_never_quirk)
->>>  			i8042_reset = I8042_RESET_NEVER;
->>>  	}
->>>  
->>> -	if (dmi_check_system(i8042_dmi_noloop_table))
->>> -		i8042_noloop = true;
->>> -
->>> -	if (dmi_check_system(i8042_dmi_nomux_table))
->>> -		i8042_nomux = true;
->>> -
->>> -	if (dmi_check_system(i8042_dmi_forcemux_table))
->>> -		i8042_nomux = false;
->>> -
->>> -	if (dmi_check_system(i8042_dmi_notimeout_table))
->>> -		i8042_notimeout = true;
->>> -
->>> -	if (dmi_check_system(i8042_dmi_dritek_table))
->>> -		i8042_dritek = true;
->>> -
->>> -	if (dmi_check_system(i8042_dmi_kbdreset_table))
->>> -		i8042_kbdreset = true;
->>> -
->>> -	if (dmi_check_system(i8042_dmi_probe_defer_table))
->>> -		i8042_probe_defer = true;
->>> -
->>>  	/*
->>>  	 * A20 was already enabled during early kernel init. But some buggy
->>>  	 * BIOSes (in MSI Laptops) require A20 to be enabled using 8042 to
->> Regards,
->>
->> Hans
->>
->>
-> Regards,
-> 
-> Werner
-> 
+>
+> >
+> [...]
+> > +
+> > +BPF_CALL_3(bpf_hid_get_data, struct hid_bpf_ctx_kern*, ctx, u64, offset, u64, size)
+> > +{
+> > +       if (!size)
+> > +               return 0UL;
+> > +
+> > +       if (offset + size > ctx->allocated_size)
+> > +               return 0UL;
+> > +
+> > +       return (unsigned long)(ctx->data + offset);
+> > +}
+> > +
+> > +static const struct bpf_func_proto bpf_hid_get_data_proto = {
+> > +       .func      = bpf_hid_get_data,
+> > +       .gpl_only  = true,
+> > +       .ret_type  = RET_PTR_TO_ALLOC_MEM_OR_NULL,
+> > +       .arg1_type = ARG_PTR_TO_CTX,
+> > +       .arg2_type = ARG_ANYTHING,
+> > +       .arg3_type = ARG_CONST_ALLOC_SIZE_OR_ZERO,
+>
+> I think we should use ARG_CONST_SIZE or ARG_CONST_SIZE_OR_ZERO?
+
+I initially tried this with ARG_CONST_SIZE_OR_ZERO but it doesn't work
+for 2 reasons:
+- we need to pair the argument ARG_CONST_SIZE_* with a pointer to a
+memory just before, which doesn't really make sense here
+- ARG_CONST_SIZE_* isn't handled in the same way
+ARG_CONST_ALLOC_SIZE_OR_ZERO is. The latter tells the verifier that
+the given size is the available size of the returned
+PTR_TO_ALLOC_MEM_OR_NULL, which is exactly what we want.
+
+>
+> > +};
+> > +
+> > +static const struct bpf_func_proto *
+> > +hid_func_proto(enum bpf_func_id func_id, const struct bpf_prog *prog)
+> > +{
+> > +       switch (func_id) {
+> > +       case BPF_FUNC_hid_get_data:
+> > +               return &bpf_hid_get_data_proto;
+> > +       default:
+> > +               return bpf_base_func_proto(func_id);
+> > +       }
+> > +}
+> [...]
+> > +
+> > +static int hid_bpf_prog_test_run(struct bpf_prog *prog,
+> > +                                const union bpf_attr *attr,
+> > +                                union bpf_attr __user *uattr)
+> > +{
+> > +       struct hid_device *hdev = NULL;
+> > +       struct bpf_prog_array *progs;
+> > +       bool valid_prog = false;
+> > +       int i;
+> > +       int target_fd, ret;
+> > +       void __user *data_out = u64_to_user_ptr(attr->test.data_out);
+> > +       void __user *data_in = u64_to_user_ptr(attr->test.data_in);
+> > +       u32 user_size_in = attr->test.data_size_in;
+> > +       u32 user_size_out = attr->test.data_size_out;
+> > +       u32 allocated_size = max(user_size_in, user_size_out);
+> > +       struct hid_bpf_ctx_kern ctx = {
+> > +               .type = HID_BPF_USER_EVENT,
+> > +               .allocated_size = allocated_size,
+> > +       };
+> > +
+> > +       if (!hid_hooks.hdev_from_fd)
+> > +               return -EOPNOTSUPP;
+> > +
+> > +       if (attr->test.ctx_size_in != sizeof(int))
+> > +               return -EINVAL;
+>
+> ctx_size_in is always 4 bytes?
+
+Yes. Basically what I had in mind is that the "ctx" for
+user_prog_test_run is the file descriptor to the sysfs that represent
+the HID device.
+This seemed to me to be the easiest to handle for users.
+
+I'm open to suggestions though.
+
+>
+> > +
+> > +       if (allocated_size > HID_MAX_BUFFER_SIZE)
+> > +               return -E2BIG;
+> > +
+> > +       if (copy_from_user(&target_fd, (void *)attr->test.ctx_in, attr->test.ctx_size_in))
+> > +               return -EFAULT;
+> > +
+> > +       hdev = hid_hooks.hdev_from_fd(target_fd);
+> > +       if (IS_ERR(hdev))
+> > +               return PTR_ERR(hdev);
+> > +
+> > +       if (allocated_size) {
+> > +               ctx.data = kzalloc(allocated_size, GFP_KERNEL);
+> > +               if (!ctx.data)
+> > +                       return -ENOMEM;
+> > +
+> > +               ctx.allocated_size = allocated_size;
+> > +       }
+> > +       ctx.hdev = hdev;
+> > +
+> > +       ret = mutex_lock_interruptible(&bpf_hid_mutex);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       /* check if the given program is of correct type and registered */
+> > +       progs = rcu_dereference_protected(hdev->bpf.run_array[BPF_HID_ATTACH_USER_EVENT],
+> > +                                         lockdep_is_held(&bpf_hid_mutex));
+> > +       if (!progs) {
+> > +               ret = -EFAULT;
+> > +               goto unlock;
+> > +       }
+> > +
+> > +       for (i = 0; i < bpf_prog_array_length(progs); i++) {
+> > +               if (progs->items[i].prog == prog) {
+> > +                       valid_prog = true;
+> > +                       break;
+> > +               }
+> > +       }
+> > +
+> > +       if (!valid_prog) {
+> > +               ret = -EINVAL;
+> > +               goto unlock;
+> > +       }
+> > +
+> > +       /* copy data_in from userspace */
+> > +       if (user_size_in) {
+> > +               if (copy_from_user(ctx.data, data_in, user_size_in)) {
+> > +                       ret = -EFAULT;
+> > +                       goto unlock;
+> > +               }
+> > +
+> > +               ctx.size = user_size_in;
+> > +       }
+> > +
+> > +       migrate_disable();
+> > +
+> > +       ret = bpf_prog_run(prog, &ctx);
+> > +
+> > +       migrate_enable();
+> > +
+> > +       if (user_size_out && data_out) {
+> > +               user_size_out = min3(user_size_out, (u32)ctx.size, allocated_size);
+> > +
+> > +               if (copy_to_user(data_out, ctx.data, user_size_out)) {
+> > +                       ret = -EFAULT;
+> > +                       goto unlock;
+> > +               }
+> > +
+> > +               if (copy_to_user(&uattr->test.data_size_out,
+> > +                                &user_size_out,
+> > +                                sizeof(user_size_out))) {
+> > +                       ret = -EFAULT;
+> > +                       goto unlock;
+> > +               }
+> > +       }
+> > +
+> > +       if (copy_to_user(&uattr->test.retval, &ctx.retval, sizeof(ctx.retval)))
+> > +               ret = -EFAULT;
+> > +
+> > +unlock:
+> > +       kfree(ctx.data);
+> > +
+> > +       mutex_unlock(&bpf_hid_mutex);
+> > +       return ret;
+> > +}
+> > +
+> > +const struct bpf_prog_ops hid_prog_ops = {
+> > +       .test_run = hid_bpf_prog_test_run,
+> > +};
+> > +
+> > +int bpf_hid_init(struct hid_device *hdev)
+> > +{
+> > +       int type;
+> > +
+> > +       for (type = 0; type < MAX_BPF_HID_ATTACH_TYPE; type++)
+> > +               INIT_LIST_HEAD(&hdev->bpf.links[type]);
+> > +
+> > +       return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(bpf_hid_init);
+> > +
+> > +void bpf_hid_exit(struct hid_device *hdev)
+> > +{
+> > +       enum bpf_hid_attach_type type;
+> > +       struct bpf_hid_link *hid_link;
+> > +
+> > +       mutex_lock(&bpf_hid_mutex);
+> > +       for (type = 0; type < MAX_BPF_HID_ATTACH_TYPE; type++) {
+> > +               bpf_hid_run_array_detach(hdev, type);
+> > +               list_for_each_entry(hid_link, &hdev->bpf.links[type], node) {
+> > +                       hid_link->hdev = NULL; /* auto-detach link */
+> > +               }
+> > +       }
+> > +       mutex_unlock(&bpf_hid_mutex);
+> > +}
+> > +EXPORT_SYMBOL_GPL(bpf_hid_exit);
+> > diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
+> > index b88688264ad0..d1c05011e5ab 100644
+> > --- a/kernel/bpf/syscall.c
+> > +++ b/kernel/bpf/syscall.c
+> > @@ -3,6 +3,7 @@
+> >   */
+> >  #include <linux/bpf.h>
+> >  #include <linux/bpf-cgroup.h>
+> > +#include <linux/bpf-hid.h>
+> >  #include <linux/bpf_trace.h>
+> >  #include <linux/bpf_lirc.h>
+> >  #include <linux/bpf_verifier.h>
+> > @@ -2205,6 +2206,7 @@ static bool is_sys_admin_prog_type(enum bpf_prog_type prog_type)
+> >  {
+> >         switch (prog_type) {
+> >         case BPF_PROG_TYPE_LIRC_MODE2:
+> > +       case BPF_PROG_TYPE_HID:
+> >                 return true;
+> >         default:
+> >                 return false;
+> > @@ -3199,6 +3201,11 @@ attach_type_to_prog_type(enum bpf_attach_type attach_type)
+> >                 return BPF_PROG_TYPE_SK_LOOKUP;
+> >         case BPF_XDP:
+> >                 return BPF_PROG_TYPE_XDP;
+> > +       case BPF_HID_DEVICE_EVENT:
+> > +       case BPF_HID_RDESC_FIXUP:
+> > +       case BPF_HID_USER_EVENT:
+> > +       case BPF_HID_DRIVER_EVENT:
+> > +               return BPF_PROG_TYPE_HID;
+> >         default:
+> >                 return BPF_PROG_TYPE_UNSPEC;
+> >         }
+> > @@ -3342,6 +3349,11 @@ static int bpf_prog_query(const union bpf_attr *attr,
+> >         case BPF_SK_MSG_VERDICT:
+> >         case BPF_SK_SKB_VERDICT:
+> >                 return sock_map_bpf_prog_query(attr, uattr);
+> > +       case BPF_HID_DEVICE_EVENT:
+> > +       case BPF_HID_RDESC_FIXUP:
+> > +       case BPF_HID_USER_EVENT:
+> > +       case BPF_HID_DRIVER_EVENT:
+> > +               return bpf_hid_prog_query(attr, uattr);
+> >         default:
+> >                 return -EINVAL;
+> >         }
+> > @@ -4336,6 +4348,8 @@ static int link_create(union bpf_attr *attr, bpfptr_t uattr)
+> >                 ret = bpf_perf_link_attach(attr, prog);
+> >                 break;
+> >  #endif
+> > +       case BPF_PROG_TYPE_HID:
+> > +               return bpf_hid_link_create(attr, prog);
+> >         default:
+> >                 ret = -EINVAL;
+> >         }
+> > --
+> > 2.35.1
+> >
+>
+
+Cheers,
+Benjamin
 
