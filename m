@@ -2,103 +2,215 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13C704E3222
-	for <lists+linux-input@lfdr.de>; Mon, 21 Mar 2022 22:05:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 672604E3326
+	for <lists+linux-input@lfdr.de>; Mon, 21 Mar 2022 23:56:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229793AbiCUVHG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Mar 2022 17:07:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33854 "EHLO
+        id S230047AbiCUWvo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Mar 2022 18:51:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbiCUVHD (ORCPT
+        with ESMTP id S229835AbiCUWvW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Mar 2022 17:07:03 -0400
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCC2A1D2526
-        for <linux-input@vger.kernel.org>; Mon, 21 Mar 2022 14:05:36 -0700 (PDT)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-2db2add4516so170584387b3.1
-        for <linux-input@vger.kernel.org>; Mon, 21 Mar 2022 14:05:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=semihalf-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=UelxEca0+8UhtdXiPwo10nVR2FdTmhLAka9zHLil0pA=;
-        b=TwefeKnMxPyzKqWyuXcOmi46BVwe7AO+7OG7AQw30ajbk7YuVH6tyyXHPrEhhoZ1oW
-         CPdvRxwaA6XrGuAe505UonE+RGmOu5sWDdSMOFQmorYwUxCcoN60H/qNdbK1BYiFgXkP
-         5xDN9sXaAXpmISL8bna0p6MfQvZ0TGrd1MUaaaMjzXwfjV5oy4RYO6/TWj5HMswsh/Bn
-         teoHtIvW93gScDyd2pyVPP+NNc9TCZUE122P2k0fGOQ4vJ/VmuNsU2V3m3CTtD5NRuU9
-         m6LABas8ne5zMs82OYJGzJa/aPr1MtyanbtsvPy3zLydrdzosSzipyFNpDfYIPxBsnzG
-         jqfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=UelxEca0+8UhtdXiPwo10nVR2FdTmhLAka9zHLil0pA=;
-        b=UCHQArt3O/i8CntEtHfpwaTxeR5adnk2bgl/gTKlM+poVLDXlbQr0E+EZDBe6v8fnZ
-         QLskgmrhWEbKOHpI6vk4uw0cxpbFf0CllJ0LjOz+4kQXWMVlcBcvAnLplPTCsTLtBdVT
-         9O8OQQMPav1dm1fsV12prqV2sbgN5vbI5rnEgIVsQWOxxtKmy57qc4IQB8D9ZDEOn6FC
-         M4RnJnEwBsAYMs2QXrdUCFc+7/XlRDy7gVowd/b49K/W8BzVbHpSpQevfawtxfX0Qamw
-         ae2i9QgtuvjHHShZAR/vWmHhYaDefboxxd8mr0+unMrRnEotQdqGp0BFKhd9yInI7suA
-         977Q==
-X-Gm-Message-State: AOAM5338XCopHtkFeWQ8e4LYQ/JAhXC/+/CM+GFs4XnqyAe9MqBAVGT1
-        W6XQldv+M4lVEkiq9N3aH5c6bt0bwRqo7PGAO+4L/3+asL9zXw==
-X-Google-Smtp-Source: ABdhPJyl1kdPn0b1ZXib5AZs/WjS0xgzs+JtYlfaDqs2SLUhX5cgMsG5B45/+QPEbvo8U/4gaPgetAQ4fK3gP1LPIfY=
-X-Received: by 2002:a81:184e:0:b0:2e5:c025:89e6 with SMTP id
- 75-20020a81184e000000b002e5c02589e6mr24112443ywy.428.1647896735997; Mon, 21
- Mar 2022 14:05:35 -0700 (PDT)
+        Mon, 21 Mar 2022 18:51:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4C08765AD;
+        Mon, 21 Mar 2022 15:42:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8F3D7612AF;
+        Mon, 21 Mar 2022 21:52:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4DBAC340E8;
+        Mon, 21 Mar 2022 21:52:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647899522;
+        bh=4QhNB4U5yqvJwvu7RDkVWcIdf4LcwWmmFOFLShPBW6o=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=gFMSq3ffEzu1h8hOXbIVCubQny+yp3noE6EgcB47LCCaUdKyDUCjM/Gb7S9loYWXR
+         Dy9A7xXkoC9lKQUEgP4RUVZ9QwiZOot99c+H4DpG0lIJVawEbpgaG5bVI6hQkK8V9X
+         ZLFS1MmC0zVnDIiWCjBVQ0HUbCxFjhgId0GiaocHq4/a23g95OLokdjaJLHPzSCnUn
+         VX47VlafdEwFzcEQCtLgbopLbP0f57Q4O3rUZ755wf1FBF+n8gd79anPOLJF7BAzFf
+         BMUKcH8Txef+aUKhnwdkOLEdav9sE9we0HiwkmIWhfU3T8mYyCA1zNUSyVocsWIuVy
+         TN7T4qJwBb/6w==
+Received: by mail-yb1-f177.google.com with SMTP id t11so30522809ybi.6;
+        Mon, 21 Mar 2022 14:52:02 -0700 (PDT)
+X-Gm-Message-State: AOAM5323YyW49WrPS8Lp+sNrfSAUm1CNYR7VSRUzJLVLgipmp7L0yfdU
+        KPW/jUGXcgOgyGoTyKTqgqyaX0PzTZJh17FkS6M=
+X-Google-Smtp-Source: ABdhPJxjGIOAMCTeBOhtLKMEA7eHCjAjE7I4xUoxWVAUgKRZLQc4bIwIq4yvPoes8lioBv1QfOq4MXGYC+JLAx43Ug4=
+X-Received: by 2002:a25:40d3:0:b0:633:bb21:2860 with SMTP id
+ n202-20020a2540d3000000b00633bb212860mr16895055yba.9.1647899521925; Mon, 21
+ Mar 2022 14:52:01 -0700 (PDT)
 MIME-Version: 1.0
-From:   Angela Czubak <acz@semihalf.com>
-Date:   Mon, 21 Mar 2022 22:05:24 +0100
-Message-ID: <CAB4aORX8BYLL9xY6XiC1P_+J4o2LQrXV8x_-3gdU1PJsdx+-aQ@mail.gmail.com>
-Subject: HID device initiated reset and need for device reconfiguration in
- linux driver
-To:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
+ <20220318161528.1531164-3-benjamin.tissoires@redhat.com> <CAPhsuW5qseqVs4=hz3VvSJ2ObqB2kTbKXoaOCh=5vjoU_AXnKQ@mail.gmail.com>
+ <CAO-hwJ+WSi645HhNV_BYACoJe2UTc4KZzqH0oHocfnBR8xUYEQ@mail.gmail.com>
+In-Reply-To: <CAO-hwJ+WSi645HhNV_BYACoJe2UTc4KZzqH0oHocfnBR8xUYEQ@mail.gmail.com>
+From:   Song Liu <song@kernel.org>
+Date:   Mon, 21 Mar 2022 14:51:51 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW4+b66Keh_f+UoApM8UenhnJ5wD_SaatAFDms9=g7ENyw@mail.gmail.com>
+Message-ID: <CAPhsuW4+b66Keh_f+UoApM8UenhnJ5wD_SaatAFDms9=g7ENyw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 02/17] bpf: introduce hid program type
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry, Hi Benjamin,
+On Mon, Mar 21, 2022 at 9:07 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> Hi Song,
+>
+> many thanks for the quick response.
+>
+> On Fri, Mar 18, 2022 at 9:48 PM Song Liu <song@kernel.org> wrote:
+[...]
+> >
+> > > diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+> >
+> > We need to mirror these changes to tools/include/uapi/linux/bpf.h.
+>
+> OK. I did that in patch 4/17 but I can bring in the changes there too.
 
-I am wondering if there is some mechanism already present in the linux
-kernel that would trigger
-some (re)configration process once a (device initiated?) reset has
-been detected for a HID device.
+Let's keep changes to the two files in the same patch. This will make
+sure they are back ported together.
 
-My precise scenario is a case in which a haptic device decides to
-reset itself for some reason
-after it has been already probed. The default device mode is autonomous mode.
-However, since I would like to add kernel support, the driver itself
-would believe the device is
-in manual mode, and either it would generate output reports itself or
-would allow the user space
-to do so.
-This might result in doubled haptic feedback (from the device itself
-and the kernel/user initiated one).
+[...]
+> > > +enum hid_bpf_event {
+> > > +       HID_BPF_UNDEF = 0,
+> > > +       HID_BPF_DEVICE_EVENT,           /* when attach type is BPF_HID_DEVICE_EVENT */
+> > > +       HID_BPF_RDESC_FIXUP,            /* ................... BPF_HID_RDESC_FIXUP */
+> > > +       HID_BPF_USER_EVENT,             /* ................... BPF_HID_USER_EVENT */
+> >
+> > Why don't we have a DRIVER_EVENT type here?
+>
+> For driver event, I want to have a little bit more of information
+> which tells which event we have:
+> - HID_BPF_DRIVER_PROBE
+> - HID_BPF_DRIVER_SUSPEND
+> - HID_BPF_DRIVER_RAW_REQUEST
+> - HID_BPF_DRIVER_RAW_REQUEST_ANSWER
+> - etc...
+>
+> However, I am not entirely sure on the implementation of all of those,
+> so I left them aside for now.
+>
+> I'll work on that for v4.
 
-I can see that in drivers/hid/i2c-hid/i2c-hid-core.c that there is a
-point where we realise that a reset
-has happened (interrupt handler case where response size is actually
-0). I would guess it could
-be a good place to issue some callback that would trigger all
-necessary reconfiguration (in my case
-it would be putting the device back into manual mode).
-I suppose we could add something like 'int (*reset)(struct hid_device
-*hdev)' to 'struct hid_driver'
-definition, then set it if applicable in a relevant hid-* driver, so
-that we could issue it in case of reset,
-specifically the device initiated reset.
+This set is already pretty big. I guess we can add them in a follow-up set.
 
-It does not seem a problem specific to haptic devices, so I am
-wondering if that would be a good
-approach, or, perhaps, there is some kind of already existing
-workaround for such situations.
+>
+> >
+> > >
+> > [...]
+> > > +
+> > > +BPF_CALL_3(bpf_hid_get_data, struct hid_bpf_ctx_kern*, ctx, u64, offset, u64, size)
+> > > +{
+> > > +       if (!size)
+> > > +               return 0UL;
+> > > +
+> > > +       if (offset + size > ctx->allocated_size)
+> > > +               return 0UL;
+> > > +
+> > > +       return (unsigned long)(ctx->data + offset);
+> > > +}
+> > > +
+> > > +static const struct bpf_func_proto bpf_hid_get_data_proto = {
+> > > +       .func      = bpf_hid_get_data,
+> > > +       .gpl_only  = true,
+> > > +       .ret_type  = RET_PTR_TO_ALLOC_MEM_OR_NULL,
+> > > +       .arg1_type = ARG_PTR_TO_CTX,
+> > > +       .arg2_type = ARG_ANYTHING,
+> > > +       .arg3_type = ARG_CONST_ALLOC_SIZE_OR_ZERO,
+> >
+> > I think we should use ARG_CONST_SIZE or ARG_CONST_SIZE_OR_ZERO?
+>
+> I initially tried this with ARG_CONST_SIZE_OR_ZERO but it doesn't work
+> for 2 reasons:
+> - we need to pair the argument ARG_CONST_SIZE_* with a pointer to a
+> memory just before, which doesn't really make sense here
+> - ARG_CONST_SIZE_* isn't handled in the same way
+> ARG_CONST_ALLOC_SIZE_OR_ZERO is. The latter tells the verifier that
+> the given size is the available size of the returned
+> PTR_TO_ALLOC_MEM_OR_NULL, which is exactly what we want.
 
-Any advice would be welcome :)
+I misread the logic initially. It makes sense now.
 
-Regards,
-Angela
+>
+> >
+> > > +};
+> > > +
+> > > +static const struct bpf_func_proto *
+> > > +hid_func_proto(enum bpf_func_id func_id, const struct bpf_prog *prog)
+> > > +{
+> > > +       switch (func_id) {
+> > > +       case BPF_FUNC_hid_get_data:
+> > > +               return &bpf_hid_get_data_proto;
+> > > +       default:
+> > > +               return bpf_base_func_proto(func_id);
+> > > +       }
+> > > +}
+> > [...]
+> > > +
+> > > +static int hid_bpf_prog_test_run(struct bpf_prog *prog,
+> > > +                                const union bpf_attr *attr,
+> > > +                                union bpf_attr __user *uattr)
+> > > +{
+> > > +       struct hid_device *hdev = NULL;
+> > > +       struct bpf_prog_array *progs;
+> > > +       bool valid_prog = false;
+> > > +       int i;
+> > > +       int target_fd, ret;
+> > > +       void __user *data_out = u64_to_user_ptr(attr->test.data_out);
+> > > +       void __user *data_in = u64_to_user_ptr(attr->test.data_in);
+> > > +       u32 user_size_in = attr->test.data_size_in;
+> > > +       u32 user_size_out = attr->test.data_size_out;
+> > > +       u32 allocated_size = max(user_size_in, user_size_out);
+> > > +       struct hid_bpf_ctx_kern ctx = {
+> > > +               .type = HID_BPF_USER_EVENT,
+> > > +               .allocated_size = allocated_size,
+> > > +       };
+> > > +
+> > > +       if (!hid_hooks.hdev_from_fd)
+> > > +               return -EOPNOTSUPP;
+> > > +
+> > > +       if (attr->test.ctx_size_in != sizeof(int))
+> > > +               return -EINVAL;
+> >
+> > ctx_size_in is always 4 bytes?
+>
+> Yes. Basically what I had in mind is that the "ctx" for
+> user_prog_test_run is the file descriptor to the sysfs that represent
+> the HID device.
+> This seemed to me to be the easiest to handle for users.
+>
+> I'm open to suggestions though.
+
+How about we use data_in? ctx for test_run usually means the program ctx,
+which is struct hid_bpf_ctx here.
+
+Thanks,
+Song
