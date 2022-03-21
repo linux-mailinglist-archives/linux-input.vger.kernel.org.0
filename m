@@ -2,257 +2,248 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1D2C4E2F92
-	for <lists+linux-input@lfdr.de>; Mon, 21 Mar 2022 19:04:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5890D4E2FDF
+	for <lists+linux-input@lfdr.de>; Mon, 21 Mar 2022 19:23:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240075AbiCUSFs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Mar 2022 14:05:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57652 "EHLO
+        id S1352093AbiCUSY1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Mar 2022 14:24:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351960AbiCUSFr (ORCPT
+        with ESMTP id S1346531AbiCUSY0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Mar 2022 14:05:47 -0400
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAD112AE0D
-        for <linux-input@vger.kernel.org>; Mon, 21 Mar 2022 11:04:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647885860; x=1679421860;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yvTW9em6oTqQSzM9/o8Pw9oRWm1fbJxOjGqXbc70+3U=;
-  b=ldwXfGy28Pv94Zvs1hRxdBt4e2iZJcFlWUHy3NqinVcBvfdSF+i1M7gn
-   kQGd+1/caL9+E9baOPiGwnsVwlwX55yBzz31FdRIxeLdhD2RYYARofngg
-   h0Ij7TU0PGhVgVjdqAX7GFJ/tvUc2tTvVr5pZPtdrw04dRo3yDWOdyRIh
-   65KnvqIuZxUoa1v16DfTxzCqvnCMbXBB9XnvBPGew+TxKC9MkLrssuOU3
-   JVLVa+eyFAMHm41X4CIHsJfTbFI+BkcZGD/vOD7Ga4HbsaiYVfE0Q+W7/
-   xcya+kwEpk44WgAzchd4oEOstOqIwdEm1LwT4yEa9V/nUWV2tXMbVsxI6
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="318327736"
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; 
-   d="scan'208";a="318327736"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2022 11:04:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; 
-   d="scan'208";a="648658036"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 21 Mar 2022 11:04:18 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nWMOA-000I2z-6w; Mon, 21 Mar 2022 18:04:18 +0000
-Date:   Tue, 22 Mar 2022 02:03:41 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:master] BUILD SUCCESS
- a949087c2285c8de4f0f204cab2d4eece9d929a2
-Message-ID: <6238bdfd.90sroQbGaXRQu4Jw%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 21 Mar 2022 14:24:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AE7A36141
+        for <linux-input@vger.kernel.org>; Mon, 21 Mar 2022 11:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1647886978;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=FfY8Crr6Tj01OHCDabQLLo1k6K5pz09f+j9vIenvmF0=;
+        b=TNvnXmyGUDPk5PrfVPT0cUE9JXJ9aUFSyzNDCLgwBwpLXHqkMVyK90+RuI135bunWPLj4e
+        DefRLbgYPMK1R9GrKrAoAfpL8ttTl31znq+QP8M2368gZaD0k+FjE+Teq3QvZyPOeo8Ymd
+        U6KRpeF7dwTsK47ftd1HuOxAUMNmTVs=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-497-zn1yrcehOeudF-KaJrRXfQ-1; Mon, 21 Mar 2022 14:22:57 -0400
+X-MC-Unique: zn1yrcehOeudF-KaJrRXfQ-1
+Received: by mail-pf1-f197.google.com with SMTP id t184-20020a6281c1000000b004e103c5f726so10159302pfd.8
+        for <linux-input@vger.kernel.org>; Mon, 21 Mar 2022 11:22:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=FfY8Crr6Tj01OHCDabQLLo1k6K5pz09f+j9vIenvmF0=;
+        b=Hf3oRxI1E12A0v+kHH9/DJWNzr/0oLitH4LHQ5UpjyP7fKkww/zn28bAlzILbLfJX0
+         Ase3piqflfGi2hLPOK807NlL3FDuWmatDBIZ9jfRF13CljmKAR0vILEzddjzfG7DWnUh
+         TK+pgqRDg6IixFyRFyRjTuTW2OL9kZoPL2fB1xenNv1nX9bIUJA0ycgbTHqBckCzv2gR
+         I+BK59GIApdzh8SSzZjYJJQlnIBHgfU4MR4VSa/Y3o+etR2Br4saNqOaJRXLomsRR90q
+         oJ7cpJIlCLRG61E6ufgXYWaCFRlSSUzOMjVt2xfzxa762AW2N5sgLV4HGx1vPwz81gKb
+         if6A==
+X-Gm-Message-State: AOAM531gWbCBRnRenOB1dh8rCB3jPQwcNw4S9y/5egs6HRgTJ4bDjt8B
+        x9DnZiL0Lj4kDmtDG9WOyAxy70mLyqO0ywsRbDKXQNyUrilgeiGlYEJxXPVmNdqwrbCh2iZvloD
+        f6V34irftSDbJKMPaqojICKRNLUdazuT9yccWg5U=
+X-Received: by 2002:a17:902:9308:b0:14e:def5:e6b5 with SMTP id bc8-20020a170902930800b0014edef5e6b5mr14049247plb.73.1647886976219;
+        Mon, 21 Mar 2022 11:22:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx9aMQx7N8NzYKX/luZYTlxOSYv+dJ1fzKnlT1BrjqExeEXa8Ysv2lVcuOFuxnRhYWNJpFSmIX5GsyMlUX8Mt8=
+X-Received: by 2002:a17:902:9308:b0:14e:def5:e6b5 with SMTP id
+ bc8-20020a170902930800b0014edef5e6b5mr14049231plb.73.1647886975908; Mon, 21
+ Mar 2022 11:22:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220320190602.7484-1-jose.exposito89@gmail.com> <CAO-hwJKZUSTaWUpE_vsvAs-MNoZ8UJLgxiCyQ6OzwHYFZszf2w@mail.gmail.com>
+In-Reply-To: <CAO-hwJKZUSTaWUpE_vsvAs-MNoZ8UJLgxiCyQ6OzwHYFZszf2w@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 21 Mar 2022 19:22:45 +0100
+Message-ID: <CAO-hwJL4=OGv34mXq3de4QEKW15tT4gZDOBxhkuXVh5AeSafeQ@mail.gmail.com>
+Subject: Re: [PATCH] HID: multitouch: fix Dell Precision 7550 and 7750 button type
+To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc:     Jiri Kosina <jkosina@suse.cz>, Takashi Iwai <tiwai@suse.de>,
+        Thorsten Leemhuis <regressions@leemhuis.info>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        "3.8+" <stable@vger.kernel.org>, regressions@lists.linux.dev,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
-branch HEAD: a949087c2285c8de4f0f204cab2d4eece9d929a2  Input: adi - remove redundant variable z
+On Mon, Mar 21, 2022 at 10:25 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> Hi Jos=C3=A9,
+>
+> On Sun, Mar 20, 2022 at 8:06 PM Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@=
+gmail.com> wrote:
+> >
+> > The touchpad present in the Dell Precision 7550 and 7750 laptops
+> > reports a HID_DG_BUTTONTYPE of type MT_BUTTONTYPE_CLICKPAD. However,
+> > the device is not a clickpad, it is a touchpad with physical buttons.
+> >
+> > In order to fix this issue, a quirk for the device was introduced in
+> > libinput [1] [2] to disable the INPUT_PROP_BUTTONPAD property:
+> >
+> >         [Precision 7x50 Touchpad]
+> >         MatchBus=3Di2c
+> >         MatchUdevType=3Dtouchpad
+> >         MatchDMIModalias=3Ddmi:*svnDellInc.:pnPrecision7?50*
+> >         AttrInputPropDisable=3DINPUT_PROP_BUTTONPAD
+> >
+> > However, because of the change introduced in 37ef4c19b4 ("Input: clear
+> > BTN_RIGHT/MIDDLE on buttonpads") the BTN_RIGHT key bit is not mapped
+> > anymore breaking the device right click button.
+> >
+> > In order to fix the issue, create a quirk for the device forcing its
+> > button type to touchpad regardless of the value reported by the
+> > firmware.
+> >
+> > [1] https://gitlab.freedesktop.org/libinput/libinput/-/merge_requests/4=
+81
+> > [2] https://bugzilla.redhat.com/show_bug.cgi?id=3D1868789
+> >
+> > Fixes: 37ef4c19b4 ("Input: clear BTN_RIGHT/MIDDLE on buttonpads")
+> > Signed-off-by: Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com>
+> > ---
+>
+> Thanks for the patch.
+> However, I'd like to put this one on hold for a bit. I am discussing
+> it right now with Peter and we are trying to see what are the possible
+> implications of starting to fix those in the kernel one by one.
+>
+> So Jiri, please hold on before applying this one.
 
-elapsed time: 727m
+Giving a little bit more context here (and quoting Peter).
 
-configs tested: 170
-configs skipped: 3
+"""
+The problem with [37ef4c19b4] is that it removes functionality -
+before a clickpad was falsely advertised but the button worked, now in
+the affected devices it simply no longer works because the button code
+gets filtered. And user-space can't work around this.
+...
+So the main question remains: why are we doing this?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+And the answer here is: because libinput can't handle clickpads with
+right buttons. But that's not really true either, libinput just
+doesn't want to, and for no other reason than that it's easier to
+handle it this way.
+"""
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20220321
-mips                 randconfig-c004-20220320
-i386                          randconfig-c001
-arc                 nsimosci_hs_smp_defconfig
-mips                           ip32_defconfig
-arm                        trizeps4_defconfig
-xtensa                  cadence_csp_defconfig
-arc                         haps_hs_defconfig
-powerpc                mpc7448_hpc2_defconfig
-sh                            migor_defconfig
-arm                           corgi_defconfig
-s390                             allmodconfig
-powerpc                        cell_defconfig
-arm                        oxnas_v6_defconfig
-h8300                     edosk2674_defconfig
-mips                           xway_defconfig
-parisc64                         alldefconfig
-powerpc                 mpc834x_mds_defconfig
-arm                          pxa3xx_defconfig
-sh                                  defconfig
-powerpc                     ep8248e_defconfig
-mips                       bmips_be_defconfig
-sh                           se7712_defconfig
-sh                        dreamcast_defconfig
-microblaze                      mmu_defconfig
-arm                           sunxi_defconfig
-arm                            qcom_defconfig
-powerpc                    amigaone_defconfig
-powerpc                        warp_defconfig
-powerpc                      pcm030_defconfig
-powerpc                    sam440ep_defconfig
-arm                             pxa_defconfig
-nios2                         10m50_defconfig
-sh                          rsk7269_defconfig
-powerpc64                           defconfig
-ia64                                defconfig
-sh                        sh7757lcr_defconfig
-powerpc                 mpc837x_rdb_defconfig
-m68k                             allmodconfig
-arm                         vf610m4_defconfig
-openrisc                    or1ksim_defconfig
-nds32                               defconfig
-arc                          axs103_defconfig
-arc                                 defconfig
-m68k                            q40_defconfig
-arc                           tb10x_defconfig
-sh                          urquell_defconfig
-csky                             alldefconfig
-arm64                            alldefconfig
-xtensa                          iss_defconfig
-powerpc                       ppc64_defconfig
-arm                            mps2_defconfig
-arc                            hsdk_defconfig
-m68k                         amcore_defconfig
-powerpc                     tqm8548_defconfig
-sh                          sdk7780_defconfig
-powerpc                 mpc85xx_cds_defconfig
-arm                  randconfig-c002-20220321
-arm                  randconfig-c002-20220320
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a016-20220321
-x86_64               randconfig-a011-20220321
-x86_64               randconfig-a012-20220321
-x86_64               randconfig-a013-20220321
-x86_64               randconfig-a014-20220321
-x86_64               randconfig-a015-20220321
-i386                 randconfig-a015-20220321
-i386                 randconfig-a016-20220321
-i386                 randconfig-a011-20220321
-i386                 randconfig-a013-20220321
-i386                 randconfig-a012-20220321
-i386                 randconfig-a014-20220321
-arc                  randconfig-r043-20220320
-riscv                randconfig-r042-20220321
-s390                 randconfig-r044-20220321
-arc                  randconfig-r043-20220321
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                                  kexec
+So basically, we tried to fix a choice on libinput assuming that all
+devices are perfect, for the only sake of making it easy for libinput.
+But the solution prevents further tweaks, and we then need to manually
+quirk devices in the kernel which involves a slightly heavier
+difficulty for end users than just dropping a config file or changing
+a setting in their UI.
 
-clang tested configs:
-x86_64                        randconfig-c007
-mips                 randconfig-c004-20220320
-arm                  randconfig-c002-20220320
-powerpc              randconfig-c003-20220320
-riscv                randconfig-c006-20220320
-i386                          randconfig-c001
-powerpc                      ppc64e_defconfig
-mips                      malta_kvm_defconfig
-powerpc                          allyesconfig
-mips                malta_qemu_32r6_defconfig
-mips                     cu1000-neo_defconfig
-powerpc                     mpc512x_defconfig
-powerpc                 mpc836x_rdk_defconfig
-arm                          ep93xx_defconfig
-powerpc                    gamecube_defconfig
-arm                          collie_defconfig
-powerpc                  mpc866_ads_defconfig
-mips                       rbtx49xx_defconfig
-mips                         tb0287_defconfig
-arm                       netwinder_defconfig
-arm                       cns3420vb_defconfig
-riscv                          rv32_defconfig
-arm                  colibri_pxa270_defconfig
-powerpc               mpc834x_itxgp_defconfig
-riscv                             allnoconfig
-powerpc                     pseries_defconfig
-arm                          imote2_defconfig
-arm                          pxa168_defconfig
-mips                       lemote2f_defconfig
-powerpc                    ge_imp3a_defconfig
-powerpc                       ebony_defconfig
-arm                      tct_hammer_defconfig
-x86_64               randconfig-a006-20220321
-x86_64               randconfig-a001-20220321
-x86_64               randconfig-a003-20220321
-x86_64               randconfig-a005-20220321
-x86_64               randconfig-a004-20220321
-x86_64               randconfig-a002-20220321
-i386                 randconfig-a003-20220321
-i386                 randconfig-a004-20220321
-i386                 randconfig-a001-20220321
-i386                 randconfig-a002-20220321
-i386                 randconfig-a005-20220321
-i386                 randconfig-a006-20220321
-riscv                randconfig-r042-20220320
-hexagon              randconfig-r045-20220321
-hexagon              randconfig-r045-20220320
-hexagon              randconfig-r041-20220321
-hexagon              randconfig-r041-20220320
-s390                 randconfig-r044-20220320
+With that said, this patch is:
+Nacked-by: me
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Jos=C3=A9, could you send a revert of 37ef4c19b4, and add "Cc:
+stable@vger.kernel.org" and all the other tags for the regression
+tracker bot?
+
+Thanks in advance.
+
+Cheers,
+Benjamin
+
+>
+> Cheers,
+> Benjamin
+>
+> >  drivers/hid/hid-ids.h        |  3 +++
+> >  drivers/hid/hid-multitouch.c | 20 ++++++++++++++++++++
+> >  2 files changed, 23 insertions(+)
+> >
+> > diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> > index 78bd3ddda442..6cf7a5b6835b 100644
+> > --- a/drivers/hid/hid-ids.h
+> > +++ b/drivers/hid/hid-ids.h
+> > @@ -287,6 +287,9 @@
+> >
+> >  #define USB_VENDOR_ID_CIDC             0x1677
+> >
+> > +#define USB_VENDOR_ID_CIRQUE_CORP              0x0488
+> > +#define USB_DEVICE_ID_DELL_PRECISION_7X50      0x120A
+> > +
+> >  #define USB_VENDOR_ID_CJTOUCH          0x24b8
+> >  #define USB_DEVICE_ID_CJTOUCH_MULTI_TOUCH_0020 0x0020
+> >  #define USB_DEVICE_ID_CJTOUCH_MULTI_TOUCH_0040 0x0040
+> > diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.=
+c
+> > index 99eabfb4145b..f012cf8e0b8c 100644
+> > --- a/drivers/hid/hid-multitouch.c
+> > +++ b/drivers/hid/hid-multitouch.c
+> > @@ -71,6 +71,7 @@ MODULE_LICENSE("GPL");
+> >  #define MT_QUIRK_SEPARATE_APP_REPORT   BIT(19)
+> >  #define MT_QUIRK_FORCE_MULTI_INPUT     BIT(20)
+> >  #define MT_QUIRK_DISABLE_WAKEUP                BIT(21)
+> > +#define MT_QUIRK_BUTTONTYPE_TOUCHPAD   BIT(22)
+> >
+> >  #define MT_INPUTMODE_TOUCHSCREEN       0x02
+> >  #define MT_INPUTMODE_TOUCHPAD          0x03
+> > @@ -194,6 +195,7 @@ static void mt_post_parse(struct mt_device *td, str=
+uct mt_application *app);
+> >  #define MT_CLS_WIN_8_FORCE_MULTI_INPUT         0x0015
+> >  #define MT_CLS_WIN_8_DISABLE_WAKEUP            0x0016
+> >  #define MT_CLS_WIN_8_NO_STICKY_FINGERS         0x0017
+> > +#define MT_CLS_BUTTONTYPE_TOUCHPAD             0x0018
+> >
+> >  /* vendor specific classes */
+> >  #define MT_CLS_3M                              0x0101
+> > @@ -302,6 +304,15 @@ static const struct mt_class mt_classes[] =3D {
+> >                         MT_QUIRK_CONTACT_CNT_ACCURATE |
+> >                         MT_QUIRK_WIN8_PTP_BUTTONS,
+> >                 .export_all_inputs =3D true },
+> > +       { .name =3D MT_CLS_BUTTONTYPE_TOUCHPAD,
+> > +               .quirks =3D MT_QUIRK_ALWAYS_VALID |
+> > +                       MT_QUIRK_IGNORE_DUPLICATES |
+> > +                       MT_QUIRK_HOVERING |
+> > +                       MT_QUIRK_CONTACT_CNT_ACCURATE |
+> > +                       MT_QUIRK_STICKY_FINGERS |
+> > +                       MT_QUIRK_WIN8_PTP_BUTTONS |
+> > +                       MT_QUIRK_BUTTONTYPE_TOUCHPAD,
+> > +               .export_all_inputs =3D true },
+> >
+> >         /*
+> >          * vendor specific classes
+> > @@ -1286,6 +1297,9 @@ static int mt_touch_input_configured(struct hid_d=
+evice *hdev,
+> >             (app->buttons_count =3D=3D 1))
+> >                 td->is_buttonpad =3D true;
+> >
+> > +       if (app->quirks & MT_QUIRK_BUTTONTYPE_TOUCHPAD)
+> > +               td->is_buttonpad =3D false;
+> > +
+> >         if (td->is_buttonpad)
+> >                 __set_bit(INPUT_PROP_BUTTONPAD, input->propbit);
+> >
+> > @@ -1872,6 +1886,12 @@ static const struct hid_device_id mt_devices[] =
+=3D {
+> >                 MT_USB_DEVICE(USB_VENDOR_ID_CHUNGHWAT,
+> >                         USB_DEVICE_ID_CHUNGHWAT_MULTITOUCH) },
+> >
+> > +       /* Cirque Corp (Dell Precision 7550 and 7750 touchpad) */
+> > +       { .driver_data =3D MT_CLS_BUTTONTYPE_TOUCHPAD,
+> > +               HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
+> > +                       USB_VENDOR_ID_CIRQUE_CORP,
+> > +                       USB_DEVICE_ID_DELL_PRECISION_7X50) },
+> > +
+> >         /* CJTouch panels */
+> >         { .driver_data =3D MT_CLS_NSMU,
+> >                 MT_USB_DEVICE(USB_VENDOR_ID_CJTOUCH,
+> > --
+> > 2.25.1
+> >
+
