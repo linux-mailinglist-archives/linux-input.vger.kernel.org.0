@@ -2,45 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 874504E3352
-	for <lists+linux-input@lfdr.de>; Mon, 21 Mar 2022 23:56:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E04E4E3369
+	for <lists+linux-input@lfdr.de>; Mon, 21 Mar 2022 23:56:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230344AbiCUWv2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Mar 2022 18:51:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34258 "EHLO
+        id S231355AbiCUW4U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Mar 2022 18:56:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbiCUWvW (ORCPT
+        with ESMTP id S230422AbiCUWzk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Mar 2022 18:51:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A42A9765A6;
-        Mon, 21 Mar 2022 15:42:04 -0700 (PDT)
+        Mon, 21 Mar 2022 18:55:40 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 091153BF8FF;
+        Mon, 21 Mar 2022 15:37:40 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 51563612B3;
-        Mon, 21 Mar 2022 21:52:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9AF0C340E8;
-        Mon, 21 Mar 2022 21:52:42 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 135ABB819FD;
+        Mon, 21 Mar 2022 21:53:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D82B0C340E8;
+        Mon, 21 Mar 2022 21:52:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647899563;
+        s=k20201202; t=1647899578;
         bh=Y1v8fu2Y1p+s/RFwt//XCiGvgEoAtY+3ZUcAltp7kvE=;
         h=From:To:Cc:Subject:Date:From;
-        b=Cxv6Ts8zdatqSBrcZWslqLy9oLLKxENtNFRgPWGOAhzdsxI2K8A5l7lRlRXQet3Fv
-         i9ACMiS0WhaeeVatpSCjotv3d/gfSvu/C6WqLojShp25Tm8uI9x2+Y8P52Hs7Vj2cL
-         J6VfmSC7NrhTg7ptB5RdGaHnuUWSgLXzwfNJsbC9lP3BvGE9/T6VFD9L/J+lxmfzof
-         QLN4sTillk5ygM38WqgoOGhoHd/vj0pw+s/pSrxdjpl6jP/TEdgKzOdailevJBm8r+
-         09PwD4gy198J3FSgbea+3/9QehUoVjM/CiYzQer9HY9VKDpbOzXPI7XrI23ENpjqY1
-         hzbGBs4SgaBNQ==
+        b=FT1sc9ELfzKea677NhBiey1ZSeRJ7KxmAnnBt0EZCHnVeBmrtY2dVqkVcz2C0wyc7
+         xFYa76G3aJdqj9CRCDYlLnzN+CjEJXAu/eZNXduOMnsj0ccs6cXRtuVUyzIZzHORCo
+         Ksj0yfhY2lj08fhBOBsLSdtLHDpmG2GvtkD6DQYdx9fCOIqt8o+159guQ+9l0Z7Lha
+         5LE1N+5eXvjGqUyCe/b2PRkiy63nfcf0l6LNM9QVK9NXZDil4rVptQPU86hCiPvVQV
+         fAP69US736ClRHUDiZwuu7I1nwfz8S+kY1UGUlPjAftGsA2tBjzUeK06q5DATkny0a
+         YGHece/92LZ/g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, nikita@trvn.ru,
         song.bao.hua@hisilicon.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 1/6] Input: zinitix - do not report shadow fingers
-Date:   Mon, 21 Mar 2022 17:52:32 -0400
-Message-Id: <20220321215240.490132-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 1/5] Input: zinitix - do not report shadow fingers
+Date:   Mon, 21 Mar 2022 17:52:49 -0400
+Message-Id: <20220321215256.490267-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 X-stable: review
