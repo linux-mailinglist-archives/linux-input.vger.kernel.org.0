@@ -2,45 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E04E4E3369
-	for <lists+linux-input@lfdr.de>; Mon, 21 Mar 2022 23:56:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAEB04E3365
+	for <lists+linux-input@lfdr.de>; Mon, 21 Mar 2022 23:56:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231355AbiCUW4U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Mar 2022 18:56:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56776 "EHLO
+        id S230454AbiCUWzi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Mar 2022 18:55:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230422AbiCUWzk (ORCPT
+        with ESMTP id S230453AbiCUWzX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Mar 2022 18:55:40 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 091153BF8FF;
-        Mon, 21 Mar 2022 15:37:40 -0700 (PDT)
+        Mon, 21 Mar 2022 18:55:23 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B7903B2A14;
+        Mon, 21 Mar 2022 15:37:43 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 135ABB819FD;
-        Mon, 21 Mar 2022 21:53:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D82B0C340E8;
-        Mon, 21 Mar 2022 21:52:57 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2D747B81A66;
+        Mon, 21 Mar 2022 21:53:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3F2BC340F0;
+        Mon, 21 Mar 2022 21:53:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647899578;
-        bh=Y1v8fu2Y1p+s/RFwt//XCiGvgEoAtY+3ZUcAltp7kvE=;
+        s=k20201202; t=1647899590;
+        bh=/yE+Sme9P6DeiwPLI0+q7oIXGmD4IVHQHa6leBP2hnE=;
         h=From:To:Cc:Subject:Date:From;
-        b=FT1sc9ELfzKea677NhBiey1ZSeRJ7KxmAnnBt0EZCHnVeBmrtY2dVqkVcz2C0wyc7
-         xFYa76G3aJdqj9CRCDYlLnzN+CjEJXAu/eZNXduOMnsj0ccs6cXRtuVUyzIZzHORCo
-         Ksj0yfhY2lj08fhBOBsLSdtLHDpmG2GvtkD6DQYdx9fCOIqt8o+159guQ+9l0Z7Lha
-         5LE1N+5eXvjGqUyCe/b2PRkiy63nfcf0l6LNM9QVK9NXZDil4rVptQPU86hCiPvVQV
-         fAP69US736ClRHUDiZwuu7I1nwfz8S+kY1UGUlPjAftGsA2tBjzUeK06q5DATkny0a
-         YGHece/92LZ/g==
+        b=M6yBvafZ3D2xuVh5WZt4BgylGkT5tEJcTybhGdLp+VQIvWc8tBYvQFSFHtLF7n0NX
+         cwa4Ry4I6O+/6/3Z+I/D7Iltcfd90XpOH4D6SJj/JjvZkDfMr5FnHjKwj7evAyQ1dj
+         SM+VBB0/9x6HDBT+/uq3xl6zBd8ff7WhDoC4vgJqJOUCDmMjA31J7RwsG+ROPt6Jz7
+         J1zuMtuKyXJ5TWGHbzxrkwKgiyKoeO1e8ns0Aif+xcTlQToyHZZXJY38CN1fbmInDC
+         ZPDRzh8kfrUqIkodRGl5e2xB2Z5m5JcZxEpajz6QYmPYX5PiyYKs640oXw+yLO7jjd
+         HPPNSSiH6Ux3Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, nikita@trvn.ru,
         song.bao.hua@hisilicon.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 1/5] Input: zinitix - do not report shadow fingers
-Date:   Mon, 21 Mar 2022 17:52:49 -0400
-Message-Id: <20220321215256.490267-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 1/4] Input: zinitix - do not report shadow fingers
+Date:   Mon, 21 Mar 2022 17:53:02 -0400
+Message-Id: <20220321215308.490358-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 X-stable: review
@@ -122,7 +122,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 35 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
-index 1e70b8d2a8d7..400957f4c8c9 100644
+index 6df6f07f1ac6..17b10b81c713 100644
 --- a/drivers/input/touchscreen/zinitix.c
 +++ b/drivers/input/touchscreen/zinitix.c
 @@ -135,7 +135,7 @@ struct point_coord {
