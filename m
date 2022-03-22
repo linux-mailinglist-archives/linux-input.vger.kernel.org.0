@@ -2,105 +2,149 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB5BC4E3673
-	for <lists+linux-input@lfdr.de>; Tue, 22 Mar 2022 03:11:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CDA04E3A5A
+	for <lists+linux-input@lfdr.de>; Tue, 22 Mar 2022 09:16:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235409AbiCVCM6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Mar 2022 22:12:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33242 "EHLO
+        id S229966AbiCVISG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Mar 2022 04:18:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235422AbiCVCM4 (ORCPT
+        with ESMTP id S230435AbiCVISE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Mar 2022 22:12:56 -0400
-Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C60431D0F9;
-        Mon, 21 Mar 2022 19:11:16 -0700 (PDT)
-X-UUID: dd3f82672986463ea90bc96c9671ccc3-20220322
-X-UUID: dd3f82672986463ea90bc96c9671ccc3-20220322
-Received: from cs2c.com.cn [(172.17.111.24)] by nksmu.kylinos.cn
-        (envelope-from <zhouzongmin@kylinos.cn>)
-        (Generic MTA)
-        with ESMTP id 1776092599; Tue, 22 Mar 2022 10:10:26 +0800
-X-ns-mid: postfix-6239303C-8089562461
-Received: from localhost.localdomain (unknown [172.20.12.156])
-        by cs2c.com.cn (NSMail) with ESMTPA id A2351383C640;
-        Tue, 22 Mar 2022 02:11:08 +0000 (UTC)
-From:   Zongmin Zhou <zhouzongmin@kylinos.cn>
-To:     linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
-        dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        zhouzongmin@kylinos.cn
-Subject: [PATCH] input/vmmouse: Add vmmouse_reset() function to disable vmmouse before entering suspend mode
-Date:   Tue, 22 Mar 2022 10:10:46 +0800
-Message-Id: <20220322021046.1087954-1-zhouzongmin@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+        Tue, 22 Mar 2022 04:18:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 70501517CA
+        for <linux-input@vger.kernel.org>; Tue, 22 Mar 2022 01:16:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1647936996;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=jG/7zpqyUAloOmc0F0feSU4evhIguB10duxCLGZT2vY=;
+        b=Bn098LkX+dGPJH/gO5nJ55mcE6tC184i7ETizy30Sh3mgXSaKQlkEjapPf6B8MdRCjXs3/
+        7JOobmeVk+3tqNWVRBft31/Xcj9wYpohvG8PmRgMiwqvHNXNAtqU63OXCfaZeBdD5YR6Rp
+        Cr3KT27kx99Zqy7+w6RWy6yDFcxDFdw=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-523-KwAEAT87P-S6m95n8a0m5A-1; Tue, 22 Mar 2022 04:16:29 -0400
+X-MC-Unique: KwAEAT87P-S6m95n8a0m5A-1
+Received: by mail-pg1-f200.google.com with SMTP id bj8-20020a056a02018800b0035ec8c16f0bso8469071pgb.11
+        for <linux-input@vger.kernel.org>; Tue, 22 Mar 2022 01:16:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jG/7zpqyUAloOmc0F0feSU4evhIguB10duxCLGZT2vY=;
+        b=RmOh0txj9ZuMgH6Afkr1vk9iYvYQobiWo+5A/nh7q+7vtbKbrdN4fzmCDZP3vMCCJJ
+         hEIOlOTM7oB4V1cW+3cx8ctzMHhhhlXXx4G042vrbs4RMhJc78m4MQRIzp3SDqxsf9P6
+         DPrcy2Bfvj17FXup9YmBzEgso2pzJ9YujID/6+x6MjWvLxI8yJZBBzKV/AIxkVLBOmeQ
+         VHZLYXZzDEyTCSleTuAP9ywDHgvrGc9DpxhcZek6N/lsDC809WYG3QMXJeZqYXaP/6B/
+         lx9+fKwLOA9vCwlHbTOoUqmOVU5pGCvv30gVtMZaH2KbT/Ptd910I88dp9UYazO2c2fI
+         qYvg==
+X-Gm-Message-State: AOAM5311cPu8lG1fwf3tPb5enbM/7JYx6cyh+isgXgk4/3Z+b11svLIq
+        nhLvvqfCSzvdp3i12STcdZGNA+U6I/eBevr2Zty946v9+Od9nFxubMtSg4uDiR4+rWZv3JCE1oS
+        TArDhomiZ0aZtjPeQdnoI6uN3T5VoOhVsXYNf2V8=
+X-Received: by 2002:a17:90b:4c44:b0:1c7:109c:b419 with SMTP id np4-20020a17090b4c4400b001c7109cb419mr3574766pjb.113.1647936988009;
+        Tue, 22 Mar 2022 01:16:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxlBPARbW3RIStjMj1Eu5lkWOKd8H1gRjPyfpy7+IGnlWC2jtvt7cEJcRlSL0ZUm93GjwJ1RZA+QGyu/aDmb5w=
+X-Received: by 2002:a17:90b:4c44:b0:1c7:109c:b419 with SMTP id
+ np4-20020a17090b4c4400b001c7109cb419mr3574747pjb.113.1647936987704; Tue, 22
+ Mar 2022 01:16:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
-        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_PERMERROR,UNPARSEABLE_RELAY
-        autolearn=no autolearn_force=no version=3.4.6
+References: <CAB4aORX8BYLL9xY6XiC1P_+J4o2LQrXV8x_-3gdU1PJsdx+-aQ@mail.gmail.com>
+In-Reply-To: <CAB4aORX8BYLL9xY6XiC1P_+J4o2LQrXV8x_-3gdU1PJsdx+-aQ@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 22 Mar 2022 09:16:16 +0100
+Message-ID: <CAO-hwJ+OgLMkAy+Ms1xgHz3RTYxS+5LCSSP3njju+joTYWZMqA@mail.gmail.com>
+Subject: Re: HID device initiated reset and need for device reconfiguration in
+ linux driver
+To:     Angela Czubak <acz@semihalf.com>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Details:
-When I use VirtualPS/2 VMMouse on virtual machine,There will be an error message after resume from suspend mode.
-like below:
-psmouse serio1: vmmouse: Unable to re-enable mouse when reconnecting, err: -6
-And vmmouse will be unusable，so have to do full rescan to find a another driver to use for the port.
+Hi Angela,
 
-This error is due to QEMU still generate PS2 events to notify kernel driver to read from queue,
-but kernel can't process the data in suspend mode, resulting a surge of s->nb_queue value,
-which ultimately led to an error getting VMMOUSE_VERSION_ID after resume.
+On Mon, Mar 21, 2022 at 10:05 PM Angela Czubak <acz@semihalf.com> wrote:
+>
+> Hi Dmitry, Hi Benjamin,
+>
+> I am wondering if there is some mechanism already present in the linux
+> kernel that would trigger
+> some (re)configration process once a (device initiated?) reset has
+> been detected for a HID device.
+>
+> My precise scenario is a case in which a haptic device decides to
+> reset itself for some reason
+> after it has been already probed. The default device mode is autonomous mode.
+> However, since I would like to add kernel support, the driver itself
+> would believe the device is
+> in manual mode, and either it would generate output reports itself or
+> would allow the user space
+> to do so.
+> This might result in doubled haptic feedback (from the device itself
+> and the kernel/user initiated one).
+>
+> I can see that in drivers/hid/i2c-hid/i2c-hid-core.c that there is a
+> point where we realise that a reset
+> has happened (interrupt handler case where response size is actually
+> 0). I would guess it could
+> be a good place to issue some callback that would trigger all
+> necessary reconfiguration (in my case
+> it would be putting the device back into manual mode).
+> I suppose we could add something like 'int (*reset)(struct hid_device
+> *hdev)' to 'struct hid_driver'
+> definition, then set it if applicable in a relevant hid-* driver, so
+> that we could issue it in case of reset,
+> specifically the device initiated reset.
+>
+> It does not seem a problem specific to haptic devices, so I am
+> wondering if that would be a good
+> approach, or, perhaps, there is some kind of already existing
+> workaround for such situations.
 
-Test scenario:
-1)virtual machine started with qemu command "vmport=on",it will use VirtualPS/2 VMMouse
-2)click suspend botton to enter suspend mode
-3)resume and will get the error message from dmesg
+FWIW, we already had a similar-ish discussion about that while
+reviewing the v1 of spi-hid [0].
 
-Fixed by:
-Disabling the vmmouse in its reset handler,It will notify qemu to stop vmmouse and remove handler.
+Basically, it seems that spi-hid devices are seeing more of those
+device initiated reset, and that something needs to be done.
+However, in this very specific use case, all that matters was to reset
+the device, but nothing else was required (the device was already in
+the correct mode).
 
-Signed-off-by: Zongmin Zhou<zhouzongmin@kylinos.cn>
----
- drivers/input/mouse/vmmouse.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+So we decided to postpone the decision/implementation.
 
-diff --git a/drivers/input/mouse/vmmouse.c b/drivers/input/mouse/vmmouse.c
-index 42443ffba7c4..ea9eff7c8099 100644
---- a/drivers/input/mouse/vmmouse.c
-+++ b/drivers/input/mouse/vmmouse.c
-@@ -365,6 +365,19 @@ int vmmouse_detect(struct psmouse *psmouse, bool set_properties)
- 	return 0;
- }
- 
-+/**
-+ * vmmouse_reset - Disable vmmouse and reset
-+ *
-+ * @psmouse: Pointer to the psmouse struct
-+ *
-+ * Tries to disable vmmouse mode before enter suspend.
-+ */
-+static void vmmouse_reset(struct psmouse *psmouse)
-+{
-+	vmmouse_disable(psmouse);
-+	psmouse_reset(psmouse);
-+}
-+
- /**
-  * vmmouse_disconnect - Take down vmmouse driver
-  *
-@@ -472,6 +485,7 @@ int vmmouse_init(struct psmouse *psmouse)
- 	psmouse->protocol_handler = vmmouse_process_byte;
- 	psmouse->disconnect = vmmouse_disconnect;
- 	psmouse->reconnect = vmmouse_reconnect;
-+	psmouse->cleanup = vmmouse_reset;
- 
- 	return 0;
- 
--- 
-2.25.1
+Now, it definitely makes sense for haptics devices to be notified
+about such resets, because you enter in some inconsistent state.
+
+Your approach of adding a new callback to struct hid_driver is the
+correct one IMO, and we never implemented it until now because we
+never had a strong need for it.
+I think this only matters for I2C and SPI devices.
+AFAICT, USB or Bluetooth devices would simply completely
+remove/recreate the device in the rare cases where this happens. But
+the discussions around SPI makes me think that it is way more common
+in the I2C and SPI cases, so reconnecting the device is rather brutal.
+
+Cheers,
+Benjamin
+
+>
+> Any advice would be welcome :)
+>
+> Regards,
+> Angela
+>
+
+[0] https://lore.kernel.org/linux-input/CAO-hwJLVMK9Vh9za70uFzimXv444HC5az_1Jr4ut6BDA+XSfYA@mail.gmail.com/#r
 
