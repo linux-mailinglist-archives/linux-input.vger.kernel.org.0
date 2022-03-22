@@ -2,87 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5927F4E3D25
-	for <lists+linux-input@lfdr.de>; Tue, 22 Mar 2022 12:06:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F328B4E3D53
+	for <lists+linux-input@lfdr.de>; Tue, 22 Mar 2022 12:15:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233876AbiCVLIH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Mar 2022 07:08:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45460 "EHLO
+        id S232876AbiCVLQt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Mar 2022 07:16:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233896AbiCVLHy (ORCPT
+        with ESMTP id S231534AbiCVLQs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Mar 2022 07:07:54 -0400
+        Tue, 22 Mar 2022 07:16:48 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D1CB26B08D
-        for <linux-input@vger.kernel.org>; Tue, 22 Mar 2022 04:06:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F28147DAA9
+        for <linux-input@vger.kernel.org>; Tue, 22 Mar 2022 04:15:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647947184;
+        s=mimecast20190719; t=1647947720;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=FCN73VojYTO9kljcWQ13H5/nQPlAxw07sJxBf+2VjUA=;
-        b=H2Zq1cVoJydixIK2B2CsbTdLcTbRe7kxljmiuqaaW/LETNRDoaPEs7LggRGM2BCptnvRsu
-        kR4fff6qf9H5tuG+QS3noE7GmSOjKKlhHi/niNl4OGpQ/6TOD++N2SbEHqEx4/zml199eg
-        mZaTkVscn6WMo5CEzL0X47N6hygNkF4=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=9+UC/u0PtbhZRKj2jRfChXJZesydUtyvw1SAh08In7c=;
+        b=gPVCE8cXpHvDtITuwaiI5CIczvakyDPMGUr5aUY7fv+kTe1JhbQDxD81DA3cZJvUidhWMh
+        7zAMjvuT/7CC5DIIUVsw6gWfzisj9I6hwlX8zZmytFC2tZQuvg/qmpQ8X0ug27Ty9iaSX8
+        eJJ5rfYAbX5T4ycb9xSAw9UDOn4PYYA=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-646-1w15LoL-PV-Eem7jzcxzGw-1; Tue, 22 Mar 2022 07:06:23 -0400
-X-MC-Unique: 1w15LoL-PV-Eem7jzcxzGw-1
-Received: by mail-pl1-f200.google.com with SMTP id x18-20020a170902ea9200b00153e0dbca9bso5462796plb.9
-        for <linux-input@vger.kernel.org>; Tue, 22 Mar 2022 04:06:23 -0700 (PDT)
+ us-mta-82-f_GY2X3RP9Cc_75sNQih2A-1; Tue, 22 Mar 2022 07:15:19 -0400
+X-MC-Unique: f_GY2X3RP9Cc_75sNQih2A-1
+Received: by mail-ej1-f69.google.com with SMTP id k16-20020a17090632d000b006ae1cdb0f07so8522363ejk.16
+        for <linux-input@vger.kernel.org>; Tue, 22 Mar 2022 04:15:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FCN73VojYTO9kljcWQ13H5/nQPlAxw07sJxBf+2VjUA=;
-        b=jwOOol4u3cB+IihnfiOcGmTpGZlujYph3JvJAEBIHIClrrEJXd7AcEZQxx58ubvHyU
-         MTkyOoolRhdxjQ2d+fQzG4yBCKzH8DGD9mbBKQMm17sGC8zKeWuGmkxOLvbEoncA3fPC
-         1tW19+aMIeGgzoJU5SgtFpQ/E8QnQ3vwhF5wwgDThFERtKpfrpbwbofpNa6QHthTkWc6
-         mgbvAPo/usF+aEYXd74fwBIyPJTNvYqHjyOtpAUoASg6EGd5X7KaC3/IxeFRQf1O7Klq
-         pfvG2DUXiKQXkbHykdzebayFNJBWoYPv1LQ9g6E6EX7mf1s+LtJtG3lDNdIMqOYeNMRx
-         ww2A==
-X-Gm-Message-State: AOAM531jqd6OzDEkY+uCyqcLF+t2Bfr9w5oJ/86GXsLdeLn5efiBAF3j
-        kZYTN409EcsZpZRBj6BQJU0VlgPmnGoUkrJCdcK7q9mRE0bCShJIEe/V8Qf0who21Zj3LQoEbM1
-        7FL7x1NY/4vAZCLVKeHrF8jyH+GZWZaXJCj7cHxU=
-X-Received: by 2002:a05:6a00:781:b0:4f4:2a:2d89 with SMTP id g1-20020a056a00078100b004f4002a2d89mr28353597pfu.13.1647947182453;
-        Tue, 22 Mar 2022 04:06:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxr+q2ATbHevtxQq+KnIYNOBZEc3a+OTtO21QwUxoenZhXslv90N6P5NwAn9zxlvY4pCldPh/cy5+2PEff6pyY=
-X-Received: by 2002:a05:6a00:781:b0:4f4:2a:2d89 with SMTP id
- g1-20020a056a00078100b004f4002a2d89mr28353561pfu.13.1647947182060; Tue, 22
- Mar 2022 04:06:22 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=9+UC/u0PtbhZRKj2jRfChXJZesydUtyvw1SAh08In7c=;
+        b=Am/bcX2gnPaIQ4fJaD/xsXMbYj5Q4k437ebL46fSAnbnx+XyybkSJlSSbk/TN5xqFC
+         fZwdedP25UlxBWf1J+RPOZRQk/Wj6FhJFIZghgExb5b+n0JMX7kfYRT7QdDgHe7WyFD5
+         /korPvUAeL4nog5ErbH0vWCsKCw4UxNrqCvfpaNDOM2A5Aqo3ZhIlY9dlb4sDzSa+pIj
+         3so3wYdti6+Bu8irx1JdX9xEi2NyPNP9EfGcUNeAgq/qMHZYXeukzlGiNCnfYbClt3sG
+         l8+L0fyVW8CGDaqFxBYNu5b3NXaPC4R/8qnSrHwPCAwC+7Y+UECwnXKJ/vTaAYNJaTYP
+         77gw==
+X-Gm-Message-State: AOAM531zuw3le+Gv1Bw7dUqXq+zC1Y7Gjo8fBTXzidwnTh4Dtsbypj9O
+        CJqN/dB6jhzkxKQc9wTt9ImWmeygubk5T+PwX7WltRx5fzq2OWNY8AAjt2HihqdMBrwETWLjbA2
+        TGnCnAFBLBeKDTK16FtWDaGg=
+X-Received: by 2002:a17:907:6d0d:b0:6db:f0f8:654d with SMTP id sa13-20020a1709076d0d00b006dbf0f8654dmr25117725ejc.304.1647947717426;
+        Tue, 22 Mar 2022 04:15:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJztuw0yNJlw73T6KIfQYuamz6XiUFLX3+Qtr0m4cBQUuSF6vyV6Eeh/JUedUW2DEs+W3oFzWQ==
+X-Received: by 2002:a17:907:6d0d:b0:6db:f0f8:654d with SMTP id sa13-20020a1709076d0d00b006dbf0f8654dmr25117698ejc.304.1647947717179;
+        Tue, 22 Mar 2022 04:15:17 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:cdb2:2781:c55:5db0? (2001-1c00-0c1e-bf00-cdb2-2781-0c55-5db0.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:cdb2:2781:c55:5db0])
+        by smtp.gmail.com with ESMTPSA id qa44-20020a17090786ac00b006dbe1ca23casm8117781ejc.45.2022.03.22.04.15.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Mar 2022 04:15:16 -0700 (PDT)
+Message-ID: <30340bc0-3a75-cccc-ed98-f80f3ce94627@redhat.com>
+Date:   Tue, 22 Mar 2022 12:15:15 +0100
 MIME-Version: 1.0
-References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
- <20220318161528.1531164-3-benjamin.tissoires@redhat.com> <CAPhsuW5qseqVs4=hz3VvSJ2ObqB2kTbKXoaOCh=5vjoU_AXnKQ@mail.gmail.com>
- <CAO-hwJ+WSi645HhNV_BYACoJe2UTc4KZzqH0oHocfnBR8xUYEQ@mail.gmail.com> <CAPhsuW4+b66Keh_f+UoApM8UenhnJ5wD_SaatAFDms9=g7ENyw@mail.gmail.com>
-In-Reply-To: <CAPhsuW4+b66Keh_f+UoApM8UenhnJ5wD_SaatAFDms9=g7ENyw@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 22 Mar 2022 12:06:11 +0100
-Message-ID: <CAO-hwJLAAB=hAffiRAEsv-qgj+GYcLsULQVjQ2i1_ZZTB5dPRw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 02/17] bpf: introduce hid program type
-To:     Song Liu <song@kernel.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] Revert "Input: clear BTN_RIGHT/MIDDLE on buttonpads"
+Content-Language: en-US
+To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+        jkosina@suse.cz
+Cc:     tiwai@suse.de, benjamin.tissoires@redhat.com,
+        regressions@leemhuis.info, peter.hutterer@who-t.net,
+        linux-input@vger.kernel.org, stable@vger.kernel.org,
+        regressions@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220321184404.20025-1-jose.exposito89@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220321184404.20025-1-jose.exposito89@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -90,110 +85,65 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Mar 21, 2022 at 10:52 PM Song Liu <song@kernel.org> wrote:
->
-> On Mon, Mar 21, 2022 at 9:07 AM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > Hi Song,
-> >
-> > many thanks for the quick response.
-> >
-> > On Fri, Mar 18, 2022 at 9:48 PM Song Liu <song@kernel.org> wrote:
-> [...]
-> > >
-> > > > diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-> > >
-> > > We need to mirror these changes to tools/include/uapi/linux/bpf.h.
-> >
-> > OK. I did that in patch 4/17 but I can bring in the changes there too.
->
-> Let's keep changes to the two files in the same patch. This will make
-> sure they are back ported together.
+Hi,
 
-Ack
+On 3/21/22 19:44, José Expósito wrote:
+> This reverts commit 37ef4c19b4c659926ce65a7ac709ceaefb211c40.
+> 
+> The touchpad present in the Dell Precision 7550 and 7750 laptops
+> reports a HID_DG_BUTTONTYPE of type MT_BUTTONTYPE_CLICKPAD. However,
+> the device is not a clickpad, it is a touchpad with physical buttons.
+> 
+> In order to fix this issue, a quirk for the device was introduced in
+> libinput [1] [2] to disable the INPUT_PROP_BUTTONPAD property:
+> 
+> 	[Precision 7x50 Touchpad]
+> 	MatchBus=i2c
+> 	MatchUdevType=touchpad
+> 	MatchDMIModalias=dmi:*svnDellInc.:pnPrecision7?50*
+> 	AttrInputPropDisable=INPUT_PROP_BUTTONPAD
+> 
+> However, because of the change introduced in 37ef4c19b4 ("Input: clear
+> BTN_RIGHT/MIDDLE on buttonpads") the BTN_RIGHT key bit is not mapped
+> anymore breaking the device right click button and making impossible to
+> workaround it in user space.
+> 
+> In order to avoid breakage on other present or future devices, revert
+> the patch causing the issue.
+> 
+> Cc: stable@vger.kernel.org
+> Link: https://gitlab.freedesktop.org/libinput/libinput/-/merge_requests/481 [1]
+> Link: https://bugzilla.redhat.com/show_bug.cgi?id=1868789  [2]
+> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 
->
-> [...]
-> > > > +enum hid_bpf_event {
-> > > > +       HID_BPF_UNDEF = 0,
-> > > > +       HID_BPF_DEVICE_EVENT,           /* when attach type is BPF_HID_DEVICE_EVENT */
-> > > > +       HID_BPF_RDESC_FIXUP,            /* ................... BPF_HID_RDESC_FIXUP */
-> > > > +       HID_BPF_USER_EVENT,             /* ................... BPF_HID_USER_EVENT */
-> > >
-> > > Why don't we have a DRIVER_EVENT type here?
-> >
-> > For driver event, I want to have a little bit more of information
-> > which tells which event we have:
-> > - HID_BPF_DRIVER_PROBE
-> > - HID_BPF_DRIVER_SUSPEND
-> > - HID_BPF_DRIVER_RAW_REQUEST
-> > - HID_BPF_DRIVER_RAW_REQUEST_ANSWER
-> > - etc...
-> >
-> > However, I am not entirely sure on the implementation of all of those,
-> > so I left them aside for now.
-> >
-> > I'll work on that for v4.
->
-> This set is already pretty big. I guess we can add them in a follow-up set.
->
-> >
-> > >
-> > > >
-> > > [...]
- [...]
-> > > > +
-> > > > +static int hid_bpf_prog_test_run(struct bpf_prog *prog,
-> > > > +                                const union bpf_attr *attr,
-> > > > +                                union bpf_attr __user *uattr)
-> > > > +{
-> > > > +       struct hid_device *hdev = NULL;
-> > > > +       struct bpf_prog_array *progs;
-> > > > +       bool valid_prog = false;
-> > > > +       int i;
-> > > > +       int target_fd, ret;
-> > > > +       void __user *data_out = u64_to_user_ptr(attr->test.data_out);
-> > > > +       void __user *data_in = u64_to_user_ptr(attr->test.data_in);
-> > > > +       u32 user_size_in = attr->test.data_size_in;
-> > > > +       u32 user_size_out = attr->test.data_size_out;
-> > > > +       u32 allocated_size = max(user_size_in, user_size_out);
-> > > > +       struct hid_bpf_ctx_kern ctx = {
-> > > > +               .type = HID_BPF_USER_EVENT,
-> > > > +               .allocated_size = allocated_size,
-> > > > +       };
-> > > > +
-> > > > +       if (!hid_hooks.hdev_from_fd)
-> > > > +               return -EOPNOTSUPP;
-> > > > +
-> > > > +       if (attr->test.ctx_size_in != sizeof(int))
-> > > > +               return -EINVAL;
-> > >
-> > > ctx_size_in is always 4 bytes?
-> >
-> > Yes. Basically what I had in mind is that the "ctx" for
-> > user_prog_test_run is the file descriptor to the sysfs that represent
-> > the HID device.
-> > This seemed to me to be the easiest to handle for users.
-> >
-> > I'm open to suggestions though.
->
-> How about we use data_in? ctx for test_run usually means the program ctx,
-> which is struct hid_bpf_ctx here.
->
+Thanks, patch looks good to me:
 
-I'd rather not use data_in. data_in is forwarded as it is in the ctx
-of the program, so adding a bulky API where the first byte is the
-target_fd doesn't make a lot of sense IMO.
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-However, I just managed to achieve what I initially wanted to do
-without luck: just use the struct bpf_prog as the sole argument.
-I thought iterating over all hid devices would be painful, but it
-turns out that is exactly what hid_bpf_fd_to_hdev() was doing, so
-there is no penalty in doing so.
+Regards,
 
-Anyway, I'll drop ctx_in in the next version.
+Hans
 
-Cheers,
-Benjamin
+
+> ---
+>  drivers/input/input.c | 6 ------
+>  1 file changed, 6 deletions(-)
+> 
+> diff --git a/drivers/input/input.c b/drivers/input/input.c
+> index c3139bc2aa0d..ccaeb2426385 100644
+> --- a/drivers/input/input.c
+> +++ b/drivers/input/input.c
+> @@ -2285,12 +2285,6 @@ int input_register_device(struct input_dev *dev)
+>  	/* KEY_RESERVED is not supposed to be transmitted to userspace. */
+>  	__clear_bit(KEY_RESERVED, dev->keybit);
+>  
+> -	/* Buttonpads should not map BTN_RIGHT and/or BTN_MIDDLE. */
+> -	if (test_bit(INPUT_PROP_BUTTONPAD, dev->propbit)) {
+> -		__clear_bit(BTN_RIGHT, dev->keybit);
+> -		__clear_bit(BTN_MIDDLE, dev->keybit);
+> -	}
+> -
+>  	/* Make sure that bitmasks not mentioned in dev->evbit are clean. */
+>  	input_cleanse_bitmasks(dev);
+>  
 
