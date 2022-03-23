@@ -2,141 +2,275 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C404B4E54AC
-	for <lists+linux-input@lfdr.de>; Wed, 23 Mar 2022 15:58:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 506B04E5608
+	for <lists+linux-input@lfdr.de>; Wed, 23 Mar 2022 17:08:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240477AbiCWO72 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Mar 2022 10:59:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60394 "EHLO
+        id S229896AbiCWQKO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Mar 2022 12:10:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244954AbiCWO71 (ORCPT
+        with ESMTP id S235746AbiCWQKM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Mar 2022 10:59:27 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6330C83022
-        for <linux-input@vger.kernel.org>; Wed, 23 Mar 2022 07:57:57 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id v35so3135846ybi.10
-        for <linux-input@vger.kernel.org>; Wed, 23 Mar 2022 07:57:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DHFyYzS6sfWkPynozwhvdG09XHmrM7p05a2OX3evjQc=;
-        b=cy81ymLa5eN2qDfZxDw68v5na2PC4BDIhimnygQXky6D1UJ99bSgLma+iZLWg5j4kl
-         seekZ+cgA6NSCtwQdvUrscXT8QwOhNAuZJ78lp6OqAox3QnCgnUTg2+M4a2zftN/EiQz
-         4qz43c05ps0iKAhDALZ64d3Z+FoTMIw0q9tEYzfylJd2aIfXZnRNEEsS/MgTj6IWBvBs
-         zl+WXf3ls4QuZgPWRIkenkUZqJdYkg1MxEw79sST5kMIBN4XJKc7XLocWFNS0ju4rHSh
-         FYFlfPj1tvr4nCcmSg3bu1y+SV4v8QPf9tc+vaTKPBYHg3FfwRvF9V9yqiixBGdHhD5H
-         HKTg==
+        Wed, 23 Mar 2022 12:10:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 81B372DA96
+        for <linux-input@vger.kernel.org>; Wed, 23 Mar 2022 09:08:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1648051721;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=jojw5f7wnm9EHe+O1hZXC5y0oSm+5NVhYv4rzpOxMAw=;
+        b=WAsL+ZxAp/hZtNdMQzdqqn81M3kM8Q39CKsv6a0mrL+itPboDXl0eXxWK6jMxnbGWxazVu
+        jA00TR+i6H1S6gZRNZXgzF8wirGtMoXDqRL12DwKZKwTuLBPsVEnI5Nf/glujcdmhUBBem
+        ISnbJWdElTb8aSD0EtNwY9jOKhR3ylw=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-341-8qy04MJNNeiBC5h9cNKqQA-1; Wed, 23 Mar 2022 12:08:39 -0400
+X-MC-Unique: 8qy04MJNNeiBC5h9cNKqQA-1
+Received: by mail-pf1-f198.google.com with SMTP id 16-20020a621910000000b004f783aad863so1239706pfz.15
+        for <linux-input@vger.kernel.org>; Wed, 23 Mar 2022 09:08:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DHFyYzS6sfWkPynozwhvdG09XHmrM7p05a2OX3evjQc=;
-        b=P1BVAqCUF4MIeGhLpETb5xih1nSU1H4erzYPr5OyyyNDbj/L/kdYde3lOrRRQwIApz
-         KJ5EBIphm7qs51N6QnOzxKKFDP0ci/yJXiDNIH6FujY3ff8yCo5QDOTPIzKtrbNaxEV8
-         Ctx4hvwZFXrvHUrlj83Y/+nvI/ItHWWhmOcw0vNee1WFP9h7cbZ0r9xVXD1bngSrCv4K
-         p6UzBpM2AJBZsAfE8+mV4+DE2HCQMHAp3+0gabsWpRfsGvCS0eN7YfNRKlFc/OespEKH
-         RG4INHESXINaggaAm5u4hRlKyTiU5wdtOD9xxRZlj0Jb5wtNSe0DDryw9uRo/LKxz7ar
-         Z44g==
-X-Gm-Message-State: AOAM5301HPoLcQUgkMfYK+H6BiqAaLzmqY8JUqkCaFh/lJGDEwXnyR1A
-        C2hT6nWuUvNrBVKYueMNO4oruhmQrysSR6r+4dPVVg==
-X-Google-Smtp-Source: ABdhPJxrvLqQqxPwFm6tm5PCgwjMU95bY9rlkSBmL2z3XICqZAKoAjwFQW6qS1pwoNqpgg1jwxsYZweB27rVI5H65yM=
-X-Received: by 2002:a25:f406:0:b0:628:c29b:5c39 with SMTP id
- q6-20020a25f406000000b00628c29b5c39mr308765ybd.369.1648047476675; Wed, 23 Mar
- 2022 07:57:56 -0700 (PDT)
+        bh=jojw5f7wnm9EHe+O1hZXC5y0oSm+5NVhYv4rzpOxMAw=;
+        b=6J1QcjCC0N4UI3gwBjf8lvbgI1HzFUg5RVgsS2FZZyG20aVPpMLnuuRU+ajkhfTpik
+         vZZdWv/E8xDAfuubNdZk9jbM03Qu9nwfh0etRyfvlIzXxt9QnWW1TwFmDiFMJ0Bx1X5f
+         wWemhVYZQQgggEOz24KcWe8eV4IwP+b+xAt605BGc9TCXBIyo2Qq840DWmqaTmOAs4DX
+         G00UPsZS07iwuxQHe5eSg1Ox10IFZ2/VffnFhHKTrIlS9o4grOpzmcjveXQytXma3Vku
+         2NbgfbRQddZhvHheuefl2/ZOeB57rsP0JSy8LnTeLnJtO0GI+lVQtEsL5tNf0QxHz5ct
+         UrEA==
+X-Gm-Message-State: AOAM531paTntdpmYn9f/fvfDQBehaXrIxOoT7ERaK+sVPd4El2uzHOco
+        zQIWN7Lb3LG0UzyJ1kVNrfQY7PTQSMcY31GgRqpMXfCPdOZh86zV3vsnijEHsYGiS6NC5EQqmig
+        kxZgADCrqlT2CQfceq+X9tAjj1kWWMOkg4vNqeYI=
+X-Received: by 2002:a05:6a00:2182:b0:4fa:6d20:d95d with SMTP id h2-20020a056a00218200b004fa6d20d95dmr255507pfi.83.1648051717814;
+        Wed, 23 Mar 2022 09:08:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwXs0W2sqJvvyH5rSFI3YPUX3kkRaojzc998a5Iv1JVOvvGHml++AVdio6zxhwzppY5Sd1fQUrROiDnPqcnr1E=
+X-Received: by 2002:a05:6a00:2182:b0:4fa:6d20:d95d with SMTP id
+ h2-20020a056a00218200b004fa6d20d95dmr255474pfi.83.1648051717452; Wed, 23 Mar
+ 2022 09:08:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220315233528.1204930-1-linus.walleij@linaro.org>
- <20220315233528.1204930-2-linus.walleij@linaro.org> <YjjNkyChcJcaJi11@robh.at.kernel.org>
-In-Reply-To: <YjjNkyChcJcaJi11@robh.at.kernel.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 23 Mar 2022 15:57:44 +0100
-Message-ID: <CACRpkdbz6Ua+0bTJMf-Qc7tju33CmEEgUsxH5KCS_zW3A_-SYA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] dt-bindings: input: Add bindings for Immersion ISA1200
-To:     Rob Herring <robh@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, phone-devel@vger.kernel.org,
-        devicetree@vger.kernel.org
+References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
+ <20220318161528.1531164-7-benjamin.tissoires@redhat.com> <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
+In-Reply-To: <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 23 Mar 2022 17:08:25 +0100
+Message-ID: <CAO-hwJJXR3jtAvLF1phUa5pKZzVkDxAAHO5+7R50hL-fVhDYyA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 06/17] HID: allow to change the report
+ descriptor from an eBPF program
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Mar 21, 2022 at 8:10 PM Rob Herring <robh@kernel.org> wrote:
+Hi Alexei,
 
-> > +properties:
-> > +  compatible:
-> > +    description: One compatible per product using this chip. Each product
-> > +      need deliberate custom values for things such as LRA resonance
-> > +      frequency and these are not stored in the device tree, rather we
-> > +      let the operating system look up the appropriate parameters from a
-> > +      table.
-> > +    enum:
-> > +      - immersion,isa1200-janice
-> > +      - immersion,isa1200-gavini
+On Tue, Mar 22, 2022 at 11:51 PM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
 >
-> Same device, different boards. I think I would put necessary properties
-> in the DT.
+> On Fri, Mar 18, 2022 at 9:16 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > +u8 *hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size)
+> > +{
+> > +       int ret;
+> > +       struct hid_bpf_ctx_kern ctx = {
+> > +               .type = HID_BPF_RDESC_FIXUP,
+> > +               .hdev = hdev,
+> > +               .size = *size,
+> > +       };
+> > +
+> > +       if (bpf_hid_link_empty(&hdev->bpf, BPF_HID_ATTACH_RDESC_FIXUP))
+> > +               goto ignore_bpf;
+> > +
+> > +       ctx.data = kmemdup(rdesc, HID_MAX_DESCRIPTOR_SIZE, GFP_KERNEL);
+> > +       if (!ctx.data)
+> > +               goto ignore_bpf;
+> > +
+> > +       ctx.allocated_size = HID_MAX_DESCRIPTOR_SIZE;
+> > +
+> > +       ret = hid_bpf_run_progs(hdev, &ctx);
+> > +       if (ret)
+> > +               goto ignore_bpf;
+> > +
+> > +       if (ctx.size > ctx.allocated_size)
+> > +               goto ignore_bpf;
+> > +
+> > +       *size = ctx.size;
+> > +
+> > +       if (*size) {
+> > +               rdesc = krealloc(ctx.data, *size, GFP_KERNEL);
+> > +       } else {
+> > +               rdesc = NULL;
+> > +               kfree(ctx.data);
+> > +       }
+> > +
+> > +       return rdesc;
+> > +
+> > + ignore_bpf:
+> > +       kfree(ctx.data);
+> > +       return kmemdup(rdesc, *size, GFP_KERNEL);
+> > +}
+> > +
+> >  int __init hid_bpf_module_init(void)
+> >  {
+> >         struct bpf_hid_hooks hooks = {
+> >                 .hdev_from_fd = hid_bpf_fd_to_hdev,
+> >                 .pre_link_attach = hid_bpf_pre_link_attach,
+> > +               .post_link_attach = hid_bpf_post_link_attach,
+> >                 .array_detach = hid_bpf_array_detach,
+> >         };
+> >
+> > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > index 937fab7eb9c6..3182c39db006 100644
+> > --- a/drivers/hid/hid-core.c
+> > +++ b/drivers/hid/hid-core.c
+> > @@ -1213,7 +1213,8 @@ int hid_open_report(struct hid_device *device)
+> >                 return -ENODEV;
+> >         size = device->dev_rsize;
+> >
+> > -       buf = kmemdup(start, size, GFP_KERNEL);
+> > +       /* hid_bpf_report_fixup() ensures we work on a copy of rdesc */
+> > +       buf = hid_bpf_report_fixup(device, start, &size);
+>
+> Looking at this patch and the majority of other patches...
+> the code is doing a lot of work to connect HID side with bpf.
+> At the same time the evolution of the patch series suggests
+> that these hook points are not quite stable. More hooks and
+> helpers are being added.
+> It tells us that it's way too early to introduce a stable
+> interface between HID and bpf.
 
-That will be all of these (from the driver):
+I understand that you might be under the impression that the interface
+is changing a lot, but this is mostly due to my poor knowledge of all
+the arcanes of eBPF.
+The overall way HID-BPF works is to work on a single array, and we
+should pretty much be sorted out. There are a couple of helpers to be
+able to communicate with the device, but the API has been stable in
+the kernel for those for quite some time now.
 
-+struct isa1200_config {
-+       u8 ldo_voltage;
-+       bool pwm_in;
-+       bool erm;
-+       u8 clkdiv;
-+       u8 plldiv;
-+       u8 freq;
-+       u8 duty;
-+       u8 period;
-+};
+The variations in the hooks is mostly because I don't know what is the
+best representation we can use in eBPF for those, and the review
+process is changing that.
 
-Example:
+> We suggest to use __weak global functions and unstable kfunc helpers
+> to achieve the same goal.
+> This way HID side and bpf side can evolve without introducing
+> stable uapi burden.
+> For example this particular patch can be compressed to:
+> __weak int hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc,
+> unsigned int *size)
+> {
+>    return 0;
+> }
+> ALLOW_ERROR_INJECTION(ALLOW_ERROR_INJECTION, ERRNO);
+>
+> - buf = kmemdup(start, size, GFP_KERNEL);
+> + if (!hid_bpf_report_fixup(device, start, &size))
+> +   buf = kmemdup(start, size, GFP_KERNEL);
+>
+> Then bpf program can replace hid_bpf_report_fixup function and adjust its
+> return value while reading args.
 
-+/* Configuration for Janice, Samsung Galaxy S Advance GT-I9070 */
-+static const struct isa1200_config isa1200_janice = {
-+       .ldo_voltage = ISA1200_LDO_VOLTAGE_30V,
-+       .pwm_in = false,
-+       .clkdiv = ISA1200_HCTRL0_DIV_256,
-+       .plldiv = 2,
-+       .freq = 0,
-+       .duty = 0x3b,
-+       .period = 0x77,
-+};
+I appreciate the suggestion and gave it a try, but AFAICT this doesn't
+work for HID (please correct me if I am wrong):
 
-This is derived from the compatible rather than individual properties
-or extra regulator and/or clock abstractions in line with:
-Documentation/devicetree/bindings/display/panel/ilitek,ili9322.yaml
+- I tried to use __weak to replace the ugly struct bpf_hid_hooks
 
-Which was originally looking like so:
-https://lore.kernel.org/dri-devel/20170813114448.20179-2-linus.walleij@linaro.org/
+This struct is in place simply because the HID module can be compiled
+in as a kernel module and we might not have the symbols available from
+kernel/bpf when it is a separate module.
+Either I did something wrong, but it seems that when we load the
+module in the kernel, there is no magic that overrides the weak
+symbols from the ones from the modules.
 
-To which you replied:
-https://lore.kernel.org/dri-devel/20170817204424.e2wdkmyp4vyx2qj3@rob-hp-laptop/
+- for hid_bpf_report_fixup(), this would mean that a BPF program could
+overwrite the function
 
-"Normally, we the physical panel is described which would imply all these
-settings. Are there lots of panels with this controller that would
-justify all these settings?"
+This is great, but I need to have one program per device, not one
+globally defined function.
+I can not have a generic report_fixup in the system, simply because
+you might need 2 different functions for 2 different devices.
 
-In that case there was one (1)
+We could solve that by auto-generating the bpf program based on which
+devices are available, but that would mean that users will see a
+reconnect of all of their input devices when they plug in a new one,
+and will also require them to have LLVM installed, which I do not
+want.
 
-In this case there are two (2) products that I know of. It does not have the
-relationship between panel and panel controller products though, but...
-it's not very different.
+- for stuff like hid_bpf_raw_event(), I want to have multiple programs
+attached to the various devices, and not necessarily the same across
+devices.
 
-I don't think this chip was used a lot, I really tried to find other instances.
-But they could exist of course.
+This is basically the same as above, except that I need to chain programs.
 
-If you are certain you want all of these in the device tree instead, I can
-fix it of course, then I also want to know if e.g. regulator framework should
-be employed for the (internal) LDO and clock framework for the internal
-PLL divider so I don't have to rewrite the whole thing again.
+For instance, we could have a program that "fixes" one device, but I
+also want to attach a tracing program on top of it to monitor what is
+happening.
 
-Yours,
-Linus Walleij
+>
+> Similar approach can be done with all other hooks.
+>
+> Once api between HID and bpf stabilizes we can replace nop functions
+> with writeable tracepoints to make things a bit more stable
+> while still allowing for change of the interface in the future.
+>
+> The amount of bpf specific code in HID core will be close to zero
+> while bpf can be used to flexibly tweak it.
+
+Again, I like the idea, but I clearly don't see where you want to go.
+From what I see, this is incompatible with the use cases I have.
+
+>
+> kfunc is a corresponding mechanism to introduce unstable api
+> from bpf into the kernel instead of stable helpers.
+> Just whitelist some functions as unstable kfunc helpers and call them
+> from bpf progs.
+> See net/bpf/test_run.c and bpf_kfunc_call* for inspiration.
+>
+
+I also like this idea.
+
+However, for hid_hw_raw_request() I can not blindly enable that
+function in all program types. This function makes the kernel sleep,
+and so we can not use it while in IRQ context.
+I think I can detect if we are in IRQ or not, but is it really worth
+enabling it across all BPF program types when we know that only
+SEC("hid/user_event") will use it?
+
+Also, I am not sure how we can make bpf_hid_get_data() work with that.
+We need to teach the verifier how much memory is provided, and I do
+not see how you can do that with kfunc.
+
+Cheers,
+Benjamin
+
