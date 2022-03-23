@@ -2,149 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D777B4E5772
-	for <lists+linux-input@lfdr.de>; Wed, 23 Mar 2022 18:27:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 590BA4E57ED
+	for <lists+linux-input@lfdr.de>; Wed, 23 Mar 2022 18:55:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343549AbiCWR3F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Mar 2022 13:29:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57236 "EHLO
+        id S1343839AbiCWR4d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Mar 2022 13:56:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239166AbiCWR3E (ORCPT
+        with ESMTP id S1343837AbiCWR4b (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Mar 2022 13:29:04 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B317B577;
-        Wed, 23 Mar 2022 10:27:35 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id mp6-20020a17090b190600b001c6841b8a52so7059159pjb.5;
-        Wed, 23 Mar 2022 10:27:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=W5pYT/F8t16XQbM3qlDKbbsJw4C6bC82sHdzEgCXN8E=;
-        b=GDg1zhAMUcNSRBRWchOY916ZL3epaxVmXkOwkuzuKQh27+8rn28+zp63IOtKzzcDaR
-         qJ0EAxLqtGRKCULxFdhyvoZpninXTBjsZhCdm/0zeDl3qMi7Lo910smtr51S5Q4v726y
-         KkIqFYVtaNhSNfrTk9ZdNcPjVI1T50b/UlzKC491rFgm1viTIgUcguLH05dhbBLPfZge
-         9iYPbqS8mTejy8qW6fRUrZTW1wno+JGhTjr8sc7SDCf0iGMJQ1sWxy7+RuvpMNuwi7RJ
-         +SCn8AHuv0oee4AsUWDGN80dRSJWs3pYHm8ypSAIFIy0zJmP4Dy9U+T6wDPXm8AniFBY
-         v7MA==
+        Wed, 23 Mar 2022 13:56:31 -0400
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA02CB7D3;
+        Wed, 23 Mar 2022 10:55:01 -0700 (PDT)
+Received: by mail-oo1-f48.google.com with SMTP id i8-20020a4a6f48000000b00324ada4b9d9so352588oof.11;
+        Wed, 23 Mar 2022 10:55:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=W5pYT/F8t16XQbM3qlDKbbsJw4C6bC82sHdzEgCXN8E=;
-        b=b9cN6U0UtllqdkwLQDeWtrbqtZj8mHUxep4OHbIE7GfcmIw4Mi/NaIAonRhPshbXLB
-         0Oa3Co0/I1eKmwD8jVIP869LbcMj8DQWQlnW3S7Mt/rL0JsaFdV5tmld4pUOKIBM4Uxp
-         8+tRdTdCFw+QuZBCAw6e6QCQq8SaOJeNYuq2te9rcQrrwKHhrQ2NOZVdHlGM8DoY6q+y
-         hX5QLPwGT6IJwmUVDneiztbZeSK9T9Zty86DwYAXkVRnP3BIMXj6NjhGfzz82RJGMzFP
-         vINB7iL+WP6NXV7V/dblYwWkvw+VuzwPwQs4/V6NqcOOyZzljczvXDY02kRynGCWtHQ9
-         ragA==
-X-Gm-Message-State: AOAM530aL05TTfj66gahgAJCEdQh/bpFAOpKg6Pne7Hmf69CTJWbFZ+y
-        dr04wTgl6cXLD5yke0hG9ds=
-X-Google-Smtp-Source: ABdhPJxmn2IR2mFeOCj/Oi7mLw04WcTeNzzvDTl+Ne7JpdcB3OPU7XiQhd5xvXyxhHze1bIILNMI7A==
-X-Received: by 2002:a17:902:cf0e:b0:14f:8a60:475c with SMTP id i14-20020a170902cf0e00b0014f8a60475cmr1176077plg.146.1648056454158;
-        Wed, 23 Mar 2022 10:27:34 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:d52a:448a:8e0b:67f1])
-        by smtp.gmail.com with ESMTPSA id h16-20020a056a001a5000b004fa343c2d0csm491499pfv.136.2022.03.23.10.27.32
+        bh=9mzy/qFD5hdG5o+DBTsDmFvlEhH0dzI3xqj7gCqw/QM=;
+        b=JjI53NdsOBx+Z+V9NpdhMwXztkCSnrxPJMBWxfRjG6eWnBOJMGQ1FfMMYRx5sL2CDj
+         7Pcm2oRIk3WhWWRp2WZgFS3TctD3gxvjgJccPSrm8iBYC+jYcIbpjg1O4YudWmfYVDLw
+         gZXPVfUCkJp4ZxnTcFq/te4jptWp+yh7j0jvFzXpko9CDcJluy0FhzS1b+M8py23DzwB
+         8zI6aB0RrfA/ORwhm8gSapOtpHiok79MsRwRp9iX58bYKpu9eTzKq2S3dWD6gaEkGiHA
+         JNn1BbhHeI3U+Pw09Hb/6sLYc/XyMtjLseWNJ6OG9sFIDBtKE6iUnv5kbZxJAnkyVUJY
+         OKQg==
+X-Gm-Message-State: AOAM533NGAzRDvau3ch4+6cynF2wFNWrKgcgYxie/KNnODdDFicX0L66
+        /pdN6o62GGKeZetlyh2oSA==
+X-Google-Smtp-Source: ABdhPJylTJeID8paVo6LiL9ZDwYHcvMkN9q/oO265fSJCe7h9NURFSrnkIRtGbsmf8tZwoJWGWSAtQ==
+X-Received: by 2002:a4a:c449:0:b0:320:f8ac:8f88 with SMTP id h9-20020a4ac449000000b00320f8ac8f88mr545283ooq.94.1648058101164;
+        Wed, 23 Mar 2022 10:55:01 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id r19-20020acaa813000000b002ed02ca6a3fsm228643oie.1.2022.03.23.10.54.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Mar 2022 10:27:32 -0700 (PDT)
-Date:   Wed, 23 Mar 2022 10:27:30 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "jingle.wu" <jingle.wu@emc.com.tw>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        phoenix@emc.com.tw,
-        "jingle.wu" <jingle.wu@elan.corp-partner.google.com>
-Subject: Re: [PATCH] Input: trackpoint - Add Suspend mode for Elan TrackPoint
-Message-ID: <YjtYgoBvytgQu/pn@google.com>
-References: <20200904024231.26812-1-jingle.wu@emc.com.tw>
+        Wed, 23 Mar 2022 10:55:00 -0700 (PDT)
+Received: (nullmailer pid 162187 invoked by uid 1000);
+        Wed, 23 Mar 2022 17:54:59 -0000
+Date:   Wed, 23 Mar 2022 12:54:59 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Cc:     devicetree@vger.kernel.org,
+        Michael Trimarchi <michael@amarulasolutions.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Rob Herring <robh+dt@kernel.org>, linux-input@vger.kernel.org
+Subject: Re: [PATCH v3 1/6] dt-bindings: input: touchscreen: edt-ft5x06: add
+ report-rate-hz
+Message-ID: <Yjte8yVWcHXPn6on@robh.at.kernel.org>
+References: <20220313163503.5183-1-dario.binacchi@amarulasolutions.com>
+ <20220313163503.5183-2-dario.binacchi@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200904024231.26812-1-jingle.wu@emc.com.tw>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220313163503.5183-2-dario.binacchi@amarulasolutions.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jingle,
-
-On Fri, Sep 04, 2020 at 10:42:31AM +0800, jingle.wu wrote:
-> From: "jingle.wu" <jingle.wu@elan.corp-partner.google.com>
+On Sun, 13 Mar 2022 17:34:58 +0100, Dario Binacchi wrote:
+> It allows to change the M06/M12 default scan rate.
 > 
-> Add suspend command for elan trackpoint
-
-Could you please elaborate what this mode does to the trackpint?
-
-Also, your signed-off-by is missing.
-
+> Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
+> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> 
 > ---
->  drivers/input/mouse/trackpoint.c | 16 ++++++++++++++++
->  drivers/input/mouse/trackpoint.h |  1 +
->  2 files changed, 17 insertions(+)
 > 
-> diff --git a/drivers/input/mouse/trackpoint.c b/drivers/input/mouse/trackpoint.c
-> index 3eefee2ee2a1..b3cba973a4eb 100644
-> --- a/drivers/input/mouse/trackpoint.c
-> +++ b/drivers/input/mouse/trackpoint.c
-> @@ -389,6 +389,20 @@ static int trackpoint_reconnect(struct psmouse *psmouse)
->  	return 0;
->  }
->  
-> +static void trackpoint_cleanup(struct psmouse *psmouse)
-> +{
-> +	struct trackpoint_data *tp = psmouse->private;
-> +	u8 param[3] = { TP_TOGGLE, TP_TOGGLE_BURST, TP_TOGGLE_ELAN_SLEEP };
-> +
-> +	if (tp->variant_id == TP_VARIANT_ELAN) {
-> +		if (ps2_command(&psmouse->ps2dev, param,
+> Changes in v3:
+> - Add hz unit suffix.
+> - Add '|' to description.
+> 
+>  .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
 
-I'd combine the 2 "ifs".
-
-> +				MAKE_PS2_CMD(3, 0, TP_COMMAND))) {
-> +			psmouse_err(psmouse,
-
-psmouse_warn() since it is not a hard error.
-
-> +				    "failed to suspend trackpont.\n");
-
-I'd say "failed to suspend Elan trackpont\n".
-
-> +		}
-> +	}
-> +}
-> +
->  int trackpoint_detect(struct psmouse *psmouse, bool set_properties)
->  {
->  	struct ps2dev *ps2dev = &psmouse->ps2dev;
-> @@ -421,6 +435,8 @@ int trackpoint_detect(struct psmouse *psmouse, bool set_properties)
->  	psmouse->reconnect = trackpoint_reconnect;
->  	psmouse->disconnect = trackpoint_disconnect;
->  
-> +	psmouse->cleanup = trackpoint_cleanup;
-> +
->  	if (variant_id != TP_VARIANT_IBM) {
->  		/* Newer variants do not support extended button query. */
->  		button_info = 0x33;
-> diff --git a/drivers/input/mouse/trackpoint.h b/drivers/input/mouse/trackpoint.h
-> index 5cb93ed26085..c7fa75452976 100644
-> --- a/drivers/input/mouse/trackpoint.h
-> +++ b/drivers/input/mouse/trackpoint.h
-> @@ -107,6 +107,7 @@
->  #define TP_TOGGLE_EXT_TAG	0x22	/* Bit 3 of the first packet coming from the
->  					   external device will be forced to 1 */
->  #define TP_MASK_EXT_TAG			0x04
-> +#define TP_TOGGLE_ELAN_SLEEP	0x8
-
-It seems to me that TP_TOGGLE_ELAN_SLEEP is a bit in TP_TOGGLE_BURST
-subcommand, so it is better to move it next to TP_MASK_BURST and call it
-TP_MASK_ELAN_SLEEP to match the rest.
-
-Thanks.
-
--- 
-Dmitry
+Acked-by: Rob Herring <robh@kernel.org>
