@@ -2,87 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 590BA4E57ED
-	for <lists+linux-input@lfdr.de>; Wed, 23 Mar 2022 18:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACA864E5930
+	for <lists+linux-input@lfdr.de>; Wed, 23 Mar 2022 20:32:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343839AbiCWR4d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Mar 2022 13:56:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48046 "EHLO
+        id S1344164AbiCWTdq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Mar 2022 15:33:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343837AbiCWR4b (ORCPT
+        with ESMTP id S234750AbiCWTdp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Mar 2022 13:56:31 -0400
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA02CB7D3;
-        Wed, 23 Mar 2022 10:55:01 -0700 (PDT)
-Received: by mail-oo1-f48.google.com with SMTP id i8-20020a4a6f48000000b00324ada4b9d9so352588oof.11;
-        Wed, 23 Mar 2022 10:55:01 -0700 (PDT)
+        Wed, 23 Mar 2022 15:33:45 -0400
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0571F888FB;
+        Wed, 23 Mar 2022 12:32:16 -0700 (PDT)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-2e5e9025c20so29060127b3.7;
+        Wed, 23 Mar 2022 12:32:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=bp+uK2bVKGrYJE9A9yrjStUOUX/hL3b0G+JzfeJzeAA=;
+        b=g7uWxNpBnoq8KUtnGbTocfcJNw+WWuzco2I3XLdz+5AI/+mZiWs6TlrzuwsaAoqtQI
+         qOqSLhsbETMQO+Qxd1JOlBFAuXj/EFRe/eGvIJB9/MwPzXfjd9ERR234ZJrCOTYjHS7f
+         945zlLdcHOY7eWsSLCP+2teoxT+hL+Bd+UbkwCR99Dxeni46FH3zjPVU681xtgg6Fng/
+         7kLaZtaT1nTX+/bVUxnMciPh2UhDDL9j7l/j+tDmhBTYF5j0B1IlqdPFNFUV75s6J3oj
+         hTIkQGy/ozZ/vgV7nZcWn9GBSl95W1PAV0rruzQ4Efcq9PbgMpsB7ig1joksBTvCn/dn
+         umAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9mzy/qFD5hdG5o+DBTsDmFvlEhH0dzI3xqj7gCqw/QM=;
-        b=JjI53NdsOBx+Z+V9NpdhMwXztkCSnrxPJMBWxfRjG6eWnBOJMGQ1FfMMYRx5sL2CDj
-         7Pcm2oRIk3WhWWRp2WZgFS3TctD3gxvjgJccPSrm8iBYC+jYcIbpjg1O4YudWmfYVDLw
-         gZXPVfUCkJp4ZxnTcFq/te4jptWp+yh7j0jvFzXpko9CDcJluy0FhzS1b+M8py23DzwB
-         8zI6aB0RrfA/ORwhm8gSapOtpHiok79MsRwRp9iX58bYKpu9eTzKq2S3dWD6gaEkGiHA
-         JNn1BbhHeI3U+Pw09Hb/6sLYc/XyMtjLseWNJ6OG9sFIDBtKE6iUnv5kbZxJAnkyVUJY
-         OKQg==
-X-Gm-Message-State: AOAM533NGAzRDvau3ch4+6cynF2wFNWrKgcgYxie/KNnODdDFicX0L66
-        /pdN6o62GGKeZetlyh2oSA==
-X-Google-Smtp-Source: ABdhPJylTJeID8paVo6LiL9ZDwYHcvMkN9q/oO265fSJCe7h9NURFSrnkIRtGbsmf8tZwoJWGWSAtQ==
-X-Received: by 2002:a4a:c449:0:b0:320:f8ac:8f88 with SMTP id h9-20020a4ac449000000b00320f8ac8f88mr545283ooq.94.1648058101164;
-        Wed, 23 Mar 2022 10:55:01 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id r19-20020acaa813000000b002ed02ca6a3fsm228643oie.1.2022.03.23.10.54.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Mar 2022 10:55:00 -0700 (PDT)
-Received: (nullmailer pid 162187 invoked by uid 1000);
-        Wed, 23 Mar 2022 17:54:59 -0000
-Date:   Wed, 23 Mar 2022 12:54:59 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Cc:     devicetree@vger.kernel.org,
-        Michael Trimarchi <michael@amarulasolutions.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        Stephan Gerhold <stephan@gerhold.net>,
-        Rob Herring <robh+dt@kernel.org>, linux-input@vger.kernel.org
-Subject: Re: [PATCH v3 1/6] dt-bindings: input: touchscreen: edt-ft5x06: add
- report-rate-hz
-Message-ID: <Yjte8yVWcHXPn6on@robh.at.kernel.org>
-References: <20220313163503.5183-1-dario.binacchi@amarulasolutions.com>
- <20220313163503.5183-2-dario.binacchi@amarulasolutions.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=bp+uK2bVKGrYJE9A9yrjStUOUX/hL3b0G+JzfeJzeAA=;
+        b=tZKJKlLf7gN7SnLdVg38ZIOnW/ZNh6VTGt9vPJX0DwK406pi14uJ1n+lWG+sxBDQKr
+         Lk+d7ISF1Z0BjxXePpoCVgDzdwqmrbfyjIkrMkbCIk8J1s18+Nc0NhfZ6eOy1l1I0Qkv
+         T2lRTLKqGhdTmBXmD5fMBIHWHpi86xHVQQwzAuFZvM8eDL3+pPvmmXcy9cxAckXgh6Xf
+         zN12Uqe5mPfr/NPPFkhJAju1l6kf25DTW73XD3ZsV3Q1EvRGDSXj39w7T/0utOnYT6fJ
+         YtIAnZgUrwcehxoJDhaasvVIK0HdfagG8c5jeJ3jIS53mZkkGnpiFJVYXjJRH+J3jVIL
+         P8zw==
+X-Gm-Message-State: AOAM533wa9j3QHJLeHUeb6gwVnZQqQ8cs+mlpjtb3C+C4PPCyssNUVNX
+        CD5I6Eexg5ZZlrBxhH0umm725FLr55NsmU/fixGxpP3wlH4=
+X-Google-Smtp-Source: ABdhPJxJd1loWDK+Bi9PpLn0SOYFDOML6EafynhdJZyxY6pQL8C0dSYNf9mKds0ym109RZXS/Wz1iNguCBdKEh60bWI=
+X-Received: by 2002:a0d:dd8f:0:b0:2e5:b961:4098 with SMTP id
+ g137-20020a0ddd8f000000b002e5b9614098mr1548884ywe.233.1648063935084; Wed, 23
+ Mar 2022 12:32:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220313163503.5183-2-dario.binacchi@amarulasolutions.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+From:   Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Date:   Wed, 23 Mar 2022 12:32:04 -0700
+Message-ID: <CABBYNZ+D9M2+ehd=2wHc+42kP39xF6GSzcmFVtJm9aSWbfpjdg@mail.gmail.com>
+Subject: Issue with HP Elite Presenter Mouse
+To:     linux-input@vger.kernel.org
+Cc:     "linux-bluetooth@vger.kernel.org" <linux-bluetooth@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 13 Mar 2022 17:34:58 +0100, Dario Binacchi wrote:
-> It allows to change the M06/M12 default scan rate.
-> 
-> Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
-> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> 
-> ---
-> 
-> Changes in v3:
-> - Add hz unit suffix.
-> - Add '|' to description.
-> 
->  .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
+Hi,
 
-Acked-by: Rob Herring <robh@kernel.org>
+Looks like there is a problem with some models which have multiple
+reports id, the are registered using UHID, there doesn't seem to be
+any errors printed on dmesg but the device doesn't work even though
+hid-recorder does show the reports:
+
+https://github.com/bluez/bluez/issues/320#issuecomment-1075038940
+
+-- 
+Luiz Augusto von Dentz
