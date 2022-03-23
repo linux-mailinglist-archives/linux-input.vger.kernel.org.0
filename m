@@ -2,275 +2,192 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 506B04E5608
-	for <lists+linux-input@lfdr.de>; Wed, 23 Mar 2022 17:08:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7BAF4E5646
+	for <lists+linux-input@lfdr.de>; Wed, 23 Mar 2022 17:23:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229896AbiCWQKO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Mar 2022 12:10:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46908 "EHLO
+        id S231311AbiCWQZJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Mar 2022 12:25:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235746AbiCWQKM (ORCPT
+        with ESMTP id S238745AbiCWQZI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Mar 2022 12:10:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 81B372DA96
-        for <linux-input@vger.kernel.org>; Wed, 23 Mar 2022 09:08:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1648051721;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jojw5f7wnm9EHe+O1hZXC5y0oSm+5NVhYv4rzpOxMAw=;
-        b=WAsL+ZxAp/hZtNdMQzdqqn81M3kM8Q39CKsv6a0mrL+itPboDXl0eXxWK6jMxnbGWxazVu
-        jA00TR+i6H1S6gZRNZXgzF8wirGtMoXDqRL12DwKZKwTuLBPsVEnI5Nf/glujcdmhUBBem
-        ISnbJWdElTb8aSD0EtNwY9jOKhR3ylw=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-341-8qy04MJNNeiBC5h9cNKqQA-1; Wed, 23 Mar 2022 12:08:39 -0400
-X-MC-Unique: 8qy04MJNNeiBC5h9cNKqQA-1
-Received: by mail-pf1-f198.google.com with SMTP id 16-20020a621910000000b004f783aad863so1239706pfz.15
-        for <linux-input@vger.kernel.org>; Wed, 23 Mar 2022 09:08:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jojw5f7wnm9EHe+O1hZXC5y0oSm+5NVhYv4rzpOxMAw=;
-        b=6J1QcjCC0N4UI3gwBjf8lvbgI1HzFUg5RVgsS2FZZyG20aVPpMLnuuRU+ajkhfTpik
-         vZZdWv/E8xDAfuubNdZk9jbM03Qu9nwfh0etRyfvlIzXxt9QnWW1TwFmDiFMJ0Bx1X5f
-         wWemhVYZQQgggEOz24KcWe8eV4IwP+b+xAt605BGc9TCXBIyo2Qq840DWmqaTmOAs4DX
-         G00UPsZS07iwuxQHe5eSg1Ox10IFZ2/VffnFhHKTrIlS9o4grOpzmcjveXQytXma3Vku
-         2NbgfbRQddZhvHheuefl2/ZOeB57rsP0JSy8LnTeLnJtO0GI+lVQtEsL5tNf0QxHz5ct
-         UrEA==
-X-Gm-Message-State: AOAM531paTntdpmYn9f/fvfDQBehaXrIxOoT7ERaK+sVPd4El2uzHOco
-        zQIWN7Lb3LG0UzyJ1kVNrfQY7PTQSMcY31GgRqpMXfCPdOZh86zV3vsnijEHsYGiS6NC5EQqmig
-        kxZgADCrqlT2CQfceq+X9tAjj1kWWMOkg4vNqeYI=
-X-Received: by 2002:a05:6a00:2182:b0:4fa:6d20:d95d with SMTP id h2-20020a056a00218200b004fa6d20d95dmr255507pfi.83.1648051717814;
-        Wed, 23 Mar 2022 09:08:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXs0W2sqJvvyH5rSFI3YPUX3kkRaojzc998a5Iv1JVOvvGHml++AVdio6zxhwzppY5Sd1fQUrROiDnPqcnr1E=
-X-Received: by 2002:a05:6a00:2182:b0:4fa:6d20:d95d with SMTP id
- h2-20020a056a00218200b004fa6d20d95dmr255474pfi.83.1648051717452; Wed, 23 Mar
- 2022 09:08:37 -0700 (PDT)
+        Wed, 23 Mar 2022 12:25:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF604DF1E;
+        Wed, 23 Mar 2022 09:23:38 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4B5B06183D;
+        Wed, 23 Mar 2022 16:23:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C5A3C340E8;
+        Wed, 23 Mar 2022 16:23:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648052617;
+        bh=/oM1pD0jgiRaDdLSHbtlmH9OMdqllLyxQPTkXCeCfqw=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=LZbUzKe9NX9Zoc8lRxX9FEl2JPdtKxoV5gOErpyhbox5y4zzz6VEYm05Z1ATIHD9J
+         PrFrl7hRxSfvhKEJBFYUbHUa7m2I9EOKb2lo7/d6MMpQPOMRVqrefz5c53KSzynSiY
+         NdEyaYecjRzQQnqV+65I+KIyqLTs7Rrc9y25LmOu/CnXl5DmmjOLUIwVJWb7i1ARJ2
+         zBMgsyiVFC0MCa7eLg0X1mkzwuYtTMzsHQS5QB5rIPOKrbJjUGrra0JD/Lv4GLnBkp
+         6CDiLT1I8JJKFn7TkMNVOx352bfW3RdwpFCAwzkJ+9cAMWcMn9Tpml7DoYRn5daz6d
+         xtesr5O3oOg7w==
+Date:   Wed, 23 Mar 2022 17:23:33 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Hillf Danton <hdanton@sina.com>
+cc:     syzbot <syzbot+953a33deaf38c66a915e@syzkaller.appspotmail.com>,
+        benjamin.tissoires@redhat.com, dvyukov@google.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] general protection fault in hidraw_release
+In-Reply-To: <20220204054708.2335-1-hdanton@sina.com>
+Message-ID: <nycvar.YFH.7.76.2203231723100.24795@cbobk.fhfr.pm>
+References: <0000000000007b73a605d71c201b@google.com> <20220204054708.2335-1-hdanton@sina.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
- <20220318161528.1531164-7-benjamin.tissoires@redhat.com> <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
-In-Reply-To: <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 23 Mar 2022 17:08:25 +0100
-Message-ID: <CAO-hwJJXR3jtAvLF1phUa5pKZzVkDxAAHO5+7R50hL-fVhDYyA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 06/17] HID: allow to change the report
- descriptor from an eBPF program
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Alexei,
+On Fri, 4 Feb 2022, Hillf Danton wrote:
 
-On Tue, Mar 22, 2022 at 11:51 PM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> On Fri, Mar 18, 2022 at 9:16 AM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > +u8 *hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size)
-> > +{
-> > +       int ret;
-> > +       struct hid_bpf_ctx_kern ctx = {
-> > +               .type = HID_BPF_RDESC_FIXUP,
-> > +               .hdev = hdev,
-> > +               .size = *size,
-> > +       };
-> > +
-> > +       if (bpf_hid_link_empty(&hdev->bpf, BPF_HID_ATTACH_RDESC_FIXUP))
-> > +               goto ignore_bpf;
-> > +
-> > +       ctx.data = kmemdup(rdesc, HID_MAX_DESCRIPTOR_SIZE, GFP_KERNEL);
-> > +       if (!ctx.data)
-> > +               goto ignore_bpf;
-> > +
-> > +       ctx.allocated_size = HID_MAX_DESCRIPTOR_SIZE;
-> > +
-> > +       ret = hid_bpf_run_progs(hdev, &ctx);
-> > +       if (ret)
-> > +               goto ignore_bpf;
-> > +
-> > +       if (ctx.size > ctx.allocated_size)
-> > +               goto ignore_bpf;
-> > +
-> > +       *size = ctx.size;
-> > +
-> > +       if (*size) {
-> > +               rdesc = krealloc(ctx.data, *size, GFP_KERNEL);
-> > +       } else {
-> > +               rdesc = NULL;
-> > +               kfree(ctx.data);
-> > +       }
-> > +
-> > +       return rdesc;
-> > +
-> > + ignore_bpf:
-> > +       kfree(ctx.data);
-> > +       return kmemdup(rdesc, *size, GFP_KERNEL);
-> > +}
-> > +
-> >  int __init hid_bpf_module_init(void)
-> >  {
-> >         struct bpf_hid_hooks hooks = {
-> >                 .hdev_from_fd = hid_bpf_fd_to_hdev,
-> >                 .pre_link_attach = hid_bpf_pre_link_attach,
-> > +               .post_link_attach = hid_bpf_post_link_attach,
-> >                 .array_detach = hid_bpf_array_detach,
-> >         };
-> >
-> > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> > index 937fab7eb9c6..3182c39db006 100644
-> > --- a/drivers/hid/hid-core.c
-> > +++ b/drivers/hid/hid-core.c
-> > @@ -1213,7 +1213,8 @@ int hid_open_report(struct hid_device *device)
-> >                 return -ENODEV;
-> >         size = device->dev_rsize;
-> >
-> > -       buf = kmemdup(start, size, GFP_KERNEL);
-> > +       /* hid_bpf_report_fixup() ensures we work on a copy of rdesc */
-> > +       buf = hid_bpf_report_fixup(device, start, &size);
->
-> Looking at this patch and the majority of other patches...
-> the code is doing a lot of work to connect HID side with bpf.
-> At the same time the evolution of the patch series suggests
-> that these hook points are not quite stable. More hooks and
-> helpers are being added.
-> It tells us that it's way too early to introduce a stable
-> interface between HID and bpf.
+> > ------------[ cut here ]------------
+> > kernel BUG at drivers/hid/hidraw.c:335!
+> > invalid opcode: 0000 [#1] PREEMPT SMP KASAN
+> > CPU: 1 PID: 5036 Comm: syz-executor223 Not tainted 5.17.0-rc2-syzkaller-00039-g9f7fb8de5d9b-dirty #0
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> > RIP: 0010:drop_ref+0x375/0x3e0 drivers/hid/hidraw.c:335
+> > Code: fb e9 a9 fd ff ff 48 89 ef 89 74 24 04 e8 43 61 04 fb 8b 74 24 04 e9 64 fd ff ff e8 a5 61 04 fb e9 13 fd ff ff e8 8b 1f bd fa <0f> 0b 48 89 df e8 31 61 04 fb e9 5a fe ff ff 48 89 de 48 c7 c7 a0
+> > RSP: 0018:ffffc90005da7ac8 EFLAGS: 00010293
+> > RAX: 0000000000000000 RBX: ffff88801deef9b0 RCX: 0000000000000000
+> > RDX: ffff888072660000 RSI: ffffffff86bb4ef5 RDI: ffffffff90869f60
+> > RBP: ffff88801deef900 R08: 0000000000000000 R09: ffffffff8ffbda7f
+> > R10: ffffffff86bb4cd2 R11: 0000000000000000 R12: 0000000000000001
+> > R13: ffff88801deef908 R14: ffff88807f1e98e0 R15: ffff88807f1e8000
+> > FS:  0000000000000000(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
+> > CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+> > CR2: 00007f229e36a600 CR3: 0000000079b38000 CR4: 00000000003506e0
+> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> > Call Trace:
+> >  <TASK>
+> >  hidraw_disconnect+0x48/0x60 drivers/hid/hidraw.c:600
+> >  hid_disconnect+0x130/0x1a0 drivers/hid/hid-core.c:2036
+> >  hid_hw_stop drivers/hid/hid-core.c:2079 [inline]
+> >  hid_device_remove+0x15d/0x200 drivers/hid/hid-core.c:2411
+> >  __device_release_driver+0x3bd/0x700 drivers/base/dd.c:1204
+> >  device_release_driver_internal drivers/base/dd.c:1237 [inline]
+> >  device_release_driver+0x26/0x40 drivers/base/dd.c:1260
+> >  bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:529
+> >  device_del+0x502/0xd50 drivers/base/core.c:3592
+> >  hid_remove_device drivers/hid/hid-core.c:2578 [inline]
+> >  hid_destroy_device+0xe1/0x150 drivers/hid/hid-core.c:2597
+> >  uhid_dev_destroy drivers/hid/uhid.c:587 [inline]
+> >  uhid_char_release+0xed/0x210 drivers/hid/uhid.c:663
+> >  __fput+0x286/0x9f0 fs/file_table.c:311
+> >  task_work_run+0xdd/0x1a0 kernel/task_work.c:164
+> >  exit_task_work include/linux/task_work.h:32 [inline]
+> >  do_exit+0xb29/0x2a30 kernel/exit.c:806
+> >  do_group_exit+0xd2/0x2f0 kernel/exit.c:935
+> >  __do_sys_exit_group kernel/exit.c:946 [inline]
+> >  __se_sys_exit_group kernel/exit.c:944 [inline]
+> >  __ia32_sys_exit_group+0x3a/0x50 kernel/exit.c:944
+> >  do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
+> >  __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
+> >  do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:203
+> >  entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+> > RIP: 0023:0xf7ee8549
+> > Code: Unable to access opcode bytes at RIP 0xf7ee851f.
+> > RSP: 002b:00000000ff8aaf4c EFLAGS: 00000292 ORIG_RAX: 00000000000000fc
+> > RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 0000000000000000
+> > RDX: 00000000f7f94fa0 RSI: 00000000f7f953b8 RDI: 00000000f7f953b8
+> > RBP: 00000000f7f95928 R08: 0000000000000000 R09: 0000000000000000
+> > R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+> > R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+> >  </TASK>
+> > Modules linked in:
+> > ---[ end trace 0000000000000000 ]---
+> > RIP: 0010:drop_ref+0x375/0x3e0 drivers/hid/hidraw.c:335
+> > Code: fb e9 a9 fd ff ff 48 89 ef 89 74 24 04 e8 43 61 04 fb 8b 74 24 04 e9 64 fd ff ff e8 a5 61 04 fb e9 13 fd ff ff e8 8b 1f bd fa <0f> 0b 48 89 df e8 31 61 04 fb e9 5a fe ff ff 48 89 de 48 c7 c7 a0
+> > RSP: 0018:ffffc90005da7ac8 EFLAGS: 00010293
+> > RAX: 0000000000000000 RBX: ffff88801deef9b0 RCX: 0000000000000000
+> > RDX: ffff888072660000 RSI: ffffffff86bb4ef5 RDI: ffffffff90869f60
+> > RBP: ffff88801deef900 R08: 0000000000000000 R09: ffffffff8ffbda7f
+> > R10: ffffffff86bb4cd2 R11: 0000000000000000 R12: 0000000000000001
+> > R13: ffff88801deef908 R14: ffff88807f1e98e0 R15: ffff88807f1e8000
+> > FS:  0000000000000000(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000
+> > CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+> > CR2: 00007f64971d1018 CR3: 000000007f5e0000 CR4: 00000000003506f0
+> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> > 
+> > 
+> > Tested on:
+> > 
+> > commit:         9f7fb8de Merge tag 'spi-fix-v5.17-rc2' of git://git.ke..
+> > git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=15e029cc700000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=b4a89edfcc8f7c74
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=953a33deaf38c66a915e
+> > compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> > userspace arch: i386
+> > patch:          https://syzkaller.appspot.com/x/patch.diff?x=12571934700000
+> 
+> This proves what Dmitry explained, given minor M, hidrawA == hidraw_table[M]
+> was freed with someone dangling on the hidrawA->list because of zero open
+> count, then another opener put hidrawB in hidraw_table[M].
+> 
+> TBH no evidence of leak in open count spotted, see what will come up with
+> parallel openers disabled.
+> 
+> Hillf
+> 
+> #syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/  9f7fb8de5d9b 
+> 
+> --- a/drivers/hid/hidraw.c
+> +++ b/drivers/hid/hidraw.c
+> @@ -272,7 +272,7 @@ static int hidraw_open(struct inode *ino
+>  		goto out;
+>  	}
+>  
+> -	down_read(&minors_rwsem);
+> +	down_write(&minors_rwsem);
+>  	if (!hidraw_table[minor] || !hidraw_table[minor]->exist) {
+>  		err = -ENODEV;
+>  		goto out_unlock;
+> @@ -301,7 +301,7 @@ static int hidraw_open(struct inode *ino
+>  	spin_unlock_irqrestore(&hidraw_table[minor]->list_lock, flags);
+>  	file->private_data = list;
+>  out_unlock:
+> -	up_read(&minors_rwsem);
+> +	up_write(&minors_rwsem);
+>  out:
+>  	if (err < 0)
+>  		kfree(list);
+> @@ -332,6 +332,7 @@ static void drop_ref(struct hidraw *hidr
+>  	if (!hidraw->open) {
+>  		if (!hidraw->exist) {
+>  			hidraw_table[hidraw->minor] = NULL;
+> +			BUG_ON(!list_empty(&hidraw->list));
+>  			kfree(hidraw);
+>  		} else {
+>  			/* close device for last reader */
 
-I understand that you might be under the impression that the interface
-is changing a lot, but this is mostly due to my poor knowledge of all
-the arcanes of eBPF.
-The overall way HID-BPF works is to work on a single array, and we
-should pretty much be sorted out. There are a couple of helpers to be
-able to communicate with the device, but the API has been stable in
-the kernel for those for quite some time now.
+Hillf,
 
-The variations in the hooks is mostly because I don't know what is the
-best representation we can use in eBPF for those, and the review
-process is changing that.
+could you please submit this properly with a full changelog, 
+signed-off-by: line, etc?
 
-> We suggest to use __weak global functions and unstable kfunc helpers
-> to achieve the same goal.
-> This way HID side and bpf side can evolve without introducing
-> stable uapi burden.
-> For example this particular patch can be compressed to:
-> __weak int hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc,
-> unsigned int *size)
-> {
->    return 0;
-> }
-> ALLOW_ERROR_INJECTION(ALLOW_ERROR_INJECTION, ERRNO);
->
-> - buf = kmemdup(start, size, GFP_KERNEL);
-> + if (!hid_bpf_report_fixup(device, start, &size))
-> +   buf = kmemdup(start, size, GFP_KERNEL);
->
-> Then bpf program can replace hid_bpf_report_fixup function and adjust its
-> return value while reading args.
+Thanks,
 
-I appreciate the suggestion and gave it a try, but AFAICT this doesn't
-work for HID (please correct me if I am wrong):
-
-- I tried to use __weak to replace the ugly struct bpf_hid_hooks
-
-This struct is in place simply because the HID module can be compiled
-in as a kernel module and we might not have the symbols available from
-kernel/bpf when it is a separate module.
-Either I did something wrong, but it seems that when we load the
-module in the kernel, there is no magic that overrides the weak
-symbols from the ones from the modules.
-
-- for hid_bpf_report_fixup(), this would mean that a BPF program could
-overwrite the function
-
-This is great, but I need to have one program per device, not one
-globally defined function.
-I can not have a generic report_fixup in the system, simply because
-you might need 2 different functions for 2 different devices.
-
-We could solve that by auto-generating the bpf program based on which
-devices are available, but that would mean that users will see a
-reconnect of all of their input devices when they plug in a new one,
-and will also require them to have LLVM installed, which I do not
-want.
-
-- for stuff like hid_bpf_raw_event(), I want to have multiple programs
-attached to the various devices, and not necessarily the same across
-devices.
-
-This is basically the same as above, except that I need to chain programs.
-
-For instance, we could have a program that "fixes" one device, but I
-also want to attach a tracing program on top of it to monitor what is
-happening.
-
->
-> Similar approach can be done with all other hooks.
->
-> Once api between HID and bpf stabilizes we can replace nop functions
-> with writeable tracepoints to make things a bit more stable
-> while still allowing for change of the interface in the future.
->
-> The amount of bpf specific code in HID core will be close to zero
-> while bpf can be used to flexibly tweak it.
-
-Again, I like the idea, but I clearly don't see where you want to go.
-From what I see, this is incompatible with the use cases I have.
-
->
-> kfunc is a corresponding mechanism to introduce unstable api
-> from bpf into the kernel instead of stable helpers.
-> Just whitelist some functions as unstable kfunc helpers and call them
-> from bpf progs.
-> See net/bpf/test_run.c and bpf_kfunc_call* for inspiration.
->
-
-I also like this idea.
-
-However, for hid_hw_raw_request() I can not blindly enable that
-function in all program types. This function makes the kernel sleep,
-and so we can not use it while in IRQ context.
-I think I can detect if we are in IRQ or not, but is it really worth
-enabling it across all BPF program types when we know that only
-SEC("hid/user_event") will use it?
-
-Also, I am not sure how we can make bpf_hid_get_data() work with that.
-We need to teach the verifier how much memory is provided, and I do
-not see how you can do that with kfunc.
-
-Cheers,
-Benjamin
+-- 
+Jiri Kosina
+SUSE Labs
 
