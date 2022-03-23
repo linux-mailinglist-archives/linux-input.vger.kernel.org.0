@@ -2,135 +2,146 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55C074E49AF
-	for <lists+linux-input@lfdr.de>; Wed, 23 Mar 2022 00:33:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5761D4E4C00
+	for <lists+linux-input@lfdr.de>; Wed, 23 Mar 2022 06:05:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230045AbiCVXfH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Mar 2022 19:35:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55868 "EHLO
+        id S237107AbiCWFHW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Mar 2022 01:07:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230009AbiCVXfH (ORCPT
+        with ESMTP id S229696AbiCWFHU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Mar 2022 19:35:07 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F60440909;
-        Tue, 22 Mar 2022 16:33:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647992018; x=1679528018;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0h5+Be9KVGlp5EUr2LBBREV33KBgaXWkMwKFPpsWbQI=;
-  b=eSgSjvB60hrj3F3asMDYQ4cUNxsQvonpl22hCicbi4Lu/2OE/9JJxV43
-   Dj3krfBLBa1l0cRO+3OAi14poAifXEoWFl+fAcvXwNZNFavQq2TUk5zvN
-   kEjQketrdBSrOsfhzre6Euwixb/sIke39e3gJJi5Ls6fTVH56iQCg0dkd
-   JBrxXDGnqvxZLyO3n+HSgfusQ6B8uUxo1ev7nzhRwSTJzkuPWNgWOi9YS
-   FghtEycixBvU3v4Mb+a3PgvE5xtahlAqejMmc8XLTbovecrXLfAuYBlm4
-   alxQn/9u7HtUEy7i0OeHHwygjWoTmXsWnCN5PLmTwKu/B/e4/vlg4zIGf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="321178197"
-X-IronPort-AV: E=Sophos;i="5.90,203,1643702400"; 
-   d="scan'208";a="321178197"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2022 16:33:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,203,1643702400"; 
-   d="scan'208";a="515577430"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 22 Mar 2022 16:33:35 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nWo0M-000JOv-Gf; Tue, 22 Mar 2022 23:33:34 +0000
-Date:   Wed, 23 Mar 2022 07:32:56 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Werner Sembach <wse@tuxedocomputers.com>,
-        dmitry.torokhov@gmail.com, tiwai@suse.de, mpdesouza@suse.com,
-        arnd@arndb.de, hdegoede@redhat.com, samuel@cavoj.net,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org
-Subject: Re: [PATCH v4 3/4] input/i8042: Add debug output for quirks
-Message-ID: <202203230711.7C5PXp0s-lkp@intel.com>
-References: <20220322162125.59838-4-wse@tuxedocomputers.com>
+        Wed, 23 Mar 2022 01:07:20 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F239313DC2;
+        Tue, 22 Mar 2022 22:05:48 -0700 (PDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 9A2795C01C2;
+        Wed, 23 Mar 2022 01:05:45 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Wed, 23 Mar 2022 01:05:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+        :cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm3; bh=cXs53kf34gzbeb
+        VPwtBy2GATRwcGNz8VOEiL+25X/14=; b=kXsFzI3ROzb6ENUiw13L+s3a4egCK3
+        6rfFrYikC4dduRHAaxOk9VyhGbQyqyjP0Ov1RZcklsw9OSV1qQjka9IEXkPuYo8e
+        nJiQ4sH6R0/gJCMsf4/KXQogDMXDqagAQ3AO82qeF6CSmSqmLCq6tk8j6N2Ylg56
+        wjfOqaLfRIQyHGfbxIcxg1cBkvnswMaQur9boEos99uJCXG+1HRetQScQzCq89Wo
+        agPAPD7z2XaY9TUs5Eq9Y3kSXO4cjcTlb1MSiwMs+tIm5okmKwe0NZ6QtxpEBEx0
+        GBV+lcdTWCWGU8GILRCqpYBIdX6u1IklJl3tYXBQpWfe3izDR4m24bWw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=cXs53kf34gzbebVPwtBy2GATRwcGNz8VOEiL+25X/
+        14=; b=hJZ3AA0bANboTwuu0aoDJknE+op+FPx+IsLSk8CPZ1AGyKOLaPpVP63ls
+        nmMhNBkfl9qhX3Rgum/kbwXEKk2WBNtrrFtgtvZtmsoLQkR7cKInKw4w/awnN/V/
+        Aj+5ceAXu6iLVQfjwstREK46BpIoU9nG3zmAz++sfPhQkO84fQOxv4KsbeWbsnwE
+        tQwLs92/0ohABUkNOmD9PaANaw73FkGSUdvf+KhmyfRwclSRk77zFybkn65qR3TG
+        cG9NjIkrkrDm7wW/m91HcjQvg2I7YWqst8hoAHlViZfZ8FvpA2Yfq37sBfl9WIh9
+        qcTN42uYCfr4C1xrbnrjsx3K6v7+w==
+X-ME-Sender: <xms:qao6YtFmqUVQzSXOh-ouWgBq_S18-x6JZyVP0b4jxwsqjdj3ERhWPw>
+    <xme:qao6YiWpIiqgQRWDKROoRWVIZRuQP4HjCbHP76OaKYUQDzHN7jPFMKpppb6e_Fdf2
+    PRMGKWqedT3vY24Bxs>
+X-ME-Received: <xmr:qao6YvKaNRD5iQ_2WK7j7bse_U_FIbspkP_pAx5VzYSZFzTDdLM4kH-vvu0PPp0EPuzzpyhbUfnnmXZ6vKc7kHFh4a3NznEyDA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudegiedgjeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtugfgjgesthekredttddtudenucfhrhhomheprfgvthgv
+    rhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
+    htqeenucggtffrrghtthgvrhhnpeevfeejhedvffeuhfelfefghfdtvddvfffhleejffeu
+    gfekvdefhfeffffgueefleenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrgh
+    dprhgvughhrghtrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehm
+    rghilhhfrhhomhepphgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvght
+X-ME-Proxy: <xmx:qao6YjHRAwhthxWqsP4rkbWRyDj2h2DIW7Wf-pEltZ-PiQF5qv431A>
+    <xmx:qao6YjXcAWuGr38uvfR_LKrYbhbukTB3JqduCm1EoBNdII69XCSvTQ>
+    <xmx:qao6YuP8ZLOiHnU3KDriRjDQIRvR6d2OxBkxLq6XbYsk8N_7Z5vAgg>
+    <xmx:qao6YqHGTG8zQs-OkPW-W3jE1wTjOmRfDl0MVdshzG5f1qpWQjvpeg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 23 Mar 2022 01:05:42 -0400 (EDT)
+Date:   Wed, 23 Mar 2022 15:05:37 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc:     jkosina@suse.cz, tiwai@suse.de, benjamin.tissoires@redhat.com,
+        regressions@leemhuis.info, linux-input@vger.kernel.org,
+        stable@vger.kernel.org, regressions@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Revert "Input: clear BTN_RIGHT/MIDDLE on buttonpads"
+Message-ID: <YjqqoW9jU3SoBgYn@quokka>
+References: <20220321184404.20025-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220322162125.59838-4-wse@tuxedocomputers.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220321184404.20025-1-jose.exposito89@gmail.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Werner,
+On Mon, Mar 21, 2022 at 07:44:05PM +0100, José Expósito wrote:
+> This reverts commit 37ef4c19b4c659926ce65a7ac709ceaefb211c40.
+> 
+> The touchpad present in the Dell Precision 7550 and 7750 laptops
+> reports a HID_DG_BUTTONTYPE of type MT_BUTTONTYPE_CLICKPAD. However,
+> the device is not a clickpad, it is a touchpad with physical buttons.
+> 
+> In order to fix this issue, a quirk for the device was introduced in
+> libinput [1] [2] to disable the INPUT_PROP_BUTTONPAD property:
+> 
+> 	[Precision 7x50 Touchpad]
+> 	MatchBus=i2c
+> 	MatchUdevType=touchpad
+> 	MatchDMIModalias=dmi:*svnDellInc.:pnPrecision7?50*
+> 	AttrInputPropDisable=INPUT_PROP_BUTTONPAD
+> 
+> However, because of the change introduced in 37ef4c19b4 ("Input: clear
+> BTN_RIGHT/MIDDLE on buttonpads") the BTN_RIGHT key bit is not mapped
+> anymore breaking the device right click button and making impossible to
+> workaround it in user space.
+> 
+> In order to avoid breakage on other present or future devices, revert
+> the patch causing the issue.
+> 
+> Cc: stable@vger.kernel.org
+> Link: https://gitlab.freedesktop.org/libinput/libinput/-/merge_requests/481 [1]
+> Link: https://bugzilla.redhat.com/show_bug.cgi?id=1868789  [2]
+> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 
-Thank you for the patch! Yet something to improve:
+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
 
-[auto build test ERROR on dtor-input/next]
-[also build test ERROR on v5.17 next-20220322]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Werner-Sembach/input-i8042-Move-__initconst-to-fix-code-styling-warning/20220323-012205
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-config: x86_64-buildonly-randconfig-r002-20220321 (https://download.01.org/0day-ci/archive/20220323/202203230711.7C5PXp0s-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 902f4708fe1d03b0de7e5315ef875006a6adc319)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/d92be72641d5753be3aa94fe5961e2dbe2b5bdc9
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Werner-Sembach/input-i8042-Move-__initconst-to-fix-code-styling-warning/20220323-012205
-        git checkout d92be72641d5753be3aa94fe5961e2dbe2b5bdc9
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/input/serio/i8042.c:135:
-   In file included from drivers/input/serio/i8042.h:23:
->> drivers/input/serio/i8042-x86ia64io.h:1512:3: error: use of undeclared identifier 'i8042_nopnp'
-                   i8042_nopnp ? " nopnp" : "");
-                   ^
-   1 error generated.
+Cheers,
+  Peter
 
 
-vim +/i8042_nopnp +1512 drivers/input/serio/i8042-x86ia64io.h
-
-  1494	
-  1495		i8042_check_quirks();
-  1496	
-  1497		pr_debug("Active quirks (empty means none):%s%s%s%s%s%s%s%s%s%s%s%s%s\n",
-  1498			i8042_nokbd ? " nokbd" : "",
-  1499			i8042_noaux ? " noaux" : "",
-  1500			i8042_nomux ? " nomux" : "",
-  1501			i8042_unlock ? " unlock" : "",
-  1502			i8042_probe_defer ? "probe_defer" : "",
-  1503			i8042_reset == I8042_RESET_DEFAULT ?
-  1504				"" : i8042_reset == I8042_RESET_ALWAYS ?
-  1505					" reset_always" : " reset_never",
-  1506			i8042_direct ? " direct" : "",
-  1507			i8042_dumbkbd ? " dumbkbd" : "",
-  1508			i8042_noloop ? " noloop" : "",
-  1509			i8042_notimeout ? " notimeout" : "",
-  1510			i8042_kbdreset ? " kbdreset" : "",
-  1511			i8042_dritek ? " dritek" : "",
-> 1512			i8042_nopnp ? " nopnp" : "");
-  1513	
-  1514		retval = i8042_pnp_init();
-  1515		if (retval)
-  1516			return retval;
-  1517	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> ---
+>  drivers/input/input.c | 6 ------
+>  1 file changed, 6 deletions(-)
+> 
+> diff --git a/drivers/input/input.c b/drivers/input/input.c
+> index c3139bc2aa0d..ccaeb2426385 100644
+> --- a/drivers/input/input.c
+> +++ b/drivers/input/input.c
+> @@ -2285,12 +2285,6 @@ int input_register_device(struct input_dev *dev)
+>  	/* KEY_RESERVED is not supposed to be transmitted to userspace. */
+>  	__clear_bit(KEY_RESERVED, dev->keybit);
+>  
+> -	/* Buttonpads should not map BTN_RIGHT and/or BTN_MIDDLE. */
+> -	if (test_bit(INPUT_PROP_BUTTONPAD, dev->propbit)) {
+> -		__clear_bit(BTN_RIGHT, dev->keybit);
+> -		__clear_bit(BTN_MIDDLE, dev->keybit);
+> -	}
+> -
+>  	/* Make sure that bitmasks not mentioned in dev->evbit are clean. */
+>  	input_cleanse_bitmasks(dev);
+>  
+> -- 
+> 2.25.1
+> 
