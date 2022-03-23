@@ -2,38 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7FFD4E5A54
-	for <lists+linux-input@lfdr.de>; Wed, 23 Mar 2022 22:04:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 640274E5AAE
+	for <lists+linux-input@lfdr.de>; Wed, 23 Mar 2022 22:30:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344845AbiCWVGA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Mar 2022 17:06:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59270 "EHLO
+        id S245203AbiCWVcD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Mar 2022 17:32:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344844AbiCWVF6 (ORCPT
+        with ESMTP id S240867AbiCWVcD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Mar 2022 17:05:58 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DEE911C1C;
-        Wed, 23 Mar 2022 14:04:26 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 313FB1C0B87; Wed, 23 Mar 2022 22:04:24 +0100 (CET)
-Date:   Wed, 23 Mar 2022 22:04:23 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Manuel =?iso-8859-1?Q?Sch=F6nlaub?= <manuel.schoenlaub@gmail.com>
-Cc:     lains@riseup.net, jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+        Wed, 23 Mar 2022 17:32:03 -0400
+X-Greylist: delayed 453 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 23 Mar 2022 14:30:32 PDT
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF93D3E0EE;
+        Wed, 23 Mar 2022 14:30:32 -0700 (PDT)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+         client-signature RSA-PSS (2048 bits) client-digest SHA256)
+        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+        by mx1.riseup.net (Postfix) with ESMTPS id 4KP1Xz15lyzDs6Q;
+        Wed, 23 Mar 2022 14:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+        t=1648070579; bh=K5DayJKzywfJ8rV0t5+qTTJdDuq8sxKxz9R1nJWR6v0=;
+        h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+        b=efwQCJNGWb3akNgwGKrZEqvn2jHIW0+yj/ELXOU/nsFhcwWR2dGCaJIYR2c86tXDo
+         L4QzMDn4IL56xtKoZogZUOXVI6a3XCMjccamKMzwWsW6d1dlVjCv3Mn5Zmx41qpBgH
+         VzWxTajgfNSZWd7XiaFzPsh7na5X2Vb7TdaXYBsQ=
+X-Riseup-User-ID: 3E5567DDA8FA81198A5EBD1492A1B1F43CA8B82C4894982B0AA93A2620D2FCED
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+         by fews2.riseup.net (Postfix) with ESMTPSA id 4KP1Xx5LxLz1y9M;
+        Wed, 23 Mar 2022 14:22:57 -0700 (PDT)
+Message-ID: <275245e8048fa124055d9ff3d10ce6562294483a.camel@riseup.net>
 Subject: Re: [PATCH] HID: logitech-hidpp: support Color LED feature (8071).
-Message-ID: <20220323210423.GA10741@duo.ucw.cz>
-References: <Yifr4etBFPu1a2Ct@hermes>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="W/nzBZO5zC0uMSeA"
-Content-Disposition: inline
+From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>
+To:     Manuel =?ISO-8859-1?Q?Sch=F6nlaub?= <manuel.schoenlaub@gmail.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 In-Reply-To: <Yifr4etBFPu1a2Ct@hermes>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <Yifr4etBFPu1a2Ct@hermes>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-7NA5b+BMyLiRNR4ZGUnP"
+Date:   Wed, 23 Mar 2022 21:22:49 +0000
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -41,64 +56,70 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
---W/nzBZO5zC0uMSeA
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+--=-7NA5b+BMyLiRNR4ZGUnP
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
-
+On Tue, 2022-03-08 at 16:50 -0700, Manuel Sch=C3=B6nlaub wrote:
 > The HID++ protocol allows to set multicolor (RGB) to a static color.
 > Multiple of such LED zones per device are supported.
 > This patch exports said LEDs so that they can be set from userspace.
 >=20
-> Signed-off-by: Manuel Sch=F6nlaub <manuel.schoenlaub@gmail.com>
+> Signed-off-by: Manuel Sch=C3=B6nlaub <manuel.schoenlaub@gmail.com>
+> ---
+> =C2=A0drivers/hid/hid-logitech-hidpp.c | 188 ++++++++++++++++++++++++++++=
++++
+> =C2=A01 file changed, 188 insertions(+)
 
-Please cc LEDs stuff to the LED lists.
+*snip*
 
-> +static int hidpp_mc_led_register(struct hidpp_device *hidpp_dev,
-> +				 struct led_classdev_mc *mc_dev,
-> +				 int zone)
-> +{
-> +	struct hid_device *hdev =3D hidpp_dev->hid_dev;
-> +	struct mc_subled *mc_led_info;
-> +	struct led_classdev *cdev;
-> +	int ret;
-> +
-> +	mc_led_info =3D devm_kmalloc_array(&hdev->dev, 3,
-> +					 sizeof(*mc_led_info),
-> +					 GFP_KERNEL | __GFP_ZERO);
-> +	if (!mc_led_info)
-> +		return -ENOMEM;
-> +
-> +	mc_led_info[0].color_index =3D LED_COLOR_ID_RED;
-> +	mc_led_info[1].color_index =3D LED_COLOR_ID_GREEN;
-> +	mc_led_info[2].color_index =3D LED_COLOR_ID_BLUE;
-> +
-> +	mc_dev->subled_info =3D mc_led_info;
-> +	mc_dev->num_colors =3D 3;
-> +
-> +	cdev =3D &mc_dev->led_cdev;
-> +	cdev->name =3D devm_kasprintf(&hdev->dev, GFP_KERNEL,
-> +				    "%s:rgb:indicator-%d", hdev->uniq, zone);
+Hi Manuel,
 
-So this is keyboard backlight? We should add the documentation at the
-very least, so that other drivers use same name.
+Thanks for putting this forward, although I am not sure if this is the best=
+ way
+to handle this.
 
-Best regards,
-								Pavel
+Before anything, could you elaborate a bit on what lead to you wanting this=
+?
 
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+There are a couple of reasons why merging this in the kernel might be
+problematic.
 
---W/nzBZO5zC0uMSeA
+1) I don't think we will ever support the full capabilities of the devices,=
+ so
+configuration via userspace apps will always be required, and here we are
+introducing a weird line between the two.
+
+2) There is already an ecosystem of userspace configuration apps, with whic=
+h
+this would conflict. They might not be in the best maintenance state due to=
+ lack
+of time from the maintainers, but moving this functionality to the kernel, =
+which
+is harder change, and harder to ship to users, will only make that worse.
+
+Cheers,
+Filipe La=C3=ADns
+
+--=-7NA5b+BMyLiRNR4ZGUnP
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYjuLVwAKCRAw5/Bqldv6
-8kx0AJ9oRQqFcCr56nwvRNMMN+qF5d6glgCfbBf5ZasT2VlWCFhfy+uI65wakSk=
-=ru61
+iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAmI7j6kACgkQ+JPGdIFq
+qV3jwQ/8DPkEGDhXfUMS/tEHfeP3AMV3pKrpIP0ccAWDQUCJdmowjGrdrbM/AVbs
+3RIxMULEuIk94kY0oQbmumQhbd3xyGC8AgQ1F0jgVc94w3RQg4R4YqdMk7HLeqrc
+GfrO/u2RUR6T5B5+oas0LZ/9HmS/wbPdVg8B1Ucvs7Zk9090gyx0HxXDVg/VJ6kj
+HRG2BH1c9wDDHv4mRcZ0n8gsmhzHEFkpeCDeUEmgyJZ+LC11DdVjMGIl3vB2HXPC
+WcHNjz5OIrWZKSqdoiyN6yUZqc6GuoPhB8FW+kRNfUnQA5kZFAQrTZDfQ709HOj2
+cJ9QylEyJy98pGLRRwoev+yX9hKFwmRDnS8H2TqiKCWcuS+GMedFtO8mJRFSSaei
+7yfN+Udw8fWm26ctitqO7RmUuEs9V0WCIi0DkjFYhf9oqYWZUlxC1xuJYSR3Nt9A
+7eytHD6TWmL3x9GCMs3YbSVd6xxPgwDOwnx6PwaopZppyLYsQjIzRCwyznea17Tv
+DNcfZUdijLORD4G2uiq5FhlRT5Pjly38TfYTen9PsNwMScYccp4mDX2xToRTo/0A
+YTZk+Gpy4hDDEw7nXhCq8FuDniK1pFrRUVO8BUfZmc3drUDk/lAQmzjbPQoWEE0J
+c6t9Zl26T1xQY+htIwhWMUfyTpWopdUmFilQLCi/yatiw19V5ak=
+=LrbX
 -----END PGP SIGNATURE-----
 
---W/nzBZO5zC0uMSeA--
+--=-7NA5b+BMyLiRNR4ZGUnP--
