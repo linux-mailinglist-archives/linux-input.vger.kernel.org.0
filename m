@@ -2,83 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5761D4E4C00
-	for <lists+linux-input@lfdr.de>; Wed, 23 Mar 2022 06:05:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0E254E51B8
+	for <lists+linux-input@lfdr.de>; Wed, 23 Mar 2022 13:00:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237107AbiCWFHW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Mar 2022 01:07:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41046 "EHLO
+        id S244023AbiCWMCB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Mar 2022 08:02:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbiCWFHU (ORCPT
+        with ESMTP id S235981AbiCWMB7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Mar 2022 01:07:20 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F239313DC2;
-        Tue, 22 Mar 2022 22:05:48 -0700 (PDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 9A2795C01C2;
-        Wed, 23 Mar 2022 01:05:45 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 23 Mar 2022 01:05:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-        :cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm3; bh=cXs53kf34gzbeb
-        VPwtBy2GATRwcGNz8VOEiL+25X/14=; b=kXsFzI3ROzb6ENUiw13L+s3a4egCK3
-        6rfFrYikC4dduRHAaxOk9VyhGbQyqyjP0Ov1RZcklsw9OSV1qQjka9IEXkPuYo8e
-        nJiQ4sH6R0/gJCMsf4/KXQogDMXDqagAQ3AO82qeF6CSmSqmLCq6tk8j6N2Ylg56
-        wjfOqaLfRIQyHGfbxIcxg1cBkvnswMaQur9boEos99uJCXG+1HRetQScQzCq89Wo
-        agPAPD7z2XaY9TUs5Eq9Y3kSXO4cjcTlb1MSiwMs+tIm5okmKwe0NZ6QtxpEBEx0
-        GBV+lcdTWCWGU8GILRCqpYBIdX6u1IklJl3tYXBQpWfe3izDR4m24bWw==
+        Wed, 23 Mar 2022 08:01:59 -0400
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8473075E48;
+        Wed, 23 Mar 2022 05:00:30 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.west.internal (Postfix) with ESMTP id E5A8C3200B25;
+        Wed, 23 Mar 2022 08:00:28 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Wed, 23 Mar 2022 08:00:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+         h=cc:cc:content-transfer-encoding:content-type:date:date:from
+        :from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to; s=fm1; bh=oPrRJr0au2XwO23A1HrZcbzNNDvN2/
+        /w4Jho90lrt5k=; b=gKV2vvBbKK2CDXVZClM9sEyBTqMot0mnlvSvBmw/wtu+Jm
+        GyATvZxRh04VKTVFjCyjKKwVnJfFttbn5avccW3clmlQBV5/UmeFmQobMIdpTziz
+        m2ISablfOvsZ40L7YtNAhagIQnoBMv+RZ2vvuhNE6CS9uRHjtH1TnlyoF9tYmf1Z
+        6ULpkPqo2QBvReSS908fs+AJqaeZJhsJdXrSeYMzUESLaimRleWHXJ0eAfuo4sjg
+        rbiMLsbCXv+Vh3g8sJLTAw7TN2JdULdyHsxVxuQP8d+lBrA1pwQGWx7NjOvBykuz
+        nbMYgLPmN3NvnYJEu84rypmWgPm+9/XBMtL1YXoQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=cXs53kf34gzbebVPwtBy2GATRwcGNz8VOEiL+25X/
-        14=; b=hJZ3AA0bANboTwuu0aoDJknE+op+FPx+IsLSk8CPZ1AGyKOLaPpVP63ls
-        nmMhNBkfl9qhX3Rgum/kbwXEKk2WBNtrrFtgtvZtmsoLQkR7cKInKw4w/awnN/V/
-        Aj+5ceAXu6iLVQfjwstREK46BpIoU9nG3zmAz++sfPhQkO84fQOxv4KsbeWbsnwE
-        tQwLs92/0ohABUkNOmD9PaANaw73FkGSUdvf+KhmyfRwclSRk77zFybkn65qR3TG
-        cG9NjIkrkrDm7wW/m91HcjQvg2I7YWqst8hoAHlViZfZ8FvpA2Yfq37sBfl9WIh9
-        qcTN42uYCfr4C1xrbnrjsx3K6v7+w==
-X-ME-Sender: <xms:qao6YtFmqUVQzSXOh-ouWgBq_S18-x6JZyVP0b4jxwsqjdj3ERhWPw>
-    <xme:qao6YiWpIiqgQRWDKROoRWVIZRuQP4HjCbHP76OaKYUQDzHN7jPFMKpppb6e_Fdf2
-    PRMGKWqedT3vY24Bxs>
-X-ME-Received: <xmr:qao6YvKaNRD5iQ_2WK7j7bse_U_FIbspkP_pAx5VzYSZFzTDdLM4kH-vvu0PPp0EPuzzpyhbUfnnmXZ6vKc7kHFh4a3NznEyDA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudegiedgjeekucetufdoteggodetrfdotf
+        :content-type:date:date:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=oPrRJr
+        0au2XwO23A1HrZcbzNNDvN2//w4Jho90lrt5k=; b=ZiWrVgPtA+2AZnoGCotgt9
+        dUBM/fojGl5Iiv2uXDdPVXKd2UG1+BPVzF4mLG9e9DHIovMD6ovMZwJWyC2sf50t
+        dvvbDsd/aPbPi76xQPExXNVxhHGtBWbJ6LtRFwdbYNfdkLv/d33QrZbJ8HMCjw/V
+        rAMNQn+5IsXn/qNV/xSmjkYwLJ3OnZSktwSufhZutLf5DEtaMVtF2xNLr69pCFuk
+        mGzxr7N7VCd9BXICnWKliEmAOXh4NbEyuNokw5oj5SGY+FHZdlDvL7pJhzLG20fY
+        QpMIylKPGw0RIguRGQ4vCRZnr+4wfBr3paqfW8C1eNAac6WWvYDYtE7V8kEXXuwA
+        ==
+X-ME-Sender: <xms:2ws7YkpBZvlGzjWQeqlqMhl2VfNUiuz6ZIo_SmGNd_Y3oiDQC0Cfgg>
+    <xme:2ws7YqpkYLNHqchKFB3e7OcJW_LNUNewLQFkcV2OvVrcD_vRtqN6sV3iiU6Bqz56b
+    4BTvQ5sVnQqPa32Pco>
+X-ME-Received: <xmr:2ws7YpPwkyq5WkPPJgPVx9GcecWg3ijjgxkibMaJe5mbUJ8D0gqv1p_wG-nfeH1bZ-dbytwGXsc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudegjedgfeefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtugfgjgesthekredttddtudenucfhrhhomheprfgvthgv
-    rhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
-    htqeenucggtffrrghtthgvrhhnpeevfeejhedvffeuhfelfefghfdtvddvfffhleejffeu
-    gfekvdefhfeffffgueefleenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrgh
-    dprhgvughhrghtrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehm
-    rghilhhfrhhomhepphgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvght
-X-ME-Proxy: <xmx:qao6YjHRAwhthxWqsP4rkbWRyDj2h2DIW7Wf-pEltZ-PiQF5qv431A>
-    <xmx:qao6YjXcAWuGr38uvfR_LKrYbhbukTB3JqduCm1EoBNdII69XCSvTQ>
-    <xmx:qao6YuP8ZLOiHnU3KDriRjDQIRvR6d2OxBkxLq6XbYsk8N_7Z5vAgg>
-    <xmx:qao6YqHGTG8zQs-OkPW-W3jE1wTjOmRfDl0MVdshzG5f1qpWQjvpeg>
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofggtgfgsehtqhertd
+    ertdejnecuhfhrohhmpeetlhhishhtrghirhcuhfhrrghntghishcuoegrlhhishhtrghi
+    rhesrghlihhsthgrihhrvdefrdhmvgeqnecuggftrfgrthhtvghrnhepffelvdegveefve
+    efvddvffeiteefgfejveegieethfekgefhleeukefhjeehfffgnecuffhomhgrihhnpehl
+    fihnrdhnvghtpdhgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhm
+    vg
+X-ME-Proxy: <xmx:2ws7Yr7siJF3ggT0w78a9p7tk3YRBRPcECqzCShJBtsBs2WZVOLRVw>
+    <xmx:2ws7Yj5FazshV9-OGe0DhI5kKiICUtNpQ9CuNy9CfVbqChrJQxM7wQ>
+    <xmx:2ws7YrjL8MaX1F-fYaEMx2bt1KHqxGSm5CFf1qvVe-YalV6gCwmakQ>
+    <xmx:3As7YgG5yqjQ9-rTis_gwFqvb5GjuX5PceI1ywDoCxdvT_z9OZ-04g>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 23 Mar 2022 01:05:42 -0400 (EDT)
-Date:   Wed, 23 Mar 2022 15:05:37 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc:     jkosina@suse.cz, tiwai@suse.de, benjamin.tissoires@redhat.com,
-        regressions@leemhuis.info, linux-input@vger.kernel.org,
-        stable@vger.kernel.org, regressions@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Revert "Input: clear BTN_RIGHT/MIDDLE on buttonpads"
-Message-ID: <YjqqoW9jU3SoBgYn@quokka>
-References: <20220321184404.20025-1-jose.exposito89@gmail.com>
+ 23 Mar 2022 08:00:23 -0400 (EDT)
+From:   Alistair Francis <alistair@alistair23.me>
+To:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     alistair23@gmail.com, rydberg@bitmath.org,
+        linus.walleij@linaro.org, robh+dt@kernel.org,
+        dmitry.torokhov@gmail.com, andreas@kemnade.info,
+        Alistair Francis <alistair@alistair23.me>
+Subject: [PATCH v7 0/4] Add support for the Cypress cyttsp5
+Date:   Wed, 23 Mar 2022 22:00:17 +1000
+Message-Id: <20220323120021.361137-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220321184404.20025-1-jose.exposito89@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,62 +85,57 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Mar 21, 2022 at 07:44:05PM +0100, José Expósito wrote:
-> This reverts commit 37ef4c19b4c659926ce65a7ac709ceaefb211c40.
-> 
-> The touchpad present in the Dell Precision 7550 and 7750 laptops
-> reports a HID_DG_BUTTONTYPE of type MT_BUTTONTYPE_CLICKPAD. However,
-> the device is not a clickpad, it is a touchpad with physical buttons.
-> 
-> In order to fix this issue, a quirk for the device was introduced in
-> libinput [1] [2] to disable the INPUT_PROP_BUTTONPAD property:
-> 
-> 	[Precision 7x50 Touchpad]
-> 	MatchBus=i2c
-> 	MatchUdevType=touchpad
-> 	MatchDMIModalias=dmi:*svnDellInc.:pnPrecision7?50*
-> 	AttrInputPropDisable=INPUT_PROP_BUTTONPAD
-> 
-> However, because of the change introduced in 37ef4c19b4 ("Input: clear
-> BTN_RIGHT/MIDDLE on buttonpads") the BTN_RIGHT key bit is not mapped
-> anymore breaking the device right click button and making impossible to
-> workaround it in user space.
-> 
-> In order to avoid breakage on other present or future devices, revert
-> the patch causing the issue.
-> 
-> Cc: stable@vger.kernel.org
-> Link: https://gitlab.freedesktop.org/libinput/libinput/-/merge_requests/481 [1]
-> Link: https://bugzilla.redhat.com/show_bug.cgi?id=1868789  [2]
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-
-Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
-
-Cheers,
-  Peter
-
-
-> ---
->  drivers/input/input.c | 6 ------
->  1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/input/input.c b/drivers/input/input.c
-> index c3139bc2aa0d..ccaeb2426385 100644
-> --- a/drivers/input/input.c
-> +++ b/drivers/input/input.c
-> @@ -2285,12 +2285,6 @@ int input_register_device(struct input_dev *dev)
->  	/* KEY_RESERVED is not supposed to be transmitted to userspace. */
->  	__clear_bit(KEY_RESERVED, dev->keybit);
->  
-> -	/* Buttonpads should not map BTN_RIGHT and/or BTN_MIDDLE. */
-> -	if (test_bit(INPUT_PROP_BUTTONPAD, dev->propbit)) {
-> -		__clear_bit(BTN_RIGHT, dev->keybit);
-> -		__clear_bit(BTN_MIDDLE, dev->keybit);
-> -	}
-> -
->  	/* Make sure that bitmasks not mentioned in dev->evbit are clean. */
->  	input_cleanse_bitmasks(dev);
->  
-> -- 
-> 2.25.1
-> 
+This patch series builds on top of [1] and adds support for the cyttsp5=0D
+touchscreen controller for the reMarkable 2.=0D
+=0D
+I first tried to add an I2C HID device. Although the cyttsp5 has some HID=0D
+looking aspects it is not HID compatible. Just in trying to probe the devic=
+e=0D
+I found:=0D
+ - The HID descriptor has extra padding=0D
+ - The HID descriptor sets the high bytes of the descriptor length=0D
+ - The HID descriptor has extra unrecognised tags=0D
+ - The HID reset command doesn't appear to work=0D
+=0D
+I don't think there is a way to use the I2C HID framework with the cyttsp5.=
+=0D
+For anyone interested you can see the work here [2]. In that branch though =
+I=0D
+can only obtain a HID descriptor, nothing else works without more core=0D
+changes.=0D
+=0D
+So instead I rebased the series from [1]. Converted to the new yaml DTS=0D
+documentation, added regulator support and fixed a x/y miscalculation bug.=
+=0D
+=0D
+1: https://lwn.net/ml/linux-kernel/20180703094309.18514-1-mylene.josserand@=
+bootlin.com/=0D
+2: https://github.com/alistair23/linux/commits/rM2-mainline-cyttsp5-hid=0D
+=0D
+v7:=0D
+ - Fix device tree warnings=0D
+v6:=0D
+ - Use reg for the button properties=0D
+v5:=0D
+ - Address review comments from v4=0D
+=0D
+Alistair Francis (4):=0D
+  Input: Add driver for Cypress Generation 5 touchscreen=0D
+  dt-bindings: input: Add Cypress TT2100 touchscreen controller=0D
+  ARM: imx_v6_v7_defconfig: Enable the cyttsp5 touchscreen=0D
+  ARM: dts: imx7d-remarkable2: Enable the cyttsp5=0D
+=0D
+ .../input/touchscreen/cypress,tt21000.yaml    | 101 ++=0D
+ arch/arm/boot/dts/imx7d-remarkable2.dts       | 100 ++=0D
+ arch/arm/configs/imx_v6_v7_defconfig          |   1 +=0D
+ drivers/input/touchscreen/Kconfig             |  16 +=0D
+ drivers/input/touchscreen/Makefile            |   1 +=0D
+ drivers/input/touchscreen/cyttsp5.c           | 902 ++++++++++++++++++=0D
+ 6 files changed, 1121 insertions(+)=0D
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cyp=
+ress,tt21000.yaml=0D
+ create mode 100644 drivers/input/touchscreen/cyttsp5.c=0D
+=0D
+-- =0D
+2.35.1=0D
+=0D
