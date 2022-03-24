@@ -2,147 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C664D4E611C
-	for <lists+linux-input@lfdr.de>; Thu, 24 Mar 2022 10:32:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33CA34E65AF
+	for <lists+linux-input@lfdr.de>; Thu, 24 Mar 2022 15:53:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242723AbiCXJd7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Mar 2022 05:33:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58570 "EHLO
+        id S243341AbiCXOzD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Mar 2022 10:55:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240807AbiCXJd7 (ORCPT
+        with ESMTP id S242281AbiCXOzD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Mar 2022 05:33:59 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 290989E9E8;
-        Thu, 24 Mar 2022 02:32:26 -0700 (PDT)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id BB9C42000F;
-        Thu, 24 Mar 2022 09:32:21 +0000 (UTC)
-Message-ID: <5b842bd4f8d17e5ecb8e7972637dbe7ad50060ac.camel@hadess.net>
-Subject: Re: [PATCH] HID: logitech-hidpp: support Color LED feature (8071).
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Manuel =?ISO-8859-1?Q?Sch=F6nlaub?= <manuel.schoenlaub@gmail.com>
-Cc:     Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        Thu, 24 Mar 2022 10:55:03 -0400
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02BE172E1F;
+        Thu, 24 Mar 2022 07:53:31 -0700 (PDT)
+Received: by mail-qt1-x836.google.com with SMTP id t2so4000560qtw.9;
+        Thu, 24 Mar 2022 07:53:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Uca/bYsYM+8uc58DJlLIYUvlXu7JrHCcisWQnLTb2FE=;
+        b=VEvphlhMQxh4J8iQGTlWM9takLna6FJ4uFbbHs6d4e1n1R5O7WSyX63G2zRze0CQaZ
+         VxOU6mXzC+48RwzBAXqjHTNNcrIi+OEx4uxGqjgBrKLRzAEfec9+6s2i+JBy+haPkUiL
+         zDE7D7NlIXvUgYv6vGRdv0ztaLQDR2Hr2WpuUYVMP+BKAMj5bzsN2eD673a+BxWVoIed
+         PSkx2DknZZgJYRazRM/ZfF4hYwb6TQCMkGwbyihvko9mczVbnY6ESk4HB11VWbE3Bvw4
+         2hn1wLEyFMKsT8AfbGWf3QMnRDKkcenN4toANi3nmICeXGuIjBEjdjuEIKhgXQZSXm0y
+         aOOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Uca/bYsYM+8uc58DJlLIYUvlXu7JrHCcisWQnLTb2FE=;
+        b=Cp+EDaPH4lX5Nrgb3SfNBXI2KquH5UOq0EjV4iuFHm9e5aeDhuvRKeOszRW1Rqvro9
+         4jp2nrx5b1vGuhIQEyw/VjwVlwhYA+3wNwVkfjXQUE8pOpeCYyC4h3GlRH3ydgBgyKUF
+         BcQY5Rq4kLdgbkrQoVEJ59VsRvunEPM6Qdj0xG0AAzRLBANN/QfvWD9AYUJqc7epfPZW
+         0nkaFgcQbKxYvl5eRC1bMK2fMn92mxIS+k+S65NCog3WPr96A5B57hbT+PEm62ovyp0G
+         myBZ0KLV6iAAvrHC8YcOvvd2sZtpyXpdi656gOIo1IF3l7vEY8AKF1eIKYwaxu1c8Vg/
+         VhCQ==
+X-Gm-Message-State: AOAM5338FukS5w0tQSdR2UKJ19wLKiDh8srRCrjess4aSbc9MqjNKmra
+        MBRxVyvI8dhq9k6dYxOQ15TSpTcpT/8=
+X-Google-Smtp-Source: ABdhPJyAXke0R7Bv6Cv1B1ohnhR4dyg3t05kVCQnfuzxCgW0K1z02SNo08lSIGYnWl3EEGD/Fn5iwA==
+X-Received: by 2002:a05:622a:1899:b0:2e1:b3d2:138d with SMTP id v25-20020a05622a189900b002e1b3d2138dmr4799373qtc.331.1648133610109;
+        Thu, 24 Mar 2022 07:53:30 -0700 (PDT)
+Received: from localhost.localdomain (c-73-171-102-37.hsd1.va.comcast.net. [73.171.102.37])
+        by smtp.gmail.com with ESMTPSA id x5-20020ae9e645000000b0067b122fae88sm1637926qkl.2.2022.03.24.07.53.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Mar 2022 07:53:29 -0700 (PDT)
+From:   Stephen Douthit <stephen.douthit@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Stephen Douthit <stephen.douthit@gmail.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Thu, 24 Mar 2022 10:32:21 +0100
-In-Reply-To: <YjvlQrvRS+ZKNbZ5@hermes>
-References: <Yifr4etBFPu1a2Ct@hermes>
-         <275245e8048fa124055d9ff3d10ce6562294483a.camel@riseup.net>
-         <ce3adf7013ba01aad54fb65bf9c657dd9d0b7d23.camel@hadess.net>
-         <YjvlQrvRS+ZKNbZ5@hermes>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
+Subject: [PATCH] Input: xpad - Turn off wireless controllers on shutdown
+Date:   Thu, 24 Mar 2022 10:53:08 -0400
+Message-Id: <20220324145308.2372-1-stephen.douthit@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 2022-03-23 at 21:28 -0600, Manuel Schönlaub wrote:
-> On Wed, Mar 23, 2022 at 11:24:18PM +0100, Bastien Nocera wrote:
-> > On Wed, 2022-03-23 at 21:22 +0000, Filipe Laíns wrote:
-> > > On Tue, 2022-03-08 at 16:50 -0700, Manuel Schönlaub wrote:
-> > > > The HID++ protocol allows to set multicolor (RGB) to a static
-> > > > color.
-> > > > Multiple of such LED zones per device are supported.
-> > > > This patch exports said LEDs so that they can be set from
-> > > > userspace.
-> > > > 
-> > > > Signed-off-by: Manuel Schönlaub <manuel.schoenlaub@gmail.com>
-> > > > ---
-> > > >  drivers/hid/hid-logitech-hidpp.c | 188
-> > > > +++++++++++++++++++++++++++++++
-> > > >  1 file changed, 188 insertions(+)
-> > > 
-> > > *snip*
-> > > 
-> > > Hi Manuel,
-> > > 
-> > > Thanks for putting this forward, although I am not sure if this
-> > > is
-> > > the best way
-> > > to handle this.
-> > > 
-> > > Before anything, could you elaborate a bit on what lead to you
-> > > wanting this?
-> > > 
-> > > There are a couple of reasons why merging this in the kernel
-> > > might be
-> > > problematic.
-> > > 
-> > > 1) I don't think we will ever support the full capabilities of
-> > > the
-> > > devices, so
-> > > configuration via userspace apps will always be required, and
-> > > here we
-> > > are
-> > > introducing a weird line between the two.
-> > > 
-> > > 2) There is already an ecosystem of userspace configuration apps,
-> > > with which
-> > > this would conflict. They might not be in the best maintenance
-> > > state
-> > > due to lack
-> > > of time from the maintainers, but moving this functionality to
-> > > the
-> > > kernel, which
-> > > is harder change, and harder to ship to users, will only make
-> > > that
-> > > worse.
-> > 
-> > There's already an API for LEDs in the kernel, why shouldn't it be
-> > used
-> > to avoid user-space needing to know how to configure Logitech, and
-> > every other brand of keyboards?
-> > 
-> > systemd has code to save and restore LED status, as well as code to
-> > change the level of backlight. I can imagine that it wouldn't take
-> > much
-> > to make it aware of RGB LEDs so it handles them properly, whether
-> > it's
-> > for Logitech, or another brand of keyboards, or laptops.
-> 
-> Teaching systemd-backlight about mulicolor backlights might be a nice
-> project
-> too. But their use case seems to be more about screen backlights as
-> it seems.
-> Did I overlook something here?
+We already do this on suspend, makes sense for shutdown as well
 
-From rules.d/99-systemd.rules.in:
-# Pull in backlight save/restore for all backlight devices and
-# keyboard backlights
-SUBSYSTEM=="backlight", TAG+="systemd", IMPORT{builtin}="path_id", ENV{SYSTEMD_WANTS}+="systemd-backlight@backlight:$name.service"
-SUBSYSTEM=="leds", KERNEL=="*kbd_backlight", TAG+="systemd", IMPORT{builtin}="path_id", ENV{SYSTEMD_WANTS}+="systemd-backlight@leds:$name.service"
+Signed-off-by: Stephen Douthit <stephen.douthit@gmail.com>
+---
+ drivers/input/joystick/xpad.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-And from the NEWS file for systemd 243:
-        * systemd-logind now exposes a per-session SetBrightness() bus call, 
-          which may be used to securely change the brightness of a kernel
-          brightness device, if it belongs to the session's seat. By using this
-          call unprivileged clients can make changes to "backlight" and "leds"
-          devices securely with strict requirements on session membership.
-          Desktop environments may use this to generically make brightness
-          changes to such devices without shipping private SUID binaries or
-          udev rules for that purpose.
-
-It's clear that it's not just displays.
-
-> 
-> Oh and yeah, IMHO another argument could be that obviously at some
-> point
-> the LED management could be removed from those user space tools, as
-> the
-> kernel would already know about them.
-> 
-> After all the LED class devices should be there for a reason ;-)
-> 
-> Cheers,
-> 
-> Manuel
-> 
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 18190b529bca..8be79f91ba56 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -1738,6 +1738,16 @@ static int xpad_init_input(struct usb_xpad *xpad)
+ 	return error;
+ }
+ 
++static void xpad360w_shutdown(struct device *dev)
++{
++	struct usb_interface *intf = to_usb_interface(dev);
++	struct usb_xpad *xpad = usb_get_intfdata(intf);
++
++	xpad360w_stop_input(xpad);
++	if (xpad->pad_present)
++		xpad360w_poweroff_controller(xpad);
++}
++
+ static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ {
+ 	struct usb_device *udev = interface_to_usbdev(intf);
+@@ -1863,6 +1873,12 @@ static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id
+ 		 * here in this driver and in usb core.
+ 		 */
+ 		udev->quirks |= USB_QUIRK_RESET_RESUME;
++
++		/*
++		 * Populate shutdown callback so wireless controllers turn off
++		 * when the machine turns off
++		 */
++		intf->dev.driver->shutdown = xpad360w_shutdown;
+ 	} else {
+ 		error = xpad_init_input(xpad);
+ 		if (error)
+-- 
+2.35.1
 
