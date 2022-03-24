@@ -2,170 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B38ED4E5CF0
-	for <lists+linux-input@lfdr.de>; Thu, 24 Mar 2022 02:51:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7A784E5D29
+	for <lists+linux-input@lfdr.de>; Thu, 24 Mar 2022 03:21:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346533AbiCXBwp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Mar 2022 21:52:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48490 "EHLO
+        id S1347743AbiCXCXE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Mar 2022 22:23:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241245AbiCXBwo (ORCPT
+        with ESMTP id S240525AbiCXCXD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Mar 2022 21:52:44 -0400
-X-Greylist: delayed 65 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 23 Mar 2022 18:51:14 PDT
-Received: from emcscan.emc.com.tw (emcscan.emc.com.tw [192.72.220.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0AC358AE4B
-        for <linux-input@vger.kernel.org>; Wed, 23 Mar 2022 18:51:13 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
-   d="scan'208";a="45166565"
-Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
-  by emcscan.emc.com.tw with ESMTP; 24 Mar 2022 09:50:08 +0800
-Received: from 192.168.10.23
-        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(162314:0:AUTH_RELAY)
-        (envelope-from <josh.chen@emc.com.tw>); Thu, 24 Mar 2022 09:50:07 +0800 (CST)
-Received: from 192.168.33.25
-        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(149257:1:AUTH_RELAY)
-        (envelope-from <josh.chen@emc.com.tw>); Thu, 24 Mar 2022 09:50:04 +0800 (CST)
-From:   "Josh.Chen" <josh.chen@emc.com.tw>
-To:     "'Jingle.Wu'" <jingle.wu@emc.com.tw>,
-        "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>,
-        "'Dave.Wang'" <dave.wang@emc.com.tw>
-Cc:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <phoenix@emc.com.tw>,
-        "'jingle.wu'" <jingle.wu@elan.corp-partner.google.com>
-References: <20200904024231.26812-1-jingle.wu@emc.com.tw> <YjtYgoBvytgQu/pn@google.com> <003801d83f1c$5485aaf0$fd9100d0$@emc.com.tw>
-In-Reply-To: <003801d83f1c$5485aaf0$fd9100d0$@emc.com.tw>
-Subject: RE: [PATCH] Input: trackpoint - Add Suspend mode for Elan TrackPoint
-Date:   Thu, 24 Mar 2022 09:50:04 +0800
-Message-ID: <004901d83f21$7b7f7190$727e54b0$@emc.com.tw>
+        Wed, 23 Mar 2022 22:23:03 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD9A793995;
+        Wed, 23 Mar 2022 19:21:32 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id u16so4652080wru.4;
+        Wed, 23 Mar 2022 19:21:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=3qclwzwUGtDFwZwOazh4jA3jMuR+ekMkvwqZKLbIrEo=;
+        b=IN6kcMcqkbzgaWq0PMKkxOy/Ro8RXyXtkuQaqY5vJTuTTjfZHJy/RpaWJpjReKg+UR
+         auf1BvzN+SKkqvpLl1yUDxCb7TlxSN/tKYRKQI2yIATSWXRj1RY2Ac2UX2cc3Lg/NWn6
+         3zb8nki0AnDe6QMK6Rqv8ba7ytJIM61EV2RPycDgNEYdwHt1ajt4TkVsK5u6AZeKCpwE
+         Q2nugzeGqWTCjVQNEXrbv8Lb6t6SCBhginCnDvWwgJPR4/qclkHs0/OmLjX8a1izP84x
+         hO25fLctmlZrXIKOT3uAbD2sFfHlXOMnQcBSxEzvighgy5SnVWQ34DbZTb81WRNk9Ggj
+         Sl3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=3qclwzwUGtDFwZwOazh4jA3jMuR+ekMkvwqZKLbIrEo=;
+        b=WyGAVRfBcV6NrFGw+tTF4swzWDOJConPFzU9sNNcI5vhU/Uayol5MYkzDfp9QXqIUg
+         Rlm7GTq4EDIrPzaywiTQUobownAWRKsAIjTp3KbSl142hyTolZQdDhgJBW2sZYBpJp5l
+         1X+fuuAVjo/0z3CDtUqqi7gXObg+Fj1BbXPNZTJV9EnyHw4QOAwhdaiRyhu/1nVoOhmH
+         DfwNmXSPQnHA0q2NuxsiGRCheGG+xNbfj11FPen8zwbY9ihKueoEkoTK+DJCMElc2wrP
+         DgW4oxYcG0cyWgUKsG+68Z+vebFXOqyy+/i9Lid9EYJO9IQmOFt5fFKjc3BbqTClJo07
+         l6ew==
+X-Gm-Message-State: AOAM532H4kCP11EFB7shVFmIeRxz6svygZQxeC6jis35JQoOOPhXkXvq
+        nwO1GrjLb4WhkEmk//845Mo=
+X-Google-Smtp-Source: ABdhPJyG3/JiSU2g884TYRg/m22N8rrRg+F9NF4NIXjKZqhxE59qCrFhppJ8HA8vTeNm8Gz8yuoJpQ==
+X-Received: by 2002:a5d:660e:0:b0:203:eda6:e983 with SMTP id n14-20020a5d660e000000b00203eda6e983mr2554104wru.544.1648088491171;
+        Wed, 23 Mar 2022 19:21:31 -0700 (PDT)
+Received: from hermes ([2604:3d09:e80:800::72d9])
+        by smtp.gmail.com with ESMTPSA id p16-20020a5d6390000000b00203ffebddf3sm1670165wru.99.2022.03.23.19.21.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Mar 2022 19:21:30 -0700 (PDT)
+Date:   Wed, 23 Mar 2022 20:21:26 -0600
+From:   Manuel =?iso-8859-1?Q?Sch=F6nlaub?= <manuel.schoenlaub@gmail.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     lains@riseup.net, jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: logitech-hidpp: support Color LED feature (8071).
+Message-ID: <YjvVptj8exUCD7sx@hermes>
+References: <Yifr4etBFPu1a2Ct@hermes>
+ <20220323210423.GA10741@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 14.0
-Thread-Index: AQJfVPMV28kzFK9Xn/kbQgF+j86QZQIzXcXHAqWD5y+rmM4xQA==
-Content-Language: zh-tw
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220323210423.GA10741@duo.ucw.cz>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
-
-When the trackpoint device receives this command,
-
-it enters the power saving mode (power consumption <400uA),
-
-the trackpoint would be woken up after touching it.
-
-
-This patch was tested on 5.4, do we have to test it again on 5.10?
-
-Thanks,
-Josh
-
------Original Message-----
-From: Jingle.Wu [mailto:jingle.wu@emc.com.tw] 
-Sent: Thursday, March 24, 2022 9:13 AM
-To: 'Dmitry Torokhov'; 'Dave.Wang'; 'Josh.Chen'
-Cc: linux-kernel@vger.kernel.org; linux-input@vger.kernel.org;
-phoenix@emc.com.tw; 'jingle.wu'
-Subject: RE: [PATCH] Input: trackpoint - Add Suspend mode for Elan
-TrackPoint
-
-Loop Josh, Dave.
-
------Original Message-----
-From: Dmitry Torokhov [mailto:dmitry.torokhov@gmail.com]
-Sent: Thursday, March 24, 2022 1:28 AM
-To: jingle.wu <jingle.wu@emc.com.tw>
-Cc: linux-kernel@vger.kernel.org; linux-input@vger.kernel.org;
-phoenix@emc.com.tw; jingle.wu <jingle.wu@elan.corp-partner.google.com>
-Subject: Re: [PATCH] Input: trackpoint - Add Suspend mode for Elan
-TrackPoint
-
-Hi Jingle,
-
-On Fri, Sep 04, 2020 at 10:42:31AM +0800, jingle.wu wrote:
-> From: "jingle.wu" <jingle.wu@elan.corp-partner.google.com>
+On Wed, Mar 23, 2022 at 10:04:23PM +0100, Pavel Machek wrote:
+> Hi!
 > 
-> Add suspend command for elan trackpoint
-
-Could you please elaborate what this mode does to the trackpint?
-
-Also, your signed-off-by is missing.
-
-> ---
->  drivers/input/mouse/trackpoint.c | 16 ++++++++++++++++ 
-> drivers/input/mouse/trackpoint.h |  1 +
->  2 files changed, 17 insertions(+)
+> > The HID++ protocol allows to set multicolor (RGB) to a static color.
+> > Multiple of such LED zones per device are supported.
+> > This patch exports said LEDs so that they can be set from userspace.
+> > 
+> > Signed-off-by: Manuel Schönlaub <manuel.schoenlaub@gmail.com>
 > 
-> diff --git a/drivers/input/mouse/trackpoint.c
-> b/drivers/input/mouse/trackpoint.c
-> index 3eefee2ee2a1..b3cba973a4eb 100644
-> --- a/drivers/input/mouse/trackpoint.c
-> +++ b/drivers/input/mouse/trackpoint.c
-> @@ -389,6 +389,20 @@ static int trackpoint_reconnect(struct psmouse
-*psmouse)
->  	return 0;
->  }
->  
-> +static void trackpoint_cleanup(struct psmouse *psmouse) {
-> +	struct trackpoint_data *tp = psmouse->private;
-> +	u8 param[3] = { TP_TOGGLE, TP_TOGGLE_BURST, TP_TOGGLE_ELAN_SLEEP };
-> +
-> +	if (tp->variant_id == TP_VARIANT_ELAN) {
-> +		if (ps2_command(&psmouse->ps2dev, param,
+> Please cc LEDs stuff to the LED lists.
+> 
 
-I'd combine the 2 "ifs".
+Will do. Though it seems like first we should discuss whether the kernel
+in fact is the right place, no?
 
-> +				MAKE_PS2_CMD(3, 0, TP_COMMAND))) {
-> +			psmouse_err(psmouse,
+> > +static int hidpp_mc_led_register(struct hidpp_device *hidpp_dev,
+> > +				 struct led_classdev_mc *mc_dev,
+> > +				 int zone)
+> > +{
+> > +	struct hid_device *hdev = hidpp_dev->hid_dev;
+> > +	struct mc_subled *mc_led_info;
+> > +	struct led_classdev *cdev;
+> > +	int ret;
+> > +
+> > +	mc_led_info = devm_kmalloc_array(&hdev->dev, 3,
+> > +					 sizeof(*mc_led_info),
+> > +					 GFP_KERNEL | __GFP_ZERO);
+> > +	if (!mc_led_info)
+> > +		return -ENOMEM;
+> > +
+> > +	mc_led_info[0].color_index = LED_COLOR_ID_RED;
+> > +	mc_led_info[1].color_index = LED_COLOR_ID_GREEN;
+> > +	mc_led_info[2].color_index = LED_COLOR_ID_BLUE;
+> > +
+> > +	mc_dev->subled_info = mc_led_info;
+> > +	mc_dev->num_colors = 3;
+> > +
+> > +	cdev = &mc_dev->led_cdev;
+> > +	cdev->name = devm_kasprintf(&hdev->dev, GFP_KERNEL,
+> > +				    "%s:rgb:indicator-%d", hdev->uniq, zone);
+> 
+> So this is keyboard backlight? We should add the documentation at the
+> very least, so that other drivers use same name.
+> 
+> Best regards,
+> 								Pavel
+> 
+> -- 
+> People of Russia, stop Putin before his war on Ukraine escalates.
 
-psmouse_warn() since it is not a hard error.
+I do not own a Logitech keyboard, but some mice. There are RGB leds
+that you can normally control with Windows software.
 
-> +				    "failed to suspend trackpont.\n");
+I'd suppose (but could not verify) that supported keyboards by Logitech
+work with the same feature.
 
-I'd say "failed to suspend Elan trackpont\n".
+Best Regards,
 
-> +		}
-> +	}
-> +}
-> +
->  int trackpoint_detect(struct psmouse *psmouse, bool set_properties) {
->  	struct ps2dev *ps2dev = &psmouse->ps2dev; @@ -421,6 +435,8 @@ int 
-> trackpoint_detect(struct psmouse *psmouse, bool set_properties)
->  	psmouse->reconnect = trackpoint_reconnect;
->  	psmouse->disconnect = trackpoint_disconnect;
->  
-> +	psmouse->cleanup = trackpoint_cleanup;
-> +
->  	if (variant_id != TP_VARIANT_IBM) {
->  		/* Newer variants do not support extended button query. */
->  		button_info = 0x33;
-> diff --git a/drivers/input/mouse/trackpoint.h
-> b/drivers/input/mouse/trackpoint.h
-> index 5cb93ed26085..c7fa75452976 100644
-> --- a/drivers/input/mouse/trackpoint.h
-> +++ b/drivers/input/mouse/trackpoint.h
-> @@ -107,6 +107,7 @@
->  #define TP_TOGGLE_EXT_TAG	0x22	/* Bit 3 of the first packet coming
-from the
->  					   external device will be forced to
-1 */
->  #define TP_MASK_EXT_TAG			0x04
-> +#define TP_TOGGLE_ELAN_SLEEP	0x8
-
-It seems to me that TP_TOGGLE_ELAN_SLEEP is a bit in TP_TOGGLE_BURST
-subcommand, so it is better to move it next to TP_MASK_BURST and call it
-TP_MASK_ELAN_SLEEP to match the rest.
-
-Thanks.
-
---
-Dmitry
-
+Manuel
