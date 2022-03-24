@@ -2,67 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7A784E5D29
-	for <lists+linux-input@lfdr.de>; Thu, 24 Mar 2022 03:21:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 434F24E5D89
+	for <lists+linux-input@lfdr.de>; Thu, 24 Mar 2022 04:28:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347743AbiCXCXE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Mar 2022 22:23:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37666 "EHLO
+        id S241842AbiCXD3m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Mar 2022 23:29:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240525AbiCXCXD (ORCPT
+        with ESMTP id S235030AbiCXD3l (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Mar 2022 22:23:03 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD9A793995;
-        Wed, 23 Mar 2022 19:21:32 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id u16so4652080wru.4;
-        Wed, 23 Mar 2022 19:21:32 -0700 (PDT)
+        Wed, 23 Mar 2022 23:29:41 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8855C1DA65;
+        Wed, 23 Mar 2022 20:28:08 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id u16so4778514wru.4;
+        Wed, 23 Mar 2022 20:28:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=3qclwzwUGtDFwZwOazh4jA3jMuR+ekMkvwqZKLbIrEo=;
-        b=IN6kcMcqkbzgaWq0PMKkxOy/Ro8RXyXtkuQaqY5vJTuTTjfZHJy/RpaWJpjReKg+UR
-         auf1BvzN+SKkqvpLl1yUDxCb7TlxSN/tKYRKQI2yIATSWXRj1RY2Ac2UX2cc3Lg/NWn6
-         3zb8nki0AnDe6QMK6Rqv8ba7ytJIM61EV2RPycDgNEYdwHt1ajt4TkVsK5u6AZeKCpwE
-         Q2nugzeGqWTCjVQNEXrbv8Lb6t6SCBhginCnDvWwgJPR4/qclkHs0/OmLjX8a1izP84x
-         hO25fLctmlZrXIKOT3uAbD2sFfHlXOMnQcBSxEzvighgy5SnVWQ34DbZTb81WRNk9Ggj
-         Sl3Q==
+        bh=pol0ZkQp+j4kokRt/dZYhfgwVZZCa7zqZ+o3acmsvpo=;
+        b=mqzMmMtaA+zjTsLWlBiRE8+4B/qBc1IECKiKVLZAbk9y3xB0CH8rFWfKmXvTjdkoz7
+         6rDetp5TBMNXixwS9TFcJ8o546eLcczPRBso4jPuZNXjeYqUpvCW28JVCqmjOsG+9INy
+         x+0Gw7KvxrNxJyxe7ucq0arIw68NHr9kT1my4XuxqT7n4TdPDnIoPgOnctfXM98EglAS
+         /9aw6a3bPUz79PDvOr0QfSJrf7OHz+1MXgCkszOCldmUErTjQytDzCL+y+zX2w9B3q5V
+         gwSG521Z1VvGLuk98W8qDKs+6bqRbjAxOj96Y+K2d4Qk1Ck9s4ixDLIoxhqMzP6Urbin
+         DBSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=3qclwzwUGtDFwZwOazh4jA3jMuR+ekMkvwqZKLbIrEo=;
-        b=WyGAVRfBcV6NrFGw+tTF4swzWDOJConPFzU9sNNcI5vhU/Uayol5MYkzDfp9QXqIUg
-         Rlm7GTq4EDIrPzaywiTQUobownAWRKsAIjTp3KbSl142hyTolZQdDhgJBW2sZYBpJp5l
-         1X+fuuAVjo/0z3CDtUqqi7gXObg+Fj1BbXPNZTJV9EnyHw4QOAwhdaiRyhu/1nVoOhmH
-         DfwNmXSPQnHA0q2NuxsiGRCheGG+xNbfj11FPen8zwbY9ihKueoEkoTK+DJCMElc2wrP
-         DgW4oxYcG0cyWgUKsG+68Z+vebFXOqyy+/i9Lid9EYJO9IQmOFt5fFKjc3BbqTClJo07
-         l6ew==
-X-Gm-Message-State: AOAM532H4kCP11EFB7shVFmIeRxz6svygZQxeC6jis35JQoOOPhXkXvq
-        nwO1GrjLb4WhkEmk//845Mo=
-X-Google-Smtp-Source: ABdhPJyG3/JiSU2g884TYRg/m22N8rrRg+F9NF4NIXjKZqhxE59qCrFhppJ8HA8vTeNm8Gz8yuoJpQ==
-X-Received: by 2002:a5d:660e:0:b0:203:eda6:e983 with SMTP id n14-20020a5d660e000000b00203eda6e983mr2554104wru.544.1648088491171;
-        Wed, 23 Mar 2022 19:21:31 -0700 (PDT)
+        bh=pol0ZkQp+j4kokRt/dZYhfgwVZZCa7zqZ+o3acmsvpo=;
+        b=n1HoNgpHmvqcfNosemDZuCyz/rIhezvUtojEKFMENBgsKY/xZforpk0hb1P1U9GcfA
+         9zqHjDW0m89bf8XPFSaO2lSTolwUmcXEqs6p1ELZG3hgXvMxARXEAjYkVdxvFWWMzWSP
+         nbKzS5mrDqjQdrHY2YRl4q8JF/8NVF8Z2QH0uoxyC0Md0bt9K2ZGzjU9K0UYlZ4DFlrw
+         bmkvSeMhq7Y4u7bWvFrhyVeh6zfM4aMLn8A3sep7+KfAicoF12JftCSrQtdlZpQ4EShj
+         J9OKWa1G4nhguZ0kxMG3g4c/So3ls9YBcwUOnInMw3Tj5KxR8ZwPidOom7TMy+jrjxVc
+         0nhQ==
+X-Gm-Message-State: AOAM530VN970AzKpomXE3qGuOfyfK8XQlkSaXF3QVt4fdWEGvggMfhuk
+        8oR8bHGsdl4E1S2rbLS0VEc=
+X-Google-Smtp-Source: ABdhPJwvPAtjyhLCTmPLisuZrts23SDyEhd49+HTmZZzAB3DDsm2Pak7N3yJzZccqwzbYtB7skzpQw==
+X-Received: by 2002:a5d:598d:0:b0:205:8b74:8db4 with SMTP id n13-20020a5d598d000000b002058b748db4mr2604727wri.573.1648092487115;
+        Wed, 23 Mar 2022 20:28:07 -0700 (PDT)
 Received: from hermes ([2604:3d09:e80:800::72d9])
-        by smtp.gmail.com with ESMTPSA id p16-20020a5d6390000000b00203ffebddf3sm1670165wru.99.2022.03.23.19.21.29
+        by smtp.gmail.com with ESMTPSA id k5-20020a5d66c5000000b00203fd25f4ecsm1375650wrw.16.2022.03.23.20.28.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Mar 2022 19:21:30 -0700 (PDT)
-Date:   Wed, 23 Mar 2022 20:21:26 -0600
+        Wed, 23 Mar 2022 20:28:06 -0700 (PDT)
+Date:   Wed, 23 Mar 2022 21:28:02 -0600
 From:   Manuel =?iso-8859-1?Q?Sch=F6nlaub?= <manuel.schoenlaub@gmail.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     lains@riseup.net, jikos@kernel.org, benjamin.tissoires@redhat.com,
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] HID: logitech-hidpp: support Color LED feature (8071).
-Message-ID: <YjvVptj8exUCD7sx@hermes>
+Message-ID: <YjvlQrvRS+ZKNbZ5@hermes>
 References: <Yifr4etBFPu1a2Ct@hermes>
- <20220323210423.GA10741@duo.ucw.cz>
+ <275245e8048fa124055d9ff3d10ce6562294483a.camel@riseup.net>
+ <ce3adf7013ba01aad54fb65bf9c657dd9d0b7d23.camel@hadess.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220323210423.GA10741@duo.ucw.cz>
+In-Reply-To: <ce3adf7013ba01aad54fb65bf9c657dd9d0b7d23.camel@hadess.net>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -73,62 +75,70 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Mar 23, 2022 at 10:04:23PM +0100, Pavel Machek wrote:
-> Hi!
-> 
-> > The HID++ protocol allows to set multicolor (RGB) to a static color.
-> > Multiple of such LED zones per device are supported.
-> > This patch exports said LEDs so that they can be set from userspace.
+On Wed, Mar 23, 2022 at 11:24:18PM +0100, Bastien Nocera wrote:
+> On Wed, 2022-03-23 at 21:22 +0000, Filipe Laíns wrote:
+> > On Tue, 2022-03-08 at 16:50 -0700, Manuel Schönlaub wrote:
+> > > The HID++ protocol allows to set multicolor (RGB) to a static
+> > > color.
+> > > Multiple of such LED zones per device are supported.
+> > > This patch exports said LEDs so that they can be set from
+> > > userspace.
+> > > 
+> > > Signed-off-by: Manuel Schönlaub <manuel.schoenlaub@gmail.com>
+> > > ---
+> > >  drivers/hid/hid-logitech-hidpp.c | 188
+> > > +++++++++++++++++++++++++++++++
+> > >  1 file changed, 188 insertions(+)
 > > 
-> > Signed-off-by: Manuel Schönlaub <manuel.schoenlaub@gmail.com>
+> > *snip*
+> > 
+> > Hi Manuel,
+> > 
+> > Thanks for putting this forward, although I am not sure if this is
+> > the best way
+> > to handle this.
+> > 
+> > Before anything, could you elaborate a bit on what lead to you
+> > wanting this?
+> > 
+> > There are a couple of reasons why merging this in the kernel might be
+> > problematic.
+> > 
+> > 1) I don't think we will ever support the full capabilities of the
+> > devices, so
+> > configuration via userspace apps will always be required, and here we
+> > are
+> > introducing a weird line between the two.
+> > 
+> > 2) There is already an ecosystem of userspace configuration apps,
+> > with which
+> > this would conflict. They might not be in the best maintenance state
+> > due to lack
+> > of time from the maintainers, but moving this functionality to the
+> > kernel, which
+> > is harder change, and harder to ship to users, will only make that
+> > worse.
 > 
-> Please cc LEDs stuff to the LED lists.
+> There's already an API for LEDs in the kernel, why shouldn't it be used
+> to avoid user-space needing to know how to configure Logitech, and
+> every other brand of keyboards?
 > 
+> systemd has code to save and restore LED status, as well as code to
+> change the level of backlight. I can imagine that it wouldn't take much
+> to make it aware of RGB LEDs so it handles them properly, whether it's
+> for Logitech, or another brand of keyboards, or laptops.
 
-Will do. Though it seems like first we should discuss whether the kernel
-in fact is the right place, no?
+Teaching systemd-backlight about mulicolor backlights might be a nice project
+too. But their use case seems to be more about screen backlights as it seems.
+Did I overlook something here?
 
-> > +static int hidpp_mc_led_register(struct hidpp_device *hidpp_dev,
-> > +				 struct led_classdev_mc *mc_dev,
-> > +				 int zone)
-> > +{
-> > +	struct hid_device *hdev = hidpp_dev->hid_dev;
-> > +	struct mc_subled *mc_led_info;
-> > +	struct led_classdev *cdev;
-> > +	int ret;
-> > +
-> > +	mc_led_info = devm_kmalloc_array(&hdev->dev, 3,
-> > +					 sizeof(*mc_led_info),
-> > +					 GFP_KERNEL | __GFP_ZERO);
-> > +	if (!mc_led_info)
-> > +		return -ENOMEM;
-> > +
-> > +	mc_led_info[0].color_index = LED_COLOR_ID_RED;
-> > +	mc_led_info[1].color_index = LED_COLOR_ID_GREEN;
-> > +	mc_led_info[2].color_index = LED_COLOR_ID_BLUE;
-> > +
-> > +	mc_dev->subled_info = mc_led_info;
-> > +	mc_dev->num_colors = 3;
-> > +
-> > +	cdev = &mc_dev->led_cdev;
-> > +	cdev->name = devm_kasprintf(&hdev->dev, GFP_KERNEL,
-> > +				    "%s:rgb:indicator-%d", hdev->uniq, zone);
-> 
-> So this is keyboard backlight? We should add the documentation at the
-> very least, so that other drivers use same name.
-> 
-> Best regards,
-> 								Pavel
-> 
-> -- 
-> People of Russia, stop Putin before his war on Ukraine escalates.
+Oh and yeah, IMHO another argument could be that obviously at some point
+the LED management could be removed from those user space tools, as the
+kernel would already know about them.
 
-I do not own a Logitech keyboard, but some mice. There are RGB leds
-that you can normally control with Windows software.
+After all the LED class devices should be there for a reason ;-)
 
-I'd suppose (but could not verify) that supported keyboards by Logitech
-work with the same feature.
-
-Best Regards,
+Cheers,
 
 Manuel
+
