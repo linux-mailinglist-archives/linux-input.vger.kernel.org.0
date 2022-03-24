@@ -2,113 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33CA34E65AF
-	for <lists+linux-input@lfdr.de>; Thu, 24 Mar 2022 15:53:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2E9E4E65CE
+	for <lists+linux-input@lfdr.de>; Thu, 24 Mar 2022 16:07:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243341AbiCXOzD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Mar 2022 10:55:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37358 "EHLO
+        id S243387AbiCXPIz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Mar 2022 11:08:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242281AbiCXOzD (ORCPT
+        with ESMTP id S242453AbiCXPIy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Mar 2022 10:55:03 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02BE172E1F;
-        Thu, 24 Mar 2022 07:53:31 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id t2so4000560qtw.9;
-        Thu, 24 Mar 2022 07:53:30 -0700 (PDT)
+        Thu, 24 Mar 2022 11:08:54 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC813AA03E
+        for <linux-input@vger.kernel.org>; Thu, 24 Mar 2022 08:07:22 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id p184-20020a1c29c1000000b0037f76d8b484so2738210wmp.5
+        for <linux-input@vger.kernel.org>; Thu, 24 Mar 2022 08:07:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Uca/bYsYM+8uc58DJlLIYUvlXu7JrHCcisWQnLTb2FE=;
-        b=VEvphlhMQxh4J8iQGTlWM9takLna6FJ4uFbbHs6d4e1n1R5O7WSyX63G2zRze0CQaZ
-         VxOU6mXzC+48RwzBAXqjHTNNcrIi+OEx4uxGqjgBrKLRzAEfec9+6s2i+JBy+haPkUiL
-         zDE7D7NlIXvUgYv6vGRdv0ztaLQDR2Hr2WpuUYVMP+BKAMj5bzsN2eD673a+BxWVoIed
-         PSkx2DknZZgJYRazRM/ZfF4hYwb6TQCMkGwbyihvko9mczVbnY6ESk4HB11VWbE3Bvw4
-         2hn1wLEyFMKsT8AfbGWf3QMnRDKkcenN4toANi3nmICeXGuIjBEjdjuEIKhgXQZSXm0y
-         aOOg==
+        h=message-id:mime-version:content-transfer-encoding
+         :content-description:subject:to:from:date:reply-to;
+        bh=sfxo1dqqTrr7e28OuTBjrwUEPnrevaNVUdgTMF56Ktk=;
+        b=d9e4FwVvPkzb1X+3O8oT3mJJKSCaLzX7XWSmoSmzT38wAWuKkYLSUb2VjToZZu1jR/
+         I/hEexlyZK2zn9Q1sZ6WcdKnmObRcwRXceD4Gq15yDtfK/XagHzZnOkHBMzynioT8/bf
+         dWYXYGVY5NP6HZPMNHEjJ8vj5bUiDMjyl4rX/aGYIddanlSDcckfRwkyU0b6BGTEVJSa
+         xQ7slHgy7DY59Caep+b8RCmnimfsTf9TBVaN/4Am5X+9FWvpHwGIraC2ardeIEnfzmt6
+         dTPEsRYP7X5Wot2K9z3qyRpSZeGXZe45lWB5awYpOudrq54EAlAi3JBbKkkfTuwRu4UD
+         o8Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Uca/bYsYM+8uc58DJlLIYUvlXu7JrHCcisWQnLTb2FE=;
-        b=Cp+EDaPH4lX5Nrgb3SfNBXI2KquH5UOq0EjV4iuFHm9e5aeDhuvRKeOszRW1Rqvro9
-         4jp2nrx5b1vGuhIQEyw/VjwVlwhYA+3wNwVkfjXQUE8pOpeCYyC4h3GlRH3ydgBgyKUF
-         BcQY5Rq4kLdgbkrQoVEJ59VsRvunEPM6Qdj0xG0AAzRLBANN/QfvWD9AYUJqc7epfPZW
-         0nkaFgcQbKxYvl5eRC1bMK2fMn92mxIS+k+S65NCog3WPr96A5B57hbT+PEm62ovyp0G
-         myBZ0KLV6iAAvrHC8YcOvvd2sZtpyXpdi656gOIo1IF3l7vEY8AKF1eIKYwaxu1c8Vg/
-         VhCQ==
-X-Gm-Message-State: AOAM5338FukS5w0tQSdR2UKJ19wLKiDh8srRCrjess4aSbc9MqjNKmra
-        MBRxVyvI8dhq9k6dYxOQ15TSpTcpT/8=
-X-Google-Smtp-Source: ABdhPJyAXke0R7Bv6Cv1B1ohnhR4dyg3t05kVCQnfuzxCgW0K1z02SNo08lSIGYnWl3EEGD/Fn5iwA==
-X-Received: by 2002:a05:622a:1899:b0:2e1:b3d2:138d with SMTP id v25-20020a05622a189900b002e1b3d2138dmr4799373qtc.331.1648133610109;
-        Thu, 24 Mar 2022 07:53:30 -0700 (PDT)
-Received: from localhost.localdomain (c-73-171-102-37.hsd1.va.comcast.net. [73.171.102.37])
-        by smtp.gmail.com with ESMTPSA id x5-20020ae9e645000000b0067b122fae88sm1637926qkl.2.2022.03.24.07.53.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Mar 2022 07:53:29 -0700 (PDT)
-From:   Stephen Douthit <stephen.douthit@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Stephen Douthit <stephen.douthit@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: xpad - Turn off wireless controllers on shutdown
-Date:   Thu, 24 Mar 2022 10:53:08 -0400
-Message-Id: <20220324145308.2372-1-stephen.douthit@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        h=x-gm-message-state:message-id:mime-version
+         :content-transfer-encoding:content-description:subject:to:from:date
+         :reply-to;
+        bh=sfxo1dqqTrr7e28OuTBjrwUEPnrevaNVUdgTMF56Ktk=;
+        b=6hpxWMIbzfre8R+a5pkQPe9Iyxv4wWaqsPixJlff8DHctpTcwXXnOxpi/Vr/L/g/Fk
+         B7tNlHkZPca2QiGRGWfo+2LauLYIidA50mvIf9BiuTZOnofrkkTtWw+nAarK0OzLQrxm
+         LqW8uW79rmKb9Q0Twbf9o22R6veoy8aS3H4ZPLoUCvcAhPg1luMYYIxzH0LOLyPzCIgJ
+         L36u3/dkwY3IMAbUWrTDtTFrmlxQyJpu7mzZU5cnf6erezF2+e+MaGrbE2KFR8fUOsnn
+         RGhW4nwwK8/K3ef8C55r5cnEKLX3YNQjJhv5xCqn/7CCmlwiv74qUOq9GSxQAN3NHbnD
+         BoJQ==
+X-Gm-Message-State: AOAM533Q3v+gwFMBOc8Csx7/XRUQYLPEMsFaGan3A4h4WIbm/4cKPkmu
+        7z/iF5X3f0trKi2kCsJW3NQ=
+X-Google-Smtp-Source: ABdhPJx9u930VhHt+30emFfmCm3/ZgbVJ8EU4tkvVRuGckmqtRLsikgdw8yAnglflN6b1W2Qh2gshg==
+X-Received: by 2002:a05:600c:4f0c:b0:38c:bdf5:2232 with SMTP id l12-20020a05600c4f0c00b0038cbdf52232mr12050354wmq.90.1648134441402;
+        Thu, 24 Mar 2022 08:07:21 -0700 (PDT)
+Received: from [192.168.0.102] ([105.112.209.229])
+        by smtp.gmail.com with ESMTPSA id f9-20020a0560001a8900b0020582807408sm2931560wry.20.2022.03.24.08.07.17
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Thu, 24 Mar 2022 08:07:21 -0700 (PDT)
+Message-ID: <623c8929.1c69fb81.9b94d.c46b@mx.google.com>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: meine Spende
+To:     ariblessingogande@gmail.com
+From:   ariblessingogande@gmail.com
+Date:   Thu, 24 Mar 2022 08:07:12 -0700
+Reply-To: mariaelisabethschaeffler70@gmail.com
+X-Spam-Status: No, score=1.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-We already do this on suspend, makes sense for shutdown as well
+ Hallo,
 
-Signed-off-by: Stephen Douthit <stephen.douthit@gmail.com>
----
- drivers/input/joystick/xpad.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ =
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 18190b529bca..8be79f91ba56 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -1738,6 +1738,16 @@ static int xpad_init_input(struct usb_xpad *xpad)
- 	return error;
- }
- 
-+static void xpad360w_shutdown(struct device *dev)
-+{
-+	struct usb_interface *intf = to_usb_interface(dev);
-+	struct usb_xpad *xpad = usb_get_intfdata(intf);
-+
-+	xpad360w_stop_input(xpad);
-+	if (xpad->pad_present)
-+		xpad360w_poweroff_controller(xpad);
-+}
-+
- static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id)
- {
- 	struct usb_device *udev = interface_to_usbdev(intf);
-@@ -1863,6 +1873,12 @@ static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id
- 		 * here in this driver and in usb core.
- 		 */
- 		udev->quirks |= USB_QUIRK_RESET_RESUME;
-+
-+		/*
-+		 * Populate shutdown callback so wireless controllers turn off
-+		 * when the machine turns off
-+		 */
-+		intf->dev.driver->shutdown = xpad360w_shutdown;
- 	} else {
- 		error = xpad_init_input(xpad);
- 		if (error)
--- 
-2.35.1
 
+Ich bin Frau Maria Elisabeth Schaeffler, eine deutsche Gesch=E4ftsmagnatin,=
+ Investorin und Philanthropin. Ich bin der Vorsitzende von Wipro Limited. I=
+ch habe 25 Prozent meines pers=F6nlichen Verm=F6gens f=FCr wohlt=E4tige Zwe=
+cke ausgegeben. Und ich habe auch versprochen, den Rest von 25% in diesem J=
+ahr 2021 an Einzelpersonen zu verschenken. Ich habe beschlossen, Ihnen 1.50=
+0.000,00 Euro zu spenden. Wenn Sie an meiner Spende interessiert sind, kont=
+aktieren Sie mich f=FCr weitere Informationen.
+
+
+Sie k=F6nnen auch mehr =FCber mich =FCber den unten stehenden Link lesen
+
+https://en.wikipedia.org/wiki/Maria-Elisabeth_Schaeffler
+
+Sch=F6ne Gr=FC=DFe
+
+Gesch=E4ftsf=FChrer Wipro Limited
+
+Maria Elisabeth Schaeffler
+
+E-Mail: mariaelisabethschaeffler70@gmail.com
