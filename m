@@ -2,194 +2,171 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 459454E7992
-	for <lists+linux-input@lfdr.de>; Fri, 25 Mar 2022 18:00:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7EE54E81FF
+	for <lists+linux-input@lfdr.de>; Sat, 26 Mar 2022 18:00:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358033AbiCYRCK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Mar 2022 13:02:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44202 "EHLO
+        id S233807AbiCZRCQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 26 Mar 2022 13:02:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231269AbiCYRCK (ORCPT
+        with ESMTP id S233801AbiCZRCP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Mar 2022 13:02:10 -0400
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 781E24D264;
-        Fri, 25 Mar 2022 10:00:35 -0700 (PDT)
-Received: by mail-io1-xd36.google.com with SMTP id d62so9551148iog.13;
-        Fri, 25 Mar 2022 10:00:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ko4mIxnXaw4yoPYh8PjrmsoS3HvZSH7ww79WhJnpMH4=;
-        b=RZcwA6fQAdjrf7FF2zVeX7H/SIgQ1V7SEWgnpQS/0BC3ukM/0D/WwG6gGAbQG5ImZc
-         UGmTvS87mlznXBvJ1kVI3hPtKqXgHOm0ptW8ycyayeL6iwlw++KIQrcRrAkOdqdTwBzr
-         alue6QBo0GDPgl00OiuO0Qx5tERXuLtAYW9RqQ5LR9KCGpkaqAPpcAD1wmEK9OIeQgHK
-         0Pva+Bl+da6MTyOaVyi9vgELNuIQBy6rUBK2Foqor5PgKGQPEPphLzveoreHurQ28Rxn
-         p6A472lXQuuSwzJVR6xaiWkMF2V9eAIf3VItaO3j6u22XpTetxZwZ9YfAFKzka+BEErN
-         XTvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ko4mIxnXaw4yoPYh8PjrmsoS3HvZSH7ww79WhJnpMH4=;
-        b=yjJCq26Tysas8gvKBu9614Xwjj8vuqiJzwifNceVnNlXtOt/A1uazSKgBFjOspoguT
-         +qi9AeFR/dCVxV711L3+O0UHSPzC1cO9+8ruVzUvnZBOmgZxGZANWAf3+Ex2eWJKqORq
-         yJk8ApDMokTerOdy79afxGpl2DfvAz77U2qqxwQWKU44VCsQVOgFd6QLyLf1lCOKaQQs
-         UL2+DPUlGX5yWsxP80u4r7uz07l9jGcfxEO6MUUFocDzR7NgYVOZVR9hLxcd1W8NqRM3
-         8KcZ1SlFlFlAV72rt9Zyoph738XwNNZlmci1c5/RJ/m3tZ23x1mgbwc1IpU4W5kpfoSg
-         hQJw==
-X-Gm-Message-State: AOAM533IlxBEkN6mHmA5yKoRoXIkNi70lLyDSLNHnn8prI4XUJmhExie
-        +JGpPJsUDiILE9iOY/x35TyrA5aO0KhU+7oX4YA=
-X-Google-Smtp-Source: ABdhPJwtmZHUYpe+l+4rcOPjK1FPYXhd0eg1b12cJ7I7RJnY7A8ZlX9X9KSb+nUZXQfEUq4sX7mt2noF9X8EP60JQSk=
-X-Received: by 2002:a05:6602:185a:b0:645:d914:35e9 with SMTP id
- d26-20020a056602185a00b00645d91435e9mr6152428ioi.154.1648227634763; Fri, 25
- Mar 2022 10:00:34 -0700 (PDT)
+        Sat, 26 Mar 2022 13:02:15 -0400
+X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 26 Mar 2022 10:00:37 PDT
+Received: from stuerz.xyz (stuerz.xyz [IPv6:2001:19f0:5:15da:5400:3ff:fecc:7379])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56432B0A55;
+        Sat, 26 Mar 2022 10:00:37 -0700 (PDT)
+Received: by stuerz.xyz (Postfix, from userid 114)
+        id 9D1C6FBBCB; Sat, 26 Mar 2022 17:00:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=stuerz.xyz; s=mail;
+        t=1648314036; bh=yA14H5kSGXs8c9NCVOmgKRy/cJtHbkLoXQ2K5ISZu/k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=eY1iX0wlkZRA78TwrFBdZG5S+wos6UWvMNaeR3ebSkGbpl4BzyM69Wnujm+MCNQSH
+         XbYHpCtunp+VYPd+8B4Z5YGwrYKyldxYneKwJEtMuoQi4VfjayP4248ZkrvYzPbvb7
+         tGC3cCNQMmjqLyVHL80IqUG9N6enWqcQ/eJAksuxRO0+t/nSWobYmI6E3gPDs1NmYL
+         ++FZTGyvor1q8BXZzeNj7KNTMHP2+jtmpdc0KeaKsrUDcsC7Efw6IdkQp5pRDFDxi5
+         ZHAUmnDb1nehnND3R9P08aARBVYF4iAixYWRlLVzHEAsYgL1pTWrWTNVmmmb1i34gg
+         o2AMI/9CsY+SQ==
+Received: from benni-fedora.. (unknown [IPv6:2a02:8109:a100:1a48:ff0:ef2f:d4da:17d8])
+        by stuerz.xyz (Postfix) with ESMTPSA id E7EF6FB7D3;
+        Sat, 26 Mar 2022 17:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=stuerz.xyz; s=mail;
+        t=1648314033; bh=yA14H5kSGXs8c9NCVOmgKRy/cJtHbkLoXQ2K5ISZu/k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=M6I6oe9jogZM/zVnBnLg0eaNUUV4jcB+jkMO9qefS3HmAz419f42DcLOvKYiY1LvT
+         ker3YtWSKtrbYWXcC4P4Q34z4I0kvS8nnURN2zDZp/1ciFgjp8H5+LMGc47dFCGwK3
+         ZPM4LcjH7WSaWHLXUgQ1uu7Se/TXMvIZ6a51YDM4XN9HQOfPjY/V51c3xkYKlQc9Ff
+         sw/spsdrAwyTcjFyMYk3HffZ0vEu3G6iY0fWhPwKxCUfoge6rziWcIxAyYMFWRia7f
+         wJwSd/xnAYJBhYpaStdDoJq2gMpeyL3UlSNNsSRrS5W5qX2Ex1kaIwSG6rdxXYA+KQ
+         WQdOdxe313yGg==
+From:   =?UTF-8?q?Benjamin=20St=C3=BCrz?= <benni@stuerz.xyz>
+To:     andrew@lunn.ch
+Cc:     sebastian.hesselbarth@gmail.com, gregory.clement@bootlin.com,
+        linux@armlinux.org.uk, linux@simtec.co.uk, krzk@kernel.org,
+        alim.akhtar@samsung.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
+        robert.moore@intel.com, rafael.j.wysocki@intel.com,
+        lenb@kernel.org, 3chas3@gmail.com, laforge@gnumonks.org,
+        arnd@arndb.de, gregkh@linuxfoundation.org, mchehab@kernel.org,
+        tony.luck@intel.com, james.morse@arm.com, rric@kernel.org,
+        linus.walleij@linaro.org, brgl@bgdev.pl,
+        mike.marciniszyn@cornelisnetworks.com,
+        dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca,
+        pali@kernel.org, dmitry.torokhov@gmail.com, isdn@linux-pingi.de,
+        benh@kernel.crashing.org, fbarrat@linux.ibm.com, ajd@linux.ibm.com,
+        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        nico@fluxnic.net, loic.poulain@linaro.org, kvalo@kernel.org,
+        pkshih@realtek.com, bhelgaas@google.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-acpi@vger.kernel.org, devel@acpica.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-input@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
+        wcn36xx@lists.infradead.org, linux-wireless@vger.kernel.org,
+        linux-pci@vger.kernel.org,
+        =?UTF-8?q?Benjamin=20St=C3=BCrz?= <benni@stuerz.xyz>
+Subject: [PATCH 11/22] rdmavt: Replace comments with C99 initializers
+Date:   Sat, 26 Mar 2022 17:58:58 +0100
+Message-Id: <20220326165909.506926-11-benni@stuerz.xyz>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220326165909.506926-1-benni@stuerz.xyz>
+References: <20220326165909.506926-1-benni@stuerz.xyz>
 MIME-Version: 1.0
-References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
- <20220318161528.1531164-7-benjamin.tissoires@redhat.com> <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
- <CAO-hwJJXR3jtAvLF1phUa5pKZzVkDxAAHO5+7R50hL-fVhDYyA@mail.gmail.com>
-In-Reply-To: <CAO-hwJJXR3jtAvLF1phUa5pKZzVkDxAAHO5+7R50hL-fVhDYyA@mail.gmail.com>
-From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Fri, 25 Mar 2022 10:00:23 -0700
-Message-ID: <CAEf4BzYVu9JVJvKZK3S9HGwpyPiWrwKPGsTz3wXC_+vmRYGdNw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 06/17] HID: allow to change the report
- descriptor from an eBPF program
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
+        PDS_OTHER_BAD_TLD,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Mar 23, 2022 at 9:08 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> Hi Alexei,
->
-> On Tue, Mar 22, 2022 at 11:51 PM Alexei Starovoitov
-> <alexei.starovoitov@gmail.com> wrote:
-> >
-> > On Fri, Mar 18, 2022 at 9:16 AM Benjamin Tissoires
-> > <benjamin.tissoires@redhat.com> wrote:
-> > >
-> > > +u8 *hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size)
-> > > +{
-> > > +       int ret;
-> > > +       struct hid_bpf_ctx_kern ctx = {
-> > > +               .type = HID_BPF_RDESC_FIXUP,
-> > > +               .hdev = hdev,
-> > > +               .size = *size,
-> > > +       };
-> > > +
-> > > +       if (bpf_hid_link_empty(&hdev->bpf, BPF_HID_ATTACH_RDESC_FIXUP))
-> > > +               goto ignore_bpf;
-> > > +
-> > > +       ctx.data = kmemdup(rdesc, HID_MAX_DESCRIPTOR_SIZE, GFP_KERNEL);
-> > > +       if (!ctx.data)
-> > > +               goto ignore_bpf;
-> > > +
-> > > +       ctx.allocated_size = HID_MAX_DESCRIPTOR_SIZE;
-> > > +
-> > > +       ret = hid_bpf_run_progs(hdev, &ctx);
-> > > +       if (ret)
-> > > +               goto ignore_bpf;
-> > > +
-> > > +       if (ctx.size > ctx.allocated_size)
-> > > +               goto ignore_bpf;
-> > > +
-> > > +       *size = ctx.size;
-> > > +
-> > > +       if (*size) {
-> > > +               rdesc = krealloc(ctx.data, *size, GFP_KERNEL);
-> > > +       } else {
-> > > +               rdesc = NULL;
-> > > +               kfree(ctx.data);
-> > > +       }
-> > > +
-> > > +       return rdesc;
-> > > +
-> > > + ignore_bpf:
-> > > +       kfree(ctx.data);
-> > > +       return kmemdup(rdesc, *size, GFP_KERNEL);
-> > > +}
-> > > +
-> > >  int __init hid_bpf_module_init(void)
-> > >  {
-> > >         struct bpf_hid_hooks hooks = {
-> > >                 .hdev_from_fd = hid_bpf_fd_to_hdev,
-> > >                 .pre_link_attach = hid_bpf_pre_link_attach,
-> > > +               .post_link_attach = hid_bpf_post_link_attach,
-> > >                 .array_detach = hid_bpf_array_detach,
-> > >         };
-> > >
-> > > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> > > index 937fab7eb9c6..3182c39db006 100644
-> > > --- a/drivers/hid/hid-core.c
-> > > +++ b/drivers/hid/hid-core.c
-> > > @@ -1213,7 +1213,8 @@ int hid_open_report(struct hid_device *device)
-> > >                 return -ENODEV;
-> > >         size = device->dev_rsize;
-> > >
-> > > -       buf = kmemdup(start, size, GFP_KERNEL);
-> > > +       /* hid_bpf_report_fixup() ensures we work on a copy of rdesc */
-> > > +       buf = hid_bpf_report_fixup(device, start, &size);
-> >
-> > Looking at this patch and the majority of other patches...
-> > the code is doing a lot of work to connect HID side with bpf.
-> > At the same time the evolution of the patch series suggests
-> > that these hook points are not quite stable. More hooks and
-> > helpers are being added.
-> > It tells us that it's way too early to introduce a stable
-> > interface between HID and bpf.
->
-> I understand that you might be under the impression that the interface
-> is changing a lot, but this is mostly due to my poor knowledge of all
-> the arcanes of eBPF.
-> The overall way HID-BPF works is to work on a single array, and we
-> should pretty much be sorted out. There are a couple of helpers to be
-> able to communicate with the device, but the API has been stable in
-> the kernel for those for quite some time now.
->
-> The variations in the hooks is mostly because I don't know what is the
-> best representation we can use in eBPF for those, and the review
-> process is changing that.
+This replaces comments with C99's designated
+initializers because the kernel supports them now.
 
-I think such a big feature as this one, especially that most BPF folks
-are (probably) not familiar with the HID subsystem in the kernel,
-would benefit from a bit of live discussion during BPF office hours.
-Do you think you can give a short overview of what you are trying to
-achieve with some background context on HID specifics at one of the
-next BPF office hours? We have a meeting scheduled every week on
-Thursday, 9am Pacific time. But people need to put their topic onto
-the agenda, otherwise the meeting is cancelled. See [0] for
-spreadsheet and links to Zoom meeting, agenda, etc.
+Signed-off-by: Benjamin Stürz <benni@stuerz.xyz>
+---
+ drivers/infiniband/sw/rdmavt/rc.c | 62 +++++++++++++++----------------
+ 1 file changed, 31 insertions(+), 31 deletions(-)
 
-  [0] https://docs.google.com/spreadsheets/d/1LfrDXZ9-fdhvPEp_LHkxAMYyxxpwBXjywWa0AejEveU
+diff --git a/drivers/infiniband/sw/rdmavt/rc.c b/drivers/infiniband/sw/rdmavt/rc.c
+index 4e5d4a27633c..121b8a23ac07 100644
+--- a/drivers/infiniband/sw/rdmavt/rc.c
++++ b/drivers/infiniband/sw/rdmavt/rc.c
+@@ -10,37 +10,37 @@
+  * Convert the AETH credit code into the number of credits.
+  */
+ static const u16 credit_table[31] = {
+-	0,                      /* 0 */
+-	1,                      /* 1 */
+-	2,                      /* 2 */
+-	3,                      /* 3 */
+-	4,                      /* 4 */
+-	6,                      /* 5 */
+-	8,                      /* 6 */
+-	12,                     /* 7 */
+-	16,                     /* 8 */
+-	24,                     /* 9 */
+-	32,                     /* A */
+-	48,                     /* B */
+-	64,                     /* C */
+-	96,                     /* D */
+-	128,                    /* E */
+-	192,                    /* F */
+-	256,                    /* 10 */
+-	384,                    /* 11 */
+-	512,                    /* 12 */
+-	768,                    /* 13 */
+-	1024,                   /* 14 */
+-	1536,                   /* 15 */
+-	2048,                   /* 16 */
+-	3072,                   /* 17 */
+-	4096,                   /* 18 */
+-	6144,                   /* 19 */
+-	8192,                   /* 1A */
+-	12288,                  /* 1B */
+-	16384,                  /* 1C */
+-	24576,                  /* 1D */
+-	32768                   /* 1E */
++	[0x00] = 0,
++	[0x01] = 1,
++	[0x02] = 2,
++	[0x03] = 3,
++	[0x04] = 4,
++	[0x05] = 6,
++	[0x06] = 8,
++	[0x07] = 12,
++	[0x08] = 16,
++	[0x09] = 24,
++	[0x0A] = 32,
++	[0x0B] = 48,
++	[0x0C] = 64,
++	[0x0D] = 96,
++	[0x0E] = 128,
++	[0x0F] = 192,
++	[0x10] = 256,
++	[0x11] = 384,
++	[0x12] = 512,
++	[0x13] = 768,
++	[0x14] = 1024,
++	[0x15] = 1536,
++	[0x16] = 2048,
++	[0x17] = 3072,
++	[0x18] = 4096,
++	[0x19] = 6144,
++	[0x1A] = 8192,
++	[0x1B] = 12288,
++	[0x1C] = 16384,
++	[0x1D] = 24576,
++	[0x1E] = 32768
+ };
+ 
+ /**
+-- 
+2.35.1
 
-[...]
