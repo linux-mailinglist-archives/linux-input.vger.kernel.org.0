@@ -2,131 +2,213 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 469694E89DF
-	for <lists+linux-input@lfdr.de>; Sun, 27 Mar 2022 22:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E28D4E8E7E
+	for <lists+linux-input@lfdr.de>; Mon, 28 Mar 2022 08:57:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236547AbiC0UCM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 27 Mar 2022 16:02:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45840 "EHLO
+        id S238602AbiC1G6n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Mar 2022 02:58:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbiC0UCM (ORCPT
+        with ESMTP id S238615AbiC1G6m (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 27 Mar 2022 16:02:12 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EB9F12087;
-        Sun, 27 Mar 2022 13:00:32 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id r13so24704489ejd.5;
-        Sun, 27 Mar 2022 13:00:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=78iW5XK4+ASAwJVsAvI1krxN1Cn3kULaSzDMrQW3lbE=;
-        b=W7sg25bHaszzvWVJN0gyX6n6UFKurK5uWS8e6vL3YRtpn8QA30BzDbsf0Fo0KnzuVo
-         f5lgeCM1g7VjeI4+YsTMtUtXLU8OULMmeB5PSBFxtOhNQxOmFPwV58KHSise/8GMyt0R
-         UkRxgQ3CLiyEWm9B5wmzgYC64NBf7VmqUh+uCDsTRhKm1dBL3PhDD7kvx2KxY5v+Ou9s
-         LtCbA+PaAxJA8Aqhhp0q2Rfl3QnpipqfZJ/WNelj96BMMf018qhLZN8AMLxNqJh1Ixg8
-         Af8ZbFHjT7fOZzcs+O1sgyvPQnq9W6Aze+RWRCdQHnD8mS6FSfbjKHib+pU03gWIfqf1
-         ov8Q==
+        Mon, 28 Mar 2022 02:58:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7882E517C5
+        for <linux-input@vger.kernel.org>; Sun, 27 Mar 2022 23:57:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1648450621;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GXnAjkr/2A5EMowmWRXznPohqOX2kcPUCHlbiRHmv8Q=;
+        b=SgDT5okSRrZPvir2r4ShkmrkucqjOo9NOP15LUQNMCzXTJt9AyvLhC0kEB6v3V9gn5OCff
+        W0BGrHqq6vVVgOZkVXS9gvh5+0+mDrj2m64MaGSVa5lJUb57p7KVnpscumKIhjxBDDA0PY
+        xZizM+iK0fdYRH1e+ARhfdMgjaNCY9o=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-461-kZDAr289Pg6y0B5y8k-BsQ-1; Mon, 28 Mar 2022 02:57:00 -0400
+X-MC-Unique: kZDAr289Pg6y0B5y8k-BsQ-1
+Received: by mail-pf1-f200.google.com with SMTP id 77-20020a621450000000b004fa8868a49eso7996176pfu.3
+        for <linux-input@vger.kernel.org>; Sun, 27 Mar 2022 23:56:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=78iW5XK4+ASAwJVsAvI1krxN1Cn3kULaSzDMrQW3lbE=;
-        b=ZmonW1tyc16bGmt4eGqB/bGDMcjSVrcxHhhvxkq1J2QuvGtadUCuauS2i64BFdbHdh
-         fald6rcruUT0imX2uwJiXvXlKTP8dYRdWeRpHrHRwoOaLy/vXw0XnQRgl+UuKN4iGhUQ
-         wMoMCVYNZokjU2MmEzQ3EFpHSOu5iLZhuXo1XYVH1W/YWB3EsczCMyrT1G9s4luM2sr3
-         dIWUWOl0PGl/bwp825Gil0EH+SXT6FClgZbCeK9NuChTwFaD1jhHmq8SSwa2UOIUvJs4
-         P6C+9+sp47+LpcVKv6x7AAhKT5PgWIIm0c5PXW199mhsksvS50i6feCxjKDtEbueZlzY
-         /qPw==
-X-Gm-Message-State: AOAM5321I1VjcLNmqJUahq/dlTke0c8clt5HM/mKGd9J3P0KvOqalsQC
-        uvWTE6XKEfErJkyt5UtA372kjwV/uL0gsFfvKVo=
-X-Google-Smtp-Source: ABdhPJwdyxkAQAdfH1wRFs+W0MNyk4bgRb4Rgv1M9DLQvwm3YbnfTG06hhOU+eKDq7Hs4uOIofL7RgDFq+x0npk+U+Y=
-X-Received: by 2002:a17:907:628e:b0:6d9:c6fa:6168 with SMTP id
- nd14-20020a170907628e00b006d9c6fa6168mr23537601ejc.132.1648411230602; Sun, 27
- Mar 2022 13:00:30 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=GXnAjkr/2A5EMowmWRXznPohqOX2kcPUCHlbiRHmv8Q=;
+        b=JKxRHaJN4luZVJgnuGvjrqwQgIlKzkbhV1uHJEtAlvpej/hMlF3fh4Pa6rhF8Siv6C
+         TnQQGnp5SgW8BQkF6nAnITCwCdE1SiWq6XscPhzAr3Y0AVFYrVav3Z1zPHVFz6ocAp96
+         XyYjB/i+Vs5k6fEZzJ5MUbYreUIFNKKmXTPGylEfAiP3cSQDFGB1bFCukBhN9PclIxp7
+         03HHjBWBDuvMbMb1RsRkkoL6JNdcrvc9aONQiPJ/OoPiwKH/v0dB63AaEQ8oItd7rdlK
+         0ZDWQ2h1/3S90ZZR1GQy/tys4MAVcHFwEeqY5m5ePgYokQzaTnjqjxhaPZd5BMdMBuMY
+         795A==
+X-Gm-Message-State: AOAM530XXpZRzSofSXpajmpLLiEwoRr7r4BCKBZJibJJyVlYvIkuJq1V
+        mcANSWEtMlW5zg4d3HoGTGn/GYuB8koeXE8HY74NRsk0e07cmSsf03aY0C2V6tMtv90Gou37M2y
+        slv20zcMtQZ7biq7kSyA5HG+BawOLVky+1TxzHzU=
+X-Received: by 2002:a65:5bc3:0:b0:378:4f82:d73d with SMTP id o3-20020a655bc3000000b003784f82d73dmr9382957pgr.191.1648450617852;
+        Sun, 27 Mar 2022 23:56:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDGbONhbKlNHbKmZvjyqzr931S0/Je+LVeiwY6d3dsfsR2Cx5iTxfjSUu6T4LVTWjACMclHlLj0nzrfl8wGhM=
+X-Received: by 2002:a65:5bc3:0:b0:378:4f82:d73d with SMTP id
+ o3-20020a655bc3000000b003784f82d73dmr9382922pgr.191.1648450617255; Sun, 27
+ Mar 2022 23:56:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220326165909.506926-1-benni@stuerz.xyz> <20220326165909.506926-5-benni@stuerz.xyz>
-In-Reply-To: <20220326165909.506926-5-benni@stuerz.xyz>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sun, 27 Mar 2022 22:59:54 +0300
-Message-ID: <CAHp75VeTXMAueQc_c0Ryj5+a8PrJ7gk-arugiNnxtAm03x7XTg@mail.gmail.com>
-Subject: Re: [PATCH 05/22] acpica: Replace comments with C99 initializers
-To:     =?UTF-8?Q?Benjamin_St=C3=BCrz?= <benni@stuerz.xyz>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Russell King - ARM Linux <linux@armlinux.org.uk>,
-        linux@simtec.co.uk, Krzysztof Kozlowski <krzk@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Robert Moore <robert.moore@intel.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Len Brown <lenb@kernel.org>, 3chas3@gmail.com,
-        Harald Welte <laforge@gnumonks.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        mike.marciniszyn@cornelisnetworks.com,
-        dennis.dalessandro@cornelisnetworks.com,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Karsten Keil <isdn@linux-pingi.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Kalle Valo <kvalo@kernel.org>,
-        Ping-Ke Shih <pkshih@realtek.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
-        linux-ia64@vger.kernel.org,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
-        linux-atm-general@lists.sourceforge.net,
-        netdev <netdev@vger.kernel.org>, linux-edac@vger.kernel.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:HFI1 DRIVER" <linux-rdma@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        "open list:LINUX FOR POWERPC PA SEMI PWRFICIENT" 
-        <linuxppc-dev@lists.ozlabs.org>, linux-media@vger.kernel.org,
-        wcn36xx@lists.infradead.org, linux-wireless@vger.kernel.org,
-        linux-pci@vger.kernel.org
+References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
+ <20220318161528.1531164-7-benjamin.tissoires@redhat.com> <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
+ <CAO-hwJJXR3jtAvLF1phUa5pKZzVkDxAAHO5+7R50hL-fVhDYyA@mail.gmail.com> <CAEf4BzYVu9JVJvKZK3S9HGwpyPiWrwKPGsTz3wXC_+vmRYGdNw@mail.gmail.com>
+In-Reply-To: <CAEf4BzYVu9JVJvKZK3S9HGwpyPiWrwKPGsTz3wXC_+vmRYGdNw@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 28 Mar 2022 08:56:46 +0200
+Message-ID: <CAO-hwJKPxKCzxCKGpH85j5VG3bQk+7axDYpxYoy-12yL7AQj2w@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 06/17] HID: allow to change the report
+ descriptor from an eBPF program
+To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Mar 26, 2022 at 7:39 PM Benjamin St=C3=BCrz <benni@stuerz.xyz> wrot=
-e:
+On Fri, Mar 25, 2022 at 6:00 PM Andrii Nakryiko
+<andrii.nakryiko@gmail.com> wrote:
 >
-> This replaces comments with C99's designated
-> initializers because the kernel supports them now.
+> On Wed, Mar 23, 2022 at 9:08 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > Hi Alexei,
+> >
+> > On Tue, Mar 22, 2022 at 11:51 PM Alexei Starovoitov
+> > <alexei.starovoitov@gmail.com> wrote:
+> > >
+> > > On Fri, Mar 18, 2022 at 9:16 AM Benjamin Tissoires
+> > > <benjamin.tissoires@redhat.com> wrote:
+> > > >
+> > > > +u8 *hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size)
+> > > > +{
+> > > > +       int ret;
+> > > > +       struct hid_bpf_ctx_kern ctx = {
+> > > > +               .type = HID_BPF_RDESC_FIXUP,
+> > > > +               .hdev = hdev,
+> > > > +               .size = *size,
+> > > > +       };
+> > > > +
+> > > > +       if (bpf_hid_link_empty(&hdev->bpf, BPF_HID_ATTACH_RDESC_FIXUP))
+> > > > +               goto ignore_bpf;
+> > > > +
+> > > > +       ctx.data = kmemdup(rdesc, HID_MAX_DESCRIPTOR_SIZE, GFP_KERNEL);
+> > > > +       if (!ctx.data)
+> > > > +               goto ignore_bpf;
+> > > > +
+> > > > +       ctx.allocated_size = HID_MAX_DESCRIPTOR_SIZE;
+> > > > +
+> > > > +       ret = hid_bpf_run_progs(hdev, &ctx);
+> > > > +       if (ret)
+> > > > +               goto ignore_bpf;
+> > > > +
+> > > > +       if (ctx.size > ctx.allocated_size)
+> > > > +               goto ignore_bpf;
+> > > > +
+> > > > +       *size = ctx.size;
+> > > > +
+> > > > +       if (*size) {
+> > > > +               rdesc = krealloc(ctx.data, *size, GFP_KERNEL);
+> > > > +       } else {
+> > > > +               rdesc = NULL;
+> > > > +               kfree(ctx.data);
+> > > > +       }
+> > > > +
+> > > > +       return rdesc;
+> > > > +
+> > > > + ignore_bpf:
+> > > > +       kfree(ctx.data);
+> > > > +       return kmemdup(rdesc, *size, GFP_KERNEL);
+> > > > +}
+> > > > +
+> > > >  int __init hid_bpf_module_init(void)
+> > > >  {
+> > > >         struct bpf_hid_hooks hooks = {
+> > > >                 .hdev_from_fd = hid_bpf_fd_to_hdev,
+> > > >                 .pre_link_attach = hid_bpf_pre_link_attach,
+> > > > +               .post_link_attach = hid_bpf_post_link_attach,
+> > > >                 .array_detach = hid_bpf_array_detach,
+> > > >         };
+> > > >
+> > > > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > > > index 937fab7eb9c6..3182c39db006 100644
+> > > > --- a/drivers/hid/hid-core.c
+> > > > +++ b/drivers/hid/hid-core.c
+> > > > @@ -1213,7 +1213,8 @@ int hid_open_report(struct hid_device *device)
+> > > >                 return -ENODEV;
+> > > >         size = device->dev_rsize;
+> > > >
+> > > > -       buf = kmemdup(start, size, GFP_KERNEL);
+> > > > +       /* hid_bpf_report_fixup() ensures we work on a copy of rdesc */
+> > > > +       buf = hid_bpf_report_fixup(device, start, &size);
+> > >
+> > > Looking at this patch and the majority of other patches...
+> > > the code is doing a lot of work to connect HID side with bpf.
+> > > At the same time the evolution of the patch series suggests
+> > > that these hook points are not quite stable. More hooks and
+> > > helpers are being added.
+> > > It tells us that it's way too early to introduce a stable
+> > > interface between HID and bpf.
+> >
+> > I understand that you might be under the impression that the interface
+> > is changing a lot, but this is mostly due to my poor knowledge of all
+> > the arcanes of eBPF.
+> > The overall way HID-BPF works is to work on a single array, and we
+> > should pretty much be sorted out. There are a couple of helpers to be
+> > able to communicate with the device, but the API has been stable in
+> > the kernel for those for quite some time now.
+> >
+> > The variations in the hooks is mostly because I don't know what is the
+> > best representation we can use in eBPF for those, and the review
+> > process is changing that.
+>
+> I think such a big feature as this one, especially that most BPF folks
+> are (probably) not familiar with the HID subsystem in the kernel,
+> would benefit from a bit of live discussion during BPF office hours.
+> Do you think you can give a short overview of what you are trying to
+> achieve with some background context on HID specifics at one of the
+> next BPF office hours? We have a meeting scheduled every week on
+> Thursday, 9am Pacific time. But people need to put their topic onto
+> the agenda, otherwise the meeting is cancelled. See [0] for
+> spreadsheet and links to Zoom meeting, agenda, etc.
 
-Does it follow the conventions which are accepted in the ACPI CA project?
+This sounds like a good idea. I just added my topic on the agenda and
+will prepare some slides.
 
---=20
-With Best Regards,
-Andy Shevchenko
+Cheers,
+Benjamin
+
+>
+>   [0] https://docs.google.com/spreadsheets/d/1LfrDXZ9-fdhvPEp_LHkxAMYyxxpwBXjywWa0AejEveU
+>
+> [...]
+>
+
