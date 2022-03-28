@@ -2,262 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F77B4E9C45
-	for <lists+linux-input@lfdr.de>; Mon, 28 Mar 2022 18:31:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 377234EA155
+	for <lists+linux-input@lfdr.de>; Mon, 28 Mar 2022 22:20:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241766AbiC1QcE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Mar 2022 12:32:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33464 "EHLO
+        id S1344431AbiC1UWH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Mar 2022 16:22:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232359AbiC1QcD (ORCPT
+        with ESMTP id S1344410AbiC1UWA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Mar 2022 12:32:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D46575A0B8
-        for <linux-input@vger.kernel.org>; Mon, 28 Mar 2022 09:30:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1648485020;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=wiudENfnRsT4mkm3HMsmOzfaooGwdtPXa8QtSU8kUEA=;
-        b=bIatYFrVB36YyK9Qw0OVmMG2rBArgNXZkpM/WbkTSrc3Yun1DKI50L+kRNuAxzt1fj0uMj
-        8YnqdG1CqJHVp6zoTqYAsUmR712QHUz0+Dyk1vjQsy+s2tTcV6rut4Jk7p/ds/Q6tWQCcP
-        X7wDw3se7TmSlZ47W5YTt8Zi8Pn5XYs=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-348-kWt7jyI6PcGBn9xBriDf1A-1; Mon, 28 Mar 2022 12:30:19 -0400
-X-MC-Unique: kWt7jyI6PcGBn9xBriDf1A-1
-Received: by mail-ed1-f72.google.com with SMTP id v9-20020a509549000000b00418d7c2f62aso9234296eda.15
-        for <linux-input@vger.kernel.org>; Mon, 28 Mar 2022 09:30:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=wiudENfnRsT4mkm3HMsmOzfaooGwdtPXa8QtSU8kUEA=;
-        b=l9mfAqvmO1RjyelDuovaI3u0XzT0XlbSRWhDlCeRJnG63J35LU4B9KzHGFXbadZOBj
-         fS3dWx21vlFmeud3V/SQIU/FapKK5SjsieA88o5aWy9/IdD1REbjIwUIYMYNZfXOi0kz
-         xdrrT64AQF+/m20qzmM5p07VsKHtE/o+2yNXOgYMCnirmoxBrep+9sQjn0uls1ElC+el
-         TwbYZBdZuoCqb4AH5U6DibbLjzuavxFwedmWiZZPDuUi9323b9ch+AuaL2xzHumISoUB
-         Q1TlpQw6wtl/pIuQ4JGg9UIQw/w7lnYnfcyEG9YL99bRY6RUfMMUvhUn2AYUG6xTNvEs
-         ua1g==
-X-Gm-Message-State: AOAM531kYZEa3uxFlrk379XhyLmyyJS6D6zxntwyUnIhNKcqfZ+VACnJ
-        1XAdizn+oyfK6MeRN0s014x0D/tEqeJq+neXyVFp/GB3xdg9u39OGsS169rZd5Mte1zWRs7JSbA
-        yWl6PTVEzCyEyAeLOb0Bxt+8=
-X-Received: by 2002:a05:6402:51cf:b0:419:63e2:2b96 with SMTP id r15-20020a05640251cf00b0041963e22b96mr17326690edd.336.1648485018103;
-        Mon, 28 Mar 2022 09:30:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxz+bt47oyPZFi/Ryvt51VJ9F/T+S9PRZpzRWBjcQwdEqTRCtvrpERJNUCpr+3ZQXU7s8m1JQ==
-X-Received: by 2002:a05:6402:51cf:b0:419:63e2:2b96 with SMTP id r15-20020a05640251cf00b0041963e22b96mr17326648edd.336.1648485017720;
-        Mon, 28 Mar 2022 09:30:17 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
-        by smtp.gmail.com with ESMTPSA id u22-20020a17090617d600b006e0df1a7d7csm3024582eje.15.2022.03.28.09.30.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Mar 2022 09:30:17 -0700 (PDT)
-Message-ID: <9b30f546-308c-ef7b-e59e-740851592275@redhat.com>
-Date:   Mon, 28 Mar 2022 18:30:16 +0200
+        Mon, 28 Mar 2022 16:22:00 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06B4740E4D;
+        Mon, 28 Mar 2022 13:20:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AAD83B81204;
+        Mon, 28 Mar 2022 20:20:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF991C340F0;
+        Mon, 28 Mar 2022 20:20:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648498816;
+        bh=DYKSgCLyLSG5eVAyXEXBJzv5wUb4KbwLHueX4TuM2es=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=nccR77DmMt5fnc/o6gzPVyT3/n47SLxU5yK+UpwKdHx+DMcaLuX/6OketRHPbmZK4
+         q8cXPhOeS5U/lTt4ZBRJMWdOApW5jbpoUqhxVh/BedGBZMTMV5wkH3BtP7s6iGDW7Q
+         y0QdQapyEyF3Bt/RYtFN3DcVWfO6ymXfIwUMVbM0YopTHxL2aIt7JhbD6dj4ejWOxW
+         pc+m/7ZMIf0Ie62Bdb6sgKnlk4iE+Z9kmM5yyWzogfPqXEglCECce8tPm4qxiKW+nA
+         n66IatdJU8T97URqDPNt56LnxyLR99fOCTtEa0OoWadqYlrX2oFEX/OYDMGmH5+pqh
+         E51HpRAN1M85Q==
+Date:   Mon, 28 Mar 2022 13:20:14 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Benjamin =?UTF-8?B?U3TDvHJ6?= <benni@stuerz.xyz>
+Cc:     Kalle Valo <kvalo@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-acpi@vger.kernel.org, devel@acpica.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-input@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
+        wcn36xx@lists.infradead.org, linux-wireless@vger.kernel.org,
+        linux-pci@vger.kernel.org
+Subject: Re: [PATCH 00/22] Replace comments with C99 initializers
+Message-ID: <20220328132014.6b8c0a21@kernel.org>
+In-Reply-To: <cc104272-d79a-41e1-f4de-cb78fb073991@stuerz.xyz>
+References: <20220326165909.506926-1-benni@stuerz.xyz>
+        <8f9271b6-0381-70a9-f0c2-595b2235866a@stuerz.xyz>
+        <87fsn2zaix.fsf@kernel.org>
+        <cc104272-d79a-41e1-f4de-cb78fb073991@stuerz.xyz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4 3/4] input/i8042: Add debug output for quirks
-Content-Language: en-US
-To:     Werner Sembach <wse@tuxedocomputers.com>,
-        kernel test robot <lkp@intel.com>, dmitry.torokhov@gmail.com,
-        tiwai@suse.de, mpdesouza@suse.com, arnd@arndb.de, samuel@cavoj.net,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kbuild-all@lists.01.org
-References: <20220322162125.59838-4-wse@tuxedocomputers.com>
- <202203230435.z5FH2fWa-lkp@intel.com>
- <c53b864a-912b-4569-251d-aea20be1bc5c@redhat.com>
- <c8e0e071-7566-f958-f309-aefa2bd802ad@tuxedocomputers.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <c8e0e071-7566-f958-f309-aefa2bd802ad@tuxedocomputers.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Mon, 28 Mar 2022 13:51:42 +0200 Benjamin St=C3=BCrz wrote:
+> > Just a small tip: If you are new, start with something small and learn
+> > from that. Don't do a controversial big patchset spanning multiple
+> > subsystems, that's the hard way to learn things. First submit one patch
+> > at a time to one subsystem and gain understanding of the process that
+> > way.
+>=20
+> I actually thought this would be such simple thing. Do you know of any
+> good thing where to start? I already looked into drivers/staging/*/TODO
+> and didn't found something for me personally.
 
-On 3/28/22 18:28, Werner Sembach wrote:
-> 
-> Am 28.03.22 um 14:08 schrieb Hans de Goede:
->> Hi,
->>
->> On 3/22/22 21:50, kernel test robot wrote:
->>> Hi Werner,
->>>
->>> Thank you for the patch! Yet something to improve:
->>>
->>> [auto build test ERROR on dtor-input/next]
->>> [also build test ERROR on v5.17 next-20220322]
->>> [If your patch is applied to the wrong git tree, kindly drop us a note.
->>> And when submitting patch, we suggest to use '--base' as documented in
->>> https://git-scm.com/docs/git-format-patch]
->>>
->>> url:    https://github.com/0day-ci/linux/commits/Werner-Sembach/input-i8042-Move-__initconst-to-fix-code-styling-warning/20220323-012205
->>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
->>> config: ia64-defconfig (https://download.01.org/0day-ci/archive/20220323/202203230435.z5FH2fWa-lkp@intel.com/config)
->>> compiler: ia64-linux-gcc (GCC) 11.2.0
->>> reproduce (this is a W=1 build):
->>>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->>>         chmod +x ~/bin/make.cross
->>>         # https://github.com/0day-ci/linux/commit/d92be72641d5753be3aa94fe5961e2dbe2b5bdc9
->>>         git remote add linux-review https://github.com/0day-ci/linux
->>>         git fetch --no-tags linux-review Werner-Sembach/input-i8042-Move-__initconst-to-fix-code-styling-warning/20220323-012205
->>>         git checkout d92be72641d5753be3aa94fe5961e2dbe2b5bdc9
->>>         # save the config file to linux build tree
->>>         mkdir build_dir
->>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=ia64 SHELL=/bin/bash
->>>
->>> If you fix the issue, kindly add following tag as appropriate
->>> Reported-by: kernel test robot <lkp@intel.com>
->> i8042_dritek is only defined when building on x86, I would solve this
->> by moving the new pr_debug to inside i8042_check_quirks();
-> 
-> Thanks I missed that. But moving the debug function in i8042_check_quirks would make the output x86 exclusive, while the
-> quirks in general are not (on non x86 they must be set via command line but still have effects on the code if i see that
-> correctly)
+FWIW on the netdev side there's work coming to convert a set of features
+from unsigned long to a BITMAP which will require converting a lot of
+drivers to an explicit helpers from direct access.
 
-True.
+https://lore.kernel.org/all/20220324154932.17557-14-shenjian15@huawei.com/
 
->> The i8042_nopnp not being defined order is slightly tricker, you
->> can more or less cleanly fix this by doing this at the end of
->> i8042_check_quirks() and then put the new pr_debug after this:
->>
->> #ifdef CONFIG_PNP
->>                 if (quirks & SERIO_QUIRK_NOPNP)
->>                         i8042_nopnp = true;
->> #else
->> #define i8042_nopnp 0
->> #endif
-> 
-> As an alternative i would suggest putting defines in the pr_debug call. Otherwise it might not be immediately that the
-> #define i8042_nopnp 0 is there specifically for this one statement only.
-> 
->     pr_debug("Active quirks (empty means none):%s%s%s%s%s%s%s%s%s%s%s%s%s\n",
->         i8042_nokbd ? " nokbd" : "",
->         i8042_noaux ? " noaux" : "",
->         i8042_nomux ? " nomux" : "",
->         i8042_unlock ? " unlock" : "",
->         i8042_probe_defer ? "probe_defer" : "",
->         i8042_reset == I8042_RESET_DEFAULT ?
->             "" : i8042_reset == I8042_RESET_ALWAYS ?
->                 " reset_always" : " reset_never",
->         i8042_direct ? " direct" : "",
->         i8042_dumbkbd ? " dumbkbd" : "",
->         i8042_noloop ? " noloop" : "",
->         i8042_notimeout ? " notimeout" : "",
->         i8042_kbdreset ? " kbdreset" : "",
-> #ifdef CONFIG_X86
->         i8042_dritek ? " dritek" : "",
-> #else
->         "",
-> #endif
-> #ifdef CONFIG_PNP
->         i8042_nopnp ? " nopnp" : "");
-> #else
->         "");
-> #endif
-> 
-> As a side effect: like this the code snipped also stays completely position independed.
-
-Ok, the above solution is fine by me.
-
-It also has the advantage of not defining i8042_nopnp which may
-lead to accidentally getting used when not set later.
-
-Regards,
-
-Hans
-
-
-
-
->>> All errors (new ones prefixed by >>):
->>>
->>>    In file included from include/asm-generic/bug.h:22,
->>>                     from arch/ia64/include/asm/bug.h:17,
->>>                     from include/linux/bug.h:5,
->>>                     from include/linux/thread_info.h:13,
->>>                     from include/asm-generic/preempt.h:5,
->>>                     from ./arch/ia64/include/generated/asm/preempt.h:1,
->>>                     from include/linux/preempt.h:78,
->>>                     from include/linux/rcupdate.h:27,
->>>                     from include/linux/rculist.h:11,
->>>                     from include/linux/pid.h:5,
->>>                     from include/linux/sched.h:14,
->>>                     from include/linux/delay.h:23,
->>>                     from drivers/input/serio/i8042.c:12:
->>>    drivers/input/serio/i8042-x86ia64io.h: In function 'i8042_platform_init':
->>>>> drivers/input/serio/i8042-x86ia64io.h:1511:17: error: 'i8042_dritek' undeclared (first use in this function); did you mean 'i8042_direct'?
->>>     1511 |                 i8042_dritek ? " dritek" : "",
->>>          |                 ^~~~~~~~~~~~
->>>    include/linux/printk.h:418:33: note: in definition of macro 'printk_index_wrap'
->>>      418 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
->>>          |                                 ^~~~~~~~~~~
->>>    include/linux/printk.h:132:17: note: in expansion of macro 'printk'
->>>      132 |                 printk(fmt, ##__VA_ARGS__);             \
->>>          |                 ^~~~~~
->>>    include/linux/printk.h:576:9: note: in expansion of macro 'no_printk'
->>>      576 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
->>>          |         ^~~~~~~~~
->>>    drivers/input/serio/i8042-x86ia64io.h:1497:9: note: in expansion of macro 'pr_debug'
->>>     1497 |         pr_debug("Active quirks (empty means none):%s%s%s%s%s%s%s%s%s%s%s%s%s\n",
->>>          |         ^~~~~~~~
->>>    drivers/input/serio/i8042-x86ia64io.h:1511:17: note: each undeclared identifier is reported only once for each function it appears in
->>>     1511 |                 i8042_dritek ? " dritek" : "",
->>>          |                 ^~~~~~~~~~~~
->>>    include/linux/printk.h:418:33: note: in definition of macro 'printk_index_wrap'
->>>      418 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
->>>          |                                 ^~~~~~~~~~~
->>>    include/linux/printk.h:132:17: note: in expansion of macro 'printk'
->>>      132 |                 printk(fmt, ##__VA_ARGS__);             \
->>>          |                 ^~~~~~
->>>    include/linux/printk.h:576:9: note: in expansion of macro 'no_printk'
->>>      576 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
->>>          |         ^~~~~~~~~
->>>    drivers/input/serio/i8042-x86ia64io.h:1497:9: note: in expansion of macro 'pr_debug'
->>>     1497 |         pr_debug("Active quirks (empty means none):%s%s%s%s%s%s%s%s%s%s%s%s%s\n",
->>>          |         ^~~~~~~~
->>>
->>>
->>> vim +1511 drivers/input/serio/i8042-x86ia64io.h
->>>
->>>   1494	
->>>   1495		i8042_check_quirks();
->>>   1496	
->>>   1497		pr_debug("Active quirks (empty means none):%s%s%s%s%s%s%s%s%s%s%s%s%s\n",
->>>   1498			i8042_nokbd ? " nokbd" : "",
->>>   1499			i8042_noaux ? " noaux" : "",
->>>   1500			i8042_nomux ? " nomux" : "",
->>>   1501			i8042_unlock ? " unlock" : "",
->>>   1502			i8042_probe_defer ? "probe_defer" : "",
->>>   1503			i8042_reset == I8042_RESET_DEFAULT ?
->>>   1504				"" : i8042_reset == I8042_RESET_ALWAYS ?
->>>   1505					" reset_always" : " reset_never",
->>>   1506			i8042_direct ? " direct" : "",
->>>   1507			i8042_dumbkbd ? " dumbkbd" : "",
->>>   1508			i8042_noloop ? " noloop" : "",
->>>   1509			i8042_notimeout ? " notimeout" : "",
->>>   1510			i8042_kbdreset ? " kbdreset" : "",
->>>> 1511			i8042_dritek ? " dritek" : "",
->>>   1512			i8042_nopnp ? " nopnp" : "");
->>>   1513	
->>>   1514		retval = i8042_pnp_init();
->>>   1515		if (retval)
->>>   1516			return retval;
->>>   1517	
->>>
-> 
-
+If it seems interesting enough you can try reaching out to Jian Shen.
