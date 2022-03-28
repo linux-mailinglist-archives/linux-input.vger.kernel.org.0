@@ -2,263 +2,174 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 584804E9644
-	for <lists+linux-input@lfdr.de>; Mon, 28 Mar 2022 14:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 200774E9669
+	for <lists+linux-input@lfdr.de>; Mon, 28 Mar 2022 14:21:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242324AbiC1MM2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Mar 2022 08:12:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42380 "EHLO
+        id S234820AbiC1MW7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Mar 2022 08:22:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242304AbiC1MMZ (ORCPT
+        with ESMTP id S240736AbiC1MWy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Mar 2022 08:12:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0F78B46175
-        for <linux-input@vger.kernel.org>; Mon, 28 Mar 2022 05:10:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1648469444;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=s303ye8ReaHpOjOwx4Ovn/6MsJxh1EGbGaKLyFHGIYc=;
-        b=AEUemNLXrl8Nj+ky8+n+NU8L1v7l0OyCGPOUKT6Z16om2F3IHmoxaJrv09s/a2j9WvI1gV
-        ZS0ZJlO93NDpQBvIPqAKwGrUOW4WIhYHCuLB0DSOVYkRiYxOkdxMZmF0VwrdQt88PpkQwe
-        I2HTpfZRifFoEozpYUC6NLDDuMRMs98=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-Rk6TgL-9MDCM3p1p1VYL5w-1; Mon, 28 Mar 2022 08:10:42 -0400
-X-MC-Unique: Rk6TgL-9MDCM3p1p1VYL5w-1
-Received: by mail-ej1-f69.google.com with SMTP id x2-20020a1709065ac200b006d9b316257fso6743929ejs.12
-        for <linux-input@vger.kernel.org>; Mon, 28 Mar 2022 05:10:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=s303ye8ReaHpOjOwx4Ovn/6MsJxh1EGbGaKLyFHGIYc=;
-        b=fXsSMRdM3dstwvmty+ANoYiM/GewmSu9d+OYbS+44Fijtch4EI7rmZ/D6Dzcrf/XI5
-         yWTmgm9qc1bVdbdgFXsAGdGEx6/u9+95ochwpDHiyf9lrI1vK2AVjCCr5HViFlHQgopt
-         KhMlvuvmx59Dt21gE7I6sEcEruhHsRuWdoCcKjZ4VcjdINH0vz5U9tOfWP2nx58GYHEK
-         fwzCeHDUvl2j1SBDPQlgsGG/sOtPdu+1S6TERILQwZ3t3kwnHlTF8CDTUQ/z1Z/kd/he
-         F4BWnL4VYIB83JXZ6pY3Ec0FjlOTS7zEGm9X2XP/z10alq304IgzuEyb5rCyeJgVpux2
-         H7VA==
-X-Gm-Message-State: AOAM533ZQheXqU2yduolPfPGcCVhvyLWUTrAZ0zQUGH+XVlJ2r4rxpfX
-        hrNXjVRt8kA9PlNGCOpM79OWulGytQP3DNbPMkj1uFybruGK5VQd3L/H9cT3CKd0ijWXehluesi
-        bc7DfHFsfFJlRdeO3qGFXXMY=
-X-Received: by 2002:a05:6402:100e:b0:416:596a:2581 with SMTP id c14-20020a056402100e00b00416596a2581mr16031739edu.181.1648469441297;
-        Mon, 28 Mar 2022 05:10:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyrfXpfh65G/q1+H74AqsjWFo6tjp7o+o0GjPWQPjGlzS/vEbHIzRwXZ5f+MmkREIDWc/eIdg==
-X-Received: by 2002:a05:6402:100e:b0:416:596a:2581 with SMTP id c14-20020a056402100e00b00416596a2581mr16031688edu.181.1648469440977;
-        Mon, 28 Mar 2022 05:10:40 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id m25-20020a170906161900b006d43be5b95fsm5887532ejd.118.2022.03.28.05.10.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Mar 2022 05:10:40 -0700 (PDT)
-Message-ID: <810c9b35-1f8b-912c-9300-f57fb0b2f60c@redhat.com>
-Date:   Mon, 28 Mar 2022 14:10:40 +0200
+        Mon, 28 Mar 2022 08:22:54 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 197B146662
+        for <linux-input@vger.kernel.org>; Mon, 28 Mar 2022 05:21:12 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-8-vkuU1pGbNXCyrAVN_KskHQ-1; Mon, 28 Mar 2022 13:21:10 +0100
+X-MC-Unique: vkuU1pGbNXCyrAVN_KskHQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.32; Mon, 28 Mar 2022 13:21:04 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.033; Mon, 28 Mar 2022 13:21:04 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Kalle Valo' <kvalo@kernel.org>,
+        Larry Finger <Larry.Finger@lwfinger.net>
+CC:     =?utf-8?B?QmVuamFtaW4gU3TDvHJ6?= <benni@stuerz.xyz>,
+        "andrew@lunn.ch" <andrew@lunn.ch>,
+        "sebastian.hesselbarth@gmail.com" <sebastian.hesselbarth@gmail.com>,
+        "gregory.clement@bootlin.com" <gregory.clement@bootlin.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "linux@simtec.co.uk" <linux@simtec.co.uk>,
+        "krzk@kernel.org" <krzk@kernel.org>,
+        "alim.akhtar@samsung.com" <alim.akhtar@samsung.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "robert.moore@intel.com" <robert.moore@intel.com>,
+        "rafael.j.wysocki@intel.com" <rafael.j.wysocki@intel.com>,
+        "lenb@kernel.org" <lenb@kernel.org>,
+        "3chas3@gmail.com" <3chas3@gmail.com>,
+        "laforge@gnumonks.org" <laforge@gnumonks.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "rric@kernel.org" <rric@kernel.org>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "brgl@bgdev.pl" <brgl@bgdev.pl>,
+        "mike.marciniszyn@cornelisnetworks.com" 
+        <mike.marciniszyn@cornelisnetworks.com>,
+        "dennis.dalessandro@cornelisnetworks.com" 
+        <dennis.dalessandro@cornelisnetworks.com>,
+        "jgg@ziepe.ca" <jgg@ziepe.ca>, "pali@kernel.org" <pali@kernel.org>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "isdn@linux-pingi.de" <isdn@linux-pingi.de>,
+        "benh@kernel.crashing.org" <benh@kernel.crashing.org>,
+        "fbarrat@linux.ibm.com" <fbarrat@linux.ibm.com>,
+        "ajd@linux.ibm.com" <ajd@linux.ibm.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "nico@fluxnic.net" <nico@fluxnic.net>,
+        "loic.poulain@linaro.org" <loic.poulain@linaro.org>,
+        "pkshih@realtek.com" <pkshih@realtek.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-samsung-soc@vger.kernel.org" 
+        <linux-samsung-soc@vger.kernel.org>,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "devel@acpica.org" <devel@acpica.org>,
+        "linux-atm-general@lists.sourceforge.net" 
+        <linux-atm-general@lists.sourceforge.net>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "wcn36xx@lists.infradead.org" <wcn36xx@lists.infradead.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
+Subject: RE: [PATCH 21/22] rtw89: Replace comments with C99 initializers
+Thread-Topic: [PATCH 21/22] rtw89: Replace comments with C99 initializers
+Thread-Index: AQHYQoY88SRtyCmm7EOK7E4AJyEA9qzUtsLg
+Date:   Mon, 28 Mar 2022 12:21:04 +0000
+Message-ID: <6082d343f18a40229df83e3102e7dc38@AcuMS.aculab.com>
+References: <20220326165909.506926-1-benni@stuerz.xyz>
+        <20220326165909.506926-21-benni@stuerz.xyz>
+        <f7bb9164-2f66-8985-5771-5f31ee5740b7@lwfinger.net>
+ <87k0cezarl.fsf@kernel.org>
+In-Reply-To: <87k0cezarl.fsf@kernel.org>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v4 4/4] input/i8042: Add TUXEDO devices to i8042 quirk
- tables
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-To:     Werner Sembach <wse@tuxedocomputers.com>,
-        dmitry.torokhov@gmail.com, tiwai@suse.de, mpdesouza@suse.com,
-        arnd@arndb.de, samuel@cavoj.net, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220322162125.59838-1-wse@tuxedocomputers.com>
- <20220322162125.59838-5-wse@tuxedocomputers.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220322162125.59838-5-wse@tuxedocomputers.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On 3/22/22 17:21, Werner Sembach wrote:
-> A lot of modern Clevo barebones have touchpad and/or keyboard issues after
-> suspend fixable with nomux + reset + noloop + nopnp. Luckily, none of them
-> have an external PS/2 port so this can safely be set for all of them.
-> 
-> I'm not entirely sure if every device listed really needs all four quirks,
-> but after testing and production use. No negative effects could be
-> observed when setting all four.
-> 
-> In this 4th revision the list is reduced by only identifying the devices by
-> board_name. This avoids a lot of duplication because of inconsistent and/or
-> reseller specific values of board_vendor and/or system_vendor. This change
-> is based on Dmitry Torokhovs mention that Clevos default "Notebook" string
-> doesn't add much uniqueness anyhow.
-> 
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> Cc: stable@vger.kernel.org
-
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-> ---
->  drivers/input/serio/i8042-x86ia64io.h | 125 ++++++++++++++++++++++++++
->  1 file changed, 125 insertions(+)
-> 
-> diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
-> index 229d4936910f..f79b5eea1295 100644
-> --- a/drivers/input/serio/i8042-x86ia64io.h
-> +++ b/drivers/input/serio/i8042-x86ia64io.h
-> @@ -1095,6 +1095,25 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->  		},
->  		.driver_data = (void *)(SERIO_QUIRK_NOMUX)
->  	},
-> +	/*
-> +	 * A lot of modern Clevo barebones have touchpad and/or keyboard issues
-> +	 * after suspend fixable with nomux + reset + noloop + nopnp. Luckily,
-> +	 * none of them have an external PS/2 port so this can savely be set for
-> +	 * all of them. These two are based on a Clevo design, but have the
-> +	 * board_name changed.
-> +	 */
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "TUXEDO"),
-> +			DMI_MATCH(DMI_BOARD_NAME, "AURA1501"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "TUXEDO"),
-> +			DMI_MATCH(DMI_BOARD_NAME, "EDUBOOK1502"),
-> +		},
-> +	},
->  	{
->  		/* Mivvy M310 */
->  		.matches = {
-> @@ -1124,6 +1143,112 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
->  		},
->  		.driver_data = (void *)(SERIO_QUIRK_NOLOOP)
->  	},
-> +	/*
-> +	 * A lot of modern Clevo barebones have touchpad and/or keyboard issues
-> +	 * after suspend fixable with nomux + reset + noloop + nopnp. Luckily,
-> +	 * none of them have an external PS/2 port so this can savely be set for
-> +	 * all of them.
-> +	 * Clevo barebones come with board_vendor and/or system_vendor set to
-> +	 * either the very generic string "Notebook" and/or a different value
-> +	 * for each individual reseller. The only somewhat universal way to
-> +	 * identify them is by board_name.
-> +	 */
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_NAME, "LAPQC71A"),
-> +		},
-> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_NAME, "LAPQC71B"),
-> +		},
-> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_NAME, "N140CU"),
-> +		},
-> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_NAME, "N141CU"),
-> +		},
-> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_NAME, "NH5xAx"),
-> +		},
-> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_NAME, "NL5xRU"),
-> +		},
-> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +	},
-> +	/*
-> +	 * At least one modern Clevo barebone has the touchpad connected both
-> +	 * via PS/2 and i2c interface. This causes a race condition between the
-> +	 * psmouse and i2c-hid driver. Since the full capability of the touchpad
-> +	 * is available via the i2c interface and the device has no external
-> +	 * PS/2 port, it is save to just ignore all ps2 mouses here to avoid
-> +	 * this issue. The know affected device is the
-> +	 * TUXEDO InfinityBook S17 Gen6 / Clevo NS70MU which comes with one of
-> +	 * the two different dmi strings below. NS50MU is not a typo!
-> +	 */
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_NAME, "NS50MU"),
-> +		},
-> +		.driver_data = (void *)(SERIO_QUIRK_NOAUX | SERIO_QUIRK_NOMUX |
-> +					SERIO_QUIRK_RESET_ALWAYS | SERIO_QUIRK_NOLOOP |
-> +					SERIO_QUIRK_NOPNP)
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_NAME, "NS50_70MU"),
-> +		},
-> +		.driver_data = (void *)(SERIO_QUIRK_NOAUX | SERIO_QUIRK_NOMUX |
-> +					SERIO_QUIRK_RESET_ALWAYS | SERIO_QUIRK_NOLOOP |
-> +					SERIO_QUIRK_NOPNP)
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_NAME, "NJ50_70CU"),
-> +		},
-> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_NAME, "PB50_70DFx,DDx"),
-> +		},
-> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_NAME, "X170SM"),
-> +		},
-> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_NAME, "X170KM-G"),
-> +		},
-> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-> +	},
->  	{ }
->  };
->  
+RnJvbTogS2FsbGUgVmFsbw0KPiBTZW50OiAyOCBNYXJjaCAyMDIyIDEwOjI5DQo+IA0KPiBMYXJy
+eSBGaW5nZXIgPExhcnJ5LkZpbmdlckBsd2Zpbmdlci5uZXQ+IHdyaXRlczoNCj4gDQo+ID4gT24g
+My8yNi8yMiAxMTo1OSwgQmVuamFtaW4gU3TDvHJ6IHdyb3RlOg0KPiA+PiBUaGlzIHJlcGxhY2Vz
+IGNvbW1lbnRzIHdpdGggQzk5J3MgZGVzaWduYXRlZA0KPiA+PiBpbml0aWFsaXplcnMgYmVjYXVz
+ZSB0aGUga2VybmVsIHN1cHBvcnRzIHRoZW0gbm93Lg0KPiA+Pg0KPiA+PiBTaWduZWQtb2ZmLWJ5
+OiBCZW5qYW1pbiBTdMO8cnogPGJlbm5pQHN0dWVyei54eXo+DQo+ID4+IC0tLQ0KPiA+PiAgIGRy
+aXZlcnMvbmV0L3dpcmVsZXNzL3JlYWx0ZWsvcnR3ODkvY29leC5jIHwgNDAgKysrKysrKysrKyst
+LS0tLS0tLS0tLS0NCj4gPj4gICAxIGZpbGUgY2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKSwgMjAg
+ZGVsZXRpb25zKC0pDQo+ID4+DQo+ID4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC93aXJlbGVz
+cy9yZWFsdGVrL3J0dzg5L2NvZXguYyBiL2RyaXZlcnMvbmV0L3dpcmVsZXNzL3JlYWx0ZWsvcnR3
+ODkvY29leC5jDQo+ID4+IGluZGV4IDY4NDU4Mzk1NTUxMS4uM2M4M2EwYmZiMTIwIDEwMDY0NA0K
+PiA+PiAtLS0gYS9kcml2ZXJzL25ldC93aXJlbGVzcy9yZWFsdGVrL3J0dzg5L2NvZXguYw0KPiA+
+PiArKysgYi9kcml2ZXJzL25ldC93aXJlbGVzcy9yZWFsdGVrL3J0dzg5L2NvZXguYw0KPiA+PiBA
+QCAtOTcsMjYgKzk3LDI2IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcnR3ODlfYnRjX2ZidGNfc2xv
+dCBzX2RlZltdID0gew0KPiA+PiAgIH07DQo+ID4+ICAgICBzdGF0aWMgY29uc3QgdTMyIGN4dGJs
+W10gPSB7DQo+ID4+IC0JMHhmZmZmZmZmZiwgLyogMCAqLw0KPiA+PiAtCTB4YWFhYWFhYWEsIC8q
+IDEgKi8NCj4gPj4gLQkweDU1NTU1NTU1LCAvKiAyICovDQo+ID4+IC0JMHg2NjU1NTU1NSwgLyog
+MyAqLw0KPiA+PiAtCTB4NjY1NTY2NTUsIC8qIDQgKi8NCj4gPj4gLQkweDVhNWE1YTVhLCAvKiA1
+ICovDQo+ID4+IC0JMHg1YTVhNWFhYSwgLyogNiAqLw0KPiA+PiAtCTB4YWE1YTVhNWEsIC8qIDcg
+Ki8NCj4gPj4gLQkweDZhNWE1YTVhLCAvKiA4ICovDQo+ID4+IC0JMHg2YTVhNWFhYSwgLyogOSAq
+Lw0KPiA+PiAtCTB4NmE1YTZhNWEsIC8qIDEwICovDQo+ID4+IC0JMHg2YTVhNmFhYSwgLyogMTEg
+Ki8NCj4gPj4gLQkweDZhZmE1YWZhLCAvKiAxMiAqLw0KPiA+PiAtCTB4YWFhYTVhYWEsIC8qIDEz
+ICovDQo+ID4+IC0JMHhhYWZmZmZhYSwgLyogMTQgKi8NCj4gPj4gLQkweGFhNTU1NWFhLCAvKiAx
+NSAqLw0KPiA+PiAtCTB4ZmFmYWZhZmEsIC8qIDE2ICovDQo+ID4+IC0JMHhmZmZmZGRmZiwgLyog
+MTcgKi8NCj4gPj4gLQkweGRhZmZkYWZmLCAvKiAxOCAqLw0KPiA+PiAtCTB4ZmFmYWRhZmEgIC8q
+IDE5ICovDQo+ID4+ICsJWzBdICA9IDB4ZmZmZmZmZmYsDQo+ID4+ICsJWzFdICA9IDB4YWFhYWFh
+YWEsDQo+ID4+ICsJWzJdICA9IDB4NTU1NTU1NTUsDQo+ID4+ICsJWzNdICA9IDB4NjY1NTU1NTUs
+DQo+ID4+ICsJWzRdICA9IDB4NjY1NTY2NTUsDQo+ID4+ICsJWzVdICA9IDB4NWE1YTVhNWEsDQo+
+ID4+ICsJWzZdICA9IDB4NWE1YTVhYWEsDQo+ID4+ICsJWzddICA9IDB4YWE1YTVhNWEsDQo+ID4+
+ICsJWzhdICA9IDB4NmE1YTVhNWEsDQo+ID4+ICsJWzldICA9IDB4NmE1YTVhYWEsDQo+ID4+ICsJ
+WzEwXSA9IDB4NmE1YTZhNWEsDQo+ID4+ICsJWzExXSA9IDB4NmE1YTZhYWEsDQo+ID4+ICsJWzEy
+XSA9IDB4NmFmYTVhZmEsDQo+ID4+ICsJWzEzXSA9IDB4YWFhYTVhYWEsDQo+ID4+ICsJWzE0XSA9
+IDB4YWFmZmZmYWEsDQo+ID4+ICsJWzE1XSA9IDB4YWE1NTU1YWEsDQo+ID4+ICsJWzE2XSA9IDB4
+ZmFmYWZhZmEsDQo+ID4+ICsJWzE3XSA9IDB4ZmZmZmRkZmYsDQo+ID4+ICsJWzE4XSA9IDB4ZGFm
+ZmRhZmYsDQo+ID4+ICsJWzE5XSA9IDB4ZmFmYWRhZmENCj4gPj4gICB9Ow0KPiA+PiAgICAgc3Ry
+dWN0IHJ0dzg5X2J0Y19idGZfdGx2IHsNCj4gPg0KPiA+DQo+ID4gSXMgdGhpcyBjaGFuZ2UgcmVh
+bGx5IG5lY2Vzc2FyeT8gWWVzLCB0aGUgZW50cmllcyBtdXN0IGJlIG9yZGVyZWQ7DQo+ID4gaG93
+ZXZlciwgdGhlIGNvbW1lbnQgY2FycmllcyB0aGF0IGluZm9ybWF0aW9uIGF0IHZlcnkgZmV3IGV4
+dHJhDQo+ID4gY2hhcmFjdGVycy4gVG8gbWUsIHRoaXMgcGF0Y2ggbG9va3MgbGlrZSB1bm5lZWRl
+ZCBzb3VyY2UgY2h1cm4uDQo+IA0KPiBPbmUgc21hbGwgYmVuZWZpdCBJIHNlZSBpcyB0byBhdm9p
+ZCB0aGUgY29tbWVudCBpbmRleCBiZWluZyB3cm9uZyBhbmQNCj4gdGhlcmUgd291bGQgYmUgbm8g
+d2F5IHRvIGNhdGNoIHRoYXQuIEJ1dCBvdGhlcndpc2UgSSBkb24ndCBoYXZlIGFueQ0KPiBvcGlu
+aW9uIGFib3V0IHRoaXMuDQoNCklmIHRoZSBbbm5dIGFyZSB3cm9uZyB0aGUgZWZmZWN0IGlzIHBy
+b2JhYmx5IHdvcnNlLg0KWW91IHJlYWxseSBkb24ndCB3YW50IGEgZ2FwIQ0KDQpEb2Vzbid0IHNl
+ZW0gd29ydGggdXNpbmcgQzk5IGluaXRpYWxpc2VycyB1bmxlc3MgdGhleSBhcmUNCiNkZWZpbmVz
+IG9yIGVudW0gdmFsdWVzLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2Vz
+aWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVL
+DQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
