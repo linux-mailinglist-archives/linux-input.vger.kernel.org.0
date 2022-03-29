@@ -2,82 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 797364EAF6D
-	for <lists+linux-input@lfdr.de>; Tue, 29 Mar 2022 16:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E37264EB68B
+	for <lists+linux-input@lfdr.de>; Wed, 30 Mar 2022 01:12:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232479AbiC2OnU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Mar 2022 10:43:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46772 "EHLO
+        id S239638AbiC2XOI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Mar 2022 19:14:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229978AbiC2OnU (ORCPT
+        with ESMTP id S235262AbiC2XOI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Mar 2022 10:43:20 -0400
-Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1156F33A10;
-        Tue, 29 Mar 2022 07:41:36 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by srv6.fidu.org (Postfix) with ESMTP id 9299DC800A7;
-        Tue, 29 Mar 2022 16:41:35 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
-        by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id RKTB3nxXVfKn; Tue, 29 Mar 2022 16:41:35 +0200 (CEST)
-Received: from [192.168.178.30] (host-212-18-30-247.customer.m-online.net [212.18.30.247])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: wse@tuxedocomputers.com)
-        by srv6.fidu.org (Postfix) with ESMTPSA id 23110C8008A;
-        Tue, 29 Mar 2022 16:41:35 +0200 (CEST)
-Message-ID: <139e98e1-5405-6df7-17c3-a3accc5e8de0@tuxedocomputers.com>
-Date:   Tue, 29 Mar 2022 16:41:34 +0200
+        Tue, 29 Mar 2022 19:14:08 -0400
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2069219B078;
+        Tue, 29 Mar 2022 16:12:24 -0700 (PDT)
+Received: by mail-ot1-f41.google.com with SMTP id a17-20020a9d3e11000000b005cb483c500dso13784172otd.6;
+        Tue, 29 Mar 2022 16:12:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=19pOzULxVDfXXsKExnM0qOYmlT2C8TqThE9IQo+YRrQ=;
+        b=oKaHVTwnWh2e7vs1GTvXInKaJ5Vk63/HVFNE4xKoyjXpCiY/GY6zLSXZQkSS9JFg7j
+         TjC4kR8TA59z7hB1QW1ZmIljlsWzAcV7hsE2r+R5LUb7QRUF8UVrbCQsKa3HkXQOMFyz
+         ZtOyqXXQJpeV8lbWPf1063WTgjfmArJ9KVnnOkozdYG8kjejvkjM65dvnTmO4G5cKXP3
+         QoBxKBa15yEohMY0k0wiN3BQVq5g5XB16js5n0D5knBcbmdrOSia34uawO2ltMgrmqLe
+         zEKqH4MJNGFXS+ZFk0VTzg6bsH+fn8+c3lGvmvLYZFkwc+9DQEj4ZPkirxgUZzQfCoAo
+         2/Kw==
+X-Gm-Message-State: AOAM5339pkXXHA12lmHY8eerHbukpB3ji8Z3kwW5+kSsub4kiRO50wNN
+        qA4V/QaV9xEU1ovvN9ruiQ0lN1iNyQ==
+X-Google-Smtp-Source: ABdhPJydkK7GxNHz+fTQpfZtCPQLNq4GqZsLPEkqhOP3kWjNeq8sHsTwLBDOrI0EsQ3z7BiRKstoqw==
+X-Received: by 2002:a9d:5a07:0:b0:5cd:afdb:b0da with SMTP id v7-20020a9d5a07000000b005cdafdbb0damr2137782oth.188.1648595543463;
+        Tue, 29 Mar 2022 16:12:23 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id o18-20020a9d7652000000b005cbf6f5d7c5sm9678797otl.21.2022.03.29.16.12.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Mar 2022 16:12:22 -0700 (PDT)
+Received: (nullmailer pid 1529180 invoked by uid 1000);
+        Tue, 29 Mar 2022 23:12:21 -0000
+Date:   Tue, 29 Mar 2022 18:12:21 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Alistair Francis <alistair@alistair23.me>
+Cc:     linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        alistair23@gmail.com, dmitry.torokhov@gmail.com,
+        robh+dt@kernel.org, andreas@kemnade.info,
+        linux-kernel@vger.kernel.org, linus.walleij@linaro.org,
+        linux-input@vger.kernel.org, rydberg@bitmath.org
+Subject: Re: [PATCH v7 2/4] dt-bindings: input: Add Cypress TT2100
+ touchscreen controller
+Message-ID: <YkOSVeLoZfzSAG0I@robh.at.kernel.org>
+References: <20220323120021.361137-1-alistair@alistair23.me>
+ <20220323120021.361137-3-alistair@alistair23.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5] input/i8042: Rework quirk tables
-Content-Language: en-US
-To:     dmitry.torokhov@gmail.com, tiwai@suse.de, mpdesouza@suse.com,
-        arnd@arndb.de, hdegoede@redhat.com, samuel@cavoj.net,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220329143622.31394-1-wse@tuxedocomputers.com>
-From:   Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <20220329143622.31394-1-wse@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220323120021.361137-3-alistair@alistair23.me>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Am 29.03.22 um 16:36 schrieb Werner Sembach:
-> Revision 5 with some fixes based on feedback by Hans de Goede.
->
-> The 1st patch is minor housekeeping.
->
-> The 2nd patch merges the tables together. Minor fixes in 5th revision and
-> no more duplication of ASUS devices
->
-> The 3rd patch add optional debug output to see which quirks get applied. In
-> 5th revision this no longer breaks compilation on non x86 platforms.
->
-> The 4th patch adds a list of Clevo devices that need multiple quirks.
-> With the reworked table they don't need to be inserted multiple times now,
-> which was required in v1 and v2 of this patch.
->
-> I also included the extra quirk for the Clevo NS7xMU, which was a separate
-> patch before.
->
-> The added Clevo devices are now only identified by their board name as this
-> is the only somewhat reliable string that might not be changed by resellers.
->
->
-By accident I sent this patchset except the first patch tagged with v4 also. Just want to add this to avoid confusion
-and sorry for the spam.
+On Wed, 23 Mar 2022 22:00:19 +1000, Alistair Francis wrote:
+> Add the Cypress TrueTouch Generation 5 touchscreen device tree bindings
+> documentation. It can use I2C or SPI bus.
+> This touchscreen can handle some defined zone that are designed and
+> sent as button. To be able to customize the keycode sent, the
+> "linux,code" property in a "button" sub-node can be used.
+> 
+> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  .../input/touchscreen/cypress,tt21000.yaml    | 101 ++++++++++++++++++
+>  1 file changed, 101 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
+> 
 
-(For some reason selecting 'n' in git send-email only discards the first mail and does not ask for following patches ...
-I have to check my git settings)
-
-
+Reviewed-by: Rob Herring <robh@kernel.org>
