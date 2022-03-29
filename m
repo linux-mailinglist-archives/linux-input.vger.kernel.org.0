@@ -2,288 +2,163 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EA964EA36C
-	for <lists+linux-input@lfdr.de>; Tue, 29 Mar 2022 01:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 292A94EA447
+	for <lists+linux-input@lfdr.de>; Tue, 29 Mar 2022 02:48:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230285AbiC1XKE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Mar 2022 19:10:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34218 "EHLO
+        id S231644AbiC2AoR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Mar 2022 20:44:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230284AbiC1XKD (ORCPT
+        with ESMTP id S231641AbiC2AoR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Mar 2022 19:10:03 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68BE2DF7D;
-        Mon, 28 Mar 2022 16:08:21 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1648508897;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=GW5piibXVKo9A/BIxG2OaJSsIL3nRb2gFVpSMD8Zngg=;
-        b=RataHu52uLY+1j4O0rcSXT0F7L8lkLcVrcT9weAkzaKSC0NHIk3kvnB0qFAmfvDIlsEd0G
-        UPZTvh7TgcalSd1NjpUx2DmQFqGZapNjbfS1SP9dFm7PLlrXhDbbKJaQePnxynRB6i580m
-        j6ExbwCCgxEpnvnJtrTQioJk/TtTamCz93AG21LXrtGWDNLj5x3PzKowf6NJKDBdv2In6T
-        SFHIAuVbgNhvLIZf52lVvPW/bj3bqilEfjSg6IVt2pNR0ffuYP/vkLbkT8Stt8Ous3Qlax
-        Bc9PCNEBPEy1tyHAqwSE/gSh3gZUmCRoc/yd8/iF4MdHN+pFm90GiY7eASJ96Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1648508897;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=GW5piibXVKo9A/BIxG2OaJSsIL3nRb2gFVpSMD8Zngg=;
-        b=aOELans+tovI5r1VYnU410Rrhjf4G2toTen/ParOs+ebyjfwwNbUXzKvkk4zFq8Hn7i6vn
-        uY0etoAkLcKmnUCg==
-To:     Benjamin =?utf-8?Q?St=C3=BCrz?= <benni@stuerz.xyz>, andrew@lunn.ch
-Cc:     sebastian.hesselbarth@gmail.com, gregory.clement@bootlin.com,
-        linux@armlinux.org.uk, linux@simtec.co.uk, krzk@kernel.org,
-        alim.akhtar@samsung.com, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, hpa@zytor.com, robert.moore@intel.com,
-        rafael.j.wysocki@intel.com, lenb@kernel.org, 3chas3@gmail.com,
-        laforge@gnumonks.org, arnd@arndb.de, gregkh@linuxfoundation.org,
-        mchehab@kernel.org, tony.luck@intel.com, james.morse@arm.com,
-        rric@kernel.org, linus.walleij@linaro.org, brgl@bgdev.pl,
-        mike.marciniszyn@cornelisnetworks.com,
-        dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca,
-        pali@kernel.org, dmitry.torokhov@gmail.com, isdn@linux-pingi.de,
-        benh@kernel.crashing.org, fbarrat@linux.ibm.com, ajd@linux.ibm.com,
-        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        nico@fluxnic.net, loic.poulain@linaro.org, kvalo@kernel.org,
-        pkshih@realtek.com, bhelgaas@google.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-acpi@vger.kernel.org, devel@acpica.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-input@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
-        wcn36xx@lists.infradead.org, linux-wireless@vger.kernel.org,
-        linux-pci@vger.kernel.org,
-        Benjamin =?utf-8?Q?St=C3=BCrz?= <benni@stuerz.xyz>
-Subject: Re: [PATCH 04/22] x86: Replace comments with C99 initializers
-In-Reply-To: <20220326165909.506926-4-benni@stuerz.xyz>
-References: <20220326165909.506926-1-benni@stuerz.xyz>
- <20220326165909.506926-4-benni@stuerz.xyz>
-Date:   Tue, 29 Mar 2022 01:08:16 +0200
-Message-ID: <87lewtfzfj.ffs@tglx>
+        Mon, 28 Mar 2022 20:44:17 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2082.outbound.protection.outlook.com [40.107.236.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96B93237FC4
+        for <linux-input@vger.kernel.org>; Mon, 28 Mar 2022 17:42:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=f9yBYVgfT/RzsHcp481hC6oh0eJ/XQQckGhXrWwo3N9SP0uNgRCYjctxyJJBz+ni7XJxQNZZjgrb30DyajkmAqw/Xx/rmK+XapIZWtM6u0Ax12L5DebqDTHeT9XWR3yJutLF4j/h/GA+IcbCKnQ/ohu1aWq/O1pXR3QFgCDr33Q7EQWcZ6HH5/zI7uZjc9iBsJWcXgaNLjbI742B+wUF5k6nF55kHq4/5O28PqJLrG7WIBuASVz6BN1dKz/eGHSVJukbtPCFUp0JBBfHA7Vz1Kpu0Q8HOUR0jBjfla9SDPYvRf2SkiSSvouY0KTkf5Jn4UtYBcgLSSU7T5aTOZAVSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2aZt6WZmxvbS79prY3o18n+kfrdftre7d0HwaTnMmR8=;
+ b=B6vECQvf/Xh9TTY/EJBhKUnFYwRyRsEwg0LV1rxGqj3h05QRUtWLauv1InowapqN+43GufqwK8SZEylf8pgxKF//63GM4aYHldXHNAgQ6uyHwyeyxsKEEfjnf4emQLuw7Txo2EO0l0bO3Fkh+BqvbGxGIGnH1MdUF3cyQxWLPDyLlGSl8dFrk/41DYuhxSxS51fzD1dXU5HG/0nSRBRT6YVVsV4BD5bBC8azbjfMl8Za2JcmO6o8Sy9q+oE8RjWxjy/zIeuYAfvoSfteD9rp6zUKKlhei9zHRl0Kc/sB0J3snqhw8r4XB3YnomGhC/HU1CHB81XBCeg8UghObt+LlA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2aZt6WZmxvbS79prY3o18n+kfrdftre7d0HwaTnMmR8=;
+ b=M+hSf7nfYfrSsbn6eRYN3WzxmO4XevKHGzIa8BEmUJ+dZft426wZ5cuBbnkUsASIUx2XSBXTvG+a8jTwcMX5UXpgPZehnFduAamZrIOqKACfCeTFvNiZfJETfaNVxCTc6bIqtVMNBHESI53FJjk7f+cD9H18ydeEOMnNGzO0OLY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=labundy.com;
+Received: from SJ0PR08MB6544.namprd08.prod.outlook.com (2603:10b6:a03:2d3::16)
+ by MN2PR08MB5949.namprd08.prod.outlook.com (2603:10b6:208:11a::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.22; Tue, 29 Mar
+ 2022 00:42:31 +0000
+Received: from SJ0PR08MB6544.namprd08.prod.outlook.com
+ ([fe80::3d7d:ce41:a265:4481]) by SJ0PR08MB6544.namprd08.prod.outlook.com
+ ([fe80::3d7d:ce41:a265:4481%7]) with mapi id 15.20.5102.023; Tue, 29 Mar 2022
+ 00:42:31 +0000
+Date:   Mon, 28 Mar 2022 19:42:25 -0500
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     "Liberado, Selso" <selso.liberado@guerbet.com>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: touchscreen event not rescaling to display resolution
+Message-ID: <20220329004225.GA64746@nixie71>
+References: <DU0PR01MB8928F41059ACB5940834D60D911D9@DU0PR01MB8928.eurprd01.prod.exchangelabs.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DU0PR01MB8928F41059ACB5940834D60D911D9@DU0PR01MB8928.eurprd01.prod.exchangelabs.com>
+X-ClientProxiedBy: SN4PR0501CA0083.namprd05.prod.outlook.com
+ (2603:10b6:803:22::21) To SJ0PR08MB6544.namprd08.prod.outlook.com
+ (2603:10b6:a03:2d3::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: db4a5936-ad51-443b-5f5e-08da111d01e8
+X-MS-TrafficTypeDiagnostic: MN2PR08MB5949:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR08MB59495884115801575DF9BBE4D31E9@MN2PR08MB5949.namprd08.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SUwH6H6NlemYR7JboOjjKljeratW7ZZG3aG8w90SMKeGioI707JHM+ikniKqHUJa2TSBTm3OpMy+EGVByFhs7jW/cH2eTPY9pg1XlwPmxRLy+S3lV9nfViSLNPgiieiP8tRTXx+1nAdCCYWm6UhtThO6raFIQsezYAHps0qHBvW4paVSfRKw0DOxsFrmOIY6mhGzuZ8GP0tLJplV1k2leLssVIsz3wnR8zM6/T0RAqSeU5AvzKsOQvkhUuGjTfPIkVFcGNrDuT6i0CsBT7/l7dpYx7VDYpPPXFzWnHObOQnI+x9dhZ1AcCwNvkUvM4YBwwFYUiT/+ROO5WiG/yuCV6gXSCB9Q5KYZ9SKODGaB55e30QpSZLqKsWRAucdP/0U7uiPEbWZSSHwnm//ZEyb5TtanRaowVzlPrYmuTUE1t5SrrIMpkP2D4rvSA+q7wFylbGc5bBX07NhrSOPJfsiUXCy6kp7b6KuZyPwdqmxwXDQC2TLBoGAOqkhT7YLV5f9int1lnyUHq7MzaLB49bbXim11cnGIRiho8u/UqwqDuBv5Otsb1Xn/PAXvZFCUSmw2uFUj4FR7qYanzpDQ5YQplgcCBAltfn2lzZLD+ogmcOYML8ZHL0EGhoqh5ffOajYfffPm7VzLsJjFgGwefZUw2D5Yyi/+YMhAmLDnwTs3WGAC9FOD9qr/tgzpcJ/4nqjLxsUQSsxoApcM9mmGgh98Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR08MB6544.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(39830400003)(396003)(366004)(376002)(136003)(346002)(33656002)(1076003)(186003)(8936002)(8676002)(66556008)(66476007)(26005)(66946007)(4326008)(316002)(6916009)(33716001)(508600001)(6666004)(2906002)(5660300002)(6506007)(52116002)(86362001)(6486002)(38350700002)(6512007)(9686003)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?B4iIT3QqU+6s2UP+PdRdKEB+4jhGs/oAwsJqq5htM1iVLVL4d/GT9KHgZyaA?=
+ =?us-ascii?Q?AKkIl11dLaa+FjtBUY/Yl1oox4k5lhFK1hX/l8ukK8lgvDeWgKGGn3Q9evxW?=
+ =?us-ascii?Q?bBgfiNxerK/ATjswOi1aTcduPxvgHt4cHcn/KlyYOIx9ZIf584xHqe9C7n/b?=
+ =?us-ascii?Q?Ajy4GwZ8agChWo1Tj0rG49n6DnzxHKRKjdY6w0O3/HXVOcH1sA82WOu346rD?=
+ =?us-ascii?Q?EEZq3HEFdwvg8bKPSlehqhwqX64djfrSxd3bW2ITYa5y6zWxkUXK1pYwl1Y/?=
+ =?us-ascii?Q?vTkOLvVQt0t7999FW5u7NpFutu09VYyryUDX/RUOyAHeGnCUSpIGxPlmcPHt?=
+ =?us-ascii?Q?v986bl6enMOaiKhc85WxvuvHhX5RZtTFy8M6EKACkF7ge/D3DNizfUyzlko6?=
+ =?us-ascii?Q?Ar3xvdSSlew4iaWqAroJ2RKGbE+L12CHgpNpWAwM5mL801AibeJuOUvUuZwi?=
+ =?us-ascii?Q?r72ZCRpx9xi3LjgiURSSNKzyU7xQ0o4EqrqQ1ajbfe5CLSJslnBcJG3um9Uh?=
+ =?us-ascii?Q?shafOLpAjHJBO/qUDrvdHn9bInlgtxe1H4awueugc/NOqzfOg64wiQLpDtGw?=
+ =?us-ascii?Q?ZzHRS7M2LJHTxf29OkWUBL1iDqEMdeG3QHNjbgdIDCcjxXW3aSlEAg8TErg2?=
+ =?us-ascii?Q?Xya/tY/rULjEz8T/voriIWr2MHrd+c+G1CAIRMDjduGIt4gbbF8QDXw9Wy2J?=
+ =?us-ascii?Q?Am8EC9yAPZCeKatxNrLZYlsSSb30kax+n8cUNnSBG/wlHVs3KPXgYjx3W7AS?=
+ =?us-ascii?Q?ww6/a204nrOHVHRyo7LMsfC7M8mGpgGikZhdjOvm9T/EOsLQOpdrg+ZecKGD?=
+ =?us-ascii?Q?pLSt6RjcrhXqkTxBacC+tWSsfAh8CQIeCwS0K6EzkGWfCVCxQA305FZs/P25?=
+ =?us-ascii?Q?r+vRyzfccNnugeAXAA94Gd2hsD9ERRqmnjI1psw87rD6h733bD9sM6eupPht?=
+ =?us-ascii?Q?Y+RYMgVoRgETSSjcRtjsQumwSIKmxHakG8z0cjB6k/AsNdmZyrMBIW0+qVvy?=
+ =?us-ascii?Q?DjiEQeFWfTQr58Rqj1clRhf+Vhq4is3X3iJW68dfydzJ3mxnyA5HRQO0uE5k?=
+ =?us-ascii?Q?wFrfFtFwE06inpivKP1mCGC9lrRuX/OIRt5B9vgKF387epe2kwMIw2L3ri8Q?=
+ =?us-ascii?Q?8u16K0mJDmIvWm6uy6+WUNlIWdtyvkWhD9h4BoinIYICGV0os1erPwuLA3ot?=
+ =?us-ascii?Q?odThpxRR7BLf4mKBefvG6a7u0V0wqUUo8/dy4vHtrkb4gBIW8XHwHxXdlwSl?=
+ =?us-ascii?Q?QLopG9AzNb3tpVqQoYP9KEZ4ZwTxoiuVv1DL77Gb68WmnqB8A1cNkaqS6zhu?=
+ =?us-ascii?Q?FQ2ceekdbHd2rnCj2mM8B/5lgAd8e3wUfP/oyNHM7g8s4omEpgtEplYWznbp?=
+ =?us-ascii?Q?hsGggADiJSuq/iOmukOPmTt4aNxNEzXzB2hWVYzpSTgkvlDbzrP+0ycPHDCT?=
+ =?us-ascii?Q?lvA71ac7LXoUXmnoquAY6kez6FfbZ3vUUT0oBq7WyfJpK2y/X+jo9OHLojWx?=
+ =?us-ascii?Q?oND2aTEUvJBtZuNzQWJ6Q/oTPYz9NkfEfF7bvO5u0nbxAtCL1TFlP6se+Ogm?=
+ =?us-ascii?Q?MlgAihROcdAYoLShLVsLDD06G1PnhwUHHizAxHWLMw2LQTmwSzMJ4vxYcVbl?=
+ =?us-ascii?Q?6CDf5W0ohMcN9ZV48fHWCkKJUCh7v6s5F5zpL7JXxDx1Nqsqpkv9655/cAo6?=
+ =?us-ascii?Q?UAhxqoRHrVYe6pYuWVtKI0j504R2HlA2kM7VEp92KzmoYutrQPx8KeMrktcW?=
+ =?us-ascii?Q?LwuOv/qQMg=3D=3D?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db4a5936-ad51-443b-5f5e-08da111d01e8
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR08MB6544.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2022 00:42:31.1638
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7B1WW8CbvPrt+03NYs1gqvh+RPTcR4f2xOU6htdxugHe9Sm767S027eQTRZ4obAmGu1TQi5Ghu4ReIqdKaebXg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR08MB5949
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Benjamin,
+Hi Selso,
 
-On Sat, Mar 26 2022 at 17:58, Benjamin St=C3=BCrz wrote:
+On Mon, Mar 28, 2022 at 08:52:33AM +0000, Liberado, Selso wrote:
+> Hello,
+> 
+> We have a 120x800 display with a touchscreen panel embedding the Ilitek 2511 chip.
+> Kernel version is 5.14.85
+> We selected the compatible driver building ili210x.c (there are specific function for our chip family).
+> 
+> We modified the dtb file as follow, expecting the touchscreen driver would rescale his coords with the display dimensions.
+> 
+> /* Capacitive touch controller */
+> touchscreen@41{
+> compatible = "ilitek,ili251x";
+> reg = <0x41>;
+> interrupt-parent = <&gpio5>;
+> interrupts = <4 IRQ_TYPE_EDGE_FALLING>;
+> reset-gpios = <&gpio5 5 GPIO_ACTIVE_LOW>;
+> touchscreen-min-x = <0>;
+> touchscreen-min-y = <0>;
+> touchscreen-size-x = <1280>;
+> touchscreen-size-y = <800>;
+> };
+> 
+> When testing with evtest, the driver always returns values that are in the chip resolution range (about 16000).
+> A dirty patch which applies proportional correction is working, meaning this is not about inverted axis or swap issue.
+> We tried the Weston calibration tool and that works.
+> 
+> The 4 latest parameters are processed in a common file input/touchscreen.c. We don't see where those properties are reused, though.
+> Do we use this input properties correctly ? Is an input driver expected to do rescale ?
+> We worked with focaltech and "DT "Polytouch" chips and never needed to apply applicative correction.
+> 
+> Best regards,
+> 
+> 
+> 
 
-> This replaces comments with C99's designated
-> initializers because the kernel supports them now.
+This is expected behavior; the touchscreen helpers merely save each
+driver the trouble of parsing common properties. They do not do any
+processing outside of axis swapping or inversion.
 
-the kernel has used designated array initializers for a very long time
-simply because the kernel did not use pure C89 but C89 with GNU
-extensions, i.e. -std=3Dgnu89, which include designated array
-initializers. GCC supports this since 1998 with =3Dgnu89, so 'now' is
-more than slightly off.
+Some drivers give the appearance of scaling by writing max_x/y back
+to resolution registers in the hardware, if they are available. The
+ili210x driver does not appear to do this.
 
-Explicit value assignment to enum constants are a different story. They
-are neither designated initializers nor new in C99. The following
-paragraph from the standard has not been changed since C89:
-
-   "The identifiers in an enumerator list are declared as constants that
-    have type int and may appear wherever such are permitted. An
-    enumerator with =3D defines its enumeration constant as the value of
-    the constant expression. If the first enumerator has no =3D, the value
-    of its enumeration constant is 0. Each subsequent enumerator with no
-    =3D defines its enumeration constant as the value of the constant
-    expression obtained by adding 1 to the value of the previous
-    enumeration constant. (The use of enumerators with =3D may produce
-    enumeration constants with values that duplicate other values in the
-    same enumeration.)"
-
-Please make sure that your changelogs are factual. Making uninformed
-claims is not helping your cause.
-
-The most important part is the WHY:
-
-    Why is the current code suboptimal?
-
-    Why is the proposed change making it better, more correct, less
-    error prone?
-
-If you can't come up with proper technical answers for these questions
-then why should it be changed?
-
->  enum regnames {
-> -	GDB_AX,			/* 0 */
-> +	GDB_AX =3D 0,
-
-Linear enums without value assignment like here are not a problem at
-all. Simply because they are well defined and well understood. See the
-above quote of the standard.
-
-Whether the explicit assignment is an improvement over the trailing
-comment or not is a matter of taste and preference. There is absolutely
-_zero_ technical advantage in using explicit value assignments in _this_
-case and neither in many other cases of your series.
-
-Also completely removing the comments here loses information:
-
-> -	GDB_PC,			/* 8 also known as eip */
-> -	GDB_PS,			/* 9 also known as eflags */
-
-Can you map _PC to EIP and _PS to EFLAGS? I can't without digging
-deep...
-
->  static const char *const mtrr_strings[MTRR_NUM_TYPES] =3D
->  {
-> -	"uncachable",		/* 0 */
-> -	"write-combining",	/* 1 */
-> -	"?",			/* 2 */
-> -	"?",			/* 3 */
-> -	"write-through",	/* 4 */
-> -	"write-protect",	/* 5 */
-> -	"write-back",		/* 6 */
-> +	[0] =3D "uncachable",
-> +	[1] =3D "write-combining",
-> +	[2] =3D "?",
-> +	[3] =3D "?",
-> +	[4] =3D "write-through",
-> +	[5] =3D "write-protect",
-> +	[6] =3D "write-back",
-
-Again, while not supported in C89, the kernel uses designators in array
-initializers for a very long time...
-
-Linear array initializers like the mtrr strings are not a real problem
-simply because there is no correlation and the code using the array
-still has to make sure that the index into the array is what it expects
-to be the content. Changing it from C89 automatic to explicit C99
-designators does not help there at all.
-
-It becomes a different story if you combine [enum] constants and arrays
-and use the constants in code because then the change to the constants
-will immediately be reflected in the array initializer. I.e. for this
-case:
-
-enum foo {
-     BAR,
-     BAZ,
-     RAB,
-     ZAR,
-};
-
-char foobar[] =3D {
-     "bar",
-     "baz",
-     "rab",
-     "zar",
-};
-
-it makes a difference if someone does:
-
-  enum foo {
-     BAR,
-     BAZ,
-+    MOO,
-     RAB,
-     ZAR,
-  };
-
-because then the related array initializer is obviously out of
-order. With:
-
-char *foobar[] =3D {
-     [BAR] =3D "bar",
-     [BAZ] =3D "baz",
-     [RAB] =3D "rab",
-     [ZAR] =3D "zar",
-};
-
-the existing values are still in the same place, just the newly added
-value is a NULL pointer. It also does not matter when the fixup for the
-missing array entry becomes:
-
-  char *foobar[] =3D {
-     [BAR] =3D "bar",
-     [BAZ] =3D "baz",
-     [RAB] =3D "rab",
-     [ZAR] =3D "zar",
-+    [MOO] =3D "moo",=20=20=20=20=20
-  };
-
-because the compiled result is still in enum order. While doing
-
-  char foobar[] =3D {
-     "bar",
-     "baz",
-     "rab",
-     "zar",
-+    "moo",
-  };
-
-would be blantantly wrong. See?
-
-But that does not apply to any of your proposed changes.
-
-So you really need to look at things and not just throw a mechanical
-change scheme at it, which results even in failures like reported by
-the 0-day robot against patch 10/22.
-
-That said, I'm not completely opposed to those changes, but you really
-have to come up with good reasons why they make sense aside of
-cosmetical reasons.
-
-Btw, the really important change regarding initializers between C89 and
-C99 was the ability to initialize struct members explicitly.
-
-In C89 the only way to initialize a struct was
-
-   =3D { a, b, c, d }
-
-which was way more error prone than the enum/array initializers. The
-dangerous part or C89 struct initializers are changes to the struct
-unless the change of the struct is actually triggering a type
-mismatch.
-
-But even that needs some serious inspection whether there is confusion
-potential or not. The harmless example is a file local:
-
-struct foo {
-       unsigned int      id;
-       unsigned int      flags;
-};
-
-and the C89 style initializer:
-
-static struct foo[] {
-       { ID_A, 0x01 },
-       { ID_B, 0x02 },
-       { ID_C, 0x01 },
-};
-
-which has a very low confusion potential simply because it's scope is
-file local and well defined and unlikely to change.
-
-A globally used structure is a different problem especially when it
-becomes necessary to insert a new struct member in the middle instead of
-appending it, changing the order, removing a member... That ends up in a
-hard to diagnose disaster with C89 style unnamed initializers pretty
-fast.
-
-Ideally C89 style unnamed struct initializers should not be used at all,
-but again it's a matter of common sense and justification whether it's
-worth to change it just because.
-
-Thanks,
-
-        tglx
+Kind regards,
+Jeff LaBundy
