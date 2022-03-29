@@ -2,56 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9263A4EAF59
-	for <lists+linux-input@lfdr.de>; Tue, 29 Mar 2022 16:36:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 797364EAF6D
+	for <lists+linux-input@lfdr.de>; Tue, 29 Mar 2022 16:41:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233916AbiC2OiU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Mar 2022 10:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54462 "EHLO
+        id S232479AbiC2OnU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Mar 2022 10:43:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238049AbiC2OiL (ORCPT
+        with ESMTP id S229978AbiC2OnU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Mar 2022 10:38:11 -0400
-Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1428FA8896;
-        Tue, 29 Mar 2022 07:36:27 -0700 (PDT)
+        Tue, 29 Mar 2022 10:43:20 -0400
+Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1156F33A10;
+        Tue, 29 Mar 2022 07:41:36 -0700 (PDT)
 Received: from localhost (localhost.localdomain [127.0.0.1])
-        by srv6.fidu.org (Postfix) with ESMTP id 7FA4BC800A4;
-        Tue, 29 Mar 2022 16:36:26 +0200 (CEST)
-Authentication-Results: srv6.fidu.org (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)"
-        header.d=tuxedocomputers.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-        tuxedocomputers.com; h=content-transfer-encoding:mime-version
-        :references:in-reply-to:x-mailer:message-id:date:date:subject
-        :subject:from:from; s=default; t=1648564586; x=1650378987; bh=Rd
-        8Bc6Kb9mDAmsJdHx74gZeh2BziNM100nppXvjroww=; b=lCvqsnU+7CibU02EG0
-        rjFCLD170ztd3gMa8rSzvnEHFSTob8mI17ajYsqD8Z+UNBCiGN6ZvEe42O88Fp9D
-        hYJuLNE2NEkyEJTnWADmFCg4Ec21aqL4qQm0TiGgiwjBzg+AyNklHC4wYsaHbI5v
-        n77jKHdZPrDZ1oxU6Kvxvl/7E=
+        by srv6.fidu.org (Postfix) with ESMTP id 9299DC800A7;
+        Tue, 29 Mar 2022 16:41:35 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
 Received: from srv6.fidu.org ([127.0.0.1])
-        by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
-        with LMTP id Bj1qlosy3ox9; Tue, 29 Mar 2022 16:36:26 +0200 (CEST)
-Received: from wsembach-tuxedo.fritz.box (host-212-18-30-247.customer.m-online.net [212.18.30.247])
+        by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id RKTB3nxXVfKn; Tue, 29 Mar 2022 16:41:35 +0200 (CEST)
+Received: from [192.168.178.30] (host-212-18-30-247.customer.m-online.net [212.18.30.247])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
         (Authenticated sender: wse@tuxedocomputers.com)
-        by srv6.fidu.org (Postfix) with ESMTPA id F3B17C800A8;
-        Tue, 29 Mar 2022 16:36:25 +0200 (CEST)
-From:   Werner Sembach <wse@tuxedocomputers.com>
+        by srv6.fidu.org (Postfix) with ESMTPSA id 23110C8008A;
+        Tue, 29 Mar 2022 16:41:35 +0200 (CEST)
+Message-ID: <139e98e1-5405-6df7-17c3-a3accc5e8de0@tuxedocomputers.com>
+Date:   Tue, 29 Mar 2022 16:41:34 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v5] input/i8042: Rework quirk tables
+Content-Language: en-US
 To:     dmitry.torokhov@gmail.com, tiwai@suse.de, mpdesouza@suse.com,
         arnd@arndb.de, hdegoede@redhat.com, samuel@cavoj.net,
-        wse@tuxedocomputers.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 4/4] input/i8042: Add TUXEDO devices to i8042 quirk tables
-Date:   Tue, 29 Mar 2022 16:36:22 +0200
-Message-Id: <20220329143622.31394-5-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220329143622.31394-1-wse@tuxedocomputers.com>
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20220329143622.31394-1-wse@tuxedocomputers.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+From:   Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <20220329143622.31394-1-wse@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,173 +52,32 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-A lot of modern Clevo barebones have touchpad and/or keyboard issues after
-suspend fixable with nomux + reset + noloop + nopnp. Luckily, none of them
-have an external PS/2 port so this can safely be set for all of them.
+Am 29.03.22 um 16:36 schrieb Werner Sembach:
+> Revision 5 with some fixes based on feedback by Hans de Goede.
+>
+> The 1st patch is minor housekeeping.
+>
+> The 2nd patch merges the tables together. Minor fixes in 5th revision and
+> no more duplication of ASUS devices
+>
+> The 3rd patch add optional debug output to see which quirks get applied. In
+> 5th revision this no longer breaks compilation on non x86 platforms.
+>
+> The 4th patch adds a list of Clevo devices that need multiple quirks.
+> With the reworked table they don't need to be inserted multiple times now,
+> which was required in v1 and v2 of this patch.
+>
+> I also included the extra quirk for the Clevo NS7xMU, which was a separate
+> patch before.
+>
+> The added Clevo devices are now only identified by their board name as this
+> is the only somewhat reliable string that might not be changed by resellers.
+>
+>
+By accident I sent this patchset except the first patch tagged with v4 also. Just want to add this to avoid confusion
+and sorry for the spam.
 
-I'm not entirely sure if every device listed really needs all four quirks,
-but after testing and production use. No negative effects could be
-observed when setting all four.
+(For some reason selecting 'n' in git send-email only discards the first mail and does not ask for following patches ...
+I have to check my git settings)
 
-The list is quite massive as neither the TUXEDO nor the Clevo dmi strings
-have been very consistent historically. I tried to keep the list as short
-as possible without risking on missing an affected device.
-
-This is revision 3. The Clevo N150CU barebone is still removed as it might
-have problems with the fix and needs further investigations. The
-SchenkerTechnologiesGmbH System-/Board-Vendor string variations are
-added. This is now based in the quirk table refactor. This now also
-includes the additional noaux flag for the NS7xMU.
-
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-Cc: stable@vger.kernel.org
----
- drivers/input/serio/i8042-x86ia64io.h | 125 ++++++++++++++++++++++++++
- 1 file changed, 125 insertions(+)
-
-diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
-index 5c0eb5594fb1..a59c6aba7c75 100644
---- a/drivers/input/serio/i8042-x86ia64io.h
-+++ b/drivers/input/serio/i8042-x86ia64io.h
-@@ -1025,6 +1025,25 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		},
- 		.driver_data = (void *)(SERIO_QUIRK_NOMUX)
- 	},
-+	/*
-+	 * A lot of modern Clevo barebones have touchpad and/or keyboard issues
-+	 * after suspend fixable with nomux + reset + noloop + nopnp. Luckily,
-+	 * none of them have an external PS/2 port so this can savely be set for
-+	 * all of them. These two are based on a Clevo design, but have the
-+	 * board_name changed.
-+	 */
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "TUXEDO"),
-+			DMI_MATCH(DMI_BOARD_NAME, "AURA1501"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "TUXEDO"),
-+			DMI_MATCH(DMI_BOARD_NAME, "EDUBOOK1502"),
-+		},
-+	},
- 	{
- 		/* Mivvy M310 */
- 		.matches = {
-@@ -1054,6 +1073,112 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		},
- 		.driver_data = (void *)(SERIO_QUIRK_NOLOOP)
- 	},
-+	/*
-+	 * A lot of modern Clevo barebones have touchpad and/or keyboard issues
-+	 * after suspend fixable with nomux + reset + noloop + nopnp. Luckily,
-+	 * none of them have an external PS/2 port so this can savely be set for
-+	 * all of them.
-+	 * Clevo barebones come with board_vendor and/or system_vendor set to
-+	 * either the very generic string "Notebook" and/or a different value
-+	 * for each individual reseller. The only somewhat universal way to
-+	 * identify them is by board_name.
-+	 */
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "LAPQC71A"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-+					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "LAPQC71B"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-+					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "N140CU"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-+					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "N141CU"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-+					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "NH5xAx"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-+					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "NL5xRU"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-+					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+	},
-+	/*
-+	 * At least one modern Clevo barebone has the touchpad connected both
-+	 * via PS/2 and i2c interface. This causes a race condition between the
-+	 * psmouse and i2c-hid driver. Since the full capability of the touchpad
-+	 * is available via the i2c interface and the device has no external
-+	 * PS/2 port, it is save to just ignore all ps2 mouses here to avoid
-+	 * this issue. The know affected device is the
-+	 * TUXEDO InfinityBook S17 Gen6 / Clevo NS70MU which comes with one of
-+	 * the two different dmi strings below. NS50MU is not a typo!
-+	 */
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "NS50MU"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOAUX | SERIO_QUIRK_NOMUX |
-+					SERIO_QUIRK_RESET_ALWAYS | SERIO_QUIRK_NOLOOP |
-+					SERIO_QUIRK_NOPNP)
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "NS50_70MU"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOAUX | SERIO_QUIRK_NOMUX |
-+					SERIO_QUIRK_RESET_ALWAYS | SERIO_QUIRK_NOLOOP |
-+					SERIO_QUIRK_NOPNP)
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "NJ50_70CU"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-+					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "PB50_70DFx,DDx"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-+					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "X170SM"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-+					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "X170KM-G"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
-+					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+	},
- 	{ }
- };
- 
--- 
-2.25.1
 
