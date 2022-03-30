@@ -2,113 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C352C4EC82D
-	for <lists+linux-input@lfdr.de>; Wed, 30 Mar 2022 17:25:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 358784ECC0D
+	for <lists+linux-input@lfdr.de>; Wed, 30 Mar 2022 20:25:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348044AbiC3P1c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Mar 2022 11:27:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46946 "EHLO
+        id S1350418AbiC3S04 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Mar 2022 14:26:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346876AbiC3P1c (ORCPT
+        with ESMTP id S1350493AbiC3S0e (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Mar 2022 11:27:32 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0321219B04D;
-        Wed, 30 Mar 2022 08:25:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id ADDDCB81BAB;
-        Wed, 30 Mar 2022 15:25:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29D05C340EE;
-        Wed, 30 Mar 2022 15:25:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648653944;
-        bh=evEpNcpIO1FCjUfsvj9LcG6TI+SZQZAE/AJCOITs1PY=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=gdXh5pSgjZqp/sNRDahqhb8DKSZf/bJyeL5BrEd3TVnwKz4WxcwsUC9ssYDFOgMVL
-         JxuGAlopLHOSDgI3tb8oOEmspgmrJlQ5gwfRDGX5YBabKVd7ArM8tkcZBBBlCz/jSQ
-         WdsZJxAHpwGkRrym34k0H2A5I3T6kBjphjCWPSi6CqvtNL+247N7008knGH0MESB/z
-         LWf/jHCNCgWYjF77B/NL7CRktmHlj9bgZWIi9Ax/+pcrMiF5rXVKe1kVxGZCQOCKEM
-         vA6OrZ/2nC1T53lOqCKAFHqFIhn0iRXo0c/W1PwaDn5cKgl44cEcLdY4kABEYYCF8b
-         aTMtSnUAwLsyQ==
-Date:   Wed, 30 Mar 2022 17:25:40 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Mingxuan Xiang <mx_xiang@hust.edu.cn>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Rafi Rubin <rafi@seas.upenn.edu>,
-        Dongliang Mu <dzm91@hust.edu.cn>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: hid-ntrig: fix the error handling code in
- ntrig_probe
-In-Reply-To: <20220313150237.1214062-1-mx_xiang@hust.edu.cn>
-Message-ID: <nycvar.YFH.7.76.2203301722301.24795@cbobk.fhfr.pm>
-References: <20220313150237.1214062-1-mx_xiang@hust.edu.cn>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Wed, 30 Mar 2022 14:26:34 -0400
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D631349FB9
+        for <linux-input@vger.kernel.org>; Wed, 30 Mar 2022 11:23:49 -0700 (PDT)
+Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-d39f741ba0so22892150fac.13
+        for <linux-input@vger.kernel.org>; Wed, 30 Mar 2022 11:23:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=6PnxJaVdYHTfEoSreao3ANO+XeqxY/p/4dxKSObIH1I=;
+        b=U1oUia1Thamt6Z7oWm6PGNKOk9RXK6Jv76DGrI1cLcYRcY5/d1Tt5qepQRdZm6lsyq
+         RBa/xpJM28ShOu5ibphzafHjPKptRC4OMeOVco0xYKihrCNFhnaGQOBDSvUdgHWgE3gf
+         cWTbx+dPO2nv/wujOZrrbxfJpePUzp7QZ1RCloUPxJhGXTvBKUziPieC1LSkK8oSaB+t
+         E85QJNBGnQK8HE8wei7Zq5jQSpeI5JY8kzofCGcJSUHLIHQXWsBy6ta+brl9WPLZzyWA
+         2jPBZlOFyxLxFI8awBJCcZtcLmSyu35IRMr8cJ72zb2pokIUUqe6EUB9pKUwVKwbq4my
+         ou5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=6PnxJaVdYHTfEoSreao3ANO+XeqxY/p/4dxKSObIH1I=;
+        b=NKwGueQMvJI5jK9Du0wDaUtM5cKKyjZaIu1fdLT3D/w2y5kJI3tLNgFm9T1Ma4yFzB
+         GLRTl8anx4GsEq/21LFma1+v7PMcEU5or3myr9lXLx/bnwcyLxlP9igZ7R+mV2iW/8Ip
+         c6blvr8vKeVG/n+6Ytyf28iK+IXbDNcVxqz38D8cpYUedo4gmXolvOq+Sj/vFnRXzbj6
+         p5i4gyZJqWd7o3r8a3iXNFprAWHybz9MtQKatrl4FSX2d9R3lEsIBVY9c/puKq6d251N
+         uCktJPSIsF+E4cOwlVpiRyx3YD5Gl2VNvYLG5nXeb+r/kp0U6Aspw1/bEtgDaP96DIol
+         40PA==
+X-Gm-Message-State: AOAM532EZTamfwnbtaADb7CkDtiFEOfFln9LGPhVO1v8Q5WRu4OlgVzq
+        hey7rpd+KFJHywZ+iZSrQtahwkKimRmaBLRSgty6Ke6v00CY
+X-Google-Smtp-Source: ABdhPJzkTl+tJbylc9dRvis6ZhULbTl7j4ynIkLgm4b/Lu4YSrf6PCWjehKBvofPJCmWKHUKJGD0xbE01MjL0VC50Jo=
+X-Received: by 2002:a17:90b:3143:b0:1c7:5cee:3948 with SMTP id
+ ip3-20020a17090b314300b001c75cee3948mr852445pjb.140.1648664618224; Wed, 30
+ Mar 2022 11:23:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Reply-To: isabellasayouba0@gmail.com
+Sender: 040stherchurch@gmail.com
+Received: by 2002:a05:6a20:691d:b0:76:6cf5:d552 with HTTP; Wed, 30 Mar 2022
+ 11:23:37 -0700 (PDT)
+From:   Mrs Isabella Sayouba <isabellasayouba0@gmail.com>
+Date:   Wed, 30 Mar 2022 18:23:37 +0000
+X-Google-Sender-Auth: _Xe1kByDkvq-Dn04BagO7gok_qM
+Message-ID: <CAAzQq761QVaWKiKernxpKjqNCK+6V9mRKHBnOcqF8rXJO9Y+aA@mail.gmail.com>
+Subject: =?UTF-8?B?44GC44GE44GV44Gk44CC?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_99,BAYES_999,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 13 Mar 2022, Mingxuan Xiang wrote:
-
-> If sysfs_create_group in ntrig_probe fails, sysfs_remove_group in
-> ntrig_remove would hit WARN().
-> 
-> Fix this by returning err in ntrig_probe rather than ignoring the
-> failure of sysfs_create_group.
-> 
-> CC: Dongliang Mu <dzm91@hust.edu.cn>
-> Fixes: eab32f5f6557 ("HID: ntrig: add sysfs access to filter parameters")
-> Signed-off-by: Mingxuan Xiang <mx_xiang@hust.edu.cn>
-> ---
->  drivers/hid/hid-ntrig.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/hid-ntrig.c b/drivers/hid/hid-ntrig.c
-> index b5d26f03fe6b..f49427815d98 100644
-> --- a/drivers/hid/hid-ntrig.c
-> +++ b/drivers/hid/hid-ntrig.c
-> @@ -951,10 +951,14 @@ static int ntrig_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  
->  	ret = sysfs_create_group(&hdev->dev.kobj,
->  			&ntrig_attribute_group);
-> -	if (ret)
-> +	if (ret) {
->  		hid_err(hdev, "cannot create sysfs group\n");
-> +		goto err_sysfs_create;
-> +	}
->  
->  	return 0;
-> +err_sysfs_create:
-> +	hid_hw_stop(hdev);
->  err_free:
->  	kfree(nd);
-
-Thanks for the fix.
-
-However, I believe that the sole fact that sysfs_create_group() failed 
-should not be a reason for bailing the probe completely (rendering the 
-device completely dysfunctional), given the fact that the probe otherwise 
-succeeded and this just means that the parameters can't be tuned in 
-runtime.
-
-So just taking a note whether we do actually have sysfs attributes created 
-on probe and freeing them only conditionally on remove() sounds like a bit 
-less drastic aproach to me.
-
-Could you please adjust the fix and resubmit?
-
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+44GC44GE44GV44Gk44CCDQoNCua2meOCkua1geOBl+OBquOBjOOCieOBk+OBruODoeODvOODq+OC
+kuabuOOBhOOBpuOBhOOBvuOBmeOAguengeOBruebruOBq+OBr+Wkp+OBjeOBquaCsuOBl+OBv+OB
+jOOBguOCiuOBvuOBmeOAguengeOBruWQjeWJjeOBr+OCpOOCtuODmeODqeODu+OCteODqOOCpuOD
+kOOBleOCk+OBp+OBmeOAguODgeODpeODi+OCuOOCouWHuui6q+OBp+OAgeODluODq+OCreODiuOD
+leOCoeOCveOBrueXhemZouOBi+OCiemAo+e1oeOCkuWPluOCiuOBvuOBmeOAguengeOBr+OBguOB
+quOBn+OBq+W/g+OCkumWi+OBhOOBpuaEn+WLleOBl+OBn+OBruOBp+OAgeOBguOBquOBn+OBq+ip
+seOBmeS7peWkluOBq+mBuOaKnuiCouOBr+OBguOCiuOBvuOBm+OCk+OAguengeOBr+OAgTIwMTHl
+ubTjgavkuqHjgY/jgarjgovliY3jgavjg5bjg6vjgq3jg4rjg5XjgqHjgr3jga7jg4Hjg6Xjg4vj
+grjjgqLlpKfkvb/jgag55bm06ZaT5YON44GE44Gm44GE44GfU2F5b3ViYQ0KQnJvd27msI/jgajn
+tZDlqZrjgZfjgb7jgZfjgZ/jgILlrZDkvpvjgarjgZfjgacxMeW5tOmWk+e1kOWpmuOBl+OBn+OA
+gg0KDQrlvbzjga/jgZ/jgaPjgZ815pel6ZaT57aa44GE44Gf55+t44GE55eF5rCX44Gu5b6M44Gn
+5q2744Gr44G+44GX44Gf44CC5b2844Gu5q275b6M44CB56eB44Gv5YaN5ama44GX44Gq44GE44GT
+44Go44Gr5rG644KB44G+44GX44Gf44CC5Lqh44GP44Gq44Gj44Gf5aSr44GM55Sf44GN44Gm44GE
+44Gf44Go44GN44CB5b2844Gv57eP6aGNODUw5LiH44OJ44Or44KS6aCQ44GR44G+44GX44Gf44CC
+DQrvvIg4MDDkuIc1MDAw44OJ44Or77yJ6KW/44Ki44OV44Oq44Kr44Gu44OW44Or44Kt44OK44OV
+44Kh44K944Gu6aaW6YO944Ov44Ks44OJ44Kl44Kw44O844Gu6YqA6KGM44Gn44CC54++5Zyo44CB
+44GT44Gu44GK6YeR44Gv44G+44Gg6YqA6KGM44Gr44GC44KK44G+44GZ44CC5b2844Gv44GT44Gu
+44GK6YeR44KS44OW44Or44Kt44OK44OV44Kh44K944Gu6Ymx5qWt44GL44KJ44Gu6YeR44Gu6Ly4
+5Ye644Gr5Yip55So44Gn44GN44KL44KI44GG44Gr44GX44G+44GX44Gf44CCDQoNCuacgOi/keOA
+geengeOBruWMu+iAheOBr+engeOBjOeZjOOBqOiEs+WNkuS4reOBruWVj+mhjOOBruOBn+OCgeOB
+qzfjg7bmnIjplpPjga/ntprjgYvjgarjgYTjgaDjgo3jgYbjgajnp4HjgavoqIDjgYTjgb7jgZfj
+gZ/jgILnp4HjgpLmnIDjgoLmgqnjgb7jgZvjgabjgYTjgovjga7jga/ohLPljZLkuK3jga7nl4Xm
+sJfjgafjgZnjgILnp4Hjga7nirbmhYvjgpLnn6XjgaPjgZ/jga7jgafjgIHnp4Hjga/jgZPjga7j
+gYrph5HjgpLjgYLjgarjgZ/jgavmuKHjgZfjgabjgIHmgbXjgb7jgozjgarjgYTkurrjgIXjga7k
+uJboqbHjgpLjgZnjgovjgZPjgajjgavjgZfjgb7jgZfjgZ/jgILjgYLjgarjgZ/jga/jgZPjga7j
+gYrph5HjgpLnp4HjgYzjgZPjgZPjgafmjIfnpLrjgZnjgovmlrnms5XjgafliKnnlKjjgZnjgovj
+gafjgZfjgofjgYbjgILnp4Hjga/jgYLjgarjgZ/jgavjgYLjgarjgZ/jga7lgIvkurrnmoTjgark
+vb/nlKjjga7jgZ/jgoHjgavnt4/jgYrph5Hjga4zMOODkeODvOOCu+ODs+ODiOOCkuWPluOBo+OB
+puassuOBl+OBhOOBp+OBmeOAguOBiumHkeOBrjcw77yF44Gv56eB44Gu5ZCN5YmN44Gn5a2k5YWQ
+6Zmi44KS5bu644Gm44CB6YCa44KK44Gu6LKn44GX44GE5Lq644CF44KS5Yqp44GR44KL44Gf44KB
+44Gr5L2/44GG44Gn44GX44KH44GG44CC56eB44Gv5a2k5YWQ44Go44GX44Gm6IKy44Gh44G+44GX
+44Gf44GM44CB56We44Gu5a6244KS57at5oyB44GZ44KL44Gf44KB44Gg44GR44Gr44CB5a625peP
+44Gr44Gv6Kqw44KC44GE44G+44Gb44KT44CC44GT44Gu55eF5rCX44GM56eB44KS44Go44Gm44KC
+6Ium44GX44KB44Gf44Gu44Gn44CB56We44GM56eB44Gu572q44KS6LWm44GX44CB5qW95ZyS44Gn
+56eB44Gu6a2C44KS5Y+X44GR5YWl44KM44KL44KI44GG44Gr44GT44KM44KS44GX44Gm44GE44KL
+44Gu44Gn44GZ44CCDQoNCui/lOS/oeOCkuWPl+OBkeWPluOCiuasoeesrOOAgeODluODq+OCreOD
+iuODleOCoeOCveOBrumKgOihjOOBrumAo+e1oeWFiOOCkuOBiuefpeOCieOBm+OBl+OBvuOBmeOA
+guOBvuOBn+OAgemKgOihjOOBruePvuWcqOOBruWPl+WPluS6uuOBp+OBguOCi+OBk+OBqOOCkuio
+vOaYjuOBmeOCi+aoqemZkOabuOOCkueZuuihjOOBmeOCi+OCiOOBhumKgOihjOmVt+OBq+aMh+ek
+uuOBl+OBvuOBmeOAguengeOBjOOBk+OBk+OBp+i/sOOBueOBn+OCiOOBhuOBq+OBguOBquOBn+OB
+jOOBneOCjOOBq+W/nOOBmOOBpuihjOWLleOBmeOCi+OBk+OBqOOCkuengeOBq+S/neiovOOBl+OB
+puOBj+OBoOOBleOBhOOAgg0KDQrjgqTjgrbjg5njg6njg7vjgrXjg6jjgqbjg5DlpKvkurrjgYvj
+gonjgIINCg==
