@@ -2,89 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B84C64EF8CE
-	for <lists+linux-input@lfdr.de>; Fri,  1 Apr 2022 19:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F02E54EF919
+	for <lists+linux-input@lfdr.de>; Fri,  1 Apr 2022 19:41:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244022AbiDARWC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 1 Apr 2022 13:22:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52500 "EHLO
+        id S1350559AbiDARmB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 1 Apr 2022 13:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243038AbiDARWC (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Apr 2022 13:22:02 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15FC2204A81
-        for <linux-input@vger.kernel.org>; Fri,  1 Apr 2022 10:20:12 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id m3so6077941lfj.11
-        for <linux-input@vger.kernel.org>; Fri, 01 Apr 2022 10:20:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=E67IK+Jvrwv6W81l4GfGc24c3hT0PbTkiVqWHmGtK9I=;
-        b=FcZ8X+BsiTK5mr0/rPhVGjHTnv+cNiWxHv+L3sbH7dgqr9bBSCw25deZIzoeBz07mB
-         EVFSxUbwVBcdN25WgvxcMiJ/alnt3etC/vAYbk4WOtzxOoaSMieAoITM47AtdYw1hLfr
-         bkcaDG1yUYfc/w5DD4X3V5XPpRkYFdG2QljC0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E67IK+Jvrwv6W81l4GfGc24c3hT0PbTkiVqWHmGtK9I=;
-        b=57jmPv8/XyamvhyBHsK7fSqdxtLR5r/4LdKGjFgG7/NET1yDJpe+6tNKO1a9Vo2t8K
-         6LmzrnOy/IMvEI5Cd+o4MqKz8rWHxqDi0fX+xYAhZRHLkSDMCUPS7/qlxwqhTaSp/4cP
-         BRHa8v/ImXb4l4VBpUmCa5tL6AglMzj34XZ8SplbTcMyvpnPidQWxbcCoOmiNV3opVaL
-         X1fDQX7nsm3au2+6V6s2DR6asVbX57wTC+IR66JY0uA/UDCvk7vjH9gZURbEWRn8SB3G
-         DELpT78vL5vm/D66C+9f6KBCgazrnY6AZQLgl353Li0UbhaQdWU2Os+szSueX+sjxGwT
-         NSVA==
-X-Gm-Message-State: AOAM531NNA0a281cd1Fahyv8UIWQVuB5VViw+J8As9bpBgMUlSlQ2rec
-        A+1ig1qqDE+OZG8/fYgQFV3Yy8XR9JU0QekCBN8=
-X-Google-Smtp-Source: ABdhPJyFA9leXnEnf7mimPIHJCplDYojmxgrQp7Y6WDvRNRa8oH9Kzot1KUduSLQtQBkCVlDxNae1Q==
-X-Received: by 2002:a05:6512:1689:b0:44a:e652:99f1 with SMTP id bu9-20020a056512168900b0044ae65299f1mr342456lfb.467.1648833609406;
-        Fri, 01 Apr 2022 10:20:09 -0700 (PDT)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
-        by smtp.gmail.com with ESMTPSA id s2-20020a197702000000b0044a693649b9sm290955lfc.131.2022.04.01.10.20.08
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Apr 2022 10:20:08 -0700 (PDT)
-Received: by mail-lj1-f174.google.com with SMTP id 17so4770594ljw.8
-        for <linux-input@vger.kernel.org>; Fri, 01 Apr 2022 10:20:08 -0700 (PDT)
-X-Received: by 2002:a2e:543:0:b0:24b:56c:74a7 with SMTP id 64-20020a2e0543000000b0024b056c74a7mr1694187ljf.152.1648833608533;
- Fri, 01 Apr 2022 10:20:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <YkZ+K2Gtt75y1/O+@google.com>
-In-Reply-To: <YkZ+K2Gtt75y1/O+@google.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 1 Apr 2022 10:19:52 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgdff1hwOzT+SHzKMGbr+3zc553WU5zvNNbZLdT1TsTNg@mail.gmail.com>
-Message-ID: <CAHk-=wgdff1hwOzT+SHzKMGbr+3zc553WU5zvNNbZLdT1TsTNg@mail.gmail.com>
+        with ESMTP id S1350535AbiDARmA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Apr 2022 13:42:00 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 821DD14B843;
+        Fri,  1 Apr 2022 10:40:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1C010B82596;
+        Fri,  1 Apr 2022 17:40:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D6B00C34111;
+        Fri,  1 Apr 2022 17:40:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648834808;
+        bh=LELeOPMIv3Y9rm+P2mk1AfoUiVYONStwe1gfrdazd6g=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=TSPpFXTar+G+MRzGkE42Tc3aUHxT+Z8kxMtT2iTSiLmrYRByPNpx42i5Zz9u0tvIu
+         4wPFv1X2DdhtzLeVLBLGzGds/zkV7KucWqd6KoEy9y4zIt+yHaon/VhnnLGCMN2n4L
+         tQwaj82cmBFbrM5yesKLICCs/ErG41N/Vi9/4mGqqTjpAVEL39HbI74Nj8siHxSpiu
+         bKBvvyEReXZUJ0I8Pe6Qzp2GQhuSkx1N/y6dPNrC51nOVm4MfLFU2/QY4jt9Q1P+G+
+         D2Ac37JeATsC9Bft7mTAqf1kCWViYtZQdOaMcHVuyiTHhp1ChaJTwZn/VUHlPa6uxb
+         5zfW+nax6aSJQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C46B2E6BBCA;
+        Fri,  1 Apr 2022 17:40:08 +0000 (UTC)
 Subject: Re: [git pull] Input updates for v5.18-rc0
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <YkZ+K2Gtt75y1/O+@google.com>
+References: <YkZ+K2Gtt75y1/O+@google.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <YkZ+K2Gtt75y1/O+@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+X-PR-Tracked-Commit-Id: 8b188fba75195745026e11d408e4a7e94e01d701
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: aa240ee7883487201d0c6cc537ec1c4cd6cb2a9e
+Message-Id: <164883480879.11835.8693561316842820598.pr-tracker-bot@kernel.org>
+Date:   Fri, 01 Apr 2022 17:40:08 +0000
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Mar 31, 2022 at 9:23 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
->         git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+The pull request you sent on Thu, 31 Mar 2022 21:23:07 -0700:
 
-I've been watching _almost_ all the pull requests I get this merge
-window be nice signed tags.
+> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
 
-Yours is one of the fairly few ones missing a signature.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/aa240ee7883487201d0c6cc537ec1c4cd6cb2a9e
 
-I've pulled it (kernel.org and all that), but I'd like to get it to
-that "everything" stage.
+Thank you!
 
-I can see your pgp key in the kernel.org key repository, I just don't
-think I've ever gotten a signed tag from you.
-
-           Linus
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
