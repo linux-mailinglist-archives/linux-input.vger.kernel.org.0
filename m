@@ -2,59 +2,193 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4982F4EFCAB
-	for <lists+linux-input@lfdr.de>; Sat,  2 Apr 2022 00:12:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC9404EFC92
+	for <lists+linux-input@lfdr.de>; Sat,  2 Apr 2022 00:06:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241291AbiDAWOC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 1 Apr 2022 18:14:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60718 "EHLO
+        id S236823AbiDAWIo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 1 Apr 2022 18:08:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235945AbiDAWOB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Apr 2022 18:14:01 -0400
-X-Greylist: delayed 447 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 01 Apr 2022 15:12:10 PDT
-Received: from endrift.com (endrift.com [173.255.198.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49EAC1E31A0
-        for <linux-input@vger.kernel.org>; Fri,  1 Apr 2022 15:12:10 -0700 (PDT)
-Received: from [192.168.0.23] (unknown [50.106.20.54])
-        by endrift.com (Postfix) with ESMTPSA id 3960BA26C
-        for <linux-input@vger.kernel.org>; Fri,  1 Apr 2022 15:04:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=endrift.com; s=2020;
-        t=1648850682; bh=FTHDq+DfBHWFl+EtBDFvzsL7zy8T3fQNbQLgqb603Mg=;
-        h=Date:To:From:Subject:From;
-        b=bSJQ64SC0k/qXsDFpoczN60NUe11vLW4xHfYL4VO7SG2VYuupuWLy8t/fjJ2Yb9JQ
-         zLjrMYXaCWz7ASmG2rFyODDxhk/ZtZR2hcnC5kMbI32bBttOsGVVjTLWp67dg0baeM
-         nI7nmjZDfIkYxK4/KgyBxoDajJlx3IGHqSLn12eznp3IeQArEtj1DuhSSJUnLXbrqM
-         Fd0D+qR3aWFsF3dbZVuz5kPIL+dfMW6hStMcAWFVUdKhjPDSBSHdbl2zkbGPaEdXtF
-         0+Tvndyl3rZNSiJJSQVTyyvchlsKql/82lL8p2+n8f8pDChiJw9GZgr3Zmq1BFAONX
-         vEIFRr4m+BZoA==
-Message-ID: <b5f229c3-26e5-4fe1-aecb-504aa3c38bee@endrift.com>
-Date:   Fri, 1 Apr 2022 15:04:41 -0700
+        with ESMTP id S235963AbiDAWIo (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Apr 2022 18:08:44 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F04701B8FDC
+        for <linux-input@vger.kernel.org>; Fri,  1 Apr 2022 15:06:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648850813; x=1680386813;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MFpcRCHbvp0wZQnO08aR9Q/VHcBGCE27dwmm1G6a0Mo=;
+  b=YaPuF0qvuXBvMAxv2/VVw7ayYPLOtpahkF8Mw2hyy6MNGZBKfmaoLq9D
+   YLj5Wxi/1NdDaUVCA554vn9dhC8YmkXJK3x4JrbpC2FJ4+lrpqVDza2dF
+   AMcOZb4tVrGDbQT5nd8cIcMPqbdIBtQCmPNkImZESkcm61PPbwLD5YBOu
+   sQLaXWj9btDbBmrVttqRBgf4gR+ChfwlhOKZ4hez13MaVRaJKwLhMXU/a
+   kk+QgrvM0KltIeerR2u0txJA3FZPhPHK9gmlOhMBPRF8+ni2h3OfFwYkH
+   yGsXNyARnrjcprvVJtQ0/1XnZvnmQFRVnY+cCo34eiqkOW9VVOtADX4+R
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10304"; a="260226084"
+X-IronPort-AV: E=Sophos;i="5.90,228,1643702400"; 
+   d="scan'208";a="260226084"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2022 15:06:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,228,1643702400"; 
+   d="scan'208";a="522933696"
+Received: from lkp-server02.sh.intel.com (HELO 3231c491b0e2) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 01 Apr 2022 15:06:52 -0700
+Received: from kbuild by 3231c491b0e2 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1naPPv-0001YO-Gc;
+        Fri, 01 Apr 2022 22:06:51 +0000
+Date:   Sat, 02 Apr 2022 06:06:26 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 8b188fba75195745026e11d408e4a7e94e01d701
+Message-ID: <62477762.50QxWW8vBKXFPxmE%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Content-Language: en-US
-To:     linux-input@vger.kernel.org
-From:   Vicki Pfau <vi@endrift.com>
-Subject: Disabling HID reports while hidraw node is open
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_05,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 8b188fba75195745026e11d408e4a7e94e01d701  Revert "Input: clear BTN_RIGHT/MIDDLE on buttonpads"
 
-I have been working on a project that does its own report processing on various game controllers by opening the hidraw node; however, at the same time, the drivers keep generating reports on the regular hid nodes in /dev/input. In general, this is not a problem, but some controllers, like the DualShock 4, present a mouse and/or keyboard input. In games, that mouse input can cause problems if the game expects the touchpad to be purely available as raw input and not also a discrete cursor that it doesn't even know is from the same source.
+elapsed time: 968m
 
-I've seen that the hid-steam driver has a check for if the hidraw is opened and unregisters the other hid nodes if that happens, but the more I look into implementing that approach in the hid-sony driver, the more it becomes clear that this goes against the grain of how hid drivers are expected to work: that driver creates a second, "fake" hid device that it then exposes only as a hidraw, prevents the real device from appearing as a hidraw, and uses an ll driver to tell when it's been opened.
+configs tested: 110
+configs skipped: 3
 
-This seems like a heavy-handed kludge at best, as it goes pretty far out of the way of what these APIs are intended for, and I was wondering if there's a better approach, or if a better approach should be implemented. While I know that X.org and/or Wayland can probably be manually told to stop paying attention to these hid devices, it seems like some sort of ioctl to the hidraw may be preferable in this case, though no such ioctl exists at the moment. Possibly another approach would be to be able to tell when a hidraw is opened without a massive workaround so the driver can decide what to do.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Either way, porting that kludge to another driver seems like perpetuating an anti-pattern, and I'm not really fond of that idea.
+gcc tested configs:
+arm                              allyesconfig
+arm                                 defconfig
+arm64                            allyesconfig
+arm                              allmodconfig
+arm64                               defconfig
+i386                          randconfig-c001
+mips                           xway_defconfig
+sh                          lboxre2_defconfig
+arm                           h5000_defconfig
+powerpc                       holly_defconfig
+sh                   rts7751r2dplus_defconfig
+sh                           se7619_defconfig
+xtensa                  audio_kc705_defconfig
+arm                        clps711x_defconfig
+arm                            zeus_defconfig
+sh                          r7780mp_defconfig
+sh                           se7705_defconfig
+sh                          polaris_defconfig
+m68k                         apollo_defconfig
+sh                          rsk7269_defconfig
+arm                        keystone_defconfig
+x86_64                        randconfig-c001
+arm                  randconfig-c002-20220331
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+nios2                               defconfig
+arc                              allyesconfig
+alpha                               defconfig
+csky                                defconfig
+nios2                            allyesconfig
+alpha                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+parisc64                            defconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+s390                             allyesconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                                defconfig
+i386                             allyesconfig
+sparc                               defconfig
+sparc                            allyesconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+arc                  randconfig-r043-20220331
+x86_64                        randconfig-a002
+x86_64                        randconfig-a004
+x86_64                        randconfig-a006
+riscv                            allmodconfig
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                          rv32_defconfig
+riscv                            allyesconfig
+riscv                               defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                                  kexec
+x86_64                          rhel-8.3-func
+x86_64                               rhel-8.3
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
 
-Vicki
+clang tested configs:
+powerpc              randconfig-c003-20220331
+x86_64                        randconfig-c007
+s390                 randconfig-c005-20220331
+arm                  randconfig-c002-20220331
+riscv                randconfig-c006-20220331
+mips                 randconfig-c004-20220331
+i386                          randconfig-c001
+mips                        bcm63xx_defconfig
+arm                         shannon_defconfig
+arm                       imx_v4_v5_defconfig
+arm                        vexpress_defconfig
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a016
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+hexagon              randconfig-r045-20220331
+hexagon              randconfig-r041-20220331
+riscv                randconfig-r042-20220331
+s390                 randconfig-r044-20220331
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
