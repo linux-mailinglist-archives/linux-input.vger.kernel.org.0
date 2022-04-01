@@ -2,101 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38F114EE7A5
-	for <lists+linux-input@lfdr.de>; Fri,  1 Apr 2022 07:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C39294EE97E
+	for <lists+linux-input@lfdr.de>; Fri,  1 Apr 2022 10:06:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245007AbiDAFMe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 1 Apr 2022 01:12:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57710 "EHLO
+        id S233096AbiDAIIN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 1 Apr 2022 04:08:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245001AbiDAFMd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Apr 2022 01:12:33 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1859D1E8CC9;
-        Thu, 31 Mar 2022 22:10:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
-        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=V32+zQcO407Oigns62fencqAWiQUbjG3dkYmA/bzFgs=; b=ZfJXByG0vD8l+JFtQ4yjotGAuY
-        xAgedtPzZTd8OUi1dzB10Si101BKwG0IYWbUCcMjsIiNuwNVenxVCR/KUkSyd/oDjtfDtwUtY+Mn9
-        tnE9E6ckU/QHuJU1mNFHjKGmNRoYXc7KQCx4T17fUppasjeBeiMsnvEfkkgFKrt2669XSgfwMt26e
-        EII86iOdGu6w/fzgHJVnCqnoDNPCV3PpARH3CmgKBBJACtqcFtJloyHytdjvZpcXSGPAB9I2RnLLa
-        pVcCVcwCoVfPWnVPAvAUEZBYbQyavK/AJMzt4IuTrmRktkBZkumKIQqDVXR1iP+MBwNx5+iddah/E
-        9mEWW45w==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1na9YU-004W8V-1i; Fri, 01 Apr 2022 05:10:38 +0000
-Date:   Thu, 31 Mar 2022 22:10:38 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Benjamin =?iso-8859-1?Q?St=FCrz?= <benni@stuerz.xyz>,
-        Andrew Lunn <andrew@lunn.ch>,
-        linux-atm-general@lists.sourceforge.net,
-        linux-ia64@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        linux-pci@vger.kernel.org, Robert Moore <robert.moore@intel.com>,
-        Harald Welte <laforge@gnumonks.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, wcn36xx@lists.infradead.org,
-        Ping-Ke Shih <pkshih@realtek.com>,
-        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        linux-edac@vger.kernel.org,
-        dennis.dalessandro@cornelisnetworks.com,
-        "open list:HFI1 DRIVER" <linux-rdma@vger.kernel.org>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Russell King - ARM Linux <linux@armlinux.org.uk>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Ingo Molnar <mingo@redhat.com>,
-        3chas3@gmail.com, linux-input <linux-input@vger.kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Len Brown <lenb@kernel.org>,
-        mike.marciniszyn@cornelisnetworks.com,
-        Robert Richter <rric@kernel.org>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Kalle Valo <kvalo@kernel.org>,
-        "open list:LINUX FOR POWERPC PA SEMI PWRFICIENT" 
-        <linuxppc-dev@lists.ozlabs.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux@simtec.co.uk,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
-        Karsten Keil <isdn@linux-pingi.de>,
-        Tony Luck <tony.luck@intel.com>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-wireless@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        James Morse <james.morse@arm.com>,
-        netdev <netdev@vger.kernel.org>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH 05/22] acpica: Replace comments with C99 initializers
-Message-ID: <YkaJTh+Bhf+oPQB7@infradead.org>
-References: <20220326165909.506926-1-benni@stuerz.xyz>
- <20220326165909.506926-5-benni@stuerz.xyz>
- <CAHp75VeTXMAueQc_c0Ryj5+a8PrJ7gk-arugiNnxtAm03x7XTg@mail.gmail.com>
+        with ESMTP id S229605AbiDAIIM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Apr 2022 04:08:12 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2701C267590;
+        Fri,  1 Apr 2022 01:06:23 -0700 (PDT)
+Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1naCIX-0001XJ-Is; Fri, 01 Apr 2022 10:06:21 +0200
+Message-ID: <048ef583-4a8f-96b0-68a3-45ab9ec8d6df@leemhuis.info>
+Date:   Fri, 1 Apr 2022 10:06:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VeTXMAueQc_c0Ryj5+a8PrJ7gk-arugiNnxtAm03x7XTg@mail.gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+From:   Thorsten Leemhuis <regressions@leemhuis.info>
+To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Cc:     Jiri Kosina <jkosina@suse.cz>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+        Marco <rodomar705@protonmail.com>
+Subject: Bug 215744 - input from the accelerometer disappeared, regression on
+ amd_sfh on kernel 5.17
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1648800383;b40de995;
+X-HE-SMSGID: 1naCIX-0001XJ-Is
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -104,14 +46,65 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Mar 27, 2022 at 10:59:54PM +0300, Andy Shevchenko wrote:
-> On Sat, Mar 26, 2022 at 7:39 PM Benjamin Stürz <benni@stuerz.xyz> wrote:
-> >
-> > This replaces comments with C99's designated
-> > initializers because the kernel supports them now.
-> 
-> Does it follow the conventions which are accepted in the ACPI CA project?
+Hi, this is your Linux kernel regression tracker.
 
-Why would ACPI CA be allowed to make up it's own conventions?  And as
-you might imply not allow using a very useful and more than 20 year old
-C feature?  This kind of BS need to stop.
+I noticed a regression report in bugzilla.kernel.org that afaics nobody
+acted upon since it was reported about a week ago, that's why I decided
+to forward it to the lists and all people that seemed to be relevant
+here. It looks to me like this is something for Basavaraj, as it seems
+to be caused by	b300667b33b2 ("HID: amd_sfh: Disable the interrupt for
+all command"). But I'm not totally sure, I only looked briefly into the
+details. Or was this discussed somewhere else already? Or even fixed?
+
+To quote from https://bugzilla.kernel.org/show_bug.cgi?id=215744 :
+
+>  Marco 2022-03-25 15:22:19 UTC
+> 
+> After updating to 5.17, the input from the accelerometer disappeared, completely. No devices available from IIO tree. First bad commit causing it is https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c?id=b300667b33b2b5a2c8e5f8f22826befb3d7f4f2b. Reverting this and the the other two on top fixed this. Tried to not revert only the above mentioned commit, but it's still not working.
+> 
+> Marco.
+
+Anyway, to get this tracked:
+
+#regzbot introduced: b300667b33b2b5a2c8e5f8f22826befb3d7f4
+#regzbot from: Marco <rodomar705@protonmail.com>
+#regzbot title: input: hid: input from the accelerometer disappeared due
+to changes to amd_sfh
+#regzbot link: https://bugzilla.kernel.org/show_bug.cgi?id=215744
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+
+P.S.: As the Linux kernel's regression tracker I'm getting a lot of
+reports on my table. I can only look briefly into most of them and lack
+knowledge about most of the areas they concern. I thus unfortunately
+will sometimes get things wrong or miss something important. I hope
+that's not the case here; if you think it is, don't hesitate to tell me
+in a public reply, it's in everyone's interest to set the public record
+straight.
+
+-- 
+Additional information about regzbot:
+
+If you want to know more about regzbot, check out its web-interface, the
+getting start guide, and the references documentation:
+
+https://linux-regtracking.leemhuis.info/regzbot/
+https://gitlab.com/knurd42/regzbot/-/blob/main/docs/getting_started.md
+https://gitlab.com/knurd42/regzbot/-/blob/main/docs/reference.md
+
+The last two documents will explain how you can interact with regzbot
+yourself if your want to.
+
+Hint for reporters: when reporting a regression it's in your interest to
+CC the regression list and tell regzbot about the issue, as that ensures
+the regression makes it onto the radar of the Linux kernel's regression
+tracker -- that's in your interest, as it ensures your report won't fall
+through the cracks unnoticed.
+
+Hint for developers: you normally don't need to care about regzbot once
+it's involved. Fix the issue as you normally would, just remember to
+include 'Link:' tag in the patch descriptions pointing to all reports
+about the issue. This has been expected from developers even before
+regzbot showed up for reasons explained in
+'Documentation/process/submitting-patches.rst' and
+'Documentation/process/5.Posting.rst'.
