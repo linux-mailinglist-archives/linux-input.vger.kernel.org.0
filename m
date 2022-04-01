@@ -2,55 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1C1E4EF0B6
-	for <lists+linux-input@lfdr.de>; Fri,  1 Apr 2022 16:39:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 606E64EF80D
+	for <lists+linux-input@lfdr.de>; Fri,  1 Apr 2022 18:37:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347943AbiDAOga (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 1 Apr 2022 10:36:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40548 "EHLO
+        id S235894AbiDAQiw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 1 Apr 2022 12:38:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347576AbiDAOdM (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Apr 2022 10:33:12 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C70C224D9BA;
-        Fri,  1 Apr 2022 07:29:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S1350072AbiDAQh6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Apr 2022 12:37:58 -0400
+X-Greylist: delayed 406 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 01 Apr 2022 09:15:28 PDT
+Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B064EDFD74
+        for <linux-input@vger.kernel.org>; Fri,  1 Apr 2022 09:15:28 -0700 (PDT)
+Received: from [IPv6:2001:8a0:f24a:dd00:f991:27cb:4afd:8a41] (unknown [IPv6:2001:8a0:f24a:dd00:f991:27cb:4afd:8a41])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 651B561CB1;
-        Fri,  1 Apr 2022 14:29:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C342EC3410F;
-        Fri,  1 Apr 2022 14:29:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648823389;
-        bh=8puUcxcsAgziHU04aioiE2ywk84f9b43kRquxeUisbs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fxnr3xgAr0NpN2wbxyolnC6Q0OATeG76OZlW4SEQddwXY0fdvYq1vrg6yell85+kf
-         Y7pn+trPLQFLFWKs2/RWltXn7dB/9HVXY5gMU4l2dI/H1WOyGrMickwfMopZiGOHb9
-         nu4DZdkz3sgJs+9ZwYKcxBHVUVtTRJjzlfkbfjI7ZZOyGTBVDSr8wfMjp2wEvmTZiJ
-         8/yjtiNPPeQRReAb1F+vyj/Sp3wYyBsxtlkOktWnoGzXvpvJI0MiIxpa9uH/Zj5PBA
-         2///O3KmlBFpPLCyTZbGtLNeVuwFREt5KLDTOqQjvcRIsn3Q7rNuTEYXpG0ZU4o4JD
-         ZdTL0fCfG5llQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 076/149] HID: apple: Report Magic Keyboard 2021 with fingerprint reader battery over USB
-Date:   Fri,  1 Apr 2022 10:24:23 -0400
-Message-Id: <20220401142536.1948161-76-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220401142536.1948161-1-sashal@kernel.org>
-References: <20220401142536.1948161-1-sashal@kernel.org>
+        by mail.archlinux.org (Postfix) with ESMTPSA id 20B84E8DEB0;
+        Fri,  1 Apr 2022 16:08:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
+        s=dkim-rsa; t=1648829307;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GBYsoaBoWFPAVx/gvKxFpq/fWgJt+5n0dyx9b6qC8a4=;
+        b=H8qz0TpG2csxsYDLfLIoGTNTGaVMcg/TrubpNVV9LQkKTfxW/4hDCDpK2dgOniURbJn6B7
+        QAMOkLbQS+3TPTaCntyIEEe3AbdEtRRS/qjWuVtPFP9ZvG7xXPtjpP3nD335T9xTDhUTkk
+        sto0+foWKAW5qtSXWDiIuDIRHGHzGX0yRynSzoBXj1FoFR3Wh7opW4yZ+h8m0J1PKeoG8S
+        4jegzZB3yJ2PZgT3SABiyJqIlxPfN37EqJy6tYeaFq8mWURsXDnZos+DeyTkpcwfWh9syU
+        CE1SaCPIRObBGedqEYE8fGwZVMnSso+gw9+3EHXglBiNCpjV+wAHxaM/9khbQO5cnvKC1r
+        lfLPYRHDwRwtoEGnzumjeo5EHe2VVTOrD1SAJZhx2xD43GkBjn1Ul7FemYXLrULqkJgK/f
+        zcaXhdUVNkC0TcbpwmFYk2yjpiAzw8puYhNXuBeMBKQVFTqYm8HxS483fOg0gE90BtfkTC
+        FblIqPkBG0mRMq5A2N51qx1tnxeqZAFai4P+LyEfh5XmzVmezOGxG07Dm4xJj78TYf0yLn
+        w142saKAHdVPLUQfp0i9OvCn26kWEqMRI4B29uRfnTunz+WIdjURUx7wVMRTa8epnL8Rui
+        pNCPjNBppgRus+dB74O/ZvoILHDX327fNIxL01OhER/zaSra03Q9k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
+        s=dkim-ed25519; t=1648829307;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GBYsoaBoWFPAVx/gvKxFpq/fWgJt+5n0dyx9b6qC8a4=;
+        b=1wJm2OK9RFFvpPwrC97q3oeoQ3d7ULHZk0RQvHGrJvL4hp9P+vSl1DYCr+rC44xKgBRnAJ
+        IkdLZ0JHLnZIGLCA==
+Message-ID: <a2ccd37e20b210a1a35188c949d5658314a22c86.camel@archlinux.org>
+Subject: Re: Battery indication for Logitech devices
+From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
+To:     Marcos Alano <marcoshalano@gmail.com>,
+        HID CORE LAYER <linux-input@vger.kernel.org>
+Cc:     Nestor Lopez Casado <nlopezcasad@logitech.com>
+In-Reply-To: <CAO3Us=nJbw6haHuCg6ZTwamggRFfKuTncg2r9XwDxjv0-ocZtw@mail.gmail.com>
+References: <CAO3Us=nJbw6haHuCg6ZTwamggRFfKuTncg2r9XwDxjv0-ocZtw@mail.gmail.com>
+Organization: Archlinux
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-eb3joOeiyFDAKqShC1me"
+Date:   Fri, 01 Apr 2022 17:08:04 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Evolution 3.42.4 
+Authentication-Results: mail.archlinux.org;
+        auth=pass smtp.auth=ffy00 smtp.mailfrom=lains@archlinux.org
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,47 +71,55 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: José Expósito <jose.exposito89@gmail.com>
 
-[ Upstream commit cbfcfbfc384890a062a5d0cc4792df094a6cc7a8 ]
+--=-eb3joOeiyFDAKqShC1me
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Like the Apple Magic Keyboard 2015, when connected over USB, the 2021
-version with fingerprint reader registers 2 different interfaces. One of
-them is used to report the battery level.
+On Fri, 2022-04-01 at 06:44 -0300, Marcos Alano wrote:
+> Hello fellow developers!
+>=20
+> We are having a discussion about a question and I think we can get
+> help here. The discussion is
+> https://gitlab.freedesktop.org/upower/upower/-/issues/166#note_1322354
+> The problem is when we use a Logitech device, we get two discrepant
+> information about battery level, one from Bluetooth stack and another
+> one from HID++ module.
+> The question here is: what is the most precise information, so we can
+> deduplicate but keep the indicator precise?
+>=20
+> Thank you.
+>=20
 
-However, unlike when connected over Bluetooth, the battery level is not
-reported automatically and it is required to fetch it manually.
+Hi Marcos,
 
-Add the APPLE_RDESC_BATTERY quirk to fix the battery report descriptor
-and manually fetch the battery level.
+I think the battery reported by the HID++ driver should be more accurate in
+certain devices.
 
-Tested with the ANSI variant of the keyboard with and without numpad.
+CCing Nestor as he may be able to clarify this further.
 
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hid/hid-apple.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Cheers,
+Filipe La=C3=ADns
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 18de4ccb0fb2..590376d776a1 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -752,11 +752,11 @@ static const struct hid_device_id apple_devices[] = {
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021),
- 		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
--		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK | APPLE_RDESC_BATTERY },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
- 		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021),
--		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK | APPLE_RDESC_BATTERY },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021),
- 		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 
--- 
-2.34.1
+--=-eb3joOeiyFDAKqShC1me
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAmJHI2MACgkQ+JPGdIFq
+qV1QCA//f6p/Fv39ZsVOLlYWW0gJk7yC08lcdFIqJvph1uxOXFDo34BdhNovjRVl
+25rEoBEI3IUmVZX5wkGWb1frWwZEbmAoTuMvdn+rzCR+MnHOaQUfSiwCkpC5Yh39
+ulvhQmjVpnj76cWuza8hkhgHMmvzywpUK1RYoKL1GLjJcasWyr8LK/t5urVOP266
+/D8/3Zs21PnYijXPOxWQUx6mGaO0bRWlw30NvLVb//oS8oSlybw8fdT3jjvNreJ0
+JC/lFCjmlL+W19g8jzrgoLI1WlN3hFBaVTTwGXe09izq7TjTU1HGe5gORHV75pg7
+e3WvInAufihrnFHGlWrL0Mk/y7y+O1sM8TeRMtiz80B3RUX/zMSd0TAyPcIsFBgq
+NaOHFiOamw9ZemwMTZDYgjaBB5bFZU2uA6E1eNhaN92ol52s6UX8R98Ns3eVudw2
+neI/yvNB/uGIqicAIJlRvpIjPqhvvhKZ+97sx4ahLLn2v66d0aVUEJgd9CASaVwQ
+RFBz6Em7gvTogpHJ66bXEjKKNC/sbLPt31b8iiSlw03QUWduC/1I/I7QeTjrX6S5
+OiyIGQuuJXoWaz6omg2c/cMeBUmFhDvVa5QbX4pS+SzJ2zI+oG/oyXWENpD2TEaf
+hgo4PhTLkQKHrw553rYFaUyO9CCZs6iRMJ2AccNw5mAe5isrLjw=
+=TYEO
+-----END PGP SIGNATURE-----
+
+--=-eb3joOeiyFDAKqShC1me--
