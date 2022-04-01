@@ -2,124 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 606E64EF80D
-	for <lists+linux-input@lfdr.de>; Fri,  1 Apr 2022 18:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B84C64EF8CE
+	for <lists+linux-input@lfdr.de>; Fri,  1 Apr 2022 19:20:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235894AbiDAQiw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 1 Apr 2022 12:38:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41186 "EHLO
+        id S244022AbiDARWC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 1 Apr 2022 13:22:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350072AbiDAQh6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Apr 2022 12:37:58 -0400
-X-Greylist: delayed 406 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 01 Apr 2022 09:15:28 PDT
-Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B064EDFD74
-        for <linux-input@vger.kernel.org>; Fri,  1 Apr 2022 09:15:28 -0700 (PDT)
-Received: from [IPv6:2001:8a0:f24a:dd00:f991:27cb:4afd:8a41] (unknown [IPv6:2001:8a0:f24a:dd00:f991:27cb:4afd:8a41])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.archlinux.org (Postfix) with ESMTPSA id 20B84E8DEB0;
-        Fri,  1 Apr 2022 16:08:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-        s=dkim-rsa; t=1648829307;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GBYsoaBoWFPAVx/gvKxFpq/fWgJt+5n0dyx9b6qC8a4=;
-        b=H8qz0TpG2csxsYDLfLIoGTNTGaVMcg/TrubpNVV9LQkKTfxW/4hDCDpK2dgOniURbJn6B7
-        QAMOkLbQS+3TPTaCntyIEEe3AbdEtRRS/qjWuVtPFP9ZvG7xXPtjpP3nD335T9xTDhUTkk
-        sto0+foWKAW5qtSXWDiIuDIRHGHzGX0yRynSzoBXj1FoFR3Wh7opW4yZ+h8m0J1PKeoG8S
-        4jegzZB3yJ2PZgT3SABiyJqIlxPfN37EqJy6tYeaFq8mWURsXDnZos+DeyTkpcwfWh9syU
-        CE1SaCPIRObBGedqEYE8fGwZVMnSso+gw9+3EHXglBiNCpjV+wAHxaM/9khbQO5cnvKC1r
-        lfLPYRHDwRwtoEGnzumjeo5EHe2VVTOrD1SAJZhx2xD43GkBjn1Ul7FemYXLrULqkJgK/f
-        zcaXhdUVNkC0TcbpwmFYk2yjpiAzw8puYhNXuBeMBKQVFTqYm8HxS483fOg0gE90BtfkTC
-        FblIqPkBG0mRMq5A2N51qx1tnxeqZAFai4P+LyEfh5XmzVmezOGxG07Dm4xJj78TYf0yLn
-        w142saKAHdVPLUQfp0i9OvCn26kWEqMRI4B29uRfnTunz+WIdjURUx7wVMRTa8epnL8Rui
-        pNCPjNBppgRus+dB74O/ZvoILHDX327fNIxL01OhER/zaSra03Q9k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-        s=dkim-ed25519; t=1648829307;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GBYsoaBoWFPAVx/gvKxFpq/fWgJt+5n0dyx9b6qC8a4=;
-        b=1wJm2OK9RFFvpPwrC97q3oeoQ3d7ULHZk0RQvHGrJvL4hp9P+vSl1DYCr+rC44xKgBRnAJ
-        IkdLZ0JHLnZIGLCA==
-Message-ID: <a2ccd37e20b210a1a35188c949d5658314a22c86.camel@archlinux.org>
-Subject: Re: Battery indication for Logitech devices
-From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
-To:     Marcos Alano <marcoshalano@gmail.com>,
-        HID CORE LAYER <linux-input@vger.kernel.org>
-Cc:     Nestor Lopez Casado <nlopezcasad@logitech.com>
-In-Reply-To: <CAO3Us=nJbw6haHuCg6ZTwamggRFfKuTncg2r9XwDxjv0-ocZtw@mail.gmail.com>
-References: <CAO3Us=nJbw6haHuCg6ZTwamggRFfKuTncg2r9XwDxjv0-ocZtw@mail.gmail.com>
-Organization: Archlinux
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-eb3joOeiyFDAKqShC1me"
-Date:   Fri, 01 Apr 2022 17:08:04 +0100
+        with ESMTP id S243038AbiDARWC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Apr 2022 13:22:02 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15FC2204A81
+        for <linux-input@vger.kernel.org>; Fri,  1 Apr 2022 10:20:12 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id m3so6077941lfj.11
+        for <linux-input@vger.kernel.org>; Fri, 01 Apr 2022 10:20:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=E67IK+Jvrwv6W81l4GfGc24c3hT0PbTkiVqWHmGtK9I=;
+        b=FcZ8X+BsiTK5mr0/rPhVGjHTnv+cNiWxHv+L3sbH7dgqr9bBSCw25deZIzoeBz07mB
+         EVFSxUbwVBcdN25WgvxcMiJ/alnt3etC/vAYbk4WOtzxOoaSMieAoITM47AtdYw1hLfr
+         bkcaDG1yUYfc/w5DD4X3V5XPpRkYFdG2QljC0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=E67IK+Jvrwv6W81l4GfGc24c3hT0PbTkiVqWHmGtK9I=;
+        b=57jmPv8/XyamvhyBHsK7fSqdxtLR5r/4LdKGjFgG7/NET1yDJpe+6tNKO1a9Vo2t8K
+         6LmzrnOy/IMvEI5Cd+o4MqKz8rWHxqDi0fX+xYAhZRHLkSDMCUPS7/qlxwqhTaSp/4cP
+         BRHa8v/ImXb4l4VBpUmCa5tL6AglMzj34XZ8SplbTcMyvpnPidQWxbcCoOmiNV3opVaL
+         X1fDQX7nsm3au2+6V6s2DR6asVbX57wTC+IR66JY0uA/UDCvk7vjH9gZURbEWRn8SB3G
+         DELpT78vL5vm/D66C+9f6KBCgazrnY6AZQLgl353Li0UbhaQdWU2Os+szSueX+sjxGwT
+         NSVA==
+X-Gm-Message-State: AOAM531NNA0a281cd1Fahyv8UIWQVuB5VViw+J8As9bpBgMUlSlQ2rec
+        A+1ig1qqDE+OZG8/fYgQFV3Yy8XR9JU0QekCBN8=
+X-Google-Smtp-Source: ABdhPJyFA9leXnEnf7mimPIHJCplDYojmxgrQp7Y6WDvRNRa8oH9Kzot1KUduSLQtQBkCVlDxNae1Q==
+X-Received: by 2002:a05:6512:1689:b0:44a:e652:99f1 with SMTP id bu9-20020a056512168900b0044ae65299f1mr342456lfb.467.1648833609406;
+        Fri, 01 Apr 2022 10:20:09 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
+        by smtp.gmail.com with ESMTPSA id s2-20020a197702000000b0044a693649b9sm290955lfc.131.2022.04.01.10.20.08
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Apr 2022 10:20:08 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id 17so4770594ljw.8
+        for <linux-input@vger.kernel.org>; Fri, 01 Apr 2022 10:20:08 -0700 (PDT)
+X-Received: by 2002:a2e:543:0:b0:24b:56c:74a7 with SMTP id 64-20020a2e0543000000b0024b056c74a7mr1694187ljf.152.1648833608533;
+ Fri, 01 Apr 2022 10:20:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Evolution 3.42.4 
-Authentication-Results: mail.archlinux.org;
-        auth=pass smtp.auth=ffy00 smtp.mailfrom=lains@archlinux.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <YkZ+K2Gtt75y1/O+@google.com>
+In-Reply-To: <YkZ+K2Gtt75y1/O+@google.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 1 Apr 2022 10:19:52 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgdff1hwOzT+SHzKMGbr+3zc553WU5zvNNbZLdT1TsTNg@mail.gmail.com>
+Message-ID: <CAHk-=wgdff1hwOzT+SHzKMGbr+3zc553WU5zvNNbZLdT1TsTNg@mail.gmail.com>
+Subject: Re: [git pull] Input updates for v5.18-rc0
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Thu, Mar 31, 2022 at 9:23 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+>         git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
 
---=-eb3joOeiyFDAKqShC1me
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I've been watching _almost_ all the pull requests I get this merge
+window be nice signed tags.
 
-On Fri, 2022-04-01 at 06:44 -0300, Marcos Alano wrote:
-> Hello fellow developers!
->=20
-> We are having a discussion about a question and I think we can get
-> help here. The discussion is
-> https://gitlab.freedesktop.org/upower/upower/-/issues/166#note_1322354
-> The problem is when we use a Logitech device, we get two discrepant
-> information about battery level, one from Bluetooth stack and another
-> one from HID++ module.
-> The question here is: what is the most precise information, so we can
-> deduplicate but keep the indicator precise?
->=20
-> Thank you.
->=20
+Yours is one of the fairly few ones missing a signature.
 
-Hi Marcos,
+I've pulled it (kernel.org and all that), but I'd like to get it to
+that "everything" stage.
 
-I think the battery reported by the HID++ driver should be more accurate in
-certain devices.
+I can see your pgp key in the kernel.org key repository, I just don't
+think I've ever gotten a signed tag from you.
 
-CCing Nestor as he may be able to clarify this further.
-
-Cheers,
-Filipe La=C3=ADns
-
---=-eb3joOeiyFDAKqShC1me
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAmJHI2MACgkQ+JPGdIFq
-qV1QCA//f6p/Fv39ZsVOLlYWW0gJk7yC08lcdFIqJvph1uxOXFDo34BdhNovjRVl
-25rEoBEI3IUmVZX5wkGWb1frWwZEbmAoTuMvdn+rzCR+MnHOaQUfSiwCkpC5Yh39
-ulvhQmjVpnj76cWuza8hkhgHMmvzywpUK1RYoKL1GLjJcasWyr8LK/t5urVOP266
-/D8/3Zs21PnYijXPOxWQUx6mGaO0bRWlw30NvLVb//oS8oSlybw8fdT3jjvNreJ0
-JC/lFCjmlL+W19g8jzrgoLI1WlN3hFBaVTTwGXe09izq7TjTU1HGe5gORHV75pg7
-e3WvInAufihrnFHGlWrL0Mk/y7y+O1sM8TeRMtiz80B3RUX/zMSd0TAyPcIsFBgq
-NaOHFiOamw9ZemwMTZDYgjaBB5bFZU2uA6E1eNhaN92ol52s6UX8R98Ns3eVudw2
-neI/yvNB/uGIqicAIJlRvpIjPqhvvhKZ+97sx4ahLLn2v66d0aVUEJgd9CASaVwQ
-RFBz6Em7gvTogpHJ66bXEjKKNC/sbLPt31b8iiSlw03QUWduC/1I/I7QeTjrX6S5
-OiyIGQuuJXoWaz6omg2c/cMeBUmFhDvVa5QbX4pS+SzJ2zI+oG/oyXWENpD2TEaf
-hgo4PhTLkQKHrw553rYFaUyO9CCZs6iRMJ2AccNw5mAe5isrLjw=
-=TYEO
------END PGP SIGNATURE-----
-
---=-eb3joOeiyFDAKqShC1me--
+           Linus
