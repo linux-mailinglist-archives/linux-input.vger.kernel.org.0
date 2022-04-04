@@ -2,46 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9885A4F0F74
-	for <lists+linux-input@lfdr.de>; Mon,  4 Apr 2022 08:35:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AABF54F0FD9
+	for <lists+linux-input@lfdr.de>; Mon,  4 Apr 2022 09:11:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377476AbiDDGhJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 4 Apr 2022 02:37:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43122 "EHLO
+        id S1355612AbiDDHMm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 4 Apr 2022 03:12:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346384AbiDDGhI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 4 Apr 2022 02:37:08 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D69013D54;
-        Sun,  3 Apr 2022 23:35:12 -0700 (PDT)
-Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1nbGIu-0001O9-25; Mon, 04 Apr 2022 08:35:09 +0200
-Message-ID: <6fe27103-5e35-5f16-d213-29bd71412f5b@leemhuis.info>
-Date:   Mon, 4 Apr 2022 08:35:04 +0200
+        with ESMTP id S1352972AbiDDHMk (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 4 Apr 2022 03:12:40 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3201381BA
+        for <linux-input@vger.kernel.org>; Mon,  4 Apr 2022 00:10:44 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id c42so2444617edf.3
+        for <linux-input@vger.kernel.org>; Mon, 04 Apr 2022 00:10:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=logitech.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=H2CZdT84VHrboBWhhSsCcDw/5boHuP9rACBsldjOPCk=;
+        b=Oj3/9bjQea1oKTHwHHBJzAoELsbG4oZbG6e0l/ZCjnV5WKvGOzoEnJNdXHI75w0tdq
+         kd7oMBwWPM8HRn6z2pIBmDr/PMEroLLhNnFZMDcJq3tkrf25YO2ivfL5NVrUnt1XuR/j
+         T3xBB5KIgXnMJybg71uzwf7NYmzGM8J9DLOi1Fh4baWPuwN60F1QccKk3ighyRgBKjBY
+         Z+ZVWv6AR+vXBrhJXUiVAICOqmQepvvjyIpEYWespBPeAuWkTyToU2EhJ+2+iCmmAcuy
+         cofxuIg/gR2c6aWxuHAq5QP7YGE+eIx0iuC78REUMKUcu0K+qHK9X3olgjP269XPoK1u
+         OOnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=H2CZdT84VHrboBWhhSsCcDw/5boHuP9rACBsldjOPCk=;
+        b=JeSO+tnM/OSuHib9Ft2XUFoi/Jc91Bt+36yd4ufMKVVTr29MZPKUq8LHOGAqTq1C44
+         XlT1ccvPWwjTVrgl1agrCEMSqC2CslLhd5uXM++1zba1gbDY6ZVMp8X1un/qJboGZ2f9
+         jflMLMOO4jB7V2mt6oA6IX3GwgCoNWi4CeGtwb1j8CiycPKCSud6wuSMEwX80G7NR4z5
+         xjbRdsP23YHI6RR1J3vew+vA/aR51rUkXdlW7Gi8Of6/T3/iWK/MtbmocO1OPSZpTRg1
+         K74bvKEAd5KKOzw0unZjFrexlT+DJ7Wpf1NcZr7+EIjHpC2Ll582KCnJnK6ai5tG8g4B
+         y+4A==
+X-Gm-Message-State: AOAM531OCQ80qa/oG5IDZCo21f4y/LTkDdhUWRO/o+lwwDGA3HSRCZJo
+        dsgQgvt5DLAErD1g32LlDUhtUVUIt5fftaQ9f2Lo6g==
+X-Google-Smtp-Source: ABdhPJyWbKHbrCwtgtfUKg6kNdvEJY7r5sw1BOwCCwiZxfe1ZLlS6fSpqUVtLKsfIhs/IzK/Kb97D1lSixnv0psKytU=
+X-Received: by 2002:a05:6402:749:b0:419:2707:7495 with SMTP id
+ p9-20020a056402074900b0041927077495mr31788466edy.317.1649056243257; Mon, 04
+ Apr 2022 00:10:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: Bug 215744 - input from the accelerometer disappeared, regression
- on amd_sfh on kernel 5.17
-Content-Language: en-US
-To:     Basavaraj Natikar <bnatikar@amd.com>,
-        Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Cc:     Jiri Kosina <jkosina@suse.cz>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-        Marco <rodomar705@protonmail.com>
-References: <048ef583-4a8f-96b0-68a3-45ab9ec8d6df@leemhuis.info>
- <0499f8ae-6966-be4b-5af8-e7e568bfcd5f@amd.com>
-From:   Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <0499f8ae-6966-be4b-5af8-e7e568bfcd5f@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1649054112;4b776a7c;
-X-HE-SMSGID: 1nbGIu-0001O9-25
-X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+References: <CAO3Us=nJbw6haHuCg6ZTwamggRFfKuTncg2r9XwDxjv0-ocZtw@mail.gmail.com>
+ <a2ccd37e20b210a1a35188c949d5658314a22c86.camel@archlinux.org>
+In-Reply-To: <a2ccd37e20b210a1a35188c949d5658314a22c86.camel@archlinux.org>
+From:   Nestor Lopez Casado <nlopezcasad@logitech.com>
+Date:   Mon, 4 Apr 2022 09:10:17 +0200
+Message-ID: <CAE7qMrrOU4-qZZh_YoDXS__Xhh2cCJsnnJ-G245_ENrEEp0e3g@mail.gmail.com>
+Subject: Re: Battery indication for Logitech devices
+To:     =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@archlinux.org>
+Cc:     Marcos Alano <marcoshalano@gmail.com>,
+        HID CORE LAYER <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -50,80 +67,44 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 01.04.22 21:47, Basavaraj Natikar wrote:
-> 
-> Committed patch is disabling the interrupt mode and does not cause any
-> functionality or working issues.
+Hello,
 
-Well, for the reporter it clearly does cause problems, unless something
-in testing went sideways.
+I've got this from asking internally:
 
-> I also cross verified on 3 system and working fine on 5.17 and not able
-> to reproduce or recreate.
+" The information should be accurate in both BAS and HIDPP interfaces.
+However, today the BAS interface is limited. Version  2.0 will be
+better but not yet released. As you have access to the HIDPP, I
+recommend using only this one. Like this, the type of connection can
+be ignored (BLE or USB dongle) "
 
-> [...]
+-nestor
 
-> ------------------------------------------------
-> 
-> Looks like this is not regression. May be some hardware/firmware bug.
 
-Well, from the point of the kernel development process it afaics is a
-regression, unless the testing went sideways. It doesn't matter if the
-root cause is in fact a hardware/firmware bug, as what matters in the
-scope of the kernel development is: things worked, and now they don't.
-For details please check this file and read the quotes from Linus:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/plain/Documentation/process/handling-regressions.rst
-
-Ciao, Thorsten
-
-> Just curious reverting this patch how it is working just suspecting
-> firmware undefined behavior.
-> 
-> If possible, please check on other platform/system also if same behavior
-> occurs.
-> 
-> Could you please provide me platform/system details so that I can check
-> this behavior?
-> 
-> Thanks,
-> Basavaraj
-> 
-> On 4/1/2022 1:36 PM, Thorsten Leemhuis wrote:
->> Hi, this is your Linux kernel regression tracker.
->>
->> I noticed a regression report in bugzilla.kernel.org that afaics nobody
->> acted upon since it was reported about a week ago, that's why I decided
->> to forward it to the lists and all people that seemed to be relevant
->> here. It looks to me like this is something for Basavaraj, as it seems
->> to be caused by	b300667b33b2 ("HID: amd_sfh: Disable the interrupt for
->> all command"). But I'm not totally sure, I only looked briefly into the
->> details. Or was this discussed somewhere else already? Or even fixed?
->>
->> To quote from https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.kernel.org%2Fshow_bug.cgi%3Fid%3D215744&amp;data=04%7C01%7CBasavaraj.Natikar%40amd.com%7C9155f6987d45479f721208da13b682f9%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637843972013904577%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=HbQ5LymDwsc94RZhNuzN83%2F0BUplqRUG7bB%2BXymViP0%3D&amp;reserved=0 :
->>
->>>  Marco 2022-03-25 15:22:19 UTC
->>>
->>> After updating to 5.17, the input from the accelerometer disappeared, completely. No devices available from IIO tree. First bad commit causing it is https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git%2Fcommit%2Fdrivers%2Fhid%2Famd-sfh-hid%2Famd_sfh_pcie.c%3Fid%3Db300667b33b2b5a2c8e5f8f22826befb3d7f4f2b&amp;data=04%7C01%7CBasavaraj.Natikar%40amd.com%7C9155f6987d45479f721208da13b682f9%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637843972013904577%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=odHA0EIxLb0xpSJJ9ShzgGL0%2BOAJ6tbG68lQe0QOqLY%3D&amp;reserved=0. Reverting this and the the other two on top fixed this. Tried to not revert only the above mentioned commit, but it's still not working.
->>>
->>> Marco.
->> Anyway, to get this tracked:
->>
->> #regzbot introduced: b300667b33b2b5a2c8e5f8f22826befb3d7f4
->> #regzbot from: Marco <rodomar705@protonmail.com>
->> #regzbot title: input: hid: input from the accelerometer disappeared due
->> to changes to amd_sfh
->> #regzbot link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.kernel.org%2Fshow_bug.cgi%3Fid%3D215744&amp;data=04%7C01%7CBasavaraj.Natikar%40amd.com%7C9155f6987d45479f721208da13b682f9%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637843972013904577%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=HbQ5LymDwsc94RZhNuzN83%2F0BUplqRUG7bB%2BXymViP0%3D&amp;reserved=0
->>
->> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
->>
->> P.S.: As the Linux kernel's regression tracker I'm getting a lot of
->> reports on my table. I can only look briefly into most of them and lack
->> knowledge about most of the areas they concern. I thus unfortunately
->> will sometimes get things wrong or miss something important. I hope
->> that's not the case here; if you think it is, don't hesitate to tell me
->> in a public reply, it's in everyone's interest to set the public record
->> straight.
->>
-> 
-> 
+On Fri, Apr 1, 2022 at 6:08 PM Filipe La=C3=ADns <lains@archlinux.org> wrot=
+e:
+>
+> On Fri, 2022-04-01 at 06:44 -0300, Marcos Alano wrote:
+> > Hello fellow developers!
+> >
+> > We are having a discussion about a question and I think we can get
+> > help here. The discussion is
+> > https://gitlab.freedesktop.org/upower/upower/-/issues/166#note_1322354
+> > The problem is when we use a Logitech device, we get two discrepant
+> > information about battery level, one from Bluetooth stack and another
+> > one from HID++ module.
+> > The question here is: what is the most precise information, so we can
+> > deduplicate but keep the indicator precise?
+> >
+> > Thank you.
+> >
+>
+> Hi Marcos,
+>
+> I think the battery reported by the HID++ driver should be more accurate =
+in
+> certain devices.
+>
+> CCing Nestor as he may be able to clarify this further.
+>
+> Cheers,
+> Filipe La=C3=ADns
