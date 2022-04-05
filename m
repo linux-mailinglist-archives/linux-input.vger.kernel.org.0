@@ -2,147 +2,234 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DE194F4833
-	for <lists+linux-input@lfdr.de>; Wed,  6 Apr 2022 02:00:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AE5A4F480C
+	for <lists+linux-input@lfdr.de>; Wed,  6 Apr 2022 01:45:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233748AbiDEV3t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 5 Apr 2022 17:29:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46944 "EHLO
+        id S232686AbiDEVZy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 5 Apr 2022 17:25:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1384584AbiDEPO6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Apr 2022 11:14:58 -0400
-Received: from mx0b-000eb902.pphosted.com (mx0b-000eb902.pphosted.com [205.220.177.212])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F1773E5E9;
-        Tue,  5 Apr 2022 06:29:57 -0700 (PDT)
-Received: from pps.filterd (m0220297.ppops.net [127.0.0.1])
-        by mx0a-000eb902.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 2355FnqV025225;
-        Tue, 5 Apr 2022 08:29:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pps1;
- bh=zkCrIOak8zDCz2p2CL07p7jkf0bjcqO+SO7njU8RzKE=;
- b=e2+gIrchZIkL01G4+a5Cpl68JxDQyI1kI0HNd+dqY1D7FTDvSSxwpAhwYcMigTQPNvbb
- Zq0uFNn42yXGwN4tYmKACHKkxbGl4nOzwV8nj14e58WTv7ZW4IknWBwmjYNyeLQjwawk
- 01JzEfvWIL1dB9bVLxiDeZF5pRDhG6Kig/l1vq3kNjk5RAe1RTvRGoek/HJ+yoL57MTe
- DDCWr0aKkMA8SL+ZSU28YHyLr5XPO0u7PoPOubC2Hd2TnXL2hYgEe+hkqXPmw3BKv4vM
- 5wUWzbG9XUFFqOZ0cv0CVdPyjp1CaQyGSKD4xNxNO38MydhGwCM3fhua0hIRwNmtsTm9 QQ== 
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2176.outbound.protection.outlook.com [104.47.55.176])
-        by mx0a-000eb902.pphosted.com (PPS) with ESMTPS id 3f6gpdcwx2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 05 Apr 2022 08:29:56 -0500
+        with ESMTP id S1392085AbiDEPfm (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Apr 2022 11:35:42 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2072.outbound.protection.outlook.com [40.107.237.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0D829969B;
+        Tue,  5 Apr 2022 06:45:54 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KQOscHaBuORvpT1aiSFH/d4mc7bZuxceyeP2lx3/x7lYNT4mR7gsljTG1UFz/V3FwAzCZX16XhfuhfA230DemCnbqFbPxKEEH1wbP5LEAz2ClPUPwliyupWCKjwcY+G9zlwBHT5hCcwoK18sLeZY2pZ5kX4kgwEMd9KNjCFfYqy4OuHMCrKfwsB2EqVzwnlHXgGSttOEF5gKBhfxFWZiMDLwexrQVejkVaMGexJSHYhRgP66Epf8xNkTCJCNrzyCqlSNaGAEPrEgQo4UvXH3yw3YvwyFR2ytOu3GfDRGWzIbBXY6zrFi664bEPhj9qfMVp5Qg7ozXFP+Ik18+QCq3g==
+ b=M7tQemIdpcRBrQ8bTGFjpYFRTMNsOJt1ckqGI8rGNsuLPmh0Xqq9Y5+McdyrcjUTliP5gFyqlL7hAR0SkHEG0nCfS2C6gJwdnDv28v89oETPUzYqwPWRidjxKMzlWz3oPh34/xrnE4e5p9LA1qzzMHCVQBmtGePTKFr/7rM/x/Nl3J6PKFY5O9xAPlAhvZK5VWqz5PAHp0l2pFzmfhzCj6ZPeNKvZ3jR21Ga3XXCEjpqXdwbPfl4Pu+NBm1+NPiXRCkWsl9sfVFuNxjA4NVxTpXZdkNxx5YFUl+cw25k1iM81xjaPBTr+hR+91/1FuJrvfQ6EDAs2mefKZa/b6k0tw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zkCrIOak8zDCz2p2CL07p7jkf0bjcqO+SO7njU8RzKE=;
- b=TefCs2BThuLn2xMpBQswCJtzTsXUKnBTy42VrFXsxQIwR1PvbE38BBA910bxitFc4BME+4V1lx6OZT4KbmuD3iMcE8uchC2DEapwQS+QVM7lC4w7GnrcrT9EDD80hvsGbmWQ9o2QQOcBVPB5ZP422wHo4EE6lGligpzRteFa4bSQxvFX7c5NQGXjStSPAe0Ct/IwEbUgE15KEBaTx0kVoRJ3jhFd9b+b7Iw4+CeLknkgWL0I0YCEwhqV8uRUyOTAlLdr5OC6F9BnVI93z4FETHuZ1TPqL13yySD+I+aN3NPs1+B6Pr7Mn89wAWD/Y90h4v9atsLi8NrF7//n49Lbqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 204.77.163.244) smtp.rcpttodomain=gmail.com smtp.mailfrom=garmin.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=garmin.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com;
- s=selector2;
+ bh=lx4Dc33P5Fo5sIF0XBbjVsXbhTCaIPtH18vX0zQSKUg=;
+ b=g8kAC/EY4b1lVNlgyZzxw6xXux91P5vHbSdHKJkrmcna0OC5+k9swZqfmQ4YXPe7Ns0kMSqTs4LlQuS/B9FJxQDcA/+ACGnlyki5oNp/slxwOsOqdDkI+1gRUsr0otuHGgvdn108Fnklp2zmdQPHlz+KaycgkCxsAcvxVhgKeNcA9R70NBDkcLgUk3CnoolNcdyUncDadmE6obqAuYVuzV7c8zjjHWoW8fOOEa70xyf87lmGZhRYKkXn+ogApPzxETTQI1vtFTxzYn3ayM6Q3KYTPaRD74vJlU5ppSUvXlAw2b443QBsxwMmjCciMyqdclKS4gEEFjHEBAl67xoV0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zkCrIOak8zDCz2p2CL07p7jkf0bjcqO+SO7njU8RzKE=;
- b=Eglnpj/alBzQETyuYlnSrcm3WkiCsINnMkuTcUJ9ZsS6rnGPYU638BKmQ/2pIZQwqw3bmI+JFdtOOrZ84Uw89qxIzZhojuyvmM+oAUj57cjMmrSDbANBCGctCFlmyInf9+ZjxlVOYSsrgyCNvmGvY+KCxvG/TfE98aKJ/Qb3lcSawnppoYC673nE+yoi9UbkUJMIHBq/luTJE9Tga7Oy+byFFwS/3DCacAHtjbZ9pf21KpOzkG53sJbqxe/kZ6zUQ2WkZxfQsYCZdtpL4XQtkT8UqTE+YInWOD19FHPGxORNz6cGabn6oppwUs4dN1HYrLnBd7DfIzYE9GCVwpXYgw==
-Received: from DS7PR07CA0002.namprd07.prod.outlook.com (2603:10b6:5:3af::8) by
- CO6PR04MB7492.namprd04.prod.outlook.com (2603:10b6:303:a3::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5123.31; Tue, 5 Apr 2022 13:29:55 +0000
-Received: from DM6NAM10FT008.eop-nam10.prod.protection.outlook.com
- (2603:10b6:5:3af:cafe::ce) by DS7PR07CA0002.outlook.office365.com
- (2603:10b6:5:3af::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31 via Frontend
- Transport; Tue, 5 Apr 2022 13:29:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 204.77.163.244)
- smtp.mailfrom=garmin.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=garmin.com;
-Received-SPF: Pass (protection.outlook.com: domain of garmin.com designates
- 204.77.163.244 as permitted sender) receiver=protection.outlook.com;
- client-ip=204.77.163.244; helo=edgetransport.garmin.com;
-Received: from edgetransport.garmin.com (204.77.163.244) by
- DM6NAM10FT008.mail.protection.outlook.com (10.13.153.34) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5123.19 via Frontend Transport; Tue, 5 Apr 2022 13:29:54 +0000
-Received: from OLAWPA-EXMB12.ad.garmin.com (10.5.144.16) by
- olawpa-edge3.garmin.com (10.60.4.226) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 5 Apr 2022 08:29:52 -0500
-Received: from [10.30.196.25] (10.5.209.17) by OLAWPA-EXMB12.ad.garmin.com
- (10.5.144.16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 5 Apr
- 2022 08:29:53 -0500
-Message-ID: <8b3ee5be-ca55-bbfe-cf15-64d68be87d72@garmin.com>
-Date:   Tue, 5 Apr 2022 08:29:47 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2] input: Add Marine Navigation Keycodes
+ bh=lx4Dc33P5Fo5sIF0XBbjVsXbhTCaIPtH18vX0zQSKUg=;
+ b=OPsaWZhuejhwd0LUL436x/BL2y8YRX7azLRqoTzlhlrU57LyKGAfLKOyVT6kUKyrdlSo+vhn/H3BSQWOm33NqsQ+XSfkAl76PShB8cWZdEDWhQuiAQuLcLaT+dtc7EuP+ptf8jKj3nYjRcvLnf/NWsDKqlKaQbqV/P0DiN60f4o=
+Received: from BL1PR12MB5157.namprd12.prod.outlook.com (2603:10b6:208:308::15)
+ by SA0PR12MB4543.namprd12.prod.outlook.com (2603:10b6:806:9d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Tue, 5 Apr
+ 2022 13:45:52 +0000
+Received: from BL1PR12MB5157.namprd12.prod.outlook.com
+ ([fe80::70d6:f6dd:3e14:3c2d]) by BL1PR12MB5157.namprd12.prod.outlook.com
+ ([fe80::70d6:f6dd:3e14:3c2d%5]) with mapi id 15.20.5123.031; Tue, 5 Apr 2022
+ 13:45:52 +0000
+From:   "Limonciello, Mario" <Mario.Limonciello@amd.com>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        "Gong, Richard" <Richard.Gong@amd.com>
+CC:     "jikos@kernel.org" <jikos@kernel.org>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Bhutani, Amit" <Amit.Bhutani@amd.com>
+Subject: RE: [PATCH] HID: usbhid: set mouse as a wakeup resource
+Thread-Topic: [PATCH] HID: usbhid: set mouse as a wakeup resource
+Thread-Index: AQHYSG2TMUTOe0FLik6Q66On/waTAqzgwvKAgACP5IA=
+Date:   Tue, 5 Apr 2022 13:45:52 +0000
+Message-ID: <BL1PR12MB5157F61F1C42E9F9E520EE42E2E49@BL1PR12MB5157.namprd12.prod.outlook.com>
+References: <20220404214557.3329796-1-richard.gong@amd.com>
+ <YkvMpWYMhgtDI7aN@kroah.com>
+In-Reply-To: <YkvMpWYMhgtDI7aN@kroah.com>
+Accept-Language: en-US
 Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20210622235708.8828-1-matthew.stephenson2@garmin.com>
- <20220126211224.28590-1-Shelby.Heffron@garmin.com>
- <Yg9EmVAHpEpmnLok@google.com>
-From:   Shelby Heffron <Shelby.Heffron@garmin.com>
-In-Reply-To: <Yg9EmVAHpEpmnLok@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2022-04-05T13:34:18Z;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP 2.0;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=aa469624-3297-4bf1-ab16-7c015bc948a5;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=1
+msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_enabled: true
+msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_setdate: 2022-04-05T13:45:50Z
+msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_method: Privileged
+msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_name: Public-AIP 2.0
+msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
+msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_actionid: 150e61bd-27f1-4861-a091-d64adec3ba30
+msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_contentbits: 0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 429fd854-c352-425d-edb9-08da170a99da
+x-ms-traffictypediagnostic: SA0PR12MB4543:EE_
+x-microsoft-antispam-prvs: <SA0PR12MB4543FF8DC8DDA56ED4A830F2E2E49@SA0PR12MB4543.namprd12.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: C+5usKvwU8zjGgGQavveAUfst5Fs5M3TAwiiORCYGXmJjzIH3AZqZcjoBWviGB+EFL3EqbT+M6pMs75/cn3JQQSAclq9fiUxkK/gIDpSKS7riVulRRgR9atNTMUlyCzIUJ2JCUL2DgGgr7Vu2yKcM4R2xzxUqVEyr/57TQ8/fKzaA0UCtVeTqyfwoYvIpUToDZR7FVErFE992dIScbIbhqn4nOkxuyfTmoir3dv5ZknZ30sKeF/vcXHy1NBjLqZGuezISQZJOLUqNMRf7aq6pfy/RcDG4MJZtPhEWjEXNQ6K6fluXFdxWrokCCFBChswqbofDQcKLfkrbjUas3tRJSHN1X1TNK/yzhm+t30t49M1rMrSvyjxiPlx0b3MuojlRN4GdT3KlzzkayDe3OlEjGBZ+1We2WnLhnWVD4b31ME8N7Dr/GSN2zUSFmKhYabsUjkAZI4u3lrNx5+TwMSg2HW5gPZB/7dyJXCqX/b0GSc9lYUMJcEHmbRLE51ky7U/zG7r7ymPFo2hCj8TFFSr+mR+hExTXhS189yL3zdFIHb03UeXBBktm9tkXESbs273je87byun019OkJGatwIrur5J0bX5uklaFpg8cfx/iy16ovpZersQXg/sbUNW3IM4ksy2gwyoyhWRAwWo4xqcvpCglymUZE7OFO8a48YKJdYadgvEm8uIvbH6G7RT/fYXyiLoAZWbbDOPowiC4CQQCA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5157.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(55016003)(8936002)(33656002)(38070700005)(38100700002)(52536014)(508600001)(71200400001)(5660300002)(316002)(186003)(86362001)(6636002)(83380400001)(64756008)(122000001)(53546011)(9686003)(6506007)(7696005)(66476007)(66556008)(66446008)(110136005)(66946007)(2906002)(76116006)(54906003)(4326008)(8676002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?AxmTXPDIvQqsC+dFjHyWUsxTKIBTEX4RwbawunkaaB9PIdkc7Q7q6VuKLF3u?=
+ =?us-ascii?Q?cI7vSdIMVK/uUPi5mjO1uyyjRPwtGZccNa5Yob2qUsfptfg+eZEr/j3OuhwE?=
+ =?us-ascii?Q?ed9z/yWRnGUThbH/kYKur1+9gwphv+ltlKPXW6OyuP3F08dYazk6Gn1DJUjy?=
+ =?us-ascii?Q?+1mT03F4AvmnIdWvrrrcs54h0NZgoOgfAg4886dKAfrd04DMBTkko6Km6K5H?=
+ =?us-ascii?Q?EgfnprJd5+GBirwBKRfbuF2pPDM8OTxwh/4CtYrI2z70PZHcDvM3aClbYmX/?=
+ =?us-ascii?Q?01tvFrLUvbfNwAgolNj3dYTmOcks87EbaJuyDGKxRjUGv66QzC/QGpDk4MbV?=
+ =?us-ascii?Q?HgExjYcsb5NQYN4tTK89iRV35aOkMHviN5yNG+stZ70xUagcIufy/N2MrLrg?=
+ =?us-ascii?Q?X7My2ljA8Lz6Ki0oTnyvCRRyTOOUJeG68p6EXK07RFTzippfsGjZKBVU91rh?=
+ =?us-ascii?Q?KRTw2DTm+o2ML3zS40SsQ1Zd28bzEBdZozRhITx3F659lunWUMqg5LUDIbgj?=
+ =?us-ascii?Q?I8cthgUzAGhC0J934gD6yuLWtm+AePE3t+Xa2sRZFJAPTv1vdxQi7V4CMpEO?=
+ =?us-ascii?Q?tb9+9xbt2di81kWsczHaV/Nq+dn3bz2lzTFZr7CEUqLGkRlWHwSqRvDhUqwg?=
+ =?us-ascii?Q?fZUUh6uUnjae/rBl1QbqRKjMLQMTF9Gecxb8rqfvQY9T/3FoJOeW9Gke4Wms?=
+ =?us-ascii?Q?5wZPcsGritPq/E/aIrfAOy7ovg7x1DcnslEcBoQbVbro2ugKjy+qmVJ5xtdZ?=
+ =?us-ascii?Q?zy3FlT5A8iJvJU36Buw81Spa7VEjSaz2qPg4ExbPwTZsOKgnUbq3Uc+JmOi9?=
+ =?us-ascii?Q?20rerqEvixO69kcyWZhzMTSks7u6NGoqe/4QJz3bKVQAtVJ949xOGcHRpk18?=
+ =?us-ascii?Q?KThjBExUnS5lDqiwXF7CFJJyZ83OBhonCBb6sDXXZ6TzYyVcG9jxI76uB+62?=
+ =?us-ascii?Q?8/I5EXWbHdcrI6YuhazzPPF/1E3pDU6TuY4h6hN2nVBjwdMWaOURSNZyTmck?=
+ =?us-ascii?Q?qsW82xbn9MSIVG8jftefv1mTo2K2zsD3aOtErf6g42ioUsElRyxydN42owBr?=
+ =?us-ascii?Q?9egVTcFCowz55sf88C/E/TquUw4sfkXLpceNytahnw+NzqWYEgFOmhZRBpUL?=
+ =?us-ascii?Q?zNLhovhuuh2wu36cOFENbUkOZ8YS59CT31Pxe2e5GtLkC/UothLe8JmmSQlN?=
+ =?us-ascii?Q?wPhMBCcveiqpZuZqLRcCjT+yV3buoRXWHb8ZZCdwk3Kx6F3VpzCivzTnNa+1?=
+ =?us-ascii?Q?5RM0KvGUnUKTT0y9e2g3x8z7Dnby/uzOr01hwkaUMUqgiJXIEgoTqS9VWl85?=
+ =?us-ascii?Q?LsjmUAzClTe9IC1d2qryoRUoN0PF6THK9oh5ZPJ2vRAOxX0mRwfbPzX3/co1?=
+ =?us-ascii?Q?ZbEq4O1C+8ve/uig3i2EqFSB3Weeh0MEpyF48FGD4IdCr+4dZNiAaJfWYQU5?=
+ =?us-ascii?Q?ljMoPxMsRMYdM/rRMnpT7HENNawGmggADKPO8wj2YqYLQAdC1XOapw1Eme8x?=
+ =?us-ascii?Q?XULUb/wvO7Akv0ZGfgIC9IZOYADAgrTdltmeaf207rnduOkSG565x83cI1Sd?=
+ =?us-ascii?Q?i+ZGLzD5CMagtE3cmGl/y7TzZi+cHrXf97u2926kr1xBN/YY2G7wbda5H/Sm?=
+ =?us-ascii?Q?SmpBr/ts9/4z2TfLCDxDQWM4q4JpxQY2uwKVV2jRGJGjsQCsqbjiXrzx8V2K?=
+ =?us-ascii?Q?lM8JvZqVOwsnWMypUsNvLg7jqgobd0Ek5ckqjSlblla8H8EyvpqkrPrLZJJL?=
+ =?us-ascii?Q?rM5tJlFU90qbh1f1eU0bYnWTYa//hctuIda2DP5ORF/8ysP9YB2jI7VlkyBB?=
+x-ms-exchange-antispam-messagedata-1: 9XeLi5GwFb/PyQ==
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: OLAWPA-EXMB1.ad.garmin.com (10.5.144.23) To
- OLAWPA-EXMB12.ad.garmin.com (10.5.144.16)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 326d039a-5673-47e5-cf20-08da17085ef1
-X-MS-TrafficTypeDiagnostic: CO6PR04MB7492:EE_
-X-Microsoft-Antispam-PRVS: <CO6PR04MB7492D552EBF51A7D2E35C99BF2E49@CO6PR04MB7492.namprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pVYYhwbBuknZtcWnLgWeYrEW83I+xlbhei95m/WBLJ2djOvNZelYvLNda2dnC4N7y5J1ocNrVr6gNrlkM3RGGLeCbYxfJhbqyjeXXEfehavYDlwD25GVjBP0QZotC+euZcHINKVBI75BLiZGZbFgeX3dTEk1crfaLFStOzrbnIKcPJPp9DjH4GgWWEyqmf9hPPX7Xbe6zrkaT4rfbY7dpNKJpmktEqd5LDSZnqvuT4biJlRMw4mlL9xl1MbxvYzSfgQ06j06aP7q2VGateAf+jKD5TdLjij779sSNrAehX7ruLaO6vEXYrcfeifyzd2VFmqZxgk8AqasJ6nV2xDZ7Im3M2TTQy19CEfsDpYg+JalvPi2i42ioC0IJ1VSZTtAWnowAeD6lyjZ7JYohR0AfnWb/CfuyBmom+RsTQCo77Iu264lVX/OXs6PNwrzjMkRqSsflNFOBPPEtCNPe1Lz+iBrUL9YVOUSYCe5A4RComB5Nd575g0I8gWmRr5VJuxVSvcKT2zej6jYLyUjBfwduxSIollidmFJsg5jyeqwCTsfLI9MS7Bo17Qds/R7QSOqLSx5iQO08YJ4tqQqz/fldqUGjmmZdqlE7Y1bVDr1YxF/Fk53q205AeEDwqv0MjsYcWqnJEZfcGR9ER/oomXhGBOOO/J0eyx6VhDpyLNxlyVlNpNmRdmxQWbEqR85TkHy2Gv1sNpJHDcUuJO+QER6wSjF9dHuCrxs+cmW2UCfGalF4H998T8xf7HFnr3CcjnTWi0GerAdZXZNp8Jc60pqUQ==
-X-Forefront-Antispam-Report: CIP:204.77.163.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:edgetransport.garmin.com;PTR:extedge.garmin.com;CAT:NONE;SFS:(13230001)(40470700004)(36840700001)(46966006)(31686004)(186003)(426003)(5660300002)(336012)(47076005)(356005)(4744005)(4326008)(2906002)(26005)(2616005)(8936002)(8676002)(7636003)(36756003)(31696002)(83380400001)(82310400005)(6666004)(36860700001)(508600001)(86362001)(34020700004)(70586007)(34070700002)(70206006)(40460700003)(316002)(54906003)(6916009)(16576012)(43740500002);DIR:OUT;SFP:1102;
-X-OriginatorOrg: garmin.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2022 13:29:54.5491
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5157.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 429fd854-c352-425d-edb9-08da170a99da
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Apr 2022 13:45:52.3626
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 326d039a-5673-47e5-cf20-08da17085ef1
-X-MS-Exchange-CrossTenant-Id: 38d0d425-ba52-4c0a-a03e-2a65c8e82e2d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38d0d425-ba52-4c0a-a03e-2a65c8e82e2d;Ip=[204.77.163.244];Helo=[edgetransport.garmin.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM10FT008.eop-nam10.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB7492
-X-Proofpoint-ORIG-GUID: RF_CWcX_XZrzaQaT8WJdUW7E0i0s67Tc
-X-Proofpoint-GUID: RF_CWcX_XZrzaQaT8WJdUW7E0i0s67Tc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-04-05_02,2022-04-05_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
- bulkscore=0 adultscore=0 spamscore=0 mlxlogscore=780 suspectscore=0
- lowpriorityscore=0 clxscore=1015 phishscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204050079
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DHoIwIxFLP5CrfFLOQGj4u5m5UBe555fps3qCkt65WsQUY9OhstXj2LaVDO6tLQK4KEoVkCyNFcWDOBzlZwNzw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4543
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+[Public]
 
-Please let me know if you have any further suggestions on this patch.
 
-Thank you.
 
-________________________________
+> -----Original Message-----
+> From: Greg KH <gregkh@linuxfoundation.org>
+> Sent: Monday, April 4, 2022 23:59
+> To: Gong, Richard <Richard.Gong@amd.com>
+> Cc: jikos@kernel.org; benjamin.tissoires@redhat.com; linux-
+> usb@vger.kernel.org; linux-input@vger.kernel.org; linux-
+> kernel@vger.kernel.org; Limonciello, Mario <Mario.Limonciello@amd.com>;
+> Bhutani, Amit <Amit.Bhutani@amd.com>
+> Subject: Re: [PATCH] HID: usbhid: set mouse as a wakeup resource
+>=20
+> On Mon, Apr 04, 2022 at 04:45:57PM -0500, Richard Gong wrote:
+> > USB HID transport layer doesn't set mouse as a wakeup resource by defau=
+lt
+> > so user can't wake system from s0i3 using wired USB mouse. However,
+> users
+> > can wake the same system from s0i3 with the same wired USB mouse
+> > on Windows.
+>=20
+> Is that because of the huge good/bad list that Windows has for USB mice?
+> Or is it this way now on Windows for _ALL_ USB mice?
+>=20
+> We have been loath to make this change because not all USB mice could
+> support this, as well as the "wake up a laptop in a backpack that gets
+> the touchpad touched" issue.
+>=20
+> >
+> > To work around this wakeup issue on Linux, the user must manually enabl=
+e
+> > wakeup via the following command:
+> > 	echo enabled > /sys/bus/usb/device/*/power/wakeup
+> >
+> > The mouse is set to wake resource by default to ensure the same behavio=
+r
+> > across operating systems.
+> >
+> > Signed-off-by: Richard Gong <richard.gong@amd.com>
+> > ---
+> >  drivers/hid/usbhid/hid-core.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-cor=
+e.c
+> > index 54752c85604b..571dded02b3d 100644
+> > --- a/drivers/hid/usbhid/hid-core.c
+> > +++ b/drivers/hid/usbhid/hid-core.c
+> > @@ -1183,8 +1183,10 @@ static int usbhid_start(struct hid_device *hid)
+> >  	 * devices supporting the boot protocol.
+> >  	 */
+> >  	if (interface->desc.bInterfaceSubClass =3D=3D
+> USB_INTERFACE_SUBCLASS_BOOT &&
+> > -			interface->desc.bInterfaceProtocol =3D=3D
+> > -				USB_INTERFACE_PROTOCOL_KEYBOARD) {
+> > +			((interface->desc.bInterfaceProtocol =3D=3D
+> > +				USB_INTERFACE_PROTOCOL_KEYBOARD)
+> > +			|| (interface->desc.bInterfaceProtocol =3D=3D
+> > +				USB_INTERFACE_PROTOCOL_MOUSE))) {
+>=20
+> This is a big change, how many different systems and devices did you
+> test it on?  What about userspace tools that previously assumed the old
+> behavior?
+>=20
+> Why change this now 20 years later?  What changed to require this now?
+>=20
+> In short, unless there is a really good reason now to make this change,
+> we shouldn't for all the reasons we never did so in the past.  Oh, and
+> proof of loads of testing will be required as well.
+>=20
+> thanks,
+>=20
+> greg k-h
 
-CONFIDENTIALITY NOTICE: This email and any attachments are for the sole use=
- of the intended recipient(s) and contain information that may be Garmin co=
-nfidential and/or Garmin legally privileged. If you have received this emai=
-l in error, please notify the sender by reply email and delete the message.=
- Any disclosure, copying, distribution or use of this communication (includ=
-ing attachments) by someone other than the intended recipient is prohibited=
-. Thank you.
+A number of other drivers have been adding in compatibility for wake source=
+s
+with Windows to match user expectations even with legacy interfaces.
+For example i8042 enables keyboard wake when in s2idle mode.
+
+So I think what's missing here is to guard this for only the scenarios that
+matter.
+
+Platforms from 20 years ago didn't support Modern Standby in Windows
+nor s2idle in Linux.  This is a very modern feature.
+
+I think it needs a check for
+If (acpi_gbl_FADT.flags & ACPI_FADT_LOW_POWER_S0)
+
+This will narrow it down to just supporting this on platforms the last few
+years and decrease the testing matrix.
+
+
+Thanks,
