@@ -2,67 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB3834F6342
-	for <lists+linux-input@lfdr.de>; Wed,  6 Apr 2022 17:34:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A11F4F64EF
+	for <lists+linux-input@lfdr.de>; Wed,  6 Apr 2022 18:27:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236183AbiDFPbZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Apr 2022 11:31:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42740 "EHLO
+        id S237284AbiDFQO1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Apr 2022 12:14:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236192AbiDFPbS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Apr 2022 11:31:18 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0C36692ADA
-        for <linux-input@vger.kernel.org>; Wed,  6 Apr 2022 05:41:52 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id d29so2992619wra.10
-        for <linux-input@vger.kernel.org>; Wed, 06 Apr 2022 05:41:52 -0700 (PDT)
+        with ESMTP id S237907AbiDFQMo (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Apr 2022 12:12:44 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 155FD10DA71
+        for <linux-input@vger.kernel.org>; Tue,  5 Apr 2022 20:23:11 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id nt14-20020a17090b248e00b001ca601046a4so4614310pjb.0
+        for <linux-input@vger.kernel.org>; Tue, 05 Apr 2022 20:23:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=sp1pvHf/9GF7gJYZD0BVuhj9+/tx5WJjCJQ53j0Lu7s=;
-        b=CNVpTJbhqsEeENw5+USf7Rl0d5mTwNAvQDQNL9QQi15IQlxfRFAz+ft+7SEV2AIrhv
-         bmNLIuREdym2cduh84Ur8R2uCV7YH/AVP9SxvWhSpXWV5YCNfo21+DFYhh46eQ0y+GmD
-         3NYXDTDTY3ujiRAEUSoa4MT1OBQM3MJ2eDHanHM6mS45FrXsF+pS3wN5s8tLBHhRN3+W
-         XJu/raMsMszzEJeQTgm2CPz4+djxlqqc8a8rYHhB80ZDvoCCLRegd7joKLdoUMA8v4wO
-         e434PzIyWHxfsl/PPcGL2JUD4kKUtMsJN7cXhb2JD7KtE8BynBkLX2K9KPKM6wEydwtP
-         4xIg==
+        d=matician-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nl7SX+b5OGaSDzvlaBhcoDYJhu7qvmloOq719EKVN4w=;
+        b=D0wLjV2hKK8FhkyDepiJad1TNZ7sISTXvrWpTNkxvS5eOnAZZtLOtmlCA98mC1Fj2V
+         AMKj9ttDNkzQqKWmulPBZksk/OpBF+mhDohEMZhe3FqBP6tmTzVCNmyzmUtX2ugiuHtV
+         KnR0muml6VPYoAG+6yskjbXagoSuGG6ScvZ/9DCZPmVWPRVRcsSZMyqbJTqwro6podjY
+         Ft2f6WP3rYAxTMnaapOTK4B90It21X8I00OD52uXusmIuNE+/4LharriC2+5lBiXdJmj
+         YQlMBp7dGc7JNF5c+sU6deJl1BQTZ7YtVScxQZgib070UY9mlJ9zDg11ap7OxpfhSFmz
+         Tz5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=sp1pvHf/9GF7gJYZD0BVuhj9+/tx5WJjCJQ53j0Lu7s=;
-        b=b6DP+DXBH8WYc0//ua5BImEDyvJNtjzTSryCbZnWJ7XdLqVpGHw0gxQGOeJZsLsbO3
-         jPJ9CXQFWoutK9Fbsn7aYCUau8Lc92RXEorGPpSs28f11LjyyIt8TPM2FD1t3EUqJ4r3
-         YpdaGIrIHzbPAklij0d20NGdYybd07yYpflQvrvd5I+r3zt1NVw3sY0FGYeoln8w/4Pp
-         vu3FCfl1u+MXr2exNoWAa/5Af3+cFufOGUGGrek3an5Gv6DsYY4++TJL8o6PsqmvpcQ1
-         BacImAIgbkQar/4BoEEsZEsx2HDP4404cAfutISNp9coiSwHuwOUqwG0/sHQx9nyZqjS
-         xW4A==
-X-Gm-Message-State: AOAM530LZ1Z4/QFAkpus94vN5mAuzX1WeQsNTmYTo5iCM7PckE36hWei
-        aSPow6t/OMS7n4dUAabLKkd44Q==
-X-Google-Smtp-Source: ABdhPJzFvjsdL3HC5zlQzmL/PVvEFPrNgN95+P6H/z2UKiAeU+m2PSi7y0zSFSeoqHGV+qL8vEhVEg==
-X-Received: by 2002:adf:d214:0:b0:204:2a98:a166 with SMTP id j20-20020adfd214000000b002042a98a166mr6564739wrh.406.1649248877966;
-        Wed, 06 Apr 2022 05:41:17 -0700 (PDT)
-Received: from localhost ([2a01:cb19:826e:8e00:6c64:eb3a:6739:d25])
-        by smtp.gmail.com with ESMTPSA id 3-20020a5d47a3000000b0020412ba45f6sm17475132wrb.8.2022.04.06.05.41.17
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nl7SX+b5OGaSDzvlaBhcoDYJhu7qvmloOq719EKVN4w=;
+        b=K7/Oia39LtC1sSDcozoTfqLW3jtzn7V2x6IRVxWvXwIIF3zkNa70xjmk5U/nx5jrZj
+         5CF1x+uMq8p6kHLlPrgJGjv/Y0ka9D9oaSCMXVNg0EcHAh7fqd4XFwJlmmTuVEJZ8GUu
+         f6eosiYUHsF4BOxS0uEP+4ogTNwrPbcnJVbevw9nDQQum6L3AvA0MdgVgJw5qMnKLlws
+         3+b1ybbrvwJ2m53qwH60CGQXRnc2TGAEwLZbb/a+Dbso6w9xtWHGgNqyrg8JP9tFWg2S
+         wPLkuq/f/Jh/if7HAhH447A8+2U06W92r449PDhY0EtTisFGmTMQ4IxAK0nFhvmPucSi
+         zapw==
+X-Gm-Message-State: AOAM5339PnvDZ9mo1koCqSWv/aOd++9qdZ49N+KCT1fskhz58w41n4Io
+        w6BYmqwDdMdzS3dmO1h2zCKSCA==
+X-Google-Smtp-Source: ABdhPJz7dqGTm0vgSVyF1U6dobg0vqBl1Pe6bW1rGXJzjrXAwC2GElpy5iI+dXkjITJfkLjEnPX+cw==
+X-Received: by 2002:a17:902:e746:b0:156:9eed:d2d6 with SMTP id p6-20020a170902e74600b001569eedd2d6mr6522503plf.144.1649215390419;
+        Tue, 05 Apr 2022 20:23:10 -0700 (PDT)
+Received: from mtgav.corp.matician.com ([38.88.246.146])
+        by smtp.gmail.com with ESMTPSA id b16-20020a056a000cd000b004fadb6f0290sm17973786pfv.11.2022.04.05.20.23.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 05:41:17 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        dmitry.torokhov@gmail.com
-Cc:     matthias.bgg@gmail.com, lv.ruyi@zte.com.cn,
-        m.felsch@pengutronix.de, angelogioacchino.delregno@collabora.com,
-        fengping.yu@mediatek.com, linux-input@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: mt6779-keypad: Move iomem pointer to probe function
-In-Reply-To: <20220406115654.115093-1-angelogioacchino.delregno@collabora.com>
-References: <20220406115654.115093-1-angelogioacchino.delregno@collabora.com>
-Date:   Wed, 06 Apr 2022 14:41:16 +0200
-Message-ID: <87czhu2xlf.fsf@baylibre.com>
+        Tue, 05 Apr 2022 20:23:09 -0700 (PDT)
+From:   gavin@matician.com
+To:     Rishi Gupta <gupt21@gmail.com>
+Cc:     linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+        Gavin Li <gavin@matician.com>
+Subject: [PATCH] HID: mcp2221: fix hang on probe while setting up gpiochip
+Date:   Tue,  5 Apr 2022 20:23:07 -0700
+Message-Id: <20220406032307.4001281-1-gavin@matician.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -72,62 +66,46 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On mer., avril 06, 2022 at 13:56, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> wrote:
+From: Gavin Li <gavin@matician.com>
 
-> The mmio base address is used for the only purpose of initializing
-> regmap for this driver, hence it's not necessary to have it in the
-> main driver structure, as it is used only in the probe() callback.
-> Move it local to function mt6779_keypad_pdrv_probe().
->
-> This commit brings no functional changes.
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+The driver expects HID events to be delivered to it during probe()
+because the devm_gpiochip_add_data() call indirectly calls
+get_direction(), which fires an HID command that expects an HID
+response. Without this patch, the get_direction() would timeout (of 4
+seconds) once per pin, leading to a 16 second delay before the device is
+usable.
 
-Thank you Angelo,
+This patch adds calls to hid_device_io_start() and hid_device_io_stop()
+to notify the HID subsystem that the driver is ready to receive events
+before the probe() finishes.
 
-I planned to do this myself but I've been too slow :)
+Signed-off-by: Gavin Li <gavin@matician.com>
+---
+ drivers/hid/hid-mcp2221.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+index 4211b9839209b..567ef8b93376d 100644
+--- a/drivers/hid/hid-mcp2221.c
++++ b/drivers/hid/hid-mcp2221.c
+@@ -877,6 +877,9 @@ static int mcp2221_probe(struct hid_device *hdev,
+ 	}
+ 	i2c_set_adapdata(&mcp->adapter, mcp);
+ 
++	/* gpiolib calls get_direction(), so become ready to process events */
++	hid_device_io_start(hdev);
++
+ 	/* Setup GPIO chip */
+ 	mcp->gc = devm_kzalloc(&hdev->dev, sizeof(*mcp->gc), GFP_KERNEL);
+ 	if (!mcp->gc) {
+@@ -902,6 +905,7 @@ static int mcp2221_probe(struct hid_device *hdev,
+ 	return 0;
+ 
+ err_gc:
++	hid_device_io_stop(hdev);
+ 	i2c_del_adapter(&mcp->adapter);
+ err_i2c:
+ 	hid_hw_close(mcp->hdev);
+-- 
+2.34.1
 
-> ---
->  drivers/input/keyboard/mt6779-keypad.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/input/keyboard/mt6779-keypad.c b/drivers/input/keyboard/mt6779-keypad.c
-> index 0dbbddc7f298..2e7c9187c10f 100644
-> --- a/drivers/input/keyboard/mt6779-keypad.c
-> +++ b/drivers/input/keyboard/mt6779-keypad.c
-> @@ -24,7 +24,6 @@ struct mt6779_keypad {
->  	struct regmap *regmap;
->  	struct input_dev *input_dev;
->  	struct clk *clk;
-> -	void __iomem *base;
->  	u32 n_rows;
->  	u32 n_cols;
->  	DECLARE_BITMAP(keymap_state, MTK_KPD_NUM_BITS);
-> @@ -91,6 +90,7 @@ static void mt6779_keypad_clk_disable(void *data)
->  static int mt6779_keypad_pdrv_probe(struct platform_device *pdev)
->  {
->  	struct mt6779_keypad *keypad;
-> +	void __iomem *base;
->  	int irq;
->  	u32 debounce;
->  	bool wakeup;
-> @@ -100,11 +100,11 @@ static int mt6779_keypad_pdrv_probe(struct platform_device *pdev)
->  	if (!keypad)
->  		return -ENOMEM;
->  
-> -	keypad->base = devm_platform_ioremap_resource(pdev, 0);
-> -	if (IS_ERR(keypad->base))
-> -		return PTR_ERR(keypad->base);
-> +	base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(base))
-> +		return PTR_ERR(base);
->  
-> -	keypad->regmap = devm_regmap_init_mmio(&pdev->dev, keypad->base,
-> +	keypad->regmap = devm_regmap_init_mmio(&pdev->dev, base,
->  					       &mt6779_keypad_regmap_cfg);
->  	if (IS_ERR(keypad->regmap)) {
->  		dev_err(&pdev->dev,
-> -- 
-> 2.35.1
