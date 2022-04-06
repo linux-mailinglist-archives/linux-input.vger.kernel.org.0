@@ -2,188 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C2414F4831
-	for <lists+linux-input@lfdr.de>; Wed,  6 Apr 2022 02:00:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 616564F61EC
+	for <lists+linux-input@lfdr.de>; Wed,  6 Apr 2022 16:37:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229753AbiDEV3m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 5 Apr 2022 17:29:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33122 "EHLO
+        id S234596AbiDFOXr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Apr 2022 10:23:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1573274AbiDESlz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Apr 2022 14:41:55 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C90620BE2
-        for <linux-input@vger.kernel.org>; Tue,  5 Apr 2022 11:39:57 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2eadd524e72so1182877b3.6
-        for <linux-input@vger.kernel.org>; Tue, 05 Apr 2022 11:39:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=kpZJZ6BC0teJcS/Va/HLoxzrjVYiRhmbSvuUm1Ha8sQ=;
-        b=ZdvRyRnPU8Kh82lplK03SdRZOePvmaw21DelWV1zTSqS/wjCkoUIYoY61x69HDa0BB
-         BkENG+5p3VPqwecV9yEgRiRisNcnE3VeVVW7AOScnZd4XupmdoHFS5S2gKJLzE7GHY6A
-         zGXVjMCER8dEsCVSRHsmmtEvVKuVyK3GMttUBmYSjf/DRoGPcWgyJ5rDCC+Ru+9zo5Sw
-         1rj0cV0XTVzlX93A55tOHgnaoeRzXzMAf01FQGmrjBjD9UtlB3cKC05sNClQc/ugUTWR
-         4mJGO2ekgPApmCPfGhow69H81wYKXuudrt6rJEg4wFn2YrxJLtcu2iCzeQjtlpzeUEdN
-         /yNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=kpZJZ6BC0teJcS/Va/HLoxzrjVYiRhmbSvuUm1Ha8sQ=;
-        b=KNY9Sk49V11N593lYra37CO/lVOrWo7hiUZi1BcLmhwn5dGTp7VnCQd9j+nLrsRAvc
-         U1Yor6p28hNZk3kGVkqJFBaIRP6u+IeGGdSX5hHxgt936IuwWM5IMmUGeAj6hnmaVWpL
-         ZdNUCTDKTBwqYhfZR6c3jW0pjQiz+W3uqxOvOJJZ+vJN0ZByBA0YmB3C4nneQ4MoyCb3
-         dQlhmM2yJtrAztiQBL+3sx2BQC8AIafbjWGr0XJeoxLHwhf3mezTu/sGrjfldyxHhdUH
-         ld4sApZ8Pjsi5HmyQ1ZvhGhz7Osu8WYDBJ1Yqeqh0kzX8g0C46PickmBZP0Fd9PH62jr
-         NuNw==
-X-Gm-Message-State: AOAM5322FRvPH4bJMHWjPlNz7WDUMlhZc6lqXzZ7F+TohYQrVJu+7nsw
-        HDaWGPMmoWltlwyue2qB+7OWT5jbxXAcdI8=
-X-Google-Smtp-Source: ABdhPJzp+IkXPL1X2MLlP92SbOMwqwQY57HoLXPf85DlePcIcZmNDwM+GbgvJ2bvPWH0yqVKexXNR2xK3S7Rwsc=
-X-Received: from pceballos.nyc.corp.google.com ([2620:0:1003:510:9936:68aa:f9b7:b13b])
- (user=pceballos job=sendgmr) by 2002:a05:690c:821:b0:2eb:5d96:2709 with SMTP
- id by1-20020a05690c082100b002eb5d962709mr3929236ywb.147.1649183996466; Tue,
- 05 Apr 2022 11:39:56 -0700 (PDT)
-Date:   Tue,  5 Apr 2022 14:39:53 -0400
-Message-Id: <20220405183953.2094007-1-pceballos@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.35.1.1094.g7c7d902a7c-goog
-Subject: [PATCH] HID: Driver for Google Hangouts Meet Speakermic
-From:   Pablo Ceballos <pceballos@google.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Cc:     Pablo Ceballos <pceballos@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S234619AbiDFOXc (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Apr 2022 10:23:32 -0400
+Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96A74469EEC;
+        Wed,  6 Apr 2022 03:29:46 -0700 (PDT)
+X-UUID: 7cb7a6c9f74e49218faa4d6d707341fe-20220406
+X-UUID: 7cb7a6c9f74e49218faa4d6d707341fe-20220406
+Received: from cs2c.com.cn [(172.17.111.24)] by nksmu.kylinos.cn
+        (envelope-from <zhouzongmin@kylinos.cn>)
+        (Generic MTA)
+        with ESMTP id 1654346570; Wed, 06 Apr 2022 18:07:45 +0800
+X-ns-mid: postfix-624D66AF-3551519497
+Received: from localhost.localdomain (unknown [172.20.12.156])
+        by cs2c.com.cn (NSMail) with ESMTPA id 2D0F63848672;
+        Wed,  6 Apr 2022 10:08:47 +0000 (UTC)
+From:   Zongmin Zhou <zhouzongmin@kylinos.cn>
+To:     zackr@vmware.com, linux-graphics-maintainer@vmware.com,
+        pv-drivers@vmware.com, dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        zhouzongmin@kylinos.cn
+Subject: [RESEND PATCH] input/vmmouse: Add vmmouse_reset() function to disable vmmouse before entering suspend mode
+Date:   Wed,  6 Apr 2022 18:08:38 +0800
+Message-Id: <20220406100838.610519-1-zhouzongmin@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220322021046.1087954-1-zhouzongmin@kylinos.cn>
+References: <20220322021046.1087954-1-zhouzongmin@kylinos.cn>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_PERMERROR,UNPARSEABLE_RELAY
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This driver works around a problem with the HID usage sent by this
-device for the mute button. It prevents key events from being generated
-for that HID usage since they would be incorrect.
+Details:
+When I use VirtualPS/2 VMMouse on virtual machine,
+There will be an error message after resume from suspend mode.
+like below:
+vmmouse: Unable to re-enable mouse when reconnecting, err: -6
 
-Signed-off-by: Pablo Ceballos <pceballos@google.com>
+And vmmouse will be unusable,so have to do full rescan
+to find a another driver to use for the port.
+
+This error is due to QEMU still generate PS2 events
+to notify kernel driver to read from queue,
+but kernel can't process the data in suspend mode,
+resulting a surge of s->nb_queue value,
+which ultimately led to an error getting VMMOUSE_VERSION_ID after resume.
+
+Test scenario:
+1)virtual machine started with qemu command "vmport=on",
+  it will use VirtualPS/2 VMMouse.
+2)click suspend botton to enter suspend mode.
+3)resume and will get the error message from dmesg.
+
+Fixed by:
+Disabling the vmmouse in its reset handler,
+It will notify qemu to stop vmmouse and remove handler.
+
+Signed-off-by: Zongmin Zhou<zhouzongmin@kylinos.cn>
 ---
- drivers/hid/Kconfig            | 12 ++++++++
- drivers/hid/Makefile           |  1 +
- drivers/hid/hid-google-atrus.c | 55 ++++++++++++++++++++++++++++++++++
- drivers/hid/hid-ids.h          |  1 +
- 4 files changed, 69 insertions(+)
- create mode 100644 drivers/hid/hid-google-atrus.c
+ drivers/input/mouse/vmmouse.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index f5544157576c..d4b6be827d15 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -403,6 +403,18 @@ config HOLTEK_FF
- 	  Say Y here if you have a Holtek On Line Grip based game controller
- 	  and want to have force feedback support for it.
+diff --git a/drivers/input/mouse/vmmouse.c b/drivers/input/mouse/vmmouse.c
+index 42443ffba7c4..ea9eff7c8099 100644
+--- a/drivers/input/mouse/vmmouse.c
++++ b/drivers/input/mouse/vmmouse.c
+@@ -365,6 +365,19 @@ int vmmouse_detect(struct psmouse *psmouse, bool set_properties)
+ 	return 0;
+ }
  
-+config HID_GOOGLE_ATRUS
-+	tristate "Google Hangouts Meet Speakermic"
-+	depends on USB_HID
-+	help
-+	This selects a driver for the Google Hangouts Meet Speakermic.
-+
-+	This driver works around a problem with the HID usage sent by this
-+	device for the mute button. It prevents key events from being generated
-+	for that HID usage since they would be incorrect.
-+
-+	Say Y here if you have a Google Hangouts Meet Speakermic.
-+
- config HID_GOOGLE_HAMMER
- 	tristate "Google Hammer Keyboard"
- 	depends on USB_HID && LEDS_CLASS && CROS_EC
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index 6d3e630e81af..2ee446b5b953 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -50,6 +50,7 @@ obj-$(CONFIG_HID_FT260)		+= hid-ft260.o
- obj-$(CONFIG_HID_GEMBIRD)	+= hid-gembird.o
- obj-$(CONFIG_HID_GFRM)		+= hid-gfrm.o
- obj-$(CONFIG_HID_GLORIOUS)  += hid-glorious.o
-+obj-$(CONFIG_HID_GOOGLE_ATRUS)  += hid-google-atrus.o
- obj-$(CONFIG_HID_GOOGLE_HAMMER)	+= hid-google-hammer.o
- obj-$(CONFIG_HID_VIVALDI)	+= hid-vivaldi.o
- obj-$(CONFIG_HID_GT683R)	+= hid-gt683r.o
-diff --git a/drivers/hid/hid-google-atrus.c b/drivers/hid/hid-google-atrus.c
-new file mode 100644
-index 000000000000..e136c70e9425
---- /dev/null
-+++ b/drivers/hid/hid-google-atrus.c
-@@ -0,0 +1,55 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ *  HID driver for Google Hangouts Meet Speakermic
++/**
++ * vmmouse_reset - Disable vmmouse and reset
 + *
-+ *  Copyright 2022 Google LLC.
++ * @psmouse: Pointer to the psmouse struct
++ *
++ * Tries to disable vmmouse mode before enter suspend.
 + */
-+
-+#include <linux/hid.h>
-+#include <linux/module.h>
-+
-+#include "hid-ids.h"
-+
-+/*
-+ * This driver handles the telephony phone mute HID usage by ignoring it. This
-+ * avoids the default handling by the hid-input driver which is to map this to
-+ * a KEY_MICMUTE event. The issue is that this device implements the phone mute
-+ * HID usage as a toggle switch, where 1 indicates muted, and 0 indicates
-+ * unmuted. However, for an EV_KEY event 1 indicates the key has been pressed
-+ * and 0 indicates it has been released.
-+ */
-+
-+static int atrus_event(struct hid_device *hid, struct hid_field *field,
-+		       struct hid_usage *usage, __s32 value)
++static void vmmouse_reset(struct psmouse *psmouse)
 +{
-+	/*
-+	 * Return 1 to indicate no further processing should be done for this
-+	 * usage.
-+	 */
-+	return 1;
++	vmmouse_disable(psmouse);
++	psmouse_reset(psmouse);
 +}
 +
-+static const struct hid_device_id atrus_devices[] = {
-+	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-+		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_ATRUS) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, atrus_devices);
-+
-+static const struct hid_usage_id atrus_usages[] = {
-+	/* Handle only the Telephony Phone Mute usage. */
-+	{ HID_UP_TELEPHONY | 0x2f, EV_KEY, HID_ANY_ID },
-+	{ HID_TERMINATOR, HID_TERMINATOR, HID_TERMINATOR }
-+};
-+
-+static struct hid_driver atrus_driver = {
-+	.name = "atrus",
-+	.id_table = atrus_devices,
-+	.usage_table = atrus_usages,
-+	.event = atrus_event,
-+};
-+module_hid_driver(atrus_driver);
-+
-+MODULE_AUTHOR("Pablo Ceballos <pcebalos@google.com>");
-+MODULE_DESCRIPTION("Google Hangouts Meet Speakermic USB HID Driver");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 85975031389b..9f6fc5cfbeb9 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -506,6 +506,7 @@
- #define USB_DEVICE_ID_GOOGLE_MOONBALL	0x5044
- #define USB_DEVICE_ID_GOOGLE_DON	0x5050
- #define USB_DEVICE_ID_GOOGLE_EEL	0x5057
-+#define USB_DEVICE_ID_GOOGLE_ATRUS	0x8001
+ /**
+  * vmmouse_disconnect - Take down vmmouse driver
+  *
+@@ -472,6 +485,7 @@ int vmmouse_init(struct psmouse *psmouse)
+ 	psmouse->protocol_handler = vmmouse_process_byte;
+ 	psmouse->disconnect = vmmouse_disconnect;
+ 	psmouse->reconnect = vmmouse_reconnect;
++	psmouse->cleanup = vmmouse_reset;
  
- #define USB_VENDOR_ID_GOTOP		0x08f2
- #define USB_DEVICE_ID_SUPER_Q2		0x007f
+ 	return 0;
+ 
 -- 
-2.35.1.1094.g7c7d902a7c-goog
+2.25.1
 
