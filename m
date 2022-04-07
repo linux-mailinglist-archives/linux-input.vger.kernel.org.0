@@ -2,106 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0F264F67E6
-	for <lists+linux-input@lfdr.de>; Wed,  6 Apr 2022 19:58:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 604AA4F6F89
+	for <lists+linux-input@lfdr.de>; Thu,  7 Apr 2022 03:11:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239462AbiDFRpm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Apr 2022 13:45:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46780 "EHLO
+        id S234080AbiDGBMv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Apr 2022 21:12:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239468AbiDFRph (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Apr 2022 13:45:37 -0400
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E8292ED618
-        for <linux-input@vger.kernel.org>; Wed,  6 Apr 2022 08:54:31 -0700 (PDT)
-Received: by mail-qt1-x834.google.com with SMTP id o15so4980172qtv.8
-        for <linux-input@vger.kernel.org>; Wed, 06 Apr 2022 08:54:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5csHcQ6/tfIFDMQ9dmi2zDp6fYcqQksbyxP0kSAOhAw=;
-        b=e5mrNPY21FGrnT6tEtVNWtdpTlgE+mZa4cl5Kxr7LX+Vl81pq7Dk9aFtCGKB6mbJL4
-         ZXPjIb+wYZFrK0U8YqQi8vD2af4PVLBYIarMfH2iUJ7EyNcGqkN1Hy4IV+2fuqazLidZ
-         7tMqouXSCb7jfpWJpxTyfUQRz7XKWgLcNi3nLSgv8y9hKomek6i7HgpT1z6K8iHLZjZ3
-         BTPTeNfDCeCmSwkwvLXNXCnwRLq3OxtiRBJZD9Q2yHk6otJ1UTlfOxi1sImEdYoqRHsR
-         eN1pk3evZ8WLCOXKVkfrmSn9guUSdxdZJVbxaDO17lIqyu7ugpw1IqW1WGHT7owljvlK
-         R2/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5csHcQ6/tfIFDMQ9dmi2zDp6fYcqQksbyxP0kSAOhAw=;
-        b=YScDrXVllJD/NwfG6EhIPkSBafTn6EIeJEXVfCz/PN5wMKZODjx7sNfsWVDwhbS8GI
-         O6VKpHSMGNyE7G1yXcAtskGlbVOF2k81Um7lelVVBDzD4O4EQDx3ES/vD3hGcproi9Ss
-         JrKwO+ZBTG+egg4yIYJbAnqHWh6IoJC55qof2TtfcaHtMHRaRygup5ZTj17//djh9ZE1
-         naOMgk7Dp22cWggReqE5pM2Hmx1oOSMMis9J0aiMgnRxPeB7QSLdfYqD/tTM3BWi2s4r
-         Bw6gecCuCvyibAHdF5W/DoogsardY2PaI93mBsPjpHiGeOHv0VDZ6wOtADf7ZOciABfU
-         az/w==
-X-Gm-Message-State: AOAM530ypuFNNvsIqeucJXdeSPZlAqZuxtU2qB8Di+stbmRMNshBxdQ9
-        UEinGJQh9EUQ2NHGJhWILiLthtZqiiRN02tsyAc=
-X-Google-Smtp-Source: ABdhPJzzBdtEHKP1o1d9JgHRuMxUfZ9zXmffp/g5a32j8tYKjWTRX+qaG7BOzo4axty8Yvf1cibfzcKRG1YIF3N6FlI=
-X-Received: by 2002:a05:620a:44d6:b0:67b:2dd8:3064 with SMTP id
- y22-20020a05620a44d600b0067b2dd83064mr6151559qkp.219.1649260470007; Wed, 06
- Apr 2022 08:54:30 -0700 (PDT)
+        with ESMTP id S234003AbiDGBMt (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Apr 2022 21:12:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49EB518022B;
+        Wed,  6 Apr 2022 18:10:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8DA0761DBB;
+        Thu,  7 Apr 2022 01:10:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39993C385B9;
+        Thu,  7 Apr 2022 01:10:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649293847;
+        bh=ZxERjJN2xL45S6oKLKU5GRaDVAklc6MvrPJF7AQQpm4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=BQEae+Q9tPEdvcF83J96y3yS0XJ/Hk8KLipt+ccS5j5sR0ZfNTxvsA6/X0IXXozUZ
+         6ezu3sh6cVWsBUQAtGpjxkGC7iUaASAaM5OIesrYJ2+0QEVrUQjaG6Vc4QGUxBaRlT
+         AXAHGfFGy4cpgX/Weth55KIWJbeflWNIwR2XRLX5Eu0CG84VQ64yDiB2p30d5WcMX8
+         UBlvER8HBqRiOFIz1F4HgE05UTHK5wntsNGM842m7NuTrWkUKK5KavesgK+gEstzNo
+         chXKZtYAw6P561zfc+OUwP7KVSE9MDJHb0zyZCemh1cQyLQn93MasbvdeW3Gq4dGHv
+         5CwzPEwrGp+aQ==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Jeff LaBundy <jeff@labundy.com>,
+        =?UTF-8?q?Tomasz=20Mo=C5=84?= <tomasz.mon@camlingroup.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.17 09/31] Input: add bounds checking to input_set_capability()
+Date:   Wed,  6 Apr 2022 21:10:07 -0400
+Message-Id: <20220407011029.113321-9-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220407011029.113321-1-sashal@kernel.org>
+References: <20220407011029.113321-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20210818152743.163929-1-tobias.junghans@inhub.de>
-In-Reply-To: <20210818152743.163929-1-tobias.junghans@inhub.de>
-From:   rishi gupta <gupt21@gmail.com>
-Date:   Wed, 6 Apr 2022 08:54:19 -0700
-Message-ID: <CALUj-gt6m=oJY4N8D5Mr7pHU0CDz9SzTwLbJkry3XQKr0+sg6A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] HID: mcp2221: enable HID I/O during probe
-To:     Jiri Kosina <jikos@kernel.org>,
-        Tobias Junghans <tobias.junghans@inhub.de>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        gavin@matician.com
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Ezio Melotti <ezio.melotti@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Thanks Tobias for the patch!
+From: Jeff LaBundy <jeff@labundy.com>
 
-Reviewed-by: Rishi Gupta <gupt21@gmail.com>
+[ Upstream commit 409353cbe9fe48f6bc196114c442b1cff05a39bc ]
 
+Update input_set_capability() to prevent kernel panic in case the
+event code exceeds the bitmap for the given event type.
 
-On Wed, Aug 18, 2021 at 8:28 AM Tobias Junghans
-<tobias.junghans@inhub.de> wrote:
->
-> devm_gpiochip_add_data() calls the gpio_chip->get_direction handler
-> for each line, resulting in device I/O in mcp_gpio_get_direction().
-> However unless hid_device_io_start() is called, mcp2221_raw_event()
-> is not called during probe, causing mcp_gpio_get_direction() to time
-> out. This fixes that probing takes 12 seconds to complete.
->
-> Signed-off-by: Tobias Junghans <tobias.junghans@inhub.de>
-> ---
->  drivers/hid/hid-mcp2221.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-> index 4211b9839209..8e54173b195c 100644
-> --- a/drivers/hid/hid-mcp2221.c
-> +++ b/drivers/hid/hid-mcp2221.c
-> @@ -895,7 +895,10 @@ static int mcp2221_probe(struct hid_device *hdev,
->         mcp->gc->can_sleep = 1;
->         mcp->gc->parent = &hdev->dev;
->
-> +       hid_device_io_start(hdev);
->         ret = devm_gpiochip_add_data(&hdev->dev, mcp->gc, mcp);
-> +       hid_device_io_stop(hdev);
-> +
->         if (ret)
->                 goto err_gc;
->
-> --
-> 2.25.1
->
+Suggested-by: Tomasz Moń <tomasz.mon@camlingroup.com>
+Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+Reviewed-by: Tomasz Moń <tomasz.mon@camlingroup.com>
+Link: https://lore.kernel.org/r/20220320032537.545250-1-jeff@labundy.com
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/input/input.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index c3139bc2aa0d..42099c8c417c 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -47,6 +47,17 @@ static DEFINE_MUTEX(input_mutex);
+ 
+ static const struct input_value input_value_sync = { EV_SYN, SYN_REPORT, 1 };
+ 
++static const unsigned int input_max_code[EV_CNT] = {
++	[EV_KEY] = KEY_MAX,
++	[EV_REL] = REL_MAX,
++	[EV_ABS] = ABS_MAX,
++	[EV_MSC] = MSC_MAX,
++	[EV_SW] = SW_MAX,
++	[EV_LED] = LED_MAX,
++	[EV_SND] = SND_MAX,
++	[EV_FF] = FF_MAX,
++};
++
+ static inline int is_event_supported(unsigned int code,
+ 				     unsigned long *bm, unsigned int max)
+ {
+@@ -2074,6 +2085,14 @@ EXPORT_SYMBOL(input_get_timestamp);
+  */
+ void input_set_capability(struct input_dev *dev, unsigned int type, unsigned int code)
+ {
++	if (type < EV_CNT && input_max_code[type] &&
++	    code > input_max_code[type]) {
++		pr_err("%s: invalid code %u for type %u\n", __func__, code,
++		       type);
++		dump_stack();
++		return;
++	}
++
+ 	switch (type) {
+ 	case EV_KEY:
+ 		__set_bit(code, dev->keybit);
+-- 
+2.35.1
+
