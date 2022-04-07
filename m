@@ -2,50 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D5E94F70B5
-	for <lists+linux-input@lfdr.de>; Thu,  7 Apr 2022 03:21:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1C5D4F7097
+	for <lists+linux-input@lfdr.de>; Thu,  7 Apr 2022 03:20:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239006AbiDGBWT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Apr 2022 21:22:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32870 "EHLO
+        id S238605AbiDGBV5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Apr 2022 21:21:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239461AbiDGBTQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Apr 2022 21:19:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A7DE1A61FB;
-        Wed,  6 Apr 2022 18:14:32 -0700 (PDT)
+        with ESMTP id S240243AbiDGBTw (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Apr 2022 21:19:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18C221B7558;
+        Wed,  6 Apr 2022 18:15:34 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7BD6961DCE;
-        Thu,  7 Apr 2022 01:14:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6734C385A6;
-        Thu,  7 Apr 2022 01:14:30 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3566761DA8;
+        Thu,  7 Apr 2022 01:15:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1879C385A7;
+        Thu,  7 Apr 2022 01:15:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649294071;
-        bh=bSlGXJ7/3lA0wX2uR7IlVzvv2YkAhOIcVEo/DSFBlLg=;
+        s=k20201202; t=1649294133;
+        bh=oFWK77TFIfOUUQE8Z7z3Ndo6+9XkdRFZNj44FOc0Un0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sc38JcbaMOUwjXtBKVW/EDMnlF2/Z6Tnyq5j8bhWJ0rcwvCoRqwv0TX40Mmiq0tr3
-         snSaot5rnGOLb6f5qxu+GyN9AydK5isug2v49c2G1679esoZ0xS9gLAFnqo+n/TKOi
-         5MLBP4ybLi7kGiRCH+MVj2ep/6A3BQQC1jk0l8+afiHJgHZWTsYo5UMvU4CM3fnXb1
-         FHjCo4Q6tR8+Qk6oN2tL4gRZxwU9KLBOVw4z8YYA4oTJKYtlWrcmuO25PBncGj7FM3
-         LOYT3uIQ5viej8n5EQsJc0B4u0eAwLJohi6pZ1iDwDtXdIL8QvyjMwlqCXOrxtSjeA
-         weeuzR5tc8ZKw==
+        b=ogy2fAvUXS3vVw7TqP4LFLvxaJv3TRl5A/v7MrHPyLqOahyoXW8NZCklM5wkbRwZj
+         vKP2P9MuYp608aKKGJWbw+nSfQsdQNLYlE9KVuRLhg/+SijEk2koUog5JGI59zvC2m
+         2JiyHDgjNBGqtviKhGC/STelrh5D9VDkHopgZeDRaf9msMwB92iRt/jBBMAza4UjJq
+         n45N5s+xoY6AzlAVQqSK+uuXFj+T38qbU6fckooglsfteigo57FcLOrXsYhjaxYFtx
+         8/m5g2s5WArlJYMyaUwLMjaFAv8zQBct1h0htD2muBHkG7dYiXsph4V8OaxACWYiqz
+         YLt73u0v2BA7w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Zheng Yongjun <zhengyongjun3@huawei.com>,
+Cc:     Jeff LaBundy <jeff@labundy.com>,
+        =?UTF-8?q?Tomasz=20Mo=C5=84?= <tomasz.mon@camlingroup.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, mcoquelin.stm32@gmail.com,
-        alexandre.torgue@foss.st.com, linux-input@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 07/25] Input: stmfts - fix reference leak in stmfts_input_open
-Date:   Wed,  6 Apr 2022 21:13:55 -0400
-Message-Id: <20220407011413.114662-7-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 05/17] Input: add bounds checking to input_set_capability()
+Date:   Wed,  6 Apr 2022 21:15:09 -0400
+Message-Id: <20220407011521.115014-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220407011413.114662-1-sashal@kernel.org>
-References: <20220407011413.114662-1-sashal@kernel.org>
+In-Reply-To: <20220407011521.115014-1-sashal@kernel.org>
+References: <20220407011521.115014-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -59,51 +58,60 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Zheng Yongjun <zhengyongjun3@huawei.com>
+From: Jeff LaBundy <jeff@labundy.com>
 
-[ Upstream commit 26623eea0da3476446909af96c980768df07bbd9 ]
+[ Upstream commit 409353cbe9fe48f6bc196114c442b1cff05a39bc ]
 
-pm_runtime_get_sync() will increment pm usage counter even it
-failed. Forgetting to call pm_runtime_put_noidle will result
-in reference leak in stmfts_input_open, so we should fix it.
+Update input_set_capability() to prevent kernel panic in case the
+event code exceeds the bitmap for the given event type.
 
-Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
-Link: https://lore.kernel.org/r/20220317131604.53538-1-zhengyongjun3@huawei.com
+Suggested-by: Tomasz Moń <tomasz.mon@camlingroup.com>
+Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+Reviewed-by: Tomasz Moń <tomasz.mon@camlingroup.com>
+Link: https://lore.kernel.org/r/20220320032537.545250-1-jeff@labundy.com
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/touchscreen/stmfts.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/input/input.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/input/touchscreen/stmfts.c b/drivers/input/touchscreen/stmfts.c
-index 9a64e1dbc04a..64b690a72d10 100644
---- a/drivers/input/touchscreen/stmfts.c
-+++ b/drivers/input/touchscreen/stmfts.c
-@@ -339,11 +339,11 @@ static int stmfts_input_open(struct input_dev *dev)
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index f7398b996bac..5304262dbfa5 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -47,6 +47,17 @@ static DEFINE_MUTEX(input_mutex);
  
- 	err = pm_runtime_get_sync(&sdata->client->dev);
- 	if (err < 0)
--		return err;
-+		goto out;
+ static const struct input_value input_value_sync = { EV_SYN, SYN_REPORT, 1 };
  
- 	err = i2c_smbus_write_byte(sdata->client, STMFTS_MS_MT_SENSE_ON);
- 	if (err)
--		return err;
-+		goto out;
- 
- 	mutex_lock(&sdata->mutex);
- 	sdata->running = true;
-@@ -366,7 +366,9 @@ static int stmfts_input_open(struct input_dev *dev)
- 				 "failed to enable touchkey\n");
- 	}
- 
--	return 0;
-+out:
-+	pm_runtime_put_noidle(&sdata->client->dev);
-+	return err;
- }
- 
- static void stmfts_input_close(struct input_dev *dev)
++static const unsigned int input_max_code[EV_CNT] = {
++	[EV_KEY] = KEY_MAX,
++	[EV_REL] = REL_MAX,
++	[EV_ABS] = ABS_MAX,
++	[EV_MSC] = MSC_MAX,
++	[EV_SW] = SW_MAX,
++	[EV_LED] = LED_MAX,
++	[EV_SND] = SND_MAX,
++	[EV_FF] = FF_MAX,
++};
++
+ static inline int is_event_supported(unsigned int code,
+ 				     unsigned long *bm, unsigned int max)
+ {
+@@ -1978,6 +1989,14 @@ EXPORT_SYMBOL(input_get_timestamp);
+  */
+ void input_set_capability(struct input_dev *dev, unsigned int type, unsigned int code)
+ {
++	if (type < EV_CNT && input_max_code[type] &&
++	    code > input_max_code[type]) {
++		pr_err("%s: invalid code %u for type %u\n", __func__, code,
++		       type);
++		dump_stack();
++		return;
++	}
++
+ 	switch (type) {
+ 	case EV_KEY:
+ 		__set_bit(code, dev->keybit);
 -- 
 2.35.1
 
