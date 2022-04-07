@@ -2,54 +2,32 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 302C64F70B7
-	for <lists+linux-input@lfdr.de>; Thu,  7 Apr 2022 03:21:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00DE74F7E75
+	for <lists+linux-input@lfdr.de>; Thu,  7 Apr 2022 13:54:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239018AbiDGBWX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Apr 2022 21:22:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60914 "EHLO
+        id S233244AbiDGL4M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 7 Apr 2022 07:56:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240522AbiDGBUD (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Apr 2022 21:20:03 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 086EDE9978;
-        Wed,  6 Apr 2022 18:17:55 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B6CDFB81E7F;
-        Thu,  7 Apr 2022 01:17:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2682C385A6;
-        Thu,  7 Apr 2022 01:17:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649294272;
-        bh=vSlTdS4frT8Mjmykvy79Ms7L46FQR7yZhRuJyxtB7tU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RMAhFhCOB/2hMrxoZeQ9ayY9I4b7HfrojgdfxKziTvKVN8r24YWPrFMABWPC57cvi
-         8juaaQRvVHflBSCv7W6bIGyk1dgPvunnGp0ifxJ+wxx2KvB5QihHRHpP8/Of97gGqh
-         V8TDo+TMpMcQ/gYsg2YsaY3TYo7MIk1s0WbPcAix5DpNkrT7Tz75VC0pZHyXWSx8JZ
-         Gl5CemoVNaL6QQvKaWqOj2ZwxhIF41PVTBkwymgtqUUUDclfPa48cRcFDAOYsQ+3Y/
-         xvpRi7s7YmPFZvOiJ4qLLcgZcuki/TseeDbp1D0DMfOwhj0wT0Bjm7NyZt/uHyodlT
-         1qCPg7OCF6xHQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jeff LaBundy <jeff@labundy.com>,
-        =?UTF-8?q?Tomasz=20Mo=C5=84?= <tomasz.mon@camlingroup.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 4/7] Input: add bounds checking to input_set_capability()
-Date:   Wed,  6 Apr 2022 21:17:37 -0400
-Message-Id: <20220407011740.115717-4-sashal@kernel.org>
+        with ESMTP id S233421AbiDGL4L (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Apr 2022 07:56:11 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DBF6D0AAC;
+        Thu,  7 Apr 2022 04:54:11 -0700 (PDT)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 8D2F9C0008;
+        Thu,  7 Apr 2022 11:54:07 +0000 (UTC)
+From:   Bastien Nocera <hadess@hadess.net>
+To:     linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH] HID: wacom: Correct power_supply type
+Date:   Thu,  7 Apr 2022 13:54:06 +0200
+Message-Id: <20220407115406.115112-1-hadess@hadess.net>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220407011740.115717-1-sashal@kernel.org>
-References: <20220407011740.115717-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -58,60 +36,32 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jeff LaBundy <jeff@labundy.com>
+POWER_SUPPLY_TYPE_USB seems to only ever be used by USB ports that are
+used to charge the machine itself (so a "system" scope), like the
+single USB port on a phone, rather than devices.
 
-[ Upstream commit 409353cbe9fe48f6bc196114c442b1cff05a39bc ]
+The wacom_sys driver is the only driver that sets its device battery as
+being a USB type, which doesn't seem correct based on its usage, so
+switch it to be a battery type like all the other USB-connected devices.
 
-Update input_set_capability() to prevent kernel panic in case the
-event code exceeds the bitmap for the given event type.
-
-Suggested-by: Tomasz Moń <tomasz.mon@camlingroup.com>
-Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-Reviewed-by: Tomasz Moń <tomasz.mon@camlingroup.com>
-Link: https://lore.kernel.org/r/20220320032537.545250-1-jeff@labundy.com
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Bastien Nocera <hadess@hadess.net>
 ---
- drivers/input/input.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/hid/wacom_sys.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index cb31236425a1..f65306f74339 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -50,6 +50,17 @@ static DEFINE_MUTEX(input_mutex);
+diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+index 066c567dbaa2..620fe74f5676 100644
+--- a/drivers/hid/wacom_sys.c
++++ b/drivers/hid/wacom_sys.c
+@@ -1777,7 +1777,7 @@ static int __wacom_initialize_battery(struct wacom *wacom,
+ 	bat_desc->get_property = wacom_battery_get_property;
+ 	sprintf(battery->bat_name, "wacom_battery_%ld", n);
+ 	bat_desc->name = battery->bat_name;
+-	bat_desc->type = POWER_SUPPLY_TYPE_USB;
++	bat_desc->type = POWER_SUPPLY_TYPE_BATTERY;
+ 	bat_desc->use_for_apm = 0;
  
- static const struct input_value input_value_sync = { EV_SYN, SYN_REPORT, 1 };
- 
-+static const unsigned int input_max_code[EV_CNT] = {
-+	[EV_KEY] = KEY_MAX,
-+	[EV_REL] = REL_MAX,
-+	[EV_ABS] = ABS_MAX,
-+	[EV_MSC] = MSC_MAX,
-+	[EV_SW] = SW_MAX,
-+	[EV_LED] = LED_MAX,
-+	[EV_SND] = SND_MAX,
-+	[EV_FF] = FF_MAX,
-+};
-+
- static inline int is_event_supported(unsigned int code,
- 				     unsigned long *bm, unsigned int max)
- {
-@@ -1913,6 +1924,14 @@ EXPORT_SYMBOL(input_free_device);
-  */
- void input_set_capability(struct input_dev *dev, unsigned int type, unsigned int code)
- {
-+	if (type < EV_CNT && input_max_code[type] &&
-+	    code > input_max_code[type]) {
-+		pr_err("%s: invalid code %u for type %u\n", __func__, code,
-+		       type);
-+		dump_stack();
-+		return;
-+	}
-+
- 	switch (type) {
- 	case EV_KEY:
- 		__set_bit(code, dev->keybit);
+ 	ps_bat = devm_power_supply_register(dev, bat_desc, &psy_cfg);
 -- 
 2.35.1
 
