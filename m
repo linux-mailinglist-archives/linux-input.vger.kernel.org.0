@@ -2,155 +2,222 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AFEA4F9246
-	for <lists+linux-input@lfdr.de>; Fri,  8 Apr 2022 11:51:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0BE24F9491
+	for <lists+linux-input@lfdr.de>; Fri,  8 Apr 2022 13:53:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233048AbiDHJxX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Apr 2022 05:53:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42806 "EHLO
+        id S233071AbiDHLzn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Apr 2022 07:55:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229698AbiDHJxV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Apr 2022 05:53:21 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2086.outbound.protection.outlook.com [40.107.94.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD1782179AE
-        for <linux-input@vger.kernel.org>; Fri,  8 Apr 2022 02:51:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CE8Ts/bpeyUlaLlRjBKnOHzqTWLMYPsdiAAhxDwKnioQByRe+4QAGPrKXT05i1WQp/W/oWnKhVCclDmDkIYYl6LEF/T7gWHd7NmeWGn/nlVI+qHm0AWQN6ao9bUMFMS6uR0fYDlqwEfWlFaZTg+zUBUJ3UXkyD07KeWrOtViymiOHvHn+2JRpsU1WETcT57FIpX+f9g+wR5ZhkX83PbDY+zaklXqcIitNka/JwSoMQohJey7jT98O0bSAg/fIwNgYML6ipsyyB5ASVmG7+SG8UAH0B89TnRttu6fGydKqbTAMIotjMvm/Hqy42zCjKVP4JgT2RBgDXXg3W505TZgmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=INcdl7djJrNkhI0F7lVvGIlT4Y0E4ytLypwlC/nM1+Q=;
- b=AN1kvQYvigkNqrqEtFKb66y7YgA0sH+b0eAjwDIwzwIAOIJqdh8hE98ERFP9DmdOqbEuqi8ASarSiDl+bcztWBAVxE9+eI1qWRfs7kibq5R8XOrGHlewNqHc/SLJWHsX85yDaNGWleqoGgH+Q5+9vmgOYDlT1mAhxCftjWNjYhu+fcV9GaNsLbLg2AYzrC4zIC4RwhPnnyPRm6cz0/J/a50fh+y/azsBjGx2UwGYMEGR3HDm6lohEhrhZ5moyR/BsjdLXkOyZqhTXgI8bO7q3a1e9nF/MUYLdEzTBs7X7TF9pfhEOqfyFvWJnXM/CT9fl8dYZpYCAdk9YeMGX0N93Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=INcdl7djJrNkhI0F7lVvGIlT4Y0E4ytLypwlC/nM1+Q=;
- b=1hBtdNiTNjv99hCpHqs60Qlpo73h+pnoRHVqHQw/JEaaijaZrLIVEKcrcQjPfrMbsPngklSB5O6rqcr2N0n2Ds1b02Ixa1ubWYbL1YxYIfopszia9dM0lLboGH021XBUbwZ7P3JRmqWr4FV53VKnsuYnb8I27Pb4UOyVP1tPaDs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by DS7PR12MB5933.namprd12.prod.outlook.com (2603:10b6:8:7c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.22; Fri, 8 Apr
- 2022 09:51:17 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::313b:8981:d79a:52d0]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::313b:8981:d79a:52d0%5]) with mapi id 15.20.5144.022; Fri, 8 Apr 2022
- 09:51:17 +0000
-Message-ID: <9f5795da-7dde-012a-6a31-5ee7993ba8ba@amd.com>
-Date:   Fri, 8 Apr 2022 15:21:06 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] amd_sfh: Remove name from maintainers list
-Content-Language: en-US
-To:     Nehal-bakulchandra Shah <Nehal-bakulchandra.Shah@amd.com>,
-        benjamin.tissoires@redhat.com, jikos@kernel.org,
-        Basavaraj.Natikar@amd.com
-Cc:     Shyam-sundar.S-k@amd.com, linux-input@vger.kernel.org
-References: <20220408094717.847209-1-Nehal-bakulchandra.Shah@amd.com>
-From:   Basavaraj Natikar <bnatikar@amd.com>
-In-Reply-To: <20220408094717.847209-1-Nehal-bakulchandra.Shah@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0026.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:97::17) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+        with ESMTP id S235212AbiDHLzm (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Apr 2022 07:55:42 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8B7D81193
+        for <linux-input@vger.kernel.org>; Fri,  8 Apr 2022 04:53:36 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id r10so9781738eda.1
+        for <linux-input@vger.kernel.org>; Fri, 08 Apr 2022 04:53:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OA9i/F0Q7gGy6vw+8jnVyUvqFaSzdMTuMr4fiGshsOc=;
+        b=cdT1slNFAvXFtO/Y5oAMec1XE5W9VQ16Hq2VcxUwjVvQcH+F83dVgf+JenniHFRpjt
+         y50HrMWV33q+EUZrhjVZfbL4BxfK7nQqCeguIIalPfBBAwl2AgfgfpK7CNSY9/nOJdMx
+         vfO2o3rv31YA76DIKZHADIckPsToQORS6+HqWnSuwKA/fnUjQgi/cfvmiYhH/hgesNel
+         CIbIWNP+7JsqcI0l2UkWO/aIbADVFl8jz04a0KQy45RLJjlOOWloD7787fuRi3HXvbw3
+         NTQpl9LKzDiz69gjGDOSvIA7LpVopSXEGz4tTBLiDkxmkG06Mq4lNw4nCWMkzy/XuVJ/
+         B6PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OA9i/F0Q7gGy6vw+8jnVyUvqFaSzdMTuMr4fiGshsOc=;
+        b=yqIUvI1qTN6/nGLGXhJVLbriTNoZXT4YT1Oc+AXbYkZlpane7mwKslybYPgkjiiIR4
+         LXOJetB3VrS1RYo0M9iTONvvzh9pD+P9ucWIaZP3qaW6TQXC9eCaC/BKvMKTaywzhkP2
+         YSGoOU9xIPgg6Q3mQtAr1FBaF27uEKlUTHr7HwfanEQGLoEjvzIM6dOmOAwJZ7rK6Jba
+         lMfueRNr2serdNVuquXRcjakuBnXUQvW0EsU9z4mTeVIWvgxli19dekpXW1+doC95biY
+         s3+jeevqcAtY/LTl8VWXG7nOfrxAFCo39XSiFZjRSJQiU6mr5YB8s0ohaDd1g8pP6JhY
+         6cFg==
+X-Gm-Message-State: AOAM530kmERF5Xo0RWapRIiwUKdXN974tazFKTCsDJyLIQZrSl1HBBqc
+        7X1/+CAyv+h0hEKZ3CWo1F7X41pgEeMADw==
+X-Google-Smtp-Source: ABdhPJxadi9ASalxmUdAyobBgUBlVo0Duu8xhPyv+ELTnJjcIfzBRWcwHvQuE6G+lfW3km7c5/E0Cw==
+X-Received: by 2002:a05:6402:2809:b0:41d:124e:4292 with SMTP id h9-20020a056402280900b0041d124e4292mr6103371ede.263.1649418815208;
+        Fri, 08 Apr 2022 04:53:35 -0700 (PDT)
+Received: from otso.. (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id r29-20020a50c01d000000b00415fb0dc793sm10470899edb.47.2022.04.08.04.53.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Apr 2022 04:53:34 -0700 (PDT)
+From:   Luca Weiss <luca.weiss@fairphone.com>
+To:     linux-input@vger.kernel.org
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Luca Weiss <luca.weiss@fairphone.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] dt-bindings: input: Add bindings for Awinic AW8695 haptics
+Date:   Fri,  8 Apr 2022 13:53:08 +0200
+Message-Id: <20220408115311.237039-1-luca.weiss@fairphone.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 189bdf31-0f50-433d-5e41-08da194553a8
-X-MS-TrafficTypeDiagnostic: DS7PR12MB5933:EE_
-X-Microsoft-Antispam-PRVS: <DS7PR12MB59333A892E1B98BB53B55233E6E99@DS7PR12MB5933.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: F5IPUIvD2F1YPTy8VVQJ0PpREwMySK6mwQHqYkdbQYlNoS5HHoiugBMupj2x78KVC6u8KnyrUach+f9FFpBy9VUaDD7coIXUXBYNjQ7XCF0ecpSLOZh4EXti/a4U1xB1KyUyFgc3XUEl4b5XUYjo5snjUH697Ya3W+cGGPmogFJbQLg1+gIB+kv9ReVf9+rAHzKryyBmfGFTkI1MOazfJ6Fsc6M08DtEK1rcRRYHI41IfiSE4hiEpD5kwUKWPfWelwG1GJYKdL/CIHAzY1TfMB84d8wb2h1QvEKigoZEr16wEGZp0q97fBWR8sxoPvr9BfhOssjzodEYonj9EFbHFfNl7IylnwaVGCt6LuNTemH8fENQb3MtzbjiccbMgNTrwjZxRNTGJsOTJYD860ZWwfTTmU71YhxlV6S2yf88h5cx1eB1UAbpeMdwoXtwgKBDwkGfi2u6CTyJ+ufnvvbR/aeiPM8erVZm1stS0DfMc4OVEt0HY2ybS9SNYn0c+LWoSellqCmokcEPc/THkmdgG0JcqcSIFzc1E8SPuOcyTeJSCbZACi8voIwCEG10wGLYcb6hK8m0JeCtAIhjx9XtMrUYMHR0JpfPvDPJxw0ITWoe253lLsTI+h8BPfj2teDMZwk/O0ZRorOk68XOp2UnkpJ9D761GxEaG920GCD7+sMFKw4yRctuxTfCM8c4li3Thsn63YkFAeuyhzwyTdgGGqrZAFnXmGcvzL2GaRJxqOI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(36756003)(66476007)(66556008)(66946007)(38100700002)(316002)(31686004)(6636002)(6486002)(6512007)(83380400001)(4326008)(2906002)(8676002)(53546011)(4744005)(5660300002)(186003)(26005)(31696002)(6506007)(508600001)(2616005)(6666004)(8936002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V0JMVklTNGQyVFFQZWtQYXdYWUhMS1JmODliZEpwL1hIb0hoSHJibEFDTktq?=
- =?utf-8?B?Ylg5ZXZER0lIeXNMcHNWN2JiQjZHQWtQTXdRSTZYWGtqaC9FTzhSMWxUQjFu?=
- =?utf-8?B?MWJYTTNPcWVKdHRJZURaMW0xTDR6UU5FNE8rZkd1SzBNcFhYYWtmNTJwdHRR?=
- =?utf-8?B?K1o0YUZleDI2M3FNd25RVFhHUUQ5UWd6ZWthSDJpbllIWlpHdjZDd2pURGx2?=
- =?utf-8?B?WTRPQlhKcXhobXh1RzdKaFNJbGYxNWk4V0R1dEZ5RW55VW5DZlpDTnhZendK?=
- =?utf-8?B?MUkrTHFST3FHc25uZVdjMUsrKys0TmY3RThGY0pwWDFPOWRUallmV1l0dDE3?=
- =?utf-8?B?VFpxTHRreGYzS2ozdnlSekhNWTZSZkxHUk55WnlRMDNyeVRPbFhEV3FNUFBt?=
- =?utf-8?B?dnlsamw0RGs5Y25YaVpmbkZPR1ZoZzQrYmJ6RmhyV3BacnNuQWVYWGJaVDRt?=
- =?utf-8?B?UG1MbGhCc0FVVHJGaDluUDFrVzBRdzN1VWk5Q2Jvc0lkbjFqV1ZHeUpKcVU1?=
- =?utf-8?B?NEIxV1lyR2wwdDdLRGF0YWEwb2lnMzZiajJ3ak9WNTNVQ0xBelpvZERYMWpD?=
- =?utf-8?B?ZmlJS3lOekJNcVVtRzZPbUFsSmxrcVlJUUVicmhhbm15TW4vTVdhQU9NOWJI?=
- =?utf-8?B?VFJHN0w3OWN6N2kvelN3dktISFNXVG5zcDh3S0lqd2RwNmpsd0toVGIxVDdo?=
- =?utf-8?B?TlZyM0wwVTFxSUp0UHFPSm0zUi9BSXVrNU5OdmZ2Q2dOWUdRa0FPYlFKMkxP?=
- =?utf-8?B?VGlCdkdRdUFZQ2I5M09BQVEyeldxeUk3R1J0R3JSVVI3bEQycC94Q2xXcVNX?=
- =?utf-8?B?QnhCUjg3emh4aUg3a2prb3dHZUt1eElhL2liQ3puaU02eXo3bmptVzFZTFl5?=
- =?utf-8?B?QytPRkdlQmc5RSsvUk5QMjQ1Zkh2Qitpbzdub0tIcE1qQllYK0VFTHZoY1I2?=
- =?utf-8?B?eU5McStyYUlneUZFOU5mc0o3VFJXQ2dQbXBXQk1xN3ZZMElaVVorUmRUZk1v?=
- =?utf-8?B?bFdFMHRpazdJRDFrNzcyUjYzR2ZEQzA2WjNvRERsZjNUeG5xZ21hRjlPVVpz?=
- =?utf-8?B?d3dsRHBicFhzSUxPRGhzblZOaURpL3gvMldPa3dMV28rMGlwVVk4eWpoRVJ5?=
- =?utf-8?B?WkNhTGJkRzJ0QlZBRVZ2Uys1cXN5V2RYVDFyWjFBclZuWXF4RHJDK1liWStG?=
- =?utf-8?B?Tjk4VHVQbVFtNmoxclFFRERwZGZBMklHZkgrVmM0enFMb0crd01tb1Z2Z2o3?=
- =?utf-8?B?RFFFbk5rZVllWU5rMk03dGl3eXlrTGFPcG5kZjJQSE9QcmoycE1sVzlzaGNE?=
- =?utf-8?B?YjlkRzFibW84WkRRNTRyUmljYThWSDkxQldSOENxQ1FKdnA2YlJmNkJ6ZThj?=
- =?utf-8?B?MGg2TzBXQ2kxeFlJS3hIcUxVTlYrM0x4TG5HOTBsa1BqNUx2YUQ1cStPeGpM?=
- =?utf-8?B?d0hBTVpaSXR3Q3lLbDl3ZlowZ3VmMStENFVPQUFJYWFzbHNDUWpBOFVWQU9I?=
- =?utf-8?B?QTE2ckptWFZLa0I0UzZMb0wwSk5DNjFCZ3JmNXBkTGtDNW1yMFN1R1dZNGJP?=
- =?utf-8?B?RGV6dVI1S1ZEL1JJQTBDQ2dMNU9OMUFqTkJ0YTBVd2kyYXNYMElkQXNjODhX?=
- =?utf-8?B?Q21QN21xbWZKbFVBQmsvV05LLzJHYVdkOXJSSGd5a0g5NUk5M3JCYnNXU1Zs?=
- =?utf-8?B?MytyZ2Z6VUFWR293SmxBb3BTaDhkalh0QTliOWlRVitMbjVTdXNkcVpJWUgv?=
- =?utf-8?B?SC9QdlBEM2dSblFrQXJNZnNxZlQ0ckxCbDZBR2VWRU5DZU85Q2gxbmEzdERq?=
- =?utf-8?B?aGdTMGlydGpjSkFycE9hblNBZkZDZ2s3TnJBRlZMOHVOcENJTUNXcEI5aDYr?=
- =?utf-8?B?U1JXc214c3FieWpXWkk5ZVQwRzBmeWgxT251UEhXMktFeWd0VWpZaUNzOUF6?=
- =?utf-8?B?aFR2N2E3VTY0Qk1WMWk0dXdCR1VtMFMxaE5WSW85cHRTZVFkZmI3Q3ZaWmpK?=
- =?utf-8?B?ckk2WDdjTTM2U0I1S2VTRE4wZlVlcmd0eHYrTytGRmVlM0tKbm1FSjdkUmRE?=
- =?utf-8?B?KzZOcDhwcTlPVHdCV20xNjljYmE5T21lNkRFRnRtbXJpait0a1JlcURiWk1E?=
- =?utf-8?B?SllhZi9tQ0MrVWp1STRQMHNMaGlNNE1kVzcwN1FFTy9lOXF3anpvRFNQVGJn?=
- =?utf-8?B?c0FyMUZha0pBbjBubEtIZ2p2a1ZXL1QyajhRQklIWnJ3MTQwRHh6Z2NHa1VF?=
- =?utf-8?B?aFdYbzNBUnVJVG9BN1NtbUNhWDhYUG5JbFp3NGVLbW5Eb0NhWlMyM1V6WTlQ?=
- =?utf-8?B?Ri9mRjNDVk9xNzZtVXZnQUY2Z1VFSFVhaEdOSmJ3alEzdURHQlI5UT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 189bdf31-0f50-433d-5e41-08da194553a8
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2022 09:51:17.6451
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r1kc7NjxYb0mU75X9IZeru9B6A8zUKFtRwjNaauaPYBnAjtnRjnOo/O24fnFhXXmJntozCMep+MYtqgpUmzOIw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5933
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Add a document describing the bindings for the AW8695 LRA Haptic Driver.
 
-On 4/8/2022 3:17 PM, Nehal-bakulchandra Shah wrote:
-> From: Nehal Bakulchandra Shah <Nehal-Bakulchandra.shah@amd.com>
->
-> Remove my name from maintainer-ship of AMD SENSOR FUSION HUB DRIVER
->
-> Signed-off-by: Nehal Bakulchandra Shah <Nehal-Bakulchandra.shah@amd.com>
-> ---
->  MAINTAINERS | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fd768d43e048..864d26404711 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1043,7 +1043,6 @@ F:	arch/arm64/boot/dts/amd/amd-seattle-xgbe*.dtsi
->  F:	drivers/net/ethernet/amd/xgbe/
->  
->  AMD SENSOR FUSION HUB DRIVER
-> -M:	Nehal Shah <nehal-bakulchandra.shah@amd.com>
->  M:	Basavaraj Natikar <basavaraj.natikar@amd.com>
->  L:	linux-input@vger.kernel.org
->  S:	Maintained
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+---
+ .../bindings/input/awinic,aw8695-haptics.yaml | 133 ++++++++++++++++++
+ 1 file changed, 133 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/awinic,aw8695-haptics.yaml
 
-Acked-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+diff --git a/Documentation/devicetree/bindings/input/awinic,aw8695-haptics.yaml b/Documentation/devicetree/bindings/input/awinic,aw8695-haptics.yaml
+new file mode 100644
+index 000000000000..9f573daaba0e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/awinic,aw8695-haptics.yaml
+@@ -0,0 +1,133 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/awinic,aw8695-haptics.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Awinic AW8695 LRA Haptic Driver
++
++maintainers:
++  - Luca Weiss <luca.weiss@fairphone.com>
++
++properties:
++  compatible:
++    const: awinic,aw8695
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description: GPIO connected to INTN pin (edge falling)
++
++  reset-gpios:
++    maxItems: 1
++    description: GPIO connected to RSTN pin (active high)
++
++  awinic,f0-preset:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Default value for the f0 of LRA
++
++  awinic,f0-coefficient:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Coefficient between actual f0 and the value in the registers
++
++  awinic,f0-calibration-percent:
++    maxItems: 1
++    description: Limit of f0 deviation from awinic,f0-preset
++
++  awinic,drive-level:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Level of drive waveform in normal driving
++
++  awinic,f0-detection-play-time:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Drive waveform play times in the first period in the f0 detection
++
++  awinic,f0-detection-wait-time:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Waveform wait times in the f0 detection
++
++  awinic,f0-detection-repeat:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Repeat times in the f0 detection
++
++  awinic,f0-detection-trace:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Drive waveform play times in the second period and later in the f0 detection
++
++  awinic,boost-debug:
++    $ref: /schemas/types.yaml#/definitions/uint8-array
++    minItems: 3
++    maxItems: 3
++    description: Values for BSTDBG1-3 registers
++
++  awinic,tset:
++    $ref: /schemas/types.yaml#/definitions/uint8
++    description: Value for TSET register
++
++  awinic,r-spare:
++    $ref: /schemas/types.yaml#/definitions/uint8
++    description: Value for R_SPARE register
++
++  awinic,bemf-upper-threshold:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Back EMF (electromotive force) upper threshold
++
++  awinic,bemf-lower-threshold:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Back EMF (electromotive force) lower threshold
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - reset-gpios
++  - awinic,f0-preset
++  - awinic,f0-coefficient
++  - awinic,f0-calibration-percent
++  - awinic,drive-level
++  - awinic,f0-detection-play-time
++  - awinic,f0-detection-wait-time
++  - awinic,f0-detection-repeat
++  - awinic,f0-detection-trace
++  - awinic,boost-debug
++  - awinic,tset
++  - awinic,r-spare
++  - awinic,bemf-upper-threshold
++  - awinic,bemf-lower-threshold
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        haptics@5a {
++            compatible = "awinic,aw8695";
++            reg = <0x5a>;
++            interrupts-extended = <&tlmm 85 IRQ_TYPE_EDGE_FALLING>;
++            reset-gpios = <&tlmm 90 GPIO_ACTIVE_HIGH>;
++
++            awinic,f0-preset = <2350>;
++            awinic,f0-coefficient = <260>;
++            awinic,f0-calibration-percent = <7>;
++            awinic,drive-level = <125>;
++
++            awinic,f0-detection-play-time = <5>;
++            awinic,f0-detection-wait-time = <3>;
++            awinic,f0-detection-repeat = <2>;
++            awinic,f0-detection-trace = <15>;
++
++            awinic,boost-debug = /bits/ 8 <0x30 0xeb 0xd4>;
++            awinic,tset = /bits/ 8 <0x12>;
++            awinic,r-spare = /bits/ 8 <0x68>;
++
++            awinic,bemf-upper-threshold = <4104>;
++            awinic,bemf-lower-threshold = <1016>;
++        };
++    };
+-- 
+2.35.1
 
