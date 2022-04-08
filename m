@@ -2,108 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 283264F9DC7
-	for <lists+linux-input@lfdr.de>; Fri,  8 Apr 2022 21:50:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D7544F9F2A
+	for <lists+linux-input@lfdr.de>; Fri,  8 Apr 2022 23:29:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238944AbiDHTwO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Apr 2022 15:52:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35962 "EHLO
+        id S229733AbiDHVbH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Apr 2022 17:31:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233000AbiDHTwN (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Apr 2022 15:52:13 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AB82CE7;
-        Fri,  8 Apr 2022 12:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649447409; x=1680983409;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NFsxnCy8jPc0T8qrhjEMXjZ/Yl35VCVnze/5CyH4DhI=;
-  b=eAp+xma37z+Q90McpeCvtk05+uxrQhk/YUfTYBZuqwPRLWInwmLkRRVE
-   tGaMMUTqg7gpCCAe/FUMc8U1ZOP7ZwlhR1QUJoXRoqu1iaYqJJJp0/Fs+
-   0PU9crgLQ68sOiIK8QNf7ucLMwxSC2ji99S/le3iSqYO79kktypmQTcLy
-   +/19acWkD/godtNk9aAtcXCCARz3+q0AN15eDSI00wQnMondHb0N25fLy
-   5M3Aku2Pzbw7RHGZrhArSQBpubcXnGEE7y+jWiJHwTDNQuBizq/4LmchN
-   zFM1NOfpGBB00/fX763o+G9cnGsy5JWLJrjsgjJBuNzD4r1+2T6oDr45M
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10311"; a="260515949"
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; 
-   d="scan'208";a="260515949"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2022 12:50:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; 
-   d="scan'208";a="524897967"
-Received: from lkp-server02.sh.intel.com (HELO 7e80bc2a00a0) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 08 Apr 2022 12:50:05 -0700
-Received: from kbuild by 7e80bc2a00a0 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1ncucO-0000aT-JY;
-        Fri, 08 Apr 2022 19:50:04 +0000
-Date:   Sat, 9 Apr 2022 03:49:09 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Luca Weiss <luca.weiss@fairphone.com>, linux-input@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, ~postmarketos/upstreaming@lists.sr.ht,
-        phone-devel@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: sm7225-fairphone-fp4: Add AW8695
- haptics
-Message-ID: <202204090333.QZXMI2tu-lkp@intel.com>
-References: <20220408115311.237039-3-luca.weiss@fairphone.com>
+        with ESMTP id S229689AbiDHVbG (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Apr 2022 17:31:06 -0400
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB116203
+        for <linux-input@vger.kernel.org>; Fri,  8 Apr 2022 14:29:01 -0700 (PDT)
+Received: by mail-ot1-x330.google.com with SMTP id k25-20020a056830151900b005b25d8588dbso6969343otp.4
+        for <linux-input@vger.kernel.org>; Fri, 08 Apr 2022 14:29:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8zF9zyFLeTOMQwkWfdgA4Lx2omEnjQSfdRu/ZeImfrc=;
+        b=llJTcqiKoKFSD7vJbP1xxD5HuRarFC/SIhRozk5HD2VUwNErDT9ZbErxJ7HuYKe0o8
+         jDvWXN443DyYjgZBHi12JlVXOYbag9KU6dpkt3MCzEFl8bwcYwJFhAlmfTnbktdVZ8Pz
+         sWqdXUc1mjtN6MxAwfO0xcLkfPadNOnNczjkLRGJB7sSmAYaxd9H1+t4Kjms/KuibQQb
+         qX49lZNA5Ho0fhpO53sKD9VrRqHGgu/4+3TXNt7T5CboeHdM9ImHex6xqrujY+n5uJXY
+         vadEx1pmAF9st6mMDN1+Y+GlkRAlAPq8J+o1yQAx3LMuO7yfWivBxA/T1ipkVhN0xZDL
+         IRFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8zF9zyFLeTOMQwkWfdgA4Lx2omEnjQSfdRu/ZeImfrc=;
+        b=mN8iNiLkR9dvC1UANthE6Dc1zmog7+HjnqCjfMj1/gQ8JU7nZVm7M+T2Dp6sC7MRXG
+         8xBlZgOgbN59AmOnshyR0TU2/Z1Gga38c0ZrW9izOPfRY7bAHYKskPGGpspAb08TRkpW
+         cmbPCRyib6ucAGzKO8v26fvCTDN3Izt+1RCNHqC/erJabRPBKoqDbDsrvMlQpkQOEs5Q
+         86IE40mDzs6Fd/R7wx8Ehe1p2Y/uNnfC+kQP9CN1BzRK+y9+nmicejpB2/C7OsJkVZsK
+         jIaBN48Mx1SWObGc9jm8yPKDf5wKtCqlpL1Nsajb+wsIIAj0IkDeERHJjCSON+3Hsz9M
+         g/3g==
+X-Gm-Message-State: AOAM530dKCPiTEzUMtXd2HuLCp3lsZkdcgRtkY0CUphjnsA9ngf3CBYF
+        LqLIk/buH1M2mCrZ3fBD6hYPtPMvYbI=
+X-Google-Smtp-Source: ABdhPJwrpyNvJCIydiA07bCLezijtBR8AbYhN0FA7wZVfobc11w5YuAwX6fDkI0ce6PT2l8ucCWd0Q==
+X-Received: by 2002:a9d:6e98:0:b0:5cb:2560:9441 with SMTP id a24-20020a9d6e98000000b005cb25609441mr7616126otr.126.1649453340758;
+        Fri, 08 Apr 2022 14:29:00 -0700 (PDT)
+Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com. [76.183.134.35])
+        by smtp.gmail.com with ESMTPSA id s6-20020a4ae546000000b0032480834193sm8675570oot.46.2022.04.08.14.29.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Apr 2022 14:29:00 -0700 (PDT)
+From:   Chris Morgan <macroalpha82@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     dmitry.torokhov@gmail.com, Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH] input: adc-joystick: Stop using scan_index for reading data
+Date:   Fri,  8 Apr 2022 16:28:57 -0500
+Message-Id: <20220408212857.9583-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220408115311.237039-3-luca.weiss@fairphone.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Luca,
+From: Chris Morgan <macromorgan@hotmail.com>
 
-Thank you for the patch! Yet something to improve:
+For my Odroid Go Advance I noticed that the adc-joystick driver was
+only reporting the y channel and on the x axis. After debugging, I
+found that the driver was trying to read values from channels 0 and
+1 even though my device is using channels 1 and 2. By changing the code
+to use the axis index instead of the scan index when unpacking the data
+from the buffer, the joystick begins working as expected.
 
-[auto build test ERROR on dtor-input/next]
-[also build test ERROR on hid/for-next robh/for-next v5.18-rc1 next-20220408]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+---
+ drivers/input/joystick/adc-joystick.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Weiss/dt-bindings-input-Add-bindings-for-Awinic-AW8695-haptics/20220408-195432
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-config: arm64-randconfig-r015-20220408 (https://download.01.org/0day-ci/archive/20220409/202204090333.QZXMI2tu-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3f233916afe417b8d4b9100f560892dff2c93f0c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Luca-Weiss/dt-bindings-input-Add-bindings-for-Awinic-AW8695-haptics/20220408-195432
-        git checkout 3f233916afe417b8d4b9100f560892dff2c93f0c
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> Error: arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts:298.1-7 Label or path i2c10 not found
-   FATAL ERROR: Syntax error parsing input tree
-
+diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
+index 78ebca7d400a..fe3bbd0d4566 100644
+--- a/drivers/input/joystick/adc-joystick.c
++++ b/drivers/input/joystick/adc-joystick.c
+@@ -32,24 +32,23 @@ static int adc_joystick_handle(const void *data, void *private)
+ {
+ 	struct adc_joystick *joy = private;
+ 	enum iio_endian endianness;
+-	int bytes, msb, val, idx, i;
++	int bytes, msb, val, i;
+ 	const u16 *data_u16;
+ 	bool sign;
+ 
+ 	bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
+ 
+ 	for (i = 0; i < joy->num_chans; ++i) {
+-		idx = joy->chans[i].channel->scan_index;
+ 		endianness = joy->chans[i].channel->scan_type.endianness;
+ 		msb = joy->chans[i].channel->scan_type.realbits - 1;
+ 		sign = tolower(joy->chans[i].channel->scan_type.sign) == 's';
+ 
+ 		switch (bytes) {
+ 		case 1:
+-			val = ((const u8 *)data)[idx];
++			val = ((const u8 *)data)[i];
+ 			break;
+ 		case 2:
+-			data_u16 = (const u16 *)data + idx;
++			data_u16 = (const u16 *)data + i;
+ 
+ 			/*
+ 			 * Data is aligned to the sample size by IIO core.
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
