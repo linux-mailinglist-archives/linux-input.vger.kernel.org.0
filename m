@@ -2,113 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8DF54FA1B7
-	for <lists+linux-input@lfdr.de>; Sat,  9 Apr 2022 04:36:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 016184FA1DA
+	for <lists+linux-input@lfdr.de>; Sat,  9 Apr 2022 04:56:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240617AbiDICiR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Apr 2022 22:38:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44404 "EHLO
+        id S229996AbiDIC6k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Apr 2022 22:58:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231502AbiDICiR (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Apr 2022 22:38:17 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D440EBC1E;
-        Fri,  8 Apr 2022 19:36:11 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id s2so9981627pfh.6;
-        Fri, 08 Apr 2022 19:36:11 -0700 (PDT)
+        with ESMTP id S229790AbiDIC6j (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Apr 2022 22:58:39 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C4556830A;
+        Fri,  8 Apr 2022 19:56:32 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id be5so3500345plb.13;
+        Fri, 08 Apr 2022 19:56:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=JpAslWEmI8x6xNr4wuOUtbZBRJ5NpOzRGwoUebYAVxA=;
-        b=gJqSFYH9J9PCxOe1qJk55S/IsJj1FBzpQ45iBron2xhjo72Px8/b7uDsJko6ExDLbi
-         bRe1S8FsF1CyVYI1g8z2Of5x6ItOIan9fg9T5L00W0CaBR1eheysJnFke4sscKZ/1hgr
-         l4ETAZChTj6iAE+MmoV78wk9n0+Q35gdN2I3utQSsELwpYdOhUNQPcGoGaqvmQ7UijGD
-         z15qpFR3OfVmyrhUIkJg3uGFnEgVB3+sKdHaftJwpQ2l71Nmf0ohXnak0yL/bKChmE1u
-         EeKe6jsq/nmFm1Dca6A8UL/1myQ5PWYs4SugopF5lvTKhxzfQ+26/IHqc6Qq5B78PAW8
-         8FfQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VQyPSrgr9MS7EpRh2VWlvGNNESfQ8NWuUEdNThLjldw=;
+        b=j/+h/dLqzkWj5Fqfos0fPiStfP0opcXSwBlFQkktY5MZUxfJ5nwud8+5hbcHt4e2SF
+         FtGayZQopAgXHgIn1LrXgdyZUaTwI34YQd5YavavKifblyB0mKcxl3b5rPCb7yjPOpdT
+         zGxHkBNKDa0fuiqD0hOHVNwArO+3Kjm0ZN8mFGWxEzxHRwc3mQzM2g9I2/NtOSFufhxD
+         ZP6V7wRQnS1G4ZZCbG9MAcB+vDfYTs9yozwGFYeEfoAHG0l88BpEOLBB72l/CTxWQEfW
+         +QeuC7O2hDB40zrKD/2heMtRrcU1wdnilyxTVzzCcCHu65yIILpKnowDZjM02qM5A/cx
+         JNXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=JpAslWEmI8x6xNr4wuOUtbZBRJ5NpOzRGwoUebYAVxA=;
-        b=63Yf6dn3ltlFajOiFrabPG9RJkK6HGzF6oNf3KRTAldw+JUB+A1ISeI0crMaF4SsPa
-         K2YqnnSO4Ope9yzBgLu/zIMmXXt1LlPE1BgwTrPpRgpHh35PFkmGpFJClLbkIzGQNQ7f
-         Yv8/v/0dAAj1lurH7sBbvOUElkcEVbP156mHDdNR5p7qkvKzYZVmLyCLECZ21PjBMo2e
-         tu2f/r7Wyb9PYkZwNtxgqphYkTZmDQSTBF5RGPp0Uqa0528MgrlYfMzWxWZI4bUowulv
-         69sRjtZ/0pvJFsyGyTS7jdyM5XrqHYzS46NtB9KZFULuje+WYQy4gmkDxscxqDVRH7+K
-         Axug==
-X-Gm-Message-State: AOAM532p7SUL9FbW4/PDomFBYxgGGTKWp8Vpq72cIQAA4lXWjjhZZrJ1
-        RJX5U8sJXUAhGM8folQJrLw=
-X-Google-Smtp-Source: ABdhPJzcrr6r3QXKPBWclyGBkyT8L8wWM1zTK7wreS906PUYismJMYHq32TgvQIzdbdkwps40/nnzw==
-X-Received: by 2002:a65:41cc:0:b0:380:6f53:a550 with SMTP id b12-20020a6541cc000000b003806f53a550mr17699556pgq.471.1649471771214;
-        Fri, 08 Apr 2022 19:36:11 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:9186:332c:bcb2:4506])
-        by smtp.gmail.com with ESMTPSA id u11-20020a056a00158b00b004fb07effe2esm28503281pfk.130.2022.04.08.19.36.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Apr 2022 19:36:10 -0700 (PDT)
-Date:   Fri, 8 Apr 2022 19:36:07 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     robh+dt@kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] Add support for Azoteq IQS7222A/B/C
-Message-ID: <YlDxF/GFCrT85rHX@google.com>
-References: <20220403221659.865997-1-jeff@labundy.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VQyPSrgr9MS7EpRh2VWlvGNNESfQ8NWuUEdNThLjldw=;
+        b=TpQoz6++D+H12KEm050blNFvxr4+h3HYy151nEHTOfyAON0FVALiM60uZV1diBtkYI
+         YM6/fPHGfsWO75N8QHxEcbcPzklVOGc1X9oVT/dB3Vcdc8IHuQsjI77evYjhntUJR9gc
+         Ha3u1zAR+kw1+o8fTHL48sn3gnv+xhdH7Nmv9uc8jNvyM29yon0Srd5KxFk7jomWSFlN
+         dp2MJYus/nkvnGUx/FobCU9FJT2GIVSDODO8yzoU+HMExQPF1jIDPCep+eVI4JXL5nq1
+         ReIuzPg8OV1fYPnkAUGPIaAa218WDuFYkQ/yaaUvOTu84jYDGREiosWnr77zYUffcfi5
+         qB2g==
+X-Gm-Message-State: AOAM533pWRJmX/6mc/FeESbQK0L+JK7LdGfzOVe372g3+u42l1HnCGhH
+        m9Aj4piiE4IMCWv2DQgxyWAO8SwKd8xAxnpQoA==
+X-Google-Smtp-Source: ABdhPJysfJ3hL7zN/14NcjhG+NL5gN9Clmu0frccbRswIVmlJPnlxX6eWfAoWuAW0vahw3vc6onqFPX7Wiq9q3zMTS4=
+X-Received: by 2002:a17:902:e80c:b0:156:bc53:704e with SMTP id
+ u12-20020a170902e80c00b00156bc53704emr21820688plg.31.1649472992064; Fri, 08
+ Apr 2022 19:56:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220403221659.865997-1-jeff@labundy.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220409022629.3493557-1-zheyuma97@gmail.com> <YlDwoazfX4rcf4ho@google.com>
+In-Reply-To: <YlDwoazfX4rcf4ho@google.com>
+From:   Zheyu Ma <zheyuma97@gmail.com>
+Date:   Sat, 9 Apr 2022 10:56:21 +0800
+Message-ID: <CAMhUBj=Z+zsU9-cjRZv5b3=_N5GMNeW7C3z9BATrMZcNpQ9JKw@mail.gmail.com>
+Subject: Re: [PATCH] input: cypress-sf: Register a callback to disable the regulators
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     y.oudjana@protonmail.com, linux-input@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Apr 03, 2022 at 05:16:57PM -0500, Jeff LaBundy wrote:
-> This series introduces support for the Azoteq IQS7222A, IQS7222B and
-> IQS7222C capacitive touch controllers. This new family of devices is
-> similar to the IQS269A, a key difference being the delineation between
-> conversion cycles and sensing channels.
-> 
-> A cycle represents the charge transfer mechanism shared by up to two
-> channels. Channels may represent keys or switches and have two levels
-> of detection (proximity and touch).
-> 
-> Each device has its own unique features including channel count, slider
-> or wheel support, and Hall-effect sensing. The driver is demonstrated
-> with each device in the following videos:
-> 
-> IQS7222A: https://youtu.be/SyHhe9pSr8c
-> IQS7222B: https://youtu.be/R9Yd8yFPmN8
-> IQS7222C: https://youtu.be/-ahg52Co5zo
-> 
-> Like the IQS269A and its close cousin IQS626A, the IQS7222A/B/C are
-> highly configurable and follow the same general structure in terms of
-> how their bindings are represented.
-> 
+On Sat, Apr 9, 2022 at 10:34 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> Hi Zheyu,
+>
+> On Sat, Apr 09, 2022 at 10:26:29AM +0800, Zheyu Ma wrote:
+> > When the driver fails to probe, we will get the following splat:
+> >
+> > [   19.311970] ------------[ cut here ]------------
+> > [   19.312566] WARNING: CPU: 3 PID: 375 at drivers/regulator/core.c:2257 _regulator_put+0x3ec/0x4e0
+> > [   19.317591] RIP: 0010:_regulator_put+0x3ec/0x4e0
+> > [   19.328831] Call Trace:
+> > [   19.329112]  <TASK>
+> > [   19.329369]  regulator_bulk_free+0x82/0xe0
+> > [   19.329860]  devres_release_group+0x319/0x3d0
+> > [   19.330357]  i2c_device_probe+0x766/0x940
+> >
+> > Fix this by adding a callback that will deal with the disabling when the
+> > driver fails to probe.
+> >
+> > Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+> > ---
+> >  drivers/input/keyboard/cypress-sf.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >
+> > diff --git a/drivers/input/keyboard/cypress-sf.c b/drivers/input/keyboard/cypress-sf.c
+> > index c28996028e80..798611b76de6 100644
+> > --- a/drivers/input/keyboard/cypress-sf.c
+> > +++ b/drivers/input/keyboard/cypress-sf.c
+> > @@ -61,6 +61,13 @@ static irqreturn_t cypress_sf_irq_handler(int irq, void *devid)
+> >       return IRQ_HANDLED;
+> >  }
+> >
+> > +static void cypress_sf_disable_regulator(void *arg)
+> > +{
+> > +     struct cypress_sf_data *data = arg;
+> > +
+> > +     regulator_bulk_disable(ARRAY_SIZE(data->regulators), data->regulators);
+> > +}
+> > +
+> >  static int cypress_sf_probe(struct i2c_client *client)
+> >  {
+> >       struct cypress_sf_data *touchkey;
+> > @@ -84,6 +91,10 @@ static int cypress_sf_probe(struct i2c_client *client)
+> >               return error;
+> >       }
+> >
+> > +     error = devm_add_action_or_reset(&client->dev, cypress_sf_disable_regulator, touchkey);
+> > +     if (error)
+> > +             return error;
+>
+> This needs to be moved to the spot after we enabled regulators. I
+> adjusted and applied.
 
-Applied, thank you.
+Thanks for your reminder!
 
-> Jeff LaBundy (2):
->   dt-bindings: input: Add bindings for Azoteq IQS7222A/B/C
->   Input: add support for Azoteq IQS7222A/B/C
-> 
->  .../bindings/input/azoteq,iqs7222.yaml        |  960 +++++++
->  drivers/input/misc/Kconfig                    |   10 +
->  drivers/input/misc/Makefile                   |    1 +
->  drivers/input/misc/iqs7222.c                  | 2445 +++++++++++++++++
->  4 files changed, 3416 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
->  create mode 100644 drivers/input/misc/iqs7222.c
-> 
-> -- 
-> 2.25.1
-> 
-
--- 
-Dmitry
+Zheyu Ma
