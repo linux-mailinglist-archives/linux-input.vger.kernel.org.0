@@ -2,40 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 948EB4FA6B6
-	for <lists+linux-input@lfdr.de>; Sat,  9 Apr 2022 12:09:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F12B94FA959
+	for <lists+linux-input@lfdr.de>; Sat,  9 Apr 2022 17:46:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241146AbiDIKLK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 9 Apr 2022 06:11:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46978 "EHLO
+        id S236426AbiDIPsU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 9 Apr 2022 11:48:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238771AbiDIKLJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Apr 2022 06:11:09 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27BC4208331
-        for <linux-input@vger.kernel.org>; Sat,  9 Apr 2022 03:09:01 -0700 (PDT)
-Received: (Authenticated sender: contact@artur-rojek.eu)
-        by mail.gandi.net (Postfix) with ESMTPA id 3DA221BF203;
-        Sat,  9 Apr 2022 10:08:57 +0000 (UTC)
-MIME-Version: 1.0
-Date:   Sat, 09 Apr 2022 12:08:57 +0200
-From:   Artur Rojek <contact@artur-rojek.eu>
+        with ESMTP id S231217AbiDIPsT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Apr 2022 11:48:19 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5371B7
+        for <linux-input@vger.kernel.org>; Sat,  9 Apr 2022 08:46:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649519172; x=1681055172;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=joxv3j+Y75tvpb7PbDJYi1oZ6aQvHujdiujz3rl+OP4=;
+  b=aMXTlsMAJocLHiWmV6Az8ZoCGaxyu/WEiMSS0BxcOU2MRSiDgl1IPkPD
+   ZQroYGvqP7jVwCQr8JoohxV8WUuK9pETAlObv7gfO5n3oTaGbUDLdBDzN
+   xU07LpCPDODIjmdNAawTC7uKYB8sXEaWWAZObUOXwNNKug0U91q7J4VWb
+   YY10BVz21UI6EFkApwGYhpKAPF05ovNI40cCpiRfhlgwm1NaS3TqtSlRy
+   7rBWlREPvbM1c2Q7ppx7BnsbqqBy4V5N4uoWKjFtB+lvPZUnzveLZwlIn
+   PJT7FvelqXcSb1dhqk+/ah4C/3d2GpSvpiKUhMtI+6GxG8pHOjcD3yW5z
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10312"; a="348253366"
+X-IronPort-AV: E=Sophos;i="5.90,248,1643702400"; 
+   d="scan'208";a="348253366"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2022 08:46:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,248,1643702400"; 
+   d="scan'208";a="852603961"
+Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 09 Apr 2022 08:46:11 -0700
+Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1ndDHu-0000Ab-MO;
+        Sat, 09 Apr 2022 15:46:10 +0000
+Date:   Sat, 09 Apr 2022 23:45:50 +0800
+From:   kernel test robot <lkp@intel.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH] input: adc-joystick: Stop using scan_index for reading
- data
-In-Reply-To: <YlDqTKuo5rbkIL8V@google.com>
-References: <20220408212857.9583-1-macroalpha82@gmail.com>
- <YlDqTKuo5rbkIL8V@google.com>
-Message-ID: <2941de6570a6f808d6ea6e71d137ef87@artur-rojek.eu>
-X-Sender: contact@artur-rojek.eu
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ fd0a4b39870d49ff15f6966470185409e261f20f
+Message-ID: <6251aa2e.XUY8iAQNOcLDGO7/%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -43,86 +62,141 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Chris & Dmitry,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: fd0a4b39870d49ff15f6966470185409e261f20f  Input: cypress-sf - register a callback to disable the regulators
 
-On 2022-04-09 04:07, Dmitry Torokhov wrote:
-> Hi Chris,
-> 
-> On Fri, Apr 08, 2022 at 04:28:57PM -0500, Chris Morgan wrote:
->> From: Chris Morgan <macromorgan@hotmail.com>
->> 
->> For my Odroid Go Advance I noticed that the adc-joystick driver was
->> only reporting the y channel and on the x axis. After debugging, I
->> found that the driver was trying to read values from channels 0 and
->> 1 even though my device is using channels 1 and 2. By changing the 
->> code
->> to use the axis index instead of the scan index when unpacking the 
->> data
->> from the buffer, the joystick begins working as expected.
-> 
-> This sounds like some sort of misconfiguration, as your change
-> effectively removes the ability of using just some ADC channels for
-> joystick functionality...
+elapsed time: 721m
 
-I agree, this sounds like either a case of misconfiguration, or an issue 
-in the ADC driver that this device is using.
-The axis index corresponds to the iio channel associated with the 
-joystick, but NOT to the order at which data is sampled by ADC.
-That's why each channel has a `scan_index` field. It sounds like in 
-Chris' case the channels have wrong scan indices.
-I'd start by verifying that in the ADC driver that is being used.
+configs tested: 118
+configs skipped: 4
 
-In any case, this patch is wrong and removes functionality that existing 
-devices depend on.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Cheers,
-Artur
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allmodconfig
+arm                              allyesconfig
+x86_64                           allyesconfig
+ia64                             allmodconfig
+i386                             allyesconfig
+ia64                             allyesconfig
+m68k                             allyesconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
+m68k                             allmodconfig
+s390                             allmodconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+i386                          randconfig-c001
+alpha                            allyesconfig
+nios2                            allyesconfig
+arc                              allyesconfig
+mips                           jazz_defconfig
+powerpc                       eiger_defconfig
+ia64                      gensparse_defconfig
+mips                 decstation_r4k_defconfig
+sh                        sh7785lcr_defconfig
+sh                            hp6xx_defconfig
+arm                        mvebu_v7_defconfig
+x86_64                              defconfig
+powerpc                 mpc837x_rdb_defconfig
+arm64                            alldefconfig
+nios2                         10m50_defconfig
+mips                    maltaup_xpa_defconfig
+sh                            migor_defconfig
+sh                           se7206_defconfig
+arc                         haps_hs_defconfig
+xtensa                    smp_lx200_defconfig
+arm                             ezx_defconfig
+mips                     decstation_defconfig
+ia64                             alldefconfig
+sh                        sh7763rdp_defconfig
+m68k                        mvme147_defconfig
+arm                  randconfig-c002-20220408
+x86_64                        randconfig-c001
+ia64                                defconfig
+m68k                                defconfig
+alpha                               defconfig
+csky                                defconfig
+arc                                 defconfig
+parisc                              defconfig
+parisc64                            defconfig
+s390                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+nios2                               defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                           allnoconfig
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+riscv                randconfig-r042-20220408
+arc                  randconfig-r043-20220408
+s390                 randconfig-r044-20220408
+riscv                            allmodconfig
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                          rv32_defconfig
+riscv                            allyesconfig
+riscv                               defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                                  kexec
+x86_64                          rhel-8.3-func
+x86_64                               rhel-8.3
+x86_64                         rhel-8.3-kunit
 
-> 
-> Let's add Jonathan and Arthur for their take on this.
-> 
->> 
->> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
->> ---
->>  drivers/input/joystick/adc-joystick.c | 7 +++----
->>  1 file changed, 3 insertions(+), 4 deletions(-)
->> 
->> diff --git a/drivers/input/joystick/adc-joystick.c 
->> b/drivers/input/joystick/adc-joystick.c
->> index 78ebca7d400a..fe3bbd0d4566 100644
->> --- a/drivers/input/joystick/adc-joystick.c
->> +++ b/drivers/input/joystick/adc-joystick.c
->> @@ -32,24 +32,23 @@ static int adc_joystick_handle(const void *data, 
->> void *private)
->>  {
->>  	struct adc_joystick *joy = private;
->>  	enum iio_endian endianness;
->> -	int bytes, msb, val, idx, i;
->> +	int bytes, msb, val, i;
->>  	const u16 *data_u16;
->>  	bool sign;
->> 
->>  	bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
->> 
->>  	for (i = 0; i < joy->num_chans; ++i) {
->> -		idx = joy->chans[i].channel->scan_index;
->>  		endianness = joy->chans[i].channel->scan_type.endianness;
->>  		msb = joy->chans[i].channel->scan_type.realbits - 1;
->>  		sign = tolower(joy->chans[i].channel->scan_type.sign) == 's';
->> 
->>  		switch (bytes) {
->>  		case 1:
->> -			val = ((const u8 *)data)[idx];
->> +			val = ((const u8 *)data)[i];
->>  			break;
->>  		case 2:
->> -			data_u16 = (const u16 *)data + idx;
->> +			data_u16 = (const u16 *)data + i;
->> 
->>  			/*
->>  			 * Data is aligned to the sample size by IIO core.
->> --
->> 2.25.1
->> 
-> 
-> Thanks.
+clang tested configs:
+powerpc              randconfig-c003-20220408
+mips                 randconfig-c004-20220408
+arm                  randconfig-c002-20220408
+x86_64                        randconfig-c007
+i386                          randconfig-c001
+s390                 randconfig-c005-20220408
+riscv                randconfig-c006-20220408
+s390                             alldefconfig
+mips                        omega2p_defconfig
+hexagon                             defconfig
+powerpc                    socrates_defconfig
+x86_64                        randconfig-a005
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a006
+x86_64                        randconfig-a016
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+hexagon              randconfig-r045-20220408
+hexagon              randconfig-r041-20220408
+hexagon              randconfig-r045-20220409
+riscv                randconfig-r042-20220409
+hexagon              randconfig-r041-20220409
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
