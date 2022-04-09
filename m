@@ -2,116 +2,220 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D7544F9F2A
-	for <lists+linux-input@lfdr.de>; Fri,  8 Apr 2022 23:29:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 937564FA103
+	for <lists+linux-input@lfdr.de>; Sat,  9 Apr 2022 03:22:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbiDHVbH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Apr 2022 17:31:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43298 "EHLO
+        id S239650AbiDIBYm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Apr 2022 21:24:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229689AbiDHVbG (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Apr 2022 17:31:06 -0400
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB116203
-        for <linux-input@vger.kernel.org>; Fri,  8 Apr 2022 14:29:01 -0700 (PDT)
-Received: by mail-ot1-x330.google.com with SMTP id k25-20020a056830151900b005b25d8588dbso6969343otp.4
-        for <linux-input@vger.kernel.org>; Fri, 08 Apr 2022 14:29:01 -0700 (PDT)
+        with ESMTP id S237743AbiDIBYl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Apr 2022 21:24:41 -0400
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8055FB1B;
+        Fri,  8 Apr 2022 18:22:35 -0700 (PDT)
+Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-de3ca1efbaso11504256fac.9;
+        Fri, 08 Apr 2022 18:22:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8zF9zyFLeTOMQwkWfdgA4Lx2omEnjQSfdRu/ZeImfrc=;
-        b=llJTcqiKoKFSD7vJbP1xxD5HuRarFC/SIhRozk5HD2VUwNErDT9ZbErxJ7HuYKe0o8
-         jDvWXN443DyYjgZBHi12JlVXOYbag9KU6dpkt3MCzEFl8bwcYwJFhAlmfTnbktdVZ8Pz
-         sWqdXUc1mjtN6MxAwfO0xcLkfPadNOnNczjkLRGJB7sSmAYaxd9H1+t4Kjms/KuibQQb
-         qX49lZNA5Ho0fhpO53sKD9VrRqHGgu/4+3TXNt7T5CboeHdM9ImHex6xqrujY+n5uJXY
-         vadEx1pmAF9st6mMDN1+Y+GlkRAlAPq8J+o1yQAx3LMuO7yfWivBxA/T1ipkVhN0xZDL
-         IRFQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=o8fu92V8462s1fJQA0hYQ/TEBk9TpllnF6Rg4uae8yI=;
+        b=Xih0AdUs314YDR1r7fRxuj+u4jAtvIEja75T0SWYBcnZ884luFH5GP2lsbmbxEnDzC
+         43+hETZqDcDVv6B7NfoKbSiHE8SHXIKooT2polj2gR3hoItKHeGDUkhnLXJeUYOrHDdJ
+         2/4uDcFnSgr7BKdaRDoVm0T/qlRkB4z3LuABmqkiB1NOtW0LmebyuWgMaQWMfAYKwJXw
+         LB4Q1MOJxRjQwrGRkFOdrmuHwG/iclWa8M9jI0NAzLFWs10hYJdD9N8f3t7QXClQjLEn
+         6L90HH/mvm50f0X9quGu3jQtLZlYuZqLK9Gh4uG9tL5/A2KAWx6HZMeqzPn5S5s8seUZ
+         gk5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=8zF9zyFLeTOMQwkWfdgA4Lx2omEnjQSfdRu/ZeImfrc=;
-        b=mN8iNiLkR9dvC1UANthE6Dc1zmog7+HjnqCjfMj1/gQ8JU7nZVm7M+T2Dp6sC7MRXG
-         8xBlZgOgbN59AmOnshyR0TU2/Z1Gga38c0ZrW9izOPfRY7bAHYKskPGGpspAb08TRkpW
-         cmbPCRyib6ucAGzKO8v26fvCTDN3Izt+1RCNHqC/erJabRPBKoqDbDsrvMlQpkQOEs5Q
-         86IE40mDzs6Fd/R7wx8Ehe1p2Y/uNnfC+kQP9CN1BzRK+y9+nmicejpB2/C7OsJkVZsK
-         jIaBN48Mx1SWObGc9jm8yPKDf5wKtCqlpL1Nsajb+wsIIAj0IkDeERHJjCSON+3Hsz9M
-         g/3g==
-X-Gm-Message-State: AOAM530dKCPiTEzUMtXd2HuLCp3lsZkdcgRtkY0CUphjnsA9ngf3CBYF
-        LqLIk/buH1M2mCrZ3fBD6hYPtPMvYbI=
-X-Google-Smtp-Source: ABdhPJwrpyNvJCIydiA07bCLezijtBR8AbYhN0FA7wZVfobc11w5YuAwX6fDkI0ce6PT2l8ucCWd0Q==
-X-Received: by 2002:a9d:6e98:0:b0:5cb:2560:9441 with SMTP id a24-20020a9d6e98000000b005cb25609441mr7616126otr.126.1649453340758;
-        Fri, 08 Apr 2022 14:29:00 -0700 (PDT)
-Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com. [76.183.134.35])
-        by smtp.gmail.com with ESMTPSA id s6-20020a4ae546000000b0032480834193sm8675570oot.46.2022.04.08.14.29.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Apr 2022 14:29:00 -0700 (PDT)
-From:   Chris Morgan <macroalpha82@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     dmitry.torokhov@gmail.com, Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH] input: adc-joystick: Stop using scan_index for reading data
-Date:   Fri,  8 Apr 2022 16:28:57 -0500
-Message-Id: <20220408212857.9583-1-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        bh=o8fu92V8462s1fJQA0hYQ/TEBk9TpllnF6Rg4uae8yI=;
+        b=CpBITARD9Ef/64dNTlsWqqBTNS27j47KZw+/ZP7QCNLgb5b5hql/0l9fs2kA6bA5Cp
+         wegCb/kSIqXurTce9qK3HsTRISB11aZwZYL8tpi1Ny8zC7Qe8suzU0oD0cKIimBgqAUP
+         aGSPtphl77vbTLBojiFuqNfzhW+7aKXmCGbRH0Id7gIJeKhDL5E3lcUMh8rMWhLuVNKg
+         N3IjZ/nXD/ywZ599THrSlyXmg/91TgIGLzkSDNm78AQsAN0MnuUujqjaqP4UkeoNuvUi
+         oNp27vvhC4dQN50hb1KXsffKafE45vH9GXb87Z5tMiiy8UGOQkpEihN7pmKqYu/R1F5M
+         oiTw==
+X-Gm-Message-State: AOAM533RUl/3ATarPjVovbh1Rng/IgK5bZDHpV/46+E2nuRWP6I0S/nE
+        yO4IKlYltrFlquDkhL+e31kdqiIarqKlxgomy0c=
+X-Google-Smtp-Source: ABdhPJyZf9TZKqMzrqGT/RD9E7girUkn8gTqBwJfUc8LnI9ftLGZmrGBYPuQ9hRFpKVb8MAOuKOi+Q==
+X-Received: by 2002:a05:6870:328f:b0:de:f16d:d187 with SMTP id q15-20020a056870328f00b000def16dd187mr10060541oac.132.1649467354603;
+        Fri, 08 Apr 2022 18:22:34 -0700 (PDT)
+Received: from ?IPV6:2600:1700:4830:3f7f:7aac:34da:1863:159e? ([2600:1700:4830:3f7f:7aac:34da:1863:159e])
+        by smtp.gmail.com with ESMTPSA id z5-20020a056830128500b005cdc661ad98sm9648059otp.28.2022.04.08.18.22.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Apr 2022 18:22:34 -0700 (PDT)
+Message-ID: <1e06a151-5e81-d0e6-d1c3-77f7e420f208@gmail.com>
+Date:   Fri, 8 Apr 2022 20:22:33 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] HID: microsoft: Fix button/axis mapping for Xbox One S
+ Controller
+Content-Language: en-US
+To:     Daniel Bomar <dbdaniel42@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220408140902.15966-1-dbdaniel42@gmail.com>
+From:   Cameron Gutman <aicommander@gmail.com>
+In-Reply-To: <20220408140902.15966-1-dbdaniel42@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Chris Morgan <macromorgan@hotmail.com>
+On 4/8/22 09:09, Daniel Bomar wrote:
+> Remaps several buttons and axes to match how these are mapped in the
+> xpad driver (same controller over USB).
+> 
+> This is also how they are documented to be mapped in
+> Documentation/input/gamepad.rst
+> ---
 
-For my Odroid Go Advance I noticed that the adc-joystick driver was
-only reporting the y channel and on the x axis. After debugging, I
-found that the driver was trying to read values from channels 0 and
-1 even though my device is using channels 1 and 2. By changing the code
-to use the axis index instead of the scan index when unpacking the data
-from the buffer, the joystick begins working as expected.
+Hi Daniel,
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- drivers/input/joystick/adc-joystick.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+I don't think this is a good idea. Remapping this is going to cause
+problems for userspace applications and libraries that already have
+mappings for this gamepad (such as SDL [0]).
 
-diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
-index 78ebca7d400a..fe3bbd0d4566 100644
---- a/drivers/input/joystick/adc-joystick.c
-+++ b/drivers/input/joystick/adc-joystick.c
-@@ -32,24 +32,23 @@ static int adc_joystick_handle(const void *data, void *private)
- {
- 	struct adc_joystick *joy = private;
- 	enum iio_endian endianness;
--	int bytes, msb, val, idx, i;
-+	int bytes, msb, val, i;
- 	const u16 *data_u16;
- 	bool sign;
- 
- 	bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
- 
- 	for (i = 0; i < joy->num_chans; ++i) {
--		idx = joy->chans[i].channel->scan_index;
- 		endianness = joy->chans[i].channel->scan_type.endianness;
- 		msb = joy->chans[i].channel->scan_type.realbits - 1;
- 		sign = tolower(joy->chans[i].channel->scan_type.sign) == 's';
- 
- 		switch (bytes) {
- 		case 1:
--			val = ((const u8 *)data)[idx];
-+			val = ((const u8 *)data)[i];
- 			break;
- 		case 2:
--			data_u16 = (const u16 *)data + idx;
-+			data_u16 = (const u16 *)data + i;
- 
- 			/*
- 			 * Data is aligned to the sample size by IIO core.
--- 
-2.25.1
+At the very least, you should set a bit in the version like hid-sony.c
+does so SDL can tell the new and old mappings apart. However, I still
+don't think it's worth making this change at all. In the _best_ case,
+you break a ton of existing games and applications that have support
+for this gamepad already and achieve very little practical gain.
 
+I believe this change will break Android's mapping too [1]. Using
+GAS/BRAKE for triggers is fairly common for gamepads designed for
+Android, so it's likely that Microsoft did it this way on purpose.
+I don't think we should be overruling their conscious design decisions
+without very compelling reasons.
+
+It's definitely not ideal that the mappings between USB and BT differ,
+but breaking existing applications by changing it is much worse.
+
+[0]: https://github.com/libsdl-org/SDL/blob/505d6a4a052592b2676f87456c1f564daa8d2c50/src/joystick/SDL_gamecontrollerdb.h#L795
+[1]: https://cs.android.com/android/platform/superproject/+/master:frameworks/base/data/keyboards/Vendor_045e_Product_02fd.kl
+
+Regards,
+Cameron
+
+>  drivers/hid/hid-microsoft.c | 73 ++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 72 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-microsoft.c b/drivers/hid/hid-microsoft.c
+> index 071fd093a5f4..903e09a3d898 100644
+> --- a/drivers/hid/hid-microsoft.c
+> +++ b/drivers/hid/hid-microsoft.c
+> @@ -27,6 +27,7 @@
+>  #define MS_DUPLICATE_USAGES	BIT(5)
+>  #define MS_SURFACE_DIAL		BIT(6)
+>  #define MS_QUIRK_FF		BIT(7)
+> +#define MS_XBOX			BIT(8)
+>  
+>  struct ms_data {
+>  	unsigned long quirks;
+> @@ -179,6 +180,70 @@ static int ms_surface_dial_quirk(struct hid_input *hi, struct hid_field *field,
+>  	return 0;
+>  }
+>  
+> +#define ms_map_abs_clear(c)	hid_map_usage_clear(hi, usage, bit, max, \
+> +					EV_ABS, (c))
+> +/*
+> + * Remap buttons and axes on Xbox controllers over bluetooth so they match
+> + * with the xpad driver (USB interface) and with mapping specified in
+> + * Documentation/input/gamepad.rst
+> +*/
+> +static int ms_xbox_quirk(struct hid_input *hi, struct hid_usage *usage,
+> +		unsigned long **bit, int *max)
+> +{
+> +	int code;
+> +	switch (usage->hid & HID_USAGE_PAGE) {
+> +		/*
+> +		 * Remap "Xbox" and Select buttons from consumer page to gamepad buttons.
+> +		 * This allows these buttons to show up on the /dev/input/js* interface.
+> +		*/
+> +		case HID_UP_CONSUMER:
+> +			switch (usage->hid & HID_USAGE) {
+> +				case 0x223:
+> +					ms_map_key_clear(BTN_MODE);
+> +					return 1;
+> +				case 0x224:
+> +					ms_map_key_clear(BTN_SELECT);
+> +					return 1;
+> +			}
+> +			break;
+> +		/* These buttons do not physically exist on the controller. Ignore them. */
+> +		case HID_UP_BUTTON:
+> +			code = ((usage->hid - 1) & HID_USAGE) + BTN_GAMEPAD;
+> +			switch (code) {
+> +				case BTN_C:
+> +				case BTN_Z:
+> +				case BTN_TL2:
+> +				case BTN_TR2:
+> +					return -1;
+> +			}
+> +			break;
+> +		/* Remap right joystick to RX/RY */
+> +		case HID_UP_GENDESK:
+> +			switch (usage->hid) {
+> +				case HID_GD_Z:
+> +					ms_map_abs_clear(ABS_RX);
+> +					return 1;
+> +				case HID_GD_RZ:
+> +					ms_map_abs_clear(ABS_RY);
+> +					return 1;
+> +			}
+> +			break;
+> +		/* Remap left and right triggers from "gas" and "break" to RZ/Z */
+> +		case HID_UP_SIMULATION:
+> +			switch (usage->hid & HID_USAGE) {
+> +				case 0xc4:
+> +					ms_map_abs_clear(ABS_RZ);
+> +					return 1;
+> +				case 0xc5:
+> +					ms_map_abs_clear(ABS_Z);
+> +					return 1;
+> +			}
+> +			break;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int ms_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+>  		struct hid_field *field, struct hid_usage *usage,
+>  		unsigned long **bit, int *max)
+> @@ -203,6 +268,12 @@ static int ms_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+>  			return ret;
+>  	}
+>  
+> +	if (quirks & MS_XBOX) {
+> +		int ret = ms_xbox_quirk(hi, usage, bit, max);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	return 0;
+>  }
+>  
+> @@ -447,7 +518,7 @@ static const struct hid_device_id ms_devices[] = {
+>  	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, 0x091B),
+>  		.driver_data = MS_SURFACE_DIAL },
+>  	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER),
+> -		.driver_data = MS_QUIRK_FF },
+> +		.driver_data = MS_QUIRK_FF | MS_XBOX },
+>  	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS),
+>  		.driver_data = MS_QUIRK_FF },
+>  	{ }
+> 
