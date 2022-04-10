@@ -2,47 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26F974FAC6D
-	for <lists+linux-input@lfdr.de>; Sun, 10 Apr 2022 08:39:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8919F4FADB9
+	for <lists+linux-input@lfdr.de>; Sun, 10 Apr 2022 14:03:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230136AbiDJGlM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 10 Apr 2022 02:41:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34960 "EHLO
+        id S235668AbiDJMFQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 10 Apr 2022 08:05:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230117AbiDJGlL (ORCPT
+        with ESMTP id S230125AbiDJMFQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 10 Apr 2022 02:41:11 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2151654BF;
-        Sat,  9 Apr 2022 23:38:59 -0700 (PDT)
-Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1ndRDr-0003l3-Uv; Sun, 10 Apr 2022 08:38:56 +0200
-Message-ID: <0a8f72ad-d88e-7764-16f5-ba47e751d808@leemhuis.info>
-Date:   Sun, 10 Apr 2022 08:38:55 +0200
+        Sun, 10 Apr 2022 08:05:16 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99CE3515A3
+        for <linux-input@vger.kernel.org>; Sun, 10 Apr 2022 05:03:05 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id o16so10989425ljp.3
+        for <linux-input@vger.kernel.org>; Sun, 10 Apr 2022 05:03:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lzK5d2lY8VIogMRp4Vbt/no5kR/b2VMZcJXJLKKMdRg=;
+        b=IRNqNpBt3n6AMPapGV/3wMTwWcEE5UcsvNi43toOSopVRj0gU49PWiYv6Lhnk/XD5X
+         zuKnUomRc+yz4m5NWHgWyKMqTyi5KsAGdg2XPVW6M1iSmtm5ecRGbZvjUAquvSDkr5eg
+         /xDXbBBYAbx8x5TAaeoaXyDPJ9QSUh6c7urk8GRbNHytIfLvEz018z5uuGns6w7YkFa1
+         ONu8xqc1ZKayOOP4Sv2UneJy4l/7dpDQWDXtySIcp8FSauD0KNDWpHyz2nrSpuXhl8Ie
+         0rw4CIsxKKRFAnsMH7gkIlqfcpYhlvzdDEgNT4fFKVtJrVJScC0GrZmgpfZSOngs0ZGS
+         kpBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lzK5d2lY8VIogMRp4Vbt/no5kR/b2VMZcJXJLKKMdRg=;
+        b=xOm37hkgFm8fVJJN2UqfKnKd/aHHAPNIUnuvYusxCQWnk/sJmSXXX3ICd/q/zA8Do5
+         /2KmQzN+NA+XpNY9zbfUvDDwFwtJCicN/SiP762kNPVE+toDac2vgFiGXTfGjjOXiSwD
+         XKvKHkxsbIQ+e8ftBaz1WOd38i4xqhUS6E+225+3ZPtyyOyuOTI4/CqLc0Wiip4jiQWs
+         U86dfW05B8vc49yJn1MZ3xECeIteDKiJ/PWcXgCx8pbd/7aZN+8qzpHfX/LG24rznxfu
+         Y1Fk4nwrP5EwDuCYjcE56uyA+yHsksbJ3xyWRR74lwcCzTIMnw9IHItzby6PDSX2CBpt
+         t18w==
+X-Gm-Message-State: AOAM532OQyeo8VC4/b4fJNB97Zhca5O0X2iGE+BRCnb7ykQpq/IdtSD8
+        aF6bg6n6wCWlAHLZ+jpKogzwmA==
+X-Google-Smtp-Source: ABdhPJwXT1tH0UgUs2X4ONgLS0+3Hpja7xrcULfUOky5WlgegLMdQmrMO4qwSUTQSQJf9dPdFgKeYA==
+X-Received: by 2002:a2e:9348:0:b0:249:7117:b7ad with SMTP id m8-20020a2e9348000000b002497117b7admr16860731ljh.85.1649592183508;
+        Sun, 10 Apr 2022 05:03:03 -0700 (PDT)
+Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+        by smtp.gmail.com with ESMTPSA id s10-20020a19ad4a000000b0044826a25a2esm2992216lfd.292.2022.04.10.05.03.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Apr 2022 05:03:02 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Nikita Travkin <nikita@trvn.ru>,
+        Michael Srba <Michael.Srba@seznam.cz>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 1/5] Input: zinitix - Helper dev variable in probe()
+Date:   Sun, 10 Apr 2022 14:00:55 +0200
+Message-Id: <20220410120059.2583849-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: Regression: Mouse gets sluggish after suspend/resume and power
- usage significant higher after resume
-Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Nico Schottelius <nico-bugzilla.kernel.org@schottelius.org>,
-        Jingle Wu <jingle.wu@emc.com.tw>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-References: <9af2d249-91e7-4871-59c8-704823118e48@leemhuis.info>
- <YlDr3bxY3tIOgn44@google.com>
-From:   Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <YlDr3bxY3tIOgn44@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1649572740;badfb6c9;
-X-HE-SMSGID: 1ndRDr-0003l3-Uv
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -51,105 +70,80 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Create a helper variable struct device *dev in probe() to
+make the code more compact and easier to read.
 
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/input/touchscreen/zinitix.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-On 09.04.22 04:13, Dmitry Torokhov wrote:
-> On Fri, Apr 08, 2022 at 03:20:14PM +0200, Thorsten Leemhuis wrote:
->> Hi, this is your Linux kernel regression tracker.
->>
->> I noticed a regression report in bugzilla.kernel.org that afaics nobody
->> acted upon since it was reported about a week ago, that's why I decided
->> to forward it to the lists and all people that seemed to be relevant
->> here. To quote from https://bugzilla.kernel.org/show_bug.cgi?id=215747 :
-> 
-> This looks like I2C-HID controller and I see bunch of "incomplete
-> report"s in the logs:
-> 
-> [16558.456434] i2c_hid_acpi i2c-ELAN0670:00: i2c_hid_get_input: incomplete report (14/3583)
-> [16558.457434] i2c_hid_acpi i2c-ELAN0670:00: i2c_hid_get_input: incomplete report (14/259)
-> [16558.458384] i2c_hid_acpi i2c-ELAN0670:00: i2c_hid_get_input: incomplete report (14/65281)
-> 
-> Let's add benjamin, Jiri and Jungle...
+diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
+index 8bd03278ad9a..cd13075ae3ab 100644
+--- a/drivers/input/touchscreen/zinitix.c
++++ b/drivers/input/touchscreen/zinitix.c
+@@ -503,15 +503,16 @@ static int zinitix_init_input_dev(struct bt541_ts_data *bt541)
+ static int zinitix_ts_probe(struct i2c_client *client)
+ {
+ 	struct bt541_ts_data *bt541;
++	struct device *dev = &client->dev;
+ 	int error;
+ 
+ 	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+-		dev_err(&client->dev,
++		dev_err(dev,
+ 			"Failed to assert adapter's support for plain I2C.\n");
+ 		return -ENXIO;
+ 	}
+ 
+-	bt541 = devm_kzalloc(&client->dev, sizeof(*bt541), GFP_KERNEL);
++	bt541 = devm_kzalloc(dev, sizeof(*bt541), GFP_KERNEL);
+ 	if (!bt541)
+ 		return -ENOMEM;
+ 
+@@ -520,28 +521,28 @@ static int zinitix_ts_probe(struct i2c_client *client)
+ 
+ 	error = zinitix_init_regulators(bt541);
+ 	if (error) {
+-		dev_err(&client->dev,
++		dev_err(dev,
+ 			"Failed to initialize regulators: %d\n", error);
+ 		return error;
+ 	}
+ 
+-	error = devm_request_threaded_irq(&client->dev, client->irq,
++	error = devm_request_threaded_irq(dev, client->irq,
+ 					  NULL, zinitix_ts_irq_handler,
+ 					  IRQF_ONESHOT | IRQF_NO_AUTOEN,
+ 					  client->name, bt541);
+ 	if (error) {
+-		dev_err(&client->dev, "Failed to request IRQ: %d\n", error);
++		dev_err(dev, "Failed to request IRQ: %d\n", error);
+ 		return error;
+ 	}
+ 
+ 	error = zinitix_init_input_dev(bt541);
+ 	if (error) {
+-		dev_err(&client->dev,
++		dev_err(dev,
+ 			"Failed to initialize input device: %d\n", error);
+ 		return error;
+ 	}
+ 
+-	error = device_property_read_u32(&client->dev, "zinitix,mode",
++	error = device_property_read_u32(dev, "zinitix,mode",
+ 					 &bt541->zinitix_mode);
+ 	if (error < 0) {
+ 		/* fall back to mode 2 */
+@@ -553,7 +554,7 @@ static int zinitix_ts_probe(struct i2c_client *client)
+ 		 * If there are devices that don't support mode 2, support
+ 		 * for other modes (0, 1) will be needed.
+ 		 */
+-		dev_err(&client->dev,
++		dev_err(dev,
+ 			"Malformed zinitix,mode property, must be 2 (supplied: %d)\n",
+ 			bt541->zinitix_mode);
+ 		return -EINVAL;
+-- 
+2.35.1
 
-Thx. There was some discussion in the bko ticket and now it seems like
-it's not a regression (sorry for the noise) -- and the root of the
-problem apparently is a known firmware issue of the particular laptop:
-https://bugzilla.kernel.org/show_bug.cgi?id=214775
-
-Thx again! Ciao, Thorsten
-
-#regzbot invalid: not a regression, see
-https://bugzilla.kernel.org/show_bug.cgi?id=215747 for details
-
->>>  Nico Schottelius 2022-03-26 19:27:06 UTC
->>>
->>> Created attachment 300619 [details]
->>> dmesg
->>>
->>> TL;DR:
->>>
->>> Suspending and resume makes the ELAN0670:00 trackpad sluggish (very hard to move the pointer) and the energy usage of the notebook is about 3 times higher than before suspend.
->>>
->>> Background:
->>>
->>>
->>> On a Lenovo X1 Nano the trackpad works fine until suspend/resume.The estimated battery runtime PRIOR to suspend/resume is 8h 43m. After suspend resume it drops to 2h 20m instantly.
->>>
->>> There seems to be a firmware error in the iwlwifi card show in the attached dmesg, but I am not sure whether "that's enough" to cause both symptoms.
->>>
->>> Kernel is from Alpine Linux, which is basically stock upstream afaics.
->>
->> See later comments for more details. In one of them the reporter states
->> he's pretty sure that it didn't happen with 5.13.
->>
->> Not sure if this is input, PM, bluetooth, or something else. But sounds
->> like a problem in the input code to me (you have to start somewhere...).
->>
->> Could somebody take a look into this? Or was this discussed somewhere
->> else already? Or even fixed?
->>
->> Anyway, to get this tracked:
->>
->> #regzbot introduced: v5.13..v5.15.31	
->> #regzbot from: Nico Schottelius  <nico-bugzilla.kernel.org@schottelius.org>
->> #regzbot title: input: Mouse gets sluggish after suspend/resume and
->> power usage significant higher after resume
->> #regzbot link: https://bugzilla.kernel.org/show_bug.cgi?id=215747
->>
->> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
->>
->> P.S.: As the Linux kernel's regression tracker I'm getting a lot of
->> reports on my table. I can only look briefly into most of them and lack
->> knowledge about most of the areas they concern. I thus unfortunately
->> will sometimes get things wrong or miss something important. I hope
->> that's not the case here; if you think it is, don't hesitate to tell me
->> in a public reply, it's in everyone's interest to set the public record
->> straight.
->>
->> -- 
->> Additional information about regzbot:
->>
->> If you want to know more about regzbot, check out its web-interface, the
->> getting start guide, and the references documentation:
->>
->> https://linux-regtracking.leemhuis.info/regzbot/
->> https://gitlab.com/knurd42/regzbot/-/blob/main/docs/getting_started.md
->> https://gitlab.com/knurd42/regzbot/-/blob/main/docs/reference.md
->>
->> The last two documents will explain how you can interact with regzbot
->> yourself if your want to.
->>
->> Hint for reporters: when reporting a regression it's in your interest to
->> CC the regression list and tell regzbot about the issue, as that ensures
->> the regression makes it onto the radar of the Linux kernel's regression
->> tracker -- that's in your interest, as it ensures your report won't fall
->> through the cracks unnoticed.
->>
->> Hint for developers: you normally don't need to care about regzbot once
->> it's involved. Fix the issue as you normally would, just remember to
->> include 'Link:' tag in the patch descriptions pointing to all reports
->> about the issue. This has been expected from developers even before
->> regzbot showed up for reasons explained in
->> 'Documentation/process/submitting-patches.rst' and
->> 'Documentation/process/5.Posting.rst'.
-> 
