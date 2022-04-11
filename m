@@ -2,164 +2,130 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09CBD4FBFEE
-	for <lists+linux-input@lfdr.de>; Mon, 11 Apr 2022 17:11:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1895D4FC469
+	for <lists+linux-input@lfdr.de>; Mon, 11 Apr 2022 20:51:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347652AbiDKPNY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Apr 2022 11:13:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43678 "EHLO
+        id S1349280AbiDKSyG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Apr 2022 14:54:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347598AbiDKPNW (ORCPT
+        with ESMTP id S1349257AbiDKSyF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Apr 2022 11:13:22 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23B6631521
-        for <linux-input@vger.kernel.org>; Mon, 11 Apr 2022 08:11:07 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id g18so6591622ejc.10
-        for <linux-input@vger.kernel.org>; Mon, 11 Apr 2022 08:11:07 -0700 (PDT)
+        Mon, 11 Apr 2022 14:54:05 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1D22289A4;
+        Mon, 11 Apr 2022 11:51:50 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id j8so14623909pll.11;
+        Mon, 11 Apr 2022 11:51:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair;
-        h=mime-version:content-transfer-encoding:date:message-id:from:to:cc
-         :subject:references:in-reply-to;
-        bh=pCJjCOYD1pHvTfEkVbYg6ajc5I2hvGHciFb/sFyrlHY=;
-        b=gpXKT43tqtGTzEZYyVUu+KoI+Ti3B/PxcwEDJCLsPuyjVj05Rp2kVeLH4lDKz/v0IQ
-         FGC2lHgJcmFoDsWBaFhXQ6E805MJtsOtjLVLztpZo6cHtyHOb9Vb31mGUxRZJP0V4NM7
-         5dja41jjOCCg9xz49t+W/PIxhhuhBPAFHAzqgM3iRRXbN0dj5gH2/aofGsZgH0fOyjak
-         E0aOHfu7ip8UebMzNLGB9+XC8Gw7BZNP+VyQlD98g5X+dd4zFpG3dF4iNv4OGnM302vf
-         5VncVzRR6K2zlVASr9C7gH840TYvI6RvoB/T5AumJobdDYS7fdD7FzFGQGXcfQZMi83A
-         lUMQ==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=1BCMMRF3CrZheQ3rPnfn8JyTdF9qShSSMiaTLCvnnj4=;
+        b=Xiqvl4o/2+hIidChDn64wLimWimfz389Tthk3lSF03NF+hBYj3gCXWUOk0EyXq9KQE
+         E9b27GxBWIhpr82aFSU7Uo9x4bYXY3viYnzGd1beNNRSA2aYPj35kWz8UnUgN5/FLTtI
+         xtrnkCWFqsfgntAbtNZ1onk2dUlXlqWM1XaKlnL6N2KgP5AeN4lnFBdzPWncg9rPv91I
+         Ld+O5UCnUp6LX9qYUVi0LGVPb9OdlvZrpBX9PnTbHdq6ARDmDYR+j21/6LOh4N6Wf45Q
+         qnSm7nJrFyeuWEbqRY5j0XsaRsvgVEJkZ9dIcUKowoqJ4RWTg1XlMXovK7E+tnvjv0lX
+         pFlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:content-transfer-encoding:date
-         :message-id:from:to:cc:subject:references:in-reply-to;
-        bh=pCJjCOYD1pHvTfEkVbYg6ajc5I2hvGHciFb/sFyrlHY=;
-        b=RxeiuiGeH9+acS8VI+3kq7bCCN/u/1G0wTo89Js0uCmFmM7mtDSiuJQJx7vIUOfvI9
-         cqOmEMraZE1Vs5lVBC+qKt8X1EAJMZ6aGAYLxs9Ld4VVAhScpMvd7raCy0t6k4gvdD9m
-         /SfWuuv6LiMH//KhV0GXdmjzLYwQjFNrK5VabzbQI8EhzIopAaOuGtl0bhawchIRvuu+
-         3NLScWlXlaLaKO+LDDAokqBlVVcS9yiZlV5yTAEf3sl6Ar9TA8jQlyJPOWy9jU77UuC4
-         ZryvC3QR389ywZ4HJEzx52ubuKAMiq4a426zOB1Kb7LP/Uuz2IJ3ENBtt928QZFzGnjg
-         kZNg==
-X-Gm-Message-State: AOAM533dMA3t4pzYRIiu6WY6FEa+oCJC1tmGFWAaQn0eD4WLk5PjKkDL
-        Sn6M8TXQdk1025N9n2gCUfCF5aNYo6pU6Q==
-X-Google-Smtp-Source: ABdhPJwLC6bUCnaIFc6oW/Xq/0xCuw+godnXoSeE5FChrONf7ocIGLASLvPmRetx5nLXf3Im5q8Plw==
-X-Received: by 2002:a17:907:9803:b0:6db:ab21:738e with SMTP id ji3-20020a170907980300b006dbab21738emr29228455ejc.112.1649689865639;
-        Mon, 11 Apr 2022 08:11:05 -0700 (PDT)
-Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id x17-20020a170906297100b006e49a9535f3sm12047743ejd.114.2022.04.11.08.11.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Apr 2022 08:11:04 -0700 (PDT)
-Mime-Version: 1.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1BCMMRF3CrZheQ3rPnfn8JyTdF9qShSSMiaTLCvnnj4=;
+        b=XgpnnRU1Y/90w9MkmaMN8kIEK2Wbr/WrZdRtqFko8imDhSORFJnnPtzuRtF2zWIq4O
+         TY408IdVNcwPAtlzf0UcigZ95Ijes9VdIdDbf4nuuTYwIfyUDKoBCIZLX9M1jQmIHyWj
+         URqDHsOM0OWQ+x77+aw7eN5rpv01MhSQmek5ufXt6QoRvEIWob4DH8kAAVjpQiuy+nRA
+         FF03yofyCrNKZ8D0vsW5W+/gzkL+kMqUOwm7tp8sjFwEsgxWJ0/IvtygKqQXMS+6vtKR
+         VTonMtgq0ZGdN6hesN5pMKP35Am0osJ8rK68e6NDqk0Ch4H3cb1CHZQAvXkQiw6oKU5A
+         Hkiw==
+X-Gm-Message-State: AOAM531CCHISXhzTZA8LHQUwzPBRZ536UbFSA8f6YspyG+tvMtEoAOGJ
+        fruZNYxaUwvwAmFs1I1flcaoNvsn54gHosZuEWU=
+X-Google-Smtp-Source: ABdhPJwYCr7lDRAfP3drRG6tTDeVIUFS6Td0V/gFhTVaWu+af2sRfHMLN+JurTf3e7+WgQwQ8fY30yp/XQ5rWOHoH9s=
+X-Received: by 2002:a17:902:b684:b0:156:80b4:db03 with SMTP id
+ c4-20020a170902b68400b0015680b4db03mr34263860pls.16.1649703110302; Mon, 11
+ Apr 2022 11:51:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220407115406.115112-1-hadess@hadess.net>
+In-Reply-To: <20220407115406.115112-1-hadess@hadess.net>
+From:   Jason Gerecke <killertofu@gmail.com>
+Date:   Mon, 11 Apr 2022 11:51:38 -0700
+Message-ID: <CANRwn3QSx=FpCT0=E1y88W0zuFLmChqmYe_y7uSs0bANNk4rvw@mail.gmail.com>
+Subject: Re: [PATCH] HID: wacom: Correct power_supply type
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     Linux Input <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ping Cheng <pinglinux@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Mon, 11 Apr 2022 17:11:04 +0200
-Message-Id: <CJ7I91AXGGCE.24GR11X2CBJ2J@otso>
-From:   "Luca Weiss" <luca.weiss@fairphone.com>
-To:     "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
-        <linux-input@vger.kernel.org>
-Cc:     <~postmarketos/upstreaming@lists.sr.ht>,
-        <phone-devel@vger.kernel.org>,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/3] dt-bindings: input: Add bindings for Awinic AW8695
- haptics
-X-Mailer: aerc 0.9.0
-References: <20220408115311.237039-1-luca.weiss@fairphone.com>
- <1a45984a-752b-6bad-0320-f0946d83f2b9@linaro.org>
- <CJ79EIW9Z89J.YZTZ6AU91TGE@otso>
- <60402ff3-db73-5fc0-bc2a-942d664085ec@linaro.org>
-In-Reply-To: <60402ff3-db73-5fc0-bc2a-942d664085ec@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Krzysztof,
+It seems that the USB type was chosen to fit into a upower heuristic
+that still exists (see [1], [2]). Looking at the upower code I suspect
+that swapping to the Battery type will at least cause
+"UP_DEVICE_KIND_TABLET" to no longer be used for our dongle-based
+wireless devices (Bluetooth-based might still be fine though). We
+haven't sold dongle-based devices in a while, but they're definitely
+still out there. If the batteries in those devices are seen as system
+batteries that could cause a problem -- e.g. triggering hibernation
+when the tablet battery gets low.
 
-On Mon Apr 11, 2022 at 2:52 PM CEST, Krzysztof Kozlowski wrote:
-> On 11/04/2022 10:15, Luca Weiss wrote:
->
-> (...)
->
-> >>> +  awinic,f0-detection-play-time:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description: Drive waveform play times in the first period in th=
-e f0 detection
-> >>
-> >> Use standard unit suffixes for known units (e.g. time).
-> >=20
-> > While the datasheet doesn't mention any time unit, the value is used to
-> > calculate the f0_trace_ms variable (which is milliseconds) but the
-> > result also depends on the awinic,f0-preset value, so it's not a raw
-> > time value.
->
-> I see, ok.
->
-> >=20
-> >>
-> >>> +
-> >>> +  awinic,f0-detection-wait-time:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description: Waveform wait times in the f0 detection
-> >>
-> >> Ditto.
-> >>
-> >>> +
-> >>> +  awinic,f0-detection-repeat:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description: Repeat times in the f0 detection
-> >>> +
-> >>> +  awinic,f0-detection-trace:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description: Drive waveform play times in the second period and =
-later in the f0 detection
-> >>> +
-> >>> +  awinic,boost-debug:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint8-array
-> >>> +    minItems: 3
-> >>> +    maxItems: 3
-> >>> +    description: Values for BSTDBG1-3 registers
-> >>
-> >> Do not encode device programming model (registers) into the binding. Y=
-ou
-> >> need to define it as a property related to hardware itself, not its
-> >> registers (e.g. boost value in mV).
-> >=20
-> > Unfortunately I couldn't figure the meaning for this and the two values
-> > below.
-> >=20
-> > The datasheet doesn't mention these registers at all and the downstream
-> > driver doesn't do anything meaningful with them (other than setting the=
-m)
-> > nor has any comment to indicate what they do.
-> > In the datasheet there's only BSTDBG4 mentioned where bits [5:1] mean
-> > PVDD output voltage setting so for these registers it could really be
-> > anthing :(
-> >=20
-> > Maybe someone with more knowledge about LRAs might be able to decipher
-> > what tset and r_spare is at least? I unfortunately didn't manage.
->
-> Do you have to define them in such case in DT? Maybe it should be part
-> of driver?
+I think it would be wise to test this first to see if there's any
+obvious real-world fallout from the change...
 
-As these parameters are part of the dts downstream, I assume they differ
-per board or actual LRA used.
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/com=
+mit/?id=3D96983296281507f049425b84f0d244c40d506eba
+[2]: https://cgit.freedesktop.org/upower/tree/src/linux/up-device-supply.c
 
-But I also found other downstream dts examples on github (e.g.
-awinic,aw8697_haptic) and they also seemed to use the same values for
-these couple of registers (r_spare, tset and bstdbg). Maybe I can gather
-more info but it's unlikely I'll be able to get a concrete answer..
+Jason
+---
+Now instead of four in the eights place /
+you=E2=80=99ve got three, =E2=80=98Cause you added one  /
+(That is to say, eight) to the two,     /
+But you can=E2=80=99t take seven from three,    /
+So you look at the sixty-fours....
 
-Regards
-Luca
 
+
+On Thu, Apr 7, 2022 at 1:52 PM Bastien Nocera <hadess@hadess.net> wrote:
 >
-> Best regards,
-> Krzysztof
-
+> POWER_SUPPLY_TYPE_USB seems to only ever be used by USB ports that are
+> used to charge the machine itself (so a "system" scope), like the
+> single USB port on a phone, rather than devices.
+>
+> The wacom_sys driver is the only driver that sets its device battery as
+> being a USB type, which doesn't seem correct based on its usage, so
+> switch it to be a battery type like all the other USB-connected devices.
+>
+> Signed-off-by: Bastien Nocera <hadess@hadess.net>
+> ---
+>  drivers/hid/wacom_sys.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+> index 066c567dbaa2..620fe74f5676 100644
+> --- a/drivers/hid/wacom_sys.c
+> +++ b/drivers/hid/wacom_sys.c
+> @@ -1777,7 +1777,7 @@ static int __wacom_initialize_battery(struct wacom =
+*wacom,
+>         bat_desc->get_property =3D wacom_battery_get_property;
+>         sprintf(battery->bat_name, "wacom_battery_%ld", n);
+>         bat_desc->name =3D battery->bat_name;
+> -       bat_desc->type =3D POWER_SUPPLY_TYPE_USB;
+> +       bat_desc->type =3D POWER_SUPPLY_TYPE_BATTERY;
+>         bat_desc->use_for_apm =3D 0;
+>
+>         ps_bat =3D devm_power_supply_register(dev, bat_desc, &psy_cfg);
+> --
+> 2.35.1
+>
