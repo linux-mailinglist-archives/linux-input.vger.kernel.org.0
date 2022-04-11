@@ -2,144 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2C494FBC7D
-	for <lists+linux-input@lfdr.de>; Mon, 11 Apr 2022 14:52:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A21854FBCBB
+	for <lists+linux-input@lfdr.de>; Mon, 11 Apr 2022 15:04:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244539AbiDKMyo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Apr 2022 08:54:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60678 "EHLO
+        id S243259AbiDKNHB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Apr 2022 09:07:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230148AbiDKMyo (ORCPT
+        with ESMTP id S240978AbiDKNHA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Apr 2022 08:54:44 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4D311573E
-        for <linux-input@vger.kernel.org>; Mon, 11 Apr 2022 05:52:29 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id s18so8181125ejr.0
-        for <linux-input@vger.kernel.org>; Mon, 11 Apr 2022 05:52:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=SWb+pp0NdRVJt1+up2FTo890NhhieJA9DisUGbn/ukA=;
-        b=edrRoCBY8ynKvUqq1HVfunEp09FZGqzcMUDWmMXq8eY85zgFlgHCMHl2cOAJiBW0Fq
-         BbEoJ7Axv5s2gTs1l+yvBd8kzO8emBhglWQE0sU4x/uHvEwO/ePvknqVoIO73jsGYdMo
-         2aXkEDSB/fE+Y9CNmW+CoRG/zjLjZZo74iOnw1t2fnoD3tN+PabbXtUBf5a3WunrdPk2
-         h+t0PbIRKZiTNOFddumdGqWSuJscnVVcZZAMcv2NnWOhuuhl0jotYwtruzE7zM8XP/Yy
-         tbBS4h5ZHZTO+eC3nE95sQzWzwY1A+5F8ks0A/O25Ojr4nI0z3W5SK0cybDkdKWLNE4x
-         wyjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=SWb+pp0NdRVJt1+up2FTo890NhhieJA9DisUGbn/ukA=;
-        b=xIk1mzqcsO7CVc3kyRq3h1lIPq5PLBOrMgtvr6xEOeCbP1jshlFMQv59RPvUTQT2Aq
-         84/gjxtuEPOQo4ApZW93Z7aPFxrplSkIHhD3BeKiXbreT3Y611vbHMpX9KZ9TNQfMcvf
-         lzxErI3h9VOR4pbB4641QnWopSI2wuJvtDv8Psz8ExloZBjaKpcOxeyclLmobnUCGQHm
-         jH9zutx+1qMl+7YZ4NUg/1nzWVnUx4ALj3LnGJA6Je1IXM6UyM9m3yIc6jezrup59LJU
-         gX0+seItMxQvgKYuPjafk/9gGQzBvksnxnYPz3QG/qftths9iGcbyxe+eLH0dv23LCJA
-         bsbA==
-X-Gm-Message-State: AOAM533BN9M/uBEvOVcCdqG4+uyujCOPxqiDWIdb1DZO0zWjFhP+jc/v
-        RxHGd+0SszmHkF3ARnwO8mrxSg==
-X-Google-Smtp-Source: ABdhPJxFrpUfsoqogV21k6w5jkwaczBncmRsEXzPGyxIoh/3rZlEvpdoyBKbLQ0Ost46rXMXyDn5bQ==
-X-Received: by 2002:a17:906:e110:b0:6e6:75e0:946c with SMTP id gj16-20020a170906e11000b006e675e0946cmr29209146ejb.611.1649681548383;
-        Mon, 11 Apr 2022 05:52:28 -0700 (PDT)
-Received: from [192.168.0.192] (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
-        by smtp.gmail.com with ESMTPSA id v20-20020a056402349400b00419651e513asm15403271edc.45.2022.04.11.05.52.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Apr 2022 05:52:27 -0700 (PDT)
-Message-ID: <60402ff3-db73-5fc0-bc2a-942d664085ec@linaro.org>
-Date:   Mon, 11 Apr 2022 14:52:26 +0200
+        Mon, 11 Apr 2022 09:07:00 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F5301277F
+        for <linux-input@vger.kernel.org>; Mon, 11 Apr 2022 06:04:46 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:b509:6862:2557:437a])
+        by andre.telenet-ops.be with bizsmtp
+        id HR4j2700F1G7NMJ01R4jp7; Mon, 11 Apr 2022 15:04:44 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ndtil-000ATM-9G; Mon, 11 Apr 2022 15:04:43 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ndtik-009Jdx-S8; Mon, 11 Apr 2022 15:04:42 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Randy Dunlap <randy.dunlap@oracle.com>, Mark Laws <mdl@60hz.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC] Input: serio - decouple libps2 from i8042
+Date:   Mon, 11 Apr 2022 15:04:39 +0200
+Message-Id: <fb55a85ccc61c4ca54775565037eb05a252ccef8.1649682025.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/3] dt-bindings: input: Add bindings for Awinic AW8695
- haptics
-Content-Language: en-US
-To:     Luca Weiss <luca.weiss@fairphone.com>, linux-input@vger.kernel.org
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220408115311.237039-1-luca.weiss@fairphone.com>
- <1a45984a-752b-6bad-0320-f0946d83f2b9@linaro.org>
- <CJ79EIW9Z89J.YZTZ6AU91TGE@otso>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CJ79EIW9Z89J.YZTZ6AU91TGE@otso>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 11/04/2022 10:15, Luca Weiss wrote:
+As of commit 4097461897df9104 ("Input: i8042 - break load dependency
+between atkbd/psmouse and i8042"), the libps2 driver no longer uses any
+functionality from the i8042 driver.  Hence the meat of commit
+fed94549edc90b15 ("Input: libps2 - fix dependancy on i8042") can be
+reverted.
 
-(...)
+Remove the obsolete inclusion of <linux/i8042.h> from the libps2 driver.
 
->>> +  awinic,f0-detection-play-time:
->>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>> +    description: Drive waveform play times in the first period in the f0 detection
->>
->> Use standard unit suffixes for known units (e.g. time).
-> 
-> While the datasheet doesn't mention any time unit, the value is used to
-> calculate the f0_trace_ms variable (which is milliseconds) but the
-> result also depends on the awinic,f0-preset value, so it's not a raw
-> time value.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Does this actually work?
+---
+ drivers/input/serio/Kconfig  | 1 -
+ drivers/input/serio/libps2.c | 1 -
+ 2 files changed, 2 deletions(-)
 
-I see, ok.
+diff --git a/drivers/input/serio/Kconfig b/drivers/input/serio/Kconfig
+index f39b7b3f79421538..2d875f4d95f41116 100644
+--- a/drivers/input/serio/Kconfig
++++ b/drivers/input/serio/Kconfig
+@@ -177,7 +177,6 @@ config SERIO_SGI_IOC3
+ 
+ config SERIO_LIBPS2
+ 	tristate "PS/2 driver library"
+-	depends on SERIO_I8042 || SERIO_I8042=n
+ 	help
+ 	  Say Y here if you are using a driver for device connected
+ 	  to a PS/2 port, such as PS/2 mouse or standard AT keyboard.
+diff --git a/drivers/input/serio/libps2.c b/drivers/input/serio/libps2.c
+index 250e213cc80c68be..f5980eb980868dc7 100644
+--- a/drivers/input/serio/libps2.c
++++ b/drivers/input/serio/libps2.c
+@@ -13,7 +13,6 @@
+ #include <linux/interrupt.h>
+ #include <linux/input.h>
+ #include <linux/serio.h>
+-#include <linux/i8042.h>
+ #include <linux/libps2.h>
+ 
+ #define DRIVER_DESC	"PS/2 driver library"
+-- 
+2.25.1
 
-> 
->>
->>> +
->>> +  awinic,f0-detection-wait-time:
->>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>> +    description: Waveform wait times in the f0 detection
->>
->> Ditto.
->>
->>> +
->>> +  awinic,f0-detection-repeat:
->>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>> +    description: Repeat times in the f0 detection
->>> +
->>> +  awinic,f0-detection-trace:
->>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>> +    description: Drive waveform play times in the second period and later in the f0 detection
->>> +
->>> +  awinic,boost-debug:
->>> +    $ref: /schemas/types.yaml#/definitions/uint8-array
->>> +    minItems: 3
->>> +    maxItems: 3
->>> +    description: Values for BSTDBG1-3 registers
->>
->> Do not encode device programming model (registers) into the binding. You
->> need to define it as a property related to hardware itself, not its
->> registers (e.g. boost value in mV).
-> 
-> Unfortunately I couldn't figure the meaning for this and the two values
-> below.
-> 
-> The datasheet doesn't mention these registers at all and the downstream
-> driver doesn't do anything meaningful with them (other than setting them)
-> nor has any comment to indicate what they do.
-> In the datasheet there's only BSTDBG4 mentioned where bits [5:1] mean
-> PVDD output voltage setting so for these registers it could really be
-> anthing :(
-> 
-> Maybe someone with more knowledge about LRAs might be able to decipher
-> what tset and r_spare is at least? I unfortunately didn't manage.
-
-Do you have to define them in such case in DT? Maybe it should be part
-of driver?
-
-Best regards,
-Krzysztof
