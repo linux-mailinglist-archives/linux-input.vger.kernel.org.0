@@ -2,45 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 857DA4FBFBE
-	for <lists+linux-input@lfdr.de>; Mon, 11 Apr 2022 17:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C06234FBFCF
+	for <lists+linux-input@lfdr.de>; Mon, 11 Apr 2022 17:05:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347580AbiDKPDF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Apr 2022 11:03:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47276 "EHLO
+        id S1347560AbiDKPHw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Apr 2022 11:07:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347630AbiDKPCk (ORCPT
+        with ESMTP id S1347671AbiDKPHs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Apr 2022 11:02:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D092422299;
-        Mon, 11 Apr 2022 08:00:26 -0700 (PDT)
+        Mon, 11 Apr 2022 11:07:48 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89A8220BC6
+        for <linux-input@vger.kernel.org>; Mon, 11 Apr 2022 08:05:33 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6091761530;
-        Mon, 11 Apr 2022 15:00:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD324C385A4;
-        Mon, 11 Apr 2022 15:00:24 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id B0798CE18F1
+        for <linux-input@vger.kernel.org>; Mon, 11 Apr 2022 15:05:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5250C385A4;
+        Mon, 11 Apr 2022 15:05:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649689225;
-        bh=WQgiPWw15vZto8Oz4YQkJk3Gl2iuHt80f6Y58X7n7co=;
+        s=k20201202; t=1649689529;
+        bh=a10hO7r9qzkEPYzlCXPNa5oht7q0riBmtTn/daDCQ1M=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=WlLeKH9ng0yCZvpA3Et0fAqBe5kAgqcQwXe7UKuqut42rDdVgVCfcNjlqzjgYHei+
-         C20cmatbGojQapZUjpDeFOEijhnpcHNSMZnQOxZc8jehKDi/gp+eXd+t2B6t9re9he
-         ZcC2XiAVUFQridhcvTxShgjHRERKHyOMRxc0U97XHF2E/QC5+qMeJjx2YcMP4VoFb6
-         uhNIsaVL7rLa48QHVtmMksDGttg4kwySmeVQs5YpDw2mWwQmD6zULx4fJpDt08W6Zu
-         MABLvJTzOtS8ImU/jlYohoqlUZk+WIzu4eq/k6lM8z9dcgj3wc0N0i2zTZw/GJjKwD
-         R0vdXURSU5aGw==
-Date:   Mon, 11 Apr 2022 17:00:22 +0200 (CEST)
+        b=IyOoca+QvWyVjp0LvlO7PPxDpQbrkEGruCvhv37VMfPocRdRx/35c6dTiGVnFR/FD
+         1H5Iqf8bPWlb6cZoWWdWy1dujMW2++d89WUq5F9zurazbWb2BFSv7HHc/0VwPeur2F
+         VtiySzFy9Gp7yesg4V2aVCiOk8KYUubIo6mfV2fY/tMp2IwdqbIeJ0akI9GKUXHUJx
+         ONbul6gLPAqzXp/A2HWv12pU9DdBhbsdke3Kb8n296yHot4OuRkCJSIR9xyQaZU6+l
+         91uISL8xS80F7UpEajQqRXFaQ72o1QzSyxpMUl46ZGI8AqJOC2/xNZAG7VY/bnPiR2
+         REYycrXqeiLYg==
+Date:   Mon, 11 Apr 2022 17:05:26 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Josh Kilmer <srjek2@gmail.com>
-cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH] hid: asus: ROG NKey: Ignore portion of 0x5a report
-In-Reply-To: <CAMXW6=97T1tzT=FSyzZN6jBAKgzUDOjqRoH-FMAPLHk1gsD=mA@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2204111658520.30217@cbobk.fhfr.pm>
-References: <CAMXW6=97T1tzT=FSyzZN6jBAKgzUDOjqRoH-FMAPLHk1gsD=mA@mail.gmail.com>
+To:     Nehal-bakulchandra Shah <Nehal-bakulchandra.Shah@amd.com>
+cc:     benjamin.tissoires@redhat.com, Basavaraj.Natikar@amd.com,
+        Shyam-sundar.S-k@amd.com, linux-input@vger.kernel.org
+Subject: Re: [PATCH] amd_sfh: Remove name  from maintainers list
+In-Reply-To: <20220408094717.847209-1-Nehal-bakulchandra.Shah@amd.com>
+Message-ID: <nycvar.YFH.7.76.2204111705210.30217@cbobk.fhfr.pm>
+References: <20220408094717.847209-1-Nehal-bakulchandra.Shah@amd.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -54,54 +54,31 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 14 Mar 2022, Josh Kilmer wrote:
+On Fri, 8 Apr 2022, Nehal-bakulchandra Shah wrote:
 
-> On an Asus G513QY, of the 5 bytes in a 0x5a report, only the first byte
-> is a meaningful keycode. The other bytes are zeroed out or hold garbage
-> from the last packet sent to the keyboard.
+> From: Nehal Bakulchandra Shah <Nehal-Bakulchandra.shah@amd.com>
 > 
-> This patch fixes up the report descriptor for this event so that the
-> general hid code will only process 1 byte for keycodes, avoiding
-> spurious key events and unmapped Asus vendor usagepage code warnings.
+> Remove my name from maintainer-ship of AMD SENSOR FUSION HUB DRIVER
 > 
-> Signed-off-by: Josh Kilmer <srjek2@gmail.com>
-
-Hi Josh,
-
-thanks for the patch.
-
-A couple remarks:
-
+> Signed-off-by: Nehal Bakulchandra Shah <Nehal-Bakulchandra.shah@amd.com>
 > ---
->  drivers/hid/hid-asus.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  MAINTAINERS | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> index 08c9a9a60ae4..73fb9fc0701c 100644
-> --- a/drivers/hid/hid-asus.c
-> +++ b/drivers/hid/hid-asus.c
-> @@ -1212,6 +1212,14 @@ static __u8 *asus_report_fixup(struct
-> hid_device *hdev, __u8 *rdesc,
->         rdesc = new_rdesc;
->     }
-> 
-> +   if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD &&
-> +           *rsize == 331 && rdesc[190] == 0x85 && rdesc[191] == 0x5a &&
-> +           rdesc[204] == 0x95 && rdesc[205] == 0x05) {
-> +       hid_info(hdev, "Fixing up Asus N-KEY keyb report descriptor\n");
-> +       // On the 0x5A input report, change count from 5 to 1
-> +       rdesc[205] = 0x01;
-> +   }
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index fd768d43e048..864d26404711 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1043,7 +1043,6 @@ F:	arch/arm64/boot/dts/amd/amd-seattle-xgbe*.dtsi
+>  F:	drivers/net/ethernet/amd/xgbe/
+>  
+>  AMD SENSOR FUSION HUB DRIVER
+> -M:	Nehal Shah <nehal-bakulchandra.shah@amd.com>
+>  M:	Basavaraj Natikar <basavaraj.natikar@amd.com>
+>  L:	linux-input@vger.kernel.org
+>  S:	Maintained
 
-- your mail client whitespace-damaged the patch, so it can't be applied; 
-  could you please fix that and resend?
-
-- the comment above is (a) using non-standard kernel commenting style, and 
-  quite honestly (b) seems a little bit superfluous
-
-Could you please fix that up and resend?
-
-Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
