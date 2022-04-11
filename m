@@ -2,130 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1895D4FC469
-	for <lists+linux-input@lfdr.de>; Mon, 11 Apr 2022 20:51:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10C974FC569
+	for <lists+linux-input@lfdr.de>; Mon, 11 Apr 2022 22:05:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349280AbiDKSyG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Apr 2022 14:54:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40700 "EHLO
+        id S1349763AbiDKUHw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Apr 2022 16:07:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349257AbiDKSyF (ORCPT
+        with ESMTP id S230306AbiDKUHu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Apr 2022 14:54:05 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1D22289A4;
-        Mon, 11 Apr 2022 11:51:50 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id j8so14623909pll.11;
-        Mon, 11 Apr 2022 11:51:50 -0700 (PDT)
+        Mon, 11 Apr 2022 16:07:50 -0400
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D171CB32;
+        Mon, 11 Apr 2022 13:05:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1BCMMRF3CrZheQ3rPnfn8JyTdF9qShSSMiaTLCvnnj4=;
-        b=Xiqvl4o/2+hIidChDn64wLimWimfz389Tthk3lSF03NF+hBYj3gCXWUOk0EyXq9KQE
-         E9b27GxBWIhpr82aFSU7Uo9x4bYXY3viYnzGd1beNNRSA2aYPj35kWz8UnUgN5/FLTtI
-         xtrnkCWFqsfgntAbtNZ1onk2dUlXlqWM1XaKlnL6N2KgP5AeN4lnFBdzPWncg9rPv91I
-         Ld+O5UCnUp6LX9qYUVi0LGVPb9OdlvZrpBX9PnTbHdq6ARDmDYR+j21/6LOh4N6Wf45Q
-         qnSm7nJrFyeuWEbqRY5j0XsaRsvgVEJkZ9dIcUKowoqJ4RWTg1XlMXovK7E+tnvjv0lX
-         pFlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1BCMMRF3CrZheQ3rPnfn8JyTdF9qShSSMiaTLCvnnj4=;
-        b=XgpnnRU1Y/90w9MkmaMN8kIEK2Wbr/WrZdRtqFko8imDhSORFJnnPtzuRtF2zWIq4O
-         TY408IdVNcwPAtlzf0UcigZ95Ijes9VdIdDbf4nuuTYwIfyUDKoBCIZLX9M1jQmIHyWj
-         URqDHsOM0OWQ+x77+aw7eN5rpv01MhSQmek5ufXt6QoRvEIWob4DH8kAAVjpQiuy+nRA
-         FF03yofyCrNKZ8D0vsW5W+/gzkL+kMqUOwm7tp8sjFwEsgxWJ0/IvtygKqQXMS+6vtKR
-         VTonMtgq0ZGdN6hesN5pMKP35Am0osJ8rK68e6NDqk0Ch4H3cb1CHZQAvXkQiw6oKU5A
-         Hkiw==
-X-Gm-Message-State: AOAM531CCHISXhzTZA8LHQUwzPBRZ536UbFSA8f6YspyG+tvMtEoAOGJ
-        fruZNYxaUwvwAmFs1I1flcaoNvsn54gHosZuEWU=
-X-Google-Smtp-Source: ABdhPJwYCr7lDRAfP3drRG6tTDeVIUFS6Td0V/gFhTVaWu+af2sRfHMLN+JurTf3e7+WgQwQ8fY30yp/XQ5rWOHoH9s=
-X-Received: by 2002:a17:902:b684:b0:156:80b4:db03 with SMTP id
- c4-20020a170902b68400b0015680b4db03mr34263860pls.16.1649703110302; Mon, 11
- Apr 2022 11:51:50 -0700 (PDT)
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1649707536; x=1681243536;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jhv6EkHDtQ4ltXXOFpDhNcSEV9W9C2fd4dh3zQjQ+Ew=;
+  b=ATLnV1hHO3j2PkiXGH3TrFOUZE4+l4oyTd4LO+nPN8s7D/P4xK0g01rp
+   fB/mOE1ufMo5ZzG/eW0qnaYR16wPIHmHHmaVZxvVQvXT4appyZ4rIMPOP
+   4NpRERJRK18Ek30Ye6/cdSrEJXrcvEVa/YuB/L/CD+cGumu09JE4irjZh
+   M=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 11 Apr 2022 13:05:35 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 13:05:35 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 11 Apr 2022 13:05:34 -0700
+Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 11 Apr 2022 13:05:33 -0700
+From:   Anjelique Melendez <quic_amelende@quicinc.com>
+To:     <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <sre@kernel.org>,
+        <robh+dt@kernel.org>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <collinsd@codeaurora.org>,
+        <bjorn.andersson@linaro.org>, <swboyd@chromium.org>,
+        <skakit@codeaurora.org>, <linux-doc@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Anjelique Melendez <quic_amelende@quicinc.com>
+Subject: [PATCH v5 0/5] Extend pm8941-pwrkey driver
+Date:   Mon, 11 Apr 2022 13:05:01 -0700
+Message-ID: <20220411200506.22891-1-quic_amelende@quicinc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220407115406.115112-1-hadess@hadess.net>
-In-Reply-To: <20220407115406.115112-1-hadess@hadess.net>
-From:   Jason Gerecke <killertofu@gmail.com>
-Date:   Mon, 11 Apr 2022 11:51:38 -0700
-Message-ID: <CANRwn3QSx=FpCT0=E1y88W0zuFLmChqmYe_y7uSs0bANNk4rvw@mail.gmail.com>
-Subject: Re: [PATCH] HID: wacom: Correct power_supply type
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     Linux Input <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ping Cheng <pinglinux@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-It seems that the USB type was chosen to fit into a upower heuristic
-that still exists (see [1], [2]). Looking at the upower code I suspect
-that swapping to the Battery type will at least cause
-"UP_DEVICE_KIND_TABLET" to no longer be used for our dongle-based
-wireless devices (Bluetooth-based might still be fine though). We
-haven't sold dongle-based devices in a while, but they're definitely
-still out there. If the batteries in those devices are seen as system
-batteries that could cause a problem -- e.g. triggering hibernation
-when the tablet battery gets low.
+Changes from v4:
+  - Added new dt-binding patch as 1/5
+ 
+Changes from v3:
+  - Fixed dereference issue in 2/4
+  - Added Stephen's reviewed by tag for 2/4
 
-I think it would be wise to test this first to see if there's any
-obvious real-world fallout from the change...
+Changes from v2:
+  - Addressed Stephen's comments
+    - Add Stephen's reviewed by tag for 1/4
+    - Fixed style for 2/4
+    - Corrected function call to use correct function for 3/4
 
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/com=
-mit/?id=3D96983296281507f049425b84f0d244c40d506eba
-[2]: https://cgit.freedesktop.org/upower/tree/src/linux/up-device-supply.c
+Changes from v1:
+  - Removed Change-Id from all patches
+  - Updated subject line of cover letter
+  - Addressed Stephen's comments for v1 1/3
+    - Separated error message fix to own patch (v2 1/4)
+    - Separated PON GEN3 base address changes to own patch (v2 2/4)
+    - Added new variables and functions to make code more readable
+  - Removed v1 3/3 as per Bjorn's comments
 
-Jason
----
-Now instead of four in the eights place /
-you=E2=80=99ve got three, =E2=80=98Cause you added one  /
-(That is to say, eight) to the two,     /
-But you can=E2=80=99t take seven from three,    /
-So you look at the sixty-fours....
+Anjelique Melendez (2):
+  input: misc: pm8941-pwrkey: fix error message
+  input: misc: pm8941-pwrkey: add support for PON GEN3 base addresses
 
+David Collins (3):
+  dt-bindings: power: reset: qcom-pon: update "reg" property details
+  input: misc: pm8941-pwrkey: add software key press debouncing support
+  input: misc: pm8941-pwrkey: simulate missed key press events
 
+ Documentation/devicetree/bindings/power/reset/qcom,pon.yaml | 20 +++++++++++++++++++-
+ drivers/input/misc/pm8941-pwrkey.c | 124 +++++++++++++++++++++++++----
+ 2 files changed, 129 insertions(+), 15 deletions(-)
 
-On Thu, Apr 7, 2022 at 1:52 PM Bastien Nocera <hadess@hadess.net> wrote:
->
-> POWER_SUPPLY_TYPE_USB seems to only ever be used by USB ports that are
-> used to charge the machine itself (so a "system" scope), like the
-> single USB port on a phone, rather than devices.
->
-> The wacom_sys driver is the only driver that sets its device battery as
-> being a USB type, which doesn't seem correct based on its usage, so
-> switch it to be a battery type like all the other USB-connected devices.
->
-> Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> ---
->  drivers/hid/wacom_sys.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-> index 066c567dbaa2..620fe74f5676 100644
-> --- a/drivers/hid/wacom_sys.c
-> +++ b/drivers/hid/wacom_sys.c
-> @@ -1777,7 +1777,7 @@ static int __wacom_initialize_battery(struct wacom =
-*wacom,
->         bat_desc->get_property =3D wacom_battery_get_property;
->         sprintf(battery->bat_name, "wacom_battery_%ld", n);
->         bat_desc->name =3D battery->bat_name;
-> -       bat_desc->type =3D POWER_SUPPLY_TYPE_USB;
-> +       bat_desc->type =3D POWER_SUPPLY_TYPE_BATTERY;
->         bat_desc->use_for_apm =3D 0;
->
->         ps_bat =3D devm_power_supply_register(dev, bat_desc, &psy_cfg);
-> --
-> 2.35.1
->
+-- 
+2.35.1
+
