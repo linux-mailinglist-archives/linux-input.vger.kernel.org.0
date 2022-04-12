@@ -2,142 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 044F44FE4F4
-	for <lists+linux-input@lfdr.de>; Tue, 12 Apr 2022 17:40:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B508F4FE62D
+	for <lists+linux-input@lfdr.de>; Tue, 12 Apr 2022 18:44:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344711AbiDLPnK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Apr 2022 11:43:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53808 "EHLO
+        id S235529AbiDLQrM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 Apr 2022 12:47:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357160AbiDLPm2 (ORCPT
+        with ESMTP id S232214AbiDLQrK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Apr 2022 11:42:28 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B71F15C843;
-        Tue, 12 Apr 2022 08:40:10 -0700 (PDT)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23CDb38O018415;
-        Tue, 12 Apr 2022 15:40:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=Z30QAp+7fp5X+NHQXpCS5AvmEEHClZ4fbtGuECc5aSg=;
- b=i3U8UoACH9VMaTumzfGUxevCoJNctWWKE7a1YePdiIJ/Q6KTq07WuL7gfruFXzfJXiJa
- qCxrr5jOslpHVRtZQQx7F7JMj4JpA01dCemP5gFO8BUdwWmhzh0GZChB0RKsVrbSRjg3
- izByiWPWMqPSgz4q2GsY22dZr5bv1jaI/WFCRwdgju7lof2nEXbt1uDmWM2GSm5Lu9AC
- /12DbH8uB5to35jO8Dctpj3C6yV1P+RJEcNaErwKFJpcGa6aSTQAIvoPOdUobM5Kr75T
- yKuEzj2QiblcgxOROq3WTtYK31ZdJeRpvF93rshqSdi56yNZwErWg/a0NKXNgHkTm3AW 6w== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3fb0r1f883-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 12 Apr 2022 15:40:07 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 23CFPYdv005102;
-        Tue, 12 Apr 2022 15:40:06 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam08lp2042.outbound.protection.outlook.com [104.47.74.42])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3fb0k3deud-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 12 Apr 2022 15:40:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BSsVg6FWLSZakxJV/CIx6TjQoYkvbM0GxuXsiIXSaIAMQZQUW988Bz/q8OJrs5vg9yK2LmE6HUM51KFichzVdUR+GXKE63u7b2kA+3U19vP2ppNC6g5EaKHgd3H1Ru6G7FYUVYsxQyucJAPoFY7Tfjtb0l3dHCNaqM1eLjxgb+QSzH6/cDLx8U3naVRactO5U8hTxFfRVWYOR7V1iMvWB86iFNglY/XWewJ+tbFKr/se1XFT/tIpuLI7dXPrH50cu7ZPfBN82/F2goltugi4Y+aItrJMmYHg6O3GGzizu112Gb7p63jCq+xpl204RQQlYWWx26EY/nzCnqcg94OHNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z30QAp+7fp5X+NHQXpCS5AvmEEHClZ4fbtGuECc5aSg=;
- b=l/9K/j1zrMMSEHWUwEMbgNHZS8JvefKJZ/6xHt+ukEjcy3qovF+NaTy7uwhvF4fCkYbkFD5GTrCzkj1X6PrP/khtBVGzyi1AbsjiPWIKsbSXHY1fAdQOn4eHc69ni0Uo5VdEyYb4DcNM22DSEODgadvLxknbknx4x5SMoNlDitPSQ1UbjayCDQ5MqKw1wpzclm3VxNviBWdT0/rEOfaPzczbc+31s/5IletLdbtbVjmgcFd6oQu4P20VoiFU5Iinh/KHK3FP7KzhaaoVdT9tUdcrMy8pPFaPLoVrPVXQ6kriEEDL7FSkaGk0aXCqICSLYumDrKnGIAbOIOKoj7yU8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z30QAp+7fp5X+NHQXpCS5AvmEEHClZ4fbtGuECc5aSg=;
- b=DQmWDoWPMjf/gF6YxgvRrjv53SxwV1l6imHxxTFRdnoZmS4PsxfUwGf77dYMfK7hODO4fDekp5G0gY+HEh5Gd4o/ggEpx7aOXypyqAKIXlJRwKCr/7Uj675fR8x3h19lpJNZUN3oeyikCOiFG3f/nrMZBaRCuJBouDYTJgqhjp0=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by BN8PR10MB3602.namprd10.prod.outlook.com
- (2603:10b6:408:b0::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Tue, 12 Apr
- 2022 15:40:04 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5144.022; Tue, 12 Apr 2022
- 15:40:04 +0000
-Date:   Tue, 12 Apr 2022 18:39:54 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] Input: iqs7222 - propagate some error codes correctly
-Message-ID: <20220412153954.GA15406@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: ZR0P278CA0125.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:20::22) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+        Tue, 12 Apr 2022 12:47:10 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B111F1B790;
+        Tue, 12 Apr 2022 09:44:51 -0700 (PDT)
+Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KdBM04QPsz67QRR;
+        Wed, 13 Apr 2022 00:41:32 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 12 Apr 2022 18:44:49 +0200
+Received: from localhost (10.202.226.41) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 12 Apr
+ 2022 17:44:48 +0100
+Date:   Tue, 12 Apr 2022 17:44:47 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Chris Morgan <macromorgan@hotmail.com>
+CC:     Jonathan Cameron <jic23@kernel.org>,
+        Artur Rojek <contact@artur-rojek.eu>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Chris Morgan <macroalpha82@gmail.com>,
+        <linux-input@vger.kernel.org>, <linux-iio@vger.kernel.org>
+Subject: Re: [PATCH] input: adc-joystick: Stop using scan_index for reading
+ data
+Message-ID: <20220412174447.000065bd@Huawei.com>
+In-Reply-To: <SN6PR06MB5342FF9387BAE6EDD12CDC7DA5EA9@SN6PR06MB5342.namprd06.prod.outlook.com>
+References: <20220408212857.9583-1-macroalpha82@gmail.com>
+        <YlDqTKuo5rbkIL8V@google.com>
+        <2941de6570a6f808d6ea6e71d137ef87@artur-rojek.eu>
+        <SN6PR06MB5342727A065E9FA2223B6A45A5EB9@SN6PR06MB5342.namprd06.prod.outlook.com>
+        <c7ace6661c11183586420b431adb6bab@artur-rojek.eu>
+        <20220410184318.53c0de04@jic23-huawei>
+        <SN6PR06MB5342FF9387BAE6EDD12CDC7DA5EA9@SN6PR06MB5342.namprd06.prod.outlook.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3c001eb8-5a08-4e1b-f016-08da1c9ab6a0
-X-MS-TrafficTypeDiagnostic: BN8PR10MB3602:EE_
-X-Microsoft-Antispam-PRVS: <BN8PR10MB360253453B0157498365227A8EED9@BN8PR10MB3602.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +MYd7v7HqRBERqgtzelLszFLWJI6vyGCQYUt87bKHt1glqTiM+4C3sCobMjMSZMO343GPUzRHUj+K7ap+LhdUOd9Farr+gGTNJPqrh8LTJzAhHctIjpBX0MOuo9RXGmBXiv2b2ZCopSZCgNce1M8v7Lgbbjy/NxU83VObz6uS5L0XNR4uMSTZdrxJOz0A0GUlo2FEzZDOP5cU+D5u0upIT5Xio7J+6G5sqkxkFBUDcSKfpCFMJ8lF+JAhCJvt9MoCbPip0QYq8Yi91wxETaeZGqI5r5HHCF0PI/K9hDD9BOsVh/CMp5xepdk2NbiCPByjdwz7eEi3jldJjWC7eKZVawZuIXtXVUlrv8iCDmdCoYArugHr8Zbub6Rtu1qKG9CWGvdmWKfYzkykmMDatQA7O1avQ34vFS8MT2VwbWingtZEqsq+4//DLyfTdA0PZn3tCNcQo7he/LKhB3BrEo3r7gbUUVlPXYCtzGCp04866ppkz6Nx4awium6V1FpY506+cn9oAJsLhLZKch1fChmx1KoHFqMJ1Sd+cu8FIsPYLNvXsU8PI+WijXHp4MT7KchJU/XY4ni64JQmp8ZjvjiZL/CyexJeHhAbN/aK+Qot7its4cUgp0vIog70vDY/y6bBRWcZqdSOVxMh7TRK0A5AOJLFGixm59qvROlsWdKB3NvxenKvu8TEizOOk20DBl8m2uOfb3IfG17Eybp5ubo+g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(8936002)(26005)(186003)(44832011)(2906002)(5660300002)(508600001)(6506007)(9686003)(6512007)(66946007)(8676002)(4326008)(6486002)(1076003)(6916009)(316002)(52116002)(66556008)(86362001)(33656002)(66476007)(33716001)(38350700002)(83380400001)(38100700002)(6666004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OyQ2AjzSZENsV6t9+lhh9Tdrz5I6+7qpUzK93yrwDzRibF4CH7Y9+gTkf1ty?=
- =?us-ascii?Q?FUL73h5WaTEpG/ZEbKEtOju9oScUxwp5Fr7KuQarYFjb7UO9v/oAyLN29+8u?=
- =?us-ascii?Q?8TsFDyTq45M0tTBkKFeiS18abMXjBI/GIwVW1GAoXtULYppFf4thm/EXyx8k?=
- =?us-ascii?Q?b6p/uZ29jlG0b8l+rDnlDIduHjB6GKtVI9lZIKmvsvw3bhD5aRIeJmqoL3AR?=
- =?us-ascii?Q?VJ3JRSFGLR2Javj/BX81+1aeba6FYpYYThJW0sdBLRLspJfFeX8pPEDJ0M//?=
- =?us-ascii?Q?ugsWbKD+yerth8GQ29IJojpdFIxHcCG0R03Is1DvsqjM6cEubAdNuVDBcXIk?=
- =?us-ascii?Q?8DuCc06yROiJhkDdoBypqNuhaYK7CFkgzt909lpUbOhKTmUg+j/hmipEyI08?=
- =?us-ascii?Q?KamlgGJqDNwLv/MNwN3+SAL0fI/ghtCWDqErF8C5YQQWM76DwVrc4G8eK7OT?=
- =?us-ascii?Q?4zMF1e/ekUeNUbho+rwjVWDZVccetOsvhbHG3NAgChIp51E7oopkxW/x78bg?=
- =?us-ascii?Q?chTJu2F5macsbAxzgEhfGbtvWJ9maL3b6INd0MTBxOO/zcqN8UZTYsomLCW4?=
- =?us-ascii?Q?NC+Acu47cSM8XAmiZjg2jYW+2nuGqNDUY7oTYqT46HNHXNHcB94jB1R8SB33?=
- =?us-ascii?Q?mre3gEnPBQl5g2E4VtKuYfRcmnjtsf37nvAfr/n0Zs+lHebWnc06OAIYURs4?=
- =?us-ascii?Q?IDvINTB4CaunWEBMdZ9803d9dc0G+4BldUTMzM85iAJbSwtxOPAoyPUkq9q+?=
- =?us-ascii?Q?J4reatAFGe0gmEVWHg4akbJ6WFY+tdMjBgKa2rJO6yDyf3tsF3acmT1Y+YBc?=
- =?us-ascii?Q?DWSvziAaZ1NmCB/iFNhA0Sn6M/dSVIAWJAHgX2Kh2WNqYulZ/lLTc42Ua1g+?=
- =?us-ascii?Q?Dkugc7+bDpEylvZk/HT2zgoOkm7P2oRb2CRy9e3bXjcmgX87iB9ASrKJa5W9?=
- =?us-ascii?Q?NTWMNW8qUP9DwJq6BdxIhUZ4/d/M2IltQF6izw7vmIMeQITXjqy2EZL6aSnb?=
- =?us-ascii?Q?bilkx/AIbqjfLNnxSfUSogqqFnecgcb0/Al+aqkiUpxtJE5oAhMzLn/Ir70u?=
- =?us-ascii?Q?iEl8JT6zOZLqRdf8fXU51ejo5wSwuyaFNgbxARVH4C5oFAQ/kztB0b0Punwn?=
- =?us-ascii?Q?HreiYt930ehdPV3Tblt1l75ebCWQ5D8ioYaQMtp/GZmZlCtoJjfTLap2cPiZ?=
- =?us-ascii?Q?zYsDhzZU83XKEaGA2mLKOLMXBjkbDU71Nnhvdnr5gOMJt3qAvYBNZqE1FCsh?=
- =?us-ascii?Q?JR1yQxB32laLJB3iNl/yHfyvKyVSOERhPCRWcRvdVy4xOuvWTlPu4CgNq16p?=
- =?us-ascii?Q?tJsPSCfZcTah5vM5zqs04G8MZTFuWbK8TvUyEOIZqTHFLSv9IfB4mSPyrexj?=
- =?us-ascii?Q?lHNVuwIeMBxzuVOOhFZtLrtwgXpYfgvYjE6DOttj7WjBlNdq9koQyRv+fcrs?=
- =?us-ascii?Q?ugVNhigGeFrCiPxJjwXT7UusTsA/6AxwOtu6p+hBOcaAVwWeD+DZH0uGNLV/?=
- =?us-ascii?Q?qIJXvStRe/5iNUGXjZW4z6IRozxOR1fRFQNIuCkiRofodVHHL5eP6Z34HXy+?=
- =?us-ascii?Q?VAN8enKZLp9Am7qMg5QNlY5LFMwhBVGHnQFFOZ4cVxIrhsDYM8jnERnl9Z86?=
- =?us-ascii?Q?tGw8hMP5XhRy7thX4/7zGfIF9e1S3QPndVmwt8+GGVIKrZX7h84SLp2EMzMR?=
- =?us-ascii?Q?mLa6CVlhBRw9mdzcFCKnbuNF95CXNi9M3Sv44kdzYj9YlH30h5snxFTU9+o+?=
- =?us-ascii?Q?o7R6P4hWEjBReb/XhhTh4Nd930nnVOY=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c001eb8-5a08-4e1b-f016-08da1c9ab6a0
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2022 15:40:04.4169
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fi6WQahmFpBb6zOs7O1TPaP07kRndpegL2+hfgS1ToWFtYdZkIbaJm8qr4ISn9FzXYDzp29WhdxwIL2q4OSb3bNhmIhPqPGAPeRA+ctSD4I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR10MB3602
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.858
- definitions=2022-04-12_06:2022-04-11,2022-04-12 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0
- malwarescore=0 mlxlogscore=999 spamscore=0 adultscore=0 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204120074
-X-Proofpoint-GUID: IcHTwTRiXjCJP6EhMpORVaizOJ5IoK4t
-X-Proofpoint-ORIG-GUID: IcHTwTRiXjCJP6EhMpORVaizOJ5IoK4t
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.226.41]
+X-ClientProxiedBy: lhreml719-chm.china.huawei.com (10.201.108.70) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -145,90 +63,324 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-If fwnode_property_count_u32() returns a negative error code then,
-because of type promotion, the "count > ARRAY_SIZE(pins)" condition
-will be true.  The negative "count" is type promoted to a high unsigned
-size_t value.
+On Mon, 11 Apr 2022 17:07:17 -0500
+Chris Morgan <macromorgan@hotmail.com> wrote:
 
-That means the "else if (count < 0)" condition will always be false and
-we don't print that error message or propagate the error code from
-fwnode_property_count_u32() as intended.
+> On Sun, Apr 10, 2022 at 06:43:18PM +0100, Jonathan Cameron wrote:
+> > On Sun, 10 Apr 2022 16:58:48 +0200
+> > Artur Rojek <contact@artur-rojek.eu> wrote:
+> >   
+> > > On 2022-04-10 03:39, Chris Morgan wrote:  
+> > > > On Sat, Apr 09, 2022 at 12:08:57PM +0200, Artur Rojek wrote:    
+> > > >> Hi Chris & Dmitry,
+> > > >> 
+> > > >> On 2022-04-09 04:07, Dmitry Torokhov wrote:    
+> > > >> > Hi Chris,
+> > > >> >
+> > > >> > On Fri, Apr 08, 2022 at 04:28:57PM -0500, Chris Morgan wrote:    
+> > > >> > > From: Chris Morgan <macromorgan@hotmail.com>
+> > > >> > >
+> > > >> > > For my Odroid Go Advance I noticed that the adc-joystick driver was
+> > > >> > > only reporting the y channel and on the x axis. After debugging, I
+> > > >> > > found that the driver was trying to read values from channels 0 and
+> > > >> > > 1 even though my device is using channels 1 and 2. By changing the
+> > > >> > > code
+> > > >> > > to use the axis index instead of the scan index when unpacking the
+> > > >> > > data
+> > > >> > > from the buffer, the joystick begins working as expected.    
+> > > >> >
+> > > >> > This sounds like some sort of misconfiguration, as your change
+> > > >> > effectively removes the ability of using just some ADC channels for
+> > > >> > joystick functionality...    
+> > > >> 
+> > > >> I agree, this sounds like either a case of misconfiguration, or an 
+> > > >> issue in
+> > > >> the ADC driver that this device is using.
+> > > >> The axis index corresponds to the iio channel associated with the 
+> > > >> joystick,
+> > > >> but NOT to the order at which data is sampled by ADC.
+> > > >> That's why each channel has a `scan_index` field. It sounds like in 
+> > > >> Chris'
+> > > >> case the channels have wrong scan indices.
+> > > >> I'd start by verifying that in the ADC driver that is being used.
+> > > >> 
+> > > >> In any case, this patch is wrong and removes functionality that 
+> > > >> existing
+> > > >> devices depend on.    
+> > > > 
+> > > > I appreciate the feedback. If this driver is working as expected then
+> > > > that means the issue I am experiencing is further up the stack. Based
+> > > > on troubleshooting by getting the raw data that the rockchip-saradc
+> > > > driver was putting into the triggered buffer and seeing what the
+> > > > adc-joystick saw coming out of the triggered buffer I wonder if the
+> > > > issue is with the rockchip-saradc driver? I noticed that the buffer
+> > > > pushed by the driver's trigger handler would only (appear to) send the
+> > > > channels that I was requesting data for. So basically the data buffer
+> > > > would have the correct values in [0] and [1], but the adc-joystick
+> > > > driver by using the idx would fetch values from [1] for x (which has
+> > > > the y axis data) and [2] for y (which would have arbitrary data in
+> > > > it, usually something around 65406 or so).
+> > > > 
+> > > > Do you think I should start looking at the rockchip-saradc driver then?
+> > > > Should the saradc be putting stuff in the buffer for every channel with
+> > > > empty data for channels that aren't to be reported?
+> > > > 
+> > > > Thank you.    
+> > > 
+> > > Chris,
+> > > 
+> > > I analyzed the IIO core code some more and I think you are correct in 
+> > > your assessment.
+> > > The data buffer that `adc-joystick` receives will be the length of all 
+> > > the *active* channels combined.
+> > > That would mean scan index specifies the order of the channels by which 
+> > > they appear in the buffer, NOT their offsets in it.
+> > > 
+> > > That said, we can't rely on channel order from `joy->chans = 
+> > > devm_iio_channel_get_all(dev);`,
+> > > as channels might have out-of-order scan indices and thus this sequence 
+> > > can't be used to iterate the buffer.
+> > > I think the best approach would be to add an IIO helper to find a 
+> > > channel offset in a buffer.
+> > > Say, something like this:
+> > > 
+> > > ```
+> > > --- a/drivers/iio/buffer/industrialio-buffer-cb.c
+> > > +++ b/drivers/iio/buffer/industrialio-buffer-cb.c
+> > > @@ -151,6 +151,27 @@ struct iio_dev
+> > >   }
+> > >   EXPORT_SYMBOL_GPL(iio_channel_cb_get_iio_dev);
+> > > 
+> > > +int iio_find_channel_offset_in_buffer(const struct iio_channel 
+> > > *channel,
+> > > +                                     struct iio_cb_buffer *buffer)
+> > > +{
+> > > +       const struct iio_chan_spec *chan = channel->channel;
+> > > +       struct iio_dev *indio_dev = channel->indio_dev;
+> > > +       struct iio_buffer *buf = &buffer->buffer;
+> > > +       int ind, i = 0;
+> > > +
+> > > +       if (chan->scan_index < 0)
+> > > +               return -EINVAL;
+> > > +
+> > > +       for_each_set_bit(ind, buf->scan_mask, indio_dev->masklength) {
+> > > +               if (ind == chan->scan_index)
+> > > +                       return i;
+> > > +               ++i;
+> > > +       }
+> > > +
+> > > +       return -EINVAL;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(iio_find_channel_offset_in_buffer);  
+> > 
+> > Almost.  You need to take into account the size of each
+> > channel and the alignment rules as well (everything is naturally
+> > aligned) which will unfortunately require searching the channel
+> > list for each channel with a scan_index below this one.
+> > 
+> > Useful function to hav so I'm in favour of adding something like
+> > this it will just need to also take the iio_dev to get access to the
+> > sizes of other channels.
+> > 
+> > Note similar code occurs in iio_buffer_update_demux() (though what you need
+> > here is thankfully rather simpler). 
+> > 
+> > We have iio_storage_bytes_for_si() to make things a bit simpler as it'll
+> > do the reverse lookups for you. 
+> > You'll need to export some of the utility functions.
+> > 
+> > However, I'd put this in a more generic location as it's potentially useful
+> > for cases other than callback buffers and that should reduce what you need
+> > to export.  Probably put it in industrialio-buffer.c / iio/buffer.h
+> >   
+> 
+> Forgive me for being new to the iio subsystem, but how can I find out
+> the alignment? Is it simply a matter of assuming the largest value is
+> always the size of the alignment (meaning if we have a single channel
+> enabled with a 2 byte value all channels are 2 bytes in size, even
+> if the channel itself only reports 1 byte of data?
+No each channel is naturally aligned after the earlier channels.
+(Short of oddiities around x86_32) it's the same as alignment in a c structure
+containing only the channels that are enabled.
 
-Fix this by re-ordering the checks so that we check for negative first.
+So lets take an example.
+Channel 0 - 16 bits.
+Channel 1 - 8 bits
+Channel 2 - 16 bits
+channel 3 - 64 bits (usually timestamp.
 
-Fixes: e505edaedcb9 ("Input: add support for Azoteq IQS7222A/B/C")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/input/misc/iqs7222.c | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+If all enabled, then we end up with
+0         2         3     4          6     8           16
+[channel 0|channel 1|  pad|channel 2 | pad | channel 3 |
 
-diff --git a/drivers/input/misc/iqs7222.c b/drivers/input/misc/iqs7222.c
-index d800f71043a5..c0b273222092 100644
---- a/drivers/input/misc/iqs7222.c
-+++ b/drivers/input/misc/iqs7222.c
-@@ -1677,14 +1677,14 @@ static int iqs7222_parse_cycle(struct iqs7222_private *iqs7222, int cycle_index)
- 		return 0;
- 
- 	count = fwnode_property_count_u32(cycle_node, "azoteq,tx-enable");
--	if (count > ARRAY_SIZE(pins)) {
--		dev_err(&client->dev, "Invalid number of %s CTx pins\n",
--			fwnode_get_name(cycle_node));
--		return -EINVAL;
--	} else if (count < 0) {
-+	if (count < 0) {
- 		dev_err(&client->dev, "Failed to count %s CTx pins: %d\n",
- 			fwnode_get_name(cycle_node), count);
- 		return count;
-+	} else if (count > ARRAY_SIZE(pins)) {
-+		dev_err(&client->dev, "Invalid number of %s CTx pins\n",
-+			fwnode_get_name(cycle_node));
-+		return -EINVAL;
- 	}
- 
- 	error = fwnode_property_read_u32_array(cycle_node, "azoteq,tx-enable",
-@@ -1807,16 +1807,16 @@ static int iqs7222_parse_chan(struct iqs7222_private *iqs7222, int chan_index)
- 
- 		count = fwnode_property_count_u32(chan_node,
- 						  "azoteq,rx-enable");
--		if (count > ARRAY_SIZE(pins)) {
--			dev_err(&client->dev,
--				"Invalid number of %s CRx pins\n",
--				fwnode_get_name(chan_node));
--			return -EINVAL;
--		} else if (count < 0) {
-+		if (count < 0) {
- 			dev_err(&client->dev,
- 				"Failed to count %s CRx pins: %d\n",
- 				fwnode_get_name(chan_node), count);
- 			return count;
-+		} else if (count > ARRAY_SIZE(pins)) {
-+			dev_err(&client->dev,
-+				"Invalid number of %s CRx pins\n",
-+				fwnode_get_name(chan_node));
-+			return -EINVAL;
- 		}
- 
- 		error = fwnode_property_read_u32_array(chan_node,
-@@ -1975,14 +1975,14 @@ static int iqs7222_parse_sldr(struct iqs7222_private *iqs7222, int sldr_index)
- 	 * the specified resolution.
- 	 */
- 	count = fwnode_property_count_u32(sldr_node, "azoteq,channel-select");
--	if (count < 3 || count > ARRAY_SIZE(chan_sel)) {
--		dev_err(&client->dev, "Invalid number of %s channels\n",
--			fwnode_get_name(sldr_node));
--		return -EINVAL;
--	} else if (count < 0) {
-+	if (count < 0) {
- 		dev_err(&client->dev, "Failed to count %s channels: %d\n",
- 			fwnode_get_name(sldr_node), count);
- 		return count;
-+	} else if (count < 3 || count > ARRAY_SIZE(chan_sel)) {
-+		dev_err(&client->dev, "Invalid number of %s channels\n",
-+			fwnode_get_name(sldr_node));
-+		return -EINVAL;
- 	}
- 
- 	error = fwnode_property_read_u32_array(sldr_node,
--- 
-2.20.1
+
+If only 0 and 2
+0          2           4
+|channel 0 | channels 2|
+
+If only 0 and 3
+0          2                             8          16
+| channel 0|  Lots of padding            | channel 3 |
+
+etc.
+
+> 
+> So if I understand correctly we need a helper function that translates
+> the scan index (the channel?) into the joystick index, and by doing
+> so we need to find the offset of each byte in the data buffer.
+
+No. Translates the scan index to an offset into the buffer. Index is
+not sufficient because it depends on what other channels are enabled.
+
+> 
+> So basically a helper function that does the following for a given
+> buffer/channel:
+> 
+> - Gets the channels that are enabled (presume from the buffer
+> scan_mask).
+> - Identifies the data size of each channel.
+> - Sets the offset size to the largest value for the channel size.
+
+Nope. As above.
+
+> - Returns the offset for the given channel in the buffer.
+> 
+> Then, in the adc-joystick driver we can store this offset in the
+> driver data for each axis so we know exactly where in the buffer
+> this data is.
+> 
+> Does that sound about right? Or am I way off?
+
+More complex than that. Because of the alignment requirements.
+
+> 
+> (also, completely unrelated but while I have a captive audience, is
+> there an easy way to either send a single trigger or set up a trigger
+> for a given driver?
+> I'd like to add a polling function to this and
+> I'm trying to find the correct way to do it, but so far I've only
+> found a userspace way to use an hrtimer set up via sysfs, I'd like
+> to make it a driver option if I can).
+
+You can set a trigger in code using iio_trigger_get() though we have
+provision for using hrtimer triggers this way. I vaguely
+recall a driver that provides both the trigger and acts as a consumer
+it might be the potentiostat/lmp910000
+
+
+Jonathan
+
+
+> 
+> Thank you very much!
+> 
+> > 
+> > 
+> >   
+> > > +
+> > > ```
+> > > 
+> > > ...and then the only change in `adc-joystick` has to be:
+> > > 
+> > > ```
+> > > --- a/drivers/input/joystick/adc-joystick.c
+> > > +++ b/drivers/input/joystick/adc-joystick.c
+> > > @@ -39,10 +39,13 @@ static int adc_joystick_handle(const void *data, 
+> > > void *private)
+> > >          bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
+> > > 
+> > >          for (i = 0; i < joy->num_chans; ++i) {
+> > > -               idx = joy->chans[i].channel->scan_index;
+> > >                  endianness = 
+> > > joy->chans[i].channel->scan_type.endianness;
+> > >                  msb = joy->chans[i].channel->scan_type.realbits - 1;
+> > >                  sign = tolower(joy->chans[i].channel->scan_type.sign) == 
+> > > 's';
+> > > +               idx = iio_find_channel_offset_in_buffer(&joy->chans[i],
+> > > +                                                       joy->buffer);
+> > > +               if (idx < 0)
+> > > +                       return idx;
+> > > 
+> > >                  switch (bytes) {
+> > >                  case 1:
+> > > ```
+> > > 
+> > > On a side note, this potentially uncovered an issue in an unrelated 
+> > > `ingenic-adc` driver,
+> > > where data pushed into the buffer is always the size of all the 
+> > > available channels, not just active ones.  
+> > 
+> > That would be fine, if it were also setting available_scan_masks as then
+> > the IIO core would repack only the requested channels (which is
+> > what that update_demux mentioned earlier sets up).
+> > 
+> > However, given the driver is doing readl() only for the channels
+> > that are enabled, it probably makes more sense to pack them correctly.
+> > 
+> > Jonathan
+> > 
+> >   
+> > > I was using that driver while writing `adc-joystick`, which explains why 
+> > > I never encountered your problem.
+> > > 
+> > > With all that said, let's wait for Jonathan to speak out before we 
+> > > proceed with v2.
+> > > 
+> > > Cheers,
+> > > Artur
+> > >   
+> > > >     
+> > > >> 
+> > > >> Cheers,
+> > > >> Artur
+> > > >>     
+> > > >> >
+> > > >> > Let's add Jonathan and Arthur for their take on this.
+> > > >> >    
+> > > >> > >
+> > > >> > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > > >> > > ---
+> > > >> > >  drivers/input/joystick/adc-joystick.c | 7 +++----
+> > > >> > >  1 file changed, 3 insertions(+), 4 deletions(-)
+> > > >> > >
+> > > >> > > diff --git a/drivers/input/joystick/adc-joystick.c
+> > > >> > > b/drivers/input/joystick/adc-joystick.c
+> > > >> > > index 78ebca7d400a..fe3bbd0d4566 100644
+> > > >> > > --- a/drivers/input/joystick/adc-joystick.c
+> > > >> > > +++ b/drivers/input/joystick/adc-joystick.c
+> > > >> > > @@ -32,24 +32,23 @@ static int adc_joystick_handle(const void *data,
+> > > >> > > void *private)
+> > > >> > >  {
+> > > >> > >  	struct adc_joystick *joy = private;
+> > > >> > >  	enum iio_endian endianness;
+> > > >> > > -	int bytes, msb, val, idx, i;
+> > > >> > > +	int bytes, msb, val, i;
+> > > >> > >  	const u16 *data_u16;
+> > > >> > >  	bool sign;
+> > > >> > >
+> > > >> > >  	bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
+> > > >> > >
+> > > >> > >  	for (i = 0; i < joy->num_chans; ++i) {
+> > > >> > > -		idx = joy->chans[i].channel->scan_index;
+> > > >> > >  		endianness = joy->chans[i].channel->scan_type.endianness;
+> > > >> > >  		msb = joy->chans[i].channel->scan_type.realbits - 1;
+> > > >> > >  		sign = tolower(joy->chans[i].channel->scan_type.sign) == 's';
+> > > >> > >
+> > > >> > >  		switch (bytes) {
+> > > >> > >  		case 1:
+> > > >> > > -			val = ((const u8 *)data)[idx];
+> > > >> > > +			val = ((const u8 *)data)[i];
+> > > >> > >  			break;
+> > > >> > >  		case 2:
+> > > >> > > -			data_u16 = (const u16 *)data + idx;
+> > > >> > > +			data_u16 = (const u16 *)data + i;
+> > > >> > >
+> > > >> > >  			/*
+> > > >> > >  			 * Data is aligned to the sample size by IIO core.
+> > > >> > > --
+> > > >> > > 2.25.1
+> > > >> > >    
+> > > >> >
+> > > >> > Thanks.    
+> >   
 
