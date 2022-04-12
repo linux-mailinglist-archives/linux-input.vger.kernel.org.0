@@ -2,57 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F3944FEA9D
-	for <lists+linux-input@lfdr.de>; Wed, 13 Apr 2022 01:46:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E10654FEB4C
+	for <lists+linux-input@lfdr.de>; Wed, 13 Apr 2022 01:47:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230164AbiDLXcA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Apr 2022 19:32:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60256 "EHLO
+        id S231216AbiDLXf6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 Apr 2022 19:35:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230308AbiDLXbx (ORCPT
+        with ESMTP id S231310AbiDLXcs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Apr 2022 19:31:53 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BBC68F98D
-        for <linux-input@vger.kernel.org>; Tue, 12 Apr 2022 15:17:32 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id r18so123799ljp.0
-        for <linux-input@vger.kernel.org>; Tue, 12 Apr 2022 15:17:32 -0700 (PDT)
+        Tue, 12 Apr 2022 19:32:48 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2C15C4E35
+        for <linux-input@vger.kernel.org>; Tue, 12 Apr 2022 15:20:18 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id o20-20020a05600c511400b0038ebbbb2ad8so78180wms.0
+        for <linux-input@vger.kernel.org>; Tue, 12 Apr 2022 15:20:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=VzNdvRGHjidqUIGT+6pApgU/UMu5jL+wQHuqdUJTCUA=;
-        b=FjIpfnrmTRiD/FjNzB/5Es4yzS5rfn0G5gj5ngEwSqtMPGzX6I6W3Xqy0buqf/C3Vo
-         2k21PtgYGPADTrvf25iMyOfibS04+I8Laa70J4WVXixJlMa7dI7X0e1dHCmQAYSg8Hch
-         Pt97SK1amgcWzIqJBm5rlCwGqGFzj3DbEDpgN1jCpqT4305+mrLTxJrHYADpCz+w4kAo
-         aGHeW8HUEjwa1ZPwMgkEZebC7KlxxetgGNH8DB4zPbvQbAUFfthvI35RhcGXDPOgT7ZY
-         5FHmuA6rmNEduGlG4Rql8OwcbrYSdBWHzowXt9YeR53DHI5Ca8EySvhFZ4hb9yXwtsZ/
-         5K3g==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=QMR6lx7WMoCdegQHQIp637QYsvU6+ltNhqOFfDF2Lck=;
+        b=GwzkPE/FrAYSYvj1YZdM1ifPs5j/ZSCulhiHdZ/wPAIMW2o9zw0Iewo5FhxtBG8is5
+         LtaWbh7YBWbCSGTIfdCOa5oEjvghI0cMjGGJ89hWkfueAmsMs7DhjHo/b4jUXVcUwnzM
+         LGxLKk7Znuiyod7NS0X5dlOimWG1/FiCf4rN41h5ZOGQ2HUpRhD/2R/joO7miMou6xKM
+         Qo1GwfUjFrLV/pbCMkQUwEszsznu2Pkxv7KFdhMGQ+6voKmMoBoJPX4eQ8t2YRepKfY2
+         qTa/j/9kBA5ZWSc7jAgzv8EOTVLST1XzTV7sOIBgyhUEjFiNi8+JAiF6z7P7YEUofbV9
+         p5DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=VzNdvRGHjidqUIGT+6pApgU/UMu5jL+wQHuqdUJTCUA=;
-        b=tCvd3DQMzDOZyBTW1RbRrQUN7uajTkjo7RxGpI/01fwLKpKWuCngqW7WuA7unugvyv
-         YYP/oLfLuQVjgfeVdjH3QHq59ndtRpRtwQ++hKx+XOK3R8PJ09uIHApiYW1NfnblvUWx
-         sPNLyCpNOii4r/OP37sfBkdQdNFx3Hw5dct36Asw9lIlH4CSNWMEpev5SD1yAmRL0hnf
-         LxVkqR/1nSc+WV9eJ8IqFFeruMolWYEeBxz0pEazhSARYvCPsSNVv/fB5bHKVprG9Gh0
-         ugQjaS21ZeJ+uIl/PLAWlwvxeZmNK0cj+iYUmpzZChvGy8+T0qfCBih18ToBmkSlAlAe
-         N8Fw==
-X-Gm-Message-State: AOAM5337WB4hISiMCQqSgOX65NEqmG9forYj6ZTAHSXhS4kMt+4NQnXZ
-        r6zvKRKYD2M02f6SOvqL4FPU+5Rp9ld06Y62hVn072Iqnuc=
-X-Google-Smtp-Source: ABdhPJybthh01YTuyPLy/O9U29EyGTQUxQMK7LLJyFKtEKfZSOtdkS3yKC4J3cEpyMrEczuGr3A7ZgehkcioZBxkDEk=
-X-Received: by 2002:a05:651c:157:b0:24b:6c33:daea with SMTP id
- c23-20020a05651c015700b0024b6c33daeamr4574584ljd.264.1649801850142; Tue, 12
- Apr 2022 15:17:30 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=QMR6lx7WMoCdegQHQIp637QYsvU6+ltNhqOFfDF2Lck=;
+        b=rN2YXnAZgMv+niobu8AGJ5PPZma992GZ3Yvgv6a03JzWCcdnjiZCx3BJ6X/snTI77u
+         kaN7UK5Dp/W7fpB6kwjHCzJ89grA4/bAnSFQJMsJoi1vJfUAu6uE4oXtL8awey7bifIs
+         RuX+Zfr5jmMXUOTtsSq4zJRetM9xr4q9z3iyLAbGGf/mxd3R+8RPQzCm09p39pW6aH9t
+         8r/87KUULBEstvuTBwMLnTfktEVj4qtF58BLjvv7Z/4huPNffX7MhLA52pk4yqTktshZ
+         J9A6KPGUUaK2jrBhJ07D0cxYRup8NX1+5U4AsPVrfrxMwPFDw/IW2WQaMbAmfWKXAM/s
+         2PZg==
+X-Gm-Message-State: AOAM532wd0Nw5QdD/Uug37hDUqpFvStQFU4tGjLFWv1GWnxefdZiZqwH
+        AirTEgjyt3MiX87vv5eAuue9D7Xcs2jn/lUTaE+/xQ==
+X-Google-Smtp-Source: ABdhPJzqkbWNNUql01VC8IRTGAJWTLrraa3k3BalUDO8lzcnFDV5OWJzELfFvFWZn1boq9gyZDoNudu7O/uL8uMU7XQ=
+X-Received: by 2002:a7b:cbc1:0:b0:38e:7c42:fe38 with SMTP id
+ n1-20020a7bcbc1000000b0038e7c42fe38mr6029946wmi.51.1649802017276; Tue, 12 Apr
+ 2022 15:20:17 -0700 (PDT)
 MIME-Version: 1.0
-From:   Marcos Alano <marcoshalano@gmail.com>
-Date:   Tue, 12 Apr 2022 19:17:19 -0300
-Message-ID: <CAO3Us=m-Tj2yrt4=1nnr=CgUA2LR29W5DbPAP4T8xwt2VS=FnA@mail.gmail.com>
-Subject: Getting the raw keycode to implement a new key in Linux
-To:     HID CORE LAYER <linux-input@vger.kernel.org>
+References: <20220405183953.2094007-1-pceballos@google.com>
+In-Reply-To: <20220405183953.2094007-1-pceballos@google.com>
+From:   Pablo Ceballos <pceballos@google.com>
+Date:   Tue, 12 Apr 2022 15:20:05 -0700
+Message-ID: <CAO9JgFyoqTn5A01EU4NHsbfZyKxxzo6qVvsDHCZSUn1QwdoQgw@mail.gmail.com>
+Subject: Re: [PATCH] HID: Driver for Google Hangouts Meet Speakermic
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,19 +65,12 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi!
-I have a Dell G15 5511 laptop and this machine has a very particular
-feature: a key called "G- key" (accessed pressing Fn+F7) which is used
-(on Windows at least) to do a boost in the machine. The details about
-how this boost works is not the question here. The question is: How
-can I find, in the kernel level, what code is emitted? I want to know
-that, so I can start hacking around and come up with a patch, so the
-key can be recognized by the OS, so a user space daemon can be
-triggered to do the boost part (or any other action).
+On Tue, Apr 5, 2022 at 11:39 AM Pablo Ceballos <pceballos@google.com> wrote:
+>
+> This driver works around a problem with the HID usage sent by this
+> device for the mute button. It prevents key events from being generated
+> for that HID usage since they would be incorrect.
+>
+> Signed-off-by: Pablo Ceballos <pceballos@google.com>
 
-Any thoughts?
-
--- 
-Marcos H. Alano
-Linux System Administrator
-marcoshalano@gmail.com
+Following up on this patch request. Please take a look.
