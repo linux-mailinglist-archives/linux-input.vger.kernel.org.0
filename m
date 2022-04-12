@@ -2,29 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F6E04FE97F
-	for <lists+linux-input@lfdr.de>; Tue, 12 Apr 2022 22:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D25514FEAA7
+	for <lists+linux-input@lfdr.de>; Wed, 13 Apr 2022 01:46:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbiDLUkB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Apr 2022 16:40:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41026 "EHLO
+        id S230034AbiDLX2j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 Apr 2022 19:28:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbiDLUj3 (ORCPT
+        with ESMTP id S229889AbiDLX0q (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Apr 2022 16:39:29 -0400
+        Tue, 12 Apr 2022 19:26:46 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E2D7AF9561
-        for <linux-input@vger.kernel.org>; Tue, 12 Apr 2022 13:35:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 52301AC047
+        for <linux-input@vger.kernel.org>; Tue, 12 Apr 2022 15:36:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1649795109;
+        s=mimecast20190719; t=1649802988;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
         bh=Z+ent/yy95aJOm6DnI9kx/1sJTBsC05TLsSw4BZBHzs=;
-        b=TX0jWIpJ33M7GP09HZ/eorgsQNSZM70LtKkA8tWHrjOG/XZ1MURMcMFYuFktkdzfwRhikj
-        W1OkKURRaKROX9wrtOVh7cavEW1uumMfUtK44kqgPOMZeKEGqm8tdFIC8G37fKRqmpH5qg
-        r6JZuPH/QMGlOlILrgIX4YnnxUuQ6UI=
+        b=U8QzrWyuKL00DdcB6bo1cCAdmH/8DC01C/ToaRt2gc51gmX5H1uvHywZqnehVzJK5CZ/wp
+        f8PK4pAjuy9Swo8fTwyVKG5No3fIaEfpNRC88xtTb52ArA+HuGAPyS4EB6Icb9IkIqeUs5
+        A9dK11Vek/oeyRoZxiqSt3vqcE5EsDo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -65,7 +65,8 @@ X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
         RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
