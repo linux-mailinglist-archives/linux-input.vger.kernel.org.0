@@ -2,63 +2,260 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 69CD14FF3D8
-	for <lists+linux-input@lfdr.de>; Wed, 13 Apr 2022 11:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62A4E4FF7D1
+	for <lists+linux-input@lfdr.de>; Wed, 13 Apr 2022 15:39:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234686AbiDMJop (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Apr 2022 05:44:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40700 "EHLO
+        id S234680AbiDMNlS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Apr 2022 09:41:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232242AbiDMJoo (ORCPT
+        with ESMTP id S232746AbiDMNlQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Apr 2022 05:44:44 -0400
-Received: from mail.growthmindset24.pl (mail.growthmindset24.pl [212.237.36.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E192C55BE8
-        for <linux-input@vger.kernel.org>; Wed, 13 Apr 2022 02:42:18 -0700 (PDT)
-Received: by mail.growthmindset24.pl (Postfix, from userid 1001)
-        id CF46287EE9; Tue, 12 Apr 2022 08:56:25 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=growthmindset24.pl;
-        s=mail; t=1649750193;
-        bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
-        h=Date:From:To:Subject:From;
-        b=xXWzq4tpohjLgQ6WC6YSRUdNUOgnuI8IZYRTqglnM8kT21xhY1YFuoCGXs3XTaEpq
-         7w32TVCmCJA50tmIfJ9/uFvfODOVpsA7PtN2YGbQ7Ba+5IAO31+a7p/SfsT2/er9MA
-         /D9/xTA6epM6PAYOYAaNHGzJpOZ2yujBAxel4p3cyXglxGtYsy/fiHI4CwlFk2o4TX
-         HlsUyDN10t6FvMZRz0uKDLPBnPy6wGGENQTGR4rwvDkmb3Yi0z1JzB/2XZChonMnI4
-         s9wPRExr98g95otMlSyPyojeGiiDTdB3kVfEljZZo6fxLWcL4kpAl5lT6bdSAsjkHk
-         v5hAYeqXLUrlA==
-Received: by mail.growthmindset24.pl for <linux-input@vger.kernel.org>; Tue, 12 Apr 2022 07:56:00 GMT
-Message-ID: <20220412073001-0.1.2w.d88v.0.na8qfenkhs@growthmindset24.pl>
-Date:   Tue, 12 Apr 2022 07:56:00 GMT
-From:   =?UTF-8?Q? "Przemys=C5=82aw_Wr=C3=B3blewski" ?= 
-        <przemyslaw.wroblewski@growthmindset24.pl>
-To:     <linux-input@vger.kernel.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.growthmindset24.pl
+        Wed, 13 Apr 2022 09:41:16 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D69B55FF0F
+        for <linux-input@vger.kernel.org>; Wed, 13 Apr 2022 06:38:54 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id g18so3980330ejc.10
+        for <linux-input@vger.kernel.org>; Wed, 13 Apr 2022 06:38:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=iMNm5cMMRWBx6q53DUYrIONewJC2dWyH+H8kLXgxOFg=;
+        b=ii3norTJVfcTqX9c/TW+FsugFydTXtBPxLu20kHlOrma7AzgGit5Ba5nVYL+sLEzvO
+         tX7oLCAT9ZqcLyI8A+pyJjo2SpS1JlBYv0oE5zk8vm0OoUUB3Wk8MJn2uisvvgoFuD00
+         L3+XcxdoLuZFdp35D/Z8eN9XAd29gKF6mHyjjpRJdlMSgmx8uYi7TWlPWRbmrePNJV2s
+         Usj7uVdcWGfsMt4qUzlNzN6szZvz/Limvolm96xxU3Eiydr1Vn4J0SUQdspTy73JXuQQ
+         JtK+yePl4bd867m/M5IfjPByWT2FKa/k7qVVLuOm+rjxyKo4eI1DJ1cwlRSi/DQ25tOw
+         R40Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=iMNm5cMMRWBx6q53DUYrIONewJC2dWyH+H8kLXgxOFg=;
+        b=GOm3lujg30o5q9MC3cc1zeyt92/DU1SYXdw4z/F0g/5eK8+EubF9JQC5mBJH3wvamb
+         uwr21abOEjgTJkGF5oRlT1J/N9pikbleD2+y3HMIyO+NXLjNqXD3yP+zNzd4VLy1XhOx
+         +gWmpt0H5682AHuQHq9eaTmLo8xOFdSSIMTkBwvqD6MC5PeF13ojAOaNJ8adlLFN1n/Y
+         xE8icUhriSD4fOiyztaldx2kujWbkKK1mHAq9XjPqZlRxuXi/RWHJUiTSSyFvwDUq8hj
+         VVVnV98Ftt13YMS7V3N3Z0J9er1FAWv/xZh9hiDx9BN+J9s5TFUypCWvg4lazcv9U4Fc
+         /N0g==
+X-Gm-Message-State: AOAM532Nag65FEPHiQtuDH+DgP4GEfZsJlAGTLRc7/b/XzXkTCp6zwwW
+        HSxYp210VmuWMIKX9ZmvhoK2Fw==
+X-Google-Smtp-Source: ABdhPJxg3FD/IlAF/2JxsWrX7ul105g9wCOUToaX9VP7SjqilKHhiNzbMFHc6AxHkx0MeW5nZFgGXQ==
+X-Received: by 2002:a17:906:1615:b0:6bb:150f:adf8 with SMTP id m21-20020a170906161500b006bb150fadf8mr38768988ejd.272.1649857133430;
+        Wed, 13 Apr 2022 06:38:53 -0700 (PDT)
+Received: from [192.168.0.205] (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
+        by smtp.gmail.com with ESMTPSA id n25-20020aa7db59000000b00415965e9727sm1189483edt.18.2022.04.13.06.38.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Apr 2022 06:38:52 -0700 (PDT)
+Message-ID: <79281f23-1eb8-6659-d126-eaa608c7abe5@linaro.org>
+Date:   Wed, 13 Apr 2022 15:38:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v8 4/6] dt-bindings: mfd: sensehat: Add Raspberry Pi Sense
+ HAT schema
+Content-Language: en-US
+To:     Charles Mirabile <cmirabil@redhat.com>,
+        linux-kernel@vger.kernel.org
+Cc:     Serge Schneider <serge@raspberrypi.org>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Nicolas Saenz Julienne <nsaenzju@redhat.com>,
+        Mattias Brugger <mbrugger@suse.com>,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, fedora-rpi@googlegroups.com,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org, Mwesigwa Guma <mguma@redhat.com>,
+        Joel Savitz <jsavitz@redhat.com>
+References: <20220412201343.8074-1-cmirabil@redhat.com>
+ <20220412201343.8074-5-cmirabil@redhat.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220412201343.8074-5-cmirabil@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On 12/04/2022 22:13, Charles Mirabile wrote:
+> This patch adds the device tree bindings for the Sense HAT
+> and each of its children devices in yaml form.
+>
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+Thank you for your patch. There is something to discuss/improve.
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+> +description:
+> +  This device is part of the sensehat multi function device.
+> +  For more information see ../mfd/raspberrypi,sensehat.yaml.
+> +
+> +  This device features a programmable 8x8 RGB LED matrix.
+> +
+> +properties:
+> +  compatible:
+> +    const: raspberrypi,sensehat-display
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+This binding is practically empty, so I wonder what's is purpose? Do you
+plan to grow it? If this was already explained, sorry for bringing it up
+again... :)
+
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> diff --git a/Documentation/devicetree/bindings/input/raspberrypi,sensehat-joystick.yaml b/Documentation/devicetree/bindings/input/raspberrypi,sensehat-joystick.yaml
+> new file mode 100644
+> index 000000000000..c97cd1d8eac6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/raspberrypi,sensehat-joystick.yaml
+> @@ -0,0 +1,33 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/raspberrypi,sensehat-joystick.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Raspberry Pi Sensehat Joystick
+> +
+> +maintainers:
+> +  - Charles Mirabile <cmirabil@redhat.com>
+> +  - Mwesigwa Guma <mguma@redhat.com>
+> +  - Joel Savitz <jsavitz@redhat.com>
+> +
+> +description:
+> +  This device is part of the sensehat multi function device.
+> +  For more information see ../mfd/raspberrypi,sensehat.yaml.
+> +
+> +  This device features a five button joystick (up, down,left,
+> +  right, click)
+> +
+> +properties:
+> +  compatible:
+> +    const: raspberrypi,sensehat-joystick
+> +
+> +  interrupts:
+> +    items:
+> +      - description: pin number for joystick interrupt
+
+Description is obvious, so just "maxItems: 1"
+
+> +
+> +required:
+> +  - compatible
+> +  - interrupts
+> +
+> +additionalProperties: false
+> diff --git a/Documentation/devicetree/bindings/mfd/raspberrypi,sensehat.yaml b/Documentation/devicetree/bindings/mfd/raspberrypi,sensehat.yaml
+> new file mode 100644
+> index 000000000000..2484ec91b430
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/raspberrypi,sensehat.yaml
+> @@ -0,0 +1,69 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/raspberrypi,sensehat.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Raspberry Pi Sensehat
+> +
+> +maintainers:
+> +  - Charles Mirabile <cmirabil@redhat.com>
+> +  - Mwesigwa Guma <mguma@redhat.com>
+> +  - Joel Savitz <jsavitz@redhat.com>
+> +
+> +description:
+> +  The Raspberry Pi Sensehat is an addon board originally developed
+> +  for the Raspberry Pi that has a joystick and an 8x8 RGB LED display
+> +  as well as several environmental sensors. It connects via i2c and
+> +  a gpio for irq.
+> +
+> +properties:
+> +  compatible:
+> +    const: raspberrypi,sensehat
+> +
+> +  reg:
+> +    items:
+> +      - description: i2c device address
+
+Description is obvious, so just "maxItems: 1"
+
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+
+Why do you need these? You are not allowing any children with unit
+addresses.
+
+> +
+> +  "joystick":
+> +    $ref: ../input/raspberrypi,sensehat-joystick.yaml
+
+Full path, so "/schemas/input/raspberrypi,sensehat-joystick.yaml#"
+
+> +
+> +  "display":
+> +    $ref: ../auxdisplay/raspberrypi,sensehat-display.yaml
+
+The same.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - joystick
+> +  - display
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +      sensehat@46 {
+
+Generic node names please, so "hat".
+
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        compatible = "raspberrypi,sensehat";
+> +        reg = <0x46>;
+
+Could you put compatible and then reg at beginning of properties (before
+address/size)? It is more common convention and these are more important
+properties.
+
+> +        display {
+> +          compatible = "raspberrypi,sensehat-display";
+> +        };
+> +        joystick {
+> +          compatible = "raspberrypi,sensehat-joystick";
+> +          interrupts = <23 GPIO_ACTIVE_HIGH>;
+
+This does not look like proper interrupt flag. Wrong constant.
+
+> +        };
+> +      };
+> +    };
 
 
-Pozdrawiam,
-Przemys=C5=82aw Wr=C3=B3blewski
+Best regards,
+Krzysztof
