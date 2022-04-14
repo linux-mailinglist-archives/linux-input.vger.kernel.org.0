@@ -2,129 +2,173 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE84B500020
-	for <lists+linux-input@lfdr.de>; Wed, 13 Apr 2022 22:44:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 632505002E9
+	for <lists+linux-input@lfdr.de>; Thu, 14 Apr 2022 02:09:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230400AbiDMUqy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Apr 2022 16:46:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59464 "EHLO
+        id S234314AbiDNAMO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Apr 2022 20:12:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234950AbiDMUqx (ORCPT
+        with ESMTP id S231599AbiDNAMO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Apr 2022 16:46:53 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10A7121270
-        for <linux-input@vger.kernel.org>; Wed, 13 Apr 2022 13:44:29 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id l7so6374662ejn.2
-        for <linux-input@vger.kernel.org>; Wed, 13 Apr 2022 13:44:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9t746E0a3Zsh93FlmUmusMHEf6L1/F6+kRTi3ZPWd3U=;
-        b=NpPyUcrQ7ZOjuUtydpO0p2toOxFON7X+5zw1Y63SEiUiNqQ4gztOMnnPJOXGMzYTSC
-         5rYy7JDvRCd8Y15GeAIxAzAfXIgI7S33JA/ZAmDD9vgR0zHszTSDxGCrQWWaXRl9v8ue
-         GqUiGQHi4etpqlM/9j3h0Rn+mq48g3srPc1X8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9t746E0a3Zsh93FlmUmusMHEf6L1/F6+kRTi3ZPWd3U=;
-        b=0+dnARYLtCA6mCmPmyQ70qEkTOMQ6GQFVeuKZI9aOawmXK/w5avxj3XoMNE9+8QOkc
-         meCM0EeTu4qsYveq78rrQBiRn9iXnTlVfejjZ3UPmLLdSKAaHyJRVIQVwUcMHuwu6svO
-         T7NCdkK05BXXsXF731ldpiVOvtfMCRvHtFvJOhANIsQVC6UrNMCIpqgGWiX+naiZKNZ3
-         5Kh3LKy4xoO1yeETIROYpMzih1O62yZq+L3QN8KiPrNjaBQcSZFsTUYyuOcEIRh8ekMH
-         MdKGQ0R3YfzgtS54VNDpIAbyVrpnGKlnHAyda1SXzObueEW5TUgPps+C+n8K5s6yKpJD
-         Fo3w==
-X-Gm-Message-State: AOAM5335mXqq8eebxeOEQaLEl6FZrWlz2WeCQyrMg7my9aIN10yHLNQp
-        93Kvc8gHilKG1ALgtLyR7wGyWQ2vSPdCdg==
-X-Google-Smtp-Source: ABdhPJxaEmC/CFtz9rSWMbTaobqdbYJBrUefu4+fNPpen2438XWkOXLJusqE6lPmhs1ueUGxxArGzQ==
-X-Received: by 2002:a17:907:7e82:b0:6e8:92eb:2858 with SMTP id qb2-20020a1709077e8200b006e892eb2858mr14927874ejc.443.1649882666940;
-        Wed, 13 Apr 2022 13:44:26 -0700 (PDT)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com. [209.85.221.53])
-        by smtp.gmail.com with ESMTPSA id wc6-20020a170907124600b006e8816ae3a3sm312188ejb.125.2022.04.13.13.44.25
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Apr 2022 13:44:25 -0700 (PDT)
-Received: by mail-wr1-f53.google.com with SMTP id i20so4258432wrb.13
-        for <linux-input@vger.kernel.org>; Wed, 13 Apr 2022 13:44:25 -0700 (PDT)
-X-Received: by 2002:adf:c14d:0:b0:207:a28f:f5dd with SMTP id
- w13-20020adfc14d000000b00207a28ff5ddmr420309wre.679.1649882664627; Wed, 13
- Apr 2022 13:44:24 -0700 (PDT)
+        Wed, 13 Apr 2022 20:12:14 -0400
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 129B9120B0;
+        Wed, 13 Apr 2022 17:09:49 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 8B86E5C020A;
+        Wed, 13 Apr 2022 20:09:47 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Wed, 13 Apr 2022 20:09:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm2; t=1649894987; x=1649981387; bh=EOJgXwczx3Vjm6TzLyaxLENE2
+        ryJMOOvfK5s3AOiSPY=; b=JXvcQwatb7sNB8VTI1v7K7C4Aa8LvMyGJZr0eKAaG
+        5m0NbE72ybXA0slhi/1dz6HZX3hNokgIxRAPtjsL3zxll0gOpigZxvz5j0vrQKnO
+        LnyJfaw+y+ADddC3WDG/5+qbZ0MfvlCvdpnujXqOipfVPxDnt3oqQqXW8XueqmC0
+        IDtkBIbqXmTfGRB2fDEBixp3pU5+9KNztrS3b6/0V2K+4eGuNOcKeLUgpPZwIqft
+        qzDUPJky9V6nBQRf7AmoW9m+qWmxDtMNPusxjBPGw/9lcRUEp/hbvez0/SIpE0Tu
+        AjxGuj/FWkZ14GpzAhZMRV7ZRls2A6CH2Oaf9DJy4YUyA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm1; t=1649894987; x=1649981387; bh=E
+        OJgXwczx3Vjm6TzLyaxLENE2ryJMOOvfK5s3AOiSPY=; b=e7EXW59Df3iBiANyk
+        OQmUnZ8UEeHtqnsN9UBdjvQbSPwVYZjpky9YbIkLr1+FYmtPbm1w9TvSxJEofM4f
+        Uq6OfL+eRJvuzIIXeUx/aWTgO7DaZxUVlyhnJhKnNESCWNkBXJ/K/NLOuWBem/OP
+        Uupqq+ml+lFHH3riGkvymEhqaj9tc0/KKhr0hFkpjKtQ4zbUSg319lqJLdgCcXHl
+        mqiOoqFHLYNO/ezIJVRYEhBlJpLFagdjgiBL7PELD8COgQkoNZVASZB+3pF+6uwa
+        Ml9GPxSGESnod1rsYyEZU6kvP2uqQQSID7H6oc2d9zAcilCzJvdUY4XqozIxI5hQ
+        kmPYA==
+X-ME-Sender: <xms:SWZXYjqsJQRME26XZdKplHgNSPjoABGmCKLhYZtJOiGMpe1jqoJSHA>
+    <xme:SWZXYtqMNPa3Th_CkLCGlAAEhICGS0qxm7kLr7T1gssTPQ7017z9zVzAl4LhKhDl_
+    RtN5csF4hdFCD2RZA>
+X-ME-Received: <xmr:SWZXYgMtROeWTgCI1BEdPV8jkITAxcL96omh7QI4QdpStPC9AMK7CfF7M0fgbVY03S3N8eijWfJlFt9BGEuGMJAaQmu2u_bSdz2eakE6lkF1XsE7eFPAhIXo9fG1g2lk0Xa8YQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudelvddgfeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
+    vedtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:SWZXYm5IHxa4Ff82jsI8C7AviOP37U98R-PORU6GlhfI7rFXO9AWdQ>
+    <xmx:SWZXYi5vEOxs6yFcWGxWTT4DPlVzBVuHU-w6SB-cJtSUAYC6efvFeg>
+    <xmx:SWZXYuhGMSpgCdk4qw4PoTUFnGvP-NIf5oQNm-zlicbF_t7V48ueAw>
+    <xmx:S2ZXYktctP2op4tCR2gNuqYE-rxE_Kjo4bTOtcM_DYuI8BQueX2KEw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 13 Apr 2022 20:09:45 -0400 (EDT)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Ondrej Jirman <megous@megous.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: [PATCH resend v4] Input: sun4i-lradc-keys -  Add wakup support
+Date:   Wed, 13 Apr 2022 19:09:44 -0500
+Message-Id: <20220414000944.43388-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220413033334.1514008-1-swboyd@chromium.org> <20220413033334.1514008-2-swboyd@chromium.org>
-In-Reply-To: <20220413033334.1514008-2-swboyd@chromium.org>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Wed, 13 Apr 2022 13:44:12 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Ux8AmWpsphRL2waUSrp_Vioykn5WTui4UpzsGLr4fdcA@mail.gmail.com>
-Message-ID: <CAD=FV=Ux8AmWpsphRL2waUSrp_Vioykn5WTui4UpzsGLr4fdcA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Input: cros-ec-keyb: Only register keyboard if
- rows/columns exist
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>, patches@lists.linux.dev,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        chrome-platform@lists.linux.dev,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+From: Ondrej Jirman <megous@megous.com>
 
-On Tue, Apr 12, 2022 at 8:33 PM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> If the device is a detachable, we may still probe this device because
-> there are some button switches, e.g. volume buttons and power buttons,
-> registered by this driver. Let's allow the device node to be missing row
-> and column device properties to indicate that the keyboard matrix
-> shouldn't be registered. This removes an input device on Trogdor devices
-> such as Wormdingler that don't have a matrix keyboard, but still have
-> power and volume buttons. That helps userspace understand there isn't
-> a keyboard present when the detachable keyboard is disconnected.
->
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Hsin-Yi Wang <hsinyi@chromium.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->
-> I tried to use mkbp info to query the number of rows and columns, but my
-> EC firmware doesn't have commit 8505881ed0b9 ("mkbp: Separate MKBP_INFO
-> host command from the keyboard driver") so it always returns 8 and 13
-> for the rows and columns. Sigh. With updated firmware we could query it,
-> or we could rely on DT like we do already.
->
-> Originally I was setting the properties to 0, but
-> matrix_keypad_parse_properties() spits out an error message in that case
-> and so it seems better to delete the properties and check for their
-> existence instead. Another alternative would be to change the compatible
-> to be "google,cros-ec-keyb-switches" or something that indicates there
-> are only switches and no matrix keyboard.
->
->  drivers/input/keyboard/cros_ec_keyb.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
+Allow the driver to wake the system on key press if the "wakeup-source"
+property is provided in the device tree. Using the LRADC as a wakeup
+source requires keeping the AVCC domain active during sleep. Since this
+has a nontrivial impact on power consumption (sometimes doubling it),
+disable the LRADC wakeup source by default.
 
-I do wonder if there will be any unintentional side effects here.
-Specifically, even though there is truly no keyboard here, I wonder if
-anything in the system is relying on the EC to simulate keypresses
-even on tablets where the keyboard isn't actually there...
+Signed-off-by: Ondrej Jirman <megous@megous.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-OK, I guess not. While I think it _used_ to be the case that you could
-simulate keyboard inputs from the EC console even for devices w/out a
-keyboard, it doesn't seem to be the case anymore. I just tried it and
-nothing made it through to the AP.
+Changes in v4:
+  - Only mark device as wakeup capable if setting the wakeirq succeeds
+  - An entirely different, but equivalent, DT binding patch was merged,
+    so there is only one patch left
 
-Seems reasonable to me:
+Changes in v3:
+  - Dropped unnecessary pr_err in platform_get_irq() error path
+  - Dropped patch 3 (DT update) as it was merged
+  - Added Acked-by/Reviewed-by tags
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Changes in v2:
+  - Add requisite DT binding change
+  - Only add wakeup capability if "wakeup-source" is present
+  - Warn but do not error out if setting the wake IRQ fails
+  - Add "wakeup-source" property to PinePhone device tree
+
+ drivers/input/keyboard/sun4i-lradc-keys.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/input/keyboard/sun4i-lradc-keys.c b/drivers/input/keyboard/sun4i-lradc-keys.c
+index 4a796bed48ac..781f9b053115 100644
+--- a/drivers/input/keyboard/sun4i-lradc-keys.c
++++ b/drivers/input/keyboard/sun4i-lradc-keys.c
+@@ -22,6 +22,8 @@
+ #include <linux/module.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_wakeirq.h>
++#include <linux/pm_wakeup.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
+ 
+@@ -226,8 +228,7 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
+ {
+ 	struct sun4i_lradc_data *lradc;
+ 	struct device *dev = &pdev->dev;
+-	int i;
+-	int error;
++	int error, i, irq;
+ 
+ 	lradc = devm_kzalloc(dev, sizeof(struct sun4i_lradc_data), GFP_KERNEL);
+ 	if (!lradc)
+@@ -272,8 +273,11 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
+ 	if (IS_ERR(lradc->base))
+ 		return PTR_ERR(lradc->base);
+ 
+-	error = devm_request_irq(dev, platform_get_irq(pdev, 0),
+-				 sun4i_lradc_irq, 0,
++	irq = platform_get_irq(pdev, 0);
++	if (irq < 0)
++		return irq;
++
++	error = devm_request_irq(dev, irq, sun4i_lradc_irq, 0,
+ 				 "sun4i-a10-lradc-keys", lradc);
+ 	if (error)
+ 		return error;
+@@ -282,6 +286,14 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
+ 	if (error)
+ 		return error;
+ 
++	if (device_property_read_bool(dev, "wakeup-source")) {
++		error = dev_pm_set_wake_irq(dev, irq);
++		if (error)
++			dev_warn(dev, "Failed to set wake IRQ\n");
++		else
++			device_set_wakeup_capable(dev, true);
++	}
++
+ 	return 0;
+ }
+ 
+-- 
+2.35.1
+
