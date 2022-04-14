@@ -2,211 +2,247 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8A75501D4D
-	for <lists+linux-input@lfdr.de>; Thu, 14 Apr 2022 23:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F433501DDD
+	for <lists+linux-input@lfdr.de>; Fri, 15 Apr 2022 00:01:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241346AbiDNVVY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Apr 2022 17:21:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42476 "EHLO
+        id S239117AbiDNWCO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Apr 2022 18:02:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344682AbiDNVVX (ORCPT
+        with ESMTP id S237476AbiDNWCO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Apr 2022 17:21:23 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A30E6149
-        for <linux-input@vger.kernel.org>; Thu, 14 Apr 2022 14:18:56 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id m8so7577053ljc.7
-        for <linux-input@vger.kernel.org>; Thu, 14 Apr 2022 14:18:56 -0700 (PDT)
+        Thu, 14 Apr 2022 18:02:14 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34927220E4
+        for <linux-input@vger.kernel.org>; Thu, 14 Apr 2022 14:59:46 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id e194so2420982iof.11
+        for <linux-input@vger.kernel.org>; Thu, 14 Apr 2022 14:59:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=ufxYIOwf0J693O+/j0nztdscn7O3zFr17OcsXCTFd2A=;
-        b=Zk6oHfUomwUd26LNJQK4KaU2ifbDnt/zijM3TxgAahrDWK010devX3SknCi4s/XrEH
-         oy4r8mL84+4zTzAU8VSaWWH5qeRz42KVA783zXnCpTQOlFiG7JkiWfboSGbgaD/PbFuZ
-         Iqv2z1Fwk5hdYim/ya0Pv56zidniWDo88+0xuGJThORubgRolgqNlJtvZxGgYY1N/6wC
-         OjV7LoJiYUq5ZlAOO2jgRUu26sEDg4IWZNskZkc/sUyWFx7N9SSMGLTkfX5ZuSd5Wool
-         pMjJh3Ky2x1xckyyh/zLmbO7BajES4LvZxc5GNrGI2BeQJcRpCYLctVdR+BicaFjigOw
-         u95w==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1GICvYP5Cs+YPqVvcUezu41YOPdZ5+Yr5PEhT/G0Zm0=;
+        b=eFhLL1yAUYYT3MoXtvvFvDTLojjWgIa2x+y9FpMbMF6XREBA4aPfmbFBOq3PC3gW6G
+         1RytG3X99psfiAzcWFGVnihAnwx14pZFunksKOl/oyD1SMTSwCmF3EcR3iyAxa2SIpdT
+         59cElkOPYQXJ8umTkDCbf1WERtSh7e/GJ27jWcjQnmbCCulY/bnJOv/qQjcfIHy4aPSG
+         Y2Z1Akh4KRELWiJKaZFsAMvowDOpiRdgUJwO1M83arhNH2xFt1juloKdYK8rzdJCurl8
+         GHHtUZ8zFEiV6Owc8RELj5Lph16ZoPs21JVGnl9m3eNKr3w9pYnjOdRZ/TrDQ77BxAg/
+         gtwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=ufxYIOwf0J693O+/j0nztdscn7O3zFr17OcsXCTFd2A=;
-        b=gfed1uWgCVcfNJJjTO5lrvWSPeSM5PXG3jb3LtVxyfX5GqRDif2fMQEveTkxIVKmyA
-         JblOZYSWHfO0iIGR/fEGceyFesOMYqjL/VoT559ZlTGc/n6rQt9IUi+HF8ycx25TjUHb
-         1DM+e9py+TT/uvajfx4T1ENIZRQ/tYZsZKCKWccbt5c9kWcgAS17IXbcFFvvxlbANuNs
-         5FtURWXb+yaDcL3Sn9fv0UpZywXbDqVJI3u/zj+PtC9zExCIbim5PutnsrvIDUPVii6k
-         5teh7KakuMo1j3iU9JmAv5+60TIo+faPfH4KLgWIGK0mj7qBfyvNkobOvUlXJkhwDZGq
-         EkUA==
-X-Gm-Message-State: AOAM5337Z0LHJAKbORtyCzGaot2+LbXGPp9ImYpX1LEdHKyvIqfqGSVF
-        D0wSaHLUX0Gp2oh4JTOgIoOk4Q==
-X-Google-Smtp-Source: ABdhPJyIPE/Lbzs1ZBnIcuuv9dXN0SCDY55qJ+MFI/XPq9gB4WFlhElfu5uB1F9JSt//Cy5lkYATKw==
-X-Received: by 2002:a05:651c:893:b0:249:4023:3818 with SMTP id d19-20020a05651c089300b0024940233818mr2748589ljq.44.1649971134550;
-        Thu, 14 Apr 2022 14:18:54 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
-        by smtp.gmail.com with ESMTPSA id s6-20020ac25fa6000000b0044313e88020sm111871lfe.202.2022.04.14.14.18.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Apr 2022 14:18:54 -0700 (PDT)
-Message-ID: <d9afa206-7f57-81bb-8c69-5928dccd41b5@linaro.org>
-Date:   Fri, 15 Apr 2022 00:18:53 +0300
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1GICvYP5Cs+YPqVvcUezu41YOPdZ5+Yr5PEhT/G0Zm0=;
+        b=pttRYBTvDT0lOzXA2RLtqmw2BN2ewW3Uia3iI+do0mTh3ibkp7hVaIZ11YcfZK74Rs
+         eRmlW6wE4Cw0wc4qd3b0xLST6MfqIEHZxaB9gbUnKPCYxdHDpH1Zw8q1qQH0E4hg327q
+         aMkWmGSSH4VjvZLW+LDPYA1mNfWuACSJ6v5WsMUbBx2Wuuqjyz3ctwslPDMxv1Tm0iWn
+         oC8GsZBu5zRqWf2bbZcufUkbrvqTYJKDoelRBqgevKDCj0+UgXtfRQSDS5bSt9Mkc4tP
+         N5xx9wodyqQdgbqTOpQxXyBD6l5kSIIa/mt85dtmPvoeH1+WsPJCBdDoMF5gE5cM9m03
+         JSVQ==
+X-Gm-Message-State: AOAM531kk62M6yMYyQevShr/8kQQni/pPqZPQq/+AReAUidGOFifK7m/
+        mqH7GEqMXVvyDgDiuetlOvqCz/JIvnLTJBex4Oo=
+X-Google-Smtp-Source: ABdhPJwTkUIzXSsRbZ0FBM/g4mcazcL/17GfcKGRnTOEKs0al9Ac9crcpL8R4jMuIC7X4poucpoifgLPctUhnXGgoQQ=
+X-Received: by 2002:a5d:8450:0:b0:64c:cc87:c5fc with SMTP id
+ w16-20020a5d8450000000b0064ccc87c5fcmr1940384ior.190.1649973585380; Thu, 14
+ Apr 2022 14:59:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v5 3/5] input: misc: pm8941-pwrkey: add support for PON
- GEN3 base addresses
-Content-Language: en-GB
-To:     Anjelique Melendez <quic_amelende@quicinc.com>,
-        dmitry.torokhov@gmail.com, corbet@lwn.net, sre@kernel.org,
-        robh+dt@kernel.org
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, collinsd@codeaurora.org,
-        bjorn.andersson@linaro.org, swboyd@chromium.org,
-        skakit@codeaurora.org, linux-doc@vger.kernel.org,
-        linux-pm@vger.kernel.org, devicetree@vger.kernel.org
-References: <20220411200506.22891-1-quic_amelende@quicinc.com>
- <20220411200506.22891-4-quic_amelende@quicinc.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220411200506.22891-4-quic_amelende@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20220322213316.101787-1-Joshua@Joshua-Dickens.com>
+In-Reply-To: <20220322213316.101787-1-Joshua@Joshua-Dickens.com>
+From:   Ping Cheng <pinglinux@gmail.com>
+Date:   Thu, 14 Apr 2022 14:59:40 -0700
+Message-ID: <CAF8JNhLorhuS1fpKfLD-GmYo4gCZrdCSTEpWvsiTgqp=UPufNw@mail.gmail.com>
+Subject: Re: [PATCH] HID: wacom: Adding Support for new usages
+To:     Joshua Dickens <Joshua@joshua-dickens.com>
+Cc:     linux-input <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Joshua Dickens <joshua.dickens@wacom.com>,
+        Jason Gerecke <Jason.Gerecke@wacom.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 11/04/2022 23:05, Anjelique Melendez wrote:
-> Currently, PON address is read from the "reg" property. For PON GEN3,
-> which starts with PMK8350, the "reg" property will have both the PON
-> HLOS and PON PBS addesses defined. Add support so that all PON
-> generations can be configured.
-> 
-> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Hi Jiri,
+
+In case you were wondering why we started to report those usages. The
+usages have been in our firmware. HID_DG_SCANTIME was reported quite a
+while ago. We didn't report it from our driver since our X driver
+doesn't need it. But, we realized that other userland clients may use
+it. The other two usages are Wacom specific. There are no standard
+usages for them. So, they are only for custom features. The patch
+itself should explain the usages well, I think.
+
+Let me know if you have questions about the patch or the usages. Hope
+the patch can be merged soon...
+
+Thank you,
+Ping
+
+On Tue, Mar 22, 2022, 2:33 PM Joshua Dickens <joshua@joshua-dickens.com> wrote:
+>
+> From: Joshua-Dickens <Joshua@Joshua-Dickens.com>
+>
+> Added support for the following usages:
+> * HID_DG_SCANTIME to report the timestamp for pen and touch events.
+> * WACOM_HID_WD_BARRELSWITCH3 to support pens with 3 buttons.
+> * WACOM_HID_WD_SEQUENCENUMBER to detect and report dropped packets.
+>
+> Signed-off-by: Joshua Dickens <joshua.dickens@wacom.com>
+> Reviewed-by: Jason Gerecke <jason.gerecke@wacom.com>
 > ---
->   drivers/input/misc/pm8941-pwrkey.c | 31 +++++++++++++++++++++++-------
->   1 file changed, 24 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
-> index e0240db12d4f..43106e4cfd23 100644
-> --- a/drivers/input/misc/pm8941-pwrkey.c
-> +++ b/drivers/input/misc/pm8941-pwrkey.c
-> @@ -12,6 +12,7 @@
->   #include <linux/log2.h>
->   #include <linux/module.h>
->   #include <linux/of.h>
-> +#include <linux/of_address.h>
->   #include <linux/of_device.h>
->   #include <linux/platform_device.h>
->   #include <linux/reboot.h>
-> @@ -44,6 +45,7 @@ struct pm8941_data {
->   	unsigned int	status_bit;
->   	bool		supports_ps_hold_poff_config;
->   	bool		supports_debounce_config;
-> +	bool		has_pon_pbs;
->   	const char	*name;
->   	const char	*phys;
->   };
-> @@ -52,6 +54,7 @@ struct pm8941_pwrkey {
->   	struct device *dev;
->   	int irq;
->   	u32 baseaddr;
-> +	u32 pon_pbs_baseaddr;
->   	struct regmap *regmap;
->   	struct input_dev *input;
->   
-> @@ -167,6 +170,8 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
->   	struct pm8941_pwrkey *pwrkey;
->   	bool pull_up;
->   	struct device *parent;
-> +	struct device_node *regmap_node;
-> +	const __be32 *addr;
->   	u32 req_delay;
->   	int error;
->   
-> @@ -188,8 +193,10 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
->   	pwrkey->data = of_device_get_match_data(&pdev->dev);
->   
->   	parent = pdev->dev.parent;
-> +	regmap_node = pdev->dev.of_node;
->   	pwrkey->regmap = dev_get_regmap(parent, NULL);
->   	if (!pwrkey->regmap) {
-> +		regmap_node = parent->of_node;
->   		/*
->   		 * We failed to get regmap for parent. Let's see if we are
->   		 * a child of pon node and read regmap and reg from its
-> @@ -200,15 +207,21 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
->   			dev_err(&pdev->dev, "failed to locate regmap\n");
->   			return -ENODEV;
->   		}
-> +	}
->   
-> -		error = of_property_read_u32(parent->of_node,
-> -					     "reg", &pwrkey->baseaddr);
-> -	} else {
-> -		error = of_property_read_u32(pdev->dev.of_node, "reg",
-> -					     &pwrkey->baseaddr);
-> +	addr = of_get_address(regmap_node, 0, NULL, NULL);
-> +	if (!addr) {
-> +		dev_err(&pdev->dev, "reg property missing\n");
-> +		return -EINVAL;
-> +	}
-> +	pwrkey->baseaddr = be32_to_cpup(addr);
-> +
-> +	if (pwrkey->data->has_pon_pbs) {
-> +		/* PON_PBS base address is optional */
-> +		addr = of_get_address(regmap_node, 1, NULL, NULL);
-> +		if (addr)
-> +			pwrkey->pon_pbs_baseaddr = be32_to_cpup(addr);
->   	}
-> -	if (error)
-> -		return error;
->   
->   	pwrkey->irq = platform_get_irq(pdev, 0);
->   	if (pwrkey->irq < 0)
-> @@ -316,6 +329,7 @@ static const struct pm8941_data pwrkey_data = {
->   	.phys = "pm8941_pwrkey/input0",
->   	.supports_ps_hold_poff_config = true,
->   	.supports_debounce_config = true,
-> +	.has_pon_pbs = false,
->   };
->   
->   static const struct pm8941_data resin_data = {
-> @@ -325,6 +339,7 @@ static const struct pm8941_data resin_data = {
->   	.phys = "pm8941_resin/input0",
->   	.supports_ps_hold_poff_config = true,
->   	.supports_debounce_config = true,
-> +	.has_pon_pbs = false,
-
-No need to declare that a field is false. Just skip this completely.
-
->   };
->   
->   static const struct pm8941_data pon_gen3_pwrkey_data = {
-> @@ -333,6 +348,7 @@ static const struct pm8941_data pon_gen3_pwrkey_data = {
->   	.phys = "pmic_pwrkey/input0",
->   	.supports_ps_hold_poff_config = false,
->   	.supports_debounce_config = false,
-> +	.has_pon_pbs = true,
->   };
->   
->   static const struct pm8941_data pon_gen3_resin_data = {
-> @@ -341,6 +357,7 @@ static const struct pm8941_data pon_gen3_resin_data = {
->   	.phys = "pmic_resin/input0",
->   	.supports_ps_hold_poff_config = false,
->   	.supports_debounce_config = false,
-> +	.has_pon_pbs = true,
->   };
->   
->   static const struct of_device_id pm8941_pwr_key_id_table[] = {
-
-
--- 
-With best wishes
-Dmitry
+>  drivers/hid/wacom_wac.c | 43 +++++++++++++++++++++++++++++++++--------
+>  drivers/hid/wacom_wac.h |  5 +++++
+>  2 files changed, 40 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+> index a7176fc0635d..ce3555c54425 100644
+> --- a/drivers/hid/wacom_wac.c
+> +++ b/drivers/hid/wacom_wac.c
+> @@ -1811,7 +1811,9 @@ int wacom_equivalent_usage(int usage)
+>                     usage == WACOM_HID_WD_TOUCHSTRIP2 ||
+>                     usage == WACOM_HID_WD_TOUCHRING ||
+>                     usage == WACOM_HID_WD_TOUCHRINGSTATUS ||
+> -                   usage == WACOM_HID_WD_REPORT_VALID) {
+> +                   usage == WACOM_HID_WD_REPORT_VALID ||
+> +                   usage == WACOM_HID_WD_BARRELSWITCH3 ||
+> +                   usage == WACOM_HID_WD_SEQUENCENUMBER) {
+>                         return usage;
+>                 }
+>
+> @@ -2196,8 +2198,11 @@ static void wacom_set_barrel_switch3_usage(struct wacom_wac *wacom_wac)
+>         if (!(features->quirks & WACOM_QUIRK_AESPEN) &&
+>             wacom_wac->hid_data.barrelswitch &&
+>             wacom_wac->hid_data.barrelswitch2 &&
+> -           wacom_wac->hid_data.serialhi)
+> +           wacom_wac->hid_data.serialhi &&
+> +           !wacom_wac->hid_data.barrelswitch3) {
+>                 input_set_capability(input, EV_KEY, BTN_STYLUS3);
+> +               features->quirks |= WACOM_QUIRK_PEN_BUTTON3;
+> +       }
+>  }
+>
+>  static void wacom_wac_pen_usage_mapping(struct hid_device *hdev,
+> @@ -2261,6 +2266,9 @@ static void wacom_wac_pen_usage_mapping(struct hid_device *hdev,
+>                 features->quirks |= WACOM_QUIRK_TOOLSERIAL;
+>                 wacom_map_usage(input, usage, field, EV_MSC, MSC_SERIAL, 0);
+>                 break;
+> +       case HID_DG_SCANTIME:
+> +               wacom_map_usage(input, usage, field, EV_MSC, MSC_TIMESTAMP, 0);
+> +               break;
+>         case WACOM_HID_WD_SENSE:
+>                 features->quirks |= WACOM_QUIRK_SENSE;
+>                 wacom_map_usage(input, usage, field, EV_KEY, BTN_TOOL_PEN, 0);
+> @@ -2274,6 +2282,11 @@ static void wacom_wac_pen_usage_mapping(struct hid_device *hdev,
+>                 input_set_capability(input, EV_KEY, BTN_TOOL_AIRBRUSH);
+>                 wacom_map_usage(input, usage, field, EV_ABS, ABS_WHEEL, 0);
+>                 break;
+> +       case WACOM_HID_WD_BARRELSWITCH3:
+> +               wacom_wac->hid_data.barrelswitch3 = true;
+> +               wacom_map_usage(input, usage, field, EV_KEY, BTN_STYLUS3, 0);
+> +               features->quirks &= ~WACOM_QUIRK_PEN_BUTTON3;
+> +               break;
+>         }
+>  }
+>
+> @@ -2390,6 +2403,14 @@ static void wacom_wac_pen_event(struct hid_device *hdev, struct hid_field *field
+>         case WACOM_HID_WD_REPORT_VALID:
+>                 wacom_wac->is_invalid_bt_frame = !value;
+>                 return;
+> +       case WACOM_HID_WD_BARRELSWITCH3:
+> +               wacom_wac->hid_data.barrelswitch3 = value;
+> +               return;
+> +       case WACOM_HID_WD_SEQUENCENUMBER:
+> +               if (wacom_wac->hid_data.sequence_number != value)
+> +                       hid_warn(hdev, "Dropped %hu packets", value - wacom_wac->hid_data.sequence_number);
+> +               wacom_wac->hid_data.sequence_number = value + 1;
+> +               return;
+>         }
+>
+>         /* send pen events only when touch is up or forced out
+> @@ -2442,12 +2463,15 @@ static void wacom_wac_pen_report(struct hid_device *hdev,
+>
+>         if (!delay_pen_events(wacom_wac) && wacom_wac->tool[0]) {
+>                 int id = wacom_wac->id[0];
+> -               int sw_state = wacom_wac->hid_data.barrelswitch |
+> -                              (wacom_wac->hid_data.barrelswitch2 << 1);
+> -
+> -               input_report_key(input, BTN_STYLUS, sw_state == 1);
+> -               input_report_key(input, BTN_STYLUS2, sw_state == 2);
+> -               input_report_key(input, BTN_STYLUS3, sw_state == 3);
+> +               if (wacom_wac->features.quirks & WACOM_QUIRK_PEN_BUTTON3 &&
+> +                   wacom_wac->hid_data.barrelswitch & wacom_wac->hid_data.barrelswitch2) {
+> +                       wacom_wac->hid_data.barrelswitch = 0;
+> +                       wacom_wac->hid_data.barrelswitch2 = 0;
+> +                       wacom_wac->hid_data.barrelswitch3 = 1;
+> +               }
+> +               input_report_key(input, BTN_STYLUS, wacom_wac->hid_data.barrelswitch);
+> +               input_report_key(input, BTN_STYLUS2, wacom_wac->hid_data.barrelswitch2);
+> +               input_report_key(input, BTN_STYLUS3, wacom_wac->hid_data.barrelswitch3);
+>
+>                 /*
+>                  * Non-USI EMR tools should have their IDs mangled to
+> @@ -2529,6 +2553,9 @@ static void wacom_wac_finger_usage_mapping(struct hid_device *hdev,
+>                         field->logical_maximum = 255;
+>                 }
+>                 break;
+> +       case HID_DG_SCANTIME:
+> +               wacom_map_usage(input, usage, field, EV_MSC, MSC_TIMESTAMP, 0);
+> +               break;
+>         }
+>  }
+>
+> diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
+> index 466b62cc16dc..46c1c761741f 100644
+> --- a/drivers/hid/wacom_wac.h
+> +++ b/drivers/hid/wacom_wac.h
+> @@ -86,6 +86,7 @@
+>  #define WACOM_QUIRK_AESPEN             0x0004
+>  #define WACOM_QUIRK_BATTERY            0x0008
+>  #define WACOM_QUIRK_TOOLSERIAL         0x0010
+> +#define WACOM_QUIRK_PEN_BUTTON3        0x0020
+>
+>  /* device types */
+>  #define WACOM_DEVICETYPE_NONE           0x0000
+> @@ -108,6 +109,7 @@
+>  #define WACOM_HID_WD_DIGITIZERFNKEYS    (WACOM_HID_UP_WACOMDIGITIZER | 0x39)
+>  #define WACOM_HID_WD_SERIALNUMBER       (WACOM_HID_UP_WACOMDIGITIZER | 0x5b)
+>  #define WACOM_HID_WD_SERIALHI           (WACOM_HID_UP_WACOMDIGITIZER | 0x5c)
+> +#define WACOM_HID_WD_BARRELSWITCH3      (WACOM_HID_UP_WACOMDIGITIZER | 0x5d)
+>  #define WACOM_HID_WD_TOOLTYPE           (WACOM_HID_UP_WACOMDIGITIZER | 0x77)
+>  #define WACOM_HID_WD_DISTANCE           (WACOM_HID_UP_WACOMDIGITIZER | 0x0132)
+>  #define WACOM_HID_WD_TOUCHSTRIP         (WACOM_HID_UP_WACOMDIGITIZER | 0x0136)
+> @@ -115,6 +117,7 @@
+>  #define WACOM_HID_WD_TOUCHRING          (WACOM_HID_UP_WACOMDIGITIZER | 0x0138)
+>  #define WACOM_HID_WD_TOUCHRINGSTATUS    (WACOM_HID_UP_WACOMDIGITIZER | 0x0139)
+>  #define WACOM_HID_WD_REPORT_VALID       (WACOM_HID_UP_WACOMDIGITIZER | 0x01d0)
+> +#define WACOM_HID_WD_SEQUENCENUMBER     (WACOM_HID_UP_WACOMDIGITIZER | 0x0220)
+>  #define WACOM_HID_WD_ACCELEROMETER_X    (WACOM_HID_UP_WACOMDIGITIZER | 0x0401)
+>  #define WACOM_HID_WD_ACCELEROMETER_Y    (WACOM_HID_UP_WACOMDIGITIZER | 0x0402)
+>  #define WACOM_HID_WD_ACCELEROMETER_Z    (WACOM_HID_UP_WACOMDIGITIZER | 0x0403)
+> @@ -300,6 +303,7 @@ struct hid_data {
+>         bool tipswitch;
+>         bool barrelswitch;
+>         bool barrelswitch2;
+> +       bool barrelswitch3;
+>         bool serialhi;
+>         bool confidence;
+>         int x;
+> @@ -320,6 +324,7 @@ struct hid_data {
+>         int bat_connected;
+>         int ps_connected;
+>         bool pad_input_event_flag;
+> +       unsigned short sequence_number;
+>  };
+>
+>  struct wacom_remote_data {
+> --
+> 2.35.1
+>
