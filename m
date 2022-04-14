@@ -2,124 +2,211 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CEEC0501893
-	for <lists+linux-input@lfdr.de>; Thu, 14 Apr 2022 18:28:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8A75501D4D
+	for <lists+linux-input@lfdr.de>; Thu, 14 Apr 2022 23:19:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234864AbiDNQPX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Apr 2022 12:15:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48866 "EHLO
+        id S241346AbiDNVVY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Apr 2022 17:21:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344086AbiDNPxm (ORCPT
+        with ESMTP id S1344682AbiDNVVX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Apr 2022 11:53:42 -0400
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DAE9FC113;
-        Thu, 14 Apr 2022 08:34:07 -0700 (PDT)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-df22f50e0cso5624157fac.3;
-        Thu, 14 Apr 2022 08:34:06 -0700 (PDT)
+        Thu, 14 Apr 2022 17:21:23 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A30E6149
+        for <linux-input@vger.kernel.org>; Thu, 14 Apr 2022 14:18:56 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id m8so7577053ljc.7
+        for <linux-input@vger.kernel.org>; Thu, 14 Apr 2022 14:18:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=ufxYIOwf0J693O+/j0nztdscn7O3zFr17OcsXCTFd2A=;
+        b=Zk6oHfUomwUd26LNJQK4KaU2ifbDnt/zijM3TxgAahrDWK010devX3SknCi4s/XrEH
+         oy4r8mL84+4zTzAU8VSaWWH5qeRz42KVA783zXnCpTQOlFiG7JkiWfboSGbgaD/PbFuZ
+         Iqv2z1Fwk5hdYim/ya0Pv56zidniWDo88+0xuGJThORubgRolgqNlJtvZxGgYY1N/6wC
+         OjV7LoJiYUq5ZlAOO2jgRUu26sEDg4IWZNskZkc/sUyWFx7N9SSMGLTkfX5ZuSd5Wool
+         pMjJh3Ky2x1xckyyh/zLmbO7BajES4LvZxc5GNrGI2BeQJcRpCYLctVdR+BicaFjigOw
+         u95w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=XgRBiTVC/FFWfC6f7VFIlxavcDc/C7IkOvLYm4Mfzvs=;
-        b=QQ2vRYRmlckrTL2uohmikWroCLGEKLv0jKTlcPyESt926PPnpwMcTeFzlpWehuNSTA
-         tflGx73ggnfWtCf6c07p7TFZ1CVVxqQcZhqcEhCZ55OCx4Mp3eLY0X+mW5bWx11g8RQE
-         jm//i5g41NtucMGPNs2z2rjn4QxE0Y4ZrWp6pVGNcHsmg5AWMECHdD+0ggFQTOsmPiHR
-         bQU2cvhqzbLzle/L9M7aOVB3Y/7KrukGrBCJxB/FFvg/iDnhH93ZGN2vnnVx5mxz3d/f
-         uVtG2LtyzFoxQjlK0WNUxzmO9nugzThEUg4HQx6GEy/OVnLlVs1ggHm/kjHm8CEHJeS+
-         6QjA==
-X-Gm-Message-State: AOAM532mhJzNiOj+41uxL2P01P3UkUGOxiY96GmtfB0szSeanPpnGO/c
-        /FxYjxmCzhDIIf5MNheDEA==
-X-Google-Smtp-Source: ABdhPJxO41UyWKPRLV35Yj+ApQ4PFF6XoQyq8uSctU7sQmGIJXL6DxUImc9X9hOqKaDbOcuZF4s6Kw==
-X-Received: by 2002:a05:6870:434f:b0:bf:9f2a:26f0 with SMTP id x15-20020a056870434f00b000bf9f2a26f0mr1521011oah.40.1649950446230;
-        Thu, 14 Apr 2022 08:34:06 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id h8-20020a056830400800b005cdceb42261sm120283ots.66.2022.04.14.08.34.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 08:34:05 -0700 (PDT)
-Received: (nullmailer pid 2095983 invoked by uid 1000);
-        Thu, 14 Apr 2022 15:34:04 -0000
-Date:   Thu, 14 Apr 2022 10:34:04 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Anjelique Melendez <quic_amelende@quicinc.com>
-Cc:     dmitry.torokhov@gmail.com, corbet@lwn.net, sre@kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=ufxYIOwf0J693O+/j0nztdscn7O3zFr17OcsXCTFd2A=;
+        b=gfed1uWgCVcfNJJjTO5lrvWSPeSM5PXG3jb3LtVxyfX5GqRDif2fMQEveTkxIVKmyA
+         JblOZYSWHfO0iIGR/fEGceyFesOMYqjL/VoT559ZlTGc/n6rQt9IUi+HF8ycx25TjUHb
+         1DM+e9py+TT/uvajfx4T1ENIZRQ/tYZsZKCKWccbt5c9kWcgAS17IXbcFFvvxlbANuNs
+         5FtURWXb+yaDcL3Sn9fv0UpZywXbDqVJI3u/zj+PtC9zExCIbim5PutnsrvIDUPVii6k
+         5teh7KakuMo1j3iU9JmAv5+60TIo+faPfH4KLgWIGK0mj7qBfyvNkobOvUlXJkhwDZGq
+         EkUA==
+X-Gm-Message-State: AOAM5337Z0LHJAKbORtyCzGaot2+LbXGPp9ImYpX1LEdHKyvIqfqGSVF
+        D0wSaHLUX0Gp2oh4JTOgIoOk4Q==
+X-Google-Smtp-Source: ABdhPJyIPE/Lbzs1ZBnIcuuv9dXN0SCDY55qJ+MFI/XPq9gB4WFlhElfu5uB1F9JSt//Cy5lkYATKw==
+X-Received: by 2002:a05:651c:893:b0:249:4023:3818 with SMTP id d19-20020a05651c089300b0024940233818mr2748589ljq.44.1649971134550;
+        Thu, 14 Apr 2022 14:18:54 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+        by smtp.gmail.com with ESMTPSA id s6-20020ac25fa6000000b0044313e88020sm111871lfe.202.2022.04.14.14.18.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Apr 2022 14:18:54 -0700 (PDT)
+Message-ID: <d9afa206-7f57-81bb-8c69-5928dccd41b5@linaro.org>
+Date:   Fri, 15 Apr 2022 00:18:53 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v5 3/5] input: misc: pm8941-pwrkey: add support for PON
+ GEN3 base addresses
+Content-Language: en-GB
+To:     Anjelique Melendez <quic_amelende@quicinc.com>,
+        dmitry.torokhov@gmail.com, corbet@lwn.net, sre@kernel.org,
+        robh+dt@kernel.org
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, collinsd@codeaurora.org,
         bjorn.andersson@linaro.org, swboyd@chromium.org,
         skakit@codeaurora.org, linux-doc@vger.kernel.org,
-        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-        David Collins <quic_collinsd@quicinc.com>
-Subject: Re: [PATCH v5 1/5] dt-bindings: power: reset: qcom-pon: update "reg"
- property details
-Message-ID: <Ylg+7MVRS4sKbOFb@robh.at.kernel.org>
+        linux-pm@vger.kernel.org, devicetree@vger.kernel.org
 References: <20220411200506.22891-1-quic_amelende@quicinc.com>
- <20220411200506.22891-2-quic_amelende@quicinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220411200506.22891-2-quic_amelende@quicinc.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+ <20220411200506.22891-4-quic_amelende@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220411200506.22891-4-quic_amelende@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Apr 11, 2022 at 01:05:03PM -0700, Anjelique Melendez wrote:
-> From: David Collins <quic_collinsd@quicinc.com>
+On 11/04/2022 23:05, Anjelique Melendez wrote:
+> Currently, PON address is read from the "reg" property. For PON GEN3,
+> which starts with PMK8350, the "reg" property will have both the PON
+> HLOS and PON PBS addesses defined. Add support so that all PON
+> generations can be configured.
 > 
-> Update the description of "reg" property to add the PON_PBS base
-> address along with PON_HLOS base address.  Also add "reg-names"
-> property description.
-> 
-> Signed-off-by: David Collins <quic_collinsd@quicinc.com>
 > Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 > ---
->  .../bindings/power/reset/qcom,pon.yaml | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
+>   drivers/input/misc/pm8941-pwrkey.c | 31 +++++++++++++++++++++++-------
+>   1 file changed, 24 insertions(+), 7 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
-> index 353f155d..542200b2 100644
-> --- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
-> +++ b/Documentation/bindings/power/reset/qcom,pon.yaml
-> @@ -26,7 +26,25 @@ properties:
->        - qcom,pm8998-pon
->  
->    reg:
-> -    maxItems: 1
-> +    description: |
-> +      Specifies the SPMI base address for the PON (power-on) peripheral.  For
-> +      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
-> +      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
-> +      peripherals.  In that case, the PON_PBS address needs to be specified to
-> +      facilitate software debouncing on some PMICs.
-> +    minItems: 1
-> +    maxItems: 2
+> diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
+> index e0240db12d4f..43106e4cfd23 100644
+> --- a/drivers/input/misc/pm8941-pwrkey.c
+> +++ b/drivers/input/misc/pm8941-pwrkey.c
+> @@ -12,6 +12,7 @@
+>   #include <linux/log2.h>
+>   #include <linux/module.h>
+>   #include <linux/of.h>
+> +#include <linux/of_address.h>
+>   #include <linux/of_device.h>
+>   #include <linux/platform_device.h>
+>   #include <linux/reboot.h>
+> @@ -44,6 +45,7 @@ struct pm8941_data {
+>   	unsigned int	status_bit;
+>   	bool		supports_ps_hold_poff_config;
+>   	bool		supports_debounce_config;
+> +	bool		has_pon_pbs;
+>   	const char	*name;
+>   	const char	*phys;
+>   };
+> @@ -52,6 +54,7 @@ struct pm8941_pwrkey {
+>   	struct device *dev;
+>   	int irq;
+>   	u32 baseaddr;
+> +	u32 pon_pbs_baseaddr;
+>   	struct regmap *regmap;
+>   	struct input_dev *input;
+>   
+> @@ -167,6 +170,8 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+>   	struct pm8941_pwrkey *pwrkey;
+>   	bool pull_up;
+>   	struct device *parent;
+> +	struct device_node *regmap_node;
+> +	const __be32 *addr;
+>   	u32 req_delay;
+>   	int error;
+>   
+> @@ -188,8 +193,10 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+>   	pwrkey->data = of_device_get_match_data(&pdev->dev);
+>   
+>   	parent = pdev->dev.parent;
+> +	regmap_node = pdev->dev.of_node;
+>   	pwrkey->regmap = dev_get_regmap(parent, NULL);
+>   	if (!pwrkey->regmap) {
+> +		regmap_node = parent->of_node;
+>   		/*
+>   		 * We failed to get regmap for parent. Let's see if we are
+>   		 * a child of pon node and read regmap and reg from its
+> @@ -200,15 +207,21 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
+>   			dev_err(&pdev->dev, "failed to locate regmap\n");
+>   			return -ENODEV;
+>   		}
+> +	}
+>   
+> -		error = of_property_read_u32(parent->of_node,
+> -					     "reg", &pwrkey->baseaddr);
+> -	} else {
+> -		error = of_property_read_u32(pdev->dev.of_node, "reg",
+> -					     &pwrkey->baseaddr);
+> +	addr = of_get_address(regmap_node, 0, NULL, NULL);
+> +	if (!addr) {
+> +		dev_err(&pdev->dev, "reg property missing\n");
+> +		return -EINVAL;
+> +	}
+> +	pwrkey->baseaddr = be32_to_cpup(addr);
 > +
-> +  reg-names:
-> +    description: |
-> +      For PON GEN1 and GEN2, it should be "pon".  For PON GEN3 it should include
-> +      "pon_hlos" and optionally "pon_pbs".
-> +    minItems: 1
-> +    maxItems: 2
-> +    items:
-> +      - const: pon_hlos
-> +      - const: pon_pbs
-> +      - const: pon
+> +	if (pwrkey->data->has_pon_pbs) {
+> +		/* PON_PBS base address is optional */
+> +		addr = of_get_address(regmap_node, 1, NULL, NULL);
+> +		if (addr)
+> +			pwrkey->pon_pbs_baseaddr = be32_to_cpup(addr);
+>   	}
+> -	if (error)
+> -		return error;
+>   
+>   	pwrkey->irq = platform_get_irq(pdev, 0);
+>   	if (pwrkey->irq < 0)
+> @@ -316,6 +329,7 @@ static const struct pm8941_data pwrkey_data = {
+>   	.phys = "pm8941_pwrkey/input0",
+>   	.supports_ps_hold_poff_config = true,
+>   	.supports_debounce_config = true,
+> +	.has_pon_pbs = false,
+>   };
+>   
+>   static const struct pm8941_data resin_data = {
+> @@ -325,6 +339,7 @@ static const struct pm8941_data resin_data = {
+>   	.phys = "pm8941_resin/input0",
+>   	.supports_ps_hold_poff_config = true,
+>   	.supports_debounce_config = true,
+> +	.has_pon_pbs = false,
 
-This says there are 3 entries, but you limited to 2. The schema also 
-doesn't match what the description says. Entries should be extended by 
-adding new entries to the end and keeping optional entries last. So like 
-this:
+No need to declare that a field is false. Just skip this completely.
 
-minItems: 1
-items:
-  - const: pon
-  - const: pon_hlos
-  - const: pon_pbs
+>   };
+>   
+>   static const struct pm8941_data pon_gen3_pwrkey_data = {
+> @@ -333,6 +348,7 @@ static const struct pm8941_data pon_gen3_pwrkey_data = {
+>   	.phys = "pmic_pwrkey/input0",
+>   	.supports_ps_hold_poff_config = false,
+>   	.supports_debounce_config = false,
+> +	.has_pon_pbs = true,
+>   };
+>   
+>   static const struct pm8941_data pon_gen3_resin_data = {
+> @@ -341,6 +357,7 @@ static const struct pm8941_data pon_gen3_resin_data = {
+>   	.phys = "pmic_resin/input0",
+>   	.supports_ps_hold_poff_config = false,
+>   	.supports_debounce_config = false,
+> +	.has_pon_pbs = true,
+>   };
+>   
+>   static const struct of_device_id pm8941_pwr_key_id_table[] = {
 
-Rob
+
+-- 
+With best wishes
+Dmitry
