@@ -2,208 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0369C500BDA
-	for <lists+linux-input@lfdr.de>; Thu, 14 Apr 2022 13:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C6AE500C0F
+	for <lists+linux-input@lfdr.de>; Thu, 14 Apr 2022 13:22:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242562AbiDNLM3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Apr 2022 07:12:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41686 "EHLO
+        id S233769AbiDNLYM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Apr 2022 07:24:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242572AbiDNLM0 (ORCPT
+        with ESMTP id S242636AbiDNLYL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Apr 2022 07:12:26 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2B078118A;
-        Thu, 14 Apr 2022 04:09:57 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id u17-20020a05600c211100b0038eaf4cdaaeso5746941wml.1;
-        Thu, 14 Apr 2022 04:09:57 -0700 (PDT)
+        Thu, 14 Apr 2022 07:24:11 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D46C46C1C9
+        for <linux-input@vger.kernel.org>; Thu, 14 Apr 2022 04:21:46 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id i20so6415605wrb.13
+        for <linux-input@vger.kernel.org>; Thu, 14 Apr 2022 04:21:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8VPdWlC5lQxtIDojBOmXDijOL+J6H2I/qPY01pdxxCU=;
-        b=B9EZNEvWfnSgYiKm2pYkH+B0GkyXDmOadMYvoufkbt/WGAPIM0IgQkzD7xgL7m9qQ1
-         OboLsB0Q/xkqEh+11ca+T98KRJlxkj5WJgQIUUhm56t2M1uGhBFpI7/te4KAHJrUplSg
-         MO09jx8wm3AsysS5qtxa3wV84JcD+rsGe8/Zs86FwAnPjNukXjRiSwnv6SnU4uzoaChK
-         3l+d1kl0+JS4zH7LwhKGTiGtdmiAWfiM4ObLo5U5nOF2YTWl0LaC6obooPc41ErFJNZt
-         C8lReJa86lcBRZo/J6O6IwXUwuwVHjrxFK+bU2vNTaROPBRjdq2lFhxDBkwOGJ6/NAVS
-         pg/g==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=SEx8h5k778IPiOCrqVBNayGWwvKzbIxRReQ5rqQaPiY=;
+        b=myPg4n1oBq1yxusiRfwYzCfFkUPHbnLoOnF3clZZdbJ3k6Yv5s18iXaKiULTAka8Nk
+         28uMCzkXyDihHUCGK5iOshq18OYprWZU1dVzm0moZj1774lFARXQ5nICD3AqruFP3CkY
+         mritXDK2qy6v1GkkC0cOz7Q9WSf5odrMymSIBi5x/o8C8YW8PGKJQAnWUP8hlbKWHOvP
+         Tj9HVyODbf82zFM65mKl7B0IZd0jLVNexQeiTwZLl7k4pkCWfZ3gBCiTyVQbnzwLsev+
+         1n1zTnpvg5DpgJos/gp9qCSKJBZIBWTAgbeIMimRvLSg55hcr95k+CFFYUEp957w06DY
+         +Tyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8VPdWlC5lQxtIDojBOmXDijOL+J6H2I/qPY01pdxxCU=;
-        b=ZlBUyDhJ5+eJEYnficI9nZ7/S77vbtyLsRDPnU76JFDq4AC2YKonL671SI71S96FFP
-         quKSVZQ3f+Yf3rvNjpoQ/ThKw9DrTQbtat0x8kSjbPwIos03ArlDFnIoo3AiOnqLVx0K
-         y8a5aP7RHufPuxmVVlrXQb6Y4XOEpCDP1i7G0rLicSNuVbUPSGzGvpX3ed0YY/MWVauM
-         Gk1qEMFEDTlaqVPWfdH/cgI6URRdzIm3mbtz6R4aTtlzSfc/B45QfSm/l2SOa7MkO19x
-         rfvj3hsv+8eMbTHlmu7DfsnFyeJWmZiYy9TIBzkyhQoocN24845rE0RjL/7u4LPAwBB1
-         LJvA==
-X-Gm-Message-State: AOAM5333woa4cHuOlJM88yw/cl1iqD1q6A5GTLOyrIIAxevVpbkXR0DY
-        T1oS1O24SJIH6QAH+a7oLbE=
-X-Google-Smtp-Source: ABdhPJz9OECA6Jnk5BjeyoGYro/YlaFuri49rE99Elu+5ph4M5m0IuO81LKNi5YctfA3hn3zGZAlOg==
-X-Received: by 2002:a05:600c:4ecb:b0:38e:d223:b0b4 with SMTP id g11-20020a05600c4ecb00b0038ed223b0b4mr2623518wmq.92.1649934596513;
-        Thu, 14 Apr 2022 04:09:56 -0700 (PDT)
-Received: from localhost.localdomain ([94.73.37.128])
-        by smtp.gmail.com with ESMTPSA id f13-20020a5d64cd000000b0020787751295sm1694504wri.35.2022.04.14.04.09.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 04:09:56 -0700 (PDT)
-From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH for-5.19/uclogic 4/4] HID: uclogic: Add support for Huion Q620M
-Date:   Thu, 14 Apr 2022 13:09:36 +0200
-Message-Id: <20220414110936.146378-5-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220414110936.146378-1-jose.exposito89@gmail.com>
-References: <20220414110936.146378-1-jose.exposito89@gmail.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=SEx8h5k778IPiOCrqVBNayGWwvKzbIxRReQ5rqQaPiY=;
+        b=6rCo13U8jy1InCcJrVet7485hXHWar7cQ6rM+Xg73WUt4npFkwqFcJGbyVdFIKgKoM
+         oKaoNH+oYIV2LGZGn0TV+QojupzCcG8KAJvuH1pwPWNncQNjQI3CzWan3zCB/u28fkPX
+         /dfp5sq90vm0wqi75unzipaltvJB9wa9bvDb2DaXmC7A1mMt/IOL0INeo6PqspOWk/IY
+         JooamoLTDOoKVq3I6H52TaccrBGTVHun/gcCvBAA7O5464Rwk3HQiBDXMmWlyHxRdHuD
+         IzWM+PIuwyqlJJXvfBP3MspmdZ3X4Oa5/oQo61SfsXbiiv7UVtQfMq7mF3n4vP+9dUNL
+         KUUA==
+X-Gm-Message-State: AOAM533+qHzTEHlMXKDuhuHHC/r+bulLak9gqsoLUNfOUbcQgd/Dq2TI
+        Ou/1v1o8UXKDw0lEPKS8iodA4/AujpfRh7uD7tU=
+X-Google-Smtp-Source: ABdhPJxZNi0p4i7oJxvhkUO7Rt6tT5brj/HNmdOqZMfAX9kZbOH3iLaG6+JwnzZzkszjfVzD3zRoqVjOIXM5QkBWZWU=
+X-Received: by 2002:a5d:67c3:0:b0:207:a0e8:1932 with SMTP id
+ n3-20020a5d67c3000000b00207a0e81932mr1713003wrw.436.1649935305280; Thu, 14
+ Apr 2022 04:21:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6000:1885:0:0:0:0 with HTTP; Thu, 14 Apr 2022 04:21:44
+ -0700 (PDT)
+Reply-To: Ubagroup.tgo12@gmail.com
+From:   Kristalina Georgieva <dimitryruslan@gmail.com>
+Date:   Thu, 14 Apr 2022 04:21:44 -0700
+Message-ID: <CAP5evUUmsFLQPi2pYBX+iXCVXgLgzjT=M6E8rhm5vqDsXPmTZA@mail.gmail.com>
+Subject: =?UTF-8?B?0JTQntCR0KDQq9CvINCd0JDQktCG0J3Qqw==?=
+To:     ikechukwu4125 <ikechukwu4125@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=1.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nikolai Kondrashov <spbnick@gmail.com>
-
-The Huion Q620M tablet needs a v2 frame dial.
-
-Signed-off-by: Nikolai Kondrashov <spbnick@gmail.com>
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
----
- drivers/hid/hid-uclogic-params.c | 20 +++++++++++++
- drivers/hid/hid-uclogic-rdesc.c  | 50 ++++++++++++++++++++++++++++++++
- drivers/hid/hid-uclogic-rdesc.h  | 10 +++++++
- 3 files changed, 80 insertions(+)
-
-diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
-index 3ac45e7572a0..09c332c6a412 100644
---- a/drivers/hid/hid-uclogic-params.c
-+++ b/drivers/hid/hid-uclogic-params.c
-@@ -777,6 +777,23 @@ static int uclogic_params_huion_init(struct uclogic_params *params,
- 			p.frame_list[1].touch_ring_max = 12;
- 			p.frame_list[1].touch_ring_flip_at = 6;
- 
-+			/* Create v2 frame dial parameters */
-+			rc = uclogic_params_frame_init_with_desc(
-+					&p.frame_list[2],
-+					uclogic_rdesc_v2_frame_dial_arr,
-+					uclogic_rdesc_v2_frame_dial_size,
-+					UCLOGIC_RDESC_V2_FRAME_DIAL_ID);
-+			if (rc != 0) {
-+				hid_err(hdev,
-+					"failed creating v2 frame dial parameters: %d\n",
-+					rc);
-+				goto cleanup;
-+			}
-+			p.frame_list[2].suffix = "Dial";
-+			p.frame_list[2].dev_id_byte =
-+				UCLOGIC_RDESC_V2_FRAME_DIAL_DEV_ID_BYTE;
-+			p.frame_list[2].bitmap_dial_byte = 5;
-+
- 			/*
- 			 * Link button and touch ring subreports from pen
- 			 * reports
-@@ -787,6 +804,9 @@ static int uclogic_params_huion_init(struct uclogic_params *params,
- 			p.pen.subreport_list[1].value = 0xf0;
- 			p.pen.subreport_list[1].id =
- 				UCLOGIC_RDESC_V2_FRAME_TOUCH_RING_ID;
-+			p.pen.subreport_list[2].value = 0xf1;
-+			p.pen.subreport_list[2].id =
-+				UCLOGIC_RDESC_V2_FRAME_DIAL_ID;
- 			goto output;
- 		}
- 		hid_dbg(hdev, "pen v2 parameters not found\n");
-diff --git a/drivers/hid/hid-uclogic-rdesc.c b/drivers/hid/hid-uclogic-rdesc.c
-index d64b607dce5d..dd792160fe7e 100644
---- a/drivers/hid/hid-uclogic-rdesc.c
-+++ b/drivers/hid/hid-uclogic-rdesc.c
-@@ -761,6 +761,56 @@ const __u8 uclogic_rdesc_v2_frame_touch_ring_arr[] = {
- const size_t uclogic_rdesc_v2_frame_touch_ring_size =
- 			sizeof(uclogic_rdesc_v2_frame_touch_ring_arr);
- 
-+/* Fixed report descriptor for (tweaked) v2 frame dial reports */
-+const __u8 uclogic_rdesc_v2_frame_dial_arr[] = {
-+	0x05, 0x01,         /*  Usage Page (Desktop),               */
-+	0x09, 0x07,         /*  Usage (Keypad),                     */
-+	0xA1, 0x01,         /*  Collection (Application),           */
-+	0x85, UCLOGIC_RDESC_V2_FRAME_DIAL_ID,
-+			    /*      Report ID (DIAL_ID),            */
-+	0x14,               /*      Logical Minimum (0),            */
-+	0x05, 0x0D,         /*      Usage Page (Digitizer),         */
-+	0x09, 0x39,         /*      Usage (Tablet Function Keys),   */
-+	0xA0,               /*      Collection (Physical),          */
-+	0x25, 0x01,         /*          Logical Maximum (1),        */
-+	0x75, 0x01,         /*          Report Size (1),            */
-+	0x95, 0x01,         /*          Report Count (1),           */
-+	0x81, 0x01,         /*          Input (Constant),           */
-+	0x05, 0x09,         /*          Usage Page (Button),        */
-+	0x09, 0x01,         /*          Usage (01h),                */
-+	0x95, 0x01,         /*          Report Count (1),           */
-+	0x81, 0x02,         /*          Input (Variable),           */
-+	0x95, 0x06,         /*          Report Count (6),           */
-+	0x81, 0x01,         /*          Input (Constant),           */
-+	0x75, 0x08,         /*          Report Size (8),            */
-+	0x95, 0x02,         /*          Report Count (2),           */
-+	0x81, 0x01,         /*          Input (Constant),           */
-+	0x05, 0x0D,         /*          Usage Page (Digitizer),     */
-+	0x0A, 0xFF, 0xFF,   /*          Usage (FFFFh),              */
-+	0x26, 0xFF, 0x00,   /*          Logical Maximum (255),      */
-+	0x95, 0x01,         /*          Report Count (1),           */
-+	0x81, 0x02,         /*          Input (Variable),           */
-+	0x05, 0x01,         /*          Usage Page (Desktop),       */
-+	0x09, 0x38,         /*          Usage (Wheel),              */
-+	0x95, 0x01,         /*          Report Count (1),           */
-+	0x15, 0xFF,         /*          Logical Minimum (-1),       */
-+	0x25, 0x01,         /*          Logical Maximum (1),        */
-+	0x81, 0x06,         /*          Input (Variable, Relative), */
-+	0x09, 0x30,         /*          Usage (X),                  */
-+	0x09, 0x31,         /*          Usage (Y),                  */
-+	0x14,               /*          Logical Minimum (0),        */
-+	0x25, 0x01,         /*          Logical Maximum (1),        */
-+	0x75, 0x01,         /*          Report Size (1),            */
-+	0x95, 0x02,         /*          Report Count (2),           */
-+	0x81, 0x02,         /*          Input (Variable),           */
-+	0x95, 0x2E,         /*          Report Count (46),          */
-+	0x81, 0x01,         /*          Input (Constant),           */
-+	0xC0,               /*      End Collection,                 */
-+	0xC0                /*  End Collection                      */
-+};
-+const size_t uclogic_rdesc_v2_frame_dial_size =
-+			sizeof(uclogic_rdesc_v2_frame_dial_arr);
-+
- /* Fixed report descriptor for Ugee EX07 frame */
- const __u8 uclogic_rdesc_ugee_ex07_frame_arr[] = {
- 	0x05, 0x01,             /*  Usage Page (Desktop),                   */
-diff --git a/drivers/hid/hid-uclogic-rdesc.h b/drivers/hid/hid-uclogic-rdesc.h
-index f15a9d8a946b..2ab6b7d5f5af 100644
---- a/drivers/hid/hid-uclogic-rdesc.h
-+++ b/drivers/hid/hid-uclogic-rdesc.h
-@@ -141,6 +141,16 @@ extern const size_t uclogic_rdesc_v2_frame_touch_ring_size;
- /* Device ID byte offset in v2 frame touch ring reports */
- #define UCLOGIC_RDESC_V2_FRAME_TOUCH_RING_DEV_ID_BYTE	0x4
- 
-+/* Report ID for tweaked v2 frame dial reports */
-+#define UCLOGIC_RDESC_V2_FRAME_DIAL_ID 0xf9
-+
-+/* Fixed report descriptor for (tweaked) v2 frame dial reports */
-+extern const __u8 uclogic_rdesc_v2_frame_dial_arr[];
-+extern const size_t uclogic_rdesc_v2_frame_dial_size;
-+
-+/* Device ID byte offset in v2 frame dial reports */
-+#define UCLOGIC_RDESC_V2_FRAME_DIAL_DEV_ID_BYTE	0x4
-+
- /* Fixed report descriptor for Ugee EX07 frame */
- extern const __u8 uclogic_rdesc_ugee_ex07_frame_arr[];
- extern const size_t uclogic_rdesc_ugee_ex07_frame_size;
--- 
-2.25.1
-
+0J/QsNCy0LDQttCw0L3RiyDQsdC10L3QtdGE0ZbRhtGL0Y/RgCwNCtCvINCw0LTQv9GA0LDQstGW
+0Z4g0LLQsNC8INCz0Y3RgtGLINC70ZbRgdGCINC80LXRgdGP0YYg0YLQsNC80YMsINCw0LvQtSDQ
+vdGW0YfQvtCz0LAg0LDQtCDQstCw0YEg0L3QtSDQsNGC0YDRi9C80LDRng0K0K8g0Z7Qv9GN0Z7Q
+vdC10L3Riywg0YjRgtC+INCy0Ysg0LDRgtGA0YvQvNCw0LvRliDRj9Cz0L4sINGWINGC0LDQvNGD
+INGPINC/0LDRgdC70LDRniDRj9Cz0L4g0LLQsNC8INC30L3QvtGeLA0K0J/QtdGA0Ygg0LfQsCDR
+ntGB0ZEsINGPINCzLdC20LAg0JrRgNGL0YjRgtCw0LvRltC90LAg0JPQtdC+0YDQs9GW0LXQstCw
+LCDQutGW0YDRg9GO0YfRiyDQtNGL0YDRjdC60YLQsNGAINGWDQrQn9GA0Y3Qt9GW0LTRjdC90YIg
+0JzRltC20L3QsNGA0L7QtNC90LDQs9CwINCy0LDQu9GO0YLQvdCw0LPQsCDRhNC+0L3QtNGDLg0K
+DQrQpNCw0LrRgtGL0YfQvdCwLCDQvNGLINGA0LDQt9Cz0LvQtdC00LfQtdC70ZYg0Z7RgdC1INC9
+0LDQstCw0LrQvtC70YzQvdGL0Y8g0L/QtdGA0LDRiNC60L7QtNGLINGWINC/0YDQsNCx0LvQtdC8
+0YsNCtCy0LDRiNCwINC90Y/Qv9C+0Z7QvdCw0Y8g0YLRgNCw0L3Qt9Cw0LrRhtGL0Y8g0ZYg0LLQ
+sNGI0LAg0L3Rj9C30LTQvtC70YzQvdCw0YHRhtGMINC/0LDQs9Cw0YHRltGG0Ywg0L/Qu9Cw0YbR
+j9C20YsNCtC/0LvQsNGC0LAg0LfQsCDQv9C10YDQsNC00LDRh9GDINGB0L/QsNCz0LDQvdGP0LXR
+htGG0LAg0Lcg0LLQsNGBINC30LAg0LLQsNGA0YvRj9C90YLRiw0K0L/QsNC/0Y/RgNGN0LTQvdGW
+0Y8g0L/QtdGA0LDQstC+0LTRiywg0L3QsNCy0LXQtNCw0LnRhtC1INC90LDRiCDRgdCw0LnRgiDQ
+tNC70Y8g0L/QsNGG0LLRj9GA0LTQttGN0L3QvdGPIDM4DQrCsCA1M+KAsjU2IOKAsyDQv9C9LtGI
+LiA3NyDCsCAy4oCyIDM54oCzINC3LtC0Lg0KDQrQnNGLINCh0LDQstC10YIg0LTRi9GA0Y3QutGC
+0LDRgNCw0Z4sINCh0YPRgdCy0LXRgtC90Ysg0LHQsNC90Log0ZYg0JLQsNC70Y7RgtC90Ysg0YTQ
+vtC90LQNCtCc0ZbQttC90LDRgNC+0LTQvdGLICjQnNCS0KQpINCS0LDRiNGL0L3Qs9GC0L7QvdCw
+LCDQsNC60YDRg9Cz0LAg0JrQsNC70YPQvNCx0ZbRjywg0YDQsNC30LDQvCDQtyDQlNGN0L/QsNGA
+0YLQsNC80LXQvdGC0LDQvA0K0JrQsNC30L3QsNGH0Y3QudGB0YLQstCwINCX0KjQkCDRliDQvdC1
+0LrQsNGC0L7RgNGL0Y8g0ZbQvdGI0YvRjyDRgdC70LXQtNGH0YvRjyDRntGB0YLQsNC90L7QstGL
+DQrQsNC60YLRg9Cw0LvRjNC90Ysg0YLRg9GCLCDRgyDQl9C70YPRh9Cw0L3Ri9GFINCo0YLQsNGC
+0LDRhSDQkNC80LXRgNGL0LrRli4g0LfQsNCz0LDQtNCw0Z4NCtC90LDRiCDQsNC00LTQt9C10Lsg
+0LPRgNCw0YjQvtCy0YvRhSDQv9C10YDQsNCy0L7QtNCw0Z4g0LfQsCDQvNGP0LbRgywgVW5pdGVk
+IEJhbmsgb2YNCkFmcmljYSBMb21lIFRvZ28sINC60LDQsSDQstGL0LTQsNGG0Ywg0LLQsNC8INC6
+0LDRgNGC0YMgVklTQSwg0LTQt9C1ICQNCjEsNSDQvNGW0LvRjNGR0L3QsCDQtyDQstCw0YjQsNCz
+0LAg0YTQvtC90LTRgywg0LTQu9GPINCx0L7Qu9GM0YjQsNCz0LAg0LLRi9Cy0LDQtNGDINC3INCy
+0LDRiNCw0LPQsCDRhNC+0L3QtNGDLg0KDQrQoyDRhdC+0LTQt9C1INC90LDRiNCw0LPQsCDRgNCw
+0YHRgdC70LXQtNCw0LLQsNC90L3RjyDQvNGLINCy0YvRj9Cy0ZbQu9GWINGBDQrQt9Cw0YHQvNGD
+0YfRjdC90L3QtSwg0YjRgtC+INCy0LDRiCDQsNC/0LvQsNGC0YMg0LfQsNGC0YDRi9C80LDQu9GW
+INC60LDRgNGD0LzQv9Cw0LLQsNC90YvRjyDRh9GL0L3QvtGe0L3RltC60ZYNCtCx0LDQvdC60LAs
+INGP0LrRltGPINGB0L/RgNCw0LHRg9GO0YbRjCDQv9C10YDQsNCy0LXRgdGG0ZYg0LLQsNGI0YvR
+jyDRgdGA0L7QtNC60ZYg0L3QsCDQstCw0YjRi9GPINGA0LDRhdGD0L3QutGWDQrQv9GA0YvQstCw
+0YLQvdGL0Y8uDQoNCtCGINGB0ZHQvdC90Y8g0LzRiyDQv9Cw0LLQtdC00LDQvNC70Y/QtdC8INCy
+0LDQvCwg0YjRgtC+INCy0LDRiCDRhNC+0L3QtCDQsdGL0Z4g0LfQsNC70ZbRh9Cw0L3RiyDQvdCw
+INC60LDRgNGC0YMNClZJU0Eg0LDQtCBVQkEgQmFuayDRliDRj9C90LAg0YLQsNC60YHQsNC80LAg
+0LPQsNGC0L7QstCw0Y8g0LTQsCDQv9Cw0YHRgtCw0Z7QutGWLiDQptGP0L/QtdGADQrQt9Cy0Y/R
+gNGC0LDQudGG0LXRgdGPINC00LAg0LTRi9GA0Y3QutGC0LDRgNCwIFVCQSBCYW5rLCDRj9Cz0L4g
+0LfQsNCy0YPRhtGMINGB0L/QsNC00LDRgCDQotC+0L3Rlg0KRWx1bWVsdSwg0Y3Qu9C10LrRgtGA
+0L7QvdC90LDRjyDQv9C+0YjRgtCwOiAoVWJhZ3JvdXAudGdvMTJAZ21haWwuY29tKQ0K0LrQsNCx
+INGA0LDRgdC60LDQt9Cw0YbRjCDQstCw0LwsINGP0Log0LDRgtGA0YvQvNCw0YbRjCDQutCw0YDR
+gtGDIFZJU0Eg0Z4g0LHQsNC90LrQsNC80LDRgtCw0YUuDQoNCtCXINC/0LDQstCw0LPQsNC5LA0K
+DQrQodC/0LDQtNCw0YDRi9C90Y8g0JrRgNGL0YjRgtCw0LvRltC90LAg0JPQtdC+0YDQs9GW0LXQ
+stCwDQo=
