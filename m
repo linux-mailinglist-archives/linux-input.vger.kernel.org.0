@@ -2,113 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C6AE500C0F
-	for <lists+linux-input@lfdr.de>; Thu, 14 Apr 2022 13:22:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCB8B501607
+	for <lists+linux-input@lfdr.de>; Thu, 14 Apr 2022 17:47:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233769AbiDNLYM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Apr 2022 07:24:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34998 "EHLO
+        id S240651AbiDNOrF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Apr 2022 10:47:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242636AbiDNLYL (ORCPT
+        with ESMTP id S1343917AbiDNOJd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Apr 2022 07:24:11 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D46C46C1C9
-        for <linux-input@vger.kernel.org>; Thu, 14 Apr 2022 04:21:46 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id i20so6415605wrb.13
-        for <linux-input@vger.kernel.org>; Thu, 14 Apr 2022 04:21:46 -0700 (PDT)
+        Thu, 14 Apr 2022 10:09:33 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 247C6B0D02
+        for <linux-input@vger.kernel.org>; Thu, 14 Apr 2022 07:01:43 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id u19so9271907lff.4
+        for <linux-input@vger.kernel.org>; Thu, 14 Apr 2022 07:01:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=SEx8h5k778IPiOCrqVBNayGWwvKzbIxRReQ5rqQaPiY=;
-        b=myPg4n1oBq1yxusiRfwYzCfFkUPHbnLoOnF3clZZdbJ3k6Yv5s18iXaKiULTAka8Nk
-         28uMCzkXyDihHUCGK5iOshq18OYprWZU1dVzm0moZj1774lFARXQ5nICD3AqruFP3CkY
-         mritXDK2qy6v1GkkC0cOz7Q9WSf5odrMymSIBi5x/o8C8YW8PGKJQAnWUP8hlbKWHOvP
-         Tj9HVyODbf82zFM65mKl7B0IZd0jLVNexQeiTwZLl7k4pkCWfZ3gBCiTyVQbnzwLsev+
-         1n1zTnpvg5DpgJos/gp9qCSKJBZIBWTAgbeIMimRvLSg55hcr95k+CFFYUEp957w06DY
-         +Tyw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=iSm/4CMJrzAb5nZSUwEnEIJgkv5AdD6FqaBeZPlRMBE=;
+        b=IyKHDZpEHYEL+kEydgx22b9VJbJwbTouMDG0wRA9RzcxX+2eDs1zvwqVRdB7vJ7jQk
+         +7juW7PjXMP3K/OzPAvqjExOOLayN4DxRBzWBUGe9pw1I7m8IccK9gSb9AAfXRX84dIy
+         tesZhP/rqoVQBiPveCjB7zvot8vC51JNPD3t8pdYSu1TV83izxK6LpuwazMyziCpWJUF
+         s76bRmrRh32IrQH5Z6BXrOgtwKVH8nWc+QUf71iPdylc2RRa/hLDnLI8Ryg1+PSaNaWI
+         FvyQ1is9+U6UETl1QqnjW5czCkPJjX0jF8mCWH8c7oxS4IQXCl7gQ8qp4D0RLA9giul/
+         RNHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=SEx8h5k778IPiOCrqVBNayGWwvKzbIxRReQ5rqQaPiY=;
-        b=6rCo13U8jy1InCcJrVet7485hXHWar7cQ6rM+Xg73WUt4npFkwqFcJGbyVdFIKgKoM
-         oKaoNH+oYIV2LGZGn0TV+QojupzCcG8KAJvuH1pwPWNncQNjQI3CzWan3zCB/u28fkPX
-         /dfp5sq90vm0wqi75unzipaltvJB9wa9bvDb2DaXmC7A1mMt/IOL0INeo6PqspOWk/IY
-         JooamoLTDOoKVq3I6H52TaccrBGTVHun/gcCvBAA7O5464Rwk3HQiBDXMmWlyHxRdHuD
-         IzWM+PIuwyqlJJXvfBP3MspmdZ3X4Oa5/oQo61SfsXbiiv7UVtQfMq7mF3n4vP+9dUNL
-         KUUA==
-X-Gm-Message-State: AOAM533+qHzTEHlMXKDuhuHHC/r+bulLak9gqsoLUNfOUbcQgd/Dq2TI
-        Ou/1v1o8UXKDw0lEPKS8iodA4/AujpfRh7uD7tU=
-X-Google-Smtp-Source: ABdhPJxZNi0p4i7oJxvhkUO7Rt6tT5brj/HNmdOqZMfAX9kZbOH3iLaG6+JwnzZzkszjfVzD3zRoqVjOIXM5QkBWZWU=
-X-Received: by 2002:a5d:67c3:0:b0:207:a0e8:1932 with SMTP id
- n3-20020a5d67c3000000b00207a0e81932mr1713003wrw.436.1649935305280; Thu, 14
- Apr 2022 04:21:45 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iSm/4CMJrzAb5nZSUwEnEIJgkv5AdD6FqaBeZPlRMBE=;
+        b=Q6UJCEy9ijdNCK/JkK8pOi/R6/9vNs4Wl4b8hlkkW4FDdtf6ZBVN6djJmkHheCEf15
+         3qKBci3EFtZCGLYmqsQfGTIIBFnn1j/pJhJyOYv4aHWkOnoxOCdj21O6pd1VRA+B1DOG
+         wNZfMm7Z14BclWs/OwhqGF4FYAi06SKbwKu25cCOHE6BgkdxfyDphY9QQui7vBtl4nFy
+         LRMvIeSWbsRh0N0H3Y3S4W74R4W2WpgoluSrnxqUpCgR3mfECJcvs7+O2URVT5RanQ/p
+         kepdGF5CY7guG92t/n0BnC9pB+O0p2zP+f2aA3Td+JU0L/o3bVRiCG0y7vXI3CuzI2XU
+         YMSg==
+X-Gm-Message-State: AOAM530ekkpP4J6IzHGiOj7N37J8JPj9qF4F5IPCYOPeGdiOzpuASK9Q
+        MNlWP8Rbs2PyzNOrOYrRGr72LqauT8iA5dsFn+0djlkbDBg=
+X-Google-Smtp-Source: ABdhPJwye+Z6I2u0K6i5obVzAjlyLDdko7qv9DJa6JqeqruIL4ivSGxqGFJ4h8p3bht5A9VjzKaJFKZAtWKwBDsS/HY=
+X-Received: by 2002:a05:6512:2102:b0:46b:b6f2:83ab with SMTP id
+ q2-20020a056512210200b0046bb6f283abmr1989460lfr.202.1649944901883; Thu, 14
+ Apr 2022 07:01:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6000:1885:0:0:0:0 with HTTP; Thu, 14 Apr 2022 04:21:44
- -0700 (PDT)
-Reply-To: Ubagroup.tgo12@gmail.com
-From:   Kristalina Georgieva <dimitryruslan@gmail.com>
-Date:   Thu, 14 Apr 2022 04:21:44 -0700
-Message-ID: <CAP5evUUmsFLQPi2pYBX+iXCVXgLgzjT=M6E8rhm5vqDsXPmTZA@mail.gmail.com>
-Subject: =?UTF-8?B?0JTQntCR0KDQq9CvINCd0JDQktCG0J3Qqw==?=
-To:     ikechukwu4125 <ikechukwu4125@gmail.com>
+References: <CAO3Us=m-Tj2yrt4=1nnr=CgUA2LR29W5DbPAP4T8xwt2VS=FnA@mail.gmail.com>
+ <CA+jURctcSHLb3-7VYpUUP9_RF_71xgWnM-v8UwcynRZkdHYDkg@mail.gmail.com>
+In-Reply-To: <CA+jURctcSHLb3-7VYpUUP9_RF_71xgWnM-v8UwcynRZkdHYDkg@mail.gmail.com>
+From:   Marcos Alano <marcoshalano@gmail.com>
+Date:   Thu, 14 Apr 2022 11:01:30 -0300
+Message-ID: <CAO3Us=mnboZut6AJnqbT6Okc+ABmSUGzESeQHe-pwXCmSq04Og@mail.gmail.com>
+Subject: Re: Getting the raw keycode to implement a new key in Linux
+To:     Harry Cutts <hcutts@chromium.org>
+Cc:     HID CORE LAYER <linux-input@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=1.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-0J/QsNCy0LDQttCw0L3RiyDQsdC10L3QtdGE0ZbRhtGL0Y/RgCwNCtCvINCw0LTQv9GA0LDQstGW
-0Z4g0LLQsNC8INCz0Y3RgtGLINC70ZbRgdGCINC80LXRgdGP0YYg0YLQsNC80YMsINCw0LvQtSDQ
-vdGW0YfQvtCz0LAg0LDQtCDQstCw0YEg0L3QtSDQsNGC0YDRi9C80LDRng0K0K8g0Z7Qv9GN0Z7Q
-vdC10L3Riywg0YjRgtC+INCy0Ysg0LDRgtGA0YvQvNCw0LvRliDRj9Cz0L4sINGWINGC0LDQvNGD
-INGPINC/0LDRgdC70LDRniDRj9Cz0L4g0LLQsNC8INC30L3QvtGeLA0K0J/QtdGA0Ygg0LfQsCDR
-ntGB0ZEsINGPINCzLdC20LAg0JrRgNGL0YjRgtCw0LvRltC90LAg0JPQtdC+0YDQs9GW0LXQstCw
-LCDQutGW0YDRg9GO0YfRiyDQtNGL0YDRjdC60YLQsNGAINGWDQrQn9GA0Y3Qt9GW0LTRjdC90YIg
-0JzRltC20L3QsNGA0L7QtNC90LDQs9CwINCy0LDQu9GO0YLQvdCw0LPQsCDRhNC+0L3QtNGDLg0K
-DQrQpNCw0LrRgtGL0YfQvdCwLCDQvNGLINGA0LDQt9Cz0LvQtdC00LfQtdC70ZYg0Z7RgdC1INC9
-0LDQstCw0LrQvtC70YzQvdGL0Y8g0L/QtdGA0LDRiNC60L7QtNGLINGWINC/0YDQsNCx0LvQtdC8
-0YsNCtCy0LDRiNCwINC90Y/Qv9C+0Z7QvdCw0Y8g0YLRgNCw0L3Qt9Cw0LrRhtGL0Y8g0ZYg0LLQ
-sNGI0LAg0L3Rj9C30LTQvtC70YzQvdCw0YHRhtGMINC/0LDQs9Cw0YHRltGG0Ywg0L/Qu9Cw0YbR
-j9C20YsNCtC/0LvQsNGC0LAg0LfQsCDQv9C10YDQsNC00LDRh9GDINGB0L/QsNCz0LDQvdGP0LXR
-htGG0LAg0Lcg0LLQsNGBINC30LAg0LLQsNGA0YvRj9C90YLRiw0K0L/QsNC/0Y/RgNGN0LTQvdGW
-0Y8g0L/QtdGA0LDQstC+0LTRiywg0L3QsNCy0LXQtNCw0LnRhtC1INC90LDRiCDRgdCw0LnRgiDQ
-tNC70Y8g0L/QsNGG0LLRj9GA0LTQttGN0L3QvdGPIDM4DQrCsCA1M+KAsjU2IOKAsyDQv9C9LtGI
-LiA3NyDCsCAy4oCyIDM54oCzINC3LtC0Lg0KDQrQnNGLINCh0LDQstC10YIg0LTRi9GA0Y3QutGC
-0LDRgNCw0Z4sINCh0YPRgdCy0LXRgtC90Ysg0LHQsNC90Log0ZYg0JLQsNC70Y7RgtC90Ysg0YTQ
-vtC90LQNCtCc0ZbQttC90LDRgNC+0LTQvdGLICjQnNCS0KQpINCS0LDRiNGL0L3Qs9GC0L7QvdCw
-LCDQsNC60YDRg9Cz0LAg0JrQsNC70YPQvNCx0ZbRjywg0YDQsNC30LDQvCDQtyDQlNGN0L/QsNGA
-0YLQsNC80LXQvdGC0LDQvA0K0JrQsNC30L3QsNGH0Y3QudGB0YLQstCwINCX0KjQkCDRliDQvdC1
-0LrQsNGC0L7RgNGL0Y8g0ZbQvdGI0YvRjyDRgdC70LXQtNGH0YvRjyDRntGB0YLQsNC90L7QstGL
-DQrQsNC60YLRg9Cw0LvRjNC90Ysg0YLRg9GCLCDRgyDQl9C70YPRh9Cw0L3Ri9GFINCo0YLQsNGC
-0LDRhSDQkNC80LXRgNGL0LrRli4g0LfQsNCz0LDQtNCw0Z4NCtC90LDRiCDQsNC00LTQt9C10Lsg
-0LPRgNCw0YjQvtCy0YvRhSDQv9C10YDQsNCy0L7QtNCw0Z4g0LfQsCDQvNGP0LbRgywgVW5pdGVk
-IEJhbmsgb2YNCkFmcmljYSBMb21lIFRvZ28sINC60LDQsSDQstGL0LTQsNGG0Ywg0LLQsNC8INC6
-0LDRgNGC0YMgVklTQSwg0LTQt9C1ICQNCjEsNSDQvNGW0LvRjNGR0L3QsCDQtyDQstCw0YjQsNCz
-0LAg0YTQvtC90LTRgywg0LTQu9GPINCx0L7Qu9GM0YjQsNCz0LAg0LLRi9Cy0LDQtNGDINC3INCy
-0LDRiNCw0LPQsCDRhNC+0L3QtNGDLg0KDQrQoyDRhdC+0LTQt9C1INC90LDRiNCw0LPQsCDRgNCw
-0YHRgdC70LXQtNCw0LLQsNC90L3RjyDQvNGLINCy0YvRj9Cy0ZbQu9GWINGBDQrQt9Cw0YHQvNGD
-0YfRjdC90L3QtSwg0YjRgtC+INCy0LDRiCDQsNC/0LvQsNGC0YMg0LfQsNGC0YDRi9C80LDQu9GW
-INC60LDRgNGD0LzQv9Cw0LLQsNC90YvRjyDRh9GL0L3QvtGe0L3RltC60ZYNCtCx0LDQvdC60LAs
-INGP0LrRltGPINGB0L/RgNCw0LHRg9GO0YbRjCDQv9C10YDQsNCy0LXRgdGG0ZYg0LLQsNGI0YvR
-jyDRgdGA0L7QtNC60ZYg0L3QsCDQstCw0YjRi9GPINGA0LDRhdGD0L3QutGWDQrQv9GA0YvQstCw
-0YLQvdGL0Y8uDQoNCtCGINGB0ZHQvdC90Y8g0LzRiyDQv9Cw0LLQtdC00LDQvNC70Y/QtdC8INCy
-0LDQvCwg0YjRgtC+INCy0LDRiCDRhNC+0L3QtCDQsdGL0Z4g0LfQsNC70ZbRh9Cw0L3RiyDQvdCw
-INC60LDRgNGC0YMNClZJU0Eg0LDQtCBVQkEgQmFuayDRliDRj9C90LAg0YLQsNC60YHQsNC80LAg
-0LPQsNGC0L7QstCw0Y8g0LTQsCDQv9Cw0YHRgtCw0Z7QutGWLiDQptGP0L/QtdGADQrQt9Cy0Y/R
-gNGC0LDQudGG0LXRgdGPINC00LAg0LTRi9GA0Y3QutGC0LDRgNCwIFVCQSBCYW5rLCDRj9Cz0L4g
-0LfQsNCy0YPRhtGMINGB0L/QsNC00LDRgCDQotC+0L3Rlg0KRWx1bWVsdSwg0Y3Qu9C10LrRgtGA
-0L7QvdC90LDRjyDQv9C+0YjRgtCwOiAoVWJhZ3JvdXAudGdvMTJAZ21haWwuY29tKQ0K0LrQsNCx
-INGA0LDRgdC60LDQt9Cw0YbRjCDQstCw0LwsINGP0Log0LDRgtGA0YvQvNCw0YbRjCDQutCw0YDR
-gtGDIFZJU0Eg0Z4g0LHQsNC90LrQsNC80LDRgtCw0YUuDQoNCtCXINC/0LDQstCw0LPQsNC5LA0K
-DQrQodC/0LDQtNCw0YDRi9C90Y8g0JrRgNGL0YjRgtCw0LvRltC90LAg0JPQtdC+0YDQs9GW0LXQ
-stCwDQo=
+Thanks for the tip!
+
+I found the scancode in dmesg log. After that, I used udev to
+implement a rule to mute the microphone. Now I need to develop or use
+an existent daemon to control the boost mode. I think it won't need
+any incursion in kernel code. :)
+
+On Tue, Apr 12, 2022 at 10:20 PM Harry Cutts <hcutts@chromium.org> wrote:
+>
+> On Tue, 12 Apr 2022 at 16:29, Marcos Alano <marcoshalano@gmail.com> wrote:
+> > I have a Dell G15 5511 laptop and this machine has a very particular
+> > feature: a key called "G- key" (accessed pressing Fn+F7) which is used
+> > (on Windows at least) to do a boost in the machine. The details about
+> > how this boost works is not the question here. The question is: How
+> > can I find, in the kernel level, what code is emitted? I want to know
+> > that, so I can start hacking around and come up with a patch, so the
+> > key can be recognized by the OS, so a user space daemon can be
+> > triggered to do the boost part (or any other action).
+>
+> Probably the best starting place is to run the evtest command, choose
+> your keyboard, and press the key. That should at least give you an
+> MSC_SCAN line giving you the scan code, unless Dell have done
+> something in their keyboard controller to treat Fn+F7 as something
+> other than a normal keypress.
+>
+> Harry Cutts
+> Chrome OS Touch/Input team
+
+
+
+-- 
+Marcos H. Alano
+Linux System Administrator
+marcoshalano@gmail.com
