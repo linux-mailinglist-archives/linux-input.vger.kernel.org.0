@@ -2,101 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCB8B501607
-	for <lists+linux-input@lfdr.de>; Thu, 14 Apr 2022 17:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEEC0501893
+	for <lists+linux-input@lfdr.de>; Thu, 14 Apr 2022 18:28:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240651AbiDNOrF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Apr 2022 10:47:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50402 "EHLO
+        id S234864AbiDNQPX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Apr 2022 12:15:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343917AbiDNOJd (ORCPT
+        with ESMTP id S1344086AbiDNPxm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Apr 2022 10:09:33 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 247C6B0D02
-        for <linux-input@vger.kernel.org>; Thu, 14 Apr 2022 07:01:43 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id u19so9271907lff.4
-        for <linux-input@vger.kernel.org>; Thu, 14 Apr 2022 07:01:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iSm/4CMJrzAb5nZSUwEnEIJgkv5AdD6FqaBeZPlRMBE=;
-        b=IyKHDZpEHYEL+kEydgx22b9VJbJwbTouMDG0wRA9RzcxX+2eDs1zvwqVRdB7vJ7jQk
-         +7juW7PjXMP3K/OzPAvqjExOOLayN4DxRBzWBUGe9pw1I7m8IccK9gSb9AAfXRX84dIy
-         tesZhP/rqoVQBiPveCjB7zvot8vC51JNPD3t8pdYSu1TV83izxK6LpuwazMyziCpWJUF
-         s76bRmrRh32IrQH5Z6BXrOgtwKVH8nWc+QUf71iPdylc2RRa/hLDnLI8Ryg1+PSaNaWI
-         FvyQ1is9+U6UETl1QqnjW5czCkPJjX0jF8mCWH8c7oxS4IQXCl7gQ8qp4D0RLA9giul/
-         RNHQ==
+        Thu, 14 Apr 2022 11:53:42 -0400
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DAE9FC113;
+        Thu, 14 Apr 2022 08:34:07 -0700 (PDT)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-df22f50e0cso5624157fac.3;
+        Thu, 14 Apr 2022 08:34:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iSm/4CMJrzAb5nZSUwEnEIJgkv5AdD6FqaBeZPlRMBE=;
-        b=Q6UJCEy9ijdNCK/JkK8pOi/R6/9vNs4Wl4b8hlkkW4FDdtf6ZBVN6djJmkHheCEf15
-         3qKBci3EFtZCGLYmqsQfGTIIBFnn1j/pJhJyOYv4aHWkOnoxOCdj21O6pd1VRA+B1DOG
-         wNZfMm7Z14BclWs/OwhqGF4FYAi06SKbwKu25cCOHE6BgkdxfyDphY9QQui7vBtl4nFy
-         LRMvIeSWbsRh0N0H3Y3S4W74R4W2WpgoluSrnxqUpCgR3mfECJcvs7+O2URVT5RanQ/p
-         kepdGF5CY7guG92t/n0BnC9pB+O0p2zP+f2aA3Td+JU0L/o3bVRiCG0y7vXI3CuzI2XU
-         YMSg==
-X-Gm-Message-State: AOAM530ekkpP4J6IzHGiOj7N37J8JPj9qF4F5IPCYOPeGdiOzpuASK9Q
-        MNlWP8Rbs2PyzNOrOYrRGr72LqauT8iA5dsFn+0djlkbDBg=
-X-Google-Smtp-Source: ABdhPJwye+Z6I2u0K6i5obVzAjlyLDdko7qv9DJa6JqeqruIL4ivSGxqGFJ4h8p3bht5A9VjzKaJFKZAtWKwBDsS/HY=
-X-Received: by 2002:a05:6512:2102:b0:46b:b6f2:83ab with SMTP id
- q2-20020a056512210200b0046bb6f283abmr1989460lfr.202.1649944901883; Thu, 14
- Apr 2022 07:01:41 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=XgRBiTVC/FFWfC6f7VFIlxavcDc/C7IkOvLYm4Mfzvs=;
+        b=QQ2vRYRmlckrTL2uohmikWroCLGEKLv0jKTlcPyESt926PPnpwMcTeFzlpWehuNSTA
+         tflGx73ggnfWtCf6c07p7TFZ1CVVxqQcZhqcEhCZ55OCx4Mp3eLY0X+mW5bWx11g8RQE
+         jm//i5g41NtucMGPNs2z2rjn4QxE0Y4ZrWp6pVGNcHsmg5AWMECHdD+0ggFQTOsmPiHR
+         bQU2cvhqzbLzle/L9M7aOVB3Y/7KrukGrBCJxB/FFvg/iDnhH93ZGN2vnnVx5mxz3d/f
+         uVtG2LtyzFoxQjlK0WNUxzmO9nugzThEUg4HQx6GEy/OVnLlVs1ggHm/kjHm8CEHJeS+
+         6QjA==
+X-Gm-Message-State: AOAM532mhJzNiOj+41uxL2P01P3UkUGOxiY96GmtfB0szSeanPpnGO/c
+        /FxYjxmCzhDIIf5MNheDEA==
+X-Google-Smtp-Source: ABdhPJxO41UyWKPRLV35Yj+ApQ4PFF6XoQyq8uSctU7sQmGIJXL6DxUImc9X9hOqKaDbOcuZF4s6Kw==
+X-Received: by 2002:a05:6870:434f:b0:bf:9f2a:26f0 with SMTP id x15-20020a056870434f00b000bf9f2a26f0mr1521011oah.40.1649950446230;
+        Thu, 14 Apr 2022 08:34:06 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id h8-20020a056830400800b005cdceb42261sm120283ots.66.2022.04.14.08.34.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 08:34:05 -0700 (PDT)
+Received: (nullmailer pid 2095983 invoked by uid 1000);
+        Thu, 14 Apr 2022 15:34:04 -0000
+Date:   Thu, 14 Apr 2022 10:34:04 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Anjelique Melendez <quic_amelende@quicinc.com>
+Cc:     dmitry.torokhov@gmail.com, corbet@lwn.net, sre@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, collinsd@codeaurora.org,
+        bjorn.andersson@linaro.org, swboyd@chromium.org,
+        skakit@codeaurora.org, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        David Collins <quic_collinsd@quicinc.com>
+Subject: Re: [PATCH v5 1/5] dt-bindings: power: reset: qcom-pon: update "reg"
+ property details
+Message-ID: <Ylg+7MVRS4sKbOFb@robh.at.kernel.org>
+References: <20220411200506.22891-1-quic_amelende@quicinc.com>
+ <20220411200506.22891-2-quic_amelende@quicinc.com>
 MIME-Version: 1.0
-References: <CAO3Us=m-Tj2yrt4=1nnr=CgUA2LR29W5DbPAP4T8xwt2VS=FnA@mail.gmail.com>
- <CA+jURctcSHLb3-7VYpUUP9_RF_71xgWnM-v8UwcynRZkdHYDkg@mail.gmail.com>
-In-Reply-To: <CA+jURctcSHLb3-7VYpUUP9_RF_71xgWnM-v8UwcynRZkdHYDkg@mail.gmail.com>
-From:   Marcos Alano <marcoshalano@gmail.com>
-Date:   Thu, 14 Apr 2022 11:01:30 -0300
-Message-ID: <CAO3Us=mnboZut6AJnqbT6Okc+ABmSUGzESeQHe-pwXCmSq04Og@mail.gmail.com>
-Subject: Re: Getting the raw keycode to implement a new key in Linux
-To:     Harry Cutts <hcutts@chromium.org>
-Cc:     HID CORE LAYER <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220411200506.22891-2-quic_amelende@quicinc.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Thanks for the tip!
+On Mon, Apr 11, 2022 at 01:05:03PM -0700, Anjelique Melendez wrote:
+> From: David Collins <quic_collinsd@quicinc.com>
+> 
+> Update the description of "reg" property to add the PON_PBS base
+> address along with PON_HLOS base address.  Also add "reg-names"
+> property description.
+> 
+> Signed-off-by: David Collins <quic_collinsd@quicinc.com>
+> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+> ---
+>  .../bindings/power/reset/qcom,pon.yaml | 20 +++++++++++++++++++-
+>  1 file changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+> index 353f155d..542200b2 100644
+> --- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+> +++ b/Documentation/bindings/power/reset/qcom,pon.yaml
+> @@ -26,7 +26,25 @@ properties:
+>        - qcom,pm8998-pon
+>  
+>    reg:
+> -    maxItems: 1
+> +    description: |
+> +      Specifies the SPMI base address for the PON (power-on) peripheral.  For
+> +      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
+> +      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
+> +      peripherals.  In that case, the PON_PBS address needs to be specified to
+> +      facilitate software debouncing on some PMICs.
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    description: |
+> +      For PON GEN1 and GEN2, it should be "pon".  For PON GEN3 it should include
+> +      "pon_hlos" and optionally "pon_pbs".
+> +    minItems: 1
+> +    maxItems: 2
+> +    items:
+> +      - const: pon_hlos
+> +      - const: pon_pbs
+> +      - const: pon
 
-I found the scancode in dmesg log. After that, I used udev to
-implement a rule to mute the microphone. Now I need to develop or use
-an existent daemon to control the boost mode. I think it won't need
-any incursion in kernel code. :)
+This says there are 3 entries, but you limited to 2. The schema also 
+doesn't match what the description says. Entries should be extended by 
+adding new entries to the end and keeping optional entries last. So like 
+this:
 
-On Tue, Apr 12, 2022 at 10:20 PM Harry Cutts <hcutts@chromium.org> wrote:
->
-> On Tue, 12 Apr 2022 at 16:29, Marcos Alano <marcoshalano@gmail.com> wrote:
-> > I have a Dell G15 5511 laptop and this machine has a very particular
-> > feature: a key called "G- key" (accessed pressing Fn+F7) which is used
-> > (on Windows at least) to do a boost in the machine. The details about
-> > how this boost works is not the question here. The question is: How
-> > can I find, in the kernel level, what code is emitted? I want to know
-> > that, so I can start hacking around and come up with a patch, so the
-> > key can be recognized by the OS, so a user space daemon can be
-> > triggered to do the boost part (or any other action).
->
-> Probably the best starting place is to run the evtest command, choose
-> your keyboard, and press the key. That should at least give you an
-> MSC_SCAN line giving you the scan code, unless Dell have done
-> something in their keyboard controller to treat Fn+F7 as something
-> other than a normal keypress.
->
-> Harry Cutts
-> Chrome OS Touch/Input team
+minItems: 1
+items:
+  - const: pon
+  - const: pon_hlos
+  - const: pon_pbs
 
-
-
--- 
-Marcos H. Alano
-Linux System Administrator
-marcoshalano@gmail.com
+Rob
