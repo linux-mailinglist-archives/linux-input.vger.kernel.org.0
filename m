@@ -2,101 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61343502804
-	for <lists+linux-input@lfdr.de>; Fri, 15 Apr 2022 12:13:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 545CA502CFB
+	for <lists+linux-input@lfdr.de>; Fri, 15 Apr 2022 17:40:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352116AbiDOKPs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Apr 2022 06:15:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46116 "EHLO
+        id S1354736AbiDOPjn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Apr 2022 11:39:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239572AbiDOKPr (ORCPT
+        with ESMTP id S1356284AbiDOPj2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Apr 2022 06:15:47 -0400
-X-Greylist: delayed 376 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 15 Apr 2022 03:13:18 PDT
-Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com [51.81.35.219])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0180BA330;
-        Fri, 15 Apr 2022 03:13:18 -0700 (PDT)
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
-        by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 2840520E0A;
-        Fri, 15 Apr 2022 10:07:01 +0000 (UTC)
-Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.154])
-        by relay5.mymailcheap.com (Postfix) with ESMTPS id 8BD71206D3;
-        Fri, 15 Apr 2022 10:06:57 +0000 (UTC)
-Received: from filter2.mymailcheap.com (filter2.mymailcheap.com [91.134.140.82])
-        by relay4.mymailcheap.com (Postfix) with ESMTPS id 31FDF2000D;
-        Fri, 15 Apr 2022 10:06:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-        by filter2.mymailcheap.com (Postfix) with ESMTP id 2440D2A7E6;
-        Fri, 15 Apr 2022 10:06:55 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
-Received: from filter2.mymailcheap.com ([127.0.0.1])
-        by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id OuEKGbB-6jHn; Fri, 15 Apr 2022 10:06:54 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-        (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by filter2.mymailcheap.com (Postfix) with ESMTPS;
-        Fri, 15 Apr 2022 10:06:54 +0000 (UTC)
-Received: from localhost.localdomain (unknown [121.33.113.66])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail20.mymailcheap.com (Postfix) with ESMTPSA id 47B2D405CE;
-        Fri, 15 Apr 2022 10:06:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-        t=1650017213; bh=Q/Ove5tJqs+Tr496dhIgfjb8Pyl80BkiMfu2H5/DRtA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=BLW4TZN+tyuH1XcvpgGK4QaPUEeuvjd+Bu+EUntOHytE9wiaAx/xoQS0g4+6yrI6A
-         3k0lUpBE4vPJKvUPLzL/R1/8+e+nPwn9WdK+mR1NuKxxyTCC5Ph+11zHJXdDYP6E/f
-         jdd15hkRtmMHfbSpHCTRVB8trj4td8gxlyiLHa/w=
-From:   Icenowy Zheng <icenowy@aosc.io>
-To:     "Daniel J . Ogorchock" <djogorchock@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH] HID: nintendo: deregister home LED when it fails
-Date:   Fri, 15 Apr 2022 18:04:32 +0800
-Message-Id: <20220415100432.23453-1-icenowy@aosc.io>
-X-Mailer: git-send-email 2.35.1
+        Fri, 15 Apr 2022 11:39:28 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB4D13C72F
+        for <linux-input@vger.kernel.org>; Fri, 15 Apr 2022 08:36:58 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id ay11-20020a05600c1e0b00b0038eb92fa965so7951106wmb.4
+        for <linux-input@vger.kernel.org>; Fri, 15 Apr 2022 08:36:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=bjsrGI6b0RLOajPWZ9Roh+05A2VIae/Wu/ntaXQOjlw=;
+        b=3wSns6Qsgrs4cf7sI/QmPRIbAuQFGeQOWy+IwaG4p/9G7wFu2NT3G9NIDox8GsYa83
+         lIW5eRDkq87Z8CCCA5g4ZABFIx+PXqihPJ7jJ7jd9wDZYLFNkMXHH5HGR66XCPF+9dTG
+         yBbvNBiJWOAM9LE0PerlZPkmCWGL5Ca6Ij+gCgK4iPuD2xWi2jTf4VeR6K0hBkuKstUA
+         eKhtkY7CUj6iRNbZBGBOx99przt0jbd2VdOJuWEFD6h94LZnJNuDAkyx1bSVjSteJyCP
+         +bftqFga/mY4fsJ8lJf2VOI9bkrKtnifVoc8pP8x+0fPRnZD60jCuzijfIPp+zGjyYwG
+         GFyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=bjsrGI6b0RLOajPWZ9Roh+05A2VIae/Wu/ntaXQOjlw=;
+        b=zLCDZ9KgvO3W2LxSMLik+rvRsBcmX8O8s9J/+x+AkrAujasyXBgaH2XmZSyanx9mVJ
+         4zYi31HTqWRdqGB0QMa1RY7QtKMn4FKFxvO6dPPv5iS7E9inuYq1k+fUyDFcpODkl0DL
+         z8TtrrNH0nN1TNiFRlgSFxuYzuf05Y2gFbSXlRDLkw2UPl82CwSUsIyw+f3pleZgLqKb
+         6F0fK3y9OAHaLz6QzVNAXsJdvmePRWROCbBxtWEghiTM0XLEyNMSoflUwUqXLYQDynRE
+         2FBrB+qY1a6pPdLiaetU1sl7baT8y/zgQEWXz6GC1aUyfG7a8J2MLTYBblWHhOzjLw7+
+         azYQ==
+X-Gm-Message-State: AOAM5304xjqKkACqAgbWhLzA5KwWu4m7n43Aj1yutMisDpiwfwDGpnmD
+        aOFk/IZGeIoxWN9GaRv/TuTyCw==
+X-Google-Smtp-Source: ABdhPJys6pbLabTkeRziK+wc3YsUE7sp3OaYxjUErcU8DVV+dThnk4NTfuDDdx9muo/luGe71Ahcxg==
+X-Received: by 2002:a7b:c8cd:0:b0:38e:c2c1:5219 with SMTP id f13-20020a7bc8cd000000b0038ec2c15219mr3731923wml.151.1650037017310;
+        Fri, 15 Apr 2022 08:36:57 -0700 (PDT)
+Received: from localhost.localdomain ([88.160.162.107])
+        by smtp.gmail.com with ESMTPSA id c24-20020a7bc018000000b0038a18068cf5sm8459292wmb.15.2022.04.15.08.36.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Apr 2022 08:36:56 -0700 (PDT)
+From:   Fabien Parent <fparent@baylibre.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Fabien Parent <fparent@baylibre.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/7] dt-bindings: input: mtk-pmic-keys: add MT6359 binding definition
+Date:   Fri, 15 Apr 2022 17:36:23 +0200
+Message-Id: <20220415153629.1817202-2-fparent@baylibre.com>
+X-Mailer: git-send-email 2.35.2
+In-Reply-To: <20220415153629.1817202-1-fparent@baylibre.com>
+References: <20220415153629.1817202-1-fparent@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        T_SCC_BODY_TEXT_LINE,T_SPF_PERMERROR autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some Pro Controller compatible controllers do not support home LED, and
-will fail when setting it. Currently this leads to probe failure.
+Add binding definition for the support of the MT6359 keyboard driver.
 
-Change the code that fails probing to deregistering home LED.
-
-Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+Signed-off-by: Fabien Parent <fparent@baylibre.com>
 ---
- drivers/hid/hid-nintendo.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ Documentation/devicetree/bindings/input/mtk-pmic-keys.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 2204de889739..ed93287c3afc 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -1900,9 +1900,8 @@ static int joycon_leds_create(struct joycon_ctlr *ctlr)
- 		/* Set the home LED to 0 as default state */
- 		ret = joycon_home_led_brightness_set(led, 0);
- 		if (ret) {
--			hid_err(hdev, "Failed to set home LED dflt; ret=%d\n",
--									ret);
--			return ret;
-+			hid_warn(hdev, "Failed to set home LED dflt, unregistering home LED");
-+			devm_led_classdev_unregister(&hdev->dev, led);
- 		}
- 	}
+diff --git a/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt b/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
+index 9d00f2a8e13a..afe9062a4dc7 100644
+--- a/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
++++ b/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
+@@ -13,6 +13,7 @@ Required properties:
+ 	- "mediatek,mt6397-keys"
+ 	- "mediatek,mt6323-keys"
+ 	- "mediatek,mt6358-keys"
++	- "mediatek,mt6359-keys"
+ - linux,keycodes: See Documentation/devicetree/bindings/input/input.yaml
  
+ Optional Properties:
 -- 
-2.35.1
+2.35.2
 
