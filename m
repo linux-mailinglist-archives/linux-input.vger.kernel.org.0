@@ -2,65 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 161E0503144
-	for <lists+linux-input@lfdr.de>; Sat, 16 Apr 2022 01:10:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 405DE5034A3
+	for <lists+linux-input@lfdr.de>; Sat, 16 Apr 2022 09:37:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229455AbiDOWcL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Apr 2022 18:32:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50850 "EHLO
+        id S229970AbiDPHj6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 16 Apr 2022 03:39:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231240AbiDOWcJ (ORCPT
+        with ESMTP id S229445AbiDPHj6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Apr 2022 18:32:09 -0400
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 739B319C07;
-        Fri, 15 Apr 2022 15:29:38 -0700 (PDT)
-Received: by mail-io1-xd36.google.com with SMTP id b16so9485698ioz.3;
-        Fri, 15 Apr 2022 15:29:38 -0700 (PDT)
+        Sat, 16 Apr 2022 03:39:58 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63F5BE2F5C;
+        Sat, 16 Apr 2022 00:37:27 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id q19so10062298pgm.6;
+        Sat, 16 Apr 2022 00:37:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CXMRCPg/c9Nbak8x8/xFoJWKumOKkUty3hELsz55Pu4=;
-        b=BVk6Q02XXWGXTFhTGS3/ioT/vHTmKEm4UMQx3wVby/AH13igNBSsMblXpYfug+4AAU
-         Zgdp/vETR6z9zaY6GP9lD5T/HFcCPujlJsHSD+morp3OSsZMw2rYuCyj48Wa7BPah+C6
-         QJ/SISJB/9Y96b0HbRaauuAwWl9hjMPsVlnSLGuji7sTPbWEXXwriLH9DXCtfVlZf490
-         VKBNGydOvnXQ2gZo53F4jou5BIUvT8ijKcSHxVZFewhrGGzvV06+eKjCnvYItIxy76bU
-         MowdSBwK1UfaA8YVM3GgldPYLoM2EdkuxlVn5VOiZZO3qD3VG+bMHZYWThAnIW093ObS
-         kFtQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=nKscqrpjgkCr4xCyAbvUJu6oMzQ5EF2mv6v04Gczg20=;
+        b=cCyIYCok9lQbFm/qUBuf5Yjq9KylFP41lC10thE6pw6c4zX7wdN4nyuF2LBW0mR4HN
+         BGMmcGcm31xxsmArq1OIUUV870KG+TKWHEJYe2KYiNjhBSpVNnJgu5Eg2jzE7BrKF2hj
+         Quv+4ulEuKxzo4yaocYk3VmNPItJeofWVCkWscs5eNAlD0FIfIkIaBCWO5shK3AfVNpC
+         FoqGQ2SPLHFH0R7fLtXMOsSR5GHzcEb8OCKPq266n9QDmLG6HPFa8/Si7AVr5BAU0cgu
+         RWv/nqG6gr7mDWYdrDYBODWUUFTxvQHNtWnVhvZA4rip372IkrdM2x23Gta3RioxIHT1
+         0AVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CXMRCPg/c9Nbak8x8/xFoJWKumOKkUty3hELsz55Pu4=;
-        b=Mp+7BTHvdXu+a7axf2QpWccTGGuxu8WANug2S/Hc9h8aPhUjfyP7pbmO7+2IGqsNTu
-         MPFZrNnP72S0Ay0XeK6UPfuTEMBTEGq9ftAFE/rnAPYI0XINLZdqns0CfxVlx4AzoN8Q
-         4H6OuBr8rZauyt/kGhN7KFOORh09OsqDk30csKYrhhqpc8B8tgNCQrLCI5eAOv3ZR0Mb
-         7FWwTeBgz8RDlkAMpvX3MouWTQW9nO2ltRTYVs2NEbEMxyj9ZBhUQnDrb5bp7FEoyP+o
-         wCXLnRgLYSriWWXVE6YWqNNCB1O6bydhc9uA1RJUSUaBMzzc1DiZhRbPdMxeU0HJUWLS
-         7Guw==
-X-Gm-Message-State: AOAM532LeWQpnVr5TeLgrtmlev+mHcMMXJMatW6Q5oT+9NMwITaK7/Ig
-        1JTJxvSUJGmk/Q7wYKRQ1p4=
-X-Google-Smtp-Source: ABdhPJxUutqb+TYlnKj3WxyxDJo2wKImILloGMAI0NlYBWTPUjPGXWJSlU6gq7SQe1nCzdBADNM4MQ==
-X-Received: by 2002:a05:6638:204a:b0:323:e148:74f2 with SMTP id t10-20020a056638204a00b00323e14874f2mr490354jaj.90.1650061777829;
-        Fri, 15 Apr 2022 15:29:37 -0700 (PDT)
-Received: from localhost.localdomain ([2601:249:600:483::2253:8b11])
-        by smtp.gmail.com with ESMTPSA id ay18-20020a5d9d92000000b0064c77f6aaecsm3966404iob.3.2022.04.15.15.29.37
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=nKscqrpjgkCr4xCyAbvUJu6oMzQ5EF2mv6v04Gczg20=;
+        b=G5v0ASxU15TQSal7uTePzEeduki9D6iRJJUNakCv3NExs/J5wmMNfOoOUsCMrpe440
+         meL7R9HTt80mU4uor3i5jvHNvpWirrjIVtL8ZXBYu9cU46T61gbqNMJiXtFrpMm0IT4m
+         gqyTVXR7zRsU+NhWczdK8/ldL5OOC82h4oqfKb8AK1LkmssfgvUEDUpvNixbGH2EY89W
+         mvIGF+5zF0Dz+qpwvMIPE5g+yoUbChjzldzHlIwt1a6KBDysk2PsKZs7Dgwo0htofEzr
+         /O+8c41RZoyy/ljGnbFMyGNbN2zkk6wPYeyVGjjaXXYLqKC8XCYTUb+r3Mtt/MJO6SU0
+         7d+w==
+X-Gm-Message-State: AOAM532CZbGDxC6uNgEKWVe55M8oFpvEpnH6lpVsa2uzr89/+uYZH+UJ
+        zuXxZkYZpdESd/VXgq//DNs=
+X-Google-Smtp-Source: ABdhPJyb8sbsDC1xiGFNJs/3179OQJAvbFi4c69b/yY+yxKqIynE+XfkTYpuZyK3kGj5G9DqKOKs4Q==
+X-Received: by 2002:a05:6a00:1254:b0:50a:55c5:5ff7 with SMTP id u20-20020a056a00125400b0050a55c55ff7mr525399pfi.85.1650094646975;
+        Sat, 16 Apr 2022 00:37:26 -0700 (PDT)
+Received: from localhost.localdomain ([159.226.95.43])
+        by smtp.googlemail.com with ESMTPSA id i13-20020a17090a2acd00b001cd498dc153sm7749917pjg.3.2022.04.16.00.37.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Apr 2022 15:29:37 -0700 (PDT)
-From:   Josh Kilmer <srjek2@gmail.com>
-To:     Josh Kilmer <srjek2@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH v2] hid: asus: ROG NKey: Ignore portion of 0x5a report
-Date:   Fri, 15 Apr 2022 17:29:20 -0500
-Message-Id: <20220415222920.6351-1-srjek2@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <CAMXW6=97T1tzT=FSyzZN6jBAKgzUDOjqRoH-FMAPLHk1gsD=mA@mail.gmail.com>
-References: <CAMXW6=97T1tzT=FSyzZN6jBAKgzUDOjqRoH-FMAPLHk1gsD=mA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sat, 16 Apr 2022 00:37:26 -0700 (PDT)
+From:   Miaoqian Lin <linmq006@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dinghao Liu <dinghao.liu@zju.edu.cn>,
+        Alexandrov Stansilav <neko@nya.ai>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linmq006@gmail.com
+Subject: [PATCH] HID: elan: Fix potential double free in elan_input_configured
+Date:   Sat, 16 Apr 2022 07:37:21 +0000
+Message-Id: <20220416073721.3954-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
@@ -71,37 +67,42 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On an Asus G513QY, of the 5 bytes in a 0x5a report, only the first byte
-is a meaningful keycode. The other bytes are zeroed out or hold garbage
-from the last packet sent to the keyboard.
+'input' is a managed resource allocated with devm_input_allocate_device(),
+so there is no need to call input_free_device() explicitly or
+there will be a double free.
 
-This patch fixes up the report descriptor for this event so that the
-general hid code will only process 1 byte for keycodes, avoiding
-spurious key events and unmapped Asus vendor usagepage code warnings.
+According to the doc of devm_input_allocate_device():
+ * Managed input devices do not need to be explicitly unregistered or
+ * freed as it will be done automatically when owner device unbinds from
+ * its driver (or binding fails).
 
-Signed-off-by: Josh Kilmer <srjek2@gmail.com>
+Fixes: b7429ea53d6c ("HID: elan: Fix memleak in elan_input_configured")
+Fixes: 9a6a4193d65b ("HID: Add driver for USB ELAN Touchpad")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 ---
- drivers/hid/hid-asus.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/hid/hid-elan.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 08c9a9a60ae4..b59c3dafa6a4 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -1212,6 +1212,13 @@ static __u8 *asus_report_fixup(struct hid_device *hdev, __u8 *rdesc,
- 		rdesc = new_rdesc;
+diff --git a/drivers/hid/hid-elan.c b/drivers/hid/hid-elan.c
+index 3091355d48df..8e4a5528e25d 100644
+--- a/drivers/hid/hid-elan.c
++++ b/drivers/hid/hid-elan.c
+@@ -188,7 +188,6 @@ static int elan_input_configured(struct hid_device *hdev, struct hid_input *hi)
+ 	ret = input_mt_init_slots(input, ELAN_MAX_FINGERS, INPUT_MT_POINTER);
+ 	if (ret) {
+ 		hid_err(hdev, "Failed to init elan MT slots: %d\n", ret);
+-		input_free_device(input);
+ 		return ret;
  	}
  
-+	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD &&
-+			*rsize == 331 && rdesc[190] == 0x85 && rdesc[191] == 0x5a &&
-+			rdesc[204] == 0x95 && rdesc[205] == 0x05) {
-+		hid_info(hdev, "Fixing up Asus N-KEY keyb report descriptor\n");
-+		rdesc[205] = 0x01;
-+	}
-+
- 	return rdesc;
- }
+@@ -200,7 +199,6 @@ static int elan_input_configured(struct hid_device *hdev, struct hid_input *hi)
+ 		hid_err(hdev, "Failed to register elan input device: %d\n",
+ 			ret);
+ 		input_mt_destroy_slots(input);
+-		input_free_device(input);
+ 		return ret;
+ 	}
  
 -- 
-2.35.1
+2.17.1
 
