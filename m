@@ -2,131 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A78E650460B
-	for <lists+linux-input@lfdr.de>; Sun, 17 Apr 2022 04:16:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DD4C504846
+	for <lists+linux-input@lfdr.de>; Sun, 17 Apr 2022 18:15:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233287AbiDQCTQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 16 Apr 2022 22:19:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57130 "EHLO
+        id S234356AbiDQQSM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Apr 2022 12:18:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233288AbiDQCTP (ORCPT
+        with ESMTP id S230246AbiDQQSL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 16 Apr 2022 22:19:15 -0400
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 928873669D;
-        Sat, 16 Apr 2022 19:16:41 -0700 (PDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 0318A5C014B;
-        Sat, 16 Apr 2022 22:16:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Sat, 16 Apr 2022 22:16:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1650161800; x=1650248200; bh=sw
-        3vwnFAjqEPs+Y+Agbrwdr11Ajfm0FpDuzkylhvBe0=; b=FSFonIAEHL45Uxi01S
-        UwRpCzE1/MA89qxKqi382jOqGn3eVEveuLm3pDMz/EPvWIZKW6EBbqcKpv4RfgwS
-        ETaTZsRqeC2H8PTACH5dwvM+9AXdL1Zmve1etKFcIv42pCwx5MyDDCmL4/QsAnHL
-        5/FDpQOJ3StHdYB8uBxjQFfoNbibM6bbH5gDwYvKShLl+wlrcGTL69gwsX+69PEI
-        E3SfqvII3q/BFIfPMqPtL0+8dfzXny55Zw1EvY+TRvlQRyiApiVtQ+g+Pa4rjnOs
-        1FQ0yEEyxroJUDnLfSwAziaNjuKUr8gSCqqK81PBGRZWtbKDRxahInPcjKnetLib
-        uLvA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-        1650161800; x=1650248200; bh=sw3vwnFAjqEPs+Y+Agbrwdr11Ajfm0FpDuz
-        kylhvBe0=; b=wAR1dzEW8+5KTff30V4ycp6v+RTV3AYL/pKs0LH1TPYj89dPYDv
-        uL0bnwqFRkVY3qhx9nsWJxcCXHOQJeUT6MI0iKtowxiQBnTv3lEfG8aGkR+R36Yn
-        6TDH9HeSVDP/rFoEQnrwMdZvQAkHdnfKV+gVMQUDtCkJkyyOvwna6/VshtFEdoHM
-        LyEEdN7QXsaxYv/dW0eMR3Hz2iPxPyBU74d4VTYPUB4YYCcxXwdQzV1uyYLy0iMj
-        Eq3j/5qJnh0Tuon02QdKKpaYmkS3FApotHL5Vj5f202rSyK9eYxy6sCMXCsptp55
-        cndE9El5sEwUuhh3SsUmGaBa1FqQ/nCzcfw==
-X-ME-Sender: <xms:iHhbYuC1WUL8na1wtGUeqUmYRvodtcRgywuvT_P9afETJCbl_e9QRA>
-    <xme:iHhbYojMDwzOxX2wgQ9VSfLlkM72fOyUv9l5smndNBhJK2qBXXcbRyFe2No_vBnsO
-    Qs4B_0uZTQMTg8bUw>
-X-ME-Received: <xmr:iHhbYhmePMmjlhiVuF5mg6QoTjr3HOvRQkjeTBVPilKKlR4_ldY_617s2s0ANtvxTPDUVHOOPGkmbEd3IuCowWfzXamf3LtZPNrfPqK0VDDNgtjbSpsjgeMdEk6s369B8odA4A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudelkedgheelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
-    gfejheeuieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:iHhbYswyydbick2i_2vJwbO74bGoXhjEMf9UynPpoTHlgeCPVJzXog>
-    <xmx:iHhbYjStoS_kqNdqoOOd6NuJSpboHjm-h6dny6YvBEif5S66pjiKnw>
-    <xmx:iHhbYnYTSs7aHeIIj-yVSZxX6uKEZo1XyBtBtJZxjaiXg7Lr38QE9Q>
-    <xmx:iHhbYiFTIKGVa8qPcCJwC5cyEMZrPifrenUtphRclvtN8jnraRa50A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 16 Apr 2022 22:16:40 -0400 (EDT)
-From:   Samuel Holland <samuel@sholland.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Ondrej Jirman <x@xff.cz>,
-        linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v2 4/4] [DO NOT MERGE] arm64: dts: allwinner: pinephone: Add keyboard
-Date:   Sat, 16 Apr 2022 21:16:32 -0500
-Message-Id: <20220417021633.56127-5-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220417021633.56127-1-samuel@sholland.org>
-References: <20220417021633.56127-1-samuel@sholland.org>
+        Sun, 17 Apr 2022 12:18:11 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E076EEB7
+        for <linux-input@vger.kernel.org>; Sun, 17 Apr 2022 09:15:35 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id s25so14730187edi.13
+        for <linux-input@vger.kernel.org>; Sun, 17 Apr 2022 09:15:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SISKkS0cM/8F6+LTqrldpOs/1uQ26pMEK8+wZoC+QmI=;
+        b=amtFz3iiKilr3eJQQH1nh1Rcnbz//FzqwQq8E/s+qy4/djDoVFqjy9LjVZ0Lr+T1fg
+         eaN/I02WPGZYkLqJK070WRJ+qwetjnX+tMGQPJJQsNw/3yzhPYUJ/5ONcCaQ24oix8i+
+         VauU9u3VWqZi1QBtdGx0dngcV3BeVpTYKVctUfip4iiTp3B3E1aIKsMZmTMYbKCS/J4z
+         IxYXtPG0aIlkhFZmRhYyYc0o2hbYADiKt0rurR6H/4sBNanESntVwz6K3aAxMueHs31t
+         hBVD0cnUwJdz94xfuub0kpJzLCbYmnmfWGuy6jbPJTIMml0RsiQXUfIIeN3NKWazAUZr
+         wV4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SISKkS0cM/8F6+LTqrldpOs/1uQ26pMEK8+wZoC+QmI=;
+        b=nzD30IKFrBKN56W/CjM3cRBUmeeDxzVIPVlDUol8reqhJQWqAda6CioNsdafWFfele
+         azH6Bh4h0txZumTpf6ijfZyLvZpRNp1MOSCNh17vnRrLOxoTZYFLrGovIEnfB3fF+ZLc
+         oKSZV/ijgNXN4KrntNZO2uFg8LADh+S0LeiAYwvSXwZzw+ZeI/gwzSPO/g3+rgtJwxlE
+         Xa25vcnNNV5D9iihT/S7qFypwhMOTbdn+xN/tlTsAyJdkmvsjG1AF8zJlbRZypMjer+W
+         3zi5DKBw8kmch1D0AczyJ1WUPKQNOV3f94ywFHz3pqrYw+J7Kidp17fGzNVgpklDJKu1
+         63KA==
+X-Gm-Message-State: AOAM532havvEoUkl6Ns+AGLR4iHauBIG8fW1ladoyuen7wkBVFLrOodN
+        CgWBsUfM/M0uLjMbCCw6duKJiHO28qccMQ==
+X-Google-Smtp-Source: ABdhPJySb4rVfMBF9RzUv+qBCTivnRzGnJsb5HLN9JwzA5r9M05Zff8xJ8MvsMPuwgwvLO6fI7t7cg==
+X-Received: by 2002:a05:6402:1e88:b0:423:d43d:8c65 with SMTP id f8-20020a0564021e8800b00423d43d8c65mr6329960edf.226.1650212134311;
+        Sun, 17 Apr 2022 09:15:34 -0700 (PDT)
+Received: from deepwhite.fritz.box ([2001:9e8:2225:cd00:b8d9:eba8:6309:ac66])
+        by smtp.gmail.com with ESMTPSA id n16-20020a05640204d000b0042062f9f0e1sm5772130edw.15.2022.04.17.09.15.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Apr 2022 09:15:33 -0700 (PDT)
+From:   Pavel Rojtberg <rojtberg@gmail.com>
+X-Google-Original-From: Pavel Rojtberg < rojtberg@gmail.com >
+To:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+        gregkh@linuxfoundation.org
+Cc:     Pavel Rojtberg <rojtberg@gmail.com>
+Subject: [PATCH 0/3] Input: xpad - sync with github fork
+Date:   Sun, 17 Apr 2022 18:15:23 +0200
+Message-Id: <20220417161526.138019-1-rojtberg@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The official PinePhone keyboard accessory connects to the phone's POGO
-pins for I2C and interrupts. It has an Injoinic IP5209 power bank IC
-connected to the keyboard's internal I2C bus.
+From: Pavel Rojtberg <rojtberg@gmail.com>
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+This upstreams some changes contributed on github.
+The first patch merely updates the list of supported devices.
+The remaining patches improve xbox360w gamepad support.
+Those were verified by me, as I own that device.
 
-(no changes since v1)
+Cameron Gutman (1):
+  Input: xpad - fix wireless 360 controller breaking after suspend
 
- .../dts/allwinner/sun50i-a64-pinephone.dtsi    | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Pavel Rojtberg (2):
+  Input: xpad - add supported devices as contributed on github
+  Input: xpad - Poweroff XBOX360W on mode button long press
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-index 87847116ab6d..2fa1bdf8aa63 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-@@ -208,6 +208,24 @@ accelerometer@68 {
- /* Connected to pogo pins (external spring based pinheader for user addons) */
- &i2c2 {
- 	status = "okay";
-+
-+	keyboard@15 {
-+		compatible = "pine64,pinephone-keyboard";
-+		reg = <0x15>;
-+		interrupt-parent = <&r_pio>;
-+		interrupts = <0 12 IRQ_TYPE_EDGE_FALLING>; /* PL12 */
-+		wakeup-source;
-+
-+		i2c-bus {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			charger@75 {
-+				compatible = "injoinic,ip5209";
-+				reg = <0x75>;
-+			};
-+		};
-+	};
- };
- 
- &lradc {
+ drivers/input/joystick/xpad.c | 30 +++++++++++++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
+
 -- 
-2.35.1
+2.25.1
 
