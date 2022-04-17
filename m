@@ -2,66 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CF80504972
-	for <lists+linux-input@lfdr.de>; Sun, 17 Apr 2022 22:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B9F2504976
+	for <lists+linux-input@lfdr.de>; Sun, 17 Apr 2022 22:35:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230150AbiDQUcA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 Apr 2022 16:32:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43104 "EHLO
+        id S229779AbiDQUiS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Apr 2022 16:38:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229779AbiDQUcA (ORCPT
+        with ESMTP id S229569AbiDQUiS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 Apr 2022 16:32:00 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3036E0A;
-        Sun, 17 Apr 2022 13:29:23 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id n33-20020a17090a5aa400b001d28f5ee3f9so913924pji.4;
-        Sun, 17 Apr 2022 13:29:23 -0700 (PDT)
+        Sun, 17 Apr 2022 16:38:18 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09A845F58
+        for <linux-input@vger.kernel.org>; Sun, 17 Apr 2022 13:35:41 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id x33so21629531lfu.1
+        for <linux-input@vger.kernel.org>; Sun, 17 Apr 2022 13:35:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=jJh/I41oC1sPYyv29N/Oqp9ZK6umpr2JJwjxPWBjuug=;
-        b=IgvFyg7sqUe4mAc1souN04YLHOSpdGF50CS2XgotrbQfGU9qIlpFjPLRJDiYWgRUsX
-         fxjE4ao0J5zsWeZGCYpUYH7HmvuFJzljgNLN6+wYGXEExCaxSRD163L1vX+7pwcxCpdH
-         3Z7/9BkOlTbk3xzOa8qmVFvrUbZabTvF8ivwm5gkOyEUan72xo16lPPfMtYQBIeOPMOc
-         cIgHTcjSf/Jl2ir6hozC5FdXuvkTiv+VqisqZe2DgSK0cZqUm9v9tjisO4zR6ZCrVAjp
-         JubD6cx9st/PQI4mbVCTOxI7ZohSV9rB71DRZ+YaPOSeT4HJBkND2JIyef1GIpesWRF+
-         eCsA==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=wDiWb7GvfK1juld+n5oVDal4LfqEjSNe/W9lpz7ZduY=;
+        b=cvkBNdbhaTT81ZyluJ5zoIML7Lavd9v5DhzrIKe7Sv9Qh0hnmD3dF6dd7oEDwjDWP6
+         67LqvXksvLgtvBrsIkX+mUrC77AvVMxjIn6rdxQQDCaxu+iJ0IORXp9HWhXoIlbGV2q3
+         CuH44U1Z8kKVsmTZDWt3Le1JOJeJIKLP8DLAPATTdD+zNVD8agYaTAIWiNYh97J2iQDm
+         bdczzMV0HJH5TZmW30MXohJFmYOOIa+QvwwbDU9OSarWi++KABB1vH+vOSln2itS8/sa
+         pQjNgfW/Zop9P+HWjaUsD3odCF+xJahk5EHuegFxxkysBPDGNtkebh3iDz5AHB10fFPz
+         AhwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=jJh/I41oC1sPYyv29N/Oqp9ZK6umpr2JJwjxPWBjuug=;
-        b=A8WwrO5jOR0Sia0LCjksHXT8dMSXMAsiCANd8qAJHGGe58rbopG2FIMkXaRoVlr88c
-         6T0FmlhLpx/Qh1lMex7Dl7ZXWg/iEAjMKBYneBf7s5dcFiDl8JXDxtbQMedzi/5njyXP
-         3wHipTkvhVGJ/e2zbjMuGMQrhEOMkAyUwk+CWuiqeNjjEVA3TnvvAWjxCZH9PYcpOcwy
-         QgYEZeGL/regxsYBVylVej6qIaVSd6C0vSftjYf2/+5XiYAoomihD9VOYtSUc0YRU4re
-         b8eMTU3ohmikejRixyRy12g28CC5LdoA8zmMw9IUKhAJME/kF5jNfFCjDGV0FjU5EAXe
-         PIGA==
-X-Gm-Message-State: AOAM532q5o0s0e3zi/ONFxrMU6XHN208MksXhrmJB+gHhaZJaXikahEf
-        Vwf7zzHMKOginUjy+oS14SY=
-X-Google-Smtp-Source: ABdhPJyRj1C6d8NmhymU/Uz462KMfFXui1ULPma/+ozW3GYTjdrhQmssroTQIlP8U8WblyWNeNH/7Q==
-X-Received: by 2002:a17:902:ab58:b0:158:f2e1:8c4c with SMTP id ij24-20020a170902ab5800b00158f2e18c4cmr5478286plb.154.1650227363274;
-        Sun, 17 Apr 2022 13:29:23 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:1752:34a6:ebd3:cc40])
-        by smtp.gmail.com with ESMTPSA id j13-20020a056a00130d00b004f1025a4361sm10213054pfu.202.2022.04.17.13.29.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Apr 2022 13:29:22 -0700 (PDT)
-Date:   Sun, 17 Apr 2022 13:29:19 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Julian Schulte <schu.ju@gmx.net>,
-        Hans de Goede <hdegoede@redhat.com>
-Cc:     hadess@hadess.net, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fix Touchscreen X Axis inversion on Trekstor Surftab W1
-Message-ID: <Ylx4n/hqBhD+PAxX@google.com>
-References: <20210626065417.8818-1-schu.ju@gmx.net>
- <Ylx3vduFGFlCEY0F@google.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=wDiWb7GvfK1juld+n5oVDal4LfqEjSNe/W9lpz7ZduY=;
+        b=h9bfCDxcdunvH24kmE/LV683qMCLse66+NONjHhRGyvQ0wm2YZ4/+FFLof15oOIOQK
+         vfIjJbx1mCdyBJ5V8zt/Bry/bK0DzjG5gV7pHOhQyl32RDyLbti0XDfBawaaFKU+dPsh
+         sgdnICUtbQHIZf3hZ+QMkQ08fAixACrZifZ8XUxGb+WEjfAaSqBp12kCgzkWeY9hAR7d
+         EpQnc3PkgQ2wSl595ftHRGBDyPiwTHu+sGXFhoFFq/XTrh1E8H7yr8cPYTspByzvPNK8
+         Ar4IK7l7yXnnbbPeCJmghhlZ/Cn7ZQ5uzXfRCVXaG2zgfubuzSh5cbWmGMLkAWDCh/AX
+         9phA==
+X-Gm-Message-State: AOAM533dpeWWmYyU09F2JGXNPyhwd8C25IKrAUAt1zJNunQVFN3s2HUr
+        JooP6H9GWXvdO0we06V+n6rXm21cJ2D9OXb58GnE+jLpx1GQsA==
+X-Google-Smtp-Source: ABdhPJwLeW6dTcAxzphFEXPV10Z5wBaISviS+xJwkwuw6+phAK3knLJwAqRa8YNvu/oeUxog2L+pmdLQ963GGNLR310=
+X-Received: by 2002:a05:6512:b11:b0:44a:2ead:daf2 with SMTP id
+ w17-20020a0565120b1100b0044a2eaddaf2mr5777539lfu.642.1650227739094; Sun, 17
+ Apr 2022 13:35:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ylx3vduFGFlCEY0F@google.com>
+From:   Marcos Alano <marcoshalano@gmail.com>
+Date:   Sun, 17 Apr 2022 17:35:27 -0300
+Message-ID: <CAO3Us==Sn3X0rTtzd8ftT6=OQhqW0d82TyRX4WsOja9HKVJ23w@mail.gmail.com>
+Subject: Patch series to rename Xbox controllers
+To:     HID CORE LAYER <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -72,43 +60,14 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Apr 17, 2022 at 01:25:33PM -0700, Dmitry Torokhov wrote:
-> On Sat, Jun 26, 2021 at 08:54:17AM +0200, Julian Schulte wrote:
-> 
-> Just found it in my inbox. Adding Hans...
+Hi!
 
-For real this time...
+What we need to make this patch here
+(https://www.spinics.net/lists/linux-input/msg76175.html) to make it
+happen in the kernel?
 
-> 
-> > Signed-off-by: Julian Schulte <schu.ju@gmx.net>
-> > ---
-> >  drivers/input/touchscreen/goodix.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-> > index c682b028f..cec5f7bdc 100644
-> > --- a/drivers/input/touchscreen/goodix.c
-> > +++ b/drivers/input/touchscreen/goodix.c
-> > @@ -248,6 +248,13 @@ static const struct dmi_system_id inverted_x_screen[] = {
-> >  			DMI_MATCH(DMI_PRODUCT_NAME, "I15-TC")
-> >  		},
-> >  	},
-> > +	{
-> > +		.ident = "TrekStor SurfTab duo W1 10.1 (VT4)",
-> > +		.matches = {
-> > +			DMI_MATCH(DMI_SYS_VENDOR, "TrekStor"),
-> > +			DMI_MATCH(DMI_PRODUCT_NAME, "SurfTab duo W1 10.1 (VT4)")
-> > +		},
-> > +	},
-> >  #endif
-> >  	{}
-> >  };
-> > --
-> > 2.30.2
-> > 
-> 
-> -- 
-> Dmitry
-
+Thanks folks
 -- 
-Dmitry
+Marcos H. Alano
+Linux System Administrator
+marcoshalano@gmail.com
