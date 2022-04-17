@@ -2,107 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 480445034FE
-	for <lists+linux-input@lfdr.de>; Sat, 16 Apr 2022 09:52:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78C4D504605
+	for <lists+linux-input@lfdr.de>; Sun, 17 Apr 2022 04:16:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230256AbiDPHw0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 16 Apr 2022 03:52:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43570 "EHLO
+        id S233286AbiDQCTO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 16 Apr 2022 22:19:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230172AbiDPHwK (ORCPT
+        with ESMTP id S233284AbiDQCTN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 16 Apr 2022 03:52:10 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED205FFFA9
-        for <linux-input@vger.kernel.org>; Sat, 16 Apr 2022 00:49:37 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id u2so10073499pgq.10
-        for <linux-input@vger.kernel.org>; Sat, 16 Apr 2022 00:49:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
-        b=bJd2DIgtyK+bZCVQpMa9XLiI7bVnFQgVFeGzbZ6bXamjrEFIUCNaIDR9YpvR5iTRQC
-         EoRjHn2hxdGgHpTmUXoJLhLdkz8kw8CpdMkf+RjOM2yxgJf0M2w5tnzpw0NiczM9cGQm
-         aTRY2J48j2+AVBVM6ZplapTERLwB7sqpQHn0KTPy+GATyEE1HlWbU25nZewZyTln9PiO
-         eb2iuPe3VcoLkYjZ6tmC44EeIcF1BzRiek/y+/+gg720T1wEvd/5m2iOgdTIUS3isI5Z
-         q2z1OdX/gYACU6OexrbNcXzEKBC+MKUq0Bm7V68HpmeyS3D5tFhEEP1iOfnkPKJo7x6w
-         XtNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
-        b=uf+AyBY6jiD3X5/xBYRVfB03TmvjgG99rY8V8xaKIp/ulhRMcjn5zl7Qe7SCsRqNYs
-         tZp5UUcdsJ1reHSxHAMsV7fe9MfN7sANKj2uG60eOkzoxdoSkbk88e+S0GiFezwBvbDH
-         SfrRSmfOagWo6e843ts9BlO2mZ1743BKKpUcdahnhdnXq1xs4s00pHIcMjlXTCNa5f4x
-         BhZvUHHUEPxEmTBoTHuS3TiK6ABuv4YP1rSuAbsDQ+H2oit0M9hwcLPnVxLc89hieuZ/
-         m7ANC4CbSLVOwy7wRb/S0fkQafCLd2rDcw6DJqdsynAdnMTw3qx10Mf7ZBI78zVeLN+K
-         7usA==
-X-Gm-Message-State: AOAM530sva8XBpEhyoLeCRTUT69IHj93OzcKChJ0ufT7S8IVuiTO+vl+
-        bE/CyJV/UBJby9msCftWLcIsoALPaLO+a57yfRlMEqsg/io=
-X-Google-Smtp-Source: ABdhPJzPQ782jxaaybf4v05kBQtFRTzv0MMrux20NcZ4Q10XmGrK6dnUIabFDBNBmBOv8fFyQY5zqzYAgf4Cnc3KaCc=
-X-Received: by 2002:a92:508:0:b0:2cb:ebd8:a76b with SMTP id
- q8-20020a920508000000b002cbebd8a76bmr1009500ile.156.1650095366830; Sat, 16
- Apr 2022 00:49:26 -0700 (PDT)
+        Sat, 16 Apr 2022 22:19:13 -0400
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53296366B2;
+        Sat, 16 Apr 2022 19:16:37 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id CF4265C014B;
+        Sat, 16 Apr 2022 22:16:34 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Sat, 16 Apr 2022 22:16:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm2; t=1650161794; x=1650248194; bh=3z4qb2iXssMBNtBzDcGwmK34u
+        kQSa5UnNA+TI9n5rS0=; b=knrTPnOVjGKheDjCzbeKJ4cfgzRqB0/4DA2sVJjLs
+        qDEWxVCmIYMD6EZLhIbU3KPnyiZEVhZ2O1DDQ4OMas//sqWI1iuZoO7c3PFLwemA
+        nyg+8sDXBwXxuNCICBnKYeev2pQlO/0qfPV70j+kYvJ2pc8Pfn8omC7iUFgSVi7+
+        DVr+TCwGETtgPld2sxCpweU9P3tmvJfntai5fYUrhEH1KXZuWg9NzmiXPCCE+gS3
+        ZZdQK0w4OTYjom5BDHZ1nNR/ycromZb+QLJa8s+MT/b6K0fqvDb9sasfTnvrFg77
+        oY8YXdpql9H3DSLrglDdQYVNixOiumeVEtqn1AV+2GhoA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm1; t=1650161794; x=1650248194; bh=3
+        z4qb2iXssMBNtBzDcGwmK34ukQSa5UnNA+TI9n5rS0=; b=wO1+Rb4DqoHqdrsej
+        ES/99VIT3uNO2Ou6Wygat4enYC2wbZaal2ro3nh6BnehCrFDrkKfsVksfVMBlRsF
+        ALaiUbZ3o41WBa6Gg41rbvnlQC4kSQ5V8OJwfB6eB1HVYpW1e8zdc9LrfJRaJ4d/
+        pmXp7BARSEHMfHkyTybl9n7UzDDLAxOi+RFv0ddOl9g9dCnjaF475e5ViXkPOetH
+        3c5mq4VTKZGVN0GYStJ8VYGuiGDvSzKSjjth+Lta/rO3y8/ozQu6cOmomATM8VjI
+        4Qaa1RA8jLSVO/SXGFt0PX6K9MqA5QVqvQeaF3OQlv4IxWFgzQrUTIep25JFxWoX
+        v+zCg==
+X-ME-Sender: <xms:gnhbYjq97wied_xrULWaSQfM1VqD3XlprOBK69iET1jls22yUBgBDA>
+    <xme:gnhbYtrJgzeiT_t57B_jK2nYvLuQCwG3q15BNvY3CmYOpDpLYDsRpWPtXQcp2A7y3
+    PdWYEUPlwit_lWzCQ>
+X-ME-Received: <xmr:gnhbYgMmzyIAYDsb9DkJvPkLDCkkFBciODthdXOnYv-37LDFbeRESsBUcNw2vVyFYGPOFnFnaa77e2A9ruC9bK-NoBKsoHc-dLkmxyIweDfdfV1cycx7b7_IQAi1jk_j70Oydw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudelkedgheekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeefieelgfelfffgfeeihedvvddtveelteefleelgeeuhffhueevhefftdej
+    ffeukeenucffohhmrghinhepmhgvghhouhhsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
+    ohhrgh
+X-ME-Proxy: <xmx:gnhbYm5NAdiGqN1ogn2G8iWOljBMFENMxDHFmczm3j25oEuYcoYLUA>
+    <xmx:gnhbYi6QyiV6H55FEc1WL_ocJjdjH6Lbjf6Wt_8LnTW4Fy42w3cyNg>
+    <xmx:gnhbYuhTF2TdYM7iJXet_-kAA5w0W20oD_VvajZAXnAiGHW7-KrzkQ>
+    <xmx:gnhbYvvkDk5NsEDtE3rNXI7jYCyZQSdyJofy73BykKCbwJ2TbNxghQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 16 Apr 2022 22:16:33 -0400 (EDT)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, Ondrej Jirman <x@xff.cz>,
+        linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v2 0/4] Pine64 PinePhone keyboard support
+Date:   Sat, 16 Apr 2022 21:16:28 -0500
+Message-Id: <20220417021633.56127-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Received: by 2002:a05:6638:1309:0:0:0:0 with HTTP; Sat, 16 Apr 2022 00:49:26
- -0700 (PDT)
-Reply-To: daniel.seyba@yahoo.com
-From:   Seyba Daniel <royhalton13@gmail.com>
-Date:   Sat, 16 Apr 2022 09:49:26 +0200
-Message-ID: <CALSxb2w9zQYotuLcRSCPns53ksvT9UrEMVx-1Cp1f8RE7er3cA@mail.gmail.com>
-Subject: Hello,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:542 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [royhalton13[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [royhalton13[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+This series adds support for the official keyboard case for the Pine64
+PinePhone and PinePhone Pro. This accessory contains a keyboard MCU and
+an IP5209 power bank IC. The keyboard MCU firmware[0] is free software.
+It exposes the keyboard scan matrix over I2C, and also provides commands
+for SMBus access to the IP5209. In order to keep the IP5209 driver
+(CONFIG_IP5XXX_POWER) generic, this is modeled as a child I2C bus.
 
-I am so sorry contacting you in this means especially when we have never
-met before. I urgently seek your service to represent me in investing in
-your region / country and you will be rewarded for your service without
-affecting your present job with very little time invested in it.
+[0]: https://megous.com/git/pinephone-keyboard/about/
 
-My interest is in buying real estate, private schools or companies with
-potentials for rapid growth in long terms.
+Changes in v2:
+ - Drop keymap DT properties
+ - Add vbat-supply property
+ - Fix missing key release events when FN state changes
+ - Add VBAT consumer to ensure enough power is available for the MCU
+ - Use a single fixed-size, fixed-contents keymap for both layers
 
-So please confirm interest by responding back.
+Samuel Holland (4):
+  dt-bindings: input: Add the PinePhone keyboard binding
+  Input: pinephone-keyboard - Add PinePhone keyboard driver
+  Input: pinephone-keyboard - Support the proxied I2C bus
+  [DO NOT MERGE] arm64: dts: allwinner: pinephone: Add keyboard
 
-My dearest regards
+ .../input/pine64,pinephone-keyboard.yaml      |  66 +++
+ MAINTAINERS                                   |   6 +
+ .../dts/allwinner/sun50i-a64-pinephone.dtsi   |  18 +
+ drivers/input/keyboard/Kconfig                |  10 +
+ drivers/input/keyboard/Makefile               |   1 +
+ drivers/input/keyboard/pinephone-keyboard.c   | 438 ++++++++++++++++++
+ 6 files changed, 539 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/pine64,pinephone-keyboard.yaml
+ create mode 100644 drivers/input/keyboard/pinephone-keyboard.c
 
-Seyba Daniel
+-- 
+2.35.1
+
