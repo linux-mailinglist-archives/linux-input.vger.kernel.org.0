@@ -2,51 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76C14504F5C
-	for <lists+linux-input@lfdr.de>; Mon, 18 Apr 2022 13:25:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B883D504F73
+	for <lists+linux-input@lfdr.de>; Mon, 18 Apr 2022 13:41:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232243AbiDRL2W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 Apr 2022 07:28:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36904 "EHLO
+        id S231350AbiDRLoV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 Apr 2022 07:44:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233887AbiDRL2T (ORCPT
+        with ESMTP id S229882AbiDRLoV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 Apr 2022 07:28:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1582219029
-        for <linux-input@vger.kernel.org>; Mon, 18 Apr 2022 04:25:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 456BA60A6F
-        for <linux-input@vger.kernel.org>; Mon, 18 Apr 2022 11:25:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30739C385A1;
-        Mon, 18 Apr 2022 11:25:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1650281134;
-        bh=gOCpyYkYtF3EIXkr6vms+8+INiMWhTehzxMJJYZNhmk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WbmUnUZkKI/rLMwQKXiH+2lalyawxwlePE+92NJrX+rmj1RMnin5wc2egN7GOViIr
-         yeTCCrOMg6J/9ua/TpXHBbW0NowForBXjBlJldu3vsFLlKnHEA21SkQSfXwEXHQCJ2
-         Fot/PFqMKc6/m/QbgK0Gb6m1yqA9h0amL94Dmwls=
-Date:   Mon, 18 Apr 2022 13:25:31 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Pavel Rojtberg <rojtberg@gmail.com>
-Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-        Christopher Crockett <chaorace@gmail.com>,
-        Fmstrat <nospam@nowsci.com>
-Subject: Re: [PATCH] Input: xpad - add support for XBOX One Elite paddles
-Message-ID: <Yl1Kq/RcqvKVrHEO@kroah.com>
-References: <20220417161908.138625-1-rojtberg@gmail.com>
- <Yl0DPYdzSK5C+hEF@kroah.com>
- <c13466b1-80f1-63a6-1d39-2da397d1622a@gmail.com>
+        Mon, 18 Apr 2022 07:44:21 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92954DFFD
+        for <linux-input@vger.kernel.org>; Mon, 18 Apr 2022 04:41:42 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id q3so17647633wrj.7
+        for <linux-input@vger.kernel.org>; Mon, 18 Apr 2022 04:41:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pEmwddWNrln8o5MIbMhjcLSkBL4WLbIhWOW4+t0x+vo=;
+        b=AJvL1K/+t23+hXQuSCG+KS8bxKKhS0C/EArkq09orOWUPUN7T98MPDZCKjpYEV1spS
+         St+I9b5PS4f8PISkr/ev+WRei6ILzhKgDizxKEpl1X7PRjzFlYF2fRt7WUtkZ2UfEFAR
+         p9qVCPJwRMLCJiH+zSNjZDrnSEU9GXCl/txJM2KLjPLayw+eypIHwuh+sd4KqnDJSrwL
+         7KZYRW+X5hvudhyYOJAMCrFukqa3aELRj7Jwi3tOfEcLqLlG+IltO08aR3w1+hCN67e9
+         RSnl/vWP1vTslNFUpkKkKGf/ONnXxhGZlZOcZU6vN0bZDoTSxMOvOgwQuRHEwFyCM8eT
+         BCmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pEmwddWNrln8o5MIbMhjcLSkBL4WLbIhWOW4+t0x+vo=;
+        b=IcFpxStSfyxQslRWs9e8wEezDvxEurYVyVqfNS9mt39EcV1WHMGjmkVPOLo/uum/9d
+         Or1eG8bNu35pLrfi1QKLeWCKDggKMP1uqFTyfOp1YdeZ3cyDQPQpVmYI/TgHI2qwQJv/
+         UYzziOot9e5xP1KRzQo5pL286Z1TYBqSOybtYBcGm3j0jprs/9B68641rw6iWcjcqKJ6
+         N7bmxXbaX5KpyevGZ96KjIzuO4edguoytEJcUvVoqffW34rUpNS2uNUli8hWr6wLvdg/
+         HdVaLAmU/CiBfWMbenfwaREro3Qrr3uc5a9S+xJMyplv+1oqhXyh2EFphqeYUe2mMjm0
+         WwTA==
+X-Gm-Message-State: AOAM530diA1nj/z6DntI5DOhaMz1EmF+SRQ09KzwNWKN2z95ur2C/Kzz
+        RJSyR1ZL21lijGcJ1HlqA8F0deAxbXswcQ==
+X-Google-Smtp-Source: ABdhPJxPQMtR+z4Q2ZTAcjvgZ6NgsNhVYnlqgT12k3iHDVPHej+aPyFvyeXUk716PTLKcCPzCyitVQ==
+X-Received: by 2002:a05:6000:1e08:b0:20a:873f:13b3 with SMTP id bj8-20020a0560001e0800b0020a873f13b3mr7258288wrb.52.1650282101084;
+        Mon, 18 Apr 2022 04:41:41 -0700 (PDT)
+Received: from deepwhite.fritz.box ([2001:9e8:2205:7500:31a3:8b23:14e3:7ccf])
+        by smtp.gmail.com with ESMTPSA id b1-20020a5d40c1000000b00207b49d3023sm10007211wrq.44.2022.04.18.04.41.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Apr 2022 04:41:40 -0700 (PDT)
+From:   Pavel Rojtberg <rojtberg@gmail.com>
+X-Google-Original-From: Pavel Rojtberg < rojtberg@gmail.com >
+To:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+        gregkh@linuxfoundation.org
+Cc:     Pavel Rojtberg <rojtberg@gmail.com>
+Subject: [PATCH v2 0/3] Input: xpad - sync with github fork
+Date:   Mon, 18 Apr 2022 13:40:19 +0200
+Message-Id: <20220418114022.23673-1-rojtberg@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c13466b1-80f1-63a6-1d39-2da397d1622a@gmail.com>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_FILL_THIS_FORM_SHORT,T_SCC_BODY_TEXT_LINE
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,130 +69,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Apr 18, 2022 at 12:46:53PM +0200, Pavel Rojtberg wrote:
-> 
-> 
-> Am 18.04.22 um 08:20 schrieb Greg KH:
-> > On Sun, Apr 17, 2022 at 06:19:08PM +0200, Pavel Rojtberg wrote:
-> >> From: Christopher Crockett <chaorace@gmail.com>
-> >>
-> >> An effort has been made to support every official model and firmware
-> >> version I could track down info on. The following controllers _should_
-> >> have working paddles with this PR:
-> >> - Xbox Elite (**untested**)
-> >> - Xbox Elite Series 2 on early firmwares (**untested**)
-> >> - Xbox Elite Series 2 on v4 firmwares (Tested v4.8.1908.0)
-> >> - Xbox Elite Series 2 on v5 pre-BLE firmwares (**untested**)
-> >> - Xbox Elite Series 2 on v5 post-BLE firmwares (Tested v5.13.3143.0)
-> >>
-> >> This patch also introduces correct handling for the Elite 1 controller
-> >> and properly suppresses paddle inputs when using a custom profile slot.
-> >>
-> >> Starting in v5.11, certain inputs for the Elite 2 were moved to an extra
-> >> packet that is not enabled by default.
-> > 
-> > why does 5.11 matter here?
-> 
-> This refers to the gamepad firmware, not to Linux :)
+From: Pavel Rojtberg <rojtberg@gmail.com>
 
-Ah, you should make that obvious :)
+This upstreams some changes contributed on github.
+The first patch merely updates the list of supported devices.
+Compared to github and v1, sorting of the lists is preserved.
 
-> >>
-> >> We must first manually enable this extra packet in order to correctly
-> >> process paddle input data with these later firmwares.
-> >>
-> >> For further details see: https://github.com/paroj/xpad/pull/195
-> > 
-> > don't like to random web sites, summarize in here properly.
-> 
-> The summary here should be complete. Do you have any specific questions?
+The remaining patches improve xbox360w gamepad support.
+Those were verified by me, as I own that device.
 
-If the summary is fine, no need to link to the github location, right?
+Cameron Gutman (1):
+  Input: xpad - fix wireless 360 controller breaking after suspend
 
-> >> Signed-off-by: Fmstrat <nospam@nowsci.com>
-> > 
-> > I doubt that is a correct email address and valid name :(
-> 
-> Unfortunately this is all I get at github. The only alternative would be no attribution at all.
+Pavel Rojtberg (1):
+  Input: xpad - add supported devices as contributed on github
 
-Did you ask?
+Santosh De Massari (1):
+  Input: xpad - Poweroff XBOX360W on mode button long press
 
-> >> Signed-off-by: Pavel Rojtberg <rojtberg@gmail.com>
-> >> ---
-> >>  drivers/input/joystick/xpad.c | 239 ++++++++++++++++++++++++++++++++++++++++++---------------
-> >>  1 file changed, 176 insertions(+), 63 deletions(-)
-> >>
-> >> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-> >> index 53126d9..0746813 100644
-> >> --- a/drivers/input/joystick/xpad.c
-> >> +++ b/drivers/input/joystick/xpad.c
-> >> @@ -80,6 +80,7 @@
-> >>  #define MAP_TRIGGERS_TO_BUTTONS		(1 << 1)
-> >>  #define MAP_STICKS_TO_NULL		(1 << 2)
-> >>  #define MAP_SELECT_BUTTON		(1 << 3)
-> >> +#define MAP_PADDLES				(1 << 4)
-> >>  #define DANCEPAD_MAP_CONFIG	(MAP_DPAD_TO_BUTTONS |			\
-> >>  				MAP_TRIGGERS_TO_BUTTONS | MAP_STICKS_TO_NULL)
-> >>  
-> >> @@ -89,6 +90,12 @@
-> >>  #define XTYPE_XBOXONE     3
-> >>  #define XTYPE_UNKNOWN     4
-> >>  
-> >> +#define PKT_XB              0
-> >> +#define PKT_XBE1            1
-> >> +#define PKT_XBE2_FW_OLD     2
-> >> +#define PKT_XBE2_FW_5_EARLY 3
-> >> +#define PKT_XBE2_FW_5_11    4
-> >> +
-> >>  static bool dpad_to_buttons;
-> >>  module_param(dpad_to_buttons, bool, S_IRUGO);
-> >>  MODULE_PARM_DESC(dpad_to_buttons, "Map D-PAD to buttons rather than axes for unknown pads");
-> >> @@ -111,6 +118,7 @@ static const struct xpad_device {
-> >>  	char *name;
-> >>  	u8 mapping;
-> >>  	u8 xtype;
-> >> +	u8 pktType;
-> > 
-> > Please use proper Linux kernel naming schemes.
-> 
-> that would be pkt_type, right?
+ drivers/input/joystick/xpad.c | 33 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 32 insertions(+), 1 deletion(-)
 
-You have vowels, "packet_type" is nicer.
+-- 
+2.25.1
 
-> >>  } xpad_device[] = {
-> >>  	{ 0x0079, 0x18d4, "GPD Win 2 X-Box Controller", 0, XTYPE_XBOX360 },
-> >>  	{ 0x044f, 0x0f00, "Thrustmaster Wheel", 0, XTYPE_XBOX },
-> >> @@ -128,7 +136,8 @@ static const struct xpad_device {
-> >>  	{ 0x045e, 0x0291, "Xbox 360 Wireless Receiver (XBOX)", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
-> >>  	{ 0x045e, 0x02d1, "Microsoft X-Box One pad", 0, XTYPE_XBOXONE },
-> >>  	{ 0x045e, 0x02dd, "Microsoft X-Box One pad (Firmware 2015)", 0, XTYPE_XBOXONE },
-> >> -	{ 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0, XTYPE_XBOXONE },
-> >> +	{ 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", MAP_PADDLES, XTYPE_XBOXONE },
-> >> +	{ 0x045e, 0x0b00, "Microsoft X-Box One Elite 2 pad", MAP_PADDLES, XTYPE_XBOXONE },
-> >>  	{ 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
-> >>  	{ 0x045e, 0x0719, "Xbox 360 Wireless Receiver", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
-> >>  	{ 0x045e, 0x0b12, "Microsoft Xbox Series S|X Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
-> >> @@ -390,6 +399,13 @@ static const signed short xpad_abs_triggers[] = {
-> >>  	-1
-> >>  };
-> >>  
-> >> +/* used when the controller has extra paddle buttons */
-> >> +static const signed short xpad_btn_paddles[] = {
-> >> +	BTN_TRIGGER_HAPPY5, BTN_TRIGGER_HAPPY6, /* paddle upper right, lower right */
-> >> +	BTN_TRIGGER_HAPPY7, BTN_TRIGGER_HAPPY8, /* paddle upper left, lower left */
-> >> +	-1						/* terminating entry */
-> > 
-> > 0 should be the terminator, right?
-> 
-> while 0 would probably do, the other arrays in this file also use -1.
-
-Ah, ok, nevermind.
-
-> Do I read correctly, that your comments merely aiming at style mean that
-> you are ok with the code in general?
-
-Yes, the logic seems fine if it has been tested by others.
-
-thanks,
-
-greg k-h
