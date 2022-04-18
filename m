@@ -2,64 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD90F5049F9
-	for <lists+linux-input@lfdr.de>; Mon, 18 Apr 2022 01:05:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9CB3504AB3
+	for <lists+linux-input@lfdr.de>; Mon, 18 Apr 2022 03:50:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232152AbiDQXIC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 Apr 2022 19:08:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57142 "EHLO
+        id S235723AbiDRBxX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Apr 2022 21:53:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231787AbiDQXIA (ORCPT
+        with ESMTP id S235719AbiDRBxW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 Apr 2022 19:08:00 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0852B7DC
-        for <linux-input@vger.kernel.org>; Sun, 17 Apr 2022 16:05:23 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id n8so11085719plh.1
-        for <linux-input@vger.kernel.org>; Sun, 17 Apr 2022 16:05:23 -0700 (PDT)
+        Sun, 17 Apr 2022 21:53:22 -0400
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB9A3E0DA;
+        Sun, 17 Apr 2022 18:50:44 -0700 (PDT)
+Received: by mail-qv1-xf2a.google.com with SMTP id a5so10114948qvx.1;
+        Sun, 17 Apr 2022 18:50:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=AbNtMpVSWDEBXG5Ig+gx4B6Rxr0RScdSPo0CTT/kw+8=;
-        b=SoW0a/T0DVQcz3OZH9lwquRBWzrU6HoPUG9GZpHOrsZlEVIL2okbTaxHslf9LD0MKX
-         /Kh/zgxhnnhRzGltYs8nKNm6c9TGSiFSoSaQI7QQq5VVhWzKRoljugR6MA2TxX3OnIN7
-         2s0g2OnLdlaj+Pl5q77Xu+Wq3aZLVFsKTXR8IEVu/+emRwjJAbnNiYzYiEI0HRqA7YdL
-         jvpRRbOiFi5ttzGeiGThulteC/JJRkA4vnzGPNM0uXknIjM/05cI7FfwrTHKAEzkBtqt
-         wxIJNxTggOCJ+GeJa0mpuk/x03hlQGzXxUCI7vZOpitxTtVlez91if+9pO/peqNsQF6m
-         D+Ug==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=l0klc3vSW9S8k8P5p+Y99UzFgu/vMr+K9666OjOkemo=;
+        b=oFB3YM/cBOiqfYZxvFdFEg5vfZG0buEK/6QghUeBqmcckbwCjUWYxLw9SSetJ3D6xd
+         PSGA0HmP6gyvABB6YfZCNrIezmxM+2Ri7KaKRAHlQeOBtP04SkovKdyLM4Qjx9NScEm1
+         LYf40LWmhg4wnjLS3HfIOY7oI4nRqK1d6p5GMguGSPe4DmKK/NoUihutB0UGDeZh3twj
+         30lvQLbXMTyhc5hpz7M/xq8uEZw29nbh81y0usT7B/OCBFeJ2RnC9vPUywbARpbzY6s6
+         E9JxZ2wr1/Owp0pORM0+EYNETeEVSEdpGYnDj8/UaVMsxNI6Df1QZTtbPuLY3gY6z7Ct
+         Dr3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AbNtMpVSWDEBXG5Ig+gx4B6Rxr0RScdSPo0CTT/kw+8=;
-        b=2DBgqMsbmRPvPYtY05XImNcDRI3ApFYqyZcwNgxoCuvEm/AdktcVO5+Aq6VO84b7pL
-         u5ASNcliVJOcNwiaaI0gpU9Wsp4+5gmhol7ufqYRAGh/Uyxnogg37bwBAfiH/KZuWD1q
-         MgTX7IUnhT90MG7nxy7M4jxS6IEVQ5GilMihYOfNOYvRfdLiNRd0a3IJKCIYPQmMqys9
-         lH7WkwXqmLhU5xVZ9stJmJXQgajzI5n+8w0yEQgW7r+I32s1AxSfqq0EwKGLTYEs2Z9l
-         JnztqE6nIJYxvjaGsvzpsR42UgbNr0j/vx9Lu85hYEc6nhNmedeuZn3BCdQIINGY448L
-         yzTA==
-X-Gm-Message-State: AOAM530BrGL/n0fIjbbO8Yca4jeflb9VPg4cNBarm9C5mQfd+pkkKnNy
-        cNPz47IKeQxCjRqEBSUqQ08=
-X-Google-Smtp-Source: ABdhPJxFrQKcVK4C/b3oC1X68WbSUHTxuJ7OP5Gyo37252olot6eJygAQCQwA6Vrrbl3fyONYMSPGA==
-X-Received: by 2002:a17:902:cf08:b0:151:9d28:f46f with SMTP id i8-20020a170902cf0800b001519d28f46fmr8458191plg.53.1650236723023;
-        Sun, 17 Apr 2022 16:05:23 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:1752:34a6:ebd3:cc40])
-        by smtp.gmail.com with ESMTPSA id b10-20020a056a00114a00b004f784ba5e6asm10532601pfm.17.2022.04.17.16.05.21
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=l0klc3vSW9S8k8P5p+Y99UzFgu/vMr+K9666OjOkemo=;
+        b=Vik7JltIMXPllkvu8JVSxLDm5fXBhkyS1hFg2wO4uZIBY791FiZHAuoVsU7z05HUi1
+         sWrHkTmDXmCGCVt8fzy8agQuYL4pEkztw0jzj7xi1ud4uEhwFnjPy4/7v40Z6vnSKXhK
+         4NjxBhy90RUdWLxNx2JUlFCa+9zkjvXYDk0lfMSHnlbIPgymtTpKZhwCOfrCWQimnJZd
+         UQw3ETFlt+DnMZ7WylSZaownqSxSK/j5qlC+fNSCVu+QNi2IaxqutZZNplM7/pNBGnVr
+         YaKlFHJccPxI+S4pmnWPkOaqigSCg2Smf9IIiA9kq6ENM/TlyGzhkgL4Z3rU6G/q0NiY
+         djfQ==
+X-Gm-Message-State: AOAM5304Mi1g4O1D7i4f8JUh66DNQ56EOkH2RIv5tQCXh8xbbLox+E2t
+        Zd1cLu4EsIf5wUSA/pHvXkQ=
+X-Google-Smtp-Source: ABdhPJxCsioiF8X96/nDwZ2mphbAQTjNUURDHOENi9NQ8gY34Uwf04BnTV7MkACfELksTbMJB+f6SA==
+X-Received: by 2002:a0c:fd91:0:b0:444:46e9:9556 with SMTP id p17-20020a0cfd91000000b0044446e99556mr6464611qvr.75.1650246644025;
+        Sun, 17 Apr 2022 18:50:44 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id 128-20020a370486000000b0069e9d72b45fsm981714qke.13.2022.04.17.18.50.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Apr 2022 16:05:22 -0700 (PDT)
-Date:   Sun, 17 Apr 2022 16:05:19 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     linux-input@vger.kernel.org,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH] Input: iqs7222 - avoid dereferencing a NULL pointer
-Message-ID: <YlydL4+m2jhcwMFR@google.com>
-References: <20220417214132.497487-1-jeff@labundy.com>
+        Sun, 17 Apr 2022 18:50:43 -0700 (PDT)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: lv.ruyi@zte.com.cn
+To:     dmitry.torokhov@gmail.com, alexander.sverdlin@gmail.com
+Cc:     lv.ruyi@zte.com.cn, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] input: Make use of the helper function devm_platform_ioremap_resource()
+Date:   Mon, 18 Apr 2022 01:50:36 +0000
+Message-Id: <20220418015036.2556731-1-lv.ruyi@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220417214132.497487-1-jeff@labundy.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -70,21 +69,43 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Apr 17, 2022 at 04:41:32PM -0500, Jeff LaBundy wrote:
-> Select callers of iqs7222_parse_props() do not expect a child node
-> to be derived and returned via pointer. As such, these callers set
-> **child_node to NULL. However, this pointer is dereferenced in all
-> cases.
-> 
-> To solve this problem, dereference the pointer only for cases that
-> expect a child node in the first place. In these cases, the caller
-> provides a valid pointer.
-> 
-> Fixes: e505edaedcb9 ("Input: add support for Azoteq IQS7222A/B/C")
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+From: Lv Ruyi <lv.ruyi@zte.com.cn>
 
-Applied, thank you.
+Use the devm_platform_ioremap_resource() helper instead of calling
+platform_get_resource() and devm_ioremap_resource() separately.Make the
+code simpler without functional changes.
 
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
+---
+ drivers/input/keyboard/ep93xx_keypad.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/drivers/input/keyboard/ep93xx_keypad.c b/drivers/input/keyboard/ep93xx_keypad.c
+index 272a4f1c6e81..7a3b0664ab4f 100644
+--- a/drivers/input/keyboard/ep93xx_keypad.c
++++ b/drivers/input/keyboard/ep93xx_keypad.c
+@@ -231,7 +231,6 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
+ 	struct ep93xx_keypad *keypad;
+ 	const struct matrix_keymap_data *keymap_data;
+ 	struct input_dev *input_dev;
+-	struct resource *res;
+ 	int err;
+ 
+ 	keypad = devm_kzalloc(&pdev->dev, sizeof(*keypad), GFP_KERNEL);
+@@ -250,11 +249,7 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
+ 	if (keypad->irq < 0)
+ 		return keypad->irq;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	if (!res)
+-		return -ENXIO;
+-
+-	keypad->mmio_base = devm_ioremap_resource(&pdev->dev, res);
++	keypad->mmio_base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(keypad->mmio_base))
+ 		return PTR_ERR(keypad->mmio_base);
+ 
 -- 
-Dmitry
+2.25.1
+
