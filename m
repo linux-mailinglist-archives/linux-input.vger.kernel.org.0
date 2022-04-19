@@ -2,38 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1B65507553
-	for <lists+linux-input@lfdr.de>; Tue, 19 Apr 2022 18:49:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03AED507A15
+	for <lists+linux-input@lfdr.de>; Tue, 19 Apr 2022 21:20:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355427AbiDSQtr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Apr 2022 12:49:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57106 "EHLO
+        id S1350923AbiDSTW1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Apr 2022 15:22:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349580AbiDSQry (ORCPT
+        with ESMTP id S1346734AbiDSTW0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Apr 2022 12:47:54 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93E967658;
-        Tue, 19 Apr 2022 09:45:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 28068B81BFE;
-        Tue, 19 Apr 2022 16:45:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DAF6C385AD;
-        Tue, 19 Apr 2022 16:44:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650386706;
-        bh=oNd2jzd1ZgiC1U71slXEuF0Jw0poX3XVV+5BeDbbYa8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eVv/JxXnBMI8H1rNYcDgRe1YKiI3MroWqCXwupYAZyfp6Y8ukHiHF/5kn5Mx/+I5y
-         j/799pOJ+F/pj3wyOtKsICgAU+YeAfXm1ukGhaRazluTHJ4IcIEdlRxQPgmpSCuPm1
-         ogEIbzAt5lZDtm97mHkQdDrFBzdy9VafLDkJLSKgUTURMmhufcftKDQ+baPjnPexl2
-         8jHrEZ02A8VZOBE9lEopc2ie/OYNHyzj/pLzbIv452shuanbP3xk00G5QWu60CjSRY
-         NBgn+0C1lnZL16WegiUAVIjrVxIf8VVvn8wl8O1aHfsK4yRsJmWPebcAU9BlGYxb27
-         ad7YKwZ1K48JQ==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     robert.jarzmik@free.fr, linux-arm-kernel@lists.infradead.org
+        Tue, 19 Apr 2022 15:22:26 -0400
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com [IPv6:2001:4860:4864:20::35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1E9F3BBC8;
+        Tue, 19 Apr 2022 12:19:42 -0700 (PDT)
+Received: by mail-oa1-x35.google.com with SMTP id 586e51a60fabf-deb9295679so18563648fac.6;
+        Tue, 19 Apr 2022 12:19:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=GCIqaSaM+78BTcFvVqPCCxKtj0Yv/w6zLXwTQ8J37TY=;
+        b=N15yGzRCwjecxnVIg8M/2zW+MKauyG0rBwOQRVpldykQZnRkqKE9El1mrCIhC5tpa3
+         mZYs/NNNtiUyh5W5hvl19Y7zeb8DeOxu4tks0mReUgmniMD/bf5nsYFdNWiptODmqyOs
+         3gCrlLxCjhFC54R//epn2UJujKxBQXNdEgFjxCmpH7mgjaM6tLlQBDaTVCUcdQtR35lj
+         7Tt1lDZsdAHI5Pbstj9J84Ihxn5WFPb+B+vLEZoTxk6AWANcNnnqMG7G+CgpD4Ea0Yko
+         41w+05FRULRAio8K5wBHqi2F+ZvrvAiWWspzJJK1NASbvKD2U3VX923okxMvrmhXwnEk
+         BZqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=GCIqaSaM+78BTcFvVqPCCxKtj0Yv/w6zLXwTQ8J37TY=;
+        b=Mi70Pt+8yUfyCDF/jBw1Ww3YNquPBEyEVYD2BPptP1IM8Lm0Spok1A761eFcI0o6jh
+         xd/m0P7VjpzPbYw74gHPrU91p9CHOi+d4xNT7MPFPjE0hyLgYdmgBCiOIWuFFaz/i7L3
+         dIoZDqTVHNP/1p/SA/tgX1OquH2cIFWLxH5Z2XYOQ8qIC+GUj8teGa7EwbJeGfmas8QD
+         Nc69HtFL7ZA3TaeDhtMN01EAYOj4A+kLbzmeUsD56Gg1zKjHhVORlBjEeUI/i4Ras3tn
+         MBPgYYHGNsAOKxsoVyVu1JS0UnZz+bEMCPiBbeMgNlWTckyXfjq6i2QjX0atoG7TLw6X
+         v8Hw==
+X-Gm-Message-State: AOAM531lFDCr25iJd54F+YSPBdWO5E5ZO5/bcFnv+LSCmsxg5yPFWyos
+        axPRyul50HnK2WJiV1Ujyms=
+X-Google-Smtp-Source: ABdhPJwSWdjg1BPPp6prEE5n8IQQyhcAi3SbJ3RPj6S76yJb9QiX5X1uNp4B+FkD632RnMbZPsmO9A==
+X-Received: by 2002:a05:6870:4253:b0:e6:3a8e:9bbe with SMTP id v19-20020a056870425300b000e63a8e9bbemr49128oac.235.1650395982153;
+        Tue, 19 Apr 2022 12:19:42 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id z3-20020a056870d68300b000e2a0a74f9fsm5713262oap.37.2022.04.19.12.19.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Apr 2022 12:19:41 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <24b49b6a-564c-6e2b-64fe-a3b5aeaa6d20@roeck-us.net>
+Date:   Tue, 19 Apr 2022 12:19:37 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 09/48] watchdog: sa1100: use platform device registration
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@kernel.org>, robert.jarzmik@free.fr,
+        linux-arm-kernel@lists.infradead.org
 Cc:     Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
         Haojian Zhuang <haojian.zhuang@gmail.com>,
         Marek Vasut <marek.vasut@gmail.com>,
@@ -59,477 +85,376 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
         linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
         linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        alsa-devel@alsa-project.org
-Subject: [PATCH 48/48] ARM: pxa: convert to multiplatform
-Date:   Tue, 19 Apr 2022 18:38:10 +0200
-Message-Id: <20220419163810.2118169-49-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
+        alsa-devel@alsa-project.org,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        linux-watchdog@vger.kernel.org
 References: <20220419163810.2118169-1-arnd@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+ <20220419163810.2118169-10-arnd@kernel.org>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20220419163810.2118169-10-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+On 4/19/22 09:37, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Rather than relying on machine specific headers to
+> pass down the reboot status and the register locations,
+> use resources and platform_data.
+> 
+> Aside from this, keep the changes to a minimum.
+> 
+> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: linux-watchdog@vger.kernel.org
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-PXA is now ready to be built into a single kernel with all the
-other ARMv5 platforms, so change the Kconfig bit to finish it
-off. The mach/uncompress.h support is the last bit that goes away,
-getting replaced with the normal DEBUG_LL based approach.
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- arch/arm/Kconfig                            | 17 -----
- arch/arm/configs/am200epdkit_defconfig      |  1 +
- arch/arm/configs/cm_x300_defconfig          |  1 +
- arch/arm/configs/colibri_pxa270_defconfig   |  1 +
- arch/arm/configs/colibri_pxa300_defconfig   |  1 +
- arch/arm/configs/corgi_defconfig            |  1 +
- arch/arm/configs/eseries_pxa_defconfig      |  1 +
- arch/arm/configs/ezx_defconfig              |  1 +
- arch/arm/configs/h5000_defconfig            |  1 +
- arch/arm/configs/imote2_defconfig           |  1 +
- arch/arm/configs/lpd270_defconfig           |  1 +
- arch/arm/configs/lubbock_defconfig          |  1 +
- arch/arm/configs/magician_defconfig         |  1 +
- arch/arm/configs/mainstone_defconfig        |  1 +
- arch/arm/configs/palmz72_defconfig          |  1 +
- arch/arm/configs/pcm027_defconfig           |  1 +
- arch/arm/configs/pxa255-idp_defconfig       |  1 +
- arch/arm/configs/pxa3xx_defconfig           |  1 +
- arch/arm/configs/pxa_defconfig              |  1 +
- arch/arm/configs/spitz_defconfig            |  1 +
- arch/arm/configs/trizeps4_defconfig         |  1 +
- arch/arm/configs/viper_defconfig            |  1 +
- arch/arm/configs/xcep_defconfig             |  1 +
- arch/arm/configs/zeus_defconfig             |  1 +
- arch/arm/mach-pxa/Kconfig                   | 14 +++++
- arch/arm/mach-pxa/Makefile.boot             |  3 -
- arch/arm/mach-pxa/include/mach/uncompress.h | 70 ---------------------
- 27 files changed, 37 insertions(+), 90 deletions(-)
- delete mode 100644 arch/arm/mach-pxa/Makefile.boot
- delete mode 100644 arch/arm/mach-pxa/include/mach/uncompress.h
-
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index ace6c08c8ae2..001f77e0058c 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -411,23 +411,6 @@ config ARCH_DOVE
- 	help
- 	  Support for the Marvell Dove SoC 88AP510
- 
--config ARCH_PXA
--	bool "PXA2xx/PXA3xx-based"
--	select ARM_CPU_SUSPEND if PM
--	select AUTO_ZRELADDR
--	select COMMON_CLK
--	select CLKSRC_PXA
--	select CLKSRC_MMIO
--	select TIMER_OF
--	select CPU_XSCALE if !CPU_XSC3
--	select GPIO_PXA
--	select GPIOLIB
--	select IRQ_DOMAIN
--	select PLAT_PXA
--	select SPARSE_IRQ
--	help
--	  Support for Intel/Marvell's PXA2xx/PXA3xx processor line.
--
- config ARCH_RPC
- 	bool "RiscPC"
- 	depends on !CC_IS_CLANG && GCC_VERSION < 90100 && GCC_VERSION >= 60000
-diff --git a/arch/arm/configs/am200epdkit_defconfig b/arch/arm/configs/am200epdkit_defconfig
-index 4e49d6cb2f62..9252ce0e722b 100644
---- a/arch/arm/configs/am200epdkit_defconfig
-+++ b/arch/arm/configs/am200epdkit_defconfig
-@@ -10,6 +10,7 @@ CONFIG_SLAB=y
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_ARCH_GUMSTIX=y
- CONFIG_PCCARD=y
-diff --git a/arch/arm/configs/cm_x300_defconfig b/arch/arm/configs/cm_x300_defconfig
-index 45769d0ddd4e..bb0fcd82d2a7 100644
---- a/arch/arm/configs/cm_x300_defconfig
-+++ b/arch/arm/configs/cm_x300_defconfig
-@@ -10,6 +10,7 @@ CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_GPIO_PCA953X=y
- CONFIG_MACH_CM_X300=y
-diff --git a/arch/arm/configs/colibri_pxa270_defconfig b/arch/arm/configs/colibri_pxa270_defconfig
-index 52bad9a544a0..b29898fd6a12 100644
---- a/arch/arm/configs/colibri_pxa270_defconfig
-+++ b/arch/arm/configs/colibri_pxa270_defconfig
-@@ -16,6 +16,7 @@ CONFIG_MODULE_FORCE_UNLOAD=y
- CONFIG_MODVERSIONS=y
- CONFIG_MODULE_SRCVERSION_ALL=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_COLIBRI=y
- CONFIG_PREEMPT=y
-diff --git a/arch/arm/configs/colibri_pxa300_defconfig b/arch/arm/configs/colibri_pxa300_defconfig
-index 26e5a67f8e2d..f9d110294644 100644
---- a/arch/arm/configs/colibri_pxa300_defconfig
-+++ b/arch/arm/configs/colibri_pxa300_defconfig
-@@ -1,6 +1,7 @@
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_COLIBRI300=y
- CONFIG_AEABI=y
-diff --git a/arch/arm/configs/corgi_defconfig b/arch/arm/configs/corgi_defconfig
-index 15b749f6996d..96c677c98bc7 100644
---- a/arch/arm/configs/corgi_defconfig
-+++ b/arch/arm/configs/corgi_defconfig
-@@ -9,6 +9,7 @@ CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_PXA_SHARPSL=y
- CONFIG_MACH_POODLE=y
-diff --git a/arch/arm/configs/eseries_pxa_defconfig b/arch/arm/configs/eseries_pxa_defconfig
-index 046f4dc2e18e..2146adc1825e 100644
---- a/arch/arm/configs/eseries_pxa_defconfig
-+++ b/arch/arm/configs/eseries_pxa_defconfig
-@@ -9,6 +9,7 @@ CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_ARCH_PXA_ESERIES=y
- # CONFIG_ARM_THUMB is not set
-diff --git a/arch/arm/configs/ezx_defconfig b/arch/arm/configs/ezx_defconfig
-index 0788a892e160..5d000c8be44e 100644
---- a/arch/arm/configs/ezx_defconfig
-+++ b/arch/arm/configs/ezx_defconfig
-@@ -14,6 +14,7 @@ CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- CONFIG_MODVERSIONS=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_PXA_EZX=y
- CONFIG_NO_HZ=y
-diff --git a/arch/arm/configs/h5000_defconfig b/arch/arm/configs/h5000_defconfig
-index f5a338fefda8..a67d6020aee5 100644
---- a/arch/arm/configs/h5000_defconfig
-+++ b/arch/arm/configs/h5000_defconfig
-@@ -10,6 +10,7 @@ CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_H5000=y
- CONFIG_AEABI=y
-diff --git a/arch/arm/configs/imote2_defconfig b/arch/arm/configs/imote2_defconfig
-index 015b7ef237de..c056fe29d300 100644
---- a/arch/arm/configs/imote2_defconfig
-+++ b/arch/arm/configs/imote2_defconfig
-@@ -13,6 +13,7 @@ CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- CONFIG_MODVERSIONS=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_INTELMOTE2=y
- CONFIG_NO_HZ=y
-diff --git a/arch/arm/configs/lpd270_defconfig b/arch/arm/configs/lpd270_defconfig
-index 3a4d0e64cd6e..5c0a671ed294 100644
---- a/arch/arm/configs/lpd270_defconfig
-+++ b/arch/arm/configs/lpd270_defconfig
-@@ -2,6 +2,7 @@ CONFIG_SYSVIPC=y
- CONFIG_LOG_BUF_SHIFT=14
- CONFIG_SLAB=y
- CONFIG_MODULES=y
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_LOGICPD_PXA270=y
- # CONFIG_ARM_THUMB is not set
-diff --git a/arch/arm/configs/lubbock_defconfig b/arch/arm/configs/lubbock_defconfig
-index 4ce2da2e76fa..cf49dc1629a7 100644
---- a/arch/arm/configs/lubbock_defconfig
-+++ b/arch/arm/configs/lubbock_defconfig
-@@ -1,6 +1,7 @@
- CONFIG_SYSVIPC=y
- CONFIG_LOG_BUF_SHIFT=14
- CONFIG_MODULES=y
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_ARCH_LUBBOCK=y
- # CONFIG_ARM_THUMB is not set
-diff --git a/arch/arm/configs/magician_defconfig b/arch/arm/configs/magician_defconfig
-index abde1fb23b20..13da808ffa13 100644
---- a/arch/arm/configs/magician_defconfig
-+++ b/arch/arm/configs/magician_defconfig
-@@ -9,6 +9,7 @@ CONFIG_SLAB=y
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_H4700=y
- CONFIG_MACH_MAGICIAN=y
-diff --git a/arch/arm/configs/mainstone_defconfig b/arch/arm/configs/mainstone_defconfig
-index 26499b697f9f..03b4c61bdadd 100644
---- a/arch/arm/configs/mainstone_defconfig
-+++ b/arch/arm/configs/mainstone_defconfig
-@@ -1,6 +1,7 @@
- CONFIG_SYSVIPC=y
- CONFIG_LOG_BUF_SHIFT=14
- CONFIG_MODULES=y
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_MAINSTONE=y
- # CONFIG_ARM_THUMB is not set
-diff --git a/arch/arm/configs/palmz72_defconfig b/arch/arm/configs/palmz72_defconfig
-index b47c8abe85bc..e6acb1d588e2 100644
---- a/arch/arm/configs/palmz72_defconfig
-+++ b/arch/arm/configs/palmz72_defconfig
-@@ -7,6 +7,7 @@ CONFIG_SLAB=y
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_ARCH_PXA_PALM=y
- # CONFIG_MACH_PALMTX is not set
-diff --git a/arch/arm/configs/pcm027_defconfig b/arch/arm/configs/pcm027_defconfig
-index e97a158081fc..106d5bef48e2 100644
---- a/arch/arm/configs/pcm027_defconfig
-+++ b/arch/arm/configs/pcm027_defconfig
-@@ -13,6 +13,7 @@ CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_PCM027=y
- CONFIG_MACH_PCM990_BASEBOARD=y
-diff --git a/arch/arm/configs/pxa255-idp_defconfig b/arch/arm/configs/pxa255-idp_defconfig
-index 4a383afa5e87..5663245e9534 100644
---- a/arch/arm/configs/pxa255-idp_defconfig
-+++ b/arch/arm/configs/pxa255-idp_defconfig
-@@ -1,6 +1,7 @@
- CONFIG_SYSVIPC=y
- CONFIG_LOG_BUF_SHIFT=14
- CONFIG_MODULES=y
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_ARCH_PXA_IDP=y
- # CONFIG_ARM_THUMB is not set
-diff --git a/arch/arm/configs/pxa3xx_defconfig b/arch/arm/configs/pxa3xx_defconfig
-index f0c34017f2aa..228d4271748b 100644
---- a/arch/arm/configs/pxa3xx_defconfig
-+++ b/arch/arm/configs/pxa3xx_defconfig
-@@ -6,6 +6,7 @@ CONFIG_KALLSYMS_ALL=y
- CONFIG_SLAB=y
- CONFIG_MODULES=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_LITTLETON=y
- CONFIG_MACH_TAVOREVB=y
-diff --git a/arch/arm/configs/pxa_defconfig b/arch/arm/configs/pxa_defconfig
-index 29b1f192afbb..1db70dfd32d2 100644
---- a/arch/arm/configs/pxa_defconfig
-+++ b/arch/arm/configs/pxa_defconfig
-@@ -23,6 +23,7 @@ CONFIG_MODULE_SRCVERSION_ALL=y
- CONFIG_PARTITION_ADVANCED=y
- CONFIG_LDM_PARTITION=y
- CONFIG_CMDLINE_PARTITION=y
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_ARCH_LUBBOCK=y
- CONFIG_MACH_MAINSTONE=y
-diff --git a/arch/arm/configs/spitz_defconfig b/arch/arm/configs/spitz_defconfig
-index f42c7a502b6e..43d079ee342a 100644
---- a/arch/arm/configs/spitz_defconfig
-+++ b/arch/arm/configs/spitz_defconfig
-@@ -9,6 +9,7 @@ CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_PXA_SHARPSL=y
- CONFIG_MACH_AKITA=y
-diff --git a/arch/arm/configs/trizeps4_defconfig b/arch/arm/configs/trizeps4_defconfig
-index d66f0c287d41..baeba4667e9b 100644
---- a/arch/arm/configs/trizeps4_defconfig
-+++ b/arch/arm/configs/trizeps4_defconfig
-@@ -14,6 +14,7 @@ CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- CONFIG_MODVERSIONS=y
- CONFIG_MODULE_SRCVERSION_ALL=y
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_TRIZEPS_PXA=y
- CONFIG_MACH_TRIZEPS4=y
-diff --git a/arch/arm/configs/viper_defconfig b/arch/arm/configs/viper_defconfig
-index c28539bfd128..7c1029716ea5 100644
---- a/arch/arm/configs/viper_defconfig
-+++ b/arch/arm/configs/viper_defconfig
-@@ -9,6 +9,7 @@ CONFIG_SLAB=y
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_ARCH_VIPER=y
- CONFIG_IWMMXT=y
-diff --git a/arch/arm/configs/xcep_defconfig b/arch/arm/configs/xcep_defconfig
-index 4d8e7f2eaef7..3752672f980e 100644
---- a/arch/arm/configs/xcep_defconfig
-+++ b/arch/arm/configs/xcep_defconfig
-@@ -19,6 +19,7 @@ CONFIG_MODULE_UNLOAD=y
- CONFIG_MODVERSIONS=y
- CONFIG_MODULE_SRCVERSION_ALL=y
- # CONFIG_BLOCK is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_XCEP=y
- CONFIG_IWMMXT=y
-diff --git a/arch/arm/configs/zeus_defconfig b/arch/arm/configs/zeus_defconfig
-index 25bb6995f105..03a12fb51259 100644
---- a/arch/arm/configs/zeus_defconfig
-+++ b/arch/arm/configs/zeus_defconfig
-@@ -4,6 +4,7 @@ CONFIG_LOG_BUF_SHIFT=13
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_ARCOM_ZEUS=y
- CONFIG_PCCARD=m
-diff --git a/arch/arm/mach-pxa/Kconfig b/arch/arm/mach-pxa/Kconfig
-index 57f0be4065c1..d2cea239fe13 100644
---- a/arch/arm/mach-pxa/Kconfig
-+++ b/arch/arm/mach-pxa/Kconfig
-@@ -1,4 +1,18 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+menuconfig ARCH_PXA
-+	bool "PXA2xx/PXA3xx-based"
-+	depends on ARCH_MULTI_V5
-+	select ARM_CPU_SUSPEND if PM
-+	select CLKSRC_PXA
-+	select CLKSRC_MMIO
-+	select TIMER_OF
-+	select CPU_XSCALE if !CPU_XSC3
-+	select GPIO_PXA
-+	select GPIOLIB
-+	select PLAT_PXA
-+	help
-+	  Support for Intel/Marvell's PXA2xx/PXA3xx processor line.
-+
- if ARCH_PXA
- 
- menu "Intel PXA2xx/PXA3xx Implementations"
-diff --git a/arch/arm/mach-pxa/Makefile.boot b/arch/arm/mach-pxa/Makefile.boot
-deleted file mode 100644
-index bb6e353ecf06..000000000000
---- a/arch/arm/mach-pxa/Makefile.boot
-+++ /dev/null
-@@ -1,3 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--   zreladdr-y	+= 0xa0008000
--
-diff --git a/arch/arm/mach-pxa/include/mach/uncompress.h b/arch/arm/mach-pxa/include/mach/uncompress.h
-deleted file mode 100644
-index 1ed629e38ce6..000000000000
---- a/arch/arm/mach-pxa/include/mach/uncompress.h
-+++ /dev/null
-@@ -1,70 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * arch/arm/mach-pxa/include/mach/uncompress.h
-- *
-- * Author:	Nicolas Pitre
-- * Copyright:	(C) 2001 MontaVista Software Inc.
-- */
--
--#include <linux/serial_reg.h>
--#include <asm/mach-types.h>
--
--#define FFUART_BASE	(0x40100000)
--#define BTUART_BASE	(0x40200000)
--#define STUART_BASE	(0x40700000)
--
--unsigned long uart_base;
--unsigned int uart_shift;
--unsigned int uart_is_pxa;
--
--static inline unsigned char uart_read(int offset)
--{
--	return *(volatile unsigned char *)(uart_base + (offset << uart_shift));
--}
--
--static inline void uart_write(unsigned char val, int offset)
--{
--	*(volatile unsigned char *)(uart_base + (offset << uart_shift)) = val;
--}
--
--static inline int uart_is_enabled(void)
--{
--	/* assume enabled by default for non-PXA uarts */
--	return uart_is_pxa ? uart_read(UART_IER) & UART_IER_UUE : 1;
--}
--
--static inline void putc(char c)
--{
--	if (!uart_is_enabled())
--		return;
--
--	while (!(uart_read(UART_LSR) & UART_LSR_THRE))
--		barrier();
--
--	uart_write(c, UART_TX);
--}
--
--/*
-- * This does not append a newline
-- */
--static inline void flush(void)
--{
--}
--
--static inline void arch_decomp_setup(void)
--{
--	/* initialize to default */
--	uart_base = FFUART_BASE;
--	uart_shift = 2;
--	uart_is_pxa = 1;
--
--	if (machine_is_littleton() ||  machine_is_csb726() ||
--	    machine_is_cm_x300() || machine_is_balloon3())
--		uart_base = STUART_BASE;
--
--	if (machine_is_arcom_zeus()) {
--		uart_base = 0x10000000;	/* nCS4 */
--		uart_shift = 1;
--		uart_is_pxa = 0;
--	}
--}
--- 
-2.29.2
+> ---
+>   arch/arm/mach-pxa/devices.c               | 11 +++
+>   arch/arm/mach-pxa/include/mach/regs-ost.h |  2 +
+>   arch/arm/mach-pxa/include/mach/reset.h    |  2 +-
+>   arch/arm/mach-pxa/pxa25x.c                |  2 +-
+>   arch/arm/mach-pxa/pxa27x.c                |  2 +-
+>   arch/arm/mach-pxa/pxa3xx.c                |  2 +-
+>   arch/arm/mach-pxa/reset.c                 |  3 -
+>   arch/arm/mach-sa1100/generic.c            |  6 +-
+>   arch/arm/mach-sa1100/include/mach/reset.h |  1 -
+>   drivers/watchdog/sa1100_wdt.c             | 87 ++++++++++++++++-------
+>   10 files changed, 83 insertions(+), 35 deletions(-)
+> 
+> diff --git a/arch/arm/mach-pxa/devices.c b/arch/arm/mach-pxa/devices.c
+> index 454523237c97..12f78636045f 100644
+> --- a/arch/arm/mach-pxa/devices.c
+> +++ b/arch/arm/mach-pxa/devices.c
+> @@ -24,6 +24,8 @@
+>   #include <linux/platform_data/mmp_dma.h>
+>   #include <linux/platform_data/mtd-nand-pxa3xx.h>
+>   
+> +#include <mach/regs-ost.h>
+> +#include <mach/reset.h>
+>   #include "devices.h"
+>   #include "generic.h"
+>   
+> @@ -1118,3 +1120,12 @@ void __init pxa2xx_set_dmac_info(struct mmp_dma_platdata *dma_pdata)
+>   {
+>   	pxa_register_device(&pxa2xx_pxa_dma, dma_pdata);
+>   }
+> +
+> +void __init pxa_register_wdt(unsigned int reset_status)
+> +{
+> +	struct resource res = DEFINE_RES_MEM(OST_PHYS, OST_LEN);
+> +
+> +	reset_status &= RESET_STATUS_WATCHDOG;
+> +	platform_device_register_resndata(NULL, "sa1100_wdt", -1, &res, 1,
+> +					  &reset_status, sizeof(reset_status));
+> +}
+> diff --git a/arch/arm/mach-pxa/include/mach/regs-ost.h b/arch/arm/mach-pxa/include/mach/regs-ost.h
+> index 109d0ed264df..c8001cfc8d6b 100644
+> --- a/arch/arm/mach-pxa/include/mach/regs-ost.h
+> +++ b/arch/arm/mach-pxa/include/mach/regs-ost.h
+> @@ -7,6 +7,8 @@
+>   /*
+>    * OS Timer & Match Registers
+>    */
+> +#define OST_PHYS	0x40A00000
+> +#define OST_LEN		0x00000020
+>   
+>   #define OSMR0		io_p2v(0x40A00000)  /* */
+>   #define OSMR1		io_p2v(0x40A00004)  /* */
+> diff --git a/arch/arm/mach-pxa/include/mach/reset.h b/arch/arm/mach-pxa/include/mach/reset.h
+> index e1c4d100fd45..963dd190bc13 100644
+> --- a/arch/arm/mach-pxa/include/mach/reset.h
+> +++ b/arch/arm/mach-pxa/include/mach/reset.h
+> @@ -8,8 +8,8 @@
+>   #define RESET_STATUS_GPIO	(1 << 3)	/* GPIO Reset */
+>   #define RESET_STATUS_ALL	(0xf)
+>   
+> -extern unsigned int reset_status;
+>   extern void clear_reset_status(unsigned int mask);
+> +extern void pxa_register_wdt(unsigned int reset_status);
+>   
+>   /**
+>    * init_gpio_reset() - register GPIO as reset generator
+> diff --git a/arch/arm/mach-pxa/pxa25x.c b/arch/arm/mach-pxa/pxa25x.c
+> index 305047ebd2f1..dfc90b41fba3 100644
+> --- a/arch/arm/mach-pxa/pxa25x.c
+> +++ b/arch/arm/mach-pxa/pxa25x.c
+> @@ -240,7 +240,7 @@ static int __init pxa25x_init(void)
+>   
+>   	if (cpu_is_pxa25x()) {
+>   
+> -		reset_status = RCSR;
+> +		pxa_register_wdt(RCSR);
+>   
+>   		pxa25x_init_pm();
+>   
+> diff --git a/arch/arm/mach-pxa/pxa27x.c b/arch/arm/mach-pxa/pxa27x.c
+> index a81ac88ecbfd..38fdd22c4dc5 100644
+> --- a/arch/arm/mach-pxa/pxa27x.c
+> +++ b/arch/arm/mach-pxa/pxa27x.c
+> @@ -337,7 +337,7 @@ static int __init pxa27x_init(void)
+>   
+>   	if (cpu_is_pxa27x()) {
+>   
+> -		reset_status = RCSR;
+> +		pxa_register_wdt(RCSR);
+>   
+>   		pxa27x_init_pm();
+>   
+> diff --git a/arch/arm/mach-pxa/pxa3xx.c b/arch/arm/mach-pxa/pxa3xx.c
+> index fc84aed99481..7c569fa2a6da 100644
+> --- a/arch/arm/mach-pxa/pxa3xx.c
+> +++ b/arch/arm/mach-pxa/pxa3xx.c
+> @@ -463,7 +463,7 @@ static int __init pxa3xx_init(void)
+>   
+>   	if (cpu_is_pxa3xx()) {
+>   
+> -		reset_status = ARSR;
+> +		pxa_register_wdt(ARSR);
+>   
+>   		/*
+>   		 * clear RDH bit every time after reset
+> diff --git a/arch/arm/mach-pxa/reset.c b/arch/arm/mach-pxa/reset.c
+> index af78405aa4e9..fcb791c5ae3e 100644
+> --- a/arch/arm/mach-pxa/reset.c
+> +++ b/arch/arm/mach-pxa/reset.c
+> @@ -11,9 +11,6 @@
+>   #include <mach/reset.h>
+>   #include <mach/smemc.h>
+>   
+> -unsigned int reset_status;
+> -EXPORT_SYMBOL(reset_status);
+> -
+>   static void do_hw_reset(void);
+>   
+>   static int reset_gpio = -1;
+> diff --git a/arch/arm/mach-sa1100/generic.c b/arch/arm/mach-sa1100/generic.c
+> index 4dfb7554649d..6c21f214cd60 100644
+> --- a/arch/arm/mach-sa1100/generic.c
+> +++ b/arch/arm/mach-sa1100/generic.c
+> @@ -39,9 +39,6 @@
+>   #include "generic.h"
+>   #include <clocksource/pxa.h>
+>   
+> -unsigned int reset_status;
+> -EXPORT_SYMBOL(reset_status);
+> -
+>   #define NR_FREQS	16
+>   
+>   /*
+> @@ -319,10 +316,13 @@ static struct platform_device *sa11x0_devices[] __initdata = {
+>   
+>   static int __init sa1100_init(void)
+>   {
+> +	struct resource wdt_res = DEFINE_RES_MEM(0x90000000, 0x20);
+>   	pm_power_off = sa1100_power_off;
+>   
+>   	regulator_has_full_constraints();
+>   
+> +	platform_device_register_simple("sa1100_wdt", -1, &wdt_res, 1);
+> +
+>   	return platform_add_devices(sa11x0_devices, ARRAY_SIZE(sa11x0_devices));
+>   }
+>   
+> diff --git a/arch/arm/mach-sa1100/include/mach/reset.h b/arch/arm/mach-sa1100/include/mach/reset.h
+> index 27695650a567..a6723d45ae2a 100644
+> --- a/arch/arm/mach-sa1100/include/mach/reset.h
+> +++ b/arch/arm/mach-sa1100/include/mach/reset.h
+> @@ -10,7 +10,6 @@
+>   #define RESET_STATUS_GPIO	(1 << 3)	/* GPIO Reset */
+>   #define RESET_STATUS_ALL	(0xf)
+>   
+> -extern unsigned int reset_status;
+>   static inline void clear_reset_status(unsigned int mask)
+>   {
+>   	RCSR = mask;
+> diff --git a/drivers/watchdog/sa1100_wdt.c b/drivers/watchdog/sa1100_wdt.c
+> index d33f0375112f..2d0a06a158a8 100644
+> --- a/drivers/watchdog/sa1100_wdt.c
+> +++ b/drivers/watchdog/sa1100_wdt.c
+> @@ -22,6 +22,7 @@
+>   #include <linux/types.h>
+>   #include <linux/kernel.h>
+>   #include <linux/fs.h>
+> +#include <linux/platform_device.h>
+>   #include <linux/miscdevice.h>
+>   #include <linux/watchdog.h>
+>   #include <linux/init.h>
+> @@ -30,16 +31,42 @@
+>   #include <linux/uaccess.h>
+>   #include <linux/timex.h>
+>   
+> -#ifdef CONFIG_ARCH_PXA
+> -#include <mach/regs-ost.h>
+> -#endif
+> +#define REG_OSMR0  	0x0000  /* OS timer Match Reg. 0 */
+> +#define REG_OSMR1  	0x0004  /* OS timer Match Reg. 1 */
+> +#define REG_OSMR2  	0x0008  /* OS timer Match Reg. 2 */
+> +#define REG_OSMR3  	0x000c  /* OS timer Match Reg. 3 */
+> +#define REG_OSCR   	0x0010  /* OS timer Counter Reg. */
+> +#define REG_OSSR   	0x0014  /* OS timer Status Reg. */
+> +#define REG_OWER   	0x0018  /* OS timer Watch-dog Enable Reg. */
+> +#define REG_OIER  	0x001C  /* OS timer Interrupt Enable Reg. */
+>   
+> -#include <mach/reset.h>
+> +#define OSSR_M3		(1 << 3)	/* Match status channel 3 */
+> +#define OSSR_M2		(1 << 2)	/* Match status channel 2 */
+> +#define OSSR_M1		(1 << 1)	/* Match status channel 1 */
+> +#define OSSR_M0		(1 << 0)	/* Match status channel 0 */
+> +
+> +#define OWER_WME	(1 << 0)	/* Watchdog Match Enable */
+> +
+> +#define OIER_E3		(1 << 3)	/* Interrupt enable channel 3 */
+> +#define OIER_E2		(1 << 2)	/* Interrupt enable channel 2 */
+> +#define OIER_E1		(1 << 1)	/* Interrupt enable channel 1 */
+> +#define OIER_E0		(1 << 0)	/* Interrupt enable channel 0 */
+>   
+>   static unsigned long oscr_freq;
+>   static unsigned long sa1100wdt_users;
+>   static unsigned int pre_margin;
+>   static int boot_status;
+> +static void __iomem *reg_base;
+> +
+> +static inline void sa1100_wr(u32 val, u32 offset)
+> +{
+> +	writel_relaxed(val, reg_base + offset);
+> +}
+> +
+> +static inline u32 sa1100_rd(u32 offset)
+> +{
+> +	return readl_relaxed(reg_base + offset);
+> +}
+>   
+>   /*
+>    *	Allow only one person to hold it open
+> @@ -50,10 +77,10 @@ static int sa1100dog_open(struct inode *inode, struct file *file)
+>   		return -EBUSY;
+>   
+>   	/* Activate SA1100 Watchdog timer */
+> -	writel_relaxed(readl_relaxed(OSCR) + pre_margin, OSMR3);
+> -	writel_relaxed(OSSR_M3, OSSR);
+> -	writel_relaxed(OWER_WME, OWER);
+> -	writel_relaxed(readl_relaxed(OIER) | OIER_E3, OIER);
+> +	sa1100_wr(sa1100_rd(REG_OSCR) + pre_margin, REG_OSMR3);
+> +	sa1100_wr(OSSR_M3, REG_OSSR);
+> +	sa1100_wr(OWER_WME, REG_OWER);
+> +	sa1100_wr(sa1100_rd(REG_OIER) | OIER_E3, REG_OIER);
+>   	return stream_open(inode, file);
+>   }
+>   
+> @@ -61,7 +88,7 @@ static int sa1100dog_open(struct inode *inode, struct file *file)
+>    * The watchdog cannot be disabled.
+>    *
+>    * Previous comments suggested that turning off the interrupt by
+> - * clearing OIER[E3] would prevent the watchdog timing out but this
+> + * clearing REG_OIER[E3] would prevent the watchdog timing out but this
+>    * does not appear to be true (at least on the PXA255).
+>    */
+>   static int sa1100dog_release(struct inode *inode, struct file *file)
+> @@ -76,7 +103,7 @@ static ssize_t sa1100dog_write(struct file *file, const char __user *data,
+>   {
+>   	if (len)
+>   		/* Refresh OSMR3 timer. */
+> -		writel_relaxed(readl_relaxed(OSCR) + pre_margin, OSMR3);
+> +		sa1100_wr(sa1100_rd(REG_OSCR) + pre_margin, REG_OSMR3);
+>   	return len;
+>   }
+>   
+> @@ -110,7 +137,7 @@ static long sa1100dog_ioctl(struct file *file, unsigned int cmd,
+>   		break;
+>   
+>   	case WDIOC_KEEPALIVE:
+> -		writel_relaxed(readl_relaxed(OSCR) + pre_margin, OSMR3);
+> +		sa1100_wr(sa1100_rd(REG_OSCR) + pre_margin, REG_OSMR3);
+>   		ret = 0;
+>   		break;
+>   
+> @@ -125,7 +152,7 @@ static long sa1100dog_ioctl(struct file *file, unsigned int cmd,
+>   		}
+>   
+>   		pre_margin = oscr_freq * time;
+> -		writel_relaxed(readl_relaxed(OSCR) + pre_margin, OSMR3);
+> +		sa1100_wr(sa1100_rd(REG_OSCR) + pre_margin, REG_OSMR3);
+>   		fallthrough;
+>   
+>   	case WDIOC_GETTIMEOUT:
+> @@ -151,12 +178,22 @@ static struct miscdevice sa1100dog_miscdev = {
+>   	.fops		= &sa1100dog_fops,
+>   };
+>   
+> -static int margin __initdata = 60;		/* (secs) Default is 1 minute */
+> +static int margin = 60;		/* (secs) Default is 1 minute */
+>   static struct clk *clk;
+>   
+> -static int __init sa1100dog_init(void)
+> +static int sa1100dog_probe(struct platform_device *pdev)
+>   {
+>   	int ret;
+> +	int *platform_data;
+> +	struct resource *res;
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	if (!res)
+> +		return -ENXIO;
+> +	reg_base = devm_ioremap(&pdev->dev, res->start, resource_size(res));
+> +	ret = PTR_ERR_OR_ZERO(reg_base);
+> +	if (ret)
+> +		return ret;
+>   
+>   	clk = clk_get(NULL, "OSTIMER0");
+>   	if (IS_ERR(clk)) {
+> @@ -174,13 +211,9 @@ static int __init sa1100dog_init(void)
+>   
+>   	oscr_freq = clk_get_rate(clk);
+>   
+> -	/*
+> -	 * Read the reset status, and save it for later.  If
+> -	 * we suspend, RCSR will be cleared, and the watchdog
+> -	 * reset reason will be lost.
+> -	 */
+> -	boot_status = (reset_status & RESET_STATUS_WATCHDOG) ?
+> -				WDIOF_CARDRESET : 0;
+> +	platform_data = pdev->dev.platform_data;
+> +	if (platform_data && *platform_data)
+> +		boot_status = WDIOF_CARDRESET;
+>   	pre_margin = oscr_freq * margin;
+>   
+>   	ret = misc_register(&sa1100dog_miscdev);
+> @@ -196,15 +229,21 @@ static int __init sa1100dog_init(void)
+>   	return ret;
+>   }
+>   
+> -static void __exit sa1100dog_exit(void)
+> +static int sa1100dog_remove(struct platform_device *pdev)
+>   {
+>   	misc_deregister(&sa1100dog_miscdev);
+>   	clk_disable_unprepare(clk);
+>   	clk_put(clk);
+> +
+> +	return 0;
+>   }
+>   
+> -module_init(sa1100dog_init);
+> -module_exit(sa1100dog_exit);
+> +struct platform_driver sa1100dog_driver = {
+> +	.driver.name = "sa1100_wdt",
+> +	.probe	  = sa1100dog_probe,
+> +	.remove	  = sa1100dog_remove,
+> +};
+> +module_platform_driver(sa1100dog_driver);
+>   
+>   MODULE_AUTHOR("Oleg Drokin <green@crimea.edu>");
+>   MODULE_DESCRIPTION("SA1100/PXA2xx Watchdog");
 
