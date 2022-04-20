@@ -2,63 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DB5A5082FF
-	for <lists+linux-input@lfdr.de>; Wed, 20 Apr 2022 09:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60C555083A8
+	for <lists+linux-input@lfdr.de>; Wed, 20 Apr 2022 10:42:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376390AbiDTH7G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Apr 2022 03:59:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55490 "EHLO
+        id S1356666AbiDTIoK convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 20 Apr 2022 04:44:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376541AbiDTH7C (ORCPT
+        with ESMTP id S230480AbiDTIoK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Apr 2022 03:59:02 -0400
-X-Greylist: delayed 552 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 20 Apr 2022 00:56:17 PDT
-Received: from mail.fixingbiz.pl (mail.fixingbiz.pl [217.61.22.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CF94625E
-        for <linux-input@vger.kernel.org>; Wed, 20 Apr 2022 00:56:17 -0700 (PDT)
-Received: by mail.fixingbiz.pl (Postfix, from userid 1001)
-        id 180A5A30A3; Wed, 20 Apr 2022 08:42:06 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fixingbiz.pl; s=mail;
-        t=1650440696; bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
-        h=Date:From:To:Subject:From;
-        b=bOD0UYOP//WgKSeDgih5kglrqKpJ2qMiQvmNArzRgRrmsnrtknIpfxw5bPmSG91sl
-         Joq0lqjJd0wEiY8Jt6g/Ap1Zd65Nq+P2coJjWnp3PAJyDTIWdmClrpkwTOz8rXgShq
-         dRNobWGYNlWPokyW9cK4P87yoM3GXot20ZgvTMSA3sr/YoKPBy7X/QtGOgyuzJ9HSR
-         6HZbHeaBV57o5PKWcs7ucKU2tSTxUdsrykGBwDdEyFYMNbvPHl+Tknw9xrwqWXSsvF
-         /g/12vRbaer2q2vaHfGgnTCYdRpfLDpy48PiWLKUNJkvuNTyzsGeo5JpAAuNRPmlzg
-         /Mla6F1UWMFwQ==
-Received: by mail.fixingbiz.pl for <linux-input@vger.kernel.org>; Wed, 20 Apr 2022 07:40:53 GMT
-Message-ID: <20220420074501-0.1.1x.6ul4.0.4nbl0oo3fr@fixingbiz.pl>
-Date:   Wed, 20 Apr 2022 07:40:53 GMT
-From:   =?UTF-8?Q? "Przemys=C5=82aw_Wr=C3=B3blewski" ?= 
-        <przemyslaw.wroblewski@fixingbiz.pl>
-To:     <linux-input@vger.kernel.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.fixingbiz.pl
-MIME-Version: 1.0
+        Wed, 20 Apr 2022 04:44:10 -0400
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36043137C
+        for <linux-input@vger.kernel.org>; Wed, 20 Apr 2022 01:41:24 -0700 (PDT)
+Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id 95A6BCF13F
+        for <linux-input@vger.kernel.org>; Wed, 20 Apr 2022 08:38:48 +0000 (UTC)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5829B40004;
+        Wed, 20 Apr 2022 08:38:42 +0000 (UTC)
+Message-ID: <892475a2d458aa1e8f5027f13d6582f0f6b4b05e.camel@hadess.net>
+Subject: Re: [PATCH] HID: wacom: Correct power_supply type
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ping Cheng <ping.cheng@wacom.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>
+Date:   Wed, 20 Apr 2022 10:38:41 +0200
+In-Reply-To: <nycvar.YFH.7.76.2204111708230.30217@cbobk.fhfr.pm>
+References: <20220407115406.115112-1-hadess@hadess.net>
+         <nycvar.YFH.7.76.2204111708230.30217@cbobk.fhfr.pm>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Mon, 2022-04-11 at 17:08 +0200, Jiri Kosina wrote:
+> On Thu, 7 Apr 2022, Bastien Nocera wrote:
+> 
+> > POWER_SUPPLY_TYPE_USB seems to only ever be used by USB ports that
+> > are
+> > used to charge the machine itself (so a "system" scope), like the
+> > single USB port on a phone, rather than devices.
+> > 
+> > The wacom_sys driver is the only driver that sets its device
+> > battery as
+> > being a USB type, which doesn't seem correct based on its usage, so
+> > switch it to be a battery type like all the other USB-connected
+> > devices.
+> > 
+> > Signed-off-by: Bastien Nocera <hadess@hadess.net>
+> > ---
+> >  drivers/hid/wacom_sys.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+> > index 066c567dbaa2..620fe74f5676 100644
+> > --- a/drivers/hid/wacom_sys.c
+> > +++ b/drivers/hid/wacom_sys.c
+> > @@ -1777,7 +1777,7 @@ static int __wacom_initialize_battery(struct
+> > wacom *wacom,
+> >         bat_desc->get_property = wacom_battery_get_property;
+> >         sprintf(battery->bat_name, "wacom_battery_%ld", n);
+> >         bat_desc->name = battery->bat_name;
+> > -       bat_desc->type = POWER_SUPPLY_TYPE_USB;
+> > +       bat_desc->type = POWER_SUPPLY_TYPE_BATTERY;
+> >         bat_desc->use_for_apm = 0;
+> >  
+> >         ps_bat = devm_power_supply_register(dev, bat_desc,
+> > &psy_cfg);
+> 
+> Thanks Bastien, makes sense. CCing Jason and Ping (the Wacom driver 
+> maintainers) to get their Ack.
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+Hey,
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+I know both Jason and Ping, but their name didn't show up when running
+get_maintainers.pl and neither of their names are in the MAINTAINERS
+file.
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+This probably needs fixing.
 
-
-Pozdrawiam,
-Przemys=C5=82aw Wr=C3=B3blewski
+Cheers
