@@ -2,133 +2,136 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FBAC50841A
-	for <lists+linux-input@lfdr.de>; Wed, 20 Apr 2022 10:52:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF3D15084D6
+	for <lists+linux-input@lfdr.de>; Wed, 20 Apr 2022 11:24:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376953AbiDTIz2 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Wed, 20 Apr 2022 04:55:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51188 "EHLO
+        id S1377179AbiDTJ1F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Apr 2022 05:27:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376964AbiDTIzZ (ORCPT
+        with ESMTP id S1377174AbiDTJ06 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Apr 2022 04:55:25 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A680A1CFD5;
-        Wed, 20 Apr 2022 01:52:39 -0700 (PDT)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 206004000C;
-        Wed, 20 Apr 2022 08:52:36 +0000 (UTC)
-Message-ID: <7a50fc20503e43c8172c42c621e01a111bc8104f.camel@hadess.net>
-Subject: Re: [PATCH] HID: wacom: Correct power_supply type
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Jason Gerecke <killertofu@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>
-Cc:     Linux Input <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ping Cheng <ping.cheng@wacom.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>
-Date:   Wed, 20 Apr 2022 10:52:36 +0200
-In-Reply-To: <CANRwn3SVcqFtv0BTTtqpM7M4WRN4sMKVo7_-9t5M8itt-rEttQ@mail.gmail.com>
-References: <20220407115406.115112-1-hadess@hadess.net>
-         <nycvar.YFH.7.76.2204111708230.30217@cbobk.fhfr.pm>
-         <CANRwn3SVcqFtv0BTTtqpM7M4WRN4sMKVo7_-9t5M8itt-rEttQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+        Wed, 20 Apr 2022 05:26:58 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFD283B039;
+        Wed, 20 Apr 2022 02:24:12 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id w1so1749960lfa.4;
+        Wed, 20 Apr 2022 02:24:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=u55Ek4ovTu93jGC6owGr6QZtrHl98TBOqnvlwoTCUt0=;
+        b=VCx/HeNdAIrVvK22LWtPVkq9Bv1IKELkDsHc9ZDCJpEzPZXiUk1L12Dy+mMZouB4Kb
+         Sm5gqeWiHiAo7O1rqL4fR/FRWrLwV1sxcNCEE/ser/ng6KnPEXuXeI6mJT4hEuhbpkyR
+         CnEwq7dF8XjnevURjfPXlQSPsthUbrMgXmTx0ftPiqNOdHSrKFkOiwbXMIgL4L8pif1x
+         S2OC7crPo4slcyULVJrhskiIc37n3wR0KWOXQ2sj5i0hsb8hGWYGa7c9kFuF9uQx1Lrd
+         PnwrnrwZvh2dBVEvqkQHhB/xuL6v+vJ4eVgGVRgIh8ublrifvFa02qV7bdCp+CMifVZv
+         cETg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=u55Ek4ovTu93jGC6owGr6QZtrHl98TBOqnvlwoTCUt0=;
+        b=55Zz5VXfyuyO9tEV2yEjN8Ldm9TK+io3F/MI5EJqGc/HQ3mH8rXju020y4VXUolXIW
+         bwOoTjeDuH2JlairDwziZgu+vYQvmRPH/kEwoqdiZnNazOyuxEOfph2YCBCvU6+6nzP8
+         3Eq4c6ZMMe7x1040quAHf2M7bz++V5VU+YO8ZycDlz0NIQJfidDzQiWYmxlmQMu7JFhH
+         LISM9zxiezlh5A/wYrjslqwk/J94zCB9qSYkeKsIAAus+7Z80wdpk71wbd6ZviFTUbd3
+         QtVf2T9AYjbwz2QNTW29xs+RR72sBgXZxr5xrEnD/zDw3AyTe0scJ4ODCLTSypD3wFoe
+         ZMXQ==
+X-Gm-Message-State: AOAM533CBkLY+YR3ZKlRpB/NBnnDAvN9wpGQyeRXL0Kuyo1BrncCldyr
+        B24iMJH+xrswkBbCL9WgEF8=
+X-Google-Smtp-Source: ABdhPJwBIjGhPQR/MG3suNBpw+sG1uqlbM+4wIOJy5ZknDOvMCYopGuZbVrLmdXv8OTjIhB4lEs0Kw==
+X-Received: by 2002:a05:6512:168d:b0:471:6cb9:c20f with SMTP id bu13-20020a056512168d00b004716cb9c20fmr11611107lfb.229.1650446651069;
+        Wed, 20 Apr 2022 02:24:11 -0700 (PDT)
+Received: from [192.168.1.103] ([178.176.74.70])
+        by smtp.gmail.com with ESMTPSA id d11-20020a19384b000000b0046bbd144dfesm1760268lfj.125.2022.04.20.02.24.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Apr 2022 02:24:10 -0700 (PDT)
+Subject: Re: [PATCH 01/41] video: fbdev: omapfb: lcd_ams_delta: fix unused
+ variable warning
+To:     Arnd Bergmann <arnd@kernel.org>, linux-omap@vger.kernel.org,
+        tony@atomide.com, aaro.koskinen@iki.fi, jmkrzyszt@gmail.com
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Paul Walmsley <paul@pwsan.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Mark Brown <broonie@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org
+References: <20220419133723.1394715-1-arnd@kernel.org>
+ <20220419133723.1394715-2-arnd@kernel.org>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <ddaf112d-f997-84b7-2c57-bab3d0cca382@gmail.com>
+Date:   Wed, 20 Apr 2022 12:24:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220419133723.1394715-2-arnd@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 2022-04-13 at 07:59 -0700, Jason Gerecke wrote:
-> Following up on my previous comment. I've been able to test this
-> patch
-> with both flavors of wireless interface. Both Bluetooth (Intuos Pro)
-> and dongle-based (Intuos5) appear to have mostly-correct behavior
-> while charging and discharging, even when the battery level gradually
-> drops to zero. The misbehaviors I see appear to be limited to upower
-> mis-categorizing the devices as an e.g. keyboard or generic battery
-> rather than as a tablet. This leads to some slightly confusing UI
-> issues (e.g. GNOME and KDE referring to the device incorrectly), but
-> nothing too annoying. If upower is taught to recognize tablets under
-> more circumstances those issues should disappear.
+Hello!
+
+On 4/19/22 4:36 PM, Arnd Bergmann wrote:
+
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Ping tells me you may have an Intuos4 Wireless, Bastien? Any
-> additional testing you can do with that device would be appreciated,
-> though even without it I'm personally comfortable enough to provide
-> an
-> ack:
+> A recent cleanup patch removed the only reference to a local variable
+> in some configurations.
 > 
-> Acked-by: Jason Gerecke <jason.gerecke@wacom.com>
-
-Only devices I have is the original Wacom Graphire Bluetooth, and a
-wired Intuos4 (PTK-640) which I think changed names not long after.
-
-This might be enough:
-https://gitlab.freedesktop.org/upower/upower/-/merge_requests/127
-
-Please file an issue with the info discussed in the previous mail if it
-isn't.
-
-Cheers
-
+> Move the variable into the one block it is still used in, inside
+> of an #ifdef, to avoid this warning.
 > 
-> Jason
+> Fixes: 9d773f103b89 ("video: fbdev: omapfb: lcd_ams_delta: Make use of the helper function dev_err_probe()")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
-> Now instead of four in the eights place /
-> you’ve got three, ‘Cause you added one  /
-> (That is to say, eight) to the two,     /
-> But you can’t take seven from three,    /
-> So you look at the sixty-fours....
+>  drivers/video/fbdev/omap/lcd_ams_delta.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> On Tue, Apr 12, 2022 at 1:53 AM Jiri Kosina <jikos@kernel.org> wrote:
-> > 
-> > On Thu, 7 Apr 2022, Bastien Nocera wrote:
-> > 
-> > > POWER_SUPPLY_TYPE_USB seems to only ever be used by USB ports
-> > > that are
-> > > used to charge the machine itself (so a "system" scope), like the
-> > > single USB port on a phone, rather than devices.
-> > > 
-> > > The wacom_sys driver is the only driver that sets its device
-> > > battery as
-> > > being a USB type, which doesn't seem correct based on its usage,
-> > > so
-> > > switch it to be a battery type like all the other USB-connected
-> > > devices.
-> > > 
-> > > Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> > > ---
-> > >  drivers/hid/wacom_sys.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-> > > index 066c567dbaa2..620fe74f5676 100644
-> > > --- a/drivers/hid/wacom_sys.c
-> > > +++ b/drivers/hid/wacom_sys.c
-> > > @@ -1777,7 +1777,7 @@ static int
-> > > __wacom_initialize_battery(struct wacom *wacom,
-> > >       bat_desc->get_property = wacom_battery_get_property;
-> > >       sprintf(battery->bat_name, "wacom_battery_%ld", n);
-> > >       bat_desc->name = battery->bat_name;
-> > > -     bat_desc->type = POWER_SUPPLY_TYPE_USB;
-> > > +     bat_desc->type = POWER_SUPPLY_TYPE_BATTERY;
-> > >       bat_desc->use_for_apm = 0;
-> > > 
-> > >       ps_bat = devm_power_supply_register(dev, bat_desc,
-> > > &psy_cfg);
-> > 
-> > Thanks Bastien, makes sense. CCing Jason and Ping (the Wacom driver
-> > maintainers) to get their Ack.
-> > 
-> > --
-> > Jiri Kosina
-> > SUSE Labs
-> > 
+> diff --git a/drivers/video/fbdev/omap/lcd_ams_delta.c b/drivers/video/fbdev/omap/lcd_ams_delta.c
+> index bbf871f9d862..01944ce46aa1 100644
+> --- a/drivers/video/fbdev/omap/lcd_ams_delta.c
+> +++ b/drivers/video/fbdev/omap/lcd_ams_delta.c
+[...]
+> @@ -145,7 +144,7 @@ static int ams_delta_panel_probe(struct platform_device *pdev)
+>  						&ams_delta_lcd_ops);
+>  
+>  	if (IS_ERR(lcd_device)) {
+> -		ret = PTR_ERR(lcd_device);
+> +		int ret = PTR_ERR(lcd_device);
 
+   How about inserting an empty line after declaration?
+
+>  		dev_err(&pdev->dev, "failed to register device\n");
+>  		return ret;
+>  	}
+
+MBR, Sergey
