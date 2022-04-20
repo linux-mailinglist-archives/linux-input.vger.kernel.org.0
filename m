@@ -2,65 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 885AD5091B3
-	for <lists+linux-input@lfdr.de>; Wed, 20 Apr 2022 22:58:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05D5450924E
+	for <lists+linux-input@lfdr.de>; Wed, 20 Apr 2022 23:45:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382321AbiDTU7K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Apr 2022 16:59:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40136 "EHLO
+        id S1382648AbiDTVsN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Apr 2022 17:48:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382333AbiDTU7H (ORCPT
+        with ESMTP id S1382646AbiDTVsK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Apr 2022 16:59:07 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CDFB4738F;
-        Wed, 20 Apr 2022 13:56:06 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id q1so1733026plx.13;
-        Wed, 20 Apr 2022 13:56:06 -0700 (PDT)
+        Wed, 20 Apr 2022 17:48:10 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCC072A262
+        for <linux-input@vger.kernel.org>; Wed, 20 Apr 2022 14:45:23 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id j17so3158505pfi.9
+        for <linux-input@vger.kernel.org>; Wed, 20 Apr 2022 14:45:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=iyNh/cgw372mgMuoCpBOD5OLepcke4CvqRSVyft8dEI=;
-        b=Pjvu+5wlOm0zbvm9BXVkOQIBJbIIx1+BuScH7ve1SvNr3jK3hzMmJq7Oy6+e5bMQx3
-         EUWq5pSdndTu7VFL13N3pccgmPcI6DSNQa1igjEak09RnccAL7iyPL3UZFYVyDhvdYXX
-         thpHo5hbJuGT3B1Wyrjy7n0zqsry2KJ30ai8fjsebOryZb/msh3EI8pl7zhwQ0ky+AHC
-         QjN7256MqxCw0Ze85jqAdYBZdIgZ9iAQ28pd9KMDpcdWF4tvmEY19EgJr/RvpdQFi6zq
-         S7zsic7PNs7BtciZFpPKTU/Oi1ewDdI4LgXVZRlaN4o24hOKPL7/BTBY+jafVEMpZcAS
-         PsEg==
+        bh=1C+MYZ2YZhPFidryxq4zEiEBe4AsQdWeN2BKPp6yqRQ=;
+        b=nomwd9X3mBuxt21JMkk2exIFnqhVGJntfA57AKG5R4k+45+l2MsJ52TvYpdgv5acCI
+         in5X7AJAC4cqFk2FO0qFxcXgz/RBMah5N360hjKMxiOK4ayPah9We/Vt1QHvyV2skykn
+         VXBuOUVAgdab8O3y1clItvYrFRo4S/rEOnkLmnJVx+DPUk3M4VCvlceuDMPjPBgHciy0
+         rfTm9B/G7EnHFO6JUFRqrS6uhwJNdDObbx1mXbm2nsn/K7BXA/4Ak7xmbfnftmS4I/Yb
+         dxNQyFLFI8JRg+3Yu1uL3Z/+OXae6YcGep8/JST+F4+ATa2gzw1sCve3/XSIwFfURMhd
+         boXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=iyNh/cgw372mgMuoCpBOD5OLepcke4CvqRSVyft8dEI=;
-        b=nh5dmKTp8EIMLEreqn+pByQfoTK9qO5KMcU1LP+2Uw0vdlKCtJxq6WpvZb5wN18IK+
-         L5hr6ZFguIJ37xqdVNFXcg5jgm1swEUHYQRtOwdfT/3aDLoH8OLsPxDB4oIheF/SLSvu
-         KMfa9dKisquV7H9Xb2AhPvjNoFNiYfwKqY7d+RLoG9b/k00D3mtiNyzFtK+IAR6QxUD8
-         ql83Q/e8x724WDCVWSpMQ2aRMqek0/FTo2sXGYdI5xquki0yE5MKuTTfg7xlNOUEryFz
-         +oQ9+kg7XEi1dmmEY3AZAK0YngcRWlVvbNVkI1D7wHYxaKvVIV4ZgWdOCtszjagIZgxh
-         Bacw==
-X-Gm-Message-State: AOAM530lQWtx7Ed9nJ2XpIQZ2mmiX6TAm0oop37gYOjr44KQa6gBpuwU
-        IMFOFVusv042ml8c3L5s9ZI=
-X-Google-Smtp-Source: ABdhPJzWNfD4QdoKGiy4HD3wAKCNVrRtgJ9RHg39Ydkly85OJOUKE6GjmttoYlAImRh6F0mGhCs0NQ==
-X-Received: by 2002:a17:90b:1bc5:b0:1d2:699a:54e3 with SMTP id oa5-20020a17090b1bc500b001d2699a54e3mr6471988pjb.136.1650488165771;
-        Wed, 20 Apr 2022 13:56:05 -0700 (PDT)
+        bh=1C+MYZ2YZhPFidryxq4zEiEBe4AsQdWeN2BKPp6yqRQ=;
+        b=sVzT2+AZLCSt9MVXlARwKUQNrv5nSRu41gCNniMMr32eScY8TdPTMltBBFfoUm7ZYp
+         bntBu8boCjwFR+NK4ymA3eQbJx63MTzDAQaIUE7ITVvJeGvqiqzMFwVwv/rIq5n/JLs4
+         L9d0wVLcq4L+lE8MHsIBa8Y6bKZgBmNEFaf4wNm8fsi+/FsyFtdiIYgfGMGKl5KWZlEC
+         thuiq4OrytkKNeOl1g9kDUg0A4wP7EWAMv7O/zJCpXZTKZZquWjqRTjctFoz1nTHl4Zy
+         Z+BSuvPexQtdyUeVlRJFtN5whsm/fiubhGGBiC1Z2OprlaooxGdrpkoE5Tq8A1adEP57
+         lN0g==
+X-Gm-Message-State: AOAM531LoA877Q3kc6VDFYBRLD05D3ITIwK5NedbpGjjDNYeYLfUA4fh
+        B8sbqNBAKzVXjHHilmzB0qLCT0Z77eY=
+X-Google-Smtp-Source: ABdhPJwDxUUN0Ddj982fdAzP+DW5+jVcc8dM+98/ZGaXbKeUiAX4NpXjkbwM1jZrnRq0gFH0/uWZuw==
+X-Received: by 2002:a63:6401:0:b0:3aa:5639:1884 with SMTP id y1-20020a636401000000b003aa56391884mr6196060pgb.71.1650491123169;
+        Wed, 20 Apr 2022 14:45:23 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:fe4b:9301:599b:d734])
-        by smtp.gmail.com with ESMTPSA id m18-20020a639412000000b003820bd9f2f2sm20737577pge.53.2022.04.20.13.56.04
+        by smtp.gmail.com with ESMTPSA id gd7-20020a17090b0fc700b001d0ec9c93fesm152335pjb.12.2022.04.20.14.45.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 13:56:04 -0700 (PDT)
-Date:   Wed, 20 Apr 2022 13:56:02 -0700
+        Wed, 20 Apr 2022 14:45:22 -0700 (PDT)
+Date:   Wed, 20 Apr 2022 14:45:19 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     cgel.zte@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Changcheng Deng <deng.changcheng@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH] Input: Remove unneeded variable
-Message-ID: <YmBzYpGW+9rn+SaJ@google.com>
-References: <20220419064255.2563333-1-deng.changcheng@zte.com.cn>
+To:     Alexander Shiyan <eagle.alexander923@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH] input: clps711x-keypad: Use
+ syscon_regmap_lookup_by_phandle
+Message-ID: <YmB+73TFVDTBTpix@google.com>
+References: <20220420062725.25614-1-eagle.alexander923@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220419064255.2563333-1-deng.changcheng@zte.com.cn>
+In-Reply-To: <20220420062725.25614-1-eagle.alexander923@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -71,14 +70,12 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Ov> HID-over-I2C devices might reset on their own. Any device configuration
-> applied before the reset might be brought back to defaults so we need to
-> reconfigure to make sure the driver state is consistent.
+On Wed, Apr 20, 2022 at 09:27:25AM +0300, Alexander Shiyan wrote:
+> Since version 5.13, the standard syscon bindings have been added
+> to all clps711x DT nodes, so we can now use the more general
+> syscon_regmap_lookup_by_phandle function to get the syscon pointer.
 > 
-> Add a reset callback to the hid driver structure.
-> Issue it if the driver implements it and the device reset gets observed.
-> 
-> Signed-off-by: Angela Czubak <acz@semihalf.com>
+> Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
 
 Applied, thank you.
 
