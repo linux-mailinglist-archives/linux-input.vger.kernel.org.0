@@ -2,129 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E5E0508716
-	for <lists+linux-input@lfdr.de>; Wed, 20 Apr 2022 13:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B423508812
+	for <lists+linux-input@lfdr.de>; Wed, 20 Apr 2022 14:25:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230117AbiDTLfV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Apr 2022 07:35:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43580 "EHLO
+        id S1353147AbiDTM2U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Apr 2022 08:28:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378151AbiDTLfU (ORCPT
+        with ESMTP id S1353130AbiDTM2T (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Apr 2022 07:35:20 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DA4F419A3;
-        Wed, 20 Apr 2022 04:32:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id D8E4FCE1D78;
-        Wed, 20 Apr 2022 11:32:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EAF9C385AC;
-        Wed, 20 Apr 2022 11:32:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650454351;
-        bh=SVJ1k2v3tWdUGg+iydyQsi4Bq8zjjEYtWiKbWgwFaLw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=sQ6L9Sz7HsTeFplAqNVVqZ6QvDLXO7taCfdy4bCI083iKPBu4Tu1W3tAjRXjBMJP+
-         vEnLCGH51YORxEsFGOcZi/zoMsoYQoogO656Bx3dJCN3iokeUHMcZ/sRdJXG/FEfPy
-         OVbCsNPPUvMBA4ygYO3ABwIPljbcDkM69w6wy8bq4hi0dZRIAMv8YMoKSdGB49RoPV
-         7T06gmGwLx2hqcDTbF36X1GFj0Gux2+ukzAt7yv7JaGdNy5Qv43jNDhgQacW6a+5lC
-         7ziU5CwWVIqq9dL54xJaRWmMjZZOJMF8J98DaHAPKZKsUB+PqhqrA4wPmQhlfKvBIW
-         qSWfkWYIEhJww==
-Received: by mail-wr1-f42.google.com with SMTP id x18so1882237wrc.0;
-        Wed, 20 Apr 2022 04:32:31 -0700 (PDT)
-X-Gm-Message-State: AOAM530NWB0Xph9prkK8MhpzZZvtjev6lzNibywcjlBDFqkXONBxzEmC
-        BAB2nVGC+z7kHjbSFQYnKjVNHwqTkjcmslDX/Zg=
-X-Google-Smtp-Source: ABdhPJyiDPtmjdTUE7gVl98mXVlPUP43tSlAHIUMCCxTRsYmEILlWV1BOcaVw3t9k0Uq80bvmC166gAUNNWM192dlCo=
-X-Received: by 2002:a5d:64a3:0:b0:20a:7931:5b84 with SMTP id
- m3-20020a5d64a3000000b0020a79315b84mr15873027wrp.407.1650454349319; Wed, 20
- Apr 2022 04:32:29 -0700 (PDT)
+        Wed, 20 Apr 2022 08:28:19 -0400
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 642D61C91D;
+        Wed, 20 Apr 2022 05:25:33 -0700 (PDT)
+Received: by mail-il1-x132.google.com with SMTP id h4so853249ilq.8;
+        Wed, 20 Apr 2022 05:25:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hRURk4DN2eZqCTEqfyXp6e+58OlcNywvCaEhVw8AW1k=;
+        b=NhfhqCCs3Hf2EcKb/RtIq/hjv48Ps2GXEYJ25dNCUTbtl1svXYZdaLXsrgj7QWWPdM
+         3oPVrUA81IyvWsn6DwAwMq/wFx4wtiCNIZ4QMETSQs8O1/Ye+puhovoY8VYUq1iH/jXX
+         XrqVbKAbZpXr39qKer3R/EqS37otJinwycoykfbrxTXYCCQpBa/ljq9oFdjT6hziWSS7
+         9D1VG3znG9Hyl+SjpRiJLYwyJ/6/CFz0ltHThGbWLEEy6Bpf4OHCM43Hf1lncvlyeP2v
+         t9bW6z6eQS1zHeK4eOBVQWQoY/2TdPvuLDlrwSEql08qeayxkYpHay7K4KcQoTyPt6vf
+         HlZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hRURk4DN2eZqCTEqfyXp6e+58OlcNywvCaEhVw8AW1k=;
+        b=fifMWz89yuIEqxuYDnpGPu4HwuFKgu3v7UnJ+ANgAwCEsrUUd0d922k/2/YYQfpFwU
+         P48RZYdYZKbhQh7F5YgvQq7NSC8n1uqQh8WXXpnD/unK3s7RZ2dStE0EmpvuH6BvFCsX
+         8hz6xLmb5BjbWnvJcRZkbWwuvNFPhFIFovvpdOSGZYVehaWZ2MYkb/1/P7rzUqEmfzPX
+         KZepdddMAA0A79aOi1AiFDjd+LZurzDzkLKmiesIJSHTQVV6FytknjehsxcaENiwz9VA
+         VpAygZbCqeP48f6Nv46jMQs44wlYI/u0GkbCNcnVUe/ISs9el81aXqNu9f6xqPzyvvP9
+         P+5A==
+X-Gm-Message-State: AOAM533H9j9G9utLPNz7zLKtA3dxhHq/3q0DR+5ruvmuBwYKH7YXaR2A
+        ZKgG2vFCPZw8YGdMQs80L7A59xLPdHwTYzg3INQ=
+X-Google-Smtp-Source: ABdhPJxR05XY11iOWutfHq8oz3L83XIEM/5S8NVV9L7I7mrKegnWO3BlDIq1sHEfoLPpDNiMs/wLF6X1KXkixVdCtjk=
+X-Received: by 2002:a92:6012:0:b0:2bd:fb5f:d627 with SMTP id
+ u18-20020a926012000000b002bdfb5fd627mr8766792ilb.86.1650457532838; Wed, 20
+ Apr 2022 05:25:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220419133723.1394715-1-arnd@kernel.org> <20220419133723.1394715-2-arnd@kernel.org>
- <ddaf112d-f997-84b7-2c57-bab3d0cca382@gmail.com>
-In-Reply-To: <ddaf112d-f997-84b7-2c57-bab3d0cca382@gmail.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Wed, 20 Apr 2022 13:32:13 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3+5p5i2Nxy6AxH5qDsVqqxwSR_5ufjoYCALProSLNspg@mail.gmail.com>
-Message-ID: <CAK8P3a3+5p5i2Nxy6AxH5qDsVqqxwSR_5ufjoYCALProSLNspg@mail.gmail.com>
-Subject: Re: [PATCH 01/41] video: fbdev: omapfb: lcd_ams_delta: fix unused
- variable warning
-To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Cc:     linux-omap <linux-omap@vger.kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Russell King <linux@armlinux.org.uk>,
-        Paul Walmsley <paul@pwsan.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Mark Brown <broonie@kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+References: <20220323120021.361137-1-alistair@alistair23.me>
+In-Reply-To: <20220323120021.361137-1-alistair@alistair23.me>
+From:   Alistair Francis <alistair23@gmail.com>
+Date:   Wed, 20 Apr 2022 22:25:06 +1000
+Message-ID: <CAKmqyKP5CRDx4acc6yg9SwADaGTNqKmDUrBs2ODXR30OZuunoA@mail.gmail.com>
+Subject: Re: [PATCH v7 0/4] Add support for the Cypress cyttsp5
+To:     Alistair Francis <alistair@alistair23.me>
+Cc:     linux-input <linux-input@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        dmaengine@vger.kernel.org,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andreas Kemnade <andreas@kemnade.info>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Apr 20, 2022 at 11:24 AM Sergei Shtylyov
-<sergei.shtylyov@gmail.com> wrote:
-> On 4/19/22 4:36 PM, Arnd Bergmann wrote:
+On Wed, Mar 23, 2022 at 10:00 PM Alistair Francis
+<alistair@alistair23.me> wrote:
 >
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > A recent cleanup patch removed the only reference to a local variable
-> > in some configurations.
-> >
-> > Move the variable into the one block it is still used in, inside
-> > of an #ifdef, to avoid this warning.
-> >
-> > Fixes: 9d773f103b89 ("video: fbdev: omapfb: lcd_ams_delta: Make use of the helper function dev_err_probe()")
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > ---
-> >  drivers/video/fbdev/omap/lcd_ams_delta.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/video/fbdev/omap/lcd_ams_delta.c b/drivers/video/fbdev/omap/lcd_ams_delta.c
-> > index bbf871f9d862..01944ce46aa1 100644
-> > --- a/drivers/video/fbdev/omap/lcd_ams_delta.c
-> > +++ b/drivers/video/fbdev/omap/lcd_ams_delta.c
-> [...]
-> > @@ -145,7 +144,7 @@ static int ams_delta_panel_probe(struct platform_device *pdev)
-> >                                               &ams_delta_lcd_ops);
-> >
-> >       if (IS_ERR(lcd_device)) {
-> > -             ret = PTR_ERR(lcd_device);
-> > +             int ret = PTR_ERR(lcd_device);
+> This patch series builds on top of [1] and adds support for the cyttsp5
+> touchscreen controller for the reMarkable 2.
 >
->    How about inserting an empty line after declaration?
+> I first tried to add an I2C HID device. Although the cyttsp5 has some HID
+> looking aspects it is not HID compatible. Just in trying to probe the device
+> I found:
+>  - The HID descriptor has extra padding
+>  - The HID descriptor sets the high bytes of the descriptor length
+>  - The HID descriptor has extra unrecognised tags
+>  - The HID reset command doesn't appear to work
+>
+> I don't think there is a way to use the I2C HID framework with the cyttsp5.
+> For anyone interested you can see the work here [2]. In that branch though I
+> can only obtain a HID descriptor, nothing else works without more core
+> changes.
+>
+> So instead I rebased the series from [1]. Converted to the new yaml DTS
+> documentation, added regulator support and fixed a x/y miscalculation bug.
 
-Ok, done.
+The DT bindings have been reviewed, any comments on the driver
+implementation? It has been tested on a few different devices
 
-        Arnd
+Alistair
+
+>
+> 1: https://lwn.net/ml/linux-kernel/20180703094309.18514-1-mylene.josserand@bootlin.com/
+> 2: https://github.com/alistair23/linux/commits/rM2-mainline-cyttsp5-hid
+>
+> v7:
+>  - Fix device tree warnings
+> v6:
+>  - Use reg for the button properties
+> v5:
+>  - Address review comments from v4
+>
+> Alistair Francis (4):
+>   Input: Add driver for Cypress Generation 5 touchscreen
+>   dt-bindings: input: Add Cypress TT2100 touchscreen controller
+>   ARM: imx_v6_v7_defconfig: Enable the cyttsp5 touchscreen
+>   ARM: dts: imx7d-remarkable2: Enable the cyttsp5
+>
+>  .../input/touchscreen/cypress,tt21000.yaml    | 101 ++
+>  arch/arm/boot/dts/imx7d-remarkable2.dts       | 100 ++
+>  arch/arm/configs/imx_v6_v7_defconfig          |   1 +
+>  drivers/input/touchscreen/Kconfig             |  16 +
+>  drivers/input/touchscreen/Makefile            |   1 +
+>  drivers/input/touchscreen/cyttsp5.c           | 902 ++++++++++++++++++
+>  6 files changed, 1121 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
+>  create mode 100644 drivers/input/touchscreen/cyttsp5.c
+>
+> --
+> 2.35.1
+>
