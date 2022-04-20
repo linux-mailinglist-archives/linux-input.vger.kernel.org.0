@@ -2,95 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42AE250812E
-	for <lists+linux-input@lfdr.de>; Wed, 20 Apr 2022 08:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14719508159
+	for <lists+linux-input@lfdr.de>; Wed, 20 Apr 2022 08:44:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349298AbiDTGaT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Apr 2022 02:30:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55098 "EHLO
+        id S1350495AbiDTGq6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Apr 2022 02:46:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346486AbiDTGaQ (ORCPT
+        with ESMTP id S1350136AbiDTGq5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Apr 2022 02:30:16 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB05839B9A
-        for <linux-input@vger.kernel.org>; Tue, 19 Apr 2022 23:27:30 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id f5so719685ljp.8
-        for <linux-input@vger.kernel.org>; Tue, 19 Apr 2022 23:27:30 -0700 (PDT)
+        Wed, 20 Apr 2022 02:46:57 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B85E340F9
+        for <linux-input@vger.kernel.org>; Tue, 19 Apr 2022 23:44:11 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id i27so1437394ejd.9
+        for <linux-input@vger.kernel.org>; Tue, 19 Apr 2022 23:44:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=M9+7e030qIA7KV/EaPMAI0KhomRiXStsyJ6Ix9CM/0k=;
-        b=dGM/YySdLkBh75SQVH5NfkTBWfN3sLgRESx41uwPv5A3S/YpJJXDx6sS61MpqOLXCX
-         BvpQTw1U9QFlwmGCyKtB5JQDR5ZJDQwCN9IcMm8UHcEJOUZuu28rf5f4dsI2GEAth4Y1
-         1cDvDsBsGEAvuQwzGXc4jpwaiiOJkXhjl+yEWp5l5nuBaTPbJFS7KJRAQdCwri+4VVjR
-         M6iMbGpu9zXANVVPksAAbz1z0FQI+G/9R12WAwVwPbo8+eHQhCwuEOxS70eeAQFWCfAG
-         Rol+tWuHc82/0l5VHr+A9AUj3/NtbAHQH9sVpzAKDmYeGbPUqSpEZyy4ZFEV1WgXoOl0
-         GmXA==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=lCPDSBuRx99bdPRKV0DA2Ne3h3IqfDww706PlGIaKNA=;
+        b=z0lTP7wfOWeks/ETyhcRw5d4t0RYRW95K5a58W0vv1OdzYVwprkSSj4qRhtd1X8+RO
+         GDGFKUuGiDCvKdxNLuy0EmgiJRSwVQnZ3sTqNGhRnM0eGo28/32FxjkI4B0FHPy514Xx
+         bfSyrLqbr0gCItN8MzAx8A8Gkzy1i/4KsTZHL4dr6FsbsuRMCiWgF1A/pX3zzkHZyo9b
+         9vCuJgV77ISLFILolXfnWkEZfrkpkGdp89QmBIKgL6F93d70me8/S0YR2s4uxhO3XJUP
+         OtDuMoUiA4q+pTGu176qLEfrG41GTxnjptu+9i9Is5mpZRcmqct+yLoQ+YTJ+glfwa6e
+         n/Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=M9+7e030qIA7KV/EaPMAI0KhomRiXStsyJ6Ix9CM/0k=;
-        b=Y0ry8iGfqcmTwZIimrkWJW41kG6qDqEVZehD+HwOpa7hhIEC+uptY0E7OUBMCCYVT9
-         JEYYfgUJjtkOe1TasNzVP3OktUw1fLb9a/QcLozE+mzBNnkTWFt9y8J7C+EO6k8JEa7I
-         c/08xOWWzN76OLf1aBFb6NUoxi4UPq+obc0IYhUC7Q48PeyAXys79TwERzM2biV8IFnS
-         OX7oN+8Fijwsjz6I8g2V4k6GebWvmCJg3vbA6muBWcVn1sj/B/Twmt3TqUAhTYynlHuN
-         uqMjEVn2EIIUinUcyCLh4w1UPfCSi8CbtJRmV6ApTyklbztS4TseOgn9yv3ugkuFuZV2
-         n+hQ==
-X-Gm-Message-State: AOAM530zsqMe+Iu1lsCx1V+QedvT6bi1/Ejb7VoA616OzqTuhmynbORt
-        fcTXkDNtab9t2WkuEnOQ5eURjWN3en8uXC5r
-X-Google-Smtp-Source: ABdhPJz1kpQzoOeQi/bE8+0Nk+5aTHx1Q3n1zy7FKI1V7zQPR24o3U6is+k4uN5iAG+PD8LqEf2QlQ==
-X-Received: by 2002:a2e:7e04:0:b0:24d:abc8:5b16 with SMTP id z4-20020a2e7e04000000b0024dabc85b16mr12165018ljc.390.1650436048552;
-        Tue, 19 Apr 2022 23:27:28 -0700 (PDT)
-Received: from shc.milas.spb.ru ([188.243.217.78])
-        by smtp.gmail.com with ESMTPSA id e3-20020a196903000000b00471930966cdsm820952lfc.233.2022.04.19.23.27.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Apr 2022 23:27:28 -0700 (PDT)
-From:   Alexander Shiyan <eagle.alexander923@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Alexander Shiyan <eagle.alexander923@gmail.com>
-Subject: [PATCH] input: clps711x-keypad: Use syscon_regmap_lookup_by_phandle
-Date:   Wed, 20 Apr 2022 09:27:25 +0300
-Message-Id: <20220420062725.25614-1-eagle.alexander923@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        bh=lCPDSBuRx99bdPRKV0DA2Ne3h3IqfDww706PlGIaKNA=;
+        b=WhC3MZiVxqYUUsXhNhsuDQVTYjmDhNYwxOXdlChcme54Dahus+/9Vm0QwCwyWC+cPJ
+         7SC8RNPmKmWJHI95hFrzcGMEjBkEQVwcrqvCKBY4cjz6uw2WpQH90FYEzU6hI7tWcrvo
+         lEjJYeAtogStNOXPl0qEOfV+XwFw93t47TrXM8sdxZYK8sE1y9gJGNsH/v641FPWvosE
+         ePRF6hGeYZLJeqKFFb+sdVdOidaXdQThPGMDUhkYXVMorH5xZZrN/2TQOhizwqxiEv2a
+         R7MxKKGZvH8A4fkTwfqptpF5mHe5ddcFOrSXfCnjE1SROo1gRsrlq+AsigPlhIi4Onr4
+         JAsQ==
+X-Gm-Message-State: AOAM53069q2J98n88OvcQmYg4S+7NmlO0ElNnyc1cpUAOyV6XfhxEb5I
+        WdvBwtQHchzLC89CqkzTY/TsRw==
+X-Google-Smtp-Source: ABdhPJxFja0g1iU3jiCg+96esLZdek4m4gACGDSOQT0b3hykC6q7EHXs4+tTlgNjRoxz9Fb2YDZa9A==
+X-Received: by 2002:a17:907:3f18:b0:6e8:9332:542e with SMTP id hq24-20020a1709073f1800b006e89332542emr16595678ejc.633.1650437049620;
+        Tue, 19 Apr 2022 23:44:09 -0700 (PDT)
+Received: from [192.168.0.222] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id u4-20020aa7db84000000b004136c2c357csm9676471edt.70.2022.04.19.23.44.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Apr 2022 23:44:09 -0700 (PDT)
+Message-ID: <3a84fe50-cef5-8da3-65f5-8f939e07753c@linaro.org>
+Date:   Wed, 20 Apr 2022 08:44:07 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v9 4/6] dt-bindings: mfd: sensehat: Add Raspberry Pi Sense
+ HAT schema
+Content-Language: en-US
+To:     Charles Mirabile <cmirabil@redhat.com>,
+        linux-kernel@vger.kernel.org
+Cc:     Serge Schneider <serge@raspberrypi.org>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Nicolas Saenz Julienne <nsaenzju@redhat.com>,
+        Mattias Brugger <mbrugger@suse.com>,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, fedora-rpi@googlegroups.com,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org, Mwesigwa Guma <mguma@redhat.com>,
+        Joel Savitz <jsavitz@redhat.com>
+References: <20220419205158.28088-1-cmirabil@redhat.com>
+ <20220419205158.28088-5-cmirabil@redhat.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220419205158.28088-5-cmirabil@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Since version 5.13, the standard syscon bindings have been added
-to all clps711x DT nodes, so we can now use the more general
-syscon_regmap_lookup_by_phandle function to get the syscon pointer.
+On 19/04/2022 22:51, Charles Mirabile wrote:
+> This patch adds the device tree bindings for the Sense HAT
+> and each of its children devices in yaml form.
+> 
+> Co-developed-by: Mwesigwa Guma <mguma@redhat.com>
+> Signed-off-by: Mwesigwa Guma <mguma@redhat.com>
+> Co-developed-by: Joel Savitz <jsavitz@redhat.com>
+> Signed-off-by: Joel Savitz <jsavitz@redhat.com>
+> Signed-off-by: Charles Mirabile <cmirabil@redhat.com>
+> ---
 
-Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
----
- drivers/input/keyboard/clps711x-keypad.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/input/keyboard/clps711x-keypad.c b/drivers/input/keyboard/clps711x-keypad.c
-index 019dd6ed2c29..939c88655fc0 100644
---- a/drivers/input/keyboard/clps711x-keypad.c
-+++ b/drivers/input/keyboard/clps711x-keypad.c
-@@ -95,8 +95,7 @@ static int clps711x_keypad_probe(struct platform_device *pdev)
- 	if (!priv)
- 		return -ENOMEM;
- 
--	priv->syscon =
--		syscon_regmap_lookup_by_compatible("cirrus,ep7209-syscon1");
-+	priv->syscon = syscon_regmap_lookup_by_phandle(np, "syscon");
- 	if (IS_ERR(priv->syscon))
- 		return PTR_ERR(priv->syscon);
- 
--- 
-2.32.0
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
+
+Best regards,
+Krzysztof
