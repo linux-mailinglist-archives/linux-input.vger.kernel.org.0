@@ -2,49 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 071FA509A47
-	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 10:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64116509A97
+	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 10:24:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386462AbiDUIMX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Apr 2022 04:12:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60272 "EHLO
+        id S1386602AbiDUIWZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Apr 2022 04:22:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1386454AbiDUIMU (ORCPT
+        with ESMTP id S1381397AbiDUIWW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Apr 2022 04:12:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF3171E3EB;
-        Thu, 21 Apr 2022 01:09:31 -0700 (PDT)
+        Thu, 21 Apr 2022 04:22:22 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3833B5FB4;
+        Thu, 21 Apr 2022 01:19:33 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8958161B74;
-        Thu, 21 Apr 2022 08:09:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADED1C385A9;
-        Thu, 21 Apr 2022 08:09:29 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DE76FB82145;
+        Thu, 21 Apr 2022 08:19:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C228C385A1;
+        Thu, 21 Apr 2022 08:19:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650528570;
-        bh=DQ86qqtCvZ8IVc+4aPzahAmv6PvNblsdJPMIqyHWYHk=;
+        s=k20201202; t=1650529170;
+        bh=2CZwHx4HVzYufFl2v4wil52kbsl+K8+mJxMxiPbGbnw=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=k9zQKUlc26dB9ESl05BeitdclWMpOAHRx3hk68/Z9M0uZeIqnQndJ0VN56+7GWFnr
-         0DCo/L4Mijp+AdxI7k2De5mKIXuO+JJXQmKzUXkJWacAomWfp+CpG9rV5LwCqlOlk1
-         R4xiKNacCTHYSOG7BOz7Ijx4E4AIDb1qY1NGwZIsLH0Xl02CiDJnBGpDFcRFet3RjV
-         dkXl514IBWULaivKFMSuwHSLoRug2DWNGfTQvMMuaU+bTDWXcn5PvfpuTE4mhA46Fz
-         Rfbah4fRI9t048gt1M5ZmwO07/66rVl7TNTPwNaog2bVyB5WN5fIX9yEw9IQ+tBGYZ
-         74dI3asJDiD+A==
-Date:   Thu, 21 Apr 2022 10:09:27 +0200 (CEST)
+        b=HKKe0iLMEMOLR+KQriHplJvVqeBlCUMTSAYujqEQnk+q2L424QSiZW8J060T3QnLR
+         yYk8qVmsnet32d52/RTpV15I2F0fZoMpnPByWjaq5Ak3exr5Yp3P8TI1qacnWmCwjI
+         BuZLfmiEQZN3gfCFauHZ+HniAcQeQhcCFC9qHkKoZcfZNWMlGbNaxbLN7dHpoTK3T+
+         nAJd3ZlcQ8x0tIROC7vija6H6KYef9BXxlBKVr5T0J2ZVYTlIWF7Lrj1ew3on8bmG6
+         qZz6o/+cYTl/DhVFUXAiOdqqmDYmACmRaXcjQIpgnOdaEUSN0LacWalp+fKYKtC3vj
+         34oFE6nlT2pmg==
+Date:   Thu, 21 Apr 2022 10:19:26 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
+To:     Tom Rix <trix@redhat.com>
+cc:     basavaraj.natikar@amd.com, benjamin.tissoires@redhat.com,
+        nehal-bakulchandra.shah@amd.com, Shyam-sundar.S-k@amd.com,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH for-5.19/uclogic 0/4] DIGImend patches, part IV
-In-Reply-To: <20220414110936.146378-1-jose.exposito89@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2204211005520.30217@cbobk.fhfr.pm>
-References: <20220414110936.146378-1-jose.exposito89@gmail.com>
+Subject: Re: [PATCH] HID: amd_sfh: change global variables to static
+In-Reply-To: <20220420142244.556429-1-trix@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2204211019190.30217@cbobk.fhfr.pm>
+References: <20220420142244.556429-1-trix@redhat.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -54,38 +54,19 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 14 Apr 2022, José Expósito wrote:
+On Wed, 20 Apr 2022, Tom Rix wrote:
 
-> Hi everyone,
+> Smatch reports this representative issue
+> amd_sfh_hid_report_desc.h:182:10: warning: symbol 'gyro3_report_descriptor' was not declared. Should it be static?
+> Similar issues for comp3_report_descriptor and als_report_descriptor.
 > 
-> This series is a follow up to [1], [2] and [3] and upstreams 4 more
-> patches authored by Nikolai from the DIGImend project.
+> Global variables should not be defined in header files.
+> This only works because amd_sfh_hid_report_desc.h in only included by
+> amd_sfh_hid_desc.c so change the storage-class specifiers to static.
 > 
-> Patches 1 and 2 are simple code clean up.
-> 
-> Patch 3 adds support for "bitmap dials". This kind of dials send 01
-> and 10 binary values rather than the usual 1 and -1.
-> 
-> The last patch adds support for the Huion Q620M drawing tablet, which
-> has a bitmap dial.
-> 
-> Thank you very much in advance to Jiří for his work reviewing all the
-> patches I have sent so far,
-> José Expósito
-> 
-> [1] https://lore.kernel.org/linux-input/nycvar.YFH.7.76.2202161642180.11721@cbobk.fhfr.pm/T/
-> [2] https://lore.kernel.org/linux-input/56454560-5f62-05b9-1a24-3f51a305140e@gmail.com/T/
-> [3] https://lore.kernel.org/linux-input/nycvar.YFH.7.76.2204111653000.30217@cbobk.fhfr.pm/T/
-> 
-> Nikolai Kondrashov (4):
->   HID: uclogic: Compress params format string
->   HID: uclogic: Reduce indent for params format str/args
->   HID: uclogic: Add support for bitmap dials
->   HID: uclogic: Add support for Huion Q620M
+> Signed-off-by: Tom Rix <trix@redhat.com>
 
-This is now in hid.git#for-5.19/uclogic
-
-Thanks,
+Applied, thanks Tom.
 
 -- 
 Jiri Kosina
