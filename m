@@ -2,351 +2,848 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EBCF509C44
-	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 11:33:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9347D509C3F
+	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 11:33:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1387604AbiDUJ1N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Apr 2022 05:27:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36866 "EHLO
+        id S1387678AbiDUJeu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Apr 2022 05:34:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1386678AbiDUJ1H (ORCPT
+        with ESMTP id S1387677AbiDUJet (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Apr 2022 05:27:07 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2076.outbound.protection.outlook.com [40.107.94.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AA5E27B06;
-        Thu, 21 Apr 2022 02:24:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Dv6xTqMVbdd2RMs79yMDIwLC/KTUAQTCcgqXMRC+/df/1P/SNm17kMzz2podSH88n9yelaWSW60lrczngHFgLItPEVIGZZB4A4FOYxUNtY6HKKl38488nW4pVQp7pp1S7x9mlljs76yrD6Bf9ii6oSELiQ/Ufx57EqtJoPvj0cbvaYXgJZdr0VJpnvU3toQo4ynPd5QkklC3e6eB2XXpgxdZ0iTPN/4f2Hev7IvzEkdYj/tV7FSkMX92gcZL2Vaj+WaRjp5NAzM/x2qA882h9DMJb5w6ek/gONx5J6l6AScL97TmlwcAVcYbQxmtBKRECaEY2JAJxc8Rw4CCmXpXrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O0qm1MR23+JNAY07FG3ySRyEGvltrXW8ptWV0/x5bSQ=;
- b=Eb/GY/wbYJ2FzKU25OkLu6Jan7p6JgCgfk6xLiYkripIkDz852xiVQJMGZCanBt6WAeHB3Gs5+GbhtsVFpGYGnvQaAkrY+b60TxasAi7AVWOMYI+BDwfKp/cmMvdhCBHhShZB+iSS7EPlaUNgthcyzjmQXA67jML/BlI4tdEtqMAy9kxVk3oNqb4Zs4XulBUPs/lkM8IpwZElhOgA0IsuYmY1mI7SD1URGKl0fkiDhkMkQqxigjUkIfNh96J5Itlr5WzMGZxVQcG9zhJvTFMBFgCsFUAZpv6xuBY5G9AlxCkyFcQrmKpx2GmQm//C2wFGRUQ+LiR2P2pwDsuvKEqvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O0qm1MR23+JNAY07FG3ySRyEGvltrXW8ptWV0/x5bSQ=;
- b=nY1F2eH61ak634eOn2QLTSDAtfsPYztJsN043zUOjJMjN+EyZJ8eTRNAcL0FdQRaLsvji2gSeherKIM/eHG1g0z6M0aMumvhk4ofEskZp6hZm8iNNW9igOCEcThG0YlDq3qnmIIeV8tTm+SvvE4mykvx/eVg6c+mhk/16bQ+duU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by MW5PR12MB5684.namprd12.prod.outlook.com (2603:10b6:303:1a1::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Thu, 21 Apr
- 2022 09:24:15 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::6480:2f5a:7cd7:e0c7]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::6480:2f5a:7cd7:e0c7%4]) with mapi id 15.20.5186.013; Thu, 21 Apr 2022
- 09:24:15 +0000
-Message-ID: <edc92502-872f-9115-383c-d2d5abab1125@amd.com>
-Date:   Thu, 21 Apr 2022 14:54:03 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: Bug 215744 - input from the accelerometer disappeared, regression
- on amd_sfh on kernel 5.17
-Content-Language: en-US
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Marco <rodomar705@protonmail.com>
-Cc:     regressions@leemhuis.info, Basavaraj.Natikar@amd.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        regressions@lists.linux.dev, jkosina@suse.cz
-References: <048ef583-4a8f-96b0-68a3-45ab9ec8d6df@leemhuis.info>
- <0499f8ae-6966-be4b-5af8-e7e568bfcd5f@amd.com>
- <6fe27103-5e35-5f16-d213-29bd71412f5b@leemhuis.info>
- <7dfb121f-848c-873e-f3cc-43239c264f21@amd.com>
- <0a33735c-dd43-4305-ff92-7b9ac2c6a0d9@leemhuis.info>
- <539ff0c5-a95b-836d-e1c6-39f64ee2a418@leemhuis.info>
- <056621a6-b6ac-90d9-c409-ba5d9404c868@amd.com>
- <-IeN6GQXuvFeZGmf-HSltWI3MN3V02oQzXAW0XR74vD62w_Fo_A6lSfJXrDgV2MTrHs9Id2Ce_r9J_zZCKx67DnVAWeFg3-ULIZ2GSm_ITQ=@protonmail.com>
- <xZsLVmWExSSYgHXHsfOKkB7SbLy-bltitpJznKV1HHsv2-_ZcSFArnir30v-7Eg8zqmGSMmZi3Cr7YHpB8tD_FVnBvf2W-VsmmFGdc7hlWw=@protonmail.com>
- <nqBA6pARHM6h_5hMj32zIxq_lgo2z8mmj7FPM5bXBv5DhWmh4K5Qv3MbKfAAi0tXlRy2IFYtfgyk2i_GPLIH5xsJ1hKBaLstHiNI1IEdUVc=@protonmail.com>
- <CAO-hwJL80Oz071zGj93MkZ4vn+ewdgExZhOBM5TyhTEvvhcqOg@mail.gmail.com>
-From:   Basavaraj Natikar <bnatikar@amd.com>
-In-Reply-To: <CAO-hwJL80Oz071zGj93MkZ4vn+ewdgExZhOBM5TyhTEvvhcqOg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0165.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:26::20) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+        Thu, 21 Apr 2022 05:34:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B2B5015A0B
+        for <linux-input@vger.kernel.org>; Thu, 21 Apr 2022 02:31:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1650533516;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=hythuJLSnFgncubm0vzfkZHi6y42WovZ/VlAFVZnLsY=;
+        b=PiltUe17lrQLZb49opGtuPTPd1YuSaBxuyJnMEEjHtsONcSa7trwPkwgsDkEreBun8ZhY0
+        NWWwwc5QlhE3goKHPm1zn94uQRyw0FDyTiafDLyGmgafkEFGFvsbQ4OwvmQ/4kJw3pIzVP
+        gsOWjJYhFRpWQbC7v9TBmaquKNK5b2A=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-278-QCAGKn9YN_KX1fXcU-PaLw-1; Thu, 21 Apr 2022 05:31:55 -0400
+X-MC-Unique: QCAGKn9YN_KX1fXcU-PaLw-1
+Received: by mail-pj1-f70.google.com with SMTP id s13-20020a17090a764d00b001cb896b75ffso2194386pjl.6
+        for <linux-input@vger.kernel.org>; Thu, 21 Apr 2022 02:31:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hythuJLSnFgncubm0vzfkZHi6y42WovZ/VlAFVZnLsY=;
+        b=Gp6xrvECcxNqkkL9TctJEkqXJJ+MPRuRh0uCff3pwMV/sxwoVFcS0uoTfqJaP56s2A
+         zLaNUyKdPcSZp9Q+mnxOcvqaoN3Z0ojYldSUeFvMbx9hx3TPrdbLi6xBIDuBMfUMdh6P
+         0WYSZIXSppv15uKjf1nrSwDXOQZO/K/qZd0ALbNcQSBuAC7OaTBdRxM19LZiDR5vFzZu
+         Yq2WR3MfRexDsbRt9u/wg43+OtDDyZ3kH8rRhMZKnSdvEsieNv3M/cMqUkWcwNikEb2l
+         Ucg8QOcDjI6KA58Ycx93Z0qW3hY9lmb7Z3CkfhloMzXZsJ9aGXglIMUyghuYCiNapGl9
+         HA6w==
+X-Gm-Message-State: AOAM531xX4r04kDenv93Lo4hBsaXpB3iuFUACf0MADHzISwkrei4QDje
+        Hqz8C3ji2pZu3exkm0yKpshWGbC7OGOaUn9XCI2c7vzvYGU1gW7vK7hxfpr5Y+ykbuxJv83Uy30
+        6QJ1lu9LrXOOTK5r3rmUWLTSDyCFgZtcyB0fThNI=
+X-Received: by 2002:aa7:92c8:0:b0:4fd:c1aa:3e11 with SMTP id k8-20020aa792c8000000b004fdc1aa3e11mr28205234pfa.29.1650533513425;
+        Thu, 21 Apr 2022 02:31:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwf887B+DqH4m/nzGV5QtbVH/KuVDz/U7Hp/kOHkQHXkt4DEicInT9Jgp3fpOT3BTq9LocMGIf5BoGQ+mgCobY=
+X-Received: by 2002:aa7:92c8:0:b0:4fd:c1aa:3e11 with SMTP id
+ k8-20020aa792c8000000b004fdc1aa3e11mr28205198pfa.29.1650533512818; Thu, 21
+ Apr 2022 02:31:52 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 95692051-351a-4dc2-98dc-08da2378b3ff
-X-MS-TrafficTypeDiagnostic: MW5PR12MB5684:EE_
-X-Microsoft-Antispam-PRVS: <MW5PR12MB5684076A9EEF65F0FE4CE619E6F49@MW5PR12MB5684.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FfZiouzEKWI8KIGapUBBLD+jzjGjkkzPxSoH0CkE8f/J1uxHSw+ZuFAbFrFGxE5o4Mwk3G7QFgAIMGO2f0fN6QyXbM/Cj2YAOduoiI3n7ddm6X+4znRei1gmatmBe/F6AWZTQUgrS0NaV1mXcdtlJoj+AY5zjR1iwlxakiQCynq6DYY8T3py10YOqhbtDExBEF0AHTum5IC9JBMOD8To5w7s9dP0AYThAn5wvd8v4xo9N8MINjshjXQngkpGlp0ik9aA4tbhiNBDjf53s6o/cQyDVTZp4E+7g1Nums/7KgWqcbuImxNOOCJ4m+/K5AGLJDpbTfEX9msoLowQ/ebHA1LgzRaFM47Tv0N39AUtI7sMhZZ7pc9gCeD4AOMSRJD2f8D1eabkxwqfJ0u0EWqIyeHtHnqHpD1ms1NhUbvqiB3wJQH6PW2mJJe5CgUQnte4N/FOrYEw5qdsW2DSs3KAOpusIPPiEg5vfmrcwoAxn9Lul7jwwPU1YkuonoREarGWnNVsEpmNmEx2Or3gIBuONAfSZBz+azqRr5R2F9tBdKozfqhAKDTxuOWuwVaNy5O2HseywlCINCq6EWFaPcxfnef+4mkNbG/dywxH8NClroh2LvdlGT0JHmRfV4ADIOusVhcThAtl1tB92udIP6nhs8JLbtbRHo2zx9m+LyO9G2FA1xFWl/TbQLSO4I3wicCqFHzYN6Mty1ZqvNH1g0NXspQSGlFZte06G2ijSZR9uMJmkxbNdPAUpLD0R1sHLwodlcR5Iq5e8aIux/OpN9epkenswUJSVZdqUnsPPUGTQ2C6dSZy+HkEm8jaMozBekh6Tu/zQGO7UH9QXV69sdlPcStrpPOlCUkvAWNAb/No2a8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(84040400005)(8936002)(2906002)(30864003)(45080400002)(6506007)(36756003)(6486002)(5660300002)(508600001)(6666004)(31696002)(966005)(83380400001)(316002)(66556008)(2616005)(4326008)(110136005)(66476007)(6512007)(26005)(38100700002)(66946007)(31686004)(186003)(8676002)(53546011)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eUIrWnVsSHB3eVJLdkg2RHRSMlNCMzhzQ2t1czJlTi9JQ2VOckN0WHBTMm9Y?=
- =?utf-8?B?V2owYTVPeGRYWjlTdWJRTUJMM250U1MxK2hQVEQrdDQvOFVCN1NKQTZXenVv?=
- =?utf-8?B?elVFcmx0MEJNZEpqZTRHUGhock5tVm15VjBDSzFHS3I1R24zWUdpb1owY0l2?=
- =?utf-8?B?WkcxZXJ4UmVUWWt4dGpKZE5pUTNpMWVOSFVESmhQcWxQUnQ2T2VCSzNvUHVz?=
- =?utf-8?B?YVY3SjIweVFaSDZYNHBTZCt2WFk3OWNvZHdXanZYc2x0Z29sR04rczErdUU4?=
- =?utf-8?B?elE5L2lscngxbW82MWZ5NWY5dlc0YUhPT0JlZDQwZHdocGl0dDBFZUdZR3M2?=
- =?utf-8?B?b2JrQ08weUZzenVpdkQ5V1ViZFpESTIrcFljVTZSdVA1SzZVWXFWSFhQY0dQ?=
- =?utf-8?B?bWxEQ21URHgyL3Nod1M2YkZkdjdyaXdFY2pUU1oyRDlIa01iRGRLSFNkWHBl?=
- =?utf-8?B?b2NEaVlma3c5b0pJQ2FQYmJuakVoSVljUTNkSDlNUk91L0YyKzdDcCtSY3px?=
- =?utf-8?B?MUg5eU8zQjZxYmtuNlFROEttVjcraVRFRnVwU0pOTy9NRWc3bGdHNGV3dzha?=
- =?utf-8?B?MDlqQ0QwUTE5RjlQU21VQU5XRGhYejdzOEljRkUwU2hyVlNnU3pQYWJWS0lY?=
- =?utf-8?B?OGM5UU1wVVNYVEVCQ3R3V3BST09jd3ZhTU9oV2pESGMyaW1jd2ZnTW9Ed0Z3?=
- =?utf-8?B?NXdQOTZPV3VXWExpREp5dE9WcUM1cHRjcVFsM2k1WGN3eEc1OWFIYUJrM0JV?=
- =?utf-8?B?c1QxNENxeVltT1NjUmEzbWpTWDRZNjFOa2ZRWjV4Y2lZbENudkxHVXZWSEdB?=
- =?utf-8?B?MXJLQU53TXhqMVdQSnJ1a0gzZUVyMVdpdHQ3b3hGTitqY2RQczIrK3h1Rzlz?=
- =?utf-8?B?UCt6V1BwMW1hTis5YXAvb2kzclpKTHhjbFRwNHBURS9NcTdwbmZNNUl6MzZs?=
- =?utf-8?B?VFc2Z2U2U3RjZnl3Qnd6YWVuOWRoY2g5WjYxUzRFdktORkRIRU1DcEs2WU9m?=
- =?utf-8?B?M2lzelFFcHphYmpsbmlqR0xTMS9pNUVXTlpIWGZHZjMxVzVVV1NwYitZYm01?=
- =?utf-8?B?UXFKSi85a2FuV2dJbHdpUCtITSs3am1wY3U3RlllKzA2SHRJY2pvUVVxYk9x?=
- =?utf-8?B?K3oxSURvYzdGem82V3VQN09TSmxEL1hHVWpPdDdvU3YvSVhONDA2VWRiZXVZ?=
- =?utf-8?B?VWNtaW1LU3loMVpVaUxNTTdyUThtR29kcDFmZlpQWWprakdKa2Nrd0wvMkJF?=
- =?utf-8?B?SldidzlLWEcySTkzeURBT2J5emJIanVBd25UZUgrMDdjVnFTd0xaTVZkU08r?=
- =?utf-8?B?dmFudzNRd0ZoMllUNkhCM2F4T1Y0MEpUV0p3Z3kzb0QwV3FJWVJMalAxWnBt?=
- =?utf-8?B?WWhQYUphaEp1VE5HUndNYWtCM2pJQ0ZTS0RrZlMwZ3VZUk5WZzJOR1ZvLzli?=
- =?utf-8?B?eTdYYVNWWnlwaEE2cW1RYUhxbXhSM0NUakNMY3BBQlhHQUlsb0Z2TmxxbGwv?=
- =?utf-8?B?WCswRGFuQnJ1ZXV5M2pIMGt2dFBkZVl0eDNNYU9XeHZZL0lpckxNejVYR3pz?=
- =?utf-8?B?eXhwaGxGRURSU0VnYjFXSEF1QUM3MWNxTEhMbjN0djE0VVFIaUNNcmR6SzJy?=
- =?utf-8?B?YzkvWEZycHB2dS9jRTJSd2dCVVJqL3gzVnNOWXoyYS9ISlg0SWdzNkFpc3Bs?=
- =?utf-8?B?SUlNMmk1cWdmZWkyTDB0YzFKVEdJbitYNlVNdnNTNWtweVNNQTJ4TVpVR2NF?=
- =?utf-8?B?emw5dTQvSGQ5Q3FnbmFZUTY4TFRGTTRpWlN0Ri9BM0JMR0toZkRpWEZmTlgv?=
- =?utf-8?B?RjNTMkpPL1FJVjBwamtsVHNLOURRK2dncVJyWElMeEhWbUlmem1HcVUrMlZZ?=
- =?utf-8?B?KzVwNGVpTk8xMzBPN2RKbEIwRmtnakZyTjhhNVpvZVhidjBRUXBqekVxallw?=
- =?utf-8?B?SmtQZTZQNEk5WEliRS9IeUswS3RvMSs3dzBOT2pPS0NWYkFTWkx3QmVGU0l1?=
- =?utf-8?B?d3hsSXFPbnNMRHY0YUVXMlRiUHh6WGpPR0RCdm13aCsvcWtQV0JUeFpwWFg5?=
- =?utf-8?B?UGtLRlVnV1czMjJFR094dFd1YlhSRjEydjlpTDNJVEpZM2NQeXIwVUFkbk80?=
- =?utf-8?B?NHlmUTFuYVl2alhwSi9veTRsSnh3VHRsM2FwNnNoQ1RvUXJhTkxjbG9Wei9k?=
- =?utf-8?B?TUU1cmlMb2V0MGxjRW9oL0VTQTNVM2FGZTk5eTM2MmxVVHZhM2s3eWFmcmYy?=
- =?utf-8?B?Q3JQV2JjSkF0TTVxQmlJV2srNWU2eEljQkx6aTc5VDdqQ2w4UTZENDEzZzhk?=
- =?utf-8?B?ZlhFMmNtZXF1RXVDQ0FTVEJJRzZoQitya2ZhaXZGUWN0UXMzV0NvQT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95692051-351a-4dc2-98dc-08da2378b3ff
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2022 09:24:15.0828
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9izS6gsEELaa+NDN1MIMp428bkCSX7s/R6huSHhAUk2qC+wmHZU7mFXL+6QvzQZVJl7OW/uG6jPuCSvLqFqbeg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5684
-X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220331144500.2340714-1-acz@semihalf.com> <CAB4aORW_1ScMDBcvn8WU+2m6_xmv-nkjQuPHfwTD9vnWMNQhiA@mail.gmail.com>
+ <CAO-hwJLDADovq-pu9ovcqYBi8DRLJE1xsNOzwtnypethcGYOtw@mail.gmail.com>
+ <CAB4aORWCL3+ZDibdpR5svSoWev48c30ZUAaHmQRKuKoGemt65g@mail.gmail.com>
+ <21703d7a-2b28-3708-7462-96190d0130c8@redhat.com> <CAB4aORU3_MCiL5JJTzpCVaBYGrNPucoC7NmXqf9dzK4Yo_A7sg@mail.gmail.com>
+In-Reply-To: <CAB4aORU3_MCiL5JJTzpCVaBYGrNPucoC7NmXqf9dzK4Yo_A7sg@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 21 Apr 2022 11:31:41 +0200
+Message-ID: <CAO-hwJ+ZehAGxTP=D3AuQrBjykkgRkGC7uh8zo9v_bkLpZJ0Rg@mail.gmail.com>
+Subject: Re: [PATCH] HID: multitouch: Implement MT_QUIRK_DROP_REPEATED_SLOT
+To:     Angela Czubak <acz@semihalf.com>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>, upstream@semihalf.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
+Hi Angela,
 
-BIOS/firmware confirmed that there is issue in ASUS BIOS/firmware.
-I will update BIOS details in bug which resolves this BIOS/firmware issue.
+[sorry for the delay here, I wanted to think about it twice and
+switched to another task in the end and forgot to answer]
 
-Also issue is not seen in any other systems/laptops.
-
-Thanks,
-Basavaraj
-
-
-On 4/21/2022 2:45 PM, Benjamin Tissoires wrote:
-> Jiri, it seems you are pushing patches to the tree (or at least were),
-> I would suggest reverting b300667b33b2 because there is obviously a
-> regression, and we'll let Basavaraj figure out a better solution in a
-> future release.
+On Fri, Apr 8, 2022 at 11:48 AM Angela Czubak <acz@semihalf.com> wrote:
 >
-> Cheers,
-> Benjamin
+> Hi Benjamin,
 >
-> On Sun, Apr 17, 2022 at 7:16 PM Marco <rodomar705@protonmail.com> wrote:
->> Any updates to this issue? The latest kernel 5.17.3 is still problematic for me.
->>
->> Inviato con l'email sicura di ProtonMail.
->> ------- Original Message -------
->> Il lunedì 4 aprile 2022 19:40, Marco <rodomar705@protonmail.com> ha scritto:
->>
->>
->>> I've added the three test cases (dmesg + sudo monitor-sensor on all three tests) on the bug report on bugzilla.kernel.org. One is with the stock kernel from arch, 5.17.1. The other two is using zen patches on top of 5.17. One is without the three reverts above mentioned. Sensor is missing still. Then my same custom configuration only with the three reverts applied. The sensor is back and working.
->>>
->>> If you need anything more, just let me know.
->>>
->>> Link to bugzilla: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.kernel.org%2Fshow_bug.cgi%3Fid%3D215744&amp;data=05%7C01%7CBasavaraj.Natikar%40amd.com%7Ce8b58d32f7f44e7290bb08da237787c8%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637861293540308810%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=xA%2FLcZu8M1xEQsT3qJ5ESSEHybNFOVhoHchhuOryF8A%3D&amp;reserved=0
->>>
->>> Marco.
->>>
->>> Inviato con l'email sicura di ProtonMail.
->>> ------- Original Message -------
->>> Il lunedì 4 aprile 2022 16:26, Marco rodomar705@protonmail.com ha scritto:
->>>
->>>
->>>
->>>> I haven't tested this on the tip of the git tree, I can do this probably wednesday if it is needed.
->>>>
->>>> I'll post the output from sensors-detect shortly.
->>>>
->>>> Marco.
->>>>
->>>> Inviato da ProtonMail mobile
->>>>
->>>> -------- Messaggio originale --------
->>>> On 4 apr 2022, 16:04, Basavaraj Natikar < bnatikar@amd.com> ha scritto:
->>>>
->>>>>> On 4/4/2022 7:23 PM, Thorsten Leemhuis wrote:
->>>>>>
->>>>>>> On 04.04.22 09:25, Thorsten Leemhuis wrote:
->>>>>>>
->>>>>>>> On 04.04.22 09:18, Basavaraj Natikar wrote:
->>>>>>>>
->>>>>>>>> On 4/4/2022 12:05 PM, Thorsten Leemhuis wrote:
->>>>>>>>>
->>>>>>>>>> On 01.04.22 21:47, Basavaraj Natikar wrote:
->>>>>>>>>>
->>>>>>>>>>> Committed patch is disabling the interrupt mode and does not cause any
->>>>>>>>>>> functionality or working issues.
->>>>>>>>>>> Well, for the reporter it clearly does cause problems, unless something
->>>>>>>>>>> in testing went sideways.
->>>>>>>>>>> I also cross verified on 3 system and working fine on 5.17 and not able
->>>>>>>>>>> to reproduce or recreate.
->>>>>>>>>>> [...]
->>>>>>>>>>> ------------------------------------------------
->>>>>>>>>>>
->>>>>>>>>>> Looks like this is not regression. May be some hardware/firmware bug.
->>>>>>>>>>> Well, from the point of the kernel development process it afaics is a
->>>>>>>>>>> regression, unless the testing went sideways. It doesn't matter if the
->>>>>>>>>>> root cause is in fact a hardware/firmware bug, as what matters in the
->>>>>>>>>>> scope of the kernel development is: things worked, and now they don't.
->>>>>>>>>>> For details please check this file and read the quotes from Linus:
->>>>>>>>>>> can you help to answer the below questions:
->>>>>>>>>>> Me? No, I'm just the Linux kernels regression tracker trying to make
->>>>>>>>>>> sure all regressions are handled appropriately. :-D
->>>>>>>> Marco, can you help out here?
->>>>>>>> Marco replied in private and allowed me to forward his reply:
->>>>>>> ```
->>>>>>> I can't since, as mentioned previously, this is the only AMD laptop
->>>>>>> device that I have.
->>>>>>> I am sure this is a regression for me, even if the issue is firmware
->>>>>>> related. I have tested the 5.17 stock arch kernel and the sensor is
->>>>>>> gone. With the last three patches reverted the sensor is back and
->>>>>>> working fine.
->>>>>>>
->>>>>>> I would love to verify if the issue is hardware or software related, but
->>>>>>> being outside of AMD and with AMD not releasing any public information
->>>>>>> with datasheet/specification on their Sensor Fusion Hub I really can't
->>>>>>> say anything specific.
->>>>>>>
->>>>>>> This still remains a regression, since the hardware was working before
->>>>>>> and now it doesn't.
->>>>>>>
->>>>>>> By the way, I already have seen also this rework of this specific driver
->>>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fconqp%2Famd-sfh-hid-dkms&amp;data=05%7C01%7CBasavaraj.Natikar%40amd.com%7Ce8b58d32f7f44e7290bb08da237787c8%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637861293540308810%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=dwq1ETuquRbWavl4Sb98TOesitSiQjeuq6hN2mxqamQ%3D&amp;reserved=0 that even added a still
->>>>>>> missing handler for the lid sensor switch for disabling touchpad and
->>>>>>> keyboard, and all efforts tried to merge it upstream with all sorts of
->>>>>>> issues.
->>>>>>>
->>>>>>> Regardless of everything, this is a driver supported in kernel by AMD
->>>>>>> engineers, so all of this doesn't matter. On my hardware this three
->>>>>>> patches break a previously working hardware.
->>>>>>> ```
->>>>>> Thank You Marco for the information.
->>>>>>
->>>>>> Could you please provide me below results for acceleration
->>>>>> by re-applying and reverting patch once again on same laptop.
->>>>>>
->>>>>> Did you attempt to test it multiple times on the tip of the git to see
->>>>>> if the problems goes away?
->>>>>>
->>>>>> if same test is performed multiple times with or without reverting patch
->>>>>> on same laptop on which issue is observed
->>>>>> we may see same working/issue behavior. if it is regressing then always
->>>>>> it should work with or without reverting patches on same laptop. is this
->>>>>> the case here?
->>>>>>
->>>>>> Thanks,
->>>>>>
->>>>>> Basavaraj
->>>>>>
->>>>>>> Ciao, Thorsten
->>>>>>>
->>>>>>>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
->>>>>>>>
->>>>>>>> P.S.: As the Linux kernel's regression tracker I'm getting a lot of
->>>>>>>> reports on my table. I can only look briefly into most of them and lack
->>>>>>>> knowledge about most of the areas they concern. I thus unfortunately
->>>>>>>> will sometimes get things wrong or miss something important. I hope
->>>>>>>> that's not the case here; if you think it is, don't hesitate to tell me
->>>>>>>> in a public reply, it's in everyone's interest to set the public record
->>>>>>>> straight.
->>>>>>>>
->>>>>>>>> Did you attempt to test it multiple times on the tip of the git to see
->>>>>>>>> if the problems goes away?
->>>>>>>>>
->>>>>>>>> if same test is performed multiple times with or without reverting patch
->>>>>>>>> on same platform (laptop/hardware/firmware) on which issue is observed
->>>>>>>>> we may see same working/issue behavior. if it is regressing then always
->>>>>>>>> it should work with or without reverting patches on same laptop. is this
->>>>>>>>> the case here?
->>>>>>>>>
->>>>>>>>> I don't see any regression here. I requested to retest with other
->>>>>>>>> hardware/platform/system also as per my above test (output) all working
->>>>>>>>> fine in 3 different platforms and not able to reproduce or recreate for
->>>>>>>>> my side on 5.17.
->>>>>>>>>
->>>>>>>>> Thanks,
->>>>>>>>>
->>>>>>>>> Basavaraj
->>>>>>>>>
->>>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Fnext%2Flinux-next.git%2Fplain%2FDocumentation%2Fprocess%2Fhandling-regressions.rst&amp;data=05%7C01%7CBasavaraj.Natikar%40amd.com%7Ce8b58d32f7f44e7290bb08da237787c8%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637861293540308810%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=XBa%2Bf69TKahhgksrEvjgpEDFNwV453INzJ7pO6BGTHM%3D&amp;reserved=0
->>>>>>>>>>
->>>>>>>>>> Ciao, Thorsten
->>>>>>>>>>
->>>>>>>>>>> Just curious reverting this patch how it is working just suspecting
->>>>>>>>>>> firmware undefined behavior.
->>>>>>>>>>>
->>>>>>>>>>> If possible, please check on other platform/system also if same behavior
->>>>>>>>>>> occurs.
->>>>>>>>>>>
->>>>>>>>>>> Could you please provide me platform/system details so that I can check
->>>>>>>>>>> this behavior?
->>>>>>>>>>>
->>>>>>>>>>> Thanks,
->>>>>>>>>>> Basavaraj
->>>>>>>>>>>
->>>>>>>>>>> On 4/1/2022 1:36 PM, Thorsten Leemhuis wrote:
->>>>>>>>>>>
->>>>>>>>>>>> Hi, this is your Linux kernel regression tracker.
->>>>>>>>>>>>
->>>>>>>>>>>> I noticed a regression report in bugzilla.kernel.org that afaics nobody
->>>>>>>>>>>> acted upon since it was reported about a week ago, that's why I decided
->>>>>>>>>>>> to forward it to the lists and all people that seemed to be relevant
->>>>>>>>>>>> here. It looks to me like this is something for Basavaraj, as it seems
->>>>>>>>>>>> to be caused by b300667b33b2 ("HID: amd_sfh: Disable the interrupt for
->>>>>>>>>>>> all command"). But I'm not totally sure, I only looked briefly into the
->>>>>>>>>>>> details. Or was this discussed somewhere else already? Or even fixed?
->>>>>>>>>>>>
->>>>>>>>>>>> To quote from https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.kernel.org%2Fshow_bug.cgi%3Fid%3D215744&amp;data=05%7C01%7CBasavaraj.Natikar%40amd.com%7Ce8b58d32f7f44e7290bb08da237787c8%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637861293540308810%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=xA%2FLcZu8M1xEQsT3qJ5ESSEHybNFOVhoHchhuOryF8A%3D&amp;reserved=0 :
->>>>>>>>>>>>
->>>>>>>>>>>>> Marco 2022-03-25 15:22:19 UTC
->>>>>>>>>>>>>
->>>>>>>>>>>>> After updating to 5.17, the input from the accelerometer disappeared, completely. No devices available from IIO tree. First bad commit causing it is https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git%2Fcommit%2Fdrivers%2Fhid%2Famd-sfh-hid%2Famd_sfh_pcie.c%3Fid%3Db300667b33b2b5a2c8e5f8f22826befb3d7f4f2b&amp;data=05%7C01%7CBasavaraj.Natikar%40amd.com%7Ce8b58d32f7f44e7290bb08da237787c8%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637861293540308810%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=REu14KaEX0CrJgKvUedQ%2BXI%2Fw5Y156l%2BFEfCPMWbgGI%3D&amp;reserved=0. Reverting this and the the other two on top fixed this. Tried to not revert only the above mentioned commit, but it's still not working.
->>>>>>>>>>>>>
->>>>>>>>>>>>> Marco.
->>>>>>>>>>>>> Anyway, to get this tracked:
->>>>>>>>>>>> #regzbot introduced: b300667b33b2b5a2c8e5f8f22826befb3d7f4
->>>>>>>>>>>> #regzbot from: Marco rodomar705@protonmail.com
->>>>>>>>>>>> #regzbot title: input: hid: input from the accelerometer disappeared due
->>>>>>>>>>>> to changes to amd_sfh
->>>>>>>>>>>> #regzbot link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.kernel.org%2Fshow_bug.cgi%3Fid%3D215744&amp;data=05%7C01%7CBasavaraj.Natikar%40amd.com%7Ce8b58d32f7f44e7290bb08da237787c8%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637861293540308810%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=xA%2FLcZu8M1xEQsT3qJ5ESSEHybNFOVhoHchhuOryF8A%3D&amp;reserved=0
->>>>>>>>>>>>
->>>>>>>>>>>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
->>>>>>>>>>>>
->>>>>>>>>>>> P.S.: As the Linux kernel's regression tracker I'm getting a lot of
->>>>>>>>>>>> reports on my table. I can only look briefly into most of them and lack
->>>>>>>>>>>> knowledge about most of the areas they concern. I thus unfortunately
->>>>>>>>>>>> will sometimes get things wrong or miss something important. I hope
->>>>>>>>>>>> that's not the case here; if you think it is, don't hesitate to tell me
->>>>>>>>>>>> in a public reply, it's in everyone's interest to set the public record
->>>>>>>>>>>> straight.
+> On Wed, Apr 6, 2022 at 3:35 PM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> >
+> >
+> > On Wed, Apr 6, 2022 at 2:19 PM Angela Czubak <acz@semihalf.com> wrote:
+> > >
+> > > .
+> > >
+> > > On Tue, Apr 5, 2022 at 2:57 PM Benjamin Tissoires
+> > > <benjamin.tissoires@redhat.com> wrote:
+> > > >
+> > > > Hi Angela,
+> > > >
+> > > > On Tue, Apr 5, 2022 at 1:25 PM Angela Czubak <acz@semihalf.com> wrote:
+> > > > >
+> > > > > Hi Benjamin, Hi Jiri,
+> > > > >
+> > > > > any thoughts on this patch?
+> > > >
+> > > > Sorry for taking too long to answer. I saw the patch coming in while
+> > > > coming back last week, and could not process it, and completely forgot
+> > > > about it.
+> > > >
+> > > > > If you believe that the userspace input stack should be a better place
+> > > > > to solve this kind of issue, please let me know.
+> > > >
+> > > > This is definitely not userspace to process those specificities, as
+> > > > far as I understand. However... I don't understand the bug very well
+> > > > :/
+> > > >
+> > > > more inlined below:
+> > > >
+> > > > >
+> > > > > Regards,
+> > > > > Angela
+> > > > >
+> > > > > On Thu, Mar 31, 2022 at 4:45 PM Angela Czubak <acz@semihalf.com> wrote:
+> > > > > >
+> > > > > > Ilitek touchscreens 016E and 016F repeat last finger position after it has
+> > > > > > left the surface of the device.
+> > > > > > We send BTN_TOUCH=0 and ABS_MT_TRACKING_ID=-1 with the first repeated
+> > > > > > slot as this may mean that the finger has been lifted.
+> > > > > > The touchscreen is not actually too sensitive and this would
+> > > > > > modify the behaviour of the on-screen keyboard, for instance holding the
+> > > > > > backspace key might be sometimes interpreted as removing a single character
+> > > > > > only. Add counter of repeated frames and if it is significantly big then
+> > > > > > assume the finger actually remains stationary.
+> > > >
+> > > > This commit is really confusing to me. This description is mixing
+> > > > symptoms from before the patch, behaviour from after and userspace
+> > > > which doesn't mean a lot here not knowing what is the problem.
+> > > >
+> > > > What is the exact problem?
+> > >
+> > > The device delays reporting finger lift off, instead it repeats its
+> > > last report with only the scantime updated.
+> > > I would interpret such events as meaning that the finger is present
+> > > but has stopped moving, which
+> > > is not the case, actually.
+> > >
+> > > When it comes to ChromeOS userspace input stack it seems that those
+> > > events are actually ignored, but the
+> > > problem is that the final event, i.e. the finger lit off is reported
+> > > significantly late, so if the user is moving
+> > > their finger to scroll the contents of the screen it immediately stops
+> > > once the finger leaves the surface.
+> > > However, the desired behaviour is for the scroll to continue, i.e.
+> > > they should observe something called fling.
+> > > The problem is that since this last event is delayed the scrolling stops.
+> > > Because the last event is so late, our window, over which we calculate
+> > > scroll speed, consists of just one
+> > > single event, i.e. we cannot calculate any movement velocity so we
+> > > assume it is zero.
+> > > I tried to increase the window, but it appears that the delay is large
+> > > enough for a human eye to notice that
+> > > the scrolling stops (as there are no new events for a while) and then
+> > > it restarts again (once the actual
+> > > lift off event is noticed, BTN_TOUCH=0 and ABS_MT_TRACKING_ID=-1).
+> > >
+> > > I find it more difficult to solve at userspace level and we would like
+> > > the fling (i.e. scrolling that continues
+> > > after the finger has left the surface) to be fluent.
+> >
+> > OK, thanks for the explanation. There are still a few bits that are
+> > confusing to me:
+> >
+> > >
+> > > > What events the device is sending?
+> > >
+> > > "Raw" events:
+> > >
+> > > https://gist.github.com/semihalf-czubak-angela/026072c013b4f883cb6adb7460b4d6ca
+> > >
+> > > So as you can see it repeats the last position etc. and the only thing
+> > > changing is the scantime.
+> > >
+> > > This translates to input events (not that the data below is from
+> > > another run, but you get the idea):
+> > >
+> > > https://gist.github.com/semihalf-czubak-angela/b957f7e464772bbdd95ddd814e84e5d9
+> >
+> > But in both of these records, the last finger is reported 5 times, which
+> > corresponds to the value of MT_MAX_REPEATED_DROPPED.
+> > Given that the device sends one report every 20 millisecs, you end up at
+> > the exact same 0.1 seconds of delay, which makes me wonder about the
+> > usefulness of the patch.
+> >
+>
+> Well, let me rephrase then: this 0.1 is unfortunately very noticeable
+> to a human eye.
+> I know it shouldn't be much, but it actually causes the fling to stop,
+> whereas a smooth behaviour/movement
+> is expected.
+> And with the patch the lift of is actually reported with the first
+> repeated slot, it is just that after
+> MT_MAX_REPEATED_DROPPED the kernel actually starts sending the
+> slot/touch information again.
+>
+> > >
+> > > > What should be the expected kernel ouput?
+> > > >
+> > >
+> > > Well, ideally:
+> > > https://gist.github.com/semihalf-czubak-angela/4dd52c177372f8f0c2b4e5ada841ea95
+> > >
+> > > So what helps is if
+> > >
+> > > Event: time 1643827301.463888, type 3 (EV_ABS), code 53
+> > > (ABS_MT_POSITION_X), value 4817
+> > > Event: time 1643827301.463888, type 3 (EV_ABS), code 54
+> > > (ABS_MT_POSITION_Y), value 777
+> > > Event: time 1643827301.463888, type 3 (EV_ABS), code 0 (ABS_X), value 4817
+> > > Event: time 1643827301.463888, type 3 (EV_ABS), code 1 (ABS_Y), value 777
+> > > Event: time 1643827301.463888, type 4 (EV_MSC), code 5
+> > > (MSC_TIMESTAMP), value 408000
+> > > Event: time 1643827301.463888, -------------- SYN_REPORT ------------
+> > > Event: time 1643827301.479920, type 4 (EV_MSC), code 5
+> > > (MSC_TIMESTAMP), value 416000
+> > > Event: time 1643827301.479920, -------------- SYN_REPORT ------------
+> > > Event: time 1643827301.496921, type 4 (EV_MSC), code 5
+> > > (MSC_TIMESTAMP), value 424000
+> > > Event: time 1643827301.496921, -------------- SYN_REPORT ------------
+> > > Event: time 1643827301.517923, type 4 (EV_MSC), code 5
+> > > (MSC_TIMESTAMP), value 432000
+> > > Event: time 1643827301.517923, -------------- SYN_REPORT ------------
+> > > Event: time 1643827301.535920, type 4 (EV_MSC), code 5
+> > > (MSC_TIMESTAMP), value 440000
+> > > Event: time 1643827301.535920, -------------- SYN_REPORT ------------
+> > > Event: time 1643827301.554943, type 3 (EV_ABS), code 57
+> > > (ABS_MT_TRACKING_ID), value -1
+> > > Event: time 1643827301.554943, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 0
+> > > Event: time 1643827301.554943, type 4 (EV_MSC), code 5
+> > > (MSC_TIMESTAMP), value 448000
+> > > Event: time 1643827301.554943, -------------- SYN_REPORT ------------
+> > >
+> > > becomes
+> > >
+> > > Event: time 1643827301.463888, type 3 (EV_ABS), code 53
+> > > (ABS_MT_POSITION_X), value 4817
+> > > Event: time 1643827301.463888, type 3 (EV_ABS), code 54
+> > > (ABS_MT_POSITION_Y), value 777
+> > > Event: time 1643827301.463888, type 3 (EV_ABS), code 0 (ABS_X), value 4817
+> > > Event: time 1643827301.463888, type 3 (EV_ABS), code 1 (ABS_Y), value 777
+> > > Event: time 1643827301.463888, type 4 (EV_MSC), code 5
+> > > (MSC_TIMESTAMP), value 408000
+> > > Event: time 1643827301.463888, -------------- SYN_REPORT ------------
+> > > Event: time 1643827301.479920, type 3 (EV_ABS), code 57
+> > > (ABS_MT_TRACKING_ID), value -1
+> > > Event: time 1643827301.479920, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 0
+> > > Event: time 1643827301.479920, type 4 (EV_MSC), code 5
+> > > (MSC_TIMESTAMP), value 416000
+> > > Event: time 1643827301.479920, -------------- SYN_REPORT ------------
+> >
+> > Well, here, the timestamp says that you want the touch to come as soon
+> > as there are 2 identical values, because it comes right after the last
+> > modified event. This is doable, but that also means you might create
+> > false releases while processing the events.
+> >
+>
+> I am aware of that, hence I want to assume that if this repeats enough
+> times the finger is actually stationary.
+> Ideally I would like to have the fix in the firmware, but a patch in
+> linux kernel seems easier for me :)
+>
+> > >
+> > >
+> > > > (bonus point for actually giving the events in the hid-recorder output
+> > > > format [0] ;-P )
+> > > >
+> > >
+> > > Here you are: https://gist.github.com/semihalf-czubak-angela/eaaf73459c5c50f716016839fc368ab0
+> >
+> > Heh, thanks :)
+> >
+> > >
+> > > > FWIW, this driver is one of the few drivers in the HID stack to have
+> > > > extended tests in hid-tools[0].
+> > > > I plan to merge that repo into the selftests subtree, but for now we
+> > > > need to use this external repo.
+> > > >
+> > > > So I'd be pleased to see new tests added for that quirk because it
+> > > > seems far from evident what is happening.
+> > > >
+> > >
+> > > Ack, I will prepare something.
+> > >
+> > > > > >
+> > > > > > Signed-off-by: Angela Czubak <acz@semihalf.com>
+> > > > > > ---
+> > > > > >
+> > > > > > Hi guys,
+> > > > > >
+> > > > > > Please let me know if you think there is some better solution.
+> > > > > > It felt to me that it would be more correct to solve it on kernel
+> > > > > > driver level since this issue is device specific, but perhaps
+> > > > > > there are some userspace input stacks that figured this problem out.
+> > > > > > With Chromium OS Input Stack the final BTN_TOUCH=0 event comes
+> > > > > > significantly late which causes hiccups or simply a scrolling fling
+> > > > > > not to happen, since the input stack thinks the finger is still
+> > > > > > in the same position and on the screen.
+> > > >
+> > > > If the device reports a wrong state, the kernel is the place to fix
+> > > > it. However, as mentioned above I do not understand what is wrong
+> > > > there by reading the description and the code.
+> > > >
+> > > > > >
+> > > > > >  drivers/hid/hid-ids.h        |   2 +
+> > > > > >  drivers/hid/hid-multitouch.c | 150 ++++++++++++++++++++++++++++++++++-
+> > > > > >  2 files changed, 149 insertions(+), 3 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> > > > > > index 053853a891c5..cc85f547603c 100644
+> > > > > > --- a/drivers/hid/hid-ids.h
+> > > > > > +++ b/drivers/hid/hid-ids.h
+> > > > > > @@ -630,6 +630,8 @@
+> > > > > >
+> > > > > >  #define USB_VENDOR_ID_ILITEK           0x222a
+> > > > > >  #define USB_DEVICE_ID_ILITEK_MULTITOUCH        0x0001
+> > > > > > +#define USB_DEVICE_ID_ILITEK_016E      0x016e
+> > > > > > +#define USB_DEVICE_ID_ILITEK_016F      0x016f
+> > > > > >
+> > > > > >  #define USB_VENDOR_ID_INTEL_0          0x8086
+> > > > > >  #define USB_VENDOR_ID_INTEL_1          0x8087
+> > > > > > diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+> > > > > > index 99eabfb4145b..33cb5e5179c2 100644
+> > > > > > --- a/drivers/hid/hid-multitouch.c
+> > > > > > +++ b/drivers/hid/hid-multitouch.c
+> > > > > > @@ -71,6 +71,7 @@ MODULE_LICENSE("GPL");
+> > > > > >  #define MT_QUIRK_SEPARATE_APP_REPORT   BIT(19)
+> > > > > >  #define MT_QUIRK_FORCE_MULTI_INPUT     BIT(20)
+> > > > > >  #define MT_QUIRK_DISABLE_WAKEUP                BIT(21)
+> > > > > > +#define MT_QUIRK_DROP_REPEATED_SLOT    BIT(22)
+> > > > > >
+> > > > > >  #define MT_INPUTMODE_TOUCHSCREEN       0x02
+> > > > > >  #define MT_INPUTMODE_TOUCHPAD          0x03
+> > > > > > @@ -103,12 +104,22 @@ struct mt_usages {
+> > > > > >         bool *confidence_state; /* is the touch made by a finger? */
+> > > > > >  };
+> > > > > >
+> > > > > > +struct mt_slot_state {
+> > > > > > +       __s32 x, y, cx, cy, p, w, h, a;
+> > > > > > +       __s32 contactid;        /* the device ContactID assigned to this slot */
+> > > > > > +       bool tip_state; /* is the touch valid? */
+> > > > > > +       bool inrange_state;     /* is the finger in proximity of the sensor? */
+> > > > > > +       bool confidence_state;  /* is the touch made by a finger? */
+> > > > > > +};
+> > > >
+> > > > This raises a red flag here. I spent quite some time removing internal
+> > > > slot states, and re-adding them means that something is wrong IMO.
+> > > > (though if we can not do something else, we might just re-add them).
+> > > >
+> > >
+> > > I wanted to compare against the report contents excluding the scantime.
+> > > Perhaps I could do that on the hid report level, this way just seemed
+> > > easier to implement.
+> >
+> > You can also use input_mt_get_value() and compare with the current value
+> > before sending the value to the input stack. This way you do not need to
+> > store the values once again.
+>
+> Thanks for suggesting that!
+>
+> >
+> > >
+> > > > > > +
+> > > > > >  struct mt_application {
+> > > > > >         struct list_head list;
+> > > > > >         unsigned int application;
+> > > > > >         unsigned int report_id;
+> > > > > >         struct list_head mt_usages;     /* mt usages list */
+> > > > > >
+> > > > > > +       struct mt_slot_state *mt_slot_state;
+> > > > > > +
+> > > > > >         __s32 quirks;
+> > > > > >
+> > > > > >         __s32 *scantime;                /* scantime reported */
+> > > > > > @@ -116,6 +127,11 @@ struct mt_application {
+> > > > > >
+> > > > > >         __s32 *raw_cc;                  /* contact count in the report */
+> > > > > >         int left_button_state;          /* left button state */
+> > > > > > +       bool touch_change;              /* if touch change detected */
+> > > > > > +       bool touched;                   /* if touch was present in the last
+> > > > > > +                                        * message
+> > > > > > +                                        */
+> > > >
+> > > > So this is not per-touch, but per report?
+> > > >
+> > >
+> > > I suppose it is actually per report, it is just that implementation
+> > > per slot seemed easier.
+> > > I could not reproduce the issue when using two fingers.
+> >
+> > Which makes a lot of sense: when you still have one finger on the
+> > screen, the sensitive sensors are way much capable of detecting ghosts
+> > because they have a baseline to compare too.
+> > So I would suggest you enable that code only when you have 1 finger left
+> > and that this finger is still.
+> >
+> > >
+> > > > > > +       int repeated_counter;           /* how many times last frame repeated */
+> > > > > >         unsigned int mt_flags;          /* flags to pass to input-mt */
+> > > > > >
+> > > > > >         unsigned long *pending_palm_slots;      /* slots where we reported palm
+> > > > > > @@ -211,6 +227,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
+> > > > > >  #define MT_CLS_GOOGLE                          0x0111
+> > > > > >  #define MT_CLS_RAZER_BLADE_STEALTH             0x0112
+> > > > > >  #define MT_CLS_SMART_TECH                      0x0113
+> > > > > > +#define MT_CLS_ILITEK_016x                     0x0114
+> > > > > >
+> > > > > >  #define MT_DEFAULT_MAXCONTACT  10
+> > > > > >  #define MT_MAX_MAXCONTACT      250
+> > > > > > @@ -386,6 +403,15 @@ static const struct mt_class mt_classes[] = {
+> > > > > >                         MT_QUIRK_CONTACT_CNT_ACCURATE |
+> > > > > >                         MT_QUIRK_SEPARATE_APP_REPORT,
+> > > > > >         },
+> > > > > > +       { .name = MT_CLS_ILITEK_016x,
+> > > > > > +               .quirks = MT_QUIRK_ALWAYS_VALID |
+> > > > > > +                       MT_QUIRK_IGNORE_DUPLICATES |
+> > > > > > +                       MT_QUIRK_HOVERING |
+> > > > > > +                       MT_QUIRK_CONTACT_CNT_ACCURATE |
+> > > > > > +                       MT_QUIRK_STICKY_FINGERS |
+> > > > > > +                       MT_QUIRK_WIN8_PTP_BUTTONS |
+> > > > > > +                       MT_QUIRK_DROP_REPEATED_SLOT,
+> > > > > > +               .export_all_inputs = true },
+> > > > > >         { }
+> > > > > >  };
+> > > > > >
+> > > > > > @@ -783,7 +809,8 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+> > > > > >                 case HID_DG_CONFIDENCE:
+> > > > > >                         if ((cls->name == MT_CLS_WIN_8 ||
+> > > > > >                              cls->name == MT_CLS_WIN_8_FORCE_MULTI_INPUT ||
+> > > > > > -                            cls->name == MT_CLS_WIN_8_DISABLE_WAKEUP) &&
+> > > > > > +                            cls->name == MT_CLS_WIN_8_DISABLE_WAKEUP ||
+> > > > > > +                            cls->name == MT_CLS_ILITEK_016x) &&
+> > > >
+> > > > Not something you should care about, but this long test of spaghetti
+> > > > should likely be fixed into something way better at some point...
+> > > >
+> > > > > >                                 (field->application == HID_DG_TOUCHPAD ||
+> > > > > >                                  field->application == HID_DG_TOUCHSCREEN))
+> > > > > >                                 app->quirks |= MT_QUIRK_CONFIDENCE;
+> > > > > > @@ -948,7 +975,13 @@ static void mt_sync_frame(struct mt_device *td, struct mt_application *app,
+> > > > > >                 input_event(input, EV_KEY, BTN_LEFT, app->left_button_state);
+> > > > > >
+> > > > > >         input_mt_sync_frame(input);
+> > > > > > -       input_event(input, EV_MSC, MSC_TIMESTAMP, app->timestamp);
+> > > > > > +       if (app->quirks & MT_QUIRK_DROP_REPEATED_SLOT) {
+> > > > > > +               if (app->touch_change)
+> > > > > > +                       input_event(input, EV_MSC, MSC_TIMESTAMP, app->timestamp);
+> > > > > > +               app->touch_change = false;
+> > > >
+> > > > Why filter out the timestamp?
+> > > >
+> > >
+> > > I suppose lonely timestamps should not do any harm, I just wanted to
+> > > avoid evtest etc. output
+> > > where there is no change but the timestamp, it is kind of also
+> > > remainder of my first approach where
+> > > I just tried filtering this events out and see waiting for BTN_TOUCH=0
+> > > and ABS_MT_TRACKING_ID=-1
+> > > would be enough (it wasn't).
+> >
+> > So I wouldn't filter out the timestamps. Not sure how ChromeOS stack
+> > behaves when we forward timestamps without a touch, but it should be
+> > capable of ignoring them.
+>
+> Ack.
+>
+> >
+> > >
+> > > > > > +       } else {
+> > > > > > +               input_event(input, EV_MSC, MSC_TIMESTAMP, app->timestamp);
+> > > > > > +       }
+> > > > > >         input_sync(input);
+> > > > > >
+> > > > > >         mt_release_pending_palms(td, app, input);
+> > > > > > @@ -993,6 +1026,60 @@ static int mt_touch_event(struct hid_device *hid, struct hid_field *field,
+> > > > > >         return 1;
+> > > > > >  }
+> > > > > >
+> > > > > > +static void mt_clear_slot_states(struct mt_slot_state *mt_slot_state,
+> > > > > > +                                int size)
+> > > > > > +{
+> > > > > > +       int i;
+> > > > > > +
+> > > > > > +       for (i = 0; i < size; i++)
+> > > > > > +               mt_slot_state[i].tip_state = 0;
+> > > > > > +}
+> > > > > > +
+> > > > > > +static void mt_fill_slot_state(struct mt_slot_state *mt_slot_state,
+> > > > > > +               struct mt_usages *slot)
+> > > > > > +{
+> > > > > > +       mt_slot_state->x = *slot->x;
+> > > > > > +       mt_slot_state->y = *slot->y;
+> > > > > > +       mt_slot_state->cx = *slot->cx;
+> > > > > > +       mt_slot_state->cy = *slot->cy;
+> > > > > > +       mt_slot_state->p = *slot->p;
+> > > > > > +       mt_slot_state->w = *slot->w;
+> > > > > > +       mt_slot_state->h = *slot->h;
+> > > > > > +       mt_slot_state->a = *slot->a;
+> > > > > > +       mt_slot_state->contactid = *slot->contactid;
+> > > > > > +       mt_slot_state->tip_state = *slot->tip_state;
+> > > > > > +       mt_slot_state->inrange_state = *slot->inrange_state;
+> > > > > > +       mt_slot_state->confidence_state = *slot->confidence_state;
+> > > > > > +}
+> > > > > > +
+> > > > > > +static bool mt_is_slot_state_equal(struct mt_slot_state *state1,
+> > > > > > +               struct mt_slot_state *state2)
+> > > > > > +{
+> > > > > > +       if (state1->x != state2->x)
+> > > > > > +               return false;
+> > > > > > +       if (state1->y != state2->y)
+> > > > > > +               return false;
+> > > > > > +       if (state1->cx != state2->cx)
+> > > > > > +               return false;
+> > > > > > +       if (state1->cy != state2->cy)
+> > > > > > +               return false;
+> > > > > > +       if (state1->p != state2->p)
+> > > > > > +               return false;
+> > > > > > +       if (state1->w != state2->w)
+> > > > > > +               return false;
+> > > > > > +       if (state1->a != state2->a)
+> > > > > > +               return false;
+> > > > > > +       if (state1->contactid != state2->contactid)
+> > > > > > +               return false;
+> > > > > > +       if (state1->tip_state != state2->tip_state)
+> > > > > > +               return false;
+> > > > > > +       if (state1->inrange_state != state2->inrange_state)
+> > > > > > +               return false;
+> > > > > > +       if (state1->confidence_state != state2->confidence_state)
+> > > > > > +               return false;
+> > > > > > +       return true;
+> > > > > > +}
+> > > >
+> > > > The input stack already filters out duplicated events. So I am not
+> > > > sure we need to store the information here once again and test for it
+> > > > here.
+> > > >
+> > >
+> > > What I want to do is to "prematurely" report that the finger has been lifted.
+> > > It is not that much about solely filtering out the duplicated events,
+> > > I rather want to interpret
+> > > such an event as a finger lift off.
+> >
+> > Yes, but see my remark above. Given that the input stack already caches
+> > the values and that it is validated by the evdev recording you shared,
+> > you should be able to apply the quirk just before calling the various
+> > input_event() and comparing the current value of this last finger with
+> > the ones in the input stack. This way, you do not need to keep tabs on
+> > the various fingers.
+> >
+> > >
+> > > > > > +
+> > > > > >  static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+> > > > > >                             struct mt_application *app,
+> > > > > >                             struct mt_usages *slot)
+> > > > > > @@ -1005,6 +1092,7 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+> > > > > >         int active;
+> > > > > >         int slotnum;
+> > > > > >         int tool = MT_TOOL_FINGER;
+> > > > > > +       struct mt_slot_state state = {0};
+> > > > > >
+> > > > > >         if (!slot)
+> > > > > >                 return -EINVAL;
+> > > > > > @@ -1058,13 +1146,42 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+> > > > > >                          * lift-off as userspace will not be aware
+> > > > > >                          * of non-confidence, so we need to split
+> > > > > >                          * it into 2 events: active MT_TOOL_PALM
+> > > > > > -                        * and a separate liftoff.
+> > > > > > +                        * and a separate lift off.
+> > > > > >                          */
+> > > > > >                         active = true;
+> > > > > >                         set_bit(slotnum, app->pending_palm_slots);
+> > > > > >                 }
+> > > > > >         }
+> > > > > >
+> > > > > > +       if (app->quirks & MT_QUIRK_DROP_REPEATED_SLOT) {
+> > > > > > +               mt_fill_slot_state(&state, slot);
+> > > > > > +               /* Check if every field in the slot is the same as before.
+> > > > > > +                * Some touchscreens report the same position for several
+> > > > > > +                * frames even though the finger is no longer on the surface.
+> > > > > > +                * This is actually being recognised as the finger remaining in
+> > > > > > +                * one position, which causes scrolling to be stopped.
+> > > > > > +                * Ignore such packets so that the scrolling continues
+> > > > > > +                * and the touchscreen reports the finger liftoff.
+> > > >
+> > > > That part I understand better, but how is the device reporting such events?
+> > > > If the touch is no longer there, we should have a bit that says it is
+> > > > lifted, so we should simply just ignore the touch, no?
+> > > >
+> > >
+> > > Well, I would actually like the touch panel manufacturers to answer that :-)
+> > > Based on some comments in our source code it seems that some devices
+> > > might delay synthesis of lift-off to reduce risks of noisy release, but I am not
+> > > sure if it explains why they produce events in between.
+> >
+> > They produce events in between because they have to, or they are not
+> > following the spec :)
+> > I also think the main reason is that if they forget about sending an
+> > event *and* that the touch continues to move after a few events, they
+> > will see a release happening on the touch because that's what
+> > STICKY_FINGER does (it's a copy of the behaviour from Windows FWIW).
+> >
+> > >
+> > > >
+> > > > > > +                */
+> > > > > > +               if (!mt_is_slot_state_equal(&state,
+> > > > > > +                                           &app->mt_slot_state[slotnum])) {
+> > > > > > +                       app->touch_change |= (active ||
+> > > > > > +                                             app->mt_slot_state[slotnum].tip_state);
+> > > > > > +                       app->repeated_counter = 0;
+> > > > > > +               } else {
+> > > > > > +#define MT_MAX_REPEATED_DROPPED 5
+> > > > > > +                       if (app->repeated_counter < MT_MAX_REPEATED_DROPPED) {
+> > > > > > +                               active = false;
+> > > > > > +                               if (app->touched)
+> > > > > > +                                       app->touch_change = true;
+> > > > > > +                       } else {
+> > > > > > +                               app->touch_change = true;
+> > > > > > +                       }
+> > > > > > +                       app->repeated_counter++;
+> > > >
+> > > > This is specific to one device, but I have seen device filtering in
+> > > > hardware that reports the same steady data as long as the touch is
+> > > > present. So 5 reports with the same data seem quite short.
+> > > >
+> > >
+> > > It can be a larger number, I just believe that in this case it was enough.
+> >
+> > All 3 (or 4 maybe) recordings you shared showed that we received only 5
+> > duplications of events. So there is a case to be made around whether we
+> > need this patch.
+> >
+> > What would be interesting is whether you can "emulate" that situation
+> > without releasing the finger. If the raw data is noisy (to some extent
+> > of course) and it's hard to have exactly twice the same sample for a
+> > touch, then maybe we can assume that as soon as we get identical values
+> > we can release. Maybe the false positive in that situation would be
+> > better handled by the user that missing the fling.
+> >
+>
+> Actually, I am able to receive the same report if I am very still and
+> try not to move my finger.
+> I wouldn't say it is easy but it is definitely possible and hence i
+> wanted to use this upper bound
+> so that using an on screen keyboard is not annoying (i.e. I want to be
+> able to hold backspace key
+> and erase more than just one sign).
+
+Unfortunately, this is a deal breaker for me. You are trying to solve
+2 userspace issues in the kernel, where we don't have context. So
+whatever you are choosing to implement, you are breaking one use case.
+
+The fact that nothing separates the output between "touch is holding
+still" and "touch released" means that the kernel will have to assume
+one or the other, and this will likely break other userspace
+applications.
+
+I am sorry but I do not see how to fix that in the kernel:
+- for the backspace key, this is a userspace issue. If the finger is
+holding still on a key, some autorepeat needs to be emulated and the
+kernel has nothing to say here
+- for the fling, well, sorry I don't have a good solution but you'll
+probably have to quirk the device in userspace in a similar manner
+that you are doing in kernel space:
+in pseudo code:
+
+If fling is started and the device is this bogus one and if there is
+only one finger and the event consists in just one timestamp without
+changes in X/Y, assume release and filter out any further events for
+this slot.
+
+This way, you have the context (we started scrolling on a page), and
+you are not stepping on a drawing application toes for instance.
+
+Cheers,
+Benjamin
+
+>
+> > >
+> > > > Also, we do have devices which tend to forget to release slots, and
+> > > > that's why we have MT_QUIRK_STICKY_FINGERS which release touches after
+> > > > a while.
+> > >
+> > > Yeah, but the thing is that this specific device actually reports that
+> > > the finger is still there,
+> > > even though the finger has been lifted :-)
+> > > I believe that MT_QUIRK_STICKY_FINGERS works when the device somehow
+> > > fails to send a new report
+> > > within some time after the previous one, so it does not solve the issue for us.
+> >
+> > It's not exactly the same case, but it still feels similar enough to
+> > maybe be reused.
+> >
+>
+> I am a little bit lost;  MT_CLS_ILITEK_016x contains MT_QUIRK_STICKY_FINGERS.
+> Based on the logs I provided, do you think that it does not work as expected?
+>
+> > Can you please give a shot at the following patch (and change the value
+> > of MT_MAX_REPEATED_DROPPED between 1 to 5)?
+> > It doesn't use MT_QUIRK_STICKY_FINGERS but should be simnilar to what
+> > you have here in a shorter version.
+> >
+> > ---
+> > diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+> > index 0dece608c023..cff4088e564a 100644
+> > --- a/drivers/hid/hid-multitouch.c
+> > +++ b/drivers/hid/hid-multitouch.c
+> > @@ -77,6 +77,8 @@ MODULE_LICENSE("GPL");
+> >
+> >   #define MT_BUTTONTYPE_CLICKPAD                0
+> >
+> > +#define MT_MAX_REPEATED_DROPPED                3
+> > +
+> >   enum latency_mode {
+> >         HID_LATENCY_NORMAL = 0,
+> >         HID_LATENCY_HIGH = 1,
+> > @@ -128,6 +130,7 @@ struct mt_application {
+> >                                  * 1 means we should use a serial protocol
+> >                                  * > 1 means hybrid (multitouch) protocol
+> >                                  */
+> > +       unsigned int repeated_touches;  /* used when MT_QUIRK_DROP_REPEATED_SLOT */
+> >
+> >         __s32 dev_time;         /* the scan time provided by the device */
+> >         unsigned long jiffies;  /* the frame's jiffies */
+> > @@ -1065,6 +1068,19 @@ static int mt_process_slot(struct mt_device *td, struct input_dev *input,
+> >                 }
+> >         }
+> >
+> > +       /* TODO: add test for the new quirk so we don't apply this for all devices */
+> > +       if (active && app->num_expected == 1) {
+> > +               struct input_mt_slot *i_slot = &mt->slots[slotnum];
+> > +
+> > +               if (input_mt_get_value(i_slot, ABS_MT_POSITION_X) == *slot->x &&
+> > +                   input_mt_get_value(i_slot, ABS_MT_POSITION_Y) == *slot->y) {
+> > +                       if (++app->repeated_touches >= MT_MAX_REPEATED_DROPPED)
+> > +                               active = false;
+> > +               } else {
+> > +                       app->repeated_touches = 0;
+> > +               }
+> > +       }
+> > +
+> >         input_mt_slot(input, slotnum);
+> >         input_mt_report_slot_state(input, tool, active);
+> >         if (active) {
+> > ---
+> >
+>
+> Observed results:
+> MT_MAX_REPEATED_DROPPED = 1: It solves this issue, no hiccup visible,
+> but continuing to press a key on the screen
+> does not produce the right effect, for instance backspace erases a
+> single character only
+> MT_MAX_REPEATED_DROPPED = 2: Same as above
+> MT_MAX_REPEATED_DROPPED = 3: Small hiccup noticeable, problems with
+> backspace as above
+> MT_MAX_REPEATED_DROPPED = 4: Small hiccup noticeable, problems with
+> backspace as above
+> MT_MAX_REPEATED_DROPPED = 5: Fling does not work (due to 0.1s delay
+> and UI constants assuming that it is too long
+> time to still calculate velocity) + problems with backspace
+>
+>
+>
+>
+> > Cheers,
+> > Benjamin
+> >
+> > >
+> > >
+> > >
+> > >
+> > > >
+> > > > > > +               }
+> > > > > > +               app->touched = active;
+> > > > > > +               app->mt_slot_state[slotnum] = state;
+> > > > > > +       }
+> > > > > >         input_mt_slot(input, slotnum);
+> > > > > >         input_mt_report_slot_state(input, tool, active);
+> > > > > >         if (active) {
+> > > > > > @@ -1296,6 +1413,18 @@ static int mt_touch_input_configured(struct hid_device *hdev,
+> > > > > >         if (!app->pending_palm_slots)
+> > > > > >                 return -ENOMEM;
+> > > > > >
+> > > > > > +       if (app->quirks & MT_QUIRK_DROP_REPEATED_SLOT) {
+> > > > > > +               app->mt_slot_state = devm_kcalloc(&hi->input->dev,
+> > > > > > +                                                 td->maxcontacts,
+> > > > > > +                                                 sizeof(*app->mt_slot_state),
+> > > > > > +                                                 GFP_KERNEL);
+> > > > > > +               if (!app->mt_slot_state)
+> > > > > > +                       return -ENOMEM;
+> > > > > > +               mt_clear_slot_states(app->mt_slot_state, td->maxcontacts);
+> > > > > > +               app->repeated_counter = 0;
+> > > > > > +       }
+> > > > > > +
+> > > > > > +
+> > > > > >         ret = input_mt_init_slots(input, td->maxcontacts, app->mt_flags);
+> > > > > >         if (ret)
+> > > > > >                 return ret;
+> > > > > > @@ -1676,6 +1805,12 @@ static void mt_release_contacts(struct hid_device *hid)
+> > > > > >
+> > > > > >         list_for_each_entry(application, &td->applications, list) {
+> > > > > >                 application->num_received = 0;
+> > > > > > +               if (application->quirks & MT_QUIRK_DROP_REPEATED_SLOT) {
+> > > > > > +                       application->touch_change = false;
+> > > > > > +                       mt_clear_slot_states(application->mt_slot_state,
+> > > > > > +                                            td->maxcontacts);
+> > > > > > +                       application->repeated_counter = 0;
+> > > > > > +               }
+> > > > > >         }
+> > > > > >  }
+> > > > > >
+> > > > > > @@ -2014,6 +2149,15 @@ static const struct hid_device_id mt_devices[] = {
+> > > > > >                 MT_USB_DEVICE(USB_VENDOR_ID_ILITEK,
+> > > > > >                         USB_DEVICE_ID_ILITEK_MULTITOUCH) },
+> > > > > >
+> > > > > > +       /* Ilitek 106E/F touchscreen */
+> > > > > > +       {  .driver_data = MT_CLS_ILITEK_016x,
+> > > > > > +               HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH_WIN_8,
+> > > > > > +                       USB_VENDOR_ID_ILITEK, USB_DEVICE_ID_ILITEK_016E) },
+> > > > > > +
+> > > > > > +       {  .driver_data = MT_CLS_ILITEK_016x,
+> > > > > > +               HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH_WIN_8,
+> > > > > > +                       USB_VENDOR_ID_ILITEK, USB_DEVICE_ID_ILITEK_016F) },
+> > > > > > +
+> > > > > >         /* LG Melfas panel */
+> > > > > >         { .driver_data = MT_CLS_LG,
+> > > > > >                 HID_USB_DEVICE(USB_VENDOR_ID_LG,
+> > > > > > --
+> > > > > > 2.35.1.1021.g381101b075-goog
+> > > > > >
+> > > > >
+> > > >
+> > > > Cheers,
+> > > > Benjamin
+> > > >
+> > > > [0] https://gitlab.freedesktop.org/libevdev/hid-tools
+> > > >
+> > >
+> >
+>
 
