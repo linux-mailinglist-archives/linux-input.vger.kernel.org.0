@@ -2,52 +2,51 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E93F3509A0B
-	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 10:06:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1F74509A2C
+	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 10:06:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386300AbiDUIDD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Apr 2022 04:03:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54570 "EHLO
+        id S1386322AbiDUIDt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Apr 2022 04:03:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230142AbiDUIDC (ORCPT
+        with ESMTP id S1344890AbiDUIDq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Apr 2022 04:03:02 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ECDF26F5;
-        Thu, 21 Apr 2022 01:00:13 -0700 (PDT)
+        Thu, 21 Apr 2022 04:03:46 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9B0E1B7A1;
+        Thu, 21 Apr 2022 01:00:57 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1626FB82299;
-        Thu, 21 Apr 2022 08:00:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A50AC385A9;
-        Thu, 21 Apr 2022 08:00:09 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id F0D4FCE20F3;
+        Thu, 21 Apr 2022 08:00:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA691C385A9;
+        Thu, 21 Apr 2022 08:00:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650528010;
-        bh=XTeZWXaWKDzhiIEt4f9i25B5IZSE67l5ja2wFkIbVxQ=;
+        s=k20201202; t=1650528054;
+        bh=kzI7cNCI/MQ41Ygqo1vpDlykJ1QbTxbXNmI8WhhimmQ=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=kVIC2Cw6FAil+rrevneX3mTxEyb1siLjlSLT/IJYVExBpqbkA1wgrJd+pXCqBDODW
-         rtvx7sY66KfUR02cEqJKryF5HMxQUxMLXmmY+SdBz4OkiNhCTqtRKofarQFalRZPjL
-         oUd8bwzRVCzle6qUsFhCdjux/1KHmvSPjHv1lDhVmMvLJHw9r1JEqg+TSRkm8wULgK
-         JlVRPhssi0ZeGiyCstoZ8V6PjMqHjadj6uxjI3S9s9Ku22Smt2SI76FO7riXi0Q5tk
-         Y4byQq+csVw7AEVzv3JLWJP+03zqBMLKaWQOeeE3TmpIF2p2HpvMaEziKDO1QDN9sR
-         3COV4wxShkjCw==
-Date:   Thu, 21 Apr 2022 10:00:06 +0200 (CEST)
+        b=uvCakPe7gzWAmGB5n5HdstoT10rszEeh29X9NW6qZM1gttVKRTdRkLBYkf6Xkg8DK
+         G1Xv+90XoOPqnpwponuDHH9V55BsaNasckVr/22M8AnYwCmoZueNSeL/h/mpb/b0nF
+         vi04EMG8Rzt1Z3AVTrCpOxxGj/z9wn+m/YnJhXmfOqvfHXS0fppthn8qm3ZxIe+D9N
+         B/OVJsGgwiCT0rVD2Gse8Hfe47nEq4iCLHZ0+mITw7ppmtGknb+CneBRRQ6o6XqwEw
+         MKG5u7O/aqZglPpEHdUQFn9dn8xf9HYvJH4ogfQO4YRDP0ANDJWs1qNuXzQXLN0B1L
+         6CuEj6R4Rj8ng==
+Date:   Thu, 21 Apr 2022 10:00:50 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Jason Gerecke <killertofu@gmail.com>
-cc:     Bastien Nocera <hadess@hadess.net>,
-        Linux Input <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+To:     Bastien Nocera <hadess@hadess.net>
+cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Ping Cheng <ping.cheng@wacom.com>,
         Jason Gerecke <jason.gerecke@wacom.com>
 Subject: Re: [PATCH] HID: wacom: Correct power_supply type
-In-Reply-To: <CANRwn3SVcqFtv0BTTtqpM7M4WRN4sMKVo7_-9t5M8itt-rEttQ@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2204210959560.30217@cbobk.fhfr.pm>
-References: <20220407115406.115112-1-hadess@hadess.net> <nycvar.YFH.7.76.2204111708230.30217@cbobk.fhfr.pm> <CANRwn3SVcqFtv0BTTtqpM7M4WRN4sMKVo7_-9t5M8itt-rEttQ@mail.gmail.com>
+In-Reply-To: <892475a2d458aa1e8f5027f13d6582f0f6b4b05e.camel@hadess.net>
+Message-ID: <nycvar.YFH.7.76.2204211000150.30217@cbobk.fhfr.pm>
+References: <20220407115406.115112-1-hadess@hadess.net>  <nycvar.YFH.7.76.2204111708230.30217@cbobk.fhfr.pm> <892475a2d458aa1e8f5027f13d6582f0f6b4b05e.camel@hadess.net>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -57,27 +56,58 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 13 Apr 2022, Jason Gerecke wrote:
+On Wed, 20 Apr 2022, Bastien Nocera wrote:
 
-> Following up on my previous comment. I've been able to test this patch
-> with both flavors of wireless interface. Both Bluetooth (Intuos Pro)
-> and dongle-based (Intuos5) appear to have mostly-correct behavior
-> while charging and discharging, even when the battery level gradually
-> drops to zero. The misbehaviors I see appear to be limited to upower
-> mis-categorizing the devices as an e.g. keyboard or generic battery
-> rather than as a tablet. This leads to some slightly confusing UI
-> issues (e.g. GNOME and KDE referring to the device incorrectly), but
-> nothing too annoying. If upower is taught to recognize tablets under
-> more circumstances those issues should disappear.
+> > > POWER_SUPPLY_TYPE_USB seems to only ever be used by USB ports that
+> > > are
+> > > used to charge the machine itself (so a "system" scope), like the
+> > > single USB port on a phone, rather than devices.
+> > > 
+> > > The wacom_sys driver is the only driver that sets its device
+> > > battery as
+> > > being a USB type, which doesn't seem correct based on its usage, so
+> > > switch it to be a battery type like all the other USB-connected
+> > > devices.
+> > > 
+> > > Signed-off-by: Bastien Nocera <hadess@hadess.net>
+> > > ---
+> > >  drivers/hid/wacom_sys.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+> > > index 066c567dbaa2..620fe74f5676 100644
+> > > --- a/drivers/hid/wacom_sys.c
+> > > +++ b/drivers/hid/wacom_sys.c
+> > > @@ -1777,7 +1777,7 @@ static int __wacom_initialize_battery(struct
+> > > wacom *wacom,
+> > >         bat_desc->get_property = wacom_battery_get_property;
+> > >         sprintf(battery->bat_name, "wacom_battery_%ld", n);
+> > >         bat_desc->name = battery->bat_name;
+> > > -       bat_desc->type = POWER_SUPPLY_TYPE_USB;
+> > > +       bat_desc->type = POWER_SUPPLY_TYPE_BATTERY;
+> > >         bat_desc->use_for_apm = 0;
+> > >  
+> > >         ps_bat = devm_power_supply_register(dev, bat_desc,
+> > > &psy_cfg);
+> > 
+> > Thanks Bastien, makes sense. CCing Jason and Ping (the Wacom driver 
+> > maintainers) to get their Ack.
 > 
-> Ping tells me you may have an Intuos4 Wireless, Bastien? Any
-> additional testing you can do with that device would be appreciated,
-> though even without it I'm personally comfortable enough to provide an
-> ack:
+> Hey,
 > 
-> Acked-by: Jason Gerecke <jason.gerecke@wacom.com>
+> I know both Jason and Ping, but their name didn't show up when running
+> get_maintainers.pl and neither of their names are in the MAINTAINERS
+> file.
+> 
+> This probably needs fixing.
 
-Thanks Jason, now applied.
+Agreed. Wacom driver is by itself substantial enough in order to have 
+MAINTAINERS entry.
+
+Jason, Ping, could you please send me a patch adding yourself as 
+maintainers?
+
+Thanks,
 
 -- 
 Jiri Kosina
