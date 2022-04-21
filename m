@@ -2,645 +2,289 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82F3350A1AA
-	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 16:11:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D4F650A244
+	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 16:27:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1388935AbiDUOLL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Apr 2022 10:11:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46752 "EHLO
+        id S1389285AbiDUOaQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Apr 2022 10:30:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1388973AbiDUOLH (ORCPT
+        with ESMTP id S1389241AbiDUOaO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Apr 2022 10:11:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 955B51A9
-        for <linux-input@vger.kernel.org>; Thu, 21 Apr 2022 07:08:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1650550095;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kDnlYa2OMkqEeLhYEcPDezCSxy/pkOwx9St1vGliNJo=;
-        b=ZXSBSOLVFzO1kMPGtG4eKE6gPbByx2tItduFLqeCetvTbjgeNTy7lCksTdulLIbSIc3KuR
-        YyqRO0efdQeRvTw2o34N/rg/65BSKGnE5dAgD4mcnXWWOMadzwvLUZ9k2+bd4tqh9V+b1T
-        mWTPalxZQ2G0LP1U7jeSoBsYSFyY+k0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-633-0cIPWYktOpm8NPl29RvK8w-1; Thu, 21 Apr 2022 10:08:09 -0400
-X-MC-Unique: 0cIPWYktOpm8NPl29RvK8w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7878C18A6584;
-        Thu, 21 Apr 2022 14:08:02 +0000 (UTC)
-Received: from plouf.redhat.com (unknown [10.39.194.205])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 35DC140EC002;
-        Thu, 21 Apr 2022 14:08:00 +0000 (UTC)
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>
-Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        bpf@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [RFC bpf-next v4 7/7] selftests/bpf: add tests for the HID-bpf initial implementation
-Date:   Thu, 21 Apr 2022 16:07:40 +0200
-Message-Id: <20220421140740.459558-8-benjamin.tissoires@redhat.com>
-In-Reply-To: <20220421140740.459558-1-benjamin.tissoires@redhat.com>
-References: <20220421140740.459558-1-benjamin.tissoires@redhat.com>
+        Thu, 21 Apr 2022 10:30:14 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 485933EA93
+        for <linux-input@vger.kernel.org>; Thu, 21 Apr 2022 07:27:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650551243; x=1682087243;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4J2UUuc90UmV2G3ZQ27HUNCRZRGdc1JlbZHxuDDQ2RI=;
+  b=Yl7kOQWZ1QSurJdUxPFWE/NqSo3M8HesXHoZFx23/kLRMzqcTs1FW+o/
+   psu2/e0JHIfCUCeHlAgyror0CGn6Ud3I8kvcgxNrOnPtTMkCGqWrccgqk
+   X70WnQfXF/Q6chIR04nlqaEWyoeiFS8WWmh987omGRhKvc7ZMgFv9vRUS
+   jfa6EaX2/jVV8RfwdWN0v7ap2eUhGjAzR0IAkllPji/8zkycb0rmGYMVc
+   H5hheZh/Z+EGUwdXw7yYM0W9Hm2n823J93N7Yu30CbSmpm2rg6zjslamZ
+   rTqXAeLEbFyMURt70x/jGaSdhxT8kZhtK2sIXGqKXdVyeCaP81+Lo0VBr
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="251680030"
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; 
+   d="scan'208";a="251680030"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2022 07:27:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; 
+   d="scan'208";a="866249273"
+Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 21 Apr 2022 07:27:20 -0700
+Received: from kbuild by 3abc53900bec with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nhXmB-0008TP-LF;
+        Thu, 21 Apr 2022 14:27:19 +0000
+Date:   Thu, 21 Apr 2022 22:26:46 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Joshua-Dickens <Joshua@joshua-dickens.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-input@vger.kernel.org, Jiri Kosina <jkosina@suse.cz>,
+        Joshua Dickens <joshua.dickens@wacom.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>
+Subject: [hid:for-5.19/wacom 1/2] drivers/hid/wacom_wac.c:2411:42: warning:
+ format specifies type 'unsigned short' but the argument has type 'int'
+Message-ID: <202204212217.M2efI2Po-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The test is pretty basic:
-- create a virtual uhid device that no userspace will like (to not mess
-  up the running system)
-- attach a BPF prog to it
-- open the matching hidraw node
-- inject one event and check:
-  * that the BPF program can do something on the event stream
-  * can modify the event stream
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-5.19/wacom
+head:   6ff1cae2e30a79265bcce85f617663c480936ab0
+commit: 6d09085b38e5ace0001cf4f3cdbd4bf247533b61 [1/2] HID: wacom: Adding Support for new usages
+config: riscv-randconfig-r026-20220420 (https://download.01.org/0day-ci/archive/20220421/202204212217.M2efI2Po-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project bac6cd5bf85669e3376610cfc4c4f9ca015e7b9b)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?id=6d09085b38e5ace0001cf4f3cdbd4bf247533b61
+        git remote add hid https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
+        git fetch --no-tags hid for-5.19/wacom
+        git checkout 6d09085b38e5ace0001cf4f3cdbd4bf247533b61
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/hid/ kernel/
 
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
----
+All warnings (new ones prefixed by >>):
 
-changes in v4:
-- manually retrieve the hidraw node from the sysfs (we can't get it for
-  free from BPF)
-- use the new API
+   In file included from drivers/hid/wacom_wac.c:11:
+   In file included from drivers/hid/wacom_wac.h:10:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/hid/wacom_wac.c:11:
+   In file included from drivers/hid/wacom_wac.h:10:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/hid/wacom_wac.c:11:
+   In file included from drivers/hid/wacom_wac.h:10:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:1024:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+                                                     ~~~~~~~~~~ ^
+>> drivers/hid/wacom_wac.c:2411:42: warning: format specifies type 'unsigned short' but the argument has type 'int' [-Wformat]
+                           hid_warn(hdev, "Dropped %hu packets", value - wacom_wac->hid_data.sequence_number);
+                                                   ~~~           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                   %d
+   include/linux/hid.h:1210:31: note: expanded from macro 'hid_warn'
+           dev_warn(&(hid)->dev, fmt, ##__VA_ARGS__)
+                                 ~~~    ^~~~~~~~~~~
+   include/linux/dev_printk.h:146:70: note: expanded from macro 'dev_warn'
+           dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                                       ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
+                                ~~~    ^~~~~~~~~~~
+   8 warnings generated.
 
-changes in v3:
-- squashed "hid: rely on uhid event to know if a test device is ready"
-  into this one
-- add selftests bpf VM config changes
-- s/hidraw_ino/hidraw_number/
 
-changes in v2:
-- split the series by bpf/libbpf/hid/selftests and samples
----
- tools/testing/selftests/bpf/config           |   3 +
- tools/testing/selftests/bpf/prog_tests/hid.c | 482 +++++++++++++++++++
- tools/testing/selftests/bpf/progs/hid.c      |  32 ++
- 3 files changed, 517 insertions(+)
- create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
- create mode 100644 tools/testing/selftests/bpf/progs/hid.c
+vim +2411 drivers/hid/wacom_wac.c
 
-diff --git a/tools/testing/selftests/bpf/config b/tools/testing/selftests/bpf/config
-index 763db63a3890..b983c76535f8 100644
---- a/tools/testing/selftests/bpf/config
-+++ b/tools/testing/selftests/bpf/config
-@@ -53,3 +53,6 @@ CONFIG_NF_DEFRAG_IPV4=y
- CONFIG_NF_DEFRAG_IPV6=y
- CONFIG_NF_CONNTRACK=y
- CONFIG_USERFAULTFD=y
-+CONFIG_HID=y
-+CONFIG_HIDRAW=y
-+CONFIG_UHID=y
-diff --git a/tools/testing/selftests/bpf/prog_tests/hid.c b/tools/testing/selftests/bpf/prog_tests/hid.c
-new file mode 100644
-index 000000000000..624853fb0f7d
---- /dev/null
-+++ b/tools/testing/selftests/bpf/prog_tests/hid.c
-@@ -0,0 +1,482 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (c) 2022 Red Hat */
-+#include <test_progs.h>
-+#include <testing_helpers.h>
-+#include "hid.skel.h"
-+
-+#include <fcntl.h>
-+#include <fnmatch.h>
-+#include <dirent.h>
-+#include <poll.h>
-+#include <stdbool.h>
-+#include <linux/uhid.h>
-+
-+static unsigned char rdesc[] = {
-+	0x06, 0x00, 0xff,	/* Usage Page (Vendor Defined Page 1) */
-+	0x09, 0x21,		/* Usage (Vendor Usage 0x21) */
-+	0xa1, 0x01,		/* COLLECTION (Application) */
-+	0x09, 0x01,			/* Usage (Vendor Usage 0x01) */
-+	0xa1, 0x00,			/* COLLECTION (Physical) */
-+	0x85, 0x01,				/* REPORT_ID (1) */
-+	0x06, 0x00, 0xff,			/* Usage Page (Vendor Defined Page 1) */
-+	0x19, 0x01,				/* USAGE_MINIMUM (1) */
-+	0x29, 0x03,				/* USAGE_MAXIMUM (3) */
-+	0x15, 0x00,				/* LOGICAL_MINIMUM (0) */
-+	0x25, 0x01,				/* LOGICAL_MAXIMUM (1) */
-+	0x95, 0x03,				/* REPORT_COUNT (3) */
-+	0x75, 0x01,				/* REPORT_SIZE (1) */
-+	0x81, 0x02,				/* INPUT (Data,Var,Abs) */
-+	0x95, 0x01,				/* REPORT_COUNT (1) */
-+	0x75, 0x05,				/* REPORT_SIZE (5) */
-+	0x81, 0x01,				/* INPUT (Cnst,Var,Abs) */
-+	0x05, 0x01,				/* USAGE_PAGE (Generic Desktop) */
-+	0x09, 0x30,				/* USAGE (X) */
-+	0x09, 0x31,				/* USAGE (Y) */
-+	0x15, 0x81,				/* LOGICAL_MINIMUM (-127) */
-+	0x25, 0x7f,				/* LOGICAL_MAXIMUM (127) */
-+	0x75, 0x10,				/* REPORT_SIZE (16) */
-+	0x95, 0x02,				/* REPORT_COUNT (2) */
-+	0x81, 0x06,				/* INPUT (Data,Var,Rel) */
-+
-+	0x06, 0x00, 0xff,			/* Usage Page (Vendor Defined Page 1) */
-+	0x19, 0x01,				/* USAGE_MINIMUM (1) */
-+	0x29, 0x03,				/* USAGE_MAXIMUM (3) */
-+	0x15, 0x00,				/* LOGICAL_MINIMUM (0) */
-+	0x25, 0x01,				/* LOGICAL_MAXIMUM (1) */
-+	0x95, 0x03,				/* REPORT_COUNT (3) */
-+	0x75, 0x01,				/* REPORT_SIZE (1) */
-+	0x91, 0x02,				/* Output (Data,Var,Abs) */
-+	0x95, 0x01,				/* REPORT_COUNT (1) */
-+	0x75, 0x05,				/* REPORT_SIZE (5) */
-+	0x91, 0x01,				/* Output (Cnst,Var,Abs) */
-+
-+	0x06, 0x00, 0xff,			/* Usage Page (Vendor Defined Page 1) */
-+	0x19, 0x06,				/* USAGE_MINIMUM (6) */
-+	0x29, 0x08,				/* USAGE_MAXIMUM (8) */
-+	0x15, 0x00,				/* LOGICAL_MINIMUM (0) */
-+	0x25, 0x01,				/* LOGICAL_MAXIMUM (1) */
-+	0x95, 0x03,				/* REPORT_COUNT (3) */
-+	0x75, 0x01,				/* REPORT_SIZE (1) */
-+	0xb1, 0x02,				/* Feature (Data,Var,Abs) */
-+	0x95, 0x01,				/* REPORT_COUNT (1) */
-+	0x75, 0x05,				/* REPORT_SIZE (5) */
-+	0x91, 0x01,				/* Output (Cnst,Var,Abs) */
-+
-+	0xc0,				/* END_COLLECTION */
-+	0xc0,			/* END_COLLECTION */
-+};
-+
-+static pthread_mutex_t uhid_started_mtx = PTHREAD_MUTEX_INITIALIZER;
-+static pthread_cond_t uhid_started = PTHREAD_COND_INITIALIZER;
-+
-+/* no need to protect uhid_stopped, only one thread accesses it */
-+static bool uhid_stopped;
-+
-+static int uhid_write(int fd, const struct uhid_event *ev)
-+{
-+	ssize_t ret;
-+
-+	ret = write(fd, ev, sizeof(*ev));
-+	if (ret < 0) {
-+		fprintf(stderr, "Cannot write to uhid: %m\n");
-+		return -errno;
-+	} else if (ret != sizeof(*ev)) {
-+		fprintf(stderr, "Wrong size written to uhid: %zd != %zu\n",
-+			ret, sizeof(ev));
-+		return -EFAULT;
-+	} else {
-+		return 0;
-+	}
-+}
-+
-+static int create(int fd, int rand_nb)
-+{
-+	struct uhid_event ev;
-+	char buf[25];
-+
-+	sprintf(buf, "test-uhid-device-%d", rand_nb);
-+
-+	memset(&ev, 0, sizeof(ev));
-+	ev.type = UHID_CREATE;
-+	strcpy((char *)ev.u.create.name, buf);
-+	ev.u.create.rd_data = rdesc;
-+	ev.u.create.rd_size = sizeof(rdesc);
-+	ev.u.create.bus = BUS_USB;
-+	ev.u.create.vendor = 0x0001;
-+	ev.u.create.product = 0x0a37;
-+	ev.u.create.version = 0;
-+	ev.u.create.country = 0;
-+
-+	sprintf(buf, "%d", rand_nb);
-+	strcpy((char *)ev.u.create.phys, buf);
-+
-+	return uhid_write(fd, &ev);
-+}
-+
-+static void destroy(int fd)
-+{
-+	struct uhid_event ev;
-+
-+	memset(&ev, 0, sizeof(ev));
-+	ev.type = UHID_DESTROY;
-+
-+	uhid_write(fd, &ev);
-+}
-+
-+static int event(int fd)
-+{
-+	struct uhid_event ev;
-+	ssize_t ret;
-+
-+	memset(&ev, 0, sizeof(ev));
-+	ret = read(fd, &ev, sizeof(ev));
-+	if (ret == 0) {
-+		fprintf(stderr, "Read HUP on uhid-cdev\n");
-+		return -EFAULT;
-+	} else if (ret < 0) {
-+		fprintf(stderr, "Cannot read uhid-cdev: %m\n");
-+		return -errno;
-+	} else if (ret != sizeof(ev)) {
-+		fprintf(stderr, "Invalid size read from uhid-dev: %zd != %zu\n",
-+			ret, sizeof(ev));
-+		return -EFAULT;
-+	}
-+
-+	switch (ev.type) {
-+	case UHID_START:
-+		pthread_mutex_lock(&uhid_started_mtx);
-+		pthread_cond_signal(&uhid_started);
-+		pthread_mutex_unlock(&uhid_started_mtx);
-+
-+		fprintf(stderr, "UHID_START from uhid-dev\n");
-+		break;
-+	case UHID_STOP:
-+		uhid_stopped = true;
-+
-+		fprintf(stderr, "UHID_STOP from uhid-dev\n");
-+		break;
-+	case UHID_OPEN:
-+		fprintf(stderr, "UHID_OPEN from uhid-dev\n");
-+		break;
-+	case UHID_CLOSE:
-+		fprintf(stderr, "UHID_CLOSE from uhid-dev\n");
-+		break;
-+	case UHID_OUTPUT:
-+		fprintf(stderr, "UHID_OUTPUT from uhid-dev\n");
-+		break;
-+	case UHID_GET_REPORT:
-+		fprintf(stderr, "UHID_GET_REPORT from uhid-dev\n");
-+		break;
-+	case UHID_SET_REPORT:
-+		fprintf(stderr, "UHID_SET_REPORT from uhid-dev\n");
-+		break;
-+	default:
-+		fprintf(stderr, "Invalid event from uhid-dev: %u\n", ev.type);
-+	}
-+
-+	return 0;
-+}
-+
-+static void *read_uhid_events_thread(void *arg)
-+{
-+	int fd = *(int *)arg;
-+	struct pollfd pfds[1];
-+	int ret = 0;
-+
-+	pfds[0].fd = fd;
-+	pfds[0].events = POLLIN;
-+
-+	uhid_stopped = false;
-+
-+	while (!uhid_stopped) {
-+		ret = poll(pfds, 1, 100);
-+		if (ret < 0) {
-+			fprintf(stderr, "Cannot poll for fds: %m\n");
-+			break;
-+		}
-+		if (pfds[0].revents & POLLIN) {
-+			ret = event(fd);
-+			if (ret)
-+				break;
-+		}
-+	}
-+
-+	return (void *)(long)ret;
-+}
-+
-+static int uhid_start_listener(pthread_t *tid, int uhid_fd)
-+{
-+	int fd = uhid_fd;
-+
-+	pthread_mutex_lock(&uhid_started_mtx);
-+	if (CHECK_FAIL(pthread_create(tid, NULL, read_uhid_events_thread,
-+				      (void *)&fd))) {
-+		pthread_mutex_unlock(&uhid_started_mtx);
-+		close(fd);
-+		return -EIO;
-+	}
-+	pthread_cond_wait(&uhid_started, &uhid_started_mtx);
-+	pthread_mutex_unlock(&uhid_started_mtx);
-+
-+	return 0;
-+}
-+
-+static int send_event(int fd, u8 *buf, size_t size)
-+{
-+	struct uhid_event ev;
-+
-+	if (size > sizeof(ev.u.input.data))
-+		return -E2BIG;
-+
-+	memset(&ev, 0, sizeof(ev));
-+	ev.type = UHID_INPUT2;
-+	ev.u.input2.size = size;
-+
-+	memcpy(ev.u.input2.data, buf, size);
-+
-+	return uhid_write(fd, &ev);
-+}
-+
-+static int setup_uhid(int rand_nb)
-+{
-+	int fd;
-+	const char *path = "/dev/uhid";
-+	int ret;
-+
-+	fd = open(path, O_RDWR | O_CLOEXEC);
-+	if (!ASSERT_GE(fd, 0, "open uhid-cdev"))
-+		return -EPERM;
-+
-+	ret = create(fd, rand_nb);
-+	if (!ASSERT_OK(ret, "create uhid device")) {
-+		close(fd);
-+		return -EPERM;
-+	}
-+
-+	return fd;
-+}
-+
-+static bool match_sysfs_device(int dev_id, const char *workdir, struct dirent *dir)
-+{
-+	const char *target = "0003:0001:0A37.*";
-+	char phys[512];
-+	char uevent[1024];
-+	char temp[512];
-+	int fd, nread;
-+	bool found = false;
-+
-+	if (fnmatch(target, dir->d_name, 0))
-+		return false;
-+
-+	/* we found the correct VID/PID, now check for phys */
-+	sprintf(uevent, "%s/%s/uevent", workdir, dir->d_name);
-+
-+	fd = open(uevent, O_RDONLY | O_NONBLOCK);
-+	if (fd < 0)
-+		return false;
-+
-+	sprintf(phys, "PHYS=%d", dev_id);
-+
-+	nread = read(fd, temp, ARRAY_SIZE(temp));
-+	if (nread > 0 && (strstr(temp, phys)) != NULL)
-+		found = true;
-+
-+	close(fd);
-+
-+	return found;
-+}
-+
-+static int get_sysfs_fd(int dev_id)
-+{
-+	const char *workdir = "/sys/devices/virtual/misc/uhid";
-+	char uevent[1024];
-+	DIR *d;
-+	struct dirent *dir;
-+	int found = -1;
-+
-+	/* it would be nice to be able to use nftw, but the no_alu32 target doesn't support it */
-+
-+	d = opendir(workdir);
-+	if (d) {
-+		while ((dir = readdir(d)) != NULL) {
-+			if (!match_sysfs_device(dev_id, workdir, dir))
-+				continue;
-+
-+			sprintf(uevent, "%s/%s/uevent", workdir, dir->d_name);
-+
-+			found = open(uevent, O_RDONLY | O_NONBLOCK);
-+			if (found > 0)
-+				break;
-+		}
-+		closedir(d);
-+	}
-+
-+	return found;
-+}
-+
-+static int get_hidraw(int dev_id)
-+{
-+	const char *workdir = "/sys/devices/virtual/misc/uhid";
-+	char sysfs[1024];
-+	DIR *d, *subd;
-+	struct dirent *dir, *subdir;
-+	int i, found = -1;
-+
-+	/* retry 5 times in case the system is loaded */
-+	for (i = 5; i > 0; i--) {
-+		usleep(10);
-+		d = opendir(workdir);
-+
-+		if (!d)
-+			continue;
-+
-+		while ((dir = readdir(d)) != NULL) {
-+			if (!match_sysfs_device(dev_id, workdir, dir))
-+				continue;
-+
-+			sprintf(sysfs, "%s/%s/hidraw", workdir, dir->d_name);
-+
-+			subd = opendir(sysfs);
-+			if (!subd)
-+				continue;
-+
-+			while ((subdir = readdir(subd)) != NULL) {
-+				if (fnmatch("hidraw*", subdir->d_name, 0))
-+					continue;
-+
-+				found = atoi(subdir->d_name + strlen("hidraw"));
-+			}
-+
-+			closedir(subd);
-+
-+			if (found > 0)
-+				break;
-+		}
-+		closedir(d);
-+	}
-+
-+	return found;
-+}
-+
-+/*
-+ * Attach hid_first_event to the given uhid device,
-+ * retrieve and open the matching hidraw node,
-+ * inject one event in the uhid device,
-+ * check that the program sees it and can change the data
-+ */
-+static int test_hid_raw_event(struct hid *hid_skel, int uhid_fd, int sysfs_fd, int dev_id)
-+{
-+	int err, hidraw_number, hidraw_fd = -1;
-+	char hidraw_path[64] = {0};
-+	u8 buf[10] = {0};
-+	int ret = -1;
-+
-+	/* check that the program is correctly loaded */
-+	ASSERT_EQ(hid_skel->data->callback_check, 52, "callback_check1");
-+	ASSERT_EQ(hid_skel->data->callback2_check, 52, "callback2_check1");
-+
-+	/* attach the first program */
-+	hid_skel->links.hid_first_event =
-+		bpf_program__attach(hid_skel->progs.hid_first_event);
-+	if (!ASSERT_OK_PTR(hid_skel->links.hid_first_event,
-+			   "attach_hid(hid_first_event)"))
-+		return PTR_ERR(hid_skel->links.hid_first_event);
-+
-+	hidraw_number = get_hidraw(dev_id);
-+	if (!ASSERT_GE(hidraw_number, 0, "get_hidraw"))
-+		goto cleanup;
-+
-+	/* open hidraw node to check the other side of the pipe */
-+	sprintf(hidraw_path, "/dev/hidraw%d", hidraw_number);
-+	hidraw_fd = open(hidraw_path, O_RDWR | O_NONBLOCK);
-+
-+	if (!ASSERT_GE(hidraw_fd, 0, "open_hidraw"))
-+		goto cleanup;
-+
-+	/* inject one event */
-+	buf[0] = 1;
-+	buf[1] = 42;
-+	send_event(uhid_fd, buf, 6);
-+
-+	/* check that hid_first_event() was executed */
-+	ASSERT_EQ(hid_skel->data->callback_check, 42, "callback_check1");
-+
-+	/* read the data from hidraw */
-+	memset(buf, 0, sizeof(buf));
-+	err = read(hidraw_fd, buf, sizeof(buf));
-+	if (!ASSERT_EQ(err, 6, "read_hidraw"))
-+		goto cleanup;
-+
-+	if (!ASSERT_EQ(buf[2], 47, "hid_first_event"))
-+		goto cleanup;
-+
-+	/* inject another event */
-+	buf[0] = 1;
-+	buf[1] = 47;
-+	send_event(uhid_fd, buf, 6);
-+
-+	/* check that hid_first_event() was executed */
-+	ASSERT_EQ(hid_skel->data->callback_check, 47, "callback_check1");
-+
-+	/* read the data from hidraw */
-+	memset(buf, 0, sizeof(buf));
-+	err = read(hidraw_fd, buf, sizeof(buf));
-+	if (!ASSERT_EQ(err, 6, "read_hidraw"))
-+		goto cleanup;
-+
-+	if (!ASSERT_EQ(buf[2], 52, "hid_first_event"))
-+		goto cleanup;
-+
-+	ret = 0;
-+
-+cleanup:
-+	if (hidraw_fd >= 0)
-+		close(hidraw_fd);
-+
-+	hid__detach(hid_skel);
-+
-+	return ret;
-+}
-+
-+void serial_test_hid_bpf(void)
-+{
-+	struct hid *hid_skel = NULL;
-+	int err, uhid_fd, sysfs_fd;
-+	void *uhid_err;
-+	time_t t;
-+	pthread_t tid;
-+	int dev_id;
-+
-+	/* initialize random number generator */
-+	srand((unsigned int)time(&t));
-+
-+	dev_id = rand() % 1024;
-+
-+	uhid_fd = setup_uhid(dev_id);
-+	if (!ASSERT_GE(uhid_fd, 0, "setup uhid"))
-+		return;
-+
-+	err = uhid_start_listener(&tid, uhid_fd);
-+	ASSERT_OK(err, "uhid_start_listener");
-+
-+	/* locate the uevent file of the created device */
-+	sysfs_fd = get_sysfs_fd(dev_id);
-+	if (!ASSERT_GE(sysfs_fd, 0, "locate sysfs uhid device"))
-+		goto cleanup;
-+
-+	hid_skel = hid__open_and_load();
-+	if (!ASSERT_OK_PTR(hid_skel, "hid_skel_load"))
-+		goto cleanup;
-+
-+	/* start the tests! */
-+	err = test_hid_raw_event(hid_skel, uhid_fd, sysfs_fd, dev_id);
-+	ASSERT_OK(err, "hid");
-+
-+cleanup:
-+	hid__destroy(hid_skel);
-+	destroy(uhid_fd);
-+
-+	pthread_join(tid, &uhid_err);
-+	err = (int)(long)uhid_err;
-+	CHECK_FAIL(err);
-+}
-diff --git a/tools/testing/selftests/bpf/progs/hid.c b/tools/testing/selftests/bpf/progs/hid.c
-new file mode 100644
-index 000000000000..37cc98ca206b
---- /dev/null
-+++ b/tools/testing/selftests/bpf/progs/hid.c
-@@ -0,0 +1,32 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (c) 2022 Red hat */
-+#include "vmlinux.h"
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_tracing.h>
-+
-+char _license[] SEC("license") = "GPL";
-+
-+extern __u8 *hid_bpf_kfunc_get_data(struct hid_bpf_ctx *ctx,
-+				    unsigned int offset,
-+				    const size_t __sz) __ksym;
-+extern void hid_bpf_kfunc_data_release(__u8 *data) __ksym;
-+
-+__u64 callback_check = 52;
-+__u64 callback2_check = 52;
-+
-+SEC("fmod_ret/hid_bpf_device_event")
-+int BPF_PROG(hid_first_event, struct hid_bpf_ctx *hid_ctx, __s64 type)
-+{
-+	__u8 *rw_data = hid_bpf_kfunc_get_data(hid_ctx, 0 /* offset */, 3 /* size */);
-+
-+	if (!rw_data)
-+		return 0; /* EPERM check */
-+
-+	callback_check = rw_data[1];
-+
-+	rw_data[2] = rw_data[1] + 5;
-+
-+	hid_bpf_kfunc_data_release(rw_data);
-+
-+	return 0;
-+}
+  2292	
+  2293	static void wacom_wac_pen_event(struct hid_device *hdev, struct hid_field *field,
+  2294			struct hid_usage *usage, __s32 value)
+  2295	{
+  2296		struct wacom *wacom = hid_get_drvdata(hdev);
+  2297		struct wacom_wac *wacom_wac = &wacom->wacom_wac;
+  2298		struct wacom_features *features = &wacom_wac->features;
+  2299		struct input_dev *input = wacom_wac->pen_input;
+  2300		unsigned equivalent_usage = wacom_equivalent_usage(usage->hid);
+  2301	
+  2302		if (wacom_wac->is_invalid_bt_frame)
+  2303			return;
+  2304	
+  2305		switch (equivalent_usage) {
+  2306		case HID_GD_Z:
+  2307			/*
+  2308			 * HID_GD_Z "should increase as the control's position is
+  2309			 * moved from high to low", while ABS_DISTANCE instead
+  2310			 * increases in value as the tool moves from low to high.
+  2311			 */
+  2312			value = field->logical_maximum - value;
+  2313			break;
+  2314		case HID_DG_INRANGE:
+  2315			wacom_wac->hid_data.inrange_state = value;
+  2316			if (!(features->quirks & WACOM_QUIRK_SENSE))
+  2317				wacom_wac->hid_data.sense_state = value;
+  2318			return;
+  2319		case HID_DG_INVERT:
+  2320			wacom_wac->hid_data.invert_state = value;
+  2321			return;
+  2322		case HID_DG_ERASER:
+  2323		case HID_DG_TIPSWITCH:
+  2324			wacom_wac->hid_data.tipswitch |= value;
+  2325			return;
+  2326		case HID_DG_BARRELSWITCH:
+  2327			wacom_wac->hid_data.barrelswitch = value;
+  2328			return;
+  2329		case HID_DG_BARRELSWITCH2:
+  2330			wacom_wac->hid_data.barrelswitch2 = value;
+  2331			return;
+  2332		case HID_DG_TOOLSERIALNUMBER:
+  2333			if (value) {
+  2334				wacom_wac->serial[0] = (wacom_wac->serial[0] & ~0xFFFFFFFFULL);
+  2335				wacom_wac->serial[0] |= wacom_s32tou(value, field->report_size);
+  2336			}
+  2337			return;
+  2338		case HID_DG_TWIST:
+  2339			/*
+  2340			 * Userspace expects pen twist to have its zero point when
+  2341			 * the buttons/finger is on the tablet's left. HID values
+  2342			 * are zero when buttons are toward the top.
+  2343			 */
+  2344			value = wacom_offset_rotation(input, usage, value, 1, 4);
+  2345			break;
+  2346		case WACOM_HID_WD_SENSE:
+  2347			wacom_wac->hid_data.sense_state = value;
+  2348			return;
+  2349		case WACOM_HID_WD_SERIALHI:
+  2350			if (value) {
+  2351				__u32 raw_value = wacom_s32tou(value, field->report_size);
+  2352	
+  2353				wacom_wac->serial[0] = (wacom_wac->serial[0] & 0xFFFFFFFF);
+  2354				wacom_wac->serial[0] |= ((__u64)raw_value) << 32;
+  2355				/*
+  2356				 * Non-USI EMR devices may contain additional tool type
+  2357				 * information here. See WACOM_HID_WD_TOOLTYPE case for
+  2358				 * more details.
+  2359				 */
+  2360				if (value >> 20 == 1) {
+  2361					wacom_wac->id[0] |= raw_value & 0xFFFFF;
+  2362				}
+  2363			}
+  2364			return;
+  2365		case WACOM_HID_WD_TOOLTYPE:
+  2366			/*
+  2367			 * Some devices (MobileStudio Pro, and possibly later
+  2368			 * devices as well) do not return the complete tool
+  2369			 * type in their WACOM_HID_WD_TOOLTYPE usage. Use a
+  2370			 * bitwise OR so the complete value can be built
+  2371			 * up over time :(
+  2372			 */
+  2373			wacom_wac->id[0] |= wacom_s32tou(value, field->report_size);
+  2374			return;
+  2375		case WACOM_HID_WD_OFFSETLEFT:
+  2376			if (features->offset_left && value != features->offset_left)
+  2377				hid_warn(hdev, "%s: overriding existing left offset "
+  2378					 "%d -> %d\n", __func__, value,
+  2379					 features->offset_left);
+  2380			features->offset_left = value;
+  2381			return;
+  2382		case WACOM_HID_WD_OFFSETRIGHT:
+  2383			if (features->offset_right && value != features->offset_right)
+  2384				hid_warn(hdev, "%s: overriding existing right offset "
+  2385					 "%d -> %d\n", __func__, value,
+  2386					 features->offset_right);
+  2387			features->offset_right = value;
+  2388			return;
+  2389		case WACOM_HID_WD_OFFSETTOP:
+  2390			if (features->offset_top && value != features->offset_top)
+  2391				hid_warn(hdev, "%s: overriding existing top offset "
+  2392					 "%d -> %d\n", __func__, value,
+  2393					 features->offset_top);
+  2394			features->offset_top = value;
+  2395			return;
+  2396		case WACOM_HID_WD_OFFSETBOTTOM:
+  2397			if (features->offset_bottom && value != features->offset_bottom)
+  2398				hid_warn(hdev, "%s: overriding existing bottom offset "
+  2399					 "%d -> %d\n", __func__, value,
+  2400					 features->offset_bottom);
+  2401			features->offset_bottom = value;
+  2402			return;
+  2403		case WACOM_HID_WD_REPORT_VALID:
+  2404			wacom_wac->is_invalid_bt_frame = !value;
+  2405			return;
+  2406		case WACOM_HID_WD_BARRELSWITCH3:
+  2407			wacom_wac->hid_data.barrelswitch3 = value;
+  2408			return;
+  2409		case WACOM_HID_WD_SEQUENCENUMBER:
+  2410			if (wacom_wac->hid_data.sequence_number != value)
+> 2411				hid_warn(hdev, "Dropped %hu packets", value - wacom_wac->hid_data.sequence_number);
+  2412			wacom_wac->hid_data.sequence_number = value + 1;
+  2413			return;
+  2414		}
+  2415	
+  2416		/* send pen events only when touch is up or forced out
+  2417		 * or touch arbitration is off
+  2418		 */
+  2419		if (!usage->type || delay_pen_events(wacom_wac))
+  2420			return;
+  2421	
+  2422		/* send pen events only when the pen is in range */
+  2423		if (wacom_wac->hid_data.inrange_state)
+  2424			input_event(input, usage->type, usage->code, value);
+  2425		else if (wacom_wac->shared->stylus_in_proximity && !wacom_wac->hid_data.sense_state)
+  2426			input_event(input, usage->type, usage->code, 0);
+  2427	}
+  2428	
+
 -- 
-2.35.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
