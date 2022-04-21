@@ -2,114 +2,336 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1F74509A2C
-	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 10:06:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC660509A74
+	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 10:17:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386322AbiDUIDt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Apr 2022 04:03:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54900 "EHLO
+        id S1386459AbiDUIMX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Apr 2022 04:12:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344890AbiDUIDq (ORCPT
+        with ESMTP id S1386445AbiDUIMT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Apr 2022 04:03:46 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9B0E1B7A1;
-        Thu, 21 Apr 2022 01:00:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id F0D4FCE20F3;
-        Thu, 21 Apr 2022 08:00:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA691C385A9;
-        Thu, 21 Apr 2022 08:00:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650528054;
-        bh=kzI7cNCI/MQ41Ygqo1vpDlykJ1QbTxbXNmI8WhhimmQ=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=uvCakPe7gzWAmGB5n5HdstoT10rszEeh29X9NW6qZM1gttVKRTdRkLBYkf6Xkg8DK
-         G1Xv+90XoOPqnpwponuDHH9V55BsaNasckVr/22M8AnYwCmoZueNSeL/h/mpb/b0nF
-         vi04EMG8Rzt1Z3AVTrCpOxxGj/z9wn+m/YnJhXmfOqvfHXS0fppthn8qm3ZxIe+D9N
-         B/OVJsGgwiCT0rVD2Gse8Hfe47nEq4iCLHZ0+mITw7ppmtGknb+CneBRRQ6o6XqwEw
-         MKG5u7O/aqZglPpEHdUQFn9dn8xf9HYvJH4ogfQO4YRDP0ANDJWs1qNuXzQXLN0B1L
-         6CuEj6R4Rj8ng==
-Date:   Thu, 21 Apr 2022 10:00:50 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Bastien Nocera <hadess@hadess.net>
-cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ping Cheng <ping.cheng@wacom.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>
-Subject: Re: [PATCH] HID: wacom: Correct power_supply type
-In-Reply-To: <892475a2d458aa1e8f5027f13d6582f0f6b4b05e.camel@hadess.net>
-Message-ID: <nycvar.YFH.7.76.2204211000150.30217@cbobk.fhfr.pm>
-References: <20220407115406.115112-1-hadess@hadess.net>  <nycvar.YFH.7.76.2204111708230.30217@cbobk.fhfr.pm> <892475a2d458aa1e8f5027f13d6582f0f6b4b05e.camel@hadess.net>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Thu, 21 Apr 2022 04:12:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0DA2A1DA7D
+        for <linux-input@vger.kernel.org>; Thu, 21 Apr 2022 01:09:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1650528569;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Ir9vzIEtQayZQr8mh6LXrOfRUcASxVlzgbPMyAmrmXU=;
+        b=hcLaKc3q9Yos56CZoRf38pdZmSi/EqCaf7ierTC9PW9oIncSib0qRo14qxyFO4XntCwqAe
+        dkn13/m+zRA3zdA+5UqAdTxlW1V+E3h+adFpKF80L30ZUlPysXPtCTWV2zZFFI4IUzjYGR
+        LJ1i8YWRgr8dLAxYU1R1z0JIdtBpH4M=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-230-JSgRNEPBM0WIylREs55FEA-1; Thu, 21 Apr 2022 04:09:28 -0400
+X-MC-Unique: JSgRNEPBM0WIylREs55FEA-1
+Received: by mail-pf1-f197.google.com with SMTP id m8-20020a62a208000000b0050593296139so2626010pff.1
+        for <linux-input@vger.kernel.org>; Thu, 21 Apr 2022 01:09:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ir9vzIEtQayZQr8mh6LXrOfRUcASxVlzgbPMyAmrmXU=;
+        b=7IyvaGjbPRuPglzsEp92rYQ7XfTzbCbmfQ8yXzFP1T9pGVO5MlvpXHFHCqi0/59dzo
+         A+xXVWDvequdeNIxwZDk2OIwKcC7Rk5a/qMQ57ja8leURI7UcjHzuR65o4bsoV+65Nqa
+         Wkg2my9sZ6f98Wxf7rRNaOtFhf9LRKeQ0PS0wtr+l9xY1nmnSXGr+CfRlRcOF6XloFVP
+         65XjjP88XZrfp7ytP7eVGqxZhgICQCCiyJCW5U3jgLEerBCrCyGJu1xJ4fyzvX2yfMhK
+         TaZEFmY/ll9hf0Ep+y/TvbPAHrWgoZQRI4I6mPGrGnB4/cSyHdsdZmqJ3V9EzcWfNQ1E
+         SpCw==
+X-Gm-Message-State: AOAM531v1cvmY3kWV4lCUvylM2rGX+/bX8JDsfbtzyOCquRnvcMgMLhe
+        57sLi3MDg692qW06JAfkIzYaBVODCMklmPnahk4tKiALKqUgxh+ppnALvyOp2aTGO+N43fTx25C
+        2IrNhcYF9egyOKOLKLu8A2AgfsLNrb42J/BZcSY8=
+X-Received: by 2002:a17:90b:4c42:b0:1d2:8eeb:108 with SMTP id np2-20020a17090b4c4200b001d28eeb0108mr9091836pjb.113.1650528566803;
+        Thu, 21 Apr 2022 01:09:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxVeiyGsZ9UDWKWaDonn0u+GwCO9EO4r4aqhu9wcZx4AcxNxb+RMikAGi3hrYCklR9n2Sid7VGLUEPr01knqyk=
+X-Received: by 2002:a17:90b:4c42:b0:1d2:8eeb:108 with SMTP id
+ np2-20020a17090b4c4200b001d28eeb0108mr9091809pjb.113.1650528566487; Thu, 21
+ Apr 2022 01:09:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <YmEAPZKDisM2HAsG@quokka> <99f54616-5464-be0d-9454-638352bc39eb@redhat.com>
+In-Reply-To: <99f54616-5464-be0d-9454-638352bc39eb@redhat.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 21 Apr 2022 10:09:15 +0200
+Message-ID: <CAO-hwJLLuJxQqTgaB7Q+0x4yiU43ARqqZ_mrUEGAQwFFn6ZNvA@mail.gmail.com>
+Subject: Re: [PATCH] HID: hidraw - add HIDIOCREVOKE ioctl
+To:     Peter Hutterer <peter.hutterer@who-t.net>
+Cc:     Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 20 Apr 2022, Bastien Nocera wrote:
+On Thu, Apr 21, 2022 at 9:41 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+>
+>
+> On Thu, Apr 21, 2022 at 8:57 AM Peter Hutterer <peter.hutterer@who-t.net> wrote:
+> >
+> > There is a need for userspace applications to open HID devices directly.
+> > Use-cases include configuration of gaming mice or direct access to
+> > joystick devices. The latter is currently handled by the uaccess tag in
+> > systemd, other devices include more custom/local configurations or just
+> > sudo.
+> >
+> > A better approach is what we already have for evdev devices: give the
+> > application a file descriptor and revoke it when it may no longer access
+> > that device.
+> >
+> > This patch is the hidraw equivalent to the EVIOCREVOKE ioctl, see
+> > commit c7dc65737c9a607d3e6f8478659876074ad129b8 for full details.
+> >
+> > A draft MR for systemd-logind has been filed here:
+> > https://github.com/systemd/systemd/pull/23140
+> >
+> > Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+> > ---
+> > Maybe noteworthy: even with logind support this is only the first step of
+> > many. logind only hands the fd to whoever controls the session and the fd will
+> > then have to be passed forward through portals to the application.
+> >
+> >  drivers/hid/hidraw.c        | 34 ++++++++++++++++++++++++++++++----
+> >  include/linux/hidraw.h      |  1 +
+> >  include/uapi/linux/hidraw.h |  1 +
+> >  3 files changed, 32 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
+> > index 681614a8302a..3449fe856090 100644
+> > --- a/drivers/hid/hidraw.c
+> > +++ b/drivers/hid/hidraw.c
+> > @@ -42,6 +42,9 @@ static ssize_t hidraw_read(struct file *file, char __user *buffer, size_t count,
+> >         int ret = 0, len;
+> >         DECLARE_WAITQUEUE(wait, current);
+> >
+> > +       if (list->revoked)
+> > +               return -ENODEV;
+> > +
+> >         mutex_lock(&list->read_mutex);
+> >
+> >         while (ret == 0) {
+> > @@ -159,9 +162,13 @@ static ssize_t hidraw_send_report(struct file *file, const char __user *buffer,
+> >
+> >  static ssize_t hidraw_write(struct file *file, const char __user *buffer, size_t count, loff_t *ppos)
+> >  {
+> > +       struct hidraw_list *list = file->private_data;
+> >         ssize_t ret;
+> >         down_read(&minors_rwsem);
+> > -       ret = hidraw_send_report(file, buffer, count, HID_OUTPUT_REPORT);
+> > +       if (list->revoked)
+> > +               ret = -ENODEV;
+> > +       else
+> > +               ret = hidraw_send_report(file, buffer, count, HID_OUTPUT_REPORT);
+> >         up_read(&minors_rwsem);
+> >         return ret;
+> >  }
+> > @@ -254,7 +261,7 @@ static __poll_t hidraw_poll(struct file *file, poll_table *wait)
+> >         poll_wait(file, &list->hidraw->wait, wait);
+> >         if (list->head != list->tail)
+> >                 mask |= EPOLLIN | EPOLLRDNORM;
+> > -       if (!list->hidraw->exist)
+> > +       if (!list->hidraw->exist || list->revoked)
+> >                 mask |= EPOLLERR | EPOLLHUP;
+> >         return mask;
+> >  }
+> > @@ -313,6 +320,9 @@ static int hidraw_fasync(int fd, struct file *file, int on)
+> >  {
+> >         struct hidraw_list *list = file->private_data;
+> >
+> > +       if (list->revoked)
+> > +               return -ENODEV;
+> > +
+> >         return fasync_helper(fd, file, on, &list->fasync);
+> >  }
+> >
+> > @@ -360,6 +370,13 @@ static int hidraw_release(struct inode * inode, struct file * file)
+> >         return 0;
+> >  }
+> >
+> > +static int hidraw_revoke(struct hidraw_list *list, struct file *file)
+>
+> There is no use of *file here, we can drop the argument.
+>
+> > +{
+> > +       list->revoked = true;
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >  static long hidraw_ioctl(struct file *file, unsigned int cmd,
+> >                                                         unsigned long arg)
+> >  {
+> > @@ -367,11 +384,12 @@ static long hidraw_ioctl(struct file *file, unsigned int cmd,
+> >         unsigned int minor = iminor(inode);
+> >         long ret = 0;
+> >         struct hidraw *dev;
+> > +       struct hidraw_list *list = file->private_data;
+> >         void __user *user_arg = (void __user*) arg;
+> >
+> >         down_read(&minors_rwsem);
+> >         dev = hidraw_table[minor];
+> > -       if (!dev || !dev->exist) {
+> > +       if (!dev || !dev->exist || list->revoked) {
+> >                 ret = -ENODEV;
+> >                 goto out;
+> >         }
+> > @@ -409,6 +427,14 @@ static long hidraw_ioctl(struct file *file, unsigned int cmd,
+> >                                         ret = -EFAULT;
+> >                                 break;
+> >                         }
+> > +               case HIDIOCREVOKE:
+> > +                       {
+> > +                               if (user_arg)
+> > +                                       ret = -EINVAL;
+> > +                               else
+> > +                                       ret = hidraw_revoke(list, file);
+> > +                               break;
+> > +                       }
+> >                 default:
+> >                         {
+> >                                 struct hid_device *hid = dev->hid;
+> > @@ -515,7 +541,7 @@ int hidraw_report_event(struct hid_device *hid, u8 *data, int len)
+> >         list_for_each_entry(list, &dev->list, node) {
+> >                 int new_head = (list->head + 1) & (HIDRAW_BUFFER_SIZE - 1);
+> >
+> > -               if (new_head == list->tail)
+> > +               if (list->revoked || new_head == list->tail)
+>
+> We had quite some discussions offline about that, and I wonder if you
+> should not squash the following patch into this one:
+>
+> ---
+> diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
+> index 3449fe856090..ee5e6fe33a4d 100644
+> --- a/drivers/hid/hidraw.c
+> +++ b/drivers/hid/hidraw.c
+> @@ -36,13 +36,19 @@ static struct class *hidraw_class;
+>   static struct hidraw *hidraw_table[HIDRAW_MAX_DEVICES];
+>   static DECLARE_RWSEM(minors_rwsem);
+>
+> +__weak noinline bool hidraw_is_revoked(struct hidraw_list *list)
+> +{
+> +       return list->revoked;
+> +}
+> +ALLOW_ERROR_INJECTION(hidraw_is_revoked, TRUE);
+> +
+>   static ssize_t hidraw_read(struct file *file, char __user *buffer, size_t count, loff_t *ppos)
+>   {
+>         struct hidraw_list *list = file->private_data;
+>         int ret = 0, len;
+>         DECLARE_WAITQUEUE(wait, current);
+>
+> -       if (list->revoked)
+> +       if (hidraw_is_revoked(list))
+>                 return -ENODEV;
+>
+>         mutex_lock(&list->read_mutex);
+> @@ -165,7 +171,7 @@ static ssize_t hidraw_write(struct file *file, const char __user *buffer, size_t
+>         struct hidraw_list *list = file->private_data;
+>         ssize_t ret;
+>         down_read(&minors_rwsem);
+> -       if (list->revoked)
+> +       if (hidraw_is_revoked(list))
+>                 ret = -ENODEV;
+>         else
+>                 ret = hidraw_send_report(file, buffer, count, HID_OUTPUT_REPORT);
+> @@ -261,7 +267,7 @@ static __poll_t hidraw_poll(struct file *file, poll_table *wait)
+>         poll_wait(file, &list->hidraw->wait, wait);
+>         if (list->head != list->tail)
+>                 mask |= EPOLLIN | EPOLLRDNORM;
+> -       if (!list->hidraw->exist || list->revoked)
+> +       if (!list->hidraw->exist || hidraw_is_revoked(list))
+>                 mask |= EPOLLERR | EPOLLHUP;
+>         return mask;
+>   }
+> @@ -320,7 +326,7 @@ static int hidraw_fasync(int fd, struct file *file, int on)
+>   {
+>         struct hidraw_list *list = file->private_data;
+>
+> -       if (list->revoked)
+> +       if (hidraw_is_revoked(list))
+>                 return -ENODEV;
+>
+>         return fasync_helper(fd, file, on, &list->fasync);
+> @@ -389,7 +395,7 @@ static long hidraw_ioctl(struct file *file, unsigned int cmd,
+>
+>         down_read(&minors_rwsem);
+>         dev = hidraw_table[minor];
+> -       if (!dev || !dev->exist || list->revoked) {
+> +       if (!dev || !dev->exist || hidraw_is_revoked(list)) {
+>                 ret = -ENODEV;
+>                 goto out;
+>         }
+> @@ -541,7 +547,8 @@ int hidraw_report_event(struct hid_device *hid, u8 *data, int len)
+>         list_for_each_entry(list, &dev->list, node) {
+>                 int new_head = (list->head + 1) & (HIDRAW_BUFFER_SIZE - 1);
+>
+> -               if (list->revoked || new_head == list->tail)
+> +               if (hidraw_is_revoked(list) ||
+> +                   new_head == list->tail)
+>                         continue;
+>
+>                 if (!(list->buffer[list->head].value = kmemdup(data, len, GFP_ATOMIC))) {
+> ---
+>
+> The reasons are:
+> - we get one common helper for revoked
+> - we can then emulate with BPF the ioctl even if logind is not the owner
+> of the fd. This way, we can have the functionality without having to
+> change a single line in the client applications.
+>
+> For an example such BPF program, see https://gitlab.freedesktop.org/bentiss/logind-hidraw
 
-> > > POWER_SUPPLY_TYPE_USB seems to only ever be used by USB ports that
-> > > are
-> > > used to charge the machine itself (so a "system" scope), like the
-> > > single USB port on a phone, rather than devices.
-> > > 
-> > > The wacom_sys driver is the only driver that sets its device
-> > > battery as
-> > > being a USB type, which doesn't seem correct based on its usage, so
-> > > switch it to be a battery type like all the other USB-connected
-> > > devices.
-> > > 
-> > > Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> > > ---
-> > >  drivers/hid/wacom_sys.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-> > > index 066c567dbaa2..620fe74f5676 100644
-> > > --- a/drivers/hid/wacom_sys.c
-> > > +++ b/drivers/hid/wacom_sys.c
-> > > @@ -1777,7 +1777,7 @@ static int __wacom_initialize_battery(struct
-> > > wacom *wacom,
-> > >         bat_desc->get_property = wacom_battery_get_property;
-> > >         sprintf(battery->bat_name, "wacom_battery_%ld", n);
-> > >         bat_desc->name = battery->bat_name;
-> > > -       bat_desc->type = POWER_SUPPLY_TYPE_USB;
-> > > +       bat_desc->type = POWER_SUPPLY_TYPE_BATTERY;
-> > >         bat_desc->use_for_apm = 0;
-> > >  
-> > >         ps_bat = devm_power_supply_register(dev, bat_desc,
-> > > &psy_cfg);
-> > 
-> > Thanks Bastien, makes sense. CCing Jason and Ping (the Wacom driver 
-> > maintainers) to get their Ack.
-> 
-> Hey,
-> 
-> I know both Jason and Ping, but their name didn't show up when running
-> get_maintainers.pl and neither of their names are in the MAINTAINERS
-> file.
-> 
-> This probably needs fixing.
+Another quick thought: maybe we want stable to be added to this patch.
+This code hasn't changed in a while and could easily be backported in
+older kernel releases. Not sure if it matches stable criterias though
+(but it seems we are more relaxed with those criterias).
 
-Agreed. Wacom driver is by itself substantial enough in order to have 
-MAINTAINERS entry.
+Cheers,
+Benjamin
 
-Jason, Ping, could you please send me a patch adding yourself as 
-maintainers?
-
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
+>
+> Cheers,
+> Benjamin
+>
+> >                         continue;
+> >
+> >                 if (!(list->buffer[list->head].value = kmemdup(data, len, GFP_ATOMIC))) {
+> > diff --git a/include/linux/hidraw.h b/include/linux/hidraw.h
+> > index cd67f4ca5599..18fd30a288de 100644
+> > --- a/include/linux/hidraw.h
+> > +++ b/include/linux/hidraw.h
+> > @@ -32,6 +32,7 @@ struct hidraw_list {
+> >         struct hidraw *hidraw;
+> >         struct list_head node;
+> >         struct mutex read_mutex;
+> > +       bool revoked;
+> >  };
+> >
+> >  #ifdef CONFIG_HIDRAW
+> > diff --git a/include/uapi/linux/hidraw.h b/include/uapi/linux/hidraw.h
+> > index 33ebad81720a..d0563f251da5 100644
+> > --- a/include/uapi/linux/hidraw.h
+> > +++ b/include/uapi/linux/hidraw.h
+> > @@ -46,6 +46,7 @@ struct hidraw_devinfo {
+> >  /* The first byte of SOUTPUT and GOUTPUT is the report number */
+> >  #define HIDIOCSOUTPUT(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x0B, len)
+> >  #define HIDIOCGOUTPUT(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x0C, len)
+> > +#define HIDIOCREVOKE   _IOW('H', 0x0D, int) /* Revoke device access */
+> >
+> >  #define HIDRAW_FIRST_MINOR 0
+> >  #define HIDRAW_MAX_DEVICES 64
+> > --
+> > 2.36.0
+> >
 
