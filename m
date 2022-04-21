@@ -2,222 +2,155 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C644509B83
-	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 11:07:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F896509C16
+	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 11:22:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1387194AbiDUJCP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Apr 2022 05:02:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40182 "EHLO
+        id S1387387AbiDUJPZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Apr 2022 05:15:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387153AbiDUJCG (ORCPT
+        with ESMTP id S1387390AbiDUJPX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Apr 2022 05:02:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0674221E2D
-        for <linux-input@vger.kernel.org>; Thu, 21 Apr 2022 01:58:35 -0700 (PDT)
+        Thu, 21 Apr 2022 05:15:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6CCE01D0D0
+        for <linux-input@vger.kernel.org>; Thu, 21 Apr 2022 02:12:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1650531515;
+        s=mimecast20190719; t=1650532353;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=pUZ/9nACQvIMuURhPtWbiiAz5sNLXuCG0brhweSfYh4=;
-        b=enxIyrimtepXUJMwm7R4TxH38RUc81GyIyU8fmsdEjakQmGWgZ0csQHs8jCPpmYX/zYgrQ
-        WvhRl2k0+Y6IArotX+go5woiUqpiCHIhIYDy/2S03lbnbKhxw/FPz8b2zLmikgJrU9LxN2
-        sj00Yzia2qFH2EBeH8drxunpPmaj78o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=LAsf8msNhJZ+Lu/+Q6XQcyKfvNctUwvpskdLMNyqlx0=;
+        b=b9QOGNa4KwXxQNndUCLnK7yOeI94MfBWwCcX5u8BHsvVpQVREEmkwCJ5xIy9+Gdk4Babaf
+        P+LC8nCffArBryXoml/1tUt7QcC7eOIvkCOFozmn7FbZlSlYYFJ0/F3Xzb3i2V1uwKt8ze
+        KxRUIRdORgFv4zyNXnP/tyoNFluVRxY=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-189-YGUoWOAoNzyxhKXdX6vv9A-1; Thu, 21 Apr 2022 04:58:31 -0400
-X-MC-Unique: YGUoWOAoNzyxhKXdX6vv9A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3359A8038E3;
-        Thu, 21 Apr 2022 08:58:31 +0000 (UTC)
-Received: from [10.39.194.205] (unknown [10.39.194.205])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5285B145BA6F;
-        Thu, 21 Apr 2022 08:58:30 +0000 (UTC)
-Message-ID: <78d86949-f2b0-23a6-3438-fc2a3894da7a@redhat.com>
-Date:   Thu, 21 Apr 2022 10:58:29 +0200
+ us-mta-210-vesVr5AFOBesWCXLfu31hg-1; Thu, 21 Apr 2022 05:12:32 -0400
+X-MC-Unique: vesVr5AFOBesWCXLfu31hg-1
+Received: by mail-pl1-f199.google.com with SMTP id w14-20020a1709027b8e00b0015386056d2bso2250894pll.5
+        for <linux-input@vger.kernel.org>; Thu, 21 Apr 2022 02:12:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LAsf8msNhJZ+Lu/+Q6XQcyKfvNctUwvpskdLMNyqlx0=;
+        b=ZH+MYbC0+cU3L8NQKOGpsncyQtS9enhR7GqV9z27vTE8+ZYMePdbs7fX++06WhaQws
+         9z1MiNcBAGvEyO87YXF3hQVmm5Cg2axnYbCwwMIdoM7R5n/H0FI2jjddzkUxMWdgJyoQ
+         7GXshhTNZ6b+VQL3Z7XuAeiTyRbHgPsao1xDGw5r8crsgCtXqOQoRRoO1tii0MtsiLim
+         pwx3hWUxPByJ3Kyi26I6H6qhSL5GrPY/IhuZuXzunRpLCePk7vpb0yTcELYvWu5eNmJC
+         j3L4f7C/4kGVarH8kjxAc5Pm0NkTyNhoD1N9xl0pSP6o7+H/Tu0SAfHby1yHnljLWzxf
+         qfeQ==
+X-Gm-Message-State: AOAM533tgyro/6Y45cxr6F+vhb7YxqsOzMg6dD6jGyaL5Jvz/d/ag7Tl
+        Fl1a/dAhrsS7ZcHlUe9WaNL+XRlNwINiSOcpos4t6qIXfYWk8uY5MIlOuHqEGY0SP/U4A7fqccx
+        RkQKanySlo2H0KF6iBqqKKcxaoQBoKALPtJmOuIQ=
+X-Received: by 2002:aa7:9041:0:b0:4fe:3d6c:1739 with SMTP id n1-20020aa79041000000b004fe3d6c1739mr28068962pfo.13.1650532351072;
+        Thu, 21 Apr 2022 02:12:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwuons8gIITLhtlNtqZrNYaR/yq6c34TGv1r2bEdYVG5ShaBdCJfi/lU9poZ3LkVz4EbVYTXhjGbNwayoI14m8=
+X-Received: by 2002:aa7:9041:0:b0:4fe:3d6c:1739 with SMTP id
+ n1-20020aa79041000000b004fe3d6c1739mr28068941pfo.13.1650532350839; Thu, 21
+ Apr 2022 02:12:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
+References: <CO6PR03MB62418A2C022A8E9EDC11A633E1F39@CO6PR03MB6241.namprd03.prod.outlook.com>
+In-Reply-To: <CO6PR03MB62418A2C022A8E9EDC11A633E1F39@CO6PR03MB6241.namprd03.prod.outlook.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH 2/2] hid: multitouch: improve custom quirks kernel
- parameter
+Date:   Thu, 21 Apr 2022 11:12:20 +0200
+Message-ID: <CAO-hwJJE_RAMXQA1kgpxVJWgGOsn64GxbN4fQVq8Dt2xepnYog@mail.gmail.com>
+Subject: Re: [PATCH] hid: multitouch: new device class fix Lenovo X12 trackpad sticky
 To:     Tao Jin <tao-j@outlook.com>
 Cc:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        linux-kernel@vger.kernel.org, Tao Jin <tao-j@outlook.com>
-References: <20220418031827.37423-1-tao-j@outlook.com>
- <CO6PR03MB62415B5977AF75C5B753E73CE1F39@CO6PR03MB6241.namprd03.prod.outlook.com>
-Content-Language: en-US
-In-Reply-To: <CO6PR03MB62415B5977AF75C5B753E73CE1F39@CO6PR03MB6241.namprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-X-Spam-Status: No, score=-6.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
-
-On Mon, Apr 18, 2022 at 5:19 AM Tao Jin <tao-j@outlook.com> wrote:
+On Mon, Apr 18, 2022 at 5:16 AM Tao Jin <tao-j@outlook.com> wrote:
 >
-> This allows a list of different quirks to be matched against
-> corresponding hardware ids in case there are multiple devices present on
-> the same system.
->
-> The code borrowed some idea from vfio_pci.c
+> The trackpad of the given device sends continuous report of pointers
+> status as per wxn8 spec. However, the spec did not clarify when the
+> fingers are lifted so fast that between the interval of two report
+> frames fingers on pad reduced from >=2 to 0. The second last report
+> contains >=2 fingers with tip state 1 and the last report contains only
+> 1 finger with tip state 0. Although this can happen unfrequently, a
+>   quick fix will be improve the consistency to 100%. A quick fix is to
+> disable MT_QUIRK_ALWAYS_VALID and enable MT_QUIRK_NOT_SEEN_MEANS_UP.
+> Since it always send reports when fingers on pad
+> MT_QUIRK_STICKY_FINGERS is also not needed.
 
-I am not completely against such a parameter, but this raises a couple
-of pain points:
-- we are now adding string parsing in the module. I know this is
-something somewhat common for dynamic quirks, but still, that is
-potential code to maintain and ensure it doesn't do anything wrong
-- how are we going to force people to contribute to the upstream kernel
-to fix their device for anybody, not just them? Users might be tempted
-to just drop the udev rule and then forget about it.
+I would really like to see tests for this device added to hid-tools[0].
 
-(foreword: I am deeply convinced BPF is the future, and sees nails
-everywhere given that wonderful hammer).
-
-I am trying really hard to stop creating new kernel APIs for HID. One
-solution is to use BPF.
-
-This would solve the first point, given that instead of providing a
-string, we would request users to provide a BPF program, which would be
-verified by the BPF verifier.
-This would also add a slighter difficulty to address the second point as
-writing the BPF program would be more "difficult" than running a script.
-
-I don't have a complete working solution here, but basically the kernel
-patch would be:
-
----
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 99eabfb4145b..b0d187e5fe70 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -1695,9 +1695,15 @@ static void mt_expired_timeout(struct timer_list *t)
-  	clear_bit(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
-  }
-  
-+__weak noinline int mt_override_quirks(const struct hid_device_id *id)
-+{
-+	return 0;
-+}
-+ALLOW_ERROR_INJECTION(mt_override_quirks, ERRNO);
-+
-  static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
-  {
--	int ret, i;
-+	int ret, i, override_quirks;
-  	struct mt_device *td;
-  	const struct mt_class *mtclass = mt_classes; /* MT_CLS_DEFAULT */
-  
-@@ -1746,6 +1752,10 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
-  
-  	timer_setup(&td->release_timer, mt_expired_timeout, 0);
-  
-+	override_quirks = mt_override_quirks(id);
-+	if (override_quirks)
-+		td->mtclass.quirks = override_quirks;
-+
-  	ret = hid_parse(hdev);
-  	if (ret != 0)
-  		return ret;
-
----
-
-And then the BPF program can match against `id` fields and decide to
-return or not a new quirk override.
-
->
-> Signed-off-by: Tao Jin <tao-j@outlook.com>
-> ---
->  drivers/hid/hid-multitouch.c | 32 ++++++++++++++++++++++++++------
->  1 file changed, 26 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index c6d64f8..f662960 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -398,9 +398,9 @@ static const struct mt_class mt_classes[] = {
->         { }
->  };
->
-> -static int override_quirks = -1;
-> -module_param(override_quirks, int, 0444);
-> -MODULE_PARM_DESC(override_quirks, "Signed integer to override quirks in mtclass, must >= 0 to enable override.");
-> +static char override_quirks[128] = "";
-> +module_param_string(override_quirks, override_quirks, sizeof(override_quirks), 0444);
-> +MODULE_PARM_DESC(override_quirks, "List of quirks and corresponding device ids in hex to override quirks, format is \"wanted_quirks:vendor:product\", multiple comma separated entries can be specified.");
-
-The previous patch added this module parameter, and now this one changes
-entirely its API. We better squash the inclusion of the new module
-parameter into this commit so we don't have 2 APIs for the same module
-parameter.
-
-Also, for the format, we probably want
-"bus:vendor:product:group:wanted_quirks", where bus and group can be
-replaced by * if we don't care about them.
-
->
->  static ssize_t mt_show_quirks(struct device *dev,
->                            struct device_attribute *attr,
-> @@ -1714,6 +1714,7 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
->         int ret, i;
->         struct mt_device *td;
->         const struct mt_class *mtclass = mt_classes; /* MT_CLS_DEFAULT */
-> +       char *p, *qk;
->
->         for (i = 0; mt_classes[i].name ; i++) {
->                 if (id->driver_data == mt_classes[i].name) {
-> @@ -1753,9 +1754,28 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
->         if (id->group != HID_GROUP_MULTITOUCH_WIN_8)
->                 hdev->quirks |= HID_QUIRK_MULTI_INPUT;
->
-> -       if (override_quirks >= 0) {
-> -               hid_info(hdev, "overriding quirks with: %d(0x%x)", override_quirks, override_quirks);
-> -               td->mtclass.quirks = override_quirks;
-> +       p = override_quirks;
-> +       while ((qk = strsep(&p, ","))) {
-> +               __u32 wanted_quirks = 0;
-> +               __u32 vendor, product = HID_ANY_ID;
-> +               int fields;
-> +
-> +               if (!strlen(qk))
-> +                       continue;
-> +
-> +               fields = sscanf(qk, "%x:%x:%x", &wanted_quirks,
-> +                               &vendor, &product);
-> +
-> +               if (fields != 3) {
-> +                       continue;
-> +               }
-> +
-> +               if (id->vendor == vendor && id->product == product) {
-> +                       hid_info(hdev, "overriding quirks of %04x:%04x with: %x",
-> +                                       id->vendor, id->product, wanted_quirks);
-> +                       td->mtclass.quirks = wanted_quirks;
-> +                       break;
-> +               }
-
-This should definitely be extracted in a separate function.
+This would allow me to better understand the issue and also ensure we
+are not regressing in the future.
 
 Cheers,
 Benjamin
 
->         }
+
+[0] https://gitlab.freedesktop.org/libevdev/hid-tools
+
 >
->         if (td->mtclass.quirks & MT_QUIRK_FORCE_MULTI_INPUT) {
+> In addition to this, I2C device 04CA:00B1 may also need similar class
+> but with MT_QUIRK_FORCE_MULTI_INPUT disabled (but it does not harm to
+>  enable it on non-multi-input device either). The respective owner has
+> been notified and a patch may coming soon after test.
+>
+> Signed-off-by: Tao Jin <tao-j@outlook.com>
+> ---
+>  drivers/hid/hid-multitouch.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+> index 0dece60..3ea57f3 100644
+> --- a/drivers/hid/hid-multitouch.c
+> +++ b/drivers/hid/hid-multitouch.c
+> @@ -194,6 +194,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
+>  #define MT_CLS_WIN_8_FORCE_MULTI_INPUT         0x0015
+>  #define MT_CLS_WIN_8_DISABLE_WAKEUP            0x0016
+>  #define MT_CLS_WIN_8_NO_STICKY_FINGERS         0x0017
+> +#define MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU    0x0018
+>
+>  /* vendor specific classes */
+>  #define MT_CLS_3M                              0x0101
+> @@ -286,6 +287,14 @@ static const struct mt_class mt_classes[] = {
+>                         MT_QUIRK_WIN8_PTP_BUTTONS |
+>                         MT_QUIRK_FORCE_MULTI_INPUT,
+>                 .export_all_inputs = true },
+> +       { .name = MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU,
+> +               .quirks = MT_QUIRK_IGNORE_DUPLICATES |
+> +                       MT_QUIRK_HOVERING |
+> +                       MT_QUIRK_CONTACT_CNT_ACCURATE |
+> +                       MT_QUIRK_WIN8_PTP_BUTTONS |
+> +                       MT_QUIRK_FORCE_MULTI_INPUT |
+> +                       MT_QUIRK_NOT_SEEN_MEANS_UP,
+> +               .export_all_inputs = true },
+>         { .name = MT_CLS_WIN_8_DISABLE_WAKEUP,
+>                 .quirks = MT_QUIRK_ALWAYS_VALID |
+>                         MT_QUIRK_IGNORE_DUPLICATES |
+> @@ -783,6 +792,7 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+>                 case HID_DG_CONFIDENCE:
+>                         if ((cls->name == MT_CLS_WIN_8 ||
+>                              cls->name == MT_CLS_WIN_8_FORCE_MULTI_INPUT ||
+> +                            cls->name == MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU ||
+>                              cls->name == MT_CLS_WIN_8_DISABLE_WAKEUP) &&
+>                                 (field->application == HID_DG_TOUCHPAD ||
+>                                  field->application == HID_DG_TOUCHSCREEN))
+> @@ -2035,7 +2045,7 @@ static const struct hid_device_id mt_devices[] = {
+>                            USB_DEVICE_ID_LENOVO_X1_TAB3) },
+>
+>         /* Lenovo X12 TAB Gen 1 */
+> -       { .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
+> +       { .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU,
+>                 HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
+>                            USB_VENDOR_ID_LENOVO,
+>                            USB_DEVICE_ID_LENOVO_X12_TAB) },
 > --
 > 2.35.1
 >
