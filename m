@@ -2,163 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98B7850A8B3
-	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 21:02:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DE2C50AC6A
+	for <lists+linux-input@lfdr.de>; Fri, 22 Apr 2022 01:49:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1391724AbiDUTFP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Apr 2022 15:05:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48122 "EHLO
+        id S1442790AbiDUXvq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Apr 2022 19:51:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1391716AbiDUTFN (ORCPT
+        with ESMTP id S1442780AbiDUXvq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Apr 2022 15:05:13 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3775E49902
-        for <linux-input@vger.kernel.org>; Thu, 21 Apr 2022 12:02:23 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id d6so2611080ede.8
-        for <linux-input@vger.kernel.org>; Thu, 21 Apr 2022 12:02:23 -0700 (PDT)
+        Thu, 21 Apr 2022 19:51:46 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF6F7434B5;
+        Thu, 21 Apr 2022 16:48:52 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id b68so4762558qkc.4;
+        Thu, 21 Apr 2022 16:48:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
+        d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=V78a4T+XxMalGYKe1sIzEqFdtRWisjMfkHNLxFh+Xuk=;
-        b=HHkEqxTxydBkOPTAWKKQG/XvT+4YPu7xQsaD3xEJkvmj/jeK3VMbwKQ98Hbg4RrxiH
-         YELlCFmGs11cjfEKrDmGA95J5WqdeDTp8cqZivOwf0LvaC+Bw6LnM9/isAzazgkYZZhW
-         GHhXNNhnP63fA/YlhvZ9WEMMZ1Lf61iZnKvKM=
+        bh=oNDSaAZDG6c0X/AAevWMv+Hj9gwc9S8Gx1Ep4WfFpAo=;
+        b=VMU6PqlaX0QEhB+kkqlvjU1fkuHokcH7krOoWy5GOTHB8xoeliEuXGVXpsNB0Dz+Xd
+         BbBATqDrqEH9zXyhcIYU8xg7bZ1JhBV8iGp3kkSWUqKMomusN/sgcMfT+gW3paOL0z3D
+         xu+vNW1zW7yY6vvYvHo0CFYHAFF9dyoP3mhjAP98M6NsbPyd+evObJBdpFzWsd4+lEZR
+         OH5d2DANgk2raeqFASbkpduWa1goBPgzND0tgfUA3jO11r4ld93k7+lDwMyGGi1W1Fuk
+         Cs/ulF5PpUoDQGVoea0bxdhTSej86O9eKfFC9FOSsryEROrxk/2xDFa7k9hHEFctVbCg
+         an4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=V78a4T+XxMalGYKe1sIzEqFdtRWisjMfkHNLxFh+Xuk=;
-        b=ipnxDsvjbFLK/mb0ib+gVOXJhJUatMrR4hvOe2dWKpFtWihpnDZ+wkWCItryk01QM9
-         bM74/d7KG0rbDg29a2rgbp1mCXuh2DUlYYY9+KcgGn1NXztbeZmkBtoBHd2HJ9kjnd/c
-         bSaiDYeseV9zntoMLm0PAvzzgrSC53H1tM3msX+/ILcwLn1Qk0DBWTS5Jynv1O8AOrX4
-         ULoFDUvXpCKOXogaTGblUdt0PedlxoG5YnHz1/ws1lNVWNzn3qOeCKJUmepsf/z0uo+s
-         aVtl3Ik/9sY9xfW1DBH5x3PdqiuyB5ddh9axISEEHBt47S3wwLRL6u9+gPyXblxr5Nrv
-         vT0g==
-X-Gm-Message-State: AOAM532NWIJqaSwMfER3cgW1CLhDZ8fHNi7G2PYY+k3dSTFBGwPON5YA
-        f7VtRfY0J9al78RgVLR6+M6lCg==
-X-Google-Smtp-Source: ABdhPJz0KGL6rSjm6EhATFv3ykGqeGZcALLvHUMKiYbjmdhG/nGMAxcs10My5jkMKrm9TOdaIQh09w==
-X-Received: by 2002:a05:6402:1a44:b0:41d:8969:e4c9 with SMTP id bf4-20020a0564021a4400b0041d8969e4c9mr997941edb.299.1650567741656;
-        Thu, 21 Apr 2022 12:02:21 -0700 (PDT)
-Received: from dario-ThinkPad-T14s-Gen-2i.amarulasolutions.com (host-87-0-15-73.retail.telecomitalia.it. [87.0.15.73])
-        by smtp.gmail.com with ESMTPSA id s11-20020a170906284b00b006e108693850sm7975142ejc.28.2022.04.21.12.02.12
+        bh=oNDSaAZDG6c0X/AAevWMv+Hj9gwc9S8Gx1Ep4WfFpAo=;
+        b=zvZD2+KXFR7ErAUA09ghtb6T9XLMquCpY3Enj6uqWALyWyno5sOfmAFJRsSqX9X2Fv
+         H/XsbxX1F8sdEfuv1Q2vV3+wHkfhPrZgFJA6Cgwe8swqBqU2SekhG7cYNiVF8TQxfE19
+         ME/B3d0PVtdKecBWc4mLfh1k+ufCSZNsjKvgVRzOzl0MLXJe69Tpep81E97YoF8Xn5Ss
+         x1fF3JusvyJsM2c9sx8G1jisT2j9q+eSueYGkW4nDX8ay6E/XHmRZZT1D1GAP7pdYYmM
+         O9FNNr5hlm5o7Pa6LSZ3bpbNQOCzFl+yDV3/K5IWvvol57PicBC0Ur5dGSYQg40M3B9r
+         jGRw==
+X-Gm-Message-State: AOAM530+UxCYO45spay9BArpG2kleWCnssSXlX7fSEBW0qf8Rcirbcco
+        WNTnNS7CvXpE1SuNsg9i6gsdpOQfVESu
+X-Google-Smtp-Source: ABdhPJzQcjTL3dqTlGkITB2iTWhj3H7yjo6OI6wlcQC1KEOsTaT9FApw/Jt+AfmjLr6ymBNQvEZ7iQ==
+X-Received: by 2002:a05:620a:24c6:b0:69e:9d81:1e15 with SMTP id m6-20020a05620a24c600b0069e9d811e15mr1188307qkn.270.1650584931201;
+        Thu, 21 Apr 2022 16:48:51 -0700 (PDT)
+Received: from moria.home.lan (c-73-219-103-14.hsd1.vt.comcast.net. [73.219.103.14])
+        by smtp.gmail.com with ESMTPSA id a1-20020a05622a02c100b002f342ccc1c5sm287372qtx.72.2022.04.21.16.48.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 12:02:13 -0700 (PDT)
-From:   Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-        Michael Trimarchi <michael@amarulasolutions.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Oliver Graute <oliver.graute@kococonnector.com>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        linux-input@vger.kernel.org
-Subject: [RESEND PATCH v4 6/6] Input: edt-ft5x06 - show crc and header errors by sysfs
-Date:   Thu, 21 Apr 2022 21:00:03 +0200
-Message-Id: <20220421190003.3228699-7-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220421190003.3228699-1-dario.binacchi@amarulasolutions.com>
-References: <20220421190003.3228699-1-dario.binacchi@amarulasolutions.com>
+        Thu, 21 Apr 2022 16:48:50 -0700 (PDT)
+From:   Kent Overstreet <kent.overstreet@gmail.com>
+To:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+Cc:     Kent Overstreet <kent.overstreet@gmail.com>, hch@lst.de,
+        hannes@cmpxchg.org, akpm@linux-foundation.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-input@vger.kernel.org, roman.gushchin@linux.dev
+Subject: [PATCH v2 0/8] Printbufs & improved shrinker debugging
+Date:   Thu, 21 Apr 2022 19:48:29 -0400
+Message-Id: <20220421234837.3629927-6-kent.overstreet@gmail.com>
+X-Mailer: git-send-email 2.35.2
+In-Reply-To: <20220421234837.3629927-1-kent.overstreet@gmail.com>
+References: <20220421234837.3629927-1-kent.overstreet@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-M06 sends packets with header and crc for data verification. Now you can
-check at runtime how many packets have been dropped.
+v1 of this patch series here:
+https://lore.kernel.org/linux-mm/20220419203202.2670193-1-kent.overstreet@gmail.com/T/
 
-Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
-Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Changes since v1:
 
----
+ - Converted some, not all, seq_buf code to printbufs (thanks Christoph for
+   pointing out seq_buf).
 
-(no changes since v2)
+   The seq_buf code I didn't convert is arch specific code where the memory
+   allocation context is unclear, and they're using seq_buf to do everything on
+   the stack. I'm considering adding a mode to printbufs where we point it at an
+   external buffer instead - it wouldn't be much code, but OTOH seq_buf isn't
+   much code either and it seems to be somewhat tied to tracing infrastructure.
+   Deferring a decision on what to do for now.
 
-Changes in v2:
-- Add Oliver Graute's 'Acked-by' tag to:
-  * Input: edt-ft5x06 - show model name by sysfs
-  * Input: edt-ft5x06 - show firmware version by sysfs
-- Fix yaml file. Tested with `make DT_CHECKER_FLAGS=-m dt_binding_check'.
+ - pr_human_readable_u64() now uses string_get_size() (thanks Matthew for
+   pointing this one out)
 
- drivers/input/touchscreen/edt-ft5x06.c | 30 ++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ - added new helpers printbuf_str() for getting a guaranteed-null-terminated
+   string, and printbuf_atomic_inc() and printbuf_atomic_dec() for marking
+   sections where allocations must be GFP_ATOMIC.
 
-diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index bab92344b2ea..3deb66d67469 100644
---- a/drivers/input/touchscreen/edt-ft5x06.c
-+++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -133,6 +133,8 @@ struct edt_ft5x06_ts_data {
- 
- 	struct edt_reg_addr reg_addr;
- 	enum edt_ver version;
-+	unsigned int crc_errors;
-+	unsigned int header_errors;
- };
- 
- struct edt_i2c_chip_data {
-@@ -181,6 +183,7 @@ static bool edt_ft5x06_ts_check_crc(struct edt_ft5x06_ts_data *tsdata,
- 		crc ^= buf[i];
- 
- 	if (crc != buf[buflen-1]) {
-+		tsdata->crc_errors++;
- 		dev_err_ratelimited(&tsdata->client->dev,
- 				    "crc error: 0x%02x expected, got 0x%02x\n",
- 				    crc, buf[buflen-1]);
-@@ -238,6 +241,7 @@ static irqreturn_t edt_ft5x06_ts_isr(int irq, void *dev_id)
- 	if (tsdata->version == EDT_M06) {
- 		if (rdbuf[0] != 0xaa || rdbuf[1] != 0xaa ||
- 			rdbuf[2] != datalen) {
-+			tsdata->header_errors++;
- 			dev_err_ratelimited(dev,
- 					"Unexpected header: %02x%02x%02x!\n",
- 					rdbuf[0], rdbuf[1], rdbuf[2]);
-@@ -552,6 +556,30 @@ static ssize_t fw_version_show(struct device *dev,
- 
- static DEVICE_ATTR_RO(fw_version);
- 
-+/* m06 only */
-+static ssize_t header_errors_show(struct device *dev,
-+				  struct device_attribute *attr, char *buf)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tsdata->header_errors);
-+}
-+
-+static DEVICE_ATTR_RO(header_errors);
-+
-+/* m06 only */
-+static ssize_t crc_errors_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tsdata->crc_errors);
-+}
-+
-+static DEVICE_ATTR_RO(crc_errors);
-+
- static struct attribute *edt_ft5x06_attrs[] = {
- 	&edt_ft5x06_attr_gain.dattr.attr,
- 	&edt_ft5x06_attr_offset.dattr.attr,
-@@ -561,6 +589,8 @@ static struct attribute *edt_ft5x06_attrs[] = {
- 	&edt_ft5x06_attr_report_rate.dattr.attr,
- 	&dev_attr_model.attr,
- 	&dev_attr_fw_version.attr,
-+	&dev_attr_header_errors.attr,
-+	&dev_attr_crc_errors.attr,
- 	NULL
- };
- 
+ - Broke out shrinker_to_text(): this new helper could be used by new sysfs or
+   debugfs code, for displaying information about a single shrinker (as Roman is
+   working on)
+
+ - Added new tracking, per shrinker, for # of objects requested to be freed and
+   # actually freed. Shrinkers won't necessarily free all objects requested for
+   perfectly legitimate reasons, but if the two numbers are wildly off then
+   that's going to lead to memory reclaim issues - these are both also included
+   in shrinker_to_text().
+
+Kent Overstreet (8):
+  lib/printbuf: New data structure for heap-allocated strings
+  Input/joystick/analog: Convert from seq_buf -> printbuf
+  mm/memcontrol.c: Convert to printbuf
+  clk: tegra: bpmp: Convert to printbuf
+  mm: Add a .to_text() method for shrinkers
+  mm: Count requests to free & nr freed per shrinker
+  mm: Move lib/show_mem.c to mm/
+  mm: Centralize & improve oom reporting in show_mem.c
+
+ drivers/clk/tegra/clk-bpmp.c    |  21 ++-
+ drivers/input/joystick/analog.c |  37 +++--
+ include/linux/printbuf.h        | 164 +++++++++++++++++++
+ include/linux/shrinker.h        |   8 +
+ lib/Makefile                    |   4 +-
+ lib/printbuf.c                  | 274 ++++++++++++++++++++++++++++++++
+ mm/Makefile                     |   2 +-
+ mm/memcontrol.c                 |  68 ++++----
+ mm/oom_kill.c                   |  23 ---
+ {lib => mm}/show_mem.c          |  14 ++
+ mm/slab.h                       |   6 +-
+ mm/slab_common.c                |  53 +++++-
+ mm/vmscan.c                     |  88 ++++++++++
+ 13 files changed, 666 insertions(+), 96 deletions(-)
+ create mode 100644 include/linux/printbuf.h
+ create mode 100644 lib/printbuf.c
+ rename {lib => mm}/show_mem.c (77%)
+
 -- 
-2.32.0
+2.35.2
 
