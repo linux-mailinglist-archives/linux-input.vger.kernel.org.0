@@ -2,116 +2,238 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE59D509483
-	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 03:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66E43509520
+	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 04:43:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1383575AbiDUBL6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Apr 2022 21:11:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40510 "EHLO
+        id S1383796AbiDUCqo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Apr 2022 22:46:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231303AbiDUBL5 (ORCPT
+        with ESMTP id S229462AbiDUCqn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Apr 2022 21:11:57 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DB2710C5
-        for <linux-input@vger.kernel.org>; Wed, 20 Apr 2022 18:09:10 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id y85so3765764iof.3
-        for <linux-input@vger.kernel.org>; Wed, 20 Apr 2022 18:09:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Mz8aDnCnJQ0fIY8g3NaZin6gonl4okAbES7dYQGLahY=;
-        b=q3bFAqVqGEbBUoRZCo6+Kf0ot2HM4kCT6m8S/wWbV+EpjWopgeZLIkbzAdGNc7J/Td
-         Ojhf9v29Bxy0KhX14pPQmIBd3FSrgankpSDZdie094P8t3MGf68rEunfWgoGPtdP/ZnL
-         kPyCNSttVv74mYmmia9kEcDnE9FPWg+eJL93Tyhg/zm/CdYDjnE1T3yX3AIFhEkl30HY
-         41ZE9J5Vd8DdHoi4iPVEiMtSODrHMYO5K7Y/MqfDcjtA+msd7ioElhUwaOFWcTXbTw07
-         ChRW5Ku4gkKvn+DJPMkJzz1pLillFaXFRVY9RonfSXcYJP4PvnVOdqtDA4SK1Ma+AaIH
-         UY2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=Mz8aDnCnJQ0fIY8g3NaZin6gonl4okAbES7dYQGLahY=;
-        b=0D8HIk3kUsH3dj87a/eEe43hA2F1brveyyDsAdvDmfyGryB4CIR/yAlNbTqkLhDBCx
-         SFqKtuwwBRLrKkVf90ukMVRt4m7NNT6oGsObvk4GNMztY8Ier0LqbfGGoFMjufsH7wfi
-         OIfkvc25vzqfk6mRgI2zc4+pFfn3517GN5UQSFkKkwCOjy4KuA2qsgnxfrSX+1OgU+B1
-         BYT7P4ogZZMxk8HGdtFgeG8Wd7+/MF0H2Tvev7BM778IMsNesPJD+Lw4CyfzOC5eFGoe
-         Bcfpv4Tu0FOa7PtH2upo2jmqh5a0Xbdq0NxuEuODHMZKbu47TCXC0xE+V+aFFhzsBwYI
-         ykcQ==
-X-Gm-Message-State: AOAM5301oUyAjnTQAj2U6t09AHGHgw7nS14wLDcqfS5s3IrtDu8TNBxA
-        4SaYvlaM8SjgRwqDJiQQYCmRXbG9hb9Tzc5JB9k=
-X-Google-Smtp-Source: ABdhPJwPStOok4J0tYhiV8eMvNKvyFWtAok6/7edRDgLYNK/6CP/yHMeJwXQ7Lqcjk0RwtKrNFrhcAr7Z8YY8i8XeZ8=
-X-Received: by 2002:a05:6638:2101:b0:328:65ce:16c6 with SMTP id
- n1-20020a056638210100b0032865ce16c6mr11032696jaj.147.1650503349270; Wed, 20
- Apr 2022 18:09:09 -0700 (PDT)
+        Wed, 20 Apr 2022 22:46:43 -0400
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39AD31009;
+        Wed, 20 Apr 2022 19:43:53 -0700 (PDT)
+Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id 1922DC5711;
+        Thu, 21 Apr 2022 02:40:53 +0000 (UTC)
+Received: (Authenticated sender: frank@zago.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7279FE0006;
+        Thu, 21 Apr 2022 02:40:47 +0000 (UTC)
+From:   frank zago <frank@zago.net>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        frank zago <frank@zago.net>
+Subject: [PATCH v2] HID: Add support for Mega World controller force feedback
+Date:   Wed, 20 Apr 2022 21:40:41 -0500
+Message-Id: <20220421024041.98786-1-frank@zago.net>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Received: by 2002:a02:b384:0:0:0:0:0 with HTTP; Wed, 20 Apr 2022 18:09:08
- -0700 (PDT)
-Reply-To: Ubagroup.tgo12@gmail.com
-From:   Kristalina Georgieva <ubabankubabank06@gmail.com>
-Date:   Wed, 20 Apr 2022 18:09:08 -0700
-Message-ID: <CA+sZRkGd1EPc6Fnns7b2waoLu=is_Re1d9z9c=kCwSQS2GcwJQ@mail.gmail.com>
-Subject: =?UTF-8?B?0KXQntCg0J7QqNCY0JUg0J3QntCS0J7QodCi0Jg=?=
-To:     ikechukwu4125 <ikechukwu4125@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=2.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-0KPQstCw0LbQsNC10LzRi9C5INCR0LXQvdC10YTQuNGG0LjQsNGALA0K0K8g0L7RgtC/0YDQsNCy
-0LjQuyDRgtC10LHQtSDRjdGC0L4g0L/QuNGB0YzQvNC+INC80LXRgdGP0YYg0L3QsNC30LDQtCwg
-0L3QviDRjyDQvdC40YfQtdCz0L4g0L7RgiDRgtC10LHRjyDQvdC1INC/0L7Qu9GD0YfQuNC7LCDQ
-vdC10YIuDQrQryDRg9Cy0LXRgNC10L0sINGH0YLQviDQstGLINC10LPQviDQv9C+0LvRg9GH0LjQ
-u9C4LCDQuCDQuNC80LXQvdC90L4g0L/QvtGN0YLQvtC80YMg0Y8g0L7RgtC/0YDQsNCy0LjQuyDQ
-tdCz0L4g0LLQsNC8INC10YnQtSDRgNCw0LcsDQrQn9GA0LXQttC00LUg0LLRgdC10LPQviwg0Y8g
-0LMt0LbQsCDQmtGA0LjRgdGC0LDQu9C40L3QsCDQk9C10L7RgNCz0LjQtdCy0LAsINGD0L/RgNCw
-0LLQu9GP0Y7RidC40Lkg0LTQuNGA0LXQutGC0L7RgCDQuA0K0J/RgNC10LfQuNC00LXQvdGCINCc
-0LXQttC00YPQvdCw0YDQvtC00L3QvtCz0L4g0LLQsNC70Y7RgtC90L7Qs9C+INGE0L7QvdC00LAu
-DQoNCtCk0LDQutGC0LjRh9C10YHQutC4LCDQvNGLINGA0LDRgdGB0LzQvtGC0YDQtdC70Lgg0LLR
-gdC1INC/0YDQtdC/0Y/RgtGB0YLQstC40Y8g0Lgg0L/RgNC+0LHQu9C10LzRiywg0YHQstGP0LfQ
-sNC90L3Ri9C1INGBDQrQstCw0YjQsCDQvdC10LfQsNCy0LXRgNGI0LXQvdC90LDRjyDRgtGA0LDQ
-vdC30LDQutGG0LjRjyDQuCDQstCw0YjQsCDQvdC10YHQv9C+0YHQvtCx0L3QvtGB0YLRjCDQvtC/
-0LvQsNGC0LjRgtGMINGA0LDRgdGF0L7QtNGLDQrRgdCx0L7RgNGLINC30LAg0L/QtdGA0LXQstC+
-0LQsINCy0LfQuNC80LDQtdC80YvQtSDRgSDQstCw0YEsINC30LAg0LLQsNGA0LjQsNC90YLRiw0K
-0L/RgNC10LTRi9C00YPRidC40LUg0L/QtdGA0LXQstC+0LTRiywg0L/QvtGB0LXRgtC40YLQtSDQ
-vdCw0Ygg0YHQsNC50YIg0LTQu9GPINC/0L7QtNGC0LLQtdGA0LbQtNC10L3QuNGPIDM4DQrCsCA1
-M+KAsjU24oCzINGBLtGILiA3N8KwIDLigLIgMznigLMg0Lcu0LQuDQoNCtCc0Ysg4oCUINCh0L7Q
-stC10YIg0LTQuNGA0LXQutGC0L7RgNC+0LIsINCS0YHQtdC80LjRgNC90YvQuSDQsdCw0L3QuiDQ
-uCDQktCw0LvRjtGC0L3Ri9C5INGE0L7QvdC0DQpJbnRlcm5hdGlvbmFsICjQnNCS0KQpINCS0LDR
-iNC40L3Qs9GC0L7QvdCwLCDQvtC60YDRg9CzINCa0L7Qu9GD0LzQsdC40Y8sINGB0L7QstC80LXR
-gdGC0L3QviDRgSDQlNC10L/QsNGA0YLQsNC80LXQvdGC0L7QvA0K0JzQuNC90LjRgdGC0LXRgNGB
-0YLQstC+INGE0LjQvdCw0L3RgdC+0LIg0KHQqNCQINC4INC90LXQutC+0YLQvtGA0YvQtSDQtNGA
-0YPQs9C40LUg0YHQu9C10LTRgdGC0LLQtdC90L3Ri9C1INC+0YDQs9Cw0L3Riw0K0LDQutGC0YPQ
-sNC70YzQvdC+INC30LTQtdGB0YwsINCyINCh0L7QtdC00LjQvdC10L3QvdGL0YUg0KjRgtCw0YLQ
-sNGFINCQ0LzQtdGA0LjQutC4LiDQt9Cw0LrQsNC30LDQuw0K0L3QsNGIINC+0YLQtNC10Lsg0LTQ
-tdC90LXQttC90YvRhSDQv9C10YDQtdCy0L7QtNC+0LIg0LfQsCDQs9GA0LDQvdC40YbRgywgVW5p
-dGVkIEJhbmsgb2YNCtCQ0YTRgNC40LrQsCDQm9C+0LzQtSDQotC+0LPQviwg0YfRgtC+0LHRiyDQ
-stGL0LTQsNGC0Ywg0LLQsNC8INC60LDRgNGC0YMgVklTQSwg0LPQtNC1ICQNCjEsNSDQvNC40LvQ
-u9C40L7QvdCwINC40Lcg0LLQsNGI0LXQs9C+INGE0L7QvdC00LAsINC00LvRjyDQsdC+0LvRjNGI
-0LXQs9C+INCy0YvQstC+0LTQsCDQuNC3INCy0LDRiNC10LPQviDRhNC+0L3QtNCwLg0KDQrQkiDR
-hdC+0LTQtSDQvdCw0YjQtdCz0L4g0YDQsNGB0YHQu9C10LTQvtCy0LDQvdC40Y8g0LzRiyDQvtCx
-0L3QsNGA0YPQttC40LvQuCDRgQ0K0YLRgNC10LLQvtCz0LAsINGH0YLQviDQstCw0Ygg0L/Qu9Cw
-0YLQtdC2INCx0YvQuyDQt9Cw0LTQtdGA0LbQsNC9INC60L7RgNGA0YPQvNC/0LjRgNC+0LLQsNC9
-0L3Ri9C80Lgg0YfQuNC90L7QstC90LjQutCw0LzQuA0K0LHQsNC90LrQsCwg0LrQvtGC0L7RgNGL
-0LUg0L/Ri9GC0LDRjtGC0YHRjyDQv9C10YDQtdCy0LXRgdGC0Lgg0LLQsNGI0Lgg0YHRgNC10LTR
-gdGC0LLQsCDQvdCwINCy0LDRiNC4INGB0YfQtdGC0LANCtGH0LDRgdGC0L3Ri9C5Lg0KDQrQmCDR
-gdC10LPQvtC00L3RjyDQvNGLINGD0LLQtdC00L7QvNC70Y/QtdC8INCy0LDRgSwg0YfRgtC+INCy
-0LDRiNC4INGB0YDQtdC00YHRgtCy0LAg0LHRi9C70Lgg0LfQsNGH0LjRgdC70LXQvdGLINC90LAg
-0LrQsNGA0YLRgw0KVklTQSDQvtGCIFVCQSBCYW5rLCDQuCDQvtC90LAg0YLQsNC60LbQtSDQs9C+
-0YLQvtCy0LAg0Log0LTQvtGB0YLQsNCy0LrQtS4g0KLQtdC/0LXRgNGMDQrRgdCy0Y/QttC40YLQ
-tdGB0Ywg0YEg0LTQuNGA0LXQutGC0L7RgNC+0Lwg0LHQsNC90LrQsCBVQkEsINC10LPQviDQt9C+
-0LLRg9GCINCzLdC9INCi0L7QvdC4DQrQrdC70YPQvNC10LvRgywg0Y3Qu9C10LrRgtGA0L7QvdC9
-0LDRjyDQv9C+0YfRgtCwOiAoVWJhZ3JvdXAudGdvMTJAZ21haWwuY29tKQ0K0YfRgtC+0LHRiyDR
-gNCw0YHRgdC60LDQt9Cw0YLRjCDQstCw0LwsINC60LDQuiDQv9C+0LvRg9GH0LjRgtGMINC60LDR
-gNGC0YMgVklTQSDQsiDQsdCw0L3QutC+0LzQsNGC0LUuDQoNCtCY0YHQutGA0LXQvdC90LUsDQoN
-CtCzLdC20LAg0JrRgNC40YHRgtCw0LvQuNC90LAg0JPQtdC+0YDQs9C40LXQstCwDQo=
+This patch adds support for one of the several Mega World USB game
+controller with integrated force feedback. It is a HID based
+memory-less game controller, with a weak motor on the left, and a
+strong one on the right.
+
+Signed-off-by: frank zago <frank@zago.net>
+---
+
+Changes from v1:
+  - Removed one superfluous config option which reduced the code size a little
+
+ drivers/hid/Kconfig         |   8 +++
+ drivers/hid/Makefile        |   1 +
+ drivers/hid/hid-ids.h       |   3 +
+ drivers/hid/hid-megaworld.c | 125 ++++++++++++++++++++++++++++++++++++
+ 4 files changed, 137 insertions(+)
+ create mode 100644 drivers/hid/hid-megaworld.c
+
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index a95a7cbc4a59..70da5931082f 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -697,6 +697,14 @@ config HID_MAYFLASH
+ 	Say Y here if you have HJZ Mayflash PS3 game controller adapters
+ 	and want to enable force feedback support.
+
++config HID_MEGAWORLD_FF
++	tristate "Mega World based game controller force feedback support"
++	depends on USB_HID
++	select INPUT_FF_MEMLESS
++	help
++	Say Y here if you have a Mega World based game controller and want
++	to have force feedback support for it.
++
+ config HID_REDRAGON
+ 	tristate "Redragon keyboards"
+ 	depends on HID
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index 345ac5581bd8..cac2cbe26d11 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -77,6 +77,7 @@ obj-$(CONFIG_HID_MAGICMOUSE)	+= hid-magicmouse.o
+ obj-$(CONFIG_HID_MALTRON)	+= hid-maltron.o
+ obj-$(CONFIG_HID_MCP2221)	+= hid-mcp2221.o
+ obj-$(CONFIG_HID_MAYFLASH)	+= hid-mf.o
++obj-$(CONFIG_HID_MEGAWORLD_FF)	+= hid-megaworld.o
+ obj-$(CONFIG_HID_MICROSOFT)	+= hid-microsoft.o
+ obj-$(CONFIG_HID_MONTEREY)	+= hid-monterey.o
+ obj-$(CONFIG_HID_MULTITOUCH)	+= hid-multitouch.o
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 053853a891c5..b9e0f3deb080 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -868,6 +868,9 @@
+ #define USB_VENDOR_ID_MCS		0x16d0
+ #define USB_DEVICE_ID_MCS_GAMEPADBLOCK	0x0bcc
+
++#define USB_VENDOR_MEGAWORLD		0x07b5
++#define USB_DEVICE_ID_MEGAWORLD_GAMEPAD	0x0312
++
+ #define USB_VENDOR_ID_MGE		0x0463
+ #define USB_DEVICE_ID_MGE_UPS		0xffff
+ #define USB_DEVICE_ID_MGE_UPS1		0x0001
+diff --git a/drivers/hid/hid-megaworld.c b/drivers/hid/hid-megaworld.c
+new file mode 100644
+index 000000000000..599657863cb9
+--- /dev/null
++++ b/drivers/hid/hid-megaworld.c
+@@ -0,0 +1,125 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Vibration support for Mega World controllers
++ *
++ * Copyright 2022 Frank Zago
++ *
++ * Derived from hid-zpff.c:
++ *   Copyright (c) 2005, 2006 Anssi Hannula <anssi.hannula@gmail.com>
++ */
++
++#include <linux/hid.h>
++#include <linux/input.h>
++#include <linux/module.h>
++#include <linux/slab.h>
++
++#include "hid-ids.h"
++
++struct mwctrl_device {
++	struct hid_report *report;
++	s32 *weak;
++	s32 *strong;
++};
++
++static int mwctrl_play(struct input_dev *dev, void *data,
++		       struct ff_effect *effect)
++{
++	struct hid_device *hid = input_get_drvdata(dev);
++	struct mwctrl_device *mwctrl = data;
++
++	*mwctrl->strong = effect->u.rumble.strong_magnitude >> 8;
++	*mwctrl->weak = effect->u.rumble.weak_magnitude >> 8;
++
++	hid_hw_request(hid, mwctrl->report, HID_REQ_SET_REPORT);
++
++	return 0;
++}
++
++static int mwctrl_init(struct hid_device *hid)
++{
++	struct mwctrl_device *mwctrl;
++	struct hid_report *report;
++	struct hid_input *hidinput;
++	struct input_dev *dev;
++	int error;
++	int i;
++
++	if (list_empty(&hid->inputs)) {
++		hid_err(hid, "no inputs found\n");
++		return -ENODEV;
++	}
++	hidinput = list_entry(hid->inputs.next, struct hid_input, list);
++	dev = hidinput->input;
++
++	for (i = 0; i < 4; i++) {
++		report = hid_validate_values(hid, HID_OUTPUT_REPORT, 0, i, 1);
++		if (!report)
++			return -ENODEV;
++	}
++
++	mwctrl = kzalloc(sizeof(struct mwctrl_device), GFP_KERNEL);
++	if (!mwctrl)
++		return -ENOMEM;
++
++	set_bit(FF_RUMBLE, dev->ffbit);
++
++	error = input_ff_create_memless(dev, mwctrl, mwctrl_play);
++	if (error) {
++		kfree(mwctrl);
++		return error;
++	}
++
++	mwctrl->report = report;
++
++	/* Field 0 is always 2, and field 1 is always 0. The original
++	 * windows driver has a 5 bytes command, where the 5th byte is
++	 * a repeat of the 3rd byte, however the device has only 4
++	 * fields. It could be a bug in the driver, or there is a
++	 * different device that needs it.
++	 */
++	report->field[0]->value[0] = 0x02;
++
++	mwctrl->strong = &report->field[2]->value[0];
++	mwctrl->weak = &report->field[3]->value[0];
++
++	return 0;
++}
++
++static int mwctrl_probe(struct hid_device *hdev, const struct hid_device_id *id)
++{
++	int ret;
++
++	ret = hid_parse(hdev);
++	if (ret) {
++		hid_err(hdev, "parse failed\n");
++		return ret;
++	}
++
++	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_FF);
++	if (ret) {
++		hid_err(hdev, "hw start failed\n");
++		return ret;
++	}
++
++	ret = mwctrl_init(hdev);
++	if (ret)
++		hid_hw_stop(hdev);
++
++	return ret;
++}
++
++static const struct hid_device_id mwctrl_devices[] = {
++	{ HID_USB_DEVICE(USB_VENDOR_MEGAWORLD,
++			 USB_DEVICE_ID_MEGAWORLD_GAMEPAD) },
++	{ }
++};
++MODULE_DEVICE_TABLE(hid, mwctrl_devices);
++
++static struct hid_driver mwctrl_driver = {
++	.name = "megaworld",
++	.id_table = mwctrl_devices,
++	.probe = mwctrl_probe,
++};
++module_hid_driver(mwctrl_driver);
++
++MODULE_LICENSE("GPL");
+--
+2.32.0
