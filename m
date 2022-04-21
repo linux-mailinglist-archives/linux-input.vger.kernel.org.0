@@ -2,129 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AC4150A311
-	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 16:47:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD0E450A41F
+	for <lists+linux-input@lfdr.de>; Thu, 21 Apr 2022 17:29:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1389658AbiDUOti (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Apr 2022 10:49:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55384 "EHLO
+        id S1390097AbiDUPcM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Apr 2022 11:32:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350611AbiDUOth (ORCPT
+        with ESMTP id S1390087AbiDUPcL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Apr 2022 10:49:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 141B6427D7;
-        Thu, 21 Apr 2022 07:46:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A049B61A36;
-        Thu, 21 Apr 2022 14:46:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08F2FC385A5;
-        Thu, 21 Apr 2022 14:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650552395;
-        bh=i0HMWq1JRa0F0CeO2hnG9SF3TuKwCFJPlYUxv+11vSY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=KYNnxH1/6h4JHSpiitspdSKkTEwWa1tJBCwmto9ZMzu31V+JKmKgI743LDv+s34bq
-         QmSRKC+hHoCyn8rQMCoQYbCY9I4u1HRgIOm+Pz2OmA5gNIE7rXJyrAZQqUv9oA3TUQ
-         CVuRa/VFqB7epVLHtpWWZFuEw4IysfFmBo/cCYj+4wtcdzx74jW2LjnvsN+imBPGkx
-         NUHT9J1SbF8LbbqYNTV0fbd7NyddYgpQP9JQyBAmIQiZB0mHJDNoZgZMT3gNF6FO91
-         4nSd3Odf/kHuZoRH+pZi1kgbPYDKmWC6TMUEyESfHfKmh/QjbWYzrE2aZ/dN2sYGsU
-         NUgA5p8ikcvFQ==
-Received: by mail-wr1-f53.google.com with SMTP id p18so7030851wru.5;
-        Thu, 21 Apr 2022 07:46:34 -0700 (PDT)
-X-Gm-Message-State: AOAM532BY6WQ1dd6NyA20bzG0oGGSF6u3tYHeSPdcCHhlRa2PoQP/9tt
-        ZPLKxgM81JEfLwIb76smpKGFlV78Vct8FjsHnuI=
-X-Google-Smtp-Source: ABdhPJwYkraliZNB9aswBiexBZv/yC4YtGe2R9rvi1KW9m/P8YE/IbH0HzS9xhCUm+8mp8SN41/aSdFZNG1cTJqd71I=
-X-Received: by 2002:a5d:6da5:0:b0:20a:8805:6988 with SMTP id
- u5-20020a5d6da5000000b0020a88056988mr48774wrs.317.1650552393282; Thu, 21 Apr
- 2022 07:46:33 -0700 (PDT)
+        Thu, 21 Apr 2022 11:32:11 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 772EB33A32;
+        Thu, 21 Apr 2022 08:29:21 -0700 (PDT)
+Received: from mail-wr1-f41.google.com ([209.85.221.41]) by
+ mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MkYLW-1oBuQD30Nq-00m5ng; Thu, 21 Apr 2022 17:29:19 +0200
+Received: by mail-wr1-f41.google.com with SMTP id x18so7248616wrc.0;
+        Thu, 21 Apr 2022 08:29:19 -0700 (PDT)
+X-Gm-Message-State: AOAM532F1OQBCsQtktVjZKRSJK64LtqU9nFHY6KcFd2iVZkNYZEmagbp
+        C3L8OX7rHNS0jY7BBOIrve6JXjLvwveEHNE0VcU=
+X-Google-Smtp-Source: ABdhPJxKpospiPlAgrLUewrHWmh0snRbQc7E1OFrJMr7NkFWoVWNdjC/+qxZuhyVxJOjyOGXkiqrvZW6ZgPa03gRamE=
+X-Received: by 2002:adf:e106:0:b0:20a:b31b:213d with SMTP id
+ t6-20020adfe106000000b0020ab31b213dmr199757wrz.219.1650554959163; Thu, 21 Apr
+ 2022 08:29:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220419133723.1394715-1-arnd@kernel.org> <20220420170836.GB1947@darkstar.musicnaut.iki.fi>
- <CAK8P3a1+sOrn8BWPVc7f+QFZ5=7fE6=MLsMYV9t+HJcG2aRCXA@mail.gmail.com> <20220421133431.GE1947@darkstar.musicnaut.iki.fi>
-In-Reply-To: <20220421133431.GE1947@darkstar.musicnaut.iki.fi>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Thu, 21 Apr 2022 16:46:17 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0LkJ5EvJ13xtAhWzCKnnvYhYgKpPsphr1T-FGg6bzDuw@mail.gmail.com>
-Message-ID: <CAK8P3a0LkJ5EvJ13xtAhWzCKnnvYhYgKpPsphr1T-FGg6bzDuw@mail.gmail.com>
-Subject: Re: [PATCH 00/41] OMAP1 full multiplatform conversion
-To:     Aaro Koskinen <aaro.koskinen@iki.fi>
-Cc:     linux-omap <linux-omap@vger.kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Russell King <linux@armlinux.org.uk>,
-        Paul Walmsley <paul@pwsan.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>,
+References: <20220419163810.2118169-1-arnd@kernel.org>
+In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 21 Apr 2022 17:29:03 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1s_8_hfZdFN9-H_PoCMQSjhYcaS3peDqc7LWBUj_YqbA@mail.gmail.com>
+Message-ID: <CAK8P3a1s_8_hfZdFN9-H_PoCMQSjhYcaS3peDqc7LWBUj_YqbA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+To:     Robert Jarzmik <robert.jarzmik@free.fr>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Philipp Zabel <philipp.zabel@gmail.com>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Paul Parsons <lost.distance@yahoo.com>,
+        Sergey Lapin <slapin@ossfans.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
         Dominik Brodowski <linux@dominikbrodowski.net>,
-        Mark Brown <broonie@kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>,
+        Helge Deller <deller@gmx.de>, Mark Brown <broonie@kernel.org>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        dmaengine@vger.kernel.org,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        IDE-ML <linux-ide@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
         linux-mmc <linux-mmc@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-mtd <linux-mtd@lists.infradead.org>,
+        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
         Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
         ALSA Development Mailing List <alsa-devel@alsa-project.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Provags-ID: V03:K1:VpvU5C0aiwrphWSBK+To00JHYs2UD49gYqNafJvfmZ6SA8ouFSO
+ Y6orZvpb50igM1GRNMF7jP4c1XA3zImGl9kE7VRPtd6EnE6T3xvEgBnF455ZBSFYazNTVSu
+ ix0ABxZLwEjWNNGvv65fRXWFI9L2Qgko/G/zLwyoU3QLdq0N/zn0kEXH2OtVT4MWwTRl0B5
+ ZKm4Y5B08EkUvTiozMtdA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8YtkNir8MkE=:4uPl7TslyU5ucHsASQ+olD
+ pZLSr3VniYuw2pteQB/wHqdtkRjP1q0ozN13VXFJUZ36ue+Ltx/Iv1QdPhcgFDjhWyftQZAyi
+ QbrRHd8Icn26U2FsiJGuhKxZ5Zl4grMoxjbaUlWo3HIt/BYxzif5nSCj1vsUvEAKJfmQFPqtg
+ zEy7uiZSDhTJ/u8AqlWQyOwNk2cIe9c98NAlZYCcaa2p3fBn4HlP0XbujgUpvw3P0NUKq3Pj6
+ wFcAHbgLdroT0seYpCaXaCdG3qsd5c1FtSLYVMVYLJdwdHs5b6aO7AbexVik6YF5Z4KeTsuYr
+ h/mtpp/IAwIDEpKKwe1tNHxMmq8On5foB5wV9p6KIQ5fkKnArVVoOoUWBlG4mv6jYFQFXvKdL
+ PAe3fkzncoHT9mw0vlt05SzEVb+UXvHCwZlwmYnmzYRt9g19u0X9ojfjMIRUUc9usnI3gtUPf
+ 4J4YlT2TrS2S0W13C2GDXNvaqhN0pBWiAVNVj+tIefAcedlxCxp9FXvaxn97FXDOX798qwNI7
+ WFo6pfGwkguGVV0nmlAmtvgaQz9j7jZ5vsOeYy9IktMajvrt6LfAYATxKdGAoTpYE2c1eZZzE
+ kVWJZ2233QpTxSpWIqQXnVj8ubPhZqC8iwicuam/2v++KSX6S8SL+RswyTSEJagejDCkUXrwT
+ XcqgF7UdkZZQaJ95peTH6t+xJ3aLKZOMt2cEd4H4rKgHvVSJ3PQQytl7NaxTZpJPpvF7tYXLF
+ OJhYozDyLF42ds0ozPclYzSVNPW1V4xeupHCw10USUu41VHVUzPivTF7ztkRcO9RE+SbFv1NB
+ T86l3zXv563Min5axBE9nVemp+mM1mTcppUh3rQbcwnFexQtrI=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Apr 21, 2022 at 3:34 PM Aaro Koskinen <aaro.koskinen@iki.fi> wrote:
+On Tue, Apr 19, 2022 at 6:37 PM Arnd Bergmann <arnd@kernel.org> wrote:
 >
-> Hi,
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> On Wed, Apr 20, 2022 at 10:00:13PM +0200, Arnd Bergmann wrote:
-> > On Wed, Apr 20, 2022 at 7:08 PM Aaro Koskinen <aaro.koskinen@iki.fi> wrote:
-> > > On Tue, Apr 19, 2022 at 03:36:42PM +0200, Arnd Bergmann wrote:
-> > > > From: Arnd Bergmann <arnd@arndb.de>
-> > > >
-> > > > This is the full series for converting OMAP1 to multiplatform, rebased
-> > > > from my 2019 attempt to do the same thing. The soc tree contains simpler
-> > > > patches to do the same for iop32x, ixp4xx, ep93xx and s3c24xx, which
-> > > > means we are getting closer to completing this for all ARMv5 platforms
-> > > > (I have patches for PXA, which is the last one remaining).
-> > > >
-> > > > Janusz already tested the branch separately and did the missing work
-> > > > for the common-clk conversion after my previous approach was broken.
-> > >
-> > > I tested the full series on the following OMAP1 boards: ams-delta,
-> > > nokia770, osk, palmte and sx1 (QEMU only).
-> > >
-> > > Apart from the earlyprintk breakage, everything seemed to work OK.
-> >
-> > Nice, thanks a lot for testing!
+> This revisits a series I sent a few years ago:
 >
-> With the updated patch 26 also earlyprintk now works, so if you still
-> update the patches, feel free to add for the whole series:
+> https://lore.kernel.org/lkml/20191018154052.1276506-1-arnd@arndb.de/
 >
-> Tested-by: Aaro Koskinen <aaro.koskinen@iki.fi>
+> All the other ARMv5 conversions are under way now, with
+> OMAP1 being the only one still not in linux-next yet,
+> and PXA completing the set.
+>
+> Most of the patches are unchanged from before, furtunately
+> the PXA code is fairly stable. I addressed Robert's comments,
+> pulled in two patches from Dmitry, and added the last a the
+> final four patches to finish off the multiplatform conversion.
+>
+> I hope someone is left to test these on PXA: if this works,
+> I'd like to merge it for 5.19. A git tree with these is available
+> for testing at
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/log/?h=pxa-multiplatform-5.18
 
-I was just doing the merge, so I added the tag to the commit now.
+I have updated the branch based on the feedback I got, and
+done a preliminary merge into the for-next branch, so this work
+should show up in linux-next. I expect to rebase this particular
+branch before the merge window, to add further Acks or
+fix regressions in place. (I don't do this for the other branches).
 
-There is now an "omap1/multiplatform-prep" branch that is part of
-arm/multiplatform, and I hope to not have to rebase that. I also
-have an arm/multiplatform-late branch with the remaining contents.
+Let me know if there are any show-stoppers or patches that need
+more work. I realize that this is a lot to review and that there is
+limited reviewer bandwidth as most of the original developers
+have moved on from PXA a long time ago.
 
        Arnd
