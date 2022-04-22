@@ -2,105 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACB2C50B05F
-	for <lists+linux-input@lfdr.de>; Fri, 22 Apr 2022 08:19:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BEC450B359
+	for <lists+linux-input@lfdr.de>; Fri, 22 Apr 2022 10:56:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1443163AbiDVGVT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Apr 2022 02:21:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56962 "EHLO
+        id S233715AbiDVI7J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Apr 2022 04:59:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1444286AbiDVGVS (ORCPT
+        with ESMTP id S229975AbiDVI7H (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Apr 2022 02:21:18 -0400
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C0EA506C3;
-        Thu, 21 Apr 2022 23:18:20 -0700 (PDT)
-Received: by mail-qk1-x72c.google.com with SMTP id j6so5180114qkp.9;
-        Thu, 21 Apr 2022 23:18:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=jBtDCs/jMS2n+brFuT1uuyxiqgedIf4qZJTyHxgLAVI=;
-        b=Fbb1PEPUmevCzHAR2ytCKF9FcEAdtjuBYUrT/qm619DjBDkuibJYyOLh2oCW6RLKUx
-         84o4X782f3tda8VZ8qS0m5L6QtZ2hWLfDhI7Cn0VaVBjOpFTGofJ4M+GugQ6/wWpkpME
-         QkK3riIJ2GViGZF33XONGLYEUU503YV9oOBd+gYmwicep9Hp8YC/TmZXqNyvuje8Mshu
-         jZw0W/xBHIyHr/SNkbqgvR9nHS83333YF7DVsGw5l0zdCLNWcUhcrphmUsHbNB4+xjMb
-         buTCdu6TWZoULdFZzKprfVrjWZ6IW6xrVAi96VB8fwLyPXWEz5HT5CgEDzAfSWB89MDO
-         aOdA==
+        Fri, 22 Apr 2022 04:59:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B3EB0532CE
+        for <linux-input@vger.kernel.org>; Fri, 22 Apr 2022 01:56:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1650617773;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=A6k9hGu63wdlE43MD/fd+j5vrk15TW0FffRj5uqhSjY=;
+        b=f4kxjPCcIRbUcKbjGvoGWkA4bgbRLEZ1AJhJXzjhTR6LnCYohBgu3teveHStrPz4NihMaI
+        fgYOa6G/Ek37uGtJOVBJ+t1cLL8QijNyvF+hnwhrygO/VakCofxxhbohc90yMLds/uDu/Q
+        JaTRuWsRshR/1Dy8l5k2Hm3ScACF3vc=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-511-SKFnjMmfMdWf9mOlp3iC8Q-1; Fri, 22 Apr 2022 04:56:12 -0400
+X-MC-Unique: SKFnjMmfMdWf9mOlp3iC8Q-1
+Received: by mail-pg1-f197.google.com with SMTP id bj12-20020a056a02018c00b003a9eebaad34so4514921pgb.10
+        for <linux-input@vger.kernel.org>; Fri, 22 Apr 2022 01:56:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=jBtDCs/jMS2n+brFuT1uuyxiqgedIf4qZJTyHxgLAVI=;
-        b=R5g93tW+do4J4q6qMATSwSZUu7TmeaA5EvjjzMilgsxA0q1auS9+ceFPElxz2dtJo1
-         u+vzrmniT/PftpjTgTSdo4PI7xWTgHzblmNMmRr12wqqkB3BCBDMvWWnM2T+9nVh9ZCM
-         Il/6BPzUW2g0exD/C2yoakJRlQmedsEjJb+yEOy6Nn0XCq6bNUYxSNdINaWjGYTfnAPm
-         UlI//vxzmUYS+lxYfYjhr9AqvL7RJihrgyz02R4LVntqgtXYntnyO5kCQBqjXSyRrZy5
-         hRkn7SJjyW6SDriv1EB3RMwUi8Bc32QaBs+n7ti4ZEC0b2e4wTikwdLhJhnVkssM7Kyc
-         akzg==
-X-Gm-Message-State: AOAM531c52lIMn0Gh6ENYchxYuXpE7h1L7tN0kuuqZxh7Wq05TMGZjgX
-        UWAoNn4qTaTRmZAQufwXCw==
-X-Google-Smtp-Source: ABdhPJxyewgacs4uuXBgLPLZHF1Tg5S17HFywfzWbBISs2q2bZOLsGVrseRzk1tANYrmvAzf8HVCrQ==
-X-Received: by 2002:a05:620a:410b:b0:69e:ce2f:1428 with SMTP id j11-20020a05620a410b00b0069ece2f1428mr1714010qko.457.1650608299630;
-        Thu, 21 Apr 2022 23:18:19 -0700 (PDT)
-Received: from moria.home.lan (c-73-219-103-14.hsd1.vt.comcast.net. [73.219.103.14])
-        by smtp.gmail.com with ESMTPSA id n11-20020a05622a11cb00b002f344f11849sm729680qtk.71.2022.04.21.23.18.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 23:18:19 -0700 (PDT)
-Date:   Fri, 22 Apr 2022 02:18:17 -0400
-From:   Kent Overstreet <kent.overstreet@gmail.com>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, hannes@cmpxchg.org,
-        akpm@linux-foundation.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-input@vger.kernel.org,
-        roman.gushchin@linux.dev, rostedt@goodmis.org
-Subject: Re: [PATCH v2 1/8] lib/printbuf: New data structure for
- heap-allocated strings
-Message-ID: <YmJIqQStCvSAXKPF@moria.home.lan>
-References: <20220421234837.3629927-1-kent.overstreet@gmail.com>
- <20220421234837.3629927-7-kent.overstreet@gmail.com>
- <20220422042017.GA9946@lst.de>
- <YmI5yA1LrYrTg8pB@moria.home.lan>
- <20220422052208.GA10745@lst.de>
- <YmI/v35IvxhOZpXJ@moria.home.lan>
- <20220422055214.GA11281@lst.de>
- <YmJF9J5cCsELY++y@moria.home.lan>
- <20220422061152.GA11704@lst.de>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=A6k9hGu63wdlE43MD/fd+j5vrk15TW0FffRj5uqhSjY=;
+        b=lFpyGK7hIjdWHKbuMn/DlLizBzbROLufK3Tm2Zlt0kS0XhP7ByxOonl2UXo61sLapd
+         eiYWg7oxshbqzgzTmyXGPF3YiSjBZSD6sZsaZ3D5HGPLIRTV7CblxZAuA1HpU9Ir2mPq
+         3oiih1vdLgrBE4UQK018eSogN9dMSHNJAxuwAaoT8o35nOpr+c9u+tHr7cz8zxMIijnr
+         vUly/XE25/Ww9LzmVrUK93ZVBzSIarY9Hc6/rmdwZZpIVFBL6fiB6OawunkO8al+ylEI
+         Ns7/BffkvNwZ0B0anyO7TcvX1qD06Dk/777v/jx1cAMdY9aOIWj3oZI/bcD6hgPj3f90
+         QxWg==
+X-Gm-Message-State: AOAM531AQcNcGdSsbDp9+Sm+wuk0XNwlAzr2O1x6WnnKzSynzdoc0Kp8
+        9MP8EhbJG5ZApZQHSEORtnGfZqdgEqUutZgH/e82vP6TI1/U63RwfsDLhYvLEAuAMwX1uKomfX6
+        X3bEQcDKxiKkiCKV+ATe8I+BuyZAXzgWydzwUwjo=
+X-Received: by 2002:a63:6c0a:0:b0:398:6bd2:a16a with SMTP id h10-20020a636c0a000000b003986bd2a16amr3065469pgc.191.1650617771033;
+        Fri, 22 Apr 2022 01:56:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx0zkvcoyjXhebmHRvznh3BMlfJ78ghBMzo+XmFxLu/Jvi5Fui9jm/KLCmVQumRK6PCWlfTwhE0lie1XShK3jw=
+X-Received: by 2002:a63:6c0a:0:b0:398:6bd2:a16a with SMTP id
+ h10-20020a636c0a000000b003986bd2a16amr3065460pgc.191.1650617770811; Fri, 22
+ Apr 2022 01:56:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220422061152.GA11704@lst.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220331144500.2340714-1-acz@semihalf.com> <CAB4aORW_1ScMDBcvn8WU+2m6_xmv-nkjQuPHfwTD9vnWMNQhiA@mail.gmail.com>
+ <CAO-hwJLDADovq-pu9ovcqYBi8DRLJE1xsNOzwtnypethcGYOtw@mail.gmail.com>
+ <CAB4aORWCL3+ZDibdpR5svSoWev48c30ZUAaHmQRKuKoGemt65g@mail.gmail.com>
+ <21703d7a-2b28-3708-7462-96190d0130c8@redhat.com> <CAB4aORU3_MCiL5JJTzpCVaBYGrNPucoC7NmXqf9dzK4Yo_A7sg@mail.gmail.com>
+ <CAO-hwJ+ZehAGxTP=D3AuQrBjykkgRkGC7uh8zo9v_bkLpZJ0Rg@mail.gmail.com> <CAB4aORW0aY_dxGNTBKyVz4h5wNPcPv65_BXfs6uj2rBMWxMu7Q@mail.gmail.com>
+In-Reply-To: <CAB4aORW0aY_dxGNTBKyVz4h5wNPcPv65_BXfs6uj2rBMWxMu7Q@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 22 Apr 2022 10:55:59 +0200
+Message-ID: <CAO-hwJK7qwLHK4kxCwSDLeRC0QwwaTJMqsmBsRyW0z2Bdj4GUA@mail.gmail.com>
+Subject: Re: [PATCH] HID: multitouch: Implement MT_QUIRK_DROP_REPEATED_SLOT
+To:     Angela Czubak <acz@semihalf.com>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>, upstream@semihalf.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Apr 22, 2022 at 08:11:52AM +0200, Christoph Hellwig wrote:
-> On Fri, Apr 22, 2022 at 02:06:44AM -0400, Kent Overstreet wrote:
-> > > Well, most of what we have is really from Ming.  Because your original
-> > > idea was awesome, but the code didn't really fit.  Then again I'm not
-> > > sure why this even matters.
-> > 
-> > Didn't fit how? And Ming extended it to multipage bvecs based on my proposal.
-> 
-> He did all the actual hard work to get it ready to merge and to work
-> everywhere.  As in he stuck around and actually finished the project
-> based on your design.
+On Thu, Apr 21, 2022 at 1:31 PM Angela Czubak <acz@semihalf.com> wrote:
+[...]
+> Thanks for the response. Fortunately the vendor was able to resolve the
+> issue in the new FW, so I believe that no kernel patch will be necessary :)
+> In case it is not enough I will try and apply fixes in the user space.
+>
 
-Not sure why you need to keep throwing shade, but..
+Great! Glad to see that this is resolved.
 
-> > > I'm also relly not sure why you are getting so personal.  
-> > 
-> > Put yourself my shoes, I've honestly found you to be hardheaded and exceedingly
-> > difficult to work with for a very long time.
-> 
-> Thanks, but I've been walking these shoes for a while..
+Cheers,
+Benjamin
 
-*snort* Yeah, I know I am too :)
