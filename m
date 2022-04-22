@@ -2,87 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 164A350AFC6
-	for <lists+linux-input@lfdr.de>; Fri, 22 Apr 2022 07:55:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0A2F50B035
+	for <lists+linux-input@lfdr.de>; Fri, 22 Apr 2022 08:11:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232802AbiDVF6i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Apr 2022 01:58:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40016 "EHLO
+        id S233308AbiDVGJn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Apr 2022 02:09:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232691AbiDVF6e (ORCPT
+        with ESMTP id S229539AbiDVGJn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Apr 2022 01:58:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AAA64F9C5;
-        Thu, 21 Apr 2022 22:55:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8F81161DC9;
-        Fri, 22 Apr 2022 05:55:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39416C385A4;
-        Fri, 22 Apr 2022 05:55:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650606942;
-        bh=yPcgKn7+VM0lcH+ZbeTVmHNXEMBQkHRpFUGHrVbAfn4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DGjFcWT+dCRf+1Ea0UMpZB3BVhFT/mpAUOufRi+F5d42Ebw210evImcesBdkmAE2y
-         CojO/L6OwQvvebeoVE6qvReZ7g9PFW9JuEYpetmtjtso83DunufiLr8qgO9O0+FFpn
-         GVMccx8ynEYfHuCvjETmo3HW7xzHr3OoSppx9O2wdR3ZEn7HcEdKmSQap5o8e+7dTD
-         jgWGncxQTYOOsaLGuI90Mu9fT+ymfCNsIJoAsUtWTNfNAgWP+0rLmO96CJ3OGjOTNi
-         cMc2mOyUFIDdlFfXV8S9TmUlpmywWyXsJfWmlDXPjEEw4JKcA8ShoftvG9yEz9x4qA
-         iPnvfq7oG+4Qw==
-Date:   Fri, 22 Apr 2022 11:25:37 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     linux-omap@vger.kernel.org, tony@atomide.com, aaro.koskinen@iki.fi,
-        jmkrzyszt@gmail.com, Arnd Bergmann <arnd@arndb.de>,
-        Russell King <linux@armlinux.org.uk>,
-        Paul Walmsley <paul@pwsan.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Mark Brown <broonie@kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH 20/41] dma: omap: hide legacy interface
-Message-ID: <YmJDWYcBN5+MWe91@matsya>
-References: <20220419133723.1394715-1-arnd@kernel.org>
- <20220419133723.1394715-21-arnd@kernel.org>
+        Fri, 22 Apr 2022 02:09:43 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CCD13C49C;
+        Thu, 21 Apr 2022 23:06:48 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id x24so4863831qtq.11;
+        Thu, 21 Apr 2022 23:06:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=nlwTOZ4YA/xOCHbD8FxUxJ0ALmhsKy74mVaGByAE/8I=;
+        b=ioNzbL2gm0qTBiumcIbqb1lW02l7rCuVIZkqQHRgPSCHyQ/iSFaBnqgC6hI6k9OMaO
+         ySyyLvesbK5A1AMxTg1+fGrgu41/+Q9bl340D8UifBxdRbgQkdDdwA7p3KSi+yZ8U4YT
+         nItp/MoET7VAA/G5Gtrd1jxeCOqLEweeplauXFCUKCT7voyCZtIpeli9W38SnbD8T0P8
+         Y1EQRAgrpSdsXUodnvkmaFiUzfeDmil8vEemhX0uowrKcUBQqa2FfIeuK7b0X10HHOvR
+         PAbKrmBTK4rdhbTXM+rd0HpMige7E/RAMaA69UwRSxwnOW/0uTMdflGU/ftaz0rGuc/n
+         d4Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=nlwTOZ4YA/xOCHbD8FxUxJ0ALmhsKy74mVaGByAE/8I=;
+        b=y9956ZBlcAUac7OQ/UwNcqEYOr11/lG1XVvIbB1HrCwDeRVlZOg1tU9uw+WaL1IEOC
+         Tlp5r4Ir/Gr+Bs8u59GksES7H7DuxQQhbPBNQe+hYj1QmIBCxG5Z2qc+h9qd9Hp6JTOm
+         k3DBXy/X6i54RRGCNqkPpYq43Ho5bPlTGK4LhiGMh5w3Ef7Q/Tq2DD8E3NoQz/SAPd4i
+         jk4lkCFqRdmntXR5BNBLUNfRfEB4J58axrItrfc3A+CTiKXxN73P3UVlFZywvbVYbThW
+         m28ejMY94jj5fyz2HxwPLP8W0hsPwM7m62ifqUE7lZkaAxreii9pfznFyegwN8i7SHmk
+         +uqw==
+X-Gm-Message-State: AOAM530j0iR3rD32BLEmNQK5vXGnOQMXOaK723XZzUA0R38yGtiG5M5F
+        GHLBYl8aSTXD2MvVIyufalkElsFJM/+p
+X-Google-Smtp-Source: ABdhPJxBx0pVVOt3R/hgC5qhlwNRAyGX6fTiF6NzSOaDtaiiJfoWmXioOxpYYXOgp3DOPsKkZrO9wA==
+X-Received: by 2002:ac8:5a81:0:b0:2f1:f20d:173a with SMTP id c1-20020ac85a81000000b002f1f20d173amr2073685qtc.686.1650607607411;
+        Thu, 21 Apr 2022 23:06:47 -0700 (PDT)
+Received: from moria.home.lan (c-73-219-103-14.hsd1.vt.comcast.net. [73.219.103.14])
+        by smtp.gmail.com with ESMTPSA id bk18-20020a05620a1a1200b00680c72b7bf4sm564935qkb.93.2022.04.21.23.06.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Apr 2022 23:06:46 -0700 (PDT)
+Date:   Fri, 22 Apr 2022 02:06:44 -0400
+From:   Kent Overstreet <kent.overstreet@gmail.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, hannes@cmpxchg.org,
+        akpm@linux-foundation.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-input@vger.kernel.org,
+        roman.gushchin@linux.dev, rostedt@goodmis.org
+Subject: Re: [PATCH v2 1/8] lib/printbuf: New data structure for
+ heap-allocated strings
+Message-ID: <YmJF9J5cCsELY++y@moria.home.lan>
+References: <20220421234837.3629927-1-kent.overstreet@gmail.com>
+ <20220421234837.3629927-7-kent.overstreet@gmail.com>
+ <20220422042017.GA9946@lst.de>
+ <YmI5yA1LrYrTg8pB@moria.home.lan>
+ <20220422052208.GA10745@lst.de>
+ <YmI/v35IvxhOZpXJ@moria.home.lan>
+ <20220422055214.GA11281@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220419133723.1394715-21-arnd@kernel.org>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220422055214.GA11281@lst.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 19-04-22, 15:37, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Fri, Apr 22, 2022 at 07:52:14AM +0200, Christoph Hellwig wrote:
+> On Fri, Apr 22, 2022 at 01:40:15AM -0400, Kent Overstreet wrote:
+> > Wasn't just bcachefs, it affected bcache too, as Coly also reported.
 > 
-> The legacy interface for omap-dma is only used on OMAP1, and the
-> same is true for the non-DT case. Make both of these conditional on
-> CONFIG_ARCH_OMAP1 being set to simplify the dependency.
+> Well, I've not seen a good bug report for that, but I'd gladly look at it.
 
-Acked-By: Vinod Koul <vkoul@kernel.org>
+Thanks. It's been awhile but I'll see if I can dig up the original bug report
+tomorrow.
 
--- 
-~Vinod
+> > And I wrote
+> > that code originally (and the whole fucking modern bvec iter infrastracture,
+> > mind you) so please don't lecture me on making assumptions on block layer
+> > helpers.
+> 
+> Well, most of what we have is really from Ming.  Because your original
+> idea was awesome, but the code didn't really fit.  Then again I'm not
+> sure why this even matters.
+
+Didn't fit how? And Ming extended it to multipage bvecs based on my proposal.
+
+> I'm also relly not sure why you are getting so personal.  
+
+Put yourself my shoes, I've honestly found you to be hardheaded and exceedingly
+difficult to work with for a very long time.
+
+But I'll bite my tongue for now, because if you'll start listening to bug
+reports that will go a long way towards easing things, and we've got LSF coming
+up so maybe we can hash things out over beers.
+
+> > Now yes, I _could_ do a wholesale conversion of seq_buf to printbuf and delete
+> > that code, but doing that job right, to be confident that I'm not introducing
+> > bugs, is going to take more time than I really want to invest right now. I
+> > really don't like to play fast and loose with that stuff.
+> 
+> Even of that I'd rather see a very good reason first.  seq_bufs have been
+> in the kernel for a while and seem to work fine.  If you think there are
+> shortcomings please try to improve it, not replace or duplicate it.
+> Sometimes there might be a good reason to replace exiting code, but it
+> rather have to be a very good reason.
+
+When the new version is semantically different from the old version it makes it
+a lot easier to deal with the merge conflicts later when forward/backporting
+stuff by giving the new version a new name.
+
+Anyways, I'll have a chat with Steven Rostedt about it since I believe he wrote
+the original code.
