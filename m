@@ -2,92 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E23CD50BB58
-	for <lists+linux-input@lfdr.de>; Fri, 22 Apr 2022 17:12:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7576B50BBC9
+	for <lists+linux-input@lfdr.de>; Fri, 22 Apr 2022 17:40:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1392141AbiDVPN3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Apr 2022 11:13:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55674 "EHLO
+        id S1449106AbiDVPnS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Apr 2022 11:43:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1449230AbiDVPMy (ORCPT
+        with ESMTP id S1449473AbiDVPke (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Apr 2022 11:12:54 -0400
-Received: from out1.migadu.com (out1.migadu.com [91.121.223.63])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CB1F1083;
-        Fri, 22 Apr 2022 08:09:58 -0700 (PDT)
-Date:   Fri, 22 Apr 2022 08:09:48 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1650640196;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=FuSilkQrD0XHypF9NHM/iQufTOifJtoJtKA0QjM80gQ=;
-        b=ogvZvMz0qmRqn6QDbBgi2ylHy0TQA3uWaXlbE2Qr5PhovLBd6Wn+NU6jdRIreeLszV8F0T
-        6vKrZZb2n1v73UODttDRnOV+VFz4bTzSb5v8lROD6lWxhYq1rSkVWs2ELGwxEOI0lkMR0a
-        /6VVGN0zpZMKdJS97D22pC8bfMik1wM=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Roman Gushchin <roman.gushchin@linux.dev>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Kent Overstreet <kent.overstreet@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, hch@lst.de, hannes@cmpxchg.org,
-        akpm@linux-foundation.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 8/8] mm: Centralize & improve oom reporting in
- show_mem.c
-Message-ID: <YmLFPJTyoE4GYWp4@carbon>
+        Fri, 22 Apr 2022 11:40:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8DD55AED6;
+        Fri, 22 Apr 2022 08:37:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 81C436193E;
+        Fri, 22 Apr 2022 15:37:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A80C5C385A4;
+        Fri, 22 Apr 2022 15:37:38 +0000 (UTC)
+Date:   Fri, 22 Apr 2022 11:37:36 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Kent Overstreet <kent.overstreet@gmail.com>
+Cc:     Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        hannes@cmpxchg.org, akpm@linux-foundation.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-input@vger.kernel.org, roman.gushchin@linux.dev
+Subject: Re: [PATCH v2 1/8] lib/printbuf: New data structure for
+ heap-allocated strings
+Message-ID: <20220422113736.460058cc@gandalf.local.home>
+In-Reply-To: <YmI/v35IvxhOZpXJ@moria.home.lan>
 References: <20220421234837.3629927-1-kent.overstreet@gmail.com>
- <20220421234837.3629927-14-kent.overstreet@gmail.com>
- <YmKma/1WUvjjbcO4@dhcp22.suse.cz>
+        <20220421234837.3629927-7-kent.overstreet@gmail.com>
+        <20220422042017.GA9946@lst.de>
+        <YmI5yA1LrYrTg8pB@moria.home.lan>
+        <20220422052208.GA10745@lst.de>
+        <YmI/v35IvxhOZpXJ@moria.home.lan>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YmKma/1WUvjjbcO4@dhcp22.suse.cz>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Apr 22, 2022 at 02:58:19PM +0200, Michal Hocko wrote:
-> On Thu 21-04-22 19:48:37, Kent Overstreet wrote:
-> > This patch:
-> >  - Changes show_mem() to always report on slab usage
-> >  - Instead of reporting on all slabs, we only report on top 10 slabs,
-> >    and in sorted order
-> 
-> As I've already pointed out in the email thread for the previous
-> version, this would be better in its own patch explaining why we want to
-> make this unconditional and why to limit the number caches to print.
-> Why the trashold shouldn't be absolute size based?
-> 
-> >  - Also reports on shrinkers, with the new shrinkers_to_text().
-> >    Shrinkers need to be included in OOM/allocation failure reporting
-> >    because they're responsible for memory reclaim - if a shrinker isn't
-> >    giving up its memory, we need to know which one and why.
->
-> Again, I do agree that information about shrinkers can be useful but
-> there are two main things to consider. Do we want to dump that
-> information unconditionaly? E.g. does it make sense to print for all
-> allocation requests (even high order, GFP_NOWAIT...)? Should there be
-> any explicit trigger when to dump this data (like too many shrinkers
-> failing etc)?
+On Fri, 22 Apr 2022 01:40:15 -0400
+Kent Overstreet <kent.overstreet@gmail.com> wrote:
 
-To add a concern: largest shrinkers are usually memcg-aware. Scanning
-over the whole cgroup tree (with potentially hundreds or thousands of cgroups)
-and over all shrinkers from the oom context sounds like a bad idea to me.
+> So I'm honestly not super eager to start modifying tricky arch code that I can't
+> test, and digging into what looked like non trivial interactions between the way
+> the traceing code using seq_buf (naturally, given that's where it originates).
 
-IMO it's more appropriate to do from userspace by oomd or a similar daemon,
-well before the in-kernel OOM kicks in.
+Yes, seq_buf came from the tracing system but was to be used in a more
+broader way. I had originally pushed trace_seq into the lib directory, but
+Andrew Morton said it was too specific to tracing. Thus, I gutted the
+generic parts out of it and created seq_buf, which looks to be something
+that you could use. I had patches to convert seq_file to it, but ran out of
+time. I probably can pull them out of the closet and start that again.
 
 > 
-> Last but not least let me echo the concern from the other reply. Memory
-> allocations are not really reasonable to be done from the oom context so
-> the pr_buf doesn't sound like a good tool here.
+> Now yes, I _could_ do a wholesale conversion of seq_buf to printbuf and delete
+> that code, but doing that job right, to be confident that I'm not introducing
+> bugs, is going to take more time than I really want to invest right now. I
+> really don't like to play fast and loose with that stuff.
 
-+1
+I would be happy to work with you to convert to seq_buf. If there's
+something missing from it, I can help you change it so that it doesn't
+cause any regressions with the tracing subsystem.
+
+This is how open source programming is suppose to work ;-)
+
+-- Steve
