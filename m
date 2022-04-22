@@ -2,52 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3499D50C0BF
-	for <lists+linux-input@lfdr.de>; Fri, 22 Apr 2022 22:45:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38F1350C0AE
+	for <lists+linux-input@lfdr.de>; Fri, 22 Apr 2022 22:18:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbiDVUpP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Apr 2022 16:45:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36964 "EHLO
+        id S229902AbiDVUQV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Apr 2022 16:16:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbiDVUpO (ORCPT
+        with ESMTP id S229578AbiDVUQT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Apr 2022 16:45:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A5DF202B4C;
-        Fri, 22 Apr 2022 12:42:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Fri, 22 Apr 2022 16:16:19 -0400
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62E95373043;
+        Fri, 22 Apr 2022 13:08:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1650657795;
+        bh=YAXMPs+cpGG9Fbfwn2u2th0nZlCAFyC0num0OzVX/2s=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=BQUhN0L2unkvkiMumNC3p8/41OGywwmf3wbclyvKvJ6Y33cK1/pWOEAusgQ+uCtCI
+         3QKRpTI4qXp/5t9r5Aq0VGGFz34+LZexh7hdY7NhITKBYb0bgybEIBVNqX3bjIw9y8
+         L09zOY7/y+7aazqSIYl+8KWpBKj7hgYT9V2DbC7I=
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 31FED1289863;
+        Fri, 22 Apr 2022 16:03:15 -0400 (EDT)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id GHNGq47j4p7D; Fri, 22 Apr 2022 16:03:15 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1650657795;
+        bh=YAXMPs+cpGG9Fbfwn2u2th0nZlCAFyC0num0OzVX/2s=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=BQUhN0L2unkvkiMumNC3p8/41OGywwmf3wbclyvKvJ6Y33cK1/pWOEAusgQ+uCtCI
+         3QKRpTI4qXp/5t9r5Aq0VGGFz34+LZexh7hdY7NhITKBYb0bgybEIBVNqX3bjIw9y8
+         L09zOY7/y+7aazqSIYl+8KWpBKj7hgYT9V2DbC7I=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4300:c551::c14])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 849AC61CE4;
-        Fri, 22 Apr 2022 19:39:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1B01C385A4;
-        Fri, 22 Apr 2022 19:39:18 +0000 (UTC)
-Date:   Fri, 22 Apr 2022 15:39:16 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Kent Overstreet <kent.overstreet@gmail.com>
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 1060912891DA;
+        Fri, 22 Apr 2022 16:03:13 -0400 (EDT)
+Message-ID: <1f3ce897240bf0f125ca3e5f6ded7c290118a8dc.camel@HansenPartnership.com>
+Subject: Re: [PATCH v2 1/8] lib/printbuf: New data structure for
+ heap-allocated strings
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     Kent Overstreet <kent.overstreet@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>
 Cc:     Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
         hannes@cmpxchg.org, akpm@linux-foundation.org,
         linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-input@vger.kernel.org, roman.gushchin@linux.dev
-Subject: Re: [PATCH v2 1/8] lib/printbuf: New data structure for
- heap-allocated strings
-Message-ID: <20220422153916.7ebf20c3@gandalf.local.home>
+Date:   Fri, 22 Apr 2022 16:03:12 -0400
 In-Reply-To: <20220422193015.2rs2wvqwdlczreh3@moria.home.lan>
 References: <20220421234837.3629927-1-kent.overstreet@gmail.com>
-        <20220421234837.3629927-7-kent.overstreet@gmail.com>
-        <20220422042017.GA9946@lst.de>
-        <YmI5yA1LrYrTg8pB@moria.home.lan>
-        <20220422052208.GA10745@lst.de>
-        <YmI/v35IvxhOZpXJ@moria.home.lan>
-        <20220422113736.460058cc@gandalf.local.home>
-        <20220422193015.2rs2wvqwdlczreh3@moria.home.lan>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+         <20220421234837.3629927-7-kent.overstreet@gmail.com>
+         <20220422042017.GA9946@lst.de> <YmI5yA1LrYrTg8pB@moria.home.lan>
+         <20220422052208.GA10745@lst.de> <YmI/v35IvxhOZpXJ@moria.home.lan>
+         <20220422113736.460058cc@gandalf.local.home>
+         <20220422193015.2rs2wvqwdlczreh3@moria.home.lan>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,65 +73,54 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 22 Apr 2022 15:30:15 -0400
-Kent Overstreet <kent.overstreet@gmail.com> wrote:
-
-> > This is how open source programming is suppose to work ;-)  
+On Fri, 2022-04-22 at 15:30 -0400, Kent Overstreet wrote:
+> Hi Steve!
+> 
+> On Fri, Apr 22, 2022 at 11:37:36AM -0400, Steven Rostedt wrote:
+> > On Fri, 22 Apr 2022 01:40:15 -0400
+> > Kent Overstreet <kent.overstreet@gmail.com> wrote:
+[...]
+> > > Now yes, I _could_ do a wholesale conversion of seq_buf to
+> > > printbuf and delete that code, but doing that job right, to be
+> > > confident that I'm not introducing bugs, is going to take more
+> > > time than I really want to invest right now. I really don't like
+> > > to play fast and loose with that stuff.
+> > 
+> > I would be happy to work with you to convert to seq_buf. If there's
+> > something missing from it, I can help you change it so that it
+> > doesn't cause any regressions with the tracing subsystem.
+> > 
+> > This is how open source programming is suppose to work ;-)
 > 
 > Is it though? :)
 > 
 > One of the things I've been meaning to talk more about, that
-> came out of a recent Rust discussion, is that we in the kernel community could
-> really do a better job with how we interact with the outside world, particularly
-> with regards to the sharing of code.
+> came out of a recent Rust discussion, is that we in the kernel
+> community could really do a better job with how we interact with the
+> outside world, particularly with regards to the sharing of code.
 > 
-> The point was made to me when another long standing kernel dev was complaining
-> about Facebook being a large, insular, difficult to work with organization, that
-> likes to pretend it is the center of the universe and not bend to the outside
-> world, while doing the exact same thing with respect to new concerns brought by
-> the Rust community. The irony was illuminating :)
+> The point was made to me when another long standing kernel dev was
+> complaining about Facebook being a large, insular, difficult to work
+> with organization, that likes to pretend it is the center of the
+> universe and not bend to the outside world, while doing the exact
+> same thing with respect to new concerns brought by the Rust
+> community. The irony was illuminating :)
 
-I do not consider Facebook an open source company. One reason I turned them
-down.
+Hey, I didn't say that at all.  I said vendoring the facebook reference
+implementation wouldn't work (it being 74k lines and us using 300) but
+that facebook was doing the right thing for us with zstd because they
+were maintaining the core code we needed, even if we couldn't vendor it
+from their code base:
 
-> 
-> The reason I bring that up is that in this case, printbuf is the more evolved,
-> more widely used implementation, and you're asking me to discard it so the
-> kernel can stick with its more primitive, less widely used implementation.
-> 
-> $ git grep -w seq_buf|wc -l
-> 86
-> 
-> $ git grep -w printbuf|wc -l
-> 366
+https://lore.kernel.org/rust-for-linux/ea85b3bce5f172dc73e2be8eb4dbd21fae826fa1.camel@HansenPartnership.com/
 
-$ git grep printbuf
-drivers/media/i2c/ccs/ccs-reg-access.c:                 char printbuf[(MAX_WRITE_LEN << 1) +
-drivers/media/i2c/ccs/ccs-reg-access.c:                 bin2hex(printbuf, regdata, msg.len);
-drivers/media/i2c/ccs/ccs-reg-access.c:                         regs->addr + j, printbuf);
+You were the one who said all that about facebook, while incorrectly
+implying I said it first (which is an interesting variation on the
+strawman fallacy):
 
-I don't see it.
+https://lore.kernel.org/rust-for-linux/20220415203926.pvahugtzrg4dbhcc@moria.home.lan/
 
-And by your notion:
+James
 
-$ git grep trace_seq | wc -l
-1680
 
-Thus we all should be using trace_seq!
 
-> 
-> So, going to have to push back on that one :)
-> 
-> Printbufs aren't new code; everything in them is there because I've found it
-> valuable, which is why I decided to try promoting them to the kernel proper (and
-> more importantly, the idea of a standard way to pretty-print anything).
-> 
-> I'm happy to discuss the merits of the code more, and try to convince you why
-> you'll like them :)
-
-I'd like to know more to why seq_buf is not good for you. And just telling
-me that you never seriously tried to make it work because you were afraid
-of causing tracing regressions without ever asking the tracing maintainer
-is not going to cut it.
-
--- Steve
