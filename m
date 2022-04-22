@@ -2,125 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38F1350C0AE
-	for <lists+linux-input@lfdr.de>; Fri, 22 Apr 2022 22:18:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AC2550C1E9
+	for <lists+linux-input@lfdr.de>; Sat, 23 Apr 2022 00:07:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229902AbiDVUQV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Apr 2022 16:16:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47688 "EHLO
+        id S231854AbiDVWJO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Apr 2022 18:09:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229578AbiDVUQT (ORCPT
+        with ESMTP id S232375AbiDVWIO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Apr 2022 16:16:19 -0400
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62E95373043;
-        Fri, 22 Apr 2022 13:08:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1650657795;
-        bh=YAXMPs+cpGG9Fbfwn2u2th0nZlCAFyC0num0OzVX/2s=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=BQUhN0L2unkvkiMumNC3p8/41OGywwmf3wbclyvKvJ6Y33cK1/pWOEAusgQ+uCtCI
-         3QKRpTI4qXp/5t9r5Aq0VGGFz34+LZexh7hdY7NhITKBYb0bgybEIBVNqX3bjIw9y8
-         L09zOY7/y+7aazqSIYl+8KWpBKj7hgYT9V2DbC7I=
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 31FED1289863;
-        Fri, 22 Apr 2022 16:03:15 -0400 (EDT)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id GHNGq47j4p7D; Fri, 22 Apr 2022 16:03:15 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1650657795;
-        bh=YAXMPs+cpGG9Fbfwn2u2th0nZlCAFyC0num0OzVX/2s=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=BQUhN0L2unkvkiMumNC3p8/41OGywwmf3wbclyvKvJ6Y33cK1/pWOEAusgQ+uCtCI
-         3QKRpTI4qXp/5t9r5Aq0VGGFz34+LZexh7hdY7NhITKBYb0bgybEIBVNqX3bjIw9y8
-         L09zOY7/y+7aazqSIYl+8KWpBKj7hgYT9V2DbC7I=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4300:c551::c14])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 1060912891DA;
-        Fri, 22 Apr 2022 16:03:13 -0400 (EDT)
-Message-ID: <1f3ce897240bf0f125ca3e5f6ded7c290118a8dc.camel@HansenPartnership.com>
-Subject: Re: [PATCH v2 1/8] lib/printbuf: New data structure for
- heap-allocated strings
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Kent Overstreet <kent.overstreet@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        hannes@cmpxchg.org, akpm@linux-foundation.org,
-        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-input@vger.kernel.org, roman.gushchin@linux.dev
-Date:   Fri, 22 Apr 2022 16:03:12 -0400
-In-Reply-To: <20220422193015.2rs2wvqwdlczreh3@moria.home.lan>
-References: <20220421234837.3629927-1-kent.overstreet@gmail.com>
-         <20220421234837.3629927-7-kent.overstreet@gmail.com>
-         <20220422042017.GA9946@lst.de> <YmI5yA1LrYrTg8pB@moria.home.lan>
-         <20220422052208.GA10745@lst.de> <YmI/v35IvxhOZpXJ@moria.home.lan>
-         <20220422113736.460058cc@gandalf.local.home>
-         <20220422193015.2rs2wvqwdlczreh3@moria.home.lan>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        Fri, 22 Apr 2022 18:08:14 -0400
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C67B1DFE78;
+        Fri, 22 Apr 2022 13:54:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1650660876; x=1682196876;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Yhh9Ox6gWEy5WyqGfCoP9kTx2lrAgn2h1flSuBeiyak=;
+  b=XYOGMIPiSF5FUuqyXzh+bWHtx0r8uqrmxsX7V1nLlIk2Oqclw5clK93f
+   /dU06yXbzlg8taNrypbNQeT8m7y+pRAyATwjHjc/x5+lvsAuXz41SqrwW
+   qMKz9uIkpF5JJcIrJM78KaUQdaS11T4BiveDQTn8Px/MmmOStt3Y39Soa
+   8=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 22 Apr 2022 12:13:23 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2022 12:13:20 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 22 Apr 2022 12:13:20 -0700
+Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 22 Apr 2022 12:13:19 -0700
+From:   Anjelique Melendez <quic_amelende@quicinc.com>
+To:     <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <sre@kernel.org>,
+        <robh+dt@kernel.org>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <bjorn.andersson@linaro.org>,
+        <swboyd@chromium.org>, <linux-doc@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Anjelique Melendez <quic_amelende@quicinc.com>
+Subject: [PATCH v6 0/5] Extend pm8941-pwrkey driver
+Date:   Fri, 22 Apr 2022 12:12:35 -0700
+Message-ID: <20220422191239.6271-1-quic_amelende@quicinc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 2022-04-22 at 15:30 -0400, Kent Overstreet wrote:
-> Hi Steve!
-> 
-> On Fri, Apr 22, 2022 at 11:37:36AM -0400, Steven Rostedt wrote:
-> > On Fri, 22 Apr 2022 01:40:15 -0400
-> > Kent Overstreet <kent.overstreet@gmail.com> wrote:
-[...]
-> > > Now yes, I _could_ do a wholesale conversion of seq_buf to
-> > > printbuf and delete that code, but doing that job right, to be
-> > > confident that I'm not introducing bugs, is going to take more
-> > > time than I really want to invest right now. I really don't like
-> > > to play fast and loose with that stuff.
-> > 
-> > I would be happy to work with you to convert to seq_buf. If there's
-> > something missing from it, I can help you change it so that it
-> > doesn't cause any regressions with the tracing subsystem.
-> > 
-> > This is how open source programming is suppose to work ;-)
-> 
-> Is it though? :)
-> 
-> One of the things I've been meaning to talk more about, that
-> came out of a recent Rust discussion, is that we in the kernel
-> community could really do a better job with how we interact with the
-> outside world, particularly with regards to the sharing of code.
-> 
-> The point was made to me when another long standing kernel dev was
-> complaining about Facebook being a large, insular, difficult to work
-> with organization, that likes to pretend it is the center of the
-> universe and not bend to the outside world, while doing the exact
-> same thing with respect to new concerns brought by the Rust
-> community. The irony was illuminating :)
+Changed from v5:
+  - Addressed Rob's comment in 1/5 and fixed reg property
+  - Addressed Dmitry's comment in 3/5 ang got rid of declaring
+    properties as false
 
-Hey, I didn't say that at all.  I said vendoring the facebook reference
-implementation wouldn't work (it being 74k lines and us using 300) but
-that facebook was doing the right thing for us with zstd because they
-were maintaining the core code we needed, even if we couldn't vendor it
-from their code base:
+Changes from v4:
+  - Added new dt-binding patch as 1/5
+ 
+Changes from v3:
+  - Fixed dereference issue in 2/4
+  - Added Stephen's reviewed by tag for 2/4
 
-https://lore.kernel.org/rust-for-linux/ea85b3bce5f172dc73e2be8eb4dbd21fae826fa1.camel@HansenPartnership.com/
+Changes from v2:
+  - Addressed Stephen's comments
+    - Add Stephen's reviewed by tag for 1/4
+    - Fixed style for 2/4
+    - Corrected function call to use correct function for 3/4
 
-You were the one who said all that about facebook, while incorrectly
-implying I said it first (which is an interesting variation on the
-strawman fallacy):
+Changes from v1:
+  - Removed Change-Id from all patches
+  - Updated subject line of cover letter
+  - Addressed Stephen's comments for v1 1/3
+    - Separated error message fix to own patch (v2 1/4)
+    - Separated PON GEN3 base address changes to own patch (v2 2/4)
+    - Added new variables and functions to make code more readable
+  - Removed v1 3/3 as per Bjorn's comments
 
-https://lore.kernel.org/rust-for-linux/20220415203926.pvahugtzrg4dbhcc@moria.home.lan/
+Anjelique Melendez (2):
+  input: misc: pm8941-pwrkey: fix error message
+  input: misc: pm8941-pwrkey: add support for PON GEN3 base addresses
 
-James
+David Collins (3):
+  dt-bindings: power: reset: qcom-pon: update "reg" property details
+  input: misc: pm8941-pwrkey: add software key press debouncing support
+  input: misc: pm8941-pwrkey: simulate missed key press events
 
+ Documentation/devicetree/bindings/power/reset/qcom,pon.yaml | 19 ++++++++++++++++++-
+ drivers/input/misc/pm8941-pwrkey.c | 124 +++++++++++++++++++++++++----
+ 2 files changed, 129 insertions(+), 14 deletions(-)
 
+-- 
+2.35.1
 
