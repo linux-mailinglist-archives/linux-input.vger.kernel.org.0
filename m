@@ -2,157 +2,175 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6796350CD4B
-	for <lists+linux-input@lfdr.de>; Sat, 23 Apr 2022 21:56:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DA2450CE06
+	for <lists+linux-input@lfdr.de>; Sun, 24 Apr 2022 01:19:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234890AbiDWT6c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 23 Apr 2022 15:58:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44584 "EHLO
+        id S233655AbiDWXWd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 23 Apr 2022 19:22:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236914AbiDWT60 (ORCPT
+        with ESMTP id S231690AbiDWXWc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 23 Apr 2022 15:58:26 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2115F183FBD;
-        Sat, 23 Apr 2022 12:55:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C5E94B80D1C;
-        Sat, 23 Apr 2022 19:55:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CA3CC385B5;
-        Sat, 23 Apr 2022 19:55:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650743721;
-        bh=f+gN5VFSk9TvNUY6oLSGkqRdwS9xhEyKvVqBzBXLs0k=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=PzAHzR20lzvPfCTqt/UUzx12IPhOfz+TRjqNJ8NxEoRI/bWqgErqlZjk7cfTM259a
-         ES9ZLzK7AQ5x5SMPoX4fGuEBvk10IF/bYoYOZNrIybBirPtSW18FdAPqWZza8MudXV
-         vG23F9GYtnFHpHrf84m9ZBvRrLCT6HR3YBoZ5rIdgNbcdWJ4WulW+Ag5txr/fArK/K
-         8hzENh6M4DW/B6aRii4K02sQiyHAgWdV6wTeninHDFb9FTGsk1kC60BC8Ty7Z9oRiu
-         uezNy/Q8OZSv9U2rlimKsK6lo1l+EW6dZRWZhxxZjuCiGNgZmaJtyoN+hSdEOEgF8G
-         ZbIfS2Abjyb2Q==
-Received: by mail-wm1-f48.google.com with SMTP id v64-20020a1cac43000000b0038cfd1b3a6dso10070118wme.5;
-        Sat, 23 Apr 2022 12:55:21 -0700 (PDT)
-X-Gm-Message-State: AOAM533lGh9EPqhUPg/nNViJ/yIL6iwq+/2Z9XUGtlSB1o1YIthHmVZa
-        ZwNhKnBa6uPnYoSswxFiRZFxxDjgek5kduGVgxM=
-X-Google-Smtp-Source: ABdhPJwI9oPHj0hjS6Y5T/XpNunPLjXzfhDb/y4TSIxWhFvis5ICGMzIa2Kp6ZajGKm/dLFayXeKiCmoNnJ4Fu7pVP8=
-X-Received: by 2002:a1c:f219:0:b0:38c:782c:3bb with SMTP id
- s25-20020a1cf219000000b0038c782c03bbmr18417513wmc.94.1650743719480; Sat, 23
- Apr 2022 12:55:19 -0700 (PDT)
+        Sat, 23 Apr 2022 19:22:32 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91EEB1393BB;
+        Sat, 23 Apr 2022 16:19:33 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id m20so2192246ejj.10;
+        Sat, 23 Apr 2022 16:19:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=CXyaROkFgwGaHhoYdzTnLTG6Cf1Eawl7h8AqxGcacrg=;
+        b=q1jmksvM0ZOU5/688dFFC388xTEd87P8b7x4dkBganSP+SvZLoxMj/XzsMC+raGOV8
+         Dy1EZruUcRc9gEbq6WYTdhReCBD+zKeyG4BlV0L6xzBxTbeVdspIN+Cw/Afmw4Uxlymq
+         w26wayLJAI5pySZERiED44YjZefBWeiZ5oEspE+cGJioZpys8cE4Lubkgt9/oVw5kVqj
+         U9JQAQT1YKbc213IJDxM6HQW1nNKNwiQnYlyzDgF8jHNnnmxOzuS0Qk5OCkKRCtUP2m9
+         7WZo2PDGhTgEPRcJHTAab9xbeUsZ0FVj9rfkt8NsnYwaUnA41ulZp7CAZKS97Kw1ZuSX
+         eTLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=CXyaROkFgwGaHhoYdzTnLTG6Cf1Eawl7h8AqxGcacrg=;
+        b=iXgF1JDfhLw6/QSvdmAuXQRs8aNpBck7dvyZgYt/DuO7rL/Lo1Kc5A/paOvyqx05EA
+         YS3O8NdbFfRnnugkg4pqytlVr/6AxWM0I4gXEioj0pF5nmHEc+I4el3Ww6kdPhneuMzU
+         Ee4o3iFQtGgWo9CQW9KeyH1CV4pZ3bvYhfIZhIBZ6BXPlwbR6LmV8jX0y8ZdhGprRjBc
+         3YkEvkhAphDlzA27St+getO9GSW8llS0gxAF1SnSjhFpqPsHg/UQo3uDjOUPOEcj7svJ
+         8lv2WqoR0gpyJ24dcxYXQIt6qRGPVDOv6bvIloGuUvkEFYUbtEvZTFOGlp5Kvs9LXlUC
+         +VZA==
+X-Gm-Message-State: AOAM531SJRp7nUTzCcYDfHLRdfimj3UOBPmh1ho3VzRxTAQeE8Cg1y3C
+        bQ1TzFmo0m+JnIS5JWRX83A=
+X-Google-Smtp-Source: ABdhPJzh3uUGCegkAUG2E9h74LWdwHrwuTe8j2hsrp7IcY5suww5ACt4eijiOz10KMUAbPV1BP9OdQ==
+X-Received: by 2002:a17:907:7f08:b0:6f3:8c69:1779 with SMTP id qf8-20020a1709077f0800b006f38c691779mr167712ejc.414.1650755972044;
+        Sat, 23 Apr 2022 16:19:32 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:6d40:29d:ba85:78f8:3d80:548? ([2a02:810d:6d40:29d:ba85:78f8:3d80:548])
+        by smtp.gmail.com with ESMTPSA id l2-20020a50c102000000b0042423e1328fsm2649134edf.26.2022.04.23.16.19.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 23 Apr 2022 16:19:31 -0700 (PDT)
+Message-ID: <95576534-1f5e-c2e3-4f73-c1b0a8300b56@gmail.com>
+Date:   Sun, 24 Apr 2022 01:19:30 +0200
 MIME-Version: 1.0
-References: <20220419163810.2118169-1-arnd@kernel.org> <20220422170530.GA2338209@roeck-us.net>
- <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
- <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net> <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
- <20220422234150.GA3442771@roeck-us.net>
-In-Reply-To: <20220422234150.GA3442771@roeck-us.net>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Sat, 23 Apr 2022 21:55:03 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
-Message-ID: <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
-Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Robert Jarzmik <robert.jarzmik@free.fr>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Philipp Zabel <philipp.zabel@gmail.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Paul Parsons <lost.distance@yahoo.com>,
-        Tomas Cech <sleep_walker@suse.com>,
-        Sergey Lapin <slapin@ossfans.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Helge Deller <deller@gmx.de>, Mark Brown <broonie@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        IDE-ML <linux-ide@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-mtd <linux-mtd@lists.infradead.org>,
-        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: Status on hid xppen patch
+Content-Language: en-US
+To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com, spbnick@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <941a793a-d2f7-9c2c-59be-b3930e1acfec@gmail.com>
+ <20220423172330.32585-1-jose.exposito89@gmail.com>
+From:   Stefan Berzl <stefanberzl@gmail.com>
+In-Reply-To: <20220423172330.32585-1-jose.exposito89@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Apr 23, 2022 at 1:41 AM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On Sat, Apr 23, 2022 at 12:04:31AM +0200, Arnd Bergmann wrote:
-> > On Fri, Apr 22, 2022 at 10:55 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> > > On 4/22/22 12:16, Arnd Bergmann wrote:
-> > > > On Fri, Apr 22, 2022 at 7:05 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> > > >
-> > > > Which machine did you hit this on? Is this on hardware or in qemu?
-> > > >
-> > > qemu, as always. borzoi, spitz, terrier, tosa, z2, and sx1 fail.
-> > > Also, I just noticed that the failure is not always the same.
-> > > z2 fails to boot from initrd, and sx1 fails to boot completely.
-> >
-> > That's a lot of machines failing, I hope at least we got the same bugs more
-> > than once here.
-> >
-> > For the I/O space, I found now that PXA was not using the standard
-> > virtual I/O address yet, but instead used a NULL-based offset.
-> >
-> > I'm not entirely happy with this patch, but this is an outline of what
-> > I think we need to fix that: https://pastebin.com/3nVgQsEw
-> > This one is probably incomplete, at least it breaks sa1100 for now,
-> > and it adds a bogus CONFIG_PCI dependency. I'm also not sure
-> > in what way the last patch in the series triggers it, rather than the
-> > one that removed mach/io.h.
-> >
-> > I had sx1 booting in qemu at least, with the omap1 multiplatform series only.
-> > If you have a custom config for this one, make sure you get the right
-> > DEBUG_LL address.
-> >
-> > > I'll do another round of bisects.
-> >
->
-> Here is the bisect for the sx1 boot failure.
+>> Hello everynyan!
+>>
+>> A while ago I sent in a patch to add support for newer Xp-pen tablets 
+>> that even made it into patchwork:
+>>
+>> https://patchwork.kernel.org/project/linux-input/patch/b401e453-9c66-15e3-1a1d-21f33b7a64e8@gmail.com/
+>>
+>> I have never actually gotten any feedback on it though and am wondering 
+>> if everything is to your liking. Anyway it doesn't build against the 
+>> current tree anymore. Assuming there is any value it, should I rewrite 
+>> it against hid master or hid uclogic?
+>>
+>> Many thanks
+>>
+>> Stefan Berzl
+> 
+> Hi Stefan,
+> 
+> I just saw your email in the mailing list.
+> 
+> Your patch doesn't apply against the current tree because of the changes
+> from Nikolai/the DIGImend project I'm sending upstream. For reference,
+> here is the latest batch of patches, with links to the previous ones:
+> 
+> https://lore.kernel.org/linux-input/20220421175052.911446-1-jose.exposito89@gmail.com/T/
+> 
+> Please note that I'm not the maintainer of the driver, I'm just a web
+> developer who does free software as a hobby, i.e., this is not my area
+> of expertise, so take my words as suggestions, not as the path to
+> follow ;)
+> 
+> The development of the uclogic driver takes place on the DIGImend
+> project (inactive right now):
+> https://github.com/DIGImend/digimend-kernel-drivers
+> 
+> Like you, I wanted to add support for my tablet/improve my kernel
+> dev skills, but I noticed that I needed some patches from DIGImend, so,
+> instead of taking what I needed, I decided to upstream all the patches.
+> 
+> At the moment of writing this email, 24 patches from DIGImend have been
+> merged, 5 are under review and 7 more need to be sent. We are close to
+> the end.
+> 
+> My tablet (Parblo A610 PLUS V2) also needs some magic data to be enabled.
+> Actually, the data is pretty similar to the one in your patch.
+> You can see my implementation here:
+> https://github.com/JoseExposito/linux/commit/f1f24e57fab45a2bcf4e0af5ba9d8f5a2245670b
+> 
+> I just refactored my patch and extracted the code to send the magic data
+> to its own function (uclogic_probe_interface), so we can share it.
+> 
+> I'd suggest rebasing your code on top of DIGImend's code + my patch
+> so we can share some code and once all patches are upstream, you can
+> send it with minor or without conflicts.
+> 
+> What do you think?
+> 
+> José Expósito
+> 
 
-Odd, I can't reproduce this at all. Do you get any console output at
-all for this?
+Hello José,
 
-Is this the plain omap1_defconfig, or something else?
+nice hearing from you. I was actually thinking of just asking if you
+want to take my patch under your wing, since you seem to be doing a lot
+of uclogic related work. But your idea is even better, just submitting  
+my patch once everything has settled down seems to be the way to go.
 
-One thing I keep having to apply myself is this snippet:
+You are actually the first person to ever contact me about this. I was  
+pretty worried that the patch is no good, but then I saw that there is  
+quite a backlog in the maintainers patchwork and some of your patches
+haven't been reviewed either. Originally I tried showing it to Nikolai,
+but he said he was rather busy too and then some guys in the Digimend
+project tried to get me interested in some userspace driver that works  
+around all the issues of like init-packets and stuff. I always imagined
+the kernel as this highly organzied, well-structured endeavor where
+things would be quickly scrutinized and suggestions offered to assure 
+the highest quality. Yet here we have two web developers working on the
+graphics tablet driver. Let me say that it's really great you take the
+time and effort to mainline these patches and help everyone enjoy their
+tablets on linux!
 
-diff --git a/arch/arm/mm/proc-arm925.S b/arch/arm/mm/proc-arm925.S
-index 0bfad62ea858..87c695703580 100644
---- a/arch/arm/mm/proc-arm925.S
-+++ b/arch/arm/mm/proc-arm925.S
-@@ -441,7 +441,6 @@ __arm925_setup:
+On the technical side, the magic bytes really are very similar, the only
+difference being the two additional trailing 0x00 for mine. Also my
+tablet sends a response after activating this new interface which can 
+get interpreted as a button press if it's not discarded. Is there a nice
+way to work around this, with subreports or anything?
 
- #ifdef CONFIG_CPU_DCACHE_WRITETHROUGH
-        mov     r0, #4                          @ disable write-back
-on caches explicitly
--       mcr     p15, 7, r0, c15, c0, 0
- #endif
+Lastly, do you have an idea in which kernel version the bulk of your
+patches will have been merged, just so I know when to start looking at
+this again? I don't mean to belittle the kernel maintainers of course,  
+for I am sure they have more pressing and difficult issues on their
+plate, like eBPF and such.   
 
-        adr     r5, arm925_crval
+Lets fixie wixie this fucksy uppsy!
 
-I don't remember what the story is behind this, but I can't actually manage
-to boot omap1_defconfig on qemu with the instruction intact.
+Bye
 
-       Arnd
+
+Stefan Berzl
