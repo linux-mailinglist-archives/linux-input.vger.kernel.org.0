@@ -2,196 +2,163 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC68450CB1E
-	for <lists+linux-input@lfdr.de>; Sat, 23 Apr 2022 16:16:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84CC250CB84
+	for <lists+linux-input@lfdr.de>; Sat, 23 Apr 2022 17:02:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235987AbiDWOTo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 23 Apr 2022 10:19:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57538 "EHLO
+        id S231321AbiDWPFT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 23 Apr 2022 11:05:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235973AbiDWOTk (ORCPT
+        with ESMTP id S229807AbiDWPFS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 23 Apr 2022 10:19:40 -0400
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69E39107836;
-        Sat, 23 Apr 2022 07:16:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1650723399;
-        bh=jV2vpLEA5741pyZ1K9lAYpNQeQGdDpyVgF3p9U/WoBQ=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=aXnr2E8eQpMsv1eQwhSLtMxIs0Z5XLapfbA4QJjQhY8PT/i7L2resHXGFmWDL/tR0
-         QTaPtQZ1XFihXsRGnH1jTFZj+BHfT9jBfRVbpuUmZi1uUAL2WO7LWRsibegzC5QEUK
-         L2iTXzaf1FCBDkqrKq0FnMOdi7eT7w6pg2jZm3m4=
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id DDE411280231;
-        Sat, 23 Apr 2022 10:16:39 -0400 (EDT)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id OxDIAJPXVU-n; Sat, 23 Apr 2022 10:16:39 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1650723399;
-        bh=jV2vpLEA5741pyZ1K9lAYpNQeQGdDpyVgF3p9U/WoBQ=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=aXnr2E8eQpMsv1eQwhSLtMxIs0Z5XLapfbA4QJjQhY8PT/i7L2resHXGFmWDL/tR0
-         QTaPtQZ1XFihXsRGnH1jTFZj+BHfT9jBfRVbpuUmZi1uUAL2WO7LWRsibegzC5QEUK
-         L2iTXzaf1FCBDkqrKq0FnMOdi7eT7w6pg2jZm3m4=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4300:c551::c14])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 969071280215;
-        Sat, 23 Apr 2022 10:16:38 -0400 (EDT)
-Message-ID: <afdda017cbd0dc0f41d673fe53d2a9c48fba9a6c.camel@HansenPartnership.com>
-Subject: Rust and Kernel Vendoring [Was Re: [PATCH v2 1/8] lib/printbuf: New
- data structure for heap-allocated strings]
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Kent Overstreet <kent.overstreet@gmail.com>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        hannes@cmpxchg.org, akpm@linux-foundation.org,
-        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-input@vger.kernel.org, roman.gushchin@linux.dev
-Date:   Sat, 23 Apr 2022 10:16:37 -0400
-In-Reply-To: <20220422211350.qn2brzkfwsulwbiq@moria.home.lan>
-References: <20220421234837.3629927-1-kent.overstreet@gmail.com>
-         <20220421234837.3629927-7-kent.overstreet@gmail.com>
-         <20220422042017.GA9946@lst.de> <YmI5yA1LrYrTg8pB@moria.home.lan>
-         <20220422052208.GA10745@lst.de> <YmI/v35IvxhOZpXJ@moria.home.lan>
-         <20220422113736.460058cc@gandalf.local.home>
-         <20220422193015.2rs2wvqwdlczreh3@moria.home.lan>
-         <1f3ce897240bf0f125ca3e5f6ded7c290118a8dc.camel@HansenPartnership.com>
-         <20220422211350.qn2brzkfwsulwbiq@moria.home.lan>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        Sat, 23 Apr 2022 11:05:18 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57E8F1759F8;
+        Sat, 23 Apr 2022 08:02:20 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id p189so6715701wmp.3;
+        Sat, 23 Apr 2022 08:02:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=AOe0YWTIxO20z66gzbsK5tfpgnik6/90iVqeOl0gU2Q=;
+        b=WxD1riBOilQjVngzpg58exa20G16bL/OmpWTeWKaZhrqqc8nZgIXu57O0M5wBhb/g5
+         VInT1OZtuDadKJIsq3H+DlUbxeceqHOkvfbJIzAbip9UQG5XzNDauAVR5Z3aF6rnhFfy
+         acsYW35wzXA9d7ErCVw+T+yB3eYoJ0ZpY/oDFWyFMIDj5iGx/AmpFp/AJz+Ry8HBPpEh
+         JqfzT62s4DBdX6MMmDGzSfHsmJTShurRUvSfSfyOPq5vFr9OOwc3gYGPkTaM7GXMuGWI
+         0S3EVGP2OOnFXBksrGFrs/fyfP8uDqATgGlX49YI1AuP1F2xPBSd9C5LTWR/6JhCohGJ
+         VMUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=AOe0YWTIxO20z66gzbsK5tfpgnik6/90iVqeOl0gU2Q=;
+        b=pJzlVsj8iKwc1J1MCt8Jhmnch65gKLwjxpt2DXHBfQi4pricvdAQj3x57b8tszVmtt
+         WOGUP5CgLy9eGv4uO4NRbvF92DtVuBog9gr7il+NuO0LoYJIV1VQDppuiyDROuQR7W6V
+         C6wom6V8jSUykuMnaToC3YUJpnDZcTaqWzI/LnqphANHAptOL07xksmSPFpTasr2TRGR
+         wZKdrY6yq74g3qrVaicqqLJMoSF3ajTgvabNJ57w6W0jdhipp6ByvRhQRyZ4fo/L2m20
+         JmC9Xy2yLfPYQWaI6NRAbs2NxWjYGYoNQjRUC9nB/hh5O4YqFOFhhuSkNuUoGE46GPOu
+         x5cQ==
+X-Gm-Message-State: AOAM532HjaqTZ6256gxQjRQ+P+jZVQq7m22dHJhnj5jYJa4C+SW6hlvr
+        kuCOfxm5uYygOWWqFkks+8A=
+X-Google-Smtp-Source: ABdhPJzNuXFZIXG5ipXuEP2C/qhRymV/7TFGNq1TDlgw6SwbNK3ZVwdsWiutIp4TRHeJSM5AFCxADA==
+X-Received: by 2002:a1c:6a02:0:b0:38b:3661:47f1 with SMTP id f2-20020a1c6a02000000b0038b366147f1mr8794342wmc.5.1650726138642;
+        Sat, 23 Apr 2022 08:02:18 -0700 (PDT)
+Received: from elementary ([94.73.37.128])
+        by smtp.gmail.com with ESMTPSA id m20-20020a05600c3b1400b0038ebbbb2ad2sm6969222wms.44.2022.04.23.08.02.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Apr 2022 08:02:18 -0700 (PDT)
+Date:   Sat, 23 Apr 2022 17:02:12 +0200
+From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     hadess@hadess.net, dmitry.torokhov@gmail.com, rydberg@bitmath.org,
+        lains@riseup.net, jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] HID: logitech-hidpp: Fix double free on managed
+ resource
+Message-ID: <20220423150212.GA6661@elementary>
+References: <20220422161709.30198-1-jose.exposito89@gmail.com>
+ <20220422161709.30198-2-jose.exposito89@gmail.com>
+ <876f7c92-4e50-401e-f0b0-c2942bd8b63d@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <876f7c92-4e50-401e-f0b0-c2942bd8b63d@redhat.com>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-[change of subject for an easy thread kill, since I'm sure most people
-on cc don't want to follow this]
-On Fri, 2022-04-22 at 17:13 -0400, Kent Overstreet wrote:
-> On Fri, Apr 22, 2022 at 04:03:12PM -0400, James Bottomley wrote:
-> > Hey, I didn't say that at all.  I said vendoring the facebook
-> > reference implementation wouldn't work (it being 74k lines and us
-> > using 300) but that facebook was doing the right thing for us with
-> > zstd because they were maintaining the core code we needed, even if
-> > we couldn't vendor it from their code base:
+On Sat, Apr 23, 2022 at 01:41:30PM +0200, Hans de Goede wrote:
+> Hi,
+> 
+> On 4/22/22 18:17, José Expósito wrote:
+> > As described in the documentation for devm_input_allocate_device():
 > > 
-> > https://lore.kernel.org/rust-for-linux/ea85b3bce5f172dc73e2be8eb4dbd21fae826fa1.camel@HansenPartnership.com/
+> >   Managed input devices do not need to be explicitly unregistered or
+> >   freed as it will be done automatically when owner device unbinds from
+> >   its driver (or binding fails).
 > > 
-> > You were the one who said all that about facebook, while
-> > incorrectly implying I said it first (which is an interesting
-> > variation on the strawman fallacy):
+> > However this driver was explicitly freeing the input device, allocated
+> > using devm_input_allocate_device() through hidpp_allocate_input().
+> > 
+> > Remove the call to input_free_device() to avoid a possible double free
+> > error.
 > 
-> Hey, sorry for picking on you James - I didn't mean to single you
-> out.
+> Actually calling input_free_device() on a devm allocated input device
+> is fine. The input subsystem has chosen to not have a
+> separate devm_input_free_device(), instead input_free_device() knows
+> if a device is allocated through devm and then also frees the devres
+> tied to it:
 > 
-> Let me explain where I'm coming from - actually, this email I
-> received puts it better than I could:
-> 
-> From: "John Ericson" <mail@johnericson.me>
-> To: "Kent Overstreet" <kent.overstreet@gmail.com>
-> Subject: Nice email on cargo crates in Linux
-> 
-> Hi. I saw your email linked from https://lwn.net/Articles/889924/.
-> Nicely put!
-> 
-> I was involved in some of the allocating try_* function work to avoid
-> nasty panics, and thus make sure Rust in Linux didn't have to
-> reinvent the wheel redoing the alloc library. I very much share your
-> goals but suspect this will happen in a sort of boil-the-frog way
-> over time. The basic portability method of "incentivize users to
-> write code that's *more* portable than what they currently
-> need" is a culture shock for user space and kernel space alike. But
-> if we get all our ducks in a row on the Rust side, eventually it
-> should just be "too tempting", and the code sharing will happen for
-> economic reasons (rather than ideological ones about trying to smash
-> down the arbitrary dichotomies :) going it alone).
-> 
-> The larger issue is major projects closed off unto themselves such as
-> Linux, PostgreSQL, or even the Glasgow Haskell Compiler (something I
-> am currently writing a plan to untangle) have fallen too deep in
-> Conway's law's embrace, and thus are full of bad habits like
-> https://johno.com/composition-over-configuration is arguing against.
-> Over time, I hope using external libraries will not only result in
-> less duplicated work, but also "pry open" their architecture a bit,
-> tamping down on crazy configurability and replacing it with more
-> principled composition.
-> 
-> I fear this is all way too spicy to bring up on the LKML in 2022, at
-> least coming from someone like me without any landed kernel patches
-> under his belt, but I wanted to let you know other people have
-> similar thoughts.
-> 
-> Cheers,
-> 
-> John
-> 
-> -------
-> 
-> Re: Rust in Linux, I get frustrated when I see senior people tell the
-> new Rust people "don't do that" to things that are standard practice
-> in the outside world.
+> void input_free_device(struct input_dev *dev)
+> {
+>         if (dev) {
+>                 if (dev->devres_managed)
+>                         WARN_ON(devres_destroy(dev->dev.parent,
+>                                                 devm_input_device_release,
+>                                                 devm_input_device_match,
+>                                                 dev));
+>                 input_put_device(dev);
+>         }
+> }
 
-You stripped the nuance of that.  I said many no_std crates could be
-used in the kernel.  I also said that the async crate couldn't because
-the rust compiler itself would have to support the kernel threading
-model.
+Hi Hans, 
 
-> I think Linus said recently that Rust in the kernel is something that
-> could fail, and he's right - but if it fails, it won't just be the
-> failure of the Rust people to do the required work, it'll be _our_
-> failure too, a failure to work with them.
+Thanks for the code review.
 
-The big risk is that rust needs to adapt to the kernel environment. 
-This isn't rust specific, llvm had similar issues as an alternative C
-compiler.  I think rust in the kernel would fail if it were only the
-rust kernel people asking.  Fortunately the pressure to support rust in
-embedded leading to the rise in no_std crates is a force which can also
-get rust in the kernel over the finish line because of the focus it
-puts on getting the language and crates to adapt to non standard
-environments.
+Obviously, I completely misunderstood these functions, my bad.
+Thanks for the explanation.
 
-[...]
-> The kernel community has a lot of that going on here. Again, sorry to
-> pick on you James, but I wanted to make the argument that - maybe the
-> kernel _should_ be adopting a more structured way of using code from
-> outside repositories, like cargo, or git submodules (except I've
-> never had a positive experience with git submodules, so ignore that
-> suggestion, unless I've just been using them wrong, in which case
-> someone please teach me). To read you and Greg saying "nah, just
-> copy code from other repos, it's fine" - it felt like being back in
-> the old days when we were still trying to get people to use source
-> control, and having that one older colleague who _insisted_ on not
-> using source control of any kind, and that's a bit disheartening.
+Please ignore the patchset.
 
-Even in C terms, the kernel is a nostdlib environment.  If a C project
-has too much libc dependency it's not going to work directly in the
-kernel, nor should it.  Let's look at zstd (which is pretty much a
-nostdlib project) as a great example: the facebook people didn't
-actually port the top of their tree (1.5) to the kernel, they
-backported bug fixes to the 1.4 branch and made a special release
-(1.4.10) just for us.  Why did they do this?  It was because the 1.5
-version vastly increased stack use to the extent it would run off the
-end of the limited kernel stack so couldn't be ported directly into the
-kernel.  A lot of C libraries that are nostdlib have problems like this
-as well (you can use recursion, but not in the kernel).  There's no
-easy way of shimming environmental constraints like this.
+Jose
 
-The lesson: it is possible to make the core of a project mobile, but
-only if you're aware of all the environmental constraints it will run
-into as it gets ported.  The list of possible environments is huge:
-kernel, embedded, industrial control ..., so naturally not every (or
-more accurately hardly any) project wants to do this.
-
-James
-
-
+> > 
+> > Fixes: c39e3d5fc9dd3 ("HID: logitech-hidpp: late bind the input device on wireless connection")
+> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> > ---
+> >  drivers/hid/hid-logitech-hidpp.c | 6 +-----
+> >  1 file changed, 1 insertion(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+> > index 81de88ab2ecc..9c00a781ab57 100644
+> > --- a/drivers/hid/hid-logitech-hidpp.c
+> > +++ b/drivers/hid/hid-logitech-hidpp.c
+> > @@ -3957,11 +3957,7 @@ static void hidpp_connect_event(struct hidpp_device *hidpp)
+> >  	}
+> >  
+> >  	hidpp_populate_input(hidpp, input);
+> > -
+> > -	ret = input_register_device(input);
+> > -	if (ret)
+> > -		input_free_device(input);
+> > -
+> 
+> The original code does look wrong there though, since the input device
+> is free-ed it should not be stored in hidpp->delayed_input, so this should be comes:
+> 
+> 	ret = input_register_device(input);
+> 	if (ret) {
+> 		input_free_device(input);
+> 		return;
+> 	}
+> 
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> >  	hidpp->delayed_input = input;
+> >  }
+> >  
+> 
+> 
