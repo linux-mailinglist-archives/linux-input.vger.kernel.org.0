@@ -2,71 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33C5950D0D1
-	for <lists+linux-input@lfdr.de>; Sun, 24 Apr 2022 11:32:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 601D050D2D8
+	for <lists+linux-input@lfdr.de>; Sun, 24 Apr 2022 17:35:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236487AbiDXJfq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 24 Apr 2022 05:35:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57516 "EHLO
+        id S234190AbiDXPiM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 24 Apr 2022 11:38:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235905AbiDXJfp (ORCPT
+        with ESMTP id S240462AbiDXPb1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 24 Apr 2022 05:35:45 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 458B11EED0;
-        Sun, 24 Apr 2022 02:32:45 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id j15so3621002wrb.2;
-        Sun, 24 Apr 2022 02:32:45 -0700 (PDT)
+        Sun, 24 Apr 2022 11:31:27 -0400
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98985171C04;
+        Sun, 24 Apr 2022 08:28:25 -0700 (PDT)
+Received: by mail-oi1-x22a.google.com with SMTP id e4so14578216oif.2;
+        Sun, 24 Apr 2022 08:28:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=ihBOps3aqfFGtyAnjbwJw3NFhLQ2itqLG+oaeiipt2o=;
-        b=Wysgh/5jB+pe0wLmoUMwLkv0Wf0DzYM8dZMuDYy/NcUbfZThR4gjlnMrOEK8/QcY6b
-         wRBhQXLaxa0nXEx2L8PsAYsSH3dFjhs0WviGWqrTb6/Jdl/XMm0mmNHcde9912/6MNc4
-         wl9c+1APpP0rk1ZWw6ydHMZ7YGhFu0zJ/Hrf5LIxSuGhHJkp/9To6bk9PQZMOi5ck3Qh
-         Qp/VWRpl4eVTbO0Zkc4urC6ElH7FEPR1qUh/eI6parxap8JC+cSOWO5qWsSvuz6mWdgN
-         Bzvy7/s4Utz1W7kHdkf90jfVUpCzI+a2ikSnaBgyATxsez7kDzErn3RS/v3sId+zU6l9
-         MoHA==
+        h=sender:message-id:date:mime-version:user-agent:content-language:to
+         :cc:references:from:subject:in-reply-to:content-transfer-encoding;
+        bh=yr0/AkbMMu8pn1dkU35YlQmF7na7yjrNnK/horRQvq8=;
+        b=YTsJBncPwlsdJoy0clMDPkRYsap010NbelrrDwP4gT2p8VkAeOwyCadOMVg4EkLC3g
+         BU6v4rcHRP7TcChruJdux/6WqtJmUToOWUlOimc0ldD0p/STL+v6YSxQqTz/SiEj3JGk
+         6SfYzDXOC60C+Zk6YtFsjMz2c7gYsvaefbEF/eKAM03STJHCFm25OuC/Z0YH/2cfNqkA
+         U538FM4O480tv4oZ6rwPTTcYDvIV4RyyrEvA6n7gY5KKJPB4B+s22HrjImpN8j9osv2G
+         SEdJ9k63zxNOgRDgM+KmfcxMquHhbq8CJJjUKerT4sEDujG7ogRPrwOnyNIjdLCE9lFh
+         BU0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ihBOps3aqfFGtyAnjbwJw3NFhLQ2itqLG+oaeiipt2o=;
-        b=e9yJo/DhDQt+vJGJcd3Gyaj7Mrvf6jPi2nmI8hW8JteZYSD/WExGNLhMO0XwVJvfph
-         BPFeZQthmtb8URRNFiaMM6I7G/Xy6fSVon0cDJqya9Bnx/oe/rf1h6GZGu3uCkXlehU8
-         fCEjzxu8KAz+6teaJxleJSJU67z/kLPWMEs6XDFiH3je9o7/xf5z3jMv+6+2ss/W7e/l
-         9yIOX5Tw5MszU6XQBtaIf4i9wq52I8N/8SnPCK9OBSExJGuqSExQJZ3C1bTBk/X8oFzL
-         LQbB8+Ef7fFmADZrnO86AmGFLv8xVYivq7qWtP4fmtLFspPwE0HezCuA7r+jt4+eYALt
-         yboA==
-X-Gm-Message-State: AOAM532TRbZkp4ZJkyM0vYWxNKcPMemGe1Fnop2v4kJzc92DixezvdTL
-        lKo/+8sUFtyxRptD68dy8MI=
-X-Google-Smtp-Source: ABdhPJzraQqtj+/Gy7TVenq61g+3wc/zfRNPK3Oc5EpStPMjIn+lPmL8UxmX2ckJkwLGn1VvJRZDtA==
-X-Received: by 2002:adf:dc0b:0:b0:20a:a549:d3a6 with SMTP id t11-20020adfdc0b000000b0020aa549d3a6mr9908630wri.34.1650792763634;
-        Sun, 24 Apr 2022 02:32:43 -0700 (PDT)
-Received: from elementary ([94.73.37.128])
-        by smtp.gmail.com with ESMTPSA id g3-20020a5d64e3000000b0020aaa0fea8bsm5930096wri.49.2022.04.24.02.32.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Apr 2022 02:32:43 -0700 (PDT)
-Date:   Sun, 24 Apr 2022 11:32:39 +0200
-From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To:     Stefan Berzl <stefanberzl@gmail.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Status on hid xppen patch
-Message-ID: <20220424093239.GA4380@elementary>
-References: <941a793a-d2f7-9c2c-59be-b3930e1acfec@gmail.com>
- <20220423172330.32585-1-jose.exposito89@gmail.com>
- <95576534-1f5e-c2e3-4f73-c1b0a8300b56@gmail.com>
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:subject:in-reply-to
+         :content-transfer-encoding;
+        bh=yr0/AkbMMu8pn1dkU35YlQmF7na7yjrNnK/horRQvq8=;
+        b=6vnD+8dQFmxyCIkjIp2rzinoLopet/bOToKxMnl2YtHOByGo/3uzEEWghB5ivZYWCi
+         +rlylgSvpddSCP7L/jowhR+EY8PKx8gmUpaAklTLvOnGzBu+KsO0K5sZma/VxYfD+8O7
+         cY1obNpFAKSpXcqX/vynqo70JQqRpH2fX6OJ/az/sdloBzVT1Hlbsy0t+ISTk9eja4i2
+         NPP0370RoYz/QRrb9fuISYcH3nGQX0swBEPrmTAqQY3CW47NEd9aiH8cBNciV3kMxAg/
+         0HhL+B10ELgesmaEYtrPaSpDfQrPLH0USQ0+qkRh8SEWZ8FsnZoU4Bz5k5H7i2AYbXQ+
+         GfoA==
+X-Gm-Message-State: AOAM533aS0heWnGx1qtXYFFuC/rH9r8ilEPuKVhXK6t5ZIQox5cSnKAm
+        JAmIERVQLb6nkLj0Rfc7TIQ=
+X-Google-Smtp-Source: ABdhPJy+gDyQI+jYYZai2x5URiEV01l+fMZDWT8YjU8/GgIriEk0FB5ZVdkvpb6NfVQx+IMk0aUfQA==
+X-Received: by 2002:aca:f286:0:b0:2da:58ba:c578 with SMTP id q128-20020acaf286000000b002da58bac578mr6576017oih.127.1650814104777;
+        Sun, 24 Apr 2022 08:28:24 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id w8-20020a056830410800b00605b48122eesm53063ott.14.2022.04.24.08.28.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 24 Apr 2022 08:28:23 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
+Date:   Sun, 24 Apr 2022 08:28:19 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <95576534-1f5e-c2e3-4f73-c1b0a8300b56@gmail.com>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Robert Jarzmik <robert.jarzmik@free.fr>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Philipp Zabel <philipp.zabel@gmail.com>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Paul Parsons <lost.distance@yahoo.com>,
+        Tomas Cech <sleep_walker@suse.com>,
+        Sergey Lapin <slapin@ossfans.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Helge Deller <deller@gmx.de>, Mark Brown <broonie@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        IDE-ML <linux-ide@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        linux-mtd <linux-mtd@lists.infradead.org>,
+        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220422170530.GA2338209@roeck-us.net>
+ <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
+ <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
+ <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
+ <20220422234150.GA3442771@roeck-us.net>
+ <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
+ <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
+ <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+In-Reply-To: <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,127 +115,65 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Stefan,
-
-On Sun, Apr 24, 2022 at 01:19:30AM +0200, Stefan Berzl wrote:
-> >> Hello everynyan!
-> >>
-> >> A while ago I sent in a patch to add support for newer Xp-pen tablets 
-> >> that even made it into patchwork:
-> >>
-> >> https://patchwork.kernel.org/project/linux-input/patch/b401e453-9c66-15e3-1a1d-21f33b7a64e8@gmail.com/
-> >>
-> >> I have never actually gotten any feedback on it though and am wondering 
-> >> if everything is to your liking. Anyway it doesn't build against the 
-> >> current tree anymore. Assuming there is any value it, should I rewrite 
-> >> it against hid master or hid uclogic?
-> >>
-> >> Many thanks
-> >>
-> >> Stefan Berzl
-> > 
-> > Hi Stefan,
-> > 
-> > I just saw your email in the mailing list.
-> > 
-> > Your patch doesn't apply against the current tree because of the changes
-> > from Nikolai/the DIGImend project I'm sending upstream. For reference,
-> > here is the latest batch of patches, with links to the previous ones:
-> > 
-> > https://lore.kernel.org/linux-input/20220421175052.911446-1-jose.exposito89@gmail.com/T/
-> > 
-> > Please note that I'm not the maintainer of the driver, I'm just a web
-> > developer who does free software as a hobby, i.e., this is not my area
-> > of expertise, so take my words as suggestions, not as the path to
-> > follow ;)
-> > 
-> > The development of the uclogic driver takes place on the DIGImend
-> > project (inactive right now):
-> > https://github.com/DIGImend/digimend-kernel-drivers
-> > 
-> > Like you, I wanted to add support for my tablet/improve my kernel
-> > dev skills, but I noticed that I needed some patches from DIGImend, so,
-> > instead of taking what I needed, I decided to upstream all the patches.
-> > 
-> > At the moment of writing this email, 24 patches from DIGImend have been
-> > merged, 5 are under review and 7 more need to be sent. We are close to
-> > the end.
-> > 
-> > My tablet (Parblo A610 PLUS V2) also needs some magic data to be enabled.
-> > Actually, the data is pretty similar to the one in your patch.
-> > You can see my implementation here:
-> > https://github.com/JoseExposito/linux/commit/f1f24e57fab45a2bcf4e0af5ba9d8f5a2245670b
-> > 
-> > I just refactored my patch and extracted the code to send the magic data
-> > to its own function (uclogic_probe_interface), so we can share it.
-> > 
-> > I'd suggest rebasing your code on top of DIGImend's code + my patch
-> > so we can share some code and once all patches are upstream, you can
-> > send it with minor or without conflicts.
-> > 
-> > What do you think?
-> > 
-> > José Expósito
-> > 
+On 4/24/22 01:52, Arnd Bergmann wrote:
+> On Sun, Apr 24, 2022 at 4:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>> On 4/23/22 12:55, Arnd Bergmann wrote:
+>>> On Sat, Apr 23, 2022 at 1:41 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>>>> On Sat, Apr 23, 2022 at 12:04:31AM +0200, Arnd Bergmann wrote:
+>>>
+>>> Odd, I can't reproduce this at all. Do you get any console output at
+>>> all for this?
+>>>
+>>> Is this the plain omap1_defconfig, or something else?
+>>>
+>>
+>> No, it is my own sx1 specific configuration.
+>>
+>> https://github.com/groeck/linux-build-test/blob/master/rootfs/arm/qemu_sx1_defconfig
+>>
+>> I don't recall where I got it from but ...
 > 
-> Hello José,
+> Ok, that explains it, thanks!
 > 
-> nice hearing from you. I was actually thinking of just asking if you
-> want to take my patch under your wing, since you seem to be doing a lot
-> of uclogic related work. But your idea is even better, just submitting  
-> my patch once everything has settled down seems to be the way to go.
-
-Cool, let's do that. I'll cc you on the last batch of patches so you
-get notified when they get merged.
- 
-> You are actually the first person to ever contact me about this. I was  
-> pretty worried that the patch is no good, but then I saw that there is  
-> quite a backlog in the maintainers patchwork and some of your patches
-> haven't been reviewed either. Originally I tried showing it to Nikolai,
-> but he said he was rather busy too and then some guys in the Digimend
-> project tried to get me interested in some userspace driver that works  
-> around all the issues of like init-packets and stuff. I always imagined
-> the kernel as this highly organzied, well-structured endeavor where
-> things would be quickly scrutinized and suggestions offered to assure 
-> the highest quality. Yet here we have two web developers working on the
-> graphics tablet driver. Let me say that it's really great you take the
-> time and effort to mainline these patches and help everyone enjoy their
-> tablets on linux!
-
-Well, the kernel is well-structured, but as you mentioned, there is a
-*lot* of work on the maintainers side and I think there is not a big
-community supporting this driver. It's normal that it takes some time
-to get everything reviewed.
-
-> On the technical side, the magic bytes really are very similar, the only
-> difference being the two additional trailing 0x00 for mine. Also my
-> tablet sends a response after activating this new interface which can 
-> get interpreted as a button press if it's not discarded. Is there a nice
-> way to work around this, with subreports or anything?
-
-Same here, my tablet responds with: 02 b1 04 00 00 00 00 00 00 00.
-
-In my case, button presses look like: 02 F0 XX XX 00 00 00 00 00 00.
-Because of the 0xF0 subreport, I think this data gets ignored, but I'll
-do some extra testing just in case.
-
-How did you test it?
-
-> Lastly, do you have an idea in which kernel version the bulk of your
-> patches will have been merged, just so I know when to start looking at
-> this again? I don't mean to belittle the kernel maintainers of course,  
-> for I am sure they have more pressing and difficult issues on their
-> plate, like eBPF and such.   
-
-I couldn't tell, I can imagine that 5.19 or 5.20. Anyway, I'll cc you
-so you can have a good idea about what's going on.
-
-Best wishes,
-José Expósito
-
-> Lets fixie wixie this fucksy uppsy!
+> I fixed all the defconfig files that come with the kernel, but for your own
+> ones you have to add
 > 
-> Bye
+> # CONFIG_ARCH_MULTI_V7 is not set
 > 
+> into the defconfig file, otherwise the multiplatform target defaults to
+> an ARMv7 instead of ARMv5 build. For an OMAP15xx as in the SX1,
+> you also need to enable CONFIG_ARCH_MULTI_V4T.
 > 
-> Stefan Berzl
+> This is slightly unfortunate, but I don't see any way to avoid it, and the
+> modified defconfig will still work fine with older kernel trees.
+> 
+
+Yes, that works. I changed it in my configuration.
+
+>>> One thing I keep having to apply myself is this snippet:
+>>>
+>>> diff --git a/arch/arm/mm/proc-arm925.S b/arch/arm/mm/proc-arm925.S
+>>> index 0bfad62ea858..87c695703580 100644
+>>> --- a/arch/arm/mm/proc-arm925.S
+>>> +++ b/arch/arm/mm/proc-arm925.S
+>>> @@ -441,7 +441,6 @@ __arm925_setup:
+>>>
+>>>    #ifdef CONFIG_CPU_DCACHE_WRITETHROUGH
+>>>           mov     r0, #4                          @ disable write-back
+>>> on caches explicitly
+>>> -       mcr     p15, 7, r0, c15, c0, 0
+>>>    #endif
+>>
+>> it does not have CONFIG_CPU_DCACHE_WRITETHROUGH enabled.
+> 
+> Maybe it was disabled explicitly for the sx1_defconfig because of this
+> bug. I would think that this is required for actual sx1 hardware because the
+> option is default-enabled for ARM925T, and that CPU core is exclusively
+> used in OMAP15xx.
+> 
+
+That looks like a bug in qemu. ARM925T instruction support is limited to V4T
+instructions. qemu doesn't have explicit 5T support. It is either V4T
+or V5.
+
+Guenter
