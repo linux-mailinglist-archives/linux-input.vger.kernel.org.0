@@ -2,178 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 601D050D2D8
-	for <lists+linux-input@lfdr.de>; Sun, 24 Apr 2022 17:35:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB66F50D30D
+	for <lists+linux-input@lfdr.de>; Sun, 24 Apr 2022 18:05:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234190AbiDXPiM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 24 Apr 2022 11:38:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37174 "EHLO
+        id S233538AbiDXQII (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 24 Apr 2022 12:08:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240462AbiDXPb1 (ORCPT
+        with ESMTP id S233453AbiDXQIG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 24 Apr 2022 11:31:27 -0400
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98985171C04;
-        Sun, 24 Apr 2022 08:28:25 -0700 (PDT)
-Received: by mail-oi1-x22a.google.com with SMTP id e4so14578216oif.2;
-        Sun, 24 Apr 2022 08:28:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:content-language:to
-         :cc:references:from:subject:in-reply-to:content-transfer-encoding;
-        bh=yr0/AkbMMu8pn1dkU35YlQmF7na7yjrNnK/horRQvq8=;
-        b=YTsJBncPwlsdJoy0clMDPkRYsap010NbelrrDwP4gT2p8VkAeOwyCadOMVg4EkLC3g
-         BU6v4rcHRP7TcChruJdux/6WqtJmUToOWUlOimc0ldD0p/STL+v6YSxQqTz/SiEj3JGk
-         6SfYzDXOC60C+Zk6YtFsjMz2c7gYsvaefbEF/eKAM03STJHCFm25OuC/Z0YH/2cfNqkA
-         U538FM4O480tv4oZ6rwPTTcYDvIV4RyyrEvA6n7gY5KKJPB4B+s22HrjImpN8j9osv2G
-         SEdJ9k63zxNOgRDgM+KmfcxMquHhbq8CJJjUKerT4sEDujG7ogRPrwOnyNIjdLCE9lFh
-         BU0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:subject:in-reply-to
-         :content-transfer-encoding;
-        bh=yr0/AkbMMu8pn1dkU35YlQmF7na7yjrNnK/horRQvq8=;
-        b=6vnD+8dQFmxyCIkjIp2rzinoLopet/bOToKxMnl2YtHOByGo/3uzEEWghB5ivZYWCi
-         +rlylgSvpddSCP7L/jowhR+EY8PKx8gmUpaAklTLvOnGzBu+KsO0K5sZma/VxYfD+8O7
-         cY1obNpFAKSpXcqX/vynqo70JQqRpH2fX6OJ/az/sdloBzVT1Hlbsy0t+ISTk9eja4i2
-         NPP0370RoYz/QRrb9fuISYcH3nGQX0swBEPrmTAqQY3CW47NEd9aiH8cBNciV3kMxAg/
-         0HhL+B10ELgesmaEYtrPaSpDfQrPLH0USQ0+qkRh8SEWZ8FsnZoU4Bz5k5H7i2AYbXQ+
-         GfoA==
-X-Gm-Message-State: AOAM533aS0heWnGx1qtXYFFuC/rH9r8ilEPuKVhXK6t5ZIQox5cSnKAm
-        JAmIERVQLb6nkLj0Rfc7TIQ=
-X-Google-Smtp-Source: ABdhPJy+gDyQI+jYYZai2x5URiEV01l+fMZDWT8YjU8/GgIriEk0FB5ZVdkvpb6NfVQx+IMk0aUfQA==
-X-Received: by 2002:aca:f286:0:b0:2da:58ba:c578 with SMTP id q128-20020acaf286000000b002da58bac578mr6576017oih.127.1650814104777;
-        Sun, 24 Apr 2022 08:28:24 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id w8-20020a056830410800b00605b48122eesm53063ott.14.2022.04.24.08.28.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 Apr 2022 08:28:23 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
-Date:   Sun, 24 Apr 2022 08:28:19 -0700
+        Sun, 24 Apr 2022 12:08:06 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22B43111;
+        Sun, 24 Apr 2022 09:05:03 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id BD6055C0186;
+        Sun, 24 Apr 2022 12:05:00 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Sun, 24 Apr 2022 12:05:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm2; t=1650816300; x=1650902700; bh=2ifXnimlzF9mOdaX4RxX8QFk2
+        i4QWGOnS3cijNufVA8=; b=d137+bSzS0+tF9O+osV5Tv2wyLZiivoaOn8z0C9wP
+        xXNii2ALeOMvCBmFkfdshnvpeF0eFHPXCB5xpEstCRwfEgsjq3j97hEW3vBs7fKc
+        H5PaCpnevQo6d2SO1sJlUBn6zxHM3nYEkDnVeit6FSCs/z+88dciUksbpXVEFnvK
+        lakuTSjXajideD7JD1QMXmwj+yjCbeOX3c+lI3hqJ/uOJhFCg3C+3+kq8uhlDypf
+        QZRkzdGIkthNHZeaXjG4SqCWHEY5tF043jH9wSBQEOyOY6SvcROpd/5U1L53+BPo
+        9sYAXnxDU4TSli4ZkhlUZRi65g78lKUL+wWByi89tfVbw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm1; t=1650816300; x=1650902700; bh=2
+        ifXnimlzF9mOdaX4RxX8QFk2i4QWGOnS3cijNufVA8=; b=kLp2w4rRwVpIPY9+v
+        6hFxwaK/HK/a6pBIhan5JnscVB7+9ZyzLMYaLuAhrJHgfwliQJXS58m0PBlprxTJ
+        H6ZtEGAOmjDpDN7ohg+h+iPRbB7Sc2RkXHQG3HPrSNVwKdwTrbR1V2QTE1QUuQTW
+        Y3G6C0kubTHtvqgxyD2YKzBp3raofQLZKEaAlgDscAqoT7xIcY+NfixR5XfRwp2n
+        +6X4TbQOjOQF4AfT7yCObd/fhPxloHNlp6rr0WRBAL4YgFmIQTjdYDrOqeJBTkxS
+        p30Ry0qnWTORpXOgAFmZ7QpHNc4npavrvCpl5n4PM6oN3r0EzH1k/7asTPqxWB+E
+        yEGMg==
+X-ME-Sender: <xms:LHVlYt4Kg9pvfDUlHsR2LWF1d-yl2aTLo9qUOypa4JY4EAiDzYamcA>
+    <xme:LHVlYq4wLZbNK01UreXSlvl19fAB-LTQLKvF0NzVVP4tn7UadTJTdTh3qQdlV1iLJ
+    5dBcjorjsTUgkWnKQ>
+X-ME-Received: <xmr:LHVlYkdmwkbx6NwwZ4lwXZZbVDzi7NUt-hykOWlgjGJw2Q6reU0V-JTd6ed_lg1bfraRcnxDEx0rouByAwCVm9sXikxTpRDnQXG7rfuSS5JKrU5LvSbq5EOvj7pBThB8exGsJw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgdelkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeevudeigeekledvgfevlefgueelkeduieelveejfffhjefggeelfefhteej
+    gfegvdenucffohhmrghinhepmhgvghhouhhsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
+    ohhrgh
+X-ME-Proxy: <xmx:LHVlYmLCAOkgwA6N4So1xDAz8eg89QFp0DNwwOkA2CB9XLcEju4FBg>
+    <xmx:LHVlYhKUkk6FRjNocK_e5KOaYLdNZZ9BENjDbgHrfaeDR3vRrp_R2g>
+    <xmx:LHVlYvzT78IM3O9klLki2Up6yCucdVKf8SWiqEgAM3cJl9IcXtQYbQ>
+    <xmx:LHVlYp_jYFlkmDWhMLRhChYyUsqZlTiS9ssPCXDxgazQoibrlIprJw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 24 Apr 2022 12:04:59 -0400 (EDT)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>, Ondrej Jirman <x@xff.cz>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v3 0/4] Pine64 PinePhone keyboard support
+Date:   Sun, 24 Apr 2022 11:04:53 -0500
+Message-Id: <20220424160458.60370-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Content-Language: en-US
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Robert Jarzmik <robert.jarzmik@free.fr>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Philipp Zabel <philipp.zabel@gmail.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Paul Parsons <lost.distance@yahoo.com>,
-        Tomas Cech <sleep_walker@suse.com>,
-        Sergey Lapin <slapin@ossfans.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Helge Deller <deller@gmx.de>, Mark Brown <broonie@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        IDE-ML <linux-ide@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-mtd <linux-mtd@lists.infradead.org>,
-        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>
-References: <20220419163810.2118169-1-arnd@kernel.org>
- <20220422170530.GA2338209@roeck-us.net>
- <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
- <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
- <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
- <20220422234150.GA3442771@roeck-us.net>
- <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
- <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
- <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
-In-Reply-To: <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 4/24/22 01:52, Arnd Bergmann wrote:
-> On Sun, Apr 24, 2022 at 4:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
->> On 4/23/22 12:55, Arnd Bergmann wrote:
->>> On Sat, Apr 23, 2022 at 1:41 AM Guenter Roeck <linux@roeck-us.net> wrote:
->>>> On Sat, Apr 23, 2022 at 12:04:31AM +0200, Arnd Bergmann wrote:
->>>
->>> Odd, I can't reproduce this at all. Do you get any console output at
->>> all for this?
->>>
->>> Is this the plain omap1_defconfig, or something else?
->>>
->>
->> No, it is my own sx1 specific configuration.
->>
->> https://github.com/groeck/linux-build-test/blob/master/rootfs/arm/qemu_sx1_defconfig
->>
->> I don't recall where I got it from but ...
-> 
-> Ok, that explains it, thanks!
-> 
-> I fixed all the defconfig files that come with the kernel, but for your own
-> ones you have to add
-> 
-> # CONFIG_ARCH_MULTI_V7 is not set
-> 
-> into the defconfig file, otherwise the multiplatform target defaults to
-> an ARMv7 instead of ARMv5 build. For an OMAP15xx as in the SX1,
-> you also need to enable CONFIG_ARCH_MULTI_V4T.
-> 
-> This is slightly unfortunate, but I don't see any way to avoid it, and the
-> modified defconfig will still work fine with older kernel trees.
-> 
+This series adds support for the official keyboard case for the Pine64
+PinePhone and PinePhone Pro. This accessory contains a keyboard MCU and
+an IP5209 power bank IC. The keyboard MCU firmware[0] is free software.
+It exposes the keyboard scan matrix over I2C, and also provides commands
+for SMBus access to the IP5209. In order to keep the IP5209 driver
+(CONFIG_IP5XXX_POWER) generic, this is modeled as a child I2C bus.
 
-Yes, that works. I changed it in my configuration.
+[0]: https://megous.com/git/pinephone-keyboard/about/
 
->>> One thing I keep having to apply myself is this snippet:
->>>
->>> diff --git a/arch/arm/mm/proc-arm925.S b/arch/arm/mm/proc-arm925.S
->>> index 0bfad62ea858..87c695703580 100644
->>> --- a/arch/arm/mm/proc-arm925.S
->>> +++ b/arch/arm/mm/proc-arm925.S
->>> @@ -441,7 +441,6 @@ __arm925_setup:
->>>
->>>    #ifdef CONFIG_CPU_DCACHE_WRITETHROUGH
->>>           mov     r0, #4                          @ disable write-back
->>> on caches explicitly
->>> -       mcr     p15, 7, r0, c15, c0, 0
->>>    #endif
->>
->> it does not have CONFIG_CPU_DCACHE_WRITETHROUGH enabled.
-> 
-> Maybe it was disabled explicitly for the sx1_defconfig because of this
-> bug. I would think that this is required for actual sx1 hardware because the
-> option is default-enabled for ARM925T, and that CPU core is exclusively
-> used in OMAP15xx.
-> 
+Changes in v3:
+ - Replace unevaluatedProperties with additionalProperties
+ - Rename i2c-bus to i2c
 
-That looks like a bug in qemu. ARM925T instruction support is limited to V4T
-instructions. qemu doesn't have explicit 5T support. It is either V4T
-or V5.
+Changes in v2:
+ - Drop keymap DT properties
+ - Add vbat-supply property
+ - Fix missing key release events when FN state changes
+ - Add VBAT consumer to ensure enough power is available for the MCU
+ - Use a single fixed-size, fixed-contents keymap for both layers
 
-Guenter
+Samuel Holland (4):
+  dt-bindings: input: Add the PinePhone keyboard binding
+  Input: pinephone-keyboard - Add PinePhone keyboard driver
+  Input: pinephone-keyboard - Support the proxied I2C bus
+  [DO NOT MERGE] arm64: dts: allwinner: pinephone: Add keyboard
+
+ .../input/pine64,pinephone-keyboard.yaml      |  66 +++
+ MAINTAINERS                                   |   6 +
+ .../dts/allwinner/sun50i-a64-pinephone.dtsi   |  18 +
+ drivers/input/keyboard/Kconfig                |  10 +
+ drivers/input/keyboard/Makefile               |   1 +
+ drivers/input/keyboard/pinephone-keyboard.c   | 438 ++++++++++++++++++
+ 6 files changed, 539 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/pine64,pinephone-keyboard.yaml
+ create mode 100644 drivers/input/keyboard/pinephone-keyboard.c
+
+-- 
+2.35.1
+
