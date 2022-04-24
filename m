@@ -2,147 +2,183 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BD1C50D441
-	for <lists+linux-input@lfdr.de>; Sun, 24 Apr 2022 20:49:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73B3950D51A
+	for <lists+linux-input@lfdr.de>; Sun, 24 Apr 2022 22:37:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237153AbiDXSwB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 24 Apr 2022 14:52:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44386 "EHLO
+        id S239594AbiDXUjc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 24 Apr 2022 16:39:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229929AbiDXSwA (ORCPT
+        with ESMTP id S233845AbiDXUjb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 24 Apr 2022 14:52:00 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 848D813F51;
-        Sun, 24 Apr 2022 11:48:58 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B01276124F;
-        Sun, 24 Apr 2022 18:48:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12B0CC385B1;
-        Sun, 24 Apr 2022 18:48:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650826137;
-        bh=ipl3oSa3DODJXFqNROBx1CoqGwslciyjMuC+i+Saf6s=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=BOkM82fII90m6hiFZrsM+S6NoOx/9JSXO645uDox3wouyvV5cDVRWJxz7xq/cB9au
-         LYrBwqxSBkhIKBzBNs0hwtCBHRO1gixAqGnRtxVTd+01UzyFfxHSDne9WN6ttlm+rb
-         jcQBniXrkaKqn2jBmZOb15DeGZFcd9PAC8aU0sErmt9X3VJ12+DgM2/0JBOHnN/nNw
-         G4IIFddQ3lsrPoLfBPfhYi7wy7+MEYhHtnQkavlIidm5fb5N3XrXiQ6swPnyQws0/W
-         CtU43okgiFy2OpjRFiWX3gSYz6BOM2afEEdzeBOnonvAaXEfnmyinRGY3cRVziG/FD
-         TihvS5WssHAGA==
-Received: by mail-wm1-f49.google.com with SMTP id n126-20020a1c2784000000b0038e8af3e788so8339736wmn.1;
-        Sun, 24 Apr 2022 11:48:56 -0700 (PDT)
-X-Gm-Message-State: AOAM532dCbbuPtNLiFWY0oLFZs8XVfrMBbWkSdIYLtsNfBb72iV3o7bU
-        it6YCv5pHi/kxy42HhEx37g9WQ8uhZLw+EPMKaw=
-X-Google-Smtp-Source: ABdhPJy0bXzhrJhOMZ1X8kbnkslFxEyAGa0Ih/9fgvnO3mTuzgN7/0kU+dSPN2u/9dZRAXnrV+Nc5ftINsUw3V0d/rc=
-X-Received: by 2002:a05:600c:4e4a:b0:392:88e1:74a7 with SMTP id
- e10-20020a05600c4e4a00b0039288e174a7mr22771106wmq.174.1650826135238; Sun, 24
- Apr 2022 11:48:55 -0700 (PDT)
+        Sun, 24 Apr 2022 16:39:31 -0400
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB8A2156E29;
+        Sun, 24 Apr 2022 13:36:29 -0700 (PDT)
+Received: by mail-qk1-x729.google.com with SMTP id s4so9591956qkh.0;
+        Sun, 24 Apr 2022 13:36:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=QCYP2PyCE9BcQOAw0YSM140VN5YcTk8T2hRAd0h/gwA=;
+        b=hDJ60wfmW6DQcblL5tEb+/lWxTp7lIUJJeE4f5KWQOaDaetmvHFl4Pk1lxVc31khwW
+         Xkx4OijXuHNf2ljDwRsnpqGU5vkpdQcsnoYkRTVsYgJgGSs6lzBOwZvtmFtH+UEVNt1a
+         i8gSmKA0G+5UaRoVthPeO5jBCIoA4kwEEcHNq+DOzobHRcpuxzU8VAhSKqCrdkTNio5O
+         Tr47Pj+pDRmlcWOKahWMHXm5xJlinuGvVerWeeKBzrh/w1MnvZqRXi0tuxEWaWmZ1tmj
+         RK94lxhd0pNQsJ/CFhMKxFxeGsu79Rjg/Iy0kp4HSePkUP+VIoLhlUOX7ODsoLGYSnIA
+         gcoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=QCYP2PyCE9BcQOAw0YSM140VN5YcTk8T2hRAd0h/gwA=;
+        b=01CP0C1J8/mf+ykdcG4SivQFZjwnxR+AV4y759lS6x4sDtqte6TumOB7bV+2Rx/tAw
+         nmmdDjM5BPayZCcJ9DZ2gRzntO4xHHalY6hFrmi1RVdtQAm7eDxKjdyrV1af4209KUPJ
+         FSavjvdVkWeHMruQweB/JUElSUKeAPRyFeF0NaXmHfD4tQfMwN5rCzURPSHHU0IOZEeb
+         Q/XOY9KLZx0+YDy8qCNADKda1LdK9mNbRt6Pc2CxuzIspYqdjkdOyk4YIb8ZPY11D4Zj
+         87Sad5cEd440Wt7hXgQFRJbiVFUS3opzW/MaRB4oB9adm1oK0ndWZemgjS2tUijAQnze
+         MXoA==
+X-Gm-Message-State: AOAM532qzNoXXuyWBhTdCcXEiYqQ9vz7rsRx3Ms5CQACEt60cLjflXEn
+        OhTtm9tCMxeSuy4QomjuSWwrDv0UZOij
+X-Google-Smtp-Source: ABdhPJxXULIBfLZUSZrR8mF/+Gv8NBFSUmQ8mjXjzx1WN/nIKlMN8CQAlbcYgrX0lpy7K9r8tDuq8w==
+X-Received: by 2002:a37:63c7:0:b0:69e:5d71:e45c with SMTP id x190-20020a3763c7000000b0069e5d71e45cmr8503598qkb.620.1650832588888;
+        Sun, 24 Apr 2022 13:36:28 -0700 (PDT)
+Received: from moria.home.lan (c-73-219-103-14.hsd1.vt.comcast.net. [73.219.103.14])
+        by smtp.gmail.com with ESMTPSA id 23-20020a370817000000b0069e71175d86sm3967008qki.109.2022.04.24.13.36.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Apr 2022 13:36:28 -0700 (PDT)
+Date:   Sun, 24 Apr 2022 16:36:26 -0400
+From:   Kent Overstreet <kent.overstreet@gmail.com>
+To:     James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        hannes@cmpxchg.org, akpm@linux-foundation.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-input@vger.kernel.org, roman.gushchin@linux.dev
+Subject: Re: Rust and Kernel Vendoring [Was Re: [PATCH v2 1/8] lib/printbuf:
+ New data structure for heap-allocated strings]
+Message-ID: <20220424203626.sdppoyvyrn4yeglp@moria.home.lan>
+References: <20220421234837.3629927-7-kent.overstreet@gmail.com>
+ <20220422042017.GA9946@lst.de>
+ <YmI5yA1LrYrTg8pB@moria.home.lan>
+ <20220422052208.GA10745@lst.de>
+ <YmI/v35IvxhOZpXJ@moria.home.lan>
+ <20220422113736.460058cc@gandalf.local.home>
+ <20220422193015.2rs2wvqwdlczreh3@moria.home.lan>
+ <1f3ce897240bf0f125ca3e5f6ded7c290118a8dc.camel@HansenPartnership.com>
+ <20220422211350.qn2brzkfwsulwbiq@moria.home.lan>
+ <afdda017cbd0dc0f41d673fe53d2a9c48fba9a6c.camel@HansenPartnership.com>
 MIME-Version: 1.0
-References: <20220419163810.2118169-1-arnd@kernel.org> <20220422170530.GA2338209@roeck-us.net>
- <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
- <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net> <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
- <20220422234150.GA3442771@roeck-us.net> <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
- <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net> <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
- <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
-In-Reply-To: <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Sun, 24 Apr 2022 20:48:39 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
-Message-ID: <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
-Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Robert Jarzmik <robert.jarzmik@free.fr>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Philipp Zabel <philipp.zabel@gmail.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Paul Parsons <lost.distance@yahoo.com>,
-        Tomas Cech <sleep_walker@suse.com>,
-        Sergey Lapin <slapin@ossfans.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Helge Deller <deller@gmx.de>, Mark Brown <broonie@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        IDE-ML <linux-ide@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-mtd <linux-mtd@lists.infradead.org>,
-        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <afdda017cbd0dc0f41d673fe53d2a9c48fba9a6c.camel@HansenPartnership.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Apr 24, 2022 at 5:28 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> On 4/24/22 01:52, Arnd Bergmann wrote:
-> > On Sun, Apr 24, 2022 at 4:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
-> > into the defconfig file, otherwise the multiplatform target defaults to
-> > an ARMv7 instead of ARMv5 build. For an OMAP15xx as in the SX1,
-> > you also need to enable CONFIG_ARCH_MULTI_V4T.
-> >
-> > This is slightly unfortunate, but I don't see any way to avoid it, and the
-> > modified defconfig will still work fine with older kernel trees.
-> >
->
-> Yes, that works. I changed it in my configuration.
+On Sat, Apr 23, 2022 at 10:16:37AM -0400, James Bottomley wrote:
+> You stripped the nuance of that.  I said many no_std crates could be
+> used in the kernel.  I also said that the async crate couldn't because
+> the rust compiler itself would have to support the kernel threading
+> model.
 
-Ok, great!. I managed to boot the z2 machine with PCMCIA support
-and it gets around the issue with my patch, correctly detecting the
-CF card.
+I just scanned through that thread and that's not what you said. What you said
+was:
 
-> >>> One thing I keep having to apply myself is this snippet:
-> >>>
-> >>> diff --git a/arch/arm/mm/proc-arm925.S b/arch/arm/mm/proc-arm925.S
-> >>> index 0bfad62ea858..87c695703580 100644
-> >>> --- a/arch/arm/mm/proc-arm925.S
-> >>> +++ b/arch/arm/mm/proc-arm925.S
-> >>> @@ -441,7 +441,6 @@ __arm925_setup:
-> >>>
-> >>>    #ifdef CONFIG_CPU_DCACHE_WRITETHROUGH
-> >>>           mov     r0, #4                          @ disable write-back
-> >>> on caches explicitly
-> >>> -       mcr     p15, 7, r0, c15, c0, 0
-> >>>    #endif
-> >>
-> >> it does not have CONFIG_CPU_DCACHE_WRITETHROUGH enabled.
-> >
-> > Maybe it was disabled explicitly for the sx1_defconfig because of this
-> > bug. I would think that this is required for actual sx1 hardware because the
-> > option is default-enabled for ARM925T, and that CPU core is exclusively
-> > used in OMAP15xx.
-> >
->
-> That looks like a bug in qemu. ARM925T instruction support is limited to V4T
-> instructions. qemu doesn't have explicit 5T support. It is either V4T
-> or V5.
+> The above is also the rust crate problem in miniature: the crates grow
+> API features the kernel will never care about and importing them
+> wholesale is going to take forever because of the internal kernel
+> support issue.  In the end, to take rust async as an example, it will
+> be much better to do for rust what we've done for zlib: take the core
+> that can support the kernel threading model and reimplement that in the
+> kernel crate.  The act of doing that will a) prove people care enough
+> about the functionality and b) allow us to refine it nicely.
+> 
+> I also don't think rust would really want to import crates wholesale.
+> The reason for no_std is that rust is trying to adapt to embedded
+> environments, which the somewhat harsh constraints of the kernel is
+> very similar to.
 
-I'm not entirely sure what instructions the CPU supports, but Linux
-treats it as ARMv4T as well, and qemu supports some of the 925t
-specific instructions as "ti925t" in target/arm/cpu_tcg.c, it just seems
-it's missing some others.
+But maybe your position has changed somewhat? It sounds like you've been
+arguing against just directly depending on foreign reposotories and for the
+staus quo of just ad-hoc copying of code.
 
-      Arnd
+I'll help by stating my own position: I think we should be coming up with a
+process for how dependencies on other git repositories are going to work,
+something better than just cut and paste. Whether or not we vendorize code isn't
+really that important, but I'd say that if we are vendorizing code and we're not
+including entire sub-repositories (like cargo vendor does) we ought to still
+make this a scripted process that takes as an input a list of files we're
+pulling and a remote repository we're pulling from, and the file list and the
+remote repo (and commit ID we're pulling from) should all be checked in.
+
+I think using cargo would be _great_ because it would handle this part for us
+(perhaps minus pulling of individual files? haven't checked) instead of
+home-growing our own. However, I'd like something for C repositories too, and I
+don't think we want to start depending on cargo for non Rust development... :)
+
+But much more important that the technical details of how we import code is just
+having good answers for people who aren't embedded in Linux kernel development
+culture, so we aren't just telling them "no" by default because we haven't
+thought about this stuff and having them walk away frustrated.
+
+> > I think Linus said recently that Rust in the kernel is something that
+> > could fail, and he's right - but if it fails, it won't just be the
+> > failure of the Rust people to do the required work, it'll be _our_
+> > failure too, a failure to work with them.
+> 
+> The big risk is that rust needs to adapt to the kernel environment. 
+> This isn't rust specific, llvm had similar issues as an alternative C
+> compiler.  I think rust in the kernel would fail if it were only the
+> rust kernel people asking.  Fortunately the pressure to support rust in
+> embedded leading to the rise in no_std crates is a force which can also
+> get rust in the kernel over the finish line because of the focus it
+> puts on getting the language and crates to adapt to non standard
+> environments.
+
+It's both! It's on all of us to make this work.
+
+> > The kernel community has a lot of that going on here. Again, sorry to
+> > pick on you James, but I wanted to make the argument that - maybe the
+> > kernel _should_ be adopting a more structured way of using code from
+> > outside repositories, like cargo, or git submodules (except I've
+> > never had a positive experience with git submodules, so ignore that
+> > suggestion, unless I've just been using them wrong, in which case
+> > someone please teach me). To read you and Greg saying "nah, just
+> > copy code from other repos, it's fine" - it felt like being back in
+> > the old days when we were still trying to get people to use source
+> > control, and having that one older colleague who _insisted_ on not
+> > using source control of any kind, and that's a bit disheartening.
+> 
+> Even in C terms, the kernel is a nostdlib environment.  If a C project
+> has too much libc dependency it's not going to work directly in the
+> kernel, nor should it.  Let's look at zstd (which is pretty much a
+> nostdlib project) as a great example: the facebook people didn't
+> actually port the top of their tree (1.5) to the kernel, they
+> backported bug fixes to the 1.4 branch and made a special release
+> (1.4.10) just for us.  Why did they do this?  It was because the 1.5
+> version vastly increased stack use to the extent it would run off the
+> end of the limited kernel stack so couldn't be ported directly into the
+> kernel.  A lot of C libraries that are nostdlib have problems like this
+> as well (you can use recursion, but not in the kernel).  There's no
+> easy way of shimming environmental constraints like this.
+
+I wonder if we might have come up with a better solution if there'd been more
+cross-project communication and less siloing. Small stacks aren't particular to
+the kernel - it's definitely not unheard of to write userspace code where you
+want to have a lot of small stacks (especially if you're doing some kind of
+coroutine style threading; I've done stuff like this in the past) - and to me,
+as someone who's been incrementing on and maintaining a codebase in active use
+for 10 years, having multiple older versions in active use that need bugfixes
+gives me cold shivers.
+
+I wouldn't be surprised if at some point the zstd people walk back some of their
+changes or make it configurable at some point :)
