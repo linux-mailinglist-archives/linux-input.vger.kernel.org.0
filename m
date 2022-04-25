@@ -2,90 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9001950E9F3
-	for <lists+linux-input@lfdr.de>; Mon, 25 Apr 2022 22:13:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F50C50EBD5
+	for <lists+linux-input@lfdr.de>; Tue, 26 Apr 2022 00:22:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245124AbiDYUP7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 25 Apr 2022 16:15:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33814 "EHLO
+        id S237778AbiDYWZK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 Apr 2022 18:25:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245123AbiDYUP4 (ORCPT
+        with ESMTP id S1343621AbiDYVsQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Apr 2022 16:15:56 -0400
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86E831240DE
-        for <linux-input@vger.kernel.org>; Mon, 25 Apr 2022 13:12:51 -0700 (PDT)
-Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-e9027efe6aso9967729fac.10
-        for <linux-input@vger.kernel.org>; Mon, 25 Apr 2022 13:12:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=4WsHbvMFtfCO4s6g5Z/Ba4D0j5zDJD/OJ+xdomCe93g=;
-        b=hVNPteKE/AbRszScEp3f58YVOQPMhjkU/lwe3GRxf8FURBAz7mr/kqhv5rwGd/569q
-         DfCG2jHhYTXKydBLGnL0gqjTREwgINkl+xqXsFBCzTaUh0buSs8+UD2QbjicOLYnJCJ/
-         ruFc9xWlkwhPHeFUknrf0ycgg/fyOhbtZBjWM=
+        Mon, 25 Apr 2022 17:48:16 -0400
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF53E23BEF;
+        Mon, 25 Apr 2022 14:45:10 -0700 (PDT)
+Received: by mail-oi1-f177.google.com with SMTP id z8so18661916oix.3;
+        Mon, 25 Apr 2022 14:45:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=4WsHbvMFtfCO4s6g5Z/Ba4D0j5zDJD/OJ+xdomCe93g=;
-        b=3WnqduK/T3VV4/VGXP4AOqisOHlz/zWNtGdhSW+k9Z+lylGYUqY6SLuZErOrTbWBqb
-         rKVCpNqQtjcufINB6n16XLHTB1WAl63lGSytep635whg9pQMt2hEEKFx5ObEVx9Hd6QA
-         bnqfBVlAh4epJk/bYhLsaFh+p5yGqqbIxRQGh5OXyO63xVnYbJ5ajnFQVEAFm/Mrfesc
-         UZ6t70wmpUotzDtyY8cUovZoWUEhL2AdceB+K6d7IiREENz0iYJaRcn3seBnwuZJpgkG
-         wKrq2BqnTKDq4S3R6Tp7nPnLbl5QxGON/4zWHzuoUvOtzNQ2CTVXLeJAS7WX9FODmxrq
-         7fvw==
-X-Gm-Message-State: AOAM531Fz3feB76AsaKqwm77HLDAeklEA3fSW0+HaUH75LFEbt9HMlYs
-        oj+54axD8baeGpZRs2o1n0g5z+a2XXlESThK/qEoVQ==
-X-Google-Smtp-Source: ABdhPJwBcUHuuofxNADsFoXO6XpSPVQwW4abM1ZYARF/lutQMaCVG6TzIX/8R3w7WDwoFpbGX/Ty2z56yD6GIPb2kMI=
-X-Received: by 2002:a05:6870:15ca:b0:e9:551:6d1c with SMTP id
- k10-20020a05687015ca00b000e905516d1cmr6307596oad.193.1650917570622; Mon, 25
- Apr 2022 13:12:50 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 25 Apr 2022 13:12:50 -0700
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=VZMstEGR59a6WeLJcSDZzBTL969MVFol/7kqyWovv4c=;
+        b=obXWrnqaFu91kMdRfKfdulQkxPwilw0ID+21Ett64qWaxPNy2uxP56wO5XJYositR4
+         JYKRdFty/787G2glyiFp7CU3t5wNUcGCiuiM8sEgOty3FvrKKaGmppIQTRMmjSJVUkfl
+         r/3YRJnB7JsuJz1axlyrYmzwhNLWW3Qqpc4UJu+1WXwdw1xstSP5exDmt9o783RMywPa
+         cux8yPkniuL3yrj10Gw8dl1br+4z+rWQh93G32YsX7XROWQ8k8Y28PnaqdCBlZgPKwKw
+         O/QSvb6YB+6OCESeRpjGLzQKUE2gbHy2H4ieQCD7iFYgpH2yZos3w9YOjuA3850z8QAy
+         fcDQ==
+X-Gm-Message-State: AOAM530UFRAaIHYtUyu6K+J4lfs68JMO/6ZzCPODjR3QrlpPiS3iVkmC
+        Z3Wt2+GDSOIWX3GoVeYQUg==
+X-Google-Smtp-Source: ABdhPJy/rpBx/iJkVWRVcZNGd8eAyl3X6OyANl4MITXioNcKwEoeJ12MJdt0640bsxJiI2ms7mVrhw==
+X-Received: by 2002:a05:6808:2388:b0:325:e69:4ec5 with SMTP id bp8-20020a056808238800b003250e694ec5mr5220386oib.10.1650923110270;
+        Mon, 25 Apr 2022 14:45:10 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id x64-20020acae043000000b003222bb3dfb0sm4208670oig.36.2022.04.25.14.45.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Apr 2022 14:45:09 -0700 (PDT)
+Received: (nullmailer pid 344104 invoked by uid 1000);
+        Mon, 25 Apr 2022 21:45:09 -0000
+Date:   Mon, 25 Apr 2022 16:45:08 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Anjelique Melendez <quic_amelende@quicinc.com>
+Cc:     dmitry.torokhov@gmail.com, corbet@lwn.net, sre@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, bjorn.andersson@linaro.org,
+        swboyd@chromium.org, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        David Collins <collinsd@quicinc.com>,
+        David Collins <quic_collinsd@quicinc.com>
+Subject: Re: [PATCH v6] dt-bindings: power: reset: qcom-pon: update "reg"
+ property details
+Message-ID: <YmcWZLp2X8UYOVas@robh.at.kernel.org>
+References: <20220422191239.6271-1-quic_amelende@quicinc.com>
+ <20220422191239.6271-2-quic_amelende@quicinc.com>
 MIME-Version: 1.0
-In-Reply-To: <YmYZt7WQC17aE1fS@google.com>
-References: <20220413033334.1514008-1-swboyd@chromium.org> <20220413033334.1514008-2-swboyd@chromium.org>
- <YmYZt7WQC17aE1fS@google.com>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date:   Mon, 25 Apr 2022 13:12:50 -0700
-Message-ID: <CAE-0n51NugMRXEruDdgpNBkBBowQ6NdZBGUrHs5sEBecrmd=Ww@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Input: cros-ec-keyb: Only register keyboard if
- rows/columns exist
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        linux-input@vger.kernel.org, chrome-platform@lists.linux.dev,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220422191239.6271-2-quic_amelende@quicinc.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Quoting Dmitry Torokhov (2022-04-24 20:47:03)
-> >
-> > +     /*
-> > +      * No rows and columns? There isn't a matrix but maybe there are
-> > +      * switches to register in cros_ec_keyb_register_bs() because this is a
-> > +      * detachable device.
-> > +      */
-> > +     if (!device_property_read_bool(dev, "keypad,num-rows") &&
-> > +         !device_property_read_bool(dev, "keypad,num-cols"))
->
-> Why are we abusing device_property_read_bool() for properties that are
-> not flags instead of using device_property_present()?
->
+On Fri, Apr 22, 2022 at 12:12:38PM -0700, Anjelique Melendez wrote:
+> From: David Collins <collinsd@quicinc.com>
+> 
+> Update the description of "reg" property to add the PON_PBS base
+> address along with PON_HLOS base address.  Also add "reg-names"
+> property description.
+> 
+> Signed-off-by: David Collins <quic_collinsd@quicinc.com>
+> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+> ---
+>  .../bindings/power/reset/qcom,pon.yaml | 19 ++++++++++++++++++-
+>  1 file changed, 18 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+> index 353f155d..65ec8197 100644
+> --- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+> +++ b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+> @@ -26,7 +26,24 @@ properties:
+>        - qcom,pm8998-pon
+>  
+>    reg:
+> -    maxItems: 1
+> +    description: |
+> +      Specifies the SPMI base address for the PON (power-on) peripheral.  For
+> +      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
+> +      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
+> +      peripherals.  In that case, the PON_PBS address needs to be specified to
+> +      facilitate software debouncing on some PMICs.
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    description: |
+> +      For PON GEN1 and GEN2, it should be "pon".  For PON GEN3 it should include
+> +      "pon_hlos" and optionally "pon_pbs".
+> +    minItems: 1
+> +    items:
+> +      - const: pon_hlos
+> +      - const: pon_pbs
+> +      - const: pon
 
-Because I wrote this using DT APIs first and wasn't aware that
-device_property_present() was a thing. I'll resend it with that API
-usage.
+Did you test that 'reg-names = "pon";' works? It doesn't. The schema 
+says 'pon' is the 3rd entry in reg-names.
+
+As 'reg-names' is new I thin this should be:
+
+items:
+  - const: hlos
+  - const: pbs
+
+And if there's 1 entry, then 'reg-names' should not be there.
+
+Rob
