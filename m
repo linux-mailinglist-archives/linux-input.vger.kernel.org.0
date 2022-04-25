@@ -2,85 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FF3C50D687
-	for <lists+linux-input@lfdr.de>; Mon, 25 Apr 2022 03:24:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 171C650D707
+	for <lists+linux-input@lfdr.de>; Mon, 25 Apr 2022 04:44:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240122AbiDYB1A (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 24 Apr 2022 21:27:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36138 "EHLO
+        id S240403AbiDYCrp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 24 Apr 2022 22:47:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233946AbiDYB07 (ORCPT
+        with ESMTP id S240266AbiDYCrn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 24 Apr 2022 21:26:59 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78E4DC0E5A;
-        Sun, 24 Apr 2022 18:23:56 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id d15so23609705pll.10;
-        Sun, 24 Apr 2022 18:23:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=zUcfspQWuFNakeIGx6CmK3a/u4zfr1DWpzS9NwJkj0k=;
-        b=GRn39ITW/vQuI0OhN501KHlqyOgSc2anudTUmsG3Ednce9Cpr1uhQTyfDa7hwrwKcu
-         M3hb8ENp6XwKNf7DHZr8hA6WkIO45LQl1ZTdUFp4mG3YI4v7lPFA5r5M6wQDQB/VkYfO
-         mciGssPqHdcB5PHlu+Ul7yy7WnmxglnstPTLxh4AaM2C72L4VS6dbgy0HgzafiW04ASA
-         2Wz/FySeuho56inPHmwPPahDOyrJ3EBmIgNeQB81aIt22LUDyvaSqzmA7V0w17bjSdj4
-         8j8hlRbbUcSTGI+2Xy4CcAAWW8xUkM5LeN/7v+efyIyJ/l3z8c+tbW3kPAov9ZskagYg
-         Vs+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zUcfspQWuFNakeIGx6CmK3a/u4zfr1DWpzS9NwJkj0k=;
-        b=yyx1naQq1h0xUqBMPiJXaFRcFAYBYP6T54dwozdQVdC6I5M/Tg4fSTMy4k+uuj6vZ0
-         45vpIWfRHO4DxuehUa7eG4EBMpZECrosWsnFNMQZ4K992ip6Z3kDlaz45qwrjNI+G3H5
-         oIhIYiW+RGf3Qm55oSg/5RvpjJ0ijnAcS7xBMharYcdrbIp8BQpCOhJd3JIL4GtsEkJk
-         IpCSruD96zCg18mKPhcKZ/yqzJFm1VqkHY3WHDJ5LP4bFsAwVu7XzzAQV/GE3g02TdAF
-         wJQO6FkkmtV3eKgIkrzOJ082BHtOC0hdhs7kSXA9FClFtI6G2Q/FMmKa4KjXeUQn3JAK
-         OkYQ==
-X-Gm-Message-State: AOAM532g3OFjje3XCnOWeAsP3vWYfbz/aRZstdOTh2yQLH95GEQeL59I
-        GKe/eCDWjuU59kwyzU5+Z36wzb0sEms=
-X-Google-Smtp-Source: ABdhPJy23A8efhfU9qDNVjEKp7NDcWNZtJI72SSZcHmCXqBQA3s6IL7Hj6ILjDXUAH01d00WXKr8BQ==
-X-Received: by 2002:a17:90a:e7c1:b0:1d2:b8f8:ecc1 with SMTP id kb1-20020a17090ae7c100b001d2b8f8ecc1mr28532751pjb.176.1650849835535;
-        Sun, 24 Apr 2022 18:23:55 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:282a:d50e:e0fc:c145])
-        by smtp.gmail.com with ESMTPSA id t18-20020aa79472000000b0050ad180a4bbsm9367581pfq.1.2022.04.24.18.23.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Apr 2022 18:23:54 -0700 (PDT)
-Date:   Sun, 24 Apr 2022 18:23:52 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     cgel.zte@gmail.com
-Cc:     ran.jianping@zte.com.cn, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH] Input: synaptics-rmi4: remove unnecessary
- flush_workqueue()
-Message-ID: <YmX4KJNOceqgtbrp@google.com>
-References: <20220422093304.2781183-1-ran.jianping@zte.com.cn>
+        Sun, 24 Apr 2022 22:47:43 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 138F068F87;
+        Sun, 24 Apr 2022 19:44:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=5cqZcBN/6VFoY2Kiw77E9V9l0udJorJnVRNxt6POB6Y=; b=pIe19kOM7lwduX9PIpON6Gl3Sb
+        tYT/bmec/CDms8FQucEQp6BGZAPj/h3jUBLBkh0h3XXCKXO9c1KHZeplYXXTzPkIudQ39ORiAUt1N
+        BDgYk5dNJzeztVjkG2pEEedWZvlTrtkUFgbOqjalWHN4EJ36ksozrS4EeaTP70ABLfhLRM3erkfXj
+        uxEUuxKkBhom61Yus7fC7pKXE5CTkq32ISL4+6DCXYl0Aj7z6B89Xs0wZMj+zH3y+YZ8xVGwe9of6
+        B5fdfzAbcW4/J1UmME6cC0nkd6PsnNAkik1MjWGztykCGHMi/GWeEEqJn9diQEIk29exTmYH1X9+H
+        nABXy5rA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nioiI-008N4t-Ir; Mon, 25 Apr 2022 02:44:34 +0000
+Date:   Mon, 25 Apr 2022 03:44:34 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     Kent Overstreet <kent.overstreet@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, hch@lst.de, hannes@cmpxchg.org,
+        akpm@linux-foundation.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-input@vger.kernel.org,
+        roman.gushchin@linux.dev
+Subject: Re: [PATCH v2 1/8] lib/printbuf: New data structure for
+ heap-allocated strings
+Message-ID: <YmYLEovwj9BqeZQA@casper.infradead.org>
+References: <20220421234837.3629927-1-kent.overstreet@gmail.com>
+ <20220421234837.3629927-7-kent.overstreet@gmail.com>
+ <fcaf18ed6efaafa6ca7df79712d9d317645215f8.camel@perches.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220422093304.2781183-1-ran.jianping@zte.com.cn>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <fcaf18ed6efaafa6ca7df79712d9d317645215f8.camel@perches.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Apr 22, 2022 at 09:33:04AM +0000, cgel.zte@gmail.com wrote:
-> From: ran jianping <ran.jianping@zte.com.cn>
+On Sun, Apr 24, 2022 at 04:46:03PM -0700, Joe Perches wrote:
+> > + * pr_human_readable_u64, pr_human_readable_s64: Print an integer with human
+> > + * readable units.
 > 
-> All work currently pending will be done first by calling destroy_workqueue,
-> so there is unnecessary to flush it explicitly.
-> 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: ran jianping <ran.jianping@zte.com.cn>
+> Why not extend vsprintf for this using something like %pH[8|16|32|64] 
+> or %pH[c|s|l|ll|uc|us|ul|ull] ?
 
-Applied, thank you.
+The %pX extension we have is _cute_, but ultimately a bad idea.  It
+centralises all kinds of unrelated things in vsprintf.c, eg bdev_name()
+and clock() and ip_addr_string().
 
--- 
-Dmitry
+Really, it's working around that we don't have something like Java's
+StringBuffer (which I see both seq_buf and printbuf as attempting to
+be).  So we have this primitive format string hack instead of exposing
+methods like:
+
+void dentry_string(struct strbuf *, struct dentry *);
+
+as an example,
+                if (unlikely(ino == dir->i_ino)) {
+                        EXT4_ERROR_INODE(dir, "'%pd' linked to parent dir",
+                                         dentry);
+                        return ERR_PTR(-EFSCORRUPTED);
+                }
+
+would become something like:
+
+		if (unlikely(ino == dir->i_ino)) {
+			struct strbuf strbuf;
+			strbuf_char(strbuf, '\'');
+			dentry_string(strbuf, dentry);
+			strbuf_string(strbuf, "' linked to parent dir");
+			EXT4_ERROR_INODE(dir, strbuf);
+			return ERR_PTR(-EFSCORRUPTED);
+		}
+
+which isn't terribly nice, but C has sucky syntax for string
+construction.  Other languages have done this better, including Rust.
