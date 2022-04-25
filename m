@@ -2,70 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 466B250E333
-	for <lists+linux-input@lfdr.de>; Mon, 25 Apr 2022 16:32:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 470C650E465
+	for <lists+linux-input@lfdr.de>; Mon, 25 Apr 2022 17:28:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239362AbiDYOej (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 25 Apr 2022 10:34:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49930 "EHLO
+        id S242843AbiDYPbT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 Apr 2022 11:31:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236505AbiDYOei (ORCPT
+        with ESMTP id S231351AbiDYPbT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Apr 2022 10:34:38 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8B9E2CE1E
-        for <linux-input@vger.kernel.org>; Mon, 25 Apr 2022 07:31:33 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id u3so21167808wrg.3
-        for <linux-input@vger.kernel.org>; Mon, 25 Apr 2022 07:31:33 -0700 (PDT)
+        Mon, 25 Apr 2022 11:31:19 -0400
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3806210F3AC;
+        Mon, 25 Apr 2022 08:28:15 -0700 (PDT)
+Received: by mail-qt1-x82b.google.com with SMTP id f22so10503874qtp.13;
+        Mon, 25 Apr 2022 08:28:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+Ec2V5shBteoRtCqtxfW2R62kxRNZBNcV3MF01Vbbug=;
-        b=QiN4139opvnc7CzgbwFybNYp1p3HrZRT5GCNAgla0IVM2Zrl5QTbNwNt7O6QWpiq5c
-         q6aozGBMEuD/hUZ+T5epxetNThR1L4cIfvuoI13PXL/jFD9gZ+VWcNjBmz70A5PG2rci
-         e2/svw3agvKn4K+x9FgPUk07rU0TEUq2zSZ13z1b6qtrofG2F8ncB1eGFCBfcKE/zv/q
-         Qrur4q76PDloWwTneErY1Pd0sUCFQ0EwN+sg89GAJm8TpnbEI+PdLLmXj5xqKnHRAXK2
-         2jfMMqmjoahdP2tEKgAy63jvuySR0jTe3oGPhe78+TIoNhxvnbDVkGUd+d9Ju9h3tkES
-         8P+w==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=pYyv8u6TK+HNnCO2dEZ8rytiI/LivMuIT6ek4UyKCZU=;
+        b=By74vmVJQ/MnB36Y7p6UwVteaImK9ZjGLjA9uBcyypNXMkNwHVqIYGK4LLUcjyQtwV
+         gCml6JlzZPU91AeAqZVjwtBCd+WwrZU4BVZsBjzlpPumMon3lVhe0cPKfjc3T5oxKnVu
+         HJ5Owst1glYb9C6e5TXhR3fTu3L1w8PXstENMx4mPrtVGsmT1tseZ/NvR5iK5LJTXNZg
+         qaxWBUpARNbeAAWobmN/fHMcJmydLk2qbVbiAKVv9qIChHO4FvS64QyRqN8zBVicu+LX
+         1maxLaF5CMblXanXaZ6cfZOWpA4usEyZSVoq02wkcfGtCBDTvc54kVTcu/Wq0NKsMOmU
+         ntgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+Ec2V5shBteoRtCqtxfW2R62kxRNZBNcV3MF01Vbbug=;
-        b=UbuLOXboh4Bepcsa25e7/skuXO/1O6oea6oRG2UQh2VF2q7CX2ReU/wWR0jNL89Skh
-         oWBQem8G4lgtkalSAZYkVDVWFUARGYVcGe+g9Wfaymc7WGMJyPPeNi99Y2pA5/sEsBIi
-         YsCs3lwVLWoYqMzPZBvPvOQi0QYdjElEDvT4G7reDWpTmC+qTEb9ihrH5kfU5CTsYUHd
-         mNTbeURFgkhKDNCt3+kOs+h4u+uTNLpTl66Ruuh9lbU1GPCKO1TYOKCNYt/d51jCblS/
-         pUlLjwA3Y8JwGCu4eLoYNgeQQryFD4LThmaxbrqvNkNpmLjEhsnCEBaHoB3AeG2bQSZO
-         ZW3w==
-X-Gm-Message-State: AOAM533pDIFntNgnq6SkYt68Ad/4sA64TyZQDpSFK4D8yodN8NV3raaM
-        tSsbTxxSQg6NkJxEOuug9ZwrzXTFQgDadA==
-X-Google-Smtp-Source: ABdhPJwVJGTJ+1Rl6zqnCeUHjHWgEqFfE9hWxTo8PFA94FMtT7qnou41+6gxfsBIHbspyhCxwJpuxg==
-X-Received: by 2002:a5d:4645:0:b0:20a:db5d:258f with SMTP id j5-20020a5d4645000000b0020adb5d258fmr4355178wrs.135.1650897092310;
-        Mon, 25 Apr 2022 07:31:32 -0700 (PDT)
-Received: from groot.home ([2a01:cb19:85e6:1900:ce86:3a65:67d7:726d])
-        by smtp.gmail.com with ESMTPSA id s13-20020a5d4ecd000000b00207b4c92594sm8679525wrv.59.2022.04.25.07.31.31
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=pYyv8u6TK+HNnCO2dEZ8rytiI/LivMuIT6ek4UyKCZU=;
+        b=5lU8nCz2nwBrbkPDAcr/afoqETh1U4g3ZxKqLCLYoE/qmAOIxegp6CPWoHvjUSfy1L
+         5M7rqM8WbL7sxnhxxI9d0XGG3dqqp6tpWxvbJvMaYXR6hBILf26JWYqo5dSZeoh4C/GC
+         EIpgq/T7QsHlxCmOaeOBUq9MNUAqlP7S2letKZI+wWCxbaT0FPe8CliXK+9rdTgn5suX
+         7ih6ll4u9beBCmFtBk/WQKw3GW40nkKW7r/HjL5FRMoLlqnp/UipfFfdEbPWxZZb6k4E
+         Ik61TqP9wIZOAZ1NgRDi4nlChidhpwoaCTsGDFBJ+f6C2vbJg4XKVWDAOVFDjZcm4kiv
+         CitA==
+X-Gm-Message-State: AOAM530FyiD1pdoeAGd/Ej5s1FSrvXbbjaB8bz7R45o+rdRYn2VmTqvp
+        0EVrTe5D3t1Qg65SvCkGQQ==
+X-Google-Smtp-Source: ABdhPJyn1L63ig8CXlJylyOHi+tBOKG6YcgedNBUKOf6xBOnteBc+GTPyVacwZlkcADPpljIaz9lmQ==
+X-Received: by 2002:a05:622a:1314:b0:2f3:5726:e034 with SMTP id v20-20020a05622a131400b002f35726e034mr12185089qtk.297.1650900494382;
+        Mon, 25 Apr 2022 08:28:14 -0700 (PDT)
+Received: from moria.home.lan (c-73-219-103-14.hsd1.vt.comcast.net. [73.219.103.14])
+        by smtp.gmail.com with ESMTPSA id 128-20020a370486000000b0069e9d72b45fsm5193739qke.13.2022.04.25.08.28.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Apr 2022 07:31:32 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-input@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Subject: [PATCH] MAINTAINERS: input: add mattijs for mt6779-keypad
-Date:   Mon, 25 Apr 2022 16:31:25 +0200
-Message-Id: <20220425143125.163799-1-mkorpershoek@baylibre.com>
-X-Mailer: git-send-email 2.32.0
+        Mon, 25 Apr 2022 08:28:13 -0700 (PDT)
+Date:   Mon, 25 Apr 2022 11:28:11 -0400
+From:   Kent Overstreet <kent.overstreet@gmail.com>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Roman Gushchin <roman.gushchin@linux.dev>,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, hch@lst.de, hannes@cmpxchg.org,
+        akpm@linux-foundation.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-input@vger.kernel.org,
+        rostedt@goodmis.org
+Subject: Re: [PATCH v2 8/8] mm: Centralize & improve oom reporting in
+ show_mem.c
+Message-ID: <20220425152811.pg2dse4zybpnpaa4@moria.home.lan>
+References: <20220421234837.3629927-1-kent.overstreet@gmail.com>
+ <20220421234837.3629927-14-kent.overstreet@gmail.com>
+ <YmKma/1WUvjjbcO4@dhcp22.suse.cz>
+ <YmLFPJTyoE4GYWp4@carbon>
+ <20220422234820.plusgyixgybebfmi@moria.home.lan>
+ <YmNH/fh8OwTJ6ASC@carbon>
+ <20220423004607.q4lbz2mplkhlbyhm@moria.home.lan>
+ <YmZpuikkgWeF2RPt@dhcp22.suse.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YmZpuikkgWeF2RPt@dhcp22.suse.cz>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,36 +82,14 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-As stated in [1]:
-Fengping has no longer interest and time to maintain this driver so he
-agreed to transfer maintainership over to me.
+On Mon, Apr 25, 2022 at 11:28:26AM +0200, Michal Hocko wrote:
+> 
+> > Do you know if using memalloc_noreclaim_(save|restore) is sufficient for that,
+> > or do we want GFP_ATOMIC? I'm already using GFP_ATOMIC for allocations when we
+> > generate the report on slabs, since we're taking the slab mutex there.
+> 
+> No it's not. You simply _cannot_ allocate from the oom context.
 
-Add a dedicated maintainer entry as well for the driver to make sure
-that I can help with patch reviews.
-
-[1] https://lore.kernel.org/r/20220421140255.2781505-1-mkorpershoek@baylibre.com
-Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5936f2d9d8ed..d092414ae7be 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12139,6 +12139,12 @@ S:	Supported
- F:	Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt
- F:	drivers/media/platform/mtk-jpeg/
- 
-+MEDIATEK KEYPAD DRIVER
-+M:	Mattijs Korpershoek <mkorpershoek@baylibre.com>
-+S:	Supported
-+F:	Documentation/devicetree/bindings/input/mediatek,mt6779-keypad.yaml
-+F:	drivers/input/keyboard/mt6779-keypad.c
-+
- MEDIATEK MDP DRIVER
- M:	Minghsiu Tsai <minghsiu.tsai@mediatek.com>
- M:	Houlong Wei <houlong.wei@mediatek.com>
--- 
-2.32.0
-
+Hmm, no, that can't be right. I've been using the patch set and it definitely
+works, at least in my testing. Do you mean to say that we shouldn't? Can you
+explain why?
