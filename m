@@ -2,70 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDD4D50D7D7
-	for <lists+linux-input@lfdr.de>; Mon, 25 Apr 2022 05:48:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8912550D7E3
+	for <lists+linux-input@lfdr.de>; Mon, 25 Apr 2022 05:55:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240834AbiDYDuf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 24 Apr 2022 23:50:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46076 "EHLO
+        id S240859AbiDYD6K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 24 Apr 2022 23:58:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240634AbiDYDu2 (ORCPT
+        with ESMTP id S240867AbiDYD56 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 24 Apr 2022 23:50:28 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A71D3B9;
-        Sun, 24 Apr 2022 20:47:07 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id b15so13647129pfm.5;
-        Sun, 24 Apr 2022 20:47:07 -0700 (PDT)
+        Sun, 24 Apr 2022 23:57:58 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2835D326DF;
+        Sun, 24 Apr 2022 20:54:55 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id h12so20471830plf.12;
+        Sun, 24 Apr 2022 20:54:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=7VhljdC5qfgvF8YkpQHi5caMI2K36nYGNnMwDGsYTi4=;
-        b=PLJQOMoBO2sR0lbBytKX+x7YhWEmudhd6tkz1e0TrsQQhULjx++oJMZBbvkoeraHC9
-         GXOUe7XeiXg7WQmzb/Fzq4r99noiAAr0b0tTsPq3Lh0YDE/MZ1NBHrmLsjmY99IVxQYI
-         Xswdw1cHjnQ4CDHMUELJV4e5TBeJfxk4PwnASI+dq80Yt4WoV0GRfacTgWJ0Dpxjomz7
-         nReMFscLp28UFfVU3cr0iigUYQW4CFOGqds+ZPAA5bhvfN5yyymEhSXQxzeKO/gr9tAj
-         vgyWi/BsG6EE7zzSBSID0RLUYb01vRZqkQq5lJ/T2eBKcXAhl7oxG1milmieGth+opj8
-         svZg==
+        bh=pQXIC5eVOwKC8ZidFmX8UNKR4XEADdpPS0SFi/IbbEA=;
+        b=dj6ybFRKBhDhlqQ4Fw8knCIIbky0BgYCR/5sX7gsmDIMGiT5qIoXrP77zYHiK0F9Mi
+         dfB3AJLKLZesp9KYjCtUHioLfstLYGuILSoLuVQrYOkHmjkmH/k5QXWS7mdv1ibCxgmt
+         QTyy/b83y1LswIacWZ+Kf5pamqyZz7KTSGUNyY8iAGVjQKmFjQIURad1e/jlv/J9QcAs
+         dp6to0Gf1PGa+DBMCR4hfwi9KGn0HXSKjOMbsBUz/r/qIB2REQgLCJGxiQE+oSkXXrir
+         gFz2r5RaPaqmjws/hDMMLRkQvIG3GFIrcCeId8bJKO6igo5pCv2TSXb5Nz46uZvaCeDR
+         j70g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=7VhljdC5qfgvF8YkpQHi5caMI2K36nYGNnMwDGsYTi4=;
-        b=51a6EkVmrIxzqD+OJLUcDew/aypCd6hktYcrfxaf0dT/uXfmQye2sKy6mNXFFKjY3D
-         oHSFNbkuIayFMzScsq3XNnaFiQHtQeggQPocwyO2nogvcltdea1H/794nvynH9TST9s/
-         jsqb5Q7T11hcyOXeTHhicNJssv1dPdCmNJeWktt15HfgImePgIiUwIvcwKni6zSBpZEz
-         0+cly4eeNm+ZUQS25fFPrJlQUqbjqvilvzljDlZdVCcswILWpyaXyHeSImSkoKt1i29w
-         jD5TbyWQHSfOGN0hS+FJK+Oa5g0XLhhipjzRa6SOJANrhgMCYd+cfEuWvoUGm/FtkIuC
-         1aWg==
-X-Gm-Message-State: AOAM5326DNYJxSc82fBK/oUAqa7GKrKXpFkV6CNZ3Ad/vfztj+D0wLLH
-        HicmD/Rr6z2Rp7N9EF6ZVE4=
-X-Google-Smtp-Source: ABdhPJyzITr4L56y2maJflc4flrw3rp7brBf35hCOREn6LkiCOJKjLCoM5NRBv3jnt8R81I7BCISGA==
-X-Received: by 2002:a05:6a00:856:b0:50a:431b:c298 with SMTP id q22-20020a056a00085600b0050a431bc298mr16683814pfk.75.1650858426733;
-        Sun, 24 Apr 2022 20:47:06 -0700 (PDT)
+        bh=pQXIC5eVOwKC8ZidFmX8UNKR4XEADdpPS0SFi/IbbEA=;
+        b=GcCVLGB2dyCx4cOwH2BLLUb8pdFgQrQd6OS4fa8BjKVPoi2MVopX4KgUoQourucDsb
+         JipixbKt+ACnYW4DH+ENKHFauJN8VqdQLGvQViuDQi5gFlRRWZs8xNU1s8ZRyV59udmy
+         Q6eDFntmalSW3PVkDHjli6/QB/8WQc7EzseD9ZgWR0LfAw0F4tWbvedqeVa/IEda0pie
+         3XLLg6HSa4Tb38ub5hR93X3myvApnmHMkb4ESqikPGQYfLSBdbt3DwZYIrKLxEnvJ/wO
+         CHHMqTeWiBIOefy8acaDjcx2cjyc6a7I3hJUKzwCjJ85jBG0+d3bw2ugIshZP2Pq1853
+         jUlw==
+X-Gm-Message-State: AOAM532e6uVhO/0M4LRC6W+bE9Y11HCYvLGJCOjtxaJfLwo4jZbWbczt
+        ICD5b3jWBhXOW+nCqI6Mj434/nO0uw0=
+X-Google-Smtp-Source: ABdhPJxnH2mGhXyml2JLDOMkoeSeHEFx4rRW0yMieF9Ic373jKaxIwbjuljYciTw7RZbhwB2nJ9bYQ==
+X-Received: by 2002:a17:903:240c:b0:153:c8df:7207 with SMTP id e12-20020a170903240c00b00153c8df7207mr15853801plo.44.1650858894321;
+        Sun, 24 Apr 2022 20:54:54 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:282a:d50e:e0fc:c145])
-        by smtp.gmail.com with ESMTPSA id 9-20020a631449000000b003aabd688921sm8025285pgu.13.2022.04.24.20.47.05
+        by smtp.gmail.com with ESMTPSA id w4-20020a056a0014c400b004fb0c7b3813sm9899591pfu.134.2022.04.24.20.54.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Apr 2022 20:47:05 -0700 (PDT)
-Date:   Sun, 24 Apr 2022 20:47:03 -0700
+        Sun, 24 Apr 2022 20:54:53 -0700 (PDT)
+Date:   Sun, 24 Apr 2022 20:54:50 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        linux-input@vger.kernel.org, chrome-platform@lists.linux.dev,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>
-Subject: Re: [PATCH 1/2] Input: cros-ec-keyb: Only register keyboard if
- rows/columns exist
-Message-ID: <YmYZt7WQC17aE1fS@google.com>
-References: <20220413033334.1514008-1-swboyd@chromium.org>
- <20220413033334.1514008-2-swboyd@chromium.org>
+To:     cgel.zte@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: Re: [PATCH] input: omap4-keypad: using pm_runtime_resume_and_get
+ instead of pm_runtime_get_sync
+Message-ID: <YmYbihgXZTs9pgOg@google.com>
+References: <20220414085710.2541867-1-chi.minghao@zte.com.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220413033334.1514008-2-swboyd@chromium.org>
+In-Reply-To: <20220414085710.2541867-1-chi.minghao@zte.com.cn>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -76,70 +72,37 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Stephen,
-
-On Tue, Apr 12, 2022 at 08:33:33PM -0700, Stephen Boyd wrote:
-> If the device is a detachable, we may still probe this device because
-> there are some button switches, e.g. volume buttons and power buttons,
-> registered by this driver. Let's allow the device node to be missing row
-> and column device properties to indicate that the keyboard matrix
-> shouldn't be registered. This removes an input device on Trogdor devices
-> such as Wormdingler that don't have a matrix keyboard, but still have
-> power and volume buttons. That helps userspace understand there isn't
-> a keyboard present when the detachable keyboard is disconnected.
+On Thu, Apr 14, 2022 at 08:57:10AM +0000, cgel.zte@gmail.com wrote:
+> From: Minghao Chi <chi.minghao@zte.com.cn>
 > 
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Hsin-Yi Wang <hsinyi@chromium.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> Using pm_runtime_resume_and_get() to replace pm_runtime_get_sync and
+> pm_runtime_put_noidle. This change is just to simplify the code, no
+> actual functional changes.
+> 
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
 > ---
+>  drivers/input/keyboard/omap4-keypad.c | 21 +++++++--------------
+>  1 file changed, 7 insertions(+), 14 deletions(-)
 > 
-> I tried to use mkbp info to query the number of rows and columns, but my
-> EC firmware doesn't have commit 8505881ed0b9 ("mkbp: Separate MKBP_INFO
-> host command from the keyboard driver") so it always returns 8 and 13
-> for the rows and columns. Sigh. With updated firmware we could query it,
-> or we could rely on DT like we do already.
-> 
-> Originally I was setting the properties to 0, but
-> matrix_keypad_parse_properties() spits out an error message in that case
-> and so it seems better to delete the properties and check for their
-> existence instead. Another alternative would be to change the compatible
-> to be "google,cros-ec-keyb-switches" or something that indicates there
-> are only switches and no matrix keyboard.
-> 
->  drivers/input/keyboard/cros_ec_keyb.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-> index 6534dfca60b4..ac9a953bff02 100644
-> --- a/drivers/input/keyboard/cros_ec_keyb.c
-> +++ b/drivers/input/keyboard/cros_ec_keyb.c
-> @@ -537,6 +537,15 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
->  	u32 key_pos;
->  	unsigned int row, col, scancode, n_physmap;
+> diff --git a/drivers/input/keyboard/omap4-keypad.c b/drivers/input/keyboard/omap4-keypad.c
+> index 43375b38ee59..df6ab8006807 100644
+> --- a/drivers/input/keyboard/omap4-keypad.c
+> +++ b/drivers/input/keyboard/omap4-keypad.c
+> @@ -179,11 +179,9 @@ static irqreturn_t omap4_keypad_irq_thread_fn(int irq, void *dev_id)
+>  	int error;
+>  	u64 keys;
 >  
-> +	/*
-> +	 * No rows and columns? There isn't a matrix but maybe there are
-> +	 * switches to register in cros_ec_keyb_register_bs() because this is a
-> +	 * detachable device.
-> +	 */
-> +	if (!device_property_read_bool(dev, "keypad,num-rows") &&
-> +	    !device_property_read_bool(dev, "keypad,num-cols"))
+> -	error = pm_runtime_get_sync(dev);
+> -	if (error < 0) {
+> -		pm_runtime_put_noidle(dev);
+> +	error = pm_runtime_resume_and_get(dev);
+> +	if (error < 0)
 
-Why are we abusing device_property_read_bool() for properties that are
-not flags instead of using device_property_present()?
+pm_runtime_resume_and_get() returns 0 or negative error, so we can
+simplify the check to "if (error)".
 
-> +		return 0;
-> +
->  	err = matrix_keypad_parse_properties(dev, &ckdev->rows, &ckdev->cols);
->  	if (err)
->  		return err;
-> -- 
-> https://chromeos.dev
-> 
-
-Thanks.
+I adjusted locally and applied, thank you.
 
 -- 
 Dmitry
