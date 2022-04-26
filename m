@@ -2,151 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EF4E50F330
-	for <lists+linux-input@lfdr.de>; Tue, 26 Apr 2022 09:56:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0372350FFAC
+	for <lists+linux-input@lfdr.de>; Tue, 26 Apr 2022 15:54:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232123AbiDZH7N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Apr 2022 03:59:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43752 "EHLO
+        id S1351206AbiDZN4p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Apr 2022 09:56:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344357AbiDZH66 (ORCPT
+        with ESMTP id S1351199AbiDZN4i (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Apr 2022 03:58:58 -0400
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 467291A055;
-        Tue, 26 Apr 2022 00:55:49 -0700 (PDT)
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-         client-signature RSA-PSS (2048 bits) client-digest SHA256)
-        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4KnZ1w3RCzzDqPk;
-        Tue, 26 Apr 2022 00:55:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1650959748; bh=3aL3yiuRGJLKNdufRrOQc8sWMnykHDqjpt4U7wvTSQo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=laK8x/GpCC/J+8D6qM3woE40/WsrYwHV/7SESR+cQDbDAMCP6akt8VOQFQH8r4GmZ
-         o187u2sGKqD16ja3C60i7UwC9aBf9A0aVzYPRpSEjFZE09wIHNZACeMqLpKs1BwiUI
-         uIxh+maPc2U0QQZx/WHDAgfqfDNXWEccR2eI5ZLU=
-X-Riseup-User-ID: B739F329B21ADAD34223616135E79A0AD14E909BB87821BDF443FC0F821EC23A
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by fews2.riseup.net (Postfix) with ESMTPSA id 4KnZ1q1mhzz202J;
-        Tue, 26 Apr 2022 00:55:42 -0700 (PDT)
-Date:   Tue, 26 Apr 2022 14:55:38 +0700
-From:   Danct12 <danct12@riseup.net>
-To:     kholk11@gmail.com
-Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org, rydberg@bitmath.org,
-        priv.luk@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, marijns95@gmail.com,
-        konradybcio@gmail.com, martin.botka1@gmail.com,
-        phone-devel@vger.kernel.org, devicetree@vger.kernel.org,
-        krzk@kernel.org, andy.shevchenko@gmail.com
-Subject: Re: [PATCH v9 0/3] Add Novatek NT36xxx touchscreen driver
-Message-Id: <20220426145538.e2af01d6d648b011a910f3a0@riseup.net>
-In-Reply-To: <20201028221302.66583-1-kholk11@gmail.com>
-References: <20201028221302.66583-1-kholk11@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 26 Apr 2022 09:56:38 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE6A615CEC6
+        for <linux-input@vger.kernel.org>; Tue, 26 Apr 2022 06:53:29 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id u3so25607962wrg.3
+        for <linux-input@vger.kernel.org>; Tue, 26 Apr 2022 06:53:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=NSPijaD+f/0zVFm+Yx4b1C0MDA0Gs9+IxO2aTwmm2dI=;
+        b=5sTu3reUZ/D7WVN5H8YcW9y6Y/Ke/a9s9ssXnYuXVl3+HJJLMSn76Sq9pGMUjZXNmG
+         FXkQZ692OnMwQdwxU5ROq2/KiIocmS/SOAiWtUn8/HhNl8y+lst/JLZky1DhheOp5iM4
+         68Sx6S1uNoljHsGtihJ509m2G25Z2c1nufEVMiDGuL0dAHkxC6C95HyPqvwywaAF7t8k
+         iI0OffFTm1qRTZhwPjkoIB+Fz3gJrk20veXfnZ137JCCc+pNSptpeTT0EHH05BAKP3WY
+         WQC/ZabeUhtJn9uMN73R+2Af7QWGFHXopGVnv5ctNDJT1P6n88ghPBU+bWyrl45oG1gX
+         zvdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=NSPijaD+f/0zVFm+Yx4b1C0MDA0Gs9+IxO2aTwmm2dI=;
+        b=QssZfOIojzIDBfXJEi5t6Qed+fU64XJoltAhSjCFBktgQ9ObHpE4CzMpU28lbA3jPg
+         Q2j7a5n/sisbEyjTMPrOb8HSuGZwnCGyyXA5/cY+5oHU0glJ6jhBlc5SpZjgbobygH7f
+         qL9gmNYbV4evZHuGHShdXvcMQ633cZGU2vVg7pJ4Mio3K1WDOFpMUKTkU9XIlilg3Ugb
+         pKw3HS/GCrNPZ/uxpsPHwIW/rEMmaR8TmW7TRox37GlBgNncHe7rhbWDW41+4hDiSswW
+         Tg2sRfKH23NDzWbg5RU/jE7Bswswwjzl4E/NfqpDOfbbtoK2OpNQPQSXu0HqZm0T5lAg
+         7wGQ==
+X-Gm-Message-State: AOAM530gYLXtIpARbbl22ZjgjVuhoH685XqRgdQgIPD/XOFzmNxhAvIL
+        vtYI8X5hq5rSV8CQtAJN7rw1eA==
+X-Google-Smtp-Source: ABdhPJw0lMnT3QLeM/7DxRZav6cl/N5O7FfTfXNSrQ2Cx1+4fJUzX917Psb/7srV8MG9taEy0pDw1g==
+X-Received: by 2002:a05:6000:1ace:b0:20a:ad7f:d616 with SMTP id i14-20020a0560001ace00b0020aad7fd616mr18465795wry.327.1650981208364;
+        Tue, 26 Apr 2022 06:53:28 -0700 (PDT)
+Received: from localhost.localdomain ([88.160.162.107])
+        by smtp.gmail.com with ESMTPSA id m35-20020a05600c3b2300b00393ebe201a6sm5504775wms.44.2022.04.26.06.53.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Apr 2022 06:53:27 -0700 (PDT)
+From:   Fabien Parent <fparent@baylibre.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Fabien Parent <fparent@baylibre.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/8] dt-bindings: input: mtk-pmic-keys: add MT6359 binding definition
+Date:   Tue, 26 Apr 2022 15:53:06 +0200
+Message-Id: <20220426135313.245466-2-fparent@baylibre.com>
+X-Mailer: git-send-email 2.36.0
+In-Reply-To: <20220426135313.245466-1-fparent@baylibre.com>
+References: <20220426135313.245466-1-fparent@baylibre.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Patch series tested, works fine on the Xiaomi Redmi Note 7 (SDM660, NT36672A IC)
+Add binding definition for the support of the MT6359 keyboard driver.
 
-To the whole patch series:
-Tested-by: Dang Huynh <danct12@riseup.net>
+Signed-off-by: Fabien Parent <fparent@baylibre.com>
+---
+v2: no changes
 
-On Wed, 28 Oct 2020 23:12:59 +0100
-kholk11@gmail.com wrote:
+ Documentation/devicetree/bindings/input/mtk-pmic-keys.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-> From: AngeloGioacchino Del Regno <kholk11@gmail.com>
-> 
-> This patch series adds support for the Novatek NT36xxx Series' In-Cell
-> touchscreen (integrated into the DriverIC).
-> 
-> This patch series has been tested against the following devices:
->  - Sony Xperia 10        (SDM630 Ganges Kirin)
->  - Sony Xperia 10 Plus   (SDM636 Ganges Mermaid)
-> 
-> Changes in v2:
-> - Fixed sparse warnings from lkp kernel test robot
-> 
-> Changes in v3 (as requested by Dmitry Torokhov):
-> - Using shorthand u16/u32 (sorry for the overlook!)
-> - Now using more input and touchscreen APIs
-> - Fixed useless workqueue involvements
-> - Removed useless locking
-> - Switched reads and writes to use regmap
-> - Moved header contents to nt36xxx.c
-> - Fixed reset gpio handling
-> - Other cleanups
-> - P.S.: Thanks, Dmitry!
-> 
-> Changes in v4:
-> - Fixed regmap read length for CRC_ERR_FLAG final check
-> - Fixed YAML binding, as requested by Krzysztof Kozlowski
-> 
-> Changes in v5:
-> - Replaced subsystem maintainer's name with .. mine,
->   usage of additionalProperties to unevaluatedProperties
->   and a typo fix for reset-gpios as per Rob Herring's review
-> - Changed compatible string as per Krzysztof K. request
-> - Renamed the novatek,nt36xxx.yaml file to just nt36xxx.yaml
->   in order to now reflect the driver name instead of the DT
->   compatible
-> - Fixed blank line at EOF
-> 
-> Changes in v6:
-> - Removed include of_gpio.h, added mod_devicetable.h and
->   gpio/consumer.h
-> - Added kerneldoc to relevant functions/enum
-> - Used traditional patterns for error checking where possible
-> - Documented calls to usleep/msleep
-> - Using be16_to_cpu / get_unaligned_be16 where possible
-> - Added helper for CRC error check on retrieved buffer
-> - Decreased indentation in the CRC reboot recovery function
-> - Removed instances of error code sum
-> - Dropped all likely/unlikely optimization as per request
-> - Removed redundant reset_gpio checks
-> - Dropped of_match_ptr and ifdefs for CONFIG_OF
-> 
-> Changes in v7:
-> - Fixed typo in nt36xxx.c
-> 
-> Changes in v8:
-> - Fixed typo reset-gpio -> reset-gpios in dt-bindings
-> 
-> Changes in v9:
-> - Includes are now sorted
-> - Used proposed sizeof variable instead of sizeof type
-> - Fixed a return value check for common pattern
-> - Added NULL check to devm_kasprintf call
-> - Returning ret on probe function to be consistent
-> 
-> AngeloGioacchino Del Regno (3):
->   dt-bindings: Add vendor prefix for Novatek Microelectronics Corp.
->   Input: Add Novatek NT36xxx touchscreen driver
->   dt-bindings: touchscreen: Add binding for Novatek NT36xxx series
->     driver
-> 
->  .../bindings/input/touchscreen/nt36xxx.yaml   |  59 ++
->  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
->  drivers/input/touchscreen/Kconfig             |  12 +
->  drivers/input/touchscreen/Makefile            |   1 +
->  drivers/input/touchscreen/nt36xxx.c           | 894 ++++++++++++++++++
->  drivers/input/touchscreen/nt36xxx.h           | 122 +++
->  6 files changed, 1090 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml
->  create mode 100644 drivers/input/touchscreen/nt36xxx.c
->  create mode 100644 drivers/input/touchscreen/nt36xxx.h
-> 
-> -- 
-> 2.28.0
-> 
+diff --git a/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt b/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
+index 9d00f2a8e13a..afe9062a4dc7 100644
+--- a/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
++++ b/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
+@@ -13,6 +13,7 @@ Required properties:
+ 	- "mediatek,mt6397-keys"
+ 	- "mediatek,mt6323-keys"
+ 	- "mediatek,mt6358-keys"
++	- "mediatek,mt6359-keys"
+ - linux,keycodes: See Documentation/devicetree/bindings/input/input.yaml
+ 
+ Optional Properties:
+-- 
+2.36.0
+
