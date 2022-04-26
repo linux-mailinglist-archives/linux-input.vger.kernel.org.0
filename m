@@ -2,188 +2,161 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C018050EEA7
-	for <lists+linux-input@lfdr.de>; Tue, 26 Apr 2022 04:22:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5C4750EEDA
+	for <lists+linux-input@lfdr.de>; Tue, 26 Apr 2022 04:40:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241129AbiDZCZL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 25 Apr 2022 22:25:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45626 "EHLO
+        id S229829AbiDZCnx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 Apr 2022 22:43:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229701AbiDZCZK (ORCPT
+        with ESMTP id S231448AbiDZCnw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Apr 2022 22:25:10 -0400
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB66E86E09;
-        Mon, 25 Apr 2022 19:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1650939723;
-        bh=rOas/IZ4nk8ZseOMrCeHITIudB+xnsliDrTtFFh9E84=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=xSi6gI23nT8tAQZ85B39xUrcB0nxfG6MDm7hyHB6N8b7bEIKgTD/ulrhLKuAmmkjP
-         3QYRR1p3MWsUj+9dnJsohNg7NXJMhOtZ6ErqRE3qX+Or1Lx2WRFRnuFAdD9CKgc1EQ
-         wVv25XAYGq/ciqUvVDMJ101Q5shuPYsv/yHaWhS4=
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 4ED901287A1F;
-        Mon, 25 Apr 2022 22:22:03 -0400 (EDT)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id gZEvPG-9iFTr; Mon, 25 Apr 2022 22:22:03 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1650939723;
-        bh=rOas/IZ4nk8ZseOMrCeHITIudB+xnsliDrTtFFh9E84=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=xSi6gI23nT8tAQZ85B39xUrcB0nxfG6MDm7hyHB6N8b7bEIKgTD/ulrhLKuAmmkjP
-         3QYRR1p3MWsUj+9dnJsohNg7NXJMhOtZ6ErqRE3qX+Or1Lx2WRFRnuFAdD9CKgc1EQ
-         wVv25XAYGq/ciqUvVDMJ101Q5shuPYsv/yHaWhS4=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4300:c551::c14])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 2741512810AB;
-        Mon, 25 Apr 2022 22:22:02 -0400 (EDT)
-Message-ID: <4b7a9126e3988f0f08245df398ffe1e0ec0b9558.camel@HansenPartnership.com>
-Subject: Re: Rust and Kernel Vendoring [Was Re: [PATCH v2 1/8] lib/printbuf:
- New data structure for heap-allocated strings]
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Kent Overstreet <kent.overstreet@gmail.com>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        hannes@cmpxchg.org, akpm@linux-foundation.org,
-        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-input@vger.kernel.org, roman.gushchin@linux.dev
-Date:   Mon, 25 Apr 2022 22:22:00 -0400
-In-Reply-To: <20220424203626.sdppoyvyrn4yeglp@moria.home.lan>
-References: <20220421234837.3629927-7-kent.overstreet@gmail.com>
-         <20220422042017.GA9946@lst.de> <YmI5yA1LrYrTg8pB@moria.home.lan>
-         <20220422052208.GA10745@lst.de> <YmI/v35IvxhOZpXJ@moria.home.lan>
-         <20220422113736.460058cc@gandalf.local.home>
-         <20220422193015.2rs2wvqwdlczreh3@moria.home.lan>
-         <1f3ce897240bf0f125ca3e5f6ded7c290118a8dc.camel@HansenPartnership.com>
-         <20220422211350.qn2brzkfwsulwbiq@moria.home.lan>
-         <afdda017cbd0dc0f41d673fe53d2a9c48fba9a6c.camel@HansenPartnership.com>
-         <20220424203626.sdppoyvyrn4yeglp@moria.home.lan>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        Mon, 25 Apr 2022 22:43:52 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2059.outbound.protection.outlook.com [40.107.237.59])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C4F626FA;
+        Mon, 25 Apr 2022 19:40:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DfYuIcPrERXi414LeDyunesIWlE9Q63o2Q80JRY5PLHSxVnn8JxsPuikRaifQanOPq14a2twONmM+kXb7+/gYnO/c3ZABphs59HYgwLTEY2tywTV35rT0dyWdaCFONgXChkqd58eJINQPEqMO57ROXLR5qz0A8INuDEQNfGRVWQ9UaESkS/DOz5AG+ajGc/KG/twlGQ7Ma3eqkkH6wwNR2AXwLw3rdZ/g6N0RRu09ZravaJD+svxLLLguiAJ0afuTOh5fKGXe3uKbxCKX93tnc2h543cUkAaNj/6oGYs9QGQ/iQZiOIFoR2QuoBez/GdlZ2T79wOJ8wELm43BQp1LQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/Io3DPK36WCdwFoG4U0r0CNaJfxB2tNOG+PYz0YnHeA=;
+ b=mETIN5TdIzZ/CbRaws1B8qv2h99LEx0H4aw81zsnlpMjqh5D6Vh2TiCPg+MhEe7avmHLSjPdfCoFKrx2vBBiV3S2KZ0xUPqARU5aS4qetF1++8YvWKNNBC985LzAPXK7yMlEI8KpY62FR8aUCkbHEbRcPRhUY/DLDOpNInRiEfkbRw4o8Ln9eUA9D8URBc7/i7gFOPeUxA4cGAdeaHRynFrnYS6Tqy1MmmCeo9ysBWrL/8IyaNm8hEAL+uAB7cfHq0oovuw8npRM6gL23/rhNWdVKDhWRiFJuR6+nrXDue8XY3Vr0eflWosiVq5UQDCn/6aYGC5CjmrTE302tuTxmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/Io3DPK36WCdwFoG4U0r0CNaJfxB2tNOG+PYz0YnHeA=;
+ b=LJ6SRUIWpkgYHhEPp1GndPQPlzhlKGzcTM19iH48WGHEF0XM0DcKsB54+YjLUth8nFapRYiyWsZZUEkDnN/nBmyAcJVctALxhIYmHSfE1ea6BcnRRCkxQ0gAPTEBaHpqWlQ8WRruXl9S02C+G11TOzXSxHSTq4i/VHbSyggnQRc=
+Received: from BN8PR05MB6611.namprd05.prod.outlook.com (2603:10b6:408:57::15)
+ by DM6PR05MB4027.namprd05.prod.outlook.com (2603:10b6:5:82::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.6; Tue, 26 Apr
+ 2022 02:40:39 +0000
+Received: from BN8PR05MB6611.namprd05.prod.outlook.com
+ ([fe80::2cee:3759:958:cf21]) by BN8PR05MB6611.namprd05.prod.outlook.com
+ ([fe80::2cee:3759:958:cf21%7]) with mapi id 15.20.5206.012; Tue, 26 Apr 2022
+ 02:40:39 +0000
+From:   Zack Rusin <zackr@vmware.com>
+To:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        Pv-drivers <Pv-drivers@vmware.com>,
+        "zhouzongmin@kylinos.cn" <zhouzongmin@kylinos.cn>,
+        Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>
+CC:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] input/vmmouse: Add vmmouse_reset() function to disable
+ vmmouse before entering suspend mode
+Thread-Topic: [PATCH] input/vmmouse: Add vmmouse_reset() function to disable
+ vmmouse before entering suspend mode
+Thread-Index: AQHYPZIhp4Xw4mjhjEmAZM3inmskm60BsuCA
+Date:   Tue, 26 Apr 2022 02:40:39 +0000
+Message-ID: <167fdac46012b58d3180b2ea73ee27e13d03473f.camel@vmware.com>
+References: <20220322021046.1087954-1-zhouzongmin@kylinos.cn>
+In-Reply-To: <20220322021046.1087954-1-zhouzongmin@kylinos.cn>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.40.4-1ubuntu2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c98a7525-3097-4a62-83e2-08da272e2688
+x-ms-traffictypediagnostic: DM6PR05MB4027:EE_
+x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
+x-microsoft-antispam-prvs: <DM6PR05MB402708E29B46CAA8B8231623CEFB9@DM6PR05MB4027.namprd05.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: +OZHo5IuqT878OPk4uZh/Xjg8lqRGiFr/D6Jt4oUpj2HTALYEx2NIzm5oF7r2didZ1mwDdOcreqgFGbliuZkg1LOKOiuv6ZjK+REqSvfVOTvLfJu8ZgfWBZFtLUyxXxl3V5dQS0K4dDOSC0LUxP7xdv2CpoG7N3P4LsacxSTajZTTg1m515wlkk0cwZQ12oroz1MwMp6lR9p0PRfLRIXwS9tP76tubE8YkT8TkTX57onKhPR+mBlEPYnXRz48JiUFPTMMktZfWkOBWjHjoYaUFs3ltXc7+J5ColC/ZNnSkHLEeQdSqKOIqs+V7Pso7l5sGa84/4PUU8+yy2IqgaxfImAxQuudQ0nApK9To7b61VyuH2cA354Vq5EWep8DM9t3LQIR7gv5qfPD1tsATwhSyavoLyYSNYb499AsYb+7U96peDg9fvwrRDQ7o7RRSW0w6ohcfhZXLGLm8mFpdIugMkcldu7xjFpqgOlkrZ+u3LB1qyG2Qsc6XoPPh6dZ7cMhbXTIlVNRO48kQmvVmdcvXH6cD59u/Dk8OYvo1dXgtqkOrQLYBuwLiQESVQdIKixZxdgG+WSnC4LD3DoQcT8zIwpCvn7OR3GCzKyoFNXEmtmb7LUhX8+cTUFGwJWz1i5KabOp3SxPQ4O5m7osIvORVJMUjCpVb/FAwAbGDG115Ox90qGHtwNTaocekEbfZI+hi+L96D1ekQwk7pxPS2SQg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR05MB6611.namprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(86362001)(26005)(6512007)(6506007)(83380400001)(54906003)(186003)(2616005)(8936002)(66556008)(66476007)(4326008)(64756008)(15650500001)(66446008)(8676002)(38070700005)(38100700002)(71200400001)(2906002)(5660300002)(66946007)(36756003)(122000001)(110136005)(6486002)(508600001)(76116006)(91956017)(316002)(6636002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WW1ZMFFNNnJQZjJacjQ1YU8vOU5zeVA2dVk5UGpCdGtnZ09WT0RjNmxzdHdE?=
+ =?utf-8?B?SmphQzd1ME9adXVuUVJEMlF6dXV6VG0rLzFETjRCdVFIa292NzN1RjdDNDJ2?=
+ =?utf-8?B?MlV0NW0vRzFoREhndmhqTFZwTXp3RjMxczJWMmVrWmx4b2Mrb3ZGTVFnZjVa?=
+ =?utf-8?B?RmJZb05hcVJPMEFGL3VreHc0UUZLQmVXSWdTanV4dEZ4Qk1zdnlPQ0hYRXJn?=
+ =?utf-8?B?Sm5kdzN3MUUzSUhoOW9yNmxaYkZmZi9TaGVUTXUwRWd1YzQ4RFR3TklTU3Bj?=
+ =?utf-8?B?UGFXMitVdUFvVFZTOVFMM3VjalQ4aU9UYy9mNXhKNzBlNnBEVHllbmg5L2Jh?=
+ =?utf-8?B?Z0tVQS80d0FzYkY0bGtoWXBqeC94dkJBS25BZktCSWZ6K09RZXFPZkppZjJX?=
+ =?utf-8?B?SlhiL3pvNm5SNVhpdmZ5N2tKZ3h2OXdTZm1lNmswZllTL2R0UEtoZERzVjFo?=
+ =?utf-8?B?SXhubzhkMnp3YWI1M1BVT0UvRVI5d0NwVi8zUTZTZXJrUGczekhVbnFib1h2?=
+ =?utf-8?B?Q0h6Wm5oejhhMStEN1ovODdVcEVsaUs1NmZHVFR6dDhTb1FOT29HM29WZ25P?=
+ =?utf-8?B?SSs3VVBkYlFXKzBrejZwNGtJQmhtZmQ2WGJ6ODBWMU5NN0dUU2N0RzlvQkpP?=
+ =?utf-8?B?dTdDV2NTSU5YeVpaMHpmN3VuNUxKamhrQ3creHlSTjZkSXBsRmcwU2I0ZHF6?=
+ =?utf-8?B?QllxUmUvYjRoc2RJejcxa0wrR0hJZ1JNWU5QcHloekIrOENjSTZ2MFV6QWpH?=
+ =?utf-8?B?bjFBVmpkQWxXRGJ5cXFpQXJYYmFETTVnU1FSWURpODJFQ0h3RTQ4MDJpd0tQ?=
+ =?utf-8?B?dmpMdjR1anNRNElQRVg2Y2hDV01DTWRwS0toK1haOFp2bjQzRWo2ZTRxWVNx?=
+ =?utf-8?B?Wi9ZNEFIMnlIeFJmK0lydXpoSkhKOWF2Q0NJRjNaYitBUFRWWGh6bTkyTmVs?=
+ =?utf-8?B?UkkwUjM1RUUxaDkwczA0bW0ySVFRZnc3c3ZNa1g2dXFtbFpoVHdGYWd1ZVdp?=
+ =?utf-8?B?Y3BCUElyWFdXcGpBd29tb1paMjJUc3JZeDhPMTZZT1ZFbFFpOTgwWEFuUTBh?=
+ =?utf-8?B?OTRobkhJQTVJVnpZbi92UGJPMmxoWE5mYnpKdG5tWStKcE5tSFpMU0hSN1NI?=
+ =?utf-8?B?N3lKL3dSNldEN2JzNmlVM29TTHdrQllxSmh0bzF2UVcvSW5iVDBaVWN6Vndm?=
+ =?utf-8?B?bEpCb0NFdVczTS9WRG9BRmdZd3d0STBrYTNKazFPV0dQWFJLcjRackN4bFBW?=
+ =?utf-8?B?T1E3S0xQYWhQT0VuazJVRUpMdnRWWlNOM3RZYzdHYzlidnFlUS9rSGxtTDZL?=
+ =?utf-8?B?cmRwdnc3RGtNTE0xU241bnFuTCtzT2JCWXp1amFGWHk1M3FlL3RTNFNUN21t?=
+ =?utf-8?B?TlQvdS9HZHhPbUlkOHZKeFlNSEVuZTQ5T0pYRkhIY0pvR2VaU0J0TWNZV010?=
+ =?utf-8?B?RERUMGlpbEVhdTRkZ0VpWDFUSk9OZytqYk9lR1F0OHVzeDdCTXE4RGE0UFU5?=
+ =?utf-8?B?a3ZPbEZGOFJXemdKZTdjeldsWUZZakxUZVBWQmxvSE1Tck12TGxyajhpMFd3?=
+ =?utf-8?B?OTVMZy9KbDk3RGFwdUhKT3Vuei9RSk1sRDZLcWxrdldGUS9HYy9GZFlRYmxQ?=
+ =?utf-8?B?TVRhOXJnOUo4Uk5lUXdOUzZ5SnczMEpNeEZBQ1lBM0k2YmI5R3dtVGtzTExP?=
+ =?utf-8?B?WUhTNFJLbjB1cmJIVWNDS3RZOVZqdEVTQlY4UzFZQldleUcvQlliTEx6dVd0?=
+ =?utf-8?B?UHN4czhLNEsrZDF3RStlV3ZrOERRelFpVjBlYWQ2VXRzejczaXJ4S2xVeFVx?=
+ =?utf-8?B?THpZeXA0VGM2MGxaZHlkTkNvY0doMGdZcnFZR3lGbUZlaXRraDhkdUJaZ3J0?=
+ =?utf-8?B?YWdBbFNPTGFiN2VZMW5xdEdkczc5ZjlQZ2E4Mlc3UXcwNGpjcWU5OVRjdElQ?=
+ =?utf-8?B?N3U4eXBqaC8zYXBnU24yZEsxRHRZaXhteXl2Q28rUHladkJkRmg5ZnlBSVVF?=
+ =?utf-8?B?VDlCRE9pMlAwcjZLWWM4ZkFYaWZJWnNDQjI2ZUxnVjFrVUF5c2hlVStjRDR0?=
+ =?utf-8?B?cmdGNDZ5Z1o4V3Jmc3BMNWI5THpLNXNESFJXMmJhcTYydzNuV0kvcEZtdnJ2?=
+ =?utf-8?B?ZzBrbnpyUDRlL2VZckc4SDhCditRRWlZeUtNUEZLcnNOTElReDJuYnJHdHVK?=
+ =?utf-8?B?ZmpRYXp0emdqamNQSW1DMm5oMG5rQ01PUEN4Z2hyNk54SHJ0eE9Ld3l4bGVW?=
+ =?utf-8?B?ajVVTWhzblAvdDI3NFdNRUhtTHBMbS92L0VLS214T21KWlVBMlVJM2JZelp0?=
+ =?utf-8?B?aC8reVBjTmlhVUlJK3BTNERHdE9FNGkyWm5LOENQZ1V5OG9kSEFGdz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6F1FEEA0BEF9E34B9684386C15305746@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR05MB6611.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c98a7525-3097-4a62-83e2-08da272e2688
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Apr 2022 02:40:39.4493
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Pb+vSgb6Nh+XTu9wpuXRdS2oaTrEovjtHOEx2Ooxn3ZmAqHc0jkz0Qc+LlZZtDANVFAEDmfZQgEehXFt/+4Dbw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR05MB4027
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 2022-04-24 at 16:36 -0400, Kent Overstreet wrote:
-> On Sat, Apr 23, 2022 at 10:16:37AM -0400, James Bottomley wrote:
-> > You stripped the nuance of that.  I said many no_std crates could
-> > be used in the kernel.  I also said that the async crate couldn't
-> > because the rust compiler itself would have to support the kernel
-> > threading model.
-> 
-> I just scanned through that thread and that's not what you said. What
-> you said was:
-> 
-> > The above is also the rust crate problem in miniature: the crates
-> > grow API features the kernel will never care about and importing
-> > them wholesale is going to take forever because of the internal
-> > kernel support issue.  In the end, to take rust async as an
-> > example, it will be much better to do for rust what we've done for
-> > zlib: take the core that can support the kernel threading model and
-> > reimplement that in the kernel crate.  The act of doing that will
-> > a) prove people care enough about the functionality and b) allow us
-> > to refine it nicely.
-> > 
-> > I also don't think rust would really want to import crates
-> > wholesale.  The reason for no_std is that rust is trying to adapt
-> > to embedded environments, which the somewhat harsh constraints of
-> > the kernel is very similar to.
-> 
-> But maybe your position has changed somewhat?
-
-I read those two as saying the same thing just with differing levels of
-detail.
-
->  It sounds like you've been arguing against just directly depending
-> on foreign reposotories and for the staus quo of just ad-hoc copying
-> of code.
-
-I don't think I've said anything generalised about that either way. 
-However, I have noted that most of the external repositories I've
-looked at can't (or shouldn't) be imported directly.  Perhaps if we
-could find one that could be pulled in directly, we could use that to
-drive a discussion of how.
-
-> I'll help by stating my own position: I think we should be coming up
-> with a process for how dependencies on other git repositories are
-> going to work, something better than just cut and paste. Whether or
-> not we vendorize code isn't really that important, but I'd say that
-> if we are vendorizing code and we're notincluding entire sub-
-> repositories (like cargo vendor does) we ought to still make this a
-> scripted process that takes as an input a list of files we're
-> pulling and a remote repository we're pulling from, and the file list
-> and the remote repo (and commit ID we're pulling from) should all be
-> checked in.
-
-Do we have an example of an external piece of code we could do this to?
-
-[...]
-> > > The kernel community has a lot of that going on here. Again,
-> > > sorry to pick on you James, but I wanted to make the argument
-> > > that - maybe the kernel _should_ be adopting a more structured
-> > > way of using code from outside repositories, like cargo, or git
-> > > submodules (except I've never had a positive experience with git
-> > > submodules, so ignore that suggestion, unless I've just been
-> > > using them wrong, in which case someone please teach me). To read
-> > > you and Greg saying "nah, just copy code from other repos, it's
-> > > fine" - it felt like being back in the old days when we were
-> > > still trying to get people to use source control, and having that
-> > > one older colleague who _insisted_ on not using source control of
-> > > any kind, and that's a bit disheartening.
-> > 
-> > Even in C terms, the kernel is a nostdlib environment.  If a C
-> > project has too much libc dependency it's not going to work
-> > directly in the kernel, nor should it.  Let's look at zstd (which
-> > is pretty much a nostdlib project) as a great example: the facebook
-> > people didn't actually port the top of their tree (1.5) to the
-> > kernel, they backported bug fixes to the 1.4 branch and made a
-> > special release (1.4.10) just for us.  Why did they do this?  It
-> > was because the 1.5 version vastly increased stack use to the
-> > extent it would run off the end of the limited kernel stack so
-> > couldn't be ported directly into the kernel.  A lot of C libraries
-> > that are nostdlib have problems like this as well (you can use
-> > recursion, but not in the kernel).  There's no easy way of shimming
-> > environmental constraints like this.
-> 
-> I wonder if we might have come up with a better solution if there'd
-> been more cross-project communication and less siloing. Small stacks
-> aren't particular to the kernel - it's definitely not unheard of to
-> write userspace code where you want to have a lot of small stacks
-> (especially if you're doing some kind of coroutine style threading;
-> I've done stuff like this in the past)
-
-But would you say that every piece of userspace code should reject
-recursion and write for small stacks just in case it needs to be reused
-in a more extreme environment?
-
-I don't; I think it's fine there are loads of implementations that
-would never work in our environment, because mostly there's no reason
-to use them in the kernel (or another embedded environment).  I also
-understand why people build for the standard userspace environment
-first ... it reduces complexity and makes the construction way easier. 
-
->  - and to me, as someone who's been incrementing on and maintaining a
-> codebase in active use for 10 years, having multiple older versions
-> in active use that need bugfixes gives me cold shivers.
-> 
-> I wouldn't be surprised if at some point the zstd people walk back
-> some of their changes or make it configurable at some point :)
-
-Many things can happen in the future, but right at the moment I still
-think zstd is working fine for both parties.
-
-James
-
-
+T24gVHVlLCAyMDIyLTAzLTIyIGF0IDEwOjEwICswODAwLCBab25nbWluIFpob3Ugd3JvdGU6DQo+
+IOKaoCBFeHRlcm5hbCBFbWFpbDogVGhpcyBlbWFpbCBvcmlnaW5hdGVkIGZyb20gb3V0c2lkZSBv
+ZiB0aGUNCj4gb3JnYW5pemF0aW9uLiBEbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2ht
+ZW50cyB1bmxlc3MgeW91DQo+IHJlY29nbml6ZSB0aGUgc2VuZGVyLg0KPiANCj4gRGV0YWlsczoN
+Cj4gV2hlbiBJIHVzZSBWaXJ0dWFsUFMvMiBWTU1vdXNlIG9uIHZpcnR1YWwgbWFjaGluZSxUaGVy
+ZSB3aWxsIGJlIGFuDQo+IGVycm9yIG1lc3NhZ2UgYWZ0ZXIgcmVzdW1lIGZyb20gc3VzcGVuZCBt
+b2RlLg0KPiBsaWtlIGJlbG93Og0KPiBwc21vdXNlIHNlcmlvMTogdm1tb3VzZTogVW5hYmxlIHRv
+IHJlLWVuYWJsZSBtb3VzZSB3aGVuIHJlY29ubmVjdGluZywNCj4gZXJyOiAtNg0KPiBBbmQgdm1t
+b3VzZSB3aWxsIGJlIHVudXNhYmxl77yMc28gaGF2ZSB0byBkbyBmdWxsIHJlc2NhbiB0byBmaW5k
+IGENCj4gYW5vdGhlciBkcml2ZXIgdG8gdXNlIGZvciB0aGUgcG9ydC4NCj4gDQo+IFRoaXMgZXJy
+b3IgaXMgZHVlIHRvIFFFTVUgc3RpbGwgZ2VuZXJhdGUgUFMyIGV2ZW50cyB0byBub3RpZnkga2Vy
+bmVsDQo+IGRyaXZlciB0byByZWFkIGZyb20gcXVldWUsDQo+IGJ1dCBrZXJuZWwgY2FuJ3QgcHJv
+Y2VzcyB0aGUgZGF0YSBpbiBzdXNwZW5kIG1vZGUsIHJlc3VsdGluZyBhIHN1cmdlDQo+IG9mIHMt
+Pm5iX3F1ZXVlIHZhbHVlLA0KPiB3aGljaCB1bHRpbWF0ZWx5IGxlZCB0byBhbiBlcnJvciBnZXR0
+aW5nIFZNTU9VU0VfVkVSU0lPTl9JRCBhZnRlcg0KPiByZXN1bWUuDQo+IA0KPiBUZXN0IHNjZW5h
+cmlvOg0KPiAxKXZpcnR1YWwgbWFjaGluZSBzdGFydGVkIHdpdGggcWVtdSBjb21tYW5kICJ2bXBv
+cnQ9b24iLGl0IHdpbGwgdXNlDQo+IFZpcnR1YWxQUy8yIFZNTW91c2UNCj4gMiljbGljayBzdXNw
+ZW5kIGJvdHRvbiB0byBlbnRlciBzdXNwZW5kIG1vZGUNCj4gMylyZXN1bWUgYW5kIHdpbGwgZ2V0
+IHRoZSBlcnJvciBtZXNzYWdlIGZyb20gZG1lc2cNCj4gDQo+IEZpeGVkIGJ5Og0KPiBEaXNhYmxp
+bmcgdGhlIHZtbW91c2UgaW4gaXRzIHJlc2V0IGhhbmRsZXIsSXQgd2lsbCBub3RpZnkgcWVtdSB0
+bw0KPiBzdG9wIHZtbW91c2UgYW5kIHJlbW92ZSBoYW5kbGVyLg0KDQpUaGFuayB5b3UgZm9yIHRo
+ZSBjbGFyaWZpY2F0aW9uLiBMb29rcyBnb29kLg0KDQpSZXZpZXdlZC1ieTogWmFjayBSdXNpbiA8
+emFja3JAdm13YXJlLmNvbT4NCg0K
