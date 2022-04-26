@@ -2,98 +2,178 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0372350FFAC
-	for <lists+linux-input@lfdr.de>; Tue, 26 Apr 2022 15:54:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87BF450FFA1
+	for <lists+linux-input@lfdr.de>; Tue, 26 Apr 2022 15:54:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351206AbiDZN4p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Apr 2022 09:56:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43274 "EHLO
+        id S1351214AbiDZN4s (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Apr 2022 09:56:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351199AbiDZN4i (ORCPT
+        with ESMTP id S1351211AbiDZN4q (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Apr 2022 09:56:38 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE6A615CEC6
-        for <linux-input@vger.kernel.org>; Tue, 26 Apr 2022 06:53:29 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id u3so25607962wrg.3
-        for <linux-input@vger.kernel.org>; Tue, 26 Apr 2022 06:53:29 -0700 (PDT)
+        Tue, 26 Apr 2022 09:56:46 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C6AA15DD42
+        for <linux-input@vger.kernel.org>; Tue, 26 Apr 2022 06:53:34 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id w4so25535485wrg.12
+        for <linux-input@vger.kernel.org>; Tue, 26 Apr 2022 06:53:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=NSPijaD+f/0zVFm+Yx4b1C0MDA0Gs9+IxO2aTwmm2dI=;
-        b=5sTu3reUZ/D7WVN5H8YcW9y6Y/Ke/a9s9ssXnYuXVl3+HJJLMSn76Sq9pGMUjZXNmG
-         FXkQZ692OnMwQdwxU5ROq2/KiIocmS/SOAiWtUn8/HhNl8y+lst/JLZky1DhheOp5iM4
-         68Sx6S1uNoljHsGtihJ509m2G25Z2c1nufEVMiDGuL0dAHkxC6C95HyPqvwywaAF7t8k
-         iI0OffFTm1qRTZhwPjkoIB+Fz3gJrk20veXfnZ137JCCc+pNSptpeTT0EHH05BAKP3WY
-         WQC/ZabeUhtJn9uMN73R+2Af7QWGFHXopGVnv5ctNDJT1P6n88ghPBU+bWyrl45oG1gX
-         zvdA==
+        bh=+gbDSzBgFUstx3vAtmhMB1WWymTnfkPpJ2BBVAe7qM8=;
+        b=rKgrTIQRTjHY+QtRVm3uhXuRFy9GFwVJ+lzbD98t1fgh6Poc221of/XAj8KerkZ42P
+         C+ZpiNzei59SNOB+AUmWV1elGYyJXlD6pwT3ljgBTCzetjBTv1c59yHXNpqqge4WmlQk
+         wwFEZYUhg2JR/SuOq9ZImZumt/sgw1EifvF+gqLEkzjxoMYwF+iK4EQZHUBqyjqAFPvX
+         G5cKhophLSD4/4JyT/A59hgiD+wBF5X6tnmj6VrHc0x8DHoqfYPvvyPCkc/QmPE4xAiK
+         GeX3jgVTSWIiM0DauIDMHuhIMOU6Hm0djgvd/jX4ajMRk+EkVGdcOp2W9TNeRNLUTY2T
+         pnlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NSPijaD+f/0zVFm+Yx4b1C0MDA0Gs9+IxO2aTwmm2dI=;
-        b=QssZfOIojzIDBfXJEi5t6Qed+fU64XJoltAhSjCFBktgQ9ObHpE4CzMpU28lbA3jPg
-         Q2j7a5n/sisbEyjTMPrOb8HSuGZwnCGyyXA5/cY+5oHU0glJ6jhBlc5SpZjgbobygH7f
-         qL9gmNYbV4evZHuGHShdXvcMQ633cZGU2vVg7pJ4Mio3K1WDOFpMUKTkU9XIlilg3Ugb
-         pKw3HS/GCrNPZ/uxpsPHwIW/rEMmaR8TmW7TRox37GlBgNncHe7rhbWDW41+4hDiSswW
-         Tg2sRfKH23NDzWbg5RU/jE7Bswswwjzl4E/NfqpDOfbbtoK2OpNQPQSXu0HqZm0T5lAg
-         7wGQ==
-X-Gm-Message-State: AOAM530gYLXtIpARbbl22ZjgjVuhoH685XqRgdQgIPD/XOFzmNxhAvIL
-        vtYI8X5hq5rSV8CQtAJN7rw1eA==
-X-Google-Smtp-Source: ABdhPJw0lMnT3QLeM/7DxRZav6cl/N5O7FfTfXNSrQ2Cx1+4fJUzX917Psb/7srV8MG9taEy0pDw1g==
-X-Received: by 2002:a05:6000:1ace:b0:20a:ad7f:d616 with SMTP id i14-20020a0560001ace00b0020aad7fd616mr18465795wry.327.1650981208364;
-        Tue, 26 Apr 2022 06:53:28 -0700 (PDT)
+        bh=+gbDSzBgFUstx3vAtmhMB1WWymTnfkPpJ2BBVAe7qM8=;
+        b=W7Hxde+wxy7Uo4zjl6gKbTWb8Lcz7Z5ZfU6XQGAG2eAJpuDPBYZGKdDFGeQS0PBZph
+         ZwLaFFB4PsXCsWXwNUSux6I+swhNcvyxmv8X9e0/Iie83eCESucEDFZ76z0T33wFq4k9
+         ygCutL+If2pW2aF5gcKnjh2q2I7qMVgYfGHdia6LCA5v2Z35CDqyhguIP4rbUg7zRynv
+         46vERS/TX9HFeeXL+gs0S0y7HSX5XfXR4diKwyER7yyXWoTD4izr2p209K+SEi0ry4p8
+         afV/Fmcxxw7WX7yoZWOtEs2yzusDzMyK8Jyr5rfnoXfLLTrG7zwa2Xj9QYc0K+5VTdLP
+         Tm0w==
+X-Gm-Message-State: AOAM530+31zKREQCqXK+LDbJVQc5NaI/Szeiccgg5h3dV4qcjtlNDhlX
+        lyrf7JUfAyffxcXt7Rpo1i9oYA==
+X-Google-Smtp-Source: ABdhPJzGergTCkU6GvmqVNI+eV3Y2g5B9Ab+BVFa+qIK916IBxpfV6Rc8j9IOJ8+9NUGUw3fktwZMg==
+X-Received: by 2002:a05:6000:1789:b0:20a:9fbc:b1b5 with SMTP id e9-20020a056000178900b0020a9fbcb1b5mr18208596wrg.581.1650981212914;
+        Tue, 26 Apr 2022 06:53:32 -0700 (PDT)
 Received: from localhost.localdomain ([88.160.162.107])
-        by smtp.gmail.com with ESMTPSA id m35-20020a05600c3b2300b00393ebe201a6sm5504775wms.44.2022.04.26.06.53.27
+        by smtp.gmail.com with ESMTPSA id m35-20020a05600c3b2300b00393ebe201a6sm5504775wms.44.2022.04.26.06.53.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Apr 2022 06:53:27 -0700 (PDT)
+        Tue, 26 Apr 2022 06:53:32 -0700 (PDT)
 From:   Fabien Parent <fparent@baylibre.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     Fabien Parent <fparent@baylibre.com>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+Cc:     Fabien Parent <fparent@baylibre.com>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/8] dt-bindings: input: mtk-pmic-keys: add MT6359 binding definition
-Date:   Tue, 26 Apr 2022 15:53:06 +0200
-Message-Id: <20220426135313.245466-2-fparent@baylibre.com>
+Subject: [PATCH v2 4/8] Input: mtk-pmic-keys: rename platform data struct
+Date:   Tue, 26 Apr 2022 15:53:09 +0200
+Message-Id: <20220426135313.245466-5-fparent@baylibre.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220426135313.245466-1-fparent@baylibre.com>
 References: <20220426135313.245466-1-fparent@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add binding definition for the support of the MT6359 keyboard driver.
+Rename the struct that is given to the .data field of the of_device_id
+entries to reflect that this structure will not only contain register
+definitions but also other platform data.
 
 Signed-off-by: Fabien Parent <fparent@baylibre.com>
+Tested-by: Mattijs Korpershoek <mkorpershoek@baylibre.com> # on mt8183-pumpkin
 ---
 v2: no changes
 
- Documentation/devicetree/bindings/input/mtk-pmic-keys.txt | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/input/keyboard/mtk-pmic-keys.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt b/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
-index 9d00f2a8e13a..afe9062a4dc7 100644
---- a/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
-+++ b/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
-@@ -13,6 +13,7 @@ Required properties:
- 	- "mediatek,mt6397-keys"
- 	- "mediatek,mt6323-keys"
- 	- "mediatek,mt6358-keys"
-+	- "mediatek,mt6359-keys"
- - linux,keycodes: See Documentation/devicetree/bindings/input/input.yaml
+diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
+index c31ab4368388..a0da644fe93d 100644
+--- a/drivers/input/keyboard/mtk-pmic-keys.c
++++ b/drivers/input/keyboard/mtk-pmic-keys.c
+@@ -50,12 +50,12 @@ struct mtk_pmic_keys_regs {
+ 	.intsel_mask		= _intsel_mask,		\
+ }
  
- Optional Properties:
+-struct mtk_pmic_regs {
++struct mtk_pmic_keys_pdata {
+ 	const struct mtk_pmic_keys_regs keys_regs[MTK_PMIC_MAX_KEY_COUNT];
+ 	u32 pmic_rst_reg;
+ };
+ 
+-static const struct mtk_pmic_regs mt6397_regs = {
++static const struct mtk_pmic_keys_pdata mt6397_pdata = {
+ 	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
+ 		MTK_PMIC_KEYS_REGS(MT6397_CHRSTATUS,
+ 		0x8, MT6397_INT_RSV, 0x10),
+@@ -65,7 +65,7 @@ static const struct mtk_pmic_regs mt6397_regs = {
+ 	.pmic_rst_reg = MT6397_TOP_RST_MISC,
+ };
+ 
+-static const struct mtk_pmic_regs mt6323_regs = {
++static const struct mtk_pmic_keys_pdata mt6323_pdata = {
+ 	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
+ 		MTK_PMIC_KEYS_REGS(MT6323_CHRSTATUS,
+ 		0x2, MT6323_INT_MISC_CON, 0x10),
+@@ -75,7 +75,7 @@ static const struct mtk_pmic_regs mt6323_regs = {
+ 	.pmic_rst_reg = MT6323_TOP_RST_MISC,
+ };
+ 
+-static const struct mtk_pmic_regs mt6358_regs = {
++static const struct mtk_pmic_keys_pdata mt6358_pdata = {
+ 	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
+ 		MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
+ 				   0x2, MT6358_PSC_TOP_INT_CON0, 0x5),
+@@ -255,13 +255,13 @@ static SIMPLE_DEV_PM_OPS(mtk_pmic_keys_pm_ops, mtk_pmic_keys_suspend,
+ static const struct of_device_id of_mtk_pmic_keys_match_tbl[] = {
+ 	{
+ 		.compatible = "mediatek,mt6397-keys",
+-		.data = &mt6397_regs,
++		.data = &mt6397_pdata,
+ 	}, {
+ 		.compatible = "mediatek,mt6323-keys",
+-		.data = &mt6323_regs,
++		.data = &mt6323_pdata,
+ 	}, {
+ 		.compatible = "mediatek,mt6358-keys",
+-		.data = &mt6358_regs,
++		.data = &mt6358_pdata,
+ 	}, {
+ 		/* sentinel */
+ 	}
+@@ -277,7 +277,7 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+ 	static const char *const irqnames[] = { "powerkey", "homekey" };
+ 	static const char *const irqnames_r[] = { "powerkey_r", "homekey_r" };
+ 	struct mtk_pmic_keys *keys;
+-	const struct mtk_pmic_regs *mtk_pmic_regs;
++	const struct mtk_pmic_keys_pdata *mtk_pmic_keys_pdata;
+ 	struct input_dev *input_dev;
+ 	const struct of_device_id *of_id =
+ 		of_match_device(of_mtk_pmic_keys_match_tbl, &pdev->dev);
+@@ -288,7 +288,7 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+ 
+ 	keys->dev = &pdev->dev;
+ 	keys->regmap = pmic_chip->regmap;
+-	mtk_pmic_regs = of_id->data;
++	mtk_pmic_keys_pdata = of_id->data;
+ 
+ 	keys->input_dev = input_dev = devm_input_allocate_device(keys->dev);
+ 	if (!input_dev) {
+@@ -310,7 +310,7 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	for_each_child_of_node(node, child) {
+-		keys->keys[index].regs = &mtk_pmic_regs->keys_regs[index];
++		keys->keys[index].regs = &mtk_pmic_keys_pdata->keys_regs[index];
+ 
+ 		keys->keys[index].irq =
+ 			platform_get_irq_byname(pdev, irqnames[index]);
+@@ -358,7 +358,7 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+ 		return error;
+ 	}
+ 
+-	mtk_pmic_keys_lp_reset_setup(keys, mtk_pmic_regs->pmic_rst_reg);
++	mtk_pmic_keys_lp_reset_setup(keys, mtk_pmic_keys_pdata->pmic_rst_reg);
+ 
+ 	platform_set_drvdata(pdev, keys);
+ 
 -- 
 2.36.0
 
