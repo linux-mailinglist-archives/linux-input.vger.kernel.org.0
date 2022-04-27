@@ -2,61 +2,136 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AADD751128E
-	for <lists+linux-input@lfdr.de>; Wed, 27 Apr 2022 09:32:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F25B3511601
+	for <lists+linux-input@lfdr.de>; Wed, 27 Apr 2022 13:33:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350995AbiD0HfQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Apr 2022 03:35:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59900 "EHLO
+        id S232647AbiD0L3O (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Apr 2022 07:29:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242894AbiD0HfQ (ORCPT
+        with ESMTP id S232770AbiD0L3E (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Apr 2022 03:35:16 -0400
-Received: from mail.fixingbiz.pl (mail.fixingbiz.pl [217.61.22.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF68C81486
-        for <linux-input@vger.kernel.org>; Wed, 27 Apr 2022 00:32:05 -0700 (PDT)
-Received: by mail.fixingbiz.pl (Postfix, from userid 1001)
-        id 0868DA566D; Wed, 27 Apr 2022 08:28:55 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fixingbiz.pl; s=mail;
-        t=1651044667; bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
-        h=Date:From:To:Subject:From;
-        b=A7pRWmOfj7NX7GsD1nifRG3KIzdYVayehLJZWBuMj9cnqoHj+FmO76bOJKDsMGD+O
-         VYfPmqOCorZV34D6Oe4b8p+EKYkjGguDmWKnjThv5RdHHPogPTw0dBz95QdB0xcvhZ
-         ZSRjZ1YexiN1oVAnA6UH1ErWrPdJ2atwP/AWUVqrV92/5A8vPiXYYJ42OSWwAPjsUG
-         olpPYSbAISthX65IkoN1Wt2QHYNGKHxr2fw5b0UhaAvcPytoLkQsZ1rjFQKs/X4Pwq
-         eWAL3I+2Hi4pn0p7czsxcdV+Cl7X7ggSElP3cycZhSfaEeHmLZY2PLrznDM88vdGl3
-         tWUQMgZ89KdxQ==
-Received: by mail.fixingbiz.pl for <linux-input@vger.kernel.org>; Wed, 27 Apr 2022 07:28:09 GMT
-Message-ID: <20220427073002-0.1.22.aj3y.0.ey4lpig2i9@fixingbiz.pl>
-Date:   Wed, 27 Apr 2022 07:28:09 GMT
-From:   =?UTF-8?Q? "Przemys=C5=82aw_Wr=C3=B3blewski" ?= 
-        <przemyslaw.wroblewski@fixingbiz.pl>
-To:     <linux-input@vger.kernel.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.fixingbiz.pl
+        Wed, 27 Apr 2022 07:29:04 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DDFD9340F2;
+        Wed, 27 Apr 2022 04:25:53 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD0691474;
+        Wed, 27 Apr 2022 04:25:53 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6EE603F5A1;
+        Wed, 27 Apr 2022 04:25:52 -0700 (PDT)
+From:   Andre Przywara <andre.przywara@arm.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Liviu Dudau <liviu.dudau@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH 05/11] dt-bindings: serio: add Arm PL050 DT schema
+Date:   Wed, 27 Apr 2022 12:25:22 +0100
+Message-Id: <20220427112528.4097815-6-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220427112528.4097815-1-andre.przywara@arm.com>
+References: <20220427112528.4097815-1-andre.przywara@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dzie=C5=84 dobry,
+The Arm PL050 "Keyboard/Mouse Interface" is an Arm system IP providing a
+PS/2 compatible serial interface.
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+Add a simple DT schema binding, based on the TRM[1], the existing DTs and
+the Linux driver.
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+[1] https://developer.arm.com/documentation/ddi0143/latest
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ .../devicetree/bindings/serio/amba-pl050.yaml | 67 +++++++++++++++++++
+ 1 file changed, 67 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/serio/amba-pl050.yaml
 
+diff --git a/Documentation/devicetree/bindings/serio/amba-pl050.yaml b/Documentation/devicetree/bindings/serio/amba-pl050.yaml
+new file mode 100644
+index 0000000000000..9732a84550098
+--- /dev/null
++++ b/Documentation/devicetree/bindings/serio/amba-pl050.yaml
+@@ -0,0 +1,67 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/serio/amba-pl050.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Arm Ltd. PrimeCell PL050 PS/2 Keyboard/Mouse Interface
++
++maintainers:
++  - Andre Przywara <andre.przywara@arm.com>
++
++description:
++  The Arm PrimeCell PS2 Keyboard/Mouse Interface (KMI) is an AMBA compliant
++  peripheral that can be used to implement a keyboard or mouse interface that
++  is IBM PS2 or AT compatible.
++
++# We need a select here so we don't match all nodes with 'arm,primecell'
++select:
++  properties:
++    compatible:
++      contains:
++        const: arm,pl050
++  required:
++    - compatible
++
++properties:
++  compatible:
++    items:
++      - const: arm,pl050
++      - const: arm,primecell
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: KMI reference clock, used to generate the bus timing
++      - description: APB register access clock
++
++  clock-names:
++    items:
++      - const: KMIREFCLK
++      - const: apb_pclk
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++    kmi@70000 {
++            compatible = "arm,pl050", "arm,primecell";
++            reg = <0x070000 0x1000>;
++            interrupts = <8>;
++            clocks = <&mb_clk24mhz>, <&soc_smc50mhz>;
++            clock-names = "KMIREFCLK", "apb_pclk";
++    };
++
++...
+-- 
+2.25.1
 
-Pozdrawiam,
-Przemys=C5=82aw Wr=C3=B3blewski
