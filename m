@@ -2,73 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D66AE510D69
-	for <lists+linux-input@lfdr.de>; Wed, 27 Apr 2022 02:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AADD751128E
+	for <lists+linux-input@lfdr.de>; Wed, 27 Apr 2022 09:32:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356493AbiD0Aw0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Apr 2022 20:52:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40546 "EHLO
+        id S1350995AbiD0HfQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Apr 2022 03:35:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347338AbiD0AwU (ORCPT
+        with ESMTP id S242894AbiD0HfQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Apr 2022 20:52:20 -0400
-Received: from out30-44.freemail.mail.aliyun.com (out30-44.freemail.mail.aliyun.com [115.124.30.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C23FA5F8CE;
-        Tue, 26 Apr 2022 17:49:10 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R511e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0VBPajTW_1651020547;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VBPajTW_1651020547)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 27 Apr 2022 08:49:08 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yang Li <yang.lee@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] Input: Remove unnecessary print function dev_err()
-Date:   Wed, 27 Apr 2022 08:49:06 +0800
-Message-Id: <20220427004906.129893-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+        Wed, 27 Apr 2022 03:35:16 -0400
+Received: from mail.fixingbiz.pl (mail.fixingbiz.pl [217.61.22.139])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF68C81486
+        for <linux-input@vger.kernel.org>; Wed, 27 Apr 2022 00:32:05 -0700 (PDT)
+Received: by mail.fixingbiz.pl (Postfix, from userid 1001)
+        id 0868DA566D; Wed, 27 Apr 2022 08:28:55 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fixingbiz.pl; s=mail;
+        t=1651044667; bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
+        h=Date:From:To:Subject:From;
+        b=A7pRWmOfj7NX7GsD1nifRG3KIzdYVayehLJZWBuMj9cnqoHj+FmO76bOJKDsMGD+O
+         VYfPmqOCorZV34D6Oe4b8p+EKYkjGguDmWKnjThv5RdHHPogPTw0dBz95QdB0xcvhZ
+         ZSRjZ1YexiN1oVAnA6UH1ErWrPdJ2atwP/AWUVqrV92/5A8vPiXYYJ42OSWwAPjsUG
+         olpPYSbAISthX65IkoN1Wt2QHYNGKHxr2fw5b0UhaAvcPytoLkQsZ1rjFQKs/X4Pwq
+         eWAL3I+2Hi4pn0p7czsxcdV+Cl7X7ggSElP3cycZhSfaEeHmLZY2PLrznDM88vdGl3
+         tWUQMgZ89KdxQ==
+Received: by mail.fixingbiz.pl for <linux-input@vger.kernel.org>; Wed, 27 Apr 2022 07:28:09 GMT
+Message-ID: <20220427073002-0.1.22.aj3y.0.ey4lpig2i9@fixingbiz.pl>
+Date:   Wed, 27 Apr 2022 07:28:09 GMT
+From:   =?UTF-8?Q? "Przemys=C5=82aw_Wr=C3=B3blewski" ?= 
+        <przemyslaw.wroblewski@fixingbiz.pl>
+To:     <linux-input@vger.kernel.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.fixingbiz.pl
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The print function dev_err() is redundant because
-platform_get_irq() already prints an error.
+Dzie=C5=84 dobry,
 
-Eliminate the follow coccicheck warning:
-./drivers/input/joystick/sensehat-joystick.c:102:2-9: line 102 is
-redundant because platform_get_irq() already prints an error
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/input/joystick/sensehat-joystick.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
 
-diff --git a/drivers/input/joystick/sensehat-joystick.c b/drivers/input/joystick/sensehat-joystick.c
-index 5ad1fe4ff496..a84df39d3b2f 100644
---- a/drivers/input/joystick/sensehat-joystick.c
-+++ b/drivers/input/joystick/sensehat-joystick.c
-@@ -98,10 +98,8 @@ static int sensehat_joystick_probe(struct platform_device *pdev)
- 	}
- 
- 	irq = platform_get_irq(pdev, 0);
--	if (irq < 0) {
--		dev_err(&pdev->dev, "Could not retrieve interrupt request");
-+	if (irq < 0)
- 		return irq;
--	}
- 
- 	error = devm_request_threaded_irq(&pdev->dev, irq,
- 					  NULL, sensehat_joystick_report,
--- 
-2.20.1.7.g153144c
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
 
+
+Pozdrawiam,
+Przemys=C5=82aw Wr=C3=B3blewski
