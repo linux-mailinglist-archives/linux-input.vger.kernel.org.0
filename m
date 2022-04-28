@@ -2,331 +2,161 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDFA451257A
-	for <lists+linux-input@lfdr.de>; Thu, 28 Apr 2022 00:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84BF3512A4C
+	for <lists+linux-input@lfdr.de>; Thu, 28 Apr 2022 06:06:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234902AbiD0WtY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Apr 2022 18:49:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48428 "EHLO
+        id S230354AbiD1EJV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Apr 2022 00:09:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236689AbiD0WtX (ORCPT
+        with ESMTP id S242351AbiD1EJU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Apr 2022 18:49:23 -0400
-Received: from endrift.com (endrift.com [173.255.198.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF18A3135A
-        for <linux-input@vger.kernel.org>; Wed, 27 Apr 2022 15:46:10 -0700 (PDT)
-Received: from localhost.localdomain (unknown [50.106.20.54])
-        by endrift.com (Postfix) with ESMTPSA id BF4C6A302;
-        Wed, 27 Apr 2022 15:46:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=endrift.com; s=2020;
-        t=1651099570; bh=ImZAmCXXztV7HcGmpYwrljAL1R5jTQeW8QMrlzqz3x0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bFr+6Toe2ioXRT4Yy6HHQwf+UeLy0SrMZjCG7A4W+NYeXt1wc8YDn0WeHJI2P6AM3
-         O/CnGN2L9czJ4iw7JGAKi5ulMyrsUvg1IAA7qAsWmYuf4wjMcO3PFjxueWWyMbhp/G
-         SjEX4+UjERfZhv7P+XATQ5FGUrend7drl3URLVlvjCZP7N8lN0s4J6GyJS8MnctPnM
-         J0/F55LWOZcbauY9RS2p+l7WlNsxkb4r4fl2uwRFJV9Ymx8GZyDiIdmOPqNneJIlsY
-         bnfP0yu3ICeO7oe8gNHATSbt69wjt8GGHluzaVsoLlWtNOoZoHaS2y79Ch5c1hnuzz
-         1Bk5yMAAfVFYQ==
-From:   Vicki Pfau <vi@endrift.com>
-To:     linux-input@vger.kernel.org
-Cc:     Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Vicki Pfau <vi@endrift.com>
-Subject: [PATCH 6/6] HID: hid-sony: Disable touchpad reporting when hidraw open
-Date:   Wed, 27 Apr 2022 15:45:26 -0700
-Message-Id: <20220427224526.35657-6-vi@endrift.com>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20220427224526.35657-1-vi@endrift.com>
-References: <20220427224526.35657-1-vi@endrift.com>
+        Thu, 28 Apr 2022 00:09:20 -0400
+X-Greylist: delayed 920 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 27 Apr 2022 21:06:01 PDT
+Received: from m12-18.163.com (m12-18.163.com [220.181.12.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3E4309968D
+        for <linux-input@vger.kernel.org>; Wed, 27 Apr 2022 21:06:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=TuAYJ
+        x2UQjUJILtv4fv1iO/Jz1QPcGkbW4bVTIpTF8w=; b=RO90y+koyHK7K2Mc0E6ep
+        HuI/4gLK96BkEw1swxBeoN/DpwFdSkspgXAOi0PpjwceJ2QCKXwGbWlxb1oabiRj
+        Ee6mb2lYHWtB+t3PJKBI+uEOZ/N76m+IiE3b3Mvz6Ww/PZQo/MgnS9FqKT6JNiuZ
+        g9Ae6Zecb8NOhyNCOL5Jh0=
+Received: from carlis (unknown [218.17.89.92])
+        by smtp14 (Coremail) with SMTP id EsCowAB3LeT_Dmpi0PglDQ--.39180S2;
+        Thu, 28 Apr 2022 11:50:23 +0800 (CST)
+From:   Xuezhi Zhang <zhangxuezhi1@coolpad.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xuezhi Zhang <zhangxuezhi1@coolpad.com>
+Subject: [PATCH] HID: lenovo: convert sysfs snprintf to sysfs_emit
+Date:   Thu, 28 Apr 2022 03:50:20 +0000
+Message-Id: <20220428035020.250438-1-zhangxuezhi1@coolpad.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-CM-TRANSID: EsCowAB3LeT_Dmpi0PglDQ--.39180S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJFWftF45urW5uw4fuF4fAFb_yoWrZrW7pF
+        17GayUArWUGrn7uw1YkF1IvasYvw1Iv347WryxG3WruFnayrWDKFyUua40q345CrWDAry3
+        WF4rtrW5u3W8Xw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jlnmiUUUUU=
+X-Originating-IP: [218.17.89.92]
+Sender: llyz108@163.com
+X-CM-SenderInfo: xoo16iiqy6il2tof0z/1tbiQxLwhVc7Y-ijwgAAsy
+X-Spam-Status: No, score=3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When using the hidraw node directly, disable the touchpad endpoint to prevent
-it from sending separate mouse-like reports. This is accomplished in the same
-way that the hid-steam driver does it, by creating and attaching an input_dev
-with a custom low-level transport driver, which monitors and reports when the
-hidraw node is opened or closed. Reports sent by the real device are reported
-to the "fake" device, and the real device is prevented from creating a hidraw
-node. This "fake" device is connected with only a hidraw node, and is exposed
-with identifying information that is identical to the original device, so the
-"fake" device's hidraw node appears as the node associated with the dev.
+Fix the following coccicheck warnings:
+drivers/hid/hid-lenovo.c:636:8-16:
+WARNING: use scnprintf or sprintf
+drivers/hid/hid-lenovo.c:403:8-16:
+WARNING: use scnprintf or sprintf
+drivers/hid/hid-lenovo.c:755:8-16:
+WARNING: use scnprintf or sprintf
+drivers/hid/hid-lenovo.c:606:8-16:
+WARNING: use scnprintf or sprintf
+drivers/hid/hid-lenovo.c:666:8-16:
+WARNING: use scnprintf or sprintf
+drivers/hid/hid-lenovo.c:696:8-16:
+WARNING: use scnprintf or sprintf
+drivers/hid/hid-lenovo.c:445:8-16:
+WARNING: use scnprintf or sprintf
+drivers/hid/hid-lenovo.c:726:8-16:
+WARNING: use scnprintf or sprintf
 
-Signed-off-by: Vicki Pfau <vi@endrift.com>
+Signed-off-by: Xuezhi Zhang <zhangxuezhi1@coolpad.com>
 ---
- drivers/hid/hid-sony.c | 167 ++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 155 insertions(+), 12 deletions(-)
+ drivers/hid/hid-lenovo.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-index c4ccad95ee9a..5b6f1e5ae8db 100644
---- a/drivers/hid/hid-sony.c
-+++ b/drivers/hid/hid-sony.c
-@@ -457,6 +457,8 @@ static enum power_supply_property sony_battery_props[] = {
- 	POWER_SUPPLY_PROP_STATUS,
- };
+diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
+index 93b1f935e526..69ae39bdbe70 100644
+--- a/drivers/hid/hid-lenovo.c
++++ b/drivers/hid/hid-lenovo.c
+@@ -400,7 +400,7 @@ static ssize_t attr_fn_lock_show(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data = hid_get_drvdata(hdev);
  
-+static struct hid_ll_driver sony_client_ll_driver;
-+
- struct sixaxis_led {
- 	u8 time_enabled; /* the total time the led is active (0xff means forever) */
- 	u8 duty_length;  /* how long a cycle is in deciseconds (0 means "really fast") */
-@@ -558,7 +560,7 @@ enum sony_worker {
- struct sony_sc {
- 	spinlock_t lock;
- 	struct list_head list_node;
--	struct hid_device *hdev;
-+	struct hid_device *hdev, *client_hdev;
- 	struct input_dev __rcu *touchpad;
- 	struct input_dev *sensor_dev;
- 	struct led_classdev *leds[MAX_LEDS];
-@@ -569,6 +571,7 @@ struct sony_sc {
- 	struct power_supply *battery;
- 	struct power_supply_desc battery_desc;
- 	struct mutex mutex;
-+	bool client_opened;
- 	int device_id;
- 	unsigned fw_version;
- 	bool fw_version_created;
-@@ -947,7 +950,7 @@ static u8 *sony_report_fixup(struct hid_device *hdev, u8 *rdesc,
- {
- 	struct sony_sc *sc = hid_get_drvdata(hdev);
- 
--	if (sc->quirks & (SINO_LITE_CONTROLLER | FUTUREMAX_DANCE_MAT))
-+	if (!sc || (sc->quirks & (SINO_LITE_CONTROLLER | FUTUREMAX_DANCE_MAT)))
- 		return rdesc;
- 
- 	/*
-@@ -1345,6 +1348,22 @@ static int sony_raw_event(struct hid_device *hdev, struct hid_report *report,
- 		u8 *rd, int size)
- {
- 	struct sony_sc *sc = hid_get_drvdata(hdev);
-+	int ret;
-+
-+	/*
-+	 * Check if we're the client hdev, which is only used for a separate
-+	 * hidraw device. If so, there's nothing to be done here.
-+	 */
-+	if (hdev->ll_driver == &sony_client_ll_driver)
-+		return 0;
-+
-+	if (sc->client_opened) {
-+		ret = hid_input_report(sc->client_hdev, HID_INPUT_REPORT, rd, size, 0);
-+		if (ret) {
-+			hid_err(hdev, "can't send input report to client hdev: %d\n", ret);
-+			return ret;
-+		}
-+	}
- 
- 	/*
- 	 * Sixaxis HID report has acclerometers/gyro with MSByte first, this
-@@ -3034,6 +3053,92 @@ static int sony_input_configured(struct hid_device *hdev,
- 	return ret;
+-	return snprintf(buf, PAGE_SIZE, "%u\n", data->fn_lock);
++	return sysfs_emit(buf, "%u\n", data->fn_lock);
  }
  
-+static int sony_client_ll_parse(struct hid_device *hdev)
-+{
-+	struct sony_sc *sc = hdev->driver_data;
-+
-+	return hid_parse_report(hdev, sc->hdev->dev_rdesc,
-+			sc->hdev->dev_rsize);
-+}
-+
-+static int sony_client_ll_start(struct hid_device *hdev)
-+{
-+	return 0;
-+}
-+
-+static void sony_client_ll_stop(struct hid_device *hdev)
-+{
-+}
-+
-+static int sony_client_ll_open(struct hid_device *hdev)
-+{
-+	struct sony_sc *sc = hdev->driver_data;
-+
-+	mutex_lock(&sc->mutex);
-+	sc->client_opened = true;
-+	mutex_unlock(&sc->mutex);
-+
-+	if (sc->quirks & DUALSHOCK4_CONTROLLER)
-+		sony_unregister_touchpad(sc);
-+
-+	return 0;
-+}
-+
-+static void sony_client_ll_close(struct hid_device *hdev)
-+{
-+	struct sony_sc *sc = hdev->driver_data;
-+
-+	mutex_lock(&sc->mutex);
-+	sc->client_opened = false;
-+	mutex_unlock(&sc->mutex);
-+
-+	if (sc->quirks & DUALSHOCK4_CONTROLLER)
-+		sony_register_ds4_touchpad(sc);
-+}
-+
-+static int sony_client_ll_raw_request(struct hid_device *hdev,
-+				unsigned char reportnum, u8 *buf,
-+				size_t count, unsigned char report_type,
-+				int reqtype)
-+{
-+	struct sony_sc *sc = hdev->driver_data;
-+
-+	return hid_hw_raw_request(sc->hdev, reportnum, buf, count,
-+			report_type, reqtype);
-+}
-+
-+static struct hid_ll_driver sony_client_ll_driver = {
-+	.parse = sony_client_ll_parse,
-+	.start = sony_client_ll_start,
-+	.stop = sony_client_ll_stop,
-+	.open = sony_client_ll_open,
-+	.close = sony_client_ll_close,
-+	.raw_request = sony_client_ll_raw_request,
-+};
-+
-+static struct hid_device *sony_create_client_hid(struct hid_device *hdev)
-+{
-+	struct hid_device *client_hdev;
-+
-+	client_hdev = hid_allocate_device();
-+	if (IS_ERR(client_hdev))
-+		return client_hdev;
-+
-+	client_hdev->ll_driver = &sony_client_ll_driver;
-+	client_hdev->dev.parent = hdev->dev.parent;
-+	client_hdev->bus = hdev->bus;
-+	client_hdev->vendor = hdev->vendor;
-+	client_hdev->product = hdev->product;
-+	client_hdev->version = hdev->version;
-+	client_hdev->type = hdev->type;
-+	client_hdev->country = hdev->country;
-+	strlcpy(client_hdev->name, hdev->name,
-+			sizeof(client_hdev->name));
-+	strlcpy(client_hdev->phys, hdev->phys,
-+			sizeof(client_hdev->phys));
-+	return client_hdev;
-+}
-+
- static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
- {
- 	int ret;
-@@ -3041,6 +3146,19 @@ static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	struct sony_sc *sc;
- 	unsigned int connect_mask = HID_CONNECT_DEFAULT;
+ static ssize_t attr_fn_lock_store(struct device *dev,
+@@ -442,8 +442,7 @@ static ssize_t attr_sensitivity_show_cptkbd(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *cptkbd_data = hid_get_drvdata(hdev);
  
-+	ret = hid_parse(hdev);
-+	if (ret) {
-+		hid_err(hdev, "parse failed\n");
-+		return ret;
-+	}
-+
-+	/*
-+	 * The virtual client_dev is only used for hidraw.
-+	 * Also avoid the recursive probe.
-+	 */
-+	if (hdev->ll_driver == &sony_client_ll_driver)
-+		return hid_hw_start(hdev, HID_CONNECT_HIDRAW);
-+
- 	if (!strcmp(hdev->name, "FutureMax Dance Mat"))
- 		quirks |= FUTUREMAX_DANCE_MAT;
+-	return snprintf(buf, PAGE_SIZE, "%u\n",
+-		cptkbd_data->sensitivity);
++	return sysfs_emit(buf, "%u\n", cptkbd_data->sensitivity);
+ }
  
-@@ -3060,12 +3178,6 @@ static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	hid_set_drvdata(hdev, sc);
- 	sc->hdev = hdev;
+ static ssize_t attr_sensitivity_store_cptkbd(struct device *dev,
+@@ -603,7 +602,7 @@ static ssize_t attr_press_to_select_show_tpkbd(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
  
--	ret = hid_parse(hdev);
--	if (ret) {
--		hid_err(hdev, "parse failed\n");
--		return ret;
--	}
--
- 	if (sc->quirks & VAIO_RDESC_CONSTANT)
- 		connect_mask |= HID_CONNECT_HIDDEV_FORCE;
- 	else if (sc->quirks & SIXAXIS_CONTROLLER)
-@@ -3080,12 +3192,32 @@ static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	if (sc->quirks & (SIXAXIS_CONTROLLER | DUALSHOCK4_CONTROLLER))
- 		hdev->version |= 0x8000;
+-	return snprintf(buf, PAGE_SIZE, "%u\n", data_pointer->press_to_select);
++	return sysfs_emit(buf, "%u\n", data_pointer->press_to_select);
+ }
  
-+	/* For DualShock 4 controllers, we create a client_hid device so that
-+	 * we can tell when it's been opened directly and disable the touchpad
-+	 * from being used as a mouse at the same time.
-+	 */
-+	if (sc->quirks & DUALSHOCK4_CONTROLLER) {
-+		connect_mask &= ~HID_CONNECT_HIDRAW;
-+		sc->client_hdev = sony_create_client_hid(hdev);
-+		if (IS_ERR(sc->client_hdev))
-+			return PTR_ERR(sc->client_hdev);
-+		sc->client_hdev->driver_data = sc;
-+	}
-+
- 	ret = hid_hw_start(hdev, connect_mask);
- 	if (ret) {
- 		hid_err(hdev, "hw start failed\n");
- 		return ret;
- 	}
+ static ssize_t attr_press_to_select_store_tpkbd(struct device *dev,
+@@ -633,7 +632,7 @@ static ssize_t attr_dragging_show_tpkbd(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
  
-+	if (sc->client_hdev)
-+		ret = hid_add_device(sc->client_hdev);
-+	if (ret) {
-+		hid_err(hdev, "client hw start failed\n");
-+		hid_hw_stop(hdev);
-+		return ret;
-+	}
-+
- 	/* sony_input_configured can fail, but this doesn't result
- 	 * in hid_hw_start failures (intended). Check whether
- 	 * the HID layer claimed the device else fail.
-@@ -3096,6 +3228,8 @@ static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	 */
- 	if (!(hdev->claimed & HID_CLAIMED_INPUT)) {
- 		hid_err(hdev, "failed to claim input\n");
-+		if (sc->client_hdev)
-+			hid_destroy_device(sc->client_hdev);
- 		hid_hw_stop(hdev);
- 		return -ENODEV;
- 	}
-@@ -3113,6 +3247,13 @@ static void sony_remove(struct hid_device *hdev)
- {
- 	struct sony_sc *sc = hid_get_drvdata(hdev);
+-	return snprintf(buf, PAGE_SIZE, "%u\n", data_pointer->dragging);
++	return sysfs_emit(buf, "%u\n", data_pointer->dragging);
+ }
  
-+	if (!sc || hdev->ll_driver == &sony_client_ll_driver) {
-+		hid_hw_stop(hdev);
-+		return;
-+	}
-+	if (sc->client_hdev)
-+		hid_destroy_device(sc->client_hdev);
-+
- 	if (sc->quirks & GHL_GUITAR_PS3WIIU)
- 		del_timer_sync(&sc->ghl_poke_timer);
+ static ssize_t attr_dragging_store_tpkbd(struct device *dev,
+@@ -663,7 +662,7 @@ static ssize_t attr_release_to_select_show_tpkbd(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
  
-@@ -3186,10 +3327,12 @@ static int sony_param_set_touchpad_mouse(const char *val,
- 	mutex_lock(&sony_dev_list_lock);
- 	list_for_each_entry(sc, &sony_device_list, list_node) {
- 		mutex_lock(&sc->mutex);
--		if (touchpad_mouse)
--			sony_register_ds4_touchpad(sc);
--		else
--			sony_unregister_touchpad(sc);
-+		if (!sc->client_opened) {
-+			if (touchpad_mouse)
-+				sony_register_ds4_touchpad(sc);
-+			else
-+				sony_unregister_touchpad(sc);
-+		}
- 		mutex_unlock(&sc->mutex);
- 	}
- 	mutex_unlock(&sony_dev_list_lock);
+-	return snprintf(buf, PAGE_SIZE, "%u\n", data_pointer->release_to_select);
++	return sysfs_emit(buf, "%u\n", data_pointer->release_to_select);
+ }
+ 
+ static ssize_t attr_release_to_select_store_tpkbd(struct device *dev,
+@@ -693,7 +692,7 @@ static ssize_t attr_select_right_show_tpkbd(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%u\n", data_pointer->select_right);
++	return sysfs_emit(buf, "%u\n", data_pointer->select_right);
+ }
+ 
+ static ssize_t attr_select_right_store_tpkbd(struct device *dev,
+@@ -723,8 +722,7 @@ static ssize_t attr_sensitivity_show_tpkbd(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%u\n",
+-		data_pointer->sensitivity);
++	return sysfs_emit(buf, "%u\n", data_pointer->sensitivity);
+ }
+ 
+ static ssize_t attr_sensitivity_store_tpkbd(struct device *dev,
+@@ -752,8 +750,7 @@ static ssize_t attr_press_speed_show_tpkbd(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%u\n",
+-		data_pointer->press_speed);
++	return sysfs_emit(buf, "%u\n", data_pointer->press_speed);
+ }
+ 
+ static ssize_t attr_press_speed_store_tpkbd(struct device *dev,
 -- 
-2.36.0
+2.25.1
 
