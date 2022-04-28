@@ -2,47 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE045512EE7
-	for <lists+linux-input@lfdr.de>; Thu, 28 Apr 2022 10:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 549F5512EE2
+	for <lists+linux-input@lfdr.de>; Thu, 28 Apr 2022 10:46:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344717AbiD1Itt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S1344709AbiD1Itt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Thu, 28 Apr 2022 04:49:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44042 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344963AbiD1ItV (ORCPT
+        with ESMTP id S1344960AbiD1ItV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Thu, 28 Apr 2022 04:49:21 -0400
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0D6E34641
+Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6547344FE
         for <linux-input@vger.kernel.org>; Thu, 28 Apr 2022 01:43:23 -0700 (PDT)
-Received: by mail-yb1-xb42.google.com with SMTP id i38so7693630ybj.13
+Received: by mail-yb1-xb43.google.com with SMTP id r189so7755860ybr.6
         for <linux-input@vger.kernel.org>; Thu, 28 Apr 2022 01:43:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:sender:from:date:message-id:subject:to;
         bh=oFPao6+FHTUKOYc11RmLF8YTaUlvFn2TAMXlqT2wmEQ=;
-        b=oDMDCPi4DRWBOmvcVkuDFwuUl1v5kecnpdbiVkOsJSvZNXsAhgxh1yQZc9rBUazYfo
-         h5izNsAp6mcRg/TodOxbS3EZyH1b5HjztPDAIQKcNLHj9VxHWZggQ8jgU6LTa0xrDgzj
-         r2+ix4MD8bLHt9hhDr/o5uQipp4B7ZyxYczzczVEuDCK++YDcW5ZPdGIk5viv3x0CS2c
-         C4kGGQsVOwLzr2sqAKUavboUgyI/rYq846IhryXM/1GS/8pfreyuRDWHvNzdcmATulhS
-         xJarVMYOzMIzaJZGFS4c1I/iCxEToOvwe8CaKij4T5KC4NoxF+xfw3vManlz7PP+2bhu
-         j5Jg==
+        b=if8eKaOgtgrdcqXyBqcYcwQOVZotleo08uX4iPZYkM1njUE2y+3lJD1geZqWo7nxBx
+         YAzJgPAYp7JnYGdv/QuaCmEUdKXEYG0XgwcSPysdhVNEgD9f5JlBjl2g0J8C4OyKOK2c
+         4KuMIW1+UWJBsHh9MhWSZZYEJESFeaU6yLxkr7JSX9LSX0E5IwOwljlHAPkoJNA9+AKM
+         wO6UriTJlJ/FGMRRr5otx/snhnt2Omk8dn4L0I2DVErmNBtqXeF+T92+CpIzUga0l+5O
+         bs8+2tcu0m+b3wFQ7NXkU+PyFK6i5fF8J3rxTPyXE+P1/87O+sqOgazSPDR2DUWhdQt0
+         Ap3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
          :to;
         bh=oFPao6+FHTUKOYc11RmLF8YTaUlvFn2TAMXlqT2wmEQ=;
-        b=4edtrQ3h1T3wCN2tBDBlFZotZzmCKe9Bn9pasjZp7TG9OWpNa+m+bboVdJIju+TDQd
-         1qhfK3IQbGf4KMQ8XKtLNa4Zu2IOVstNUNf7tft+cO3I/HVrKSkvBxUOLAppQRmTw7z+
-         AOXjcz+Dy0sro0ZwOW9yf0I/DalBxVlfcgv/WchsteH18hdfcdw66NQ3zSQgzNMjrpQ+
-         gKQhd4QjmavmWtMLUSmk4ouqhuKbK3PkcvsLy3Brez5JrRbfqDffTKpsC7X4cRKIs4ur
-         +9vVfjew2dVkBthy8M0YB5qlk86Guz74ijcvTax1/eKuE5708UrQ3FXVetHS/1eKcjBz
-         NIHg==
-X-Gm-Message-State: AOAM531b5TBAVDHUgkEpWT0WfL1X2hY/Q1oTNVefcBvjvmBL+2vyMY6N
-        /TqRItn/yJ2qwwF/tUuxvE/IH2VIz4tmwGtH0FI=
-X-Google-Smtp-Source: ABdhPJxPVOhCmjtIAYuLM74wIJsjhiHsBzotr0/3iuQDOqDmTszvSygygZixk/dipXu5DEXHuSL0ajV4vlVRG9G2Weo=
-X-Received: by 2002:a25:73cc:0:b0:648:a218:4adc with SMTP id
- o195-20020a2573cc000000b00648a2184adcmr13004163ybc.463.1651135402931; Thu, 28
+        b=s2LStbRhzuEqslQp4PeXpV1YFzFy9FDpUNpefHu7+SIkadEVP2xBXP7gtE155JSKrO
+         FaVEOcqpHMiVxRBMoRF9PVsZCcmsioGuNUx+bjrk9jeBVrMzbHOk/rjjU+tMbXBhVm4V
+         tiEqjtty2F8nRevTF/LA+rHpXB6byAPjD/5os7yiD0Wo2gqelHM8XETXXsIYK4OTluXr
+         1oZ9DO0a76K/gP6YI6UsCSB3oDPTR6efsThT0kNDCefnEmKBh+wFgVZv0PFIBziNz66D
+         Nx3Q6rSXTrm5KQtmbV569pd2ep3A7rbkJWj8MKD0t3llWySiXtmNjeW4JpGRY6CQDcAY
+         DLhA==
+X-Gm-Message-State: AOAM532gXd/bJBUYAy6EHa7pcK5S2pT70pBHzRRpPmybZxFTFd88nO1L
+        rvT9LO+6/VYf5cpIpAndaFKYjgLMqiI2YsSf8xg=
+X-Google-Smtp-Source: ABdhPJzArkrLIz0rd2X6vebtRENHB7Q0VroaxIbG34rZ2jO3rtnYC5XS2AnTqzeDwU5w1TVuhHiNy6Xjusto1He6wZ8=
+X-Received: by 2002:a25:e705:0:b0:645:781a:f870 with SMTP id
+ e5-20020a25e705000000b00645781af870mr29052478ybh.630.1651135402791; Thu, 28
  Apr 2022 01:43:22 -0700 (PDT)
 MIME-Version: 1.0
 Sender: missaishagaddafi20213@gmail.com
@@ -50,23 +50,23 @@ Received: by 2002:a05:7110:d3:b0:16d:e730:57d7 with HTTP; Thu, 28 Apr 2022
  01:43:22 -0700 (PDT)
 From:   Mr Ibrahim <ibrahimidewu4@gmail.com>
 Date:   Thu, 28 Apr 2022 09:43:22 +0100
-X-Google-Sender-Auth: npG6B67oD1z_D8Lgr05r66k11mE
-Message-ID: <CAM8c8BDmQ6hz2ytJgCpkDh49sAuoAVrBiJJycc1mzv-NfpMUdA@mail.gmail.com>
+X-Google-Sender-Auth: W5J8y3_VUf1ZoAXwK6uiPmr8kdk
+Message-ID: <CAM8c8BDRG3GXYQZoxOqAgY-ce_VgQz50=EdGj_e6mc7MZamxiQ@mail.gmail.com>
 Subject: I Need Your Respond
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.7 required=5.0 tests=ADVANCE_FEE_5_NEW_FRM_MNY,
-        BAYES_60,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+X-Spam-Status: Yes, score=5.0 required=5.0 tests=ADVANCE_FEE_5_NEW_FRM_MNY,
+        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         FILL_THIS_FORM,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,HK_SCAM,
         LOTS_OF_MONEY,MONEY_FORM,MONEY_FRAUD_8,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,T_MONEY_PERCENT,
         UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
         *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:b42 listed in]
+        *      [2607:f8b0:4864:20:0:0:0:b43 listed in]
         [list.dnswl.org]
-        *  1.5 BAYES_60 BODY: Bayes spam probability is 60 to 80%
-        *      [score: 0.6367]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5517]
         *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
         *      provider
         *      [missaishagaddafi20213[at]gmail.com]
