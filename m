@@ -2,94 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB3F5512D74
-	for <lists+linux-input@lfdr.de>; Thu, 28 Apr 2022 09:55:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE045512EE7
+	for <lists+linux-input@lfdr.de>; Thu, 28 Apr 2022 10:46:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343545AbiD1H4q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Apr 2022 03:56:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36412 "EHLO
+        id S1344717AbiD1Itt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Apr 2022 04:49:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343532AbiD1H4o (ORCPT
+        with ESMTP id S1344963AbiD1ItV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Apr 2022 03:56:44 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF3CD7DAA7
-        for <linux-input@vger.kernel.org>; Thu, 28 Apr 2022 00:53:30 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id a21so4564248edb.1
-        for <linux-input@vger.kernel.org>; Thu, 28 Apr 2022 00:53:30 -0700 (PDT)
+        Thu, 28 Apr 2022 04:49:21 -0400
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0D6E34641
+        for <linux-input@vger.kernel.org>; Thu, 28 Apr 2022 01:43:23 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id i38so7693630ybj.13
+        for <linux-input@vger.kernel.org>; Thu, 28 Apr 2022 01:43:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=7imria7AOBpaNTcOn+sNIMNFLxOEbQktxf1OYV+mCb4=;
-        b=oBowMauFsKiWlMKoUFjyn0tQc0cXzAUCM6P9dHhlgL92tclsRV4WUlyxpCbFrqdUQV
-         f72EXv37YQX7++jcHgvGug7uOJZMjXKPknstXCPo8mdnQ6W/yjWJA8+FSAdOsX32NYYZ
-         fsXyvOfb0Nom1+G58YXrxnPZ3GGu1sPmlSt0HCNJfQmpEu9sQLfnkLoHg1velrva+EF7
-         k1gnG95qwNsq5wyis8alM2bRH9lboBDlg0gaLToO7nrIZzpbt/bIB0fx8fvduysn1dav
-         gS3stFU86bS/wAC2R6fWE+9PpjsZze00EBMkZcAXA//4EV7ZsKUnZe6D3R780BeNX3hH
-         0WnQ==
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=oFPao6+FHTUKOYc11RmLF8YTaUlvFn2TAMXlqT2wmEQ=;
+        b=oDMDCPi4DRWBOmvcVkuDFwuUl1v5kecnpdbiVkOsJSvZNXsAhgxh1yQZc9rBUazYfo
+         h5izNsAp6mcRg/TodOxbS3EZyH1b5HjztPDAIQKcNLHj9VxHWZggQ8jgU6LTa0xrDgzj
+         r2+ix4MD8bLHt9hhDr/o5uQipp4B7ZyxYczzczVEuDCK++YDcW5ZPdGIk5viv3x0CS2c
+         C4kGGQsVOwLzr2sqAKUavboUgyI/rYq846IhryXM/1GS/8pfreyuRDWHvNzdcmATulhS
+         xJarVMYOzMIzaJZGFS4c1I/iCxEToOvwe8CaKij4T5KC4NoxF+xfw3vManlz7PP+2bhu
+         j5Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=7imria7AOBpaNTcOn+sNIMNFLxOEbQktxf1OYV+mCb4=;
-        b=bttxOd1s4oM9PxOZ5TEMypfKkrMgC9zpPEveRm314ENl6NmtFfXi6eAIuoRp90FLFI
-         qXdChDiMq5cUvFzNPjWH+4eyOUJogw4tpyiq9czclxdl2ATCc7Q5XxeL8wt9EwGF0cFp
-         u5pwnrtTl8OYw1ptR9mQ1zZ1WzLmdf0eoWXa5onxGSBZPhey8nN2QWxCP8digTOnX647
-         LKR8hu5hzjX54PAhLZvAS/deWbd/jNyS7WAiLCF+tu3gjU+b4dGosfAqQtNMOOuIRIdc
-         62fTKeXIYSDz+rKSFadVw4PYID0FFFrx8TPyeCc6E8/7q28GBdyxc9iKDz3kdwpZ2nOq
-         Kwdw==
-X-Gm-Message-State: AOAM532dlQNvMaICmo13OoVQDePlAiPDiAddcYM0o1Pqr4gH7PrnuyMr
-        3mF9jD6yWsBrHelf8tR9L0aXFqqnRC6+kA==
-X-Google-Smtp-Source: ABdhPJzviV5gS3KcyKsb8SDPBhzT7DiiOIR0C4FkBQNdYrbgZ3rUvu1yMYOzUNHDjnYGGQYf33IU4g==
-X-Received: by 2002:aa7:c442:0:b0:425:ebed:4782 with SMTP id n2-20020aa7c442000000b00425ebed4782mr19873545edr.168.1651132409299;
-        Thu, 28 Apr 2022 00:53:29 -0700 (PDT)
-Received: from [192.168.0.160] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id l21-20020a056402345500b0042617ba6393sm1081334edc.29.2022.04.28.00.53.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Apr 2022 00:53:28 -0700 (PDT)
-Message-ID: <1e3afa05-2e2f-fb0a-19a3-5a7a6af50863@linaro.org>
-Date:   Thu, 28 Apr 2022 09:53:27 +0200
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=oFPao6+FHTUKOYc11RmLF8YTaUlvFn2TAMXlqT2wmEQ=;
+        b=4edtrQ3h1T3wCN2tBDBlFZotZzmCKe9Bn9pasjZp7TG9OWpNa+m+bboVdJIju+TDQd
+         1qhfK3IQbGf4KMQ8XKtLNa4Zu2IOVstNUNf7tft+cO3I/HVrKSkvBxUOLAppQRmTw7z+
+         AOXjcz+Dy0sro0ZwOW9yf0I/DalBxVlfcgv/WchsteH18hdfcdw66NQ3zSQgzNMjrpQ+
+         gKQhd4QjmavmWtMLUSmk4ouqhuKbK3PkcvsLy3Brez5JrRbfqDffTKpsC7X4cRKIs4ur
+         +9vVfjew2dVkBthy8M0YB5qlk86Guz74ijcvTax1/eKuE5708UrQ3FXVetHS/1eKcjBz
+         NIHg==
+X-Gm-Message-State: AOAM531b5TBAVDHUgkEpWT0WfL1X2hY/Q1oTNVefcBvjvmBL+2vyMY6N
+        /TqRItn/yJ2qwwF/tUuxvE/IH2VIz4tmwGtH0FI=
+X-Google-Smtp-Source: ABdhPJxPVOhCmjtIAYuLM74wIJsjhiHsBzotr0/3iuQDOqDmTszvSygygZixk/dipXu5DEXHuSL0ajV4vlVRG9G2Weo=
+X-Received: by 2002:a25:73cc:0:b0:648:a218:4adc with SMTP id
+ o195-20020a2573cc000000b00648a2184adcmr13004163ybc.463.1651135402931; Thu, 28
+ Apr 2022 01:43:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 1/8] dt-bindings: input: mtk-pmic-keys: add MT6359
- binding definition
-Content-Language: en-US
-To:     Fabien Parent <fparent@baylibre.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20220426135313.245466-1-fparent@baylibre.com>
- <20220426135313.245466-2-fparent@baylibre.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220426135313.245466-2-fparent@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Sender: missaishagaddafi20213@gmail.com
+Received: by 2002:a05:7110:d3:b0:16d:e730:57d7 with HTTP; Thu, 28 Apr 2022
+ 01:43:22 -0700 (PDT)
+From:   Mr Ibrahim <ibrahimidewu4@gmail.com>
+Date:   Thu, 28 Apr 2022 09:43:22 +0100
+X-Google-Sender-Auth: npG6B67oD1z_D8Lgr05r66k11mE
+Message-ID: <CAM8c8BDmQ6hz2ytJgCpkDh49sAuoAVrBiJJycc1mzv-NfpMUdA@mail.gmail.com>
+Subject: I Need Your Respond
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.7 required=5.0 tests=ADVANCE_FEE_5_NEW_FRM_MNY,
+        BAYES_60,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FILL_THIS_FORM,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,HK_SCAM,
+        LOTS_OF_MONEY,MONEY_FORM,MONEY_FRAUD_8,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,T_MONEY_PERCENT,
+        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:b42 listed in]
+        [list.dnswl.org]
+        *  1.5 BAYES_60 BODY: Bayes spam probability is 60 to 80%
+        *      [score: 0.6367]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [missaishagaddafi20213[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [missaishagaddafi20213[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  1.8 HK_SCAM No description available.
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
+        *  0.0 FILL_THIS_FORM Fill in a form with personal information
+        *  0.0 MONEY_FORM Lots of money if you fill out a form
+        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
+        *  0.0 ADVANCE_FEE_5_NEW_FRM_MNY Advance Fee fraud form and lots of
+        *      money
+        *  2.3 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 26/04/2022 15:53, Fabien Parent wrote:
-> Add binding definition for the support of the MT6359 keyboard driver.
-> 
-> Signed-off-by: Fabien Parent <fparent@baylibre.com>
-> ---
-> v2: no changes
+Dear,
+                       Can you trust a financial relationship that is
+mutually beneficial to us both? I have received your name and contact
+information from your country's banking data Information, hoping that
+you are interested in what I am going to tell you.
 
+I'm Mr. Ibrahim idewu from Ouagadougou, here in Burkina Faso. I work
+for coris bank international. I am writing to you about a business
+proposal that will be of great benefit to both of us. In my
+department, as a banker, I discovered $19,300,000 in the account of
+one of our deceased foreign clients.
+The choice to contact you depends on the sensitivity of the
+transaction and the confidentiality it contains. Now our bank has been
+waiting for one of the family members to file the application, but
+nobody has done so. Personally, I have not found family members for a
+long time. I ask for permission to present you as the next of kin /
+beneficiary of the deceased, so the proceeds of this account are worth
+$19,300,000 to you.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+This is paid or shared in these percentages, 60% for me and 40% for
+you. I have secured legal documents that can be used to substantiate
+this claim. The only thing I have to do is put your names in the
+documents and legalize them here in court to prove you as the rightful
+beneficiary. All I need now is your honest cooperation,
+confidentiality and your trust, so that we can complete this
+transaction. I guarantee that this transaction is 100% risk-free, as
+the transfer is subject to international banking law
 
+Please give me this as we have 5 days to work through this. This is very urgent.
 
-Best regards,
-Krzysztof
+1. Full Name:
+2. Your direct mobile number:
+3. Your contact address:
+4. Your job:
+5. Your nationality:
+6. Your gender / age:
+
+Please confirm your message and interest to provide further
+information. Please do get back to me on time.
+
+Best regards
+Mr. Ibrahim idewu
