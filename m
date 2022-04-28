@@ -2,142 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 549F5512EE2
-	for <lists+linux-input@lfdr.de>; Thu, 28 Apr 2022 10:46:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BDCB51358C
+	for <lists+linux-input@lfdr.de>; Thu, 28 Apr 2022 15:45:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344709AbiD1Itt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Apr 2022 04:49:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49708 "EHLO
+        id S1347514AbiD1NsY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Apr 2022 09:48:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344960AbiD1ItV (ORCPT
+        with ESMTP id S1347594AbiD1NsX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Apr 2022 04:49:21 -0400
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6547344FE
-        for <linux-input@vger.kernel.org>; Thu, 28 Apr 2022 01:43:23 -0700 (PDT)
-Received: by mail-yb1-xb43.google.com with SMTP id r189so7755860ybr.6
-        for <linux-input@vger.kernel.org>; Thu, 28 Apr 2022 01:43:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=oFPao6+FHTUKOYc11RmLF8YTaUlvFn2TAMXlqT2wmEQ=;
-        b=if8eKaOgtgrdcqXyBqcYcwQOVZotleo08uX4iPZYkM1njUE2y+3lJD1geZqWo7nxBx
-         YAzJgPAYp7JnYGdv/QuaCmEUdKXEYG0XgwcSPysdhVNEgD9f5JlBjl2g0J8C4OyKOK2c
-         4KuMIW1+UWJBsHh9MhWSZZYEJESFeaU6yLxkr7JSX9LSX0E5IwOwljlHAPkoJNA9+AKM
-         wO6UriTJlJ/FGMRRr5otx/snhnt2Omk8dn4L0I2DVErmNBtqXeF+T92+CpIzUga0l+5O
-         bs8+2tcu0m+b3wFQ7NXkU+PyFK6i5fF8J3rxTPyXE+P1/87O+sqOgazSPDR2DUWhdQt0
-         Ap3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=oFPao6+FHTUKOYc11RmLF8YTaUlvFn2TAMXlqT2wmEQ=;
-        b=s2LStbRhzuEqslQp4PeXpV1YFzFy9FDpUNpefHu7+SIkadEVP2xBXP7gtE155JSKrO
-         FaVEOcqpHMiVxRBMoRF9PVsZCcmsioGuNUx+bjrk9jeBVrMzbHOk/rjjU+tMbXBhVm4V
-         tiEqjtty2F8nRevTF/LA+rHpXB6byAPjD/5os7yiD0Wo2gqelHM8XETXXsIYK4OTluXr
-         1oZ9DO0a76K/gP6YI6UsCSB3oDPTR6efsThT0kNDCefnEmKBh+wFgVZv0PFIBziNz66D
-         Nx3Q6rSXTrm5KQtmbV569pd2ep3A7rbkJWj8MKD0t3llWySiXtmNjeW4JpGRY6CQDcAY
-         DLhA==
-X-Gm-Message-State: AOAM532gXd/bJBUYAy6EHa7pcK5S2pT70pBHzRRpPmybZxFTFd88nO1L
-        rvT9LO+6/VYf5cpIpAndaFKYjgLMqiI2YsSf8xg=
-X-Google-Smtp-Source: ABdhPJzArkrLIz0rd2X6vebtRENHB7Q0VroaxIbG34rZ2jO3rtnYC5XS2AnTqzeDwU5w1TVuhHiNy6Xjusto1He6wZ8=
-X-Received: by 2002:a25:e705:0:b0:645:781a:f870 with SMTP id
- e5-20020a25e705000000b00645781af870mr29052478ybh.630.1651135402791; Thu, 28
- Apr 2022 01:43:22 -0700 (PDT)
+        Thu, 28 Apr 2022 09:48:23 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 613661009;
+        Thu, 28 Apr 2022 06:45:07 -0700 (PDT)
+Received: from mail-yw1-f172.google.com ([209.85.128.172]) by
+ mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1Mbj7g-1oHTX51Pwc-00dBzt; Thu, 28 Apr 2022 15:45:05 +0200
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-2f16645872fso53520157b3.4;
+        Thu, 28 Apr 2022 06:45:04 -0700 (PDT)
+X-Gm-Message-State: AOAM531rqS3TMANA9dj5PbXHgYaYSabwGuCiqYz/vsc+5F15FvO6r45T
+        WzYb45HYkZmr2LEKIEQie8lnR4wtPfawCBHHv8E=
+X-Google-Smtp-Source: ABdhPJzhKdbLezBOw+onlWys2HjSNrb5hSb6f6j0ogYNPd9ax1npbHyo1Y6CrpuYIOWED3Pgr1SGQ4YvAKDaJmP/tmM=
+X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
+ m125-20020a0dfc83000000b002e5b0f4c125mr33063062ywf.347.1651153503029; Thu, 28
+ Apr 2022 06:45:03 -0700 (PDT)
 MIME-Version: 1.0
-Sender: missaishagaddafi20213@gmail.com
-Received: by 2002:a05:7110:d3:b0:16d:e730:57d7 with HTTP; Thu, 28 Apr 2022
- 01:43:22 -0700 (PDT)
-From:   Mr Ibrahim <ibrahimidewu4@gmail.com>
-Date:   Thu, 28 Apr 2022 09:43:22 +0100
-X-Google-Sender-Auth: W5J8y3_VUf1ZoAXwK6uiPmr8kdk
-Message-ID: <CAM8c8BDRG3GXYQZoxOqAgY-ce_VgQz50=EdGj_e6mc7MZamxiQ@mail.gmail.com>
-Subject: I Need Your Respond
-To:     undisclosed-recipients:;
+References: <20220419163810.2118169-1-arnd@kernel.org> <20220422170530.GA2338209@roeck-us.net>
+ <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
+ <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net> <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
+ <20220422234150.GA3442771@roeck-us.net> <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
+ <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net> <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+ <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net> <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+In-Reply-To: <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 28 Apr 2022 15:44:47 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+Message-ID: <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Robert Jarzmik <robert.jarzmik@free.fr>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Philipp Zabel <philipp.zabel@gmail.com>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Paul Parsons <lost.distance@yahoo.com>,
+        Sergey Lapin <slapin@ossfans.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Helge Deller <deller@gmx.de>, Mark Brown <broonie@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        IDE-ML <linux-ide@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        linux-mtd <linux-mtd@lists.infradead.org>,
+        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.0 required=5.0 tests=ADVANCE_FEE_5_NEW_FRM_MNY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FILL_THIS_FORM,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,HK_SCAM,
-        LOTS_OF_MONEY,MONEY_FORM,MONEY_FRAUD_8,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,T_MONEY_PERCENT,
-        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:b43 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5517]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [missaishagaddafi20213[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [missaishagaddafi20213[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  1.8 HK_SCAM No description available.
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
-        *  0.0 FILL_THIS_FORM Fill in a form with personal information
-        *  0.0 MONEY_FORM Lots of money if you fill out a form
-        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
-        *  0.0 ADVANCE_FEE_5_NEW_FRM_MNY Advance Fee fraud form and lots of
-        *      money
-        *  2.3 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *****
+X-Provags-ID: V03:K1:FlIDVPKXj9nzRwbk/wtccBdWDayg3PeTGiQuZ0/K42Bc7lGmPdy
+ zssQcyDZ/DvWHSLnMLZ2c9c0/R8//Ct6Le7VOKueD5Qrh1XSkN/immCrCQM54OpPKR7UGyt
+ rQR8FQFtM5HLTQupvDTlwrysBtqfjlwTZD25pEF/Z42s6fyHy6hxD7eWpHSPUujdYwhn8pQ
+ hp2z24g1g13nAlk8lrHHQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:bRWqGE+N+ZY=:1iRjrIl6V157UK5O78TAoc
+ 5W5zmo/RxHt6piZZQJR7bHPk8veJW7G/eD5jO6ABZaX8NSxlHXJ4TP5x5uFoaOWveTMuY2YNB
+ E/S7IJzqQcjMpAVq0rBO649N779tX8wy6iezjQHdAX7O/6l7dHbxrLeGuJGtVvy5SPmFPsnuF
+ 7hnbUhs94zbUsLMYQRcLlnGNptZ7bFxfi+PlNYB3jQQh0+wXdJS+P/EHPJK8UZHs5BjQBv+Qa
+ EX048TdTH+63xTL5zzrwgKZLFucF2PiHs68Y/WDhFOvULFD5XwxnpC8QYME42zx9V0NjnR5nN
+ Zars/a9a2hpnBBVlPLxle2k0Ttww//0frPo+wnR8G+aU3Z16D9IvAlHwSrOB4KMSHfQcLKCXw
+ tPZA1Y7PpVtBkQv7lmHrlSCe1xcRYAXOza/mWm2Xjc8xgk76wXvHvzBr1oDGBEonkVw+bOSVk
+ vREnB57Ovs/1UlfpUFpyy1eB8Q7JaktAGlKXASPtn19bnV5rt2G4I4ntfhaJQgAmDnlzlZpC5
+ Evd5+7v4S1X/iOOX+m+Ahkho8f4fM1ugsUVvQaHKOghqQBb6nN0eAvrdXIURg56QmTfn7UwPn
+ N0bxJ5G7FH8Br9CiO+tOZBKs/TdaV+aEaEj9KMO4yP5VYEF6IpBEitkf9ifUTwFwihqSEjEM8
+ bFcGWSSCC9/0KLlTg8Gh5+db6LA5cg7itMKXDE5C7XsBAI9Hm3mx1p5yWo7HLHsbXHmzeASA2
+ rpwe5iV2gi/30EyX8gsnnoe4xEtOTZhUuWGdwxWCA0Vb4Q0oLDG+gyWlREBg6vyV7SR9Ag7iE
+ yckvS97oNG9rtf98GBy9xysVb2+4/y8JObMv6+5+lQPd284ay4=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear,
-                       Can you trust a financial relationship that is
-mutually beneficial to us both? I have received your name and contact
-information from your country's banking data Information, hoping that
-you are interested in what I am going to tell you.
+On Sun, Apr 24, 2022 at 8:48 PM Arnd Bergmann <arnd@kernel.org> wrote:
+> On Sun, Apr 24, 2022 at 5:28 PM Guenter Roeck <linux@roeck-us.net> wrote:
+> > On 4/24/22 01:52, Arnd Bergmann wrote:
+> > > On Sun, Apr 24, 2022 at 4:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
+> > > into the defconfig file, otherwise the multiplatform target defaults to
+> > > an ARMv7 instead of ARMv5 build. For an OMAP15xx as in the SX1,
+> > > you also need to enable CONFIG_ARCH_MULTI_V4T.
+> > >
+> > > This is slightly unfortunate, but I don't see any way to avoid it, and the
+> > > modified defconfig will still work fine with older kernel trees.
+> > >
+> >
+> > Yes, that works. I changed it in my configuration.
+>
+> Ok, great!. I managed to boot the z2 machine with PCMCIA support
+> and it gets around the issue with my patch, correctly detecting the
+> CF card.
 
-I'm Mr. Ibrahim idewu from Ouagadougou, here in Burkina Faso. I work
-for coris bank international. I am writing to you about a business
-proposal that will be of great benefit to both of us. In my
-department, as a banker, I discovered $19,300,000 in the account of
-one of our deceased foreign clients.
-The choice to contact you depends on the sensitivity of the
-transaction and the confidentiality it contains. Now our bank has been
-waiting for one of the family members to file the application, but
-nobody has done so. Personally, I have not found family members for a
-long time. I ask for permission to present you as the next of kin /
-beneficiary of the deceased, so the proceeds of this account are worth
-$19,300,000 to you.
+Hi Guenter,
 
-This is paid or shared in these percentages, 60% for me and 40% for
-you. I have secured legal documents that can be used to substantiate
-this claim. The only thing I have to do is put your names in the
-documents and legalize them here in court to prove you as the rightful
-beneficiary. All I need now is your honest cooperation,
-confidentiality and your trust, so that we can complete this
-transaction. I guarantee that this transaction is 100% risk-free, as
-the transfer is subject to international banking law
+I have now sent out a fix that I'm happy with, and applied it to the
+pxa-multiplatform-5.18 branch of the soc tree as well as the
+combined arm/multiplatform tree.
 
-Please give me this as we have 5 days to work through this. This is very urgent.
+I have not merged this new version into the for-next branch
+since I would like to see if there are any other regressions first.
 
-1. Full Name:
-2. Your direct mobile number:
-3. Your contact address:
-4. Your job:
-5. Your nationality:
-6. Your gender / age:
+Can you run your boot tests on the arm/multiplatform branch
+and let me know if that fixes everything you found? If that
+takes a lot of manual steps on your side, I'd just wait for the
+build bots and merge it after all there are no new compile-time
+issues.
 
-Please confirm your message and interest to provide further
-information. Please do get back to me on time.
-
-Best regards
-Mr. Ibrahim idewu
+       Arnd
