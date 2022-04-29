@@ -2,110 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB5AD51420B
-	for <lists+linux-input@lfdr.de>; Fri, 29 Apr 2022 07:53:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF38A514252
+	for <lists+linux-input@lfdr.de>; Fri, 29 Apr 2022 08:29:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230149AbiD2F40 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 29 Apr 2022 01:56:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60658 "EHLO
+        id S1354498AbiD2Gcs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 29 Apr 2022 02:32:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348927AbiD2F4Z (ORCPT
+        with ESMTP id S230018AbiD2Gcq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 29 Apr 2022 01:56:25 -0400
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 422AAB8982;
-        Thu, 28 Apr 2022 22:53:08 -0700 (PDT)
-Received: by mail-qv1-xf33.google.com with SMTP id kj18so4717660qvb.6;
-        Thu, 28 Apr 2022 22:53:08 -0700 (PDT)
+        Fri, 29 Apr 2022 02:32:46 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AEB6B9F00
+        for <linux-input@vger.kernel.org>; Thu, 28 Apr 2022 23:29:29 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id i19so13508929eja.11
+        for <linux-input@vger.kernel.org>; Thu, 28 Apr 2022 23:29:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hxrBfFItji/WQyP7QlbaCq3BY0YlFKYJeXNKCSHM/Wc=;
-        b=a4g4PHFXKbPlz8P62gkAnav0Q6xF8O2QN8tcCzGabzDcKKEti+RNRvh+DffjK+AzAP
-         RUibPBaq58KRahwMmAGxsgOlyuVBOukIpNNPAXIBPYnshzetRFr4bCNK0V8rWO4OTCT1
-         HYDua9o9RIg0VmKjgPWvEbI8jsmNimhvbRosAKLrmwpfS58alebfmR06sCIkHJH/hYJr
-         92aRtKe6lHcGm3y5iBHg9f06sVQV0hM+7RMFyJ9jZ08pbTrlGher9GSm8mVtXAhXk0p0
-         eAUd8jeWoXtCUP2SHQIafDsA9LUouEtM1oJsZUhAjqYD9Zovk40PJuEhxGTtXQPFIBvh
-         rtbg==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=MWHSWTEKcv7Xi6sCry02KvjP0oi7MJ00AsTeELKYR1k=;
+        b=QFNUUb7tg4MO3nPhOkcmFLcYBzSw8R4q4NyB2kULHhHKCiwDpwjty4GzN+1qHUVWXo
+         fy/jgch+A3d/a/EsdCQt+WpAjKkOil9mJn0LhC+0+msC2IKjNqHyVzrE8sCRkUww67pG
+         /WQXyoc2hMm6sFjyP9LRtNhazv/0fiQE1nHfG7sGYtcdEMrDVNkxPB3RdQruO3rbwogU
+         jZRFUrgt419FWZ1gSUhPzs5kBvpi7sV8xWnL0mDAPl99Jx5VBLUOkKtQkcPLNC4ql919
+         fl+IbUGz3T/k/cl9BWupoSBSyvEUdC39A2msPYGNS1W6/ENMH78IwgD3Tdad+P6OumoM
+         fOqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=hxrBfFItji/WQyP7QlbaCq3BY0YlFKYJeXNKCSHM/Wc=;
-        b=xMon3Ex6w4knhoWyesDnm8lruE3aESiab5USPigfXbRdoplDKvb1VWWEiE03fA426v
-         lshmQ3dHufWmBFlP0xaIvoVfTPX7I51Ge6dc7/jkJ9KcgseBCkgEh3e/Gml5O/FqyS1q
-         SrnLQpUcVvodo+yBZAXY5qP3hjoABJys6/OV67Wd0vOHmk6ZGAANaUiv1D2H6U4bZm29
-         Ta1dsSmnS493V+FwFmt7ZY94RaZ1uP0IhhlmUgpXNnfhAl+/wb/F/+f8C20yLfQW7T65
-         +/siFiPHwWtcMr3/sv6vWVQ9rikNhsCTJA3QUfTXbWIWpAPef+39P3XOQRB5rA4vsHwl
-         oMUA==
-X-Gm-Message-State: AOAM533Qom3a3SsO+V47ON9d5Rx733ipc5RMXYz9LRHKmPcjdLkc0YV6
-        dKdo6Zm9+hqa0wI3nGVeLIX/rbWgdVs=
-X-Google-Smtp-Source: ABdhPJwXvkkzx1CKKLOi/lBuE7+f2p9Lsex00hkFsa3tO/wZLtsLiLTks3itvNptjVBafZ/ojp32Ow==
-X-Received: by 2002:a05:6214:c82:b0:446:7a39:41a with SMTP id r2-20020a0562140c8200b004467a39041amr26749899qvr.81.1651211587347;
-        Thu, 28 Apr 2022 22:53:07 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id y13-20020a05622a164d00b002f1ff52c518sm1273625qtj.28.2022.04.28.22.53.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Apr 2022 22:53:06 -0700 (PDT)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: chi.minghao@zte.com.cn
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Minghao Chi <chi.minghao@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH] Input: simplify the return expression of da9034_touch_probe()
-Date:   Fri, 29 Apr 2022 05:53:00 +0000
-Message-Id: <20220429055300.3852396-1-chi.minghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+        bh=MWHSWTEKcv7Xi6sCry02KvjP0oi7MJ00AsTeELKYR1k=;
+        b=TOJ6Y8pJMtaxURaHY7pDzYRmCNDpAX2ziOs4gEO0k/5m76lWblUE0SKfTZETLo7/Hj
+         AGGN3QYiYoaS1PDqUCv1aMiRAs3UVkp157+kXpXCoZic/d787UkM/VDqE/D46Q8av7KR
+         dv/J36+Q+F0bG2dDJwHktaFpv4KoM8pYUHcVHnU2rkoVint1Rlybk5nHkdRCuhIh4IoW
+         UMMxTO7nBdu/oqdus8BLcqYdJe56zOiubQvSUrQy3fN6PwRBcP6eGUhxA/J+9qln+3v+
+         8ckdq483EZwdtGvhOYzDzLaGE9Pav+hR5SWaWVplms5BpXx3MCiO3jMzgysBfFkGz9wG
+         7SkQ==
+X-Gm-Message-State: AOAM531P3HTmbDp9hELYXAoPklr68q6aPeRr+GVN+wfAVAEEzFdw2T96
+        /35Osv4+gTzFeYO6HLCYm9TQBg==
+X-Google-Smtp-Source: ABdhPJwF7kYhyBa2oQUWsOUhyejHYRH7OCesXxrrQ17b6ikVFNcVtOgzey85fp+uzN1oMC+KLH73MA==
+X-Received: by 2002:a17:907:8a10:b0:6f0:51c6:3cee with SMTP id sc16-20020a1709078a1000b006f051c63ceemr34819381ejc.259.1651213768126;
+        Thu, 28 Apr 2022 23:29:28 -0700 (PDT)
+Received: from [192.168.0.168] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id hz13-20020a1709072ced00b006f3ef214db2sm333250ejc.24.2022.04.28.23.29.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Apr 2022 23:29:27 -0700 (PDT)
+Message-ID: <993d74fa-be5b-6db2-6bba-2323de7757f3@linaro.org>
+Date:   Fri, 29 Apr 2022 08:29:26 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 05/11] dt-bindings: serio: add Arm PL050 DT schema
+Content-Language: en-US
+To:     Andre Przywara <andre.przywara@arm.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+References: <20220427112528.4097815-1-andre.przywara@arm.com>
+ <20220427112528.4097815-6-andre.przywara@arm.com>
+ <55574426-df20-cdd7-c97d-092726981a42@linaro.org>
+ <20220428182708.0c1065f8@donnerap.cambridge.arm.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220428182708.0c1065f8@donnerap.cambridge.arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Minghao Chi <chi.minghao@zte.com.cn>
+On 28/04/2022 19:27, Andre Przywara wrote:
 
-Simplify the return expression.
+>>> +  clock-names:
+>>> +    items:
+>>> +      - const: KMIREFCLK  
+>>
+>> lowercase letters only
+> 
+> I am afraid this ship has sailed: the various DTs in the kernel tree use
+> it in that way, and the Linux driver insists on that spelling. 
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
----
- drivers/input/touchscreen/da9034-ts.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+The driver is coming from ancient times, so it is understandable it has
+some old coding style. But it definitely not sailed away. :)
 
-diff --git a/drivers/input/touchscreen/da9034-ts.c b/drivers/input/touchscreen/da9034-ts.c
-index 2943f6a58388..dfb2604381d2 100644
---- a/drivers/input/touchscreen/da9034-ts.c
-+++ b/drivers/input/touchscreen/da9034-ts.c
-@@ -298,7 +298,6 @@ static int da9034_touch_probe(struct platform_device *pdev)
- 	struct da9034_touch_pdata *pdata = dev_get_platdata(&pdev->dev);
- 	struct da9034_touch *touch;
- 	struct input_dev *input_dev;
--	int error;
- 
- 	touch = devm_kzalloc(&pdev->dev, sizeof(struct da9034_touch),
- 			     GFP_KERNEL);
-@@ -344,11 +343,7 @@ static int da9034_touch_probe(struct platform_device *pdev)
- 	touch->input_dev = input_dev;
- 	input_set_drvdata(input_dev, touch);
- 
--	error = input_register_device(input_dev);
--	if (error)
--		return error;
--
--	return 0;
-+	return input_register_device(input_dev);
- }
- 
- static struct platform_driver da9034_touch_driver = {
--- 
-2.25.1
+> So by
+> changing this we would break both the existing DT's compliance and also
+> existing Linux kernels.
+> So is lowercase something that is mandated by DT schema, or can we just
+> make an exception here?
 
+This uppercase clock name affects even ARM64 devices, so it seems the
+device is still being used. Therefore I propose to add new clock name,
+old as deprecated and support both in the driver:
 
+	kmi->clk = clk_get(&dev->dev, "kmirefclk");
+	if (IS_ERR(kmi->clk)) {
+		kmi->clk = clk_get(&dev->dev, "KMIREFCLK");
+
+and convert the DTS as well later on.
+
+Best regards,
+Krzysztof
