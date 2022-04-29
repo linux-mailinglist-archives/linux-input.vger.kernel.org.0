@@ -2,172 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0804A513AE6
-	for <lists+linux-input@lfdr.de>; Thu, 28 Apr 2022 19:27:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB5AD51420B
+	for <lists+linux-input@lfdr.de>; Fri, 29 Apr 2022 07:53:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350422AbiD1Ra2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Apr 2022 13:30:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35052 "EHLO
+        id S230149AbiD2F40 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 29 Apr 2022 01:56:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350428AbiD1Ra2 (ORCPT
+        with ESMTP id S1348927AbiD2F4Z (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Apr 2022 13:30:28 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 699A43B000;
-        Thu, 28 Apr 2022 10:27:12 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 16D841474;
-        Thu, 28 Apr 2022 10:27:12 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C58143F774;
-        Thu, 28 Apr 2022 10:27:10 -0700 (PDT)
-Date:   Thu, 28 Apr 2022 18:27:08 +0100
-From:   Andre Przywara <andre.przywara@arm.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 05/11] dt-bindings: serio: add Arm PL050 DT schema
-Message-ID: <20220428182708.0c1065f8@donnerap.cambridge.arm.com>
-In-Reply-To: <55574426-df20-cdd7-c97d-092726981a42@linaro.org>
-References: <20220427112528.4097815-1-andre.przywara@arm.com>
-        <20220427112528.4097815-6-andre.przywara@arm.com>
-        <55574426-df20-cdd7-c97d-092726981a42@linaro.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+        Fri, 29 Apr 2022 01:56:25 -0400
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 422AAB8982;
+        Thu, 28 Apr 2022 22:53:08 -0700 (PDT)
+Received: by mail-qv1-xf33.google.com with SMTP id kj18so4717660qvb.6;
+        Thu, 28 Apr 2022 22:53:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hxrBfFItji/WQyP7QlbaCq3BY0YlFKYJeXNKCSHM/Wc=;
+        b=a4g4PHFXKbPlz8P62gkAnav0Q6xF8O2QN8tcCzGabzDcKKEti+RNRvh+DffjK+AzAP
+         RUibPBaq58KRahwMmAGxsgOlyuVBOukIpNNPAXIBPYnshzetRFr4bCNK0V8rWO4OTCT1
+         HYDua9o9RIg0VmKjgPWvEbI8jsmNimhvbRosAKLrmwpfS58alebfmR06sCIkHJH/hYJr
+         92aRtKe6lHcGm3y5iBHg9f06sVQV0hM+7RMFyJ9jZ08pbTrlGher9GSm8mVtXAhXk0p0
+         eAUd8jeWoXtCUP2SHQIafDsA9LUouEtM1oJsZUhAjqYD9Zovk40PJuEhxGTtXQPFIBvh
+         rtbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hxrBfFItji/WQyP7QlbaCq3BY0YlFKYJeXNKCSHM/Wc=;
+        b=xMon3Ex6w4knhoWyesDnm8lruE3aESiab5USPigfXbRdoplDKvb1VWWEiE03fA426v
+         lshmQ3dHufWmBFlP0xaIvoVfTPX7I51Ge6dc7/jkJ9KcgseBCkgEh3e/Gml5O/FqyS1q
+         SrnLQpUcVvodo+yBZAXY5qP3hjoABJys6/OV67Wd0vOHmk6ZGAANaUiv1D2H6U4bZm29
+         Ta1dsSmnS493V+FwFmt7ZY94RaZ1uP0IhhlmUgpXNnfhAl+/wb/F/+f8C20yLfQW7T65
+         +/siFiPHwWtcMr3/sv6vWVQ9rikNhsCTJA3QUfTXbWIWpAPef+39P3XOQRB5rA4vsHwl
+         oMUA==
+X-Gm-Message-State: AOAM533Qom3a3SsO+V47ON9d5Rx733ipc5RMXYz9LRHKmPcjdLkc0YV6
+        dKdo6Zm9+hqa0wI3nGVeLIX/rbWgdVs=
+X-Google-Smtp-Source: ABdhPJwXvkkzx1CKKLOi/lBuE7+f2p9Lsex00hkFsa3tO/wZLtsLiLTks3itvNptjVBafZ/ojp32Ow==
+X-Received: by 2002:a05:6214:c82:b0:446:7a39:41a with SMTP id r2-20020a0562140c8200b004467a39041amr26749899qvr.81.1651211587347;
+        Thu, 28 Apr 2022 22:53:07 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id y13-20020a05622a164d00b002f1ff52c518sm1273625qtj.28.2022.04.28.22.53.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Apr 2022 22:53:06 -0700 (PDT)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: chi.minghao@zte.com.cn
+To:     dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] Input: simplify the return expression of da9034_touch_probe()
+Date:   Fri, 29 Apr 2022 05:53:00 +0000
+Message-Id: <20220429055300.3852396-1-chi.minghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 28 Apr 2022 09:07:53 +0200
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+From: Minghao Chi <chi.minghao@zte.com.cn>
 
-Hi Krzysztof,
+Simplify the return expression.
 
-many thanks for having a look and your comments (here and on the other
-patches). I will fix them and send a new version ASAP.
-One thing below:
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+---
+ drivers/input/touchscreen/da9034-ts.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-> On 27/04/2022 13:25, Andre Przywara wrote:
-> > The Arm PL050 "Keyboard/Mouse Interface" is an Arm system IP providing a
-> > PS/2 compatible serial interface.
-> > 
-> > Add a simple DT schema binding, based on the TRM[1], the existing DTs and
-> > the Linux driver.
-> > 
-> > [1] https://developer.arm.com/documentation/ddi0143/latest
-> > 
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  .../devicetree/bindings/serio/amba-pl050.yaml | 67 +++++++++++++++++++
-> >  1 file changed, 67 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/serio/amba-pl050.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/serio/amba-pl050.yaml b/Documentation/devicetree/bindings/serio/amba-pl050.yaml
-> > new file mode 100644
-> > index 0000000000000..9732a84550098
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/serio/amba-pl050.yaml  
-> 
-> Filename: vendor,device
-> 
-> > @@ -0,0 +1,67 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/serio/amba-pl050.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Arm Ltd. PrimeCell PL050 PS/2 Keyboard/Mouse Interface
-> > +
-> > +maintainers:
-> > +  - Andre Przywara <andre.przywara@arm.com>
-> > +
-> > +description:
-> > +  The Arm PrimeCell PS2 Keyboard/Mouse Interface (KMI) is an AMBA compliant
-> > +  peripheral that can be used to implement a keyboard or mouse interface that
-> > +  is IBM PS2 or AT compatible.
-> > +
-> > +# We need a select here so we don't match all nodes with 'arm,primecell'
-> > +select:
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        const: arm,pl050
-> > +  required:
-> > +    - compatible
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - const: arm,pl050
-> > +      - const: arm,primecell
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: KMI reference clock, used to generate the bus timing
-> > +      - description: APB register access clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: KMIREFCLK  
-> 
-> lowercase letters only
+diff --git a/drivers/input/touchscreen/da9034-ts.c b/drivers/input/touchscreen/da9034-ts.c
+index 2943f6a58388..dfb2604381d2 100644
+--- a/drivers/input/touchscreen/da9034-ts.c
++++ b/drivers/input/touchscreen/da9034-ts.c
+@@ -298,7 +298,6 @@ static int da9034_touch_probe(struct platform_device *pdev)
+ 	struct da9034_touch_pdata *pdata = dev_get_platdata(&pdev->dev);
+ 	struct da9034_touch *touch;
+ 	struct input_dev *input_dev;
+-	int error;
+ 
+ 	touch = devm_kzalloc(&pdev->dev, sizeof(struct da9034_touch),
+ 			     GFP_KERNEL);
+@@ -344,11 +343,7 @@ static int da9034_touch_probe(struct platform_device *pdev)
+ 	touch->input_dev = input_dev;
+ 	input_set_drvdata(input_dev, touch);
+ 
+-	error = input_register_device(input_dev);
+-	if (error)
+-		return error;
+-
+-	return 0;
++	return input_register_device(input_dev);
+ }
+ 
+ static struct platform_driver da9034_touch_driver = {
+-- 
+2.25.1
 
-I am afraid this ship has sailed: the various DTs in the kernel tree use
-it in that way, and the Linux driver insists on that spelling. So by
-changing this we would break both the existing DT's compliance and also
-existing Linux kernels.
-So is lowercase something that is mandated by DT schema, or can we just
-make an exception here?
-
-Cheers,
-Andre
-
-> > +      - const: apb_pclk
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - clock-names
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    kmi@70000 {  
-> 
-> Generic node names, so "serio".
-> 
-> > +            compatible = "arm,pl050", "arm,primecell";
-> > +            reg = <0x070000 0x1000>;
-> > +            interrupts = <8>;
-> > +            clocks = <&mb_clk24mhz>, <&soc_smc50mhz>;
-> > +            clock-names = "KMIREFCLK", "apb_pclk";
-> > +    };
-> > +
-> > +...  
-> 
-> 
-> Best regards,
-> Krzysztof
 
