@@ -2,828 +2,524 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14C88519A4E
-	for <lists+linux-input@lfdr.de>; Wed,  4 May 2022 10:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97212519D61
+	for <lists+linux-input@lfdr.de>; Wed,  4 May 2022 12:53:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346318AbiEDIuB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 May 2022 04:50:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50124 "EHLO
+        id S1348326AbiEDK5I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 May 2022 06:57:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235435AbiEDIuB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 May 2022 04:50:01 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B20BF24BC8
-        for <linux-input@vger.kernel.org>; Wed,  4 May 2022 01:46:24 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nmAeM-0000Qs-9J; Wed, 04 May 2022 10:46:22 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nmAeL-000H1u-R3; Wed, 04 May 2022 10:46:20 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nmAeJ-007U8X-O8; Wed, 04 May 2022 10:46:19 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Michael Hennerich <michael.hennerich@analog.com>
-Cc:     linux-input@vger.kernel.org, kernel@pengutronix.de,
-        Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH] Input: adp5588-keys: Remove unused driver
-Date:   Wed,  4 May 2022 10:46:17 +0200
-Message-Id: <20220504084617.36844-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S237688AbiEDK5B (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 May 2022 06:57:01 -0400
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com (mail-eopbgr10080.outbound.protection.outlook.com [40.107.1.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F4EF245A8;
+        Wed,  4 May 2022 03:53:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PokmQgPBmodHt3fH8XV2EgF029qEcIjuj9CQZ/zUC66N8KJQt5TDwIpex+baYLizm4eQNJmaeLBZfEggTzkoiKo6mf/XZt3Vr/aQg8B2x4mNxvxahh10svkwzOfeNPpfnmVay12K4U33+fZj1L29+p+IrcKTAZk1agiyG/pdaN01d7fOf9TFIiwNBVxP+DihpWO6Ma2AmlASLA7+81pKCMvKt4NH2wWaj0SPZmoHMuziNS/vBg559ATzoCsFqE7pRLsy9xqfH+ddnWi0mazoeosznKpKBFAlio0y/2KXiV7YXTV8mEgN/EotaKyTbHpkenC4vIb0u3GCIpmckPtaxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iNw0yzPX9kSpZqOwMjkpxpxfYiO76PLLrYLhjDa3o1c=;
+ b=hBax56DcSa4I483ZMQNkUKCQhz0XQJkWh6CGgNWcS/G6uOrEXhMNRd2+DFL5RzOJF5CmdE6ZyubUsk2oaC8XmPNBIqcR58qmflt1fUl5t8J4Iru/VwSBiyvQSoHWoFvNnU5WzpmYcR9SJm11t7gIJeu9svdHzjR9BpZdJut/y51xeTGOLs2USaoKsyxnN7e6hnTlB3I6ClBAcf16allztzQxHNCopfaVXWv2Jx4WC6lZCMnRqCzZBaDxGKnvk67Tt4P4xElE5UlpbLuzqwNBs2A0Pg1GzC3JXnAHkv1wPl5jvHMH/OuN7X4QvR/JxAr4ih1r7cmsFJBrsQHDg1iR3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 139.15.153.201) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=in.bosch.com;
+ dmarc=pass (p=reject sp=none pct=100) action=none header.from=in.bosch.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=in.bosch.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iNw0yzPX9kSpZqOwMjkpxpxfYiO76PLLrYLhjDa3o1c=;
+ b=ZNBqjZnUrTj0yr9ew0u7vdPH6HL/9eJY+Sf5Dth9YDzMM2dlxzp5D0Rdlac7oYre4cDCi8MFNN6Za91r2go0JKocFXAZZ+rsUONI0CK/6rfIBj0zgMazEF8Yce+vCb8aSAhuXKpbK5QqD48nohtcr9rE6DFiio/xa++1bZdyT90=
+Received: from AM6P193CA0045.EURP193.PROD.OUTLOOK.COM (2603:10a6:209:8e::22)
+ by DBAPR10MB4203.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:1c0::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.12; Wed, 4 May
+ 2022 10:53:19 +0000
+Received: from VE1EUR03FT056.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:209:8e:cafe::bd) by AM6P193CA0045.outlook.office365.com
+ (2603:10a6:209:8e::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.24 via Frontend
+ Transport; Wed, 4 May 2022 10:53:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.201)
+ smtp.mailfrom=in.bosch.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=in.bosch.com;
+Received-SPF: Pass (protection.outlook.com: domain of in.bosch.com designates
+ 139.15.153.201 as permitted sender) receiver=protection.outlook.com;
+ client-ip=139.15.153.201; helo=eop.bosch-org.com;
+Received: from eop.bosch-org.com (139.15.153.201) by
+ VE1EUR03FT056.mail.protection.outlook.com (10.152.19.28) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5227.15 via Frontend Transport; Wed, 4 May 2022 10:53:19 +0000
+Received: from FE-EXCAS2000.de.bosch.com (10.139.217.199) by eop.bosch-org.com
+ (139.15.153.201) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2375.24; Wed, 4 May
+ 2022 12:53:16 +0200
+Received: from SI-HUB2000.de.bosch.com (10.4.103.108) by
+ FE-EXCAS2000.de.bosch.com (10.139.217.199) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.24; Wed, 4 May 2022 12:53:16 +0200
+Received: from localhost.localdomain (10.167.1.123) by SI-HUB2000.de.bosch.com
+ (10.4.103.108) with Microsoft SMTP Server id 15.1.2375.24; Wed, 4 May 2022
+ 12:53:12 +0200
+From:   <Gireesh.Hiremath@in.bosch.com>
+To:     <linux-omap@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <bcousson@baylibre.com>, <tony@atomide.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <dmitry.torokhov@gmail.com>,
+        <mkorpershoek@baylibre.com>, <davidgow@google.com>,
+        <m.felsch@pengutronix.de>, <swboyd@chromium.org>,
+        <fengping.yu@mediatek.com>, <y.oudjana@protonmail.com>,
+        <rdunlap@infradead.org>, <colin.king@intel.com>,
+        <Gireesh.Hiremath@in.bosch.com>
+CC:     <sjoerd.simons@collabora.co.uk>, <VinayKumar.Shettar@in.bosch.com>,
+        <Govindaraji.Sivanantham@in.bosch.com>,
+        <anaclaudia.dias@de.bosch.com>
+Subject: [PATCH 1/4] ARM: dts: am335x: Guardian: switch to AM33XX_PADCONF pinmux macro
+Date:   Wed, 4 May 2022 10:52:51 +0000
+Message-ID: <20220504105254.1576-1-Gireesh.Hiremath@in.bosch.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=21419; h=from:subject; bh=AiuEdVJioUgvDTPA4lRKcW2k28u7CN4A4cQTO3h28JM=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBicj1VgB5NK2Zov/uYy6FmcjhgOf/33cAp0Sh454ut Mzx6u/OJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYnI9VQAKCRDB/BR4rcrsCchcCA CY1rLXuKapSOAHu71giAWocx7Unaze9ctlFPConaXEU+UeXpZF+MM0l4hPeUeuoGkMFcwQZQjuKyoR mVZmRnZo1ihHjDmgREXrk0NkhJcisefLRIS1NEEvIRKaCAt+761njdVvKQQIpeLQnpkN2JVGUysltH CsXIpcyJ6noZZs8Y3wFDJmfBiqKeAVEQ+KxhvyIqoz8GETZFyQR/MA5v8zJpy92kXujQpXO7baLEtu 5qYygxE+tOPGPQjYd9F3RgnC1529GvxMB2Rus3KAM5uCiIaR8SP4lWOSXCL3kF/nDSzoypEH8rFYYU ReSPXx5kNQMbzvXIGKqDkBrwAD+p6N
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.167.1.123]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9211653f-b6f8-40a8-6803-08da2dbc4cf9
+X-MS-TrafficTypeDiagnostic: DBAPR10MB4203:EE_
+X-Microsoft-Antispam-PRVS: <DBAPR10MB4203E54AF34F54E00D744BA9A6C39@DBAPR10MB4203.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VAYaKOxtyarICDv9npy1Zwgzv8sFomYp/H7e9adtmPOEqFWnhfIUu+KiGgNtqH34AOiWxwe57B93tpoZtfjW2pWzS+mNwJBIil4gju8tiGUX3OEBgbV8kOoY+cYJZ3fTKQaINzFaqt+Yi8XkOjjnA3EjYg8+3uC1uxpGnG2DHfflkVYhCxg612r6keCrzHDFvgyJWfzM3D3o8It9yDdtEAWrLhIebwYDLuu16ft9jMsAt7HHePJFOGbQTtbhx+Tz6XqPAZy20ThzEzUFjIipniUBVJNmPNBuz0D0JGSeqfGqUoBF+O5joSjR56l23KeZL8CRCuAcjG6XgfiYoTenseB+r6/lUeliV6mbhJSOIEY+eMFGc6sN8hTwX4OBE7wB4JFHUXywjEa497otIXnc6UpEZWvaLZl44z7+YMNQG9yo20McAV/YBc6rZGYET6AFG0v2eu+Z+y26sVb6ze3q12jUXmqkQep4vTSSdaxkRWYz/UZ4igo6MW99FLhIHexyrCkzEnQM7bU88t1tvJKF/DQd+ZXl5h+/skeoErbdh+YsZ/Ke3gVz9DtfLrg5Co6QQ/yPMlcGn4UnhNtEOZGL/k6tghl1V/EYwoiavz4x2xl64KeSmU5xJ9QWaliYRoFINyyF7Ve5WcAixPb1Ez8P0rTI5FV4CmH0AdeSSPYBklKpfDiykRWDjv4Imy77Iu9m6sJ6wLlP1yDqZM/PcJoigQdik5jLQ87EGrkMHM4UbMI=
+X-Forefront-Antispam-Report: CIP:139.15.153.201;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:eop.bosch-org.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(7416002)(508600001)(30864003)(2906002)(16526019)(4326008)(8676002)(186003)(2876002)(1076003)(2616005)(47076005)(336012)(107886003)(5660300002)(70206006)(8936002)(70586007)(6666004)(86362001)(83380400001)(40460700003)(26005)(82310400005)(82960400001)(110136005)(54906003)(316002)(81166007)(921005)(7049001)(356005)(36860700001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: in.bosch.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2022 10:53:19.3868
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9211653f-b6f8-40a8-6803-08da2dbc4cf9
+X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4;Ip=[139.15.153.201];Helo=[eop.bosch-org.com]
+X-MS-Exchange-CrossTenant-AuthSource: VE1EUR03FT056.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR10MB4203
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,UPPERCASE_50_75
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The last user is gone since 2018 (commit 4ba66a976072 ("arch: remove
-blackfin port")). This is an i2c driver, so it could be used on a
-non-blackfin machine, but this driver requires platform data, so it cannot
-be bound using device tree.
+From: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+switch the pin definitions from AM33XX_IOPAD to AM33XX_PADCONF macro
+
+Signed-off-by: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
 ---
- MAINTAINERS                           |   1 -
- drivers/input/keyboard/Kconfig        |  10 -
- drivers/input/keyboard/Makefile       |   1 -
- drivers/input/keyboard/adp5588-keys.c | 672 --------------------------
- include/linux/platform_data/adp5588.h |  19 -
- 5 files changed, 703 deletions(-)
- delete mode 100644 drivers/input/keyboard/adp5588-keys.c
+ arch/arm/boot/dts/am335x-guardian.dts | 229 +++++++++++++++-----------
+ 1 file changed, 132 insertions(+), 97 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fd768d43e048..311fd3d528e8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -548,7 +548,6 @@ S:	Supported
- W:	http://wiki.analog.com/ADP5588
- W:	https://ez.analog.com/linux-software-drivers
- F:	drivers/gpio/gpio-adp5588.c
--F:	drivers/input/keyboard/adp5588-keys.c
+diff --git a/arch/arm/boot/dts/am335x-guardian.dts b/arch/arm/boot/dts/am335x-guardian.dts
+index 1a7e187b1953..94d9e51cd0f9 100644
+--- a/arch/arm/boot/dts/am335x-guardian.dts
++++ b/arch/arm/boot/dts/am335x-guardian.dts
+@@ -485,7 +485,7 @@
+ 	clkout2_pin: pinmux_clkout2_pin {
+ 		pinctrl-single,pins = <
+ 			/* xdma_event_intr1.clkout2 */
+-			AM33XX_IOPAD(0x9b4, PIN_OUTPUT_PULLDOWN | MUX_MODE3)
++			AM33XX_PADCONF(AM335X_PIN_XDMA_EVENT_INTR1, PIN_OUTPUT_PULLDOWN, MUX_MODE3)
+ 		>;
+ 	};
  
- ADP8860 BACKLIGHT DRIVER (ADP8860/ADP8861/ADP8863)
- M:	Michael Hennerich <michael.hennerich@analog.com>
-diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
-index 4ea79db8f134..8b4ec278f8b2 100644
---- a/drivers/input/keyboard/Kconfig
-+++ b/drivers/input/keyboard/Kconfig
-@@ -37,16 +37,6 @@ config KEYBOARD_ADP5520
- 	  To compile this driver as a module, choose M here: the module will
- 	  be called adp5520-keys.
+@@ -493,254 +493,289 @@
+ 		pinctrl-single,pins = <
+ 			/* ADC_BATSENSE_EN */
+ 			/* (A14) MCASP0_AHCLKx.gpio3[21] */
+-			AM33XX_IOPAD(0x9ac, PIN_OUTPUT_PULLDOWN | MUX_MODE7 )
++			AM33XX_PADCONF(AM335X_PIN_MCASP0_AHCLKX, PIN_OUTPUT_PULLDOWN, MUX_MODE7)
+ 			/* ADC_COINCELL_EN */
+ 			/* (J16) MII1_TX_EN.gpio3[3] */
+-			AM33XX_IOPAD(0x914, PIN_OUTPUT_PULLDOWN | MUX_MODE7 )
++			AM33XX_PADCONF(AM335X_PIN_MII1_TX_EN, PIN_OUTPUT_PULLDOWN, MUX_MODE7)
+ 			/* ASP_ENABLE */
+ 			/* (A13) MCASP0_ACLKx.gpio3[14] */
+-			AM33XX_IOPAD(0x990, PIN_OUTPUT_PULLUP | MUX_MODE7)
++			AM33XX_PADCONF(AM335X_PIN_MCASP0_ACLKX, PIN_OUTPUT_PULLUP, MUX_MODE7)
+ 			/* (D16) uart1_rxd.uart1_rxd */
+-			AM33XX_IOPAD(0x980, PIN_INPUT | MUX_MODE7)
++			AM33XX_PADCONF(AM335X_PIN_UART1_RXD, PIN_INPUT, MUX_MODE7)
+ 			/* (D15) uart1_txd.uart1_txd */
+-			AM33XX_IOPAD(0x984, PIN_INPUT | MUX_MODE7)
++			AM33XX_PADCONF(AM335X_PIN_UART1_TXD, PIN_INPUT, MUX_MODE7)
+ 			/*SWITCH-OFF_3V6*/
+ 			/* (M18) gpio0[1] */
+-			AM33XX_IOPAD(0x94c, PIN_OUTPUT_PULLUP | MUX_MODE7)
++			AM33XX_PADCONF(AM335X_PIN_MDC, PIN_OUTPUT_PULLUP, MUX_MODE7)
+ 			/* MIRACULIX */
+ 			/* (H17) gmii1_crs.gpio3[1] */
+-			AM33XX_IOPAD(0x90c, PIN_OUTPUT_PULLDOWN | MUX_MODE7 )
++			AM33XX_PADCONF(AM335X_PIN_MII1_CRS, PIN_OUTPUT_PULLDOWN, MUX_MODE7 )
+ 			/* (H18) rmii1_refclk.gpio0[29] */
+-			AM33XX_IOPAD(0x944, PIN_OUTPUT_PULLDOWN | MUX_MODE7 )
++			AM33XX_PADCONF(AM335X_PIN_RMII1_REF_CLK, PIN_OUTPUT_PULLDOWN, MUX_MODE7)
+ 			/* (J18) gmii1_txd3.gpio0[16] */
+-			AM33XX_IOPAD(0x91c, PIN_INPUT           | MUX_MODE7 )
++			AM33XX_PADCONF(AM335X_PIN_MII1_TXD3, PIN_INPUT, MUX_MODE7)
+ 			/* (J17) gmii1_rxdv.gpio3[4] */
+-			AM33XX_IOPAD(0x918, PIN_OUTPUT_PULLDOWN | MUX_MODE7 )
++			AM33XX_PADCONF(AM335X_PIN_MII1_RX_DV, PIN_OUTPUT_PULLDOWN, MUX_MODE7)
+ 		>;
+ 	};
  
--config KEYBOARD_ADP5588
--	tristate "ADP5588/87 I2C QWERTY Keypad and IO Expander"
--	depends on I2C
--	help
--	  Say Y here if you want to use a ADP5588/87 attached to your
--	  system I2C bus.
--
--	  To compile this driver as a module, choose M here: the
--	  module will be called adp5588-keys.
--
- config KEYBOARD_ADP5589
- 	tristate "ADP5585/ADP5589 I2C QWERTY Keypad and IO Expander"
- 	depends on I2C
-diff --git a/drivers/input/keyboard/Makefile b/drivers/input/keyboard/Makefile
-index 721936e90290..96643618fd41 100644
---- a/drivers/input/keyboard/Makefile
-+++ b/drivers/input/keyboard/Makefile
-@@ -7,7 +7,6 @@
+ 	guardian_beeper_pins: pinmux_dmtimer7_pins {
+ 		pinctrl-single,pins = <
+-			AM33XX_IOPAD(0x968, PIN_OUTPUT | MUX_MODE5) /* (E18) timer7 */
++			/* (E18) timer7 */
++			AM33XX_PADCONF(AM335X_PIN_UART0_CTSN, PIN_OUTPUT, MUX_MODE5)
+ 		>;
+ 	};
  
- obj-$(CONFIG_KEYBOARD_ADC)		+= adc-keys.o
- obj-$(CONFIG_KEYBOARD_ADP5520)		+= adp5520-keys.o
--obj-$(CONFIG_KEYBOARD_ADP5588)		+= adp5588-keys.o
- obj-$(CONFIG_KEYBOARD_ADP5589)		+= adp5589-keys.o
- obj-$(CONFIG_KEYBOARD_AMIGA)		+= amikbd.o
- obj-$(CONFIG_KEYBOARD_APPLESPI)		+= applespi.o
-diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
-deleted file mode 100644
-index 1592da4de336..000000000000
---- a/drivers/input/keyboard/adp5588-keys.c
-+++ /dev/null
-@@ -1,672 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- * File: drivers/input/keyboard/adp5588_keys.c
-- * Description:  keypad driver for ADP5588 and ADP5587
-- *		 I2C QWERTY Keypad and IO Expander
-- * Bugs: Enter bugs at http://blackfin.uclinux.org/
-- *
-- * Copyright (C) 2008-2010 Analog Devices Inc.
-- */
--
--#include <linux/module.h>
--#include <linux/interrupt.h>
--#include <linux/irq.h>
--#include <linux/workqueue.h>
--#include <linux/errno.h>
--#include <linux/pm.h>
--#include <linux/platform_device.h>
--#include <linux/input.h>
--#include <linux/i2c.h>
--#include <linux/gpio/driver.h>
--#include <linux/slab.h>
--
--#include <linux/platform_data/adp5588.h>
--
--/* Key Event Register xy */
--#define KEY_EV_PRESSED		(1 << 7)
--#define KEY_EV_MASK		(0x7F)
--
--#define KP_SEL(x)		(0xFFFF >> (16 - x))	/* 2^x-1 */
--
--#define KEYP_MAX_EVENT		10
--
--/*
-- * Early pre 4.0 Silicon required to delay readout by at least 25ms,
-- * since the Event Counter Register updated 25ms after the interrupt
-- * asserted.
-- */
--#define WA_DELAYED_READOUT_REVID(rev)		((rev) < 4)
--
--struct adp5588_kpad {
--	struct i2c_client *client;
--	struct input_dev *input;
--	struct delayed_work work;
--	unsigned long delay;
--	unsigned short keycode[ADP5588_KEYMAPSIZE];
--	const struct adp5588_gpi_map *gpimap;
--	unsigned short gpimapsize;
--#ifdef CONFIG_GPIOLIB
--	unsigned char gpiomap[ADP5588_MAXGPIO];
--	bool export_gpio;
--	struct gpio_chip gc;
--	struct mutex gpio_lock;	/* Protect cached dir, dat_out */
--	u8 dat_out[3];
--	u8 dir[3];
--#endif
--};
--
--static int adp5588_read(struct i2c_client *client, u8 reg)
--{
--	int ret = i2c_smbus_read_byte_data(client, reg);
--
--	if (ret < 0)
--		dev_err(&client->dev, "Read Error\n");
--
--	return ret;
--}
--
--static int adp5588_write(struct i2c_client *client, u8 reg, u8 val)
--{
--	return i2c_smbus_write_byte_data(client, reg, val);
--}
--
--#ifdef CONFIG_GPIOLIB
--static int adp5588_gpio_get_value(struct gpio_chip *chip, unsigned off)
--{
--	struct adp5588_kpad *kpad = gpiochip_get_data(chip);
--	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
--	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
--	int val;
--
--	mutex_lock(&kpad->gpio_lock);
--
--	if (kpad->dir[bank] & bit)
--		val = kpad->dat_out[bank];
--	else
--		val = adp5588_read(kpad->client, GPIO_DAT_STAT1 + bank);
--
--	mutex_unlock(&kpad->gpio_lock);
--
--	return !!(val & bit);
--}
--
--static void adp5588_gpio_set_value(struct gpio_chip *chip,
--				   unsigned off, int val)
--{
--	struct adp5588_kpad *kpad = gpiochip_get_data(chip);
--	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
--	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
--
--	mutex_lock(&kpad->gpio_lock);
--
--	if (val)
--		kpad->dat_out[bank] |= bit;
--	else
--		kpad->dat_out[bank] &= ~bit;
--
--	adp5588_write(kpad->client, GPIO_DAT_OUT1 + bank,
--			   kpad->dat_out[bank]);
--
--	mutex_unlock(&kpad->gpio_lock);
--}
--
--static int adp5588_gpio_direction_input(struct gpio_chip *chip, unsigned off)
--{
--	struct adp5588_kpad *kpad = gpiochip_get_data(chip);
--	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
--	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
--	int ret;
--
--	mutex_lock(&kpad->gpio_lock);
--
--	kpad->dir[bank] &= ~bit;
--	ret = adp5588_write(kpad->client, GPIO_DIR1 + bank, kpad->dir[bank]);
--
--	mutex_unlock(&kpad->gpio_lock);
--
--	return ret;
--}
--
--static int adp5588_gpio_direction_output(struct gpio_chip *chip,
--					 unsigned off, int val)
--{
--	struct adp5588_kpad *kpad = gpiochip_get_data(chip);
--	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
--	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
--	int ret;
--
--	mutex_lock(&kpad->gpio_lock);
--
--	kpad->dir[bank] |= bit;
--
--	if (val)
--		kpad->dat_out[bank] |= bit;
--	else
--		kpad->dat_out[bank] &= ~bit;
--
--	ret = adp5588_write(kpad->client, GPIO_DAT_OUT1 + bank,
--				 kpad->dat_out[bank]);
--	ret |= adp5588_write(kpad->client, GPIO_DIR1 + bank,
--				 kpad->dir[bank]);
--
--	mutex_unlock(&kpad->gpio_lock);
--
--	return ret;
--}
--
--static int adp5588_build_gpiomap(struct adp5588_kpad *kpad,
--				const struct adp5588_kpad_platform_data *pdata)
--{
--	bool pin_used[ADP5588_MAXGPIO];
--	int n_unused = 0;
--	int i;
--
--	memset(pin_used, 0, sizeof(pin_used));
--
--	for (i = 0; i < pdata->rows; i++)
--		pin_used[i] = true;
--
--	for (i = 0; i < pdata->cols; i++)
--		pin_used[i + GPI_PIN_COL_BASE - GPI_PIN_BASE] = true;
--
--	for (i = 0; i < kpad->gpimapsize; i++)
--		pin_used[kpad->gpimap[i].pin - GPI_PIN_BASE] = true;
--
--	for (i = 0; i < ADP5588_MAXGPIO; i++)
--		if (!pin_used[i])
--			kpad->gpiomap[n_unused++] = i;
--
--	return n_unused;
--}
--
--static int adp5588_gpio_add(struct adp5588_kpad *kpad)
--{
--	struct device *dev = &kpad->client->dev;
--	const struct adp5588_kpad_platform_data *pdata = dev_get_platdata(dev);
--	const struct adp5588_gpio_platform_data *gpio_data = pdata->gpio_data;
--	int i, error;
--
--	if (!gpio_data)
--		return 0;
--
--	kpad->gc.ngpio = adp5588_build_gpiomap(kpad, pdata);
--	if (kpad->gc.ngpio == 0) {
--		dev_info(dev, "No unused gpios left to export\n");
--		return 0;
--	}
--
--	kpad->export_gpio = true;
--
--	kpad->gc.direction_input = adp5588_gpio_direction_input;
--	kpad->gc.direction_output = adp5588_gpio_direction_output;
--	kpad->gc.get = adp5588_gpio_get_value;
--	kpad->gc.set = adp5588_gpio_set_value;
--	kpad->gc.can_sleep = 1;
--
--	kpad->gc.base = gpio_data->gpio_start;
--	kpad->gc.label = kpad->client->name;
--	kpad->gc.owner = THIS_MODULE;
--	kpad->gc.names = gpio_data->names;
--
--	mutex_init(&kpad->gpio_lock);
--
--	error = gpiochip_add_data(&kpad->gc, kpad);
--	if (error) {
--		dev_err(dev, "gpiochip_add failed, err: %d\n", error);
--		return error;
--	}
--
--	for (i = 0; i <= ADP5588_BANK(ADP5588_MAXGPIO); i++) {
--		kpad->dat_out[i] = adp5588_read(kpad->client,
--						GPIO_DAT_OUT1 + i);
--		kpad->dir[i] = adp5588_read(kpad->client, GPIO_DIR1 + i);
--	}
--
--	if (gpio_data->setup) {
--		error = gpio_data->setup(kpad->client,
--					 kpad->gc.base, kpad->gc.ngpio,
--					 gpio_data->context);
--		if (error)
--			dev_warn(dev, "setup failed, %d\n", error);
--	}
--
--	return 0;
--}
--
--static void adp5588_gpio_remove(struct adp5588_kpad *kpad)
--{
--	struct device *dev = &kpad->client->dev;
--	const struct adp5588_kpad_platform_data *pdata = dev_get_platdata(dev);
--	const struct adp5588_gpio_platform_data *gpio_data = pdata->gpio_data;
--	int error;
--
--	if (!kpad->export_gpio)
--		return;
--
--	if (gpio_data->teardown) {
--		error = gpio_data->teardown(kpad->client,
--					    kpad->gc.base, kpad->gc.ngpio,
--					    gpio_data->context);
--		if (error)
--			dev_warn(dev, "teardown failed %d\n", error);
--	}
--
--	gpiochip_remove(&kpad->gc);
--}
--#else
--static inline int adp5588_gpio_add(struct adp5588_kpad *kpad)
--{
--	return 0;
--}
--
--static inline void adp5588_gpio_remove(struct adp5588_kpad *kpad)
--{
--}
--#endif
--
--static void adp5588_report_events(struct adp5588_kpad *kpad, int ev_cnt)
--{
--	int i, j;
--
--	for (i = 0; i < ev_cnt; i++) {
--		int key = adp5588_read(kpad->client, Key_EVENTA + i);
--		int key_val = key & KEY_EV_MASK;
--
--		if (key_val >= GPI_PIN_BASE && key_val <= GPI_PIN_END) {
--			for (j = 0; j < kpad->gpimapsize; j++) {
--				if (key_val == kpad->gpimap[j].pin) {
--					input_report_switch(kpad->input,
--							kpad->gpimap[j].sw_evt,
--							key & KEY_EV_PRESSED);
--					break;
--				}
--			}
--		} else {
--			input_report_key(kpad->input,
--					 kpad->keycode[key_val - 1],
--					 key & KEY_EV_PRESSED);
--		}
--	}
--}
--
--static void adp5588_work(struct work_struct *work)
--{
--	struct adp5588_kpad *kpad = container_of(work,
--						struct adp5588_kpad, work.work);
--	struct i2c_client *client = kpad->client;
--	int status, ev_cnt;
--
--	status = adp5588_read(client, INT_STAT);
--
--	if (status & ADP5588_OVR_FLOW_INT)	/* Unlikely and should never happen */
--		dev_err(&client->dev, "Event Overflow Error\n");
--
--	if (status & ADP5588_KE_INT) {
--		ev_cnt = adp5588_read(client, KEY_LCK_EC_STAT) & ADP5588_KEC;
--		if (ev_cnt) {
--			adp5588_report_events(kpad, ev_cnt);
--			input_sync(kpad->input);
--		}
--	}
--	adp5588_write(client, INT_STAT, status); /* Status is W1C */
--}
--
--static irqreturn_t adp5588_irq(int irq, void *handle)
--{
--	struct adp5588_kpad *kpad = handle;
--
--	/*
--	 * use keventd context to read the event fifo registers
--	 * Schedule readout at least 25ms after notification for
--	 * REVID < 4
--	 */
--
--	schedule_delayed_work(&kpad->work, kpad->delay);
--
--	return IRQ_HANDLED;
--}
--
--static int adp5588_setup(struct i2c_client *client)
--{
--	const struct adp5588_kpad_platform_data *pdata =
--			dev_get_platdata(&client->dev);
--	const struct adp5588_gpio_platform_data *gpio_data = pdata->gpio_data;
--	int i, ret;
--	unsigned char evt_mode1 = 0, evt_mode2 = 0, evt_mode3 = 0;
--
--	ret = adp5588_write(client, KP_GPIO1, KP_SEL(pdata->rows));
--	ret |= adp5588_write(client, KP_GPIO2, KP_SEL(pdata->cols) & 0xFF);
--	ret |= adp5588_write(client, KP_GPIO3, KP_SEL(pdata->cols) >> 8);
--
--	if (pdata->en_keylock) {
--		ret |= adp5588_write(client, UNLOCK1, pdata->unlock_key1);
--		ret |= adp5588_write(client, UNLOCK2, pdata->unlock_key2);
--		ret |= adp5588_write(client, KEY_LCK_EC_STAT, ADP5588_K_LCK_EN);
--	}
--
--	for (i = 0; i < KEYP_MAX_EVENT; i++)
--		ret |= adp5588_read(client, Key_EVENTA);
--
--	for (i = 0; i < pdata->gpimapsize; i++) {
--		unsigned short pin = pdata->gpimap[i].pin;
--
--		if (pin <= GPI_PIN_ROW_END) {
--			evt_mode1 |= (1 << (pin - GPI_PIN_ROW_BASE));
--		} else {
--			evt_mode2 |= ((1 << (pin - GPI_PIN_COL_BASE)) & 0xFF);
--			evt_mode3 |= ((1 << (pin - GPI_PIN_COL_BASE)) >> 8);
--		}
--	}
--
--	if (pdata->gpimapsize) {
--		ret |= adp5588_write(client, GPI_EM1, evt_mode1);
--		ret |= adp5588_write(client, GPI_EM2, evt_mode2);
--		ret |= adp5588_write(client, GPI_EM3, evt_mode3);
--	}
--
--	if (gpio_data) {
--		for (i = 0; i <= ADP5588_BANK(ADP5588_MAXGPIO); i++) {
--			int pull_mask = gpio_data->pullup_dis_mask;
--
--			ret |= adp5588_write(client, GPIO_PULL1 + i,
--				(pull_mask >> (8 * i)) & 0xFF);
--		}
--	}
--
--	ret |= adp5588_write(client, INT_STAT,
--				ADP5588_CMP2_INT | ADP5588_CMP1_INT |
--				ADP5588_OVR_FLOW_INT | ADP5588_K_LCK_INT |
--				ADP5588_GPI_INT | ADP5588_KE_INT); /* Status is W1C */
--
--	ret |= adp5588_write(client, CFG, ADP5588_INT_CFG |
--					  ADP5588_OVR_FLOW_IEN |
--					  ADP5588_KE_IEN);
--
--	if (ret < 0) {
--		dev_err(&client->dev, "Write Error\n");
--		return ret;
--	}
--
--	return 0;
--}
--
--static void adp5588_report_switch_state(struct adp5588_kpad *kpad)
--{
--	int gpi_stat1 = adp5588_read(kpad->client, GPIO_DAT_STAT1);
--	int gpi_stat2 = adp5588_read(kpad->client, GPIO_DAT_STAT2);
--	int gpi_stat3 = adp5588_read(kpad->client, GPIO_DAT_STAT3);
--	int gpi_stat_tmp, pin_loc;
--	int i;
--
--	for (i = 0; i < kpad->gpimapsize; i++) {
--		unsigned short pin = kpad->gpimap[i].pin;
--
--		if (pin <= GPI_PIN_ROW_END) {
--			gpi_stat_tmp = gpi_stat1;
--			pin_loc = pin - GPI_PIN_ROW_BASE;
--		} else if ((pin - GPI_PIN_COL_BASE) < 8) {
--			gpi_stat_tmp = gpi_stat2;
--			pin_loc = pin - GPI_PIN_COL_BASE;
--		} else {
--			gpi_stat_tmp = gpi_stat3;
--			pin_loc = pin - GPI_PIN_COL_BASE - 8;
--		}
--
--		if (gpi_stat_tmp < 0) {
--			dev_err(&kpad->client->dev,
--				"Can't read GPIO_DAT_STAT switch %d default to OFF\n",
--				pin);
--			gpi_stat_tmp = 0;
--		}
--
--		input_report_switch(kpad->input,
--				    kpad->gpimap[i].sw_evt,
--				    !(gpi_stat_tmp & (1 << pin_loc)));
--	}
--
--	input_sync(kpad->input);
--}
--
--
--static int adp5588_probe(struct i2c_client *client,
--			 const struct i2c_device_id *id)
--{
--	struct adp5588_kpad *kpad;
--	const struct adp5588_kpad_platform_data *pdata =
--			dev_get_platdata(&client->dev);
--	struct input_dev *input;
--	unsigned int revid;
--	int ret, i;
--	int error;
--
--	if (!i2c_check_functionality(client->adapter,
--					I2C_FUNC_SMBUS_BYTE_DATA)) {
--		dev_err(&client->dev, "SMBUS Byte Data not Supported\n");
--		return -EIO;
--	}
--
--	if (!pdata) {
--		dev_err(&client->dev, "no platform data?\n");
--		return -EINVAL;
--	}
--
--	if (!pdata->rows || !pdata->cols || !pdata->keymap) {
--		dev_err(&client->dev, "no rows, cols or keymap from pdata\n");
--		return -EINVAL;
--	}
--
--	if (pdata->keymapsize != ADP5588_KEYMAPSIZE) {
--		dev_err(&client->dev, "invalid keymapsize\n");
--		return -EINVAL;
--	}
--
--	if (!pdata->gpimap && pdata->gpimapsize) {
--		dev_err(&client->dev, "invalid gpimap from pdata\n");
--		return -EINVAL;
--	}
--
--	if (pdata->gpimapsize > ADP5588_GPIMAPSIZE_MAX) {
--		dev_err(&client->dev, "invalid gpimapsize\n");
--		return -EINVAL;
--	}
--
--	for (i = 0; i < pdata->gpimapsize; i++) {
--		unsigned short pin = pdata->gpimap[i].pin;
--
--		if (pin < GPI_PIN_BASE || pin > GPI_PIN_END) {
--			dev_err(&client->dev, "invalid gpi pin data\n");
--			return -EINVAL;
--		}
--
--		if (pin <= GPI_PIN_ROW_END) {
--			if (pin - GPI_PIN_ROW_BASE + 1 <= pdata->rows) {
--				dev_err(&client->dev, "invalid gpi row data\n");
--				return -EINVAL;
--			}
--		} else {
--			if (pin - GPI_PIN_COL_BASE + 1 <= pdata->cols) {
--				dev_err(&client->dev, "invalid gpi col data\n");
--				return -EINVAL;
--			}
--		}
--	}
--
--	if (!client->irq) {
--		dev_err(&client->dev, "no IRQ?\n");
--		return -EINVAL;
--	}
--
--	kpad = kzalloc(sizeof(*kpad), GFP_KERNEL);
--	input = input_allocate_device();
--	if (!kpad || !input) {
--		error = -ENOMEM;
--		goto err_free_mem;
--	}
--
--	kpad->client = client;
--	kpad->input = input;
--	INIT_DELAYED_WORK(&kpad->work, adp5588_work);
--
--	ret = adp5588_read(client, DEV_ID);
--	if (ret < 0) {
--		error = ret;
--		goto err_free_mem;
--	}
--
--	revid = (u8) ret & ADP5588_DEVICE_ID_MASK;
--	if (WA_DELAYED_READOUT_REVID(revid))
--		kpad->delay = msecs_to_jiffies(30);
--
--	input->name = client->name;
--	input->phys = "adp5588-keys/input0";
--	input->dev.parent = &client->dev;
--
--	input_set_drvdata(input, kpad);
--
--	input->id.bustype = BUS_I2C;
--	input->id.vendor = 0x0001;
--	input->id.product = 0x0001;
--	input->id.version = revid;
--
--	input->keycodesize = sizeof(kpad->keycode[0]);
--	input->keycodemax = pdata->keymapsize;
--	input->keycode = kpad->keycode;
--
--	memcpy(kpad->keycode, pdata->keymap,
--		pdata->keymapsize * input->keycodesize);
--
--	kpad->gpimap = pdata->gpimap;
--	kpad->gpimapsize = pdata->gpimapsize;
--
--	/* setup input device */
--	__set_bit(EV_KEY, input->evbit);
--
--	if (pdata->repeat)
--		__set_bit(EV_REP, input->evbit);
--
--	for (i = 0; i < input->keycodemax; i++)
--		if (kpad->keycode[i] <= KEY_MAX)
--			__set_bit(kpad->keycode[i], input->keybit);
--	__clear_bit(KEY_RESERVED, input->keybit);
--
--	if (kpad->gpimapsize)
--		__set_bit(EV_SW, input->evbit);
--	for (i = 0; i < kpad->gpimapsize; i++)
--		__set_bit(kpad->gpimap[i].sw_evt, input->swbit);
--
--	error = input_register_device(input);
--	if (error) {
--		dev_err(&client->dev, "unable to register input device\n");
--		goto err_free_mem;
--	}
--
--	error = request_irq(client->irq, adp5588_irq,
--			    IRQF_TRIGGER_FALLING,
--			    client->dev.driver->name, kpad);
--	if (error) {
--		dev_err(&client->dev, "irq %d busy?\n", client->irq);
--		goto err_unreg_dev;
--	}
--
--	error = adp5588_setup(client);
--	if (error)
--		goto err_free_irq;
--
--	if (kpad->gpimapsize)
--		adp5588_report_switch_state(kpad);
--
--	error = adp5588_gpio_add(kpad);
--	if (error)
--		goto err_free_irq;
--
--	device_init_wakeup(&client->dev, 1);
--	i2c_set_clientdata(client, kpad);
--
--	dev_info(&client->dev, "Rev.%d keypad, irq %d\n", revid, client->irq);
--	return 0;
--
-- err_free_irq:
--	free_irq(client->irq, kpad);
--	cancel_delayed_work_sync(&kpad->work);
-- err_unreg_dev:
--	input_unregister_device(input);
--	input = NULL;
-- err_free_mem:
--	input_free_device(input);
--	kfree(kpad);
--
--	return error;
--}
--
--static int adp5588_remove(struct i2c_client *client)
--{
--	struct adp5588_kpad *kpad = i2c_get_clientdata(client);
--
--	adp5588_write(client, CFG, 0);
--	free_irq(client->irq, kpad);
--	cancel_delayed_work_sync(&kpad->work);
--	input_unregister_device(kpad->input);
--	adp5588_gpio_remove(kpad);
--	kfree(kpad);
--
--	return 0;
--}
--
--#ifdef CONFIG_PM
--static int adp5588_suspend(struct device *dev)
--{
--	struct adp5588_kpad *kpad = dev_get_drvdata(dev);
--	struct i2c_client *client = kpad->client;
--
--	disable_irq(client->irq);
--	cancel_delayed_work_sync(&kpad->work);
--
--	if (device_may_wakeup(&client->dev))
--		enable_irq_wake(client->irq);
--
--	return 0;
--}
--
--static int adp5588_resume(struct device *dev)
--{
--	struct adp5588_kpad *kpad = dev_get_drvdata(dev);
--	struct i2c_client *client = kpad->client;
--
--	if (device_may_wakeup(&client->dev))
--		disable_irq_wake(client->irq);
--
--	enable_irq(client->irq);
--
--	return 0;
--}
--
--static const struct dev_pm_ops adp5588_dev_pm_ops = {
--	.suspend = adp5588_suspend,
--	.resume  = adp5588_resume,
--};
--#endif
--
--static const struct i2c_device_id adp5588_id[] = {
--	{ "adp5588-keys", 0 },
--	{ "adp5587-keys", 0 },
--	{ }
--};
--MODULE_DEVICE_TABLE(i2c, adp5588_id);
--
--static struct i2c_driver adp5588_driver = {
--	.driver = {
--		.name = KBUILD_MODNAME,
--#ifdef CONFIG_PM
--		.pm   = &adp5588_dev_pm_ops,
--#endif
--	},
--	.probe    = adp5588_probe,
--	.remove   = adp5588_remove,
--	.id_table = adp5588_id,
--};
--
--module_i2c_driver(adp5588_driver);
--
--MODULE_LICENSE("GPL");
--MODULE_AUTHOR("Michael Hennerich <hennerich@blackfin.uclinux.org>");
--MODULE_DESCRIPTION("ADP5588/87 Keypad driver");
-diff --git a/include/linux/platform_data/adp5588.h b/include/linux/platform_data/adp5588.h
-index 6d3f7d911a92..931ceecd1fc6 100644
---- a/include/linux/platform_data/adp5588.h
-+++ b/include/linux/platform_data/adp5588.h
-@@ -133,25 +133,6 @@
+ 	guardian_button_pins: pinmux_guardian_button_pins {
+ 		pinctrl-single,pins = <
+-			AM33XX_IOPAD(0x940, PIN_INPUT | MUX_MODE7) /* (M16) gmii1_rxd0.gpio2[21] */
+-			AM33XX_IOPAD(0x884, PIN_INPUT | MUX_MODE7) /* (V9)  gpmc_csn2.gpio1[31] */
++			/* (M16) gmii1_rxd0.gpio2[21] */
++			AM33XX_PADCONF(AM335X_PIN_MII1_RXD0, PIN_INPUT, MUX_MODE7)
++			/* (V9)  gpmc_csn2.gpio1[31] */
++			AM33XX_PADCONF(AM335X_PIN_GPMC_CSN2, PIN_INPUT, MUX_MODE7)
+ 		>;
+ 	};
  
- #define ADP5588_GPIMAPSIZE_MAX (GPI_PIN_END - GPI_PIN_BASE + 1)
  
--struct adp5588_gpi_map {
--	unsigned short pin;
--	unsigned short sw_evt;
--};
--
--struct adp5588_kpad_platform_data {
--	int rows;			/* Number of rows */
--	int cols;			/* Number of columns */
--	const unsigned short *keymap;	/* Pointer to keymap */
--	unsigned short keymapsize;	/* Keymap size */
--	unsigned repeat:1;		/* Enable key repeat */
--	unsigned en_keylock:1;		/* Enable Key Lock feature */
--	unsigned short unlock_key1;	/* Unlock Key 1 */
--	unsigned short unlock_key2;	/* Unlock Key 2 */
--	const struct adp5588_gpi_map *gpimap;
--	unsigned short gpimapsize;
--	const struct adp5588_gpio_platform_data *gpio_data;
--};
--
- struct i2c_client; /* forward declaration */
+ 	i2c0_pins: pinmux_i2c0_pins {
+ 		pinctrl-single,pins = <
+-			AM33XX_IOPAD(0x988, PIN_INPUT_PULLUP | MUX_MODE0) /* i2c0_sda.i2c0_sda */
+-			AM33XX_IOPAD(0x98c, PIN_INPUT_PULLUP | MUX_MODE0) /* i2c0_scl.i2c0_scl */
++			/* i2c0_sda.i2c0_sda */
++			AM33XX_PADCONF(AM335X_PIN_I2C0_SDA, PIN_INPUT_PULLUP, MUX_MODE0)
++			/* i2c0_scl.i2c0_scl */
++			AM33XX_PADCONF(AM335X_PIN_I2C0_SCL, PIN_INPUT_PULLUP, MUX_MODE0)
+ 		>;
+ 	};
  
- struct adp5588_gpio_platform_data {
-
-base-commit: 3123109284176b1532874591f7c81f3837bbdc17
+ 	led_bl_pins: gpio_led_bl_pins {
+ 		pinctrl-single,pins = <
+ 			/* P9_14, gpmc_a[2].GPIO1[18] (backlight control) */
+-			AM33XX_IOPAD(0x848, PIN_OUTPUT | MUX_MODE7)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_A2, PIN_OUTPUT, MUX_MODE7)
+ 		>;
+ 	};
+ 
+ 	lcd_disen_pins: pinmux_lcd_disen_pins {
+ 		pinctrl-single,pins = <
+ 			/* P9_27, mcasp0_fsr.gpio3[19] (lcd_disen) */
+-			AM33XX_IOPAD(0x9a4, PIN_OUTPUT_PULLUP | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_MCASP0_FSR, PIN_OUTPUT_PULLUP | SLEWCTRL_SLOW, MUX_MODE7)
+ 		>;
+ 	};
+ 
+ 	lcd_pins_default: pinmux_lcd_pins_default {
+ 		pinctrl-single,pins = <
+ 			/* (U10) gpmc_ad8.lcd_data23 */
+-			AM33XX_IOPAD(0x820, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE1)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD8, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE1)
+ 			/* (T10) gpmc_ad9.lcd_data22 */
+-			AM33XX_IOPAD(0x824, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE1)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD9, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE1)
+ 			/* (T11) gpmc_ad10.lcd_data21 */
+-			AM33XX_IOPAD(0x828, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE1)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD10, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE1)
+ 			/* (U12) gpmc_ad11.lcd_data20 */
+-			AM33XX_IOPAD(0x82c, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE1)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD11, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE1)
+ 			/* (T12) gpmc_ad12.lcd_data19 */
+-			AM33XX_IOPAD(0x830, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE1)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD12, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE1)
+ 			/* (R12) gpmc_ad13.lcd_data18 */
+-			AM33XX_IOPAD(0x834, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE1)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD13, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE1)
+ 			/* (V13) gpmc_ad14.lcd_data17 */
+-			AM33XX_IOPAD(0x838, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE1)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD14, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE1)
+ 			/* (U13) gpmc_ad15.lcd_data16 */
+-			AM33XX_IOPAD(0x83c, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE1)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD15, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE1)
+ 			/* lcd_data0.lcd_data0 */
+-			AM33XX_IOPAD(0x8a0, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA0, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data1.lcd_data1 */
+-			AM33XX_IOPAD(0x8a4, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA1, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data2.lcd_data2 */
+-			AM33XX_IOPAD(0x8a8, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA2, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data3.lcd_data3 */
+-			AM33XX_IOPAD(0x8ac, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA3, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data4.lcd_data4 */
+-			AM33XX_IOPAD(0x8b0, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA4, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data5.lcd_data5 */
+-			AM33XX_IOPAD(0x8b4, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA5, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data6.lcd_data6 */
+-			AM33XX_IOPAD(0x8b8, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA6, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data7.lcd_data7 */
+-			AM33XX_IOPAD(0x8bc, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA7, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data8.lcd_data8 */
+-			AM33XX_IOPAD(0x8c0, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA8, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data9.lcd_data9 */
+-			AM33XX_IOPAD(0x8c4, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA9, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data10.lcd_data10 */
+-			AM33XX_IOPAD(0x8c8, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA10, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data11.lcd_data11 */
+-			AM33XX_IOPAD(0x8cc, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA11, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data12.lcd_data12 */
+-			AM33XX_IOPAD(0x8d0, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA12, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data13.lcd_data13 */
+-			AM33XX_IOPAD(0x8d4, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA13, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data14.lcd_data14 */
+-			AM33XX_IOPAD(0x8d8, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA14, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_data15.lcd_data15 */
+-			AM33XX_IOPAD(0x8dc, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA15, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_vsync.lcd_vsync */
+-			AM33XX_IOPAD(0x8e0, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_VSYNC, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_hsync.lcd_hsync */
+-			AM33XX_IOPAD(0x8e4, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_HSYNC, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_pclk.lcd_pclk */
+-			AM33XX_IOPAD(0x8e8, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_PCLK, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 			/* lcd_ac_bias_en.lcd_ac_bias_en */
+-			AM33XX_IOPAD(0x8ec, PIN_OUTPUT | SLEWCTRL_SLOW | MUX_MODE0)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_AC_BIAS_EN, PIN_OUTPUT | SLEWCTRL_SLOW, MUX_MODE0)
+ 		>;
+ 	};
+ 
+ 	lcd_pins_sleep: pinmux_lcd_pins_sleep {
+ 		pinctrl-single,pins = <
+ 			/* lcd_data0.lcd_data0 */
+-			AM33XX_IOPAD(0x8a0, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA0, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data1.lcd_data1 */
+-			AM33XX_IOPAD(0x8a4, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA1, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data2.lcd_data2 */
+-			AM33XX_IOPAD(0x8a8, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA2, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data3.lcd_data3 */
+-			AM33XX_IOPAD(0x8ac, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA3, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data4.lcd_data4 */
+-			AM33XX_IOPAD(0x8b0, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA4, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data5.lcd_data5 */
+-			AM33XX_IOPAD(0x8b4, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA5, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data6.lcd_data6 */
+-			AM33XX_IOPAD(0x8b8, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA6, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data7.lcd_data7 */
+-			AM33XX_IOPAD(0x8bc, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA7, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data8.lcd_data8 */
+-			AM33XX_IOPAD(0x8c0, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA8, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data9.lcd_data9 */
+-			AM33XX_IOPAD(0x8c4, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA9, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data10.lcd_data10 */
+-			AM33XX_IOPAD(0x8c8, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA10, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data11.lcd_data11 */
+-			AM33XX_IOPAD(0x8cc, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA11, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data12.lcd_data12 */
+-			AM33XX_IOPAD(0x8d0, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA12, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data13.lcd_data13 */
+-			AM33XX_IOPAD(0x8d4, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA13, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data14.lcd_data14 */
+-			AM33XX_IOPAD(0x8d8, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA14, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_data15.lcd_data15 */
+-			AM33XX_IOPAD(0x8dc, PULL_DISABLE | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_DATA15, PULL_DISABLE | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_vsync.lcd_vsync */
+-			AM33XX_IOPAD(0x8e0, PIN_INPUT_PULLDOWN | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_VSYNC, PIN_INPUT_PULLDOWN | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_hsync.lcd_hsync */
+-			AM33XX_IOPAD(0x8e4, PIN_INPUT_PULLDOWN | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_HSYNC, PIN_INPUT_PULLDOWN | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_pclk.lcd_pclk */
+-			AM33XX_IOPAD(0x8e8, PIN_INPUT_PULLDOWN | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_PCLK, PIN_INPUT_PULLDOWN | SLEWCTRL_SLOW, MUX_MODE7)
+ 			/* lcd_ac_bias_en.lcd_ac_bias_en */
+-			AM33XX_IOPAD(0x8ec, PIN_INPUT_PULLDOWN | SLEWCTRL_SLOW | MUX_MODE7)
++			AM33XX_PADCONF
++			(AM335X_PIN_LCD_AC_BIAS_EN, PIN_INPUT_PULLDOWN | SLEWCTRL_SLOW, MUX_MODE7)
+ 		>;
+ 	};
+ 
+ 	guardian_led_pins: pinmux_guardian_led_pins {
+ 		pinctrl-single,pins = <
+-			AM33XX_IOPAD(0x868, PIN_OUTPUT | MUX_MODE7) /* (T16) gpmc_a10.gpio1[26] */
++			/* (T16) gpmc_a10.gpio1[26] */
++			AM33XX_PADCONF(AM335X_PIN_GPMC_A10, PIN_OUTPUT, MUX_MODE7)
+ 		>;
+ 	};
+ 
+ 	mmc1_pins: pinmux_mmc1_pins {
+ 		pinctrl-single,pins = <
+-			AM33XX_IOPAD(0x8f0, PIN_INPUT_PULLUP | MUX_MODE0)  /* mmc0_dat3.mmc0_dat3 */
+-			AM33XX_IOPAD(0x8f4, PIN_INPUT_PULLUP | MUX_MODE0)  /* mmc0_dat2.mmc0_dat2 */
+-			AM33XX_IOPAD(0x8f8, PIN_INPUT_PULLUP | MUX_MODE0)  /* mmc0_dat1.mmc0_dat1 */
+-			AM33XX_IOPAD(0x8fc, PIN_INPUT_PULLUP | MUX_MODE0)  /* mmc0_dat0.mmc0_dat0 */
+-			AM33XX_IOPAD(0x900, PIN_INPUT_PULLUP | MUX_MODE0)  /* mmc0_clk.mmc0_clk */
+-			AM33XX_IOPAD(0x904, PIN_INPUT_PULLUP | MUX_MODE0)  /* mmc0_cmd.mmc0_cmd */
+-			AM33XX_IOPAD(0x960, PIN_INPUT | MUX_MODE7)         /* GPIO0_6 */
++			/* mmc0_dat3.mmc0_dat3 */
++			AM33XX_PADCONF(AM335X_PIN_MMC0_DAT3, PIN_INPUT_PULLUP, MUX_MODE0)
++			/* mmc0_dat2.mmc0_dat2 */
++			AM33XX_PADCONF(AM335X_PIN_MMC0_DAT2, PIN_INPUT_PULLUP, MUX_MODE0)
++			/* mmc0_dat1.mmc0_dat1 */
++			AM33XX_PADCONF(AM335X_PIN_MMC0_DAT1, PIN_INPUT_PULLUP, MUX_MODE0)
++			/* mmc0_dat0.mmc0_dat0 */
++			AM33XX_PADCONF(AM335X_PIN_MMC0_DAT0, PIN_INPUT_PULLUP, MUX_MODE0)
++			/* mmc0_clk.mmc0_clk */
++			AM33XX_PADCONF(AM335X_PIN_MMC0_CLK, PIN_INPUT_PULLUP, MUX_MODE0)
++			/* mmc0_cmd.mmc0_cmd */
++			AM33XX_PADCONF(AM335X_PIN_MMC0_CMD, PIN_INPUT_PULLUP, MUX_MODE0)
++			/* GPIO0_6 */
++			AM33XX_PADCONF(AM335X_PIN_SPI0_CS1, PIN_INPUT, MUX_MODE7)
+ 		>;
+ 	};
+ 
+ 	spi0_pins: pinmux_spi0_pins {
+ 		pinctrl-single,pins = <
+ 			/* SPI0_CLK  - spi0_clk.spi */
+-			AM33XX_IOPAD(0x950, PIN_OUTPUT_PULLDOWN | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_SPI0_SCLK, PIN_OUTPUT_PULLDOWN, MUX_MODE0)
+ 			/* SPI0_MOSI - spi0_d0.spi0 */
+-			AM33XX_IOPAD(0x954, PIN_OUTPUT_PULLUP | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_SPI0_D0, PIN_OUTPUT_PULLUP, MUX_MODE0)
+ 			/* SPI0_MISO - spi0_d1.spi0 */
+-			AM33XX_IOPAD(0x958, PIN_INPUT_PULLUP | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_SPI0_D1, PIN_INPUT_PULLUP, MUX_MODE0)
+ 			/* SPI0_CS0 - spi */
+-			AM33XX_IOPAD(0x95c, PIN_OUTPUT_PULLUP | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_SPI0_CS0, PIN_OUTPUT_PULLUP, MUX_MODE0)
+ 		>;
+ 	};
+ 
+ 	uart0_pins: pinmux_uart0_pins {
+ 		pinctrl-single,pins = <
+ 			/* uart0_rxd.uart0_rxd */
+-			AM33XX_IOPAD(0x970, PIN_INPUT_PULLUP | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_UART0_RXD, PIN_INPUT_PULLUP, MUX_MODE0)
+ 			/* uart0_txd.uart0_txd */
+-			AM33XX_IOPAD(0x974, PIN_OUTPUT_PULLDOWN | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_UART0_TXD, PIN_OUTPUT_PULLDOWN, MUX_MODE0)
+ 		>;
+ 	};
+ 
+ 	uart2_pins: pinmux_uart2_pins {
+ 		pinctrl-single,pins = <
+ 			/* K18 uart2_rxd.mirx_txd */
+-			AM33XX_IOPAD(0x92c, PIN_INPUT_PULLUP | MUX_MODE1)
++			AM33XX_PADCONF(AM335X_PIN_MII1_TX_CLK, PIN_INPUT_PULLUP, MUX_MODE1)
+ 			/* L18 uart2_txd.mirx_rxd */
+-			AM33XX_IOPAD(0x930, PIN_OUTPUT_PULLDOWN | MUX_MODE1)
++			AM33XX_PADCONF(AM335X_PIN_MII1_RX_CLK, PIN_OUTPUT_PULLDOWN, MUX_MODE1)
+ 		>;
+ 	};
+ 
+ 	nandflash_pins: pinmux_nandflash_pins {
+ 		pinctrl-single,pins = <
+ 			/* (U7) gpmc_ad0.gpmc_ad0 */
+-			AM33XX_IOPAD(0x800, PIN_INPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD0, PIN_INPUT, MUX_MODE0)
+ 			/* (V7) gpmc_ad1.gpmc_ad1 */
+-			AM33XX_IOPAD(0x804, PIN_INPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD1, PIN_INPUT, MUX_MODE0)
+ 			/* (R8) gpmc_ad2.gpmc_ad2 */
+-			AM33XX_IOPAD(0x808, PIN_INPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD2, PIN_INPUT, MUX_MODE0)
+ 			/* (T8) gpmc_ad3.gpmc_ad3 */
+-			AM33XX_IOPAD(0x80c, PIN_INPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD3, PIN_INPUT, MUX_MODE0)
+ 			/* (U8) gpmc_ad4.gpmc_ad4 */
+-			AM33XX_IOPAD(0x810, PIN_INPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD4, PIN_INPUT, MUX_MODE0)
+ 			/* (V8) gpmc_ad5.gpmc_ad5 */
+-			AM33XX_IOPAD(0x814, PIN_INPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD5, PIN_INPUT, MUX_MODE0)
+ 			/* (R9) gpmc_ad6.gpmc_ad6 */
+-			AM33XX_IOPAD(0x818, PIN_INPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD6, PIN_INPUT, MUX_MODE0)
+ 			/* (T9) gpmc_ad7.gpmc_ad7 */
+-			AM33XX_IOPAD(0x81c, PIN_INPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_AD7, PIN_INPUT, MUX_MODE0)
+ 			/* (T17) gpmc_wait0.gpmc_wait0 */
+-			AM33XX_IOPAD(0x870, PIN_INPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_WAIT0, PIN_INPUT, MUX_MODE0)
+ 			/* (U17) gpmc_wpn.gpmc_wpn */
+-			AM33XX_IOPAD(0x874, PIN_OUTPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_WPN, PIN_OUTPUT, MUX_MODE0)
+ 			/* (V6) gpmc_csn0.gpmc_csn0 */
+-			AM33XX_IOPAD(0x87c, PIN_OUTPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_CSN0, PIN_OUTPUT, MUX_MODE0)
+ 			/* (R7) gpmc_advn_ale.gpmc_advn_ale */
+-			AM33XX_IOPAD(0x890, PIN_OUTPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_ADVN_ALE, PIN_OUTPUT, MUX_MODE0)
+ 			/* (T7) gpmc_oen_ren.gpmc_oen_ren */
+-			AM33XX_IOPAD(0x894, PIN_OUTPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_OEN_REN, PIN_OUTPUT, MUX_MODE0)
+ 			/* (U6) gpmc_wen.gpmc_wen */
+-			AM33XX_IOPAD(0x898, PIN_OUTPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_WEN, PIN_OUTPUT, MUX_MODE0)
+ 			/* (T6) gpmc_be0n_cle.gpmc_be0n_cle */
+-			AM33XX_IOPAD(0x89c, PIN_OUTPUT | MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_BEN0_CLE, PIN_OUTPUT, MUX_MODE0)
+ 		>;
+ 	};
+ };
 -- 
-2.35.1
+2.20.1
 
