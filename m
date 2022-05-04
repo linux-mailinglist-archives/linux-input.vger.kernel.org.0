@@ -2,59 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9C8E51ADCC
-	for <lists+linux-input@lfdr.de>; Wed,  4 May 2022 21:29:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E83D951AF1B
+	for <lists+linux-input@lfdr.de>; Wed,  4 May 2022 22:31:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356860AbiEDTdB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 May 2022 15:33:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60232 "EHLO
+        id S1378032AbiEDUer (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 May 2022 16:34:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231781AbiEDTdB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 May 2022 15:33:01 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AEE71BEB8
-        for <linux-input@vger.kernel.org>; Wed,  4 May 2022 12:29:23 -0700 (PDT)
+        with ESMTP id S1357568AbiEDUeo (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 May 2022 16:34:44 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1D2B4E387;
+        Wed,  4 May 2022 13:31:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651692563; x=1683228563;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xAkzneplPThB+Fpk6I4cnpHDgZjpveYR4yK7k7616/8=;
-  b=QriYK1MyxUriAS5xNjwCuTXPwvN4wm1wrxYLz5/qFPL3m1mgfnLdyj+c
-   3yXvPF2kr6JiXztp7uQeiqrM3daQehY4QINO8jRWBZFVcRGZogM61ipLo
-   09NbE87S6KzYgVrE+bRSthsZKH1wXP+lSsMl8gIBj2odf7LwsN+wY3iWz
-   kruMm3bgYXFpltqLr9mJV5ry/0At8Y+sLpFL/EnU9BjiW1JxkgCcOzTdj
-   VX3Cg0DtGRlI8IsZEErjbADdKs6nlwGQmxXn6OWxwVuVWbsu7AD4lZB8e
-   J7fIuiF8W0TY++ww+ds2w4jG/niYqYw9yS+eyAeLwV+nXtr5cGXOHvRFA
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="328416669"
+  t=1651696266; x=1683232266;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5GhRSMdpdVf05QfepV3o9U0aOcougHdLRETdtU1BceE=;
+  b=Mt+ekS5FZ5erIAKIi3qdTFct5hRJu9qRtcj5JyjS8prYPm5OsJ/fp1Xo
+   YBQ8SOhf25jIeJj8+grqa0c3Tyh6CD032PSDR2UZcdP0TaSbOVlisv1UJ
+   zOAX944ge3UOH1zUMYWsFJwxW70E+tIZ+7ZyKwlWpmjwEEzfSZ5Obq9Zf
+   6rfsYfffll/Rk6lVegitDv8XeEr7/KOpLbVW2bqXgQSdxDcpXV0rmAMRP
+   SzPv+Fi9rEGB4QNPvEXF0alQFl6G5v2nZRe+FiMQ6A/ReI1kyokyq98ea
+   2W4gL/13YshNQPYYPfsIIDn2yo9FHNtXzTpA6kAspa6plcMkPtNRNLIUM
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="265484431"
 X-IronPort-AV: E=Sophos;i="5.91,199,1647327600"; 
-   d="scan'208";a="328416669"
+   d="scan'208";a="265484431"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2022 12:29:23 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2022 13:31:04 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.91,199,1647327600"; 
-   d="scan'208";a="568252063"
+   d="scan'208";a="568271596"
 Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 04 May 2022 12:29:21 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 04 May 2022 13:31:01 -0700
 Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1nmKga-000Bj5-WA;
-        Wed, 04 May 2022 19:29:20 +0000
-Date:   Thu, 5 May 2022 03:28:45 +0800
+        id 1nmLeG-000BlC-Rr;
+        Wed, 04 May 2022 20:31:00 +0000
+Date:   Thu, 5 May 2022 04:30:40 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Fabien Parent <fparent@baylibre.com>
+To:     Markuss Broks <markuss.broks@gmail.com>,
+        linux-kernel@vger.kernel.org
 Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: [dtor-input:next 34/37]
- drivers/input/keyboard/mtk-pmic-keys.c:93:22: error: use of undeclared
- identifier 'MT6359_TOPSTATUS'
-Message-ID: <202205050316.EFiBxD4E-lkp@intel.com>
+        phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+        Markuss Broks <markuss.broks@gmail.com>,
+        Lin Meng-Bo <linmengbo0689@protonmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 3/3] input/touchscreen: imagis: Add support for Imagis
+ IST3038B
+Message-ID: <202205050459.Cn4Mj5ny-lkp@intel.com>
+References: <20220504152406.8730-4-markuss.broks@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+In-Reply-To: <20220504152406.8730-4-markuss.broks@gmail.com>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -63,53 +72,63 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-head:   75e97ccaf557d09c5e176d137fde6fcedc35a150
-commit: 0f97adf6431456cd8155cf6fa803ed5bf441444c [34/37] Input: mtk-pmic-keys - add support for MT6359
-config: hexagon-randconfig-r041-20220502 (https://download.01.org/0day-ci/archive/20220505/202205050316.EFiBxD4E-lkp@intel.com/config)
+Hi Markuss,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on linux/master linus/master v5.18-rc5 next-20220504]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Markuss-Broks/Add-support-for-Imagis-IST3038B/20220504-232637
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+config: hexagon-randconfig-r022-20220502 (https://download.01.org/0day-ci/archive/20220505/202205050459.Cn4Mj5ny-lkp@intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 363b3a645a1e30011cc8da624f13dac5fd915628)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/commit/?id=0f97adf6431456cd8155cf6fa803ed5bf441444c
-        git remote add dtor-input https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git
-        git fetch --no-tags dtor-input next
-        git checkout 0f97adf6431456cd8155cf6fa803ed5bf441444c
+        # https://github.com/intel-lab-lkp/linux/commit/a22f360f66c82a3bc53d9861a62d2d2e5abe897c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Markuss-Broks/Add-support-for-Imagis-IST3038B/20220504-232637
+        git checkout a22f360f66c82a3bc53d9861a62d2d2e5abe897c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/input/keyboard/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/input/touchscreen/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/input/keyboard/mtk-pmic-keys.c:93:22: error: use of undeclared identifier 'MT6359_TOPSTATUS'
-                   MTK_PMIC_KEYS_REGS(MT6359_TOPSTATUS,
-                                      ^
-   drivers/input/keyboard/mtk-pmic-keys.c:96:22: error: use of undeclared identifier 'MT6359_TOPSTATUS'
-                   MTK_PMIC_KEYS_REGS(MT6359_TOPSTATUS,
-                                      ^
->> drivers/input/keyboard/mtk-pmic-keys.c:98:18: error: use of undeclared identifier 'MT6359_TOP_RST_MISC'
-           .pmic_rst_reg = MT6359_TOP_RST_MISC,
-                           ^
-   3 errors generated.
+>> drivers/input/touchscreen/imagis.c:366:39: warning: unused variable 'imagis_3038b_data' [-Wunused-const-variable]
+   static const struct imagis_properties imagis_3038b_data = {
+                                         ^
+>> drivers/input/touchscreen/imagis.c:374:39: warning: unused variable 'imagis_3038c_data' [-Wunused-const-variable]
+   static const struct imagis_properties imagis_3038c_data = {
+                                         ^
+   2 warnings generated.
 
 
-vim +/MT6359_TOPSTATUS +93 drivers/input/keyboard/mtk-pmic-keys.c
+vim +/imagis_3038b_data +366 drivers/input/touchscreen/imagis.c
 
-    90	
-    91	static const struct mtk_pmic_keys_pdata mt6359_pdata = {
-    92		.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
-  > 93			MTK_PMIC_KEYS_REGS(MT6359_TOPSTATUS,
-    94			0x2, MT6359_PSC_TOP_INT_CON0, 0x5),
-    95		.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
-    96			MTK_PMIC_KEYS_REGS(MT6359_TOPSTATUS,
-    97			0x8, MT6359_PSC_TOP_INT_CON0, 0xa),
-  > 98		.pmic_rst_reg = MT6359_TOP_RST_MISC,
-    99		.has_key_release_irqs = true,
-   100	};
-   101	
+   365	
+ > 366	static const struct imagis_properties imagis_3038b_data = {
+   367		.interrupt_msg_cmd = IST3038B_REG_STATUS,
+   368		.touch_coord_cmd = IST3038B_REG_STATUS,
+   369		.whoami_cmd = IST3038B_REG_CHIPID,
+   370		.whoami_val = IST3038B_WHOAMI,
+   371		.protocol_b = true,
+   372	};
+   373	
+ > 374	static const struct imagis_properties imagis_3038c_data = {
+   375		.interrupt_msg_cmd = IST3038C_REG_INTR_MESSAGE,
+   376		.touch_coord_cmd = IST3038C_REG_TOUCH_COORD,
+   377		.whoami_cmd = IST3038C_REG_CHIPID,
+   378		.whoami_val = IST3038C_WHOAMI,
+   379	};
+   380	
 
 -- 
 0-DAY CI Kernel Test Service
