@@ -2,99 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DA2951C57A
-	for <lists+linux-input@lfdr.de>; Thu,  5 May 2022 18:55:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A914751C8BC
+	for <lists+linux-input@lfdr.de>; Thu,  5 May 2022 21:13:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233268AbiEEQ7a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 May 2022 12:59:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48244 "EHLO
+        id S1383937AbiEETQy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 May 2022 15:16:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229750AbiEEQ72 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 5 May 2022 12:59:28 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 123C136334
-        for <linux-input@vger.kernel.org>; Thu,  5 May 2022 09:55:49 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id n18so4953359plg.5
-        for <linux-input@vger.kernel.org>; Thu, 05 May 2022 09:55:49 -0700 (PDT)
+        with ESMTP id S1348852AbiEETQw (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 5 May 2022 15:16:52 -0400
+Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC98B25293
+        for <linux-input@vger.kernel.org>; Thu,  5 May 2022 12:13:07 -0700 (PDT)
+Received: by mail-il1-x12f.google.com with SMTP id f5so3464957ilj.13
+        for <linux-input@vger.kernel.org>; Thu, 05 May 2022 12:13:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=rzFbIKFzb/rej6PRMv6lqFtJ/tzi7o3TWdLLpKqkQAk=;
-        b=L4C1xKDxGckCZtTNOZKMeOqhzVcfjMcFke0n/ft5qUa4O9kiq/SjEKcjM4lGc7ALSp
-         L9zezUwQnMaxEq5YGfPnNU1MttN8zsGcfG95JzNmSTYnS9m35yHcM3q4CGKTCXFkUxir
-         97/xqoYhhZ8kBX70dXJfJji1yhcGzppCFHmnSOGzuf4OX/eiTH9Uqb0k/Ifdm9DBfZmc
-         9wnq/k5QltpuaA+v4HR5kgUHbxccaPX4AQ4YYQSlDMhGgi8zWSwbp/7faLXTFUNM9rke
-         aFHdenI/lYmGRsoEKn71TorE6xCBfqJEMfllz7yVubJvEIIpcEPysNwfbAXxRFjEkUBh
-         b9iw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4ywkfCRn5RsGI07t5yc02LBvzzj7BHTu1E0fF5tOWDE=;
+        b=cZIQof88UPOKYaPCCJjWsWpFrvsoFlErgpX55zfYpEzMJkkQnn4f4fx3GNuxKPn6Aw
+         4t9xQLdAa2HsvEmYOtvlnGqCg0FDwmkX+oLDREj5u9SidySy3uMFtObpxBFKkaAcZEBD
+         9sedMai+1drXsKwLFnPDuXhj2bhl73cm+1UYg7PvuDjdYW5W63je9SrZ44+YLG7GsZKN
+         d1HB40297CdxAf1piqayfdXyXyIDo5I0Ob3VyQIEB65UmgNYd2sB5NQwJfTmmduWWtAB
+         hYx7PT96+TABaVY47px1JW0IgkRfpLG3iibotTxrbr/EsS+qMX3aqyM/Pkn8MXzSUmZ4
+         ayfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=rzFbIKFzb/rej6PRMv6lqFtJ/tzi7o3TWdLLpKqkQAk=;
-        b=At34yo9tVj7HKr1n0kX2U5gte1Y9EAM5NudlkrP9v5/SPTgKiCuPrZ6hkv6d20sB8w
-         hokeb6iZgIAur3Rfl/+5GUhJp29PD46/XENYsxv0iGeDB4R7th3GI9DAHy4wYJU5EKhb
-         3e09qeG+30Bkong2y3823P1PAxaI+wLS3wYw6dbYlmf60oBfaVmw+e2so3SgWdg70eR3
-         WSOTdWNeT+Eol9iRWpCCf9mmmH8JXddXERAH6ZSYDQjauDqhBfoQqt3tOPxixClLX3rB
-         LeHFbS7xk2KJxb5TPmtPBXfNO/WyKkGlEZ/B8YsAGYGinrkhqUCpO2GJPnkkk9WlfSw7
-         GMAw==
-X-Gm-Message-State: AOAM533zuHBQqs5fcg8VL7ONl3YG5fj3+u5bg8Ip01CM0XFEUpMllAa9
-        nx2Sd/fP54jlDIFzOAzemghqaHL1gt8=
-X-Google-Smtp-Source: ABdhPJz3BpAqG86d+bFWIsIag7Hh74caqu82NncvDP2c0y/MbOi12PN4nXraJHcHTcEF1EA9JbAMwQ==
-X-Received: by 2002:a17:90a:2e0d:b0:1c9:b839:af02 with SMTP id q13-20020a17090a2e0d00b001c9b839af02mr7122456pjd.122.1651769748305;
-        Thu, 05 May 2022 09:55:48 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:925d:ea91:88dd:e04b])
-        by smtp.gmail.com with ESMTPSA id br11-20020a056a00440b00b0050dc7628151sm1592123pfb.43.2022.05.05.09.55.47
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4ywkfCRn5RsGI07t5yc02LBvzzj7BHTu1E0fF5tOWDE=;
+        b=11LnDmd3s+6/uJSV3X0UFRudpdf2WCFNVPqUm9vNYQ9+3aIDoDE59iz/TChX0Ks3w+
+         fg5vBw677FgpQZLXo1QThR/suFlvbQVuPSLmbe8YiJCgZ9l46ghXEFbxkK82Ww5SsREm
+         0gKilRYcujUGx3EMUolxtoRlCY3exHLk1hyPrFNtkg6y3oFjH4kMbRhXV1M7fpU+YLzG
+         CTCtK6gZhzzPJxVLWqQqHTKLTE2dFX6DmW8Idg7JGAfTwA8uyeXnKBaT/D+N9rwQw4qH
+         vTNaplitwT7foX9dWrokZuOUfMQ+p4jVZiD21upvvAakHQiGvpguuOeFZAyLzIz+ry5Q
+         PSrg==
+X-Gm-Message-State: AOAM5322VizupHhNlDNN/vTXOuMgK7HW5y1irUvVelhejwEtPL7b+Gk8
+        m4pEcV3Lk3H5cml7A8D1sXxS8VebeSc=
+X-Google-Smtp-Source: ABdhPJwjpWjKiXD4OtaOJb41kAIgnbcDQZe0XxKUQuv9AS/FKkl481W7+7u/9Ov7puGYQr3sCbvS2w==
+X-Received: by 2002:a92:db0e:0:b0:2cc:2590:767b with SMTP id b14-20020a92db0e000000b002cc2590767bmr12409637iln.260.1651777987009;
+        Thu, 05 May 2022 12:13:07 -0700 (PDT)
+Received: from localhost.localdomain (97-118-108-178.hlrn.qwest.net. [97.118.108.178])
+        by smtp.gmail.com with ESMTPSA id u20-20020a02b1d4000000b0032b3a7817bbsm698171jah.127.2022.05.05.12.13.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 09:55:47 -0700 (PDT)
-Date:   Thu, 5 May 2022 09:55:45 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Vicki Pfau <vi@endrift.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        Jiri Kosina <jikos@kernel.org>
-Subject: Re: [PATCH 1/6] HID: hid-playstation: Allow removal of touchpad
-Message-ID: <YnQBkd5V3lmC9cGr@google.com>
-References: <20220427224526.35657-1-vi@endrift.com>
- <CAO-hwJKLr0z98bpt7QnvVWp2QzqDq6jCW+Lj0CgWW0vhYZuNLg@mail.gmail.com>
+        Thu, 05 May 2022 12:13:06 -0700 (PDT)
+From:   Bryan Cain <bryancain3@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Bryan Cain <bryancain3@gmail.com>
+Subject: [PATCH 0/1] HID: apple: Properly handle function keys on Keychron keyboards
+Date:   Thu,  5 May 2022 13:12:20 -0600
+Message-Id: <20220505191221.36172-1-bryancain3@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAO-hwJKLr0z98bpt7QnvVWp2QzqDq6jCW+Lj0CgWW0vhYZuNLg@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, May 05, 2022 at 10:50:24AM +0200, Benjamin Tissoires wrote:
-> Hi Vicki,
-> 
-> On Thu, Apr 28, 2022 at 12:52 AM Vicki Pfau <vi@endrift.com> wrote:
-> >
-> > This allows the touchpad input_dev to be removed and have the driver remain
-> > functional without its presence. This will be used to allow the touchpad to
-> > be disabled, e.g. by a module parameter.
-> 
-> Thanks for the contribution.
-> I'd like to hear from Roderick, but I have a general comment here:
-> We had Wii and Steam controllers following this logic. Now we are
-> adding Sony PS ones... That seems like a lot of duplication, and I
-> wonder if we should not have something more generic.
+Hi,
 
-Hmm, if userspace is not interested in data from an input device (and it
-does not want to simply not open it), it can use inhibit/uninhibit sysfs
-attributes to silence it.
+As the new owner of a Keychron C1 keyboard, I recently found this thread from
+this mailing list (linux-input):
 
-I am not sure we need to build support for destroying input device or
-introducing module parameters, etc.
+https://lore.kernel.org/all/897e57a9-38d8-c05f-ceed-01d486f02726@redhat.com/T/
 
-Thanks.
+To summarize the findings in that thread:
+* Keychron keyboards (C-series and K-series) use the vendor:product IDs from a
+  2009 Apple keyboard. When set to "Mac" mode, they actually do behave like
+  that device, but in "Windows" mode, the Fn key doesn't generate a scancode,
+  making it impossible to use F1-F12 when the fnmode parameter is set to its
+  default value of 1.
+* The universally accepted "fix" among Keychron owners online is to set
+  fnmode=2 in /etc/modprobe.d/hid_apple.conf.
+  (See https://gist.github.com/andrebrait/961cefe730f4a2c41f57911e6195e444)
+* Keychron devices can be distinguished from Apple ones by the USB manufacturer
+  string, but it's impossible for the kernel to programatically detect whether
+  a Keychron keyboard is in "Windows" or "Mac" mode.
+
+The thread arrives at a conclusion I agree with: that fnmode=2 should be the
+default behavior for Keychron keyboards. But no one has actually implemented
+this change yet, so I decided to do it myself.
+
+My patch sets the default fnmode to the new value of 3, which behaves like
+fnmode=2 for Keychron keyboards, and like the previous default of fnmode=1
+for real Apple keyboards and any non-Keychron clones. This should produce
+sensible behavior in all cases, including the corner case where someone plugs
+a Keychron keyboard into their MacBook.
+
+This change does mean that Keychron function keys in "Mac" mode won't default
+to Apple-like behavior, but even in that case, both the Fn and non-Fn versions
+of the keys are still usable. And as Bastian Venthur said in the thread linked
+above, there's no particular reason for a user to expect Apple-like behavior
+when using a non-Apple device with a non-Apple operating system.
+
+This is my first time contributing to the kernel, so please let me know if I
+need to do anything differently. Also, I don't have an Apple keyboard on hand
+to test with, so I'd appreciate if someone could test my patch with one to
+verify that their function key behavior is unchanged.
+
+Regards,
+Bryan
+
+
+Bryan Cain (1):
+  HID: apple: Properly handle function keys on Keychron keyboards
+
+ drivers/hid/hid-apple.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
 -- 
-Dmitry
+2.25.1
+
