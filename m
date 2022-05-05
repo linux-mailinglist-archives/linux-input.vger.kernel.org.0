@@ -2,98 +2,130 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A726F51BA43
-	for <lists+linux-input@lfdr.de>; Thu,  5 May 2022 10:26:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4EF551BA59
+	for <lists+linux-input@lfdr.de>; Thu,  5 May 2022 10:27:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349079AbiEEI3m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 May 2022 04:29:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38210 "EHLO
+        id S1348052AbiEEIb3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 May 2022 04:31:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241850AbiEEI2z (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 5 May 2022 04:28:55 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 096C9E6D;
-        Thu,  5 May 2022 01:25:14 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 140C81C0BCC; Thu,  5 May 2022 10:25:13 +0200 (CEST)
-Date:   Thu, 5 May 2022 10:25:12 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Manuel =?iso-8859-1?Q?Sch=F6nlaub?= <manuel.schoenlaub@gmail.com>
-Cc:     lains@riseup.net, jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: logitech-hidpp: support Color LED feature (8071).
-Message-ID: <20220505082512.GA14065@duo.ucw.cz>
-References: <Yifr4etBFPu1a2Ct@hermes>
- <20220323210423.GA10741@duo.ucw.cz>
- <YjvVptj8exUCD7sx@hermes>
+        with ESMTP id S1348195AbiEEIb0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 5 May 2022 04:31:26 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4942D2D1F5
+        for <linux-input@vger.kernel.org>; Thu,  5 May 2022 01:27:46 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id b24so4321529edu.10
+        for <linux-input@vger.kernel.org>; Thu, 05 May 2022 01:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=5tSgyVPoIjIJTnk8pwe9iFq2l8iCcKVYBSDyP0RRtUw=;
+        b=SZERI1K6Set/ar7XavDlXSuhC6TM4i6vWi504UalqyeoSF37mRcDmyXuFm72cjChwb
+         gx8eJmlAQ08OwR75gbT5wWjbaTEDH6y0+WG5hTVJgmLcV8bE2/CZ0UEjZWd7zuWEQ5gP
+         aqwOZz+mZLlHnttDl8wcoxsMblrTJTC7FOjN2TDCxD9Lw8wj9YPovvTCxinZAOU3K99U
+         NNFg1Nifl8dX9/pCm1pVbxMFtmAGYax5uE5a59iLzA46eD9e3EvaF+r09rBd3yFwCvwN
+         u1eZiPAt/Ue7aJ0uQOjr8mYBqSG3ByZerT5YRHjoStToy/heQveso+yUiIKVliq/yP9R
+         78tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=5tSgyVPoIjIJTnk8pwe9iFq2l8iCcKVYBSDyP0RRtUw=;
+        b=B4ShcfWbUmQ4+b7JYbtjINJ6NLmR8ZjAyh5vGd9O04wP4wT3bWaL221JvOH4H+CDIW
+         IUpE51min4YRH5IhFyEiYsiBcD/krLmMWp25IfUORju7wFdvz47+SfRWPWTsnF7yPIXP
+         NDijryXSdsc6IRjt5MUs90liMfKGhmO8na442qTH14wqFiGg/nONSyngbD1s1hw60lQM
+         oNtaCm0Guau2GaUuhNmy7RhRyn+7vEVO5SwI4boW0lfo65H+aHbFhRgt6k1wyG3yT59+
+         mcijoR1uilGr3wv78ZraedtnbJiIX7rEBcMOf534KkEpSHGNMSHz8DB4ReOO1fl1DNI/
+         7vZA==
+X-Gm-Message-State: AOAM531a6yEK77GNYs1WN4WE5CMa6bB39laZ/DjVMbImeZf/AlGPFbVz
+        0lZ8VC+m+Q5ZO2U83wdG6eGYwQ==
+X-Google-Smtp-Source: ABdhPJwgese7bUTlRcmGO1mVDEwMWHdoEWyOzOI+Igy+m5JwTam3fT/88Xt9SiMpZxojkp+JqaQVSw==
+X-Received: by 2002:a05:6402:358a:b0:428:136f:766a with SMTP id y10-20020a056402358a00b00428136f766amr7731609edc.403.1651739264889;
+        Thu, 05 May 2022 01:27:44 -0700 (PDT)
+Received: from [192.168.0.217] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id f6-20020a05640214c600b0042617ba639dsm496805edx.39.2022.05.05.01.27.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 May 2022 01:27:44 -0700 (PDT)
+Message-ID: <7674659c-20f4-68da-5a62-5c8e8ebdfe5a@linaro.org>
+Date:   Thu, 5 May 2022 10:27:43 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="jI8keyz6grp/JLjh"
-Content-Disposition: inline
-In-Reply-To: <YjvVptj8exUCD7sx@hermes>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 2/4] Input: mt-matrix-keypad: Add Bosch mt matrix keypad
+ driver
+Content-Language: en-US
+To:     Marco Felsch <m.felsch@pengutronix.de>,
+        Gireesh.Hiremath@in.bosch.com
+Cc:     linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        bcousson@baylibre.com, tony@atomide.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, dmitry.torokhov@gmail.com,
+        mkorpershoek@baylibre.com, davidgow@google.com,
+        swboyd@chromium.org, fengping.yu@mediatek.com,
+        y.oudjana@protonmail.com, rdunlap@infradead.org,
+        colin.king@intel.com, sjoerd.simons@collabora.co.uk,
+        VinayKumar.Shettar@in.bosch.com,
+        Govindaraji.Sivanantham@in.bosch.com, anaclaudia.dias@de.bosch.com
+References: <20220504105254.1576-2-Gireesh.Hiremath@in.bosch.com>
+ <20220504134817.1490-1-Gireesh.Hiremath@in.bosch.com>
+ <20220504141404.onom7x5lycyg3b22@pengutronix.de>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220504141404.onom7x5lycyg3b22@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On 04/05/2022 16:14, Marco Felsch wrote:
+> On 22-05-04, Gireesh.Hiremath@in.bosch.com wrote:
+>> From: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
+>>
+>> The existing matric_keypad.c use different gpio line for row and colunm,
+>> where in mt_matrix_kepad.c use same gpio line for row as well as column.
+>> a key can be placed at each intersection of a unique row number 
+>> not equal to a unique column and they are diagonally symmetric.
+>> Advantage of this is with existed gpio line we can get more keys
+>>   
+>> example: in matrix_keypad.c for 5 gpio line possible matrix is 2X3 or 3X2
+>> and maximum possible keys are 6 but 
+>> in mt_matrix_kepad.c for same 5 gpio line possible matrix is 5X5 and maximum
+>> possible buttons are 10, below table will discribe that
+> 
+> Nobody should stop you to increase the amount of max. possible keys, so
+> this isn't a real block.
+> 
+>> 	------------------------------------------------------
+>> 	|Row\Col |GPIO 0 | GPIO 1 | GPIO 2 | GPIO 3 | GPIO 4 |
+>> 	------------------------------------------------------
+>> 	| GPIO 0 |  X    | KEY_9  | KEY_2  | KEY_3  | KEY_1  |
+>> 	------------------------------------------------------
+>> 	| GPIO 1 | KEY_9 |  X     | KEY_6  | KEY_5  |  KEY_0 |
+>> 	------------------------------------------------------
+>> 	| GPIO 2 | KEY_2 | KEY_6  |  X     | KEY_4  | KEY_7  |
+>> 	------------------------------------------------------
+>> 	| GPIO 3 | KEY_3 | KEY_5  | KEY_4  |  X     | KEY_8  |
+>> 	------------------------------------------------------
+>> 	| GPIO 4 | KEY_1 |  KEY_0 | KEY_7  | KEY_8  |  X     |
+>> 	------------------------------------------------------
+>> 	X - invalid key
+>> 	KEY_x - preferred key code
+> 
+> That should be pointed somewhere very clearly, thanks for the
+> description. Also what is than the benefit of the original matrix_keypad
+> driver?
 
---jI8keyz6grp/JLjh
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> > > The HID++ protocol allows to set multicolor (RGB) to a static color.
-> > > Multiple of such LED zones per device are supported.
-> > > This patch exports said LEDs so that they can be set from userspace.
-> > >=20
-> > > Signed-off-by: Manuel Sch=F6nlaub <manuel.schoenlaub@gmail.com>
-> >=20
-> > Please cc LEDs stuff to the LED lists.
-> >=20
->=20
-> Will do. Though it seems like first we should discuss whether the kernel
-> in fact is the right place, no?
-
-Well, on embedded systems keyboard backlight is handled in kernel.
-
-> > > +	cdev =3D &mc_dev->led_cdev;
-> > > +	cdev->name =3D devm_kasprintf(&hdev->dev, GFP_KERNEL,
-> > > +				    "%s:rgb:indicator-%d", hdev->uniq, zone);
-> >=20
-> > So this is keyboard backlight? We should add the documentation at the
-> > very least, so that other drivers use same name.
->=20
-> I do not own a Logitech keyboard, but some mice. There are RGB leds
-> that you can normally control with Windows software.
->=20
-> I'd suppose (but could not verify) that supported keyboards by Logitech
-> work with the same feature.
-
-And I guess we should do the same for Logitech keyboards. Userspace
-does not need to go to /sys/class/gpio... to control keyboard
-backlight on Nokia cellphone, it should not need to talk USB directly
-to control backlight on Logitech keyboards.
+It looks like this driver has smaller number of features than
+matrix-keypad, so it should be integrated into the matrix-keypad.
+matrix-keypad features are superset to this one.
 
 Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---jI8keyz6grp/JLjh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYnOJ6AAKCRAw5/Bqldv6
-8itPAJ4mgJfNh/+ojD3N55l+TKJll9C7NwCgt+QyCCrDAaKELbCva5XyElaLLwo=
-=m8g+
------END PGP SIGNATURE-----
-
---jI8keyz6grp/JLjh--
+Krzysztof
