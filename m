@@ -2,100 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB4B351B44A
-	for <lists+linux-input@lfdr.de>; Thu,  5 May 2022 02:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6025051B5BC
+	for <lists+linux-input@lfdr.de>; Thu,  5 May 2022 04:19:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235475AbiEEAGU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 May 2022 20:06:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42610 "EHLO
+        id S235309AbiEECWZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 May 2022 22:22:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241410AbiEDX6Z (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 May 2022 19:58:25 -0400
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A22805372E
-        for <linux-input@vger.kernel.org>; Wed,  4 May 2022 16:54:11 -0700 (PDT)
-Received: by mail-yb1-xb42.google.com with SMTP id v59so5030016ybi.12
-        for <linux-input@vger.kernel.org>; Wed, 04 May 2022 16:54:11 -0700 (PDT)
+        with ESMTP id S234203AbiEECWY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 May 2022 22:22:24 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6944C483AC;
+        Wed,  4 May 2022 19:18:47 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id o69so2884850pjo.3;
+        Wed, 04 May 2022 19:18:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=ampHH5WJLIBWSsxWwzVjbk5pO9UBFxn81pZ6QIDzZtY=;
-        b=Dn1MT8x7p4Rbn+pctwVkt7IgIdUxT0LRLjox/JaF9ttsZ2N8sUUglHFRxQa3sl75aK
-         h1U1JpCoOjPff8rV+LL0edQuBh+YvYlTbZ4zx127Qa80qMcS49J0d2nS2s7mVVadwp/M
-         vGp6wV8qQhR9tMRiQjyWHIJslgvG4HigF7p24aLxixJ1l99K68kLikab9Y0HgtSpkDYW
-         0+riuhXlj9dAnGs04evyYz4sFXKtm0FlJKiBI2Dtbo7ebvKr6E7XJkxgxzCXhReMwL1D
-         yv9OUeo9KjH+/RIlVXefhsYivAQRdlwo604eWoXrrvRFVxcSgXwgPis+UtVhyLpBWx3z
-         WyWg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oqH/dbbnTtMr+EJMMPwH7Zk0jku9Sj+hQp0KzdVsugw=;
+        b=T9u9/ydtEfx4h7GiWCbnQJEONx/wv/NLn/Q8oiiIpydcJ6xFfpYHLZBlEFO/4CoCir
+         ShGNzad5HoGqrhfRFKHINOHXjSiUAdKBWGoLNj2Mb4LAV+tXIhwn9PQGsJ2eD9XZOxsy
+         Hco8NgdM0V2bscMlgx4+3zFgkZ4U881TpMXTELfTXwT84ZSkWaZaqDKKNC3m9EYEEH6U
+         BQ0RmjmCB6tleevSaYtC7jnckQ8L2Aj3F9y959NMrCEPiTZJFUTiuBZ7dFa5BA15CBpI
+         g4pNflh+Uep4NpERyidWv2Tg+Wx2JmqOkWnZ1lvO/YnYjxiNo1ugb6QSq9O2RwtWpY5J
+         OhTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=ampHH5WJLIBWSsxWwzVjbk5pO9UBFxn81pZ6QIDzZtY=;
-        b=iLkedaNq969I44hxE1NQoI4c4ot3Lvzl43f/hiL/FJ+gCCJ1x4H3pu3qmwC0Rh7Jzi
-         l0+fvCr6th1sjzUxp+DuQYomS1YTUzsUa0P/o5QMgG+pmuyrkIiNj7GZi4yT1MaZ3Hy0
-         n3h+KQ+CQP4MVbHfDSr3A7XZVAw7LZbU6VeCvfyDce6Zg3ZP98BZ0rxU8q1ll0gOC/OX
-         GZ0bK+AxHOv4gxOU9tNGGvg6LsQKQCOgSUZ32pu8rdEGZ4qYrgUrpp2IXiRuKJb8B5LT
-         RtfQy22UPPS2u44S8KFap3iLM7916BAxCigZ4qcnfqtoxvKocnhxqcoOUweeseIdgmzS
-         xwsQ==
-X-Gm-Message-State: AOAM5334XnWsK4sKDbTjUnPIUHVCMFKs3pRlGaLsQr2pzsKdtUKVJ9ad
-        t2IbUS1utRugP2qflu1oGRcbSIsp73GhutajO0LGbPrHmslQuQ==
-X-Google-Smtp-Source: ABdhPJyXbFHNtxfp8+qt+M9kuv/iG7XfFeFFPd7I4/fmpdxuycMtmf6dIJw5ghtZAT2CwgvAVE/kUl0HxsirxLIU8v0=
-X-Received: by 2002:a9d:6b16:0:b0:605:e0eb:d3d6 with SMTP id
- g22-20020a9d6b16000000b00605e0ebd3d6mr8263208otp.213.1651708440302; Wed, 04
- May 2022 16:54:00 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oqH/dbbnTtMr+EJMMPwH7Zk0jku9Sj+hQp0KzdVsugw=;
+        b=2miliKcK+BQJl06G41NCkHSl2LUCKZ7ngrDN4D6vpQap2RoHM1XIlw82WO2/kaLQ57
+         jc0vP2zyDgUrRMFritChSJhj2k+3/ycIa+gtj2XgIvyAs4pGJgcSP17LyzXujkaTCE0S
+         6QnDdtBqgIHwY1bz6/9SO1M+1g7kwJL/p0UHliQLIHFY8MhLd9xE8e2nzzPUQpsdryp2
+         F5QbPAuO2OykeJBXViu49liXgJneQs03NOL9KZn9/2te9ueC2Z0ClF6XJ1aPkcZgPvzD
+         bTIBXqnKeEsnRxqIERKOpALu00SgiTpsuGLxtpXQ82iwvV+Nqr3MfNqJ+b3AsIcY8lht
+         Ukww==
+X-Gm-Message-State: AOAM532EFSFChoaaN/5/SsFvs/zScq7/uI8OyPjpLi0CHCzZyUlvS9g+
+        M+K+Du+1je5yxdYCKeLGM59j4tGp7Cs=
+X-Google-Smtp-Source: ABdhPJwgy/prmxbKZo0DsO2jpkkSYuhFpok7c1JvIOChR1kwDE++l6JWyaMFGipguogzHTqWR0xKTw==
+X-Received: by 2002:a17:902:be03:b0:15e:cac2:f98c with SMTP id r3-20020a170902be0300b0015ecac2f98cmr5230043pls.172.1651717126996;
+        Wed, 04 May 2022 19:18:46 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id b5-20020a17090acc0500b001d792761e2esm2653102pju.47.2022.05.04.19.18.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 May 2022 19:18:46 -0700 (PDT)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: chi.minghao@zte.com.cn
+To:     dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] Input: synaptics-rmi4: simplify the return expression of rmi_driver_of_probe()
+Date:   Thu,  5 May 2022 02:18:43 +0000
+Message-Id: <20220505021843.54399-1-chi.minghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a05:6802:1a9:0:0:0:0 with HTTP; Wed, 4 May 2022 16:53:59
- -0700 (PDT)
-Reply-To: ortegainvestmmentforrealinvest@gmail.com
-From:   Info <joybhector64@gmail.com>
-Date:   Thu, 5 May 2022 05:23:59 +0530
-Message-ID: <CAP7KLYgH9LcKHS-KgR0zObHAgC6Fr3D+dOJSbDKurTc_12+iFw@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:b42 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [joybhector64[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [joybhector64[at]gmail.com]
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.5 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
--- 
-I am an investor. I came from the USA and I have many investments all
-over the world.
+From: Minghao Chi <chi.minghao@zte.com.cn>
 
-I want you to partner with me to invest in your country I am into many
-investment such as real Estate or buying of properties i can also
-invest money in any of existing business with equity royalty or by %
-percentage so on,
-Warm regards
+Simplify the return expression.
+
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+---
+ drivers/input/rmi4/rmi_driver.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
+index 258d5fe3d395..eec5d926da25 100644
+--- a/drivers/input/rmi4/rmi_driver.c
++++ b/drivers/input/rmi4/rmi_driver.c
+@@ -991,14 +991,8 @@ static int rmi_driver_remove(struct device *dev)
+ static int rmi_driver_of_probe(struct device *dev,
+ 				struct rmi_device_platform_data *pdata)
+ {
+-	int retval;
+-
+-	retval = rmi_of_property_read_u32(dev, &pdata->reset_delay_ms,
++	return rmi_of_property_read_u32(dev, &pdata->reset_delay_ms,
+ 					"syna,reset-delay-ms", 1);
+-	if (retval)
+-		return retval;
+-
+-	return 0;
+ }
+ #else
+ static inline int rmi_driver_of_probe(struct device *dev,
+-- 
+2.25.1
+
+
