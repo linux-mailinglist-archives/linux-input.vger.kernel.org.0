@@ -2,227 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D912D51BA6B
-	for <lists+linux-input@lfdr.de>; Thu,  5 May 2022 10:29:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9560A51BA78
+	for <lists+linux-input@lfdr.de>; Thu,  5 May 2022 10:30:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349033AbiEEIc7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 May 2022 04:32:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44038 "EHLO
+        id S237808AbiEEIdp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 May 2022 04:33:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245457AbiEEIc6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 5 May 2022 04:32:58 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13DBB3B29D
-        for <linux-input@vger.kernel.org>; Thu,  5 May 2022 01:29:15 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id l18so7298768ejc.7
-        for <linux-input@vger.kernel.org>; Thu, 05 May 2022 01:29:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=r1ONu4s4iEqTc1LBebyXg4nKGWbafPc2J0KdemsntpY=;
-        b=edknxnsQZ7hN0sFSDhsHS9VCi8jrauwubYjQhb70ivFiLSHkzVb7z/ZZDIK/BZz7KS
-         TTjBot8KBAzHHb2eHoyhoBERT3nKPWDmzXKtGtHTttVR0oPcgmWGBiNQmd/okLD7Nldj
-         bbF+Sleyj4/VbC0iO3jn2NYHBHfKA/JMLEuLqi0qZdsvj04gpKrIRMcefx7f7+QBpcMi
-         tNmXLE+7nAAOmfkZ6CI5TLPSOw2ywb4KtIJPyu6faPkBSZ6qtfkrp7hW/ebe+ypwEjNX
-         P4jtdKfzxyLfm+fieZjl4SdGH4sjBDN13lttEUZA0XQds70vBkR5h0k/K29IkCS5AN+A
-         zklg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=r1ONu4s4iEqTc1LBebyXg4nKGWbafPc2J0KdemsntpY=;
-        b=QPbcB0IL88km0QAlvV4z41fagW8EOjsap5LK0On/8agoS27PF0/v5Ys9Iowv+Kwwjv
-         uZ/nSt/Tuh55FTUEI6EMsODjLIuPbEGaR21xvQN73A5igcxdV+/z8/e/QrrDSp1mUclo
-         CsXFMXTT4+EGtDfEYxKz4JGwUlVPF0UhT1cuUD5eNRd0SmKRzwQd0dVUXVhBGEJjbanN
-         4Y1m6xlWoiTT3scfTN1B9CPQ1OW63FgwVp1kGzM3Sh+SC9TpcVJkQ/E0usRriBkGcB7F
-         wonrO5FA4x0Q/em1B7y323Isj3MPjDMfH6z2P366f2pRAI581ViHms9ICt6VoZLAYkKe
-         pEvg==
-X-Gm-Message-State: AOAM5313N9LkgdJl4SaYkG2hKYgc1VUiI1PzjAkgU3oRYzmghzVIxSa6
-        YsdLLYvMjhVdab0iftmejbMm1w==
-X-Google-Smtp-Source: ABdhPJxw9q1w3VyKXums+Q+aXrIVReNi1wHYk414TPadm+8sGRGqWaf8U8rKWnbv39OdiIHFP3CpOw==
-X-Received: by 2002:a17:907:72ca:b0:6f3:f6e5:9085 with SMTP id du10-20020a17090772ca00b006f3f6e59085mr24412656ejc.628.1651739353584;
-        Thu, 05 May 2022 01:29:13 -0700 (PDT)
-Received: from [192.168.0.217] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id a12-20020a50f0cc000000b00425d6c76494sm517695edm.1.2022.05.05.01.29.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 May 2022 01:29:13 -0700 (PDT)
-Message-ID: <70c49385-6fa2-2cb9-8a82-3e28f0fc2064@linaro.org>
-Date:   Thu, 5 May 2022 10:29:11 +0200
+        with ESMTP id S1344233AbiEEIdo (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 5 May 2022 04:33:44 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 413C0488AC;
+        Thu,  5 May 2022 01:29:58 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 0A1071C0BA6; Thu,  5 May 2022 10:29:57 +0200 (CEST)
+Date:   Thu, 5 May 2022 10:29:56 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Manuel =?iso-8859-1?Q?Sch=F6nlaub?= <manuel.schoenlaub@gmail.com>
+Cc:     Bastien Nocera <hadess@hadess.net>,
+        Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: logitech-hidpp: support Color LED feature (8071).
+Message-ID: <20220505082956.GB14065@duo.ucw.cz>
+References: <Yifr4etBFPu1a2Ct@hermes>
+ <275245e8048fa124055d9ff3d10ce6562294483a.camel@riseup.net>
+ <ce3adf7013ba01aad54fb65bf9c657dd9d0b7d23.camel@hadess.net>
+ <YjvlQrvRS+ZKNbZ5@hermes>
+ <5b842bd4f8d17e5ecb8e7972637dbe7ad50060ac.camel@hadess.net>
+ <YjyX2q1IXeJQ2LGG@hermes>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 4/4] dt-bindings: input: mt-matrix-keypad: add guardian mt
- matrix keypad bindings definition
-Content-Language: en-US
-To:     Gireesh.Hiremath@in.bosch.com, linux-omap@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, bcousson@baylibre.com,
-        tony@atomide.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, dmitry.torokhov@gmail.com,
-        mkorpershoek@baylibre.com, davidgow@google.com,
-        m.felsch@pengutronix.de, swboyd@chromium.org,
-        fengping.yu@mediatek.com, y.oudjana@protonmail.com,
-        rdunlap@infradead.org, colin.king@intel.com
-Cc:     sjoerd.simons@collabora.co.uk, VinayKumar.Shettar@in.bosch.com,
-        Govindaraji.Sivanantham@in.bosch.com, anaclaudia.dias@de.bosch.com
-References: <20220504105254.1576-1-Gireesh.Hiremath@in.bosch.com>
- <20220504105254.1576-4-Gireesh.Hiremath@in.bosch.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220504105254.1576-4-Gireesh.Hiremath@in.bosch.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="ZoaI/ZTpAVc4A5k6"
+Content-Disposition: inline
+In-Reply-To: <YjyX2q1IXeJQ2LGG@hermes>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 04/05/2022 12:52, Gireesh.Hiremath@in.bosch.com wrote:
-> From: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
-> 
-> Add binding definition for the support of the Guardian
-> mt matrix keypad driver.
-> 
-> Signed-off-by: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
-> ---
->  .../bindings/input/mt-matrix-keypad.yaml      | 134 ++++++++++++++++++
->  1 file changed, 134 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/mt-matrix-keypad.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/mt-matrix-keypad.yaml b/Documentation/devicetree/bindings/input/mt-matrix-keypad.yaml
-> new file mode 100644
-> index 000000000000..b52cd478f638
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/mt-matrix-keypad.yaml
-> @@ -0,0 +1,134 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/mt-matrix-keypad.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: GPIO driven mt matrix keypad device tree bindings
-> +
-> +maintainers:
-> +  - vinay <VinayKumar.Shettar@in.bosch.com>
-> +
-> +description: |
-> +  GPIO driven mt matrix keypad is used to interface a SoC with a mt matrix
-> +  keypad. The mt matrix keypad supports multiple gpio line, all gpio line act
 
-s/line/lines/
+--ZoaI/ZTpAVc4A5k6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +  as row as wel as column lines, a key can be placed at each intersection
+Hi!
 
-s/wel/well/
+> Yeah the SetBrightness in systemd / logind should work out of box.
+>=20
+> Though I just noticed something: For this to be useful, the default
+> multi_intensity for each component of the multicolor LED in the kernel sh=
+ould be set to
+> max_brightness, effectively producing white (on RGB LEDs at least).
 
-> +  of a unique row number not equal to a unique column and they are diagonally
-> +  symmetric.
-> +
+Agreed we should have multi_intensity set to something nonzero. Note
+that max on all channels may not result in white.
 
-What is "mt" in the "mt matrix"?
+> Now there are three solutions:
+>=20
+> 1) Naming the Logitech LEDs <device>:rgb:kbd_backlight-N even on mice
+> and at some point send a patch to systemd adapting the udev rules to
+> care for devices with nuemrical suffixes.
+>=20
+> 2) Naming the LEDs <device>:rgb:backlight-N and send a patch to systemd
+> adding a new udev rule to cater for backlight LEDs in general.
 
-> +  Example- For 5 gpio lines, possible matrix is 5x5 and maximum possible
-> +        keys are 10.
-> +
-> +        Sample matrix table for 7 button and 5 gpio line
-> +
-> +        ------------------------------------------------------
-> +        |Row\Col |GPIO 0 | GPIO 1 | GPIO 2 | GPIO 3 | GPIO 4 |
-> +        ------------------------------------------------------
-> +        | GPIO 0 |  X    | KEY_9  | KEY_2  |   X    | KEY_1  |
-> +        ------------------------------------------------------
-> +        | GPIO 1 | KEY_9 |  X     | KEY_6  |   X    |  X     |
-> +        ------------------------------------------------------
-> +        | GPIO 2 | KEY_2 | KEY_6  |  X     | KEY_4  | KEY_7  |
-> +        ------------------------------------------------------
-> +        | GPIO 3 |  X    |  X     | KEY_4  |  X     | KEY_8  |
-> +        ------------------------------------------------------
-> +        | GPIO 4 | KEY_1 |  X     | KEY_7  | KEY_8  |  X     |
-> +        ------------------------------------------------------
-> +        X - invalid key
-> +        KEY_x - preferred key code
-> +
-> +  The mt matrix keypad can sense a key-press and key-release by means of GPIO
-> +  lines and report the event using GPIO interrupts to the cpu.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: gpio-mt-matrix-keypad
-> +      - items:
-> +          - enum:
-> +              - gpio-mt-matrix-keypad
-> +          - const: gpio-mt-matrix-keypad
-
-Aren't all these compatibles the same?
-
-> +
-> +  debounce-delay-ms:
-> +    description: Delay after the first bounce of button.
-> +    default: 0
-> +
-> +  col-scan-delay-us:
-> +    description: Delay before scanning next active line.
-> +    default: 0
-> +
-> +  number-of-button:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Number of button connected to the keypad controller.
-
-s/button/buttons/ I presume.
-
-> +
-> +  linux,no-autorepeat:
-> +    description: |
-> +      Disable the Linux input system's autorepeat feature on the input device.
-> +
-> +  gpio-activelow:
-> +    description: Gpio line are active low.
-
-No, GPIOs should instead use common flags.
-
-> +
-> +  line-gpios:
-> +    description: |
-> +      Gpio lines connected to keypad controller.
-> +      all gpio line act as row as wel as column lines.
-> +
-> +  linux,keymap:
-> +    $ref: '/schemas/types.yaml#/definitions/uint32-array'
-> +    description: |
-> +      An array of packed 1-cell entries containing the equivalent of row,
-> +      column and linux key-code. The 32-bit big endian cell is packed as:
-> +          row << 24 | column << 16 | key-code
-
-But anyway this should be just merged into matrix-keypad. It's a simpler
-set of that binding.
-
-> +
-> +required:
-> +  - compatible
-> +  - number-of-button
-> +  - line-gpios
-> +  - linux,keymap
-> +
-> +additionalProperties: true
-
-This cannot be true.
-
-> +
-> +examples:
-> +  - |
-> +    mt_matrix_keypad {
-
-No underscores in node names. Generic node name, so just "keypad".
-
-
+If it is known to be mouse, use mouse_backlight or something like
+that. Just document it so that others use same string.
 
 Best regards,
-Krzysztof
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--ZoaI/ZTpAVc4A5k6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYnOLBAAKCRAw5/Bqldv6
+8il+AJ9edp4VRLJO5Wk6Es98eUiFbkB1uQCfd9nOb4SI6MQNXEH6mcwK2y4zygM=
+=kRHT
+-----END PGP SIGNATURE-----
+
+--ZoaI/ZTpAVc4A5k6--
