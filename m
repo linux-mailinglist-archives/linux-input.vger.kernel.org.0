@@ -2,91 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A210251C34E
-	for <lists+linux-input@lfdr.de>; Thu,  5 May 2022 17:06:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAE1351C455
+	for <lists+linux-input@lfdr.de>; Thu,  5 May 2022 17:56:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381012AbiEEPIM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 May 2022 11:08:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56940 "EHLO
+        id S242926AbiEEQAZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 May 2022 12:00:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380998AbiEEPIC (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 5 May 2022 11:08:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F5D056430;
-        Thu,  5 May 2022 08:04:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 045ED61A69;
-        Thu,  5 May 2022 15:04:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F33FC385A8;
-        Thu,  5 May 2022 15:04:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651763061;
-        bh=ndNt7BUf9dTGF9Boc0sHL0QvCjcViApZ2+jdoiRYFyE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qsTwJOAmbU9NAcodvY8Up4PoNuEDRZy5qxSFcdI0VmbgNmn3/5x71X8ojXxDFeNvv
-         wY4qvOjbwdrz7Yr75u2sbhbjskoI/sZWGz4PEQP/S+I8xtRFCkH1Moav6HaNLEeEMO
-         WD9CFgJXtdTh9DLKCtyGpxZcPAVjEnkCl68AjKWpRBt4xYlkTr26FWjmXq6vdFHjfo
-         1JagmTiGO1QdyMD0R232U+yffpnEC/3hGsGQpybLdnELbR+ZACe8+oOYvvWsaDz2qx
-         oHX9cN4PzhibRt823eQYXukpGaPOEOOiwDBSuJUdGm0u9JKoMHgHhPlLEhO0XHJKCM
-         raFIKJWwjP1BA==
-Date:   Thu, 5 May 2022 16:04:11 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Philipp Zabel <philipp.zabel@gmail.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Paul Parsons <lost.distance@yahoo.com>,
-        Tomas Cech <sleep_walker@suse.com>,
-        Sergey Lapin <slapin@ossfans.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
+        with ESMTP id S1381466AbiEEQAW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 5 May 2022 12:00:22 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87B375A2D0
+        for <linux-input@vger.kernel.org>; Thu,  5 May 2022 08:56:41 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id dk23so9571845ejb.8
+        for <linux-input@vger.kernel.org>; Thu, 05 May 2022 08:56:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fjBt4PhnxyvpQZHwHALGbz1X5a0xwh6G7fjizoTyXiA=;
+        b=ZTU0SNmZWifpArOZCxILL1SHYnm+fwkV4zfQa0dehmOC6D+EdD2T94tUhkGrq5RDwu
+         VIty5jNMoq6e/2XPmutsofxDGkSMxM62aTiasN4leHOn3IBGOjHDd6iFA1z7l/LAwRQy
+         SaqCUOCtU7A1IOCnxJr63fR+eNnmf0X55eYxo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fjBt4PhnxyvpQZHwHALGbz1X5a0xwh6G7fjizoTyXiA=;
+        b=reee7MRNE3lDD+WY5dv/Qd3A7HbjQS9Nl0oskgapBV0Pw/qF+zvQJ0dOtuczAu1yWh
+         TPN7Ji44lyXMSWRA5NU6WFmMFW+gXhhANpysjKbh4Ud9jOairqjV/xrIDTL/zxHG3EPa
+         zNpH4LLvbSSdyNaQZsKht+GS/4ND13MfkltH9J9h//HiE/tLZUvZiYXXlDIlS4ytotlP
+         wfaogUxH5WZ8AwAp9R3MCiHcNLilqP2kdaHj9F+3jfL1k9nrD2hky6X/nL2wFLglDEAY
+         zSNwW4L0aB7Dc1FcopPVZ8lwXOGrbQevAJGXCD1iAwQksoy6rdmUQyT4vNRU0zl72MVT
+         eMIg==
+X-Gm-Message-State: AOAM531OVBaFXXYJEpSk8QYvDe9+zZ5vYiRrqRi/jC0Q8oFcqoz7AIFi
+        lX+Iion7MFc2ompLsT91nE89cw==
+X-Google-Smtp-Source: ABdhPJwB/ZFjB6/h1JrEs8E12lO3+RH5QW17ibva6faESPfAZjkoAf0YstZGBgfG8dNGDjhQzNuQLA==
+X-Received: by 2002:a17:907:72cc:b0:6f4:cc8a:2bcd with SMTP id du12-20020a17090772cc00b006f4cc8a2bcdmr8661986ejc.532.1651766199997;
+        Thu, 05 May 2022 08:56:39 -0700 (PDT)
+Received: from dario-ThinkPad-T14s-Gen-2i.pdxnet.pdxeng.ch (host-87-0-15-73.retail.telecomitalia.it. [87.0.15.73])
+        by smtp.gmail.com with ESMTPSA id a4-20020aa7d904000000b0042617ba6385sm1009328edr.15.2022.05.05.08.56.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 May 2022 08:56:39 -0700 (PDT)
+From:   Dario Binacchi <dario.binacchi@amarulasolutions.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Dario Binacchi <dario.binacchi@amarulasolutions.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Helge Deller <deller@gmx.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        IDE-ML <linux-ide@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-mtd <linux-mtd@lists.infradead.org>,
-        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH 18/48] ARM: pxa: hx4700: use gpio descriptors for audio
-Message-ID: <YnPna0pW9csiFkHK@sirena.org.uk>
-References: <20220419163810.2118169-1-arnd@kernel.org>
- <20220419163810.2118169-19-arnd@kernel.org>
- <CACRpkdac8dGKSEmc-HpgooJefrDtiKK+_A1Mv7AJM8yQV9UY-w@mail.gmail.com>
- <CAK8P3a0w3gFzZoBzyRsi1Ta4prESf8Fp0=quAPSKMnaXvbXNTQ@mail.gmail.com>
- <CACRpkdZNryYkidvdKuT57RM3fz6_X+3oOzF5xaOZd+TyScfUsw@mail.gmail.com>
- <CAK8P3a0y0tVZODpp+GSf0EkMPWbbvMqA-4kNf0NJMc0M2=2WHw@mail.gmail.com>
- <CACRpkdaNRX0RDYJd_uaGo5jtiXu_qGHmEDGniaCmR=TZvcHH8A@mail.gmail.com>
- <YnPhna5h1+kQGFLa@sirena.org.uk>
- <CAK8P3a2cYUYMKSMo3VOLVTO0=LWc0sHf72Eph8t_es9axo_eeA@mail.gmail.com>
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Michael Trimarchi <michael@amarulasolutions.com>,
+        Oliver Graute <oliver.graute@kococonnector.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [RESEND PATCH v4 0/6] Input: edt-ft5x06 - Improve configuration
+Date:   Thu,  5 May 2022 17:56:29 +0200
+Message-Id: <20220505155635.419653-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ZLP2bC8awi6xddl+"
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a2cYUYMKSMo3VOLVTO0=LWc0sHf72Eph8t_es9axo_eeA@mail.gmail.com>
-X-Cookie: Real programs don't eat cache.
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -94,58 +71,39 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+The series was born from the analysis and mitigation of a crc problem
+raised by an M06 type device. The added sysfs attributes were helpful
+in debugging the problem. Patches that change the report rate on driver
+probing, mitigated crc errors on kernel bootup. The patch to get/set
+report rate by sysfs for an M12 device, has been tested.
 
---ZLP2bC8awi6xddl+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Changes in v4:
+- Add Rob Herring 'Acked-by' tag.
 
-On Thu, May 05, 2022 at 04:59:35PM +0200, Arnd Bergmann wrote:
-> On Thu, May 5, 2022 at 4:39 PM Mark Brown <broonie@kernel.org> wrote:
-> > On Thu, May 05, 2022 at 04:33:06PM +0200, Linus Walleij wrote:
-> > > On Thu, May 5, 2022 at 8:04 AM Arnd Bergmann <arnd@kernel.org> wrote:
+Changes in v3:
+- Add hz unit suffix.
+- Add '|' to description.
+- Check the lower and upper limits of the report-rate-hz value
+- Convert the M06 report-rate-hz value
 
-> > > > static struct snd_soc_jack_pin hs_jack_pin[] = {
-> > > >         {
-> > > >                 .pin    = "Headphone Jack",
-> > > >                 .mask   = SND_JACK_HEADPHONE,
-> > > >         },
-> > > >         {
-> > > >                 .pin    = "Speaker",
-> > > >                 /* disable speaker when hp jack is inserted */
-> > > >                 .mask   = SND_JACK_HEADPHONE,
-> > > >                 .invert = 1,
-> > > >         },
+Changes in v2:
+- Add Oliver Graute's 'Acked-by' tag to:
+  * Input: edt-ft5x06 - show model name by sysfs
+  * Input: edt-ft5x06 - show firmware version by sysfs
+- Fix yaml file. Tested with `make DT_CHECKER_FLAGS=-m dt_binding_check'.
 
-> > > Hm some ASoC thingie. No idea what that is, but I suppose another
-> > > place where a subsystem for legacy reasons try to do the gpiolib
-> > > inversion on it's own accord. That one isn't flagged as active low in the
-> > > descriptor so it's fine I guess.
+Dario Binacchi (6):
+  dt-bindings: input: touchscreen: edt-ft5x06: add report-rate-hz
+  Input: edt-ft5x06 - get/set M12 report rate by sysfs
+  Input: edt-ft5x06 - set report rate by dts property
+  Input: edt-ft5x06 - show model name by sysfs
+  Input: edt-ft5x06 - show firmware version by sysfs
+  Input: edt-ft5x06 - show crc and header errors by sysfs
 
-> > It's saying that when the headphone is inserted the headphone output
-> > should be enabled and the speaker output should be disabled, and vice
-> > versa.
+ .../input/touchscreen/edt-ft5x06.yaml         |   8 ++
+ drivers/input/touchscreen/edt-ft5x06.c        | 103 ++++++++++++++++--
+ 2 files changed, 103 insertions(+), 8 deletions(-)
 
-> Ok, that sounds like I should remove the flag here if I declare the
-> GPIO line as GPIO_ACTIVE_LOW instead of GPIO_ACTIVE_HIGH, right?
+-- 
+2.32.0
 
-If you change the sense of the GPIO you'll need to flip the invert to
-the headphone instead of the speaker - whichever way round the GPIO
-sense is each of the pins should be taking the opposite sense from the
-GPIO state to the other.
-
---ZLP2bC8awi6xddl+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmJz52oACgkQJNaLcl1U
-h9CbVgf+IcoNpQ7Zg0fdYkNEqwa7HwKX/Qt0QGkD2AOfzxG/HwCNSJGjXbLRoDSG
-LZDrxzKVzeoyjgCVaof252MDqttrmcheVCIAEBBJloJwRZ09bHBdKRPPZhbkgcTz
-jtkkGnEzXjRjYMDG6uc2pcooFw43TvoeGlypGRIHfw7iuVsLV9p49OqDnjO4jGer
-JBdqJjiSsBVptiZvzaVRbk7kjilcUyKIlQWL83na306uUWq3kMe8gOEw2S5VTvqd
-iQ7h7SpGvhyYN6hKCklertmWbnGLlgzT0PXgO8R3thr5L4UiST7AH2vQijgqPoJx
-UGG0jN4gSGc0pHUx7zh4kY6kWXN/Sg==
-=5RUB
------END PGP SIGNATURE-----
-
---ZLP2bC8awi6xddl+--
