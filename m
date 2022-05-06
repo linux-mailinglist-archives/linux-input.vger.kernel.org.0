@@ -2,50 +2,163 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D501951D607
-	for <lists+linux-input@lfdr.de>; Fri,  6 May 2022 12:55:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 584EF51D722
+	for <lists+linux-input@lfdr.de>; Fri,  6 May 2022 13:58:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381677AbiEFK7I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 May 2022 06:59:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57544 "EHLO
+        id S1391568AbiEFMBu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 May 2022 08:01:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345942AbiEFK7H (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 May 2022 06:59:07 -0400
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBF2B5F8B
-        for <linux-input@vger.kernel.org>; Fri,  6 May 2022 03:55:22 -0700 (PDT)
-Received: by mail-il1-f200.google.com with SMTP id m11-20020a056e020deb00b002cbde7e7dcfso4007806ilj.2
-        for <linux-input@vger.kernel.org>; Fri, 06 May 2022 03:55:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=7cbmlPGWXyk+fdCHlmtwhn3qaAZ2YWYXT0zy2EnbwLg=;
-        b=S0Js44Rc0/ig3ZUHvGCSY3f2EI1l3kGwmElGSlw6NU4klFXXFnGXGguichyOZTTPtJ
-         hEjuh+VAWuoMYbMsmRfYhvautz9FweF6UkWLyAFjPjvBejWS6s12+GGUxtJr5AF+k79f
-         P+BMuH7/TJkRdUJfiAgQKS21jRIhppGTYKHPJN8BJCqWh2p4E+Q6CoM6BF5LE5ckU6w6
-         JSmG0M/6+YC+pKMxMe9CM/Ehv4ud+A7iIa2DtFKIDkbqATl9DysvIpvPdtCkuE5KO7/X
-         kpSNC2RSiERoAcICv6qbVy48cNC4Zng7wMLkzCOgqOD0FmI5et5cKreruKst6SFTmGKD
-         LE+w==
-X-Gm-Message-State: AOAM532vB9dw1Eou3Mu7fMPkBhnAkrxqZEXJEbq+OVbHi8xRp+eSEpzy
-        ATG5vrldHIoKHWsfMVwn8e3c2PeksRtAUZ2buyfLJpwvWWp1
-X-Google-Smtp-Source: ABdhPJzGzABbWl/V7xYXRh+sG74PGl6gz6Qq/20Yn9oCLv6UzXsN8kYC2LoOrUHQ97Mn2j9YCHko7zocEJ3nHScAjY/tlveURJum
+        with ESMTP id S1391558AbiEFMBt (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 May 2022 08:01:49 -0400
+Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BDD758E6D
+        for <linux-input@vger.kernel.org>; Fri,  6 May 2022 04:58:06 -0700 (PDT)
+Received: from pps.filterd (m0167091.ppops.net [127.0.0.1])
+        by mx0b-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 246AesK3031298;
+        Fri, 6 May 2022 07:57:59 -0400
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
+        by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 3frxvbgwyw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 06 May 2022 07:57:59 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E75ov7qKQk6eRWp6o6/rPSEYRPtYuuyOxaKK7/jbmrLaGBEPNT26uw7HHQYu0AmVMnVwieTGr9w/k6CoLBvj/BhEvdoDeKJ8PwVkM0sm1NdnzHRLdc2Ky+4BphtPhB+IFnezvFd2jaQJ+s1/XfZm3YO/FweJiq+h5sb2ivJ6o0d1tuq07iGCwTzsy9AhjUOZ+T0t/WErCqC5Y1RvpEPWtTO9hx4BMk/yM6YqwLaOrpAeUtWNeJszpvdPeUXlv1mZ63sbnq3BfUkuA8Dn2DOIDm6TwjW8ylsHJnZc1Gl9TNOErrXlUvmPTOPt7r5ABSepCvZxjjJ3R6rVL1a8lC/whA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1JOdEcKsvZOr25uiqIZX4IGCs4ffQ2I9j1B3+NPf4HE=;
+ b=NXWgRgpA+b2K8X5sXRhoUBKFshmpM+PHe+ofjt6gOm7xD7SYlYX6n/LWbXVCIvBDl03arhtyZHIQJZ7+UQatfC/BywiUO/h4nXBK8185TCY8lcDgX1zZxwsNWL7ctAKULU2XQ0crLa91vHFaqRDxN8hJ8BRABtAmi3xwOcKBXSwWKRau51eRKG9akAppO3BP5fdXvmxswqri57ZJxHV8FjUGklrH2bmjWpdytbJRtETsZwVBb8jztbzDrfDhQ2Cf0iTK3YOrcOYa5CUsUVFJtZ/PFjiyBVtBWobdZDDCyXDW3IuoHMI+RFI1j5xWREzCEaHUDs7huNNOX/manVUj+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1JOdEcKsvZOr25uiqIZX4IGCs4ffQ2I9j1B3+NPf4HE=;
+ b=ncxtoLOAIU1CiOXCCeNqbharGM4R6XjZb5BWCYYIXJFqb9/uvTo/cAaa9oQEDgyRuhq5NMYOufj3zn7z6nUgwid+A6cGRGqhpcFNZPfdkuR1xk7FSeBGEzB9dLmfYgLeVBhULxoCRqU3+xJqaZI63zj0j9pWt0acqBhsHi0BgHQ=
+Received: from SJ0PR03MB6253.namprd03.prod.outlook.com (2603:10b6:a03:3b8::19)
+ by DM6PR03MB4683.namprd03.prod.outlook.com (2603:10b6:5:184::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.25; Fri, 6 May
+ 2022 11:57:57 +0000
+Received: from SJ0PR03MB6253.namprd03.prod.outlook.com
+ ([fe80::81cf:38ee:b416:f359]) by SJ0PR03MB6253.namprd03.prod.outlook.com
+ ([fe80::81cf:38ee:b416:f359%9]) with mapi id 15.20.5206.027; Fri, 6 May 2022
+ 11:57:57 +0000
+From:   "Hennerich, Michael" <Michael.Hennerich@analog.com>
+To:     =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Bogdan, Dragos" <Dragos.Bogdan@analog.com>,
+        "Sa, Nuno" <Nuno.Sa@analog.com>, Arnd Bergmann <arnd@arndb.de>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: RE: [PATCH] Input: adp5588-keys: Remove unused driver
+Thread-Topic: [PATCH] Input: adp5588-keys: Remove unused driver
+Thread-Index: AQHYX5OWMHq42+1B8EyK6hudoMqJqa0PzmBAgAAb5QCAAdLV0A==
+Date:   Fri, 6 May 2022 11:57:57 +0000
+Message-ID: <SJ0PR03MB6253FC31665D4ADA31A0A5458EC59@SJ0PR03MB6253.namprd03.prod.outlook.com>
+References: <20220504084617.36844-1-u.kleine-koenig@pengutronix.de>
+ <SJ0PR03MB6253FB12C55E309BA438BF918EC29@SJ0PR03MB6253.namprd03.prod.outlook.com>
+ <20220505074956.gmgdxfgvod7k2ind@pengutronix.de>
+In-Reply-To: <20220505074956.gmgdxfgvod7k2ind@pengutronix.de>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: =?iso-8859-1?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcbWhlbm5lcm?=
+ =?iso-8859-1?Q?lcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZi?=
+ =?iso-8859-1?Q?ODRiYTI5ZTM1Ylxtc2dzXG1zZy1jMWRiNzkzMy1jZDMzLTExZWMtOTI4OS?=
+ =?iso-8859-1?Q?00ODg5ZTc3Y2RkZWZcYW1lLXRlc3RcYzFkYjc5MzUtY2QzMy0xMWVjLTky?=
+ =?iso-8859-1?Q?ODktNDg4OWU3N2NkZGVmYm9keS50eHQiIHN6PSIzNDUwIiB0PSIxMzI5Nj?=
+ =?iso-8859-1?Q?MxMTg3MzE2NTMxMTEiIGg9Ikk0aE1FVkR2S2xoZVBxcnZidHowWTl2V1hv?=
+ =?iso-8859-1?Q?MD0iIGlkPSIiIGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk?=
+ =?iso-8859-1?Q?5DZ1VBQUVvQ0FBRDNienFFUUdIWUFlWW8wamp6QWlQMzVpalNPUE1DSS9j?=
+ =?iso-8859-1?Q?REFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFIQUFBQURhQVFBQUFBQUFBQU?=
+ =?iso-8859-1?Q?FBQUFBQUFBQUFBQUFBQUFFQUFRQUJBQUFBVklFdm9RQUFBQUFBQUFBQUFB?=
+ =?iso-8859-1?Q?QUFBSjRBQUFCaEFHUUFhUUJmQUhNQVpRQmpBSFVBY2dCbEFGOEFjQUJ5QU?=
+ =?iso-8859-1?Q?c4QWFnQmxBR01BZEFCekFGOEFaZ0JoQUd3QWN3QmxBRjhBWmdCdkFITUFh?=
+ =?iso-8859-1?Q?UUIwQUdrQWRnQmxBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU?=
+ =?iso-8859-1?Q?FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?iso-8859-1?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQU?=
+ =?iso-8859-1?Q?FBR0VBWkFCcEFGOEFjd0JsQUdNQWRRQnlBR1VBWHdCd0FISUFid0JxQUdV?=
+ =?iso-8859-1?Q?QVl3QjBBSE1BWHdCMEFHa0FaUUJ5QURFQUFBQUFBQUFBQUFBQUFBQUFBQU?=
+ =?iso-8859-1?Q?FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?iso-8859-1?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU?=
+ =?iso-8859-1?Q?FBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFBQ0FBQUFBQUNlQUFBQVlRQmtB?=
+ =?iso-8859-1?Q?R2tBWHdCekFHVUFZd0IxQUhJQVpRQmZBSEFBY2dCdkFHb0FaUUJqQUhRQW?=
+ =?iso-8859-1?Q?N3QmZBSFFBYVFCbEFISUFNZ0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?iso-8859-1?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU?=
+ =?iso-8859-1?Q?FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?iso-8859-1?Q?QUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFBPT0iLz48L21ldGE+?=
+x-dg-rorf: true
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d9dc55a7-34f1-41c6-8d8f-08da2f57a915
+x-ms-traffictypediagnostic: DM6PR03MB4683:EE_
+x-microsoft-antispam-prvs: <DM6PR03MB4683F6322EC1E53C3442B2738EC59@DM6PR03MB4683.namprd03.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: pn3AHCzYaB7JUIGQs7YzGEqGRX+X/rPfWhUBEhw4FolGE8uVM5GM9TCd9Jia7xTVmCm/62tm8ub1hDbMOcSe1mb70F6NXQQWTO5DDgeXRF3kUXoFobneYz/EcTTDH7BTJ57JVUaFUGSMd+HeHU1SnVAmam5U1gvFmxELRzA/pXr2PUdWGxrDK6No+d0pwRTUJGu7aCimTaKtvTKto2gNK6h5EdBddZlHKOY5vr6UdTDnw7BhLjkqQhN1nAKG7UYqmQ3fuFAeFZ8Se/u39hEoGIIFZatbL3gKGgpPPL4fDyEMIJgiea0zoEyNE94R+JDFACceTPujahgQXqL/dO024VMS6yyiwryQiaZtZWuuDT6UeURKSRuO/JFh5HLYHnGkzcHhcKEDUwBFpUGuxrcRkpiJahXWH7MWhBV7hvI7P3sgi863Jb8wNqFKgaZCyCkmymBrD8kqUnHMXAXWG0ZfrJTVwYHC44ttVTrUKUBHahIeul/MxoDQTi28CdnE9X2uMnPuaHrtFaeeE7r4tYZOQkfl/2LugRrQ3Ae4wr/CqkAa8exkcKs00v5Twl22CSpONUi/eln0NF0dOLZgzecTY55p65XWOYyAFYu9dPXcsTkf5RbORtXJXL1TUlxaRr0v9xyNEaot4yYS1B8pJ9VqPFfhG9j84YdCccIs+tl0cxpEhxTjfDVNJYEcN0hNfuwoVckU5qJ7pccUXMWS1xHI0tamN8x42irDIptTX/smOSvTYFBSZJcc+LCcvF0xFZUn6IPlnkdCGCLQZ5eSziQSaDxNWyafS9FVbJElQqyCTNkjEuSXwvlGziEeGZnJfkiz
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6253.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(508600001)(5660300002)(54906003)(83380400001)(966005)(52536014)(64756008)(66446008)(8936002)(71200400001)(66476007)(316002)(6916009)(8676002)(66556008)(4326008)(76116006)(66946007)(26005)(33656002)(66574015)(186003)(9686003)(6506007)(53546011)(7696005)(38100700002)(38070700005)(86362001)(55016003)(122000001)(2906002)(3714002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?hToLKiVxNbDqoxFkLHoji6hb2bkec5R//sj+bCeRcmiPz0touTHOSHfHnr?=
+ =?iso-8859-1?Q?zaHQajAxt+ni5fAljavR6f7tMHOyGEy9b4ww/kr4I1GjbATZB8ENKWOhrj?=
+ =?iso-8859-1?Q?3SnrvdDv8Q7TLA1EBmSX09Ys+VLH+Nq8eKfxBViPx6fHxal6S+RiSYqo3o?=
+ =?iso-8859-1?Q?XXZoRULRwmcz23R7q+a3P7JoXn+Q+uhnp7WYPPhE6G5qiguSv0BeJVqTkZ?=
+ =?iso-8859-1?Q?cgM6TzMF68iZb950719IUhBwzryW5G/v6oLhjMwqugCPEQRMp048yfH0jn?=
+ =?iso-8859-1?Q?hhtZvcLsZFzg/rX8HHBUZxZvUWrRu8r6G1IKqWaSsGkdmC0j1BIlirX4qk?=
+ =?iso-8859-1?Q?aSp0A+nM2qTTnvr6UiR4bRMZz5GBy7PJ4j0mTznzQsL1p1U6P9dlqnD9Mm?=
+ =?iso-8859-1?Q?gWYGBM+G5i5hVM5yDcv8J457K3zlog/k/FKOsQ2eDAaCPyqA1Jzqhep72e?=
+ =?iso-8859-1?Q?ktGlQwIj+p1xillfivSKywp3qpNbcWBjV46fPn+qg+JF2BlqQN50l0cojf?=
+ =?iso-8859-1?Q?i01cnAssd99M8lmIAlq1TCksy48R/sLDxiWQ01PSdz0L128M4iPqpXZ0Fz?=
+ =?iso-8859-1?Q?Jr9bsRyiRhPBpZSnPZJ/lzFaZJWLXdqqeEnWlm9ZoVMW/NJeMakTqeW+I/?=
+ =?iso-8859-1?Q?klCSiPtygO8smEyLBI972y6HtfFeMLLtQBG2oNYZuzBariiATY73qoVMbA?=
+ =?iso-8859-1?Q?xlQwh6oibcFoJofBi0wLUx2nSRETWFH0TtJ31uG7Rvac94FkxaXcGjdD2u?=
+ =?iso-8859-1?Q?En48IZB49/DjhfocaPUwXBD8grtvCYeFaa8H02NiaUc6bZAmS34yM//C3f?=
+ =?iso-8859-1?Q?VbgIRGFIm0uSm+9IRqHBOAisj7GZwEqGJMB/ht66xAw2inHbjTObLYk8iq?=
+ =?iso-8859-1?Q?JuhAycKZjlDYOUzouF5hCpgHHZYpI23QYDInh3KgOiYWb5V6ql4J7zrwcg?=
+ =?iso-8859-1?Q?jmFKD2GwbLdvpKVCBPm5/3EkyNt23Q0IdeHG0BA7lDRyJ6uG18LKz8PaTa?=
+ =?iso-8859-1?Q?7LjXhAqiUSUa+WPEZziyiqmXQEBoHP3V4By9XoT/2wE4CkRpgSK+w/ZgyP?=
+ =?iso-8859-1?Q?V0nLOY/BsGekiA2mbUAGiHxlGQaMjncb9vzpnNNnWCkjSTaKPeBu4GtRJU?=
+ =?iso-8859-1?Q?Ct3hdUJMJazqs/e43darcxE8YCTl85M7cH9okCpcw85N74LKtSQI59L0Ds?=
+ =?iso-8859-1?Q?nOHJUd+HugLDKfTvpG42TUkuM3TPk4iGbaZ1kUy6S+QBcwaQneTj3m4IE1?=
+ =?iso-8859-1?Q?8/+1/9l7MjTh99o49wrtQUBK7zidkvs8KYBKBfrEFCLLn77cYZPkYoQwcZ?=
+ =?iso-8859-1?Q?ZhwNWJKAKa0PP2wLAH6CzUWL79nCMbpl+apwA71rSMsYmWFWkPm8NuSqSD?=
+ =?iso-8859-1?Q?mmCSFxwVzktxoOl3M0M+1Ht5b1zx+Lv4On4A0MLyypBgYzuPeAWHJfSkjz?=
+ =?iso-8859-1?Q?ccB7uWWxVgUT7QQkb5Ct6P9GGxyEmri5XGmT17QSIHwB+iv1WRClsCSFgg?=
+ =?iso-8859-1?Q?jTJ95BEyGzlQle8u4jXy1U8z0K2t+ygNc+0Eb5jZHMDhlrCF+fJs1hr/vd?=
+ =?iso-8859-1?Q?wkLLNb08adHbcVGNQ6VcHQY3+4As8K5uT0cHOJhabpTn9vb+IBrpFjc1RS?=
+ =?iso-8859-1?Q?l7cT4BbhjM9Y5MtvmbzsxrX+DgKz8fwVaW/bIUn6ahe6k5AkCVm10jgmvT?=
+ =?iso-8859-1?Q?QQXjaaNDqf6Wkkc5bX0jFpsqS1uoo7WgwVSm8HaMUQaIuXUqYPI7CKnRRe?=
+ =?iso-8859-1?Q?0Bq+KKAdW/c/yu6msvwBSJ0c6FzNU8zA+bxYX2/ZmW46nCDS5FQrRMJfob?=
+ =?iso-8859-1?Q?EBbQYKXAxSWBM7pZExtlnl897WIfu9Y=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:16c5:b0:2cc:450a:df7d with SMTP id
- 5-20020a056e0216c500b002cc450adf7dmr1011283ilx.39.1651834521991; Fri, 06 May
- 2022 03:55:21 -0700 (PDT)
-Date:   Fri, 06 May 2022 03:55:21 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e9428d05de55b1cd@google.com>
-Subject: [syzbot] KASAN: use-after-free Read in hiddev_disconnect (3)
-From:   syzbot <syzbot+da96c65bae6fe366459b@syzkaller.appspotmail.com>
-To:     benjamin.tissoires@redhat.com, jikos@kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB6253.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9dc55a7-34f1-41c6-8d8f-08da2f57a915
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2022 11:57:57.1143
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DnsJbieqS3REHN7Wn4jRYDZSVVKb77vz2n1sa+HmeKXIxnkMUFMXKZiV5lcwPNh3/XWStOaHoZnQs4LqCsLVmm+yxOKBZeKDgHdpb+LEBUU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR03MB4683
+X-Proofpoint-ORIG-GUID: NCxL8yVpYoNTFNS0yaNri5ZZE6YIVhzo
+X-Proofpoint-GUID: NCxL8yVpYoNTFNS0yaNri5ZZE6YIVhzo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-06_04,2022-05-06_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
+ phishscore=0 mlxlogscore=999 malwarescore=0 impostorscore=0 suspectscore=0
+ bulkscore=0 adultscore=0 clxscore=1015 priorityscore=1501 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2205060067
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,224 +166,96 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    fe27d189e3f4 Merge tag 'folio-5.18f' of git://git.infradea..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=12fbe186f00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=331feb185f8828e0
-dashboard link: https://syzkaller.appspot.com/bug?extid=da96c65bae6fe366459b
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: i386
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+da96c65bae6fe366459b@syzkaller.appspotmail.com
-
-cm6533_jd 0003:0D8C:0022.000E: hiddev3,hidraw3: USB HID v0.00 Device [HID 0d8c:0022] on usb-dummy_hcd.0-1/input32
-usb 6-1: USB disconnect, device number 3
-==================================================================
-BUG: KASAN: use-after-free in debug_spin_lock_before kernel/locking/spinlock_debug.c:85 [inline]
-BUG: KASAN: use-after-free in do_raw_spin_lock+0x261/0x2a0 kernel/locking/spinlock_debug.c:114
-Read of size 4 at addr ffff888055280c1c by task kworker/1:4/3656
-
-CPU: 1 PID: 3656 Comm: kworker/1:4 Not tainted 5.18.0-rc5-syzkaller-00115-gfe27d189e3f4 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- print_address_description.constprop.0.cold+0xeb/0x495 mm/kasan/report.c:313
- print_report mm/kasan/report.c:429 [inline]
- kasan_report.cold+0xf4/0x1c6 mm/kasan/report.c:491
- debug_spin_lock_before kernel/locking/spinlock_debug.c:85 [inline]
- do_raw_spin_lock+0x261/0x2a0 kernel/locking/spinlock_debug.c:114
- __mutex_unlock_slowpath+0x18e/0x5e0 kernel/locking/mutex.c:918
- hiddev_disconnect+0x154/0x1c0 drivers/hid/usbhid/hiddev.c:940
- hid_disconnect+0xb4/0x1a0 drivers/hid/hid-core.c:2248
- hid_hw_stop+0x12/0x70 drivers/hid/hid-core.c:2293
- cmhid_remove+0x38/0x50 drivers/hid/hid-cmedia.c:182
- hid_device_remove+0xbf/0x200 drivers/hid/hid-core.c:2623
- device_remove+0xc8/0x170 drivers/base/dd.c:530
- __device_release_driver drivers/base/dd.c:1200 [inline]
- device_release_driver_internal+0x4a3/0x680 drivers/base/dd.c:1223
- bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:529
- device_del+0x4f3/0xc80 drivers/base/core.c:3592
- hid_remove_device drivers/hid/hid-core.c:2792 [inline]
- hid_destroy_device+0xe1/0x150 drivers/hid/hid-core.c:2811
- usbhid_disconnect+0x9f/0xe0 drivers/hid/usbhid/hid-core.c:1451
- usb_unbind_interface+0x1d8/0x8e0 drivers/usb/core/driver.c:458
- device_remove drivers/base/dd.c:532 [inline]
- device_remove+0x11f/0x170 drivers/base/dd.c:524
- __device_release_driver drivers/base/dd.c:1200 [inline]
- device_release_driver_internal+0x4a3/0x680 drivers/base/dd.c:1223
- bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:529
- device_del+0x4f3/0xc80 drivers/base/core.c:3592
- usb_disable_device+0x35b/0x7b0 drivers/usb/core/message.c:1419
- usb_disconnect.cold+0x278/0x6ec drivers/usb/core/hub.c:2228
- hub_port_connect drivers/usb/core/hub.c:5207 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5507 [inline]
- port_event drivers/usb/core/hub.c:5665 [inline]
- hub_event+0x1e74/0x4680 drivers/usb/core/hub.c:5747
- process_one_work+0x996/0x1610 kernel/workqueue.c:2289
- worker_thread+0x665/0x1080 kernel/workqueue.c:2436
- kthread+0x2e9/0x3a0 kernel/kthread.c:376
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:298
- </TASK>
-
-Allocated by task 142:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
- kasan_set_track mm/kasan/common.c:45 [inline]
- set_alloc_info mm/kasan/common.c:436 [inline]
- ____kasan_kmalloc mm/kasan/common.c:515 [inline]
- ____kasan_kmalloc mm/kasan/common.c:474 [inline]
- __kasan_kmalloc+0xa9/0xd0 mm/kasan/common.c:524
- kmalloc include/linux/slab.h:581 [inline]
- kzalloc include/linux/slab.h:714 [inline]
- hiddev_connect+0x246/0x5c0 drivers/hid/usbhid/hiddev.c:893
- hid_connect+0x26d/0x17c0 drivers/hid/hid-core.c:2169
- hid_hw_start drivers/hid/hid-core.c:2273 [inline]
- hid_hw_start+0xa2/0x130 drivers/hid/hid-core.c:2264
- cmhid_probe+0x104/0x160 drivers/hid/hid-cmedia.c:165
- hid_device_probe+0x2bd/0x3f0 drivers/hid/hid-core.c:2594
- call_driver_probe drivers/base/dd.c:542 [inline]
- really_probe+0x23e/0xb20 drivers/base/dd.c:621
- __driver_probe_device+0x338/0x4d0 drivers/base/dd.c:752
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:782
- __device_attach_driver+0x20b/0x2f0 drivers/base/dd.c:899
- bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
- __device_attach+0x228/0x4a0 drivers/base/dd.c:970
- bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
- device_add+0xb83/0x1e20 drivers/base/core.c:3405
- hid_add_device+0x344/0x9d0 drivers/hid/hid-core.c:2744
- usbhid_probe+0xb49/0x1040 drivers/hid/usbhid/hid-core.c:1424
- usb_probe_interface+0x315/0x7f0 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:542 [inline]
- really_probe+0x23e/0xb20 drivers/base/dd.c:621
- __driver_probe_device+0x338/0x4d0 drivers/base/dd.c:752
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:782
- __device_attach_driver+0x20b/0x2f0 drivers/base/dd.c:899
- bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
- __device_attach+0x228/0x4a0 drivers/base/dd.c:970
- bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
- device_add+0xb83/0x1e20 drivers/base/core.c:3405
- usb_set_configuration+0x101e/0x1900 drivers/usb/core/message.c:2170
- usb_generic_driver_probe+0xba/0x100 drivers/usb/core/generic.c:238
- usb_probe_device+0xd9/0x2c0 drivers/usb/core/driver.c:293
- call_driver_probe drivers/base/dd.c:542 [inline]
- really_probe+0x23e/0xb20 drivers/base/dd.c:621
- __driver_probe_device+0x338/0x4d0 drivers/base/dd.c:752
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:782
- __device_attach_driver+0x20b/0x2f0 drivers/base/dd.c:899
- bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
- __device_attach+0x228/0x4a0 drivers/base/dd.c:970
- bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
- device_add+0xb83/0x1e20 drivers/base/core.c:3405
- usb_new_device.cold+0x641/0x1091 drivers/usb/core/hub.c:2566
- hub_port_connect drivers/usb/core/hub.c:5363 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5507 [inline]
- port_event drivers/usb/core/hub.c:5665 [inline]
- hub_event+0x25c6/0x4680 drivers/usb/core/hub.c:5747
- process_one_work+0x996/0x1610 kernel/workqueue.c:2289
- worker_thread+0x665/0x1080 kernel/workqueue.c:2436
- kthread+0x2e9/0x3a0 kernel/kthread.c:376
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:298
-
-Freed by task 4229:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
- kasan_set_track+0x21/0x30 mm/kasan/common.c:45
- kasan_set_free_info+0x20/0x30 mm/kasan/generic.c:370
- ____kasan_slab_free mm/kasan/common.c:366 [inline]
- ____kasan_slab_free+0x166/0x1a0 mm/kasan/common.c:328
- kasan_slab_free include/linux/kasan.h:200 [inline]
- slab_free_hook mm/slub.c:1728 [inline]
- slab_free_freelist_hook+0x8b/0x1c0 mm/slub.c:1754
- slab_free mm/slub.c:3510 [inline]
- kfree+0xd6/0x4d0 mm/slub.c:4552
- hiddev_release+0x402/0x520 drivers/hid/usbhid/hiddev.c:232
- __fput+0x277/0x9d0 fs/file_table.c:317
- task_work_run+0xdd/0x1a0 kernel/task_work.c:164
- resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
- exit_to_user_mode_loop kernel/entry/common.c:169 [inline]
- exit_to_user_mode_prepare+0x23c/0x250 kernel/entry/common.c:201
- __syscall_exit_to_user_mode_work kernel/entry/common.c:283 [inline]
- syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:294
- __do_fast_syscall_32+0x72/0xf0 arch/x86/entry/common.c:181
- do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:203
- entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
-
-The buggy address belongs to the object at ffff888055280c00
- which belongs to the cache kmalloc-512 of size 512
-The buggy address is located 28 bytes inside of
- 512-byte region [ffff888055280c00, ffff888055280e00)
-
-The buggy address belongs to the physical page:
-page:ffffea000154a000 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x55280
-head:ffffea000154a000 order:2 compound_mapcount:0 compound_pincount:0
-flags: 0xfff00000010200(slab|head|node=0|zone=1|lastcpupid=0x7ff)
-raw: 00fff00000010200 0000000000000000 dead000000000001 ffff888010c41c80
-raw: 0000000000000000 0000000000100010 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 2, migratetype Unmovable, gfp_mask 0xd2a20(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 3627, tgid 3627 (syz-executor.4), ts 55925604934, free_ts 11711857198
- prep_new_page mm/page_alloc.c:2441 [inline]
- get_page_from_freelist+0xba2/0x3e00 mm/page_alloc.c:4182
- __alloc_pages+0x1b2/0x500 mm/page_alloc.c:5408
- alloc_pages+0x1aa/0x310 mm/mempolicy.c:2272
- alloc_slab_page mm/slub.c:1799 [inline]
- allocate_slab+0x26c/0x3c0 mm/slub.c:1944
- new_slab mm/slub.c:2004 [inline]
- ___slab_alloc+0x8df/0xf20 mm/slub.c:3005
- __slab_alloc.constprop.0+0x4d/0xa0 mm/slub.c:3092
- slab_alloc_node mm/slub.c:3183 [inline]
- __kmalloc_node_track_caller+0x2cb/0x360 mm/slub.c:4947
- kmalloc_reserve net/core/skbuff.c:354 [inline]
- __alloc_skb+0xde/0x340 net/core/skbuff.c:426
- alloc_skb include/linux/skbuff.h:1300 [inline]
- nlmsg_new include/net/netlink.h:953 [inline]
- fdb_notify+0x98/0x190 net/bridge/br_fdb.c:191
- fdb_add_local+0x18b/0x1c0 net/bridge/br_fdb.c:434
- br_fdb_change_mac_address+0x34f/0x5e0 net/bridge/br_fdb.c:509
- br_stp_change_bridge_id+0xb2/0x3a0 net/bridge/br_stp_if.c:232
- br_set_mac_address+0x23f/0x2c0 net/bridge/br_device.c:245
- dev_set_mac_address+0x267/0x3d0 net/core/dev.c:8690
- dev_set_mac_address_user+0x2d/0x50 net/core/dev.c:8708
- do_setlink+0x184a/0x3a20 net/core/rtnetlink.c:2686
-page last free stack trace:
- reset_page_owner include/linux/page_owner.h:24 [inline]
- free_pages_prepare mm/page_alloc.c:1356 [inline]
- free_pcp_prepare+0x549/0xd20 mm/page_alloc.c:1406
- free_unref_page_prepare mm/page_alloc.c:3328 [inline]
- free_unref_page+0x19/0x6a0 mm/page_alloc.c:3423
- free_contig_range+0xb1/0x180 mm/page_alloc.c:9418
- destroy_args+0xa8/0x646 mm/debug_vm_pgtable.c:1018
- debug_vm_pgtable+0x2a51/0x2ae3 mm/debug_vm_pgtable.c:1332
- do_one_initcall+0x103/0x650 init/main.c:1298
- do_initcall_level init/main.c:1371 [inline]
- do_initcalls init/main.c:1387 [inline]
- do_basic_setup init/main.c:1406 [inline]
- kernel_init_freeable+0x6b1/0x73a init/main.c:1613
- kernel_init+0x1a/0x1d0 init/main.c:1502
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:298
-
-Memory state around the buggy address:
- ffff888055280b00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff888055280b80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->ffff888055280c00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                            ^
- ffff888055280c80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888055280d00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+> -----Original Message-----
+> From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> Sent: Donnerstag, 5. Mai 2022 09:50
+> To: Hennerich, Michael <Michael.Hennerich@analog.com>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>; Bogdan, Dragos
+> <Dragos.Bogdan@analog.com>; Sa, Nuno <Nuno.Sa@analog.com>; Arnd
+> Bergmann <arnd@arndb.de>; kernel@pengutronix.de; linux-
+> input@vger.kernel.org
+> Subject: Re: [PATCH] Input: adp5588-keys: Remove unused driver
+>=20
+>=20
+> Hello Michael,
+>=20
+> On Thu, May 05, 2022 at 06:20:22AM +0000, Hennerich, Michael wrote:
+> > > -----Original Message-----
+> > > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > > Sent: Mittwoch, 4. Mai 2022 10:46
+> > > To: Dmitry Torokhov <dmitry.torokhov@gmail.com>; Hennerich, Michael
+> > > <Michael.Hennerich@analog.com>
+> > > Cc: linux-input@vger.kernel.org; kernel@pengutronix.de; Arnd
+> > > Bergmann <arnd@arndb.de>
+> > > Subject: [PATCH] Input: adp5588-keys: Remove unused driver
+> > >
+> > > The last user is gone since 2018 (commit 4ba66a976072 ("arch: remove
+> > > blackfin port")). This is an i2c driver, so it could be used on a
+> > > non-blackfin machine, but this driver requires platform data, so it
+> > > cannot be bound using device tree.
+> >
+> > Hi Uwe,
+> >
+> > If we start removing drivers which obviously don't have a mainline
+> > in-tree user, we would upset up many users of these drivers.
+> > I agree on updating this driver to make platform data optional.
+> > We could provide a patch in a few days.
+>=20
+> Just to add some background why I stumbled over this driver: On of my cur=
+rent
+> quests is to make i2c remove callbacks return void. As a preparation for =
+that I
+> work on updating all i2c drivers to return 0 in
+> .remove() to make the change to void have no side effects.
+>=20
+> One of the offenders is drivers/gpio/gpio-adp5588.c, which in the presenc=
+e of a
+> pdata->teardown callback might return a non-zero value from .remove(). Wh=
+ile
+> looking at the pdata of possible devices I only found
+> drivers/input/keyboard/adp5588-keys.c.
+>=20
+> So the options for my quest are in increasing impact order:
+>=20
+>  a) just warn if struct adp5588_gpio_platform_data::teardown fails and
+>     still return 0 from .remove()
+>  b) make struct adp5588_gpio_platform_data::teardown return void
+>  c) drop teardown support from adp5588_gpio_platform_data
+>  d) drop platform support from gpio-adp5588
+>  e) drop gpio-adp5588
+>=20
+> Currently I'd go for at least d).
+>=20
+> Having said that I think e) has a net benefit. If there is no user left i=
+t reduces
+> maintainance burden. If there is a user left, they hopefully will tell us=
+, we can
+> restore the driver from git history and then at least know a tester for f=
+uture
+> cleanups and changes.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Hi Uwe,
+
+Thanks for the explanation.
+
+I know that there are users of this driver. But I admit, we should have ear=
+lier
+made platform_data support optional and also add proper dt bindings.
+We're in progress doing so. And in the meanwhile, I would prefer a less
+disruptive intermediate change. For example c) with the promise we're worki=
+ng on d).
+
+Best regards,
+Michael
+
+>=20
+> Best regards
+> Uwe
+>=20
+> --
+> Pengutronix e.K.                           | Uwe Kleine-K=F6nig          =
+  |
+> Industrial Linux Solutions                 | https://www.pengutronix.de/ =
+|
