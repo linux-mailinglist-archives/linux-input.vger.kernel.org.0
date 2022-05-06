@@ -2,48 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCB2B51D181
-	for <lists+linux-input@lfdr.de>; Fri,  6 May 2022 08:35:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2A0151D186
+	for <lists+linux-input@lfdr.de>; Fri,  6 May 2022 08:37:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241921AbiEFGjS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 May 2022 02:39:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32950 "EHLO
+        id S239242AbiEFGk7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 May 2022 02:40:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382873AbiEFGi7 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 May 2022 02:38:59 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A6365439;
-        Thu,  5 May 2022 23:35:13 -0700 (PDT)
+        with ESMTP id S232774AbiEFGk5 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 May 2022 02:40:57 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75C9766205
+        for <linux-input@vger.kernel.org>; Thu,  5 May 2022 23:37:15 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7CB6761F4F;
-        Fri,  6 May 2022 06:35:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F0F4C385AC;
-        Fri,  6 May 2022 06:35:11 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id B37E8CE33FB
+        for <linux-input@vger.kernel.org>; Fri,  6 May 2022 06:37:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 293D0C385A8;
+        Fri,  6 May 2022 06:37:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651818912;
-        bh=pf6ZIr6YjtbwscBjl1NsVH6yuujUzzRNMvatlF+n6/s=;
+        s=k20201202; t=1651819032;
+        bh=SQRnx9yTXz6Kxa3FZPo0VuYOueuSdpmeh2WlTLYA/Cw=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=Ne6ULEpad9yavPWrQPN2c6sNnzXIJpI1YEOVsZrBu1C2gaidOr8ze4OQQBNLkW4em
-         9wGbss3w34/hDnXAfW+SbTeje2PbSWEt6lf8rpt7A7H/8WBE3wEaKEdqY02zH5ad7/
-         fQb4X7YafLXoii92bbmNgiE0dRbBrn04PsFSsnorSQbvI88W5LTn7lmWA/bcfTlwKz
-         1uLAKHY/ryFoaQfrqdauVMsYzxxhcUppAi2XR6DgywfHpHW0v//0vGeXU6vWiyiuqj
-         MCgKwpU7bbBiomCpRPHNxJMUpEOGm8ccji+e97W/epm3QNWEsm22Z5RgQKpUzxWkNP
-         oMlWrOvWhUNKw==
-Date:   Fri, 6 May 2022 08:35:09 +0200 (CEST)
+        b=gg4wlSEpbVpRedw4s7YBHDXvT8tMWjvoIExpgBqgA/4baGnmzO1ccoCSHrHPdpadX
+         B1w33tSD6cb4Ljhq6ZWE5qv4HhgatCYYmH2haKbp8LHiY3lfMgu6DyNPSCjiVenUIG
+         jV3FtYLajNwA2wOAG7Gubx/lC6ffS7Q5Bir71AwsgKa+D8gvrWJE1nlW1Hkvgl7yhs
+         b1pGJIEGTiWJHDirm1jONq80wcW4PYQte9vLcTE3M9/pD/M87w2KvPIas5b2zk2aBs
+         ImlF+RI2yu9SCams7W5K4JOd2RDCAiXomdkvX3CDV3fjY9bT9bBAYdX6FrHed5U9X/
+         sonCvvd8MVMiQ==
+Date:   Fri, 6 May 2022 08:37:07 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH for-5.19/uclogic 0/5] DIGImend patches, part V
-In-Reply-To: <20220421175052.911446-1-jose.exposito89@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2205060834580.28985@cbobk.fhfr.pm>
-References: <20220421175052.911446-1-jose.exposito89@gmail.com>
+To:     Joshua Dickens <joshua@joshua-dickens.com>
+cc:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        kernel test robot <lkp@intel.com>,
+        Joshua Dickens <joshua.dickens@wacom.com>
+Subject: Re: [PATCH] Hid: wacom: Fix kernel test robot warning
+In-Reply-To: <20220430000134.608043-1-Joshua@Joshua-Dickens.com>
+Message-ID: <nycvar.YFH.7.76.2205060836510.28985@cbobk.fhfr.pm>
+References: <20220430000134.608043-1-Joshua@Joshua-Dickens.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -54,48 +58,38 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 21 Apr 2022, José Expósito wrote:
+On Fri, 29 Apr 2022, Joshua Dickens wrote:
 
-> Hi everyone,
+> From: Joshua-Dickens <Joshua@Joshua-Dickens.com>
 > 
-> This series is a follow up to [1], [2], [3] and [4] upstreaming 5 more
-> patches authored by Nikolai from the DIGImend project.
+> Kernel test robot throws the following warning -
+> >> drivers/hid/wacom_wac.c:2411:42: warning: format specifies type 'unsigned short' but the argument has type 'int' [-Wformat]
+>                            hid_warn(hdev, "Dropped %hu packets", value - wacom_wac->hid_data.sequence_number);
+>                                                    ~~~           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>                                                    %d
 > 
-> Patches 1 and 2 are documentation improvements.
+> Explicitly casting the argument to unsigned short to silence the warning and retain the intended behavior.
 > 
-> Patch 3 allows to create a keyboard interface to the tablets that have
-> a "Usage (Keyboard)" in their descriptor, like for example the Huion
-> HS611, which has media keys [5].
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Joshua Dickens <joshua.dickens@wacom.com>
+> ---
+>  drivers/hid/wacom_wac.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> However, some of the tablets that have a keyboard usage, also have an
-> invalid pen usage, creating an invalid pen interface. Patches 4 and 5
-> allow to disable it.
-> 
-> As always, many thanks to Jiří and Nikolai for their work :D
-> 
-> José Expósito
-> 
-> [1] https://lore.kernel.org/linux-input/nycvar.YFH.7.76.2202161642180.11721@cbobk.fhfr.pm/T/
-> [2] https://lore.kernel.org/linux-input/56454560-5f62-05b9-1a24-3f51a305140e@gmail.com/T/
-> [3] https://lore.kernel.org/linux-input/nycvar.YFH.7.76.2204111653000.30217@cbobk.fhfr.pm/T/
-> [4] https://lore.kernel.org/linux-input/nycvar.YFH.7.76.2204211005520.30217@cbobk.fhfr.pm/T/
-> [5] https://www.huion.com/es/pen_tablet/HS/huion-hs611.html
-> 
-> Nikolai Kondrashov (5):
->   HID: uclogic: Clarify params desc_size description
->   HID: uclogic: Clarify pen/frame desc_ptr description
->   HID: uclogic: Pass keyboard reports as is
->   HID: uclogic: Support disabling pen usage
->   HID: uclogic: Disable pen usage for Huion keyboard interfaces
-> 
->  drivers/hid/hid-uclogic-core.c   | 19 +++++++++++++++++++
->  drivers/hid/hid-uclogic-params.c |  9 +++++++--
->  drivers/hid/hid-uclogic-params.h | 17 ++++++++++++-----
->  3 files changed, 38 insertions(+), 7 deletions(-)
+> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+> index 64fe573deb9b..9470c2b0b529 100644
+> --- a/drivers/hid/wacom_wac.c
+> +++ b/drivers/hid/wacom_wac.c
+> @@ -2408,7 +2408,7 @@ static void wacom_wac_pen_event(struct hid_device *hdev, struct hid_field *field
+>  		return;
+>  	case WACOM_HID_WD_SEQUENCENUMBER:
+>  		if (wacom_wac->hid_data.sequence_number != value)
+> -			hid_warn(hdev, "Dropped %hu packets", value - wacom_wac->hid_data.sequence_number);
+> +			hid_warn(hdev, "Dropped %hu packets", (unsigned short)(value - wacom_wac->hid_data.sequence_number));
+>  		wacom_wac->hid_data.sequence_number = value + 1;
+>  		return;
 
-Now in hid.git#for-5.19/uclogic
-
-Thanks,
+Applied on top of the pile in for-5.19/wacom, thanks Joshua.
 
 -- 
 Jiri Kosina
