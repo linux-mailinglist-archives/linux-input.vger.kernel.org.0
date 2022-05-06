@@ -2,137 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D472A51D9D4
-	for <lists+linux-input@lfdr.de>; Fri,  6 May 2022 16:05:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E89451DA71
+	for <lists+linux-input@lfdr.de>; Fri,  6 May 2022 16:22:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1441983AbiEFOJb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 May 2022 10:09:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32852 "EHLO
+        id S1351123AbiEFO0P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 May 2022 10:26:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1441988AbiEFOJa (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 May 2022 10:09:30 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EE36060065;
-        Fri,  6 May 2022 07:05:46 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C9A21152B;
-        Fri,  6 May 2022 07:05:46 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6F79F3F885;
-        Fri,  6 May 2022 07:05:45 -0700 (PDT)
-From:   Andre Przywara <andre.przywara@arm.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Liviu Dudau <liviu.dudau@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        devicetree@vger.kernel.org, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH v2 05/11] dt-bindings: serio: add Arm PL050 DT schema
-Date:   Fri,  6 May 2022 15:05:27 +0100
-Message-Id: <20220506140533.3566431-6-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220506140533.3566431-1-andre.przywara@arm.com>
-References: <20220506140533.3566431-1-andre.przywara@arm.com>
+        with ESMTP id S238749AbiEFO0O (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 May 2022 10:26:14 -0400
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AED3C5A2C5
+        for <linux-input@vger.kernel.org>; Fri,  6 May 2022 07:22:31 -0700 (PDT)
+Received: from fsav315.sakura.ne.jp (fsav315.sakura.ne.jp [153.120.85.146])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 246EMScI083497;
+        Fri, 6 May 2022 23:22:28 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav315.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav315.sakura.ne.jp);
+ Fri, 06 May 2022 23:22:28 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav315.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 246EMSHD083493
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Fri, 6 May 2022 23:22:28 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <25e2b787-cb2c-fb0d-d62c-6577ad1cd9df@I-love.SAKURA.ne.jp>
+Date:   Fri, 6 May 2022 23:22:25 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Subject: [PATCH] Input: psmouse-smbus - avoid flush_scheduled_work() usage
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Arm PL050 "Keyboard/Mouse Interface" is an Arm system IP providing a
-PS/2 compatible serial interface.
+Flushing system-wide workqueues is dangerous and will be forbidden.
+Replace system_wq with local psmouse_wq.
 
-Add a simple DT schema binding, based on the TRM[1], the existing DTs and
-the Linux driver.
-
-[1] https://developer.arm.com/documentation/ddi0143/latest
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Link: https://lkml.kernel.org/r/49925af7-78a8-a3dd-bce6-cfc02e1a9236@I-love.SAKURA.ne.jp
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 ---
- .../devicetree/bindings/serio/arm,pl050.yaml  | 67 +++++++++++++++++++
- 1 file changed, 67 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/serio/arm,pl050.yaml
+Note: This patch is only compile tested.
 
-diff --git a/Documentation/devicetree/bindings/serio/arm,pl050.yaml b/Documentation/devicetree/bindings/serio/arm,pl050.yaml
-new file mode 100644
-index 0000000000000..d80f58d15497f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/serio/arm,pl050.yaml
-@@ -0,0 +1,67 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/serio/arm,pl050.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+ drivers/input/mouse/psmouse-smbus.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/mouse/psmouse-smbus.c b/drivers/input/mouse/psmouse-smbus.c
+index 164f6c757f6b..e1b73dbeaa3b 100644
+--- a/drivers/input/mouse/psmouse-smbus.c
++++ b/drivers/input/mouse/psmouse-smbus.c
+@@ -26,6 +26,8 @@ struct psmouse_smbus_dev {
+ static LIST_HEAD(psmouse_smbus_list);
+ static DEFINE_MUTEX(psmouse_smbus_mutex);
+ 
++static struct workqueue_struct *psmouse_wq;
 +
-+title: Arm Ltd. PrimeCell PL050 PS/2 Keyboard/Mouse Interface
+ static void psmouse_smbus_check_adapter(struct i2c_adapter *adapter)
+ {
+ 	struct psmouse_smbus_dev *smbdev;
+@@ -161,7 +163,7 @@ static void psmouse_smbus_schedule_remove(struct i2c_client *client)
+ 		INIT_WORK(&rwork->work, psmouse_smbus_remove_i2c_device);
+ 		rwork->client = client;
+ 
+-		schedule_work(&rwork->work);
++		queue_work(psmouse_wq, &rwork->work);
+ 	}
+ }
+ 
+@@ -305,9 +307,14 @@ int __init psmouse_smbus_module_init(void)
+ {
+ 	int error;
+ 
++	psmouse_wq = alloc_workqueue("psmouse-smbus", 0, 0);
++	if (!psmouse_wq)
++		return -ENOMEM;
 +
-+maintainers:
-+  - Andre Przywara <andre.przywara@arm.com>
-+
-+description:
-+  The Arm PrimeCell PS2 Keyboard/Mouse Interface (KMI) is an AMBA compliant
-+  peripheral that can be used to implement a keyboard or mouse interface that
-+  is IBM PS2 or AT compatible.
-+
-+# We need a select here so we don't match all nodes with 'arm,primecell'
-+select:
-+  properties:
-+    compatible:
-+      contains:
-+        const: arm,pl050
-+  required:
-+    - compatible
-+
-+properties:
-+  compatible:
-+    items:
-+      - const: arm,pl050
-+      - const: arm,primecell
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: KMI reference clock, used to generate the bus timing
-+      - description: APB register access clock
-+
-+  clock-names:
-+    items:
-+      - const: KMIREFCLK
-+      - const: apb_pclk
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    serio@70000 {
-+        compatible = "arm,pl050", "arm,primecell";
-+        reg = <0x070000 0x1000>;
-+        interrupts = <8>;
-+        clocks = <&mb_clk24mhz>, <&soc_smc50mhz>;
-+        clock-names = "KMIREFCLK", "apb_pclk";
-+    };
-+
-+...
+ 	error = bus_register_notifier(&i2c_bus_type, &psmouse_smbus_notifier);
+ 	if (error) {
+ 		pr_err("failed to register i2c bus notifier: %d\n", error);
++		destroy_workqueue(psmouse_wq);
+ 		return error;
+ 	}
+ 
+@@ -317,5 +324,5 @@ int __init psmouse_smbus_module_init(void)
+ void psmouse_smbus_module_exit(void)
+ {
+ 	bus_unregister_notifier(&i2c_bus_type, &psmouse_smbus_notifier);
+-	flush_scheduled_work();
++	destroy_workqueue(psmouse_wq);
+ }
 -- 
-2.25.1
-
+2.34.1
