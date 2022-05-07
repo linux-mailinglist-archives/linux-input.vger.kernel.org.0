@@ -2,59 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5926951E843
-	for <lists+linux-input@lfdr.de>; Sat,  7 May 2022 17:44:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6EF351E84A
+	for <lists+linux-input@lfdr.de>; Sat,  7 May 2022 17:46:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385763AbiEGPs0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 7 May 2022 11:48:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60706 "EHLO
+        id S1386920AbiEGPui (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 7 May 2022 11:50:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385761AbiEGPs0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 7 May 2022 11:48:26 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E14931343
-        for <linux-input@vger.kernel.org>; Sat,  7 May 2022 08:44:38 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id z2so17854351ejj.3
-        for <linux-input@vger.kernel.org>; Sat, 07 May 2022 08:44:38 -0700 (PDT)
+        with ESMTP id S1385881AbiEGPug (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 7 May 2022 11:50:36 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807A9396B2
+        for <linux-input@vger.kernel.org>; Sat,  7 May 2022 08:46:48 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id k27so11736163edk.4
+        for <linux-input@vger.kernel.org>; Sat, 07 May 2022 08:46:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=E3A76qcrcJpuHT1G12YlSLVvYvYxuP1f6N185gwBwDQ=;
-        b=yyROzl+V9XUSkE1qCVchX8hnY8dV0C/TwxRhWI7M90eeikkeORBBpzhNZFy5hDbpoG
-         IVrFOlo17Z4Xsz2+JKNL0aqVb6ZR88SjeeXk5UpVqJP/oRRyLMaFf+eH1iMZnq8/uDqm
-         6eq6pHlmhmfLrkgVY7umzWafXoRmcLLlRd5CP1Ws2UT/OXrH6R++DpwlPYlJ31jyzS8n
-         hlWMjdoYeHZtYRKhXlSBEsdHbB6VUO/M4Cduzl5XnvTQzqsqk7m42fj3cj+JxeytbZA5
-         RXLSf91m/8jBeDfeFQMS75G5lDn21bX+/oIahg7ytbtczEOlx22QjAUogdKEe3eG3utW
-         LzvQ==
+        bh=qlyXe/PCI3WzsN++V/F01ukEV4Sfb+BkaPj3isarbsE=;
+        b=xrTpFictnSpYWAbaK34I5kAuP6u5mfh8p4ZMdPl0gsNf9yZLSy+FOyYutaX2wDGMOQ
+         E7Zuc9LI7nZu8m1CWX2xYsvVftdkHwfMkFcNy2nJX0h6II8jhWy8eqzHl1Rjmtjdjc5T
+         Ivqt1O7dpycqNAadYpSoGnJBeYmzXmdJYelpWiJcRux6AkSgU1/QlzpIE5V9MVxiChAE
+         7aHnGEqOOG8D0w7DtTw32j0yAU5jdk5Yvp8v18xR+GyYQmZNfzPlK/UPBTQsQ8MHFcnB
+         9lj34pnxk6fqrnjDy4sl+XVF012uBkJ50EHDhZ5fQxkPq8lHtWig0KVDQvA8jZ9jdQx8
+         FpRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=E3A76qcrcJpuHT1G12YlSLVvYvYxuP1f6N185gwBwDQ=;
-        b=gVckO1fvKAeKRsu75NgrbwHWGDeF/GjEbzA8XSa2opNewoTpnPsYoGUNg3Dwm7YrfT
-         Nnnk+kbc0UcWRmp3bozQKaJuQPyiqFT85n3UioiKpvEmRIYX9fOqOMhsz5eF/SKqIMMP
-         aPoDRjeaWd5wSrhXqvNCKPVD0c9PKoofyOIWW/rdfkj567sZ/9JMUGHyX8QUgKxRMvy9
-         PtLBVWt3EILWPt6JADOIlu3c3xTVwNvLwMNp67ZAQI0gI054ng0UJTo1WnY7TvPdWlCE
-         umM5ZP6jO3zR7P8YApxNuJp1Z3QQRTkux1r+sDlF/6obRyZh0itl3d9RlTYRdTwq11uz
-         FB1g==
-X-Gm-Message-State: AOAM530EVZ2TR+6Ndzbjs2qids0grDPL4uHqrmcCk6w9CWoKKeEQgb4X
-        NRD9gA8uRvZylIiK3pr3/IKMMg==
-X-Google-Smtp-Source: ABdhPJwyubeXdkMsUqeNvMkNVYQIZ2g6XDereIOGB4MkxT1AWcLYCVdwtBPyT1embvxVRu2+n5XoGw==
-X-Received: by 2002:a17:907:9494:b0:6f3:edd4:cd55 with SMTP id dm20-20020a170907949400b006f3edd4cd55mr7553597ejc.768.1651938277027;
-        Sat, 07 May 2022 08:44:37 -0700 (PDT)
+        bh=qlyXe/PCI3WzsN++V/F01ukEV4Sfb+BkaPj3isarbsE=;
+        b=um8n5gK2xcQDUQWZYrpWzljgG44q0ynVhNeBTGJlOau/41xQZQBC92MSfbIjs9LNW7
+         TjLTlbFOiTTfu2Y6blSbnVZISF+rhkbaNNF/20ZzdbAxwQ9INiKax7ULaF0SIGMa/KAy
+         9Rhf5Bl6/BKoDT/AenG9wo5nkO/WhI0RGCuI77XzpAA7cmJT2yepNBq7ibznT9DDiFGk
+         dhx3dRczyN4F9wHo1sdV5dmom/2xaB85hHA0W33V1D5Uah7k0GiidFk5ubQVALzRKUOC
+         FDWz8gs6fGa+1FGWuZ84JZdeBCyMcZjiXoWp35CLUsyavQJNcPf+JaKjRLLUR0ROQdaf
+         4/Sg==
+X-Gm-Message-State: AOAM530X8YdmyRsUwccdClM+M/Wf+17RR7djMb9RIokkYVuwJS3ScuV2
+        LZkdPiYEMw9yPUp9FU+6MEMtFg==
+X-Google-Smtp-Source: ABdhPJxJf8kIvRK6Bki9YpxPo960c5ocwQlBvB85sRQc9cAbdz7vRzpsUHob3PP+BzKSzUC3Lz8m8g==
+X-Received: by 2002:a05:6402:520e:b0:428:22d0:e996 with SMTP id s14-20020a056402520e00b0042822d0e996mr8987898edd.250.1651938407017;
+        Sat, 07 May 2022 08:46:47 -0700 (PDT)
 Received: from [192.168.0.232] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id h22-20020aa7c616000000b0042617ba63d4sm3687057edq.94.2022.05.07.08.44.35
+        by smtp.gmail.com with ESMTPSA id gz12-20020a170906f2cc00b006f3ef214de8sm3109579ejb.78.2022.05.07.08.46.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 07 May 2022 08:44:36 -0700 (PDT)
-Message-ID: <93f402d8-d548-c097-c95c-47f8be48b26e@linaro.org>
-Date:   Sat, 7 May 2022 17:44:34 +0200
+        Sat, 07 May 2022 08:46:46 -0700 (PDT)
+Message-ID: <1b180b09-f2e6-e3dc-ba93-45b03dfcdcbb@linaro.org>
+Date:   Sat, 7 May 2022 17:46:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH v2 4/4] dt-bindings: input: mt-matrix-keypad: add guardian
- mt matrix keypad bindings definition
+Subject: Re: [PATCH v2 2/4] Input: mt-matrix-keypad: Add Bosch mt matrix
+ keypad driver
 Content-Language: en-US
 To:     Gireesh.Hiremath@in.bosch.com, linux-omap@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -68,14 +68,14 @@ To:     Gireesh.Hiremath@in.bosch.com, linux-omap@vger.kernel.org,
 Cc:     sjoerd.simons@collabora.co.uk, VinayKumar.Shettar@in.bosch.com,
         Govindaraji.Sivanantham@in.bosch.com, anaclaudia.dias@de.bosch.com
 References: <20220506072737.1590-1-Gireesh.Hiremath@in.bosch.com>
- <20220506072737.1590-4-Gireesh.Hiremath@in.bosch.com>
+ <20220506072737.1590-2-Gireesh.Hiremath@in.bosch.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220506072737.1590-4-Gireesh.Hiremath@in.bosch.com>
+In-Reply-To: <20220506072737.1590-2-Gireesh.Hiremath@in.bosch.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,176 +84,27 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 On 06/05/2022 09:27, Gireesh.Hiremath@in.bosch.com wrote:
-> From: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
+>>
+>>> both matric_keypad.c and mt_matrix_kepad.c logically operate differently,
+>>> my openion is not to merge both.
+>>
+>> IMHO from the user/system-integrator pov it is looking the same and so
+>> one driver should be fine. To distinguish between both modes we could
+>> add dt-property or add a new dt-compatible like "gpio-matrix-keypad-v2".
+>>
 > 
-> Add binding definition for the support of the Guardian
+> as mentioned above our keypad is not complete matrix keypad  and it will
+> not be compatible with matrix_keypad diver. that is the reason we derived
 > mt matrix keypad driver.
 > 
-> Signed-off-by: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
-> ---
-> Hi Krzysztof
-> 
-> Changes since v1: addressed review comments
-> 
->>> Add binding definition for the support of the Guardian
->>> mt matrix keypad driver.
->>>
->>> Signed-off-by: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
->>> ---
->>>  .../bindings/input/mt-matrix-keypad.yaml      | 134 ++++++++++++++++++
->>>  1 file changed, 134 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/input/mt-matrix-keypad.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/input/mt-matrix-keypad.yaml b/Documentation/devicetree/bindings/input/mt-matrix-keypad.yaml
->>> new file mode 100644
->>> index 000000000000..b52cd478f638
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/input/mt-matrix-keypad.yaml
->>> @@ -0,0 +1,134 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/input/mt-matrix-keypad.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: GPIO driven mt matrix keypad device tree bindings
->>> +
->>> +maintainers:
->>> +  - vinay <VinayKumar.Shettar@in.bosch.com>
->>> +
->>> +description: |
->>> +  GPIO driven mt matrix keypad is used to interface a SoC with a mt matrix
->>> +  keypad. The mt matrix keypad supports multiple gpio line, all gpio line act
->>
->> s/line/lines/
-> 
-> modified
-> 
->>> +  as row as wel as column lines, a key can be placed at each intersection
->>
->> s/wel/well/
-> 
-> modified
-> 
->>> +  of a unique row number not equal to a unique column and they are diagonally
->>> +  symmetric.
->>> +
->>
->> What is "mt" in the "mt matrix"?
->>
-> 
-> mt is bosch measuring tools matrix keypad
+> to avoid confusion, we will rename the driver as bosch_mt_keypad.c
+> if you suggest.
 
-Then it is a specific Bosch device, isn't it? If it is, you should have
-vendor prefixes - to the file name and compatible. If it is not, then
-"mt" is irrelevant here because it is Bosch product name.
+Sending a new version while discussions are ongoing is not how we reach
+consensus.
 
-> 
->>> +  Example- For 5 gpio lines, possible matrix is 5x5 and maximum possible
->>> +        keys are 10.
->>> +
->>> +        Sample matrix table for 7 button and 5 gpio line
->>> +
->>> +        ------------------------------------------------------
->>> +        |Row\Col |GPIO 0 | GPIO 1 | GPIO 2 | GPIO 3 | GPIO 4 |
->>> +        ------------------------------------------------------
->>> +        | GPIO 0 |  X    | KEY_9  | KEY_2  |   X    | KEY_1  |
->>> +        ------------------------------------------------------
->>> +        | GPIO 1 | KEY_9 |  X     | KEY_6  |   X    |  X     |
->>> +        ------------------------------------------------------
->>> +        | GPIO 2 | KEY_2 | KEY_6  |  X     | KEY_4  | KEY_7  |
->>> +        ------------------------------------------------------
->>> +        | GPIO 3 |  X    |  X     | KEY_4  |  X     | KEY_8  |
->>> +        ------------------------------------------------------
->>> +        | GPIO 4 | KEY_1 |  X     | KEY_7  | KEY_8  |  X     |
->>> +        ------------------------------------------------------
->>> +        X - invalid key
->>> +        KEY_x - preferred key code
->>> +
->>> +  The mt matrix keypad can sense a key-press and key-release by means of GPIO
->>> +  lines and report the event using GPIO interrupts to the cpu.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    oneOf:
->>> +      - const: gpio-mt-matrix-keypad
->>> +      - items:
->>> +          - enum:
->>> +              - gpio-mt-matrix-keypad
->>> +          - const: gpio-mt-matrix-keypad
->>
->> Aren't all these compatibles the same?
-> 
-> modified
-> 
->>> +
->>> +  debounce-delay-ms:
->>> +    description: Delay after the first bounce of button.
->>> +    default: 0
->>> +
->>> +  col-scan-delay-us:
->>> +    description: Delay before scanning next active line.
->>> +    default: 0
->>> +
->>> +  number-of-button:
->>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>> +    description: Number of button connected to the keypad controller.
->>
->> s/button/buttons/ I presume.
-> 
-> modified
-> 
->>> +
->>> +  linux,no-autorepeat:
->>> +    description: |
->>> +      Disable the Linux input system's autorepeat feature on the input device.
->>> +
->>> +  gpio-activelow:
->>> +    description: Gpio line are active low.
->>
->> No, GPIOs should instead use common flags.
-> 
-> this flag is used to compare with the gpio read value
-
-Which is not an answer to my concerns and still a no. Just use the
-flags. What's the point to code it like:
-	line-gpios = <&gpio 1 GPIO_ACTIVE_LOW>;
-	gpio-activelow;
-?
-
-Or even worse:
-	line-gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
-	gpio-activelow;
-
-With such coding, enabled is 0 or 1? Which flag is correct?
-
-No, just use existing flags, don't duplicate standard Linux stuff.
-
-> 
->>> +
->>> +  line-gpios:
->>> +    description: |
->>> +      Gpio lines connected to keypad controller.
->>> +      all gpio line act as row as wel as column lines.
->>> +
->>> +  linux,keymap:
->>> +    $ref: '/schemas/types.yaml#/definitions/uint32-array'
->>> +    description: |
->>> +      An array of packed 1-cell entries containing the equivalent of row,
->>> +      column and linux key-code. The 32-bit big endian cell is packed as:
->>> +          row << 24 | column << 16 | key-code
->>
->> But anyway this should be just merged into matrix-keypad. It's a simpler
->> set of that binding.
-> 
-> we have special keypad for Bosch measuring tools, which is not completely
-> matric keypad so we have derived from matrix_kepad.c to make our keypad
-> to work.
-
-Just customize the original keypad, don't duplicate features. Again it's
-not the answer to my concerns. You implement a driver for device with a
-smaller set of features, so there should be no problem in merging it
-into original driver (which supports more features).
+Make the driver as part of matrix-keypad driver or bring real arguments
+why it cannot be merged.
 
 Best regards,
 Krzysztof
