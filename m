@@ -2,252 +2,208 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D00F251EED1
-	for <lists+linux-input@lfdr.de>; Sun,  8 May 2022 18:03:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62B4A51EF2B
+	for <lists+linux-input@lfdr.de>; Sun,  8 May 2022 21:11:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235225AbiEHQGO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 8 May 2022 12:06:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59882 "EHLO
+        id S1349217AbiEHSTb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 8 May 2022 14:19:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235169AbiEHQGL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 8 May 2022 12:06:11 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CB49E0AB;
-        Sun,  8 May 2022 09:02:21 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id w4so16334178wrg.12;
-        Sun, 08 May 2022 09:02:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=5c/oJcY+mU8bZWq31obYM76SgdTTfJMILUS4a25EC9M=;
-        b=Ou8tKTUjnVee5QYHsgs8fAh8DwycdNVZtbWyKG0/FponkQZLRTLyLG6N/Op+6/0ryt
-         8A/m3OvxJQzvqq+GD64IZXO03pMi6dThMO0/SP7alsclTFyTWCLeokZf63wjtaU4OxbT
-         NjcpXnfOc7d6ZOyJlTbKlo5NIfPScx16AOqiq4o1MkEeYuzHm64VSh2DYnAcTsOXCQao
-         95p4YhyJL8KitsjCai18QDCAGug+V9P9A0PXIXs39vhQaVVb9ztoz30xnio2omicEJSI
-         m0rN9uzKj1n4BHBBbv6RKMKtR6jrxYgZ29F+cjXEfJhht6OuwPWBIuFXTuhd+XdgZT72
-         YSQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=5c/oJcY+mU8bZWq31obYM76SgdTTfJMILUS4a25EC9M=;
-        b=6EqLjMt/AZixwnR617LDcCrwFj0QfYi1OWc875PD4ugG9chcCK/HKJgAXAgGZWgnjs
-         feYjnq2LDSKt0t+9TpYV/nfAxCEee9N4YNurskF6hv3dt7vwof4MeO2u0QeTkch42OGL
-         fNvhNyA1XjTbGyaUg4N4OiVp/OK05qcP1/7VghgFSVk/MiLiRSs5MDr2qWsjGRCXDQUm
-         iVB6o4cNS+Pm0iT2MKTvt2jf7CX6Yg/Qa4qN3LDtR6Q/pulXUSY4ZMIRnUQcrjU2NITE
-         PQqstUWG2vX/eIG0G5lnC23glx4AT1rH9u927pFAK+oxCekrSkhzjCxHKqS8aGCvK6hX
-         XJgQ==
-X-Gm-Message-State: AOAM531tsiRtzFa3KQQfj9TPJFUQOhJ5MYDO1p5jUObmkRxJQd85ERas
-        e+M7XivpHjzMz3Vr4vhaBBQ=
-X-Google-Smtp-Source: ABdhPJy9Pz120cLoC1JhaQndg+mUhhZwK2lhXv31H74w67CjktAf2sLjgGwcyXehdLyXqycRpl1wWg==
-X-Received: by 2002:a5d:4f08:0:b0:20a:ddfe:bd99 with SMTP id c8-20020a5d4f08000000b0020addfebd99mr10888248wru.339.1652025739637;
-        Sun, 08 May 2022 09:02:19 -0700 (PDT)
-Received: from localhost.localdomain ([94.73.37.128])
-        by smtp.gmail.com with ESMTPSA id b15-20020a7bc24f000000b003942a244ecfsm10101925wmj.20.2022.05.08.09.02.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 May 2022 09:02:19 -0700 (PDT)
-From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stefanberzl@gmail.com, albertofanjul@gmail.com,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH for-5.19/uclogic 7/7] HID: uclogic: Switch to Digitizer usage for styluses
-Date:   Sun,  8 May 2022 18:01:46 +0200
-Message-Id: <20220508160146.13004-8-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220508160146.13004-1-jose.exposito89@gmail.com>
-References: <20220508160146.13004-1-jose.exposito89@gmail.com>
+        with ESMTP id S236043AbiEHQ62 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 8 May 2022 12:58:28 -0400
+X-Greylist: delayed 410 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 08 May 2022 09:54:37 PDT
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A101E016
+        for <linux-input@vger.kernel.org>; Sun,  8 May 2022 09:54:37 -0700 (PDT)
+Received: from omf08.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay10.hostedemail.com (Postfix) with ESMTP id D35DDCA0;
+        Sun,  8 May 2022 16:47:46 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf08.hostedemail.com (Postfix) with ESMTPA id B2D1920028;
+        Sun,  8 May 2022 16:47:45 +0000 (UTC)
+Message-ID: <eeb32669c6641bc609d5b4460262b25e4b3d3f00.camel@perches.com>
+Subject: Re: [PATCH] staging: drivers: hid: hid-asus.c: Fixed
+ brace/formatting issues.
+From:   Joe Perches <joe@perches.com>
+To:     Johan Boger <jb@ip.fi>, jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Sun, 08 May 2022 09:47:44 -0700
+In-Reply-To: <20220508125056.354001-1-jb@ip.fi>
+References: <20220508125056.354001-1-jb@ip.fi>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FORGED_SPF_HELO,
+        KHOP_HELO_FCRDNS,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Stat-Signature: m99qzcz5otr7jw1j8jq9665qcr9cnope
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: B2D1920028
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/+VzXIsHSXapGIOrF0fKhPIPVnNpOpIKU=
+X-HE-Tag: 1652028465-192970
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nikolai Kondrashov <spbnick@gmail.com>
+On Sun, 2022-05-08 at 14:50 +0200, Johan Boger wrote:
+> Fixed formatting issues based on recommendations from 
+> scripts/checkpatch.pl, in accordance with coding style.
+[]
+> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+[]
+> @@ -852,47 +850,86 @@ static int asus_input_mapping(struct hid_device *hdev,
+>  	/* ASUS-specific keyboard hotkeys and led backlight */
+>  	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ASUSVENDOR) {
+>  		switch (usage->hid & HID_USAGE) {
+> -		case 0x10: asus_map_key_clear(KEY_BRIGHTNESSDOWN);	break;
+[...]
 
-The (incorrect) "Pen" (0x02) application usage used in replacement
-report descriptors throughout the drivers leads to all tablets
-recognized as a "direct" input device (i.e. a tablet monitor) by
-recent kernels, which messes up desktop environments [1].
+I think the break on the same line isn't that difficult a style.
 
-Replace the application usage with "Digitizer" (0x01) for each
-non-display graphics tablet.
+All of these changes would be better with different code setting
+a temporary then a single call to asus_map_key_clear(temp);
 
-[1] https://lore.kernel.org/linux-input/f39ce5d5-bd5b-bd3f-3ea2-9b2a89ba1eb1@gmail.com/
+It'd also make the object code rather smaller.
 
-Signed-off-by: Nikolai Kondrashov <spbnick@gmail.com>
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+$ size drivers/hid/hid-asus.o* (x86-64 defconfig with hid-asus)
+   text	   data	    bss	    dec	    hex	filename
+  10695	    420	      0	  11115	   2b6b	drivers/hid/hid-asus.o.new
+  14108	    420	      0	  14528	   38c0	drivers/hid/hid-asus.o.old
 ---
- drivers/hid/hid-kye.c           | 12 ++++++------
- drivers/hid/hid-uclogic-rdesc.c | 18 +++++++++---------
- drivers/hid/hid-viewsonic.c     |  2 +-
- 3 files changed, 16 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/hid/hid-kye.c b/drivers/hid/hid-kye.c
-index f46616390a98..da903138eee4 100644
---- a/drivers/hid/hid-kye.c
-+++ b/drivers/hid/hid-kye.c
-@@ -33,7 +33,7 @@ static __u8 easypen_i405x_rdesc_fixed[] = {
- 	0xB1, 0x02,       /*    Feature (Variable),           */
- 	0xC0,             /*  End Collection,                 */
- 	0x05, 0x0D,       /*  Usage Page (Digitizer),         */
--	0x09, 0x02,       /*  Usage (Pen),                    */
-+	0x09, 0x01,       /*  Usage (Digitizer),              */
- 	0xA1, 0x01,       /*  Collection (Application),       */
- 	0x85, 0x10,       /*    Report ID (16),               */
- 	0x09, 0x20,       /*    Usage (Stylus),               */
-@@ -91,7 +91,7 @@ static __u8 mousepen_i608x_rdesc_fixed[] = {
- 	0xB1, 0x02,       /*    Feature (Variable),           */
- 	0xC0,             /*  End Collection,                 */
- 	0x05, 0x0D,       /*  Usage Page (Digitizer),         */
--	0x09, 0x02,       /*  Usage (Pen),                    */
-+	0x09, 0x01,       /*  Usage (Digitizer),              */
- 	0xA1, 0x01,       /*  Collection (Application),       */
- 	0x85, 0x10,       /*    Report ID (16),               */
- 	0x09, 0x20,       /*    Usage (Stylus),               */
-@@ -190,7 +190,7 @@ static __u8 mousepen_i608x_v2_rdesc_fixed[] = {
- 	0xB1, 0x02,                   /*    Feature (Variable),           */
- 	0xC0,                         /*  End Collection,                 */
- 	0x05, 0x0D,                   /*  Usage Page (Digitizer),         */
--	0x09, 0x02,                   /*  Usage (Pen),                    */
-+	0x09, 0x01,                   /*  Usage (Digitizer),              */
- 	0xA1, 0x01,                   /*  Collection (Application),       */
- 	0x85, 0x10,                   /*    Report ID (16),               */
- 	0x09, 0x20,                   /*    Usage (Stylus),               */
-@@ -289,7 +289,7 @@ static __u8 easypen_m610x_rdesc_fixed[] = {
- 	0xB1, 0x02,                   /*    Feature (Variable),           */
- 	0xC0,                         /*  End Collection,                 */
- 	0x05, 0x0D,                   /*  Usage Page (Digitizer),         */
--	0x09, 0x02,                   /*  Usage (Pen),                    */
-+	0x09, 0x01,                   /*  Usage (Digitizer),              */
- 	0xA1, 0x01,                   /*  Collection (Application),       */
- 	0x85, 0x10,                   /*    Report ID (16),               */
- 	0x09, 0x20,                   /*    Usage (Stylus),               */
-@@ -368,7 +368,7 @@ static __u8 pensketch_m912_rdesc_fixed[] = {
- 	0xB1, 0x02,                   /*    Feature (Variable),           */
- 	0xC0,                         /*  End Collection,                 */
- 	0x05, 0x0D,                   /*  Usage Page (Digitizer),         */
--	0x09, 0x02,                   /*  Usage (Pen),                    */
-+	0x09, 0x01,                   /*  Usage (Digitizer),              */
- 	0xA1, 0x01,                   /*  Collection (Application),       */
- 	0x85, 0x10,                   /*    Report ID (16),               */
- 	0x09, 0x20,                   /*    Usage (Stylus),               */
-@@ -497,7 +497,7 @@ static __u8 easypen_m406xe_rdesc_fixed[] = {
- 	0xB1, 0x02,         /*      Feature (Variable),             */
- 	0xC0,               /*  End Collection,                     */
- 	0x05, 0x0D,         /*  Usage Page (Digitizer),             */
--	0x09, 0x02,         /*  Usage (Pen),                        */
-+	0x09, 0x01,         /*  Usage (Digitizer),                  */
- 	0xA1, 0x01,         /*  Collection (Application),           */
- 	0x85, 0x10,         /*      Report ID (16),                 */
- 	0x09, 0x20,         /*      Usage (Stylus),                 */
-diff --git a/drivers/hid/hid-uclogic-rdesc.c b/drivers/hid/hid-uclogic-rdesc.c
-index 3c3d4e8780dc..13f9ce73f1b1 100644
---- a/drivers/hid/hid-uclogic-rdesc.c
-+++ b/drivers/hid/hid-uclogic-rdesc.c
-@@ -21,7 +21,7 @@
- /* Fixed WP4030U report descriptor */
- __u8 uclogic_rdesc_wp4030u_fixed_arr[] = {
- 	0x05, 0x0D,         /*  Usage Page (Digitizer),             */
--	0x09, 0x02,         /*  Usage (Pen),                        */
-+	0x09, 0x01,         /*  Usage (Digitizer),                  */
- 	0xA1, 0x01,         /*  Collection (Application),           */
- 	0x85, 0x09,         /*      Report ID (9),                  */
- 	0x09, 0x20,         /*      Usage (Stylus),                 */
-@@ -66,7 +66,7 @@ const size_t uclogic_rdesc_wp4030u_fixed_size =
- /* Fixed WP5540U report descriptor */
- __u8 uclogic_rdesc_wp5540u_fixed_arr[] = {
- 	0x05, 0x0D,         /*  Usage Page (Digitizer),             */
--	0x09, 0x02,         /*  Usage (Pen),                        */
-+	0x09, 0x01,         /*  Usage (Digitizer),                  */
- 	0xA1, 0x01,         /*  Collection (Application),           */
- 	0x85, 0x09,         /*      Report ID (9),                  */
- 	0x09, 0x20,         /*      Usage (Stylus),                 */
-@@ -143,7 +143,7 @@ const size_t uclogic_rdesc_wp5540u_fixed_size =
- /* Fixed WP8060U report descriptor */
- __u8 uclogic_rdesc_wp8060u_fixed_arr[] = {
- 	0x05, 0x0D,         /*  Usage Page (Digitizer),             */
--	0x09, 0x02,         /*  Usage (Pen),                        */
-+	0x09, 0x01,         /*  Usage (Digitizer),                  */
- 	0xA1, 0x01,         /*  Collection (Application),           */
- 	0x85, 0x09,         /*      Report ID (9),                  */
- 	0x09, 0x20,         /*      Usage (Stylus),                 */
-@@ -220,7 +220,7 @@ const size_t uclogic_rdesc_wp8060u_fixed_size =
- /* Fixed WP1062 report descriptor */
- __u8 uclogic_rdesc_wp1062_fixed_arr[] = {
- 	0x05, 0x0D,         /*  Usage Page (Digitizer),             */
--	0x09, 0x02,         /*  Usage (Pen),                        */
-+	0x09, 0x01,         /*  Usage (Digitizer),                  */
- 	0xA1, 0x01,         /*  Collection (Application),           */
- 	0x85, 0x09,         /*      Report ID (9),                  */
- 	0x09, 0x20,         /*      Usage (Stylus),                 */
-@@ -268,7 +268,7 @@ const size_t uclogic_rdesc_wp1062_fixed_size =
- /* Fixed PF1209 report descriptor */
- __u8 uclogic_rdesc_pf1209_fixed_arr[] = {
- 	0x05, 0x0D,         /*  Usage Page (Digitizer),             */
--	0x09, 0x02,         /*  Usage (Pen),                        */
-+	0x09, 0x01,         /*  Usage (Digitizer),                  */
- 	0xA1, 0x01,         /*  Collection (Application),           */
- 	0x85, 0x09,         /*      Report ID (9),                  */
- 	0x09, 0x20,         /*      Usage (Stylus),                 */
-@@ -345,7 +345,7 @@ const size_t uclogic_rdesc_pf1209_fixed_size =
- /* Fixed PID 0522 tablet report descriptor, interface 0 (stylus) */
- __u8 uclogic_rdesc_twhl850_fixed0_arr[] = {
- 	0x05, 0x0D,         /*  Usage Page (Digitizer),             */
--	0x09, 0x02,         /*  Usage (Pen),                        */
-+	0x09, 0x01,         /*  Usage (Digitizer),                  */
- 	0xA1, 0x01,         /*  Collection (Application),           */
- 	0x85, 0x09,         /*      Report ID (9),                  */
- 	0x09, 0x20,         /*      Usage (Stylus),                 */
-@@ -457,7 +457,7 @@ const size_t uclogic_rdesc_twhl850_fixed2_size =
- /* Fixed TWHA60 report descriptor, interface 0 (stylus) */
- __u8 uclogic_rdesc_twha60_fixed0_arr[] = {
- 	0x05, 0x0D,         /*  Usage Page (Digitizer),             */
--	0x09, 0x02,         /*  Usage (Pen),                        */
-+	0x09, 0x01,         /*  Usage (Digitizer),                  */
- 	0xA1, 0x01,         /*  Collection (Application),           */
- 	0x85, 0x09,         /*      Report ID (9),                  */
- 	0x09, 0x20,         /*      Usage (Stylus),                 */
-@@ -534,7 +534,7 @@ const size_t uclogic_rdesc_twha60_fixed1_size =
- /* Fixed report descriptor template for (tweaked) v1 pen reports */
- const __u8 uclogic_rdesc_v1_pen_template_arr[] = {
- 	0x05, 0x0D,             /*  Usage Page (Digitizer),                 */
--	0x09, 0x02,             /*  Usage (Pen),                            */
-+	0x09, 0x01,             /*  Usage (Digitizer),                      */
- 	0xA1, 0x01,             /*  Collection (Application),               */
- 	0x85, 0x07,             /*      Report ID (7),                      */
- 	0x09, 0x20,             /*      Usage (Stylus),                     */
-@@ -588,7 +588,7 @@ const size_t uclogic_rdesc_v1_pen_template_size =
- /* Fixed report descriptor template for (tweaked) v2 pen reports */
- const __u8 uclogic_rdesc_v2_pen_template_arr[] = {
- 	0x05, 0x0D,             /*  Usage Page (Digitizer),                 */
--	0x09, 0x02,             /*  Usage (Pen),                            */
-+	0x09, 0x01,             /*  Usage (Digitizer),                      */
- 	0xA1, 0x01,             /*  Collection (Application),               */
- 	0x85, 0x08,             /*      Report ID (8),                      */
- 	0x09, 0x20,             /*      Usage (Stylus),                     */
-diff --git a/drivers/hid/hid-viewsonic.c b/drivers/hid/hid-viewsonic.c
-index df60c8fc2efd..8024b1d370e2 100644
---- a/drivers/hid/hid-viewsonic.c
-+++ b/drivers/hid/hid-viewsonic.c
-@@ -24,7 +24,7 @@
- /* Fixed report descriptor of PD1011 signature pad */
- static __u8 pd1011_rdesc_fixed[] = {
- 	0x05, 0x0D,             /*  Usage Page (Digitizer),             */
--	0x09, 0x02,             /*  Usage (Pen),                        */
-+	0x09, 0x01,             /*  Usage (Digitizer),                  */
- 	0xA1, 0x01,             /*  Collection (Application),           */
- 	0x85, 0x02,             /*      Report ID (2),                  */
- 	0x09, 0x20,             /*      Usage (Stylus),                 */
--- 
-2.25.1
+diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+index 08c9a9a60ae47..4702902ee4dad 100644
+--- a/drivers/hid/hid-asus.c
++++ b/drivers/hid/hid-asus.c
+@@ -827,6 +827,7 @@ static int asus_input_mapping(struct hid_device *hdev,
+ 		struct hid_usage *usage, unsigned long **bit,
+ 		int *max)
+ {
++	int clear_key;
+ 	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
+ 
+ 	if (drvdata->quirks & QUIRK_SKIP_INPUT_MAPPING) {
+@@ -852,43 +853,43 @@ static int asus_input_mapping(struct hid_device *hdev,
+ 	/* ASUS-specific keyboard hotkeys and led backlight */
+ 	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ASUSVENDOR) {
+ 		switch (usage->hid & HID_USAGE) {
+-		case 0x10: asus_map_key_clear(KEY_BRIGHTNESSDOWN);	break;
+-		case 0x20: asus_map_key_clear(KEY_BRIGHTNESSUP);		break;
+-		case 0x35: asus_map_key_clear(KEY_DISPLAY_OFF);		break;
+-		case 0x6c: asus_map_key_clear(KEY_SLEEP);		break;
+-		case 0x7c: asus_map_key_clear(KEY_MICMUTE);		break;
+-		case 0x82: asus_map_key_clear(KEY_CAMERA);		break;
+-		case 0x88: asus_map_key_clear(KEY_RFKILL);			break;
+-		case 0xb5: asus_map_key_clear(KEY_CALC);			break;
+-		case 0xc4: asus_map_key_clear(KEY_KBDILLUMUP);		break;
+-		case 0xc5: asus_map_key_clear(KEY_KBDILLUMDOWN);		break;
++		case 0x10: clear_key = KEY_BRIGHTNESSDOWN;	break;
++		case 0x20: clear_key = KEY_BRIGHTNESSUP;	break;
++		case 0x35: clear_key = KEY_DISPLAY_OFF;		break;
++		case 0x6c: clear_key = KEY_SLEEP;		break;
++		case 0x7c: clear_key = KEY_MICMUTE;		break;
++		case 0x82: clear_key = KEY_CAMERA;		break;
++		case 0x88: clear_key = KEY_RFKILL;		break;
++		case 0xb5: clear_key = KEY_CALC;		break;
++		case 0xc4: clear_key = KEY_KBDILLUMUP;		break;
++		case 0xc5: clear_key = KEY_KBDILLUMDOWN;	break;
+ 
+ 		/* ASUS touchpad toggle */
+-		case 0x6b: asus_map_key_clear(KEY_F21);			break;
++		case 0x6b: clear_key = KEY_F21;			break;
+ 
+ 		/* ROG key */
+-		case 0x38: asus_map_key_clear(KEY_PROG1);		break;
++		case 0x38: clear_key = KEY_PROG1;		break;
+ 
+ 		/* Fn+C ASUS Splendid */
+-		case 0xba: asus_map_key_clear(KEY_PROG2);		break;
++		case 0xba: clear_key = KEY_PROG2;		break;
+ 
+ 		/* Fn+Space Power4Gear Hybrid */
+-		case 0x5c: asus_map_key_clear(KEY_PROG3);		break;
++		case 0x5c: clear_key = KEY_PROG3;		break;
+ 
+ 		/* Fn+F5 "fan" symbol on FX503VD */
+-		case 0x99: asus_map_key_clear(KEY_PROG4);		break;
++		case 0x99: clear_key = KEY_PROG4;		break;
+ 
+ 		/* Fn+F5 "fan" symbol on N-Key keyboard */
+-		case 0xae: asus_map_key_clear(KEY_PROG4);		break;
++		case 0xae: clear_key = KEY_PROG4;		break;
+ 
+ 		/* Fn+Ret "Calc" symbol on N-Key keyboard */
+-		case 0x92: asus_map_key_clear(KEY_CALC);		break;
++		case 0x92: clear_key = KEY_CALC;		break;
+ 
+ 		/* Fn+Left Aura mode previous on N-Key keyboard */
+-		case 0xb2: asus_map_key_clear(KEY_PROG2);		break;
++		case 0xb2: clear_key = KEY_PROG2;		break;
+ 
+ 		/* Fn+Right Aura mode next on N-Key keyboard */
+-		case 0xb3: asus_map_key_clear(KEY_PROG3);		break;
++		case 0xb3: clear_key = KEY_PROG3;		break;
+ 
+ 		default:
+ 			/* ASUS lazily declares 256 usages, ignore the rest,
+@@ -896,6 +897,8 @@ static int asus_input_mapping(struct hid_device *hdev,
+ 			return -1;
+ 		}
+ 
++		asus_map_key_clear(clear_key);
++
+ 		/*
+ 		 * Check and enable backlight only on devices with UsagePage ==
+ 		 * 0xff31 to avoid initializing the keyboard firmware multiple
+@@ -911,27 +914,29 @@ static int asus_input_mapping(struct hid_device *hdev,
+ 
+ 	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_MSVENDOR) {
+ 		switch (usage->hid & HID_USAGE) {
+-		case 0xff01: asus_map_key_clear(BTN_1);	break;
+-		case 0xff02: asus_map_key_clear(BTN_2);	break;
+-		case 0xff03: asus_map_key_clear(BTN_3);	break;
+-		case 0xff04: asus_map_key_clear(BTN_4);	break;
+-		case 0xff05: asus_map_key_clear(BTN_5);	break;
+-		case 0xff06: asus_map_key_clear(BTN_6);	break;
+-		case 0xff07: asus_map_key_clear(BTN_7);	break;
+-		case 0xff08: asus_map_key_clear(BTN_8);	break;
+-		case 0xff09: asus_map_key_clear(BTN_9);	break;
+-		case 0xff0a: asus_map_key_clear(BTN_A);	break;
+-		case 0xff0b: asus_map_key_clear(BTN_B);	break;
+-		case 0x00f1: asus_map_key_clear(KEY_WLAN);	break;
+-		case 0x00f2: asus_map_key_clear(KEY_BRIGHTNESSDOWN);	break;
+-		case 0x00f3: asus_map_key_clear(KEY_BRIGHTNESSUP);	break;
+-		case 0x00f4: asus_map_key_clear(KEY_DISPLAY_OFF);	break;
+-		case 0x00f7: asus_map_key_clear(KEY_CAMERA);	break;
+-		case 0x00f8: asus_map_key_clear(KEY_PROG1);	break;
++		case 0xff01: clear_key = BTN_1;			break;
++		case 0xff02: clear_key = BTN_2;			break;
++		case 0xff03: clear_key = BTN_3;			break;
++		case 0xff04: clear_key = BTN_4;			break;
++		case 0xff05: clear_key = BTN_5;			break;
++		case 0xff06: clear_key = BTN_6;			break;
++		case 0xff07: clear_key = BTN_7;			break;
++		case 0xff08: clear_key = BTN_8;			break;
++		case 0xff09: clear_key = BTN_9;			break;
++		case 0xff0a: clear_key = BTN_A;			break;
++		case 0xff0b: clear_key = BTN_B;			break;
++		case 0x00f1: clear_key = KEY_WLAN;		break;
++		case 0x00f2: clear_key = KEY_BRIGHTNESSDOWN;	break;
++		case 0x00f3: clear_key = KEY_BRIGHTNESSUP;	break;
++		case 0x00f4: clear_key = KEY_DISPLAY_OFF;	break;
++		case 0x00f7: clear_key = KEY_CAMERA;		break;
++		case 0x00f8: clear_key = KEY_PROG1;		break;
+ 		default:
+ 			return 0;
+ 		}
+ 
++		asus_map_key_clear(clear_key);
++
+ 		set_bit(EV_REP, hi->input->evbit);
+ 		return 1;
+ 	}
 
