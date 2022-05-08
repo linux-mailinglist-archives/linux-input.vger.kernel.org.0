@@ -2,96 +2,343 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB73451E898
-	for <lists+linux-input@lfdr.de>; Sat,  7 May 2022 18:41:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B03E51ED8F
+	for <lists+linux-input@lfdr.de>; Sun,  8 May 2022 14:58:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357399AbiEGQog (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 7 May 2022 12:44:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46532 "EHLO
+        id S233121AbiEHNCG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 8 May 2022 09:02:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348250AbiEGQog (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 7 May 2022 12:44:36 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2209913D50
-        for <linux-input@vger.kernel.org>; Sat,  7 May 2022 09:40:49 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id kq17so19595063ejb.4
-        for <linux-input@vger.kernel.org>; Sat, 07 May 2022 09:40:49 -0700 (PDT)
+        with ESMTP id S233411AbiEHMzp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 8 May 2022 08:55:45 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE890DF51
+        for <linux-input@vger.kernel.org>; Sun,  8 May 2022 05:51:53 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id e24so16010950wrc.9
+        for <linux-input@vger.kernel.org>; Sun, 08 May 2022 05:51:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=gEK6D0jbYqvI5/HyOZvDexMQJb9rlvEGsgPSNRbRwe4=;
-        b=wkxBdy7mLI1dWduTrehhE2Wm01sY11eHeQerPwJXb6CiGyhCVZ9E06dxrdj1yqViK6
-         G/uctb+al2ElkqSCbKkMyesLfo3V0RxHon1dCfsZrqt0kfD8A9p4NC18xth3/moJIJFk
-         worNOjMJPQGH9ET2qFNIkDE2NwiD92RAibx5ty0eG1ZQAdKiwA9yxY3NPuDYta5wkgVj
-         jX6nu7IF3u0aDYj3tczcjtIB6OmNBhTj1mDpHcJEBV49pthXhdpV0PVBs4rd70kW33dq
-         1Ygj4JoCuoX2riLkh2fIzwixF/M4mOkoJb+2WZrrSBuWxldwMNgVojjOGM0YLKBMtGqB
-         Qp0A==
+        d=ip-fi.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PGDjs2GSIHp4OVuFOkSjqaU7kRm5nsNnzMnEAt9+mnw=;
+        b=RH64AKpdW3lKwbWowWWsKtJHLBlI0126eEN2gmOvqILJGqbRrqSZpEB9P9lQs5iBYa
+         rslQY6BF+yHiTHURElNwWS+SqLSySpiu2uNiMS6TvsvIw2Lh+Tq1wxMd75g0Ykk7a9mL
+         8dO01x1HAJyJGnabXUOcEy5k3Z/yIuPDpW3l5SveHlzxfObkeGS1a4FwB6FwX/KyiYby
+         II+HLFXPvHilHx3fONmUi9rt5y14D0ZE7/fZfAEiH34mQdrUGdgxZPncDusC2qO6nK5f
+         m8fbBsxnDh/idpvVijwfQ4pXNxbn/CNz4eb4MbEcb+zbSl20A/sRfMd/E+MMwLiFIhqZ
+         Pc7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=gEK6D0jbYqvI5/HyOZvDexMQJb9rlvEGsgPSNRbRwe4=;
-        b=e2atcquzzZ1iSeut+hBaKsz25JHS1JuakKehp/Tm4j4a+lbtHOqR3nEatAO8lGMZPA
-         Flp0YJrz9JqamiI2PBKkijv3n0rMijAwadlbvRIk4kRKaDPmm+BAXMFEVps6Aestacuc
-         zgOsydASmPO0mnCwgy2CcZSIEyiiYL8eKmKA44FqTvFfZmaoTVYfTUDADkODju4LOrEU
-         AZlKz2q6R+N+c8BC+FRbg/2q8V9WawK0myjlHozFJnqw2QLguW6GPTmrmKvMJtAJc3T5
-         KGgISUCO+FyXjdl2UXerpszQ6pAM55jvKLXuQD6apgLI1k6Qgcyg6uh+MXGgecEfGigl
-         cU4A==
-X-Gm-Message-State: AOAM530iv3HM9YpFLnC2VsvPlbsjH/rbAqDe2iduFFHxV6seITUqvq/1
-        lllkQwburNyZXRssg+y5ZOOzTQ==
-X-Google-Smtp-Source: ABdhPJwuTn/xMtvoc1f2bwECDfAj/wE4rma3gDDKCO73TqgwG5whAwnJkNJUwZkucPP0ZL3K7MmLLA==
-X-Received: by 2002:a17:907:9492:b0:6f4:f618:b575 with SMTP id dm18-20020a170907949200b006f4f618b575mr7812482ejc.39.1651941647743;
-        Sat, 07 May 2022 09:40:47 -0700 (PDT)
-Received: from [192.168.0.233] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id wi22-20020a170906fd5600b006f3ef214de0sm3168896ejb.70.2022.05.07.09.40.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 07 May 2022 09:40:47 -0700 (PDT)
-Message-ID: <425eddc6-84b4-74e3-40ed-bbd4c195e2b5@linaro.org>
-Date:   Sat, 7 May 2022 18:40:46 +0200
+        bh=PGDjs2GSIHp4OVuFOkSjqaU7kRm5nsNnzMnEAt9+mnw=;
+        b=D0NLidihzoQvb5P34Dd6c11RyoauaD7hVuRN8sA/i2THuigcmGy3u70Spame4JuxxT
+         fKUPUG29aVc/P8n6RPAAXdrgFg27829V7EP1BzS5plZit8msjuhhOeADYCtZrtN/GzKo
+         urURaU1UWhrDHLZupfGKoAKOxELQiWg00hQQVoI2wXJW9iXraqTDEwmQRy9tPVX7xEb2
+         BtdkCVSj/8owl1RH71fQDQXx+nCZim2N8qg0TJS7VdRMEzlZWtL0JUxLduLG4iOONplW
+         mojx4aKSAVqF9CzUfAvYR9FOXLBoVjV8BDhZIj3KpVGFsECUlk1L7hFmLbMFK2ezXuNa
+         XGjg==
+X-Gm-Message-State: AOAM533Pipz1wyLlexsg2O1sqoaLQkTohcnm5aBdu6hpckE/xP9dD8rl
+        0+7VQQr28QomaWfynvTRqhGABg==
+X-Google-Smtp-Source: ABdhPJwXffyF9NHTyPri1oEDmcURixGBaoAFrYR17fZj6VgNycAfwT8Ts+1WX9+3g8G7iqGJCitqHA==
+X-Received: by 2002:adf:ec92:0:b0:20a:d261:2cf2 with SMTP id z18-20020adfec92000000b0020ad2612cf2mr9641753wrn.296.1652014312413;
+        Sun, 08 May 2022 05:51:52 -0700 (PDT)
+Received: from localhost.localdomain ([91.193.4.92])
+        by smtp.gmail.com with ESMTPSA id i6-20020adffdc6000000b0020c5253d8f1sm8185750wrs.61.2022.05.08.05.51.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 May 2022 05:51:51 -0700 (PDT)
+From:   Johan Boger <jb@ip.fi>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Johan Boger <jb@ip.fi>
+Subject: [PATCH] staging: drivers: hid: hid-asus.c: Fixed brace/formatting issues.
+Date:   Sun,  8 May 2022 14:50:56 +0200
+Message-Id: <20220508125056.354001-1-jb@ip.fi>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2 05/11] dt-bindings: serio: add Arm PL050 DT schema
-Content-Language: en-US
-To:     Andre Przywara <andre.przywara@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Liviu Dudau <liviu.dudau@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        devicetree@vger.kernel.org, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-References: <20220506140533.3566431-1-andre.przywara@arm.com>
- <20220506140533.3566431-6-andre.przywara@arm.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220506140533.3566431-6-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 06/05/2022 16:05, Andre Przywara wrote:
-> The Arm PL050 "Keyboard/Mouse Interface" is an Arm system IP providing a
-> PS/2 compatible serial interface.
-> 
-> Add a simple DT schema binding, based on the TRM[1], the existing DTs and
-> the Linux driver.
-> 
-> [1] https://developer.arm.com/documentation/ddi0143/latest
+Fixed formatting issues based on recommendations from 
+scripts/checkpatch.pl, in accordance with coding style.
 
+Signed-off-by: Johan Boger <jb@ip.fi>
+---
+ drivers/hid/hid-asus.c | 172 +++++++++++++++++++++++++++++------------
+ 1 file changed, 121 insertions(+), 51 deletions(-)
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+index 08c9a9a60ae4..c76ca7416bac 100644
+--- a/drivers/hid/hid-asus.c
++++ b/drivers/hid/hid-asus.c
+@@ -339,7 +339,7 @@ static int asus_raw_event(struct hid_device *hdev,
+ 		/*
+ 		 * Skip these report ID, the device emits a continuous stream associated
+ 		 * with the AURA mode it is in which looks like an 'echo'.
+-		*/
++		 */
+ 		if (report->id == FEATURE_KBD_LED_REPORT_ID1 ||
+ 				report->id == FEATURE_KBD_LED_REPORT_ID2) {
+ 			return -1;
+@@ -349,7 +349,7 @@ static int asus_raw_event(struct hid_device *hdev,
+ 			 * G14 and G15 send these codes on some keypresses with no
+ 			 * discernable reason for doing so. We'll filter them out to avoid
+ 			 * unmapped warning messages later.
+-			*/
++			 */
+ 			if (data[1] == 0xea || data[1] == 0xec || data[1] == 0x02 ||
+ 					data[1] == 0x8a || data[1] == 0x9e) {
+ 				return -1;
+@@ -359,10 +359,9 @@ static int asus_raw_event(struct hid_device *hdev,
+ 			/*
+ 			 * G713 and G733 send these codes on some keypresses, depending on
+ 			 * the key pressed it can trigger a shutdown event if not caught.
+-			*/
+-			if(data[0] == 0x02 && data[1] == 0x30) {
++			 */
++			if (data[0] == 0x02 && data[1] == 0x30)
+ 				return -1;
+-			}
+ 		}
+ 
+ 	}
+@@ -371,11 +370,10 @@ static int asus_raw_event(struct hid_device *hdev,
+ 		/*
+ 		 * CLAYMORE II keyboard sends this packet when it goes to sleep
+ 		 * this causes the whole system to go into suspend.
+-		*/
++		 */
+ 
+-		if(size == 2 && data[0] == 0x02 && data[1] == 0x00) {
++		if (size == 2 && data[0] == 0x02 && data[1] == 0x00)
+ 			return -1;
+-		}
+ 	}
+ 
+ 	return 0;
+@@ -393,7 +391,7 @@ static int asus_kbd_set_report(struct hid_device *hdev, u8 *buf, size_t buf_size
+ 	/*
+ 	 * The report ID should be set from the incoming buffer due to LED and key
+ 	 * interfaces having different pages
+-	*/
++	 */
+ 	ret = hid_hw_raw_request(hdev, buf[0], dmabuf,
+ 				 buf_size, HID_FEATURE_REPORT,
+ 				 HID_REQ_SET_REPORT);
+@@ -852,47 +850,86 @@ static int asus_input_mapping(struct hid_device *hdev,
+ 	/* ASUS-specific keyboard hotkeys and led backlight */
+ 	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ASUSVENDOR) {
+ 		switch (usage->hid & HID_USAGE) {
+-		case 0x10: asus_map_key_clear(KEY_BRIGHTNESSDOWN);	break;
+-		case 0x20: asus_map_key_clear(KEY_BRIGHTNESSUP);		break;
+-		case 0x35: asus_map_key_clear(KEY_DISPLAY_OFF);		break;
+-		case 0x6c: asus_map_key_clear(KEY_SLEEP);		break;
+-		case 0x7c: asus_map_key_clear(KEY_MICMUTE);		break;
+-		case 0x82: asus_map_key_clear(KEY_CAMERA);		break;
+-		case 0x88: asus_map_key_clear(KEY_RFKILL);			break;
+-		case 0xb5: asus_map_key_clear(KEY_CALC);			break;
+-		case 0xc4: asus_map_key_clear(KEY_KBDILLUMUP);		break;
+-		case 0xc5: asus_map_key_clear(KEY_KBDILLUMDOWN);		break;
++		case 0x10:
++			asus_map_key_clear(KEY_BRIGHTNESSDOWN);
++			break;
++		case 0x20:
++			asus_map_key_clear(KEY_BRIGHTNESSUP);
++			break;
++		case 0x35:
++			asus_map_key_clear(KEY_DISPLAY_OFF);
++			break;
++		case 0x6c:
++			asus_map_key_clear(KEY_SLEEP);
++			break;
++		case 0x7c:
++			asus_map_key_clear(KEY_MICMUTE);
++			break;
++		case 0x82:
++			asus_map_key_clear(KEY_CAMERA);
++			break;
++		case 0x88:
++			asus_map_key_clear(KEY_RFKILL);
++			break;
++		case 0xb5:
++			asus_map_key_clear(KEY_CALC);
++			break;
++		case 0xc4:
++			asus_map_key_clear(KEY_KBDILLUMUP);
++			break;
++		case 0xc5:
++			asus_map_key_clear(KEY_KBDILLUMDOWN);
++			break;
+ 
+ 		/* ASUS touchpad toggle */
+-		case 0x6b: asus_map_key_clear(KEY_F21);			break;
++		case 0x6b:
++			asus_map_key_clear(KEY_F21);
++			break;
+ 
+ 		/* ROG key */
+-		case 0x38: asus_map_key_clear(KEY_PROG1);		break;
++		case 0x38:
++			asus_map_key_clear(KEY_PROG1);
++			break;
+ 
+ 		/* Fn+C ASUS Splendid */
+-		case 0xba: asus_map_key_clear(KEY_PROG2);		break;
++		case 0xba:
++			asus_map_key_clear(KEY_PROG2);
++			break;
+ 
+ 		/* Fn+Space Power4Gear Hybrid */
+-		case 0x5c: asus_map_key_clear(KEY_PROG3);		break;
++		case 0x5c:
++			asus_map_key_clear(KEY_PROG3);
++			break;
+ 
+ 		/* Fn+F5 "fan" symbol on FX503VD */
+-		case 0x99: asus_map_key_clear(KEY_PROG4);		break;
++		case 0x99:
++			asus_map_key_clear(KEY_PROG4);
++			break;
+ 
+ 		/* Fn+F5 "fan" symbol on N-Key keyboard */
+-		case 0xae: asus_map_key_clear(KEY_PROG4);		break;
++		case 0xae:
++			asus_map_key_clear(KEY_PROG4);
++			break;
+ 
+ 		/* Fn+Ret "Calc" symbol on N-Key keyboard */
+-		case 0x92: asus_map_key_clear(KEY_CALC);		break;
++		case 0x92:
++			asus_map_key_clear(KEY_CALC);
++			break;
+ 
+ 		/* Fn+Left Aura mode previous on N-Key keyboard */
+-		case 0xb2: asus_map_key_clear(KEY_PROG2);		break;
++		case 0xb2:
++			asus_map_key_clear(KEY_PROG2);
++			break;
+ 
+ 		/* Fn+Right Aura mode next on N-Key keyboard */
+-		case 0xb3: asus_map_key_clear(KEY_PROG3);		break;
++		case 0xb3:
++			asus_map_key_clear(KEY_PROG3);
++			break;
+ 
+ 		default:
+ 			/* ASUS lazily declares 256 usages, ignore the rest,
+-			 * as some make the keyboard appear as a pointer device. */
++			 * as some make the keyboard appear as a pointer device.
++			 */
+ 			return -1;
+ 		}
+ 
+@@ -911,23 +948,57 @@ static int asus_input_mapping(struct hid_device *hdev,
+ 
+ 	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_MSVENDOR) {
+ 		switch (usage->hid & HID_USAGE) {
+-		case 0xff01: asus_map_key_clear(BTN_1);	break;
+-		case 0xff02: asus_map_key_clear(BTN_2);	break;
+-		case 0xff03: asus_map_key_clear(BTN_3);	break;
+-		case 0xff04: asus_map_key_clear(BTN_4);	break;
+-		case 0xff05: asus_map_key_clear(BTN_5);	break;
+-		case 0xff06: asus_map_key_clear(BTN_6);	break;
+-		case 0xff07: asus_map_key_clear(BTN_7);	break;
+-		case 0xff08: asus_map_key_clear(BTN_8);	break;
+-		case 0xff09: asus_map_key_clear(BTN_9);	break;
+-		case 0xff0a: asus_map_key_clear(BTN_A);	break;
+-		case 0xff0b: asus_map_key_clear(BTN_B);	break;
+-		case 0x00f1: asus_map_key_clear(KEY_WLAN);	break;
+-		case 0x00f2: asus_map_key_clear(KEY_BRIGHTNESSDOWN);	break;
+-		case 0x00f3: asus_map_key_clear(KEY_BRIGHTNESSUP);	break;
+-		case 0x00f4: asus_map_key_clear(KEY_DISPLAY_OFF);	break;
+-		case 0x00f7: asus_map_key_clear(KEY_CAMERA);	break;
+-		case 0x00f8: asus_map_key_clear(KEY_PROG1);	break;
++		case 0xff01:
++			asus_map_key_clear(BTN_1);
++			break;
++		case 0xff02:
++			asus_map_key_clear(BTN_2);
++			break;
++		case 0xff03:
++			asus_map_key_clear(BTN_3);
++			break;
++		case 0xff04:
++			asus_map_key_clear(BTN_4);
++			break;
++		case 0xff05:
++			asus_map_key_clear(BTN_5);
++			break;
++		case 0xff06:
++			asus_map_key_clear(BTN_6);
++			break;
++		case 0xff07:
++			asus_map_key_clear(BTN_7);
++			break;
++		case 0xff08:
++			asus_map_key_clear(BTN_8);
++			break;
++		case 0xff09:
++			asus_map_key_clear(BTN_9);
++			break;
++		case 0xff0a:
++			asus_map_key_clear(BTN_A);
++			break;
++		case 0xff0b:
++			asus_map_key_clear(BTN_B);
++			break;
++		case 0x00f1:
++			asus_map_key_clear(KEY_WLAN);
++			break;
++		case 0x00f2:
++			asus_map_key_clear(KEY_BRIGHTNESSDOWN);
++			break;
++		case 0x00f3:
++			asus_map_key_clear(KEY_BRIGHTNESSUP);
++			break;
++		case 0x00f4:
++			asus_map_key_clear(KEY_DISPLAY_OFF);
++			break;
++		case 0x00f7:
++			asus_map_key_clear(KEY_CAMERA);
++			break;
++		case 0x00f8:
++			asus_map_key_clear(KEY_PROG1);
++			break;
+ 		default:
+ 			return 0;
+ 		}
+@@ -1100,11 +1171,10 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 		goto err_stop_hw;
+ 	}
+ 
+-	if (drvdata->tp) {
++	if (drvdata->tp)
+ 		drvdata->input->name = "Asus TouchPad";
+-	} else {
++	else
+ 		drvdata->input->name = "Asus Keyboard";
+-	}
+ 
+ 	if (drvdata->tp) {
+ 		ret = asus_start_multitouch(hdev);
+@@ -1131,8 +1201,8 @@ static void asus_remove(struct hid_device *hdev)
+ }
+ 
+ static const __u8 asus_g752_fixed_rdesc[] = {
+-        0x19, 0x00,			/*   Usage Minimum (0x00)       */
+-        0x2A, 0xFF, 0x00,		/*   Usage Maximum (0xFF)       */
++	0x19, 0x00,			/*   Usage Minimum (0x00)       */
++	0x2A, 0xFF, 0x00,		/*   Usage Maximum (0xFF)       */
+ };
+ 
+ static __u8 *asus_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+-- 
+2.30.2
 
-
-Best regards,
-Krzysztof
