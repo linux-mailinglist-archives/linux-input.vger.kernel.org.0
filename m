@@ -2,147 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E001D51F09B
-	for <lists+linux-input@lfdr.de>; Sun,  8 May 2022 21:42:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98FE951F548
+	for <lists+linux-input@lfdr.de>; Mon,  9 May 2022 09:25:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231342AbiEHTV0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 8 May 2022 15:21:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52288 "EHLO
+        id S232081AbiEIH1j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 May 2022 03:27:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379311AbiEHSnn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 8 May 2022 14:43:43 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A217DF40;
-        Sun,  8 May 2022 11:39:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652035192; x=1683571192;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ku5z9ZOYUJh+GqggbRmp5uymILKAy+CEwjEQNBeO+Ps=;
-  b=HgUZGve7GtbEh9ovsuv8D2FBpnYI0KWYJS+eft1rgTZv65YAkJ5Jk2HM
-   ULit1MrKc6ulQWJ/YBciOH9JyiAtZ3neeAov0OCTbFG5k+huZ6wAr1Xl9
-   wHOxjkFqlGXigUVfD/an52cJQUoOnSrHn9XuVRcBBpEwZQwW5YZHmb7aW
-   gq2WebXyZhzAqm3htHQDeGhpAROAzURznFMwcUFvVUA0TFkFY4KxIS+TS
-   hK6LiMFHYAGPTe5jDHN4OndL758217XcZ7uBfgUL/RkPPs5bUVQPmfRM1
-   4rFEyDbll6+k6Wjr9yCFMN8nbXxwvm3tH14NJm3SgddXiMLsseydnz8We
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="329450432"
-X-IronPort-AV: E=Sophos;i="5.91,208,1647327600"; 
-   d="scan'208";a="329450432"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2022 11:39:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,208,1647327600"; 
-   d="scan'208";a="601650575"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 08 May 2022 11:39:48 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nnloq-000Fic-7M;
-        Sun, 08 May 2022 18:39:48 +0000
-Date:   Mon, 9 May 2022 02:39:20 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
-        jikos@kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stefanberzl@gmail.com, albertofanjul@gmail.com,
-        =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Subject: Re: [PATCH for-5.19/uclogic 1/7] HID: uclogic: Move param printing
- to a function
-Message-ID: <202205090241.d7Xmt8GT-lkp@intel.com>
-References: <20220508160146.13004-2-jose.exposito89@gmail.com>
+        with ESMTP id S236040AbiEIHHC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 May 2022 03:07:02 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A24916608E
+        for <linux-input@vger.kernel.org>; Mon,  9 May 2022 00:03:07 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id e2so18027455wrh.7
+        for <linux-input@vger.kernel.org>; Mon, 09 May 2022 00:03:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=gDNqkNPvjbe6zVP0Q3qqImGdWfcyYOSPxA9V1iED1qM=;
+        b=goq61AK+FbDfYrnQ9DIsE+JSwNfxf19G6nTxhGv8LjH9q1KYJpXgTL5gJjyQasa066
+         tacvyK71Ne8M30jiORVo+X5l8UjXBcpYjW28LQ/SS0KPVcfO4j7Xs+NbBPzuRfSrdikW
+         FxxWboMRW9caVejY5qLNiBQ65qNxf/VcnwmD22x1eoTjH5h8ZqAt4L1guX5ymMaEwl9N
+         IBzw9L7JDJUdrqE1ed7rJsJregvq00lzfmw2acnUB/PQURaNiMZXb8vWslt4tKLR+DqH
+         5KCl//BWF5ZQZmq5/tg1VFFs8MbH2iCnueBZZYI8crCnqK+q/Hk5Cfj5qtcQAfWxRRfO
+         obpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=gDNqkNPvjbe6zVP0Q3qqImGdWfcyYOSPxA9V1iED1qM=;
+        b=oiLM550pPN8EOyovVakyOpY53iJBdSDpSeWN1VREbON2grFTLrCnlquJPjlF0a3p6K
+         mIBte5dzrPM/OhDODP8vYyNKNdkgtcppbgpD9nCvhfgV081et5NIVn/b1u/1M3N9timh
+         OeMOmv48h0pbFjki62elDTbl0rVZEX/AX4VwKINtPtLhtrqKgaQqqw96emi6qHBIVXY3
+         92+tDzxzdy4QUb2s2VrVooERJpFivXdscqGF1ANCNtP8R5gTW6sCvXNXJ82+HNnQTeMk
+         rumZlKuKycN0znH91wyV6K675Nt3rpFKv3sNed0gsF6IN7vyOtcZAXv2sBHu1sPCt9ZH
+         aHrw==
+X-Gm-Message-State: AOAM530lD9HR1SygApTfXkAAZiuqHN4YdQHhrLEaLbhV2rf3Ak6ZB8zx
+        YkTUVL1Fc9B5mdqFRgUzgSYam4Whupc=
+X-Google-Smtp-Source: ABdhPJz1tVk1DKSaJaMFEWmRhKvsKIPaCZvFQGeTF3hpCBBVlid9xbLo8PawHz/Ls3yicuK7+wcdrA==
+X-Received: by 2002:a05:6000:719:b0:20c:7894:22e1 with SMTP id bs25-20020a056000071900b0020c789422e1mr12527652wrb.93.1652079774894;
+        Mon, 09 May 2022 00:02:54 -0700 (PDT)
+Received: from localhost.localdomain ([94.73.37.128])
+        by smtp.gmail.com with ESMTPSA id ay34-20020a05600c1e2200b003947b59dfdesm10187691wmb.36.2022.05.09.00.02.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 May 2022 00:02:54 -0700 (PDT)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     bryancain3@gmail.com
+Cc:     benjamin.tissoires@redhat.com, hdegoede@redhat.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: Re: [PATCH 0/1] HID: apple: Properly handle function keys on Keychron keyboards
+Date:   Mon,  9 May 2022 09:02:10 +0200
+Message-Id: <20220509070209.5223-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220505191221.36172-1-bryancain3@gmail.com>
+References: <20220505191221.36172-1-bryancain3@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220508160146.13004-2-jose.exposito89@gmail.com>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi "Jos�,
+On Thu, 2022-05-05 at 13:12 -0600, Bryan Cain wrote:
+> [...] Also, I don't have an Apple keyboard on hand
+> to test with, so I'd appreciate if someone could test my patch with one to
+> verify that their function key behavior is unchanged.
 
-Thank you for the patch! Perhaps something to improve:
+Tested with a Magic Keyboard 2015 and a Magic Keyboard 2021 with and
+without fingerprint reader. It works as expected :)
 
-[auto build test WARNING on hid/for-next]
-[cannot apply to v5.18-rc5 next-20220506]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jos-Exp-sito/DIGImend-patches-part-VI/20220509-000510
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-config: x86_64-randconfig-a003-20220509 (https://download.01.org/0day-ci/archive/20220509/202205090241.d7Xmt8GT-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a385645b470e2d3a1534aae618ea56b31177639f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4c0671e4ce0687136ff71aa65539cd3a2798d99d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jos-Exp-sito/DIGImend-patches-part-VI/20220509-000510
-        git checkout 4c0671e4ce0687136ff71aa65539cd3a2798d99d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/hid/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/hid/hid-uclogic-params.c:48: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
-   drivers/hid/hid-uclogic-params.c:80: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Dump tablet interface frame parameters with hid_dbg(), indented with two
-   drivers/hid/hid-uclogic-params.c:105: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Dump tablet interface parameters with hid_dbg().
-
-
-vim +48 drivers/hid/hid-uclogic-params.c
-
-    46	
-    47	/**
-  > 48	 * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
-    49	 *
-    50	 * @hdev:	The HID device the pen parameters describe.
-    51	 * @pen:	The pen parameters to dump.
-    52	 */
-    53	static void uclogic_params_pen_hid_dbg(const struct hid_device *hdev,
-    54						const struct uclogic_params_pen *pen)
-    55	{
-    56		size_t i;
-    57	
-    58		hid_dbg(hdev, "\t.usage_invalid = %s\n",
-    59			(pen->usage_invalid ? "true" : "false"));
-    60		hid_dbg(hdev, "\t.desc_ptr = %p\n", pen->desc_ptr);
-    61		hid_dbg(hdev, "\t.desc_size = %u\n", pen->desc_size);
-    62		hid_dbg(hdev, "\t.id = %u\n", pen->id);
-    63		hid_dbg(hdev, "\t.subreport_list = {\n");
-    64		for (i = 0; i < ARRAY_SIZE(pen->subreport_list); i++) {
-    65			hid_dbg(hdev, "\t\t{0x%02hhx, %hhu}%s\n",
-    66				pen->subreport_list[i].value,
-    67				pen->subreport_list[i].id,
-    68				i < (ARRAY_SIZE(pen->subreport_list) - 1) ? "," : "");
-    69		}
-    70		hid_dbg(hdev, "\t}\n");
-    71		hid_dbg(hdev, "\t.inrange = %s\n",
-    72			uclogic_params_pen_inrange_to_str(pen->inrange));
-    73		hid_dbg(hdev, "\t.fragmented_hires = %s\n",
-    74			(pen->fragmented_hires ? "true" : "false"));
-    75		hid_dbg(hdev, "\t.tilt_y_flipped = %s\n",
-    76			(pen->tilt_y_flipped ? "true" : "false"));
-    77	}
-    78	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Tested-by: José Expósito <jose.exposito89@gmail.com>
