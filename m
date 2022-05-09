@@ -2,335 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7723F51F95C
-	for <lists+linux-input@lfdr.de>; Mon,  9 May 2022 12:07:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F98951FE36
+	for <lists+linux-input@lfdr.de>; Mon,  9 May 2022 15:26:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231698AbiEIKLf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 May 2022 06:11:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58544 "EHLO
+        id S235657AbiEINZM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 May 2022 09:25:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233957AbiEIKLX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 9 May 2022 06:11:23 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB3CA1778BF
-        for <linux-input@vger.kernel.org>; Mon,  9 May 2022 03:07:28 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id w4so18640015wrg.12
-        for <linux-input@vger.kernel.org>; Mon, 09 May 2022 03:07:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ip-fi.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SHCsC1uDLakwJtX7YsLeyfBSvYkKba8AoDt84Vx3l6w=;
-        b=eImb/xFHwcJD0dVU2MKXjffJmbqfXGzoSz26SAoyTMwxwud310YnP1ykPV927FTlbl
-         WeUDXTATM27OxAz74yYx021yoPt1G8n+O7ajy1ue2HUcGAu7y539OJ3Ek6VVSoNXzpOD
-         z4GzsLnzG/lAJIJoh/LilUyKaitKrbSkHHDnlGgF/LYtaqC6gPHl/XvHBdUpw0dXVMGV
-         8EVu7+fy3S85P79BEknTOiskgO05F77xssC7rGkII8U2wPwwOm2XexhCxx0TGVTwj3O7
-         WcIrpdLuXybFkYvB1vPfUOQATdh12z8Sa9vF6odlBAVbhLqUwMdI1gXs/wJ2HcmtDwHs
-         zK2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SHCsC1uDLakwJtX7YsLeyfBSvYkKba8AoDt84Vx3l6w=;
-        b=FBMiKDHBCvOCo4VgDUpl4wM45RFquOAxe0p7P3q72ilWv1gsRvdBKxgdMOFrqj7p3m
-         eD2oRh5Tpu4U/zt4TgXkrlNyQt5eo8J7lH+c/JbIiYHvHv4LVC/njXnpvVMWMF0leRDI
-         t7kqsxqkRH21vw29SjL/ZHS35rW9TL8aoaTb5Bi+yMMrW/73AIhvMdAtZbom6rAiZle+
-         LIB/+l7t0awO95v4mC7JmFooRqVie1Vcz0FWBkw3ae8eqQY9PETkN5Iaw4sqbySqvT9o
-         A0hlubca6FCwIkpOhgyaKCMQEtsvs0Vom+DVb0wKrgowgNCyDykjPFzXpkJ+xv8EjV9Z
-         gwzg==
-X-Gm-Message-State: AOAM533nFpx7xPcj7S2thwJXGVLOlbmAv3Jt45CAB+JDQ7ApL1ReMqQR
-        aysQHu+ISHO9viKqjCnUFF/7vQ==
-X-Google-Smtp-Source: ABdhPJyekIVKSk0V6Fd2WaWbbA6eYP1X/7K/nNdayL4DYwvGAoBqXBD9M+MfPDvU/KgQu2Y47a4p6g==
-X-Received: by 2002:a5d:640f:0:b0:20c:9be6:30c1 with SMTP id z15-20020a5d640f000000b0020c9be630c1mr12838289wru.273.1652090583920;
-        Mon, 09 May 2022 03:03:03 -0700 (PDT)
-Received: from localhost.localdomain ([45.152.183.54])
-        by smtp.gmail.com with ESMTPSA id 67-20020a1c1946000000b003942a244f2csm19203107wmz.5.2022.05.09.03.03.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 May 2022 03:03:03 -0700 (PDT)
-From:   Johan Boger <jb@ip.fi>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, joe@perches.com,
-        Johan Boger <jb@ip.fi>
-Subject: [PATCH] staging: drivers: hid: hid-asus.c: Optimized input logic for keys
-Date:   Mon,  9 May 2022 12:02:58 +0200
-Message-Id: <20220509100258.24764-1-jb@ip.fi>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S235776AbiEINZB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 May 2022 09:25:01 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2047.outbound.protection.outlook.com [40.107.236.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B384A237D5
+        for <linux-input@vger.kernel.org>; Mon,  9 May 2022 06:21:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cg06UJVb29A0IESGhL6Gg6MBQb9t/TpATJCrGPiL1tw7CgDYZBxIZWAWh7wGUknP00YntQCOOtiq0/ZdcNEmCW9jQ62vh504AZbQxgrTbMQV2rJxnMulgs35U+yXP6LN10y61pqKguIhOtD+o1mwlneomoiZk/idXtxaIjsGoqF/szeJxAKVgX16PDlkIWqhqkCbOX+5K5VY7MsFrUdAHipddiWLCVKCTP0+heJ3AQczFrJx2BxvYSi/qfgUX5ApPAO+U3qMgglln0kekCq9BmJUkIG1leHSyUIn/k9q/aiTOLeN0RsYmt43RSBkW5Lk8pkkv3Inph90O/I5sAFmPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=foyQaivpqrbMuvya+0g3DtLO4+bPkbJXNXVEB0DNcGc=;
+ b=Zle+t70J0ml7BU1TOGwNgpKtrB9gw1UEkutAFUAOdDkqL3bauHc6pRWfNcXIojTjI5jR5v0Em5NetdJc/If/PhDQt+KlSjy/HIS4bXTGO2EXdjCouL/UMM7Nq6fHSRAXP2xmunimjDnCh1iIP4t4QyaK+W6w4KbaR0S0OnzvSkVuEKyqDZZ5quguGwX4mVQivZCRIlKiyW889tlFI51BDsVPs9u16Y8JFRFvorjbUOqaBsJTddgZ9P49kfRlAJbd/2TOZAYcASGzS0yPymg7Nd3mRP6pcylhFqp2n4M53a7Vx3uBCTLQ9wzwF+Qq5/C3qwYhZHmd9ltGC55ml7vmPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=foyQaivpqrbMuvya+0g3DtLO4+bPkbJXNXVEB0DNcGc=;
+ b=4kFRxYdfJbuUuMV6xcV2N4YwdBZ0NlpDDxAU88HPZ/bTYVA8iyRx0UZxf9QxvQmoWglZhJ/eyglZSIj6Ofihagdvz0eRzlQcu4Ydz7wceHMUinQAmFQgZSt1SroU8LnnpS340xY9F4kg1uywPL8Lw8Hjdc8H/K3SeJ44InStZsc=
+Received: from MW4PR03CA0328.namprd03.prod.outlook.com (2603:10b6:303:dd::33)
+ by MWHPR1201MB0048.namprd12.prod.outlook.com (2603:10b6:301:59::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.21; Mon, 9 May
+ 2022 13:21:01 +0000
+Received: from CO1NAM11FT022.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:dd:cafe::26) by MW4PR03CA0328.outlook.office365.com
+ (2603:10b6:303:dd::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.22 via Frontend
+ Transport; Mon, 9 May 2022 13:21:01 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT022.mail.protection.outlook.com (10.13.175.199) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5227.15 via Frontend Transport; Mon, 9 May 2022 13:21:01 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 9 May
+ 2022 08:20:58 -0500
+From:   Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+        <dmitry.torokhov@gmail.com>, <linux-input@vger.kernel.org>
+CC:     <mario.limonciello@amd.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Subject: [PATCH 0/7] Enhancements and fixes to AMD SFH driver 
+Date:   Mon, 9 May 2022 18:50:19 +0530
+Message-ID: <20220509132026.3204678-1-Basavaraj.Natikar@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 49b5b808-eeed-4cc7-2339-08da31bec321
+X-MS-TrafficTypeDiagnostic: MWHPR1201MB0048:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR1201MB004806A2B61C8A706BA5FCECE6C69@MWHPR1201MB0048.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aZxtbH6tyO79LdlnO8XdlpDrSamq2+9mIsqivmBawE6lvdp/ZkEIqzXevnSQeY+1Y4NfCnFtS1MUdL9pEfVp8XYOYQYvmBd/0EWyTrjrF6gg6gMEJssyCY40KV8ytZZs7ZHwjqm+5LD9+PhXtYocyBfWE2CdMbY9kAJw5EMJ9GK28I9oHDHHxFgllyy+5dl7GBELhnQFgYFv/DsJhMAERMvGWWXqVLEspsvZsHfpoXJNAm8/AJWHlnsO1yYl5sQjWMkfvYe942oOLwgjI65A0GIN72kawdpV/H/bphKRqVZtvP+8SBaHp7LU/qrwsGD4pay21GEsXpA8DHhKW+khOjd9dq57VkoVTI5m1CL5VjC9PQ+/vhUbsJtdWkr1H//1BCG+ayFrOMVsu0fJptt1APvjDKG1p1xKWHR1SlsZQT/Jqdn2Yru1wiYe9pYjiNec1uguOTmKhP3yRsqcPHhOFkTzpg+Joa2cJVjrZlkaF5kqCWI6fzM9KphN3G8CNj+wdDsEGu0vx0UT9qPTti0DTmqP0gFtTGMiMVlCC/a9yvlVGp2ftkSXp6Fm3E5EP0UT94oQqoP2SVja/GniY7zMUZv/Hd1cKx1NdBBfv1X49+cIOZJsgKSOnR8fkMu6Mx217mfdQwEjRFno4NH52vduTf9SZEUb3MZa0r9nRpf3bspOpkr/jX+Z3kHNwNbgoJZ9sYXkFvg9jOhcWJWDJBfpFQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(40460700003)(336012)(426003)(508600001)(47076005)(36860700001)(26005)(4743002)(316002)(16526019)(186003)(6666004)(1076003)(7696005)(86362001)(2906002)(5660300002)(36756003)(83380400001)(356005)(81166007)(82310400005)(70586007)(54906003)(70206006)(8676002)(4326008)(8936002)(110136005)(2616005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2022 13:21:01.1747
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49b5b808-eeed-4cc7-2339-08da31bec321
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT022.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0048
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Instead of calling asus_map_key_clear() function in each case,
-we now set a temporary value and clear it after default.
-Patch was checked by checkpatch and adjusted accordingly.
+Changes includes to support sensor discovery, add sensor name by index
+for debug info, clean up string generated for the HID device to make it
+more obvious.
 
-Signed-off-by: Johan Boger <jb@ip.fi>
----
- drivers/hid/hid-asus.c | 144 ++++++++++++++++++++++++++---------------
- 1 file changed, 93 insertions(+), 51 deletions(-)
+Before:
+hid-generic 0020:1022:0001.0003: hidraw2: <UNKNOWN> HID v0.00
+Device [hid-amdtp 1022:0001] on
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 08c9a9a60ae4..9c2080cd1de3 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -339,7 +339,7 @@ static int asus_raw_event(struct hid_device *hdev,
- 		/*
- 		 * Skip these report ID, the device emits a continuous stream associated
- 		 * with the AURA mode it is in which looks like an 'echo'.
--		*/
-+		 */
- 		if (report->id == FEATURE_KBD_LED_REPORT_ID1 ||
- 				report->id == FEATURE_KBD_LED_REPORT_ID2) {
- 			return -1;
-@@ -349,7 +349,7 @@ static int asus_raw_event(struct hid_device *hdev,
- 			 * G14 and G15 send these codes on some keypresses with no
- 			 * discernable reason for doing so. We'll filter them out to avoid
- 			 * unmapped warning messages later.
--			*/
-+			 */
- 			if (data[1] == 0xea || data[1] == 0xec || data[1] == 0x02 ||
- 					data[1] == 0x8a || data[1] == 0x9e) {
- 				return -1;
-@@ -359,10 +359,9 @@ static int asus_raw_event(struct hid_device *hdev,
- 			/*
- 			 * G713 and G733 send these codes on some keypresses, depending on
- 			 * the key pressed it can trigger a shutdown event if not caught.
--			*/
--			if(data[0] == 0x02 && data[1] == 0x30) {
-+			 */
-+			if (data[0] == 0x02 && data[1] == 0x30)
- 				return -1;
--			}
- 		}
- 
- 	}
-@@ -371,11 +370,10 @@ static int asus_raw_event(struct hid_device *hdev,
- 		/*
- 		 * CLAYMORE II keyboard sends this packet when it goes to sleep
- 		 * this causes the whole system to go into suspend.
--		*/
-+		 */
- 
--		if(size == 2 && data[0] == 0x02 && data[1] == 0x00) {
-+		if (size == 2 && data[0] == 0x02 && data[1] == 0x00)
- 			return -1;
--		}
- 	}
- 
- 	return 0;
-@@ -393,7 +391,7 @@ static int asus_kbd_set_report(struct hid_device *hdev, u8 *buf, size_t buf_size
- 	/*
- 	 * The report ID should be set from the incoming buffer due to LED and key
- 	 * interfaces having different pages
--	*/
-+	 */
- 	ret = hid_hw_raw_request(hdev, buf[0], dmabuf,
- 				 buf_size, HID_FEATURE_REPORT,
- 				 HID_REQ_SET_REPORT);
-@@ -828,6 +826,7 @@ static int asus_input_mapping(struct hid_device *hdev,
- 		int *max)
- {
- 	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-+	int clear_key;
- 
- 	if (drvdata->quirks & QUIRK_SKIP_INPUT_MAPPING) {
- 		/* Don't map anything from the HID report.
-@@ -852,50 +851,73 @@ static int asus_input_mapping(struct hid_device *hdev,
- 	/* ASUS-specific keyboard hotkeys and led backlight */
- 	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ASUSVENDOR) {
- 		switch (usage->hid & HID_USAGE) {
--		case 0x10: asus_map_key_clear(KEY_BRIGHTNESSDOWN);	break;
--		case 0x20: asus_map_key_clear(KEY_BRIGHTNESSUP);		break;
--		case 0x35: asus_map_key_clear(KEY_DISPLAY_OFF);		break;
--		case 0x6c: asus_map_key_clear(KEY_SLEEP);		break;
--		case 0x7c: asus_map_key_clear(KEY_MICMUTE);		break;
--		case 0x82: asus_map_key_clear(KEY_CAMERA);		break;
--		case 0x88: asus_map_key_clear(KEY_RFKILL);			break;
--		case 0xb5: asus_map_key_clear(KEY_CALC);			break;
--		case 0xc4: asus_map_key_clear(KEY_KBDILLUMUP);		break;
--		case 0xc5: asus_map_key_clear(KEY_KBDILLUMDOWN);		break;
-+		case 0x10:
-+			clear_key = KEY_BRIGHTNESSDOWN;		break;
-+		case 0x20:
-+			clear_key = KEY_BRIGHTNESSUP;		break;
-+		case 0x35:
-+			clear_key = KEY_DISPLAY_OFF;		break;
-+		case 0x6c:
-+			clear_key = KEY_SLEEP;			break;
-+		case 0x7c:
-+			clear_key = KEY_MICMUTE;		break;
-+		case 0x82:
-+			clear_key = KEY_CAMERA;			break;
-+		case 0x88:
-+			clear_key = KEY_RFKILL;			break;
-+		case 0xb5:
-+			clear_key = KEY_CALC;			break;
-+		case 0xc4:
-+			clear_key = KEY_KBDILLUMUP;		break;
-+		case 0xc5:
-+			clear_key = KEY_KBDILLUMDOWN;		break;
- 
- 		/* ASUS touchpad toggle */
--		case 0x6b: asus_map_key_clear(KEY_F21);			break;
-+		case 0x6b:
-+			clear_key = KEY_F21;		break;
- 
- 		/* ROG key */
--		case 0x38: asus_map_key_clear(KEY_PROG1);		break;
-+		case 0x38:
-+			clear_key = KEY_PROG1;		break;
- 
- 		/* Fn+C ASUS Splendid */
--		case 0xba: asus_map_key_clear(KEY_PROG2);		break;
-+		case 0xba:
-+			clear_key = KEY_PROG2;		break;
- 
- 		/* Fn+Space Power4Gear Hybrid */
--		case 0x5c: asus_map_key_clear(KEY_PROG3);		break;
-+		case 0x5c:
-+			clear_key = KEY_PROG3;		break;
- 
- 		/* Fn+F5 "fan" symbol on FX503VD */
--		case 0x99: asus_map_key_clear(KEY_PROG4);		break;
-+		case 0x99:
-+			clear_key = KEY_PROG4;		break;
- 
- 		/* Fn+F5 "fan" symbol on N-Key keyboard */
--		case 0xae: asus_map_key_clear(KEY_PROG4);		break;
-+		case 0xae:
-+			clear_key = KEY_PROG4;		break;
- 
- 		/* Fn+Ret "Calc" symbol on N-Key keyboard */
--		case 0x92: asus_map_key_clear(KEY_CALC);		break;
-+		case 0x92:
-+			clear_key = KEY_CALC;		break;
- 
- 		/* Fn+Left Aura mode previous on N-Key keyboard */
--		case 0xb2: asus_map_key_clear(KEY_PROG2);		break;
-+		case 0xb2:
-+			clear_key = KEY_PROG2;		break;
- 
- 		/* Fn+Right Aura mode next on N-Key keyboard */
--		case 0xb3: asus_map_key_clear(KEY_PROG3);		break;
-+		case 0xb3:
-+			clear_key = KEY_PROG3;		break;
- 
- 		default:
- 			/* ASUS lazily declares 256 usages, ignore the rest,
--			 * as some make the keyboard appear as a pointer device. */
-+			 * as some make the keyboard appear as a pointer device.
-+			 */
- 			return -1;
- 		}
- 
-+		/* Clear temp key */
-+		asus_map_key_clear(clear_key);
-+
- 		/*
- 		 * Check and enable backlight only on devices with UsagePage ==
- 		 * 0xff31 to avoid initializing the keyboard firmware multiple
-@@ -907,31 +929,52 @@ static int asus_input_mapping(struct hid_device *hdev,
- 
- 		set_bit(EV_REP, hi->input->evbit);
- 		return 1;
-+
- 	}
- 
- 	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_MSVENDOR) {
- 		switch (usage->hid & HID_USAGE) {
--		case 0xff01: asus_map_key_clear(BTN_1);	break;
--		case 0xff02: asus_map_key_clear(BTN_2);	break;
--		case 0xff03: asus_map_key_clear(BTN_3);	break;
--		case 0xff04: asus_map_key_clear(BTN_4);	break;
--		case 0xff05: asus_map_key_clear(BTN_5);	break;
--		case 0xff06: asus_map_key_clear(BTN_6);	break;
--		case 0xff07: asus_map_key_clear(BTN_7);	break;
--		case 0xff08: asus_map_key_clear(BTN_8);	break;
--		case 0xff09: asus_map_key_clear(BTN_9);	break;
--		case 0xff0a: asus_map_key_clear(BTN_A);	break;
--		case 0xff0b: asus_map_key_clear(BTN_B);	break;
--		case 0x00f1: asus_map_key_clear(KEY_WLAN);	break;
--		case 0x00f2: asus_map_key_clear(KEY_BRIGHTNESSDOWN);	break;
--		case 0x00f3: asus_map_key_clear(KEY_BRIGHTNESSUP);	break;
--		case 0x00f4: asus_map_key_clear(KEY_DISPLAY_OFF);	break;
--		case 0x00f7: asus_map_key_clear(KEY_CAMERA);	break;
--		case 0x00f8: asus_map_key_clear(KEY_PROG1);	break;
-+		case 0xff01:
-+			clear_key = BTN_1;		break;
-+		case 0xff02:
-+			clear_key = BTN_2;		break;
-+		case 0xff03:
-+			clear_key = BTN_3;		break;
-+		case 0xff04:
-+			clear_key = BTN_4;		break;
-+		case 0xff05:
-+			clear_key = BTN_5;		break;
-+		case 0xff06:
-+			clear_key = BTN_6;		break;
-+		case 0xff07:
-+			clear_key = BTN_7;		break;
-+		case 0xff08:
-+			clear_key = BTN_8;		break;
-+		case 0xff09:
-+			clear_key = BTN_9;		break;
-+		case 0xff0a:
-+			clear_key = BTN_A;		break;
-+		case 0xff0b:
-+			clear_key = BTN_B;		break;
-+		case 0x00f1:
-+			clear_key = KEY_WLAN;		break;
-+		case 0x00f2:
-+			clear_key = KEY_BRIGHTNESSDOWN;	break;
-+		case 0x00f3:
-+			clear_key = KEY_BRIGHTNESSUP;	break;
-+		case 0x00f4:
-+			clear_key = KEY_DISPLAY_OFF;	break;
-+		case 0x00f7:
-+			clear_key = KEY_CAMERA;		break;
-+		case 0x00f8:
-+			clear_key = KEY_PROG1;		break;
- 		default:
- 			return 0;
- 		}
- 
-+		/* Clear temp key */
-+		asus_map_key_clear(clear_key);
-+
- 		set_bit(EV_REP, hi->input->evbit);
- 		return 1;
- 	}
-@@ -1100,11 +1143,10 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		goto err_stop_hw;
- 	}
- 
--	if (drvdata->tp) {
-+	if (drvdata->tp)
- 		drvdata->input->name = "Asus TouchPad";
--	} else {
-+	else
- 		drvdata->input->name = "Asus Keyboard";
--	}
- 
- 	if (drvdata->tp) {
- 		ret = asus_start_multitouch(hdev);
-@@ -1131,8 +1173,8 @@ static void asus_remove(struct hid_device *hdev)
- }
- 
- static const __u8 asus_g752_fixed_rdesc[] = {
--        0x19, 0x00,			/*   Usage Minimum (0x00)       */
--        0x2A, 0xFF, 0x00,		/*   Usage Maximum (0xFF)       */
-+	0x19, 0x00,			/*   Usage Minimum (0x00)       */
-+	0x2A, 0xFF, 0x00,		/*   Usage Maximum (0xFF)       */
- };
- 
- static __u8 *asus_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+After:
+hid-generic 0020:1022:0001.0003: hidraw2: SENSOR HUB HID v0.00
+Device [hid-amdsfh 1022:0001] on pcie_mp2_amd
+
+Basavaraj Natikar (7):
+  HID: amd_sfh: Add support for sensor discovery
+  HID: amd_sfh: Add sensor name by index for debug info
+  HID: amd_sfh: Modify the bus name
+  HID: amd_sfh: Modify the hid name
+  HID: amd_sfh: Add physical location to HID device
+  HID: amd_sfh: Move bus declaration outside of amd-sfh
+  HID: core: Display "SENSOR HUB" for sensor hub bus string in hid_info
+
+ drivers/hid/amd-sfh-hid/amd_sfh_client.c | 45 ++++++++++++++++++++----
+ drivers/hid/amd-sfh-hid/amd_sfh_hid.c    |  9 +++--
+ drivers/hid/amd-sfh-hid/amd_sfh_hid.h    |  1 -
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.c   | 17 ++++++---
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.h   |  5 +++
+ drivers/hid/hid-core.c                   |  4 +++
+ include/uapi/linux/input.h               |  1 +
+ 7 files changed, 69 insertions(+), 13 deletions(-)
+
 -- 
-2.30.2
+2.25.1
 
