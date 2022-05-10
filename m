@@ -2,661 +2,290 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 018DA520E32
-	for <lists+linux-input@lfdr.de>; Tue, 10 May 2022 08:56:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0445E521CF1
+	for <lists+linux-input@lfdr.de>; Tue, 10 May 2022 16:49:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237397AbiEJHAo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 May 2022 03:00:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49142 "EHLO
+        id S1345145AbiEJOxi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 May 2022 10:53:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237221AbiEJHAn (ORCPT
+        with ESMTP id S1344720AbiEJOx1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 May 2022 03:00:43 -0400
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 280B67485B
-        for <linux-input@vger.kernel.org>; Mon,  9 May 2022 23:56:45 -0700 (PDT)
-Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay08.hostedemail.com (Postfix) with ESMTP id EFC0F211A7;
-        Tue, 10 May 2022 06:56:44 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf14.hostedemail.com (Postfix) with ESMTPA id D368E2F;
-        Tue, 10 May 2022 06:56:43 +0000 (UTC)
-Message-ID: <c7048f814c000d5581cc5fda7c4e88361a56adc3.camel@perches.com>
-Subject: [PATCH] HID: input: Reduce object size by minimizing repeated calls
-From:   Joe Perches <joe@perches.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Date:   Mon, 09 May 2022 23:56:42 -0700
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+        Tue, 10 May 2022 10:53:27 -0400
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-eopbgr80051.outbound.protection.outlook.com [40.107.8.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70E8126CC47;
+        Tue, 10 May 2022 07:13:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TOC7E1Z8kHpazh3bVwWDnROO66Jpjx/AtjhArG85UY7DzIrerLILaMAgoXXleSo2vG8GvA5vsspL7tL2M8WIJ2Zg0XVbUDarfSmGdj2zXXKv6+RKM+62UhxAH8lRwCv/7RI88orjZjz2sndRvH/SZwEiODfi89w8rqhm2CeMVHUxUGGxRokC7exaOba1+K+Gbu/RH96hik18VAGE2vlkfjZmsZxmG71vygn23gCO1V9KgNISHiyPy6YIcRnY4N5g2TpxWb93B9W/bg02tnOhF/Yd0e392YlXdhJ0BLdtbrciyUbK6NgTonuz/4FaMMVY5uStlq62gkYIztOPamdO8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9OmKLPaOVzojWH4HxZllQ+IWyMrJsy0mBifTwmgZkMQ=;
+ b=WygVJIhPb2BlY0kk6MI8tRBWN1QmYYfAUrG9mAK8hM9dk7nv/JklwTr8BJGqy1hjRnibA268m95bajxNNke01Y+NKbk8E8IdNQDFKH7j1vzAuSWixxR5Xyc/aAK1Zz4jEGtPPAFF80ezx0W/W7ry4jqrK5kWC9V7tVhwq4QMDfgjSX28z6T7AXWuBQ0MYHfyhToemFYPm0Br/V8F+RTPU8rR+13ooGFBkD0Y+RKDcB3qX7xr4BFDBEAl2a4TIeRO8p+ZaqEr3qI9w8AfvuUr+dyCE3j67OT8AzrH0726DuVaJbZJrX9RkmhYDm3PKC/Poh58HAqpF2pYDq5nwDZb3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 139.15.153.200) smtp.rcpttodomain=linaro.org smtp.mailfrom=in.bosch.com;
+ dmarc=pass (p=reject sp=none pct=100) action=none header.from=in.bosch.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=in.bosch.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9OmKLPaOVzojWH4HxZllQ+IWyMrJsy0mBifTwmgZkMQ=;
+ b=PSEkzmIvofbaoDI7UCrT4LvhM+WAV5n8jPWV6r7V44tBLnfy3xARNai5edZje8NQIhcbCXy3RLJmsmaTTBtSd3JBw9MQ7w5bhBWH1zSPM09+4v8tLUF7kD26FvF9FazN00kKDVpWYXM2YHwh85ZQ+/QFLYDhvo8q/Di0H0pRK7k=
+Received: from AM5PR04CA0018.eurprd04.prod.outlook.com (2603:10a6:206:1::31)
+ by AM5PR1001MB1076.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:203:12::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.22; Tue, 10 May
+ 2022 14:13:33 +0000
+Received: from AM5EUR03FT059.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:206:1:cafe::d7) by AM5PR04CA0018.outlook.office365.com
+ (2603:10a6:206:1::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.23 via Frontend
+ Transport; Tue, 10 May 2022 14:13:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.200)
+ smtp.mailfrom=in.bosch.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=in.bosch.com;
+Received-SPF: Pass (protection.outlook.com: domain of in.bosch.com designates
+ 139.15.153.200 as permitted sender) receiver=protection.outlook.com;
+ client-ip=139.15.153.200; helo=eop.bosch-org.com;
+Received: from eop.bosch-org.com (139.15.153.200) by
+ AM5EUR03FT059.mail.protection.outlook.com (10.152.17.193) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5227.15 via Frontend Transport; Tue, 10 May 2022 14:13:33 +0000
+Received: from FE-EXCAS2001.de.bosch.com (10.139.217.200) by eop.bosch-org.com
+ (139.15.153.200) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2375.24; Tue, 10 May
+ 2022 16:13:31 +0200
+Received: from FE-HUB2000.de.bosch.com (10.4.103.109) by
+ FE-EXCAS2001.de.bosch.com (10.139.217.200) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.24; Tue, 10 May 2022 16:13:31 +0200
+Received: from localhost.localdomain (10.167.1.123) by FE-HUB2000.de.bosch.com
+ (10.4.103.109) with Microsoft SMTP Server id 15.1.2375.24; Tue, 10 May 2022
+ 16:13:27 +0200
+From:   <Gireesh.Hiremath@in.bosch.com>
+To:     <krzysztof.kozlowski+dt@linaro.org>
+CC:     <m.felsch@pengutronix.de>, <linux-omap@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <bcousson@baylibre.com>,
+        <tony@atomide.com>, <robh+dt@kernel.org>,
+        <dmitry.torokhov@gmail.com>, <mkorpershoek@baylibre.com>,
+        <davidgow@google.com>, <swboyd@chromium.org>,
+        <fengping.yu@mediatek.com>, <y.oudjana@protonmail.com>,
+        <rdunlap@infradead.org>, <colin.king@intel.com>,
+        <Gireesh.Hiremath@in.bosch.com>, <sjoerd.simons@collabora.co.uk>,
+        <VinayKumar.Shettar@in.bosch.com>,
+        <Govindaraji.Sivanantham@in.bosch.com>,
+        <anaclaudia.dias@de.bosch.com>
+Subject: Re: [PATCH v2 2/4] Input: mt-matrix-keypad: Add Bosch mt matrix keypad driver
+Date:   Tue, 10 May 2022 14:13:06 +0000
+Message-ID: <20220510141306.2431-1-Gireesh.Hiremath@in.bosch.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220506072737.1590-2-Gireesh.Hiremath@in.bosch.com>
+References: <20220506072737.1590-2-Gireesh.Hiremath@in.bosch.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: D368E2F
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,FORGED_SPF_HELO,
-        KHOP_HELO_FCRDNS,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,URIBL_BLOCKED
-        autolearn=no autolearn_force=no version=3.4.6
-X-Stat-Signature: bparospwojgi3rooksnanq3dzmc8sc6e
-X-Rspamd-Server: rspamout05
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19U461M5NyINuXa7mxSWzSzjBAKgPAAdy8=
-X-HE-Tag: 1652165803-614167
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.1.123]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9c010ec4-f57f-4252-abff-08da328f4467
+X-MS-TrafficTypeDiagnostic: AM5PR1001MB1076:EE_
+X-Microsoft-Antispam-PRVS: <AM5PR1001MB1076A7E25A7FFCB53466BEBCA6C99@AM5PR1001MB1076.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nlwVCUplLxWuKFsTFgAdtgJf59gVP5EF9W4vkEkTpKsCvGjF6ycSYclXFW547f3SGqSs3mHUWdvPLSI6EyCG8Htx1PhIcKcOCbjTVICCXnBkgqA9C6daGHiT73LlmWqNRAHReFDRuPEya9q0E0rWh7WKeYp4EsCHujexVV3stL7rXUCt1lmryErMhvQ+nm4YOdkmh6YwMwM+9BVgSiG6uM48gOasBClxUBtuddGH7tRPc1AywcvJdPycgcKBj+vYGQgDhSkXRspY3Dqsae+zjF/4JddmhizHB9YuRMEK9bkHSQpQtHLfUw7sdAdUtEQze2/jKu9qNd5ABtE5w6VJ/dP5DuNDIh214UellQLF+p4eNWtfj6Xdvp9wNwW8hCMGTsBLtCADxZuzHt7Qo3ghewv44RWCkO2xuY0wosZgZDdATwGXPCy5f6eovJCj1XArTXv587EnITxossOU3L6pzM5ohcBzQQtjJVkrALrV2gvnq4JDVX50xUeLqxtK+Zl81wUyTtTpAhOS28+M4j+cHFoeDWWMA8rrMAnlfQ1bHac7vJlV+4vYlabh6x5unonv5KiNAPtXNbQ/sbbqgKjpTwQSWrXCH5o+S9dPYP2TXxml797uJnLOPTiZINgHO8D2zEOjsfGrv0c6uFtDHqcZlJqB6SwNgkMmxNtgAThWjaovWKiVoTyMWdo5Y3x953Qa8u17Y+oYzkb6umI3bOYraw==
+X-Forefront-Antispam-Report: CIP:139.15.153.200;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:eop.bosch-org.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(356005)(54906003)(81166007)(82960400001)(4326008)(316002)(508600001)(6666004)(2906002)(40460700003)(82310400005)(7416002)(16526019)(186003)(8936002)(26005)(86362001)(1076003)(70206006)(5660300002)(107886003)(70586007)(2616005)(36860700001)(8676002)(2876002)(83380400001)(336012)(47076005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: in.bosch.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2022 14:13:33.4835
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c010ec4-f57f-4252-abff-08da328f4467
+X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4;Ip=[139.15.153.200];Helo=[eop.bosch-org.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM5EUR03FT059.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR1001MB1076
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Reduce object size by using an automatic for various repeated calls
-to map_abs, map_key_clear, and map_led in switch/case statements.
+From: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
 
-$ size drivers/hid/hid-input.o* (defconfig x86-64)
-   text	   data	    bss	    dec	    hex	filename
-  22042	     88	      0	  22130	   5672	drivers/hid/hid-input.o.new
-  27589	     88	      0	  27677	   6c1d	drivers/hid/hid-input.o.old
+Hi Krzysztof,
 
-Signed-off-by: Joe Perches <joe@perches.com>
----
- drivers/hid/hid-input.c | 522 ++++++++++++++++++++++++++----------------------
- 1 file changed, 278 insertions(+), 244 deletions(-)
+>>>> both matric_keypad.c and mt_matrix_kepad.c logically operate differently,
+>>>> my openion is not to merge both.
+>>>
+>>> IMHO from the user/system-integrator pov it is looking the same and so
+>>> one driver should be fine. To distinguish between both modes we could
+>>> add dt-property or add a new dt-compatible like "gpio-matrix-keypad-v2".
+>>>
+>> 
+>> as mentioned above our keypad is not complete matrix keypad  and it will
+>> not be compatible with matrix_keypad diver. that is the reason we derived
+>> mt matrix keypad driver.
+>> 
+>> to avoid confusion, we will rename the driver as bosch_mt_keypad.c
+>> if you suggest.
+>
+>Sending a new version while discussions are ongoing is not how we reach
+>consensus.
 
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index c6b27aab90414..21d67866efb06 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -743,37 +743,44 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 		map_key(code);
- 		break;
- 
--	case HID_UP_SIMULATION:
-+	case HID_UP_SIMULATION: {
-+		int abs;
-+
- 		switch (usage->hid & 0xffff) {
--		case 0xba: map_abs(ABS_RUDDER);   break;
--		case 0xbb: map_abs(ABS_THROTTLE); break;
--		case 0xc4: map_abs(ABS_GAS);      break;
--		case 0xc5: map_abs(ABS_BRAKE);    break;
--		case 0xc8: map_abs(ABS_WHEEL);    break;
-+		case 0xba: abs = ABS_RUDDER;	break;
-+		case 0xbb: abs = ABS_THROTTLE;	break;
-+		case 0xc4: abs = ABS_GAS;	break;
-+		case 0xc5: abs = ABS_BRAKE;	break;
-+		case 0xc8: abs = ABS_WHEEL;	break;
- 		default:   goto ignore;
- 		}
-+		map_abs(abs);
- 		break;
-+	}
- 
- 	case HID_UP_GENDESK:
- 		if ((usage->hid & 0xf0) == 0x80) {	/* SystemControl */
-+			int key;
-+
- 			switch (usage->hid & 0xf) {
--			case 0x1: map_key_clear(KEY_POWER);  break;
--			case 0x2: map_key_clear(KEY_SLEEP);  break;
--			case 0x3: map_key_clear(KEY_WAKEUP); break;
--			case 0x4: map_key_clear(KEY_CONTEXT_MENU); break;
--			case 0x5: map_key_clear(KEY_MENU); break;
--			case 0x6: map_key_clear(KEY_PROG1); break;
--			case 0x7: map_key_clear(KEY_HELP); break;
--			case 0x8: map_key_clear(KEY_EXIT); break;
--			case 0x9: map_key_clear(KEY_SELECT); break;
--			case 0xa: map_key_clear(KEY_RIGHT); break;
--			case 0xb: map_key_clear(KEY_LEFT); break;
--			case 0xc: map_key_clear(KEY_UP); break;
--			case 0xd: map_key_clear(KEY_DOWN); break;
--			case 0xe: map_key_clear(KEY_POWER2); break;
--			case 0xf: map_key_clear(KEY_RESTART); break;
-+			case 0x1: key = KEY_POWER;	break;
-+			case 0x2: key = KEY_SLEEP;	break;
-+			case 0x3: key = KEY_WAKEUP;	break;
-+			case 0x4: key = KEY_CONTEXT_MENU; break;
-+			case 0x5: key = KEY_MENU;	break;
-+			case 0x6: key = KEY_PROG1;	break;
-+			case 0x7: key = KEY_HELP;	break;
-+			case 0x8: key = KEY_EXIT;	break;
-+			case 0x9: key = KEY_SELECT;	break;
-+			case 0xa: key = KEY_RIGHT;	break;
-+			case 0xb: key = KEY_LEFT;	break;
-+			case 0xc: key = KEY_UP;		break;
-+			case 0xd: key = KEY_DOWN;	break;
-+			case 0xe: key = KEY_POWER2;	break;
-+			case 0xf: key = KEY_RESTART;	break;
- 			default: goto unknown;
- 			}
-+			map_key_clear(key);
- 			break;
- 		}
- 
-@@ -859,23 +866,27 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 
- 		break;
- 
--	case HID_UP_LED:
--		switch (usage->hid & 0xffff) {		      /* HID-Value:                   */
--		case 0x01:  map_led (LED_NUML);     break;    /*   "Num Lock"                 */
--		case 0x02:  map_led (LED_CAPSL);    break;    /*   "Caps Lock"                */
--		case 0x03:  map_led (LED_SCROLLL);  break;    /*   "Scroll Lock"              */
--		case 0x04:  map_led (LED_COMPOSE);  break;    /*   "Compose"                  */
--		case 0x05:  map_led (LED_KANA);     break;    /*   "Kana"                     */
--		case 0x27:  map_led (LED_SLEEP);    break;    /*   "Stand-By"                 */
--		case 0x4c:  map_led (LED_SUSPEND);  break;    /*   "System Suspend"           */
--		case 0x09:  map_led (LED_MUTE);     break;    /*   "Mute"                     */
--		case 0x4b:  map_led (LED_MISC);     break;    /*   "Generic Indicator"        */
--		case 0x19:  map_led (LED_MAIL);     break;    /*   "Message Waiting"          */
--		case 0x4d:  map_led (LED_CHARGING); break;    /*   "External Power Connected" */
-+	case HID_UP_LED: {
-+		int led;
-+
-+		switch (usage->hid & 0xffff) {		/* HID-Value: */
-+		case 0x01:  led = LED_NUML;	break;	/* Num Lock */
-+		case 0x02:  led = LED_CAPSL;	break;	/* Caps Lock */
-+		case 0x03:  led = LED_SCROLLL;	break;	/* Scroll Lock */
-+		case 0x04:  led = LED_COMPOSE;	break;	/* Compose */
-+		case 0x05:  led = LED_KANA;	break;	/* Kana */
-+		case 0x27:  led = LED_SLEEP;	break;	/* Stand-By */
-+		case 0x4c:  led = LED_SUSPEND;	break;	/* System Suspend */
-+		case 0x09:  led = LED_MUTE;	break;	/* Mute */
-+		case 0x4b:  led = LED_MISC;	break;	/* Generic Indicator */
-+		case 0x19:  led = LED_MAIL;	break;	/* Message Waiting */
-+		case 0x4d:  led = LED_CHARGING;	break;	/* External Power Connected */
- 
- 		default: goto ignore;
- 		}
-+		map_led(led);
- 		break;
-+	}
- 
- 	case HID_UP_DIGITIZER:
- 		if ((field->application & 0xff) == 0x01) /* Digitizer */
-@@ -976,218 +987,233 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 		}
- 		break;
- 
--	case HID_UP_TELEPHONY:
-+	case HID_UP_TELEPHONY: {
-+		int key;
-+
- 		switch (usage->hid & HID_USAGE) {
--		case 0x2f: map_key_clear(KEY_MICMUTE);		break;
--		case 0xb0: map_key_clear(KEY_NUMERIC_0);	break;
--		case 0xb1: map_key_clear(KEY_NUMERIC_1);	break;
--		case 0xb2: map_key_clear(KEY_NUMERIC_2);	break;
--		case 0xb3: map_key_clear(KEY_NUMERIC_3);	break;
--		case 0xb4: map_key_clear(KEY_NUMERIC_4);	break;
--		case 0xb5: map_key_clear(KEY_NUMERIC_5);	break;
--		case 0xb6: map_key_clear(KEY_NUMERIC_6);	break;
--		case 0xb7: map_key_clear(KEY_NUMERIC_7);	break;
--		case 0xb8: map_key_clear(KEY_NUMERIC_8);	break;
--		case 0xb9: map_key_clear(KEY_NUMERIC_9);	break;
--		case 0xba: map_key_clear(KEY_NUMERIC_STAR);	break;
--		case 0xbb: map_key_clear(KEY_NUMERIC_POUND);	break;
--		case 0xbc: map_key_clear(KEY_NUMERIC_A);	break;
--		case 0xbd: map_key_clear(KEY_NUMERIC_B);	break;
--		case 0xbe: map_key_clear(KEY_NUMERIC_C);	break;
--		case 0xbf: map_key_clear(KEY_NUMERIC_D);	break;
-+		case 0x2f: key = KEY_MICMUTE;		break;
-+		case 0xb0: key = KEY_NUMERIC_0;		break;
-+		case 0xb1: key = KEY_NUMERIC_1;		break;
-+		case 0xb2: key = KEY_NUMERIC_2;		break;
-+		case 0xb3: key = KEY_NUMERIC_3;		break;
-+		case 0xb4: key = KEY_NUMERIC_4;		break;
-+		case 0xb5: key = KEY_NUMERIC_5;		break;
-+		case 0xb6: key = KEY_NUMERIC_6;		break;
-+		case 0xb7: key = KEY_NUMERIC_7;		break;
-+		case 0xb8: key = KEY_NUMERIC_8;		break;
-+		case 0xb9: key = KEY_NUMERIC_9;		break;
-+		case 0xba: key = KEY_NUMERIC_STAR;	break;
-+		case 0xbb: key = KEY_NUMERIC_POUND;	break;
-+		case 0xbc: key = KEY_NUMERIC_A;		break;
-+		case 0xbd: key = KEY_NUMERIC_B;		break;
-+		case 0xbe: key = KEY_NUMERIC_C;		break;
-+		case 0xbf: key = KEY_NUMERIC_D;		break;
- 		default: goto ignore;
- 		}
-+		map_key_clear(key);
- 		break;
-+	}
-+
-+	case HID_UP_CONSUMER: {	/* USB HUT v1.12, pages 75-84 */
-+		int key;
-+		bool clear = true;
- 
--	case HID_UP_CONSUMER:	/* USB HUT v1.12, pages 75-84 */
- 		switch (usage->hid & HID_USAGE) {
- 		case 0x000: goto ignore;
--		case 0x030: map_key_clear(KEY_POWER);		break;
--		case 0x031: map_key_clear(KEY_RESTART);		break;
--		case 0x032: map_key_clear(KEY_SLEEP);		break;
--		case 0x034: map_key_clear(KEY_SLEEP);		break;
--		case 0x035: map_key_clear(KEY_KBDILLUMTOGGLE);	break;
--		case 0x036: map_key_clear(BTN_MISC);		break;
--
--		case 0x040: map_key_clear(KEY_MENU);		break; /* Menu */
--		case 0x041: map_key_clear(KEY_SELECT);		break; /* Menu Pick */
--		case 0x042: map_key_clear(KEY_UP);		break; /* Menu Up */
--		case 0x043: map_key_clear(KEY_DOWN);		break; /* Menu Down */
--		case 0x044: map_key_clear(KEY_LEFT);		break; /* Menu Left */
--		case 0x045: map_key_clear(KEY_RIGHT);		break; /* Menu Right */
--		case 0x046: map_key_clear(KEY_ESC);		break; /* Menu Escape */
--		case 0x047: map_key_clear(KEY_KPPLUS);		break; /* Menu Value Increase */
--		case 0x048: map_key_clear(KEY_KPMINUS);		break; /* Menu Value Decrease */
--
--		case 0x060: map_key_clear(KEY_INFO);		break; /* Data On Screen */
--		case 0x061: map_key_clear(KEY_SUBTITLE);	break; /* Closed Caption */
--		case 0x063: map_key_clear(KEY_VCR);		break; /* VCR/TV */
--		case 0x065: map_key_clear(KEY_CAMERA);		break; /* Snapshot */
--		case 0x069: map_key_clear(KEY_RED);		break;
--		case 0x06a: map_key_clear(KEY_GREEN);		break;
--		case 0x06b: map_key_clear(KEY_BLUE);		break;
--		case 0x06c: map_key_clear(KEY_YELLOW);		break;
--		case 0x06d: map_key_clear(KEY_ASPECT_RATIO);	break;
--
--		case 0x06f: map_key_clear(KEY_BRIGHTNESSUP);		break;
--		case 0x070: map_key_clear(KEY_BRIGHTNESSDOWN);		break;
--		case 0x072: map_key_clear(KEY_BRIGHTNESS_TOGGLE);	break;
--		case 0x073: map_key_clear(KEY_BRIGHTNESS_MIN);		break;
--		case 0x074: map_key_clear(KEY_BRIGHTNESS_MAX);		break;
--		case 0x075: map_key_clear(KEY_BRIGHTNESS_AUTO);		break;
--
--		case 0x079: map_key_clear(KEY_KBDILLUMUP);	break;
--		case 0x07a: map_key_clear(KEY_KBDILLUMDOWN);	break;
--		case 0x07c: map_key_clear(KEY_KBDILLUMTOGGLE);	break;
--
--		case 0x082: map_key_clear(KEY_VIDEO_NEXT);	break;
--		case 0x083: map_key_clear(KEY_LAST);		break;
--		case 0x084: map_key_clear(KEY_ENTER);		break;
--		case 0x088: map_key_clear(KEY_PC);		break;
--		case 0x089: map_key_clear(KEY_TV);		break;
--		case 0x08a: map_key_clear(KEY_WWW);		break;
--		case 0x08b: map_key_clear(KEY_DVD);		break;
--		case 0x08c: map_key_clear(KEY_PHONE);		break;
--		case 0x08d: map_key_clear(KEY_PROGRAM);		break;
--		case 0x08e: map_key_clear(KEY_VIDEOPHONE);	break;
--		case 0x08f: map_key_clear(KEY_GAMES);		break;
--		case 0x090: map_key_clear(KEY_MEMO);		break;
--		case 0x091: map_key_clear(KEY_CD);		break;
--		case 0x092: map_key_clear(KEY_VCR);		break;
--		case 0x093: map_key_clear(KEY_TUNER);		break;
--		case 0x094: map_key_clear(KEY_EXIT);		break;
--		case 0x095: map_key_clear(KEY_HELP);		break;
--		case 0x096: map_key_clear(KEY_TAPE);		break;
--		case 0x097: map_key_clear(KEY_TV2);		break;
--		case 0x098: map_key_clear(KEY_SAT);		break;
--		case 0x09a: map_key_clear(KEY_PVR);		break;
--
--		case 0x09c: map_key_clear(KEY_CHANNELUP);	break;
--		case 0x09d: map_key_clear(KEY_CHANNELDOWN);	break;
--		case 0x0a0: map_key_clear(KEY_VCR2);		break;
--
--		case 0x0b0: map_key_clear(KEY_PLAY);		break;
--		case 0x0b1: map_key_clear(KEY_PAUSE);		break;
--		case 0x0b2: map_key_clear(KEY_RECORD);		break;
--		case 0x0b3: map_key_clear(KEY_FASTFORWARD);	break;
--		case 0x0b4: map_key_clear(KEY_REWIND);		break;
--		case 0x0b5: map_key_clear(KEY_NEXTSONG);	break;
--		case 0x0b6: map_key_clear(KEY_PREVIOUSSONG);	break;
--		case 0x0b7: map_key_clear(KEY_STOPCD);		break;
--		case 0x0b8: map_key_clear(KEY_EJECTCD);		break;
--		case 0x0bc: map_key_clear(KEY_MEDIA_REPEAT);	break;
--		case 0x0b9: map_key_clear(KEY_SHUFFLE);		break;
--		case 0x0bf: map_key_clear(KEY_SLOW);		break;
--
--		case 0x0cd: map_key_clear(KEY_PLAYPAUSE);	break;
--		case 0x0cf: map_key_clear(KEY_VOICECOMMAND);	break;
--
--		case 0x0d8: map_key_clear(KEY_DICTATE);		break;
--		case 0x0d9: map_key_clear(KEY_EMOJI_PICKER);	break;
--
--		case 0x0e0: map_abs_clear(ABS_VOLUME);		break;
--		case 0x0e2: map_key_clear(KEY_MUTE);		break;
--		case 0x0e5: map_key_clear(KEY_BASSBOOST);	break;
--		case 0x0e9: map_key_clear(KEY_VOLUMEUP);	break;
--		case 0x0ea: map_key_clear(KEY_VOLUMEDOWN);	break;
--		case 0x0f5: map_key_clear(KEY_SLOW);		break;
--
--		case 0x181: map_key_clear(KEY_BUTTONCONFIG);	break;
--		case 0x182: map_key_clear(KEY_BOOKMARKS);	break;
--		case 0x183: map_key_clear(KEY_CONFIG);		break;
--		case 0x184: map_key_clear(KEY_WORDPROCESSOR);	break;
--		case 0x185: map_key_clear(KEY_EDITOR);		break;
--		case 0x186: map_key_clear(KEY_SPREADSHEET);	break;
--		case 0x187: map_key_clear(KEY_GRAPHICSEDITOR);	break;
--		case 0x188: map_key_clear(KEY_PRESENTATION);	break;
--		case 0x189: map_key_clear(KEY_DATABASE);	break;
--		case 0x18a: map_key_clear(KEY_MAIL);		break;
--		case 0x18b: map_key_clear(KEY_NEWS);		break;
--		case 0x18c: map_key_clear(KEY_VOICEMAIL);	break;
--		case 0x18d: map_key_clear(KEY_ADDRESSBOOK);	break;
--		case 0x18e: map_key_clear(KEY_CALENDAR);	break;
--		case 0x18f: map_key_clear(KEY_TASKMANAGER);	break;
--		case 0x190: map_key_clear(KEY_JOURNAL);		break;
--		case 0x191: map_key_clear(KEY_FINANCE);		break;
--		case 0x192: map_key_clear(KEY_CALC);		break;
--		case 0x193: map_key_clear(KEY_PLAYER);		break;
--		case 0x194: map_key_clear(KEY_FILE);		break;
--		case 0x196: map_key_clear(KEY_WWW);		break;
--		case 0x199: map_key_clear(KEY_CHAT);		break;
--		case 0x19c: map_key_clear(KEY_LOGOFF);		break;
--		case 0x19e: map_key_clear(KEY_COFFEE);		break;
--		case 0x19f: map_key_clear(KEY_CONTROLPANEL);		break;
--		case 0x1a2: map_key_clear(KEY_APPSELECT);		break;
--		case 0x1a3: map_key_clear(KEY_NEXT);		break;
--		case 0x1a4: map_key_clear(KEY_PREVIOUS);	break;
--		case 0x1a6: map_key_clear(KEY_HELP);		break;
--		case 0x1a7: map_key_clear(KEY_DOCUMENTS);	break;
--		case 0x1ab: map_key_clear(KEY_SPELLCHECK);	break;
--		case 0x1ae: map_key_clear(KEY_KEYBOARD);	break;
--		case 0x1b1: map_key_clear(KEY_SCREENSAVER);		break;
--		case 0x1b4: map_key_clear(KEY_FILE);		break;
--		case 0x1b6: map_key_clear(KEY_IMAGES);		break;
--		case 0x1b7: map_key_clear(KEY_AUDIO);		break;
--		case 0x1b8: map_key_clear(KEY_VIDEO);		break;
--		case 0x1bc: map_key_clear(KEY_MESSENGER);	break;
--		case 0x1bd: map_key_clear(KEY_INFO);		break;
--		case 0x1cb: map_key_clear(KEY_ASSISTANT);	break;
--		case 0x201: map_key_clear(KEY_NEW);		break;
--		case 0x202: map_key_clear(KEY_OPEN);		break;
--		case 0x203: map_key_clear(KEY_CLOSE);		break;
--		case 0x204: map_key_clear(KEY_EXIT);		break;
--		case 0x207: map_key_clear(KEY_SAVE);		break;
--		case 0x208: map_key_clear(KEY_PRINT);		break;
--		case 0x209: map_key_clear(KEY_PROPS);		break;
--		case 0x21a: map_key_clear(KEY_UNDO);		break;
--		case 0x21b: map_key_clear(KEY_COPY);		break;
--		case 0x21c: map_key_clear(KEY_CUT);		break;
--		case 0x21d: map_key_clear(KEY_PASTE);		break;
--		case 0x21f: map_key_clear(KEY_FIND);		break;
--		case 0x221: map_key_clear(KEY_SEARCH);		break;
--		case 0x222: map_key_clear(KEY_GOTO);		break;
--		case 0x223: map_key_clear(KEY_HOMEPAGE);	break;
--		case 0x224: map_key_clear(KEY_BACK);		break;
--		case 0x225: map_key_clear(KEY_FORWARD);		break;
--		case 0x226: map_key_clear(KEY_STOP);		break;
--		case 0x227: map_key_clear(KEY_REFRESH);		break;
--		case 0x22a: map_key_clear(KEY_BOOKMARKS);	break;
--		case 0x22d: map_key_clear(KEY_ZOOMIN);		break;
--		case 0x22e: map_key_clear(KEY_ZOOMOUT);		break;
--		case 0x22f: map_key_clear(KEY_ZOOMRESET);	break;
--		case 0x232: map_key_clear(KEY_FULL_SCREEN);	break;
--		case 0x233: map_key_clear(KEY_SCROLLUP);	break;
--		case 0x234: map_key_clear(KEY_SCROLLDOWN);	break;
-+		case 0x030: key = KEY_POWER;		break;
-+		case 0x031: key = KEY_RESTART;		break;
-+		case 0x032: key = KEY_SLEEP;		break;
-+		case 0x034: key = KEY_SLEEP;		break;
-+		case 0x035: key = KEY_KBDILLUMTOGGLE;	break;
-+		case 0x036: key = BTN_MISC;		break;
-+
-+		case 0x040: key = KEY_MENU;		break; /* Menu */
-+		case 0x041: key = KEY_SELECT;		break; /* Menu Pick */
-+		case 0x042: key = KEY_UP;		break; /* Menu Up */
-+		case 0x043: key = KEY_DOWN;		break; /* Menu Down */
-+		case 0x044: key = KEY_LEFT;		break; /* Menu Left */
-+		case 0x045: key = KEY_RIGHT;		break; /* Menu Right */
-+		case 0x046: key = KEY_ESC;		break; /* Menu Escape */
-+		case 0x047: key = KEY_KPPLUS;		break; /* Menu Value Increase */
-+		case 0x048: key = KEY_KPMINUS;		break; /* Menu Value Decrease */
-+
-+		case 0x060: key = KEY_INFO;		break; /* Data On Screen */
-+		case 0x061: key = KEY_SUBTITLE;		break; /* Closed Caption */
-+		case 0x063: key = KEY_VCR;		break; /* VCR/TV */
-+		case 0x065: key = KEY_CAMERA;		break; /* Snapshot */
-+		case 0x069: key = KEY_RED;		break;
-+		case 0x06a: key = KEY_GREEN;		break;
-+		case 0x06b: key = KEY_BLUE;		break;
-+		case 0x06c: key = KEY_YELLOW;		break;
-+		case 0x06d: key = KEY_ASPECT_RATIO;	break;
-+
-+		case 0x06f: key = KEY_BRIGHTNESSUP;		break;
-+		case 0x070: key = KEY_BRIGHTNESSDOWN;		break;
-+		case 0x072: key = KEY_BRIGHTNESS_TOGGLE;	break;
-+		case 0x073: key = KEY_BRIGHTNESS_MIN;		break;
-+		case 0x074: key = KEY_BRIGHTNESS_MAX;		break;
-+		case 0x075: key = KEY_BRIGHTNESS_AUTO;		break;
-+
-+		case 0x079: key = KEY_KBDILLUMUP;	break;
-+		case 0x07a: key = KEY_KBDILLUMDOWN;	break;
-+		case 0x07c: key = KEY_KBDILLUMTOGGLE;	break;
-+
-+		case 0x082: key = KEY_VIDEO_NEXT;	break;
-+		case 0x083: key = KEY_LAST;		break;
-+		case 0x084: key = KEY_ENTER;		break;
-+		case 0x088: key = KEY_PC;		break;
-+		case 0x089: key = KEY_TV;		break;
-+		case 0x08a: key = KEY_WWW;		break;
-+		case 0x08b: key = KEY_DVD;		break;
-+		case 0x08c: key = KEY_PHONE;		break;
-+		case 0x08d: key = KEY_PROGRAM;		break;
-+		case 0x08e: key = KEY_VIDEOPHONE;	break;
-+		case 0x08f: key = KEY_GAMES;		break;
-+		case 0x090: key = KEY_MEMO;		break;
-+		case 0x091: key = KEY_CD;		break;
-+		case 0x092: key = KEY_VCR;		break;
-+		case 0x093: key = KEY_TUNER;		break;
-+		case 0x094: key = KEY_EXIT;		break;
-+		case 0x095: key = KEY_HELP;		break;
-+		case 0x096: key = KEY_TAPE;		break;
-+		case 0x097: key = KEY_TV2;		break;
-+		case 0x098: key = KEY_SAT;		break;
-+		case 0x09a: key = KEY_PVR;		break;
-+
-+		case 0x09c: key = KEY_CHANNELUP;	break;
-+		case 0x09d: key = KEY_CHANNELDOWN;	break;
-+		case 0x0a0: key = KEY_VCR2;		break;
-+
-+		case 0x0b0: key = KEY_PLAY;		break;
-+		case 0x0b1: key = KEY_PAUSE;		break;
-+		case 0x0b2: key = KEY_RECORD;		break;
-+		case 0x0b3: key = KEY_FASTFORWARD;	break;
-+		case 0x0b4: key = KEY_REWIND;		break;
-+		case 0x0b5: key = KEY_NEXTSONG;		break;
-+		case 0x0b6: key = KEY_PREVIOUSSONG;	break;
-+		case 0x0b7: key = KEY_STOPCD;		break;
-+		case 0x0b8: key = KEY_EJECTCD;		break;
-+		case 0x0bc: key = KEY_MEDIA_REPEAT;	break;
-+		case 0x0b9: key = KEY_SHUFFLE;		break;
-+		case 0x0bf: key = KEY_SLOW;		break;
-+
-+		case 0x0cd: key = KEY_PLAYPAUSE;	break;
-+		case 0x0cf: key = KEY_VOICECOMMAND;	break;
-+
-+		case 0x0d8: key = KEY_DICTATE;		break;
-+		case 0x0d9: key = KEY_EMOJI_PICKER;	break;
-+
-+		case 0x0e0:
-+			map_abs_clear(ABS_VOLUME);
-+			clear = false;
-+			break;
-+		case 0x0e2: key = KEY_MUTE;		break;
-+		case 0x0e5: key = KEY_BASSBOOST;	break;
-+		case 0x0e9: key = KEY_VOLUMEUP;		break;
-+		case 0x0ea: key = KEY_VOLUMEDOWN;	break;
-+		case 0x0f5: key = KEY_SLOW;		break;
-+
-+		case 0x181: key = KEY_BUTTONCONFIG;	break;
-+		case 0x182: key = KEY_BOOKMARKS;	break;
-+		case 0x183: key = KEY_CONFIG;		break;
-+		case 0x184: key = KEY_WORDPROCESSOR;	break;
-+		case 0x185: key = KEY_EDITOR;		break;
-+		case 0x186: key = KEY_SPREADSHEET;	break;
-+		case 0x187: key = KEY_GRAPHICSEDITOR;	break;
-+		case 0x188: key = KEY_PRESENTATION;	break;
-+		case 0x189: key = KEY_DATABASE;		break;
-+		case 0x18a: key = KEY_MAIL;		break;
-+		case 0x18b: key = KEY_NEWS;		break;
-+		case 0x18c: key = KEY_VOICEMAIL;	break;
-+		case 0x18d: key = KEY_ADDRESSBOOK;	break;
-+		case 0x18e: key = KEY_CALENDAR;		break;
-+		case 0x18f: key = KEY_TASKMANAGER;	break;
-+		case 0x190: key = KEY_JOURNAL;		break;
-+		case 0x191: key = KEY_FINANCE;		break;
-+		case 0x192: key = KEY_CALC;		break;
-+		case 0x193: key = KEY_PLAYER;		break;
-+		case 0x194: key = KEY_FILE;		break;
-+		case 0x196: key = KEY_WWW;		break;
-+		case 0x199: key = KEY_CHAT;		break;
-+		case 0x19c: key = KEY_LOGOFF;		break;
-+		case 0x19e: key = KEY_COFFEE;		break;
-+		case 0x19f: key = KEY_CONTROLPANEL;	break;
-+		case 0x1a2: key = KEY_APPSELECT;	break;
-+		case 0x1a3: key = KEY_NEXT;		break;
-+		case 0x1a4: key = KEY_PREVIOUS;		break;
-+		case 0x1a6: key = KEY_HELP;		break;
-+		case 0x1a7: key = KEY_DOCUMENTS;	break;
-+		case 0x1ab: key = KEY_SPELLCHECK;	break;
-+		case 0x1ae: key = KEY_KEYBOARD;		break;
-+		case 0x1b1: key = KEY_SCREENSAVER;	break;
-+		case 0x1b4: key = KEY_FILE;		break;
-+		case 0x1b6: key = KEY_IMAGES;		break;
-+		case 0x1b7: key = KEY_AUDIO;		break;
-+		case 0x1b8: key = KEY_VIDEO;		break;
-+		case 0x1bc: key = KEY_MESSENGER;	break;
-+		case 0x1bd: key = KEY_INFO;		break;
-+		case 0x1cb: key = KEY_ASSISTANT;	break;
-+		case 0x201: key = KEY_NEW;		break;
-+		case 0x202: key = KEY_OPEN;		break;
-+		case 0x203: key = KEY_CLOSE;		break;
-+		case 0x204: key = KEY_EXIT;		break;
-+		case 0x207: key = KEY_SAVE;		break;
-+		case 0x208: key = KEY_PRINT;		break;
-+		case 0x209: key = KEY_PROPS;		break;
-+		case 0x21a: key = KEY_UNDO;		break;
-+		case 0x21b: key = KEY_COPY;		break;
-+		case 0x21c: key = KEY_CUT;		break;
-+		case 0x21d: key = KEY_PASTE;		break;
-+		case 0x21f: key = KEY_FIND;		break;
-+		case 0x221: key = KEY_SEARCH;		break;
-+		case 0x222: key = KEY_GOTO;		break;
-+		case 0x223: key = KEY_HOMEPAGE;		break;
-+		case 0x224: key = KEY_BACK;		break;
-+		case 0x225: key = KEY_FORWARD;		break;
-+		case 0x226: key = KEY_STOP;		break;
-+		case 0x227: key = KEY_REFRESH;		break;
-+		case 0x22a: key = KEY_BOOKMARKS;	break;
-+		case 0x22d: key = KEY_ZOOMIN;		break;
-+		case 0x22e: key = KEY_ZOOMOUT;		break;
-+		case 0x22f: key = KEY_ZOOMRESET;	break;
-+		case 0x232: key = KEY_FULL_SCREEN;	break;
-+		case 0x233: key = KEY_SCROLLUP;		break;
-+		case 0x234: key = KEY_SCROLLDOWN;	break;
- 		case 0x238: /* AC Pan */
- 			set_bit(REL_HWHEEL, input->relbit);
- 			map_rel(REL_HWHEEL_HI_RES);
-+			clear = false;
- 			break;
--		case 0x23d: map_key_clear(KEY_EDIT);		break;
--		case 0x25f: map_key_clear(KEY_CANCEL);		break;
--		case 0x269: map_key_clear(KEY_INSERT);		break;
--		case 0x26a: map_key_clear(KEY_DELETE);		break;
--		case 0x279: map_key_clear(KEY_REDO);		break;
-+		case 0x23d: key = KEY_EDIT;		break;
-+		case 0x25f: key = KEY_CANCEL;		break;
-+		case 0x269: key = KEY_INSERT;		break;
-+		case 0x26a: key = KEY_DELETE;		break;
-+		case 0x279: key = KEY_REDO;		break;
- 
--		case 0x289: map_key_clear(KEY_REPLY);		break;
--		case 0x28b: map_key_clear(KEY_FORWARDMAIL);	break;
--		case 0x28c: map_key_clear(KEY_SEND);		break;
-+		case 0x289: key = KEY_REPLY;		break;
-+		case 0x28b: key = KEY_FORWARDMAIL;	break;
-+		case 0x28c: key = KEY_SEND;		break;
- 
--		case 0x29d: map_key_clear(KEY_KBD_LAYOUT_NEXT);	break;
-+		case 0x29d: key = KEY_KBD_LAYOUT_NEXT;	break;
- 
--		case 0x2a2: map_key_clear(KEY_ALL_APPLICATIONS);	break;
-+		case 0x2a2: key = KEY_ALL_APPLICATIONS;	break;
- 
--		case 0x2c7: map_key_clear(KEY_KBDINPUTASSIST_PREV);		break;
--		case 0x2c8: map_key_clear(KEY_KBDINPUTASSIST_NEXT);		break;
--		case 0x2c9: map_key_clear(KEY_KBDINPUTASSIST_PREVGROUP);		break;
--		case 0x2ca: map_key_clear(KEY_KBDINPUTASSIST_NEXTGROUP);		break;
--		case 0x2cb: map_key_clear(KEY_KBDINPUTASSIST_ACCEPT);	break;
--		case 0x2cc: map_key_clear(KEY_KBDINPUTASSIST_CANCEL);	break;
-+		case 0x2c7: key = KEY_KBDINPUTASSIST_PREV;		break;
-+		case 0x2c8: key = KEY_KBDINPUTASSIST_NEXT;		break;
-+		case 0x2c9: key = KEY_KBDINPUTASSIST_PREVGROUP;		break;
-+		case 0x2ca: key = KEY_KBDINPUTASSIST_NEXTGROUP;		break;
-+		case 0x2cb: key = KEY_KBDINPUTASSIST_ACCEPT;		break;
-+		case 0x2cc: key = KEY_KBDINPUTASSIST_CANCEL;		break;
- 
--		case 0x29f: map_key_clear(KEY_SCALE);		break;
-+		case 0x29f: key = KEY_SCALE;		break;
- 
--		default: map_key_clear(KEY_UNKNOWN);
-+		default: key = KEY_UNKNOWN;		break;
- 		}
-+
-+		if (clear)
-+			map_key_clear(key);
- 		break;
-+	}
- 
- 	case HID_UP_GENDEVCTRLS:
- 		switch (usage->hid) {
-@@ -1207,34 +1233,42 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 		}
- 		goto unknown;
- 
--	case HID_UP_HPVENDOR:	/* Reported on a Dutch layout HP5308 */
-+	case HID_UP_HPVENDOR: {	/* Reported on a Dutch layout HP5308 */
-+		int key;
-+
- 		set_bit(EV_REP, input->evbit);
- 		switch (usage->hid & HID_USAGE) {
--		case 0x021: map_key_clear(KEY_PRINT);           break;
--		case 0x070: map_key_clear(KEY_HP);		break;
--		case 0x071: map_key_clear(KEY_CAMERA);		break;
--		case 0x072: map_key_clear(KEY_SOUND);		break;
--		case 0x073: map_key_clear(KEY_QUESTION);	break;
--		case 0x080: map_key_clear(KEY_EMAIL);		break;
--		case 0x081: map_key_clear(KEY_CHAT);		break;
--		case 0x082: map_key_clear(KEY_SEARCH);		break;
--		case 0x083: map_key_clear(KEY_CONNECT);	        break;
--		case 0x084: map_key_clear(KEY_FINANCE);		break;
--		case 0x085: map_key_clear(KEY_SPORT);		break;
--		case 0x086: map_key_clear(KEY_SHOP);	        break;
-+		case 0x021: key = KEY_PRINT;		break;
-+		case 0x070: key = KEY_HP;		break;
-+		case 0x071: key = KEY_CAMERA;		break;
-+		case 0x072: key = KEY_SOUND;		break;
-+		case 0x073: key = KEY_QUESTION;		break;
-+		case 0x080: key = KEY_EMAIL;		break;
-+		case 0x081: key = KEY_CHAT;		break;
-+		case 0x082: key = KEY_SEARCH;		break;
-+		case 0x083: key = KEY_CONNECT;	        break;
-+		case 0x084: key = KEY_FINANCE;		break;
-+		case 0x085: key = KEY_SPORT;		break;
-+		case 0x086: key = KEY_SHOP;	        break;
- 		default:    goto ignore;
- 		}
-+		map_key_clear(key);
- 		break;
-+	}
-+
-+	case HID_UP_HPVENDOR2: {
-+		int key;
- 
--	case HID_UP_HPVENDOR2:
- 		set_bit(EV_REP, input->evbit);
- 		switch (usage->hid & HID_USAGE) {
--		case 0x001: map_key_clear(KEY_MICMUTE);		break;
--		case 0x003: map_key_clear(KEY_BRIGHTNESSDOWN);	break;
--		case 0x004: map_key_clear(KEY_BRIGHTNESSUP);	break;
-+		case 0x001: key = KEY_MICMUTE;		break;
-+		case 0x003: key = KEY_BRIGHTNESSDOWN;	break;
-+		case 0x004: key = KEY_BRIGHTNESSUP;	break;
- 		default:    goto ignore;
- 		}
-+		map_key_clear(key);
- 		break;
-+	}
- 
- 	case HID_UP_MSVENDOR:
- 		goto ignore;
+I apologize for sending new version.
+
+>
+>Make the driver as part of matrix-keypad driver or bring real arguments
+>why it cannot be merged.
+
+I tryied to put real hardware scenario which used in 
+Bosch Power tool measuring devices.
+Keypad schematic as below, it is reduced matrix keypad compared
+to standard matrix keypad 
+
+                     Pin8 (gpio1 16)-----------------------
+                     Pin7 (gpio1 20)--------------------- |
+                     Pin6 (gpio1 22)------------------- | |
+                     Pin5 (gpio2 21)----------------- | | |
+                     Pin4 (ground  )--------------- | | | |
+                     Pin3 (gpio1 31)------------- | | | | |
+                     Pin2 (gpio1 23)----------- | | | | | |
+                     Pin1 (gpio1 24)--------- | | | | | | |
+                                            | | | | | | | |
+                                            | | | | | | | |
+                                            | | | | | | | |
+    |------------|---------|----------------- | | | | | | |-----------|
+    |  Button1   |         |  Button2         | | | | | |    Button3  | 
+    |      _|_   |         |   _|_            | | | | | |       _|_   | 
+    |  |--o   o--|         |--o   o-----------| | | | | |------o   o--|       
+    |  |                                      | | | | | |             |
+    |  |         |----------------------------| | | | | |             |
+    |  | Button4 |            Button5           | | | | |  Button6    |
+    |  |   _|_   |              _|_             | | | | |    _|_      |
+    |  |--o   o--|         |---o   o------------| | | | |---o   o-----|
+    |  |                   |                      | | |               |
+    |  |                   |------------------|---| | |-----------|   |
+    |  |                                      |     |             |   |
+    |  |------------------------------|       |     |---------|   |   |
+    |                                 |       |               |   |   |
+    |   Button7              Button8  |	      |    Button9    |   |   |
+    |      _|_                _|_     |	      |       _|_     |   |   |
+    |-----o   o-----|--------o   o----|       |------o   o----|   |   |
+                    |                 |                           |   |
+                    |                 |---------------------------|   |
+                    |                                                 |
+                    |-------------------------------------------------|
 
 
+    ____________________________________
+    | Button  | Pin activation| Keymap |
+    |----------------------------------|
+    |Button1  |	    1,6       | KEY_7  |
+    |----------------------------------|
+    |Button2  |	    1,2       | KEY_8  |
+    |----------------------------------|
+    |Button3  |	    7,8       | KEY_9  |
+    |----------------------------------|
+    |Button4  |	    2,6       | KEY_4  |
+    |----------------------------------|
+    |Button5  |	    3,4       | KEY_5  |
+    |----------------------------------|
+    |Button6  |	    6,7       | KEY_6  |
+    |----------------------------------|
+    |Button7  |	    1,8       | KEY_1  |
+    |----------------------------------|
+    |Button8  |	    6,8       | KEY_2  |
+    |----------------------------------|
+    |Button9  |	    4,5       | KEY_3  |
+    |----------------------------------|
+				
+for Button5 and Button9 we used standard gpio_keys.c driver.
+
+Button1,2,3,4,6,7,8 are not in standard row and column format,
+found difficulty to apply matrix keypad drive to these button.
+
+to solve this we came with vendor specific driver like
+mt_matrix_keypad.c by taking matrix_keypad as reference.
+
+after your review comment I felt it should named as
+bosch_keypad.c to show as vendor specific.
+
+in this driver all gpio lines act as row as well as column,
+a key can be placed at each intersection of a unique row
+number not equal to a unique column and they are diagonally
+symmetric.
+we can skip keymap for the valid intersection of gpio and
+invalid keymap for row equal to column.
+
+the matrix table as below for above schematic
+
+    ------------------------------------------------------
+    |Row\Col |GPIO 0 | GPIO 1 | GPIO 2 | GPIO 3 | GPIO 4 |
+    ------------------------------------------------------
+    | GPIO 0 |  X    | KEY_9  | KEY_2  |   X    | KEY_1  |
+    ------------------------------------------------------
+    | GPIO 1 | KEY_9 |  X     | KEY_6  |   X    |  X     |
+    ------------------------------------------------------
+    | GPIO 2 | KEY_2 | KEY_6  |  X     | KEY_4  | KEY_7  |
+    ------------------------------------------------------
+    | GPIO 3 |  X    |  X     | KEY_4  |  X     | KEY_8  |
+    ------------------------------------------------------
+    | GPIO 4 | KEY_1 |  X     | KEY_7  | KEY_8  |  X     |
+    ------------------------------------------------------
+    X - invalid key
+    KEY_x - preferred key code
+
+
+in Device tree we avoided row and column 
+and passed gpio info as line-gpios
+
+line-gpios = <
+          &gpio1 24 1     /*gpio_56*/
+          &gpio1 23 1     /*gpio_55*/
+          &gpio1 22 1     /*gpio_54*/
+          &gpio1 20 1     /*gpio_52*/
+          &gpio1 16 1     /*gpio_48*/
+        >;
+        linux,keymap = <
+                0x00000000 /* row 0, col 0, KEY_RESERVED */
+                0x0001000a /* row 0, col 1, KEY_9 */
+                0x00020003 /* row 0, col 2, KEY_2 */
+                0x00030000 /* row 0, col 3, KEY_RESERVED */
+                0x00040002 /* row 0, col 4, KEY_1 */
+                0x0100000a /* row 1, col 0, KEY_9 */
+                0x01010000 /* row 1, col 1, KEY_RESERVED */
+                0x01020007 /* row 1, col 2, KEY_6 */
+                0x01030000 /* row 1, col 3, KEY_RESERVED */
+                0x01040000 /* row 1, col 4, KEY_RESERVED */
+                0x02000003 /* row 2, col 0, KEY_2 */
+                0x02010007 /* row 2, col 1, KEY_6 */
+                0x02020000 /* row 2, col 2, KEY_RESERVED */
+                0x02030005 /* row 2, col 3, KEY_4 */
+                0x02040008 /* row 2, col 4, KEY_7 */
+                0x03000000 /* row 3, col 0, KEY_RESERVED */
+                0x03010000 /* row 3, col 1, KEY_RESERVED */
+                0x03020005 /* row 3, col 2, KEY_4 */
+                0x03030000 /* row 3, col 3, KEY_RESERVED */
+                0x03040009 /* row 3, col 4, KEY_8 */
+                0x04000002 /* row 4, col 0, KEY_1 */
+                0x04010000 /* row 4, col 1, KEY_RESERVED */
+                0x04020008 /* row 4, col 2, KEY_7 */
+                0x04030009 /* row 4, col 3, KEY_8 */
+                0x04040000 /* row 4, col 4, KEY_RESERVED */
+        >;
+
+this driver approch may be usefull for the embadded device
+which are using reduced matrix keypad
+		
+>
+>Best regards,
+>Krzysztof
+
+Best regards,
+Gireesh Hiremath
