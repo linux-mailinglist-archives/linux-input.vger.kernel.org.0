@@ -2,67 +2,267 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 059315236AF
-	for <lists+linux-input@lfdr.de>; Wed, 11 May 2022 17:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 479A4523A94
+	for <lists+linux-input@lfdr.de>; Wed, 11 May 2022 18:46:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242522AbiEKPG7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 May 2022 11:06:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42914 "EHLO
+        id S1344967AbiEKQqv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 May 2022 12:46:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232611AbiEKPG5 (ORCPT
+        with ESMTP id S1344943AbiEKQqq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 May 2022 11:06:57 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13BD045505
-        for <linux-input@vger.kernel.org>; Wed, 11 May 2022 08:06:57 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id q18so2129803pln.12
-        for <linux-input@vger.kernel.org>; Wed, 11 May 2022 08:06:57 -0700 (PDT)
+        Wed, 11 May 2022 12:46:46 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 490FA3E5F9
+        for <linux-input@vger.kernel.org>; Wed, 11 May 2022 09:46:44 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id g23so3196379edy.13
+        for <linux-input@vger.kernel.org>; Wed, 11 May 2022 09:46:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=zLAXOt0+g+Gz9bXUVZthS9o5V8JSghOXkCMObSfdPds=;
-        b=beFeNUR+AKUPmFv9TXGrH6RwVBCZ3cvbUtryI2lyqN3mfxUnV5nzBi+Y7af+5C0tCM
-         e6kf6doomI9sCmGPL54dpz9k09q9+Du5az3lfZokjRZbngdSIau4zxLX5auTmK/1bsNy
-         aSM5xbTJOzRgp+TrbtsE511nglYAL1pVFGc74/HmjSaeUrxi78FqY0WbOQUQ8+SMwHwe
-         uvDn2vI/vq8lwncP/hnrkKyjgt3eyyMmSAoxNT1LoBvcdU9NdpZYWPM30HCwuhlycl35
-         v1cyX2Msi2usuBGvxGBuOTbTmNWY99Qia62ZxrjIGIAwQTJNsS83Lz5znBkJ3OPt36+B
-         YsDQ==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=xj1N8tp59EX/rZwMqCjY9hqLN8tIPGoout6wfaBUGxU=;
+        b=cEEp6hmcXVVy4ZSFnPIvcfzIhYDzl89wvKJCGlfQKoYnT906ulI1E3Ys9qSnpoZ5GA
+         DvvHDxEvAPRvyyGpSH/YiU0FkJ9Z7FjHY7+t3lpKJ1GW9i7VvfHmLacWDhT30XvQaDO4
+         ILdr/4KY2ViUgv+KSGUzzfvdKwXUy9EdyMFJ1dPceMJACuUFJr1KKwa75VK/dOn+TC+r
+         dqWsHuTdtOGZrV+RRpntH47USzG21WJKwGNN1PYGMVrcAsH52neWig8wEbRDqbHZGJq8
+         RfUUXtsp5g1HLsXgpVYiy+kQ4phSE1uwZv+SF4GAHuq6KZLDixLGx4sAzYuqMv1IChW9
+         5n0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=zLAXOt0+g+Gz9bXUVZthS9o5V8JSghOXkCMObSfdPds=;
-        b=0bwQrH3gj4KpIQZVCgauUWOKf1RAy+AgTiCab1QSY01YoZjOIf+FJngtN48U+l8XzV
-         oAWaIIkXGeko/8Ewq3Ih2TXysIW7X1wW1zIHJe5N1iJEOdBK7wEhx6WOpPB9IG3GVhW5
-         hWLCfgWYZWjF151t8nsEUD5MLyXT2yw6k1NAJ+cNtXrdPdZRrbB/41AFi1vTuHXoYZPc
-         fvTbwAHiJM1lbHhQ8pii3STFbdtC261Da4qxOTRawWXVAxDKU+sbD8i7uSaCfydfbSru
-         FmGpf/8SkHCr2ZLhM5HnaoAkEt1D5vA7ADnC7IwlxGTvsiJHqg4hiSnbc/kMlVOGYGN6
-         jrdw==
-X-Gm-Message-State: AOAM531dhxZ+5kDGjTtdd4Qse5OFyCH3iK0S1pZhSdKZLzxW3Px1Bnj0
-        kdt/PTFT0otpSwBxdHP1hTwf2nHEupZCQ845GDc=
-X-Google-Smtp-Source: ABdhPJyUPvYKxsFEA/7qCeLOZP3XNPyvs2quFLQHYk0N4C1Td9+EBBzBm1W0jF3ecwwm5lOf/aCPLBnumPB+2tJtEDc=
-X-Received: by 2002:a17:902:ec88:b0:15e:c17d:b092 with SMTP id
- x8-20020a170902ec8800b0015ec17db092mr26001101plg.88.1652281616242; Wed, 11
- May 2022 08:06:56 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=xj1N8tp59EX/rZwMqCjY9hqLN8tIPGoout6wfaBUGxU=;
+        b=R2HzvgVtAuuA5GOLNSex7nnp/fdzhgNMKpZ9y5yvE6QQ5fShjGdagBjdP4JP6jrj/O
+         YLR47/cq8El6kk6ERYIPXpV4hP0M13znPrxqEDOg/xh10yFYl5Z6MyAmQLPIajXqrht+
+         /VJjQRHHpi+gyQrd5c3CQWvi0xt94ehRRhacN0U96nvzSXPes9hkmCMgsXkS0zrOozhF
+         TBO+Aggwexi7WQriZCtjioKaT2q/SWBycfe2OaUmLCQRRidarpOhC/SDo05LwVROmrKO
+         2TyXYWCzjitHcsnl8Iec+iZ9sI3TO6u+TblHIqzTeYa1cA0Q4O9pwsMRra6HMijvlpPU
+         +4Eg==
+X-Gm-Message-State: AOAM531MOjUPGZ+ACokcerhlZvGnJtFIkjRG8AKXMnPI/7neZJTWIP5G
+        1AlKLTkG8l5EhfTG/YjQR4HBJA==
+X-Google-Smtp-Source: ABdhPJxCXNZvBC03q83kl+F9j8XLH2Ll7BgJt1C9jpNbQv4w1Vv8ths6fhK0V/yL0ur+y8MJw5RLZQ==
+X-Received: by 2002:a50:8a96:0:b0:425:e046:76d9 with SMTP id j22-20020a508a96000000b00425e04676d9mr29906154edj.115.1652287602823;
+        Wed, 11 May 2022 09:46:42 -0700 (PDT)
+Received: from [192.168.0.155] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id q20-20020a50c354000000b0042617ba639fsm1480656edb.41.2022.05.11.09.46.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 May 2022 09:46:42 -0700 (PDT)
+Message-ID: <72897af0-6f03-cf25-d84b-830020973a4c@linaro.org>
+Date:   Wed, 11 May 2022 18:46:40 +0200
 MIME-Version: 1.0
-Sender: joycem001m@gmail.com
-Received: by 2002:a05:6a10:1008:0:0:0:0 with HTTP; Wed, 11 May 2022 08:06:55
- -0700 (PDT)
-From:   Ahil Lia <mrsliaahil070@gmail.com>
-Date:   Wed, 11 May 2022 15:06:55 +0000
-X-Google-Sender-Auth: 262EHWgVJMV_ptq4XrKD1FQXNro
-Message-ID: <CAN+-AFNRRAeHwEB9UZxnDi8yY0kZfKANwoKkhpKfWA+DJVLPsg@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_05,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 2/4] Input: mt-matrix-keypad: Add Bosch mt matrix
+ keypad driver
+Content-Language: en-US
+To:     Gireesh.Hiremath@in.bosch.com, krzysztof.kozlowski+dt@linaro.org
+Cc:     m.felsch@pengutronix.de, linux-omap@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, bcousson@baylibre.com,
+        tony@atomide.com, robh+dt@kernel.org, dmitry.torokhov@gmail.com,
+        mkorpershoek@baylibre.com, davidgow@google.com,
+        swboyd@chromium.org, fengping.yu@mediatek.com,
+        y.oudjana@protonmail.com, rdunlap@infradead.org,
+        colin.king@intel.com, sjoerd.simons@collabora.co.uk,
+        VinayKumar.Shettar@in.bosch.com,
+        Govindaraji.Sivanantham@in.bosch.com, anaclaudia.dias@de.bosch.com
+References: <20220506072737.1590-2-Gireesh.Hiremath@in.bosch.com>
+ <20220510141306.2431-1-Gireesh.Hiremath@in.bosch.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220510141306.2431-1-Gireesh.Hiremath@in.bosch.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello, I need your assistance in this very matter
+On 10/05/2022 16:13, Gireesh.Hiremath@in.bosch.com wrote:
+> From: Gireesh Hiremath <Gireesh.Hiremath@in.bosch.com>
+> 
+> Hi Krzysztof,
+> 
+>>>>> both matric_keypad.c and mt_matrix_kepad.c logically operate differently,
+>>>>> my openion is not to merge both.
+>>>>
+>>>> IMHO from the user/system-integrator pov it is looking the same and so
+>>>> one driver should be fine. To distinguish between both modes we could
+>>>> add dt-property or add a new dt-compatible like "gpio-matrix-keypad-v2".
+>>>>
+>>>
+>>> as mentioned above our keypad is not complete matrix keypad  and it will
+>>> not be compatible with matrix_keypad diver. that is the reason we derived
+>>> mt matrix keypad driver.
+>>>
+>>> to avoid confusion, we will rename the driver as bosch_mt_keypad.c
+>>> if you suggest.
+>>
+>> Sending a new version while discussions are ongoing is not how we reach
+>> consensus.
+> 
+> I apologize for sending new version.
+> 
+>>
+>> Make the driver as part of matrix-keypad driver or bring real arguments
+>> why it cannot be merged.
+> 
+> I tryied to put real hardware scenario which used in 
+> Bosch Power tool measuring devices.
+> Keypad schematic as below, it is reduced matrix keypad compared
+> to standard matrix keypad 
+> 
+>                      Pin8 (gpio1 16)-----------------------
+>                      Pin7 (gpio1 20)--------------------- |
+>                      Pin6 (gpio1 22)------------------- | |
+>                      Pin5 (gpio2 21)----------------- | | |
+>                      Pin4 (ground  )--------------- | | | |
+>                      Pin3 (gpio1 31)------------- | | | | |
+>                      Pin2 (gpio1 23)----------- | | | | | |
+>                      Pin1 (gpio1 24)--------- | | | | | | |
+>                                             | | | | | | | |
+>                                             | | | | | | | |
+>                                             | | | | | | | |
+>     |------------|---------|----------------- | | | | | | |-----------|
+>     |  Button1   |         |  Button2         | | | | | |    Button3  | 
+>     |      _|_   |         |   _|_            | | | | | |       _|_   | 
+>     |  |--o   o--|         |--o   o-----------| | | | | |------o   o--|       
+>     |  |                                      | | | | | |             |
+>     |  |         |----------------------------| | | | | |             |
+>     |  | Button4 |            Button5           | | | | |  Button6    |
+>     |  |   _|_   |              _|_             | | | | |    _|_      |
+>     |  |--o   o--|         |---o   o------------| | | | |---o   o-----|
+>     |  |                   |                      | | |               |
+>     |  |                   |------------------|---| | |-----------|   |
+>     |  |                                      |     |             |   |
+>     |  |------------------------------|       |     |---------|   |   |
+>     |                                 |       |               |   |   |
+>     |   Button7              Button8  |	      |    Button9    |   |   |
+>     |      _|_                _|_     |	      |       _|_     |   |   |
+>     |-----o   o-----|--------o   o----|       |------o   o----|   |   |
+>                     |                 |                           |   |
+>                     |                 |---------------------------|   |
+>                     |                                                 |
+>                     |-------------------------------------------------|
+> 
+> 
+>     ____________________________________
+>     | Button  | Pin activation| Keymap |
+>     |----------------------------------|
+>     |Button1  |	    1,6       | KEY_7  |
+>     |----------------------------------|
+>     |Button2  |	    1,2       | KEY_8  |
+>     |----------------------------------|
+>     |Button3  |	    7,8       | KEY_9  |
+>     |----------------------------------|
+>     |Button4  |	    2,6       | KEY_4  |
+>     |----------------------------------|
+>     |Button5  |	    3,4       | KEY_5  |
+>     |----------------------------------|
+>     |Button6  |	    6,7       | KEY_6  |
+>     |----------------------------------|
+>     |Button7  |	    1,8       | KEY_1  |
+>     |----------------------------------|
+>     |Button8  |	    6,8       | KEY_2  |
+>     |----------------------------------|
+>     |Button9  |	    4,5       | KEY_3  |
+>     |----------------------------------|
+> 				
+> for Button5 and Button9 we used standard gpio_keys.c driver.
+> 
+> Button1,2,3,4,6,7,8 are not in standard row and column format,
+> found difficulty to apply matrix keypad drive to these button.
+> 
+> to solve this we came with vendor specific driver like
+> mt_matrix_keypad.c by taking matrix_keypad as reference.
+> 
+> after your review comment I felt it should named as
+> bosch_keypad.c to show as vendor specific.
+> 
+> in this driver all gpio lines act as row as well as column,
+> a key can be placed at each intersection of a unique row
+> number not equal to a unique column and they are diagonally
+> symmetric.
+> we can skip keymap for the valid intersection of gpio and
+> invalid keymap for row equal to column.
+> 
+> the matrix table as below for above schematic
+> 
+>     ------------------------------------------------------
+>     |Row\Col |GPIO 0 | GPIO 1 | GPIO 2 | GPIO 3 | GPIO 4 |
+>     ------------------------------------------------------
+>     | GPIO 0 |  X    | KEY_9  | KEY_2  |   X    | KEY_1  |
+>     ------------------------------------------------------
+>     | GPIO 1 | KEY_9 |  X     | KEY_6  |   X    |  X     |
+>     ------------------------------------------------------
+>     | GPIO 2 | KEY_2 | KEY_6  |  X     | KEY_4  | KEY_7  |
+>     ------------------------------------------------------
+>     | GPIO 3 |  X    |  X     | KEY_4  |  X     | KEY_8  |
+>     ------------------------------------------------------
+>     | GPIO 4 | KEY_1 |  X     | KEY_7  | KEY_8  |  X     |
+>     ------------------------------------------------------
+>     X - invalid key
+>     KEY_x - preferred key code
+> 
+> 
+> in Device tree we avoided row and column 
+> and passed gpio info as line-gpios
+> 
+> line-gpios = <
+>           &gpio1 24 1     /*gpio_56*/
+>           &gpio1 23 1     /*gpio_55*/
+>           &gpio1 22 1     /*gpio_54*/
+>           &gpio1 20 1     /*gpio_52*/
+>           &gpio1 16 1     /*gpio_48*/
+>         >;
+>         linux,keymap = <
+>                 0x00000000 /* row 0, col 0, KEY_RESERVED */
+>                 0x0001000a /* row 0, col 1, KEY_9 */
+>                 0x00020003 /* row 0, col 2, KEY_2 */
+>                 0x00030000 /* row 0, col 3, KEY_RESERVED */
+>                 0x00040002 /* row 0, col 4, KEY_1 */
+>                 0x0100000a /* row 1, col 0, KEY_9 */
+>                 0x01010000 /* row 1, col 1, KEY_RESERVED */
+>                 0x01020007 /* row 1, col 2, KEY_6 */
+>                 0x01030000 /* row 1, col 3, KEY_RESERVED */
+>                 0x01040000 /* row 1, col 4, KEY_RESERVED */
+>                 0x02000003 /* row 2, col 0, KEY_2 */
+>                 0x02010007 /* row 2, col 1, KEY_6 */
+>                 0x02020000 /* row 2, col 2, KEY_RESERVED */
+>                 0x02030005 /* row 2, col 3, KEY_4 */
+>                 0x02040008 /* row 2, col 4, KEY_7 */
+>                 0x03000000 /* row 3, col 0, KEY_RESERVED */
+>                 0x03010000 /* row 3, col 1, KEY_RESERVED */
+>                 0x03020005 /* row 3, col 2, KEY_4 */
+>                 0x03030000 /* row 3, col 3, KEY_RESERVED */
+>                 0x03040009 /* row 3, col 4, KEY_8 */
+>                 0x04000002 /* row 4, col 0, KEY_1 */
+>                 0x04010000 /* row 4, col 1, KEY_RESERVED */
+>                 0x04020008 /* row 4, col 2, KEY_7 */
+>                 0x04030009 /* row 4, col 3, KEY_8 */
+>                 0x04040000 /* row 4, col 4, KEY_RESERVED */
+>         >;
+> 
+> this driver approch may be usefull for the embadded device
+> which are using reduced matrix keypad
+
+You wrote pretty long message explaining how the device works, but I
+still do not see the answer to questions - why it cannot be part of
+matrix keypad?
+
+"It looks like this driver has smaller number of features than
+matrix-keypad, so it should be integrated into the matrix-keypad.
+matrix-keypad features are superset to this one."
+
+"But anyway this should be just merged into matrix-keypad. It's a
+simpler set of that binding."
+
+
+Best regards,
+Krzysztof
