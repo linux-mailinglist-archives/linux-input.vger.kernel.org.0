@@ -2,143 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29C6B522261
-	for <lists+linux-input@lfdr.de>; Tue, 10 May 2022 19:24:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65159522B27
+	for <lists+linux-input@lfdr.de>; Wed, 11 May 2022 06:39:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347972AbiEJR2J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 May 2022 13:28:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55728 "EHLO
+        id S236508AbiEKEja (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 May 2022 00:39:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347758AbiEJR2I (ORCPT
+        with ESMTP id S236012AbiEKEj0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 May 2022 13:28:08 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5562426FA46
-        for <linux-input@vger.kernel.org>; Tue, 10 May 2022 10:24:10 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id r1so5273999ybo.7
-        for <linux-input@vger.kernel.org>; Tue, 10 May 2022 10:24:10 -0700 (PDT)
+        Wed, 11 May 2022 00:39:26 -0400
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D35CC14CA35
+        for <linux-input@vger.kernel.org>; Tue, 10 May 2022 21:39:22 -0700 (PDT)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-e93bbb54f9so1440999fac.12
+        for <linux-input@vger.kernel.org>; Tue, 10 May 2022 21:39:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=semihalf-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GIK1UOt8WmLYDY1AK0Oz1b5uyj9+5eAuc5GwQtC1nWY=;
-        b=VZBned3XBjqiowZcQKnDmaBPBlw34BoAmkkCy9Ke3ulBp+1YFOM69Jbv925by4qX/O
-         pRRiHPNwbbjmwxxGTJkQD8wm4cdbKY0kpqWRi4BOO3rDjpQaD+bn+HfFFyI7w5kQiuZJ
-         dCBW/UidOzLlOVQJV27ncwFONTpeNpMxkyVTMk/kTRj72xpEFXkcuMj8o6xmSiU0SPIQ
-         8TlOCtwrEncFQfK1wOHJYSFuXEdNuNSJVuZu7hx8I5S4SIKqrMA705/+Pt7b9ddKQ3kE
-         mDJJUAHKg0vzIdbXgYBfyImq9ggD5X7aZ4M+syIvrUlJIllAvlvY5oSPWedVDilt2Q/Z
-         NOdg==
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
+        b=nrkBIDyCffFbQz5WNhQU88q5l+bx8m1CoLNL/nRcxBFZRgp3B2RwRJzpJi69hjmFPQ
+         Eotn36CVTQor8sTwq84btYhQQ+OsypTpYdHIfGkC/Ekjg8a9U0HkQq0T/gbcQg5/if4Y
+         i1yzcJYhTRMm8ny1NIiOYUNRazrfloxlCC/1XVxW2+TG0ItQpx2/G3cXjgMuOALgO1Rc
+         auxKHXwS3ghK6vFFIfR8essc70JXfRi2oIpi3YT/VLqISCMTaVWCOI/Xf0rWfpfTmlnw
+         XgqCFC8jOuHD5AjsEtox3h0b9tzcHlVM0fA1RrJyDFubK9aS707t1BYf/K43qSc4slo4
+         wrQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GIK1UOt8WmLYDY1AK0Oz1b5uyj9+5eAuc5GwQtC1nWY=;
-        b=omwwjS9iFo5ZcuS1sCogd2EC0+bet1NWhIasWPCA09/2vA/Jjg+gGkFuTyJdsP7s2u
-         KoL7kAeFKcnFlGHVR1l10WXWz3nmaUFABrMa90c6gTOG98IGowOB+xvG8/IM+xtm4Q/I
-         JJodorPnZvcZt1Un5+6GROStFisN1fpsJiTueneGWo5c0EcB0mE4sS9NiZCd//MejriW
-         bQDdGLIXnPDqbojKQmaOs7BPlwErzuTGCNyJTd7xL5YPvPoNqt43T6IzGMY56PX3xSPM
-         ieLWtnvyDDuHl8r3hB4oLRzxCiaf3J09qrjnHdEzYKCW+I6Z+ZNEcFV3mjh+2hmqqcnE
-         xeyg==
-X-Gm-Message-State: AOAM531JiBtCUBtj+T6nia2LoEeaGhyrfBiDkiHp8zifsB68vwu4bKNg
-        u9py3/GbmC3be+kF/sdUfyYtgii6paXfCGVQqIMsQg==
-X-Google-Smtp-Source: ABdhPJyYU8a6vpSjZnSsb7QP6GMnUutkDxLXMgzxdxSTHjWu+NG3Z2hQo+bRyJYvPwmy+Nokvx5tjl+pgBoAhX2ynaU=
-X-Received: by 2002:a05:6902:1141:b0:649:aa34:3275 with SMTP id
- p1-20020a056902114100b00649aa343275mr19335208ybu.406.1652203449592; Tue, 10
- May 2022 10:24:09 -0700 (PDT)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
+        b=eboF5fHvvle/odMXxiyIj29YrlcHHgdnA0pJ9IK5S6WwrhRcQzzqxfZFyNd2DB73xl
+         SGAgTXMR07LkRTe0p61KILy5EJnrrE2w5d3dBriQv5J1ZUBZBNdl5zVUxYzVj9MB8rn/
+         skktJ2P8YU24u1lucjg0W4DN1dOyNGVytfohi3bj2KOiceYPHgJtY8wZMGv7OWQT8iig
+         YW0mIp4M9cjTfYA8cxlDNeGZOvqn4lZjV6qOXQkaDywQ/k3e9NDfbrfohGS3eJMqrBjm
+         nV4jlT7R5LEwhsrWLcR9UG301V6F50ooYIM+C5OS0/neaDEqbsoybY+hGK7RE2gEmhjw
+         m+JQ==
+X-Gm-Message-State: AOAM531oxSCNOIMVK5Q7OXsxaUEUiMJSCq8Hu4cs3uXpolvIbc44MuiC
+        vS2YUAcqFJHg6BIfQtIjjl9jn7YDLRQKtdLnRLHz+Xjyer5dHw==
+X-Google-Smtp-Source: ABdhPJwbKHmbnZDflMHBZCcp2YbZAAZvFdPcM4owWeuPIkoxodmwIZJ+Xpgi08ylB1RFXLrw63SQRxJzumbwJKMTxhs=
+X-Received: by 2002:a17:90b:1007:b0:1dc:9862:68af with SMTP id
+ gm7-20020a17090b100700b001dc986268afmr3261389pjb.205.1652243951499; Tue, 10
+ May 2022 21:39:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220419122632.2988786-1-acz@semihalf.com> <YmByPhFWkzpPrpYe@google.com>
- <CAB4aORXvVzD4YPC2RdA6pFzSSeLj2oqMpanbGziWkf99WSHGsQ@mail.gmail.com> <CAO-hwJKuDRQOWVyv5eudq8QF1yV=1C-HC0hR-AD5JDOQBw0reA@mail.gmail.com>
-In-Reply-To: <CAO-hwJKuDRQOWVyv5eudq8QF1yV=1C-HC0hR-AD5JDOQBw0reA@mail.gmail.com>
-From:   Angela Czubak <acz@semihalf.com>
-Date:   Tue, 10 May 2022 19:23:58 +0200
-Message-ID: <CAB4aORX0d0rPhdEV1mqf_EvpO1wnau2KxNroS_9GxbFKx5aw4w@mail.gmail.com>
-Subject: Re: [PATCH] HID: add HID device reset callback
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        upstream@semihalf.com, Jiri Kosina <jikos@kernel.org>
+Received: by 2002:a05:6a10:319:0:0:0:0 with HTTP; Tue, 10 May 2022 21:39:10
+ -0700 (PDT)
+From:   Private Mail <privatemail1961@gmail.com>
+Date:   Tue, 10 May 2022 21:39:10 -0700
+Message-ID: <CANjAOAiiVcSrSv31FjThCVmeppS54UVvGVj3SRSvMfxOB+T8DA@mail.gmail.com>
+Subject: Have you had this? It is for your Benefit
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=4.3 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
+        BAYES_50,DEAR_BENEFICIARY,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
+        DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,
+        LOTS_OF_MONEY,MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, May 6, 2022 at 9:08 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> On Thu, Apr 21, 2022 at 1:23 PM Angela Czubak <acz@semihalf.com> wrote:
-> >
-> > Hi Dmitry,
-> >
-> > On Wed, Apr 20, 2022 at 10:51 PM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> > >
-> > > Hi Angela,
-> > >
-> > > On Tue, Apr 19, 2022 at 12:26:32PM +0000, Angela Czubak wrote:
-> > > > @@ -529,6 +529,8 @@ static void i2c_hid_get_input(struct i2c_hid *ihid)
-> > > >               /* host or device initiated RESET completed */
-> > > >               if (test_and_clear_bit(I2C_HID_RESET_PENDING, &ihid->flags))
-> > > >                       wake_up(&ihid->wait);
-> > > > +             if (ihid->hid && ihid->hid->driver && ihid->hid->driver->reset)
-> > > > +                     ihid->hid->driver->reset(ihid->hid);
-> > >
-> > > I wonder if this would not be better to execute the reset callback
-> > > first, before signalling that the reset has completed instead of racing
-> > > with i2c_hid_hw_reset()?
-> > >
-> >
-> > I think it could result in a deadlock. If we don't clear
-> > I2C_HID_RESET_PENDING, and if it has been set, then reset_lock
-> > is still taken. This way, if the reset callback wants to send a report
-> > to the device, it will keep spinning on reset_lock
-> > in i2c_hid_output_raw_report().
-> > Since the reset callback will be most likely used to re-configure
-> > the device, we need to be able to send any report and not hang
-> > on reset_lock.
-> > Let me know if you think this not an issue or there is an additional
-> > comment needed in the patch so that the reasoning standing
-> > by the order of issuing the callback and clearing the bit is clear.
->
-> I think you are both correct, and that this patch thus needs some changes:
-> - first, I'd like to have one user at least of this reset callback in
-> a subsequent patch. Adding one callback without user is just adding
-> dead code
-ACK, I will send it with a new version of haptic patches.
-> - then there are 2 types of reset that probably each need a special treatment:
->   * host initiated resets: those are the ones "racing" with
-> i2c_hid_hwreset(), in a sense that this function call might also call
-> POWER_ON on some devices, which means we can not immediately do
-> transfers to the device with this current code
->   * device initiated resets (when I2C_HID_RESET_PENDING is not set):
-> that code is fine in that case, because we have no other entry point
-> - there is a third type of resets happening: on probe and resume, so
-> maybe there we do not want to call this callback simply because we
-> already have probe and reset_resume callbacks.
-Now that I look at the code it looks as if the reset callback should
-not be able to take reset_lock at all as it will be executed in the
-interrupt context.
-I am not sure if I understand all of the issue, so here is my plan:
-- issue the reset callback only if the I2C_HID_RESET_PENDING bit has
-not been set,
-- add a comment stating that the callback must not wait/sleep as it
-will be called in the interrupt context (any feature reports must be
-deferred).
-Are there any races left in this scenario? I suppose reset_lock should
-be enough to make sure we don't send any feature reports when
-i2c_hid_hwreset() is being executed.
->
-> Cheers,
-> Benjamin
->
-> >
-> > > Thanks.
-> > >
-> > > --
-> > > Dmitry
-> >
->
+Our Ref: BG/WA0151/2022
+
+Dear Beneficiary
+
+Subject: An Estate of US$15.8 Million
+
+Blount and Griffin Genealogical Investigators specializes in probate
+research to locate missing heirs and beneficiaries to estates in the
+United Kingdom and Europe.
+
+We can also help you find wills, obtain copies of certificates, help
+you to administer an estate, as well as calculating how an estate,
+intestacy or trust should be distributed.
+
+You may be entitled to a large pay out for an inheritance in Europe
+worth US$15.8 million. We have discovered an estate belonging to the
+late Depositor has remained unclaimed since he died in 2011 and we
+have strong reasons to believe you are the closest living relative to
+the deceased we can find.
+
+You may unknowingly be the heir of this person who died without
+leaving a will (intestate). We will conduct a probate research to
+prove your entitlement, and can submit a claim on your behalf all at
+no risk to yourselves.
+
+Our service fee of 10% will be paid to us after you have received the estate.
+
+The estate transfer process should take just a matter of days as we
+have the mechanism and expertise to get this done very quickly. This
+message may come to you as a shock, however we hope to work with you
+to transfer the estate to you as quickly as possible.
+
+Feel free to email our senior case worker Mr. Malcolm Casey on email:
+malcolmcasey68@yahoo.com for further discussions.
+
+With warm regards,
+
+Mr. Blount W. Gort, CEO.
+Blount and Griffin Associates Inc
