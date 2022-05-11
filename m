@@ -2,105 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65159522B27
-	for <lists+linux-input@lfdr.de>; Wed, 11 May 2022 06:39:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 369E65232C3
+	for <lists+linux-input@lfdr.de>; Wed, 11 May 2022 14:17:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236508AbiEKEja (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 May 2022 00:39:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43006 "EHLO
+        id S230062AbiEKMRL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 May 2022 08:17:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236012AbiEKEj0 (ORCPT
+        with ESMTP id S229680AbiEKMRL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 May 2022 00:39:26 -0400
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D35CC14CA35
-        for <linux-input@vger.kernel.org>; Tue, 10 May 2022 21:39:22 -0700 (PDT)
-Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-e93bbb54f9so1440999fac.12
-        for <linux-input@vger.kernel.org>; Tue, 10 May 2022 21:39:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
-        b=nrkBIDyCffFbQz5WNhQU88q5l+bx8m1CoLNL/nRcxBFZRgp3B2RwRJzpJi69hjmFPQ
-         Eotn36CVTQor8sTwq84btYhQQ+OsypTpYdHIfGkC/Ekjg8a9U0HkQq0T/gbcQg5/if4Y
-         i1yzcJYhTRMm8ny1NIiOYUNRazrfloxlCC/1XVxW2+TG0ItQpx2/G3cXjgMuOALgO1Rc
-         auxKHXwS3ghK6vFFIfR8essc70JXfRi2oIpi3YT/VLqISCMTaVWCOI/Xf0rWfpfTmlnw
-         XgqCFC8jOuHD5AjsEtox3h0b9tzcHlVM0fA1RrJyDFubK9aS707t1BYf/K43qSc4slo4
-         wrQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
-        b=eboF5fHvvle/odMXxiyIj29YrlcHHgdnA0pJ9IK5S6WwrhRcQzzqxfZFyNd2DB73xl
-         SGAgTXMR07LkRTe0p61KILy5EJnrrE2w5d3dBriQv5J1ZUBZBNdl5zVUxYzVj9MB8rn/
-         skktJ2P8YU24u1lucjg0W4DN1dOyNGVytfohi3bj2KOiceYPHgJtY8wZMGv7OWQT8iig
-         YW0mIp4M9cjTfYA8cxlDNeGZOvqn4lZjV6qOXQkaDywQ/k3e9NDfbrfohGS3eJMqrBjm
-         nV4jlT7R5LEwhsrWLcR9UG301V6F50ooYIM+C5OS0/neaDEqbsoybY+hGK7RE2gEmhjw
-         m+JQ==
-X-Gm-Message-State: AOAM531oxSCNOIMVK5Q7OXsxaUEUiMJSCq8Hu4cs3uXpolvIbc44MuiC
-        vS2YUAcqFJHg6BIfQtIjjl9jn7YDLRQKtdLnRLHz+Xjyer5dHw==
-X-Google-Smtp-Source: ABdhPJwbKHmbnZDflMHBZCcp2YbZAAZvFdPcM4owWeuPIkoxodmwIZJ+Xpgi08ylB1RFXLrw63SQRxJzumbwJKMTxhs=
-X-Received: by 2002:a17:90b:1007:b0:1dc:9862:68af with SMTP id
- gm7-20020a17090b100700b001dc986268afmr3261389pjb.205.1652243951499; Tue, 10
- May 2022 21:39:11 -0700 (PDT)
+        Wed, 11 May 2022 08:17:11 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FD5842ECD
+        for <linux-input@vger.kernel.org>; Wed, 11 May 2022 05:17:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2914061802
+        for <linux-input@vger.kernel.org>; Wed, 11 May 2022 12:17:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63B7DC340F2;
+        Wed, 11 May 2022 12:17:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652271429;
+        bh=LxionXCOYA73HvshORfrJzkAj5QIs+dC63c+iza/QlQ=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=kr6gSjMij+lg9dV9mQ+COq1jm1hyyQZ1DN7ulMS7nEubosOXTYkKStZwsUT5oOfRI
+         0K7YFCLaFLxUHUV5ro+AHTtbBXU7HE3kkR5kBq5mw60mmcHGmhHrNDN4C7dis3goK+
+         bbgtpsui+n7OKwI7ShUZipFxMg6Sl9nYnDKVXtAUCO+4ZGvlw9/96T4PN9/IWpfR34
+         Azl3Q+Zv/yCRdQ4amKFA3UduALTUdaVjL0H+idI8oLhn69R8SZc9PI0FgIoTY4oHK2
+         u5K/kHf17oQ/9rFked11NtNq9/puIKgNotP3Hj+RJLT9RbXxObphlXRER0oEQracpN
+         6coNDXMc/uvTA==
+Date:   Wed, 11 May 2022 14:17:05 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+cc:     benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
+        linux-input@vger.kernel.org, mario.limonciello@amd.com
+Subject: Re: [PATCH 0/7] Enhancements and fixes to AMD SFH driver 
+In-Reply-To: <20220509132026.3204678-1-Basavaraj.Natikar@amd.com>
+Message-ID: <nycvar.YFH.7.76.2205111416560.28985@cbobk.fhfr.pm>
+References: <20220509132026.3204678-1-Basavaraj.Natikar@amd.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:319:0:0:0:0 with HTTP; Tue, 10 May 2022 21:39:10
- -0700 (PDT)
-From:   Private Mail <privatemail1961@gmail.com>
-Date:   Tue, 10 May 2022 21:39:10 -0700
-Message-ID: <CANjAOAiiVcSrSv31FjThCVmeppS54UVvGVj3SRSvMfxOB+T8DA@mail.gmail.com>
-Subject: Have you had this? It is for your Benefit
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.3 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
-        BAYES_50,DEAR_BENEFICIARY,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
-        DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,
-        LOTS_OF_MONEY,MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Our Ref: BG/WA0151/2022
+On Mon, 9 May 2022, Basavaraj Natikar wrote:
 
-Dear Beneficiary
+> Changes includes to support sensor discovery, add sensor name by index
+> for debug info, clean up string generated for the HID device to make it
+> more obvious.
+> 
+> Before:
+> hid-generic 0020:1022:0001.0003: hidraw2: <UNKNOWN> HID v0.00
+> Device [hid-amdtp 1022:0001] on
+> 
+> After:
+> hid-generic 0020:1022:0001.0003: hidraw2: SENSOR HUB HID v0.00
+> Device [hid-amdsfh 1022:0001] on pcie_mp2_amd
+> 
+> Basavaraj Natikar (7):
+>   HID: amd_sfh: Add support for sensor discovery
+>   HID: amd_sfh: Add sensor name by index for debug info
+>   HID: amd_sfh: Modify the bus name
+>   HID: amd_sfh: Modify the hid name
+>   HID: amd_sfh: Add physical location to HID device
+>   HID: amd_sfh: Move bus declaration outside of amd-sfh
+>   HID: core: Display "SENSOR HUB" for sensor hub bus string in hid_info
+> 
+>  drivers/hid/amd-sfh-hid/amd_sfh_client.c | 45 ++++++++++++++++++++----
+>  drivers/hid/amd-sfh-hid/amd_sfh_hid.c    |  9 +++--
+>  drivers/hid/amd-sfh-hid/amd_sfh_hid.h    |  1 -
+>  drivers/hid/amd-sfh-hid/amd_sfh_pcie.c   | 17 ++++++---
+>  drivers/hid/amd-sfh-hid/amd_sfh_pcie.h   |  5 +++
+>  drivers/hid/hid-core.c                   |  4 +++
+>  include/uapi/linux/input.h               |  1 +
+>  7 files changed, 69 insertions(+), 13 deletions(-)
 
-Subject: An Estate of US$15.8 Million
+The series is now in hid.git#for-5.19/amd-sfh. Thanks,
 
-Blount and Griffin Genealogical Investigators specializes in probate
-research to locate missing heirs and beneficiaries to estates in the
-United Kingdom and Europe.
+-- 
+Jiri Kosina
+SUSE Labs
 
-We can also help you find wills, obtain copies of certificates, help
-you to administer an estate, as well as calculating how an estate,
-intestacy or trust should be distributed.
-
-You may be entitled to a large pay out for an inheritance in Europe
-worth US$15.8 million. We have discovered an estate belonging to the
-late Depositor has remained unclaimed since he died in 2011 and we
-have strong reasons to believe you are the closest living relative to
-the deceased we can find.
-
-You may unknowingly be the heir of this person who died without
-leaving a will (intestate). We will conduct a probate research to
-prove your entitlement, and can submit a claim on your behalf all at
-no risk to yourselves.
-
-Our service fee of 10% will be paid to us after you have received the estate.
-
-The estate transfer process should take just a matter of days as we
-have the mechanism and expertise to get this done very quickly. This
-message may come to you as a shock, however we hope to work with you
-to transfer the estate to you as quickly as possible.
-
-Feel free to email our senior case worker Mr. Malcolm Casey on email:
-malcolmcasey68@yahoo.com for further discussions.
-
-With warm regards,
-
-Mr. Blount W. Gort, CEO.
-Blount and Griffin Associates Inc
