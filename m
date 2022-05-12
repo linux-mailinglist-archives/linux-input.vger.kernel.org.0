@@ -2,63 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D310D5243C5
-	for <lists+linux-input@lfdr.de>; Thu, 12 May 2022 05:59:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 983295243FA
+	for <lists+linux-input@lfdr.de>; Thu, 12 May 2022 06:16:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344861AbiELD7S (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 May 2022 23:59:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48452 "EHLO
+        id S1346434AbiELEQS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 May 2022 00:16:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345522AbiELD7R (ORCPT
+        with ESMTP id S1346611AbiELEQO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 May 2022 23:59:17 -0400
+        Thu, 12 May 2022 00:16:14 -0400
 Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E71CA2FFDE
-        for <linux-input@vger.kernel.org>; Wed, 11 May 2022 20:59:15 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id t11-20020a17090ad50b00b001d95bf21996so6688666pju.2
-        for <linux-input@vger.kernel.org>; Wed, 11 May 2022 20:59:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8795326FE;
+        Wed, 11 May 2022 21:16:11 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id n10so4033899pjh.5;
+        Wed, 11 May 2022 21:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=baiPCrLIIzLUaNl78W4C+3bJkaVPaj7MuH+01NyO5sQ=;
-        b=VakdpXFzYKEYGmmzQgcZXHg3Q8/G3rpGPnilAx61/3J1uHcoSM5FVENm+DtxVNQrzt
-         099LVxt2UlZROtNkWrBv5/h8syB6CDzYPfn2YCMtTQmgM5Ca2v5oxZ4LVRvv/W1yJNDf
-         LkrKhwnQ4lXP4tAMXfAjO2w9nJId7JTAHffBE6dFGumd9HDh0dyqz9DuXFsIx3/57U82
-         tyF5tXguHXpyFgLK8HqasIxXkKtFaD8GJLLoD1HW3HRHyfHTaaj+oVKumZtNHtYHD7K/
-         tJgUZIpz2TxXvAWir+po6C51lHrm+mAncAZoNyrPfvwrM116eI0oNYb6E/XWbeasRIBY
-         NJJg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=njnm+5q69Pmp4J8AZTtVnxa3kk6USj4AeKvHVB8XgQw=;
+        b=A5GpeDL3Y/vOESjKhgsMkONDjrcTMkfd+YryDxIevcUQih7OGFuTxKO/opYeJG710f
+         mhWVKOTMDsBkWXzLMridCHmNug1iBxcjHqITFzX1yJ05deO1S19tVJgozLpmYY09Gpcf
+         NxUqfxRI2jjxyj6w62LCdJqBgeNz+0GWroVoVlgDMpnOsrXGcOW23v4Er72dABr47aOu
+         NzF/UKMVfsXy/rpoj4vuWOIHmo6Wu0L20vJFQ/Vw5suhDCGJ7B1zt9fQ4VGCfd6mr0EE
+         zWzTZN0kXTSREJeb2SdYigNOcwpWPliKj7gThmyhab6I9xSSKhC+gX3NAUIBA7aHo3IO
+         lE9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=baiPCrLIIzLUaNl78W4C+3bJkaVPaj7MuH+01NyO5sQ=;
-        b=QhXXE+6EzSl7QplF7G64LCclpS159E3t3N7P+L7fMtMmt1lmYT8I5Tt17/CxpRj5Lw
-         +CUInR+NsAoYocOeDXasO18bEUD5+A5X8dA/9mz4OB0HZjMOZPoikBzsNYyFHEKNI970
-         hI8/S2hHD4WpWlvmeO9eFkwRX2H/uWLFL+mntHucGkt2DEyLJjriMN0ShLnZ9ilE2x7v
-         jlaGhI56FX5zSh3rCc17Mb3go7+U/ABQzulJbzjbNdvwgqLgKhZizLUus+nPwdhCpuY4
-         i0yP4FNdY3N7J7CZFsWK2+if0dG2neVgj9gnwHtYS1Tz+otOLZC7MujNaWryqgoTm6rk
-         1nAQ==
-X-Gm-Message-State: AOAM533ODYmMxAOZ8dU9jM5m+iVw5QKt/XMB4jJtN0GDGlqDAI074/L3
-        NlA4owzP0BJg6FPHOP4v+Lw=
-X-Google-Smtp-Source: ABdhPJy+mWoVLz1YVBlEJhxS9H9IZMZS5cHiLE0iB3Wc5MlQ0TjUrLsmkuOs2M4sJrjx5yS0mzgyzw==
-X-Received: by 2002:a17:90a:fc8a:b0:1d8:ace3:70bc with SMTP id ci10-20020a17090afc8a00b001d8ace370bcmr8815383pjb.37.1652327955345;
-        Wed, 11 May 2022 20:59:15 -0700 (PDT)
-Received: from localhost.localdomain ([2601:1c2:4f00:cef0:5442:bb64:66b3:8716])
-        by smtp.gmail.com with ESMTPSA id j21-20020a62e915000000b005104c6d7941sm2486768pfh.31.2022.05.11.20.59.14
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=njnm+5q69Pmp4J8AZTtVnxa3kk6USj4AeKvHVB8XgQw=;
+        b=FhQUWTNsIBm/zhpfbToveij+1P97M350ZgvzxhYRHOAdxQAm4AX+hJPbTOHrDp6hBC
+         7Qe9z7lnFlMLIU9edskUVD7tOCkrRczJ1G7nlIPDW9RgDw31zxaC337J6isccaD0YRea
+         /rMMtjh70Ixdm5RCv1rkhVSSwE/INMpX5FVuxMvSJuETXdkMRgPaPfL6Tr4ki+paID4/
+         StdGmPHpYMzoGQG1MPDY9ICzhvCwr5JHiLKC0X9QFjSkLp+V8jwvGsavF9vR6n4lwzzJ
+         S66SYjzZKTOEyo7W1FCRkg/3ciAY5+H/5gzTUvS680r16oKnEDY2v0+9INbnK/pwDKaK
+         lQsQ==
+X-Gm-Message-State: AOAM532I4yMmJ+/itxkmJYAG0tgOzxIkayxH137SrBIkpiY11TxvIIRD
+        MsG4D9efZodERu0ZscE529od8aVWdZY=
+X-Google-Smtp-Source: ABdhPJxgqqMdXXv2qdtIGHlAGxFfMp/xg0hIfOTt4QcU7L5te1YlgjhyCoI+46d9tIpdfO2Kl3h7cQ==
+X-Received: by 2002:a17:90b:3d0b:b0:1dc:1953:462d with SMTP id pt11-20020a17090b3d0b00b001dc1953462dmr8853371pjb.122.1652328971222;
+        Wed, 11 May 2022 21:16:11 -0700 (PDT)
+Received: from MBP-98dd607d3435.dhcp.thefacebook.com ([2620:10d:c090:400::4:6b86])
+        by smtp.gmail.com with ESMTPSA id 71-20020a63014a000000b003c1bf4c064fsm703941pgb.72.2022.05.11.21.16.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 May 2022 20:59:14 -0700 (PDT)
-From:   Ping Cheng <pinglinux@gmail.com>
-X-Google-Original-From: Ping Cheng <ping.cheng@wacom.com>
-To:     jikos@kernel.org
-Cc:     linux-input@vger.kernel.org, jason.gerecke@wacom.com,
-        Ping Cheng <ping.cheng@wacom.com>
-Subject: [PATCH] HID: wacom: Only report rotation for art pen
-Date:   Wed, 11 May 2022 20:59:09 -0700
-Message-Id: <20220512035909.17523-1-ping.cheng@wacom.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 11 May 2022 21:16:10 -0700 (PDT)
+Date:   Wed, 11 May 2022 21:16:07 -0700
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>
+Subject: Re: [RFC bpf-next v4 0/7] Introduce eBPF support for HID devices
+ (new attempt)
+Message-ID: <20220512041607.zloscyl3k5z3sdp2@MBP-98dd607d3435.dhcp.thefacebook.com>
+References: <20220421140740.459558-1-benjamin.tissoires@redhat.com>
+ <20220426040314.ez3cdpv2w45vbgkk@MBP-98dd607d3435.dhcp.thefacebook.com>
+ <CAO-hwJLziatB9n5Rut_EYRgfN94t2XX8Zx8B_Zmu2nucTw3k8g@mail.gmail.com>
+ <CAADnVQKN==eb3ASQhrJBg4yC8BuRdMQyY-OdRbXhdyv2P8L0-A@mail.gmail.com>
+ <CAO-hwJ+HV=jZUgH1LXcPuBFirMzx3OAdSy4zvyyYh7PQhnaduQ@mail.gmail.com>
+ <CAO-hwJ+bAJb_1jSu30hnjfF1u8HZVMCqKU4qTJg=XUhupok13g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAO-hwJ+bAJb_1jSu30hnjfF1u8HZVMCqKU4qTJg=XUhupok13g@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -69,204 +87,85 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The generic routine, wacom_wac_pen_event, turns rotation value 90
-degree anti-clockwise before posting the events. This non-zero
-event trggers a non-zero ABS_Z event for non art pen tools. However,
-HID_DG_TWIST is only supported by art pen.
+On Mon, May 02, 2022 at 11:43:51PM +0200, Benjamin Tissoires wrote:
+> On Sat, Apr 30, 2022 at 9:12 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> [...]
+> > This is roughly what I have now:
+> >
+> > - hid-core is not aware of BPF except for a few __weak
+> > ALLOW_ERROR_INJECTION hooks (dispatch_hid_bpf_device_event for
+> > example)
+> > - I have a separate hid-bpf module that attaches BPF traces to these
+> > hooks and calls a "dispatch" kfunc within hid-bpf
+> > - the dispatch function then do a succession of BPF calls to programs
+> > attached to it by using bpf_tail_call(prog_array, hid_id)
+> >
+> > - for the clients, they define one or more
+> > SEC("fmod_ret/hid_bpf_device_event"). That __weak hook is declared in
+> > the kernel by hid-bpf but is never called, it's just an API
+> > declaration
+> > - then clients call in a SEC("syscall")
+> > hid_bpf_attach_prog(ctx->prog_fd, ctx->hid_id, ctx->flags);
+> > - hid_bpf_attach_prog is a kfunc that takes a ref on the struct
+> > bpf_prog*, and stores that program in the correct struct bpf_map *for
+> > the given attached_btf_id (hid_bpf_device_event in our case)
+> >
+> > And that's about it.
+> > I still need to handle automatic release of the bpf prog when there is
+> > no userspace open fd on it unless it's pinned but I think this should
+> > be working fine.
+> >
+> > I also probably need to pin some SEC("syscall") (hid_bpf_attach_prog
+> > and hid_bpf_dettach_prog) so users don't have to write them down and
+> > can just use the ones provided by the kernel.
+> >
+> > The nice thing is that I can define my own API for the attach call
+> > without dealing with bpf core. I can thus add a priority flag that is
+> > relevant here because the data coming through the bpf program can be
+> > modified.
+> >
+> > The other thing is that now, I don't care which function we are in to
+> > decide if a RET_PTR_MEM is read only or not. I can deal with that by
+> > either playing with the flags or even replacing entirely the dispatch
+> > trace prog from userspace if I want to access the raw events.
+> >
+> > However, the downsides are:
+> > - I need to also define kfuncs for BPF_PROG_TYPE_SYSCALL (I don't
+> > think It'll be a big issue)
+> > - The only way I could store the bpf_prog into the map was to hack
+> > around the map ops, because the fd of the map in the skel is not
+> > available while doing a SEC("syscall") from a different process.
+> 
+> Update on this side: I realized that I could use the syscall
+> BPF_MAP_GET_FD_BY_ID instead to get an fd for the current task.
+> However, I've been bitten quite hard today because I was using
+> bpf_map_get() instead of bpf_map_get_with_uref(), and so every time I
+> closed the fd in the syscall the map was cleared...
+> 
+> But now I would like to have more than one program of a type per hid
+> device, meaning that I can not have only one bpf_map of type
+> BPF_MAP_TYPE_PROG_ARRAY.
+> I have explored BPF_MAP_TYPE_HASH_OF_MAPS, but we can not have
+> BPF_MAP_TYPE_PROG_ARRAY as inner maps with the current code. And I'd
+> need 2 levels of nesting (which is not authorized today):
+> - hid_jmp_table (key: HID id)
+>   - array of different program type per HID device (key: HID_BPF_PROG_TYPE)
+>     - BPF_MAP_TYPE_PROG_ARRAY with the actual progs (key: int)
+> 
+> The other solution would be to be able to create a map when needed,
+> store it in struct hid_device, and then call bpf_tail_call on this
+> map. The problem is that I need a way to teach the verifier that the
+> struct bpf_map pointer I have in the context is a true bpf_map...
 
-Signed-off-by: Ping Cheng <ping.cheng@wacom.com>
-Reviewed-by: Jason Gerecke <jason.gerecke@wacom.com>
----
- drivers/hid/wacom_wac.c | 158 ++++++++++++++++++++++++++----------------------
- 1 file changed, 85 insertions(+), 73 deletions(-)
+We have kptr feature now.
+So bpf progs can store pointers to specific kernel data structures
+inside map values.
+Storing 'struct bpf_map *' in a map value would be something :)
+Circular dependency issues to address. Maybe it's doable.
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 5c7ee45..be9af54 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -642,90 +642,99 @@ static int wacom_intuos_id_mangle(int tool_id)
- 	return (tool_id & ~0xFFF) << 4 | (tool_id & 0xFFF);
- }
- 
--static int wacom_intuos_get_tool_type(int tool_id)
-+static bool wacom_is_art_pen(int tool_id)
- {
--	int tool_type;
-+	bool is_art_pen = false;
- 
- 	switch (tool_id) {
--	case 0x812: /* Inking pen */
--	case 0x801: /* Intuos3 Inking pen */
--	case 0x12802: /* Intuos4/5 Inking Pen */
--	case 0x012:
--		tool_type = BTN_TOOL_PENCIL;
-+	case 0x885:	/* Intuos3 Marker Pen */
-+	case 0x804:	/* Intuos4/5 13HD/24HD Marker Pen */
-+	case 0x10804:	/* Intuos4/5 13HD/24HD Art Pen */
-+		is_art_pen = true;
- 		break;
-+	}
-+	return is_art_pen;
-+}
- 
--	case 0x822: /* Pen */
--	case 0x842:
--	case 0x852:
--	case 0x823: /* Intuos3 Grip Pen */
--	case 0x813: /* Intuos3 Classic Pen */
--	case 0x885: /* Intuos3 Marker Pen */
--	case 0x802: /* Intuos4/5 13HD/24HD General Pen */
--	case 0x804: /* Intuos4/5 13HD/24HD Marker Pen */
--	case 0x8e2: /* IntuosHT2 pen */
--	case 0x022:
--	case 0x10804: /* Intuos4/5 13HD/24HD Art Pen */
--	case 0x10842: /* MobileStudio Pro Pro Pen slim */
--	case 0x14802: /* Intuos4/5 13HD/24HD Classic Pen */
--	case 0x16802: /* Cintiq 13HD Pro Pen */
--	case 0x18802: /* DTH2242 Pen */
--	case 0x10802: /* Intuos4/5 13HD/24HD General Pen */
--		tool_type = BTN_TOOL_PEN;
--		break;
-+static int wacom_intuos_get_tool_type(int tool_id)
-+{
-+	int tool_type = BTN_TOOL_PEN;
-+
-+	if (!wacom_is_art_pen(tool_id)) {
-+		switch (tool_id) {
-+		case 0x812: /* Inking pen */
-+		case 0x801: /* Intuos3 Inking pen */
-+		case 0x12802: /* Intuos4/5 Inking Pen */
-+		case 0x012:
-+			tool_type = BTN_TOOL_PENCIL;
-+			break;
- 
--	case 0x832: /* Stroke pen */
--	case 0x032:
--		tool_type = BTN_TOOL_BRUSH;
--		break;
-+		case 0x822: /* Pen */
-+		case 0x842:
-+		case 0x852:
-+		case 0x823: /* Intuos3 Grip Pen */
-+		case 0x813: /* Intuos3 Classic Pen */
-+		case 0x802: /* Intuos4/5 13HD/24HD General Pen */
-+		case 0x8e2: /* IntuosHT2 pen */
-+		case 0x022:
-+		case 0x10842: /* MobileStudio Pro Pro Pen slim */
-+		case 0x14802: /* Intuos4/5 13HD/24HD Classic Pen */
-+		case 0x16802: /* Cintiq 13HD Pro Pen */
-+		case 0x18802: /* DTH2242 Pen */
-+		case 0x10802: /* Intuos4/5 13HD/24HD General Pen */
-+			tool_type = BTN_TOOL_PEN;
-+			break;
- 
--	case 0x007: /* Mouse 4D and 2D */
--	case 0x09c:
--	case 0x094:
--	case 0x017: /* Intuos3 2D Mouse */
--	case 0x806: /* Intuos4 Mouse */
--		tool_type = BTN_TOOL_MOUSE;
--		break;
-+		case 0x832: /* Stroke pen */
-+		case 0x032:
-+			tool_type = BTN_TOOL_BRUSH;
-+			break;
- 
--	case 0x096: /* Lens cursor */
--	case 0x097: /* Intuos3 Lens cursor */
--	case 0x006: /* Intuos4 Lens cursor */
--		tool_type = BTN_TOOL_LENS;
--		break;
-+		case 0x007: /* Mouse 4D and 2D */
-+		case 0x09c:
-+		case 0x094:
-+		case 0x017: /* Intuos3 2D Mouse */
-+		case 0x806: /* Intuos4 Mouse */
-+			tool_type = BTN_TOOL_MOUSE;
-+			break;
- 
--	case 0x82a: /* Eraser */
--	case 0x84a:
--	case 0x85a:
--	case 0x91a:
--	case 0xd1a:
--	case 0x0fa:
--	case 0x82b: /* Intuos3 Grip Pen Eraser */
--	case 0x81b: /* Intuos3 Classic Pen Eraser */
--	case 0x91b: /* Intuos3 Airbrush Eraser */
--	case 0x80c: /* Intuos4/5 13HD/24HD Marker Pen Eraser */
--	case 0x80a: /* Intuos4/5 13HD/24HD General Pen Eraser */
--	case 0x90a: /* Intuos4/5 13HD/24HD Airbrush Eraser */
--	case 0x1480a: /* Intuos4/5 13HD/24HD Classic Pen Eraser */
--	case 0x1090a: /* Intuos4/5 13HD/24HD Airbrush Eraser */
--	case 0x1080c: /* Intuos4/5 13HD/24HD Art Pen Eraser */
--	case 0x1084a: /* MobileStudio Pro Pro Pen slim Eraser */
--	case 0x1680a: /* Cintiq 13HD Pro Pen Eraser */
--	case 0x1880a: /* DTH2242 Eraser */
--	case 0x1080a: /* Intuos4/5 13HD/24HD General Pen Eraser */
--		tool_type = BTN_TOOL_RUBBER;
--		break;
-+		case 0x096: /* Lens cursor */
-+		case 0x097: /* Intuos3 Lens cursor */
-+		case 0x006: /* Intuos4 Lens cursor */
-+			tool_type = BTN_TOOL_LENS;
-+			break;
- 
--	case 0xd12:
--	case 0x912:
--	case 0x112:
--	case 0x913: /* Intuos3 Airbrush */
--	case 0x902: /* Intuos4/5 13HD/24HD Airbrush */
--	case 0x10902: /* Intuos4/5 13HD/24HD Airbrush */
--		tool_type = BTN_TOOL_AIRBRUSH;
--		break;
-+		case 0x82a: /* Eraser */
-+		case 0x84a:
-+		case 0x85a:
-+		case 0x91a:
-+		case 0xd1a:
-+		case 0x0fa:
-+		case 0x82b: /* Intuos3 Grip Pen Eraser */
-+		case 0x81b: /* Intuos3 Classic Pen Eraser */
-+		case 0x91b: /* Intuos3 Airbrush Eraser */
-+		case 0x80c: /* Intuos4/5 13HD/24HD Marker Pen Eraser */
-+		case 0x80a: /* Intuos4/5 13HD/24HD General Pen Eraser */
-+		case 0x90a: /* Intuos4/5 13HD/24HD Airbrush Eraser */
-+		case 0x1480a: /* Intuos4/5 13HD/24HD Classic Pen Eraser */
-+		case 0x1090a: /* Intuos4/5 13HD/24HD Airbrush Eraser */
-+		case 0x1080c: /* Intuos4/5 13HD/24HD Art Pen Eraser */
-+		case 0x1084a: /* MobileStudio Pro Pro Pen slim Eraser */
-+		case 0x1680a: /* Cintiq 13HD Pro Pen Eraser */
-+		case 0x1880a: /* DTH2242 Eraser */
-+		case 0x1080a: /* Intuos4/5 13HD/24HD General Pen Eraser */
-+			tool_type = BTN_TOOL_RUBBER;
-+			break;
- 
--	default: /* Unknown tool */
--		tool_type = BTN_TOOL_PEN;
--		break;
-+		case 0xd12:
-+		case 0x912:
-+		case 0x112:
-+		case 0x913: /* Intuos3 Airbrush */
-+		case 0x902: /* Intuos4/5 13HD/24HD Airbrush */
-+		case 0x10902: /* Intuos4/5 13HD/24HD Airbrush */
-+			tool_type = BTN_TOOL_AIRBRUSH;
-+			break;
-+		}
- 	}
- 	return tool_type;
- }
-@@ -2332,6 +2341,9 @@ static void wacom_wac_pen_event(struct hid_device *hdev, struct hid_field *field
- 		}
- 		return;
- 	case HID_DG_TWIST:
-+		/* don't modify the value if the pen doesn't support the feature */
-+		if (!wacom_is_art_pen(wacom_wac->id[0])) return;
-+
- 		/*
- 		 * Userspace expects pen twist to have its zero point when
- 		 * the buttons/finger is on the tablet's left. HID values
--- 
-2.25.1
-
+Would hash based prog_array work ?
+Then the key can be an arbitrary combination.
+There is fd_htab logic. It's used for map-in-map.
+We can tweak it to store progs in a hash map.
