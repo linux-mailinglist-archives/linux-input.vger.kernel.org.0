@@ -2,96 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD2E4525490
-	for <lists+linux-input@lfdr.de>; Thu, 12 May 2022 20:18:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFB2B5254A3
+	for <lists+linux-input@lfdr.de>; Thu, 12 May 2022 20:22:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357396AbiELSSh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 May 2022 14:18:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40992 "EHLO
+        id S1357575AbiELSWI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 May 2022 14:22:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357418AbiELSSg (ORCPT
+        with ESMTP id S1357581AbiELSWF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 May 2022 14:18:36 -0400
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam07on2059.outbound.protection.outlook.com [40.107.212.59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F8B660B95;
-        Thu, 12 May 2022 11:18:35 -0700 (PDT)
+        Thu, 12 May 2022 14:22:05 -0400
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2072.outbound.protection.outlook.com [40.107.93.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24FAB5E15F;
+        Thu, 12 May 2022 11:22:03 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d7eV7phhaN6vCh+QRg+vn6NZ9iFtRYmEYJWq7CuwVlLDuCg78OiZPfu0RI7dOd+jcLt4dsMQTHmtqjewB1GYB+cUyXZ3SPdVDbqbxs99h5HCIBNatZFsvnG3F2IbHkZRX3/D+74xGcsknYdLB0mOghQGbqXlE86yG0iY4Ldm+qkWBsldmfb5BWr6PukgiQxutmyjx9xLIyBQvqDu8cYR4maq19KZXT2IGZTs//9IOzcSc637VniyrrXH78//PS7IOKaSFPTb8uh1EN6GhkFyzhzl3FlnzBl+gl3EUnX8wLKggr5S7uyCq760UdIjdeYiITSZTUsA8U+TV6+lPlsnMA==
+ b=fBpgN3n3LwLWWkF/OaXWWfaIb62I5UDttoqGWMblZwifLlkjvIt433KreAjpq4y9n9V5YU0e2/yCmJ8OPCG05uFr/RdXiy2TSmHGB1N2jNxTXm/6qSh6Hj98Arv6MD3YBt7IRxm7hgnEa7u3DY81s4ujB7XJDebL1JJYSdMfAUdK8T1Sn8EKo0EesH8MRNp5/L6vb+ik0e5/aby78pxLYiAT+l2R2AZKfPAPG+Xl9gruruCBolxq09pR5i3cWCSwJ/55U4QwiYZAwXbC10BlsHcRTZbgRukt07I5kYpcBQp2YcVMxrs8icpT9C8cetVYmCmXQsvfT9yLpu9nRqoA6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G1/zsxOlfQzi3veTVk7BfeMPiNa5EK+lv8Z+hEZxuU0=;
- b=WIW8jBJL3U+kAC6SGaScAEuvpdZKOb3eWheGKp7ShG7bVw7MF7ehD79uzM0T3SFZqxhRSM7LGmIlEWqrTArbBHiTfJF2XOUmRH0p00dTqc/wPm1DbZjUhsQo/mBKDXaItZQ3n5u1oY8PpKjhoLgO+ChGtVljuZi3HPH2PRqC4WTnYGGktWXI+/FuCnGp+FCd2SOqJCO71m2CKvfDLcAnACSra7biZuUfj2u+P7vvIKWmWg8glxvWXMNx3nB2/xh6hwYGwgVWPfByharWOz5Bl3cwvj2Z84NpnsFq9eUYpD162vr6W/9yaovxV1ANJvG5rttfgwZ5p0OPtFWjxASjdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
+ bh=ogVDcO2Ow2wbrsFkm2NKVPnsIuZdgPZ2wTie/Iv6bXw=;
+ b=BytfEnUx1C2WHVO6hArXL5+Vlideq0Ja3+0u1BJzYbAK6/V4GaQV6TqydoyQrTBP/AdLIhegULceJe6Ej/+/6YX6b3trLulVc7PAmYC4uSOLZSixDrYBaoX0qyPwIJi+5Ptmq9OJidN1t9J9nKWDX2amVKeA+QsOWRfiFMxZYc9pk0saeZiCIghU741Rb4LA1MweE8Ze/BKi9ZEGYHrdXANvcMI1NWzkOjocumRUvCjHKFxNbeJEDzGuKOK5ovkLB+E2MdunbJoZdcj59/mzVyLMg2PX/2GzRGp2OG/IfHb0g8up/BhBS89kJ6NucWpsIbA19DDeFudUGiSORKjDnw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G1/zsxOlfQzi3veTVk7BfeMPiNa5EK+lv8Z+hEZxuU0=;
- b=smyoJw3EUr024vxfzWgZSF5VnKTyBvsGvPHeKye2oy1wx0ornyBgAn+eBhLzZdVp5Cs/Esqsie5pQ1Ci7G3MOs3I11xMOeZ8SEUGvQJo8r6grI+oBx9evXuKOS9bW4pcIrJDTCdQPd0qvV+N7Z4XV6CtnwA51XdNi3fffAXJSwI=
-Received: from BN0PR04CA0161.namprd04.prod.outlook.com (2603:10b6:408:eb::16)
- by CY4PR12MB1624.namprd12.prod.outlook.com (2603:10b6:910:a::15) with
+ bh=ogVDcO2Ow2wbrsFkm2NKVPnsIuZdgPZ2wTie/Iv6bXw=;
+ b=uKaWVVLZ/LICo8mRSgVfnw6OLKvlmVUwgXwN8HtOLzpEdVhxHGyEX0aqKfAS9T9/wxEWRlxO8Nc6Yvf9ge18nYtWqyqXpywdJyi2kik9PGherzURpFhyK5GrlHEFzfM9QiKDbxKqnCO1hIOc4WlKWd8t9Zn4RlSWG1wygMQeEGE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
+ by CH2PR12MB4822.namprd12.prod.outlook.com (2603:10b6:610:6::26) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.23; Thu, 12 May
- 2022 18:18:33 +0000
-Received: from BN8NAM11FT018.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:eb:cafe::da) by BN0PR04CA0161.outlook.office365.com
- (2603:10b6:408:eb::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.14 via Frontend
- Transport; Thu, 12 May 2022 18:18:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT018.mail.protection.outlook.com (10.13.176.89) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5250.13 via Frontend Transport; Thu, 12 May 2022 18:18:33 +0000
-Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 12 May
- 2022 13:18:32 -0500
-From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     <jikos@kernel.org>
-CC:     <basavaraj.natikar@amd.com>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        David Chang <David.Chang@amd.com>
-Subject: [PATCH v2] HID: amd_sfh: Don't show client init failed as error when discovery fails
-Date:   Thu, 12 May 2022 13:18:48 -0500
-Message-ID: <20220512181848.27347-1-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.25.1
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.22; Thu, 12 May
+ 2022 18:22:01 +0000
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::b3:bdef:2db6:d64e]) by DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::b3:bdef:2db6:d64e%7]) with mapi id 15.20.5250.014; Thu, 12 May 2022
+ 18:22:01 +0000
+Message-ID: <471dd5be-cb03-2d1a-1f74-01e3346f77c1@amd.com>
+Date:   Thu, 12 May 2022 23:51:51 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2] HID: amd_sfh: Don't show client init failed as error
+ when discovery fails
+Content-Language: en-US
+To:     Mario Limonciello <mario.limonciello@amd.com>, jikos@kernel.org
+Cc:     basavaraj.natikar@amd.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, David Chang <David.Chang@amd.com>
+References: <20220512181848.27347-1-mario.limonciello@amd.com>
+From:   Basavaraj Natikar <bnatikar@amd.com>
+In-Reply-To: <20220512181848.27347-1-mario.limonciello@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0167.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:de::11) To DM4PR12MB5040.namprd12.prod.outlook.com
+ (2603:10b6:5:38b::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4fd75679-b825-455a-03cd-08da3443d2e4
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1624:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR12MB1624B6F958C65AA402A6339FE2CB9@CY4PR12MB1624.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: de4836b1-c885-455a-689d-08da34444e99
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4822:EE_
+X-Microsoft-Antispam-PRVS: <CH2PR12MB482209CD854C98EC0DFE4091E6CB9@CH2PR12MB4822.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5IltmUmIvGqnyIKb0hjUZEbVGHVM+0Hzyx8vFt/S7tZXSYwZVf7zPjG0IQXAtqSCC+LoAtArUG3SKbQWww/0MQNX67ERggbGGzoUgbdNxlctzL2evmd1tn71inyp+dbkvihSsnYT7FK4+o8B/ZzHLfFtBgXmEhEpjkUZW2ONlP7RlBaWqylqKelxsvpqnyDPeBAz1bbsDNWncnlz9wekdqlAZBf/xCTYn665MB8Az3sId4q4y+rU/4Z6STL4utbZhhFBX0Yo2RnXstyCOHD9qGJKm8TEe8lLP11A/2Yr1Xp+p0BGEPfepRZEjNypBTdD8TQhTcbGBnxQcDLU4XkbTunpKsqHb/ojpGKIOvyKj65ya9KCmazmDMw1TSRFDekzfn8LFxNIfZfjz51gFMCVnEXUKx/mN0Czfx+rUGnlung+gXERMSQpoVMbRmouZbGYhmE/EN4QLtO+PdRBjie3UKS2IvV9c0U/yFgsc+/yUb7rjkRaEjtw7W4u12cHeNU8hXVCkow3nti3DTh8R7g6Eg3ANGQbegH/+ZME8FLykwjhsx3RGsUeQ6XWHu1Tlo2jI5Jm3nRLI+XpWaDgwMmAAJeQ2roVrtGPh9lVpGZIi5GkJXyavCqRIAscJOPQPme3V1DOGQf1HC1MgAtgvZfpkj6VX9yohd/zYiHopdH2HWeeU1veV39JVjH+43FxZ2FPs1egS23leiXXEX8Xz1PJhw==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(47076005)(336012)(8676002)(86362001)(70206006)(70586007)(6666004)(186003)(4326008)(16526019)(426003)(7696005)(508600001)(44832011)(5660300002)(2616005)(1076003)(2906002)(40460700003)(54906003)(26005)(83380400001)(316002)(81166007)(8936002)(6916009)(82310400005)(36756003)(356005)(36860700001)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: umSULsEKTjBhqze9axHDUIWHfFn5fpXVZuddoQswkQUrVDavZwPiLmcj+GRgAy6af7HOsrZBhQlzcDfUMjZ/BwRz9ocRNs1zhFCFU8dBzELQOQXUOQSS2ZKUdiQ+qoqZTjXFfA7lUs5Vd2RzKO3NU+iNLIPbo1rc1NFVBvp8iznmsiboclcpP8XyfXLFq+h3tMFwPMYb82b3BSEJpF6AVjPMIyQSv7dgrw8QsHDF7bTx27ELlV+8Tin4zJmMc5FOQy4DtYbfQBnuyJ9HuRFVIkMC4ZakvYE3JlcWhE8wz6veHmLnlTedymbYpKXcqBN7aPRi/YamqZ/mHnc8OjvulkwQxIbOvD1DYyydpcuXrddHmSXdT0WnWWxzkI2EQz36i0fwhWD8n0Tihc6BrC3xFjTK1sXsbhHalON7DAa5A+zuFC9zO5cIqK08FhxXf9oJXXeB3BisKeyIZbuzNZUhlmEn8Tk8e5oONEGKi/7IAcCv4dkBjSlv6rZpNGCQeAyPdiMsxow+ZFigdEnoJHRp8ENaE8ykcp3kBVbvtJNR7sa46ZiviSXXCklqGABzoMhN+zbpDBU3ajZSsUEOeanmyeOYmj1u0xFlFrrKTeeDRJFBeDkq5Lbb8zFG3jqPbBC6zbA/E24/yaLHRmnltEpAFuPSKVTdhmww836VM/0kV0Fqa/z0nQh5J2ncl+nXkX0xAlJfkyBBEOJ9TgrB1X1enj4UDM0LWWsD+/skBDnfy2wPBVXzivY+9CwcsdL7johv
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38100700002)(83380400001)(186003)(2906002)(5660300002)(36756003)(31686004)(316002)(2616005)(4326008)(8676002)(31696002)(8936002)(66476007)(66556008)(66946007)(6506007)(508600001)(26005)(53546011)(6512007)(6666004)(6486002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RjhIeE90MmREand6RFg3Z0NqcXovcTVheXZvemJHM1dzcEVPYWJWUGN5ZGtU?=
+ =?utf-8?B?Tk8reEVVaWJLbVlUU2hLV0duakhCYVdTTTY3RDZDQUtlOHNpSWxwMGpTWjQ2?=
+ =?utf-8?B?T0hNU1lnZDZJMUxqQ2l1K0RPWU1FVFJJcmVhNXFYaENobXRraUh5czl2Z3VM?=
+ =?utf-8?B?WUtpM2w4L3EwQ0xJSXdFYVh5aVJISFJ0bkg3M3lRSEViY3ZoYnJvaURoQW96?=
+ =?utf-8?B?SW91NXRKN0V1cFNNdys1Q0Z5UXpOYnVIUlVubndrZWFBdlErU1RLaFNMTksr?=
+ =?utf-8?B?VDZUUjlITEJIdWo0YzFRTFM2cnJXeVVHYll0Vng5OXFCL0JmV1Mzc0IyTmdM?=
+ =?utf-8?B?eityUzB6VC9qVW1tVUlWQWFuMS9hTkNjekJZSURTQXBQNDFyaWFNMWVaRW9x?=
+ =?utf-8?B?WW9xMHg2Q3l4N0ljS3owdnYvcERqVlVJT1B3MGpnd3Uwd1h2UmZUUUZ0NGE4?=
+ =?utf-8?B?azBrQjRuSzJSYmZjV01TMjZZRy9hS3NWemltZ0FVVE9lb3lkekxMd3R3Y1c2?=
+ =?utf-8?B?K0xpdVFHYU1JN3pZd3Z2enNDYXE1ZjlReGI4RnhydnlvcUhtN0JtWEM2RlhF?=
+ =?utf-8?B?eUE5MkxocThNN2JIWU5FSFFkN29xZ2FJNlcxN0VIMktpQmZodjJQSi9zOUx6?=
+ =?utf-8?B?WnoxL2IwMDVWY3BhQysySmROeHhXekNneUxYMGJJQ05xQzlGZFNUK2lJMEE1?=
+ =?utf-8?B?clk1QUhEckJVQjJ6eUYzU3VCY05Mc0ptaERjRzNGaGxnYmZiMC9MamE4bU5K?=
+ =?utf-8?B?c1pTSndSTUoxY1RrR1dyd0tUS2czVUVPMDBzblVaWmZRNHlyOU5yWnR4bERF?=
+ =?utf-8?B?azlHZSsrY0szRk1PK0JvKzBhUFBMVjI5eG1JWWQ4c29OTXNndWlRNnJtaWhI?=
+ =?utf-8?B?aVp0eS9xWEJPNGZ0NExUM3k3ZHMwRTg0NnNyNlNJZ1pUWG5peWh3YngrMXk4?=
+ =?utf-8?B?VG00RERvVEJoTWxhcUlpVllURGhwNnpGY3Q2V0RQMlljWTBPSi90V2lCV1Ur?=
+ =?utf-8?B?Z2lzVUY1NDV0ZUh5aTdVU0tsMWN3ajVrTVBDbitPeHVmemlLaHIxZWpJUEc3?=
+ =?utf-8?B?M3RJWW13bkJqRXpBYnhJMW5nVEk3bHZFK2Z4R09QbE54TXc3VTREY3dlTkZj?=
+ =?utf-8?B?Wm03TitQcHFwMDJJejZQcjRMNE5tL2JYMzdhY1BoVXRRRldleHg2cFZrdTYz?=
+ =?utf-8?B?ZWN2OWV5cncvNDlCcStMdEtxOGRvS1FHS0IxbFVpSUdtNGZ6bzlvTC9qNWpL?=
+ =?utf-8?B?ZUhGeXVUenZmRWpXemVCdFI0VUp4alVzZkRKOWZsVENoWGpTcHJocFpmMENy?=
+ =?utf-8?B?ZEZkcGZINkZVM2VZLzVDOUVWbktHdElpaVZwNHJCcm0wU3dRS3NpakhLd3lG?=
+ =?utf-8?B?VHQzMUh4YkZrZnd2S1ZmREpIdy9JaXVxUnJuQkFpUExXZWVrSGY2YjRpYk5h?=
+ =?utf-8?B?a2QrL0c1QXZOWkJGL0w4NzdMYXBYVytnVERBVFo2OTlOUUMzbEhUK0Fla3B5?=
+ =?utf-8?B?YzZYaExrdmcwMjAzdGZsaTNGWlh4UUJwRFk5eFRNTWNNZlV0dFlFOVY5T3c3?=
+ =?utf-8?B?TGtDR2EwRER4MHFVbmpuRllvVDZKeXdJdVVOTlViei9TcG1IMU5oYS9oYXRy?=
+ =?utf-8?B?aFNZaTFaWGRFTCs1cUNqeHR3Z3JzTHgwekMyRkgvTE9KMUc5UUpSelp5dklF?=
+ =?utf-8?B?UXlRVWJCSDdUTjJoRmhiWWgyOU11aFRTNURiSzRIYzd0WFNHS0xMaE5FaTZ1?=
+ =?utf-8?B?M29pNnFGcE5wMlpGbDJ4bnhWTWw0N2NjVWNaSTdWNzUxaUNsV2gvaVNYYWJR?=
+ =?utf-8?B?WmV2Z3RKTnRTYityZldzUWtSOXRmbnNtUC9JVUV0eTQvS1BhdHlwR1o5Rnd4?=
+ =?utf-8?B?L21KV1hrbHg2Zm1ob1dwQTJkMWFybjc0ZUlTTjY2T2lrY0VzdVJLMkIvTE05?=
+ =?utf-8?B?eXg3VjM4VmtCTzgvRFZueDJHUUdDOXF6NCtQTGZFYkcrVVhuVkdRaTNRSGdq?=
+ =?utf-8?B?emRxWHhZeTQ0MERIZnRwaUpQZWsvRjNuTVlXdWZ3aEF3QjZoQXdBTjcxMDlS?=
+ =?utf-8?B?Vm52Um5UbVdHQ2NmVU84K1RLb1prSUY0cWxNRUNzUklyamt1MUZzSzFZdDc3?=
+ =?utf-8?B?OExVK0FpM3V1VnRkQ1Azd3NYdEV1M3VwV082c1Jpc1pmYlFNeUw4VWVMbmh0?=
+ =?utf-8?B?SGowQUFObzJTWTNDaUNhRnFKL3ZqMC9lTkdYZXZCckRvSVh2R0xXazNUR2la?=
+ =?utf-8?B?OE80d3lrbXQ3eFN5QWNvZzM3Wld2L1RacWpoUzdDWnZ2aittSUIwRmI2MjU5?=
+ =?utf-8?B?Nmh4anBGcjlrSXFHQ2FIZHNrV0FYaEl1c05GMGRiT1gyNE9rMTc4QT09?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2022 18:18:33.1177
+X-MS-Exchange-CrossTenant-Network-Message-Id: de4836b1-c885-455a-689d-08da34444e99
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2022 18:22:01.2611
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fd75679-b825-455a-03cd-08da3443d2e4
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT018.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1624
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jjeL1qy+iono6aw6nGNartH3pPcYzM9jBPM4DWI9NPt+R3EUjhQT3hwZGgP+ZOzr030B72/E1GAGIwcOVPYgAA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4822
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -100,38 +129,44 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When sensor discovery fails, this means that the system doesn't have
-any sensors connected and a user should only be notified at most one time.
-A message is already displayed at WARN level of "failed to discover,
-sensors not enabled".  It's pointless to show that the client init failed
-at ERR level for the same condition.
 
-Check the return code and don't display this message in those conditions.
+On 5/12/2022 11:48 PM, Mario Limonciello wrote:
 
-Fixes: b5d7f43e97da ("HID: amd_sfh: Add support for sensor discovery")
-Reported-by: David Chang <David.Chang@amd.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-v1->v2:
- * fix some fat finger typos in commit message
+> When sensor discovery fails, this means that the system doesn't have
+> any sensors connected and a user should only be notified at most one time.
+> A message is already displayed at WARN level of "failed to discover,
+> sensors not enabled".  It's pointless to show that the client init failed
+> at ERR level for the same condition.
+>
+> Check the return code and don't display this message in those conditions.
+>
+> Fixes: b5d7f43e97da ("HID: amd_sfh: Add support for sensor discovery")
+> Reported-by: David Chang <David.Chang@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+> v1->v2:
+>  * fix some fat finger typos in commit message
+>
+>  drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> index dadc491bbf6b..1441787a154a 100644
+> --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> @@ -327,7 +327,8 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+>  	rc = amd_sfh_hid_client_init(privdata);
+>  	if (rc) {
+>  		amd_sfh_clear_intr(privdata);
+> -		dev_err(&pdev->dev, "amd_sfh_hid_client_init failed\n");
+> +		if (rc != -EOPNOTSUPP)
+> +			dev_err(&pdev->dev, "amd_sfh_hid_client_init failed\n");
+>  		return rc;
+>  	}
+>  
 
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Acked-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index dadc491bbf6b..1441787a154a 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -327,7 +327,8 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 	rc = amd_sfh_hid_client_init(privdata);
- 	if (rc) {
- 		amd_sfh_clear_intr(privdata);
--		dev_err(&pdev->dev, "amd_sfh_hid_client_init failed\n");
-+		if (rc != -EOPNOTSUPP)
-+			dev_err(&pdev->dev, "amd_sfh_hid_client_init failed\n");
- 		return rc;
- 	}
- 
--- 
-2.34.1
+Thanks,
+Basavaraj
 
