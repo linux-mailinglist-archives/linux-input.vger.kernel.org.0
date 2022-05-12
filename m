@@ -2,68 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2A3C5257DD
-	for <lists+linux-input@lfdr.de>; Fri, 13 May 2022 00:35:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A78D55257F9
+	for <lists+linux-input@lfdr.de>; Fri, 13 May 2022 00:48:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359215AbiELWfT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 May 2022 18:35:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41888 "EHLO
+        id S1358818AbiELWsN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 May 2022 18:48:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358082AbiELWfS (ORCPT
+        with ESMTP id S1355938AbiELWsM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 May 2022 18:35:18 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55AD420957E
-        for <linux-input@vger.kernel.org>; Thu, 12 May 2022 15:35:17 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id k2so9135316wrd.5
-        for <linux-input@vger.kernel.org>; Thu, 12 May 2022 15:35:17 -0700 (PDT)
+        Thu, 12 May 2022 18:48:12 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C52E216076;
+        Thu, 12 May 2022 15:48:11 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id a5so5346909wrp.7;
+        Thu, 12 May 2022 15:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5J70ozAJK55smavundSTiA9hCCsVFf1ONtV3iwOfrVg=;
-        b=P9+zolILQOMZs7U99ZzakK+4aGDWUi3Lmi2i6fpVgmYCuTA8kHg8wOXelmRHty0z8s
-         +ujOm7PaZVFR3w0wCqoIuBZXvTTd2AgCPmZRso7Uqg5Q71KdPmqORPyzde5yrIjrLbDX
-         l+so3/o0FkQy4dyS8znWzHvH6gRelszEe6BnZOHYRTsOanDv0eo/bRbmTm+ACaSKtcr+
-         PRJO+xzTj9bWMfzld/Ugk8Z8tsunJZwB4xjG6fsd04zF/4N59cg1Gbzw0uoNSqwU02ZG
-         3Lnd7DhycHQArN6vDrUuHFGkXwiBVmjvdYh36NvFPb4tL7z2wt7jo+o8E4mTo8bwP51N
-         XRkw==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=LenX5q8clYj/Ritl2+sXqopbOv/wuxh9dSWVaj6WujY=;
+        b=K2axMNOwMpgK//LGT46npsuQhEEFQdyVpmgp0EPnc+YVChAmxoWbCCFtJTpiRf1Des
+         ggQ6No7G71U25KfTlioMqTT53c+ru78fkEba7Xaf/jHn8jiT5iZ0RrNcCQ3NNOa2AT87
+         wJne6mV/vUoDDUEcxuR42s2N+aJ0p37Z5UvHOZ2JwlI6YYNG2xY4ahMUo8KCVMe1BZaM
+         2jqciX1w8jscLaGEHkyGpIF4P6Bjk6dkOLXTv55VTnxKecEkq5FEoVfhYFAhWeFDhLi4
+         waUknWOYMRNukEF+XH6dEvkLtUSjbwUJNZTJf1c25UcncA5hgcmgqz2x3aVkc+2/y5O/
+         4qzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5J70ozAJK55smavundSTiA9hCCsVFf1ONtV3iwOfrVg=;
-        b=maUXn2FCNR0rk3id7k/9MYd0TkZj1dpBB4dhw5/Z9OiVSQsGjjPAGKRe97hri3RK+w
-         yXVu0c77lZpbWMGEJ9vUubu4WIpEB96Y1h3c+ZCfHf6rODT3fUfTUxegFHb5mJriY5s5
-         vf3kWNf6MXVcZBun3gf1V8GjY/CeHkfT75QLAEJQcqTr65Sjs5dV56cdpl645rUQ4OpW
-         2b/AiHpbDVOaHYJo8y/qFhtpQndi6riBj8FO3hzlZUTOF0y8Zz444v1DCayyKHKygslT
-         xy5I1Rb+swComuE0hX5XxskTGIqkKxsA36QuUMzFxvOd9Do16sLjhViCa59tcgFAIDpJ
-         MzPQ==
-X-Gm-Message-State: AOAM533g19YNHECeuKwlOyPAM8iUGRUMvfhkvBvIzV0VhKTPB5PHHw5+
-        vKVG8hX8czZBWPs60Wkpown6Cy1bpjGoREVX7XBUIA==
-X-Google-Smtp-Source: ABdhPJxtXM4Sjvv6ZxQShLu3owghnDtYvKTpEFabEa4nBpRPrdUAEkmQVXsjul/DL0vNXeegGcaKUJD15rAsAoLj3HM=
-X-Received: by 2002:adf:fec2:0:b0:20c:6ffb:9598 with SMTP id
- q2-20020adffec2000000b0020c6ffb9598mr1474816wrs.418.1652394915757; Thu, 12
- May 2022 15:35:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220405183953.2094007-1-pceballos@google.com>
- <nycvar.YFH.7.76.2204210947590.30217@cbobk.fhfr.pm> <CAKdAkRQ7yxFFGJg41UxptxapKiP4bmHsfw7dRNE+LPzs1PRk=A@mail.gmail.com>
- <nycvar.YFH.7.76.2205121252090.28985@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2205121252090.28985@cbobk.fhfr.pm>
-From:   Pablo Ceballos <pceballos@google.com>
-Date:   Thu, 12 May 2022 15:35:00 -0700
-Message-ID: <CAO9JgFwA5ZhwOOY0cU3HpMOV69CTumQ50zEgU6SPNAF0zDbCGg@mail.gmail.com>
-Subject: Re: [PATCH] HID: Driver for Google Hangouts Meet Speakermic
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LenX5q8clYj/Ritl2+sXqopbOv/wuxh9dSWVaj6WujY=;
+        b=P6DYMOyTBeLPV3ZKgpXw0tGZQTExGkgsQUpM3PHzn5GaPZJ3YcvVQZ2e4zW3FiPp5v
+         oCApMmOAz0AMtABNXVofU39M6j2sE76WS8glJ66U9ba6QSx5i1hRMn0S3WSVk3Uj8P84
+         y2ZqjDZzTSAVRZWFYWawfMvQRw/jZow0npnS6C7f/Bp8v3cFJtukmre97xmrwWm5eNuW
+         z4wBtIlrUWHuaaSbi8vwN0mGkN5ElEllLl48zTsLEnxpUts9Gd5Q+CBCUdlSyxC1h34f
+         f0tRXwf/iN02DicrBW5ZKtOZE4sb8BEQ80XM1BjCrar89gRuw+y+cbpLBOqQqkMqYQdd
+         2s3g==
+X-Gm-Message-State: AOAM530bquvjMgxxeAZfQAPIJofkE8I3diihpjbMuxMtm1d6JtqGOjSN
+        GNfUGLDzCkeJJwfq4tqVK+Y=
+X-Google-Smtp-Source: ABdhPJzVNDAOBS5AnObtbFQKaZ69q0gtsrK2qu6wMJyizLQbQOH9HFyFUfCD4w99AzyH5dGDXIKTuw==
+X-Received: by 2002:a5d:648b:0:b0:20c:5aec:1c06 with SMTP id o11-20020a5d648b000000b0020c5aec1c06mr1428353wri.525.1652395689697;
+        Thu, 12 May 2022 15:48:09 -0700 (PDT)
+Received: from penguin ([80.149.170.9])
+        by smtp.gmail.com with ESMTPSA id q4-20020adf9dc4000000b0020c6b78eb5asm602278wre.68.2022.05.12.15.48.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 May 2022 15:48:08 -0700 (PDT)
+Date:   Fri, 13 May 2022 00:47:49 +0200
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Pablo Ceballos <pceballos@google.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         lkml <linux-kernel@vger.kernel.org>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+Subject: Re: [PATCH] HID: Driver for Google Hangouts Meet Speakermic
+Message-ID: <Yn2OlQAa9I++N80B@penguin>
+References: <20220405183953.2094007-1-pceballos@google.com>
+ <nycvar.YFH.7.76.2204210947590.30217@cbobk.fhfr.pm>
+ <CAKdAkRQ7yxFFGJg41UxptxapKiP4bmHsfw7dRNE+LPzs1PRk=A@mail.gmail.com>
+ <nycvar.YFH.7.76.2205121252090.28985@cbobk.fhfr.pm>
+ <CAO9JgFwA5ZhwOOY0cU3HpMOV69CTumQ50zEgU6SPNAF0zDbCGg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAO9JgFwA5ZhwOOY0cU3HpMOV69CTumQ50zEgU6SPNAF0zDbCGg@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,22 +76,34 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, May 12, 2022 at 3:53 AM Jiri Kosina <jikos@kernel.org> wrote:
-> On Thu, 12 May 2022, Dmitry Torokhov wrote:
-> > I am curious, could not this be achieved without a kernel driver by
-> > simply using udev to map this usage code to KEY_RESERVED?
->
-> Hmm, good point, using KEY_RESERVED mapping to achieve the key being
-> actually ignored didn't immediately occur to me.
->
-> Pablo, could you please verify that it behaves in the expected way, and
-> confirm that we could drop the 'driver' in favor of udev rule?
+On Thu, May 12, 2022 at 03:35:00PM -0700, Pablo Ceballos wrote:
+> On Thu, May 12, 2022 at 3:53 AM Jiri Kosina <jikos@kernel.org> wrote:
+> > On Thu, 12 May 2022, Dmitry Torokhov wrote:
+> > > I am curious, could not this be achieved without a kernel driver by
+> > > simply using udev to map this usage code to KEY_RESERVED?
+> >
+> > Hmm, good point, using KEY_RESERVED mapping to achieve the key being
+> > actually ignored didn't immediately occur to me.
+> >
+> > Pablo, could you please verify that it behaves in the expected way, and
+> > confirm that we could drop the 'driver' in favor of udev rule?
+> 
+> I think I've achieved the same result by adding the following to udev
+> hwdb. Dmitry, is this what you had in mind, or is there a better way
+> of doing this?
+> 
+> evdev:input:b0003v18D1p8001*
+>  KEYBOARD_KEY_b002f=reserved
 
-I think I've achieved the same result by adding the following to udev
-hwdb. Dmitry, is this what you had in mind, or is there a better way
-of doing this?
+No, that is exactly what I had in mind, thank you. Please submit this
+entry to upstream systemd/udev project (and we can cherry-pick it into
+our udev as well).
 
-evdev:input:b0003v18D1p8001*
- KEYBOARD_KEY_b002f=reserved
+In general I think we should try to avoid trivial "fixup" HID drivers if
+it is possible. I also wondered if we could be supplying fixed-up HID
+descriptors via request_firmware() for HID devices.
 
-Pablo
+Thanks.
+
+-- 
+Dmitry
