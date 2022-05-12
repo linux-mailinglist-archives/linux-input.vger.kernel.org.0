@@ -2,114 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9545E524A39
-	for <lists+linux-input@lfdr.de>; Thu, 12 May 2022 12:25:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26200524AD0
+	for <lists+linux-input@lfdr.de>; Thu, 12 May 2022 12:53:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352591AbiELKZP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 May 2022 06:25:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58140 "EHLO
+        id S1352825AbiELKxP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 May 2022 06:53:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352590AbiELKZO (ORCPT
+        with ESMTP id S1348325AbiELKxO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 May 2022 06:25:14 -0400
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25B0A1F0DE3;
-        Thu, 12 May 2022 03:25:14 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id l11so4177599pgt.13;
-        Thu, 12 May 2022 03:25:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=B0z70l/EHNI185diYCy/yAUimxq5OV5uwPx43q+AZpw=;
-        b=lhuwnemmB/jSGn/ychoOsz2uOa4iOM5tHhVl7yscl2ciw6+64DwsL+Xgh35okGS2ov
-         40IAupoRiU6nbD+BL6OWhSyw+KCNR+XTCeR0urc0is1OS9cG+m4p2dCiT0kFSLCzZ8Lg
-         yDdtCAhTbXNgbJrYRPfVskrRWqVP5GjK092z7GWrT3nPydkvQKOFUoKr/c7QytotLtQp
-         /5WpbjPZJkAZzWypCQqXqu4Ku3yPPCWBUG9NWkQ0b6TGSCmTJdIpT+sN1ufEogwwjoQL
-         1stN2mFW2RgzCknPjAYJteruOz653xn0llTpGf8T7DafdU8lBRqgW8MqAEzXop8oxzTi
-         ryIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=B0z70l/EHNI185diYCy/yAUimxq5OV5uwPx43q+AZpw=;
-        b=XAFQpytnttNhLaOV+Dt5a8Bj8JLrE+Y3hjaW7ozbz2llZ73CgV96/tKSxNsJo7Nj2S
-         PkLcXyRwqWneMDy+BZnTo2hDx/+ii2+E7f50yfNjoe/VqzMkZBNs5heRjuaLF9B20sKn
-         ghRDqb0mq3iMDvHQ7n6eGGozcHqQrjdDIv9ModLrV+OBf/X+EN/Tnir3oSV6Z8m2GMSY
-         XMam2Kr4i+l7JXtczSNI0WeGn1Uuzz7feTSxvw1wVSZKMs1Fv9OLBOnkdmZHHahBlm7T
-         axecHTtEjAH8XwKy4+jz5KSw6D1gyaREUAmKPvym/j/VIm4QwzJlCO2CN4nwkIayHnU1
-         uWQQ==
-X-Gm-Message-State: AOAM533jn6KDdoEbaoxYTJ4T41DxC3avvdcIv9W7J3EKH5W9BP8mKlgN
-        o4jqOZ9oNU0K02xt7y6P8pBwaHlWvn8rWQ==
-X-Google-Smtp-Source: ABdhPJymMEFui5zPZPg28ynCFM42DId6/wOlFRUPq9Z8+E/B9p2zNbfubQ8MFNob9O+vdZN3nL4V1A==
-X-Received: by 2002:a05:6a00:248d:b0:510:5d7d:18ab with SMTP id c13-20020a056a00248d00b005105d7d18abmr28783890pfv.51.1652351113560;
-        Thu, 12 May 2022 03:25:13 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:ad76:8fc:e2ba:172])
-        by smtp.gmail.com with ESMTPSA id be12-20020a170902aa0c00b0015e8d4eb1e4sm3595969plb.46.2022.05.12.03.25.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 May 2022 03:25:12 -0700 (PDT)
-Date:   Thu, 12 May 2022 03:25:10 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     cgel.zte@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Minghao Chi <chi.minghao@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH] Input: simplify the return expression of
- da9034_touch_probe()
-Message-ID: <Ynzghmx1CkJSRVpN@google.com>
-References: <20220429055300.3852396-1-chi.minghao@zte.com.cn>
+        Thu, 12 May 2022 06:53:14 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36B2B5DD07;
+        Thu, 12 May 2022 03:53:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 83EA3B8265C;
+        Thu, 12 May 2022 10:53:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0997BC385B8;
+        Thu, 12 May 2022 10:53:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652352790;
+        bh=e62NPVgqEhybp1OxatsTfS3ZQNH3DC4XMp+/mo1hPCc=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=eN4gLCJoBG9IVTGVMQm1w6/17W64d5+eovUDht4G6EOtYHeqERHW65ltymhaHtXvm
+         4tyAreKLCUZLackUqMCwOGPFGsSEsdsB9k53oZG0p9k0huog1ZiXrQjlFVA+AlZfDq
+         ziMwV9frxOipMX0NUPwpVqxSe1IPhEUZwo8hRHSDRHzrSvARXjmaRcBPVgA68BXYt9
+         cZF84QpGYq6qE4aTnpN81UGtgd+1EnO8pSmXo6NHSXlMZ6/JQzgI3Im5wmfJ0P7vQI
+         52dBAMcMPpWHURzawazZEYV/32mzM2mew0TJ6GLUr0a4JrJu4tW2hLTwDHFLHtrQSa
+         HV806O0wLcXIg==
+Date:   Thu, 12 May 2022 12:53:06 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+cc:     Pablo Ceballos <pceballos@google.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: [PATCH] HID: Driver for Google Hangouts Meet Speakermic
+In-Reply-To: <CAKdAkRQ7yxFFGJg41UxptxapKiP4bmHsfw7dRNE+LPzs1PRk=A@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2205121252090.28985@cbobk.fhfr.pm>
+References: <20220405183953.2094007-1-pceballos@google.com> <nycvar.YFH.7.76.2204210947590.30217@cbobk.fhfr.pm> <CAKdAkRQ7yxFFGJg41UxptxapKiP4bmHsfw7dRNE+LPzs1PRk=A@mail.gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220429055300.3852396-1-chi.minghao@zte.com.cn>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Apr 29, 2022 at 05:53:00AM +0000, cgel.zte@gmail.com wrote:
-> From: Minghao Chi <chi.minghao@zte.com.cn>
-> 
-> Simplify the return expression.
-> 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
-> ---
->  drivers/input/touchscreen/da9034-ts.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/da9034-ts.c b/drivers/input/touchscreen/da9034-ts.c
-> index 2943f6a58388..dfb2604381d2 100644
-> --- a/drivers/input/touchscreen/da9034-ts.c
-> +++ b/drivers/input/touchscreen/da9034-ts.c
-> @@ -298,7 +298,6 @@ static int da9034_touch_probe(struct platform_device *pdev)
->  	struct da9034_touch_pdata *pdata = dev_get_platdata(&pdev->dev);
->  	struct da9034_touch *touch;
->  	struct input_dev *input_dev;
-> -	int error;
->  
->  	touch = devm_kzalloc(&pdev->dev, sizeof(struct da9034_touch),
->  			     GFP_KERNEL);
-> @@ -344,11 +343,7 @@ static int da9034_touch_probe(struct platform_device *pdev)
->  	touch->input_dev = input_dev;
->  	input_set_drvdata(input_dev, touch);
->  
-> -	error = input_register_device(input_dev);
-> -	if (error)
-> -		return error;
-> -
-> -	return 0;
-> +	return input_register_device(input_dev);
+On Thu, 12 May 2022, Dmitry Torokhov wrote:
 
-In cases where there are multiple checks/exit paths in the same function
-I prefer the existing style as it requires less changes when extending.
+> > > This driver works around a problem with the HID usage sent by this
+> > > device for the mute button. It prevents key events from being generated
+> > > for that HID usage since they would be incorrect.
+> > >
+> > > Signed-off-by: Pablo Ceballos <pceballos@google.com>
+> >
+> > Applied to hid.git#for-5.19/google. Thanks,
+> 
+> I am curious, could not this be achieved without a kernel driver by
+> simply using udev to map this usage code to KEY_RESERVED?
+
+Hmm, good point, using KEY_RESERVED mapping to achieve the key being 
+actually ignored didn't immediately occur to me.
+
+Pablo, could you please verify that it behaves in the expected way, and 
+confirm that we could drop the 'driver' in favor of udev rule?
 
 Thanks,
 
 -- 
-Dmitry
+Jiri Kosina
+SUSE Labs
+
