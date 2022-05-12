@@ -2,54 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79287523F0F
-	for <lists+linux-input@lfdr.de>; Wed, 11 May 2022 22:51:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7194E52416D
+	for <lists+linux-input@lfdr.de>; Thu, 12 May 2022 02:15:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242188AbiEKUvr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 May 2022 16:51:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60974 "EHLO
+        id S1349603AbiELAPo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 May 2022 20:15:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240502AbiEKUvq (ORCPT
+        with ESMTP id S1349600AbiELAPm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 May 2022 16:51:46 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D672153A47
-        for <linux-input@vger.kernel.org>; Wed, 11 May 2022 13:51:45 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id l19so4107772ljb.7
-        for <linux-input@vger.kernel.org>; Wed, 11 May 2022 13:51:45 -0700 (PDT)
+        Wed, 11 May 2022 20:15:42 -0400
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4A0213CA0A;
+        Wed, 11 May 2022 17:15:37 -0700 (PDT)
+Received: by mail-oi1-x22f.google.com with SMTP id q10so4598533oia.9;
+        Wed, 11 May 2022 17:15:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ginkel.com; s=google;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=uMkay1imjS7kVt9lWYFsl95b2toXxxfuyTMXxb/FZro=;
-        b=kHAB/5vwa//8mm/L+819GVShXjG0hER5DxnfJk4+10X6kfwQ4n9Dm4Fy0WRWRRdWPk
-         kcoSLVGX7D9owfwF5X+EHm+hFG0Dpu2uX9OLwOsZYMQC0pw5p1OsKr9+1AV4nj+zLEvN
-         pAPgDVWrI03gJbH/GAZtryli8VtO5QA4Cj4N8=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CwF4OHVvt2/W8/fWhl2zbk3bkx19u2MZi1kJ5541uj8=;
+        b=JIOiyWZp/G5JC4MWsBffctuOOWbvvZpQxuBEL1q05eK4/n5arHlfQI0dgpQYFXagFO
+         AGxJciNUa3sMLRnzViH+R8Cbq/83+YWxfNczaP+mVf2qpuUtNX4WX1U/l0VX9TnRA74z
+         p6iqrXrcBReuwguPUHHmziVPRmDFwLdQhLVLqeFYBct0L4D8NCz/YLWA6H8kFaC/II7c
+         XmcQflRpoyrrXQSv1mtDlVFlJiwgsYhzW7VQMu6xCNnNOv5UDqtAx2D96PunTDSfb536
+         iep6iTDECao6sxbIxIxVUH7WKP/A0JcK+ArhU/uwGDSF3ade5f113mt4fQ5UxRWlYcvz
+         I3OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=uMkay1imjS7kVt9lWYFsl95b2toXxxfuyTMXxb/FZro=;
-        b=UdBVsQFuIs+WHdOqszNjmvebw4UqX7roJAToFagkw1MUHO65uGecYoTs4DDEvKkScB
-         ir15hrqSqOm76MLsbNfn+XHw/3cwiySrbc8HCpofTdOnmkigryrGBuZRx9aEn4/cb3iI
-         J24tWPHXmRGh+TdqRJFpPJ/gbn++qjyr5pfQV3iQpOxNhERvjiABB0kV3ElqGctR7hzq
-         em2j/mAj/Lax3nPI4UFW+C/jctib2VPTgwFe+/sDv5TfqRyoxB1udwqdZkbEFk3TnIdg
-         mykWNt7xhRuRs48i1qFRKoDRCtzHvdcOFG7c7qBxENHyHQSWhuvpTyGarA5U8x07ijQU
-         FPCg==
-X-Gm-Message-State: AOAM532xig7Onx43V+GH61oRhLYABiqLnsYlVtUmGdiMiWSxjOKP6OcO
-        dap6mFsZt6qyc64/0iAk9xiHEnlVYMmiBrd45hIMS6WXFX9ImQ==
-X-Google-Smtp-Source: ABdhPJz/EkIelBaexkfLGCL/zXzDXpNl1lGpOrdXFS3EWQWYQncuJPEmWuDYcDrcfpV5mcTpLGDBgglfvVvpvCZ2cK4=
-X-Received: by 2002:a2e:bf12:0:b0:249:3a3b:e91a with SMTP id
- c18-20020a2ebf12000000b002493a3be91amr18676451ljr.343.1652302303892; Wed, 11
- May 2022 13:51:43 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CwF4OHVvt2/W8/fWhl2zbk3bkx19u2MZi1kJ5541uj8=;
+        b=VXtdFbr+SjfRfKuQ8PWTQn+QE8Z5fqQxA4sEpnqZF9u/uzpAzNoZztoiUVlCcknOC8
+         /zD5DjuBodwlp/HMs2uieka5AJfrtap/L7+9BhEekTZp8CtfHQe56pfYVogUpnk6+7C7
+         hfppzDCSRJFom8UbY69H4UiFzqiDu1aJFKHm+/O1TJVU2bLONh+JSk8yiSn1i1SDgdKH
+         8iAukM+wYMJkzWJ+uVoLbEYgSNny0WW9NAjcufjjXKfT9gYHQN8LSQsY1pLe2zcrHWra
+         hpdl3KD/+BTxAskYKWx8GV5WCHBOxqURsTgbPRA9yXyMypLeCkR/E2Dgp25GmqUs+E8h
+         V5Vw==
+X-Gm-Message-State: AOAM533biIUiPvZp1718NdDvV4xE5KrdlUcrtjyq1jFMXy8eba00hd/3
+        pL5VudMZkUE0V4/dnPemf+I=
+X-Google-Smtp-Source: ABdhPJy97TB8m3Ng26yRdFYL14QRXz+1D9b+EYJPwKHn/73E8WX4UKBWyK3qcKt0sHTt91kOb7OC4A==
+X-Received: by 2002:aca:a996:0:b0:326:9197:4b41 with SMTP id s144-20020acaa996000000b0032691974b41mr3694555oie.221.1652314537212;
+        Wed, 11 May 2022 17:15:37 -0700 (PDT)
+Received: from max-lenovo.. (169-231-139-87.wireless.ucsb.edu. [169.231.139.87])
+        by smtp.gmail.com with ESMTPSA id z23-20020a9d65d7000000b0060603221235sm1392635oth.5.2022.05.11.17.15.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 May 2022 17:15:36 -0700 (PDT)
+From:   Max Fletcher <fletcher0max@gmail.com>
+To:     djogorchock@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Max Fletcher <fletcher0max@gmail.com>
+Subject: [PATCH 1/2] HID: nintendo: fix face button mappings
+Date:   Wed, 11 May 2022 17:14:59 -0700
+Message-Id: <20220512001500.16739-1-fletcher0max@gmail.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-From:   Thilo-Alexander Ginkel <thilo@ginkel.com>
-Date:   Wed, 11 May 2022 22:51:27 +0200
-Message-ID: <CANvSZQ9LSbo6JUMR27tqoe=z6srHks5_pU_AGwqP1aWd1fQSsA@mail.gmail.com>
-Subject: ThinkPad X1 Extreme Gen 4 i8042 keyboard sporadically loses key-presses
-To:     linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,36 +69,41 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi there,
+Previously, A and B would match the Xbox layout, but X and Y were incorrectly swapped. This corrects it so that X and Y match the Xbox layout.
 
-I am using a Lenovo ThinkPad X1 Extreme Gen 4 (X1E4, 20Y5) that
-sporadically loses key-press events, i.e. no key is detected when
-pressing the key switch. Usually only single keys are missed, I have
-not experienced multiple lost consecutive key-press events.
+Signed-off-by: Max Fletcher <fletcher0max@gmail.com>
+---
+ drivers/hid/hid-nintendo.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Lenovo has already swapped the keyboard, keyboard sub-card and
-mainboard, so I would rule out a hardware defect with high certainty
-(as only chassis, battery and screen are unchanged). The issue only
-happens when using the internal keyboard, using an external USB
-keyboard works flawlessly. I know two other users that experience the
-same issue.
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+index 2204de889739..7735971ede3f 100644
+--- a/drivers/hid/hid-nintendo.c
++++ b/drivers/hid/hid-nintendo.c
+@@ -1351,10 +1351,10 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
+ 		input_report_key(dev, BTN_START, btns & JC_BTN_PLUS);
+ 		input_report_key(dev, BTN_THUMBR, btns & JC_BTN_RSTICK);
+ 		input_report_key(dev, BTN_MODE, btns & JC_BTN_HOME);
+-		input_report_key(dev, BTN_WEST, btns & JC_BTN_Y);
+-		input_report_key(dev, BTN_NORTH, btns & JC_BTN_X);
+-		input_report_key(dev, BTN_EAST, btns & JC_BTN_A);
+-		input_report_key(dev, BTN_SOUTH, btns & JC_BTN_B);
++		input_report_key(dev, BTN_X, btns & JC_BTN_Y);
++		input_report_key(dev, BTN_Y, btns & JC_BTN_X);
++		input_report_key(dev, BTN_B, btns & JC_BTN_A);
++		input_report_key(dev, BTN_A, btns & JC_BTN_B);
+ 	}
+ 
+ 	input_sync(dev);
+@@ -1578,7 +1578,7 @@ static const unsigned int joycon_button_inputs_l[] = {
+ 
+ static const unsigned int joycon_button_inputs_r[] = {
+ 	BTN_START, BTN_MODE, BTN_THUMBR,
+-	BTN_SOUTH, BTN_EAST, BTN_NORTH, BTN_WEST,
++	BTN_A, BTN_B, BTN_Y, BTN_X,
+ 	BTN_TR, BTN_TR2,
+ 	0 /* 0 signals end of array */
+ };
+-- 
+2.35.3
 
-The X1E4 AFAIK accesses the keyboard via the i8042 driver.
-
-An older ThinkPad model (the X1E2) had a firmware/EC bug [1] that
-caused key-press events to be lost, so I can't completely rule out
-that Lenovo messed up the firmware implementation again.
-
-Affected systems: Lenovo ThinkPad X1 Extreme Gen 4 / P1 Gen 4 (Intel
-Tiger Lake H). Mine has a Core i7-11850H.
-
-uname -a
-Linux vega 5.17.5-arch1-1 #1 SMP PREEMPT Wed, 27 Apr 2022 20:56:11
-+0000 x86_64 GNU/Linux
-
-Any ideas on how to troubleshoot this?
-
-Thanks,
-Thilo
-
-[1] https://www.notebookcheck.net/ThinkPad-X1-Extreme-Gen-2-Lenovo-fixes-the-keystrokes-bug.464923.0.html
