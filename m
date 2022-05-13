@@ -2,61 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2841C526C98
-	for <lists+linux-input@lfdr.de>; Fri, 13 May 2022 23:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A11B526C99
+	for <lists+linux-input@lfdr.de>; Fri, 13 May 2022 23:52:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384656AbiEMVwL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 May 2022 17:52:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46924 "EHLO
+        id S1380222AbiEMVwo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 May 2022 17:52:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353675AbiEMVwK (ORCPT
+        with ESMTP id S1353675AbiEMVwn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 May 2022 17:52:10 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11D5125287
-        for <linux-input@vger.kernel.org>; Fri, 13 May 2022 14:52:09 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id r71so8323790pgr.0
-        for <linux-input@vger.kernel.org>; Fri, 13 May 2022 14:52:09 -0700 (PDT)
+        Fri, 13 May 2022 17:52:43 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA2F125287
+        for <linux-input@vger.kernel.org>; Fri, 13 May 2022 14:52:41 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id n8so9193389plh.1
+        for <linux-input@vger.kernel.org>; Fri, 13 May 2022 14:52:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=urItSZ+G6Q/5OIBZdP4pvnOKDMIH/GVsxmOa5TtyLXw=;
-        b=nfCgXa+NaJKF+JbLUnjYUt10dl0c0g8MVp23MGiU1ZpYNljFb4Tu+h7hAXJOi5XApb
-         afg7SOseoyksDzJggF+r5HHI+rdh4VwAztEIqc4cIU7vhSyig6NBKFz5BYFAIReTz80B
-         AqXkcs3nPYzXp+6tSytZlHEwPI3j/yUcD1Dyb6388e5prYNNoY+eFHXBchspqvV1zkvQ
-         izlmviBCot7Ffk1QC0WQpOMSJ9DGfARS+tIGMzYDoMAwkq9TPUA0/EsMGeuX6aN+jLz1
-         IrEmIDefS/rucmQSui9S4Y6mD6DqvJb05I64AH2NZhtGnmKz3YIt3N8T4io94JtUo2Zb
-         7U3A==
+        bh=A3DeCmyzMOhZ5g1MUUwlkj6rPj8RtVX0Xz0D5cC6IVM=;
+        b=gYI/RHQCEkl4YmyegbByaWZvkpxY9b8fxkAaNtzO7PAbk8/FbEi6StOGplDt7HpTp5
+         xNBkVHuQdhufTMXJN0tVNFZLQbG+CeJ78Pi9j0FKbl1sMRf1Vx6B4XXrjTfTlChK6UEF
+         QQ4/SW26zSuGYP7yQyHs5r2rAffq8Lv76dfFmKmT5g+PMwWsbiYYYmDyLb4WobqfmLs0
+         dkp/3aV6pUdWcW3aOw700GPGrLrsFxYCb6WmPXiN5G2C3liM3wklh43fZlqHUkkaoIYN
+         rXG20ib+s5q62m84vyhQIvLQNFMJUHelJ6XnnBeGE6rX2dGxG1sTKj/bduiTZkX7yl2j
+         vnxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=urItSZ+G6Q/5OIBZdP4pvnOKDMIH/GVsxmOa5TtyLXw=;
-        b=s6/DtZS2SIEwmVjWHKtcq31sQD7dpKPgRj8WrydQrCzJ2flNRUUdMGL8ZZMf2KnGQp
-         wSeulRbeeL1LqELMAs7HZOIPQ53Gz+XdizrRhFK7i2bb3+QlBUvzsZ8jDL6oKtDXSEU0
-         rTZuaAJfzGaXq7BwOLwJGx1m02Znfh3rIpykynyuYguuxsXjeFPY1mG49zQXjnH6faG8
-         AOLRNf+SFkxjriGdKCJ4oKHzZKpl/TaB1OZUbdtRJWUHgzuf3EXwu23UaDIN8dpz9E/Z
-         wKkIWZ5BEeK0lq7TYAH2qEyUmlbTcPFd4FCaeCnaWKtlwzvgnIrsqVV8hY1I7c9VFC6/
-         r28Q==
-X-Gm-Message-State: AOAM5331glyWgGg9TBSHRStLNO7tSAd8wcrg2u/Xx2vsxrO+rAuwZtyv
-        rhAvxMFGslaSkKM1eGrdlkQ=
-X-Google-Smtp-Source: ABdhPJwBGVTD/+P324+9Z+REmWTUUQwjUDc6foUxU9gH4dRVcQQFAfPHo9etNXrgBb/bPcuxzlD3Ig==
-X-Received: by 2002:a65:6047:0:b0:3c1:43c9:a4d9 with SMTP id a7-20020a656047000000b003c143c9a4d9mr5547569pgp.324.1652478728518;
-        Fri, 13 May 2022 14:52:08 -0700 (PDT)
+        bh=A3DeCmyzMOhZ5g1MUUwlkj6rPj8RtVX0Xz0D5cC6IVM=;
+        b=4/fk6UPmZ81AsQTKcHnymxqAJhBo3fYkYCZq0YinQ+9hr73tfLVHv3VhR4fmCAZDIG
+         dYHVHFOnqcQJ0YTYMGS9ITn/z6K13W8CTGGjPQx1KE+/LRDQqN+dnVn7KROXqU8X1bbO
+         PUW9iI3obJ37HMy91K4+O5JZ/ngk5bBLtTaEB2tThck9jUUfbqNJGgnZq7E+8AjHLxfk
+         MP+jQtFzow90npT+ehdKoXvSZGTmp/3tCmIX+3VwEn4v2wdGtMmZenoYN/nL2+NYGoiy
+         xHTCBRo8uYIk0ZwO+7BSbTUupAepqbknw+ngqsgdYj+09r3kp0boFBd8ar0D/eA7TUay
+         80fQ==
+X-Gm-Message-State: AOAM533vmns1ZmBjNgXlwBH/4dXzelp9PdO3PExjZwxyvVPqL83Ws6vh
+        o0jy3t2dNcykHpNK0jAqWTb7Lrr0tmo=
+X-Google-Smtp-Source: ABdhPJz4kiZlWcKszY/eKi515GD4Uq/L/RYyvw9wcUvOwktK5sHgupDAEKOsL0te6Z29f91kgnyCJA==
+X-Received: by 2002:a17:902:d541:b0:15e:ba3a:90d2 with SMTP id z1-20020a170902d54100b0015eba3a90d2mr6580824plf.11.1652478761349;
+        Fri, 13 May 2022 14:52:41 -0700 (PDT)
 Received: from localhost.localdomain ([2601:1c2:4f00:cef0:71f2:2d00:2ce2:66bf])
-        by smtp.gmail.com with ESMTPSA id x8-20020a17090a530800b001cd4989feccsm4033245pjh.24.2022.05.13.14.52.07
+        by smtp.gmail.com with ESMTPSA id u21-20020a17090ae01500b001d5e1b124a0sm4066449pjy.7.2022.05.13.14.52.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 May 2022 14:52:07 -0700 (PDT)
+        Fri, 13 May 2022 14:52:41 -0700 (PDT)
 From:   Ping Cheng <pinglinux@gmail.com>
 X-Google-Original-From: Ping Cheng <ping.cheng@wacom.com>
 To:     jikos@kernel.org
 Cc:     linux-input@vger.kernel.org, Aaron.Skomra@wacom.com,
         joshua.dickens@wacom.com, Ping Cheng <ping.cheng@wacom.com>,
         Jason Gerecke <jason.gerecke@wacom.com>
-Subject: [PATCH 1/2] HID: wacom: Only report rotation for art pen
-Date:   Fri, 13 May 2022 14:51:56 -0700
-Message-Id: <20220513215156.14914-1-ping.cheng@wacom.com>
+Subject: [PATCH 2/2] HID: wacom: Don't register pad_input for touch switch
+Date:   Fri, 13 May 2022 14:52:37 -0700
+Message-Id: <20220513215237.15121-1-ping.cheng@wacom.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -70,91 +70,105 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The generic routine, wacom_wac_pen_event, turns rotation value 90
-degree anti-clockwise before posting the events. This non-zero
-event trggers a non-zero ABS_Z event for non art pen tools. However,
-HID_DG_TWIST is only supported by art pen.
+Touch switch state is received through WACOM_PAD_FIELD. However, it
+is reported by touch_input. Don't register pad_input if no other pad
+events require the interface.
 
 Signed-off-by: Ping Cheng <ping.cheng@wacom.com>
 Reviewed-by: Jason Gerecke <jason.gerecke@wacom.com>
---
-Hi Jiri,
-
-This is kind of a version 2 of the last one I posted two days ago.
-I updated the logic so it has less changed lines: 29 vs 158! Hopefully,
-the logic is easier to follow now. Please ignore the last one.
-
-Thank you!
 ---
- drivers/hid/wacom_wac.c | 29 +++++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 8 deletions(-)
+ drivers/hid/wacom_sys.c |  2 +-
+ drivers/hid/wacom_wac.c | 43 ++++++++++++++++++++++++-----------------
+ 2 files changed, 26 insertions(+), 19 deletions(-)
 
+diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+index 066c567dbaa2..9a81e63c330e 100644
+--- a/drivers/hid/wacom_sys.c
++++ b/drivers/hid/wacom_sys.c
+@@ -2121,7 +2121,7 @@ static int wacom_register_inputs(struct wacom *wacom)
+ 
+ 	error = wacom_setup_pad_input_capabilities(pad_input_dev, wacom_wac);
+ 	if (error) {
+-		/* no pad in use on this interface */
++		/* no pad events using this interface */
+ 		input_free_device(pad_input_dev);
+ 		wacom_wac->pad_input = NULL;
+ 		pad_input_dev = NULL;
 diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index a7176fc0635d..3bee4f46003d 100644
+index 3bee4f46003d..6491dc6b3ea8 100644
 --- a/drivers/hid/wacom_wac.c
 +++ b/drivers/hid/wacom_wac.c
-@@ -638,9 +638,26 @@ static int wacom_intuos_id_mangle(int tool_id)
- 	return (tool_id & ~0xFFF) << 4 | (tool_id & 0xFFF);
- }
- 
-+static bool wacom_is_art_pen(int tool_id)
-+{
-+	bool is_art_pen = false;
-+
-+	switch (tool_id) {
-+	case 0x885:	/* Intuos3 Marker Pen */
-+	case 0x804:	/* Intuos4/5 13HD/24HD Marker Pen */
-+	case 0x10804:	/* Intuos4/5 13HD/24HD Art Pen */
-+		is_art_pen = true;
-+		break;
-+	}
-+	return is_art_pen;
-+}
-+
- static int wacom_intuos_get_tool_type(int tool_id)
- {
--	int tool_type;
-+	int tool_type = BTN_TOOL_PEN;
-+
-+	if (wacom_is_art_pen(tool_id)
-+		return tool_type;
- 
- 	switch (tool_id) {
- 	case 0x812: /* Inking pen */
-@@ -655,12 +672,9 @@ static int wacom_intuos_get_tool_type(int tool_id)
- 	case 0x852:
- 	case 0x823: /* Intuos3 Grip Pen */
- 	case 0x813: /* Intuos3 Classic Pen */
--	case 0x885: /* Intuos3 Marker Pen */
- 	case 0x802: /* Intuos4/5 13HD/24HD General Pen */
--	case 0x804: /* Intuos4/5 13HD/24HD Marker Pen */
- 	case 0x8e2: /* IntuosHT2 pen */
- 	case 0x022:
--	case 0x10804: /* Intuos4/5 13HD/24HD Art Pen */
- 	case 0x10842: /* MobileStudio Pro Pro Pen slim */
- 	case 0x14802: /* Intuos4/5 13HD/24HD Classic Pen */
- 	case 0x16802: /* Cintiq 13HD Pro Pen */
-@@ -718,10 +732,6 @@ static int wacom_intuos_get_tool_type(int tool_id)
- 	case 0x10902: /* Intuos4/5 13HD/24HD Airbrush */
- 		tool_type = BTN_TOOL_AIRBRUSH;
+@@ -2017,7 +2017,6 @@ static void wacom_wac_pad_usage_mapping(struct hid_device *hdev,
+ 		wacom_wac->has_mute_touch_switch = true;
+ 		usage->type = EV_SW;
+ 		usage->code = SW_MUTE_DEVICE;
+-		features->device_type |= WACOM_DEVICETYPE_PAD;
  		break;
--
--	default: /* Unknown tool */
--		tool_type = BTN_TOOL_PEN;
--		break;
+ 	case WACOM_HID_WD_TOUCHSTRIP:
+ 		wacom_map_usage(input, usage, field, EV_ABS, ABS_RX, 0);
+@@ -2097,6 +2096,30 @@ static void wacom_wac_pad_event(struct hid_device *hdev, struct hid_field *field
+ 			wacom_wac->hid_data.inrange_state |= value;
  	}
- 	return tool_type;
- }
-@@ -2323,6 +2333,9 @@ static void wacom_wac_pen_event(struct hid_device *hdev, struct hid_field *field
- 		}
- 		return;
- 	case HID_DG_TWIST:
-+		/* don't modify the value if the pen doesn't support the feature */
-+		if (!wacom_is_art_pen(wacom_wac->id[0])) return;
+ 
++	/* Process touch switch state first since it is reported through touch interface,
++	 * which is indepentent of pad interface. In the case when there are no other pad
++	 * events, the pad interface will not even be created.
++	 */
++	if ((equivalent_usage == WACOM_HID_WD_MUTE_DEVICE) ||
++	   (equivalent_usage == WACOM_HID_WD_TOUCHONOFF)) {
++		if (wacom_wac->shared->touch_input) {
++			bool *is_touch_on = &wacom_wac->shared->is_touch_on;
 +
++			if (equivalent_usage == WACOM_HID_WD_MUTE_DEVICE && value)
++				*is_touch_on = !(*is_touch_on);
++			else if (equivalent_usage == WACOM_HID_WD_TOUCHONOFF)
++				*is_touch_on = value;
++
++			input_report_switch(wacom_wac->shared->touch_input,
++					    SW_MUTE_DEVICE, !(*is_touch_on));
++			input_sync(wacom_wac->shared->touch_input);
++		}
++		return;
++	}
++
++	if (!input)
++		return;
++
+ 	switch (equivalent_usage) {
+ 	case WACOM_HID_WD_TOUCHRING:
  		/*
- 		 * Userspace expects pen twist to have its zero point when
- 		 * the buttons/finger is on the tablet's left. HID values
+@@ -2132,22 +2155,6 @@ static void wacom_wac_pad_event(struct hid_device *hdev, struct hid_field *field
+ 			input_event(input, usage->type, usage->code, 0);
+ 		break;
+ 
+-	case WACOM_HID_WD_MUTE_DEVICE:
+-	case WACOM_HID_WD_TOUCHONOFF:
+-		if (wacom_wac->shared->touch_input) {
+-			bool *is_touch_on = &wacom_wac->shared->is_touch_on;
+-
+-			if (equivalent_usage == WACOM_HID_WD_MUTE_DEVICE && value)
+-				*is_touch_on = !(*is_touch_on);
+-			else if (equivalent_usage == WACOM_HID_WD_TOUCHONOFF)
+-				*is_touch_on = value;
+-
+-			input_report_switch(wacom_wac->shared->touch_input,
+-					    SW_MUTE_DEVICE, !(*is_touch_on));
+-			input_sync(wacom_wac->shared->touch_input);
+-		}
+-		break;
+-
+ 	case WACOM_HID_WD_MODE_CHANGE:
+ 		if (wacom_wac->is_direct_mode != value) {
+ 			wacom_wac->is_direct_mode = value;
+@@ -2808,7 +2815,7 @@ void wacom_wac_event(struct hid_device *hdev, struct hid_field *field,
+ 	/* usage tests must precede field tests */
+ 	if (WACOM_BATTERY_USAGE(usage))
+ 		wacom_wac_battery_event(hdev, field, usage, value);
+-	else if (WACOM_PAD_FIELD(field) && wacom->wacom_wac.pad_input)
++	else if (WACOM_PAD_FIELD(field))
+ 		wacom_wac_pad_event(hdev, field, usage, value);
+ 	else if (WACOM_PEN_FIELD(field) && wacom->wacom_wac.pen_input)
+ 		wacom_wac_pen_event(hdev, field, usage, value);
 -- 
 2.25.1
 
