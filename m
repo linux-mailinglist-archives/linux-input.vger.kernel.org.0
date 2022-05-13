@@ -2,63 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B2AE526AC9
-	for <lists+linux-input@lfdr.de>; Fri, 13 May 2022 21:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2841C526C98
+	for <lists+linux-input@lfdr.de>; Fri, 13 May 2022 23:52:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349451AbiEMT6V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 May 2022 15:58:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54068 "EHLO
+        id S1384656AbiEMVwL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 May 2022 17:52:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346904AbiEMT6V (ORCPT
+        with ESMTP id S1353675AbiEMVwK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 May 2022 15:58:21 -0400
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23093F136B;
-        Fri, 13 May 2022 12:58:20 -0700 (PDT)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-2f16645872fso101088917b3.4;
-        Fri, 13 May 2022 12:58:20 -0700 (PDT)
+        Fri, 13 May 2022 17:52:10 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11D5125287
+        for <linux-input@vger.kernel.org>; Fri, 13 May 2022 14:52:09 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id r71so8323790pgr.0
+        for <linux-input@vger.kernel.org>; Fri, 13 May 2022 14:52:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pW4fIO1zU8hH5UZQ21Ux1LqBB1/44eCl6uSeUwAZ5aM=;
-        b=ffKMHRTsZAboB6znpNNJk4ZBl4MZCa/2C4jy3u9at1auqT2Nmm6gNWVfsrLZtTjLUM
-         4yVOBJ2Je5sjAFPGP3k8ardglwbqhLXAFhrKR93rOQiORqDG5NMvFvL6GgXNkK5StyNb
-         deBmsqJpn5Hj8FeSqbIvf+4YGvtHUe1Do1OYqCyVB1BDkG8laFMHl2DeQeq+r+ivfn5d
-         MVyK1XJthRCKigc+YZtjq8+MlQ3e4zAAmPDPp9saM9hDgEeynjuUp7hzgpdsQIp4+IbT
-         1u6g9uP8y7qB4JxDRKeT+dGyv8Hl1Koa68marZqIofFV1ozUD/i2KNnrnvG9P90RVlJD
-         bjzA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=urItSZ+G6Q/5OIBZdP4pvnOKDMIH/GVsxmOa5TtyLXw=;
+        b=nfCgXa+NaJKF+JbLUnjYUt10dl0c0g8MVp23MGiU1ZpYNljFb4Tu+h7hAXJOi5XApb
+         afg7SOseoyksDzJggF+r5HHI+rdh4VwAztEIqc4cIU7vhSyig6NBKFz5BYFAIReTz80B
+         AqXkcs3nPYzXp+6tSytZlHEwPI3j/yUcD1Dyb6388e5prYNNoY+eFHXBchspqvV1zkvQ
+         izlmviBCot7Ffk1QC0WQpOMSJ9DGfARS+tIGMzYDoMAwkq9TPUA0/EsMGeuX6aN+jLz1
+         IrEmIDefS/rucmQSui9S4Y6mD6DqvJb05I64AH2NZhtGnmKz3YIt3N8T4io94JtUo2Zb
+         7U3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pW4fIO1zU8hH5UZQ21Ux1LqBB1/44eCl6uSeUwAZ5aM=;
-        b=g4j0EpGut1d9VAopyvwKio+gtOCV2nmaEwLU0s0Ib3vOhtpkvGWYaYQWlxs3nlGjhA
-         BW+241Pm+jbOrF5PVtvRTCi0E8debFFBsRcsxfhclKWnlJO/MC0evYpzYSdjeZMcrj9J
-         62P8MBy9Oz2udW8iIYgyv8OYf9E1juvGqmOWaCvdRKDWdtgETC1letqkdxyi8pbEV/Cq
-         tiOxqvuhiKTEbI7+9JGZclkqJ7H0bs9uwddB1XPhSVz8wt89pnvh92KxTziDTy9QwOMc
-         aoBYMj5y+kUtvoffWzSSGFlZVMnn0xwO54o8ZTSrfELeKAi+1bFm3Si7QeS5xxTkhi5N
-         1W5Q==
-X-Gm-Message-State: AOAM530rJPhbzufDBE118Mb7GnQAgHmUrNnIc6QC70QGlxxnFu6Lticr
-        fxMjh1Qrlhak3npg14wazdSuTv1SLlyBUImIQPM=
-X-Google-Smtp-Source: ABdhPJw6+/SwL2KydeAdgLuJYjz/+K1J1IHTLjBhAneWt/AHH+E75vqBLas8PV6tZm9E97+1M504un5gP//4Zp83qc4=
-X-Received: by 2002:a81:70c3:0:b0:2fe:c68c:aa1d with SMTP id
- l186-20020a8170c3000000b002fec68caa1dmr2409691ywc.431.1652471899340; Fri, 13
- May 2022 12:58:19 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=urItSZ+G6Q/5OIBZdP4pvnOKDMIH/GVsxmOa5TtyLXw=;
+        b=s6/DtZS2SIEwmVjWHKtcq31sQD7dpKPgRj8WrydQrCzJ2flNRUUdMGL8ZZMf2KnGQp
+         wSeulRbeeL1LqELMAs7HZOIPQ53Gz+XdizrRhFK7i2bb3+QlBUvzsZ8jDL6oKtDXSEU0
+         rTZuaAJfzGaXq7BwOLwJGx1m02Znfh3rIpykynyuYguuxsXjeFPY1mG49zQXjnH6faG8
+         AOLRNf+SFkxjriGdKCJ4oKHzZKpl/TaB1OZUbdtRJWUHgzuf3EXwu23UaDIN8dpz9E/Z
+         wKkIWZ5BEeK0lq7TYAH2qEyUmlbTcPFd4FCaeCnaWKtlwzvgnIrsqVV8hY1I7c9VFC6/
+         r28Q==
+X-Gm-Message-State: AOAM5331glyWgGg9TBSHRStLNO7tSAd8wcrg2u/Xx2vsxrO+rAuwZtyv
+        rhAvxMFGslaSkKM1eGrdlkQ=
+X-Google-Smtp-Source: ABdhPJwBGVTD/+P324+9Z+REmWTUUQwjUDc6foUxU9gH4dRVcQQFAfPHo9etNXrgBb/bPcuxzlD3Ig==
+X-Received: by 2002:a65:6047:0:b0:3c1:43c9:a4d9 with SMTP id a7-20020a656047000000b003c143c9a4d9mr5547569pgp.324.1652478728518;
+        Fri, 13 May 2022 14:52:08 -0700 (PDT)
+Received: from localhost.localdomain ([2601:1c2:4f00:cef0:71f2:2d00:2ce2:66bf])
+        by smtp.gmail.com with ESMTPSA id x8-20020a17090a530800b001cd4989feccsm4033245pjh.24.2022.05.13.14.52.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 May 2022 14:52:07 -0700 (PDT)
+From:   Ping Cheng <pinglinux@gmail.com>
+X-Google-Original-From: Ping Cheng <ping.cheng@wacom.com>
+To:     jikos@kernel.org
+Cc:     linux-input@vger.kernel.org, Aaron.Skomra@wacom.com,
+        joshua.dickens@wacom.com, Ping Cheng <ping.cheng@wacom.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>
+Subject: [PATCH 1/2] HID: wacom: Only report rotation for art pen
+Date:   Fri, 13 May 2022 14:51:56 -0700
+Message-Id: <20220513215156.14914-1-ping.cheng@wacom.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220512001500.16739-1-fletcher0max@gmail.com>
-In-Reply-To: <20220512001500.16739-1-fletcher0max@gmail.com>
-From:   Roderick Colenbrander <thunderbird2k@gmail.com>
-Date:   Fri, 13 May 2022 12:58:08 -0700
-Message-ID: <CAEc3jaBbVT1t1kS_Vvp3EqfheCWr=CAvVgdzw7vkeFyYz9H_7Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] HID: nintendo: fix face button mappings
-To:     Max Fletcher <fletcher0max@gmail.com>
-Cc:     "Daniel J. Ogorchock" <djogorchock@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -69,67 +70,91 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Max,
+The generic routine, wacom_wac_pen_event, turns rotation value 90
+degree anti-clockwise before posting the events. This non-zero
+event trggers a non-zero ABS_Z event for non art pen tools. However,
+HID_DG_TWIST is only supported by art pen.
 
-Thanks for your patch, however I must say the patch is not correct for
-2 reasons.
+Signed-off-by: Ping Cheng <ping.cheng@wacom.com>
+Reviewed-by: Jason Gerecke <jason.gerecke@wacom.com>
+--
+Hi Jiri,
 
-Over the years different controllers have different layouts. The
-standard which this driver (as well as others such as
-hid-sony/hid-playstation) follow is the Linux gamepad standard (see
-Documentation/input/gamepad.rst). It stays away of the debate what is
-A/B/X/Y. It talks about North/west/.., (yes they are macros which map
-to A/B/X/Y). In case of the Switch it does mean things are flipped,
-but it was not meant to represent an Xbox controller. (Technically one
-could argue that the Xbox controller should be flipped as it was the
-SNES controller back in the days which introduced X/Y and the Switch
-is still consistent with that.)
+This is kind of a version 2 of the last one I posted two days ago.
+I updated the logic so it has less changed lines: 29 vs 158! Hopefully,
+the logic is easier to follow now. Please ignore the last one.
 
-Second, even if the patch was right it would be tricky to merge. The
-problem is that a changed mapping breaks user spaces and in general
-can't do this unless there is a really good reason. It just would
-break existing applications and libraries (often e.g. SDL)
+Thank you!
+---
+ drivers/hid/wacom_wac.c | 29 +++++++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 8 deletions(-)
 
-Thanks,
-Roderick
+diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+index a7176fc0635d..3bee4f46003d 100644
+--- a/drivers/hid/wacom_wac.c
++++ b/drivers/hid/wacom_wac.c
+@@ -638,9 +638,26 @@ static int wacom_intuos_id_mangle(int tool_id)
+ 	return (tool_id & ~0xFFF) << 4 | (tool_id & 0xFFF);
+ }
+ 
++static bool wacom_is_art_pen(int tool_id)
++{
++	bool is_art_pen = false;
++
++	switch (tool_id) {
++	case 0x885:	/* Intuos3 Marker Pen */
++	case 0x804:	/* Intuos4/5 13HD/24HD Marker Pen */
++	case 0x10804:	/* Intuos4/5 13HD/24HD Art Pen */
++		is_art_pen = true;
++		break;
++	}
++	return is_art_pen;
++}
++
+ static int wacom_intuos_get_tool_type(int tool_id)
+ {
+-	int tool_type;
++	int tool_type = BTN_TOOL_PEN;
++
++	if (wacom_is_art_pen(tool_id)
++		return tool_type;
+ 
+ 	switch (tool_id) {
+ 	case 0x812: /* Inking pen */
+@@ -655,12 +672,9 @@ static int wacom_intuos_get_tool_type(int tool_id)
+ 	case 0x852:
+ 	case 0x823: /* Intuos3 Grip Pen */
+ 	case 0x813: /* Intuos3 Classic Pen */
+-	case 0x885: /* Intuos3 Marker Pen */
+ 	case 0x802: /* Intuos4/5 13HD/24HD General Pen */
+-	case 0x804: /* Intuos4/5 13HD/24HD Marker Pen */
+ 	case 0x8e2: /* IntuosHT2 pen */
+ 	case 0x022:
+-	case 0x10804: /* Intuos4/5 13HD/24HD Art Pen */
+ 	case 0x10842: /* MobileStudio Pro Pro Pen slim */
+ 	case 0x14802: /* Intuos4/5 13HD/24HD Classic Pen */
+ 	case 0x16802: /* Cintiq 13HD Pro Pen */
+@@ -718,10 +732,6 @@ static int wacom_intuos_get_tool_type(int tool_id)
+ 	case 0x10902: /* Intuos4/5 13HD/24HD Airbrush */
+ 		tool_type = BTN_TOOL_AIRBRUSH;
+ 		break;
+-
+-	default: /* Unknown tool */
+-		tool_type = BTN_TOOL_PEN;
+-		break;
+ 	}
+ 	return tool_type;
+ }
+@@ -2323,6 +2333,9 @@ static void wacom_wac_pen_event(struct hid_device *hdev, struct hid_field *field
+ 		}
+ 		return;
+ 	case HID_DG_TWIST:
++		/* don't modify the value if the pen doesn't support the feature */
++		if (!wacom_is_art_pen(wacom_wac->id[0])) return;
++
+ 		/*
+ 		 * Userspace expects pen twist to have its zero point when
+ 		 * the buttons/finger is on the tablet's left. HID values
+-- 
+2.25.1
 
-On Wed, May 11, 2022 at 8:12 PM Max Fletcher <fletcher0max@gmail.com> wrote:
->
-> Previously, A and B would match the Xbox layout, but X and Y were incorrectly swapped. This corrects it so that X and Y match the Xbox layout.
->
-> Signed-off-by: Max Fletcher <fletcher0max@gmail.com>
-> ---
->  drivers/hid/hid-nintendo.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-> index 2204de889739..7735971ede3f 100644
-> --- a/drivers/hid/hid-nintendo.c
-> +++ b/drivers/hid/hid-nintendo.c
-> @@ -1351,10 +1351,10 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
->                 input_report_key(dev, BTN_START, btns & JC_BTN_PLUS);
->                 input_report_key(dev, BTN_THUMBR, btns & JC_BTN_RSTICK);
->                 input_report_key(dev, BTN_MODE, btns & JC_BTN_HOME);
-> -               input_report_key(dev, BTN_WEST, btns & JC_BTN_Y);
-> -               input_report_key(dev, BTN_NORTH, btns & JC_BTN_X);
-> -               input_report_key(dev, BTN_EAST, btns & JC_BTN_A);
-> -               input_report_key(dev, BTN_SOUTH, btns & JC_BTN_B);
-> +               input_report_key(dev, BTN_X, btns & JC_BTN_Y);
-> +               input_report_key(dev, BTN_Y, btns & JC_BTN_X);
-> +               input_report_key(dev, BTN_B, btns & JC_BTN_A);
-> +               input_report_key(dev, BTN_A, btns & JC_BTN_B);
->         }
->
->         input_sync(dev);
-> @@ -1578,7 +1578,7 @@ static const unsigned int joycon_button_inputs_l[] = {
->
->  static const unsigned int joycon_button_inputs_r[] = {
->         BTN_START, BTN_MODE, BTN_THUMBR,
-> -       BTN_SOUTH, BTN_EAST, BTN_NORTH, BTN_WEST,
-> +       BTN_A, BTN_B, BTN_Y, BTN_X,
->         BTN_TR, BTN_TR2,
->         0 /* 0 signals end of array */
->  };
-> --
-> 2.35.3
->
