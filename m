@@ -2,48 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EABF9525EF4
-	for <lists+linux-input@lfdr.de>; Fri, 13 May 2022 12:07:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67C41525F1C
+	for <lists+linux-input@lfdr.de>; Fri, 13 May 2022 12:07:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379088AbiEMJju (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 May 2022 05:39:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51766 "EHLO
+        id S1379113AbiEMJjx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 May 2022 05:39:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379093AbiEMJjr (ORCPT
+        with ESMTP id S1353324AbiEMJjr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Fri, 13 May 2022 05:39:47 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26023291CDC
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0022291CE2
         for <linux-input@vger.kernel.org>; Fri, 13 May 2022 02:39:46 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id u3so10681071wrg.3
+Received: by mail-wr1-x42e.google.com with SMTP id w4so10611534wrg.12
         for <linux-input@vger.kernel.org>; Fri, 13 May 2022 02:39:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=semihalf-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EeNo6IayOFD87yHR5pDIffB7Jhop2RJROiy4nC/0mMc=;
-        b=QJ+dMqsOX5wnbJxA4/8qw81QaR6hkzxnCysGMRdEKD4g/Wyz0VeRlxYEhkN/VlG8NT
-         ixjHVsYTGN8NJTSoU1pO/tcS1Z3xab4NSnqwafDQ5WLjl6h7M+3Q5vmEZ+UsbcjoVRhB
-         /VPv2aKk/ZG//cyeElUHvnUgxaZqI1QYqLzjnbzEjsclYvUU1JA6dp3MYpJPimU7GvFW
-         0vLYFL158eUqJS5pnwsOsJxB41XqNbTj91FtO/TMni70QxwweEqsX3jw21FaDNW2I7qI
-         kOxU584tpQ1LLZ8jwRpckKHa1KjDdTF/bQjqJ7yqYwtL1Uw0sBGTMC0iZVgM1Ae3GIHy
-         ldVw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=WdwIy7/v1iTivZ6vsqK8ZiirGRhaJyIa1aow2Y2Yi8k=;
+        b=Qg3wANH1Qb/PtBHYcIfr7H9phP7hhfq0/RipbnXyavLe33we8flBJurKgI8lSOsxRd
+         G79KvZaF1IVMRLSupFAF+SGcEafpOSZrNpMP0GqyY6vN/Cqlk0wX8TszBmeUQ6HBF+jT
+         7vdPoiiERlsqb+MCytJgvtdXF5aSOwQ+PjBehoxd8eB/r6G8ejiFZGH4t4Q3aJHw6+na
+         U2OKw7014xDtl3N1sorn5vvEfXdrdQcpWMMXUcVKwBtK3agay/1NIiujuM9zT64JNJRf
+         DJE4AsiP+2Bm15FxUPqJYYKD6WwYN8ckgsNZPlSV4h87e7I3jMO5R0xW1uhbPKO0MF71
+         AmWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EeNo6IayOFD87yHR5pDIffB7Jhop2RJROiy4nC/0mMc=;
-        b=y5Pqwqs0HCQayezGavcC+2BNWRYF8B2ks9x4P93IY1j9xjj7XTvFw1MqyazA3u+dKl
-         rR4s1s4VKJanIYpUWab0fnN81NUpRr1mJ0OL/xDxPQc3AIOoCql/t1pNYzRTCzD21rLZ
-         Zf1dg6bPQsFZSsucW8bwYfVgp1/HoGaXG6H1x/9QAL8u9yFI97lC+CcVSAGuJOY1QVFq
-         p67k54CVZktLmidgXzD98pK+qlcbx2a+YEhZlu8G3xQn4hpeOceCetulnokI2sBjgslq
-         QHN/zjkQImYXiWd/8ZuZ30sUGEcst8Kp4zxnNpY89wW7ZCdMrEpsoRE+DQoLKHUtqr1d
-         AHAg==
-X-Gm-Message-State: AOAM530t7PRBZZ2CE+scCC1xmVK4ooFBH0CImXbPMi+W0x7z9iydnEFT
-        mlkIdMrM9QRZYWVCUhhAXD1a8aIDvx1ie7P96VA=
-X-Google-Smtp-Source: ABdhPJzt5/xOuydbwYhnvPbfuOIdcQKMyisqqboFn8IbL/K3JN0MIkdmpGUSVus98BeblTL2j7ohKw==
-X-Received: by 2002:adf:df05:0:b0:20a:c402:6811 with SMTP id y5-20020adfdf05000000b0020ac4026811mr3157499wrl.275.1652434784753;
-        Fri, 13 May 2022 02:39:44 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=WdwIy7/v1iTivZ6vsqK8ZiirGRhaJyIa1aow2Y2Yi8k=;
+        b=TLFrkUMovm28ffJssvMHcox5h1UicSiVQRTNRqYiB3dkQVS4i7IHwZMsaYagbRm2ev
+         nz8pH1yshEA8sCj8tG+e93L99+fCeTlQrSoPIwDbUrp4lUf255FXOOV8uCDhjjJGYtn6
+         js2NRM7sKDAxhbT64pbRsal9Hckmg6qJIZUwG1slOPHhjH5SswKK4CJXhDpoVokSdMyK
+         SgO5CNDH4+59ZxcWhmegUXScHPc6kZcE1LBvrM7T8XOP1MMUrnh1PxggA8nLNp6gYzRB
+         mrowWPIZs184x8EHsi/EdtkRu4yUvvk2YW1v9P2JPCGRLpjPpsCWG53uh3HivtiqwcFy
+         chnA==
+X-Gm-Message-State: AOAM532evhcEeyLpgv5aB4oJicvpihOpEKZl8X8/6M59bBbTDLWeOqGJ
+        a5ex8MiHWciIi7/Y0Ef01uqcQ3Ygg1SYWRhno0w=
+X-Google-Smtp-Source: ABdhPJylgszupHn+IFWAFeAJkrRzCl6Rbv5/5o46ai5vKkDnNLcqS1QHKLr2CuKlR2kWGtig4E+WDQ==
+X-Received: by 2002:a05:6000:1f0f:b0:20c:87b6:df9d with SMTP id bv15-20020a0560001f0f00b0020c87b6df9dmr3345602wrb.115.1652434785220;
+        Fri, 13 May 2022 02:39:45 -0700 (PDT)
 Received: from aczubak.c.googlers.com.com (88.140.78.34.bc.googleusercontent.com. [34.78.140.88])
         by smtp.gmail.com with ESMTPSA id l5-20020adfa385000000b0020ce015ed48sm1631404wrb.103.2022.05.13.02.39.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -53,10 +53,12 @@ To:     linux-input@vger.kernel.org
 Cc:     upstream@semihalf.com, benjamin.tissoires@redhat.com,
         jikos@kernel.org, dmitry.torokhov@gmail.com,
         Angela Czubak <acz@semihalf.com>
-Subject: [PATCH v3 00/17] *** Implement simple haptic HID support ***
-Date:   Fri, 13 May 2022 09:39:10 +0000
-Message-Id: <20220513093927.1632262-1-acz@semihalf.com>
+Subject: [PATCH v3 01/17] HID: add haptics page defines
+Date:   Fri, 13 May 2022 09:39:11 +0000
+Message-Id: <20220513093927.1632262-2-acz@semihalf.com>
 X-Mailer: git-send-email 2.36.0.550.gb090851708-goog
+In-Reply-To: <20220513093927.1632262-1-acz@semihalf.com>
+References: <20220513093927.1632262-1-acz@semihalf.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -68,110 +70,68 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch series introduces changes necessary to support devices
-using simple haptic HID pages.
-Implementation attempts to follow the discussion below:
-https://www.spinics.net/lists/linux-input/msg61091.html
+Introduce haptic usages as defined in HID Usage Tables specification.
+Add HID units for newton and gram.
 
-Introduce new haptic defines as specified in HID Usage Tables.
+Signed-off-by: Angela Czubak <acz@semihalf.com>
+---
+ include/linux/hid.h | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-Add new force feedback effect type in order to facilitate using
-simple haptic force feedback.
-
-Add INPUT_PROP_HAPTIC_TOUCHPAD to mark touchpad exposing simple haptic
-support.
-
-Add new struct hid_haptic_device so as to gather simple haptic related
-configuration and current state of the device.
-
-Add new functions to be triggered during HID input mapping and
-configuration in order to detect simple haptic devices.
-
-Modify HID input so that haptic output reports are parsed.
-
-Initialize a haptic device.
-
-Modify FF core so that effect IDs can be shared between multiple open file
-handles.
-
-Add shared release and press effects for a simple haptic device.
-
-Calculate pressure resolution if units are grams or newtons.
-
-Add support for kernel-driven mode of simple haptic device.
-
-Toggle ABS_PRESSURE generation by input-mt on request.
-
-Implement functions allowing switching between kernel-managed mode
-and autonomous mode.
-
-Add simple haptic support for hid-multitouch driver.
-
-Implement EVIOCFF(TAKE|RELEASE)CONTROL ioctls so that userspace can take
-and release control of shared release and press effects.
-
-Fix i2c hid sending and getting report so that report IDs larger than 0xF
-are handled correctly.
-
-v2:
-- Describe INPUT_PROP_HAPTIC_TOUCHPAD in
-  Documentation/input/event-codes.rst
-- Do not extract mt_get_feature(), use hid_hw_wait() instead
-- Define HID_UNIT_GRAM and HID_UNIT_NEWTON
-- Calculate pressure sum in input-mt if INPUT_MT_TOTAL_FORCE flags set
-- Use u* instead of __u* in struct hid_haptic_device
-- Solve problems with report IDS >= 0xF as Dmitry suggests
-
-v3:
-- Get rid of INPUT_PROP_HAPTIC_TOUCHPAD property as haptic device does not
-  gave to be a touchpad
-- Introduce notion of haptic forcepads; generate haptic feedback in kernel
-  mode only for forcepads
-- Generate clicks based on maximum pressure across slots instead of the sum
-- Fix off-by-one bug in hid_haptic_upload_effect()
-- Fix resume/suspend: issue hid_haptic_resume() in mt_resume() and
-  hid_haptic_suspend() in mt_suspend()
-- Add reset callback for HID i2c devices
-- Implement reset callback for HID multitouch haptic devices
-- Implement lid handler triggering touchpad recalibration for Redrix
-
-Angela Czubak (17):
-  HID: add haptics page defines
-  Input: add FF_HID effect type
-  HID: haptic: introduce hid_haptic_device
-  HID: input: allow mapping of haptic output
-  HID: haptic: initialize haptic device
-  Input: add shared effects
-  HID: haptic: implement release and press effects
-  HID: input: calculate resolution for pressure
-  HID: haptic: add functions handling events
-  Input: MT - add INPUT_MT_MAX_FORCE flags
-  HID: haptic: add hid_haptic_switch_mode
-  HID: multitouch: add haptic multitouch support
-  Input: introduce EVIOCFF(TAKE|RELEASE)CONTROL
-  HID: haptic: add hid_haptic_change_control
-  HID: add HID device reset callback
-  HID: haptic: implement HID haptic reset callback
-  HID: multitouch: Add lid handler for touchpad on Redrix chromebook
-
- drivers/hid/Kconfig                |  14 +
- drivers/hid/Makefile               |   1 +
- drivers/hid/hid-haptic.c           | 753 +++++++++++++++++++++++++++++
- drivers/hid/hid-haptic.h           | 152 ++++++
- drivers/hid/hid-input.c            |  18 +-
- drivers/hid/hid-multitouch.c       | 313 +++++++++++-
- drivers/hid/i2c-hid/i2c-hid-core.c |  21 +
- drivers/input/evdev.c              |   6 +
- drivers/input/ff-core.c            | 129 ++++-
- drivers/input/input-mt.c           |  16 +-
- include/linux/hid.h                |  31 ++
- include/linux/input.h              |   5 +
- include/linux/input/mt.h           |   1 +
- include/uapi/linux/input.h         |  26 +-
- 14 files changed, 1469 insertions(+), 17 deletions(-)
- create mode 100644 drivers/hid/hid-haptic.c
- create mode 100644 drivers/hid/hid-haptic.h
-
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 4363a63b9775..3f5899c62821 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -153,6 +153,7 @@ struct hid_item {
+ #define HID_UP_TELEPHONY	0x000b0000
+ #define HID_UP_CONSUMER		0x000c0000
+ #define HID_UP_DIGITIZER	0x000d0000
++#define HID_UP_HAPTIC		0x000e0000
+ #define HID_UP_PID		0x000f0000
+ #define HID_UP_BATTERY		0x00850000
+ #define HID_UP_HPVENDOR         0xff7f0000
+@@ -311,6 +312,28 @@ struct hid_item {
+ #define HID_DG_TOOLSERIALNUMBER	0x000d005b
+ #define HID_DG_LATENCYMODE	0x000d0060
+ 
++#define HID_HP_SIMPLECONTROLLER	0x000e0001
++#define HID_HP_WAVEFORMLIST	0x000e0010
++#define HID_HP_DURATIONLIST	0x000e0011
++#define HID_HP_AUTOTRIGGER	0x000e0020
++#define HID_HP_MANUALTRIGGER	0x000e0021
++#define HID_HP_AUTOTRIGGERASSOCIATEDCONTROL 0x000e0022
++#define HID_HP_INTENSITY	0x000e0023
++#define HID_HP_REPEATCOUNT	0x000e0024
++#define HID_HP_RETRIGGERPERIOD	0x000e0025
++#define HID_HP_WAVEFORMVENDORPAGE	0x000e0026
++#define HID_HP_WAVEFORMVENDORID	0x000e0027
++#define HID_HP_WAVEFORMCUTOFFTIME	0x000e0028
++#define HID_HP_WAVEFORMNONE	0x000e1001
++#define HID_HP_WAVEFORMSTOP	0x000e1002
++#define HID_HP_WAVEFORMCLICK	0x000e1003
++#define HID_HP_WAVEFORMBUZZCONTINUOUS	0x000e1004
++#define HID_HP_WAVEFORMRUMBLECONTINUOUS	0x000e1005
++#define HID_HP_WAVEFORMPRESS	0x000e1006
++#define HID_HP_WAVEFORMRELEASE	0x000e1007
++#define HID_HP_VENDORWAVEFORMMIN	0x000e2001
++#define HID_HP_VENDORWAVEFORMMAX	0x000e2fff
++
+ #define HID_BAT_ABSOLUTESTATEOFCHARGE	0x00850065
+ 
+ #define HID_VD_ASUS_CUSTOM_MEDIA_KEYS	0xff310076
+@@ -398,6 +421,12 @@ struct hid_item {
+ #define HID_REPORT_PROTOCOL	1
+ #define HID_BOOT_PROTOCOL	0
+ 
++/*
++ * HID units
++ */
++#define HID_UNIT_GRAM		0x0101
++#define HID_UNIT_NEWTON		0xe111
++
+ /*
+  * This is the global environment of the parser. This information is
+  * persistent for main-items. The global environment can be saved and
 -- 
 2.36.0.550.gb090851708-goog
 
