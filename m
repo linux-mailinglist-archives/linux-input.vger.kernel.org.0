@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B51C525F2B
-	for <lists+linux-input@lfdr.de>; Fri, 13 May 2022 12:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CA10525F72
+	for <lists+linux-input@lfdr.de>; Fri, 13 May 2022 12:08:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379100AbiEMJkB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 May 2022 05:40:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51830 "EHLO
+        id S1379093AbiEMJj7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 May 2022 05:39:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379101AbiEMJjv (ORCPT
+        with ESMTP id S1379100AbiEMJju (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 May 2022 05:39:51 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BF2A291CDC
+        Fri, 13 May 2022 05:39:50 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 364182A5E9B
         for <linux-input@vger.kernel.org>; Fri, 13 May 2022 02:39:49 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id v12so10620690wrv.10
+Received: by mail-wr1-x429.google.com with SMTP id j25so9637267wrc.9
         for <linux-input@vger.kernel.org>; Fri, 13 May 2022 02:39:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=semihalf-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=21VAODRnaYGO5mjcXKrja1BvMEwTAYGDEk9j65ebLNw=;
-        b=2itsY17oZS2xUiB0FdX4gPMxJne+bt0ypOU0pHctSOE/YaFBaagGVpNLeXG4lmBtyN
-         ZrNM3B/gEfwpJ/GgNOhc8AzhHDOF3ktITkFFpC6PM7MHTPakSEO2Y83HKeQMKLtlKbQ+
-         WkQ3k2pkgGSQIiqVdSTqPXiGjnxxv+P1eFslNoF6TO0SUo5NJzYjgCQOQ9vUcj859oji
-         IeeZtlQTZaVg6z6QTj4L0e4vkV4Kd6vVyOHA8fILLV6HwTC2CJqaBFV7SPym+M18ZpKN
-         yLR4+DKywgnMhX8HEqCizTnz6/O/nntpBMc5ITfjU4qabbCiWAE9jwMBc7u42npavrQ1
-         3F/A==
+        bh=gfpO9dugdZxvOunltm8uXiDYgZvaCVfhDaKWWoOV/HI=;
+        b=QN/I2ztTZGh9zohZx+ANhrOTO/NXrHR0WFm7r5vprnRIZ629PEp+WwXuVbHSCLhV5J
+         9drBf2YO4nJelL1LuMhny8gkOGqJ99AsdFo1PG//X2fmd8Qecwn+uAafhPrN2cpZ9fid
+         stUXnO72KWdc54VI0rmX+9p0iiqtDMoaHqrpTgHwZgud08q0zjWpL6y+0aQwIdqB6SBI
+         jfjsIMpX8SHdF35/EWpJE9zb30NIe6RGdFIOjdFji+VIEx5AxKcIil9V14+rPLX8HV9O
+         Y7GRkgu/WZ3lXv/SvA2bRNap4CkyMfPKyUuXOzKCovV6ePtxKSdXHmJhB+hHTstURJjU
+         6Z3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=21VAODRnaYGO5mjcXKrja1BvMEwTAYGDEk9j65ebLNw=;
-        b=Axczns+trTulFw8w0ABBsGcbFBrsuxGbhvCSf3EALlKzdjhSJQda2NXHaHMZ0G7Fa3
-         9cUNyIOU5DfhJtX9qTUfelaYkLGR/r38Yuj6FPQtjiU5atcmsSVN9qsBgnpADtRnq28G
-         LVo4oVNYS7D+0aEAu6fdRPKM94ARKFMWWOhFTQ43qsOE4Wv6+oD0COW4Qy1NYGRcfO6Y
-         dn8/B+os/RHxVBgSt3NJYnFmK1QriqJyNg3mdB5qXYisr2jg2Jzz4X8Y7zUZLvz8Ghrs
-         lgvbp6+Pl8jGPBL3rac8ktGsQfc/cruNfD5l04BKJu96ffGhTu3WU+K/ndPNxtjCVVMj
-         ibAw==
-X-Gm-Message-State: AOAM5336/FmAq59atbuE3+yMSeJqjfkn9A+9L+9BtBV1G+fqlNOiezJt
-        aFu09fvXhFtltUn1TyigLI1jPk2Yu2c5enzlTpk=
-X-Google-Smtp-Source: ABdhPJyv162lIInR0bctTyVM3lMkY4QPwKPionk0xj6wMmosvzUWHDN8VcsEEfbxvl5Au5qGvB3CxA==
-X-Received: by 2002:a05:6000:188a:b0:20c:e43e:83f3 with SMTP id a10-20020a056000188a00b0020ce43e83f3mr3262983wri.621.1652434788246;
+        bh=gfpO9dugdZxvOunltm8uXiDYgZvaCVfhDaKWWoOV/HI=;
+        b=gIBJtU0pInk9783xEKTOvLIkciDgFp7SggQKOkzh17Rh0+SOpkI74mqtPuNXfv4RpZ
+         9BwqB1fLugWUg57QUjlpNiicu6pnpD1eSqQzrmNDh4PlrAHP2EArAdV6PZIDJ3h42uRO
+         zBeYwWJuDnqH4kWvOpMu8ehtt0X3uKPApyD3ZD3cSYEy+nn4mUKVQvT8bqjmeC/eJZPO
+         rq6edTocxWA6uKQIbqVBRNSZMqdaMi5u+YVBdO/7++5lMTTxGHrn/FWZLMtQK8FM3hwf
+         XPSCDwsguQcRLDciUbzBujvCnZUDPL907cm3hVpxQnWxnNwfc88qw5xPBXV34q1Mbmlw
+         GAhA==
+X-Gm-Message-State: AOAM533dWrtrSakwzenIfE+7OsyglE8XU3nwDuj/6Ozb/PpzMaCEdEsu
+        L7OPE8pY2ccugiAxEcQ0Icbijb+IQjW6R4tQjYw=
+X-Google-Smtp-Source: ABdhPJx7erWoGDiBOJGvF+AFnSdIX5eNNje9gxhpLgD22y6Tg1L4ScTrTh3L5WRMNYbkQ3Cr0S5NiA==
+X-Received: by 2002:adf:d213:0:b0:20a:d703:154f with SMTP id j19-20020adfd213000000b0020ad703154fmr3296663wrh.604.1652434788762;
         Fri, 13 May 2022 02:39:48 -0700 (PDT)
 Received: from aczubak.c.googlers.com.com (88.140.78.34.bc.googleusercontent.com. [34.78.140.88])
-        by smtp.gmail.com with ESMTPSA id l5-20020adfa385000000b0020ce015ed48sm1631404wrb.103.2022.05.13.02.39.47
+        by smtp.gmail.com with ESMTPSA id l5-20020adfa385000000b0020ce015ed48sm1631404wrb.103.2022.05.13.02.39.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 May 2022 02:39:47 -0700 (PDT)
+        Fri, 13 May 2022 02:39:48 -0700 (PDT)
 From:   Angela Czubak <acz@semihalf.com>
 To:     linux-input@vger.kernel.org
 Cc:     upstream@semihalf.com, benjamin.tissoires@redhat.com,
         jikos@kernel.org, dmitry.torokhov@gmail.com,
         Angela Czubak <acz@semihalf.com>
-Subject: [PATCH v3 06/17] Input: add shared effects
-Date:   Fri, 13 May 2022 09:39:16 +0000
-Message-Id: <20220513093927.1632262-7-acz@semihalf.com>
+Subject: [PATCH v3 07/17] HID: haptic: implement release and press effects
+Date:   Fri, 13 May 2022 09:39:17 +0000
+Message-Id: <20220513093927.1632262-8-acz@semihalf.com>
 X-Mailer: git-send-email 2.36.0.550.gb090851708-goog
 In-Reply-To: <20220513093927.1632262-1-acz@semihalf.com>
 References: <20220513093927.1632262-1-acz@semihalf.com>
@@ -70,91 +70,71 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-If an effect is uploaded with file handle equal UINTPTR_MAX assume this
-effect should be shared and so may be modified using different file
-handles.
+Upload shared haptic affects for release and press waveforms if a device
+exposes them and it is a forcepad
 
 Signed-off-by: Angela Czubak <acz@semihalf.com>
 ---
- drivers/input/ff-core.c | 40 ++++++++++++++++++++++++++++++++++------
- 1 file changed, 34 insertions(+), 6 deletions(-)
+ drivers/hid/hid-haptic.c | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/drivers/input/ff-core.c b/drivers/input/ff-core.c
-index fa8d1a466014..1a9a5401acb5 100644
---- a/drivers/input/ff-core.c
-+++ b/drivers/input/ff-core.c
-@@ -34,6 +34,23 @@ static int check_effect_access(struct ff_device *ff, int effect_id,
- 	return 0;
- }
+diff --git a/drivers/hid/hid-haptic.c b/drivers/hid/hid-haptic.c
+index 327106152d79..3301bf27dfde 100644
+--- a/drivers/hid/hid-haptic.c
++++ b/drivers/hid/hid-haptic.c
+@@ -361,6 +361,7 @@ int hid_haptic_init(struct hid_device *hdev,
+ 	char *name;
+ 	int (*flush)(struct input_dev *dev, struct file *file);
+ 	int (*event)(struct input_dev *dev, unsigned int type, unsigned int code, int value);
++	struct ff_effect release_effect, press_effect;
  
-+/*
-+ * Check that the effect_id is a valid effect and whether the effect
-+ * is shared
-+ */
-+static int check_effect_shared(struct ff_device *ff, int effect_id)
-+{
-+	if (effect_id < 0 || effect_id >= ff->max_effects ||
-+	    !ff->effect_owners[effect_id])
-+		return -EINVAL;
+ 	haptic->hdev = hdev;
+ 	haptic->max_waveform_id = max(2u, haptic->max_waveform_id);
+@@ -477,8 +478,44 @@ int hid_haptic_init(struct hid_device *hdev,
+ 		module_put(THIS_MODULE);
+ 		goto input_free;
+ 	}
 +
-+	/* Shared effect */
-+	if (ff->effect_owners[effect_id] == (struct file *)UINTPTR_MAX)
-+		return 0;
++	if (!haptic->is_forcepad)
++		goto exit;
 +
-+	return -EACCES;
-+}
-+
- /*
-  * Checks whether 2 effects can be combined together
-  */
-@@ -139,8 +156,11 @@ int input_ff_upload(struct input_dev *dev, struct ff_effect *effect,
- 		id = effect->id;
- 
- 		ret = check_effect_access(ff, id, file);
--		if (ret)
--			goto out;
-+		if (ret) {
-+			ret = check_effect_shared(ff, id);
-+			if (ret)
-+				goto out;
++	effect_set_default(&release_effect);
++	if (haptic->release_ordinal_orig)
++		release_effect.u.hid.hid_usage = HID_HP_WAVEFORMRELEASE &
++			HID_USAGE;
++	ret = input_ff_upload(dev, &release_effect, (struct file *)UINTPTR_MAX);
++	if (ret || release_effect.id != HID_HAPTIC_RELEASE_EFFECT_ID) {
++		if (!ret) {
++			ret = -EBUSY;
++			input_ff_erase(dev, release_effect.id,
++				       (struct file *)UINTPTR_MAX);
 +		}
- 
- 		old = &ff->effects[id];
- 
-@@ -174,21 +194,29 @@ static int erase_effect(struct input_dev *dev, int effect_id,
- {
- 	struct ff_device *ff = dev->ff;
- 	int error;
-+	bool shared = false;
- 
- 	error = check_effect_access(ff, effect_id, file);
--	if (error)
--		return error;
-+	if (error) {
-+		error = check_effect_shared(ff, effect_id);
-+		if (!error)
-+			shared = true;
-+		else
-+			return error;
++		dev_err(&hdev->dev,
++			"Failed to allocate id 0 for release effect.\n");
++		goto input_free;
 +	}
++	effect_set_default(&press_effect);
++	if (haptic->press_ordinal_orig)
++		press_effect.u.hid.hid_usage = HID_HP_WAVEFORMPRESS & HID_USAGE;
++	ret = input_ff_upload(dev, &press_effect, (struct file *)UINTPTR_MAX);
++	if (ret || press_effect.id != HID_HAPTIC_PRESS_EFFECT_ID) {
++		if (!ret) {
++			ret = -EBUSY;
++			input_ff_erase(dev, press_effect.id,
++				       (struct file *)UINTPTR_MAX);
++		}
++		dev_err(&hdev->dev,
++			"Failed to allocate id 1 for press effect.\n");
++		goto release_free;
++	}
++
+ 	return 0;
  
- 	spin_lock_irq(&dev->event_lock);
- 	ff->playback(dev, effect_id, 0);
--	ff->effect_owners[effect_id] = NULL;
-+	if (!shared)
-+		ff->effect_owners[effect_id] = NULL;
- 	spin_unlock_irq(&dev->event_lock);
- 
- 	if (ff->erase) {
- 		error = ff->erase(dev, effect_id);
- 		if (error) {
- 			spin_lock_irq(&dev->event_lock);
--			ff->effect_owners[effect_id] = file;
-+			if (!shared)
-+				ff->effect_owners[effect_id] = file;
- 			spin_unlock_irq(&dev->event_lock);
- 
- 			return error;
++release_free:
++	input_ff_erase(dev, release_effect.id, (struct file *)UINTPTR_MAX);
+ input_free:
+ 	input_ff_destroy(dev);
+ 	/* Do not let double free happen, input_ff_destroy will call
 -- 
 2.36.0.550.gb090851708-goog
 
