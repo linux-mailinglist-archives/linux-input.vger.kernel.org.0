@@ -2,71 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFE1B5274B9
-	for <lists+linux-input@lfdr.de>; Sun, 15 May 2022 02:07:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5566D527530
+	for <lists+linux-input@lfdr.de>; Sun, 15 May 2022 05:33:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233469AbiEOAHr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 14 May 2022 20:07:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47822 "EHLO
+        id S234673AbiEODdx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 14 May 2022 23:33:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233113AbiEOAHq (ORCPT
+        with ESMTP id S234742AbiEODdv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 14 May 2022 20:07:46 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 057309FEB
-        for <linux-input@vger.kernel.org>; Sat, 14 May 2022 17:07:45 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id l16so14537488oil.6
-        for <linux-input@vger.kernel.org>; Sat, 14 May 2022 17:07:44 -0700 (PDT)
+        Sat, 14 May 2022 23:33:51 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A4B93896;
+        Sat, 14 May 2022 20:33:49 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id o80so1921580ybg.1;
+        Sat, 14 May 2022 20:33:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:from:to:subject:references
-         :in-reply-to:content-transfer-encoding;
-        bh=zcNDlT31PXG0OMbvjtwSYbEBTXISPhLjUMVdG9bFdcc=;
-        b=q7DXXO/VGydFk70gXe+2ZEsgtzyZ7vXFAgRJVIaaVcPVxIpstjxS4PUPGuzjP97ni+
-         FK0tucO07E79ruBkG4syKyOWyc5VBU/GhKubr9cw+NeGYbdKMlBpgvKUNch/kRkCb3oa
-         OypTiCZvTQkLaow3YkO5clNjsjUlZbOGOK67QDWz5tUcMv/1p5+ZH0SvJhZyyjgIbQBM
-         nLsV5WbiD4cOc/i8Nzq8CssTV7hStqCWH3BHiDo5ZLivOXxTv9Z8QGr9HPc2jaSXsvSP
-         xEWRWF+7+oN70uI83sw8sz+NFX9nFhOIeLhRl4TfQbTxZFFRYwLx560xDeWmypxWRmBW
-         L5wg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=vtZpCF2eVfrsEShzCqG/31YFWN+65aph4jwpCIOfvTM=;
+        b=StUmTH4HRARTE9iPSXhUk/FpIxloaIfjujaD6EetNSRLEL0xFRXi+ylEv9t6hayslT
+         RoiVRxdwM5/3Ddb1NysWLPqsc0P6tDChVD5k19bdrBZwzTjkGrlExI/RV0TC25WqhxGo
+         bwqVGYVKw3LPUrbOmc6F/ryOo22aecKSt4d/SFN8lRXYDmaYQCa9Gzzn83mnhvpk4/B9
+         +7bWzTw9UKRUeYeA02qG4sYSiVLzIN/Dw/MrE8FPonrHESDw9pu70ogBGq/9h1tGiWCx
+         CqPWJQlyqZX2hdIZdTRlWnfGBAeKUco6CWQ3ILf9NVlWaeMsLg6SfADdrM+madX/qcjq
+         Uf/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:from:to
-         :subject:references:in-reply-to:content-transfer-encoding;
-        bh=zcNDlT31PXG0OMbvjtwSYbEBTXISPhLjUMVdG9bFdcc=;
-        b=sYghFE/MGXdHKSN2UD+F+Rm3slcbEBwGEqbd+K6C/lMR0WYSjfE4n/MQgdqfUjyIeK
-         JCQirSU/V7a3/f+RZOwMXnMefDe20pavd03LEjQ/pkYOzbhc2WV6I7X1wbP/2H1bEnyk
-         KeGdX0Ko4NZcsmhi0KdmvR8wFWVcl9vrlbwI3xbVXA1W4CQRdHGQEXohWvY3TrcAtrjb
-         o297HI9wfNLN9jGF3I6rNrvrDKgppAe1gQaGI5ca+07qoKd/57hl9bDAx4T+DkAL9ss1
-         Sf41Tv0zqX2/pXju6JR+ZXQRC15OA/3//NfycerQYjnpvFMsQ5AFNcv8FrOrWNFpDQXM
-         0RfQ==
-X-Gm-Message-State: AOAM530vhDZvuA6h22pYw5Vs+UVrYemQ8v0sKpn8eBRc+pC8Ht9gazyP
-        eVLtaKYTDNBvQEq+mMNxdtk=
-X-Google-Smtp-Source: ABdhPJy6pyR/qtIcL/NsdNAgerlUX5HO4IT/RJDitTDYGIUC64YE9qOeCj+B/Rvr+ibrpAl1tzs6cg==
-X-Received: by 2002:aca:3088:0:b0:326:d72b:3ea1 with SMTP id w130-20020aca3088000000b00326d72b3ea1mr10046021oiw.1.1652573263594;
-        Sat, 14 May 2022 17:07:43 -0700 (PDT)
-Received: from ?IPV6:2804:d51:495a:8100:5544:c32d:eb1:5107? ([2804:d51:495a:8100:5544:c32d:eb1:5107])
-        by smtp.gmail.com with ESMTPSA id q4-20020acac004000000b00325cda1ffb4sm2483335oif.51.2022.05.14.17.07.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 May 2022 17:07:42 -0700 (PDT)
-Message-ID: <eaa15224-50d9-e3b4-f5df-a29ef6a9043b@gmail.com>
-Date:   Sat, 14 May 2022 21:07:39 -0300
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=vtZpCF2eVfrsEShzCqG/31YFWN+65aph4jwpCIOfvTM=;
+        b=irJ8K7DAgSi6DV0E0hemI9IOB4EPo70/97Y50u4gjw+dM4j+Ztk1eYl+rus+aUcVde
+         B+gzudyqOJsHnJfveXa6EnwiOvTwxrzubyB1nA9a0q2nHwCKYC7RZZgKOLbXE7qXpzHx
+         ldC2eBHT8xIc3q4mUr/W7jOUfrg5aAa0GW6obxZv6bIbQRSa7+FuJwlixfPdWt9VzRDG
+         pnkJEiXjCiVOVHfIFkwH4+hMLd9umg9mzBGo/lKMGDzYSoRxUvjW4/iaJuvaveyppwMe
+         MvyWeXtNoskVmYIKdcYbQdCEn94kM7FpVRh978ghBf5AXBSJ+ah/OUJejESPzPx4b2MR
+         XlJw==
+X-Gm-Message-State: AOAM531290uJQbp7YK2qF4lh2mUAwO1LIbBwJ+g826XXwOTvEKooP1h5
+        bHSM+FfbpVq5yCEttSTAi+NNn6O8S0FMS64XOys=
+X-Google-Smtp-Source: ABdhPJyCudeg8Z2SFTD7Vq2yUFVWPuT6OFCvNc1jJVlmxZlw8qVWBNqWkjVFX4dX4Pbzf12Vp+54xMysyZg7zM7ftVI=
+X-Received: by 2002:a5b:5c2:0:b0:649:c4fe:ca5b with SMTP id
+ w2-20020a5b05c2000000b00649c4feca5bmr11703621ybp.284.1652585629047; Sat, 14
+ May 2022 20:33:49 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-From:   marcoshalano@gmail.com
-To:     Angela Czubak <acz@semihalf.com>, linux-input@vger.kernel.org,
-        upstream@semihalf.com, benjamin.tissoires@redhat.com,
-        jikos@kernel.org, dmitry.torokhov@gmail.com,
-        Angela Czubak <acz@semihalf.com>
-Subject: Re: [PATCH v3 17/17] HID: multitouch: Add lid handler for touchpad on
- Redrix chromebook
-References: <20220513093927.1632262-1-acz@semihalf.com>
- <20220513093927.1632262-18-acz@semihalf.com>
-In-Reply-To: <20220513093927.1632262-18-acz@semihalf.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+References: <20220512001500.16739-1-fletcher0max@gmail.com>
+ <CAEc3jaBbVT1t1kS_Vvp3EqfheCWr=CAvVgdzw7vkeFyYz9H_7Q@mail.gmail.com> <CAKcX28WpKoP=HVq3zCvBh9knKFEdR0_+NmATpt9D6rFmprkFDA@mail.gmail.com>
+In-Reply-To: <CAKcX28WpKoP=HVq3zCvBh9knKFEdR0_+NmATpt9D6rFmprkFDA@mail.gmail.com>
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Sat, 14 May 2022 20:33:38 -0700
+Message-ID: <CAEc3jaCq9DOa86TAakY7K9Mrzc9qKt5wraTJ7Z2Y5yAu-XqWzg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] HID: nintendo: fix face button mappings
+To:     Maxwell Fletcher <fletcher0max@gmail.com>
+Cc:     "Daniel J. Ogorchock" <djogorchock@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -75,348 +71,101 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 13/05/2022 06:39, Angela Czubak <acz@semihalf.com> wrote:
-> If user closes the lid the touchscreen gets close to the touchpad surface,
-> which causes interference and makes the touchpad enter noise mode.
-> Right after opening the lid the cursor is unresponsive because of the mode
-> mentioned.
-> To fix this issue we switch the surface off and on so that Elan's FW
-> performs recalibration once the lid has been opened.
-> 
-A non related question: this hid-haptic module is made just for newer touchpads which have a haptic response instead of regular clicks, or the haptic logic could be extended for other haptic devices, like Sony's DualSense controller triggers?
+Hi Maxwell,
 
-> Signed-off-by: Angela Czubak <acz@semihalf.com>
-> ---
->   drivers/hid/hid-multitouch.c | 220 ++++++++++++++++++++++++++++++++++-
->   1 file changed, 219 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index 2d1b8c400c2f..73e47fe7d773 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -32,11 +32,14 @@
->    */
->   
->   #include <linux/device.h>
-> +#include <linux/delay.h>
-> +#include <linux/dmi.h>
->   #include <linux/hid.h>
->   #include <linux/module.h>
->   #include <linux/slab.h>
->   #include <linux/input/mt.h>
->   #include <linux/jiffies.h>
-> +#include <linux/sched.h>
->   #include <linux/string.h>
->   #include <linux/timer.h>
->   
-> @@ -159,6 +162,7 @@ struct mt_report_data {
->   };
->   
->   struct mt_device {
-> +	struct list_head list;	/* for list of devices needing input handler */
->   	struct mt_class mtclass;	/* our mt device class */
->   	struct timer_list release_timer;	/* to release sticky fingers */
->   	struct hid_haptic_device *haptic;	/* haptic related configuration */
-> @@ -173,8 +177,15 @@ struct mt_device {
->   
->   	struct list_head applications;
->   	struct list_head reports;
-> +
-> +	struct work_struct lid_work;
-> +	struct mutex mode_mutex;
-> +	bool lid_switch;
->   };
->   
-> +static struct workqueue_struct *mt_mode_wq;
-> +static LIST_HEAD(mt_devices_with_lid_handler);
-> +
->   static void mt_post_parse_default_settings(struct mt_device *td,
->   					   struct mt_application *app);
->   static void mt_post_parse(struct mt_device *td, struct mt_application *app);
-> @@ -394,6 +405,91 @@ static const struct mt_class mt_classes[] = {
->   	{ }
->   };
->   
-> +static void mt_input_lid_event(struct input_handle *handle, unsigned int type,
-> +			     unsigned int code, int value)
-> +{
-> +	struct mt_device *td, *n;
-> +
-> +	if (type == EV_SW && code == SW_LID && !value) {
-> +		list_for_each_entry_safe(td, n, &mt_devices_with_lid_handler, list)
-> +			queue_work(mt_mode_wq, &td->lid_work);
-> +	}
-> +}
-> +
-> +struct mt_input_lid {
-> +	struct input_handle handle;
-> +};
-> +
-> +static int mt_input_lid_connect(struct input_handler *handler,
-> +				struct input_dev *dev,
-> +				const struct input_device_id *id)
-> +{
-> +	struct mt_input_lid *lid;
-> +	char *name;
-> +	int error;
-> +
-> +	lid = kzalloc(sizeof(*lid), GFP_KERNEL);
-> +	if (!lid)
-> +		return -ENOMEM;
-> +
-> +	name = kasprintf(GFP_KERNEL, "hid-mt-lid-%s", dev_name(&dev->dev));
-> +	if (!name) {
-> +		error = -ENOMEM;
-> +		goto err_free_lid;
-> +	}
-> +
-> +	lid->handle.dev = dev;
-> +	lid->handle.handler = handler;
-> +	lid->handle.name = name;
-> +	lid->handle.private = lid;
-> +
-> +	error = input_register_handle(&lid->handle);
-> +	if (error)
-> +		goto err_free_name;
-> +
-> +	error = input_open_device(&lid->handle);
-> +	if (error)
-> +		goto err_unregister_handle;
-> +
-> +	return 0;
-> +
-> +err_unregister_handle:
-> +	input_unregister_handle(&lid->handle);
-> +err_free_name:
-> +	kfree(name);
-> +err_free_lid:
-> +	kfree(lid);
-> +	return error;
-> +}
-> +
-> +static void mt_input_lid_disconnect(struct input_handle *handle)
-> +{
-> +	struct mt_input_lid *lid = handle->private;
-> +
-> +	input_close_device(handle);
-> +	input_unregister_handle(handle);
-> +
-> +	kfree(handle->name);
-> +	kfree(lid);
-> +}
-> +
-> +static const struct input_device_id mt_input_lid_ids[] = {
-> +	{
-> +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT | INPUT_DEVICE_ID_MATCH_SWBIT,
-> +		.evbit = { BIT_MASK(EV_SW) },
-> +		.swbit = { [BIT_WORD(SW_LID)] = BIT_MASK(SW_LID) },
-> +	},
-> +	{ },
-> +};
-> +
-> +static struct input_handler mt_input_lid_handler = {
-> +	.event =	mt_input_lid_event,
-> +	.connect =	mt_input_lid_connect,
-> +	.disconnect =	mt_input_lid_disconnect,
-> +	.name =		"hid-mt-lid",
-> +	.id_table =	mt_input_lid_ids,
-> +};
-> +
->   static ssize_t mt_show_quirks(struct device *dev,
->   			   struct device_attribute *attr,
->   			   char *buf)
-> @@ -548,6 +644,83 @@ static struct mt_usages *mt_allocate_usage(struct hid_device *hdev,
->   	return usage;
->   }
->   
-> +static void mt_set_modes(struct hid_device *hdev, enum latency_mode latency,
-> +			 bool surface_switch, bool button_switch);
-> +
-> +static void lid_work_handler(struct work_struct *work)
-> +{
-> +
-> +	struct mt_device *td = container_of(work, struct mt_device,
-> +					    lid_work);
-> +	struct hid_device *hdev = td->hdev;
-> +
-> +	mutex_lock(&td->mode_mutex);
-> +	mt_set_modes(hdev, HID_LATENCY_NORMAL, false, false);
-> +	/* Elan's touchpad VID 323B needs this delay to handle both switch
-> +	 * surface off and switch surface on and trigger recalibration
-> +	 * properly.
-> +	 */
-> +	msleep(50);
-> +	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
-> +	mutex_unlock(&td->mode_mutex);
-> +}
-> +
-> +static const struct dmi_system_id mt_lid_handler_dmi_table[] = {
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Google"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "Redrix"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Google"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "Redrix4ES"),
-> +		},
-> +	},
-> +	{}
-> +};
-> +
-> +static int mt_create_lid_handler(void)
-> +{
-> +	int error = 0;
-> +
-> +	if (!dmi_check_system(mt_lid_handler_dmi_table))
-> +		return 0;
-> +
-> +	mt_mode_wq = alloc_ordered_workqueue("hid-mt-lid", WQ_FREEZABLE);
-> +	if (mt_mode_wq == NULL)
-> +		return -ENOMEM;
-> +
-> +	error = input_register_handler(&mt_input_lid_handler);
-> +	if (error)
-> +		goto remove_wq;
-> +
-> +	return 0;
-> +
-> +remove_wq:
-> +	destroy_workqueue(mt_mode_wq);
-> +	mt_mode_wq = NULL;
-> +	return error;
-> +}
-> +
-> +static void mt_configure_lid_handler(struct mt_device *td)
-> +{
-> +	struct hid_device *hdev = td->hdev;
-> +
-> +	if (hdev->bus != BUS_I2C)
-> +		return;
-> +
-> +	td->lid_switch = true;
-> +	list_add_tail(&td->list, &mt_devices_with_lid_handler);
-> +}
-> +
-> +static void mt_destroy_lid_handler(void)
-> +{
-> +	input_unregister_handler(&mt_input_lid_handler);
-> +	destroy_workqueue(mt_mode_wq);
-> +}
-> +
->   static struct mt_application *mt_allocate_application(struct mt_device *td,
->   						      struct hid_report *report)
->   {
-> @@ -571,6 +744,8 @@ static struct mt_application *mt_allocate_application(struct mt_device *td,
->   	if (application == HID_DG_TOUCHPAD) {
->   		mt_application->mt_flags |= INPUT_MT_POINTER;
->   		td->inputmode_value = MT_INPUTMODE_TOUCHPAD;
-> +		if (mt_mode_wq)
-> +			mt_configure_lid_handler(td);
->   	}
->   
->   	mt_application->scantime = DEFAULT_ZERO;
-> @@ -1767,6 +1942,10 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
->   	INIT_LIST_HEAD(&td->applications);
->   	INIT_LIST_HEAD(&td->reports);
->   
-> +	INIT_LIST_HEAD(&td->list);
-> +	INIT_WORK(&td->lid_work, lid_work_handler);
-> +	mutex_init(&td->mode_mutex);
-> +
->   	if (id->vendor == HID_ANY_ID && id->product == HID_ANY_ID)
->   		td->serial_maybe = true;
->   
-> @@ -1830,12 +2009,18 @@ static int mt_suspend(struct hid_device *hdev, pm_message_t state)
->   	struct mt_device *td = hid_get_drvdata(hdev);
->   	struct hid_haptic_device *haptic = td->haptic;
->   
-> +	/* Wait for switch on completion */
-> +	if (td->lid_switch)
-> +		flush_workqueue(mt_mode_wq);
-> +
-> +	mutex_lock(&td->mode_mutex);
->   	/* High latency is desirable for power savings during S3/S0ix */
->   	if ((td->mtclass.quirks & MT_QUIRK_DISABLE_WAKEUP) ||
->   	    !hid_hw_may_wakeup(hdev))
->   		mt_set_modes(hdev, HID_LATENCY_HIGH, false, false);
->   	else
->   		mt_set_modes(hdev, HID_LATENCY_HIGH, true, true);
-> +	mutex_unlock(&td->mode_mutex);
->   
->   	if (td->is_haptic_touchpad)
->   		hid_haptic_suspend(hdev, haptic);
-> @@ -1849,7 +2034,10 @@ static int mt_reset_resume(struct hid_device *hdev)
->   	struct hid_haptic_device *haptic = td->haptic;
->   
->   	mt_release_contacts(hdev);
-> +
-> +	mutex_lock(&td->mode_mutex);
->   	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
-> +	mutex_unlock(&td->mode_mutex);
->   
->   	if (td->is_haptic_touchpad)
->   		hid_haptic_resume(hdev, haptic);
-> @@ -1868,7 +2056,9 @@ static int mt_resume(struct hid_device *hdev)
->   
->   	hid_hw_idle(hdev, 0, 0, HID_REQ_SET_IDLE);
->   
-> +	mutex_lock(&td->mode_mutex);
->   	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
-> +	mutex_unlock(&td->mode_mutex);
->   
->   	if (td->is_haptic_touchpad)
->   		hid_haptic_resume(hdev, haptic);
-> @@ -1883,7 +2073,9 @@ static int mt_reset(struct hid_device *hdev)
->   	struct hid_haptic_device *haptic = td->haptic;
->   
->   	mt_release_contacts(hdev);
-> +	mutex_lock(&td->mode_mutex);
->   	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
-> +	mutex_unlock(&td->mode_mutex);
->   
->   	if (td->is_haptic_touchpad)
->   		hid_haptic_reset(hdev, haptic);
-> @@ -1899,6 +2091,8 @@ static void mt_remove(struct hid_device *hdev)
->   
->   	sysfs_remove_group(&hdev->dev.kobj, &mt_attribute_group);
->   	hid_hw_stop(hdev);
-> +
-> +	list_del(&td->list);
->   }
->   
->   /*
-> @@ -2302,4 +2496,28 @@ static struct hid_driver mt_driver = {
->   	.resume = mt_resume,
->   #endif
->   };
-> -module_hid_driver(mt_driver);
-> +
-> +static int __init mt_init(void)
-> +{
-> +	int ret;
-> +
-> +	ret = hid_register_driver(&mt_driver);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = mt_create_lid_handler();
-> +	if (ret)
-> +		hid_unregister_driver(&mt_driver);
-> +
-> +	return ret;
-> +}
-> +module_init(mt_init);
-> +
-> +static void __exit mt_exit(void)
-> +{
-> +	if (mt_mode_wq)
-> +		mt_destroy_lid_handler();
-> +
-> +	hid_unregister_driver(&mt_driver);
-> +}
-> +module_exit(mt_exit);
-> 
+I don't think it is desired to have such kernel module parameters as
+it essentially adds new kernel APIs, which have to be maintained
+unless truly needed.
 
+However, you may have seen the work Benjamin is doing around eBPF for
+HID. I'm no expert on it yet, but it could probably allow you to do a
+similar kind of fixup without having to modify the kernel module.
+
+Thanks,
+Roderick
+
+On Sat, May 14, 2022 at 5:57 PM Maxwell Fletcher <fletcher0max@gmail.com> w=
+rote:
+>
+> Hi Roderick,
+>
+> Thanks for the explanation. It makes sense that the mappings were never m=
+eant to mirror Xbox controllers. Would it still be possible to merge a patc=
+h that adds an opt-in module parameter that changes the mappings, similar t=
+o the one in the second part of this patch?
+>
+> Thanks,
+> Max
+>
+> On Fri, May 13, 2022 at 12:58 PM Roderick Colenbrander <thunderbird2k@gma=
+il.com> wrote:
+>>
+>> Hi Max,
+>>
+>> Thanks for your patch, however I must say the patch is not correct for
+>> 2 reasons.
+>>
+>> Over the years different controllers have different layouts. The
+>> standard which this driver (as well as others such as
+>> hid-sony/hid-playstation) follow is the Linux gamepad standard (see
+>> Documentation/input/gamepad.rst). It stays away of the debate what is
+>> A/B/X/Y. It talks about North/west/.., (yes they are macros which map
+>> to A/B/X/Y). In case of the Switch it does mean things are flipped,
+>> but it was not meant to represent an Xbox controller. (Technically one
+>> could argue that the Xbox controller should be flipped as it was the
+>> SNES controller back in the days which introduced X/Y and the Switch
+>> is still consistent with that.)
+>>
+>> Second, even if the patch was right it would be tricky to merge. The
+>> problem is that a changed mapping breaks user spaces and in general
+>> can't do this unless there is a really good reason. It just would
+>> break existing applications and libraries (often e.g. SDL)
+>>
+>> Thanks,
+>> Roderick
+>>
+>> On Wed, May 11, 2022 at 8:12 PM Max Fletcher <fletcher0max@gmail.com> wr=
+ote:
+>> >
+>> > Previously, A and B would match the Xbox layout, but X and Y were inco=
+rrectly swapped. This corrects it so that X and Y match the Xbox layout.
+>> >
+>> > Signed-off-by: Max Fletcher <fletcher0max@gmail.com>
+>> > ---
+>> >  drivers/hid/hid-nintendo.c | 10 +++++-----
+>> >  1 file changed, 5 insertions(+), 5 deletions(-)
+>> >
+>> > diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+>> > index 2204de889739..7735971ede3f 100644
+>> > --- a/drivers/hid/hid-nintendo.c
+>> > +++ b/drivers/hid/hid-nintendo.c
+>> > @@ -1351,10 +1351,10 @@ static void joycon_parse_report(struct joycon_=
+ctlr *ctlr,
+>> >                 input_report_key(dev, BTN_START, btns & JC_BTN_PLUS);
+>> >                 input_report_key(dev, BTN_THUMBR, btns & JC_BTN_RSTICK=
+);
+>> >                 input_report_key(dev, BTN_MODE, btns & JC_BTN_HOME);
+>> > -               input_report_key(dev, BTN_WEST, btns & JC_BTN_Y);
+>> > -               input_report_key(dev, BTN_NORTH, btns & JC_BTN_X);
+>> > -               input_report_key(dev, BTN_EAST, btns & JC_BTN_A);
+>> > -               input_report_key(dev, BTN_SOUTH, btns & JC_BTN_B);
+>> > +               input_report_key(dev, BTN_X, btns & JC_BTN_Y);
+>> > +               input_report_key(dev, BTN_Y, btns & JC_BTN_X);
+>> > +               input_report_key(dev, BTN_B, btns & JC_BTN_A);
+>> > +               input_report_key(dev, BTN_A, btns & JC_BTN_B);
+>> >         }
+>> >
+>> >         input_sync(dev);
+>> > @@ -1578,7 +1578,7 @@ static const unsigned int joycon_button_inputs_l=
+[] =3D {
+>> >
+>> >  static const unsigned int joycon_button_inputs_r[] =3D {
+>> >         BTN_START, BTN_MODE, BTN_THUMBR,
+>> > -       BTN_SOUTH, BTN_EAST, BTN_NORTH, BTN_WEST,
+>> > +       BTN_A, BTN_B, BTN_Y, BTN_X,
+>> >         BTN_TR, BTN_TR2,
+>> >         0 /* 0 signals end of array */
+>> >  };
+>> > --
+>> > 2.35.3
+>> >
