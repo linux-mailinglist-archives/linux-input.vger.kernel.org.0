@@ -2,514 +2,421 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 222C752748E
-	for <lists+linux-input@lfdr.de>; Sun, 15 May 2022 00:56:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFE1B5274B9
+	for <lists+linux-input@lfdr.de>; Sun, 15 May 2022 02:07:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231484AbiENW4N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 14 May 2022 18:56:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46196 "EHLO
+        id S233469AbiEOAHr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 14 May 2022 20:07:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231285AbiENWz4 (ORCPT
+        with ESMTP id S233113AbiEOAHq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 14 May 2022 18:55:56 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1162F3A3
-        for <linux-input@vger.kernel.org>; Sat, 14 May 2022 15:55:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652568953; x=1684104953;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=73ZnnF6l98fzJQxdKGkrA/3uzw9iW+Ll2mLmXRPTx6g=;
-  b=ZelbItKHgHcQYdN/Di5ezlaiLv4yFm2IWpcmNsS79Sxc+QfRyrTij+uJ
-   c2iOgeJG+3/sCo0SqA92vgxynqfiqZ1heE/hLWvRvatvxW7EYtX+WrizW
-   P3clbM+gdZiDGjFuTQxqbNDdkZ9y88uo3QVj1SSVijpjgcpCYeIYzWRvC
-   5GFi1Ef4AYVKoJ6y3es/BrbbCDoCqLA33h5eK0jdCQnbE9m85XzYeyPNN
-   XpjDdAS5w8S5mBn5tCwoShdpeWkF2FN3jNeGJvBNWHWv9lkyhiReOUFeA
-   il0aNFTbrOlH1W3QWnf+nLmqxTlQSoXC3t5JBZRgKTZ/uz88lFt/Btbbt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10347"; a="270245081"
-X-IronPort-AV: E=Sophos;i="5.91,227,1647327600"; 
-   d="scan'208";a="270245081"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2022 15:55:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,227,1647327600"; 
-   d="scan'208";a="543787137"
-Received: from lkp-server01.sh.intel.com (HELO d1462bc4b09b) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 14 May 2022 15:55:47 -0700
-Received: from kbuild by d1462bc4b09b with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nq0fp-00015R-Nb;
-        Sat, 14 May 2022 22:55:45 +0000
-Date:   Sun, 15 May 2022 06:55:29 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- ec648fc0a00378359dbf719371ed36657d6ccf4a
-Message-ID: <62803361.ZB/rkuAhfsYvKwJo%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 14 May 2022 20:07:46 -0400
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 057309FEB
+        for <linux-input@vger.kernel.org>; Sat, 14 May 2022 17:07:45 -0700 (PDT)
+Received: by mail-oi1-x235.google.com with SMTP id l16so14537488oil.6
+        for <linux-input@vger.kernel.org>; Sat, 14 May 2022 17:07:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:from:to:subject:references
+         :in-reply-to:content-transfer-encoding;
+        bh=zcNDlT31PXG0OMbvjtwSYbEBTXISPhLjUMVdG9bFdcc=;
+        b=q7DXXO/VGydFk70gXe+2ZEsgtzyZ7vXFAgRJVIaaVcPVxIpstjxS4PUPGuzjP97ni+
+         FK0tucO07E79ruBkG4syKyOWyc5VBU/GhKubr9cw+NeGYbdKMlBpgvKUNch/kRkCb3oa
+         OypTiCZvTQkLaow3YkO5clNjsjUlZbOGOK67QDWz5tUcMv/1p5+ZH0SvJhZyyjgIbQBM
+         nLsV5WbiD4cOc/i8Nzq8CssTV7hStqCWH3BHiDo5ZLivOXxTv9Z8QGr9HPc2jaSXsvSP
+         xEWRWF+7+oN70uI83sw8sz+NFX9nFhOIeLhRl4TfQbTxZFFRYwLx560xDeWmypxWRmBW
+         L5wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:from:to
+         :subject:references:in-reply-to:content-transfer-encoding;
+        bh=zcNDlT31PXG0OMbvjtwSYbEBTXISPhLjUMVdG9bFdcc=;
+        b=sYghFE/MGXdHKSN2UD+F+Rm3slcbEBwGEqbd+K6C/lMR0WYSjfE4n/MQgdqfUjyIeK
+         JCQirSU/V7a3/f+RZOwMXnMefDe20pavd03LEjQ/pkYOzbhc2WV6I7X1wbP/2H1bEnyk
+         KeGdX0Ko4NZcsmhi0KdmvR8wFWVcl9vrlbwI3xbVXA1W4CQRdHGQEXohWvY3TrcAtrjb
+         o297HI9wfNLN9jGF3I6rNrvrDKgppAe1gQaGI5ca+07qoKd/57hl9bDAx4T+DkAL9ss1
+         Sf41Tv0zqX2/pXju6JR+ZXQRC15OA/3//NfycerQYjnpvFMsQ5AFNcv8FrOrWNFpDQXM
+         0RfQ==
+X-Gm-Message-State: AOAM530vhDZvuA6h22pYw5Vs+UVrYemQ8v0sKpn8eBRc+pC8Ht9gazyP
+        eVLtaKYTDNBvQEq+mMNxdtk=
+X-Google-Smtp-Source: ABdhPJy6pyR/qtIcL/NsdNAgerlUX5HO4IT/RJDitTDYGIUC64YE9qOeCj+B/Rvr+ibrpAl1tzs6cg==
+X-Received: by 2002:aca:3088:0:b0:326:d72b:3ea1 with SMTP id w130-20020aca3088000000b00326d72b3ea1mr10046021oiw.1.1652573263594;
+        Sat, 14 May 2022 17:07:43 -0700 (PDT)
+Received: from ?IPV6:2804:d51:495a:8100:5544:c32d:eb1:5107? ([2804:d51:495a:8100:5544:c32d:eb1:5107])
+        by smtp.gmail.com with ESMTPSA id q4-20020acac004000000b00325cda1ffb4sm2483335oif.51.2022.05.14.17.07.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 May 2022 17:07:42 -0700 (PDT)
+Message-ID: <eaa15224-50d9-e3b4-f5df-a29ef6a9043b@gmail.com>
+Date:   Sat, 14 May 2022 21:07:39 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+From:   marcoshalano@gmail.com
+To:     Angela Czubak <acz@semihalf.com>, linux-input@vger.kernel.org,
+        upstream@semihalf.com, benjamin.tissoires@redhat.com,
+        jikos@kernel.org, dmitry.torokhov@gmail.com,
+        Angela Czubak <acz@semihalf.com>
+Subject: Re: [PATCH v3 17/17] HID: multitouch: Add lid handler for touchpad on
+ Redrix chromebook
+References: <20220513093927.1632262-1-acz@semihalf.com>
+ <20220513093927.1632262-18-acz@semihalf.com>
+In-Reply-To: <20220513093927.1632262-18-acz@semihalf.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: ec648fc0a00378359dbf719371ed36657d6ccf4a  Input: sun4i-lradc-keys - add support for R329 and D1
+On 13/05/2022 06:39, Angela Czubak <acz@semihalf.com> wrote:
+> If user closes the lid the touchscreen gets close to the touchpad surface,
+> which causes interference and makes the touchpad enter noise mode.
+> Right after opening the lid the cursor is unresponsive because of the mode
+> mentioned.
+> To fix this issue we switch the surface off and on so that Elan's FW
+> performs recalibration once the lid has been opened.
+> 
+A non related question: this hid-haptic module is made just for newer touchpads which have a haptic response instead of regular clicks, or the haptic logic could be extended for other haptic devices, like Sony's DualSense controller triggers?
 
-elapsed time: 13148m
+> Signed-off-by: Angela Czubak <acz@semihalf.com>
+> ---
+>   drivers/hid/hid-multitouch.c | 220 ++++++++++++++++++++++++++++++++++-
+>   1 file changed, 219 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+> index 2d1b8c400c2f..73e47fe7d773 100644
+> --- a/drivers/hid/hid-multitouch.c
+> +++ b/drivers/hid/hid-multitouch.c
+> @@ -32,11 +32,14 @@
+>    */
+>   
+>   #include <linux/device.h>
+> +#include <linux/delay.h>
+> +#include <linux/dmi.h>
+>   #include <linux/hid.h>
+>   #include <linux/module.h>
+>   #include <linux/slab.h>
+>   #include <linux/input/mt.h>
+>   #include <linux/jiffies.h>
+> +#include <linux/sched.h>
+>   #include <linux/string.h>
+>   #include <linux/timer.h>
+>   
+> @@ -159,6 +162,7 @@ struct mt_report_data {
+>   };
+>   
+>   struct mt_device {
+> +	struct list_head list;	/* for list of devices needing input handler */
+>   	struct mt_class mtclass;	/* our mt device class */
+>   	struct timer_list release_timer;	/* to release sticky fingers */
+>   	struct hid_haptic_device *haptic;	/* haptic related configuration */
+> @@ -173,8 +177,15 @@ struct mt_device {
+>   
+>   	struct list_head applications;
+>   	struct list_head reports;
+> +
+> +	struct work_struct lid_work;
+> +	struct mutex mode_mutex;
+> +	bool lid_switch;
+>   };
+>   
+> +static struct workqueue_struct *mt_mode_wq;
+> +static LIST_HEAD(mt_devices_with_lid_handler);
+> +
+>   static void mt_post_parse_default_settings(struct mt_device *td,
+>   					   struct mt_application *app);
+>   static void mt_post_parse(struct mt_device *td, struct mt_application *app);
+> @@ -394,6 +405,91 @@ static const struct mt_class mt_classes[] = {
+>   	{ }
+>   };
+>   
+> +static void mt_input_lid_event(struct input_handle *handle, unsigned int type,
+> +			     unsigned int code, int value)
+> +{
+> +	struct mt_device *td, *n;
+> +
+> +	if (type == EV_SW && code == SW_LID && !value) {
+> +		list_for_each_entry_safe(td, n, &mt_devices_with_lid_handler, list)
+> +			queue_work(mt_mode_wq, &td->lid_work);
+> +	}
+> +}
+> +
+> +struct mt_input_lid {
+> +	struct input_handle handle;
+> +};
+> +
+> +static int mt_input_lid_connect(struct input_handler *handler,
+> +				struct input_dev *dev,
+> +				const struct input_device_id *id)
+> +{
+> +	struct mt_input_lid *lid;
+> +	char *name;
+> +	int error;
+> +
+> +	lid = kzalloc(sizeof(*lid), GFP_KERNEL);
+> +	if (!lid)
+> +		return -ENOMEM;
+> +
+> +	name = kasprintf(GFP_KERNEL, "hid-mt-lid-%s", dev_name(&dev->dev));
+> +	if (!name) {
+> +		error = -ENOMEM;
+> +		goto err_free_lid;
+> +	}
+> +
+> +	lid->handle.dev = dev;
+> +	lid->handle.handler = handler;
+> +	lid->handle.name = name;
+> +	lid->handle.private = lid;
+> +
+> +	error = input_register_handle(&lid->handle);
+> +	if (error)
+> +		goto err_free_name;
+> +
+> +	error = input_open_device(&lid->handle);
+> +	if (error)
+> +		goto err_unregister_handle;
+> +
+> +	return 0;
+> +
+> +err_unregister_handle:
+> +	input_unregister_handle(&lid->handle);
+> +err_free_name:
+> +	kfree(name);
+> +err_free_lid:
+> +	kfree(lid);
+> +	return error;
+> +}
+> +
+> +static void mt_input_lid_disconnect(struct input_handle *handle)
+> +{
+> +	struct mt_input_lid *lid = handle->private;
+> +
+> +	input_close_device(handle);
+> +	input_unregister_handle(handle);
+> +
+> +	kfree(handle->name);
+> +	kfree(lid);
+> +}
+> +
+> +static const struct input_device_id mt_input_lid_ids[] = {
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT | INPUT_DEVICE_ID_MATCH_SWBIT,
+> +		.evbit = { BIT_MASK(EV_SW) },
+> +		.swbit = { [BIT_WORD(SW_LID)] = BIT_MASK(SW_LID) },
+> +	},
+> +	{ },
+> +};
+> +
+> +static struct input_handler mt_input_lid_handler = {
+> +	.event =	mt_input_lid_event,
+> +	.connect =	mt_input_lid_connect,
+> +	.disconnect =	mt_input_lid_disconnect,
+> +	.name =		"hid-mt-lid",
+> +	.id_table =	mt_input_lid_ids,
+> +};
+> +
+>   static ssize_t mt_show_quirks(struct device *dev,
+>   			   struct device_attribute *attr,
+>   			   char *buf)
+> @@ -548,6 +644,83 @@ static struct mt_usages *mt_allocate_usage(struct hid_device *hdev,
+>   	return usage;
+>   }
+>   
+> +static void mt_set_modes(struct hid_device *hdev, enum latency_mode latency,
+> +			 bool surface_switch, bool button_switch);
+> +
+> +static void lid_work_handler(struct work_struct *work)
+> +{
+> +
+> +	struct mt_device *td = container_of(work, struct mt_device,
+> +					    lid_work);
+> +	struct hid_device *hdev = td->hdev;
+> +
+> +	mutex_lock(&td->mode_mutex);
+> +	mt_set_modes(hdev, HID_LATENCY_NORMAL, false, false);
+> +	/* Elan's touchpad VID 323B needs this delay to handle both switch
+> +	 * surface off and switch surface on and trigger recalibration
+> +	 * properly.
+> +	 */
+> +	msleep(50);
+> +	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
+> +	mutex_unlock(&td->mode_mutex);
+> +}
+> +
+> +static const struct dmi_system_id mt_lid_handler_dmi_table[] = {
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "Google"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "Redrix"),
+> +		},
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "Google"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "Redrix4ES"),
+> +		},
+> +	},
+> +	{}
+> +};
+> +
+> +static int mt_create_lid_handler(void)
+> +{
+> +	int error = 0;
+> +
+> +	if (!dmi_check_system(mt_lid_handler_dmi_table))
+> +		return 0;
+> +
+> +	mt_mode_wq = alloc_ordered_workqueue("hid-mt-lid", WQ_FREEZABLE);
+> +	if (mt_mode_wq == NULL)
+> +		return -ENOMEM;
+> +
+> +	error = input_register_handler(&mt_input_lid_handler);
+> +	if (error)
+> +		goto remove_wq;
+> +
+> +	return 0;
+> +
+> +remove_wq:
+> +	destroy_workqueue(mt_mode_wq);
+> +	mt_mode_wq = NULL;
+> +	return error;
+> +}
+> +
+> +static void mt_configure_lid_handler(struct mt_device *td)
+> +{
+> +	struct hid_device *hdev = td->hdev;
+> +
+> +	if (hdev->bus != BUS_I2C)
+> +		return;
+> +
+> +	td->lid_switch = true;
+> +	list_add_tail(&td->list, &mt_devices_with_lid_handler);
+> +}
+> +
+> +static void mt_destroy_lid_handler(void)
+> +{
+> +	input_unregister_handler(&mt_input_lid_handler);
+> +	destroy_workqueue(mt_mode_wq);
+> +}
+> +
+>   static struct mt_application *mt_allocate_application(struct mt_device *td,
+>   						      struct hid_report *report)
+>   {
+> @@ -571,6 +744,8 @@ static struct mt_application *mt_allocate_application(struct mt_device *td,
+>   	if (application == HID_DG_TOUCHPAD) {
+>   		mt_application->mt_flags |= INPUT_MT_POINTER;
+>   		td->inputmode_value = MT_INPUTMODE_TOUCHPAD;
+> +		if (mt_mode_wq)
+> +			mt_configure_lid_handler(td);
+>   	}
+>   
+>   	mt_application->scantime = DEFAULT_ZERO;
+> @@ -1767,6 +1942,10 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>   	INIT_LIST_HEAD(&td->applications);
+>   	INIT_LIST_HEAD(&td->reports);
+>   
+> +	INIT_LIST_HEAD(&td->list);
+> +	INIT_WORK(&td->lid_work, lid_work_handler);
+> +	mutex_init(&td->mode_mutex);
+> +
+>   	if (id->vendor == HID_ANY_ID && id->product == HID_ANY_ID)
+>   		td->serial_maybe = true;
+>   
+> @@ -1830,12 +2009,18 @@ static int mt_suspend(struct hid_device *hdev, pm_message_t state)
+>   	struct mt_device *td = hid_get_drvdata(hdev);
+>   	struct hid_haptic_device *haptic = td->haptic;
+>   
+> +	/* Wait for switch on completion */
+> +	if (td->lid_switch)
+> +		flush_workqueue(mt_mode_wq);
+> +
+> +	mutex_lock(&td->mode_mutex);
+>   	/* High latency is desirable for power savings during S3/S0ix */
+>   	if ((td->mtclass.quirks & MT_QUIRK_DISABLE_WAKEUP) ||
+>   	    !hid_hw_may_wakeup(hdev))
+>   		mt_set_modes(hdev, HID_LATENCY_HIGH, false, false);
+>   	else
+>   		mt_set_modes(hdev, HID_LATENCY_HIGH, true, true);
+> +	mutex_unlock(&td->mode_mutex);
+>   
+>   	if (td->is_haptic_touchpad)
+>   		hid_haptic_suspend(hdev, haptic);
+> @@ -1849,7 +2034,10 @@ static int mt_reset_resume(struct hid_device *hdev)
+>   	struct hid_haptic_device *haptic = td->haptic;
+>   
+>   	mt_release_contacts(hdev);
+> +
+> +	mutex_lock(&td->mode_mutex);
+>   	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
+> +	mutex_unlock(&td->mode_mutex);
+>   
+>   	if (td->is_haptic_touchpad)
+>   		hid_haptic_resume(hdev, haptic);
+> @@ -1868,7 +2056,9 @@ static int mt_resume(struct hid_device *hdev)
+>   
+>   	hid_hw_idle(hdev, 0, 0, HID_REQ_SET_IDLE);
+>   
+> +	mutex_lock(&td->mode_mutex);
+>   	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
+> +	mutex_unlock(&td->mode_mutex);
+>   
+>   	if (td->is_haptic_touchpad)
+>   		hid_haptic_resume(hdev, haptic);
+> @@ -1883,7 +2073,9 @@ static int mt_reset(struct hid_device *hdev)
+>   	struct hid_haptic_device *haptic = td->haptic;
+>   
+>   	mt_release_contacts(hdev);
+> +	mutex_lock(&td->mode_mutex);
+>   	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
+> +	mutex_unlock(&td->mode_mutex);
+>   
+>   	if (td->is_haptic_touchpad)
+>   		hid_haptic_reset(hdev, haptic);
+> @@ -1899,6 +2091,8 @@ static void mt_remove(struct hid_device *hdev)
+>   
+>   	sysfs_remove_group(&hdev->dev.kobj, &mt_attribute_group);
+>   	hid_hw_stop(hdev);
+> +
+> +	list_del(&td->list);
+>   }
+>   
+>   /*
+> @@ -2302,4 +2496,28 @@ static struct hid_driver mt_driver = {
+>   	.resume = mt_resume,
+>   #endif
+>   };
+> -module_hid_driver(mt_driver);
+> +
+> +static int __init mt_init(void)
+> +{
+> +	int ret;
+> +
+> +	ret = hid_register_driver(&mt_driver);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = mt_create_lid_handler();
+> +	if (ret)
+> +		hid_unregister_driver(&mt_driver);
+> +
+> +	return ret;
+> +}
+> +module_init(mt_init);
+> +
+> +static void __exit mt_exit(void)
+> +{
+> +	if (mt_mode_wq)
+> +		mt_destroy_lid_handler();
+> +
+> +	hid_unregister_driver(&mt_driver);
+> +}
+> +module_exit(mt_exit);
+> 
 
-configs tested: 417
-configs skipped: 7
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm64                               defconfig
-arm64                            allyesconfig
-arm                              allmodconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-powerpc              randconfig-c003-20220505
-powerpc              randconfig-c003-20220512
-m68k                       m5208evb_defconfig
-powerpc                      ep88xc_defconfig
-arm                         at91_dt_defconfig
-arm                        clps711x_defconfig
-arc                 nsimosci_hs_smp_defconfig
-mips                         tb0226_defconfig
-m68k                             allmodconfig
-xtensa                       common_defconfig
-arm                      jornada720_defconfig
-arm                           stm32_defconfig
-csky                                defconfig
-riscv             nommu_k210_sdcard_defconfig
-powerpc                     tqm8555_defconfig
-powerpc                     ep8248e_defconfig
-sh                ecovec24-romimage_defconfig
-arm                           sunxi_defconfig
-ia64                             alldefconfig
-arm                          exynos_defconfig
-h8300                    h8300h-sim_defconfig
-arm                        multi_v7_defconfig
-powerpc                      mgcoge_defconfig
-xtensa                    smp_lx200_defconfig
-ia64                      gensparse_defconfig
-arm                          simpad_defconfig
-arm                        cerfcube_defconfig
-sh                          r7785rp_defconfig
-sh                          urquell_defconfig
-sparc64                             defconfig
-m68k                       m5475evb_defconfig
-arm                        shmobile_defconfig
-m68k                        mvme16x_defconfig
-m68k                       m5249evb_defconfig
-arm                            pleb_defconfig
-mips                          rb532_defconfig
-riscv                               defconfig
-powerpc                     sequoia_defconfig
-arc                          axs103_defconfig
-m68k                       m5275evb_defconfig
-xtensa                           alldefconfig
-xtensa                    xip_kc705_defconfig
-xtensa                  audio_kc705_defconfig
-h8300                     edosk2674_defconfig
-arm                            hisi_defconfig
-mips                        bcm47xx_defconfig
-sh                              ul2_defconfig
-sh                      rts7751r2d1_defconfig
-sh                           se7712_defconfig
-powerpc                       ppc64_defconfig
-csky                             alldefconfig
-mips                           ip32_defconfig
-sh                             sh03_defconfig
-sh                   sh7724_generic_defconfig
-m68k                          atari_defconfig
-powerpc                      cm5200_defconfig
-powerpc                       eiger_defconfig
-ia64                         bigsur_defconfig
-powerpc                     redwood_defconfig
-mips                  decstation_64_defconfig
-h8300                       h8s-sim_defconfig
-sh                          kfr2r09_defconfig
-mips                             allyesconfig
-sparc                       sparc32_defconfig
-powerpc                     pq2fads_defconfig
-sh                 kfr2r09-romimage_defconfig
-arm                         axm55xx_defconfig
-arm                        spear6xx_defconfig
-x86_64                           alldefconfig
-powerpc                     tqm8548_defconfig
-m68k                       bvme6000_defconfig
-sh                           se7705_defconfig
-mips                       bmips_be_defconfig
-sh                        sh7763rdp_defconfig
-powerpc                 mpc8540_ads_defconfig
-sh                          landisk_defconfig
-xtensa                  nommu_kc705_defconfig
-mips                           ci20_defconfig
-sh                           se7721_defconfig
-s390                       zfcpdump_defconfig
-m68k                           sun3_defconfig
-powerpc                      ppc40x_defconfig
-powerpc                    adder875_defconfig
-arc                        nsim_700_defconfig
-sh                         ecovec24_defconfig
-sh                               allmodconfig
-sh                        dreamcast_defconfig
-mips                 decstation_r4k_defconfig
-powerpc64                        alldefconfig
-arc                        nsimosci_defconfig
-um                           x86_64_defconfig
-powerpc                        warp_defconfig
-powerpc                      tqm8xx_defconfig
-sh                         ap325rxa_defconfig
-x86_64                              defconfig
-mips                      loongson3_defconfig
-sparc                            alldefconfig
-powerpc                 mpc837x_rdb_defconfig
-xtensa                         virt_defconfig
-m68k                            q40_defconfig
-arm                        keystone_defconfig
-powerpc                 mpc85xx_cds_defconfig
-parisc                generic-64bit_defconfig
-sh                   secureedge5410_defconfig
-arc                                 defconfig
-mips                             allmodconfig
-m68k                          hp300_defconfig
-ia64                          tiger_defconfig
-powerpc                           allnoconfig
-sh                             espt_defconfig
-arm                       multi_v4t_defconfig
-arm                             ezx_defconfig
-arm                        mini2440_defconfig
-xtensa                              defconfig
-arm                           sama5_defconfig
-openrisc                            defconfig
-powerpc                  iss476-smp_defconfig
-sh                          rsk7203_defconfig
-nios2                         3c120_defconfig
-sparc                            allyesconfig
-sh                         microdev_defconfig
-arc                     nsimosci_hs_defconfig
-powerpc                     stx_gp3_defconfig
-mips                           jazz_defconfig
-um                               alldefconfig
-openrisc                    or1ksim_defconfig
-mips                            ar7_defconfig
-powerpc                mpc7448_hpc2_defconfig
-powerpc                       holly_defconfig
-arm                        trizeps4_defconfig
-arm                            xcep_defconfig
-riscv                            allyesconfig
-arm                           viper_defconfig
-sparc                       sparc64_defconfig
-sh                          polaris_defconfig
-powerpc                         wii_defconfig
-arm64                            alldefconfig
-m68k                          sun3x_defconfig
-mips                     decstation_defconfig
-xtensa                  cadence_csp_defconfig
-arm                         assabet_defconfig
-h8300                            allyesconfig
-powerpc                     rainier_defconfig
-sparc                               defconfig
-sh                           se7750_defconfig
-sh                                  defconfig
-arc                     haps_hs_smp_defconfig
-m68k                         apollo_defconfig
-powerpc                     taishan_defconfig
-powerpc                     tqm8541_defconfig
-powerpc                 mpc834x_itx_defconfig
-mips                         mpc30x_defconfig
-arm                            zeus_defconfig
-arm                     eseries_pxa_defconfig
-powerpc                  storcenter_defconfig
-arm                         lubbock_defconfig
-sh                           se7343_defconfig
-parisc                generic-32bit_defconfig
-alpha                               defconfig
-powerpc                      pasemi_defconfig
-mips                         bigsur_defconfig
-sh                   rts7751r2dplus_defconfig
-i386                                defconfig
-arm                         nhk8815_defconfig
-mips                      fuloong2e_defconfig
-sh                          rsk7269_defconfig
-alpha                            alldefconfig
-m68k                        m5307c3_defconfig
-arm                      integrator_defconfig
-nios2                         10m50_defconfig
-arm                          gemini_defconfig
-powerpc                      pcm030_defconfig
-alpha                            allyesconfig
-arm                          lpd270_defconfig
-mips                        vocore2_defconfig
-powerpc                      bamboo_defconfig
-i386                             alldefconfig
-m68k                        mvme147_defconfig
-sh                          lboxre2_defconfig
-arm                             pxa_defconfig
-arm                         vf610m4_defconfig
-arc                           tb10x_defconfig
-microblaze                          defconfig
-mips                         db1xxx_defconfig
-powerpc                   currituck_defconfig
-mips                      maltasmvp_defconfig
-powerpc                      chrp32_defconfig
-nios2                            allyesconfig
-sh                        apsh4ad0a_defconfig
-arm                            qcom_defconfig
-powerpc                 mpc837x_mds_defconfig
-arm                        mvebu_v7_defconfig
-powerpc                       maple_defconfig
-powerpc                      ppc6xx_defconfig
-sh                          sdk7786_defconfig
-arm                         lpc18xx_defconfig
-arm                         s3c6400_defconfig
-arm                       aspeed_g5_defconfig
-m68k                        stmark2_defconfig
-powerpc                      makalu_defconfig
-arm                         cm_x300_defconfig
-arm                        oxnas_v6_defconfig
-mips                           gcw0_defconfig
-arm                             rpc_defconfig
-nios2                            alldefconfig
-arm                            lart_defconfig
-arm                       imx_v6_v7_defconfig
-openrisc                 simple_smp_defconfig
-arm                          pxa3xx_defconfig
-m68k                          multi_defconfig
-arc                              alldefconfig
-sh                  sh7785lcr_32bit_defconfig
-openrisc                  or1klitex_defconfig
-m68k                         amcore_defconfig
-m68k                          amiga_defconfig
-sh                         apsh4a3a_defconfig
-arm                           corgi_defconfig
-sh                        sh7785lcr_defconfig
-powerpc                    amigaone_defconfig
-sh                     magicpanelr2_defconfig
-sh                          sdk7780_defconfig
-arc                         haps_hs_defconfig
-um                                  defconfig
-arc                          axs101_defconfig
-arc                    vdk_hs38_smp_defconfig
-arm                       omap2plus_defconfig
-powerpc                      arches_defconfig
-ia64                            zx1_defconfig
-arm                        realview_defconfig
-mips                     loongson1b_defconfig
-powerpc64                           defconfig
-sh                               j2_defconfig
-powerpc                     asp8347_defconfig
-h8300                               defconfig
-powerpc                    sam440ep_defconfig
-sh                           se7722_defconfig
-arm                          iop32x_defconfig
-sh                          rsk7264_defconfig
-sh                           se7751_defconfig
-sh                            hp6xx_defconfig
-mips                  maltasmvp_eva_defconfig
-sh                          r7780mp_defconfig
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220506
-arm                  randconfig-c002-20220508
-arm                  randconfig-c002-20220505
-arm                  randconfig-c002-20220507
-arm                  randconfig-c002-20220512
-ia64                                defconfig
-ia64                             allyesconfig
-ia64                             allmodconfig
-m68k                             allyesconfig
-m68k                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-xtensa                           allyesconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-i386                             allyesconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-i386                          randconfig-a003
-i386                          randconfig-a005
-i386                          randconfig-a001
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-arc                  randconfig-r043-20220505
-s390                 randconfig-r044-20220505
-riscv                randconfig-r042-20220505
-arc                  randconfig-r043-20220512
-riscv                randconfig-r042-20220512
-s390                 randconfig-r044-20220512
-arc                  randconfig-r043-20220507
-s390                 randconfig-r044-20220507
-riscv                randconfig-r042-20220507
-arc                  randconfig-r043-20220513
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                             i386_defconfig
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                                  kexec
-x86_64                           allyesconfig
-x86_64                         rhel-8.3-kunit
-x86_64                               rhel-8.3
-
-clang tested configs:
-x86_64                        randconfig-c007
-i386                          randconfig-c001
-powerpc              randconfig-c003-20220505
-riscv                randconfig-c006-20220505
-arm                  randconfig-c002-20220505
-powerpc              randconfig-c003-20220506
-riscv                randconfig-c006-20220506
-mips                 randconfig-c004-20220506
-arm                  randconfig-c002-20220506
-s390                 randconfig-c005-20220506
-powerpc              randconfig-c003-20220507
-riscv                randconfig-c006-20220507
-mips                 randconfig-c004-20220507
-arm                  randconfig-c002-20220507
-powerpc              randconfig-c003-20220508
-riscv                randconfig-c006-20220508
-mips                 randconfig-c004-20220508
-arm                  randconfig-c002-20220508
-mips                 randconfig-c004-20220512
-powerpc              randconfig-c003-20220512
-arm                  randconfig-c002-20220512
-s390                 randconfig-c005-20220512
-riscv                randconfig-c006-20220512
-powerpc                     tqm5200_defconfig
-powerpc                          allyesconfig
-arm                  colibri_pxa300_defconfig
-arm                          pcm027_defconfig
-mips                        omega2p_defconfig
-powerpc                 mpc836x_rdk_defconfig
-mips                         tb0219_defconfig
-powerpc                     mpc5200_defconfig
-arm                       cns3420vb_defconfig
-arm                          collie_defconfig
-mips                      pic32mzda_defconfig
-i386                             allyesconfig
-mips                           mtx1_defconfig
-arm                         socfpga_defconfig
-powerpc                      ppc64e_defconfig
-x86_64                           allyesconfig
-arm                         orion5x_defconfig
-powerpc                     ksi8560_defconfig
-mips                          ath25_defconfig
-mips                           rs90_defconfig
-arm                      pxa255-idp_defconfig
-arm                  colibri_pxa270_defconfig
-arm                        magician_defconfig
-powerpc                     pseries_defconfig
-arm                        spear3xx_defconfig
-arm                        mvebu_v5_defconfig
-powerpc                  mpc885_ads_defconfig
-arm                        vexpress_defconfig
-arm                     davinci_all_defconfig
-arm                       netwinder_defconfig
-riscv                    nommu_virt_defconfig
-arm                           spitz_defconfig
-mips                  cavium_octeon_defconfig
-powerpc                     tqm8540_defconfig
-riscv                             allnoconfig
-arm                       mainstone_defconfig
-arm                    vt8500_v6_v7_defconfig
-powerpc                     skiroot_defconfig
-powerpc                 mpc8560_ads_defconfig
-powerpc                      walnut_defconfig
-arm                             mxs_defconfig
-arm                        neponset_defconfig
-mips                      malta_kvm_defconfig
-hexagon                             defconfig
-powerpc                 mpc832x_rdb_defconfig
-mips                       lemote2f_defconfig
-mips                        workpad_defconfig
-mips                          ath79_defconfig
-arm                            mmp2_defconfig
-arm                            dove_defconfig
-powerpc                          allmodconfig
-arm                         lpc32xx_defconfig
-arm                          ixp4xx_defconfig
-powerpc                 mpc8315_rdb_defconfig
-arm                          moxart_defconfig
-powerpc                   lite5200b_defconfig
-powerpc                 mpc8313_rdb_defconfig
-mips                   sb1250_swarm_defconfig
-powerpc                 mpc8272_ads_defconfig
-arm                       spear13xx_defconfig
-powerpc                      katmai_defconfig
-arm                         s3c2410_defconfig
-mips                        maltaup_defconfig
-powerpc                      ppc44x_defconfig
-mips                     cu1000-neo_defconfig
-arm                       aspeed_g4_defconfig
-arm                         s5pv210_defconfig
-arm                       versatile_defconfig
-mips                malta_qemu_32r6_defconfig
-powerpc                   bluestone_defconfig
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-i386                 randconfig-a004-20220509
-i386                 randconfig-a006-20220509
-i386                 randconfig-a002-20220509
-i386                 randconfig-a003-20220509
-i386                 randconfig-a001-20220509
-i386                 randconfig-a005-20220509
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a011
-i386                          randconfig-a013
-i386                          randconfig-a015
-hexagon              randconfig-r045-20220506
-riscv                randconfig-r042-20220506
-hexagon              randconfig-r041-20220506
-hexagon              randconfig-r045-20220512
-hexagon              randconfig-r041-20220512
-hexagon              randconfig-r045-20220505
-hexagon              randconfig-r041-20220505
-hexagon              randconfig-r045-20220509
-hexagon              randconfig-r045-20220508
-riscv                randconfig-r042-20220508
-hexagon              randconfig-r041-20220509
-hexagon              randconfig-r041-20220508
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
