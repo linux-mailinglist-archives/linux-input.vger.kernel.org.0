@@ -2,66 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82519527F4D
-	for <lists+linux-input@lfdr.de>; Mon, 16 May 2022 10:10:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A880352804D
+	for <lists+linux-input@lfdr.de>; Mon, 16 May 2022 10:58:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241506AbiEPIK3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 16 May 2022 04:10:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41540 "EHLO
+        id S242124AbiEPI5g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 16 May 2022 04:57:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235893AbiEPIK1 (ORCPT
+        with ESMTP id S242379AbiEPI4L (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 16 May 2022 04:10:27 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9FAD3586A;
-        Mon, 16 May 2022 01:10:26 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id a11so13384013pff.1;
-        Mon, 16 May 2022 01:10:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ewwDGiDvoSbqJDxqbyxplwfzhpSVEU4MwD5LupBWqs8=;
-        b=WDVdOV9pCSiGWAFrn+I+uVxvg665Qa16eEMMP/WPiFdAbtCb1FVMdeTuTPvRwuy4bB
-         8S1ES06d3buhk0r52SiTQan+NeHh+SeL1bHB/ESE4/M8+b7HUOazTkvbUxvxni/gZEdX
-         IYTaFsbYxfk8vZBtoC2dhYRe0sQrZVzmBo3fchX9iSMTchHAF9+SyjTXcNpf4tghvVTo
-         an2lQCp3sVFWDpHBDccUTCxX8iD57eXGiMihAnKBNawGqMGx9HOxIwUm+hgjco95wqY+
-         pZNtcJ27gAEipl8kz7nIs4S0dXI9AYuqj21uAFgi7LtkilSBFoKohm+1wDJjPFFOSYLW
-         nelQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ewwDGiDvoSbqJDxqbyxplwfzhpSVEU4MwD5LupBWqs8=;
-        b=ZXYesAwz20XoTkiZVrZs3ZKsQeWb5eDlkXTU9ISu1OZYoVlbG8H+KwoGwEYwQTEk3s
-         0Nx4Gj7PJXRbBGqVaxOQF2UUR2PS9tRt+G2gALmCu+30h4SR9w3JNTh3fXxqCMmbPZso
-         WJDv4VEhu6SoUMvPwwh1L6VPxVKLN13nCLQD5f2fvQ1NBVEMtdZ870Xcne8/XM7k+xzW
-         0hsH1WsboSnaADYmOTLIMSajKxttza4SErKGlCemNgflvRmKxgWR9u8uR3hCB0JteBAn
-         kQkKyBya0ARLOc2IRgPHHcCEL9hGOEpyAQKatBHKKbBLkQSnkf0d69aNWspfe/9Mi1Oi
-         19lw==
-X-Gm-Message-State: AOAM533f57pHTyyZ96KobtGsqQ5DKc/8L8oTq6NwFyzXntejFgZxd3CN
-        IhIy5D6/SPGsTNEFZmTsG6tDTPovD8OthjeI
-X-Google-Smtp-Source: ABdhPJzmkxTSrk6XaE27ZCUJvbJocJvynakIipnPvzkCo5ZSTqWgBLQZaKKdcT2FuQCBiQIHJFABdw==
-X-Received: by 2002:a05:6a00:198a:b0:50e:a2a:32e9 with SMTP id d10-20020a056a00198a00b0050e0a2a32e9mr16361441pfl.82.1652688626284;
-        Mon, 16 May 2022 01:10:26 -0700 (PDT)
-Received: from localhost.localdomain ([202.120.234.246])
-        by smtp.googlemail.com with ESMTPSA id x12-20020a170902a38c00b0015e8d4eb1d2sm6337096pla.28.2022.05.16.01.10.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 01:10:25 -0700 (PDT)
-From:   Miaoqian Lin <linmq006@gmail.com>
+        Mon, 16 May 2022 04:56:11 -0400
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2100.outbound.protection.outlook.com [40.107.255.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77BA2186DC;
+        Mon, 16 May 2022 01:55:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Mwqy5IIZDxyBhhg4rmzNpSIksntylzAtNuksxXeJgz6hFNAXaIXmrwAt13uNUevvFHlty6/koXqM7k8lMOe2rH4Z7cE0ViWDfQEw6KquqleB/2axErB+rZ6TivP7WFQi/fN+fkDj0J6sOv9ay5leTQAR0aafKj4ZnZfco7JkAuKzd79wVFAoxWSF9WudtBG5YNBTKueyprj2YpFj1nId4dTlRIfGjpVTEySVKnrVuzUDfrsgW6zuoWXeh89NggzdgIibysttFB4maUK/h2xGm0o/+dPiWwT06d3DWn4Jz7Z2upEO1Z4Asz73gh33h1JVgiq/9usbFftZU9YHGOYlaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8cWt3Mgn3euvC4BErJddvMQusPjOT/gBLkGrFXleijQ=;
+ b=ORwSyjPddYOQ2AKe9Ul5mVrMnAPdApEvAcSn/wlkHXmu2rWKEywPan/7Wh+/kNusxbpVDhiH6IRssKW8TyiHIatm5ew9rIQMAL8PMIRQDxdnO9VMCDNJdcArJYPuF8WTCc+SxG7FQveX4dgRmDXRhL9kQEmPsbpNKAnPoo73/0z6YwKWXkBKBsQnNfUDgeNifQ1kINCZFNfsiES+Fk0J7Sf5LOBCE1YShLJusLHnqMLpakAhAUcmGw7THz8U3Idox/q4ydq7UqKa4jMHT0PyzGY/n5WSxqJ01xof1GV4CC218CKu5ymLV8Zu6++yLXsngi3EopBvx17xnFRUj385aQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8cWt3Mgn3euvC4BErJddvMQusPjOT/gBLkGrFXleijQ=;
+ b=Zyp3xD/LFmNtdEg4m08LTNMJyc181RpEw9yTx66X8CZQh77oQVESSBydINmNPo3/rb7tnJaJMQEis649ZIFUhI/N860MD5k+XHU6ixuFhaiZYzA1zvnbAAdk/IzK53x9Csco1nezNi5/3V+gNLI98TvMwnPRB0zvkoemEZv1hqo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com (2603:1096:4:78::19) by
+ TYZPR06MB4480.apcprd06.prod.outlook.com (2603:1096:400:72::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5250.13; Mon, 16 May 2022 08:55:25 +0000
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::ccb7:f612:80b2:64d5]) by SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::ccb7:f612:80b2:64d5%4]) with mapi id 15.20.5250.018; Mon, 16 May 2022
+ 08:55:25 +0000
+From:   Wan Jiabing <wanjiabing@vivo.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Miaoqian Lin <linmq006@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: sparcspkr: Fix refcount leak in bbc_beep_probe
-Date:   Mon, 16 May 2022 12:10:16 +0400
-Message-Id: <20220516081018.42728-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+        Wan Jiabing <wanjiabing@vivo.com>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: Remove unneeded NULL check before clk_disable_unprepare
+Date:   Mon, 16 May 2022 16:55:09 +0800
+Message-Id: <20220516085511.10679-1-wanjiabing@vivo.com>
+X-Mailer: git-send-email 2.36.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR03CA0064.apcprd03.prod.outlook.com
+ (2603:1096:202:17::34) To SG2PR06MB3367.apcprd06.prod.outlook.com
+ (2603:1096:4:78::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f3803665-50bf-43d0-002b-08da3719d181
+X-MS-TrafficTypeDiagnostic: TYZPR06MB4480:EE_
+X-Microsoft-Antispam-PRVS: <TYZPR06MB4480697C76F2DD3AC26C0867ABCF9@TYZPR06MB4480.apcprd06.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YkIAQ6v7E0+DzkiChAQsUEjGI8mT+5Lp//NbWW6lxWjS+Zi1WRodY270wGtsBHntOHom842VpWUtOUJqqvJB9JKj/9zYWQEV/yofK7aO4aL1gaeyre+nxsKODnqlFAfg6SqANGCb1KF9zk1D/gm71eeRkTyixLrK+P1Hm/oQcymHX+F5D4T/msNpNMYZdAgatbwPXpLHO30AaP8MrGRRR5n0BddsVhCc27ezXuB49Os7gr9QKWkkl2JwkPY8fdOVwhCPtqfnrNxQ4+LU8QFTFCanEGk4X1wgQ/GyqHfeB4DfPdg8EbO3dgDmHw6FBCShWOcMnhy4Q4wjZ+c01VIB0nxWQBSIROF5KSvvwtMQn1ZSHP1o8rg8Bit+nDLKeC9hpDEl2CXaUYInsDCaI9XqafR4GQ/cZjAqc2RCmeqDSp2z/W5FKc2GZkgBEwQYKnyH27WltsZTRchT1Zkl3Ium74bKriBBihzwyIP/Eel7I3MqpPUuYtE1BdoY3ddHnU9p2cBiQMLAHAlKnPzymWXa6P3h59S9cdngQ8yYU0wZ2KTWnUA21WoIaR4XF7SzcDqWTX5W9j2SBayWJd9bp2Gn7Ute2A7CUdxWV47MaGiJZr6I0UFPQQj25U6j3BUni5sTP2IIKhvo9YmRpCUaCxfEBE4U9rNf94krWKdn/0peTgd50bz/gn9SjuhPIM6JT3Lo0Y7Tx9sjITxUmAFdEzrFyg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3367.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(5660300002)(86362001)(6486002)(6666004)(38100700002)(1076003)(2616005)(186003)(110136005)(83380400001)(66476007)(2906002)(52116002)(66946007)(508600001)(4744005)(38350700002)(8936002)(66556008)(26005)(8676002)(316002)(6512007)(36756003)(6506007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NRLMcsxwS7rdGhpLtJsC1KTn3zfSpQAra0+esm5b2nfS4DWH+F5rkrkaZHTV?=
+ =?us-ascii?Q?XXPWf+ZQYTHtBlRMt0mtryfjlhjvUd5dt6F16vNdPGZnMU0uY8qKkBjQ7OCv?=
+ =?us-ascii?Q?zIL6yf4a0epCR9hV8G+kFLYZd2OwNks34kfTpFIGsn3nk7qok13uY9AZt3qQ?=
+ =?us-ascii?Q?RmOSJwHsGJrxz9V6NY36pTtmLqJf18srVVm+8TG0Puy3lIz+yV5r1rCmlY83?=
+ =?us-ascii?Q?ncp7jnhwn4q+Cd+sOC0608/cAyXHwUWCLZvf+1YcA1pAU+pH6vdb4QKBFD0M?=
+ =?us-ascii?Q?pdsvnamzWlote7pEPE8vXEiBGchGaVUoauGdhtjZAiQ7J46PdxCIjCj//JpP?=
+ =?us-ascii?Q?gWcRuvtmnXyys6emYNIy4Sn7X9uOtEtGqxfIk0m+Y6xajTgNqxqRs7u3b6jO?=
+ =?us-ascii?Q?a4K3vB7x0yPoHenhLM2GDpoa1zxC7kpNGK62sMXqqaCHFvI7h6MjeXL3dsDd?=
+ =?us-ascii?Q?Wz2thgAbiVNfRf8vLdrwaMOaRo3KStojGpyp6iGEtCSs7Ra3utAFkEVd+HfE?=
+ =?us-ascii?Q?0IGOYYjWgrCyeqs9I9H/pSze+8I5CsOeGAo8tFv7wxiuEj5YUATo3B0pEMgS?=
+ =?us-ascii?Q?RiCeYHPiy8F3mY2W4sWNuGol+ezOf+WNHevaJ/IR6T5qXEDh2iozHKBvIrFT?=
+ =?us-ascii?Q?kwnPZZVRY8w/iQBFr/FHswJoYU8EvL2MqUPC6yeDq51FYxrkQMS3IRRimxB/?=
+ =?us-ascii?Q?JR/0uZ3MeYOPgvZ8VRorb1ti5All/3W8UyNbFuKqICzcone9hcodFEZ3vfPJ?=
+ =?us-ascii?Q?DvcjQ0ys0weYEa5zHuAHNVHmQ6Vasn49A2kyKd+H5Um0fUWxRo1cfSqN9q+I?=
+ =?us-ascii?Q?djXiFyYrbrDQR+91zi7/joJOEu1Nuj9CatDsSt5lfeODBCtGPWBkyr7jgCVd?=
+ =?us-ascii?Q?zvP8XKM1d3GWBTP9v3tWNAN2+ZcpX9dXosMF4zi4GfHk1iBHdoHU/H3Da/rs?=
+ =?us-ascii?Q?FzbZ/6J9RQKG9FinbN8SEXroxmR895bGzz6nwwXSIhWyzxSgSIF6nLD6X08Y?=
+ =?us-ascii?Q?Ptk1C8zt602TrPKz5IomjbavhaJCpCRM7ZgUjvuRX9QSoqyODed/bF1ahj/J?=
+ =?us-ascii?Q?i8MMk4Y4zHp5/lxNlW8V9uqEyna9p4el/vKwyO0BSB+ljaV+GgWyNapg5V+K?=
+ =?us-ascii?Q?7vRJHgufGHbSTum1rvqk005h5zNcc4pjdl1jeEark7CDBP8r7/Btk0k7jvNp?=
+ =?us-ascii?Q?ljs1sjVRjvRdDo4n2vUpa/T8a1lddfItZQY9SxcKgErTTvycalGfvIgUedpN?=
+ =?us-ascii?Q?bS+23DMfxCHuAtqbqgAa5yBMa5Q7x6m1+0pfg9iMY3cLfrCVGbV7kh+lazfe?=
+ =?us-ascii?Q?08sbOU9JLea9iawdkSpz7ymHw7XpTn4jSJndqtry3NxlIGjW5oWWop2J5Pm9?=
+ =?us-ascii?Q?6wIelTnEenOjlCWW8SZOFibBY4E636LamVemxloGZ4F1F+SystwOCdVzSBDf?=
+ =?us-ascii?Q?dSDjGGuapmxkaKPf4bQ9YyiboRBtLbr1QTWLXK/Bcj0eladcaWkKK+XJx18l?=
+ =?us-ascii?Q?FzWMCRPe+lFNUlPq/qafOzldFdaDaqi/NkxS2dS9MHB+onrcmuyiWB9mY69L?=
+ =?us-ascii?Q?NUHdpPYL/o9AjfCTDDZTzQE5THdu8SprFhblQLVQY8PH/RAl2oSOVO5gu50H?=
+ =?us-ascii?Q?+rPkrqEQKo8FX/Vm6wkCUFurdtj58Ny0mqYvqqEt6jsgrmyAhd26XL+qiNtK?=
+ =?us-ascii?Q?0JoQJs4mk6xPGNt+Pv0Ol04eO+AFejS7dzci150dkf6oL61szi7emgIukv6f?=
+ =?us-ascii?Q?FpNiKWBA/Q=3D=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3803665-50bf-43d0-002b-08da3719d181
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3367.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2022 08:55:25.7292
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2GxEbDhph+6i0yqNlh1F90cHZfllXdw596E2Nfzcriju1pLz6oOYmIXJdzY4/llHb+kZ61mgYF+wa5fImiaiXA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB4480
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,51 +114,28 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-of_find_node_by_path() calls of_find_node_opts_by_path(),
-which returns a node pointer with refcount
-incremented, we should use of_node_put() on it when done.
-Add missing of_node_put() to avoid refcount leak.
+clk_disable_unprepare() already checks NULL by using IS_ERR_OR_NULL.
+Remove unneeded NULL check for kp->clk.
 
-Fixes: 9c1a5077fdca ("input: Rewrite sparcspkr device probing.")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
 ---
- drivers/input/misc/sparcspkr.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/input/keyboard/bcm-keypad.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspkr.c
-index fe43e5557ed7..6a86900aa1fb 100644
---- a/drivers/input/misc/sparcspkr.c
-+++ b/drivers/input/misc/sparcspkr.c
-@@ -206,11 +206,11 @@ static int bbc_beep_probe(struct platform_device *op)
- 	info = &state->u.bbc;
- 	info->clock_freq = of_getintprop_default(dp, "clock-frequency", 0);
- 	if (!info->clock_freq)
--		goto out_free;
-+		goto out_put;
+diff --git a/drivers/input/keyboard/bcm-keypad.c b/drivers/input/keyboard/bcm-keypad.c
+index 2b771c3a5578..166d6023a538 100644
+--- a/drivers/input/keyboard/bcm-keypad.c
++++ b/drivers/input/keyboard/bcm-keypad.c
+@@ -183,8 +183,7 @@ static void bcm_kp_stop(const struct bcm_kp *kp)
+ 	writel(0xFFFFFFFF, kp->base + KPICR0_OFFSET);
+ 	writel(0xFFFFFFFF, kp->base + KPICR1_OFFSET);
  
- 	info->regs = of_ioremap(&op->resource[0], 0, 6, "bbc beep");
- 	if (!info->regs)
--		goto out_free;
-+		goto out_put;
+-	if (kp->clk)
+-		clk_disable_unprepare(kp->clk);
++	clk_disable_unprepare(kp->clk);
+ }
  
- 	platform_set_drvdata(op, state);
- 
-@@ -218,11 +218,14 @@ static int bbc_beep_probe(struct platform_device *op)
- 	if (err)
- 		goto out_clear_drvdata;
- 
-+	of_node_put(dp);
-+
- 	return 0;
- 
- out_clear_drvdata:
- 	of_iounmap(&op->resource[0], info->regs, 6);
--
-+out_put:
-+	of_node_put(dp);
- out_free:
- 	kfree(state);
- out_err:
+ static int bcm_kp_open(struct input_dev *dev)
 -- 
-2.25.1
+2.36.1
 
