@@ -2,82 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 954D6527AFE
-	for <lists+linux-input@lfdr.de>; Mon, 16 May 2022 02:21:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEAE7527B55
+	for <lists+linux-input@lfdr.de>; Mon, 16 May 2022 03:17:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232803AbiEPAVE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 15 May 2022 20:21:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42870 "EHLO
+        id S238243AbiEPBRY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 15 May 2022 21:17:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbiEPAU5 (ORCPT
+        with ESMTP id S236470AbiEPBRX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 15 May 2022 20:20:57 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D9051705D;
-        Sun, 15 May 2022 17:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=7DYw+gNaV829maktrmo5F8pUweWF2omX8R9j7+pyBVc=; b=yIWkhGH1pu/CUHCYekxEelfaTf
-        c2C79Y4DAqsc+CCzxi/H6lv7JmfsHoKgiOVeEBX4j9t5WJe3tAsPt6ovduiXNHwLuU0Orfrt+omGc
-        SgIg3LPz9M9G1Vu5Q8h4xQw0XltMJMnuxmLzu7bVcM48DEKinpec/ZhBOXSmZ/HUwE0+N5Cbw+wzm
-        B1VHI4JIOadRB4FwJs/hVq0MtSD1ySczGZI84YBYKtv5et+VfB+DFmYf8/vTNh1lHO4JmicXwZkn0
-        ik1s20tgceGEBuyajMe9PDwICBeXQqB+ZT+K1DUfOsinxTVWcRxPWV3BDxzIhkZjnu+b6SdAnWiwB
-        +5WS5eUA==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nqOTn-005MwU-Sp; Mon, 16 May 2022 00:20:55 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-doc@vger.kernel.org
-Cc:     patches@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] input: Docs: correct atarikbd.rst typos
-Date:   Sun, 15 May 2022 17:20:55 -0700
-Message-Id: <20220516002055.12000-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.35.3
+        Sun, 15 May 2022 21:17:23 -0400
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDBDB10F1
+        for <linux-input@vger.kernel.org>; Sun, 15 May 2022 18:17:22 -0700 (PDT)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-2ef5380669cso137274027b3.9
+        for <linux-input@vger.kernel.org>; Sun, 15 May 2022 18:17:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=SZlflNwJM/FoSzNidwvG3Q12/AiRGSJaNEWCCSkms7g=;
+        b=Q83/5paJ0peBkSfpuR5OTwXYZp1QfoZU87nY0VpTM4K4HH43BzjoJx4+5JKHm7huKL
+         p5D8CoSsUPz/s4FV3P0gizOqCujAPK1Ns+AZwpJfi/Yj3CzLf/bacQSn4jhFDZBZbWha
+         mqnlEC7Jb6J/Peq3rVfxXhnRd1VLU23Cn46HKSsfRyUZ8YL2/OwjwdId1ZKqcuwVq0VA
+         JejjzmVCfz1wVhClzDg5rb13PS7Aa1OHWWtxKVhjoWrpntivZQGrvPf0RAKReBGWrjR/
+         JagfbkTUTDnksF0dD7325tXe8K9Wsw+PGbexCm4FEHZOj6Cx5xPBCgpBZoOQJe9UGFWu
+         JOog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=SZlflNwJM/FoSzNidwvG3Q12/AiRGSJaNEWCCSkms7g=;
+        b=ZlvgEhJCAvR0rmDCthyzsiCmmy/cKjLuNgSUL7UVnuzmuEApcfxHAC3s/L7h5PWmbe
+         /qwYpyITBDklP8YmDJXzBilpuZdTqcDKQ9JOgN8UbFLHKkxQNuWDkYzYShPiXOzPxzbY
+         71PGgNMxnX6vXN76Y8LIkac5eZAZvufQUBOPR4bp0j9v8GwzRY7jxtrYcZlAnCb5QAeb
+         5tltwVkAOSxNBSFR4YrmpyEYWR5U4IKl+yjuqyA2nLe2+N5wCE0B8GbAxqkCRuYDHsGh
+         J4P7O4sq6FYA5LepOXxNUfa7VfnaYoPgyZi5+HACVxRJvdU71UjIFHUYyo8kPKT+QTD6
+         f+XQ==
+X-Gm-Message-State: AOAM5328aUTcVwfTwpK6Vdw+SEDe4tUk4lkIzIxbhSmBTkCbQqMeY7k9
+        QgZlR6MjBuZHHxJQVvbHvmyTMPm9d4EUzyrw6ZA=
+X-Google-Smtp-Source: ABdhPJxk0YmzR+rcies6MNxeBcSQJOxkfakPVKcJyNbmo13HHFdqi9CBiQXOV6i+YjdLU6eVVh/Gk1Y2KH5sfRilU54=
+X-Received: by 2002:a0d:d005:0:b0:2fe:de63:c298 with SMTP id
+ s5-20020a0dd005000000b002fede63c298mr6586085ywd.473.1652663842185; Sun, 15
+ May 2022 18:17:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Sender: anamlo2019@gmail.com
+Received: by 2002:a05:7110:2625:b0:129:8d7b:bc37 with HTTP; Sun, 15 May 2022
+ 18:17:21 -0700 (PDT)
+From:   Hannah Johnson <hannahjohnson8856@gmail.com>
+Date:   Mon, 16 May 2022 01:17:21 +0000
+X-Google-Sender-Auth: d3-L9b89DSqf9WMvSht_XsnSJDk
+Message-ID: <CA+pBdK4yTaLton8A3xASh1TjTRQRW=GFrE6heYujkxbqSyoQOg@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix 2 "MOSE" typos in atarikbd.rst (found with 'codespell').
-a. s/MOSE/MODE/
-b. s/MOSE/MOUSE/
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/input/devices/atarikbd.rst |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
---- a/Documentation/input/devices/atarikbd.rst
-+++ b/Documentation/input/devices/atarikbd.rst
-@@ -288,7 +288,7 @@ between 0 and large positive numbers. Ex
- command sets the maximum positive value that can be attained in the scaled
- coordinate system. Motion beyond that value is also ignored.
- 
--SET MOUSE KEYCODE MOSE
-+SET MOUSE KEYCODE MODE
- ----------------------
- 
- ::
-@@ -333,7 +333,7 @@ occur before the internally maintained c
- (independently scaled for each axis). Remember that the mouse position
- information is available only by interrogating the ikbd in the ABSOLUTE MOUSE
- POSITIONING mode unless the ikbd has been commanded to report on button press
--or release (see SET MOSE BUTTON ACTION).
-+or release (see SET MOUSE BUTTON ACTION).
- 
- INTERROGATE MOUSE POSITION
- --------------------------
+-- 
+Hello
+Nice to meet you
+my name is Hannah Johnson i will be glad if we get to know each other more
+better and share pictures i am  expecting your reply
+thank you
