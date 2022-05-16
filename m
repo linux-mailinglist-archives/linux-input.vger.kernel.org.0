@@ -2,171 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4FCE527E98
-	for <lists+linux-input@lfdr.de>; Mon, 16 May 2022 09:31:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AC9F527F2E
+	for <lists+linux-input@lfdr.de>; Mon, 16 May 2022 10:06:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241064AbiEPHa6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 16 May 2022 03:30:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48364 "EHLO
+        id S241326AbiEPIGr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 16 May 2022 04:06:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241129AbiEPHa5 (ORCPT
+        with ESMTP id S241542AbiEPIGO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 16 May 2022 03:30:57 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F55410C3
-        for <linux-input@vger.kernel.org>; Mon, 16 May 2022 00:30:55 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id a5so15422770wrp.7
-        for <linux-input@vger.kernel.org>; Mon, 16 May 2022 00:30:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=aotE6OIWBWcMAPi2qqhhLJmw3JfHuAoIxd975f4asGo=;
-        b=p50ytBaXArwLqIx9ZuK2RaNm29nxjYQrBkovzkLjtC2CeBs8QG0NPGeqEZIzZU3o5h
-         A4tP0viD1OY8LtLfwheDor3V/lmTQoUEsXLvHHqNqRyciYxG9I2cXSv+y68LzqQ0hvTU
-         IRV0ijY69+GEAj2bv1sq05P6KnZJ4/7Kr+Ziyh7P4yfenHl7PNehvZM5oXk7M3161hw/
-         BrTNrIXMFMLVXjVMh5oEyZ9oegGVmOp88ovQKx7VX0Zt+PG/1LNX2owiNHD9knLes+6B
-         GJxwaxivXhwAFnXh7T+FTOCUKrGKCpRq7cJdx8WD6uIR3JZ7vPtesOavbE/lEbNeBI45
-         kHyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=aotE6OIWBWcMAPi2qqhhLJmw3JfHuAoIxd975f4asGo=;
-        b=PwqKuJ95LKVfg0LRWNuagLGJwnGkmAqNtEz3ac/Q8sQYojwIFuMiA4WGg2r7l2S457
-         uYerfPc0siJzKJRzMlaLk484pgGmNxiFhCvXZvprrG7xFTqV1YyYq5WkUDaClgE8coX3
-         pFUkpDB+qwdOzGKMvLqrFKu1u1m9/cxbtLk7M5G7AL1noL70uoT1K5ojmoXQvoQDz2da
-         obFDdaDh9BMpR1H4YP4gieF15ipkbLE2NSbWA0c7oFoYIjmtxBiWTSVhaKk+SCSMWUQ3
-         eSPdpkuhG9GvM+TIsy3oWL9Rfeh+duO8KaAOjmft3FuQljRLxEREOsdVG/vOtAr/wqk9
-         i46g==
-X-Gm-Message-State: AOAM532zURcgShjshBFHL8hBVKSq5cbOWD9srX8SG7oBNCa/hWIiYJa7
-        SYrE85rXD7AXwTiGlClUmvUPHQ==
-X-Google-Smtp-Source: ABdhPJz8SDT8s/y8iDCPKO++gfmDYIj8bfPvrtjBR3u4ZNO4AJVGNlkVbfv1MybV9Lo8reF7IVvVTg==
-X-Received: by 2002:a05:6000:716:b0:20c:4cda:b38c with SMTP id bs22-20020a056000071600b0020c4cdab38cmr13182687wrb.226.1652686253793;
-        Mon, 16 May 2022 00:30:53 -0700 (PDT)
-Received: from localhost ([2a01:cb19:85e6:1900:6d30:f384:3f7:365e])
-        by smtp.gmail.com with ESMTPSA id z12-20020a7bc7cc000000b003942a244f39sm14468765wmk.18.2022.05.16.00.30.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 00:30:53 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-input@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH 1/2] Input: mt6779-keypad - fix hardware code
- mapping
-In-Reply-To: <YoHf6Z4HTfh4Y+bn@google.com>
-References: <20220513151845.2802795-1-mkorpershoek@baylibre.com>
- <20220513151845.2802795-2-mkorpershoek@baylibre.com>
- <YoHf6Z4HTfh4Y+bn@google.com>
-Date:   Mon, 16 May 2022 09:30:52 +0200
-Message-ID: <874k1qkk7n.fsf@baylibre.com>
+        Mon, 16 May 2022 04:06:14 -0400
+Received: from mail.slidebizcompany.com (mail.slidebizcompany.com [135.125.235.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 295B529C9C
+        for <linux-input@vger.kernel.org>; Mon, 16 May 2022 01:06:12 -0700 (PDT)
+Received: by mail.slidebizcompany.com (Postfix, from userid 1002)
+        id E32B0A1DA8; Mon, 16 May 2022 08:05:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=slidebizcompany.com;
+        s=mail; t=1652688368;
+        bh=f01OOv7iZ6eKP39nAJoyJ+/Cmpugf6hkYKbYNn4lotU=;
+        h=Date:From:To:Subject:From;
+        b=c47Z1izelMhneVfFkzdZ9x2KPH5azsJl115G0bgdx3+HO0S2ZF7e97eqzmLiGzh4/
+         mQnTTDe7TpP6Pd+LoTtlexRput4XpM8U08nvbiQwEo/1HNZ4I/XXy40rEN/zSenOUB
+         /PjQ8n3yUJ6VjLtqcF7vxGSiaiFfkyVlhJQh2L6ouDyR8GMYyUdeNHxQ7yyTiV+N7o
+         SO1dq+vHRAmHGImo7jbtKoryMG+Xl8Y+rtoiDdGuIhS3ACUF1fmuZbsGjphijgKnMu
+         0JDMEaMcTP6On80GPJdmY4DuPR4ZhuLeYOPiu38+AxcOIhWpoQyN7jexk1xPzbLUgx
+         zUO6UzgUrqg8w==
+Received: by mail.slidebizcompany.com for <linux-input@vger.kernel.org>; Mon, 16 May 2022 08:05:40 GMT
+Message-ID: <20220516064501-0.1.1c.gojz.0.j54j1fluff@slidebizcompany.com>
+Date:   Mon, 16 May 2022 08:05:40 GMT
+From:   "Miguel Garcia" <miguel.garcia@slidebizcompany.com>
+To:     <linux-input@vger.kernel.org>
+Subject: Servicio de la flota
+X-Mailer: mail.slidebizcompany.com
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=2.8 required=5.0 tests=BAYES_95,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+Buenos d=C3=ADas:
 
-Thank you for your review,
+Le escribo para hablarle sobre una de las mejores herramientas GPS en el =
+mercado.
 
-On dim., mai 15, 2022 at 22:23, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+La herramienta, que me gustar=C3=ADa presentarle brevemente, dispone de m=
+uchas funciones =C3=BAtiles para su trabajo, que optimizan los procesos d=
+e transporte y le ayudan a realizar tareas de campo de manera m=C3=A1s ef=
+iciente.
 
-> On Fri, May 13, 2022 at 05:18:44PM +0200, Mattijs Korpershoek wrote:
->> In mt6779_keypad_irq_handler(), we
->> 1. Read a hardware code from KPD_MEM1 -> KPD_MEM5
->> 2. Use that hardware code to compute columns/rows for the standard
->>    keyboard matrix.
->> 
->> According to the (non-public) datasheet, the
->> map between the hardware code and the cols/rows is:
->> 
->>         |(0)  |(1)  |(2)
->>     ----*-----*-----*-----
->>         |     |     |
->>         |(9)  |(10) |(11)
->>     ----*-----*-----*-----
->>         |     |     |
->>         |(18) |(19) |(20)
->>     ----*-----*-----*-----
->>         |     |     |
->> 
->> This brings us to another formula:
->> -> row = code / 9;
->> -> col = code % 3;
->
-> What if there are more than 3 columns?
-That's not supported, in hardware, according to the datasheet.
+=C2=BFQuiere conocer los detalles?
 
-The datasheet I have states that "The interface of MT6763 only supports
-3*3 single or 2*2 double, but internal ASIC still detects keys in the
-manner of 8*8 single, and 3*3 double. The registers and key codes still
-follows the legacy naming".
 
-Should I add another patch in this series to add that limitation in the
-probe? There are no checks done in the probe() right now.
-
->
->> 
->> Implement this mapping in bitnr_to_col_row() to fetch the
->> correct input event from keypad->input_dev->keycode and report that
->> back to userspace.
->> 
->> Fixes: f28af984e771 ("Input: mt6779-keypad - add MediaTek keypad driver")
->> Co-developed-by: Fabien Parent <fparent@baylibre.com>
->> Signed-off-by: Fabien Parent <fparent@baylibre.com>
->> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
->> ---
->>  drivers/input/keyboard/mt6779-keypad.c | 16 ++++++++++++++--
->>  1 file changed, 14 insertions(+), 2 deletions(-)
->> 
->> diff --git a/drivers/input/keyboard/mt6779-keypad.c b/drivers/input/keyboard/mt6779-keypad.c
->> index 2e7c9187c10f..23360de20da5 100644
->> --- a/drivers/input/keyboard/mt6779-keypad.c
->> +++ b/drivers/input/keyboard/mt6779-keypad.c
->> @@ -36,6 +36,19 @@ static const struct regmap_config mt6779_keypad_regmap_cfg = {
->>  	.max_register = 36,
->>  };
->>  
->> +/*
->> + * | hardware key code | col0 | col1 | col2|
->> + * | ----------------- | -----| ---- | --- |
->> + * | row0              | 0    | 1    | 2   |
->> + * | row1              | 9    | 10   | 11  |
->> + * | row2              | 18   | 19   | 20  |
->> + */
->> +static void bitnr_to_col_row(int bit_nr, int *col, int *row)
->> +{
->> +	*row = bit_nr / 9;
->> +	*col = bit_nr % 3;
->> +}
->> +
->>  static irqreturn_t mt6779_keypad_irq_handler(int irq, void *dev_id)
->>  {
->>  	struct mt6779_keypad *keypad = dev_id;
->> @@ -61,8 +74,7 @@ static irqreturn_t mt6779_keypad_irq_handler(int irq, void *dev_id)
->>  		if (bit_nr % 32 >= 16)
->>  			continue;
->>  
->> -		row = bit_nr / 32;
->> -		col = bit_nr % 32;
->> +		bitnr_to_col_row(bit_nr, &col, &row);
->>  		scancode = MATRIX_SCAN_CODE(row, col, row_shift);
->>  		/* 1: not pressed, 0: pressed */
->>  		pressed = !test_bit(bit_nr, new_state);
->> -- 
->> 2.32.0
->> 
->
-> -- 
-> Dmitry
+Atentamente,
+Miguel Garcia
