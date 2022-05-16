@@ -2,137 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55070528CD3
-	for <lists+linux-input@lfdr.de>; Mon, 16 May 2022 20:24:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E0D052935C
+	for <lists+linux-input@lfdr.de>; Tue, 17 May 2022 00:08:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344717AbiEPSYL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 16 May 2022 14:24:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37766 "EHLO
+        id S1349612AbiEPWIT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 16 May 2022 18:08:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344714AbiEPSYK (ORCPT
+        with ESMTP id S1349598AbiEPWIS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 16 May 2022 14:24:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D8D3431935
-        for <linux-input@vger.kernel.org>; Mon, 16 May 2022 11:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1652725448;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=01ExSbQaG6QIALPWml7ArAwcPbjjq1W1taEWewAln38=;
-        b=aaEzOdd5DUIk4f1jzUT3TJR0xnfnqecdJ5xc2kvzsuuaYdi1j+UM0sGSNIihDwEgqgzGxD
-        N2nq8nxP3zL1lMQ65BLhDE4KE6gfyYYlARFn5XyZfBDDAw/VDtiyNWMziyh4oh0ivf2Oco
-        YvpqJv4pi4yJu9x9VVkPWl+zQc8WBRk=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-619-CblQdrWoMlW6xijurboOJA-1; Mon, 16 May 2022 14:24:07 -0400
-X-MC-Unique: CblQdrWoMlW6xijurboOJA-1
-Received: by mail-pj1-f69.google.com with SMTP id e1-20020a17090a118100b001df53dfd969so1921457pja.2
-        for <linux-input@vger.kernel.org>; Mon, 16 May 2022 11:24:07 -0700 (PDT)
+        Mon, 16 May 2022 18:08:18 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E509D377E5;
+        Mon, 16 May 2022 15:08:16 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id gg20so5688003pjb.1;
+        Mon, 16 May 2022 15:08:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=IWic1dFXb6vf1tLGQit4oc1BbStdhuePyIT8u9/UMjY=;
+        b=F9Ct9DBO7I3G+Atdvqfyy+70DbAffJ0vjzjdEmTu81+6jmH2MgQcv55zGKDvtXabZt
+         qzTrLkSDpnkctjyLt81ZQ7FGJkPViPpB0bLyP9uMBNDdXa6RNjmQyZFTy+fo1V3weg3C
+         aPDSqzks+8PDW9JzrYefCkygKkGQh29eUtC8LsMTFhvvFL5VnJMh13Va28M33crs4gyr
+         Bnfz/1vV+ubyRo2DM9IEF3dIZ93NPMd4HjayFsJVpj5fcwhM6XqlTzug9XOvaXEa+uTO
+         YAyiL0eqUDHnotUzr5zvHuX0WGqPraLBOCErKhLTwRzyIvPLSPRmTYHolp38+c0zLKPU
+         KZqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=01ExSbQaG6QIALPWml7ArAwcPbjjq1W1taEWewAln38=;
-        b=7wCrKWIZZ079cRY1TmqlekaBl31YJDxgJZ8ShUckeOQZFC0NfUT6EAertth+veoMWD
-         3Adw3Zhnm/ixzKWDUtgHJ51b9u3UeztEucxzUsAGQ+f1D3KVRk3lTfGCsQFUEHTTGGxD
-         czE4ZKR0CBU/BmJJuZCpcZMEhkNerNIeR3mB7Ah4TcAsGDxxdLQz/y2VMqkN/RfcD0k+
-         5gr+33Lrc2yalo6xalIoE0B75/zp3WSnUs8YiesboMbrqxL1dBbRwrvwkQCQlrJlMDuk
-         L0VoBj4u0nf4ggXdp3w8hXfpwXzr8s7bGl0yeEfENLORZDP3P1ki19dvT7e52g4w1Bpz
-         44Aw==
-X-Gm-Message-State: AOAM531AvC5lvav0biSLMHsX/SX8XHCeVSJQ36U5O3IUlGTWFkhJoTaV
-        20o6KibPZ3QPdN+G880yKF+mgcGAHL8g28vSSav/qnSZx4xrzYy5jpQk1+NX0P0GZc0Ksjwx3mj
-        eZlWed+qxYlPOyYmemFFprYdPlxuPY7kAMgmUqKY=
-X-Received: by 2002:a63:f158:0:b0:3db:8563:e8f5 with SMTP id o24-20020a63f158000000b003db8563e8f5mr16318994pgk.191.1652725446197;
-        Mon, 16 May 2022 11:24:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxkuZl8Rv+2k4+VlvjnrLObgGSBS55aFOjT74Z6tve1EBpV7jaR2XyKyRx0wqBjn/BI45ecqmcJN3/CdiCfPlk=
-X-Received: by 2002:a63:f158:0:b0:3db:8563:e8f5 with SMTP id
- o24-20020a63f158000000b003db8563e8f5mr16318978pgk.191.1652725445882; Mon, 16
- May 2022 11:24:05 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=IWic1dFXb6vf1tLGQit4oc1BbStdhuePyIT8u9/UMjY=;
+        b=pbilRl767NBZvf36GBlehwA/uKlHkN/akP8H2LWoAlCzDgL32mpqrFU2E79ncUsR0G
+         3Q+Rb9Um3CaZ705wtweaO8VO4J/voJsghPcqwVGBV4pkiXNUPMiqRYyPOsYz+fSBMzu6
+         JJ1Ho49PhttDQNVuIJQSdgx/AM0osHBNeRrzqPU9JZUTUdReGajQyYzLjvrk2ehEeZJm
+         2wpSbOUJkcxdqMuVULKNnwEMBwD7bYvmzHI6fmDaDjDn5ghFKR9oMxI6lmwQ93WiA077
+         ZURrzwC9WJ3chnjKszlK+u2M7BC4laZd2r5MdqFkDIBCeeR/+AQ4+CHHc15e0ifiOInM
+         qOIA==
+X-Gm-Message-State: AOAM531jEnp/xoED02qRgJ4RSozcYnydrSGHzquGxQbXUsMuiPWcKa2q
+        nzSt1kz/8SGJPUKHMR13QLzWZIr+PRU=
+X-Google-Smtp-Source: ABdhPJz3JT9oJcMLVlcv6cfLW1qMUjTO6DcAdGSgIxPsN4AkUJw11+2G0hrzGTtulDiqLsX3ibq5gg==
+X-Received: by 2002:a17:902:a988:b0:158:9877:6c2c with SMTP id bh8-20020a170902a98800b0015898776c2cmr19721071plb.80.1652738896268;
+        Mon, 16 May 2022 15:08:16 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:2bd1:73e2:8118:8ba9])
+        by smtp.gmail.com with ESMTPSA id e35-20020a635023000000b003db141a5f26sm7150034pgb.1.2022.05.16.15.08.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 May 2022 15:08:15 -0700 (PDT)
+Date:   Mon, 16 May 2022 15:08:12 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Miaoqian Lin <linmq006@gmail.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: sparcspkr: Fix refcount leak in bbc_beep_probe
+Message-ID: <YoLLTBALPU1O8VI5@google.com>
+References: <20220516081018.42728-1-linmq006@gmail.com>
 MIME-Version: 1.0
-References: <20220405183953.2094007-1-pceballos@google.com>
- <nycvar.YFH.7.76.2204210947590.30217@cbobk.fhfr.pm> <CAKdAkRQ7yxFFGJg41UxptxapKiP4bmHsfw7dRNE+LPzs1PRk=A@mail.gmail.com>
- <nycvar.YFH.7.76.2205121252090.28985@cbobk.fhfr.pm> <CAO9JgFwA5ZhwOOY0cU3HpMOV69CTumQ50zEgU6SPNAF0zDbCGg@mail.gmail.com>
- <Yn2OlQAa9I++N80B@penguin>
-In-Reply-To: <Yn2OlQAa9I++N80B@penguin>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 16 May 2022 20:23:54 +0200
-Message-ID: <CAO-hwJ+Rs=LYseLP7Vvr00vLvm+fTCRdh8pQ-rEduj4izSyiYA@mail.gmail.com>
-Subject: Re: [PATCH] HID: Driver for Google Hangouts Meet Speakermic
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Pablo Ceballos <pceballos@google.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220516081018.42728-1-linmq006@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, May 13, 2022 at 12:48 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> On Thu, May 12, 2022 at 03:35:00PM -0700, Pablo Ceballos wrote:
-> > On Thu, May 12, 2022 at 3:53 AM Jiri Kosina <jikos@kernel.org> wrote:
-> > > On Thu, 12 May 2022, Dmitry Torokhov wrote:
-> > > > I am curious, could not this be achieved without a kernel driver by
-> > > > simply using udev to map this usage code to KEY_RESERVED?
-> > >
-> > > Hmm, good point, using KEY_RESERVED mapping to achieve the key being
-> > > actually ignored didn't immediately occur to me.
-> > >
-> > > Pablo, could you please verify that it behaves in the expected way, and
-> > > confirm that we could drop the 'driver' in favor of udev rule?
-> >
-> > I think I've achieved the same result by adding the following to udev
-> > hwdb. Dmitry, is this what you had in mind, or is there a better way
-> > of doing this?
-> >
-> > evdev:input:b0003v18D1p8001*
-> >  KEYBOARD_KEY_b002f=reserved
->
-> No, that is exactly what I had in mind, thank you. Please submit this
-> entry to upstream systemd/udev project (and we can cherry-pick it into
-> our udev as well).
->
-> In general I think we should try to avoid trivial "fixup" HID drivers if
-> it is possible. I also wondered if we could be supplying fixed-up HID
-> descriptors via request_firmware() for HID devices.
+Hi 
+On Mon, May 16, 2022 at 12:10:16PM +0400, Miaoqian Lin wrote:
+> of_find_node_by_path() calls of_find_node_opts_by_path(),
+> which returns a node pointer with refcount
+> incremented, we should use of_node_put() on it when done.
+> Add missing of_node_put() to avoid refcount leak.
+> 
+> Fixes: 9c1a5077fdca ("input: Rewrite sparcspkr device probing.")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+> ---
 
-Just FYI, in case you haven't noticed it :)
-I am currently working on supporting exactly this kind of fixups
-through eBPF. I had in the past a request_firmware() patch for wacom
-devices, but there were way too much problems raised by that because
-you basically need to have the API right from the first attempt.
+Thank you for the patch.
 
-With eBPF, you can programmatically change the report descriptor for
-this particular use case, or you could blindly load a new one. But the
-other advantage that eBPF provides is that we can also change the
-stream of events to accommodate for device mishaps, like a bouncing
-button or garbage in the data.
+>  drivers/input/misc/sparcspkr.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspkr.c
+> index fe43e5557ed7..6a86900aa1fb 100644
+> --- a/drivers/input/misc/sparcspkr.c
+> +++ b/drivers/input/misc/sparcspkr.c
+> @@ -206,11 +206,11 @@ static int bbc_beep_probe(struct platform_device *op)
+>  	info = &state->u.bbc;
+>  	info->clock_freq = of_getintprop_default(dp, "clock-frequency", 0);
+>  	if (!info->clock_freq)
+> -		goto out_free;
+> +		goto out_put;
+>  
+>  	info->regs = of_ioremap(&op->resource[0], 0, 6, "bbc beep");
+>  	if (!info->regs)
+> -		goto out_free;
+> +		goto out_put;
+>  
+>  	platform_set_drvdata(op, state);
+>  
+> @@ -218,11 +218,14 @@ static int bbc_beep_probe(struct platform_device *op)
+>  	if (err)
+>  		goto out_clear_drvdata;
+>  
+> +	of_node_put(dp);
+> +
 
-Greg KH requested that we embed such fixups in the kernels directly,
-and so I'm going to try to add that feature too. But we can also have
-udev rules in userspace that would fix devices based on the context.
-And the long term plan is also to convert existing simple fixup
-drivers into eBPF progs that would be shipped by the kernel so we
-don't lose functionalities.
+We do not really need to keep node pointer for that long, how about the
+version of your patch below?
 
-Cheers,
-Benjamin
+Thanks.
 
->
-> Thanks.
->
-> --
-> Dmitry
->
+-- 
+Dmitry
 
+
+Input: sparcspkr - fix refcount leak in bbc_beep_probe
+
+From: Miaoqian Lin <linmq006@gmail.com>
+
+of_find_node_by_path() calls of_find_node_opts_by_path(),
+which returns a node pointer with refcount
+incremented, we should use of_node_put() on it when done.
+Add missing of_node_put() to avoid refcount leak.
+
+Fixes: 9c1a5077fdca ("input: Rewrite sparcspkr device probing.")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+Link: https://lore.kernel.org/r/20220516081018.42728-1-linmq006@gmail.com
+Patchwork-Id: 12850379
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/misc/sparcspkr.c |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspkr.c
+index fe43e5557ed7..cdcb7737c46a 100644
+--- a/drivers/input/misc/sparcspkr.c
++++ b/drivers/input/misc/sparcspkr.c
+@@ -205,6 +205,7 @@ static int bbc_beep_probe(struct platform_device *op)
+ 
+ 	info = &state->u.bbc;
+ 	info->clock_freq = of_getintprop_default(dp, "clock-frequency", 0);
++	of_node_put(dp);
+ 	if (!info->clock_freq)
+ 		goto out_free;
+ 
