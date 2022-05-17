@@ -2,252 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5F4B52988F
-	for <lists+linux-input@lfdr.de>; Tue, 17 May 2022 06:13:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 121FA52991B
+	for <lists+linux-input@lfdr.de>; Tue, 17 May 2022 07:39:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232430AbiEQENK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 May 2022 00:13:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53198 "EHLO
+        id S233038AbiEQFjm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 May 2022 01:39:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237006AbiEQENH (ORCPT
+        with ESMTP id S232245AbiEQFjl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 May 2022 00:13:07 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32B864553B;
-        Mon, 16 May 2022 21:13:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652760786; x=1684296786;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=78wrMaG8jrHoR7fnjuqzN+c2ZFFhMbe9WXVz3O742AI=;
-  b=b38FA7Dc1lyolAslD3wthsDK6Rtc3IGDWgG+2cFUrdEkmftzbHCLOo0g
-   vJLw43qo+t9KWveLwyaDTDg0VE/nioKRexCl3SloAn5H5Jau2QB+XcwJX
-   TIZ7oX9KNU1bSKsU0mcr6FKQtX/E4kVCE/9J4CM9UReFofl+UxjmmR9EE
-   YuQYxijXdVItkQmDfxWSMdUqqhXZ15PQ2ybmdFAVE5j7x/DhVTtkXcBB1
-   IWuVhOC3j68SXrdxAT9/qBR3gYMVMn7xasJgzA/rELK7nvysAGxps6j+H
-   spjzPpdNP+HpdX+MBnyp9XGTDtEtCxnMiBflJ2NPUGMCoVt7HVXeSYg1y
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="271174565"
-X-IronPort-AV: E=Sophos;i="5.91,231,1647327600"; 
-   d="scan'208";a="271174565"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2022 21:13:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,231,1647327600"; 
-   d="scan'208";a="626275341"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 16 May 2022 21:13:03 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nqoZz-0000am-7F;
-        Tue, 17 May 2022 04:13:03 +0000
-Date:   Tue, 17 May 2022 12:12:40 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
-        jikos@kernel.org
-Cc:     kbuild-all@lists.01.org, benjamin.tissoires@redhat.com,
-        spbnick@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stefanberzl@gmail.com,
-        =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Subject: Re: [PATCH for-5.19/uclogic 4/4] HID: uclogic: Add support for
- XP-PEN Deco L
-Message-ID: <202205171208.uAUnAkVJ-lkp@intel.com>
-References: <20220516181323.59554-5-jose.exposito89@gmail.com>
+        Tue, 17 May 2022 01:39:41 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BC5A40A35;
+        Mon, 16 May 2022 22:39:41 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id c14so15972335pfn.2;
+        Mon, 16 May 2022 22:39:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=TmeDSLlFerDAJIQrZiYorWIjVB/zbv81hvFgp+YmBFI=;
+        b=SMrcwrT8Q+x18LHAKaAhAW8yMvEo1LFBB3bXjL94YXGieIa7M4DB6ZUh3a/7LESowj
+         KwA0QHRj5nw+2RJHQHHSZhZLs7Fqq45OMjOBmeVPkHdxPQdjb4Q29RC9PKWntr9bJgce
+         p32Qy0CxgrIwdMi5X36DPwjyyuYJMPuBxQWLoxewHG2CoJSsTkKwqbY19CW8S+yjqIEU
+         CS51T4k1EYAcy1bs7+tObnPJ1bFiU1BDD12fzyFJp95MQya8cMOzkItBWShBlrO9dTJF
+         9Sa573tl6layKNsbcTYLqcDHOYX3TA0J5Fl4XK5MhFtgBrw5b1AMLZE5cPEToAp5znGy
+         Fzig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=TmeDSLlFerDAJIQrZiYorWIjVB/zbv81hvFgp+YmBFI=;
+        b=UsxdVxr1BeL1g062ItQ35BG4UebDQNR8RSpQtqYZQuoICEyyKKgRUI7GphGM+aY9Vw
+         YEF3V2PJRxbApXAzl1OdgE+T/JzjB6qo0MD/MtOMud7Q/dwJapeXkAzZ1iCZcJ3KjyyH
+         rfHMmA3s6xCn4w5iabKpHLJ6ybeJIHzAqWkjdns+TGQ50W/yHhTxl1Uk1ViDIRG6z7RK
+         noiiULE6iHAwpDm+4o4l1it+XPDikd7A8nXGVWngVd1eTr7t9rMWVT5rF9elmy/g9x3W
+         9M8ahHQyrOgmJ6yyDBn1MtMUX6E7+qJiq1R744In7I/gOolSgRk4WRnfm/e8z/WBEQDe
+         /u4Q==
+X-Gm-Message-State: AOAM5319TUqzgtVvuXlpL/iePA4WLZLWja/PfzlFG3mYcj1kcGzmzSv2
+        azMdA4T5UuKaRELVpEPBpR1YAozkY3h8WgbU
+X-Google-Smtp-Source: ABdhPJwY0bnlcNW0UmxMip7LdXZ9T1tqSz1ZXaZc49zdH968WiBDfcGZdrttIdwlhq+ZPhZDt2W6Ww==
+X-Received: by 2002:a65:6805:0:b0:3c1:bb28:6bd4 with SMTP id l5-20020a656805000000b003c1bb286bd4mr18423867pgt.585.1652765980469;
+        Mon, 16 May 2022 22:39:40 -0700 (PDT)
+Received: from [172.16.10.243] ([219.142.146.170])
+        by smtp.gmail.com with ESMTPSA id d4-20020a170903230400b0015e8d4eb22bsm8444341plh.117.2022.05.16.22.39.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 May 2022 22:39:39 -0700 (PDT)
+Message-ID: <bf778cef-d09a-5fcd-8388-d77690ac87c6@gmail.com>
+Date:   Tue, 17 May 2022 13:39:33 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220516181323.59554-5-jose.exposito89@gmail.com>
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] Input: sparcspkr: Fix refcount leak in bbc_beep_probe
+Content-Language: en-US
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220516081018.42728-1-linmq006@gmail.com>
+ <YoLLTBALPU1O8VI5@google.com>
+From:   Miaoqian Lin <linmq006@gmail.com>
+In-Reply-To: <YoLLTBALPU1O8VI5@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi "José,
+Hi, Dmitry
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on f7d8e387d9aeff963e6691c0166269b8042b4ff9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jos-Exp-sito/Add-support-for-XP-PEN-Deco-L/20220517-021641
-base:   f7d8e387d9aeff963e6691c0166269b8042b4ff9
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20220517/202205171208.uAUnAkVJ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f117e735d50f52f57bdabb589453959d60ae3ce6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jos-Exp-sito/Add-support-for-XP-PEN-Deco-L/20220517-021641
-        git checkout f117e735d50f52f57bdabb589453959d60ae3ce6
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/hid/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/hid/hid-uclogic-params.c: In function 'uclogic_params_ugee_v2_init':
->> drivers/hid/hid-uclogic-params.c:1078:28: warning: variable 'udev' set but not used [-Wunused-but-set-variable]
-    1078 |         struct usb_device *udev;
-         |                            ^~~~
-
-
-vim +/udev +1078 drivers/hid/hid-uclogic-params.c
-
-  1054	
-  1055	/**
-  1056	 * uclogic_params_ugee_v2_init() - initialize a UGEE graphics tablets by
-  1057	 * discovering their parameters.
-  1058	 *
-  1059	 * These tables, internally designed as v2 to differentiate them from older
-  1060	 * models, expect a payload of magic data in orther to be switched to the fully
-  1061	 * functional mode and expose their parameters in a similar way to the
-  1062	 * information present in uclogic_params_pen_init_v1() but with some
-  1063	 * differences.
-  1064	 *
-  1065	 * @params:	Parameters to fill in (to be cleaned with
-  1066	 *		uclogic_params_cleanup()). Not modified in case of error.
-  1067	 *		Cannot be NULL.
-  1068	 * @hdev:	The HID device of the tablet interface to initialize and get
-  1069	 *		parameters from. Cannot be NULL.
-  1070	 *
-  1071	 * Returns:
-  1072	 *	Zero, if successful. A negative errno code on error.
-  1073	 */
-  1074	static int uclogic_params_ugee_v2_init(struct uclogic_params *params,
-  1075					       struct hid_device *hdev)
-  1076	{
-  1077		int rc = 0;
-> 1078		struct usb_device *udev;
-  1079		struct usb_interface *iface;
-  1080		__u8 bInterfaceNumber;
-  1081		const int str_desc_len = 12;
-  1082		__u8 *str_desc = NULL;
-  1083		__u8 *rdesc_pen = NULL;
-  1084		__u8 *rdesc_frame = NULL;
-  1085		s32 desc_params[UCLOGIC_RDESC_PH_ID_NUM];
-  1086		s32 resolution;
-  1087		__u8 magic_arr[] = {
-  1088			0x02, 0xb0, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-  1089		};
-  1090		/* The resulting parameters (noop) */
-  1091		struct uclogic_params p = {0, };
-  1092	
-  1093		if (!params || !hdev) {
-  1094			rc = -EINVAL;
-  1095			goto cleanup;
-  1096		}
-  1097	
-  1098		udev = hid_to_usb_dev(hdev);
-  1099		iface = to_usb_interface(hdev->dev.parent);
-  1100		bInterfaceNumber = iface->cur_altsetting->desc.bInterfaceNumber;
-  1101		if (bInterfaceNumber != 2) {
-  1102			uclogic_params_init_invalid(&p);
-  1103			goto output;
-  1104		}
-  1105	
-  1106		/*
-  1107		 * Initialize the interface by sending magic data.
-  1108		 * The specific data was discovered by sniffing the Windows driver
-  1109		 * traffic.
-  1110		 */
-  1111		rc = uclogic_probe_interface(hdev, magic_arr, sizeof(magic_arr), 0x03);
-  1112		if (rc) {
-  1113			uclogic_params_init_invalid(&p);
-  1114			goto output;
-  1115		}
-  1116	
-  1117		/*
-  1118		 * Read the string descriptor containing pen and frame parameters.
-  1119		 * The specific string descriptor and data were discovered by sniffing
-  1120		 * the Windows driver traffic.
-  1121		 */
-  1122		rc = uclogic_params_get_str_desc(&str_desc, hdev, 100, str_desc_len);
-  1123		if (rc != str_desc_len) {
-  1124			hid_err(hdev, "failed retrieving pen and frame parameters: %d\n", rc);
-  1125			uclogic_params_init_invalid(&p);
-  1126			goto output;
-  1127		}
-  1128	
-  1129		desc_params[UCLOGIC_RDESC_PEN_PH_ID_X_LM] =
-  1130			get_unaligned_le16(str_desc + 2);
-  1131		desc_params[UCLOGIC_RDESC_PEN_PH_ID_Y_LM] =
-  1132			get_unaligned_le16(str_desc + 4);
-  1133		desc_params[UCLOGIC_RDESC_FRAME_PH_ID_UM] = str_desc[6];
-  1134		desc_params[UCLOGIC_RDESC_PEN_PH_ID_PRESSURE_LM] =
-  1135			get_unaligned_le16(str_desc + 8);
-  1136		resolution = get_unaligned_le16(str_desc + 10);
-  1137		if (resolution == 0) {
-  1138			desc_params[UCLOGIC_RDESC_PEN_PH_ID_X_PM] = 0;
-  1139			desc_params[UCLOGIC_RDESC_PEN_PH_ID_Y_PM] = 0;
-  1140		} else {
-  1141			desc_params[UCLOGIC_RDESC_PEN_PH_ID_X_PM] =
-  1142				desc_params[UCLOGIC_RDESC_PEN_PH_ID_X_LM] * 1000 /
-  1143				resolution;
-  1144			desc_params[UCLOGIC_RDESC_PEN_PH_ID_Y_PM] =
-  1145				desc_params[UCLOGIC_RDESC_PEN_PH_ID_Y_LM] * 1000 /
-  1146				resolution;
-  1147		}
-  1148		kfree(str_desc);
-  1149		str_desc = NULL;
-  1150	
-  1151		/* Initialize the pen interface */
-  1152		rdesc_pen = uclogic_rdesc_template_apply(
-  1153					uclogic_rdesc_ugee_v2_pen_template_arr,
-  1154					uclogic_rdesc_ugee_v2_pen_template_size,
-  1155					desc_params, ARRAY_SIZE(desc_params));
-  1156		if (!rdesc_pen) {
-  1157			rc = -ENOMEM;
-  1158			goto cleanup;
-  1159		}
-  1160	
-  1161		p.pen.desc_ptr = rdesc_pen;
-  1162		p.pen.desc_size = uclogic_rdesc_ugee_v2_pen_template_size;
-  1163		p.pen.id = 0x02;
-  1164		p.pen.subreport_list[0].value = 0xf0;
-  1165		p.pen.subreport_list[0].id = UCLOGIC_RDESC_V1_FRAME_ID;
-  1166	
-  1167		/* Initialize the frame interface */
-  1168		rdesc_frame = uclogic_rdesc_template_apply(
-  1169					uclogic_rdesc_ugee_v2_frame_btn_template_arr,
-  1170					uclogic_rdesc_ugee_v2_frame_btn_template_size,
-  1171					desc_params, ARRAY_SIZE(desc_params));
-  1172		if (!rdesc_frame) {
-  1173			rc = -ENOMEM;
-  1174			goto cleanup;
-  1175		}
-  1176	
-  1177		rc = uclogic_params_frame_init_with_desc(&p.frame_list[0],
-  1178							 rdesc_frame,
-  1179							 uclogic_rdesc_ugee_v2_frame_btn_template_size,
-  1180							 UCLOGIC_RDESC_V1_FRAME_ID);
-  1181		kfree(rdesc_frame);
-  1182		if (rc) {
-  1183			uclogic_params_init_invalid(&p);
-  1184			goto output;
-  1185		}
-  1186	
-  1187	output:
-  1188		/* Output parameters */
-  1189		memcpy(params, &p, sizeof(*params));
-  1190		memset(&p, 0, sizeof(p));
-  1191		rc = 0;
-  1192	cleanup:
-  1193		kfree(str_desc);
-  1194		uclogic_params_cleanup(&p);
-  1195		return rc;
-  1196	}
-  1197	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+On 2022/5/17 6:08, Dmitry Torokhov wrote:
+> Hi 
+> On Mon, May 16, 2022 at 12:10:16PM +0400, Miaoqian Lin wrote:
+>> of_find_node_by_path() calls of_find_node_opts_by_path(),
+>> which returns a node pointer with refcount
+>> incremented, we should use of_node_put() on it when done.
+>> Add missing of_node_put() to avoid refcount leak.
+>>
+>> Fixes: 9c1a5077fdca ("input: Rewrite sparcspkr device probing.")
+>> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+>> ---
+> Thank you for the patch.
+>
+>>  drivers/input/misc/sparcspkr.c | 9 ++++++---
+>>  1 file changed, 6 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspkr.c
+>> index fe43e5557ed7..6a86900aa1fb 100644
+>> --- a/drivers/input/misc/sparcspkr.c
+>> +++ b/drivers/input/misc/sparcspkr.c
+>> @@ -206,11 +206,11 @@ static int bbc_beep_probe(struct platform_device *op)
+>>  	info = &state->u.bbc;
+>>  	info->clock_freq = of_getintprop_default(dp, "clock-frequency", 0);
+>>  	if (!info->clock_freq)
+>> -		goto out_free;
+>> +		goto out_put;
+>>  
+>>  	info->regs = of_ioremap(&op->resource[0], 0, 6, "bbc beep");
+>>  	if (!info->regs)
+>> -		goto out_free;
+>> +		goto out_put;
+>>  
+>>  	platform_set_drvdata(op, state);
+>>  
+>> @@ -218,11 +218,14 @@ static int bbc_beep_probe(struct platform_device *op)
+>>  	if (err)
+>>  		goto out_clear_drvdata;
+>>  
+>> +	of_node_put(dp);
+>> +
+> We do not really need to keep node pointer for that long, how about the
+> version of your patch below?
+Looks good to me.
+> Thanks.
+>
