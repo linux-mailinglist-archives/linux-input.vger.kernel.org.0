@@ -2,123 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 121FA52991B
-	for <lists+linux-input@lfdr.de>; Tue, 17 May 2022 07:39:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 753AB529AA1
+	for <lists+linux-input@lfdr.de>; Tue, 17 May 2022 09:17:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233038AbiEQFjm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 May 2022 01:39:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54608 "EHLO
+        id S232238AbiEQHRQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 May 2022 03:17:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232245AbiEQFjl (ORCPT
+        with ESMTP id S230227AbiEQHRP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 May 2022 01:39:41 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BC5A40A35;
-        Mon, 16 May 2022 22:39:41 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id c14so15972335pfn.2;
-        Mon, 16 May 2022 22:39:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=TmeDSLlFerDAJIQrZiYorWIjVB/zbv81hvFgp+YmBFI=;
-        b=SMrcwrT8Q+x18LHAKaAhAW8yMvEo1LFBB3bXjL94YXGieIa7M4DB6ZUh3a/7LESowj
-         KwA0QHRj5nw+2RJHQHHSZhZLs7Fqq45OMjOBmeVPkHdxPQdjb4Q29RC9PKWntr9bJgce
-         p32Qy0CxgrIwdMi5X36DPwjyyuYJMPuBxQWLoxewHG2CoJSsTkKwqbY19CW8S+yjqIEU
-         CS51T4k1EYAcy1bs7+tObnPJ1bFiU1BDD12fzyFJp95MQya8cMOzkItBWShBlrO9dTJF
-         9Sa573tl6layKNsbcTYLqcDHOYX3TA0J5Fl4XK5MhFtgBrw5b1AMLZE5cPEToAp5znGy
-         Fzig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=TmeDSLlFerDAJIQrZiYorWIjVB/zbv81hvFgp+YmBFI=;
-        b=UsxdVxr1BeL1g062ItQ35BG4UebDQNR8RSpQtqYZQuoICEyyKKgRUI7GphGM+aY9Vw
-         YEF3V2PJRxbApXAzl1OdgE+T/JzjB6qo0MD/MtOMud7Q/dwJapeXkAzZ1iCZcJ3KjyyH
-         rfHMmA3s6xCn4w5iabKpHLJ6ybeJIHzAqWkjdns+TGQ50W/yHhTxl1Uk1ViDIRG6z7RK
-         noiiULE6iHAwpDm+4o4l1it+XPDikd7A8nXGVWngVd1eTr7t9rMWVT5rF9elmy/g9x3W
-         9M8ahHQyrOgmJ6yyDBn1MtMUX6E7+qJiq1R744In7I/gOolSgRk4WRnfm/e8z/WBEQDe
-         /u4Q==
-X-Gm-Message-State: AOAM5319TUqzgtVvuXlpL/iePA4WLZLWja/PfzlFG3mYcj1kcGzmzSv2
-        azMdA4T5UuKaRELVpEPBpR1YAozkY3h8WgbU
-X-Google-Smtp-Source: ABdhPJwY0bnlcNW0UmxMip7LdXZ9T1tqSz1ZXaZc49zdH968WiBDfcGZdrttIdwlhq+ZPhZDt2W6Ww==
-X-Received: by 2002:a65:6805:0:b0:3c1:bb28:6bd4 with SMTP id l5-20020a656805000000b003c1bb286bd4mr18423867pgt.585.1652765980469;
-        Mon, 16 May 2022 22:39:40 -0700 (PDT)
-Received: from [172.16.10.243] ([219.142.146.170])
-        by smtp.gmail.com with ESMTPSA id d4-20020a170903230400b0015e8d4eb22bsm8444341plh.117.2022.05.16.22.39.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 May 2022 22:39:39 -0700 (PDT)
-Message-ID: <bf778cef-d09a-5fcd-8388-d77690ac87c6@gmail.com>
-Date:   Tue, 17 May 2022 13:39:33 +0800
+        Tue, 17 May 2022 03:17:15 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4076C3617F;
+        Tue, 17 May 2022 00:17:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652771834; x=1684307834;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=1jTU5KHo259xMf0l/RnxXGGu/AAe/sE0TQK8+z7eBQc=;
+  b=OiF2LfvUqDZvAEp6veTlqxRWapyysRPBGWw0FwA5gfOXo6MBCrgoCsvx
+   kQRhyL1GfmIil3EwWPADuqU9kBuqbrvkctb8Aq3YTClfDKuj4p6x3yIpP
+   cwL6dRLNGWwsWnqjdoidRUjgVk1Mgui7voWn9hOyXNhD3+VHT6AE7Y3rr
+   N6BJBW3LKp6K0nmitHqOtT6R3zahc8xWsnbnPIHlxNdUelFkjW8q81QZd
+   TVo9oDhlH+9P5HAw166xwuI+KKo00/TiZc/FbE2R6MZioiTM8Atq+eU0p
+   +1Q4majp+/8JP31cVkp6l4V5NzXoDEGnex6vCzKwhBwO3m663ETjvYz27
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="357502518"
+X-IronPort-AV: E=Sophos;i="5.91,232,1647327600"; 
+   d="scan'208";a="357502518"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2022 00:17:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,232,1647327600"; 
+   d="scan'208";a="638621112"
+Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 17 May 2022 00:17:11 -0700
+Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nqrSB-0000iV-8K;
+        Tue, 17 May 2022 07:17:11 +0000
+Date:   Tue, 17 May 2022 15:16:28 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+        jikos@kernel.org
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        benjamin.tissoires@redhat.com, spbnick@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stefanberzl@gmail.com,
+        =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Subject: Re: [PATCH for-5.19/uclogic 2/4] HID: uclogic: Add KUnit tests for
+ uclogic_rdesc_template_apply()
+Message-ID: <202205171527.RQ8sqqya-lkp@intel.com>
+References: <20220516181323.59554-3-jose.exposito89@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] Input: sparcspkr: Fix refcount leak in bbc_beep_probe
-Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220516081018.42728-1-linmq006@gmail.com>
- <YoLLTBALPU1O8VI5@google.com>
-From:   Miaoqian Lin <linmq006@gmail.com>
-In-Reply-To: <YoLLTBALPU1O8VI5@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220516181323.59554-3-jose.exposito89@gmail.com>
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi, Dmitry
+Hi "José,
 
-On 2022/5/17 6:08, Dmitry Torokhov wrote:
-> Hi 
-> On Mon, May 16, 2022 at 12:10:16PM +0400, Miaoqian Lin wrote:
->> of_find_node_by_path() calls of_find_node_opts_by_path(),
->> which returns a node pointer with refcount
->> incremented, we should use of_node_put() on it when done.
->> Add missing of_node_put() to avoid refcount leak.
->>
->> Fixes: 9c1a5077fdca ("input: Rewrite sparcspkr device probing.")
->> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
->> ---
-> Thank you for the patch.
->
->>  drivers/input/misc/sparcspkr.c | 9 ++++++---
->>  1 file changed, 6 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/input/misc/sparcspkr.c b/drivers/input/misc/sparcspkr.c
->> index fe43e5557ed7..6a86900aa1fb 100644
->> --- a/drivers/input/misc/sparcspkr.c
->> +++ b/drivers/input/misc/sparcspkr.c
->> @@ -206,11 +206,11 @@ static int bbc_beep_probe(struct platform_device *op)
->>  	info = &state->u.bbc;
->>  	info->clock_freq = of_getintprop_default(dp, "clock-frequency", 0);
->>  	if (!info->clock_freq)
->> -		goto out_free;
->> +		goto out_put;
->>  
->>  	info->regs = of_ioremap(&op->resource[0], 0, 6, "bbc beep");
->>  	if (!info->regs)
->> -		goto out_free;
->> +		goto out_put;
->>  
->>  	platform_set_drvdata(op, state);
->>  
->> @@ -218,11 +218,14 @@ static int bbc_beep_probe(struct platform_device *op)
->>  	if (err)
->>  		goto out_clear_drvdata;
->>  
->> +	of_node_put(dp);
->> +
-> We do not really need to keep node pointer for that long, how about the
-> version of your patch below?
-Looks good to me.
-> Thanks.
->
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on f7d8e387d9aeff963e6691c0166269b8042b4ff9]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jos-Exp-sito/Add-support-for-XP-PEN-Deco-L/20220517-021641
+base:   f7d8e387d9aeff963e6691c0166269b8042b4ff9
+config: riscv-randconfig-r036-20220516 (https://download.01.org/0day-ci/archive/20220517/202205171527.RQ8sqqya-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 853fa8ee225edf2d0de94b0dcbd31bea916e825e)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/59e13d6c9ab96d326e1575bd6cd2f0ca0c98f561
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jos-Exp-sito/Add-support-for-XP-PEN-Deco-L/20220517-021641
+        git checkout 59e13d6c9ab96d326e1575bd6cd2f0ca0c98f561
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+ERROR: modpost: missing MODULE_LICENSE() in drivers/hid/hid-uclogic-rdesc.o
+ERROR: modpost: missing MODULE_LICENSE() in drivers/hid/hid-uclogic-rdesc-test.o
+>> ERROR: modpost: "uclogic_rdesc_template_apply" [drivers/hid/hid-uclogic-rdesc-test.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
