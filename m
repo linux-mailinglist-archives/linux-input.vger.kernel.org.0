@@ -2,81 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BF5E5295A1
-	for <lists+linux-input@lfdr.de>; Tue, 17 May 2022 01:59:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B793352987D
+	for <lists+linux-input@lfdr.de>; Tue, 17 May 2022 06:06:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349449AbiEPX7G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 16 May 2022 19:59:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52122 "EHLO
+        id S230145AbiEQEGq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 May 2022 00:06:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344851AbiEPX7C (ORCPT
+        with ESMTP id S229757AbiEQEGp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 16 May 2022 19:59:02 -0400
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1CB440936;
-        Mon, 16 May 2022 16:59:01 -0700 (PDT)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-e656032735so22378854fac.0;
-        Mon, 16 May 2022 16:59:01 -0700 (PDT)
+        Tue, 17 May 2022 00:06:45 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 266384550C
+        for <linux-input@vger.kernel.org>; Mon, 16 May 2022 21:06:44 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id y41so15788903pfw.12
+        for <linux-input@vger.kernel.org>; Mon, 16 May 2022 21:06:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=M8mSiEaombP8F9rvjTsjHydvtB/NM8pveZSY1W+Hpkk=;
+        b=SL8MmdaAIPaqyWxRgjtcoKKBhg+3/cQnn0cnxtKS37ini9XEWYvWeIaARyHQbMa8Bm
+         X0YppsDxDvDGXVmMvbJbM2++zQSg2f27AwdSu5xiReegScR0eA0As38hSVugEOzos85l
+         aD4NY7qj9Lj4dv0Ar/EELoLWCoF8CtSww3YXjG1glWMEUxtoPR7pfgU6dEQt8NcG92ZN
+         vWMy2fuTpGc0LEjZmqhcOHzY8OfPJzSLPdPxQF2eNmRaPQWjuwdqYVL3Gy/9iszLc4OG
+         G8wLZJrpemVneKjx0lZ/Mju0Wecznj6oS6lqSdnxx3uns7R/JjtMF95Wg5S0/wNokYzq
+         ECIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=FaxCfcz4ZedEdhGKxThXh5xPLoC1+SoU0EDepYrDXJ8=;
-        b=dGwje39WObfrrrbcJ6yMV5l9Ar7p8j4vRQvBH7x16MRKgIxbd32VWWTkvANh3rFC9I
-         THdoPPRwfoo+ck6og93o0zBmHFyAfLEztnlZFkzHzx9utVeaHy0bSJMgTIEvbFbW5DkM
-         hbgJxi5YliSNAX+sf2u9EwOBgmCbhRck34H6jVRUfUgJZg+605UjNRMOR0n5hrAwYltB
-         OUVWH6OzkQqiX6ZOuSj14qXnx8HnYXThnTKV+AkrAK5cE8fYb9XTTdnvuzIEsFj1FTcY
-         SxlkRo5mxsRRX5yw0B+voxMHnUluYlDZ3FlbHhSlWxjKX68n0ogGa0QgUh84+SxSCLVS
-         P3yg==
-X-Gm-Message-State: AOAM533BiQHEvSftps1JiXsvk+jGD0bivVgGHj2PePV60QQcp9kYmCew
-        1eoHaMtekaI0g54r0itA3w==
-X-Google-Smtp-Source: ABdhPJz1ZWl21sZayYNAlf/AV250Dn0ztlX9VgBjpJXO7XS4jKaeqO8eYco4Fgsv3n8/U7F/z3KMOQ==
-X-Received: by 2002:a05:6870:d113:b0:f1:8a78:bfba with SMTP id e19-20020a056870d11300b000f18a78bfbamr6202023oac.95.1652745541097;
-        Mon, 16 May 2022 16:59:01 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id w133-20020acadf8b000000b00326414c1bb7sm4299873oig.35.2022.05.16.16.58.59
+        bh=M8mSiEaombP8F9rvjTsjHydvtB/NM8pveZSY1W+Hpkk=;
+        b=JzL+vuUJvMsv8ZT9wDApLJBc5LHbVb521+Wd7eVObCpwt8U0rYthblHZu+Uu6m/E53
+         i564gKrll5vxSt5TS5n7o6wNDN8UYSF9PFxsYOzIdMrtudEHE3uIE7O3OnI13whEvQlz
+         0Zq3bUo7tza3r1AHL6o6ibWq6VlyYTfQc/hBkdlXzkZidA5cIuzjHZyhCu+fLd5eF8MO
+         exuQVQDgUMTIun54pUACYTd94hJ8UZRMAb1gtUo9mvIxztYKtdDgKJTd/QYdQw/5X3l8
+         HadRcAok4u71Dqw9sP2gJJnj2G0sQF1Ks2+Fw3AX/Chqd97yGEPhObqX6CoEMZD8iSkw
+         UgQQ==
+X-Gm-Message-State: AOAM532wYEwGlC+Q/MvcRWI+mMH6wBPFED5001ox/f2/vnTP7DNZB6Ag
+        9Tj+YJnFqL9eE2uwTH5VJYY=
+X-Google-Smtp-Source: ABdhPJzpxyI8fF2mKOIUnK8rmZpXgVxZXiR6GJ0S6e1yOe3IPVx8suyJTQovwDveMul7Tl5Oy09Cog==
+X-Received: by 2002:a65:550c:0:b0:3da:fde8:62d7 with SMTP id f12-20020a65550c000000b003dafde862d7mr17891382pgr.334.1652760403398;
+        Mon, 16 May 2022 21:06:43 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:2bd1:73e2:8118:8ba9])
+        by smtp.gmail.com with ESMTPSA id kt11-20020a17090b214b00b001df4e851aecsm520735pjb.3.2022.05.16.21.06.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 16:59:00 -0700 (PDT)
-Received: (nullmailer pid 3589630 invoked by uid 1000);
-        Mon, 16 May 2022 23:58:59 -0000
-Date:   Mon, 16 May 2022 18:58:59 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Markuss Broks <markuss.broks@gmail.com>
-Cc:     Henrik Rydberg <rydberg@bitmath.org>, phone-devel@vger.kernel.org,
-        linux-input@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Lin Meng-Bo <linmengbo0689@protonmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH 2/3] dt-bindings: input/touchscreen: Add compatible for
- IST3038B
-Message-ID: <20220516235859.GA3589595-robh@kernel.org>
-References: <20220504152406.8730-1-markuss.broks@gmail.com>
- <20220504152406.8730-3-markuss.broks@gmail.com>
+        Mon, 16 May 2022 21:06:42 -0700 (PDT)
+Date:   Mon, 16 May 2022 21:06:39 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: [PATCH] Input: psmouse-smbus - avoid flush_scheduled_work() usage
+Message-ID: <YoMfT0pkNL1qtCG8@google.com>
+References: <25e2b787-cb2c-fb0d-d62c-6577ad1cd9df@I-love.SAKURA.ne.jp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220504152406.8730-3-markuss.broks@gmail.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <25e2b787-cb2c-fb0d-d62c-6577ad1cd9df@I-love.SAKURA.ne.jp>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 04 May 2022 18:24:04 +0300, Markuss Broks wrote:
-> Imagis IST3038B is a variant (firmware?) of Imagis IST3038 IC,
-> add the compatible for it to the IST3038C bindings.
+On Fri, May 06, 2022 at 11:22:25PM +0900, Tetsuo Handa wrote:
+> Flushing system-wide workqueues is dangerous and will be forbidden.
+> Replace system_wq with local psmouse_wq.
 > 
-> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
-> ---
->  .../devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml   | 1 +
->  1 file changed, 1 insertion(+)
-> 
+> Link: https://lkml.kernel.org/r/49925af7-78a8-a3dd-bce6-cfc02e1a9236@I-love.SAKURA.ne.jp
+> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 
-Acked-by: Rob Herring <robh@kernel.org>
+Applied, thank you.
+
+-- 
+Dmitry
