@@ -2,121 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 080C652C312
-	for <lists+linux-input@lfdr.de>; Wed, 18 May 2022 21:13:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE35E52C3DA
+	for <lists+linux-input@lfdr.de>; Wed, 18 May 2022 21:58:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241768AbiERTJz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 May 2022 15:09:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33506 "EHLO
+        id S242166AbiERTzj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 May 2022 15:55:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241758AbiERTJy (ORCPT
+        with ESMTP id S242111AbiERTzi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 May 2022 15:09:54 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5DB81F1CA9;
-        Wed, 18 May 2022 12:09:53 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id a19so2980473pgw.6;
-        Wed, 18 May 2022 12:09:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=D/0bpZqeX7kwydajsXx1JK+na+8xnT2KPMKht+WnGIw=;
-        b=pL97U5rBL40s6HgLZElcctoLmGXiYsq9qcbA4YDOLRLEuxA8vvkVSzqo0rzJiEhph+
-         8b+3SgI95EswOIbOjXR955qQrJ3kkZ8hSuqmupwM9HOgD88nPNWVHyh4lK6MWCbnMb/l
-         AIhPqyQfu9OvnO9vRvt6LGV+kXDsvAo/FRRSGCgnQeMCEbpcV+o7jAp7LVK1DpiVgpEn
-         FOjLOtGJeyoUQRaWKoShl2QYPJJv/KPR2F8ns/siK49n0VqgbTW9iz4GR6TkGveLfx+y
-         SjkOwxzBwhzv/y/c423XLscui6e7oxpoHmtC+gJwkv8HHA6pdU7WUk27agvEpn96fi8I
-         DiQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=D/0bpZqeX7kwydajsXx1JK+na+8xnT2KPMKht+WnGIw=;
-        b=xV/6KcbDysod5X0G0bosDvf+v1zrEDpHcSPRZ6/46wd0oIZHcrpr7nMrT+zJxbRem/
-         OsqtZfWoWGKUf+x7KfIrWCdnyYiCfj1vWRi+OS6htRdpMD53h2lpPcQd7yczf6L5mk4l
-         /UV7ppSClco5uQEX6ymedNwQCJbE2CSMbj0xu9f+pvoryWBN9avQZRiyWmugUOMwcL38
-         DH8qtcbXQGuDAOIqZ8HD6yd9ynWsd3pPlB5UvcwZlOdvGFu5Q9uSyOggq4R2sDZkhizp
-         0eT5jFiZ0nEuzYOfRvGIQbnBHRU8HC0f2G3Odtp3pvkFr876eZ+swhn0qTjJ6yZ/kDqw
-         +DTA==
-X-Gm-Message-State: AOAM533XqCkaD7eufz82sC6CObkb2h+UBu82Lo74UaE8rUp12GTw4Zca
-        DS6F+Nlc1v4WMC5SZEXqPFo=
-X-Google-Smtp-Source: ABdhPJy4eQ5dE5GRsK8w1TG6VTV4ma+rWfbYt6rKDgocW1XHFt3qY45KJDqjMR7tSVaHpAkRPRr+hw==
-X-Received: by 2002:a63:c147:0:b0:3f5:f6f5:fe0e with SMTP id p7-20020a63c147000000b003f5f6f5fe0emr725231pgi.501.1652900993019;
-        Wed, 18 May 2022 12:09:53 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:1a53:727c:6847:3659])
-        by smtp.gmail.com with ESMTPSA id i24-20020a056a00225800b0050dc7628168sm2305464pfu.66.2022.05.18.12.09.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 12:09:52 -0700 (PDT)
-Date:   Wed, 18 May 2022 12:09:50 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Marek Vasut <marex@denx.de>
-Cc:     linux-input@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] Input: ili210x - Fix reset timing
-Message-ID: <YoVEftKRoTndAn9R@google.com>
-References: <20220518163430.41192-1-marex@denx.de>
+        Wed, 18 May 2022 15:55:38 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7349D1180E;
+        Wed, 18 May 2022 12:55:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652903737; x=1684439737;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=3VwdeQZeiVfqbkxetk4smO7yk0EawI7erwkdVLXJj04=;
+  b=KjRI063QhEyt3UxtZeMUvmzZbNNI1iGCsoYrasUJaG5yCYiH0PnUQyNz
+   Baa+OV1OFe24hQIoB1/dQNEMeoVjfSZDuUT5xY5VzgFXeOV0zaZlygFPQ
+   1Wvzqn7F1zskkWcc9GA8UOFlGAW29jjKrM9WomHDo6+fnYFl4Lxiilzs5
+   hkVhq3TYMwgbh/slExeHwmJZ2yG2MNukdSGWcil/dFwtBOXe+x4IVXXTk
+   SWVEOoO/6L8Ri+//PHtX6DAbfxyfoCpS0GzPppCyuAfnoXsdf8emtPgq/
+   KcFmJJxv6EpsQPKa+bV7GQrBWJWEHwfrrpcZW9BK+fqT/P2s0ksC+dOg4
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="269454372"
+X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; 
+   d="scan'208";a="269454372"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 12:55:37 -0700
+X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; 
+   d="scan'208";a="714634335"
+Received: from cmhseih-mobl.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.212.195.218])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 12:55:36 -0700
+Message-ID: <8eb29bb9a817c88e2e9a4a76a10e99bf5504a3b5.camel@linux.intel.com>
+Subject: Re: hid-sensor-hub 001F:8087:0AC2.0002: timeout waiting for
+ response from ISHTP device
+From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Paul Menzel <pmenzel@molgen.mpg.de>
+Cc:     Jiri Kosina <jikos@kernel.org>, Even Xu <even.xu@intel.com>,
+        Zhang Lixu <lixu.zhang@intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Dell.Client.Kernel@dell.com
+Date:   Wed, 18 May 2022 12:55:36 -0700
+In-Reply-To: <82e9a41c-552a-07e2-7caa-a14913cd34f4@molgen.mpg.de>
+References: <289be79b-8fbb-d171-a1e5-5d8218dff39d@molgen.mpg.de>
+         <8833ba2600208a05940943636a3bd8b6af6a9fe4.camel@linux.intel.com>
+         <dff3d94c-93be-2b31-35c6-35a7886f3680@molgen.mpg.de>
+         <8fc40ebb2fbcecb1ab2f5ea156bf9ec10aff06bf.camel@linux.intel.com>
+         <82e9a41c-552a-07e2-7caa-a14913cd34f4@molgen.mpg.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220518163430.41192-1-marex@denx.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, May 18, 2022 at 06:34:30PM +0200, Marek Vasut wrote:
-> According to Ilitek "231x & ILI251x Programming Guide" Version: 2.30
-> "2.1. Power Sequence", "T4 Chip Reset and discharge time" is minimum
-> 10ms and "T2 Chip initial time" is maximum 150ms. Adjust the reset
-> timings such that T4 is 15ms and T2 is 160ms to fit those figures.
+Hi Paul,
+
+Good news, is that I can get to one 9310 system.
+
+Manufacturer: Dell Inc.
+Product Name: XPS 13 9310
+
+I had
+"
+bios_date:12/10/2020
+bios_release:1.2
+bios_vendor:Dell Inc.
+bios_version:1.2.5
+"
+
+Didn't observe any issue with ISH after multiple suspend/resume
+
+Update to the latest available from Dell website
+
+BIOS Information
+	Vendor: Dell Inc.
+	Version: 3.6.0
+	Release Date: 03/17/2022
+	
+
+Still no issue.
+
+I am using
+5.17.7-200.fc35.x86_64
+
+So suggest to updated to the latest BIOS from Dell website and
+reproduce.
+
+Thanks,
+Srinivas
+
+On Wed, 2022-05-18 at 20:06 +0200, Paul Menzel wrote:
+> Dear Srinivas,
 > 
-> This prevents sporadic touch controller start up failures when some
-> systems with at least ILI251x controller boot, without this patch
-> the systems sometimes fail to communicate with the touch controller.
 > 
-> Fixes: 201f3c803544c ("Input: ili210x - add reset GPIO support")
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
->  drivers/input/touchscreen/ili210x.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Am 18.05.22 um 17:39 schrieb srinivas pandruvada:
 > 
-> diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
-> index 2bd407d86bae5..131cb648a82ae 100644
-> --- a/drivers/input/touchscreen/ili210x.c
-> +++ b/drivers/input/touchscreen/ili210x.c
-> @@ -951,9 +951,9 @@ static int ili210x_i2c_probe(struct i2c_client *client,
->  		if (error)
->  			return error;
->  
-> -		usleep_range(50, 100);
-> +		msleep(15);
-
-WARNING: msleep < 20ms can sleep for up to 20ms; see
-Documentation/timers/timers-howto.rst
-#38: FILE: drivers/input/touchscreen/ili210x.c:954:
-+               msleep(15);
-
-Should this be usleep_range(10000, 15000) like in
-ili251x_hardware_reset()? Actually, should we adopt
-ili251x_hardware_reset() to be used there?
-
->  		gpiod_set_value_cansleep(reset_gpio, 0);
-> -		msleep(100);
-> +		msleep(160);
->  	}
->  
->  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> -- 
-> 2.35.1
+> > Attached a diff. Please use git apply and build kernel. And attach
+> > dmesg. I want to see where did it fail.
 > 
+> As written, the device is used in production by a user, so I am not 
+> sure, if I can get the device to test self-built Linux kernel images
+> to 
+> debug this issue. It would really be better to get access to such a 
+> device from Dell or in some Intel lab.
+> 
+> 
+> Kind regards,
+> 
+> Paul
 
-Thanks.
-
--- 
-Dmitry
