@@ -2,55 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B56A752C4C5
-	for <lists+linux-input@lfdr.de>; Wed, 18 May 2022 22:53:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1885552C4EC
+	for <lists+linux-input@lfdr.de>; Wed, 18 May 2022 23:02:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242828AbiERUw7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 May 2022 16:52:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52630 "EHLO
+        id S242815AbiERU7j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 May 2022 16:59:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242788AbiERUw6 (ORCPT
+        with ESMTP id S242802AbiERU7h (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 May 2022 16:52:58 -0400
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 859D3205F03;
-        Wed, 18 May 2022 13:52:56 -0700 (PDT)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        Wed, 18 May 2022 16:59:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 57D5C226883
+        for <linux-input@vger.kernel.org>; Wed, 18 May 2022 13:59:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1652907575;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=bdXZF7hJLZXmO2O05XdZLuUQ0VoAMlOFXmkOZbjXtSI=;
+        b=UotNzwT6oyWF+uUaaXsHQfqmlB8cJoPkd6HxLctwMnIuXqu1csCE/78ol3ef4YnVcfmpKk
+        i0Ocji4PLZ87QbF6IoO13XRB5plw3M4xBTMfc2s/ZeNOEPUb6DA3YhDBUcNhgxT29O1DXj
+        1/7SwYLe4Hhu4vDexXvVULvxdmJQPa8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-541-TubvXEPFPX2YkucnXM8Arw-1; Wed, 18 May 2022 16:59:32 -0400
+X-MC-Unique: TubvXEPFPX2YkucnXM8Arw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 8AC62839FD;
-        Wed, 18 May 2022 22:52:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1652907174;
-        bh=3NosABIFpcT602pIJktuxICfO8UVkC7uLjjF3wACISc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=G3IQLi+/fAsvviW/Go6wfEUeaD1d3b11eF325qsQHSW14QOpz4B59UONwIEW1SPWe
-         PXFgYWWUe+RJuXnTkpWIYyrjk9NfLywVNHpFaTFykMg9eYm5n3SyOHrrHHJ6FfOG2s
-         tlEP/gHgkithqLnTMUQ8E8UHEwmV77cp9oS5Lizp7546M5EEIHGlC3In/INIpXK92n
-         450lCiRHPH6COae1N4oOSTUAVew1es13rt8o4LnFWuKHJGWhxXHQBK4oHMVorXsei/
-         rkJnKTQoUH/lW6j4BFNWONVG4vjqxPSE5g8ObyoChLUTyJjns8Aps1PpQ8kxBmY/wC
-         BRH8fQHy/kAUQ==
-Message-ID: <f0556115-e51e-ca87-c3f1-64e0d33c4f0f@denx.de>
-Date:   Wed, 18 May 2022 22:52:54 +0200
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 01E603801FE1;
+        Wed, 18 May 2022 20:59:31 +0000 (UTC)
+Received: from plouf.redhat.com (unknown [10.39.192.58])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9906B2166B25;
+        Wed, 18 May 2022 20:59:26 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH bpf-next v5 00/17] Introduce eBPF support for HID devices
+Date:   Wed, 18 May 2022 22:59:07 +0200
+Message-Id: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] Input: ili210x - Fix reset timing
-Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, stable@vger.kernel.org
-References: <20220518163430.41192-1-marex@denx.de>
- <YoVEftKRoTndAn9R@google.com>
-From:   Marek Vasut <marex@denx.de>
-In-Reply-To: <YoVEftKRoTndAn9R@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-6.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,45 +70,136 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 5/18/22 21:09, Dmitry Torokhov wrote:
-> On Wed, May 18, 2022 at 06:34:30PM +0200, Marek Vasut wrote:
->> According to Ilitek "231x & ILI251x Programming Guide" Version: 2.30
->> "2.1. Power Sequence", "T4 Chip Reset and discharge time" is minimum
->> 10ms and "T2 Chip initial time" is maximum 150ms. Adjust the reset
->> timings such that T4 is 15ms and T2 is 160ms to fit those figures.
->>
->> This prevents sporadic touch controller start up failures when some
->> systems with at least ILI251x controller boot, without this patch
->> the systems sometimes fail to communicate with the touch controller.
->>
->> Fixes: 201f3c803544c ("Input: ili210x - add reset GPIO support")
->> Signed-off-by: Marek Vasut <marex@denx.de>
->> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
->> ---
->>   drivers/input/touchscreen/ili210x.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
->> index 2bd407d86bae5..131cb648a82ae 100644
->> --- a/drivers/input/touchscreen/ili210x.c
->> +++ b/drivers/input/touchscreen/ili210x.c
->> @@ -951,9 +951,9 @@ static int ili210x_i2c_probe(struct i2c_client *client,
->>   		if (error)
->>   			return error;
->>   
->> -		usleep_range(50, 100);
->> +		msleep(15);
-> 
-> WARNING: msleep < 20ms can sleep for up to 20ms; see
-> Documentation/timers/timers-howto.rst
-> #38: FILE: drivers/input/touchscreen/ili210x.c:954:
-> +               msleep(15);
+Hi,
 
-Sigh, yes, fixed in V2 to be 12..15ms .
+And here comes the v5 of the HID-BPF series.
 
-> Should this be usleep_range(10000, 15000) like in
-> ili251x_hardware_reset()? Actually, should we adopt
-> ili251x_hardware_reset() to be used there?
+I managed to achive the same functionalities than v3 this time.
+Handling per-device BPF program was "interesting" to say the least,
+but I don't know if we can have a generic BPF way of handling such
+situation.
 
-I'll send a separate patch for that, it is indeed a good idea, but I 
-think we should keep the fix as simple as possible for backporting ?
+The interesting bits is that now the BPF core changes are rather small,
+and I am mostly using existing facilities.
+I didn't managed to write selftests for the RET_PTR_TO_MEM kfunc,
+because I can not call kmalloc while in a SEC("tc") program to match
+what the other kfunc tests are doing.
+And AFAICT, the most interesting bits would be to implement verifier
+selftests, which are way out of my league, given that they are
+implemented as plain bytecode.
+
+The logic is the following (see also the last patch for some more
+documentation):
+- hid-bpf first preloads a BPF program in the kernel that does a few
+  things:
+   * find out which attach_btf_id are associated with our trace points
+   * adds a bpf_tail_call() BPF program that I can use to "call" any
+     other BPF program stored into a jump table
+   * monitors the releases of struct bpf_prog, and when there are no
+     other users than us, detach the bpf progs from the HID devices
+- users then declare their tracepoints and then call
+  hid_bpf_attach_prog() in a SEC("syscall") program
+- hid-bpf then calls multiple time the bpf_tail_call() program with a
+  different index in the jump table whenever there is an event coming
+  from a matching HID device
+
+Note that I am tempted to pin an "attach_hid_program" in the bpffs so
+that users don't need to declare one, but I am afraid this will be one
+more API to handle, so maybe not.
+
+I am also wondering if I should not strip out hid_bpf_jmp_table of most
+of its features and implement everything as a BPF program. This might
+remove the need to add the kernel light skeleton implementations of map
+modifications, and might also possibly be more re-usable for other
+subsystems. But every plan I do in my head involves a lot of back and
+forth between the kernel and BPF to achieve the same, which doesn't feel
+right. The tricky part is the RCU list of programs that is stored in each
+device and also the global state of the jump table.
+Anyway, something to look for in a next version if there is a push for it.
+
+FWIW, patch 1 is something I'd like to get merged sooner. With 2
+colleagues, we are also working on supporting the "revoke" functionality
+of a fd for USB and for hidraw. While hidraw can be emulated with the
+current features, we need the syscall kfuncs for USB, because when we
+revoke a USB access, we also need to kick out the user, and for that, we
+need to actually execute code in the kernel from a userspace event.
+
+Anyway, happy reviewing.
+
+Cheers,
+Benjamin
+
+[Patch series based on commit 68084a136420 ("selftests/bpf: Fix building bpf selftests statically")
+in the bpf-next tree]
+
+Benjamin Tissoires (17):
+  bpf/btf: also allow kfunc in tracing and syscall programs
+  bpf/verifier: allow kfunc to return an allocated mem
+  bpf: prepare for more bpf syscall to be used from kernel and user
+    space.
+  libbpf: add map_get_fd_by_id and map_delete_elem in light skeleton
+  HID: core: store the unique system identifier in hid_device
+  HID: export hid_report_type to uapi
+  HID: initial BPF implementation
+  selftests/bpf: add tests for the HID-bpf initial implementation
+  HID: bpf: allocate data memory for device_event BPF programs
+  selftests/bpf/hid: add test to change the report size
+  HID: bpf: introduce hid_hw_request()
+  selftests/bpf: add tests for bpf_hid_hw_request
+  HID: bpf: allow to change the report descriptor
+  selftests/bpf: add report descriptor fixup tests
+  samples/bpf: add new hid_mouse example
+  selftests/bpf: Add a test for BPF_F_INSERT_HEAD
+  Documentation: add HID-BPF docs
+
+ Documentation/hid/hid-bpf.rst                 | 528 ++++++++++
+ Documentation/hid/index.rst                   |   1 +
+ drivers/hid/Kconfig                           |   2 +
+ drivers/hid/Makefile                          |   2 +
+ drivers/hid/bpf/Kconfig                       |  19 +
+ drivers/hid/bpf/Makefile                      |  11 +
+ drivers/hid/bpf/entrypoints/Makefile          |  88 ++
+ drivers/hid/bpf/entrypoints/README            |   4 +
+ drivers/hid/bpf/entrypoints/entrypoints.bpf.c |  78 ++
+ .../hid/bpf/entrypoints/entrypoints.lskel.h   | 782 ++++++++++++++
+ drivers/hid/bpf/hid_bpf_dispatch.c            | 565 ++++++++++
+ drivers/hid/bpf/hid_bpf_dispatch.h            |  28 +
+ drivers/hid/bpf/hid_bpf_jmp_table.c           | 587 +++++++++++
+ drivers/hid/hid-core.c                        |  43 +-
+ include/linux/btf.h                           |   7 +
+ include/linux/hid.h                           |  29 +-
+ include/linux/hid_bpf.h                       | 144 +++
+ include/uapi/linux/hid.h                      |  12 +
+ include/uapi/linux/hid_bpf.h                  |  25 +
+ kernel/bpf/btf.c                              |  47 +-
+ kernel/bpf/syscall.c                          |  10 +-
+ kernel/bpf/verifier.c                         |  72 +-
+ samples/bpf/.gitignore                        |   1 +
+ samples/bpf/Makefile                          |  23 +
+ samples/bpf/hid_mouse.bpf.c                   | 134 +++
+ samples/bpf/hid_mouse.c                       | 157 +++
+ tools/lib/bpf/skel_internal.h                 |  23 +
+ tools/testing/selftests/bpf/config            |   3 +
+ tools/testing/selftests/bpf/prog_tests/hid.c  | 990 ++++++++++++++++++
+ tools/testing/selftests/bpf/progs/hid.c       | 222 ++++
+ 30 files changed, 4593 insertions(+), 44 deletions(-)
+ create mode 100644 Documentation/hid/hid-bpf.rst
+ create mode 100644 drivers/hid/bpf/Kconfig
+ create mode 100644 drivers/hid/bpf/Makefile
+ create mode 100644 drivers/hid/bpf/entrypoints/Makefile
+ create mode 100644 drivers/hid/bpf/entrypoints/README
+ create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.bpf.c
+ create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.lskel.h
+ create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.c
+ create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.h
+ create mode 100644 drivers/hid/bpf/hid_bpf_jmp_table.c
+ create mode 100644 include/linux/hid_bpf.h
+ create mode 100644 include/uapi/linux/hid_bpf.h
+ create mode 100644 samples/bpf/hid_mouse.bpf.c
+ create mode 100644 samples/bpf/hid_mouse.c
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
+ create mode 100644 tools/testing/selftests/bpf/progs/hid.c
+
+-- 
+2.36.1
+
