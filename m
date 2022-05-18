@@ -2,99 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36E7452B1BE
-	for <lists+linux-input@lfdr.de>; Wed, 18 May 2022 07:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F47952B305
+	for <lists+linux-input@lfdr.de>; Wed, 18 May 2022 09:10:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230077AbiERE5B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 May 2022 00:57:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60434 "EHLO
+        id S231719AbiERG4Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 May 2022 02:56:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230073AbiERE5B (ORCPT
+        with ESMTP id S231630AbiERG4Y (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 May 2022 00:57:01 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D71C74133E;
-        Tue, 17 May 2022 21:56:59 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id q76so1109403pgq.10;
-        Tue, 17 May 2022 21:56:59 -0700 (PDT)
+        Wed, 18 May 2022 02:56:24 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52E1BBCB8
+        for <linux-input@vger.kernel.org>; Tue, 17 May 2022 23:56:22 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id u27so425045wru.8
+        for <linux-input@vger.kernel.org>; Tue, 17 May 2022 23:56:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=OXwNg6zBuwLIgqpUW58oS5+90CnUYRCpLw+6qbxds1g=;
-        b=Pkw1rQ4Xhvyrr52qbpPjgh5k1O0mmchEIiD7A/Mpsl27TWjPxI5xlEQr7EUzVR9uqY
-         YrYBStF7Md6CyLa3geIp2w2QB2MY/Z8JhvkkoUsUpd7SLPX2dIlMBEm8PnPplTxcc7Jt
-         cBMj7Dv3px/oqD97mMiuMUvcEgpPeC3TitNwX3uBG1bcGQipWChbnv9z/JNOYHswa9oD
-         gbMptomEe5IfKC8fE1VBT88R8IMfo67nPQhYIJYFm2dj00//84oNtZycCywAVfW4tpAq
-         aUjAlPgr1qFdAbYec0jgI/nTSzS4DNsAJTe54h/EQy6bMQCkuYetjPJLvnB/nufo80ii
-         aKnw==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=CQIReHnD+6J/f9DYUtohMgFS79x6Zc0p2l4WD6IBG7c=;
+        b=KyJCyCdZX/CgAvmTt7yYHwAt8cwO+kY+mY1Q9hSekfZAEuaZm4EtJijZqVNc2O63c4
+         h9pACHHzz2ZLJ/YQnc2e5gMLpvwkjM0ipMcB+3VM6Etb704T5hLWiUbKYzNgGM47CvID
+         qmhWCsdy/0g3axEBFScsaWFI1wZrdcZ438b3WkaFg6Ht7Mse1GKnG+mUnqe3ZFy/UEzl
+         MvkXJgNfg8ryjQpyc5Ba26iyuCQz75kKZ++SOmNTPKrr0I3nwteVmSJZOmcg6jxaIyQl
+         NdkcYaDDvblu1CdZz4hE4BHZmKzk/SFSKRC80p4HOrfaf2tjDRqzjlzokEM3TnaLbJSR
+         VpAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=OXwNg6zBuwLIgqpUW58oS5+90CnUYRCpLw+6qbxds1g=;
-        b=xPqxLOcAhiE41CcagUZS7qHswcySYIBzSEKWlxklvvYQ7z9IOj185JQ00BZBj1Ro8c
-         Oau49MIg4k98ZDriiBJgBD4vWNHI1/DZNb7Q52yAN1bQytDvDhILFPNAbmxDN1nTHQEB
-         31E6m/a8o5+4wYmzKV4/wyvQpYw1UWReLG7SmpzNqJ2i6REZo+d2t+pBTu8G73S7Gf0r
-         zDx1IA2BxEJP4gRi78xtJp9MyuTTkduuQE6AHzLcn0CUG6yExfSG5K2ho1pwAhmfkLV8
-         JLkRhyuq2RQZskhesMaBhWWBAOeh13wkWqVMyN9BQ4J875gxQDW56WQuiHarac/+BF2W
-         4+OA==
-X-Gm-Message-State: AOAM530jmbMudirVVZJm05EzfVb5QMN9jq2ao1KktYyFPHjrty8nvOfl
-        7TVU/VoZ5/JJTLltBYYUqdk=
-X-Google-Smtp-Source: ABdhPJwzDCFCoNaq5X0owAFYSMVw2ftZc9zIveU3UI2H7GUWXJ7mICUZXxl2MnUySTStNtTv+DjVXg==
-X-Received: by 2002:a05:6a00:e8e:b0:4fa:a52f:59cf with SMTP id bo14-20020a056a000e8e00b004faa52f59cfmr25885877pfb.84.1652849819215;
-        Tue, 17 May 2022 21:56:59 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:556b:348:b181:320f])
-        by smtp.gmail.com with ESMTPSA id z9-20020a1709027e8900b0015eaa9aee50sm498725pla.202.2022.05.17.21.56.57
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=CQIReHnD+6J/f9DYUtohMgFS79x6Zc0p2l4WD6IBG7c=;
+        b=bGjiy/UYxzldcuNAJBzcdL5LFJJOtuVWAqwuqZ2Q/+G/+3hfTNm+w8SXAEgqDtIjEs
+         cyF6QJvJu+lF9CZFZvDJrCVaUeQT4Lswc7K1HmTTtCK+kra/1gSFY+q/70WS/FK5T4jo
+         ayHWwQqjTfEzbjy0V7yY7ZkcqYxz5sltnfqWxvVACMf0cPqWIDqQ/J1OSjirHk53jWKB
+         a/XKgBMKGR9hS3U/DGPIRTcL0/Bhs4TxSIXbubTlSUcZFVKhdod08bY9tbxYjNCtrLr3
+         hExTC//Z0aYhfxqT9kiyQv74yh0z871/oxALOhMkZEaZUt0tRQWt9JouFHqZB/cdX/dY
+         rHlQ==
+X-Gm-Message-State: AOAM533ZrVfDv4w1QdTp31AjNhcGIszOl0iQ2o1SJHq5Rfmtj734w96L
+        yYAKmtDOE5Cn9tbMcCqNvNmAdQ==
+X-Google-Smtp-Source: ABdhPJxqFJWFFJAZOCXntQD4XGLErH8Sgri/Wrkfkvpk99R2ty4HwuD52N1klwypW+CMYx+ticzBqg==
+X-Received: by 2002:a5d:448d:0:b0:20d:744:7663 with SMTP id j13-20020a5d448d000000b0020d07447663mr12747395wrq.654.1652856980810;
+        Tue, 17 May 2022 23:56:20 -0700 (PDT)
+Received: from localhost (laubervilliers-656-1-151-143.w92-154.abo.wanadoo.fr. [92.154.18.143])
+        by smtp.gmail.com with ESMTPSA id m7-20020adfa3c7000000b0020c5253d8cesm1097175wrb.26.2022.05.17.23.56.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 21:56:58 -0700 (PDT)
-Date:   Tue, 17 May 2022 21:56:55 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Zongmin Zhou <zhouzongmin@kylinos.cn>
-Cc:     linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] input/vmmouse: Add vmmouse_reset() function to disable
- vmmouse before entering suspend mode
-Message-ID: <YoR8l/UK8rXS1F8A@google.com>
-References: <20220322021046.1087954-1-zhouzongmin@kylinos.cn>
+        Tue, 17 May 2022 23:56:20 -0700 (PDT)
+From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-input@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCH 1/2] Input: mt6779-keypad - fix hardware code
+ mapping
+In-Reply-To: <4a7bcbfb-12da-0e3f-8732-ecc53046a4ff@collabora.com>
+References: <20220513151845.2802795-1-mkorpershoek@baylibre.com>
+ <20220513151845.2802795-2-mkorpershoek@baylibre.com>
+ <YoHf6Z4HTfh4Y+bn@google.com> <874k1qkk7n.fsf@baylibre.com>
+ <4a7bcbfb-12da-0e3f-8732-ecc53046a4ff@collabora.com>
+Date:   Wed, 18 May 2022 08:56:19 +0200
+Message-ID: <87bkvve3cc.fsf@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220322021046.1087954-1-zhouzongmin@kylinos.cn>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Mar 22, 2022 at 10:10:46AM +0800, Zongmin Zhou wrote:
-> Details:
-> When I use VirtualPS/2 VMMouse on virtual machine,There will be an error message after resume from suspend mode.
-> like below:
-> psmouse serio1: vmmouse: Unable to re-enable mouse when reconnecting, err: -6
-> And vmmouse will be unusable，so have to do full rescan to find a another driver to use for the port.
-> 
-> This error is due to QEMU still generate PS2 events to notify kernel driver to read from queue,
-> but kernel can't process the data in suspend mode, resulting a surge of s->nb_queue value,
-> which ultimately led to an error getting VMMOUSE_VERSION_ID after resume.
-> 
-> Test scenario:
-> 1)virtual machine started with qemu command "vmport=on",it will use VirtualPS/2 VMMouse
-> 2)click suspend botton to enter suspend mode
-> 3)resume and will get the error message from dmesg
-> 
-> Fixed by:
-> Disabling the vmmouse in its reset handler,It will notify qemu to stop vmmouse and remove handler.
-> 
-> Signed-off-by: Zongmin Zhou<zhouzongmin@kylinos.cn>
+On Mon, May 16, 2022 at 13:06, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> wrote:
 
-Applied, thank you.
+> Il 16/05/22 09:30, Mattijs Korpershoek ha scritto:
+>> Hi Dmitry,
+>> 
+>> Thank you for your review,
+>> 
+>> On dim., mai 15, 2022 at 22:23, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+>> 
+>>> On Fri, May 13, 2022 at 05:18:44PM +0200, Mattijs Korpershoek wrote:
+>>>> In mt6779_keypad_irq_handler(), we
+>>>> 1. Read a hardware code from KPD_MEM1 -> KPD_MEM5
+>>>> 2. Use that hardware code to compute columns/rows for the standard
+>>>>     keyboard matrix.
+>>>>
+>>>> According to the (non-public) datasheet, the
+>>>> map between the hardware code and the cols/rows is:
+>>>>
+>>>>          |(0)  |(1)  |(2)
+>>>>      ----*-----*-----*-----
+>>>>          |     |     |
+>>>>          |(9)  |(10) |(11)
+>>>>      ----*-----*-----*-----
+>>>>          |     |     |
+>>>>          |(18) |(19) |(20)
+>>>>      ----*-----*-----*-----
+>>>>          |     |     |
+>>>>
+>>>> This brings us to another formula:
+>>>> -> row = code / 9;
+>>>> -> col = code % 3;
+>>>
+>>> What if there are more than 3 columns?
+>> That's not supported, in hardware, according to the datasheet.
+>> 
+>> The datasheet I have states that "The interface of MT6763 only supports
+>> 3*3 single or 2*2 double, but internal ASIC still detects keys in the
+>> manner of 8*8 single, and 3*3 double. The registers and key codes still
+>> follows the legacy naming".
+>> 
+>> Should I add another patch in this series to add that limitation in the
+>> probe? There are no checks done in the probe() right now.
+>> 
+>
+> I've just checked a downstream kernel for MT6795 and that one looks like
+> being fully compatible with this driver as well... and as far as downstream
+> is concerned, apparently, mt6735, 6739, 6755, 6757, 6758, 6763, 6771, 6775
+> all have the same register layout and the downstream driver for these is
+> always the very same one...
+Thank you for taking the time to check in your downstream kernels, I
+really appreciate it.
 
--- 
-Dmitry
+>
+> ...so, I don't think that there's currently any SoC that supports more than
+> three columns. Besides, a fast check shows that MT8195 also has the same.
+> At this point, I'd say that assuming that there are 3 columns, nor less, not
+> more, is just fine.
+>
+> To stay on the safe side, though, perhaps add a comment explaining that
+> this driver works on that assumption? ..but that's clear, anyway, if you
+> actually read the code.
+>
+>  From my perspective, this commit is good to go.
+I will keep as is for v2 series and apply your review tag. thanks again !
+
+>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
