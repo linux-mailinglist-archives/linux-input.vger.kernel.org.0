@@ -2,97 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B17352C08B
-	for <lists+linux-input@lfdr.de>; Wed, 18 May 2022 19:10:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53CC452C1E1
+	for <lists+linux-input@lfdr.de>; Wed, 18 May 2022 20:09:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240453AbiERQuI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 May 2022 12:50:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40522 "EHLO
+        id S241289AbiERSHD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 May 2022 14:07:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240543AbiERQuH (ORCPT
+        with ESMTP id S232312AbiERSG4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 May 2022 12:50:07 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99A7E1FE3D0;
-        Wed, 18 May 2022 09:50:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Wed, 18 May 2022 14:06:56 -0400
+Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 777D1ABF7B;
+        Wed, 18 May 2022 11:06:53 -0700 (PDT)
+Received: from [172.24.65.115] (edu241124.nat.uni-leipzig.de [139.18.241.124])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2FA82B82179;
-        Wed, 18 May 2022 16:50:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 902FBC385A5;
-        Wed, 18 May 2022 16:49:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1652892598;
-        bh=mrwR53rk1gF++vSi+4MuE/+dV8/gsRzcQaeT5Lt+8/o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sd63ooA3nYJWj54vRYmrp660PnlQL7uAEUKtYSSuCiwy1897dtPhR2kGRvtrmh9iT
-         szFvtz+OtvebmbBQF7DS7kgHHxNRL0JaVz459t1E4GCB0+zfct6Hmazqn+tJUziK2u
-         yHOpJdScb0Cwgj432JZ2yIQuoFmpQRZYQdy+zCaM=
-Date:   Wed, 18 May 2022 18:49:55 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Marek Vasut <marex@denx.de>
-Cc:     linux-input@vger.kernel.org, stable@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH] Input: ili210x - Fix reset timing
-Message-ID: <YoUjs5LHo4IAheSC@kroah.com>
-References: <20220518163430.41192-1-marex@denx.de>
+        (Authenticated sender: pmenzel)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 8622061EA192A;
+        Wed, 18 May 2022 20:06:49 +0200 (CEST)
+Message-ID: <82e9a41c-552a-07e2-7caa-a14913cd34f4@molgen.mpg.de>
+Date:   Wed, 18 May 2022 20:06:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220518163430.41192-1-marex@denx.de>
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: hid-sensor-hub 001F:8087:0AC2.0002: timeout waiting for response
+ from ISHTP device
+Content-Language: en-US
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     Jiri Kosina <jikos@kernel.org>, Even Xu <even.xu@intel.com>,
+        Zhang Lixu <lixu.zhang@intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Dell.Client.Kernel@dell.com
+References: <289be79b-8fbb-d171-a1e5-5d8218dff39d@molgen.mpg.de>
+ <8833ba2600208a05940943636a3bd8b6af6a9fe4.camel@linux.intel.com>
+ <dff3d94c-93be-2b31-35c6-35a7886f3680@molgen.mpg.de>
+ <8fc40ebb2fbcecb1ab2f5ea156bf9ec10aff06bf.camel@linux.intel.com>
+From:   Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <8fc40ebb2fbcecb1ab2f5ea156bf9ec10aff06bf.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, May 18, 2022 at 06:34:30PM +0200, Marek Vasut wrote:
-> According to Ilitek "231x & ILI251x Programming Guide" Version: 2.30
-> "2.1. Power Sequence", "T4 Chip Reset and discharge time" is minimum
-> 10ms and "T2 Chip initial time" is maximum 150ms. Adjust the reset
-> timings such that T4 is 15ms and T2 is 160ms to fit those figures.
-> 
-> This prevents sporadic touch controller start up failures when some
-> systems with at least ILI251x controller boot, without this patch
-> the systems sometimes fail to communicate with the touch controller.
-> 
-> Fixes: 201f3c803544c ("Input: ili210x - add reset GPIO support")
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
->  drivers/input/touchscreen/ili210x.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
-> index 2bd407d86bae5..131cb648a82ae 100644
-> --- a/drivers/input/touchscreen/ili210x.c
-> +++ b/drivers/input/touchscreen/ili210x.c
-> @@ -951,9 +951,9 @@ static int ili210x_i2c_probe(struct i2c_client *client,
->  		if (error)
->  			return error;
->  
-> -		usleep_range(50, 100);
-> +		msleep(15);
->  		gpiod_set_value_cansleep(reset_gpio, 0);
-> -		msleep(100);
-> +		msleep(160);
->  	}
->  
->  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> -- 
-> 2.35.1
-> 
+Dear Srinivas,
 
-<formletter>
 
-This is not the correct way to submit patches for inclusion in the
-stable kernel tree.  Please read:
-    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-for how to do this properly.
+Am 18.05.22 um 17:39 schrieb srinivas pandruvada:
 
-</formletter>
+> Attached a diff. Please use git apply and build kernel. And attach
+> dmesg. I want to see where did it fail.
+
+As written, the device is used in production by a user, so I am not 
+sure, if I can get the device to test self-built Linux kernel images to 
+debug this issue. It would really be better to get access to such a 
+device from Dell or in some Intel lab.
+
+
+Kind regards,
+
+Paul
