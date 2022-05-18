@@ -2,130 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80CBE52C56F
-	for <lists+linux-input@lfdr.de>; Wed, 18 May 2022 23:22:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6395C52C591
+	for <lists+linux-input@lfdr.de>; Wed, 18 May 2022 23:34:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243028AbiERVFk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 May 2022 17:05:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57178 "EHLO
+        id S243179AbiERVch (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 May 2022 17:32:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243036AbiERVFj (ORCPT
+        with ESMTP id S243183AbiERVcg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 May 2022 17:05:39 -0400
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0E9A2573D0
-        for <linux-input@vger.kernel.org>; Wed, 18 May 2022 14:05:31 -0700 (PDT)
-Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 4006B830E5;
-        Wed, 18 May 2022 23:04:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1652907879;
-        bh=WAxLo1k71eSwV5pd2uFctHY+eM07qoubAOtehyQ1sFk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=hHdQcToi8aZOCH+EwNftBaxNCMcZHWze3ZWpk2qt0stn0W261bVMQMEIgJgXvvix4
-         idcKY/+lJnuOQ3+PqsTqqY9Xt0POAtegwgdBDP78al285g5dTSLnKH/auHlUiSMkpy
-         kViFe0zIUCZgkAQbQgU0o04+qBQzP3uYLVAORDW0F71GjRS4BWgu711EppurH/6lCK
-         RQHoljzv7fsbR5nYJxHmYr59dYMPYn+G+R/r7jhfkr1J/QZsMuOJBCVYowop0ljg/w
-         H+dmR1+DbuwqLuXs7VKG0aAMQ6RmMWaeaCydqxjQR7DC2SekY+OHtjrjNko0lPBIm5
-         7RKyYJj3Nna8g==
-From:   Marek Vasut <marex@denx.de>
-To:     linux-input@vger.kernel.org
-Cc:     Marek Vasut <marex@denx.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: [PATCH] Input: ili210x - Use one common reset implementation
-Date:   Wed, 18 May 2022 23:04:23 +0200
-Message-Id: <20220518210423.106555-1-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
+        Wed, 18 May 2022 17:32:36 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80BCAEAD27
+        for <linux-input@vger.kernel.org>; Wed, 18 May 2022 14:32:35 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id n8so3012671plh.1
+        for <linux-input@vger.kernel.org>; Wed, 18 May 2022 14:32:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=LEBuP1smfHbrFMnQWxiF1WNb8X9aoOFQRhV8B6HKU/Y=;
+        b=PD/AR/282opE0tnaQHXAeFM7T7i/LhG6QYHUwr/ABh3z0k27RfeNattJWk4NIxTggw
+         leLoBskpnWiAxyhiSrsA9KmTCfvNGOCctsZGsJEerYRYxN74ftNtrTjU1DjfJqEHYjRa
+         bDt8zjQmM6YRGdn4WudYd76g5AADwxYaPwhkuS3BwlPPSYeEzam29vtPomSMrh4mwVCQ
+         6KlyJTRPFYXEWWiEdL39xMpvISPuETnvATDgGcZAkGSDq4VkBi0MKVokgFHnXDkL7ada
+         ZLvGm57yf6yenMcI2uUBpeQwkyxJlz9OtNcYLP/rQOnZNzZ7rR0Tib/5hYNoMg6D8TjF
+         moug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LEBuP1smfHbrFMnQWxiF1WNb8X9aoOFQRhV8B6HKU/Y=;
+        b=RWbeRpB5liVw9fe1P69tl6sXrdrLYpJ311Iw/ozqq1Ni8FLCT3ju93DYUyB1Oqg8aW
+         QpAMk8KIcF0mutvOGnBiOeTgUWDQrqKFMqnKGg36gbh/bXGpFNDlVNWaxjIm1MK2b6hX
+         Wj9FOD/5RBFGBPbyDx4RVhbT26g83vE5IoM9QoK4OiyC5fV3zWKb+D/scRNKVhL3fSlY
+         uhZasgQLn3XqlAGmRfqiTzUFyMgJ3C9gDEYx+3wcgtfpanTWuezcOrQpfcvZtnFUULys
+         HKA+wj81GbeAYK1PGnB09YENTFKXeZ8OmthXnDyHrvRZMiAW01zibTBGTHBh6tEE0lmt
+         vXbg==
+X-Gm-Message-State: AOAM532D6OfECfywK7yBV+M2MkGTNPU/7m33RNSITtO+HVk8DOp05O6U
+        s9EtUDSkKinS1URWo47DjWM=
+X-Google-Smtp-Source: ABdhPJzWdruTe+FVyGn9Uyv+PCqXCA5s1d2JpkpEWfkYOrIh2xwEIMlpXfdtwzjHIUysNRKZFPa8MQ==
+X-Received: by 2002:a17:902:9a4c:b0:158:b6f0:4aa2 with SMTP id x12-20020a1709029a4c00b00158b6f04aa2mr1487143plv.163.1652909554791;
+        Wed, 18 May 2022 14:32:34 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:1a53:727c:6847:3659])
+        by smtp.gmail.com with ESMTPSA id u1-20020a170902e80100b0015e8d4eb21asm2161622plg.100.2022.05.18.14.32.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 May 2022 14:32:33 -0700 (PDT)
+Date:   Wed, 18 May 2022 14:32:31 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Marek Vasut <marex@denx.de>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH v2] Input: ili210x - Fix reset timing
+Message-ID: <YoVl7yPMQSSAWwbG@google.com>
+References: <20220518204901.93534-1-marex@denx.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220518204901.93534-1-marex@denx.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Rename ili251x_hardware_reset() to ili210x_hardware_reset(), change its
-parameter from struct device * to struct gpio_desc *, and use it as one
-single consistent reset implementation all over the driver. Also increase
-the minimum reset duration to 12ms, to make sure the reset is really
-within the spec.
+On Wed, May 18, 2022 at 10:49:01PM +0200, Marek Vasut wrote:
+> According to Ilitek "231x & ILI251x Programming Guide" Version: 2.30
+> "2.1. Power Sequence", "T4 Chip Reset and discharge time" is minimum
+> 10ms and "T2 Chip initial time" is maximum 150ms. Adjust the reset
+> timings such that T4 is 12ms and T2 is 160ms to fit those figures.
+> 
+> This prevents sporadic touch controller start up failures when some
+> systems with at least ILI251x controller boot, without this patch
+> the systems sometimes fail to communicate with the touch controller.
+> 
+> Fixes: 201f3c803544c ("Input: ili210x - add reset GPIO support")
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/touchscreen/ili210x.c | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+Applied, thank you.
 
-diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
-index 3a48262fb3d35..e9bd36adbe47d 100644
---- a/drivers/input/touchscreen/ili210x.c
-+++ b/drivers/input/touchscreen/ili210x.c
-@@ -756,15 +756,12 @@ static int ili251x_firmware_reset(struct i2c_client *client)
- 	return ili251x_firmware_busy(client);
- }
- 
--static void ili251x_hardware_reset(struct device *dev)
-+static void ili210x_hardware_reset(struct gpio_desc *reset_gpio)
- {
--	struct i2c_client *client = to_i2c_client(dev);
--	struct ili210x *priv = i2c_get_clientdata(client);
--
- 	/* Reset the controller */
--	gpiod_set_value_cansleep(priv->reset_gpio, 1);
--	usleep_range(10000, 15000);
--	gpiod_set_value_cansleep(priv->reset_gpio, 0);
-+	gpiod_set_value_cansleep(reset_gpio, 1);
-+	usleep_range(12000, 15000);
-+	gpiod_set_value_cansleep(reset_gpio, 0);
- 	msleep(300);
- }
- 
-@@ -773,6 +770,7 @@ static ssize_t ili210x_firmware_update_store(struct device *dev,
- 					     const char *buf, size_t count)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
-+	struct ili210x *priv = i2c_get_clientdata(client);
- 	const char *fwname = ILI251X_FW_FILENAME;
- 	const struct firmware *fw;
- 	u16 ac_end, df_end;
-@@ -803,7 +801,7 @@ static ssize_t ili210x_firmware_update_store(struct device *dev,
- 
- 	dev_dbg(dev, "Firmware update started, firmware=%s\n", fwname);
- 
--	ili251x_hardware_reset(dev);
-+	ili210x_hardware_reset(priv->reset_gpio);
- 
- 	error = ili251x_firmware_reset(client);
- 	if (error)
-@@ -858,7 +856,7 @@ static ssize_t ili210x_firmware_update_store(struct device *dev,
- 	error = count;
- 
- exit:
--	ili251x_hardware_reset(dev);
-+	ili210x_hardware_reset(priv->reset_gpio);
- 	dev_dbg(dev, "Firmware update ended, error=%i\n", error);
- 	enable_irq(client->irq);
- 	kfree(fwbuf);
-@@ -951,9 +949,7 @@ static int ili210x_i2c_probe(struct i2c_client *client,
- 		if (error)
- 			return error;
- 
--		usleep_range(12000, 15000);
--		gpiod_set_value_cansleep(reset_gpio, 0);
--		msleep(160);
-+		ili210x_hardware_reset(reset_gpio);
- 	}
- 
- 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
 -- 
-2.35.1
-
+Dmitry
