@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF00652B436
-	for <lists+linux-input@lfdr.de>; Wed, 18 May 2022 10:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5E7152B438
+	for <lists+linux-input@lfdr.de>; Wed, 18 May 2022 10:06:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232898AbiERH7S (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 May 2022 03:59:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54550 "EHLO
+        id S232905AbiERH7V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 May 2022 03:59:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232889AbiERH7R (ORCPT
+        with ESMTP id S232894AbiERH7R (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Wed, 18 May 2022 03:59:17 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8B5A19C31
-        for <linux-input@vger.kernel.org>; Wed, 18 May 2022 00:59:14 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id j25so1446196wrc.9
-        for <linux-input@vger.kernel.org>; Wed, 18 May 2022 00:59:14 -0700 (PDT)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 682341207F9
+        for <linux-input@vger.kernel.org>; Wed, 18 May 2022 00:59:15 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id r23so1480401wrr.2
+        for <linux-input@vger.kernel.org>; Wed, 18 May 2022 00:59:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cr9IuqWtBo466Tia/00HMR/yH/z82IE9n6W3kz9q2kk=;
-        b=UZMxd0RalgViWp21dea+ESesYp/kKT9ZVbvLTtlj8Rht3kSJW6HqrcGEEXPwUskqqN
-         rJyuGGQTE+C/W/SaM2lAyWsdtw8rdtoRoWTvf2Q6rvvz9Z0XEic9YEbbFpo2sj9d53cF
-         nyXSs5HotYKKP5nfWw77fWODsom/CNHECnsOPHeDKNQaprdx2OgwWjoX3OJsRNpjO50h
-         Bxjy/4xeTibxRcpPJA2DB5TIorlWQwBuiIqcSUKrbQRSCN42JTDC4l6i4UrP4SZd+S2y
-         jx8fYqUROIObvSLP7IFrCIghf7bjwRsDEf8MChj5bepSOg7sKtkBZ0kDSeS5mfq6yLBM
-         giJg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=dds68n4eVAqNb9Nh1GkmgUmrWiZNicCAFfz37bcPi/E=;
+        b=q0S94H1GhZQls0QplGXXaQ20xyUhPJfSw9jx5Z1yMH4JNQDn2qssApG6YIhSC1Ahcl
+         H//p6eK6yYHKF1mQCiWr5xMditxAExDaHTPHhjYdKpAP6mj+fBp5/4sczfa2Cw9/A5Se
+         O3z+eoS/q5Y1ymj92c+ivFjdF4mUYtghiB3iVIGWIAV/Mlw7DCc6JVlJek/HwFN+fvMk
+         8owS92GwrYaNr+e/mJFp+fywqy2sZDTd6P66ONYa5JRYMkgRk0shA6mWCBnD+//UnpIx
+         P5I2FZkLKWZdCnkzEedKx1IqaiO9os3cDWOE1+7Hxq0n/LFz4ogFuZNx5v0Oj4UJVD0J
+         1LWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cr9IuqWtBo466Tia/00HMR/yH/z82IE9n6W3kz9q2kk=;
-        b=iWj/A+cq4m/CvCc+q4ahLtAHKZXKKuHGCMB1g4jmaymqI5CIX6VmJ2J9SPUwB8acTG
-         HKpxrFISLPDNUOgeltpfzy87aY/OnUSxAM8nPKOnkVWL7nVBvqoJf7eY1So/fL44vOVc
-         ICMFZFQGbUPKNhB7uM1zjvUvhuUou+NLi9UdVpcXrJ4U8UKLvSLLZlMX/EEV6EjtV5Ql
-         yxmxxj/CkkBMhR6DgeKYgulA/tHTgGOPiYM068ppmSnWNP3ORSnxmzQToZnKyvPln5zs
-         dvd5jD/5zoMgQWqLPrv6XXVMPGoIcAl8XMyk6/xHq9QNGXdcnC7M2s6DcUW4gzfxBvmM
-         +k5g==
-X-Gm-Message-State: AOAM531OeoAfluUAVTB/Lu06JtzIGEO9WAu8dkAFNqKTeKYfOEt5FRFq
-        WOU37lqtSSvKhcSj/bJkJWwLow==
-X-Google-Smtp-Source: ABdhPJzVX7UQ3EXyOePlliPc9lSitJsKhoncu56QgpwvrEr4emm+cTnz8pUVLNqTQZB6AhsP9jKuug==
-X-Received: by 2002:a05:6000:715:b0:20c:5a15:9409 with SMTP id bs21-20020a056000071500b0020c5a159409mr22138319wrb.146.1652860753188;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=dds68n4eVAqNb9Nh1GkmgUmrWiZNicCAFfz37bcPi/E=;
+        b=FZXrP9qNY7bXAa5iOjIRXYGtvN5IIcyDGS8/SxETJBqOQYZRgYHyNZRei3MyjW9EvV
+         Kam9b08BGtJ4OLUoJ9T2xK6Vv/qdxJSIQ5kgVPuT0iVgYyot72/cbooCuPmkw+9+qg8q
+         CwhhRWoEVTeLxj+0Mqz6iHmQ5Ea84n67IKtvNlwNAY6q1llj9+JPi6qOOf8tFt8a2E7R
+         zO0Mr7Bsz6YbY94U0aASDyKW4ftTTfaGT2oKbn9fG8Z4PkykgEFyri2roPsiQezk1Uyl
+         mwWGmeWdRyhpkqTnHP6zLROjo4IJoHKWVCub/sONSpBKBtRLsWcQpe4O/6PgNsNqqcC4
+         ZXyQ==
+X-Gm-Message-State: AOAM530sVJNhDfyThKowEPhbA0HTsPGBUifDJt5R2sYHJyNf9oYq7Eep
+        DHgbafE9fbybwwv0MNcsHKjpDg==
+X-Google-Smtp-Source: ABdhPJwXGZwgKt2xBN/YHUpTFYOWitejVIgIv8v5y8RaS6IUg2o89e7OYU3thoshzpsYoCAbw7r/OQ==
+X-Received: by 2002:a05:6000:15c1:b0:20c:5825:f043 with SMTP id y1-20020a05600015c100b0020c5825f043mr21710401wry.261.1652860753963;
         Wed, 18 May 2022 00:59:13 -0700 (PDT)
 Received: from groot.home ([2a01:cb19:85e6:1900:bda6:8356:4db1:4539])
-        by smtp.gmail.com with ESMTPSA id ay1-20020a05600c1e0100b0039706782e06sm1041300wmb.33.2022.05.18.00.59.12
+        by smtp.gmail.com with ESMTPSA id ay1-20020a05600c1e0100b0039706782e06sm1041300wmb.33.2022.05.18.00.59.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 00:59:12 -0700 (PDT)
+        Wed, 18 May 2022 00:59:13 -0700 (PDT)
 From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
@@ -58,51 +58,93 @@ Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
         linux-input@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Subject: [PATCH v2 0/2] Input: mt6779-keypad - fix hw code logic and row/col selection
-Date:   Wed, 18 May 2022 09:59:07 +0200
-Message-Id: <20220518075909.180629-1-mkorpershoek@baylibre.com>
+Subject: [PATCH v2 1/2] Input: mt6779-keypad - fix hardware code mapping
+Date:   Wed, 18 May 2022 09:59:08 +0200
+Message-Id: <20220518075909.180629-2-mkorpershoek@baylibre.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220518075909.180629-1-mkorpershoek@baylibre.com>
+References: <20220518075909.180629-1-mkorpershoek@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This serie is the first follow-up on the mt6779-keypad in
-order to enable it on the MediaTek mt8183-pumpkin board.
+In mt6779_keypad_irq_handler(), we
+1. Read a hardware code from KPD_MEM1 -> KPD_MEM5
+2. Use that hardware code to compute columns/rows for the standard
+   keyboard matrix.
 
-To fully enable it on mt8183-pumpkin, we still need:
-* double key support
-* dts changes
+According to the (non-public) datasheet, the
+map between the hardware code and the cols/rows is:
 
-To ease up reviewing, I preferred sending this first.
+        |(0)  |(1)  |(2)
+    ----*-----*-----*-----
+        |     |     |
+        |(9)  |(10) |(11)
+    ----*-----*-----*-----
+        |     |     |
+        |(18) |(19) |(20)
+    ----*-----*-----*-----
+        |     |     |
 
-The first patch fixes a logic bug based on the (non-public) datasheet
-I have.
-The second patch configures the keypad correctly in order to not
-report bogus values.
+This brings us to another formula:
+-> row = code / 9;
+-> col = code % 3;
 
-Thank you,
-Mattijs
+Implement this mapping in bitnr_to_col_row() to fetch the
+correct input event from keypad->input_dev->keycode and report that
+back to userspace.
 
-v2 -> v1:
-* Simplified SEL_COL/ROW_MASK macros as suggested by Dmitry
-* Added Angelo's Reviewed-by on patch 1
+Fixes: f28af984e771 ("Input: mt6779-keypad - add MediaTek keypad driver")
+Co-developed-by: Fabien Parent <fparent@baylibre.com>
+Signed-off-by: Fabien Parent <fparent@baylibre.com>
+Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ drivers/input/keyboard/mt6779-keypad.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-Mattijs Korpershoek (2):
-  Input: mt6779-keypad - fix hardware code mapping
-  Input: mt6779-keypad - implement row/column selection
-
- drivers/input/keyboard/mt6779-keypad.c | 26 ++++++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
-
-
-base-commit: db02d07308ba7e94347ca037a662b3a1b1afe8c4
+diff --git a/drivers/input/keyboard/mt6779-keypad.c b/drivers/input/keyboard/mt6779-keypad.c
+index 2e7c9187c10f..23360de20da5 100644
+--- a/drivers/input/keyboard/mt6779-keypad.c
++++ b/drivers/input/keyboard/mt6779-keypad.c
+@@ -36,6 +36,19 @@ static const struct regmap_config mt6779_keypad_regmap_cfg = {
+ 	.max_register = 36,
+ };
+ 
++/*
++ * | hardware key code | col0 | col1 | col2|
++ * | ----------------- | -----| ---- | --- |
++ * | row0              | 0    | 1    | 2   |
++ * | row1              | 9    | 10   | 11  |
++ * | row2              | 18   | 19   | 20  |
++ */
++static void bitnr_to_col_row(int bit_nr, int *col, int *row)
++{
++	*row = bit_nr / 9;
++	*col = bit_nr % 3;
++}
++
+ static irqreturn_t mt6779_keypad_irq_handler(int irq, void *dev_id)
+ {
+ 	struct mt6779_keypad *keypad = dev_id;
+@@ -61,8 +74,7 @@ static irqreturn_t mt6779_keypad_irq_handler(int irq, void *dev_id)
+ 		if (bit_nr % 32 >= 16)
+ 			continue;
+ 
+-		row = bit_nr / 32;
+-		col = bit_nr % 32;
++		bitnr_to_col_row(bit_nr, &col, &row);
+ 		scancode = MATRIX_SCAN_CODE(row, col, row_shift);
+ 		/* 1: not pressed, 0: pressed */
+ 		pressed = !test_bit(bit_nr, new_state);
 -- 
 2.34.1
 
