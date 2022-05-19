@@ -2,66 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94E9C52D1BC
-	for <lists+linux-input@lfdr.de>; Thu, 19 May 2022 13:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB3DC52D1E2
+	for <lists+linux-input@lfdr.de>; Thu, 19 May 2022 13:57:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237578AbiESLqi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 May 2022 07:46:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49296 "EHLO
+        id S237608AbiESL4w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 May 2022 07:56:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237571AbiESLqg (ORCPT
+        with ESMTP id S232024AbiESL4q (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 May 2022 07:46:36 -0400
+        Thu, 19 May 2022 07:56:46 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DAA4B60A89
-        for <linux-input@vger.kernel.org>; Thu, 19 May 2022 04:46:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A52FC61637
+        for <linux-input@vger.kernel.org>; Thu, 19 May 2022 04:56:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1652960793;
+        s=mimecast20190719; t=1652961403;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=GSpkaZjpG+wr9/klHZRZ2SJRW1tcfr1HJfk966Tzpq8=;
-        b=OLe8A5nmF45CHu9F560R5KMoJMuMVa5+SSAJxO94FCsAXAYI6UujmpHw81Jij5WiiU7lHg
-        F5CLeFO2JyoZ1Da/IpLKkBbDGSNuQo23WZLZ0SJO3hAJf/cuyqNKJ2EhVsbi/JbckGDqKH
-        VYPhPM94BvylVR7WdTN3BSqqF83CqAo=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=vUzlKZtKtiKnTkl0c+yvVz6DAi0GpJ/ajyiMuXYkKV0=;
+        b=IS24Wpo2LIoBzJbMU9ExPpVT++yOueSUkxkF1cySk838mntHKGwnsV0oVYJQ3rv3f3yqwb
+        deziW2nyodUuz/4eAOCcf9swowTfUNfRQDLP8oTzM1W9rhN8XiNaBtkKAvRcA+7cUiP83f
+        hWen40n8aRy3R3henjuPKY18jm8JTZo=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-626-gu5I8RJoNMGAzYL97f_yGA-1; Thu, 19 May 2022 07:46:32 -0400
-X-MC-Unique: gu5I8RJoNMGAzYL97f_yGA-1
-Received: by mail-pl1-f197.google.com with SMTP id b10-20020a170902bd4a00b0015e7ee90842so2484602plx.8
-        for <linux-input@vger.kernel.org>; Thu, 19 May 2022 04:46:32 -0700 (PDT)
+ us-mta-230-QRRyCABxNdiV3ch1KUcJGg-1; Thu, 19 May 2022 07:56:42 -0400
+X-MC-Unique: QRRyCABxNdiV3ch1KUcJGg-1
+Received: by mail-pj1-f72.google.com with SMTP id r14-20020a17090a1bce00b001df665a2f8bso2909998pjr.4
+        for <linux-input@vger.kernel.org>; Thu, 19 May 2022 04:56:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GSpkaZjpG+wr9/klHZRZ2SJRW1tcfr1HJfk966Tzpq8=;
-        b=m2KNxuC/jMrbjWrhDo5GdeAmHdL5p3dkJDemxVzuheh+ws2o9BB8kjfS+Z1Cq1VmF/
-         FEDR0j+IJcHT1Xp0Sprib6DMjAFu1FPXLdhnOJZpgTicWd6LRT45kPA9hB62Ud0gFF41
-         MHR4Npan0XqbcTfFx29m/8aWjlm3FTjz1UiZWmL4fuOEfuPfKJKT9jNscN7zi1oRLIO7
-         IOOzMoMKw/o4tDycFD5gEMQzbAw1ZHZavRNooaWCOmUASYOILmvv3e43raQdjw4blfA3
-         dHRyMMLjGDqDB+xkohyJDUy8tYbxwbS7i1ORAqaQruKsB/wZJCG3BLGxP5DqCULwAryZ
-         Qnzg==
-X-Gm-Message-State: AOAM533hE/UskZ6Frkoyx/bBXf/c4komK+Hyb0hCdsB4Hfv0zN4ut8zV
-        1ERT/c9RoL88i5ChohMoJijblCMx/Umww7zOL1Vd36+D1h/yfKe8kWRf/7gP1jDKzxx1pjsHJ68
-        gyPl7nGeheL+48QNYy0GGwVRk0sLulIazYMjxLFE=
-X-Received: by 2002:a17:903:22c6:b0:15f:14e1:1518 with SMTP id y6-20020a17090322c600b0015f14e11518mr4389712plg.116.1652960791498;
-        Thu, 19 May 2022 04:46:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzioMf82ETXq8PfZUw04Ya3sdzxwtRppBH/zQS6f6PkiKtChfcyE8u9CczNO3BytCe9N5VvBeRF1NwdZOPfyio=
-X-Received: by 2002:a17:903:22c6:b0:15f:14e1:1518 with SMTP id
- y6-20020a17090322c600b0015f14e11518mr4389693plg.116.1652960791232; Thu, 19
- May 2022 04:46:31 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=vUzlKZtKtiKnTkl0c+yvVz6DAi0GpJ/ajyiMuXYkKV0=;
+        b=IzQ25fQVtc9SCrsHuaF3Wow4hkDQK0k+YRyOgLKzLYX9WSdap7woEGVHmYKgfc4SFC
+         D1cLlrWjaysuUQLAaTzwUseNS6APJu7PrllQGUK/962RmtrhwV3PgdzAFv5gDCHT22Wv
+         pq/Y9hgUf9za6H709M6KzIuFvblwyAAJgTFcwfIb047jLeWGSOuoaeR9xdZPRlqhwlW4
+         BW90VzsaGJ7VsqTAoq4iE2O1HqJ2ONRqOLNMW87EuOkjviPrGwo6l4VbGvmO6xKjSe+8
+         YzP+S1AzOcj+XLRCesAZcRr3g8wDPb+JMwTspzNIgkBY8pkSA/fFa91BdU6RJzehnBoB
+         Y72w==
+X-Gm-Message-State: AOAM532wTFlO1uCWMivgeuTRkWu31aHEXrGXJkHuFFxS5SeVYtURPLqV
+        /CMaa5ctnFDO6/0e3PzsWAoAsy1Kd9IEW+vMyOlfvsLhNApQQR+sy9HyV2tE0I+//WPkmfk/vG2
+        VBtfDdFKqedmBaS+5njT/w+oaOyU96qlsSTrkKK0=
+X-Received: by 2002:a17:902:c412:b0:161:af8b:f478 with SMTP id k18-20020a170902c41200b00161af8bf478mr4521241plk.67.1652961401582;
+        Thu, 19 May 2022 04:56:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwaJcMg0BaVxCTdCDQ3mQxkDhNi5bxy54g0yctOXIo/JTNwcXdo8zjGgzXssPr6OROkM+zoGvNENhA/pSXCpxY=
+X-Received: by 2002:a17:902:c412:b0:161:af8b:f478 with SMTP id
+ k18-20020a170902c41200b00161af8bf478mr4521208plk.67.1652961401301; Thu, 19
+ May 2022 04:56:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
  <YoX7iHddAd4FkQRQ@infradead.org> <YoX904CAFOAfWeJN@kroah.com>
- <YoYCIhYhzLmhIGxe@infradead.org> <YoYcw5a6EOvVPzay@kroah.com>
-In-Reply-To: <YoYcw5a6EOvVPzay@kroah.com>
+ <YoYCIhYhzLmhIGxe@infradead.org> <CAO-hwJL4Pj4JaRquoXD1AtegcKnh22_T0Z0VY_peZ8FRko3kZw@mail.gmail.com>
+ <87ee0p951b.fsf@toke.dk>
+In-Reply-To: <87ee0p951b.fsf@toke.dk>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 19 May 2022 13:46:19 +0200
-Message-ID: <CAO-hwJK0VAu9kAVzqQrcApZok3UGhACzoVamUH3N2PeyDWZnoQ@mail.gmail.com>
+Date:   Thu, 19 May 2022 13:56:30 +0200
+Message-ID: <CAO-hwJKwj6H0Nc_gqsN5okT2ipLL3H6fqe23_vpO+xC3PnX5uw@mail.gmail.com>
 Subject: Re: [PATCH bpf-next v5 00/17] Introduce eBPF support for HID devices
-To:     Greg KH <gregkh@linuxfoundation.org>
+To:     =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>
 Cc:     Christoph Hellwig <hch@infradead.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
         Jiri Kosina <jikos@kernel.org>,
         Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
@@ -80,6 +83,7 @@ Cc:     Christoph Hellwig <hch@infradead.org>,
         <linux-kselftest@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
@@ -90,74 +94,70 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, May 19, 2022 at 12:32 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+On Thu, May 19, 2022 at 12:43 PM Toke H=C3=B8iland-J=C3=B8rgensen <toke@red=
+hat.com> wrote:
 >
-> On Thu, May 19, 2022 at 01:38:58AM -0700, Christoph Hellwig wrote:
-> > On Thu, May 19, 2022 at 10:20:35AM +0200, Greg KH wrote:
-> > > > are written using a hip new VM?
-> > >
-> > > Ugh, don't mention UDI, that's a bad flashback...
+> Benjamin Tissoires <benjamin.tissoires@redhat.com> writes:
+>
+> > On Thu, May 19, 2022 at 10:39 AM Christoph Hellwig <hch@infradead.org> =
+wrote:
+> >>
+> >> On Thu, May 19, 2022 at 10:20:35AM +0200, Greg KH wrote:
+> >> > > are written using a hip new VM?
+> >> >
+> >> > Ugh, don't mention UDI, that's a bad flashback...
+> >>
+> >> But that is very much what we are doing here.
+> >>
+> >> > I thought the goal here was to move a lot of the quirk handling and
+> >> > "fixup the broken HID decriptors in this device" out of kernel .c co=
+de
+> >> > and into BPF code instead, which this patchset would allow.
 > >
-> > But that is very much what we are doing here.
-> >
-> > > I thought the goal here was to move a lot of the quirk handling and
-> > > "fixup the broken HID decriptors in this device" out of kernel .c code
-> > > and into BPF code instead, which this patchset would allow.
-> > >
-> > > So that would just be exception handling.  I don't think you can write a
-> > > real HID driver here at all, but I could be wrong as I have not read the
-> > > new patchset (older versions of this series could not do that.)
-> >
-> > And that "exception handling" is most of the driver.
+> > Yes, quirks are a big motivation for this work. Right now half of the
+> > HID drivers are less than 100 lines of code, and are just trivial
+> > fixes (one byte in the report descriptor, one key mapping, etc...).
+> > Using eBPF for those would simplify the process from the user point of
+> > view: you drop a "firmware fix" as an eBPF program in your system and
+> > you can continue working on your existing kernel.
 >
-> For a number of "small" drivers, yes, that's all there is as the
-> hardware is "broken" and needs to be fixed up in order to work properly
-> with the hid core code.  An example of that would be hid-samsung.c which
-> rewrites the descriptors to be sane and maps the mouse buttons properly.
+> How do you envision those BPF programs living, and how would they be
+> distributed? (In-tree / out of tree?)
 >
-> But that's it, after initialization that driver gets out of the way and
-> doesn't actually control anything.  From what I can tell, this patchset
-> would allow us to write those "fixup the mappings and reports before the
-> HID driver takes over" into ebpf programs.
->
-> It would not replace "real" HID drivers like hid-rmi.c that has to
-> handle the events and do other "real" work here.
->
-> Or I could be reading this code all wrong, Benjamin?
 
-You get it right. hid-rmi is a good example of something that can not
-sanely be done with eBPF.
-We can do some filtering on the events (dropping one event, changing
-one other), but anything outside that would not be possible. This
-driver does a lot of scheduling, synchronisation, and various setup
-that would require a lot of back and forth between userspace and
-BPF/kernel, which makes it definitively not fit for a BPF
-implementation.
+As Greg mentioned in his reply, report descriptors fixups don't do
+much besides changing a memory buffer at probe time. So we can either
+have udev load the program, pin it and forget about it, or we can also
+have the kernel do that for us.
 
->
-> But even if it would allow us to write HID drivers as ebpf, what is
-> wrong with that?  It's not a licensing issue (this api is only allowed
-> for GPL ebpf programs), it should allow us to move a bunch of in-kernel
-> drivers into smaller ebpf programs instead.
+So I envision the distribution to be hybrid:
+- for plain fixups where no userspace is required, we should
+distribute those programs in the kernel itself, in-tree.
+This series already implements pre-loading of BPF programs for the
+core part of HID-BPF, but I plan on working on some automation of
+pre-loading of these programs from the kernel itself when we need to
+do so.
 
-The one thing I also like with eBPF is that it is safe. When you
-declare an array of bytes, the verifier enforces we don't go outside
-of the boundaries.
-I know rust is coming, but compared to plain C, that is much better,
-even if more restrictive.
-And it will also prevent some potential bugs where we have a report
-fixup that writes outside of the reserved memory.
+Ideally, the process would be:
+* user reports a bug
+* developer produces an eBPF program (and maybe compile it if the user
+doesn't have LLVM)
+* user tests/validates the fix without having to recompile anything
+* developer drops the program in-tree
+* some automated magic happens (still unclear exactly how to define
+which HID device needs which eBPF program ATM)
+* when the kernel sees this exact same device (BUS/VID/PID/INTERFACE)
+it loads the fixup
 
->
-> It's not like this ebpf HID driver would actually work on any other
-> operating system, right?  I guess Microsoft could create a gpl-licensed
-> ebpf HID layer as well?  As Windows allows vendors to do all of this
-> horrible HID fixups in userspace today anyway, I strongly doubt they
-> would go through the effort to add a new api like this for no valid
-> reason.
-
-OTOH, managing to push Microsoft to implement HID-BPF would be some
-achievement :) (just kidding).
+- the other part of the hybrid solution is for when userspace is
+heavily involved (because it exports a new dbus interface for that
+particular feature on this device). We can not really automatically
+preload the BPF program because we might not have the user in front of
+it.
+So in that case, the program would be hosted alongside the
+application, out-of-the-tree, but given that to be able to call kernel
+functions you need to be GPL, some public distribution of the sources
+is required.
 
 Cheers,
 Benjamin
