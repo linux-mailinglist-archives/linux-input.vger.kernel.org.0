@@ -2,115 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C49E52CB59
-	for <lists+linux-input@lfdr.de>; Thu, 19 May 2022 06:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B18F252CDF5
+	for <lists+linux-input@lfdr.de>; Thu, 19 May 2022 10:11:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233861AbiESE7J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 May 2022 00:59:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55590 "EHLO
+        id S235216AbiESILJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 May 2022 04:11:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233855AbiESE7I (ORCPT
+        with ESMTP id S235207AbiESILF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 May 2022 00:59:08 -0400
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 798E787227;
-        Wed, 18 May 2022 21:59:05 -0700 (PDT)
-Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-2ec42eae76bso45264497b3.10;
-        Wed, 18 May 2022 21:59:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KFrp9wzq4sCkuwLY21DamOeXfwOOx7ci5Z7FlQKCo0o=;
-        b=pqGBuGbKiyhuZzK3H20eVg3ZjdCpjyeI+gQmEMvGfF2dMzgN/tHoxIud1GDP+n6ZH9
-         9AmV/Y4qb/d7mUQXh4gS/iIFKRZ/kvdo7khq7yRoMOQuiTwY11JujXq9GJK1IEmZblnk
-         QUuLDl9mGm8T3NDARUl6BOMitQjSFpUeQtPWkHKo3nLIfr2XV1+MayFX91CM2z2jQe0j
-         EkicZcXGmE5avn60jigo9wxAqmmA/BixOo18Uw/3hZSityTyg0ZrPZEfNC7gFRj3PDgE
-         TKM8ypsAsGafjJHLU5wYIU05LK2GI+z005SyRnQuJnznxmkT4M9uGeChuDp1vBJkG4NG
-         WySw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KFrp9wzq4sCkuwLY21DamOeXfwOOx7ci5Z7FlQKCo0o=;
-        b=j+MgwaeBDmVkrLrK6HUEVzU3k5C1njRAi/AjJJKlmBfDYKaUsu8nd+u7TWO/Rsp1xX
-         MqhvRgr23+eHos3LbV/P6tyu+dFjS4zr41lDNh3NAxJR3kmirsmj9vMezrED9Q0iSKql
-         HK2FzDsUSbeSnbOVasny7957L83OVNzVuOKrNEGz0mla/owXqlE0ZmIkJsb+hRPKcS94
-         h4thpz7KzrikWjRjYVIhIdO7h84JqyW6d24fSK8emBrLTAgTcAphviLMHLSLhHQlIoAt
-         6vzWM66RVWuQXj+AYkuAYqi8+ehx6/SGDEkg/rysayVPgcJp8Mr2HiN24Mi6TWKL9JKj
-         eh6Q==
-X-Gm-Message-State: AOAM530UJTwi0MlRpXsB/rWSYGdh+xE/+CzxmKPYTZuzSY2IfUtxCu0R
-        YEyp+UeDKZiroDvWQj6ExDdz7QvNXUMY0yO4El4=
-X-Google-Smtp-Source: ABdhPJyRx84ItJIk5Ins7S9RGT10EmMI8VoeX1fvKM8UZq0gI9C5++A2/8WlAuVdh/NW42hGU5LdPkHg5Ln1/jGoksw=
-X-Received: by 2002:a81:6cc9:0:b0:2fe:cad8:f4e0 with SMTP id
- h192-20020a816cc9000000b002fecad8f4e0mr2956960ywc.119.1652936344738; Wed, 18
- May 2022 21:59:04 -0700 (PDT)
+        Thu, 19 May 2022 04:11:05 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F2FA32ED4;
+        Thu, 19 May 2022 01:11:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=P7hBfgfR5V/lg9pLTdIBC/hWy6eM9dq7h/FVFtkFAq8=; b=rdosXHdo2i8UPLrk/NfgCsQQXa
+        NceHcHgDpc15rlXcvlJlOrvKZ07wttU2W4xYEEJ6/rwixNTeoFQGrtYIfP88p3Ebs08aAqDTCIgNz
+        pLdQx96nbRVquBG/2pxsNXQCMYj08yyvHjs1NkoW9tWhq0aCFNmUPZVm0RT+FxOycqrOLtkimO1gU
+        qVdbj5lP7g6hJLzWrzaga1BFb3fwvsbBm6/6U5xAB3UEw/VdGyTJZ6qYAs7dAErfDL0kHi1ZTR5jm
+        OpDM/iSINt2WRl+K0pmS1DIg6BnDkcGe3O+dUNeHJrXrDUtyifs6d74AsrJbhyhbCDXwNL+hCKQCR
+        CXtb89mQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nrbFA-005iMY-O2; Thu, 19 May 2022 08:10:48 +0000
+Date:   Thu, 19 May 2022 01:10:48 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v5 00/17] Introduce eBPF support for HID devices
+Message-ID: <YoX7iHddAd4FkQRQ@infradead.org>
+References: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-References: <20220513132500.32395-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <YoR6N2ACf3TZr1P5@google.com>
-In-Reply-To: <YoR6N2ACf3TZr1P5@google.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 19 May 2022 05:58:38 +0100
-Message-ID: <CA+V-a8si1uD5FgmpRfjfQ9FnarCA0_Fn2SMKJfw4nVZ=4iui4Q@mail.gmail.com>
-Subject: Re: [PATCH] Input: gpio-keys - Cancel delayed work only in case of GPIO
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+> The logic is the following (see also the last patch for some more
+> documentation):
+> - hid-bpf first preloads a BPF program in the kernel that does a few
+>   things:
+>    * find out which attach_btf_id are associated with our trace points
+>    * adds a bpf_tail_call() BPF program that I can use to "call" any
+>      other BPF program stored into a jump table
+>    * monitors the releases of struct bpf_prog, and when there are no
+>      other users than us, detach the bpf progs from the HID devices
+> - users then declare their tracepoints and then call
+>   hid_bpf_attach_prog() in a SEC("syscall") program
+> - hid-bpf then calls multiple time the bpf_tail_call() program with a
+>   different index in the jump table whenever there is an event coming
+>   from a matching HID device
 
-Thank you for the review.
+So driver abstractions like UDI are now perfectly fine as long as they
+are written using a hip new VM?
 
-On Wed, May 18, 2022 at 5:46 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Lad,
->
-> On Fri, May 13, 2022 at 02:25:00PM +0100, Lad Prabhakar wrote:
-> > gpio_keys module can either accept gpios or interrupts. The module
-> > initializes delayed work in case of gpios only and not for interrupts,
-> > so make sure cancel_delayed_work_sync() is called only when bdata->gpiod
-> > is true.
-> ...
-> > diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-> > index d75a8b179a8a..ec9d50ddda42 100644
-> > --- a/drivers/input/keyboard/gpio_keys.c
-> > +++ b/drivers/input/keyboard/gpio_keys.c
-> > @@ -133,7 +133,7 @@ static void gpio_keys_quiesce_key(void *data)
-> >               hrtimer_cancel(&bdata->release_timer);
-> >       if (bdata->debounce_use_hrtimer)
-> >               hrtimer_cancel(&bdata->debounce_timer);
-> > -     else
-> > +     else if (bdata->gpiod)
-> >               cancel_delayed_work_sync(&bdata->work);
->
-> We already have a check for bdata->gpiod a couple lines above. I think
-> the chunk should look like this:
->
->         if (!bdata->gpiod)
->                 hrtimer_cancel(&bdata->release_timer);
->         else if (bdata->debounce_use_hrtimer)
->                 hrtimer_cancel(&bdata->debounce_timer);
->         else
->                 cancel_delayed_work_sync(&bdata->work);
->
-> since we use debounce timer/work only when we deal with gpio-backed
-> keys.
->
-Agreed, will fix that in v2.
+This whole idea seems like a bad idea, against the Linux spirit and
+now actually useful - it is totally trivial to write a new HID
+driver alreay, and if it isn't in some cases we need to fix that.
 
-Cheers,
-Prabhakar
+So a big fat NAK to the idea of using eBPF for actual driver logic.
