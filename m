@@ -2,70 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FDB552DFF8
-	for <lists+linux-input@lfdr.de>; Fri, 20 May 2022 00:31:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B013C52E032
+	for <lists+linux-input@lfdr.de>; Fri, 20 May 2022 01:01:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241340AbiESWbP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 May 2022 18:31:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34650 "EHLO
+        id S243471AbiESXBF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 May 2022 19:01:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233817AbiESWbO (ORCPT
+        with ESMTP id S241693AbiESXA6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 May 2022 18:31:14 -0400
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A954A9FD2;
-        Thu, 19 May 2022 15:31:10 -0700 (PDT)
+        Thu, 19 May 2022 19:00:58 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8A1FFD14
+        for <linux-input@vger.kernel.org>; Thu, 19 May 2022 16:00:55 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id nk9-20020a17090b194900b001df2fcdc165so10027407pjb.0
+        for <linux-input@vger.kernel.org>; Thu, 19 May 2022 16:00:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1652999472; x=1684535472;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=bDLidO+uz/WxZLgd7T0KPUs7o3mI46xraJxkCn7ZFMc=;
-  b=L3bmzxmvKv0afo4OS0Cl3vprFCz4ygPt8+5thrqcpI0TsSTFMv/tB3GB
-   Ra84KiwHRxeIvkx8knnfaOROkXK/WC3FfEgcB9A+jbGxHB6Ac96R/UtPC
-   qRp3vOnmALkUpMyLH/tnDSBNduAwtNtIAHkcEZkybHN/ECzglUQo4Wj6L
-   k=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 19 May 2022 15:31:10 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2022 15:31:09 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 19 May 2022 15:30:38 -0700
-Received: from [10.110.88.175] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 19 May
- 2022 15:30:37 -0700
-Message-ID: <27515993-18f3-8891-4835-9b6a8d7f86b0@quicinc.com>
-Date:   Thu, 19 May 2022 15:30:37 -0700
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/+cnG0T1VfIcJDi4Tnrthnwsto5lgJAgXz/DN8hILeM=;
+        b=E9ICPWOHq0JDDEynKw8oMU09qUbnljwf2UPOKuvme7k2m0oT7juy2tMyXCboV6z0Lh
+         9sycljyk3NTft1DtA3PpNilaiobcApb+u6c2Qk4y2hu8ia/1wHl4muP/PDNNaJjK9m/4
+         IK0ZSFu8FZ5vG+vqOMAswOwCk+TcIYUkKesBQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/+cnG0T1VfIcJDi4Tnrthnwsto5lgJAgXz/DN8hILeM=;
+        b=f6DMMDumYP1vMCvGGUggfmlHv6Nsqt/Ek2ylCFn9Vr+YL1q+XjSV/W/Usf8CUdbDSZ
+         Nr7ISgeqysyC1um+tl2zqb8FXMRUpm1mKAy40P/jearNSmx77izf4EkwvOexSwc/Ci3G
+         HWMW1oQlW6QGutxja4WxMOk5iThSpv9odTgBf4derMjll69mN5MNzJg40vVu1CewW+0X
+         hyGRKmfiuextb7gwxZUYGXNzxpkRv/642v9OsjT+NO/bNl2sZXAGjKr2oeE+O4QcyikJ
+         HtsQkx+ye6RZsvtP7yt0e/Ic5fpNH/pq6Yp/4gHAbWy/BfSwmpdB3gJ2xK5JJ6xIe0cg
+         u6UA==
+X-Gm-Message-State: AOAM533c+2J16hfILCfp22mAfAinVJr7OuMvAcLUPSrhqJXCZdx0yziL
+        8HQL3/o4XZjPlpa0doL2CTSi6g==
+X-Google-Smtp-Source: ABdhPJw+ZRz4Jko72uPDZg2ZBv9BBdBcNFqM9VVfrbGvBZTPeeJB4aIvFwTEqu0JM4pnp3rKOYazRA==
+X-Received: by 2002:a17:90a:9311:b0:1dc:8d06:eb1b with SMTP id p17-20020a17090a931100b001dc8d06eb1bmr7490101pjo.41.1653001255156;
+        Thu, 19 May 2022 16:00:55 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:201:e45f:1f3c:299b:4d86])
+        by smtp.gmail.com with ESMTPSA id m10-20020a056a00080a00b0050dc762819csm202411pfk.118.2022.05.19.16.00.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 May 2022 16:00:54 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     swboyd@chromium.org, linux-input@vger.kernel.org, mka@chromium.org,
+        devicetree@vger.kernel.org,
+        Douglas Anderson <dianders@chromium.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: HID: i2c-hid: elan: Introduce bindings for Elan eKTH6915
+Date:   Thu, 19 May 2022 16:00:02 -0700
+Message-Id: <20220519155925.1.Iedc61f9ef220a89af6a031200a7850a27a440134@changeid>
+X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6] dt-bindings: power: reset: qcom-pon: update "reg"
- property details
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-CC:     <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <sre@kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <bjorn.andersson@linaro.org>,
-        <swboyd@chromium.org>, <linux-doc@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        David Collins <quic_collinsd@quicinc.com>
-References: <20220422191239.6271-1-quic_amelende@quicinc.com>
- <20220422191239.6271-2-quic_amelende@quicinc.com>
- <YmcWZLp2X8UYOVas@robh.at.kernel.org>
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-In-Reply-To: <YmcWZLp2X8UYOVas@robh.at.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,72 +71,113 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Like many i2c-hid touchscreen controllers, the Elan eKTH6915
+controller has a reset gpio. For the Goodix GT7375P touchscreen the
+decision was to add a new binding rather than trying to add a new GPIO
+to the existing i2c-hid binding. We'll follow the lead and do it here,
+too.
 
+SIDE NOTE: the Elan eKTH6915 is a touchscreen _controller_ that's
+included as a part on some touchscreens. The reset line isn't truly
+necessary for the functioning of the touchscreen, so it's possible
+that some designs won't have it hooked up and will just guarantee the
+power sequencing requirements with RLC circuits. Thus, we'll mark the
+reset gpio as optional.
 
-On 4/25/2022 2:45 PM, Rob Herring wrote:
-> On Fri, Apr 22, 2022 at 12:12:38PM -0700, Anjelique Melendez wrote:
->> From: David Collins <collinsd@quicinc.com>
->>
->> Update the description of "reg" property to add the PON_PBS base
->> address along with PON_HLOS base address.  Also add "reg-names"
->> property description.
->>
->> Signed-off-by: David Collins <quic_collinsd@quicinc.com>
->> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
->> ---
->>  .../bindings/power/reset/qcom,pon.yaml | 19 ++++++++++++++++++-
->>  1 file changed, 18 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
->> index 353f155d..65ec8197 100644
->> --- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
->> +++ b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
->> @@ -26,7 +26,24 @@ properties:
->>        - qcom,pm8998-pon
->>  
->>    reg:
->> -    maxItems: 1
->> +    description: |
->> +      Specifies the SPMI base address for the PON (power-on) peripheral.  For
->> +      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
->> +      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
->> +      peripherals.  In that case, the PON_PBS address needs to be specified to
->> +      facilitate software debouncing on some PMICs.
->> +    minItems: 1
->> +    maxItems: 2
->> +
->> +  reg-names:
->> +    description: |
->> +      For PON GEN1 and GEN2, it should be "pon".  For PON GEN3 it should include
->> +      "pon_hlos" and optionally "pon_pbs".
->> +    minItems: 1
->> +    items:
->> +      - const: pon_hlos
->> +      - const: pon_pbs
->> +      - const: pon
-> 
-> Did you test that 'reg-names = "pon";' works? It doesn't. The schema 
-> says 'pon' is the 3rd entry in reg-names.
-> 
-> As 'reg-names' is new I thin this should be:
-> 
-> items:
->   - const: hlos
->   - const: pbs
-> 
-> And if there's 1 entry, then 'reg-names' should not be there.
-> 
-> Rob
+Note that if the reset GPIO isn't used there's actually no true need
+to use the "elan,ekth6915" compatible instead of the "hid-over-i2c" on
+Linux. However:
+- Officially using just "hid-over-i2c" for this device violates the
+  existing "hid-over-i2c" bindings. The bindings say that you're not
+  supposed to use "post-power-on-delay-ms" without specifying a more
+  specific compatible. Currently the Linux driver doesn't enforce
+  this, but it violates the bindings to just use
+  "hid-over-i2c". ...and if you're going to add a more specific
+  compatible anyway, might as well do it right.
+- Using this compatible means we don't need to specify
+  "hid-descr-addr" since it's inferred from the compatible.
+- Using this compatible means that the regulator names match the names
+  on the Elan datasheet (vcc33 / vccio) vs the generic hid-over-i2c
+  (vdd / vddl).
 
-currently reg-names is not consumed by the pm8941 driver but rather for users to understand
-what each reg address is associated with. 
-With this being the case would the following be acceptable?
-	minItems: 1
-	maxItems: 2
-	items:
-    	    anyOf:
-     	      - const: pon_hlos
-     	      - const: pon_pbs
-     	      - const: pon
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
 
-If not we would be ok with getting rid of the reg-name property.
+ .../bindings/input/elan,ekth6915.yaml         | 65 +++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+
+diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+new file mode 100644
+index 000000000000..05e6f2df604c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+@@ -0,0 +1,65 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/elan,ekth6915.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Elan eKTH6915 touchscreen controller
++
++maintainers:
++  - Douglas Anderson <dianders@chromium.org>
++
++description:
++  Supports the Elan eKTH6915 touchscreen controller.
++  This touchscreen controller uses the i2c-hid protocol with a reset GPIO.
++
++properties:
++  compatible:
++    items:
++      - const: elan,ekth6915
++
++  reg:
++    const: 0x10
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    description: Reset GPIO; not all touchscreens using eKTH6915 hook this up.
++
++  vcc33-supply:
++    description: The 3.3V supply to the touchscreen.
++
++  vccio-supply:
++    description:
++      The IO supply to the touchscreen. Need not be specified if this is the
++      same as the 3.3V supply.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - vcc33-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      ap_ts: touchscreen@10 {
++        compatible = "elan,ekth6915";
++        reg = <0x10>;
++
++        interrupt-parent = <&tlmm>;
++        interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
++
++        reset-gpios = <&tlmm 8 GPIO_ACTIVE_LOW>;
++        vcc33-supply = <&pp3300_ts>;
++      };
++    };
+-- 
+2.36.1.124.g0e6072fb45-goog
+
