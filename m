@@ -2,98 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4C1052EF43
-	for <lists+linux-input@lfdr.de>; Fri, 20 May 2022 17:31:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C5A252EF53
+	for <lists+linux-input@lfdr.de>; Fri, 20 May 2022 17:38:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350883AbiETPbf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 May 2022 11:31:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48160 "EHLO
+        id S1350901AbiETPia (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 May 2022 11:38:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350874AbiETPb3 (ORCPT
+        with ESMTP id S1350897AbiETPi3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 May 2022 11:31:29 -0400
-X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 20 May 2022 08:31:25 PDT
-Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 824D757114
-        for <linux-input@vger.kernel.org>; Fri, 20 May 2022 08:31:24 -0700 (PDT)
+        Fri, 20 May 2022 11:38:29 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DC779D062
+        for <linux-input@vger.kernel.org>; Fri, 20 May 2022 08:38:28 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id r6-20020a1c2b06000000b00396fee5ebc9so4534736wmr.1
+        for <linux-input@vger.kernel.org>; Fri, 20 May 2022 08:38:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ravnborg.org; s=rsa1;
-        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-         from:date:from;
-        bh=kwToCduxEHKRlf6xTfLStwKuhJjU+lyECx++Tp7rwBg=;
-        b=dKidBF+iQ7d11gWNT/UoyXW+3Hs3JRy8MCTHjV+5ua+Tg8M5cogj66cbemiXXWJkpK0zsojA7lQyE
-         +WqVoFZWQ6MJXXhEGgSw5lyAml+bPL2Bob4FIJw5qswzhyuzPAS6nncjClEcmRp8/q5uuFnaXkNE2d
-         CPuaLrtvtWobbmHB9tsxsDLdpABvzpEFwrP2Hjj7G7q9P4zXpqd59UkkCfAXbqYiZX0JhO/0Al924K
-         wFSjZf6TdiexU83WgAFrBKHbEHcVNpQIMy29BaLvT2CXdB5WMu+1QWT1QpW5jqN1dCLHfvlGz7DBJM
-         XMgEyhF4mJWi5tS9mXMNT9APf2Wijnw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-        d=ravnborg.org; s=ed1;
-        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-         from:date:from;
-        bh=kwToCduxEHKRlf6xTfLStwKuhJjU+lyECx++Tp7rwBg=;
-        b=n6agCsCBqaR8eTktbf5YnuH91+U1tOyO7hFP5kGyWriJEdb5PGp+30pFXfAEW1f4wny+jHMBg9N+G
-         uHm+DFOBg==
-X-HalOne-Cookie: 6d6a2faa20e68cf1e8fd7d3b59daf8d1323c09c1
-X-HalOne-ID: c1025af6-d851-11ec-a909-d0431ea8a290
-Received: from mailproxy2.cst.dirpod4-cph3.one.com (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
-        by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-        id c1025af6-d851-11ec-a909-d0431ea8a290;
-        Fri, 20 May 2022 15:30:19 +0000 (UTC)
-Date:   Fri, 20 May 2022 17:30:17 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Matt Mackall <mpm@selenic.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        chrome-platform@lists.linux.dev, alsa-devel@alsa-project.org,
-        linux-pm@vger.kernel.org, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-pci@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-serial@vger.kernel.org,
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=KlTBSZCWETh0qqX3A/oaLoFw8iSftzDLWzA01akJKxg=;
+        b=YKQx/qpV28LqgncJMSUr4z1xp9nkwl2mmdiicFVWyHjq92MnczTC/9mXrmsn93wyCy
+         wFCR0QsE+x7Esb45znQTf84kFvBGBHoN0ilIJYwu/2trDcd7udMjYtAJDrA4YX/smL+F
+         rBRJ3v2mnr+4wMuXjedjiXUKGWacQuP/F+H4met3+hNYDdLaKudMdXAFuPqGTli7O0rJ
+         8+NsmNyH7PI4U/QVjRUxcZ80FxF+A7BXpAmyA6cwmw6+LRg+UcGyEQfyAN+0yzos67Ib
+         DpPB333O6TzICix4LxHyO3zc8/Di6Qqpqfc4DjvfdwI0L1GZIl60I9fgHUkrw4ctsbtx
+         aNeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=KlTBSZCWETh0qqX3A/oaLoFw8iSftzDLWzA01akJKxg=;
+        b=gKNy4DaJllWbyj3bO+qCOZsC6KALtnIahOebBVB/9q5vnsprCk2aVAGN3fV+siezQp
+         8aOUkiHYgI7rSlLSsAaDDD7xYkVdgu9lm6P2Q+IrRSTlNg7jGy9dN/HQTHGvK1FRiEv3
+         NSshRi5I2lRaD32E7pcSmcc1Y+LU5KPhEdJbS6zi/xrH3iMO0WPCcsayRrbVDnb9DaCS
+         s5A+MuXH3qIBiQcziIzfzUyZofzZ/HgIepRkeVoG6/qeBpPXaTrewNGimWDFJb7WbGq3
+         /28bgsjZFAn0mVfSfGaxI+bq9v7j/GfW7yKRcfrXe8OjGpn6iNOBzGqPrFpa8A0ajCNA
+         m8vQ==
+X-Gm-Message-State: AOAM531bS2HZq6XiR9d//A1r4CNt5vqcKOxNL1qN8tEf6g6Y/Ee4vbMa
+        +WEx3A3/qfmsbrcfSVH4mPKfqg==
+X-Google-Smtp-Source: ABdhPJwvNeH+3EcmO9Gjw9QylbVZH6UgN/87pGUvZeHn8yPRnsZtjsWDiANEQFEqqO5/56LsMdfETw==
+X-Received: by 2002:a7b:c20d:0:b0:397:335e:dc7b with SMTP id x13-20020a7bc20d000000b00397335edc7bmr6556391wmi.93.1653061106496;
+        Fri, 20 May 2022 08:38:26 -0700 (PDT)
+Received: from localhost ([2a01:cb19:85e6:1900:41e3:1219:c56c:30b8])
+        by smtp.gmail.com with ESMTPSA id o4-20020a05600c338400b00394708a3d7dsm2266641wmp.15.2022.05.20.08.38.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 May 2022 08:38:25 -0700 (PDT)
+From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        dmitry.torokhov@gmail.com
+Cc:     matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
         linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Fix properties without any type
-Message-ID: <Yoe0CRhygXOIrYJc@ravnborg.org>
-References: <20220519211411.2200720-1-robh@kernel.org>
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] Input: mtk-pmic-keys - Add kerneldoc to driver
+ structures
+In-Reply-To: <20220520125132.229191-2-angelogioacchino.delregno@collabora.com>
+References: <20220520125132.229191-1-angelogioacchino.delregno@collabora.com>
+ <20220520125132.229191-2-angelogioacchino.delregno@collabora.com>
+Date:   Fri, 20 May 2022 17:38:25 +0200
+Message-ID: <877d6gkydq.fsf@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220519211411.2200720-1-robh@kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, May 19, 2022 at 04:14:11PM -0500, Rob Herring wrote:
-> Now that the schema tools can extract type information for all
-> properties (in order to decode dtb files), finding properties missing
-> any type definition is fairly trivial though not yet automated.
-> 
-> Fix the various property schemas which are missing a type. Most of these
-> tend to be device specific properties which don't have a vendor prefix.
-> A vendor prefix is how we normally ensure a type is defined.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org> # for everything in .../bindings/display/
+On ven., mai 20, 2022 at 14:51, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> wrote:
+
+> To enhance human readability, add kerneldoc to all driver structs.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+> ---
+>  drivers/input/keyboard/mtk-pmic-keys.c | 30 +++++++++++++++++++++++++-
+>  1 file changed, 29 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
+> index c31ab4368388..8e4fa7cd16e6 100644
+> --- a/drivers/input/keyboard/mtk-pmic-keys.c
+> +++ b/drivers/input/keyboard/mtk-pmic-keys.c
+> @@ -34,6 +34,13 @@
+>  #define MTK_PMIC_HOMEKEY_INDEX	1
+>  #define MTK_PMIC_MAX_KEY_COUNT	2
+>  
+> +/**
+> + * struct mtk_pmic_keys_regs - PMIC keys per-key registers
+> + * @deb_reg:             Debounced key status register
+> + * @deb_mask:            Bitmask of this key in status register
+> + * @intsel_reg:          Interrupt selector register
+> + * @intsel_mask:         Bitmask of this key in interrupt selector
+> + */
+>  struct mtk_pmic_keys_regs {
+>  	u32 deb_reg;
+>  	u32 deb_mask;
+> @@ -50,6 +57,11 @@ struct mtk_pmic_keys_regs {
+>  	.intsel_mask		= _intsel_mask,		\
+>  }
+>  
+> +/**
+> + * struct mtk_pmic_regs - PMIC Keys registers
+> + * @keys_regs:           Specific key registers
+> + * @pmic_rst_reg:        PMIC Keys reset register
+> + */
+>  struct mtk_pmic_regs {
+>  	const struct mtk_pmic_keys_regs keys_regs[MTK_PMIC_MAX_KEY_COUNT];
+>  	u32 pmic_rst_reg;
+> @@ -85,15 +97,31 @@ static const struct mtk_pmic_regs mt6358_regs = {
+>  	.pmic_rst_reg = MT6358_TOP_RST_MISC,
+>  };
+>  
+> +/**
+> + * struct mtk_pmic_keys_info - PMIC Keys per-key params
+> + * @keys:                Pointer to main driver structure
+> + * @regs:                Register offsets/masks for this key
+> + * @keycode:             Key code for this key
+> + * @irq:                 Keypress or press/release interrupt
+> + * @irq_r:               Key release interrupt (optional)
+> + * @wakeup:              Indicates whether to use this key as a wakeup source
+> + */
+>  struct mtk_pmic_keys_info {
+>  	struct mtk_pmic_keys *keys;
+>  	const struct mtk_pmic_keys_regs *regs;
+>  	unsigned int keycode;
+>  	int irq;
+> -	int irq_r; /* optional: release irq if different */
+> +	int irq_r;
+>  	bool wakeup:1;
+>  };
+>  
+> +/**
+> + * struct mtk_pmic_keys - Main driver structure
+> + * @input_dev:           Input device pointer
+> + * @dev:                 Device pointer
+> + * @regmap:              Regmap handle
+> + * @keys:                Per-key parameters
+> + */
+>  struct mtk_pmic_keys {
+>  	struct input_dev *input_dev;
+>  	struct device *dev;
+> -- 
+> 2.35.1
