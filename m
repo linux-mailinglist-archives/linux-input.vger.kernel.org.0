@@ -2,50 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECFAD52ECA6
-	for <lists+linux-input@lfdr.de>; Fri, 20 May 2022 14:51:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4C1052EF43
+	for <lists+linux-input@lfdr.de>; Fri, 20 May 2022 17:31:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349598AbiETMvw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 May 2022 08:51:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35220 "EHLO
+        id S1350883AbiETPbf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 May 2022 11:31:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349566AbiETMvr (ORCPT
+        with ESMTP id S1350874AbiETPb3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 May 2022 08:51:47 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61F37527DC;
-        Fri, 20 May 2022 05:51:46 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id 5A8E61F462C1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1653051104;
-        bh=Fo+/ZjhNQoJvd6sqh6rdL7fraQLbd7Rg63FwzQi2DIQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YB7ITXrEVoRW5GVcgydo4v1h+1GmiSWeKWfP1BVqjc5eIGbWZodCSo2wIOHHIPyWc
-         lv4enyKopzi41y3XDRKn9hqUB31qEGNyYXWaVq0CEfx36dtUhTyJPUJJ/hULINQNJP
-         H3xx2lePFETeyOXjFEkCp1YjTuB6ySC3CSzBds7SQLufnzAh2biDibBI3ohn1u+2m+
-         Nyb2xFdin1VUV+bkiFZJ53MLKSJnet2aVrsfrikEhxLxrxaJh3Wjn9yD3cMt31tAZD
-         RRrsv1SeUP5PuNpnDh5kMu6IE+F0bbhKUaYCWa3+P369ZlyR6/kjW+1bA450O0e/OC
-         pkLXGJaeluFrQ==
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        mkorpershoek@baylibre.com, linux-input@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] Input: mtk-pmic-keys - Add support for MT6331 PMIC keys
-Date:   Fri, 20 May 2022 14:51:32 +0200
-Message-Id: <20220520125132.229191-6-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220520125132.229191-1-angelogioacchino.delregno@collabora.com>
-References: <20220520125132.229191-1-angelogioacchino.delregno@collabora.com>
+        Fri, 20 May 2022 11:31:29 -0400
+X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 20 May 2022 08:31:25 PDT
+Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 824D757114
+        for <linux-input@vger.kernel.org>; Fri, 20 May 2022 08:31:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ravnborg.org; s=rsa1;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=kwToCduxEHKRlf6xTfLStwKuhJjU+lyECx++Tp7rwBg=;
+        b=dKidBF+iQ7d11gWNT/UoyXW+3Hs3JRy8MCTHjV+5ua+Tg8M5cogj66cbemiXXWJkpK0zsojA7lQyE
+         +WqVoFZWQ6MJXXhEGgSw5lyAml+bPL2Bob4FIJw5qswzhyuzPAS6nncjClEcmRp8/q5uuFnaXkNE2d
+         CPuaLrtvtWobbmHB9tsxsDLdpABvzpEFwrP2Hjj7G7q9P4zXpqd59UkkCfAXbqYiZX0JhO/0Al924K
+         wFSjZf6TdiexU83WgAFrBKHbEHcVNpQIMy29BaLvT2CXdB5WMu+1QWT1QpW5jqN1dCLHfvlGz7DBJM
+         XMgEyhF4mJWi5tS9mXMNT9APf2Wijnw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+        d=ravnborg.org; s=ed1;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=kwToCduxEHKRlf6xTfLStwKuhJjU+lyECx++Tp7rwBg=;
+        b=n6agCsCBqaR8eTktbf5YnuH91+U1tOyO7hFP5kGyWriJEdb5PGp+30pFXfAEW1f4wny+jHMBg9N+G
+         uHm+DFOBg==
+X-HalOne-Cookie: 6d6a2faa20e68cf1e8fd7d3b59daf8d1323c09c1
+X-HalOne-ID: c1025af6-d851-11ec-a909-d0431ea8a290
+Received: from mailproxy2.cst.dirpod4-cph3.one.com (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+        by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+        id c1025af6-d851-11ec-a909-d0431ea8a290;
+        Fri, 20 May 2022 15:30:19 +0000 (UTC)
+Date:   Fri, 20 May 2022 17:30:17 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Matt Mackall <mpm@selenic.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        chrome-platform@lists.linux.dev, alsa-devel@alsa-project.org,
+        linux-pm@vger.kernel.org, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-pci@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Fix properties without any type
+Message-ID: <Yoe0CRhygXOIrYJc@ravnborg.org>
+References: <20220519211411.2200720-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220519211411.2200720-1-robh@kernel.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,66 +86,14 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for PMIC Keys of the MT6331 PMIC.
-
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/input/keyboard/mtk-pmic-keys.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
-
-diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
-index acd5aefac5f9..4a03fdfe8282 100644
---- a/drivers/input/keyboard/mtk-pmic-keys.c
-+++ b/drivers/input/keyboard/mtk-pmic-keys.c
-@@ -9,6 +9,7 @@
- #include <linux/interrupt.h>
- #include <linux/kernel.h>
- #include <linux/mfd/mt6323/registers.h>
-+#include <linux/mfd/mt6331/registers.h>
- #include <linux/mfd/mt6358/registers.h>
- #include <linux/mfd/mt6397/core.h>
- #include <linux/mfd/mt6397/registers.h>
-@@ -22,6 +23,10 @@
- #define MTK_PMIC_MT6397_PWRKEY_RST_EN	BIT(6)
- #define MTK_PMIC_MT6397_RST_DU_MASK	GENMASK(9, 8)
- 
-+#define MTK_PMIC_MT6331_HOMEKEY_RST_EN	BIT(8)
-+#define MTK_PMIC_MT6331_PWRKEY_RST_EN	BIT(9)
-+#define MTK_PMIC_MT6331_RST_DU_MASK	GENMASK(13, 12)
-+
- #define MTK_PMIC_PWRKEY_INDEX	0
- #define MTK_PMIC_HOMEKEY_INDEX	1
- #define MTK_PMIC_MAX_KEY_COUNT	2
-@@ -86,6 +91,19 @@ static const struct mtk_pmic_regs mt6323_regs = {
- 	.rst_lprst_mask = MTK_PMIC_MT6397_RST_DU_MASK,
- };
- 
-+static const struct mtk_pmic_regs mt6331_regs = {
-+	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
-+		MTK_PMIC_KEYS_REGS(MT6331_TOPSTATUS, 0x2,
-+				   MT6331_INT_MISC_CON, 0x4,
-+				   MTK_PMIC_MT6331_PWRKEY_RST_EN),
-+	.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
-+		MTK_PMIC_KEYS_REGS(MT6331_TOPSTATUS, 0x4,
-+				   MT6331_INT_MISC_CON, 0x2,
-+				   MTK_PMIC_MT6331_HOMEKEY_RST_EN),
-+	.pmic_rst_reg = MT6331_TOP_RST_MISC,
-+	.rst_lprst_mask = MTK_PMIC_MT6331_RST_DU_MASK,
-+};
-+
- static const struct mtk_pmic_regs mt6358_regs = {
- 	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
- 		MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
-@@ -284,6 +302,9 @@ static const struct of_device_id of_mtk_pmic_keys_match_tbl[] = {
- 	}, {
- 		.compatible = "mediatek,mt6323-keys",
- 		.data = &mt6323_regs,
-+	}, {
-+		.compatible = "mediatek,mt6331-keys",
-+		.data = &mt6331_regs,
- 	}, {
- 		.compatible = "mediatek,mt6358-keys",
- 		.data = &mt6358_regs,
--- 
-2.35.1
-
+On Thu, May 19, 2022 at 04:14:11PM -0500, Rob Herring wrote:
+> Now that the schema tools can extract type information for all
+> properties (in order to decode dtb files), finding properties missing
+> any type definition is fairly trivial though not yet automated.
+> 
+> Fix the various property schemas which are missing a type. Most of these
+> tend to be device specific properties which don't have a vendor prefix.
+> A vendor prefix is how we normally ensure a type is defined.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+Acked-by: Sam Ravnborg <sam@ravnborg.org> # for everything in .../bindings/display/
