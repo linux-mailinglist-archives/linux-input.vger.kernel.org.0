@@ -2,108 +2,141 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CCA652E7F1
-	for <lists+linux-input@lfdr.de>; Fri, 20 May 2022 10:45:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2977D52EAD4
+	for <lists+linux-input@lfdr.de>; Fri, 20 May 2022 13:32:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344162AbiETIp1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 May 2022 04:45:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40436 "EHLO
+        id S1348553AbiETLb4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 May 2022 07:31:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345445AbiETIp0 (ORCPT
+        with ESMTP id S241757AbiETLby (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 May 2022 04:45:26 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCCD79E9F9
-        for <linux-input@vger.kernel.org>; Fri, 20 May 2022 01:45:25 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id g7-20020a5b0707000000b0064f39e75da4so3426707ybq.17
-        for <linux-input@vger.kernel.org>; Fri, 20 May 2022 01:45:25 -0700 (PDT)
+        Fri, 20 May 2022 07:31:54 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3716248FF
+        for <linux-input@vger.kernel.org>; Fri, 20 May 2022 04:31:50 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id wh22so14909953ejb.7
+        for <linux-input@vger.kernel.org>; Fri, 20 May 2022 04:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=2AIe/VeGdIiReIfTW2LnPKUFsZ3r9rMTVy/lVEdOtX4=;
-        b=AhLElKNYBuzvTuhuW5eNIfTg/L6Xo6NzdRFGHz1/ynAXFQIFAP+J2shsPX5TTppCEc
-         h9bH0ZIGOdwlH+Y8d2LegQJ28u1fWnlFVdIhP3FVvqWKRSJklgSNFI8zagdU4QMiSP7g
-         LDEel08ACxpf48/CDZSDA9YiP/NLAJehqLF1ueuMmbW7HBlvuxEz1+mtubdsebOUHmrU
-         T2x0Rg6y6b5b7Ois3lZ8i7QrMw46aUU+IBFm1UgOJc6RSIgHxD7258teyCg1yy/+sas9
-         3xlbQUc06pW/UlgpO7AEmxqxt9qy6JZnYHqlpsYBXixfDI4Ud9MJ2bJs6O0ONRgo2gsb
-         TniQ==
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0NvptFqrj7j0InVdvvMmgqzBzN84J9LRB794rQxkFdY=;
+        b=re4Sm8tWAvFHp6bKgAYMf09Z79Kgi3OEdhOIiBZ7/Rn2QXbgu5Ly14y4/nQN7Y/aTo
+         VlgbB9yG7Rlr2cuoabCyBxc2bGDLVKK0lXBLnASl6zsHCcOeA+1KzIBeqFsR+y75i5XZ
+         XvFFiPa9GJ2QyyaAdSmJuFi5RyYukwsFD78F77Gu/KxBhoXO8QeL/xhxXqgh8n2pVQ16
+         5uSsdoWXuRrwj+2ip8smJzRExeR9DRqgQ7nZOdTto/19ei6AXbORk/Mx4Jr1TH0FheIZ
+         Rjk53cTk2OReyJUGfCv97XHsZ5d+q5q5c0jA2xxlOnKUomCD8mRuslxc9zsWStq2ZrCv
+         ptCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=2AIe/VeGdIiReIfTW2LnPKUFsZ3r9rMTVy/lVEdOtX4=;
-        b=jSPlEyWcYq/Dzt17zj1NfNYIGkxqiGKn/x8vwjTiyomhNlbL4AD37KiMDFgf6tp5Vd
-         j9pAHCVM20zkgsiQCTAxYGGUkC+cN3bHJAaM7ZzNkerFlgaBhZvGaZja4PegrYb/ZKda
-         SiiZZ7MVt/vEL21Y6v2vUvc4nn5Dp9POPSp1YaowTNKaBcH6G6uB7CMXYOzQMaBIACrH
-         0WuqpXR5MK2nNIygUiVhtq/YOhbgSpa17X5p/Ge3m/04PgpjwSFmMXLdsgQ3tXIuNRds
-         /MtlgHS6bMUeCOYniSTDLBbXXfnGQk6qGrmoLkoGrXUYJ6PxLu0+FR5aBkMI/Yjm2VeX
-         phEg==
-X-Gm-Message-State: AOAM533BpShzA6D0fx1gdI6j7uVt5c5YHX8uBdVq5AVgKI3Pdes92V/r
-        wMufUpclILN1Sh4st7jaEUYoPyk=
-X-Google-Smtp-Source: ABdhPJwPA9zDuo5vpWQ0XqBPTRU/po67+hUnaM7l27eA/Zn/N+6SxWEEc+HWWu3Iuvy3aLeROWrShO0=
-X-Received: from svv2.mtv.corp.google.com ([2620:15c:211:202:2912:90d1:c7a0:4cd2])
- (user=svv job=sendgmr) by 2002:a25:2e42:0:b0:64d:dc33:f6ba with SMTP id
- b2-20020a252e42000000b0064ddc33f6bamr8188916ybn.158.1653036325090; Fri, 20
- May 2022 01:45:25 -0700 (PDT)
-Date:   Fri, 20 May 2022 01:45:14 -0700
-Message-Id: <20220520084514.3451193-1-svv@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
-Subject: [PATCH] Document the units for resolution of size axes
-From:   Siarhei Vishniakou <svv@google.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     rydberg@bitmath.org, linux-input@vger.kernel.org,
-        Siarhei Vishniakou <svv@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0NvptFqrj7j0InVdvvMmgqzBzN84J9LRB794rQxkFdY=;
+        b=J85N4AoF4aDO8NUEvF2OIS94Hv91I8luJtHIvFdwOAkDi07+7tcQMkNsINer77TFEX
+         2gz9x+0SLZrxCYYuCpUF7HIzEZCHN+lOYC8MAWkeag2sMxzaMDS5boyLAY0chAvlnw/Q
+         4KCXBuRaop/MgetlQjSfQBlEARd0xc97yrErL8+cw8LEB+WNBYara/dA6t3tJSnOeNAG
+         av542QY4nUauFq6HJL/M2uJTWKwNoc8bOXWQYNm7f8yzuW6EQoAYC7ws5JvIkUeLYtBz
+         +GvLpYcCBCtj5wkLqcjtaPfPg2E2gQONc8i/RdPotzoEL32ihNQdqGG3V7DEmcLuD+wx
+         twkA==
+X-Gm-Message-State: AOAM533meuHKe6+oILKaml4yWJdxc+AihiJJtc5YQVxiOT4e3WuIrSio
+        L5eoYfSQmv7IkxNnY29NIOxZ3hXxipMW4bt+A/imJw==
+X-Google-Smtp-Source: ABdhPJyAADo7d4aXCmDNCVnTVXprJXf99iw8JPsCwtJN6tP2yH5Av5Yx22hVAD/QFIma8grUrwXZC/mCf6Av3T8PJbw=
+X-Received: by 2002:a17:907:6eab:b0:6fe:b5e2:7b0e with SMTP id
+ sh43-20020a1709076eab00b006feb5e27b0emr1053811ejc.736.1653046309443; Fri, 20
+ May 2022 04:31:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220519211411.2200720-1-robh@kernel.org>
+In-Reply-To: <20220519211411.2200720-1-robh@kernel.org>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Fri, 20 May 2022 13:31:38 +0200
+Message-ID: <CAMRc=McjvTE27BMbN-_W+Fdd7CJcswZQYsB-4N8cj=WfAQ9QOQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Fix properties without any type
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree <devicetree@vger.kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Matt Mackall <mpm@selenic.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        chrome-platform@lists.linux.dev,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>, linux-pci@vger.kernel.org,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
+        <linux-crypto@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-serial@vger.kernel.org,
+        Linux-ALSA <alsa-devel@alsa-project.org>,
+        "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Today, the resolution of size axes is not documented. As a result, it's
-not clear what the canonical interpretation of this value should be. On
-Android, there is a need to calculate the size of the touch ellipse in
-physical units (millimeters).
+On Thu, May 19, 2022 at 11:14 PM Rob Herring <robh@kernel.org> wrote:
+>
+> Now that the schema tools can extract type information for all
+> properties (in order to decode dtb files), finding properties missing
+> any type definition is fairly trivial though not yet automated.
+>
+> Fix the various property schemas which are missing a type. Most of these
+> tend to be device specific properties which don't have a vendor prefix.
+> A vendor prefix is how we normally ensure a type is defined.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../arm/hisilicon/controller/hip04-bootwrapper.yaml       | 5 +++--
+>  .../bindings/display/bridge/toshiba,tc358768.yaml         | 1 +
+>  .../devicetree/bindings/display/panel/panel-timing.yaml   | 5 +++++
+>  .../bindings/display/panel/raydium,rm67191.yaml           | 1 +
+>  .../bindings/display/panel/samsung,s6e8aa0.yaml           | 1 +
+>  .../devicetree/bindings/gpio/fairchild,74hc595.yaml       | 1 +
+>  .../devicetree/bindings/input/google,cros-ec-keyb.yaml    | 1 +
+>  .../devicetree/bindings/input/matrix-keymap.yaml          | 4 ++++
+>  Documentation/devicetree/bindings/media/i2c/adv7604.yaml  | 3 ++-
+>  Documentation/devicetree/bindings/mux/reg-mux.yaml        | 8 ++++++--
+>  Documentation/devicetree/bindings/net/cdns,macb.yaml      | 1 +
+>  Documentation/devicetree/bindings/net/ingenic,mac.yaml    | 1 +
+>  .../devicetree/bindings/net/ti,davinci-mdio.yaml          | 1 +
+>  .../devicetree/bindings/net/wireless/ti,wlcore.yaml       | 2 ++
+>  .../devicetree/bindings/pci/snps,dw-pcie-ep.yaml          | 6 ++++--
+>  Documentation/devicetree/bindings/pci/snps,dw-pcie.yaml   | 2 ++
+>  .../devicetree/bindings/pinctrl/canaan,k210-fpioa.yaml    | 2 ++
+>  Documentation/devicetree/bindings/power/avs/qcom,cpr.yaml | 1 +
+>  .../devicetree/bindings/power/supply/battery.yaml         | 7 ++++++-
+>  .../devicetree/bindings/power/supply/charger-manager.yaml | 1 +
+>  Documentation/devicetree/bindings/rng/st,stm32-rng.yaml   | 1 +
+>  Documentation/devicetree/bindings/serial/8250.yaml        | 1 +
+>  .../devicetree/bindings/sound/audio-graph-card2.yaml      | 3 +++
+>  .../devicetree/bindings/sound/imx-audio-hdmi.yaml         | 3 +++
+>  Documentation/devicetree/bindings/usb/smsc,usb3503.yaml   | 1 +
+>  25 files changed, 55 insertions(+), 8 deletions(-)
+>
 
-After reviewing linux source, it turned out that most of the existing
-usages are already interpreting this value as "units/mm". This
-documentation will make it explicit. This will help device
-implementations with correctly following the linux specs, and will
-ensure that the devices will work on Android without needing further
-customized parameters for scaling of major/minor values.
+For GPIO:
 
-Signed-off-by: Siarhei Vishniakou <svv@google.com>
-Change-Id: I4a2de9e6d02e5fd707e5d312f5c3325734266a6e
----
- include/uapi/linux/input.h | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
-index ee3127461ee0..328cf545c029 100644
---- a/include/uapi/linux/input.h
-+++ b/include/uapi/linux/input.h
-@@ -78,10 +78,13 @@ struct input_id {
-  * Note that input core does not clamp reported values to the
-  * [minimum, maximum] limits, such task is left to userspace.
-  *
-- * The default resolution for main axes (ABS_X, ABS_Y, ABS_Z)
-- * is reported in units per millimeter (units/mm), resolution
-- * for rotational axes (ABS_RX, ABS_RY, ABS_RZ) is reported
-- * in units per radian.
-+ * The default resolution for main axes (ABS_X, ABS_Y, ABS_Z,
-+ * ABS_MT_POSITION_X, ABS_MT_POSITION_Y) is reported in units
-+ * per millimeter (units/mm), resolution for rotational axes
-+ * (ABS_RX, ABS_RY, ABS_RZ) is reported in units per radian.
-+ * The resolution for the size axes (ABS_MT_TOUCH_MAJOR,
-+ * ABS_MT_TOUCH_MINOR, ABS_MT_WIDTH_MAJOR, ABS_MT_WIDTH_MINOR)
-+ * is reported in units per millimeter (units/mm).
-  * When INPUT_PROP_ACCELEROMETER is set the resolution changes.
-  * The main axes (ABS_X, ABS_Y, ABS_Z) are then reported in
-  * units per g (units/g) and in units per degree per second
--- 
-2.36.1.124.g0e6072fb45-goog
-
+Acked-by: Bartosz Golaszewski <brgl@bgdev.pl>
