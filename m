@@ -2,155 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE25D52FC1F
-	for <lists+linux-input@lfdr.de>; Sat, 21 May 2022 13:41:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C078B52FC65
+	for <lists+linux-input@lfdr.de>; Sat, 21 May 2022 14:33:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239198AbiEULll (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 21 May 2022 07:41:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55820 "EHLO
+        id S241481AbiEUMdl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 21 May 2022 08:33:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237812AbiEULlk (ORCPT
+        with ESMTP id S242064AbiEUMdl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 21 May 2022 07:41:40 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDD544249E
-        for <linux-input@vger.kernel.org>; Sat, 21 May 2022 04:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653133299; x=1684669299;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=j1iZLuEJcnY/mYGoElRfxqXORjPZ7oEtNuVkEpQApVY=;
-  b=c7KU2WPJ2wS2JZP62iCetnjfjGqngNjnwNBJqo+IZ5ppfQBoZz2twBZQ
-   35beSlbc7IiJwL+t1yZkjsnoH6mIOLAFp4lyzsd83CIPyd9fWSmZMibtf
-   0DCL2hD3p6S1Uz+COlNh72GojIOyhVXOBFMGxwi0BJEoyEYXSehY0QMsA
-   fo06gAXgRhw77FURhkbGOYebGcGoIRgL/FojKbJJaVh3UWkHWvddz21Ub
-   fPYTg2XrzPYuAxDlQ95kzLyRI0Wfa70HGQegOWwZPobObPUhEwYrU2B7D
-   SqCpn3/Vm/epf3xYvTUiqd6mc1IxI3iaKizit076ThpXGw47m4hfHS3Yk
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10353"; a="272555109"
-X-IronPort-AV: E=Sophos;i="5.91,242,1647327600"; 
-   d="scan'208";a="272555109"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2022 04:41:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,242,1647327600"; 
-   d="scan'208";a="662675878"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 21 May 2022 04:41:38 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nsNUH-0006FO-Hu;
-        Sat, 21 May 2022 11:41:37 +0000
-Date:   Sat, 21 May 2022 19:40:57 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:ib/5.17-cros-ec-keyb] BUILD SUCCESS
- d95bca4fbde0a29a3d987c39fd17e414f1ed5ec6
-Message-ID: <6288cfc9.aA6rxLsHdUGvD3pE%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 21 May 2022 08:33:41 -0400
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C1849C2FC
+        for <linux-input@vger.kernel.org>; Sat, 21 May 2022 05:33:39 -0700 (PDT)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-e93bbb54f9so13046941fac.12
+        for <linux-input@vger.kernel.org>; Sat, 21 May 2022 05:33:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=7tg40EKujVrvEq2OPBumK7nnpMC1oJCGBGMec7v49xU=;
+        b=Lgf03/cWaHB/mJObbzLPzRKJER36yrig6K05AnBt0I8NF7Lvk0VPFicV7yOKUoAnOm
+         nVHhyr0f2RwLl1JSJ9QD++uERjbLjFJAfYrYGbbVHasB+4yo5dVHersCWQIUGcWKdiPt
+         IXPcDe5rmvn0aQwNtZ0maZFQUMxo3TRCU4b54VZNU9aGRLOOc637GHjWfeD6QgtyI25Z
+         /sv2MIzFE2BKaxaCs8EqItYLwkpyAvo6bTJDO6m5D2Qn9VZ7QK2PvBQilov/qXfJ/SQZ
+         Vqe04DgQb2uKwMdQVP0qBeOtWIQ5wOx9EDPwPkFFLquj8t9SW7QiZMipt2r72FjCbfn5
+         TSOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=7tg40EKujVrvEq2OPBumK7nnpMC1oJCGBGMec7v49xU=;
+        b=FG4/OtCvhTvqy2kK582tdkgO0dzXau/G1V2Qt6KQLYMw1O/UeX2WcP5gLX4TZHYc+6
+         Z5w9mnisaLjlWyiY/Mqc1cB86EQwuV3ZgCHCENosoH5HksGmBZHiXRChXgF+txGhuWKP
+         xiEI+dTEbJvmn3vXDUEXtKFiJeCqBghTQZWgI0Rru6UgyYTHZa9KLNqqD5Rw3ykGj/ML
+         NgsK9L4z1Wtb7eKUGIdJ88+saQ9so+pj5v3QrTcw1Ju/6LZfRIN17Vve4lTF8h0Nd6R3
+         ndIFWRUN+4ELd+YMrVv770zJpRuaua0/zq5bKuWYsS5yjLVwRRJm/opVSmo5Qdcw/Qd9
+         v2zw==
+X-Gm-Message-State: AOAM530+fuJ3rnqiZxWjdkVve8g5DVFbRClUc7yo9L9AHvvuChDJ3Q7X
+        GAVGo55Fosww6+6i7zexaGQosNkDQHmynqP8dFE=
+X-Google-Smtp-Source: ABdhPJzfoTONACgcm7xUyFZcN31tXWpkZ4TxPaGn7GGi+gWZhtEMtkZUpfSpPkuvyJF0vMyKo0GroVAyD51mdWWwSOI=
+X-Received: by 2002:a05:6870:5b89:b0:e9:bb4c:a6f1 with SMTP id
+ em9-20020a0568705b8900b000e9bb4ca6f1mr7990898oab.52.1653136418455; Sat, 21
+ May 2022 05:33:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6358:9041:b0:a3:2c3e:d3c2 with HTTP; Sat, 21 May 2022
+ 05:33:37 -0700 (PDT)
+Reply-To: lattedenis606@gmail.com
+From:   Denis <harveygeorgejoel@gmail.com>
+Date:   Sat, 21 May 2022 12:33:37 +0000
+Message-ID: <CAJp=Lcmbnb4tG9V4asWrmjfYMr+4A+bYWs9Fw2hV_u11bxobVQ@mail.gmail.com>
+Subject: Hello
+To:     Denis <harveygeorgejoel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=1.9 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
+        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        LOTS_OF_MONEY,MONEY_FRAUD_5,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git ib/5.17-cros-ec-keyb
-branch HEAD: d95bca4fbde0a29a3d987c39fd17e414f1ed5ec6  dt-bindings: google,cros-ec-keyb: Fixup bad compatible match
+Greetings.
+I sent you this mail about two months ago without a response from you, I am
+Barrister Latt=C3=A9 Denis, personal attorney for a deceased client of mine=
+, who
+deposited the sum of $7.5 million in a bank here in Lom=C3=A9-Togo, prior t=
+o his
+untimely death. He died as a result of a heart condition, his heart conditi=
+on
+was due to the death of his wife and his only child involved in a plane cra=
+sh,
+and without a registered relative.
 
-elapsed time: 3675m
+I contacted you because you have the same surname as my deceased client.
+And the funds now have an open beneficiary mandate. I'll give you the detai=
+ls,
+as soon as I hear from you.
 
-configs tested: 73
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm64                               defconfig
-arm64                            allyesconfig
-arm                              allmodconfig
-arm                                 defconfig
-arm                              allyesconfig
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-alpha                               defconfig
-csky                                defconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-sh                               allmodconfig
-arc                                 defconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a014
-i386                          randconfig-a012
-i386                          randconfig-a016
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
-x86_64                               rhel-8.3
-
-clang tested configs:
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Thanks for your quick response.
+Latt=C3=A9 Denis Esq.
