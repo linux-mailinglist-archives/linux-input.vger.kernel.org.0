@@ -2,122 +2,143 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A76A52F7B3
-	for <lists+linux-input@lfdr.de>; Sat, 21 May 2022 04:47:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C56752F9E7
+	for <lists+linux-input@lfdr.de>; Sat, 21 May 2022 09:59:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239378AbiEUCq6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 May 2022 22:46:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40906 "EHLO
+        id S241161AbiEUH7i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 21 May 2022 03:59:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351151AbiEUCq5 (ORCPT
+        with ESMTP id S232035AbiEUH7h (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 May 2022 22:46:57 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2E8B6353F;
-        Fri, 20 May 2022 19:46:56 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id bo5so9149868pfb.4;
-        Fri, 20 May 2022 19:46:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=hlMWsJTCZidavUuAPKzwU9yhf4WgPtPDAYKHfwZT1Kk=;
-        b=QI24hacwG+UXk14hfyOzgbyuqZGE9Jc+lSW/TFk5ve7qn3j3BS7C46wRq/kvQhwyov
-         TdX+YRaN4v9iAuPnq13vnHilN0DUGkdqFAO2gjar0TcABj9t0chpVmJdxhmle8Jk7IRK
-         QGnEXhQFcfZoBp3mFCsxiovbDAmb/1pFKIAQSyciyQFI0cQY5GD85QkOt3len3rHA+ik
-         OKjuE2i+HUW3llK+C6bAtaExagW+4HhCx9KW977jPnoFPu9us8CrdaSZ0CRT57E3TQFl
-         DM/F5ro7O+Cq4In1Yeej8/kKHTBWYdL/CTC6IkCE1XQg/KT3rip9v/DKWq/QpKIOt+FW
-         O6NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=hlMWsJTCZidavUuAPKzwU9yhf4WgPtPDAYKHfwZT1Kk=;
-        b=7V7z3oHhL4u+jClR4q6LmIQzihMYVU9zbdp42U9iuxDDAVla8dayTzIAvSAFJI04Nh
-         yY/kSKBfJWqi7M4Mlwh/8B6FHadaihOEvuOtCBpDUJ5rtkBrrs4cPumQ1iJWlVyjvdvA
-         IqZ1fjObMUrjbQR9OOnBuJbXchPS/eoGeziII2mNg4lzVTnco/T/awn0Gkv43mcRexD8
-         kS9/NkGtMny+IWGN4htOW6ouqf+hYisLiGWcc3kDOB77rVLQnsWI4ALZ1PEzeK1Owa/j
-         In+tIHhW3dCU1qdBQHcJbK0wGeIp9ueSMyCNOSHZghSY+kdBs1IioDxedELymXHoJ1LV
-         IXIw==
-X-Gm-Message-State: AOAM533MRcMmh4Zo2R+ZQQ3CkGAewgxcHU+kovqCnVkUKRTXzuE0U7T8
-        Hr7spXrco0udq9hYBf0au8Q=
-X-Google-Smtp-Source: ABdhPJxTMM/zJvD/ZsVF7ArHkK+UgEQYH2UcY6QfJhpPSJ8N2T5v3ir2qxN5yEPI61s0GafkZ4S5Xw==
-X-Received: by 2002:a63:f255:0:b0:3c6:afc0:56b4 with SMTP id d21-20020a63f255000000b003c6afc056b4mr11017538pgk.407.1653101216241;
-        Fri, 20 May 2022 19:46:56 -0700 (PDT)
-Received: from MBP-98dd607d3435.dhcp.thefacebook.com ([2620:10d:c090:400::4:d798])
-        by smtp.gmail.com with ESMTPSA id d19-20020a170902c19300b00161947ecc82sm403281pld.199.2022.05.20.19.46.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 May 2022 19:46:55 -0700 (PDT)
-Date:   Fri, 20 May 2022 19:46:51 -0700
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf-next v5 13/17] HID: bpf: allow to change the report
- descriptor
-Message-ID: <20220521024651.ngjv52kk7jrkt6mo@MBP-98dd607d3435.dhcp.thefacebook.com>
-References: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
- <20220518205924.399291-14-benjamin.tissoires@redhat.com>
+        Sat, 21 May 2022 03:59:37 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 896EE15E619
+        for <linux-input@vger.kernel.org>; Sat, 21 May 2022 00:59:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653119976; x=1684655976;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=UpqnHaDmoM3QyD8dI3tncPS5hYGzEvbj+sUnCoHxtGM=;
+  b=Vx2OzDNX7ZSgUAeycu0Rosc3loyKkFUbAPe/B4kKaSjzeNnJtDoE/IOG
+   hFiuRgH5WRKYNq/T3VleSasXuSfIbTR/hmv/KjVNWBbmQhl6GYq3iIJ0C
+   VQ9j2fBWRhs6QKn+MtqcXCLH6r4tjzGP+74Rn57bgtj/fMqf6eFPe4vPu
+   asEvqVpV5opLCuk168NZnFRNeG/9QsO2L69jFu7SyCbH8E4cxDvbdHtGa
+   GO8Da8DDOwcyQP9jm1SHW41znh/kD3yhcdxo/Vi0F3SpWOAYV0qTtSL4d
+   aKgXIAs+d2T7+ASUCmfg/U6fdhop44C6PKSZHss/tzwvtrZx52FC7xy4A
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10353"; a="254874897"
+X-IronPort-AV: E=Sophos;i="5.91,240,1647327600"; 
+   d="scan'208";a="254874897"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2022 00:59:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,240,1647327600"; 
+   d="scan'208";a="702127749"
+Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 21 May 2022 00:59:33 -0700
+Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nsK1N-00066G-6o;
+        Sat, 21 May 2022 07:59:33 +0000
+Date:   Sat, 21 May 2022 15:58:54 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 038c4bf85ba2bca715db3ca4d190de3e5299c6c3
+Message-ID: <62889bbe.6mHdW6iabR+9Vo7e%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220518205924.399291-14-benjamin.tissoires@redhat.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, May 18, 2022 at 10:59:20PM +0200, Benjamin Tissoires wrote:
-> Add a new tracepoint hid_bpf_rdesc_fixup() so we can trigger a
-> report descriptor fixup in the bpf world.
-> 
-> Whenever the program gets attached/detached, the device is reconnected
-> meaning that userspace will see it disappearing and reappearing with
-> the new report descriptor.
-> 
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> 
-> ---
-> 
-> changes in v5:
-> - adapted for new API
-> 
-> not in v4
-> 
-> changes in v3:
-> - ensure the ctx.size is properly bounded by allocated size
-> - s/link_attached/post_link_attach/
-> - removed the switch statement with only one case
-> 
-> changes in v2:
-> - split the series by bpf/libbpf/hid/selftests and samples
-> ---
->  drivers/hid/bpf/entrypoints/entrypoints.bpf.c |   6 +
->  .../hid/bpf/entrypoints/entrypoints.lskel.h   | 965 +++++++++---------
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 038c4bf85ba2bca715db3ca4d190de3e5299c6c3  Merge branch 'ib/5.17-cros-ec-keyb' into next
 
-Probably add the lskel once in the series to avoid the churn.
-It's not reviewable anyway.
+elapsed time: 3453m
 
->  drivers/hid/bpf/hid_bpf_dispatch.c            |  77 +-
->  drivers/hid/bpf/hid_bpf_dispatch.h            |   1 +
->  drivers/hid/bpf/hid_bpf_jmp_table.c           |   8 +
+configs tested: 61
+configs skipped: 3
 
-I'll take a close look at dispatch logic next week.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm64                               defconfig
+arm64                            allyesconfig
+arm                              allmodconfig
+arm                                 defconfig
+arm                              allyesconfig
+ia64                                defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+alpha                               defconfig
+csky                                defconfig
+nios2                            allyesconfig
+alpha                            allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+s390                                defconfig
+s390                             allmodconfig
+parisc                              defconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+s390                             allyesconfig
+sparc                               defconfig
+sparc                            allyesconfig
+i386                             allyesconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                          rhel-8.3-func
+x86_64                           rhel-8.3-syz
+x86_64                                  kexec
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                         rhel-8.3-kunit
+x86_64                               rhel-8.3
+
+clang tested configs:
+x86_64                        randconfig-a005
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
