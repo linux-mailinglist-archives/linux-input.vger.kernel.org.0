@@ -2,63 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE88E52F6AC
-	for <lists+linux-input@lfdr.de>; Sat, 21 May 2022 02:18:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 455FE52F793
+	for <lists+linux-input@lfdr.de>; Sat, 21 May 2022 04:34:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351789AbiEUASi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 May 2022 20:18:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33914 "EHLO
+        id S1347134AbiEUCeg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 May 2022 22:34:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236743AbiEUASh (ORCPT
+        with ESMTP id S232004AbiEUCed (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 May 2022 20:18:37 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DC8D1900EF;
-        Fri, 20 May 2022 17:18:36 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id i27so18269388ejd.9;
-        Fri, 20 May 2022 17:18:36 -0700 (PDT)
+        Fri, 20 May 2022 22:34:33 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E0746CAAA;
+        Fri, 20 May 2022 19:34:31 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id gi33so10096184ejc.3;
+        Fri, 20 May 2022 19:34:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=kM3OJDwIslvJlnWNrIl5NE5xFr9ef8ObV315m3v55rA=;
-        b=XjWgEUO9MyF/ovVLAe9j/svrxlMHsPZ2np9duDNqsWlwCogi89DiUAJ1fP+ZZ4fYyG
-         H2RkczjFvHHmPu6kp4pmPtslZBkcYlzUJ8ZepRYj79FLe8GwOQiWIf+2dzZusy6LBuvY
-         LzXFs7PVRPbn6kcrofliShbVIWfCYbXs1RmMMKNiR9jut1u0wZBoiNEijLnCcqQhxPSu
-         xfxILYI1IxaLP45CZPS5lKnDYOuC+cEpFJbgRanqU6w7Laj+zzTbQSo6cHlOj5kvqo8L
-         4yc9mU/hNor0sq2lL5CHXguAPHL35uGFeerlxcyDJPvW+StWOOI2qu8qewWFE5RgQJk/
-         7+1A==
+        bh=OmUAeDR0TRV7SxilODIYAOrku1SUUUQv1Du25gnTb+Y=;
+        b=ENS0qiDkwFBU3jh3VmJQbyVywG3fnDR0qv6NRFLsNfagC28/lj9E3LMiZK1Ec20BmI
+         VtiBNgZw/mbAqvIsJ3IOOE0IyafDvr5xm0FikzAYWGu2cHnGafihMpM2dzNiPSH8q9yz
+         Z360XBNeAARFJEP4ChWyCxnQ6p3yyCG8sjEVszXsO7xEVb6jDyWk5+NawpQafN4UuV/M
+         gNPK61hgXDc8kxnJJTq33vb1YZV7SJdr/mnWGP5ajFx6vjxuVCMFJVlFmc1lq4RhPOgH
+         GGvyN5EymkqbRslO7Z6E2KO8D94kDrPpHWryq3rht1trscCsJdHJBfXj9GYTQhBQRRHG
+         2P9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kM3OJDwIslvJlnWNrIl5NE5xFr9ef8ObV315m3v55rA=;
-        b=3OpeZ/elT7B2e7hE4LyC+RS1+r6d+KA8U09taMS8Rt6Rdtq/DzYC+joiQXKUxnWQNB
-         YCBNHV+VxY07VCgds3StzHxUCInevhX9Q1OQDU1D6rwRRV6uQIoIQZxGpRw3K4qs+fdI
-         DdvjOuYBV40dC1cPpJ6bZAMjwevhebOx28kT106nHH8Sbyo+A1URuuba1As3vHv2HB2j
-         6L6NiFo/6FIWdzc+R4sP+epak8jjFehyIQRMuaaL7nCLv3n7+XKiktoamYL1JGo7aNnx
-         0acFbUv2zRUS9/eop0TEQvcc61Gp2KG2QibxMA4juApYxy2X1Q7wIDdV74MmW2vUg/TU
-         kp1g==
-X-Gm-Message-State: AOAM530LWl17MfSmF7yNVSrBSlAYglsj8FS8L8LSTHZ5yEo/0uMPXU2E
-        pr7DneuuuEBB/M+vLdgHXZ8L0OPqO15VnLwtnts=
-X-Google-Smtp-Source: ABdhPJyAIwUtbMfms0jB0bpJ5a6HWEhVHfH/r19ZJ0jbxxU+WJCMlbdYTBoMYvJMVxmAehTN2HKurc6gf1A+eAK0/fg=
-X-Received: by 2002:a17:906:9b8b:b0:6fe:55db:14e with SMTP id
- dd11-20020a1709069b8b00b006fe55db014emr10904327ejc.327.1653092314979; Fri, 20
- May 2022 17:18:34 -0700 (PDT)
+        bh=OmUAeDR0TRV7SxilODIYAOrku1SUUUQv1Du25gnTb+Y=;
+        b=OoFSZ38b1omQ31LhjY8S+Ss0Ja3OlyEmF0XoVUogbHv9JzbTvDpec2FzH+W5ZKPDVp
+         gwrY1Vm0Ws15DOfXkF/oQCdOyBQfsR3zteqQ1nvc+Zo41HVdA9XnebnLJTTdqCnHB0Sn
+         tJ8lxAUTDemtcGCA7uK01SynnPqXEZ+ZRuJQTEkthph8XGwoPLNfUlEj2o86Z817rk12
+         3BYCyy7IZetynQRKQmj3nvBS6R9lQbYZ/8JI4p8sz5yMHGePfITDZyNs94k7XTefaD7B
+         0Pi4KTIqhtOxtFIX1KIlK6ko1XbVdEyfWocIMyYeSET2NnVa8LUp/j2CKhEzlidjFyL9
+         blPg==
+X-Gm-Message-State: AOAM533Lsgc+M36eMCgJ6R2PE6ZuUhBUN68NIlJDag8wPe7mEM66/BQY
+        lHG4NERkQatXG+iN0oqWSvcO1xjvsikl+JD2lWY=
+X-Google-Smtp-Source: ABdhPJxUJ4Hs4KtFPNK+nVHlP9YeOQiBBFdsY9AbeuIzhgzFhLcpinJL9jfVK8/LuWijMuOZJ+J4ofnL7JmcGLIfBRg=
+X-Received: by 2002:a17:907:1b1c:b0:6f0:10e2:7a9b with SMTP id
+ mp28-20020a1709071b1c00b006f010e27a9bmr11413890ejc.58.1653100469907; Fri, 20
+ May 2022 19:34:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
- <YoX7iHddAd4FkQRQ@infradead.org> <YoX904CAFOAfWeJN@kroah.com>
- <YoYCIhYhzLmhIGxe@infradead.org> <CAO-hwJL4Pj4JaRquoXD1AtegcKnh22_T0Z0VY_peZ8FRko3kZw@mail.gmail.com>
- <87ee0p951b.fsf@toke.dk> <CAO-hwJKwj6H0Nc_gqsN5okT2ipLL3H6fqe23_vpO+xC3PnX5uw@mail.gmail.com>
-In-Reply-To: <CAO-hwJKwj6H0Nc_gqsN5okT2ipLL3H6fqe23_vpO+xC3PnX5uw@mail.gmail.com>
+References: <20220518205924.399291-1-benjamin.tissoires@redhat.com> <20220518205924.399291-2-benjamin.tissoires@redhat.com>
+In-Reply-To: <20220518205924.399291-2-benjamin.tissoires@redhat.com>
 From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Fri, 20 May 2022 17:18:22 -0700
-Message-ID: <CAADnVQ+Qj9Farf-bp4STpe0P+=7Xr2Hqxm5Tru5bLCyPiBJMqg@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v5 00/17] Introduce eBPF support for HID devices
+Date:   Fri, 20 May 2022 19:34:17 -0700
+Message-ID: <CAADnVQJi_g7geapPLAWkg1Fy+sNvhRNATE1enGT9F11cqdPeLA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v5 01/17] bpf/btf: also allow kfunc in tracing
+ and syscall programs
 To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Jiri Kosina <jikos@kernel.org>,
         Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
@@ -70,12 +66,13 @@ Cc:     =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
         Dave Marchevsky <davemarchevsky@fb.com>,
         Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
         Tero Kristo <tero.kristo@linux.intel.com>,
-        lkml <linux-kernel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
         "open list:KERNEL SELFTEST FRAMEWORK" 
         <linux-kselftest@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -87,64 +84,14 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, May 19, 2022 at 4:56 AM Benjamin Tissoires
+On Wed, May 18, 2022 at 1:59 PM Benjamin Tissoires
 <benjamin.tissoires@redhat.com> wrote:
 >
-> As Greg mentioned in his reply, report descriptors fixups don't do
-> much besides changing a memory buffer at probe time. So we can either
-> have udev load the program, pin it and forget about it, or we can also
-> have the kernel do that for us.
+> Tracing and syscall BPF program types are very convenient to add BPF
+> capabilities to subsystem otherwise not BPF capable.
+> When we add kfuncs capabilities to those program types, we can add
+> BPF features to subsystems without having to touch BPF core.
 >
-> So I envision the distribution to be hybrid:
-> - for plain fixups where no userspace is required, we should
-> distribute those programs in the kernel itself, in-tree.
-> This series already implements pre-loading of BPF programs for the
-> core part of HID-BPF, but I plan on working on some automation of
-> pre-loading of these programs from the kernel itself when we need to
-> do so.
->
-> Ideally, the process would be:
-> * user reports a bug
-> * developer produces an eBPF program (and maybe compile it if the user
-> doesn't have LLVM)
-> * user tests/validates the fix without having to recompile anything
-> * developer drops the program in-tree
-> * some automated magic happens (still unclear exactly how to define
-> which HID device needs which eBPF program ATM)
-> * when the kernel sees this exact same device (BUS/VID/PID/INTERFACE)
-> it loads the fixup
->
-> - the other part of the hybrid solution is for when userspace is
-> heavily involved (because it exports a new dbus interface for that
-> particular feature on this device). We can not really automatically
-> preload the BPF program because we might not have the user in front of
-> it.
-> So in that case, the program would be hosted alongside the
-> application, out-of-the-tree, but given that to be able to call kernel
-> functions you need to be GPL, some public distribution of the sources
-> is required.
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-Agree with everything you've said earlier.
-Just one additional comment:
-By default the source code is embedded in bpf objects.
-Here is an example.
-$ bpftool prog dump jited id 3927008|head -50
-void cwnd_event(long long unsigned int * ctx):
-bpf_prog_9b9adc0a36a25303_cwnd_event:
-; void BPF_STRUCT_OPS(cwnd_event, struct sock* sk, enum tcp_ca_event ev) {
-   0:    nopl   0x0(%rax,%rax,1)
-   5:    xchg   %ax,%ax
-...
-; switch (ev) {
-  25:    mov    %r14d,%edi
-  28:    add    $0xfffffffc,%edi
-...
-; ca->loss_cwnd = tp->snd_cwnd;
-  4a:    mov    %edi,0x18(%r13)
-  4e:    mov    $0x2,%edi
-; tp->snd_ssthresh = max(tp->snd_cwnd >> 1U, 2U);
-  53:    test   %rbx,%rbx
-  56:    jne    0x000000000000005c
-
-It's not the full source, of course, but good enough in practice
-for a person to figure out what program is doing.
+Applied this patch, since Yosry's work needs it too.
