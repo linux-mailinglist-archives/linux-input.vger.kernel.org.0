@@ -2,67 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B16552F2F8
-	for <lists+linux-input@lfdr.de>; Fri, 20 May 2022 20:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE88E52F6AC
+	for <lists+linux-input@lfdr.de>; Sat, 21 May 2022 02:18:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352797AbiETSe4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 May 2022 14:34:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49650 "EHLO
+        id S1351789AbiEUASi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 May 2022 20:18:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352752AbiETSet (ORCPT
+        with ESMTP id S236743AbiEUASh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 May 2022 14:34:49 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E286166697;
-        Fri, 20 May 2022 11:34:48 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id u3so12626555wrg.3;
-        Fri, 20 May 2022 11:34:48 -0700 (PDT)
+        Fri, 20 May 2022 20:18:37 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DC8D1900EF;
+        Fri, 20 May 2022 17:18:36 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id i27so18269388ejd.9;
+        Fri, 20 May 2022 17:18:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qUjvuoWXG9UUtB5iaUNqYFk22P1RS1LUvWgzlAZCFx8=;
-        b=cxNMpTAFuWKDIhN2tjtgTzcHUBXt6OLUdjX8CkMUG4ILZdFepZBnJGh78f/U+ubgbK
-         QEXqE2+NWORsqQ/LDWmesBeli9Yri9oXsfVwkU9T/BCYB/VdAXwXs1uO9X5YO+W4ozxT
-         +cWJGLN+TCd0UrT4fKmiLNIu0+HrHlPgrjt2Jm124P7EWb1UMnWaUVsnEqObXTq3kEUz
-         poL6P8AgOZIf40734QR64IOAuL1uN5lcIsH1uLLRDBuvYIPgN5o/8vrgHjW1y0rn71Ja
-         rJKbeZC7cG626vR96Sdje2lKqBMm9M31UngT8JLc1Pasb7kRiIpsr/GB3tNh998kIU9v
-         2YQQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kM3OJDwIslvJlnWNrIl5NE5xFr9ef8ObV315m3v55rA=;
+        b=XjWgEUO9MyF/ovVLAe9j/svrxlMHsPZ2np9duDNqsWlwCogi89DiUAJ1fP+ZZ4fYyG
+         H2RkczjFvHHmPu6kp4pmPtslZBkcYlzUJ8ZepRYj79FLe8GwOQiWIf+2dzZusy6LBuvY
+         LzXFs7PVRPbn6kcrofliShbVIWfCYbXs1RmMMKNiR9jut1u0wZBoiNEijLnCcqQhxPSu
+         xfxILYI1IxaLP45CZPS5lKnDYOuC+cEpFJbgRanqU6w7Laj+zzTbQSo6cHlOj5kvqo8L
+         4yc9mU/hNor0sq2lL5CHXguAPHL35uGFeerlxcyDJPvW+StWOOI2qu8qewWFE5RgQJk/
+         7+1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qUjvuoWXG9UUtB5iaUNqYFk22P1RS1LUvWgzlAZCFx8=;
-        b=rn9Z/jsAUCZvAcTdkOMtFWjBnAMbiDnaHiUN3ASQvsBAAXNYBpmftt228nPtj+E9cN
-         rfsuvuA2cJpFITxWg0Jlz2O+7R3X1Lmpl5s8DQka61a+diOIHqTUqNBF4E3vFDoW0RKg
-         70YZk4J8m7KKRx8Fn3YTDgXKdBo6U9vNJolXgsuje5UnWVadkijBsbPawQkgaJ8gEvOs
-         y3cxZdQjsmPRVS6XTZfe6FY6fXYvdGPBOF+HrD0ySs8SQ9BZPDPPw1mXRrpizki94x69
-         i7g5jcvetfPoleDNp+Uaas/Wefm9jR6Sh0x5V8aE/Y6R1t8T1ggJOUQhX8X7P/Pt6Muw
-         fR4g==
-X-Gm-Message-State: AOAM53261GUTIWzYQWLZwH5Wr7CD6e7PgChjXTdQzyUdzMGLUocyGUtb
-        /Lzpy8oLqOo9CH5OHfDlz9k=
-X-Google-Smtp-Source: ABdhPJwFMngfZzHs1Ct+MyDR7vbVpw18F8Ve40ULToUpYV59j4RanOTU6pms5G5mJh9wNR8o8jh2iQ==
-X-Received: by 2002:adf:ebce:0:b0:20d:7859:494d with SMTP id v14-20020adfebce000000b0020d7859494dmr9301298wrn.590.1653071687104;
-        Fri, 20 May 2022 11:34:47 -0700 (PDT)
-Received: from xws.localdomain (pd9e5a9fe.dip0.t-ipconnect.de. [217.229.169.254])
-        by smtp.gmail.com with ESMTPSA id r9-20020adfa149000000b0020e62feca05sm3252081wrr.32.2022.05.20.11.34.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 May 2022 11:34:46 -0700 (PDT)
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>, Jiri Kosina <jikos@kernel.org>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 06/10] HID: surface-hid: Add support for hot-removal
-Date:   Fri, 20 May 2022 20:34:18 +0200
-Message-Id: <20220520183422.7185-7-luzmaximilian@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220520183422.7185-1-luzmaximilian@gmail.com>
-References: <20220520183422.7185-1-luzmaximilian@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kM3OJDwIslvJlnWNrIl5NE5xFr9ef8ObV315m3v55rA=;
+        b=3OpeZ/elT7B2e7hE4LyC+RS1+r6d+KA8U09taMS8Rt6Rdtq/DzYC+joiQXKUxnWQNB
+         YCBNHV+VxY07VCgds3StzHxUCInevhX9Q1OQDU1D6rwRRV6uQIoIQZxGpRw3K4qs+fdI
+         DdvjOuYBV40dC1cPpJ6bZAMjwevhebOx28kT106nHH8Sbyo+A1URuuba1As3vHv2HB2j
+         6L6NiFo/6FIWdzc+R4sP+epak8jjFehyIQRMuaaL7nCLv3n7+XKiktoamYL1JGo7aNnx
+         0acFbUv2zRUS9/eop0TEQvcc61Gp2KG2QibxMA4juApYxy2X1Q7wIDdV74MmW2vUg/TU
+         kp1g==
+X-Gm-Message-State: AOAM530LWl17MfSmF7yNVSrBSlAYglsj8FS8L8LSTHZ5yEo/0uMPXU2E
+        pr7DneuuuEBB/M+vLdgHXZ8L0OPqO15VnLwtnts=
+X-Google-Smtp-Source: ABdhPJyAIwUtbMfms0jB0bpJ5a6HWEhVHfH/r19ZJ0jbxxU+WJCMlbdYTBoMYvJMVxmAehTN2HKurc6gf1A+eAK0/fg=
+X-Received: by 2002:a17:906:9b8b:b0:6fe:55db:14e with SMTP id
+ dd11-20020a1709069b8b00b006fe55db014emr10904327ejc.327.1653092314979; Fri, 20
+ May 2022 17:18:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
+ <YoX7iHddAd4FkQRQ@infradead.org> <YoX904CAFOAfWeJN@kroah.com>
+ <YoYCIhYhzLmhIGxe@infradead.org> <CAO-hwJL4Pj4JaRquoXD1AtegcKnh22_T0Z0VY_peZ8FRko3kZw@mail.gmail.com>
+ <87ee0p951b.fsf@toke.dk> <CAO-hwJKwj6H0Nc_gqsN5okT2ipLL3H6fqe23_vpO+xC3PnX5uw@mail.gmail.com>
+In-Reply-To: <CAO-hwJKwj6H0Nc_gqsN5okT2ipLL3H6fqe23_vpO+xC3PnX5uw@mail.gmail.com>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Fri, 20 May 2022 17:18:22 -0700
+Message-ID: <CAADnVQ+Qj9Farf-bp4STpe0P+=7Xr2Hqxm5Tru5bLCyPiBJMqg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v5 00/17] Introduce eBPF support for HID devices
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -73,108 +87,64 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for hot-removal of SSAM HID client devices.
+On Thu, May 19, 2022 at 4:56 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> As Greg mentioned in his reply, report descriptors fixups don't do
+> much besides changing a memory buffer at probe time. So we can either
+> have udev load the program, pin it and forget about it, or we can also
+> have the kernel do that for us.
+>
+> So I envision the distribution to be hybrid:
+> - for plain fixups where no userspace is required, we should
+> distribute those programs in the kernel itself, in-tree.
+> This series already implements pre-loading of BPF programs for the
+> core part of HID-BPF, but I plan on working on some automation of
+> pre-loading of these programs from the kernel itself when we need to
+> do so.
+>
+> Ideally, the process would be:
+> * user reports a bug
+> * developer produces an eBPF program (and maybe compile it if the user
+> doesn't have LLVM)
+> * user tests/validates the fix without having to recompile anything
+> * developer drops the program in-tree
+> * some automated magic happens (still unclear exactly how to define
+> which HID device needs which eBPF program ATM)
+> * when the kernel sees this exact same device (BUS/VID/PID/INTERFACE)
+> it loads the fixup
+>
+> - the other part of the hybrid solution is for when userspace is
+> heavily involved (because it exports a new dbus interface for that
+> particular feature on this device). We can not really automatically
+> preload the BPF program because we might not have the user in front of
+> it.
+> So in that case, the program would be hosted alongside the
+> application, out-of-the-tree, but given that to be able to call kernel
+> functions you need to be GPL, some public distribution of the sources
+> is required.
 
-Once a device has been hot-removed, further communication with it should
-be avoided as it may fail and time out. While the device will be removed
-as soon as we detect hot-removal, communication may still occur during
-teardown, especially when unregistering notifiers.
+Agree with everything you've said earlier.
+Just one additional comment:
+By default the source code is embedded in bpf objects.
+Here is an example.
+$ bpftool prog dump jited id 3927008|head -50
+void cwnd_event(long long unsigned int * ctx):
+bpf_prog_9b9adc0a36a25303_cwnd_event:
+; void BPF_STRUCT_OPS(cwnd_event, struct sock* sk, enum tcp_ca_event ev) {
+   0:    nopl   0x0(%rax,%rax,1)
+   5:    xchg   %ax,%ax
+...
+; switch (ev) {
+  25:    mov    %r14d,%edi
+  28:    add    $0xfffffffc,%edi
+...
+; ca->loss_cwnd = tp->snd_cwnd;
+  4a:    mov    %edi,0x18(%r13)
+  4e:    mov    $0x2,%edi
+; tp->snd_ssthresh = max(tp->snd_cwnd >> 1U, 2U);
+  53:    test   %rbx,%rbx
+  56:    jne    0x000000000000005c
 
-While hot-removal is a surprise event that can happen at any time, try
-to avoid communication as much as possible once it has been detected to
-prevent timeouts that can slow down device removal and cause issues,
-e.g. when quickly re-attaching the device.
-
-Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
----
- drivers/hid/surface-hid/surface_hid_core.c | 38 +++++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/surface-hid/surface_hid_core.c b/drivers/hid/surface-hid/surface_hid_core.c
-index e46330b2e561..87637f813de2 100644
---- a/drivers/hid/surface-hid/surface_hid_core.c
-+++ b/drivers/hid/surface-hid/surface_hid_core.c
-@@ -19,12 +19,30 @@
- #include "surface_hid_core.h"
- 
- 
-+/* -- Utility functions. ---------------------------------------------------- */
-+
-+static bool surface_hid_is_hot_removed(struct surface_hid_device *shid)
-+{
-+	/*
-+	 * Non-ssam client devices, i.e. platform client devices, cannot be
-+	 * hot-removed.
-+	 */
-+	if (!is_ssam_device(shid->dev))
-+		return false;
-+
-+	return ssam_device_is_hot_removed(to_ssam_device(shid->dev));
-+}
-+
-+
- /* -- Device descriptor access. --------------------------------------------- */
- 
- static int surface_hid_load_hid_descriptor(struct surface_hid_device *shid)
- {
- 	int status;
- 
-+	if (surface_hid_is_hot_removed(shid))
-+		return -ENODEV;
-+
- 	status = shid->ops.get_descriptor(shid, SURFACE_HID_DESC_HID,
- 			(u8 *)&shid->hid_desc, sizeof(shid->hid_desc));
- 	if (status)
-@@ -61,6 +79,9 @@ static int surface_hid_load_device_attributes(struct surface_hid_device *shid)
- {
- 	int status;
- 
-+	if (surface_hid_is_hot_removed(shid))
-+		return -ENODEV;
-+
- 	status = shid->ops.get_descriptor(shid, SURFACE_HID_DESC_ATTRS,
- 			(u8 *)&shid->attrs, sizeof(shid->attrs));
- 	if (status)
-@@ -88,9 +109,18 @@ static int surface_hid_start(struct hid_device *hid)
- static void surface_hid_stop(struct hid_device *hid)
- {
- 	struct surface_hid_device *shid = hid->driver_data;
-+	bool hot_removed;
-+
-+	/*
-+	 * Communication may fail for devices that have been hot-removed. This
-+	 * also includes unregistration of HID events, so we need to check this
-+	 * here. Only if the device has not been marked as hot-removed, we can
-+	 * safely disable events.
-+	 */
-+	hot_removed = surface_hid_is_hot_removed(shid);
- 
- 	/* Note: This call will log errors for us, so ignore them here. */
--	ssam_notifier_unregister(shid->ctrl, &shid->notif);
-+	__ssam_notifier_unregister(shid->ctrl, &shid->notif, !hot_removed);
- }
- 
- static int surface_hid_open(struct hid_device *hid)
-@@ -109,6 +139,9 @@ static int surface_hid_parse(struct hid_device *hid)
- 	u8 *buf;
- 	int status;
- 
-+	if (surface_hid_is_hot_removed(shid))
-+		return -ENODEV;
-+
- 	buf = kzalloc(len, GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
-@@ -126,6 +159,9 @@ static int surface_hid_raw_request(struct hid_device *hid, unsigned char reportn
- {
- 	struct surface_hid_device *shid = hid->driver_data;
- 
-+	if (surface_hid_is_hot_removed(shid))
-+		return -ENODEV;
-+
- 	if (rtype == HID_OUTPUT_REPORT && reqtype == HID_REQ_SET_REPORT)
- 		return shid->ops.output_report(shid, reportnum, buf, len);
- 
--- 
-2.36.1
-
+It's not the full source, of course, but good enough in practice
+for a person to figure out what program is doing.
