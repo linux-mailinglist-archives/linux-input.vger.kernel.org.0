@@ -2,70 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE149531E52
-	for <lists+linux-input@lfdr.de>; Tue, 24 May 2022 00:02:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F25DB531E63
+	for <lists+linux-input@lfdr.de>; Tue, 24 May 2022 00:13:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231293AbiEWWCt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 May 2022 18:02:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60368 "EHLO
+        id S229473AbiEWWNG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 May 2022 18:13:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229594AbiEWWCr (ORCPT
+        with ESMTP id S229379AbiEWWNF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 May 2022 18:02:47 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 064916FD26;
-        Mon, 23 May 2022 15:02:47 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id fw21-20020a17090b129500b001df9f62edd6so786133pjb.0;
-        Mon, 23 May 2022 15:02:47 -0700 (PDT)
+        Mon, 23 May 2022 18:13:05 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 288446D4FC;
+        Mon, 23 May 2022 15:13:05 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id w2-20020a17090ac98200b001e0519fe5a8so516247pjt.4;
+        Mon, 23 May 2022 15:13:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ZEKMyEh/E8SYLhxTN5ZGor0b8jTi1kpeB5E+5XqApgE=;
-        b=LzKQDUdQD7/u24gLVGuSHe7ENL4hlq+AwB/ZI4SJpmuU4YOmNI0zTLHJInEjsaMpcS
-         mxiW1DjEr5BAIPwjdBO/rX72TYH1K6vuk4Y9Gyy4JjJHc76oEvnCeFs/KopdvlGMQQZq
-         r6y+bHQlMaOiOOX3Q9vfUwYyEg6hvVAuxtTyrGbd30T8RoaQkaas8YMHN0Y4vgblTip8
-         LVwpiEnGHONzomtH1jgyqi9Vh0rH/hM/zVXpGjkO4laYELhAov+cVhfeYRFPP3nftEER
-         MmjpagFsq3LW/Zdl5FPBVZllvRjsTnnK5SDz2PBv+6icxDzwDnXpQ2ywkzTWHh0Up3BI
-         2vJw==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=qlf5oC7nbFp7JFcEvQgRc08GVWjJu27OOp/51PqPx9U=;
+        b=mwQZVOyw5TYzABamKOu9R5KjnjBSoXV2pVjrPfGHz9tb3bt0ORFzDi9Eb/Aufjm0tH
+         GUuoa+wt9SzJrXOSpUYGJiNAJAKGC8kqXX9INvJL3Jp7f2tqMgo6vkDlywBkGT25lZFC
+         i77vNjbiiVt6EZgu8CcXtF/mJpm9Jd9vMzG6+Xjy8z8Zes8IYMG3H55YG52FZr6CB07P
+         2OoM0sfd9St3+8GG58j4TXoI3jEBwV1aNsoRy5aVJkU9pX+jpoHQH0hN8rZikhfzdHyJ
+         cOLChU33Gj74ETEARYHbUzDnau+7hp2kpr9cae5L1g0Q40XVgs5A8wGqOMR973EPULGm
+         srIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ZEKMyEh/E8SYLhxTN5ZGor0b8jTi1kpeB5E+5XqApgE=;
-        b=7MMYd98YfXQNoYl4eyIEQCOgfRUf9FawCBMCa+mIrQfXHI+1uehGetbqqHGyRNtrb8
-         PLIsDqAfirqpns/rBSUBg/G6UvxYXBslOZpvcOfGwGvma0SpLlIIQtpHN3bOUMYFgOyK
-         BFFU0UJjji1mlIlTsIg2f7jJcWDPa9aicpyLiVsYUwzzOQQBHcz2LiG4LDVKuvNGQizK
-         3URPydNNTjN2NGuzmhWSKm4VTUDIhTwZuHTbK7Cmdwa1l32eqDNZIctJDbtC6TJ/RmdT
-         gJegKDsu1feUE7IaZORzsWtZ1vm8ENBcRGwpY0YZJZVW+VwcIlt8OH1tCFpSpEUq5Xv6
-         6O+Q==
-X-Gm-Message-State: AOAM532PEHBuB3Cvm4fXqsr3wXWbQB61vMEh7joETR3R0hShJ+GPxHFg
-        EVUt1VPfl5gf2wivuEJVFeM=
-X-Google-Smtp-Source: ABdhPJwN/7mXyn+nlRmJJvbHbIxxftDyw/uoYFxuJZBEMbyzBhlx3lLwCqu4ydEqlV/SIMsvyCwhHQ==
-X-Received: by 2002:a17:902:f253:b0:161:d61e:7d3c with SMTP id j19-20020a170902f25300b00161d61e7d3cmr24159593plc.33.1653343366362;
-        Mon, 23 May 2022 15:02:46 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=qlf5oC7nbFp7JFcEvQgRc08GVWjJu27OOp/51PqPx9U=;
+        b=69HtPJmr0oA+nrwl9/gZp5tyKlesvmN7f3PqEBAlCoVrmGUjc7esKJ0vfQuSKXX4Fs
+         bCT7xlRY9XSO8RqvvUg5lI87c6BQsHysn0+vuHmYtFtwZmiwJ3CYPQL0P9+XY8S1dcFW
+         NsCLH3fC95S0M+f5O7ODetwAS7giB7FzTHYd72vBHvfsdHhi1G4bN8GEhkhS+QF518Jz
+         iG4QZV1y7zLGQkv6JwaVxiEaxtAkLC2PwfbXKgCTJ4emGz1TWMHpiT7vT8KDifuA1Y/c
+         R2iQiXEG47X/1RDRwnnB0UxRcYeIEOGfkLIU6g86p9vpBYvzTD1O3xeEchOJQHxwxPaL
+         Hzjw==
+X-Gm-Message-State: AOAM532iFEo3TALa2QwJQdgPE1LYidrF+8sAw6M1ut2RZDYAWKWMv0U2
+        W2gxq6xWbWoJOtiIvOVAgQskB582tWw=
+X-Google-Smtp-Source: ABdhPJyqd18E8y7p3aVlXcJT6MwhP1zFwQOyM+vhqjcHvicb+ZVnvRptOubC0gPwmkqyivxOYcHYhg==
+X-Received: by 2002:a17:902:b10f:b0:161:f196:b4e with SMTP id q15-20020a170902b10f00b00161f1960b4emr18689551plr.134.1653343983492;
+        Mon, 23 May 2022 15:13:03 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:ce25:f34f:c90d:61fa])
-        by smtp.gmail.com with ESMTPSA id o15-20020a17090a420f00b001d92e2e5694sm191192pjg.1.2022.05.23.15.02.44
+        by smtp.gmail.com with ESMTPSA id h16-20020a170902f55000b0016194c1df58sm5621147plf.105.2022.05.23.15.13.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 15:02:45 -0700 (PDT)
-Date:   Mon, 23 May 2022 15:02:42 -0700
+        Mon, 23 May 2022 15:13:02 -0700 (PDT)
+Date:   Mon, 23 May 2022 15:13:00 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Robin van der Gracht <robin@protonic.nl>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Olof Johansson <olof@lixom.net>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: input: matrix-keymap: Add common
- 'linux,no-autorepeat' property
-Message-ID: <YowEgvwBOSEK+kd2@google.com>
-References: <20220523170449.1763039-1-robh@kernel.org>
- <YovWpSvabyhcYnzL@google.com>
- <20220523194503.GA2004570-robh@kernel.org>
+To:     linux-input@vger.kernel.org
+Cc:     Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: mtk-pmic-keys - allow compiling with COMPILE_TEST
+Message-ID: <YowG7BVsJTNd0ELi@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220523194503.GA2004570-robh@kernel.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -76,40 +69,31 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 23, 2022 at 02:45:03PM -0500, Rob Herring wrote:
-> On Mon, May 23, 2022 at 11:47:01AM -0700, Dmitry Torokhov wrote:
-> > On Mon, May 23, 2022 at 12:04:49PM -0500, Rob Herring wrote:
-> > > 'linux,no-autorepeat' is a common property used in multiple bindings,
-> > > but doesn't have a common type definition nor description. Add a common
-> > > definition and drop the now redundant description from
-> > > holtek,ht16k33.yaml.
-> > 
-> > We have "autorepeat" in the common input binding description, should we
-> > not promote it over "no-autorepeat"?
-> 
-> We're kind of stuck with it I think. We can't just deprecate one and 
-> switch existing users as what would neither property present mean?
+There are no hard architecture dependencies in the driver, so to improve
+compile test coverage let's enable the driver when COMPILE_TEST is
+selected.
 
-I agree, we should not change existng bindings.
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/keyboard/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> Hopefully, documented in input.yaml vs. matrix-keypad.yaml is enough to 
-> say which one is preferred for new users. 
+diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
+index 4ea79db8f134..a20ee693b22b 100644
+--- a/drivers/input/keyboard/Kconfig
++++ b/drivers/input/keyboard/Kconfig
+@@ -795,7 +795,7 @@ config KEYBOARD_MT6779
+ 
+ config KEYBOARD_MTK_PMIC
+ 	tristate "MediaTek PMIC keys support"
+-	depends on MFD_MT6397
++	depends on MFD_MT6397 || COMPILE_TEST
+ 	help
+ 	  Say Y here if you want to use the pmic keys (powerkey/homekey).
+ 
+-- 
+2.36.1.124.g0e6072fb45-goog
 
-So this is what I have issue with, as I think it will introduce
-confusion: we have drivers/input/matrix-keymap.c and corresponding
-binding Documentation/devicetree/bindings/input/matrix-keymap.yaml that
-deals with parsing keymap-related properties for various matrix keypads.
-It does not specify autorepeat handling one way or another. Then we have
-drivers/input/keyboard/matrix_keypad.c that is one implementation of
-matrix keypads, and it does have linux,no-autorepeat, but it does not
-mean that other devices resembling matrix keypad are forced to use
-linux,no-autorepeat. And that is why I think putting this property into
-the generic binding
-Documentation/devicetree/bindings/input/matrix-keymap.yaml is not a good
-idea.
-
-Thanks.
 
 -- 
 Dmitry
