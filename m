@@ -2,64 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AB475316AA
-	for <lists+linux-input@lfdr.de>; Mon, 23 May 2022 22:52:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FE8E531DA5
+	for <lists+linux-input@lfdr.de>; Mon, 23 May 2022 23:23:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230248AbiEWTpX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 May 2022 15:45:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46002 "EHLO
+        id S231657AbiEWVXd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 May 2022 17:23:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231933AbiEWTpL (ORCPT
+        with ESMTP id S231381AbiEWVXc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 May 2022 15:45:11 -0400
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E82B39B;
-        Mon, 23 May 2022 12:45:05 -0700 (PDT)
-Received: by mail-oi1-f171.google.com with SMTP id e189so19040109oia.8;
-        Mon, 23 May 2022 12:45:05 -0700 (PDT)
+        Mon, 23 May 2022 17:23:32 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4AFB6FD22
+        for <linux-input@vger.kernel.org>; Mon, 23 May 2022 14:23:30 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id v5-20020a17090a7c0500b001df84fa82f8so425765pjf.5
+        for <linux-input@vger.kernel.org>; Mon, 23 May 2022 14:23:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sQAatZV5NnfoF9WuNNy+yRJv0Fno2wnlohfY6hxqcKo=;
+        b=XLcg+FpMHpseQi+OkiMTv3/y5Vv/vzEzVgxLJ+voWj/1pzB6aG7oqja0fl9mgXWEau
+         /2qYZnBjmZlNRWo3A2g+fAn7NkZmGB27uYFEkwnz4yFCGUnABEj3cxu9deWc3N0kONtL
+         PPuY1IXpFEwLrIu3HjNlgw6PwqPgXYvD7yiZM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8QuWz2Mjtt5rst0g3ggmFv6IrEyFmgOByNDWupAMrDs=;
-        b=YTKSVU2Qk6kN4s+lmvIyQQ9d8uRnspySJIqjxneilS1lBUrGS1DGuu37sVHOptLIsU
-         7qOQZ7liQL5jjoaNfX8iyz+sEhUKPIxfxPDDC4gSPXOUs+WvjBS103SZpHVs7d7PjjB/
-         Zw03Lp480pZTiEOHUjEvhi1MKa9eM2/CxUftxgNSCJJBTUZHBaHuCs7Cs9juTtN5xvn4
-         Iv4GSucbUu0KVJ2VR1CURNh9Q4MWRk3RJhmBmgLmhd02nfWu/77VX1w4DrfECEWpcVhW
-         SFuSI60S3SdBn1JRfhJQi+e3/GDdxf+UvhUFfSmfLGBu9i0WUSW392ysZxUEC+MXvoF4
-         K+pg==
-X-Gm-Message-State: AOAM530vIqYhIeucwdwEYOyvTybyMP/vQWBe2y6qrrKfWfEZYDNrLzDv
-        zRJFBDZ94tGRreHd3JC4d+pto9BcUA==
-X-Google-Smtp-Source: ABdhPJx+ccOOhlILod3IObwcYhri/hjaVhQcrfGm7LvMK/NjAdC10/SDIKP+s7ceFHKroQ6OlbjEgg==
-X-Received: by 2002:a05:6808:1981:b0:32b:9fc:6f9e with SMTP id bj1-20020a056808198100b0032b09fc6f9emr375889oib.111.1653335104820;
-        Mon, 23 May 2022 12:45:04 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id m12-20020a4a390c000000b0035eb4e5a6cbsm4564240ooa.33.2022.05.23.12.45.03
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sQAatZV5NnfoF9WuNNy+yRJv0Fno2wnlohfY6hxqcKo=;
+        b=XEruVE+ywkIMy11BDxiYQ2TAiAGY526sqTb311iiUPjcaNK8aNqiPY8jCe+q59G2Qy
+         B59Ut8fFA62kHpNqHRuxTRvzoiLizqBIZ2VKFClEilaugKH5nw5GEfOaMH0M1/bFQ7re
+         k1dABGV17QP5UyGDloE4d+P/Fle9V99zyqH13xSFyCXhq6C28YLu+nZQ/zqpDpP3QoK3
+         W6pxGY7PDjNhaZcGc622eOQclYN2PSM9utwDGi+HIV2NGU2wISv1f6Lt1sCQMwz95917
+         HDD1kt9kWeftHwcbu4HVR+/KivqE/7ZaVLkJzZlzXbkTVQ3whKuIC43CT8MyJ720cYwD
+         CWlw==
+X-Gm-Message-State: AOAM533sxzaa0ld4Q4w9oOIazngo0PPmdwAbdais+bBjZ2uMXidubivE
+        tSXMe0c0cEa/+6IkN4N3wyUzSA==
+X-Google-Smtp-Source: ABdhPJwUu257XWos/EKzre0r3S5qICXanQlox2IWgIPD8747Pymaf7700D7Rm+fp0UynkANX6FUT6Q==
+X-Received: by 2002:a17:90b:4d8b:b0:1dc:aebe:4c8b with SMTP id oj11-20020a17090b4d8b00b001dcaebe4c8bmr970265pjb.145.1653341010131;
+        Mon, 23 May 2022 14:23:30 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:201:64b0:b6b9:c0f3:1cc8])
+        by smtp.gmail.com with ESMTPSA id x2-20020a170902ec8200b0015e8d4eb234sm5545922plg.126.2022.05.23.14.23.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 12:45:04 -0700 (PDT)
-Received: (nullmailer pid 2023787 invoked by uid 1000);
-        Mon, 23 May 2022 19:45:03 -0000
-Date:   Mon, 23 May 2022 14:45:03 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Robin van der Gracht <robin@protonic.nl>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Olof Johansson <olof@lixom.net>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: input: matrix-keymap: Add common
- 'linux,no-autorepeat' property
-Message-ID: <20220523194503.GA2004570-robh@kernel.org>
-References: <20220523170449.1763039-1-robh@kernel.org>
- <YovWpSvabyhcYnzL@google.com>
+        Mon, 23 May 2022 14:23:29 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        swboyd@chromium.org, mka@chromium.org,
+        Douglas Anderson <dianders@chromium.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] dt-bindings: HID: i2c-hid: elan: Introduce bindings for Elan eKTH6915
+Date:   Mon, 23 May 2022 14:23:23 -0700
+Message-Id: <20220523142257.v2.1.Iedc61f9ef220a89af6a031200a7850a27a440134@changeid>
+X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YovWpSvabyhcYnzL@google.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,21 +71,115 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 23, 2022 at 11:47:01AM -0700, Dmitry Torokhov wrote:
-> On Mon, May 23, 2022 at 12:04:49PM -0500, Rob Herring wrote:
-> > 'linux,no-autorepeat' is a common property used in multiple bindings,
-> > but doesn't have a common type definition nor description. Add a common
-> > definition and drop the now redundant description from
-> > holtek,ht16k33.yaml.
-> 
-> We have "autorepeat" in the common input binding description, should we
-> not promote it over "no-autorepeat"?
+Like many i2c-hid touchscreen controllers, the Elan eKTH6915
+controller has a reset gpio. For the Goodix GT7375P touchscreen the
+decision was to add a new binding rather than trying to add a new GPIO
+to the existing i2c-hid binding. We'll follow the lead and do it here,
+too.
 
-We're kind of stuck with it I think. We can't just deprecate one and 
-switch existing users as what would neither property present mean?
+SIDE NOTE: the Elan eKTH6915 is a touchscreen _controller_ that's
+included as a part on some touchscreens. The reset line isn't truly
+necessary for the functioning of the touchscreen, so it's possible
+that some designs won't have it hooked up and will just guarantee the
+power sequencing requirements with RLC circuits. Thus, we'll mark the
+reset gpio as optional.
 
-Hopefully, documented in input.yaml vs. matrix-keypad.yaml is enough to 
-say which one is preferred for new users. 
+Note that if the reset GPIO isn't used there's actually no true need
+to use the "elan,ekth6915" compatible instead of the "hid-over-i2c" on
+Linux. However:
+- Officially using just "hid-over-i2c" for this device violates the
+  existing "hid-over-i2c" bindings. The bindings say that you're not
+  supposed to use "post-power-on-delay-ms" without specifying a more
+  specific compatible. Currently the Linux driver doesn't enforce
+  this, but it violates the bindings to just use
+  "hid-over-i2c". ...and if you're going to add a more specific
+  compatible anyway, might as well do it right.
+- Using this compatible means we don't need to specify
+  "hid-descr-addr" since it's inferred from the compatible.
+- Using this compatible means that the regulator names match the names
+  on the Elan datasheet (vcc33 / vccio) vs the generic hid-over-i2c
+  (vdd / vddl).
 
-Rob
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+
+(no changes since v1)
+
+ .../bindings/input/elan,ekth6915.yaml         | 65 +++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+
+diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+new file mode 100644
+index 000000000000..05e6f2df604c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+@@ -0,0 +1,65 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/elan,ekth6915.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Elan eKTH6915 touchscreen controller
++
++maintainers:
++  - Douglas Anderson <dianders@chromium.org>
++
++description:
++  Supports the Elan eKTH6915 touchscreen controller.
++  This touchscreen controller uses the i2c-hid protocol with a reset GPIO.
++
++properties:
++  compatible:
++    items:
++      - const: elan,ekth6915
++
++  reg:
++    const: 0x10
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    description: Reset GPIO; not all touchscreens using eKTH6915 hook this up.
++
++  vcc33-supply:
++    description: The 3.3V supply to the touchscreen.
++
++  vccio-supply:
++    description:
++      The IO supply to the touchscreen. Need not be specified if this is the
++      same as the 3.3V supply.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - vcc33-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      ap_ts: touchscreen@10 {
++        compatible = "elan,ekth6915";
++        reg = <0x10>;
++
++        interrupt-parent = <&tlmm>;
++        interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
++
++        reset-gpios = <&tlmm 8 GPIO_ACTIVE_LOW>;
++        vcc33-supply = <&pp3300_ts>;
++      };
++    };
+-- 
+2.36.1.124.g0e6072fb45-goog
 
