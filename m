@@ -2,68 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 807A6531CA9
-	for <lists+linux-input@lfdr.de>; Mon, 23 May 2022 22:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53C9053171F
+	for <lists+linux-input@lfdr.de>; Mon, 23 May 2022 22:52:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229884AbiEWTMH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 May 2022 15:12:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56002 "EHLO
+        id S229919AbiEWTTC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 May 2022 15:19:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbiEWTL6 (ORCPT
+        with ESMTP id S229495AbiEWTSj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 May 2022 15:11:58 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97FB9127184;
-        Mon, 23 May 2022 11:47:06 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id oe17-20020a17090b395100b001df77d29587so79466pjb.2;
-        Mon, 23 May 2022 11:47:06 -0700 (PDT)
+        Mon, 23 May 2022 15:18:39 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24CC4102754;
+        Mon, 23 May 2022 11:53:41 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id rs12so18994402ejb.13;
+        Mon, 23 May 2022 11:53:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=76y2+oo/qoXjDueiDl15GinWPP3MWuyZztlDDTW4C/M=;
-        b=F4PlRYXJF2/GFGMk4w6a7AxUnjicJVCwRusnWkr1inPCRqBzTVedrz5vRAOFJzoHU7
-         WNRAVJ8aU3StNlBBA3b4ER8ntGB0aBFL9Kng1oJxAse4h4Yl5agPyt0t3j8UEM0wE6Hf
-         9XlQt43WSUJvxGNloCUAmPn+Db2vQZAAY2YDHth1oEtIOL89N0SVMLf8J8wuhssKiWMF
-         TxpWsZ09eE3Rxi2t+EALL/qFpYR/Fjawm6KlFGFOyWXw4HInsaW/3TjoS0iViCALkb6/
-         Mh467VsaT2bJT0ids++DspMVGP3tzlVkXrs7unHw81dDb5+bHjQR20T08WC8/OQGZdGE
-         K2Vg==
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=2ZCytUAOk/pwtZMG0E9kDBiBIfg7JhM/yV+MzcZ70mQ=;
+        b=NI/JfXS1L2wh4cJIiAKkRxgD/lBjQdoqhzs3WtDHs/U+plYwHdMvx8dm0DmByDGMsr
+         Z1igtZ1XLfQmGMybQ2Uwt8l/g2Ecla/nFnTX+/xteStQUt6OMiL/1Al5f4rbUp/uFwcJ
+         enh8IGEpRTv3I30wUz8u8KKpBEmQDV8+6TXZyQB5S2uY/W5UF1zj91F/gRR+wWX/352R
+         bEiXKIc9h8xs90J02meMvClExc+hzEEVvl7m3PDN7eRLa5/ufB3hWmj/HZyYHcq4jyYg
+         Hn2QKlWWP96bFrOFwPKGNJWbfdKRr+/OJSVH0HLU2o2FiEWP/xIt+MGef4X7QpUF5wc/
+         y/jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=76y2+oo/qoXjDueiDl15GinWPP3MWuyZztlDDTW4C/M=;
-        b=yWS2PDZ4no+eHNnxdXGgeX3xWcDoDubp9ez1NoMQU8Z9Ns0e5w/Iu12eWxzDOi29ux
-         SZWaXrcqiCkD8KWQTFCT0SBM68+wfm/AHdtPGy1NbwOx/rhweBbGFVzA8BVHgtCEqJOa
-         TGTRJMrogUfpQEKla7DvfdFVLNpD+65YZWTI4oIcj8xT9N+goaGOjJ2WWTdshu0BisE/
-         7RKN2ZkN2zQU6IdKFgMHiUaXF6p1VUy5oIdd/5y8I7M6huj53HL3SZXtyOZBywb5j5jK
-         +YU/XtWLAp5hkgsZaOGQKRPGAkMUO74kxfUF+oz/wUHLKw8qyNu10gb4OReIsb+Qx/l8
-         rA7A==
-X-Gm-Message-State: AOAM533g97ygDo+edrS19Xz62WHUYu+8t+yPhQ8vCFb7x2CwWmWMaRan
-        5demWMg+GwK3E4+YnJhivMg=
-X-Google-Smtp-Source: ABdhPJya/XVPBAZBJWCeJgtfcR/OthObwsxduUh9+jPxAPH/otv1kUfC0sA+9tHxzhgCAjUQbVSr6g==
-X-Received: by 2002:a17:90b:4b0a:b0:1df:deda:7880 with SMTP id lx10-20020a17090b4b0a00b001dfdeda7880mr372129pjb.53.1653331625696;
-        Mon, 23 May 2022 11:47:05 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:ce25:f34f:c90d:61fa])
-        by smtp.gmail.com with ESMTPSA id y132-20020a62ce8a000000b00518285976cdsm7519431pfg.9.2022.05.23.11.47.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 11:47:04 -0700 (PDT)
-Date:   Mon, 23 May 2022 11:47:01 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Robin van der Gracht <robin@protonic.nl>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Olof Johansson <olof@lixom.net>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: input: matrix-keymap: Add common
- 'linux,no-autorepeat' property
-Message-ID: <YovWpSvabyhcYnzL@google.com>
-References: <20220523170449.1763039-1-robh@kernel.org>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=2ZCytUAOk/pwtZMG0E9kDBiBIfg7JhM/yV+MzcZ70mQ=;
+        b=InaMt/XTK4ybS2InPxVfwQRHbOY35dYeQWobbeMmSIw9YmiXRJjtJo4RsHz/XRzbIE
+         C3kpOMCAYjVTQcu28NEAXlkPskK3M3Dv0CPbz1VTYsIKtACbObYnPvwk7dN+7FCcF57b
+         EzL9nW54XjNnP+9+954QLm/L5AACLCi2LDw2Ij9FnkhuEo5sHI5vEy1AHM/MyccPLTHp
+         A6yeZkemPUS+Afsec2lD4l49mlpd5BSog0sayaF1nmsPtmukfwi2dIXFLKVfTs1LZlDX
+         HK+VrfqCPuglgK7zhZH1eQMl4t6ykQ1Si+DKO5pBO8v6Eq7H9+FKKfOpzv7S4RoLQ0Ki
+         2yqA==
+X-Gm-Message-State: AOAM532JL9u5DkY0yoG9vIFKOPr/Iu7a4K9/XsmJLEzIvef7bmiv/t6q
+        y7QIJFRSit5RxLEIOn50c75hzbnNE3ly50xteR0=
+X-Google-Smtp-Source: ABdhPJzq7ECdMNaNpe0qi+bNZ0NjNDyJx6bQY7R/ckcsux4ZSYoEZPUXFsn9urmaxAiTzHYAGf18eDVcOWspllDpHhg=
+X-Received: by 2002:a17:907:3ea5:b0:6fe:ce25:7a69 with SMTP id
+ hs37-20020a1709073ea500b006fece257a69mr7803508ejc.626.1653332019476; Mon, 23
+ May 2022 11:53:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220523170449.1763039-1-robh@kernel.org>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Mon, 23 May 2022 15:53:30 -0300
+Message-ID: <CAOMZO5CsGxwos0_SwSEACZxSUVwPeT7GiwzT8W+sV=o=b=i-Mw@mail.gmail.com>
+Subject: goodix: Commit for 5.4 stable inclusion
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     dmastykin@astralinux.ru,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        stable <stable@vger.kernel.org>, linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -74,16 +63,15 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 23, 2022 at 12:04:49PM -0500, Rob Herring wrote:
-> 'linux,no-autorepeat' is a common property used in multiple bindings,
-> but doesn't have a common type definition nor description. Add a common
-> definition and drop the now redundant description from
-> holtek,ht16k33.yaml.
+Hi,
 
-We have "autorepeat" in the common input binding description, should we
-not promote it over "no-autorepeat"?
+I would like to kindly request the inclusion of commit 24ef83f6e31d
+("Input: goodix - fix spurious key release events") to the 5.4 stable
+tree.
 
-Thanks.
+It fixes the spurious touches reported on an imx6dl board with Goodix
+GT911 running kernel 5.4.
 
--- 
-Dmitry
+Thanks,
+
+Fabio Estevam
