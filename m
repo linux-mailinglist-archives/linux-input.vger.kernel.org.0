@@ -2,55 +2,41 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E55E9530BE2
-	for <lists+linux-input@lfdr.de>; Mon, 23 May 2022 11:03:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 445DD530F19
+	for <lists+linux-input@lfdr.de>; Mon, 23 May 2022 15:18:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232273AbiEWI6x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 May 2022 04:58:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52894 "EHLO
+        id S235040AbiEWLqb convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Mon, 23 May 2022 07:46:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232300AbiEWI6w (ORCPT
+        with ESMTP id S235110AbiEWLq2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 May 2022 04:58:52 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1B613E0D3;
-        Mon, 23 May 2022 01:58:51 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id 450081F42575
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1653296330;
-        bh=7UgM4ruQTstnqIM046Xou/g3stt98V447+t6kKN3sCU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=N9rC/Ny9ej6qs7tbI98vVloYt0/LslMcDJWyfytwwtWbuJaejzOu6yd3Gt1b6ALRm
-         QFS6d4Jbz3rk5xnH5/NqW/IyuFCota2t7OOysSaNShon1S5NyjSCD5AqE2Nm9Y++Ek
-         vQBno/8lebbuo7ueDf8lq4Vy9XZ1KC9tBSazzSMqikgpS6mgRArJXFBL+Z3kJbzz79
-         L+lfQtQVL8gKCzTvNPKR7fhiO4tTAt7zPGPWlgpuYmf2F6f0/z/2sMAm5WMFZps3GF
-         +4tHF2/D5RHtc/3kAQ09K/zT8pb2C/32Au6Gf/4JzYh92mSr1Md4me9tMl8X6FHYb8
-         7LGpECA+lXTiA==
-Message-ID: <926ce818-4f42-898d-aca8-185b5c7434ba@collabora.com>
-Date:   Mon, 23 May 2022 10:58:47 +0200
+        Mon, 23 May 2022 07:46:28 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97D0645799
+        for <linux-input@vger.kernel.org>; Mon, 23 May 2022 04:46:25 -0700 (PDT)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 260AD1BF214;
+        Mon, 23 May 2022 11:46:22 +0000 (UTC)
+Message-ID: <04aa8b0ecab7c02f515149da0128780d92f6e95d.camel@hadess.net>
+Subject: Re: Battery indication for Logitech devices
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Nestor Lopez Casado <nlopezcasad@logitech.com>,
+        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
+Cc:     Marcos Alano <marcoshalano@gmail.com>,
+        HID CORE LAYER <linux-input@vger.kernel.org>
+Date:   Mon, 23 May 2022 13:46:22 +0200
+In-Reply-To: <e987204d78c42ab3811d139daef43f9f31e65092.camel@hadess.net>
+References: <CAO3Us=nJbw6haHuCg6ZTwamggRFfKuTncg2r9XwDxjv0-ocZtw@mail.gmail.com>
+         <a2ccd37e20b210a1a35188c949d5658314a22c86.camel@archlinux.org>
+         <CAE7qMrrOU4-qZZh_YoDXS__Xhh2cCJsnnJ-G245_ENrEEp0e3g@mail.gmail.com>
+         <e987204d78c42ab3811d139daef43f9f31e65092.camel@hadess.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 2/5] Input: mtk-pmic-keys - Use regmap_{set,clear}_bits
- where possible
-Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     matthias.bgg@gmail.com, mkorpershoek@baylibre.com,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20220520125132.229191-1-angelogioacchino.delregno@collabora.com>
- <20220520125132.229191-3-angelogioacchino.delregno@collabora.com>
- <YosS0ZvAovyl8cF5@google.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <YosS0ZvAovyl8cF5@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,91 +44,47 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Il 23/05/22 06:51, Dmitry Torokhov ha scritto:
-> On Fri, May 20, 2022 at 02:51:29PM +0200, AngeloGioacchino Del Regno wrote:
->> Instead of always using regmap_update_bits(), let's go for the shorter
->> regmap_set_bits() and regmap_clear_bits() where possible.
->>
->> No functional change.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   drivers/input/keyboard/mtk-pmic-keys.c | 24 ++++++------------------
->>   1 file changed, 6 insertions(+), 18 deletions(-)
->>
->> diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
->> index 8e4fa7cd16e6..83d0b90cc8cb 100644
->> --- a/drivers/input/keyboard/mtk-pmic-keys.c
->> +++ b/drivers/input/keyboard/mtk-pmic-keys.c
->> @@ -157,28 +157,16 @@ static void mtk_pmic_keys_lp_reset_setup(struct mtk_pmic_keys *keys,
->>   
->>   	switch (long_press_mode) {
->>   	case LP_ONEKEY:
->> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
->> -				   MTK_PMIC_PWRKEY_RST,
->> -				   MTK_PMIC_PWRKEY_RST);
->> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
->> -				   MTK_PMIC_HOMEKEY_RST,
->> -				   0);
->> +		regmap_set_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_PWRKEY_RST);
->> +		regmap_clear_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_HOMEKEY_RST);
+On Mon, 2022-04-04 at 12:12 +0200, Bastien Nocera wrote:
+> On Mon, 2022-04-04 at 09:10 +0200, Nestor Lopez Casado wrote:
+> > Hello,
+> > 
+> > I've got this from asking internally:
+> > 
+> > " The information should be accurate in both BAS and HIDPP
+> > interfaces.
+> > However, today the BAS interface is limited. Version  2.0 will be
+> > better but not yet released. As you have access to the HIDPP, I
+> > recommend using only this one. Like this, the type of connection
+> > can
+> > be ignored (BLE or USB dongle) "
 > 
-> Why not combine this into a single update instead? I.e. assuming
+> As per the patch I just sent (HID: logitech-hidpp: Add Signature
+> M650),
+> it will unfortunately be difficult to disable the battery reporting
+> directly from bluetoothd.
 > 
+> We can detect whether a Bluetooth device supports HID++, as it has a
+> GATT attribute with a Logitech specific UUID[1] (more info/specs
+> welcome), but not all the HID++ capable Bluetooth devices seem to be
+> detected by the kernel and they need to be added to a list.
+> 
+> Ideally, the kernel could enable HID++ support for all the Bluetooth
+> HID++-capable devices, and we could easily block reporting in upower
+> or
+> bluetoothd without having to care at runtime about whether there's a
+> separate battery reporting interface because we could assume it was
+> always there.
+> 
+> Any ideas on how to do that?
 
-All downstream kernels (at least, I checked 4 different kernel versions for 4
-different SoCs) are doing these updates one-at-a-time, never combining them.
+Asking this again.
 
-Even though I agree with you about one single update being simply more logical,
-I am afraid that (on some SoCs) the IP will not like that so - since I don't have
-any *clear* documentation saying that this is possible, or that this is not, I
-would leave it like that.
+Is there a full list somewhere of all the Bluetooth devices that
+support HID++ or a way to detect them so we can avoid the piecemeal
+approach currently taken:
+https://lore.kernel.org/linux-input/20220404100311.3304-1-hadess@hadess.net/
 
+Once we know for certain what all those Logitech devices are, we can
+start blocking them in upower or bluez.
 
-> #define MTK_PMIC_KEY_RST_MASK GENMASK(6, 5)
-> 
-> 		regmap_update_bits(keys->regmap, pmic_rst_reg,
-> 				   MTK_PMIC_KEY_RST_MASK,
-> 				   MTK_PMIC_PWRKEY_RST);
-> 
->>   		break;
->>   	case LP_TWOKEY:
->> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
->> -				   MTK_PMIC_PWRKEY_RST,
->> -				   MTK_PMIC_PWRKEY_RST);
->> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
->> -				   MTK_PMIC_HOMEKEY_RST,
->> -				   MTK_PMIC_HOMEKEY_RST);
->> +		regmap_set_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_PWRKEY_RST);
->> +		regmap_set_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_HOMEKEY_RST);
-> 
-> 		regmap_update_bits(keys->regmap, pmic_rst_reg,
-> 				   MTK_PMIC_KEY_RST_MASK,
-> 				   MTK_PMIC_PWRKEY_RST | MTK_PMIC_HOMEKEY_RST);
-> 
->>   		break;
->>   	case LP_DISABLE:
->> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
->> -				   MTK_PMIC_PWRKEY_RST,
->> -				   0);
->> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
->> -				   MTK_PMIC_HOMEKEY_RST,
->> -				   0);
->> +		regmap_clear_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_PWRKEY_RST);
->> +		regmap_clear_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_HOMEKEY_RST);
-> 
-> 		regmap_update_bits(keys->regmap, pmic_rst_reg,
-> 				   MTK_PMIC_KEY_RST_MASKi, 0);
-> 
->>   		break;
->>   	default:
->>   		break;
->> -- 
->> 2.35.1
->>
-> 
-> Thanks.
-> 
-
-
-
+Cheers
