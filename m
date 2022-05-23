@@ -2,68 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85AFC530871
-	for <lists+linux-input@lfdr.de>; Mon, 23 May 2022 06:34:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10EA353087E
+	for <lists+linux-input@lfdr.de>; Mon, 23 May 2022 06:51:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229734AbiEWEeA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 May 2022 00:34:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35092 "EHLO
+        id S229948AbiEWEvf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 May 2022 00:51:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbiEWEd7 (ORCPT
+        with ESMTP id S229835AbiEWEvf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 May 2022 00:33:59 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C89EEE32;
-        Sun, 22 May 2022 21:33:58 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id l14so12936698pjk.2;
-        Sun, 22 May 2022 21:33:58 -0700 (PDT)
+        Mon, 23 May 2022 00:51:35 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EED96363;
+        Sun, 22 May 2022 21:51:34 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id nr2-20020a17090b240200b001df2b1bfc40so16400233pjb.5;
+        Sun, 22 May 2022 21:51:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=xApiqltHmk4fyXwXr+XV2jx+tTOQK7lfXdQNYlo3OWA=;
-        b=dKORMaWHU6VYYZHO/QN/983RYf7FOcdoNBoBChVvfewXi6kGWiFALeOPl4pyCTeDyn
-         wDGcce/hVH15VJhJFl4sK8gqtQD78GtlHrgEbdQOo7FYmAzl0LwaUQpJQmBzX3/YIZ1q
-         luprMRGI8MhJmIqF+cl8sjzMFIlWA8zIoixeaiFC731EC1Hhxl0vlgF0ojZiphrXDb8k
-         7XcOwkce2iFlxiJow/KOK8LjMLmfOOJG4pdon+VmJJO5TYhsXfuY3ETKZiKN7EB1FVRV
-         jrTSwY8pWH+D8f/Kp+9nkOXAJxiMqx/qcuLCxZFVsbjbE8aHJXpbeG/r4jQZp/9Ry4R7
-         Z5mA==
+        bh=BreetYWTsmmdO6stIJQjRnOxhkNpGdp8Cj6UELkhpv4=;
+        b=mSQk8IugJIT7TxFSLEZqXH1qMjQIQJpOChkViXRA3SMMoV2ROU1Yu67p5Q+lSKHWmd
+         zpkB5dbftFup58N2KEW5d7aztZZ/tsK27DJkK5lcyTSPqSlXSGO5dMnQWLofueCLzShv
+         dLoRqx1fHjfm+L02szCFwiHn5J0akL8qJ5sxlIjptagQ1g1SafyDgN0iWXrXmkiSbynt
+         bJd9vrca0j7djr8LfqiQeGExkzNRqYTWnuUFHgwWkn44xVKzYVhopKIsXnBXtqRr9kY8
+         vcb72rzHRZDGKOyP7k4ebHbuejPeAYr27A9jiSuv4VSXu6xeBgXZNQ0Cw+fcVvHjkGoM
+         i9Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=xApiqltHmk4fyXwXr+XV2jx+tTOQK7lfXdQNYlo3OWA=;
-        b=e+1dFViOsxECwoIRyCxzHWf/8kjJIfwxH+GLgaYP048bMx5Z/QG00h3ZDwFm+6I0Q7
-         liNX2RmzZTrRA9pxOFJLIwKMcJFOfpI6qm/KQyWhZzcsUhGfC1semjYg1dhK2EUcyDbV
-         eXYE2y6Wi4Z1ST3/wz+7q0DBmgKKsRaeGWzhjSp247ZB3KZJKMpPtOMBy6thizOMPKwA
-         wiyLMhj8+KP8Pdzm/4KzoMksOy8ZqAoqPT4tPfOVVYywFyuZOjEtNhkJuwsx/0ZvH/s2
-         /3Vh9y8BQcJae+hEb/S8p1zV9KrTpGtWKB7VLPAUv8bFuSDsN2lJPFqxFz7obFRLIEUM
-         IejQ==
-X-Gm-Message-State: AOAM5335CldCV/Lk0DiQLe6C/JKzPSDBdurp6eDcM/GCgthP1Y0GxBL/
-        pHJTFl7njbhuw3RTtrjmXaY=
-X-Google-Smtp-Source: ABdhPJyaSrK2SdCAtH5n8v0I1+G03otcxlmwvNPisgzXUjAUYDWrroszN1RpvQvnxVOf3DRs6hUm4w==
-X-Received: by 2002:a17:902:ef43:b0:156:9c5d:b0fe with SMTP id e3-20020a170902ef4300b001569c5db0femr21193813plx.158.1653280437721;
-        Sun, 22 May 2022 21:33:57 -0700 (PDT)
+        bh=BreetYWTsmmdO6stIJQjRnOxhkNpGdp8Cj6UELkhpv4=;
+        b=x3w+yPuvtTmFWW6z4Sd/md3HmCu6UyH25Y71Cty2NQqVQlbvh1liZfTIvj3/EvQS0K
+         r5zxasxptYkctM4oYY/zpy0lSaAcTi/M2nmWXHulwseqPQSsonT5kjNohBpWDvd7D+F2
+         wH2OFCGFWNfVV6J9sSfjcQQj3zvCogmo7BhbX4U+qrPUaFdjGj1yPhEQAijDpqfphbr0
+         6NHYC1jsM4goJZABnzhweUEQTJgGoVWWsYHu5mKiPe/44sH4Q8u5nJzunb8Ke+XI2Z7d
+         IIvAXrZvKQofHY6nAAu8GPEelZxIbMeD/TgrxlYwHPaF7MDdMXHhyVQXKnM7Nj6wfUaU
+         cR0A==
+X-Gm-Message-State: AOAM531js8Unz5k4z5dDqm5V55OpCV6dwFAYApr09SrOzXo7LcSrzaDX
+        esjtFJqUAffQDf5zURkl3kU=
+X-Google-Smtp-Source: ABdhPJwJ5SsDwYlXSr639JsqEyRvwH/SthXrMRADPBYVm16UnhX26NYYNJT45SYhWvFudnV3aMZc/Q==
+X-Received: by 2002:a17:90b:38c1:b0:1e0:16da:86e with SMTP id nn1-20020a17090b38c100b001e016da086emr11344584pjb.149.1653281493378;
+        Sun, 22 May 2022 21:51:33 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:d84e:5dcd:9d68:ebbf])
-        by smtp.gmail.com with ESMTPSA id bi10-20020a170902bf0a00b001621a1ef9c7sm1977254plb.137.2022.05.22.21.33.55
+        by smtp.gmail.com with ESMTPSA id jh22-20020a170903329600b0015e8d4eb285sm3950442plb.207.2022.05.22.21.51.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 May 2022 21:33:56 -0700 (PDT)
-Date:   Sun, 22 May 2022 21:33:54 -0700
+        Sun, 22 May 2022 21:51:32 -0700 (PDT)
+Date:   Sun, 22 May 2022 21:51:29 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
 Cc:     matthias.bgg@gmail.com, mkorpershoek@baylibre.com,
         linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] Input: mtk-pmic-keys - Add kerneldoc to driver
- structures
-Message-ID: <YosOsgPwMGuLk9dv@google.com>
+Subject: Re: [PATCH 2/5] Input: mtk-pmic-keys - Use regmap_{set,clear}_bits
+ where possible
+Message-ID: <YosS0ZvAovyl8cF5@google.com>
 References: <20220520125132.229191-1-angelogioacchino.delregno@collabora.com>
- <20220520125132.229191-2-angelogioacchino.delregno@collabora.com>
+ <20220520125132.229191-3-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220520125132.229191-2-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220520125132.229191-3-angelogioacchino.delregno@collabora.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -74,118 +74,77 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi AngeloGioacchino,
-
-On Fri, May 20, 2022 at 02:51:28PM +0200, AngeloGioacchino Del Regno wrote:
-> To enhance human readability, add kerneldoc to all driver structs.
-
-I am doubtful that this is useful. The reason is that I believe
-kerneldoc format is only useful for documenting cross-subsystem APIs.
-Kerneldoc for driver-private data and functions simply pollutes API
-docs.
-
+On Fri, May 20, 2022 at 02:51:29PM +0200, AngeloGioacchino Del Regno wrote:
+> Instead of always using regmap_update_bits(), let's go for the shorter
+> regmap_set_bits() and regmap_clear_bits() where possible.
+> 
+> No functional change.
 > 
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > ---
->  drivers/input/keyboard/mtk-pmic-keys.c | 30 +++++++++++++++++++++++++-
->  1 file changed, 29 insertions(+), 1 deletion(-)
+>  drivers/input/keyboard/mtk-pmic-keys.c | 24 ++++++------------------
+>  1 file changed, 6 insertions(+), 18 deletions(-)
 > 
 > diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
-> index c31ab4368388..8e4fa7cd16e6 100644
+> index 8e4fa7cd16e6..83d0b90cc8cb 100644
 > --- a/drivers/input/keyboard/mtk-pmic-keys.c
 > +++ b/drivers/input/keyboard/mtk-pmic-keys.c
-> @@ -34,6 +34,13 @@
->  #define MTK_PMIC_HOMEKEY_INDEX	1
->  #define MTK_PMIC_MAX_KEY_COUNT	2
+> @@ -157,28 +157,16 @@ static void mtk_pmic_keys_lp_reset_setup(struct mtk_pmic_keys *keys,
 >  
-> +/**
-> + * struct mtk_pmic_keys_regs - PMIC keys per-key registers
-> + * @deb_reg:             Debounced key status register
-> + * @deb_mask:            Bitmask of this key in status register
-> + * @intsel_reg:          Interrupt selector register
-> + * @intsel_mask:         Bitmask of this key in interrupt selector
-> + */
->  struct mtk_pmic_keys_regs {
->  	u32 deb_reg;
->  	u32 deb_mask;
-> @@ -50,6 +57,11 @@ struct mtk_pmic_keys_regs {
->  	.intsel_mask		= _intsel_mask,		\
->  }
->  
-> +/**
-> + * struct mtk_pmic_regs - PMIC Keys registers
-> + * @keys_regs:           Specific key registers
+>  	switch (long_press_mode) {
+>  	case LP_ONEKEY:
+> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
+> -				   MTK_PMIC_PWRKEY_RST,
+> -				   MTK_PMIC_PWRKEY_RST);
+> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
+> -				   MTK_PMIC_HOMEKEY_RST,
+> -				   0);
+> +		regmap_set_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_PWRKEY_RST);
+> +		regmap_clear_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_HOMEKEY_RST);
 
-This new description of the structure and of the keys_regs does not add
-any information for me.
+Why not combine this into a single update instead? I.e. assuming
 
-> + * @pmic_rst_reg:        PMIC Keys reset register
-> + */
->  struct mtk_pmic_regs {
->  	const struct mtk_pmic_keys_regs keys_regs[MTK_PMIC_MAX_KEY_COUNT];
->  	u32 pmic_rst_reg;
-> @@ -85,15 +97,31 @@ static const struct mtk_pmic_regs mt6358_regs = {
->  	.pmic_rst_reg = MT6358_TOP_RST_MISC,
->  };
->  
-> +/**
-> + * struct mtk_pmic_keys_info - PMIC Keys per-key params
-> + * @keys:                Pointer to main driver structure
+#define MTK_PMIC_KEY_RST_MASK GENMASK(6, 5)
 
-That is obvious from the field definition.
+		regmap_update_bits(keys->regmap, pmic_rst_reg,
+				   MTK_PMIC_KEY_RST_MASK,
+				   MTK_PMIC_PWRKEY_RST);
 
-> + * @regs:                Register offsets/masks for this key
+>  		break;
+>  	case LP_TWOKEY:
+> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
+> -				   MTK_PMIC_PWRKEY_RST,
+> -				   MTK_PMIC_PWRKEY_RST);
+> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
+> -				   MTK_PMIC_HOMEKEY_RST,
+> -				   MTK_PMIC_HOMEKEY_RST);
+> +		regmap_set_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_PWRKEY_RST);
+> +		regmap_set_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_HOMEKEY_RST);
 
-Ditto.
+		regmap_update_bits(keys->regmap, pmic_rst_reg,
+				   MTK_PMIC_KEY_RST_MASK,
+				   MTK_PMIC_PWRKEY_RST | MTK_PMIC_HOMEKEY_RST);
 
-> + * @keycode:             Key code for this key
+>  		break;
+>  	case LP_DISABLE:
+> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
+> -				   MTK_PMIC_PWRKEY_RST,
+> -				   0);
+> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
+> -				   MTK_PMIC_HOMEKEY_RST,
+> -				   0);
+> +		regmap_clear_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_PWRKEY_RST);
+> +		regmap_clear_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_HOMEKEY_RST);
 
-Yep.
+		regmap_update_bits(keys->regmap, pmic_rst_reg,
+				   MTK_PMIC_KEY_RST_MASKi, 0);
 
-> + * @irq:                 Keypress or press/release interrupt
-> + * @irq_r:               Key release interrupt (optional)
-> + * @wakeup:              Indicates whether to use this key as a wakeup source
-> + */
->  struct mtk_pmic_keys_info {
->  	struct mtk_pmic_keys *keys;
->  	const struct mtk_pmic_keys_regs *regs;
->  	unsigned int keycode;
->  	int irq;
-> -	int irq_r; /* optional: release irq if different */
-> +	int irq_r;
->  	bool wakeup:1;
->  };
->  
-> +/**
-> + * struct mtk_pmic_keys - Main driver structure
-> + * @input_dev:           Input device pointer
-
-I do not find this helpful.
-
-> + * @dev:                 Device pointer
-
-And neither this.
-
-> + * @regmap:              Regmap handle
-
-Nor this.
-
-> + * @keys:                Per-key parameters
-> + */
->  struct mtk_pmic_keys {
->  	struct input_dev *input_dev;
->  	struct device *dev;
+>  		break;
+>  	default:
+>  		break;
 > -- 
 > 2.35.1
 > 
-
-In the end we ended up with something that now has a chance of
-introducing warning when someone changes code, for very little benefit,
-if any at all.
-
-For driver-private data and functions we should rely on expressive
-variable and function names and only use comments for something that
-might be unclear or requires additional qualification.
 
 Thanks.
 
