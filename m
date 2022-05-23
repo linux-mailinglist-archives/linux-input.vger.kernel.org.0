@@ -2,50 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE19C530C05
-	for <lists+linux-input@lfdr.de>; Mon, 23 May 2022 11:04:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E55E9530BE2
+	for <lists+linux-input@lfdr.de>; Mon, 23 May 2022 11:03:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232069AbiEWIyL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 May 2022 04:54:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43568 "EHLO
+        id S232273AbiEWI6x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 May 2022 04:58:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232165AbiEWIyJ (ORCPT
+        with ESMTP id S232300AbiEWI6w (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 May 2022 04:54:09 -0400
+        Mon, 23 May 2022 04:58:52 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 133F82458B;
-        Mon, 23 May 2022 01:54:08 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1B613E0D3;
+        Mon, 23 May 2022 01:58:51 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: kholk11)
-        with ESMTPSA id 6B8AB1F40045
+        with ESMTPSA id 450081F42575
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1653296046;
-        bh=5Rz9++MofB5VX7lCcC6PcfJLnooPHyGb9BzFs4NR7Ek=;
+        s=mail; t=1653296330;
+        bh=7UgM4ruQTstnqIM046Xou/g3stt98V447+t6kKN3sCU=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Rn7uMyAi++FEAgt9YN7b/3tJ3AyEoknlpGFy5UppiR9PQ/BDoqeBZkqbUVnUbAed6
-         NjJy5gaiUIJIZZ8CArLqSbazTfkgLTogGuGIZwwlPqG8yhPt1lcgydXm+5TR23u87R
-         5vo89AurSnCoWq8uiUNwHI6UMCHlh0gp+Tt+KJ3wC7QOXLFCyNK83icA7BI/WAO27q
-         u+xklQ48YrIEK5V3UrEOaFQj9MPaQc2FuXxyOCfJQBEuBMRlUCIvoqsmryN+TJn7UR
-         e+s01xunyBMzTCLytsLirGxbkzT+HAngUpUrFI3LjKqTGqT5/bJRLZ19dv/Nh1SoZG
-         9Tt4jqO/WA/kw==
-Message-ID: <56598535-5aa4-020e-25fd-295416f4d979@collabora.com>
-Date:   Mon, 23 May 2022 10:54:03 +0200
+        b=N9rC/Ny9ej6qs7tbI98vVloYt0/LslMcDJWyfytwwtWbuJaejzOu6yd3Gt1b6ALRm
+         QFS6d4Jbz3rk5xnH5/NqW/IyuFCota2t7OOysSaNShon1S5NyjSCD5AqE2Nm9Y++Ek
+         vQBno/8lebbuo7ueDf8lq4Vy9XZ1KC9tBSazzSMqikgpS6mgRArJXFBL+Z3kJbzz79
+         L+lfQtQVL8gKCzTvNPKR7fhiO4tTAt7zPGPWlgpuYmf2F6f0/z/2sMAm5WMFZps3GF
+         +4tHF2/D5RHtc/3kAQ09K/zT8pb2C/32Au6Gf/4JzYh92mSr1Md4me9tMl8X6FHYb8
+         7LGpECA+lXTiA==
+Message-ID: <926ce818-4f42-898d-aca8-185b5c7434ba@collabora.com>
+Date:   Mon, 23 May 2022 10:58:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH 1/5] Input: mtk-pmic-keys - Add kerneldoc to driver
- structures
+Subject: Re: [PATCH 2/5] Input: mtk-pmic-keys - Use regmap_{set,clear}_bits
+ where possible
 Content-Language: en-US
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     matthias.bgg@gmail.com, mkorpershoek@baylibre.com,
         linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20220520125132.229191-1-angelogioacchino.delregno@collabora.com>
- <20220520125132.229191-2-angelogioacchino.delregno@collabora.com>
- <YosOsgPwMGuLk9dv@google.com>
+ <20220520125132.229191-3-angelogioacchino.delregno@collabora.com>
+ <YosS0ZvAovyl8cF5@google.com>
 From:   AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <YosOsgPwMGuLk9dv@google.com>
+In-Reply-To: <YosS0ZvAovyl8cF5@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -58,142 +58,91 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Il 23/05/22 06:33, Dmitry Torokhov ha scritto:
-> Hi AngeloGioacchino,
-> 
-> On Fri, May 20, 2022 at 02:51:28PM +0200, AngeloGioacchino Del Regno wrote:
->> To enhance human readability, add kerneldoc to all driver structs.
-> 
-> I am doubtful that this is useful. The reason is that I believe
-> kerneldoc format is only useful for documenting cross-subsystem APIs.
-> Kerneldoc for driver-private data and functions simply pollutes API
-> docs.
-> 
+Il 23/05/22 06:51, Dmitry Torokhov ha scritto:
+> On Fri, May 20, 2022 at 02:51:29PM +0200, AngeloGioacchino Del Regno wrote:
+>> Instead of always using regmap_update_bits(), let's go for the shorter
+>> regmap_set_bits() and regmap_clear_bits() where possible.
+>>
+>> No functional change.
 >>
 >> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 >> ---
->>   drivers/input/keyboard/mtk-pmic-keys.c | 30 +++++++++++++++++++++++++-
->>   1 file changed, 29 insertions(+), 1 deletion(-)
+>>   drivers/input/keyboard/mtk-pmic-keys.c | 24 ++++++------------------
+>>   1 file changed, 6 insertions(+), 18 deletions(-)
 >>
 >> diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
->> index c31ab4368388..8e4fa7cd16e6 100644
+>> index 8e4fa7cd16e6..83d0b90cc8cb 100644
 >> --- a/drivers/input/keyboard/mtk-pmic-keys.c
 >> +++ b/drivers/input/keyboard/mtk-pmic-keys.c
->> @@ -34,6 +34,13 @@
->>   #define MTK_PMIC_HOMEKEY_INDEX	1
->>   #define MTK_PMIC_MAX_KEY_COUNT	2
+>> @@ -157,28 +157,16 @@ static void mtk_pmic_keys_lp_reset_setup(struct mtk_pmic_keys *keys,
 >>   
->> +/**
->> + * struct mtk_pmic_keys_regs - PMIC keys per-key registers
->> + * @deb_reg:             Debounced key status register
->> + * @deb_mask:            Bitmask of this key in status register
->> + * @intsel_reg:          Interrupt selector register
->> + * @intsel_mask:         Bitmask of this key in interrupt selector
->> + */
->>   struct mtk_pmic_keys_regs {
->>   	u32 deb_reg;
->>   	u32 deb_mask;
->> @@ -50,6 +57,11 @@ struct mtk_pmic_keys_regs {
->>   	.intsel_mask		= _intsel_mask,		\
->>   }
->>   
->> +/**
->> + * struct mtk_pmic_regs - PMIC Keys registers
->> + * @keys_regs:           Specific key registers
+>>   	switch (long_press_mode) {
+>>   	case LP_ONEKEY:
+>> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
+>> -				   MTK_PMIC_PWRKEY_RST,
+>> -				   MTK_PMIC_PWRKEY_RST);
+>> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
+>> -				   MTK_PMIC_HOMEKEY_RST,
+>> -				   0);
+>> +		regmap_set_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_PWRKEY_RST);
+>> +		regmap_clear_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_HOMEKEY_RST);
 > 
-> This new description of the structure and of the keys_regs does not add
-> any information for me.
+> Why not combine this into a single update instead? I.e. assuming
 > 
->> + * @pmic_rst_reg:        PMIC Keys reset register
->> + */
->>   struct mtk_pmic_regs {
->>   	const struct mtk_pmic_keys_regs keys_regs[MTK_PMIC_MAX_KEY_COUNT];
->>   	u32 pmic_rst_reg;
->> @@ -85,15 +97,31 @@ static const struct mtk_pmic_regs mt6358_regs = {
->>   	.pmic_rst_reg = MT6358_TOP_RST_MISC,
->>   };
->>   
->> +/**
->> + * struct mtk_pmic_keys_info - PMIC Keys per-key params
->> + * @keys:                Pointer to main driver structure
+
+All downstream kernels (at least, I checked 4 different kernel versions for 4
+different SoCs) are doing these updates one-at-a-time, never combining them.
+
+Even though I agree with you about one single update being simply more logical,
+I am afraid that (on some SoCs) the IP will not like that so - since I don't have
+any *clear* documentation saying that this is possible, or that this is not, I
+would leave it like that.
+
+
+> #define MTK_PMIC_KEY_RST_MASK GENMASK(6, 5)
 > 
-> That is obvious from the field definition.
+> 		regmap_update_bits(keys->regmap, pmic_rst_reg,
+> 				   MTK_PMIC_KEY_RST_MASK,
+> 				   MTK_PMIC_PWRKEY_RST);
 > 
->> + * @regs:                Register offsets/masks for this key
+>>   		break;
+>>   	case LP_TWOKEY:
+>> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
+>> -				   MTK_PMIC_PWRKEY_RST,
+>> -				   MTK_PMIC_PWRKEY_RST);
+>> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
+>> -				   MTK_PMIC_HOMEKEY_RST,
+>> -				   MTK_PMIC_HOMEKEY_RST);
+>> +		regmap_set_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_PWRKEY_RST);
+>> +		regmap_set_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_HOMEKEY_RST);
 > 
-> Ditto.
+> 		regmap_update_bits(keys->regmap, pmic_rst_reg,
+> 				   MTK_PMIC_KEY_RST_MASK,
+> 				   MTK_PMIC_PWRKEY_RST | MTK_PMIC_HOMEKEY_RST);
 > 
->> + * @keycode:             Key code for this key
+>>   		break;
+>>   	case LP_DISABLE:
+>> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
+>> -				   MTK_PMIC_PWRKEY_RST,
+>> -				   0);
+>> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
+>> -				   MTK_PMIC_HOMEKEY_RST,
+>> -				   0);
+>> +		regmap_clear_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_PWRKEY_RST);
+>> +		regmap_clear_bits(keys->regmap, pmic_rst_reg, MTK_PMIC_HOMEKEY_RST);
 > 
-> Yep.
+> 		regmap_update_bits(keys->regmap, pmic_rst_reg,
+> 				   MTK_PMIC_KEY_RST_MASKi, 0);
 > 
->> + * @irq:                 Keypress or press/release interrupt
->> + * @irq_r:               Key release interrupt (optional)
->> + * @wakeup:              Indicates whether to use this key as a wakeup source
->> + */
->>   struct mtk_pmic_keys_info {
->>   	struct mtk_pmic_keys *keys;
->>   	const struct mtk_pmic_keys_regs *regs;
->>   	unsigned int keycode;
->>   	int irq;
->> -	int irq_r; /* optional: release irq if different */
->> +	int irq_r;
->>   	bool wakeup:1;
->>   };
->>   
->> +/**
->> + * struct mtk_pmic_keys - Main driver structure
->> + * @input_dev:           Input device pointer
-> 
-> I do not find this helpful.
-> 
->> + * @dev:                 Device pointer
-> 
-> And neither this.
-> 
->> + * @regmap:              Regmap handle
-> 
-> Nor this.
-> 
->> + * @keys:                Per-key parameters
->> + */
->>   struct mtk_pmic_keys {
->>   	struct input_dev *input_dev;
->>   	struct device *dev;
+>>   		break;
+>>   	default:
+>>   		break;
 >> -- 
 >> 2.35.1
 >>
 > 
-> In the end we ended up with something that now has a chance of
-> introducing warning when someone changes code, for very little benefit,
-> if any at all.
-> 
-> For driver-private data and functions we should rely on expressive
-> variable and function names and only use comments for something that
-> might be unclear or requires additional qualification.
-> 
-
-Hello Dmitry,
-
-it's been very helpful for me to see kerneldoc documentation in the various
-drivers across the kernel - helped me understanding what was going on in an
-easier, more immediate way, especially when looking at drivers having some
-kind of "complicated" flow.
-About introducing warnings when someone changes code, I believe that this
-may also be helpful (for a developer) in some *corner* cases, but I agree
-that this is unnecessarily tedious in some others... in the end, it's all
-about personal opinions...
-
-Of course, some of the documentation being obvious is unavoidable when it
-comes to kerneldoc as you either document 'em all, or nothing.
-
-In any case, if you really dislike having this kind of documentation, I can
-drop these commits and eventually add in-line comments to some variables to
-make them perfectly understandable, or I can avoid documenting at all (even
-though I am strongly for documenting things clearly).
-
-Regards,
-Angelo
-
 > Thanks.
 > 
+
+
+
