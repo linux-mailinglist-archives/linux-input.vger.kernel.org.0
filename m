@@ -2,105 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03D08531964
-	for <lists+linux-input@lfdr.de>; Mon, 23 May 2022 22:54:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 807A6531CA9
+	for <lists+linux-input@lfdr.de>; Mon, 23 May 2022 22:57:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239359AbiEWRGa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 May 2022 13:06:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51526 "EHLO
+        id S229884AbiEWTMH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 May 2022 15:12:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239396AbiEWRFy (ORCPT
+        with ESMTP id S229907AbiEWTL6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 May 2022 13:05:54 -0400
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC2A76A059;
-        Mon, 23 May 2022 10:05:53 -0700 (PDT)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-d39f741ba0so19182100fac.13;
-        Mon, 23 May 2022 10:05:53 -0700 (PDT)
+        Mon, 23 May 2022 15:11:58 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97FB9127184;
+        Mon, 23 May 2022 11:47:06 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id oe17-20020a17090b395100b001df77d29587so79466pjb.2;
+        Mon, 23 May 2022 11:47:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=76y2+oo/qoXjDueiDl15GinWPP3MWuyZztlDDTW4C/M=;
+        b=F4PlRYXJF2/GFGMk4w6a7AxUnjicJVCwRusnWkr1inPCRqBzTVedrz5vRAOFJzoHU7
+         WNRAVJ8aU3StNlBBA3b4ER8ntGB0aBFL9Kng1oJxAse4h4Yl5agPyt0t3j8UEM0wE6Hf
+         9XlQt43WSUJvxGNloCUAmPn+Db2vQZAAY2YDHth1oEtIOL89N0SVMLf8J8wuhssKiWMF
+         TxpWsZ09eE3Rxi2t+EALL/qFpYR/Fjawm6KlFGFOyWXw4HInsaW/3TjoS0iViCALkb6/
+         Mh467VsaT2bJT0ids++DspMVGP3tzlVkXrs7unHw81dDb5+bHjQR20T08WC8/OQGZdGE
+         K2Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=o14pKCAai8oO1v+9hK17Nc7y/3uZkxj9s6PMf7yQgR4=;
-        b=ct+BgoO5RJa1EPdeUQOQAgmVU+nQDwwTw3+c9IQz+y8F/N2nkE0wdER8AqnsiZn9Z8
-         /d9KkzVMNUbhRY/uOLyM7CJWQEKtFqQKvoDYV6zqsnUfqy4g0YP1t3s+4M+l2zEy5bms
-         MwVQr1Ir3S9bUBV66ldEUMAMYAsxC2jTGPCMjep6RY5ufaFMf34JBv5FejByVMBwqi9m
-         Z9JRU7hKKfQMm741+c/kLtBv6yLuKn6GryTI1N1jZclJ4q9xf8mw5pMxzFxEI8Rc9kvH
-         GU2c7i0iSYO3OW5irNVO0x3cU1rBLJ1ibVngNkfnnhaUXyaLl2KgETAtR0RP+f7x2dpZ
-         5exw==
-X-Gm-Message-State: AOAM533PdxeIAbs+dI/SaHkM0hq54ntTlZjY7XG+RJuTitOvXzI7vK39
-        vyphFAp2vH+S/yn0LtyEsg==
-X-Google-Smtp-Source: ABdhPJwc1Mn6hBzvABcwzRIkOO/6cuYfrk4xmpQBMDzFgzwQDP45aIoB6NwfWsmKFg8h/M6hKQ5McQ==
-X-Received: by 2002:a05:6870:538d:b0:de:aa91:898e with SMTP id h13-20020a056870538d00b000deaa91898emr22248oan.54.1653325552083;
-        Mon, 23 May 2022 10:05:52 -0700 (PDT)
-Received: from xps15.. (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.googlemail.com with ESMTPSA id y1-20020a4a9c01000000b0035eb4e5a6d3sm4521078ooj.41.2022.05.23.10.05.51
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=76y2+oo/qoXjDueiDl15GinWPP3MWuyZztlDDTW4C/M=;
+        b=yWS2PDZ4no+eHNnxdXGgeX3xWcDoDubp9ez1NoMQU8Z9Ns0e5w/Iu12eWxzDOi29ux
+         SZWaXrcqiCkD8KWQTFCT0SBM68+wfm/AHdtPGy1NbwOx/rhweBbGFVzA8BVHgtCEqJOa
+         TGTRJMrogUfpQEKla7DvfdFVLNpD+65YZWTI4oIcj8xT9N+goaGOjJ2WWTdshu0BisE/
+         7RKN2ZkN2zQU6IdKFgMHiUaXF6p1VUy5oIdd/5y8I7M6huj53HL3SZXtyOZBywb5j5jK
+         +YU/XtWLAp5hkgsZaOGQKRPGAkMUO74kxfUF+oz/wUHLKw8qyNu10gb4OReIsb+Qx/l8
+         rA7A==
+X-Gm-Message-State: AOAM533g97ygDo+edrS19Xz62WHUYu+8t+yPhQ8vCFb7x2CwWmWMaRan
+        5demWMg+GwK3E4+YnJhivMg=
+X-Google-Smtp-Source: ABdhPJya/XVPBAZBJWCeJgtfcR/OthObwsxduUh9+jPxAPH/otv1kUfC0sA+9tHxzhgCAjUQbVSr6g==
+X-Received: by 2002:a17:90b:4b0a:b0:1df:deda:7880 with SMTP id lx10-20020a17090b4b0a00b001dfdeda7880mr372129pjb.53.1653331625696;
+        Mon, 23 May 2022 11:47:05 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:ce25:f34f:c90d:61fa])
+        by smtp.gmail.com with ESMTPSA id y132-20020a62ce8a000000b00518285976cdsm7519431pfg.9.2022.05.23.11.47.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 10:05:51 -0700 (PDT)
-From:   Rob Herring <robh@kernel.org>
-To:     Robin van der Gracht <robin@protonic.nl>,
+        Mon, 23 May 2022 11:47:04 -0700 (PDT)
+Date:   Mon, 23 May 2022 11:47:01 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Robin van der Gracht <robin@protonic.nl>,
         Miguel Ojeda <ojeda@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Olof Johansson <olof@lixom.net>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: [PATCH] dt-bindings: input: matrix-keymap: Add common 'linux,no-autorepeat' property
-Date:   Mon, 23 May 2022 12:04:49 -0500
-Message-Id: <20220523170449.1763039-1-robh@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        Olof Johansson <olof@lixom.net>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: input: matrix-keymap: Add common
+ 'linux,no-autorepeat' property
+Message-ID: <YovWpSvabyhcYnzL@google.com>
+References: <20220523170449.1763039-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220523170449.1763039-1-robh@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-'linux,no-autorepeat' is a common property used in multiple bindings,
-but doesn't have a common type definition nor description. Add a common
-definition and drop the now redundant description from
-holtek,ht16k33.yaml.
+On Mon, May 23, 2022 at 12:04:49PM -0500, Rob Herring wrote:
+> 'linux,no-autorepeat' is a common property used in multiple bindings,
+> but doesn't have a common type definition nor description. Add a common
+> definition and drop the now redundant description from
+> holtek,ht16k33.yaml.
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/auxdisplay/holtek,ht16k33.yaml        | 3 +--
- Documentation/devicetree/bindings/input/matrix-keymap.yaml    | 4 ++++
- 2 files changed, 5 insertions(+), 2 deletions(-)
+We have "autorepeat" in the common input binding description, should we
+not promote it over "no-autorepeat"?
 
-diff --git a/Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml b/Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml
-index fc4873deb76f..f4579e9f44a1 100644
---- a/Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml
-+++ b/Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml
-@@ -39,8 +39,7 @@ properties:
- 
-   linux,keymap: true
- 
--  linux,no-autorepeat:
--    description: Disable keyrepeat
-+  linux,no-autorepeat: true
- 
-   default-brightness-level:
-     minimum: 1
-diff --git a/Documentation/devicetree/bindings/input/matrix-keymap.yaml b/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-index 6699d5e32dca..9f703bb51e12 100644
---- a/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-+++ b/Documentation/devicetree/bindings/input/matrix-keymap.yaml
-@@ -27,6 +27,10 @@ properties:
-       column and linux key-code. The 32-bit big endian cell is packed as:
-           row << 24 | column << 16 | key-code
- 
-+  linux,no-autorepeat:
-+    type: boolean
-+    description: Disable keyrepeat
-+
-   keypad,num-rows:
-     $ref: /schemas/types.yaml#/definitions/uint32
-     description: Number of row lines connected to the keypad controller.
+Thanks.
+
 -- 
-2.34.1
-
+Dmitry
