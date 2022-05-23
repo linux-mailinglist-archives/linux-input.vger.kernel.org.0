@@ -2,46 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD0F8530AA5
-	for <lists+linux-input@lfdr.de>; Mon, 23 May 2022 10:01:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6EBA530A6C
+	for <lists+linux-input@lfdr.de>; Mon, 23 May 2022 10:01:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230114AbiEWH3A (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 May 2022 03:29:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49034 "EHLO
+        id S229883AbiEWHWr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 May 2022 03:22:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230332AbiEWH2E (ORCPT
+        with ESMTP id S229920AbiEWHVu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 May 2022 03:28:04 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CA2913E1E
-        for <linux-input@vger.kernel.org>; Mon, 23 May 2022 00:25:39 -0700 (PDT)
+        Mon, 23 May 2022 03:21:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 561B1958F;
+        Mon, 23 May 2022 00:13:29 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0D2FDB80EF1
-        for <linux-input@vger.kernel.org>; Mon, 23 May 2022 06:48:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3802CC385A9;
-        Mon, 23 May 2022 06:48:07 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 224F161142;
+        Mon, 23 May 2022 06:50:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 332FBC385A9;
+        Mon, 23 May 2022 06:50:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653288488;
-        bh=LHam0OEKcyZmwb6eDquhebLlQH+9sqBjyB2TaxEWG9c=;
+        s=k20201202; t=1653288604;
+        bh=411iL9x0GP85sg8ZbapYzqsOrkMY1Ge9NDYVFgFvP2w=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=Ner3yg2X6cSR5wr3Qs5UbC0orjzxFm3UTwq07aVQqwOM9UvLY7v1mxxutRF0sR5jK
-         mqHIysi8DLIOmkUINHKWaUqPKq6NVrrafODBBn+vnnGvXsW0jKnURJkvwfR+vv14MN
-         9ojCb3NxVPRaw/h526/Vb1Q+3C3iMqlhXAYVzVWjEuw+i7/yknmdmnVxeYlNKY3r9F
-         ai8Px1jQzD+APbNh7yOo4mGsRuK+vNToFAFxxKLHPvu0gqoet3H6jL55o6jJUD22Vn
-         NNnuxyGw5VjihuxqfTT3LGQLTwV6RCBduwykviknq+LDyMvHe1JmRCV65njqh3jMVc
-         +DnLJfc44W7yg==
-Date:   Mon, 23 May 2022 08:48:04 +0200 (CEST)
+        b=fbczhh8GP2XBOF2IIVRZ3zKk4jCEzq1se/6+mxUx/yeeoeXQY/eMaHV0Sh6adB3ox
+         u3w81pNtSEcTo6cptdA2mtRHGYe4thUGxG2wt145EZPjS6ooT3Enm2Xg1EGxTWf+yA
+         Uk7y7CxcHPY6/HsNNod4eDzw2MqWWrqj5h3SiiqZeO4NacdaR7stSLy0HD/7nnam1z
+         fGmyLJ9OQC/Zp7I8SdRexheWAUXPPLchZ9FS6jRzKfFjxqwnvnBvh7s/34ch2OJFPW
+         i5lA+OD6vqhw70YK6aMGeRU1xm7aPOxbgK6uKu99NVbH3NSX+CAYwTsKkV3agP+2xC
+         oCVAUhjETV5Ew==
+Date:   Mon, 23 May 2022 08:50:00 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Ping Cheng <pinglinux@gmail.com>
-cc:     linux-input@vger.kernel.org, Aaron.Skomra@wacom.com,
-        joshua.dickens@wacom.com, Ping Cheng <ping.cheng@wacom.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>
-Subject: Re: [PATCH 1/2] HID: wacom: Only report rotation for art pen
-In-Reply-To: <CAF8JNhKCNsk186mrQz7mVCsT4nFrby5povog1gKjnve7XPvp+w@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2205230847181.28985@cbobk.fhfr.pm>
-References: <20220513215156.14914-1-ping.cheng@wacom.com> <CAF8JNhKCNsk186mrQz7mVCsT4nFrby5povog1gKjnve7XPvp+w@mail.gmail.com>
+To:     Pavel Machek <pavel@ucw.cz>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Pablo Ceballos <pceballos@google.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: [PATCH] HID: Driver for Google Hangouts Meet Speakermic
+In-Reply-To: <20220522150546.GA8071@localhost>
+Message-ID: <nycvar.YFH.7.76.2205230848490.28985@cbobk.fhfr.pm>
+References: <20220405183953.2094007-1-pceballos@google.com> <nycvar.YFH.7.76.2204210947590.30217@cbobk.fhfr.pm> <CAKdAkRQ7yxFFGJg41UxptxapKiP4bmHsfw7dRNE+LPzs1PRk=A@mail.gmail.com> <nycvar.YFH.7.76.2205121252090.28985@cbobk.fhfr.pm>
+ <CAO9JgFwA5ZhwOOY0cU3HpMOV69CTumQ50zEgU6SPNAF0zDbCGg@mail.gmail.com> <Yn2OlQAa9I++N80B@penguin> <CAO-hwJ+Rs=LYseLP7Vvr00vLvm+fTCRdh8pQ-rEduj4izSyiYA@mail.gmail.com> <20220522150546.GA8071@localhost>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -55,22 +58,13 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 17 May 2022, Ping Cheng wrote:
+On Sun, 22 May 2022, Pavel Machek wrote:
 
-> Hi Jiri,
-> 
-> Sorry for the noise. Both patches in this set are bug-fixing. I forgot
-> to add Cc: stable@vger.kernel.org in the patches. This patch (1/2) can
-> be backported to 4.9 or later; the other one (2/2) can be backported
-> to 4.14 or later.
+> Is that good idea? eBPF is fairly dangerous thing, so I'd preffer
+> basic functionality not depend on it...
 
-Ping,
-
-thanks for the patch and the explanation. I however don't seem to have 2/2 
-in my inbox; could you please resend? Or ise the 1/2 a mistake? (the 
-previous version didn't indicate it's a part of a series).
-
-Thanks,
+Although I understand the concern, that ship has already sailed long time 
+ago.
 
 -- 
 Jiri Kosina
