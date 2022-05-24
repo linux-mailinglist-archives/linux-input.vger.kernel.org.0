@@ -2,207 +2,193 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 344AC5323FC
-	for <lists+linux-input@lfdr.de>; Tue, 24 May 2022 09:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA08453250B
+	for <lists+linux-input@lfdr.de>; Tue, 24 May 2022 10:14:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235175AbiEXHYo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 May 2022 03:24:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60700 "EHLO
+        id S231759AbiEXIOO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 May 2022 04:14:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233739AbiEXHYm (ORCPT
+        with ESMTP id S231840AbiEXIOL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 May 2022 03:24:42 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43E297CB35
-        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 00:24:41 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id p19so1587692wmg.2
-        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 00:24:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=AjWSodLOo8ZPJy6O0FlUERSrMcBBp3JgmwXgCuABWKY=;
-        b=2GrWBC208uKvWnarte0fbHotpeC/ayk+QVlBl9wQwBF+g9AeVdwpxvmmu1Jjkq2qmM
-         xiCLo3QJBM0YGlMcr15fhl6yuiPI/7TomlDhysJCJ93CUQM9SKY3P1oOAZExz1nxjNLZ
-         1vLG22aAt9PcxivPCvdMPJW/yVq7l1OCFzFILLT7wJajIO6Ngf3hfC/BZij7SC42PoXV
-         3rE2HF0a/brq6fP/m89FtcRyMSgs3nmMuoHnxI9mir9z11Pk9h2mqciu2JWC09v79gZ/
-         rrwF23yFKqpJvVfmILrQ6HxEz9NHkK+fv+x6dJW6oLZcvAWrh4B0hqsVSz3Pu8aMNZB1
-         yHhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=AjWSodLOo8ZPJy6O0FlUERSrMcBBp3JgmwXgCuABWKY=;
-        b=mzBnG2yl/yCO1cYxPumyealAkIABYk43gMx9MrhJWVZM2rUJ4iF1TUNWHU/E0cKeOx
-         WDcRQKDgpoa16RIRUeo8eKhLmPAxUr6Ws3+QEjlbrIxWBgIR/2b05OGvCF83UUhe4aWY
-         +dv2nw5mAsoddfYoA5oIUphoPNxw6jPSyVqVE7QLDA/seSJCI56c0fh9iTSeZSSJXY/W
-         q5NqZxyMqiXxCgKv2cmPYCkvonacJ1hNv3JJjgINM5Qv2GSuDapvtA3cZbzlJjg5OB2+
-         L9hFwhEKE3luAD0iPCU0dtTBc1xbAm48gtQB+GaBN5vVZN4OHwYzvjrUabmIqxl1q4x7
-         DE7A==
-X-Gm-Message-State: AOAM532N5Gp11WGvOLyn99LevQxtElO50hMRpvXIVZmDq3Qc95K/76Rj
-        AzWSQmFE/o3aMxUlRMxxQKim3g==
-X-Google-Smtp-Source: ABdhPJzE9aWITFtiFFRNGY2dX+P743fTQhoFoU891iRxPYgTeFrPs9sSk/w06Y2GmZkZCVOi+Z+2Eg==
-X-Received: by 2002:a05:600c:acb:b0:397:bdb:ffea with SMTP id c11-20020a05600c0acb00b003970bdbffeamr2441172wmr.56.1653377079785;
-        Tue, 24 May 2022 00:24:39 -0700 (PDT)
-Received: from localhost ([2a01:cb19:85e6:1900:de85:21d6:6f2:c7e3])
-        by smtp.gmail.com with ESMTPSA id m7-20020adfa3c7000000b0020d0cdbf7eesm12131452wrb.111.2022.05.24.00.24.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 May 2022 00:24:39 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: mtk-pmic-keys - use single update when
- configuring long press behavior
-In-Reply-To: <YowH0Q5HAGU7Grx2@google.com>
-References: <YowH0Q5HAGU7Grx2@google.com>
-Date:   Tue, 24 May 2022 09:24:38 +0200
-Message-ID: <87wnebe6kp.fsf@baylibre.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 24 May 2022 04:14:11 -0400
+X-Greylist: delayed 102 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 24 May 2022 01:14:08 PDT
+Received: from atl4mhfb02.myregisteredsite.com (atl4mhfb02.myregisteredsite.com [209.17.115.118])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AE7777F05
+        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 01:14:06 -0700 (PDT)
+Received: from jax4mhob02.registeredsite.com (jax4mhob02.myregisteredsite.com [64.69.218.82])
+        by atl4mhfb02.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id 24O8CNDS030168
+        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 04:12:23 -0400
+Received: from mailpod.hostingplatform.com ([10.30.71.203])
+        by jax4mhob02.registeredsite.com (8.14.4/8.14.4) with ESMTP id 24O8CJgX032612
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
+        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 04:12:20 -0400
+Received: (qmail 5159 invoked by uid 0); 24 May 2022 08:12:18 -0000
+X-TCPREMOTEIP: 204.168.181.193
+X-Authenticated-UID: mike@milosoftware.com
+Received: from unknown (HELO phenom.domain?not?set.invalid) (mike@milosoftware.com@204.168.181.193)
+  by 0 with ESMTPA; 24 May 2022 08:12:18 -0000
+From:   Mike Looijmans <mike.looijmans@topic.nl>
+To:     linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        martink@posteo.de, geert+renesas@glider.be, john@metanate.com,
+        hechtb@gmail.com, Mike Looijmans <mike.looijmans@topic.nl>
+Subject: [PATCH] Input: st1232 - Support power supply regulators
+Date:   Tue, 24 May 2022 10:12:16 +0200
+Message-Id: <20220524081216.8550-1-mike.looijmans@topic.nl>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_VALIDITY_RPBL,SPF_FAIL,SPF_HELO_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On lun., mai 23, 2022 at 15:16, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+Add support for the VDD and IOVDD power supply inputs. This allows the
+chip to share its supplies with other components (e.g. panel) and manage
+them.
 
-> Instead of doing 3 read-modify-write operations when configuring behavior
-> of long-press, consolidate everything into one.
->
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+---
+ .../input/touchscreen/sitronix,st1232.yaml    |  6 +++
+ drivers/input/touchscreen/st1232.c            | 54 ++++++++++++++++---
+ 2 files changed, 52 insertions(+), 8 deletions(-)
 
-Hi Dmitry,
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+index 1d8ca19fd37a..240be8d49232 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+@@ -28,6 +28,12 @@ properties:
+     description: A phandle to the reset GPIO
+     maxItems: 1
+ 
++  vdd-supply:
++    description: Power supply regulator for the chip
++
++  vddio-supply:
++    description: Power supply regulator for the I2C bus
++
+ required:
+   - compatible
+   - reg
+diff --git a/drivers/input/touchscreen/st1232.c b/drivers/input/touchscreen/st1232.c
+index e38ba3e4f183..d9c9f6f1f11a 100644
+--- a/drivers/input/touchscreen/st1232.c
++++ b/drivers/input/touchscreen/st1232.c
+@@ -44,6 +44,11 @@
+ #define REG_XY_COORDINATES	0x12
+ #define ST_TS_MAX_FINGERS	10
+ 
++enum st1232_regulators {
++	ST1232_REGULATOR_VDD,
++	ST1232_REGULATOR_IOVDD,
++};
++
+ struct st_chip_info {
+ 	bool	have_z;
+ 	u16	max_area;
+@@ -56,6 +61,7 @@ struct st1232_ts_data {
+ 	struct touchscreen_properties prop;
+ 	struct dev_pm_qos_request low_latency_req;
+ 	struct gpio_desc *reset_gpio;
++	struct regulator_bulk_data regulators[2];
+ 	const struct st_chip_info *chip_info;
+ 	int read_buf_len;
+ 	u8 *read_buf;
+@@ -197,17 +203,36 @@ static irqreturn_t st1232_ts_irq_handler(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static void st1232_ts_power(struct st1232_ts_data *ts, bool poweron)
++static int st1232_ts_power_on(struct st1232_ts_data *ts)
++{
++	int err;
++
++	err = regulator_bulk_enable(ARRAY_SIZE(ts->regulators), ts->regulators);
++	if (err)
++		return err;
++
++	usleep_range(5000, 6000);
++
++	if (ts->reset_gpio)
++		gpiod_set_value_cansleep(ts->reset_gpio, 0);
++
++	return 0;
++}
++
++static void st1232_ts_power_off(struct st1232_ts_data *ts)
+ {
+ 	if (ts->reset_gpio)
+-		gpiod_set_value_cansleep(ts->reset_gpio, !poweron);
++		gpiod_set_value_cansleep(ts->reset_gpio, 1);
++	usleep_range(100, 150);
++	regulator_bulk_disable(ARRAY_SIZE(ts->regulators), ts->regulators);
+ }
+ 
+-static void st1232_ts_power_off(void *data)
++static void st1232_ts_power_off_action(void *data)
+ {
+-	st1232_ts_power(data, false);
++	st1232_ts_power_off(data);
+ }
+ 
++
+ static const struct st_chip_info st1232_chip_info = {
+ 	.have_z		= true,
+ 	.max_area	= 0xff,
+@@ -266,6 +291,14 @@ static int st1232_ts_probe(struct i2c_client *client,
+ 	ts->client = client;
+ 	ts->input_dev = input_dev;
+ 
++	ts->regulators[ST1232_REGULATOR_VDD].supply = "vdd";
++	ts->regulators[ST1232_REGULATOR_IOVDD].supply = "iovdd";
++	error = devm_regulator_bulk_get(&client->dev,
++					ARRAY_SIZE(ts->regulators),
++					ts->regulators);
++	if (error)
++		return error;
++
+ 	ts->reset_gpio = devm_gpiod_get_optional(&client->dev, NULL,
+ 						 GPIOD_OUT_HIGH);
+ 	if (IS_ERR(ts->reset_gpio)) {
+@@ -275,9 +308,14 @@ static int st1232_ts_probe(struct i2c_client *client,
+ 		return error;
+ 	}
+ 
+-	st1232_ts_power(ts, true);
++	error = st1232_ts_power_on(ts);
++	if (error) {
++		dev_err(&client->dev, "Failed to power on: %d\n", error);
++		return error;
++	}
+ 
+-	error = devm_add_action_or_reset(&client->dev, st1232_ts_power_off, ts);
++	error = devm_add_action_or_reset(&client->dev,
++					 st1232_ts_power_off_action, ts);
+ 	if (error) {
+ 		dev_err(&client->dev,
+ 			"Failed to install power off action: %d\n", error);
+@@ -348,7 +386,7 @@ static int __maybe_unused st1232_ts_suspend(struct device *dev)
+ 	disable_irq(client->irq);
+ 
+ 	if (!device_may_wakeup(&client->dev))
+-		st1232_ts_power(ts, false);
++		st1232_ts_power_off(ts);
+ 
+ 	return 0;
+ }
+@@ -359,7 +397,7 @@ static int __maybe_unused st1232_ts_resume(struct device *dev)
+ 	struct st1232_ts_data *ts = i2c_get_clientdata(client);
+ 
+ 	if (!device_may_wakeup(&client->dev))
+-		st1232_ts_power(ts, true);
++		st1232_ts_power_on(ts);
+ 
+ 	enable_irq(client->irq);
+ 
+-- 
+2.17.1
 
-Thank you for improving the driver.
-
-I've tested this with evtest on mt8183-pumpkin on input/next
-(fabcf4d8696839a8da8a3f90d1fd30ae923ddde7).
-Note that I needed to add [1] on top as well for the driver to be
-loaded, since [1] is not part of input/next
-
-[1] https://lore.kernel.org/r/20220121140323.4080640-5-mkorpershoek@baylibre.com/
-
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-
-Tested-by: Mattijs Korpershoek <mkorpershoek@baylibre.com> # on mt8183-pumpkin
-> ---
->  drivers/input/keyboard/mtk-pmic-keys.c | 71 ++++++++++----------------
->  1 file changed, 28 insertions(+), 43 deletions(-)
->
-> diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
-> index c31ab4368388..d2f0db245ff6 100644
-> --- a/drivers/input/keyboard/mtk-pmic-keys.c
-> +++ b/drivers/input/keyboard/mtk-pmic-keys.c
-> @@ -18,17 +18,11 @@
->  #include <linux/platform_device.h>
->  #include <linux/regmap.h>
->  
-> -#define MTK_PMIC_PWRKEY_RST_EN_MASK	0x1
-> -#define MTK_PMIC_PWRKEY_RST_EN_SHIFT	6
-> -#define MTK_PMIC_HOMEKEY_RST_EN_MASK	0x1
-> -#define MTK_PMIC_HOMEKEY_RST_EN_SHIFT	5
-> -#define MTK_PMIC_RST_DU_MASK		0x3
-> -#define MTK_PMIC_RST_DU_SHIFT		8
-> -
-> -#define MTK_PMIC_PWRKEY_RST		\
-> -	(MTK_PMIC_PWRKEY_RST_EN_MASK << MTK_PMIC_PWRKEY_RST_EN_SHIFT)
-> -#define MTK_PMIC_HOMEKEY_RST		\
-> -	(MTK_PMIC_HOMEKEY_RST_EN_MASK << MTK_PMIC_HOMEKEY_RST_EN_SHIFT)
-> +#define MTK_PMIC_RST_DU_MASK	GENMASK(9, 8)
-> +#define MTK_PMIC_RST_DU_SHIFT	8
-> +#define MTK_PMIC_RST_KEY_MASK	GENMASK(6, 5)
-> +#define MTK_PMIC_PWRKEY_RST	BIT(6)
-> +#define MTK_PMIC_HOMEKEY_RST	BIT(5)
->  
->  #define MTK_PMIC_PWRKEY_INDEX	0
->  #define MTK_PMIC_HOMEKEY_INDEX	1
-> @@ -108,53 +102,44 @@ enum mtk_pmic_keys_lp_mode {
->  };
->  
->  static void mtk_pmic_keys_lp_reset_setup(struct mtk_pmic_keys *keys,
-> -		u32 pmic_rst_reg)
-> +					 u32 pmic_rst_reg)
->  {
-> -	int ret;
->  	u32 long_press_mode, long_press_debounce;
-> +	u32 value, mask;
-> +	int error;
->  
-> -	ret = of_property_read_u32(keys->dev->of_node,
-> -		"power-off-time-sec", &long_press_debounce);
-> -	if (ret)
-> +	error = of_property_read_u32(keys->dev->of_node, "power-off-time-sec",
-> +				     &long_press_debounce);
-> +	if (error)
->  		long_press_debounce = 0;
->  
-> -	regmap_update_bits(keys->regmap, pmic_rst_reg,
-> -			   MTK_PMIC_RST_DU_MASK << MTK_PMIC_RST_DU_SHIFT,
-> -			   long_press_debounce << MTK_PMIC_RST_DU_SHIFT);
-> +	mask = MTK_PMIC_RST_DU_MASK;
-> +	value = long_press_debounce << MTK_PMIC_RST_DU_SHIFT;
->  
-> -	ret = of_property_read_u32(keys->dev->of_node,
-> -		"mediatek,long-press-mode", &long_press_mode);
-> -	if (ret)
-> +	error  = of_property_read_u32(keys->dev->of_node,
-> +				      "mediatek,long-press-mode",
-> +				      &long_press_mode);
-> +	if (error)
->  		long_press_mode = LP_DISABLE;
->  
->  	switch (long_press_mode) {
-> -	case LP_ONEKEY:
-> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
-> -				   MTK_PMIC_PWRKEY_RST,
-> -				   MTK_PMIC_PWRKEY_RST);
-> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
-> -				   MTK_PMIC_HOMEKEY_RST,
-> -				   0);
-> -		break;
->  	case LP_TWOKEY:
-> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
-> -				   MTK_PMIC_PWRKEY_RST,
-> -				   MTK_PMIC_PWRKEY_RST);
-> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
-> -				   MTK_PMIC_HOMEKEY_RST,
-> -				   MTK_PMIC_HOMEKEY_RST);
-> -		break;
-> +		value |= MTK_PMIC_HOMEKEY_RST;
-> +		fallthrough;
-> +
-> +	case LP_ONEKEY:
-> +		value |= MTK_PMIC_PWRKEY_RST;
-> +		fallthrough;
-> +
->  	case LP_DISABLE:
-> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
-> -				   MTK_PMIC_PWRKEY_RST,
-> -				   0);
-> -		regmap_update_bits(keys->regmap, pmic_rst_reg,
-> -				   MTK_PMIC_HOMEKEY_RST,
-> -				   0);
-> +		mask |= MTK_PMIC_RST_KEY_MASK;
->  		break;
-> +
->  	default:
->  		break;
->  	}
-> +
-> +	regmap_update_bits(keys->regmap, pmic_rst_reg, mask, value);
->  }
->  
->  static irqreturn_t mtk_pmic_keys_irq_handler_thread(int irq, void *data)
-> -- 
-> 2.36.1.124.g0e6072fb45-goog
->
->
-> -- 
-> Dmitry
