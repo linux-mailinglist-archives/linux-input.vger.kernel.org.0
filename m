@@ -2,70 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DEDE5329D0
-	for <lists+linux-input@lfdr.de>; Tue, 24 May 2022 13:57:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B690B532A03
+	for <lists+linux-input@lfdr.de>; Tue, 24 May 2022 14:10:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231966AbiEXL5g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 May 2022 07:57:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49728 "EHLO
+        id S237124AbiEXMFT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 May 2022 08:05:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230099AbiEXL5f (ORCPT
+        with ESMTP id S234556AbiEXMFR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 May 2022 07:57:35 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6025A62BD8;
-        Tue, 24 May 2022 04:57:34 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id b4so3394953iog.11;
-        Tue, 24 May 2022 04:57:34 -0700 (PDT)
+        Tue, 24 May 2022 08:05:17 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 575B263BE6
+        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 05:05:14 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id t6so25409924wra.4
+        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 05:05:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EIAXXXRwo1YYdT9BrP9x6eL1UouOtf5nysexYYh5ocs=;
-        b=RZi92208R6ZRLaqgjJ35GcMxLld23k/r9kHNFWbPbdA6ButLl2XPyd9axlRNARHviQ
-         SXBtr2LoqecHLoFxKSOzat2OmCJuPwf245P8WAx8fhG13Y2b6kkIBFu11X/QWQVvHblb
-         bgkQ4C5Sl3rb9K/2X1wsR7+yuxnztqQFxJZYrZbzKCR6XDMGj21cuEmYA6/GJ5nWWRPP
-         rp7Xgr+GSuPbGkB81uJqSkXVJa4xgBl8G3Lp2zHdNya6S0MYS3+0fP7wrfVqAxoK76Zt
-         Oi64nxv+CcS/JlJt9PsSdqgiuk2xkbJQHqU8agqzacivXOS4nofqzU0mTkqDnvDZ9hGd
-         pT7A==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=wy4ZBZCaSdrsU5jRaIpcsRShq90JZ9rF2FAY+TUamBY=;
+        b=pdOIf90iqOc5vCBASR+8KMfefSm4+3KhcjgvQr8O+xQKxZo6yK+0c8CdpvgNsA6rA4
+         fuvpVBYr2Ll8/JCxCAqJFIbOGXSax+/0YgDrHdS2gsY3Gwle+9y2YDYAusvZtVMtsrP/
+         wRxOWGh0hxrIg6cjCu5oNlhtOUo4xDPzDxrRHGPKpH57wDgYbOGRwwJFswDrDEsPAbp9
+         jGKMqGScdAf4MZZLYppBbo/s2RZlOw3U23WaKSx71+rfg9FRuyHm5ntqI8JFLzzXmJJy
+         kDimSt6qAtKKbPdGI/rABeuseTHvfs36B4QRQFa4Sj/rnMl0X1PPUQLFb4qscRJIWM+u
+         altg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EIAXXXRwo1YYdT9BrP9x6eL1UouOtf5nysexYYh5ocs=;
-        b=uwrerqdnvJjzuN80DeWJNPBsOjoTwEbYNHXsuxOdal3pWakSduNGbIKpung41OjYTP
-         G07rJi29DBSC2KShCBuhsUWrqpbI/5rZrBZ6/vuYD6LFcW8QvQc2IYGXitFI8r6Qnc0G
-         nVfYTbAee7L4v7nm6rOynKQptTYUK/hUbMyIMhdj8i8slMi/PIzj35qWa4Gcc0p+my83
-         wUt8zIHMCVk+t8qBoit9INgrkjGZ1cZgYfCuA4RaqWP7eZzeelwCn+8mn+iR6v8iuMhB
-         v/FX4AkYhQ1e02I5d1ud1h+yl5y6EMVHQFpoavrUHVQExjJJxuuhhYHT/ZtwW2R2Z5Lz
-         5LnA==
-X-Gm-Message-State: AOAM533HscE5njfNiwvR0Y9iTjbOK/4oKeL/yfRs8aVqtwCzfWZSR+ov
-        nVTtJyCBv7kaeK/5rhOupSBPiRZfhEdgWBjfzY0=
-X-Google-Smtp-Source: ABdhPJwgkWUFiDvAjFIEaXbe+SSxraGzllK9weXeN8GA2IY0gLlrSCYsidO8nXwFSbttdncy3ecz91vvYjUQD3KE63A=
-X-Received: by 2002:a05:6638:498e:b0:32e:be76:f908 with SMTP id
- cv14-20020a056638498e00b0032ebe76f908mr5837862jab.66.1653393453532; Tue, 24
- May 2022 04:57:33 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=wy4ZBZCaSdrsU5jRaIpcsRShq90JZ9rF2FAY+TUamBY=;
+        b=6heuaw0pmHrSLbV8dkSbLzaLozhDOII7slF2wnvlDbYv9UMWcS3nupsOkb5DXHYPvC
+         Jaa1PD5bscOMaieEUYRDMXWU1NOo9IpbT8fAONrHgfXBpmkUSVeY8GPA9bDEDh2DCtxn
+         8fXppUFRsQ7IFNiClzo6yKh/qwQ52Pbj0vIH8cWYCWBFDVXa7g5oMJmMnQriqvL8ToIF
+         92ivxjWPBatEV4XRrhUeu+96a96BCAnx/qmJlROTYX7M9YRBN3LtovgRDCQG77qYAQBM
+         3fZplwQdwZnXiaKT3LAkGvzubunti/DIEvup6LzcUUehmrC3fjRokcmHZ1OxRSMWYqNN
+         hwkA==
+X-Gm-Message-State: AOAM5335G/YgqBUjAsTnGLFQvCZoxitURRWLIaTWILTuCTwcpAhS1yqz
+        TkxTn9Z8PxZesjOFkdzLJeiLEQ==
+X-Google-Smtp-Source: ABdhPJy2An/d0qo4OXlYbmyJz+ZqHqkMDOvETSRBTXAjKN9NaaVOlLdg/CTVwij/FeBgqIM0WS4s2Q==
+X-Received: by 2002:a05:6000:162b:b0:20f:fb06:ba97 with SMTP id v11-20020a056000162b00b0020ffb06ba97mr146654wrb.158.1653393912695;
+        Tue, 24 May 2022 05:05:12 -0700 (PDT)
+Received: from localhost ([2a01:cb19:85e6:1900:d9b6:6217:ea92:4fe0])
+        by smtp.gmail.com with ESMTPSA id az37-20020a05600c602500b0039746638d6esm1996761wmb.33.2022.05.24.05.05.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 May 2022 05:05:12 -0700 (PDT)
+From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        dmitry.torokhov@gmail.com
+Cc:     matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] Input: mtk-pmic-keys - Transfer per-key bit in
+ mtk_pmic_keys_regs
+In-Reply-To: <20220524093505.85438-2-angelogioacchino.delregno@collabora.com>
+References: <20220524093505.85438-1-angelogioacchino.delregno@collabora.com>
+ <20220524093505.85438-2-angelogioacchino.delregno@collabora.com>
+Date:   Tue, 24 May 2022 14:05:11 +0200
+Message-ID: <87leurdtl4.fsf@baylibre.com>
 MIME-Version: 1.0
-References: <20220323120021.361137-1-alistair@alistair23.me> <CAKmqyKP5CRDx4acc6yg9SwADaGTNqKmDUrBs2ODXR30OZuunoA@mail.gmail.com>
-In-Reply-To: <CAKmqyKP5CRDx4acc6yg9SwADaGTNqKmDUrBs2ODXR30OZuunoA@mail.gmail.com>
-From:   Alistair Francis <alistair23@gmail.com>
-Date:   Tue, 24 May 2022 21:57:07 +1000
-Message-ID: <CAKmqyKOijPJVcRZ93r+Nx_YvoZup4omi7MtKog_Jxg2yuQJPSA@mail.gmail.com>
-Subject: Re: [PATCH v7 0/4] Add support for the Cypress cyttsp5
-To:     Alistair Francis <alistair@alistair23.me>
-Cc:     linux-input <linux-input@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andreas Kemnade <andreas@kemnade.info>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,67 +73,131 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Apr 20, 2022 at 10:25 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Wed, Mar 23, 2022 at 10:00 PM Alistair Francis
-> <alistair@alistair23.me> wrote:
-> >
-> > This patch series builds on top of [1] and adds support for the cyttsp5
-> > touchscreen controller for the reMarkable 2.
-> >
-> > I first tried to add an I2C HID device. Although the cyttsp5 has some HID
-> > looking aspects it is not HID compatible. Just in trying to probe the device
-> > I found:
-> >  - The HID descriptor has extra padding
-> >  - The HID descriptor sets the high bytes of the descriptor length
-> >  - The HID descriptor has extra unrecognised tags
-> >  - The HID reset command doesn't appear to work
-> >
-> > I don't think there is a way to use the I2C HID framework with the cyttsp5.
-> > For anyone interested you can see the work here [2]. In that branch though I
-> > can only obtain a HID descriptor, nothing else works without more core
-> > changes.
-> >
-> > So instead I rebased the series from [1]. Converted to the new yaml DTS
-> > documentation, added regulator support and fixed a x/y miscalculation bug.
->
-> The DT bindings have been reviewed, any comments on the driver
-> implementation? It has been tested on a few different devices
+On mar., mai 24, 2022 at 11:35, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> wrote:
 
-Any comments? It would be great to try and get this in 5.19
-
-Alistair
-
+> Place the key bit in struct mtk_pmic_keys_regs to enhance this
+> driver's flexibility, in preparation for adding support for more
+> PMICs.
 >
-> Alistair
+> While at it, remove the definition of MTK_PMIC_RST_KEY_MASK as
+> we are now dynamically setting the keymask relatively to the keys
+> that are defined in the newly added rst_en_mask variable, on a
+> per-key basis.
 >
-> >
-> > 1: https://lwn.net/ml/linux-kernel/20180703094309.18514-1-mylene.josserand@bootlin.com/
-> > 2: https://github.com/alistair23/linux/commits/rM2-mainline-cyttsp5-hid
-> >
-> > v7:
-> >  - Fix device tree warnings
-> > v6:
-> >  - Use reg for the button properties
-> > v5:
-> >  - Address review comments from v4
-> >
-> > Alistair Francis (4):
-> >   Input: Add driver for Cypress Generation 5 touchscreen
-> >   dt-bindings: input: Add Cypress TT2100 touchscreen controller
-> >   ARM: imx_v6_v7_defconfig: Enable the cyttsp5 touchscreen
-> >   ARM: dts: imx7d-remarkable2: Enable the cyttsp5
-> >
-> >  .../input/touchscreen/cypress,tt21000.yaml    | 101 ++
-> >  arch/arm/boot/dts/imx7d-remarkable2.dts       | 100 ++
-> >  arch/arm/configs/imx_v6_v7_defconfig          |   1 +
-> >  drivers/input/touchscreen/Kconfig             |  16 +
-> >  drivers/input/touchscreen/Makefile            |   1 +
-> >  drivers/input/touchscreen/cyttsp5.c           | 902 ++++++++++++++++++
-> >  6 files changed, 1121 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
-> >  create mode 100644 drivers/input/touchscreen/cyttsp5.c
-> >
-> > --
-> > 2.35.1
-> >
+> This commit brings no functional changes.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+
+> ---
+>  drivers/input/keyboard/mtk-pmic-keys.c | 30 ++++++++++++++++----------
+>  1 file changed, 19 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
+> index d2f0db245ff6..2509a349a173 100644
+> --- a/drivers/input/keyboard/mtk-pmic-keys.c
+> +++ b/drivers/input/keyboard/mtk-pmic-keys.c
+> @@ -20,7 +20,6 @@
+>  
+>  #define MTK_PMIC_RST_DU_MASK	GENMASK(9, 8)
+>  #define MTK_PMIC_RST_DU_SHIFT	8
+> -#define MTK_PMIC_RST_KEY_MASK	GENMASK(6, 5)
+>  #define MTK_PMIC_PWRKEY_RST	BIT(6)
+>  #define MTK_PMIC_HOMEKEY_RST	BIT(5)
+>  
+> @@ -33,15 +32,17 @@ struct mtk_pmic_keys_regs {
+>  	u32 deb_mask;
+>  	u32 intsel_reg;
+>  	u32 intsel_mask;
+> +	u32 rst_en_mask;
+>  };
+>  
+>  #define MTK_PMIC_KEYS_REGS(_deb_reg, _deb_mask,		\
+> -	_intsel_reg, _intsel_mask)			\
+> +	_intsel_reg, _intsel_mask, _rst_mask)		\
+>  {							\
+>  	.deb_reg		= _deb_reg,		\
+>  	.deb_mask		= _deb_mask,		\
+>  	.intsel_reg		= _intsel_reg,		\
+>  	.intsel_mask		= _intsel_mask,		\
+> +	.rst_en_mask		= _rst_mask,		\
+>  }
+>  
+>  struct mtk_pmic_regs {
+> @@ -52,30 +53,32 @@ struct mtk_pmic_regs {
+>  static const struct mtk_pmic_regs mt6397_regs = {
+>  	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
+>  		MTK_PMIC_KEYS_REGS(MT6397_CHRSTATUS,
+> -		0x8, MT6397_INT_RSV, 0x10),
+> +		0x8, MT6397_INT_RSV, 0x10, MTK_PMIC_PWRKEY_RST),
+>  	.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
+>  		MTK_PMIC_KEYS_REGS(MT6397_OCSTATUS2,
+> -		0x10, MT6397_INT_RSV, 0x8),
+> +		0x10, MT6397_INT_RSV, 0x8, MTK_PMIC_HOMEKEY_RST),
+>  	.pmic_rst_reg = MT6397_TOP_RST_MISC,
+>  };
+>  
+>  static const struct mtk_pmic_regs mt6323_regs = {
+>  	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
+>  		MTK_PMIC_KEYS_REGS(MT6323_CHRSTATUS,
+> -		0x2, MT6323_INT_MISC_CON, 0x10),
+> +		0x2, MT6323_INT_MISC_CON, 0x10, MTK_PMIC_PWRKEY_RST),
+>  	.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
+>  		MTK_PMIC_KEYS_REGS(MT6323_CHRSTATUS,
+> -		0x4, MT6323_INT_MISC_CON, 0x8),
+> +		0x4, MT6323_INT_MISC_CON, 0x8, MTK_PMIC_HOMEKEY_RST),
+>  	.pmic_rst_reg = MT6323_TOP_RST_MISC,
+>  };
+>  
+>  static const struct mtk_pmic_regs mt6358_regs = {
+>  	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
+>  		MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
+> -				   0x2, MT6358_PSC_TOP_INT_CON0, 0x5),
+> +				   0x2, MT6358_PSC_TOP_INT_CON0, 0x5,
+> +				   MTK_PMIC_PWRKEY_RST),
+>  	.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
+>  		MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
+> -				   0x8, MT6358_PSC_TOP_INT_CON0, 0xa),
+> +				   0x8, MT6358_PSC_TOP_INT_CON0, 0xa,
+> +				   MTK_PMIC_HOMEKEY_RST),
+>  	.pmic_rst_reg = MT6358_TOP_RST_MISC,
+>  };
+>  
+> @@ -104,10 +107,14 @@ enum mtk_pmic_keys_lp_mode {
+>  static void mtk_pmic_keys_lp_reset_setup(struct mtk_pmic_keys *keys,
+>  					 u32 pmic_rst_reg)
+>  {
+> +	const struct mtk_pmic_keys_regs *kregs_home, *kregs_pwr;
+>  	u32 long_press_mode, long_press_debounce;
+>  	u32 value, mask;
+>  	int error;
+>  
+> +	kregs_home = keys->keys[MTK_PMIC_HOMEKEY_INDEX].regs;
+> +	kregs_pwr = keys->keys[MTK_PMIC_PWRKEY_INDEX].regs;
+> +
+>  	error = of_property_read_u32(keys->dev->of_node, "power-off-time-sec",
+>  				     &long_press_debounce);
+>  	if (error)
+> @@ -124,15 +131,16 @@ static void mtk_pmic_keys_lp_reset_setup(struct mtk_pmic_keys *keys,
+>  
+>  	switch (long_press_mode) {
+>  	case LP_TWOKEY:
+> -		value |= MTK_PMIC_HOMEKEY_RST;
+> +		value |= kregs_home->rst_en_mask;
+>  		fallthrough;
+>  
+>  	case LP_ONEKEY:
+> -		value |= MTK_PMIC_PWRKEY_RST;
+> +		value |= kregs_pwr->rst_en_mask;
+>  		fallthrough;
+>  
+>  	case LP_DISABLE:
+> -		mask |= MTK_PMIC_RST_KEY_MASK;
+> +		mask |= kregs_home->rst_en_mask;
+> +		mask |= kregs_pwr->rst_en_mask;
+>  		break;
+>  
+>  	default:
+> -- 
+> 2.35.1
