@@ -2,211 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F9245331B3
-	for <lists+linux-input@lfdr.de>; Tue, 24 May 2022 21:21:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C86695331BF
+	for <lists+linux-input@lfdr.de>; Tue, 24 May 2022 21:27:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235718AbiEXTVf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 May 2022 15:21:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42098 "EHLO
+        id S240900AbiEXT10 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 May 2022 15:27:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229958AbiEXTVf (ORCPT
+        with ESMTP id S240862AbiEXT1Z (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 May 2022 15:21:35 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3B9527153
-        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 12:21:32 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id k30so27091046wrd.5
-        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 12:21:32 -0700 (PDT)
+        Tue, 24 May 2022 15:27:25 -0400
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 732056CF61;
+        Tue, 24 May 2022 12:27:24 -0700 (PDT)
+Received: by mail-qk1-x735.google.com with SMTP id c1so15786104qkf.13;
+        Tue, 24 May 2022 12:27:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=uNv6ls8dnKUufiUdGbGdaPRRmY56nlCsQeJp2G8NpvM=;
-        b=gNLvbkl8DL0/vaUesQvC2yj0wqHMsNaX2V5C5eX6vnKLo93SlXLl+UVLehFU351TVz
-         eipO9D3yXkW5h0R4bxeR4b7S8wI4Bt9HWyQJCUknU5b5o2xo1/6egDPDoGXy50Wp1gqL
-         LoA6dXoQOTvHoC4pxb9YIEWJZpuQARNAmQXgfG3zP2b5JKNsiyxD608QSGsMM8tnhipO
-         XQ1l4ZDGqTeC9HJI95aEHlpe4uq83tsAz7ZCjVilWF8Ia5jY1CfX9cnwD6w6YM4Fbm03
-         XRm59y4MwnOiUQPPSbcnnctS1Snwg87jqEShIHgxrUe+eoOgLIG+SN0bkzWW/F3EuumO
-         1hRQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PlbzmGY3IUE+JzgN/OnRwYZ1LTcH+0H8v20IvUaXIb8=;
+        b=muSVj6gWsDNJeJsHQZm5Kfk8rAqTHAxoahSpwdRRJKLo+RuYyvm6xl7nDt2G0VGYK6
+         +Y393pPLN1PweghnQH9KZl6Em2mChejg3N4MXPXlAHFUqSlCxthfrtcGKt21Zy5B6DXD
+         P+GzcSds6ux/PObm21V7/Y5Wcd5snfmKmaBmWjkf7t9Pa4t4HQG7xMZN6iCFP1EEfj3k
+         At5qYddt4bqOdRUHltiPgMmSEApcNMq6j8funk5seESBcni/RcOaUsJEj8zZaaXPqtGZ
+         929YB0lvLXFf/71sU8Hxsb5qKzXCZYAJpAcGEwFzh4+8UFGUAM7mFa/j1iVInHhyG6Pc
+         vvcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=uNv6ls8dnKUufiUdGbGdaPRRmY56nlCsQeJp2G8NpvM=;
-        b=J4IlFPf1XkAmyS3CQ/uH3ysqBjMpheMu2WwrmekXX34PhHzJ8O1G4hj+WwOM1gcKpB
-         RtY2vkWrlRAN1jiDhnAJeE7cyNddcokZ9ioaTAcBMgiXuY0DNqsGHCBWklMCG+66coFD
-         OGJukEoyl5w/gNRyjO5zfFLPzsYEW7M+07QqNf+bHJn44EbCzHES9PCnHnKiV9in3OOP
-         27GNsV0rGHjlYdBcEpLWhcAb5earjSe0zQvGRQ+ExsG2K2518AbcxXKJuXhny+RZuiPl
-         tNMFfo2uvGnYC5vLo4Qwe4UqqMY1DTEQpLj7MuuulmseBMraM3vKdaImMCQbdHdRHIeC
-         nnLQ==
-X-Gm-Message-State: AOAM530zaS/bKONGfDUa/ZedAgsfz4AVLVWNUztB2cvENONQ5Lmbo75z
-        7Cwd8kkwBQ0h+11coGnYQs+DNA==
-X-Google-Smtp-Source: ABdhPJx3mRKDU6VolRY97BlNo6uf523WeVOwvNCjBxD2+leUVArciHSXU9pGzgvvUWL0Ms61KXchfg==
-X-Received: by 2002:a05:6000:1a8c:b0:20c:bd6b:ecaf with SMTP id f12-20020a0560001a8c00b0020cbd6becafmr24165632wry.341.1653420091080;
-        Tue, 24 May 2022 12:21:31 -0700 (PDT)
-Received: from localhost ([2a01:cb19:85e6:1900:d9b6:6217:ea92:4fe0])
-        by smtp.gmail.com with ESMTPSA id e21-20020a5d5955000000b0020c5253d8d0sm274479wri.28.2022.05.24.12.21.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PlbzmGY3IUE+JzgN/OnRwYZ1LTcH+0H8v20IvUaXIb8=;
+        b=BB+dJebV4zpIey+Rpk9GjQ4Gv+0Tyw8EL9uqF0hMiTmIgQZPjZG4uNtHbAtKgarBHa
+         Li9/azGBaEzWRKTzQT4VmzsghkuoKLQfNAr2MfRv2b7sxSefsnYW2/uj/Y7Qngrtex+R
+         hKTtZQZr8lE8hKx/Elm2c2JaoFj5PqQR1ApDgvg+e5WwuLDfQDpbYF7tirfR2s+hvFhv
+         kvZFSyHvXwTUPZVVKS8u2dBTiNjWIjS037Af4MuFZc2KhiMV37AbzmMZLtSrGAlcSytj
+         iC8GXO7nmomaCDrnWFB1JuyMU9KJnoLtxH3onYD6Yz8x4mxc0MTrxBZTXdRLLRjww7gJ
+         /Eqw==
+X-Gm-Message-State: AOAM532w5zD1zojZSLxZa9Dk9vG7pU9W8ku5EvXWlD319Ab9B4OCTY1u
+        9T+WlIF0EZLfNU0ZddY4Co4=
+X-Google-Smtp-Source: ABdhPJw5hZzFTUuL5gQkWifCxGNS0Gh6Rs1RttrDiEN93LoJ67dI00kuqjg5at1WDlJLbGxevypPPw==
+X-Received: by 2002:a37:6902:0:b0:606:853:fe50 with SMTP id e2-20020a376902000000b006060853fe50mr18321652qkc.751.1653420443556;
+        Tue, 24 May 2022 12:27:23 -0700 (PDT)
+Received: from gchdesk.Sonatest.net (ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca. [174.94.156.236])
+        by smtp.googlemail.com with ESMTPSA id c186-20020ae9edc3000000b006a37eb728cfsm67195qkg.1.2022.05.24.12.27.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 May 2022 12:21:30 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-input@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH 1/2] Input: mt6779-keypad - fix hardware code
- mapping
-In-Reply-To: <Yosex9/a7OTuC6ZK@google.com>
-References: <20220513151845.2802795-1-mkorpershoek@baylibre.com>
- <20220513151845.2802795-2-mkorpershoek@baylibre.com>
- <YoHf6Z4HTfh4Y+bn@google.com> <874k1qkk7n.fsf@baylibre.com>
- <4a7bcbfb-12da-0e3f-8732-ecc53046a4ff@collabora.com>
- <Yosex9/a7OTuC6ZK@google.com>
-Date:   Tue, 24 May 2022 21:21:28 +0200
-Message-ID: <87y1yq91on.fsf@baylibre.com>
+        Tue, 24 May 2022 12:27:23 -0700 (PDT)
+From:   Guillaume Champagne <champagne.guillaume.c@gmail.com>
+To:     champagne.guillaume.c@gmail.com, michael.zaidman@gmail.com,
+        jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mathieu Gallichand <mathieu.gallichand@sonatest.com>
+Subject: [PATCH] HID: ft260: fix multi packet i2c transactions
+Date:   Tue, 24 May 2022 15:24:22 -0400
+Message-Id: <20220524192422.13967-1-champagne.guillaume.c@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On dim., mai 22, 2022 at 22:42, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+Only trigger START and STOP conditions for the first and last HID
+packets when i2c writes are split in multiple packets. Otherwise, slave
+i2c devices receive each packet as standalone i2c transactions. Since
+i2c slave devices clear their internal state on STOP, this breaks auto
+increment of the register address written to.
 
-> On Mon, May 16, 2022 at 01:06:43PM +0200, AngeloGioacchino Del Regno wrote:
->> Il 16/05/22 09:30, Mattijs Korpershoek ha scritto:
->> > Hi Dmitry,
->> > 
->> > Thank you for your review,
->> > 
->> > On dim., mai 15, 2022 at 22:23, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
->> > 
->> > > On Fri, May 13, 2022 at 05:18:44PM +0200, Mattijs Korpershoek wrote:
->> > > > In mt6779_keypad_irq_handler(), we
->> > > > 1. Read a hardware code from KPD_MEM1 -> KPD_MEM5
->> > > > 2. Use that hardware code to compute columns/rows for the standard
->> > > >     keyboard matrix.
->> > > > 
->> > > > According to the (non-public) datasheet, the
->> > > > map between the hardware code and the cols/rows is:
->> > > > 
->> > > >          |(0)  |(1)  |(2)
->> > > >      ----*-----*-----*-----
->> > > >          |     |     |
->> > > >          |(9)  |(10) |(11)
->> > > >      ----*-----*-----*-----
->> > > >          |     |     |
->> > > >          |(18) |(19) |(20)
->> > > >      ----*-----*-----*-----
->> > > >          |     |     |
->> > > > 
->> > > > This brings us to another formula:
->> > > > -> row = code / 9;
->> > > > -> col = code % 3;
->> > > 
->> > > What if there are more than 3 columns?
->> > That's not supported, in hardware, according to the datasheet.
->> > 
->> > The datasheet I have states that "The interface of MT6763 only supports
->> > 3*3 single or 2*2 double, but internal ASIC still detects keys in the
->> > manner of 8*8 single, and 3*3 double. The registers and key codes still
->> > follows the legacy naming".
->> > 
->> > Should I add another patch in this series to add that limitation in the
->> > probe? There are no checks done in the probe() right now.
->> > 
->> 
->> I've just checked a downstream kernel for MT6795 and that one looks like
->> being fully compatible with this driver as well... and as far as downstream
->> is concerned, apparently, mt6735, 6739, 6755, 6757, 6758, 6763, 6771, 6775
->> all have the same register layout and the downstream driver for these is
->> always the very same one...
->> 
->> ...so, I don't think that there's currently any SoC that supports more than
->> three columns. Besides, a fast check shows that MT8195 also has the same.
->> At this point, I'd say that assuming that there are 3 columns, nor less, not
->> more, is just fine.
->
-> OK, now that I looked at the datasheet I remember how it came about. The
-> programming (register) interface does not really care about how actual
-> matrix is organized, and instead has a set of bits representing keys,
-> from KEY0 to KEY77, arranged in 5 chunks of 15 bits split into 5 32-bit
-> registers. So we simply decided to use register number as row and
-> offset in the register as column when encoding our "matrix".
+Concretely, SCL is now held low between processing of HID packets so i2c
+slave devices know to keep increment the same register address when the
+next bytes arrive.
 
-That's correct and that's a good way to phrase it.
-I will add that in the commit message.
+Co-developed-by: Mathieu Gallichand <mathieu.gallichand@sonatest.com>
+Signed-off-by: Mathieu Gallichand <mathieu.gallichand@sonatest.com>
+Signed-off-by: Guillaume Champagne <champagne.guillaume.c@gmail.com>
+---
+ drivers/hid/hid-ft260.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
->
-> This does not match the actual keypad matrix organization, so if we want
-> to change this, that's fine, but then we also need to recognize that we
-> are skipping bits 16-31, 48-63, and so on, so to get to the right key
-> number we need to do something like:
->
-> 	key = bit_nr / 32 * 16 + bit_nr % 32;
-> 	row = key / 9;
-> 	col = key % 9;
+diff --git a/drivers/hid/hid-ft260.c b/drivers/hid/hid-ft260.c
+index 79505c64dbfe..9c5912a21ccb 100644
+--- a/drivers/hid/hid-ft260.c
++++ b/drivers/hid/hid-ft260.c
+@@ -390,6 +390,8 @@ static int ft260_i2c_write(struct ft260_device *dev, u8 addr, u8 *data,
+ 	struct hid_device *hdev = dev->hdev;
+ 	struct ft260_i2c_write_request_report *rep =
+ 		(struct ft260_i2c_write_request_report *)dev->write_buf;
++	bool multi_packet = data_len > FT260_WR_DATA_MAX;
++	u8 packet_flag = multi_packet ? flag & FT260_FLAG_START_REPEATED : flag;
+ 
+ 	do {
+ 		if (data_len <= FT260_WR_DATA_MAX)
+@@ -400,7 +402,7 @@ static int ft260_i2c_write(struct ft260_device *dev, u8 addr, u8 *data,
+ 		rep->report = FT260_I2C_DATA_REPORT_ID(len);
+ 		rep->address = addr;
+ 		rep->length = len;
+-		rep->flag = flag;
++		rep->flag = packet_flag;
+ 
+ 		memcpy(rep->data, &data[idx], len);
+ 
+@@ -418,6 +420,12 @@ static int ft260_i2c_write(struct ft260_device *dev, u8 addr, u8 *data,
+ 		data_len -= len;
+ 		idx += len;
+ 
++		if (multi_packet) {
++			if (data_len <= FT260_WR_DATA_MAX)
++				packet_flag = flag & FT260_FLAG_STOP;
++			else
++				packet_flag = FT260_FLAG_NONE;
++		}
+ 	} while (data_len > 0);
+ 
+ 	return 0;
+-- 
+2.20.1
 
-I would prefer to have the driver's matrix_keypad (build in probe()) to
-match the actual hardware. To me this seems easier to understand for
-people familiar with the hardware.
-
-I've also tested the above snippet and it matches my expectations.
-
->
-> I looked at the datasheets I have and they talk about 8x8 single keypad
-> matrix, and 3x3 double keypad (with actual matrices either 3x3 or 2x2)
-
-Indeed. I plan to send out double keypad support for this driver since
-that's actually needed for mt8183-pumpkin as well.
-It's already in our mtk-v5.10[1] integration tree but I have not submitted
-it yet.
-I planned to send this a separate series to avoid burdening / have
-smaller chunks to review. If that was a mistake, please let me know.
-
-> but I do not actually see this map layout that Mattijs drew  documented
-
-The map layout that I draw is not directly copied from the datasheet.
-It's a "translation" of the following table:
-
-| hardware key code | col0 | col1 | col2|
-| ----------------- | -----| ---- | --- |
-| row0              | 0    | 1    | 2   |
-| row1              | 9    | 10   | 11  |
-| row2              | 18   | 19   | 20  |
-
-It seems that caused more confusion than actual useful information,
-sorry about that.
-
-> anywhere though...  I also wonder if there are already existing DTSes in
-> the wild that will be rendered invalid by these changes. I wonder if it
-> would not be be better to document the existing meaning of row and
-> column in the driver?
-
-The concern for "DTSes in the wild" that will break is a valid point.
-I'm not aware of any of those. Most vendor trees i've seen don't use
-this driver at all. I hope that will change at some point.
-
-In the end. I'd prefer to have the driver's keypad matrix match
-the actual hardware. Right now we can have a 5x32 matrix which seems
-absurd. Having at most an 8x8 is more reasonable.
-
-I'd like to send v3 with just fixing the row/column suggestion in
-mt6779_keypad_irq_handler() that Dmitry suggested.
-
-Would that work Dmitry?
-
-
-[1] https://gitlab.com/mediatek/aiot/bsp/linux/-/tree/mtk-v5.10
-
-> Thanks.
->
-> -- 
-> Dmitry
