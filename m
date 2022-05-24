@@ -2,125 +2,187 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9CF3532BCA
-	for <lists+linux-input@lfdr.de>; Tue, 24 May 2022 15:59:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A176532F3C
+	for <lists+linux-input@lfdr.de>; Tue, 24 May 2022 18:53:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238022AbiEXN6l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 May 2022 09:58:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33386 "EHLO
+        id S234234AbiEXQxj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 May 2022 12:53:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231878AbiEXN6k (ORCPT
+        with ESMTP id S233792AbiEXQxh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 May 2022 09:58:40 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 292211EAFF;
-        Tue, 24 May 2022 06:58:39 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,248,1647270000"; 
-   d="scan'208";a="120738317"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 24 May 2022 22:58:38 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8E2C1434C214;
-        Tue, 24 May 2022 22:58:35 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Tue, 24 May 2022 12:53:37 -0400
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00FFD6D3B5
+        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 09:53:33 -0700 (PDT)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-30026b1124bso31149407b3.1
+        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 09:53:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bBU3h3oEFw4JC2/ff0uHZOE7/s8vbLP0dXgg6Z/FkHw=;
+        b=stkhGcjCvvC9TpTXSlfYJSlmahwaosOiVJsIB5LDfeawhw88xq+VdZKilx/qAi6NQl
+         cUbXiUhodUn4VYsxjaCw29nEK+tZ8VMGcKGPbx7bqNeVMUOJCor31OCP8GoDHDv0bbTT
+         xuKUwnSf83PNGb9hdeEDAfBx/tzcvJ9amrTmlCwbKUrrI48yiILavvWA8NJPAePH63s0
+         V87L2phP2uuX9RZjyJKMj38qBNv5JaIZKE+CGy3SHD88lXCtgfl5MDy17O6riRKQu45y
+         tFhIiYUvCs+0KEX+5DhQ+3WiZXiKbCe19sRO8V9hCUqIYyCEsVUMQ9OTcwUmqSB21oUr
+         EcNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bBU3h3oEFw4JC2/ff0uHZOE7/s8vbLP0dXgg6Z/FkHw=;
+        b=iY97TAFOWn2UV6M7TtX60Awhgh4OQpnoKIew9sSDyzp7NND4oP5L4x6g5tHeYJERnp
+         p8J6yYV9BwaDykVbz+g3nHg7ityDhudtN9t4Q3CWwjN4BT9JlKjOAG35GSF8b9GJujjK
+         CaTH8/TofSe6w1EQahFd7a/23P/e3iqSU/GClKXCYlhiwFZ0A8BP6R01WpQ3d8ECwH4D
+         GUUFlp6/GJEso/T89CKb9FetyRM5ta1xlJlKk3JtyQd+kDgzl/wBg9m30UMhtLeEsRKf
+         n/oMBUGfvLQ9Fuc/qt/wvEF1UFIAm+rS0rTWP2RU7W5S1f/2H+q2iSDuZW8IdF6ar7XU
+         8PHg==
+X-Gm-Message-State: AOAM532hjlylezkk5z9BTSUM3HqH9Vm16A40t34/pBl9noqz3sBVd72h
+        ztcuLhLWoYXjRalfEQ2Qp8XYZl1DrscC67kC5wp7WM64dALSXg==
+X-Google-Smtp-Source: ABdhPJzr8ft+qGEvs02KzbhOcvkL4mTZkH1JD0ym9FXwnPk8WbxF5YE5YvDx1TpeB4YrnzQDDibbIunmoz77PdY+cCA=
+X-Received: by 2002:a0d:eb48:0:b0:300:3817:e4e8 with SMTP id
+ u69-20020a0deb48000000b003003817e4e8mr2484055ywe.247.1653411212928; Tue, 24
+ May 2022 09:53:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220520084514.3451193-1-svv@google.com> <20220520160029.GA49889@nixie71>
+In-Reply-To: <20220520160029.GA49889@nixie71>
+From:   Siarhei Vishniakou <svv@google.com>
+Date:   Tue, 24 May 2022 09:53:22 -0700
+Message-ID: <CAKF84v3yjDfo7L+F84CYSYigAzk_eXYOirbW=icKPsDZ02rCbg@mail.gmail.com>
+Subject: Re: [PATCH] Document the units for resolution of size axes
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     dmitry.torokhov@gmail.com, rydberg@bitmath.org,
         linux-input@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] Input: gpio-keys - Cancel delayed work only in case of GPIO
-Date:   Tue, 24 May 2022 14:58:22 +0100
-Message-Id: <20220524135822.14764-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-gpio_keys module can either accept gpios or interrupts. The module
-initializes delayed work in case of gpios only and is only used if
-debounce timer is not used, so make sure cancel_delayed_work_sync()
-is called only when its gpio-backed and debounce_use_hrtimer is false.
+Hi Jeff,
 
-This fixes the issue seen below when the gpio_keys module is unloaded and
-an interrupt pin is used instead of GPIO:
+I assume you are talking about touch IC controllers and not gamepad controllers.
+The units for ABS_X and ABS_Y are already documented. The proposal
+here is to expand the documentation to include the ABS_MT_TOUCH_MAJOR
+and ABS_MT_TOUCH_MINOR axes in the definition.
 
-[  360.297569] ------------[ cut here ]------------
-[  360.302303] WARNING: CPU: 0 PID: 237 at kernel/workqueue.c:3066 __flush_work+0x414/0x470
-[  360.310531] Modules linked in: gpio_keys(-)
-[  360.314797] CPU: 0 PID: 237 Comm: rmmod Not tainted 5.18.0-rc5-arm64-renesas-00116-g73636105874d-dirty #166
-[  360.324662] Hardware name: Renesas SMARC EVK based on r9a07g054l2 (DT)
-[  360.331270] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  360.338318] pc : __flush_work+0x414/0x470
-[  360.342385] lr : __cancel_work_timer+0x140/0x1b0
-[  360.347065] sp : ffff80000a7fba00
-[  360.350423] x29: ffff80000a7fba00 x28: ffff000012b9c5c0 x27: 0000000000000000
-[  360.357664] x26: ffff80000a7fbb80 x25: ffff80000954d0a8 x24: 0000000000000001
-[  360.364904] x23: ffff800009757000 x22: 0000000000000000 x21: ffff80000919b000
-[  360.372143] x20: ffff00000f5974e0 x19: ffff00000f5974e0 x18: ffff8000097fcf48
-[  360.379382] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000053f40
-[  360.386622] x14: ffff800009850e88 x13: 0000000000000002 x12: 000000000000a60c
-[  360.393861] x11: 000000000000a610 x10: 0000000000000000 x9 : 0000000000000008
-[  360.401100] x8 : 0101010101010101 x7 : 00000000a473c394 x6 : 0080808080808080
-[  360.408339] x5 : 0000000000000001 x4 : 0000000000000000 x3 : ffff80000919b458
-[  360.415578] x2 : ffff8000097577f0 x1 : 0000000000000001 x0 : 0000000000000000
-[  360.422818] Call trace:
-[  360.425299]  __flush_work+0x414/0x470
-[  360.429012]  __cancel_work_timer+0x140/0x1b0
-[  360.433340]  cancel_delayed_work_sync+0x10/0x18
-[  360.437931]  gpio_keys_quiesce_key+0x28/0x58 [gpio_keys]
-[  360.443327]  devm_action_release+0x10/0x18
-[  360.447481]  release_nodes+0x8c/0x1a0
-[  360.451194]  devres_release_all+0x90/0x100
-[  360.455346]  device_unbind_cleanup+0x14/0x60
-[  360.459677]  device_release_driver_internal+0xe8/0x168
-[  360.464883]  driver_detach+0x4c/0x90
-[  360.468509]  bus_remove_driver+0x54/0xb0
-[  360.472485]  driver_unregister+0x2c/0x58
-[  360.476462]  platform_driver_unregister+0x10/0x18
-[  360.481230]  gpio_keys_exit+0x14/0x828 [gpio_keys]
-[  360.486088]  __arm64_sys_delete_module+0x1e0/0x270
-[  360.490945]  invoke_syscall+0x40/0xf8
-[  360.494661]  el0_svc_common.constprop.3+0xf0/0x110
-[  360.499515]  do_el0_svc+0x20/0x78
-[  360.502877]  el0_svc+0x48/0xf8
-[  360.505977]  el0t_64_sync_handler+0x88/0xb0
-[  360.510216]  el0t_64_sync+0x148/0x14c
-[  360.513930] irq event stamp: 4306
-[  360.517288] hardirqs last  enabled at (4305): [<ffff8000080b0300>] __cancel_work_timer+0x130/0x1b0
-[  360.526359] hardirqs last disabled at (4306): [<ffff800008d194fc>] el1_dbg+0x24/0x88
-[  360.534204] softirqs last  enabled at (4278): [<ffff8000080104a0>] _stext+0x4a0/0x5e0
-[  360.542133] softirqs last disabled at (4267): [<ffff8000080932ac>] irq_exit_rcu+0x18c/0x1b0
-[  360.550591] ---[ end trace 0000000000000000 ]---
+We can't fix existing devices, but the documentation would specify the
+"correct" behaviour going forward. Based on my understanding of
+hidinput_calc_abs_res function, the units for the resolution of
+major/minor are already "units/mm".
+This behaviour is already the default in linux, just not documented.
+If you were to develop a HID touchscreen, you would already get this
+behaviour today.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2
-* Fixed review comment suggested by Dmitry.
----
- drivers/input/keyboard/gpio_keys.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I don't think the problem is the same as for ABS_MT_PRESSURE. In the
+case of pressure, the value comes from arbitrary algorithms using
+capacitive data to guess "pressure" rather than using physical
+pressure sensors.
+So most touch ICs simply can't report pressure. I think
+ABS_MT_PRESSURE in general shouldn't even be reported, partially
+because of the lack of appropriate sensors, and partially because of
+the lack of explanation of what these values means (no resolution).
+For pressure, the userspace doesn't know what to do with it, and has
+to guess about what it means. As a result, on Android for example, we
+use pressure in an "on-off" fashion - zero pressure means hover and
+non-zero pressure means contact. Arguably, that's misusing the APIs.
 
-diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-index d75a8b179a8a..a5dc4ab87fa1 100644
---- a/drivers/input/keyboard/gpio_keys.c
-+++ b/drivers/input/keyboard/gpio_keys.c
-@@ -131,7 +131,7 @@ static void gpio_keys_quiesce_key(void *data)
- 
- 	if (!bdata->gpiod)
- 		hrtimer_cancel(&bdata->release_timer);
--	if (bdata->debounce_use_hrtimer)
-+	else if (bdata->debounce_use_hrtimer)
- 		hrtimer_cancel(&bdata->debounce_timer);
- 	else
- 		cancel_delayed_work_sync(&bdata->work);
--- 
-2.17.1
+In the case of major and minor axes, it's very clear how they should
+be used. There's a well-defined way to calibrate these values to
+physical units. You can put an oval object on the screen, calculate
+its dimensions using a caliper, and then look at the size of the oval
+in the capacitive data.. So the devices *can* provide an accurate
+value here if they wanted.
 
+Do you mind explaning a bit more about how your proposal would work?
+Would the user space have to scrape the linux folders in order to find
+this new property that we would define to report the resolution,
+rather than using ioctls to read the existing value from the fd of
+/dev/input/eventX?
+
+With the current approach, my expectation is that the touch driver
+could certainly use the dts to read out some values like screen size,
+scale factor, etc., but it would then be responsible to set the
+resolutions accordingly and to scale these values as needed when
+reporting to user space.
+
+
+On Fri, May 20, 2022 at 9:00 AM Jeff LaBundy <jeff@labundy.com> wrote:
+>
+> Hi Siarhei,
+>
+> On Fri, May 20, 2022 at 01:45:14AM -0700, Siarhei Vishniakou wrote:
+> > Today, the resolution of size axes is not documented. As a result, it's
+> > not clear what the canonical interpretation of this value should be. On
+> > Android, there is a need to calculate the size of the touch ellipse in
+> > physical units (millimeters).
+> >
+> > After reviewing linux source, it turned out that most of the existing
+> > usages are already interpreting this value as "units/mm". This
+> > documentation will make it explicit. This will help device
+> > implementations with correctly following the linux specs, and will
+> > ensure that the devices will work on Android without needing further
+> > customized parameters for scaling of major/minor values.
+> >
+> > Signed-off-by: Siarhei Vishniakou <svv@google.com>
+> > Change-Id: I4a2de9e6d02e5fd707e5d312f5c3325734266a6e
+> > ---
+> >  include/uapi/linux/input.h | 11 +++++++----
+> >  1 file changed, 7 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
+> > index ee3127461ee0..328cf545c029 100644
+> > --- a/include/uapi/linux/input.h
+> > +++ b/include/uapi/linux/input.h
+> > @@ -78,10 +78,13 @@ struct input_id {
+> >   * Note that input core does not clamp reported values to the
+> >   * [minimum, maximum] limits, such task is left to userspace.
+> >   *
+> > - * The default resolution for main axes (ABS_X, ABS_Y, ABS_Z)
+> > - * is reported in units per millimeter (units/mm), resolution
+> > - * for rotational axes (ABS_RX, ABS_RY, ABS_RZ) is reported
+> > - * in units per radian.
+> > + * The default resolution for main axes (ABS_X, ABS_Y, ABS_Z,
+> > + * ABS_MT_POSITION_X, ABS_MT_POSITION_Y) is reported in units
+> > + * per millimeter (units/mm), resolution for rotational axes
+> > + * (ABS_RX, ABS_RY, ABS_RZ) is reported in units per radian.
+> > + * The resolution for the size axes (ABS_MT_TOUCH_MAJOR,
+> > + * ABS_MT_TOUCH_MINOR, ABS_MT_WIDTH_MAJOR, ABS_MT_WIDTH_MINOR)
+> > + * is reported in units per millimeter (units/mm).
+> >   * When INPUT_PROP_ACCELEROMETER is set the resolution changes.
+> >   * The main axes (ABS_X, ABS_Y, ABS_Z) are then reported in
+> >   * units per g (units/g) and in units per degree per second
+> > --
+> > 2.36.1.124.g0e6072fb45-goog
+> >
+>
+> Thanks for raising this point; it's a valid one. However, I'm not
+> convinced this is the right approach.
+>
+> On all the controllers I've worked on, ABS_X and ABS_Y are mapped
+> to arbitrary resolution values that don't necessarily map to real-
+> world units. I don't think we can make any assumption at the input
+> layer as to the physical size of the touch surface.
+>
+> It is the same problem for ABS_MT_PRESSURE; the values are typically
+> controller-specific and we can't reasonably try to map this axis to
+> any standard unit (e.g. Pascals).
+>
+> If user space needs to understand the mapping between axis range and
+> physical size, maybe it is better to adopt the approach from the IIO
+> subsystem wherein the input_dev offers a property that maps each axis
+> (i.e. "raw" value) to some SI unit?
+>
+> In that case, dts could define the scaling factor between raw values
+> and physical dimensions. At any rate, that is just my $.02.
+>
+> Kind regards,
+> Jeff LaBundy
