@@ -2,187 +2,211 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A176532F3C
-	for <lists+linux-input@lfdr.de>; Tue, 24 May 2022 18:53:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F9245331B3
+	for <lists+linux-input@lfdr.de>; Tue, 24 May 2022 21:21:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234234AbiEXQxj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 May 2022 12:53:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37928 "EHLO
+        id S235718AbiEXTVf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 May 2022 15:21:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233792AbiEXQxh (ORCPT
+        with ESMTP id S229958AbiEXTVf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 May 2022 12:53:37 -0400
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00FFD6D3B5
-        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 09:53:33 -0700 (PDT)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-30026b1124bso31149407b3.1
-        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 09:53:33 -0700 (PDT)
+        Tue, 24 May 2022 15:21:35 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3B9527153
+        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 12:21:32 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id k30so27091046wrd.5
+        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 12:21:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bBU3h3oEFw4JC2/ff0uHZOE7/s8vbLP0dXgg6Z/FkHw=;
-        b=stkhGcjCvvC9TpTXSlfYJSlmahwaosOiVJsIB5LDfeawhw88xq+VdZKilx/qAi6NQl
-         cUbXiUhodUn4VYsxjaCw29nEK+tZ8VMGcKGPbx7bqNeVMUOJCor31OCP8GoDHDv0bbTT
-         xuKUwnSf83PNGb9hdeEDAfBx/tzcvJ9amrTmlCwbKUrrI48yiILavvWA8NJPAePH63s0
-         V87L2phP2uuX9RZjyJKMj38qBNv5JaIZKE+CGy3SHD88lXCtgfl5MDy17O6riRKQu45y
-         tFhIiYUvCs+0KEX+5DhQ+3WiZXiKbCe19sRO8V9hCUqIYyCEsVUMQ9OTcwUmqSB21oUr
-         EcNw==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=uNv6ls8dnKUufiUdGbGdaPRRmY56nlCsQeJp2G8NpvM=;
+        b=gNLvbkl8DL0/vaUesQvC2yj0wqHMsNaX2V5C5eX6vnKLo93SlXLl+UVLehFU351TVz
+         eipO9D3yXkW5h0R4bxeR4b7S8wI4Bt9HWyQJCUknU5b5o2xo1/6egDPDoGXy50Wp1gqL
+         LoA6dXoQOTvHoC4pxb9YIEWJZpuQARNAmQXgfG3zP2b5JKNsiyxD608QSGsMM8tnhipO
+         XQ1l4ZDGqTeC9HJI95aEHlpe4uq83tsAz7ZCjVilWF8Ia5jY1CfX9cnwD6w6YM4Fbm03
+         XRm59y4MwnOiUQPPSbcnnctS1Snwg87jqEShIHgxrUe+eoOgLIG+SN0bkzWW/F3EuumO
+         1hRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bBU3h3oEFw4JC2/ff0uHZOE7/s8vbLP0dXgg6Z/FkHw=;
-        b=iY97TAFOWn2UV6M7TtX60Awhgh4OQpnoKIew9sSDyzp7NND4oP5L4x6g5tHeYJERnp
-         p8J6yYV9BwaDykVbz+g3nHg7ityDhudtN9t4Q3CWwjN4BT9JlKjOAG35GSF8b9GJujjK
-         CaTH8/TofSe6w1EQahFd7a/23P/e3iqSU/GClKXCYlhiwFZ0A8BP6R01WpQ3d8ECwH4D
-         GUUFlp6/GJEso/T89CKb9FetyRM5ta1xlJlKk3JtyQd+kDgzl/wBg9m30UMhtLeEsRKf
-         n/oMBUGfvLQ9Fuc/qt/wvEF1UFIAm+rS0rTWP2RU7W5S1f/2H+q2iSDuZW8IdF6ar7XU
-         8PHg==
-X-Gm-Message-State: AOAM532hjlylezkk5z9BTSUM3HqH9Vm16A40t34/pBl9noqz3sBVd72h
-        ztcuLhLWoYXjRalfEQ2Qp8XYZl1DrscC67kC5wp7WM64dALSXg==
-X-Google-Smtp-Source: ABdhPJzr8ft+qGEvs02KzbhOcvkL4mTZkH1JD0ym9FXwnPk8WbxF5YE5YvDx1TpeB4YrnzQDDibbIunmoz77PdY+cCA=
-X-Received: by 2002:a0d:eb48:0:b0:300:3817:e4e8 with SMTP id
- u69-20020a0deb48000000b003003817e4e8mr2484055ywe.247.1653411212928; Tue, 24
- May 2022 09:53:32 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=uNv6ls8dnKUufiUdGbGdaPRRmY56nlCsQeJp2G8NpvM=;
+        b=J4IlFPf1XkAmyS3CQ/uH3ysqBjMpheMu2WwrmekXX34PhHzJ8O1G4hj+WwOM1gcKpB
+         RtY2vkWrlRAN1jiDhnAJeE7cyNddcokZ9ioaTAcBMgiXuY0DNqsGHCBWklMCG+66coFD
+         OGJukEoyl5w/gNRyjO5zfFLPzsYEW7M+07QqNf+bHJn44EbCzHES9PCnHnKiV9in3OOP
+         27GNsV0rGHjlYdBcEpLWhcAb5earjSe0zQvGRQ+ExsG2K2518AbcxXKJuXhny+RZuiPl
+         tNMFfo2uvGnYC5vLo4Qwe4UqqMY1DTEQpLj7MuuulmseBMraM3vKdaImMCQbdHdRHIeC
+         nnLQ==
+X-Gm-Message-State: AOAM530zaS/bKONGfDUa/ZedAgsfz4AVLVWNUztB2cvENONQ5Lmbo75z
+        7Cwd8kkwBQ0h+11coGnYQs+DNA==
+X-Google-Smtp-Source: ABdhPJx3mRKDU6VolRY97BlNo6uf523WeVOwvNCjBxD2+leUVArciHSXU9pGzgvvUWL0Ms61KXchfg==
+X-Received: by 2002:a05:6000:1a8c:b0:20c:bd6b:ecaf with SMTP id f12-20020a0560001a8c00b0020cbd6becafmr24165632wry.341.1653420091080;
+        Tue, 24 May 2022 12:21:31 -0700 (PDT)
+Received: from localhost ([2a01:cb19:85e6:1900:d9b6:6217:ea92:4fe0])
+        by smtp.gmail.com with ESMTPSA id e21-20020a5d5955000000b0020c5253d8d0sm274479wri.28.2022.05.24.12.21.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 May 2022 12:21:30 -0700 (PDT)
+From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-input@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCH 1/2] Input: mt6779-keypad - fix hardware code
+ mapping
+In-Reply-To: <Yosex9/a7OTuC6ZK@google.com>
+References: <20220513151845.2802795-1-mkorpershoek@baylibre.com>
+ <20220513151845.2802795-2-mkorpershoek@baylibre.com>
+ <YoHf6Z4HTfh4Y+bn@google.com> <874k1qkk7n.fsf@baylibre.com>
+ <4a7bcbfb-12da-0e3f-8732-ecc53046a4ff@collabora.com>
+ <Yosex9/a7OTuC6ZK@google.com>
+Date:   Tue, 24 May 2022 21:21:28 +0200
+Message-ID: <87y1yq91on.fsf@baylibre.com>
 MIME-Version: 1.0
-References: <20220520084514.3451193-1-svv@google.com> <20220520160029.GA49889@nixie71>
-In-Reply-To: <20220520160029.GA49889@nixie71>
-From:   Siarhei Vishniakou <svv@google.com>
-Date:   Tue, 24 May 2022 09:53:22 -0700
-Message-ID: <CAKF84v3yjDfo7L+F84CYSYigAzk_eXYOirbW=icKPsDZ02rCbg@mail.gmail.com>
-Subject: Re: [PATCH] Document the units for resolution of size axes
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     dmitry.torokhov@gmail.com, rydberg@bitmath.org,
-        linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jeff,
+On dim., mai 22, 2022 at 22:42, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
 
-I assume you are talking about touch IC controllers and not gamepad controllers.
-The units for ABS_X and ABS_Y are already documented. The proposal
-here is to expand the documentation to include the ABS_MT_TOUCH_MAJOR
-and ABS_MT_TOUCH_MINOR axes in the definition.
+> On Mon, May 16, 2022 at 01:06:43PM +0200, AngeloGioacchino Del Regno wrote:
+>> Il 16/05/22 09:30, Mattijs Korpershoek ha scritto:
+>> > Hi Dmitry,
+>> > 
+>> > Thank you for your review,
+>> > 
+>> > On dim., mai 15, 2022 at 22:23, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+>> > 
+>> > > On Fri, May 13, 2022 at 05:18:44PM +0200, Mattijs Korpershoek wrote:
+>> > > > In mt6779_keypad_irq_handler(), we
+>> > > > 1. Read a hardware code from KPD_MEM1 -> KPD_MEM5
+>> > > > 2. Use that hardware code to compute columns/rows for the standard
+>> > > >     keyboard matrix.
+>> > > > 
+>> > > > According to the (non-public) datasheet, the
+>> > > > map between the hardware code and the cols/rows is:
+>> > > > 
+>> > > >          |(0)  |(1)  |(2)
+>> > > >      ----*-----*-----*-----
+>> > > >          |     |     |
+>> > > >          |(9)  |(10) |(11)
+>> > > >      ----*-----*-----*-----
+>> > > >          |     |     |
+>> > > >          |(18) |(19) |(20)
+>> > > >      ----*-----*-----*-----
+>> > > >          |     |     |
+>> > > > 
+>> > > > This brings us to another formula:
+>> > > > -> row = code / 9;
+>> > > > -> col = code % 3;
+>> > > 
+>> > > What if there are more than 3 columns?
+>> > That's not supported, in hardware, according to the datasheet.
+>> > 
+>> > The datasheet I have states that "The interface of MT6763 only supports
+>> > 3*3 single or 2*2 double, but internal ASIC still detects keys in the
+>> > manner of 8*8 single, and 3*3 double. The registers and key codes still
+>> > follows the legacy naming".
+>> > 
+>> > Should I add another patch in this series to add that limitation in the
+>> > probe? There are no checks done in the probe() right now.
+>> > 
+>> 
+>> I've just checked a downstream kernel for MT6795 and that one looks like
+>> being fully compatible with this driver as well... and as far as downstream
+>> is concerned, apparently, mt6735, 6739, 6755, 6757, 6758, 6763, 6771, 6775
+>> all have the same register layout and the downstream driver for these is
+>> always the very same one...
+>> 
+>> ...so, I don't think that there's currently any SoC that supports more than
+>> three columns. Besides, a fast check shows that MT8195 also has the same.
+>> At this point, I'd say that assuming that there are 3 columns, nor less, not
+>> more, is just fine.
+>
+> OK, now that I looked at the datasheet I remember how it came about. The
+> programming (register) interface does not really care about how actual
+> matrix is organized, and instead has a set of bits representing keys,
+> from KEY0 to KEY77, arranged in 5 chunks of 15 bits split into 5 32-bit
+> registers. So we simply decided to use register number as row and
+> offset in the register as column when encoding our "matrix".
 
-We can't fix existing devices, but the documentation would specify the
-"correct" behaviour going forward. Based on my understanding of
-hidinput_calc_abs_res function, the units for the resolution of
-major/minor are already "units/mm".
-This behaviour is already the default in linux, just not documented.
-If you were to develop a HID touchscreen, you would already get this
-behaviour today.
+That's correct and that's a good way to phrase it.
+I will add that in the commit message.
 
-I don't think the problem is the same as for ABS_MT_PRESSURE. In the
-case of pressure, the value comes from arbitrary algorithms using
-capacitive data to guess "pressure" rather than using physical
-pressure sensors.
-So most touch ICs simply can't report pressure. I think
-ABS_MT_PRESSURE in general shouldn't even be reported, partially
-because of the lack of appropriate sensors, and partially because of
-the lack of explanation of what these values means (no resolution).
-For pressure, the userspace doesn't know what to do with it, and has
-to guess about what it means. As a result, on Android for example, we
-use pressure in an "on-off" fashion - zero pressure means hover and
-non-zero pressure means contact. Arguably, that's misusing the APIs.
+>
+> This does not match the actual keypad matrix organization, so if we want
+> to change this, that's fine, but then we also need to recognize that we
+> are skipping bits 16-31, 48-63, and so on, so to get to the right key
+> number we need to do something like:
+>
+> 	key = bit_nr / 32 * 16 + bit_nr % 32;
+> 	row = key / 9;
+> 	col = key % 9;
 
-In the case of major and minor axes, it's very clear how they should
-be used. There's a well-defined way to calibrate these values to
-physical units. You can put an oval object on the screen, calculate
-its dimensions using a caliper, and then look at the size of the oval
-in the capacitive data.. So the devices *can* provide an accurate
-value here if they wanted.
+I would prefer to have the driver's matrix_keypad (build in probe()) to
+match the actual hardware. To me this seems easier to understand for
+people familiar with the hardware.
 
-Do you mind explaning a bit more about how your proposal would work?
-Would the user space have to scrape the linux folders in order to find
-this new property that we would define to report the resolution,
-rather than using ioctls to read the existing value from the fd of
-/dev/input/eventX?
+I've also tested the above snippet and it matches my expectations.
 
-With the current approach, my expectation is that the touch driver
-could certainly use the dts to read out some values like screen size,
-scale factor, etc., but it would then be responsible to set the
-resolutions accordingly and to scale these values as needed when
-reporting to user space.
+>
+> I looked at the datasheets I have and they talk about 8x8 single keypad
+> matrix, and 3x3 double keypad (with actual matrices either 3x3 or 2x2)
+
+Indeed. I plan to send out double keypad support for this driver since
+that's actually needed for mt8183-pumpkin as well.
+It's already in our mtk-v5.10[1] integration tree but I have not submitted
+it yet.
+I planned to send this a separate series to avoid burdening / have
+smaller chunks to review. If that was a mistake, please let me know.
+
+> but I do not actually see this map layout that Mattijs drew  documented
+
+The map layout that I draw is not directly copied from the datasheet.
+It's a "translation" of the following table:
+
+| hardware key code | col0 | col1 | col2|
+| ----------------- | -----| ---- | --- |
+| row0              | 0    | 1    | 2   |
+| row1              | 9    | 10   | 11  |
+| row2              | 18   | 19   | 20  |
+
+It seems that caused more confusion than actual useful information,
+sorry about that.
+
+> anywhere though...  I also wonder if there are already existing DTSes in
+> the wild that will be rendered invalid by these changes. I wonder if it
+> would not be be better to document the existing meaning of row and
+> column in the driver?
+
+The concern for "DTSes in the wild" that will break is a valid point.
+I'm not aware of any of those. Most vendor trees i've seen don't use
+this driver at all. I hope that will change at some point.
+
+In the end. I'd prefer to have the driver's keypad matrix match
+the actual hardware. Right now we can have a 5x32 matrix which seems
+absurd. Having at most an 8x8 is more reasonable.
+
+I'd like to send v3 with just fixing the row/column suggestion in
+mt6779_keypad_irq_handler() that Dmitry suggested.
+
+Would that work Dmitry?
 
 
-On Fri, May 20, 2022 at 9:00 AM Jeff LaBundy <jeff@labundy.com> wrote:
+[1] https://gitlab.com/mediatek/aiot/bsp/linux/-/tree/mtk-v5.10
+
+> Thanks.
 >
-> Hi Siarhei,
->
-> On Fri, May 20, 2022 at 01:45:14AM -0700, Siarhei Vishniakou wrote:
-> > Today, the resolution of size axes is not documented. As a result, it's
-> > not clear what the canonical interpretation of this value should be. On
-> > Android, there is a need to calculate the size of the touch ellipse in
-> > physical units (millimeters).
-> >
-> > After reviewing linux source, it turned out that most of the existing
-> > usages are already interpreting this value as "units/mm". This
-> > documentation will make it explicit. This will help device
-> > implementations with correctly following the linux specs, and will
-> > ensure that the devices will work on Android without needing further
-> > customized parameters for scaling of major/minor values.
-> >
-> > Signed-off-by: Siarhei Vishniakou <svv@google.com>
-> > Change-Id: I4a2de9e6d02e5fd707e5d312f5c3325734266a6e
-> > ---
-> >  include/uapi/linux/input.h | 11 +++++++----
-> >  1 file changed, 7 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
-> > index ee3127461ee0..328cf545c029 100644
-> > --- a/include/uapi/linux/input.h
-> > +++ b/include/uapi/linux/input.h
-> > @@ -78,10 +78,13 @@ struct input_id {
-> >   * Note that input core does not clamp reported values to the
-> >   * [minimum, maximum] limits, such task is left to userspace.
-> >   *
-> > - * The default resolution for main axes (ABS_X, ABS_Y, ABS_Z)
-> > - * is reported in units per millimeter (units/mm), resolution
-> > - * for rotational axes (ABS_RX, ABS_RY, ABS_RZ) is reported
-> > - * in units per radian.
-> > + * The default resolution for main axes (ABS_X, ABS_Y, ABS_Z,
-> > + * ABS_MT_POSITION_X, ABS_MT_POSITION_Y) is reported in units
-> > + * per millimeter (units/mm), resolution for rotational axes
-> > + * (ABS_RX, ABS_RY, ABS_RZ) is reported in units per radian.
-> > + * The resolution for the size axes (ABS_MT_TOUCH_MAJOR,
-> > + * ABS_MT_TOUCH_MINOR, ABS_MT_WIDTH_MAJOR, ABS_MT_WIDTH_MINOR)
-> > + * is reported in units per millimeter (units/mm).
-> >   * When INPUT_PROP_ACCELEROMETER is set the resolution changes.
-> >   * The main axes (ABS_X, ABS_Y, ABS_Z) are then reported in
-> >   * units per g (units/g) and in units per degree per second
-> > --
-> > 2.36.1.124.g0e6072fb45-goog
-> >
->
-> Thanks for raising this point; it's a valid one. However, I'm not
-> convinced this is the right approach.
->
-> On all the controllers I've worked on, ABS_X and ABS_Y are mapped
-> to arbitrary resolution values that don't necessarily map to real-
-> world units. I don't think we can make any assumption at the input
-> layer as to the physical size of the touch surface.
->
-> It is the same problem for ABS_MT_PRESSURE; the values are typically
-> controller-specific and we can't reasonably try to map this axis to
-> any standard unit (e.g. Pascals).
->
-> If user space needs to understand the mapping between axis range and
-> physical size, maybe it is better to adopt the approach from the IIO
-> subsystem wherein the input_dev offers a property that maps each axis
-> (i.e. "raw" value) to some SI unit?
->
-> In that case, dts could define the scaling factor between raw values
-> and physical dimensions. At any rate, that is just my $.02.
->
-> Kind regards,
-> Jeff LaBundy
+> -- 
+> Dmitry
