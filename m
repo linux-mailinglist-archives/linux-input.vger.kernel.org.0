@@ -2,178 +2,213 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A0EE533F45
-	for <lists+linux-input@lfdr.de>; Wed, 25 May 2022 16:34:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D1D053408E
+	for <lists+linux-input@lfdr.de>; Wed, 25 May 2022 17:44:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229482AbiEYOdY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 May 2022 10:33:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52244 "EHLO
+        id S233167AbiEYPoW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 May 2022 11:44:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244831AbiEYOdW (ORCPT
+        with ESMTP id S229811AbiEYPoW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 May 2022 10:33:22 -0400
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E63C3AE260
-        for <linux-input@vger.kernel.org>; Wed, 25 May 2022 07:33:19 -0700 (PDT)
-Received: by mail-io1-f72.google.com with SMTP id l67-20020a6b3e46000000b00660b8c61a31so8253010ioa.0
-        for <linux-input@vger.kernel.org>; Wed, 25 May 2022 07:33:19 -0700 (PDT)
+        Wed, 25 May 2022 11:44:22 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11C712BB1E;
+        Wed, 25 May 2022 08:44:21 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id z7so15682138ybf.7;
+        Wed, 25 May 2022 08:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=wW60Ei1LEDr4i3KMNYvUE+Jfx8WzRpVMj4wd8F6Eb8c=;
+        b=V7Nwv9fgiJ0bQxYe49i7Mg37xs4qvR0/vZap13GiBj11xBxeREay48xMpiYK7+qsSw
+         gr1o+Sz549iJ4UO3yv5lW+EXCpNx3bReR2wmFjDJoHyPXAAZpImvTdy9MKj3AYRB26W9
+         VDWaJi0PxjTnYbUbhSgmvEC9qgYP9xSwZOQUuEWmMWtiD4egBW4kSjXETzZOwK/XGdMO
+         ZKTlbBGaDihBrT4ZLdvCGTg+f5bQtY8UCd1f5uR4/RtUnnMu8cDAjHNRkk7jr/7yTw16
+         +Occ6XWlKdwsxGtpfiLSX6fXJCvB0K6eF/oacyz9TXKJxIT4xdXDzRn3aJ7tmsRUUXCR
+         Ov/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=lfuRuCSbDbWw/LnmiLDn4PqMyIUMss4hmHEyVpcB5Bk=;
-        b=GdHf72IRxC2Mm6+pWSwhXOP161m/ne0yJuCoeybVqPb2Tb3Dl3oXElBk8LANz5o4SS
-         lH8EMVXQ5c03qr3MM2xSRRzJAEW9o17kmtatfMjXEnA8Q/4ZcUXtfJkcmpJl4jVVSef8
-         K3RKGmsK3XZ8zh5wsibuDQ7p3zx8/6MPKx2q5jERNzha0hWMp+QCWryFm9rM7v2NLrhA
-         bfSO9VRzlZrE1g/lF4Z2eAuOE1AsNNqCTCVqKn5VReXsNFwgRxJ1l1vXlroRRJRqmLEP
-         vAw2vyio4Gph0G+jNgaw80oMghBN/Gqpd+uvMGKVvEWtKcn/cLl3ZK82RJnXhktm/kx6
-         a6mg==
-X-Gm-Message-State: AOAM5310bOY2n96/0T6MlO6Ajgq0V5rDBhnFHrY50NfyaprKkTw28eTB
-        cPHyJ7aatdFxNt/1DQMh9c2y5kobM56BGr0sXUTihuIQbWC+
-X-Google-Smtp-Source: ABdhPJzTwtWHWhxEhDsaVWEr2S8+/3aht9UKWNH55PIwPGUjiB6Db+Hkc6N+N5+hfzxiE3l699mTHOiwxjVZ0ks5kOqz2DReax4x
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=wW60Ei1LEDr4i3KMNYvUE+Jfx8WzRpVMj4wd8F6Eb8c=;
+        b=ujrhJwGYi9XxDJPWL2h/KeOMv83BNR3UjArIOhUhE9PGNxkcUpJFB17WOgcTkxMELD
+         WFnCnxhnHh02nWYB7aBrI5u+0evqdg/kefh2NvY7TXhSXEf1l/yPPzQ+vI+hJ2HRfihH
+         p6ANHzb4mg+XB5YsCp54+9KsnWD+Hzyb6MzJ68LDGRf056aMPNtfBnxwYFSmoTv6oZOO
+         6GFh0z8opnV5kwyhXE0cxrkuueU+owH2NZG/fxZNwzge5wLjgydLu9Hl9Lb6kw21YgEZ
+         OT0P8kZPCm7sxpGbUU74PoGGyo+GEFgRyRN4l1M/bE1g+pZBHw9Fx/4k9FwK0m2std31
+         x6+A==
+X-Gm-Message-State: AOAM531/kRoj8Q9AXrgeDTZMtYwhJCZiLJcLUS8efoELj/NEM8hWCWMF
+        reFNvHmeGBlQqA7D0SYxp+MSPH+40/kazRtkrxgfaRW7q/beIQ==
+X-Google-Smtp-Source: ABdhPJwt+NfnKj2VKz+x3FOzOFwAqCKrdsgAFJl5Sq4ANwRciQDuXogfYc1SZ3B3WS7WeNUC5HDUP7kO5cIGzKNpvXA=
+X-Received: by 2002:a25:3447:0:b0:655:b2da:cefc with SMTP id
+ b68-20020a253447000000b00655b2dacefcmr3048383yba.96.1653493460311; Wed, 25
+ May 2022 08:44:20 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a92:6811:0:b0:2cd:994d:7406 with SMTP id
- d17-20020a926811000000b002cd994d7406mr15883176ilc.245.1653489199318; Wed, 25
- May 2022 07:33:19 -0700 (PDT)
-Date:   Wed, 25 May 2022 07:33:19 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000005d8c8805dfd6f470@google.com>
-Subject: [syzbot] memory leak in hidraw_report_event
-From:   syzbot <syzbot+f59100a0428e6ded9443@syzkaller.appspotmail.com>
-To:     benjamin.tissoires@redhat.com, jikos@kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
+References: <20220525074757.7519-1-michael.zaidman@gmail.com> <20220525074757.7519-4-michael.zaidman@gmail.com>
+In-Reply-To: <20220525074757.7519-4-michael.zaidman@gmail.com>
+From:   Guillaume Champagne <champagne.guillaume.c@gmail.com>
+Date:   Wed, 25 May 2022 11:44:09 -0400
+Message-ID: <CAHSN6OfdHfiZRXjnqvnpcbwS0nt0vBuLiwMHcbpsd_AWiJ3i1g@mail.gmail.com>
+Subject: Re: [PATCH v1 3/5] HID: ft260: support i2c writes larger than HID
+ report size
+To:     Michael Zaidman <michael.zaidman@gmail.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com, wsa@kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-i2c@vger.kernel.org,
+        Mathieu Gallichand <mathieu.gallichand@sonatest.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+Le mer. 25 mai 2022 =C3=A0 03:48, Michael Zaidman
+<michael.zaidman@gmail.com> a =C3=A9crit :
+>
+> To support longer than one HID report size write, the driver splits a sin=
+gle
+> i2c message data payload into multiple i2c messages of HID report size.
+> However, it does not replicate the offset bytes within the EEPROM chip in
+> every consequent HID report because it is not and should not be aware of
+> the EEPROM type. It breaks the i2c write message integrity and causes the
+> EEPROM device not to acknowledge the second HID report keeping the i2c bu=
+s
+> busy until the ft260 controller reports failure.
+>
 
-syzbot found the following issue on:
+I tested this whole patchset and it resolves the issue I raised
+https://patchwork.kernel.org/project/linux-input/patch/20220524192422.13967=
+-1-champagne.guillaume.c@gmail.com/,
+thanks.
 
-HEAD commit:    aa051d36ce4a Merge tag 'for-linus-2022052401' of git://git..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13cd063df00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=fb563a60820e68b9
-dashboard link: https://syzkaller.appspot.com/bug?extid=f59100a0428e6ded9443
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14d91de5f00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10522639f00000
+> This patch preserves the i2c write message integrity by manipulating the
+> i2c flag bits across multiple HID reports to be seen by the EEPROM device
+> as a single i2c write transfer.
+>
+> Before:
+>
+> $ sudo ./i2cperf -f 2 -o 2 -s 64 -r 0-0xff 13 0x51 -S
+> Error: Sending messages failed: Input/output error
+>
+> [  +3.667741] ft260_i2c_write: rep 0xde addr 0x51 off 0 len 60 d[0] 0x0
+> [  +0.007330] ft260_hid_output_report_check_status: wait 6400 usec, len 6=
+4
+> [  +0.000203] ft260_xfer_status: bus_status 0x40, clock 100
+> [  +0.000001] ft260_i2c_write: rep 0xd1 addr 0x51 off 60 len 6 d[0] 0x0
+> [  +0.002337] ft260_hid_output_report_check_status: wait 1000 usec, len 1=
+0
+> [  +0.000157] ft260_xfer_status: bus_status 0x2e, clock 100
+> [  +0.000241] ft260_i2c_reset: done
+> [  +0.000003] ft260 0003:0403:6030.000E: ft260_i2c_write: failed to start=
+ transfer, ret -5
+>
+> After:
+>
+> $ sudo ./i2cperf -f 2 -o 2 -s 128 -r 0-0xff 13 0x51 -S
+>
+>   Fill block with increment via i2ctransfer by chunks
+>   -------------------------------------------------------------------
+>   data rate(bps)  efficiency(%)  data size(B)  total IOs   IO size(B)
+>   -------------------------------------------------------------------
+>   58986           86             256           2           128
+>
+> Signed-off-by: Michael Zaidman <michael.zaidman@gmail.com>
+> ---
+>  drivers/hid/hid-ft260.c | 45 ++++++++++++++++++++++++-----------------
+>  1 file changed, 27 insertions(+), 18 deletions(-)
+>
+> diff --git a/drivers/hid/hid-ft260.c b/drivers/hid/hid-ft260.c
+> index 44106cadd746..bfda5b191a3a 100644
+> --- a/drivers/hid/hid-ft260.c
+> +++ b/drivers/hid/hid-ft260.c
+> @@ -378,41 +378,50 @@ static int ft260_hid_output_report_check_status(str=
+uct ft260_device *dev,
+>  }
+>
+>  static int ft260_i2c_write(struct ft260_device *dev, u8 addr, u8 *data,
+> -                          int data_len, u8 flag)
+> +                          int len, u8 flag)
+>  {
+> -       int len, ret, idx =3D 0;
+> +       int ret, wr_len, idx =3D 0;
+> +       bool first =3D true;
+>         struct hid_device *hdev =3D dev->hdev;
+>         struct ft260_i2c_write_request_report *rep =3D
+>                 (struct ft260_i2c_write_request_report *)dev->write_buf;
+>
+>         do {
+> -               if (data_len <=3D FT260_WR_DATA_MAX)
+> -                       len =3D data_len;
+> -               else
+> -                       len =3D FT260_WR_DATA_MAX;
+> +               rep->flag =3D 0;
+> +               if (first) {
+> +                       rep->flag =3D FT260_FLAG_START;
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f59100a0428e6ded9443@syzkaller.appspotmail.com
+I feel like multi packet transactions must still honor flag sent to
+ft20_i2c_write. This adds a START even if ft260_i2c_write is called
+with FT260_FLAG_START_REPEATED or FT260_FLAG_NONE.
 
-BUG: memory leak
-unreferenced object 0xffff88810e72f180 (size 32):
-  comm "softirq", pid 0, jiffies 4294945143 (age 16.080s)
-  hex dump (first 32 bytes):
-    64 f3 c6 6a d1 88 07 04 00 00 00 00 00 00 00 00  d..j............
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff814ac6c3>] kmemdup+0x23/0x50 mm/util.c:128
-    [<ffffffff8357c1d2>] kmemdup include/linux/fortify-string.h:440 [inline]
-    [<ffffffff8357c1d2>] hidraw_report_event+0xa2/0x150 drivers/hid/hidraw.c:521
-    [<ffffffff8356ddad>] hid_report_raw_event+0x27d/0x740 drivers/hid/hid-core.c:1992
-    [<ffffffff8356e41e>] hid_input_report+0x1ae/0x270 drivers/hid/hid-core.c:2065
-    [<ffffffff835f0d3f>] hid_irq_in+0x1ff/0x250 drivers/hid/usbhid/hid-core.c:284
-    [<ffffffff82d3c7f9>] __usb_hcd_giveback_urb+0xf9/0x230 drivers/usb/core/hcd.c:1670
-    [<ffffffff82d3cc26>] usb_hcd_giveback_urb+0x1b6/0x1d0 drivers/usb/core/hcd.c:1747
-    [<ffffffff82ef1e14>] dummy_timer+0x8e4/0x14c0 drivers/usb/gadget/udc/dummy_hcd.c:1988
-    [<ffffffff812f50a8>] call_timer_fn+0x38/0x200 kernel/time/timer.c:1474
-    [<ffffffff812f5586>] expire_timers kernel/time/timer.c:1519 [inline]
-    [<ffffffff812f5586>] __run_timers.part.0+0x316/0x430 kernel/time/timer.c:1790
-    [<ffffffff812f56e4>] __run_timers kernel/time/timer.c:1768 [inline]
-    [<ffffffff812f56e4>] run_timer_softirq+0x44/0x90 kernel/time/timer.c:1803
-    [<ffffffff848000e6>] __do_softirq+0xe6/0x2ea kernel/softirq.c:571
-    [<ffffffff81246db0>] invoke_softirq kernel/softirq.c:445 [inline]
-    [<ffffffff81246db0>] __irq_exit_rcu kernel/softirq.c:650 [inline]
-    [<ffffffff81246db0>] irq_exit_rcu+0xc0/0x110 kernel/softirq.c:662
-    [<ffffffff84574f02>] sysvec_apic_timer_interrupt+0xa2/0xd0 arch/x86/kernel/apic/apic.c:1106
-    [<ffffffff84600c8b>] asm_sysvec_apic_timer_interrupt+0x1b/0x20 arch/x86/include/asm/idtentry.h:649
-    [<ffffffff8458a070>] native_safe_halt arch/x86/include/asm/irqflags.h:51 [inline]
-    [<ffffffff8458a070>] arch_safe_halt arch/x86/include/asm/irqflags.h:89 [inline]
-    [<ffffffff8458a070>] acpi_safe_halt drivers/acpi/processor_idle.c:111 [inline]
-    [<ffffffff8458a070>] acpi_idle_do_entry+0xc0/0xd0 drivers/acpi/processor_idle.c:554
-
-BUG: memory leak
-unreferenced object 0xffff88810e72f160 (size 32):
-  comm "softirq", pid 0, jiffies 4294945145 (age 16.060s)
-  hex dump (first 32 bytes):
-    27 1a e8 41 4f c2 fd 8c 00 00 00 00 00 00 00 00  '..AO...........
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff814ac6c3>] kmemdup+0x23/0x50 mm/util.c:128
-    [<ffffffff8357c1d2>] kmemdup include/linux/fortify-string.h:440 [inline]
-    [<ffffffff8357c1d2>] hidraw_report_event+0xa2/0x150 drivers/hid/hidraw.c:521
-    [<ffffffff8356ddad>] hid_report_raw_event+0x27d/0x740 drivers/hid/hid-core.c:1992
-    [<ffffffff8356e41e>] hid_input_report+0x1ae/0x270 drivers/hid/hid-core.c:2065
-    [<ffffffff835f0d3f>] hid_irq_in+0x1ff/0x250 drivers/hid/usbhid/hid-core.c:284
-    [<ffffffff82d3c7f9>] __usb_hcd_giveback_urb+0xf9/0x230 drivers/usb/core/hcd.c:1670
-    [<ffffffff82d3cc26>] usb_hcd_giveback_urb+0x1b6/0x1d0 drivers/usb/core/hcd.c:1747
-    [<ffffffff82ef1e14>] dummy_timer+0x8e4/0x14c0 drivers/usb/gadget/udc/dummy_hcd.c:1988
-    [<ffffffff812f50a8>] call_timer_fn+0x38/0x200 kernel/time/timer.c:1474
-    [<ffffffff812f5586>] expire_timers kernel/time/timer.c:1519 [inline]
-    [<ffffffff812f5586>] __run_timers.part.0+0x316/0x430 kernel/time/timer.c:1790
-    [<ffffffff812f56e4>] __run_timers kernel/time/timer.c:1768 [inline]
-    [<ffffffff812f56e4>] run_timer_softirq+0x44/0x90 kernel/time/timer.c:1803
-    [<ffffffff848000e6>] __do_softirq+0xe6/0x2ea kernel/softirq.c:571
-    [<ffffffff81246db0>] invoke_softirq kernel/softirq.c:445 [inline]
-    [<ffffffff81246db0>] __irq_exit_rcu kernel/softirq.c:650 [inline]
-    [<ffffffff81246db0>] irq_exit_rcu+0xc0/0x110 kernel/softirq.c:662
-    [<ffffffff84574f02>] sysvec_apic_timer_interrupt+0xa2/0xd0 arch/x86/kernel/apic/apic.c:1106
-    [<ffffffff84600c8b>] asm_sysvec_apic_timer_interrupt+0x1b/0x20 arch/x86/include/asm/idtentry.h:649
-    [<ffffffff8458a070>] native_safe_halt arch/x86/include/asm/irqflags.h:51 [inline]
-    [<ffffffff8458a070>] arch_safe_halt arch/x86/include/asm/irqflags.h:89 [inline]
-    [<ffffffff8458a070>] acpi_safe_halt drivers/acpi/processor_idle.c:111 [inline]
-    [<ffffffff8458a070>] acpi_idle_do_entry+0xc0/0xd0 drivers/acpi/processor_idle.c:554
-
-BUG: memory leak
-unreferenced object 0xffff88810e72f140 (size 32):
-  comm "softirq", pid 0, jiffies 4294945147 (age 16.040s)
-  hex dump (first 32 bytes):
-    5e 2d ce 49 18 07 8e f1 00 00 00 00 00 00 00 00  ^-.I............
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff814ac6c3>] kmemdup+0x23/0x50 mm/util.c:128
-    [<ffffffff8357c1d2>] kmemdup include/linux/fortify-string.h:440 [inline]
-    [<ffffffff8357c1d2>] hidraw_report_event+0xa2/0x150 drivers/hid/hidraw.c:521
-    [<ffffffff8356ddad>] hid_report_raw_event+0x27d/0x740 drivers/hid/hid-core.c:1992
-    [<ffffffff8356e41e>] hid_input_report+0x1ae/0x270 drivers/hid/hid-core.c:2065
-    [<ffffffff835f0d3f>] hid_irq_in+0x1ff/0x250 drivers/hid/usbhid/hid-core.c:284
-    [<ffffffff82d3c7f9>] __usb_hcd_giveback_urb+0xf9/0x230 drivers/usb/core/hcd.c:1670
-    [<ffffffff82d3cc26>] usb_hcd_giveback_urb+0x1b6/0x1d0 drivers/usb/core/hcd.c:1747
-    [<ffffffff82ef1e14>] dummy_timer+0x8e4/0x14c0 drivers/usb/gadget/udc/dummy_hcd.c:1988
-    [<ffffffff812f50a8>] call_timer_fn+0x38/0x200 kernel/time/timer.c:1474
-    [<ffffffff812f5586>] expire_timers kernel/time/timer.c:1519 [inline]
-    [<ffffffff812f5586>] __run_timers.part.0+0x316/0x430 kernel/time/timer.c:1790
-    [<ffffffff812f56e4>] __run_timers kernel/time/timer.c:1768 [inline]
-    [<ffffffff812f56e4>] run_timer_softirq+0x44/0x90 kernel/time/timer.c:1803
-    [<ffffffff848000e6>] __do_softirq+0xe6/0x2ea kernel/softirq.c:571
-    [<ffffffff81246db0>] invoke_softirq kernel/softirq.c:445 [inline]
-    [<ffffffff81246db0>] __irq_exit_rcu kernel/softirq.c:650 [inline]
-    [<ffffffff81246db0>] irq_exit_rcu+0xc0/0x110 kernel/softirq.c:662
-    [<ffffffff84574f02>] sysvec_apic_timer_interrupt+0xa2/0xd0 arch/x86/kernel/apic/apic.c:1106
-    [<ffffffff84600c8b>] asm_sysvec_apic_timer_interrupt+0x1b/0x20 arch/x86/include/asm/idtentry.h:649
-    [<ffffffff8458a070>] native_safe_halt arch/x86/include/asm/irqflags.h:51 [inline]
-    [<ffffffff8458a070>] arch_safe_halt arch/x86/include/asm/irqflags.h:89 [inline]
-    [<ffffffff8458a070>] acpi_safe_halt drivers/acpi/processor_idle.c:111 [inline]
-    [<ffffffff8458a070>] acpi_idle_do_entry+0xc0/0xd0 drivers/acpi/processor_idle.c:554
-
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+> +                       first =3D false;
+> +               }
+> +
+> +               if (len <=3D FT260_WR_DATA_MAX) {
+> +                       wr_len =3D len;
+> +                       if (flag =3D=3D FT260_FLAG_START_STOP)
+> +                               rep->flag |=3D FT260_FLAG_STOP;
+> +               } else {
+> +                       wr_len =3D FT260_WR_DATA_MAX;
+> +               }
+>
+> -               rep->report =3D FT260_I2C_DATA_REPORT_ID(len);
+> +               rep->report =3D FT260_I2C_DATA_REPORT_ID(wr_len);
+>                 rep->address =3D addr;
+> -               rep->length =3D len;
+> -               rep->flag =3D flag;
+> +               rep->length =3D wr_len;
+>
+> -               memcpy(rep->data, &data[idx], len);
+> +               memcpy(rep->data, &data[idx], wr_len);
+>
+> -               ft260_dbg("rep %#02x addr %#02x off %d len %d d[0] %#02x\=
+n",
+> -                         rep->report, addr, idx, len, data[0]);
+> +               ft260_dbg("rep %#02x addr %#02x off %d len %d wlen %d fla=
+g %#x d[0] %#02x\n",
+> +                         rep->report, addr, idx, len, wr_len,
+> +                         rep->flag, data[0]);
+>
+>                 ret =3D ft260_hid_output_report_check_status(dev, (u8 *)r=
+ep,
+> -                                                          len + 4);
+> +                                                          wr_len + 4);
+>                 if (ret < 0) {
+> -                       hid_err(hdev, "%s: failed to start transfer, ret =
+%d\n",
+> -                               __func__, ret);
+> +                       hid_err(hdev, "%s: failed with %d\n", __func__, r=
+et);
+>                         return ret;
+>                 }
+>
+> -               data_len -=3D len;
+> -               idx +=3D len;
+> +               len -=3D wr_len;
+> +               idx +=3D wr_len;
+>
+> -       } while (data_len > 0);
+> +       } while (len > 0);
+>
+>         return 0;
+>  }
+> --
+> 2.25.1
+>
