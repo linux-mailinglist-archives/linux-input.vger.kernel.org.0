@@ -2,200 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A72E75331C3
-	for <lists+linux-input@lfdr.de>; Tue, 24 May 2022 21:29:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 389475337B1
+	for <lists+linux-input@lfdr.de>; Wed, 25 May 2022 09:48:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234401AbiEXT3c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 May 2022 15:29:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53104 "EHLO
+        id S230041AbiEYHsl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 May 2022 03:48:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240921AbiEXT33 (ORCPT
+        with ESMTP id S235342AbiEYHsk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 May 2022 15:29:29 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 301BC6D39E
-        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 12:29:28 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id e28so26505857wra.10
-        for <linux-input@vger.kernel.org>; Tue, 24 May 2022 12:29:28 -0700 (PDT)
+        Wed, 25 May 2022 03:48:40 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F60C79388;
+        Wed, 25 May 2022 00:48:38 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id ck4so35693617ejb.8;
+        Wed, 25 May 2022 00:48:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=A4aWOllEU2hrm3nQp+p1i7T5mkegGyfcYGHd8G2sUYU=;
-        b=Hob5rt8KtoXjKQ1XspinTW1NJfRVkfeIrpX4Obw+hMDjZ91c3uQAGduY3KOYJrvzmH
-         7WjMxTMZw+sTIz2hCbRrX6JEbs4RS+NhzBxv2UpL1rHyo5le3h4oWXF6XJooi+iOLHM5
-         xCDYm/08bEO5GbtX5xMGlMNkzo/7zj1/NNRoIiFlfd604VDK4ZNHN0ebLIA+JwVTplmc
-         LoHUqepuvIfyiqbzuSinouFt8GdQdgwluO90mB+/Uzj90bXvm13qG4/SL7oLnzPGTGgs
-         jXZeGaQfGzgpFObKRpfih90coMGWD9jwwOfo41+YGgvAu7Esc4omQ7K00ug+UzB2P/AI
-         TTrQ==
+        bh=2AYrAMF95CPo8AD2JvS7RbUi+CKSBPj2EiLmCaRwAeU=;
+        b=BWrP+3mdMfbeAHYIP3Sm1ueeCOYZkJi2DdsdtEqe7VEClk6tx4qgmKNVskLquoMlz5
+         q7llWA87EWTgd/oMUn7f+829MNufvs2HEvi0CzhAzZqW8sObJnKfEbD2ZPkAOYV4UWwa
+         pS581PB9rI7iZqMMpbIiUy0r8Hk3tXbRyvXXWo5gUzsP23x1by3FHtQ69m/a92k7PMF6
+         pjP+LNPwCFfDYMLOzq2yQBOwSwncZo7W5k3Qwan6cdfAWFkQyyonB0+UalA1tWExSAtX
+         OFXleX79ZnI7aOMufS4hjPljZ/tqXudMDEB6cnFbeGHRHGDFr5MpA5+jMMKeB84QGYZt
+         w1ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=A4aWOllEU2hrm3nQp+p1i7T5mkegGyfcYGHd8G2sUYU=;
-        b=iM0yNhrhihQ5YxsVVIXE1PtMQPuUhk0xgC8qU9XsVTVT4Cxhqny6hd2SA+b0k30NpL
-         FVUC/E8b9x481moly9HcCWW0tPQw/Du1Q/zvl5/CiSga8ld3kJStkHKWxo6fzEhuALkl
-         A56rIwAMUGxoHx0Y1n7acIBWDQKWT77YuGysrwpRRU3EQPKDSTgqX2r3PKFIxcAEtGd2
-         G44OmQ6JnwK2cAPWcQkRG/3rWERL+BSPCtrcIkDvUPlNnBci14GSwmWitn4fs3mZSn/G
-         /L96cA9ieNamN6t3ec7Driu9mt33ETG7Wsu0n/Hs70UrIpaLE9ZJ3VY/5BcnbxgkZZJj
-         RUpQ==
-X-Gm-Message-State: AOAM531mn3ZLqO6htgdl6Ks5dDP4DyHs/OiDWcl8IrulKPCGrwjxukaH
-        xV8zY7syPp/E4PHnCkaUZTRWQ0zFNFY=
-X-Google-Smtp-Source: ABdhPJzG/sQo6khN4OwabuxlbNhghdSwK/IXZzrdPyIVS7lh3Oyq308sogTSmMWNGP45p6DmUtI9cg==
-X-Received: by 2002:a5d:584c:0:b0:20f:de2e:bd1a with SMTP id i12-20020a5d584c000000b0020fde2ebd1amr9831716wrf.670.1653420566595;
-        Tue, 24 May 2022 12:29:26 -0700 (PDT)
-Received: from localhost.localdomain (62-11-172-155.dialup.tiscali.it. [62.11.172.155])
-        by smtp.gmail.com with ESMTPSA id l20-20020a05600c1d1400b0039732f1b4a3sm155950wms.14.2022.05.24.12.29.25
+        bh=2AYrAMF95CPo8AD2JvS7RbUi+CKSBPj2EiLmCaRwAeU=;
+        b=E9TnADONFaCF518Pgetp8nlBcVgB19ZT+cDjtc07Pi3iXOntCs8bZnrGbz3DFCR07Q
+         yppx7KoMLVlUXlUEVQq+fAvZ7gMxt4OqzpdclFE9n18/3VspX96tmqio2bq0+HGYm1rH
+         QDtmR6qdmE9xCVGLpMSxG0M91rcCpJtbtsdt5VJdpNu2iPAhoKj0y1DZ68x8gley6xA7
+         0P0HrqpAVA+Kc2TpRH26dewqxiw0jDU//vMOzFkWyhqkJkgHVPqfMwsod8I/07jHEk4j
+         RTeCu7D3AwSv68+JKTv50dvkk4MaMrRDAjw2jGcJMAjKj4guZ+ykHxiYObOw2Ki3WU88
+         ELnw==
+X-Gm-Message-State: AOAM533Gkio2pxyaCNKa7J62+YcfWV2PTn3u9x2pxN2ZDYxRK3foHHez
+        QuE7ZAJ64WtlPcExMU1eR7A=
+X-Google-Smtp-Source: ABdhPJyy3txtTKRLcUJIJN/8lquQLBSMMuP+BaaBzmN7fVBmrLIOQvA6THIWfe8l1dUw1vcw+5BxfQ==
+X-Received: by 2002:a17:907:7b9b:b0:6fe:dedf:6414 with SMTP id ne27-20020a1709077b9b00b006fededf6414mr12921201ejc.88.1653464917491;
+        Wed, 25 May 2022 00:48:37 -0700 (PDT)
+Received: from localhost.localdomain (109-186-136-71.bb.netvision.net.il. [109.186.136.71])
+        by smtp.googlemail.com with ESMTPSA id v1-20020aa7d641000000b0042acd78014esm10230533edr.11.2022.05.25.00.48.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 May 2022 12:29:26 -0700 (PDT)
-From:   Dario Pagani <dario.pagani.146@gmail.com>
-To:     jikos@kernel.org
-Cc:     linux-input@vger.kernel.org, kimi.h.kuparinen@gmail.com,
-        dario.pagani.146@gmail.com
-Subject: [PATCH] differentiate between model and attachment of Thrustmaster's joysticks
-Date:   Tue, 24 May 2022 21:25:30 +0200
-Message-Id: <20220524192529.43838-1-dario.pagani.146@gmail.com>
+        Wed, 25 May 2022 00:48:37 -0700 (PDT)
+From:   Michael Zaidman <michael.zaidman@gmail.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com, wsa@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-i2c@vger.kernel.org, champagne.guillaume.c@gmail.com,
+        mathieu.gallichand@sonatest.com,
+        Michael Zaidman <michael.zaidman@gmail.com>
+Subject: [PATCH v1 0/5] HID: ft260: fixes and performance improvements
+Date:   Wed, 25 May 2022 10:47:52 +0300
+Message-Id: <20220525074757.7519-1-michael.zaidman@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Make the driver differentiate between model and attachment of a
-Thrustmaster's steering wheel. What it was thought to be the model code
-is, in reality, a tuple <model, attachment>.
-if a specific match is found then use the proper init code otherwise
-try anyway with the init code of a steering wheel of the same model
-but different attachment code; finally if no match is found keep old
-behavior and stop the init process.
+This patchset contains fixes and performance improvements to the
+hid-ft260 driver posted for review and feedback on the GitHub
+https://github.com/MichaelZaidman/hid-ft260 about three months ago.
 
-Link: https://github.com/scarburato/hid-tminit
-Signed-off-by: Dario Pagani <dario.pagani.146@gmail.com>
-Co-developed-by: Kim Kuparinen <kimi.h.kuparinen@gmail.com>
-Signed-off-by: Kim Kuparinen <kimi.h.kuparinen@gmail.com>
----
- drivers/hid/hid-thrustmaster.c | 57 +++++++++++++++++++++-------------
- 1 file changed, 36 insertions(+), 21 deletions(-)
+Michael Zaidman (5):
+  HID: ft260: ft260_xfer_status routine cleanup
+  HID: ft260: improve i2c write performance
+  HID: ft260: support i2c writes larger than HID report size
+  HID: ft260: support i2c reads greater than HID report size
+  HID: ft260: improve i2c large reads performance
 
-diff --git a/drivers/hid/hid-thrustmaster.c b/drivers/hid/hid-thrustmaster.c
-index c3e6d69fdfbd..6ca0e11f80d7 100644
---- a/drivers/hid/hid-thrustmaster.c
-+++ b/drivers/hid/hid-thrustmaster.c
-@@ -47,7 +47,8 @@ static const unsigned int setup_arr_sizes[] = {
-  * and vice-versa
-  */
- struct tm_wheel_info {
--	uint16_t wheel_type;
-+	uint8_t model;
-+	uint8_t attachment;
- 
- 	/*
- 	 * See when the USB control out packet is prepared...
-@@ -63,16 +64,17 @@ struct tm_wheel_info {
-  * Note: TMX does not work as it requires 2 control packets
-  */
- static const struct tm_wheel_info tm_wheels_infos[] = {
--	{0x0306, 0x0006, "Thrustmaster T150RS"},
--	{0x0200, 0x0005, "Thrustmaster T300RS (Missing Attachment)"},
--	{0x0206, 0x0005, "Thrustmaster T300RS"},
--	{0x0209, 0x0005, "Thrustmaster T300RS (Open Wheel Attachment)"},
--	{0x0204, 0x0005, "Thrustmaster T300 Ferrari Alcantara Edition"},
--	{0x0002, 0x0002, "Thrustmaster T500RS"}
--	//{0x0407, 0x0001, "Thrustmaster TMX"}
-+	{0x00, 0x02, 0x0002, "Thrustmaster T500RS"},
-+	{0x02, 0x00, 0x0005, "Thrustmaster T300RS (Missing Attachment)"},
-+	{0x02, 0x03, 0x0005, "Thrustmaster T300RS (F1 attachment)"},
-+	{0x02, 0x04, 0x0005, "Thrustmaster T300 Ferrari Alcantara Edition"},
-+	{0x02, 0x06, 0x0005, "Thrustmaster T300RS"},
-+	{0x02, 0x09, 0x0005, "Thrustmaster T300RS (Open Wheel Attachment)"},
-+	{0x03, 0x06, 0x0006, "Thrustmaster T150RS"}
-+	//{0x04, 0x07, 0x0001, "Thrustmaster TMX"}
- };
- 
--static const uint8_t tm_wheels_infos_length = 4;
-+static const uint8_t tm_wheels_infos_length = 7;
- 
- /*
-  * This structs contains (in little endian) the response data
-@@ -99,7 +101,8 @@ struct __packed tm_wheel_response
- 			 * Seems to be the model code of the wheel
- 			 * Read table thrustmaster_wheels to values
- 			 */
--			uint16_t model;
-+			uint8_t attachment;
-+			uint8_t model;
- 
- 			uint16_t field2;
- 			uint16_t field3;
-@@ -109,7 +112,8 @@ struct __packed tm_wheel_response
- 		struct __packed {
- 			uint16_t field0;
- 			uint16_t field1;
--			uint16_t model;
-+			uint8_t attachment;
-+			uint8_t model;
- 		} b;
- 	} data;
- };
-@@ -211,7 +215,9 @@ static void thrustmaster_model_handler(struct urb *urb)
- {
- 	struct hid_device *hdev = urb->context;
- 	struct tm_wheel *tm_wheel = hid_get_drvdata(hdev);
--	uint16_t model = 0;
-+	uint8_t model = 0;
-+	uint8_t attachment = 0;
-+	uint8_t attachment_found;
- 	int i, ret;
- 	const struct tm_wheel_info *twi = NULL;
- 
-@@ -220,22 +226,31 @@ static void thrustmaster_model_handler(struct urb *urb)
- 		return;
- 	}
- 
--	if (tm_wheel->response->type == cpu_to_le16(0x49))
--		model = le16_to_cpu(tm_wheel->response->data.a.model);
--	else if (tm_wheel->response->type == cpu_to_le16(0x47))
--		model = le16_to_cpu(tm_wheel->response->data.b.model);
--	else {
-+	if (tm_wheel->response->type == cpu_to_le16(0x49)) {
-+		model = tm_wheel->response->data.a.model;
-+		attachment = tm_wheel->response->data.a.attachment;
-+	} else if (tm_wheel->response->type == cpu_to_le16(0x47)) {
-+		model = tm_wheel->response->data.b.model;
-+		attachment = tm_wheel->response->data.b.attachment;
-+	} else {
- 		hid_err(hdev, "Unknown packet type 0x%x, unable to proceed further with wheel init\n", tm_wheel->response->type);
- 		return;
- 	}
- 
- 	for (i = 0; i < tm_wheels_infos_length && !twi; i++)
--		if (tm_wheels_infos[i].wheel_type == model)
-+		if (tm_wheels_infos[i].model == model)
- 			twi = tm_wheels_infos + i;
- 
--	if (twi)
--		hid_info(hdev, "Wheel with model id 0x%x is a %s\n", model, twi->wheel_name);
--	else {
-+	if (twi) {
-+		// Trying to find the best attachment
-+		for (attachment_found = twi->attachment == attachment; !attachment_found && i < tm_wheels_infos_length && tm_wheels_infos[i].model == model; i++)
-+			if (tm_wheels_infos[i].attachment == attachment) {
-+				twi = tm_wheels_infos + i;
-+				attachment_found = 1;
-+			}
-+
-+		hid_info(hdev, "Wheel with (model, attachment) = (0x%x, 0x%x) is a %s. attachment_found=%u\n", model, attachment, twi->wheel_name, attachment_found);
-+	} else {
- 		hid_err(hdev, "Unknown wheel's model id 0x%x, unable to proceed further with wheel init\n", model);
- 		return;
- 	}
+ drivers/hid/hid-ft260.c | 230 +++++++++++++++++++++-------------------
+ 1 file changed, 120 insertions(+), 110 deletions(-)
+
 -- 
 2.25.1
 
