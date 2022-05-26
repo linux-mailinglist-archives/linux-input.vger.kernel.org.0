@@ -2,66 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D8E453543C
-	for <lists+linux-input@lfdr.de>; Thu, 26 May 2022 22:07:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53D77535652
+	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 01:12:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243174AbiEZUHQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 May 2022 16:07:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55038 "EHLO
+        id S1349431AbiEZXMi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 May 2022 19:12:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232230AbiEZUHP (ORCPT
+        with ESMTP id S237020AbiEZXMh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 May 2022 16:07:15 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEEB0BA9B2;
-        Thu, 26 May 2022 13:07:14 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id u23so3963059lfc.1;
-        Thu, 26 May 2022 13:07:14 -0700 (PDT)
+        Thu, 26 May 2022 19:12:37 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3A00E5292;
+        Thu, 26 May 2022 16:12:34 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id y189so2901872pfy.10;
+        Thu, 26 May 2022 16:12:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=zyoxcfUGkhRLREf2cpRhyhZi5hXxrWkBKr1smYGro+s=;
-        b=LZ8DhRoqO7iGuYrA7HfKAm7AxwpI9bTaSNE3odNBSjH3IGuwo/2Y5dTMMZfJ4EdX9O
-         dLH0HaUxjkyjaX8Od8n311p5OJt91y/lBD1Pt8kQ2Uws7U5gfpSfv7oGEzOyx+TFy5w7
-         DXFmZGjrnwlfVNQdFt3fFHJEvlhD43sLnlt3HJTPKq+NpVq9y2iXtZqfbZNj1b5MctEq
-         Qi6aJFGY7dkv0k7ZTgl/URhsIcB6iTDKxJ4CXPXAJ4rv/MCWR+myMKXzwbEXAO0GNU+k
-         ZyejukdxtazmBPIaAb+svMn37dL04DsMrdiew2pNoKAso/5c3YZ4+Yehob+/hVLEmaMn
-         lp7g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NutntfjOLhm5vnkAI6J63aqPd+5lyjNYED2lB5Nzypc=;
+        b=f9IpqER2Xa1o1NkAvhApl7mtUQdmcGuXMsiRmnB3lgDD79qA+7YHne14gqqXEQXZ/I
+         y87scVcuqxVTTrdHaaBMwzKqKvRmsfN0Wag78E6gMOdpVU8TGDrtk0Iw+6YQes3zj8BF
+         7jW5wOk6oevitELnTQrTfLKxniws8dOaYzy7h8w+fqpSGZ84sPNC1X/IEHs3QofMz8v8
+         X33xA/SzSAKfeNvszIh1trFo3ILs0oXv7jWJv2PItAH/dxtxQ/Ze//ACjjjR6iXcPWU2
+         rB1e7FfvBRkIjm2mNmNCaW4W9LVA5J9RHt64zUD3k9lk+RlvxIP4rTMUA+DhGSSL4ojv
+         GVsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=zyoxcfUGkhRLREf2cpRhyhZi5hXxrWkBKr1smYGro+s=;
-        b=eD8NTAmmSOP6p+GZKNfkqBbzhMhdFE2AV81Yc67WYHYpkKsxgFaaPzCHbp5+x95KCS
-         sR+HqG231juin430g2kv/QgehreZYBzSeybNNuZydH8EXQhfQfTZn9Nl6fVR72RFzKEN
-         CNqI+eQUl0S7iXhsg6sdZzOSpH/bH1WV4BNlPFa6IWhkcTIcRhL7OkW6HF023g0dTNEf
-         Bae5Hz76RCAKssnuFW/LRU9EF07hY0RxBrn0xWKZ/KrgZumIPB5u2qDTW73f/THb5e1+
-         7gku5Tbu1NCBwBf0NYXhiiN81flHW4M1tR5USelffA1wDvP5mVLXQZwRNxnCL7BKa1Js
-         XldQ==
-X-Gm-Message-State: AOAM5332Kty4kzi5zrdu9VmgqBCuTseqynP/msebGlMYkj6IpJQ04D3P
-        qXwidvVS24v77JKyz6hnmCrNPMgnbyc1PG0XGQM9BsZ8
-X-Google-Smtp-Source: ABdhPJyw+nnuZYOIRPE4qQXN3KXf/9pua2DUaN9KJa8kShmnWZTS0FVsqCr94j4zSQ1e1QRqOnhXBrl4fL1VdQZVfkM=
-X-Received: by 2002:a05:6512:128e:b0:478:67ec:44bc with SMTP id
- u14-20020a056512128e00b0047867ec44bcmr17359964lfs.381.1653595632789; Thu, 26
- May 2022 13:07:12 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NutntfjOLhm5vnkAI6J63aqPd+5lyjNYED2lB5Nzypc=;
+        b=Mya6Wn87TnM8h7FMf8NldhevryyimHSOgW6ePiU0EGVkdVJ3sUpdzGlgt0ZqItPyUH
+         fxTGmK3XfSsiA7nVhfUyLLmiHW8hDLYYjy3LL6Ck3xaSaSCaTwtVHn0Q2+hht/z0pzfy
+         avZm/VYBE7w35dFkJj0+9ybWiTfC7dFv83A0nWNBrH2lCjYmhS7n9Aya14/Yj/GjWVeu
+         wDUOmf7bIiw4nRw4nT3jQLXUYTZPysvifSe3gtPR8wzBxNCHRHBqhOjtjJMkbdhHte7P
+         4BNp/1TTP81oXOgLPt2nkxogYtURra77hU+0VFs+UMA25ZPAWVvL5g1tYvoJO1Xx/244
+         b6lA==
+X-Gm-Message-State: AOAM530oNTj8TxXhT2FER9kgAQNqqlC7Z2otPWz6moNhI51tthYEJkMU
+        DT1tbFxJZ92n3B9OKNMyynNqIPc0DqY=
+X-Google-Smtp-Source: ABdhPJxkJjdZDo2Z6T+lu370swWNjkIxOT6aw9y8cApR96rtR1FFNioZcM/cwJuHaMwEcBA1iTNK8w==
+X-Received: by 2002:a62:1c50:0:b0:518:89bf:8b41 with SMTP id c77-20020a621c50000000b0051889bf8b41mr27372849pfc.60.1653606753742;
+        Thu, 26 May 2022 16:12:33 -0700 (PDT)
+Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:3206:ea0b:ce53:ea86])
+        by smtp.gmail.com with ESMTPSA id y129-20020a626487000000b0050dc76281b5sm2068978pfb.143.2022.05.26.16.12.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 May 2022 16:12:32 -0700 (PDT)
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Stephen Boyd <swboyd@chromium.org>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] Input: cros_ec_keyb - switch to using generic device properties
+Date:   Thu, 26 May 2022 16:12:29 -0700
+Message-Id: <20220526231230.2805147-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
 MIME-Version: 1.0
-References: <20220512001500.16739-1-fletcher0max@gmail.com>
- <CAEc3jaBbVT1t1kS_Vvp3EqfheCWr=CAvVgdzw7vkeFyYz9H_7Q@mail.gmail.com>
- <CAKcX28WpKoP=HVq3zCvBh9knKFEdR0_+NmATpt9D6rFmprkFDA@mail.gmail.com> <CAEc3jaCq9DOa86TAakY7K9Mrzc9qKt5wraTJ7Z2Y5yAu-XqWzg@mail.gmail.com>
-In-Reply-To: <CAEc3jaCq9DOa86TAakY7K9Mrzc9qKt5wraTJ7Z2Y5yAu-XqWzg@mail.gmail.com>
-From:   Maxwell Fletcher <fletcher0max@gmail.com>
-Date:   Thu, 26 May 2022 13:07:01 -0700
-Message-ID: <CAKcX28X+fqzjW3UHqzhbopjqD=eO7x4TTAjC-3x3w7Po-PgKSQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] HID: nintendo: fix face button mappings
-To:     Roderick Colenbrander <thunderbird2k@gmail.com>
-Cc:     "Daniel J. Ogorchock" <djogorchock@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -72,117 +70,114 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Roderick,
+In preparation to enabling this driver on x86 devices let's switch
+from OF-specific property API to the generic one.
 
-Thank you so much for your time; this has all been very educational
-for me. I'll be following the work on eBPF.
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/keyboard/cros_ec_keyb.c | 68 ++++++++++++++++++---------
+ 1 file changed, 46 insertions(+), 22 deletions(-)
 
-Best,
-Max
+diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+index cc73a149da28..e8338b1c5776 100644
+--- a/drivers/input/keyboard/cros_ec_keyb.c
++++ b/drivers/input/keyboard/cros_ec_keyb.c
+@@ -518,6 +518,50 @@ static int cros_ec_keyb_register_bs(struct cros_ec_keyb *ckdev,
+ 	return 0;
+ }
+ 
++static void cros_ec_keyb_parse_vivaldi_physmap(struct cros_ec_keyb *ckdev)
++{
++	u32 *physmap = ckdev->vdata.function_row_physmap;
++	unsigned int row, col, scancode;
++	int n_physmap;
++	int error;
++	int i;
++
++	n_physmap = device_property_count_u32(ckdev->dev,
++					      "function-row-physmap");
++	if (n_physmap <= 0)
++		return;
++
++	if (n_physmap >= VIVALDI_MAX_FUNCTION_ROW_KEYS) {
++		dev_warn(ckdev->dev,
++			 "only up to %d top row keys is supported (%d specified)\n",
++			 VIVALDI_MAX_FUNCTION_ROW_KEYS, n_physmap);
++		n_physmap = VIVALDI_MAX_FUNCTION_ROW_KEYS;
++	}
++
++	error = device_property_read_u32_array(ckdev->dev,
++					       "function-row-physmap",
++					       physmap, n_physmap);
++	if (error) {
++		dev_warn(ckdev->dev,
++			 "failed to parse function-row-physmap property: %d\n",
++			 error);
++		return;
++	}
++
++	/*
++	 * Convert (in place) from row/column encoding to matrix "scancode"
++	 * used by the driver.
++	 */
++	for (i = 0; i < n_physmap; i++) {
++		row = KEY_ROW(physmap[i]);
++		col = KEY_COL(physmap[i]);
++		scancode = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
++		physmap[i] = scancode;
++	}
++
++	ckdev->vdata.num_function_row_keys = n_physmap;
++}
++
+ /**
+  * cros_ec_keyb_register_matrix - Register matrix keys
+  *
+@@ -534,11 +578,6 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
+ 	struct input_dev *idev;
+ 	const char *phys;
+ 	int err;
+-	struct property *prop;
+-	const __be32 *p;
+-	u32 *physmap;
+-	u32 key_pos;
+-	unsigned int row, col, scancode, n_physmap;
+ 
+ 	err = matrix_keypad_parse_properties(dev, &ckdev->rows, &ckdev->cols);
+ 	if (err)
+@@ -573,7 +612,7 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
+ 	idev->id.product = 0;
+ 	idev->dev.parent = dev;
+ 
+-	ckdev->ghost_filter = of_property_read_bool(dev->of_node,
++	ckdev->ghost_filter = device_property_read_bool(dev,
+ 					"google,needs-ghost-filter");
+ 
+ 	err = matrix_keypad_build_keymap(NULL, NULL, ckdev->rows, ckdev->cols,
+@@ -589,22 +628,7 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
+ 	input_set_drvdata(idev, ckdev);
+ 	ckdev->idev = idev;
+ 	cros_ec_keyb_compute_valid_keys(ckdev);
+-
+-	physmap = ckdev->vdata.function_row_physmap;
+-	n_physmap = 0;
+-	of_property_for_each_u32(dev->of_node, "function-row-physmap",
+-				 prop, p, key_pos) {
+-		if (n_physmap == VIVALDI_MAX_FUNCTION_ROW_KEYS) {
+-			dev_warn(dev, "Only support up to %d top row keys\n",
+-				 VIVALDI_MAX_FUNCTION_ROW_KEYS);
+-			break;
+-		}
+-		row = KEY_ROW(key_pos);
+-		col = KEY_COL(key_pos);
+-		scancode = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
+-		physmap[n_physmap++] = scancode;
+-	}
+-	ckdev->vdata.num_function_row_keys = n_physmap;
++	cros_ec_keyb_parse_vivaldi_physmap(ckdev);
+ 
+ 	err = input_register_device(ckdev->idev);
+ 	if (err) {
+-- 
+2.36.1.124.g0e6072fb45-goog
 
-
-
-
-
-On Sat, May 14, 2022 at 8:33 PM Roderick Colenbrander
-<thunderbird2k@gmail.com> wrote:
->
-> Hi Maxwell,
->
-> I don't think it is desired to have such kernel module parameters as
-> it essentially adds new kernel APIs, which have to be maintained
-> unless truly needed.
->
-> However, you may have seen the work Benjamin is doing around eBPF for
-> HID. I'm no expert on it yet, but it could probably allow you to do a
-> similar kind of fixup without having to modify the kernel module.
->
-> Thanks,
-> Roderick
->
-> On Sat, May 14, 2022 at 5:57 PM Maxwell Fletcher <fletcher0max@gmail.com>=
- wrote:
-> >
-> > Hi Roderick,
-> >
-> > Thanks for the explanation. It makes sense that the mappings were never=
- meant to mirror Xbox controllers. Would it still be possible to merge a pa=
-tch that adds an opt-in module parameter that changes the mappings, similar=
- to the one in the second part of this patch?
-> >
-> > Thanks,
-> > Max
-> >
-> > On Fri, May 13, 2022 at 12:58 PM Roderick Colenbrander <thunderbird2k@g=
-mail.com> wrote:
-> >>
-> >> Hi Max,
-> >>
-> >> Thanks for your patch, however I must say the patch is not correct for
-> >> 2 reasons.
-> >>
-> >> Over the years different controllers have different layouts. The
-> >> standard which this driver (as well as others such as
-> >> hid-sony/hid-playstation) follow is the Linux gamepad standard (see
-> >> Documentation/input/gamepad.rst). It stays away of the debate what is
-> >> A/B/X/Y. It talks about North/west/.., (yes they are macros which map
-> >> to A/B/X/Y). In case of the Switch it does mean things are flipped,
-> >> but it was not meant to represent an Xbox controller. (Technically one
-> >> could argue that the Xbox controller should be flipped as it was the
-> >> SNES controller back in the days which introduced X/Y and the Switch
-> >> is still consistent with that.)
-> >>
-> >> Second, even if the patch was right it would be tricky to merge. The
-> >> problem is that a changed mapping breaks user spaces and in general
-> >> can't do this unless there is a really good reason. It just would
-> >> break existing applications and libraries (often e.g. SDL)
-> >>
-> >> Thanks,
-> >> Roderick
-> >>
-> >> On Wed, May 11, 2022 at 8:12 PM Max Fletcher <fletcher0max@gmail.com> =
-wrote:
-> >> >
-> >> > Previously, A and B would match the Xbox layout, but X and Y were in=
-correctly swapped. This corrects it so that X and Y match the Xbox layout.
-> >> >
-> >> > Signed-off-by: Max Fletcher <fletcher0max@gmail.com>
-> >> > ---
-> >> >  drivers/hid/hid-nintendo.c | 10 +++++-----
-> >> >  1 file changed, 5 insertions(+), 5 deletions(-)
-> >> >
-> >> > diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-> >> > index 2204de889739..7735971ede3f 100644
-> >> > --- a/drivers/hid/hid-nintendo.c
-> >> > +++ b/drivers/hid/hid-nintendo.c
-> >> > @@ -1351,10 +1351,10 @@ static void joycon_parse_report(struct joyco=
-n_ctlr *ctlr,
-> >> >                 input_report_key(dev, BTN_START, btns & JC_BTN_PLUS)=
-;
-> >> >                 input_report_key(dev, BTN_THUMBR, btns & JC_BTN_RSTI=
-CK);
-> >> >                 input_report_key(dev, BTN_MODE, btns & JC_BTN_HOME);
-> >> > -               input_report_key(dev, BTN_WEST, btns & JC_BTN_Y);
-> >> > -               input_report_key(dev, BTN_NORTH, btns & JC_BTN_X);
-> >> > -               input_report_key(dev, BTN_EAST, btns & JC_BTN_A);
-> >> > -               input_report_key(dev, BTN_SOUTH, btns & JC_BTN_B);
-> >> > +               input_report_key(dev, BTN_X, btns & JC_BTN_Y);
-> >> > +               input_report_key(dev, BTN_Y, btns & JC_BTN_X);
-> >> > +               input_report_key(dev, BTN_B, btns & JC_BTN_A);
-> >> > +               input_report_key(dev, BTN_A, btns & JC_BTN_B);
-> >> >         }
-> >> >
-> >> >         input_sync(dev);
-> >> > @@ -1578,7 +1578,7 @@ static const unsigned int joycon_button_inputs=
-_l[] =3D {
-> >> >
-> >> >  static const unsigned int joycon_button_inputs_r[] =3D {
-> >> >         BTN_START, BTN_MODE, BTN_THUMBR,
-> >> > -       BTN_SOUTH, BTN_EAST, BTN_NORTH, BTN_WEST,
-> >> > +       BTN_A, BTN_B, BTN_Y, BTN_X,
-> >> >         BTN_TR, BTN_TR2,
-> >> >         0 /* 0 signals end of array */
-> >> >  };
-> >> > --
-> >> > 2.35.3
-> >> >
