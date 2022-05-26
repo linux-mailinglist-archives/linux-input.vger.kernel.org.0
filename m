@@ -2,114 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3036F5346E4
-	for <lists+linux-input@lfdr.de>; Thu, 26 May 2022 01:08:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D33C75348CF
+	for <lists+linux-input@lfdr.de>; Thu, 26 May 2022 04:20:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344802AbiEYXIv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 May 2022 19:08:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43380 "EHLO
+        id S237066AbiEZCUa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 May 2022 22:20:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230474AbiEYXIv (ORCPT
+        with ESMTP id S1346144AbiEZCU2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 May 2022 19:08:51 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DD7066ADA;
-        Wed, 25 May 2022 16:08:50 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id s28so46064wrb.7;
-        Wed, 25 May 2022 16:08:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=w+b9gdnTinL6wrIHBf3f+AZedWLGvYQrCm3phP+L7gc=;
-        b=SbRB6SK8sQPWbrRGSU761H8nBWHJsfx8Bg9QcJ51xiDXODS7GffWQW83pCHPUbK4cd
-         JW7zAE5piQLv+h+UYcyqjP3uVLqTsdAG/Y69LhJjZqC7Hr0QD8vbC5jHkbWUKH8NnjKv
-         /kYrponui1LJNLNKmTzdqpMCf+y/BTlvfHUo/ZCNCYo8m5BKHYEM3fWlL4AzyR4h2+CG
-         T/GrXrvy6kDgv5sUmM0q1QfPo3Ig4ukwfwpNDTGzfPllUTSIHuD0RNsqyFe96rwccxdB
-         3LMU5/1t+94vFUJ8CnEnkqjMDkcLq3nyWrGqDm99zf6HLQdxDrmKAsyHOQXZf1dFR3KV
-         J4tg==
+        Wed, 25 May 2022 22:20:28 -0400
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32AC7BCE9E;
+        Wed, 25 May 2022 19:20:28 -0700 (PDT)
+Received: by mail-ot1-f51.google.com with SMTP id h9-20020a056830400900b0060b03bfe792so157342ots.12;
+        Wed, 25 May 2022 19:20:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=w+b9gdnTinL6wrIHBf3f+AZedWLGvYQrCm3phP+L7gc=;
-        b=QagwPMhI8dsf9PKRjp5MURSLucsNx9WIHZKykP0j1fRXWwQeHy0bZ63YBsOpXb5M60
-         2AlIL64ukIODKW4bKVLs/dDtk3aa/1vjz+dDT4k6LTkR7ARdyfzWbl8Pw7iO/0ZQo05g
-         KfI6pHC77muZeJEUB1OspsJRoVKjsVJa+caLceM7RZ98HcU4xFrCFioJpXwW0BNHVtaS
-         HnMrPKLpcpe26+16ewxKCZZvWuy5/LI7/3V8Rp/fnNvW0Qc9gimDULyiwkMEB3I3apho
-         aBpNmNqOknZ1NxvVPp1UzGOWCtJgsEFvPpsdsDJmvBqiurXXpNKFygxMFI8Vo0smkX9j
-         fOHw==
-X-Gm-Message-State: AOAM530/aLjU1auEALEBiYnXa33E/TpeSNf9ODGR0F1QQAYLfN3jdGem
-        qGD6NA1PjuMraaGKQOOxyZ8=
-X-Google-Smtp-Source: ABdhPJwfE6vKfOV8ZO5UcmyYQlQzCwmf+EHSy8a8/Hu3S3epV571AJEfewLyUGlpgX20HaW8HMTgLw==
-X-Received: by 2002:a5d:47ce:0:b0:20f:d6b5:4648 with SMTP id o14-20020a5d47ce000000b0020fd6b54648mr16009719wrc.73.1653520127956;
-        Wed, 25 May 2022 16:08:47 -0700 (PDT)
-Received: from xws.localdomain (pd9e5a94a.dip0.t-ipconnect.de. [217.229.169.74])
-        by smtp.gmail.com with ESMTPSA id i7-20020adff307000000b0020fe280aa96sm112627wro.107.2022.05.25.16.08.46
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fUiiPmbA6QA10aF/JY98KAXUhHU/traPAFGkrXb+0G0=;
+        b=zfWE0HEyVbNwLOVkKrpahLWdVY/yCqp7Y4leZ74zbgF1X593uD7sZRmK92TkB3gAyg
+         cFedUjUz1m74tmZv+vtB+4TwxhLZOeuFemXJ0bRVmpkVDOx8qbd7OMaxOF+rvmHevOwm
+         I9esSTOMx6Kt7389FlfurBPmvd/tO9gIuyo/GVbhMmiKHP2o88NfXpYHLV/213S39SxY
+         gWbAvH0rnBe5CZ3dwGumEs9cTh1oEW3qVNj7YdtVYqwvLaGGNnYXphP9OinU7fG44oPI
+         k+uUCBsuftsBZqdV07aOzPqTSA+31Y216A2V/Rm+pWQfnRmIdaCw2vgB9THPBSQ0YntU
+         ia9w==
+X-Gm-Message-State: AOAM530RTBApj5M7+2uMtzrVs66q3gTpGOr76BUoxHZ0rJadZxm2g4hL
+        FHFh1u78VciCCCFIcFG/O7YflgnoAQ==
+X-Google-Smtp-Source: ABdhPJxBCfHQ008+Adc+zsviLOOkVnJ/rGNw8PkoxUiB69RgS7icKXJHHy8ufZ+Wi9jZxRkCuoabqg==
+X-Received: by 2002:a05:6830:3496:b0:60b:1d91:81e4 with SMTP id c22-20020a056830349600b0060b1d9181e4mr5872153otu.110.1653531627387;
+        Wed, 25 May 2022 19:20:27 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id kz5-20020a056871408500b000f2be69ec8asm194318oab.17.2022.05.25.19.20.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 May 2022 16:08:47 -0700 (PDT)
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Wed, 25 May 2022 19:20:26 -0700 (PDT)
+Received: (nullmailer pid 2933346 invoked by uid 1000);
+        Thu, 26 May 2022 02:20:25 -0000
+Date:   Wed, 25 May 2022 21:20:25 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Andreas Kemnade <andreas@kemnade.info>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: [PATCH] HID: hid-input: add Surface Go battery quirk
-Date:   Thu, 26 May 2022 01:08:27 +0200
-Message-Id: <20220525230827.1019662-1-luzmaximilian@gmail.com>
-X-Mailer: git-send-email 2.36.1
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jeff LaBundy <jeff@labundy.com>
+Subject: Re: [PATCH] dt-bindings: input: use generic node names
+Message-ID: <20220526022025.GA2933288-robh@kernel.org>
+References: <20220524093136.7980-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220524093136.7980-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Similar to the Surface Go (1), the (Elantech) touchscreen/digitizer in
-the Surface Go 2 mistakenly reports the battery of the stylus. Instead
-of over the touchscreen device, battery information is provided via
-bluetooth and the touchscreen device reports an empty battery.
+On Tue, 24 May 2022 11:31:36 +0200, Krzysztof Kozlowski wrote:
+> Devicetree specification expects nodes to have generic names, if
+> possible, so replace custom ones with something generic.  For gpio-keys,
+> the more popular format is "key-xxx" instead of "xxx-key", so choose the
+> first one.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Cc: Andreas Kemnade <andreas@kemnade.info>
+> ---
+>  .../devicetree/bindings/input/fsl,mpr121-touchkey.yaml        | 4 ++--
+>  Documentation/devicetree/bindings/input/gpio-keys.yaml        | 4 ++--
+>  Documentation/devicetree/bindings/input/iqs269a.yaml          | 2 +-
+>  Documentation/devicetree/bindings/input/iqs626a.yaml          | 2 +-
+>  .../devicetree/bindings/input/microchip,cap11xx.yaml          | 2 +-
+>  5 files changed, 7 insertions(+), 7 deletions(-)
+> 
 
-Apply the HID_BATTERY_QUIRK_IGNORE quirk to ignore this battery and
-prevent the erroneous low battery warnings.
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
----
- drivers/hid/hid-ids.h   | 1 +
- drivers/hid/hid-input.c | 2 ++
- 2 files changed, 3 insertions(+)
-
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index d9eb676abe96..9c4e92a9c646 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -413,6 +413,7 @@
- #define USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN	0x2544
- #define USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN	0x2706
- #define I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN	0x261A
-+#define I2C_DEVICE_ID_SURFACE_GO2_TOUCHSCREEN	0x2A1C
- 
- #define USB_VENDOR_ID_ELECOM		0x056e
- #define USB_DEVICE_ID_ELECOM_BM084	0x0061
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index c6b27aab9041..48c1c02c69f4 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -381,6 +381,8 @@ static const struct hid_device_id hid_battery_quirks[] = {
- 	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN),
- 	  HID_BATTERY_QUIRK_IGNORE },
-+	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO2_TOUCHSCREEN),
-+	  HID_BATTERY_QUIRK_IGNORE },
- 	{}
- };
- 
--- 
-2.36.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
