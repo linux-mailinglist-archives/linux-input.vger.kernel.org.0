@@ -2,226 +2,153 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E2E8535A4C
-	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 09:26:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 817FC535A88
+	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 09:36:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344886AbiE0H0M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 May 2022 03:26:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60628 "EHLO
+        id S236215AbiE0Hf0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 May 2022 03:35:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230051AbiE0H0K (ORCPT
+        with ESMTP id S1347482AbiE0HfY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 May 2022 03:26:10 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42F04ED712;
-        Fri, 27 May 2022 00:26:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653636369; x=1685172369;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=m9FnLkDwI5TzcSgqoWXZ2q0oPNaLPL+CBbjsM4Rg7Ew=;
-  b=M0RUyGG0tEjDgD1EYBOB59FHKDtWf0vWya8YXIgw33vYDt4V84YEioc1
-   3WfRIPtGGeGjLZQ4rR4Lf3rCxU5KfyTdCvFjE57tLEFxCsh3G9778g312
-   FvvG9EJFs1So7QYJgu0FQ8Ws4a4k93G8V1kIy4WrQz3CUlfWfcZwcT4cR
-   gymGWRvVf+PQ4gqzryk/ddugYsHcXHxcONClGlh8MP6IevF6XlMrBtql+
-   ERSehEETe2+pISRONEeMUs25HZHsgPPC2C11O8Pl3KhytOFq15y4XnKAK
-   pkPJMCCvm4dlC9I86fCD8/Oi7IGn1V75kMTEdancpCN99yX8ToJ6pMD6A
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10359"; a="274134971"
-X-IronPort-AV: E=Sophos;i="5.91,254,1647327600"; 
-   d="scan'208";a="274134971"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2022 00:26:08 -0700
-X-IronPort-AV: E=Sophos;i="5.91,254,1647327600"; 
-   d="scan'208";a="718734751"
-Received: from rrubin1x-mobl.amr.corp.intel.com (HELO [10.252.55.90]) ([10.252.55.90])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2022 00:26:03 -0700
-Message-ID: <799ae406-ce12-f0d4-d213-4dd455236e49@linux.intel.com>
-Date:   Fri, 27 May 2022 10:26:01 +0300
+        Fri, 27 May 2022 03:35:24 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D245F74B8
+        for <linux-input@vger.kernel.org>; Fri, 27 May 2022 00:35:23 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nuUVB-0001kG-7E; Fri, 27 May 2022 09:35:17 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nuUV7-004pKg-RL; Fri, 27 May 2022 09:35:12 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nuUV5-00CQ7g-Ty; Fri, 27 May 2022 09:35:11 +0200
+Date:   Fri, 27 May 2022 09:35:08 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     "Hennerich, Michael" <Michael.Hennerich@analog.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        "Bogdan, Dragos" <Dragos.Bogdan@analog.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Sa, Nuno" <Nuno.Sa@analog.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: [PATCH] Input: adp5588-keys: Remove unused driver
+Message-ID: <20220527073508.x6ryljkozvvfvro2@pengutronix.de>
+References: <20220504084617.36844-1-u.kleine-koenig@pengutronix.de>
+ <SJ0PR03MB6253FB12C55E309BA438BF918EC29@SJ0PR03MB6253.namprd03.prod.outlook.com>
+ <20220505074956.gmgdxfgvod7k2ind@pengutronix.de>
+ <SJ0PR03MB6253FC31665D4ADA31A0A5458EC59@SJ0PR03MB6253.namprd03.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH bpf-next v5 00/17] Introduce eBPF support for HID devices
-Content-Language: en-US
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
-From:   Tero Kristo <tero.kristo@linux.intel.com>
-In-Reply-To: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="khwdypnhucmgqq64"
+Content-Disposition: inline
+In-Reply-To: <SJ0PR03MB6253FC31665D4ADA31A0A5458EC59@SJ0PR03MB6253.namprd03.prod.outlook.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
 
-I noticed a couple of issues with this series, but was able to 
-fix/workaround them locally and got my USI program working with it.
+--khwdypnhucmgqq64
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-1) You seem to be missing tools/include/uapi/linux/hid_bpf.h from index, 
-I wasn't able to compile the selftests (or my own program) without 
-adding this. It is included from 
-tools/testing/selftests/bpf/prog_tests/hid.c: #include <linux/hid_bpf.h>
+Hello,
 
-2) The limitation of needing to hardcode the size for hid_bpf_get_data() 
-seems somewhat worrying, especially as the kernel side limits this to 
-the ctx->allocated_size. I used a sufficiently large number for my 
-purposes for now (256) which seems to work, but how should I handle my 
-case where I basically need to read the whole input report and parse 
-certain portions of it? How does the HID subsystem select the size of 
-the ctx->allocated_size?
+On Fri, May 06, 2022 at 11:57:57AM +0000, Hennerich, Michael wrote:
+> > On Thu, May 05, 2022 at 06:20:22AM +0000, Hennerich, Michael wrote:
+> > > If we start removing drivers which obviously don't have a mainline
+> > > in-tree user, we would upset up many users of these drivers.
+> > > I agree on updating this driver to make platform data optional.
+> > > We could provide a patch in a few days.
+> >=20
+> > Just to add some background why I stumbled over this driver: On of my c=
+urrent
+> > quests is to make i2c remove callbacks return void. As a preparation fo=
+r that I
+> > work on updating all i2c drivers to return 0 in
+> > .remove() to make the change to void have no side effects.
+> >=20
+> > One of the offenders is drivers/gpio/gpio-adp5588.c, which in the prese=
+nce of a
+> > pdata->teardown callback might return a non-zero value from .remove(). =
+While
+> > looking at the pdata of possible devices I only found
+> > drivers/input/keyboard/adp5588-keys.c.
+> >=20
+> > So the options for my quest are in increasing impact order:
+> >=20
+> >  a) just warn if struct adp5588_gpio_platform_data::teardown fails and
+> >     still return 0 from .remove()
+> >  b) make struct adp5588_gpio_platform_data::teardown return void
+> >  c) drop teardown support from adp5588_gpio_platform_data
+> >  d) drop platform support from gpio-adp5588
+> >  e) drop gpio-adp5588
+> >=20
+> > Currently I'd go for at least d).
+> >=20
+> > Having said that I think e) has a net benefit. If there is no user left=
+ it reduces
+> > maintainance burden. If there is a user left, they hopefully will tell =
+us, we can
+> > restore the driver from git history and then at least know a tester for=
+ future
+> > cleanups and changes.
+>=20
+> Hi Uwe,
+>=20
+> Thanks for the explanation.
+>=20
+> I know that there are users of this driver. But I admit, we should have e=
+arlier
+> made platform_data support optional and also add proper dt bindings.
+> We're in progress doing so. And in the meanwhile, I would prefer a less
+> disruptive intermediate change. For example c) with the promise we're wor=
+king on d).
 
--Tero
+FTR: a part of c) hit the mailing list a few days ago. This is good
+enough for my purpose, but to complete platform teardown (and setup)
+support, it must be ripped from adp5588-keys.c, too. I won't do that as
+it isn't in the way for my quest.
 
-On 18/05/2022 23:59, Benjamin Tissoires wrote:
-> Hi,
->
-> And here comes the v5 of the HID-BPF series.
->
-> I managed to achive the same functionalities than v3 this time.
-> Handling per-device BPF program was "interesting" to say the least,
-> but I don't know if we can have a generic BPF way of handling such
-> situation.
->
-> The interesting bits is that now the BPF core changes are rather small,
-> and I am mostly using existing facilities.
-> I didn't managed to write selftests for the RET_PTR_TO_MEM kfunc,
-> because I can not call kmalloc while in a SEC("tc") program to match
-> what the other kfunc tests are doing.
-> And AFAICT, the most interesting bits would be to implement verifier
-> selftests, which are way out of my league, given that they are
-> implemented as plain bytecode.
->
-> The logic is the following (see also the last patch for some more
-> documentation):
-> - hid-bpf first preloads a BPF program in the kernel that does a few
->    things:
->     * find out which attach_btf_id are associated with our trace points
->     * adds a bpf_tail_call() BPF program that I can use to "call" any
->       other BPF program stored into a jump table
->     * monitors the releases of struct bpf_prog, and when there are no
->       other users than us, detach the bpf progs from the HID devices
-> - users then declare their tracepoints and then call
->    hid_bpf_attach_prog() in a SEC("syscall") program
-> - hid-bpf then calls multiple time the bpf_tail_call() program with a
->    different index in the jump table whenever there is an event coming
->    from a matching HID device
->
-> Note that I am tempted to pin an "attach_hid_program" in the bpffs so
-> that users don't need to declare one, but I am afraid this will be one
-> more API to handle, so maybe not.
->
-> I am also wondering if I should not strip out hid_bpf_jmp_table of most
-> of its features and implement everything as a BPF program. This might
-> remove the need to add the kernel light skeleton implementations of map
-> modifications, and might also possibly be more re-usable for other
-> subsystems. But every plan I do in my head involves a lot of back and
-> forth between the kernel and BPF to achieve the same, which doesn't feel
-> right. The tricky part is the RCU list of programs that is stored in each
-> device and also the global state of the jump table.
-> Anyway, something to look for in a next version if there is a push for it.
->
-> FWIW, patch 1 is something I'd like to get merged sooner. With 2
-> colleagues, we are also working on supporting the "revoke" functionality
-> of a fd for USB and for hidraw. While hidraw can be emulated with the
-> current features, we need the syscall kfuncs for USB, because when we
-> revoke a USB access, we also need to kick out the user, and for that, we
-> need to actually execute code in the kernel from a userspace event.
->
-> Anyway, happy reviewing.
->
-> Cheers,
-> Benjamin
->
-> [Patch series based on commit 68084a136420 ("selftests/bpf: Fix building bpf selftests statically")
-> in the bpf-next tree]
->
-> Benjamin Tissoires (17):
->    bpf/btf: also allow kfunc in tracing and syscall programs
->    bpf/verifier: allow kfunc to return an allocated mem
->    bpf: prepare for more bpf syscall to be used from kernel and user
->      space.
->    libbpf: add map_get_fd_by_id and map_delete_elem in light skeleton
->    HID: core: store the unique system identifier in hid_device
->    HID: export hid_report_type to uapi
->    HID: initial BPF implementation
->    selftests/bpf: add tests for the HID-bpf initial implementation
->    HID: bpf: allocate data memory for device_event BPF programs
->    selftests/bpf/hid: add test to change the report size
->    HID: bpf: introduce hid_hw_request()
->    selftests/bpf: add tests for bpf_hid_hw_request
->    HID: bpf: allow to change the report descriptor
->    selftests/bpf: add report descriptor fixup tests
->    samples/bpf: add new hid_mouse example
->    selftests/bpf: Add a test for BPF_F_INSERT_HEAD
->    Documentation: add HID-BPF docs
->
->   Documentation/hid/hid-bpf.rst                 | 528 ++++++++++
->   Documentation/hid/index.rst                   |   1 +
->   drivers/hid/Kconfig                           |   2 +
->   drivers/hid/Makefile                          |   2 +
->   drivers/hid/bpf/Kconfig                       |  19 +
->   drivers/hid/bpf/Makefile                      |  11 +
->   drivers/hid/bpf/entrypoints/Makefile          |  88 ++
->   drivers/hid/bpf/entrypoints/README            |   4 +
->   drivers/hid/bpf/entrypoints/entrypoints.bpf.c |  78 ++
->   .../hid/bpf/entrypoints/entrypoints.lskel.h   | 782 ++++++++++++++
->   drivers/hid/bpf/hid_bpf_dispatch.c            | 565 ++++++++++
->   drivers/hid/bpf/hid_bpf_dispatch.h            |  28 +
->   drivers/hid/bpf/hid_bpf_jmp_table.c           | 587 +++++++++++
->   drivers/hid/hid-core.c                        |  43 +-
->   include/linux/btf.h                           |   7 +
->   include/linux/hid.h                           |  29 +-
->   include/linux/hid_bpf.h                       | 144 +++
->   include/uapi/linux/hid.h                      |  12 +
->   include/uapi/linux/hid_bpf.h                  |  25 +
->   kernel/bpf/btf.c                              |  47 +-
->   kernel/bpf/syscall.c                          |  10 +-
->   kernel/bpf/verifier.c                         |  72 +-
->   samples/bpf/.gitignore                        |   1 +
->   samples/bpf/Makefile                          |  23 +
->   samples/bpf/hid_mouse.bpf.c                   | 134 +++
->   samples/bpf/hid_mouse.c                       | 157 +++
->   tools/lib/bpf/skel_internal.h                 |  23 +
->   tools/testing/selftests/bpf/config            |   3 +
->   tools/testing/selftests/bpf/prog_tests/hid.c  | 990 ++++++++++++++++++
->   tools/testing/selftests/bpf/progs/hid.c       | 222 ++++
->   30 files changed, 4593 insertions(+), 44 deletions(-)
->   create mode 100644 Documentation/hid/hid-bpf.rst
->   create mode 100644 drivers/hid/bpf/Kconfig
->   create mode 100644 drivers/hid/bpf/Makefile
->   create mode 100644 drivers/hid/bpf/entrypoints/Makefile
->   create mode 100644 drivers/hid/bpf/entrypoints/README
->   create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.bpf.c
->   create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.lskel.h
->   create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.c
->   create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.h
->   create mode 100644 drivers/hid/bpf/hid_bpf_jmp_table.c
->   create mode 100644 include/linux/hid_bpf.h
->   create mode 100644 include/uapi/linux/hid_bpf.h
->   create mode 100644 samples/bpf/hid_mouse.bpf.c
->   create mode 100644 samples/bpf/hid_mouse.c
->   create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
->   create mode 100644 tools/testing/selftests/bpf/progs/hid.c
->
+See
+https://lore.kernel.org/linux-gpio/20220523083947.840708-1-u.kleine-koenig@=
+pengutronix.de
+for your opportunity to ack the patch.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--khwdypnhucmgqq64
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmKQfykACgkQwfwUeK3K
+7AlKwgf/SF0G3zs9JrGkDPxgzbgw7NhmxEpPGfQEKeo/ecbiVkTMMvJkKx2o9Pca
+LYLO6pYpdQoZUOEX52X7hgKLEFprmg4KXNh0mQav0lKkmBaa66hR12p7OWzFBedU
+paGjtT/9lYA/+nlbF0lFF+LeCfe35BUFKW0QUHDO799XsPB2v1+1g1s4oqULI7nT
+lI34GG2DgU3eEpQYtIQ6nePPDaePk6R2j0uImyUVXjMC6HcQDwYseCtKkU+dwbkA
+xgIUu/cs3+m6lIsHtt69VUg81JOqOg+FeDVJ2q3wo79NqLOXYMSiGDoDb7/8z34C
+WLg/d8tC9vBVbxCrLT+4d2az+Qp3UA==
+=2Oru
+-----END PGP SIGNATURE-----
+
+--khwdypnhucmgqq64--
