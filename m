@@ -2,59 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E41AD535F12
-	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 13:16:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42B1E535F2A
+	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 13:21:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241005AbiE0LQd convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 27 May 2022 07:16:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44376 "EHLO
+        id S1350900AbiE0LVB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 May 2022 07:21:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232837AbiE0LQb (ORCPT
+        with ESMTP id S244684AbiE0LVB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 May 2022 07:16:31 -0400
-X-Greylist: delayed 460 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 27 May 2022 04:16:28 PDT
-Received: from mail.composit.net (mail.composit.net [195.49.185.119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6A4B05B883
-        for <linux-input@vger.kernel.org>; Fri, 27 May 2022 04:16:26 -0700 (PDT)
-Received: from mail.composit.net (localhost.localdomain [127.0.0.1])
-        by mail.composit.net (Proxmox) with ESMTP id 3CC77393BE6;
-        Fri, 27 May 2022 14:04:48 +0300 (MSK)
-Received: from mail.composit.net (unknown [192.168.101.14])
-        by mail.composit.net (Proxmox) with SMTP id E5CEC393D31;
-        Fri, 27 May 2022 14:04:47 +0300 (MSK)
-Received: from [192.168.1.105] (Unknown [197.234.219.23])
-        by mail.composit.net with ESMTPSA
-        (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256)
-        ; Fri, 27 May 2022 14:04:49 +0300
-Message-ID: <33936245-BFB5-4194-9A9B-6E1330B00456@mail.composit.net>
-Content-Type: text/plain; charset="iso-8859-1"
+        Fri, 27 May 2022 07:21:01 -0400
+Received: from smtp.smtpout.orange.fr (smtp03.smtpout.orange.fr [80.12.242.125])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F191C1269A2
+        for <linux-input@vger.kernel.org>; Fri, 27 May 2022 04:20:59 -0700 (PDT)
+Received: from [192.168.1.18] ([90.11.191.102])
+        by smtp.orange.fr with ESMTPA
+        id uY1Znrm7w26JCuY1ZnnwBY; Fri, 27 May 2022 13:20:58 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Fri, 27 May 2022 13:20:58 +0200
+X-ME-IP: 90.11.191.102
+Message-ID: <e09439a8-d628-9074-7691-3d83a6d20267@wanadoo.fr>
+Date:   Fri, 27 May 2022 13:20:57 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Greetings From Ukraine.  
-To:     Recipients <heiss@dnet.it>
-From:   "Kostiantyn Chichkov" <heiss@dnet.it>
-Date:   Fri, 27 May 2022 12:04:38 +0100
-Reply-To: kostiantync@online.ee
-X-Spam-Status: No, score=3.7 required=5.0 tests=BAYES_50,RCVD_IN_SBL,
-        RCVD_IN_SORBS_WEB,RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: =?UTF-8?B?UmU6IOetlOWkjTogW1BBVENIXSBkcml2ZXJzOiBpbnB1dDogRGlyZWN0?=
+ =?UTF-8?Q?ly_use_ida=5falloc=28=29/free=28=29?=
+Content-Language: en-US
+To:     "liuke (AQ)" <liuke94@huawei.com>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "marcoshalano@gmail.com" <marcoshalano@gmail.com>,
+        "michael@michaelcullen.name" <michael@michaelcullen.name>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20220527103740.3442548-1-liuke94@huawei.com>
+ <159368be-82fa-f42c-9658-88cd0e1f1882@wanadoo.fr>
+ <9c53080c64424a5ba9d33e789dbd1180@huawei.com>
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <9c53080c64424a5ba9d33e789dbd1180@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Good Morning,
+Le 27/05/2022 à 12:39, liuke (AQ) a écrit :
+> Sorry ,  I'll be careful next time .
+> 
 
-We are Kostiantyn Chychkov and Maryna Chudnovska from Ukraine, we need your service, we have gone through your profile and we will like to work with you on an important service that needs urgent attention due to the ongoing war in our country. Kindly acknowledge this inquiry as soon as possible for a detailed discussion about the service.
+NP for me. It's nice to have someone work on these clean-ups.
 
-Thank you.
+Definitively, coccinelle would help you a lot for this kind of patches.
 
-Yours expectantly,
-
-Kostiantyn Chichkov & Ms. Maryna Chudnovska,
-From Ukraine.
-
-
+CJ
