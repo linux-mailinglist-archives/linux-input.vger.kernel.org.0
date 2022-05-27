@@ -2,112 +2,135 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20714535B71
-	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 10:25:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40205535E47
+	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 12:28:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348248AbiE0IZb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 May 2022 04:25:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49884 "EHLO
+        id S1350057AbiE0K2z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 May 2022 06:28:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349542AbiE0IZa (ORCPT
+        with ESMTP id S1350965AbiE0K2n (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 May 2022 04:25:30 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45DF9DFF46
-        for <linux-input@vger.kernel.org>; Fri, 27 May 2022 01:25:29 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nuVHg-0000Af-Se; Fri, 27 May 2022 10:25:24 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nuVHe-004pnU-2D; Fri, 27 May 2022 10:25:20 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nuVHc-00CQdE-46; Fri, 27 May 2022 10:25:20 +0200
-Date:   Fri, 27 May 2022 10:25:20 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     "Hennerich, Michael" <Michael.Hennerich@analog.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        "Bogdan, Dragos" <Dragos.Bogdan@analog.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "Sa, Nuno" <Nuno.Sa@analog.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: Re: [PATCH] Input: adp5588-keys: Remove unused driver
-Message-ID: <20220527082520.azn4tyn4sczkd64g@pengutronix.de>
-References: <20220504084617.36844-1-u.kleine-koenig@pengutronix.de>
- <SJ0PR03MB6253FB12C55E309BA438BF918EC29@SJ0PR03MB6253.namprd03.prod.outlook.com>
- <20220505074956.gmgdxfgvod7k2ind@pengutronix.de>
- <SJ0PR03MB6253FC31665D4ADA31A0A5458EC59@SJ0PR03MB6253.namprd03.prod.outlook.com>
- <20220527073508.x6ryljkozvvfvro2@pengutronix.de>
- <DM8PR03MB6246C0D8B4412C710D5962338ED89@DM8PR03MB6246.namprd03.prod.outlook.com>
- <20220527074835.qnbncnc3h2iaa4ik@pengutronix.de>
- <DM8PR03MB6246196C4684126F90D5CCE78ED89@DM8PR03MB6246.namprd03.prod.outlook.com>
+        Fri, 27 May 2022 06:28:43 -0400
+Received: from smtp.smtpout.orange.fr (smtp03.smtpout.orange.fr [80.12.242.125])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF37112AB04
+        for <linux-input@vger.kernel.org>; Fri, 27 May 2022 03:28:28 -0700 (PDT)
+Received: from [192.168.1.18] ([90.11.191.102])
+        by smtp.orange.fr with ESMTPA
+        id uXCinkUD34LtquXCinnN3M; Fri, 27 May 2022 12:28:27 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Fri, 27 May 2022 12:28:27 +0200
+X-ME-IP: 90.11.191.102
+Message-ID: <159368be-82fa-f42c-9658-88cd0e1f1882@wanadoo.fr>
+Date:   Fri, 27 May 2022 12:28:24 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="q6dknpw2uzyhydxr"
-Content-Disposition: inline
-In-Reply-To: <DM8PR03MB6246196C4684126F90D5CCE78ED89@DM8PR03MB6246.namprd03.prod.outlook.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] drivers: input: Directly use ida_alloc()/free()
+Content-Language: en-CA
+To:     keliu <liuke94@huawei.com>, dmitry.torokhov@gmail.com,
+        marcoshalano@gmail.com, michael@michaelcullen.name,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220527103740.3442548-1-liuke94@huawei.com>
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20220527103740.3442548-1-liuke94@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi,
 
---q6dknpw2uzyhydxr
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Le 27/05/2022 à 12:37, keliu a écrit :
+> Use ida_alloc()/ida_free() instead of deprecated
+> ida_simple_get()/ida_simple_remove() .
+> 
+> Signed-off-by: keliu <liuke94@huawei.com>
+> ---
+>   drivers/input/input.c         | 8 ++++----
+>   drivers/input/joystick/xpad.c | 6 +++---
+>   2 files changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/input/input.c b/drivers/input/input.c
+> index 1365c9dfb5f2..1e4a275795f9 100644
+> --- a/drivers/input/input.c
+> +++ b/drivers/input/input.c
+> @@ -2618,15 +2618,15 @@ int input_get_new_minor(int legacy_base, unsigned int legacy_num,
+>   	 * locking is needed here.
+>   	 */
+>   	if (legacy_base >= 0) {
+> -		int minor = ida_simple_get(&input_ida,
+> +		int minor = ida_alloc_range(&input_ida,
+>   					   legacy_base,
+> -					   legacy_base + legacy_num,
+> +					   legacy_base + legacy_num - 1,
 
-On Fri, May 27, 2022 at 07:51:42AM +0000, Hennerich, Michael wrote:
-> > Hello Michael,
-> >=20
-> > On Fri, May 27, 2022 at 07:41:59AM +0000, Hennerich, Michael wrote:
-> > > Thanks for the reminder!
-> > > The driver cleanup is still in the works. We'll likely remove the
-> > > platform data support completely form the driver.
-> >=20
-> > Still I'd like to get my patch in, as a patch I have in the queue depen=
-ds on it[1]. I
-> > don't know if you implied that my patch shouldn't go in, but if you did=
-, please
-> > reconsider.
->=20
-> No - I Acked your patch. Please continue.
+You got my point, things are going in the right direction.
+This one is correct...
 
-Thanks, I only saw that after I sent my mail.
+>   					   GFP_KERNEL);
+>   		if (minor >= 0 || !allow_dynamic)
+>   			return minor;
+>   	}
+>   
+> -	return ida_simple_get(&input_ida,
+> +	return ida_alloc_range(&input_ida,
+>   			      INPUT_FIRST_DYNAMIC_DEV, INPUT_MAX_CHAR_DEVICES,
 
-Have a nice weekend
-Uwe
+... but you missed the -1 here.
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Also maybe an explanation of why this -1 are introduced would help 
+reviewers. (if needed, I think I already wrote some, just ask)
 
---q6dknpw2uzyhydxr
-Content-Type: application/pgp-signature; name="signature.asc"
+CJ
 
------BEGIN PGP SIGNATURE-----
+>   			      GFP_KERNEL);
+>   }
+> @@ -2641,7 +2641,7 @@ EXPORT_SYMBOL(input_get_new_minor);
+>    */
+>   void input_free_minor(unsigned int minor)
+>   {
+> -	ida_simple_remove(&input_ida, minor);
+> +	ida_free(&input_ida, minor);
+>   }
+>   EXPORT_SYMBOL(input_free_minor);
+>   
+> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+> index 18190b529bca..fafc0d5703dc 100644
+> --- a/drivers/input/joystick/xpad.c
+> +++ b/drivers/input/joystick/xpad.c
+> @@ -1456,7 +1456,7 @@ static int xpad_led_probe(struct usb_xpad *xpad)
+>   	if (!led)
+>   		return -ENOMEM;
+>   
+> -	xpad->pad_nr = ida_simple_get(&xpad_pad_seq, 0, 0, GFP_KERNEL);
+> +	xpad->pad_nr = ida_alloc(&xpad_pad_seq, GFP_KERNEL);
+>   	if (xpad->pad_nr < 0) {
+>   		error = xpad->pad_nr;
+>   		goto err_free_mem;
+> @@ -1479,7 +1479,7 @@ static int xpad_led_probe(struct usb_xpad *xpad)
+>   	return 0;
+>   
+>   err_free_id:
+> -	ida_simple_remove(&xpad_pad_seq, xpad->pad_nr);
+> +	ida_free(&xpad_pad_seq, xpad->pad_nr);
+>   err_free_mem:
+>   	kfree(led);
+>   	xpad->led = NULL;
+> @@ -1492,7 +1492,7 @@ static void xpad_led_disconnect(struct usb_xpad *xpad)
+>   
+>   	if (xpad_led) {
+>   		led_classdev_unregister(&xpad_led->led_cdev);
+> -		ida_simple_remove(&xpad_pad_seq, xpad->pad_nr);
+> +		ida_free(&xpad_pad_seq, xpad->pad_nr);
+>   		kfree(xpad_led);
+>   	}
+>   }
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmKQiusACgkQwfwUeK3K
-7AlxYwf/ZPK1XJNnSgEWSEZGlYHs7cm01Cf3+fdIYRPLMMQfyuDblVsrQ2jW5eBx
-TB0kpPLWcbizdjYdCiIzwrJjoFwlNxBx08ylFpzMLtRwF/ECxH7g3waY6HZxwWlq
-E+OAyTiVPdjHubYPF5JBgtGL1BY2pffN68yYKMNvZjGLm3ucbIobnIWc68DuS8J2
-+GDgG3tihayHC6iUTm8prKcwJuOgE2rjvJTs9hq/XIfeiRC8WwCvpk+nrNU3hxJz
-glDN2GXpfDHv2Jh458h+oScGqkVH9lCWzkMkMQQxwa+VDCkVvV+nZRfS0fhHBdX4
-jAz2QCcwr3+ME60hhHF5NnFThxzCNQ==
-=xEVn
------END PGP SIGNATURE-----
-
---q6dknpw2uzyhydxr--
