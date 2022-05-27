@@ -2,46 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4CFD5359E1
-	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 09:09:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A9DD5359F1
+	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 09:13:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239854AbiE0HH2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 May 2022 03:07:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43828 "EHLO
+        id S1343803AbiE0HK0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 May 2022 03:10:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344829AbiE0HGq (ORCPT
+        with ESMTP id S244974AbiE0HJF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 May 2022 03:06:46 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C74CBF6891
-        for <linux-input@vger.kernel.org>; Fri, 27 May 2022 00:06:45 -0700 (PDT)
+        Fri, 27 May 2022 03:09:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82CD3FC4F1;
+        Fri, 27 May 2022 00:07:43 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1A603B8232C
-        for <linux-input@vger.kernel.org>; Fri, 27 May 2022 07:06:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AD01C385A9;
-        Fri, 27 May 2022 07:06:41 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2205B61A4E;
+        Fri, 27 May 2022 07:07:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 227F5C385A9;
+        Fri, 27 May 2022 07:07:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653635202;
-        bh=tQTL4BDTPrWkufrgcGaKlIcXsQazJabaPEGwFXwr1Mk=;
+        s=k20201202; t=1653635262;
+        bh=IUjHTZg8XW3nb4CgLtI/7dZRQzTsTt0OL0lA1dn38Ks=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=K9tVt2mOvEojvWSGnX8sI678t/CC7s99Y1tDJzybZoLJHoQ6ao9GMnjjIvpIboDtd
-         F+DnD6Otac0C2BTYHD5etAMmbBCJIAuVYlp355m76v/2g0M15TS0us5CaPCYgV3xRa
-         IOBBsxAsc+eH2GibBUOXHJHod4xFgQQapptcEgrCcHSe5mxEjO2Ow+F2aMnTv4F2A9
-         1AgdwZrK5U3+W+pJ0erQCBhE8biwjy9FDfof7xmKzaCNPQAAnws5klnlW1VksHgak5
-         lOiPXe+qeuDoF/IVvbZvznZJDImAVYLmF0pYSMyAa2OL2L6k+BDEa0U7Mp61Sy1n8K
-         RAeTipynoBaZw==
-Date:   Fri, 27 May 2022 09:06:28 +0200 (CEST)
+        b=u4YwSzyIoiKB1al1FWHnHUO4bdYgCahbKfw4d2m+Gu3WxV8gE+a7TrCEf+qJdBb2p
+         Wdy5nTtMgw4yQ8xJ9rlNVx4SbGJ/DDkxTgQ4PsTuvgsHJe5rG9T1qfXIeyRNEd62En
+         H7HniVWONh1cF6KuKhgyu7EEg0BcrJLOLFKUJZX0Cu/e60Fy7NLbjU3xsmfNsVpUOm
+         SEQQu+90NOP6EsbYoS8XPwDt/ntfN5nilJNw9fgOvdMm171I3ldjBrc+3wImODMwrP
+         Q6gQpFmYhn0dWT8e7aQ2G5FhQkDzy6uzAHZfkfJmC9rqlZzyfP73gl1C6G39z3+c+g
+         HtRni/NuN1ckQ==
+Date:   Fri, 27 May 2022 09:07:38 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Ping Cheng <pinglinux@gmail.com>
-cc:     linux-input@vger.kernel.org, Aaron.Skomra@wacom.com,
-        joshua.dickens@wacom.com, Ping Cheng <ping.cheng@wacom.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>
-Subject: Re: [PATCH 1/2] HID: wacom: Only report rotation for art pen
-In-Reply-To: <20220513215156.14914-1-ping.cheng@wacom.com>
-Message-ID: <nycvar.YFH.7.76.2205270906100.10851@cbobk.fhfr.pm>
-References: <20220513215156.14914-1-ping.cheng@wacom.com>
+To:     Mario Limonciello <mario.limonciello@amd.com>
+cc:     basavaraj.natikar@amd.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, David Chang <David.Chang@amd.com>
+Subject: Re: [PATCH v2] HID: amd_sfh: Don't show client init failed as error
+ when discovery fails
+In-Reply-To: <20220512181848.27347-1-mario.limonciello@amd.com>
+Message-ID: <nycvar.YFH.7.76.2205270907320.10851@cbobk.fhfr.pm>
+References: <20220512181848.27347-1-mario.limonciello@amd.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -55,57 +55,40 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 13 May 2022, Ping Cheng wrote:
+On Thu, 12 May 2022, Mario Limonciello wrote:
 
-> The generic routine, wacom_wac_pen_event, turns rotation value 90
-> degree anti-clockwise before posting the events. This non-zero
-> event trggers a non-zero ABS_Z event for non art pen tools. However,
-> HID_DG_TWIST is only supported by art pen.
+> When sensor discovery fails, this means that the system doesn't have
+> any sensors connected and a user should only be notified at most one time.
+> A message is already displayed at WARN level of "failed to discover,
+> sensors not enabled".  It's pointless to show that the client init failed
+> at ERR level for the same condition.
 > 
-> Signed-off-by: Ping Cheng <ping.cheng@wacom.com>
-> Reviewed-by: Jason Gerecke <jason.gerecke@wacom.com>
-> --
-> Hi Jiri,
+> Check the return code and don't display this message in those conditions.
 > 
-> This is kind of a version 2 of the last one I posted two days ago.
-> I updated the logic so it has less changed lines: 29 vs 158! Hopefully,
-> the logic is easier to follow now. Please ignore the last one.
-> 
-> Thank you!
+> Fixes: b5d7f43e97da ("HID: amd_sfh: Add support for sensor discovery")
+> Reported-by: David Chang <David.Chang@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 > ---
->  drivers/hid/wacom_wac.c | 29 +++++++++++++++++++++--------
->  1 file changed, 21 insertions(+), 8 deletions(-)
+> v1->v2:
+>  * fix some fat finger typos in commit message
 > 
-> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-> index a7176fc0635d..3bee4f46003d 100644
-> --- a/drivers/hid/wacom_wac.c
-> +++ b/drivers/hid/wacom_wac.c
-> @@ -638,9 +638,26 @@ static int wacom_intuos_id_mangle(int tool_id)
->  	return (tool_id & ~0xFFF) << 4 | (tool_id & 0xFFF);
->  }
->  
-> +static bool wacom_is_art_pen(int tool_id)
-> +{
-> +	bool is_art_pen = false;
-> +
-> +	switch (tool_id) {
-> +	case 0x885:	/* Intuos3 Marker Pen */
-> +	case 0x804:	/* Intuos4/5 13HD/24HD Marker Pen */
-> +	case 0x10804:	/* Intuos4/5 13HD/24HD Art Pen */
-> +		is_art_pen = true;
-> +		break;
-> +	}
-> +	return is_art_pen;
-> +}
-> +
->  static int wacom_intuos_get_tool_type(int tool_id)
->  {
-> -	int tool_type;
-> +	int tool_type = BTN_TOOL_PEN;
-> +
-> +	if (wacom_is_art_pen(tool_id)
+>  drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> index dadc491bbf6b..1441787a154a 100644
+> --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+> @@ -327,7 +327,8 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+>  	rc = amd_sfh_hid_client_init(privdata);
+>  	if (rc) {
+>  		amd_sfh_clear_intr(privdata);
+> -		dev_err(&pdev->dev, "amd_sfh_hid_client_init failed\n");
+> +		if (rc != -EOPNOTSUPP)
+> +			dev_err(&pdev->dev, "amd_sfh_hid_client_init failed\n");
+>  		return rc;
 
-I've added the missing brace here and applied both patches. Thanks,
+Applied, thank you.
 
 -- 
 Jiri Kosina
