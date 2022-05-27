@@ -2,56 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C9C5536351
-	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 15:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AA1D536354
+	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 15:31:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237158AbiE0Nag (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 May 2022 09:30:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51824 "EHLO
+        id S233006AbiE0NbT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 May 2022 09:31:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233006AbiE0Naf (ORCPT
+        with ESMTP id S1351875AbiE0NbS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 May 2022 09:30:35 -0400
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FBA713F90C
-        for <linux-input@vger.kernel.org>; Fri, 27 May 2022 06:30:34 -0700 (PDT)
-Received: by mail-yb1-xb31.google.com with SMTP id d2so3938487ybc.12
-        for <linux-input@vger.kernel.org>; Fri, 27 May 2022 06:30:34 -0700 (PDT)
+        Fri, 27 May 2022 09:31:18 -0400
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0341B48B
+        for <linux-input@vger.kernel.org>; Fri, 27 May 2022 06:31:15 -0700 (PDT)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-300312ba5e2so47792307b3.0
+        for <linux-input@vger.kernel.org>; Fri, 27 May 2022 06:31:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=B7wFhtK6uDprBFfQl4Aeni4Wblda2Qx79xL8geiS8oY=;
-        b=qxXnQ7T6ZDa4a1skN3GxePhTWjgS12q1eTcV2DhhbC/0O5dhV7Tn+dWHj1/6fth6KZ
-         0Emi8PIZqSKGQTpEoYBaD80aRD2ZhuGy0Mn+1KgpKYJHxf+aXedVdCJo8G7TaNABGbWP
-         4vpbzQ/XTrihkoSCBP79OIqphJjbeKrLJpCmndJnQjdBcX+DHBuO3YbznJNC+ICgC3S1
-         PhetlFJGPACDm6l+MCb/igZadvvCyM1KS1026yt+isnjpqQhw0mWGMC5/kGWweHy3Giq
-         9Om8PaePdm50faoVM8d4T55GKjU7xUi77GkakVEzoi+rVnRErWcDKy2E1RXGP/cqfF3p
-         uTeA==
+        bh=wVmL6VOt+bmFt5TwENkRIPY/11TIRFiDvjjaykp5D+c=;
+        b=zuXhSBVu3/ujtCcuSYVqXoo1IoeJ/9znd6FeM4I9oomB/LSnF9NHbhRt2dCSqNew5B
+         7FT4n8A4B1j1bBs2PN6FOK1RAB+8GGZMqBdoDdiBYh4VqIrGWoSg3qyiWMl46Qv1Qitd
+         iVwqQKD/kPtnu9St4lzmgyN3vPiqRiybBnsYUEl4cnBNViCOzntRokTmtLJKgEuL9JOY
+         yIu+QuF9AncPrLjYPwAByjnr4oIixoNxN8E4QqWr7Diwcc+FQW/HWk27UXX9T0vQOmAE
+         disc2OUVxUsadZ7mls90VNf74cgJQalFADOeOeyTmNIRuFNbrbhqqD3r3pdNVQSCBbYr
+         Brvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=B7wFhtK6uDprBFfQl4Aeni4Wblda2Qx79xL8geiS8oY=;
-        b=RQ6V+pEAbBqO7x2gfeaprOnU/3SHYbBK3b+iHcp6bCKjpELmpMdj7pyZfPsTGrUQt5
-         CWQIhspGB0gsMDyrSUibfJPiO4Xz+yiFhMZUP68RfregTXNWEg0ya5Ukog4N4mWqUpC1
-         3QwGrR63MUnDhSeyi5SV11Hb9xTBAjyxrbUiwWpKOdyx7wzhxX1ucVkDIffzLQUyTnKw
-         BE6J4d7gxgKBfszFr+L0f9jJug5j3JQecqQ0JBnWBglrUgU1dxYSuOWR4YMZYkQjRLaU
-         S77ToMoAliNcT8ZwaZsdNo2xm/16jAkVKNpK+uvVJvIKFs7wb/gyE+XWw/CadrryYrtc
-         7+Jw==
-X-Gm-Message-State: AOAM532GUF5qkYHzNcTUmdV+9Stw/cf9JvY8upHiTVwpV2Jh1SyBHlhP
-        6AGnBafuQmMyJmUJF5ZF4Ub6x0t01VWTCaj9v/LGb4F1HLE=
-X-Google-Smtp-Source: ABdhPJzRJbc/WkY8PUU7TqK5tUREMtuePPPTuGMUi+QdNAQqt9uPL6Q4KNLuYHBl+LzWQbjF0DgDgV71yg9qyoN+gPk=
-X-Received: by 2002:a25:aa6f:0:b0:655:8d2d:6088 with SMTP id
- s102-20020a25aa6f000000b006558d2d6088mr13666830ybi.291.1653658233722; Fri, 27
- May 2022 06:30:33 -0700 (PDT)
+        bh=wVmL6VOt+bmFt5TwENkRIPY/11TIRFiDvjjaykp5D+c=;
+        b=tMgEEp3UwE4jptK1wgBP/QU7RDSzGwewkcXSKRdaNUukRtCJJL4u5gpeK+ahH4ynSA
+         c4jH4+I2mw91n+5FIA5kDzO9de2SM2gS4G9hwdxj6cgjwKlwLWoNBk/23oUNA7x4fXCT
+         bYETxdR6JvnkaHiqpyfCv2u1VM9lvU2mdw5ZIkghFuyc6KnlmLMF+gIFJ4oZGuslu0dU
+         revVfwtfeCIPdQWbKsEqjYuk1bfISlLXp2FqrX+Yrz74A69YMf+LLiIMo/hNamAyhBgZ
+         toA2RQqi428/YJZCCEdoJ3CavWz5XmC3qTNB/rneddU10c1he6ImShpdfR4lm7qepoaR
+         14pg==
+X-Gm-Message-State: AOAM532U3XT2i38ogud2He+hWZgAsLEsboY+Hvp+w2DXiwJonW0uWM0E
+        VqhH/LwJdsMZEuOgCTMyQ/QE+YSX2fah3+Osk9fQueR8rO0=
+X-Google-Smtp-Source: ABdhPJw1K+xFBwumsWMTu/KCPA0KtMnKOeSWZ1j91H9gFiqnqxD37M94+NPvsmv+rkTQHUPh074THc5X1iIe7jTd3Ms=
+X-Received: by 2002:a81:7507:0:b0:304:c651:8a88 with SMTP id
+ q7-20020a817507000000b00304c6518a88mr5627206ywc.448.1653658275106; Fri, 27
+ May 2022 06:31:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220410120059.2583849-1-linus.walleij@linaro.org> <YpBjatmHD6hZgDGx@google.com>
-In-Reply-To: <YpBjatmHD6hZgDGx@google.com>
+References: <20220410120059.2583849-1-linus.walleij@linaro.org>
+ <20220410120059.2583849-2-linus.walleij@linaro.org> <YpBjiw9kWZSLn85Y@google.com>
+In-Reply-To: <YpBjiw9kWZSLn85Y@google.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 27 May 2022 15:30:22 +0200
-Message-ID: <CACRpkdbLpjdGaUnCYExJbKYfvTSAVh6Ugvq4bcb_=kOXDXKtKA@mail.gmail.com>
-Subject: Re: [PATCH 1/5] Input: zinitix - Helper dev variable in probe()
+Date:   Fri, 27 May 2022 15:31:04 +0200
+Message-ID: <CACRpkdYv1+vBuax54e1vuVBrQRGU5ViqhPtLEfC5NMAQ_m_xPg@mail.gmail.com>
+Subject: Re: [PATCH 2/5] Input: zinitix - Add dev variable in state
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-input@vger.kernel.org, Nikita Travkin <nikita@trvn.ru>,
         Michael Srba <Michael.Srba@seznam.cz>
@@ -66,27 +67,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, May 27, 2022 at 7:36 AM Dmitry Torokhov
+On Fri, May 27, 2022 at 7:37 AM Dmitry Torokhov
 <dmitry.torokhov@gmail.com> wrote:
-> On Sun, Apr 10, 2022 at 02:00:55PM +0200, Linus Walleij wrote:
-
-> > Create a helper variable struct device *dev in probe() to
-> > make the code more compact and easier to read.
+> On Sun, Apr 10, 2022 at 02:00:56PM +0200, Linus Walleij wrote:
+> > To avoid several steps of dereferencing the struct device from
+> > the client, add a struct device *dev pointer to the state
+> > container so we can easily get to the struct device. This makes
+> > the code more compact and easier to read.
 >
-> Actually I wonder if this is a good idea: when just seeing "dev" I often
-> have hard time to remember what device we are dealing with, whereas
-> "client->dev" gives a very string hint that we are dealing with I2C
-> peripheral physical device.
+> Same concern as the previous patch...
 
-Hm yeah that has a point I suppose.
-
-> Did you observe object code savings from the conversion by chance?
-
-No it is just cognitively easier for me (less characters on the screen)
-but that is admittedly a bit of personal preference.
-
-I'll drop this patch, because the subsystem maintainer's taste is
-more important than mine.
+No problem, I drop this too.
 
 Yours,
 Linus Walleij
