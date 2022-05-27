@@ -2,65 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA2575358CA
-	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 07:37:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2A8A5358E0
+	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 07:47:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240490AbiE0FhX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 May 2022 01:37:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56600 "EHLO
+        id S231261AbiE0FrO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 May 2022 01:47:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231261AbiE0FhV (ORCPT
+        with ESMTP id S238942AbiE0FrK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 May 2022 01:37:21 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 273F84474D
-        for <linux-input@vger.kernel.org>; Thu, 26 May 2022 22:37:19 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id c22so3114945pgu.2
-        for <linux-input@vger.kernel.org>; Thu, 26 May 2022 22:37:19 -0700 (PDT)
+        Fri, 27 May 2022 01:47:10 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5B25B481
+        for <linux-input@vger.kernel.org>; Thu, 26 May 2022 22:47:08 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id h186so3093772pgc.3
+        for <linux-input@vger.kernel.org>; Thu, 26 May 2022 22:47:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=2qygXsNzBcbDG9XmVcUaenTYNKq854/40qG9v1wJaUg=;
-        b=oguqwwt00bOO5epLcjVqoC38GfE8KYSTPQt7rK63weefZHL8QR2ScaDfKR9UBqWyZt
-         BEdSjYt6hdB6GNX9Zx8qxa1EvZcQTSpzBvtQwFRqMZuHNdZ6z3hzokjgXFHGZlct0YGT
-         R2tRB3UXljdDsG8POggxxPlWlyQGLeNLXSMTTm+ys6ymCzxp+69Ha1Zt5PAL1asOCw4I
-         8ZSE7gbq11dRDh7nHpWI4PW6qDXoUgreIrdsQeH/VooTl2rF+IeiZHvgcDJvqYF6/9dS
-         YuHnJ2UjYebIJuYta0cEJ9dyLfjl3mUOESC4H4CetKd0+RcC97sGLrXhzYFeF9lu5xDv
-         7hyw==
+        bh=EgSAMfv1NlWqsn61u1PLKsvhNZM8le/HwcZbB4aHaZ4=;
+        b=NY7Nug1xuEXcn7EItcrCUEh52v3/QFmiQ0c8o6VDGKfxIIBpqF5H+Ug99Wlxun2K3x
+         NdklDCReDrK+eyrtUaZ3KHTI7LPLGVOFwwUCbkgRMFvWdnRSAWgMXTya51XPSeCB3feS
+         jfnQw3Sw4ZCZzHVDEll60EoYrx+/YuMPS1gWQgtOvL9pPRRdmctlYQP2wrUhpwr9+KJF
+         b/SABoSY3XuPf51a/nriEDj7uUpH0Y+Xj1nU/M0c4TmUlqzAJGMlfRusXq0xnJyL5Av4
+         d76ZRPo5nMPeQpO6LKsdyQrhrjlSeRMwiWEKzY22CI99ra0FyYx6Qjt8oKaRISE4u3fc
+         RNzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=2qygXsNzBcbDG9XmVcUaenTYNKq854/40qG9v1wJaUg=;
-        b=R+fPQvNymWVF8DrmDUNr+YZzxPbDIZfFSje2R2AaxPcbcgvLxfWFapp45Hq0LlNS5R
-         bHHUnOywWmvYbIYJ7t5hf2frwULPsKgor0BetyZfb3ng/L9Z/YzFQBLNS6Dzl+3m/1au
-         sZe5fyNNhSN5B6XNEGMOcdRZQZC7xpj8hUALAUyHoY0siiTVW6BMOw6Z1I/Zowdp/EH3
-         xIoFsV44dyRhsfZg97oncMtNR1uPMrAK9hU4dCNHokCCvFnPDqQwxZaLpFNKaYWCQznG
-         xbblrDn7Y/dX0s4gvnPQ3R+s70dnuEn+ONc5hhwg8zZJVw4o/idFbhSuRY19fvFFM6Jx
-         hDEw==
-X-Gm-Message-State: AOAM532HSmvbxdcwcsTD8aR19aKIqovhJY+34t/NkvpP4YC791S9+FzB
-        +XM8Dxzkmunqc6W3O/8vG0A=
-X-Google-Smtp-Source: ABdhPJxysMgVsNxVqdBpT0SM+SfFfufc4cGdNln5pcBkWb4ad2YiIczQEPwAh368j6FZyMH0TQIAwg==
-X-Received: by 2002:a65:6d0d:0:b0:3fb:1477:5191 with SMTP id bf13-20020a656d0d000000b003fb14775191mr5777448pgb.541.1653629838624;
-        Thu, 26 May 2022 22:37:18 -0700 (PDT)
+        bh=EgSAMfv1NlWqsn61u1PLKsvhNZM8le/HwcZbB4aHaZ4=;
+        b=zuW1EgqFrC4Ft6ltS+n31WPmGW4GUFhNkti5OTvKW9vcxhNhgSalMKs4PPqzEgG57J
+         g3DnXXhL0gEfLkvhLD0NkT1Picn78e+xuVAtwrWQmGpQTUgaMWhL7RUJQiAk1+399h/N
+         eI/0R7p/Zhy+dmaNd0fSdNzMbEBkE8i1vEQpLjjK7mpZYN/IuDCsPCDMpphimMN/xfEl
+         LY0Gd3oLasGXraE/LPWSlXagCDDaj5raiHFrZrgrF2Y5Z4O2wnduk5fr9nnBWZrDA249
+         yJFRo3MNsNTTMBhH0OUjwqCLxW9+5muI3c7nsjudbf3kQyVB+qtsn9SCoQZETSynVsMs
+         0DBg==
+X-Gm-Message-State: AOAM5318O6r4WL5sBRZhSIWkYCqOQhnDfPHGUhM4xzwqVyyTtXvJeQMa
+        SD5WKadi91NVIhfLvjZIi3Q=
+X-Google-Smtp-Source: ABdhPJx1nAqwAkAyqlAY5ypNBLnM1dj+YvpqUGS6i6c+ZQOvwvv9N/3U9q0mcpmqbHhHuesjqGfBJw==
+X-Received: by 2002:a63:9a11:0:b0:3a3:3a8a:1006 with SMTP id o17-20020a639a11000000b003a33a8a1006mr36124108pge.116.1653630428224;
+        Thu, 26 May 2022 22:47:08 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:3206:ea0b:ce53:ea86])
-        by smtp.gmail.com with ESMTPSA id q17-20020a170902b11100b0015e8d4eb297sm2570857plr.225.2022.05.26.22.37.17
+        by smtp.gmail.com with ESMTPSA id a185-20020a6390c2000000b003db8bc8db64sm2557773pge.35.2022.05.26.22.47.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 May 2022 22:37:17 -0700 (PDT)
-Date:   Thu, 26 May 2022 22:37:15 -0700
+        Thu, 26 May 2022 22:47:07 -0700 (PDT)
+Date:   Thu, 26 May 2022 22:47:04 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     linux-input@vger.kernel.org, Nikita Travkin <nikita@trvn.ru>,
         Michael Srba <Michael.Srba@seznam.cz>
-Subject: Re: [PATCH 2/5] Input: zinitix - Add dev variable in state
-Message-ID: <YpBjiw9kWZSLn85Y@google.com>
+Subject: Re: [PATCH 4/5] Input: zinitix - Read and cache device version
+ numbers
+Message-ID: <YpBl2GV1unXpQrO8@google.com>
 References: <20220410120059.2583849-1-linus.walleij@linaro.org>
- <20220410120059.2583849-2-linus.walleij@linaro.org>
+ <20220410120059.2583849-4-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220410120059.2583849-2-linus.walleij@linaro.org>
+In-Reply-To: <20220410120059.2583849-4-linus.walleij@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -71,13 +72,50 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Apr 10, 2022 at 02:00:56PM +0200, Linus Walleij wrote:
-> To avoid several steps of dereferencing the struct device from
-> the client, add a struct device *dev pointer to the state
-> container so we can easily get to the struct device. This makes
-> the code more compact and easier to read.
+On Sun, Apr 10, 2022 at 02:00:58PM +0200, Linus Walleij wrote:
+>  static int zinitix_init_touch(struct bt541_ts_data *bt541)
+>  {
+>  	struct i2c_client *client = bt541->client;
+>  	int i;
+>  	int error;
+> +	static bool read_static = false;
 
-Same concern as the previous patch...
+This needs to be per-device state.
+
+>  
+>  	error = zinitix_write_cmd(client, ZINITIX_SWRESET_CMD);
+>  	if (error) {
+> @@ -203,6 +222,24 @@ static int zinitix_init_touch(struct bt541_ts_data *bt541)
+>  		return error;
+>  	}
+>  
+> +	/*
+> +	 * Read and cache the chip revision and firmware version the first time
+> +	 * we get here.
+> +	 */
+> +	if (!read_static) {
+> +		bt541->chip_revision = zinitix_get_u16_reg(bt541,
+> +					ZINITIX_CHIP_REVISION);
+> +		bt541->firmware_version = zinitix_get_u16_reg(bt541,
+> +					ZINITIX_FIRMWARE_VERSION);
+> +		bt541->regdata_version = zinitix_get_u16_reg(bt541,
+> +					ZINITIX_DATA_VERSION_REG);
+> +		dev_info(bt541->dev,
+> +			 "chip revision %04x firmware version %04x regdata version %04x\n",
+> +			 bt541->chip_revision, bt541->firmware_version,
+> +			 bt541->regdata_version);
+
+Is this only for bringup efforts?
+
+> +		read_static = true;
+> +	}
+> +
+>  	error = zinitix_write_u16(client, ZINITIX_INT_ENABLE_FLAG, 0x0);
+>  	if (error) {
+>  		dev_err(bt541->dev,
+> -- 
+> 2.35.1
+> 
 
 Thanks.
 
