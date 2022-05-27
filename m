@@ -2,104 +2,168 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93F075356DC
-	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 01:58:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93A1653579A
+	for <lists+linux-input@lfdr.de>; Fri, 27 May 2022 04:35:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349826AbiEZX56 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 May 2022 19:57:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53194 "EHLO
+        id S235438AbiE0CfE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 May 2022 22:35:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347693AbiEZX5Q (ORCPT
+        with ESMTP id S233346AbiE0CfE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 May 2022 19:57:16 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0B566F494;
-        Thu, 26 May 2022 16:55:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653609358; x=1685145358;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nQEJaHG8k6S1lXXUL8V60WZIpumXMsXIVVaf05mLypc=;
-  b=LcVPCR4BeadXdPKUlqXfiBlaJOZcGmKYbQO8sfX86FFk6/0ZOxDWExQi
-   kcxnYXvbUq8Ume+tuIgv86jm7k0Jk1Gps7VgUswk4uwC6/Fxmg0K+UuDm
-   hr0JPi43fC4S/+o1S2yfOaU/RhH+6u3vJd4TXKMRH12b8pu3RzpuG67iK
-   SaWJkZAfi+tYIgPthLLnZ12BpTFob4eid22HmxAhcsna8fpBE2PDiVAND
-   +AfrMy4PEPU1TbgI5btVHbSqhK6ttW7STWQHhnlk/XiHS0vXs1+HFE/8D
-   HJGWJxI8GqZiBesc3V3KRVfQ7SSGq3NTiQqceco39D7wR43izs7tlX6Ol
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10359"; a="337376603"
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; 
-   d="scan'208";a="337376603"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2022 16:55:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; 
-   d="scan'208";a="704830947"
-Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 26 May 2022 16:55:56 -0700
-Received: from kbuild by db63a1be7222 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nuNKd-0004Fq-F8;
-        Thu, 26 May 2022 23:55:55 +0000
-Date:   Fri, 27 May 2022 07:55:38 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-Cc:     kbuild-all@lists.01.org, Maximilian Luz <luzmaximilian@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
+        Thu, 26 May 2022 22:35:04 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 832DEE64C1;
+        Thu, 26 May 2022 19:35:02 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id gh17so6234423ejc.6;
+        Thu, 26 May 2022 19:35:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KmXUALSYCz1YkRyOIiggDW14b0uhcvG02BsnyFMThRs=;
+        b=pTAMrfacp0moRUsOl+72PoK2KuZ5XouJm8NwvVi2BqispTEg1SmsbOEYoCGsICuS8f
+         FXdot3GCwdeVFrY0V42husRVvLZwS53rJHfp6aA6DHU2bKMkZf5oGGPqvyVgt2KO+2gj
+         9E0Ynh2v+OKA6zUhizgkqu6PjwHKDF/7NgGDTuz15FKKr1MiR/8KFzjIl4aRNTvvg/Vd
+         KZitgyzV/lcM5xoH0P+YXpcZSqH8qwHW/7FnxHhzL8Vjfk7PCjvW92b0FuyJ5jFnPY+7
+         wX5qBsC25oTihhS7hdIbe0xxea1AUkN9nSXFDQnEvrFr5b2mlO7l7h19VXHdgdV6bBBl
+         AspA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KmXUALSYCz1YkRyOIiggDW14b0uhcvG02BsnyFMThRs=;
+        b=Mt2bH933PVqnzuoKKSK3sgXJ3HMAhMQyYgJB+Pt2LN92sLCbsgarEx/HRRX/ZuBooW
+         f6qdOOYLONMa7Mp/5OwKu3Ks3HD8pndNzT526FmNjXgFVvHZ9s/o/mjY8wQ08GWnnQmi
+         Uc/A7gSwK0WyOE8jX+8qRNBZjOG9kFXKAWOw0/DZ/JPJxxkdg+nVd0FyyLY7IL/vRaM+
+         t6eXa2/bEvo9r+AoNkv4DztJmFv4ghiocEjJB3iK2zc1vh5YpmjctgLRJG9nnSq5diYL
+         93rMnNAYvlrDcN4N5tZci01gvO0CbkWlNT3BqtbAB4h4EPd1/8dBb/OjZj51Ngdcw3HO
+         bEBQ==
+X-Gm-Message-State: AOAM5329jzDfaat+N2YJUK+moqPTDwWSJm9tzaXiqdoWLMJB+Xg/NQdO
+        w3bUQk3/3PqxOB/NVhQ2qAQ=
+X-Google-Smtp-Source: ABdhPJxhkb/c+U9RFr/h9uFuF/9VANJAtbzM5g6A/AMXwYRLKM31oyW6EzVl54AGCYeVEsa0VceZQw==
+X-Received: by 2002:a17:907:868e:b0:6fe:293:e7cc with SMTP id qa14-20020a170907868e00b006fe0293e7ccmr35726916ejc.716.1653618900920;
+        Thu, 26 May 2022 19:35:00 -0700 (PDT)
+Received: from xws.localdomain ([37.120.217.83])
+        by smtp.gmail.com with ESMTPSA id qn12-20020a170907210c00b006fe89cafc42sm1025167ejb.172.2022.05.26.19.34.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 May 2022 19:35:00 -0700 (PDT)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>
+Cc:     Mark Gross <markgross@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/10] HID: surface-hid: Add support for hot-removal
-Message-ID: <202205270727.ZHBcTahI-lkp@intel.com>
-References: <20220520183422.7185-7-luzmaximilian@gmail.com>
+        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+        Maximilian Luz <luzmaximilian@gmail.com>
+Subject: [PATCH v2 00/12] platform/surface: aggregator: Add support for client hot-removal
+Date:   Fri, 27 May 2022 04:34:35 +0200
+Message-Id: <20220527023447.2460025-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220520183422.7185-7-luzmaximilian@gmail.com>
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Maximilian,
+Summary:
 
-I love your patch! Yet something to improve:
+  Add support for the HID type cover input devices on the Pro 8 and all
+  requirements for that.
 
-[auto build test ERROR on sre-power-supply/for-next]
-[also build test ERROR on hid/for-next linus/master v5.18 next-20220526]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maximilian-Luz/platform-surface-aggregator-Add-support-for-client-hot-removal/20220521-024312
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
-config: i386-randconfig-r014-20220516 (https://download.01.org/0day-ci/archive/20220527/202205270727.ZHBcTahI-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/314a7da4f5af820a0475695017585a83226b05b5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Maximilian-Luz/platform-surface-aggregator-Add-support-for-client-hot-removal/20220521-024312
-        git checkout 314a7da4f5af820a0475695017585a83226b05b5
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+Blurb from v1:
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+  This series adds support for the type cover of the Surface Pro 8. On
+  the Pro 8, the type cover is (unlike on previous generations) handled
+  via the Surface System Aggregator Module (SSAM). As the type cover is
+  detachable, care needs to be taken and the respective SSAM (HID)
+  client devices need to be properly removed when detached and
+  re-initialized when attached.
+  
+  Therefore, this series does three things:
+  
+   1. Improve hot-removal support for SSAM client devices. When
+      hot-removing clients, subsequent communication may time out.
+  
+      In the worst case, this can lead to problems when devices are
+      detached and re-attached quickly, before we can remove their
+      respective kernel representations. This can then lead to devices
+      being in an uninitialized state, preventing, for example, touchpad
+      gestures from working properly as the required HID feature report
+      has not been sent.
+  
+      Therefore, handle hot-removal of devices more gracefully by
+      avoiding communication once it has been detected and ensure that
+      devices are actually removed.
+   
+   2. Generify SSAM subsystem hubs and add a KIP hub. On the Surface Pro
+      8, the KIP subsystem (only that abbreviation is known) is
+      responsible for managing type-cover devices. This hub acts as the
+      controller for device removal similar to the BAS (detachable base)
+      subsystem hub on the Surface Book 3 (therefore we can share most
+      of the code between them).
+  
+   3. Add the (HID) type-cover clients of the Surface Pro 8 to the
+      aggregator registry.
 
-All errors (new ones prefixed by >>):
 
-   ld: drivers/hid/surface-hid/surface_hid_core.o: in function `surface_hid_is_hot_removed.isra.0':
->> surface_hid_core.c:(.text+0x1e9): undefined reference to `ssam_device_type'
+Changes in v2:
+
+ - Introduce "platform/surface: aggregator: Allow is_ssam_device() to be
+   used when CONFIG_SURFACE_AGGREGATOR_BUS is disabled" to fix an
+   undefined reference  build issue when CONFIG_SURFACE_AGGREGATOR_BUS
+   is disabled.
+
+ - Make SSAM hub device UIDs consistent.
+    - Introduce "platform/surface: aggregator_registry: Change device ID
+      for base hub" to make association between hub and subsystem target
+      category more obvious.
+    - Change hub device ID for KIP subsystem hub to be consistent with
+      the id of the already existing BAS hub.
+
+
+Maximilian Luz (12):
+  platform/surface: aggregator: Allow is_ssam_device() to be used when
+    CONFIG_SURFACE_AGGREGATOR_BUS is disabled
+  platform/surface: aggregator: Allow devices to be marked as
+    hot-removed
+  platform/surface: aggregator: Allow notifiers to avoid communication
+    on unregistering
+  platform/surface: aggregator_registry: Use client device wrappers for
+    notifier registration
+  power/supply: surface_charger: Use client device wrappers for notifier
+    registration
+  power/supply: surface_battery: Use client device wrappers for notifier
+    registration
+  HID: surface-hid: Add support for hot-removal
+  platform/surface: aggregator: Add comment for KIP subsystem category
+  platform/surface: aggregator_registry: Generify subsystem hub
+    functionality
+  platform/surface: aggregator_registry: Change device ID for base hub
+  platform/surface: aggregator_registry: Add KIP device hub
+  platform/surface: aggregator_registry: Add support for keyboard cover
+    on Surface Pro 8
+
+ .../driver-api/surface_aggregator/client.rst  |   6 +-
+ drivers/hid/surface-hid/surface_hid_core.c    |  38 +-
+ .../platform/surface/aggregator/controller.c  |  53 ++-
+ .../surface/surface_aggregator_registry.c     | 403 +++++++++++++-----
+ drivers/power/supply/surface_battery.c        |   4 +-
+ drivers/power/supply/surface_charger.c        |   4 +-
+ include/linux/surface_aggregator/controller.h |  24 +-
+ include/linux/surface_aggregator/device.h     | 125 +++++-
+ include/linux/surface_aggregator/serial_hub.h |   2 +-
+ 9 files changed, 513 insertions(+), 146 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.36.1
+
