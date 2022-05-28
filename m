@@ -2,60 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1787D536E76
-	for <lists+linux-input@lfdr.de>; Sat, 28 May 2022 23:00:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53B5C536E7A
+	for <lists+linux-input@lfdr.de>; Sat, 28 May 2022 23:00:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229976AbiE1UnO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 28 May 2022 16:43:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53174 "EHLO
+        id S229913AbiE1Uqj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 28 May 2022 16:46:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbiE1UnN (ORCPT
+        with ESMTP id S229977AbiE1Uqf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 28 May 2022 16:43:13 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D28B5D663;
-        Sat, 28 May 2022 13:43:12 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id v5-20020a17090a7c0500b001df84fa82f8so7234789pjf.5;
-        Sat, 28 May 2022 13:43:12 -0700 (PDT)
+        Sat, 28 May 2022 16:46:35 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7226330;
+        Sat, 28 May 2022 13:46:34 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id d20so3423165pjr.0;
+        Sat, 28 May 2022 13:46:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=OW7gvGoD7fY6wRK97c+1pat3jS831FfSUeJ8RYkt18A=;
-        b=GEo2p+G+oTtaIkkANMqT9p/hMumddWCeDCsv4sO43jFcmWWv3PWMAHuNYsQqKLQ0pi
-         RJOoZSWw0QP3AMv66/QCvI809/eakKVb0bMqeuAKRk8sSJ29tmq3lOdjqAYXUclotyS7
-         qi0jIqorOcEmvU+lp4+LBKw2+zdAHmF/fvoGBVeKBEvMlKxq3qHVGHacblBF9HTtv0WT
-         o1oroDJ0Xg9/5W9P1oObLAF886I0qpVRJWQeQTJhAkbKZ98lPU4wekFVBxuKgQc6KcsF
-         +ZvAnsDImagQxmF4+e1xdTbSmR+cFZG1ZrMu4ng6YI+X6ZzVujxhkmVxGgmsfEL6fRUA
-         XBkw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=zo/NP9nLCCBCpvU9H4FnFXRxxYji1PHEJV6zeEuPq/E=;
+        b=Z7DskZIASyFVLxshlZ7FE1SaMyHK9HR64tp7iqYXmeRbuDozD4OGUe2v3mHim2kphP
+         etvsjs3Tbc3q7JemzKsx9ECC8S8m2/eNCb7jlG76+L/7Huhk0hUwf5abZGNA4PFqCXRT
+         E84UmXfGPYhhGEHgB2CqjrQApDoATeUJFjRgqyGuHQ/V+7NqoVqsq84/IJSq8wNZ8aAf
+         44Evg8WsW/EL4NuZB33HxSGqLcf3LmphF6BWvK4eWELjyAuPdLrw7mICyTVqItekg0mQ
+         oNA7HUbJ8QZbN1rDqpCioMg+0B4ixRrPoSX+jkp5zYgFxi98BlwEKcja7aV2/vWxCC09
+         K7Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=OW7gvGoD7fY6wRK97c+1pat3jS831FfSUeJ8RYkt18A=;
-        b=In6xbjjdh6kdyKgDy4NkQCF6ZZOr0pbqKNW2nOdqBqzBmvd9eLLCvYaVuIXIehJ1TK
-         TCtL4AIN4cXF0wEWAEDDr9jbvp4ZqM290iX2fgM+CVAYzvwYGpKUDt3+/WUFaa0n7giQ
-         TlWuh0ZrSdL80mNz751ogimy4lS5Q12mLfABmh6Wh46mtVfetkBBql7nR9UTIEUweev3
-         AuFQFNn7jgra8V4g7JsW9ieVTrDx5aaxecIMLUG+CxDAmVWF8D95i0cBNT0DswQWmO+6
-         pdfXN54X7vtOVOtyYBti1OSB0KdRiR3yaRVQFE0Kq9dnRAbtT9A/j+VTJ0H6wtUpuPQp
-         84dQ==
-X-Gm-Message-State: AOAM532FkQor/u17JS2PIRZQvfNkjBveOsypPj0tw+zrrXNu9EYuvVaC
-        yz4kiUkD3v2LJcPww7H1Bu6bb76P9xY=
-X-Google-Smtp-Source: ABdhPJyM0TPLK9uJ+lJbx5JbJ18Gu3uh9E+eOJ6acSoZ6cLD1DdGc2LLu8MLUtiS9jlcz0Cx0gmEHA==
-X-Received: by 2002:a17:902:c2d8:b0:15e:fa17:56cc with SMTP id c24-20020a170902c2d800b0015efa1756ccmr48834783pla.40.1653770591793;
-        Sat, 28 May 2022 13:43:11 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zo/NP9nLCCBCpvU9H4FnFXRxxYji1PHEJV6zeEuPq/E=;
+        b=L/hhR2YyyXFEKwnUU5zJcX+61T8ZdsZuBFTRbOQ5oN8JszEmXjkTnnLiIofhHosjcp
+         i5ADg+wQeanpR6cZg/AUhhWx+rEyiuE1IDNaGbB9KAWAQncTNe1/GnyQIfKQDM2lTRnE
+         XX2PPNr2/v0OhMx+yqcX2IiMwalN2SAcf7ElnIseF8usWHHKkmvhShgdfirrLWxOsMUk
+         /fpNQV9HzxgzD87posN0NpN+nMPs0GNyY1a1w2uNp929IIhKDexs1uHpREBJG6nDkwOh
+         xk6HMuTHyX8MAU708DGHBqFPkvlE6jk0eNzKRPNEfvaU1vFQySQ2EAgmWVAHUb2BA4Ii
+         0vXA==
+X-Gm-Message-State: AOAM531JxqmmrTftSJJB85Nkkp6pmWuygDIXmzMTNUkogktHt5iTia1q
+        mS+fYYBf6CwbaLSVBAPV1T8=
+X-Google-Smtp-Source: ABdhPJzBsiPuFL8Xgu4lDCpLdDUKRC5ZMlYOP1IX6qFEKxn2MKzR55i7mtvaTsqAQzZnsw65bx+2gQ==
+X-Received: by 2002:a17:902:d4ce:b0:162:42bd:72e with SMTP id o14-20020a170902d4ce00b0016242bd072emr25139399plg.129.1653770793573;
+        Sat, 28 May 2022 13:46:33 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:781a:4ab0:a93b:176b])
-        by smtp.gmail.com with ESMTPSA id v4-20020a1709029a0400b0015f300ed0b7sm1453293plp.76.2022.05.28.13.43.10
+        by smtp.gmail.com with ESMTPSA id s7-20020a170902988700b0015e8d4eb267sm6214318plp.177.2022.05.28.13.46.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 May 2022 13:43:11 -0700 (PDT)
-Date:   Sat, 28 May 2022 13:43:09 -0700
+        Sat, 28 May 2022 13:46:32 -0700 (PDT)
+Date:   Sat, 28 May 2022 13:46:30 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v5.19-rc0
-Message-ID: <YpKJXdB/5h7Ee0Ys@google.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     linux-input@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2] Input: gpio-keys - Cancel delayed work only in case
+ of GPIO
+Message-ID: <YpKKJrn9AzgLiRxI@google.com>
+References: <20220524135822.14764-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20220524135822.14764-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -66,137 +75,66 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+On Tue, May 24, 2022 at 02:58:22PM +0100, Lad Prabhakar wrote:
+> gpio_keys module can either accept gpios or interrupts. The module
+> initializes delayed work in case of gpios only and is only used if
+> debounce timer is not used, so make sure cancel_delayed_work_sync()
+> is called only when its gpio-backed and debounce_use_hrtimer is false.
+> 
+> This fixes the issue seen below when the gpio_keys module is unloaded and
+> an interrupt pin is used instead of GPIO:
+> 
+> [  360.297569] ------------[ cut here ]------------
+> [  360.302303] WARNING: CPU: 0 PID: 237 at kernel/workqueue.c:3066 __flush_work+0x414/0x470
+> [  360.310531] Modules linked in: gpio_keys(-)
+> [  360.314797] CPU: 0 PID: 237 Comm: rmmod Not tainted 5.18.0-rc5-arm64-renesas-00116-g73636105874d-dirty #166
+> [  360.324662] Hardware name: Renesas SMARC EVK based on r9a07g054l2 (DT)
+> [  360.331270] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [  360.338318] pc : __flush_work+0x414/0x470
+> [  360.342385] lr : __cancel_work_timer+0x140/0x1b0
+> [  360.347065] sp : ffff80000a7fba00
+> [  360.350423] x29: ffff80000a7fba00 x28: ffff000012b9c5c0 x27: 0000000000000000
+> [  360.357664] x26: ffff80000a7fbb80 x25: ffff80000954d0a8 x24: 0000000000000001
+> [  360.364904] x23: ffff800009757000 x22: 0000000000000000 x21: ffff80000919b000
+> [  360.372143] x20: ffff00000f5974e0 x19: ffff00000f5974e0 x18: ffff8000097fcf48
+> [  360.379382] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000053f40
+> [  360.386622] x14: ffff800009850e88 x13: 0000000000000002 x12: 000000000000a60c
+> [  360.393861] x11: 000000000000a610 x10: 0000000000000000 x9 : 0000000000000008
+> [  360.401100] x8 : 0101010101010101 x7 : 00000000a473c394 x6 : 0080808080808080
+> [  360.408339] x5 : 0000000000000001 x4 : 0000000000000000 x3 : ffff80000919b458
+> [  360.415578] x2 : ffff8000097577f0 x1 : 0000000000000001 x0 : 0000000000000000
+> [  360.422818] Call trace:
+> [  360.425299]  __flush_work+0x414/0x470
+> [  360.429012]  __cancel_work_timer+0x140/0x1b0
+> [  360.433340]  cancel_delayed_work_sync+0x10/0x18
+> [  360.437931]  gpio_keys_quiesce_key+0x28/0x58 [gpio_keys]
+> [  360.443327]  devm_action_release+0x10/0x18
+> [  360.447481]  release_nodes+0x8c/0x1a0
+> [  360.451194]  devres_release_all+0x90/0x100
+> [  360.455346]  device_unbind_cleanup+0x14/0x60
+> [  360.459677]  device_release_driver_internal+0xe8/0x168
+> [  360.464883]  driver_detach+0x4c/0x90
+> [  360.468509]  bus_remove_driver+0x54/0xb0
+> [  360.472485]  driver_unregister+0x2c/0x58
+> [  360.476462]  platform_driver_unregister+0x10/0x18
+> [  360.481230]  gpio_keys_exit+0x14/0x828 [gpio_keys]
+> [  360.486088]  __arm64_sys_delete_module+0x1e0/0x270
+> [  360.490945]  invoke_syscall+0x40/0xf8
+> [  360.494661]  el0_svc_common.constprop.3+0xf0/0x110
+> [  360.499515]  do_el0_svc+0x20/0x78
+> [  360.502877]  el0_svc+0x48/0xf8
+> [  360.505977]  el0t_64_sync_handler+0x88/0xb0
+> [  360.510216]  el0t_64_sync+0x148/0x14c
+> [  360.513930] irq event stamp: 4306
+> [  360.517288] hardirqs last  enabled at (4305): [<ffff8000080b0300>] __cancel_work_timer+0x130/0x1b0
+> [  360.526359] hardirqs last disabled at (4306): [<ffff800008d194fc>] el1_dbg+0x24/0x88
+> [  360.534204] softirqs last  enabled at (4278): [<ffff8000080104a0>] _stext+0x4a0/0x5e0
+> [  360.542133] softirqs last disabled at (4267): [<ffff8000080932ac>] irq_exit_rcu+0x18c/0x1b0
+> [  360.550591] ---[ end trace 0000000000000000 ]---
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Please pull from:
-
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v5.19-rc0
-
-to receive updates for the input subsystem. You will get:
-
-- a new driver for Azoteq IQS7222A/B/C capacitive touch controller
-
-- a new driver for Raspberry Pi Sense HAT joystick
-
-- sun4i-lradc-keys gained support of R329 and D1 variants, plus it
-  can be now used as a wakeup source
-
-- pm8941-pwrkey can now properly handle PON GEN3 variants; the driver
-  also implements software debouncing and has a workaround for missing
-  key press events
-
-- assorted driver fixes and cleanups.
-
-
-Changelog:
----------
-
-Alexander Shiyan (1):
-      Input: clps711x-keypad - use syscon_regmap_lookup_by_phandle
-
-AngeloGioacchino Del Regno (1):
-      Input: mt6779-keypad - move iomem pointer to probe function
-
-Anjelique Melendez (2):
-      Input: pm8941-pwrkey - fix error message
-      Input: pm8941-pwrkey - add support for PON GEN3 base addresses
-
-Changcheng Deng (1):
-      Input: remove unneeded variable in input_inhibit_device()
-
-Charles Mirabile (1):
-      Input: add Raspberry Pi Sense HAT joystick driver
-
-Colin Ian King (1):
-      Input: aiptek - remove redundant assignment to variable ret
-
-Dan Carpenter (1):
-      Input: iqs7222 - propagate some error codes correctly
-
-David Collins (2):
-      Input: pm8941-pwrkey - add software key press debouncing support
-      Input: pm8941-pwrkey - simulate missed key press events
-
-Dmitry Torokhov (1):
-      Input: stmfts - do not leave device disabled in stmfts_input_open
-
-Jeff LaBundy (3):
-      dt-bindings: input: Add bindings for Azoteq IQS7222A/B/C
-      Input: add support for Azoteq IQS7222A/B/C
-      Input: iqs7222 - avoid dereferencing a NULL pointer
-
-Julia Lawall (1):
-      Input: cypress_ps2 - fix typo in comment
-
-Lad Prabhakar (1):
-      Input: gpio-keys - cancel delayed work only in case of GPIO
-
-Lv Ruyi (1):
-      Input: ep93xx_keypad - use devm_platform_ioremap_resource() helper
-
-Miaoqian Lin (1):
-      Input: sparcspkr - fix refcount leak in bbc_beep_probe
-
-Ondrej Jirman (1):
-      Input: sun4i-lradc-keys - add wakeup support
-
-Samuel Holland (3):
-      dt-bindings: input: sun4i-lradc-keys: Add R329 and D1 compatibles
-      Input: sun4i-lradc-keys - add optional clock/reset support
-      Input: sun4i-lradc-keys - add support for R329 and D1
-
-Stephen Boyd (3):
-      dt-bindings: google,cros-ec-keyb: Introduce switches only compatible
-      Input: cros-ec-keyb - allow skipping keyboard registration
-      dt-bindings: google,cros-ec-keyb: Fixup bad compatible match
-
-Tetsuo Handa (1):
-      Input: psmouse-smbus - avoid flush_scheduled_work() usage
-
-Wan Jiabing (1):
-      Input: bcm-keypad - remove unneeded NULL check before clk_disable_unprepare
-
-Zongmin Zhou (1):
-      Input: vmmouse - disable vmmouse before entering suspend mode
-
-ran jianping (1):
-      Input: synaptics-rmi4 - remove unnecessary flush_workqueue()
-
-Diffstat:
---------
-
- .../input/allwinner,sun4i-a10-lradc-keys.yaml      |   22 +
- .../devicetree/bindings/input/azoteq,iqs7222.yaml  |  960 ++++++++
- .../bindings/input/google,cros-ec-keyb.yaml        |   36 +-
- drivers/input/input.c                              |    4 +-
- drivers/input/joystick/Kconfig                     |   11 +
- drivers/input/joystick/Makefile                    |    1 +
- drivers/input/joystick/sensehat-joystick.c         |  137 ++
- drivers/input/keyboard/bcm-keypad.c                |    3 +-
- drivers/input/keyboard/clps711x-keypad.c           |    3 +-
- drivers/input/keyboard/cros_ec_keyb.c              |   29 +-
- drivers/input/keyboard/ep93xx_keypad.c             |    7 +-
- drivers/input/keyboard/gpio_keys.c                 |    2 +-
- drivers/input/keyboard/mt6779-keypad.c             |   10 +-
- drivers/input/keyboard/sun4i-lradc-keys.c          |   63 +-
- drivers/input/misc/Kconfig                         |   10 +
- drivers/input/misc/Makefile                        |    1 +
- drivers/input/misc/iqs7222.c                       | 2446 ++++++++++++++++++++
- drivers/input/misc/pm8941-pwrkey.c                 |  127 +-
- drivers/input/misc/sparcspkr.c                     |    1 +
- drivers/input/mouse/cypress_ps2.c                  |    2 +-
- drivers/input/mouse/psmouse-smbus.c                |   11 +-
- drivers/input/mouse/vmmouse.c                      |   14 +
- drivers/input/rmi4/rmi_f54.c                       |    1 -
- drivers/input/tablet/aiptek.c                      |    3 +-
- drivers/input/touchscreen/stmfts.c                 |   16 +-
- 25 files changed, 3852 insertions(+), 68 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
- create mode 100644 drivers/input/joystick/sensehat-joystick.c
- create mode 100644 drivers/input/misc/iqs7222.c
-
-Thanks.
-
+Applied, thank you.
 
 -- 
 Dmitry
