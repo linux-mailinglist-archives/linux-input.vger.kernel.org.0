@@ -2,60 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50609536DFF
-	for <lists+linux-input@lfdr.de>; Sat, 28 May 2022 19:51:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC26B536E40
+	for <lists+linux-input@lfdr.de>; Sat, 28 May 2022 22:00:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238734AbiE1RvF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 28 May 2022 13:51:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47044 "EHLO
+        id S229475AbiE1UAn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 28 May 2022 16:00:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239804AbiE1Ruz (ORCPT
+        with ESMTP id S229546AbiE1UAl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 28 May 2022 13:50:55 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 450751057E
-        for <linux-input@vger.kernel.org>; Sat, 28 May 2022 10:50:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653760254; x=1685296254;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1O1ZGD2DcBxmNcRwFxNPWxMQ4TCkefl3blaKYH4SWfE=;
-  b=j53Vy3FxzneP2vDiDI65bR8EZLZ93z8roteOiZECm3z/Xd8B4Ts67EPr
-   UPsjd92PPTz+03rLTOxAgPVYw0UyE+Os06L4755nQeY4H8SbSVp51MknV
-   zfMQ/WYqOlVcbANCJ5zk5f97qNGh8V7GcZbFF6PvYJLFJj/F7n/2xu/xX
-   D7bLzPH9JHPslOOPGgQ9pFFUduemCCgd5hooQhf3abGwhY8qCRS6kdgmC
-   s7ymBVlRjM4NZuFJfdk1HBI8AvdEjRK0JsDbsx0hTCmAA19YoxjTKelQ8
-   6GB2I6RoK1lnRLB/b4oN7bHLyLFQo+CBXkhQWd2ckN2L3ORh3RzBtiPFZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10361"; a="361081855"
-X-IronPort-AV: E=Sophos;i="5.91,259,1647327600"; 
-   d="scan'208";a="361081855"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2022 10:50:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,259,1647327600"; 
-   d="scan'208";a="719316028"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 28 May 2022 10:50:52 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nv0aS-0000Ox-6X;
-        Sat, 28 May 2022 17:50:52 +0000
-Date:   Sun, 29 May 2022 01:49:53 +0800
-From:   kernel test robot <lkp@intel.com>
+        Sat, 28 May 2022 16:00:41 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 049D7B1E4
+        for <linux-input@vger.kernel.org>; Sat, 28 May 2022 13:00:37 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nv2GL-0006GR-T9; Sat, 28 May 2022 21:38:13 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nv2GJ-0057UR-95; Sat, 28 May 2022 21:38:09 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nv2GG-00CjGs-T5; Sat, 28 May 2022 21:38:08 +0200
+Date:   Sat, 28 May 2022 21:37:55 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- ba0f32141bc515da2269ebba468741dffe2f9f43
-Message-ID: <629260c1.O2Atw3REZGB0OZA6%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Cc:     Michael Hennerich <michael.hennerich@analog.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] Input: adp5588-keys - switch to using managed
+ resources
+Message-ID: <20220528193755.lncxrpgmyiy4hprm@pengutronix.de>
+References: <20220528045631.289821-1-dmitry.torokhov@gmail.com>
+ <20220528045631.289821-3-dmitry.torokhov@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="xdhtzf6ixlrtqzvb"
+Content-Disposition: inline
+In-Reply-To: <20220528045631.289821-3-dmitry.torokhov@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,135 +55,70 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: ba0f32141bc515da2269ebba468741dffe2f9f43  Input: cros_ec_keyb - handle x86 detachable/convertible Chromebooks
 
-elapsed time: 722m
+--xdhtzf6ixlrtqzvb
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-configs tested: 114
-configs skipped: 4
+On Fri, May 27, 2022 at 09:56:30PM -0700, Dmitry Torokhov wrote:
+> This simplifies error handling in probe() and reduces amount of explicit
+> code in remove().
+>=20
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>  drivers/input/keyboard/adp5588-keys.c | 111 +++++++++++---------------
+>  1 file changed, 45 insertions(+), 66 deletions(-)
+>=20
+> diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboa=
+rd/adp5588-keys.c
+> index ac21873ba1d7..df84a2998ed2 100644
+> --- a/drivers/input/keyboard/adp5588-keys.c
+> +++ b/drivers/input/keyboard/adp5588-keys.c
+> @@ -182,6 +182,21 @@ static int adp5588_build_gpiomap(struct adp5588_kpad=
+ *kpad,
+>  	return n_unused;
+>  }
+> =20
+> +static void adp5588_gpio_do_teardown(void *_kpad)
+> +{
+> +	struct adp5588_kpad *kpad =3D _kpad;
+> +	struct device *dev =3D &kpad->client->dev;
+> +	const struct adp5588_kpad_platform_data *pdata =3D dev_get_platdata(dev=
+);
+> +	const struct adp5588_gpio_platform_data *gpio_data =3D pdata->gpio_data;
+> +	int error;
+> +
+> +	error =3D gpio_data->teardown(kpad->client,
+> +				    kpad->gc.base, kpad->gc.ngpio,
+> +				    gpio_data->context);
+> +	if (error)
+> +		dev_warn(&kpad->client->dev, "teardown failed %d\n", error);
+> +}
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I think the more sensible approach is to drop support for setup and
+teardown. Maybe even rip all usage of adp5588_gpio_platform_data.
 
-gcc tested configs:
-arm                              allmodconfig
-arm                              allyesconfig
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-i386                          randconfig-c001
-sh                             sh03_defconfig
-xtensa                           alldefconfig
-arc                     haps_hs_smp_defconfig
-powerpc                 mpc8540_ads_defconfig
-sh                            hp6xx_defconfig
-mips                 decstation_r4k_defconfig
-xtensa                    xip_kc705_defconfig
-powerpc                     tqm8555_defconfig
-sh                            shmin_defconfig
-arm                           u8500_defconfig
-alpha                               defconfig
-sh                           se7712_defconfig
-powerpc                     ep8248e_defconfig
-sh                          sdk7786_defconfig
-xtensa                  cadence_csp_defconfig
-sh                          kfr2r09_defconfig
-ia64                                defconfig
-powerpc                    adder875_defconfig
-m68k                          atari_defconfig
-sh                          r7780mp_defconfig
-powerpc                mpc7448_hpc2_defconfig
-sh                     magicpanelr2_defconfig
-arm                  randconfig-c002-20220526
-arm                  randconfig-c002-20220524
-x86_64                        randconfig-c001
-ia64                             allyesconfig
-ia64                             allmodconfig
-riscv                             allnoconfig
-m68k                                defconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-s390                                defconfig
-parisc                              defconfig
-s390                             allmodconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-i386                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-powerpc                          allyesconfig
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-i386                          randconfig-a005
-i386                          randconfig-a001
-i386                          randconfig-a003
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-s390                 randconfig-r044-20220524
-riscv                randconfig-r042-20220524
-arc                  randconfig-r043-20220526
-riscv                randconfig-r042-20220526
-s390                 randconfig-r044-20220526
-arc                  randconfig-r043-20220524
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                            allyesconfig
-riscv                            allmodconfig
-riscv                    nommu_k210_defconfig
-riscv                               defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
+Best regards
+Uwe
 
-clang tested configs:
-powerpc                    gamecube_defconfig
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-i386                          randconfig-a006
-i386                          randconfig-a002
-i386                          randconfig-a004
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-hexagon              randconfig-r045-20220524
-hexagon              randconfig-r045-20220526
-hexagon              randconfig-r041-20220526
-hexagon              randconfig-r041-20220524
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+--xdhtzf6ixlrtqzvb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmKSegsACgkQwfwUeK3K
+7AnwqQf9GUaT7wj2FwzInXOPAase2lVMQ9dEdcuaQt69MhVywon4PG3+/h3wZJDh
++Pyp7F9G6E/09DXTFxgarEws5KuDIBTg21C2xV1ulTgnAWoOkbsyknjvO0lLetL0
+8wVmsqpYGtNCRkab3UknWAJmQoCFyImuqYr0QvfAlp8VDfO+g2Zhowg/XMg8pFii
+E4Rpl0tbg29jeIWMMzhahL3FdtlUrpIsRPF2V9d7AAZWZsj43rEKv+Yg2kIUA2O9
+/ilfq84FWMxE/nWf/C06S3UORS4Z3oaNcmpwNtDlzHoakmiULcsHQfWwtjn9GTpx
+lskpxIctNC76gcsfJO1rLfco/zyuiQ==
+=c4SA
+-----END PGP SIGNATURE-----
+
+--xdhtzf6ixlrtqzvb--
