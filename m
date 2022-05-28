@@ -2,236 +2,157 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D568F5368FC
-	for <lists+linux-input@lfdr.de>; Sat, 28 May 2022 00:50:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDA52536AC6
+	for <lists+linux-input@lfdr.de>; Sat, 28 May 2022 06:48:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354873AbiE0Wod (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 May 2022 18:44:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45054 "EHLO
+        id S1345107AbiE1Er6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 28 May 2022 00:47:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235014AbiE0Wod (ORCPT
+        with ESMTP id S229692AbiE1Er5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 May 2022 18:44:33 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2084.outbound.protection.outlook.com [40.107.236.84])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 363EF6F48D;
-        Fri, 27 May 2022 15:44:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DXNiVnk0cAksxw+A6X77Ygxrf1xPZCqlC6s5j8yYBLCQaaGSWysW1O1qnBNsROhib6abO9e0kSrukIjlMCTRwr6Gt3VDYndNEAoWwmfSP7WdfUFXTVbTY8n0Dv3VY0oF24EmkJf6AVs61NpY24imhjd6zUBzcRv8kh8F/5DLQUMxhBK7oP32cSyafavgjSvuH3fx9opXxOX99x77Bxj6sHFE8ycWmE97jgJPK0cxNj/uoixC1VbXwrYkxeO1vo+99MtqNXZZBVvJJYi13aLn2bfID412hgs8bTMeY9FRdYlKKqZHm1GU65gBG59auSI+Zai8uRZtJnDDjVxhZgVLiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DiW6GRWsyCmzpqichW1KqMmj2bJWuOOGumddGVp+sUE=;
- b=kSPTIdjmGOtTrFR0WS7jXHDi73IBy3tIjf107KyABap5QSCDYopX0Cjb/lRGCI+xwN3vAOiIm7kBlKNkjyGLEajxWKtoeQGhYPOksiT7/n5deC/Y7fj6oR0zOmPByC8USrkn60RZ8EZnl42YWnQFyp4fNzIEyHfQ819Aex9Y+sle+akZ/ivBKEBLS14xudSZmUNvLvuKMAqX+KjITjKQlQ0MORSMTaaP1kr9UmL191uCahzjj9oO/+vEdwjZ/4GLLlEcakEDyS9Q2Y8fMmgLavLYeLkHutCkWyBdyb1MiTXw68qbvQyc1eAuhRfjX5ugcv5f51R1uZRyFoQLhdv1tQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
+        Sat, 28 May 2022 00:47:57 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2584B119078;
+        Fri, 27 May 2022 21:47:55 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id a13so5792441plh.6;
+        Fri, 27 May 2022 21:47:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DiW6GRWsyCmzpqichW1KqMmj2bJWuOOGumddGVp+sUE=;
- b=vxNZQJ/NALiGuWC1pSRjdmWf6IUHHR1noXE5xUWfgQobxrADxnYk3u5h6WQE5mTxV55hFWsdoHexcmPVS3eoEa8GYrzmLw918krobqYJpGN4yHyeSwS/t7xxT9xEyRN1AyYbc7gAyQKfLoq5KdGAtgXbxwonuj3pl90Ffz/dgq0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=labundy.com;
-Received: from DM5PR0801MB3767.namprd08.prod.outlook.com (2603:10b6:4:7c::37)
- by BN7PR08MB4260.namprd08.prod.outlook.com (2603:10b6:408::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5273.19; Fri, 27 May 2022 22:44:30 +0000
-Received: from DM5PR0801MB3767.namprd08.prod.outlook.com
- ([fe80::2cfb:31ad:b481:561]) by DM5PR0801MB3767.namprd08.prod.outlook.com
- ([fe80::2cfb:31ad:b481:561%5]) with mapi id 15.20.5293.013; Fri, 27 May 2022
- 22:44:30 +0000
-Date:   Fri, 27 May 2022 17:44:21 -0500
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH] dt-bindings: input: use generic node names
-Message-ID: <20220527224401.GA395557@nixie71>
-References: <20220524093136.7980-1-krzysztof.kozlowski@linaro.org>
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8S3M37uPbGO5rXRdk2trr9gknVg0n8BCoIibwzx5alQ=;
+        b=l5wZoD2d2hMIkaaH2aX0czFxQDug4LQqhRdts1iA0j2JpU8T75lawgGdRB+QPJTWJe
+         QW+o6D7sT4SWofy9VCH5JwSCHVvDRGoGYaymkXNKM3+ZJTAVZoae+0hGpD+iGDjwXv9V
+         vhzlYQgAN49ym3CjMQtqSs9raVJg8pe5onLTFZbLtMr/IYyAZHj/D7dKwwmOV5wpwIP2
+         Sq6OY8R0ysdQqucHUS9K/k+j659kGgJFt/Tf9DPxi8HuoNLQTFubu3tL50dTa7XQ6fq0
+         006R3h3lZgz0WGBtxS6NegOSIlpCIINfYyEz2q4zDcrNrfG5ikCgNvT7nzvkkkV8kJEq
+         k9hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8S3M37uPbGO5rXRdk2trr9gknVg0n8BCoIibwzx5alQ=;
+        b=dk2sB4OZxDXXrSXOlb2UhjdQlhP+3+irDgbctoR3elzB/pRhktd7CxNvJ3a3yagaas
+         DHWKS0dfalhjE+NCM1Au2RNnT2K937rkcuATzjukxjZG3KczxTsnXEVlRw1tJfDocb6i
+         6KXL3QBrqoGkMIzBj+j/n0WFVmTnoc50qF7H3MQWHDe4ERVDRjVNv45J5rP2k0b4RDhR
+         QjuVUtsOG3gJAW92Oq4Qk+lGbDonN0MfpY2r+5j2F/kHx5NRc2DG6vLEB3QfQ0YxD7CI
+         lp+sFyu6QfnmGKeySQNA/Z9Vv4UaydtIq57i19FIWoXsoIoMTBriCv1eXqjQMZA3Jdl8
+         rrPA==
+X-Gm-Message-State: AOAM532H7YufOi9Kq3b/FaQNrALVA/n/I7Xv69yCwznEtzK2eM3IAsdN
+        ScvOBN5dfX6eI6r7AEN4wOU=
+X-Google-Smtp-Source: ABdhPJwBJ74idShOOJxPq4uhVfdIOw1V+5HqA2+AAGDkBN6lNZf4/kaDirB/Y2JyC97hk4wdLjZBIw==
+X-Received: by 2002:a17:902:76c4:b0:163:70e2:5a65 with SMTP id j4-20020a17090276c400b0016370e25a65mr13020891plt.119.1653713274391;
+        Fri, 27 May 2022 21:47:54 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:331d:9bef:6841:67a4])
+        by smtp.gmail.com with ESMTPSA id n8-20020a638f08000000b003f27f91135asm4341442pgd.76.2022.05.27.21.47.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 May 2022 21:47:52 -0700 (PDT)
+Date:   Fri, 27 May 2022 21:47:50 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Mike Looijmans <mike.looijmans@topic.nl>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, martink@posteo.de,
+        geert+renesas@glider.be, john@metanate.com, hechtb@gmail.com
+Subject: Re: [PATCH] Input: st1232 - Support power supply regulators
+Message-ID: <YpGpdsAJicTqHbeY@google.com>
+References: <20220524081216.8550-1-mike.looijmans@topic.nl>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220524093136.7980-1-krzysztof.kozlowski@linaro.org>
-X-ClientProxiedBy: SN7PR04CA0076.namprd04.prod.outlook.com
- (2603:10b6:806:121::21) To DM5PR0801MB3767.namprd08.prod.outlook.com
- (2603:10b6:4:7c::37)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 55a2d211-c335-4b7e-9e0a-08da40327621
-X-MS-TrafficTypeDiagnostic: BN7PR08MB4260:EE_
-X-Microsoft-Antispam-PRVS: <BN7PR08MB42602AA49599629F5CEA142ED3D89@BN7PR08MB4260.namprd08.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xnbcqYuc63BlEVAwS+vFtrB+7RzPScKO3qBmFsad8IiJhJpUpkyoDmTWM1E6DRgfVWAUL4l0g1QWHFtOduWYXP4o+aW9Vv1ba+tClMp55DoAEmhDph50P3pY3vNpSF5mXe7DJqPQ5TUli2683BRlKTiizRn6nxfMi1zlM8yeKjwLHOlsrEH4mDAT8e/1BjhMPX0gZ8ZesJAeHQ1qytEBL1BlBrlCvDy4pke9mFHDOe2GSOpPB2N+iU1AN6Ii3LtErtjm7FPkEYSkbrccxZ/XVg7pxWxenyM7UkLYbDhKd0IBZI3UheSh4YmdIwe6bZE+v3PkGtrsr+zUNioBG/ths5KC0XS+s/SdxVJA+rF6C3+11OmJCTD1xsYDvt7Bfs0Yr5UtI+EGMppHLMBzT+qRiQib4PMR5FMZ3a5J/XIlHgq0t9J71i38flne8tQr/wshyUg+czwdA3bVo0hhWowLYM+DuzDtW/4HBNVUzRcobWOP+4r6IRNJwahM9TOq6xMY+bAceOd01sGLPdfmiuay8htOU8bgvCk3DUYwRW1NjSzZnfX6PVj2WnnYlLTXo7dgmMTQrQR8t7YCU1ku/3l7fl9a8l/z9sDTkqzjAT1/h0wHs4BTWfCJcsVos/79H9QjzR+hkHkAOfIcSLMqHOQkl7J45mZZjlBokj3Rf44a6JPR4fgp4iuHiQspmsQkG5cdfGIFzRHmRyFPMX6VSlvB/I5Vbbot8zgbxvHij17UYWPyNpobuiDpB0u5Lf1suEFF
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR0801MB3767.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(376002)(396003)(366004)(39830400003)(346002)(136003)(33656002)(33716001)(83380400001)(2906002)(6666004)(54906003)(6486002)(5660300002)(508600001)(86362001)(26005)(8936002)(316002)(38100700002)(38350700002)(9686003)(52116002)(1076003)(4326008)(8676002)(6512007)(186003)(6506007)(66476007)(66556008)(41300700001)(66946007)(6916009)(41533002)(21314003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+QGTKKhFTljV6qxjRSUWtPhTA5QPzlVLFV5k38uPA3hvVwURGZw7Ug7imyBL?=
- =?us-ascii?Q?jz8eRs21EoxdhPLRl1sqwXevmdEdYg2+NZUrdPwgmKHj6fLdnaIRSXuDQCQi?=
- =?us-ascii?Q?A97lgC47rQsqrzBou3A3tR8JIih3W2/QAWe1FEROAk/x2GNMmxmYt6wWExym?=
- =?us-ascii?Q?tiTjom0id00NXsRmC37igXazetMxeBaOmuCh7LiqFOlJqJz4luMQjpFrFPMw?=
- =?us-ascii?Q?83bAY9LO8uN8AO3pXfgkOzFQs14/uzclWbjskwvaYJjz0fym2vHX2ZJh2tNZ?=
- =?us-ascii?Q?B5H91+m58xBfW3QEzL/kaq7wkqOQyzG5mCs0sh3CQHWxlvlgMvzCARH+t+Fv?=
- =?us-ascii?Q?a7x6S9pFlj1rNA+Xq285fNrlbdMqMblIE9kpw8cf/7DKvio1hFGbWJ3Cbz76?=
- =?us-ascii?Q?xXSBNF/gVwszS7S9u76r0EOjTbiw2PC7VzYsMEzeUmxDJ1lABhfVBrCK0qQe?=
- =?us-ascii?Q?00xyG53zYk+R424Q4WuGZH9NRziIPuRzUWRsuy0PHIlRZrN5eqsS1qKimJMW?=
- =?us-ascii?Q?dmMvCWLJ8NYWvqC4/Q+o6XGM7Qdo0rP4/GVzf0yfPKIc7EsH/4/EeK/lai5e?=
- =?us-ascii?Q?4lx92yrzVooLEEcTBBiRNoeUke3kcW7LJPWXtttBmCDP9rHb6xQsFQ7pjvqA?=
- =?us-ascii?Q?G9oNp9/8S1ML6z9qWzrwiOR5GMVPRPu7bpoeSkS6mSnfLoKxa74aLTvqXygI?=
- =?us-ascii?Q?dHPvGSCVCv+GJ56ZKItmOzXDKlUNbXF0TPg/Ig6p09ylghRBu9enItUoUoZ7?=
- =?us-ascii?Q?0fQvqRo3Kc9hq6dzYNOs7+UU6qF2ASRRD+7TayKIUJJb7eiRhc0s0nQnO6CJ?=
- =?us-ascii?Q?DbBR0674RQ+eam9jNPcC58n1+DQNh5Rc8etsOUSEogWkVfZ3QgvnIfYkBDoe?=
- =?us-ascii?Q?5HFxGE0ds/q4eg39zT7dQTTgoYaywReh89zJOSfwFyXOw9KfB1DHRbZPLNqT?=
- =?us-ascii?Q?MsKiBrj7LdjHf0DYAFdVWK4vX/iUwsVaZMdl2oFU78C69M/c7ff982A7mPZQ?=
- =?us-ascii?Q?pG3JSEuIjeVeZovbkwc9lIbMJ3YzGHIf6ifUlZZ73MD0LLUkbOF2AcHXEGZ3?=
- =?us-ascii?Q?en6gMdI7VF9gyECi+wkMjBF0Ns5iQiJ5Qsshh4eJIGBoe8QtScsx8ygRLo8k?=
- =?us-ascii?Q?0VMZlu1aZ5jMuA39mxiJPX0POWk61Rru7S5kR/2eEreBr3lnziXo9MliSx+F?=
- =?us-ascii?Q?SB9O4d0BA0+VxAMmC65FwrSoTEtZ3NobCZyJNhPdKHSjubaIWVteAf4i+zvB?=
- =?us-ascii?Q?y/SoTDSaE+TQU/bMub1ILwBgTh2TMHy6uL2LKcag82T8RyGpjug7ZX1X44Hc?=
- =?us-ascii?Q?gMcv2DHatl7LNH3F9/255Kglx9V/yBUwmKgYKJVMn8n0tlOatu+0HSpQktI8?=
- =?us-ascii?Q?tVuCQLWOO70/CpcrxB4Jrlrm4y2M1binG1aW77N3xbkGWB1k37NZuhPs9uhn?=
- =?us-ascii?Q?CjGnzjAJ5FQEVaGAe4KAmLfqwDRQhQurpfMBs+6zSEV3P7+W1sQcT8YH0kzE?=
- =?us-ascii?Q?MbHtFJk2XsOLcKifbLSb9+XM22wVcG/eEAcygvjr4HDgaoaO/AElIRPxjGAT?=
- =?us-ascii?Q?BrwU0HG7yJ/sV5wjum/aAK8/+nIGWGtXAIQePGnOBO2u5TCClgtcfxDbcYxO?=
- =?us-ascii?Q?3MjmjWeBUAue2XoSP5pEBM+KYUQ/kL/ShgBbjKE2jc/pU0H39mfNUr4mRk/i?=
- =?us-ascii?Q?4LbDztmwcKaHdlL4NySCw3CtrBBcexsoWXuc81NlGsa9rCsqkBfWlKz6R54M?=
- =?us-ascii?Q?75glZfSyGQ=3D=3D?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55a2d211-c335-4b7e-9e0a-08da40327621
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR0801MB3767.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2022 22:44:30.2522
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gQaDiEWjYtyRXOu9L44D4hOBT4MEpXdoTZA6SY+C5feDsyA5sfoFgMTX0so2gs5Nh+GD+aPy/oF2jCsj8hdhgA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR08MB4260
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220524081216.8550-1-mike.looijmans@topic.nl>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Krzysztof,
+Hi Mike,
 
-On Tue, May 24, 2022 at 11:31:36AM +0200, Krzysztof Kozlowski wrote:
-> Devicetree specification expects nodes to have generic names, if
-> possible, so replace custom ones with something generic.  For gpio-keys,
-> the more popular format is "key-xxx" instead of "xxx-key", so choose the
-> first one.
+On Tue, May 24, 2022 at 10:12:16AM +0200, Mike Looijmans wrote:
+> Add support for the VDD and IOVDD power supply inputs. This allows the
+> chip to share its supplies with other components (e.g. panel) and manage
+> them.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
+> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
 > ---
+>  .../input/touchscreen/sitronix,st1232.yaml    |  6 +++
+>  drivers/input/touchscreen/st1232.c            | 54 ++++++++++++++++---
+>  2 files changed, 52 insertions(+), 8 deletions(-)
 > 
-> Cc: Andreas Kemnade <andreas@kemnade.info>
-> ---
->  .../devicetree/bindings/input/fsl,mpr121-touchkey.yaml        | 4 ++--
->  Documentation/devicetree/bindings/input/gpio-keys.yaml        | 4 ++--
->  Documentation/devicetree/bindings/input/iqs269a.yaml          | 2 +-
->  Documentation/devicetree/bindings/input/iqs626a.yaml          | 2 +-
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+> index 1d8ca19fd37a..240be8d49232 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+> @@ -28,6 +28,12 @@ properties:
+>      description: A phandle to the reset GPIO
+>      maxItems: 1
+>  
+> +  vdd-supply:
+> +    description: Power supply regulator for the chip
+> +
+> +  vddio-supply:
+> +    description: Power supply regulator for the I2C bus
+> +
+>  required:
+>    - compatible
+>    - reg
+> diff --git a/drivers/input/touchscreen/st1232.c b/drivers/input/touchscreen/st1232.c
+> index e38ba3e4f183..d9c9f6f1f11a 100644
+> --- a/drivers/input/touchscreen/st1232.c
+> +++ b/drivers/input/touchscreen/st1232.c
+> @@ -44,6 +44,11 @@
+>  #define REG_XY_COORDINATES	0x12
+>  #define ST_TS_MAX_FINGERS	10
+>  
+> +enum st1232_regulators {
+> +	ST1232_REGULATOR_VDD,
+> +	ST1232_REGULATOR_IOVDD,
+> +};
+> +
+>  struct st_chip_info {
+>  	bool	have_z;
+>  	u16	max_area;
+> @@ -56,6 +61,7 @@ struct st1232_ts_data {
+>  	struct touchscreen_properties prop;
+>  	struct dev_pm_qos_request low_latency_req;
+>  	struct gpio_desc *reset_gpio;
+> +	struct regulator_bulk_data regulators[2];
+>  	const struct st_chip_info *chip_info;
+>  	int read_buf_len;
+>  	u8 *read_buf;
+> @@ -197,17 +203,36 @@ static irqreturn_t st1232_ts_irq_handler(int irq, void *dev_id)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> -static void st1232_ts_power(struct st1232_ts_data *ts, bool poweron)
+> +static int st1232_ts_power_on(struct st1232_ts_data *ts)
+> +{
+> +	int err;
+> +
+> +	err = regulator_bulk_enable(ARRAY_SIZE(ts->regulators), ts->regulators);
+> +	if (err)
+> +		return err;
 
-For iqs*a.yaml:
+Does it really make sense to try and handle regulators when reset gpio
+is not defined? Would it not be better to tie them to the presence of
+reset gpio to make sure we implement proper power on sequence?
 
-Acked-by: Jeff LaBundy <jeff@labundy.com>
+> +
+> +	usleep_range(5000, 6000);
+> +
+> +	if (ts->reset_gpio)
+> +		gpiod_set_value_cansleep(ts->reset_gpio, 0);
+> +
+> +	return 0;
+> +}
 
-Does there happen to be a list of preferred names based on device
-function, or is it simply a matter of what seems to be most common?
+Thanks.
 
->  .../devicetree/bindings/input/microchip,cap11xx.yaml          | 2 +-
->  5 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> index 878464f128dc..5139af287d3e 100644
-> --- a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> +++ b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> @@ -57,7 +57,7 @@ examples:
->          #address-cells = <1>;
->          #size-cells = <0>;
->  
-> -        mpr121@5a {
-> +        touchkey@5a {
->              compatible = "fsl,mpr121-touchkey";
->              reg = <0x5a>;
->              interrupt-parent = <&gpio1>;
-> @@ -77,7 +77,7 @@ examples:
->          #address-cells = <1>;
->          #size-cells = <0>;
->  
-> -        mpr121@5a {
-> +        touchkey@5a {
->              compatible = "fsl,mpr121-touchkey";
->              reg = <0x5a>;
->              poll-interval = <20>;
-> diff --git a/Documentation/devicetree/bindings/input/gpio-keys.yaml b/Documentation/devicetree/bindings/input/gpio-keys.yaml
-> index 7fe1966ea28a..93f601c58984 100644
-> --- a/Documentation/devicetree/bindings/input/gpio-keys.yaml
-> +++ b/Documentation/devicetree/bindings/input/gpio-keys.yaml
-> @@ -127,13 +127,13 @@ examples:
->          compatible = "gpio-keys";
->          autorepeat;
->  
-> -        up {
-> +        key-up {
->              label = "GPIO Key UP";
->              linux,code = <103>;
->              gpios = <&gpio1 0 1>;
->          };
->  
-> -        down {
-> +        key-down {
->              label = "GPIO Key DOWN";
->              linux,code = <108>;
->              interrupts = <1 IRQ_TYPE_EDGE_FALLING>;
-> diff --git a/Documentation/devicetree/bindings/input/iqs269a.yaml b/Documentation/devicetree/bindings/input/iqs269a.yaml
-> index 9c154e5e1a91..d84d69f5455d 100644
-> --- a/Documentation/devicetree/bindings/input/iqs269a.yaml
-> +++ b/Documentation/devicetree/bindings/input/iqs269a.yaml
-> @@ -475,7 +475,7 @@ examples:
->              #address-cells = <1>;
->              #size-cells = <0>;
->  
-> -            iqs269a@44 {
-> +            touch@44 {
->                      #address-cells = <1>;
->                      #size-cells = <0>;
->  
-> diff --git a/Documentation/devicetree/bindings/input/iqs626a.yaml b/Documentation/devicetree/bindings/input/iqs626a.yaml
-> index 0cb736c541c9..dd727befe564 100644
-> --- a/Documentation/devicetree/bindings/input/iqs626a.yaml
-> +++ b/Documentation/devicetree/bindings/input/iqs626a.yaml
-> @@ -751,7 +751,7 @@ examples:
->              #address-cells = <1>;
->              #size-cells = <0>;
->  
-> -            iqs626a@44 {
-> +            touch@44 {
->                      #address-cells = <1>;
->                      #size-cells = <0>;
->  
-> diff --git a/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml b/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
-> index d5d6bced3148..96358b12f9b2 100644
-> --- a/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
-> +++ b/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
-> @@ -112,7 +112,7 @@ examples:
->        #address-cells = <1>;
->        #size-cells = <0>;
->  
-> -      cap1188@28 {
-> +      touch@28 {
->          compatible = "microchip,cap1188";
->          interrupt-parent = <&gpio1>;
->          interrupts = <0 0>;
-> -- 
-> 2.34.1
-> 
-
-Kind regards,
-Jeff LaBundy
+-- 
+Dmitry
