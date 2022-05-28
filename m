@@ -2,64 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37CB6536AD0
-	for <lists+linux-input@lfdr.de>; Sat, 28 May 2022 06:56:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98EE8536BC9
+	for <lists+linux-input@lfdr.de>; Sat, 28 May 2022 11:14:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355792AbiE1E4o (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 28 May 2022 00:56:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44874 "EHLO
+        id S232225AbiE1JOh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 28 May 2022 05:14:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355788AbiE1E4m (ORCPT
+        with ESMTP id S230320AbiE1JOh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 28 May 2022 00:56:42 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FCFD11907C;
-        Fri, 27 May 2022 21:56:41 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id v5-20020a17090a7c0500b001df84fa82f8so6012776pjf.5;
-        Fri, 27 May 2022 21:56:41 -0700 (PDT)
+        Sat, 28 May 2022 05:14:37 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BF3226A;
+        Sat, 28 May 2022 02:14:34 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id c65so5740573pfb.1;
+        Sat, 28 May 2022 02:14:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Ve267SFN8Pme2jGTGvHDb20Y5JH3qsdE6rBDHoAACPM=;
-        b=eWy3kF5pqY/02M9mhY8Wj1p102SeDVc2tZcg2vVeDHSxwnH8Bh58mxGhHoLOhR6QWI
-         hr1cOytRIrBioBs9bQXcpiZjGT479XmfPx3VK9LBWBv7Zvch76RpfONOD3RkSvwTmZT+
-         uEWxa5rkk996oBYRbporlgrvSgCUbx5/Fwl2LVm26CLNDPamFiyhPs+PCR5xDH8jbwm2
-         R0Pw/GOC0TdIU0DjC64owExn3dRh7r3HVEKFoZnIdgOxjQEsdfLu4Yq2BnmuqRBiDXxW
-         4HJ+TZWMIr9PmUn6Bjp4VxkrbH1R1D+w3FAoBxB0GnMSgV/C0eWZ+MEkppGLyVdoNu4y
-         VYmA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Z1RqzTeW1BAGxPPylhaGGZ1c6ZvnWii5iv9aspactB8=;
+        b=hnsC8bvhVQEneXnjOD8hIdRXhfn8Wy5bKpsD9Q5o3YlAfnNnhMueJbaHnYoSYmaQC7
+         RLoGnI35KSHpk7Okkdw9SADICr2qYF6shUX64/2kai1UPkHhWK7mv4Wmuj1+fV67KBn4
+         xUTHkiVLcK/NLqkIe7qZyYNfoVjP4sEGll4uFMe3/cStcibJSj1UJjUZYu0kbShFI7W8
+         Bpch32PsNAlKj+nt8SNgUZY/EWXGftGHs90XdHxEKkW3wd3tdYpptymqdlWpKddQmu42
+         8WzK+RCzFdobizDPkVOxZoFmrPpg53d2TpD6dFZnjTB6nH/RMSsyq5kZXf1iEdOFE73N
+         h7Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Ve267SFN8Pme2jGTGvHDb20Y5JH3qsdE6rBDHoAACPM=;
-        b=mR3qBsXzMAr98KdaKM9eTV21+a1yEprNlg51DgeESgqHC7RN3DuMuHx6En56N2YNHe
-         rQCB5lvm8+JlFzi5HNhAMocD9A0+DSw9pmAcdIPdFlxOnMNuIBGMMKUwaMdyvv3mr6eS
-         SK0ImV7w8vTCr02UYTHLOQsVwV3t07lhOLOPZW+iJNqhjoA/yt+FNnrka3or8oX+PD4b
-         xbS5XrGeOSroW7m+WExO6t8PbukRL7EyFc7fjsr1G+9OnIJoscp8g3MVAPzIrrQFZ+jP
-         hmth2V+FB3VA8Uij8Tl7BVHD8j4er4ORiHdfrTIailzQGelbNokRb+W/y+v3Fjcq/mCe
-         v26Q==
-X-Gm-Message-State: AOAM532O9jZubHH3z37rplcOy0AGLy8fIqzh8MM23XCqjP3fZ84ysI77
-        zukL+VCtnrqvfR0BFA3v+sc=
-X-Google-Smtp-Source: ABdhPJwHkjWibOlv3EnhUt8TxtMv7RGtNL0ED7aU3GT3uqRyYWaJjSMZCRYyf9jaQmekSbeEsqIk8w==
-X-Received: by 2002:a17:903:240c:b0:153:c8df:7207 with SMTP id e12-20020a170903240c00b00153c8df7207mr45765498plo.44.1653713800929;
-        Fri, 27 May 2022 21:56:40 -0700 (PDT)
-Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:331d:9bef:6841:67a4])
-        by smtp.gmail.com with ESMTPSA id q5-20020a17090311c500b001620960f1dfsm4594202plh.198.2022.05.27.21.56.39
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Z1RqzTeW1BAGxPPylhaGGZ1c6ZvnWii5iv9aspactB8=;
+        b=jgrBZ4ayEVqN/aD2t0y6NDT+UfZEIXjGtoz9l5jPMYlYzn97UxZZVK5Dh0xUCL+8lT
+         I1wDatbJZTIGvxyRPwqBh9miduRbPFmIo9PgruPw4KwyEgUD9hvOGuBVU/RZ+KRsnCBD
+         AQN+2DPrU3jGapIC3t+wEwyUiaOaqN0TNnWDlnPb9ZxwPBlUrHzA4RBX9lipJpx0UIiB
+         o1cmUy8IvcZlrcJ1vtByFjxajwgdBBoLY2tTmht+6aXj2t3vstIjp61QyQ9a42Tkgk0J
+         eP+IUFWO5QpGPaXZsCM0mr22HCRQO++Mi1wy+VnMsCQgsnnIEOmtYYZwUqE6O+UDaK0t
+         EeEg==
+X-Gm-Message-State: AOAM532xqTbFS9RVy+ZdsKs4+TaYZ+XLD8TDr/3wv8/JS63FWdg9eQ2z
+        Ak+cLDi4Ipr7mfLU1lkF/ivE5hTci7Kd/rVr
+X-Google-Smtp-Source: ABdhPJy0yRgS91Kx5W6REvKQcbGpfooNjaA/QHpmbeacl/6LtY6SUrfXKOj/470iNJEPSzd2aAFx7w==
+X-Received: by 2002:a05:6a00:e8e:b0:4fa:a52f:59cf with SMTP id bo14-20020a056a000e8e00b004faa52f59cfmr47726914pfb.84.1653729273229;
+        Sat, 28 May 2022 02:14:33 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-83.three.co.id. [180.214.232.83])
+        by smtp.gmail.com with ESMTPSA id l12-20020a170902f68c00b0016198062800sm5320179plg.161.2022.05.28.02.14.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 May 2022 21:56:39 -0700 (PDT)
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Michael Hennerich <michael.hennerich@analog.com>
-Cc:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-input@vger.kernel.org,
+        Sat, 28 May 2022 02:14:32 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Nikolai Kondrashov <spbnick@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+        llvm@lists.linux.dev, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] Input: adp5588-keys - do not explicitly set device as wakeup source
-Date:   Fri, 27 May 2022 21:56:31 -0700
-Message-Id: <20220528045631.289821-4-dmitry.torokhov@gmail.com>
-X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
-In-Reply-To: <20220528045631.289821-1-dmitry.torokhov@gmail.com>
-References: <20220528045631.289821-1-dmitry.torokhov@gmail.com>
+Subject: [PATCH 0/2] HID: uclogic: kernel-doc fixes for uclogic_params_* functions
+Date:   Sat, 28 May 2022 16:14:01 +0700
+Message-Id: <20220528091403.160169-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -71,49 +74,52 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I2C core will set up device as a wakeup source and will configure interrupt
-as a wakeup interrupt if client is created with I2C_CLIENT_WAKE flag. Let's
-rely on this facility and to not unconditionally set up the device as
-wakeup device in the driver.
+Running kernel-doc script on drivers/hid/hid-uclogic-params.c found
+these 6 warnings below:
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/keyboard/adp5588-keys.c | 8 --------
- 1 file changed, 8 deletions(-)
+drivers/hid/hid-uclogic-params.c:48: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+drivers/hid/hid-uclogic-params.c:48: warning: missing initial short description on line:
+ * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+drivers/hid/hid-uclogic-params.c:48: info: Scanning doc for function Dump
+drivers/hid/hid-uclogic-params.c:80: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Dump tablet interface frame parameters with hid_dbg(), indented with two
+drivers/hid/hid-uclogic-params.c:80: warning: missing initial short description on line:
+ * Dump tablet interface frame parameters with hid_dbg(), indented with two
+drivers/hid/hid-uclogic-params.c:80: info: Scanning doc for function Dump
+drivers/hid/hid-uclogic-params.c:105: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Dump tablet interface parameters with hid_dbg().
+drivers/hid/hid-uclogic-params.c:105: warning: missing initial short description on line:
+ * Dump tablet interface parameters with hid_dbg().
 
-diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
-index df84a2998ed2..2a274240facb 100644
---- a/drivers/input/keyboard/adp5588-keys.c
-+++ b/drivers/input/keyboard/adp5588-keys.c
-@@ -589,8 +589,6 @@ static int adp5588_probe(struct i2c_client *client,
- 	if (error)
- 		return error;
- 
--	device_init_wakeup(&client->dev, 1);
--
- 	dev_info(&client->dev, "Rev.%d keypad, irq %d\n", revid, client->irq);
- 	return 0;
- }
-@@ -609,9 +607,6 @@ static int __maybe_unused adp5588_suspend(struct device *dev)
- 
- 	disable_irq(client->irq);
- 
--	if (device_may_wakeup(&client->dev))
--		enable_irq_wake(client->irq);
--
- 	return 0;
- }
- 
-@@ -619,9 +614,6 @@ static int __maybe_unused adp5588_resume(struct device *dev)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
- 
--	if (device_may_wakeup(&client->dev))
--		disable_irq_wake(client->irq);
--
- 	enable_irq(client->irq);
- 
- 	return 0;
+One of them is reported by kernel test robot at kernel test robot at
+[1].
+
+[1]: https://lore.kernel.org/linux-doc/202205272033.XFYlYj8k-lkp@intel.com/
+
+Fix these warnings by remove extraneous asterisk on static function
+comments on patch [1/2] and add missing function name for void function
+on patch [2/2].
+
+Cc: Nikolai Kondrashov <spbnick@gmail.com>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: "José Expósito" <jose.exposito89@gmail.com>
+Cc: llvm@lists.linux.dev
+Cc: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+Bagas Sanjaya (2):
+  HID: uclogic: remove extraneous asterisk on uclogic_params_* static
+    functions comments
+  HID: uclogic: add missing function name in uclogic_params_hid_dbg()
+    kernel-doc comment
+
+ drivers/hid/hid-uclogic-params.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+
+base-commit: bf272460d744112bacd4c4d562592decbf0edf64
 -- 
-2.36.1.124.g0e6072fb45-goog
+An old man doll... just what I always wanted! - Clara
 
