@@ -2,123 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC26B536E40
-	for <lists+linux-input@lfdr.de>; Sat, 28 May 2022 22:00:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 077D8536E79
+	for <lists+linux-input@lfdr.de>; Sat, 28 May 2022 23:00:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229475AbiE1UAn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 28 May 2022 16:00:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37918 "EHLO
+        id S229944AbiE1Ulw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 28 May 2022 16:41:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbiE1UAl (ORCPT
+        with ESMTP id S229520AbiE1Ulw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 28 May 2022 16:00:41 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 049D7B1E4
-        for <linux-input@vger.kernel.org>; Sat, 28 May 2022 13:00:37 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nv2GL-0006GR-T9; Sat, 28 May 2022 21:38:13 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nv2GJ-0057UR-95; Sat, 28 May 2022 21:38:09 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nv2GG-00CjGs-T5; Sat, 28 May 2022 21:38:08 +0200
-Date:   Sat, 28 May 2022 21:37:55 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Michael Hennerich <michael.hennerich@analog.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] Input: adp5588-keys - switch to using managed
- resources
-Message-ID: <20220528193755.lncxrpgmyiy4hprm@pengutronix.de>
-References: <20220528045631.289821-1-dmitry.torokhov@gmail.com>
- <20220528045631.289821-3-dmitry.torokhov@gmail.com>
+        Sat, 28 May 2022 16:41:52 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BE971CB32;
+        Sat, 28 May 2022 13:41:50 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id pq9-20020a17090b3d8900b001df622bf81dso7238378pjb.3;
+        Sat, 28 May 2022 13:41:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=QB0d8qPqqCPIVqXchb2VdwSKncU7jZ9Koj6t/ZPBJPs=;
+        b=lbHHYp98pfQzfkZj3OkgqeOlQACSzbfJ2B36eVuJsL25lGtHjWcf/LCbx0ULa+RChO
+         AhFAGdfvRml+yHHrtBQi3mDNnwRw3m8qmcQJ+SwmgOxXTM5pmSakup+hxlHrbFApTS2C
+         Juv6CY/k7DKTl7cOWAiBlfBLfNR2zmzMSCipq+hvY8DBnQL9TbqnvQZukUWGcgAUXTZl
+         PAhMbwb4pkxS3pysoc4ZuqVRMJwY9E5IV5TXh6mQzvOodM0bKLi8ueN2MLbMnGa3q9Ig
+         ZFXHxX6qZFr60p1nGBqCvM1QJtIGiBmV9HFy3+YXpuENImS06bBWYyDAvMV5H3wiev5L
+         2XTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=QB0d8qPqqCPIVqXchb2VdwSKncU7jZ9Koj6t/ZPBJPs=;
+        b=gFswJSEIZjyaLFPWOPoApSfRGRInVQ1/bcWIOkB3IGZBfjkqOdd3MIcE0S1vHzFleC
+         DBc3I1kPLxzTqQgI4QpnwPc9IBEPqadaZ/4yqJHFWeumm4SJTMWtAwzHA2B3wI1WfJN5
+         ttDUdHoncf1449F2zVUE/5nbBoSOhvRe8PdCqj+dPHAm44kIwvnF0WY/4ydQkiG4GVDX
+         7PidlXKZfq4hRZ1nmsEr+zYvihn0XPHjOSBzfwjoLGxsMFPPqIaE6d08LfKdR+s/GSnQ
+         /phXe2k0FsrwBxDL9VyDDXwSO5yRP3BdwWNKT1wttVJKJ8SXzNDyeu9D2RpIkg+OnODw
+         tDqQ==
+X-Gm-Message-State: AOAM533Azc1LUnICmmMicr0zyrpplzcU0VHv049PEOY0w0f89dcK6N5M
+        yK6b9WQn7dl3xIeERv46tKONBTrKDHM=
+X-Google-Smtp-Source: ABdhPJxxfbYj6xnqc6bpdSYCsjrm7FP6qVTfYLOog0RVHQcTCFl2VbTOUzTRLLO1wJjZVkoXWb9iUg==
+X-Received: by 2002:a17:90b:4ace:b0:1df:cb33:5e7e with SMTP id mh14-20020a17090b4ace00b001dfcb335e7emr14798336pjb.5.1653770509468;
+        Sat, 28 May 2022 13:41:49 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:781a:4ab0:a93b:176b])
+        by smtp.gmail.com with ESMTPSA id n18-20020aa79852000000b0050dc7628195sm5852011pfq.111.2022.05.28.13.41.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 May 2022 13:41:48 -0700 (PDT)
+Date:   Sat, 28 May 2022 13:41:45 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andreas Kemnade <andreas@kemnade.info>
+Subject: Re: [PATCH] dt-bindings: input: use generic node names
+Message-ID: <YpKJCQ0hCIw9hb0m@google.com>
+References: <20220524093136.7980-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="xdhtzf6ixlrtqzvb"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220528045631.289821-3-dmitry.torokhov@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220524093136.7980-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Tue, May 24, 2022 at 11:31:36AM +0200, Krzysztof Kozlowski wrote:
+> Devicetree specification expects nodes to have generic names, if
+> possible, so replace custom ones with something generic.  For gpio-keys,
+> the more popular format is "key-xxx" instead of "xxx-key", so choose the
+> first one.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
 
---xdhtzf6ixlrtqzvb
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied, thank you.
 
-On Fri, May 27, 2022 at 09:56:30PM -0700, Dmitry Torokhov wrote:
-> This simplifies error handling in probe() and reduces amount of explicit
-> code in remove().
->=20
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
->  drivers/input/keyboard/adp5588-keys.c | 111 +++++++++++---------------
->  1 file changed, 45 insertions(+), 66 deletions(-)
->=20
-> diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboa=
-rd/adp5588-keys.c
-> index ac21873ba1d7..df84a2998ed2 100644
-> --- a/drivers/input/keyboard/adp5588-keys.c
-> +++ b/drivers/input/keyboard/adp5588-keys.c
-> @@ -182,6 +182,21 @@ static int adp5588_build_gpiomap(struct adp5588_kpad=
- *kpad,
->  	return n_unused;
->  }
-> =20
-> +static void adp5588_gpio_do_teardown(void *_kpad)
-> +{
-> +	struct adp5588_kpad *kpad =3D _kpad;
-> +	struct device *dev =3D &kpad->client->dev;
-> +	const struct adp5588_kpad_platform_data *pdata =3D dev_get_platdata(dev=
-);
-> +	const struct adp5588_gpio_platform_data *gpio_data =3D pdata->gpio_data;
-> +	int error;
-> +
-> +	error =3D gpio_data->teardown(kpad->client,
-> +				    kpad->gc.base, kpad->gc.ngpio,
-> +				    gpio_data->context);
-> +	if (error)
-> +		dev_warn(&kpad->client->dev, "teardown failed %d\n", error);
-> +}
-
-I think the more sensible approach is to drop support for setup and
-teardown. Maybe even rip all usage of adp5588_gpio_platform_data.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---xdhtzf6ixlrtqzvb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmKSegsACgkQwfwUeK3K
-7AnwqQf9GUaT7wj2FwzInXOPAase2lVMQ9dEdcuaQt69MhVywon4PG3+/h3wZJDh
-+Pyp7F9G6E/09DXTFxgarEws5KuDIBTg21C2xV1ulTgnAWoOkbsyknjvO0lLetL0
-8wVmsqpYGtNCRkab3UknWAJmQoCFyImuqYr0QvfAlp8VDfO+g2Zhowg/XMg8pFii
-E4Rpl0tbg29jeIWMMzhahL3FdtlUrpIsRPF2V9d7AAZWZsj43rEKv+Yg2kIUA2O9
-/ilfq84FWMxE/nWf/C06S3UORS4Z3oaNcmpwNtDlzHoakmiULcsHQfWwtjn9GTpx
-lskpxIctNC76gcsfJO1rLfco/zyuiQ==
-=c4SA
------END PGP SIGNATURE-----
-
---xdhtzf6ixlrtqzvb--
+-- 
+Dmitry
