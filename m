@@ -2,136 +2,167 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98D2C536FE1
-	for <lists+linux-input@lfdr.de>; Sun, 29 May 2022 08:11:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D544E537083
+	for <lists+linux-input@lfdr.de>; Sun, 29 May 2022 12:12:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229445AbiE2GL1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 29 May 2022 02:11:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43180 "EHLO
+        id S229816AbiE2KMH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 May 2022 06:12:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbiE2GL0 (ORCPT
+        with ESMTP id S229529AbiE2KMG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 29 May 2022 02:11:26 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7863621C
-        for <linux-input@vger.kernel.org>; Sat, 28 May 2022 23:11:24 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nvC93-0005yj-Rj; Sun, 29 May 2022 08:11:21 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nvC91-005CYc-6N; Sun, 29 May 2022 08:11:17 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nvC8z-00Cp2h-74; Sun, 29 May 2022 08:11:17 +0200
-Date:   Sun, 29 May 2022 08:11:15 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Michael Hennerich <michael.hennerich@analog.com>,
+        Sun, 29 May 2022 06:12:06 -0400
+X-Greylist: delayed 533 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 29 May 2022 03:12:02 PDT
+Received: from mail.boiledscript.com (unknown [192.151.158.155])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0938425C47;
+        Sun, 29 May 2022 03:12:02 -0700 (PDT)
+Date:   Sun, 29 May 2022 18:02:30 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ultrarare.space;
+        s=dkim; t=1653818579;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=jjq1DAlPmCj+12oFmUYPRHLaYrupTtjphtRxoBdBCnw=;
+        b=sKl9nspg5/4kfLQj7l2aFAAkdPdc7wlvjLRpsOr0mfO1F5G0hSdMUvZdpz0uxYNR7dYRcO
+        /Sb0OldzsAHdEwZLD8amFjSjEph4L6PPE5E1lz7rU6bnN/Ywv1zwyOIqBC2Lu7Qq9reeEv
+        54M/bSEqRngT4A7MtoUDehlPY5vgEFckWSJ9VTckmOp539a4mVtVCc7J9U9PEC+eFUy5m4
+        fAwYLY5Gbn4ib2epSWk3CC7EUpDs6uJ+vnxdNLyEP9mpNU+FTxF0Bm2aWFdGIBjGLEcNG8
+        CTmBbuEG57CjsSBVP+XXP15vKNlbSl95xygJ7R2fZdipA8jZBotbQ2T7H4J5hQ==
+From:   Hilton Chain <hako@ultrarare.space>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] Input: adp5588-keys - switch to using managed
- resources
-Message-ID: <20220529061115.ew52jiknnebaofwd@pengutronix.de>
-References: <20220528045631.289821-1-dmitry.torokhov@gmail.com>
- <20220528045631.289821-3-dmitry.torokhov@gmail.com>
- <20220528193755.lncxrpgmyiy4hprm@pengutronix.de>
- <YpMC/90883D286nG@google.com>
+Subject: [PATCH] HID: apple: Reset quirks when Fn key is not found
+Message-ID: <20220529180230.17e9a0f9@ultrarare.space>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="frimy6xcganxv6jb"
-Content-Disposition: inline
-In-Reply-To: <YpMC/90883D286nG@google.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Authentication-Results: mail.boiledscript.com;
+        auth=pass smtp.mailfrom=hako@ultrarare.space
+X-Spamd-Bar: /
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+=46rom 6813a0a2c0f1a965f650abba3e1e4a8e79b40c26 Mon Sep 17 00:00:00 2001
+From: Hilton Chain <hako@ultrarare.space>
+Date: Sun, 29 May 2022 16:25:57 +0800
+Subject: [PATCH] HID: apple: Reset quirks when Fn key is not found
 
---frimy6xcganxv6jb
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Commit a5fe7864d8ad ("HID: apple: Do not reset quirks when the Fn key is
+not found") re-involves the fnmode issue fixed in commit a5d81646fa29
+("HID: apple: Disable Fn-key key-re-mapping on clone keyboards"), as linked
+below.
 
-On Sat, May 28, 2022 at 10:22:07PM -0700, Dmitry Torokhov wrote:
-> On Sat, May 28, 2022 at 09:37:55PM +0200, Uwe Kleine-K=F6nig wrote:
-> > On Fri, May 27, 2022 at 09:56:30PM -0700, Dmitry Torokhov wrote:
-> > > This simplifies error handling in probe() and reduces amount of expli=
-cit
-> > > code in remove().
-> > >=20
-> > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > ---
-> > >  drivers/input/keyboard/adp5588-keys.c | 111 +++++++++++-------------=
---
-> > >  1 file changed, 45 insertions(+), 66 deletions(-)
-> > >=20
-> > > diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/ke=
-yboard/adp5588-keys.c
-> > > index ac21873ba1d7..df84a2998ed2 100644
-> > > --- a/drivers/input/keyboard/adp5588-keys.c
-> > > +++ b/drivers/input/keyboard/adp5588-keys.c
-> > > @@ -182,6 +182,21 @@ static int adp5588_build_gpiomap(struct adp5588_=
-kpad *kpad,
-> > >  	return n_unused;
-> > >  }
-> > > =20
-> > > +static void adp5588_gpio_do_teardown(void *_kpad)
-> > > +{
-> > > +	struct adp5588_kpad *kpad =3D _kpad;
-> > > +	struct device *dev =3D &kpad->client->dev;
-> > > +	const struct adp5588_kpad_platform_data *pdata =3D dev_get_platdata=
-(dev);
-> > > +	const struct adp5588_gpio_platform_data *gpio_data =3D pdata->gpio_=
-data;
-> > > +	int error;
-> > > +
-> > > +	error =3D gpio_data->teardown(kpad->client,
-> > > +				    kpad->gc.base, kpad->gc.ngpio,
-> > > +				    gpio_data->context);
-> > > +	if (error)
-> > > +		dev_warn(&kpad->client->dev, "teardown failed %d\n", error);
-> > > +}
-> >=20
-> > I think the more sensible approach is to drop support for setup and
-> > teardown. Maybe even rip all usage of adp5588_gpio_platform_data.
->=20
-> That will come with the transition to device tree/device properties. For
-> now wanted to keep existing functionality intact.
+To make things work again, this commit reverts a5fe7864d8ad ("HID: apple:
+Do not reset quirks when the Fn key is not found")  and the recent
+workaround fa33382c7f74 ("HID: apple: Properly handle function keys on
+Keychron keyboards")
 
-That's up to you. I wouldn't spend an effort to clean up a feature that
-is about to be removed.
+Link: https://lore.kernel.org/linux-input/f82dd7a1-a5c6-b651-846c-29f6df943=
+6af@redhat.com/
+Fixes: a5fe7864d8ad ("HID: apple: Do not reset quirks when the Fn key is no=
+t found")
+Signed-off-by: Hilton Chain <hako@ultrarare.space>
+---
+ drivers/hid/hid-apple.c | 25 ++++++-------------------
+ 1 file changed, 6 insertions(+), 19 deletions(-)
 
-Best regards
-Uwe
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index 42a568902f49..3b666dcb63f0 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -21,7 +21,6 @@
+ #include <linux/module.h>
+ #include <linux/slab.h>
+ #include <linux/timer.h>
+-#include <linux/string.h>
+=20
+ #include "hid-ids.h"
+=20
+@@ -36,17 +35,16 @@
+ #define APPLE_NUMLOCK_EMULATION	BIT(8)
+ #define APPLE_RDESC_BATTERY	BIT(9)
+ #define APPLE_BACKLIGHT_CTL	BIT(10)
+-#define APPLE_IS_KEYCHRON	BIT(11)
+=20
+ #define APPLE_FLAG_FKEY		0x01
+=20
+ #define HID_COUNTRY_INTERNATIONAL_ISO	13
+ #define APPLE_BATTERY_TIMEOUT_MS	60000
+=20
+-static unsigned int fnmode =3D 3;
++static unsigned int fnmode =3D 1;
+ module_param(fnmode, uint, 0644);
+ MODULE_PARM_DESC(fnmode, "Mode of fn key on Apple keyboards (0 =3D disable=
+d, "
+-		"1 =3D fkeyslast, 2 =3D fkeysfirst, [3] =3D auto)");
++		"[1] =3D fkeyslast, 2 =3D fkeysfirst)");
+=20
+ static int iso_layout =3D -1;
+ module_param(iso_layout, int, 0644);
+@@ -351,7 +349,6 @@ static int hidinput_apple_event(struct hid_device *hid,=
+ struct input_dev *input,
+ 	const struct apple_key_translation *trans, *table;
+ 	bool do_translate;
+ 	u16 code =3D 0;
+-	unsigned int real_fnmode;
+=20
+ 	u16 fn_keycode =3D (swap_fn_leftctrl) ? (KEY_LEFTCTRL) : (KEY_FN);
+=20
+@@ -362,13 +359,7 @@ static int hidinput_apple_event(struct hid_device *hid=
+, struct input_dev *input,
+ 		return 1;
+ 	}
+=20
+-	if (fnmode =3D=3D 3) {
+-		real_fnmode =3D (asc->quirks & APPLE_IS_KEYCHRON) ? 2 : 1;
+-	} else {
+-		real_fnmode =3D fnmode;
+-	}
+-
+-	if (real_fnmode) {
++	if (fnmode) {
+ 		if (hid->product =3D=3D USB_DEVICE_ID_APPLE_ALU_WIRELESS_ANSI ||
+ 		    hid->product =3D=3D USB_DEVICE_ID_APPLE_ALU_WIRELESS_ISO ||
+ 		    hid->product =3D=3D USB_DEVICE_ID_APPLE_ALU_WIRELESS_JIS ||
+@@ -415,7 +406,7 @@ static int hidinput_apple_event(struct hid_device *hid,=
+ struct input_dev *input,
+=20
+ 			if (!code) {
+ 				if (trans->flags & APPLE_FLAG_FKEY) {
+-					switch (real_fnmode) {
++					switch (fnmode) {
+ 					case 1:
+ 						do_translate =3D !asc->fn_on;
+ 						break;
+@@ -664,14 +655,10 @@ static int apple_input_configured(struct hid_device *=
+hdev,
+ {
+ 	struct apple_sc *asc =3D hid_get_drvdata(hdev);
+=20
++	/* Handling some non-Apple keyboards which use Apple's vendor ID */
+ 	if ((asc->quirks & APPLE_HAS_FN) && !asc->fn_found) {
+ 		hid_info(hdev, "Fn key not found (Apple Wireless Keyboard clone?), disab=
+ling Fn key handling\n");
+-		asc->quirks &=3D ~APPLE_HAS_FN;
+-	}
+-
+-	if (strncmp(hdev->name, "Keychron", 8) =3D=3D 0) {
+-		hid_info(hdev, "Keychron keyboard detected; function keys will default t=
+o fnmode=3D2 behavior\n");
+-		asc->quirks |=3D APPLE_IS_KEYCHRON;
++		asc->quirks =3D 0;
+ 	}
+=20
+ 	return 0;
 
+base-commit: fdaf9a5840acaab18694a19e0eb0aa51162eeeed
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+2.36.1
 
---frimy6xcganxv6jb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmKTDn8ACgkQwfwUeK3K
-7AnSsAf+Li4Te/1P7RLCFRukMaq/G/Nk0rAzAumXFSuwji793S+4vSZ9eyZ7Pnhe
-CJ/acu83ObTmrSgzZb4qLLdBRqKZnNOKzL8794Lhcqec8mp1nxAZEMTWu06s1m9U
-6Qp6Cs/oVkT9s4VK/enKhF45+mWFnFnKTGlYnOYXmrxNQBtbWODVtqfTvPkQX7Cb
-PfE2Hf1kswfBmdpBeH98FuhL7KcITV12qibOwPbacvMCNNkPoIV4C/QlVTAiZ2fM
-1ee15bDGhupbbrNvggB7p/lWI/HzJ5GTDLGLwB0PqKWGt1I0KqMcPntehSsl2TGm
-lbs1ykRMB892fVxkKQY6drmRKEi/nQ==
-=2t1U
------END PGP SIGNATURE-----
-
---frimy6xcganxv6jb--
