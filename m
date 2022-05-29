@@ -2,137 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F45E537171
-	for <lists+linux-input@lfdr.de>; Sun, 29 May 2022 17:02:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDEDD537225
+	for <lists+linux-input@lfdr.de>; Sun, 29 May 2022 20:20:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230486AbiE2PCy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 29 May 2022 11:02:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39484 "EHLO
+        id S230027AbiE2SUp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 May 2022 14:20:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230179AbiE2PCx (ORCPT
+        with ESMTP id S229839AbiE2SUo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 29 May 2022 11:02:53 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0774F939A8
-        for <linux-input@vger.kernel.org>; Sun, 29 May 2022 08:02:53 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A1F9E4B7;
-        Sun, 29 May 2022 15:02:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A1F9E4B7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1653836570; bh=prfaPouyOR+h3OLn6aM3uj1MK/ywudByeFsbG2uZEBk=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=jDwL7ar7WO12Ocu9dHfPV7mvCf3la5OQj0lH43MGiZAU5r+c+kGhOr3Vv/paus2RG
-         jwdHU2GrkIIaOTUdsV4lg19YqsUa2AWM8nV99048dXHQll20XJ0z6XXYyXHHa7ykXj
-         5v/FCGN80wEBco05UGVKz9VP+VkJ+0CE3+lpUOPD9b/taubZcgc4/z+11lkoHx4jln
-         rpHCeGzwhRJGoQJMwBENyeUe3azTumzr4DKbAZoC9rXrh64Em0/3e853XBBWZ4iEP9
-         XlXdUe8kGBt4Ut9xeuvHUyccFQDTaZDD3pLb8J+u5EqIpcl/pVluGS2oZZbiNInR9p
-         d0k3HIEtAoAuA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        kernel test robot <lkp@intel.com>,
-        Nikolai Kondrashov <spbnick@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        =?utf-8?Q?Jos=C3=A9?= =?utf-8?Q?_Exp=C3=B3sito?= 
-        <jose.exposito89@gmail.com>, llvm@lists.linux.dev,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] HID: uclogic: remove extraneous asterisk on
- uclogic_params_* static functions comments
-In-Reply-To: <20220528091403.160169-2-bagasdotme@gmail.com>
-References: <20220528091403.160169-1-bagasdotme@gmail.com>
- <20220528091403.160169-2-bagasdotme@gmail.com>
-Date:   Sun, 29 May 2022 09:02:56 -0600
-Message-ID: <87tu988jq7.fsf@meer.lwn.net>
+        Sun, 29 May 2022 14:20:44 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F7987A1B;
+        Sun, 29 May 2022 11:20:43 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id t13so11992045wrg.9;
+        Sun, 29 May 2022 11:20:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=dETdSOArCU+5FN9i/BrakKPTVrpDILWrp20SIYBDv9E=;
+        b=TbwUQTPzAb3Lr0IWqpvEJ5+Mt+akHr5pndIvEbNihpWf7LqfQYTy/x6nzVlTpLK/Of
+         Iu4MtNoJiM2yMn2q86Sx9RCH1XO10AvkOq+hZu7FXzEQBLC5XGljHaxlNFuVLWANygdZ
+         Iw0qKy4ndmxE3omfr7B+tsiXUcnk/yl4+pH79DL3N5QynhQEzvmt2VZmj368l7gSz2uK
+         Zj1UOYCImpeEUtadw+EpEgMM8Dfc2MvoiU8oFLMttbOvdMsHV0SdPPw69nfxmN6vLEPx
+         GBUBrCJXmhpstzpxLqQXkDPjxqIhgDA2OSmOcfTOHbIjp1dzysharcBZqn1X5DWHx/Gq
+         Y0Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=dETdSOArCU+5FN9i/BrakKPTVrpDILWrp20SIYBDv9E=;
+        b=4kLmvq/SlU/ct1E074OOE+CsioIo09Lwt7xfv5IirXWUDaQL4P4K9//kM0XBX12IUo
+         oUfYXOf2y1tV6sKnTQzPOn1E+C0eBOGtopEzcW/KtKWkXIOmb1Mw9QLPpZ9UsW7OrcjR
+         5b3+o166CswKG5GRqxrQxqr5AMmH0q+1jzLdnZPrr4RU4aiS4RHoEy2jeYe8+0KEVArd
+         DwD+X0OoPDLGOENdNm50ql1/pXx16eTK1ZoYSMercM9vSdWxO6+3AEa68h0wKHOcjsLN
+         jtmL4dhdnuOT4Hm73H4pnqFBdZP0HaCe6s+tn8uTTb5TcVpfyFzCFVSx7UlfrHwXgfPa
+         ZS9w==
+X-Gm-Message-State: AOAM533BAe1t9wQwgdNAJQYrWHfybRXHNezXg56nL1MKjgo4oGLoPxGx
+        e63OxhXWE6sAa4caIJOI6RY=
+X-Google-Smtp-Source: ABdhPJxPBVUIlXtbCps8h1CCo+Oe/o8oSeH0MKpapqQoGZLd9CgYKy9lRSsm/k7wbMfH9wYH9I0gDQ==
+X-Received: by 2002:a05:6000:1815:b0:210:dd9:a9c2 with SMTP id m21-20020a056000181500b002100dd9a9c2mr13761145wrh.385.1653848441505;
+        Sun, 29 May 2022 11:20:41 -0700 (PDT)
+Received: from localhost.localdomain ([94.73.36.128])
+        by smtp.gmail.com with ESMTPSA id o12-20020a05600c4fcc00b003942a244f2esm8650415wmq.7.2022.05.29.11.20.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 May 2022 11:20:41 -0700 (PDT)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     hako@ultrarare.space
+Cc:     bryancain3@gmail.com, benjamin.tissoires@redhat.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: apple: Reset quirks when Fn key is not found
+Date:   Sun, 29 May 2022 20:20:36 +0200
+Message-Id: <20220529182036.10226-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220529180230.17e9a0f9@ultrarare.space>
+References: <20220529180230.17e9a0f9@ultrarare.space>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Hi Hilton,
 
-> *uclogic_params_pen_inrange_to_str(), uclogic_params_pen_hid_dbg(), and
-> uclogic_params_frame_hid_dbg() are static functions but contain
-> double-asterisk (/** */) comment, which confuses kernel-doc as public
-> function for generating documentation.
->
-> Remove the extraneous asterisk from these comments.
+> Commit a5fe7864d8ad ("HID: apple: Do not reset quirks when the Fn key
+> is not found") re-involves the fnmode issue fixed in commit
+> a5d81646fa29 ("HID: apple: Disable Fn-key key-re-mapping on clone
+> keyboards"), as linked below.
 
-So there is nothing wrong with making kerneldoc comments for static
-functions, that is not where the problem lies.
+Reverting that commit will break battery reporting on the Magic
+Keyboards 2015 and 2021.
 
-> Link: https://lore.kernel.org/linux-doc/202205272033.XFYlYj8k-lkp@intel.c=
-om/
-> Fixes: a228809fa6f39c ("HID: uclogic: Move param printing to a function")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Cc: Nikolai Kondrashov <spbnick@gmail.com>
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Cc: "Jos=C3=A9 Exp=C3=B3sito" <jose.exposito89@gmail.com>
-> Cc: llvm@lists.linux.dev
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  drivers/hid/hid-uclogic-params.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-p=
-arams.c
-> index db838f16282d64..71501453de12e4 100644
-> --- a/drivers/hid/hid-uclogic-params.c
-> +++ b/drivers/hid/hid-uclogic-params.c
-> @@ -20,7 +20,7 @@
->  #include <linux/ctype.h>
->  #include <asm/unaligned.h>
->=20=20
-> -/**
-> +/*
->   * uclogic_params_pen_inrange_to_str() - Convert a pen in-range reportin=
-g type
->   *                                       to a string.
->   *
+When a keyboard has the APPLE_HAS_FN and another valid quirk, in this
+case APPLE_RDESC_BATTERY, setting asc->quirks = 0 (i.e., removing all
+quirks) also removes the valid ones.
 
-A more likely problem here is the blank between the function intro and
-the parameter description.
+> To make things work again, this commit reverts a5fe7864d8ad ("HID: apple:
+> Do not reset quirks when the Fn key is not found")  and the recent
+> workaround fa33382c7f74 ("HID: apple: Properly handle function keys on
+> Keychron keyboards")
 
-> @@ -44,7 +44,7 @@ static const char *uclogic_params_pen_inrange_to_str(
->  	}
->  }
->=20=20
-> -/**
-> +/*
->   * Dump tablet interface pen parameters with hid_dbg(), indented with on=
-e tab.
->   *
+My understanding of Bryan's patch (in cc) was that the new config option
+worked out of the box for Keychron and Apple keyboards and allowed for
+manual configuration where required.
 
-Here too
+Could you explain a bit which bug is fixed by reverting these 2
+commits, please? I don't own a Keychron keyboard for testing, so it is
+not obvious to me why this change is required.
 
->   * @hdev:	The HID device the pen parameters describe.
-> @@ -76,7 +76,7 @@ static void uclogic_params_pen_hid_dbg(const struct hid=
-_device *hdev,
->  		(pen->tilt_y_flipped ? "true" : "false"));
->  }
->=20=20
-> -/**
-> +/*
->   * Dump tablet interface frame parameters with hid_dbg(), indented with =
-two
->   * tabs.
->   *
+Thanks,Jose
 
-Here, instead, this needs to be formatted as a proper kerneldoc comment
-with the function name.
+> Link: https://lore.kernel.org/linux-input/f82dd7a1-a5c6-b651-846c-29f6df9436af@redhat.com/
+> Fixes: a5fe7864d8ad ("HID: apple: Do not reset quirks when the Fn key is not found")
+> Signed-off-by: Hilton Chain <hako@ultrarare.space>
 
-jon
