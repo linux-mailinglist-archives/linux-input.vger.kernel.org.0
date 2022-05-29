@@ -2,114 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4203537150
-	for <lists+linux-input@lfdr.de>; Sun, 29 May 2022 16:21:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F45E537171
+	for <lists+linux-input@lfdr.de>; Sun, 29 May 2022 17:02:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230380AbiE2OVS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 29 May 2022 10:21:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52130 "EHLO
+        id S230486AbiE2PCy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 May 2022 11:02:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229987AbiE2OVR (ORCPT
+        with ESMTP id S230179AbiE2PCx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 29 May 2022 10:21:17 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF8C842497
-        for <linux-input@vger.kernel.org>; Sun, 29 May 2022 07:21:15 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id jx22so16443085ejb.12
-        for <linux-input@vger.kernel.org>; Sun, 29 May 2022 07:21:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=mjEHI99lRLZjmbE7yN5Vc3uafp8LIX67QIeSikjP+0k=;
-        b=OCeCSM0Ry0XbkH3vo8R5rjfeiu9FUSChFE03CHQn6qKTZRM0/iYC9P4vI0nQ5r0n0i
-         ia5LdpuIlrZvVawm2FoS1oKwbi9nDkIS3wHe/lPYRjQuAwZw4e5nJsaA6wDg8rr3e5Vg
-         gTYlwBLCUGZPOhHtZmEgyNxJC9tlOy4WUsH8TJhAExS42VnHEr3ehbo5kc0zP2Bb/mj1
-         VxFBtjt3C+Pvtv7MilgHgY99AQI7wXUJye84573LdQTx3fHFgBo7HTxie1Zbl7Fk7D7z
-         7mY9RMhNa036KyHlDKF3XBzp5v0/A9v3ifgnYCltJyRKQ1w2/R5L8AZGJSUV842i+XA8
-         PZTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=mjEHI99lRLZjmbE7yN5Vc3uafp8LIX67QIeSikjP+0k=;
-        b=kKEQRFAI3Lc4neWMx1iJ8BcqGBV2YpBLcepmYeZUf9/oo04HcXbJhv6XFzNPENgZKy
-         d5v2jCUljrw3f34CnC7/6xB1LUIZeSU6CzGNJMewMcVzXYlE+UUHtT3ApPU4lQ33l4Yk
-         baTreXFe/4QbhcFKVxxLeTP4iSe3mwMBQHReFHrh4TZdL/dQMBOV/ZEMie0IFxVKv7QY
-         zuT7Tidm3Flzj8DhLLeRfioV6zmFitkZBe7cgJLeK6OFeOMKBOYZ9SAKjnb3ZAM7f34A
-         HGCgbuO4Ei4vgsDdqiUiEMndhT1OB8SFf44o1OS+5ZnXz/+4Csi7LZCJKUtVWSztoRjB
-         eoFA==
-X-Gm-Message-State: AOAM531kW2vyAZ6/6KrP4jF4MJm2kp96UpfLrOobCiqkqccFBUaSJzQX
-        alqIQSBZ9Q+Ttpitr9gFoBi+0PwTEbIyrncw
-X-Google-Smtp-Source: ABdhPJzaG3/GPj6E2gGmWOpmT5Z1QKhy7X39c3X4fuDnHgON7JWi/LN3waHAzmpyV3pW+sNopILVoQ==
-X-Received: by 2002:a17:906:44b:b0:6f8:d325:bb84 with SMTP id e11-20020a170906044b00b006f8d325bb84mr45532026eja.174.1653834074197;
-        Sun, 29 May 2022 07:21:14 -0700 (PDT)
-Received: from [192.168.0.177] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id x25-20020a50f199000000b0042dd109b212sm356606edl.3.2022.05.29.07.21.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 May 2022 07:21:13 -0700 (PDT)
-Message-ID: <c4c17cde-686b-4f4e-65dc-9b8c41894bf2@linaro.org>
-Date:   Sun, 29 May 2022 16:21:12 +0200
+        Sun, 29 May 2022 11:02:53 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0774F939A8
+        for <linux-input@vger.kernel.org>; Sun, 29 May 2022 08:02:53 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id A1F9E4B7;
+        Sun, 29 May 2022 15:02:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A1F9E4B7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1653836570; bh=prfaPouyOR+h3OLn6aM3uj1MK/ywudByeFsbG2uZEBk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=jDwL7ar7WO12Ocu9dHfPV7mvCf3la5OQj0lH43MGiZAU5r+c+kGhOr3Vv/paus2RG
+         jwdHU2GrkIIaOTUdsV4lg19YqsUa2AWM8nV99048dXHQll20XJ0z6XXYyXHHa7ykXj
+         5v/FCGN80wEBco05UGVKz9VP+VkJ+0CE3+lpUOPD9b/taubZcgc4/z+11lkoHx4jln
+         rpHCeGzwhRJGoQJMwBENyeUe3azTumzr4DKbAZoC9rXrh64Em0/3e853XBBWZ4iEP9
+         XlXdUe8kGBt4Ut9xeuvHUyccFQDTaZDD3pLb8J+u5EqIpcl/pVluGS2oZZbiNInR9p
+         d0k3HIEtAoAuA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        kernel test robot <lkp@intel.com>,
+        Nikolai Kondrashov <spbnick@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        =?utf-8?Q?Jos=C3=A9?= =?utf-8?Q?_Exp=C3=B3sito?= 
+        <jose.exposito89@gmail.com>, llvm@lists.linux.dev,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] HID: uclogic: remove extraneous asterisk on
+ uclogic_params_* static functions comments
+In-Reply-To: <20220528091403.160169-2-bagasdotme@gmail.com>
+References: <20220528091403.160169-1-bagasdotme@gmail.com>
+ <20220528091403.160169-2-bagasdotme@gmail.com>
+Date:   Sun, 29 May 2022 09:02:56 -0600
+Message-ID: <87tu988jq7.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] dt-bindings: input: use generic node names
-Content-Language: en-US
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andreas Kemnade <andreas@kemnade.info>
-References: <20220524093136.7980-1-krzysztof.kozlowski@linaro.org>
- <20220527224401.GA395557@nixie71>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220527224401.GA395557@nixie71>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 28/05/2022 00:44, Jeff LaBundy wrote:
-> Hi Krzysztof,
-> 
-> On Tue, May 24, 2022 at 11:31:36AM +0200, Krzysztof Kozlowski wrote:
->> Devicetree specification expects nodes to have generic names, if
->> possible, so replace custom ones with something generic.  For gpio-keys,
->> the more popular format is "key-xxx" instead of "xxx-key", so choose the
->> first one.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
->>
->> Cc: Andreas Kemnade <andreas@kemnade.info>
->> ---
->>  .../devicetree/bindings/input/fsl,mpr121-touchkey.yaml        | 4 ++--
->>  Documentation/devicetree/bindings/input/gpio-keys.yaml        | 4 ++--
->>  Documentation/devicetree/bindings/input/iqs269a.yaml          | 2 +-
->>  Documentation/devicetree/bindings/input/iqs626a.yaml          | 2 +-
-> 
-> For iqs*a.yaml:
-> 
-> Acked-by: Jeff LaBundy <jeff@labundy.com>
-> 
-> Does there happen to be a list of preferred names based on device
-> function, or is it simply a matter of what seems to be most common?
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-Devicetree spec has examples of names, but of course it does not cover
-many of cases. Here I chosen mixture of device function and most common
-(e.g. touch for touch controller).
+> *uclogic_params_pen_inrange_to_str(), uclogic_params_pen_hid_dbg(), and
+> uclogic_params_frame_hid_dbg() are static functions but contain
+> double-asterisk (/** */) comment, which confuses kernel-doc as public
+> function for generating documentation.
+>
+> Remove the extraneous asterisk from these comments.
 
+So there is nothing wrong with making kerneldoc comments for static
+functions, that is not where the problem lies.
 
-Best regards,
-Krzysztof
+> Link: https://lore.kernel.org/linux-doc/202205272033.XFYlYj8k-lkp@intel.c=
+om/
+> Fixes: a228809fa6f39c ("HID: uclogic: Move param printing to a function")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Cc: Nikolai Kondrashov <spbnick@gmail.com>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: "Jos=C3=A9 Exp=C3=B3sito" <jose.exposito89@gmail.com>
+> Cc: llvm@lists.linux.dev
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  drivers/hid/hid-uclogic-params.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-p=
+arams.c
+> index db838f16282d64..71501453de12e4 100644
+> --- a/drivers/hid/hid-uclogic-params.c
+> +++ b/drivers/hid/hid-uclogic-params.c
+> @@ -20,7 +20,7 @@
+>  #include <linux/ctype.h>
+>  #include <asm/unaligned.h>
+>=20=20
+> -/**
+> +/*
+>   * uclogic_params_pen_inrange_to_str() - Convert a pen in-range reportin=
+g type
+>   *                                       to a string.
+>   *
+
+A more likely problem here is the blank between the function intro and
+the parameter description.
+
+> @@ -44,7 +44,7 @@ static const char *uclogic_params_pen_inrange_to_str(
+>  	}
+>  }
+>=20=20
+> -/**
+> +/*
+>   * Dump tablet interface pen parameters with hid_dbg(), indented with on=
+e tab.
+>   *
+
+Here too
+
+>   * @hdev:	The HID device the pen parameters describe.
+> @@ -76,7 +76,7 @@ static void uclogic_params_pen_hid_dbg(const struct hid=
+_device *hdev,
+>  		(pen->tilt_y_flipped ? "true" : "false"));
+>  }
+>=20=20
+> -/**
+> +/*
+>   * Dump tablet interface frame parameters with hid_dbg(), indented with =
+two
+>   * tabs.
+>   *
+
+Here, instead, this needs to be formatted as a proper kerneldoc comment
+with the function name.
+
+jon
