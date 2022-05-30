@@ -2,161 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCE845372B9
-	for <lists+linux-input@lfdr.de>; Sun, 29 May 2022 23:51:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DE5A53731B
+	for <lists+linux-input@lfdr.de>; Mon, 30 May 2022 02:43:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231860AbiE2Vty (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 29 May 2022 17:49:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47274 "EHLO
+        id S231982AbiE3Am6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 May 2022 20:42:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230326AbiE2Vtx (ORCPT
+        with ESMTP id S230192AbiE3Am6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 29 May 2022 17:49:53 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03FAA78EF9;
-        Sun, 29 May 2022 14:49:51 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id p19so5412664wmg.2;
-        Sun, 29 May 2022 14:49:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc
-         :references:from:subject:in-reply-to:content-transfer-encoding;
-        bh=3IqEUaHXVUti1x+VtbbIBYixMF/dH9xlsIzM142Izsk=;
-        b=XnI93CKrvklEf5VGEZl1YQAXwpLwRtBcNZjt1+tVeQ29g/wwmdKVsgOCtTkh99uvLm
-         RgUbQJDX9zo8sSLnX7Fb02xAA6gavGSyTNoo6Ba2LnE02BQBkhd05v8wmvKg0Uufsiia
-         xNYexS5tKEF7R2akh5g52zG2p9dLYBDN4L4khw1+PYnVPgtJASd3hjrmB3/nlDY1K++d
-         iGvgpTpGjTizaJzf0M5eYr4kcV5uvIWTGA2LWTlrA7+ICR6X3K2DD3tzMxNtrvBOpYBl
-         iQsv7wYArwZQjvpVtXOhbSO+QyutyVHqgNaqvgC9dadjjvbxdKMOkS3oRAKPnwWZdiNj
-         RSwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:subject:in-reply-to
-         :content-transfer-encoding;
-        bh=3IqEUaHXVUti1x+VtbbIBYixMF/dH9xlsIzM142Izsk=;
-        b=SvgChpiFtT7YNJjloe7qOEmHEs1ub0d0EE24yUwMUAKyHhqN/FQddNpJ6owgHjCgbi
-         IUzZFjyIvM5NNZa2/jIaaXQJ7NOGyOpWGWNz2dX/MIxegR+5eAih2UGiSaHb1gFfcsUE
-         /Ow/4rh1sjSMne9a0wE6iG141rtBvwLc+Zl8RTiJXmQRw77+AFs584SZ4Llv5iOkgyBl
-         fuYHHSejbs4cj4+4Myay+CQCjxp6N7LCo66w0RRnFYFcdKUSDn7+QgTezDcyaVnJVutw
-         qwDaaV+ijz2DTNepgfOeub39gevJkpuazV6EGKrbPWIGtOlUOt5WiNmKI1Gs3B5HZ8pT
-         sjSA==
-X-Gm-Message-State: AOAM5324IDV6smE4YEaasWb3fD8STVS4uhO7fzy2au9Ol5HAeJ0AwNUZ
-        o7K+MROBuiGzmgU6gSX0W9o=
-X-Google-Smtp-Source: ABdhPJzhIg9f8Dj/7ytuzhsI+g2tpg2o0OZCNwPojM8ZlIPNswe05K/2V6th8+9aYHhxAaioSLfbjw==
-X-Received: by 2002:a1c:7207:0:b0:397:66ee:9d71 with SMTP id n7-20020a1c7207000000b0039766ee9d71mr16384904wmc.8.1653860989542;
-        Sun, 29 May 2022 14:49:49 -0700 (PDT)
-Received: from [192.168.178.29] (ipb2196a76.dynamic.kabel-deutschland.de. [178.25.106.118])
-        by smtp.gmail.com with ESMTPSA id o1-20020a5d47c1000000b0020fff0ea0a3sm7288566wrc.116.2022.05.29.14.49.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 May 2022 14:49:49 -0700 (PDT)
-Message-ID: <17153eb3-0eb9-cc05-4b65-9c0f4e8d3c90@gmail.com>
-Date:   Sun, 29 May 2022 23:49:46 +0200
+        Sun, 29 May 2022 20:42:58 -0400
+Received: from mail.boiledscript.com (unknown [192.151.158.155])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A068D1D0DD;
+        Sun, 29 May 2022 17:42:54 -0700 (PDT)
+Received: from localhost (unknown [192.168.203.1])
+        by mail.boiledscript.com (Postfix) with ESMTP id 0BAE13008F7;
+        Mon, 30 May 2022 00:42:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ultrarare.space;
+        s=dkim; t=1653871366;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=yPIjYQQdsfuDIdFfxUyyO6NHvouvVSBJhHz9aU19hqg=;
+        b=xdnh+ab0Ma67O31r6jonZ40k094uFi8Uo7m55DzuV58mIWAvjhK+lpPeUslc5XF0a66Ddk
+        U2g8vqldtpZM2RlzJV4DNZq3urVmQaL3Ubfc7x5kzRB8Ostju986GBaeWgc+IoPSm++vPp
+        qBaLT7ALyGQ3Xgs8LTAMKhX/OTViD7NFKyOgdCK6+rA3h2ZMrl+nq1QKmTVPGe7XZHl18v
+        MXqk3CnzYrlZV7b83T2hv0kO1Sigf62fsPW9G2OL0sjOdWBpWrbJpKtDX8GU1KPx3PfkkN
+        AtOm6vyjCrO6/vkZjQt1UMuHe55wp18CwAgsCZ+ZX8tmfpjBTTFdhoawPu1zXg==
+Date:   Mon, 30 May 2022 08:42:32 +0800
+From:   Hilton Chain <hako@ultrarare.space>
+To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc:     bryancain3@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH] HID: apple: Reset quirks when Fn key is not found
+Message-ID: <20220530083752.1973a905@ultrarare.space>
+In-Reply-To: <20220529182036.10226-1-jose.exposito89@gmail.com>
+References: <20220529180230.17e9a0f9@ultrarare.space>
+ <20220529182036.10226-1-jose.exposito89@gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: en-US
-To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
-        jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220518224702.1409327-1-jose.exposito89@gmail.com>
- <20220518224702.1409327-4-jose.exposito89@gmail.com>
-From:   Stefan Berzl <stefanberzl@gmail.com>
-Subject: [PATCH for-5.19/uclogic] HID: uclogic: Remove useless loop
-In-Reply-To: <20220518224702.1409327-4-jose.exposito89@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Bar: +
+Authentication-Results: mail.boiledscript.com;
+        none
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The while in question does nothing except provide the possibility
-to have an infinite loop in case the subreport id is actually the same
-as the pen id.
+Hi Jose,
 
-Signed-off-by: Stefan Berzl <stefanberzl@gmail.com>
+> Reverting that commit will break battery reporting on the Magic
+> Keyboards 2015 and 2021.
+>
+> When a keyboard has the APPLE_HAS_FN and another valid quirk, in this
+> case APPLE_RDESC_BATTERY, setting asc->quirks =3D 0 (i.e., removing all
+> quirks) also removes the valid ones.
+
+Thanks for the explanation!
+
+> My understanding of=C2=A0Bryan's patch (in cc) was that the new config op=
+tion
+> worked out of the box for Keychron and Apple keyboards and allowed for
+> manual configuration where required.
+>
+> Could you explain a bit which bug is fixed by reverting these 2
+> commits, please? I don't own a Keychron keyboard for testing, so it is
+> not obvious to me why this change is required.
+
+I own a GANSS keyboard which encounters this issue as well, related device
+information given by `lsusb -v` below:
+
+    idVendor           0x05ac Apple, Inc.
+    idProduct          0x024f Aluminium Keyboard (ANSI)
+    iManufacturer           1 SONiX
+    iProduct                2 USB DEVICE
+
+As I searching through, I found similar reports regarding another GANSS
+model[1], and other brands like Varmilo[2] (a lot!) and Keychron. As a
+common pattern, they mostly use 05ac:024f.
+
+Currently I have two idea:
+
+1. Modify Bryan's patch, so that fnmode default to 2 if device name not
+starting with "Apple" (But I can't validate my assumption since I don't
+own any Apple keyboards), I'll attach this patch in the next email.
+
+2. Find out which quirk pattern solves this issue brute-forcely, I may
+attach this patch later when I finally find a solution.
+
+What's your opinion?
+
+Stay boiled,
+Hilton Chain
 
 ---
- drivers/hid/hid-uclogic-core.c | 55 ++++++++++++++++------------------
- 1 file changed, 25 insertions(+), 30 deletions(-)
-
-diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
-index c0fe66e50c58..1a6b941f3964 100644
---- a/drivers/hid/hid-uclogic-core.c
-+++ b/drivers/hid/hid-uclogic-core.c
-@@ -423,40 +423,35 @@ static int uclogic_raw_event(struct hid_device *hdev,
- 	if (report->type != HID_INPUT_REPORT)
- 		return 0;
- 
--	while (true) {
--		/* Tweak pen reports, if necessary */
--		if ((report_id == params->pen.id) && (size >= 2)) {
--			subreport_list_end =
--				params->pen.subreport_list +
--				ARRAY_SIZE(params->pen.subreport_list);
--			/* Try to match a subreport */
--			for (subreport = params->pen.subreport_list;
--			     subreport < subreport_list_end; subreport++) {
--				if (subreport->value != 0 &&
--				    subreport->value == data[1]) {
--					break;
--				}
--			}
--			/* If a subreport matched */
--			if (subreport < subreport_list_end) {
--				/* Change to subreport ID, and restart */
--				report_id = data[0] = subreport->id;
--				continue;
--			} else {
--				return uclogic_raw_event_pen(drvdata, data, size);
-+	/* Tweak pen reports, if necessary */
-+	if ((report_id == params->pen.id) && (size >= 2)) {
-+		subreport_list_end =
-+			params->pen.subreport_list +
-+			ARRAY_SIZE(params->pen.subreport_list);
-+		/* Try to match a subreport */
-+		for (subreport = params->pen.subreport_list;
-+		     subreport < subreport_list_end; subreport++) {
-+			if (subreport->value != 0 &&
-+			    subreport->value == data[1]) {
-+				break;
- 			}
- 		}
--
--		/* Tweak frame control reports, if necessary */
--		for (i = 0; i < ARRAY_SIZE(params->frame_list); i++) {
--			if (report_id == params->frame_list[i].id) {
--				return uclogic_raw_event_frame(
--					drvdata, &params->frame_list[i],
--					data, size);
--			}
-+		/* If a subreport matched */
-+		if (subreport < subreport_list_end) {
-+			/* Change to subreport ID, and restart */
-+			report_id = data[0] = subreport->id;
-+		} else {
-+			return uclogic_raw_event_pen(drvdata, data, size);
- 		}
-+	}
- 
--		break;
-+	/* Tweak frame control reports, if necessary */
-+	for (i = 0; i < ARRAY_SIZE(params->frame_list); i++) {
-+		if (report_id == params->frame_list[i].id) {
-+			return uclogic_raw_event_frame(
-+				drvdata, &params->frame_list[i],
-+				data, size);
-+		}
- 	}
- 
- 	return 0;
--- 
-2.36.1
-
-
+[1]: https://www.amazon.com/gp/customer-reviews/R1EV0B1FG21GGD
+[2]: https://unix.stackexchange.com/questions/604791/keyboard-function-keys=
+-always-trigger-media-shortcuts-regardless-of-whether-fn
