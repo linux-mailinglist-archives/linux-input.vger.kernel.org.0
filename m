@@ -2,75 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BA9E5378DA
-	for <lists+linux-input@lfdr.de>; Mon, 30 May 2022 12:07:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10621537900
+	for <lists+linux-input@lfdr.de>; Mon, 30 May 2022 12:29:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231346AbiE3KHE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 May 2022 06:07:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57736 "EHLO
+        id S235117AbiE3KKq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 May 2022 06:10:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbiE3KHD (ORCPT
+        with ESMTP id S235086AbiE3KKp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 May 2022 06:07:03 -0400
-Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DFB81ADA0;
-        Mon, 30 May 2022 03:06:58 -0700 (PDT)
-Received: from pps.filterd (m0167090.ppops.net [127.0.0.1])
-        by mx0b-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24U8c4ls019060;
-        Mon, 30 May 2022 06:06:47 -0400
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2047.outbound.protection.outlook.com [104.47.57.47])
-        by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 3gbgc739j2-1
+        Mon, 30 May 2022 06:10:45 -0400
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6003E7B9D3;
+        Mon, 30 May 2022 03:10:44 -0700 (PDT)
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24U9lLVd029516;
+        Mon, 30 May 2022 06:10:38 -0400
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
+        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3gc0xg0gm9-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 30 May 2022 06:06:47 -0400
+        Mon, 30 May 2022 06:10:38 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=APQNKRIDbqaDBh0ZympIs0ng3PHTxPAAfkZc77WNxbWrvt7AvqqnNF2BJznOJWyAxVO/e32uOoWQbECZFVN8jfJ7d9fn16muCTidLpNFo3os1+FTYJ+c7BEFeTGQfwCUbnDoxeIMHw+4ppWS9fTxydkdpshrfhCNTz81yZbHruYg7WYJ+LGQscsr5E0YrkYpVziYYNHbKEMSyODlt2Ha2fD9e47c6tqSlZvOd5aIQ4toYKky66N82WZdeAZYgWO3GhxxDAvb5+5isuEuKuCRJuIBaKdCGQpZ6+OtXM6V1RUqgPQavikJUl1OjzSdQlFSzGynWEWFXw5tYVPe68+l8A==
+ b=D7a9qj1IKV5ppXcsw+HOCI3PgyKFrerIoxS0fphm+qnnudRm83aQhMg5lDa/tCygj2zJnGHGnq/2SW5O41DPyQlg7iocz1TnSYmZSLXkxV7hcU+tPpbIXMmfnfSst6YwvnaebQOQYxyrspoJ77I/wBqcAo8ZHo9xhPGslX5eqq86VqsDNn5ZBhw25mu/lqUmaGBWJQnIfFHuPc+9QYkajGogGQafIFnLLgdf7gsvUqKb4sFXVjcHbHXbyVymj5/NaP/SKEplzPrGOwxQZoMtIsjSq6xfh3B8WXLF9LRQuk+pYSLx01R4J7ggXUm0gRrZIAcFX+ifXvuOTnKQM9COtA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZGYONizWieuoBNzYD0ho2kAKdkTcgipcuT2Deb5j4fM=;
- b=XaGFrGlk+KOj2XyruzTLo4EIkHSw/MY5jz8stqD4H/+kvyEuc3iHXkHzLxHPxxOQCB/sD4/l66Y+0Px7WXT5MPMSURZmsK3wMdr9WxfwBdKPFqiMyo2mR6//fErOPD67G7RhHCzw2EefReF/BnevzebPEv9vehlBD5XMoo+bKs51rYcQJjfa+x9U3lphW8ZX5T8uHaiSDy9/1rGASOv9vx06bE4HFgxek4NS1ONbq2LUrvb3xAkwXP4kXhSXKaBfQgCaP6s7HE4d2McCHhWjQdYoKvXKUbHi+gMuDvL+no1ikOAZupBKIKovlzBRlJIISQ9xSq/wddT4r9qCKrZO6w==
+ bh=r471pMEZ2pYdr6wN+F4I/fLnVnPYIM5oX5QcnRRV2Xo=;
+ b=YADlIZLfYe0Wu7N25eX4vMf6oHJfB/CXqHHJKvtPUrs15SXlLSklsb9F7IsGUXUIyv0im3Md/JFhEkmjmwp3cgAW2neBEeog+RepDaSiEGnJjZGzoOwyvWKAG1R75ts5niDqjrSnXpM/Hgf9XI/xMKMW3XgIOeE/tSJf/GblII0qxfYfnshAh+zUWexMTwGbMcSMjlFsT4lqFnZRKwk3ss1Ga30KdVaO+qnCFH9ltwEJ5ritDN165IeLPlpwLJvIAQyNwrWE3nGE3YPRcyWPcJFYvpBXvo5C0hFy1d5gVTM2A+znFcsvcMwVKY4X9kc54XBwL4iuf4rKRebLQQc0lw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
  dkim=pass header.d=analog.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZGYONizWieuoBNzYD0ho2kAKdkTcgipcuT2Deb5j4fM=;
- b=YZN0ya5zIU3/gJSoysFL488NGq5lvQf4LJHOHiEQLPhQkYCbichNUDAjMbYABbOxY8ySlNCZgt53tbstuYEU9xCkaAixiXQXn4f3fjRrPkYpGNZb2dvmq7JdG/EysP5rzldrXiXXaTEgS42y1lbYFbGah2kAf7e8znK410GVqiQ=
+ bh=r471pMEZ2pYdr6wN+F4I/fLnVnPYIM5oX5QcnRRV2Xo=;
+ b=mPA77BeDHfUhYG04p9bG6kiopJkrNHWlGNUYtI/EDzG3OWDrmdA1N/I/ockTutLFt+IrrqHxfnlVLPNBwv0l59cxz5D7/zbzXLzsnKl9jVHulV310tUIeOC0Bt5s4HUn5k0YV0JMhhO971qsSq8D6s3k0iLN0mWefkYB72dTQTs=
 Received: from SJ0PR03MB6253.namprd03.prod.outlook.com (2603:10b6:a03:3b8::19)
- by BN8PR03MB4628.namprd03.prod.outlook.com (2603:10b6:408:6e::12) with
+ by BN6PR03MB2738.namprd03.prod.outlook.com (2603:10b6:404:57::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Mon, 30 May
- 2022 10:06:45 +0000
+ 2022 10:10:35 +0000
 Received: from SJ0PR03MB6253.namprd03.prod.outlook.com
  ([fe80::b188:7eab:15fc:aa39]) by SJ0PR03MB6253.namprd03.prod.outlook.com
  ([fe80::b188:7eab:15fc:aa39%5]) with mapi id 15.20.5293.019; Mon, 30 May 2022
- 10:06:44 +0000
+ 10:10:35 +0000
 From:   "Hennerich, Michael" <Michael.Hennerich@analog.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 CC:     =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
         <u.kleine-koenig@pengutronix.de>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 1/4] Input: adp5588-keys - drop CONFIG_PM guards
-Thread-Topic: [PATCH 1/4] Input: adp5588-keys - drop CONFIG_PM guards
-Thread-Index: AQHYck9RL/9Q/ZnE9kWZBWxpT1Z6j603NSkg
-Date:   Mon, 30 May 2022 10:06:44 +0000
-Message-ID: <SJ0PR03MB62537CAF01121AC08D236F988EDD9@SJ0PR03MB6253.namprd03.prod.outlook.com>
+Subject: RE: [PATCH 2/4] Input: adp5588-keys - switch to using threaded
+ interrupt
+Thread-Topic: [PATCH 2/4] Input: adp5588-keys - switch to using threaded
+ interrupt
+Thread-Index: AQHYck9SflYNu/xNw02lCU2KpHCRP603NbhQ
+Date:   Mon, 30 May 2022 10:10:35 +0000
+Message-ID: <SJ0PR03MB6253352AC71700940580DFA38EDD9@SJ0PR03MB6253.namprd03.prod.outlook.com>
 References: <20220528045631.289821-1-dmitry.torokhov@gmail.com>
-In-Reply-To: <20220528045631.289821-1-dmitry.torokhov@gmail.com>
+ <20220528045631.289821-2-dmitry.torokhov@gmail.com>
+In-Reply-To: <20220528045631.289821-2-dmitry.torokhov@gmail.com>
 Accept-Language: de-DE, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-dg-ref: =?iso-8859-1?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcbWhlbm5lcm?=
  =?iso-8859-1?Q?lcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZi?=
- =?iso-8859-1?Q?ODRiYTI5ZTM1Ylxtc2dzXG1zZy0zM2Y4YjY5ZS1lMDAwLTExZWMtOTJhMS?=
- =?iso-8859-1?Q?00ODg5ZTc3Y2RkZWZcYW1lLXRlc3RcMzNmOGI2YTAtZTAwMC0xMWVjLTky?=
- =?iso-8859-1?Q?YTEtNDg4OWU3N2NkZGVmYm9keS50eHQiIHN6PSIyNzMyIiB0PSIxMzI5OD?=
- =?iso-8859-1?Q?M3ODgwMjg0MDI2MzEiIGg9InZQYmw3eWFrNnJwMXdsWjRZUnNZd2s4QVlh?=
- =?iso-8859-1?Q?VT0iIGlkPSIiIGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk?=
- =?iso-8859-1?Q?5DZ1VBQUVvQ0FBREhtMUgyREhUWUFabHNLTTV0RGVBbG1Xd296bTBONENV?=
+ =?iso-8859-1?Q?ODRiYTI5ZTM1Ylxtc2dzXG1zZy1iY2UyOGFlMC1lMDAwLTExZWMtOTJhMS?=
+ =?iso-8859-1?Q?00ODg5ZTc3Y2RkZWZcYW1lLXRlc3RcYmNlMjhhZTItZTAwMC0xMWVjLTky?=
+ =?iso-8859-1?Q?YTEtNDg4OWU3N2NkZGVmYm9keS50eHQiIHN6PSI2OTM1IiB0PSIxMzI5OD?=
+ =?iso-8859-1?Q?M3OTAzMjU2NDk3NTAiIGg9Ing0V2d0Zks3S1JnSVlLQ213MlVyUFJzWG5S?=
+ =?iso-8859-1?Q?ND0iIGlkPSIiIGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk?=
+ =?iso-8859-1?Q?5DZ1VBQUVvQ0FBQlcwVDUvRFhUWUFRYXgySFYwWE5xT0JySFlkWFJjMm80?=
  =?iso-8859-1?Q?REFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFIQUFBQURhQVFBQUFBQUFBQU?=
  =?iso-8859-1?Q?FBQUFBQUFBQUFBQUFBQUFFQUFRQUJBQUFBSnJqSklRQUFBQUFBQUFBQUFB?=
  =?iso-8859-1?Q?QUFBSjRBQUFCaEFHUUFhUUJmQUhNQVpRQmpBSFVBY2dCbEFGOEFjQUJ5QU?=
@@ -90,73 +93,73 @@ x-dg-ref: =?iso-8859-1?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcbWhlbm5
  =?iso-8859-1?Q?QUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFBPT0iLz48L21ldGE+?=
 x-dg-rorf: true
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 38a663ce-fd0c-4ec6-3201-08da422419dd
-x-ms-traffictypediagnostic: BN8PR03MB4628:EE_
-x-microsoft-antispam-prvs: <BN8PR03MB4628868E86ED23E6DEBB3A358EDD9@BN8PR03MB4628.namprd03.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 7814e45e-5bc9-41f2-d5a5-08da4224a354
+x-ms-traffictypediagnostic: BN6PR03MB2738:EE_
+x-microsoft-antispam-prvs: <BN6PR03MB27388EF5EB86CD23B63625A38EDD9@BN6PR03MB2738.namprd03.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wSpHFcfXA+VfTl2bci6OTLEQpABfdJr3wMLSzXdiA1IaF6MZZtGeL/Uy9+Z659q4cfqpq5GoInQmTdByKtBrTOwsZ+Lw6CzkBm04GGvbMPsfGAY1ybHT3uRGZrQbAH1e+eLend3hFrQT06WlCTahhrtGEKmM/DhktfBA/D4xOT5SwEOq3L4Yc6/esdAesQ0PKdCNZPm3qFjwCiFfyNmwAQW3c1MwBISCLDCeNvOIfYqhF6qtdHicdvIjvICXqH/SwhdmDpwUqSsp2EBoS3+8y0r29K0fjRVoB9Ld/zYMshbmkpLrGTsG8H+wtzqc2G7Fu1g0pGWwwGNRytK/rEHNLw7rRMtPyjqvait+3rgJSqJ1h2IbjACe7VarEBIClRenVEN0n2tyXovTHreRMElyRLlH/hQIDzXTTWS0Kn+Am+Eg9hGhmHvIk/KvIngLSO1Buyvouhc8ZapmXHphEAcoVf1B9gqu3CdjOt0vyK4IeEKG7cc8ZgUBsPsIB7kYfNGAIcNGBkhGTscuIgMcfPG9c5woDE5GfvNT0iywZ3rPbtz3R7bJ2QHEXui+VLRbGXGDf03dfSJf0uHLWkygy4pqfYvNQZBmnQX2fnT4/DOGswU35zJJGF9NqrU6cAtYZT9RLmWsqomDPz6l5K/FYBps58P7Ljs/2uBl4+ZBODUU9o9s2NO8fK58b395FNO8YyfQIFBDL5+mwuFF8STrOPP64w==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6253.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(9686003)(66556008)(76116006)(55016003)(26005)(8676002)(7696005)(66446008)(53546011)(66946007)(6506007)(66476007)(64756008)(4326008)(52536014)(86362001)(508600001)(33656002)(5660300002)(38100700002)(71200400001)(2906002)(38070700005)(316002)(54906003)(186003)(6916009)(66574015)(122000001)(83380400001)(8936002);DIR:OUT;SFP:1101;
+x-microsoft-antispam-message-info: et60BtZL6tIYqO50AH/iJZJ9tLQDi2CXScIyC1jfIOv8PIua9/GdsxjnMhlyaKQKDF8bN937a7Vunic8ZdNVGezMmEGV/cW2hHijubsyL60dEPt4kB7G3egy6PXSlgxyUeDsC6yPsMlf7c3mW3GyejQAI0vnnrOCYDo1wojlA7X6NbfX9kVlu6npKH0RtmbLQomlQtnNyJ8kDQDf5CVWsW32SEw2a7UU1G6dzUM7NRnXq2c6hS0aSkGsB778LxYvxYMyzFUC1cSyNEd97cIbTdtRDx14XMsdgdA6RqNdjQfB1kEZcHeITh3OVkbo1N81NEGG9Pj2uKl2i3pmdV59GA05Wk7N5wtPiO2yxgAv9OIaEasg1JAdpIk//OPcJ1Wdixd/EMMUkKDdqaHR8tjkI44z5xE3GtuQZFV2Oq2qyRBRBRf16RH4ziJO8hg0NzOsWRpnrezSCjTQiNSUGvXhef9s7lun/D+rXhGxNnSpW83Ydj2gKqj87ouyBfzr1YMb2djmMbfWHKZ1ystYUJFRHqidqrsxvzL/+X6NONt4VSrAMxPcTS36/pYKCrYA5itoJy/8ZaC6Jtts/W/rxXimXmtnGaSQBCLh/InGbSZ9UdQ9wHaHpfRLKc/7edvuyvnr2dWkSiHewTLEsn6V2rGtemIEPMKesajc5OPJpIXT7C2Qci4rMGWqRGJyXcu6IkvTceXZIAQ1ikiB58tlOBlvcw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6253.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38100700002)(186003)(55016003)(71200400001)(66574015)(8676002)(316002)(4326008)(54906003)(66476007)(66446008)(76116006)(6916009)(83380400001)(38070700005)(64756008)(8936002)(53546011)(52536014)(7696005)(6506007)(86362001)(508600001)(33656002)(5660300002)(122000001)(9686003)(26005)(2906002)(66556008)(66946007);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?M69VpbJq0rLxaQhicS3Go3RTO3C0g9Tv0X42g+qBDqK/yXPl3++k1NO1U3?=
- =?iso-8859-1?Q?Yk0FjD7GV1pF6Vq9fBbXuxhlk0PwbAFKNmiqZAny0Nk05sfmhqzm1LWJMp?=
- =?iso-8859-1?Q?H1EtFGMkBEZqLb2G/7w9dNeID3k8awENFREeZ9GjaGLcgWx9nFTgev0p5v?=
- =?iso-8859-1?Q?zpKmF5w/HddXO/EbS1QBK61ROfxumKAWRNk0LjNtT3Oi6kpgkTpvY8fT5p?=
- =?iso-8859-1?Q?nQbGeU2YYGsaHTo9MpKDnRnujvTh6iO5f4SGxcjP4al5K7mmjFS2ISrgd/?=
- =?iso-8859-1?Q?m31yRE4DvxcDS4RldPltmjQdeCJ9qqgAliTRTshYVkOhBxLCCzY3ZshImf?=
- =?iso-8859-1?Q?AH9DBf1+TSOPFlOGE4pvvCNTAjWHIZ2zr4DkCMInWXSx1W3d9m4G/nTR1d?=
- =?iso-8859-1?Q?lNE7OMaMSEH7kItcY4N4dWmsZQmHQtFVAHkhaGAR8di6gBGp6iTKipz8Lc?=
- =?iso-8859-1?Q?eGn5B9EAx8FBKsFrEX5xdJgElE1ILWh3cGi8Kl74CvHV7YAC2KRVYifFcD?=
- =?iso-8859-1?Q?vxy/Q8IzLeYUe5maM5kbOirtLoNLFbMvh1ih6pV0QF35HzVEYC4tQFyh5f?=
- =?iso-8859-1?Q?DIF/xvyVnLHVSiOhHC2XZQCN5FtrX6kiePaQmPZokSUp8LIIsM6cEaVrr1?=
- =?iso-8859-1?Q?i+Dd7fLA7DsC6c6r8Foa4IztQ9bND1Qe3rxs+7HkVnebApD/TUbd7vhPTt?=
- =?iso-8859-1?Q?vmPw5ztryhbITvBcrrMpCRqRzA4mq/6bbPpggpYeetP7hYzDPuZjYxsr2u?=
- =?iso-8859-1?Q?2CIhvcMThU30QhFnnB1YIDXaeKxeBjNyy+jl/rX9qZ4vpm8hAchupCcedi?=
- =?iso-8859-1?Q?uI61hJeRrM3UJLMPtvb0c4lSH9fsQT4WqyqTLQjupehW231xkXqPlQNAaa?=
- =?iso-8859-1?Q?N4FcRQ1XYnCZqG9j5zyrlRyXAzRJagISs9gcy8KxDt7ITGSUtYJiTeKXsU?=
- =?iso-8859-1?Q?b7uUuxCrxSuJqOvF5xm8Hgd2e87eARHzhqKMebV/qTL3sumRUvG76yzLRe?=
- =?iso-8859-1?Q?+mjZf7OKjKsN+9M3r5U5+GO9+4r3JjhgJqGXgAp7dlH6LTUvakTcI2yaNr?=
- =?iso-8859-1?Q?VDySYNzeo+rJBDwKw8wBU8jR+9YySTvuy7VsR95ho7Rzbx37MrnjWRG07T?=
- =?iso-8859-1?Q?rlkoy7+XGL96pYHgRDaT/8krgczkmSBIhatHXe3jnKRUdfsoSSnu2GQre/?=
- =?iso-8859-1?Q?K/EDx7ZKnldwresISMY3r9qHEl3/HOERcTCKLIeIla6vab8KJWSkgs3tb6?=
- =?iso-8859-1?Q?koPepoVj8FcPE+VQVfo/tuPLOxIpU96MHlyCj3fnFmyEafCG8HLgDX7MKm?=
- =?iso-8859-1?Q?EGZdEd9X8jGUg7b5ZWaC6J/x0yUMTCCJwvzsdxRqukF4y+Xx0mBTER97IU?=
- =?iso-8859-1?Q?va37dJsykXCqlyheyrNF7DU/YXqqODVHzA+MSXqUeFFAtnU7VUZb2QWq2k?=
- =?iso-8859-1?Q?WUe6YC7Mszs+mZ8Sdq0+U5Uz6xILbjlH5jdMqkt8EaZIP6+w10j65Bnhe9?=
- =?iso-8859-1?Q?ZVzUXmDWz7DR8/yN2aCq7g0v05Eb+uTwFOtfzfpND40xOKlFhm7GPZrvvJ?=
- =?iso-8859-1?Q?5qefdklB1DM1cFhtWAwZqJBwtd/AWvXJUUHvmgRF+Fg/xhM22YQk1+YgCo?=
- =?iso-8859-1?Q?m3WqRazX3CV9TxaAITmp4FxD59aEZyuRopHqYPFjB3UOJRnqeeQ+WbfS4k?=
- =?iso-8859-1?Q?a1+aWgxG4l9fpLH+WV7BRpjVCzpxyHTNTch4qUbSt6FvDrB+Zl53EVG7wS?=
- =?iso-8859-1?Q?d4MM04XAtsG2NiO4dWpnJr+KvOJ7gIHKvza9UTbWRNC4BXLgrdwXLw2/13?=
- =?iso-8859-1?Q?X8Sgkxcrr4Owst2gwGqhbRQG94z0+mU=3D?=
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?bjnA2nXlYjdWjLWgw6vLZWHSIK7kpcc5SmfZ1HGC+t+rZLxdKmPJGAkBe7?=
+ =?iso-8859-1?Q?pxnFWqT4SuTQL7BP54gfjcd73shOZx6kxUWBb4935muQesOCofCbCVkKcU?=
+ =?iso-8859-1?Q?gHOUGbT6xP/bVHq6J79fOgQG3w+6qpCT4/KUYLc6A8WxOya32iIhAf6XJ+?=
+ =?iso-8859-1?Q?caKC4owbaIQqG9D+56/RcEG1Qfh9X8p2APEH4l67jbQh0z6zzQtNcGzbUh?=
+ =?iso-8859-1?Q?VMKn5wDAcGMsscK3Wd1u5WooCDWEqIRbFF2ZnB6WbFPmCl7PgKj3mptenq?=
+ =?iso-8859-1?Q?gr8H0BHLGPzJlLCcBtncZo9RAZIpxu+9JDMVkFBNNgv75bt+rkrx4twoUo?=
+ =?iso-8859-1?Q?mUpNS9JPGQk4Ooia0MxIA8iM/e9airzrXGHJLe+4so7T6yyZMYz4f9Dk5F?=
+ =?iso-8859-1?Q?BB+i/6nM4kMbcVKlUC0SB+FuHBzEB7Q0bjnBtXOcaukQ3as/do/L8HWcbS?=
+ =?iso-8859-1?Q?z0FUmUfgBSMk0YjJ5u1O6Nvmue/LDu5FqO19ar3JT9LB3OU/y2VCMwPQP/?=
+ =?iso-8859-1?Q?TBvqxgPolfM5qRJTxFpLY6CqzZa70/pbWb6iK1ohEpZCVyXpcNcyRhR+Vf?=
+ =?iso-8859-1?Q?uBnG1s7S7Fbgv4T/ITxo6bIQ+q0UwtMFWKqXO1Ex/P2AUUmMsD/dNwtF8V?=
+ =?iso-8859-1?Q?dvzNes81WKIDhl3kBgY35Zd48qikW9sKImCTQLrH8REOXjty2c8Fj/J7yf?=
+ =?iso-8859-1?Q?jO4ePn8SE7DeYAxEML7mB7E+5hvN98AbU6nKWgZI8IN/tSjL5xdFZ4bw4+?=
+ =?iso-8859-1?Q?ztnkOW34pIFQWDNEM0BHb0DLsSsBRAG2U3x+NfiYHj3fYC6OReKQ26/ZS3?=
+ =?iso-8859-1?Q?D9DbGGJnnk6xOrDFuuDruicgs1PDUCyN9Yg6WAHQ7yQHhpv7O1DlQh6HkD?=
+ =?iso-8859-1?Q?KhJc06YuMqfHpOCYUSsAWp3/MuX+876+vQ+qfGxV5JsTW5cb/RjVN4CPIb?=
+ =?iso-8859-1?Q?Jo9HKr87LZmntCt0BVVnpJeG8FoGJC6T681EVVOoms3VoMJmU/8gTUZtMD?=
+ =?iso-8859-1?Q?MSO8Vj1wkwa4pxGVoZ3sluH8PdPEO1qN36JTd+ZWvwYGJv571K7wJ7pm3o?=
+ =?iso-8859-1?Q?kUVgqWYeCPj1G0GqZ3ZYsqBWmniGECXaZWENVk90NDzaMZn/kMtMb/rPY2?=
+ =?iso-8859-1?Q?QqTEZkdy+IJ0nFVk9HoENb6WHr8KlHo6RgkjVOhzXEdb60HZoT4N/fkFmR?=
+ =?iso-8859-1?Q?BkOTWLU0WHyRkaRTAJax4YuiZ5eNwLIHqMVA2HSnRF5YfmqtMW8FqtTk2+?=
+ =?iso-8859-1?Q?IDOcsUaoiMZxIqtjjUj9KUM+sGzVaMtFIO1Uh6EqXGmPLt7QS1Lg/NsFhE?=
+ =?iso-8859-1?Q?za68hycDDtDNwQ2qB9efeOPwJkrUwMofHJDH2FADMwq7GUfn0gE+aaqpvj?=
+ =?iso-8859-1?Q?TNNrj0n+swzRjZ3mUtYV8ZRxdCxeEoEtmEOaFBCqAayEnPkzaWP4/+NVQe?=
+ =?iso-8859-1?Q?Da55zHPh5jCI/z3tTB4VtmEEspkGL1APAC3ILXY1fHL93dBV7cPVwKbkhR?=
+ =?iso-8859-1?Q?Pm3l6afwZUk1Wj1ERO/4fO4fdFhBUNfvUJN1pm+VQ5AFsJ3gagQ7jrNE1A?=
+ =?iso-8859-1?Q?3phoAI6XRDwhs5Yb/AQ30F3II2AxGvImm7BvKk7uNkepyfcP6D+J8QzZWX?=
+ =?iso-8859-1?Q?A8KsmXh8JonIUbgyT1d31rvf17RIzUDveVc5d04wHREi1FDZW1sO5BVJI9?=
+ =?iso-8859-1?Q?61Oi/UTa1bjkBCuo2z7+6y7xJeUlqM29RWqeic1f3HEeisfbNN4WMmF4DV?=
+ =?iso-8859-1?Q?PKoAQoG25tiej3B+B2B0VVjT3D0to0yTdMf1nIcHjW9K0bIJOmryd95sOa?=
+ =?iso-8859-1?Q?DFvHLQ0A6p15z52UBTHqNdYRqLd4F50=3D?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: analog.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB6253.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38a663ce-fd0c-4ec6-3201-08da422419dd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2022 10:06:44.5904
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7814e45e-5bc9-41f2-d5a5-08da4224a354
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2022 10:10:35.2692
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tjcShqOy2z+tQ5vIK4GeTCt07xzkZy8VDQKeayCRRtfvbHWU7AwnCnZG+WPrqBcASSXib++fQgGxYFt1WGOaLq8DNSpOmX90TlwktP/cR6Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR03MB4628
-X-Proofpoint-GUID: E2u4kIdguMW1ul3h6UVkJx6l8gfHXbwL
-X-Proofpoint-ORIG-GUID: E2u4kIdguMW1ul3h6UVkJx6l8gfHXbwL
+X-MS-Exchange-CrossTenant-userprincipalname: HZOPRsTqlvyl76cP5BahUZq8y+GhtgheL+AfFy81b9BaV07jNDjzX5tgGC4vyc56cQ7DVyQDqXlhnF4rmNQvVfFo2JNd9RrdY7xDSkSJgfg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR03MB2738
+X-Proofpoint-ORIG-GUID: C3RLa5mJfyi9Fky71g8YKgw4gqL1jWqV
+X-Proofpoint-GUID: C3RLa5mJfyi9Fky71g8YKgw4gqL1jWqV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
  definitions=2022-05-30_03,2022-05-30_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- phishscore=0 clxscore=1011 spamscore=0 malwarescore=0 adultscore=0
- bulkscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2205300052
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999
+ lowpriorityscore=0 spamscore=0 clxscore=1015 mlxscore=0 impostorscore=0
+ phishscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2205300054
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -171,75 +174,209 @@ X-Mailing-List: linux-input@vger.kernel.org
 > To: Hennerich, Michael <Michael.Hennerich@analog.com>
 > Cc: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>; linux-
 > input@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: [PATCH 1/4] Input: adp5588-keys - drop CONFIG_PM guards
+> Subject: [PATCH 2/4] Input: adp5588-keys - switch to using threaded inter=
+rupt
 >=20
+> [External]
 >=20
-> To improve compile-time coverage let's drop #ifdef CONFIG_PM guards and
-> use SIMPLE_DEV_PM_OPS and __maybe_unused attributes and rely on the
-> linker to drop unused code.
+> Instead of using hard interrupt handler and manually scheduling work item=
+ to
+> handle I2C communications, let's switch to threaded interrupt handling.
 >=20
+> While at that enforce the readout delay required on pre- revision 4 silic=
+on.
+>=20
+
+Looks good to me. I'll test this altogether with the devicetree and matrix_=
+keypad helper updates.
+
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
 Acked-by: Michael Hennerich <michael.hennerich@analog.com>
 
 > ---
->=20
-> Since we are talking about keeping the driver and switching it away from
-> platform data and towards device properties, here are some cleanups.
->=20
-> Only compiled, not tested.
->=20
->  drivers/input/keyboard/adp5588-keys.c | 13 +++----------
->  1 file changed, 3 insertions(+), 10 deletions(-)
+>  drivers/input/keyboard/adp5588-keys.c | 81 +++++++++++++++------------
+>  1 file changed, 45 insertions(+), 36 deletions(-)
 >=20
 > diff --git a/drivers/input/keyboard/adp5588-keys.c
 > b/drivers/input/keyboard/adp5588-keys.c
-> index 1592da4de336..ea67d0834be1 100644
+> index ea67d0834be1..ac21873ba1d7 100644
 > --- a/drivers/input/keyboard/adp5588-keys.c
 > +++ b/drivers/input/keyboard/adp5588-keys.c
-> @@ -612,8 +612,7 @@ static int adp5588_remove(struct i2c_client *client)
->  	return 0;
+> @@ -8,17 +8,19 @@
+>   * Copyright (C) 2008-2010 Analog Devices Inc.
+>   */
+>=20
+> -#include <linux/module.h>
+> +#include <linux/delay.h>
+> +#include <linux/errno.h>
+> +#include <linux/gpio/driver.h>
+> +#include <linux/i2c.h>
+> +#include <linux/input.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/irq.h>
+> -#include <linux/workqueue.h>
+> -#include <linux/errno.h>
+> -#include <linux/pm.h>
+> +#include <linux/ktime.h>
+> +#include <linux/module.h>
+>  #include <linux/platform_device.h>
+> -#include <linux/input.h>
+> -#include <linux/i2c.h>
+> -#include <linux/gpio/driver.h>
+> +#include <linux/pm.h>
+>  #include <linux/slab.h>
+> +#include <linux/timekeeping.h>
+>=20
+>  #include <linux/platform_data/adp5588.h>
+>=20
+> @@ -36,11 +38,12 @@
+>   * asserted.
+>   */
+>  #define WA_DELAYED_READOUT_REVID(rev)		((rev) < 4)
+> +#define WA_DELAYED_READOUT_TIME			25
+>=20
+>  struct adp5588_kpad {
+>  	struct i2c_client *client;
+>  	struct input_dev *input;
+> -	struct delayed_work work;
+> +	ktime_t irq_time;
+>  	unsigned long delay;
+>  	unsigned short keycode[ADP5588_KEYMAPSIZE];
+>  	const struct adp5588_gpi_map *gpimap;
+> @@ -289,13 +292,36 @@ static void adp5588_report_events(struct
+> adp5588_kpad *kpad, int ev_cnt)
+>  	}
 >  }
 >=20
-> -#ifdef CONFIG_PM
-> -static int adp5588_suspend(struct device *dev)
-> +static int __maybe_unused adp5588_suspend(struct device *dev)
+> -static void adp5588_work(struct work_struct *work)
+> +static irqreturn_t adp5588_hard_irq(int irq, void *handle) {
+> +	struct adp5588_kpad *kpad =3D handle;
+> +
+> +	kpad->irq_time =3D ktime_get();
+> +
+> +	return IRQ_WAKE_THREAD;
+> +}
+> +
+> +static irqreturn_t adp5588_thread_irq(int irq, void *handle)
 >  {
->  	struct adp5588_kpad *kpad =3D dev_get_drvdata(dev);
->  	struct i2c_client *client =3D kpad->client; @@ -627,7 +626,7 @@ static
-> int adp5588_suspend(struct device *dev)
->  	return 0;
+> -	struct adp5588_kpad *kpad =3D container_of(work,
+> -						struct adp5588_kpad,
+> work.work);
+> +	struct adp5588_kpad *kpad =3D handle;
+>  	struct i2c_client *client =3D kpad->client;
+> +	ktime_t target_time, now;
+> +	unsigned long delay;
+>  	int status, ev_cnt;
+>=20
+> +	/*
+> +	 * Readout needs to wait for at least 25ms after the notification
+> +	 * for REVID < 4.
+> +	 */
+> +	if (kpad->delay) {
+> +		target_time =3D ktime_add_ms(kpad->irq_time, kpad->delay);
+> +		now =3D ktime_get();
+> +		if (ktime_before(now, target_time)) {
+> +			delay =3D ktime_to_us(ktime_sub(target_time, now));
+> +			usleep_range(delay, delay + 1000);
+> +		}
+> +	}
+> +
+>  	status =3D adp5588_read(client, INT_STAT);
+>=20
+>  	if (status & ADP5588_OVR_FLOW_INT)	/* Unlikely and should never
+> happen */
+> @@ -308,20 +334,8 @@ static void adp5588_work(struct work_struct *work)
+>  			input_sync(kpad->input);
+>  		}
+>  	}
+> -	adp5588_write(client, INT_STAT, status); /* Status is W1C */
+> -}
+>=20
+> -static irqreturn_t adp5588_irq(int irq, void *handle) -{
+> -	struct adp5588_kpad *kpad =3D handle;
+> -
+> -	/*
+> -	 * use keventd context to read the event fifo registers
+> -	 * Schedule readout at least 25ms after notification for
+> -	 * REVID < 4
+> -	 */
+> -
+> -	schedule_delayed_work(&kpad->work, kpad->delay);
+> +	adp5588_write(client, INT_STAT, status); /* Status is W1C */
+>=20
+>  	return IRQ_HANDLED;
 >  }
+> @@ -505,7 +519,6 @@ static int adp5588_probe(struct i2c_client *client,
 >=20
-> -static int adp5588_resume(struct device *dev)
-> +static int __maybe_unused adp5588_resume(struct device *dev)
->  {
->  	struct adp5588_kpad *kpad =3D dev_get_drvdata(dev);
->  	struct i2c_client *client =3D kpad->client; @@ -640,11 +639,7 @@ static
-> int adp5588_resume(struct device *dev)
->  	return 0;
->  }
+>  	kpad->client =3D client;
+>  	kpad->input =3D input;
+> -	INIT_DELAYED_WORK(&kpad->work, adp5588_work);
 >=20
-> -static const struct dev_pm_ops adp5588_dev_pm_ops =3D {
-> -	.suspend =3D adp5588_suspend,
-> -	.resume  =3D adp5588_resume,
-> -};
-> -#endif
-> +static SIMPLE_DEV_PM_OPS(adp5588_dev_pm_ops, adp5588_suspend,
-> +adp5588_resume);
+>  	ret =3D adp5588_read(client, DEV_ID);
+>  	if (ret < 0) {
+> @@ -515,7 +528,7 @@ static int adp5588_probe(struct i2c_client *client,
 >=20
->  static const struct i2c_device_id adp5588_id[] =3D {
->  	{ "adp5588-keys", 0 },
-> @@ -656,9 +651,7 @@ MODULE_DEVICE_TABLE(i2c, adp5588_id);  static
-> struct i2c_driver adp5588_driver =3D {
->  	.driver =3D {
->  		.name =3D KBUILD_MODNAME,
-> -#ifdef CONFIG_PM
->  		.pm   =3D &adp5588_dev_pm_ops,
-> -#endif
->  	},
->  	.probe    =3D adp5588_probe,
->  	.remove   =3D adp5588_remove,
+>  	revid =3D (u8) ret & ADP5588_DEVICE_ID_MASK;
+>  	if (WA_DELAYED_READOUT_REVID(revid))
+> -		kpad->delay =3D msecs_to_jiffies(30);
+> +		kpad->delay =3D
+> msecs_to_jiffies(WA_DELAYED_READOUT_TIME);
+>=20
+>  	input->name =3D client->name;
+>  	input->phys =3D "adp5588-keys/input0";
+> @@ -560,9 +573,10 @@ static int adp5588_probe(struct i2c_client *client,
+>  		goto err_free_mem;
+>  	}
+>=20
+> -	error =3D request_irq(client->irq, adp5588_irq,
+> -			    IRQF_TRIGGER_FALLING,
+> -			    client->dev.driver->name, kpad);
+> +	error =3D request_threaded_irq(client->irq,
+> +				     adp5588_hard_irq, adp5588_thread_irq,
+> +				     IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+> +				     client->dev.driver->name, kpad);
+>  	if (error) {
+>  		dev_err(&client->dev, "irq %d busy?\n", client->irq);
+>  		goto err_unreg_dev;
+> @@ -587,7 +601,6 @@ static int adp5588_probe(struct i2c_client *client,
+>=20
+>   err_free_irq:
+>  	free_irq(client->irq, kpad);
+> -	cancel_delayed_work_sync(&kpad->work);
+>   err_unreg_dev:
+>  	input_unregister_device(input);
+>  	input =3D NULL;
+> @@ -604,7 +617,6 @@ static int adp5588_remove(struct i2c_client *client)
+>=20
+>  	adp5588_write(client, CFG, 0);
+>  	free_irq(client->irq, kpad);
+> -	cancel_delayed_work_sync(&kpad->work);
+>  	input_unregister_device(kpad->input);
+>  	adp5588_gpio_remove(kpad);
+>  	kfree(kpad);
+> @@ -614,11 +626,9 @@ static int adp5588_remove(struct i2c_client *client)
+>=20
+>  static int __maybe_unused adp5588_suspend(struct device *dev)  {
+> -	struct adp5588_kpad *kpad =3D dev_get_drvdata(dev);
+> -	struct i2c_client *client =3D kpad->client;
+> +	struct i2c_client *client =3D to_i2c_client(dev);
+>=20
+>  	disable_irq(client->irq);
+> -	cancel_delayed_work_sync(&kpad->work);
+>=20
+>  	if (device_may_wakeup(&client->dev))
+>  		enable_irq_wake(client->irq);
+> @@ -628,8 +638,7 @@ static int __maybe_unused adp5588_suspend(struct
+> device *dev)
+>=20
+>  static int __maybe_unused adp5588_resume(struct device *dev)  {
+> -	struct adp5588_kpad *kpad =3D dev_get_drvdata(dev);
+> -	struct i2c_client *client =3D kpad->client;
+> +	struct i2c_client *client =3D to_i2c_client(dev);
+>=20
+>  	if (device_may_wakeup(&client->dev))
+>  		disable_irq_wake(client->irq);
 > --
 > 2.36.1.124.g0e6072fb45-goog
 
