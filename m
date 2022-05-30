@@ -2,275 +2,211 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A28A5385AD
-	for <lists+linux-input@lfdr.de>; Mon, 30 May 2022 17:59:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DA0E53864A
+	for <lists+linux-input@lfdr.de>; Mon, 30 May 2022 18:46:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242308AbiE3P6p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 May 2022 11:58:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55024 "EHLO
+        id S231436AbiE3Qqp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 May 2022 12:46:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242364AbiE3P6k (ORCPT
+        with ESMTP id S235406AbiE3Qqo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 May 2022 11:58:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F0F5F12AA1
-        for <linux-input@vger.kernel.org>; Mon, 30 May 2022 08:50:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1653925820;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=LHfTPjbR/ocaEKI2euekEd9CUNVAA+DZiRkvQmDrTN0=;
-        b=Sq97Ls/1a8BZynBv2pV7S+FVOHo3msJuohdK6i0GNrQIh4vx1/fB+91adZgPeIYqBEThem
-        nse21eHx8Gb3tzXvQsHVTX65Rqvsgo4KccM6Dcja4ZzLpvrmr+9fBDhPGDKghHlaZqZTWq
-        +bwUO4KUErdtzZBPkeJXt5JSqGjYCRQ=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-395-7iiNnyaAMPaKUgu_kPodOw-1; Mon, 30 May 2022 11:50:16 -0400
-X-MC-Unique: 7iiNnyaAMPaKUgu_kPodOw-1
-Received: by mail-pl1-f199.google.com with SMTP id s10-20020a170902a50a00b00162359521c9so7410146plq.23
-        for <linux-input@vger.kernel.org>; Mon, 30 May 2022 08:50:16 -0700 (PDT)
+        Mon, 30 May 2022 12:46:44 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BFC965C5;
+        Mon, 30 May 2022 09:46:43 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id t6so15443873wra.4;
+        Mon, 30 May 2022 09:46:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=FZ+c1abWjPnmUNxflevPIbZKJr1GuBxGqcGlWpgKpvA=;
+        b=NxN6+WusRz0+JZXCENiMN76rf48G4ffcLF42NZaBHJVnlQKAf5qpHhXTsHS/Kcf7R4
+         YS9a+3S64dnSkW+1xZG7cDDV+/hscOq9WAAUfdB8JcHOs1ZiKcW1QpDAVoNXE1fNW53l
+         WCnHBxVAhrUXsYFWHimGQtrFz7THdYykOlxZuxMH9g4rmtxIWQIqiEE1Puw8RUrW8U7t
+         haRFfd9ltsdfrOY/1RN8UGfuLcbfsmhOcigfK96N4tvnx7J1W9sKJEe1D+2SRi7tyfD2
+         p3ukiB8iR8fA7Uak6/M70fYGoKu2B9xpgs2hB/EnWFOlDPCIA6tf5HIVftBwJd30Xs5S
+         nmtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LHfTPjbR/ocaEKI2euekEd9CUNVAA+DZiRkvQmDrTN0=;
-        b=jx4cbWlPA9ByKL9eOR/7+0abUZ+btFvd0uE/Qy1aU+mzgsq+yjDFKAU1C48dYL1L8Z
-         G8bDePmILeQwZjAHVOjVBXhOt9S3rvkwb0IG3dKmTGr4nzOqUVojDAeoA59SAtch+0BY
-         2DltbUsRa6l9bMrvBiSlcLR8CrxHJBwCtHXcSKg1MkCC8bv9fqmOIlIXlvDDgehHjT8u
-         1XPMKFDgOx2yLQEsRRMjTLrKquNJwBJzDyesoN7X1MUoBo5xUg26w4yrAHBbFsSCl9pf
-         nCUDiNud1j2gQJBeiD3vn3bMcI1AW9gDb0zB1wTtnOZ4rErIYHwJ0LgdaKPyPFWRCTg6
-         O6aw==
-X-Gm-Message-State: AOAM533UJDO6L/9l9daPgEL7wAtVfVC7hoVswC4aOesRxqLi4LwmJOoZ
-        RhQKGndRxWI+fRcwdibRkji8FZ/DLU3q6X1Z/tpoVtVxe8y3U8xDjxiP0YwIvp2wBS8fopLBAyZ
-        czWB8Nys8ccdKP4YaQPL3Fsc91yeeIpoKIA4Os6c=
-X-Received: by 2002:a17:902:c412:b0:161:af8b:f478 with SMTP id k18-20020a170902c41200b00161af8bf478mr57106602plk.67.1653925809325;
-        Mon, 30 May 2022 08:50:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwt/D2VuCWPTO7sVCA8hoMuQ8Fn3PJTSQG33YbBFyxoNdQnbLzbKX3nn4EZ/Unmr7KcDDyuk40Jn4yLRKcdgdY=
-X-Received: by 2002:a17:902:c412:b0:161:af8b:f478 with SMTP id
- k18-20020a170902c41200b00161af8bf478mr57106583plk.67.1653925809012; Mon, 30
- May 2022 08:50:09 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=FZ+c1abWjPnmUNxflevPIbZKJr1GuBxGqcGlWpgKpvA=;
+        b=kjIxd4ABt/sElgBG/txSfW5WBj8xvNq1fIpMPLz3LA6B2hc6HNgM3gsj2FfbjcH5S7
+         UfmDafIKEOq791/Rv81vs1CTYcgmrzvdYQk9v0edblGZo+dSA2H2+YUYlYgfVpcf3Hvo
+         oNdohA3VPSEI8/sep9cog0FC9JJTGpqjtsUhg9TPPHt9BI+ufvHneAVurSxNi8T9CI6k
+         6AMfYu/2Ts3wsZjMpICzll8G94RbVszA0r7WerDKpPcKYBItlEn9IvlcHtOb1EqIiLyF
+         n25NkmjjDoCQ393hbeCsIM6yn0pbjrZ5I8+JwjcRxVI4A4tJ2xBHq4QMVek29iB0E5WX
+         rSVQ==
+X-Gm-Message-State: AOAM533RFjVkMC564hZ/yafCqNqcd3iykjU8IpXsZyY4upD3HrIMcL6e
+        g6mwxbIK9op3gaGqesEdqDyoi2AJ1ofE4A==
+X-Google-Smtp-Source: ABdhPJxfzR/nao0Sklrf9ey+ubpyRMeiAh0hZ6KgtyXDEZ38KbdQlOxsL9J6KDGBtuKUNdXcTzPVEA==
+X-Received: by 2002:adf:e7cf:0:b0:210:3e5:32f3 with SMTP id e15-20020adfe7cf000000b0021003e532f3mr20480864wrn.509.1653929201681;
+        Mon, 30 May 2022 09:46:41 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:6d40:29d:ba85:78f8:3d80:548? ([2a02:810d:6d40:29d:ba85:78f8:3d80:548])
+        by smtp.gmail.com with ESMTPSA id m19-20020a7bca53000000b003942a244ee6sm10417538wml.43.2022.05.30.09.46.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 May 2022 09:46:40 -0700 (PDT)
+Message-ID: <a402fa65-e575-6c8d-90ff-c404143d947b@gmail.com>
+Date:   Mon, 30 May 2022 18:46:38 +0200
 MIME-Version: 1.0
-References: <20220518205924.399291-1-benjamin.tissoires@redhat.com> <799ae406-ce12-f0d4-d213-4dd455236e49@linux.intel.com>
-In-Reply-To: <799ae406-ce12-f0d4-d213-4dd455236e49@linux.intel.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 30 May 2022 17:49:57 +0200
-Message-ID: <CAO-hwJJwznZqLgeULJ+fksH0VfJ4Jjszut_+zZgi2KEUyPCdbw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v5 00/17] Introduce eBPF support for HID devices
-To:     Tero Kristo <tero.kristo@linux.intel.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH for-5.19/uclogic] HID: uclogic: Remove useless loop
+Content-Language: en-US
+To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com, spbnick@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220518224702.1409327-1-jose.exposito89@gmail.com>
+ <20220518224702.1409327-4-jose.exposito89@gmail.com>
+ <17153eb3-0eb9-cc05-4b65-9c0f4e8d3c90@gmail.com>
+ <20220530065452.GA39613@elementary>
+From:   Stefan Berzl <stefanberzl@gmail.com>
+In-Reply-To: <20220530065452.GA39613@elementary>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Tero,
+Hello everynyan!
 
-On Fri, May 27, 2022 at 9:26 AM Tero Kristo <tero.kristo@linux.intel.com> wrote:
->
-> Hi Benjamin,
->
-> I noticed a couple of issues with this series, but was able to
-> fix/workaround them locally and got my USI program working with it.
->
-> 1) You seem to be missing tools/include/uapi/linux/hid_bpf.h from index,
-> I wasn't able to compile the selftests (or my own program) without
-> adding this. It is included from
-> tools/testing/selftests/bpf/prog_tests/hid.c: #include <linux/hid_bpf.h>
+> Hi Stefan,
+> 
+> Thanks for the patch. You can send it as an standalone patch rather
+> than as a response to my patches, I don't know if it could be missed by
+> maintaners this way.
 
-Hmm... I initially thought that this would be "fixed" when the kernel
-headers are properly installed, so I don't need to manually keep a
-duplicate in the tools tree. But now that you mention it, I probably
-need to do it the way you mention it.
+You are right about that, I'll keep it in mind. But for consistency,
+I think it's better to reply here for now.
 
->
-> 2) The limitation of needing to hardcode the size for hid_bpf_get_data()
-> seems somewhat worrying, especially as the kernel side limits this to
-> the ctx->allocated_size. I used a sufficiently large number for my
-> purposes for now (256) which seems to work, but how should I handle my
-> case where I basically need to read the whole input report and parse
-> certain portions of it? How does the HID subsystem select the size of
-> the ctx->allocated_size?
+>> The while in question does nothing except provide the possibility
+>> to have an infinite loop in case the subreport id is actually the same
+>> as the pen id.
+>>
+>> Signed-off-by: Stefan Berzl <stefanberzl@gmail.com>
+>>
+>> ---
+>>  drivers/hid/hid-uclogic-core.c | 55 ++++++++++++++++------------------
+>>  1 file changed, 25 insertions(+), 30 deletions(-)
+>>
+>> diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
+>> index c0fe66e50c58..1a6b941f3964 100644
+>> --- a/drivers/hid/hid-uclogic-core.c
+>> +++ b/drivers/hid/hid-uclogic-core.c
+>> @@ -423,40 +423,35 @@ static int uclogic_raw_event(struct hid_device *hdev,
+>>  	if (report->type != HID_INPUT_REPORT)
+>>  		return 0;
+>>  
+>> -	while (true) {
+>> -		/* Tweak pen reports, if necessary */
+>> -		if ((report_id == params->pen.id) && (size >= 2)) {
+>> -			subreport_list_end =
+>> -				params->pen.subreport_list +
+>> -				ARRAY_SIZE(params->pen.subreport_list);
+>> -			/* Try to match a subreport */
+>> -			for (subreport = params->pen.subreport_list;
+>> -			     subreport < subreport_list_end; subreport++) {
+>> -				if (subreport->value != 0 &&
+>> -				    subreport->value == data[1]) {
+>> -					break;
+>> -				}
+>> -			}
+>> -			/* If a subreport matched */
+>> -			if (subreport < subreport_list_end) {
+>> -				/* Change to subreport ID, and restart */
+>> -				report_id = data[0] = subreport->id;
+>> -				continue;
+> 
+> Here, in the previous code, the "report_id" is set to the subreport ID
+> and the while loop is executed again with the new ID. The loop acts as
+> a recursive function.
+> 
+> Isn't this behaviour removed by your patch?
+> 
+> Jose
 
-The allocated size is based on the maximum size of the reports allowed
-in the device. It is dynamically computed based on the report
-descriptor.
+Think about what this behavior really achieves. In the first iteration,
+we check if params->pen.id equals the report_id, which is the actual
+report id from the usb message. If that is the case, we check if the
+second byte of the message is such that we need an updated "subreport"
+for this particular message. Therefore, the report_id is set to the
+subreport->id. This subreport->id is by design supposed to be different
+from the original params->pen.id, because otherwise, why would we need  
+this update? If we then "continue" with this useless loop, either one of
+two cases can happen:
 
-I also had the exact same issue you mentioned (dynamically retrieve
-the whole report), and that's why I added a couple of things:
-- struct hid_bpf_ctx->allocated_size which gives the allocated size,
-so you can use this as an upper bound in a for loop
-- the allocated size is guaranteed to be a multiple of 64 bytes.
+The best case is that the (report_id = subreport->id) != params->pen.id 
+in which case the if-block won't be executed and we only wasted time.
 
-Which means you can have the following for loop:
+If the (report_id = subreport->id) == params->pen.id however, things get
+interesting. The "subreport_list_end" and "subreport" variables will
+again be set to entries based on "params->pen.subreport_list", which is
+totally unchanged from the last iteration. We will iterate the same
+subreports, find the same result, set report_id to the same
+subreport->id and, that's the beauty of it, "continue" this ingenious
+loop, creating an infinite loop.
 
-for (i = 0; i * 64 < hid_ctx->allocated_size && i < 64; i++) {
-  data = hid_bpf_get_data(hid_ctx, i * 64, 64);
-  /* some more processing */
-}
+This contraption is in the best case only wasteful, yet it has been
+accepted all willy-nilly like. Really gets the noggin joggin.
 
-("i < 64" makes an upper bound of 4KB of data, which should be enough
-in most cases).
+> 
+>> -			} else {
+>> -				return uclogic_raw_event_pen(drvdata, data, size);
+>> +	/* Tweak pen reports, if necessary */
+>> +	if ((report_id == params->pen.id) && (size >= 2)) {
+>> +		subreport_list_end =
+>> +			params->pen.subreport_list +
+>> +			ARRAY_SIZE(params->pen.subreport_list);
+>> +		/* Try to match a subreport */
+>> +		for (subreport = params->pen.subreport_list;
+>> +		     subreport < subreport_list_end; subreport++) {
+>> +			if (subreport->value != 0 &&
+>> +			    subreport->value == data[1]) {
+>> +				break;
+>>  			}
+>>  		}
+>> -
+>> -		/* Tweak frame control reports, if necessary */
+>> -		for (i = 0; i < ARRAY_SIZE(params->frame_list); i++) {
+>> -			if (report_id == params->frame_list[i].id) {
+>> -				return uclogic_raw_event_frame(
+>> -					drvdata, &params->frame_list[i],
+>> -					data, size);
+>> -			}
+>> +		/* If a subreport matched */
+>> +		if (subreport < subreport_list_end) {
+>> +			/* Change to subreport ID, and restart */
+>> +			report_id = data[0] = subreport->id;
+>> +		} else {
+>> +			return uclogic_raw_event_pen(drvdata, data, size);
+>>  		}
+>> +	}
+>>  
+>> -		break;
+>> +	/* Tweak frame control reports, if necessary */
+>> +	for (i = 0; i < ARRAY_SIZE(params->frame_list); i++) {
+>> +		if (report_id == params->frame_list[i].id) {
+>> +			return uclogic_raw_event_frame(
+>> +				drvdata, &params->frame_list[i],
+>> +				data, size);
+>> +		}
+>>  	}
+>>  
+>>  	return 0;
+>> -- 
+>> 2.36.1
+>>
+>>
 
-Cheers,
-Benjamin
+Bye bye
 
->
-> -Tero
->
-> On 18/05/2022 23:59, Benjamin Tissoires wrote:
-> > Hi,
-> >
-> > And here comes the v5 of the HID-BPF series.
-> >
-> > I managed to achive the same functionalities than v3 this time.
-> > Handling per-device BPF program was "interesting" to say the least,
-> > but I don't know if we can have a generic BPF way of handling such
-> > situation.
-> >
-> > The interesting bits is that now the BPF core changes are rather small,
-> > and I am mostly using existing facilities.
-> > I didn't managed to write selftests for the RET_PTR_TO_MEM kfunc,
-> > because I can not call kmalloc while in a SEC("tc") program to match
-> > what the other kfunc tests are doing.
-> > And AFAICT, the most interesting bits would be to implement verifier
-> > selftests, which are way out of my league, given that they are
-> > implemented as plain bytecode.
-> >
-> > The logic is the following (see also the last patch for some more
-> > documentation):
-> > - hid-bpf first preloads a BPF program in the kernel that does a few
-> >    things:
-> >     * find out which attach_btf_id are associated with our trace points
-> >     * adds a bpf_tail_call() BPF program that I can use to "call" any
-> >       other BPF program stored into a jump table
-> >     * monitors the releases of struct bpf_prog, and when there are no
-> >       other users than us, detach the bpf progs from the HID devices
-> > - users then declare their tracepoints and then call
-> >    hid_bpf_attach_prog() in a SEC("syscall") program
-> > - hid-bpf then calls multiple time the bpf_tail_call() program with a
-> >    different index in the jump table whenever there is an event coming
-> >    from a matching HID device
-> >
-> > Note that I am tempted to pin an "attach_hid_program" in the bpffs so
-> > that users don't need to declare one, but I am afraid this will be one
-> > more API to handle, so maybe not.
-> >
-> > I am also wondering if I should not strip out hid_bpf_jmp_table of most
-> > of its features and implement everything as a BPF program. This might
-> > remove the need to add the kernel light skeleton implementations of map
-> > modifications, and might also possibly be more re-usable for other
-> > subsystems. But every plan I do in my head involves a lot of back and
-> > forth between the kernel and BPF to achieve the same, which doesn't feel
-> > right. The tricky part is the RCU list of programs that is stored in each
-> > device and also the global state of the jump table.
-> > Anyway, something to look for in a next version if there is a push for it.
-> >
-> > FWIW, patch 1 is something I'd like to get merged sooner. With 2
-> > colleagues, we are also working on supporting the "revoke" functionality
-> > of a fd for USB and for hidraw. While hidraw can be emulated with the
-> > current features, we need the syscall kfuncs for USB, because when we
-> > revoke a USB access, we also need to kick out the user, and for that, we
-> > need to actually execute code in the kernel from a userspace event.
-> >
-> > Anyway, happy reviewing.
-> >
-> > Cheers,
-> > Benjamin
-> >
-> > [Patch series based on commit 68084a136420 ("selftests/bpf: Fix building bpf selftests statically")
-> > in the bpf-next tree]
-> >
-> > Benjamin Tissoires (17):
-> >    bpf/btf: also allow kfunc in tracing and syscall programs
-> >    bpf/verifier: allow kfunc to return an allocated mem
-> >    bpf: prepare for more bpf syscall to be used from kernel and user
-> >      space.
-> >    libbpf: add map_get_fd_by_id and map_delete_elem in light skeleton
-> >    HID: core: store the unique system identifier in hid_device
-> >    HID: export hid_report_type to uapi
-> >    HID: initial BPF implementation
-> >    selftests/bpf: add tests for the HID-bpf initial implementation
-> >    HID: bpf: allocate data memory for device_event BPF programs
-> >    selftests/bpf/hid: add test to change the report size
-> >    HID: bpf: introduce hid_hw_request()
-> >    selftests/bpf: add tests for bpf_hid_hw_request
-> >    HID: bpf: allow to change the report descriptor
-> >    selftests/bpf: add report descriptor fixup tests
-> >    samples/bpf: add new hid_mouse example
-> >    selftests/bpf: Add a test for BPF_F_INSERT_HEAD
-> >    Documentation: add HID-BPF docs
-> >
-> >   Documentation/hid/hid-bpf.rst                 | 528 ++++++++++
-> >   Documentation/hid/index.rst                   |   1 +
-> >   drivers/hid/Kconfig                           |   2 +
-> >   drivers/hid/Makefile                          |   2 +
-> >   drivers/hid/bpf/Kconfig                       |  19 +
-> >   drivers/hid/bpf/Makefile                      |  11 +
-> >   drivers/hid/bpf/entrypoints/Makefile          |  88 ++
-> >   drivers/hid/bpf/entrypoints/README            |   4 +
-> >   drivers/hid/bpf/entrypoints/entrypoints.bpf.c |  78 ++
-> >   .../hid/bpf/entrypoints/entrypoints.lskel.h   | 782 ++++++++++++++
-> >   drivers/hid/bpf/hid_bpf_dispatch.c            | 565 ++++++++++
-> >   drivers/hid/bpf/hid_bpf_dispatch.h            |  28 +
-> >   drivers/hid/bpf/hid_bpf_jmp_table.c           | 587 +++++++++++
-> >   drivers/hid/hid-core.c                        |  43 +-
-> >   include/linux/btf.h                           |   7 +
-> >   include/linux/hid.h                           |  29 +-
-> >   include/linux/hid_bpf.h                       | 144 +++
-> >   include/uapi/linux/hid.h                      |  12 +
-> >   include/uapi/linux/hid_bpf.h                  |  25 +
-> >   kernel/bpf/btf.c                              |  47 +-
-> >   kernel/bpf/syscall.c                          |  10 +-
-> >   kernel/bpf/verifier.c                         |  72 +-
-> >   samples/bpf/.gitignore                        |   1 +
-> >   samples/bpf/Makefile                          |  23 +
-> >   samples/bpf/hid_mouse.bpf.c                   | 134 +++
-> >   samples/bpf/hid_mouse.c                       | 157 +++
-> >   tools/lib/bpf/skel_internal.h                 |  23 +
-> >   tools/testing/selftests/bpf/config            |   3 +
-> >   tools/testing/selftests/bpf/prog_tests/hid.c  | 990 ++++++++++++++++++
-> >   tools/testing/selftests/bpf/progs/hid.c       | 222 ++++
-> >   30 files changed, 4593 insertions(+), 44 deletions(-)
-> >   create mode 100644 Documentation/hid/hid-bpf.rst
-> >   create mode 100644 drivers/hid/bpf/Kconfig
-> >   create mode 100644 drivers/hid/bpf/Makefile
-> >   create mode 100644 drivers/hid/bpf/entrypoints/Makefile
-> >   create mode 100644 drivers/hid/bpf/entrypoints/README
-> >   create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.bpf.c
-> >   create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.lskel.h
-> >   create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.c
-> >   create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.h
-> >   create mode 100644 drivers/hid/bpf/hid_bpf_jmp_table.c
-> >   create mode 100644 include/linux/hid_bpf.h
-> >   create mode 100644 include/uapi/linux/hid_bpf.h
-> >   create mode 100644 samples/bpf/hid_mouse.bpf.c
-> >   create mode 100644 samples/bpf/hid_mouse.c
-> >   create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
-> >   create mode 100644 tools/testing/selftests/bpf/progs/hid.c
-> >
->
-
+Stefan Berzl
