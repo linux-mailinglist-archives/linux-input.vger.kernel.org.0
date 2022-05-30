@@ -2,78 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10621537900
-	for <lists+linux-input@lfdr.de>; Mon, 30 May 2022 12:29:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73DEE5378FB
+	for <lists+linux-input@lfdr.de>; Mon, 30 May 2022 12:29:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235117AbiE3KKq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 May 2022 06:10:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34336 "EHLO
+        id S235151AbiE3KLc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 May 2022 06:11:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235086AbiE3KKp (ORCPT
+        with ESMTP id S235174AbiE3KL2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 May 2022 06:10:45 -0400
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6003E7B9D3;
-        Mon, 30 May 2022 03:10:44 -0700 (PDT)
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-        by mx0a-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24U9lLVd029516;
-        Mon, 30 May 2022 06:10:38 -0400
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
-        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3gc0xg0gm9-1
+        Mon, 30 May 2022 06:11:28 -0400
+Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BDCC7CB28;
+        Mon, 30 May 2022 03:11:14 -0700 (PDT)
+Received: from pps.filterd (m0167090.ppops.net [127.0.0.1])
+        by mx0b-00128a01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24U9Cb9Q018897;
+        Mon, 30 May 2022 06:11:11 -0400
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2104.outbound.protection.outlook.com [104.47.70.104])
+        by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 3gbgc73a3x-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 30 May 2022 06:10:38 -0400
+        Mon, 30 May 2022 06:11:10 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D7a9qj1IKV5ppXcsw+HOCI3PgyKFrerIoxS0fphm+qnnudRm83aQhMg5lDa/tCygj2zJnGHGnq/2SW5O41DPyQlg7iocz1TnSYmZSLXkxV7hcU+tPpbIXMmfnfSst6YwvnaebQOQYxyrspoJ77I/wBqcAo8ZHo9xhPGslX5eqq86VqsDNn5ZBhw25mu/lqUmaGBWJQnIfFHuPc+9QYkajGogGQafIFnLLgdf7gsvUqKb4sFXVjcHbHXbyVymj5/NaP/SKEplzPrGOwxQZoMtIsjSq6xfh3B8WXLF9LRQuk+pYSLx01R4J7ggXUm0gRrZIAcFX+ifXvuOTnKQM9COtA==
+ b=CoqKXJyZVkn0/TfeLjxCxi5aZjmWFD0pHsD84wh/VrpwvlCv0jK1IrXVQVMe9DblXFfdht8tqQD3N9BPsJAsf69m6IsCJ04SWlzzmkZYdb431D+f7jrJjS4gPtOAmpwro5FENvDZ1C8CiBX+BkWficSWjIh9FnVVid+/0YFVdhB7cUqTATI+mlLt3TB8sXkz7vB3dsBLCrzQE6E1AEiEHgiF8QQO7Nh6RtCb84WQ+LsNnd0qanO7THxQnICkW3qnRwopirEvVknlk767gu4U1XYaleOm2ZSTtE5l5esyz1nPGdHbBlBA8d9KD4E6Ttgy48bwjxw08od6SSymUH/JTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r471pMEZ2pYdr6wN+F4I/fLnVnPYIM5oX5QcnRRV2Xo=;
- b=YADlIZLfYe0Wu7N25eX4vMf6oHJfB/CXqHHJKvtPUrs15SXlLSklsb9F7IsGUXUIyv0im3Md/JFhEkmjmwp3cgAW2neBEeog+RepDaSiEGnJjZGzoOwyvWKAG1R75ts5niDqjrSnXpM/Hgf9XI/xMKMW3XgIOeE/tSJf/GblII0qxfYfnshAh+zUWexMTwGbMcSMjlFsT4lqFnZRKwk3ss1Ga30KdVaO+qnCFH9ltwEJ5ritDN165IeLPlpwLJvIAQyNwrWE3nGE3YPRcyWPcJFYvpBXvo5C0hFy1d5gVTM2A+znFcsvcMwVKY4X9kc54XBwL4iuf4rKRebLQQc0lw==
+ bh=bcHIivbyxzyoP2jEKvmKQtRU7bBV5Emr1QlzLp3tZMY=;
+ b=VJ6oPcl+WEaQTBEYGvIR+RyFuYT/Wsj9eKbXR27SLqU4ntp50r81h7MkKGmLjuLgiI09qjyW4EyVdk6rzEGzIEyP4v3A2/Jo2eyc9a0UAYH43h/tjdiX0ILCjjNvNsF2qiRJ9Pf5omK0CnOsigmGehlZ1Is6N6BZzn3+UgT4tzDgMWkdjEkfii8KIqaO2hHevXy5wA9q6QF1+JasI89D3vCmlwTDdZ4RXpm2ZZuLmpmuHvABjIQVuYe3MmN7RS9kEnOUFISKWnyBMsCarHrzZz2M1T5eVt+46Oy3cSb7apHkQGpsacKdJWMyA3fn098XIYrmmUPVSScXe814RWxQ0Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
  dkim=pass header.d=analog.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r471pMEZ2pYdr6wN+F4I/fLnVnPYIM5oX5QcnRRV2Xo=;
- b=mPA77BeDHfUhYG04p9bG6kiopJkrNHWlGNUYtI/EDzG3OWDrmdA1N/I/ockTutLFt+IrrqHxfnlVLPNBwv0l59cxz5D7/zbzXLzsnKl9jVHulV310tUIeOC0Bt5s4HUn5k0YV0JMhhO971qsSq8D6s3k0iLN0mWefkYB72dTQTs=
+ bh=bcHIivbyxzyoP2jEKvmKQtRU7bBV5Emr1QlzLp3tZMY=;
+ b=1a+Y8v76pxLcIRHe5+wqZyt1Um/9iJwESAz2bjoxihEteZ6SVjYku4XTkqL+39D0VBdwR3yD5WZRy1jupttFvKOtWvxDCKZ/fio/Cy4Mj0/pLCiaG0zvabU8DxJbHv4mjKnaRf2QUaYKjwL4+OW9OHvy2i7CaXTiYL1U3e7dhzE=
 Received: from SJ0PR03MB6253.namprd03.prod.outlook.com (2603:10b6:a03:3b8::19)
- by BN6PR03MB2738.namprd03.prod.outlook.com (2603:10b6:404:57::20) with
+ by CY4PR03MB2920.namprd03.prod.outlook.com (2603:10b6:903:130::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Mon, 30 May
- 2022 10:10:35 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.17; Mon, 30 May
+ 2022 10:11:09 +0000
 Received: from SJ0PR03MB6253.namprd03.prod.outlook.com
  ([fe80::b188:7eab:15fc:aa39]) by SJ0PR03MB6253.namprd03.prod.outlook.com
  ([fe80::b188:7eab:15fc:aa39%5]) with mapi id 15.20.5293.019; Mon, 30 May 2022
- 10:10:35 +0000
+ 10:11:09 +0000
 From:   "Hennerich, Michael" <Michael.Hennerich@analog.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 CC:     =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
         <u.kleine-koenig@pengutronix.de>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 2/4] Input: adp5588-keys - switch to using threaded
- interrupt
-Thread-Topic: [PATCH 2/4] Input: adp5588-keys - switch to using threaded
- interrupt
-Thread-Index: AQHYck9SflYNu/xNw02lCU2KpHCRP603NbhQ
-Date:   Mon, 30 May 2022 10:10:35 +0000
-Message-ID: <SJ0PR03MB6253352AC71700940580DFA38EDD9@SJ0PR03MB6253.namprd03.prod.outlook.com>
+Subject: RE: [PATCH 3/4] Input: adp5588-keys - switch to using managed
+ resources
+Thread-Topic: [PATCH 3/4] Input: adp5588-keys - switch to using managed
+ resources
+Thread-Index: AQHYck9TY0Z3n8JQbUawF7Y5LRKwJK03NnoQ
+Date:   Mon, 30 May 2022 10:11:09 +0000
+Message-ID: <SJ0PR03MB625362C81843C51A26448A418EDD9@SJ0PR03MB6253.namprd03.prod.outlook.com>
 References: <20220528045631.289821-1-dmitry.torokhov@gmail.com>
- <20220528045631.289821-2-dmitry.torokhov@gmail.com>
-In-Reply-To: <20220528045631.289821-2-dmitry.torokhov@gmail.com>
+ <20220528045631.289821-3-dmitry.torokhov@gmail.com>
+In-Reply-To: <20220528045631.289821-3-dmitry.torokhov@gmail.com>
 Accept-Language: de-DE, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-dg-ref: =?iso-8859-1?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcbWhlbm5lcm?=
  =?iso-8859-1?Q?lcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZi?=
- =?iso-8859-1?Q?ODRiYTI5ZTM1Ylxtc2dzXG1zZy1iY2UyOGFlMC1lMDAwLTExZWMtOTJhMS?=
- =?iso-8859-1?Q?00ODg5ZTc3Y2RkZWZcYW1lLXRlc3RcYmNlMjhhZTItZTAwMC0xMWVjLTky?=
- =?iso-8859-1?Q?YTEtNDg4OWU3N2NkZGVmYm9keS50eHQiIHN6PSI2OTM1IiB0PSIxMzI5OD?=
- =?iso-8859-1?Q?M3OTAzMjU2NDk3NTAiIGg9Ing0V2d0Zks3S1JnSVlLQ213MlVyUFJzWG5S?=
- =?iso-8859-1?Q?ND0iIGlkPSIiIGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk?=
- =?iso-8859-1?Q?5DZ1VBQUVvQ0FBQlcwVDUvRFhUWUFRYXgySFYwWE5xT0JySFlkWFJjMm80?=
+ =?iso-8859-1?Q?ODRiYTI5ZTM1Ylxtc2dzXG1zZy1kMTdmZjg4My1lMDAwLTExZWMtOTJhMS?=
+ =?iso-8859-1?Q?00ODg5ZTc3Y2RkZWZcYW1lLXRlc3RcZDE3ZmY4ODUtZTAwMC0xMWVjLTky?=
+ =?iso-8859-1?Q?YTEtNDg4OWU3N2NkZGVmYm9keS50eHQiIHN6PSI3MDI3IiB0PSIxMzI5OD?=
+ =?iso-8859-1?Q?M3OTA2NzEyODk4MzEiIGg9Im13WUxiWEo0ZG14T1RBWitLQUdTdmRsZkl1?=
+ =?iso-8859-1?Q?Zz0iIGlkPSIiIGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk?=
+ =?iso-8859-1?Q?5DZ1VBQUVvQ0FBRG4zZGlURFhUWUFiYlJpaHNENjdNdXR0R0tHd1Byc3k0?=
  =?iso-8859-1?Q?REFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFIQUFBQURhQVFBQUFBQUFBQU?=
  =?iso-8859-1?Q?FBQUFBQUFBQUFBQUFBQUFFQUFRQUJBQUFBSnJqSklRQUFBQUFBQUFBQUFB?=
  =?iso-8859-1?Q?QUFBSjRBQUFCaEFHUUFhUUJmQUhNQVpRQmpBSFVBY2dCbEFGOEFjQUJ5QU?=
@@ -93,73 +93,73 @@ x-dg-ref: =?iso-8859-1?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcbWhlbm5
  =?iso-8859-1?Q?QUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFBPT0iLz48L21ldGE+?=
 x-dg-rorf: true
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7814e45e-5bc9-41f2-d5a5-08da4224a354
-x-ms-traffictypediagnostic: BN6PR03MB2738:EE_
-x-microsoft-antispam-prvs: <BN6PR03MB27388EF5EB86CD23B63625A38EDD9@BN6PR03MB2738.namprd03.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 88cfb21c-69f7-40b2-3d60-08da4224b784
+x-ms-traffictypediagnostic: CY4PR03MB2920:EE_
+x-microsoft-antispam-prvs: <CY4PR03MB2920A99375DB2B99A558CAE98EDD9@CY4PR03MB2920.namprd03.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: et60BtZL6tIYqO50AH/iJZJ9tLQDi2CXScIyC1jfIOv8PIua9/GdsxjnMhlyaKQKDF8bN937a7Vunic8ZdNVGezMmEGV/cW2hHijubsyL60dEPt4kB7G3egy6PXSlgxyUeDsC6yPsMlf7c3mW3GyejQAI0vnnrOCYDo1wojlA7X6NbfX9kVlu6npKH0RtmbLQomlQtnNyJ8kDQDf5CVWsW32SEw2a7UU1G6dzUM7NRnXq2c6hS0aSkGsB778LxYvxYMyzFUC1cSyNEd97cIbTdtRDx14XMsdgdA6RqNdjQfB1kEZcHeITh3OVkbo1N81NEGG9Pj2uKl2i3pmdV59GA05Wk7N5wtPiO2yxgAv9OIaEasg1JAdpIk//OPcJ1Wdixd/EMMUkKDdqaHR8tjkI44z5xE3GtuQZFV2Oq2qyRBRBRf16RH4ziJO8hg0NzOsWRpnrezSCjTQiNSUGvXhef9s7lun/D+rXhGxNnSpW83Ydj2gKqj87ouyBfzr1YMb2djmMbfWHKZ1ystYUJFRHqidqrsxvzL/+X6NONt4VSrAMxPcTS36/pYKCrYA5itoJy/8ZaC6Jtts/W/rxXimXmtnGaSQBCLh/InGbSZ9UdQ9wHaHpfRLKc/7edvuyvnr2dWkSiHewTLEsn6V2rGtemIEPMKesajc5OPJpIXT7C2Qci4rMGWqRGJyXcu6IkvTceXZIAQ1ikiB58tlOBlvcw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6253.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38100700002)(186003)(55016003)(71200400001)(66574015)(8676002)(316002)(4326008)(54906003)(66476007)(66446008)(76116006)(6916009)(83380400001)(38070700005)(64756008)(8936002)(53546011)(52536014)(7696005)(6506007)(86362001)(508600001)(33656002)(5660300002)(122000001)(9686003)(26005)(2906002)(66556008)(66946007);DIR:OUT;SFP:1101;
+x-microsoft-antispam-message-info: 9NrJRXh2/Bm7rzkjMNOf79723l9eXCXFt6zStMCJA09uFPDWmPe/TAuJ+RXx7adPYAR0ZNRgw6zpBOtoHe3Nla+bm5+OWaMpkgZC+yzEp2TTI0TKyNhMyS+MX5Z1X03z+nR3I8GhPao23glOYW89nHflLH+xcRTM8rv0a3yaHlltQrdXmbDXxc7J0pTGDyLwnbP+4RKuT7P5xccHNTofucjBCunPwR9eHxKBXWpgUYeaWJNp6HQ/fLbkCrwwDYGBBTMT7L4PX4odKRXGrRNQQExkaJQMBbYXE/35g7Go8lNf/AsH7HTnuxTuYAXdZCbO6qO64zqR50qSFG7heRGLaN2kADcXP47/oUB15mEHUwMNvsRU2oTqnCOdLFmZacD34s6o/v7LZ7tlbvEdGp/jDWiNekxNO5HNlxS+tTe6yfarWdVEruWyx5VPlPRxFaGe/9cb7Q/PZbeuYTR+YbOTuw/1fQh7ALN/jC0a/2uKAWxQF9SOi1M60F1jFf9sWv3ElqaqV3qIlCVfBJr+UXjy/KSk8WQpNpEWEjZ5t8+09XsDrcNdfpxcRj0TIKJbAjLnyrfFX0jl7ceZl18nIZIJVsWXMkgWwBU6DevPpKysKifHe7jit4gknyUJsoqSpdpeacmee/AJ5pEW62I+zjkzp7FYfMcWAp+ujDEehGt3I2GJd9UbWHh75Y9LxAIBlc5MdjtWj915R+wMGztOSPnwmg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6253.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66946007)(2906002)(71200400001)(64756008)(66476007)(66446008)(66556008)(4326008)(8676002)(316002)(76116006)(83380400001)(33656002)(5660300002)(53546011)(508600001)(38070700005)(122000001)(6506007)(55016003)(186003)(26005)(7696005)(86362001)(9686003)(8936002)(52536014)(54906003)(66574015)(6916009)(38100700002);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?bjnA2nXlYjdWjLWgw6vLZWHSIK7kpcc5SmfZ1HGC+t+rZLxdKmPJGAkBe7?=
- =?iso-8859-1?Q?pxnFWqT4SuTQL7BP54gfjcd73shOZx6kxUWBb4935muQesOCofCbCVkKcU?=
- =?iso-8859-1?Q?gHOUGbT6xP/bVHq6J79fOgQG3w+6qpCT4/KUYLc6A8WxOya32iIhAf6XJ+?=
- =?iso-8859-1?Q?caKC4owbaIQqG9D+56/RcEG1Qfh9X8p2APEH4l67jbQh0z6zzQtNcGzbUh?=
- =?iso-8859-1?Q?VMKn5wDAcGMsscK3Wd1u5WooCDWEqIRbFF2ZnB6WbFPmCl7PgKj3mptenq?=
- =?iso-8859-1?Q?gr8H0BHLGPzJlLCcBtncZo9RAZIpxu+9JDMVkFBNNgv75bt+rkrx4twoUo?=
- =?iso-8859-1?Q?mUpNS9JPGQk4Ooia0MxIA8iM/e9airzrXGHJLe+4so7T6yyZMYz4f9Dk5F?=
- =?iso-8859-1?Q?BB+i/6nM4kMbcVKlUC0SB+FuHBzEB7Q0bjnBtXOcaukQ3as/do/L8HWcbS?=
- =?iso-8859-1?Q?z0FUmUfgBSMk0YjJ5u1O6Nvmue/LDu5FqO19ar3JT9LB3OU/y2VCMwPQP/?=
- =?iso-8859-1?Q?TBvqxgPolfM5qRJTxFpLY6CqzZa70/pbWb6iK1ohEpZCVyXpcNcyRhR+Vf?=
- =?iso-8859-1?Q?uBnG1s7S7Fbgv4T/ITxo6bIQ+q0UwtMFWKqXO1Ex/P2AUUmMsD/dNwtF8V?=
- =?iso-8859-1?Q?dvzNes81WKIDhl3kBgY35Zd48qikW9sKImCTQLrH8REOXjty2c8Fj/J7yf?=
- =?iso-8859-1?Q?jO4ePn8SE7DeYAxEML7mB7E+5hvN98AbU6nKWgZI8IN/tSjL5xdFZ4bw4+?=
- =?iso-8859-1?Q?ztnkOW34pIFQWDNEM0BHb0DLsSsBRAG2U3x+NfiYHj3fYC6OReKQ26/ZS3?=
- =?iso-8859-1?Q?D9DbGGJnnk6xOrDFuuDruicgs1PDUCyN9Yg6WAHQ7yQHhpv7O1DlQh6HkD?=
- =?iso-8859-1?Q?KhJc06YuMqfHpOCYUSsAWp3/MuX+876+vQ+qfGxV5JsTW5cb/RjVN4CPIb?=
- =?iso-8859-1?Q?Jo9HKr87LZmntCt0BVVnpJeG8FoGJC6T681EVVOoms3VoMJmU/8gTUZtMD?=
- =?iso-8859-1?Q?MSO8Vj1wkwa4pxGVoZ3sluH8PdPEO1qN36JTd+ZWvwYGJv571K7wJ7pm3o?=
- =?iso-8859-1?Q?kUVgqWYeCPj1G0GqZ3ZYsqBWmniGECXaZWENVk90NDzaMZn/kMtMb/rPY2?=
- =?iso-8859-1?Q?QqTEZkdy+IJ0nFVk9HoENb6WHr8KlHo6RgkjVOhzXEdb60HZoT4N/fkFmR?=
- =?iso-8859-1?Q?BkOTWLU0WHyRkaRTAJax4YuiZ5eNwLIHqMVA2HSnRF5YfmqtMW8FqtTk2+?=
- =?iso-8859-1?Q?IDOcsUaoiMZxIqtjjUj9KUM+sGzVaMtFIO1Uh6EqXGmPLt7QS1Lg/NsFhE?=
- =?iso-8859-1?Q?za68hycDDtDNwQ2qB9efeOPwJkrUwMofHJDH2FADMwq7GUfn0gE+aaqpvj?=
- =?iso-8859-1?Q?TNNrj0n+swzRjZ3mUtYV8ZRxdCxeEoEtmEOaFBCqAayEnPkzaWP4/+NVQe?=
- =?iso-8859-1?Q?Da55zHPh5jCI/z3tTB4VtmEEspkGL1APAC3ILXY1fHL93dBV7cPVwKbkhR?=
- =?iso-8859-1?Q?Pm3l6afwZUk1Wj1ERO/4fO4fdFhBUNfvUJN1pm+VQ5AFsJ3gagQ7jrNE1A?=
- =?iso-8859-1?Q?3phoAI6XRDwhs5Yb/AQ30F3II2AxGvImm7BvKk7uNkepyfcP6D+J8QzZWX?=
- =?iso-8859-1?Q?A8KsmXh8JonIUbgyT1d31rvf17RIzUDveVc5d04wHREi1FDZW1sO5BVJI9?=
- =?iso-8859-1?Q?61Oi/UTa1bjkBCuo2z7+6y7xJeUlqM29RWqeic1f3HEeisfbNN4WMmF4DV?=
- =?iso-8859-1?Q?PKoAQoG25tiej3B+B2B0VVjT3D0to0yTdMf1nIcHjW9K0bIJOmryd95sOa?=
- =?iso-8859-1?Q?DFvHLQ0A6p15z52UBTHqNdYRqLd4F50=3D?=
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?OzwkWCcoZM93fHasg18El9654ZKF8zf0hJJPZPYPAtoAhDj6/ZtdqrLa1b?=
+ =?iso-8859-1?Q?PZSH4jgJToeZqWqoOGmv8+z/qMTv0k/GNDOlyoYTuP5VzerzV6u6E9swDF?=
+ =?iso-8859-1?Q?lRQ8e+Pn5/KtkTLGK72LaTnWJ26RcNQ9ohnxPqZp0tDxlE9dzD6lmjQvwe?=
+ =?iso-8859-1?Q?+A65JkM3mSWhuNh9Pw+j5CxEGqn+182T3Hat5/Q7uNZGf983hE9zusW8k+?=
+ =?iso-8859-1?Q?LyVbOVHb7kixpoUgXTTrosrwQ/cO03Va2TCVdcbS4CWUKW7txgSbGpS8e4?=
+ =?iso-8859-1?Q?NwMadBiJw3IXXgyv4WcAPCxU8mx96vOVyLF5EhSDEBK3Vyw3AzN0KxfQzA?=
+ =?iso-8859-1?Q?tRbO1gIbAl9udWfcGE09HYJ6ZL4xdvsHJrqvmMsWVomEZzFdZvCZkgs7OP?=
+ =?iso-8859-1?Q?rlrsxLRJ6tctPktYuPY9i5npPxIh1hwtOuS2lcszxSx6GUd4mLexgAh7jZ?=
+ =?iso-8859-1?Q?bJmWy5jRA0zfdWYXFHT4+H8QmlJ/qoAZUFBhAOKlWsk4PkcamKh6R3M8FX?=
+ =?iso-8859-1?Q?8vc8+pb2dYbEUtn6tu3c0AMReRGdAEn8wFgr1n2QeokZxgpVg3vb1u+Y+Q?=
+ =?iso-8859-1?Q?eWS39GvrHjjm72YvCtfJJc6X3k6FRhf/qvNvJanKP1ei7btdLLVaShBhWX?=
+ =?iso-8859-1?Q?/uKk53T0nnXqx0vtjCrXcdAnYo3Jd4WfKp5HD5q55/7MUxGIslwZWeazT0?=
+ =?iso-8859-1?Q?rNLz0L57A4X/wAoAzPi+o8sW934SYFlmKqECJwKFyLOv3BqOC2EdyAARq0?=
+ =?iso-8859-1?Q?yC1/6lGVAtN26totB/3n7GfKZy2msRbrWbaPnctjFNgm43fZFyNd0uggEm?=
+ =?iso-8859-1?Q?hrLIJG9UBaXyavPAfuqeUOSPbhLG5nF9tENkUf7VLLBM2sphorpeXS7c2b?=
+ =?iso-8859-1?Q?zfvGXTAIvW9ofqFhRRGxGVU3kfaOxATTVxjZlkp3qnAGpHrlyxSA858yV+?=
+ =?iso-8859-1?Q?nyPKk6eCJHFibPiGFA35QGYkMG1l8sUscJuXgUPSZ+CREsLtdEWwxaU9qg?=
+ =?iso-8859-1?Q?kLcXF77vfNCS7KqVZqt1xDLALnqoxTP9nsOafL5wCPnpAyy4YLflzKkmeE?=
+ =?iso-8859-1?Q?+y4QFTe2unb3LN9NFZvQatL2JwtNwkGr9fs3z0iMm9kjlpPBPgp16OboxY?=
+ =?iso-8859-1?Q?gi+AeF6TFtyN8g5UTa7ICbVwc7CBiE3Q30wgktO9tqNf0avUwOk5tcgSsx?=
+ =?iso-8859-1?Q?pZcva8Ly5iaZ7EfM5iJw3D/oIVBGOk9thvyp+BrLn57EcMMFCcj7ymZCEQ?=
+ =?iso-8859-1?Q?l+F2H6RvryNdiqkJgFRyYAGNVmizxXAA0QG02nksZiJECP9nJVjEm/SE5C?=
+ =?iso-8859-1?Q?7z7QeTQnW5BIiAwaCg8lMqTRRQ331Wr3JRx+V60Nx7gK/SMK4WEWyMlbZ3?=
+ =?iso-8859-1?Q?NdL5j2yiwtI0qah6zaTsLMyTMjmN5D28aWWqJRio2siqZsVhTjQ5jAQdeR?=
+ =?iso-8859-1?Q?STCRuOEgF96VQpsqcPbkYUw/pnB49Uw14wWHUBa5dsIb1QT8No1Snd8Wv1?=
+ =?iso-8859-1?Q?Ixes5PfE3NO42VX3+44EJhjAo6HLr6rpeC2VtnM3gonCBccCJBFlF1jBdA?=
+ =?iso-8859-1?Q?OveEyhnEKN5JN9/rdGO5Jnw6FPvzL+sRYP6Zqt5f7fnACfbL8t8lMOjWOI?=
+ =?iso-8859-1?Q?gFzNA9/k8rr31sbqH21Ip9vgDWS9Nnfx3gsfBUkbz2oTtU2kXAyGHMzgp0?=
+ =?iso-8859-1?Q?NCBILWeUlY0VD+UvN/kH8vHwFqs0bFpje62NkQ1qfdTQgt3Qk1MEb2qaIA?=
+ =?iso-8859-1?Q?3Kwcb5UsYmSdcX99bCOyr6x+74MjPsP+nen1LGwvH2wE8BIfXH5kYhPUa2?=
+ =?iso-8859-1?Q?0XbPA6AhMQRfjjJIygcLIF8sGubUHtY=3D?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: analog.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB6253.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7814e45e-5bc9-41f2-d5a5-08da4224a354
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2022 10:10:35.2692
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88cfb21c-69f7-40b2-3d60-08da4224b784
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2022 10:11:09.1343
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HZOPRsTqlvyl76cP5BahUZq8y+GhtgheL+AfFy81b9BaV07jNDjzX5tgGC4vyc56cQ7DVyQDqXlhnF4rmNQvVfFo2JNd9RrdY7xDSkSJgfg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR03MB2738
-X-Proofpoint-ORIG-GUID: C3RLa5mJfyi9Fky71g8YKgw4gqL1jWqV
-X-Proofpoint-GUID: C3RLa5mJfyi9Fky71g8YKgw4gqL1jWqV
+X-MS-Exchange-CrossTenant-userprincipalname: 646WnuXzq83T6YF0TPl7gygZwVCGNdUJegtsqQuSP6TBKYqMBAmO0cB89zGA5WgA8C355Km8FoJmVxKOgjk1z9QLuJBnqOSth2ZSJGWObPA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2920
+X-Proofpoint-GUID: Mb51nyjF5WJbZkfueguToaksmF84zPn1
+X-Proofpoint-ORIG-GUID: Mb51nyjF5WJbZkfueguToaksmF84zPn1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
  definitions=2022-05-30_03,2022-05-30_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- bulkscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999
- lowpriorityscore=0 spamscore=0 clxscore=1015 mlxscore=0 impostorscore=0
- phishscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ phishscore=0 clxscore=1015 spamscore=0 malwarescore=0 adultscore=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2204290000 definitions=main-2205300054
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -170,213 +170,235 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 > -----Original Message-----
 > From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Sent: Samstag, 28. Mai 2022 06:56
+> Sent: Samstag, 28. Mai 2022 06:57
 > To: Hennerich, Michael <Michael.Hennerich@analog.com>
 > Cc: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>; linux-
 > input@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: [PATCH 2/4] Input: adp5588-keys - switch to using threaded inter=
-rupt
+> Subject: [PATCH 3/4] Input: adp5588-keys - switch to using managed resour=
+ces
 >=20
-> [External]
 >=20
-> Instead of using hard interrupt handler and manually scheduling work item=
- to
-> handle I2C communications, let's switch to threaded interrupt handling.
+> This simplifies error handling in probe() and reduces amount of explicit =
+code in
+> remove().
 >=20
-> While at that enforce the readout delay required on pre- revision 4 silic=
-on.
->=20
-
-Looks good to me. I'll test this altogether with the devicetree and matrix_=
-keypad helper updates.
-
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
 Acked-by: Michael Hennerich <michael.hennerich@analog.com>
 
 > ---
->  drivers/input/keyboard/adp5588-keys.c | 81 +++++++++++++++------------
->  1 file changed, 45 insertions(+), 36 deletions(-)
+>  drivers/input/keyboard/adp5588-keys.c | 111 +++++++++++---------------
+>  1 file changed, 45 insertions(+), 66 deletions(-)
 >=20
 > diff --git a/drivers/input/keyboard/adp5588-keys.c
 > b/drivers/input/keyboard/adp5588-keys.c
-> index ea67d0834be1..ac21873ba1d7 100644
+> index ac21873ba1d7..df84a2998ed2 100644
 > --- a/drivers/input/keyboard/adp5588-keys.c
 > +++ b/drivers/input/keyboard/adp5588-keys.c
-> @@ -8,17 +8,19 @@
->   * Copyright (C) 2008-2010 Analog Devices Inc.
->   */
->=20
-> -#include <linux/module.h>
-> +#include <linux/delay.h>
-> +#include <linux/errno.h>
-> +#include <linux/gpio/driver.h>
-> +#include <linux/i2c.h>
-> +#include <linux/input.h>
->  #include <linux/interrupt.h>
->  #include <linux/irq.h>
-> -#include <linux/workqueue.h>
-> -#include <linux/errno.h>
-> -#include <linux/pm.h>
-> +#include <linux/ktime.h>
-> +#include <linux/module.h>
->  #include <linux/platform_device.h>
-> -#include <linux/input.h>
-> -#include <linux/i2c.h>
-> -#include <linux/gpio/driver.h>
-> +#include <linux/pm.h>
->  #include <linux/slab.h>
-> +#include <linux/timekeeping.h>
->=20
->  #include <linux/platform_data/adp5588.h>
->=20
-> @@ -36,11 +38,12 @@
->   * asserted.
->   */
->  #define WA_DELAYED_READOUT_REVID(rev)		((rev) < 4)
-> +#define WA_DELAYED_READOUT_TIME			25
->=20
->  struct adp5588_kpad {
->  	struct i2c_client *client;
->  	struct input_dev *input;
-> -	struct delayed_work work;
-> +	ktime_t irq_time;
->  	unsigned long delay;
->  	unsigned short keycode[ADP5588_KEYMAPSIZE];
->  	const struct adp5588_gpi_map *gpimap;
-> @@ -289,13 +292,36 @@ static void adp5588_report_events(struct
-> adp5588_kpad *kpad, int ev_cnt)
->  	}
+> @@ -182,6 +182,21 @@ static int adp5588_build_gpiomap(struct
+> adp5588_kpad *kpad,
+>  	return n_unused;
 >  }
 >=20
-> -static void adp5588_work(struct work_struct *work)
-> +static irqreturn_t adp5588_hard_irq(int irq, void *handle) {
-> +	struct adp5588_kpad *kpad =3D handle;
+> +static void adp5588_gpio_do_teardown(void *_kpad) {
+> +	struct adp5588_kpad *kpad =3D _kpad;
+> +	struct device *dev =3D &kpad->client->dev;
+> +	const struct adp5588_kpad_platform_data *pdata =3D
+> dev_get_platdata(dev);
+> +	const struct adp5588_gpio_platform_data *gpio_data =3D pdata-
+> >gpio_data;
+> +	int error;
 > +
-> +	kpad->irq_time =3D ktime_get();
+> +	error =3D gpio_data->teardown(kpad->client,
+> +				    kpad->gc.base, kpad->gc.ngpio,
+> +				    gpio_data->context);
+> +	if (error)
+> +		dev_warn(&kpad->client->dev, "teardown failed %d\n", error);
+> }
 > +
-> +	return IRQ_WAKE_THREAD;
-> +}
-> +
-> +static irqreturn_t adp5588_thread_irq(int irq, void *handle)
->  {
-> -	struct adp5588_kpad *kpad =3D container_of(work,
-> -						struct adp5588_kpad,
-> work.work);
-> +	struct adp5588_kpad *kpad =3D handle;
->  	struct i2c_client *client =3D kpad->client;
-> +	ktime_t target_time, now;
-> +	unsigned long delay;
->  	int status, ev_cnt;
->=20
-> +	/*
-> +	 * Readout needs to wait for at least 25ms after the notification
-> +	 * for REVID < 4.
-> +	 */
-> +	if (kpad->delay) {
-> +		target_time =3D ktime_add_ms(kpad->irq_time, kpad->delay);
-> +		now =3D ktime_get();
-> +		if (ktime_before(now, target_time)) {
-> +			delay =3D ktime_to_us(ktime_sub(target_time, now));
-> +			usleep_range(delay, delay + 1000);
-> +		}
-> +	}
-> +
->  	status =3D adp5588_read(client, INT_STAT);
->=20
->  	if (status & ADP5588_OVR_FLOW_INT)	/* Unlikely and should never
-> happen */
-> @@ -308,20 +334,8 @@ static void adp5588_work(struct work_struct *work)
->  			input_sync(kpad->input);
->  		}
+>  static int adp5588_gpio_add(struct adp5588_kpad *kpad)  {
+>  	struct device *dev =3D &kpad->client->dev; @@ -198,8 +213,6 @@ static
+> int adp5588_gpio_add(struct adp5588_kpad *kpad)
+>  		return 0;
 >  	}
-> -	adp5588_write(client, INT_STAT, status); /* Status is W1C */
+>=20
+> -	kpad->export_gpio =3D true;
+> -
+>  	kpad->gc.direction_input =3D adp5588_gpio_direction_input;
+>  	kpad->gc.direction_output =3D adp5588_gpio_direction_output;
+>  	kpad->gc.get =3D adp5588_gpio_get_value; @@ -213,9 +226,9 @@ static
+> int adp5588_gpio_add(struct adp5588_kpad *kpad)
+>=20
+>  	mutex_init(&kpad->gpio_lock);
+>=20
+> -	error =3D gpiochip_add_data(&kpad->gc, kpad);
+> +	error =3D devm_gpiochip_add_data(dev, &kpad->gc, kpad);
+>  	if (error) {
+> -		dev_err(dev, "gpiochip_add failed, err: %d\n", error);
+> +		dev_err(dev, "gpiochip_add failed: %d\n", error);
+>  		return error;
+>  	}
+>=20
+> @@ -230,41 +243,24 @@ static int adp5588_gpio_add(struct adp5588_kpad
+> *kpad)
+>  					 kpad->gc.base, kpad->gc.ngpio,
+>  					 gpio_data->context);
+>  		if (error)
+> -			dev_warn(dev, "setup failed, %d\n", error);
+> +			dev_warn(dev, "setup failed: %d\n", error);
+>  	}
+>=20
+> -	return 0;
 > -}
->=20
-> -static irqreturn_t adp5588_irq(int irq, void *handle) -{
-> -	struct adp5588_kpad *kpad =3D handle;
 > -
-> -	/*
-> -	 * use keventd context to read the event fifo registers
-> -	 * Schedule readout at least 25ms after notification for
-> -	 * REVID < 4
-> -	 */
+> -static void adp5588_gpio_remove(struct adp5588_kpad *kpad) -{
+> -	struct device *dev =3D &kpad->client->dev;
+> -	const struct adp5588_kpad_platform_data *pdata =3D
+> dev_get_platdata(dev);
+> -	const struct adp5588_gpio_platform_data *gpio_data =3D pdata-
+> >gpio_data;
+> -	int error;
 > -
-> -	schedule_delayed_work(&kpad->work, kpad->delay);
-> +	adp5588_write(client, INT_STAT, status); /* Status is W1C */
+> -	if (!kpad->export_gpio)
+> -		return;
+> -
+>  	if (gpio_data->teardown) {
+> -		error =3D gpio_data->teardown(kpad->client,
+> -					    kpad->gc.base, kpad->gc.ngpio,
+> -					    gpio_data->context);
+> +		error =3D devm_add_action(dev, adp5588_gpio_do_teardown,
+> kpad);
+>  		if (error)
+> -			dev_warn(dev, "teardown failed %d\n", error);
+> +			dev_warn(dev, "failed to schedule teardown: %d\n",
+> +				 error);
+>  	}
 >=20
->  	return IRQ_HANDLED;
+> -	gpiochip_remove(&kpad->gc);
+> +	return 0;
 >  }
-> @@ -505,7 +519,6 @@ static int adp5588_probe(struct i2c_client *client,
+> +
+>  #else
+>  static inline int adp5588_gpio_add(struct adp5588_kpad *kpad)  {
+>  	return 0;
+>  }
+> -
+> -static inline void adp5588_gpio_remove(struct adp5588_kpad *kpad) -{ -}
+> #endif
+>=20
+>  static void adp5588_report_events(struct adp5588_kpad *kpad, int ev_cnt)
+> @@ -510,21 +506,20 @@ static int adp5588_probe(struct i2c_client *client,
+>  		return -EINVAL;
+>  	}
+>=20
+> -	kpad =3D kzalloc(sizeof(*kpad), GFP_KERNEL);
+> -	input =3D input_allocate_device();
+> -	if (!kpad || !input) {
+> -		error =3D -ENOMEM;
+> -		goto err_free_mem;
+> -	}
+> +	kpad =3D devm_kzalloc(&client->dev, sizeof(*kpad), GFP_KERNEL);
+> +	if (!kpad)
+> +		return -ENOMEM;
+> +
+> +	input =3D devm_input_allocate_device(&client->dev);
+> +	if (!input)
+> +		return -ENOMEM;
 >=20
 >  	kpad->client =3D client;
 >  	kpad->input =3D input;
-> -	INIT_DELAYED_WORK(&kpad->work, adp5588_work);
 >=20
 >  	ret =3D adp5588_read(client, DEV_ID);
->  	if (ret < 0) {
-> @@ -515,7 +528,7 @@ static int adp5588_probe(struct i2c_client *client,
+> -	if (ret < 0) {
+> -		error =3D ret;
+> -		goto err_free_mem;
+> -	}
+> +	if (ret < 0)
+> +		return ret;
 >=20
 >  	revid =3D (u8) ret & ADP5588_DEVICE_ID_MASK;
 >  	if (WA_DELAYED_READOUT_REVID(revid))
-> -		kpad->delay =3D msecs_to_jiffies(30);
-> +		kpad->delay =3D
-> msecs_to_jiffies(WA_DELAYED_READOUT_TIME);
+> @@ -532,7 +527,6 @@ static int adp5588_probe(struct i2c_client *client,
 >=20
 >  	input->name =3D client->name;
 >  	input->phys =3D "adp5588-keys/input0";
-> @@ -560,9 +573,10 @@ static int adp5588_probe(struct i2c_client *client,
->  		goto err_free_mem;
+> -	input->dev.parent =3D &client->dev;
+>=20
+>  	input_set_drvdata(input, kpad);
+>=20
+> @@ -569,58 +563,43 @@ static int adp5588_probe(struct i2c_client *client,
+>=20
+>  	error =3D input_register_device(input);
+>  	if (error) {
+> -		dev_err(&client->dev, "unable to register input device\n");
+> -		goto err_free_mem;
+> +		dev_err(&client->dev, "unable to register input device: %d\n",
+> +			error);
+> +		return error;
 >  	}
 >=20
-> -	error =3D request_irq(client->irq, adp5588_irq,
-> -			    IRQF_TRIGGER_FALLING,
-> -			    client->dev.driver->name, kpad);
-> +	error =3D request_threaded_irq(client->irq,
-> +				     adp5588_hard_irq, adp5588_thread_irq,
-> +				     IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-> +				     client->dev.driver->name, kpad);
+> -	error =3D request_threaded_irq(client->irq,
+> -				     adp5588_hard_irq, adp5588_thread_irq,
+> -				     IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+> -				     client->dev.driver->name, kpad);
+> +	error =3D devm_request_threaded_irq(&client->dev, client->irq,
+> +					  adp5588_hard_irq,
+> adp5588_thread_irq,
+> +					  IRQF_TRIGGER_FALLING |
+> IRQF_ONESHOT,
+> +					  client->dev.driver->name, kpad);
 >  	if (error) {
->  		dev_err(&client->dev, "irq %d busy?\n", client->irq);
->  		goto err_unreg_dev;
-> @@ -587,7 +601,6 @@ static int adp5588_probe(struct i2c_client *client,
+> -		dev_err(&client->dev, "irq %d busy?\n", client->irq);
+> -		goto err_unreg_dev;
+> +		dev_err(&client->dev, "failed to request irq %d: %d\n",
+> +			client->irq, error);
+> +		return error;
+>  	}
 >=20
->   err_free_irq:
->  	free_irq(client->irq, kpad);
-> -	cancel_delayed_work_sync(&kpad->work);
->   err_unreg_dev:
->  	input_unregister_device(input);
->  	input =3D NULL;
-> @@ -604,7 +617,6 @@ static int adp5588_remove(struct i2c_client *client)
+>  	error =3D adp5588_setup(client);
+>  	if (error)
+> -		goto err_free_irq;
+> +		return error;
 >=20
+>  	if (kpad->gpimapsize)
+>  		adp5588_report_switch_state(kpad);
+>=20
+>  	error =3D adp5588_gpio_add(kpad);
+>  	if (error)
+> -		goto err_free_irq;
+> +		return error;
+>=20
+>  	device_init_wakeup(&client->dev, 1);
+> -	i2c_set_clientdata(client, kpad);
+>=20
+>  	dev_info(&client->dev, "Rev.%d keypad, irq %d\n", revid, client->irq);
+>  	return 0;
+> -
+> - err_free_irq:
+> -	free_irq(client->irq, kpad);
+> - err_unreg_dev:
+> -	input_unregister_device(input);
+> -	input =3D NULL;
+> - err_free_mem:
+> -	input_free_device(input);
+> -	kfree(kpad);
+> -
+> -	return error;
+>  }
+>=20
+>  static int adp5588_remove(struct i2c_client *client)  {
+> -	struct adp5588_kpad *kpad =3D i2c_get_clientdata(client);
+> -
 >  	adp5588_write(client, CFG, 0);
->  	free_irq(client->irq, kpad);
-> -	cancel_delayed_work_sync(&kpad->work);
->  	input_unregister_device(kpad->input);
->  	adp5588_gpio_remove(kpad);
->  	kfree(kpad);
-> @@ -614,11 +626,9 @@ static int adp5588_remove(struct i2c_client *client)
+> -	free_irq(client->irq, kpad);
+> -	input_unregister_device(kpad->input);
+> -	adp5588_gpio_remove(kpad);
+> -	kfree(kpad);
 >=20
->  static int __maybe_unused adp5588_suspend(struct device *dev)  {
-> -	struct adp5588_kpad *kpad =3D dev_get_drvdata(dev);
-> -	struct i2c_client *client =3D kpad->client;
-> +	struct i2c_client *client =3D to_i2c_client(dev);
+> +	/* all resources will be freed by devm */
+>  	return 0;
+>  }
 >=20
->  	disable_irq(client->irq);
-> -	cancel_delayed_work_sync(&kpad->work);
->=20
->  	if (device_may_wakeup(&client->dev))
->  		enable_irq_wake(client->irq);
-> @@ -628,8 +638,7 @@ static int __maybe_unused adp5588_suspend(struct
-> device *dev)
->=20
->  static int __maybe_unused adp5588_resume(struct device *dev)  {
-> -	struct adp5588_kpad *kpad =3D dev_get_drvdata(dev);
-> -	struct i2c_client *client =3D kpad->client;
-> +	struct i2c_client *client =3D to_i2c_client(dev);
->=20
->  	if (device_may_wakeup(&client->dev))
->  		disable_irq_wake(client->irq);
 > --
 > 2.36.1.124.g0e6072fb45-goog
 
