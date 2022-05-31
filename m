@@ -2,102 +2,200 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E96DE539870
-	for <lists+linux-input@lfdr.de>; Tue, 31 May 2022 23:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 702875399F6
+	for <lists+linux-input@lfdr.de>; Wed,  1 Jun 2022 01:14:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347886AbiEaVKt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 31 May 2022 17:10:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40486 "EHLO
+        id S1348629AbiEaXNp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 31 May 2022 19:13:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347889AbiEaVKs (ORCPT
+        with ESMTP id S1348627AbiEaXNo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 31 May 2022 17:10:48 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C9A99CF7C;
-        Tue, 31 May 2022 14:10:46 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id v15so13926214pgk.11;
-        Tue, 31 May 2022 14:10:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=dnk2AtX+fZ2ctPjFQBljU3ZU+UG3REYKSVdEhuHNNPY=;
-        b=KoUu302b5j+3qOJqXYF7I535JkHpHPO+UslnzxBtqcOuS4HB4dYoqU2fEx/QCvpXA6
-         Q7Iy0/OCX7DbOsS5xu/UnXk4R1veNyR4PLISVtMTtNtfrJz3kRYB/2rPdKAq61B72Z7h
-         VJzORAipjEwPFaZshqjg5KSiErvoMSTpdILh+vf7mH3DLaYu/3aetK5XPxL7AxllBe+y
-         3rYZGyuWrtTROQiUq3HImp4W1GvXQwa5O36I6mykh9dWrB7gkOAYIjBS8s4L/Y1oplL5
-         NYxv7trGlCtr2TpmoqECjqk+FkfL/F9u0YCJfNsTOvSBy1D/24dzyElQPF67+JsPQ6q/
-         U4pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dnk2AtX+fZ2ctPjFQBljU3ZU+UG3REYKSVdEhuHNNPY=;
-        b=HFbFmt9YwB2h6F6kKR+zqsVu5dp/vfXiD35GPdnJn5tVenzOba3doH+c0fFa3wb3id
-         Ni/tyxiiwQpdpwSuSUoO+l9+LSuSkcVxREMpYe3b5DVwe4NJ0FiAXuVZZxC0m53i0mB3
-         09D1nnkKJyNrYcEKShEPLPiOpnW4kgM7puhKfmjKIiZnIADGFV8rau1eUEMzSTmdejr0
-         Hv2EtcG34iivC7bigM9qR3VZoy1mvS30+eHy6lH57Ut+BNiC0l9mm6AZGFCHm0OKzBin
-         9moEzYkMRSpVsv/j/+3I1qOaASntP6bVGGkkbU+h5WaACn5luHNw0bEXumLaIu9Ggr41
-         VDYg==
-X-Gm-Message-State: AOAM5330tnd+8IDR4fC3kNFHQZN2noiJ0Z8+JcBh0kFFlEfSi3ERJK80
-        1fyFJw8bpTbSLI40Av+Dg/4=
-X-Google-Smtp-Source: ABdhPJwS7vs0ve8LtYT/JWiBRN9GiDwA2oAv9Vws6sqEdnxh/l31gkHY97QkL0Rg/H4dA6x1t7XTrg==
-X-Received: by 2002:a65:4304:0:b0:3fb:9303:de99 with SMTP id j4-20020a654304000000b003fb9303de99mr22183202pgq.429.1654031445527;
-        Tue, 31 May 2022 14:10:45 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:3b8f:bcac:41a7:7a32])
-        by smtp.gmail.com with ESMTPSA id l71-20020a63884a000000b003fc704c250dsm1548784pgd.94.2022.05.31.14.10.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 14:10:44 -0700 (PDT)
-Date:   Tue, 31 May 2022 14:10:41 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Charles Mirabile <cmirabil@redhat.com>,
-        Daniel Bauman <dbauman@redhat.com>,
-        Mwesigwa Guma <mguma@redhat.com>,
-        Joel Savitz <jsavitz@redhat.com>, linux-input@vger.kernel.org
-Subject: Re: [PATCH -next] Input: joystick: Raspberry Pi Sense HAT depends on
- HAS_IOMEM
-Message-ID: <YpaEUZYtlVf2aCuA@google.com>
-References: <20220531022942.16340-1-rdunlap@infradead.org>
+        Tue, 31 May 2022 19:13:44 -0400
+Received: from mail.boiledscript.com (unknown [192.151.158.155])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0FD28FFB0;
+        Tue, 31 May 2022 16:13:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220531022942.16340-1-rdunlap@infradead.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ultrarare.space;
+        s=dkim; t=1654038819;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:  references:references;
+        bh=8+otB8HQmu22M9qX58h4v8TTVeYcawnMe3GvLJCU0yQ=;
+        b=FgYENTxIGpil76rfAy5ADJyQafsweZFOiZNyB4eijna2xg4tEuzBDonWMqFtmsc1w/TW0h
+        WzpUiuFBItBzCeW0wYGfLWIdJt0c/Y7PENsN/m0xjnQ+XUef93XMacjgl4zSyi9orHobJz
+        tplEEvZ3wjuArjMXbHkxJuskIc4BSBpmxsrGPb7Ei5FDHRMc+CFTJRCkpyrOZsdWazxS0k
+        Wg29apQ8GQt1lSNhnBrMlUUN2lggLVMGc6xwRlGVbwSU+kJlDYQ2SEpKeLf8dknTibf2H/
+        CZ+g73C81CbbpuMjwC724aRNBsgj3vqVudVbb+NIzxhSSiukCj1fvvMXMq0fow==
+Date:   Tue, 31 May 2022 23:13:37 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+From:   hako@ultrarare.space
+Message-ID: <7f67ac07b8bd37d5817cd151674cc6b0@ultrarare.space>
+Subject: Re: [PATCH v2] HID: apple: Workaround for non-Apple keyboards
+To:     "Bryan Cain" <bryancain3@gmail.com>
+Cc:     "=?utf-8?B?Sm9zw6kgRXhww7NzaXRv?=" <jose.exposito89@gmail.com>,
+        "Jiri Kosina" <jikos@kernel.org>,
+        "Benjamin Tissoires" <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+References: <20220529180230.17e9a0f9@ultrarare.space>
+ <20220529182036.10226-1-jose.exposito89@gmail.com>
+ <20220530083752.1973a905@ultrarare.space>
+ <20220530061812.GA10391@elementary>
+ <20220531221102.7bd7da7d@ultrarare.space>
+ <20220531223330.3d63e2fe@ultrarare.space>
+ <20220531172053.GA10651@elementary>
+ <CAPnXWxG8gbe1arQK9kBtwM1Xcta+wreTN742kgtBBr1v0ewKug@mail.gmail.com>
+X-Spamd-Bar: +
+Authentication-Results: mail.boiledscript.com;
+        auth=pass smtp.mailfrom=hako@ultrarare.space
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 30, 2022 at 07:29:42PM -0700, Randy Dunlap wrote:
-> Since JOYSTICK_SENSEHAT selects MFD_SIMPLE_MFD_I2C and the latter
-> depends on HAS_IOMEM, and since 'select' does not follow any
-> dependency chains, JOYSTICK_SENSEHAT should also depend on HAS_IOMEM
-> to prevent a kconfig warning and a build error:
-> 
-> WARNING: unmet direct dependencies detected for MFD_SIMPLE_MFD_I2C
->   Depends on [n]: HAS_IOMEM [=n] && I2C [=y]
->   Selected by [y]:
->   - JOYSTICK_SENSEHAT [=y] && INPUT_JOYSTICK [=y] && INPUT [=y] && I2C [=y]
-> 
-> s390-linux-ld: drivers/mfd/simple-mfd-i2c.o: in function `simple_mfd_i2c_probe':
-> simple-mfd-i2c.c:(.text+0xc8): undefined reference to `devm_mfd_add_devices'
-> 
-> Fixes: 41657514c796 ("Input: add Raspberry Pi Sense HAT joystick driver")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Charles Mirabile <cmirabil@redhat.com>
-> Cc: Daniel Bauman <dbauman@redhat.com>
-> Cc: Mwesigwa Guma <mguma@redhat.com>
-> Cc: Joel Savitz <jsavitz@redhat.com>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: linux-input@vger.kernel.org
+On Tue, May 31, 2022 at 11:20 AM Jos=C3=A9 Exp=C3=B3sito wrote:
 
-Applied, thank you.
+> +struct apple_non_apple_keyboard {
+> + char *name;
+> +};
+> +
+> struct apple_sc_backlight {
+> struct led_classdev cdev;
+> struct hid_device *hdev;
+> @@ -313,6 +317,29 @@ static const struct apple_key_translation swapped_=
+fn_leftctrl_keys[] =3D {
+> { }
+> };
+>=20
+>=20+static const struct apple_non_apple_keyboard non_apple_keyboards[] =
+=3D {
+> + { "SONiX USB DEVICE" },
+> + { "Keychron" },
+> + { }
+>=20
+>=20Could the "non_apple && strlen(non_apple)" check be avoided by removi=
+ng
+> this empty item?
 
--- 
-Dmitry
+Hi Jose,
+If there's a chance that the device name is an empty string? In such case=
+ the
+strlen should be preserved.
+
+> +};
+> +
+> +static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
+> +{
+> + unsigned long i;
+> + unsigned long non_apple_total =3D sizeof(non_apple_keyboards) /
+> + sizeof(struct apple_non_apple_keyboard);
+>=20
+>=20Here you coud take advantage of the "ARRAY_SIZE" macro:
+>=20
+>=20https://kernelnewbies.org/MagicMacros
+>=20
+>=20It'll also allow you to use an int. Something similar to:
+>=20
+>=20int i;
+>=20
+>=20for (i =3D 0; i < ARRAY_SIZE(non_apple_keyboards); i++) {
+> [...]
+
+Thanks for the information!
+
+> @@ -667,11 +694,12 @@ static int apple_input_configured(struct hid_devi=
+ce *hdev,
+> if ((asc->quirks & APPLE_HAS_FN) && !asc->fn_found) {
+> hid_info(hdev, "Fn key not found (Apple Wireless Keyboard clone?), disa=
+bling Fn key handling\n");
+> asc->quirks &=3D ~APPLE_HAS_FN;
+> - }
+>=20
+>=20- if (strncmp(hdev->name, "Keychron", 8) =3D=3D 0) {
+> - hid_info(hdev, "Keychron keyboard detected; function keys will defaul=
+t to fnmode=3D2 behavior\n");
+> - asc->quirks |=3D APPLE_IS_KEYCHRON;
+> + if (apple_is_non_apple_keyboard(hdev)) {
+> + hid_info(hdev,
+> + "Non-apple keyboard detected; function keys will default to fnmode=3D=
+2 behavior\n");
+>=20
+>=20Checkpatch nitpick:
+>=20
+>=20CHECK: Alignment should match open parenthesis
+> FILE: drivers/hid/hid-apple.c:700:
+> hid_info(hdev,
+> "Non-apple keyboard detected; function keys will default to fnmode=3D2 =
+behavior\n");
+>=20
+>=20It suggest to add an extra space before "Non-apple ...".
+>=20
+>=20In case you don't know the tool, it helps to find style errors, I
+> usually run it like:
+>=20
+>=20$ ./scripts/checkpatch.pl --strict --codespell --git HEAD-1
+>=20
+>=20+ asc->quirks |=3D APPLE_IS_NON_APPLE;
+> + }
+>=20
+>=20This slightly changes the behaviour from the previous patch.
+> Previously, the APPLE_IS_NON_APPLE quirk was set even if APPLE_HAS_FN
+> was not present. Now the condition is nested.
+>=20
+>=20I'm not saying it is wrong (I don't have the required hardware to tes=
+t
+> it), I'm just pointing it out in case it was an accidental change.
+> Bryan, should be able to confirm if it works with his keyboard.
+
+Thanks again!
+
+On Tue, 31 May 2022 13:50:30 -0600 Bryan Cain wrote:
+
+> I haven't tested it, but I can tell from reading the patch that it will=
+ break
+> compatibility with Keychron keyboards like mine, precisely because of t=
+he
+> nesting.
+>=20
+>=20The biggest reason that my Keychron patch was needed at all was that =
+Keychron
+> devices advertise the Fn key, and thus don't hit the first clone check =
+since
+> asc->fn_found is actually true for them. So nesting the check for the K=
+eychron
+> manufacturer/product name inside of that check won't work.
+>=20
+>=20To tell the truth, I'm still a bit confused about the precise behavio=
+r of the
+> Sonix firmware that this patch is made to work around. If it's not adve=
+rtising
+> an Apple-style Fn key, why isn't the existing behavior of disabling Fn-=
+key
+> handling enough to make it work? The fnmode parameter is ignored entire=
+ly
+> when APPLE_HAS_FN isn't set, so it's hard to imagine that the change to=
+ fnmode
+> behavior would even do anything in that case.
+
+Hi Bryan,
+Sorry for my inconsiderateness...
+
+It advertises such function:
+- FN Function Keys Make Control easily.
+FN+F1:My Computer
+FN+F2:Browser
+FN+F3:Email
+...
+
+I made a vital mistake by not properly checking the patch before sending,
+that's totally my fault.
+
+Sorry again for the mess I made.
+
+Best wishes,
+Chain
