@@ -2,68 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD8195395F6
-	for <lists+linux-input@lfdr.de>; Tue, 31 May 2022 20:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B629539760
+	for <lists+linux-input@lfdr.de>; Tue, 31 May 2022 21:50:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346877AbiEaSN2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 31 May 2022 14:13:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58764 "EHLO
+        id S1347582AbiEaTuq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 31 May 2022 15:50:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346876AbiEaSNZ (ORCPT
+        with ESMTP id S1347510AbiEaTup (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 31 May 2022 14:13:25 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED2A7813EE;
-        Tue, 31 May 2022 11:13:20 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id v4-20020a1cac04000000b00397001398c0so1686813wme.5;
-        Tue, 31 May 2022 11:13:20 -0700 (PDT)
+        Tue, 31 May 2022 15:50:45 -0400
+Received: from mail-vk1-xa32.google.com (mail-vk1-xa32.google.com [IPv6:2607:f8b0:4864:20::a32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 151EC59319;
+        Tue, 31 May 2022 12:50:43 -0700 (PDT)
+Received: by mail-vk1-xa32.google.com with SMTP id b81so6701816vkf.1;
+        Tue, 31 May 2022 12:50:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=E6LUcOWx1z2poXLh/BFADj8qF2w3QGSPYJH8IboePfI=;
-        b=Uih3jCKGLWN1fSb5wieUNYdEMIvUyZpyGCeAkx9bEjjol9+JYWPIpcqSNUC2+fgThD
-         O0NSlbczHIn7othhumtLa9yQwD7v8OD2PyrB/Um1j0btix4/9aiqAqgjIVAuDcR1McRj
-         xJkqzuziyKsyBADQKI+S2ky943oqIGALwJ2CT/osS5xQctZJRZySqwPuJJjcvYcXjeTu
-         UJ5vk+DUxzRqiq3OteAyK5zubNOpC/Zu4Tx2jimz/uqrqkjX4wUOfJ3GB6EyiVA1UV5k
-         bdhzElPEf1ab/ZkxuWZHIGxqI8m6jXOvV6dWsr6RkWlnFlJcTG1TqGthY1sB8bCWfz8X
-         GfSw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Q6/Wv8wsJhsvDWyg0pI0aMNyw+1t0p93Rxz6ZrPsGzI=;
+        b=FiaAbAWUQ4ihhl3UsOn+jIQ30gSwYU0l3jDsffBxoVKw5N/iXsr8UL7wNfLKex2EEo
+         OvK27i2nqnMfmSbyXegR/oq6rzO6rYn0/R5NGXoUsAh7QQ4udi+UYEjTe6scrtsEhHAJ
+         m4yAf+TkKjNE0SkgeEgkOJ3xCziuht7KbNReVgq3pukEpQSbGbUVYx0ukFTv/aJviJAL
+         6bCkHDc+lBM3j9ai0xoWOF9WIvIsMXxJLZ3Z4Ro86W5QKU3ITrDN35HA95kMeQppyeqO
+         +zx7DzNLrpeL+1I+qGUPGkumc98mgUmcJWXzZAF/BWSpXppfoVTfgNcIZrZXm7Q6gYYy
+         ZDyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=E6LUcOWx1z2poXLh/BFADj8qF2w3QGSPYJH8IboePfI=;
-        b=uAKgQKQy8TwPUlc13Zr+Ws+CyCLxNKhYObf7EuimI7WPzPcXWLG4cF2nH42FJQm20C
-         6+2iClVo1jFuzrQZNU9cKZrb+7kjc05TJjXLU/kdGcj11A6ctF3zqeTjflQxlEQpZwt4
-         u+XvocBjmnzlSqxJNkSwruybni2YuWdMsJtLtds4vrNi/B25IOer1pnuUQ0cTpvR6/qA
-         qdPemfKv1R1NKx3ovfw36ihxBUaDfJRV3ifbYxkha/klbawjGyV0CtoTgy3SKh7ZNDq3
-         5SfzUSS19YDigjJrQcv+N1OfyY4XE1VSVFIHnXdEl0DR+zt/U7yoj81AuotXrVzy9cQF
-         tKaA==
-X-Gm-Message-State: AOAM531+gbdn0B8HYE84bvy7ramTD63ARyOAv6qNdpw/yya/EaUrWFTb
-        HP7ifKQhOjMsI1U0qT+ZjDI=
-X-Google-Smtp-Source: ABdhPJwZWoInYxIUFR+TheZF98kOVg/RWwAM9J1CC/XSZSY0AXz5wh7it0Bn1MG6BT36Od043ul6CA==
-X-Received: by 2002:a05:600c:3c8f:b0:39b:808c:b5cb with SMTP id bg15-20020a05600c3c8f00b0039b808cb5cbmr12558048wmb.11.1654020799369;
-        Tue, 31 May 2022 11:13:19 -0700 (PDT)
-Received: from localhost.localdomain ([94.73.36.128])
-        by smtp.gmail.com with ESMTPSA id i12-20020a05600c354c00b0039765a7add4sm3099597wmq.29.2022.05.31.11.13.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 11:13:19 -0700 (PDT)
-From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stefanberzl@gmail.com, dlatypov@google.com,
-        kunit-dev@googlegroups.com,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v3 4/4] HID: uclogic: Add support for XP-PEN Deco L
-Date:   Tue, 31 May 2022 20:12:46 +0200
-Message-Id: <20220531181246.190729-5-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220531181246.190729-1-jose.exposito89@gmail.com>
-References: <20220531181246.190729-1-jose.exposito89@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Q6/Wv8wsJhsvDWyg0pI0aMNyw+1t0p93Rxz6ZrPsGzI=;
+        b=nJtTG8G0PTwSL7Jv2au1ekXV07O3t5DTrz64HzT3qyIlbTILSKHSqkoEGrANlEoZev
+         7rGFOgookuJc0IGts6wnTjO5SXShNXPvRw24aIb+nOe7sV+FDGS246wu+rk3EVwlzxd4
+         nf3Md1dp18bg5r1L+n/iFEFGtB00QT1qlWCxjRCXKJCNJ71LMw9DY6duvhsJsilnMruM
+         +TjZ2JFfk4/NIupNPniJ9OOXLtQpnG++UZXeDZX8wR7jmCHnpTKndK1JGMuCKwZf2EKe
+         W1Uo8Owhf43YyU89uYoNPZsg5NDQz+SiAV+IQ/h8B4lEOZNrg7sTQ1TZ+UbpVGK7CzrZ
+         rPuw==
+X-Gm-Message-State: AOAM531MZFVYDI4pe/odfqddwcXyIfDC1MsfUJuVhG3PV56ZLCE55s4Q
+        S6wbneSyJ+vzkme2q+2RYrQq3Lh+PFN7b/tRaNTkxZPQCRmVnA==
+X-Google-Smtp-Source: ABdhPJzJoGmFYuDd0d0FBA7fMz2bQMAu5mbakktE/OtPicmpmyxq/80UEcIIwtRtOnaRBAXuAt0NjFhl3g7N4T9zqTE=
+X-Received: by 2002:a05:6122:14e:b0:358:4f5b:f65c with SMTP id
+ r14-20020a056122014e00b003584f5bf65cmr12072347vko.3.1654026641228; Tue, 31
+ May 2022 12:50:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220529180230.17e9a0f9@ultrarare.space> <20220529182036.10226-1-jose.exposito89@gmail.com>
+ <20220530083752.1973a905@ultrarare.space> <20220530061812.GA10391@elementary>
+ <20220531221102.7bd7da7d@ultrarare.space> <20220531223330.3d63e2fe@ultrarare.space>
+ <20220531172053.GA10651@elementary>
+In-Reply-To: <20220531172053.GA10651@elementary>
+From:   Bryan Cain <bryancain3@gmail.com>
+Date:   Tue, 31 May 2022 13:50:30 -0600
+Message-ID: <CAPnXWxG8gbe1arQK9kBtwM1Xcta+wreTN742kgtBBr1v0ewKug@mail.gmail.com>
+Subject: Re: [PATCH v2] HID: apple: Workaround for non-Apple keyboards
+To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc:     Hilton Chain <hako@ultrarare.space>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
@@ -74,400 +72,203 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The XP-PEN Deco L (UGEE) needs to be initialized by sending a buffer of
-magic data, discovered by sniffing the Windows driver traffic.
+On Tue, May 31, 2022 at 11:20 AM Jos=C3=A9 Exp=C3=B3sito
+<jose.exposito89@gmail.com> wrote:
+>
+> Hi Hilton,
+>
+> Thanks for sending v2 of this patch.
+> Please find a couple of minor comments inline:
+>
+> On Tue, May 31, 2022 at 10:33:30PM +0800, Hilton Chain wrote:
+> > There's a bunch of non-Apple keyboard misuses Apple's vendor and produc=
+t
+> > id, causing hid_apple to be served for them. However they can't handle =
+the
+> > default fnmode.
+> >
+> > This commit adds an array of non-Apple keyboards' device names, togethe=
+r
+> > with a function apple_is_non_apple_keyboard() to identify and create
+> > exception for them.
+> >
+> > Signed-off-by: Hilton Chain <hako@ultrarare.space>
+> > ---
+> >  drivers/hid/hid-apple.c | 40 ++++++++++++++++++++++++++++++++++------
+> >  1 file changed, 34 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+> > index 42a568902f49..4429b25ae3d8 100644
+> > --- a/drivers/hid/hid-apple.c
+> > +++ b/drivers/hid/hid-apple.c
+> > @@ -36,7 +36,7 @@
+> >  #define APPLE_NUMLOCK_EMULATION      BIT(8)
+> >  #define APPLE_RDESC_BATTERY  BIT(9)
+> >  #define APPLE_BACKLIGHT_CTL  BIT(10)
+> > -#define APPLE_IS_KEYCHRON    BIT(11)
+> > +#define APPLE_IS_NON_APPLE   BIT(11)
+> >
+> >  #define APPLE_FLAG_FKEY              0x01
+> >
+> > @@ -65,6 +65,10 @@ MODULE_PARM_DESC(swap_fn_leftctrl, "Swap the Fn and =
+left Control keys. "
+> >               "(For people who want to keep PC keyboard muscle memory. =
+"
+> >               "[0] =3D as-is, Mac layout, 1 =3D swapped, PC layout)");
+> >
+> > +struct apple_non_apple_keyboard {
+> > +     char *name;
+> > +};
+> > +
+> >  struct apple_sc_backlight {
+> >       struct led_classdev cdev;
+> >       struct hid_device *hdev;
+> > @@ -313,6 +317,29 @@ static const struct apple_key_translation swapped_=
+fn_leftctrl_keys[] =3D {
+> >       { }
+> >  };
+> >
+> > +static const struct apple_non_apple_keyboard non_apple_keyboards[] =3D=
+ {
+> > +     { "SONiX USB DEVICE" },
+> > +     { "Keychron" },
+> > +     { }
+>
+> Could the "non_apple && strlen(non_apple)" check be avoided by removing
+> this empty item?
+>
+> > +};
+> > +
+> > +static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
+> > +{
+> > +     unsigned long i;
+> > +     unsigned long non_apple_total =3D sizeof(non_apple_keyboards) /
+> > +                                     sizeof(struct apple_non_apple_key=
+board);
+>
+> Here you coud take advantage of the "ARRAY_SIZE" macro:
+>
+> https://kernelnewbies.org/MagicMacros
+>
+> It'll also allow you to use an int. Something similar to:
+>
+>         int i;
+>
+>         for (i =3D 0; i < ARRAY_SIZE(non_apple_keyboards); i++) {
+>                 [...]
+>
+> > +
+> > +     for (i =3D 0; i < non_apple_total; i++) {
+> > +             char *non_apple =3D non_apple_keyboards[i].name;
+> > +
+> > +             if (non_apple && strlen(non_apple) &&
+>
+> This is the check I meant in my first comment ^
+>
+> > +                             strncmp(hdev->name, non_apple, strlen(non=
+_apple)) =3D=3D 0)
+> > +                     return true;
+> > +     }
+> > +
+> > +     return false;
+> > +}
+> > +
+> >  static inline void apple_setup_key_translation(struct input_dev *input=
+,
+> >               const struct apple_key_translation *table)
+> >  {
+> > @@ -363,7 +390,7 @@ static int hidinput_apple_event(struct hid_device *=
+hid, struct input_dev *input,
+> >       }
+> >
+> >       if (fnmode =3D=3D 3) {
+> > -             real_fnmode =3D (asc->quirks & APPLE_IS_KEYCHRON) ? 2 : 1=
+;
+> > +             real_fnmode =3D (asc->quirks & APPLE_IS_NON_APPLE) ? 2 : =
+1;
+> >       } else {
+> >               real_fnmode =3D fnmode;
+> >       }
+> > @@ -667,11 +694,12 @@ static int apple_input_configured(struct hid_devi=
+ce *hdev,
+> >       if ((asc->quirks & APPLE_HAS_FN) && !asc->fn_found) {
+> >               hid_info(hdev, "Fn key not found (Apple Wireless Keyboard=
+ clone?), disabling Fn key handling\n");
+> >               asc->quirks &=3D ~APPLE_HAS_FN;
+> > -     }
+> >
+> > -     if (strncmp(hdev->name, "Keychron", 8) =3D=3D 0) {
+> > -             hid_info(hdev, "Keychron keyboard detected; function keys=
+ will default to fnmode=3D2 behavior\n");
+> > -             asc->quirks |=3D APPLE_IS_KEYCHRON;
+> > +             if (apple_is_non_apple_keyboard(hdev)) {
+> > +                     hid_info(hdev,
+> > +                             "Non-apple keyboard detected; function ke=
+ys will default to fnmode=3D2 behavior\n");
+>
+> Checkpatch nitpick:
+>
+>         CHECK: Alignment should match open parenthesis
+>         FILE: drivers/hid/hid-apple.c:700:
+>         hid_info(hdev,
+>                 "Non-apple keyboard detected; function keys will default =
+to fnmode=3D2 behavior\n");
+>
+> It suggest to add  an extra space before "Non-apple ...".
+>
+> In case you don't know the tool, it helps to find style errors, I
+> usually run it like:
+>
+> $ ./scripts/checkpatch.pl --strict --codespell --git HEAD-1
+>
+>
+> > +                     asc->quirks |=3D APPLE_IS_NON_APPLE;
+> > +             }
+>
+> This slightly changes the behaviour from the previous patch.
+> Previously, the APPLE_IS_NON_APPLE quirk was set even if APPLE_HAS_FN
+> was not present. Now the condition is nested.
+>
+> I'm not saying it is wrong (I don't have the required hardware to test
+> it), I'm just pointing it out in case it was an accidental change.
+> Bryan, should be able to confirm if it works with his keyboard.
 
-In order to differentiate UGEE tablets that need this kind of
-initialization from the previous ones, name them v2 internally and
-create an entry point for them.
+I haven't tested it, but I can tell from reading the patch that it will bre=
+ak
+compatibility with Keychron keyboards like mine, precisely because of the
+nesting.
 
-After initialization, the template report descriptors can be discovered
-by parsing a string descriptor, similar to the one exposed by HUION v1
-devices.
+The biggest reason that my Keychron patch was needed at all was that Keychr=
+on
+devices advertise the Fn key, and thus don't hit the first clone check sinc=
+e
+asc->fn_found is actually true for them. So nesting the check for the Keych=
+ron
+manufacturer/product name inside of that check won't work.
 
-Add all the required elements to support the device.
+To tell the truth, I'm still a bit confused about the precise behavior of t=
+he
+Sonix firmware that this patch is made to work around. If it's not advertis=
+ing
+an Apple-style Fn key, why isn't the existing behavior of disabling Fn-key
+handling enough to make it work? The fnmode parameter is ignored entirely
+when APPLE_HAS_FN isn't set, so it's hard to imagine that the change to fnm=
+ode
+behavior would even do anything in that case.
 
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
----
- drivers/hid/hid-ids.h            |   1 +
- drivers/hid/hid-uclogic-core.c   |   2 +
- drivers/hid/hid-uclogic-params.c | 197 +++++++++++++++++++++++++++++++
- drivers/hid/hid-uclogic-rdesc.c  | 102 ++++++++++++++++
- drivers/hid/hid-uclogic-rdesc.h  |   8 ++
- 5 files changed, 310 insertions(+)
+Regards,
+Bryan
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index d9eb676abe96..139910034c17 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1278,6 +1278,7 @@
- #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_G540	0x0075
- #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_G640	0x0094
- #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO01	0x0042
-+#define USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO_L	0x0935
- #define USB_DEVICE_ID_UGEE_XPPEN_TABLET_STAR06	0x0078
- #define USB_DEVICE_ID_UGEE_TABLET_G5		0x0074
- #define USB_DEVICE_ID_UGEE_TABLET_EX07S		0x0071
-diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
-index c0fe66e50c58..47a17375c7fc 100644
---- a/drivers/hid/hid-uclogic-core.c
-+++ b/drivers/hid/hid-uclogic-core.c
-@@ -521,6 +521,8 @@ static const struct hid_device_id uclogic_devices[] = {
- 				USB_DEVICE_ID_UGEE_XPPEN_TABLET_G640) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
- 				USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO01) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
-+				USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO_L) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
- 				USB_DEVICE_ID_UGEE_XPPEN_TABLET_STAR06) },
- 	{ }
-diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
-index b43142f98a8b..f24a4aca7920 100644
---- a/drivers/hid/hid-uclogic-params.c
-+++ b/drivers/hid/hid-uclogic-params.c
-@@ -1002,6 +1002,197 @@ static int uclogic_params_huion_init(struct uclogic_params *params,
- 	return rc;
- }
- 
-+/**
-+ * uclogic_probe_interface() - some tablets, like the Parblo A610 PLUS V2 or
-+ * the XP-PEN Deco Mini 7, need to be initialized by sending them magic data.
-+ *
-+ * @hdev:	The HID device of the tablet interface to initialize and get
-+ *		parameters from. Cannot be NULL.
-+ * @magic_arr:	The magic data that should be sent to probe the interface.
-+ *		Cannot be NULL.
-+ * @magic_size:	Size of the magic data.
-+ * @endpoint:	Endpoint where the magic data should be sent.
-+ *
-+ * Returns:
-+ *	Zero, if successful. A negative errno code on error.
-+ */
-+static int uclogic_probe_interface(struct hid_device *hdev, u8 *magic_arr,
-+				   int magic_size, int endpoint)
-+{
-+	struct usb_device *udev;
-+	unsigned int pipe = 0;
-+	int sent;
-+	u8 *buf = NULL;
-+	int rc = 0;
-+
-+	if (!hdev || !magic_arr) {
-+		rc = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	buf = kmemdup(magic_arr, magic_size, GFP_KERNEL);
-+	if (!buf) {
-+		rc = -ENOMEM;
-+		goto cleanup;
-+	}
-+
-+	udev = hid_to_usb_dev(hdev);
-+	pipe = usb_sndintpipe(udev, endpoint);
-+
-+	rc = usb_interrupt_msg(udev, pipe, buf, magic_size, &sent, 1000);
-+	if (rc || sent != magic_size) {
-+		hid_err(hdev, "Interface probing failed: %d\n", rc);
-+		rc = -1;
-+		goto cleanup;
-+	}
-+
-+	rc = 0;
-+cleanup:
-+	kfree(buf);
-+	return rc;
-+}
-+
-+/**
-+ * uclogic_params_ugee_v2_init() - initialize a UGEE graphics tablets by
-+ * discovering their parameters.
-+ *
-+ * These tables, internally designed as v2 to differentiate them from older
-+ * models, expect a payload of magic data in orther to be switched to the fully
-+ * functional mode and expose their parameters in a similar way to the
-+ * information present in uclogic_params_pen_init_v1() but with some
-+ * differences.
-+ *
-+ * @params:	Parameters to fill in (to be cleaned with
-+ *		uclogic_params_cleanup()). Not modified in case of error.
-+ *		Cannot be NULL.
-+ * @hdev:	The HID device of the tablet interface to initialize and get
-+ *		parameters from. Cannot be NULL.
-+ *
-+ * Returns:
-+ *	Zero, if successful. A negative errno code on error.
-+ */
-+static int uclogic_params_ugee_v2_init(struct uclogic_params *params,
-+				       struct hid_device *hdev)
-+{
-+	int rc = 0;
-+	struct usb_interface *iface;
-+	__u8 bInterfaceNumber;
-+	const int str_desc_len = 12;
-+	__u8 *str_desc = NULL;
-+	__u8 *rdesc_pen = NULL;
-+	__u8 *rdesc_frame = NULL;
-+	s32 desc_params[UCLOGIC_RDESC_PH_ID_NUM];
-+	s32 resolution;
-+	__u8 magic_arr[] = {
-+		0x02, 0xb0, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-+	};
-+	/* The resulting parameters (noop) */
-+	struct uclogic_params p = {0, };
-+
-+	if (!params || !hdev) {
-+		rc = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	iface = to_usb_interface(hdev->dev.parent);
-+	bInterfaceNumber = iface->cur_altsetting->desc.bInterfaceNumber;
-+	if (bInterfaceNumber != 2) {
-+		uclogic_params_init_invalid(&p);
-+		goto output;
-+	}
-+
-+	/*
-+	 * Initialize the interface by sending magic data.
-+	 * The specific data was discovered by sniffing the Windows driver
-+	 * traffic.
-+	 */
-+	rc = uclogic_probe_interface(hdev, magic_arr, sizeof(magic_arr), 0x03);
-+	if (rc) {
-+		uclogic_params_init_invalid(&p);
-+		goto output;
-+	}
-+
-+	/*
-+	 * Read the string descriptor containing pen and frame parameters.
-+	 * The specific string descriptor and data were discovered by sniffing
-+	 * the Windows driver traffic.
-+	 */
-+	rc = uclogic_params_get_str_desc(&str_desc, hdev, 100, str_desc_len);
-+	if (rc != str_desc_len) {
-+		hid_err(hdev, "failed retrieving pen and frame parameters: %d\n", rc);
-+		uclogic_params_init_invalid(&p);
-+		goto output;
-+	}
-+
-+	desc_params[UCLOGIC_RDESC_PEN_PH_ID_X_LM] =
-+		get_unaligned_le16(str_desc + 2);
-+	desc_params[UCLOGIC_RDESC_PEN_PH_ID_Y_LM] =
-+		get_unaligned_le16(str_desc + 4);
-+	desc_params[UCLOGIC_RDESC_FRAME_PH_ID_UM] = str_desc[6];
-+	desc_params[UCLOGIC_RDESC_PEN_PH_ID_PRESSURE_LM] =
-+		get_unaligned_le16(str_desc + 8);
-+	resolution = get_unaligned_le16(str_desc + 10);
-+	if (resolution == 0) {
-+		desc_params[UCLOGIC_RDESC_PEN_PH_ID_X_PM] = 0;
-+		desc_params[UCLOGIC_RDESC_PEN_PH_ID_Y_PM] = 0;
-+	} else {
-+		desc_params[UCLOGIC_RDESC_PEN_PH_ID_X_PM] =
-+			desc_params[UCLOGIC_RDESC_PEN_PH_ID_X_LM] * 1000 /
-+			resolution;
-+		desc_params[UCLOGIC_RDESC_PEN_PH_ID_Y_PM] =
-+			desc_params[UCLOGIC_RDESC_PEN_PH_ID_Y_LM] * 1000 /
-+			resolution;
-+	}
-+	kfree(str_desc);
-+	str_desc = NULL;
-+
-+	/* Initialize the pen interface */
-+	rdesc_pen = uclogic_rdesc_template_apply(
-+				uclogic_rdesc_ugee_v2_pen_template_arr,
-+				uclogic_rdesc_ugee_v2_pen_template_size,
-+				desc_params, ARRAY_SIZE(desc_params));
-+	if (!rdesc_pen) {
-+		rc = -ENOMEM;
-+		goto cleanup;
-+	}
-+
-+	p.pen.desc_ptr = rdesc_pen;
-+	p.pen.desc_size = uclogic_rdesc_ugee_v2_pen_template_size;
-+	p.pen.id = 0x02;
-+	p.pen.subreport_list[0].value = 0xf0;
-+	p.pen.subreport_list[0].id = UCLOGIC_RDESC_V1_FRAME_ID;
-+
-+	/* Initialize the frame interface */
-+	rdesc_frame = uclogic_rdesc_template_apply(
-+				uclogic_rdesc_ugee_v2_frame_btn_template_arr,
-+				uclogic_rdesc_ugee_v2_frame_btn_template_size,
-+				desc_params, ARRAY_SIZE(desc_params));
-+	if (!rdesc_frame) {
-+		rc = -ENOMEM;
-+		goto cleanup;
-+	}
-+
-+	rc = uclogic_params_frame_init_with_desc(&p.frame_list[0],
-+						 rdesc_frame,
-+						 uclogic_rdesc_ugee_v2_frame_btn_template_size,
-+						 UCLOGIC_RDESC_V1_FRAME_ID);
-+	kfree(rdesc_frame);
-+	if (rc) {
-+		uclogic_params_init_invalid(&p);
-+		goto output;
-+	}
-+
-+output:
-+	/* Output parameters */
-+	memcpy(params, &p, sizeof(*params));
-+	memset(&p, 0, sizeof(p));
-+	rc = 0;
-+cleanup:
-+	kfree(str_desc);
-+	uclogic_params_cleanup(&p);
-+	return rc;
-+}
-+
- /**
-  * uclogic_params_init() - initialize a tablet interface and discover its
-  * parameters.
-@@ -1237,6 +1428,12 @@ int uclogic_params_init(struct uclogic_params *params,
- 			uclogic_params_init_invalid(&p);
- 		}
- 		break;
-+	case VID_PID(USB_VENDOR_ID_UGEE,
-+		     USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO_L):
-+		rc = uclogic_params_ugee_v2_init(&p, hdev);
-+		if (rc != 0)
-+			goto cleanup;
-+		break;
- 	case VID_PID(USB_VENDOR_ID_TRUST,
- 		     USB_DEVICE_ID_TRUST_PANORA_TABLET):
- 	case VID_PID(USB_VENDOR_ID_UGEE,
-diff --git a/drivers/hid/hid-uclogic-rdesc.c b/drivers/hid/hid-uclogic-rdesc.c
-index 3fb84ac492b4..3d68e8b0784d 100644
---- a/drivers/hid/hid-uclogic-rdesc.c
-+++ b/drivers/hid/hid-uclogic-rdesc.c
-@@ -859,6 +859,108 @@ const __u8 uclogic_rdesc_v2_frame_dial_arr[] = {
- const size_t uclogic_rdesc_v2_frame_dial_size =
- 			sizeof(uclogic_rdesc_v2_frame_dial_arr);
- 
-+/* Fixed report descriptor template for UGEE v2 pen reports */
-+const __u8 uclogic_rdesc_ugee_v2_pen_template_arr[] = {
-+	0x05, 0x0d,         /*  Usage Page (Digitizers),                */
-+	0x09, 0x01,         /*  Usage (Digitizer),                      */
-+	0xa1, 0x01,         /*  Collection (Application),               */
-+	0x85, 0x02,         /*      Report ID (2),                      */
-+	0x09, 0x20,         /*      Usage (Stylus),                     */
-+	0xa1, 0x00,         /*      Collection (Physical),              */
-+	0x09, 0x42,         /*          Usage (Tip Switch),             */
-+	0x09, 0x44,         /*          Usage (Barrel Switch),          */
-+	0x09, 0x46,         /*          Usage (Tablet Pick),            */
-+	0x75, 0x01,         /*          Report Size (1),                */
-+	0x95, 0x03,         /*          Report Count (3),               */
-+	0x14,               /*          Logical Minimum (0),            */
-+	0x25, 0x01,         /*          Logical Maximum (1),            */
-+	0x81, 0x02,         /*          Input (Variable),               */
-+	0x95, 0x02,         /*          Report Count (2),               */
-+	0x81, 0x03,         /*          Input (Constant, Variable),     */
-+	0x09, 0x32,         /*          Usage (In Range),               */
-+	0x95, 0x01,         /*          Report Count (1),               */
-+	0x81, 0x02,         /*          Input (Variable),               */
-+	0x95, 0x02,         /*          Report Count (2),               */
-+	0x81, 0x03,         /*          Input (Constant, Variable),     */
-+	0x75, 0x10,         /*          Report Size (16),               */
-+	0x95, 0x01,         /*          Report Count (1),               */
-+	0x35, 0x00,         /*          Physical Minimum (0),           */
-+	0xa4,               /*          Push,                           */
-+	0x05, 0x01,         /*          Usage Page (Desktop),           */
-+	0x09, 0x30,         /*          Usage (X),                      */
-+	0x65, 0x13,         /*          Unit (Inch),                    */
-+	0x55, 0x0d,         /*          Unit Exponent (-3),             */
-+	0x27, UCLOGIC_RDESC_PEN_PH(X_LM),
-+			    /*          Logical Maximum (PLACEHOLDER),  */
-+	0x47, UCLOGIC_RDESC_PEN_PH(X_PM),
-+			    /*          Physical Maximum (PLACEHOLDER), */
-+	0x81, 0x02,         /*          Input (Variable),               */
-+	0x09, 0x31,         /*          Usage (Y),                      */
-+	0x27, UCLOGIC_RDESC_PEN_PH(Y_LM),
-+			    /*          Logical Maximum (PLACEHOLDER),  */
-+	0x47, UCLOGIC_RDESC_PEN_PH(Y_PM),
-+			    /*          Physical Maximum (PLACEHOLDER), */
-+	0x81, 0x02,         /*          Input (Variable),               */
-+	0xb4,               /*          Pop,                            */
-+	0x09, 0x30,         /*          Usage (Tip Pressure),           */
-+	0x45, 0x00,         /*          Physical Maximum (0),           */
-+	0x27, UCLOGIC_RDESC_PEN_PH(PRESSURE_LM),
-+			    /*          Logical Maximum (PLACEHOLDER),  */
-+	0x75, 0x0D,         /*          Report Size (13),               */
-+	0x95, 0x01,         /*          Report Count (1),               */
-+	0x81, 0x02,         /*          Input (Variable),               */
-+	0x75, 0x01,         /*          Report Size (1),                */
-+	0x95, 0x03,         /*          Report Count (3),               */
-+	0x81, 0x01,         /*          Input (Constant),               */
-+	0x09, 0x3d,         /*          Usage (X Tilt),                 */
-+	0x35, 0xC3,         /*          Physical Minimum (-61),         */
-+	0x45, 0x3C,         /*          Physical Maximum (60),          */
-+	0x15, 0xC3,         /*          Logical Minimum (-61),          */
-+	0x25, 0x3C,         /*          Logical Maximum (60),           */
-+	0x75, 0x08,         /*          Report Size (8),                */
-+	0x95, 0x01,         /*          Report Count (1),               */
-+	0x81, 0x02,         /*          Input (Variable),               */
-+	0x09, 0x3e,         /*          Usage (Y Tilt),                 */
-+	0x35, 0xC3,         /*          Physical Minimum (-61),         */
-+	0x45, 0x3C,         /*          Physical Maximum (60),          */
-+	0x15, 0xC3,         /*          Logical Minimum (-61),          */
-+	0x25, 0x3C,         /*          Logical Maximum (60),           */
-+	0x81, 0x02,         /*          Input (Variable),               */
-+	0xc0,               /*      End Collection,                     */
-+	0xc0,               /*  End Collection                          */
-+};
-+const size_t uclogic_rdesc_ugee_v2_pen_template_size =
-+			sizeof(uclogic_rdesc_ugee_v2_pen_template_arr);
-+
-+/* Fixed report descriptor template for UGEE v2 frame reports (buttons only) */
-+const __u8 uclogic_rdesc_ugee_v2_frame_btn_template_arr[] = {
-+	0x05, 0x01,         /*  Usage Page (Desktop),                   */
-+	0x09, 0x07,         /*  Usage (Keypad),                         */
-+	0xA1, 0x01,         /*  Collection (Application),               */
-+	0x85, UCLOGIC_RDESC_V1_FRAME_ID,
-+			    /*      Report ID,                          */
-+	0x05, 0x0D,         /*      Usage Page (Digitizer),             */
-+	0x09, 0x39,         /*      Usage (Tablet Function Keys),       */
-+	0xA0,               /*      Collection (Physical),              */
-+	0x75, 0x01,         /*          Report Size (1),                */
-+	0x95, 0x08,         /*          Report Count (8),               */
-+	0x81, 0x01,         /*          Input (Constant),               */
-+	0x05, 0x09,         /*          Usage Page (Button),            */
-+	0x19, 0x01,         /*          Usage Minimum (01h),            */
-+	UCLOGIC_RDESC_FRAME_PH_BTN,
-+			    /*          Usage Maximum (PLACEHOLDER),    */
-+	0x95, 0x0A,         /*          Report Count (10),              */
-+	0x14,               /*          Logical Minimum (0),            */
-+	0x25, 0x01,         /*          Logical Maximum (1),            */
-+	0x81, 0x02,         /*          Input (Variable),               */
-+	0x95, 0x46,         /*          Report Count (70),              */
-+	0x81, 0x01,         /*          Input (Constant),               */
-+	0xC0,               /*      End Collection,                     */
-+	0xC0                /*  End Collection                          */
-+};
-+const size_t uclogic_rdesc_ugee_v2_frame_btn_template_size =
-+			sizeof(uclogic_rdesc_ugee_v2_frame_btn_template_arr);
-+
- /* Fixed report descriptor for Ugee EX07 frame */
- const __u8 uclogic_rdesc_ugee_ex07_frame_arr[] = {
- 	0x05, 0x01,             /*  Usage Page (Desktop),                   */
-diff --git a/drivers/hid/hid-uclogic-rdesc.h b/drivers/hid/hid-uclogic-rdesc.h
-index 3d78299f082d..86e64a9ee6bd 100644
---- a/drivers/hid/hid-uclogic-rdesc.h
-+++ b/drivers/hid/hid-uclogic-rdesc.h
-@@ -161,6 +161,14 @@ extern const size_t uclogic_rdesc_v2_frame_dial_size;
- /* Device ID byte offset in v2 frame dial reports */
- #define UCLOGIC_RDESC_V2_FRAME_DIAL_DEV_ID_BYTE	0x4
- 
-+/* Fixed report descriptor template for UGEE v2 pen reports */
-+extern const __u8 uclogic_rdesc_ugee_v2_pen_template_arr[];
-+extern const size_t uclogic_rdesc_ugee_v2_pen_template_size;
-+
-+/* Fixed report descriptor template for UGEE v2 frame reports (buttons only) */
-+extern const __u8 uclogic_rdesc_ugee_v2_frame_btn_template_arr[];
-+extern const size_t uclogic_rdesc_ugee_v2_frame_btn_template_size;
-+
- /* Fixed report descriptor for Ugee EX07 frame */
- extern const __u8 uclogic_rdesc_ugee_ex07_frame_arr[];
- extern const size_t uclogic_rdesc_ugee_ex07_frame_size;
--- 
-2.25.1
-
+>
+> >       }
+> >
+> >       return 0;
+> >
+> > base-commit: 8ab2afa23bd197df47819a87f0265c0ac95c5b6a
+> > --
+> > 2.36.1
+> >
+>
+>
+> Best wishes,
+> Jos=C3=A9 Exp=C3=B3sito
