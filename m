@@ -2,101 +2,141 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AA2F539443
-	for <lists+linux-input@lfdr.de>; Tue, 31 May 2022 17:51:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69F3B53944D
+	for <lists+linux-input@lfdr.de>; Tue, 31 May 2022 17:52:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232481AbiEaPvD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 31 May 2022 11:51:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46576 "EHLO
+        id S244492AbiEaPwr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 31 May 2022 11:52:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230142AbiEaPvC (ORCPT
+        with ESMTP id S231700AbiEaPwq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 31 May 2022 11:51:02 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1D847A469
-        for <linux-input@vger.kernel.org>; Tue, 31 May 2022 08:51:01 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id q12-20020a17090a304c00b001e2d4fb0eb4so3143037pjl.4
-        for <linux-input@vger.kernel.org>; Tue, 31 May 2022 08:51:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UCz3T3cNlUlcl+vTuj+aemzqAG1y/5K07Rxr5yFu5Yo=;
-        b=GqsBWqb0Ny4TrESiJZj08ErKYtTdGwHK/+nXToOZhJaScEwEKYdf5g6mDyXPa4pkHN
-         7jvEiC5C2Tf2LunKZ0aGklhLdY+J8XYAqYn8QgIbPLzJmp5aSQrR6/uNTa/1F5d40E3M
-         +c2SpaQKNr5WdBKa/ENa066NfJN2rxNCYWj1VwD+AeLtD/cygK9gOzKbquSnhyk/lBR6
-         riSvwc3k9eVJSuR0zDOGgUg/OHD51D720QpNrZIJbwffErhCUIhUE9BkirU4lcMLowR5
-         PIN+r1nAY/7qc6mhVgW9S5ELJms1pzC1wKlCe3GqotqRmHbjmJKsZIUSoF0B2qaSG19C
-         D1pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UCz3T3cNlUlcl+vTuj+aemzqAG1y/5K07Rxr5yFu5Yo=;
-        b=7W11pZxxiBMc3zA3Fp6MSe1GatXZxPuYeIcn39HGUUFwXuFi6mbQ650yBG8MYri0gI
-         VnG14czoK8BEaG4BDPI05xle9M0oCH3WoM3W37+FMtBJDW5ADrY4AIrpuoU7+Tsfq7Sl
-         bc0lf8XeVUcvtBuSLzaYuHrAL1ow+ZWHMIrUHO/P2C2aivA53qkZDKgjrhQzwOqkNAAu
-         vlh/iPlGo1rxBlLZp/dhCHrJTcTXBt8ZdnUHN1Tn4gpQq72OESkVVZenCOnqTeskfWHn
-         pJe9MypqhDNddmHjeOHiq0z9CnH6R2EgSQdjlDw9j82a6neSoZNDuYxrpLK4cG8KoTps
-         /Stg==
-X-Gm-Message-State: AOAM530XlCkthIqVtrbj3dTt6P04CYQ/494XD2My+7de7hOOLdfFgIAu
-        ia7QXGuw10eAueEySc9arQ0=
-X-Google-Smtp-Source: ABdhPJy1EmjHvyYV+6GxcbY07zuwfFMaWUg/I4FRa4YaJqksu4m5axodY8R2hgSM6nzpLLMzZabF+A==
-X-Received: by 2002:a17:903:22d0:b0:164:ec0:178c with SMTP id y16-20020a17090322d000b001640ec0178cmr2468164plg.127.1654012261013;
-        Tue, 31 May 2022 08:51:01 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:3b8f:bcac:41a7:7a32])
-        by smtp.gmail.com with ESMTPSA id i16-20020aa787d0000000b0050dc762813csm10902539pfo.22.2022.05.31.08.50.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 08:50:59 -0700 (PDT)
-Date:   Tue, 31 May 2022 08:50:57 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     linux-input@vger.kernel.org, Hugh Dickins <hughd@google.com>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>
-Subject: Re: Suspend/Resume (S3) issues with rmi_smbus
-Message-ID: <YpY5YU+KTg/Dmaex@google.com>
-References: <YpSExunpPdgdjQCz@worktop.programming.kicks-ass.net>
- <YpUX3EAzpL4+xgu1@google.com>
- <YpXXu2tbCSCUtUYQ@worktop.programming.kicks-ass.net>
+        Tue, 31 May 2022 11:52:46 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A86DF4EDF3;
+        Tue, 31 May 2022 08:52:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=LpXPAneCugbQKHFScwdaqR/e+kKcx/ImtDg7Wq8zAWA=; b=icH4vRbWpozE50sycTIIOtua87
+        YO+86QBJ38xanxRX9luKNWYPuGhPGvCuhU0yDUCTTTBxPrQZTyack11k5kZ6ZfU/SpJ3eHIFqwjjv
+        c6Xnz2kH/yQSELj5WtLrMQdho7kslht3v1Rw/r6XbIzCqT/t2Mpj6jmmUYVd40q0acNUtY9KYNhJ7
+        x0BbhLLahoffzlV5BEUS62JmYJeXcFhI2IAK0pwKnRgRp9seqQbPnwvv8IDYgc9dk+kSNgm9kq72J
+        +0tTawagakssCe4R/8uNHcUsoDgKC3LjTsTRa00S+RwYbF/iAgZmdhWnZwMggAGomjwPwCQukRv2Q
+        zqNp6vWQ==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nw4Ab-005UoH-R7; Tue, 31 May 2022 15:52:34 +0000
+Message-ID: <3995c3d8-395a-bd39-eebc-370bd1fca09c@infradead.org>
+Date:   Tue, 31 May 2022 08:52:28 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YpXXu2tbCSCUtUYQ@worktop.programming.kicks-ass.net>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2] HID: uclogic: properly format kernel-doc comment for
+ hid_dbg() wrappers
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
+Cc:     kernel test robot <lkp@intel.com>,
+        Nikolai Kondrashov <spbnick@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+        llvm@lists.linux.dev, stable@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220531092817.13894-1-bagasdotme@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220531092817.13894-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, May 31, 2022 at 10:54:19AM +0200, Peter Zijlstra wrote:
-> On Mon, May 30, 2022 at 12:15:40PM -0700, Dmitry Torokhov wrote:
-> 
-> > Can you check the entire list of resume operations to make sure that
-> > PS/2 device is resumed before RMI one?
-> 
-> It reports psmouse failure *after* the rmi4 failure. Is there a knob to
-> make it print more device model details on resume?
-> 
-> > You can also try overriding devices driven by rmi_smbus as needing
-> > synchronous resume (see
-> > https://lore.kernel.org/all/YgHTYrODoo2ou49J@google.com/).
-> 
-> I can confirm this works.
 
-Let's ask Rafael if he has an idea why adding a link between PS/2 device
-and its SMbus companion did not seem to affect resume order. Was there a
-change in 5.18 timeframe (since original reporters said that adding
-device link helped their case).
 
-Let's also add a couple of more folks who experienced original issue to
-see if they observe this as well.
+On 5/31/22 02:28, Bagas Sanjaya wrote:
+> Running kernel-doc script on drivers/hid/hid-uclogic-params.c, it found
+> 6 warnings for hid_dbg() wrapper functions below:
+> 
+> drivers/hid/hid-uclogic-params.c:48: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+>  * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+> drivers/hid/hid-uclogic-params.c:48: warning: missing initial short description on line:
+>  * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+> drivers/hid/hid-uclogic-params.c:48: info: Scanning doc for function Dump
+> drivers/hid/hid-uclogic-params.c:80: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+>  * Dump tablet interface frame parameters with hid_dbg(), indented with two
+> drivers/hid/hid-uclogic-params.c:80: warning: missing initial short description on line:
+>  * Dump tablet interface frame parameters with hid_dbg(), indented with two
+> drivers/hid/hid-uclogic-params.c:80: info: Scanning doc for function Dump
+> drivers/hid/hid-uclogic-params.c:105: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+>  * Dump tablet interface parameters with hid_dbg().
+> drivers/hid/hid-uclogic-params.c:105: warning: missing initial short description on line:
+>  * Dump tablet interface parameters with hid_dbg().
+> 
+> One of them is reported by kernel test robot.
+> 
+> Fix these warnings by properly format kernel-doc comment for these
+> functions.
+> 
+> Link: https://lore.kernel.org/linux-doc/202205272033.XFYlYj8k-lkp@intel.com/
+> Fixes: a228809fa6f39c ("HID: uclogic: Move param printing to a function")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Cc: Nikolai Kondrashov <spbnick@gmail.com>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: "José Expósito" <jose.exposito89@gmail.com>
+> Cc: llvm@lists.linux.dev
+> Cc: stable@vger.kernel.org # v5.18
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Changes since v1 [1]:
+>    - Approach the warning by fixing kernel-doc comments formatting
+>      (suggested by Jonathan Corbet)
+> 
+>  [1]: https://lore.kernel.org/linux-doc/20220528091403.160169-1-bagasdotme@gmail.com/
+
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+One note (nit) below:
+
+>  drivers/hid/hid-uclogic-params.c | 24 ++++++++++++++----------
+>  1 file changed, 14 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
+> index db838f16282d64..647bbd3e000e2f 100644
+> --- a/drivers/hid/hid-uclogic-params.c
+> +++ b/drivers/hid/hid-uclogic-params.c
+> @@ -23,11 +23,11 @@
+>  /**
+>   * uclogic_params_pen_inrange_to_str() - Convert a pen in-range reporting type
+>   *                                       to a string.
+> - *
+>   * @inrange:	The in-range reporting type to convert.
+>   *
+> - * Returns:
+> - *	The string representing the type, or NULL if the type is unknown.
+> + * Return:
+> + * * The string representing the type, or
+> + * * NULL if the type is unknown.
+
+        %NULL
+would be better here, but not required.
+
+>   */
+>  static const char *uclogic_params_pen_inrange_to_str(
+>  				enum uclogic_params_pen_inrange inrange)
+
 
 Thanks.
-
 -- 
-Dmitry
+~Randy
