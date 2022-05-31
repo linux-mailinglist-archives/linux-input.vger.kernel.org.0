@@ -2,53 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 702875399F6
-	for <lists+linux-input@lfdr.de>; Wed,  1 Jun 2022 01:14:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB59A539A0B
+	for <lists+linux-input@lfdr.de>; Wed,  1 Jun 2022 01:27:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348629AbiEaXNp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 31 May 2022 19:13:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46910 "EHLO
+        id S1348669AbiEaX1I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 31 May 2022 19:27:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348627AbiEaXNo (ORCPT
+        with ESMTP id S237601AbiEaX1H (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 31 May 2022 19:13:44 -0400
+        Tue, 31 May 2022 19:27:07 -0400
 Received: from mail.boiledscript.com (unknown [192.151.158.155])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0FD28FFB0;
-        Tue, 31 May 2022 16:13:41 -0700 (PDT)
-MIME-Version: 1.0
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E73CDF8A;
+        Tue, 31 May 2022 16:27:06 -0700 (PDT)
+Received: from localhost (unknown [192.168.203.1])
+        by mail.boiledscript.com (Postfix) with ESMTP id 6FAB33007FD;
+        Tue, 31 May 2022 23:27:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ultrarare.space;
-        s=dkim; t=1654038819;
+        s=dkim; t=1654039623;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=8+otB8HQmu22M9qX58h4v8TTVeYcawnMe3GvLJCU0yQ=;
-        b=FgYENTxIGpil76rfAy5ADJyQafsweZFOiZNyB4eijna2xg4tEuzBDonWMqFtmsc1w/TW0h
-        WzpUiuFBItBzCeW0wYGfLWIdJt0c/Y7PENsN/m0xjnQ+XUef93XMacjgl4zSyi9orHobJz
-        tplEEvZ3wjuArjMXbHkxJuskIc4BSBpmxsrGPb7Ei5FDHRMc+CFTJRCkpyrOZsdWazxS0k
-        Wg29apQ8GQt1lSNhnBrMlUUN2lggLVMGc6xwRlGVbwSU+kJlDYQ2SEpKeLf8dknTibf2H/
-        CZ+g73C81CbbpuMjwC724aRNBsgj3vqVudVbb+NIzxhSSiukCj1fvvMXMq0fow==
-Date:   Tue, 31 May 2022 23:13:37 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-From:   hako@ultrarare.space
-Message-ID: <7f67ac07b8bd37d5817cd151674cc6b0@ultrarare.space>
-Subject: Re: [PATCH v2] HID: apple: Workaround for non-Apple keyboards
-To:     "Bryan Cain" <bryancain3@gmail.com>
-Cc:     "=?utf-8?B?Sm9zw6kgRXhww7NzaXRv?=" <jose.exposito89@gmail.com>,
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RJRtg2zH4bC6btK95Gjxl5mQyLjSrymJmT3J7j8Daa4=;
+        b=S8fssuc9UwKiKp5PxdugfR1eKDGTxNvE/jbgJEwZmhJobPxAxsHpkHv08rrMmLyS+GyLpB
+        6hRRdp1dukBGzBb5ZLJRxVQpvXLULKNr+ZC6/ptkuBlQnIuqYf3R1y9NTZlNtlNFhQd4Ja
+        WM4rchERlATD2S/VL8VJDhqPLo2I6FmgQRpObGv5ln8dv6I5wi2Ekec0iIoCsTuGIqjsWj
+        fOVkDEN+MgmLXySxqaUxFp6MtoQ1AdfDJ8NafeXhQru0Meh14/+pI6eHixoVLcBp009My0
+        PHlh/AMpnYPqScm7fplqqIjMKOnnJe7bFG3FODYNIju/2Gi+vrTOpRE9okUvEQ==
+Date:   Wed, 1 Jun 2022 07:26:51 +0800
+From:   Hilton Chain <hako@ultrarare.space>
+To:     "=?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?=" <jose.exposito89@gmail.com>
+Cc:     "Bryan Cain" <bryancain3@gmail.com>,
         "Jiri Kosina" <jikos@kernel.org>,
         "Benjamin Tissoires" <benjamin.tissoires@redhat.com>,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH v3] HID: apple: Properly handle function keys on non-Apple
+ keyboard
+Message-ID: <20220601072651.242ce08a@ultrarare.space>
+In-Reply-To: <7f67ac07b8bd37d5817cd151674cc6b0@ultrarare.space>
 References: <20220529180230.17e9a0f9@ultrarare.space>
- <20220529182036.10226-1-jose.exposito89@gmail.com>
- <20220530083752.1973a905@ultrarare.space>
- <20220530061812.GA10391@elementary>
- <20220531221102.7bd7da7d@ultrarare.space>
- <20220531223330.3d63e2fe@ultrarare.space>
- <20220531172053.GA10651@elementary>
- <CAPnXWxG8gbe1arQK9kBtwM1Xcta+wreTN742kgtBBr1v0ewKug@mail.gmail.com>
+        <20220529182036.10226-1-jose.exposito89@gmail.com>
+        <20220530083752.1973a905@ultrarare.space>
+        <20220530061812.GA10391@elementary>
+        <20220531221102.7bd7da7d@ultrarare.space>
+        <20220531223330.3d63e2fe@ultrarare.space>
+        <20220531172053.GA10651@elementary>
+        <CAPnXWxG8gbe1arQK9kBtwM1Xcta+wreTN742kgtBBr1v0ewKug@mail.gmail.com>
+        <7f67ac07b8bd37d5817cd151674cc6b0@ultrarare.space>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Spamd-Bar: +
 Authentication-Results: mail.boiledscript.com;
-        auth=pass smtp.mailfrom=hako@ultrarare.space
+        none
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -58,144 +66,90 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, May 31, 2022 at 11:20 AM Jos=C3=A9 Exp=C3=B3sito wrote:
+This commit extends fa33382c7f74 ("HID: apple: Properly handle function
+keys on Keychron keyboards") by adding an array of known non-Apple
+keyboards' device names, and the function apple_is_non_apple_keyboard()
+to identify and create exception for them.
 
-> +struct apple_non_apple_keyboard {
-> + char *name;
-> +};
-> +
-> struct apple_sc_backlight {
-> struct led_classdev cdev;
-> struct hid_device *hdev;
-> @@ -313,6 +317,29 @@ static const struct apple_key_translation swapped_=
-fn_leftctrl_keys[] =3D {
-> { }
-> };
->=20
->=20+static const struct apple_non_apple_keyboard non_apple_keyboards[] =
-=3D {
-> + { "SONiX USB DEVICE" },
-> + { "Keychron" },
-> + { }
->=20
->=20Could the "non_apple && strlen(non_apple)" check be avoided by removi=
-ng
-> this empty item?
+Signed-off-by: Hilton Chain <hako@ultrarare.space>
+---
+ drivers/hid/hid-apple.c | 33 ++++++++++++++++++++++++++++-----
+ 1 file changed, 28 insertions(+), 5 deletions(-)
 
-Hi Jose,
-If there's a chance that the device name is an empty string? In such case=
- the
-strlen should be preserved.
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index 42a568902f49..7d56530d9e3a 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -36,7 +36,7 @@
+ #define APPLE_NUMLOCK_EMULATION	BIT(8)
+ #define APPLE_RDESC_BATTERY	BIT(9)
+ #define APPLE_BACKLIGHT_CTL	BIT(10)
+-#define APPLE_IS_KEYCHRON	BIT(11)
++#define APPLE_IS_NON_APPLE	BIT(11)
+ 
+ #define APPLE_FLAG_FKEY		0x01
+ 
+@@ -65,6 +65,10 @@ MODULE_PARM_DESC(swap_fn_leftctrl, "Swap the Fn and left Control keys. "
+ 		"(For people who want to keep PC keyboard muscle memory. "
+ 		"[0] = as-is, Mac layout, 1 = swapped, PC layout)");
+ 
++struct apple_non_apple_keyboard {
++	char *name;
++};
++
+ struct apple_sc_backlight {
+ 	struct led_classdev cdev;
+ 	struct hid_device *hdev;
+@@ -313,6 +317,25 @@ static const struct apple_key_translation swapped_fn_leftctrl_keys[] = {
+ 	{ }
+ };
+ 
++static const struct apple_non_apple_keyboard non_apple_keyboards[] = {
++	{ "SONiX USB DEVICE" },
++	{ "Keychron" },
++};
++
++static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(non_apple_keyboards); i++) {
++		char *non_apple = non_apple_keyboards[i].name;
++
++		if (strlen(non_apple) && strncmp(hdev->name, non_apple, strlen(non_apple)) == 0)
++			return true;
++	}
++
++	return false;
++}
++
+ static inline void apple_setup_key_translation(struct input_dev *input,
+ 		const struct apple_key_translation *table)
+ {
+@@ -363,7 +386,7 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+ 	}
+ 
+ 	if (fnmode == 3) {
+-		real_fnmode = (asc->quirks & APPLE_IS_KEYCHRON) ? 2 : 1;
++		real_fnmode = (asc->quirks & APPLE_IS_NON_APPLE) ? 2 : 1;
+ 	} else {
+ 		real_fnmode = fnmode;
+ 	}
+@@ -669,9 +692,9 @@ static int apple_input_configured(struct hid_device *hdev,
+ 		asc->quirks &= ~APPLE_HAS_FN;
+ 	}
+ 
+-	if (strncmp(hdev->name, "Keychron", 8) == 0) {
+-		hid_info(hdev, "Keychron keyboard detected; function keys will default to fnmode=2 behavior\n");
+-		asc->quirks |= APPLE_IS_KEYCHRON;
++	if (apple_is_non_apple_keyboard(hdev)) {
++		hid_info(hdev, "Non-apple keyboard detected; function keys will default to fnmode=2 behavior\n");
++		asc->quirks |= APPLE_IS_NON_APPLE;
+ 	}
+ 
+ 	return 0;
 
-> +};
-> +
-> +static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
-> +{
-> + unsigned long i;
-> + unsigned long non_apple_total =3D sizeof(non_apple_keyboards) /
-> + sizeof(struct apple_non_apple_keyboard);
->=20
->=20Here you coud take advantage of the "ARRAY_SIZE" macro:
->=20
->=20https://kernelnewbies.org/MagicMacros
->=20
->=20It'll also allow you to use an int. Something similar to:
->=20
->=20int i;
->=20
->=20for (i =3D 0; i < ARRAY_SIZE(non_apple_keyboards); i++) {
-> [...]
+base-commit: e1cbc3b96a9974746b2a80c3a6c8a0f7eff7b1b5
+-- 
+2.36.1
 
-Thanks for the information!
-
-> @@ -667,11 +694,12 @@ static int apple_input_configured(struct hid_devi=
-ce *hdev,
-> if ((asc->quirks & APPLE_HAS_FN) && !asc->fn_found) {
-> hid_info(hdev, "Fn key not found (Apple Wireless Keyboard clone?), disa=
-bling Fn key handling\n");
-> asc->quirks &=3D ~APPLE_HAS_FN;
-> - }
->=20
->=20- if (strncmp(hdev->name, "Keychron", 8) =3D=3D 0) {
-> - hid_info(hdev, "Keychron keyboard detected; function keys will defaul=
-t to fnmode=3D2 behavior\n");
-> - asc->quirks |=3D APPLE_IS_KEYCHRON;
-> + if (apple_is_non_apple_keyboard(hdev)) {
-> + hid_info(hdev,
-> + "Non-apple keyboard detected; function keys will default to fnmode=3D=
-2 behavior\n");
->=20
->=20Checkpatch nitpick:
->=20
->=20CHECK: Alignment should match open parenthesis
-> FILE: drivers/hid/hid-apple.c:700:
-> hid_info(hdev,
-> "Non-apple keyboard detected; function keys will default to fnmode=3D2 =
-behavior\n");
->=20
->=20It suggest to add an extra space before "Non-apple ...".
->=20
->=20In case you don't know the tool, it helps to find style errors, I
-> usually run it like:
->=20
->=20$ ./scripts/checkpatch.pl --strict --codespell --git HEAD-1
->=20
->=20+ asc->quirks |=3D APPLE_IS_NON_APPLE;
-> + }
->=20
->=20This slightly changes the behaviour from the previous patch.
-> Previously, the APPLE_IS_NON_APPLE quirk was set even if APPLE_HAS_FN
-> was not present. Now the condition is nested.
->=20
->=20I'm not saying it is wrong (I don't have the required hardware to tes=
-t
-> it), I'm just pointing it out in case it was an accidental change.
-> Bryan, should be able to confirm if it works with his keyboard.
-
-Thanks again!
-
-On Tue, 31 May 2022 13:50:30 -0600 Bryan Cain wrote:
-
-> I haven't tested it, but I can tell from reading the patch that it will=
- break
-> compatibility with Keychron keyboards like mine, precisely because of t=
-he
-> nesting.
->=20
->=20The biggest reason that my Keychron patch was needed at all was that =
-Keychron
-> devices advertise the Fn key, and thus don't hit the first clone check =
-since
-> asc->fn_found is actually true for them. So nesting the check for the K=
-eychron
-> manufacturer/product name inside of that check won't work.
->=20
->=20To tell the truth, I'm still a bit confused about the precise behavio=
-r of the
-> Sonix firmware that this patch is made to work around. If it's not adve=
-rtising
-> an Apple-style Fn key, why isn't the existing behavior of disabling Fn-=
-key
-> handling enough to make it work? The fnmode parameter is ignored entire=
-ly
-> when APPLE_HAS_FN isn't set, so it's hard to imagine that the change to=
- fnmode
-> behavior would even do anything in that case.
-
-Hi Bryan,
-Sorry for my inconsiderateness...
-
-It advertises such function:
-- FN Function Keys Make Control easily.
-FN+F1:My Computer
-FN+F2:Browser
-FN+F3:Email
-...
-
-I made a vital mistake by not properly checking the patch before sending,
-that's totally my fault.
-
-Sorry again for the mess I made.
-
-Best wishes,
-Chain
