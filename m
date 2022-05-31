@@ -2,72 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F85953955D
-	for <lists+linux-input@lfdr.de>; Tue, 31 May 2022 19:21:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 392A55395F0
+	for <lists+linux-input@lfdr.de>; Tue, 31 May 2022 20:13:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243533AbiEaRVD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 31 May 2022 13:21:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58330 "EHLO
+        id S1346854AbiEaSNI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 31 May 2022 14:13:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236667AbiEaRVC (ORCPT
+        with ESMTP id S234110AbiEaSNH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 31 May 2022 13:21:02 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE8383CFE7;
-        Tue, 31 May 2022 10:21:00 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id d5-20020a05600c34c500b0039776acee62so1257834wmq.1;
-        Tue, 31 May 2022 10:21:00 -0700 (PDT)
+        Tue, 31 May 2022 14:13:07 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A4956CF51;
+        Tue, 31 May 2022 11:13:06 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id e2so19789321wrc.1;
+        Tue, 31 May 2022 11:13:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=jQ4GDBetYenwz6wuOfGu54n2JTdY9CBw0hORhkYyzLM=;
-        b=aIjhlncpiNyGPSbvfXHNI/BrPnbGGn+YxRozw0Xdc3hPxJZpCSQy57hULzzdgule3G
-         x2BHOg5CZinjLMWLyTbfNJLRTr4B+c5ZFrXUl20dAdeo8jRUiMa8Hkd0ocEZU+u26cxA
-         PGtG7nrp+26ymTrn205UA2eMivLHb9ygF2fF2S9qTxTCJp2uZoWtZ8duVQNOjNMMcYty
-         ANBoj6BNE73hOd6q/zC+dtk3TGv1U0rqBfqm8panfzZ1YrNR1kfer2JfAj5h2/FD6krY
-         iN1Ixc8ceCGTnICc/VL5s52+/Lx1Q+aJSKhjrWrZmSDbKuutCUPtvw27zCNLQSiep9tI
-         SAUg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dAfJ7T0Z/J/C9AfxbbafihyH+pzjBT+hZHcZn6iwQ4I=;
+        b=o2t8zxMy+2HTUWIwsMd/dpupYxH0UrnK7ChsgSgp1sCKvAXKy9/I//kxlp/2lIyZBg
+         T3nxvD0r+UCKByHmvsAZAP4Pq/qnw1kQbCHeUASrKO8co4+TWUbrG/qnXEOtf7qYpabX
+         TshhMa7nuRvkIWZfUGhpJ8IzqMHJrI3OVOItufwTmTLN+1UPq5bxOiIppMaP9fz50zys
+         yoBKLa26X5nzDOKKP19fPFGZiPp1aErioz6NMZTpl1NADk2tIH9+m/DP0Dj6ah6iM5J9
+         20q+yG2cCYRPt/3ZomcUmbiT2l5oXCK0xb2txQ4nqydumqbW9xRL5ZuaVtsQ4/6pgUng
+         x7pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=jQ4GDBetYenwz6wuOfGu54n2JTdY9CBw0hORhkYyzLM=;
-        b=QBdECTr8AQRnw2xtbGHbi8tCt6ZF6rSuU/YvuTUkQ7ZS79i0GT4lwrkyLdsIlmqSyX
-         MgfmPlsrltA2NFzVeRFKIJStHXlqxUboZkd1BnjjYe/1Fb/FgZoKuKbPIifqDgq76p70
-         pf9UexeNcH0mcR/ae4yg/3+x5plIKOCJDss4MePn708LJqJE8Oiu8FJPcIx73aqmdT9y
-         8FknBXjneJL7ROPmWMGVOWkzr8r1zFCbLGz3rZ4q3xF8Coi7fyEpkUK6K03rZhz5EmQi
-         C6S9OLXvBhp42n6u/zL3akcmJ4RqwodUAHqSZVKnRotP7hpFB1j8qtucDTbrnrGP2uAl
-         w+iw==
-X-Gm-Message-State: AOAM530KSKCUjCL9Aw5YIxkRExzIHeCjRq3p+ivjG/8ny8pajZzLm/pn
-        CKIVVbzEZ1tOdkeAA96a880=
-X-Google-Smtp-Source: ABdhPJxjLzi3GM2IVCU/1X9UbuhiVPWdYg0/65GWl4v924yzr0RPi8nJQEzmEhOgztEi4nGR3tdcvQ==
-X-Received: by 2002:a05:600c:198f:b0:394:952d:9a72 with SMTP id t15-20020a05600c198f00b00394952d9a72mr24149133wmq.72.1654017659226;
-        Tue, 31 May 2022 10:20:59 -0700 (PDT)
-Received: from elementary ([94.73.36.128])
-        by smtp.gmail.com with ESMTPSA id 12-20020a5d47ac000000b0020c6b78eb5asm13660146wrb.68.2022.05.31.10.20.56
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dAfJ7T0Z/J/C9AfxbbafihyH+pzjBT+hZHcZn6iwQ4I=;
+        b=F4uiGqJggfN93HSpJrjdWXc19j9ySNd3KsySQb8AfR333tF5nCPKbNY8GIaMvCTPH/
+         67HFhbQSJh28UlDC0jhgw0GGEDrjPNczu5KnBXm5JCBfxzNz1FbOYNZic2MPzxAMQx5o
+         zbuymKW+6HbeXLH3mozyJV+GT2ekQEOyHySGasf0dy7L2/LhFIzf1GXCY5VMvCgPjbwi
+         WQxnWFuTqFKws9qB6Iu3Cmc56FLEs0u8Jg2WZZCkJTYl9iiupgCHN89fz0nJSmHzP6Zo
+         9Q+inM3TbswRDgn0AEndOs+ElV6KaCeUgh7668t7CaBtClnhmbSAAT/c72iW1LUnDJEb
+         lJVA==
+X-Gm-Message-State: AOAM532B6IH53qvOKm9xV+QofldoH3bEvvGJe0bKMtGnt73A8KLh1Y2O
+        v/UojM9cbnRArCfFOCpdGlY=
+X-Google-Smtp-Source: ABdhPJz7fvKu11hh2N3KIGGisubJ0IyuQmHjMN7t7cHGrIjjOPPaf69Ijakl6FIDT1KykZ4/lFJBxQ==
+X-Received: by 2002:a05:6000:1565:b0:20e:651d:7ff4 with SMTP id 5-20020a056000156500b0020e651d7ff4mr52011553wrz.641.1654020784768;
+        Tue, 31 May 2022 11:13:04 -0700 (PDT)
+Received: from localhost.localdomain ([94.73.36.128])
+        by smtp.gmail.com with ESMTPSA id i12-20020a05600c354c00b0039765a7add4sm3099597wmq.29.2022.05.31.11.12.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 10:20:58 -0700 (PDT)
-Date:   Tue, 31 May 2022 19:20:53 +0200
-From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To:     Hilton Chain <hako@ultrarare.space>
-Cc:     bryancain3@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v2] HID: apple: Workaround for non-Apple keyboards
-Message-ID: <20220531172053.GA10651@elementary>
-References: <20220529180230.17e9a0f9@ultrarare.space>
- <20220529182036.10226-1-jose.exposito89@gmail.com>
- <20220530083752.1973a905@ultrarare.space>
- <20220530061812.GA10391@elementary>
- <20220531221102.7bd7da7d@ultrarare.space>
- <20220531223330.3d63e2fe@ultrarare.space>
+        Tue, 31 May 2022 11:13:04 -0700 (PDT)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stefanberzl@gmail.com, dlatypov@google.com,
+        kunit-dev@googlegroups.com,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH v3 0/4] Add support for XP-PEN Deco L
+Date:   Tue, 31 May 2022 20:12:42 +0200
+Message-Id: <20220531181246.190729-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220531223330.3d63e2fe@ultrarare.space>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
@@ -78,155 +72,75 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hilton,
+Hello everyone,
 
-Thanks for sending v2 of this patch.
-Please find a couple of minor comments inline:
+This patchset adds support for the UGEE XP-PEN Deco L tablet.
+This device belongs to a family of tablets that must receive a chunk of
+magic data in order to be enabled (named UGEE v2 internally).
 
-On Tue, May 31, 2022 at 10:33:30PM +0800, Hilton Chain wrote:
-> There's a bunch of non-Apple keyboard misuses Apple's vendor and product
-> id, causing hid_apple to be served for them. However they can't handle the
-> default fnmode.
-> 
-> This commit adds an array of non-Apple keyboards' device names, together
-> with a function apple_is_non_apple_keyboard() to identify and create
-> exception for them.
-> 
-> Signed-off-by: Hilton Chain <hako@ultrarare.space>
-> ---
->  drivers/hid/hid-apple.c | 40 ++++++++++++++++++++++++++++++++++------
->  1 file changed, 34 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-> index 42a568902f49..4429b25ae3d8 100644
-> --- a/drivers/hid/hid-apple.c
-> +++ b/drivers/hid/hid-apple.c
-> @@ -36,7 +36,7 @@
->  #define APPLE_NUMLOCK_EMULATION	BIT(8)
->  #define APPLE_RDESC_BATTERY	BIT(9)
->  #define APPLE_BACKLIGHT_CTL	BIT(10)
-> -#define APPLE_IS_KEYCHRON	BIT(11)
-> +#define APPLE_IS_NON_APPLE	BIT(11)
->  
->  #define APPLE_FLAG_FKEY		0x01
->  
-> @@ -65,6 +65,10 @@ MODULE_PARM_DESC(swap_fn_leftctrl, "Swap the Fn and left Control keys. "
->  		"(For people who want to keep PC keyboard muscle memory. "
->  		"[0] = as-is, Mac layout, 1 = swapped, PC layout)");
->  
-> +struct apple_non_apple_keyboard {
-> +	char *name;
-> +};
-> +
->  struct apple_sc_backlight {
->  	struct led_classdev cdev;
->  	struct hid_device *hdev;
-> @@ -313,6 +317,29 @@ static const struct apple_key_translation swapped_fn_leftctrl_keys[] = {
->  	{ }
->  };
->  
-> +static const struct apple_non_apple_keyboard non_apple_keyboards[] = {
-> +	{ "SONiX USB DEVICE" },
-> +	{ "Keychron" },
-> +	{ }
+Once the device is enabled, its parameters can be discovered by parsing
+a report descriptor. HUION v1 tablets have a similar report descriptor
+but, in the case of UGEE v2 tablets, the number of buttons are also
+discoverable [1].
 
-Could the "non_apple && strlen(non_apple)" check be avoided by removing
-this empty item?
+The ability to discover the number of buttons is the reason for the
+first 3 patches. They enable frame templates.
+Because I lack the hardware to fully test this driver, I added some
+KUnit tests to make sure no bugs are introduced.
+I didn't see any other test in the subsystem (and I doubt I'm the first
+person writing one) so please let me know if I need to move the test to
+a different place.
 
-> +};
-> +
-> +static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
-> +{
-> +	unsigned long i;
-> +	unsigned long non_apple_total = sizeof(non_apple_keyboards) /
-> +					sizeof(struct apple_non_apple_keyboard);
-
-Here you coud take advantage of the "ARRAY_SIZE" macro:
-
-https://kernelnewbies.org/MagicMacros
-
-It'll also allow you to use an int. Something similar to:
-
-	int i;
-
-	for (i = 0; i < ARRAY_SIZE(non_apple_keyboards); i++) {
-		[...]
-
-> +
-> +	for (i = 0; i < non_apple_total; i++) {
-> +		char *non_apple = non_apple_keyboards[i].name;
-> +
-> +		if (non_apple && strlen(non_apple) &&
-
-This is the check I meant in my first comment ^
-
-> +				strncmp(hdev->name, non_apple, strlen(non_apple)) == 0)
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->  static inline void apple_setup_key_translation(struct input_dev *input,
->  		const struct apple_key_translation *table)
->  {
-> @@ -363,7 +390,7 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
->  	}
->  
->  	if (fnmode == 3) {
-> -		real_fnmode = (asc->quirks & APPLE_IS_KEYCHRON) ? 2 : 1;
-> +		real_fnmode = (asc->quirks & APPLE_IS_NON_APPLE) ? 2 : 1;
->  	} else {
->  		real_fnmode = fnmode;
->  	}
-> @@ -667,11 +694,12 @@ static int apple_input_configured(struct hid_device *hdev,
->  	if ((asc->quirks & APPLE_HAS_FN) && !asc->fn_found) {
->  		hid_info(hdev, "Fn key not found (Apple Wireless Keyboard clone?), disabling Fn key handling\n");
->  		asc->quirks &= ~APPLE_HAS_FN;
-> -	}
->  
-> -	if (strncmp(hdev->name, "Keychron", 8) == 0) {
-> -		hid_info(hdev, "Keychron keyboard detected; function keys will default to fnmode=2 behavior\n");
-> -		asc->quirks |= APPLE_IS_KEYCHRON;
-> +		if (apple_is_non_apple_keyboard(hdev)) {
-> +			hid_info(hdev,
-> +				"Non-apple keyboard detected; function keys will default to fnmode=2 behavior\n");
-
-Checkpatch nitpick:
-
-	CHECK: Alignment should match open parenthesis
-	FILE: drivers/hid/hid-apple.c:700:
-	hid_info(hdev,
-		"Non-apple keyboard detected; function keys will default to fnmode=2 behavior\n");
-
-It suggest to add  an extra space before "Non-apple ...".
-
-In case you don't know the tool, it helps to find style errors, I
-usually run it like:
-
-$ ./scripts/checkpatch.pl --strict --codespell --git HEAD-1
-
-
-> +			asc->quirks |= APPLE_IS_NON_APPLE;
-> +		}
-
-This slightly changes the behaviour from the previous patch.
-Previously, the APPLE_IS_NON_APPLE quirk was set even if APPLE_HAS_FN
-was not present. Now the condition is nested.
-
-I'm not saying it is wrong (I don't have the required hardware to test
-it), I'm just pointing it out in case it was an accidental change.
-Bryan, should be able to confirm if it works with his keyboard.
-
->  	}
->  
->  	return 0;
-> 
-> base-commit: 8ab2afa23bd197df47819a87f0265c0ac95c5b6a
-> -- 
-> 2.36.1
-> 
-
+The last patch enables the tablet.
 
 Best wishes,
-Jos� Exp�sito
+José Expósito
+
+[1] I don't own a HUION v1 device, so I'm not sure if the information
+    about the number of buttons is also present and it is not used in
+    the driver for some reason.
+[2] https://lore.kernel.org/linux-input/20220516112159.GA74406@elementary/T/#t
+
+---
+
+v1 - Initial version
+https://lore.kernel.org/linux-input/20220518224702.1409327-1-jose.exposito89@gmail.com/
+
+v2 - Fix some errors reported by the kernel test robot:
+
+ - Add MODULE_DESCRIPTION/LICENSE/AUTHOR to hid-uclogic-rdesc-test.c
+ - Remove unused variable in uclogic_params_ugee_v2_init
+ - Add sparse __force anotation in the result of cpu_to_le16
+ - Add DISABLE_STRUCTLEAK_PLUGIN for KUnit tests
+
+https://lore.kernel.org/linux-input/20220518224702.1409327-1-jose.exposito89@gmail.com/T/
+
+v3 - This version:
+
+ - Improve Kconfig message
+ - Add .kunitconfig. Thanks to Daniel Latypov for suggesting it in an
+   unrelated patch:
+   https://lore.kernel.org/dri-devel/CAGS_qxpV2SsihEdgXZ6+7N0dxLmdRANq+qE4iUZ2aNrf6vuLYg@mail.gmail.com/
+
+José Expósito (4):
+  HID: uclogic: Make template placeholder IDs generic
+  HID: uclogic: Add KUnit tests for uclogic_rdesc_template_apply()
+  HID: uclogic: Allow to generate frame templates
+  HID: uclogic: Add support for XP-PEN Deco L
+
+ drivers/hid/.kunitconfig             |   2 +
+ drivers/hid/Kconfig                  |  11 ++
+ drivers/hid/Makefile                 |   3 +
+ drivers/hid/hid-ids.h                |   1 +
+ drivers/hid/hid-uclogic-core.c       |   2 +
+ drivers/hid/hid-uclogic-params.c     | 201 +++++++++++++++++++++++-
+ drivers/hid/hid-uclogic-rdesc-test.c | 219 +++++++++++++++++++++++++++
+ drivers/hid/hid-uclogic-rdesc.c      | 124 ++++++++++++++-
+ drivers/hid/hid-uclogic-rdesc.h      |  24 ++-
+ 9 files changed, 573 insertions(+), 14 deletions(-)
+ create mode 100644 drivers/hid/.kunitconfig
+ create mode 100644 drivers/hid/hid-uclogic-rdesc-test.c
+
+-- 
+2.25.1
+
