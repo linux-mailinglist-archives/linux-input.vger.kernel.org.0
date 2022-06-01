@@ -2,106 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FC0A53A4BD
-	for <lists+linux-input@lfdr.de>; Wed,  1 Jun 2022 14:19:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C7B653A572
+	for <lists+linux-input@lfdr.de>; Wed,  1 Jun 2022 14:47:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352209AbiFAMTK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Jun 2022 08:19:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41654 "EHLO
+        id S243412AbiFAMrk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Jun 2022 08:47:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352226AbiFAMTH (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Jun 2022 08:19:07 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDBC85D5F2;
-        Wed,  1 Jun 2022 05:19:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=E0ASuyIt3D/v/vJP2nisxwtwS8OQ6l/WjEuhFtT6iTA=; b=NYl34IC7oQjJCRRq3a7dZ1MxBy
-        tA+6kILU8H4IQgKhQHo4jhzTTnPWy2z5cPt6qPbyBRyDd6MScbewtKsOjBKFfO0B4KGgULeNwBtkw
-        mwpm/rezTymMsj8M+K4l6tTKCLrlpdzUU9IpjReeFfOUt4/AwBdmqtOKYs/nSfL5vP/eUBbnPoV6j
-        uAyN+gVAcWSVQKP1TCAF3bselOe4k3bc0nKIlz0nsLV10TsASyKZWSYJSb6VKB9jQmiAzp9VPm2jB
-        DF3pCzCDTxSLDkcmtMFYK7i4P6XrqWJ1nAehm9M60WkBvJ0yNVufVIR7XDNB0+LAcsqKS8lZnmNAr
-        Pnf0YJqg==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nwNJS-006GXo-Fj; Wed, 01 Jun 2022 12:18:59 +0000
-Message-ID: <053f756b-fafa-e07a-4308-0a5de8dda595@infradead.org>
-Date:   Wed, 1 Jun 2022 05:18:52 -0700
+        with ESMTP id S1353086AbiFAMrh (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Jun 2022 08:47:37 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C8F411C0C
+        for <linux-input@vger.kernel.org>; Wed,  1 Jun 2022 05:47:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654087656; x=1685623656;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=vZRpaIKLQ0hcJpDrlNgvAs0kvWZc1/TwjxZbpwPQ2eY=;
+  b=ZEXHR0NtsnqmDmXGrt8WWSfylpXY2iG9ymOC8rYhIO5F3xwjfGrQ7+z/
+   beQdeshbhRt4m/HIMlpcMKi/ZuTSvTQ2vpyuh1rvV9IqaD41meyJmFBUL
+   cGYtwLsZ6aHb6R02hgHnWcgoPIDY8e7Z33rvi7sFyjl4PDThvKkP9G8D5
+   jlWlvQucxzAY7FIgqlHRwF/tGNuGGqiCf7zNy6Oy3zhm9CP6fnXTCcWk3
+   rLZS6gm8VuxMCn2TeWwzLztAo1kKxuFBiVyIiJhdncfMeOc6FQ5Oy9eTB
+   wCe/FoU/CdYx6f0W6A8PQ5Zj/dKjFhbckyOs7NtII4VGny5EvDAkI0o2m
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="275298031"
+X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; 
+   d="scan'208";a="275298031"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2022 05:47:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; 
+   d="scan'208";a="576918315"
+Received: from mylly.fi.intel.com (HELO [10.237.72.161]) ([10.237.72.161])
+  by orsmga007.jf.intel.com with ESMTP; 01 Jun 2022 05:47:34 -0700
+Message-ID: <7fe43cb4-3643-03ee-0235-d1572d627ed6@linux.intel.com>
+Date:   Wed, 1 Jun 2022 15:47:33 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2] HID: uclogic: properly format kernel-doc comment for
- hid_dbg() wrappers
+ Firefox/91.0 Thunderbird/91.9.0
+Subject: Re: Suspend/Resume (S3) issues with rmi_smbus
 Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org, kernel test robot <lkp@intel.com>,
-        Nikolai Kondrashov <spbnick@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
-        llvm@lists.linux.dev, stable@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220531092817.13894-1-bagasdotme@gmail.com>
- <3995c3d8-395a-bd39-eebc-370bd1fca09c@infradead.org>
- <YpcU7qeOtShFx8xR@debian.me>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <YpcU7qeOtShFx8xR@debian.me>
-Content-Type: text/plain; charset=UTF-8
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     linux-input@vger.kernel.org, Hugh Dickins <hughd@google.com>
+References: <YpSExunpPdgdjQCz@worktop.programming.kicks-ass.net>
+ <YpUX3EAzpL4+xgu1@google.com>
+ <YpXXu2tbCSCUtUYQ@worktop.programming.kicks-ass.net>
+ <YpY5YU+KTg/Dmaex@google.com>
+From:   Jarkko Nikula <jarkko.nikula@linux.intel.com>
+In-Reply-To: <YpY5YU+KTg/Dmaex@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SCC_BODY_URI_ONLY,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
-
-On 6/1/22 00:27, Bagas Sanjaya wrote:
->> One note (nit) below:
+On 5/31/22 18:50, Dmitry Torokhov wrote:
+> On Tue, May 31, 2022 at 10:54:19AM +0200, Peter Zijlstra wrote:
+>> On Mon, May 30, 2022 at 12:15:40PM -0700, Dmitry Torokhov wrote:
 >>
->>>  drivers/hid/hid-uclogic-params.c | 24 ++++++++++++++----------
->>>  1 file changed, 14 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
->>> index db838f16282d64..647bbd3e000e2f 100644
->>> --- a/drivers/hid/hid-uclogic-params.c
->>> +++ b/drivers/hid/hid-uclogic-params.c
->>> @@ -23,11 +23,11 @@
->>>  /**
->>>   * uclogic_params_pen_inrange_to_str() - Convert a pen in-range reporting type
->>>   *                                       to a string.
->>> - *
->>>   * @inrange:	The in-range reporting type to convert.
->>>   *
->>> - * Returns:
->>> - *	The string representing the type, or NULL if the type is unknown.
->>> + * Return:
->>> + * * The string representing the type, or
->>> + * * NULL if the type is unknown.
+>>> Can you check the entire list of resume operations to make sure that
+>>> PS/2 device is resumed before RMI one?
 >>
->>         %NULL
->> would be better here, but not required.
+>> It reports psmouse failure *after* the rmi4 failure. Is there a knob to
+>> make it print more device model details on resume?
 >>
+>>> You can also try overriding devices driven by rmi_smbus as needing
+>>> synchronous resume (see
+>>> https://lore.kernel.org/all/YgHTYrODoo2ou49J@google.com/).
+>>
+>> I can confirm this works.
 > 
-> Hi Randy,
+> Let's ask Rafael if he has an idea why adding a link between PS/2 device
+> and its SMbus companion did not seem to affect resume order. Was there a
+> change in 5.18 timeframe (since original reporters said that adding
+> device link helped their case).
 > 
-> I don't see %NULL in Documentation/ (I git-grep-ed it but none found).
-> What should I do when I have to explain NULL in Return: section of
-> kernel-doc comment?
-
-In Documentation/doc-guide/kernel-doc.rst, section Highlights and cross-references:
-
-``%CONST``
-  Name of a constant. (No cross-referencing, just formatting.)
-
-So '%' before a constant value just helps with the generated formatting
-of the output. It's just "prettier." No big deal.
-
--- 
-~Randy
+> Let's also add a couple of more folks who experienced original issue to
+> see if they observe this as well.
+> 
+For me the psmouse keeps working on v5.18 over repeated suspend-resume 
+cycles on the same machine that had the regression with the commit 
+172d931910e1 ("i2c: enable async suspend/resume on i2c client devices").
