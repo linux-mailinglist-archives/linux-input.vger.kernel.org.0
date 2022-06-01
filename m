@@ -2,47 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29F7053A793
-	for <lists+linux-input@lfdr.de>; Wed,  1 Jun 2022 16:02:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF4BB53A85D
+	for <lists+linux-input@lfdr.de>; Wed,  1 Jun 2022 16:08:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235611AbiFAOCK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Jun 2022 10:02:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54116 "EHLO
+        id S1354373AbiFAOIG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Jun 2022 10:08:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354825AbiFAOAz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Jun 2022 10:00:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 459D93CA4D;
-        Wed,  1 Jun 2022 06:57:20 -0700 (PDT)
+        with ESMTP id S1354126AbiFAOEB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Jun 2022 10:04:01 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C5738D691;
+        Wed,  1 Jun 2022 06:58:37 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 92C4F615E9;
-        Wed,  1 Jun 2022 13:56:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29608C385B8;
-        Wed,  1 Jun 2022 13:56:19 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 40172B81B38;
+        Wed,  1 Jun 2022 13:57:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0953C385A5;
+        Wed,  1 Jun 2022 13:57:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654091780;
-        bh=a3fmYRNmxmmGtW2qncH+A1b8hXxAu7cfiYtmX5DV0eM=;
+        s=k20201202; t=1654091876;
+        bh=vQUwpjNBc2/uBCLZmEOyoUfx/E7nhiAOOMBOrT/b+Xs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=c6em7LRMzb66z9RkB3ZcR5IBrW7nl3Nx8yHcbP2TNRPH8izmDjz/Zz6Q935EplwSF
-         CaUMWzT4DDUyz/j1l4bazQhEqabORy6QjGSD0l5f/qbrXhMDRSMlyiz9DGgSWuRGC+
-         rdtFVsRpyhv/nuddq1Xt+0HvGDKMQJbn3xzb2kAHtYty3iVf+zlAeXfGcXgTuTWaDq
-         YpWVO1tIVdu7LFbk4fhkGnEjuj7+/Hr+3BFg0HyfK+JvYkibSmUooRLjAhP3tFCeT0
-         AH57csHoFUI3ZqcBIpNAYSvFcE1vzX/Cph46Cx5p7774ZH797qXjY51TiXvZc8QePz
-         puT8FTy+Th5Rg==
+        b=JJsg5VfMnOWe8vM+IHV0+bqDnbXy0EuSYJzHc//v2nOANzAZ3VzMGK13dIXx1imYR
+         nhukfJjWiD0WWeX8k9RHaNsCsrOa32MM2ckccua5GZgytsDSpMq3UIlTy9knpDzJEs
+         7BEGxSd5KOTwKV/bf/U57tyV53BI2d8fLVezs1fvQNRhD6NJwoDk7XYKYhARas477a
+         v4WXTytYnwMdAb3DAkOmolLJIbn0eDPTDYgq7TvbkTFx++NRgKPlbMPxhhLY2EQ1yT
+         STQxpdzXTtwVQ/Ph/bFpIKjvWQQOKztWzWuybWz1eBj3Zi0oQ7T+31VkzNsZurMgBB
+         UFQhGhtf1txAA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, paul@crapouillou.net,
-        christophe.jaillet@wanadoo.fr, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 47/48] Input: gpio-keys - cancel delayed work only in case of GPIO
-Date:   Wed,  1 Jun 2022 09:54:20 -0400
-Message-Id: <20220601135421.2003328-47-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, christophe.jaillet@wanadoo.fr,
+        paul@crapouillou.net, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 36/37] Input: gpio-keys - cancel delayed work only in case of GPIO
+Date:   Wed,  1 Jun 2022 09:56:21 -0400
+Message-Id: <20220601135622.2003939-36-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220601135421.2003328-1-sashal@kernel.org>
-References: <20220601135421.2003328-1-sashal@kernel.org>
+In-Reply-To: <20220601135622.2003939-1-sashal@kernel.org>
+References: <20220601135622.2003939-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -126,7 +126,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-index d75a8b179a8a..a5dc4ab87fa1 100644
+index 8dbf1e69c90a..22a91db645b8 100644
 --- a/drivers/input/keyboard/gpio_keys.c
 +++ b/drivers/input/keyboard/gpio_keys.c
 @@ -131,7 +131,7 @@ static void gpio_keys_quiesce_key(void *data)
