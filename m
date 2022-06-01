@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2646E53AADE
-	for <lists+linux-input@lfdr.de>; Wed,  1 Jun 2022 18:20:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DF7A53AAE7
+	for <lists+linux-input@lfdr.de>; Wed,  1 Jun 2022 18:21:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240224AbiFAQUR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Jun 2022 12:20:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46132 "EHLO
+        id S245451AbiFAQVg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Jun 2022 12:21:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356067AbiFAQUL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Jun 2022 12:20:11 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C010E79387
-        for <linux-input@vger.kernel.org>; Wed,  1 Jun 2022 09:20:10 -0700 (PDT)
+        with ESMTP id S1356076AbiFAQVf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Jun 2022 12:21:35 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A902279396
+        for <linux-input@vger.kernel.org>; Wed,  1 Jun 2022 09:21:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654100410; x=1685636410;
+  t=1654100494; x=1685636494;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=x1m3VVcvUDGKJZzEzhtda0G7yFRux6b5kfQkqjKC04M=;
-  b=kODzdK4PdXVnNcfYERM+CLETqplCiMIeMvW27vQ2tstDWNbP2mXsLsWT
-   hlly/O3THad67KNooXs03HjOpUfQcR3bhe+HOnxYiK8tnWFuTnazq/Yef
-   cGfpvBoyDLxnHI1XLYa8jwqgjCsaUrFtv5JmZYsTRg2GhLZ5JOmtET605
-   utisZ3F5lg3JeupbTXJl6BWQGpVLyPnX72B5sgHMkWabV4ZWv5EBXuP+h
-   B2w7Sofnppa1s5TP3OhuIKGtRHwZMOB8Vc02SSBFzLwslYw9mN0oMDXzt
-   X9oT4c6ASW5B9LNS2yIVHDu2KBDwHN5a0ThwjsrNTwk0Kr1TjZT6SAqDt
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="336299488"
+  bh=KjPHIv8kxWB0dw4ZPXF4ZNn/24V26fs+mkTg0D1WRZg=;
+  b=hehSj8VzbNINVRfZxJZ8suIhSDLKXkT7WRQ7HhdWfCUNLUXa9bH+RF0i
+   ywolvmneaiSAsf406fm+wn+Dq88VmJ6A9LVpyBSP0hL471z7R0D8VyEsL
+   MYwQxf5KJZ7H8tt7h5vJlCXJnpsebVfDIW/dNx2hAY5iQ64Af+a1e3XLc
+   3Y+KA+jgqtsdMdEiecZ0b+pddpzKDeAvLw/1yxKJTbwRZXFiaLL2laStn
+   ZV4N/Tl6AtEdFBJuOjbP/qD6dX34lmM9/iVP2BoZVRRQWylha7OoqSEs0
+   IxdmsfKmB08eCMIUs3BqGhe+TaRd3Ht/5P+DstZFCLdMXuSXEF8cl/gxZ
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="274446786"
 X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; 
-   d="scan'208";a="336299488"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2022 09:20:10 -0700
+   d="scan'208";a="274446786"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2022 09:21:11 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; 
-   d="scan'208";a="552383876"
+   d="scan'208";a="667502404"
 Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 01 Jun 2022 09:20:08 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 01 Jun 2022 09:21:08 -0700
 Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1nwR4q-0004AI-2n;
-        Wed, 01 Jun 2022 16:20:08 +0000
-Date:   Thu, 02 Jun 2022 00:19:30 +0800
+        id 1nwR5o-0004AY-6q;
+        Wed, 01 Jun 2022 16:21:08 +0000
+Date:   Thu, 02 Jun 2022 00:21:01 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- 5f92df8ddacb4b97f6865a3bf687f240072f4f68
-Message-ID: <62979192.EBrIujjrXn6lAt6Z%lkp@intel.com>
+Subject: [dtor-input:master] BUILD SUCCESS
+ 69cf890d8b283c8d3a77d28dbd3024f58ae236a9
+Message-ID: <629791ed.9kaLwnerrPlD4g4R%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -62,10 +62,10 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: 5f92df8ddacb4b97f6865a3bf687f240072f4f68  Input: raspberrypi-ts - add missing HAS_IOMEM dependency
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
+branch HEAD: 69cf890d8b283c8d3a77d28dbd3024f58ae236a9  Input: mtk-pmic-keys - move long press debounce mask to mtk_pmic_regs
 
-elapsed time: 720m
+elapsed time: 721m
 
 configs tested: 130
 configs skipped: 4
@@ -127,10 +127,10 @@ h8300                            allyesconfig
 xtensa                           allyesconfig
 arc                                 defconfig
 sh                               allmodconfig
-s390                                defconfig
-s390                             allmodconfig
 parisc                              defconfig
+s390                             allmodconfig
 parisc                           allyesconfig
+s390                                defconfig
 s390                             allyesconfig
 sparc                               defconfig
 i386                             allyesconfig
@@ -143,11 +143,11 @@ mips                             allmodconfig
 powerpc                          allyesconfig
 powerpc                           allnoconfig
 powerpc                          allmodconfig
-x86_64                        randconfig-a006
 x86_64                        randconfig-a004
 x86_64                        randconfig-a002
-x86_64                        randconfig-a011
+x86_64                        randconfig-a006
 x86_64                        randconfig-a013
+x86_64                        randconfig-a011
 x86_64                        randconfig-a015
 i386                          randconfig-a012
 i386                          randconfig-a014
@@ -155,13 +155,13 @@ i386                          randconfig-a016
 arc                  randconfig-r043-20220531
 s390                 randconfig-r044-20220531
 riscv                randconfig-r042-20220531
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
 riscv                             allnoconfig
-riscv                            allmodconfig
 riscv                            allyesconfig
+riscv                            allmodconfig
+riscv                    nommu_k210_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_virt_defconfig
+riscv                               defconfig
 x86_64                    rhel-8.3-kselftests
 um                           x86_64_defconfig
 um                             i386_defconfig
