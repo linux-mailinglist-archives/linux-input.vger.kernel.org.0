@@ -2,59 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DF7A53AAE7
-	for <lists+linux-input@lfdr.de>; Wed,  1 Jun 2022 18:21:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4176953AB7A
+	for <lists+linux-input@lfdr.de>; Wed,  1 Jun 2022 19:02:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245451AbiFAQVg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Jun 2022 12:21:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47152 "EHLO
+        id S229509AbiFARCn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Jun 2022 13:02:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356076AbiFAQVf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Jun 2022 12:21:35 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A902279396
-        for <linux-input@vger.kernel.org>; Wed,  1 Jun 2022 09:21:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654100494; x=1685636494;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=KjPHIv8kxWB0dw4ZPXF4ZNn/24V26fs+mkTg0D1WRZg=;
-  b=hehSj8VzbNINVRfZxJZ8suIhSDLKXkT7WRQ7HhdWfCUNLUXa9bH+RF0i
-   ywolvmneaiSAsf406fm+wn+Dq88VmJ6A9LVpyBSP0hL471z7R0D8VyEsL
-   MYwQxf5KJZ7H8tt7h5vJlCXJnpsebVfDIW/dNx2hAY5iQ64Af+a1e3XLc
-   3Y+KA+jgqtsdMdEiecZ0b+pddpzKDeAvLw/1yxKJTbwRZXFiaLL2laStn
-   ZV4N/Tl6AtEdFBJuOjbP/qD6dX34lmM9/iVP2BoZVRRQWylha7OoqSEs0
-   IxdmsfKmB08eCMIUs3BqGhe+TaRd3Ht/5P+DstZFCLdMXuSXEF8cl/gxZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="274446786"
-X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; 
-   d="scan'208";a="274446786"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2022 09:21:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; 
-   d="scan'208";a="667502404"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 01 Jun 2022 09:21:08 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nwR5o-0004AY-6q;
-        Wed, 01 Jun 2022 16:21:08 +0000
-Date:   Thu, 02 Jun 2022 00:21:01 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:master] BUILD SUCCESS
- 69cf890d8b283c8d3a77d28dbd3024f58ae236a9
-Message-ID: <629791ed.9kaLwnerrPlD4g4R%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S1344702AbiFARCm (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Jun 2022 13:02:42 -0400
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD49437035
+        for <linux-input@vger.kernel.org>; Wed,  1 Jun 2022 10:02:41 -0700 (PDT)
+Received: by mail-qk1-x729.google.com with SMTP id q74so300269qke.12
+        for <linux-input@vger.kernel.org>; Wed, 01 Jun 2022 10:02:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :mime-version;
+        bh=3UpzxzbpelqX21rWPKZ2NBH8LKbF4XAhrf7PpxSZ/80=;
+        b=At30LCmBA8W8lYNWbF4NUH+EdAE4qPlUTKzJeverwQA1mKk5nr05pxVpy/Y9xC8iUt
+         lzZzuICDVLbjZUNdkPxIf8KLDPQDRuSG2WUFJTAP+iZXs5uG/GsqiieBk8aeD2MaWGhi
+         MvYlMhidd1mxoyCMZKPVXstCO9IK+khfS+rBHp6Ui9Xc7jvQkZdC5pyEV4MFyRVUtuvG
+         nDRFE4NfrHaNX09PomlLYi92lHR9kcPCmpws0Ao17anwgCjAFDCKms2R+pslEOkWRU+C
+         jrv7eWH7du759NinCU2nAis8BRGcuMa7o3HbC9Dk26Nh9kN3gSJLieMt5QQuVd8tR10F
+         uG6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:mime-version;
+        bh=3UpzxzbpelqX21rWPKZ2NBH8LKbF4XAhrf7PpxSZ/80=;
+        b=NzJx/aKHozs2IJguBY8pgvP3PHffRrdKKfMC3OPSiC5GwDFT2D28E4HDlwrXwftZdZ
+         MbnZzTMrWHIfUxeYJoO2ElJBdkRgSqUuWFdxlW6QeTZwymYq2i3fk801VszVzJSIB69r
+         NOVImPDVWtLACztqAQFR6RtckZ62Sa5+g2YDqxVCMTfo+/klkp4wtQLPa1zKHF/Opdms
+         IqwFwztrcbVPc5x+0NXXUja/tS+0XU/PBKM43wzYs9v7NpDi28JyOnWduqmXVFYf8cm1
+         YxOm+l4mOD2bXB1WJK5PednywJtzWh/ZWNnuT5M1ccmMignX7LGqQOUAC2HoVvY/HqEc
+         dr3g==
+X-Gm-Message-State: AOAM531Rf2jhQ6wHfjItmOSnOtdDj06GmTVuKhj+9PNKs+wUbO2S1rYQ
+        0Sp0Nl4cUjeKQOspIDBq/YddPQ==
+X-Google-Smtp-Source: ABdhPJzs9zmFccsWBMwtA1q/i34O0lR/gnGwjKBnXuqgWibNaQn5SnabBKzqJmuwpNs6K2mcE+1K7A==
+X-Received: by 2002:a05:620a:2416:b0:6a5:80c3:b520 with SMTP id d22-20020a05620a241600b006a580c3b520mr621079qkn.318.1654102960487;
+        Wed, 01 Jun 2022 10:02:40 -0700 (PDT)
+Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id bq33-20020a05620a46a100b006a649e42962sm1634973qkb.70.2022.06.01.10.02.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jun 2022 10:02:40 -0700 (PDT)
+Date:   Wed, 1 Jun 2022 10:02:22 -0700 (PDT)
+From:   Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@ripple.anvils
+To:     Jarkko Nikula <jarkko.nikula@linux.intel.com>
+cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-input@vger.kernel.org, Hugh Dickins <hughd@google.com>
+Subject: Re: Suspend/Resume (S3) issues with rmi_smbus
+In-Reply-To: <7fe43cb4-3643-03ee-0235-d1572d627ed6@linux.intel.com>
+Message-ID: <92e2b7eb-dbac-5af9-b971-82362d23879a@google.com>
+References: <YpSExunpPdgdjQCz@worktop.programming.kicks-ass.net> <YpUX3EAzpL4+xgu1@google.com> <YpXXu2tbCSCUtUYQ@worktop.programming.kicks-ass.net> <YpY5YU+KTg/Dmaex@google.com> <7fe43cb4-3643-03ee-0235-d1572d627ed6@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,153 +72,36 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
-branch HEAD: 69cf890d8b283c8d3a77d28dbd3024f58ae236a9  Input: mtk-pmic-keys - move long press debounce mask to mtk_pmic_regs
+On Wed, 1 Jun 2022, Jarkko Nikula wrote:
+> On 5/31/22 18:50, Dmitry Torokhov wrote:
+> > On Tue, May 31, 2022 at 10:54:19AM +0200, Peter Zijlstra wrote:
+> >> On Mon, May 30, 2022 at 12:15:40PM -0700, Dmitry Torokhov wrote:
+> >>
+> >>> Can you check the entire list of resume operations to make sure that
+> >>> PS/2 device is resumed before RMI one?
+> >>
+> >> It reports psmouse failure *after* the rmi4 failure. Is there a knob to
+> >> make it print more device model details on resume?
+> >>
+> >>> You can also try overriding devices driven by rmi_smbus as needing
+> >>> synchronous resume (see
+> >>> https://lore.kernel.org/all/YgHTYrODoo2ou49J@google.com/).
+> >>
+> >> I can confirm this works.
+> > 
+> > Let's ask Rafael if he has an idea why adding a link between PS/2 device
+> > and its SMbus companion did not seem to affect resume order. Was there a
+> > change in 5.18 timeframe (since original reporters said that adding
+> > device link helped their case).
+> > 
+> > Let's also add a couple of more folks who experienced original issue to
+> > see if they observe this as well.
+> > 
+> For me the psmouse keeps working on v5.18 over repeated suspend-resume cycles
+> on the same machine that had the regression with the commit 172d931910e1
+> ("i2c: enable async suspend/resume on i2c client devices").
 
-elapsed time: 721m
+Same here for me, no problem with v5.18, thanks -
+I'd have complained loudly if I had seen a problem!
 
-configs tested: 130
-configs skipped: 4
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm64                               defconfig
-arm64                            allyesconfig
-arm                              allmodconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-sh                  sh7785lcr_32bit_defconfig
-arm64                            alldefconfig
-sh                   sh7770_generic_defconfig
-sh                          lboxre2_defconfig
-arm                         cm_x300_defconfig
-arc                      axs103_smp_defconfig
-m68k                           sun3_defconfig
-powerpc                     tqm8555_defconfig
-powerpc                     pq2fads_defconfig
-openrisc                 simple_smp_defconfig
-mips                       capcella_defconfig
-arm                           tegra_defconfig
-arm                        shmobile_defconfig
-sh                          rsk7201_defconfig
-xtensa                  nommu_kc705_defconfig
-arm                            zeus_defconfig
-alpha                            alldefconfig
-ia64                         bigsur_defconfig
-sh                        dreamcast_defconfig
-parisc                generic-64bit_defconfig
-xtensa                         virt_defconfig
-ia64                          tiger_defconfig
-xtensa                              defconfig
-sh                               alldefconfig
-sh                          kfr2r09_defconfig
-arm                        realview_defconfig
-powerpc                      mgcoge_defconfig
-sh                          r7780mp_defconfig
-mips                         bigsur_defconfig
-arm                        cerfcube_defconfig
-parisc64                            defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-ia64                                defconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-csky                                defconfig
-nios2                            allyesconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-s390                             allyesconfig
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-arc                  randconfig-r043-20220531
-s390                 randconfig-r044-20220531
-riscv                randconfig-r042-20220531
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                            allmodconfig
-riscv                    nommu_k210_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_virt_defconfig
-riscv                               defconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-
-clang tested configs:
-mips                 randconfig-c004-20220531
-x86_64                        randconfig-c007
-i386                          randconfig-c001
-s390                 randconfig-c005-20220531
-arm                  randconfig-c002-20220531
-powerpc              randconfig-c003-20220531
-riscv                randconfig-c006-20220531
-arm                     am200epdkit_defconfig
-powerpc                 mpc8560_ads_defconfig
-powerpc                     tqm5200_defconfig
-arm                                 defconfig
-powerpc                      acadia_defconfig
-powerpc                     kmeter1_defconfig
-mips                  cavium_octeon_defconfig
-arm                           sama7_defconfig
-arm                         shannon_defconfig
-mips                malta_qemu_32r6_defconfig
-powerpc                     skiroot_defconfig
-powerpc                    ge_imp3a_defconfig
-mips                         tb0287_defconfig
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a011
-i386                          randconfig-a013
-i386                          randconfig-a015
-hexagon              randconfig-r041-20220531
-hexagon              randconfig-r045-20220531
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Hugh
