@@ -2,142 +2,213 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF4BB53A85D
-	for <lists+linux-input@lfdr.de>; Wed,  1 Jun 2022 16:08:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2646E53AADE
+	for <lists+linux-input@lfdr.de>; Wed,  1 Jun 2022 18:20:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354373AbiFAOIG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Jun 2022 10:08:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55240 "EHLO
+        id S240224AbiFAQUR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Jun 2022 12:20:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354126AbiFAOEB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Jun 2022 10:04:01 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C5738D691;
-        Wed,  1 Jun 2022 06:58:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 40172B81B38;
-        Wed,  1 Jun 2022 13:57:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0953C385A5;
-        Wed,  1 Jun 2022 13:57:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654091876;
-        bh=vQUwpjNBc2/uBCLZmEOyoUfx/E7nhiAOOMBOrT/b+Xs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JJsg5VfMnOWe8vM+IHV0+bqDnbXy0EuSYJzHc//v2nOANzAZ3VzMGK13dIXx1imYR
-         nhukfJjWiD0WWeX8k9RHaNsCsrOa32MM2ckccua5GZgytsDSpMq3UIlTy9knpDzJEs
-         7BEGxSd5KOTwKV/bf/U57tyV53BI2d8fLVezs1fvQNRhD6NJwoDk7XYKYhARas477a
-         v4WXTytYnwMdAb3DAkOmolLJIbn0eDPTDYgq7TvbkTFx++NRgKPlbMPxhhLY2EQ1yT
-         STQxpdzXTtwVQ/Ph/bFpIKjvWQQOKztWzWuybWz1eBj3Zi0oQ7T+31VkzNsZurMgBB
-         UFQhGhtf1txAA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, christophe.jaillet@wanadoo.fr,
-        paul@crapouillou.net, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 36/37] Input: gpio-keys - cancel delayed work only in case of GPIO
-Date:   Wed,  1 Jun 2022 09:56:21 -0400
-Message-Id: <20220601135622.2003939-36-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220601135622.2003939-1-sashal@kernel.org>
-References: <20220601135622.2003939-1-sashal@kernel.org>
+        with ESMTP id S1356067AbiFAQUL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Jun 2022 12:20:11 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C010E79387
+        for <linux-input@vger.kernel.org>; Wed,  1 Jun 2022 09:20:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654100410; x=1685636410;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=x1m3VVcvUDGKJZzEzhtda0G7yFRux6b5kfQkqjKC04M=;
+  b=kODzdK4PdXVnNcfYERM+CLETqplCiMIeMvW27vQ2tstDWNbP2mXsLsWT
+   hlly/O3THad67KNooXs03HjOpUfQcR3bhe+HOnxYiK8tnWFuTnazq/Yef
+   cGfpvBoyDLxnHI1XLYa8jwqgjCsaUrFtv5JmZYsTRg2GhLZ5JOmtET605
+   utisZ3F5lg3JeupbTXJl6BWQGpVLyPnX72B5sgHMkWabV4ZWv5EBXuP+h
+   B2w7Sofnppa1s5TP3OhuIKGtRHwZMOB8Vc02SSBFzLwslYw9mN0oMDXzt
+   X9oT4c6ASW5B9LNS2yIVHDu2KBDwHN5a0ThwjsrNTwk0Kr1TjZT6SAqDt
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="336299488"
+X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; 
+   d="scan'208";a="336299488"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2022 09:20:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; 
+   d="scan'208";a="552383876"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 01 Jun 2022 09:20:08 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nwR4q-0004AI-2n;
+        Wed, 01 Jun 2022 16:20:08 +0000
+Date:   Thu, 02 Jun 2022 00:19:30 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 5f92df8ddacb4b97f6865a3bf687f240072f4f68
+Message-ID: <62979192.EBrIujjrXn6lAt6Z%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 5f92df8ddacb4b97f6865a3bf687f240072f4f68  Input: raspberrypi-ts - add missing HAS_IOMEM dependency
 
-[ Upstream commit cee409bbba0d1bd3fb73064fb480ff365f453b5d ]
+elapsed time: 720m
 
-gpio_keys module can either accept gpios or interrupts. The module
-initializes delayed work in case of gpios only and is only used if
-debounce timer is not used, so make sure cancel_delayed_work_sync()
-is called only when its gpio-backed and debounce_use_hrtimer is false.
+configs tested: 130
+configs skipped: 4
 
-This fixes the issue seen below when the gpio_keys module is unloaded and
-an interrupt pin is used instead of GPIO:
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-[  360.297569] ------------[ cut here ]------------
-[  360.302303] WARNING: CPU: 0 PID: 237 at kernel/workqueue.c:3066 __flush_work+0x414/0x470
-[  360.310531] Modules linked in: gpio_keys(-)
-[  360.314797] CPU: 0 PID: 237 Comm: rmmod Not tainted 5.18.0-rc5-arm64-renesas-00116-g73636105874d-dirty #166
-[  360.324662] Hardware name: Renesas SMARC EVK based on r9a07g054l2 (DT)
-[  360.331270] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  360.338318] pc : __flush_work+0x414/0x470
-[  360.342385] lr : __cancel_work_timer+0x140/0x1b0
-[  360.347065] sp : ffff80000a7fba00
-[  360.350423] x29: ffff80000a7fba00 x28: ffff000012b9c5c0 x27: 0000000000000000
-[  360.357664] x26: ffff80000a7fbb80 x25: ffff80000954d0a8 x24: 0000000000000001
-[  360.364904] x23: ffff800009757000 x22: 0000000000000000 x21: ffff80000919b000
-[  360.372143] x20: ffff00000f5974e0 x19: ffff00000f5974e0 x18: ffff8000097fcf48
-[  360.379382] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000053f40
-[  360.386622] x14: ffff800009850e88 x13: 0000000000000002 x12: 000000000000a60c
-[  360.393861] x11: 000000000000a610 x10: 0000000000000000 x9 : 0000000000000008
-[  360.401100] x8 : 0101010101010101 x7 : 00000000a473c394 x6 : 0080808080808080
-[  360.408339] x5 : 0000000000000001 x4 : 0000000000000000 x3 : ffff80000919b458
-[  360.415578] x2 : ffff8000097577f0 x1 : 0000000000000001 x0 : 0000000000000000
-[  360.422818] Call trace:
-[  360.425299]  __flush_work+0x414/0x470
-[  360.429012]  __cancel_work_timer+0x140/0x1b0
-[  360.433340]  cancel_delayed_work_sync+0x10/0x18
-[  360.437931]  gpio_keys_quiesce_key+0x28/0x58 [gpio_keys]
-[  360.443327]  devm_action_release+0x10/0x18
-[  360.447481]  release_nodes+0x8c/0x1a0
-[  360.451194]  devres_release_all+0x90/0x100
-[  360.455346]  device_unbind_cleanup+0x14/0x60
-[  360.459677]  device_release_driver_internal+0xe8/0x168
-[  360.464883]  driver_detach+0x4c/0x90
-[  360.468509]  bus_remove_driver+0x54/0xb0
-[  360.472485]  driver_unregister+0x2c/0x58
-[  360.476462]  platform_driver_unregister+0x10/0x18
-[  360.481230]  gpio_keys_exit+0x14/0x828 [gpio_keys]
-[  360.486088]  __arm64_sys_delete_module+0x1e0/0x270
-[  360.490945]  invoke_syscall+0x40/0xf8
-[  360.494661]  el0_svc_common.constprop.3+0xf0/0x110
-[  360.499515]  do_el0_svc+0x20/0x78
-[  360.502877]  el0_svc+0x48/0xf8
-[  360.505977]  el0t_64_sync_handler+0x88/0xb0
-[  360.510216]  el0t_64_sync+0x148/0x14c
-[  360.513930] irq event stamp: 4306
-[  360.517288] hardirqs last  enabled at (4305): [<ffff8000080b0300>] __cancel_work_timer+0x130/0x1b0
-[  360.526359] hardirqs last disabled at (4306): [<ffff800008d194fc>] el1_dbg+0x24/0x88
-[  360.534204] softirqs last  enabled at (4278): [<ffff8000080104a0>] _stext+0x4a0/0x5e0
-[  360.542133] softirqs last disabled at (4267): [<ffff8000080932ac>] irq_exit_rcu+0x18c/0x1b0
-[  360.550591] ---[ end trace 0000000000000000 ]---
+gcc tested configs:
+arm64                               defconfig
+arm64                            allyesconfig
+arm                              allmodconfig
+arm                                 defconfig
+arm                              allyesconfig
+i386                          randconfig-c001
+sh                  sh7785lcr_32bit_defconfig
+arm64                            alldefconfig
+sh                   sh7770_generic_defconfig
+sh                          lboxre2_defconfig
+arm                         cm_x300_defconfig
+arc                      axs103_smp_defconfig
+m68k                           sun3_defconfig
+powerpc                     tqm8555_defconfig
+powerpc                     pq2fads_defconfig
+openrisc                 simple_smp_defconfig
+mips                       capcella_defconfig
+arm                           tegra_defconfig
+arm                        shmobile_defconfig
+sh                          rsk7201_defconfig
+xtensa                  nommu_kc705_defconfig
+arm                            zeus_defconfig
+alpha                            alldefconfig
+ia64                         bigsur_defconfig
+sh                        dreamcast_defconfig
+parisc                generic-64bit_defconfig
+xtensa                         virt_defconfig
+ia64                          tiger_defconfig
+xtensa                              defconfig
+sh                               alldefconfig
+sh                          kfr2r09_defconfig
+arm                        realview_defconfig
+powerpc                      mgcoge_defconfig
+sh                          r7780mp_defconfig
+mips                         bigsur_defconfig
+arm                        cerfcube_defconfig
+parisc64                            defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+ia64                                defconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+csky                                defconfig
+nios2                            allyesconfig
+alpha                               defconfig
+alpha                            allyesconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+s390                                defconfig
+s390                             allmodconfig
+parisc                              defconfig
+parisc                           allyesconfig
+s390                             allyesconfig
+sparc                               defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a011
+x86_64                        randconfig-a013
+x86_64                        randconfig-a015
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+arc                  randconfig-r043-20220531
+s390                 randconfig-r044-20220531
+riscv                randconfig-r042-20220531
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                                  kexec
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Link: https://lore.kernel.org/r/20220524135822.14764-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/input/keyboard/gpio_keys.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+clang tested configs:
+mips                 randconfig-c004-20220531
+x86_64                        randconfig-c007
+i386                          randconfig-c001
+s390                 randconfig-c005-20220531
+arm                  randconfig-c002-20220531
+powerpc              randconfig-c003-20220531
+riscv                randconfig-c006-20220531
+arm                     am200epdkit_defconfig
+powerpc                 mpc8560_ads_defconfig
+powerpc                     tqm5200_defconfig
+arm                                 defconfig
+powerpc                      acadia_defconfig
+powerpc                     kmeter1_defconfig
+mips                  cavium_octeon_defconfig
+arm                           sama7_defconfig
+arm                         shannon_defconfig
+mips                malta_qemu_32r6_defconfig
+powerpc                     skiroot_defconfig
+powerpc                    ge_imp3a_defconfig
+mips                         tb0287_defconfig
+x86_64                        randconfig-a005
+x86_64                        randconfig-a003
+x86_64                        randconfig-a001
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a011
+i386                          randconfig-a013
+i386                          randconfig-a015
+hexagon              randconfig-r041-20220531
+hexagon              randconfig-r045-20220531
 
-diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-index 8dbf1e69c90a..22a91db645b8 100644
---- a/drivers/input/keyboard/gpio_keys.c
-+++ b/drivers/input/keyboard/gpio_keys.c
-@@ -131,7 +131,7 @@ static void gpio_keys_quiesce_key(void *data)
- 
- 	if (!bdata->gpiod)
- 		hrtimer_cancel(&bdata->release_timer);
--	if (bdata->debounce_use_hrtimer)
-+	else if (bdata->debounce_use_hrtimer)
- 		hrtimer_cancel(&bdata->debounce_timer);
- 	else
- 		cancel_delayed_work_sync(&bdata->work);
 -- 
-2.35.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
