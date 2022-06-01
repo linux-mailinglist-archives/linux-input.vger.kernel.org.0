@@ -2,69 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C923C53AD58
-	for <lists+linux-input@lfdr.de>; Wed,  1 Jun 2022 21:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBBBA53AF07
+	for <lists+linux-input@lfdr.de>; Thu,  2 Jun 2022 00:50:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229728AbiFATbR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Jun 2022 15:31:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58052 "EHLO
+        id S230124AbiFAUzx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 1 Jun 2022 16:55:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229711AbiFATbK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Jun 2022 15:31:10 -0400
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41D0317CE42
-        for <linux-input@vger.kernel.org>; Wed,  1 Jun 2022 12:28:46 -0700 (PDT)
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-edeb6c3642so4040559fac.3
-        for <linux-input@vger.kernel.org>; Wed, 01 Jun 2022 12:28:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:in-reply-to:references:from:date:message-id
-         :subject:to;
-        bh=Gk4nfCem3ECRa7Gml0J0mN/3RZoOAdfGaQAqyHPKtiI=;
-        b=DxxMd4k8tG1Z+DI+JxuL9225Cp+S+uInl/poXMcuMZiTQV1c8XJNPCuJB0EN9Fm1lJ
-         tjqO15tZbiRtkiZc869kqZb+gTGwGsofr4Ks/EzA24HoqZkeukApCRLbeWaJgYbzN6Uj
-         DJcyUaN0vgzLiaJiK8SKJwd17XWuJUN7X4OrSO+zy2q+txFdEpb8ifoCAb/ECnGeqxQV
-         22+OgKU21rrXICCeKXN25GVJHEIOuX810V30PW3f8Y111fShlwSlQkBARV9N87g0aoLJ
-         wQNCoaF08Ng768jLDvSBCHYHS21HkQkWfLc+tM30B/O2SgLendb0dLrFE3BY6UlGqUm0
-         gBYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:in-reply-to:references
-         :from:date:message-id:subject:to;
-        bh=Gk4nfCem3ECRa7Gml0J0mN/3RZoOAdfGaQAqyHPKtiI=;
-        b=I85tmbhCpa3+yLZzDksHg0Cenoy5jfojKBeM7nd6zFs6/iGkkHOapcLb/pCjaGZpvs
-         7FtRn70HaSyPh620FcH2Jp0kowS8TXppLTiVeFjMly3mucZ2XcDaDzInqTYBaNaccJVX
-         k5xeYemxVnZIBIHhYmJnKzzOiVdp5U/PDyhNHvEd1aJQ8jPWCmTYyDOWwficNjZ66JC0
-         nR4GwSdy112sWVefTeyngxbWDDRTwWm42Weq7zjJBTHmPOdHF1kzqfvavfZUR9aRckZN
-         h+qMfYotqlBxvwXhV7i16DkKQZCOdgEQHaoPYs8XkXtIkui0qCcF/yI7Za1fq5bJwV7p
-         rBgw==
-X-Gm-Message-State: AOAM530UJiFD7f1cvqDWNnDzG20ZQex1dggIiKox782kBCIvVTpw1s59
-        iRHFp9STUlVLW3wnajXRbNC5/vurFuJb+LI29QC5Q0fhYIE=
-X-Google-Smtp-Source: ABdhPJxRHJ7PowqzwP8FVf7Pao2siL9+mp8F+vsKwg9Hvlld1uXwEH8+vzJyu5zLQk9d57eu+g6BtXkHW1P4ce0P3TA=
-X-Received: by 2002:a05:6870:4619:b0:f1:e78d:fd54 with SMTP id
- z25-20020a056870461900b000f1e78dfd54mr18175523oao.195.1654111088174; Wed, 01
- Jun 2022 12:18:08 -0700 (PDT)
+        with ESMTP id S231441AbiFAUzg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 1 Jun 2022 16:55:36 -0400
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 052131F576D;
+        Wed,  1 Jun 2022 13:55:23 -0700 (PDT)
+Received: from relay3-d.mail.gandi.net (unknown [217.70.183.195])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id 228F4D0BB8;
+        Wed,  1 Jun 2022 19:45:25 +0000 (UTC)
+Received: (Authenticated sender: contact@artur-rojek.eu)
+        by mail.gandi.net (Postfix) with ESMTPA id 4394B60006;
+        Wed,  1 Jun 2022 19:44:43 +0000 (UTC)
 MIME-Version: 1.0
-Received: by 2002:a05:6358:3601:b0:a3:2139:251d with HTTP; Wed, 1 Jun 2022
- 12:18:07 -0700 (PDT)
-Reply-To: johnwinery@online.ee
-In-Reply-To: <CAFqHCSSUC0MpbjYK8d-GCxOG4b6Qbk2uH3+xQDZte6cPBsxLGA@mail.gmail.com>
-References: <CAFqHCSSUC0MpbjYK8d-GCxOG4b6Qbk2uH3+xQDZte6cPBsxLGA@mail.gmail.com>
-From:   johnwinery <alicejohnson8974@gmail.com>
-Date:   Wed, 1 Jun 2022 12:18:07 -0700
-Message-ID: <CAFqHCSTLW5uHwBqcyU-qn7_jF2jtwt2-CjgdN8-B9nAn9yi+vg@mail.gmail.com>
-Subject: Re:
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Date:   Wed, 01 Jun 2022 21:44:43 +0200
+From:   Artur Rojek <contact@artur-rojek.eu>
+To:     Chris Morgan <macroalpha82@gmail.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        heiko@sntech.de, krzysztof.kozlowski+dt@linaro.org,
+        robh+dt@kernel.org, dmitry.torokhov@gmail.com,
+        maccraft123mc@gmail.com, Chris Morgan <macromorgan@hotmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: adc-joystick: bindings for
+ adc-joystick-polled
+In-Reply-To: <20220601191730.29721-2-macroalpha82@gmail.com>
+References: <20220601191730.29721-1-macroalpha82@gmail.com>
+ <20220601191730.29721-2-macroalpha82@gmail.com>
+Message-ID: <db2795c639cc092e54980de6f3af3b01@artur-rojek.eu>
+X-Sender: contact@artur-rojek.eu
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Greeting ,I had written an earlier mail to you but without response
+On 2022-06-01 21:17, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+
+Hi Chris,
+
+> 
+> Add devicetree bindings for adc-joystick-polled.
+> 
+> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> ---
+>  Documentation/devicetree/bindings/input/adc-joystick.yaml | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> index 2ee04e03bc22..a9d2ac157322 100644
+> --- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> +++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> @@ -12,11 +12,15 @@ maintainers:
+> 
+>  description: >
+>    Bindings for joystick devices connected to ADC controllers 
+> supporting
+> -  the Industrial I/O subsystem.
+> +  the Industrial I/O subsystem. Supports both polled devices where no
+> +  iio trigger is available and non-polled devices which are triggered
+> +  by iio.
+> 
+>  properties:
+>    compatible:
+> -    const: adc-joystick
+> +    enum:
+> +      - adc-joystick
+> +      - adc-joystick-polled
+
+There is no need to create a new compatible for your functionality. 
+Instead, just add a new (optional) property.
+
+cheers,
+Artur
+
+> 
+>    io-channels:
+>      minItems: 1
