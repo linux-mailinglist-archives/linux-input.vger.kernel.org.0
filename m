@@ -2,74 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B60053B66E
-	for <lists+linux-input@lfdr.de>; Thu,  2 Jun 2022 11:56:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7465B53B792
+	for <lists+linux-input@lfdr.de>; Thu,  2 Jun 2022 13:02:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231395AbiFBJ4P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Jun 2022 05:56:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43922 "EHLO
+        id S233840AbiFBLB7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Jun 2022 07:01:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231293AbiFBJ4O (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Jun 2022 05:56:14 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C9A52A78A5
-        for <linux-input@vger.kernel.org>; Thu,  2 Jun 2022 02:56:13 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id er5so5538985edb.12
-        for <linux-input@vger.kernel.org>; Thu, 02 Jun 2022 02:56:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Tvm8Ct4OSbCTOjbG3mrDSmmOZgQzkhb+beLpD2QfNSc=;
-        b=JdKoydIZWs4azTUW2CEKLFR6r18U4Ba+cCp9JUD3atTesXpya50HtNzF+xBLwMT1Ik
-         SV9xbwsZFcPgVMMv675D0NMrXSPwBQn95HFuddypEBTE4MpwBtPh+oDL1Sv58/8j1x8M
-         DyVVDbezLYpxVgYgwWLVmwqofjo4kmdjQ1Gh6WHv88Wr4OY3uPZIgsg/ypos/MYP16/X
-         vKuCDM+sAzSSGlgJVK6lybxGdRWh+/THGETMSxZksLlpagOw5KalAqnqhkK6FaLg8tyj
-         QV/ccRpnSp3ML5kt7NL3Cl+aDHj2/py+EQLJ7kwXSCqXE8oH/+j48IV8oaTWWG+jDZFC
-         PULg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Tvm8Ct4OSbCTOjbG3mrDSmmOZgQzkhb+beLpD2QfNSc=;
-        b=0VaPx4S6/IPLC5vsvzIg/ax97NR3DWoQvwlEiH1vcnGb5ZgXP/COpmI2kplr71NUvj
-         HN3O55vak12Iga9mXUCzgEtRqMP5YjkWwvQ0ZXnU6qjOVkB8S/OI8oD53qqZO3vaYDVL
-         tnQs8jO3eM9yz5c90HulKiE0bGfdhpGM4/Wg7Pq34+XqAXLCSDE0zBX54xMgKY9FORx+
-         eLgsf/TXSrZmGrSWn+Cmaj+BAS5ot5xZks5wzo/+vsl01BMnhk8UVCulbjnBaTwaKuB3
-         0FHVd7CiQbYpze6vDOO0cAkC4WtBSnA5GLSwK3Ywn1mDUguJrhSiuUYvKkJ2N0NOasRd
-         aAIw==
-X-Gm-Message-State: AOAM530sBL5pMpoUQDlGT/07P5atCQY0M6Zjg0ZrTJcHhUyMmNSX9cEE
-        tp3DqZb7nbVPz5dPOxGiMKhQPA==
-X-Google-Smtp-Source: ABdhPJzJfOf/jNpE4O6fklBhW5BdQjUH/UGFbYDiVQ1fh+Iu4cgSNlYWJDkc6lXVsZQ8AH/QkA0SNg==
-X-Received: by 2002:aa7:cdd5:0:b0:42d:b87a:6d7 with SMTP id h21-20020aa7cdd5000000b0042db87a06d7mr4411887edw.91.1654163771733;
-        Thu, 02 Jun 2022 02:56:11 -0700 (PDT)
-Received: from [192.168.0.181] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id a4-20020a1709065f8400b006f3ef214dfesm1562656eju.100.2022.06.02.02.56.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jun 2022 02:56:11 -0700 (PDT)
-Message-ID: <12a65f1d-4f3a-417f-3c90-5461870abe2a@linaro.org>
-Date:   Thu, 2 Jun 2022 11:56:10 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 1/3] dt-bindings: adc-joystick: add adc-joystick,polled
- option
-Content-Language: en-US
-To:     Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org
+        with ESMTP id S232354AbiFBLB6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Jun 2022 07:01:58 -0400
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B6AB62CC;
+        Thu,  2 Jun 2022 04:01:54 -0700 (PDT)
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1nwiaO-0007Cg-HB; Thu, 02 Jun 2022 13:01:52 +0200
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     linux-input@vger.kernel.org, Chris Morgan <macroalpha82@gmail.com>
 Cc:     devicetree@vger.kernel.org, dmitry.torokhov@gmail.com,
         robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        heiko@sntech.de, maccraft123mc@gmail.com, contact@artur-rojek.eu,
+        maccraft123mc@gmail.com, contact@artur-rojek.eu,
         Chris Morgan <macromorgan@hotmail.com>
-References: <20220601204927.10256-1-macroalpha82@gmail.com>
- <20220601204927.10256-2-macroalpha82@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220601204927.10256-2-macroalpha82@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Subject: Re: [PATCH v2 2/3] Input: adc-joystick - Add polled input device support
+Date:   Thu, 02 Jun 2022 13:01:51 +0200
+Message-ID: <2772745.yaVYbkx8dN@diego>
+In-Reply-To: <20220601204927.10256-3-macroalpha82@gmail.com>
+References: <20220601204927.10256-1-macroalpha82@gmail.com> <20220601204927.10256-3-macroalpha82@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,49 +42,123 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 01/06/2022 22:49, Chris Morgan wrote:
+Am Mittwoch, 1. Juni 2022, 22:49:26 CEST schrieb Chris Morgan:
 > From: Chris Morgan <macromorgan@hotmail.com>
 > 
-> Add documentation for adc-joystick,polled. New device-tree properties
-> have been added.
-> 
-> - adc-joystick,polled: A boolean value noting the joystick device
-> 		       should be polled rather than use a triggered
-> 		       buffer.
-> 
+> Add polled input device support to the adc-joystick driver. This is
+> useful for devices which do not have hardware capable triggers on
+> their SARADC. Code modified from adc-joystick.c changes made by Maya
+> Matuszczyk.
+
+as the dts patch mentiones the odroid go2, this probably means the
+Rockchip-saradc?
+
+I very much remember that we converted the saradc to also support
+triggered buffers [0] two years ago, and as I remember that worked
+rather nicely on the Go-1 at least - similar hardware I think.
+
+So it would be really helpful to provide some more explanation on
+why this isn't enough for your use-case.
+
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4e130dc7b41348b13684f0758c26cc6cf72a3449
+
+
 > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
 > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 > ---
->  .../devicetree/bindings/input/adc-joystick.yaml          | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+>  drivers/input/joystick/adc-joystick.c | 52 +++++++++++++++++++++------
+>  1 file changed, 41 insertions(+), 11 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml b/Documentation/devicetree/bindings/input/adc-joystick.yaml
-> index 2ee04e03bc22..4f49a1a5772e 100644
-> --- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
-> +++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
-> @@ -12,12 +12,19 @@ maintainers:
+> diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
+> index 78ebca7d400a..5a28fe7b8ebc 100644
+> --- a/drivers/input/joystick/adc-joystick.c
+> +++ b/drivers/input/joystick/adc-joystick.c
+> @@ -13,6 +13,10 @@
 >  
->  description: >
->    Bindings for joystick devices connected to ADC controllers supporting
-> -  the Industrial I/O subsystem.
-> +  the Industrial I/O subsystem. Supports both polled devices where no
-> +  iio trigger is available and non-polled devices which are triggered
-> +  by iio.
+>  #include <asm/unaligned.h>
 >  
->  properties:
->    compatible:
->      const: adc-joystick
+> +#define ADC_JSK_POLL_INTERVAL	16
+> +#define ADC_JSK_POLL_MIN	8
+> +#define ADC_JSK_POLL_MAX	32
+> +
+>  struct adc_joystick_axis {
+>  	u32 code;
+>  	s32 range[2];
+> @@ -26,8 +30,21 @@ struct adc_joystick {
+>  	struct adc_joystick_axis *axes;
+>  	struct iio_channel *chans;
+>  	int num_chans;
+> +	bool polled;
+>  };
 >  
-> +  adc-joystick,polled:
-> +    type: boolean
-> +    description:
-> +      If the device does not support triggered buffers and needs to be polled.
+> +static void adc_joystick_poll(struct input_dev *input)
+> +{
+> +	struct adc_joystick *joy = input_get_drvdata(input);
+> +	int i, val;
+> +
+> +	for (i = 0; i < joy->num_chans; i++) {
+> +		iio_read_channel_raw(&joy->chans[i], &val);
+> +		input_report_abs(input, joy->axes[i].code, val);
+> +	}
+> +	input_sync(input);
+> +}
+> +
+>  static int adc_joystick_handle(const void *data, void *private)
+>  {
+>  	struct adc_joystick *joy = private;
+> @@ -215,8 +232,19 @@ static int adc_joystick_probe(struct platform_device *pdev)
+>  	joy->input = input;
+>  	input->name = pdev->name;
+>  	input->id.bustype = BUS_HOST;
+> -	input->open = adc_joystick_open;
+> -	input->close = adc_joystick_close;
+> +
+> +	if (device_property_read_bool(dev, "adc-joystick,polled"))
+> +		joy->polled = 1;
+> +
+> +	if (joy->polled) {
+> +		input_setup_polling(input, adc_joystick_poll);
+> +		input_set_poll_interval(input, ADC_JSK_POLL_INTERVAL);
+> +		input_set_min_poll_interval(input, ADC_JSK_POLL_MIN);
+> +		input_set_max_poll_interval(input, ADC_JSK_POLL_MAX);
+> +	} else {
+> +		input->open = adc_joystick_open;
+> +		input->close = adc_joystick_close;
+> +	}
+>  
+>  	error = adc_joystick_set_axes(dev, joy);
+>  	if (error)
+> @@ -229,16 +257,18 @@ static int adc_joystick_probe(struct platform_device *pdev)
+>  		return error;
+>  	}
+>  
+> -	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
+> -	if (IS_ERR(joy->buffer)) {
+> -		dev_err(dev, "Unable to allocate callback buffer\n");
+> -		return PTR_ERR(joy->buffer);
+> -	}
+> +	if (!joy->polled) {
+> +		joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
+> +		if (IS_ERR(joy->buffer)) {
+> +			dev_err(dev, "Unable to allocate callback buffer\n");
+> +			return PTR_ERR(joy->buffer);
+> +		}
+>  
+> -	error = devm_add_action_or_reset(dev, adc_joystick_cleanup, joy->buffer);
+> -	if (error)  {
+> -		dev_err(dev, "Unable to add action\n");
+> -		return error;
+> +		error = devm_add_action_or_reset(dev, adc_joystick_cleanup, joy->buffer);
+> +		if (error)  {
+> +			dev_err(dev, "Unable to add action\n");
+> +			return error;
+> +		}
+>  	}
+>  
+>  	return 0;
+> 
 
-You described desired Linux feature or behavior, not the actual
-hardware. The bindings are about the latter, so instead you need to
-rephrase the property and it's description to match actual hardware
-capabilities/features/configuration etc.
 
 
-Best regards,
-Krzysztof
+
