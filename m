@@ -2,100 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A237A53B5EF
-	for <lists+linux-input@lfdr.de>; Thu,  2 Jun 2022 11:23:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B60053B66E
+	for <lists+linux-input@lfdr.de>; Thu,  2 Jun 2022 11:56:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232947AbiFBJWf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Jun 2022 05:22:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45604 "EHLO
+        id S231395AbiFBJ4P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Jun 2022 05:56:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232944AbiFBJWe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Jun 2022 05:22:34 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 652A3A1B7;
-        Thu,  2 Jun 2022 02:22:32 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id 129so4283785pgc.2;
-        Thu, 02 Jun 2022 02:22:32 -0700 (PDT)
+        with ESMTP id S231293AbiFBJ4O (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Jun 2022 05:56:14 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C9A52A78A5
+        for <linux-input@vger.kernel.org>; Thu,  2 Jun 2022 02:56:13 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id er5so5538985edb.12
+        for <linux-input@vger.kernel.org>; Thu, 02 Jun 2022 02:56:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=KeRV9VlhwIAyg6EUqX0Fszd3cElW50+A7dVuut11Ql8=;
-        b=T+n7HgqhezIBE0FWmfDqATn2184KpAXP/iUBPS/aT4g74LaP8h6NlWCDFhbPl8mpRJ
-         R2yGxiwiyV8JqcpCwXj7EqCXJCPx22zf0k73jDaeWTk7K10kUeLuKEuLyuBLeBwxELq1
-         j/aQGP/heKZ3lRsUTybuy+Q7zwjfB7TVvuXxZBNZVq15Q62NuqXrA2RriidzxWRpzvIZ
-         Wyj2i2HlHc7IwTbPUdXr+RtwmfJo8gSmsrpknYgo0TQNyK1eCEug1LynaOtwjUYzc/YR
-         wguayKEzzLIrTNXMPjiVKAUDzMXLboQZn52dz3F3z3KdETWWarbsMWMd7FXWvzIGUBFT
-         2TtQ==
+        bh=Tvm8Ct4OSbCTOjbG3mrDSmmOZgQzkhb+beLpD2QfNSc=;
+        b=JdKoydIZWs4azTUW2CEKLFR6r18U4Ba+cCp9JUD3atTesXpya50HtNzF+xBLwMT1Ik
+         SV9xbwsZFcPgVMMv675D0NMrXSPwBQn95HFuddypEBTE4MpwBtPh+oDL1Sv58/8j1x8M
+         DyVVDbezLYpxVgYgwWLVmwqofjo4kmdjQ1Gh6WHv88Wr4OY3uPZIgsg/ypos/MYP16/X
+         vKuCDM+sAzSSGlgJVK6lybxGdRWh+/THGETMSxZksLlpagOw5KalAqnqhkK6FaLg8tyj
+         QV/ccRpnSp3ML5kt7NL3Cl+aDHj2/py+EQLJ7kwXSCqXE8oH/+j48IV8oaTWWG+jDZFC
+         PULg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=KeRV9VlhwIAyg6EUqX0Fszd3cElW50+A7dVuut11Ql8=;
-        b=P12mx1FeyMGq1KKmYTvxtCWe46oryaVt1dH6j4PYVwCNTBYW9juraZgq7aaDHBIs7n
-         6NgFsn71Mf7hdeRGGs/Kf9CeUaDrAbVgrlGaOHgt/z7LS/bmMEsTAAJ4Raz4ZqxDj0ln
-         C/UhioIB9BBEX1jCJ/o62wRknTsfMEchhJfQNWpKTIv2ieL/mnb/dRQfsGV1qx5YV5Xq
-         0ffBT4dG8yh4Y1AMi7MNkgFUZAbfqcNetsyf56En5k8lpFq/pb+aXrnhuYJSBpxu1aT7
-         679kAF545AQQIjcGCdfYS90yW9dPcoG7CYu0kerDLkAAX5ppxrAIyCYgqW/gB2JKV5bP
-         7oUg==
-X-Gm-Message-State: AOAM5302kGoaonuJ6uryBDSNBJyxPrH9OhauiHzMjQQlC6+7+V2050Vh
-        JARgoWVaK43UxyLb9TJpRUs=
-X-Google-Smtp-Source: ABdhPJxElJXyhXOh8nC4t31hIdIX4SCbS/dv8nLykVgt//DQhqD96RDYfw60Gxl+zsBbBK6OuVKtcg==
-X-Received: by 2002:a63:65c7:0:b0:3fc:85b5:30c0 with SMTP id z190-20020a6365c7000000b003fc85b530c0mr3497048pgb.165.1654161751927;
-        Thu, 02 Jun 2022 02:22:31 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-24.three.co.id. [180.214.232.24])
-        by smtp.gmail.com with ESMTPSA id 129-20020a621787000000b005180c127200sm2946985pfx.24.2022.06.02.02.22.27
+        bh=Tvm8Ct4OSbCTOjbG3mrDSmmOZgQzkhb+beLpD2QfNSc=;
+        b=0VaPx4S6/IPLC5vsvzIg/ax97NR3DWoQvwlEiH1vcnGb5ZgXP/COpmI2kplr71NUvj
+         HN3O55vak12Iga9mXUCzgEtRqMP5YjkWwvQ0ZXnU6qjOVkB8S/OI8oD53qqZO3vaYDVL
+         tnQs8jO3eM9yz5c90HulKiE0bGfdhpGM4/Wg7Pq34+XqAXLCSDE0zBX54xMgKY9FORx+
+         eLgsf/TXSrZmGrSWn+Cmaj+BAS5ot5xZks5wzo/+vsl01BMnhk8UVCulbjnBaTwaKuB3
+         0FHVd7CiQbYpze6vDOO0cAkC4WtBSnA5GLSwK3Ywn1mDUguJrhSiuUYvKkJ2N0NOasRd
+         aAIw==
+X-Gm-Message-State: AOAM530sBL5pMpoUQDlGT/07P5atCQY0M6Zjg0ZrTJcHhUyMmNSX9cEE
+        tp3DqZb7nbVPz5dPOxGiMKhQPA==
+X-Google-Smtp-Source: ABdhPJzJfOf/jNpE4O6fklBhW5BdQjUH/UGFbYDiVQ1fh+Iu4cgSNlYWJDkc6lXVsZQ8AH/QkA0SNg==
+X-Received: by 2002:aa7:cdd5:0:b0:42d:b87a:6d7 with SMTP id h21-20020aa7cdd5000000b0042db87a06d7mr4411887edw.91.1654163771733;
+        Thu, 02 Jun 2022 02:56:11 -0700 (PDT)
+Received: from [192.168.0.181] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id a4-20020a1709065f8400b006f3ef214dfesm1562656eju.100.2022.06.02.02.56.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jun 2022 02:22:30 -0700 (PDT)
-Message-ID: <7f1c7301-e622-f177-70ac-d64046347613@gmail.com>
-Date:   Thu, 2 Jun 2022 16:22:25 +0700
+        Thu, 02 Jun 2022 02:56:11 -0700 (PDT)
+Message-ID: <12a65f1d-4f3a-417f-3c90-5461870abe2a@linaro.org>
+Date:   Thu, 2 Jun 2022 11:56:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v3] HID: uclogic: properly format kernel-doc comment for
- hid_dbg() wrappers
+Subject: Re: [PATCH v2 1/3] dt-bindings: adc-joystick: add adc-joystick,polled
+ option
 Content-Language: en-US
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-doc@vger.kernel.org, kernel test robot <lkp@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
-        Nikolai Kondrashov <spbnick@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        llvm@lists.linux.dev, stable@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220602082321.313143-1-bagasdotme@gmail.com>
- <Yph09N8w4g7+d9ER@kroah.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <Yph09N8w4g7+d9ER@kroah.com>
+To:     Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, dmitry.torokhov@gmail.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        heiko@sntech.de, maccraft123mc@gmail.com, contact@artur-rojek.eu,
+        Chris Morgan <macromorgan@hotmail.com>
+References: <20220601204927.10256-1-macroalpha82@gmail.com>
+ <20220601204927.10256-2-macroalpha82@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220601204927.10256-2-macroalpha82@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 6/2/22 15:29, Greg KH wrote:
-> None of this is needed for stable kernels releases as no code is being
-> modified.
+On 01/06/2022 22:49, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
 > 
-> thanks,
+> Add documentation for adc-joystick,polled. New device-tree properties
+> have been added.
 > 
-> greg k-h
+> - adc-joystick,polled: A boolean value noting the joystick device
+> 		       should be polled rather than use a triggered
+> 		       buffer.
+> 
+> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> ---
+>  .../devicetree/bindings/input/adc-joystick.yaml          | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> index 2ee04e03bc22..4f49a1a5772e 100644
+> --- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> +++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> @@ -12,12 +12,19 @@ maintainers:
+>  
+>  description: >
+>    Bindings for joystick devices connected to ADC controllers supporting
+> -  the Industrial I/O subsystem.
+> +  the Industrial I/O subsystem. Supports both polled devices where no
+> +  iio trigger is available and non-polled devices which are triggered
+> +  by iio.
+>  
+>  properties:
+>    compatible:
+>      const: adc-joystick
+>  
+> +  adc-joystick,polled:
+> +    type: boolean
+> +    description:
+> +      If the device does not support triggered buffers and needs to be polled.
 
-Hi Greg,
+You described desired Linux feature or behavior, not the actual
+hardware. The bindings are about the latter, so instead you need to
+rephrase the property and it's description to match actual hardware
+capabilities/features/configuration etc.
 
-That's right, however because I don't see any kernel-doc warnings for
-hid-uclogic-params.c on linux-5.18.y. These warnings appear only on
-mainline.
 
-Thanks for reminding me.
-
--- 
-An old man doll... just what I always wanted! - Clara
+Best regards,
+Krzysztof
