@@ -2,160 +2,193 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCE7353B4CE
-	for <lists+linux-input@lfdr.de>; Thu,  2 Jun 2022 10:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7F5053B4E9
+	for <lists+linux-input@lfdr.de>; Thu,  2 Jun 2022 10:23:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232078AbiFBIMu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Jun 2022 04:12:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46504 "EHLO
+        id S232145AbiFBIXg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Jun 2022 04:23:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232060AbiFBIMt (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Jun 2022 04:12:49 -0400
-Received: from mail.boiledscript.com (unknown [192.151.158.155])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46554235103;
-        Thu,  2 Jun 2022 01:12:42 -0700 (PDT)
-Received: from localhost (unknown [192.168.203.1])
-        by mail.boiledscript.com (Postfix) with ESMTP id 2A9B1300A0B;
-        Thu,  2 Jun 2022 08:12:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ultrarare.space;
-        s=dkim; t=1654157556;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9MTqppfgRAlAl0ocM4Vnd0OF+AaNkKzf3y9bMt+MpcY=;
-        b=WUk9MDOHtCN/SOtKX+PmZ4BO/nW+bPTVqbpA13pSCvKugr1v4+VUvWlBKHLLMD8kLeGz0p
-        NZWt/bw1DOkF5H1aJ4gB617dO4N3JNQTCWtg3OypAHptdctFVmPZfzvLMOT0gjNy1EuZSX
-        wqAbFTeSso8aY7TDhm4mvd13jY+B2E0cpSK3ApWc94p9WljA00/LuyOq+iAn/vX4k9tthK
-        uqj+HcyB1OCQzpVDkJ8U3RQGLMUx52qyhsZ71UVFHz/AFblgdE7ciQA5m+22jDfWtIP2be
-        CNa8Fst9VSypiCTtUwczdDKvwVRA9wJ66RpROI8TcFtQlW6GM4E43DLAzGnWKw==
-Date:   Thu, 2 Jun 2022 16:12:19 +0800
-From:   Hilton Chain <hako@ultrarare.space>
-To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Bryan Cain <bryancain3@gmail.com>,
+        with ESMTP id S232146AbiFBIXf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Jun 2022 04:23:35 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBB5317E3E;
+        Thu,  2 Jun 2022 01:23:33 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id c14so4122154pgu.13;
+        Thu, 02 Jun 2022 01:23:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cbmNOareeTE5Db8Piv7hDPn78IPOWasDWjVRSeszEak=;
+        b=F2LlSXp3PxiU4nJ+UEfZulTenT901DxKJZUBhWrOIghbAJO7H41vsGxbtH7E6owQWK
+         zQNb3UDVLjgTRyR3z0DwxC517totfjnOMzlmsup9oVLRJ7WIcIHmVTAS06wIa0d3jzBn
+         pGeP0Hnz64qgoYJ2AGAah3DGsQXD+uEy0SyEZlkn9IU2qLQiwtVQsW+yvaR8P/V7kamU
+         PSl9zdxBEmC6RnXKuSxR823fwizfddWXsJUYVeIciFVC6gcr6ZiEvi6BrVD861SpdSCl
+         rVYObcA9UB3exWvMCpScTGJFvKdKHge8UpqidsV4EqPSuxyGlR/kwSWy/e7x5HT03n9x
+         a/BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cbmNOareeTE5Db8Piv7hDPn78IPOWasDWjVRSeszEak=;
+        b=CiM9cgp5HC14Bbbvn85oRL23reUx+LNK9EKItSmyY8EDhpexh7NRI/Wwe4/RW/FbMV
+         4ZZxT9OrX0fX/puwOWK/7quVlaZFjcfyB3DTUR2w71hUGPDl28t+c5j5Wigz5a7xwOgE
+         qEi5uB5ucrf8icDPWjhFmEadMQcto8B0SphGfVIfCzz5NbeDF4BtJdu3VXqDrsL+Nbsc
+         Nfg+KrwxkMbFE4WWG9few/Z1F1WTDbZsDfMyqktKsV89pzQky9xYLgGv1c4pqb6t90FQ
+         V4t6RZJVkk+Z2/8XE8g7j0BD9DcEUYW9fNs8jg5L6W83rCqa8yuxtO80Vh40v+L6xs9z
+         C9SA==
+X-Gm-Message-State: AOAM532GpZ96spuGwrLaIiK431dHU9xBWe4IiEAuOYoK786xWo/gO7tX
+        POAueHJ+aIl4+3wjLQcZElXK+La3ZqUDAg==
+X-Google-Smtp-Source: ABdhPJxFm4ypSV8CsNf46zwnitNOtF7T1Y2Qz7WihywdMlvPbxJxJgebJkp9t7XcCiJigUBLFeMVdA==
+X-Received: by 2002:a05:6a00:16cd:b0:51b:5f55:9bd with SMTP id l13-20020a056a0016cd00b0051b5f5509bdmr15451936pfc.6.1654158212946;
+        Thu, 02 Jun 2022 01:23:32 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-21.three.co.id. [180.214.233.21])
+        by smtp.gmail.com with ESMTPSA id z14-20020a170903018e00b0016368840c41sm2972334plg.14.2022.06.02.01.23.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jun 2022 01:23:32 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        kernel test robot <lkp@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+        Nikolai Kondrashov <spbnick@gmail.com>,
         Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH v5] HID: apple: Properly handle function keys on non-Apple 
- keyboard
-Message-ID: <20220602161219.152be32d@ultrarare.space>
-In-Reply-To: <20220601174956.GA10418@elementary>
-References: <20220529182036.10226-1-jose.exposito89@gmail.com>
-        <20220530083752.1973a905@ultrarare.space>
-        <20220530061812.GA10391@elementary>
-        <20220531221102.7bd7da7d@ultrarare.space>
-        <20220531223330.3d63e2fe@ultrarare.space>
-        <20220531172053.GA10651@elementary>
-        <CAPnXWxG8gbe1arQK9kBtwM1Xcta+wreTN742kgtBBr1v0ewKug@mail.gmail.com>
-        <7f67ac07b8bd37d5817cd151674cc6b0@ultrarare.space>
-        <20220601072651.242ce08a@ultrarare.space>
-        <20220601121737.1226ffea@ultrarare.space>
-        <20220601174956.GA10418@elementary>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        llvm@lists.linux.dev, stable@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] HID: uclogic: properly format kernel-doc comment for hid_dbg() wrappers
+Date:   Thu,  2 Jun 2022 15:23:21 +0700
+Message-Id: <20220602082321.313143-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spamd-Bar: +
-Authentication-Results: mail.boiledscript.com;
-        none
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This commit extends fa33382c7f74 ("HID: apple: Properly handle function
-keys on Keychron keyboards") by adding an array of known non-Apple
-keyboards' device names, and the function apple_is_non_apple_keyboard()
-to identify and create exception for them.
+Running kernel-doc script on drivers/hid/hid-uclogic-params.c, it found
+6 warnings for hid_dbg() wrapper functions below:
 
-Signed-off-by: Hilton Chain <hako@ultrarare.space>
+drivers/hid/hid-uclogic-params.c:48: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+drivers/hid/hid-uclogic-params.c:48: warning: missing initial short description on line:
+ * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+drivers/hid/hid-uclogic-params.c:48: info: Scanning doc for function Dump
+drivers/hid/hid-uclogic-params.c:80: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Dump tablet interface frame parameters with hid_dbg(), indented with two
+drivers/hid/hid-uclogic-params.c:80: warning: missing initial short description on line:
+ * Dump tablet interface frame parameters with hid_dbg(), indented with two
+drivers/hid/hid-uclogic-params.c:80: info: Scanning doc for function Dump
+drivers/hid/hid-uclogic-params.c:105: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Dump tablet interface parameters with hid_dbg().
+drivers/hid/hid-uclogic-params.c:105: warning: missing initial short description on line:
+ * Dump tablet interface parameters with hid_dbg().
+
+One of them is reported by kernel test robot.
+
+Fix these warnings by properly format kernel-doc comment for these
+functions.
+
+Link: https://lore.kernel.org/linux-doc/202205272033.XFYlYj8k-lkp@intel.com/
+Fixes: a228809fa6f39c ("HID: uclogic: Move param printing to a function")
+Reported-by: kernel test robot <lkp@intel.com>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: José Expósito <jose.exposito89@gmail.com>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Nikolai Kondrashov <spbnick@gmail.com>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: llvm@lists.linux.dev
+Cc: stable@vger.kernel.org # v5.18
+Cc: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
+ Changes since v2 [1]:
+   - Format NULL as kernel-doc constant (suggested by Randy Dunlap)
+   - Collect review tags:
+     - Tested-by and Acked-by from Randy Dunlap
+     - Tested-by from José Expósito
 
-V4 -> V5: Add Varmilo keyboards' name "AONE" to the exception list
-V3 -> V4: Remove unnecessary strlen()
+ [1]: https://lore.kernel.org/linux-doc/20220531092817.13894-1-bagasdotme@gmail.com/
+ drivers/hid/hid-uclogic-params.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
- drivers/hid/hid-apple.c | 34 +++++++++++++++++++++++++++++-----
- 1 file changed, 29 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 42a568902f49..7fbde58e1219 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -36,7 +36,7 @@
- #define APPLE_NUMLOCK_EMULATION	BIT(8)
- #define APPLE_RDESC_BATTERY	BIT(9)
- #define APPLE_BACKLIGHT_CTL	BIT(10)
--#define APPLE_IS_KEYCHRON	BIT(11)
-+#define APPLE_IS_NON_APPLE	BIT(11)
+diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
+index db838f16282d64..e5e65d849faa97 100644
+--- a/drivers/hid/hid-uclogic-params.c
++++ b/drivers/hid/hid-uclogic-params.c
+@@ -23,11 +23,11 @@
+ /**
+  * uclogic_params_pen_inrange_to_str() - Convert a pen in-range reporting type
+  *                                       to a string.
+- *
+  * @inrange:	The in-range reporting type to convert.
+  *
+- * Returns:
+- *	The string representing the type, or NULL if the type is unknown.
++ * Return:
++ * * The string representing the type, or
++ * * %NULL if the type is unknown.
+  */
+ static const char *uclogic_params_pen_inrange_to_str(
+ 				enum uclogic_params_pen_inrange inrange)
+@@ -45,10 +45,12 @@ static const char *uclogic_params_pen_inrange_to_str(
+ }
  
- #define APPLE_FLAG_FKEY		0x01
+ /**
+- * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+- *
++ * uclogic_params_pen_hid_dbg() - Dump tablet interface pen parameters
+  * @hdev:	The HID device the pen parameters describe.
+  * @pen:	The pen parameters to dump.
++ *
++ * Dump tablet interface pen parameters with hid_dbg(). The dump is indented
++ * with a tab.
+  */
+ static void uclogic_params_pen_hid_dbg(const struct hid_device *hdev,
+ 					const struct uclogic_params_pen *pen)
+@@ -77,11 +79,12 @@ static void uclogic_params_pen_hid_dbg(const struct hid_device *hdev,
+ }
  
-@@ -65,6 +65,10 @@ MODULE_PARM_DESC(swap_fn_leftctrl, "Swap the Fn and left Control keys. "
- 		"(For people who want to keep PC keyboard muscle memory. "
- 		"[0] = as-is, Mac layout, 1 = swapped, PC layout)");
+ /**
+- * Dump tablet interface frame parameters with hid_dbg(), indented with two
+- * tabs.
+- *
++ * uclogic_params_frame_hid_dbg() - Dump tablet interface frame parameters
+  * @hdev:	The HID device the pen parameters describe.
+  * @frame:	The frame parameters to dump.
++ *
++ * Dump tablet interface frame parameters with hid_dbg(). The dump is
++ * indented with two tabs.
+  */
+ static void uclogic_params_frame_hid_dbg(
+ 				const struct hid_device *hdev,
+@@ -102,10 +105,11 @@ static void uclogic_params_frame_hid_dbg(
+ }
  
-+struct apple_non_apple_keyboard {
-+	char *name;
-+};
-+
- struct apple_sc_backlight {
- 	struct led_classdev cdev;
- 	struct hid_device *hdev;
-@@ -313,6 +317,26 @@ static const struct apple_key_translation swapped_fn_leftctrl_keys[] = {
- 	{ }
- };
- 
-+static const struct apple_non_apple_keyboard non_apple_keyboards[] = {
-+	{ "SONiX USB DEVICE" },
-+	{ "Keychron" },
-+	{ "AONE" }
-+};
-+
-+static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(non_apple_keyboards); i++) {
-+		char *non_apple = non_apple_keyboards[i].name;
-+
-+		if (strncmp(hdev->name, non_apple, strlen(non_apple)) == 0)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
- static inline void apple_setup_key_translation(struct input_dev *input,
- 		const struct apple_key_translation *table)
- {
-@@ -363,7 +387,7 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- 	}
- 
- 	if (fnmode == 3) {
--		real_fnmode = (asc->quirks & APPLE_IS_KEYCHRON) ? 2 : 1;
-+		real_fnmode = (asc->quirks & APPLE_IS_NON_APPLE) ? 2 : 1;
- 	} else {
- 		real_fnmode = fnmode;
- 	}
-@@ -669,9 +693,9 @@ static int apple_input_configured(struct hid_device *hdev,
- 		asc->quirks &= ~APPLE_HAS_FN;
- 	}
- 
--	if (strncmp(hdev->name, "Keychron", 8) == 0) {
--		hid_info(hdev, "Keychron keyboard detected; function keys will default to fnmode=2 behavior\n");
--		asc->quirks |= APPLE_IS_KEYCHRON;
-+	if (apple_is_non_apple_keyboard(hdev)) {
-+		hid_info(hdev, "Non-apple keyboard detected; function keys will default to fnmode=2 behavior\n");
-+		asc->quirks |= APPLE_IS_NON_APPLE;
- 	}
- 
- 	return 0;
+ /**
+- * Dump tablet interface parameters with hid_dbg().
+- *
++ * uclogic_params_hid_dbg() - Dump tablet interface parameters
+  * @hdev:	The HID device the parameters describe.
+  * @params:	The parameters to dump.
++ *
++ * Dump tablet interface parameters with hid_dbg().
+  */
+ void uclogic_params_hid_dbg(const struct hid_device *hdev,
+ 				const struct uclogic_params *params)
 
 base-commit: d1dc87763f406d4e67caf16dbe438a5647692395
 -- 
-2.36.1
+An old man doll... just what I always wanted! - Clara
 
