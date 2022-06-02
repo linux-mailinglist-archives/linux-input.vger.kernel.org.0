@@ -2,214 +2,169 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DB8C53B9F5
-	for <lists+linux-input@lfdr.de>; Thu,  2 Jun 2022 15:39:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FF3653BF10
+	for <lists+linux-input@lfdr.de>; Thu,  2 Jun 2022 21:45:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235052AbiFBNjA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Jun 2022 09:39:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36036 "EHLO
+        id S231891AbiFBTp3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Jun 2022 15:45:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233407AbiFBNi7 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Jun 2022 09:38:59 -0400
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD98F188E91;
-        Thu,  2 Jun 2022 06:38:57 -0700 (PDT)
-Received: by mail-ot1-f54.google.com with SMTP id r14-20020a056830418e00b0060b8da9ff75so3394320otu.11;
-        Thu, 02 Jun 2022 06:38:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=O0boLWIGc2cfiJKY/LFTM6gVy1MpJxwr9WhYPcXpskU=;
-        b=VDrgBEMkIou4EratkB48MV4XejyIAOCCYpcm1d/DRt5b+uaRXbVEZSaON9eN/Ni+FQ
-         q/uldFdyozHVzayncI0HNeZ8HBLGDgJFTDOhOqss5Akmyk6wi7IXmrY3X35bqr3DyF/H
-         i9plM2b8mLC/U5rihvrjjTD8eJLJQbKTMwcpXxNC1oIzbWP/i+z+woJpJDTeJF3w2tF9
-         hklUHr+PU8gdvych9wBeBN+trm1Cu1WK9/mtJVfXcuP3/DoOfOT0y2yvvHbwzyGT9Cyq
-         L96adEK42eIqE3IHA+sUq26e6rZQBfFHlxZbVCN+fQr3Yi1vMYZhAh/h/4xA8pozxnuw
-         OZtQ==
-X-Gm-Message-State: AOAM530WpjX/t9+Ie9pSKHBdSYdgcSTOW/bQgXJ6oITyptX0aVV8TWMB
-        t3tzmkR1BCoU8iHHPYS2tw==
-X-Google-Smtp-Source: ABdhPJx6ISSfHaPjGV6XtcEyoeKv02Q64hSfVaIxtnQ1fZxRzpSt3XZ2FhCSsu3eTVkTMB/rA3s7DQ==
-X-Received: by 2002:a9d:734f:0:b0:60b:198a:2168 with SMTP id l15-20020a9d734f000000b0060b198a2168mr2087080otk.20.1654177136930;
-        Thu, 02 Jun 2022 06:38:56 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id u5-20020a056830248500b0060b088dcbeesm2177284ots.27.2022.06.02.06.38.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jun 2022 06:38:56 -0700 (PDT)
-Received: (nullmailer pid 2167289 invoked by uid 1000);
-        Thu, 02 Jun 2022 13:38:55 -0000
-Date:   Thu, 2 Jun 2022 08:38:55 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Mike Looijmans <mike.looijmans@topic.nl>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
-        krzysztof.kozlowski+dt@linaro.org, martink@posteo.de,
-        geert+renesas@glider.be, john@metanate.com, hechtb@gmail.com
-Subject: Re: [PATCH] Input: st1232 - Support power supply regulators
-Message-ID: <20220602133855.GA2166481-robh@kernel.org>
-References: <20220524081216.8550-1-mike.looijmans@topic.nl>
-MIME-Version: 1.0
+        with ESMTP id S239133AbiFBTpL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Jun 2022 15:45:11 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12olkn2091.outbound.protection.outlook.com [40.92.22.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CE40237DC;
+        Thu,  2 Jun 2022 12:44:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ctELMz7mSWlEhde7SHS6bxDComYnTEOtsFLgz34eG+Zi/Hd1FwAeytEIsQhX+GcVwY7i5eeCYdf/z4JL7x9Hyj792ozhW5YPsyqlBsHwcd/+80Dxtd/4XspanZLobCzfQPNehOVT7I2+3yK3cf6DyJ5maSJtRFDCr9OZdMrRuNyfmQs5QC/VzbwI6gW7ltZfCxdkHQHXUtaIfOPhEXwAAoMie2RDX7qrw8+Pob4msMAbIEIqBkixOwNGe5ERHKAftgoUAxvu2BfND+YBxCn5ISSzuVyb15a2ew9BCiKmSeh8qokylSK6XwcmuKhkowN2eTVdzhbpKkBCLLN49whChA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F0iSiZhM0r7zVdmisXz1tpQuUgcioBMMJNptSn/ZiWQ=;
+ b=B2QyRRKl8FhtBxTiufi0fjPXZutePFe0zABsr0iNMz3DElxPELn5CB7AgW6z0K3Q8dXnxXSI5lePToBuVrnLTQG2kkELOiG5wXak+alBbSid2X1mhn6ZNHagkPfCJ73lP2iYfaln/jtJ5nQLEPCwVnPSHhZoF+MSyXf7irApt0/wdb+TQTL8sIw95Nqhg2u08sFki51qmUoopuoSbEa5ofVlAhhFpRcH98GDarDsguVzBcFUll1JPp9SSeLkQEbSYWGSuy3jA4uPY/G4/xV6xahvZs9sXazQIpcqB0+FJlKzWgJkNrPkbs+agn9EYp2vGP8b4c5K40HGzwc7Ff5MQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F0iSiZhM0r7zVdmisXz1tpQuUgcioBMMJNptSn/ZiWQ=;
+ b=D2tCwBj6oaZtmelbF7iOdEGGoXUB/pF0hZJFqlf8FSWxwAGuEv5SkeyZuS+tZ5MMN5Lw8VhdYgKgWcykHA9k0VMMIFRl9QHnPhea37hCpgdo8in9G72KNrjzrfqCHR75sTHOpcPPfJNt76ty/3eZrj8lY+RZWVtonI+VfQ6751fkB9k5h83ogwK5pJM0AJQximKYa872yH8aPSBCRhZrWLN4omBje17ALzMBuVB9KRMoBBTPPsoXJaLX/QvyEm44Nr5qnKE0n8Jyb8wIRnjHMUDjD5Z0a8E7r19AV9tkIEvDh5K2yQYVKBOiWDXpHOdbyfX90G/2oAEK1kRLl6CwuQ==
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com (2603:10b6:805:f9::31)
+ by DM5PR06MB3179.namprd06.prod.outlook.com (2603:10b6:4:44::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.13; Thu, 2 Jun
+ 2022 19:44:53 +0000
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::c0e4:f1d:b373:4360]) by SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::c0e4:f1d:b373:4360%7]) with mapi id 15.20.5293.019; Thu, 2 Jun 2022
+ 19:44:53 +0000
+Date:   Thu, 2 Jun 2022 14:44:48 -0500
+From:   Chris Morgan <macromorgan@hotmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, dmitry.torokhov@gmail.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        heiko@sntech.de, maccraft123mc@gmail.com, contact@artur-rojek.eu
+Subject: Re: [PATCH v2 1/3] dt-bindings: adc-joystick: add
+ adc-joystick,polled option
+Message-ID: <SN6PR06MB5342F372D3810B8EDA15BB99A5DE9@SN6PR06MB5342.namprd06.prod.outlook.com>
+References: <20220601204927.10256-1-macroalpha82@gmail.com>
+ <20220601204927.10256-2-macroalpha82@gmail.com>
+ <12a65f1d-4f3a-417f-3c90-5461870abe2a@linaro.org>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220524081216.8550-1-mike.looijmans@topic.nl>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <12a65f1d-4f3a-417f-3c90-5461870abe2a@linaro.org>
+X-TMN:  [H1C2Kvr6Kip7JJqx16P+xEnshh5fFimf]
+X-ClientProxiedBy: DS7PR03CA0023.namprd03.prod.outlook.com
+ (2603:10b6:5:3b8::28) To SN6PR06MB5342.namprd06.prod.outlook.com
+ (2603:10b6:805:f9::31)
+X-Microsoft-Original-Message-ID: <20220602194448.GA25883@wintermute.localdomain>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 45c21f80-f575-4577-c334-08da44d05ca8
+X-MS-TrafficTypeDiagnostic: DM5PR06MB3179:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: O37dQ0Ice5O7VixNBPWF5zwCUzTkCyPBgVGVRLLgJ6MAHIzTFwSjElS5TnLxJAO898nTsn4gWOVc2yJdHfailcuK13glZfFyEb2R3AzYtwQEKbDxLbqDdBqUA7IXySD/5V7MQHqwmalNmqvydtPKCu7mXI8oOdaZB6CdkkdUlJiUP18Uee7KCd90wu3L0RGC1khk8p+bjT1qoWQyY0FlLffQCYFD/Ej7AkCns4ShD+Jp05IQx7vgxZMz2BhT92h4P+rbnPKnYIZCp+iC+HCwATMBYJOkaplawNdh5AFrYm81vUG+irOv5bwUDoBaFad3/iViYVzTv/fMXiv7hmdz32B8B0b3jSz89f4qeWFn56U8TejQGnlI6fjeQY3Q2u5qMjIDrNF5CqIyuwtUxbOOFarup9+LDX2ypAM6lRR6wBtqs7w1YotU+zJhfsRqsYv8YdY/XSkNHl7Hgj3YPxBim3YsYbNhyZlaCRCRMdK6Y7WQcOsK2oZjXnbMToS1Uq+Z9/SMEhZJwUHiSWL8UZK1CUetmLHdD2/RDzSeQLd8WVhAigDLPS8sO0rCprsoRLwbl3h73keORFU7PErxVQOnwQ==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?961slaUZF60dqy/RIRSrk5bddA74tk9Vhn7gzNjS3bKQn4undoIMHxS8w9E0?=
+ =?us-ascii?Q?W+G3W5pNT2PVsB2hy9dTCwsaeWt7G/GVy2Pt9tGVkx43WnMirDCumI/+ClwK?=
+ =?us-ascii?Q?rV95JdxSNeSKkVULvsKUl2ksxDrrncqCXmyJhWA2OAnVva93fynTsa10EwMs?=
+ =?us-ascii?Q?e3OH+m3VTOfFK5NBg9/3K6opI/ev1fDAvtPvvvEEGe4kTGe35jCtgHMb7zQd?=
+ =?us-ascii?Q?jNzjIRNcJR/h3b0vadkBt/RJJYHVrnnQ7o8ImDKEUdhmyWrp+NqdMl84YmOE?=
+ =?us-ascii?Q?1EGaClBnKk5vGzZx4X5C5d81Wml7lFCf5SOjWRMbeu50eVoWAnXbt2fpAyyN?=
+ =?us-ascii?Q?IHOS3EnAM77rLgJOOCP+OZFCnyZhmswUr2U+s1uTiu9eoAVP2RTt0ugFYudJ?=
+ =?us-ascii?Q?eZHTVuh2s4BGcvdc+lPGaVizlZAK90+1G22hMxMso6W80ym+ffm1+pbBcw/I?=
+ =?us-ascii?Q?tSb59OjJxowMWHdiazgS5c66VkLYATaHp2diZpt6OXnfR7N93ql6dxNRWD/J?=
+ =?us-ascii?Q?awWlniMyEsXHGAM7OQ0+LAwra8KPYCqV9lBgypOWGLUi842n5B+fVYqdVipY?=
+ =?us-ascii?Q?2wTGvoDGBfb6noekEumXDFk0T7RFNyh+/M6lSh47rJiSN5tlhcN4i3/G39Rp?=
+ =?us-ascii?Q?b7W7e/h0lJF9Bb6SoCEp3r6EASqnQRKe4NUFjF+iEh2G3bllmS3azm7LkzJl?=
+ =?us-ascii?Q?WsYoZwlMnObPXo/AfDhot2CAbvDRG7ekGJDQdSL3OkzvWy+COFPYTKdS1GaB?=
+ =?us-ascii?Q?kyBV6llUesI+M7y1tmEajT66eIy+2thd+bJA1Gel0o4ep3Tt4trK2Y/hJbh8?=
+ =?us-ascii?Q?/WcWbcQULCEVgzd9TbNSGQTc4ONosLAPjoDUkLGiC2ING8pZ4jjjoXEjRe05?=
+ =?us-ascii?Q?9BPuUm0YGZXjrETx4Zcx4ydetGuZ3g0Sp4RJRdtoZlEkxHbxQ06qsFwSBGkq?=
+ =?us-ascii?Q?EGG/Mmhy0Jkb/qJXCFoV1fO9R9XnaXE9SQwmoyN16aEX/H1IWVftg+QRWM3s?=
+ =?us-ascii?Q?xn00lhpNLjdGpus1BV1IyUH3SNnziNG0Tp2yGxLgH0Vui/nqdclfM/geT57U?=
+ =?us-ascii?Q?fDLTFiXK1Z/9v/vYypVOzgUDg2sZXA9PsDr/Y9ti25U5aQ2NA1DR/IYOu3dw?=
+ =?us-ascii?Q?uxhNIUpoEujQ8KowYCotCZGWweg6+gETxpJnLHTA2sweyqgjIGloZ7VTIRui?=
+ =?us-ascii?Q?/slDY/mZZLL/Ar2+lBrEb1RDzUcdRS1af6qOz2+0sw+crCt4wnESoYfCA7KK?=
+ =?us-ascii?Q?ZHGIt+nhjCLYRVax0jDDFjeTUQh+fHTfxgrtFFDEFakPxyRvagcWE0F3oilr?=
+ =?us-ascii?Q?4M2cfn97hkR3NT0mIk/Mw1liR9CUCHuAR64npiQW4WYxrAn24V9No90Ot2Tv?=
+ =?us-ascii?Q?4TYt7wH30Hs6LCIhqT/wqj+6Ww53vaJ9v0P3TJLeonKJjrAx43Tw8mbjZZt7?=
+ =?us-ascii?Q?YtHCoWjRN6M=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-89723.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45c21f80-f575-4577-c334-08da44d05ca8
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR06MB5342.namprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2022 19:44:53.1202
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR06MB3179
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, May 24, 2022 at 10:12:16AM +0200, Mike Looijmans wrote:
-> Add support for the VDD and IOVDD power supply inputs. This allows the
-> chip to share its supplies with other components (e.g. panel) and manage
-> them.
+On Thu, Jun 02, 2022 at 11:56:10AM +0200, Krzysztof Kozlowski wrote:
+> On 01/06/2022 22:49, Chris Morgan wrote:
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> > 
+> > Add documentation for adc-joystick,polled. New device-tree properties
+> > have been added.
+> > 
+> > - adc-joystick,polled: A boolean value noting the joystick device
+> > 		       should be polled rather than use a triggered
+> > 		       buffer.
+> > 
+> > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > ---
+> >  .../devicetree/bindings/input/adc-joystick.yaml          | 9 ++++++++-
+> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> > index 2ee04e03bc22..4f49a1a5772e 100644
+> > --- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> > +++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> > @@ -12,12 +12,19 @@ maintainers:
+> >  
+> >  description: >
+> >    Bindings for joystick devices connected to ADC controllers supporting
+> > -  the Industrial I/O subsystem.
+> > +  the Industrial I/O subsystem. Supports both polled devices where no
+> > +  iio trigger is available and non-polled devices which are triggered
+> > +  by iio.
+> >  
+> >  properties:
+> >    compatible:
+> >      const: adc-joystick
+> >  
+> > +  adc-joystick,polled:
+> > +    type: boolean
+> > +    description:
+> > +      If the device does not support triggered buffers and needs to be polled.
 > 
-> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
-> ---
->  .../input/touchscreen/sitronix,st1232.yaml    |  6 +++
 
-Separate patch please.
+What would your recommendation be? I'm basically proposing polling
+instead of utilizing a triggered buffer, so instead of the driver
+relying on a hardware trigger or a software trigger being set up to
+fill the buffer that is read by the input subsystem we use the input
+subsystem polling function directly (this is useful for my use-case
+where the Rockchip SARADC doesn't have a hardware trigger).
 
->  drivers/input/touchscreen/st1232.c            | 54 ++++++++++++++++---
->  2 files changed, 52 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
-> index 1d8ca19fd37a..240be8d49232 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
-> @@ -28,6 +28,12 @@ properties:
->      description: A phandle to the reset GPIO
->      maxItems: 1
->  
-> +  vdd-supply:
-> +    description: Power supply regulator for the chip
-> +
-> +  vddio-supply:
-> +    description: Power supply regulator for the I2C bus
-> +
->  required:
->    - compatible
->    - reg
-> diff --git a/drivers/input/touchscreen/st1232.c b/drivers/input/touchscreen/st1232.c
-> index e38ba3e4f183..d9c9f6f1f11a 100644
-> --- a/drivers/input/touchscreen/st1232.c
-> +++ b/drivers/input/touchscreen/st1232.c
-> @@ -44,6 +44,11 @@
->  #define REG_XY_COORDINATES	0x12
->  #define ST_TS_MAX_FINGERS	10
->  
-> +enum st1232_regulators {
-> +	ST1232_REGULATOR_VDD,
-> +	ST1232_REGULATOR_IOVDD,
-> +};
-> +
->  struct st_chip_info {
->  	bool	have_z;
->  	u16	max_area;
-> @@ -56,6 +61,7 @@ struct st1232_ts_data {
->  	struct touchscreen_properties prop;
->  	struct dev_pm_qos_request low_latency_req;
->  	struct gpio_desc *reset_gpio;
-> +	struct regulator_bulk_data regulators[2];
->  	const struct st_chip_info *chip_info;
->  	int read_buf_len;
->  	u8 *read_buf;
-> @@ -197,17 +203,36 @@ static irqreturn_t st1232_ts_irq_handler(int irq, void *dev_id)
->  	return IRQ_HANDLED;
->  }
->  
-> -static void st1232_ts_power(struct st1232_ts_data *ts, bool poweron)
-> +static int st1232_ts_power_on(struct st1232_ts_data *ts)
-> +{
-> +	int err;
-> +
-> +	err = regulator_bulk_enable(ARRAY_SIZE(ts->regulators), ts->regulators);
-> +	if (err)
-> +		return err;
-> +
-> +	usleep_range(5000, 6000);
-> +
-> +	if (ts->reset_gpio)
-> +		gpiod_set_value_cansleep(ts->reset_gpio, 0);
-> +
-> +	return 0;
-> +}
-> +
-> +static void st1232_ts_power_off(struct st1232_ts_data *ts)
->  {
->  	if (ts->reset_gpio)
-> -		gpiod_set_value_cansleep(ts->reset_gpio, !poweron);
-> +		gpiod_set_value_cansleep(ts->reset_gpio, 1);
-> +	usleep_range(100, 150);
-> +	regulator_bulk_disable(ARRAY_SIZE(ts->regulators), ts->regulators);
->  }
->  
-> -static void st1232_ts_power_off(void *data)
-> +static void st1232_ts_power_off_action(void *data)
->  {
-> -	st1232_ts_power(data, false);
-> +	st1232_ts_power_off(data);
->  }
->  
-> +
->  static const struct st_chip_info st1232_chip_info = {
->  	.have_z		= true,
->  	.max_area	= 0xff,
-> @@ -266,6 +291,14 @@ static int st1232_ts_probe(struct i2c_client *client,
->  	ts->client = client;
->  	ts->input_dev = input_dev;
->  
-> +	ts->regulators[ST1232_REGULATOR_VDD].supply = "vdd";
-> +	ts->regulators[ST1232_REGULATOR_IOVDD].supply = "iovdd";
-> +	error = devm_regulator_bulk_get(&client->dev,
-> +					ARRAY_SIZE(ts->regulators),
-> +					ts->regulators);
-> +	if (error)
-> +		return error;
-> +
->  	ts->reset_gpio = devm_gpiod_get_optional(&client->dev, NULL,
->  						 GPIOD_OUT_HIGH);
->  	if (IS_ERR(ts->reset_gpio)) {
-> @@ -275,9 +308,14 @@ static int st1232_ts_probe(struct i2c_client *client,
->  		return error;
->  	}
->  
-> -	st1232_ts_power(ts, true);
-> +	error = st1232_ts_power_on(ts);
-> +	if (error) {
-> +		dev_err(&client->dev, "Failed to power on: %d\n", error);
-> +		return error;
-> +	}
->  
-> -	error = devm_add_action_or_reset(&client->dev, st1232_ts_power_off, ts);
-> +	error = devm_add_action_or_reset(&client->dev,
-> +					 st1232_ts_power_off_action, ts);
->  	if (error) {
->  		dev_err(&client->dev,
->  			"Failed to install power off action: %d\n", error);
-> @@ -348,7 +386,7 @@ static int __maybe_unused st1232_ts_suspend(struct device *dev)
->  	disable_irq(client->irq);
->  
->  	if (!device_may_wakeup(&client->dev))
-> -		st1232_ts_power(ts, false);
-> +		st1232_ts_power_off(ts);
->  
->  	return 0;
->  }
-> @@ -359,7 +397,7 @@ static int __maybe_unused st1232_ts_resume(struct device *dev)
->  	struct st1232_ts_data *ts = i2c_get_clientdata(client);
->  
->  	if (!device_may_wakeup(&client->dev))
-> -		st1232_ts_power(ts, true);
-> +		st1232_ts_power_on(ts);
->  
->  	enable_irq(client->irq);
->  
-> -- 
-> 2.17.1
+Thank you for your help.
+
+> You described desired Linux feature or behavior, not the actual
+> hardware. The bindings are about the latter, so instead you need to
+> rephrase the property and it's description to match actual hardware
+> capabilities/features/configuration etc.
 > 
 > 
+> Best regards,
+> Krzysztof
