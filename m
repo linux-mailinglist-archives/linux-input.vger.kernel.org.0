@@ -2,47 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD70853C755
-	for <lists+linux-input@lfdr.de>; Fri,  3 Jun 2022 11:20:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5B8453C870
+	for <lists+linux-input@lfdr.de>; Fri,  3 Jun 2022 12:17:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242981AbiFCJUF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 3 Jun 2022 05:20:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57502 "EHLO
+        id S240811AbiFCKQP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 3 Jun 2022 06:16:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234089AbiFCJUF (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Jun 2022 05:20:05 -0400
-X-Greylist: delayed 126314 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 03 Jun 2022 02:20:02 PDT
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [IPv6:2001:4b98:dc4:8::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EE1939BB6;
-        Fri,  3 Jun 2022 02:20:01 -0700 (PDT)
-Received: (Authenticated sender: contact@artur-rojek.eu)
-        by mail.gandi.net (Postfix) with ESMTPA id B7172200005;
-        Fri,  3 Jun 2022 09:19:58 +0000 (UTC)
-MIME-Version: 1.0
-Date:   Fri, 03 Jun 2022 11:19:58 +0200
-From:   Artur Rojek <contact@artur-rojek.eu>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Chris Morgan <macromorgan@hotmail.com>,
-        Chris Morgan <macroalpha82@gmail.com>,
+        with ESMTP id S233907AbiFCKQO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Jun 2022 06:16:14 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ABB03B288
+        for <linux-input@vger.kernel.org>; Fri,  3 Jun 2022 03:16:13 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id h23so3929852ejj.12
+        for <linux-input@vger.kernel.org>; Fri, 03 Jun 2022 03:16:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CE1k6uqQm8XxTm8kMTTnyye5I/ebSIAbCCt2XWDXsEI=;
+        b=JhjH3pDETFmYHEKAKLaZdtjVcA9hZwcivyVzHYnI3wS/AKELt2b4Tsn9if/terlP8t
+         JATy2D8DGgdXmOi6lmJ7A8u3Isct66UI7GgpJzd1PLmln0tGkXoQo6k2Keg/gczCZqhl
+         tDmtWgUZqHFjYqmIoQQnAvfIam3HSDe8VgxsON9O5Qp7a4zWEdI8LiB9yxP5BXWbPVDI
+         xOtRzOk4sa6900EoUrzB9ODvl0+Er70u8ZNEqNluskfRSflqX6dckj2sKtI/vj6oKG9r
+         G01BAnoARN1OgZvVyUU6Ifd36Ez0zb7EHUjYlmFeNMijzAJcvBdk5nzUAOuFoJnLVE7R
+         DmlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CE1k6uqQm8XxTm8kMTTnyye5I/ebSIAbCCt2XWDXsEI=;
+        b=7sBKoXCZdt1nKHCzLM9txrBCbqPQhsERjxKETiAX1FqTPGr2PCLO3h8cNBw2Bd3DVE
+         3JXJronLs9gyq/tzvc5Ls6AyKDzlhr3NMUK8kLCw727Gw4vW6xg/lSkuhd0ERzrMzyEU
+         Cnc4+NFJjtCZSp28+z22AZ4adwVKhEabce/Hw0FWLB9GfpL8uZPzIeb7YAj9v8g9Jm6l
+         3WRk4lpTAs6+JIGbE5VgT5EK7g8qGB9daGVJ8w9mK4sYnQ46noVinpxFknzupI4AP2sy
+         s4HAEw8HqNrooq7lbnKj+7PjwhdJvaLPOwhuSVbT1hviKCDD3Dz5k5MFUYJclFzWt9vs
+         aqMw==
+X-Gm-Message-State: AOAM531B1IVwGa2Vhl3WUYWQ83pzW92CV5feV7C6rNWg05cVl+7PdlMJ
+        UJDj8b3le1GkX+VbqPm3D4CKQw==
+X-Google-Smtp-Source: ABdhPJzPpiZRWh+oiv1/yJAwdjM+7tzslnDLIKqKxn+YiUPZk+INHft204nhSRv0ckPgQLfu0sJdWg==
+X-Received: by 2002:a17:907:3e15:b0:6fe:f10e:6337 with SMTP id hp21-20020a1709073e1500b006fef10e6337mr8091317ejc.209.1654251372215;
+        Fri, 03 Jun 2022 03:16:12 -0700 (PDT)
+Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id j15-20020a170906430f00b006f3ef214dc7sm2779008ejm.45.2022.06.03.03.16.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jun 2022 03:16:11 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-        maccraft123mc@gmail.com
-Subject: Re: [PATCH v2 1/3] dt-bindings: adc-joystick: add adc-joystick,polled
- option
-In-Reply-To: <67f56e57-185a-1e4b-e20b-4f7772a10580@linaro.org>
-References: <20220601204927.10256-1-macroalpha82@gmail.com>
- <20220601204927.10256-2-macroalpha82@gmail.com>
- <12a65f1d-4f3a-417f-3c90-5461870abe2a@linaro.org>
- <SN6PR06MB5342F372D3810B8EDA15BB99A5DE9@SN6PR06MB5342.namprd06.prod.outlook.com>
- <67f56e57-185a-1e4b-e20b-4f7772a10580@linaro.org>
-Message-ID: <60d467244a9dc1c7cc29d0035d536e2a@artur-rojek.eu>
-X-Sender: contact@artur-rojek.eu
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        linux-kernel@vger.kernel.org
+Cc:     Stefan Hansson <newbie13xd@gmail.com>,
+        Andreas Kemnade <andreas@kemnade.info>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [RFC PATCH 0/2] dt-bindings: input: gpio-keys: rework matching children
+Date:   Fri,  3 Jun 2022 12:15:59 +0200
+Message-Id: <20220603101601.542054-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -50,75 +72,37 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2022-06-03 07:33, Krzysztof Kozlowski wrote:
-> On 02/06/2022 21:44, Chris Morgan wrote:
->> On Thu, Jun 02, 2022 at 11:56:10AM +0200, Krzysztof Kozlowski wrote:
->>> On 01/06/2022 22:49, Chris Morgan wrote:
->>>> From: Chris Morgan <macromorgan@hotmail.com>
->>>> 
->>>> Add documentation for adc-joystick,polled. New device-tree 
->>>> properties
->>>> have been added.
->>>> 
->>>> - adc-joystick,polled: A boolean value noting the joystick device
->>>> 		       should be polled rather than use a triggered
->>>> 		       buffer.
->>>> 
->>>> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
->>>> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
->>>> ---
->>>>  .../devicetree/bindings/input/adc-joystick.yaml          | 9 
->>>> ++++++++-
->>>>  1 file changed, 8 insertions(+), 1 deletion(-)
->>>> 
->>>> diff --git 
->>>> a/Documentation/devicetree/bindings/input/adc-joystick.yaml 
->>>> b/Documentation/devicetree/bindings/input/adc-joystick.yaml
->>>> index 2ee04e03bc22..4f49a1a5772e 100644
->>>> --- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
->>>> +++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
->>>> @@ -12,12 +12,19 @@ maintainers:
->>>> 
->>>>  description: >
->>>>    Bindings for joystick devices connected to ADC controllers 
->>>> supporting
->>>> -  the Industrial I/O subsystem.
->>>> +  the Industrial I/O subsystem. Supports both polled devices where 
->>>> no
->>>> +  iio trigger is available and non-polled devices which are 
->>>> triggered
->>>> +  by iio.
->>>> 
->>>>  properties:
->>>>    compatible:
->>>>      const: adc-joystick
->>>> 
->>>> +  adc-joystick,polled:
->>>> +    type: boolean
->>>> +    description:
->>>> +      If the device does not support triggered buffers and needs to 
->>>> be polled.
->>> 
->> 
->> What would your recommendation be? I'm basically proposing polling
->> instead of utilizing a triggered buffer, so instead of the driver
->> relying on a hardware trigger or a software trigger being set up to
->> fill the buffer that is read by the input subsystem we use the input
->> subsystem polling function directly (this is useful for my use-case
->> where the Rockchip SARADC doesn't have a hardware trigger).
-> 
-> Then it could be: "adc-joystik,no-hardware-trigger". The description is
-> I think accurate, so just the property name.
+Hi,
 
-Hmm... I don't think DT involvement is necessary here, as this 
-information can be derived from iio at runtime:
-`if (iio_dev->modes & INDIO_BUFFER_SOFTWARE)` - a buffer can be used,
-`if (iio_dev->modes & INDIO_DIRECT_MODE)` - device can be polled.
+Currently the gpio-keys schema allows any property to be present, even
+undocumented.  Narrow the pattern for children to require specific key naming like:
 
-Cheers,
-Artur
-> 
-> 
-> 
-> Best regards,
-> Krzysztof
+    gpio-keys {
+        compatible = "gpio-keys";
+
+        // "up" is wrong
+        key-up {
+            label = "GPIO Key UP";
+            linux,code = <103>;
+            gpios = <&gpio1 0 1>;
+        };
+    };
+
+This will cause many, many DTS warnings, which I can fix. But before I start
+such big work, let's agree whether the approach is correct.
+
+Best regards,
+Krzysztof
+
+Krzysztof Kozlowski (2):
+  dt-bindings: input: gpio-keys: enforce node names to match all
+    properties
+  dt-bindings: input: gpio-keys: document label and autorepeat
+    properties
+
+ .../devicetree/bindings/input/gpio-keys.yaml  | 177 +++++++++---------
+ 1 file changed, 91 insertions(+), 86 deletions(-)
+
+-- 
+2.34.1
+
