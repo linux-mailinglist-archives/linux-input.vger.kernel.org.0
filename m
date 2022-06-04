@@ -2,119 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42D3353D4FC
-	for <lists+linux-input@lfdr.de>; Sat,  4 Jun 2022 05:05:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D78253D6F2
+	for <lists+linux-input@lfdr.de>; Sat,  4 Jun 2022 15:11:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344425AbiFDDFH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 3 Jun 2022 23:05:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41666 "EHLO
+        id S236325AbiFDNLh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 4 Jun 2022 09:11:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232294AbiFDDFH (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Jun 2022 23:05:07 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2071.outbound.protection.outlook.com [40.107.94.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42A322ED4D;
-        Fri,  3 Jun 2022 20:05:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GX4uhjN2mcpF1nfWOCgBRThnQcCpmrRsdiCEnCdHwB9V9b4vJQ1P2shCs7vxpfRp3+y0lzUkRKL0bwnkzuaZvorBoC3nb9oKCKuqrjdMRON6cGDnp9bEvXG9WP8vgWYRGLYIkXeFRdsVRp9HzsqCNig4xJWGckSl2wBDzXchAY7S7/9DfvEQJHQsaW/OcSbVlvtOEDC94Un4C5RRuajCz1v6T4Df+XY971KWpqBd/B22TntW2jpPnsQPwzXGESNLeUbe9svSOKjpGjUbjyBuYsCBGPBi7zirWnolVdQnjyLTgfW5Dsto8jumpVrmCgedaHys3JDS9xLMmS95dpdqIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ykrPIEydGS+JR5xS//to/tTCuf83+ap18+w/nTuyGBU=;
- b=UNs6+DfpSZN5VNuLF8e8bRafUpsz/q4MTBb8HfPc+7AobD2j15ecJBu2tyJJLS4yfHKERXizmL4Cyj88KQLvMbDo1FPmtjAyDFTixtBCSv7zexuaV94npnB29Uhn3+79i4Ac0DDgHKC97nyFzD9iYFHu1mqJPkwG4hFmv+9A7Jtyu0qZJgmk5CZ58IONi4dAbaAOcVLZSgi7hNBXSH8v8N8Z8Wx5+OdjQuPjU0rvKaYmoVvTcnao08zr5VUZE+uJxlcHqSG5J6IUJgAwzffOFND+i7EAnapsT2Gm36usm1V7VzzlVMZj8GYTCo9LoCLj2dC5mnVz1Wby7uPhSVdLBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
+        with ESMTP id S236326AbiFDNLg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 4 Jun 2022 09:11:36 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E299253B77;
+        Sat,  4 Jun 2022 06:11:30 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id n10so20745514ejk.5;
+        Sat, 04 Jun 2022 06:11:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ykrPIEydGS+JR5xS//to/tTCuf83+ap18+w/nTuyGBU=;
- b=PvreOFyN7XspCuyDxdDQIRXaRXgn0+P3Lzp2XN8M+ouNBI14hATIkfDp8RUnNjO7jrVHGomTn4NayovxgbYv1+rncsGT5Iu+s8aS8QeHLveK3TNvmZiUV7BQcLKiWwosB84yypvViJFcGbImyH1uF+5rxIMA6yLUFqm4Kcpxjfs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=labundy.com;
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by DM6PR08MB5257.namprd08.prod.outlook.com
- (2603:10b6:5:50::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.13; Sat, 4 Jun
- 2022 03:05:02 +0000
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::ccb4:7984:aaf2:e18f]) by SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::ccb4:7984:aaf2:e18f%6]) with mapi id 15.20.5293.020; Sat, 4 Jun 2022
- 03:05:01 +0000
-Date:   Fri, 3 Jun 2022 22:04:55 -0500
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Stefan Hansson <newbie13xd@gmail.com>,
-        Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [RFC PATCH 1/2] dt-bindings: input: gpio-keys: enforce node
- names to match all properties
-Message-ID: <20220604030455.GA12308@nixie71>
-References: <20220603101601.542054-1-krzysztof.kozlowski@linaro.org>
- <20220603101601.542054-2-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220603101601.542054-2-krzysztof.kozlowski@linaro.org>
-X-ClientProxiedBy: SN4PR0501CA0037.namprd05.prod.outlook.com
- (2603:10b6:803:41::14) To SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21)
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=FEDTgPDYr/JrMIvyDJDWCeB3cATgiGP7XKqUeswVrm0=;
+        b=YwKofZ2PRKrVP9fWN6poJYzJiF2ulBXgN06HchVHNod+Zf3+1oXJHdmQKyNdMAUUiT
+         rVwdMxo6wdABTi+Wz9O7NJETKjs6lqHJaEsgA3w7CKKokaBdOaLQuMyysBlVcEaNywny
+         fFeulaU9t1SKItwo5mI4caV7BJ8J9cvoY7nflOM9GI2BmAkd+ZTdxCw7OGpX0yGS/IA5
+         xafUfQLAACGmPb9Fvg+HeZu0auSvQwgkhi2bpVcK+4E/QVJ0oXH9GWNMNXhuD3xS/4kw
+         aTVWLktA86vXTdY0yyuzSKqQjNJsv/YqZpb3DOcwVMp/YmHAnE/kPWDR6Uy1igu1BfR8
+         r/bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=FEDTgPDYr/JrMIvyDJDWCeB3cATgiGP7XKqUeswVrm0=;
+        b=Xc0e+pwUzfampb7oExTiFimgtuALMj4TjA0jBhJvIuU354nPYHWqd9fu3ynJI3xD2N
+         PbWHzJyqidc1t3+y2r3MPGA++uHscR5zRduNELFeH5+VK2FQAOBzTE+iXKzADvwaNT4l
+         vhdmIjtJx3VmhxBZJUXZzHmJz0KqUvC/ptfR2SgiZeHL7QqLeX+yuaOAM6emkhSLJWoa
+         F+DOuPRiFo+jeb+0li3ROQgT6VYfco3g17ZOo3ud0HPaJuuzzvqr33tD+lgxMoosu4vo
+         5pYjm/sqV/SHpmJtjlQqhVatb8ZNNV8oX7OgyfFKEHxmu4n5Vt/IPa52uNdYgRUi62Na
+         AlbA==
+X-Gm-Message-State: AOAM530u2+VN7wXkbyXNYgrscunp432iSKaZhlMv5jKty4/UcYp/nr/g
+        j5j/7FwQ53mT+xiJGfrVsAM=
+X-Google-Smtp-Source: ABdhPJx5hF9V9ebt3VbSfc1eolgwSE59Anu6ytFiq0pFiVcY3wexuufEpBcWkxGhfj+bONfzCGXp4g==
+X-Received: by 2002:a17:907:3e82:b0:6ff:1e04:a365 with SMTP id hs2-20020a1709073e8200b006ff1e04a365mr13085439ejc.617.1654348289247;
+        Sat, 04 Jun 2022 06:11:29 -0700 (PDT)
+Received: from ?IPV6:2a01:e11:5004:180:b236:b316:50dd:720e? ([2a01:e11:5004:180:b236:b316:50dd:720e])
+        by smtp.gmail.com with ESMTPSA id n8-20020a170906724800b006fee526ed66sm3962521ejk.35.2022.06.04.06.11.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Jun 2022 06:11:28 -0700 (PDT)
+Message-ID: <ec8722db-368a-6bf1-e4ac-7fe76bd39343@gmail.com>
+Date:   Sat, 4 Jun 2022 15:11:28 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1bb51037-936a-45bb-2da3-08da45d70400
-X-MS-TrafficTypeDiagnostic: DM6PR08MB5257:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR08MB5257DA4AAD280EF61D7C32CAD3A09@DM6PR08MB5257.namprd08.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XOLUhkUwXKdU3JxnG4YPaHPJ/WWMop8e6+q02ixqjS9c6cmeldSxJFJZjJ/NWv+IcZl45/soEfcgPUcbX20mnEGKMmVo3PvYH6eoTBtOFXmtEnovf96NzdBNDL3MN+kJvMpqUqK/5h9w9wcTzQIlqCm7406Zj+RB9b2eiLafGC7esD/QGsS89zLghr6QWUBv6oMDJsXrHwKiPiNtBHrEmte2jso88QrE3qeWkadUyCkJxfFIxDkORlcwl3GG1rlS95GLpDr+eTsB61OojC1C7CNirAIeiDS9w9jXKXiWE3PF4gVzPpnIeCg1Mg9inZVPzazJrHMF6b23UIWMpNLRjxvlPNweifvGUNMsefojpI/RbzPK98+Fpu6AYj5MZyAmLxop+EPtKGLp+jDW6lCItA9ez1hKkZQcT8L9UUMYA1zmraUUcCYWp/C6eTaKwYcJc71dmHkrLW9AqC7Dj2QCMooVAJ+NcwaS7LS91p0qa/8NWagBnC4q7hLyCxPDaKlzczxVAGZ2+qHamSVdv7/jEVDmMfX6t7F7v0KUIxhgrhLCfQJv5JxRO7Nl7L/8yirYPJ7AMuzmcwaq7Yt/+jecovf4i7sOn4t2GkUVbCKJvRAiGoXGFTfPFU8ap73uDECbnjAWRe9Htx2CD3KBuqjHoGwbOEaBurv95rRJq5U+5HNsVExuhuvfV+ZJwZdghPQZBikWwoOg7neHYv6YOatqOA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(376002)(366004)(136003)(396003)(346002)(39830400003)(26005)(38350700002)(41300700001)(9686003)(6512007)(8936002)(38100700002)(1076003)(86362001)(316002)(33656002)(2906002)(6506007)(5660300002)(6666004)(186003)(33716001)(6486002)(83380400001)(54906003)(52116002)(66556008)(4326008)(8676002)(6916009)(66946007)(508600001)(66476007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jM6IOViHCwJM0ymS4tKWPGOMa+XKyJ1I0+d2hYYSq4y4xqyTB42Wg0TO2Lq8?=
- =?us-ascii?Q?J7SQyQIj3r6IsLdfsqtO1U6VDKusSo9Tm4RTsdX+EmRvL6Xoj2IyRyDFxQ/M?=
- =?us-ascii?Q?8aNnaLrIw+EgA0FJvq4zuAovh5VFZfJEoXy+31stiGIvrbyQHt86oh6B6+oX?=
- =?us-ascii?Q?8hk3qjXhoboGfZNzy+rpV9AqrByMMuH7FE4IwTdojs5gl//pWLhYGMAgfLnk?=
- =?us-ascii?Q?UphKOC5T02KJ4KlwKIQOcmsTwN41JNYariISC04mT14LYolivMNIJSicY7Yn?=
- =?us-ascii?Q?PIL7hPbtCRu+iEJW/KKZ4Lg2p+zLZEGM/s3Zyk+oVvRImbX3N7GbJKwKr1QP?=
- =?us-ascii?Q?wlF2BAYkIYeqr6B1ByD7zN2XQlKsRqD3oQjvOx86XjuXrI2B0m+32xPeB9IB?=
- =?us-ascii?Q?p4zcMY3HgaVhBcJ34IkaxRx9lV5zj9D5sJsp2BFskFtNHkiA2+pstJDjfiD1?=
- =?us-ascii?Q?Ou1M+lmzkT4zsklNFI+nZK6ZMsQx0Nm9ponzWJeTUK9kKVwfSp5I442+Ve9/?=
- =?us-ascii?Q?fx7wndkjqFYBYnHtTgCt9GENDKj7HAevs3EbIo8Y8X1MoCYelpaJxaYNmsOB?=
- =?us-ascii?Q?EBUkWmy4/RqGfccYm5yQeMBy57z0+sY33tapbTp6F+o1lRCWLzx+NyUbvTd0?=
- =?us-ascii?Q?DiXxbhpjjJ/1Wb8faRwF3UUUrAGDzIWYsnG1P/ii8fhuxBy4AOWcDIABtVX8?=
- =?us-ascii?Q?dPcf+FSNwRAxExEKNDR/KZqoQJ/pyMZhoYYvtlNmuaO+/S8j110snAFznP+d?=
- =?us-ascii?Q?nJyHXRt41hV+RjHPqCqAeG0RwSZNdhHGX0cV3XRdgRvmJPPQrb+LKIZoYkg4?=
- =?us-ascii?Q?vqT/go6pxAFzn11P6m8XCllp4Z2+PkO1SvnGwR3e6TP0cgEHJRwNRHc12Z3+?=
- =?us-ascii?Q?XJHhx6fNR+0FP3ddc5MmKZHGbU6ltjxTUz7hGypkrKqnjexlfb1yE5OiSElt?=
- =?us-ascii?Q?isrAuk5e/pzN5tyyZvDT90H7IgqIb1FfYLYbOXPHhVm32dITau1ax5YY1e6m?=
- =?us-ascii?Q?HuUaL7ifkmr6NWya9jiNh1FqjQDS3wJbuobkYwEw9A3i/FTlm53ddpBGpUpA?=
- =?us-ascii?Q?Hj1OC6LXecM2l5g3+eNR//gCMRHwG3TyHTWTsv/y+Picgkkemx+JbdnAGYBX?=
- =?us-ascii?Q?PJqEco46o9vppI/fd9e4PENs/+CWIAaUt1HztHA20y6VtirSCS9ILXUdYPJV?=
- =?us-ascii?Q?t6HQ+uD9R0g/epu+4aocPTlkMnB0xezuqM1cB4pi9a34vbtYk0kqkT4DSqpC?=
- =?us-ascii?Q?jszG82Q5l5Rfe1vQ7OqcfDD/zLcF+wfxAfoZnSP2tPLwXz9MhHlsprhvaw6A?=
- =?us-ascii?Q?L/HoFBExHJ0m8JlqfDkbp7znwSoFqeZqkHgBDgKlKQ7LMP/U/q1383LrC3BO?=
- =?us-ascii?Q?+c9WFL8cPe2wmZLwKRzyjrfPcV1dk0YZIxF/qqrFlPRPCyyFQDTPyLsb1h8O?=
- =?us-ascii?Q?GsG692h/qRfBCUqDQQYEss6jXYp1ICTD4PT7+BFDSkQpX6O36UFWIAbjbyeR?=
- =?us-ascii?Q?gnXR44nw2Rg28oA+Y56D0NfZsb9L48ykxym6yKurvJu3+CmaIxoXH/b8J4V6?=
- =?us-ascii?Q?38xqQ0VuxTVEf/gAcw2QHA0ggJWniOgWJ/jxiGuCWij5F+JtXL0uUPs0Asyh?=
- =?us-ascii?Q?GlsHibjvGQOrOA68bcRWAY9eYxC929RvN0olzee18f+QWt18UG3M3b13JXtu?=
- =?us-ascii?Q?sb2rDx3iolkGKJ6Va2Rj19pTwEhY+2LTKRDNnTenBq+nWsHp4t9F3zFOvOik?=
- =?us-ascii?Q?USv2QqfeYA=3D=3D?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bb51037-936a-45bb-2da3-08da45d70400
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2022 03:05:01.7658
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gDN9K7fG5XsUKo32W1ntBZMkIzK1SQPiyPJpQkpeCc6iBWXobbEtpMCBvng/bw145X7KaSf9VgFpw5SQbLIuVQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR08MB5257
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/2] HID: nintendo: fix face button mappings
+Content-Language: en-US
+To:     Roderick Colenbrander <thunderbird2k@gmail.com>
+Cc:     Max Fletcher <fletcher0max@gmail.com>,
+        "Daniel J. Ogorchock" <djogorchock@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+References: <20220512001500.16739-1-fletcher0max@gmail.com>
+ <CAEc3jaBbVT1t1kS_Vvp3EqfheCWr=CAvVgdzw7vkeFyYz9H_7Q@mail.gmail.com>
+ <eea10296-3c91-fe02-85b5-44de78733fbf@gmail.com>
+ <CAEc3jaBA=jf251T8w9hbRyHu2BnKXRvK5CD9DxyYMe_Q79H0CQ@mail.gmail.com>
+From:   Martino Fontana <tinozzo123@gmail.com>
+In-Reply-To: <CAEc3jaBA=jf251T8w9hbRyHu2BnKXRvK5CD9DxyYMe_Q79H0CQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -122,217 +80,142 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Krzysztof,
+I made a PR: https://github.com/libsdl-org/SDL/pull/5755.
 
-On Fri, Jun 03, 2022 at 12:16:00PM +0200, Krzysztof Kozlowski wrote:
-> The gpio-keys DT schema matches all properties with a wide pattern and
-> applies specific schema to children.  This has drawback - all regular
-> properties are also matched and are silently ignored, even if they are
-> not described in schema.  Basically this allows any non-object property
-> to be present.
+On 31/05/22 17:31, Roderick Colenbrander wrote:
+> On Tue, May 31, 2022 at 8:19 AM Martino Fontana <tinozzo123@gmail.com> wrote:
+>>
+>>   > Second, even if the patch was right it would be tricky to merge. The
+>>   > problem is that a changed mapping breaks user spaces and in general
+>>   > can't do this unless there is a really good reason. It just would
+>>   > break existing applications and libraries (often e.g. SDL)
+>>
+>> The problem is that the userspace is already broken.
+>> If, out of the box, you attempt to launch something that uses SDL (like
+>> Wine, or Super Tux Kart), the mapping you'll get will be wrong (and not
+>> visually, the buttons are literally swapped).
+>> Right now, this can be worked around (it makes the mapping correct) by
+>> setting an environment variable (which isn't a thing that a user is
+>> supposed to be doing, and the patch will remove the need of it):
+>> ```
+>> SDL_GAMECONTROLLERCONFIG=050000007e0500000920000001800000,Nintendo
+>> Switch Pro
+>> Controller,platform:Linux,a:b0,b:b1,x:b3,y:b2,back:b9,guide:b11,start:b10,leftstick:b12,rightstick:b13,leftshoulder:b5,rightshoulder:b6,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b7,righttrigger:b8,030000007e0500000920000011810000,Nintendo
+>> Switch Pro
+>> Controller,platform:Linux,a:b0,b:b1,x:b3,y:b2,back:b9,guide:b11,start:b10,leftstick:b12,rightstick:b13,leftshoulder:b5,rightshoulder:b6,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b7,righttrigger:b8,060000007e0500000620000000000000,Nintendo
+>> Switch Combined
+>> Joy-Cons,platform:Linux,a:b0,b:b1,x:b3,y:b2,back:b9,guide:b11,start:b10,leftstick:b12,rightstick:b13,leftshoulder:b5,rightshoulder:b6,dpup:b14,dpdown:b15,dpleft:b16,dpright:b17,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b7,righttrigger:b8,
+>> ```
+>> The weird thing however is that SDL should already uses a controller
+>> database:
+>> https://github.com/libsdl-org/SDL/blob/main/src/joystick/SDL_gamecontrollerdb.h.
+>> If this problem is caused by an SDL bug (I don't know if it is), then
+>> it's SDL that will need a patch, and the problem will be solved with
+>> zero repercussions. I think that SDL should be investigated before
+>> continuing to discuss this.
 > 
-> Enforce specific naming pattern for children (keys) to narrow the
-> pattern thus do not match other properties.  This will require all
-> children to be named with 'key-' prefix or '-key' suffix.
+> It looks like SDL lacks the patch to deal with the upstream driver
+> properly. The chicken and egg problem SDL there is between the kernel
+> and SDL, is that SDL supports a device prior to there being a kernel
+> driver (or there being enough penetration for one). Without a driver,
+> many devices function with an often strange mapping. That's the
+> mapping SDL has in its table (for hid-generic). When a kernel driver
+> comes around with a different, but proper mapping there is an issue.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../devicetree/bindings/input/gpio-keys.yaml  | 169 +++++++++---------
->  1 file changed, 83 insertions(+), 86 deletions(-)
+> At the time we first dealt with this for DualShock 3 / 4 devices. The
+> trick used then was to patch the 'version' bit of the HID device with
+> '0x8000'. This resulted in a different mapping line. To understand SDL
+> uses a GUID as the index for the table, it is composed of
+> vendor/product id, version id and other fiels. The patched version,
+> resulted in a different GUID, which then allowed SDL2 to recognize the
+> device properly as it would use a different mapping line.
 > 
-> diff --git a/Documentation/devicetree/bindings/input/gpio-keys.yaml b/Documentation/devicetree/bindings/input/gpio-keys.yaml
-> index 93f601c58984..49d388dc8d78 100644
-> --- a/Documentation/devicetree/bindings/input/gpio-keys.yaml
-> +++ b/Documentation/devicetree/bindings/input/gpio-keys.yaml
-> @@ -16,92 +16,89 @@ properties:
->        - gpio-keys-polled
->  
->  patternProperties:
-> -  ".*":
-> -    if:
-> -      type: object
-> -    then:
-> -      $ref: input.yaml#
-> -
-> -      properties:
-> -        gpios:
-> -          maxItems: 1
-> -
-> -        interrupts:
-> -          maxItems: 1
-> -
-> -        label:
-> -          description: Descriptive name of the key.
-> -
-> -        linux,code:
-> -          description: Key / Axis code to emit.
-> -          $ref: /schemas/types.yaml#/definitions/uint32
-> -
-> -        linux,input-type:
-> -          description:
-> -            Specify event type this button/key generates. If not specified defaults to
-> -            <1> == EV_KEY.
-> -          $ref: /schemas/types.yaml#/definitions/uint32
-> -
-> -          default: 1
-> -
-> -        linux,input-value:
-> -          description: |
-> -            If linux,input-type is EV_ABS or EV_REL then this
-> -            value is sent for events this button generates when pressed.
-> -            EV_ABS/EV_REL axis will generate an event with a value of 0
-> -            when all buttons with linux,input-type == type and
-> -            linux,code == axis are released. This value is interpreted
-> -            as a signed 32 bit value, e.g. to make a button generate a
-> -            value of -1 use:
-> -
-> -            linux,input-value = <0xffffffff>; /* -1 */
-> -
-> -          $ref: /schemas/types.yaml#/definitions/uint32
-> -
-> -        debounce-interval:
-> -          description:
-> -            Debouncing interval time in milliseconds. If not specified defaults to 5.
-> -          $ref: /schemas/types.yaml#/definitions/uint32
-> -
-> -          default: 5
-> -
-> -        wakeup-source:
-> -          description: Button can wake-up the system.
-> -
-> -        wakeup-event-action:
-> -          description: |
-> -            Specifies whether the key should wake the system when asserted, when
-> -            deasserted, or both. This property is only valid for keys that wake up the
-> -            system (e.g., when the "wakeup-source" property is also provided).
-> -
-> -            Supported values are defined in linux-event-codes.h:
-> -
-> -              EV_ACT_ANY        - both asserted and deasserted
-> -              EV_ACT_ASSERTED   - asserted
-> -              EV_ACT_DEASSERTED - deasserted
-> -          $ref: /schemas/types.yaml#/definitions/uint32
-> -          enum: [0, 1, 2]
-> -
-> -        linux,can-disable:
-> -          description:
-> -            Indicates that button is connected to dedicated (not shared) interrupt
-> -            which can be disabled to suppress events from the button.
-> -          type: boolean
-> -
-> -      required:
-> -        - linux,code
-> -
-> -      anyOf:
-> -        - required:
-> -            - interrupts
-> -        - required:
-> -            - gpios
-> -
-> -      dependencies:
-> -        wakeup-event-action: [ wakeup-source ]
-> -        linux,input-value: [ gpios ]
-> -
-> -      unevaluatedProperties: false
-> +  "^(key|key-[a-z0-9-]+|[a-z0-9-]+-key)$":
-
-Maybe this would be better as:
-
-"^((key|switch|axis)|(key|switch|axis)-[a-z0-9-]+|[a-z0-9-]+-(key|switch|axis))$":
-
-...or perhaps a more efficient version of my counter-proposal.
-
-The reason is because it is confusing to see a lid or dock switch named
-as "key-lid", etc.
-
-> +    $ref: input.yaml#
-> +
-> +    properties:
-> +      gpios:
-> +        maxItems: 1
-> +
-> +      interrupts:
-> +        maxItems: 1
-> +
-> +      label:
-> +        description: Descriptive name of the key.
-> +
-> +      linux,code:
-> +        description: Key / Axis code to emit.
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +      linux,input-type:
-> +        description:
-> +          Specify event type this button/key generates. If not specified defaults to
-> +          <1> == EV_KEY.
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +        default: 1
-> +
-> +      linux,input-value:
-> +        description: |
-> +          If linux,input-type is EV_ABS or EV_REL then this
-> +          value is sent for events this button generates when pressed.
-> +          EV_ABS/EV_REL axis will generate an event with a value of 0
-> +          when all buttons with linux,input-type == type and
-> +          linux,code == axis are released. This value is interpreted
-> +          as a signed 32 bit value, e.g. to make a button generate a
-> +          value of -1 use:
-> +
-> +          linux,input-value = <0xffffffff>; /* -1 */
-> +
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +      debounce-interval:
-> +        description:
-> +          Debouncing interval time in milliseconds. If not specified defaults to 5.
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +        default: 5
-> +
-> +      wakeup-source:
-> +        description: Button can wake-up the system.
-> +
-> +      wakeup-event-action:
-> +        description: |
-> +          Specifies whether the key should wake the system when asserted, when
-> +          deasserted, or both. This property is only valid for keys that wake up the
-> +          system (e.g., when the "wakeup-source" property is also provided).
-> +
-> +          Supported values are defined in linux-event-codes.h:
-> +
-> +            EV_ACT_ANY        - both asserted and deasserted
-> +            EV_ACT_ASSERTED   - asserted
-> +            EV_ACT_DEASSERTED - deasserted
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        enum: [0, 1, 2]
-> +
-> +      linux,can-disable:
-> +        description:
-> +          Indicates that button is connected to dedicated (not shared) interrupt
-> +          which can be disabled to suppress events from the button.
-> +        type: boolean
-> +
-> +    required:
-> +      - linux,code
-> +
-> +    anyOf:
-> +      - required:
-> +          - interrupts
-> +      - required:
-> +          - gpios
-> +
-> +    dependencies:
-> +      wakeup-event-action: [ wakeup-source ]
-> +      linux,input-value: [ gpios ]
-> +
-> +    unevaluatedProperties: false
->  
->  if:
->    properties:
-> -- 
-> 2.34.1
+> For the Switch controllers, it looks like no patched line was added.
+> Someone would need to provide a patch.
 > 
-
-Kind regards,
-Jeff LaBundy
+>> If, however, SDL is working as intended (making the patch necessary) and
+>> this patch is merged, it will make the mapping correct out of the box
+>> but it will also break a few things:
+>> - Those who were using this workaround will have to remove it (by the
+>> way, the page on the Arch Wiki should be updated too:
+>> https://wiki.archlinux.org/title/Gamepad#Using_hid-nintendo_with_SDL2_Games);
+>> - Applications that use raw joydev/evdev mappings (like Dolphin
+>> Emulator) will have to be reconfigured.
+>> - Also, some applications use SDL2 mappings in a different way (for
+>> example, PCSX2), so out of the box the mappings are applied and the
+>> controller is mapped as expected. Merging the patch will break
+>> applications like these (in PCSX2's case it will be temporary since its
+>> database is updated weekly, but it will force the user to use the new
+>> kernel version, otherwise they will be stuck with a wrong mapping).
+>>
+>> Whether it's a wise idea to merge this as soon as possible in order to
+>> cause the least amount amount of breakage, is not my call.
+>>
+>>
+>> On 13/05/22 21:58, Roderick Colenbrander wrote:
+>>> Hi Max,
+>>>
+>>> Thanks for your patch, however I must say the patch is not correct for
+>>> 2 reasons.
+>>>
+>>> Over the years different controllers have different layouts. The
+>>> standard which this driver (as well as others such as
+>>> hid-sony/hid-playstation) follow is the Linux gamepad standard (see
+>>> Documentation/input/gamepad.rst). It stays away of the debate what is
+>>> A/B/X/Y. It talks about North/west/.., (yes they are macros which map
+>>> to A/B/X/Y). In case of the Switch it does mean things are flipped,
+>>> but it was not meant to represent an Xbox controller. (Technically one
+>>> could argue that the Xbox controller should be flipped as it was the
+>>> SNES controller back in the days which introduced X/Y and the Switch
+>>> is still consistent with that.)
+>>>
+>>> Second, even if the patch was right it would be tricky to merge. The
+>>> problem is that a changed mapping breaks user spaces and in general
+>>> can't do this unless there is a really good reason. It just would
+>>> break existing applications and libraries (often e.g. SDL)
+>>>
+>>> Thanks,
+>>> Roderick
+>>>
+>>> On Wed, May 11, 2022 at 8:12 PM Max Fletcher <fletcher0max@gmail.com> wrote:
+>>>>
+>>>> Previously, A and B would match the Xbox layout, but X and Y were incorrectly swapped. This corrects it so that X and Y match the Xbox layout.
+>>>>
+>>>> Signed-off-by: Max Fletcher <fletcher0max@gmail.com>
+>>>> ---
+>>>>    drivers/hid/hid-nintendo.c | 10 +++++-----
+>>>>    1 file changed, 5 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+>>>> index 2204de889739..7735971ede3f 100644
+>>>> --- a/drivers/hid/hid-nintendo.c
+>>>> +++ b/drivers/hid/hid-nintendo.c
+>>>> @@ -1351,10 +1351,10 @@ static void joycon_parse_report(struct joycon_ctlr *ctlr,
+>>>>                   input_report_key(dev, BTN_START, btns & JC_BTN_PLUS);
+>>>>                   input_report_key(dev, BTN_THUMBR, btns & JC_BTN_RSTICK);
+>>>>                   input_report_key(dev, BTN_MODE, btns & JC_BTN_HOME);
+>>>> -               input_report_key(dev, BTN_WEST, btns & JC_BTN_Y);
+>>>> -               input_report_key(dev, BTN_NORTH, btns & JC_BTN_X);
+>>>> -               input_report_key(dev, BTN_EAST, btns & JC_BTN_A);
+>>>> -               input_report_key(dev, BTN_SOUTH, btns & JC_BTN_B);
+>>>> +               input_report_key(dev, BTN_X, btns & JC_BTN_Y);
+>>>> +               input_report_key(dev, BTN_Y, btns & JC_BTN_X);
+>>>> +               input_report_key(dev, BTN_B, btns & JC_BTN_A);
+>>>> +               input_report_key(dev, BTN_A, btns & JC_BTN_B);
+>>>>           }
+>>>>
+>>>>           input_sync(dev);
+>>>> @@ -1578,7 +1578,7 @@ static const unsigned int joycon_button_inputs_l[] = {
+>>>>
+>>>>    static const unsigned int joycon_button_inputs_r[] = {
+>>>>           BTN_START, BTN_MODE, BTN_THUMBR,
+>>>> -       BTN_SOUTH, BTN_EAST, BTN_NORTH, BTN_WEST,
+>>>> +       BTN_A, BTN_B, BTN_Y, BTN_X,
+>>>>           BTN_TR, BTN_TR2,
+>>>>           0 /* 0 signals end of array */
+>>>>    };
+>>>> --
+>>>> 2.35.3
+>>>>
+>>>
+>>>
