@@ -2,114 +2,191 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C7F353D3A6
-	for <lists+linux-input@lfdr.de>; Sat,  4 Jun 2022 00:33:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 014BD53D4C8
+	for <lists+linux-input@lfdr.de>; Sat,  4 Jun 2022 04:07:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349081AbiFCWd1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 3 Jun 2022 18:33:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36142 "EHLO
+        id S1348678AbiFDCH0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 3 Jun 2022 22:07:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348633AbiFCWd0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Jun 2022 18:33:26 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 615F12FE4A;
-        Fri,  3 Jun 2022 15:33:26 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id b135so8125903pfb.12;
-        Fri, 03 Jun 2022 15:33:26 -0700 (PDT)
+        with ESMTP id S1345631AbiFDCHY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Jun 2022 22:07:24 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E973313A9;
+        Fri,  3 Jun 2022 19:07:21 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id d12-20020a17090abf8c00b001e2eb431ce4so8367752pjs.1;
+        Fri, 03 Jun 2022 19:07:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=7spu2rzPMkeoBhrHijWu4VEzaLPZluC22QeM3SMgIcQ=;
-        b=hPoAlBVjQOROOx9g8K5qk9LkKK+3ku/GvGIHASJLthgVfiLgJ8s+CczNM+vyk2Akzo
-         3hBqvLNlBUgEcv50Rk2AbPLQPsLzCzlcVj0A7/wXBFxqCwCishZ2EG8MW2yk1Lg2u6AJ
-         CEggLktKGAlqdcClo/cyUqH+Z0Yc5+tsoG9J8xjxWrNQ1OBbY9ptoVF1E9Yia3VfESgf
-         MxQ7QgWIbb9bIeT0eAnme0LFKoHiEuK8wrNMTeN5iuUrlf8vqSulX5CshOMBRkA9iYSv
-         5JST09Gl8xORpI22eiHZh9+vB4HIFYAsFs+08ziC04DoGrN/sasjjUSQfdsXGqClDKZU
-         gqjw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vW/f8cKMH2tXPP5DERsOqeGBmSRqfZgMJ/o7YW6aZaA=;
+        b=O89rwX5Clw1y6HYOM9jUXOMzKZti5N0Bp8oLKBxvrTRsZr8SCMU6D50/Xw5iIbmGGM
+         Ea1Xvv8gSwcK2e3gcOVQKcmLIziYTVY+JelcKmeawLFWcsPQTFWu9K/Kp/Y2hu0wSTgL
+         vjmyus7ON2X6+em9CTi1xkd2xgqigHbYUOZLP/Wjv4XHPIZ8IJ5xBnUqX/Ubjmcps0FV
+         2PDoqXnen7va3NM6AB91gGtCr5ripbP7MeEgLab71Y8nUb+P3UY1GbTylYrGtetRLUA1
+         rdagm+MXQhnMSacHYAcsBDXcq9hOKumDJgyyVVre5UCzBsN1keZVZLFE1SGKyHU7uwwD
+         KV5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=7spu2rzPMkeoBhrHijWu4VEzaLPZluC22QeM3SMgIcQ=;
-        b=i6HvEYB3xTl7kE5lTDwaJPKvt9JLStivAVJlMA3UGOnr6oLZcKkpdBIvjS6ur16UDJ
-         H2x2kcCvuarEElmyi116GmW61Cjfr1EKypdbBlAOK1rimUoqSHHJn+34XQaVsO3A7q9R
-         AS/4a/+PJZA6Pcg6JPzA2tgWbAYvGELqinu/ROqioEHbjzRpar7BM5YqMY5UY6BpltPS
-         aVZHKwTa6fNwZvbe3JKvqBmomHIddi+CgVZ4Q9NB6wby65B44uxPaBVyvwbl3pF9zZh4
-         G03oDGDAjaalcKGrPLn2DJy/wRnvPBOW7PEL5v/JEuYNQUyxbmLuFiq+LaZVtsaORzTx
-         t21w==
-X-Gm-Message-State: AOAM5319qCKPb4xuZZU9YO2oFofb7VGTMopUHU8T5mfyFGOtmKdA34MZ
-        wQjnBcO0/SZoKf1vDYfToFXWH0xz7n8=
-X-Google-Smtp-Source: ABdhPJw9Ry/YCHEcc4m1fA4rhsLeyMXcDtco4DmSZoR4cxFOKRa4zbS8iDoByCq+2T5MojgVTivJFg==
-X-Received: by 2002:a65:6552:0:b0:3db:772a:2465 with SMTP id a18-20020a656552000000b003db772a2465mr10783786pgw.225.1654295605590;
-        Fri, 03 Jun 2022 15:33:25 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:aea8:f22c:dcaf:b60e])
-        by smtp.gmail.com with ESMTPSA id e3-20020a170902cf4300b0015e8d4eb29csm5807377plg.230.2022.06.03.15.33.24
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vW/f8cKMH2tXPP5DERsOqeGBmSRqfZgMJ/o7YW6aZaA=;
+        b=g2r5dEETsmLvuCKz3ogkoSssMxbIRcvbuFtpvzttVz4qdm8+ITXg67MJe1D4wL4gnt
+         XCC9H0zjkMG93bqVWUdjimhtNPs8LNjNtSXd2mbP7zP5IOmcZd3JbxGiR3IcvsCS1JTE
+         T2t09pg0iixhJjZPzvVVX1PsTY3HeF1MWSTx315n7pu+S/DZNxG6GCiGeSwI1TdjYAmw
+         iGhxmVE3hqGRuCY2Ssm+tRenUX6C/qZSYJVw/VtTeUepl0gEWhKBZE+zfRL+5wzBog9k
+         tNobfhwx2V3ynuU0gqWxNxUQOt8tScz6PqhBqOWRurxB9gEQQ66lgn3K6WUgXzdPPG4N
+         rA8A==
+X-Gm-Message-State: AOAM531MLZnRReOV1mxPhUk5hurQyYM0w8ub78jNAd4TD4BLuIMW9Gpf
+        +ydnZ/DkfSO51QeTL+igGzKiMwSdMf8=
+X-Google-Smtp-Source: ABdhPJy4Nue4jpg7LM+nr0HISR1+I5KCAXBSSOv4nxRiYB063+TcRbZ2N6mlkGz2ch+16XRWjLUgLA==
+X-Received: by 2002:a17:902:6b42:b0:15d:3603:6873 with SMTP id g2-20020a1709026b4200b0015d36036873mr12838922plt.30.1654308440641;
+        Fri, 03 Jun 2022 19:07:20 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-10.three.co.id. [180.214.233.10])
+        by smtp.gmail.com with ESMTPSA id c14-20020a170902c2ce00b0015e8d4eb207sm6060553pla.81.2022.06.03.19.07.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jun 2022 15:33:24 -0700 (PDT)
-Date:   Fri, 3 Jun 2022 15:33:22 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Marius Hoch <mail@mariushoch.de>,
-        Hans de Goede <hdegoede@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: soc_button_array - also add Lenovo Yoga Tablet2
- 1051F to dmi_use_low_level_irq
-Message-ID: <YpqMMmIH6Rr0RbeP@google.com>
-References: <20220603120246.3065-1-mail@mariushoch.de>
+        Fri, 03 Jun 2022 19:07:19 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        kernel test robot <lkp@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+        Nikolai Kondrashov <spbnick@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        llvm@lists.linux.dev, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4] HID: uclogic: properly format kernel-doc comment for hid_dbg() wrappers
+Date:   Sat,  4 Jun 2022 09:07:11 +0700
+Message-Id: <20220604020711.252312-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220603120246.3065-1-mail@mariushoch.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jun 03, 2022 at 02:02:46PM +0200, Marius Hoch wrote:
-> Commit 223f61b8c5ad ("Input: soc_button_array - add Lenovo Yoga Tablet2
-> 1051L to the dmi_use_low_level_irq list") added the 1051L to this list
-> already, but the same problem applies to the 1051F. As there are no
-> further 1051 variants (just the F/L), we can just DMI match 1051.
-> 
-> Tested on a Lenovo Yoga Tablet2 1051F: Without this patch the
-> home-button stops working after a wakeup from suspend.
-> 
-> Signed-off-by: Marius Hoch <mail@mariushoch.de>
+Running kernel-doc script on drivers/hid/hid-uclogic-params.c, it found
+6 warnings for hid_dbg() wrapper functions below:
 
-Adding Hans for his input...
+drivers/hid/hid-uclogic-params.c:48: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+drivers/hid/hid-uclogic-params.c:48: warning: missing initial short description on line:
+ * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+drivers/hid/hid-uclogic-params.c:48: info: Scanning doc for function Dump
+drivers/hid/hid-uclogic-params.c:80: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Dump tablet interface frame parameters with hid_dbg(), indented with two
+drivers/hid/hid-uclogic-params.c:80: warning: missing initial short description on line:
+ * Dump tablet interface frame parameters with hid_dbg(), indented with two
+drivers/hid/hid-uclogic-params.c:80: info: Scanning doc for function Dump
+drivers/hid/hid-uclogic-params.c:105: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Dump tablet interface parameters with hid_dbg().
+drivers/hid/hid-uclogic-params.c:105: warning: missing initial short description on line:
+ * Dump tablet interface parameters with hid_dbg().
 
-> ---
->  drivers/input/misc/soc_button_array.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-> index cbb1599a520e..480476121c01 100644
-> --- a/drivers/input/misc/soc_button_array.c
-> +++ b/drivers/input/misc/soc_button_array.c
-> @@ -85,13 +85,13 @@ static const struct dmi_system_id dmi_use_low_level_irq[] = {
->  	},
->  	{
->  		/*
-> -		 * Lenovo Yoga Tab2 1051L, something messes with the home-button
-> +		 * Lenovo Yoga Tab2 1051F/1051L, something messes with the home-button
->  		 * IRQ settings, leading to a non working home-button.
->  		 */
->  		.matches = {
->  			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
->  			DMI_MATCH(DMI_PRODUCT_NAME, "60073"),
-> -			DMI_MATCH(DMI_PRODUCT_VERSION, "1051L"),
-> +			DMI_MATCH(DMI_PRODUCT_VERSION, "1051"),
->  		},
->  	},
->  	{} /* Terminating entry */
-> -- 
-> 2.36.1
-> 
+One of them is reported by kernel test robot.
 
+Fix these warnings by properly format kernel-doc comment for these
+functions.
+
+Link: https://lore.kernel.org/linux-doc/202205272033.XFYlYj8k-lkp@intel.com/
+Fixes: a228809fa6f39c ("HID: uclogic: Move param printing to a function")
+Reported-by: kernel test robot <lkp@intel.com>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: José Expósito <jose.exposito89@gmail.com>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Nikolai Kondrashov <spbnick@gmail.com>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: llvm@lists.linux.dev
+Cc: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Changes since v3 [1]:
+   - Drom stable ML from CC list (in response to Greg KH reply)
+
+ [1]: https://lore.kernel.org/linux-doc/20220602082321.313143-1-bagasdotme@gmail.com/
+
+ drivers/hid/hid-uclogic-params.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
+index db838f16282d64..e5e65d849faa97 100644
+--- a/drivers/hid/hid-uclogic-params.c
++++ b/drivers/hid/hid-uclogic-params.c
+@@ -23,11 +23,11 @@
+ /**
+  * uclogic_params_pen_inrange_to_str() - Convert a pen in-range reporting type
+  *                                       to a string.
+- *
+  * @inrange:	The in-range reporting type to convert.
+  *
+- * Returns:
+- *	The string representing the type, or NULL if the type is unknown.
++ * Return:
++ * * The string representing the type, or
++ * * %NULL if the type is unknown.
+  */
+ static const char *uclogic_params_pen_inrange_to_str(
+ 				enum uclogic_params_pen_inrange inrange)
+@@ -45,10 +45,12 @@ static const char *uclogic_params_pen_inrange_to_str(
+ }
+ 
+ /**
+- * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+- *
++ * uclogic_params_pen_hid_dbg() - Dump tablet interface pen parameters
+  * @hdev:	The HID device the pen parameters describe.
+  * @pen:	The pen parameters to dump.
++ *
++ * Dump tablet interface pen parameters with hid_dbg(). The dump is indented
++ * with a tab.
+  */
+ static void uclogic_params_pen_hid_dbg(const struct hid_device *hdev,
+ 					const struct uclogic_params_pen *pen)
+@@ -77,11 +79,12 @@ static void uclogic_params_pen_hid_dbg(const struct hid_device *hdev,
+ }
+ 
+ /**
+- * Dump tablet interface frame parameters with hid_dbg(), indented with two
+- * tabs.
+- *
++ * uclogic_params_frame_hid_dbg() - Dump tablet interface frame parameters
+  * @hdev:	The HID device the pen parameters describe.
+  * @frame:	The frame parameters to dump.
++ *
++ * Dump tablet interface frame parameters with hid_dbg(). The dump is
++ * indented with two tabs.
+  */
+ static void uclogic_params_frame_hid_dbg(
+ 				const struct hid_device *hdev,
+@@ -102,10 +105,11 @@ static void uclogic_params_frame_hid_dbg(
+ }
+ 
+ /**
+- * Dump tablet interface parameters with hid_dbg().
+- *
++ * uclogic_params_hid_dbg() - Dump tablet interface parameters
+  * @hdev:	The HID device the parameters describe.
+  * @params:	The parameters to dump.
++ *
++ * Dump tablet interface parameters with hid_dbg().
+  */
+ void uclogic_params_hid_dbg(const struct hid_device *hdev,
+ 				const struct uclogic_params *params)
+
+base-commit: 1f952675835bfe18d6ae494a5581724d68c52352
 -- 
-Dmitry
+An old man doll... just what I always wanted! - Clara
+
