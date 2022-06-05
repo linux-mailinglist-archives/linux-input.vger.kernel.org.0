@@ -2,109 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B41853D91F
-	for <lists+linux-input@lfdr.de>; Sun,  5 Jun 2022 03:59:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE62553D999
+	for <lists+linux-input@lfdr.de>; Sun,  5 Jun 2022 06:10:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243048AbiFEB7D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 4 Jun 2022 21:59:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34146 "EHLO
+        id S238819AbiFEEKN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 5 Jun 2022 00:10:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240604AbiFEB7B (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 4 Jun 2022 21:59:01 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CBC52CE3B
-        for <linux-input@vger.kernel.org>; Sat,  4 Jun 2022 18:58:57 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id r82so19987612ybc.13
-        for <linux-input@vger.kernel.org>; Sat, 04 Jun 2022 18:58:57 -0700 (PDT)
+        with ESMTP id S241280AbiFEEKL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Jun 2022 00:10:11 -0400
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA25F4D276
+        for <linux-input@vger.kernel.org>; Sat,  4 Jun 2022 21:10:09 -0700 (PDT)
+Received: by mail-yb1-xb41.google.com with SMTP id v106so20363703ybi.0
+        for <linux-input@vger.kernel.org>; Sat, 04 Jun 2022 21:10:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to
+        h=mime-version:reply-to:from:date:message-id:subject:to
          :content-transfer-encoding;
-        bh=sLlIiVjOIj+IrlayL6I/MZBzwRGIE1mUMEt33xJvxRY=;
-        b=VrXTauZcG2ZxwBFo5wG3mGng0I+REWSJoYjeIjBMVS1zD1AKTagmktMv3g8f3jRjEJ
-         SZ00RFrhWLA4EAVOgU6zWCp0qxRkf7uoxhtbWj3N/rehz8LJiJlzB4Az6dOuTXZPs1Bn
-         DiHQOuagF540epTqYE6F/JpNBfCyvMbV8Ke3xaHjRaEB3qnevkXVU9hsU2XWfuiBGDr/
-         e3RCUg3bkcep3KXpAvQitLwWz1f1eSdrnqCc96xfbp7+hBd33uSbEs47twmyKV4epfnp
-         33tb2a8aS8naNSqztxvTXCRZNVDehTpvJRf3c17tRgxwu0YXRhrzQAuKSVWcXKS3icwN
-         PUhQ==
+        bh=3x72/ah7oVy1n7hZQ2TRq4JYjiu8oyFxE5Jon1kCtcA=;
+        b=m2MotxmnxmWCcLS1bCzOQl4JZVWyZ58OqqFbmIEb2MqVGfuY17hEKe33k+cBV2kTmF
+         hWNAxWuyuCL/R8Q2g06PdqUu26GZg5bpyJDSPirBXRCw8CFoiWk7DRX5TT1VMym/ZFNx
+         TYUwRs/th2AAmguHDsRe2K1x6V/ZMv1N0P0Cm5combCRsCce4mjoMhfeAoFziQnZXDVh
+         A1G9mdxEJmvd92/VghrdUlYslyXwqLycadENIAIdHWQ1lqHXvN7+JKDVbAmL/6RpddI+
+         JWJeIz4Fdrb8yvASx0ms5Rukjru6Ul476f0qP3471VIPva5N/BZglAipifkRI7eaO8wP
+         9vXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to:content-transfer-encoding;
-        bh=sLlIiVjOIj+IrlayL6I/MZBzwRGIE1mUMEt33xJvxRY=;
-        b=l807MUhZY2lvKuQg11DdM5BrLPWXbrcYwi0sMrJbjvdCfqfpiL+N3upvo4e4Nj8yPP
-         Ho6QKBcKbzBVwVQyhys+OAM2B0e/V6G/X0+bJf2weI8uDLAU91UGjXwMnn4XboLaagAI
-         ksRykjln6eEEB1uwbTBEZ7DiJ91KBATU+tL+2oz+By1RWE0+bmwHVR+62pIC9qEBEhnp
-         1Y9OYghWJisK3OILuyzOs/WAtHNJfNxb+8YlQrbK2JBKuR2luKjJVjyoj8hxsjljuKz7
-         VKUbUkBWaP8OClJdTkfmPM72FibgfwLlUL73Rscb/Hw4aKmp6ybhyg563BH2cPd/Spgi
-         dyPg==
-X-Gm-Message-State: AOAM531FROR2w68BbZwHcgtelIjzoYMWrsECYkPwc4/aHDB87l1fC8uR
-        v4Y4ZkqEKwvdYC8cCzJpm+VD0CF506t0Imm49P0=
-X-Google-Smtp-Source: ABdhPJxrggaEFhLzcFaHvKCF+5+Dc20iDCUL0rcMV2WFM2tYeUAy4E4UqEC7ZXjqjSFaeZhA1Ma0KV8Venc2A4H5qbU=
-X-Received: by 2002:a25:dc92:0:b0:659:fcb9:4ab4 with SMTP id
- y140-20020a25dc92000000b00659fcb94ab4mr18391285ybe.320.1654394336514; Sat, 04
- Jun 2022 18:58:56 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=3x72/ah7oVy1n7hZQ2TRq4JYjiu8oyFxE5Jon1kCtcA=;
+        b=BKret/kfQdlTjVktbpWMdTnD/m6yA0ZlJg6abNKV4U02t3im52pS/ytzuEXKMLDeh5
+         Y5EyxtkbJGtnFirb7KX1XWv3gQPJHcXzorwSF8Zdn30kgXmMIUvZMCfmwR+S+3maPFNv
+         5fXF4Tp9jjng71vhrbBhGd5XdDeeAyTVsxjZx2p2sEdAcrpeWX3/pvClJVeKrML/XIlr
+         SNgVQBo91+6tDvGkoTWkPh4oo2xvaggeo6rCL0cDPvM8cKCXVq3MmnZMohmfwqSARW7E
+         fdZ1+/kn8w/yJr735gNxPGoEgFpddFiD1uiiYkbaXb2ICO0G/DUW4cxd/HPpQQkreW/I
+         j2Ug==
+X-Gm-Message-State: AOAM532NJ0Mouithx/ewsH+8Xm2TJqwkQM+dlZmdMLys/TtbNdozBrSL
+        YROaM2kYgNTX7FIyIkdK//TMNAPSeDBnK2PcvMQ=
+X-Google-Smtp-Source: ABdhPJyLuRyUqVo3qdwlHYox5OP+26Yo7OSjr/7agA+lqVWiNNWcxczs5eIyKKGKzkDGwAvnuMLbFFGjNkiLzR3jpRA=
+X-Received: by 2002:a25:d609:0:b0:65c:f2a1:6cf0 with SMTP id
+ n9-20020a25d609000000b0065cf2a16cf0mr19059420ybg.417.1654402208855; Sat, 04
+ Jun 2022 21:10:08 -0700 (PDT)
 MIME-Version: 1.0
-Sender: drfranksaxxxx2@gmail.com
-Received: by 2002:a05:7108:298d:0:0:0:0 with HTTP; Sat, 4 Jun 2022 18:58:56
- -0700 (PDT)
-From:   MRS HANNAH VANDRAD <h.vandrad@gmail.com>
-Date:   Sat, 4 Jun 2022 18:58:56 -0700
-X-Google-Sender-Auth: P9upt7AOMkTpweaHFS0KZC55RlQ
-Message-ID: <CAGnkwZ5CF++sK1Ti8bzvUe1JP0LS0yksfbJ0=U2xPj5MFO6qxw@mail.gmail.com>
-Subject: Greetings dear
+Received: by 2002:a05:6918:7906:b0:bd:b847:5058 with HTTP; Sat, 4 Jun 2022
+ 21:10:08 -0700 (PDT)
+Reply-To: mrstheresaheidi8@gmail.com
+From:   Ms Theresa Heidi <hovossourafiatou@gmail.com>
+Date:   Sat, 4 Jun 2022 21:10:08 -0700
+Message-ID: <CAJK1sRR_+Qs6M9rpHEXnVUeYBSMqjZ541mBfJE-M+cuuLAj3+w@mail.gmail.com>
+Subject: =?UTF-8?B?5oCl5LqL5rGC5Yqp77yB?=
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=4.9 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
-        LOTS_OF_MONEY,MONEY_FRAUD_8,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no
+Content-Transfer-Encoding: base64
+X-Spam-Status: Yes, score=7.6 required=5.0 tests=BAYES_99,BAYES_999,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:b41 listed in]
+        [list.dnswl.org]
+        *  0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
+        *      [score: 1.0000]
+        *  3.5 BAYES_99 BODY: Bayes spam probability is 99 to 100%
+        *      [score: 1.0000]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [mrstheresaheidi8[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [hovossourafiatou[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Greetings dear
-
-
-   This letter might be a surprise to you, But I believe that you will
-be honest to fulfill my final wish. I bring peace and love to you. It
-is by the grace of god, I had no choice than to do what is lawful and
-right in the sight of God for eternal life and in the sight of man for
-witness of god=E2=80=99s mercy and glory upon my life. My dear, I sent this
-mail praying it will find you in a good condition, since I myself am
-in a very critical health condition in which I sleep every night
-without knowing if I may be alive to see the next day. I am Mrs.Hannah
-Vandrad, a widow suffering from a long time illness. I have some
-funds I inherited from my late husband, the sum of ($11,000,000.00,)
-my Doctor told me recently that I have serious
-sickness which is a cancer problem. What disturbs me most is my stroke
-sickness. Having known my condition, I decided to donate this fund to
-a good person that will utilize it the way I am going to instruct
-herein. I need a very honest and God fearing person who can claim this
-money and use it for Charity works, for orphanages and gives justice
-and help to the poor, needy and widows says The Lord." Jeremiah
-22:15-16.=E2=80=9C and also build schools for less privilege that will be
-named after my late husband if possible and to promote the word of god
-and the effort that the house of god is maintained.
-
- I do not want a situation where this money will be used in an ungodly
-manner. That's why I'm taking this decision. I'm not afraid of death,
-so I know where I'm going. I accept this decision because I do not
-have any child who will inherit this money after I die. Please I want
-your sincere and urgent answer to know if you will be able to execute
-this project, and I will give you more information on how the fund
-will be transferred to your bank account. May the grace, peace, love
-and the truth in the Word of god be with you and all those that you
-love and  care for.
-
-I am waiting for your reply.
-
-May God Bless you,
-
- Mrs. Hannah Vandrad
+5oWI5ZaE5o2Q5qy+77yBDQoNCuivt+S7lOe7humYheivu++8jOaIkeefpemBk+i/meWwgeS/oeeh
+ruWunuWPr+iDveS8mue7meS9oOS4gOS4quaDiuWWnOOAgiDmiJHlnKjpnIDopoHkvaDluK7liqnn
+moTml7blgJnpgJrov4fnp4HkurrmkJzntKLpgYfliLDkuobkvaDnmoTnlLXlrZDpgq7ku7bogZTn
+s7vjgIINCuaIkeaAgOedgOayiemHjeeahOaCsuS8pOWGmei/meWwgemCruS7tue7meS9oO+8jOaI
+kemAieaLqemAmui/h+S6kuiBlOe9keS4juS9oOiBlOezu++8jOWboOS4uuWug+S7jeeEtuaYr+ac
+gOW/q+eahOayn+mAmuWqkuS7i+OAgg0KDQrmiJHmmK82MuWygeeahOeJueiVvuiOjirmtbfokoLl
+pKvkurrvvIznm67liY3lm6DogrrnmYzlnKjku6XoibLliJfnmoTkuIDlrrbnp4Hnq4vljLvpmaLk
+vY/pmaLmsrvnlpfjgIINCjTlubTliY3vvIzmiJHnmoTkuIjlpKvljrvkuJblkI7vvIzmiJHnq4vl
+jbPooqvor4rmlq3lh7rmgqPmnInogrrnmYzvvIzku5bmiorku5bmiYDmnInnmoTkuIDliIfpg73n
+lZnnu5nkuobmiJHjgIIg5oiR5bim552A5oiR55qE56yU6K6w5pys55S16ISR5Zyo5LiA5a625Yy7
+6Zmi6YeM77yM5oiR5LiA55u05Zyo5o6l5Y+X6IK66YOo55mM55eH55qE5rK755aX44CCDQoNCuaI
+keS7juaIkeW3suaVheeahOS4iOWkq+mCo+mHjOe7p+aJv+S6huS4gOeslOi1hOmHke+8jOWPquac
+iTI1MOS4h+e+juWFg++8iDI1MOS4h+e+juWFg++8ieOAgueOsOWcqOW+iOaYjuaYvu+8jOaIkeat
+o+WcqOaOpei/keeUn+WRveeahOacgOWQjuWHoOWkqe+8jOaIkeiupOS4uuaIkeS4jeWGjemcgOim
+gei/meeslOmSseS6huOAgg0K5oiR55qE5Yy755Sf6K6p5oiR5piO55m977yM55Sx5LqO6IK655mM
+55qE6Zeu6aKY77yM5oiR5LiN5Lya5oyB57ut5LiA5bm044CCDQoNCui/meeslOmSsei/mOWcqOWb
+veWklumTtuihjO+8jOeuoeeQhuWxguS7peecn+ato+eahOS4u+S6uueahOi6q+S7veWGmeS/oee7
+meaIke+8jOimgeaxguaIkeWHuumdouaUtumSse+8jOaIluiAheetvuWPkeaOiOadg+S5pu+8jOiu
+qeWIq+S6uuS7o+aIkeaUtumSse+8jOWboOS4uuaIkeeUn+eXheS4jeiDvei/h+adpeOAgg0K5aaC
+5p6c5LiN6YeH5Y+W6KGM5Yqo77yM6ZO26KGM5Y+v6IO95Lya5Zug5Li65L+d5oyB6L+Z5LmI6ZW/
+5pe26Ze06ICM6KKr5rKh5pS26LWE6YeR44CCDQoNCuaIkeWGs+WumuS4juaCqOiBlOezu++8jOWm
+guaenOaCqOaEv+aEj+W5tuacieWFtOi2o+W4ruWKqeaIkeS7juWkluWbvemTtuihjOaPkOWPlui/
+meeslOmSse+8jOeEtuWQjuWwhui1hOmHkeeUqOS6juaFiOWWhOS6i+S4mu+8jOW4ruWKqeW8seWK
+v+e+pOS9k+OAgg0K5oiR6KaB5L2g5Zyo5oiR5Ye65LqL5LmL5YmN55yf6K+a5Zyw5aSE55CG6L+Z
+5Lqb5L+h5omY5Z+66YeR44CCIOi/meS4jeaYr+S4gOeslOiiq+ebl+eahOmSse+8jOS5n+ayoeac
+iea2ieWPiueahOWNsemZqeaYrzEwMCXnmoTpo47pmanlhY3otLnkuI7lhYXliIbnmoTms5Xlvovo
+r4HmmI7jgIINCg0K5oiR6KaB5L2g5ou/NDUl55qE6ZKx57uZ5L2g5Liq5Lq65L2/55So77yM6ICM
+NTUl55qE6ZKx5bCG55So5LqO5oWI5ZaE5bel5L2c44CCDQrmiJHlsIbmhJ/osKLmgqjlnKjov5nk
+u7bkuovkuIrmnIDlpKfnmoTkv6Hku7vlkozkv53lr4bvvIzku6Xlrp7njrDmiJHnmoTlhoXlv4Pm
+hL/mnJvvvIzlm6DkuLrmiJHkuI3mg7PopoHku7vkvZXkvJrljbHlj4rmiJHmnIDlkI7nmoTmhL/m
+nJvnmoTkuJzopb/jgIINCuaIkeW+iOaKseatie+8jOWmguaenOaCqOaUtuWIsOi/meWwgeS/oeWc
+qOaCqOeahOWeg+WcvumCruS7tu+8jOaYr+eUseS6juacgOi/keeahOi/nuaOpemUmeivr+WcqOi/
+memHjOeahOWbveWutuOAgg0KDQrkvaDkurLniLHnmoTlprnlprnjgIINCueJueiVvuiOjirmtbfo
+koLlpKvkuroNCg==
