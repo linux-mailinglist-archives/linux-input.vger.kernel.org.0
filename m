@@ -2,129 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE62553D999
-	for <lists+linux-input@lfdr.de>; Sun,  5 Jun 2022 06:10:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A08A53DAE2
+	for <lists+linux-input@lfdr.de>; Sun,  5 Jun 2022 10:45:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238819AbiFEEKN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 5 Jun 2022 00:10:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53410 "EHLO
+        id S244886AbiFEIpQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 5 Jun 2022 04:45:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241280AbiFEEKL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Jun 2022 00:10:11 -0400
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA25F4D276
-        for <linux-input@vger.kernel.org>; Sat,  4 Jun 2022 21:10:09 -0700 (PDT)
-Received: by mail-yb1-xb41.google.com with SMTP id v106so20363703ybi.0
-        for <linux-input@vger.kernel.org>; Sat, 04 Jun 2022 21:10:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=3x72/ah7oVy1n7hZQ2TRq4JYjiu8oyFxE5Jon1kCtcA=;
-        b=m2MotxmnxmWCcLS1bCzOQl4JZVWyZ58OqqFbmIEb2MqVGfuY17hEKe33k+cBV2kTmF
-         hWNAxWuyuCL/R8Q2g06PdqUu26GZg5bpyJDSPirBXRCw8CFoiWk7DRX5TT1VMym/ZFNx
-         TYUwRs/th2AAmguHDsRe2K1x6V/ZMv1N0P0Cm5combCRsCce4mjoMhfeAoFziQnZXDVh
-         A1G9mdxEJmvd92/VghrdUlYslyXwqLycadENIAIdHWQ1lqHXvN7+JKDVbAmL/6RpddI+
-         JWJeIz4Fdrb8yvASx0ms5Rukjru6Ul476f0qP3471VIPva5N/BZglAipifkRI7eaO8wP
-         9vXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=3x72/ah7oVy1n7hZQ2TRq4JYjiu8oyFxE5Jon1kCtcA=;
-        b=BKret/kfQdlTjVktbpWMdTnD/m6yA0ZlJg6abNKV4U02t3im52pS/ytzuEXKMLDeh5
-         Y5EyxtkbJGtnFirb7KX1XWv3gQPJHcXzorwSF8Zdn30kgXmMIUvZMCfmwR+S+3maPFNv
-         5fXF4Tp9jjng71vhrbBhGd5XdDeeAyTVsxjZx2p2sEdAcrpeWX3/pvClJVeKrML/XIlr
-         SNgVQBo91+6tDvGkoTWkPh4oo2xvaggeo6rCL0cDPvM8cKCXVq3MmnZMohmfwqSARW7E
-         fdZ1+/kn8w/yJr735gNxPGoEgFpddFiD1uiiYkbaXb2ICO0G/DUW4cxd/HPpQQkreW/I
-         j2Ug==
-X-Gm-Message-State: AOAM532NJ0Mouithx/ewsH+8Xm2TJqwkQM+dlZmdMLys/TtbNdozBrSL
-        YROaM2kYgNTX7FIyIkdK//TMNAPSeDBnK2PcvMQ=
-X-Google-Smtp-Source: ABdhPJyLuRyUqVo3qdwlHYox5OP+26Yo7OSjr/7agA+lqVWiNNWcxczs5eIyKKGKzkDGwAvnuMLbFFGjNkiLzR3jpRA=
-X-Received: by 2002:a25:d609:0:b0:65c:f2a1:6cf0 with SMTP id
- n9-20020a25d609000000b0065cf2a16cf0mr19059420ybg.417.1654402208855; Sat, 04
- Jun 2022 21:10:08 -0700 (PDT)
+        with ESMTP id S231216AbiFEIpQ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Jun 2022 04:45:16 -0400
+Received: from smtpbg.qq.com (smtpbg123.qq.com [175.27.65.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1D952188;
+        Sun,  5 Jun 2022 01:45:11 -0700 (PDT)
+X-QQ-mid: bizesmtp74t1654418637tb7nap4v
+Received: from localhost.localdomain ( [111.9.5.115])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Sun, 05 Jun 2022 16:43:43 +0800 (CST)
+X-QQ-SSF: 01000000002000C0G000B00A0000000
+X-QQ-FEAT: 3uawQE1sH+3FUqPkLPowtOQBuTZOvH5lvJD0mEeglnetACa1xLaHyTppTRY5+
+        7YyGFrySZNzQuDxCb1jwDaHHkNUT4cQY/mgTiKXMGrJxeCAOLSghvEbAu0j+kH1SDnjUytv
+        x/16oLI+0WISLmgZLybfrTo5rBK3PXKG9UMA5QKfhv/mo7gnsS2p897lDmLwF3qsRljEhOO
+        /7vTSXHbKn8JFo5QATHH2rQ1W/agpeUZAATu4UIpcKR1OwMmaNy0xKmsBBMidbxWA+2Y7Ht
+        PZ7zay6RK9OIjjh1uXBw0BaOp/W4hoMDHpb6NNqJtt2bq71u/PekI1CoXaAxBTOONw91+7r
+        92ReYfRI7LpCaZBQsQ=
+X-QQ-GoodBg: 0
+From:   Xiang wangx <wangxiang@cdjrlc.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, lains@riseup.net,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xiang wangx <wangxiang@cdjrlc.com>
+Subject: [PATCH] HID: logitech-hidpp: Fix syntax errors in comments
+Date:   Sun,  5 Jun 2022 16:43:43 +0800
+Message-Id: <20220605084343.10514-1-wangxiang@cdjrlc.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Received: by 2002:a05:6918:7906:b0:bd:b847:5058 with HTTP; Sat, 4 Jun 2022
- 21:10:08 -0700 (PDT)
-Reply-To: mrstheresaheidi8@gmail.com
-From:   Ms Theresa Heidi <hovossourafiatou@gmail.com>
-Date:   Sat, 4 Jun 2022 21:10:08 -0700
-Message-ID: <CAJK1sRR_+Qs6M9rpHEXnVUeYBSMqjZ541mBfJE-M+cuuLAj3+w@mail.gmail.com>
-Subject: =?UTF-8?B?5oCl5LqL5rGC5Yqp77yB?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: Yes, score=7.6 required=5.0 tests=BAYES_99,BAYES_999,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam8
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:b41 listed in]
-        [list.dnswl.org]
-        *  0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
-        *      [score: 1.0000]
-        *  3.5 BAYES_99 BODY: Bayes spam probability is 99 to 100%
-        *      [score: 1.0000]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [mrstheresaheidi8[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [hovossourafiatou[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-5oWI5ZaE5o2Q5qy+77yBDQoNCuivt+S7lOe7humYheivu++8jOaIkeefpemBk+i/meWwgeS/oeeh
-ruWunuWPr+iDveS8mue7meS9oOS4gOS4quaDiuWWnOOAgiDmiJHlnKjpnIDopoHkvaDluK7liqnn
-moTml7blgJnpgJrov4fnp4HkurrmkJzntKLpgYfliLDkuobkvaDnmoTnlLXlrZDpgq7ku7bogZTn
-s7vjgIINCuaIkeaAgOedgOayiemHjeeahOaCsuS8pOWGmei/meWwgemCruS7tue7meS9oO+8jOaI
-kemAieaLqemAmui/h+S6kuiBlOe9keS4juS9oOiBlOezu++8jOWboOS4uuWug+S7jeeEtuaYr+ac
-gOW/q+eahOayn+mAmuWqkuS7i+OAgg0KDQrmiJHmmK82MuWygeeahOeJueiVvuiOjirmtbfokoLl
-pKvkurrvvIznm67liY3lm6DogrrnmYzlnKjku6XoibLliJfnmoTkuIDlrrbnp4Hnq4vljLvpmaLk
-vY/pmaLmsrvnlpfjgIINCjTlubTliY3vvIzmiJHnmoTkuIjlpKvljrvkuJblkI7vvIzmiJHnq4vl
-jbPooqvor4rmlq3lh7rmgqPmnInogrrnmYzvvIzku5bmiorku5bmiYDmnInnmoTkuIDliIfpg73n
-lZnnu5nkuobmiJHjgIIg5oiR5bim552A5oiR55qE56yU6K6w5pys55S16ISR5Zyo5LiA5a625Yy7
-6Zmi6YeM77yM5oiR5LiA55u05Zyo5o6l5Y+X6IK66YOo55mM55eH55qE5rK755aX44CCDQoNCuaI
-keS7juaIkeW3suaVheeahOS4iOWkq+mCo+mHjOe7p+aJv+S6huS4gOeslOi1hOmHke+8jOWPquac
-iTI1MOS4h+e+juWFg++8iDI1MOS4h+e+juWFg++8ieOAgueOsOWcqOW+iOaYjuaYvu+8jOaIkeat
-o+WcqOaOpei/keeUn+WRveeahOacgOWQjuWHoOWkqe+8jOaIkeiupOS4uuaIkeS4jeWGjemcgOim
-gei/meeslOmSseS6huOAgg0K5oiR55qE5Yy755Sf6K6p5oiR5piO55m977yM55Sx5LqO6IK655mM
-55qE6Zeu6aKY77yM5oiR5LiN5Lya5oyB57ut5LiA5bm044CCDQoNCui/meeslOmSsei/mOWcqOWb
-veWklumTtuihjO+8jOeuoeeQhuWxguS7peecn+ato+eahOS4u+S6uueahOi6q+S7veWGmeS/oee7
-meaIke+8jOimgeaxguaIkeWHuumdouaUtumSse+8jOaIluiAheetvuWPkeaOiOadg+S5pu+8jOiu
-qeWIq+S6uuS7o+aIkeaUtumSse+8jOWboOS4uuaIkeeUn+eXheS4jeiDvei/h+adpeOAgg0K5aaC
-5p6c5LiN6YeH5Y+W6KGM5Yqo77yM6ZO26KGM5Y+v6IO95Lya5Zug5Li65L+d5oyB6L+Z5LmI6ZW/
-5pe26Ze06ICM6KKr5rKh5pS26LWE6YeR44CCDQoNCuaIkeWGs+WumuS4juaCqOiBlOezu++8jOWm
-guaenOaCqOaEv+aEj+W5tuacieWFtOi2o+W4ruWKqeaIkeS7juWkluWbvemTtuihjOaPkOWPlui/
-meeslOmSse+8jOeEtuWQjuWwhui1hOmHkeeUqOS6juaFiOWWhOS6i+S4mu+8jOW4ruWKqeW8seWK
-v+e+pOS9k+OAgg0K5oiR6KaB5L2g5Zyo5oiR5Ye65LqL5LmL5YmN55yf6K+a5Zyw5aSE55CG6L+Z
-5Lqb5L+h5omY5Z+66YeR44CCIOi/meS4jeaYr+S4gOeslOiiq+ebl+eahOmSse+8jOS5n+ayoeac
-iea2ieWPiueahOWNsemZqeaYrzEwMCXnmoTpo47pmanlhY3otLnkuI7lhYXliIbnmoTms5Xlvovo
-r4HmmI7jgIINCg0K5oiR6KaB5L2g5ou/NDUl55qE6ZKx57uZ5L2g5Liq5Lq65L2/55So77yM6ICM
-NTUl55qE6ZKx5bCG55So5LqO5oWI5ZaE5bel5L2c44CCDQrmiJHlsIbmhJ/osKLmgqjlnKjov5nk
-u7bkuovkuIrmnIDlpKfnmoTkv6Hku7vlkozkv53lr4bvvIzku6Xlrp7njrDmiJHnmoTlhoXlv4Pm
-hL/mnJvvvIzlm6DkuLrmiJHkuI3mg7PopoHku7vkvZXkvJrljbHlj4rmiJHmnIDlkI7nmoTmhL/m
-nJvnmoTkuJzopb/jgIINCuaIkeW+iOaKseatie+8jOWmguaenOaCqOaUtuWIsOi/meWwgeS/oeWc
-qOaCqOeahOWeg+WcvumCruS7tu+8jOaYr+eUseS6juacgOi/keeahOi/nuaOpemUmeivr+WcqOi/
-memHjOeahOWbveWutuOAgg0KDQrkvaDkurLniLHnmoTlprnlprnjgIINCueJueiVvuiOjirmtbfo
-koLlpKvkuroNCg==
+Delete the redundant word 'in'.
+
+Signed-off-by: Xiang wangx <wangxiang@cdjrlc.com>
+---
+ drivers/hid/hid-logitech-hidpp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 81de88ab2ecc..68f9e9d207f4 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -1694,7 +1694,7 @@ static int hidpp_battery_get_property(struct power_supply *psy,
+ 			val->strval = hidpp->hid_dev->uniq;
+ 			break;
+ 		case POWER_SUPPLY_PROP_VOLTAGE_NOW:
+-			/* hardware reports voltage in in mV. sysfs expects uV */
++			/* hardware reports voltage in mV. sysfs expects uV */
+ 			val->intval = hidpp->battery.voltage * 1000;
+ 			break;
+ 		case POWER_SUPPLY_PROP_CHARGE_TYPE:
+-- 
+2.36.1
+
