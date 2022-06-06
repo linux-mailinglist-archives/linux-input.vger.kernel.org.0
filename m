@@ -2,63 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77DC753DEA3
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jun 2022 00:36:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7544F53E013
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jun 2022 05:33:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348354AbiFEWgI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 5 Jun 2022 18:36:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57276 "EHLO
+        id S1349335AbiFFDdy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 5 Jun 2022 23:33:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244959AbiFEWgH (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Jun 2022 18:36:07 -0400
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7657337A3D;
-        Sun,  5 Jun 2022 15:36:06 -0700 (PDT)
-Received: by mail-qk1-f170.google.com with SMTP id az35so2608751qkb.3;
-        Sun, 05 Jun 2022 15:36:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qdL2h+CpB7Qp73uInrXQknZDwtjhnJMiR1ys7J8wUKg=;
-        b=K8sjgGRlTe1PDPw+Rvvc45VuL94iDn2+bCOKlsiygyPSkOsKJjCcGTfBly81Jlvf/H
-         Ai5xMDtXacyt8XSzUhKe4HmM0R0O3Dd71pFODxnkYU7sn+/k5XoQKXkabBiv4BbcIbaL
-         sH2fJp41boS5pKI6sHzT5oa7Y3aUxFBFt5x2zs1DYCYgeEiPOfF770CThQz8wbIpKERF
-         ZIAT2C4Vxs7cyAcnwfd0eZTGjwT7stCuKrbyXSI/cvMXE07aS6dKrRUe9rl3UFValqfA
-         pATKT3sdkkMy6+pNecvok/ewqb8JapAs2zhAgHXwhkkC3ab4o2wzqTGrsnldEf8hsBns
-         mRBA==
-X-Gm-Message-State: AOAM532dMR8wKgzVoidxjqxaVQruvil9xkhhT4pp+QJgNDXwmNVR1V6O
-        MuJtqJvRji8oU1InXhSuNQ==
-X-Google-Smtp-Source: ABdhPJxcqt/PoDG0WQ5Wt6/haRjT98u70HDtx6+YvKp5Fc9p2f5o+gZXGKA17Vxnzj4zMjyuUlf1bA==
-X-Received: by 2002:ae9:e50f:0:b0:6a6:a470:5 with SMTP id w15-20020ae9e50f000000b006a6a4700005mr8671243qkf.705.1654468565587;
-        Sun, 05 Jun 2022 15:36:05 -0700 (PDT)
-Received: from robh.at.kernel.org ([2607:fb90:1bdb:2e61:f12:452:5315:9c7e])
-        by smtp.gmail.com with ESMTPSA id y20-20020ac87c94000000b00304ea539edesm2054546qtv.16.2022.06.05.15.36.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jun 2022 15:36:05 -0700 (PDT)
-Received: (nullmailer pid 3653388 invoked by uid 1000);
-        Sun, 05 Jun 2022 22:36:03 -0000
-Date:   Sun, 5 Jun 2022 17:36:03 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Artur Rojek <contact@artur-rojek.eu>
-Cc:     Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, heiko@sntech.de,
-        krzysztof.kozlowski+dt@linaro.org, dmitry.torokhov@gmail.com,
-        maccraft123mc@gmail.com, Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: adc-joystick: bindings for
- adc-joystick-polled
-Message-ID: <20220605223603.GA3649253-robh@kernel.org>
-References: <20220601191730.29721-1-macroalpha82@gmail.com>
- <20220601191730.29721-2-macroalpha82@gmail.com>
- <db2795c639cc092e54980de6f3af3b01@artur-rojek.eu>
+        with ESMTP id S233696AbiFFDdx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Jun 2022 23:33:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5425237A38;
+        Sun,  5 Jun 2022 20:33:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C755C60EDE;
+        Mon,  6 Jun 2022 03:33:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 18083C341C0;
+        Mon,  6 Jun 2022 03:33:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654486430;
+        bh=TI4P18/3vyoUu1YoM1I93ZEGQv/UWUtMjgpV3is+1kU=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=tFJZusU1hxG2s1CJAu/uiv0E+bAvVegQhojDIoAHyJhGf2CpfQHdYfd63OYaXP0/3
+         tl9nzWxkaafABij8lqsZ5MrgoRiCJkmKhT6mUps3kQJJUcarzBWjvqhX+nnzU7KuuH
+         M1sITb9nLev16/CnmDOBLDR9sft1NqYa56mDK6TYh+XhuSxzBGaz00U17pkjsv1ykO
+         1xbqro3byn4WFq2ZXjDSp5Mx6gkf+iadKrRgaEInhfU6CUJOoXak/Exda99R6yHsRc
+         ZpeQ/WkQ7MtuWXRB2kZKovQ5cRR+ulL6ulkGtXTJWKxLQIUAMOP2Du9HlLMaTPj68u
+         6fltf6QTe+EWQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E9551E737F0;
+        Mon,  6 Jun 2022 03:33:49 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <db2795c639cc092e54980de6f3af3b01@artur-rojek.eu>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] dt-bindings: Fix properties without any type
+From:   patchwork-bot+chrome-platform@kernel.org
+Message-Id: <165448642995.20111.10251737230487275413.git-patchwork-notify@kernel.org>
+Date:   Mon, 06 Jun 2022 03:33:49 +0000
+References: <20220519211411.2200720-1-robh@kernel.org>
+In-Reply-To: <20220519211411.2200720-1-robh@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, krzk+dt@kernel.org,
+        thierry.reding@gmail.com, sam@ravnborg.org,
+        linus.walleij@linaro.org, brgl@bgdev.pl, dmitry.torokhov@gmail.com,
+        bleung@chromium.org, groeck@chromium.org, mchehab@kernel.org,
+        peda@axentia.se, davem@davemloft.net, kuba@kernel.org,
+        pabeni@redhat.com, kvalo@kernel.org, bhelgaas@google.com,
+        sre@kernel.org, mpm@selenic.com, herbert@gondor.apana.org.au,
+        gregkh@linuxfoundation.org, broonie@kernel.org, mripard@kernel.org,
+        dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
+        linux-input@vger.kernel.org, chrome-platform@lists.linux.dev,
+        linux-media@vger.kernel.org, netdev@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-serial@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-usb@vger.kernel.org
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,45 +69,29 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jun 01, 2022 at 09:44:43PM +0200, Artur Rojek wrote:
-> On 2022-06-01 21:17, Chris Morgan wrote:
-> > From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Hi Chris,
-> 
-> > 
-> > Add devicetree bindings for adc-joystick-polled.
-> > 
-> > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > ---
-> >  Documentation/devicetree/bindings/input/adc-joystick.yaml | 8 ++++++--
-> >  1 file changed, 6 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml
-> > b/Documentation/devicetree/bindings/input/adc-joystick.yaml
-> > index 2ee04e03bc22..a9d2ac157322 100644
-> > --- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
-> > +++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
-> > @@ -12,11 +12,15 @@ maintainers:
-> > 
-> >  description: >
-> >    Bindings for joystick devices connected to ADC controllers supporting
-> > -  the Industrial I/O subsystem.
-> > +  the Industrial I/O subsystem. Supports both polled devices where no
-> > +  iio trigger is available and non-polled devices which are triggered
-> > +  by iio.
-> > 
-> >  properties:
-> >    compatible:
-> > -    const: adc-joystick
-> > +    enum:
-> > +      - adc-joystick
-> > +      - adc-joystick-polled
-> 
-> There is no need to create a new compatible for your functionality. Instead,
-> just add a new (optional) property.
+Hello:
 
-Perhaps the already defined for input devices 'poll-interval'.
+This patch was applied to chrome-platform/linux.git (for-next)
+by Rob Herring <robh@kernel.org>:
 
-Rob
+On Thu, 19 May 2022 16:14:11 -0500 you wrote:
+> Now that the schema tools can extract type information for all
+> properties (in order to decode dtb files), finding properties missing
+> any type definition is fairly trivial though not yet automated.
+> 
+> Fix the various property schemas which are missing a type. Most of these
+> tend to be device specific properties which don't have a vendor prefix.
+> A vendor prefix is how we normally ensure a type is defined.
+> 
+> [...]
+
+Here is the summary with links:
+  - dt-bindings: Fix properties without any type
+    https://git.kernel.org/chrome-platform/c/4e71ed985389
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
