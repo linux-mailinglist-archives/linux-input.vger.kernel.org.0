@@ -2,105 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A937853E957
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jun 2022 19:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F5E553E9E1
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jun 2022 19:08:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235471AbiFFLg5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Jun 2022 07:36:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42554 "EHLO
+        id S239237AbiFFNso (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Jun 2022 09:48:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235553AbiFFLfQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Jun 2022 07:35:16 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2F1E1B7B1;
-        Mon,  6 Jun 2022 04:35:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654515314; x=1686051314;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=mqq/I6JH+2jc6rqeS+J0c5Od7x0FtTJYCRFam/X/jKg=;
-  b=hHaO0KZpSifBautd06hNy312GX7xF+otQFjJCA89/VSkWmamOJmTWIbJ
-   j9vxYCCw9goNGAa3J/F8JbYFGj097Icca0bOXQlYgntZ3W6ZQiGJarQvO
-   l0tmVStJUlfXA6nwmeLDukXI75GHFojv4gK+pfZYORC9wuGT0xNCg5aA/
-   BB7nK0WPHFIabH4rE7aY+M2PwLM1typgOw2XKnYXmnuoxjDAZuu09JEr/
-   Rb2VsEKYFuJTAMj0xUIH9RQC86/7XRM8g2Q4kAvMYKoJukLdQPbLzCi1L
-   EFmttjML6xPC0CR9FzTYsoF39bhRuZagigToK8K01vq7RCASXEHTbBkel
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10369"; a="257093549"
-X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; 
-   d="scan'208";a="257093549"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2022 04:35:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; 
-   d="scan'208";a="532095386"
-Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
-  by orsmga003.jf.intel.com with ESMTP; 06 Jun 2022 04:35:12 -0700
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-To:     rydberg@bitmath.org
-Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-        mathias.nyman@linux.intel.com, stable@vger.kernel.org
-Subject: [PATCH] Input: bcm5974 - Set missing URB_NO_TRANSFER_DMA_MAP urb flag
-Date:   Mon,  6 Jun 2022 14:36:36 +0300
-Message-Id: <20220606113636.588955-1-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S239234AbiFFNso (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Jun 2022 09:48:44 -0400
+Received: from mail.nfschina.com (unknown [IPv6:2400:dd01:100f:2:72e2:84ff:fe10:5f45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 911CB9EB52;
+        Mon,  6 Jun 2022 06:48:42 -0700 (PDT)
+Received: from localhost (unknown [127.0.0.1])
+        by mail.nfschina.com (Postfix) with ESMTP id CB56B1E80D76;
+        Mon,  6 Jun 2022 21:48:30 +0800 (CST)
+X-Virus-Scanned: amavisd-new at test.com
+Received: from mail.nfschina.com ([127.0.0.1])
+        by localhost (mail.nfschina.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id bqrMqcGi6c96; Mon,  6 Jun 2022 21:48:28 +0800 (CST)
+Received: from localhost.localdomain (unknown [180.167.10.98])
+        (Authenticated sender: liqiong@nfschina.com)
+        by mail.nfschina.com (Postfix) with ESMTPA id 96AA61E80D27;
+        Mon,  6 Jun 2022 21:48:27 +0800 (CST)
+From:   Li Qiong <liqiong@nfschina.com>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Pandruvada@lists.nfsmail.com,
+        Srinivas <srinivas.pandruvada@intel.com>,
+        Ye Xiang <xiang.ye@intel.com>, Even Xu <even.xu@intel.com>,
+        Li Qiong <liqiong@nfschina.com>
+Cc:     linux-kernel@vger.kernel.org, yuzhe@nfschina.com,
+        renyu@nfschina.com, linux-input@vger.kernel.org
+Subject: [PATCH 1/2] HID: intel-ish-hid: ipc: use time_before to replace "jiffies < a"
+Date:   Mon,  6 Jun 2022 21:47:50 +0800
+Message-Id: <20220606134750.20736-1-liqiong@nfschina.com>
+X-Mailer: git-send-email 2.11.0
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The bcm5974 driver does the allocation and dma mapping of the usb urb
-data buffer, but driver does not set the URB_NO_TRANSFER_DMA_MAP flag
-to let usb core know the buffer is already mapped.
+time_before deals with timer wrapping correctly.
 
-usb core tries to map the already mapped buffer, causing a warning:
-"xhci_hcd 0000:00:14.0: rejecting DMA map of vmalloc memory"
-
-Fix this by setting the URB_NO_TRANSFER_DMA_MAP, letting usb core
-know buffer is already mapped by bcm5974 driver
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Signed-off-by: Li Qiong <liqiong@nfschina.com>
 ---
- drivers/input/mouse/bcm5974.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/hid/intel-ish-hid/ipc/ipc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/mouse/bcm5974.c b/drivers/input/mouse/bcm5974.c
-index 59a14505b9cd..ca150618d32f 100644
---- a/drivers/input/mouse/bcm5974.c
-+++ b/drivers/input/mouse/bcm5974.c
-@@ -942,17 +942,22 @@ static int bcm5974_probe(struct usb_interface *iface,
- 	if (!dev->tp_data)
- 		goto err_free_bt_buffer;
+diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
+index 8ccb246b0114..15e14239af82 100644
+--- a/drivers/hid/intel-ish-hid/ipc/ipc.c
++++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
+@@ -578,7 +578,7 @@ static void _ish_sync_fw_clock(struct ishtp_device *dev)
+ 	static unsigned long	prev_sync;
+ 	uint64_t	usec;
  
--	if (dev->bt_urb)
-+	if (dev->bt_urb) {
- 		usb_fill_int_urb(dev->bt_urb, udev,
- 				 usb_rcvintpipe(udev, cfg->bt_ep),
- 				 dev->bt_data, dev->cfg.bt_datalen,
- 				 bcm5974_irq_button, dev, 1);
+-	if (prev_sync && jiffies - prev_sync < 20 * HZ)
++	if (prev_sync && time_before(jiffies, prev_sync + 20 * HZ))
+ 		return;
  
-+		dev->bt_urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
-+	}
-+
- 	usb_fill_int_urb(dev->tp_urb, udev,
- 			 usb_rcvintpipe(udev, cfg->tp_ep),
- 			 dev->tp_data, dev->cfg.tp_datalen,
- 			 bcm5974_irq_trackpad, dev, 1);
- 
-+	dev->tp_urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
-+
- 	/* create bcm5974 device */
- 	usb_make_path(udev, dev->phys, sizeof(dev->phys));
- 	strlcat(dev->phys, "/input0", sizeof(dev->phys));
+ 	prev_sync = jiffies;
 -- 
 2.25.1
 
