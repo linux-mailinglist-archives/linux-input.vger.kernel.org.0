@@ -2,96 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7544F53E013
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jun 2022 05:33:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D179C53EB6F
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jun 2022 19:09:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349335AbiFFDdy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 5 Jun 2022 23:33:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55634 "EHLO
+        id S233657AbiFFKPz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Jun 2022 06:15:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233696AbiFFDdx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Jun 2022 23:33:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5425237A38;
-        Sun,  5 Jun 2022 20:33:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C755C60EDE;
-        Mon,  6 Jun 2022 03:33:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 18083C341C0;
-        Mon,  6 Jun 2022 03:33:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654486430;
-        bh=TI4P18/3vyoUu1YoM1I93ZEGQv/UWUtMjgpV3is+1kU=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=tFJZusU1hxG2s1CJAu/uiv0E+bAvVegQhojDIoAHyJhGf2CpfQHdYfd63OYaXP0/3
-         tl9nzWxkaafABij8lqsZ5MrgoRiCJkmKhT6mUps3kQJJUcarzBWjvqhX+nnzU7KuuH
-         M1sITb9nLev16/CnmDOBLDR9sft1NqYa56mDK6TYh+XhuSxzBGaz00U17pkjsv1ykO
-         1xbqro3byn4WFq2ZXjDSp5Mx6gkf+iadKrRgaEInhfU6CUJOoXak/Exda99R6yHsRc
-         ZpeQ/WkQ7MtuWXRB2kZKovQ5cRR+ulL6ulkGtXTJWKxLQIUAMOP2Du9HlLMaTPj68u
-         6fltf6QTe+EWQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E9551E737F0;
-        Mon,  6 Jun 2022 03:33:49 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S233746AbiFFKO5 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Jun 2022 06:14:57 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E62E515A420;
+        Mon,  6 Jun 2022 03:12:43 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id q15so11141392wrc.11;
+        Mon, 06 Jun 2022 03:12:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=Kc9pss6M5EdVd6bDsVFlb4mRLyBK68pzKpY9UHLCNLQ=;
+        b=PAsde7FE0eY245VPPyo/QV2ScdBZkyuRErqW696uwoJ7Xglgd7Vi4eX5uTqdz81P9y
+         ty2d2NjBH975NDBE/zAw4mearKzN63EVJEe9t1TwxJdnqjrrQ3vdulAk8+vCSk4MnOJb
+         S8L0cG4I98kMCbq0utiJxVNuFq5Ju8ijqzJB8oGpok6vXSL5J8JpZp5wNB5Hq8IaXK7U
+         9GVM+jtZ4EZdKLZUeGhAu5wy/0KrekP138W1lkRMCEDAczdSi5zydgVJGxxa96dBWNw5
+         fZcDOazXnTMSK8xuhAEM8YXkk+xd1nf1ZmZp6DRbTTFlDMi1QjjhMjfY1k94P+3kwWUl
+         z1Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Kc9pss6M5EdVd6bDsVFlb4mRLyBK68pzKpY9UHLCNLQ=;
+        b=T54815JEF12I5ibGoa63UKtdyS7WJCerDReZN/kyAZCngsX6bTL3m5LtkGakeom52H
+         KnIPK8uBT9c1REWzhFDAO1BL9ZY25ToDRqSDrY1b3BArpu7XmosY2qovSe3C+seBFsiz
+         nHWOszK+TzN8ot2KHBy6t/B4YGBoMHr4Byds1CREMR91NZPhwerx/RqWGfSX8j9MCJDp
+         agJCtAKczxrCaLaL1/MAurOpW131tE7xgTmmh1MN6dDiCP7lJnh4/+7ijWUidwkAYQvR
+         Bjx8rDhTUUcDt0exisvw64UxkZpt/8ZeKzESpcPojwMDzynCfjcEcBScvDW+fFGUc1Hp
+         3yeQ==
+X-Gm-Message-State: AOAM5333Lb7Ra3vrh/kSZdob22RpFvN47WcUAiWU3TtpBTvbTLCEIOYn
+        MVVp2O5O8IU/qaQNeAY8ZYNS+RF8xOBo8A==
+X-Google-Smtp-Source: ABdhPJxfzuPe49YNxWdW/gGPul24wHOZAPedrL65hAqJIBMCmHrfWfuPReHDT2XMFXFZF2kwTBccdg==
+X-Received: by 2002:adf:dd8e:0:b0:213:bbe1:ba56 with SMTP id x14-20020adfdd8e000000b00213bbe1ba56mr15223637wrl.559.1654510362390;
+        Mon, 06 Jun 2022 03:12:42 -0700 (PDT)
+Received: from elementary ([94.73.36.128])
+        by smtp.gmail.com with ESMTPSA id j3-20020a5d4643000000b002103a7c5c91sm14484690wrs.43.2022.06.06.03.12.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jun 2022 03:12:42 -0700 (PDT)
+Date:   Mon, 6 Jun 2022 12:12:37 +0200
+From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stefanberzl@gmail.com, dlatypov@google.com,
+        kunit-dev@googlegroups.com
+Subject: Re: [PATCH v3 0/4] Add support for XP-PEN Deco L
+Message-ID: <20220606101237.GA939277@elementary>
+References: <20220531181246.190729-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] dt-bindings: Fix properties without any type
-From:   patchwork-bot+chrome-platform@kernel.org
-Message-Id: <165448642995.20111.10251737230487275413.git-patchwork-notify@kernel.org>
-Date:   Mon, 06 Jun 2022 03:33:49 +0000
-References: <20220519211411.2200720-1-robh@kernel.org>
-In-Reply-To: <20220519211411.2200720-1-robh@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, krzk+dt@kernel.org,
-        thierry.reding@gmail.com, sam@ravnborg.org,
-        linus.walleij@linaro.org, brgl@bgdev.pl, dmitry.torokhov@gmail.com,
-        bleung@chromium.org, groeck@chromium.org, mchehab@kernel.org,
-        peda@axentia.se, davem@davemloft.net, kuba@kernel.org,
-        pabeni@redhat.com, kvalo@kernel.org, bhelgaas@google.com,
-        sre@kernel.org, mpm@selenic.com, herbert@gondor.apana.org.au,
-        gregkh@linuxfoundation.org, broonie@kernel.org, mripard@kernel.org,
-        dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
-        linux-input@vger.kernel.org, chrome-platform@lists.linux.dev,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-serial@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-usb@vger.kernel.org
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220531181246.190729-1-jose.exposito89@gmail.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello:
+Hi,
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Rob Herring <robh@kernel.org>:
-
-On Thu, 19 May 2022 16:14:11 -0500 you wrote:
-> Now that the schema tools can extract type information for all
-> properties (in order to decode dtb files), finding properties missing
-> any type definition is fairly trivial though not yet automated.
+On Tue, May 31, 2022 at 08:12:42PM +0200, José Expósito wrote:
+> Hello everyone,
 > 
-> Fix the various property schemas which are missing a type. Most of these
-> tend to be device specific properties which don't have a vendor prefix.
-> A vendor prefix is how we normally ensure a type is defined.
-> 
+> This patchset adds support for the UGEE XP-PEN Deco L tablet.
+> This device belongs to a family of tablets that must receive a chunk of
+> magic data in order to be enabled (named UGEE v2 internally).
+>
 > [...]
+>
+> ---
+> 
+> v1 - Initial version
+> https://lore.kernel.org/linux-input/20220518224702.1409327-1-jose.exposito89@gmail.com/
+> 
+> v2 - Fix some errors reported by the kernel test robot:
+> 
+>  - Add MODULE_DESCRIPTION/LICENSE/AUTHOR to hid-uclogic-rdesc-test.c
+>  - Remove unused variable in uclogic_params_ugee_v2_init
+>  - Add sparse __force anotation in the result of cpu_to_le16
+>  - Add DISABLE_STRUCTLEAK_PLUGIN for KUnit tests
+> 
+> https://lore.kernel.org/linux-input/20220518224702.1409327-1-jose.exposito89@gmail.com/T/
+> 
+> v3 - This version:
+> 
+>  - Improve Kconfig message
+>  - Add .kunitconfig. Thanks to Daniel Latypov for suggesting it in an
+>    unrelated patch:
+>    https://lore.kernel.org/dri-devel/CAGS_qxpV2SsihEdgXZ6+7N0dxLmdRANq+qE4iUZ2aNrf6vuLYg@mail.gmail.com/
 
-Here is the summary with links:
-  - dt-bindings: Fix properties without any type
-    https://git.kernel.org/chrome-platform/c/4e71ed985389
+As mentioned in the v3 changelog, I'm working on a DRM patch including
+a few KUnit tests [1].
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Some interesting highlights from the comments there:
 
+- It looks like the maintainers prefer to include a single symbol [2]
+to enable all tests in the subsystem.
 
+Jiří, Benjamin, how would you like to handle it? Would you prefer to
+have a symbol for each test (HID_UCLOGIC_KUNIT_TEST)? Or a symbol for
+all tests (HID_KUNIT_TEST)?
+
+- DISABLE_STRUCTLEAK_PLUGIN is not required [3]. I'd also need to
+remove it here.
+
+Jose
+
+[1] https://lore.kernel.org/dri-devel/20220530102017.471865-1-jose.exposito89@gmail.com/T/
+[2] https://lore.kernel.org/dri-devel/CABVgOSkCxu2xBnxwc6mO2AQaqzTbDf53PJzT2QvZNyLeumt5hg@mail.gmail.com/
+[3] https://lore.kernel.org/dri-devel/CAGS_qxpFO4ixW=08ZcdcD9J1kU=B3mwoBJkPW8AKu0sKs8aKfA@mail.gmail.com/
