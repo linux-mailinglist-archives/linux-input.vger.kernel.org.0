@@ -2,256 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61A7353EDFC
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jun 2022 20:43:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ECFA53F5AA
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jun 2022 07:52:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230154AbiFFSm7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Jun 2022 14:42:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54502 "EHLO
+        id S230144AbiFGFww (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Jun 2022 01:52:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230123AbiFFSm6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Jun 2022 14:42:58 -0400
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BA831A04B0;
-        Mon,  6 Jun 2022 11:42:56 -0700 (PDT)
-Received: by mail-io1-f46.google.com with SMTP id y12so13160322ior.7;
-        Mon, 06 Jun 2022 11:42:56 -0700 (PDT)
+        with ESMTP id S230090AbiFGFwv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jun 2022 01:52:51 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE88C60D7;
+        Mon,  6 Jun 2022 22:52:49 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id v11-20020a17090a4ecb00b001e2c5b837ccso19839182pjl.3;
+        Mon, 06 Jun 2022 22:52:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=ogw5CSsvpaaXGZURlAkQnHXVkK1HBWHlB5QWz//Ik9Q=;
+        b=LSHDyPHNWYiPhd9aFhvXZeMZ7l4rvIUdgZGJc95z/p8IVMUsEMgDxxt4bYKW86cDH7
+         pcaKtpWuNM3QPl9spSZO0VuAtwE1hPOoL0ZRKRm6SfhpSeckvXmno0/S12AuAwEnMeXX
+         HMgN8aIf17IYruMqiEnz0a3vVNwTEhexIjHWZQc0mdVZleZ4CbvLFHEbPLwSd1jY0VdV
+         jj/2nGkeXFCwAONnjy1p/AwQVId4s/LieY7MXoXeiw9UdBQ+UfKIpNpk2QS9uGl7N/Vm
+         PSsvW/ghQcfYvRMvDqTTTeFpOLMQBs33vb7OTDnB3yQwpN14w+Gfld4Nj0Wexkp3PlYc
+         bbxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=v3EH5Ud1ia9pHiXc/1x/9CrXiVNDXe9p4RQEE8BsW8Q=;
-        b=Y/OlMJxtYbBr5dzdc0wqjMrus9HBqMaZ0SYltdJsaZMwA5S1jq5L8EDKEOUBtT/RPs
-         oeXlbK5YhftlffQlcizY9BlqA3Z58rpPo0U19zJUeklBO2kg8yuX9dWA8MMl+vGNhxDK
-         2FY8mdWMWvQzggP7pIghtGgpLfkTPAz1O/YNV+20LaGsksF5lvs1h02QkT+x9PBx3xYZ
-         bKAcOnWJgJ1BJepe3en1ofqAelF5FKNSszKp8mlxRooljZPbrlJCxA6zJyUjkgt0oOM/
-         kgVDVvlUV4Xg4bxFM9nHOsj1mTwzI8oP+2UXMRP2sy8rrZ97dsAsGOHMOc/9hgcLJo8o
-         uD9Q==
-X-Gm-Message-State: AOAM532+tMxeZIDLyK9ZRwMBNbY6n3FgNn6BDeO3dC5M9b28VVoyZxFr
-        DtipEhVsiWx7Z+E9tgCDVw==
-X-Google-Smtp-Source: ABdhPJykicPbd4l5VuYUBNpWEqEgIVCiwbp7IDshM5LUKwNUsZqLKJeDp22MIGU2/tVKIHbiM8QZBg==
-X-Received: by 2002:a02:ba82:0:b0:331:5aaf:e4b0 with SMTP id g2-20020a02ba82000000b003315aafe4b0mr13777880jao.196.1654540975731;
-        Mon, 06 Jun 2022 11:42:55 -0700 (PDT)
-Received: from xps15.herring.priv ([64.188.179.251])
-        by smtp.googlemail.com with ESMTPSA id q2-20020a5d87c2000000b0065a47e16f53sm5908060ios.37.2022.06.06.11.42.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 11:42:55 -0700 (PDT)
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: input: Convert adc-keys to DT schema
-Date:   Mon,  6 Jun 2022 13:42:42 -0500
-Message-Id: <20220606184243.1057145-1-robh@kernel.org>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=ogw5CSsvpaaXGZURlAkQnHXVkK1HBWHlB5QWz//Ik9Q=;
+        b=TGF0QH6+fBuvNdwzV4LPZAkhhumW2Zq3oPqdzKQlxhKrhCgnQSoVoymOCs3aIX5r3F
+         rM0SL0F79XLiC1L6EN9PUrqeDsP/gcSFMB9lN0OSFwjxi7MturoL1YOPd6yN42eyZChR
+         6h8HiNssTVWYdIdRJLqeUXXgp43/x3Tzib6XyPCVP9lFSN7/S27URh/SFCpS2jhuO4HH
+         HE+Ix1oUqCVhsQW3E65AD8t/cDiggIVX+nSyYeiZL2Za82PeBUHBZ7nUrOebVo88Z8Sp
+         zyFL2MoRyLXqMiQFsy9nKoylUa5K5oF2B/A+/+WiKgJqRgrnq9XgrMEKDYYtTFDSQVdp
+         lq8Q==
+X-Gm-Message-State: AOAM531c95CGnN3vJiwCoUmlOfS6XiDSeJpSLAGQhQrlajkPrBQaA2Xa
+        0tByBCeXB7Tfi+OO/bgk+RQ=
+X-Google-Smtp-Source: ABdhPJwKUJYnuFYDpS4HuEOMFjXq0u5VQn/ocFajz0YPO8VaBCHRtuFbVrX+4/4LfQ7g14HfCAgObw==
+X-Received: by 2002:a17:902:7449:b0:167:9520:d063 with SMTP id e9-20020a170902744900b001679520d063mr1592807plt.146.1654581169285;
+        Mon, 06 Jun 2022 22:52:49 -0700 (PDT)
+Received: from localhost.localdomain ([49.216.54.77])
+        by smtp.gmail.com with ESMTPSA id z41-20020a056a001da900b0051b62689ec2sm9203520pfw.129.2022.06.06.22.52.44
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 06 Jun 2022 22:52:48 -0700 (PDT)
+From:   cy_huang <u0084500@gmail.com>
+To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        lee.jones@linaro.org, broonie@kernel.org, dmitry.torokhov@gmail.com
+Cc:     lgirdwood@gmail.com, cy_huang@richtek.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: [PATCH 0/4] Add Richtek RT5120 PMIC support
+Date:   Tue,  7 Jun 2022 13:52:37 +0800
+Message-Id: <1654581161-12349-1-git-send-email-u0084500@gmail.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Convert the adc-keys binding to DT schema format.
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/input/adc-keys.txt    |  67 ------------
- .../devicetree/bindings/input/adc-keys.yaml   | 103 ++++++++++++++++++
- 2 files changed, 103 insertions(+), 67 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/adc-keys.txt
- create mode 100644 Documentation/devicetree/bindings/input/adc-keys.yaml
+This patch series is to add Richtek RT5120 PMIC support.
+In RT5120, it integrates four channels of buck converter, one channel of LDO,
+and one external enable channel to control the external power source.
 
-diff --git a/Documentation/devicetree/bindings/input/adc-keys.txt b/Documentation/devicetree/bindings/input/adc-keys.txt
-deleted file mode 100644
-index 6c8be6a9ace2..000000000000
---- a/Documentation/devicetree/bindings/input/adc-keys.txt
-+++ /dev/null
-@@ -1,67 +0,0 @@
--ADC attached resistor ladder buttons
--------------------------------------
--
--Required properties:
-- - compatible: "adc-keys"
-- - io-channels: Phandle to an ADC channel
-- - io-channel-names = "buttons";
-- - keyup-threshold-microvolt: Voltage above or equal to which all the keys are
--			      considered up.
--
--Optional properties:
--	- poll-interval: Poll interval time in milliseconds
--	- autorepeat: Boolean, Enable auto repeat feature of Linux input
--	  subsystem.
--
--Each button (key) is represented as a sub-node of "adc-keys":
--
--Required subnode-properties:
--	- label: Descriptive name of the key.
--	- linux,code: Keycode to emit.
--	- press-threshold-microvolt: voltage above or equal to which this key is
--				     considered pressed.
--
--No two values of press-threshold-microvolt may be the same.
--All values of press-threshold-microvolt must be less than
--keyup-threshold-microvolt.
--
--Example:
--
--#include <dt-bindings/input/input.h>
--
--	adc-keys {
--		compatible = "adc-keys";
--		io-channels = <&lradc 0>;
--		io-channel-names = "buttons";
--		keyup-threshold-microvolt = <2000000>;
--
--		button-up {
--			label = "Volume Up";
--			linux,code = <KEY_VOLUMEUP>;
--			press-threshold-microvolt = <1500000>;
--		};
--
--		button-down {
--			label = "Volume Down";
--			linux,code = <KEY_VOLUMEDOWN>;
--			press-threshold-microvolt = <1000000>;
--		};
--
--		button-enter {
--			label = "Enter";
--			linux,code = <KEY_ENTER>;
--			press-threshold-microvolt = <500000>;
--		};
--	};
--
--+--------------------------------+------------------------+
--| 2.000.000 <= value             | no key pressed         |
--+--------------------------------+------------------------+
--| 1.500.000 <= value < 2.000.000 | KEY_VOLUMEUP pressed   |
--+--------------------------------+------------------------+
--| 1.000.000 <= value < 1.500.000 | KEY_VOLUMEDOWN pressed |
--+--------------------------------+------------------------+
--|   500.000 <= value < 1.000.000 | KEY_ENTER pressed      |
--+--------------------------------+------------------------+
--|              value <   500.000 | no key pressed         |
--+--------------------------------+------------------------+
-diff --git a/Documentation/devicetree/bindings/input/adc-keys.yaml b/Documentation/devicetree/bindings/input/adc-keys.yaml
-new file mode 100644
-index 000000000000..a3a1af9550bc
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/adc-keys.yaml
-@@ -0,0 +1,103 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/adc-keys.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ADC attached resistor ladder buttons
-+
-+maintainers:
-+  - Heinrich Schuchardt <xypron.glpk@gmx.de>
-+  - Alexandre Belloni <alexandre.belloni@bootlin.com>
-+
-+allOf:
-+  - $ref: /schemas/input/input.yaml#
-+
-+properties:
-+  compatible:
-+    const: adc-keys
-+
-+  io-channels:
-+    maxItems: 1
-+
-+  io-channel-names:
-+    const: buttons
-+
-+  keyup-threshold-microvolt:
-+    description:
-+      Voltage above or equal to which all the keys are considered up.
-+
-+patternProperties:
-+  '^button-':
-+    type: object
-+    additionalProperties: false
-+    description:
-+      Each button (key) is represented as a sub-node.
-+
-+    properties:
-+      label: true
-+
-+      linux,code:
-+        description: Keycode to emit.
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+
-+      press-threshold-microvolt:
-+        description:
-+          Voltage above or equal to which this key is considered pressed. No
-+          two values of press-threshold-microvolt may be the same. All values
-+          of press-threshold-microvolt must be less than
-+          keyup-threshold-microvolt.
-+
-+    required:
-+      - label
-+      - linux,code
-+      - press-threshold-microvolt
-+
-+required:
-+  - compatible
-+  - io-channels
-+  - io-channel-names
-+  - keyup-threshold-microvolt
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/input/input.h>
-+    // +--------------------------------+------------------------+
-+    // | 2.000.000 <= value             | no key pressed         |
-+    // +--------------------------------+------------------------+
-+    // | 1.500.000 <= value < 2.000.000 | KEY_VOLUMEUP pressed   |
-+    // +--------------------------------+------------------------+
-+    // | 1.000.000 <= value < 1.500.000 | KEY_VOLUMEDOWN pressed |
-+    // +--------------------------------+------------------------+
-+    // |   500.000 <= value < 1.000.000 | KEY_ENTER pressed      |
-+    // +--------------------------------+------------------------+
-+    // |              value <   500.000 | no key pressed         |
-+    // +--------------------------------+------------------------+
-+
-+    adc-keys {
-+        compatible = "adc-keys";
-+        io-channels = <&lradc 0>;
-+        io-channel-names = "buttons";
-+        keyup-threshold-microvolt = <2000000>;
-+
-+        button-up {
-+            label = "Volume Up";
-+            linux,code = <KEY_VOLUMEUP>;
-+            press-threshold-microvolt = <1500000>;
-+        };
-+
-+        button-down {
-+            label = "Volume Down";
-+            linux,code = <KEY_VOLUMEDOWN>;
-+            press-threshold-microvolt = <1000000>;
-+        };
-+
-+        button-enter {
-+            label = "Enter";
-+            linux,code = <KEY_ENTER>;
-+            press-threshold-microvolt = <500000>;
-+        };
-+    };
-+...
+ChiYuan Huang (4):
+  dt-binding: mfd: Add Richtek RT5120 PMIC support
+  mfd: rt5120: Add Richtek PMIC support
+  regulator: rt5120: Add PMIC regulator support
+  input: misc: rt5120: Add power key support
+
+ .../devicetree/bindings/mfd/richtek,rt5120.yaml    | 180 +++++++++
+ drivers/input/misc/Kconfig                         |   9 +
+ drivers/input/misc/Makefile                        |   1 +
+ drivers/input/misc/rt5120-pwrkey.c                 | 115 ++++++
+ drivers/mfd/Kconfig                                |  12 +
+ drivers/mfd/Makefile                               |   1 +
+ drivers/mfd/rt5120.c                               | 125 ++++++
+ drivers/regulator/Kconfig                          |  10 +
+ drivers/regulator/Makefile                         |   1 +
+ drivers/regulator/rt5120-regulator.c               | 417 +++++++++++++++++++++
+ 10 files changed, 871 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/richtek,rt5120.yaml
+ create mode 100644 drivers/input/misc/rt5120-pwrkey.c
+ create mode 100644 drivers/mfd/rt5120.c
+ create mode 100644 drivers/regulator/rt5120-regulator.c
+
 -- 
-2.34.1
+2.7.4
 
