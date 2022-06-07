@@ -2,66 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA94253FA8A
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jun 2022 11:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF0C453FE06
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jun 2022 13:53:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240366AbiFGJ4b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Jun 2022 05:56:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40140 "EHLO
+        id S243219AbiFGLxw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Jun 2022 07:53:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240363AbiFGJ4R (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jun 2022 05:56:17 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CFB7E64F6
-        for <linux-input@vger.kernel.org>; Tue,  7 Jun 2022 02:56:16 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id u8so19039026wrm.13
-        for <linux-input@vger.kernel.org>; Tue, 07 Jun 2022 02:56:15 -0700 (PDT)
+        with ESMTP id S243294AbiFGLx2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jun 2022 07:53:28 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CF0F880FE
+        for <linux-input@vger.kernel.org>; Tue,  7 Jun 2022 04:52:59 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id v1so23987542ejg.13
+        for <linux-input@vger.kernel.org>; Tue, 07 Jun 2022 04:52:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=V78a4T+XxMalGYKe1sIzEqFdtRWisjMfkHNLxFh+Xuk=;
-        b=UeqdQBIqsmTGRwOHQ4Jr2DMdLBVll20hUXUFdLGxWG8ra3rbSiXdwhwfvcxi6jxztV
-         i6aqJsZzUxEreUYZeNgxdd9YOhQoRteN02H7LBm6qjZ6BQjJwadXjKxxOaxnaraVVy7a
-         ZFizSjhfoJIV63U9vkDwaZqYwzOR5lOMPm4KM=
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=piPevDvXMOwAc75XwvmVTymrw0B5BQHWDNrVAu3X6IE=;
+        b=wVIw55Q3WAwg7C7Av5gAgSOFfDBIdKq09Lx535E9Dn/Zzla0tDuR3s8WBffHGv5qm4
+         rJg7LOmUrJ6Yi3FNCkFdQBlLTLZpzDaBK4SFuSzZvxSeA7yPMDOa3H8SowTBar8tDQPM
+         xVBuPRnVM4dJRQUp1Mn577eUqZA8ICQ+t5lyFKBcogS060GdBASE4Ma0+uTBiWnTnGs0
+         J5bDZtJfnENlhi6zMHkB4AonbNSTrHOnBtoPy9d+b6oXu3grxWlJk2cxG9nPu3x8MKuI
+         NSIUVMd7oWZTt/9n/17aMElEvRp0dO6TESJE/nja3YZKca8JvqcySpi/JMgtxoWvZ7SS
+         2mbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=V78a4T+XxMalGYKe1sIzEqFdtRWisjMfkHNLxFh+Xuk=;
-        b=tXNgau8l4l/RbWj83EyYmweIITbah8jKBIrtrTDdEUU1PSCKQgK5ebDK+Ib7Wi3CSl
-         CjQ3WmDCh308O9sltEPhuRPDMgSf1U/u/mGkID5XEjgVnUu04m2NBEDvCagMt6np9xDJ
-         42zAncY6Zb9b0yUxcvEVwVHmaw7RLe7zLy+TjWcryfJlnx9k8z+l3vf1xhEEAzpm1Rnu
-         qPc5bTD1DGbWxDasHYyxrT9z7ZFWYVqmB9ugUrniAmRbpFuxK1YpghCNzf0EtDPsXrPD
-         v1RG9z8mLIYP0DYzvwr2upSmssO0mkhS0NF6XmVr3XHgn9x+3L2eq7YQYp8Z+TikLse/
-         yd3g==
-X-Gm-Message-State: AOAM532UGlSrLrmEr1sebJd2c/YMnIrODYVV/29ND0ZmYlNBBg0EUoll
-        6qtXyb7f75pMU2g8H3rehf6fsw==
-X-Google-Smtp-Source: ABdhPJwO+kWU+IzHL+lVRnPc+GnslQ5Ytmdq6j80L4b6d7DcHQa4us1UTPukfkGA9lvUlLytgMQwgg==
-X-Received: by 2002:adf:ecc9:0:b0:210:28d4:96a0 with SMTP id s9-20020adfecc9000000b0021028d496a0mr26093257wro.380.1654595774560;
-        Tue, 07 Jun 2022 02:56:14 -0700 (PDT)
-Received: from dario-ThinkPad-T14s-Gen-2i.pdxnet.pdxeng.ch (mob-5-90-137-51.net.vodafone.it. [5.90.137.51])
-        by smtp.gmail.com with ESMTPSA id b12-20020a5d4b8c000000b0020feb9c44c2sm17693546wrt.20.2022.06.07.02.56.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 02:56:14 -0700 (PDT)
-From:   Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-        Michael Trimarchi <michael@amarulasolutions.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Oliver Graute <oliver.graute@kococonnector.com>,
-        linux-input@vger.kernel.org
-Subject: [RESEND PATCH v4 6/6] Input: edt-ft5x06 - show crc and header errors by sysfs
-Date:   Tue,  7 Jun 2022 11:55:56 +0200
-Message-Id: <20220607095556.1034338-7-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220607095556.1034338-1-dario.binacchi@amarulasolutions.com>
-References: <20220607095556.1034338-1-dario.binacchi@amarulasolutions.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=piPevDvXMOwAc75XwvmVTymrw0B5BQHWDNrVAu3X6IE=;
+        b=YsmGyLhCWs/bW1VUlN4kiKZa/sfquXbAaVST3XVaGwk6E/VdxohFZHnHfho3DUqZBI
+         UmEz2/JtMkDB0WzKonJnU1sAqPGE/0gLWF4etAIXwAp3XHyVfrmtl6zlFHVUjuZhFpmi
+         qeJAWujnODbpzikW+ZE1XlA3DNZh2RbF6dsWLCuLDp5q3Qh86gadZptcCNGSWu/ofJVa
+         4wAvLc+inpbCKWGYVpI8rKZaAcW7JjVohMV3QOCVTq3fF9C21aV9Tlofo8vkZRZHRKhm
+         Vg1WhhjVr/xtP+VEE0R3MyqCrrd+fbMWPEPfwAlC8sQj5OYVdhD1G4lXru9zwLWmgXlv
+         fFvg==
+X-Gm-Message-State: AOAM530hOIZf8sxXlVJiEjDFg/cRi3NHUb1Xrjg8JYie0KSKMNUUb5/X
+        V7kLbZPeMKV8mvrrG/ZRgc6EgA==
+X-Google-Smtp-Source: ABdhPJylpNNk7xJhZOJCtrgQgkU74x1PYxnCIEo+xs0NtNCWCYhYQHsj29e7UbcnFvMwVi4kULs1tA==
+X-Received: by 2002:a17:907:1b05:b0:6f0:18d8:7be0 with SMTP id mp5-20020a1709071b0500b006f018d87be0mr25896461ejc.561.1654602777986;
+        Tue, 07 Jun 2022 04:52:57 -0700 (PDT)
+Received: from [192.168.0.183] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id m26-20020a50ef1a000000b0042bae6fbee2sm10087662eds.74.2022.06.07.04.52.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Jun 2022 04:52:57 -0700 (PDT)
+Message-ID: <96ecca0b-b65c-749d-d66b-33443cacf2e4@linaro.org>
+Date:   Tue, 7 Jun 2022 13:52:56 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/4] dt-binding: mfd: Add Richtek RT5120 PMIC support
+Content-Language: en-US
+To:     cy_huang <u0084500@gmail.com>, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
+        broonie@kernel.org, dmitry.torokhov@gmail.com
+Cc:     lgirdwood@gmail.com, cy_huang@richtek.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org
+References: <1654581161-12349-1-git-send-email-u0084500@gmail.com>
+ <1654581161-12349-2-git-send-email-u0084500@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1654581161-12349-2-git-send-email-u0084500@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -70,95 +77,221 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-M06 sends packets with header and crc for data verification. Now you can
-check at runtime how many packets have been dropped.
+On 07/06/2022 07:52, cy_huang wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Add Richtek RT5120 PMIC devicetree document.
+> 
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> ---
+>  .../devicetree/bindings/mfd/richtek,rt5120.yaml    | 180 +++++++++++++++++++++
+>  1 file changed, 180 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/richtek,rt5120.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/richtek,rt5120.yaml b/Documentation/devicetree/bindings/mfd/richtek,rt5120.yaml
+> new file mode 100644
+> index 00000000..376bf73
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/richtek,rt5120.yaml
+> @@ -0,0 +1,180 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/richtek,rt5120.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Richtek RT5120 PMIC
+> +
+> +maintainers:
+> +  - ChiYuan Huang <cy_huang@richtek.com>
+> +
+> +description: |
+> +  The RT5120 provides four high-efficiency buck converters and one LDO voltage
+> +  regulator. The device is targeted at providingthe processor voltage, memory,
+> +  I/O, and peripheral rails in home entertainment devices. The I2C interface is
+> +  used for dynamic voltage scaling of the processor voltage, power rails on/off
+> +  sequence control, operation mode selection.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - richtek,rt5120
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  interrupt-controller: true
+> +
+> +  "#interrupt-cells":
+> +    const: 1
+> +
+> +  wakeup-source: true
+> +
+> +  richtek,enable-undervolt-hiccup:
+> +    type: boolean
+> +    description: |
+> +      If used, under voltage protection trigger hiccup behavior, else latchup as
+> +      default
+> +
+> +  richtek,enable-overvolt-hiccup:
+> +    type: boolean
+> +    description:
+> +      Like as 'enable-uv-hiccup', it configures over voltage protection to
+> +      hiccup, else latchup as default
+> +
+> +  vin1-supply:
+> +    description: phandle for buck1 input power source
+> +
+> +  vin2-supply:
+> +    description: phandle for buck2 input power source
+> +
+> +  vin3-supply:
+> +    description: phandle for buck3 input power source
+> +
+> +  vin4-supply:
+> +    description: phandle for buck4 input power source
+> +
+> +  vinldo-supply:
+> +    description: phandle for ldo input power source
+> +
+> +  regulators:
+> +    type: object
+> +
+> +    patternProperties:
+> +      "^buck[1-4]$":
+> +        type: object
+> +        $ref: /schemas/regulator/regulator.yaml#
+> +
+> +        properties:
+> +          regulator-allowed-modes:
+> +            description: |
+> +              Used to specify the allowed buck converter operating mode
+> +              mode mapping:
+> +                0: auto mode
+> +                1: force pwm mode
+> +            items:
+> +              enum: [0, 1]
+> +
+> +        unevaluatedProperties: false
 
-Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
-Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Better to put it after '$ref' for readability.
 
----
+> +
+> +      "^(ldo|exten)$":
+> +        type: object
+> +        $ref: /schemas/regulator/regulator.yaml#
 
-(no changes since v2)
+You need here unevaluatedProperties:false as well (for the ldo/exten
+properties)
 
-Changes in v2:
-- Add Oliver Graute's 'Acked-by' tag to:
-  * Input: edt-ft5x06 - show model name by sysfs
-  * Input: edt-ft5x06 - show firmware version by sysfs
-- Fix yaml file. Tested with `make DT_CHECKER_FLAGS=-m dt_binding_check'.
+> +
+> +    additionalProperties: false
+> +
+> +  powerkey:
+> +    type: object
+> +    description:
+> +      The power key driver may be optional. If not used, change node status to
+> +      'disabled'
 
- drivers/input/touchscreen/edt-ft5x06.c | 30 ++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+This description is not helpful, does not describe the hardware. Please
+describe hardware, not Devicetree usage.
 
-diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index bab92344b2ea..3deb66d67469 100644
---- a/drivers/input/touchscreen/edt-ft5x06.c
-+++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -133,6 +133,8 @@ struct edt_ft5x06_ts_data {
- 
- 	struct edt_reg_addr reg_addr;
- 	enum edt_ver version;
-+	unsigned int crc_errors;
-+	unsigned int header_errors;
- };
- 
- struct edt_i2c_chip_data {
-@@ -181,6 +183,7 @@ static bool edt_ft5x06_ts_check_crc(struct edt_ft5x06_ts_data *tsdata,
- 		crc ^= buf[i];
- 
- 	if (crc != buf[buflen-1]) {
-+		tsdata->crc_errors++;
- 		dev_err_ratelimited(&tsdata->client->dev,
- 				    "crc error: 0x%02x expected, got 0x%02x\n",
- 				    crc, buf[buflen-1]);
-@@ -238,6 +241,7 @@ static irqreturn_t edt_ft5x06_ts_isr(int irq, void *dev_id)
- 	if (tsdata->version == EDT_M06) {
- 		if (rdbuf[0] != 0xaa || rdbuf[1] != 0xaa ||
- 			rdbuf[2] != datalen) {
-+			tsdata->header_errors++;
- 			dev_err_ratelimited(dev,
- 					"Unexpected header: %02x%02x%02x!\n",
- 					rdbuf[0], rdbuf[1], rdbuf[2]);
-@@ -552,6 +556,30 @@ static ssize_t fw_version_show(struct device *dev,
- 
- static DEVICE_ATTR_RO(fw_version);
- 
-+/* m06 only */
-+static ssize_t header_errors_show(struct device *dev,
-+				  struct device_attribute *attr, char *buf)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tsdata->header_errors);
-+}
-+
-+static DEVICE_ATTR_RO(header_errors);
-+
-+/* m06 only */
-+static ssize_t crc_errors_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct edt_ft5x06_ts_data *tsdata = i2c_get_clientdata(client);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tsdata->crc_errors);
-+}
-+
-+static DEVICE_ATTR_RO(crc_errors);
-+
- static struct attribute *edt_ft5x06_attrs[] = {
- 	&edt_ft5x06_attr_gain.dattr.attr,
- 	&edt_ft5x06_attr_offset.dattr.attr,
-@@ -561,6 +589,8 @@ static struct attribute *edt_ft5x06_attrs[] = {
- 	&edt_ft5x06_attr_report_rate.dattr.attr,
- 	&dev_attr_model.attr,
- 	&dev_attr_fw_version.attr,
-+	&dev_attr_header_errors.attr,
-+	&dev_attr_crc_errors.attr,
- 	NULL
- };
- 
--- 
-2.32.0
+> +
+> +    properties:
+> +      compatible:
+> +        enum:
+> +          - richtek,rt5120-pwrkey
+> +
+> +    required:
+> +      - compatible
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - '#interrupt-cells'
+> +  - interrupt-controller
+> +  - regulators
+> +  - powerkey
 
+You wrote powerkey is optional... so the node should not be required, right?
+
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      pmic@62 {
+> +        compatible = "richtek,rt5120";
+> +        reg = <0x62>;
+> +        interrupts-extended = <&gpio_intc 32 IRQ_TYPE_LEVEL_LOW>;
+> +        interrupt-controller;
+> +        #interrupt-cells = <1>;
+> +        wakeup-source;
+> +
+> +        regulators {
+> +          buck1 {
+> +            regulator-name = "rt5120-buck1";
+> +            regulator-min-microvolt = <600000>;
+> +            regulator-max-microvolt = <1393750>;
+> +            regulator-allowed-modes = <0 1>;
+> +            regulator-boot-on;
+> +          };
+> +          buck2 {
+> +            regulator-name = "rt5120-buck2";
+> +            regulator-min-microvolt = <1100000>;
+> +            regulator-max-microvolt = <1100000>;
+> +            regulator-allowed-modes = <0 1>;
+> +            regulator-always-on;
+> +          };
+> +          buck3 {
+> +            regulator-name = "rt5120-buck3";
+> +            regulator-min-microvolt = <1800000>;
+> +            regulator-max-microvolt = <1800000>;
+> +            regulator-allowed-modes = <0 1>;
+> +            regulator-always-on;
+> +          };
+> +          buck4 {
+> +            regulator-name = "rt5120-buck4";
+> +            regulator-min-microvolt = <3300000>;
+> +            regulator-max-microvolt = <3300000>;
+> +            regulator-allowed-modes = <0 1>;
+> +            regulator-always-on;
+> +          };
+> +          ldo {
+> +            regulator-name = "rt5120-ldo";
+> +            regulator-min-microvolt = <1800000>;
+> +            regulator-max-microvolt = <1800000>;
+> +            regulator-always-on;
+> +          };
+> +          exten {
+> +            regulator-name = "rt5120-exten";
+> +            regulator-min-microvolt = <3000000>;
+> +            regulator-max-microvolt = <3000000>;
+> +            regulator-always-on;
+> +          };
+> +        };
+> +        powerkey {
+> +                status = "okay";
+
+Messed up indentation. No need for status in examples.
+
+> +                compatible = "richtek,rt5120-pwrkey";
+> +        };
+> +      };
+> +    };
+
+
+Best regards,
+Krzysztof
