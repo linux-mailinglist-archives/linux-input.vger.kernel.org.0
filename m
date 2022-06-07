@@ -2,60 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF9D053FA80
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jun 2022 11:56:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2E9753FA7F
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jun 2022 11:56:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240251AbiFGJ4M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Jun 2022 05:56:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39884 "EHLO
+        id S240229AbiFGJ4N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Jun 2022 05:56:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240229AbiFGJ4K (ORCPT
+        with ESMTP id S240285AbiFGJ4K (ORCPT
         <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jun 2022 05:56:10 -0400
 Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20F55E8B88
-        for <linux-input@vger.kernel.org>; Tue,  7 Jun 2022 02:56:07 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id m26so11949806wrb.4
-        for <linux-input@vger.kernel.org>; Tue, 07 Jun 2022 02:56:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F16AD6801
+        for <linux-input@vger.kernel.org>; Tue,  7 Jun 2022 02:56:09 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id s1so277919wra.9
+        for <linux-input@vger.kernel.org>; Tue, 07 Jun 2022 02:56:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amarulasolutions.com; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TyZtZSd5cTSSlPOn3/pu61X0lFqS8ubq/VPK6S5b8ro=;
-        b=JQ6j73pVrChcMUfBmFTaW+tQL8dGlAue9g7Vy1Gh1LGNIv9slhQXKZt6bqLGiXUoO+
-         tAqrctpEgedxjUbGVCe+6ypZTVpS5H6OohVCSyDiW+FGKNrcE5W8kR/Ks9HH+hAAMuHQ
-         pAt9hK30UNk4kLLKiU+I+LoEJeKW2Byd9zb7E=
+        bh=5FXIG1Rp9D4NgAZ2oOx6JgdhKdrDvM+0LjdQT4OHOI8=;
+        b=ewXyLD3UqIPbri3d3Epx/ZmHVw4kmGp4TWXET1A/krbuovskBBkvOZVhPknJVFKV1a
+         aeSs3+P/swErSMIXx3c/+lcspyoCjpIwoDoEVASuK+cwRGejC75n7xGLJuNolhhXr7ZQ
+         eBHoJPPvGL9p1XZdodxCZOvtU0JN57VWcliuw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TyZtZSd5cTSSlPOn3/pu61X0lFqS8ubq/VPK6S5b8ro=;
-        b=bxLNxmHsXXLmh1NoYkSjH47zQsKwMiJcVx4KlmHTYtHyJ87um8IBZUYcCWUumQB5+w
-         yqCX11AY7gq8ew00cvPECJDSr7gm/V9/cNk06ns20XGdtBTqxfUgnr0O5uHBIR2oNdgF
-         46lBDYPXxMQa3Q8aLH4b6u02kbDnk0v5FMvT1XpGOwHsY/h7hoCelOKW3Qw5B/MshK4f
-         TuAQvMi8lcIn5Hza3h79zzMvD3GZz08ggRZ2Pr2xaCQbP9ax5Q3B4Nkmy/e5o+d0/oru
-         dRyMJyQVDr4f16lsqvR6F2FH52MSqA45IVSUxqL3Icivs2x6Ab/GfS/f5RZr6/GzkK+l
-         Y3tw==
-X-Gm-Message-State: AOAM530L8zzctuXoxrDx85FWHF/bdmIkRaDt0dvY+oTEKig4v/b/1hPC
-        GZQiMZj1Z/VDPctaMeR0u8fX9g==
-X-Google-Smtp-Source: ABdhPJwTO1eSqVr5nYBS189a8PJucH9UV7iuGDV14lq8IyEv6Zcrj6lX7LEEtA/G9JPuvGNhSxHXjQ==
-X-Received: by 2002:a5d:4849:0:b0:218:3f35:5336 with SMTP id n9-20020a5d4849000000b002183f355336mr9201071wrs.26.1654595765655;
-        Tue, 07 Jun 2022 02:56:05 -0700 (PDT)
+        bh=5FXIG1Rp9D4NgAZ2oOx6JgdhKdrDvM+0LjdQT4OHOI8=;
+        b=kIJ/t5n4Bm2OtnB1S5a957cRuShPEYgfN2MVfK2hRE94FnwLDs3aR8dJH+D4z8Xy4U
+         0vu35H67SVvfO3S+2xWzac6lXRdNSuiCSKi/PVQsVeSvTnxgoGJBy7YheJxMoOa4ZVKV
+         OUhd4xJlNEJzsjqyx/bZyQiOES3hdv9jQSxVlU97I4r2uoBHsJVRNAtweD1aMgF0Of5q
+         wZFikct0WkqpdKFMnEn9cwnnjSu9QBkNJKO6uxSQLLu/tdYsA0/AN2xaRa7pT2am1Mx7
+         R/vs2i9HVT804MrmTxq1UD2xTRA9WGYATwi7icEBpx8VmwvrHsYdOZhmKHnmNSpMMy18
+         tMmg==
+X-Gm-Message-State: AOAM531qtr9MImtApBpqFs4GKqhOiLI0uVGaNRwhSZARocdmQYYUXnSJ
+        56x2SGsP7aBNFyiZTnq8YgvMbA==
+X-Google-Smtp-Source: ABdhPJw7S1CHDV9dzULGPXNBpA7tqNRSYB3tkot1REE9Yc5K+Ctk7TUUjV1fwcg7urU9hU38dX2IwA==
+X-Received: by 2002:adf:aa83:0:b0:210:2433:5c7c with SMTP id h3-20020adfaa83000000b0021024335c7cmr26617386wrc.340.1654595768161;
+        Tue, 07 Jun 2022 02:56:08 -0700 (PDT)
 Received: from dario-ThinkPad-T14s-Gen-2i.pdxnet.pdxeng.ch (mob-5-90-137-51.net.vodafone.it. [5.90.137.51])
-        by smtp.gmail.com with ESMTPSA id b12-20020a5d4b8c000000b0020feb9c44c2sm17693546wrt.20.2022.06.07.02.56.04
+        by smtp.gmail.com with ESMTPSA id b12-20020a5d4b8c000000b0020feb9c44c2sm17693546wrt.20.2022.06.07.02.56.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 02:56:05 -0700 (PDT)
+        Tue, 07 Jun 2022 02:56:07 -0700 (PDT)
 From:   Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Dario Binacchi <dario.binacchi@amarulasolutions.com>,
         Michael Trimarchi <michael@amarulasolutions.com>,
-        Rob Herring <robh@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Oliver Graute <oliver.graute@kococonnector.com>,
         linux-input@vger.kernel.org
-Subject: [RESEND PATCH v4 1/6] dt-bindings: input: touchscreen: edt-ft5x06: add report-rate-hz
-Date:   Tue,  7 Jun 2022 11:55:51 +0200
-Message-Id: <20220607095556.1034338-2-dario.binacchi@amarulasolutions.com>
+Subject: [RESEND PATCH v4 2/6] Input: edt-ft5x06 - get/set M12 report rate by sysfs
+Date:   Tue,  7 Jun 2022 11:55:52 +0200
+Message-Id: <20220607095556.1034338-3-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220607095556.1034338-1-dario.binacchi@amarulasolutions.com>
 References: <20220607095556.1034338-1-dario.binacchi@amarulasolutions.com>
@@ -71,44 +70,56 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-It allows to change the M06/M12 default scan rate.
+Add support for reading/writing scan rate (SC) register for M12 by
+sysfs. The register value is equal to the SC (Hz), unlike M06, where
+instead it is equal to SC / 10.
 
 Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
 Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+Tested-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Acked-by: Rob Herring <robh@kernel.org>
-
 ---
 
-Changes in v4:
-- Add Rob Herring 'Acked-by' tag.
+(no changes since v1)
 
-Changes in v3:
-- Add hz unit suffix.
-- Add '|' to description.
+ drivers/input/touchscreen/edt-ft5x06.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
- .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-index 2e8da7470513..46bc8c028fe6 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-@@ -85,6 +85,14 @@ properties:
-     minimum: 0
-     maximum: 80
+diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+index bb2e1cbffba7..77f061af5c61 100644
+--- a/drivers/input/touchscreen/edt-ft5x06.c
++++ b/drivers/input/touchscreen/edt-ft5x06.c
+@@ -47,6 +47,8 @@
+ #define M09_REGISTER_NUM_X		0x94
+ #define M09_REGISTER_NUM_Y		0x95
  
-+  report-rate-hz:
-+    description: |
-+                 Allows setting the scan rate in Hertz.
-+                  M06 supports range from 30 to 140 Hz.
-+                  M12 supports range from 1 to 255 Hz.
-+    minimum: 1
-+    maximum: 255
++#define M12_REGISTER_REPORT_RATE	0x88
 +
-   touchscreen-size-x: true
-   touchscreen-size-y: true
-   touchscreen-fuzz-x: true
+ #define EV_REGISTER_THRESHOLD		0x40
+ #define EV_REGISTER_GAIN		0x41
+ #define EV_REGISTER_OFFSET_Y		0x45
+@@ -523,9 +525,9 @@ static EDT_ATTR(offset_y, S_IWUSR | S_IRUGO, NO_REGISTER, NO_REGISTER,
+ /* m06: range 20 to 80, m09: range 0 to 30, m12: range 1 to 255... */
+ static EDT_ATTR(threshold, S_IWUSR | S_IRUGO, WORK_REGISTER_THRESHOLD,
+ 		M09_REGISTER_THRESHOLD, EV_REGISTER_THRESHOLD, 0, 255);
+-/* m06: range 3 to 14, m12: (0x64: 100Hz) */
++/* m06: range 3 to 14, m12: range 1 to 255 */
+ static EDT_ATTR(report_rate, S_IWUSR | S_IRUGO, WORK_REGISTER_REPORT_RATE,
+-		NO_REGISTER, NO_REGISTER, 0, 255);
++		M12_REGISTER_REPORT_RATE, NO_REGISTER, 0, 255);
+ 
+ static struct attribute *edt_ft5x06_attrs[] = {
+ 	&edt_ft5x06_attr_gain.dattr.attr,
+@@ -1030,7 +1032,8 @@ static void edt_ft5x06_ts_set_regs(struct edt_ft5x06_ts_data *tsdata)
+ 	case EDT_M09:
+ 	case EDT_M12:
+ 		reg_addr->reg_threshold = M09_REGISTER_THRESHOLD;
+-		reg_addr->reg_report_rate = NO_REGISTER;
++		reg_addr->reg_report_rate = tsdata->version == EDT_M12 ?
++			M12_REGISTER_REPORT_RATE : NO_REGISTER;
+ 		reg_addr->reg_gain = M09_REGISTER_GAIN;
+ 		reg_addr->reg_offset = M09_REGISTER_OFFSET;
+ 		reg_addr->reg_offset_x = NO_REGISTER;
 -- 
 2.32.0
 
