@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFDED53F761
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jun 2022 09:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DFFB53F775
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jun 2022 09:43:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237365AbiFGHie (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Jun 2022 03:38:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52428 "EHLO
+        id S236233AbiFGHnS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Jun 2022 03:43:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231752AbiFGHid (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jun 2022 03:38:33 -0400
+        with ESMTP id S231833AbiFGHnR (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jun 2022 03:43:17 -0400
 Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A81E7CB7D;
-        Tue,  7 Jun 2022 00:38:32 -0700 (PDT)
-Date:   Tue, 07 Jun 2022 07:38:20 +0000
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 166342E093;
+        Tue,  7 Jun 2022 00:43:17 -0700 (PDT)
+Date:   Tue, 07 Jun 2022 07:43:04 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1654587507; x=1654846707;
+        s=protonmail3; t=1654587793; x=1654846993;
         bh=D9FtRQsL64UZzeNlDSZGhV3sxAUQRz/jzb9A2KCTcNc=;
         h=Date:To:From:Cc:Reply-To:Subject:Message-ID:Feedback-ID:From:To:
          Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID;
-        b=lprYmJZmwMJvTYN0JJVzs8F7A0ZlKvZQjbW63QrWTgcjshwNqOYQ/cxsJQk/rm3zq
-         6y8S6HvRriarbwUhAO01eym7shmHUYNgq/q0FRm4HKmuhi4Dbcj5+PnKTb3QzIL35x
-         /JoZk/vUka8VsfNL5bH0brICZepJ4wNHuRQVwSI8LNFdRPj/3e/JKVvXtHLLDs07r1
-         f0BUwG2VU8ePeu2ojyE2Rg/Ryu3e1EEF1YSnnowar60Epx9iQTy1QYBSpRE/B6h367
-         8JRyvo4KVZB8lt900CqQr6qe18iNeH9Jz/EjlH7E9v7ke39eY/de6U/sy4jEtLx0lA
-         9j6OsaTM/hkAw==
+        b=i6mTSUcTRPosAWilhmCAwd5mvCKSmf+X6domJ9XNYgWu3XZzkkHWiVAPQ03pqcISA
+         tvSLTTF7a5+Gzy6Tus1NrtlT1gSep4rDK0fETn2N0fjRn6lTsWtnDabdtEGZRZKN6g
+         0S2tL+Cisllizz5L7QOdUeg4rnan6P/LgWgQuLb6H5Tlnx82IONYb+5d5XXKkZNZ2o
+         Hi82zZiQC3r6/3hsEFJ/3C5s1bKKgMmKKGbBcMGjEZ6ZeblGYJL+0hikwtSRCbTVTZ
+         zqQhMPWsNgvfbK+UBnqDrghDbTOJ/SX9UJvlSeVBs/KjBiAT9HnkgYnhEjzWietluv
+         M5C1LbFSYs61w==
 To:     linux-kernel@vger.kernel.org
 From:   "Lin, Meng-Bo" <linmengbo0689@protonmail.com>
 Cc:     dmitry.torokhov@gmail.com, mcoquelin.stm32@gmail.com,
@@ -33,11 +33,11 @@ Cc:     dmitry.torokhov@gmail.com, mcoquelin.stm32@gmail.com,
         zhengyongjun3@huawei.com, linux-input@vger.kernel.org,
         linux-stm32@st-md-mailman.stormreply.com,
         linux-arm-kernel@lists.infradead.org,
-        ~postmarketos/upstreaming@lists.sr.ht, andi.shyti@samsung.com,
+        ~postmarketos/upstreaming@lists.sr.ht, andi@etezian.org,
         stephan@gerhold.net, nikita@trvn.ru
 Reply-To: "Lin, Meng-Bo" <linmengbo0689@protonmail.com>
-Subject: [PATCH] input: stmfts: Add #define STMFTS_RETRY_COUNT 3
-Message-ID: <20220607073809.21458-1-linmengbo0689@protonmail.com>
+Subject: [RESEND PATCH] input: stmfts: Add #define STMFTS_RETRY_COUNT 3
+Message-ID: <20220607074249.21763-1-linmengbo0689@protonmail.com>
 Feedback-ID: 40467236:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
