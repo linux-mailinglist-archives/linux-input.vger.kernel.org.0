@@ -2,67 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2214053F815
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jun 2022 10:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A10553F986
+	for <lists+linux-input@lfdr.de>; Tue,  7 Jun 2022 11:22:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232072AbiFGIWl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Jun 2022 04:22:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51316 "EHLO
+        id S232881AbiFGJWF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Jun 2022 05:22:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232029AbiFGIWk (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jun 2022 04:22:40 -0400
-X-Greylist: delayed 833 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 07 Jun 2022 01:22:39 PDT
-Received: from mail.forindustry.pl (mail.forindustry.pl [37.187.225.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D512647F
-        for <linux-input@vger.kernel.org>; Tue,  7 Jun 2022 01:22:39 -0700 (PDT)
-Received: by mail.forindustry.pl (Postfix, from userid 1002)
-        id A5F7CA284A; Tue,  7 Jun 2022 08:05:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=forindustry.pl;
-        s=mail; t=1654589153;
-        bh=Vw5jk5D1DE7WK/GNf/MxRQNyAyPYcC0rMJLibxKTj58=;
-        h=Date:From:To:Subject:From;
-        b=my/o+Tz5S57WZiSnEmeJh2FIEYg9LgwF5VnSJL5669rSQ9GUSdzNIfRWmgucTayyr
-         8gqbgDplIZdsuey67toO6aF8DB8nSrvhc2utibHAy0u9/FrPLtkViWEnq+jSMXCT1B
-         zf5cw9uQQWwiIcg8+5rY7RbiCSg4DWesHZCl5Z3A5zZQFzxP36hAlUovrF4GJUQpjg
-         0FpkGTnf5p+nATcqWRIFNviBiZVQ5+boJCCp+bXLQ7HUic/6y3UmaPV7pkNINrGMGI
-         3AYIFWkGaDAKi48TmfVMSEzrm5IubDnU+ZfMi30ByTuXXka677dalXaUlEajsdq0nb
-         cs1a9/IB55AtQ==
-Received: by mail.forindustry.pl for <linux-input@vger.kernel.org>; Tue,  7 Jun 2022 08:05:52 GMT
-Message-ID: <20220607064500-0.1.3o.ocqh.0.anztmymnrh@forindustry.pl>
-Date:   Tue,  7 Jun 2022 08:05:52 GMT
-From:   =?UTF-8?Q? "Arkadiusz_Soko=C5=82owski" ?= 
-        <arkadiusz.sokolowski@forindustry.pl>
-To:     <linux-input@vger.kernel.org>
-Subject: Koszty instalacji fotowoltaicznej
-X-Mailer: mail.forindustry.pl
+        with ESMTP id S238966AbiFGJWB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Jun 2022 05:22:01 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69872255B7;
+        Tue,  7 Jun 2022 02:22:00 -0700 (PDT)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1nyVPQ-0002sg-5u; Tue, 07 Jun 2022 11:21:56 +0200
+Message-ID: <cef04dbd-985a-c0d5-4c8b-7e234daa402a@leemhuis.info>
+Date:   Tue, 7 Jun 2022 11:21:53 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] Input: bcm5974 - Set missing URB_NO_TRANSFER_DMA_MAP urb
+ flag
+Content-Language: en-US
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>, rydberg@bitmath.org
+Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+        stable@vger.kernel.org
+References: <20220606113636.588955-1-mathias.nyman@linux.intel.com>
+From:   Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <20220606113636.588955-1-mathias.nyman@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1654593720;f7f91d6d;
+X-HE-SMSGID: 1nyVPQ-0002sg-5u
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On 06.06.22 13:36, Mathias Nyman wrote:
+> The bcm5974 driver does the allocation and dma mapping of the usb urb
+> data buffer, but driver does not set the URB_NO_TRANSFER_DMA_MAP flag
+> to let usb core know the buffer is already mapped.
+> 
+> usb core tries to map the already mapped buffer, causing a warning:
+> "xhci_hcd 0000:00:14.0: rejecting DMA map of vmalloc memory"
+> 
+> Fix this by setting the URB_NO_TRANSFER_DMA_MAP, letting usb core
+> know buffer is already mapped by bcm5974 driver
 
-stworzyli=C5=9Bmy specjaln=C4=85 ofert=C4=99 dla firm, na kompleksow=C4=85=
- obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99.
+BTW @reviewers & @maintainers: this is fixing a regression, hence please
+prioritize this. For details see "Prioritize work on fixing regressions"
+in Documentation/process/handling-regressions.rst or
+docs.kernel.org/process/handling-regressions.html .
 
-Specjalizujemy si=C4=99 w zakresie doboru, monta=C5=BCu i serwisie instal=
-acji fotowoltaicznych, dysponujemy najnowocze=C5=9Bniejszymi rozwi=C4=85z=
-ania, kt=C3=B3re zapewni=C4=85 Pa=C5=84stwu oczekiwane rezultaty.
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-Mo=C5=BCemy przygotowa=C4=87 dla Pa=C5=84stwa wst=C4=99pn=C4=85 kalkulacj=
-=C4=99 i przeanalizowa=C4=87 efekty mo=C5=BCliwe do osi=C4=85gni=C4=99cia=
-=2E
+If you need to respin this for one reason or another, could you please
+add proper 'Link:' tags pointing to all reports about this issue? e.g.
+like this:
 
-Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
-temacie?
+ Link: https://bugzilla.kernel.org/show_bug.cgi?id=215890
 
-Pozdrawiam,
-Arkadiusz Soko=C5=82owski
+These tags are important, as they allow others to look into the
+backstory now and years from now. That is why they should be placed in
+cases like this, as Documentation/process/submitting-patches.rst and
+Documentation/process/5.Posting.rst explain in more detail.
+Additionally, my regression tracking bot ‘regzbot’ relies on these tags
+to automatically connect reports with patches that are posted or
+committed to fix the reported issue.
+
+> [...]
+
+Ciao, Thorsten
