@@ -2,50 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F2E5542C9F
-	for <lists+linux-input@lfdr.de>; Wed,  8 Jun 2022 12:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF584542CA9
+	for <lists+linux-input@lfdr.de>; Wed,  8 Jun 2022 12:10:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236085AbiFHKIH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Jun 2022 06:08:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49154 "EHLO
+        id S236149AbiFHKJt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Jun 2022 06:09:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236253AbiFHKHq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jun 2022 06:07:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D26201A65C3;
-        Wed,  8 Jun 2022 02:51:08 -0700 (PDT)
+        with ESMTP id S237034AbiFHKJc (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jun 2022 06:09:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7D3BED3F8;
+        Wed,  8 Jun 2022 02:54:31 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D442661A36;
-        Wed,  8 Jun 2022 09:51:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B9EBC3411C;
-        Wed,  8 Jun 2022 09:51:05 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EA77E61A3F;
+        Wed,  8 Jun 2022 09:54:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCF08C34116;
+        Wed,  8 Jun 2022 09:54:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654681867;
-        bh=sH3Vdk1XxP7lXEyXGE5VL4w6OlidDdN7xfcuFi3i3os=;
+        s=k20201202; t=1654682070;
+        bh=AzEVbvMp6p8V46Xl/eSBFT/ox0PW2CfgYNjNb28qaPs=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=Gl/cfyAklpvMDV286oPV2n7HVBbiSKqCuBVe0WviCdDJP9DrKspX8IQhcVEtdiEmm
-         AaZH0nEraZUCX4iUDDXgqvE/TB6K7b558BO5wWfBvmqP76dntUzoYrb7f1Pgp+BhWd
-         Sr1z0fiTCAVbLSATOnjyRUpOapaof2etdIR4mY5dBpqNTxzk6mRNA3qfiSUh7B68Nh
-         57ndVZR5KHqs4yADtEZhXjyAcU0deE/EDVKqN5IDOc1Mf+fM4pNS8vNLgsf6f5O0/E
-         V6qx5tgUffqHjkVgNeT7K1/IOnVZ6DotJDD107vh8kSTfmcTsAAMzNa02M2W0Rn38n
-         dK9Rl1ZNegWIg==
-Date:   Wed, 8 Jun 2022 11:51:03 +0200 (CEST)
+        b=fJfBz3cPlvZEPBAKmG9AvgHA1Nc+8TVn/ng9xVDjDNImDUlfFYP8mCKt9+gXDYbOl
+         DsRdb22dFmP70IyYp0s/A40vwkSpxcxqeWArE2PWTenCOYQoDXBT7U3mCYg/Bo2HqA
+         YZorATyovxsX3TqTsdrOPLuC9zOicfs2GCi54SOG3x1gKt9ptUW2wSVfMyy6Oe3j9J
+         5uTSz0Q+qUfxbpSsFCKISKoFRymbtsMNMsUmfQU4Ev9Su4EBDE592AvsyWlrWp2Iwu
+         k0riOLEhrcX4tCOaYsSm917oXxyk+KE9NIHmQeA2RN7GyhKObRHNUN4LACu+GKtfVh
+         zPBM282Dosq7Q==
+Date:   Wed, 8 Jun 2022 11:54:26 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stefanberzl@gmail.com, dlatypov@google.com,
-        kunit-dev@googlegroups.com
-Subject: Re: [PATCH v3 0/4] Add support for XP-PEN Deco L
-In-Reply-To: <20220606101237.GA939277@elementary>
-Message-ID: <nycvar.YFH.7.76.2206081150060.10851@cbobk.fhfr.pm>
-References: <20220531181246.190729-1-jose.exposito89@gmail.com> <20220606101237.GA939277@elementary>
+To:     Hilton Chain <hako@ultrarare.space>
+cc:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Bryan Cain <bryancain3@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH v5] HID: apple: Properly handle function keys on non-Apple
+  keyboard
+In-Reply-To: <20220602161219.152be32d@ultrarare.space>
+Message-ID: <nycvar.YFH.7.76.2206081154160.10851@cbobk.fhfr.pm>
+References: <20220529182036.10226-1-jose.exposito89@gmail.com> <20220530083752.1973a905@ultrarare.space> <20220530061812.GA10391@elementary> <20220531221102.7bd7da7d@ultrarare.space> <20220531223330.3d63e2fe@ultrarare.space> <20220531172053.GA10651@elementary>
+ <CAPnXWxG8gbe1arQK9kBtwM1Xcta+wreTN742kgtBBr1v0ewKug@mail.gmail.com> <7f67ac07b8bd37d5817cd151674cc6b0@ultrarare.space> <20220601072651.242ce08a@ultrarare.space> <20220601121737.1226ffea@ultrarare.space> <20220601174956.GA10418@elementary>
+ <20220602161219.152be32d@ultrarare.space>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -56,52 +58,20 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 6 Jun 2022, José Expósito wrote:
+On Thu, 2 Jun 2022, Hilton Chain wrote:
 
-> > This patchset adds support for the UGEE XP-PEN Deco L tablet.
-> > This device belongs to a family of tablets that must receive a chunk of
-> > magic data in order to be enabled (named UGEE v2 internally).
-> >
-> > [...]
-> >
-> > ---
-> > 
-> > v1 - Initial version
-> > https://lore.kernel.org/linux-input/20220518224702.1409327-1-jose.exposito89@gmail.com/
-> > 
-> > v2 - Fix some errors reported by the kernel test robot:
-> > 
-> >  - Add MODULE_DESCRIPTION/LICENSE/AUTHOR to hid-uclogic-rdesc-test.c
-> >  - Remove unused variable in uclogic_params_ugee_v2_init
-> >  - Add sparse __force anotation in the result of cpu_to_le16
-> >  - Add DISABLE_STRUCTLEAK_PLUGIN for KUnit tests
-> > 
-> > https://lore.kernel.org/linux-input/20220518224702.1409327-1-jose.exposito89@gmail.com/T/
-> > 
-> > v3 - This version:
-> > 
-> >  - Improve Kconfig message
-> >  - Add .kunitconfig. Thanks to Daniel Latypov for suggesting it in an
-> >    unrelated patch:
-> >    https://lore.kernel.org/dri-devel/CAGS_qxpV2SsihEdgXZ6+7N0dxLmdRANq+qE4iUZ2aNrf6vuLYg@mail.gmail.com/
+> This commit extends fa33382c7f74 ("HID: apple: Properly handle function
+> keys on Keychron keyboards") by adding an array of known non-Apple
+> keyboards' device names, and the function apple_is_non_apple_keyboard()
+> to identify and create exception for them.
 > 
-> As mentioned in the v3 changelog, I'm working on a DRM patch including
-> a few KUnit tests [1].
+> Signed-off-by: Hilton Chain <hako@ultrarare.space>
+> ---
 > 
-> Some interesting highlights from the comments there:
-> 
-> - It looks like the maintainers prefer to include a single symbol [2]
-> to enable all tests in the subsystem.
-> 
-> Jiøí, Benjamin, how would you like to handle it? Would you prefer to
-> have a symbol for each test (HID_UCLOGIC_KUNIT_TEST)? Or a symbol for
-> all tests (HID_KUNIT_TEST)?
+> V4 -> V5: Add Varmilo keyboards' name "AONE" to the exception list
+> V3 -> V4: Remove unnecessary strlen()
 
-I don't really see any benefit in breaking it down to per-driver tests, so 
-yes, please hide it all under one unified HID_KUNIT_TEST as far as I am 
-concerned.
-
-Thanks,
+Applied to hid.git, thank you.
 
 -- 
 Jiri Kosina
