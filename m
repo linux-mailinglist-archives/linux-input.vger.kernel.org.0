@@ -2,50 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EEF64542EB7
-	for <lists+linux-input@lfdr.de>; Wed,  8 Jun 2022 13:06:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1A86542EB8
+	for <lists+linux-input@lfdr.de>; Wed,  8 Jun 2022 13:07:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236912AbiFHLGW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Jun 2022 07:06:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47418 "EHLO
+        id S237677AbiFHLHg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Jun 2022 07:07:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233907AbiFHLGV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jun 2022 07:06:21 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE43617ED23;
-        Wed,  8 Jun 2022 04:06:19 -0700 (PDT)
+        with ESMTP id S237758AbiFHLHd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jun 2022 07:07:33 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6097419B691;
+        Wed,  8 Jun 2022 04:07:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 76D0961225;
-        Wed,  8 Jun 2022 11:06:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98324C34116;
-        Wed,  8 Jun 2022 11:06:16 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id F25B5B826E0;
+        Wed,  8 Jun 2022 11:07:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92E2DC34116;
+        Wed,  8 Jun 2022 11:07:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654686378;
-        bh=B7KiNiEUm0hM3MxGWL8mWf3tXwJKwloCq7rFvO2y/LM=;
+        s=k20201202; t=1654686445;
+        bh=Xh9ijLZzb53sng45/ClJFX3kzZcCCZ+7wszfgVVtkFQ=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=VpF084q5yRR8y6kSx8weSz0Dm+n2J0qh4FXhuBsX/OR17q1b/RdumQIrCIWMXZ/4D
-         v8BNS0GIq5Q3qLKFzByhCxl6Se0INGev4dA37TQLAyWCG6UGiiYAvENiPOw/7HIyb2
-         iKBLAxGg9spWF766IWjVmFO2/pGGX5srTDGCxszX9VdBXLRv8dqz1RURKsOD0qPHE0
-         tzfnGG9ZIMWvDkT3iltLB6cJRWHmMdHgmGLvVC4A803MHihnpWrKyiJTyK7AkBmcid
-         saBxoPENltJO2FTVujmAEqK6CVPs6ltcCfs4uiLOWQCa9hbabduGUA9ot2w9PjUnwg
-         7YkGV5ZB6sNvg==
-Date:   Wed, 8 Jun 2022 13:06:14 +0200 (CEST)
+        b=J72rdBT0BYrBchDWCvCe3E6RdwXTHZgTxBD6QmpED84s+7ipVk2wqSDTqNOd3NzM5
+         LlFbvvUJFXoiww48UasPKo3fvgeNyNSjI7D4qnBR9806k0Lr5vcp9fKGq4FLgX7EJ6
+         IvdQJ87C/wey74LoWHHTaib9qFHoxqby45J/1UYZGR8zFRCmu1pQvg0tgnJIMk7VXT
+         tDwf1zANupD2AHNuc0j9ZeshlKDbno/ZVooUkdfWegLd21wrfEefx39nV/EfY0xYMl
+         duy35yLL5XxwLmI09jLQHir13/D5wRJFJ6850Cc74y/gErEDgi0nZYfLv2n06h1B2l
+         SRswhBofSLrfQ==
+Date:   Wed, 8 Jun 2022 13:07:22 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Li Qiong <liqiong@nfschina.com>
-cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Pandruvada@lists.nfsmail.com,
-        Srinivas <srinivas.pandruvada@intel.com>,
-        Ye Xiang <xiang.ye@intel.com>, Even Xu <even.xu@intel.com>,
-        linux-kernel@vger.kernel.org, yuzhe@nfschina.com,
-        renyu@nfschina.com, linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/2] HID: intel-ish-hid: ipc: use time_before to replace
- "jiffies < a"
-In-Reply-To: <20220606134750.20736-1-liqiong@nfschina.com>
-Message-ID: <nycvar.YFH.7.76.2206081306090.10851@cbobk.fhfr.pm>
-References: <20220606134750.20736-1-liqiong@nfschina.com>
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: Re: [PATCH] HID: hid-input: add Surface Go battery quirk
+In-Reply-To: <20220525230827.1019662-1-luzmaximilian@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2206081307160.10851@cbobk.fhfr.pm>
+References: <20220525230827.1019662-1-luzmaximilian@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -59,26 +54,45 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 6 Jun 2022, Li Qiong wrote:
+On Thu, 26 May 2022, Maximilian Luz wrote:
 
-> time_before deals with timer wrapping correctly.
+> Similar to the Surface Go (1), the (Elantech) touchscreen/digitizer in
+> the Surface Go 2 mistakenly reports the battery of the stylus. Instead
+> of over the touchscreen device, battery information is provided via
+> bluetooth and the touchscreen device reports an empty battery.
 > 
-> Signed-off-by: Li Qiong <liqiong@nfschina.com>
+> Apply the HID_BATTERY_QUIRK_IGNORE quirk to ignore this battery and
+> prevent the erroneous low battery warnings.
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
 > ---
->  drivers/hid/intel-ish-hid/ipc/ipc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/hid/hid-ids.h   | 1 +
+>  drivers/hid/hid-input.c | 2 ++
+>  2 files changed, 3 insertions(+)
 > 
-> diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
-> index 8ccb246b0114..15e14239af82 100644
-> --- a/drivers/hid/intel-ish-hid/ipc/ipc.c
-> +++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
-> @@ -578,7 +578,7 @@ static void _ish_sync_fw_clock(struct ishtp_device *dev)
->  	static unsigned long	prev_sync;
->  	uint64_t	usec;
+> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> index d9eb676abe96..9c4e92a9c646 100644
+> --- a/drivers/hid/hid-ids.h
+> +++ b/drivers/hid/hid-ids.h
+> @@ -413,6 +413,7 @@
+>  #define USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN	0x2544
+>  #define USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN	0x2706
+>  #define I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN	0x261A
+> +#define I2C_DEVICE_ID_SURFACE_GO2_TOUCHSCREEN	0x2A1C
 >  
-> -	if (prev_sync && jiffies - prev_sync < 20 * HZ)
-> +	if (prev_sync && time_before(jiffies, prev_sync + 20 * HZ))
->  		return;
+>  #define USB_VENDOR_ID_ELECOM		0x056e
+>  #define USB_DEVICE_ID_ELECOM_BM084	0x0061
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index c6b27aab9041..48c1c02c69f4 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -381,6 +381,8 @@ static const struct hid_device_id hid_battery_quirks[] = {
+>  	  HID_BATTERY_QUIRK_IGNORE },
+>  	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN),
+>  	  HID_BATTERY_QUIRK_IGNORE },
+> +	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO2_TOUCHSCREEN),
+> +	  HID_BATTERY_QUIRK_IGNORE },
 
 Applied, thanks.
 
