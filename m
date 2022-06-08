@@ -2,33 +2,33 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C9A35430CD
-	for <lists+linux-input@lfdr.de>; Wed,  8 Jun 2022 14:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C2395430C4
+	for <lists+linux-input@lfdr.de>; Wed,  8 Jun 2022 14:51:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239745AbiFHMuB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Jun 2022 08:50:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39344 "EHLO
+        id S239614AbiFHMuC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Jun 2022 08:50:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239559AbiFHMts (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jun 2022 08:49:48 -0400
+        with ESMTP id S239701AbiFHMtz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jun 2022 08:49:55 -0400
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FFE81B1F49;
-        Wed,  8 Jun 2022 05:49:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 793901A0AD9;
+        Wed,  8 Jun 2022 05:49:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
   t=1654692584; x=1686228584;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=DXNnJFUlFK8d9qe5CIxVjNz1sNl5AGBt22+P99Ui0ZU=;
-  b=KOSXbDJxFGvnMjk/uGZpU0rxsCmvhM5bJyCkpQR0VQiF6qGbEOQMT92m
-   nrQyTeQ7WJL7rQwnF1bxklf+mXSG2QY7AwNUeSsB+SlXU3WFIYX568rp6
-   8hRJHHhP+ZgxzZrbg0d+wJarhMrw2DZ/qEzbhjrDAUkwWq7AI/AKmcfp7
-   Z8iG8rLnCS4aYm1wjKuSBCnncKOjbjn8SHwSy6Wvx1V7kq/VG3/einMFp
-   krGhHt3z3PLjdUOcTj3bVOAy1qPEyDtS5gG42o7jETVhAkoNKWqhYCbND
-   1Ql65OyUS2Xr13UDr/JMzJ6hV1yivN94UydRuGzfF4tRb2y8KIrOzJBlA
+  bh=P46A/HLCcBellPLyCR/hDuNj3WtIwUmFCC+4ZNYe5rg=;
+  b=W/FOZf8x7CnevjfJR7Uwo6CWv4F2e+vYU6XKIiGkCKpUZ976/mBlYPDU
+   Y2B6ekhNmcI7S2rBiWzDgSeuaJeshzVVIrwuGXWLfFa3YkTYm7TStlFtn
+   ploCmIW5J4qs/A5njlAIhbflTOfNwxRCKkg7oo5MCPBqjxF7WSLOL6XYK
+   /9I9e+fw5kuOyx4vfU6DpPkPU82mcH5OdMHsIWpphaWqiO2nQjl/bCtDm
+   jbwUBQv2qRK9YtBd96vxxFNAL4/i2M2uTjfMXV6P/g+Z+Ch+rLIEjwWuK
+   OnIVknxI1Y5jfqK68XEFHjKijjwex4ogA+9rwHHHpGDm3/psCbOpfGCH7
    g==;
 X-IronPort-AV: E=Sophos;i="5.91,286,1647298800"; 
-   d="scan'208";a="24330552"
+   d="scan'208";a="24330554"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
   by mx1-pgp.tq-group.com with ESMTP; 08 Jun 2022 14:49:32 +0200
 Received: from mx1.tq-group.com ([192.168.6.7])
@@ -41,30 +41,30 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   t=1654692572; x=1686228572;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=DXNnJFUlFK8d9qe5CIxVjNz1sNl5AGBt22+P99Ui0ZU=;
-  b=a6GhMFxzEwEyYhC0v8/SHBlHTLQuErDOKvUMnt+NVanWwF/gHnJXijpI
-   K3eEvAqdW+QS3WsPyvBlN7xwIXttAD7nRVrbNW6sKVhmVfzUHr3z0sOSF
-   QMIhjNOWqwigOU+c5XocIZevAzgDG5/fOrA6YDkmDpxBQsQ5SS8eSezYA
-   bLzRS8bhAJa2sYzWgfK5w5Cn0DFP5jS94pRxOMKH7v8aJOHsmD0iDMhXz
-   fFJ+TiyYpGCicByAsJGlr7PL0kQ4sBEyfPivq6xXIdPYzDVG8Z8w20VC0
-   juuoZ6CxO9D6kpcD+Z1BHi2XudhG1aKZbJ75E9iQvfqVKP3fXoUlatZif
+  bh=P46A/HLCcBellPLyCR/hDuNj3WtIwUmFCC+4ZNYe5rg=;
+  b=DGwIGYrSBlczcQ+tUCI8Tgiq3yu5G/X+k/7F2D/51iAIFQEfmsdBDRhl
+   9j52m+ryXV0wHsSgl7HzOlmzikEC8DprKOGSXyHqRqGvUHjyl6MlO5cD2
+   K7edR9b1ZEz3++AHPp/woo5csM/iqVlFYBza8dPzXA3VRWWD+7JnwzgXD
+   ZvFTipfuw9/mLR6C0GVPc5uYiKjBr0R28SV4c1TuNa5VCNSzFVJDFxd2m
+   WjCt0woPVvylTdczFyuTYepH7bZE4TONRANfeYAL5FCsUlzMHbW1RSRu4
+   Jg3SDPp/9Wf+cHDYMYc7vxLvtRBgNPEh/IofuPaIrEXhzhRVZbO8DGffN
    w==;
 X-IronPort-AV: E=Sophos;i="5.91,286,1647298800"; 
-   d="scan'208";a="24330550"
+   d="scan'208";a="24330553"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
   by mx1.tq-group.com with ESMTP; 08 Jun 2022 14:49:32 +0200
 Received: from localhost.localdomain (SCHIFFERM-M2.tq-net.de [10.121.49.136])
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 0CFDB280056;
-        Wed,  8 Jun 2022 14:49:31 +0200 (CEST)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 301DA280072;
+        Wed,  8 Jun 2022 14:49:32 +0200 (CEST)
 From:   Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Lyude Paul <lyude@redhat.com>,
         "Jason A. Donenfeld" <Jason@zx2c4.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Subject: [PATCH 8/9] Input: synaptics-rmi4 - simplify rmi_f34v7_start_reflash()
-Date:   Wed,  8 Jun 2022 14:48:07 +0200
-Message-Id: <20220608124808.51402-9-matthias.schiffer@ew.tq-group.com>
+Subject: [PATCH 9/9] Input: synaptics-rmi4 - drop useless gotos in rmi_f34v7_do_reflash()
+Date:   Wed,  8 Jun 2022 14:48:08 +0200
+Message-Id: <20220608124808.51402-10-matthias.schiffer@ew.tq-group.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220608124808.51402-1-matthias.schiffer@ew.tq-group.com>
 References: <20220608124808.51402-1-matthias.schiffer@ew.tq-group.com>
@@ -79,67 +79,81 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-rmi_f34v7_enter_flash_prog() already enables IRQs and checks the flash
-status - there's no need for rmi_f34v7_start_reflash() to do the same just
-before calling rmi_f34v7_enter_flash_prog().
+Returning directly makes the code clearer.
 
 Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
 ---
- drivers/input/rmi4/rmi_f34v7.c | 25 ++++++-------------------
- 1 file changed, 6 insertions(+), 19 deletions(-)
+ drivers/input/rmi4/rmi_f34v7.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/input/rmi4/rmi_f34v7.c b/drivers/input/rmi4/rmi_f34v7.c
-index 5c22ad4bcc74..f16c67eb6cc6 100644
+index f16c67eb6cc6..886557b01eba 100644
 --- a/drivers/input/rmi4/rmi_f34v7.c
 +++ b/drivers/input/rmi4/rmi_f34v7.c
-@@ -1107,8 +1107,11 @@ static int rmi_f34v7_enter_flash_prog(struct f34_data *f34)
- 	if (ret < 0)
- 		return ret;
- 
--	if (f34->v7.in_bl_mode)
-+	if (f34->v7.in_bl_mode) {
-+		dev_info(&f34->fn->dev, "%s: Device in bootloader mode\n",
-+			 __func__);
- 		return 0;
-+	}
- 
- 	init_completion(&f34->v7.cmd_done);
- 
-@@ -1127,32 +1130,16 @@ int rmi_f34v7_start_reflash(struct f34_data *f34, const struct firmware *fw)
- {
- 	int ret = 0;
- 
--	f34->fn->rmi_dev->driver->set_irq_bits(f34->fn->rmi_dev, f34->fn->irq_mask);
--
- 	f34->v7.config_area = v7_UI_CONFIG_AREA;
- 	f34->v7.image = fw->data;
+@@ -1039,19 +1039,19 @@ int rmi_f34v7_do_reflash(struct f34_data *f34, const struct firmware *fw)
  
  	ret = rmi_f34v7_parse_image_info(f34);
  	if (ret < 0)
--		goto exit;
+-		goto fail;
 +		return ret;
  
- 	dev_info(&f34->fn->dev, "Firmware image OK\n");
+ 	ret = rmi_f34v7_check_bl_config_size(f34);
+ 	if (ret < 0)
+-		goto fail;
++		return ret;
  
--	ret = rmi_f34v7_read_flash_status(f34);
--	if (ret < 0)
--		goto exit;
--
--	if (f34->v7.in_bl_mode) {
--		dev_info(&f34->fn->dev, "%s: Device in bootloader mode\n",
--				__func__);
--	}
--
--	rmi_f34v7_enter_flash_prog(f34);
--
--	return 0;
--
--exit:
+ 	ret = rmi_f34v7_erase_all(f34);
+ 	if (ret < 0)
+-		goto fail;
++		return ret;
+ 
+ 	ret = rmi_f34v7_write_partition_table(f34);
+ 	if (ret < 0)
+-		goto fail;
++		return ret;
+ 	dev_info(&f34->fn->dev, "%s: Partition table programmed\n", __func__);
+ 
+ 	/*
+@@ -1067,7 +1067,7 @@ int rmi_f34v7_do_reflash(struct f34_data *f34, const struct firmware *fw)
+ 
+ 	ret = rmi_f34v7_write_firmware(f34);
+ 	if (ret < 0)
+-		goto fail;
++		return ret;
+ 
+ 	dev_info(&f34->fn->dev, "Writing config (%d bytes)...\n",
+ 		 f34->v7.img.ui_config.size);
+@@ -1075,14 +1075,14 @@ int rmi_f34v7_do_reflash(struct f34_data *f34, const struct firmware *fw)
+ 	f34->v7.config_area = v7_UI_CONFIG_AREA;
+ 	ret = rmi_f34v7_write_ui_config(f34);
+ 	if (ret < 0)
+-		goto fail;
++		return ret;
+ 
+ 	if (f34->v7.has_display_cfg && f34->v7.img.contains_display_cfg) {
+ 		dev_info(&f34->fn->dev, "Writing display config...\n");
+ 
+ 		ret = rmi_f34v7_write_dp_config(f34);
+ 		if (ret < 0)
+-			goto fail;
++			return ret;
+ 	}
+ 
+ 	if (f34->v7.has_guest_code && f34->v7.img.contains_guest_code) {
+@@ -1090,11 +1090,10 @@ int rmi_f34v7_do_reflash(struct f34_data *f34, const struct firmware *fw)
+ 
+ 		ret = rmi_f34v7_write_guest_code(f34);
+ 		if (ret < 0)
+-			goto fail;
++			return ret;
+ 	}
+ 
+-fail:
 -	return ret;
-+	return rmi_f34v7_enter_flash_prog(f34);
++	return 0;
  }
  
- int rmi_f34v7_probe(struct f34_data *f34)
+ static int rmi_f34v7_enter_flash_prog(struct f34_data *f34)
 -- 
 2.25.1
 
