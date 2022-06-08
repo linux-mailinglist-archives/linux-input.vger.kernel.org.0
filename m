@@ -2,82 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5805542927
-	for <lists+linux-input@lfdr.de>; Wed,  8 Jun 2022 10:19:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F313542C88
+	for <lists+linux-input@lfdr.de>; Wed,  8 Jun 2022 12:04:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229665AbiFHIR2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Jun 2022 04:17:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49824 "EHLO
+        id S235878AbiFHKEm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Jun 2022 06:04:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232149AbiFHIPh (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jun 2022 04:15:37 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57ADD25F421
-        for <linux-input@vger.kernel.org>; Wed,  8 Jun 2022 00:44:34 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id h23so28663895ejj.12
-        for <linux-input@vger.kernel.org>; Wed, 08 Jun 2022 00:44:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=N2n4ue6PvN6bYRXZMADyZay+yUMidu99Jpd+YeUrnSA=;
-        b=EN01mXO3gemFA0PVoJChdj4QdHI1gLkxsAGQia81YCD5SnC0p/H3vC0bs/YFKRLsz5
-         TKg1iprCemQ5rTvvNZt2zEpQdA9ubyqYnl0Qc6r1x1+gVapgHIm6AazbUK+d0QjdLSNU
-         ADEtPXitLSnC4xasjZJEvcZnIPs1F9XnfCq2HpWC70Btu7OM/tWTdDHJT/BtCtvZObok
-         oBSNCdmGPQt+a4oBurqbktDCdOUkAB0jwhHhsAzzAdHlrZZdlfW0Zj0YVKTrv+r39Cli
-         DnHFoHJRPgGEG9w3QMMEe+cvibpTIUCEg/43ZN87gA01F6Xlpg3n4TCzvy17V09EYGjj
-         JiUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=N2n4ue6PvN6bYRXZMADyZay+yUMidu99Jpd+YeUrnSA=;
-        b=7KkaCHjtO60evBz6zsWnTrFjrWR+Ro13TZGjZDpof6q26HtGtV0vtTcVswwdSghHwk
-         a4qSfLZ6dhD2jOeSWaIQ/EaceTARq6QNPSJIanOIohX7Rnggr0YA9kqPbu2PcXOjlXdR
-         GvmWixlPYmNxeTeCQKuXkiRe1AAEac4qdRJ4hsozZd7PJzTkgUh0lx2O/pDh+3liWW6J
-         RRrbXZ3tBj7ewwSISB0r5oI0cgegalPqlbMM/n3EF5sZKe2poCZgoA7+LLPVTzbsU1uk
-         fBU/mmT1E84wiKKCJ7KsonPE/km7cq0vL3mAqhcvv65PoeWZ0eNQTH8Ih1mZmly+vvFt
-         b+eA==
-X-Gm-Message-State: AOAM532EnLcHp40k+fKx5+OatdejQ0S1JQDl5KgFgjj3nMuAOLXzCmE8
-        sIEGrMyOJ1RfFeM4a4v2J7sF4Q==
-X-Google-Smtp-Source: ABdhPJxktVGx8ZCyus9xJ9fy5x0fPfD7lcKo9ekfLPVPW5eczfU5qTVPGdJFlmZrt/qJH5NCv2WViQ==
-X-Received: by 2002:a17:907:724c:b0:711:d0bc:2369 with SMTP id ds12-20020a170907724c00b00711d0bc2369mr13248474ejc.23.1654674272867;
-        Wed, 08 Jun 2022 00:44:32 -0700 (PDT)
-Received: from [192.168.0.188] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id cf18-20020a170906b2d200b006ff802baf5dsm8738219ejb.54.2022.06.08.00.44.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jun 2022 00:44:32 -0700 (PDT)
-Message-ID: <d2a81596-3a70-98e4-c406-36417d36f00b@linaro.org>
-Date:   Wed, 8 Jun 2022 09:44:31 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 1/4] dt-binding: mfd: Add Richtek RT5120 PMIC support
-Content-Language: en-US
-To:     ChiYuan Huang <u0084500@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        with ESMTP id S236353AbiFHKDm (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jun 2022 06:03:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D52E717EF4C;
+        Wed,  8 Jun 2022 02:47:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 431BC619C5;
+        Wed,  8 Jun 2022 09:47:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 744BFC34116;
+        Wed,  8 Jun 2022 09:47:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654681625;
+        bh=Jorqtsqre+knYuVCMZVf8w1e+vT3PzQP8A6uE9eOcy0=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=ia1uTWThiKJKkirUArp2zjiq0kobE6RwKYmZKHNbgpZTPkbpYUQFUslRjCXTXLG0f
+         eLCLHr+lnNY1BNrvwwu5fIG9tNAMo8hpMI+5TKr8C4hiZ0i1bSYC4aWGa+TburuZ9m
+         /X6c6Fe0X8a6lrrrUeIDg6iS+Sx6bpm8O0o3ISgHIKIsyIvVdH1wWi+mzkzbl0UDSq
+         IAOzeCx9822Y5RQzLC31P8AQCUNazUqO17x5xchx1vq8Fj/nQ0TL9sy0475Q0r2FJK
+         D7kx9cY06b0+oUhjePOojzbIG/EcgkGt9QJOticwFliv/HyIl9EBX39Nrpzyimqb76
+         jIfjRBOdvUgtg==
+Date:   Wed, 8 Jun 2022 11:47:00 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Douglas Anderson <dianders@chromium.org>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Brown <broonie@kernel.org>, dmitry.torokhov@gmail.com,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        cy_huang <cy_huang@richtek.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
-        linux-input@vger.kernel.org
-References: <1654581161-12349-1-git-send-email-u0084500@gmail.com>
- <1654581161-12349-2-git-send-email-u0084500@gmail.com>
- <96ecca0b-b65c-749d-d66b-33443cacf2e4@linaro.org>
- <CADiBU39BTr9FjtXgBe55aOTHNVotHfC1n=aHrH3XAcVoWkk8sA@mail.gmail.com>
- <678ce480-cbbc-ffa8-10bf-d93021a0df0a@linaro.org>
- <CADiBU38Gc2McH0ryRFPUAkmJzL1rxQnLHqvo5-+U_TPVjgHxzg@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CADiBU38Gc2McH0ryRFPUAkmJzL1rxQnLHqvo5-+U_TPVjgHxzg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        swboyd@chromium.org, mka@chromium.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: HID: i2c-hid: elan: Introduce bindings
+ for Elan eKTH6915
+In-Reply-To: <20220523142257.v2.1.Iedc61f9ef220a89af6a031200a7850a27a440134@changeid>
+Message-ID: <nycvar.YFH.7.76.2206081146490.10851@cbobk.fhfr.pm>
+References: <20220523142257.v2.1.Iedc61f9ef220a89af6a031200a7850a27a440134@changeid>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,192 +58,42 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 08/06/2022 09:25, ChiYuan Huang wrote:
-> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 於 2022年6月8日 週三 下午3:02寫道：
->>
->> On 08/06/2022 04:52, ChiYuan Huang wrote:
->>> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 於 2022年6月7日 週二 下午7:52寫道：
->>>>
->>>> On 07/06/2022 07:52, cy_huang wrote:
->>>>> From: ChiYuan Huang <cy_huang@richtek.com>
->>>>>
->>>>> Add Richtek RT5120 PMIC devicetree document.
->>>>>
->>>>> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
->>>>> ---
->>>>>  .../devicetree/bindings/mfd/richtek,rt5120.yaml    | 180 +++++++++++++++++++++
->>>>>  1 file changed, 180 insertions(+)
->>>>>  create mode 100644 Documentation/devicetree/bindings/mfd/richtek,rt5120.yaml
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/mfd/richtek,rt5120.yaml b/Documentation/devicetree/bindings/mfd/richtek,rt5120.yaml
->>>>> new file mode 100644
->>>>> index 00000000..376bf73
->>>>> --- /dev/null
->>>>> +++ b/Documentation/devicetree/bindings/mfd/richtek,rt5120.yaml
->>>>> @@ -0,0 +1,180 @@
->>>>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->>>>> +%YAML 1.2
->>>>> +---
->>>>> +$id: http://devicetree.org/schemas/mfd/richtek,rt5120.yaml#
->>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>> +
->>>>> +title: Richtek RT5120 PMIC
->>>>> +
->>>>> +maintainers:
->>>>> +  - ChiYuan Huang <cy_huang@richtek.com>
->>>>> +
->>>>> +description: |
->>>>> +  The RT5120 provides four high-efficiency buck converters and one LDO voltage
->>>>> +  regulator. The device is targeted at providingthe processor voltage, memory,
->>>>> +  I/O, and peripheral rails in home entertainment devices. The I2C interface is
->>>>> +  used for dynamic voltage scaling of the processor voltage, power rails on/off
->>>>> +  sequence control, operation mode selection.
->>>>> +
->>>>> +properties:
->>>>> +  compatible:
->>>>> +    enum:
->>>>> +      - richtek,rt5120
->>>>> +
->>>>> +  reg:
->>>>> +    maxItems: 1
->>>>> +
->>>>> +  interrupts:
->>>>> +    maxItems: 1
->>
->> Your powerkey driver takes two interrupts. You should describe them in
->> the powerkey.
->>
->>>>> +
->>>>> +  interrupt-controller: true
->>>>> +
->>>>> +  "#interrupt-cells":
->>>>> +    const: 1
->>>>> +
->>>>> +  wakeup-source: true
->>>>> +
->>>>> +  richtek,enable-undervolt-hiccup:
->>>>> +    type: boolean
->>>>> +    description: |
->>>>> +      If used, under voltage protection trigger hiccup behavior, else latchup as
->>>>> +      default
->>>>> +
->>>>> +  richtek,enable-overvolt-hiccup:
->>>>> +    type: boolean
->>>>> +    description:
->>>>> +      Like as 'enable-uv-hiccup', it configures over voltage protection to
->>>>> +      hiccup, else latchup as default
->>>>> +
->>>>> +  vin1-supply:
->>>>> +    description: phandle for buck1 input power source
->>>>> +
->>>>> +  vin2-supply:
->>>>> +    description: phandle for buck2 input power source
->>>>> +
->>>>> +  vin3-supply:
->>>>> +    description: phandle for buck3 input power source
->>>>> +
->>>>> +  vin4-supply:
->>>>> +    description: phandle for buck4 input power source
->>>>> +
->>>>> +  vinldo-supply:
->>>>> +    description: phandle for ldo input power source
->>>>> +
->>>>> +  regulators:
->>>>> +    type: object
->>>>> +
->>>>> +    patternProperties:
->>>>> +      "^buck[1-4]$":
->>>>> +        type: object
->>>>> +        $ref: /schemas/regulator/regulator.yaml#
->>>>> +
->>>>> +        properties:
->>>>> +          regulator-allowed-modes:
->>>>> +            description: |
->>>>> +              Used to specify the allowed buck converter operating mode
->>>>> +              mode mapping:
->>>>> +                0: auto mode
->>>>> +                1: force pwm mode
->>>>> +            items:
->>>>> +              enum: [0, 1]
->>>>> +
->>>>> +        unevaluatedProperties: false
->>>>
->>>> Better to put it after '$ref' for readability.
->>> OK, Fix in next
->>>>
->>>>> +
->>>>> +      "^(ldo|exten)$":
->>>>> +        type: object
->>>>> +        $ref: /schemas/regulator/regulator.yaml#
->>>>
->>>> You need here unevaluatedProperties:false as well (for the ldo/exten
->>>> properties)
->>> Fix in next.
->>>>
->>>>> +
->>>>> +    additionalProperties: false
->>>>> +
->>>>> +  powerkey:
->>>>> +    type: object
->>>>> +    description:
->>>>> +      The power key driver may be optional. If not used, change node status to
->>>>> +      'disabled'
->>>>
->>>> This description is not helpful, does not describe the hardware. Please
->>>> describe hardware, not Devicetree usage.
->>> That's because it's a PMIC. Power key is also connected to it.
->>> For power key press, all power rails will start to power up.
->>> But in the application, there may be other PMIC that's also connected
->>> to power key.
->>> That's why this power key driver may need to be optional.
->>> One system only need one driver to report the power key status.
->>>
->>> Currently in some linux OS, it uses the auto module loading mechanism.
->>> All kernel module files may be all the same, but it uses the
->>> devicetree to decide how many devices
->>> need to be declared. Since RT5120 power key device may be optional,
->>> following by mfd_add_device, if of_node is
->>> found, and status is "disabled", the sub device would be skipped.
->>>
->>> Actually, I'm also confused about it. There may be three ways to implement it
->>> 1. not to build this kernel module -> seems to violate my above application
->>> 2. Use one boolean property to decide power key cell need to be used or not??
->>> 3. like as now, use the node status to decide it.
->>>
->>> Is there the better way to do it?
->>
->> The status does not determine whether device in the bindings is optional
->> or not. Rather it's presence. In the term of bindings the "optional"
->> means that something might not be there physically. E.g. clock line
->> connected or not. System implementation - MFD, power off handling - is
->> here (almost) irrelevant.
->>
->> In your case, the power key feature seems to be there always, so the
->> "powerkey" node should be required and not disabled. Don't mention in
->> description of hardware anything about disabling it or not.
->>
->> In your application, I would say it is interesting design that someone
->> connects one power up line to two different PMICs in a conflicting way.
->> This sounds like total mistake from hardware point of view.
->>
->> Anyway it is not the job for this patch to solve such conflicts.
->>
-> Thanks,  I think your point is 'optional' keyword.
-> If there's only redundant description line, I may decide to remove it.
-> The property name already show its usage.
+On Mon, 23 May 2022, Douglas Anderson wrote:
 
-I repeated my point twice - your description is not relevant to the
-bindings:
-"This description is not helpful, does not describe the hardware. Please
-describe hardware, not Devicetree usage."
-"System implementation - MFD, power off handling - is
-here (almost) irrelevant."
-"Don't mention in
-description of hardware anything about disabling it or not."
+> Like many i2c-hid touchscreen controllers, the Elan eKTH6915
+> controller has a reset gpio. For the Goodix GT7375P touchscreen the
+> decision was to add a new binding rather than trying to add a new GPIO
+> to the existing i2c-hid binding. We'll follow the lead and do it here,
+> too.
+> 
+> SIDE NOTE: the Elan eKTH6915 is a touchscreen _controller_ that's
+> included as a part on some touchscreens. The reset line isn't truly
+> necessary for the functioning of the touchscreen, so it's possible
+> that some designs won't have it hooked up and will just guarantee the
+> power sequencing requirements with RLC circuits. Thus, we'll mark the
+> reset gpio as optional.
+> 
+> Note that if the reset GPIO isn't used there's actually no true need
+> to use the "elan,ekth6915" compatible instead of the "hid-over-i2c" on
+> Linux. However:
+> - Officially using just "hid-over-i2c" for this device violates the
+>   existing "hid-over-i2c" bindings. The bindings say that you're not
+>   supposed to use "post-power-on-delay-ms" without specifying a more
+>   specific compatible. Currently the Linux driver doesn't enforce
+>   this, but it violates the bindings to just use
+>   "hid-over-i2c". ...and if you're going to add a more specific
+>   compatible anyway, might as well do it right.
+> - Using this compatible means we don't need to specify
+>   "hid-descr-addr" since it's inferred from the compatible.
+> - Using this compatible means that the regulator names match the names
+>   on the Elan datasheet (vcc33 / vccio) vs the generic hid-over-i2c
+>   (vdd / vddl).
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-Please describe briefly the hardware behind this property, not status or
-other Devicetree usage.
+Now queued in hid.git, thanks.
 
+-- 
+Jiri Kosina
+SUSE Labs
 
-Best regards,
-Krzysztof
