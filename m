@@ -2,45 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3E9354410B
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jun 2022 03:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2225C544113
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jun 2022 03:33:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230401AbiFIB3v (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Jun 2022 21:29:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57242 "EHLO
+        id S231646AbiFIBc7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Jun 2022 21:32:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229598AbiFIB3u (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jun 2022 21:29:50 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2070.outbound.protection.outlook.com [40.107.236.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B6DA2A71D;
-        Wed,  8 Jun 2022 18:29:49 -0700 (PDT)
+        with ESMTP id S234053AbiFIBcw (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jun 2022 21:32:52 -0400
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2073.outbound.protection.outlook.com [40.107.100.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E89221CAC0C;
+        Wed,  8 Jun 2022 18:32:48 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kb9NdH3aEdJglgOsM6C/hti5wcYFoPrJYMOTrGcNyPiGgtuB6Z9SsjWVg8vptWDXA04yw2lcrYJ5oFGwR0ELyLlbjJfSgswKKKEMxFYW7NB5MBQDYCwxB6tCvEU8yDdUVL/GDiLCNRqYBBB8M8RaNJRQSUpsaSnEBvXW6FtJYjtSsNTN91pEGDy6Y2carIL2DPrGG0I71a8jMJlhfiZEbb5yKYjodZeFUs80IbUjFSbmC73WC3efSSclJZBN50GcElslyPCgF8a3PEqpfb9RNW4s2u6S0U+2qbMxNi9I5HHNO98blrZPKnQ74CDDjOXOpDcYCKQnupDxFWgv8ofZkQ==
+ b=lSKnShh5OJLfADtaEbS+9ocacOIPrAoJQNXUQzO94/tZAp+x42y2CkzlYJswQQMbuwqE+cZs5/pOsDp88GBTK6eOVRWsD+9t1/tpEbvy7t0FnLJ1+adoEj3drr1/RkLJOWJFhbYDeM8vn1AVIVTX98BaJpKExoeTAP2NIjexHdTGIN2P/w+dTWp/F7AjEOBjtonMsdCPWgRvYrXqKN1PMLIoh4nTGdHYYrEmSRjBYwafESCWPduX0vUP6mJ7NWJJbBnxyhOhwxJwpcbWKjd8jUzU32cwgcHkXQU/THC0bfMpfaXcmqhgyL5Bfz5QUv36mn4u3i5T3kxdB+1KgLLdQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QnyvwJe/Ho37mK04/9Sm0JrVZdxf3Glq27k3BeIa4vM=;
- b=O6Sho8RVSvUSA2j6QYBKh1CaP1/0Y96pylxzCxaOUVXzH9q1DC5b9v0w8UKilz9QzLzZcNispE9EUhvfJfpUWtaad0WMBDgDpMsBtz9iJDl7RIkyIlzID8qPd5NfDAKy0XQmj/zo1HMZ+5sjgB8iynt3ws2bY0iQOPUCiBi4yACdyGK4L9JSFIF3A9FWSaZLlohq2t10N52ZWN+14F+K7pxUubYKhZr6TOmUOEvZ35kQt17dvmHNmlT3m9DiFFG3Kd86zt0/PYYwGUTYwng+r69OGdoIDr5l8npc7lpq07RPxGrRE9EKc4yT8iBqOgjmsOAgRfX/naEJbPOTGGcNJA==
+ bh=Z8z7dOD1uze2DTQbl1RzeC8qsElhZlUjqjtuM6yvHik=;
+ b=ob23PdHWJztb+x/rxLlDLZuy4UBL7GbJ/S6oqpsm2xS2xj1UYYEnheCTSiiQd+jxPTC5obAU+Nx0vHuiULqVRmwM9NmTUyTFJuFbvuQvq0vHSpY/VgPGOfvKqUUSoJRggvqJwTu3c0NQPoQIZ/JARcQSB+gfODBI6nHhx7BXN+1CMbj4xnC3HZTBH1lp0HYWLrUaChdDaBMdIV7WTDodj88tL/oXzyi3N831Xf0pH3DSQ1j/tBe52CXJWOSSn6xR2Ee8S+2AeewylkqmYdHqKsYDhJbsdrSPS0h5Xr+Lu8XgbDmhiiziZIzZBlIwlEOBbFEeChx/2AE/KYzfuttljA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QnyvwJe/Ho37mK04/9Sm0JrVZdxf3Glq27k3BeIa4vM=;
- b=S9vQnskJQj2gmMtsGC/6ygMRKwuLc3ISd0cFWzW+7ATltfrAd6mzEnsaRxRjUMCGOxetps3371stXQ0tSDQ+zPfQ9ifrgz3em04K6VCWawUrrpsKZV9PjTF4QX8+dQw4HJXEh7l8ThW8MOuJeOCgLZMXFpi6E0FNX7SQAz7hM+g=
+ bh=Z8z7dOD1uze2DTQbl1RzeC8qsElhZlUjqjtuM6yvHik=;
+ b=AZ/hacfHt6niI/7jD1UgOWjoBWvvZGgC29jAioypuftRz3JLSgYfnSnLYZcprfGIcvko+nmaLtYRqQX+hpu9TtkHS3Zya0LM+/CGLaIYj1lRk/NyZJKh24zAwJ64A9LGmlXT+huNko6ER0dzouuvQte5IEZLcs0Nux3snkEfR4Y=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by CH0PR08MB7443.namprd08.prod.outlook.com
- (2603:10b6:610:f6::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.13; Thu, 9 Jun
- 2022 01:29:46 +0000
+ (2603:10b6:803:43::21) by SN4PR0801MB3838.namprd08.prod.outlook.com
+ (2603:10b6:803:50::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.19; Thu, 9 Jun
+ 2022 01:32:45 +0000
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::ccb4:7984:aaf2:e18f]) by SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::ccb4:7984:aaf2:e18f%6]) with mapi id 15.20.5314.019; Thu, 9 Jun 2022
- 01:29:46 +0000
-Date:   Wed, 8 Jun 2022 20:29:38 -0500
+ 01:32:45 +0000
+Date:   Wed, 8 Jun 2022 20:32:43 -0500
 From:   Jeff LaBundy <jeff@labundy.com>
 To:     Rob Herring <robh@kernel.org>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -56,69 +56,69 @@ Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Maxime Ripard <mripard@kernel.org>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] dt-bindings: input: Increase maximum keycode
- value to 0x2ff
-Message-ID: <20220609012938.GA191119@nixie71>
+Subject: Re: [PATCH v2 2/5] dt-bindings: input: Centralize 'linux,code'
+ definition
+Message-ID: <20220609013243.GB191119@nixie71>
 References: <20220608211207.2058487-1-robh@kernel.org>
- <20220608211207.2058487-2-robh@kernel.org>
+ <20220608211207.2058487-3-robh@kernel.org>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220608211207.2058487-2-robh@kernel.org>
-X-ClientProxiedBy: SA9PR13CA0176.namprd13.prod.outlook.com
- (2603:10b6:806:28::31) To SN4PR0801MB3774.namprd08.prod.outlook.com
+In-Reply-To: <20220608211207.2058487-3-robh@kernel.org>
+X-ClientProxiedBy: SN7P222CA0027.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:124::30) To SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 66bc0eeb-ab47-455b-9b0d-08da49b7886b
-X-MS-TrafficTypeDiagnostic: CH0PR08MB7443:EE_
-X-Microsoft-Antispam-PRVS: <CH0PR08MB744303A59231518A7AC82E15D3A79@CH0PR08MB7443.namprd08.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: b83db288-757d-4acd-ac50-08da49b7f463
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3838:EE_
+X-Microsoft-Antispam-PRVS: <SN4PR0801MB3838552D2327DDE3A8701E6ED3A79@SN4PR0801MB3838.namprd08.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: I0NztEJbOnWJCCxBTixMOIWhotMZxG+6MupmCothCpUBJ5Kt0Jn6+b6HrrKNzLdygY5IFWKhh5rxDOP40niaBRnH68pJQ5urqQdjaEdlmqZ24yLJLhtn0CcOiLsj0WOGSIVPwe4evLPbDFE1pK4SiD7sTAqdqSTtZngr7zf6FPINMZnqYjmUoH6VQG54tBifeILFLBYzwEPTPSVNuC0jFRPXMdo1wtjdC8SRXiYyvdYLEJhJI1PoLm32705ZhMCh2mEb+V2v+g/VULnLA9vi+c3Od3Qu3TTt4SmiacI7C9vwZrkeTMyQFQ0KiWxAzmCu1LPox8RRV7wFP4mEHRYu/MtHACDioCbfWtHDHxLlIjDE0MwVqObuXfHQN9fbTP84wdiu2nABHwFreAuVUKAxGA32QNSvmajkuI6IXjRmLm605ZDFsNA5Wxaa8uz9ksS/Lw4gSTwYTPJj4n5XmyQxiIeF0NS8W1UsAX/CjQ3CGmxs7NafrwhWnPRIWY0QhNYcnJZkK9OZ9Xcp/Y2/utbFsJ666B8w0n4zCTsu9Z5li6jQfR1qN1VPYEwhZjH17miLHXAFbg2O3BXRVYNjfDhE6Wxce5oZQewXlalWBGWs90ltWKIkrp6REdITKSbGW7/T1GSAAz7psDiU/zL1YhVe3jaEw5CqXuxfoYNl2dzvYTLTJpWWPlME6Mkxi8dJ2N1M+5WSTWZWdvNlULR7oWeOOw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(396003)(346002)(136003)(366004)(39830400003)(9686003)(26005)(52116002)(6506007)(8676002)(4326008)(66946007)(66476007)(66556008)(5660300002)(7416002)(41300700001)(38350700002)(38100700002)(186003)(1076003)(33716001)(8936002)(6486002)(2906002)(316002)(83380400001)(6512007)(508600001)(6666004)(86362001)(33656002)(6916009)(54906003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: S3DMD4ii2FP+ktQEBS3V9C0MbxVS2b8Hmqzg0nGr7scvz4oiW7Xqszt1dFB+Hq2+DswRt50Wowza43BJQVSTCf9LT6Aig+tps8lJpI6olhwrCzsqvswU+ndJxdA2cZrJStHJiqZi7AJWBGZT5eAGhu6wHCAL6ETtU/x86CcVwpsaVYjjr4jrAebiYGtWlCVhorRja0Ciqh6MDx5kuybkAgJj/OhVTEJOaw9nhOHB7FfcWNmF3FLokVkyy5rKKL0iUpQDlMmWqlyZ2dKo266mIs8I53x8jzNrHTuaQ7NOHb0ZdVqsVaqskcdqNoabx178+r85KL/8UNY9bGOjnpKH55iM9up1nEnn/nP56jcKFGHhMUhtv+kyhYwLJl5wI9FrGjWXECn7XY1+eo3nTeDIYv+BvwXZKBafHqgnKJmxGcRI9/5XBtrCV6TRtzi7haVcZEBycUxyVJVmpdfqLayfSDiEsvZFbRorgM7l74GD9hjlz23UZdsMy1OZUuijko+obhWRZX2DmMrpCxL9xrPcELLSOHIZBtC0nQvygoegxpY+I6ivJnBItlKpcflTKGR672S7nAQ1fjkLFoPLdUX9EZ3ubUZfpq/xkV8eif+9V0VktR8pAA5aZunQLR9ZVVj05FcDsxttAtEOEB2cf/PGZ6M1Wi0nT82wgJPVMFWCGmgGQb6QFqb5DJg5pKLOO2HATDv5Z4jTtPAw/DGTY/yu6g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(346002)(366004)(136003)(39830400003)(396003)(41300700001)(38350700002)(38100700002)(7416002)(508600001)(83380400001)(66556008)(1076003)(66476007)(52116002)(2906002)(33656002)(6506007)(8936002)(186003)(6486002)(86362001)(26005)(5660300002)(33716001)(9686003)(6512007)(316002)(6916009)(54906003)(8676002)(4326008)(66946007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8muF8UIDqklFH39gtKgTpEsPva5WOQDcxwTgWiL7swHDjVcCKzOhuftAS/WO?=
- =?us-ascii?Q?Q6PW3K7tfT5sx2g0aHZpnmAW0iHyo/Stsg7HvzF3gdI7UUxbaOXIRAt23T4h?=
- =?us-ascii?Q?n1//JpZ6Be2dfgSLKJDCGxNMkr/vuAsIwvlcS3mpomTcd4Jhr1BZlVBscVMo?=
- =?us-ascii?Q?y5KqO9sH3P/bMf+gW1MymFO3Nrhj4lY1PYtnmC8VRkIHF33ufbyZNI+Cs9vS?=
- =?us-ascii?Q?N0qZsrus9VdSvUJSooMWkrKoHUoTqV1WAhAteIETuaCU70s5jQeRD9C4s3uo?=
- =?us-ascii?Q?G/nEjJlvaB/wdjwPkghlp5s1fQDM8tbB1oQdWN23DZSUBv37l314zhC9BO21?=
- =?us-ascii?Q?ggqitMZoT2q6EO0NKzqAenEanUIWKaxQ6yu1b6S/ZF58Fs16WbENcjybiadn?=
- =?us-ascii?Q?OTJc9wYkTKPtX4AHTXVUBvSqvjfizcV46+Z+Jnr8rVaG02pubRgd8ob9xlzT?=
- =?us-ascii?Q?5Ig2z6CMgJjeFUfvGG8J92BOWo3W0AmnvAo6uWIAnIJREe45oMCpcB8a74iQ?=
- =?us-ascii?Q?e1Y42gyBdXR+Ns4BNqhJelE3RwCyoJFmVqvbMmz9QJT9581+PyFwo0iBjUIv?=
- =?us-ascii?Q?Ttxr2NJWXkOFQbDYc9sZmSDPPWLr46YN/jaNnR239SqgKQ6HJOMndZ/MRXmk?=
- =?us-ascii?Q?zF7NyfnwrZtpZOFcznVgKMoVM/H4mkp60q79H132z3QRLKZpXLiX/W5xLEcx?=
- =?us-ascii?Q?9XdkxHDxIRqmLhpj+kVbwAGeNYuOAMPL6BYPRaiYzhL68ewHcxAGVQz14Vw0?=
- =?us-ascii?Q?jBeHYVxP6/sH/40AZOEuw8/EdGZAXPcLimuDsL5QhI5LuVOw0nmM5UAUx9uC?=
- =?us-ascii?Q?AnqN/7PXNmOpjPENH1jbKfTB4MG1kTLivDu//veq5xm0Wku9EIkLzTKbR0ZG?=
- =?us-ascii?Q?E+99x6JT5QWS3jT5mOejJylpuqbx8zVIei33CTIRKNeBYLqC6t2rxfRt8pKh?=
- =?us-ascii?Q?dzmqanJkX1u570gX4WhAs79QXsEOtIDBNyC6Fr1N3MZK+EkLuGZqWdRclgkJ?=
- =?us-ascii?Q?rljIaNW8cIo5NuK+RlxmmIQpGsH2a++bGSPyeRoKxfpOwawwpGrfh2yH6xmQ?=
- =?us-ascii?Q?hKIGncIXfBd6J3w4RrNVR6VwfjC/+tlh+WqVPpl6OILWHFWVcyDfH6tOYQev?=
- =?us-ascii?Q?AIZi798IkFAlVwclShBwRT1sIUJCiqX9yMelC4BgC5f3jUpwZHvJ+VP4LSkN?=
- =?us-ascii?Q?TL6fZ2/I1VkQ9bBWAShV7Qbo7bqsR0gyhMG+Hy+ib98kJs6wbWBifOXMlBu/?=
- =?us-ascii?Q?6CYc6S5ppaqT2s8AhWWbwsdCBIn1i/2zPKe1HvJPnON5BBBXnQmuWvFB1SUm?=
- =?us-ascii?Q?nTjsI9jIWJlHRUX2olYrYUOJ1mznBDIzso0lzJ0KS/5Fks+osXxCJRj1H2Oe?=
- =?us-ascii?Q?1MbnXS/SVMmQJblJWYDeYk8blbZwldH+L5cJalCGg7VVl0PgQd6KWC1gRZDk?=
- =?us-ascii?Q?Mlmh/gyv7FVLiv0VPFQNcAoFvS+x4Ba92zwGD2Q5LZtg6pZLrRRtn6a4FLIx?=
- =?us-ascii?Q?fi9txE27h1ASaJm2WINygCl6ygOxbMXBW1/mY8sJHN0NPdZqAxigwrri9EIX?=
- =?us-ascii?Q?v9AOXCnksOzzguCWCJynONY2kFa3uA8z73cPDT0W34gbQsyJNWKrrkHTtXZh?=
- =?us-ascii?Q?2pZaaxJSQWrOo2hywqKef6Z4G+w34Fr57SEiIkcJyisxaLRL8ZNL+4jveeQz?=
- =?us-ascii?Q?U1dqYQMeRe+zHp49NNz78VoIJzwNOuCrjk3bPcBn+SqGrBlq+KF5iiHCbt4N?=
- =?us-ascii?Q?PJkpNqJ1fA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?L7s2kaVDyP7TPqPiiN4s1OpXP6gYy8YnQrIzp3IE8DCIQKvjIP8tWEHzwecK?=
+ =?us-ascii?Q?KvD4kwHO9hyl307CHr4H5vzSGFkQFkVKWMLk/FoS+5jx8VfUFDkvYaKGzH9e?=
+ =?us-ascii?Q?MjSeuW6cWSQz5gqHAHBmpQQnqTTHH80rwFGZEZNsV7/s2Xl8NoRSgXJwVFed?=
+ =?us-ascii?Q?IMrG2EwzKgSMSR/CPvXTedp66vkWJktCC0iEqilAkBLSN4DXcgrraDgX1P8a?=
+ =?us-ascii?Q?HPtAyy6QryljYPnnsROa7WFVIGCV0jCUXywkurrccYpFqocviM5NilfeufU8?=
+ =?us-ascii?Q?jyRQUETugoQvzbnNKLG2T6BP7WaLFRrEAiEHUmLh0uR2JpoE4Z6S5sPBykIK?=
+ =?us-ascii?Q?ZQIadnnpjYxfe4OSCnCb5OPcy+Lcf18izyHxSefo7fXI7IfOeE21Qj4KVsBt?=
+ =?us-ascii?Q?uFhHIJ6I2bf1fbx3cgtt+uz3sMvzI+uUyRRbizi+AjfT3lH1KVsInT9pXHmL?=
+ =?us-ascii?Q?KoBTjX5t/TI89kPgTj0PCMlMTqp26X2BxRev5IOcDXBfXkB3KtaYzpxIzc7W?=
+ =?us-ascii?Q?5lXzmwwdOZMXILTLxx66qs4cy2hEttZLMryp9b4V1gLl2oG2A+kPztAduNoo?=
+ =?us-ascii?Q?oxb4OV2I6TYZ0akRlegPu+As38LKpJrROY+382ufZaIeoPgdZ98zXr/cTJEo?=
+ =?us-ascii?Q?j9XiXwo88aSUI5Nutbi+yXQzcYR198kg9LNg4mAtkxwTXiCAH2gSrqiaomoY?=
+ =?us-ascii?Q?BA/CZ4YqTEOB5zTrYv4E+r7+UmAlMT/FatUIth1aUZSPuoPwLb4KpPUwJWKj?=
+ =?us-ascii?Q?k6BLbRNBbSDYElYKggay/bWeN9bbapYpV0vqpNW9CahDn8xPcVOqt53tpU2C?=
+ =?us-ascii?Q?M8FRPfIN0co5AX5b0V8N+TuFe4pKgcMNvNr8vo818fvrPJxynSaNhe8puHEt?=
+ =?us-ascii?Q?L/bpI4IUX0dS8k6YogPwoGjUf5W1346ZTGOnkwM8jw9DfGJmAVyYbkUSaLY/?=
+ =?us-ascii?Q?UkElgkhOa5sarwghodCDNOIjqkiEW2LR5a+Z3gHoDdTUETRaxcOhFbKYfFEc?=
+ =?us-ascii?Q?x5bRaa6vfdudPB34PnXMC+UJuZXmlr/SiVtwE0o4Vlb4tWZLaga6ci4j48Lo?=
+ =?us-ascii?Q?Sy2lJazCb3Pu2Kd8pMshl5eU5KWwixD+/gMDTFn6UPkD7MqB7/5gL8jUtoX7?=
+ =?us-ascii?Q?fWNoqyzsJkI0lqBA6bx+c056n3u+3FOGOFMK29NDnWDD+yiRitLifC7l3zTS?=
+ =?us-ascii?Q?raiE3bRZ7XwhfpW2VdvjkYigXrstBhooFzD0ICFaOAQdewjPP+f8z1q9TggV?=
+ =?us-ascii?Q?5yz4Le6XfAJJ6Xg86wDhh38lSKbkZIaHl2IM/2w/dMttcjfXxB5N45Zn9tiu?=
+ =?us-ascii?Q?gCX6YvbobbSH19YoNwwWwbrHQOl3hkBBosLW4AKd8RrQ0jYLBXSA3wp62PzP?=
+ =?us-ascii?Q?crrEhkbDzRdGpKrqqf3jGSPVV0v1uodSX6J1df6LWcu7Gjk+R/2hjyK53Cib?=
+ =?us-ascii?Q?dRTDAmkZX8nQsDcI5BN+aYM48ltJhNzMiYAVFGB8c9ZDsH7Zl4h96DSjWTMh?=
+ =?us-ascii?Q?QpAMuaJ6ylLozeYTNmQypMKXIK8czRIlBaGaW/A0w0JcTW4sN3vQpfOk7+k5?=
+ =?us-ascii?Q?rYchwBYzS1kE7Q+2tGSCi2aDH3TyRi0ADY9h+L+ASpJniVNVCZcKqNoPJu6l?=
+ =?us-ascii?Q?QzO82v1An+HTCgzXYLNKKiF/ytxyh3Aa5n/OVmU0d9SbjdAUZ8YC9QZPiUCs?=
+ =?us-ascii?Q?puZDZ4TJH/hyq3E6KE8fa2BVSUEbcG0XOgWSYy60gOUrMXnpECLibPVcXAti?=
+ =?us-ascii?Q?PBzNPpCC2A=3D=3D?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66bc0eeb-ab47-455b-9b0d-08da49b7886b
+X-MS-Exchange-CrossTenant-Network-Message-Id: b83db288-757d-4acd-ac50-08da49b7f463
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2022 01:29:45.9347
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2022 01:32:45.6393
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kkCzFtWqfQMyxoaJoiD0ngJgJBV9tcQ5ib7IRYmczdz4dPp6CRv3zaKkkzKtW8IuxQDhX5i3WfLzW4Wv16EcKQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR08MB7443
+X-MS-Exchange-CrossTenant-UserPrincipalName: +j3PTMITsNLgSLOLT5HEW9tQryB0EO5k/EvHkG4Ad57JEO+AUchJ1vCGoMLXjwJIVbGGCC+5GiNHwSr8iFkt6Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR0801MB3838
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -130,39 +130,255 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi Rob,
 
-On Wed, Jun 08, 2022 at 03:12:03PM -0600, Rob Herring wrote:
-> The maximum keycode value for Linux is 0x2ff, not 0xff. There's already
-> users and examples with values greater than 0xff, but the schema is not
-> yet applied in those cases.
+On Wed, Jun 08, 2022 at 03:12:04PM -0600, Rob Herring wrote:
+> Multiple bindings use 'linux,code', but there is not a central
+> definition and type. Add 'linux,code' to input.yaml and update all the
+> users to use it.
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 
-As the creator of a few said examples:
+For *iqs*.yaml:
 
-Reviewed-by: Jeff LaBundy <jeff@labundy.com>
+Acked-by: Jeff LaBundy <jeff@labundy.com>
 
 > ---
->  Documentation/devicetree/bindings/input/input.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../devicetree/bindings/input/adc-joystick.yaml   |  2 +-
+>  .../input/allwinner,sun4i-a10-lradc-keys.yaml     |  5 ++---
+>  .../devicetree/bindings/input/azoteq,iqs7222.yaml |  7 ++-----
+>  .../devicetree/bindings/input/gpio-keys.yaml      |  1 -
+>  .../devicetree/bindings/input/input.yaml          |  8 ++++++++
+>  .../devicetree/bindings/input/iqs269a.yaml        | 15 ++++++---------
+>  .../devicetree/bindings/input/iqs626a.yaml        |  5 ++---
+>  .../devicetree/bindings/input/iqs62x-keys.yaml    |  5 ++---
+>  .../devicetree/bindings/input/max77650-onkey.yaml |  8 ++++----
+>  9 files changed, 27 insertions(+), 29 deletions(-)
 > 
+> diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> index 2ee04e03bc22..64d961458ac7 100644
+> --- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> +++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> @@ -45,6 +45,7 @@ additionalProperties: false
+>  patternProperties:
+>    "^axis@[0-9a-f]+$":
+>      type: object
+> +    $ref: input.yaml#
+>      description: >
+>        Represents a joystick axis bound to the given ADC channel.
+>        For each entry in the io-channels list, one axis subnode with a matching
+> @@ -57,7 +58,6 @@ patternProperties:
+>          description: Index of an io-channels list entry bound to this axis.
+>  
+>        linux,code:
+> -        $ref: /schemas/types.yaml#/definitions/uint32
+>          description: EV_ABS specific event code generated by the axis.
+>  
+>        abs-range:
+> diff --git a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+> index 3399fc288afb..9700dc468b25 100644
+> --- a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+> +++ b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+> @@ -44,14 +44,13 @@ properties:
+>  patternProperties:
+>    "^button-[0-9]+$":
+>      type: object
+> +    $ref: input.yaml#
+>      properties:
+>        label:
+>          $ref: /schemas/types.yaml#/definitions/string
+>          description: Descriptive name of the key
+>  
+> -      linux,code:
+> -        $ref: /schemas/types.yaml#/definitions/uint32
+> -        description: Keycode to emit
+> +      linux,code: true
+>  
+>        channel:
+>          $ref: /schemas/types.yaml#/definitions/uint32
+> diff --git a/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml b/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
+> index a3a1e5a65306..5ea10fe7ffe9 100644
+> --- a/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
+> +++ b/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
+> @@ -421,6 +421,7 @@ patternProperties:
+>      patternProperties:
+>        "^event-(prox|touch)$":
+>          type: object
+> +        $ref: input.yaml#
+>          description:
+>            Represents a proximity or touch event reported by the channel.
+>  
+> @@ -467,11 +468,7 @@ patternProperties:
+>                The IQS7222B does not feature channel-specific timeouts; the time-
+>                out specified for any one channel applies to all channels.
+>  
+> -          linux,code:
+> -            $ref: /schemas/types.yaml#/definitions/uint32
+> -            description:
+> -              Numeric key or switch code associated with the event. Specify
+> -              KEY_RESERVED (0) to opt out of event reporting.
+> +          linux,code: true
+>  
+>            linux,input-type:
+>              $ref: /schemas/types.yaml#/definitions/uint32
+> diff --git a/Documentation/devicetree/bindings/input/gpio-keys.yaml b/Documentation/devicetree/bindings/input/gpio-keys.yaml
+> index 7fe1966ea28a..cd07107fd5ed 100644
+> --- a/Documentation/devicetree/bindings/input/gpio-keys.yaml
+> +++ b/Documentation/devicetree/bindings/input/gpio-keys.yaml
+> @@ -34,7 +34,6 @@ patternProperties:
+>  
+>          linux,code:
+>            description: Key / Axis code to emit.
+> -          $ref: /schemas/types.yaml#/definitions/uint32
+>  
+>          linux,input-type:
+>            description:
 > diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
-> index d41d8743aad4..43d2f299c332 100644
+> index 43d2f299c332..e3701a0bc500 100644
 > --- a/Documentation/devicetree/bindings/input/input.yaml
 > +++ b/Documentation/devicetree/bindings/input/input.yaml
-> @@ -21,7 +21,7 @@ properties:
->      $ref: /schemas/types.yaml#/definitions/uint32-array
->      items:
+> @@ -23,6 +23,14 @@ properties:
 >        minimum: 0
-> -      maximum: 0xff
-> +      maximum: 0x2ff
+>        maximum: 0x2ff
 >  
+> +  linux,code:
+> +    description:
+> +      Specifies a single numeric keycode value to be used for reporting
+> +      button/switch events. Specify KEY_RESERVED (0) to opt out of event
+> +      reporting.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    maximum: 0x2ff
+> +
 >    poll-interval:
 >      description: Poll interval time in milliseconds.
+>      $ref: /schemas/types.yaml#/definitions/uint32
+> diff --git a/Documentation/devicetree/bindings/input/iqs269a.yaml b/Documentation/devicetree/bindings/input/iqs269a.yaml
+> index 9c154e5e1a91..c22f8f27913a 100644
+> --- a/Documentation/devicetree/bindings/input/iqs269a.yaml
+> +++ b/Documentation/devicetree/bindings/input/iqs269a.yaml
+> @@ -370,6 +370,7 @@ patternProperties:
+>      patternProperties:
+>        "^event-prox(-alt)?$":
+>          type: object
+> +        $ref: input.yaml#
+>          description:
+>            Represents a proximity event reported by the channel in response to
+>            a decrease in counts. Node names suffixed with '-alt' instead corre-
+> @@ -396,14 +397,13 @@ patternProperties:
+>              default: 10
+>              description: Specifies the threshold for the event.
+>  
+> -          linux,code:
+> -            $ref: /schemas/types.yaml#/definitions/uint32
+> -            description: Numeric key or switch code associated with the event.
+> +          linux,code: true
+>  
+>          additionalProperties: false
+>  
+>        "^event-touch(-alt)?$":
+>          type: object
+> +        $ref: input.yaml#
+>          description: Represents a touch event reported by the channel.
+>  
+>          properties:
+> @@ -421,14 +421,13 @@ patternProperties:
+>              default: 4
+>              description: Specifies the hysteresis for the event.
+>  
+> -          linux,code:
+> -            $ref: /schemas/types.yaml#/definitions/uint32
+> -            description: Numeric key or switch code associated with the event.
+> +          linux,code: true
+>  
+>          additionalProperties: false
+>  
+>        "^event-deep(-alt)?$":
+>          type: object
+> +        $ref: input.yaml#
+>          description: Represents a deep-touch event reported by the channel.
+>  
+>          properties:
+> @@ -446,9 +445,7 @@ patternProperties:
+>              default: 0
+>              description: Specifies the hysteresis for the event.
+>  
+> -          linux,code:
+> -            $ref: /schemas/types.yaml#/definitions/uint32
+> -            description: Numeric key or switch code associated with the event.
+> +          linux,code: true
+>  
+>          additionalProperties: false
+>  
+> diff --git a/Documentation/devicetree/bindings/input/iqs626a.yaml b/Documentation/devicetree/bindings/input/iqs626a.yaml
+> index 0cb736c541c9..e645521da8ba 100644
+> --- a/Documentation/devicetree/bindings/input/iqs626a.yaml
+> +++ b/Documentation/devicetree/bindings/input/iqs626a.yaml
+> @@ -449,6 +449,7 @@ patternProperties:
+>      patternProperties:
+>        "^event-(prox|touch|deep)(-alt)?$":
+>          type: object
+> +        $ref: input.yaml#
+>          description:
+>            Represents a proximity, touch or deep-touch event reported by the
+>            channel in response to a decrease in counts. Node names suffixed with
+> @@ -487,9 +488,7 @@ patternProperties:
+>                Specifies the hysteresis for the event (touch and deep-touch
+>                events only).
+>  
+> -          linux,code:
+> -            $ref: /schemas/types.yaml#/definitions/uint32
+> -            description: Numeric key or switch code associated with the event.
+> +          linux,code: true
+>  
+>            linux,input-type:
+>              $ref: /schemas/types.yaml#/definitions/uint32
+> diff --git a/Documentation/devicetree/bindings/input/iqs62x-keys.yaml b/Documentation/devicetree/bindings/input/iqs62x-keys.yaml
+> index 77fe3b545b35..e677e31fe8fe 100644
+> --- a/Documentation/devicetree/bindings/input/iqs62x-keys.yaml
+> +++ b/Documentation/devicetree/bindings/input/iqs62x-keys.yaml
+> @@ -89,15 +89,14 @@ properties:
+>  patternProperties:
+>    "^hall-switch-(north|south)$":
+>      type: object
+> +    $ref: input.yaml#
+>      description:
+>        Represents north/south-field Hall-effect sensor touch or proximity
+>        events. Note that north/south-field orientation is reversed on the
+>        IQS620AXzCSR device due to its flip-chip package.
+>  
+>      properties:
+> -      linux,code:
+> -        $ref: /schemas/types.yaml#/definitions/uint32
+> -        description: Numeric switch code associated with the event.
+> +      linux,code: true
+>  
+>        azoteq,use-prox:
+>          $ref: /schemas/types.yaml#/definitions/flag
+> diff --git a/Documentation/devicetree/bindings/input/max77650-onkey.yaml b/Documentation/devicetree/bindings/input/max77650-onkey.yaml
+> index 3a2ad6ec64db..48edc0c8c1dd 100644
+> --- a/Documentation/devicetree/bindings/input/max77650-onkey.yaml
+> +++ b/Documentation/devicetree/bindings/input/max77650-onkey.yaml
+> @@ -16,15 +16,15 @@ description: |
+>    The onkey controller is represented as a sub-node of the PMIC node on
+>    the device tree.
+>  
+> +allOf:
+> +  - $ref: input.yaml#
+> +
+>  properties:
+>    compatible:
+>      const: maxim,max77650-onkey
+>  
+>    linux,code:
+> -    $ref: /schemas/types.yaml#/definitions/uint32
+> -    description:
+> -      The key-code to be reported when the key is pressed. Defaults
+> -      to KEY_POWER.
+> +    default: 116  # KEY_POWER
+>  
+>    maxim,onkey-slide:
+>      $ref: /schemas/types.yaml#/definitions/flag
 > -- 
 > 2.34.1
 > 
-
-Thank you for driving this series.
 
 Kind regards,
 Jeff LaBundy
