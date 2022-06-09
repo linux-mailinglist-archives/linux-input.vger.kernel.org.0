@@ -2,105 +2,140 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 596E5545236
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jun 2022 18:43:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3964545398
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jun 2022 20:01:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238610AbiFIQnu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Jun 2022 12:43:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45364 "EHLO
+        id S232240AbiFISBU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Jun 2022 14:01:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238442AbiFIQnt (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jun 2022 12:43:49 -0400
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C25B626C2;
-        Thu,  9 Jun 2022 09:43:46 -0700 (PDT)
-Received: from [192.168.0.2] (ip5f5aedbb.dynamic.kabel-deutschland.de [95.90.237.187])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        with ESMTP id S231549AbiFISBT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jun 2022 14:01:19 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB2532C649;
+        Thu,  9 Jun 2022 11:01:13 -0700 (PDT)
+Received: from mercury (unknown [185.209.196.172])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        (Authenticated sender: pmenzel)
-        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 1CABC61EA1928;
-        Thu,  9 Jun 2022 18:43:44 +0200 (CEST)
-Message-ID: <c3bbbd15-fe41-672d-0e99-bd65a5369e1e@molgen.mpg.de>
-Date:   Thu, 9 Jun 2022 18:43:43 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: hid-sensor-hub 001F:8087:0AC2.0002: timeout waiting for response
- from ISHTP device
-Content-Language: en-US
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Jiri Kosina <jikos@kernel.org>, Even Xu <even.xu@intel.com>,
-        Zhang Lixu <lixu.zhang@intel.com>,
+        (Authenticated sender: sre)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9EA4E66017A8;
+        Thu,  9 Jun 2022 19:01:11 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1654797671;
+        bh=5Y3AQzLeywES96Kh/yBOL0YLXC5PH+4Q1k1GL1ZgqU4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VUUlu6y5r818/A8/HzXcCQAIDFh3EFrwGVcKATh/wE0ejXg5gdnmOZSsBaYjFiOc/
+         Chw+heWycuJaZ8UpxTcLI7vAUCyXg8fNxRoy7GPb6bc2ZnZb3H+OmcWf260wmLhML0
+         El+SRXrrsY46b3baffeZIf7rOBBCiNPz3VWaCwXPnxMEiEVeg1WtkcGB1iwqnn5AU6
+         aFuN+C+DPLmWTNFNzHeWYlTpSGb0TGdhTKB2WegAaxVvZrqHvYoIcGCBejdeyYySAx
+         ylRFWJ4vM2+NsEoWuYWvuDSbsM7oVidnYaG1A2jP3HIdERZjlum8Ira88zekXIEB8y
+         32lGsYZ1UdPSA==
+Received: by mercury (Postfix, from userid 1000)
+        id D9B8C10605B9; Thu,  9 Jun 2022 20:01:09 +0200 (CEST)
+Date:   Thu, 9 Jun 2022 20:01:09 +0200
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Mark Gross <markgross@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Dell.Client.Kernel@dell.com
-References: <289be79b-8fbb-d171-a1e5-5d8218dff39d@molgen.mpg.de>
- <8833ba2600208a05940943636a3bd8b6af6a9fe4.camel@linux.intel.com>
- <dff3d94c-93be-2b31-35c6-35a7886f3680@molgen.mpg.de>
- <8fc40ebb2fbcecb1ab2f5ea156bf9ec10aff06bf.camel@linux.intel.com>
- <82e9a41c-552a-07e2-7caa-a14913cd34f4@molgen.mpg.de>
- <8eb29bb9a817c88e2e9a4a76a10e99bf5504a3b5.camel@linux.intel.com>
-From:   Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <8eb29bb9a817c88e2e9a4a76a10e99bf5504a3b5.camel@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Jonathan Corbet <corbet@lwn.net>,
+        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 05/12] power/supply: surface_charger: Use client
+ device wrappers for notifier registration
+Message-ID: <20220609180109.yqbrgyj5wzi4sjor@mercury.elektranox.org>
+References: <20220527023447.2460025-1-luzmaximilian@gmail.com>
+ <20220527023447.2460025-6-luzmaximilian@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="yjntcrry2unljjce"
+Content-Disposition: inline
+In-Reply-To: <20220527023447.2460025-6-luzmaximilian@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Srinivas,
 
+--yjntcrry2unljjce
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Am 18.05.22 um 21:55 schrieb srinivas pandruvada:
+Hi,
 
-> Good news, is that I can get to one 9310 system.
+On Fri, May 27, 2022 at 04:34:40AM +0200, Maximilian Luz wrote:
+> Use newly introduced client device wrapper functions for notifier
+> registration and unregistration.
+>=20
+> Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
 
-Awesome.
+Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-> Manufacturer: Dell Inc.
-> Product Name: XPS 13 9310
-> 
-> I had
-> "
-> bios_date:12/10/2020
-> bios_release:1.2
-> bios_vendor:Dell Inc.
-> bios_version:1.2.5
-> "
-> 
-> Didn't observe any issue with ISH after multiple suspend/resume
-> 
-> Update to the latest available from Dell website
-> 
-> BIOS Information
-> 	Vendor: Dell Inc.
-> 	Version: 3.6.0
-> 	Release Date: 03/17/2022
-> 	
-> 
-> Still no issue.
-> 
-> I am using
-> 5.17.7-200.fc35.x86_64
-> 
-> So suggest to updated to the latest BIOS from Dell website and
-> reproduce.
+-- Sebastian
 
-I had access to the system, and I have not seen that ISHTP message since 
-May 16th, 2022 so with the old 2.2.0 and current 3.6.0 system firmware. 
-But it also was not always present beforehand, so no idea, if something 
-special has to be done (like attach a device) to trigger it.
+> ---
+>=20
+> Changes in v2:
+>   - none
+>=20
+> ---
+>  drivers/power/supply/surface_charger.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/power/supply/surface_charger.c b/drivers/power/suppl=
+y/surface_charger.c
+> index a060c36c7766..59182d55742d 100644
+> --- a/drivers/power/supply/surface_charger.c
+> +++ b/drivers/power/supply/surface_charger.c
+> @@ -216,7 +216,7 @@ static int spwr_ac_register(struct spwr_ac_device *ac)
+>  	if (IS_ERR(ac->psy))
+>  		return PTR_ERR(ac->psy);
+> =20
+> -	return ssam_notifier_register(ac->sdev->ctrl, &ac->notif);
+> +	return ssam_device_notifier_register(ac->sdev, &ac->notif);
+>  }
+> =20
+> =20
+> @@ -251,7 +251,7 @@ static void surface_ac_remove(struct ssam_device *sde=
+v)
+>  {
+>  	struct spwr_ac_device *ac =3D ssam_device_get_drvdata(sdev);
+> =20
+> -	ssam_notifier_unregister(sdev->ctrl, &ac->notif);
+> +	ssam_device_notifier_unregister(sdev, &ac->notif);
+>  }
+> =20
+>  static const struct spwr_psy_properties spwr_psy_props_adp1 =3D {
+> --=20
+> 2.36.1
+>=20
 
-Until the message shows up again, let’s consider the issue fixed though. 
-Thank you for your time.
+--yjntcrry2unljjce
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-Kind regards,
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmKiNVYACgkQ2O7X88g7
++ppWPw/+LiV+GPK8dKvKt78fDYL5OdrW2zJFDZYcLWx+osdgMVT12yLidINyk4KQ
+LRxSi1/d+dx7hdn/5yDf62d+O0s4iPN0gasyWnTxIesHOo7SxrR6+lIY7LqYTzJ0
+UyLipqoZcIxswRRwG2+SBGMigRm9+rVR8Ii3p3/af7l+FPmgmfpfBswZgLC9CJlB
+/EUXSoFGURzlRiyNhlBBjRaI28y9LneMzVorLSbZJtWjYfLAuQ8FB73LNbQeVwFm
+uws8IqIadQs67oN/JL0gXnTIlGWstheISUji6bLv4UrsT102aY4e9zw5Vq2vjHw5
+seoExnKsiwvXeXIwWpizr4Sz60SYzsszIXUnR3uL5fx7G2e9ixT07YC4iE/ocFRK
+mcSNujLuVhy5BQGJtRvT7+wZi6Wzm2DIyPD9od1cjCGvZMeluBD49kWBE3IvgRuF
+h5hII3XpwivvedDXolahgxrFp28iOS7RF8GXrQX0ErvWBCswvNFI4Y9m5ue12j4O
+z2bH48l9HdyGWfhLPSuDe47td7S5GKJ2uPZc8nJqAxjkk8d+uVM1rGmU8ctu3Oj+
+brBfUtKawJBobBoSZU1JG7rshRHRzCYFkHa7D6dxwCFwcdxWpDSoeuJTZWfTOgDf
+mm58PIYInnWZ/6iQhjoeea/VFY5OM6+P3ZnevqgZ6AmohtlQVmo=
+=pjwL
+-----END PGP SIGNATURE-----
 
-Paul
+--yjntcrry2unljjce--
