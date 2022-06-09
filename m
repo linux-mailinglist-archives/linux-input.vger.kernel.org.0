@@ -2,301 +2,157 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 43522544351
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jun 2022 07:50:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53B845443DD
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jun 2022 08:35:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231326AbiFIFuN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Jun 2022 01:50:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50066 "EHLO
+        id S239033AbiFIGfZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Jun 2022 02:35:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230391AbiFIFuM (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jun 2022 01:50:12 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3435A31CCB6;
-        Wed,  8 Jun 2022 22:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1654753790;
-        bh=hj2U7yuMok6Ib8HHjFzrEGP7nopOKjtnj5FIUTpawz8=;
-        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=XWsA0ZWme/FE9k51fBe/oPfyJT27jh5mSEGxa9lywQPgdvSoZpNRJ/+kRsArVFY9h
-         EjyE7aNoUQWiQAxjWmd4uGORQixghQlQie70jwnkzJMruwYeihQu5TsE0oz9Z8/gSq
-         OZX5Ujy3Kt9laDHUMAYsUAWC6ZJqhwux1kB3jmNE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [172.25.0.188] ([62.143.94.109]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N1wlv-1naeuN2dgn-012Dch; Thu, 09
- Jun 2022 07:49:50 +0200
-Message-ID: <21f59c3b-1d54-6980-8e25-af7532a1cbae@gmx.de>
-Date:   Thu, 9 Jun 2022 07:49:49 +0200
+        with ESMTP id S232974AbiFIGfV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jun 2022 02:35:21 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E7DA30557;
+        Wed,  8 Jun 2022 23:35:20 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id w20so14806501lfa.11;
+        Wed, 08 Jun 2022 23:35:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=5k/LjccvaikJ+eBEqduBSIW5NO0M91symnhTe30/FZI=;
+        b=TG5P/jOhm/GqNEc+I2Txp4nZ30m6y7oVShefLeKz7zQuPkVhSUUMeuZu30kuzHW7YZ
+         5C8lO9ukM5+unqVpCQwQE/5uGwFTm8Radr7eubJfq4K9RjzzHhzPARzNzWC1Pscg3CMz
+         nPOfztGg4t6ujCy3FXi7LOFxHSQ5RjTVuv9G5kO1lgLJk90A8tawyxufWIfF2XaUmzlo
+         04+GFdOGwfQvDS5TamfE4mTlQC0te0ZULJOisXZDLeX5FpLoPTNG9qd0qTPsBv+ZBo3W
+         gLTDpmFQINCTxDD/i4QB0UQCAfDN5fy/x8WgPD/CXalargPvX0di6CqjEigWCW0DdNi/
+         3bxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=5k/LjccvaikJ+eBEqduBSIW5NO0M91symnhTe30/FZI=;
+        b=aSe4GqPGF8mT1kSVJtkSynmfu4q1uZsDqvBbHMyQ06pAgWxOEjNH08NiKR+8vdwWWp
+         e/OWPcY9pN92jsLA0oIs/tCQfixW4H0QZD9aOlrSu9AvBYvrcuxWHm1WizIOQelqCw5z
+         hILf1qwzA85lyvriLrVKTyF2hhQk76V+YDi9miKk31rSo3AodNblyTnwm4IzLqcR12Vw
+         nm7Vq7H7+BFM3cD3V2ak1TGKVMqVw+Ll1Ivvs5fNzlx7xLksiT4iUySXj7z+gZ3l+zpF
+         2Df69UFNGop5AB/mV1okhDOTp0MJk0BUT+lI66dS5d24Z+J2eHVyvoc5rCZobYS7zT41
+         ADog==
+X-Gm-Message-State: AOAM5314ibLclCu4nftqXcGl2OKj3m3E/27HBGMr/dO1EEd0QeZEn9GA
+        mX6v4al2vGgFzttseq138PTPhx85VttOJBUBVnDvemYS
+X-Google-Smtp-Source: ABdhPJyFnfJae7mt5bBlEmzK1eNW7vfgBpZsel/i2E0gdbwP8xGDAayfM3kLMnkWeD0k4eBnDvZzvsU0rIGMu/wmvSA=
+X-Received: by 2002:a05:6512:529:b0:479:2158:da27 with SMTP id
+ o9-20020a056512052900b004792158da27mr17202634lfc.389.1654756518692; Wed, 08
+ Jun 2022 23:35:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 5/5] dt-bindings: input: Convert adc-keys to DT schema
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Artur Rojek <contact@artur-rojek.eu>,
-        Maxime Ripard <mripard@kernel.org>,
-        Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+References: <1654581161-12349-1-git-send-email-u0084500@gmail.com>
+ <1654581161-12349-4-git-send-email-u0084500@gmail.com> <Yp+gS6r5Kpi33Ags@sirena.org.uk>
+ <CADiBU38+0vp3Dv6i7uYzCwR431PKBr-HNQnY0Qe7fvvRYGEJmw@mail.gmail.com> <YqB19O/HYvEAxdiM@sirena.org.uk>
+In-Reply-To: <YqB19O/HYvEAxdiM@sirena.org.uk>
+From:   ChiYuan Huang <u0084500@gmail.com>
+Date:   Thu, 9 Jun 2022 14:35:07 +0800
+Message-ID: <CADiBU390XRXZ2yx5CT2NxhN3aROHXcxs7w2d-xhB6+EYn+uTfA@mail.gmail.com>
+Subject: Re: [PATCH 3/4] regulator: rt5120: Add PMIC regulator support
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-References: <20220608211207.2058487-1-robh@kernel.org>
- <20220608211207.2058487-6-robh@kernel.org>
-From:   Heinrich Schuchardt <xypron.glpk@gmx.de>
-In-Reply-To: <20220608211207.2058487-6-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Lee Jones <lee.jones@linaro.org>, dmitry.torokhov@gmail.com,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        cy_huang <cy_huang@richtek.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:pL2QTWV+NbBYavH/k02ABqocu/FgbCa7bQ8dsUAziDBVB/0AqVN
- YFIzOTPIotSO55gexHi1kLEMJ9ae7XiT8jcCOx41CqWyaYiCKngzQSFDOjBx5iLPXKhVOPG
- Dupd0cEhtYW1tI1kkzy+48bpzpT58JPL4Sjqn6wYLc/qA3s1uKhoinAfDG7VhGdw20jrTXA
- I//T+pGZNQVW/3GAZZ6JQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mN4qq9Fl2jg=:kXv14h3qt/nOfz4mY7L3TQ
- twVvv04PjZRSScTAeVhVKDT0nZyPmOnkWKVEfj6OM87Dx5SJ2usAspp3zaQEE45R/xmUQi+O8
- dQFPEERogBK0nBtqHm67suhEKpl68aagj5/JhiVyKwQMmAEHJ2t1z9HuvWRb6z1bgFS/gdHK5
- S5DXAu/5yL9I7zR7jiiHEhl8OgIdz8G7Ygp71rrgQTFZ34w4r8K1wEllVBM0zWulk/azXvxFS
- 8WN9tjUTX/GtfZ0iqYVx0LjGmo8+Q4K35GSXVPioDiYkhgxnii7JatuJAuWp/5rZjlk1ipvaB
- srIDtrOI2XYxf2whkGDEsnjawipUNjS+11FETO3+pNTMDi9v+OYhmiydmm92NoqrvhF3opfWS
- R8Zl2SMT2jSIksSoNrYFzp0U+w9ZW5Jel9HZxBylTXWG7g67BWK6oiJIJkV77Ah/dn0+rZhxi
- 3lGUIJlTfSIi+S1PPJY0kOm3oWxn+kVdnVoFTuYSALcqnN76hFulmdOEZIzmq7kHVvUSU4Hiw
- 3hMQp+1b9a9PLJVWMuRn7QXA5btSs5LvmYjpylnJaGHE2/lP8FD5f7XPKD4tXId1gqcGOMJxY
- OHwTms3xof2QpX1BQaR9T5AfEegeLiH+x7QG5MGuWePBfl85GOZKfKgV3KBQ/P3/nnFoliLg5
- ULkN29Q7xSqdSN/F6mAnYF7M2NyEPenrJQqOxv5HIq6ubuUtSC4oqEazPwQeyflBfQKSjh+3L
- n/HpwxLR56i5NivA60pTHacyCFxeM/iECYjQo4kTFus29FgcqH3uTtW8p/FWWZxcS5nSTfhlb
- bAUzT2whaXffvFdGnwXRRqYpLCItAzRmbu2Ee8O4K5HxSJ5t+53MnCiqp0n/9kXb3zqu6d0qR
- 59C2maIdfQIieeScRQZZaewsrk0tIvHYJcpx3H+v+pyt85SbMgmtKcUwnIzcDwHKBdxdTQhdq
- AsiWssQ6f3XJVtFFJSZZ8T2p1ann5qTn37F+TBPddll2HOObemw/w2BOsk157/cns5GoNipEl
- 9hXTVhyxF+TLrmhj1p/cvHHxKaPmrHDoub/tlwCJ1wzbTO74zVoZ5psg3o1QP+MftpwsadPBG
- FQnvkxIaASa0rbT4c2DlRKvvNWb2NVHg/e3/FUqqL4peSlUgJCrnCGPrA==
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 6/8/22 23:12, Rob Herring wrote:
-> Convert the adc-keys binding to DT schema format.
+Mark Brown <broonie@kernel.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=888=E6=97=A5=
+ =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=886:12=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> The old binding has 'label' as required, but it should never be
-> required given it's just a human readable description.
+> On Wed, Jun 08, 2022 at 11:15:56AM +0800, ChiYuan Huang wrote:
+> > Mark Brown <broonie@kernel.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=888=E6=
+=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=883:00=E5=AF=AB=E9=81=93=EF=BC=9A
+> > > On Tue, Jun 07, 2022 at 01:52:40PM +0800, cy_huang wrote:
 >
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> v2:
->   - Drop Heinrich as a maintainer
->   - Use common linux,code definition
->   - Drop label as required
-> ---
->   .../devicetree/bindings/input/adc-keys.txt    |  67 ------------
->   .../devicetree/bindings/input/adc-keys.yaml   | 103 ++++++++++++++++++
->   2 files changed, 103 insertions(+), 67 deletions(-)
->   delete mode 100644 Documentation/devicetree/bindings/input/adc-keys.tx=
-t
->   create mode 100644 Documentation/devicetree/bindings/input/adc-keys.ya=
-ml
+> > > > +     static const char * const name[] =3D { "buck1", "buck2", "buc=
+k3", "buck4",
+> > > > +                                          "ldo", "exten" };
+> > > > +     static const char * const sname[] =3D { "vin1", "vin2", "vin3=
+", "vin4",
+> > > > +                                           "vinldo", NULL };
 >
-> diff --git a/Documentation/devicetree/bindings/input/adc-keys.txt b/Docu=
-mentation/devicetree/bindings/input/adc-keys.txt
-> deleted file mode 100644
-> index 6c8be6a9ace2..000000000000
-> --- a/Documentation/devicetree/bindings/input/adc-keys.txt
-> +++ /dev/null
-> @@ -1,67 +0,0 @@
-> -ADC attached resistor ladder buttons
-> -------------------------------------
-> -
-> -Required properties:
-> - - compatible: "adc-keys"
-> - - io-channels: Phandle to an ADC channel
-> - - io-channel-names =3D "buttons";
-> - - keyup-threshold-microvolt: Voltage above or equal to which all the k=
-eys are
-> -			      considered up.
-> -
-> -Optional properties:
-> -	- poll-interval: Poll interval time in milliseconds
-> -	- autorepeat: Boolean, Enable auto repeat feature of Linux input
-> -	  subsystem.
-> -
-> -Each button (key) is represented as a sub-node of "adc-keys":
-> -
-> -Required subnode-properties:
-> -	- label: Descriptive name of the key.
-> -	- linux,code: Keycode to emit.
-> -	- press-threshold-microvolt: voltage above or equal to which this key =
-is
-> -				     considered pressed.
-> -
-> -No two values of press-threshold-microvolt may be the same.
-> -All values of press-threshold-microvolt must be less than
-> -keyup-threshold-microvolt.
-> -
-> -Example:
-> -
-> -#include <dt-bindings/input/input.h>
-> -
-> -	adc-keys {
-> -		compatible =3D "adc-keys";
-> -		io-channels =3D <&lradc 0>;
-> -		io-channel-names =3D "buttons";
-> -		keyup-threshold-microvolt =3D <2000000>;
-> -
-> -		button-up {
-> -			label =3D "Volume Up";
-> -			linux,code =3D <KEY_VOLUMEUP>;
-> -			press-threshold-microvolt =3D <1500000>;
-> -		};
-> -
-> -		button-down {
-> -			label =3D "Volume Down";
-> -			linux,code =3D <KEY_VOLUMEDOWN>;
-> -			press-threshold-microvolt =3D <1000000>;
-> -		};
-> -
-> -		button-enter {
-> -			label =3D "Enter";
-> -			linux,code =3D <KEY_ENTER>;
-> -			press-threshold-microvolt =3D <500000>;
-> -		};
-> -	};
-> -
-> -+--------------------------------+------------------------+
-> -| 2.000.000 <=3D value             | no key pressed         |
-> -+--------------------------------+------------------------+
-> -| 1.500.000 <=3D value < 2.000.000 | KEY_VOLUMEUP pressed   |
-> -+--------------------------------+------------------------+
-> -| 1.000.000 <=3D value < 1.500.000 | KEY_VOLUMEDOWN pressed |
-> -+--------------------------------+------------------------+
-> -|   500.000 <=3D value < 1.000.000 | KEY_ENTER pressed      |
-> -+--------------------------------+------------------------+
-> -|              value <   500.000 | no key pressed         |
-> -+--------------------------------+------------------------+
-> diff --git a/Documentation/devicetree/bindings/input/adc-keys.yaml b/Doc=
-umentation/devicetree/bindings/input/adc-keys.yaml
-> new file mode 100644
-> index 000000000000..7aa078dead37
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/adc-keys.yaml
-> @@ -0,0 +1,103 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/adc-keys.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ADC attached resistor ladder buttons
-> +
-> +maintainers:
-> +  - Alexandre Belloni <alexandre.belloni@bootlin.com>
-> +
-> +allOf:
-> +  - $ref: input.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: adc-keys
-> +
-> +  io-channels:
-> +    maxItems: 1
-> +
-> +  io-channel-names:
-> +    const: buttons
-> +
-> +  keyup-threshold-microvolt:
-> +    description:
-> +      Voltage above or equal to which all the keys are considered up.
-> +
-> +  poll-interval: true
-> +  autorepeat: true
-> +
-> +patternProperties:
-> +  '^button-':
-> +    type: object
-> +    $ref: input.yaml#
-> +    additionalProperties: false
-> +    description:
-> +      Each button (key) is represented as a sub-node.
-> +
-> +    properties:
-> +      label: true
-> +
-> +      linux,code: true
+> > > It would be easier and clearer to just make this a static table like
+> > > other drivers do, there's no need to generate anything dynamically as
+> > > far as I can see.
+>
+> > My excuse. let me explain it.
+> > buck1 voltage range from 600mV to 1393.75mV.
+> > buck2~4/ldo/exten is the fixed regulator.
+> > buck3 and buck4 is fixed by the IC efuse default.
+> > buck2 and ldo is fixed by the external resistor chosen.
+> > exten is designed to connected to the external power.
+>
+> > That's why I cannot directly declared it as the static regulator_desc.
+>
+> So buck 2-4 need some dynamic handling then but the rest can be static -
+> that would be a lot clearer.  You could also have a template for the
+> ones with some dynamic values and just override the few fields that need
+> it.
+>
+Not just buck2/3, buck2/3/4/ldo/exten all need the dynamic handling.
 
-Can we provide a reference to a new type in
-Documentation/devicetree/bindings/input/input.yaml limiting the range to
-0 - 0x2ff?
+> > > > +     if (init_data->constraints.min_uV !=3D init_data->constraints=
+.max_uV) {
+> > > > +             dev_err(priv->dev, "Variable voltage for fixed regula=
+tor\n");
+> > > > +             return -EINVAL;
+> > > > +     }
+> > > > +
+> > > > +     desc->fixed_uV =3D init_data->constraints.min_uV;
+> > > > +     init_data->constraints.apply_uV =3D 0;
+>
+> > > Drivers should never override constraints passed in by machine driver=
+s,
+> > > if there's validation needed let the core do it.  The same probably
+> > > applies to providing a voltage range for a fixed regulator though tha=
+t's
+> > > not modifying everything so not such a problem.
+>
+> > Please check the above explanation about each power rails.
+>
+> I'm not sure what you're referencing here?
+>
+Sorry. Let me explain it.
+You mean 'of_parse_cb' must not override constraint.
+But if the regulator is fixed and dynamic, after
+'of_get_regulation_constraint', apply_uV will be true.
+The is referring to 'fixed.c'
 
-Best regards
-
-Heinrich
-
-> +
-> +      press-threshold-microvolt:
-> +        description:
-> +          Voltage above or equal to which this key is considered presse=
-d. No
-> +          two values of press-threshold-microvolt may be the same. All =
-values
-> +          of press-threshold-microvolt must be less than
-> +          keyup-threshold-microvolt.
-> +
-> +    required:
-> +      - linux,code
-> +      - press-threshold-microvolt
-> +
-> +required:
-> +  - compatible
-> +  - io-channels
-> +  - io-channel-names
-> +  - keyup-threshold-microvolt
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/input/input.h>
-> +    // +--------------------------------+------------------------+
-> +    // | 2.000.000 <=3D value             | no key pressed         |
-> +    // +--------------------------------+------------------------+
-> +    // | 1.500.000 <=3D value < 2.000.000 | KEY_VOLUMEUP pressed   |
-> +    // +--------------------------------+------------------------+
-> +    // | 1.000.000 <=3D value < 1.500.000 | KEY_VOLUMEDOWN pressed |
-> +    // +--------------------------------+------------------------+
-> +    // |   500.000 <=3D value < 1.000.000 | KEY_ENTER pressed      |
-> +    // +--------------------------------+------------------------+
-> +    // |              value <   500.000 | no key pressed         |
-> +    // +--------------------------------+------------------------+
-> +
-> +    adc-keys {
-> +        compatible =3D "adc-keys";
-> +        io-channels =3D <&lradc 0>;
-> +        io-channel-names =3D "buttons";
-> +        keyup-threshold-microvolt =3D <2000000>;
-> +
-> +        button-up {
-> +            label =3D "Volume Up";
-> +            linux,code =3D <KEY_VOLUMEUP>;
-> +            press-threshold-microvolt =3D <1500000>;
-> +        };
-> +
-> +        button-down {
-> +            label =3D "Volume Down";
-> +            linux,code =3D <KEY_VOLUMEDOWN>;
-> +            press-threshold-microvolt =3D <1000000>;
-> +        };
-> +
-> +        button-enter {
-> +            label =3D "Enter";
-> +            linux,code =3D <KEY_ENTER>;
-> +            press-threshold-microvolt =3D <500000>;
-> +        };
-> +    };
-> +...
-
+> > > > +     for (i =3D 0; i < RT5120_MAX_REGULATOR; i++) {
+> > > > +             ret =3D rt5120_of_parse_cb(priv, i, rt5120_regu_match=
+ + i);
+> > > > +             if (ret) {
+> > > > +                     dev_err(priv->dev, "Failed in [%d] of_passe_c=
+b\n", i);
+> > > > +                     return ret;
+> > > > +             }
+> > > > +     }
+> > >
+> > > This is all open coding stuff that's in the core - just provde an
+> > > of_parse_cb() operation and let the core take care of calling it.
+>
+> > Ditto
+>
+> Or here.
+If I put 'of_parce_cb' to make core handling it, the input parameter
+'init_data' is declared as const.
+I cannot override the 'apply_uV'.
+Right?
