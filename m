@@ -2,51 +2,51 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F37E0544A64
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jun 2022 13:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 547EB544A66
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jun 2022 13:39:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240491AbiFILjU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Jun 2022 07:39:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34824 "EHLO
+        id S237325AbiFILjV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Jun 2022 07:39:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237325AbiFILjT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jun 2022 07:39:19 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55519169DF0
-        for <linux-input@vger.kernel.org>; Thu,  9 Jun 2022 04:39:16 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id c2so30777955edf.5
-        for <linux-input@vger.kernel.org>; Thu, 09 Jun 2022 04:39:16 -0700 (PDT)
+        with ESMTP id S240407AbiFILjV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jun 2022 07:39:21 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 428EC195905
+        for <linux-input@vger.kernel.org>; Thu,  9 Jun 2022 04:39:18 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id n10so46922647ejk.5
+        for <linux-input@vger.kernel.org>; Thu, 09 Jun 2022 04:39:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yoi+zPkWqTTvlN+wO0cy6XLBUH8069tfMWIB3LL7MAs=;
-        b=jiHkLK2k0V/g9+AU3CbOGfidj6TqBsk4kjV64geDER1L1xv+kpMA6vTWnvPc0C3HcS
-         g8yVvr7jLk/na3LS/SGySvcKJPqXFiUPI7S/5y6LUCElhUncPQWSccSD+hLN4lryu3Mu
-         LUnNeC5yPeRjldMXzw++Sohz1TSconnBpYNnZbZw+aJ18630ydwPup+sBYpkBNTK0I4o
-         ii8PEtXpm02HpG9/z1Hy6kcnwfBJlcGHD0BVITC2VWhn8Jldo5DUSz9jaXiJYFm2wc0i
-         69jQFNVwsQ+slukxmL3x5og1A9PjRJHXqtXW7THYyyw6Qy17CCsAJE1Ip9zIHNYqyg2Z
-         t9rA==
+        bh=n04xRHDLPG5HTJiUoTVbiyOiGV01+5rVdjSb2OnFTXM=;
+        b=Ho4w2nM3+Q5bGqtr36/o6zunEJf1I2XT6LKt8qPNLkRCy08ezqkJOGQcvBy5vco1my
+         LGBVSuQy2o3zJ3VRCl5ktdED8AwYX9JPpK6G/5qGM8by9MmCH5kjgAac+5wdKBNIpFR8
+         xwCEy+untlqCgNrdyjBW7OOwtMZ/fatULZ5sRrG0DbV8h1a8fkBFQZrHUVRrHVTdOMOk
+         bFY0Q+lM7yWFhuw7oGtstkGAHtRN906miEa6MNINObX4FBiMpladAqhuYFhntv02FElx
+         IpEdpyFjcGNvTY5jsUxfo3i9hgyGqj3e7n/Ht1bGDfF6O7zBd2Gr4mncFJWMEbpebOEc
+         /opQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yoi+zPkWqTTvlN+wO0cy6XLBUH8069tfMWIB3LL7MAs=;
-        b=YIx92qudTYMSoxleEMP2a3xuy04TBM7Y39R6KVeH9B9PX/tiuqu02fDuDApGBhfpii
-         moKfWvVApDuVMctGsjiOAqnUHpVYPsggntHkfuoKsvtoYtUbtwlIvgjGMbjUk01Po7dy
-         xR3xqE/MsDzvi+y03FL4HSlJknYsk/7xvqZexSNOEenL5O9hGLJRM3Fxv8wk6cYNa/nW
-         3PJlhZWBLTw894xrd/ZJeTruMA9vSBhIqM8bqgzASoWHu+CLJL30ckiQTO89hHYPcZ/s
-         H+R7gpHqIFKVK0oWPZGQHz1eI5LucGIOE0tvWkgBYY4ZnQVe8j++z3V2Kz4LK3W/UE1T
-         OyQw==
-X-Gm-Message-State: AOAM533pVlVlvPzz/b2TQSjD5r3uVKYoXNIucQifr/Mgn9c42YuO5D7i
-        ip/vizoWy6MWBC+hKF9lub36bBqOqQ1Arw==
-X-Google-Smtp-Source: ABdhPJy+7F28cex3h0pFanY6YezFkbHHuVzHYvL0vVNyCbO/DG3qqXf1BUvEgXxJsF4hNHkgS2Vp7g==
-X-Received: by 2002:a05:6402:3586:b0:42e:2a6a:218b with SMTP id y6-20020a056402358600b0042e2a6a218bmr38718649edc.208.1654774754952;
-        Thu, 09 Jun 2022 04:39:14 -0700 (PDT)
+        bh=n04xRHDLPG5HTJiUoTVbiyOiGV01+5rVdjSb2OnFTXM=;
+        b=cVWZ/vB73Njp6W/xTE90AyktwElb4HhTJD1dWBcn7Bc0wTPRF5kBu8jwK01HWHRchQ
+         o2v/6BHzBmrirRowkEbsNVDdXHCNN7MV39h4EzCIKPITMjFVlV/2fs4uk2zbgf1C20MW
+         v+7u8Cpv0sU32q7xALwzdaE/beiXOqfkXQWR6BO5LzNFjWQzHpHzcAMS5e6HJ4dL1ngd
+         eyGtfT1dcUYrsSg/s/Sj5e+F8AcSN6fZ8bj3JTesv5wVPhPu31vyEBVg67T42iP1ZPVI
+         aGCv19x/xn1Hh5Xz7VrG7NFtjWqYyCVNDxJf43qShdbA8LjYT0mMcPE8FCoAdA50x/14
+         a/0w==
+X-Gm-Message-State: AOAM530a5EauPzTjrnxyKn9u02TxW/9qY+AOlUVytcn3J0YFY/e89hYr
+        iHvjqOlXYCB41K8Mi5M+n4slSM5q6kDcWg==
+X-Google-Smtp-Source: ABdhPJwgFvtD9GYY39BjWKd3xyuHcJYvYead1t+NeA7lJVCKNmpwd5ABumStlG++pLlWR2zP3uaRug==
+X-Received: by 2002:a17:906:e202:b0:6fe:478b:7c1 with SMTP id gf2-20020a170906e20200b006fe478b07c1mr35455237ejb.419.1654774757503;
+        Thu, 09 Jun 2022 04:39:17 -0700 (PDT)
 Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id u14-20020aa7d54e000000b0042e21f8c412sm11898495edr.42.2022.06.09.04.39.13
+        by smtp.gmail.com with ESMTPSA id u14-20020aa7d54e000000b0042e21f8c412sm11898495edr.42.2022.06.09.04.39.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 04:39:14 -0700 (PDT)
+        Thu, 09 Jun 2022 04:39:17 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
         arm@kernel.org, soc@kernel.org,
@@ -56,9 +56,9 @@ To:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 02/48] dt-bindings: input: gpio-keys: reference input.yaml and document properties
-Date:   Thu,  9 Jun 2022 13:39:04 +0200
-Message-Id: <20220609113911.380368-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2 03/48] dt-bindings: input: gpio-keys: accept also interrupt-extended
+Date:   Thu,  9 Jun 2022 13:39:05 +0200
+Message-Id: <20220609113911.380368-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org>
 References: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org>
@@ -67,72 +67,37 @@ Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The original text bindings documented "autorepeat" and "label"
-properties (in the device node, beside the nodes with keys).  DTS use
-also poll-interval.  Reference the input.yaml to get these top-level
-properties.
+Each key device node might have interrupts-extended instead of
+interrupts property:
+
+  fsl-ls1028a-kontron-sl28-var1.dtb: buttons0: power-button: 'anyOf' conditional failed, one must be fixed:
+    'interrupts' is a required property
+    'gpios' is a required property
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../devicetree/bindings/input/gpio-keys.yaml  | 32 +++++++++++--------
- 1 file changed, 19 insertions(+), 13 deletions(-)
+ Documentation/devicetree/bindings/input/gpio-keys.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/input/gpio-keys.yaml b/Documentation/devicetree/bindings/input/gpio-keys.yaml
-index 27bb5c6ab8d9..e722e681d237 100644
+index e722e681d237..17ac9dff7972 100644
 --- a/Documentation/devicetree/bindings/input/gpio-keys.yaml
 +++ b/Documentation/devicetree/bindings/input/gpio-keys.yaml
-@@ -15,6 +15,13 @@ properties:
-       - gpio-keys
-       - gpio-keys-polled
- 
-+  autorepeat: true
-+
-+  label:
-+    description: Name of entire device
-+
-+  poll-interval: true
-+
- patternProperties:
-   "^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$":
-     $ref: input.yaml#
-@@ -94,19 +101,18 @@ patternProperties:
- 
-     unevaluatedProperties: false
- 
--if:
--  properties:
--    compatible:
--      const: gpio-keys-polled
--then:
--  properties:
--    poll-interval:
--      description:
--        Poll interval time in milliseconds
--      $ref: /schemas/types.yaml#/definitions/uint32
--
--  required:
--    - poll-interval
-+allOf:
-+  - $ref: input.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          const: gpio-keys-polled
-+    then:
-+      required:
-+        - poll-interval
-+    else:
-+      properties:
-+        poll-interval: false
- 
- additionalProperties: false
+@@ -92,6 +92,8 @@ patternProperties:
+     anyOf:
+       - required:
+           - interrupts
++      - required:
++          - interrupts-extended
+       - required:
+           - gpios
  
 -- 
 2.34.1
