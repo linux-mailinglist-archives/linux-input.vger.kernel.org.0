@@ -2,95 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CB2E5446B2
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jun 2022 10:57:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85762544701
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jun 2022 11:14:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242685AbiFII5L (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Jun 2022 04:57:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34222 "EHLO
+        id S238084AbiFIJN6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Jun 2022 05:13:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242905AbiFII4a (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jun 2022 04:56:30 -0400
+        with ESMTP id S237982AbiFIJN6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jun 2022 05:13:58 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C5B51E2898;
-        Thu,  9 Jun 2022 01:56:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42ECD13E2B;
+        Thu,  9 Jun 2022 02:13:56 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 47D27B82C7E;
-        Thu,  9 Jun 2022 08:56:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A46A2C3411E;
-        Thu,  9 Jun 2022 08:56:07 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CFFDEB82C94;
+        Thu,  9 Jun 2022 09:13:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75A81C3411B;
+        Thu,  9 Jun 2022 09:13:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654764969;
-        bh=Le8tPzoYYL2tORCuXImVySrfImcCUAxU8vy3RAykSlo=;
+        s=k20201202; t=1654766032;
+        bh=E3bgvVQEVSUMixTXedD3mOG5QZ6LUdmLCyjdbt8AWbg=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=R/4IuUAssjcQ98itfPJK0iNCFfRUlw+3MZ/iZnTNJUF6bN6a7p13V/qoFv/jwApAX
-         /YO6GCcYRqM/tbR0tBPDr+1YKh4NDeZ8qLtv7BFGujHm+RE025u1xfGpC1hwInGhLe
-         eUXcK2L0oWQkAK4S2TbHbut+shw0flWC4Ei9HvNeKH23WR0D1C5UKjQ84CpOB68xZW
-         ch4xuqd/xD3wZV3KNTs48yLShwKN/LbpKWCIBaxFpQn9kbSGgCntRJwOmj30dI0Y+D
-         iPoZBt3+cmlONVICod7/BJgHSG/AmNRx2ylQ6nafDhKoGy7BM0xtUJN/LfZgsWO7sw
-         FL/J+dDESo7jA==
-Date:   Thu, 9 Jun 2022 10:55:57 +0200 (CEST)
+        b=i0tUtRLBPi9KbygmHDvfAoSYRE2VoyO0fZhW0K9f446PIp8jIptyuAPZo3IMkt7LY
+         PT2VwNLypWsI0JFTMstHO1FU1gLxOoFhCIsJfkkDtUdS01/vR3lsnjeLmBMh//IJxX
+         nitnGWUNpnVr73xbbEPLp4El0USYqGhRVS//2FgCyxznu4QY2ZHZWEUsSApftb5tas
+         KiGsZedGT2FzyCNdzwpy8NeTgDTtn+Y/xgVfnsIwjzj+sOwoaNx8fetO8YobFkRB65
+         fvNkbc1Lqrqp26dmYvTOHclfgk1T943U5BngVkjy1Zfy95KMAy4GP+/ZdD9PG5Lsj9
+         67FNbDo8w5eWg==
+Date:   Thu, 9 Jun 2022 11:13:48 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-cc:     benjamin.tissoires@redhat.com, eudean@arista.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dan.carpenter@oracle.com
-Subject: Re: [PATCH] HID: cp2112: prevent a buffer overflow in
- cp2112_xfer()
-In-Reply-To: <20220608122609.70861-1-harshit.m.mogalapalli@oracle.com>
-Message-ID: <nycvar.YFH.7.76.2206091055490.14340@cbobk.fhfr.pm>
-References: <20220608122609.70861-1-harshit.m.mogalapalli@oracle.com>
+To:     Tao Jin <tao-j@outlook.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] hid: multitouch: new device class fix Lenovo X12
+ trackpad sticky
+In-Reply-To: <CO6PR03MB62414DD2A91566B0D4C1C1DDE1D39@CO6PR03MB6241.namprd03.prod.outlook.com>
+Message-ID: <nycvar.YFH.7.76.2206091113370.14340@cbobk.fhfr.pm>
+References: <CO6PR03MB62414DD2A91566B0D4C1C1DDE1D39@CO6PR03MB6241.namprd03.prod.outlook.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 8 Jun 2022, Harshit Mogalapalli wrote:
+On Thu, 19 May 2022, Tao Jin wrote:
 
-> Smatch warnings:
-> drivers/hid/hid-cp2112.c:793 cp2112_xfer() error: __memcpy()
-> 'data->block[1]' too small (33 vs 255)
-> drivers/hid/hid-cp2112.c:793 cp2112_xfer() error: __memcpy() 'buf' too
-> small (64 vs 255)
+> The trackpad of the given device sends continuous report of pointers
+> status as per wxn8 spec. However, the spec did not clarify when the
+> fingers are lifted so fast that between the interval of two report
+> frames fingers on pad reduced from >=2 to 0. The second last report
+> contains >=2 fingers with tip state 1 and the last report contains only
+> 1 finger with tip state 0. Although this can happen unfrequently, a
+>   quick fix will be improve the consistency to 100%. A quick fix is to
+> disable MT_QUIRK_ALWAYS_VALID and enable MT_QUIRK_NOT_SEEN_MEANS_UP.
 > 
-> The 'read_length' variable is provided by 'data->block[0]' which comes
-> from user and it(read_length) can take a value between 0-255. Add an
-> upper bound to 'read_length' variable to prevent a buffer overflow in
-> memcpy().
+> Test for hid-tools is added in [1]
 > 
-> Fixes: 542134c0375b ("HID: cp2112: Fix I2C_BLOCK_DATA transactions")
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-> ---
->  drivers/hid/hid-cp2112.c | 5 +++++
->  1 file changed, 5 insertions(+)
+> In addition to this, I2C device 04CA:00B1 may also need similar class
+> but with MT_QUIRK_FORCE_MULTI_INPUT disabled (but it does not harm to
+>  enable it on non-multi-input device either). The respective owner has
+> been notified and a patch may coming soon after test.
 > 
-> diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
-> index ece147d1a278..1e16b0fa310d 100644
-> --- a/drivers/hid/hid-cp2112.c
-> +++ b/drivers/hid/hid-cp2112.c
-> @@ -790,6 +790,11 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
->  		data->word = le16_to_cpup((__le16 *)buf);
->  		break;
->  	case I2C_SMBUS_I2C_BLOCK_DATA:
-> +		if (read_length > I2C_SMBUS_BLOCK_MAX) {
-> +			ret = -EINVAL;
-> +			goto power_normal;
-> +		}
-> +
->  		memcpy(data->block + 1, buf, read_length);
->  		break;
+> [1]: https://gitlab.freedesktop.org/libevdev/hid-tools/-/merge_requests/130
+> 
+> Signed-off-by: Tao Jin <tao-j@outlook.com>
 
-Good catch, now applied. Thanks,
+Applied, thank you.
 
 -- 
 Jiri Kosina
