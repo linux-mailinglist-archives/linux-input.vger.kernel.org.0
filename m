@@ -2,81 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85762544701
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jun 2022 11:14:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 811FE54470C
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jun 2022 11:15:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238084AbiFIJN6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Jun 2022 05:13:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59360 "EHLO
+        id S240291AbiFIJPY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Jun 2022 05:15:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237982AbiFIJN6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jun 2022 05:13:58 -0400
+        with ESMTP id S230488AbiFIJPX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jun 2022 05:15:23 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42ECD13E2B;
-        Thu,  9 Jun 2022 02:13:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8272D18B3C;
+        Thu,  9 Jun 2022 02:15:22 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CFFDEB82C94;
-        Thu,  9 Jun 2022 09:13:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75A81C3411B;
-        Thu,  9 Jun 2022 09:13:51 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 40D75B82C94;
+        Thu,  9 Jun 2022 09:15:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7279C34114;
+        Thu,  9 Jun 2022 09:15:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654766032;
-        bh=E3bgvVQEVSUMixTXedD3mOG5QZ6LUdmLCyjdbt8AWbg=;
+        s=k20201202; t=1654766120;
+        bh=lX78Npt98ey6/C0d5zscpNgpQhug1xdeRde7s5Ic9kY=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=i0tUtRLBPi9KbygmHDvfAoSYRE2VoyO0fZhW0K9f446PIp8jIptyuAPZo3IMkt7LY
-         PT2VwNLypWsI0JFTMstHO1FU1gLxOoFhCIsJfkkDtUdS01/vR3lsnjeLmBMh//IJxX
-         nitnGWUNpnVr73xbbEPLp4El0USYqGhRVS//2FgCyxznu4QY2ZHZWEUsSApftb5tas
-         KiGsZedGT2FzyCNdzwpy8NeTgDTtn+Y/xgVfnsIwjzj+sOwoaNx8fetO8YobFkRB65
-         fvNkbc1Lqrqp26dmYvTOHclfgk1T943U5BngVkjy1Zfy95KMAy4GP+/ZdD9PG5Lsj9
-         67FNbDo8w5eWg==
-Date:   Thu, 9 Jun 2022 11:13:48 +0200 (CEST)
+        b=tyG7QlC1OnGqXvMPLcEu4g+pQiGZUkto+ogNWbw5iraEGvp0wutsDaP4EJ2AZLU14
+         B9pxaEyddmkfIeZVO+Irs6joZZLTLVb3m844L71DkUBiCmj1fOQ0ogsIp5HGEx+J3r
+         Uz5yNnEwAPLDmwIHUx9IJ36/ytCCNJ5X+TC4m+6ZH9YXJEZHbOwe7UQA6vuYoeH7k+
+         HJWptw0zkxjKRNj8sfdBpBdDYczPjh+ICasQM6k7qpVm/gJjnth8DipZH7EALdATY5
+         xklbw1UhVcd5rYRxmVVRQ1eZNcpy74dMVbjwhopWLKp928oag8PHCfIvGq25hWt4PB
+         /jEDQkWvvDKXQ==
+Date:   Thu, 9 Jun 2022 11:15:16 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Tao Jin <tao-j@outlook.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] hid: multitouch: new device class fix Lenovo X12
- trackpad sticky
-In-Reply-To: <CO6PR03MB62414DD2A91566B0D4C1C1DDE1D39@CO6PR03MB6241.namprd03.prod.outlook.com>
-Message-ID: <nycvar.YFH.7.76.2206091113370.14340@cbobk.fhfr.pm>
-References: <CO6PR03MB62414DD2A91566B0D4C1C1DDE1D39@CO6PR03MB6241.namprd03.prod.outlook.com>
+To:     Yang Li <yang.lee@linux.alibaba.com>
+cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH -next] HID: magicmouse: Fix some kernel-doc comments
+In-Reply-To: <20220602075821.49622-1-yang.lee@linux.alibaba.com>
+Message-ID: <nycvar.YFH.7.76.2206091114420.14340@cbobk.fhfr.pm>
+References: <20220602075821.49622-1-yang.lee@linux.alibaba.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 19 May 2022, Tao Jin wrote:
+On Thu, 2 Jun 2022, Yang Li wrote:
 
-> The trackpad of the given device sends continuous report of pointers
-> status as per wxn8 spec. However, the spec did not clarify when the
-> fingers are lifted so fast that between the interval of two report
-> frames fingers on pad reduced from >=2 to 0. The second last report
-> contains >=2 fingers with tip state 1 and the last report contains only
-> 1 finger with tip state 0. Although this can happen unfrequently, a
->   quick fix will be improve the consistency to 100%. A quick fix is to
-> disable MT_QUIRK_ALWAYS_VALID and enable MT_QUIRK_NOT_SEEN_MEANS_UP.
+> Remove warnings found by running scripts/kernel-doc,
+> which is caused by using 'make W=1'.
+> drivers/hid/hid-magicmouse.c:148: warning: Function parameter or member
+> 'hdev' not described in 'magicmouse_sc'
+> drivers/hid/hid-magicmouse.c:148: warning: Function parameter or member
+> 'work' not described in 'magicmouse_sc'
+> drivers/hid/hid-magicmouse.c:148: warning: Function parameter or member
+> 'battery_timer' not described in 'magicmouse_sc'
 > 
-> Test for hid-tools is added in [1]
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
+>  drivers/hid/hid-magicmouse.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> In addition to this, I2C device 04CA:00B1 may also need similar class
-> but with MT_QUIRK_FORCE_MULTI_INPUT disabled (but it does not harm to
->  enable it on non-multi-input device either). The respective owner has
-> been notified and a patch may coming soon after test.
-> 
-> [1]: https://gitlab.freedesktop.org/libevdev/hid-tools/-/merge_requests/130
-> 
-> Signed-off-by: Tao Jin <tao-j@outlook.com>
+> diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
+> index 664a624a363d..a13e07397e5d 100644
+> --- a/drivers/hid/hid-magicmouse.c
+> +++ b/drivers/hid/hid-magicmouse.c
+> @@ -120,6 +120,9 @@ MODULE_PARM_DESC(report_undeciphered, "Report undeciphered multi-touch state fie
+>   * @scroll_jiffies: Time of last scroll motion.
+>   * @touches: Most recent data for a touch, indexed by tracking ID.
+>   * @tracking_ids: Mapping of current touch input data to @touches.
+> + * @hdev: device report descriptor
 
-Applied, thank you.
+This is not a correct desciption; struct hid_device is much more than 
+report descriptor. Could you please fix that up and resend?
+
+Thanks,
 
 -- 
 Jiri Kosina
