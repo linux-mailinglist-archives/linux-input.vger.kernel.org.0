@@ -2,142 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24153544444
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jun 2022 08:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CB2E5446B2
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jun 2022 10:57:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237352AbiFIGwt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Jun 2022 02:52:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53186 "EHLO
+        id S242685AbiFII5L (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Jun 2022 04:57:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232582AbiFIGwt (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jun 2022 02:52:49 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E775C53C42
-        for <linux-input@vger.kernel.org>; Wed,  8 Jun 2022 23:52:47 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id x62so29888180ede.10
-        for <linux-input@vger.kernel.org>; Wed, 08 Jun 2022 23:52:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=7w6u3Xd33wxktNKaceti1epk3OamWWDXisMnmnBnY5c=;
-        b=hp6x9MrKPi02oXdemNYzs9JUekFDdY3lqPBElqUTf0SYEKHOgLuvljrlVLIo6X0ozC
-         1DSBRkztNFfmURzW4e7VFzsfNZIQTBVr0WxTYv8U8/wSM50sOuVHCuRv3Ama7yFLKYBv
-         Wybmeps43ARY+4ROqhQak1jtE7ljsfY52cKHylZbZVxTsNrsxKBhN6RUL1KJYg1+Ym5R
-         bMVhCeb9D1CXkBZZY8+LOuSVdocXyc4eimrL20iv7Ap2aP9YxGqNARlzUmBvxUvTsuNv
-         iD075DpyIvuLVp73DB5wbUjxOhFOOZodobJHY93NpGFuIa4CC18mECNZQtpl+DGbAtcw
-         hS9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=7w6u3Xd33wxktNKaceti1epk3OamWWDXisMnmnBnY5c=;
-        b=U5G3vU0rbCJDSF2QYZDljE9bcnrtCjDGcr0rTs2X4MWUkuFBoU4xXZeQz04Nl1JzR2
-         ka6RbgCUnTf1UZ2PJKX2FXC/ZjRQxijAVY/CksZKVfR3WqPpXe5M6i2cv+ItMY79dfOC
-         /VhldtOe/rUbVJEl1HynCKkD1vkWusrA375pLCOAKVcKty4yNtFHmJLjs5NaRbzYQhzN
-         FXNJ8MNFCYqMRg8zyRBlqgV00l98SHtKHGqnx94P32b69OgFHohXT6qnEYO4H/J8X0Fi
-         UhnIbiTSkQyPXahVlUw+3ymeMkMvvaKk/+MnvJtk/WkxoOkzN7to9iK8qnFCJBMIuJbs
-         C2IQ==
-X-Gm-Message-State: AOAM531I1upPPBFtdClpIP9cuvDXPPtEhySwYtmDFm6BzNYhqExnfdti
-        JjK5hRFlpE+IC7qV3k5W1SeEj0WmbC57Kg==
-X-Google-Smtp-Source: ABdhPJyHtXQ14Br4hcGLA30u2+zhNuN3OqNmOEZdKiZvzq4pGAaLT8XvVotmXlcEFsSxxrH7JYRZqQ==
-X-Received: by 2002:a05:6402:1d4a:b0:42e:93de:17f4 with SMTP id dz10-20020a0564021d4a00b0042e93de17f4mr35271968edb.8.1654757566520;
-        Wed, 08 Jun 2022 23:52:46 -0700 (PDT)
-Received: from [192.168.0.194] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id f8-20020a170906494800b0070c4abe4706sm8630850ejt.158.2022.06.08.23.52.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jun 2022 23:52:45 -0700 (PDT)
-Message-ID: <7f8269fc-f2cb-e0b6-8c81-cc7950b325e5@linaro.org>
-Date:   Thu, 9 Jun 2022 08:52:44 +0200
+        with ESMTP id S242905AbiFII4a (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jun 2022 04:56:30 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C5B51E2898;
+        Thu,  9 Jun 2022 01:56:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 47D27B82C7E;
+        Thu,  9 Jun 2022 08:56:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A46A2C3411E;
+        Thu,  9 Jun 2022 08:56:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654764969;
+        bh=Le8tPzoYYL2tORCuXImVySrfImcCUAxU8vy3RAykSlo=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=R/4IuUAssjcQ98itfPJK0iNCFfRUlw+3MZ/iZnTNJUF6bN6a7p13V/qoFv/jwApAX
+         /YO6GCcYRqM/tbR0tBPDr+1YKh4NDeZ8qLtv7BFGujHm+RE025u1xfGpC1hwInGhLe
+         eUXcK2L0oWQkAK4S2TbHbut+shw0flWC4Ei9HvNeKH23WR0D1C5UKjQ84CpOB68xZW
+         ch4xuqd/xD3wZV3KNTs48yLShwKN/LbpKWCIBaxFpQn9kbSGgCntRJwOmj30dI0Y+D
+         iPoZBt3+cmlONVICod7/BJgHSG/AmNRx2ylQ6nafDhKoGy7BM0xtUJN/LfZgsWO7sw
+         FL/J+dDESo7jA==
+Date:   Thu, 9 Jun 2022 10:55:57 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+cc:     benjamin.tissoires@redhat.com, eudean@arista.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dan.carpenter@oracle.com
+Subject: Re: [PATCH] HID: cp2112: prevent a buffer overflow in
+ cp2112_xfer()
+In-Reply-To: <20220608122609.70861-1-harshit.m.mogalapalli@oracle.com>
+Message-ID: <nycvar.YFH.7.76.2206091055490.14340@cbobk.fhfr.pm>
+References: <20220608122609.70861-1-harshit.m.mogalapalli@oracle.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [RFC PATCH 2/2] dt-bindings: input: gpio-keys: document label and
- autorepeat properties
-Content-Language: en-US
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Stefan Hansson <newbie13xd@gmail.com>,
-        Andreas Kemnade <andreas@kemnade.info>
-References: <20220603101601.542054-1-krzysztof.kozlowski@linaro.org>
- <20220603101601.542054-3-krzysztof.kozlowski@linaro.org>
- <Ypo6Q8/SuPGxp/ac@google.com>
- <ca93699e-f905-c0ee-8ddb-1be2491fc8cc@linaro.org>
- <CAL_JsqLQSBV9_An2=2euSQcesRjvEqE0kQ7bQh86P+BaEzvN1A@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAL_JsqLQSBV9_An2=2euSQcesRjvEqE0kQ7bQh86P+BaEzvN1A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 08/06/2022 23:20, Rob Herring wrote:
-> On Sun, Jun 5, 2022 at 9:15 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->>
->> On 03/06/2022 18:43, Dmitry Torokhov wrote:
->>> On Fri, Jun 03, 2022 at 12:16:01PM +0200, Krzysztof Kozlowski wrote:
->>>> The original text bindings documented "autorepeat" and "label"
->>>> properties (in the device node, beside the nodes with keys).
->>>>
->>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>> ---
->>>>  Documentation/devicetree/bindings/input/gpio-keys.yaml | 8 ++++++++
->>>>  1 file changed, 8 insertions(+)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/input/gpio-keys.yaml b/Documentation/devicetree/bindings/input/gpio-keys.yaml
->>>> index 49d388dc8d78..b1c910a5e233 100644
->>>> --- a/Documentation/devicetree/bindings/input/gpio-keys.yaml
->>>> +++ b/Documentation/devicetree/bindings/input/gpio-keys.yaml
->>>> @@ -15,6 +15,14 @@ properties:
->>>>        - gpio-keys
->>>>        - gpio-keys-polled
->>>>
->>>> +  autorepeat:
->>>> +    type: boolean
->>>> +    description:
->>>> +      Enable operating system (not hardware) key auto repeat feature.
->>>
->>> Should we refer to the generic input device property here instead (one
->>> on described in input.yaml)?
->>
->> You mean copy the description from input.yaml or say something like:
->> "see input.yaml"?
-> 
-> No, just:
-> 
-> $ref: input.yaml#
-> properties:
->   autorepeat: true
-> 
-> And 'poll-interval' needs its definition removed.
-> 
-> It's a bit strange for input.yaml to be referenced in both the parent
-> and child nodes, but that's the nature of the input bindings. Maybe
-> input.yaml could be split? Doesn't really look like it to me. The main
-> issue with one file is the users need to list out which properties
-> they use (not a bad thing).
-> 
-> Note that this series (patch 1) is going to conflict with what I just
-> sent out[1].
+On Wed, 8 Jun 2022, Harshit Mogalapalli wrote:
 
-I can rebase on top of it.
+> Smatch warnings:
+> drivers/hid/hid-cp2112.c:793 cp2112_xfer() error: __memcpy()
+> 'data->block[1]' too small (33 vs 255)
+> drivers/hid/hid-cp2112.c:793 cp2112_xfer() error: __memcpy() 'buf' too
+> small (64 vs 255)
+> 
+> The 'read_length' variable is provided by 'data->block[0]' which comes
+> from user and it(read_length) can take a value between 0-255. Add an
+> upper bound to 'read_length' variable to prevent a buffer overflow in
+> memcpy().
+> 
+> Fixes: 542134c0375b ("HID: cp2112: Fix I2C_BLOCK_DATA transactions")
+> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+> ---
+>  drivers/hid/hid-cp2112.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
+> index ece147d1a278..1e16b0fa310d 100644
+> --- a/drivers/hid/hid-cp2112.c
+> +++ b/drivers/hid/hid-cp2112.c
+> @@ -790,6 +790,11 @@ static int cp2112_xfer(struct i2c_adapter *adap, u16 addr,
+>  		data->word = le16_to_cpup((__le16 *)buf);
+>  		break;
+>  	case I2C_SMBUS_I2C_BLOCK_DATA:
+> +		if (read_length > I2C_SMBUS_BLOCK_MAX) {
+> +			ret = -EINVAL;
+> +			goto power_normal;
+> +		}
+> +
+>  		memcpy(data->block + 1, buf, read_length);
+>  		break;
 
-I understand that idea of the series looks good, so I will work on DTSes
-and v2 of this.
+Good catch, now applied. Thanks,
 
+-- 
+Jiri Kosina
+SUSE Labs
 
-Best regards,
-Krzysztof
