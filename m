@@ -2,73 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CDDB545761
-	for <lists+linux-input@lfdr.de>; Fri, 10 Jun 2022 00:26:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB340545A0A
+	for <lists+linux-input@lfdr.de>; Fri, 10 Jun 2022 04:27:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237016AbiFIWY4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Jun 2022 18:24:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50464 "EHLO
+        id S241894AbiFJC1c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Jun 2022 22:27:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245551AbiFIWYz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jun 2022 18:24:55 -0400
-X-Greylist: delayed 425 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 09 Jun 2022 15:24:53 PDT
-Received: from govanify.com (govanify.com [IPv6:2001:bc8:6005:126:ec4:7aff:fee4:6de2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 27E9624AEC5
-        for <linux-input@vger.kernel.org>; Thu,  9 Jun 2022 15:24:53 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a01:e0a:272:dad0:597f:4427:53cf:1a33])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by govanify.com (Postfix) with ESMTPSA id 04F266C065B;
-        Thu,  9 Jun 2022 23:15:13 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=govanify.com;
-        s=fujiwara; t=1654812913;
-        bh=KyOQpbXN5lo/Gp5zTDXgTTon17y3jSDDtUOOD1z9ges=;
-        h=From:To:Cc:Subject:Date;
-        b=d2kR/teL6sVM+oTAc5fuTY+HVphWVeidw3S3lqJhjWzoeK6wFnnJ2t5rkX8rrR/kn
-         V0weT0GuLSdJNzIT7CJlM5ggAjKgYfHtJsUWSFZ8++T9D46OsUOrqlM7k9Ve8Klw+V
-         V+o3dSvt+VhNDVnxuZxPjO9vRHILX4xORwbC6UPs=
-From:   Gauvain 'GovanifY' Roussel-Tarbouriech <gauvain@govanify.com>
-To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
-Cc:     Gauvain 'GovanifY' Roussel-Tarbouriech <gauvain@govanify.com>
-Subject: [PATCH] Input: synaptics - enable TrackPoint on ThinkPad T25
-Date:   Fri, 10 Jun 2022 00:15:55 +0200
-Message-Id: <20220609221554.25459-1-gauvain@govanify.com>
-X-Mailer: git-send-email 2.36.1
+        with ESMTP id S230148AbiFJC1b (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jun 2022 22:27:31 -0400
+Received: from out30-54.freemail.mail.aliyun.com (out30-54.freemail.mail.aliyun.com [115.124.30.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23F43FF8;
+        Thu,  9 Jun 2022 19:27:29 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VFxGP7K_1654828046;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VFxGP7K_1654828046)
+          by smtp.aliyun-inc.com;
+          Fri, 10 Jun 2022 10:27:27 +0800
+From:   Yang Li <yang.lee@linux.alibaba.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH -next v2] HID: magicmouse: Fix some kernel-doc comments
+Date:   Fri, 10 Jun 2022 10:27:25 +0800
+Message-Id: <20220610022725.20265-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_05,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Confirmed to work with psmouse.synaptics_intertouch=1
-across reboot/S3. This keyboard has only been shipped
-with the ThinkPad 25th anniversary edition and is the
-only modern revision of the 7 row keyboard ever made.
+Remove warnings found by running scripts/kernel-doc,
+which is caused by using 'make W=1'.
+drivers/hid/hid-magicmouse.c:148: warning: Function parameter or member
+'hdev' not described in 'magicmouse_sc'
+drivers/hid/hid-magicmouse.c:148: warning: Function parameter or member
+'work' not described in 'magicmouse_sc'
+drivers/hid/hid-magicmouse.c:148: warning: Function parameter or member
+'battery_timer' not described in 'magicmouse_sc'
 
-Signed-off-by: Gauvain 'GovanifY' Roussel-Tarbouriech <gauvain@govanify.com>
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 ---
- drivers/input/mouse/synaptics.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-index 434d48ae4b12..e3a7209434c5 100644
---- a/drivers/input/mouse/synaptics.c
-+++ b/drivers/input/mouse/synaptics.c
-@@ -177,6 +177,7 @@ static const char * const smbus_pnp_ids[] = {
- 	"LEN0091", /* X1 Carbon 6 */
- 	"LEN0092", /* X1 Carbon 6 */
- 	"LEN0093", /* T480 */
-+	"LEN0094", /* T25 */
- 	"LEN0096", /* X280 */
- 	"LEN0097", /* X280 -> ALPS trackpoint */
- 	"LEN0099", /* X1 Extreme Gen 1 / P1 Gen 1 */
+Change in v2:
+--Improved the description of hdev.
+
+ drivers/hid/hid-magicmouse.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
+index 664a624a363d..07a2d5bddf8a 100644
+--- a/drivers/hid/hid-magicmouse.c
++++ b/drivers/hid/hid-magicmouse.c
+@@ -120,6 +120,9 @@ MODULE_PARM_DESC(report_undeciphered, "Report undeciphered multi-touch state fie
+  * @scroll_jiffies: Time of last scroll motion.
+  * @touches: Most recent data for a touch, indexed by tracking ID.
+  * @tracking_ids: Mapping of current touch input data to @touches.
++ * @hdev: device report descriptor, an instance of a HID device.
++ * @work: delayed work queue.
++ * @battery_timer: a dynamic timer.
+  */
+ struct magicmouse_sc {
+ 	struct input_dev *input;
 -- 
-2.36.1
+2.20.1.7.g153144c
 
