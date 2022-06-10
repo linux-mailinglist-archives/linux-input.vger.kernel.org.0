@@ -2,173 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1DA9545C5D
-	for <lists+linux-input@lfdr.de>; Fri, 10 Jun 2022 08:37:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9018F546503
+	for <lists+linux-input@lfdr.de>; Fri, 10 Jun 2022 13:03:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235495AbiFJGh2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Jun 2022 02:37:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57222 "EHLO
+        id S243002AbiFJLDw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Jun 2022 07:03:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345944AbiFJGh1 (ORCPT
+        with ESMTP id S245306AbiFJLDv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Jun 2022 02:37:27 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1784135A97
-        for <linux-input@vger.kernel.org>; Thu,  9 Jun 2022 23:37:22 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id n185so13418797wmn.4
-        for <linux-input@vger.kernel.org>; Thu, 09 Jun 2022 23:37:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Qxlw/2GeYPhBz4i8FzCqobc8aHph2WQJ2uzH+wlAQPM=;
-        b=YvKD/lnZFHPf9Bklm5hR2t0kTgFB1/rXSkgOKvxFTago0OfV/XXVBnr65QfdQ0sIbE
-         X56d5w92lO93EaOJsDJ8oCNGyjZkcJXPRSg9xTkOKhWDw62K7tpcO84Az2vOBRZU/r3+
-         YIHnLV0yk1ox4ibJDxo/xtHUE91KPK5nhGt24yQglgyRLlAN46Y1Z1t0+GvzN7M+MEou
-         tOdQLaDCWTLurM3ng8g7elKpPBlMcfWMNnTz6GEuMIGKZgA7WgUpL2gOP6VsKo5/EHPb
-         626ZTuTKw9tktPSgibPC7QlWbKT0XcsOV4TdzYgmUmuC1ODYErjWurNuno/msyBC5MwG
-         9u4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Qxlw/2GeYPhBz4i8FzCqobc8aHph2WQJ2uzH+wlAQPM=;
-        b=roI+E+oV5TU0NcdwcxoZES7WCOgO3o9X+XaO3W86FthQqphdFMV0HuJfhl/WJiREdT
-         V6SBkGiLcCfVLPU/6sMLKr/vUahTcKCbeaQNiuhj2Nmu1Avo/VAaFYP1UZGkZ2ev6dn8
-         KZUo9+8DZDRlE8JUTW/o7XZbC67a68S0rWqV903RH7NRoRQaKltA9z37jHLhuawD7eT2
-         Aht285KYHP6+YlF1jlGy/fWkBHW8mhD0OmpWJlr9IzZz0hFA5E2XtlM/B/2Y486h3CRB
-         Jxv0uANl+Tz1BOK3SGR+LCs4aJRrF/9QTxVEoM6hLg1dDMCLMS00k4lLxmo2XFAFAQw8
-         gnjQ==
-X-Gm-Message-State: AOAM531IdmAh2OBDBCOOiRhN5ort2lcVtR4U8H88nYMwkM65KOvcA3u1
-        X6AXc+32y/sdbCP6ONG6wSkXPQ==
-X-Google-Smtp-Source: ABdhPJw4Hge4NDaRn0TL71ijVSQhRo1MhCaO3HbTb1tYRGHCORKkku8fnKoEAx9FGxDoG3CaWVnJNw==
-X-Received: by 2002:a1c:4e03:0:b0:39c:5bbc:e0d2 with SMTP id g3-20020a1c4e03000000b0039c5bbce0d2mr7034980wmh.184.1654843041123;
-        Thu, 09 Jun 2022 23:37:21 -0700 (PDT)
-Received: from localhost.localdomain ([2001:861:44c0:66c0:27b0:82d9:d0c6:702a])
-        by smtp.gmail.com with ESMTPSA id 2-20020a05600c228200b0039482d95ab7sm1729030wmf.24.2022.06.09.23.37.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 23:37:20 -0700 (PDT)
-From:   Neil Armstrong <narmstrong@baylibre.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        soc@kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Olof Johansson <olof@lixom.net>, arm@kernel.org
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        linux-mediatek@lists.infradead.org,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-tegra@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Tero Kristo <kristo@kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-omap@vger.kernel.org,
-        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        linux-gpio@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        Kevin Hilman <khilman@baylibre.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>, Nishanth Menon <nm@ti.com>,
-        devicetree@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-        linux-arm-msm@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>, linux-kernel@vger.kernel.org,
-        Andrew Jeffery <andrew@aj.id.au>, linux-input@vger.kernel.org,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
+        Fri, 10 Jun 2022 07:03:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8C58150B76;
+        Fri, 10 Jun 2022 04:03:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 762AA620B0;
+        Fri, 10 Jun 2022 11:03:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAF01C34114;
+        Fri, 10 Jun 2022 11:03:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654859026;
+        bh=d3teMe1GHQS7aV22K7pnFmgNykOeozpCHzcj+b1esUw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=J6rwH1pI5WnoAJBikK/Gkfp0iy/f681q40OO+ZCdaFWTpZJNPmiY1HJ2rR8l+SH7J
+         O3HQQ7tHRL/e5habe3Az5C+V4dDGg64woxqedw8uo76RFXdmxkLHWw9G7vCrJ00spa
+         EsUBStRaWENyWf+GPPLa6Hjwf50uimZsAtu95vElovjO2uhaoHXx8h7FxCnI1ocTLK
+         s4I9/NfViIr5DkHGEvncBm0L+xiaiECtrQLvGgzIrgxWnmYkH7XidaL/US20nja5pW
+         ZOjCsfBGhSR6Cg1rQjQwd4sdaxhQlRVV7BMmOgnBVMQetPBiHJNeIqRubLE92rq7tc
+         3NOWBgFdKDlHA==
+Date:   Fri, 10 Jun 2022 12:03:41 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     ChiYuan Huang <u0084500@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Peter Rosin <peda@axentia.se>,
-        Khuong Dinh <khuong@os.amperecomputing.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Andy Gross <agross@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        linux-sunxi@lists.linux.dev,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-samsung-soc@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Li Yang <leoyang.li@nxp.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Wei Xu <xuwei5@hisilicon.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Joel Stanley <joel@jms.id.au>,
-        linux-rockchip@lists.infradead.org
-Subject: Re: (subset) [PATCH v2 00/48] dt-bindings: input: gpio-keys: rework matching children
-Date:   Fri, 10 Jun 2022 08:37:18 +0200
-Message-Id: <165484301356.1384204.15957178175784526690.b4-ty@baylibre.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org>
-References: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org>
+        Lee Jones <lee.jones@linaro.org>, dmitry.torokhov@gmail.com,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        cy_huang <cy_huang@richtek.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH 3/4] regulator: rt5120: Add PMIC regulator support
+Message-ID: <YqMlDVMlukNAns5S@sirena.org.uk>
+References: <1654581161-12349-1-git-send-email-u0084500@gmail.com>
+ <1654581161-12349-4-git-send-email-u0084500@gmail.com>
+ <Yp+gS6r5Kpi33Ags@sirena.org.uk>
+ <CADiBU38+0vp3Dv6i7uYzCwR431PKBr-HNQnY0Qe7fvvRYGEJmw@mail.gmail.com>
+ <YqB19O/HYvEAxdiM@sirena.org.uk>
+ <CADiBU390XRXZ2yx5CT2NxhN3aROHXcxs7w2d-xhB6+EYn+uTfA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="9eWHlLQ5aB+zBDiA"
+Content-Disposition: inline
+In-Reply-To: <CADiBU390XRXZ2yx5CT2NxhN3aROHXcxs7w2d-xhB6+EYn+uTfA@mail.gmail.com>
+X-Cookie: Teachers have class.
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
 
-On Thu, 9 Jun 2022 13:37:21 +0200, Krzysztof Kozlowski wrote:
-> Merging
-> =======
-> 1. dt-bindings: rebased on top of Rob's:
->    https://lore.kernel.org/all/20220608211207.2058487-1-robh@kernel.org/
-> 
-> 2. DTS patches are independent. They can be picked up directly by sub-arch
->    maintainers, by Arnd or Olof, or eventually by me (if you wish).
-> 
-> [...]
+--9eWHlLQ5aB+zBDiA
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v5.20/arm64-dt)
+On Thu, Jun 09, 2022 at 02:35:07PM +0800, ChiYuan Huang wrote:
+> Mark Brown <broonie@kernel.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=888=E6=97=
+=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=886:12=E5=AF=AB=E9=81=93=EF=BC=9A
+> > On Wed, Jun 08, 2022 at 11:15:56AM +0800, ChiYuan Huang wrote:
 
-[07/48] arm64: dts: amlogic: correct gpio-keys properties
-        https://git.kernel.org/amlogic/c/4956be9944d1fb23107f27bad8a2cca0fa167443
-[08/48] arm64: dts: amlogic: align gpio-key node names with dtschema
-        https://git.kernel.org/amlogic/c/4fd9afd894ebe5831dbd737e6ca7b6de14da7fda
+> > > My excuse. let me explain it.
+> > > buck1 voltage range from 600mV to 1393.75mV.
+> > > buck2~4/ldo/exten is the fixed regulator.
+> > > buck3 and buck4 is fixed by the IC efuse default.
+> > > buck2 and ldo is fixed by the external resistor chosen.
+> > > exten is designed to connected to the external power.
 
-These changes has been applied on the intermediate git tree [1].
+> > > That's why I cannot directly declared it as the static regulator_desc.
 
-The v5.20/arm64-dt branch will then be sent via a formal Pull Request to the Linux SoC maintainers
-for inclusion in their intermediate git branches in order to be sent to Linus during
-the next merge window, or sooner if it's a set of fixes.
+> > So buck 2-4 need some dynamic handling then but the rest can be static -
+> > that would be a lot clearer.  You could also have a template for the
+> > ones with some dynamic values and just override the few fields that need
+> > it.
 
-In the cases of fixes, those will be merged in the current release candidate
-kernel and as soon they appear on the Linux master branch they will be
-backported to the previous Stable and Long-Stable kernels [2].
+> Not just buck2/3, buck2/3/4/ldo/exten all need the dynamic handling.
 
-The intermediate git branches are merged daily in the linux-next tree [3],
-people are encouraged testing these pre-release kernels and report issues on the
-relevant mailing-lists.
+Why do the others need it?
 
-If problems are discovered on those changes, please submit a signed-off-by revert
-patch followed by a corrective changeset.
+> > > > Drivers should never override constraints passed in by machine driv=
+ers,
+> > > > if there's validation needed let the core do it.  The same probably
+> > > > applies to providing a voltage range for a fixed regulator though t=
+hat's
+> > > > not modifying everything so not such a problem.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+> > > Please check the above explanation about each power rails.
 
--- 
-Neil
+> > I'm not sure what you're referencing here?
+
+> Sorry. Let me explain it.
+
+> You mean 'of_parse_cb' must not override constraint.
+> But if the regulator is fixed and dynamic, after
+> 'of_get_regulation_constraint', apply_uV will be true.
+> The is referring to 'fixed.c'
+
+fixed.c is a special case due to legacy issues and being generic, for
+normal fixed voltage regulators in a device where we know what they're
+fixed to they can just have their voltage hard coded in the driver.  If
+there's issues with the machine providing invalid or nonsensical
+constraints the driver should just let the core deal with them.
+
+> > > > This is all open coding stuff that's in the core - just provde an
+> > > > of_parse_cb() operation and let the core take care of calling it.
+
+> > > Ditto
+
+> > Or here.
+
+> If I put 'of_parce_cb' to make core handling it, the input parameter
+> 'init_data' is declared as const.
+> I cannot override the 'apply_uV'.
+> Right?
+
+Yes, that's by design.
+
+--9eWHlLQ5aB+zBDiA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKjJQwACgkQJNaLcl1U
+h9BwbQf8CDon0DOTyygjzDQP19A8QQ9eIkDydN4RwUztGzO1oZZqgyPddsborEnm
+enToWNLNXMvBEUM6ybjKDOi4Ac5UxHfxPW5tci2AOWfX6/LREJFiQR/ekmLPhgj9
+Cizn5N/0HstZFFm5g/lfsEYtxyCtVdd6StaeLXsGI2LD282RMqLhuyuq+1gmmv4v
+AOVc1KfT3CWAsiA1yYGY8TOugdKahJmuNAmAE9kH/JduhtPJMSG0jwhrlY9zHr46
+m/9ePyvPYkStQ28gQEgogcC6kUGHL/gZ9aEy/wCpKAUNtXw49bFDgImT1bmiVE3O
+vtsKqJOL7LmZ2pIyfeIKDPPiBJAUAQ==
+=xKE/
+-----END PGP SIGNATURE-----
+
+--9eWHlLQ5aB+zBDiA--
