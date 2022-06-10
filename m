@@ -2,64 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9018F546503
-	for <lists+linux-input@lfdr.de>; Fri, 10 Jun 2022 13:03:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E43F546746
+	for <lists+linux-input@lfdr.de>; Fri, 10 Jun 2022 15:23:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243002AbiFJLDw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Jun 2022 07:03:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42734 "EHLO
+        id S241207AbiFJNXR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Jun 2022 09:23:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245306AbiFJLDv (ORCPT
+        with ESMTP id S241258AbiFJNXO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Jun 2022 07:03:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8C58150B76;
-        Fri, 10 Jun 2022 04:03:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 762AA620B0;
-        Fri, 10 Jun 2022 11:03:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAF01C34114;
-        Fri, 10 Jun 2022 11:03:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654859026;
-        bh=d3teMe1GHQS7aV22K7pnFmgNykOeozpCHzcj+b1esUw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=J6rwH1pI5WnoAJBikK/Gkfp0iy/f681q40OO+ZCdaFWTpZJNPmiY1HJ2rR8l+SH7J
-         O3HQQ7tHRL/e5habe3Az5C+V4dDGg64woxqedw8uo76RFXdmxkLHWw9G7vCrJ00spa
-         EsUBStRaWENyWf+GPPLa6Hjwf50uimZsAtu95vElovjO2uhaoHXx8h7FxCnI1ocTLK
-         s4I9/NfViIr5DkHGEvncBm0L+xiaiECtrQLvGgzIrgxWnmYkH7XidaL/US20nja5pW
-         ZOjCsfBGhSR6Cg1rQjQwd4sdaxhQlRVV7BMmOgnBVMQetPBiHJNeIqRubLE92rq7tc
-         3NOWBgFdKDlHA==
-Date:   Fri, 10 Jun 2022 12:03:41 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     ChiYuan Huang <u0084500@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        Fri, 10 Jun 2022 09:23:14 -0400
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A560B655F;
+        Fri, 10 Jun 2022 06:23:11 -0700 (PDT)
+Received: by mail-io1-f50.google.com with SMTP id s23so25255949iog.13;
+        Fri, 10 Jun 2022 06:23:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Zk41DWxqcCrUcOmNAlHBuuam8bwwgCEDw3C2FONqZ6o=;
+        b=Setkl3N9Xjl/AfanTZ4CFVjmjKeRuD/NMTNf2/GrppJvt/a4lTAszm9xmmec42bCr6
+         KLW483pIKkG/gjJUCuMnSMgg7fApHs3MjBG972vk1eoB33atZ23ac/tATRE2KhPSrf2t
+         iabLeEYQDHn9eR1FKeLb7Uc+VkTgBCjoPzMfTYUkXpdpg+MpDY2R00l3LDsw/WrEet1B
+         PbZHvIarykTU06FydWqOZHTRS+zFXB3BcUnzmUT87+U/qWqZu6Ar3ZOvaqdS48TzXRd4
+         /lavJbMsFCoPMXiIAcIQKyeeidp5xhA2U7DfSr+ib0wrh9U0iGlrV9nVqVePYZilgCKJ
+         fnPg==
+X-Gm-Message-State: AOAM530ghHfLEKoavNIJIxSnsbLEzd/a5uH7rBJJG1S3Ju0j7AwVYk0K
+        E19SfadCGKcFd/F/eBo0Kw==
+X-Google-Smtp-Source: ABdhPJzC53GXbmd10pkreXql55ziRoJcxSWV0N2cgm8S98ToBfVY+dx9HOYXlaXmtxcJVSgoOfsa2w==
+X-Received: by 2002:a05:6638:348d:b0:331:d8f0:fd9d with SMTP id t13-20020a056638348d00b00331d8f0fd9dmr8577668jal.165.1654867390891;
+        Fri, 10 Jun 2022 06:23:10 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id x13-20020a92300d000000b002d3a3f4685dsm11733602ile.21.2022.06.10.06.23.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jun 2022 06:23:10 -0700 (PDT)
+Received: (nullmailer pid 1543585 invoked by uid 1000);
+        Fri, 10 Jun 2022 13:23:08 -0000
+Date:   Fri, 10 Jun 2022 07:23:08 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>, dmitry.torokhov@gmail.com,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        cy_huang <cy_huang@richtek.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 3/4] regulator: rt5120: Add PMIC regulator support
-Message-ID: <YqMlDVMlukNAns5S@sirena.org.uk>
-References: <1654581161-12349-1-git-send-email-u0084500@gmail.com>
- <1654581161-12349-4-git-send-email-u0084500@gmail.com>
- <Yp+gS6r5Kpi33Ags@sirena.org.uk>
- <CADiBU38+0vp3Dv6i7uYzCwR431PKBr-HNQnY0Qe7fvvRYGEJmw@mail.gmail.com>
- <YqB19O/HYvEAxdiM@sirena.org.uk>
- <CADiBU390XRXZ2yx5CT2NxhN3aROHXcxs7w2d-xhB6+EYn+uTfA@mail.gmail.com>
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Artur Rojek <contact@artur-rojek.eu>,
+        Maxime Ripard <mripard@kernel.org>,
+        Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] dt-bindings: input: Increase maximum keycode
+ value to 0x2ff
+Message-ID: <20220610132308.GA1530409-robh@kernel.org>
+References: <20220608211207.2058487-1-robh@kernel.org>
+ <20220608211207.2058487-2-robh@kernel.org>
+ <dbd56518-e688-3b3b-08ae-63f66004e62a@gmx.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="9eWHlLQ5aB+zBDiA"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CADiBU390XRXZ2yx5CT2NxhN3aROHXcxs7w2d-xhB6+EYn+uTfA@mail.gmail.com>
-X-Cookie: Teachers have class.
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+In-Reply-To: <dbd56518-e688-3b3b-08ae-63f66004e62a@gmx.de>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,86 +75,44 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Thu, Jun 09, 2022 at 07:46:51AM +0200, Heinrich Schuchardt wrote:
+> On 6/8/22 23:12, Rob Herring wrote:
+> > The maximum keycode value for Linux is 0x2ff, not 0xff. There's already
+> > users and examples with values greater than 0xff, but the schema is not
+> > yet applied in those cases.
+> > 
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> > ---
+> >   Documentation/devicetree/bindings/input/input.yaml | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
+> > index d41d8743aad4..43d2f299c332 100644
+> > --- a/Documentation/devicetree/bindings/input/input.yaml
+> > +++ b/Documentation/devicetree/bindings/input/input.yaml
+> > @@ -21,7 +21,7 @@ properties:
+> >       $ref: /schemas/types.yaml#/definitions/uint32-array
+> >       items:
+> >         minimum: 0
+> > -      maximum: 0xff
+> > +      maximum: 0x2ff
+> 
+> Can this value of 0x2ff be make exportable such that we can use it as a
+> reference in devicetree/bindings/input/adc-keys.yaml. E.g. define a type
+> that only take values in the 0-0x2ff range?
 
---9eWHlLQ5aB+zBDiA
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+There's no need. The $ref to input.yaml in does that effectively 
+already. That's why 'linux,code' doesn't need any schema constraints 
+unless it has additional constraints. max77650-onkey.yaml in patch 2 has 
+an example of that. If you wanted to add a new, custom property with 
+those constraints, then we could do something like this:
 
-On Thu, Jun 09, 2022 at 02:35:07PM +0800, ChiYuan Huang wrote:
-> Mark Brown <broonie@kernel.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=888=E6=97=
-=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=886:12=E5=AF=AB=E9=81=93=EF=BC=9A
-> > On Wed, Jun 08, 2022 at 11:15:56AM +0800, ChiYuan Huang wrote:
+$defs:
+  input-codes:
+    minimum: 0
+    maximum: 0x2ff
+    ...
 
-> > > My excuse. let me explain it.
-> > > buck1 voltage range from 600mV to 1393.75mV.
-> > > buck2~4/ldo/exten is the fixed regulator.
-> > > buck3 and buck4 is fixed by the IC efuse default.
-> > > buck2 and ldo is fixed by the external resistor chosen.
-> > > exten is designed to connected to the external power.
+And then have: $ref: input.yaml#/$defs/input-codes
 
-> > > That's why I cannot directly declared it as the static regulator_desc.
-
-> > So buck 2-4 need some dynamic handling then but the rest can be static -
-> > that would be a lot clearer.  You could also have a template for the
-> > ones with some dynamic values and just override the few fields that need
-> > it.
-
-> Not just buck2/3, buck2/3/4/ldo/exten all need the dynamic handling.
-
-Why do the others need it?
-
-> > > > Drivers should never override constraints passed in by machine driv=
-ers,
-> > > > if there's validation needed let the core do it.  The same probably
-> > > > applies to providing a voltage range for a fixed regulator though t=
-hat's
-> > > > not modifying everything so not such a problem.
-
-> > > Please check the above explanation about each power rails.
-
-> > I'm not sure what you're referencing here?
-
-> Sorry. Let me explain it.
-
-> You mean 'of_parse_cb' must not override constraint.
-> But if the regulator is fixed and dynamic, after
-> 'of_get_regulation_constraint', apply_uV will be true.
-> The is referring to 'fixed.c'
-
-fixed.c is a special case due to legacy issues and being generic, for
-normal fixed voltage regulators in a device where we know what they're
-fixed to they can just have their voltage hard coded in the driver.  If
-there's issues with the machine providing invalid or nonsensical
-constraints the driver should just let the core deal with them.
-
-> > > > This is all open coding stuff that's in the core - just provde an
-> > > > of_parse_cb() operation and let the core take care of calling it.
-
-> > > Ditto
-
-> > Or here.
-
-> If I put 'of_parce_cb' to make core handling it, the input parameter
-> 'init_data' is declared as const.
-> I cannot override the 'apply_uV'.
-> Right?
-
-Yes, that's by design.
-
---9eWHlLQ5aB+zBDiA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKjJQwACgkQJNaLcl1U
-h9BwbQf8CDon0DOTyygjzDQP19A8QQ9eIkDydN4RwUztGzO1oZZqgyPddsborEnm
-enToWNLNXMvBEUM6ybjKDOi4Ac5UxHfxPW5tci2AOWfX6/LREJFiQR/ekmLPhgj9
-Cizn5N/0HstZFFm5g/lfsEYtxyCtVdd6StaeLXsGI2LD282RMqLhuyuq+1gmmv4v
-AOVc1KfT3CWAsiA1yYGY8TOugdKahJmuNAmAE9kH/JduhtPJMSG0jwhrlY9zHr46
-m/9ePyvPYkStQ28gQEgogcC6kUGHL/gZ9aEy/wCpKAUNtXw49bFDgImT1bmiVE3O
-vtsKqJOL7LmZ2pIyfeIKDPPiBJAUAQ==
-=xKE/
------END PGP SIGNATURE-----
-
---9eWHlLQ5aB+zBDiA--
+Rob
