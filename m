@@ -2,275 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E5A1546E2F
-	for <lists+linux-input@lfdr.de>; Fri, 10 Jun 2022 22:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA33F5470E7
+	for <lists+linux-input@lfdr.de>; Sat, 11 Jun 2022 03:20:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347813AbiFJUTB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Jun 2022 16:19:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50544 "EHLO
+        id S1345025AbiFKBUN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Jun 2022 21:20:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347329AbiFJUSy (ORCPT
+        with ESMTP id S231406AbiFKBUM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Jun 2022 16:18:54 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DA1027CCE1
-        for <linux-input@vger.kernel.org>; Fri, 10 Jun 2022 13:18:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654892333; x=1686428333;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=cwIKjHFPERljuQK1d4ZCw0tCEjPgjFWLG/jZQpA/09o=;
-  b=bwR7Pqr49oSZrbJXadB7aHb05gSoTtume/zC1EBJj5hbbVhpJ5tGyw+k
-   G/sO4gYcvytn83KTDaAtIFiC6yi6BJB24qLZnZt0pY1Oy5hpxpbmHJyKT
-   laNj9VCJFP98IzHS7CsPCWv579xRChM1c6XqhPPIV6Lz1jUnl2gEyE/et
-   GKEECXvYRpTOuwbVg1LkOL9apLxxZHcwl2EIcFlkYIFExpUrt1Fb1Tk/j
-   PfpRA1VRYnJr/XC7+Bbyn7Vx/CLISSBMTuxEKZ/Entz70sNLksk5DYXca
-   m1kyxlAssTs/NkqE8R3TZ56t7TBUAAqm11DQovJGMlNQ5aL3tn5rPc/ek
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10374"; a="278537354"
-X-IronPort-AV: E=Sophos;i="5.91,291,1647327600"; 
-   d="scan'208";a="278537354"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2022 13:17:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,291,1647327600"; 
-   d="scan'208";a="638302838"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 10 Jun 2022 13:17:51 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nzl4o-000IFZ-PR;
-        Fri, 10 Jun 2022 20:17:50 +0000
-Date:   Sat, 11 Jun 2022 04:17:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- 6ab2e51898cd4343bbdf8587af8ce8fbabddbcb5
-Message-ID: <62a3a6c4.rIJ3rMUG5n890w4S%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Fri, 10 Jun 2022 21:20:12 -0400
+X-Greylist: delayed 907 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 10 Jun 2022 18:20:09 PDT
+Received: from mx0.chaotikum.eu (mx0.chaotikum.eu [IPv6:2a01:4f8:c2c:ce71::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CDF62FE5E;
+        Fri, 10 Jun 2022 18:20:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=chaotikum.eu; s=20200128.mx0; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Jof2nISM3ArkpDI9yHxnFylLSJTIlGSe7rzFagU23O8=; b=nGTDfRdNL2WxLsaHrlAoZiSglV
+        SmE1ofdhqv0I6YHqNx5B9UsGmDTdCFdJ+POjXdXcacckbTiplJvHWZWRkW6n6ij8GeaBhchGxG08t
+        S0nUNcs+clGL36gU/MnRAMsyL22bESMOa1SgotbpiVab2YWhVmMt8tKiATobnSIjkBg4tZGXfv7bY
+        FMXnQwkHlfhJuhEYVRcvMRA9Vwb54BrizFPtI9g+Y/E9zTJqfeQt8Ol9lQ8I3uvkVpWcHU3t5jVXj
+        m/mCyzWKg1+O2RjXHFnzTfJf9fREFynmKv4aeuT9E7RbILJ0W+ZO51rstMUdp+3/fE7+6qMv8L4s5
+        nYvTKk0QJoB0VN9JC2F1vOhR7DZOWNCav4wmnneYnrtCQlP8TrgffFXJ6JuvEsDqlXN5DidE3I7wN
+        VBugA7wZZvuPnbHV3abPbxmWU0jL1QuobpdZaBwME01bb4ru/7PF8XiRaVMBdJUJ7JedD9pS7Z6JO
+        HR+HyeKzTkFYE0mDQN7YNhGPWx4QtO3moPzUkmMnBhbdPzaT9y45IhJEuD092+FfnhWfdgyNs0NFu
+        NbWCQbyrIoLZdRRfwbMVggT6eqaVgS4mx9Vyy9r7n+0AW+2SaAGih8sPrny6XOec1etMoUOBlzJ55
+        KKl418RSdHQkWPcdHg4V1MXV5dVjxprjjLSytKCDE=;
+X-Spam-Action: add header
+X-Spam-Bar: ++++++
+X-Spam-Score: 6.7 (++++++)
+Received: from [2001:4dd0:4f8e:0:7ddf:a8d0:8763:a125] (port=51080 helo=naboo.chaotikum.eu)
+        by mx0.chaotikum.eu with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <qsx@chaotikum.eu>)
+        id 1nzpY2-0006bX-A2; Sat, 11 Jun 2022 03:04:48 +0200
+From:   Thomas Schneider <qsx@chaotikum.eu>
+To:     "Daniel J. Ogorchock" <djogorchock@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Thomas Schneider <qsx@chaotikum.eu>
+Subject: [PATCH] HID: nintendo: Set phys property of input device based on HID phys
+Date:   Sat, 11 Jun 2022 03:03:59 +0200
+Message-Id: <20220611010359.115555-1-qsx@chaotikum.eu>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: 6ab2e51898cd4343bbdf8587af8ce8fbabddbcb5  Input: soc_button_array - also add Lenovo Yoga Tablet2 1051F to dmi_use_low_level_irq
+While the MAC address the uniq identifier is set to (cf. commit
+1425247383c5 ("HID: nintendo: set controller uniq to MAC")) is certainly
+unique, the physical location can be more helpful in user interfaces.  The
+underlying hid_device already provides a suitable value, so we can simply
+reuse this here.
 
-elapsed time: 4243m
+Signed-off-by: Thomas Schneider <qsx@chaotikum.eu>
+---
+ drivers/hid/hid-nintendo.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-configs tested: 187
-configs skipped: 4
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm64                               defconfig
-arm64                            allyesconfig
-arm                              allmodconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-mips                 randconfig-c004-20220608
-sh                         ap325rxa_defconfig
-arc                     haps_hs_smp_defconfig
-m68k                       m5475evb_defconfig
-nios2                               defconfig
-arc                         haps_hs_defconfig
-mips                          rb532_defconfig
-riscv                               defconfig
-ia64                         bigsur_defconfig
-m68k                        m5272c3_defconfig
-sh                            titan_defconfig
-powerpc                 mpc837x_mds_defconfig
-mips                         tb0226_defconfig
-m68k                            q40_defconfig
-microblaze                      mmu_defconfig
-powerpc                      chrp32_defconfig
-powerpc                 mpc834x_itx_defconfig
-sh                           se7750_defconfig
-powerpc                 linkstation_defconfig
-powerpc64                           defconfig
-sh                          rsk7201_defconfig
-powerpc                 canyonlands_defconfig
-sh                          lboxre2_defconfig
-m68k                          sun3x_defconfig
-powerpc                 mpc8540_ads_defconfig
-arc                      axs103_smp_defconfig
-sparc64                             defconfig
-sh                           sh2007_defconfig
-arm                           viper_defconfig
-mips                           ci20_defconfig
-powerpc                     stx_gp3_defconfig
-powerpc                     pq2fads_defconfig
-mips                      fuloong2e_defconfig
-arm                       aspeed_g5_defconfig
-powerpc                   currituck_defconfig
-parisc64                         alldefconfig
-sh                ecovec24-romimage_defconfig
-m68k                        mvme16x_defconfig
-arm                           sama5_defconfig
-arm                        clps711x_defconfig
-arm                          simpad_defconfig
-m68k                        mvme147_defconfig
-arm                       imx_v6_v7_defconfig
-arm                         s3c6400_defconfig
-arm                             ezx_defconfig
-arm                        multi_v7_defconfig
-powerpc                       ppc64_defconfig
-sh                      rts7751r2d1_defconfig
-powerpc                        cell_defconfig
-powerpc                      pasemi_defconfig
-sh                   secureedge5410_defconfig
-powerpc                     tqm8541_defconfig
-powerpc                   motionpro_defconfig
-sparc                               defconfig
-powerpc                         wii_defconfig
-sh                            shmin_defconfig
-sh                             shx3_defconfig
-powerpc                      ppc6xx_defconfig
-powerpc                 mpc85xx_cds_defconfig
-arm                      footbridge_defconfig
-powerpc                  storcenter_defconfig
-mips                           xway_defconfig
-openrisc                         alldefconfig
-arm                          pxa3xx_defconfig
-sh                              ul2_defconfig
-xtensa                  cadence_csp_defconfig
-sh                               alldefconfig
-powerpc                      ep88xc_defconfig
-sh                   sh7770_generic_defconfig
-arc                    vdk_hs38_smp_defconfig
-um                           x86_64_defconfig
-alpha                            alldefconfig
-sh                          sdk7780_defconfig
-sh                          urquell_defconfig
-arm                            mps2_defconfig
-powerpc                      ppc40x_defconfig
-powerpc                      pcm030_defconfig
-sh                          rsk7203_defconfig
-sh                           se7619_defconfig
-ia64                             alldefconfig
-arc                              allyesconfig
-sh                            migor_defconfig
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220608
-arm                  randconfig-c002-20220609
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-riscv                             allnoconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-csky                                defconfig
-nios2                            allyesconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-riscv                    nommu_k210_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_virt_defconfig
-riscv                            allyesconfig
-powerpc                          allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-um                             i386_defconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-arc                  randconfig-r043-20220608
-s390                 randconfig-r044-20220608
-riscv                randconfig-r042-20220608
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-syz
-
-clang tested configs:
-powerpc              randconfig-c003-20220608
-x86_64                        randconfig-c007
-riscv                randconfig-c006-20220608
-i386                          randconfig-c001
-s390                 randconfig-c005-20220608
-mips                 randconfig-c004-20220608
-arm                  randconfig-c002-20220608
-powerpc                        fsp2_defconfig
-powerpc                          g5_defconfig
-arm64                            allyesconfig
-powerpc                   bluestone_defconfig
-powerpc                 xes_mpc85xx_defconfig
-powerpc                 mpc8313_rdb_defconfig
-mips                           rs90_defconfig
-mips                        maltaup_defconfig
-powerpc                       ebony_defconfig
-arm                  colibri_pxa300_defconfig
-powerpc                      katmai_defconfig
-powerpc                 mpc832x_mds_defconfig
-mips                        workpad_defconfig
-powerpc                     kmeter1_defconfig
-arm                         shannon_defconfig
-powerpc                 mpc8560_ads_defconfig
-powerpc                     akebono_defconfig
-arm                         mv78xx0_defconfig
-arm                         lpc32xx_defconfig
-i386                             allyesconfig
-mips                        omega2p_defconfig
-x86_64                        randconfig-k001
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-hexagon              randconfig-r045-20220609
-s390                 randconfig-r044-20220609
-riscv                randconfig-r042-20220609
-hexagon              randconfig-r041-20220609
-hexagon              randconfig-r045-20220608
-hexagon              randconfig-r041-20220608
-
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+index 2204de889739..df9cd5d883c0 100644
+--- a/drivers/hid/hid-nintendo.c
++++ b/drivers/hid/hid-nintendo.c
+@@ -1634,6 +1634,7 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
+ 	ctlr->input->id.version = hdev->version;
+ 	ctlr->input->uniq = ctlr->mac_addr_str;
+ 	ctlr->input->name = name;
++	ctlr->input->phys = hdev->phys;
+ 	input_set_drvdata(ctlr->input, ctlr);
+ 
+ 	/* set up sticks and buttons */
+@@ -1713,6 +1714,7 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
+ 	ctlr->imu_input->id.version = hdev->version;
+ 	ctlr->imu_input->uniq = ctlr->mac_addr_str;
+ 	ctlr->imu_input->name = imu_name;
++	ctlr->imu_input->phys = hdev->phys;
+ 	input_set_drvdata(ctlr->imu_input, ctlr);
+ 
+ 	/* configure imu axes */
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.1
+
