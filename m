@@ -2,88 +2,149 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED78454744B
-	for <lists+linux-input@lfdr.de>; Sat, 11 Jun 2022 13:39:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CB5554744C
+	for <lists+linux-input@lfdr.de>; Sat, 11 Jun 2022 13:39:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229850AbiFKLhk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 Jun 2022 07:37:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57304 "EHLO
+        id S231642AbiFKLjX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 11 Jun 2022 07:39:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229765AbiFKLhj (ORCPT
+        with ESMTP id S229765AbiFKLjW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 Jun 2022 07:37:39 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 043241C90A
-        for <linux-input@vger.kernel.org>; Sat, 11 Jun 2022 04:37:39 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id p18so2204876lfr.1
-        for <linux-input@vger.kernel.org>; Sat, 11 Jun 2022 04:37:38 -0700 (PDT)
+        Sat, 11 Jun 2022 07:39:22 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 360A46540;
+        Sat, 11 Jun 2022 04:39:21 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id k19so1591911wrd.8;
+        Sat, 11 Jun 2022 04:39:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=bu8J/6H5OpP49staf+3m4kPMjBpHuhJQzMAnMDS2ydY=;
-        b=Kc0AiT8lOHroWkz5fTlMxPVVTFZ1ZzNXK20lCAY0LqQFbdID7BLcbrCCxc04imFvrr
-         JYVuM0b6TVhLsxaQBQMFQqqguKbhYRyIRxGooFR6kVLLTCAEPhBsFNnj58XjVONY7GZ7
-         bQyWcZtOoboyOFI7uXcnqs2/+UwRr+OXOOGsVzjiU7msGBIexkWPvd8IKbmDUyVCEu28
-         gGYAuslpcqJ+rD44l4azAEc2pwFDlHdVcSaNdKE8awIpThkkiuK1Fu+wnw+qxhWLzv+2
-         uQ1FhX3wMdwh54NUi7u5c+AFIlft3xYhHDHTEvg9St0vYDwMDT2C9wFpAe00wJieE2fN
-         GswQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=k5JtF42+YJE6bDplffBBRfUw/EAD8Y5R1ywzR8NXWqo=;
+        b=Lv51i48ypEOPHuGj5ay/qYIjpqAGyoVmy2FzmJKm0xPfPdIIKiYvjeh+rtS/QX1w8x
+         BZAhzpRNS31bbiYL6UfUkos2bM4X0bV2z07M8791VJmm3ggU5sNugMv2ZZG9tIWDghz+
+         RInmsbNCfJY9XDf/zH3eenVNIA6f/nZaOvM+kTSxSaDwXQzs6JibZJVzclDDmhMCqVbU
+         hh+60bBun70MiLSkZjiPAuDLFyrb6f4udPXziqouun6/eoZ4Qi1uCCJ6IW2qRxqdvO0a
+         WQKN3Q0CiyaR64nhMC2GnUjfU3uqOTOfsBCqZ+One4B/j1ss/ZTZtn7Nf8YJNlGY3cPc
+         OiAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=bu8J/6H5OpP49staf+3m4kPMjBpHuhJQzMAnMDS2ydY=;
-        b=sBjKZJKG+WoZBh0QBdcvbHplCYDxGh13YB3Po03KoiM8+1Isx3KcQ8YwC+wgONGU0b
-         qM1S7b3LemqZ3weqSo7SgaOLUrlgPl96sbMMMxfHE34Akpd7a2zf3qSK/y3plllrteJQ
-         LSCg2ZJwYm5h7aXG/hyp38v3oW+EJOd4QNzzxqR38Uz+56usNV3L2BXWF+Jm+nR3+LHp
-         UusT42vsrNX2VMBNWRU+PVfjA1c0mc2yY9Qtcb8QUvSU1GGjVsMocao5PLvoHubkNvUv
-         AAWToHe6ybHmQBGUZVUvEa1LFPeXEo3NS9G3y7IdYymnRVcSfRdDiiWN7SsmEFqYOHqY
-         hnPQ==
-X-Gm-Message-State: AOAM530zaPjOqIppH/kKSXayiP4e7ZqYCIsnN1cVHNCdXvAvm7NiF8q1
-        +OLg5zBzAHRjHhKzkr6tp476hNZi8/h0HNGTh60=
-X-Google-Smtp-Source: ABdhPJyP2HLfEc1Pc9KKQAEBCe0uiIbsEAiMAHJqXA3jO6ayxNj/BPRClE4mJAuQ/d6VJuUR8TtoIM5vnrc2aO7QgDk=
-X-Received: by 2002:ac2:4c53:0:b0:479:602a:2b67 with SMTP id
- o19-20020ac24c53000000b00479602a2b67mr14717181lfk.438.1654947456783; Sat, 11
- Jun 2022 04:37:36 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=k5JtF42+YJE6bDplffBBRfUw/EAD8Y5R1ywzR8NXWqo=;
+        b=IKjIQf5Y6UITzVF9efNIeGSZTgsziNBBLoGUgwIq9CoIt61JpWa6bf5EgxRAOUqMt0
+         fLZZLm6g6zOeuu57Afkg09JlXN5skcG7lnv6W1kZ1RaKqG4e/N7RNWJFKb2Q81ipATUL
+         pzDKrhhp0pbjGCP4y9WiXRdXO0xXJumJoF19mDKxSe2T76oJ/ye++YCOisETYwhp6ypX
+         D6UggzsobnhX6dL10q+HBYgWYcbe1ZFx5egbp6gQF9fGyErvNVEakBEy52QuKzljTB4z
+         hpoOtny7YS4Qbzj9GVkuNExX7xGGiA58UdXhn0fO59o05IVk1XDIH9hJjXjntvsO+k7P
+         //+A==
+X-Gm-Message-State: AOAM530i5t6hoipQ2sXZ/7wddYkmcaVrrHpxFIKak+jzr9HUdRXSNlW4
+        B+Td4XB6YfnX9P5aLd7FybY=
+X-Google-Smtp-Source: ABdhPJy7j09VnXMoeJQD98v7qK7c3VuM4941gdRKzcCrW+AJG5jhjDAhDhs+N6U8rJSDfG15zFnSBw==
+X-Received: by 2002:a5d:6786:0:b0:215:3cb5:b16c with SMTP id v6-20020a5d6786000000b002153cb5b16cmr41029395wru.6.1654947559656;
+        Sat, 11 Jun 2022 04:39:19 -0700 (PDT)
+Received: from localhost.localdomain ([94.73.36.128])
+        by smtp.gmail.com with ESMTPSA id g15-20020a05600c4ecf00b0039c4945c753sm6574198wmq.39.2022.06.11.04.39.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Jun 2022 04:39:19 -0700 (PDT)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stefanberzl@gmail.com, dlatypov@google.com,
+        kunit-dev@googlegroups.com,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH v4 0/4] Add support for XP-PEN Deco L
+Date:   Sat, 11 Jun 2022 13:39:10 +0200
+Message-Id: <20220611113914.355577-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a05:6512:3e16:0:0:0:0 with HTTP; Sat, 11 Jun 2022 04:37:36
- -0700 (PDT)
-Reply-To: mrs.sopheiajonathan@yahoo.com
-From:   "Mrs.Sopheal Jonathan" <adewalej67@gmail.com>
-Date:   Sat, 11 Jun 2022 04:37:36 -0700
-Message-ID: <CAJQy5=zM89rrxwd5Wgyh3x9h9LKvHNwKO4ECB2CrwgUbd30xgQ@mail.gmail.com>
-Subject: Hello Dear
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_60,DKIM_SIGNED,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hello everyone,
+
+This patchset adds support for the UGEE XP-PEN Deco L tablet.
+This device belongs to a family of tablets that must receive a chunk of
+magic data in order to be enabled (named UGEE v2 internally).
+
+Once the device is enabled, its parameters can be discovered by parsing
+a report descriptor. HUION v1 tablets have a similar report descriptor
+but, in the case of UGEE v2 tablets, the number of buttons are also
+discoverable [1].
+
+The ability to discover the number of buttons is the reason for the
+first 3 patches. They enable frame templates.
+Because I lack the hardware to fully test this driver, I added some
+KUnit tests to make sure no bugs are introduced.
+I didn't see any other test in the subsystem (and I doubt I'm the first
+person writing one) so please let me know if I need to move the test to
+a different place.
+
+The last patch enables the tablet.
+
+Best wishes,
+José Expósito
+
+[1] I don't own a HUION v1 device, so I'm not sure if the information
+    about the number of buttons is also present and it is not used in
+    the driver for some reason.
+[2] https://lore.kernel.org/linux-input/20220516112159.GA74406@elementary/T/#t
+
+---
+
+v1 - https://lore.kernel.org/linux-input/20220518224702.1409327-1-jose.exposito89@gmail.com/
+
+v2 - https://lore.kernel.org/linux-input/20220518224702.1409327-1-jose.exposito89@gmail.com/T/
+
+ - Add MODULE_DESCRIPTION/LICENSE/AUTHOR to hid-uclogic-rdesc-test.c
+ - Remove unused variable in uclogic_params_ugee_v2_init
+ - Add sparse __force anotation in the result of cpu_to_le16
+ - Add DISABLE_STRUCTLEAK_PLUGIN for KUnit tests
+
+v3 - https://lore.kernel.org/linux-input/nycvar.YFH.7.76.2206081150060.10851@cbobk.fhfr.pm/T/
+
+ - Improve Kconfig message
+ - Add .kunitconfig. Thanks to Daniel Latypov for suggesting it in an
+   unrelated patch:
+   https://lore.kernel.org/dri-devel/CAGS_qxpV2SsihEdgXZ6+7N0dxLmdRANq+qE4iUZ2aNrf6vuLYg@mail.gmail.com/
+
+v4:
+
+ - Group all the test of the subsystem under HID_KUNIT_TEST:
+   HID_UCLOGIC_KUNIT_TEST -> HID_KUNIT_TEST
+ - Remove DISABLE_STRUCTLEAK_PLUGIN:
+   https://lore.kernel.org/dri-devel/CAGS_qxpFO4ixW=08ZcdcD9J1kU=B3mwoBJkPW8AKu0sKs8aKfA@mail.gmail.com/
+
+José Expósito (4):
+  HID: uclogic: Make template placeholder IDs generic
+  HID: uclogic: Add KUnit tests for uclogic_rdesc_template_apply()
+  HID: uclogic: Allow to generate frame templates
+  HID: uclogic: Add support for XP-PEN Deco L
+
+ drivers/hid/.kunitconfig             |   5 +
+ drivers/hid/Kconfig                  |  16 ++
+ drivers/hid/Makefile                 |   3 +
+ drivers/hid/hid-ids.h                |   1 +
+ drivers/hid/hid-uclogic-core.c       |   2 +
+ drivers/hid/hid-uclogic-params.c     | 201 +++++++++++++++++++++++-
+ drivers/hid/hid-uclogic-rdesc-test.c | 219 +++++++++++++++++++++++++++
+ drivers/hid/hid-uclogic-rdesc.c      | 124 ++++++++++++++-
+ drivers/hid/hid-uclogic-rdesc.h      |  24 ++-
+ 9 files changed, 581 insertions(+), 14 deletions(-)
+ create mode 100644 drivers/hid/.kunitconfig
+ create mode 100644 drivers/hid/hid-uclogic-rdesc-test.c
+
 -- 
-Hello Dear
+2.25.1
 
-Am a dying woman here in the hospital, i was diagnose as a Cancer
-
-
-patient over  2 Years ago. I am A business woman how
-
-
-dealing with Gold Exportation.I Am from Us California
-
-I have a charitable and unfufilment
-
-project that am about to handover to you, if you are interested please
-
-Reply
-
-hope to hear from you.
-
-Regard
-Mrs. Sopheia jonathan
