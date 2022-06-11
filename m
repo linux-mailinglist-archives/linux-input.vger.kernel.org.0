@@ -2,96 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA33F5470E7
-	for <lists+linux-input@lfdr.de>; Sat, 11 Jun 2022 03:20:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED78454744B
+	for <lists+linux-input@lfdr.de>; Sat, 11 Jun 2022 13:39:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345025AbiFKBUN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Jun 2022 21:20:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50600 "EHLO
+        id S229850AbiFKLhk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 11 Jun 2022 07:37:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231406AbiFKBUM (ORCPT
+        with ESMTP id S229765AbiFKLhj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Jun 2022 21:20:12 -0400
-X-Greylist: delayed 907 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 10 Jun 2022 18:20:09 PDT
-Received: from mx0.chaotikum.eu (mx0.chaotikum.eu [IPv6:2a01:4f8:c2c:ce71::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CDF62FE5E;
-        Fri, 10 Jun 2022 18:20:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=chaotikum.eu; s=20200128.mx0; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Jof2nISM3ArkpDI9yHxnFylLSJTIlGSe7rzFagU23O8=; b=nGTDfRdNL2WxLsaHrlAoZiSglV
-        SmE1ofdhqv0I6YHqNx5B9UsGmDTdCFdJ+POjXdXcacckbTiplJvHWZWRkW6n6ij8GeaBhchGxG08t
-        S0nUNcs+clGL36gU/MnRAMsyL22bESMOa1SgotbpiVab2YWhVmMt8tKiATobnSIjkBg4tZGXfv7bY
-        FMXnQwkHlfhJuhEYVRcvMRA9Vwb54BrizFPtI9g+Y/E9zTJqfeQt8Ol9lQ8I3uvkVpWcHU3t5jVXj
-        m/mCyzWKg1+O2RjXHFnzTfJf9fREFynmKv4aeuT9E7RbILJ0W+ZO51rstMUdp+3/fE7+6qMv8L4s5
-        nYvTKk0QJoB0VN9JC2F1vOhR7DZOWNCav4wmnneYnrtCQlP8TrgffFXJ6JuvEsDqlXN5DidE3I7wN
-        VBugA7wZZvuPnbHV3abPbxmWU0jL1QuobpdZaBwME01bb4ru/7PF8XiRaVMBdJUJ7JedD9pS7Z6JO
-        HR+HyeKzTkFYE0mDQN7YNhGPWx4QtO3moPzUkmMnBhbdPzaT9y45IhJEuD092+FfnhWfdgyNs0NFu
-        NbWCQbyrIoLZdRRfwbMVggT6eqaVgS4mx9Vyy9r7n+0AW+2SaAGih8sPrny6XOec1etMoUOBlzJ55
-        KKl418RSdHQkWPcdHg4V1MXV5dVjxprjjLSytKCDE=;
-X-Spam-Action: add header
-X-Spam-Bar: ++++++
-X-Spam-Score: 6.7 (++++++)
-Received: from [2001:4dd0:4f8e:0:7ddf:a8d0:8763:a125] (port=51080 helo=naboo.chaotikum.eu)
-        by mx0.chaotikum.eu with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <qsx@chaotikum.eu>)
-        id 1nzpY2-0006bX-A2; Sat, 11 Jun 2022 03:04:48 +0200
-From:   Thomas Schneider <qsx@chaotikum.eu>
-To:     "Daniel J. Ogorchock" <djogorchock@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Thomas Schneider <qsx@chaotikum.eu>
-Subject: [PATCH] HID: nintendo: Set phys property of input device based on HID phys
-Date:   Sat, 11 Jun 2022 03:03:59 +0200
-Message-Id: <20220611010359.115555-1-qsx@chaotikum.eu>
-X-Mailer: git-send-email 2.35.1
+        Sat, 11 Jun 2022 07:37:39 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 043241C90A
+        for <linux-input@vger.kernel.org>; Sat, 11 Jun 2022 04:37:39 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id p18so2204876lfr.1
+        for <linux-input@vger.kernel.org>; Sat, 11 Jun 2022 04:37:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=bu8J/6H5OpP49staf+3m4kPMjBpHuhJQzMAnMDS2ydY=;
+        b=Kc0AiT8lOHroWkz5fTlMxPVVTFZ1ZzNXK20lCAY0LqQFbdID7BLcbrCCxc04imFvrr
+         JYVuM0b6TVhLsxaQBQMFQqqguKbhYRyIRxGooFR6kVLLTCAEPhBsFNnj58XjVONY7GZ7
+         bQyWcZtOoboyOFI7uXcnqs2/+UwRr+OXOOGsVzjiU7msGBIexkWPvd8IKbmDUyVCEu28
+         gGYAuslpcqJ+rD44l4azAEc2pwFDlHdVcSaNdKE8awIpThkkiuK1Fu+wnw+qxhWLzv+2
+         uQ1FhX3wMdwh54NUi7u5c+AFIlft3xYhHDHTEvg9St0vYDwMDT2C9wFpAe00wJieE2fN
+         GswQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=bu8J/6H5OpP49staf+3m4kPMjBpHuhJQzMAnMDS2ydY=;
+        b=sBjKZJKG+WoZBh0QBdcvbHplCYDxGh13YB3Po03KoiM8+1Isx3KcQ8YwC+wgONGU0b
+         qM1S7b3LemqZ3weqSo7SgaOLUrlgPl96sbMMMxfHE34Akpd7a2zf3qSK/y3plllrteJQ
+         LSCg2ZJwYm5h7aXG/hyp38v3oW+EJOd4QNzzxqR38Uz+56usNV3L2BXWF+Jm+nR3+LHp
+         UusT42vsrNX2VMBNWRU+PVfjA1c0mc2yY9Qtcb8QUvSU1GGjVsMocao5PLvoHubkNvUv
+         AAWToHe6ybHmQBGUZVUvEa1LFPeXEo3NS9G3y7IdYymnRVcSfRdDiiWN7SsmEFqYOHqY
+         hnPQ==
+X-Gm-Message-State: AOAM530zaPjOqIppH/kKSXayiP4e7ZqYCIsnN1cVHNCdXvAvm7NiF8q1
+        +OLg5zBzAHRjHhKzkr6tp476hNZi8/h0HNGTh60=
+X-Google-Smtp-Source: ABdhPJyP2HLfEc1Pc9KKQAEBCe0uiIbsEAiMAHJqXA3jO6ayxNj/BPRClE4mJAuQ/d6VJuUR8TtoIM5vnrc2aO7QgDk=
+X-Received: by 2002:ac2:4c53:0:b0:479:602a:2b67 with SMTP id
+ o19-20020ac24c53000000b00479602a2b67mr14717181lfk.438.1654947456783; Sat, 11
+ Jun 2022 04:37:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6512:3e16:0:0:0:0 with HTTP; Sat, 11 Jun 2022 04:37:36
+ -0700 (PDT)
+Reply-To: mrs.sopheiajonathan@yahoo.com
+From:   "Mrs.Sopheal Jonathan" <adewalej67@gmail.com>
+Date:   Sat, 11 Jun 2022 04:37:36 -0700
+Message-ID: <CAJQy5=zM89rrxwd5Wgyh3x9h9LKvHNwKO4ECB2CrwgUbd30xgQ@mail.gmail.com>
+Subject: Hello Dear
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_60,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-While the MAC address the uniq identifier is set to (cf. commit
-1425247383c5 ("HID: nintendo: set controller uniq to MAC")) is certainly
-unique, the physical location can be more helpful in user interfaces.  The
-underlying hid_device already provides a suitable value, so we can simply
-reuse this here.
-
-Signed-off-by: Thomas Schneider <qsx@chaotikum.eu>
----
- drivers/hid/hid-nintendo.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 2204de889739..df9cd5d883c0 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -1634,6 +1634,7 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
- 	ctlr->input->id.version = hdev->version;
- 	ctlr->input->uniq = ctlr->mac_addr_str;
- 	ctlr->input->name = name;
-+	ctlr->input->phys = hdev->phys;
- 	input_set_drvdata(ctlr->input, ctlr);
- 
- 	/* set up sticks and buttons */
-@@ -1713,6 +1714,7 @@ static int joycon_input_create(struct joycon_ctlr *ctlr)
- 	ctlr->imu_input->id.version = hdev->version;
- 	ctlr->imu_input->uniq = ctlr->mac_addr_str;
- 	ctlr->imu_input->name = imu_name;
-+	ctlr->imu_input->phys = hdev->phys;
- 	input_set_drvdata(ctlr->imu_input, ctlr);
- 
- 	/* configure imu axes */
 -- 
-2.35.1
+Hello Dear
 
+Am a dying woman here in the hospital, i was diagnose as a Cancer
+
+
+patient over  2 Years ago. I am A business woman how
+
+
+dealing with Gold Exportation.I Am from Us California
+
+I have a charitable and unfufilment
+
+project that am about to handover to you, if you are interested please
+
+Reply
+
+hope to hear from you.
+
+Regard
+Mrs. Sopheia jonathan
