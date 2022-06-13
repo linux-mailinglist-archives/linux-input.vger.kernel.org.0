@@ -2,104 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15590549CE3
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jun 2022 21:10:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16D1F549F67
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jun 2022 22:35:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346966AbiFMTKc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Jun 2022 15:10:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60572 "EHLO
+        id S235879AbiFMUfC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Jun 2022 16:35:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347992AbiFMTIC (ORCPT
+        with ESMTP id S235573AbiFMUdc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Jun 2022 15:08:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7BCFF40A31
-        for <linux-input@vger.kernel.org>; Mon, 13 Jun 2022 10:03:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655139812;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fUq9pFZSDadmVk03boD5Lfs99MFVLc7ZZBPzdHpEJy4=;
-        b=EdHqp51nkjJUYrc8HT0yssaLGof3oEYcWg6HXm/nfRD7jgsqd2bJheLraHiZ38NmLjS6ql
-        mLvGMHF51ESbx9JVer9BqXkqb8HBIrD06fAFThm2SUwsp7FHLuUFLhqO0dfo4M9rdd4S+/
-        U2Zh4s9VQNKd7SzV90wFvzCpIydeUhk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-394-8ltcJ1AnO3Khta-TGdlsDw-1; Mon, 13 Jun 2022 13:03:31 -0400
-X-MC-Unique: 8ltcJ1AnO3Khta-TGdlsDw-1
-Received: by mail-wm1-f72.google.com with SMTP id l4-20020a05600c1d0400b0039c60535405so2750497wms.6
-        for <linux-input@vger.kernel.org>; Mon, 13 Jun 2022 10:03:31 -0700 (PDT)
+        Mon, 13 Jun 2022 16:33:32 -0400
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15BCF2C0;
+        Mon, 13 Jun 2022 12:24:03 -0700 (PDT)
+Received: by mail-oo1-xc2d.google.com with SMTP id v12-20020a4a314c000000b0041b65c7e100so1354685oog.8;
+        Mon, 13 Jun 2022 12:24:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=soDls7dCcz1ZPpwB8dw+TM3GeqzOJjJq6MJ6fYnP6Ac=;
+        b=gVkDRTgET96s94Fj8AGMYQ7plsLzzIOrkFusvdkw+BE02VoTuo4Dtmp8l6rlbkAWSq
+         3VLuxyouB2xA3n4K50uFEXHhKnEIm/R9iWM020KcfMEUbtk7VtKsUnBccI+5MNAw+MoM
+         4SUG7jhkfrqQBh612YxOBdFP2UYXHNIq9Q6zWsFRVq6wRBRQusJb8TJ/Ec5nGft56KMY
+         xRcH0RrykZX3qUye0dLhmd8pXJUieLSb+Tq0DPlbEt/UKsJwEf8LoJYg5ky2YMX/jUCR
+         OzIhQo+YLtstI3dcF9dXVJhY7bE/sAzi8E3U/2KgaMBa6P/2iXsCs0dFR/zvQsW+on24
+         qZrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=fUq9pFZSDadmVk03boD5Lfs99MFVLc7ZZBPzdHpEJy4=;
-        b=Q23xYvjuizXFm1tINhiYe72+sOIbKgJRb2nzXmMXFIC+Aa15SokXJlxfocKsu/wQIs
-         P6hEvAhkPDAigdpNbz9sCjCq8jip3UD+/SmltpeUJut/GTfywVhOm1MatvDjb5PDZeSW
-         rVqZTt0aRe4tbG+Jrf8bg26tccqWA4VHOBiFdsGf8UbQFmk9gOMypA15Bvtynb7SKp8f
-         9ZbZPnAIdYqqnDytSOR03Nr4zQDvhfXI4R3Kn/KOZNhhpoRkd6XJ2+hM8uvr1P0PRgTF
-         JJ9evZWkC1NqvB2aimticQKDirXVjuDiLUUWB/tVITX/f8uKySGKxH6zgjfHAN2Yw8mY
-         RrFw==
-X-Gm-Message-State: AJIora/iW/zM07HtYD0K950YVeF83bwwEugGlj/3iIUi+EIR6Kfv7asy
-        UxH9kvB9URZpErd1Vk/mmeNBywtMPirgd9dVeT7BMoySQrX7qHdUNaQLjtA1ggXHHGj/e0DVrLF
-        nzi7sbDBoOhGf0fkrplaqyR4=
-X-Received: by 2002:adf:f884:0:b0:21a:6a:7b55 with SMTP id u4-20020adff884000000b0021a006a7b55mr775028wrp.376.1655139809911;
-        Mon, 13 Jun 2022 10:03:29 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sZbsH9u0jLeVZOvKYUuyiZI0HIICoNcQV7elyO/gGJMR8TrrYM8yJgqDTeUXeLYQ5cFezuDQ==
-X-Received: by 2002:adf:f884:0:b0:21a:6a:7b55 with SMTP id u4-20020adff884000000b0021a006a7b55mr775009wrp.376.1655139809714;
-        Mon, 13 Jun 2022 10:03:29 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id q1-20020adff501000000b002117ef160fbsm9181808wro.21.2022.06.13.10.03.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jun 2022 10:03:29 -0700 (PDT)
-Message-ID: <35855854-7fbd-e622-c2ac-9f5b30809b0d@redhat.com>
-Date:   Mon, 13 Jun 2022 19:03:28 +0200
+        bh=soDls7dCcz1ZPpwB8dw+TM3GeqzOJjJq6MJ6fYnP6Ac=;
+        b=xpsaLf1j/C5ZeqnBXhQHCpbL51qPSmTly3bRiBx5unf1cNWS8fzu1DxuES5sTfgT2P
+         jelYqtZ8JvS2b8rN0uCOoWF8aaoLBUg3gcMBAwLXoolUD9BLi6IqL4ixmkNLDGv0Mbz+
+         3rs1Bw4N6dhdFNwLeGJLvrOBEZavmcq8/u3u0hH2UYj+IBMWL200F/yuTTUtbs3uDNZV
+         NlDXtp5f8pzSOFpb2WwjbnUcJ7qayaPJ+kHilyXTfcrBoWIu81SJjXlzIMdPB80igqDJ
+         2Pbm36pFwTvUZ9RlP7/jJ4JDZdyBTSSvmZne7dWADUVfKO3QSKowJl37njPqnpZ2FlaQ
+         JYXA==
+X-Gm-Message-State: AOAM532bFS3eoM73fSohCla82FN/d1JZEfOJH97zrhOXxNEMX39X/z5H
+        NKI4e6jAXqaxaF/PzYf2h+kExaBN3LQ=
+X-Google-Smtp-Source: ABdhPJwydrZEwRLKV4EbIEDS5L4amqbACGianDmULDMTy1AqRJk11ANrlIktzehmdzexhBRCY2qwqw==
+X-Received: by 2002:a4a:dd8b:0:b0:41b:92b4:c928 with SMTP id h11-20020a4add8b000000b0041b92b4c928mr531518oov.59.1655148242112;
+        Mon, 13 Jun 2022 12:24:02 -0700 (PDT)
+Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com. [76.183.134.35])
+        by smtp.gmail.com with ESMTPSA id bf34-20020a056808192200b0032ba1b363d2sm3637274oib.55.2022.06.13.12.24.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jun 2022 12:24:01 -0700 (PDT)
+From:   Chris Morgan <macroalpha82@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, contact@artur-rojek.eu,
+        maccraft123mc@gmail.com, heiko@sntech.de,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        dmitry.torokhov@gmail.com, Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH v3 0/3] adc-joystick: Add polled support
+Date:   Mon, 13 Jun 2022 14:23:50 -0500
+Message-Id: <20220613192353.696-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] input: misc: rk805-pwrkey: Fix module autoloading
-Content-Language: en-US
-To:     Peter Robinson <pbrobinson@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Joseph Chen <chenjh@rock-chips.com>,
-        linux-input@vger.kernel.org
-References: <20220612225437.3628788-1-pbrobinson@gmail.com>
-From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220612225437.3628788-1-pbrobinson@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Peter,
+From: Chris Morgan <macromorgan@hotmail.com>
 
-On 6/13/22 00:54, Peter Robinson wrote:
-> Add the module alias so the rk805-pwrkey driver will
-> autoload when built as a module.
-> 
-> Fixes: 5a35b85c2d92 ("Input: add power key driver for Rockchip RK805 PMIC")
-> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
-> ---
+Add support to the existing adc-joystick driver to support polling
+rather than relying on triggered buffers. This is useful for devices
+that do not offer triggered buffers in hardware. Code adapted from
+changes made by Maya Matuszczyk <maccraft123mc@gmail.com>.
 
-Patch looks good to me.
+Changes from V2:
+ - Changed parameter from "adc-joystick,polled" to
+   "adc-joystick,no-hardware-trigger" as it is more representative of
+   what the driver and hardware are doing.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Changes from V1:
+ - Removed driver compatible string of "adc-joystick-polled".
+ - Added new optional boolean value of "adc-joystick,polled".
+ - Cleaned up if statements regarding polling behavior.
+
+
+Chris Morgan (3):
+  dt-bindings: adc-joystick: add adc-joystick,no-hardware-trigger
+  Input: adc-joystick - Add polled input device support
+  arm64: dts: rockchip: Update joystick to polled for Odroid-Go2
+
+ .../bindings/input/adc-joystick.yaml          |  9 +++-
+ .../boot/dts/rockchip/rk3326-odroid-go2.dts   |  1 +
+ drivers/input/joystick/adc-joystick.c         | 52 +++++++++++++++----
+ 3 files changed, 50 insertions(+), 12 deletions(-)
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+2.25.1
 
