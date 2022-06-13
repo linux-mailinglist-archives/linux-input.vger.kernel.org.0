@@ -2,61 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C187A549F66
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jun 2022 22:35:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CF0B549F6B
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jun 2022 22:35:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240259AbiFMUfB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Jun 2022 16:35:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34744 "EHLO
+        id S235573AbiFMUfE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Jun 2022 16:35:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235738AbiFMUdd (ORCPT
+        with ESMTP id S235751AbiFMUdd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Mon, 13 Jun 2022 16:33:33 -0400
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 260A833B;
-        Mon, 13 Jun 2022 12:24:05 -0700 (PDT)
-Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-fe539f9afbso9702330fac.5;
-        Mon, 13 Jun 2022 12:24:05 -0700 (PDT)
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com [IPv6:2607:f8b0:4864:20::c29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2923E3A8;
+        Mon, 13 Jun 2022 12:24:06 -0700 (PDT)
+Received: by mail-oo1-xc29.google.com with SMTP id o13-20020a4a84cd000000b0041161ec8419so1362110oog.6;
+        Mon, 13 Jun 2022 12:24:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=/jxAroPORONkWHCP81HqzVgF07d+274DtG9JNGDJZdA=;
-        b=RUHJKh+3j/CGwnKeNxGZJdL26F8MjQxY4sCgq2DhG2groUNmSXC54g4YvN/K2B6ogO
-         aGFTIruaHmEAgZt5zJ938t8TIH4SmMOyBbI+5DsGAxsqudH5U1lGa4aohNuKlyy9ZodN
-         QLJ3vf+qAr20Z96om5yupJQCJfrzLn+FXn6lijnkjF6FmcWGLANB/2Yh8tPvZDa51Tyy
-         bfnFff/CJny2hG6CjqzbTOMda4ELRZOIH46oTah3hyx8SJQt7IUohqQqNikqlqcaouOe
-         BWVgsZBVLpoxpgrL3ICXf6u6CRN5EbL3cD0g/j977Ah6Ajd7k+N5vkqbcwfVnoU1pq+d
-         p+xg==
+        bh=Wex1nAbWY/1XXCUDhOVW0d/2E/zHgf+Jqfen3iAGXg4=;
+        b=cmcrkC5rQavzi5riDXVZ1cRgi8Kxu0OZk5UnZiCB5fLeqdkPSsfuPl7595nn/HGqlz
+         6ophFUucb7XnDmFuXUwQ+hyN7GroGw5lwdcB/RMFzvHRJUDlvy4mIj8QvyT2tKdZxTfV
+         3cKoufZ5AQA+04H4dr4UTdL+4v5f6WyW3bcl9GUb1XTaTCXON1TjELzSul1PEM7kdQcy
+         bREQAi+eIRBydHuAEO4j3nBH1g7yU4dDJqo9Z+nbVQs8rcivz6ph+Dbj45jHg2sw1tC3
+         CZ+X/R+GV6kuBmU/TMyMKrhcqnpzXHMAGitvuzieQi70W7/MtL6VX3yxW38F9fn5Dt7Y
+         +emw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/jxAroPORONkWHCP81HqzVgF07d+274DtG9JNGDJZdA=;
-        b=UetjumSYcJTnz7xJMxoSjHpLNofSqm+aH0UHaue1lFmJHlQNnZPy1mH/PqeBeFivjq
-         g6BTbaJtsv86RY/Y1ABtyFbCmOCToyO5BuEHN1qJK9aWeje6lZif8beP93UAWy5RF+3r
-         lJS75L/8bP+A5q2gcKUrPvDsPHkG5h1xMx3+PCpmcBKH+hz+iYPLkAbmjE/2fJO5rkeu
-         cKUJVzeUETjLJoGN6U7Ihav6iKBMgh4dovQc6Hp2s2tljLB8LJVbtqsaCX0H0J1g6z9z
-         Q7OvvmoH/pOwIh9/eQrocPfa9QD9ahLGbRsLOyCl3/IMKGFZZfZlsvGbYSey+OV0qN43
-         Yfcw==
-X-Gm-Message-State: AJIora9bCgazPfRxbK5X2pGPWZT1F+OtP61wOHT00K5f4jPYoi/8k36e
-        u+Vf5nv/EGHbNIJonHok99wx/dbyhxc=
-X-Google-Smtp-Source: AGRyM1v+4bR9gYj6JAeT+mRFItrp28XznEw9GJl9qynpALPR30+MKp6gAr8MvFSl3Y7pqnr3ptiI0A==
-X-Received: by 2002:a05:6870:42c7:b0:f3:1803:6306 with SMTP id z7-20020a05687042c700b000f318036306mr166800oah.233.1655148244206;
-        Mon, 13 Jun 2022 12:24:04 -0700 (PDT)
+        bh=Wex1nAbWY/1XXCUDhOVW0d/2E/zHgf+Jqfen3iAGXg4=;
+        b=6lsrsB3MdSlY2embN2lLd4TaPl9K5cGeOcT7RH7iMPyw8/NMfPyktQWzMTeEgUIyow
+         KzJkC90UuBPd23y9jccu90kuHIB0dOj+UZ8qzSBrW1T5h9USqdRFmXiLcQnl+hxAWpp3
+         FdmQZclDpf+TLeAidsAYSDCV7LnvcAk4fbH59JrleJ4W1r2qtgnY4/vZjJWFZtUaes2R
+         LBKqpsIc/9B9E+k0CJEABhJT0tZaiuyqJPVkaLAs/XmyqKLUMu+Gc1B5A6tQmp9BpipT
+         YdTYwylMaJd/4t0T0rQtJWyplPF7O2hqEf8BftHHGzxbE27qpzljdQ5qxd1p7+TL7snf
+         CmfQ==
+X-Gm-Message-State: AOAM530n5rowlfJfpMgfYb/CZ+nDR+yPYtPNjRRxIbRT0YVpzQ6X2i0H
+        3QPAUk7MsLfuGihzToMZJsnlWidY3P8=
+X-Google-Smtp-Source: ABdhPJwwHiJ+f+Yr73lbmOWjm+E07LLIvlLVjGzmQ1GRb72rS/Y6Ri6pbHshx0p+GJu6WuM7cpfOyA==
+X-Received: by 2002:a4a:bc8f:0:b0:41b:a240:6fa5 with SMTP id m15-20020a4abc8f000000b0041ba2406fa5mr525153oop.81.1655148245136;
+        Mon, 13 Jun 2022 12:24:05 -0700 (PDT)
 Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com. [76.183.134.35])
-        by smtp.gmail.com with ESMTPSA id bf34-20020a056808192200b0032ba1b363d2sm3637274oib.55.2022.06.13.12.24.03
+        by smtp.gmail.com with ESMTPSA id bf34-20020a056808192200b0032ba1b363d2sm3637274oib.55.2022.06.13.12.24.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jun 2022 12:24:03 -0700 (PDT)
+        Mon, 13 Jun 2022 12:24:04 -0700 (PDT)
 From:   Chris Morgan <macroalpha82@gmail.com>
 To:     linux-input@vger.kernel.org
 Cc:     devicetree@vger.kernel.org, contact@artur-rojek.eu,
         maccraft123mc@gmail.com, heiko@sntech.de,
         krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
         dmitry.torokhov@gmail.com, Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH v3 2/3] Input: adc-joystick - Add polled input device support
-Date:   Mon, 13 Jun 2022 14:23:52 -0500
-Message-Id: <20220613192353.696-3-macroalpha82@gmail.com>
+Subject: [PATCH v3 3/3] arm64: dts: rockchip: Update joystick to polled for Odroid-Go2
+Date:   Mon, 13 Jun 2022 14:23:53 -0500
+Message-Id: <20220613192353.696-4-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220613192353.696-1-macroalpha82@gmail.com>
 References: <20220613192353.696-1-macroalpha82@gmail.com>
@@ -74,104 +74,27 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add polled input device support to the adc-joystick driver. This is
-useful for devices which do not have hardware capable triggers on
-their SARADC. Code modified from adc-joystick.c changes made by Maya
-Matuszczyk.
+Update the Odroid Go Advance to use "adc-joystick,no-hardware-trigger"
+from the adc-joystick driver.
 
-Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
 ---
- drivers/input/joystick/adc-joystick.c | 52 +++++++++++++++++++++------
- 1 file changed, 41 insertions(+), 11 deletions(-)
+ arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
-index 78ebca7d400a..dc01cd0214d2 100644
---- a/drivers/input/joystick/adc-joystick.c
-+++ b/drivers/input/joystick/adc-joystick.c
-@@ -13,6 +13,10 @@
+diff --git a/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts b/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts
+index ea0695b51ecd..ffa49b8dee15 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts
+@@ -24,6 +24,7 @@ chosen {
  
- #include <asm/unaligned.h>
- 
-+#define ADC_JSK_POLL_INTERVAL	16
-+#define ADC_JSK_POLL_MIN	8
-+#define ADC_JSK_POLL_MAX	32
-+
- struct adc_joystick_axis {
- 	u32 code;
- 	s32 range[2];
-@@ -26,8 +30,21 @@ struct adc_joystick {
- 	struct adc_joystick_axis *axes;
- 	struct iio_channel *chans;
- 	int num_chans;
-+	bool polled;
- };
- 
-+static void adc_joystick_poll(struct input_dev *input)
-+{
-+	struct adc_joystick *joy = input_get_drvdata(input);
-+	int i, val;
-+
-+	for (i = 0; i < joy->num_chans; i++) {
-+		iio_read_channel_raw(&joy->chans[i], &val);
-+		input_report_abs(input, joy->axes[i].code, val);
-+	}
-+	input_sync(input);
-+}
-+
- static int adc_joystick_handle(const void *data, void *private)
- {
- 	struct adc_joystick *joy = private;
-@@ -215,8 +232,19 @@ static int adc_joystick_probe(struct platform_device *pdev)
- 	joy->input = input;
- 	input->name = pdev->name;
- 	input->id.bustype = BUS_HOST;
--	input->open = adc_joystick_open;
--	input->close = adc_joystick_close;
-+
-+	if (device_property_read_bool(dev, "adc-joystick,no-hardware-trigger"))
-+		joy->polled = 1;
-+
-+	if (joy->polled) {
-+		input_setup_polling(input, adc_joystick_poll);
-+		input_set_poll_interval(input, ADC_JSK_POLL_INTERVAL);
-+		input_set_min_poll_interval(input, ADC_JSK_POLL_MIN);
-+		input_set_max_poll_interval(input, ADC_JSK_POLL_MAX);
-+	} else {
-+		input->open = adc_joystick_open;
-+		input->close = adc_joystick_close;
-+	}
- 
- 	error = adc_joystick_set_axes(dev, joy);
- 	if (error)
-@@ -229,16 +257,18 @@ static int adc_joystick_probe(struct platform_device *pdev)
- 		return error;
- 	}
- 
--	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
--	if (IS_ERR(joy->buffer)) {
--		dev_err(dev, "Unable to allocate callback buffer\n");
--		return PTR_ERR(joy->buffer);
--	}
-+	if (!joy->polled) {
-+		joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
-+		if (IS_ERR(joy->buffer)) {
-+			dev_err(dev, "Unable to allocate callback buffer\n");
-+			return PTR_ERR(joy->buffer);
-+		}
- 
--	error = devm_add_action_or_reset(dev, adc_joystick_cleanup, joy->buffer);
--	if (error)  {
--		dev_err(dev, "Unable to add action\n");
--		return error;
-+		error = devm_add_action_or_reset(dev, adc_joystick_cleanup, joy->buffer);
-+		if (error)  {
-+			dev_err(dev, "Unable to add action\n");
-+			return error;
-+		}
- 	}
- 
- 	return 0;
+ 	adc-joystick {
+ 		compatible = "adc-joystick";
++		adc-joystick,no-hardware-trigger;
+ 		io-channels = <&saradc 1>,
+ 			      <&saradc 2>;
+ 		#address-cells = <1>;
 -- 
 2.25.1
 
