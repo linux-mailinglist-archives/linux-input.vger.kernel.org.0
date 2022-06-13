@@ -2,79 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09F3B549BD8
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jun 2022 20:41:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15590549CE3
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jun 2022 21:10:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343971AbiFMSlC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Jun 2022 14:41:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44626 "EHLO
+        id S1346966AbiFMTKc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Jun 2022 15:10:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245634AbiFMSkc (ORCPT
+        with ESMTP id S1347992AbiFMTIC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Jun 2022 14:40:32 -0400
+        Mon, 13 Jun 2022 15:08:02 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 47AE462BF0
-        for <linux-input@vger.kernel.org>; Mon, 13 Jun 2022 08:27:33 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7BCFF40A31
+        for <linux-input@vger.kernel.org>; Mon, 13 Jun 2022 10:03:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655134052;
+        s=mimecast20190719; t=1655139812;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=349ItO45Tva+Eg6mNSQZ8gAgx0dNkmVf6n7IrTnPg/k=;
-        b=DKD2aMRYWxq/AN3Jrp9y8znBjc4DORo9JLcRxmPegXEzXJlPUgxB5hgNbe43SAZ39/UMl2
-        bEwLOk1n7fO1k8aK2STvniE0HcHBDQaPx35XiPJgU3jK9U4s9xfOCyVex/hvlu+3/N8Nez
-        fGa1RzrvJSBcVE6fHxifBtoVb0q2jTE=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=fUq9pFZSDadmVk03boD5Lfs99MFVLc7ZZBPzdHpEJy4=;
+        b=EdHqp51nkjJUYrc8HT0yssaLGof3oEYcWg6HXm/nfRD7jgsqd2bJheLraHiZ38NmLjS6ql
+        mLvGMHF51ESbx9JVer9BqXkqb8HBIrD06fAFThm2SUwsp7FHLuUFLhqO0dfo4M9rdd4S+/
+        U2Zh4s9VQNKd7SzV90wFvzCpIydeUhk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-5MLDQvVqP2-RPZ8DU8M-RQ-1; Mon, 13 Jun 2022 11:27:31 -0400
-X-MC-Unique: 5MLDQvVqP2-RPZ8DU8M-RQ-1
-Received: by mail-ed1-f72.google.com with SMTP id x15-20020a05640226cf00b004318eab9feaso4203905edd.12
-        for <linux-input@vger.kernel.org>; Mon, 13 Jun 2022 08:27:30 -0700 (PDT)
+ us-mta-394-8ltcJ1AnO3Khta-TGdlsDw-1; Mon, 13 Jun 2022 13:03:31 -0400
+X-MC-Unique: 8ltcJ1AnO3Khta-TGdlsDw-1
+Received: by mail-wm1-f72.google.com with SMTP id l4-20020a05600c1d0400b0039c60535405so2750497wms.6
+        for <linux-input@vger.kernel.org>; Mon, 13 Jun 2022 10:03:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+         :content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=349ItO45Tva+Eg6mNSQZ8gAgx0dNkmVf6n7IrTnPg/k=;
-        b=1shTfyaIPOASZCMGl8Sw2kR8ik7gPEAwcznN8j2qs1yeN/6lLuBRmdVv6vqAxjMxeq
-         rvMKWqYiX1pCL6h9mjheXnGZzcohzxkCgKWTNkP3oWrYChSahZgEON9413RGCbl3XDYi
-         cmCSyZw51lxPX4r6WVDtrwu6z4rkpRzqQ073HXCj+zIQ/T9jSbDTyr5TImFIGbtQ8Pwx
-         hZGs3pe00Dn32sSJSiBG+zD6xbKlc8cf6JBlGfVtasAShAf8/kBDSXYUNBxBGAwgbQEK
-         iT5npNVeW7b1q0SskLqfhwHh2l9GUnszPYbue2KNayO7xAZiv/qUKESJNkJolH4EU5QM
-         whDA==
-X-Gm-Message-State: AOAM530R/NxvoVE5CiVqSxIcC2n5lGiuYHQ49DkWVAdbL9jnp3MT8GZH
-        pTONm41zZHHutIxz1v+7nk+F+C6BoPsV/VDOqbJ0Mh2H8lrQdwDVPlJpwJMMCEZU/wOukPJKQKb
-        I0OlQQVx5NLxPegCvQbSVM5k=
-X-Received: by 2002:a17:906:2c4d:b0:70f:ede5:d456 with SMTP id f13-20020a1709062c4d00b0070fede5d456mr373611ejh.366.1655134049912;
-        Mon, 13 Jun 2022 08:27:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJybsNmkzlGzyyL4shgHdKlEEvyjK/FcnSjJ/CLCJb6gofvFDki+1kMsAbYEIwlvSuuJGGJGfA==
-X-Received: by 2002:a17:906:2c4d:b0:70f:ede5:d456 with SMTP id f13-20020a1709062c4d00b0070fede5d456mr373604ejh.366.1655134049710;
-        Mon, 13 Jun 2022 08:27:29 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id h20-20020a056402281400b0042dd05edeedsm5226591ede.17.2022.06.13.08.27.28
+        bh=fUq9pFZSDadmVk03boD5Lfs99MFVLc7ZZBPzdHpEJy4=;
+        b=Q23xYvjuizXFm1tINhiYe72+sOIbKgJRb2nzXmMXFIC+Aa15SokXJlxfocKsu/wQIs
+         P6hEvAhkPDAigdpNbz9sCjCq8jip3UD+/SmltpeUJut/GTfywVhOm1MatvDjb5PDZeSW
+         rVqZTt0aRe4tbG+Jrf8bg26tccqWA4VHOBiFdsGf8UbQFmk9gOMypA15Bvtynb7SKp8f
+         9ZbZPnAIdYqqnDytSOR03Nr4zQDvhfXI4R3Kn/KOZNhhpoRkd6XJ2+hM8uvr1P0PRgTF
+         JJ9evZWkC1NqvB2aimticQKDirXVjuDiLUUWB/tVITX/f8uKySGKxH6zgjfHAN2Yw8mY
+         RrFw==
+X-Gm-Message-State: AJIora/iW/zM07HtYD0K950YVeF83bwwEugGlj/3iIUi+EIR6Kfv7asy
+        UxH9kvB9URZpErd1Vk/mmeNBywtMPirgd9dVeT7BMoySQrX7qHdUNaQLjtA1ggXHHGj/e0DVrLF
+        nzi7sbDBoOhGf0fkrplaqyR4=
+X-Received: by 2002:adf:f884:0:b0:21a:6a:7b55 with SMTP id u4-20020adff884000000b0021a006a7b55mr775028wrp.376.1655139809911;
+        Mon, 13 Jun 2022 10:03:29 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sZbsH9u0jLeVZOvKYUuyiZI0HIICoNcQV7elyO/gGJMR8TrrYM8yJgqDTeUXeLYQ5cFezuDQ==
+X-Received: by 2002:adf:f884:0:b0:21a:6a:7b55 with SMTP id u4-20020adff884000000b0021a006a7b55mr775009wrp.376.1655139809714;
+        Mon, 13 Jun 2022 10:03:29 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id q1-20020adff501000000b002117ef160fbsm9181808wro.21.2022.06.13.10.03.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jun 2022 08:27:29 -0700 (PDT)
-Message-ID: <23f92ec3-a739-6ee7-10f9-f66b17ae6088@redhat.com>
-Date:   Mon, 13 Jun 2022 17:27:28 +0200
+        Mon, 13 Jun 2022 10:03:29 -0700 (PDT)
+Message-ID: <35855854-7fbd-e622-c2ac-9f5b30809b0d@redhat.com>
+Date:   Mon, 13 Jun 2022 19:03:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 00/12] platform/surface: aggregator: Add support for
- client hot-removal
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] input: misc: rk805-pwrkey: Fix module autoloading
 Content-Language: en-US
-To:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20220527023447.2460025-1-luzmaximilian@gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220527023447.2460025-1-luzmaximilian@gmail.com>
+To:     Peter Robinson <pbrobinson@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Joseph Chen <chenjh@rock-chips.com>,
+        linux-input@vger.kernel.org
+References: <20220612225437.3628788-1-pbrobinson@gmail.com>
+From:   Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220612225437.3628788-1-pbrobinson@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -87,116 +82,24 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hello Peter,
 
-On 5/27/22 04:34, Maximilian Luz wrote:
-> Summary:
+On 6/13/22 00:54, Peter Robinson wrote:
+> Add the module alias so the rk805-pwrkey driver will
+> autoload when built as a module.
 > 
->   Add support for the HID type cover input devices on the Pro 8 and all
->   requirements for that.
-> 
-> 
-> Blurb from v1:
-> 
->   This series adds support for the type cover of the Surface Pro 8. On
->   the Pro 8, the type cover is (unlike on previous generations) handled
->   via the Surface System Aggregator Module (SSAM). As the type cover is
->   detachable, care needs to be taken and the respective SSAM (HID)
->   client devices need to be properly removed when detached and
->   re-initialized when attached.
->   
->   Therefore, this series does three things:
->   
->    1. Improve hot-removal support for SSAM client devices. When
->       hot-removing clients, subsequent communication may time out.
->   
->       In the worst case, this can lead to problems when devices are
->       detached and re-attached quickly, before we can remove their
->       respective kernel representations. This can then lead to devices
->       being in an uninitialized state, preventing, for example, touchpad
->       gestures from working properly as the required HID feature report
->       has not been sent.
->   
->       Therefore, handle hot-removal of devices more gracefully by
->       avoiding communication once it has been detected and ensure that
->       devices are actually removed.
->    
->    2. Generify SSAM subsystem hubs and add a KIP hub. On the Surface Pro
->       8, the KIP subsystem (only that abbreviation is known) is
->       responsible for managing type-cover devices. This hub acts as the
->       controller for device removal similar to the BAS (detachable base)
->       subsystem hub on the Surface Book 3 (therefore we can share most
->       of the code between them).
->   
->    3. Add the (HID) type-cover clients of the Surface Pro 8 to the
->       aggregator registry.
-> 
-> 
-> Changes in v2:
-> 
->  - Introduce "platform/surface: aggregator: Allow is_ssam_device() to be
->    used when CONFIG_SURFACE_AGGREGATOR_BUS is disabled" to fix an
->    undefined reference  build issue when CONFIG_SURFACE_AGGREGATOR_BUS
->    is disabled.
-> 
->  - Make SSAM hub device UIDs consistent.
->     - Introduce "platform/surface: aggregator_registry: Change device ID
->       for base hub" to make association between hub and subsystem target
->       category more obvious.
->     - Change hub device ID for KIP subsystem hub to be consistent with
->       the id of the already existing BAS hub.
+> Fixes: 5a35b85c2d92 ("Input: add power key driver for Rockchip RK805 PMIC")
+> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+> ---
 
-Thank you for your patch-series, I've applied the series to my
-review-hans branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+Patch looks good to me.
 
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Jiri, Benjamin, note I've also taken the one small(ish) HID patch
-which is a part of this series, despite it lacking an Ack from
-either of you. I hope this is ok, if not let me know.
+-- 
+Best regards,
 
-Regards,
-
-Hans
-
-
-
-
-> Maximilian Luz (12):
->   platform/surface: aggregator: Allow is_ssam_device() to be used when
->     CONFIG_SURFACE_AGGREGATOR_BUS is disabled
->   platform/surface: aggregator: Allow devices to be marked as
->     hot-removed
->   platform/surface: aggregator: Allow notifiers to avoid communication
->     on unregistering
->   platform/surface: aggregator_registry: Use client device wrappers for
->     notifier registration
->   power/supply: surface_charger: Use client device wrappers for notifier
->     registration
->   power/supply: surface_battery: Use client device wrappers for notifier
->     registration
->   HID: surface-hid: Add support for hot-removal
->   platform/surface: aggregator: Add comment for KIP subsystem category
->   platform/surface: aggregator_registry: Generify subsystem hub
->     functionality
->   platform/surface: aggregator_registry: Change device ID for base hub
->   platform/surface: aggregator_registry: Add KIP device hub
->   platform/surface: aggregator_registry: Add support for keyboard cover
->     on Surface Pro 8
-> 
->  .../driver-api/surface_aggregator/client.rst  |   6 +-
->  drivers/hid/surface-hid/surface_hid_core.c    |  38 +-
->  .../platform/surface/aggregator/controller.c  |  53 ++-
->  .../surface/surface_aggregator_registry.c     | 403 +++++++++++++-----
->  drivers/power/supply/surface_battery.c        |   4 +-
->  drivers/power/supply/surface_charger.c        |   4 +-
->  include/linux/surface_aggregator/controller.h |  24 +-
->  include/linux/surface_aggregator/device.h     | 125 +++++-
->  include/linux/surface_aggregator/serial_hub.h |   2 +-
->  9 files changed, 513 insertions(+), 146 deletions(-)
-> 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
