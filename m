@@ -2,54 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 406C854CA52
-	for <lists+linux-input@lfdr.de>; Wed, 15 Jun 2022 15:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F404254CAED
+	for <lists+linux-input@lfdr.de>; Wed, 15 Jun 2022 16:12:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239803AbiFONwn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Jun 2022 09:52:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34486 "EHLO
+        id S1344753AbiFOOMQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Jun 2022 10:12:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347726AbiFONwd (ORCPT
+        with ESMTP id S1351492AbiFOOMO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Jun 2022 09:52:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CEDD2193;
-        Wed, 15 Jun 2022 06:52:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AB8F161B20;
-        Wed, 15 Jun 2022 13:52:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F514C341C7;
-        Wed, 15 Jun 2022 13:52:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655301151;
-        bh=5viv8HZleikUPoCNSja+0kTEacXDXuq29SCfCBxOlZ8=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=Z68AF1VVS349Qmh14HdS/s/8qqWEXmqWHIc19lmwlSyXl7gWBkMk+LlfODfjVTeMM
-         1jnzjHz1M3+gXsQ8eEqoQrvxHQ9KSoDsQzPM7K/OQGVa3g6iMQ9CNIbjuL+/ygTLyO
-         IyOhHdk1u7JjmJrpOQhjeGv6tMQAkzUPH+Kp2/rwYpHQBpNLnMYX94Wu+i2S6uNK3s
-         walZiZcwKLOBofdHv4urg7KPFMnnv2onorS53HdnyDZQP1qgq5L5kkgC3fkwKquDgl
-         WNUdQ6FzlFE0smcWgFbj12C2zUQkhMiEkpcgpbYSRrCOBYcBAlb6iuihL9zI/QEDrl
-         mc1DBOteBT41A==
-Date:   Wed, 15 Jun 2022 15:52:27 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-cc:     benjamin.tissoires@redhat.com, spbnick@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stefanberzl@gmail.com, dlatypov@google.com,
-        kunit-dev@googlegroups.com
-Subject: Re: [PATCH v4 0/4] Add support for XP-PEN Deco L
-In-Reply-To: <20220611113914.355577-1-jose.exposito89@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2206151552060.14340@cbobk.fhfr.pm>
-References: <20220611113914.355577-1-jose.exposito89@gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Wed, 15 Jun 2022 10:12:14 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 668DC4AE1E
+        for <linux-input@vger.kernel.org>; Wed, 15 Jun 2022 07:12:12 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id i15so10539497plr.1
+        for <linux-input@vger.kernel.org>; Wed, 15 Jun 2022 07:12:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=PSomTQVyd5zCOSWAzm7waWbc5IfqLdcXJ5U+xrQfg4Q=;
+        b=JKOf4C3mU+7shCFVenrMS4Wj7l56t/FZ8+1fD+KZLyud9Gmhi1KVJLmx/yeVS4Z5qQ
+         3ZfaTwMwieN6KHMfdOs+wULYba0VSwFb+Wtrl9TzX0ogKPumROJnMkhWDCRvaQssRO3C
+         2hBAaf3YPunbsfgw3sEfW5R84IPWQFh8SCvWNYI564o+HAadpNKfbnE6vQ/0uh2Yj+Fo
+         02+a4pGUnWVelGszUXVHdK+3Sb4LzGG+oXgkNLOKD0j95sKH1ux/Y+J+ApcZEFjxQYu/
+         9prjMT4Rc7IXqPAcOsirAh6uVPaaNHtBuDnAt1Z49+foVtidvqXpOkBpO1QEsiRu5cOz
+         dqsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=PSomTQVyd5zCOSWAzm7waWbc5IfqLdcXJ5U+xrQfg4Q=;
+        b=KZaBo2vO0lcyRlRpz8jZCGT3oM7oW+Q3VOK+iTyqK/EyGYB3Kti0HwVuSo0r8/F+e5
+         Bhin/rMGnP739kLkBJrBBqc/ukz4BUHnoLBAfG/mV83AhkAHiFmOVeKBZ5I9Q9qHkel+
+         io4N+hm7E1Wk+Zj8ANZEODIzfOzbl3psc9Gu7oVSUoyIy10MfqQAtQjqKYlYqaP4qlV+
+         +hURuEZnPVN4cWiz7zcUeVdURUyNiedbL/7NMEASmbje+kNcJfJL3xWZpmda7HJB1EsX
+         eglnt5X/goju8rpYhlBLF6xUdtdRxLxVX4+83sYTQF4AxgBiGcg7SbRURbeQScpxOpuN
+         Latg==
+X-Gm-Message-State: AJIora8UlHVExekkcN/y7iNLdtLpva+XcJEsQWIpKoE7bgobvJ2RSMsY
+        vV8aMRurYhIeJ3srU33b8ugKVQ==
+X-Google-Smtp-Source: AGRyM1t9yqcERxo31E4JOAQBo9v99YY2GKrNMpkjyDZISFSuX75m4TYnlJf5X4I9UYsCHexBw+Mw5g==
+X-Received: by 2002:a17:902:d718:b0:168:d9df:4f1c with SMTP id w24-20020a170902d71800b00168d9df4f1cmr9773830ply.41.1655302331863;
+        Wed, 15 Jun 2022 07:12:11 -0700 (PDT)
+Received: from [172.20.0.255] ([192.77.111.2])
+        by smtp.gmail.com with ESMTPSA id ix6-20020a170902f80600b001640e9f638esm9380498plb.51.2022.06.15.07.12.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jun 2022 07:12:11 -0700 (PDT)
+Message-ID: <5f30dbcc-cfc7-2620-43fe-6d41d5125f38@linaro.org>
+Date:   Wed, 15 Jun 2022 07:12:07 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v4 01/14] arm64: dts: freescale: imx8qxp: Fix thermal zone
+ name for cpu0
+Content-Language: en-US
+To:     Viorel Suman <viorel.suman@nxp.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Abel Vesa <abel.vesa@nxp.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        Liu Ying <victor.liu@nxp.com>,
+        Oliver Graute <oliver.graute@kococonnector.com>,
+        Peng Fan <peng.fan@nxp.com>, Shijie Qin <shijie.qin@nxp.com>,
+        Ming Qian <ming.qian@nxp.com>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-watchdog@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     LnxNXP@nxp.com
+References: <20220615105834.743045-1-viorel.suman@nxp.com>
+ <20220615105834.743045-2-viorel.suman@nxp.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220615105834.743045-2-viorel.suman@nxp.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,66 +108,15 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 11 Jun 2022, José Expósito wrote:
+On 15/06/2022 03:58, Viorel Suman wrote:
+> From: Abel Vesa <abel.vesa@nxp.com>
+> 
+> The proper name is cpu0-thermal, not cpu-thermal0, so change it to that.
+> 
+> Signed-off-by: Abel Vesa <abel.vesa@nxp.com>
 
-> Hello everyone,
-> 
-> This patchset adds support for the UGEE XP-PEN Deco L tablet.
-> This device belongs to a family of tablets that must receive a chunk of
-> magic data in order to be enabled (named UGEE v2 internally).
-> 
-> Once the device is enabled, its parameters can be discovered by parsing
-> a report descriptor. HUION v1 tablets have a similar report descriptor
-> but, in the case of UGEE v2 tablets, the number of buttons are also
-> discoverable [1].
-> 
-> The ability to discover the number of buttons is the reason for the
-> first 3 patches. They enable frame templates.
-> Because I lack the hardware to fully test this driver, I added some
-> KUnit tests to make sure no bugs are introduced.
-> I didn't see any other test in the subsystem (and I doubt I'm the first
-> person writing one) so please let me know if I need to move the test to
-> a different place.
-> 
-> The last patch enables the tablet.
-> 
-> Best wishes,
-> José Expósito
-> 
-> [1] I don't own a HUION v1 device, so I'm not sure if the information
->     about the number of buttons is also present and it is not used in
->     the driver for some reason.
-> [2] https://lore.kernel.org/linux-input/20220516112159.GA74406@elementary/T/#t
-> 
-> ---
-> 
-> v1 - https://lore.kernel.org/linux-input/20220518224702.1409327-1-jose.exposito89@gmail.com/
-> 
-> v2 - https://lore.kernel.org/linux-input/20220518224702.1409327-1-jose.exposito89@gmail.com/T/
-> 
->  - Add MODULE_DESCRIPTION/LICENSE/AUTHOR to hid-uclogic-rdesc-test.c
->  - Remove unused variable in uclogic_params_ugee_v2_init
->  - Add sparse __force anotation in the result of cpu_to_le16
->  - Add DISABLE_STRUCTLEAK_PLUGIN for KUnit tests
-> 
-> v3 - https://lore.kernel.org/linux-input/nycvar.YFH.7.76.2206081150060.10851@cbobk.fhfr.pm/T/
-> 
->  - Improve Kconfig message
->  - Add .kunitconfig. Thanks to Daniel Latypov for suggesting it in an
->    unrelated patch:
->    https://lore.kernel.org/dri-devel/CAGS_qxpV2SsihEdgXZ6+7N0dxLmdRANq+qE4iUZ2aNrf6vuLYg@mail.gmail.com/
-> 
-> v4:
-> 
->  - Group all the test of the subsystem under HID_KUNIT_TEST:
->    HID_UCLOGIC_KUNIT_TEST -> HID_KUNIT_TEST
->  - Remove DISABLE_STRUCTLEAK_PLUGIN:
->    https://lore.kernel.org/dri-devel/CAGS_qxpFO4ixW=08ZcdcD9J1kU=B3mwoBJkPW8AKu0sKs8aKfA@mail.gmail.com/
-> 
+Your SoB is needed.
 
-Now in hid.git#for-5.20/uclogic. Thanks,
 
--- 
-Jiri Kosina
-SUSE Labs
-
+Best regards,
+Krzysztof
