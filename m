@@ -2,225 +2,173 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E02C954AD0A
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jun 2022 11:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6C9954BF61
+	for <lists+linux-input@lfdr.de>; Wed, 15 Jun 2022 03:43:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233848AbiFNJOH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 14 Jun 2022 05:14:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54292 "EHLO
+        id S240165AbiFOBnN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 14 Jun 2022 21:43:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230244AbiFNJOG (ORCPT
+        with ESMTP id S232340AbiFOBnN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 14 Jun 2022 05:14:06 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D9A6344F0
-        for <linux-input@vger.kernel.org>; Tue, 14 Jun 2022 02:14:04 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id o8so10355597wro.3
-        for <linux-input@vger.kernel.org>; Tue, 14 Jun 2022 02:14:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=1PEgNV76hBzB6iDg7NLqEWfxjK6e1PfjB4fdqgmJIsg=;
-        b=g7qdxe5wJnpbkvpmYcGZUkBL7RrbUdm9iFiiyxxOx98PpAX6nOBWp+TbUAep6PLjWC
-         P0obYORDbNp3LDjSfc+uWU6hVRaAnWk2vbAowTErtJD6dbBtp+E2ZnxvISME/ppJAl05
-         7SYkDMy4TZI3dOtq1cwQAj5PXZmT/UsiizBzvoYbKNXqXXjD/0PZ8RAo1d4cAviUHP07
-         eOOCpA0lpwjV0qXPxvcCeQpFnmvIgO4ChVo2dbOEaznpu9M1NJZzRpTyjcperKuYPq8n
-         RrezbIx+aLjJw3QiZqu8AZPvIN6Dle0ejIsJ0Ekp5xj1Kiq126E4KVpwH1RAkcllNErP
-         tVWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=1PEgNV76hBzB6iDg7NLqEWfxjK6e1PfjB4fdqgmJIsg=;
-        b=wetnw3vUc2quLQF9yLa9h6BUeNjYtom2oy3aNUT0Es0AcKjHe6amdOd0yC4ycNot86
-         TQVUCwlxaZ5UCEDDuKTrnOe+ErdYkmpggh8Hmf/cq7UWwzFyChE3f3DugBaAgAKcChHB
-         fIrwdKoR4ORWqwRhzCQV8UiexTonzMh+ncQqqjjeIr0fASWHikW5ShfvynJ/Eq99DYLh
-         ynTcX7jXYw9ilJiZed+0/DWJ6+mEqBKuoiVnBYfnFgzZzccMo1oH74oboqNO3Lix3AAz
-         9GfAfotFZlZA/Ar2o2f/mJeGvTBqoh4EoFFF/ecFTVGY21sUitaLZOE4IzjzSqW6VA2M
-         36uA==
-X-Gm-Message-State: AJIora+KKyU83Ny7ndtRfMONR94+ZLMSBDlsCqIqlGKfY4wraWbSrE81
-        aAFoiO1/7FE2Nm3KyED3A40qag==
-X-Google-Smtp-Source: AGRyM1tSmncL8VjzLwW+1DETDL6nQuvoWygWqWZi9ryqLeCWAt6zZJ1mW0CRtdxhg1hWk+o3NzC41w==
-X-Received: by 2002:a05:6000:1e0a:b0:210:32e1:3b03 with SMTP id bj10-20020a0560001e0a00b0021032e13b03mr3957404wrb.642.1655198042707;
-        Tue, 14 Jun 2022 02:14:02 -0700 (PDT)
-Received: from localhost ([2a01:cb19:85e6:1900:7683:73d4:ea19:83d0])
-        by smtp.gmail.com with ESMTPSA id f5-20020adfdb45000000b00210352bf36fsm11133784wrj.33.2022.06.14.02.14.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jun 2022 02:14:02 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-input@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH 1/2] Input: mt6779-keypad - fix hardware code
- mapping
-In-Reply-To: <YpMDZORAlHmg/x/0@google.com>
-References: <20220513151845.2802795-1-mkorpershoek@baylibre.com>
- <20220513151845.2802795-2-mkorpershoek@baylibre.com>
- <YoHf6Z4HTfh4Y+bn@google.com> <874k1qkk7n.fsf@baylibre.com>
- <4a7bcbfb-12da-0e3f-8732-ecc53046a4ff@collabora.com>
- <Yosex9/a7OTuC6ZK@google.com> <87y1yq91on.fsf@baylibre.com>
- <YpMDZORAlHmg/x/0@google.com>
-Date:   Tue, 14 Jun 2022 11:14:01 +0200
-Message-ID: <874k0nfvza.fsf@baylibre.com>
+        Tue, 14 Jun 2022 21:43:13 -0400
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F35428999;
+        Tue, 14 Jun 2022 18:43:10 -0700 (PDT)
+Received: (Authenticated sender: contact@artur-rojek.eu)
+        by mail.gandi.net (Postfix) with ESMTPA id 66AD5240003;
+        Wed, 15 Jun 2022 01:43:07 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Date:   Wed, 15 Jun 2022 03:43:07 +0200
+From:   Artur Rojek <contact@artur-rojek.eu>
+To:     Chris Morgan <macroalpha82@gmail.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        maccraft123mc@gmail.com, heiko@sntech.de,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        dmitry.torokhov@gmail.com, Chris Morgan <macromorgan@hotmail.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Jonathan Cameron <jic23@kernel.org>
+Subject: Re: [PATCH v3 2/3] Input: adc-joystick - Add polled input device
+ support
+In-Reply-To: <20220613192353.696-3-macroalpha82@gmail.com>
+References: <20220613192353.696-1-macroalpha82@gmail.com>
+ <20220613192353.696-3-macroalpha82@gmail.com>
+Message-ID: <ec496fcf808d73fe356d1961d89bf1ff@artur-rojek.eu>
+X-Sender: contact@artur-rojek.eu
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On sam., mai 28, 2022 at 22:23, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+On 2022-06-13 21:23, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> Add polled input device support to the adc-joystick driver. This is
+> useful for devices which do not have hardware capable triggers on
+> their SARADC. Code modified from adc-joystick.c changes made by Maya
+> Matuszczyk.
+> 
+> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 
-> On Tue, May 24, 2022 at 09:21:28PM +0200, Mattijs Korpershoek wrote:
->> On dim., mai 22, 2022 at 22:42, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
->> 
->> > On Mon, May 16, 2022 at 01:06:43PM +0200, AngeloGioacchino Del Regno wrote:
->> >> Il 16/05/22 09:30, Mattijs Korpershoek ha scritto:
->> >> > Hi Dmitry,
->> >> > 
->> >> > Thank you for your review,
->> >> > 
->> >> > On dim., mai 15, 2022 at 22:23, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
->> >> > 
->> >> > > On Fri, May 13, 2022 at 05:18:44PM +0200, Mattijs Korpershoek wrote:
->> >> > > > In mt6779_keypad_irq_handler(), we
->> >> > > > 1. Read a hardware code from KPD_MEM1 -> KPD_MEM5
->> >> > > > 2. Use that hardware code to compute columns/rows for the standard
->> >> > > >     keyboard matrix.
->> >> > > > 
->> >> > > > According to the (non-public) datasheet, the
->> >> > > > map between the hardware code and the cols/rows is:
->> >> > > > 
->> >> > > >          |(0)  |(1)  |(2)
->> >> > > >      ----*-----*-----*-----
->> >> > > >          |     |     |
->> >> > > >          |(9)  |(10) |(11)
->> >> > > >      ----*-----*-----*-----
->> >> > > >          |     |     |
->> >> > > >          |(18) |(19) |(20)
->> >> > > >      ----*-----*-----*-----
->> >> > > >          |     |     |
->> >> > > > 
->> >> > > > This brings us to another formula:
->> >> > > > -> row = code / 9;
->> >> > > > -> col = code % 3;
->> >> > > 
->> >> > > What if there are more than 3 columns?
->> >> > That's not supported, in hardware, according to the datasheet.
->> >> > 
->> >> > The datasheet I have states that "The interface of MT6763 only supports
->> >> > 3*3 single or 2*2 double, but internal ASIC still detects keys in the
->> >> > manner of 8*8 single, and 3*3 double. The registers and key codes still
->> >> > follows the legacy naming".
->> >> > 
->> >> > Should I add another patch in this series to add that limitation in the
->> >> > probe? There are no checks done in the probe() right now.
->> >> > 
->> >> 
->> >> I've just checked a downstream kernel for MT6795 and that one looks like
->> >> being fully compatible with this driver as well... and as far as downstream
->> >> is concerned, apparently, mt6735, 6739, 6755, 6757, 6758, 6763, 6771, 6775
->> >> all have the same register layout and the downstream driver for these is
->> >> always the very same one...
->> >> 
->> >> ...so, I don't think that there's currently any SoC that supports more than
->> >> three columns. Besides, a fast check shows that MT8195 also has the same.
->> >> At this point, I'd say that assuming that there are 3 columns, nor less, not
->> >> more, is just fine.
->> >
->> > OK, now that I looked at the datasheet I remember how it came about. The
->> > programming (register) interface does not really care about how actual
->> > matrix is organized, and instead has a set of bits representing keys,
->> > from KEY0 to KEY77, arranged in 5 chunks of 15 bits split into 5 32-bit
->> > registers. So we simply decided to use register number as row and
->> > offset in the register as column when encoding our "matrix".
->> 
->> That's correct and that's a good way to phrase it.
->> I will add that in the commit message.
->> 
->> >
->> > This does not match the actual keypad matrix organization, so if we want
->> > to change this, that's fine, but then we also need to recognize that we
->> > are skipping bits 16-31, 48-63, and so on, so to get to the right key
->> > number we need to do something like:
->> >
->> > 	key = bit_nr / 32 * 16 + bit_nr % 32;
->> > 	row = key / 9;
->> > 	col = key % 9;
->> 
->> I would prefer to have the driver's matrix_keypad (build in probe()) to
->> match the actual hardware. To me this seems easier to understand for
->> people familiar with the hardware.
->> 
->> I've also tested the above snippet and it matches my expectations.
->> 
->> >
->> > I looked at the datasheets I have and they talk about 8x8 single keypad
->> > matrix, and 3x3 double keypad (with actual matrices either 3x3 or 2x2)
->> 
->> Indeed. I plan to send out double keypad support for this driver since
->> that's actually needed for mt8183-pumpkin as well.
->> It's already in our mtk-v5.10[1] integration tree but I have not submitted
->> it yet.
->> I planned to send this a separate series to avoid burdening / have
->> smaller chunks to review. If that was a mistake, please let me know.
->> 
->> > but I do not actually see this map layout that Mattijs drew  documented
->> 
->> The map layout that I draw is not directly copied from the datasheet.
->> It's a "translation" of the following table:
->> 
->> | hardware key code | col0 | col1 | col2|
->> | ----------------- | -----| ---- | --- |
->> | row0              | 0    | 1    | 2   |
->> | row1              | 9    | 10   | 11  |
->> | row2              | 18   | 19   | 20  |
->> 
->> It seems that caused more confusion than actual useful information,
->> sorry about that.
->> 
->> > anywhere though...  I also wonder if there are already existing DTSes in
->> > the wild that will be rendered invalid by these changes. I wonder if it
->> > would not be be better to document the existing meaning of row and
->> > column in the driver?
->> 
->> The concern for "DTSes in the wild" that will break is a valid point.
->> I'm not aware of any of those. Most vendor trees i've seen don't use
->> this driver at all. I hope that will change at some point.
->> 
->> In the end. I'd prefer to have the driver's keypad matrix match
->> the actual hardware. Right now we can have a 5x32 matrix which seems
->> absurd. Having at most an 8x8 is more reasonable.
->> 
->> I'd like to send v3 with just fixing the row/column suggestion in
->> mt6779_keypad_irq_handler() that Dmitry suggested.
->> 
->> Would that work Dmitry?
->
-> OK, let's do that. Although I'd be curious to see the double keypad
-> patches as according to the datasheets I saw the translation is
-> different for those.
+Hi Chris,
 
-Sorry for the delay. I had some long needed away time from my computer.
+Comments inline. I also Cc'd Paul and Jonathan, who were attached in v2.
 
-Yes, it's a different translation for double keypad.
+> ---
+>  drivers/input/joystick/adc-joystick.c | 52 +++++++++++++++++++++------
+>  1 file changed, 41 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/input/joystick/adc-joystick.c
+> b/drivers/input/joystick/adc-joystick.c
+> index 78ebca7d400a..dc01cd0214d2 100644
+> --- a/drivers/input/joystick/adc-joystick.c
+> +++ b/drivers/input/joystick/adc-joystick.c
+> @@ -13,6 +13,10 @@
+> 
+>  #include <asm/unaligned.h>
+> 
+> +#define ADC_JSK_POLL_INTERVAL	16
+> +#define ADC_JSK_POLL_MIN	8
+> +#define ADC_JSK_POLL_MAX	32
+> +
+>  struct adc_joystick_axis {
+>  	u32 code;
+>  	s32 range[2];
+> @@ -26,8 +30,21 @@ struct adc_joystick {
+>  	struct adc_joystick_axis *axes;
+>  	struct iio_channel *chans;
+>  	int num_chans;
+> +	bool polled;
+>  };
+> 
+> +static void adc_joystick_poll(struct input_dev *input)
+> +{
+> +	struct adc_joystick *joy = input_get_drvdata(input);
+> +	int i, val;
+> +
+> +	for (i = 0; i < joy->num_chans; i++) {
+> +		iio_read_channel_raw(&joy->chans[i], &val);
+> +		input_report_abs(input, joy->axes[i].code, val);
+> +	}
+> +	input_sync(input);
+> +}
+> +
+>  static int adc_joystick_handle(const void *data, void *private)
+>  {
+>  	struct adc_joystick *joy = private;
+> @@ -215,8 +232,19 @@ static int adc_joystick_probe(struct 
+> platform_device *pdev)
+>  	joy->input = input;
+>  	input->name = pdev->name;
+>  	input->id.bustype = BUS_HOST;
+> -	input->open = adc_joystick_open;
+> -	input->close = adc_joystick_close;
+> +
+> +	if (device_property_read_bool(dev, 
+> "adc-joystick,no-hardware-trigger"))
+> +		joy->polled = 1;
+As mentioned in v2, I don't think a DT property is required here. 
+Assuming the polled mode is a fallback for devices with no buffers, just 
+do:
+```
+	joy->polled = !(joy->chans[0].indio_dev->modes &
+			INDIO_ALL_BUFFER_MODES);
+```
+> +
+> +	if (joy->polled) {
+> +		input_setup_polling(input, adc_joystick_poll);
+> +		input_set_poll_interval(input, ADC_JSK_POLL_INTERVAL);
+> +		input_set_min_poll_interval(input, ADC_JSK_POLL_MIN);
+> +		input_set_max_poll_interval(input, ADC_JSK_POLL_MAX);
+> +	} else {
+> +		input->open = adc_joystick_open;
+> +		input->close = adc_joystick_close;
+> +	}
+> 
+>  	error = adc_joystick_set_axes(dev, joy);
+>  	if (error)
+> @@ -229,16 +257,18 @@ static int adc_joystick_probe(struct
+> platform_device *pdev)
+>  		return error;
+>  	}
+> 
+> -	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
+> -	if (IS_ERR(joy->buffer)) {
+> -		dev_err(dev, "Unable to allocate callback buffer\n");
+> -		return PTR_ERR(joy->buffer);
+> -	}
+> +	if (!joy->polled) {
+> +		joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
+Please maintain line discipline of 80 chars to stay consistent with the 
+rest of this driver.
+> +		if (IS_ERR(joy->buffer)) {
+> +			dev_err(dev, "Unable to allocate callback buffer\n");
+> +			return PTR_ERR(joy->buffer);
+> +		}
+> 
+> -	error = devm_add_action_or_reset(dev, adc_joystick_cleanup, 
+> joy->buffer);
+> -	if (error)  {
+> -		dev_err(dev, "Unable to add action\n");
+> -		return error;
+> +		error = devm_add_action_or_reset(dev, adc_joystick_cleanup, 
+> joy->buffer);
+Same here.
 
-I will send a v3 to fix single keys and make sure to send the double
-keypad support afterwards.
-
-
->
-> Thanks.
->
-> -- 
-> Dmitry
+Cheers,
+Artur
+> +		if (error)  {
+> +			dev_err(dev, "Unable to add action\n");
+> +			return error;
+> +		}
+>  	}
+> 
+>  	return 0;
