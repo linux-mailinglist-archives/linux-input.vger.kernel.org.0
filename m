@@ -2,106 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51CAA54D655
-	for <lists+linux-input@lfdr.de>; Thu, 16 Jun 2022 02:58:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06DD854DBD1
+	for <lists+linux-input@lfdr.de>; Thu, 16 Jun 2022 09:33:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348889AbiFPAxx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 15 Jun 2022 20:53:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54920 "EHLO
+        id S1359484AbiFPHcx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Jun 2022 03:32:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348770AbiFPAxw (ORCPT
+        with ESMTP id S1359483AbiFPHcj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 15 Jun 2022 20:53:52 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EABFB4FC4D
-        for <linux-input@vger.kernel.org>; Wed, 15 Jun 2022 17:53:51 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id z17so103584pff.7
-        for <linux-input@vger.kernel.org>; Wed, 15 Jun 2022 17:53:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9qwwQJJVg91/nnmcAMwyXvHYok0DyJzSkywxG0QwUEU=;
-        b=xaURczxPMBttLVmTmtGaORZcEYgKETRyblkz+ZCrDhSyDx2Tunc/S2v8DC6VVYxdqK
-         sRYGcjKJkLZD2qlzFfenHjs4qBn6hPw5b4IK7kPrM9ujAYOCNJATsV5dBU/o215GwiWs
-         Y4mVuoaR/mKo2TTBKc4n+bFkeF3Z+V77bUy6so1KRprO3lBj5ovtvXtmyk1rWLtmw0Tw
-         uVcOPE0LvTostMvW0hrjQfH7aRN1s9fJ/m8qN8u3k1UgWCk53kA03nG4zENG4/WdKUU0
-         v8/TRoGNfK638qSEbnBztIgwoL343SvYPGytjPwWSOlFI/Bnx+hHLBRQQJjMcekGRxNC
-         bYAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9qwwQJJVg91/nnmcAMwyXvHYok0DyJzSkywxG0QwUEU=;
-        b=WvUvLoJ4KFMom8ybs2AAgp1LJfm61NvFENYCV9JNm+hNVvkXbier8jIHiZOA8tsP4S
-         zUlee3/yfZorxuaxqczOzsz/r7NOuVCv8kWqn3UuWFVuoeR3QEExXm28Qkp2QRNfMWMo
-         9YzKTF0ZmhNtL0oxFZT4VO1aQOcPKpjCezVYfAMtU08k0PCMNHWyH7RPeH7CSzohm5uh
-         qYwC+UFk0A0Mj2mWMSEW+gkvpufGYR1kDUFh57TT924T9LEbaxV8tXnQXl+n7D/eOGdc
-         ysuVdLbDHGX72DqBQ/aodMJstDQGPLIsb1JyUfi2xZoRt2tK29RbPN8ZLS79sMEqqlej
-         0U3w==
-X-Gm-Message-State: AJIora8PLyrtUAZKVQSkulyOrauaNZr5pBsRdX4oxQtJOvwy1l3NikI4
-        xLS62eudDUedeXZDH/IDchmKFg==
-X-Google-Smtp-Source: AGRyM1tlL6hO/EWZAR4S1GVC5e2TtQKXy+/+OmKG6Mf2UDs62lOXQ/aqvgoOhUOd/krZOVlMkKPPHQ==
-X-Received: by 2002:a63:4e62:0:b0:398:cb40:19b0 with SMTP id o34-20020a634e62000000b00398cb4019b0mr2136424pgl.445.1655340831593;
-        Wed, 15 Jun 2022 17:53:51 -0700 (PDT)
-Received: from krzk-bin.. ([192.77.111.2])
-        by smtp.gmail.com with ESMTPSA id p4-20020a170902780400b0016760c06b76sm233660pll.194.2022.06.15.17.53.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jun 2022 17:53:51 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     arm@kernel.org, soc@kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Olof Johansson <olof@lixom.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v3 03/40] dt-bindings: input: gpio-keys: accept also interrupt-extended
-Date:   Wed, 15 Jun 2022 17:52:56 -0700
-Message-Id: <20220616005333.18491-3-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org>
-References: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org>
+        Thu, 16 Jun 2022 03:32:39 -0400
+Received: from me-region.ru (email.mesg-online.ru [178.238.126.75])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 724B7BDE
+        for <linux-input@vger.kernel.org>; Thu, 16 Jun 2022 00:32:30 -0700 (PDT)
+Received: from rmail.major-express.ru (rmail [127.0.0.1])
+        by me-region.ru (Postfix) with ESMTP id A230D2BE7B7
+        for <linux-input@vger.kernel.org>; Thu, 16 Jun 2022 10:32:29 +0300 (MSK)
+Authentication-Results: rmail.major-express.ru (amavisd-new); dkim=pass
+        reason="pass (just generated, assumed good)" header.d=me-region.ru
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=me-region.ru; h=
+        reply-to:date:date:from:from:to:subject:subject
+        :content-description:content-transfer-encoding:mime-version
+        :content-type:content-type; s=dkim; t=1655364748; x=1656228749;
+         bh=q+AB6wTcFowTQDN3yBj6V7w56hj7BQnkh6i5A0MwiTQ=; b=Rn5RjGGUzt4Y
+        0Somi2bRranL5wWXAkdWES/f4becNwIJBV86qLFaKiwHdoRs4W91gQGR/m5ATlF4
+        6jiNAPg//7xmttjpZTDqE1WE21YLG8lCkD0eKmDerL/8Cmv4MuDNw6Yzij5CTJCU
+        UU18FaJgCuYV8oi8CDQug/9N7qDSBIM=
+X-Virus-Scanned: Debian amavisd-new at rmail
+Received: from me-region.ru ([127.0.0.1])
+        by rmail.major-express.ru (rmail.major-express.ru [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id SZOsYCM26RXA for <linux-input@vger.kernel.org>;
+        Thu, 16 Jun 2022 10:32:28 +0300 (MSK)
+Received: from [2.56.59.106] (unknown [2.56.59.106])
+        by me-region.ru (Postfix) with ESMTPSA id D01C52B1665;
+        Wed, 15 Jun 2022 12:33:04 +0300 (MSK)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Good day, 93.189.94.68
+To:     Recipients <postmaster@me-region.ru>
+From:   "Lynn Page" <postmaster@me-region.ru>
+Date:   Wed, 15 Jun 2022 02:33:00 -0700
+Reply-To: lewislekan@outlook.com
+Message-Id: <20220616073229.A230D2BE7B7@me-region.ru>
+X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_50,DKIM_INVALID,
+        DKIM_SIGNED,FREEMAIL_FORGED_REPLYTO,RCVD_IN_BL_SPAMCOP_NET,
+        RCVD_IN_MSPIKE_H2,RCVD_IN_VALIDITY_RPBL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  1.3 RCVD_IN_BL_SPAMCOP_NET RBL: Received via a relay in
+        *      bl.spamcop.net
+        *      [Blocked - see <https://www.spamcop.net/bl.shtml?2.56.59.106>]
+        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
+        *      https://senderscore.org/blocklistlookup/
+        *      [178.238.126.75 listed in bl.score.senderscore.com]
+        * -0.0 RCVD_IN_MSPIKE_H2 RBL: Average reputation (+2)
+        *      [178.238.126.75 listed in wl.mailspike.net]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  0.1 DKIM_INVALID DKIM or DK signature exists, but is not valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Each key device node might have interrupts-extended instead of
-interrupts property:
+Good day,
 
-  fsl-ls1028a-kontron-sl28-var1.dtb: buttons0: power-button: 'anyOf' conditional failed, one must be fixed:
-    'interrupts' is a required property
-    'gpios' is a required property
+This email will come to your as surprise, i will like to discuss Business P=
+roposal with u Kindly get back to me asap
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
- Documentation/devicetree/bindings/input/gpio-keys.yaml | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/input/gpio-keys.yaml b/Documentation/devicetree/bindings/input/gpio-keys.yaml
-index e722e681d237..17ac9dff7972 100644
---- a/Documentation/devicetree/bindings/input/gpio-keys.yaml
-+++ b/Documentation/devicetree/bindings/input/gpio-keys.yaml
-@@ -92,6 +92,8 @@ patternProperties:
-     anyOf:
-       - required:
-           - interrupts
-+      - required:
-+          - interrupts-extended
-       - required:
-           - gpios
- 
--- 
-2.34.1
-
+Mrs.Lynn Page
