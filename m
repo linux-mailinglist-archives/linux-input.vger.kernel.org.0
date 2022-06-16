@@ -2,207 +2,329 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9BBF54E80D
-	for <lists+linux-input@lfdr.de>; Thu, 16 Jun 2022 18:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E47C54E932
+	for <lists+linux-input@lfdr.de>; Thu, 16 Jun 2022 20:14:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378253AbiFPQs5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 16 Jun 2022 12:48:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47538 "EHLO
+        id S230071AbiFPSOV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 16 Jun 2022 14:14:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378477AbiFPQsb (ORCPT
+        with ESMTP id S229770AbiFPSOU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 16 Jun 2022 12:48:31 -0400
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70077.outbound.protection.outlook.com [40.107.7.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0FC3483AC;
-        Thu, 16 Jun 2022 09:48:28 -0700 (PDT)
+        Thu, 16 Jun 2022 14:14:20 -0400
+Received: from na01-obe.outbound.protection.outlook.com (mail-cusazon11020016.outbound.protection.outlook.com [52.101.61.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA7D84D681;
+        Thu, 16 Jun 2022 11:14:19 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X3pF1nFsL73cCnCNLKVqKC+FfUaS+7Dc1BQg9vVC9ufHN4Ha/zNNpsSujCldRwS99fNlxdOCXmFPQcdxEey2EViNT74Y5RelkFEeIxyCJsxlGVUNbZRWBUHZAQzEY9twChZqTTmGhO4uYmtIfZe+yQ3StdvmpDVneVzq9Mp4nYIM3bE8X6TBkq0ZMebn1EysudlQehz7CQSFZldL5Z7IRxZP/H/jSlo6LXNDKNrDhkmoZwDIaAEINw4aADBZGaVdX9diZ4q7kHVLrny44lYURYt3rimpyMykGvc48NeE5qCZzyscEiI0XQkkSAini0mYZF+vB/VxSYHFfz20SNQevw==
+ b=aRzoGqHa1RatnudG7Ahj3IBrN/dVmzMfoUMBDRwTYHg6Re8waE7UFVsAM3pfomS/1Vq6JV78BcdAB8Gp1nxJF9pNfYTYwEk9QHNjWG6I7E/CpsmaSAiEN/rKiIJ0GJPs/M/sp8S0R6RuMyLor0+zYQpGFUknP3JhJSbmu4C3HIo3iYVExoWj0NLXsWtX/cqsuWS6S9gJjQQmq9r2EhGDTPzvIFXQ+fdN99YOcDhSy+rEbiunqb62sz1v3SQQTYEM1BNQTHXSs0E2LuCDbFNDJ7UfN/Xu/oYrtuVIiXcK4WBWc1DuJevIKi7j+hKnojNDdSyCjsTar1Ggh2MeQ1tu5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X8GLwX1DMh9D0ebaKutVwV0uBbWg3yNF1zumBUrTZ2Y=;
- b=UtZR6VuONtouOR4r/bY2xOYxOBod20ZfaGnFlcMs5APuFb3NlFcASCDvspouKn0wEj72fAAJnzZPDhNuClG3VolfebxHp6i5GX9N73AdRZFm0bn9uKhmwRALwAGFh9aewvbf85eSQI9Z1KhFHAh40bzXhm8fXVzMePnyF0UOSvih+ASj8E6T1tcITHD/Ql8UgfhKR9+bpg6/BxEynmM4gSZ/s7cJD0AtpAgOGu78ppc+cbtT8n9P2y8dZjIVEHLT/xrDi2Zl3GktfMnTb7sGvyIVjTwzOz2x9dzr2rrmlgDs5/5pwLgMOGkrYeuztLvLPEDrynAoyIOsPN3cmIzRIA==
+ bh=Jwp7isa2yEobdbGrn/Xo7F09wiq6EfXJUPlbVvmli3I=;
+ b=QSwtiDF957NWGbFzUNbCkzhf4g7qOmAeXHmGiU9Yffv4PIDoWvlLu7gs10gOV0SloVcg1/4PZVFI/MXrlurcvAtPy3fVnuyyD8xRN80gV7DHplU9f0kKpleILfR3MOVrYdMwKRlgyr8jnEbUFBr08bQ2KV+Wryp/y2e3lD9Wyi97bc93nQb8Ie1fvHVkK/0aNBHQJKIdpI70A+/JD8NepK3aNYw1iHEOcT7fu6FoOW+n4x4Sn9C6++ODISRJBx0Aezv6UZx5F5iG0M79+Rxo7GFER8cM8DZ1l+MapS+zsVuOvzIXwzu3CBOJo8Ndkz/RfZeZfzFB/5SCsVmRwI4myw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X8GLwX1DMh9D0ebaKutVwV0uBbWg3yNF1zumBUrTZ2Y=;
- b=CY3XOD3nBQYJQ30SmVKNz+NlsStYfM4t170NKPZ8JYgE5YjwR9UUZowWFZGbyWBbWs1HEmDqYjRKby5PVFGyxOwg7ASJLqobMhq8YPq8OORX2dbhiEJGV3rMWwlaeEoJGbBvEzizm1qeaYFjQSoYUavNOSwi16OILVvTd3ZsxqQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from VI1PR04MB5005.eurprd04.prod.outlook.com (2603:10a6:803:57::30)
- by AM8PR04MB7939.eurprd04.prod.outlook.com (2603:10a6:20b:241::16) with
+ bh=Jwp7isa2yEobdbGrn/Xo7F09wiq6EfXJUPlbVvmli3I=;
+ b=T8IzERZcTABANlUndCYLsaAAvNh2eLXdWRLRA+/YB5qTZP+nw33Cr3nGq/9v2GQrnHYJCL9iEZBcvMBEmHdPOhpaVkIiIqr68DOaUbf2DwA2d1q+aXmCb7lQXuyfJv05GfDVngCSY+8CLXCYXmJlduJ+aNfeRuYF60lALMjMExE=
+Received: from LV2PR21MB3181.namprd21.prod.outlook.com (2603:10b6:408:175::9)
+ by PH0PR21MB1957.namprd21.prod.outlook.com (2603:10b6:510:14::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.22; Thu, 16 Jun
- 2022 16:48:25 +0000
-Received: from VI1PR04MB5005.eurprd04.prod.outlook.com
- ([fe80::7505:2581:368f:5619]) by VI1PR04MB5005.eurprd04.prod.outlook.com
- ([fe80::7505:2581:368f:5619%5]) with mapi id 15.20.5353.015; Thu, 16 Jun 2022
- 16:48:25 +0000
-Date:   Thu, 16 Jun 2022 19:48:13 +0300
-From:   Viorel Suman <viorel.suman@nxp.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.6; Thu, 16 Jun
+ 2022 18:14:17 +0000
+Received: from LV2PR21MB3181.namprd21.prod.outlook.com
+ ([fe80::1c8b:6d6f:8077:567b]) by LV2PR21MB3181.namprd21.prod.outlook.com
+ ([fe80::1c8b:6d6f:8077:567b%4]) with mapi id 15.20.5373.008; Thu, 16 Jun 2022
+ 18:14:17 +0000
+From:   Dmitry Antipov <dmanti@microsoft.com>
+To:     Rob Herring <robh@kernel.org>
+CC:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Abel Vesa <abel.vesa@nxp.com>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>,
-        Liu Ying <victor.liu@nxp.com>,
-        Oliver Graute <oliver.graute@kococonnector.com>,
-        Peng Fan <peng.fan@nxp.com>, Shijie Qin <shijie.qin@nxp.com>,
-        Ming Qian <ming.qian@nxp.com>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-watchdog@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     LnxNXP@nxp.com
-Subject: Re: [PATCH v4 00/14] dt-bindings: arm: freescale: Switch fsl,scu
- from txt to yaml
-Message-ID: <20220616164813.jf6og7d4wf25xx4w@fsr-ub1664-116>
-References: <20220615105834.743045-1-viorel.suman@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220615105834.743045-1-viorel.suman@nxp.com>
-X-ClientProxiedBy: AM0PR03CA0098.eurprd03.prod.outlook.com
- (2603:10a6:208:69::39) To VI1PR04MB5005.eurprd04.prod.outlook.com
- (2603:10a6:803:57::30)
+        Mark Brown <broonie@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+        Jarrett Schultz <jaschultz@microsoft.com>
+Subject: Re: [PATCH v4 3/6] Documentation: DT bindings for Microsoft G6 Touch
+ Digitizer
+Thread-Topic: [PATCH v4 3/6] Documentation: DT bindings for Microsoft G6 Touch
+ Digitizer
+Thread-Index: AdiBrKCQFP3cr4VwTgS53R+WbPa+hw==
+Date:   Thu, 16 Jun 2022 18:14:17 +0000
+Message-ID: <LV2PR21MB3181B3206FE3F4C1940FC4D2DAAC9@LV2PR21MB3181.namprd21.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=763b0a7a-ffda-4686-953a-a240c56f6009;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2022-06-16T18:10:59Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 06cd4ebe-addd-4e5e-056e-08da4fc406d0
+x-ms-traffictypediagnostic: PH0PR21MB1957:EE_
+x-microsoft-antispam-prvs: <PH0PR21MB1957F6099A3CE619324F039CDAAC9@PH0PR21MB1957.namprd21.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: hRpMNN5Xud4L0C00j02bHeQnos20clqUhVTahfCHKYpllnVDNQsCoGYZ96sGPm2WNkOyXNwrbYspohK/gDYu1RuKHDHwoXQNSLr5WSUJw6f5jCbGO+7R61Yo3MGdKKdE3pJ+L30YvPCwhIa5afpHxDaASONV2CfrCvvc7Z/ULJbS50phU4p2hBuWvuVMxeDmeh5UCGuVZTz6GBDyxVEUibZmK80JfndZlPXxFNaQE3pnNgoDoxA9njleIt/Du1f6Td+DpKM+B+VJUPlzSFnBWC/7v2t2RmQgy+afC0lnML5GHeVSEFezt8zsXaoFIoETuJcSBFN1LV/LIApb2/IQXuHy0F/AeysuBr+xDXZCENdgB9vnSCowy4WOfo2YyQoUHeVVee8VcEMTxkyj5PVGWo6An2VgeGhx4eXY4j1ogxMKcov6wrHpdwQAgwdtqrqghS/nMoAglI6GV1R2GfZgkr+fiWvrrYzn/AhPEu2L0ws4i5BLSYHNnQG0Nw3usif7ckqVGO7wQQCBz80RjPLVdOLn8mmR4sypaTY+gA4HFRZMwtWZHBszyG+5+XE6ymub2n+557mftUZfCP/xLU4Mml8mlpprklOhMrmRvjtyw321OIzJUEbZpGo1lu83ZvWaMZlHgzIyCB7w9uOa4ETJI3Tpdp0dT2/1udsW2ynJm3YfWCpogY1tGXX/Kw2Yw6NOu0mXVqEuUN4/5LJp1uKPMLlMtDSPaJkWh+H3QHTgAL0V98DgLS0gXKPk5LBfZd1o
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR21MB3181.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(47530400004)(451199009)(107886003)(6506007)(7696005)(66556008)(71200400001)(186003)(26005)(76116006)(82950400001)(66476007)(9686003)(82960400001)(66946007)(38100700002)(122000001)(66446008)(54906003)(52536014)(8676002)(4326008)(86362001)(55016003)(38070700005)(10290500003)(8936002)(5660300002)(498600001)(64756008)(8990500004)(316002)(6916009)(2906002)(33656002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?5hRVrPnejDkaA1Id2VISyOtgUHNDEMioXrUXWVjf1THqmFVyCQrG6pzDiU15?=
+ =?us-ascii?Q?mIRvaTYSr/BpPSUbh8u+fwlQ/pDDwLPaawlNUpiEyn+++CMeoZlu2zzNGHfL?=
+ =?us-ascii?Q?IyeQFjgX8Eh59jbRsixM4UY4Trkk2XhDS4TGcbqiP/PXueFNd5zIyeDmlSNx?=
+ =?us-ascii?Q?p75eXTTT+OmdQI+b0UMRpTu7p2x5LErEKwL765hNnnQ66YGV1jJOk9QLLplx?=
+ =?us-ascii?Q?vvQeaVJYpWx+K7wKMJbk3HDJvdTLNP7sV9cbH8I95R+YtVbCEbv5wgSHpiu3?=
+ =?us-ascii?Q?BffYqQgWJZKDeTxuTIqJ3G7dYzBm1/T9YNqy5W+kkTHbsAxB4vmZ6YFGDN+z?=
+ =?us-ascii?Q?Y7Cr0JpIudrD8c/9GtsHcW+0OT4g3GS+ljywWXlweO34sFCBxI/K3zGZgijz?=
+ =?us-ascii?Q?BVjMrpv0ZR8u2mS/q6iksN8BhitpL8pSqRmakwbqNYtcL3/ASyiFbIqYQKsI?=
+ =?us-ascii?Q?q2IbgQ5csdJecdQoAYNxdDlaa6JKzD/zqmpLd81d7l23NAX7Skzh9SdU6sn5?=
+ =?us-ascii?Q?iDaUUDyWDbTE2It8rosvqcyt7+huqmKQWAsIgfZ+9R+LoH4IdPoUzUt5ZM4M?=
+ =?us-ascii?Q?NRy2NSAFxI1CijhilUhO0Lt9mZrqpfDssmyC9MA7A9RzAEB6QvR3XP+QM7at?=
+ =?us-ascii?Q?aw7dT2QELCDOfQ2xx2023bIhjUzjoU0+9qccqY9MyJ0p7ASwKQKYhbBVignf?=
+ =?us-ascii?Q?Un64iWHH1GXRIVRp4l/0WNurzRMupNyOqVU+MiyhkexCuYmPuk7IervOqnsn?=
+ =?us-ascii?Q?6iYSyqLoZ7gXWIcwGlhMgHgWiLQjhcfAvQcxkZ8Jfty61XkHRO0AEn7uWGVK?=
+ =?us-ascii?Q?P9JSEtsbUm/qftHZxGFzBbCg0F2rF4M0SkFFIyQ91LsUX8hSrr3JT98qyHnX?=
+ =?us-ascii?Q?Ym3tu2uctSjzkoS/TGvATeOl6EkmV1mrQBZHk4LkgLA3+l6Q08Bhh2YWp0yu?=
+ =?us-ascii?Q?sQoYCm8fQ6U4W/StN9RqK0km/TT5KjUabv3eeVo7XQZtjrb/2ZEuy8nGVqcV?=
+ =?us-ascii?Q?XVGlc3thgffkSREiqOGfr/Y5HRDbGPfNQnvUIAF+1WSI49xmIege7MWL4CfU?=
+ =?us-ascii?Q?3cDbY6+4dCL+gPVmkCTnIuojx5Qcbp1XQxLEbsbReczqCS8IJ0OT+OO1gJJH?=
+ =?us-ascii?Q?kd73r3BIu1KfD3hh6EVlxHva/S5FbkAKK16bUumVP+DFeD7G+il5EhAmQkgU?=
+ =?us-ascii?Q?X0oJ9a3uXRYV0h2s+AEiAqio0Ldn8RfpdfOqUNf3/xJSX+UZudMPwz9bBJ32?=
+ =?us-ascii?Q?tip3Lz8HfGsXDTRXaHzqc11ZgYEyzqy0CNufMS3SugGY6IFvh+sKSF5QmRGG?=
+ =?us-ascii?Q?m4TG8+BbPVCCBkVVG8CT3DjWsk26Xq3fzWS4dD+Tym0n7Clatd67Z6dLScKZ?=
+ =?us-ascii?Q?JV3EMDuOJD9lxs44eqLzHWaOWV2+L8Nvd6AXi81KJjaB+/E1Avr6G5WtwonB?=
+ =?us-ascii?Q?8C7kdFMT4wV2VME8k+eS8mga9sofkKD+BbDgUGRtntjz502Q4CaOcYbuEsTZ?=
+ =?us-ascii?Q?XI3JvrJSs5+ijBaQtnnWcdsAGGeek5OLYMwzDAMQBXF6IIrdZlV4Ieb1ZvMN?=
+ =?us-ascii?Q?UINPeBmqzdjSbFr/dQhRP1ptQfrJIA9c4F1VrZCdWbwug/QwgP4sqwz13Srn?=
+ =?us-ascii?Q?ZU0sEYcJm4IXfy5Er2MssFWcW2nJbTisiVsb3/L46hw9pDgYQTc6AQUb5B9G?=
+ =?us-ascii?Q?I1RF7W3Y10GryvFyHcSIJj0bnJSYCE0IsMWgn8eUH45oWq2TINZdSjEWuxR+?=
+ =?us-ascii?Q?DTQNApp3LA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cd4a935e-9266-4210-f257-08da4fb807ca
-X-MS-TrafficTypeDiagnostic: AM8PR04MB7939:EE_
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-Microsoft-Antispam-PRVS: <AM8PR04MB793934D2FEDE7F3DD89A3BCD92AC9@AM8PR04MB7939.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iZhMPZyWJlyqkWiASHjXLA0cfVnaseDcGiafRe8C7RMoR+VODqWrdAZ4qNZAXFIZ4p9BIy1lg0wxUYeY0HKQhS3pMWRyLPFrxd/B8sxpKhjoQNkMktKdhi3CtrDWluMWW/dt1jq78IwxizYkLQXAy/yD8FjMk6XZl6nzog4IO1Yrob/tEOvDiSW6BGTsI1KCgznDIoOAHoCaGkK4hSzMCh57Bu33/72ylT+5AOLAEl9XQXW7tatdzwlLAoMr7pmu2xAD3d9IBN2CfCGvJj0odGkFwcICelLtfc7IJf0YNsTefQTZCWAdgbHVKKVgWgvgNW60dZtDR+66udBrRVQ1cdHwl/KA+E4qZcVUTU/TUgjmx91kI+V70jogUFTaCUogGlXjO4xO5x9sVbT1cusDvaqN9CjG0dHyi4mL5Oiax75ujW9rPJjENrbJ/bEg89akvVCHheJsutkxdMUv+EmLKxN797iYbpoPjJA0mi+3LDGsjbt6ZRBW08kyLevRD01/fPH4OfbZsqLx9wfZXSMomEY8HUGBrdAnfV0IFWvl26C0KLjrqosPuKUgroi0U7hZpptQ8TmGDIZXqbKxjcHGRAoBCphgCCKdqSyKRBeI89TbSe+wzbylR/3dYBecGYSGfRwOUGNJsOrfB8Uxr/zGuO18Uox+J3nHRVw6fBXTNKjvzFXYzViO7U3pVx1ii1GuAuksSTelUtwDGUIawmCDgaKLYXZcWDFEkfpRw1Tf355P2EYtF5g/gcyUJ+gYJT88BzfbipTBGkVYEJarXrwLUmie2n60DLj0iraF7ebBUvs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5005.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(7916004)(366004)(38100700002)(186003)(38350700002)(1076003)(921005)(86362001)(33716001)(83380400001)(8936002)(316002)(8676002)(110136005)(66946007)(4326008)(66476007)(66556008)(26005)(6486002)(966005)(5660300002)(52116002)(6506007)(53546011)(6512007)(44832011)(508600001)(6666004)(9686003)(2906002)(7406005)(7416002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AzkXtBI48EgDzpE/JJvxYCzZM4sjGdzdBQ8hsgAbFfHYnIJEooLjqOle0xja?=
- =?us-ascii?Q?+OI/FLb3lUvB338I22+gq5LYZlLZBCUf1Hk2oorsXafGJZqhyopVKWjP0bET?=
- =?us-ascii?Q?WCOQHMzoh+1qmGU/dOPB+0VszgXqD1NJpibuctU3lVslS35EOJOFNwduRIgG?=
- =?us-ascii?Q?SRHVGX9mMnLVW30IHOz3MuUQ6s/S5zAFBtHjDouJ9/ZUqWU+vSw9wxtq0D+q?=
- =?us-ascii?Q?GIFJvCm4OaE7AB5tLiu2Smu9vu+Cg2ulQ7BQcQrjXw6gxFj1Y6tMic70WLzi?=
- =?us-ascii?Q?Dw90u6Zkc5Wf3aNOFVgGWGS9P/OUE8mB4NzywYHAjX6CS4jIv3YB82vsTgmS?=
- =?us-ascii?Q?ohbAtg9hDInm8z696/EILwky6IVQ/zKedVZUoKI8e03dqj5ZcvjT6dwrlVTL?=
- =?us-ascii?Q?d+enNyowkr1PEzZQntN4O/UX9X1CFLEfXNxgRolC1bqfMUEcanLv1kMCA7DV?=
- =?us-ascii?Q?WEYJ0dxpyvcoDa+4GBsnQoK+fibxh0afhSHIYPY+ydZTerhiaW6Tlo+v7R1i?=
- =?us-ascii?Q?HBFx7/BlzjlAe7H5x5qBat8SktNBJJjBlbs8mPAT958vqIugOOim+J1eYLwk?=
- =?us-ascii?Q?XX3VQ5eeJ79XIc6k8l1QDF5u8nKkZrWhRd5J6jZcFxLdlzzg2YYaKcj6bg3h?=
- =?us-ascii?Q?w5XY1C19OhcCTi3lMp3IgibJyfdGgOVaK+kmat11zJgzzRo7v+chU8PxdUTN?=
- =?us-ascii?Q?blOsWOsiVWV1TNKVOEDSUWBJjhmp4C8zZrNtGGg2YONlQuKy9YHeX4FziFeJ?=
- =?us-ascii?Q?c0nNv7NcksD0imi1bp5tpHqekKwMql85GCVZ3mbSK5YVcZU4VrJ9dez7GRn5?=
- =?us-ascii?Q?lnAKH353VxUcyf1gHa34++p0hQSEdPnzJQ2Nul+fM2gzQX+erYhmFvGeuGIy?=
- =?us-ascii?Q?h9MFQjX73Lz8DEGkreJSvb2Hxt2JN8sBHoLkTAzLz9/gTFgEIACg+wLcRbN+?=
- =?us-ascii?Q?kkIB7kkEZOccXtI/2uY1ok01VF8Nfnh+7Dzn+3jptpylWO26bLn04VGi+HWJ?=
- =?us-ascii?Q?LCEqD9x6CHT1quSSJwZOIOiuLVPouOA9kmQl5muC7WORMnrnKe3Fu8LmuTvU?=
- =?us-ascii?Q?/epKc3iWH/9+QI4JJv+eQwQANk7KJap5S6Vp6nkmYTLP5muV/dFnV8p4Tiit?=
- =?us-ascii?Q?Ux3weJ913JLG352FX9NnKYgV+taSyUMntx24PgD8OwHfXZ+uWWvplI4uTn1Z?=
- =?us-ascii?Q?NzRje0/IDkrOPlWcAmwuMCPkqf4TdB2/yfKzfBzt7FfTofgzDzl5BJKK2r3w?=
- =?us-ascii?Q?selfy+W1xQkLI0gvxJbVSy8BaUMF3LPUPpFl2lqSnfWWKAmw19INVhkmOh4C?=
- =?us-ascii?Q?wIUz19x2TxlRKeemHFvtrrQTgyvyKJyZlgaKs1nEYCV+WqEdhGV8Gou1Gtr/?=
- =?us-ascii?Q?DccPyqrmBI+Q89zFPXDqB5M3UkAl1Jtgv253K6XxkukbzVfW2iWr3yha9avB?=
- =?us-ascii?Q?I4RvF2M3PX5UzY6ph+ZO9Gwz4a2p7yRZ8LQrEI7fD7gJlCiu8i402r4dZy6o?=
- =?us-ascii?Q?9lkRWKpXAKusHrA4r41J4HInLFQA5lhD+V9Y9OdhSP4o/FG2ATF07ohnFlhf?=
- =?us-ascii?Q?3aWVxPgqXM0xMio+emf0obk842NtfArz0JQBvpaiPu6ssbzgOWTxhnPRA3no?=
- =?us-ascii?Q?s5hjO98OfGVGL38omcHd2IEDcHp8Xm517CrJY8U22eVXNOOnHFhrgx9cXyzt?=
- =?us-ascii?Q?zeGVpGpQvKuJGeKraqzdxpz9D7ZoQLPUs15kFL6ENUEM4/vo4ua8J4lArfbN?=
- =?us-ascii?Q?kue2f5uIRw=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd4a935e-9266-4210-f257-08da4fb807ca
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5005.eurprd04.prod.outlook.com
+X-OriginatorOrg: microsoft.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2022 16:48:25.2632
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR21MB3181.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06cd4ebe-addd-4e5e-056e-08da4fc406d0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2022 18:14:17.2202
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: N6F8yQ9XSRHwbhApbCcRQ0p63k+fGOW8o/EKFbSIQ/HPEIEK6G7fz6rvCATbo2TF9Y+tDjRm77hgpryIi9+v2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7939
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3+8I0bbMwpm0Qkf7D3Tj0aKSMaE0miN+Sdqlb33yAkYkvct+p5sKhWeMa56FiQcIuJN0gY5U4qz/AcEQ3qzMSg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR21MB1957
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-All, please ignore this patchset. Sent V5 for review.
+On Fri, Feb 25, 2022 at 06:59AM, Rob Herring wrote:
+>=20
+> On Thu, Feb 24, 2022 at 04:59:33PM -0800, Dmitry Antipov wrote:
+> > From: Dmitry Antipov <dmanti@microsoft.com>
+>=20
+> Please follow the conventions of the subsystem for the subject:
+>=20
+> dt-bindings: input: ...
 
-Thanks,
-Viorel
+Will do, thank you.
 
-On 22-06-15 13:58:20, Viorel Suman wrote:
-> Here is the v3:
->   https://lore.kernel.org/lkml/20220609143423.2839186-1-abel.vesa@nxp.com/
-> 
-> Changes since v3:
->   * Examples included
->   * Included Abel's patches fixing thermal zone, keys and power controller names.
-> 
-> Abel Vesa (14):
->   arm64: dts: freescale: imx8qxp: Fix thermal zone name for cpu0
->   dt-bindings: clk: imx: Add fsl,scu-clk yaml file
->   dt-bindings: pinctrl: imx: Add fsl,scu-iomux yaml file
->   dt-bindings: input: Add fsl,scu-key yaml file
->   dt-bindings: nvmem: Add fsl,scu-ocotp yaml file
->   dt-bindings: power: Add fsl,scu-pd yaml file
->   dt-bindings: rtc: Add fsl,scu-rtc yaml file
->   dt-bindings: thermal: Add fsl,scu-thermal yaml file
->   dt-bindings: watchdog: Add fsl,scu-wdt yaml file
->   dt-bindings: firmware: Add fsl,scu yaml file
->   arm64: dts: freescale: imx8: Fix power controller name
->   arm64: dts: freescale: imx8qxp: Add fallback compatible for clock
->     controller
->   arm64: dts: freescale: imx8qxp: Fix the keys node name
->   dt-bindings: arm: freescale: Remove fsl,scu txt file
-> 
->  .../bindings/arm/freescale/fsl,scu.txt        | 271 ------------------
->  .../bindings/clock/fsl,scu-clk.yaml           |  58 ++++
->  .../devicetree/bindings/firmware/fsl,scu.yaml | 170 +++++++++++
->  .../bindings/input/fsl,scu-key.yaml           |  39 +++
->  .../bindings/nvmem/fsl,scu-ocotp.yaml         |  49 ++++
->  .../bindings/pinctrl/fsl,scu-pinctrl.yaml     |  47 +++
->  .../devicetree/bindings/power/fsl,scu-pd.yaml |  41 +++
->  .../devicetree/bindings/rtc/fsl,scu-rtc.yaml  |  28 ++
->  .../bindings/thermal/fsl,scu-thermal.yaml     |  38 +++
->  .../bindings/watchdog/fsl,scu-wdt.yaml        |  35 +++
->  arch/arm64/boot/dts/freescale/imx8qm.dtsi     |   2 +-
->  arch/arm64/boot/dts/freescale/imx8qxp.dtsi    |   8 +-
->  12 files changed, 510 insertions(+), 276 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
->  create mode 100644 Documentation/devicetree/bindings/clock/fsl,scu-clk.yaml
->  create mode 100644 Documentation/devicetree/bindings/firmware/fsl,scu.yaml
->  create mode 100644 Documentation/devicetree/bindings/input/fsl,scu-key.yaml
->  create mode 100644 Documentation/devicetree/bindings/nvmem/fsl,scu-ocotp.yaml
->  create mode 100644 Documentation/devicetree/bindings/pinctrl/fsl,scu-pinctrl.yaml
->  create mode 100644 Documentation/devicetree/bindings/power/fsl,scu-pd.yaml
->  create mode 100644 Documentation/devicetree/bindings/rtc/fsl,scu-rtc.yaml
->  create mode 100644 Documentation/devicetree/bindings/thermal/fsl,scu-thermal.yaml
->  create mode 100644 Documentation/devicetree/bindings/watchdog/fsl,scu-wdt.yaml
-> 
-> -- 
-> 2.25.1
-> 
+>=20
+> >
+> > Documentation describes the required and optional properties for=20
+> > implementing Device Tree for a Microsoft G6 Touch Digitizer that=20
+> > supports HID over SPI Protocol 1.0 specification.
+> >
+> > Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
+> > ---
+> >  .../input/microsoft,g6-touch-digitizer.yaml   | 105 ++++++++++++++++++
+> >  1 file changed, 105 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/input/microsoft,g6-touch-digitizer
+> > .y
+> > aml
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/input/microsoft,g6-touch-digitiz
+> > er
+> > .yaml
+> > b/Documentation/devicetree/bindings/input/microsoft,g6-touch-digitiz
+> > er
+> > .yaml
+> > new file mode 100644
+> > index 000000000000..e516717527e9
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/input/microsoft,g6-touch-dig
+> > +++ it
+> > +++ izer.yaml
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - const: microsoft,g6-touch-digitizer
+> > +      - items:
+> > +        - const: microsoft,g6-touch-digitizer
+> > +        - const: hid-over-spi
+>=20
+> Why are both cases needed?
+>=20
+> Assuming you keep the 2nd case, you will need a custom 'select' to=20
+> avoid applying this schema to another binding using 'hid-over-spi':
+>=20
+> select:
+>   properties:
+>     compatible:
+>       contains:
+> 	const: microsoft,g6-touch-digitizer
+>=20
+>   required:
+>     - compatible
+>=20
+
+We decided to make the driver compatible with "microsoft,g6-touch-digitizer=
+" as
+well as "hid-over-spi", so the next revision of the patch will list
+"microsoft,g6-touch-digitizer" as the only compatible value.
+
+>=20
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  reset-gpios:
+> > +    maxItems: 1
+> > +    description:
+> > +      GPIO specifier for the digitizer's reset pin (active low). The l=
+ine must
+> > +      be flagged with GPIO_ACTIVE_LOW.
+> > +
+> > +  vdd-supply:
+> > +    description:
+> > +      Regulator for the VDD supply voltage.
+> > +
+> > +  input-report-header-address:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description:
+> > +      This property and the rest are described in HID Over SPI=20
+> > + Protocol Spec 1.0
+>=20
+> Each property needs a description and a more specific spec location.
+>=20
+> No constraints on the values? 0 - 2^32 is valid?
+>=20
+
+Thank you. Will provide description for each property and will specify the =
+bit
+length of each address if outlined by the spec.
+
+> > +
+> > +  input-report-body-address:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +
+> > +  output-report-address:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +
+> > +  read-opcode:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +
+> > +  write-opcode:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +
+> > +  hid-over-spi-flags:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +
+>=20
+> > +  post-power-on-delay-ms:
+> > +    description:
+> > +      Optional time in ms required by the device after enabling its re=
+gulators
+> > +      or powering it on, before it is ready for communication.
+> > +
+> > +  minimal-reset-delay-ms:
+> > +    description:
+> > +      Optional minimum amount of time in ms that device needs to be=20
+> > + in
+> reset
+> > +      state for the reset to take effect.
+>=20
+> These should be implied by the compatible string.
+
+If I'm understanding you correctly here, you are asking for the driver to h=
+ave
+the heuristics to apply specific delays based on which compatible string is
+published in the device tree. However, the same touch digitizer but on diff=
+erent
+boards may have different delay requirements based on the voltage regulator=
+ used
+or line capacitance. Therefore, I would argue it is better to have this del=
+ay
+information provided by the device tree.
+
+>=20
+> > +
+> > +required:
+> > +  - compatible
+> > +  - interrupts
+> > +  - reset-gpios
+>=20
+> It's not allowed to have reset under h/w control?
+
+No, the spec requires a discrete reset line.
+
+>=20
+> > +  - vdd-supply
+> > +  - input-report-header-address
+> > +  - input-report-body-address
+> > +  - output-report-address
+> > +  - read-opcode
+> > +  - write-opcode
+> > +  - hid-over-spi-flags
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +    spi-hid-dev0 {
+>=20
+> hid@0
+>=20
+> And you'll need to define a spi bus.
+
+Thank you, will address in the next patch.
+
+>=20
+> > +      compatible =3D "microsoft,g6-touch-digitizer", "hid-over-spi";
+> > +      reg =3D <0>;
+> > +      interrupts-extended =3D <&gpio 42 IRQ_TYPE_EDGE_FALLING>;
+> > +      reset-gpios =3D <&gpio 27 GPIO_ACTIVE_LOW>;
+> > +      vdd-supply =3D <&pm8350c_l3>;
+> > +      pinctrl-names =3D "default";
+> > +      pinctrl-0 =3D <&ts_d6_reset_assert &ts_d6_int_bias>;
+> > +      input-report-header-address =3D <0x1000>;
+> > +      input-report-body-address =3D <0x1004>;
+> > +      output-report-address =3D <0x2000>;
+> > +      read-opcode =3D <0x0b>;
+> > +      write-opcode =3D <0x02>;
+> > +      hid-over-spi-flags =3D <0x00>;
+> > +      post-power-on-delay-ms =3D <5>;
+> > +      minimal-reset-delay-ms =3D <5>;
+> > +    };
+> > --
+> > 2.25.1
+> >
+> >
