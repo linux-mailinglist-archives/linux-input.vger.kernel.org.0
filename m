@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C0CD54F2A7
-	for <lists+linux-input@lfdr.de>; Fri, 17 Jun 2022 10:19:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D825454F2AA
+	for <lists+linux-input@lfdr.de>; Fri, 17 Jun 2022 10:19:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380436AbiFQITO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 17 Jun 2022 04:19:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56996 "EHLO
+        id S1380002AbiFQITP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 17 Jun 2022 04:19:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380282AbiFQITL (ORCPT
+        with ESMTP id S1380407AbiFQITN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 17 Jun 2022 04:19:11 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 435036832C
-        for <linux-input@vger.kernel.org>; Fri, 17 Jun 2022 01:19:10 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id g4so4746306wrh.11
-        for <linux-input@vger.kernel.org>; Fri, 17 Jun 2022 01:19:10 -0700 (PDT)
+        Fri, 17 Jun 2022 04:19:13 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D708263BDA
+        for <linux-input@vger.kernel.org>; Fri, 17 Jun 2022 01:19:11 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id e5so1934585wma.0
+        for <linux-input@vger.kernel.org>; Fri, 17 Jun 2022 01:19:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=B+0V1FswFhS8JDSDQi560ezRR3egayVm0kqkR8HX1a0=;
-        b=CWIw+SKozEYKSjXKiyhkbgZmMOtdHn0KwhrfNy6oyETgyT90moWsaDQWt1xbeWfagr
-         GO8BJm/gbXxQnzzNT52jBfNTohTqjzZaJCVaTWUQlOiUX84/vkOFMTMrIuWaau2efh4x
-         lTszgI8YDW50cv6K8Yhb9KSr3CnpmQp7uhrCSY/Zwsp7ehnxStnqE1mQD1gw0OvzszGB
-         oopBaloytTGS1PaHtnIIaGf/xEmsq9ulEgL2qc5yxcfq0iDVGFFxli9x7TgzN4trFtQK
-         AW9haYEXPQTPnBt1PHpi53rud0Tz5cgiROx3gOQqc1G+7FEoGNxis6gOwDN/3uYVSE8e
-         8efQ==
+        bh=i6KN7qFz99qq/ALEKkoJkPgYJrjmF3EU2O4lIDewe7o=;
+        b=mtQXnNncLkH5+APNy+qa+gXYlCjcWp0W7PGKAfj+IFRVykr8G5oPo2oW38RIlhfBIU
+         oHB2kCRIZLFlAiyyfIO7CcTf6m9MP6snoDpTRdcgCiv3tt2YmCcZBI2LYbw7xDmuXHgv
+         Xzqez09XcW9J3W5ttBTNwR498IHRR0N1umoe0EGDdtFJr4ZlYS69p9OsslUiAP5Lpol2
+         ver6MQNRB2CHNr5Hi4xAXUv1Rtm5mG973JnVAcSh12HRLgsQBj4HC/Up35ID4CuwmMga
+         B7A+t9iG/jUgKD+7gIm1fbV7/Oy33nNsJF7mPodlfOmQHpvYxf7Bn4i1VBxdesgUKVhC
+         bxBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=B+0V1FswFhS8JDSDQi560ezRR3egayVm0kqkR8HX1a0=;
-        b=UgipT+R+f86H5pLW7s0QGgSYoOyWye+4RgKYTsh8+3fqCpfvOgcplvJS7tdv3vgvpm
-         kAodfgh5n6pTnQWfI5VblYMj3lZbmmlDofD21s3ikD2fKHx57wFXHn1l+QuJcnVpYaGA
-         D4wzHUpObXYkGhbkY6FMW01DUgpVsq0RTSomq18fZfOC48zNeuDeLloKI5uXSWXUXE87
-         A0xMfhqegN3lVg4el0Luh6l1twI330dgtJoxzheRZBxk212UtYM2zLdb8PukCEv0sYjA
-         GERqNVwswU2Vyl9v27HrwifhuUUQCyBdGZtRCPTuGeQ3CbAk/FEYphe4qG2l/DCGDwGU
-         R11A==
-X-Gm-Message-State: AJIora8cMW2LkRSkmEjciCSl2lRXY90NPVs8PrDoPrpDnY6IW3yU9cLa
-        Uaf9xHqhhhT/5caCpj1t13uI+w==
-X-Google-Smtp-Source: AGRyM1ta2q9ocH3+ZlEIO4Zm/dANjzoJkhcNDdzPCDqronR3KId0B5dJhF5i4ZTu2Sx/xXjavxJDVA==
-X-Received: by 2002:a5d:570c:0:b0:210:32e1:7250 with SMTP id a12-20020a5d570c000000b0021032e17250mr8269541wrv.368.1655453948779;
-        Fri, 17 Jun 2022 01:19:08 -0700 (PDT)
+        bh=i6KN7qFz99qq/ALEKkoJkPgYJrjmF3EU2O4lIDewe7o=;
+        b=M26b82mdc55p3LxTOXqthdUVJL4mecJ05DYuwavrlygc5ff7GWT8dzhNz2Znu/JJul
+         65risLT0z5xZPzT6Ct6I47usgxvEI3AaW9oDJ5JzDyO0gq+aLoAEW0/8j9J9kebxprvf
+         Ql3zOtDGLDSmu2NpP3fHdTkNaUQU13SRmZQpqhGufM354jetUiwoCCvu61nixyaV2RaF
+         A6v/LMEyHAi4GeT5KsZERQSQBNExKazfubx0LcGVeW+ttFEG+ate5/7cbX3fniwmpXoB
+         YGYn81CvwPQ9uFOI8/KPdkNOlby5FQnZANaPNbAKFA8eciQL+rrgeCvT//q8Vbsuu95x
+         aSfg==
+X-Gm-Message-State: AJIora/cPfvx6YxrWUH+R050ppoV3XuFsZMAg/bwdJ13zjj1B9bgvDPQ
+        eRudR6EgzbWjrUIDCScLeAC7GQ==
+X-Google-Smtp-Source: AGRyM1tIXg2YoKkkCqDilEVxCCUSgr+DQnIy9x2PWUwFyjbZee7lkDg9EWeYCjC81sWbPrxlGE3Bvg==
+X-Received: by 2002:a05:600c:4f4e:b0:39c:1bbb:734f with SMTP id m14-20020a05600c4f4e00b0039c1bbb734fmr8830394wmq.116.1655453950431;
+        Fri, 17 Jun 2022 01:19:10 -0700 (PDT)
 Received: from groot.. ([2a01:cb19:85e6:1900:b8a0:45dd:a367:2e65])
-        by smtp.gmail.com with ESMTPSA id l9-20020a05600c4f0900b0039db500714fsm4970245wmq.6.2022.06.17.01.19.07
+        by smtp.gmail.com with ESMTPSA id l9-20020a05600c4f0900b0039db500714fsm4970245wmq.6.2022.06.17.01.19.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jun 2022 01:19:07 -0700 (PDT)
+        Fri, 17 Jun 2022 01:19:09 -0700 (PDT)
 From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
@@ -58,9 +58,9 @@ Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
         linux-input@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Subject: [PATCH v3 1/2] Input: mt6779-keypad - match hardware matrix organization
-Date:   Fri, 17 Jun 2022 10:19:01 +0200
-Message-Id: <20220617081902.2931099-2-mkorpershoek@baylibre.com>
+Subject: [PATCH v3 2/2] Input: mt6779-keypad - implement row/column selection
+Date:   Fri, 17 Jun 2022 10:19:02 +0200
+Message-Id: <20220617081902.2931099-3-mkorpershoek@baylibre.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220617081902.2931099-1-mkorpershoek@baylibre.com>
 References: <20220617081902.2931099-1-mkorpershoek@baylibre.com>
@@ -75,52 +75,55 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The MediaTek keypad has a set of bits representing keys,
-from KEY0 to KEY77, arranged in 5 chunks of 15 bits split into 5 32-bit
-registers.
+The MediaTek keypad has a total of 6 input rows and 6 input columns.
+By default, rows/columns 0-2 are enabled.
 
-In our implementation, we simply decided to use register number as row
-and offset in the register as column when encoding our "matrix".
+This is controlled by the KP_SEL register:
+- bits[9:4]   control row selection
+- bits[15:10] control column selection
 
-Because of this, we can have a 5x32 matrix which does not match the
-hardware at all, which is confusing.
+Each bit enables the corresponding row/column number (e.g KP_SEL[4]
+enables ROW0)
 
-Change the row/column calculation to match the hardware.
+Depending on how the keypad is wired, this may result in wrong readings
+of the keypad state.
 
-Fixes: f28af984e771 ("Input: mt6779-keypad - add MediaTek keypad driver")
-Co-developed-by: Fabien Parent <fparent@baylibre.com>
-Signed-off-by: Fabien Parent <fparent@baylibre.com>
+Program the KP_SEL register to limit the key detection to n_rows,
+n_cols we retrieve from the device tree.
+
 Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 ---
- drivers/input/keyboard/mt6779-keypad.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/input/keyboard/mt6779-keypad.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/drivers/input/keyboard/mt6779-keypad.c b/drivers/input/keyboard/mt6779-keypad.c
-index 2e7c9187c10f..bd86cb95bde3 100644
+index bd86cb95bde3..bf447bf598fb 100644
 --- a/drivers/input/keyboard/mt6779-keypad.c
 +++ b/drivers/input/keyboard/mt6779-keypad.c
-@@ -42,7 +42,7 @@ static irqreturn_t mt6779_keypad_irq_handler(int irq, void *dev_id)
- 	const unsigned short *keycode = keypad->input_dev->keycode;
- 	DECLARE_BITMAP(new_state, MTK_KPD_NUM_BITS);
- 	DECLARE_BITMAP(change, MTK_KPD_NUM_BITS);
--	unsigned int bit_nr;
-+	unsigned int bit_nr, key;
- 	unsigned int row, col;
- 	unsigned int scancode;
- 	unsigned int row_shift = get_count_order(keypad->n_cols);
-@@ -61,8 +61,10 @@ static irqreturn_t mt6779_keypad_irq_handler(int irq, void *dev_id)
- 		if (bit_nr % 32 >= 16)
- 			continue;
+@@ -17,6 +17,11 @@
+ #define MTK_KPD_DEBOUNCE	0x0018
+ #define MTK_KPD_DEBOUNCE_MASK	GENMASK(13, 0)
+ #define MTK_KPD_DEBOUNCE_MAX_MS	256
++#define MTK_KPD_SEL		0x0020
++#define MTK_KPD_SEL_COL	GENMASK(15, 10)
++#define MTK_KPD_SEL_ROW	GENMASK(9, 4)
++#define MTK_KPD_SEL_COLMASK(c)	GENMASK((c) + 9, 10)
++#define MTK_KPD_SEL_ROWMASK(r)	GENMASK((r) + 3, 4)
+ #define MTK_KPD_NUM_MEMS	5
+ #define MTK_KPD_NUM_BITS	136	/* 4*32+8 MEM5 only use 8 BITS */
  
--		row = bit_nr / 32;
--		col = bit_nr % 32;
-+		key = bit_nr / 32 * 16 + bit_nr % 32;
-+		row = key / 9;
-+		col = key % 9;
+@@ -161,6 +166,11 @@ static int mt6779_keypad_pdrv_probe(struct platform_device *pdev)
+ 	regmap_write(keypad->regmap, MTK_KPD_DEBOUNCE,
+ 		     (debounce * (1 << 5)) & MTK_KPD_DEBOUNCE_MASK);
+ 
++	regmap_update_bits(keypad->regmap, MTK_KPD_SEL, MTK_KPD_SEL_ROW,
++			   MTK_KPD_SEL_ROWMASK(keypad->n_rows));
++	regmap_update_bits(keypad->regmap, MTK_KPD_SEL, MTK_KPD_SEL_COL,
++			   MTK_KPD_SEL_COLMASK(keypad->n_cols));
 +
- 		scancode = MATRIX_SCAN_CODE(row, col, row_shift);
- 		/* 1: not pressed, 0: pressed */
- 		pressed = !test_bit(bit_nr, new_state);
+ 	keypad->clk = devm_clk_get(&pdev->dev, "kpd");
+ 	if (IS_ERR(keypad->clk))
+ 		return PTR_ERR(keypad->clk);
 -- 
 2.34.1
 
