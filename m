@@ -2,147 +2,143 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5586550599
-	for <lists+linux-input@lfdr.de>; Sat, 18 Jun 2022 16:52:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A15D550639
+	for <lists+linux-input@lfdr.de>; Sat, 18 Jun 2022 19:05:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234331AbiFROwT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 18 Jun 2022 10:52:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49660 "EHLO
+        id S237091AbiFRRF4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 18 Jun 2022 13:05:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234073AbiFROwT (ORCPT
+        with ESMTP id S236755AbiFRRFw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 Jun 2022 10:52:19 -0400
-Received: from smtp.smtpout.orange.fr (smtp02.smtpout.orange.fr [80.12.242.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1156917E29
-        for <linux-input@vger.kernel.org>; Sat, 18 Jun 2022 07:52:16 -0700 (PDT)
-Received: from pop-os.home ([90.11.190.129])
-        by smtp.orange.fr with ESMTPA
-        id 2Zo6oiD0NYaC72Zo6oysXB; Sat, 18 Jun 2022 16:52:15 +0200
-X-ME-Helo: pop-os.home
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Sat, 18 Jun 2022 16:52:15 +0200
-X-ME-IP: 90.11.190.129
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Sat, 18 Jun 2022 13:05:52 -0400
+X-Greylist: delayed 475 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 18 Jun 2022 10:05:50 PDT
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 698C912D3E;
+        Sat, 18 Jun 2022 10:05:50 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.west.internal (Postfix) with ESMTP id 5635A2B04FD2;
+        Sat, 18 Jun 2022 12:57:51 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Sat, 18 Jun 2022 12:57:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm3; t=1655571470; x=1655578670; bh=cvEieaf7Gq9QmyebRGX2GIRjl
+        EvOg4D81jsok9/7HPE=; b=Mh1l4/NK7BX5XIAKTgqdJVANXXHR6SyC6ZlP/UhDz
+        aFr3md6b37WNKAFDLKCnmlikLkqfmTVueEJocB5LqsYLX++fX/NHs+EULJ3CRUm0
+        xp904h5nSJqXtcn0a73KGcIAlmNgYH1o+VoeuxRTmB8oxjnC19/XmTDpnUV0gDpf
+        XQYoWssyqpVRPKq7vLKrzmFT53iVYzQjo3Re/3y0FfMDOqn9QkOApvj2MfJ4dVb4
+        90KyjbNAFQCr3VxnjROMnQEUevcujNCTulCCDd+GDkrq5nJ8vNeKub3GWNHdAybx
+        rraGrO8dCqQz2/sM5OLLcqBrYQrpX9KVRDRir5a99UnTg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+        1655571470; x=1655578670; bh=cvEieaf7Gq9QmyebRGX2GIRjlEvOg4D81js
+        ok9/7HPE=; b=Py1g5YtIkfjwlDhcmmh1Sm5HXgtZ79vRaL1DXa4yVfht0v/+q0o
+        jY/C5TxyQy3czRQghGcsiKOJksyPLxtp5RJ69OntqUarlQ4kZF0P0teLicFCpS3j
+        /sCCkZufUIZLZF1APP2hWeNgsJuQZhKFwCSvxRFYGmeugAvH6DiVbWF9J7LCnTC4
+        f9hw/QptH40f2cg1tyW7Wt71ZeqA9UQYPtfcOZ7gKdeO/gef0wBOKH63kD4PD7R0
+        offRmO6PIkKiqGqpL96TMBna1mPeuy2vZkCojvrwTiSR7T23soC6z9TbCyPm1Zzy
+        bN6pdzyuk+Pe2V2onMa8ZymB9q1qE5F9/rg==
+X-ME-Sender: <xms:DQSuYr0wjc9Ay-LFfRLI5gpuX_IcjNyJep9l4waXbuJyU2Psrs6A0Q>
+    <xme:DQSuYqGqGVUrGOfQ_rIWWtKt_Z8pBJB0awaaMSUboXpKK01FuBRZW-cq5efFRl4UE
+    7JpQwzWVTflRGMwcQ>
+X-ME-Received: <xmr:DQSuYr6kBi2wrLpTA4RJeIcL0Nu_xJRPqPQviHkMyZhSA_AWWBFPd62c0SLvjy3J0-iE05vzJUhYbiWxniPWghDTz5eKOds2KJnfdCx-T_9YUpAA4Xlk9zyAc16LHmtjUtPxVQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvjedguddutdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpeevudeigeekledvgfevlefgueelkeduieelveejfffhjefggeelfefh
+    teejgfegvdenucffohhmrghinhepmhgvghhouhhsrdgtohhmnecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghn
+    ugdrohhrgh
+X-ME-Proxy: <xmx:DQSuYg1F4gvWB7rYdPVEAnw9Ph8oxtlkcIRl2xR-S-5R-TAHGJsseQ>
+    <xmx:DQSuYuHYoIPpmLlS0kulI8jWxC3uMmz4JtDKIVPDAorIQ6CU3yEoSA>
+    <xmx:DQSuYh8aqRwPULljo9XUul_eQ25NEpGwqpLnd94eNeRIAtjLWZpUvg>
+    <xmx:DgSuYuLYiNlYu-Yby_2fOLqZeYeAgHthOGPCdjhu-rwfyr-uows0myvPDl4>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 18 Jun 2022 12:57:48 -0400 (EDT)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org
-Subject: [PATCH] HID: cp2112: Remove some dead code
-Date:   Sat, 18 Jun 2022 16:52:12 +0200
-Message-Id: <6ee2132c415db2fc90e7fa2106db427a914cc566.1655563907.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+Cc:     linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Ondrej Jirman <x@xff.cz>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Colin Ian King <colin.king@intel.com>,
+        David Gow <davidgow@google.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        "fengping.yu" <fengping.yu@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: [PATCH v4 0/4] Pine64 PinePhone keyboard support
+Date:   Sat, 18 Jun 2022 11:57:43 -0500
+Message-Id: <20220618165747.55709-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Commit 13de9cca514e ("HID: cp2112: add IRQ chip handling") has introduced
-cp2112_allocate_irq() that seems to be unused since 2016.
+This series adds support for the official keyboard case for the Pine64
+PinePhone and PinePhone Pro. This accessory contains a keyboard MCU and
+an IP5209 power bank IC. The keyboard MCU firmware[0] is free software.
+It exposes the keyboard scan matrix over I2C, and also provides commands
+for SMBus access to the IP5209. In order to keep the IP5209 driver
+(CONFIG_IP5XXX_POWER) generic, this is modeled as a child I2C bus.
 
-Remove it, remove the associated resources and part of the remove()
-function that frees the resources allocated in cp2112_allocate_irq().
+[0]: https://megous.com/git/pinephone-keyboard/about/
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Compile tested only.
+Changes in v4:
+ - Rebase to resolve MAINTAINERS merge conflict
+ - Add missing newlines in error messages
 
-Maybe the issue is completely elsewhere and the probe() should call
-cp2112_allocate_irq() in some cases.
----
- drivers/hid/hid-cp2112.c | 52 ----------------------------------------
- 1 file changed, 52 deletions(-)
+Changes in v3:
+ - Replace unevaluatedProperties with additionalProperties
+ - Rename i2c-bus to i2c
+ - Rename i2c-bus to i2c
 
-diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
-index 1e16b0fa310d..67a5ac6be922 100644
---- a/drivers/hid/hid-cp2112.c
-+++ b/drivers/hid/hid-cp2112.c
-@@ -167,7 +167,6 @@ struct cp2112_device {
- 	u8 *in_out_buffer;
- 	struct mutex lock;
- 
--	struct gpio_desc *desc[8];
- 	bool gpio_poll;
- 	struct delayed_work gpio_poll_worker;
- 	unsigned long irq_mask;
-@@ -1183,51 +1182,6 @@ static int cp2112_gpio_irq_type(struct irq_data *d, unsigned int type)
- 	return 0;
- }
- 
--static int __maybe_unused cp2112_allocate_irq(struct cp2112_device *dev,
--					      int pin)
--{
--	int ret;
--
--	if (dev->desc[pin])
--		return -EINVAL;
--
--	dev->desc[pin] = gpiochip_request_own_desc(&dev->gc, pin,
--						   "HID/I2C:Event",
--						   GPIO_ACTIVE_HIGH,
--						   GPIOD_IN);
--	if (IS_ERR(dev->desc[pin])) {
--		dev_err(dev->gc.parent, "Failed to request GPIO\n");
--		return PTR_ERR(dev->desc[pin]);
--	}
--
--	ret = cp2112_gpio_direction_input(&dev->gc, pin);
--	if (ret < 0) {
--		dev_err(dev->gc.parent, "Failed to set GPIO to input dir\n");
--		goto err_desc;
--	}
--
--	ret = gpiochip_lock_as_irq(&dev->gc, pin);
--	if (ret) {
--		dev_err(dev->gc.parent, "Failed to lock GPIO as interrupt\n");
--		goto err_desc;
--	}
--
--	ret = gpiod_to_irq(dev->desc[pin]);
--	if (ret < 0) {
--		dev_err(dev->gc.parent, "Failed to translate GPIO to IRQ\n");
--		goto err_lock;
--	}
--
--	return ret;
--
--err_lock:
--	gpiochip_unlock_as_irq(&dev->gc, pin);
--err_desc:
--	gpiochip_free_own_desc(dev->desc[pin]);
--	dev->desc[pin] = NULL;
--	return ret;
--}
--
- static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
- {
- 	struct cp2112_device *dev;
-@@ -1388,7 +1342,6 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
- static void cp2112_remove(struct hid_device *hdev)
- {
- 	struct cp2112_device *dev = hid_get_drvdata(hdev);
--	int i;
- 
- 	sysfs_remove_group(&hdev->dev.kobj, &cp2112_attr_group);
- 	i2c_del_adapter(&dev->adap);
-@@ -1398,11 +1351,6 @@ static void cp2112_remove(struct hid_device *hdev)
- 		cancel_delayed_work_sync(&dev->gpio_poll_worker);
- 	}
- 
--	for (i = 0; i < ARRAY_SIZE(dev->desc); i++) {
--		gpiochip_unlock_as_irq(&dev->gc, i);
--		gpiochip_free_own_desc(dev->desc[i]);
--	}
--
- 	gpiochip_remove(&dev->gc);
- 	/* i2c_del_adapter has finished removing all i2c devices from our
- 	 * adapter. Well behaved devices should no longer call our cp2112_xfer
+Changes in v2:
+ - Drop keymap DT properties
+ - Add vbat-supply property
+ - Fix missing key release events when FN state changes
+ - Add VBAT consumer to ensure enough power is available for the MCU
+ - Use a single fixed-size, fixed-contents keymap for both layers
+
+Samuel Holland (4):
+  dt-bindings: input: Add the PinePhone keyboard binding
+  Input: pinephone-keyboard - Add PinePhone keyboard driver
+  Input: pinephone-keyboard - Support the proxied I2C bus
+  [DO NOT MERGE] arm64: dts: allwinner: pinephone: Add keyboard
+
+ .../input/pine64,pinephone-keyboard.yaml      |  66 +++
+ MAINTAINERS                                   |   6 +
+ .../dts/allwinner/sun50i-a64-pinephone.dtsi   |  18 +
+ drivers/input/keyboard/Kconfig                |  10 +
+ drivers/input/keyboard/Makefile               |   1 +
+ drivers/input/keyboard/pinephone-keyboard.c   | 438 ++++++++++++++++++
+ 6 files changed, 539 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/pine64,pinephone-keyboard.yaml
+ create mode 100644 drivers/input/keyboard/pinephone-keyboard.c
+
 -- 
-2.34.1
+2.35.1
 
