@@ -2,162 +2,147 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE0C755055F
-	for <lists+linux-input@lfdr.de>; Sat, 18 Jun 2022 16:02:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5586550599
+	for <lists+linux-input@lfdr.de>; Sat, 18 Jun 2022 16:52:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234527AbiFROCb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 18 Jun 2022 10:02:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49960 "EHLO
+        id S234331AbiFROwT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 18 Jun 2022 10:52:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240717AbiFRNzu (ORCPT
+        with ESMTP id S234073AbiFROwT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 Jun 2022 09:55:50 -0400
-Received: from mail.boiledscript.com (unknown [192.151.158.155])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69A1AE6B;
-        Sat, 18 Jun 2022 06:55:48 -0700 (PDT)
-Date:   Sat, 18 Jun 2022 21:51:24 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ultrarare.space;
-        s=dkim; t=1655560545;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6Kv5mC6jQ5gTh6n1bufpeX0V6kjPD+1etBWuVflNyfk=;
-        b=bnkkphdtYtVlXd+hDZKYOaxkpj17lDM+3nS4y49ALbXsVLb/LGd+ayIFXcSWD5UF06vpz2
-        YqfQU6G3MhQGQQrlo3+9rh5CKktamrPOkhvDtyLmg8Q26bLRBF64859g73GJvdz/oxkZUh
-        znRLLZeI0JoenhC7g4E1urxvn+eJmhqoXPO/SkS8Hz9/i6c5W0tPR23+0aKRdXBFiFRHhI
-        mX0krbeDYp8u1YCsrlP+9WkwvSmgm58nOpe9sAuOHnSZ3Czt69MYk42lKXhUFTSWhqOTVl
-        +jDgtQmOJV+YpbbyiNRbX23CUVoxOavw+cBsQf8PnnzgMVAngqrDE6q80fEpIA==
-From:   Hilton Chain <hako@ultrarare.space>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Bryan Cain <bryancain3@gmail.com>,
+        Sat, 18 Jun 2022 10:52:19 -0400
+Received: from smtp.smtpout.orange.fr (smtp02.smtpout.orange.fr [80.12.242.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1156917E29
+        for <linux-input@vger.kernel.org>; Sat, 18 Jun 2022 07:52:16 -0700 (PDT)
+Received: from pop-os.home ([90.11.190.129])
+        by smtp.orange.fr with ESMTPA
+        id 2Zo6oiD0NYaC72Zo6oysXB; Sat, 18 Jun 2022 16:52:15 +0200
+X-ME-Helo: pop-os.home
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Sat, 18 Jun 2022 16:52:15 +0200
+X-ME-IP: 90.11.190.129
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH v6] HID: apple: Properly handle function keys on non-Apple 
- keyboard
-Message-ID: <20220618214603.24bf8828@dorphine>
-In-Reply-To: <nycvar.YFH.7.76.2206081154160.10851@cbobk.fhfr.pm>
-References: <20220529182036.10226-1-jose.exposito89@gmail.com>
- <20220530083752.1973a905@ultrarare.space>
- <20220530061812.GA10391@elementary>
- <20220531221102.7bd7da7d@ultrarare.space>
- <20220531223330.3d63e2fe@ultrarare.space>
- <20220531172053.GA10651@elementary>
- <CAPnXWxG8gbe1arQK9kBtwM1Xcta+wreTN742kgtBBr1v0ewKug@mail.gmail.com>
- <7f67ac07b8bd37d5817cd151674cc6b0@ultrarare.space>
- <20220601072651.242ce08a@ultrarare.space>
- <20220601121737.1226ffea@ultrarare.space>
- <20220601174956.GA10418@elementary>
- <20220602161219.152be32d@ultrarare.space>
- <nycvar.YFH.7.76.2206081154160.10851@cbobk.fhfr.pm>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-input@vger.kernel.org
+Subject: [PATCH] HID: cp2112: Remove some dead code
+Date:   Sat, 18 Jun 2022 16:52:12 +0200
+Message-Id: <6ee2132c415db2fc90e7fa2106db427a914cc566.1655563907.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spamd-Bar: +
-Authentication-Results: mail.boiledscript.com;
-        auth=pass smtp.mailfrom=hako@ultrarare.space
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This commit extends fa33382c7f74 ("HID: apple: Properly handle function
-keys on Keychron keyboards") by adding an array of known non-Apple
-keyboards' device names, and the function apple_is_non_apple_keyboard()
-to identify and create exception for them.
+Commit 13de9cca514e ("HID: cp2112: add IRQ chip handling") has introduced
+cp2112_allocate_irq() that seems to be unused since 2016.
 
-Signed-off-by: Hilton Chain <hako@ultrarare.space>
+Remove it, remove the associated resources and part of the remove()
+function that frees the resources allocated in cp2112_allocate_irq().
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
+Compile tested only.
 
-V5 -> V6: Add "GANSS" to the exception list.
+Maybe the issue is completely elsewhere and the probe() should call
+cp2112_allocate_irq() in some cases.
+---
+ drivers/hid/hid-cp2112.c | 52 ----------------------------------------
+ 1 file changed, 52 deletions(-)
 
-I just found out my keyboard would use another name in bluetooth mode, as I
-forgot to test this scenario... Sorry for the inconvenience!
-
-
-drivers/hid/hid-apple.c | 35 ++++++++++++++++++++++++++++++-----
- 1 file changed, 30 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 42a568902f492..3cf8eafe00b7b 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -36,7 +36,7 @@
- #define APPLE_NUMLOCK_EMULATION	BIT(8)
- #define APPLE_RDESC_BATTERY	BIT(9)
- #define APPLE_BACKLIGHT_CTL	BIT(10)
--#define APPLE_IS_KEYCHRON	BIT(11)
-+#define APPLE_IS_NON_APPLE	BIT(11)
-
- #define APPLE_FLAG_FKEY		0x01
-
-@@ -65,6 +65,10 @@ MODULE_PARM_DESC(swap_fn_leftctrl, "Swap the Fn and left Control keys. "
- 		"(For people who want to keep PC keyboard muscle memory. "
- 		"[0] = as-is, Mac layout, 1 = swapped, PC layout)");
-
-+struct apple_non_apple_keyboard {
-+	char *name;
-+};
-+
- struct apple_sc_backlight {
- 	struct led_classdev cdev;
- 	struct hid_device *hdev;
-@@ -313,6 +317,27 @@ static const struct apple_key_translation swapped_fn_leftctrl_keys[] = {
- 	{ }
- };
-
-+static const struct apple_non_apple_keyboard non_apple_keyboards[] = {
-+	{ "SONiX USB DEVICE" },
-+	{ "GANSS" },
-+	{ "Keychron" },
-+	{ "AONE" }
-+};
-+
-+static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(non_apple_keyboards); i++) {
-+		char *non_apple = non_apple_keyboards[i].name;
-+
-+		if (strncmp(hdev->name, non_apple, strlen(non_apple)) == 0)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
- static inline void apple_setup_key_translation(struct input_dev *input,
- 		const struct apple_key_translation *table)
- {
-@@ -363,7 +388,7 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- 	}
-
- 	if (fnmode == 3) {
--		real_fnmode = (asc->quirks & APPLE_IS_KEYCHRON) ? 2 : 1;
-+		real_fnmode = (asc->quirks & APPLE_IS_NON_APPLE) ? 2 : 1;
- 	} else {
- 		real_fnmode = fnmode;
- 	}
-@@ -669,9 +694,9 @@ static int apple_input_configured(struct hid_device *hdev,
- 		asc->quirks &= ~APPLE_HAS_FN;
- 	}
-
--	if (strncmp(hdev->name, "Keychron", 8) == 0) {
--		hid_info(hdev, "Keychron keyboard detected; function keys will default to fnmode=2 behavior\n");
--		asc->quirks |= APPLE_IS_KEYCHRON;
-+	if (apple_is_non_apple_keyboard(hdev)) {
-+		hid_info(hdev, "Non-apple keyboard detected; function keys will default to fnmode=2 behavior\n");
-+		asc->quirks |= APPLE_IS_NON_APPLE;
- 	}
-
+diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
+index 1e16b0fa310d..67a5ac6be922 100644
+--- a/drivers/hid/hid-cp2112.c
++++ b/drivers/hid/hid-cp2112.c
+@@ -167,7 +167,6 @@ struct cp2112_device {
+ 	u8 *in_out_buffer;
+ 	struct mutex lock;
+ 
+-	struct gpio_desc *desc[8];
+ 	bool gpio_poll;
+ 	struct delayed_work gpio_poll_worker;
+ 	unsigned long irq_mask;
+@@ -1183,51 +1182,6 @@ static int cp2112_gpio_irq_type(struct irq_data *d, unsigned int type)
  	return 0;
+ }
+ 
+-static int __maybe_unused cp2112_allocate_irq(struct cp2112_device *dev,
+-					      int pin)
+-{
+-	int ret;
+-
+-	if (dev->desc[pin])
+-		return -EINVAL;
+-
+-	dev->desc[pin] = gpiochip_request_own_desc(&dev->gc, pin,
+-						   "HID/I2C:Event",
+-						   GPIO_ACTIVE_HIGH,
+-						   GPIOD_IN);
+-	if (IS_ERR(dev->desc[pin])) {
+-		dev_err(dev->gc.parent, "Failed to request GPIO\n");
+-		return PTR_ERR(dev->desc[pin]);
+-	}
+-
+-	ret = cp2112_gpio_direction_input(&dev->gc, pin);
+-	if (ret < 0) {
+-		dev_err(dev->gc.parent, "Failed to set GPIO to input dir\n");
+-		goto err_desc;
+-	}
+-
+-	ret = gpiochip_lock_as_irq(&dev->gc, pin);
+-	if (ret) {
+-		dev_err(dev->gc.parent, "Failed to lock GPIO as interrupt\n");
+-		goto err_desc;
+-	}
+-
+-	ret = gpiod_to_irq(dev->desc[pin]);
+-	if (ret < 0) {
+-		dev_err(dev->gc.parent, "Failed to translate GPIO to IRQ\n");
+-		goto err_lock;
+-	}
+-
+-	return ret;
+-
+-err_lock:
+-	gpiochip_unlock_as_irq(&dev->gc, pin);
+-err_desc:
+-	gpiochip_free_own_desc(dev->desc[pin]);
+-	dev->desc[pin] = NULL;
+-	return ret;
+-}
+-
+ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ {
+ 	struct cp2112_device *dev;
+@@ -1388,7 +1342,6 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ static void cp2112_remove(struct hid_device *hdev)
+ {
+ 	struct cp2112_device *dev = hid_get_drvdata(hdev);
+-	int i;
+ 
+ 	sysfs_remove_group(&hdev->dev.kobj, &cp2112_attr_group);
+ 	i2c_del_adapter(&dev->adap);
+@@ -1398,11 +1351,6 @@ static void cp2112_remove(struct hid_device *hdev)
+ 		cancel_delayed_work_sync(&dev->gpio_poll_worker);
+ 	}
+ 
+-	for (i = 0; i < ARRAY_SIZE(dev->desc); i++) {
+-		gpiochip_unlock_as_irq(&dev->gc, i);
+-		gpiochip_free_own_desc(dev->desc[i]);
+-	}
+-
+ 	gpiochip_remove(&dev->gc);
+ 	/* i2c_del_adapter has finished removing all i2c devices from our
+ 	 * adapter. Well behaved devices should no longer call our cp2112_xfer
+-- 
+2.34.1
 
-base-commit: 4b35035bcf80ddb47c0112c4fbd84a63a2836a18
---
-2.36.1
