@@ -2,212 +2,162 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A9D65504FB
-	for <lists+linux-input@lfdr.de>; Sat, 18 Jun 2022 15:08:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE0C755055F
+	for <lists+linux-input@lfdr.de>; Sat, 18 Jun 2022 16:02:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233683AbiFRNIy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 18 Jun 2022 09:08:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51586 "EHLO
+        id S234527AbiFROCb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 18 Jun 2022 10:02:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237514AbiFRNIf (ORCPT
+        with ESMTP id S240717AbiFRNzu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 18 Jun 2022 09:08:35 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EFE2167D4;
-        Sat, 18 Jun 2022 06:08:33 -0700 (PDT)
-Received: (Authenticated sender: contact@artur-rojek.eu)
-        by mail.gandi.net (Postfix) with ESMTPA id EBFAF240004;
-        Sat, 18 Jun 2022 13:08:29 +0000 (UTC)
+        Sat, 18 Jun 2022 09:55:50 -0400
+Received: from mail.boiledscript.com (unknown [192.151.158.155])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69A1AE6B;
+        Sat, 18 Jun 2022 06:55:48 -0700 (PDT)
+Date:   Sat, 18 Jun 2022 21:51:24 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ultrarare.space;
+        s=dkim; t=1655560545;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=6Kv5mC6jQ5gTh6n1bufpeX0V6kjPD+1etBWuVflNyfk=;
+        b=bnkkphdtYtVlXd+hDZKYOaxkpj17lDM+3nS4y49ALbXsVLb/LGd+ayIFXcSWD5UF06vpz2
+        YqfQU6G3MhQGQQrlo3+9rh5CKktamrPOkhvDtyLmg8Q26bLRBF64859g73GJvdz/oxkZUh
+        znRLLZeI0JoenhC7g4E1urxvn+eJmhqoXPO/SkS8Hz9/i6c5W0tPR23+0aKRdXBFiFRHhI
+        mX0krbeDYp8u1YCsrlP+9WkwvSmgm58nOpe9sAuOHnSZ3Czt69MYk42lKXhUFTSWhqOTVl
+        +jDgtQmOJV+YpbbyiNRbX23CUVoxOavw+cBsQf8PnnzgMVAngqrDE6q80fEpIA==
+From:   Hilton Chain <hako@ultrarare.space>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Bryan Cain <bryancain3@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH v6] HID: apple: Properly handle function keys on non-Apple 
+ keyboard
+Message-ID: <20220618214603.24bf8828@dorphine>
+In-Reply-To: <nycvar.YFH.7.76.2206081154160.10851@cbobk.fhfr.pm>
+References: <20220529182036.10226-1-jose.exposito89@gmail.com>
+ <20220530083752.1973a905@ultrarare.space>
+ <20220530061812.GA10391@elementary>
+ <20220531221102.7bd7da7d@ultrarare.space>
+ <20220531223330.3d63e2fe@ultrarare.space>
+ <20220531172053.GA10651@elementary>
+ <CAPnXWxG8gbe1arQK9kBtwM1Xcta+wreTN742kgtBBr1v0ewKug@mail.gmail.com>
+ <7f67ac07b8bd37d5817cd151674cc6b0@ultrarare.space>
+ <20220601072651.242ce08a@ultrarare.space>
+ <20220601121737.1226ffea@ultrarare.space>
+ <20220601174956.GA10418@elementary>
+ <20220602161219.152be32d@ultrarare.space>
+ <nycvar.YFH.7.76.2206081154160.10851@cbobk.fhfr.pm>
 MIME-Version: 1.0
-Date:   Sat, 18 Jun 2022 15:08:29 +0200
-From:   Artur Rojek <contact@artur-rojek.eu>
-To:     Chris Morgan <macromorgan@hotmail.com>,
-        Jonathan Cameron <jic23@kernel.org>
-Cc:     Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, maccraft123mc@gmail.com,
-        heiko@sntech.de, krzysztof.kozlowski+dt@linaro.org,
-        robh+dt@kernel.org, dmitry.torokhov@gmail.com,
-        Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v3 2/3] Input: adc-joystick - Add polled input device
- support
-In-Reply-To: <SN6PR06MB5342762DE16AFC607CA9D5F9A5AD9@SN6PR06MB5342.namprd06.prod.outlook.com>
-References: <20220613192353.696-1-macroalpha82@gmail.com>
- <20220613192353.696-3-macroalpha82@gmail.com>
- <ec496fcf808d73fe356d1961d89bf1ff@artur-rojek.eu>
- <SN6PR06MB5342762DE16AFC607CA9D5F9A5AD9@SN6PR06MB5342.namprd06.prod.outlook.com>
-Message-ID: <cdb956639e9550b287db31b762f7b764@artur-rojek.eu>
-X-Sender: contact@artur-rojek.eu
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spamd-Bar: +
+Authentication-Results: mail.boiledscript.com;
+        auth=pass smtp.mailfrom=hako@ultrarare.space
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2022-06-15 17:12, Chris Morgan wrote:
-> On Wed, Jun 15, 2022 at 03:43:07AM +0200, Artur Rojek wrote:
->> On 2022-06-13 21:23, Chris Morgan wrote:
->> > From: Chris Morgan <macromorgan@hotmail.com>
->> >
->> > Add polled input device support to the adc-joystick driver. This is
->> > useful for devices which do not have hardware capable triggers on
->> > their SARADC. Code modified from adc-joystick.c changes made by Maya
->> > Matuszczyk.
->> >
->> > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
->> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
->> 
->> Hi Chris,
->> 
->> Comments inline. I also Cc'd Paul and Jonathan, who were attached in 
->> v2.
->> 
->> > ---
->> >  drivers/input/joystick/adc-joystick.c | 52 +++++++++++++++++++++------
->> >  1 file changed, 41 insertions(+), 11 deletions(-)
->> >
->> > diff --git a/drivers/input/joystick/adc-joystick.c
->> > b/drivers/input/joystick/adc-joystick.c
->> > index 78ebca7d400a..dc01cd0214d2 100644
->> > --- a/drivers/input/joystick/adc-joystick.c
->> > +++ b/drivers/input/joystick/adc-joystick.c
->> > @@ -13,6 +13,10 @@
->> >
->> >  #include <asm/unaligned.h>
->> >
->> > +#define ADC_JSK_POLL_INTERVAL	16
->> > +#define ADC_JSK_POLL_MIN	8
->> > +#define ADC_JSK_POLL_MAX	32
->> > +
->> >  struct adc_joystick_axis {
->> >  	u32 code;
->> >  	s32 range[2];
->> > @@ -26,8 +30,21 @@ struct adc_joystick {
->> >  	struct adc_joystick_axis *axes;
->> >  	struct iio_channel *chans;
->> >  	int num_chans;
->> > +	bool polled;
->> >  };
->> >
->> > +static void adc_joystick_poll(struct input_dev *input)
->> > +{
->> > +	struct adc_joystick *joy = input_get_drvdata(input);
->> > +	int i, val;
->> > +
->> > +	for (i = 0; i < joy->num_chans; i++) {
->> > +		iio_read_channel_raw(&joy->chans[i], &val);
->> > +		input_report_abs(input, joy->axes[i].code, val);
->> > +	}
->> > +	input_sync(input);
->> > +}
->> > +
->> >  static int adc_joystick_handle(const void *data, void *private)
->> >  {
->> >  	struct adc_joystick *joy = private;
->> > @@ -215,8 +232,19 @@ static int adc_joystick_probe(struct
->> > platform_device *pdev)
->> >  	joy->input = input;
->> >  	input->name = pdev->name;
->> >  	input->id.bustype = BUS_HOST;
->> > -	input->open = adc_joystick_open;
->> > -	input->close = adc_joystick_close;
->> > +
->> > +	if (device_property_read_bool(dev,
->> > "adc-joystick,no-hardware-trigger"))
->> > +		joy->polled = 1;
->> As mentioned in v2, I don't think a DT property is required here. 
->> Assuming
->> the polled mode is a fallback for devices with no buffers, just do:
->> ```
->> 	joy->polled = !(joy->chans[0].indio_dev->modes &
->> 			INDIO_ALL_BUFFER_MODES);
->> ```
-> 
-> Understood. I attempted this and noticed that it was showing I have
-> INDIO_BUFFER_TRIGGERED in addition to INDIO_DIRECT_MODE (the
-> INDIO_DIRECT_MODE is the only one specified at the hardware level
-> though). Should I just check for INDIO_BUFFER_SOFTWARE &
-> INDIO_BUFFER_HARDWARE instead? I think it's possible that the inclusion
-> of the industrialio_triggered_buffer module in my kernel is adding
-> this to the channel somehow?
-Having INDIO_BUFFER_TRIGGERED means that your saradc is capable of using 
-the existing flow. You should be able to register a software trigger and 
-use the adc-joystick driver without further issues.
-That said, this is where it gets problematic - there is no way to create 
-an IIO trigger via Device Tree, since triggers don't describe any piece 
-of hardware, and you shouldn't need to register it at runtime 
-(configfs/sysfs) for communication between two kernel drivers either. At 
-the same time, it's not adc-joystick's job to register an external 
-trigger.
+This commit extends fa33382c7f74 ("HID: apple: Properly handle function
+keys on Keychron keyboards") by adding an array of known non-Apple
+keyboards' device names, and the function apple_is_non_apple_keyboard()
+to identify and create exception for them.
 
-Jonathan,
-I don't know what the proper approach to this should be, perhaps you 
-could assist?
+Signed-off-by: Hilton Chain <hako@ultrarare.space>
+---
 
-Cheers,
-Artur
-> 
-> Thank you.
-> 
->> > +
->> > +	if (joy->polled) {
->> > +		input_setup_polling(input, adc_joystick_poll);
->> > +		input_set_poll_interval(input, ADC_JSK_POLL_INTERVAL);
->> > +		input_set_min_poll_interval(input, ADC_JSK_POLL_MIN);
->> > +		input_set_max_poll_interval(input, ADC_JSK_POLL_MAX);
->> > +	} else {
->> > +		input->open = adc_joystick_open;
->> > +		input->close = adc_joystick_close;
->> > +	}
->> >
->> >  	error = adc_joystick_set_axes(dev, joy);
->> >  	if (error)
->> > @@ -229,16 +257,18 @@ static int adc_joystick_probe(struct
->> > platform_device *pdev)
->> >  		return error;
->> >  	}
->> >
->> > -	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
->> > -	if (IS_ERR(joy->buffer)) {
->> > -		dev_err(dev, "Unable to allocate callback buffer\n");
->> > -		return PTR_ERR(joy->buffer);
->> > -	}
->> > +	if (!joy->polled) {
->> > +		joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
->> Please maintain line discipline of 80 chars to stay consistent with 
->> the rest
->> of this driver.
-> 
-> Understood, sorry about that.
-> 
->> > +		if (IS_ERR(joy->buffer)) {
->> > +			dev_err(dev, "Unable to allocate callback buffer\n");
->> > +			return PTR_ERR(joy->buffer);
->> > +		}
->> >
->> > -	error = devm_add_action_or_reset(dev, adc_joystick_cleanup,
->> > joy->buffer);
->> > -	if (error)  {
->> > -		dev_err(dev, "Unable to add action\n");
->> > -		return error;
->> > +		error = devm_add_action_or_reset(dev, adc_joystick_cleanup,
->> > joy->buffer);
->> Same here.
-> 
-> Ditto.
-> 
->> 
->> Cheers,
->> Artur
->> > +		if (error)  {
->> > +			dev_err(dev, "Unable to add action\n");
->> > +			return error;
->> > +		}
->> >  	}
->> >
->> >  	return 0;
+V5 -> V6: Add "GANSS" to the exception list.
+
+I just found out my keyboard would use another name in bluetooth mode, as I
+forgot to test this scenario... Sorry for the inconvenience!
+
+
+drivers/hid/hid-apple.c | 35 ++++++++++++++++++++++++++++++-----
+ 1 file changed, 30 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index 42a568902f492..3cf8eafe00b7b 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -36,7 +36,7 @@
+ #define APPLE_NUMLOCK_EMULATION	BIT(8)
+ #define APPLE_RDESC_BATTERY	BIT(9)
+ #define APPLE_BACKLIGHT_CTL	BIT(10)
+-#define APPLE_IS_KEYCHRON	BIT(11)
++#define APPLE_IS_NON_APPLE	BIT(11)
+
+ #define APPLE_FLAG_FKEY		0x01
+
+@@ -65,6 +65,10 @@ MODULE_PARM_DESC(swap_fn_leftctrl, "Swap the Fn and left Control keys. "
+ 		"(For people who want to keep PC keyboard muscle memory. "
+ 		"[0] = as-is, Mac layout, 1 = swapped, PC layout)");
+
++struct apple_non_apple_keyboard {
++	char *name;
++};
++
+ struct apple_sc_backlight {
+ 	struct led_classdev cdev;
+ 	struct hid_device *hdev;
+@@ -313,6 +317,27 @@ static const struct apple_key_translation swapped_fn_leftctrl_keys[] = {
+ 	{ }
+ };
+
++static const struct apple_non_apple_keyboard non_apple_keyboards[] = {
++	{ "SONiX USB DEVICE" },
++	{ "GANSS" },
++	{ "Keychron" },
++	{ "AONE" }
++};
++
++static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(non_apple_keyboards); i++) {
++		char *non_apple = non_apple_keyboards[i].name;
++
++		if (strncmp(hdev->name, non_apple, strlen(non_apple)) == 0)
++			return true;
++	}
++
++	return false;
++}
++
+ static inline void apple_setup_key_translation(struct input_dev *input,
+ 		const struct apple_key_translation *table)
+ {
+@@ -363,7 +388,7 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+ 	}
+
+ 	if (fnmode == 3) {
+-		real_fnmode = (asc->quirks & APPLE_IS_KEYCHRON) ? 2 : 1;
++		real_fnmode = (asc->quirks & APPLE_IS_NON_APPLE) ? 2 : 1;
+ 	} else {
+ 		real_fnmode = fnmode;
+ 	}
+@@ -669,9 +694,9 @@ static int apple_input_configured(struct hid_device *hdev,
+ 		asc->quirks &= ~APPLE_HAS_FN;
+ 	}
+
+-	if (strncmp(hdev->name, "Keychron", 8) == 0) {
+-		hid_info(hdev, "Keychron keyboard detected; function keys will default to fnmode=2 behavior\n");
+-		asc->quirks |= APPLE_IS_KEYCHRON;
++	if (apple_is_non_apple_keyboard(hdev)) {
++		hid_info(hdev, "Non-apple keyboard detected; function keys will default to fnmode=2 behavior\n");
++		asc->quirks |= APPLE_IS_NON_APPLE;
+ 	}
+
+ 	return 0;
+
+base-commit: 4b35035bcf80ddb47c0112c4fbd84a63a2836a18
+--
+2.36.1
