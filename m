@@ -2,86 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3AF2550943
-	for <lists+linux-input@lfdr.de>; Sun, 19 Jun 2022 10:00:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6326550A4A
+	for <lists+linux-input@lfdr.de>; Sun, 19 Jun 2022 13:34:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233238AbiFSIA4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Jun 2022 04:00:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37910 "EHLO
+        id S235295AbiFSLev (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Jun 2022 07:34:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233162AbiFSIAz (ORCPT
+        with ESMTP id S232931AbiFSLev (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Jun 2022 04:00:55 -0400
-X-Greylist: delayed 1813 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 19 Jun 2022 01:00:54 PDT
-Received: from mail-m964.mail.126.com (mail-m964.mail.126.com [123.126.96.4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 34E0CB875
-        for <linux-input@vger.kernel.org>; Sun, 19 Jun 2022 01:00:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=B1gcf
-        g6uWh2Ydy18lGJ3Uf96MEQ9OMrXAXzfxSAidlQ=; b=NS7T67PfHb3EfxrOk4hKM
-        yiY3bYY7uhsTCxBQF0RnCkNcSGjfCKAcybHhfbD1Omw635Ffs10cOe1CfX6kS+oa
-        hI//73I0bIlfqXc6Z9cHMHutTnnMZOtFM8NWzBQpyTO7Bg32wyo5FpO9bzsCVBTS
-        56avT8vTqgcIGFE6OsRWZU=
-Received: from localhost.localdomain (unknown [124.16.139.61])
-        by smtp9 (Coremail) with SMTP id NeRpCgBHEcad0K5iLak4FA--.119S2;
-        Sun, 19 Jun 2022 15:30:37 +0800 (CST)
-From:   Liang He <windhl@126.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     windhl@126.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] input/serio: Fix refcount leak bug in i8042-sparcio
-Date:   Sun, 19 Jun 2022 15:30:36 +0800
-Message-Id: <20220619073036.4067872-1-windhl@126.com>
-X-Mailer: git-send-email 2.25.1
+        Sun, 19 Jun 2022 07:34:51 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8974611A2B;
+        Sun, 19 Jun 2022 04:34:50 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id v1so16189728ejg.13;
+        Sun, 19 Jun 2022 04:34:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=utuT6cM/eVUrce22kFa8LNAWsGwMTCB+s3XUZ2ZFqjM=;
+        b=mXgpt+1B6pqO42lHUT4jA1tBiM52Ug3Jpsxo+tK8ynedBHMa0VbC/QlOY/k4MQWMIL
+         sZ09fZTms2b0ER5ORbUV+AX0NpK9/vcWO6oxJlfxH6/poht8DdvaFuHJGhHEaQtJsE1P
+         OcwbY/e+e2vNcoQeajDAVuJh4IYmXG2JL0WOvgETVXPqR7IcYrGQzerGpV/X0B9bhIw+
+         iMuN8X4ElDnEYoEBQUr5TUkYPfadYvNEmbfNJL/1SzKuJSSRoLDx2bl3NNAk6ghs/cRs
+         7HoejQdHbldmsGCRLJrfObwS8N7DKAUIfrzn1imoD3QRQbik5i3O0P4KqtqbfhZvYM5j
+         d/8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=utuT6cM/eVUrce22kFa8LNAWsGwMTCB+s3XUZ2ZFqjM=;
+        b=QZ0GGwh21avu0JOI3p725dk20yUNXQqF3Pa8F8YeVTcQPfxHLL3w9tdW4wSwMGrMCn
+         EcWrWsDHn/KaLN7T9tXbkMwhzX6VdIP5NQnbSyq502Tx6cWqcP7MFd2sfTdvE7E580ff
+         hEPslnXJIw5GV8Qe29l5QfKMqqnnievSN4kNzUJKGW8C9IO0PMgroCLKnZ+RPjwIK7QU
+         r+vxjgL1D4kLOsXdHlw6DCdXC5vu5Wa423lvTWd2oBfXja+ZhJ6L362mV45RouJEOSbH
+         IHnBKLHfZVOB8DXrn9TGYlmjDBMzvwK+t/25zyYAkmcCth9TcMKuOoa+PeAB7Y7LNii7
+         eJZw==
+X-Gm-Message-State: AJIora+iqQspd3763niDHp5gbpXzZFYlPJum66k6DmMS8P3oDyEhZfCc
+        ElnNSUCwaN3J0kWAf/RSTPV9p+MFCz1eYFS1exs=
+X-Google-Smtp-Source: AGRyM1tCsOw9ij3ODqUgP7h7NTNnUNkfZS+idLN4MZUsf44yfptBhZ7vjHap3gjfMwCJ8VWkccJjC7/adSSxTpLE/88=
+X-Received: by 2002:a17:906:149:b0:711:fca6:bc2f with SMTP id
+ 9-20020a170906014900b00711fca6bc2fmr16875033ejh.497.1655638489111; Sun, 19
+ Jun 2022 04:34:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: NeRpCgBHEcad0K5iLak4FA--.119S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7XFWkCrW7JFW3Cw4fJF1UZFb_yoWkZrX_ur
-        Wkur97JFWkC3Zay3Z2yr4Sq390yw4vgayFqrySqr4a9a4ayr9xtryrZr97Aw47Wr9avryj
-        krsxGrWFkw4UCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUUkhL7UUUUU==
-X-Originating-IP: [124.16.139.61]
-X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbi7R0lF1pEAOvxsgAAs0
+References: <20220618165747.55709-1-samuel@sholland.org> <20220618165747.55709-4-samuel@sholland.org>
+In-Reply-To: <20220618165747.55709-4-samuel@sholland.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 19 Jun 2022 13:34:12 +0200
+Message-ID: <CAHp75VfM3L-bKOLoXTz67JCWq8UX6d-LvuYDxXMtTBznGOTgSA@mail.gmail.com>
+Subject: Re: [PATCH v4 3/4] Input: pinephone-keyboard - Support the proxied
+ I2C bus
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, Ondrej Jirman <x@xff.cz>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Colin Ian King <colin.king@intel.com>,
+        David Gow <davidgow@google.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        "fengping.yu" <fengping.yu@mediatek.com>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In i8042_platform_init() and i8042_platform_exit(), we need call
-of_node_put() to keep refcount balance.
+On Sat, Jun 18, 2022 at 7:12 PM Samuel Holland <samuel@sholland.org> wrote:
+>
+> The PinePhone keyboard case contains a battery managed by an integrated
+> power bank IC. The power bank IC communicates over I2C, and the keyboard
+> MCU firmware provides an interface to read and write its registers.
+> Let's use this interface to implement a SMBus adapter, so we can reuse
+> the driver for the power bank IC.
 
-Signed-off-by: Liang He <windhl@126.com>
----
- drivers/input/serio/i8042-sparcio.h | 4 ++++
- 1 file changed, 4 insertions(+)
+...
 
-diff --git a/drivers/input/serio/i8042-sparcio.h b/drivers/input/serio/i8042-sparcio.h
-index fce76812843b..a2a9db9220d7 100644
---- a/drivers/input/serio/i8042-sparcio.h
-+++ b/drivers/input/serio/i8042-sparcio.h
-@@ -108,6 +108,8 @@ static int __init i8042_platform_init(void)
- 	struct device_node *root = of_find_node_by_path("/");
- 	const char *name = of_get_property(root, "name", NULL);
- 
-+	of_node_put(root);
-+
- 	if (name && !strcmp(name, "SUNW,JavaStation-1")) {
- 		/* Hardcoded values for MrCoffee.  */
- 		i8042_kbd_irq = i8042_aux_irq = 13 | 0x20;
-@@ -139,6 +141,8 @@ static inline void i8042_platform_exit(void)
- 	struct device_node *root = of_find_node_by_path("/");
- 	const char *name = of_get_property(root, "name", NULL);
- 
-+	of_node_put(root);
-+
- 	if (!name || strcmp(name, "SUNW,JavaStation-1"))
- 		platform_driver_unregister(&sparc_i8042_driver);
- }
+> +       /* Read back the command status until it passes or fails. */
+> +       do {
+> +               usleep_range(300, 500);
+> +               ret = i2c_smbus_read_byte_data(client, PPKB_SYS_COMMAND);
+> +       } while (ret == buf[2]);
+> +       if (ret < 0)
+> +               return ret;
+> +       /* Commands return 0x00 on success and 0xff on failure. */
+> +       if (ret)
+> +               return -EIO;
+
+Something to use from iopoll.h ?
+
+
 -- 
-2.25.1
-
+With Best Regards,
+Andy Shevchenko
