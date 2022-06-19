@@ -2,57 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6326550A4A
-	for <lists+linux-input@lfdr.de>; Sun, 19 Jun 2022 13:34:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F32F550A4F
+	for <lists+linux-input@lfdr.de>; Sun, 19 Jun 2022 13:44:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235295AbiFSLev (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Jun 2022 07:34:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58612 "EHLO
+        id S236698AbiFSLoi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Jun 2022 07:44:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232931AbiFSLev (ORCPT
+        with ESMTP id S229993AbiFSLoi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Jun 2022 07:34:51 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8974611A2B;
-        Sun, 19 Jun 2022 04:34:50 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id v1so16189728ejg.13;
-        Sun, 19 Jun 2022 04:34:50 -0700 (PDT)
+        Sun, 19 Jun 2022 07:44:38 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F32E11A37;
+        Sun, 19 Jun 2022 04:44:37 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id o7so16277213eja.1;
+        Sun, 19 Jun 2022 04:44:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=utuT6cM/eVUrce22kFa8LNAWsGwMTCB+s3XUZ2ZFqjM=;
-        b=mXgpt+1B6pqO42lHUT4jA1tBiM52Ug3Jpsxo+tK8ynedBHMa0VbC/QlOY/k4MQWMIL
-         sZ09fZTms2b0ER5ORbUV+AX0NpK9/vcWO6oxJlfxH6/poht8DdvaFuHJGhHEaQtJsE1P
-         OcwbY/e+e2vNcoQeajDAVuJh4IYmXG2JL0WOvgETVXPqR7IcYrGQzerGpV/X0B9bhIw+
-         iMuN8X4ElDnEYoEBQUr5TUkYPfadYvNEmbfNJL/1SzKuJSSRoLDx2bl3NNAk6ghs/cRs
-         7HoejQdHbldmsGCRLJrfObwS8N7DKAUIfrzn1imoD3QRQbik5i3O0P4KqtqbfhZvYM5j
-         d/8w==
+        bh=FQbBjcBfD7V1TcniNo3XYd/5J9V350QbGnDoj858ycY=;
+        b=Xb2iTmdVGW+PvMqYxyub4QxQHV0TQ3b1izCzfoW+XluTzOwzcJfFWuSbZRoAA8lbzD
+         v8FNJy0aJolsQjoY545X+w1K24MJJ5xZ1YJcMRSE57UH+wPFznA2G+6mpi7DS/3FlPRd
+         FFalUTcBi633WGar9Efv/B9+GqSU1Y7hiwCWUOppYIlzQ0q+41xmysIiOxkknSiCpHUS
+         TcZ86uKkqZAwlnnwnxfOIm9jG85icOGl9SiA0lwCsTpyP/KlLoaHvhupschG9uoJflWM
+         f2DM8vuegImSXr+iCVartWQDiucYQCQDLz9opYJK4TWDIvyu7T9lB9/C+vOtLHmw2NT0
+         PWYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=utuT6cM/eVUrce22kFa8LNAWsGwMTCB+s3XUZ2ZFqjM=;
-        b=QZ0GGwh21avu0JOI3p725dk20yUNXQqF3Pa8F8YeVTcQPfxHLL3w9tdW4wSwMGrMCn
-         EcWrWsDHn/KaLN7T9tXbkMwhzX6VdIP5NQnbSyq502Tx6cWqcP7MFd2sfTdvE7E580ff
-         hEPslnXJIw5GV8Qe29l5QfKMqqnnievSN4kNzUJKGW8C9IO0PMgroCLKnZ+RPjwIK7QU
-         r+vxjgL1D4kLOsXdHlw6DCdXC5vu5Wa423lvTWd2oBfXja+ZhJ6L362mV45RouJEOSbH
-         IHnBKLHfZVOB8DXrn9TGYlmjDBMzvwK+t/25zyYAkmcCth9TcMKuOoa+PeAB7Y7LNii7
-         eJZw==
-X-Gm-Message-State: AJIora+iqQspd3763niDHp5gbpXzZFYlPJum66k6DmMS8P3oDyEhZfCc
-        ElnNSUCwaN3J0kWAf/RSTPV9p+MFCz1eYFS1exs=
-X-Google-Smtp-Source: AGRyM1tCsOw9ij3ODqUgP7h7NTNnUNkfZS+idLN4MZUsf44yfptBhZ7vjHap3gjfMwCJ8VWkccJjC7/adSSxTpLE/88=
-X-Received: by 2002:a17:906:149:b0:711:fca6:bc2f with SMTP id
- 9-20020a170906014900b00711fca6bc2fmr16875033ejh.497.1655638489111; Sun, 19
- Jun 2022 04:34:49 -0700 (PDT)
+        bh=FQbBjcBfD7V1TcniNo3XYd/5J9V350QbGnDoj858ycY=;
+        b=KRa96/jvB68+sNWm9CIHygqGsBKsFOdnKlEhprZfnq+tHbCx05q2QWKa/lEJ5yBrIN
+         rQ/qxbyDxDURpjdfp4ekqg/UrWZXi+9/mqgBr/BqjOUux8DA3Oy78qsTRVpI0lX6AblA
+         Kw5lo/Am+1wI1awIrm76FvmbdFPQQnUTvrZgaX2yz61QufWTw+iBBDLRwSCJ5zBdpq1M
+         3bo1Yq7dLy6vs2tBnKzGh23ZCKs/seL/X2eTR2lR4e7wK9vpWTHbcX0uLelpHdYNJa4s
+         QNFAuF7BVGAq57/IUtoVYXMiCGgFmY6U48L6/cNvNPM03iK7aHfODMlBDVEf0V1R7Z5l
+         OKCQ==
+X-Gm-Message-State: AJIora/T2Yhsa8Lg9Kn6AlwSU4hsbUsJ4UCLLFNsZ92Bt6gMG2L9LuGp
+        mSvXLa9utP+YlWt3A3WJYVtIiGzYQ1l3H1O8fR+PNAhvkQU=
+X-Google-Smtp-Source: AGRyM1tlqH8/GM63li+9dtAK0sP+225UJsR/jtnTMd09exzoSTHeAoncSqMSOd4NfnVRj4GYFD3MYUvNG3rNbv4f1SY=
+X-Received: by 2002:a17:906:d550:b0:704:7ba6:9854 with SMTP id
+ cr16-20020a170906d55000b007047ba69854mr16758726ejc.579.1655639075680; Sun, 19
+ Jun 2022 04:44:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220618165747.55709-1-samuel@sholland.org> <20220618165747.55709-4-samuel@sholland.org>
-In-Reply-To: <20220618165747.55709-4-samuel@sholland.org>
+References: <20220618165747.55709-1-samuel@sholland.org> <20220618165747.55709-3-samuel@sholland.org>
+In-Reply-To: <20220618165747.55709-3-samuel@sholland.org>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sun, 19 Jun 2022 13:34:12 +0200
-Message-ID: <CAHp75VfM3L-bKOLoXTz67JCWq8UX6d-LvuYDxXMtTBznGOTgSA@mail.gmail.com>
-Subject: Re: [PATCH v4 3/4] Input: pinephone-keyboard - Support the proxied
- I2C bus
+Date:   Sun, 19 Jun 2022 13:43:59 +0200
+Message-ID: <CAHp75VcXNTxusT5N_8JvYWMhUyY_sAUzTcT3h0hz2bAawv6ThQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] Input: pinephone-keyboard - Add PinePhone keyboard driver
 To:     Samuel Holland <samuel@sholland.org>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input <linux-input@vger.kernel.org>,
@@ -84,29 +83,107 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Jun 18, 2022 at 7:12 PM Samuel Holland <samuel@sholland.org> wrote:
+On Sat, Jun 18, 2022 at 7:10 PM Samuel Holland <samuel@sholland.org> wrote:
 >
-> The PinePhone keyboard case contains a battery managed by an integrated
-> power bank IC. The power bank IC communicates over I2C, and the keyboard
-> MCU firmware provides an interface to read and write its registers.
-> Let's use this interface to implement a SMBus adapter, so we can reuse
-> the driver for the power bank IC.
+> The official Pine64 PinePhone keyboard case contains a matrix keypad and
+> a MCU which runs a libre firmware. Add support for its I2C interface.
 
 ...
 
-> +       /* Read back the command status until it passes or fails. */
-> +       do {
-> +               usleep_range(300, 500);
-> +               ret = i2c_smbus_read_byte_data(client, PPKB_SYS_COMMAND);
-> +       } while (ret == buf[2]);
-> +       if (ret < 0)
+> +#include <linux/crc8.h>
+> +#include <linux/i2c.h>
+> +#include <linux/input/matrix_keypad.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/module.h>
+> +#include <linux/regulator/consumer.h>
+
+Missed
+types.h
+
+...
+
+> +#define PPKB_ROWS                      6
+> +#define PPKB_COLS                      12
+
+...
+
+> +       for (col = 0; col < PPKB_COLS; ++col) {
+> +               u8 old = old_buf[1 + col];
+> +               u8 new = new_buf[1 + col];
+> +               u8 changed = old ^ new;
+> +
+> +               if (!changed)
+> +                       continue;
+> +
+> +               for (row = 0; row < PPKB_ROWS; ++row) {
+> +                       u8 mask = BIT(row);
+> +                       u8 value = new & mask;
+> +                       unsigned short code;
+> +                       bool fn_state;
+> +
+> +                       if (!(changed & mask))
+> +                               continue;
+> +
+> +                       /*
+> +                        * Save off the FN key state when the key was pressed,
+> +                        * and use that to determine the code during a release.
+> +                        */
+> +                       fn_state = value ? ppkb->fn_pressed : ppkb->fn_state[col] & mask;
+> +                       if (fn_state)
+> +                               ppkb->fn_state[col] ^= mask;
+
+Can't it be converted to use bitmap APIs?
+
+> +               }
+> +       }
+
+...
+
+> +static int ppkb_set_scan(struct i2c_client *client, bool enable)
+> +{
+> +       struct device *dev = &client->dev;
+> +       int ret, val;
+> +
+> +       ret = i2c_smbus_read_byte_data(client, PPKB_SYS_CONFIG);
+> +       if (ret < 0) {
+> +               dev_err(dev, "Failed to read config: %d\n", ret);
 > +               return ret;
-> +       /* Commands return 0x00 on success and 0xff on failure. */
+> +       }
+> +
+> +       if (enable)
+> +               val = ret & ~PPKB_SYS_CONFIG_DISABLE_SCAN;
+> +       else
+> +               val = ret | PPKB_SYS_CONFIG_DISABLE_SCAN;
+> +       ret = i2c_smbus_write_byte_data(client, PPKB_SYS_CONFIG, val);
+> +       if (ret) {
+> +               dev_err(dev, "Failed to write config: %d\n", ret);
+
+> +               return ret;
+> +       }
+> +
+> +       return 0;
+
+return ret;
+
+> +}
+
+...
+
+> +static int ppkb_open(struct input_dev *input)
+> +{
+> +       struct i2c_client *client = input_get_drvdata(input);
+
+> +       int ret;
+> +
+> +       ret = ppkb_set_scan(client, true);
 > +       if (ret)
-> +               return -EIO;
+> +               return ret;
+> +
+> +       return 0;
 
-Something to use from iopoll.h ?
+  return ppkb_set_scan(...);
 
+> +}
 
 -- 
 With Best Regards,
