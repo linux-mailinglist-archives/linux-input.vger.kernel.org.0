@@ -2,51 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2239955135D
-	for <lists+linux-input@lfdr.de>; Mon, 20 Jun 2022 10:52:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03D85551394
+	for <lists+linux-input@lfdr.de>; Mon, 20 Jun 2022 11:01:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240121AbiFTIv4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Jun 2022 04:51:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34712 "EHLO
+        id S240225AbiFTJA4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Jun 2022 05:00:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240086AbiFTIvp (ORCPT
+        with ESMTP id S240148AbiFTJAw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Jun 2022 04:51:45 -0400
+        Mon, 20 Jun 2022 05:00:52 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9430112D17;
-        Mon, 20 Jun 2022 01:51:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6EFF5AF;
+        Mon, 20 Jun 2022 02:00:51 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 31A136131F;
-        Mon, 20 Jun 2022 08:51:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93498C3411B;
-        Mon, 20 Jun 2022 08:51:43 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2A7F76112E;
+        Mon, 20 Jun 2022 09:00:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AE70C3411B;
+        Mon, 20 Jun 2022 09:00:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655715103;
-        bh=cCjUEpE4tfIxUY7qbHwYPFmyW8LE7YJOL0Ay7McEbUo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dm0/aXPSCdIe5fFAcnEXeV2Q7piESuUbsNFC2P+SvXd81ncfYwcdAVpqd1xFXqj+z
-         zPguwFDRIXFEiyXDdGLkozp1ELag7EqtWZeGmy+SGbFZFXgZ0LWIjM7KJeb37w9G0u
-         YZX65z6VUnlw2phm9MsTiEn+a6bxvPCOx1NE/z2IRluK4qumxHNOHA8deMOvZxCBBC
-         ias7s0eESCiu46WLcNsOs5Xn4DaWbkfpZ9Abl5rADZBZiPAMH+DRlYMgvlY1tmtolo
-         4TdzHTtqbt0NeR1E/xtB5URHLPQ9glTKa7SUA3FKzPqIo9JUiDV1naGf4HVYbXORYK
-         r+hhVGVqdWVqA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1o3D8F-0005Tq-No; Mon, 20 Jun 2022 10:51:39 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH 2/2] Input: usbtouchscreen - add driver_info sanity check
-Date:   Mon, 20 Jun 2022 10:46:28 +0200
-Message-Id: <20220620084628.20894-3-johan@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220620084628.20894-1-johan@kernel.org>
-References: <20220620084628.20894-1-johan@kernel.org>
+        s=k20201202; t=1655715650;
+        bh=yzwb89a50kjFZmjIaMeAKFjLE58t4BBZb0rlVAPAnss=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=PR3GANp6Ak21sG/UAxVizxxDj2i2izpRr7KA6sR0960EgFKkvixokHjg5g3fytWUO
+         euXbDcHnhIJFj8EszeyH1UN5QwFc8voqbPPBdTGXurkeQbxMlVpVfWgpIJGuQRtGRJ
+         zPpnlkFWHP2dDCSHxN5OmqwpKelbfwDZKfkQU7JhtaRdvOGBEfAkQgXUjPNzJcHWm8
+         2VFGth6KLO/eZvUIafg4IDoPRV3dBC6yonXsEKWjWjPeYGZrNSei/JW1QHAlQRBKTZ
+         bWG9eCpK2x8/jlTDsHH4BaBZaFlZz80Yrhn1pG+vU42qRtAXweOHEY0Gh/7s9V40M3
+         z1AIB5PZOCitQ==
+From:   Kalle Valo <kvalo@kernel.org>
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     linux-efi@vger.kernel.org, keescook@chromium.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Arend van Spriel <aspriel@gmail.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Gregory Greenman <gregory.greenman@intel.com>,
+        linux-input@vger.kernel.org, linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com
+Subject: Re: [PATCH 0/4] efivar: remove inappropriate uses of the efivar API
+References: <20220617174851.1286026-1-ardb@kernel.org>
+Date:   Mon, 20 Jun 2022 12:00:45 +0300
+In-Reply-To: <20220617174851.1286026-1-ardb@kernel.org> (Ard Biesheuvel's
+        message of "Fri, 17 Jun 2022 19:48:47 +0200")
+Message-ID: <87bkunpv42.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -57,29 +65,33 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a sanity check on the device id-table driver_info field to make sure
-we never access a type structure (and function pointers) outside of the
-device info array (e.g. if someone fails to ifdef a device-id entry).
+Ard Biesheuvel <ardb@kernel.org> writes:
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/input/touchscreen/usbtouchscreen.c | 3 +++
- 1 file changed, 3 insertions(+)
+> The efivar layer is a caching non-volatile variable store abstraction
+> that is normally backed by EFI, but in some cases, might be backed by
+> Google SMI firmware interfaces instead.
+>
+> It is mainly used by efivarfs and EFI pstore, both of which actually
+> need the caching and abstraction properties. However, there are a few
+> other occurrences where efivar is not necessary, or used in an invalid
+> way. So let's fix this up, and remove some impediments to refactoring
+> and cleaning up the efivars layer in the future.
+>
+> Assuming there are no objections to these changes, I intend to queue
+> them up in the EFI tree fairly soon, so that ongoing work depending on
+> these changes can continue as well.
+>
 
-diff --git a/drivers/input/touchscreen/usbtouchscreen.c b/drivers/input/touchscreen/usbtouchscreen.c
-index 6683554f0e92..f90acbeea74f 100644
---- a/drivers/input/touchscreen/usbtouchscreen.c
-+++ b/drivers/input/touchscreen/usbtouchscreen.c
-@@ -1656,6 +1656,9 @@ static int usbtouch_probe(struct usb_interface *intf,
- 	if (id->driver_info == DEVTYPE_IGNORE)
- 		return -ENODEV;
- 
-+	if (id->driver_info >= DEVTYPE_COUNT)
-+		return -EINVAL;
-+
- 	endpoint = usbtouch_get_input_endpoint(intf->cur_altsetting);
- 	if (!endpoint)
- 		return -ENXIO;
+[...]
+
+>  drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c |  25 ++---
+>  drivers/net/wireless/intel/iwlwifi/fw/uefi.c                |  96 ++++++------------
+
+Feel free to take the wireless patches via your tree:
+
+Acked-by: Kalle Valo <kvalo@kernel.org>
+
 -- 
-2.35.1
+https://patchwork.kernel.org/project/linux-wireless/list/
 
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
