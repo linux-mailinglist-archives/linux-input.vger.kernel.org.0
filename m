@@ -2,191 +2,172 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8298552A14
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jun 2022 06:12:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BD37552B09
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jun 2022 08:36:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231406AbiFUEMx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Jun 2022 00:12:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42934 "EHLO
+        id S1345726AbiFUGgO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Jun 2022 02:36:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230358AbiFUEMw (ORCPT
+        with ESMTP id S235008AbiFUGgN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Jun 2022 00:12:52 -0400
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C35D19019;
-        Mon, 20 Jun 2022 21:12:50 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id CB03632004F8;
-        Tue, 21 Jun 2022 00:12:48 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Tue, 21 Jun 2022 00:12:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-        cc:cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm3; t=1655784768; x=
-        1655871168; bh=YFC9enACBq9N/iDDvL+ELyNOFTG6bJu/nZay/ScaEg4=; b=C
-        1M85zd3eSzPbPbrqJLqJf9XGPjCp5qspTW0Pb2G5upYU2zzPTmqd1H/GkSDF4R2h
-        jTVkPgJvlPCbUT6D66cr5MOagfZp8/qJ7gT7m6CH/IPz1QgwP5kmuhn2pcMJ+Bjq
-        wF3m6DwBEx8ZkjB9ljR1S07Y371FLj2Rk4NejXkBpjEyR1qdIpmSmNNV/St6FPaX
-        Axq3ihYYd9b+xHhWwlk4BM9Ze4n+fNrYaOeJYCXxsgDruW8N2Niew1cwoZ7I6oOe
-        ZmRbDc5CSGn+GXqrjbz/U4POJ0yx9yl+FXAEafjH5TgkODpPrvBLIzxVO3B5T9mK
-        mnzQnlTfPmlOth79Drw5A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655784768; x=
-        1655871168; bh=YFC9enACBq9N/iDDvL+ELyNOFTG6bJu/nZay/ScaEg4=; b=O
-        eb/c7KAsWiuQnepLqcYmFDJjhF1toXYwtArej8zdAYFOE4m6yXPYTKUgH8DFUAXT
-        CBCYQPUEnqhlY9h1iOeG4lFU8VqoZAYJxlU7Jwkwkangi5r3GhyuXcvc3bhvgydU
-        mEodnq47L0sIIQoNhDYj9+sLqkfddMBdepKvDioqFEr/DwquVHV9bQr55sUgy3YQ
-        d7U/L0jmpEC4IUz0LR/iiWEp+ZahM5L7hGyFEk1uB6mC4kkJPZ0fC4MUanPnu48s
-        TROyoixs26PBdxrFpylGlkzEiwvXMr0HmCLvWfVor5suPMHuhfpg/NFBxmvb0SUu
-        hnuE4vdC8TYCbD8YSqzXA==
-X-ME-Sender: <xms:P0WxYjYjZ3ggPBjDznWxsI_xY88tokEBwsrabMSJZbYDlkUfkHjB_A>
-    <xme:P0WxYiaeSn9xZHM91Omj9O1gEj1CeUlw5Cuo0NzXTt25cdmRtiwHvXnk406dSw7cn
-    QmbkPp8P_YOomyrMw>
-X-ME-Received: <xmr:P0WxYl_SQ_N1Ya67JdJFmg_rf_xGTABdGNn7CMC8qhixECYKAfFfJkvMhccd-js5zOaVINHxk5Hz_cVuzOKI1qZUC1w3ocUErsyvNebn47IxdQZUMxleYYhEmg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefvddgjeeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
-    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:P0WxYppYWRlEAXkE22DXCaxNCPu73OOgNvnNwi2VBHxTiY3YPJpGlQ>
-    <xmx:P0WxYurZ4IZK3fxEpNCPDQwbYfqJ8qv1cVEohuIkX23OpSkliM2ADA>
-    <xmx:P0WxYvSgI8J-br5kRUO6Z23iXeq7YmrJ52h-uo2E3zH7WsIDnIGfyg>
-    <xmx:QEWxYqcQmHZbcl19fcgCPek4ZOHVkFaKzIR8XNo3U8HDxpcmdvJ9AQ>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 21 Jun 2022 00:12:47 -0400 (EDT)
-Subject: Re: [PATCH v4 2/4] Input: pinephone-keyboard - Add PinePhone keyboard
- driver
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Ondrej Jirman <x@xff.cz>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        linux-sunxi@lists.linux.dev
-References: <20220618165747.55709-1-samuel@sholland.org>
- <20220618165747.55709-3-samuel@sholland.org>
- <CAHp75VcXNTxusT5N_8JvYWMhUyY_sAUzTcT3h0hz2bAawv6ThQ@mail.gmail.com>
-From:   Samuel Holland <samuel@sholland.org>
-Message-ID: <2e6499b8-d8f4-b63a-689b-1e93aca7c210@sholland.org>
-Date:   Mon, 20 Jun 2022 23:12:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        Tue, 21 Jun 2022 02:36:13 -0400
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 757AE15A07;
+        Mon, 20 Jun 2022 23:36:10 -0700 (PDT)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25L0whY0012569;
+        Tue, 21 Jun 2022 06:36:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=DR/mRBRdE8ufolzsS2Xz+JHdfF8ZcMoC7u/3ASCfhwM=;
+ b=E6Im/mGSgPIC9n7a4qowlUwT8d/cxCCrId6cAKntTgs9ewyphUcvkwi4+0mWKBkszgcg
+ iTBJGDwDW3SEUUh0ORjLVcO2QhlIS40XZDujUGJd+AWskkOC9SDL+YY6WN0gbSJXJnqC
+ 8Bf7M70ACyFCbZO4DKp7YFIzKTmL9c3si6hcIN48WAzTMDVpAaNn4EzUNhUBYcWNe+fA
+ 9CGQ99+IzuTJNUuwiOMML9XmBdcp9FnVScZYzbXbmvdvRp0STN0gsLg54t63TOusTk3y
+ TRqM5M9ra15bCxaQ5rANkKdnOQgpiqhxi8A9rngkiPuZNhHZyR75IDoA9NnUaRmxWKUI dw== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs6asvp5k-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 21 Jun 2022 06:36:04 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25L6Gexa021418;
+        Tue, 21 Jun 2022 06:36:03 GMT
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2044.outbound.protection.outlook.com [104.47.56.44])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gtg5u1kx2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 21 Jun 2022 06:36:03 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ahtm1ZAWVrd94CVChYrBiLjI2V3XLPSFz7VfiLZ3upbDr6rcGvW31+aT8tNgbUcjVLZ+8Qx5MaPMbH/WuQkJ4Hc2HcFf3nZtS7NUmoEjkgSshSx/WT2l27WiEA4ArPk4jkG/CVleOdONRBnHTEtqspMKfRCgCWixkkAQmee7+CGh7dahgLBGBreFgvyqkb8uN4l8qqlIvDnwciJViQYiuTSv6OcuTH9m8SnYAbtGniTOPWI4d/jq+6zHiO52VLlzT+OHaFU4ADVkl1ryA38oM/viTr5E6HLhflnkLesQo+jqNCb13220g/puK26Z0gPv8SLUb80UTceGE0xIyALStg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DR/mRBRdE8ufolzsS2Xz+JHdfF8ZcMoC7u/3ASCfhwM=;
+ b=LOyzt41jnGvcVvIV9cQzIrlfrGb+Ksrfvv/a1nDDnvRiDZVg/sWb/xy6EHQKfolQ1xLerNi9oJrbOeIz1LbnHltEqQy97FyQlpCoMn4Lo5o2cNf5Y14jwDeexCD/LC/jKGn7TzGhvapX3LisSKs+FVWBZCbwozmR87aLpRFhwWEUFOWSMIcWuT/+s7uWtQXVLeLfLB3kt4TQsxEK7fKXA2B5xPnekrOaQjcMdzTpdcfqjHvG1s0tmqZGU1K61jcvAOhoEE3Rq2W4PphunF3YRIBNMJpVXo/iKE56XL6pibO35Ao/1/qbdDPawT66KkffL7ORCyS5jxVbtEqIqgyPvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DR/mRBRdE8ufolzsS2Xz+JHdfF8ZcMoC7u/3ASCfhwM=;
+ b=MQtrkkVD/C647HwxWpnD3S/V8fhCYPkQQsrPAfD0bRHKXTwOlPzAUc2/rLoJhIt1rqOB/hWfzcTAX2WPBs39ZYPrQ6OU0egFnQ3FfYkJwPekbV641u43WltF9348huyF+8FzDVQdSW6oMGN1DHNkuH5Bal6OyED5o5vEtgp3BAk=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by PH0PR10MB4743.namprd10.prod.outlook.com
+ (2603:10b6:510:3e::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14; Tue, 21 Jun
+ 2022 06:36:02 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5353.022; Tue, 21 Jun 2022
+ 06:36:01 +0000
+Date:   Tue, 21 Jun 2022 09:35:35 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Rishi Gupta <gupt21@gmail.com>
+Cc:     Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] HID: mcp2221: prevent a buffer overflow in
+ mcp_smbus_write()
+Message-ID: <20220621063534.GI1999@kadam>
+References: <20220620162824.58937-1-harshit.m.mogalapalli@oracle.com>
+ <CALUj-gtbja9aPo1yUdGkFNEr4nYf7nhO4X6NSK5QQSQkHex+NQ@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALUj-gtbja9aPo1yUdGkFNEr4nYf7nhO4X6NSK5QQSQkHex+NQ@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0033.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::21)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VcXNTxusT5N_8JvYWMhUyY_sAUzTcT3h0hz2bAawv6ThQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 94e97054-3187-4dd3-1150-08da53504eb9
+X-MS-TrafficTypeDiagnostic: PH0PR10MB4743:EE_
+X-Microsoft-Antispam-PRVS: <PH0PR10MB4743C9A8E711A6E344E0C0DB8EB39@PH0PR10MB4743.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ocDnKr34u2kzhXatkeS5/UZmdaaOJ613xZZWZ+Owvsr7+IyGix2QGXj0kniz2La9vOXVe4cuYPagWG+sc9oPkGjSm9LAslp1AV0oZlK/4nwCz1NOSmLR2Shz6EUMFweosPj2tf31LbqWX/K+ehMo1X8Kx2f0nafucfAHUFgiWuLts2TYGgAoA7/prjH6+1ZuoYz5Q4MgSIUaCyOImaKgGZVIGJsYTfbQh6akNP5G76sYloa+MPglUunFAm4M4PoD+2UhuW09tnO4cGWSJ4mEKH9021KyZobLRooodLn3uTfbW2vn4dYu6DwA6EHoRAppeSXahGMDb+wgVAW59qZBuR5LE5IT9Rmraxxcz5UdCE0ZrIAdAYvLzgVRiXmJugm0v+l8Dn/2/XTxgksq6ryLeSUitxYwqej5EUO4CU5rw17B6s2XCqQdJ+GQAPe/FcXR4EmeM4JPqUgq5Ryay0Xry/u0HAEhsAqVq++GngoQTFT2djU6u2c6n9p96drN+DGbCWMxHbnEYMWv+urj67sAdl7vPygW3RHH0jvqbqiDLblN42IU3RVitR2YS/MaB3uyyKgfDu9vtEojSxEDx6/JUM9qMQQneqNx7P4MgZMq6GWIZtGcB3O6D7A9mzKISWIcVRVh5R42wLDl8Q4s9gBdIdUSzO6yWICEV+Hn51u9XmscB12VGIVkf2CRbYp4e+AN
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(346002)(396003)(376002)(136003)(366004)(39860400002)(26005)(66476007)(52116002)(66946007)(6512007)(6506007)(66556008)(1076003)(9686003)(2906002)(316002)(86362001)(38100700002)(6666004)(38350700002)(8676002)(54906003)(4326008)(6916009)(8936002)(478600001)(33716001)(33656002)(5660300002)(44832011)(4744005)(186003)(83380400001)(41300700001)(6486002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XHGHiOqXcBd/JQvb+1rDcYyWrp3yxh51WUPtm/jNI7LGNb9+vEdQhj5J+6CM?=
+ =?us-ascii?Q?MEJXh8L/sN3E99X1Uoa2rUdGMqT3fHsc6uB6zr2qyM9uNEbBIbSSuAAj51Wg?=
+ =?us-ascii?Q?aANAUWAHWmLB/M1yC3f3dj3LYkOVM/UvQ1m3toEgNfAzr/4c047NOWxl32EY?=
+ =?us-ascii?Q?rswSkdJ2zsrXk5W7rTTb4F1kyTqlRApK3fERo7P2OEapl6LLpeQIOuTkoSZN?=
+ =?us-ascii?Q?UuZshRdAKFBnr5/CqHDQrZ+4cYcIdqHggqHKnodlayRkCPG9fffK6uAVbDC1?=
+ =?us-ascii?Q?m28M1hpQr1Vbb6AQLbHGtPpbPFnvDBo6S9wyzklvzgdFJqkPGNF7S4haaZ+4?=
+ =?us-ascii?Q?R888A2n8gguliA1zknOKe2BeLakPrOFItTIdRh0ABn2HVfTAIz/WaRLM3qSO?=
+ =?us-ascii?Q?RvR14xC1YudkuGWw1nc8jgO/wqkEHUKJWmynAnGWpdEcDfY45zmGtHmGiCDk?=
+ =?us-ascii?Q?6V8yGStSsBKEWs+xvfClN6YT/4DM9uBg5pVdsQsV1g/zGRLMPGJsLfXlUPMm?=
+ =?us-ascii?Q?xhy7oP+gjlg+E+M9usU6FGqbFKzZqfvPTECDx1RsIVNatustJBjq+H7G1+tA?=
+ =?us-ascii?Q?4dbAEQwVZYFOtZkTYWjMEgu5ZBQZ46glc6F1ydGj90rQHAJofYQvfkLsMlnu?=
+ =?us-ascii?Q?x3jA8WwDpCONRCiwfWgCugT5O2liU1IduDXzQ3hWsTu/e3ZyOpMuAU5ENPBM?=
+ =?us-ascii?Q?Ks1tVfu70zv9zpzVtDBrf1e3YFvkNiY20x4Fi0Pko/faw/oIbx17nKeyBdCZ?=
+ =?us-ascii?Q?gtta3ZiZHV6gfvUDSzRAvr7bf74UCIlUA5iRZ/tfLnxZv7t7P28/kLe4vEZ6?=
+ =?us-ascii?Q?sPgA4v2oV4/sd/vaqsnoJUje6+ZMnWYQfOxi5AiGIvWF+H2u20zm+pj1wOXO?=
+ =?us-ascii?Q?C/2zfCy7WfIv4xm8umImPlgA+1klwXZXd4ZpxCydfN/NmaQD9GeG6FKyUJeL?=
+ =?us-ascii?Q?amHpjLmZsXpBBLxJDTgUU3R5jfZDepqbKQqYPNdsXBvyLZ/UrTfyS+sz6SvY?=
+ =?us-ascii?Q?76sXfiwJtPb9UTme4jhvLF+nwGnmm2ZaIh0AxZvmNMrtrbk7i+mmc3dlUkof?=
+ =?us-ascii?Q?hwuZLEzJF6omgJo4gYcwcdPWtuh6fnE/8o1qBKfjgPLD3HpopLD3qHR5NHbA?=
+ =?us-ascii?Q?Qfoq2YfMBijhBf55RnEwVZW4tfsZeYRPCXOwatIYYqevZEJ4Mi0cPU9/4at9?=
+ =?us-ascii?Q?AIkHjEdMqTK3rrf+96OxK+K7es+FHa4+2MrrCiVLYibP3f7yNQwklBj/8Kbt?=
+ =?us-ascii?Q?z7JmRph11G2XNOwARWrvfjNmd0dTwoXbnXKPiMmUWPPX3D87u4Ezjped3spK?=
+ =?us-ascii?Q?Ak5AdtaZPkuBfiZ2x+6yflx1pR+rMFIrLJBKTvrMG8czo9KDN3f/+KB/X4Af?=
+ =?us-ascii?Q?jAzmbd/dqqRsekwXyGEkZhNeclvv4UMlXvzJxUxWayOWQDoy+7krupHust6K?=
+ =?us-ascii?Q?9m2Yx9k6nVQu3RDnh1WVGiflv4pKAXq+Y6huLp8zOFbm/Y5C6d5tz2X2rNrX?=
+ =?us-ascii?Q?SQymyM7A+SnwPuwI4hENaJPixPiamy7rm1jLWJo3/AfuOL74r2jAlsiFVo6V?=
+ =?us-ascii?Q?wrX7WZQEfSM7chaeXZqyodoE3DQbC3hWjPt/boZEielaFmnTOpWCXzdlv9yE?=
+ =?us-ascii?Q?hyQPVaJx19s5Pq8WwkB2o9CIGy8uUm29TG44Jh5Nt/QdnHFtVx4CQr3VQ3/U?=
+ =?us-ascii?Q?QpcCuYyX+aYMC9i7aTwUPN+edK6x4xEjoZAHwOZwU+EiQkPJpg1Y9vUCwczo?=
+ =?us-ascii?Q?pCDJ225yCgUhmGJs5Ru3tZw7qAFEGF8=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94e97054-3187-4dd3-1150-08da53504eb9
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2022 06:36:01.8336
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YBuHYawUI8IFViAYH9uZAd2ujNDKd1KExU8T11A8heRqcEUA5JRu2UQEasYf2h8rUsqC//qi1rMKG62qGHsj+tUuh9x8kHliO6ZNdo5M3TM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4743
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
+ definitions=2022-06-21_02:2022-06-17,2022-06-21 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
+ mlxlogscore=999 bulkscore=0 phishscore=0 suspectscore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206210027
+X-Proofpoint-ORIG-GUID: gCxb-0m4bBdc2xsbiOg4U54sQaxsw-2c
+X-Proofpoint-GUID: gCxb-0m4bBdc2xsbiOg4U54sQaxsw-2c
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 6/19/22 6:43 AM, Andy Shevchenko wrote:
-> On Sat, Jun 18, 2022 at 7:10 PM Samuel Holland <samuel@sholland.org> wrote:
->>
->> The official Pine64 PinePhone keyboard case contains a matrix keypad and
->> a MCU which runs a libre firmware. Add support for its I2C interface.
+On Mon, Jun 20, 2022 at 11:58:27AM -0700, Rishi Gupta wrote:
+> Hi Harshit,
 > 
-> ...
+> Can you check the datasheet for correct buffer sizes please. Then
+> accordingly we will decide next step.
 > 
->> +#include <linux/crc8.h>
->> +#include <linux/i2c.h>
->> +#include <linux/input/matrix_keypad.h>
->> +#include <linux/interrupt.h>
->> +#include <linux/module.h>
->> +#include <linux/regulator/consumer.h>
-> 
-> Missed
-> types.h
-> 
-> ...
-> 
->> +#define PPKB_ROWS                      6
->> +#define PPKB_COLS                      12
-> 
-> ...
-> 
->> +       for (col = 0; col < PPKB_COLS; ++col) {
->> +               u8 old = old_buf[1 + col];
->> +               u8 new = new_buf[1 + col];
->> +               u8 changed = old ^ new;
->> +
->> +               if (!changed)
->> +                       continue;
->> +
->> +               for (row = 0; row < PPKB_ROWS; ++row) {
->> +                       u8 mask = BIT(row);
->> +                       u8 value = new & mask;
->> +                       unsigned short code;
->> +                       bool fn_state;
->> +
->> +                       if (!(changed & mask))
->> +                               continue;
->> +
->> +                       /*
->> +                        * Save off the FN key state when the key was pressed,
->> +                        * and use that to determine the code during a release.
->> +                        */
->> +                       fn_state = value ? ppkb->fn_pressed : ppkb->fn_state[col] & mask;
->> +                       if (fn_state)
->> +                               ppkb->fn_state[col] ^= mask;
-> 
-> Can't it be converted to use bitmap APIs?
 
-This is a 2D matrix, with one byte per column, and one bit per row. There are
-only 6 rows, so two bits per byte are unused. Converting this to the bitmap API
-would unnecessarily complicate things.
+No, we don't have access to the data sheets.  This is the exact same
+bug as the following patches:
 
->> +               }
->> +       }
-> 
-> ...
-> 
->> +static int ppkb_set_scan(struct i2c_client *client, bool enable)
->> +{
->> +       struct device *dev = &client->dev;
->> +       int ret, val;
->> +
->> +       ret = i2c_smbus_read_byte_data(client, PPKB_SYS_CONFIG);
->> +       if (ret < 0) {
->> +               dev_err(dev, "Failed to read config: %d\n", ret);
->> +               return ret;
->> +       }
->> +
->> +       if (enable)
->> +               val = ret & ~PPKB_SYS_CONFIG_DISABLE_SCAN;
->> +       else
->> +               val = ret | PPKB_SYS_CONFIG_DISABLE_SCAN;
->> +       ret = i2c_smbus_write_byte_data(client, PPKB_SYS_CONFIG, val);
->> +       if (ret) {
->> +               dev_err(dev, "Failed to write config: %d\n", ret);
-> 
->> +               return ret;
->> +       }
->> +
->> +       return 0;
-> 
-> return ret;
+381583845d19 ("HID: cp2112: prevent a buffer overflow in cp2112_xfer()")
+690b2549b195 ("i2c: ismt: prevent memory corruption in ismt_access()")
 
-The "return 0" pattern is idiomatic, and more diff-friendly when adding error
-handling or more operations. But I don't have that strong of an opinion on it.
+The patch should fix the memory corruption but there may be other issues
+with this code.
 
-Regards,
-Samuel
+regards,
+dan carpenter
+
