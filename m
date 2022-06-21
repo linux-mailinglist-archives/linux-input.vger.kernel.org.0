@@ -2,59 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C00615537C7
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jun 2022 18:24:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5DB7553808
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jun 2022 18:40:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352795AbiFUQYG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Jun 2022 12:24:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42340 "EHLO
+        id S1353553AbiFUQja (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Jun 2022 12:39:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352232AbiFUQYE (ORCPT
+        with ESMTP id S1352267AbiFUQj1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Jun 2022 12:24:04 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B99513F4A;
-        Tue, 21 Jun 2022 09:24:03 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id w19-20020a17090a8a1300b001ec79064d8dso10829436pjn.2;
-        Tue, 21 Jun 2022 09:24:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JLDNtNT+J9gfMBCvI90A7ivLG1QZ8VZXqstDqgbYeHk=;
-        b=UK0Xap3cY5+46twXdzPzrO/LdSoRuevFS7AZwUiu2q1NRxO8WtFv2FjCkar1IFqeTf
-         3EHH+TXgQfiXkbigmEd18pAgHhXas8rlPX6hHS1L3kQzLbVjoRdbGtZD9SPRwb2mNfAC
-         Dt5jL+6uBV2jrqBYNRBwb9Z0zyJokF1lstBIa7UlgT65WnnestpoDrEqArK1Xw4YIOp6
-         wFcSbIs2Frqm6LNplvb7FV3gu4Aa1Fr9Le5qkKvsV9nuYqax6XOgSU3V/iHfAXsrbito
-         qBhFQZsqVi56g5ru72x+o/Jf4eVdJft7E+gC4gfSJKsJveX5ClwD/5wkSQkulXBzu4HW
-         psEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JLDNtNT+J9gfMBCvI90A7ivLG1QZ8VZXqstDqgbYeHk=;
-        b=ZMdrhUyFFF5lYpqz/NYhSPSH/0DL1y9E00c+oqmZb4xK+r/EQYk4fJfiKjA8+3/joK
-         GD7+yJ1nOX1/k+D3fwXrJUVz/ZQQ1ja0N7gBuV4bZw6oqapernbcFwUwc8g3PAB+xH8A
-         5wvq7jTOrim3D/XOH/iSTWpUKXu1uo7CbBi3IAt8Qp3iRtC+2FrIt9KC+BcKGRepeyux
-         5YJoUNHrxch48rm/UWeYH5Ib7gNTjtvibnWwmJPJeoQK6i7mXMlhCuSgQrNI3xFiV51Q
-         IJpz7bSgyc4elIiQcwCvFmbovOac8QXRfH0LUCJIUI6c5g9UKb1ZWs6epPmJlPhu6eUG
-         BF1A==
-X-Gm-Message-State: AJIora91/OFMzwXqow1xwvbx8Pd9bpWLEpnGm+zd6FShBzn0WpeCZJdy
-        zdw33rJkhmpzbJlwpnGKeNjFM5ofbgrdwuDNfHv5K2cIb3xuWw==
-X-Google-Smtp-Source: AGRyM1vAjrriSVLYQ85GFWzg8gsZgtZA8y3LyzNwk17+JSMGIbjkvo0DPxietELcbRenc+2ksxD8xQDBvc3btNJz3cE=
-X-Received: by 2002:a17:902:d2c9:b0:167:1195:3a41 with SMTP id
- n9-20020a170902d2c900b0016711953a41mr30322987plc.126.1655828642768; Tue, 21
- Jun 2022 09:24:02 -0700 (PDT)
+        Tue, 21 Jun 2022 12:39:27 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 406F02AE33;
+        Tue, 21 Jun 2022 09:39:09 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 25849CE1717;
+        Tue, 21 Jun 2022 16:39:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 598C3C341CB;
+        Tue, 21 Jun 2022 16:39:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655829546;
+        bh=VCez7PoXmCq8OMYH5lrZaxn9tW18j0vO8IsYehW8qjE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=cqDERhBlOPWY9Uixv94FxXcDJO1cNoL77AaV3Nf4hqRaRHaymiHwNgFz6e0nCiAzW
+         KypAvopdtIM0Nr9R/cgYG3yJdn6kLp73lKhwmpwXRC/59LFjlaqtaFrt0yY3qisKGS
+         uC6CNf31ufJwcOvL3eniLgGO7LvSF/YpJ4JiaYO8LKWWspf1io19+0ziIeMaBDz09E
+         91oNEoWqOkbQMFMiJ/lBD4xbXx1wPSHqLT26pBxmNHeUyN6Mn3OkpZf3qqmiQM+4da
+         m2a02bFNUuoj3pyfNmHKW1nvglyZwpR3RvnQcZ07+iqlFwm/v3onxVtup/rbAnUiCm
+         74P8Wz/qDFZuw==
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1o3gu6-0026pW-QV;
+        Tue, 21 Jun 2022 17:39:02 +0100
 MIME-Version: 1.0
-References: <CAOMZO5D7z=Eg=WYgzrpqn9VoU8HxMeBbEZiv9KLjMVD1_kRo+w@mail.gmail.com>
- <20200701224145.GA3616172@bjorn-Precision-5520> <YrHPA+TBKZU/RuSz@smile.fi.intel.com>
- <87o7ym2fcv.wl-maz@kernel.org>
-In-Reply-To: <87o7ym2fcv.wl-maz@kernel.org>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Tue, 21 Jun 2022 13:23:50 -0300
-Message-ID: <CAOMZO5B6606rwWoG-ydEz2UQpnj9QhUK2b5dCHRtp9u=Pe4new@mail.gmail.com>
-Subject: Re: mxs_lradc_ts: Warning due to "0 is an invalid IRQ number"
-To:     Marc Zyngier <maz@kernel.org>
+Date:   Tue, 21 Jun 2022 17:39:02 +0100
+From:   Marc Zyngier <maz@kernel.org>
+To:     Fabio Estevam <festevam@gmail.com>
 Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
         Bjorn Helgaas <helgaas@kernel.org>,
         Marek Vasut <marex@denx.de>,
@@ -63,38 +50,64 @@ Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
         linux-input@vger.kernel.org,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: mxs_lradc_ts: Warning due to "0 is an invalid IRQ number"
+In-Reply-To: <CAOMZO5B6606rwWoG-ydEz2UQpnj9QhUK2b5dCHRtp9u=Pe4new@mail.gmail.com>
+References: <CAOMZO5D7z=Eg=WYgzrpqn9VoU8HxMeBbEZiv9KLjMVD1_kRo+w@mail.gmail.com>
+ <20200701224145.GA3616172@bjorn-Precision-5520>
+ <YrHPA+TBKZU/RuSz@smile.fi.intel.com> <87o7ym2fcv.wl-maz@kernel.org>
+ <CAOMZO5B6606rwWoG-ydEz2UQpnj9QhUK2b5dCHRtp9u=Pe4new@mail.gmail.com>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <128b8f7dffe45dc241ad571e8a273a2e@kernel.org>
+X-Sender: maz@kernel.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: festevam@gmail.com, andriy.shevchenko@intel.com, helgaas@kernel.org, marex@denx.de, ksenija.stanojevic@gmail.com, dmitry.torokhov@gmail.com, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Marc,
+Hi Fabio,
 
-On Tue, Jun 21, 2022 at 12:41 PM Marc Zyngier <maz@kernel.org> wrote:
+On 2022-06-21 17:23, Fabio Estevam wrote:
+> Hi Marc,
+> 
+> On Tue, Jun 21, 2022 at 12:41 PM Marc Zyngier <maz@kernel.org> wrote:
+> 
+>> Something like the hack below could potentially make things less
+>> broken, but I'm not holding my breath. If nobody cares, let's remove
+>> the code altogether.
+> 
+> With your patch applied, the warning is gone, thanks.
+> 
+> The touchscreen is registered:
+> 
+> [    8.207461] input: mxs-lradc-ts as
+> /devices/soc0/80000000.apb/80040000.apbx/80050000.lradc/mxs-lradc-ts/input/input0
+> 
+> but when I run  "cat /dev/input/event0" and touch the screen, no irq
+> event is generated.
+> 
+> Looking at cat /proc/interrupts shows that no mxs-lradc-touchscreen
+> irq happened:
+> 
+> 216:          0         -  10 Edge      mxs-lradc-touchscreen
 
-> Something like the hack below could potentially make things less
-> broken, but I'm not holding my breath. If nobody cares, let's remove
-> the code altogether.
+I'm not sure I can help you further on that. '10' seems to be
+the correct interrupt for the interrupt number (irq index 0 in
+the lradc device).
 
-With your patch applied, the warning is gone, thanks.
+You'll have to debug it further, I'm afraid.
 
-The touchscreen is registered:
-
-[    8.207461] input: mxs-lradc-ts as
-/devices/soc0/80000000.apb/80040000.apbx/80050000.lradc/mxs-lradc-ts/input/input0
-
-but when I run  "cat /dev/input/event0" and touch the screen, no irq
-event is generated.
-
-Looking at cat /proc/interrupts shows that no mxs-lradc-touchscreen
-irq happened:
-
-216:          0         -  10 Edge      mxs-lradc-touchscreen
-
-Thanks
+         M.
+-- 
+Jazz is not dead. It just smells funny...
