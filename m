@@ -2,104 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D68A55537BD
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jun 2022 18:19:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C00615537C7
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jun 2022 18:24:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353862AbiFUQTl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Jun 2022 12:19:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39830 "EHLO
+        id S1352795AbiFUQYG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Jun 2022 12:24:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353832AbiFUQTl (ORCPT
+        with ESMTP id S1352232AbiFUQYE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Jun 2022 12:19:41 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C116229341;
-        Tue, 21 Jun 2022 09:19:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 65C12B81A68;
-        Tue, 21 Jun 2022 16:19:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D51BC341CD;
-        Tue, 21 Jun 2022 16:19:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655828378;
-        bh=+aUKE0SFMaGezZlSeajtIkMvPvTFPzVipH+jo+TsWqA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=e8pnXNhu/Uvp7P+YdDcoB4ahSriETYOE2AN2yvBMsIZFSrhVhl6BsNUdy1eAHmq35
-         Lvt0EOwOjDXzfBsXdXgHofOREO0yiI2Xme5UGIUI8BUHmmbeMm45xnXFfhuNBfD7OI
-         UGfb6NrcwNh9rQyFkDg9Ubfc+rCvKOZFlCK5D2KNh2TL03grdoTcsO/OtTooEiZFL1
-         ZOFF6oP9d9QR2x1mhmEE+60BF2vIOBNSxWv8DQC1/Hul1ykH4oS9cT1Utolqqusp+M
-         5yQCGn6EC7PDcPXIMlNtpLhDE/4eR3CGw+/1z70T3QVBlKnX74i3OS6oxSUjmA5bWf
-         JVSTJjMr7Du1g==
-Received: by mail-lj1-f174.google.com with SMTP id d19so16038461lji.10;
-        Tue, 21 Jun 2022 09:19:37 -0700 (PDT)
-X-Gm-Message-State: AJIora+kgbTqTLlswsw8pj6TG5c1/nLL7LanptySa7DyNCWM0ZdDfoYQ
-        jCCgoPR0gzjYUYAAYyiIqvrkTdan7d2rO/ROSJs=
-X-Google-Smtp-Source: AGRyM1tC5ZyuRR6Qjr+zkCD7Q1NS2YCBKqcMBusMiPyh19mwiXS1NxFzEuOurJy0IUhaQMbG+flgP1Lz6wLFBF4dTdE=
-X-Received: by 2002:a05:651c:54c:b0:25a:641b:3aaa with SMTP id
- q12-20020a05651c054c00b0025a641b3aaamr8196677ljp.421.1655828376063; Tue, 21
- Jun 2022 09:19:36 -0700 (PDT)
+        Tue, 21 Jun 2022 12:24:04 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B99513F4A;
+        Tue, 21 Jun 2022 09:24:03 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id w19-20020a17090a8a1300b001ec79064d8dso10829436pjn.2;
+        Tue, 21 Jun 2022 09:24:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JLDNtNT+J9gfMBCvI90A7ivLG1QZ8VZXqstDqgbYeHk=;
+        b=UK0Xap3cY5+46twXdzPzrO/LdSoRuevFS7AZwUiu2q1NRxO8WtFv2FjCkar1IFqeTf
+         3EHH+TXgQfiXkbigmEd18pAgHhXas8rlPX6hHS1L3kQzLbVjoRdbGtZD9SPRwb2mNfAC
+         Dt5jL+6uBV2jrqBYNRBwb9Z0zyJokF1lstBIa7UlgT65WnnestpoDrEqArK1Xw4YIOp6
+         wFcSbIs2Frqm6LNplvb7FV3gu4Aa1Fr9Le5qkKvsV9nuYqax6XOgSU3V/iHfAXsrbito
+         qBhFQZsqVi56g5ru72x+o/Jf4eVdJft7E+gC4gfSJKsJveX5ClwD/5wkSQkulXBzu4HW
+         psEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JLDNtNT+J9gfMBCvI90A7ivLG1QZ8VZXqstDqgbYeHk=;
+        b=ZMdrhUyFFF5lYpqz/NYhSPSH/0DL1y9E00c+oqmZb4xK+r/EQYk4fJfiKjA8+3/joK
+         GD7+yJ1nOX1/k+D3fwXrJUVz/ZQQ1ja0N7gBuV4bZw6oqapernbcFwUwc8g3PAB+xH8A
+         5wvq7jTOrim3D/XOH/iSTWpUKXu1uo7CbBi3IAt8Qp3iRtC+2FrIt9KC+BcKGRepeyux
+         5YJoUNHrxch48rm/UWeYH5Ib7gNTjtvibnWwmJPJeoQK6i7mXMlhCuSgQrNI3xFiV51Q
+         IJpz7bSgyc4elIiQcwCvFmbovOac8QXRfH0LUCJIUI6c5g9UKb1ZWs6epPmJlPhu6eUG
+         BF1A==
+X-Gm-Message-State: AJIora91/OFMzwXqow1xwvbx8Pd9bpWLEpnGm+zd6FShBzn0WpeCZJdy
+        zdw33rJkhmpzbJlwpnGKeNjFM5ofbgrdwuDNfHv5K2cIb3xuWw==
+X-Google-Smtp-Source: AGRyM1vAjrriSVLYQ85GFWzg8gsZgtZA8y3LyzNwk17+JSMGIbjkvo0DPxietELcbRenc+2ksxD8xQDBvc3btNJz3cE=
+X-Received: by 2002:a17:902:d2c9:b0:167:1195:3a41 with SMTP id
+ n9-20020a170902d2c900b0016711953a41mr30322987plc.126.1655828642768; Tue, 21
+ Jun 2022 09:24:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220617174851.1286026-1-ardb@kernel.org> <87bkunpv42.fsf@kernel.org>
-In-Reply-To: <87bkunpv42.fsf@kernel.org>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Tue, 21 Jun 2022 18:19:24 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXHQribJA=JyQ9t_NPYmj3c6rdXn7W_TieXOULPF1RfOew@mail.gmail.com>
-Message-ID: <CAMj1kXHQribJA=JyQ9t_NPYmj3c6rdXn7W_TieXOULPF1RfOew@mail.gmail.com>
-Subject: Re: [PATCH 0/4] efivar: remove inappropriate uses of the efivar API
-To:     Kalle Valo <kvalo@kernel.org>
-Cc:     linux-efi <linux-efi@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
+References: <CAOMZO5D7z=Eg=WYgzrpqn9VoU8HxMeBbEZiv9KLjMVD1_kRo+w@mail.gmail.com>
+ <20200701224145.GA3616172@bjorn-Precision-5520> <YrHPA+TBKZU/RuSz@smile.fi.intel.com>
+ <87o7ym2fcv.wl-maz@kernel.org>
+In-Reply-To: <87o7ym2fcv.wl-maz@kernel.org>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Tue, 21 Jun 2022 13:23:50 -0300
+Message-ID: <CAOMZO5B6606rwWoG-ydEz2UQpnj9QhUK2b5dCHRtp9u=Pe4new@mail.gmail.com>
+Subject: Re: mxs_lradc_ts: Warning due to "0 is an invalid IRQ number"
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Bjorn Helgaas <helgaas@kernel.org>,
+        Marek Vasut <marex@denx.de>,
+        Ksenija Stanojevic <ksenija.stanojevic@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Arend van Spriel <aspriel@gmail.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Gregory Greenman <gregory.greenman@intel.com>,
-        linux-input@vger.kernel.org, linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com
+        linux-input@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 20 Jun 2022 at 11:00, Kalle Valo <kvalo@kernel.org> wrote:
->
-> Ard Biesheuvel <ardb@kernel.org> writes:
->
-> > The efivar layer is a caching non-volatile variable store abstraction
-> > that is normally backed by EFI, but in some cases, might be backed by
-> > Google SMI firmware interfaces instead.
-> >
-> > It is mainly used by efivarfs and EFI pstore, both of which actually
-> > need the caching and abstraction properties. However, there are a few
-> > other occurrences where efivar is not necessary, or used in an invalid
-> > way. So let's fix this up, and remove some impediments to refactoring
-> > and cleaning up the efivars layer in the future.
-> >
-> > Assuming there are no objections to these changes, I intend to queue
-> > them up in the EFI tree fairly soon, so that ongoing work depending on
-> > these changes can continue as well.
-> >
->
-> [...]
->
-> >  drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c |  25 ++---
-> >  drivers/net/wireless/intel/iwlwifi/fw/uefi.c                |  96 ++++++------------
->
-> Feel free to take the wireless patches via your tree:
->
-> Acked-by: Kalle Valo <kvalo@kernel.org>
->
+Hi Marc,
 
-Thanks, I've queued these up.
+On Tue, Jun 21, 2022 at 12:41 PM Marc Zyngier <maz@kernel.org> wrote:
+
+> Something like the hack below could potentially make things less
+> broken, but I'm not holding my breath. If nobody cares, let's remove
+> the code altogether.
+
+With your patch applied, the warning is gone, thanks.
+
+The touchscreen is registered:
+
+[    8.207461] input: mxs-lradc-ts as
+/devices/soc0/80000000.apb/80040000.apbx/80050000.lradc/mxs-lradc-ts/input/input0
+
+but when I run  "cat /dev/input/event0" and touch the screen, no irq
+event is generated.
+
+Looking at cat /proc/interrupts shows that no mxs-lradc-touchscreen
+irq happened:
+
+216:          0         -  10 Edge      mxs-lradc-touchscreen
+
+Thanks
