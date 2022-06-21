@@ -2,70 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2212E552B6A
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jun 2022 09:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83EAC552EBC
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jun 2022 11:41:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346472AbiFUHBz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Jun 2022 03:01:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38580 "EHLO
+        id S1349528AbiFUJk3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Jun 2022 05:40:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346388AbiFUHBz (ORCPT
+        with ESMTP id S1349385AbiFUJkJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Jun 2022 03:01:55 -0400
-Received: from smtpbg.qq.com (smtpbg139.qq.com [175.27.65.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC311EAD8;
-        Tue, 21 Jun 2022 00:01:50 -0700 (PDT)
-X-QQ-mid: bizesmtp67t1655794842tb8g352o
-Received: from ubuntu.localdomain ( [106.117.99.68])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Tue, 21 Jun 2022 15:00:34 +0800 (CST)
-X-QQ-SSF: 01000000007000109000B00A0000000
-X-QQ-FEAT: hR9GyqeohShu5QCuxfz/nAdLMul1wuwlaGMI42ANkYK1+WZjRITiEeI6UBiAT
-        my+KrgxsuojZIWPi8hR+CG5a9r/I665n+y6wnOBrkAS7DYteilWGHDGHj3ZO2Z47vGn0brt
-        2AIwBn4Y+iY7SKtyc3U6okU9q7wJXT9TlX4Fnoerp0lKzJLqSMW4SJctHeT/JKFjXCSupmY
-        Un8m+c2RY50IM/mS6OyC1RXFnQIHd6tosXF0mExZO4gk3C+yAv4ANkwL0mGv5JKSlEbw+PC
-        Hs3SRlwh4RJTyryJY5yaXFU5sEKhz/1xOB9StStUowOs3c9k5AiZsT+wpYjT599y3V9oYfg
-        N41NGH2MIi3GDEO4dw=
-X-QQ-GoodBg: 0
-From:   Jiang Jian <jiangjian@cdjrlc.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     jiangjian@cdjrlc.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: cyapa_gen6 - aligned "*" each line
-Date:   Tue, 21 Jun 2022 15:00:32 +0800
-Message-Id: <20220621070032.30072-1-jiangjian@cdjrlc.com>
-X-Mailer: git-send-email 2.17.1
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam6
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_PASS,T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR
-        autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 21 Jun 2022 05:40:09 -0400
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32DF727B0D
+        for <linux-input@vger.kernel.org>; Tue, 21 Jun 2022 02:39:57 -0700 (PDT)
+Received: by mail-ot1-x333.google.com with SMTP id c3-20020a9d6843000000b0060c2c63c337so10271921oto.5
+        for <linux-input@vger.kernel.org>; Tue, 21 Jun 2022 02:39:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/0bRExIb6Mv4sy5raFRmeQINC+UUx7zEZcUUOWWOPJg=;
+        b=NKhg6kSkfnglJlsPDVUWhCY3Iibudx7OhZC5CePFgeNekYJKNrcmU8wB8gkktmjPqY
+         f0o4DET3nwW7oGb1WQAmWVCm6yLISrVrQXMY/9qoCppMNLX7K/jA/JZ+JMs1mNT38j+N
+         qSlM2vTiSOIkQo5cZ6oY4dkMVda7fWn0vzKRT295Q67AStI8u0BTanvw38uSxo4IMvFm
+         mtbeFJOQugEk6bmbrSLJZHxNWvSEoU0AT9TQz59V3jAGDZbWiI6U0Fx8UlroTYMr9wGQ
+         +xC78kHT5AZK7k/f6wmWhdDj3ThC5Cy20ctCKCcYvb/idPExEpgvQXB/UX/ziCu3vO07
+         Q2/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/0bRExIb6Mv4sy5raFRmeQINC+UUx7zEZcUUOWWOPJg=;
+        b=3D60zJmG3tfS2klnS34YC33WV47Ti4anam/udCE8hngaiAeJWtiLn2kx/u/5HBidLW
+         OaagUpFmzTaIIQJN69GG4Tkc9Q37aLqAISKc6F7/FbkAIUJjQZmfB4CQcf0TYZA1pfpA
+         KZknGm3sEJsidltWmNbwRsD3XL5/cZq0DpztiYG9YagIA7nHjGpZAtbIJTULZKlG3pTE
+         GBq9m1e59prjlxwMBa1eM7fUNYnP1ctLT8hWw9OuejPh7JeFp2gwXHHuq22fziTH1yaW
+         zapuKvgbOkRWTr1s6b5+39OWIwxNmwX0Pw02WT1IC50Gzv2F0umGOnwRW/GA+XUt1mH9
+         TIyA==
+X-Gm-Message-State: AJIora9Qc/LtZrrHcXYm8E7NLyFY/l8lCMFSnemIKhfpdkj+/9XiAd6y
+        9Oky+obYa6EIzjRXnfklDjnr0/UnLER1x4xksByxfj/1lhTPePDl
+X-Google-Smtp-Source: AGRyM1sTF/SvvxCyraPE52znD36ZX02jNmxmam87lP8bWzXT3yTfChS1a9JgJI9LjBXh9tpS4qLO5E/t+5efudcEruY=
+X-Received: by 2002:a0d:d7c7:0:b0:317:bfe8:4f2 with SMTP id
+ z190-20020a0dd7c7000000b00317bfe804f2mr12417910ywd.276.1655804384555; Tue, 21
+ Jun 2022 02:39:44 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a05:7010:e10a:b0:2d9:e631:94d0 with HTTP; Tue, 21 Jun 2022
+ 02:39:44 -0700 (PDT)
+Reply-To: dimitryedik@gmail.com
+From:   Dimitry Edik <lsbthdwrds@gmail.com>
+Date:   Tue, 21 Jun 2022 02:39:44 -0700
+Message-ID: <CAGrL05aBO8rbFuij24J-APa+Luis69gEjhj35iv_GZfkHCVYDQ@mail.gmail.com>
+Subject: Dear Partner,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_MONEY_PERCENT,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,
+        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:333 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [lsbthdwrds[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
+        *  2.0 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Consider * alignment in comments
+Hello Dear,
 
-Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
----
- drivers/input/mouse/cyapa_gen6.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+My Name is Dimitry Edik from Russia A special assistance to my Russia
+boss who deals in oil import and export He was killed by the Ukraine
+soldiers at the border side. He supplied
+oil to the Philippines company and he was paid over 90 per cent of the
+transaction and the remaining $18.6 Million dollars have been paid into a
+Taiwan bank in the Philippines..i want a partner that will assist me
+with the claims. Is a (DEAL ) 40% for you and 60% for me
+I have all information for the claims.
+Kindly read and reply to me back is 100 per cent risk-free
 
-diff --git a/drivers/input/mouse/cyapa_gen6.c b/drivers/input/mouse/cyapa_gen6.c
-index 812edfced86e..0caaf3e64215 100644
---- a/drivers/input/mouse/cyapa_gen6.c
-+++ b/drivers/input/mouse/cyapa_gen6.c
-@@ -57,7 +57,7 @@ struct pip_app_resp_head {
- 	 * The value of data_status can be the first byte of data or
- 	 * the command status or the unsupported command code depending on the
- 	 * requested command code.
--	*/
-+	 */
- 	u8 data_status;
- } __packed;
- 
--- 
-2.17.1
-
+Yours Sincerely
+Dimitry Edik
