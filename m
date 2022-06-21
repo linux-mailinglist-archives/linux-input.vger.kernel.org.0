@@ -2,67 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F0E9355367D
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jun 2022 17:42:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D68A55537BD
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jun 2022 18:19:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353132AbiFUPmI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Jun 2022 11:42:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53026 "EHLO
+        id S1353862AbiFUQTl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Jun 2022 12:19:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353256AbiFUPl5 (ORCPT
+        with ESMTP id S1353832AbiFUQTl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Jun 2022 11:41:57 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 701182CDD0;
-        Tue, 21 Jun 2022 08:41:56 -0700 (PDT)
+        Tue, 21 Jun 2022 12:19:41 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C116229341;
+        Tue, 21 Jun 2022 09:19:40 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F1532617E3;
-        Tue, 21 Jun 2022 15:41:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18D0DC341D0;
-        Tue, 21 Jun 2022 15:41:55 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 65C12B81A68;
+        Tue, 21 Jun 2022 16:19:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D51BC341CD;
+        Tue, 21 Jun 2022 16:19:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655826115;
-        bh=VZ1aOhko6KQdmGVGgjGkXcxKKwEIKN4Fo0Q8ZpAvlkk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=pvsA9YUJI0dpz1d+/HAGdq8ElXW6GJGaWcu0x3xMKvHk7AL82RjfVVXMEhEJso7/L
-         nFiZA/3HeHxeN+9U1CnYW48JCShdZ+QcVlBjx22F/YAYThiJG+XD0bn6S0vgGTpycq
-         1Am6eZiWDRrwtzA/w5ddCzI/W1B2S5beindDKfqeU06Rlj3M0ALzPZnpeHMjQZ0ReZ
-         /VGJQSey2EDEFq9j/12H9XdeuIzg6wcpB9lY8k2ZSFtv6qpoiek52UkiQ/mLs6cKgs
-         g8G+a4kzfKmqqDCcrtSBp9Kq3KtWmDe7NapUm/ZeMO/53YR7dsSVZAX/jOEYRC7Iqk
-         DqxhY2CzZTYew==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <maz@kernel.org>)
-        id 1o3g0m-0025Go-Hj;
-        Tue, 21 Jun 2022 16:41:52 +0100
-Date:   Tue, 21 Jun 2022 16:41:52 +0100
-Message-ID: <87o7ym2fcv.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc:     Bjorn Helgaas <helgaas@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Marek Vasut <marex@denx.de>,
-        Ksenija Stanojevic <ksenija.stanojevic@gmail.com>,
+        s=k20201202; t=1655828378;
+        bh=+aUKE0SFMaGezZlSeajtIkMvPvTFPzVipH+jo+TsWqA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=e8pnXNhu/Uvp7P+YdDcoB4ahSriETYOE2AN2yvBMsIZFSrhVhl6BsNUdy1eAHmq35
+         Lvt0EOwOjDXzfBsXdXgHofOREO0yiI2Xme5UGIUI8BUHmmbeMm45xnXFfhuNBfD7OI
+         UGfb6NrcwNh9rQyFkDg9Ubfc+rCvKOZFlCK5D2KNh2TL03grdoTcsO/OtTooEiZFL1
+         ZOFF6oP9d9QR2x1mhmEE+60BF2vIOBNSxWv8DQC1/Hul1ykH4oS9cT1Utolqqusp+M
+         5yQCGn6EC7PDcPXIMlNtpLhDE/4eR3CGw+/1z70T3QVBlKnX74i3OS6oxSUjmA5bWf
+         JVSTJjMr7Du1g==
+Received: by mail-lj1-f174.google.com with SMTP id d19so16038461lji.10;
+        Tue, 21 Jun 2022 09:19:37 -0700 (PDT)
+X-Gm-Message-State: AJIora+kgbTqTLlswsw8pj6TG5c1/nLL7LanptySa7DyNCWM0ZdDfoYQ
+        jCCgoPR0gzjYUYAAYyiIqvrkTdan7d2rO/ROSJs=
+X-Google-Smtp-Source: AGRyM1tC5ZyuRR6Qjr+zkCD7Q1NS2YCBKqcMBusMiPyh19mwiXS1NxFzEuOurJy0IUhaQMbG+flgP1Lz6wLFBF4dTdE=
+X-Received: by 2002:a05:651c:54c:b0:25a:641b:3aaa with SMTP id
+ q12-20020a05651c054c00b0025a641b3aaamr8196677ljp.421.1655828376063; Tue, 21
+ Jun 2022 09:19:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220617174851.1286026-1-ardb@kernel.org> <87bkunpv42.fsf@kernel.org>
+In-Reply-To: <87bkunpv42.fsf@kernel.org>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Tue, 21 Jun 2022 18:19:24 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXHQribJA=JyQ9t_NPYmj3c6rdXn7W_TieXOULPF1RfOew@mail.gmail.com>
+Message-ID: <CAMj1kXHQribJA=JyQ9t_NPYmj3c6rdXn7W_TieXOULPF1RfOew@mail.gmail.com>
+Subject: Re: [PATCH 0/4] efivar: remove inappropriate uses of the efivar API
+To:     Kalle Valo <kvalo@kernel.org>
+Cc:     linux-efi <linux-efi@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: mxs_lradc_ts: Warning due to "0 is an invalid IRQ number"
-In-Reply-To: <YrHPA+TBKZU/RuSz@smile.fi.intel.com>
-References: <CAOMZO5D7z=Eg=WYgzrpqn9VoU8HxMeBbEZiv9KLjMVD1_kRo+w@mail.gmail.com>
-        <20200701224145.GA3616172@bjorn-Precision-5520>
-        <YrHPA+TBKZU/RuSz@smile.fi.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: andriy.shevchenko@intel.com, helgaas@kernel.org, festevam@gmail.com, marex@denx.de, ksenija.stanojevic@gmail.com, dmitry.torokhov@gmail.com, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+        Arend van Spriel <aspriel@gmail.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Gregory Greenman <gregory.greenman@intel.com>,
+        linux-input@vger.kernel.org, linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -73,161 +73,33 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 21 Jun 2022 15:00:35 +0100,
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
-> 
-> +Cc: Marc in case I'm utterly wrong in my conclusion below.
+On Mon, 20 Jun 2022 at 11:00, Kalle Valo <kvalo@kernel.org> wrote:
 >
-> On Wed, Jul 01, 2020 at 05:41:45PM -0500, Bjorn Helgaas wrote:
+> Ard Biesheuvel <ardb@kernel.org> writes:
+>
+> > The efivar layer is a caching non-volatile variable store abstraction
+> > that is normally backed by EFI, but in some cases, might be backed by
+> > Google SMI firmware interfaces instead.
+> >
+> > It is mainly used by efivarfs and EFI pstore, both of which actually
+> > need the caching and abstraction properties. However, there are a few
+> > other occurrences where efivar is not necessary, or used in an invalid
+> > way. So let's fix this up, and remove some impediments to refactoring
+> > and cleaning up the efivars layer in the future.
+> >
+> > Assuming there are no objections to these changes, I intend to queue
+> > them up in the EFI tree fairly soon, so that ongoing work depending on
+> > these changes can continue as well.
+> >
+>
+> [...]
+>
+> >  drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c |  25 ++---
+> >  drivers/net/wireless/intel/iwlwifi/fw/uefi.c                |  96 ++++++------------
+>
+> Feel free to take the wireless patches via your tree:
+>
+> Acked-by: Kalle Valo <kvalo@kernel.org>
+>
 
-Two year old thread, not bad! ;-)
-
-> > On Wed, Jul 01, 2020 at 12:32:48PM -0300, Fabio Estevam wrote:
-> > > On Tue, Jun 16, 2020 at 8:52 PM Fabio Estevam <festevam@gmail.com> wrote:
-> > > > I am seeing the following warning on a imx28-evk running linux-next:
-> > > >
-> > > > [    7.625012] ------------[ cut here ]------------
-> > > > [    7.630111] WARNING: CPU: 0 PID: 1 at drivers/base/platform.c:317
-> > > > __platform_get_irq_byname+0x74/0x90
-> > > > [    7.639692] 0 is an invalid IRQ number
-> > > > [    7.643540] Modules linked in:
-> > > > [    7.646961] CPU: 0 PID: 1 Comm: swapper Not tainted
-> > > > 5.8.0-rc1-next-20200616-dirty #92
-> > > > [    7.654896] Hardware name: Freescale MXS (Device Tree)
-> > > > [    7.660434] [<c00105ec>] (unwind_backtrace) from [<c000e070>]
-> > > > (show_stack+0x10/0x14)
-> > > > [    7.668591] [<c000e070>] (show_stack) from [<c001aa90>] (__warn+0xe4/0x108)
-> > > > [    7.675941] [<c001aa90>] (__warn) from [<c001ab20>]
-> > > > (warn_slowpath_fmt+0x6c/0xb8)
-> > > > [    7.683575] [<c001ab20>] (warn_slowpath_fmt) from [<c0491b44>]
-> > > > (__platform_get_irq_byname+0x74/0x90)
-> > > > [    7.693101] [<c0491b44>] (__platform_get_irq_byname) from
-> > > > [<c0491b70>] (platform_get_irq_byname+0x10/0x48)
-> > > > [    7.703154] [<c0491b70>] (platform_get_irq_byname) from
-> > > > [<c056e234>] (mxs_lradc_ts_probe+0x190/0x384)
-> > > > [    7.712771] [<c056e234>] (mxs_lradc_ts_probe) from [<c0491850>]
-> > > > (platform_drv_probe+0x48/0x98)
-> > > > [    7.722806] [<c0491850>] (platform_drv_probe) from [<c048f7f0>]
-> > > > (really_probe+0x218/0x348)
-> > > > [    7.731530] [<c048f7f0>] (really_probe) from [<c048fa28>]
-> > > > (driver_probe_device+0x58/0xb4)
-> > > > [    7.740189] [<c048fa28>] (driver_probe_device) from [<c048fc2c>]
-> > > > (device_driver_attach+0x58/0x60)
-> > > > [    7.749471] [<c048fc2c>] (device_driver_attach) from [<c048fcb8>]
-> > > > (__driver_attach+0x84/0xc0)
-> > > > [    7.758394] [<c048fcb8>] (__driver_attach) from [<c048db28>]
-> > > > (bus_for_each_dev+0x70/0xb4)
-> > > > [    7.766977] [<c048db28>] (bus_for_each_dev) from [<c048eb24>]
-> > > > (bus_add_driver+0x154/0x1e0)
-> > > > [    7.775385] [<c048eb24>] (bus_add_driver) from [<c0490774>]
-> > > > (driver_register+0x74/0x108)
-> > > > [    7.783872] [<c0490774>] (driver_register) from [<c000a2fc>]
-> > > > (do_one_initcall+0x68/0x268)
-> > > > [    7.792467] [<c000a2fc>] (do_one_initcall) from [<c0a00fa0>]
-> > > > (kernel_init_freeable+0x160/0x1f4)
-> > > > [    7.801661] [<c0a00fa0>] (kernel_init_freeable) from [<c0720c58>]
-> > > > (kernel_init+0x8/0xf4)
-> > > > [    7.810165] [<c0720c58>] (kernel_init) from [<c0008510>]
-> > > > (ret_from_fork+0x14/0x24)
-> > > > [    7.818101] Exception stack(0xc748dfb0 to 0xc748dff8)
-> > > > [    7.823273] dfa0:                                     00000000
-> > > > 00000000 00000000 00000000
-> > > > [    7.831815] dfc0: 00000000 00000000 00000000 00000000 00000000
-> > > > 00000000 00000000 00000000
-> > > > [    7.840351] dfe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> > > > [    7.847322] irq event stamp: 273303
-> > > > [    7.850940] hardirqs last  enabled at (273311): [<c0066ed8>]
-> > > > console_unlock+0x390/0x534
-> > > > [    7.859314] hardirqs last disabled at (273328): [<c0066b8c>]
-> > > > console_unlock+0x44/0x534
-> > > > [    7.867605] softirqs last  enabled at (273344): [<c00097fc>]
-> > > > __do_softirq+0x2d4/0x450
-> > > > [    7.875817] softirqs last disabled at (273355): [<c001fe48>]
-> > > > irq_exit+0x150/0x174
-> > > > [    7.883472] ---[ end trace ddb222ada5cbf5cd ]---
-> > > > [    7.900004] input: mxs-lradc-ts as
-> > > > /devices/soc0/80000000.apb/80040000.apbx/80050000.lradc/mxs-lradc-ts/input/input0
-> > > >
-> > > > The touchscreen irq is defined as:
-> > > >
-> > > > enum mx28_lradc_irqs {
-> > > > MX28_LRADC_TS_IRQ = 0,
-> > > >
-> > > > Shouldn't we retrieve the IRQ number from the device tree instead?
-> > 
-> >   mxs_lradc_ts_probe()
-> >   {
-> >     ...
-> >     irq = platform_get_irq_byname(pdev, mxs_lradc_ts_irq_names[i]);
-> >     if (irq < 0)
-> > 	    return irq;
-> > 
-> >     virq = irq_of_parse_and_map(node, irq);
-> >     ...
-> >   }
-> > 
-> > That's not right, is it?  irq_of_parse_and_map() takes an *index*, but
-> > we're passing an IRQ.
-> > 
-> > mxs_lradc_adc_probe() also has the same pattern.
-> 
-> Yeah, you are right. This code is broken by design. But the issue is that MFD
-> driver supplies _index_ and not vIRQ from proper IRQ domain. I dunno how it's
-> supposed to work without dirty tricks in the GIC (or whatever interrupt
-> controller is there).
-
-Not even close. This is totally broken, irrespective of the interrupt
-controller. platform_get_irq_byname() does the mapping already,
-mapping things *twice* is unlikely to lead to something useful.
-
-The core of the issue is that there seem to be a bunch of MFD using
-hardcoded resources (board-file style), and they randomly feed this
-into the DT code.
-
-> Since there is no response to this thread by the authors of the code, I would
-> mark it as BROKEN and perhaps remove from the kernel if no-one steps in to fix
-> this mess.
-
-Something like the hack below could potentially make things less
-broken, but I'm not holding my breath. If nobody cares, let's remove
-the code altogether.
-
-	M.
-
-diff --git a/drivers/input/touchscreen/mxs-lradc-ts.c b/drivers/input/touchscreen/mxs-lradc-ts.c
-index 9e36fee38d61..93f21f00388f 100644
---- a/drivers/input/touchscreen/mxs-lradc-ts.c
-+++ b/drivers/input/touchscreen/mxs-lradc-ts.c
-@@ -606,7 +606,7 @@ static int mxs_lradc_ts_probe(struct platform_device *pdev)
- 	struct device_node *node = dev->parent->of_node;
- 	struct mxs_lradc *lradc = dev_get_drvdata(dev->parent);
- 	struct mxs_lradc_ts *ts;
--	int ret, irq, virq, i;
-+	int ret, virq, i;
- 	u32 ts_wires = 0, adapt;
- 
- 	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
-@@ -671,11 +671,16 @@ static int mxs_lradc_ts_probe(struct platform_device *pdev)
- 	mxs_lradc_ts_hw_init(ts);
- 
- 	for (i = 0; i < 3; i++) {
--		irq = platform_get_irq_byname(pdev, mxs_lradc_ts_irq_names[i]);
--		if (irq < 0)
--			return irq;
-+		struct resource *r;
- 
--		virq = irq_of_parse_and_map(node, irq);
-+		r = platform_get_resource_byname(pdev, IORESOURCE_IRQ,
-+						 mxs_lradc_ts_irq_names[i]);
-+		if (!r)
-+			return -ENXIO;
-+
-+		virq = irq_of_parse_and_map(node, r->start);
-+		if (!virq)
-+			return -ENXIO;
- 
- 		mxs_lradc_ts_stop(ts);
-
-
--- 
-Without deviation from the norm, progress is not possible.
+Thanks, I've queued these up.
