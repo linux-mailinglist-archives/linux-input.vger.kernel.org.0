@@ -2,107 +2,191 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3D31552242
-	for <lists+linux-input@lfdr.de>; Mon, 20 Jun 2022 18:28:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8298552A14
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jun 2022 06:12:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237131AbiFTQ2x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Jun 2022 12:28:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49812 "EHLO
+        id S231406AbiFUEMx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Jun 2022 00:12:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244553AbiFTQ2u (ORCPT
+        with ESMTP id S230358AbiFUEMw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Jun 2022 12:28:50 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FBB9BE0C;
-        Mon, 20 Jun 2022 09:28:50 -0700 (PDT)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25KDDo2h010544;
-        Mon, 20 Jun 2022 16:28:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2021-07-09; bh=UPuXuwaATnCiD95hRgHKAmygUc1xM5cEW1R932PHfNc=;
- b=dg7RELv6yPPnxOGDkTR5jTbbt/a4uBWvKqvW6rVBDSmyfiYqNcxvJ6hbGeK5fSQW87I4
- aYhAOH7NvJxVs/sZYDrjPyFXRf5ifmiit0SjiJvrCTQCkKrzVdtwpPJV1PIktm75QrFd
- pcScMHs3Ez6s+nMaB8Of+ioRXmijOHKKdBKbCI2vOmdjrL6gujVzusIthL9WQ2TJAiZS
- gc8gm8sEUYtERkHexZGWR8I5TGuvfOWRMnFk2rmZq0OVU23VMGOFBSH6eFJuEQbR36vS
- 4lEhgX2BV/sk37X9JmtDmVb2bKLZTCWLZSYwGTMvsfoMkbiktPiAqAT03bkdPn5jBur5 dA== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs78tunpu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 20 Jun 2022 16:28:43 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25KGKfjN000850;
-        Mon, 20 Jun 2022 16:28:42 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gtg5tjd40-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 20 Jun 2022 16:28:42 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25KGSf6Y019345;
-        Mon, 20 Jun 2022 16:28:41 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.147.25.63])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gtg5tjd3a-1;
-        Mon, 20 Jun 2022 16:28:41 +0000
-From:   Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Cc:     harshit.m.mogalapalli@oracle.com, dan.carpenter@oracle.com,
-        Rishi Gupta <gupt21@gmail.com>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: mcp2221: prevent a buffer overflow in mcp_smbus_write()
-Date:   Mon, 20 Jun 2022 09:28:24 -0700
-Message-Id: <20220620162824.58937-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.31.1
+        Tue, 21 Jun 2022 00:12:52 -0400
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C35D19019;
+        Mon, 20 Jun 2022 21:12:50 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.west.internal (Postfix) with ESMTP id CB03632004F8;
+        Tue, 21 Jun 2022 00:12:48 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 21 Jun 2022 00:12:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm3; t=1655784768; x=
+        1655871168; bh=YFC9enACBq9N/iDDvL+ELyNOFTG6bJu/nZay/ScaEg4=; b=C
+        1M85zd3eSzPbPbrqJLqJf9XGPjCp5qspTW0Pb2G5upYU2zzPTmqd1H/GkSDF4R2h
+        jTVkPgJvlPCbUT6D66cr5MOagfZp8/qJ7gT7m6CH/IPz1QgwP5kmuhn2pcMJ+Bjq
+        wF3m6DwBEx8ZkjB9ljR1S07Y371FLj2Rk4NejXkBpjEyR1qdIpmSmNNV/St6FPaX
+        Axq3ihYYd9b+xHhWwlk4BM9Ze4n+fNrYaOeJYCXxsgDruW8N2Niew1cwoZ7I6oOe
+        ZmRbDc5CSGn+GXqrjbz/U4POJ0yx9yl+FXAEafjH5TgkODpPrvBLIzxVO3B5T9mK
+        mnzQnlTfPmlOth79Drw5A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655784768; x=
+        1655871168; bh=YFC9enACBq9N/iDDvL+ELyNOFTG6bJu/nZay/ScaEg4=; b=O
+        eb/c7KAsWiuQnepLqcYmFDJjhF1toXYwtArej8zdAYFOE4m6yXPYTKUgH8DFUAXT
+        CBCYQPUEnqhlY9h1iOeG4lFU8VqoZAYJxlU7Jwkwkangi5r3GhyuXcvc3bhvgydU
+        mEodnq47L0sIIQoNhDYj9+sLqkfddMBdepKvDioqFEr/DwquVHV9bQr55sUgy3YQ
+        d7U/L0jmpEC4IUz0LR/iiWEp+ZahM5L7hGyFEk1uB6mC4kkJPZ0fC4MUanPnu48s
+        TROyoixs26PBdxrFpylGlkzEiwvXMr0HmCLvWfVor5suPMHuhfpg/NFBxmvb0SUu
+        hnuE4vdC8TYCbD8YSqzXA==
+X-ME-Sender: <xms:P0WxYjYjZ3ggPBjDznWxsI_xY88tokEBwsrabMSJZbYDlkUfkHjB_A>
+    <xme:P0WxYiaeSn9xZHM91Omj9O1gEj1CeUlw5Cuo0NzXTt25cdmRtiwHvXnk406dSw7cn
+    QmbkPp8P_YOomyrMw>
+X-ME-Received: <xmr:P0WxYl_SQ_N1Ya67JdJFmg_rf_xGTABdGNn7CMC8qhixECYKAfFfJkvMhccd-js5zOaVINHxk5Hz_cVuzOKI1qZUC1w3ocUErsyvNebn47IxdQZUMxleYYhEmg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefvddgjeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
+    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:P0WxYppYWRlEAXkE22DXCaxNCPu73OOgNvnNwi2VBHxTiY3YPJpGlQ>
+    <xmx:P0WxYurZ4IZK3fxEpNCPDQwbYfqJ8qv1cVEohuIkX23OpSkliM2ADA>
+    <xmx:P0WxYvSgI8J-br5kRUO6Z23iXeq7YmrJ52h-uo2E3zH7WsIDnIGfyg>
+    <xmx:QEWxYqcQmHZbcl19fcgCPek4ZOHVkFaKzIR8XNo3U8HDxpcmdvJ9AQ>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 21 Jun 2022 00:12:47 -0400 (EDT)
+Subject: Re: [PATCH v4 2/4] Input: pinephone-keyboard - Add PinePhone keyboard
+ driver
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ondrej Jirman <x@xff.cz>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        linux-sunxi@lists.linux.dev
+References: <20220618165747.55709-1-samuel@sholland.org>
+ <20220618165747.55709-3-samuel@sholland.org>
+ <CAHp75VcXNTxusT5N_8JvYWMhUyY_sAUzTcT3h0hz2bAawv6ThQ@mail.gmail.com>
+From:   Samuel Holland <samuel@sholland.org>
+Message-ID: <2e6499b8-d8f4-b63a-689b-1e93aca7c210@sholland.org>
+Date:   Mon, 20 Jun 2022 23:12:46 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: m7rxXkTFRvbfervoWggKeeMRoHZOjazw
-X-Proofpoint-ORIG-GUID: m7rxXkTFRvbfervoWggKeeMRoHZOjazw
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAHp75VcXNTxusT5N_8JvYWMhUyY_sAUzTcT3h0hz2bAawv6ThQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Smatch Warning:
-drivers/hid/hid-mcp2221.c:388 mcp_smbus_write() error: __memcpy()
-'&mcp->txbuf[5]' too small (59 vs 255)
-drivers/hid/hid-mcp2221.c:388 mcp_smbus_write() error: __memcpy() 'buf'
-too small (34 vs 255)
+On 6/19/22 6:43 AM, Andy Shevchenko wrote:
+> On Sat, Jun 18, 2022 at 7:10 PM Samuel Holland <samuel@sholland.org> wrote:
+>>
+>> The official Pine64 PinePhone keyboard case contains a matrix keypad and
+>> a MCU which runs a libre firmware. Add support for its I2C interface.
+> 
+> ...
+> 
+>> +#include <linux/crc8.h>
+>> +#include <linux/i2c.h>
+>> +#include <linux/input/matrix_keypad.h>
+>> +#include <linux/interrupt.h>
+>> +#include <linux/module.h>
+>> +#include <linux/regulator/consumer.h>
+> 
+> Missed
+> types.h
+> 
+> ...
+> 
+>> +#define PPKB_ROWS                      6
+>> +#define PPKB_COLS                      12
+> 
+> ...
+> 
+>> +       for (col = 0; col < PPKB_COLS; ++col) {
+>> +               u8 old = old_buf[1 + col];
+>> +               u8 new = new_buf[1 + col];
+>> +               u8 changed = old ^ new;
+>> +
+>> +               if (!changed)
+>> +                       continue;
+>> +
+>> +               for (row = 0; row < PPKB_ROWS; ++row) {
+>> +                       u8 mask = BIT(row);
+>> +                       u8 value = new & mask;
+>> +                       unsigned short code;
+>> +                       bool fn_state;
+>> +
+>> +                       if (!(changed & mask))
+>> +                               continue;
+>> +
+>> +                       /*
+>> +                        * Save off the FN key state when the key was pressed,
+>> +                        * and use that to determine the code during a release.
+>> +                        */
+>> +                       fn_state = value ? ppkb->fn_pressed : ppkb->fn_state[col] & mask;
+>> +                       if (fn_state)
+>> +                               ppkb->fn_state[col] ^= mask;
+> 
+> Can't it be converted to use bitmap APIs?
 
-The 'len' variable can take a value between 0-255 as it can come from
-data->block[0] and it is user data. So add an bound check to prevent a
-buffer overflow in memcpy().
+This is a 2D matrix, with one byte per column, and one bit per row. There are
+only 6 rows, so two bits per byte are unused. Converting this to the bitmap API
+would unnecessarily complicate things.
 
-Fixes: 67a95c21463d ("HID: mcp2221: add usb to i2c-smbus host bridge")
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
----
-I believe I2C_SMBUS_BLOCK_MAX (32) is the appropriate limit to use here
-but the &mcp->txbuf[5] array could actually fit 59 bytes which is the
-destination in this case. I don't know why the buffer is larger than
-expected.
+>> +               }
+>> +       }
+> 
+> ...
+> 
+>> +static int ppkb_set_scan(struct i2c_client *client, bool enable)
+>> +{
+>> +       struct device *dev = &client->dev;
+>> +       int ret, val;
+>> +
+>> +       ret = i2c_smbus_read_byte_data(client, PPKB_SYS_CONFIG);
+>> +       if (ret < 0) {
+>> +               dev_err(dev, "Failed to read config: %d\n", ret);
+>> +               return ret;
+>> +       }
+>> +
+>> +       if (enable)
+>> +               val = ret & ~PPKB_SYS_CONFIG_DISABLE_SCAN;
+>> +       else
+>> +               val = ret | PPKB_SYS_CONFIG_DISABLE_SCAN;
+>> +       ret = i2c_smbus_write_byte_data(client, PPKB_SYS_CONFIG, val);
+>> +       if (ret) {
+>> +               dev_err(dev, "Failed to write config: %d\n", ret);
+> 
+>> +               return ret;
+>> +       }
+>> +
+>> +       return 0;
+> 
+> return ret;
 
- drivers/hid/hid-mcp2221.c | 3 +++
- 1 file changed, 3 insertions(+)
+The "return 0" pattern is idiomatic, and more diff-friendly when adding error
+handling or more operations. But I don't have that strong of an opinion on it.
 
-diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-index 4211b9839209..de52e9f7bb8c 100644
---- a/drivers/hid/hid-mcp2221.c
-+++ b/drivers/hid/hid-mcp2221.c
-@@ -385,6 +385,9 @@ static int mcp_smbus_write(struct mcp2221 *mcp, u16 addr,
- 		data_len = 7;
- 		break;
- 	default:
-+		if (len > I2C_SMBUS_BLOCK_MAX)
-+			return -EINVAL;
-+
- 		memcpy(&mcp->txbuf[5], buf, len);
- 		data_len = len + 5;
- 	}
--- 
-2.31.1
-
+Regards,
+Samuel
