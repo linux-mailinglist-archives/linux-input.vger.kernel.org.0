@@ -2,99 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEEE755730C
-	for <lists+linux-input@lfdr.de>; Thu, 23 Jun 2022 08:25:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 263ED5579AD
+	for <lists+linux-input@lfdr.de>; Thu, 23 Jun 2022 14:02:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229612AbiFWGZw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Jun 2022 02:25:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56928 "EHLO
+        id S231671AbiFWMB7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Jun 2022 08:01:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229525AbiFWGZv (ORCPT
+        with ESMTP id S231804AbiFWMBh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Jun 2022 02:25:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC61D1F2F3;
-        Wed, 22 Jun 2022 23:25:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 69A7B6137D;
-        Thu, 23 Jun 2022 06:25:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEA3DC341C6;
-        Thu, 23 Jun 2022 06:25:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655965549;
-        bh=Uc1u4nvGBp0zbRmsVE5uw1rwOxo9HfInjkxM0gU+KSU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=HlsV8pVnzF8bDywr+Kjmm1sNyFonVnWkMVscv0XVgivo3Tu0lqiHY0IFGWn6frByi
-         qj980znLoTU69zwAhHRDrRCPJOnQSbUpsDAR/+z3G89a73xDGiuXRcimHE7LaYOj8j
-         anzbmr5efAbH+UOg0SMP5aLvGbTG5JF8G2xnHWqmKhVO/d931WcfJmusOD3C5gp0TT
-         8VIz59j4z3GfydyPC6Y2E2EAopVNZk7CIJZ8L1dwYgAvyHz7g1Ck5BIlxOZJyWOOyH
-         58D8d6+Jwyr+5K8QvgmkcZOskKPR0nPoMhjf+5nJzE0oFi3gK9zLmAM1aeY6aanc80
-         DfRqVsFN7KmUQ==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1o4GHh-0004Pi-Nh; Thu, 23 Jun 2022 08:25:46 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH v2] Input: usbtouchscreen - add driver_info sanity check
-Date:   Thu, 23 Jun 2022 08:24:46 +0200
-Message-Id: <20220623062446.16944-1-johan@kernel.org>
-X-Mailer: git-send-email 2.35.1
+        Thu, 23 Jun 2022 08:01:37 -0400
+Received: from mail-oa1-x41.google.com (mail-oa1-x41.google.com [IPv6:2001:4860:4864:20::41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA96E4EA01
+        for <linux-input@vger.kernel.org>; Thu, 23 Jun 2022 05:00:20 -0700 (PDT)
+Received: by mail-oa1-x41.google.com with SMTP id 586e51a60fabf-101e1a33fe3so16126014fac.11
+        for <linux-input@vger.kernel.org>; Thu, 23 Jun 2022 05:00:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=SH1826VGivRTcWTFt6CirTUpizldtIW6lapFTxm7Gbo=;
+        b=dL4ZdfjGobK7bZ5zNav1+xGQiGde1Zc7ClvHsT7kk6LqobgfylVSX6CBG5RjcoVDTa
+         P464n62qmhgQVmko817GDYihyl7pvjfwkgES8JkCRGmr9xxgu3PjHmBrdfIKpKF+gxtz
+         ck0sfdPmzNP6PJDK99aoAJqvIJ6MSx5TfjB1KlqaDZn92DOWiz08x3njQYk7p7AUH10T
+         y+GlFokIsHaKh5IwUNZgaGJCE9OJ9vSfBgmQkTnZzySftM6HqqxRqpOIYwT/wd75+23E
+         P9+fpjMOoHjPoNoGgly+tjBN6a3v4kxdZSCYsYXbKgVUjjGIp5B1Lh0sXido0MvDOb61
+         P1yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=SH1826VGivRTcWTFt6CirTUpizldtIW6lapFTxm7Gbo=;
+        b=g+u9BcFb+7bGdA7WEzhAK/UuwjoMYQLBG2jIu+ui2Fs+uTk6UWZrxUR2bDCYrecbhW
+         OzpynpXWhAkU5IbQ6nOxV4LURVD93pFDSuBOZBaANhXhoitwSZA0FfHe0Dem+S+B3Koj
+         tBSrOnokA0nYIp8AE9MxCwiZRsw2XHSTX4mt+OsBRjwWrZl67R4KlEJPJcysigWEMO6I
+         BMD24m65rYpglY+OVE29krfICiJcVHk79IfDrvdqsu+AG7hZYoWQoyzfob2vQad0YKih
+         3WTPUll4RMGDtJi4/RJI5hjqj8QFWVYr5lY6kpU+dVTDpqTVDGqSC9JBx9NB51fMVNcF
+         NUBg==
+X-Gm-Message-State: AJIora8e/XMwYCZJ2ldOa5EbjtUDD+Z9Aq4NjmK/9lwDyzwltM8qBLC4
+        bDBQCOVy3QaMqKH8EDUKqyyf7Is9wFebsMyOwqo=
+X-Google-Smtp-Source: AGRyM1u9XqAMSItZNhegX/ZymFvhNBQP3xenHiWf00X4SNsH0rLed72zRQSP+YVxHt9F6Yhn4fsa6RzBdFD/GHKyBzE=
+X-Received: by 2002:a05:6870:311:b0:f2:d46a:b370 with SMTP id
+ m17-20020a056870031100b000f2d46ab370mr2282258oaf.169.1655985618110; Thu, 23
+ Jun 2022 05:00:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a4a:e60e:0:0:0:0:0 with HTTP; Thu, 23 Jun 2022 05:00:17
+ -0700 (PDT)
+Reply-To: ibnahmadmustafa.aseelfinance@gmail.com
+From:   "Ibn Ahmad Mustafa(ASEEL Islamic Finance)" <alexaziz900@gmail.com>
+Date:   Thu, 23 Jun 2022 13:00:17 +0100
+Message-ID: <CA+ZonYFVf4r4TP5OjTABRM+sUUb77Yi8rA2ZjaW7-M57GTtrGA@mail.gmail.com>
+Subject: LOAN AND INVESTMENT-ASEEL ISLAMIC FINANCE
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=7.2 required=5.0 tests=BAYES_60,DEAR_SOMETHING,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2001:4860:4864:20:0:0:0:41 listed in]
+        [list.dnswl.org]
+        *  1.5 BAYES_60 BODY: Bayes spam probability is 60 to 80%
+        *      [score: 0.7454]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [alexaziz900[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [alexaziz900[at]gmail.com]
+        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  2.0 DEAR_SOMETHING BODY: Contains 'Dear (something)'
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a sanity check on the device id-table driver_info field to make sure
-we never access a type structure (and function pointers) outside of the
-device info array (e.g. if someone fails to ifdef a device-id entry).
+Dear Sir/Madam
 
-Note that this also suppresses a compiler warning with -Warray-bounds
-(gcc-11.3.0) when compile-testing the driver without enabling any of
-the device type Kconfig options:
+I would like to introduce you to Aseel Islamic finance PJSC which is a
+private joint stock company that was
+established in 2006 and has built a leading market position for itself
+in the UAE's Islamic finance market which specializes in loan finance
+and investment activities in real estate, hospitality, industrial &
+sustainable technologies, strategic financial investments, specialized
+education, healthcare services, agriculture, manufacturing,
+mining,energy and additional environmentally sustainable projects.
 
-    drivers/input/touchscreen/usbtouchscreen.c: In function 'usbtouch_probe':
-    drivers/input/touchscreen/usbtouchscreen.c:1668:16:warning: array subscript <unknown> is outside array bounds of 'struct usbtouch_device_info[0]' [-Warray-bounds]
-     1668 |         type = &usbtouch_dev_info[id->driver_info];
+I would love to send you further details with your consent.
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
+Regards.
 
-Changes in v2
- - use ARRAY_SIZE() for the sanity check (Dmitry)
- - drop the dummy entry and combine the two patches as the sanity check
-   itself is enough to suppress the compiler warning (Dmitry)
- - use -ENODEV instead of -EINVAL even if this means no error will be
-   logged in the unlikely event of a future driver bug
-
-
- drivers/input/touchscreen/usbtouchscreen.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/input/touchscreen/usbtouchscreen.c b/drivers/input/touchscreen/usbtouchscreen.c
-index 43c521f50c85..b01d026588c8 100644
---- a/drivers/input/touchscreen/usbtouchscreen.c
-+++ b/drivers/input/touchscreen/usbtouchscreen.c
-@@ -1654,6 +1654,9 @@ static int usbtouch_probe(struct usb_interface *intf,
- 	if (id->driver_info == DEVTYPE_IGNORE)
- 		return -ENODEV;
- 
-+	if (id->driver_info >= ARRAY_SIZE(usbtouch_dev_info))
-+                return -ENODEV;
-+
- 	endpoint = usbtouch_get_input_endpoint(intf->cur_altsetting);
- 	if (!endpoint)
- 		return -ENXIO;
--- 
-2.35.1
-
+Mr.Ahmad Ibn Mustafa
+International Business Coordinator
+Aseel Islamic Finance PJSC
+Telephone: 800-ASEEL(27335)
