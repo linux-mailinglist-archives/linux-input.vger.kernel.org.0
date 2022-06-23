@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDB1155723D
-	for <lists+linux-input@lfdr.de>; Thu, 23 Jun 2022 06:58:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C038055723F
+	for <lists+linux-input@lfdr.de>; Thu, 23 Jun 2022 06:58:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232884AbiFWEq4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Jun 2022 00:46:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48268 "EHLO
+        id S232250AbiFWErD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 23 Jun 2022 00:47:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244213AbiFWDxq (ORCPT
+        with ESMTP id S229603AbiFWDxw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Jun 2022 23:53:46 -0400
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2042.outbound.protection.outlook.com [40.107.102.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 844866439;
-        Wed, 22 Jun 2022 20:53:44 -0700 (PDT)
+        Wed, 22 Jun 2022 23:53:52 -0400
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2076.outbound.protection.outlook.com [40.107.102.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2911A6439;
+        Wed, 22 Jun 2022 20:53:51 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eDoD2iueB7bjNIYAZJr2pcdlGFj8D40wQsAiSXD7ZXnR5RdtGvr91UFDSu5oEO3+0QQs6dzzMKjAbrJzjdmsnlzyKfxgzdQNz8SU1MZnozzIEsF1OwfmuktnKMvlTdkVL5k7KdZPqQcm6KapEXPFdna1XQreYzu7fGQkR6ThKO7P6Ro/ilzHsli3UaA/vH1r7wBRWdz8CmdJoA4rNlMtGBA56KAWXYxUScoYirrd4SmQqRyPs/7SXnPPRmmSzgoKPCI3RqyL8dEdG4gUS19t3XzHojAcs5xEA5cTlGX3UqBoseVMpxWcS4QkNzA6VvTmsnQdB/i39cetC1kOI6E/jw==
+ b=bUZjiVuwWilRQKkODUtyZxAT6nu+pO9Lg1Zy8Z0Pwb3YawNARCpxezdtvuVujpbGdwCakBCTzxu/YCMkOM0pgP1z/lEmNv7/BNY668Gp/btKmIgm0VT31JeYucv2v6VVdXi6cgzr2FlawmdB/oDv59y0wtCjEVs721DwTodDJZTB/n1ovIYPbS9ahPU1YeSAX48/MVDV3hYfyQKSytCTZqAiIWu2AZ/aQe23rmDzIgiCsz6bFU30VLyRrTpFI6exHaGq2i+D/SZd8sk+X3HanEGmUvLMFCH0WfiFy4bOazfHCTwsQkL8mhSxRMEKKF+3EPzezwkJgXSK83gK5peR3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I7PLB+QvUvPJG89baGRQ5Rr1/8qMQOZQ1C9w/BRCyMM=;
- b=VGjDpe7md6JAwt3nYT1WvA7sRlFSnG3pGvVkNfLxSHA9oxD4hBf+2h5U3fpTeu9jv77N4Qhx7zoCH96s3n7a7BsUWO3ArFiwXzhjNqpvNuijbLeb8o6ukgo0AYCTK4x80/Rgfh6bFzjwXiU4EBfHy1pfWFOvPtKXJkLKb3chQG+CSDpfBaDzdGSsPZbZY8kIz20bVQqh/tgPb8cLtU1RNfL9ekL7ZSu5C+2g32/M+qzv8O/JfKsmAWwBKvPn2pgGJIbWP1Pwf6Mqai3pDIYvnvKgxCk1DDMFP9UciBTlmD6l/RnWU2S0731eR/XoHO63MRy3oY/dUyTHbacGIWeDQA==
+ bh=J9xhjU0ueNIdoQs/rP0i9bPRvhlt34JbHZyVqDC/0RY=;
+ b=jo6zi+00ljPJFYTZfc399+eH1Wy/lu9s3d81uG3JmTKsObtCAHQQx4PY/NjGeANyltWh9if1E/ulUAtOYVaMKiaUe45RKto46lufCeU990wUoIsARVjDtn62z7L8JsrH6hDwlsgJ0xHm7TsNYj7CyvhTqshoLrtoEzJz0zANCd3smaeBcew+CyRAnpjY871f59CZdgjdlt1JTl+P8e9Hqflng63bf+ZLWKMMLWVujsWVPAJRMtkyaP6vucqu94scv/8JzpYV1/IKELRbjYfwsU67aE6wr72kdZjBbpYz58BfxssbpW3zBrpeRcJ8WReLpvd3pM/G6jAWOfG3bIqX8w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I7PLB+QvUvPJG89baGRQ5Rr1/8qMQOZQ1C9w/BRCyMM=;
- b=Lak+MVOenpaXstQaLDEvLrF43a9FBQw2KKqDC87IPZGF30t3Sy7caR4uuUkQtRTy7kf1Rcp7J+yC+YUseKQkUjxnOhycMSu4vO7vaUO7q1VTLJFKEN82ghVedPxZ/FRnjHHHhMeTpnLJ34qSCEjU6SEhY7qDj+QHyLpwGGkOXzQ=
+ bh=J9xhjU0ueNIdoQs/rP0i9bPRvhlt34JbHZyVqDC/0RY=;
+ b=m5w8OW19PWbyCYLegIpcuNNkleNJK1s5ZhQru1OpyrRyN9koUATx9BrY1KK/AFSYJYlshddxsgJJ/le7/aIypFuj1Bd6BDHcJEOneqMhAKv4dEfur9lxTtmwbVwEDGLEyC5MugS7yTwXI+msxLe0DamDWP+uIntkJL0+M9UL3DI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21) by SJ0PR08MB7766.namprd08.prod.outlook.com
  (2603:10b6:a03:3db::22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.16; Thu, 23 Jun
- 2022 03:53:43 +0000
+ 2022 03:53:49 +0000
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::ccb4:7984:aaf2:e18f]) by SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::ccb4:7984:aaf2:e18f%6]) with mapi id 15.20.5353.022; Thu, 23 Jun 2022
- 03:53:43 +0000
+ 03:53:49 +0000
 From:   Jeff LaBundy <jeff@labundy.com>
 To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         Jeff LaBundy <jeff@labundy.com>
-Subject: [PATCH 2/7] Input: iqs7222 - protect volatile registers
-Date:   Wed, 22 Jun 2022 22:53:04 -0500
-Message-Id: <20220623035309.39528-3-jeff@labundy.com>
+Subject: [PATCH 3/7] Input: iqs7222 - acknowledge reset before writing registers
+Date:   Wed, 22 Jun 2022 22:53:05 -0500
+Message-Id: <20220623035309.39528-4-jeff@labundy.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220623035309.39528-1-jeff@labundy.com>
 References: <20220623035309.39528-1-jeff@labundy.com>
@@ -58,55 +58,55 @@ X-ClientProxiedBy: SN4PR0701CA0001.namprd07.prod.outlook.com
  (2603:10b6:803:43::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: da79c9e5-9bb6-4d47-68bd-08da54cbf745
+X-MS-Office365-Filtering-Correlation-Id: e01f761d-a34a-4c71-9bbe-08da54cbfb3a
 X-MS-TrafficTypeDiagnostic: SJ0PR08MB7766:EE_
-X-Microsoft-Antispam-PRVS: <SJ0PR08MB77662BC30CC5455F4E760A0ED3B59@SJ0PR08MB7766.namprd08.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <SJ0PR08MB7766DE82B85A68679DEFCE07D3B59@SJ0PR08MB7766.namprd08.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mpZHcjXzIFwJDKRE+XsW0IOWpNHjEzi0x+BNQh3yiCgj0MJZP7mvrJaP3sdyNE/VVJ+n6ZuoBor9e0+3na6nNz/HbyMfHuUCYpmf+f+b3oYklNJz3tSP8o55lLpnCWzB03VjAf6gduKKlM/hpzthAc/WkGZ5kOL3OB3NExrxgCc4RoitIK2lO2ZSFOXQrfWbAufbjT0dpCow0bkZj9ByjXidVAFWr+lJbjJkL/f2GtQNm3KzCYyafOQGhDcNDVRnetPXLQb3lsRC9rG3RVCD18CkoimohyuLCmIS+Fz4Y+scWpYEfjPbrAWbvzFATXi24kwK7i+eLc/VlUi6YZU4lux2NzcEfRDYX+oqY5KMNPJK9ovuSeR2pRbIQG0vt9b+jMGoWiJqFyU4tYLbfLkCriOM0g96uaV7539VhI70v1d5TCWdGJQ1srjBUFQipDn8MXvuS4eddS1RU8rvD6y44WdOdlj7lChrVmoPFi37MugU5KBORplToJIVFZDsGssm3u+dO+mQgq6SbGPUOAlARf4ccVnWiqg8RIpYlNSauVsoFYuBPf/v0nBkDBQy8r+2J8H0IT1lqk4vgk5LVYk2/OJmjJTsZtEyMbY+KuhA2E+66hX2nq18Yjdx9o1aqmo7cC77Le0hvTMRm3xloOr8t6KndtTCxdcd5iCjTjn6VHC2YJsT4GARNbEEVk9NaqGXWlOfXzQIr31SJVhBJe3o4Xmr2roFwgSdMZnT08YFeL7/x2tBUsXmHrMZkZE/k+Tt
+X-Microsoft-Antispam-Message-Info: xrpML3WO3TZRYR8XV1oF/Nrekj3VDQgbpU+ZBrKW2S9OElUx1lQRtzyRUWXknuitkRPxF8t1jDUscU7fQHLlegO0Ah2HU4HPUXMU0OUI4fFG2sPJ/9adFPbbbG0bNYP0frb3eghHwGm1MoiFx0HuXhBZVpT5Cf2hHpW5QaVOg+tSfjnA0RLr7cQS42fplMOTaW8TSh08hCGmxRlqK+9lV4H05K3bDLblEAiAjlmONr0TZ996v6W2eg88SIul+7ezC+Cd0xTDBZgfth2w0gO7gIBolWYkBF9wojsvur7bVeXpnNG0wjA833n0fo8dH0YC6b1YJJjj/RkqCMONUr4QTYQo3kA1Il+aFBEGJ7Iy95S9DfDap+xXEaEnTDdAcOAPoGSrMSDzTny/W8FOLy9hi2eCJ81slsaniFeaItD7SJkGjp6i1h9AiR1g0jym6Ay2NLiBwMklB9BZ40UXtw3ED4vpu4JcBhk1/ENa8Yswth7M94st5MrVLVaqs2V+9CXB1uH4kUHol3/rlFVVLAOjgxDZ0BiohxKKgPqF2tUeCjZu5fUYieT1FPKdX2KWH1m3pk9UiujxAu1DxfEUdzJ+yNhNGeCaIlkxPnO8Bxwp3eytCG4UUzj6JrJuP/yMntqRRUI9LO8cfjvV0vD72D2gXQ4XD7Aej7aVQTmEGzEJCYXKr/7ojLqndjRaxDTE+qkkuM5VNBxYViZEQSek+jJCz96J2xzviXavXr9vlTUiQsCmPGkynkIAYe/m1DzOk7OR
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(136003)(396003)(346002)(366004)(39830400003)(376002)(52116002)(26005)(6506007)(107886003)(38350700002)(36756003)(186003)(5660300002)(2906002)(1076003)(6666004)(83380400001)(41300700001)(38100700002)(66946007)(2616005)(6512007)(86362001)(4326008)(8676002)(66556008)(8936002)(316002)(66476007)(478600001)(6486002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wB6hLSXoNrkqTQ3fc9AuFpE6CZrzfEMsFvopp3cTQnv1p4seI5kDeOYAhvPV?=
- =?us-ascii?Q?G+Wnih2dl+00roz6AnEJxXUQNmfgn6WECtn1jVOZEDQ+b5mPKnAkmS9XHxAu?=
- =?us-ascii?Q?aju/ZqvUPk8cJ2PhvnPeW8tY6PP3LxdKZIkdmGd509G2gM9JcDJplUDebPPo?=
- =?us-ascii?Q?zLPGTf2jb4bclgrKHhsh+xPHngKrGVvcn8f17p7i2hF1JWpMr2V3+QZHOq2U?=
- =?us-ascii?Q?gRTNxsRXGnuAkxrfLR3MrOCg7XRNfR3kSNQHGKwvH6Z+Dr3Ob2a6r0lDtCWc?=
- =?us-ascii?Q?SZXSQJ6wrpeVASHJB+USVpn0YMsJUSlRwbVhA8VqWqIkFm4d1IjnmZnxzlLq?=
- =?us-ascii?Q?5zWlx9UB3Ff++43nnuysLICgHwNNh25AAuZcAe5ro4Irst6vZs3l5K0Dp5NQ?=
- =?us-ascii?Q?AscCeOf0E9FWeNIVOgCiHeRrgWbdDyAhpcuHt/D930L9NMVJoihanpxASqmr?=
- =?us-ascii?Q?QkD+ntcPIDRFt4fcJH/BZgHBIq3DUOYxMMIiNrZQNVyN1rXdgW9T22/1MKCb?=
- =?us-ascii?Q?+60a8SYJ/QXe8e5e5LEww8U/ufoL4qz3Ty7jdndddWrQVCCQgmx60PW8e9Ne?=
- =?us-ascii?Q?lwnciI0BSjRz8jTyTA5D0eXqvgYt9F8z4vV/zOGkysF1eZIvwKHQfHLsqsnu?=
- =?us-ascii?Q?Q3WeCk/euqYI/CbCNOwz4+Jxw9BngE8p3o3av8AHEBltfOCFNIk0Zr3Jhl11?=
- =?us-ascii?Q?MB2y2xOh6Wx/VtfGT9NF8MvI3hSXeNpkKGSB4GQy+/kEDPS/TG4bYrkv4gTE?=
- =?us-ascii?Q?Dwt2vo1yAy8wrbKU9Btfz513wdSpLLv1ZTpiPuYV/sBCEHAuwuotXZR3HRKX?=
- =?us-ascii?Q?vSiIUDmB6uSSnrBuhcNzvG/HYsc8HzSwj9oiY0yvBbg2xh/0vqaA87STefTg?=
- =?us-ascii?Q?kibFhkM8TmXSxurxM9p4ytuLQE5JYOqAfxDkb1wv1Hx/usSyk3gM81VCef3X?=
- =?us-ascii?Q?yKs/tlahjf56hyPBW1atDAj1UyLtKT9I2EitU/OqXHk9P+byqs9n/4gB7psS?=
- =?us-ascii?Q?IPQQcE+SB7nEij5/t2SveVYg4JST0nV/UwI/BI4c2WlQ6hxFHar3fTQ5dpSv?=
- =?us-ascii?Q?p7SP/sbD69BEVmYzy6/E7pzrFxDClDqMFY0dUgmnok8GuLV6afgVnpffzyxG?=
- =?us-ascii?Q?n65aKlwzdg4ATbKb/ypVTh+Nz0YIwVpshjyFQVqJ7kQwfIh5u7rRPBkCTmHQ?=
- =?us-ascii?Q?+b95KhyjLqUaMLLQ+vqRpmmwX3r4iLu6J+/XPsvIYt9AWk+DDc79KXjm7LOU?=
- =?us-ascii?Q?3QVcX22K+oXDMMtHUHwzmLJBPbj9OOIa5heUAtthNbQ7rWIRfJ8fNY/QB/0c?=
- =?us-ascii?Q?Epds176k+QUHtYzShRDw2PTaJhngRcj7a1+qCfkJuaonYgwRCVKqC58N9Bly?=
- =?us-ascii?Q?0gayG28Uf9ZW7it4JaJK1CEhtP45z+6jLSqi549ErK6VURdIocFZbR0R1/hg?=
- =?us-ascii?Q?Zg6fKBy/yyu4otj6nzj53A9l3PK74inqnWEEpSgpWK20EzcWYaCcaFyd1MCn?=
- =?us-ascii?Q?KkSsGwLqW0G0hhTLwzGHImnzKsyu7nHyH2mLYbxExZg0FmHU9+7pKNKSdiaJ?=
- =?us-ascii?Q?ZN9sOm6NCA1gvN73z8e9msC1Ew0BLtBLYoGdN0DANnRZ7aj/cZawA7bgQHa0?=
- =?us-ascii?Q?EPltE40YIkkst2EYP8n99RDVYMJeRLQX4EQZjlf/N39JPgtAuSN5TQJhcLfh?=
- =?us-ascii?Q?aHe0flyBHmtYMHtByMAE8gKZw8Txtj1OIb7xouGaqmO2W8cugRZGxJMobCok?=
- =?us-ascii?Q?TxHPAzABBA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?72+gwAlyZWISAxwT4yGXzLsuImrXk93VFs8ey51Qssx4jAqjLp4KVONsskxk?=
+ =?us-ascii?Q?vvTkEqXmXKRo5nfXcLarm1gxuI10XX53BKcge7Dfcxz9iF8/MZSJf83Xz79J?=
+ =?us-ascii?Q?elosEI0lMQlxpOu5ZtzpOK0lf0SYixdwZOY9j3xYWNfPfMjexBeP9EDMnVvT?=
+ =?us-ascii?Q?8FHF1IGDCfnYq00xShXuR4YhBqdITxTCKdMOJ4dpSJ7AKVAQKbCZXbXsghB2?=
+ =?us-ascii?Q?MF2etHLum5BTyUCJiB6ihGBaemj7F98kGzIme8+wRva7sYb+iIE+XF5As6ej?=
+ =?us-ascii?Q?5RGtIrzOamVy1fp25MExL0GPNax4xcCsDFuPqE/BtAEVAPz7aovzU6Gp2RJo?=
+ =?us-ascii?Q?VjQyd3JZEJbEfiGgYmwdiXYmShcwLZXB67KtXLraCDJkFfMlXk+TQwl0AWkG?=
+ =?us-ascii?Q?Rlb1k1iW2AkwfCk9zpKvvKWADZXQgD/UG/1zD/ILsNBUlnZrdA6zwibf7FAA?=
+ =?us-ascii?Q?asE/BrKaagxRSLyjWPFDZ6+KSJnfaBUhSsOFp0Oa0NAZwigsOJhqnerXcWO1?=
+ =?us-ascii?Q?35ula6smC3QlXld4OIQLaX8zPwhdmU4TWZhEfSKh/z/7bDd7Lkpa1iHvu/2l?=
+ =?us-ascii?Q?ga9KVRiBFhlYwCYox7oTO8DYPLeUEr7NneKT3aAt1GQ8JlLp1RwKDxtfAZRT?=
+ =?us-ascii?Q?NmQ12GvVW6TYTcEGnFwq0MU/YiJsMtlhX8jX0023iqNOuaJsaPLKJupFl7FP?=
+ =?us-ascii?Q?rszTyw7yiZcUUTxEM+3o5lDBG1Z6VcDepjUZyukWFWWunqr1GwpTDzd1WTtq?=
+ =?us-ascii?Q?be2s3OwEBXv6M55WI6pqmo7ZWj9OxAhCfmCc0QNF3SE+WbxjMEG9Vij0T3Q1?=
+ =?us-ascii?Q?p94POU0w9aP/zsj4Miy6tUjfrjYcqWFjkJlzMZNZOtlfo1QJgjJeUOPERulA?=
+ =?us-ascii?Q?vDdkVrdrrp95+9SCeHcKtlUcUKzmtCUG5TgcJwJaxixUs3dgco+dNIRlpXYK?=
+ =?us-ascii?Q?fwIf32aOE1sJ90lKgEWNyrEHyGYOGBA5YtL3E/32NYi/8fEVqXJTNAE5Uilv?=
+ =?us-ascii?Q?zsglu5I424/L4+7JafOZYTdsHJjTfGgXxi0X0V+mwPfD+J11AQLPudL+S4Zb?=
+ =?us-ascii?Q?nHYnU3Lz0V5mSTZvoDjyHIG7lV7QyllQ+yVZqWJKfNrC1a3DpmQtwFMRPA9T?=
+ =?us-ascii?Q?kLkc4tjj0h7W0f6kOfyJIvEO/1mPZrGjHyPmZwT/GorOxX2+dUs50mrN9XbL?=
+ =?us-ascii?Q?IfcDp1QPxebFRFGQPeAyeA6uaSThmLZ4MYDoj3lShcimETnlkejFVoDAePvZ?=
+ =?us-ascii?Q?mwMy2AItiLSxQ8QgugAMKRc8zYmht6dkgomqv9Od2tf+xjBCdSe06hbFm1uc?=
+ =?us-ascii?Q?I3a7tg806Coy8Vf7Yc5PPPjSzxsrJuLlY1Ju6kcnBY7LXhjJczdLLVFF98XJ?=
+ =?us-ascii?Q?rgpFVdUVQc06tMl9xSTA9YI7MUBLYlp45exUvpAxKRrZraHnu0IWagOfBWHH?=
+ =?us-ascii?Q?GC9/L8dEr9xt0d00O33DGbbVjwWql9H9caXDOaI7IjOMxcM7+m/UgE5UukYy?=
+ =?us-ascii?Q?Q9uyRk1HjapQGugxZCoLSCRSTE2ZE6JJBPdSYW730agX5priZUso2Om4rTgF?=
+ =?us-ascii?Q?X4oxTvN+nX813csQReadUmswOQi2MrySfCmIrKSeQVlAkqwRylnUkmEfybWX?=
+ =?us-ascii?Q?lOpHlvULnDbsc2c1KNthCMuE8C8/KplWeqMf+9wzANGIh/cf3qKOQn0lxdB4?=
+ =?us-ascii?Q?feh9TIyBxBA2WWBrm0iVd5iB9Ht/Ocpn9U3ux7qj5dTkMCux5ZaGhJTexQiv?=
+ =?us-ascii?Q?reTM+x0vCA=3D=3D?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da79c9e5-9bb6-4d47-68bd-08da54cbf745
+X-MS-Exchange-CrossTenant-Network-Message-Id: e01f761d-a34a-4c71-9bbe-08da54cbfb3a
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2022 03:53:43.1368
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2022 03:53:49.7456
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pS0S30OMsdgQRHQvd1AD6MCghojBCpT/EQejoYuxVRgrUpRp6h3LJi3bgvtfD9Vuiyc256mXPjGFGzP4EFruxw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: wegyjrFDNgW0BZa4vtaD7cBjmvT4udiFpj73TRxajwEX3eohwcfVMDSuN+n3QWeQ3bfvYStmewRivPQpbnG/DA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR08MB7766
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
@@ -117,69 +117,86 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Select variants of silicon silently mirror part of the event mask
-register to the system setup register (0xD0), and vice versa. For
-the following sequence:
+If the device suffers a spurious reset while reacting to a previous
+spurious reset, the second reset interrupt is preempted because the
+ACK_RESET bit is written last.
 
-1. Read registers 0xD0 onward and store their contents.
-2. Modify the contents, including event mask fields.
-3. Write registers 0xD0 onward with the modified contents.
-4. Write register 0xD0 on its own again later, using the contents
-   from step 1 to populate any reserved fields.
+To solve this problem, write the ACK_RESET bit prior to writing any
+other registers. This ensures that any registers written before the
+second spurious reset will be rewritten.
 
-...the event mask register (e.g. address 0xDA) has been corrupted
-by writing register 0xD0 with contents that were made stale after
-step 3.
-
-To solve this problem, read register 0xD0 once more between steps
-3 and 4. When register 0xD0 is written during step 4, the portion
-which is mirrored to the event mask register already matches what
-was written in step 3.
+Last but not least, the order in which the ACK_RESET bit is written
+relative to the second filter beta register is important for select
+variants of silicon. Enforce the correct order so as to not clobber
+the system status register.
 
 Fixes: e505edaedcb9 ("Input: add support for Azoteq IQS7222A/B/C")
 Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 ---
- drivers/input/misc/iqs7222.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ drivers/input/misc/iqs7222.c | 32 +++++++++++++++++++++++++++++---
+ 1 file changed, 29 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/input/misc/iqs7222.c b/drivers/input/misc/iqs7222.c
-index 6cfabd6e3a15..ed5989093713 100644
+index ed5989093713..c1ead10dccbe 100644
 --- a/drivers/input/misc/iqs7222.c
 +++ b/drivers/input/misc/iqs7222.c
-@@ -1274,9 +1274,22 @@ static int iqs7222_ati_trigger(struct iqs7222_private *iqs7222)
- 	struct i2c_client *client = iqs7222->client;
- 	ktime_t ati_timeout;
- 	u16 sys_status = 0;
--	u16 sys_setup = iqs7222->sys_setup[0] & ~IQS7222_SYS_SETUP_ACK_RESET;
-+	u16 sys_setup;
- 	int error, i;
+@@ -94,11 +94,11 @@ enum iqs7222_reg_key_id {
+ 
+ enum iqs7222_reg_grp_id {
+ 	IQS7222_REG_GRP_STAT,
++	IQS7222_REG_GRP_FILT,
+ 	IQS7222_REG_GRP_CYCLE,
+ 	IQS7222_REG_GRP_GLBL,
+ 	IQS7222_REG_GRP_BTN,
+ 	IQS7222_REG_GRP_CHAN,
+-	IQS7222_REG_GRP_FILT,
+ 	IQS7222_REG_GRP_SLDR,
+ 	IQS7222_REG_GRP_GPIO,
+ 	IQS7222_REG_GRP_SYS,
+@@ -1348,6 +1348,34 @@ static int iqs7222_dev_init(struct iqs7222_private *iqs7222, int dir)
+ 	int comms_offset = dev_desc->comms_offset;
+ 	int error, i, j, k;
  
 +	/*
-+	 * The reserved fields of the system setup register may have changed
-+	 * as a result of other registers having been written. As such, read
-+	 * the register's latest value to avoid unexpected behavior when the
-+	 * register is written in the loop that follows.
++	 * Acknowledge reset before writing any registers in case the device
++	 * suffers a spurious reset during initialization. Because this step
++	 * may change the reserved fields of the second filter beta register,
++	 * its cache must be updated.
++	 *
++	 * Writing the second filter beta register, in turn, may clobber the
++	 * system status register. As such, the filter beta register pair is
++	 * written first to protect against this hazard.
 +	 */
-+	error = iqs7222_read_word(iqs7222, IQS7222_SYS_SETUP, &sys_setup);
-+	if (error)
-+		return error;
++	if (dir == WRITE) {
++		u16 reg = dev_desc->reg_grps[IQS7222_REG_GRP_FILT].base + 1;
++		u16 filt_setup;
 +
-+	sys_setup &= ~IQS7222_SYS_SETUP_INTF_MODE_MASK;
-+	sys_setup &= ~IQS7222_SYS_SETUP_PWR_MODE_MASK;
++		error = iqs7222_write_word(iqs7222, IQS7222_SYS_SETUP,
++					   iqs7222->sys_setup[0] |
++					   IQS7222_SYS_SETUP_ACK_RESET);
++		if (error)
++			return error;
 +
- 	for (i = 0; i < IQS7222_NUM_RETRIES; i++) {
- 		/*
- 		 * Trigger ATI from streaming and normal-power modes so that
-@@ -2233,9 +2246,6 @@ static int iqs7222_parse_all(struct iqs7222_private *iqs7222)
++		error = iqs7222_read_word(iqs7222, reg, &filt_setup);
++		if (error)
++			return error;
++
++		iqs7222->filt_setup[1] &= GENMASK(7, 0);
++		iqs7222->filt_setup[1] |= (filt_setup & ~GENMASK(7, 0));
++	}
++
+ 	/*
+ 	 * Take advantage of the stop-bit disable function, if available, to
+ 	 * save the trouble of having to reopen a communication window after
+@@ -2246,8 +2274,6 @@ static int iqs7222_parse_all(struct iqs7222_private *iqs7222)
  			return error;
  	}
  
--	sys_setup[0] &= ~IQS7222_SYS_SETUP_INTF_MODE_MASK;
--	sys_setup[0] &= ~IQS7222_SYS_SETUP_PWR_MODE_MASK;
+-	sys_setup[0] |= IQS7222_SYS_SETUP_ACK_RESET;
 -
- 	sys_setup[0] |= IQS7222_SYS_SETUP_ACK_RESET;
- 
  	return iqs7222_parse_props(iqs7222, NULL, 0, IQS7222_REG_GRP_SYS,
+ 				   IQS7222_REG_KEY_NONE);
+ }
 -- 
 2.25.1
 
