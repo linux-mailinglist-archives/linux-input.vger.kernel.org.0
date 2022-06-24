@@ -2,137 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47A8C558CAA
-	for <lists+linux-input@lfdr.de>; Fri, 24 Jun 2022 03:13:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C55F4559309
+	for <lists+linux-input@lfdr.de>; Fri, 24 Jun 2022 08:08:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229841AbiFXBNp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 23 Jun 2022 21:13:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57872 "EHLO
+        id S230290AbiFXGIU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 Jun 2022 02:08:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229545AbiFXBNo (ORCPT
+        with ESMTP id S230316AbiFXGIS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 23 Jun 2022 21:13:44 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C54FF5675A;
-        Thu, 23 Jun 2022 18:13:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I5E5oIOYRzezv7qJUfdd+euTCU3o0eK3kijySwH/EgwmNmnc6gbfpI9htQpf28EkibunyHIu3J0rVIkDl2mKvPlEs9lNZ+Gd+uJVDe46VRLBeCuXvbKmR85ws8Z+WfR/9i6TVww9ZKFzCnyeiV+l57GkdZNeNx6cxvKkios7NTJM+OSJXGcnJiSMWsjn2B+6knMDBslrtHEyB+bnNThV07nCDF2fgxsGeulQibUL/oQ7FZROf+/qcKCaOIAPgIijQ2VH7OShHHwzzUS9WUPpjj9ZaIP2KtR/EjpC/yVCyd+krfc62ej0p4TtwoE8ahn76Opno8RWmM4vyucbUgdvqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ky1RTkforugfFxsogW4vlj6GWqC29uwlOqa62lcBTj0=;
- b=WNv4khQOncTf6eLNYOI2fSueBQ08TAox5vtmS2jARX36VLmibhdH5/abrbV1ZexfxMDat8S6M1gprQqGM7JtCicOWKSnoNqF5EWUZgnyJiov1hFX4teIPihejPjdyTglDA3vraWQC5GQYuN2bRmiqh1iCgE4qH3ujNnfcFWToS9bfrcjA9NTxoQDKALIxi5+0p9e2KaaIx/w8xfVozuPI15onu8zS03rRMClHJHwe/B+lDtyi4+E8AZizaixNgoIVuo8zgeRkrd66R/5g7HS+SHDc5a38T3U6dxZsGMt0qdqTX+XfbbkSY7zVV2Nc2xGiQHWxSX5XREj2ZB7uRJxzw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
+        Fri, 24 Jun 2022 02:08:18 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11BDC33A23;
+        Thu, 23 Jun 2022 23:08:15 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id o8so1717620wro.3;
+        Thu, 23 Jun 2022 23:08:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ky1RTkforugfFxsogW4vlj6GWqC29uwlOqa62lcBTj0=;
- b=BWPSNPw50mVr6iBGWXu0/RR09onlEO4vI8gyRQsXoeu3hZPBZm21lupbuPAo4Y4sot/CmmBNam7J9Siqh2C5C2uKy1oYOBkNbYoYUDnGeVPVpwgz5bROG9QpO4ORUNYQa52NeshMnn/i2N7TWdHNxTsOhRw4WoDhvVHomERjCHU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=labundy.com;
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by DM6PR08MB5433.namprd08.prod.outlook.com
- (2603:10b6:5:f9::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.18; Fri, 24 Jun
- 2022 01:13:36 +0000
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::ccb4:7984:aaf2:e18f]) by SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::ccb4:7984:aaf2:e18f%6]) with mapi id 15.20.5353.022; Fri, 24 Jun 2022
- 01:13:36 +0000
-Date:   Thu, 23 Jun 2022 20:13:31 -0500
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     robh+dt@kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 5/7] Input: iqs7222 - remove support for RF filter
-Message-ID: <20220624011331.GA87950@nixie71>
-References: <20220623035309.39528-1-jeff@labundy.com>
- <20220623035309.39528-6-jeff@labundy.com>
- <YrUN115qdy14sfEx@google.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YrUN115qdy14sfEx@google.com>
-X-ClientProxiedBy: SN4PR0501CA0035.namprd05.prod.outlook.com
- (2603:10b6:803:40::48) To SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21)
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=BuOcNtEX97vnnAOhuFDjnEWZ1WuRO6ssen4ZQZtNv5A=;
+        b=qd8wayc/TtEw3Hk8l4mJJcGRF7nJUtMM2iX1f0Fa9G0XzZDYg559hByEko3tlcTyFx
+         Tar2M7Q1hc7gCpLu4/Qnct6zQnSXpVApGYniQhMg174qPz/U9f2Bt5RQXX668JSa/C0E
+         m4iM/DagJLvAgnJzsqgqEeOoeu48JaOigUaq/vezbWVdFmFjN97xKOyu6HBwmJWh/PnL
+         MHCH0YoqdmmF1VnKcW2Cnt07O3Q+ZBNLTTKoE/F2uVX4sy8vAa2NcxlY6LEKLdxkOeXS
+         bQRtK4Ocllk2TJucMX3BnSF4rPNpbnsdwKwQsm9A9ZJTMCB82Wmmp+B2Ei3XOaBgIwys
+         BcfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=BuOcNtEX97vnnAOhuFDjnEWZ1WuRO6ssen4ZQZtNv5A=;
+        b=iUwnvwIkFu3Zyj3W3Ie3jkxY0vZ8D9xSsXW9EiUhQDeyz/Np8vX7ehb8VhBSX9B/C1
+         9rOt5DOOVuNpyxyeBXEwkZQX961lPorU9jJIMZvRTAaLkqJrJcRH4XLchPfmM8ZxeDeP
+         p/UJN/D1Hd9RQgf3GveZRZYMAcv3l3VjqDL/55uVAaDZDWXIYp2aIaVS9Z9JMb4di0/C
+         TAVSNK0RQvh7R/a2lwt7+CT+KjetWucRMEWdEBl2Q1cNOHgb7kxkzPcXeHrU/+Ec7sd7
+         grTRm5BBRQBgRUc0Og2AZsAY5zUpGGCeH1krQOWUQ8wlPl9KlqBkxs6BTgMqYRftaS4Y
+         u2hw==
+X-Gm-Message-State: AJIora8yayRXQCZV6C7F+Ke7Ic6HONXybwrRL0CveGAPVObu14viw8Dc
+        T0TN7CwHSOQmXNv+/9Ie2iKSJqOtXmD4wA==
+X-Google-Smtp-Source: AGRyM1vFvd6wfgg829I5geY++S40verQpyGZ3jBtoVVGQqLVjM0W2VdZUR8CuCa/f9CiulQXSenhdg==
+X-Received: by 2002:adf:fd4a:0:b0:21a:3cc1:a887 with SMTP id h10-20020adffd4a000000b0021a3cc1a887mr11735524wrs.439.1656050893513;
+        Thu, 23 Jun 2022 23:08:13 -0700 (PDT)
+Received: from [192.168.0.118] (88-113-28-27.elisa-laajakaista.fi. [88.113.28.27])
+        by smtp.gmail.com with ESMTPSA id c12-20020adfe70c000000b0021b84ac7a05sm1614144wrm.0.2022.06.23.23.08.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jun 2022 23:08:12 -0700 (PDT)
+Message-ID: <a817b3d3-f749-e4e9-dd7c-7e97cfc8d57e@gmail.com>
+Date:   Fri, 24 Jun 2022 09:08:11 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8062099e-f383-4a6f-d18b-08da557ec371
-X-MS-TrafficTypeDiagnostic: DM6PR08MB5433:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AF1bYzvYKgLaGcnc3wUdSZIB65CJvNicPX5Wzn8mA9xn1t+iR1/wZmPR2SyvJd/eN1UcrSa2A0/zKxqjazeK2qSwlCzsTuoTSmSP5/rmUBP5ML4UndLXQUkGnmXNf7Nm2pyZCN7o1F/ZB7FxBS8j6ihdGOuPXdXQIfx+/bGAPEImOIMxlmum2yqWsg/2NyjSfbMWRSvCTfp3W7+KpjZA/MduIwt0VT2yU/4eNW3M70dYjT5GykL1U4Hocg8jUmiQ8o9Q6t09mKW6jRcHq4UxsizM1QoNP6CtTxCJMZOThPC69oWHk0L7cHpQuiDh/yut3nahE9+KRHpQzWTNfR6S3YyAZTVfSuAQE3bkmHXt3KSzPhjvZIFVvudx3nRvjjPFesz1dRy6NIMVWphaaAhPbC2+0cN5P7EmhJdv7+Ypsr4+8XQEAnL7bR5buHITFslXd9fLjAcyUaZuDeK/A+Kq9D6+wlTs+5AK/ukp4/wWt/trICi8M/l/VZtuelMsTUZ2XIze+N4evI4t9IwdEHKCaxayQqCpBTY3qXsl8lcw7eCCStBOmWtOUWetDVY2bMYgpo8itOdjPbFY9wMzmH8YvWHgZlxGiX+9q7B3XVsxQQlyhx/tCpx//Dr4I1zkkN4dE5ubYzysw+pvmDwKmree0EH3XnyR7ZmhXWT6RBGxpayv099EbCyzh2dUVatpTWr0NqD/O3XclNonA6TudtnPo6ucQBemgXeaNq+oS7YhI8yuSD1nhbsOqv9BN1g9fZ2HboFJlAc+eKQvm2FshUld/JLZsdl9PXV0r4baotabhr8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(136003)(39830400003)(366004)(346002)(396003)(376002)(6666004)(6512007)(8936002)(478600001)(41300700001)(6916009)(6486002)(66476007)(4744005)(66946007)(52116002)(186003)(33656002)(1076003)(86362001)(38100700002)(8676002)(9686003)(5660300002)(2906002)(66556008)(38350700002)(4326008)(6506007)(316002)(26005)(33716001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZOW56Qt7WFpC+xsfM9nk5RSii8u0aZfyDoWuk1pR7A2mF4R7vR5Dt23Zt6FD?=
- =?us-ascii?Q?SLQVpRFxfs5WGReHxDzAVcATfav5rT8qbRmBHvEOXfqEBgVDeatRikLDrnaW?=
- =?us-ascii?Q?dDFgRWXrDWrx06O4AfC95k0rUfZNfiOX8LZSSWkepLtXgOuOa4CoDlW+SriH?=
- =?us-ascii?Q?b/fBY2Fwtz7sa3T0rajd4UguHFZtwuHoxo87xk/9ipoc7+TN2wxNku+3X5nb?=
- =?us-ascii?Q?TxI/WdUVm1Kk5q0BHuCoGoYgC/xOpTHzrJrMfhf2xtpU+t/e7cJqkqzTxfvL?=
- =?us-ascii?Q?i6kuBY2MYkcMPPirn5AyGZVFgHi/5NOq1nF+d9yxO2CeSs+1SfSpJ3VXfRoy?=
- =?us-ascii?Q?5dmCzAAtBgxAa4aUFRi6UH6QWwPZeTi88tFn1i8T4VoBTEMh9uvw273lrnoR?=
- =?us-ascii?Q?NZzWLc+AFeEv2Z6SJj1AiU1xZlCvM6oilm92C5tE+V40uNcLaoDLFdSTmgoy?=
- =?us-ascii?Q?CJzG3SLbKMGDIRPBTfxSv6iSaUsysYCdGVaQ5ofwBqmAwAZRlwG+w5hmVy+u?=
- =?us-ascii?Q?y3fK1i+co/opvmu5kFU24OHrkeRZ4BqqIGKi4dXbq6YML49sXxxOnUb3fbcn?=
- =?us-ascii?Q?nDJyLV3vtws3R/AaKhnjCJ4kcQtxm8mtQE4GUXXPRDsMRILgu3O6VWgSPtId?=
- =?us-ascii?Q?oCXA5olBdy6ZJ/8oH6Cknrpz7WJ5FZidobZBzlSZLC4G7VhLpoGE48+wcoAZ?=
- =?us-ascii?Q?tsPKs4esuVQfD8/5ZzY2QAR1TUu0nwZ2kDOxtKiosh8Ys9hZ9nCrdpjvt21J?=
- =?us-ascii?Q?Gz+p9GWYC2W+SUa1VnF9fLQ25hHuHyysH4Q6ZO17wO/Du01RWCC15sRer9bt?=
- =?us-ascii?Q?52RfR/T+7oHyCgYDmJ1+O6sBJImwj3/LzqhzbnOVMqlmyrkOnD6iDWkLyVZK?=
- =?us-ascii?Q?hXO3nwnepFaE0YkZRBaZ6mThy90vXAXk8y9GaV344iYeuqsrlkIUF6uXkIZ+?=
- =?us-ascii?Q?6etwKyfnf6msJ15NsBjHGQDFSUr+Ri+KpR2fYGggTQMRfeuv1FeCT/aE3Olu?=
- =?us-ascii?Q?4gjbEqJEXRIQyjLuHa69PWDWYOamlba7poyZr4iW2cMFCzsali8vAxEyzRTI?=
- =?us-ascii?Q?qbeON6U7EyNL/lh3yMrPDrbaK5m5EHio6noY3jTWi+K0Kd2XjhJdRYYTkqvt?=
- =?us-ascii?Q?92oJAIaOtWPDgfVCaa82W/9Jei5+j5r51c4VpG+CIkhKaBXMxHfj1F8yRugY?=
- =?us-ascii?Q?IwUmxi8pi/rFWvB/j++GPHy/vAyf7UEpAh72566ZKPpjrvFl5XHHPravhIof?=
- =?us-ascii?Q?e1e//Aaz9Vacefxb8md4mWcO6PkxzArgG0pbZ/uqDug/pOZQJq5TX6m4GAIS?=
- =?us-ascii?Q?qjDKUWkQKqCHy76CEv1u+OrsBjh0JoxIXEemQVAmf6bx0SYfVXeCBjbmK3+e?=
- =?us-ascii?Q?PieW43L+xkWhM5vu/jt/Qub+/nzzMSy6BfEisgAIpZG7XUEjuxCtTZosEmKU?=
- =?us-ascii?Q?hAxs6FU3TTMN6gwT7uDvUaClJOanYdFiuLbA8HypNWfGwIyRti0QqJth1alE?=
- =?us-ascii?Q?hfC54UMRGetVuJ/+n7BXSzS9//43Y/ESwpdU+dDqLdUojxIo9V/6DNnrE8cU?=
- =?us-ascii?Q?gm2DFSbHu00lTBi5yFh8N/kNh2VzDwGEIIDQHSoy?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8062099e-f383-4a6f-d18b-08da557ec371
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2022 01:13:36.0852
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: utKCscaGzOSMvxSJL+2pWADF0ZqSO6fHQ71/VQUZuX6aTWtdMfkcMpK8w6VtdWHaM9Em1KiypEvSBMkuFkVOmQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR08MB5433
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] hid: Add support for the xp-pen deco mini7 tablet
+Content-Language: en-US
+To:     Stefan Berzl <stefanberzl@gmail.com>,
+        =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <85312611-797f-2dd2-f864-f7c13cb889f9@gmail.com>
+ <nycvar.YFH.7.76.2206091058530.14340@cbobk.fhfr.pm>
+ <c856a79c-1d42-6af5-0ff3-589688701fc0@gmail.com>
+ <20220623175116.GA4757@elementary>
+ <62d69463-35c0-683d-f03e-c668ea82136d@gmail.com>
+ <39fb9b40-061d-284b-e36e-c944a2d209c0@gmail.com>
+From:   Nikolai Kondrashov <spbnick@gmail.com>
+In-Reply-To: <39fb9b40-061d-284b-e36e-c944a2d209c0@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
-
-On Thu, Jun 23, 2022 at 06:05:27PM -0700, Dmitry Torokhov wrote:
-> On Wed, Jun 22, 2022 at 10:53:07PM -0500, Jeff LaBundy wrote:
-> > The vendor has redacted the RF filter enable control; remove it from
+On 6/24/22 01:46, Stefan Berzl wrote:
+> Hi!
 > 
-> Did you mean "retracted" by chance?
-
-I did mean redact, as in 'to censor,' as the field has since been
-marked reserved in the datasheet since silicon was released.
-
-That being said, I'm happy to re-spin with this stated explicitly
-in case of poor word choice on my part.
-
+> On 23/06/2022 20:01, Nikolai Kondrashov wrote:
+>> On 6/23/22 20:51, José Expósito wrote:
+>>>> I would of course fix this, but I don't really know what's the preferred
+>>>> way. One can obviously simply set up an urb to catch this, but it would
+>>>> have to be a special corner case for the mini 7, as José assures me that
+>>>> none of his tablets display similar behavior. Is this acceptable?
+>>>
+>>> My tablets also send an ACK packet, but in my case it does not have any
+>>> visible effects. Maybe it is related to the DE environment used. I
+>>> tested it on elementary OS (Ubuntu) and Fedora 36, in both cases the
+>>> ACK is ignored... But catching it is fine, we can include the code you
+>>> suggest.
+>>>
+>>>> José already had a look at some firmware device descriptor string that
+>>>> reports the number of buttons and what not, but as far as I know, it
+>>>> doesn't say anything about ack packets (right José? Does it say
+>>>> anything about touch strips or similar?).
+>>>
+>>> In the devices I tested, the ACK packet is always present, so it should
+>>> be fine to catch it. I'll test your patch in all the devices I own to
+>>> be safe.
+>>
+>> I think it's OK to just ignore the first packet for these devices, even if the ACK packet is not sent for some of them. Even with the report rate of 20 years ago nobody would've noticed if you dropped one packet.
+>>
+>> Nick
 > 
-> Thanks.
-> 
-> -- 
-> Dmitry
+> Sounds good indeed. Does it also work if the user presses a button first?
+> The way I get it, we would only receive the button up event then, not the
+> button down?
 
-Kind regards,
-Jeff LaBundy
+It's basically humanly impossible to register a pen's button press without 
+first producing some movement reports. You have to hold the pen within range 
+for it to register, and it's hard to hold it still enough within range to not 
+produce movement reports, while also trying to press a button. I think we're 
+safe here.
+
+If there are any buttons on the frame, then it's likely possible to 
+distinguish their reports from the pen ones by looking at the report contents 
+before discarding.
+
+Nick
