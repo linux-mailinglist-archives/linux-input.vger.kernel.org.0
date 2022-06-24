@@ -2,59 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E816D559792
-	for <lists+linux-input@lfdr.de>; Fri, 24 Jun 2022 12:18:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB49E559795
+	for <lists+linux-input@lfdr.de>; Fri, 24 Jun 2022 12:18:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231386AbiFXKQh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 24 Jun 2022 06:16:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58514 "EHLO
+        id S231309AbiFXKRJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 Jun 2022 06:17:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231373AbiFXKQf (ORCPT
+        with ESMTP id S231411AbiFXKRH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 24 Jun 2022 06:16:35 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 801557B346
-        for <linux-input@vger.kernel.org>; Fri, 24 Jun 2022 03:16:33 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id z7so2724354edm.13
-        for <linux-input@vger.kernel.org>; Fri, 24 Jun 2022 03:16:33 -0700 (PDT)
+        Fri, 24 Jun 2022 06:17:07 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 808CD7B35B
+        for <linux-input@vger.kernel.org>; Fri, 24 Jun 2022 03:17:05 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id t5so3782067eje.1
+        for <linux-input@vger.kernel.org>; Fri, 24 Jun 2022 03:17:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=nCu6+FAEztI3iRzZoGu/7jx34/57ZWFzCmnwCEKEKG8=;
-        b=dWqo5LyxZMlBrKbS9H0mIrtomRY/WUzSRblBMsuI/asWPYDAYlSRHf6ML2HQKDUp1Y
-         B6WeLMY/3IBc6AsT2+jLgmcg6KmZToSz22V5ndz9MN0pusr3e3qXeCk8VUNVjihXiyCh
-         r8q+upF95gOGUwBBjY6VEoDP74ZI+60bPoxrTSRq4HJYIYIxjnTj90pANjM735XbjZ2f
-         YbiV0j2S7ayA6phqPPrP1VuJ/PdFvy26lz9kQ19rbqu1QRZrk+2N/wf3uIiJGkGUXBPp
-         fNSr+YErNDJncHqKz9Jaf5dZ9766ZhcBzk2dQnzeuui8KJffE6KIgYEPnll4KSH6Buay
-         adQw==
+        bh=ullTUOvMiVSdvGdIuWHNgvXtRKcK4bxEb08ZurHoSio=;
+        b=QGkMXUXZ6aqBO8n+Jf/Ti5m8LPRJSQhKBhNKwqRP9wIa8E3Z6/3YMqUCw4elhGfxYy
+         gkmBp9r2qj9j0zuK6DbtxqdbUTNWY+DZuSAukNNf/R9fM5lsTqpihvlaru/Wb4WRKA4S
+         q+7+xZEhuWQmNrBa4d0+lonxwrPULsTcAZ5TNMh5oI+8iYW8iCZmjxihlcDVawfkfUuG
+         t+1qzo2YnMFn6rKN17XL32nd5lzQFZyoygvMZMOusU2jfmDdPM4BIj1VYhzMnX9eLdvk
+         cfS8RMXFG/INQjibbPXSLEDa1dFTbBCKmKMlQY2nqh72ncY3K1l9tML3DHVYXAtUMa1n
+         aRLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=nCu6+FAEztI3iRzZoGu/7jx34/57ZWFzCmnwCEKEKG8=;
-        b=u7sFM5+QXPOlmZkB3q0ESNfn6N4oTzFv/GeP5fxYJUanKH6ZlxQ0Y+O33iBvknX5Z/
-         WYlz5Vvk0vZf1V7t3qwof03Vn5JTAff/jy0Ffh1VSmHUA0bXUM0BtX/wZlUPfcIaE7VU
-         4zKsf63SDPwYeWiccUXBIvkf04fUrUiyh8Lhg6Fuu27RvMXP1SkvluLcopV4GggnMaGa
-         ze4DnD6hMn62cxMRafjx2RDpEtqFe8joFuG4T4UvvSMDLx/TGqpndJVpojnxEmLgInFQ
-         VPdcNH1vVLjwnD+aVOSk/CkJcwh4INiZMZQApd+J/QgaitJVtRj1kWe5MzmPneLU6SQB
-         d8Sw==
-X-Gm-Message-State: AJIora+Xnxb/14zdx05c3RTYXOlCrxReeS6JtQ6bW6fuNulHyDW1b3PU
-        v2XoolsnCDxUJAhS7CupX45VmA==
-X-Google-Smtp-Source: AGRyM1sV0Rqv2FM82XbzujrDkf6ZaBarXKNOOXluyUaVY1qP5wuXx3QrO3TrIokPTHWJCB7Sppn7Rg==
-X-Received: by 2002:a05:6402:240e:b0:433:4642:f86a with SMTP id t14-20020a056402240e00b004334642f86amr16182271eda.313.1656065792045;
-        Fri, 24 Jun 2022 03:16:32 -0700 (PDT)
+        bh=ullTUOvMiVSdvGdIuWHNgvXtRKcK4bxEb08ZurHoSio=;
+        b=ti77D/1UiSuRgPP/HoOYFE9DZH+kKpT8OepwZHSQHZ1Nd3MtDGMfZyYlje07uU8gWs
+         Xngrrjvf2jNg5W29HZmm1sBTIlmzfWcZUKf97bsPw58p/7azHM0+VaLQ16OYN2vAN78j
+         CvMefEVnbyBBYZvh1RT6HJE+nuDrnRXDW32Pm627KZN0HazWWRZeHjfToQGXnAfsS9sw
+         4qtqBpIdqJiWImprI4e5xo2W6slr5DBdOMrN98/gJfq7JZgroONZLItL0zv5NA1NZBpa
+         WihUhcvuCxv1MQDoaylKsRfsHG74adxkv0LfBZdDAYpJYXYvxgSBQM4qJyOyzmuq1mEN
+         SPEQ==
+X-Gm-Message-State: AJIora+eiK1mieFHLlCHLercWN+kibwfl5eirsW9vKWJV+pkBJUUgA4K
+        3o/6Ri0ku1ubWY8Tzxwl+lMsaQ==
+X-Google-Smtp-Source: AGRyM1uksiks+ZulHe65GwzPHKFrMx1m/IKF+g/TcHqeK07CC9Rcw3hV2RJdvumMmNHpYQfN7csLvw==
+X-Received: by 2002:a17:907:97d3:b0:720:fab0:79bd with SMTP id js19-20020a17090797d300b00720fab079bdmr12418076ejc.191.1656065824041;
+        Fri, 24 Jun 2022 03:17:04 -0700 (PDT)
 Received: from [192.168.0.234] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id q24-20020a170906b29800b0072629374590sm869853ejz.120.2022.06.24.03.16.30
+        by smtp.gmail.com with ESMTPSA id v17-20020aa7dbd1000000b0043586bee560sm1605725edt.68.2022.06.24.03.17.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jun 2022 03:16:31 -0700 (PDT)
-Message-ID: <b22d67ac-9e84-d059-8068-3475b026c1ef@linaro.org>
-Date:   Fri, 24 Jun 2022 12:16:29 +0200
+        Fri, 24 Jun 2022 03:17:03 -0700 (PDT)
+Message-ID: <6a5e5675-1f00-ca86-b9ad-07068f356d0c@linaro.org>
+Date:   Fri, 24 Jun 2022 12:17:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v5 06/14] dt-bindings: power: Add fsl,scu-pd yaml file
+Subject: Re: [PATCH v5 07/14] dt-bindings: rtc: Add fsl,scu-rtc yaml file
 Content-Language: en-US
 To:     Viorel Suman <viorel.suman@nxp.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -91,9 +91,9 @@ To:     Viorel Suman <viorel.suman@nxp.com>,
         linux-arm-kernel@lists.infradead.org
 Cc:     Abel Vesa <abel.vesa@nxp.com>
 References: <20220616164303.790379-1-viorel.suman@nxp.com>
- <20220616164303.790379-7-viorel.suman@nxp.com>
+ <20220616164303.790379-8-viorel.suman@nxp.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220616164303.790379-7-viorel.suman@nxp.com>
+In-Reply-To: <20220616164303.790379-8-viorel.suman@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -111,64 +111,54 @@ On 16/06/2022 18:42, Viorel Suman wrote:
 > 
 > In order to replace the fsl,scu txt file from bindings/arm/freescale,
 > we need to split it between the right subsystems. This patch documents
-> separately the 'power controller' child node of the SCU main node.
+> separately the 'rtc' child node of the SCU main node.
 > 
 > Signed-off-by: Abel Vesa <abel.vesa@nxp.com>
 > Signed-off-by: Viorel Suman <viorel.suman@nxp.com>
 > ---
->  .../devicetree/bindings/power/fsl,scu-pd.yaml | 41 +++++++++++++++++++
->  1 file changed, 41 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/power/fsl,scu-pd.yaml
+>  .../devicetree/bindings/rtc/fsl,scu-rtc.yaml  | 28 +++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/rtc/fsl,scu-rtc.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/power/fsl,scu-pd.yaml b/Documentation/devicetree/bindings/power/fsl,scu-pd.yaml
+> diff --git a/Documentation/devicetree/bindings/rtc/fsl,scu-rtc.yaml b/Documentation/devicetree/bindings/rtc/fsl,scu-rtc.yaml
 > new file mode 100644
-> index 000000000000..9d3cb51d7b37
+> index 000000000000..a2594fdd486f
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/power/fsl,scu-pd.yaml
-> @@ -0,0 +1,41 @@
+> +++ b/Documentation/devicetree/bindings/rtc/fsl,scu-rtc.yaml
+> @@ -0,0 +1,28 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/power/fsl,scu-pd.yaml#
+> +$id: http://devicetree.org/schemas/rtc/fsl,scu-rtc.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: i.MX SCU Client Device Node - Power domain bindings based on SCU Message Protocol
+> +title: i.MX SCU Client Device Node - RTC bindings based on SCU Message Protocol
 > +
 > +maintainers:
 > +  - Dong Aisheng <aisheng.dong@nxp.com>
 > +
 > +description: i.MX SCU Client Device Node
 > +  Client nodes are maintained as children of the relevant IMX-SCU device node.
-> +  Power domain bindings based on SCU Message Protocol
-> +
-> +allOf:
-> +  - $ref: /schemas/power/power-domain.yaml
 > +
 > +properties:
 > +  compatible:
-> +    items:
-> +      - enum:
-> +          - fsl,imx8qm-scu-pd
-> +          - fsl,imx8qxp-scu-pd
-> +      - const: fsl,scu-pd
-> +
-> +  '#power-domain-cells':
-> +    const: 1
+> +    const: fsl,imx8qxp-sc-rtc
 > +
 > +required:
 > +  - compatible
-> +  - '#power-domain-cells'
+
+Missing allOf with ref to rtc.yaml.
+
 > +
 > +additionalProperties: false
 > +
 > +examples:
 > +  - |
-> +    power-controller {
-> +             compatible = "fsl,imx8qxp-scu-pd", "fsl,scu-pd";
+> +    rtc {
 
 Wrong indentation.
 
-> +             #power-domain-cells = <1>;
+> +             compatible = "fsl,imx8qxp-sc-rtc";
 > +    };
 
 
