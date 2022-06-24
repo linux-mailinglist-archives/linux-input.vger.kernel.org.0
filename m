@@ -2,310 +2,139 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A72435597C7
-	for <lists+linux-input@lfdr.de>; Fri, 24 Jun 2022 12:25:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E304C5599D7
+	for <lists+linux-input@lfdr.de>; Fri, 24 Jun 2022 14:50:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231185AbiFXKZw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 24 Jun 2022 06:25:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38466 "EHLO
+        id S231742AbiFXMuR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 24 Jun 2022 08:50:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230022AbiFXKZv (ORCPT
+        with ESMTP id S231538AbiFXMuQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 24 Jun 2022 06:25:51 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E92B87C50D
-        for <linux-input@vger.kernel.org>; Fri, 24 Jun 2022 03:25:48 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id u12so3746083eja.8
-        for <linux-input@vger.kernel.org>; Fri, 24 Jun 2022 03:25:48 -0700 (PDT)
+        Fri, 24 Jun 2022 08:50:16 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 003B94ECE4
+        for <linux-input@vger.kernel.org>; Fri, 24 Jun 2022 05:50:13 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id l11so4277001ybu.13
+        for <linux-input@vger.kernel.org>; Fri, 24 Jun 2022 05:50:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=CHttmF3yGSGx+TZUTVwg9kv22SlC4meEkXeiN/iN2v8=;
-        b=z7ATTMHw/uFuGMTH0cx/WUmez2cGoKvXN2RGic2tU6NQONge6izMZ6WAYMGWzduOWp
-         JWDhKgDR/MVsJX+70XppIMM4wZ8+AiIDjk7CAUxgScaYttqFNk+esnEw4Jrakkpc7EPx
-         v+5iwZ1jeuDfshxkaPQsByIECd1PIFX5RcvumpAa/nm6sZVxk2gHoCqnlZtKYpxWBmDS
-         0iYf4QHhB4e5m6l54EuFC7W3UOueSP8Lhln71JGbUMb8ORvik3KJQQaZZz7xhnwU9sgm
-         koPcWq7QohPq+EMTtzEUQaYx4TNywITpEwUqkucd7Mr6j+hvtSE07ltE1eC8hgyUcwy+
-         M/EQ==
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=ynnFo8wbEpRzpMcC7T2LlT0Y3X6o/Sd/zn9vXuq4PCA=;
+        b=c+5c1P0kea2PX7g7vl8p2f+WA1SSHr7sGWBZ38mvAGVhReqCiKC3Ic5Wc7uZcJk2pp
+         Xlw5pQqd1eVzB0ET0y/LizVGPA8reWzpFqeozyA2KMNtAwvugK2TM5DNmt8/o/IyYONL
+         zYkH0hpZd+U9SsGqjYHTtEjAHFdwlYcR4AuAL7Z5OT1J4qfUN+VghQbzvj/vFzWb819K
+         HJZP5HpnXXb0UTVUoQbY3f9E89Vg1Yc0GA7tjI4/R3CfWbzVVm0L1AFTyk5BY8Mvu9HD
+         EC3s7zE2TPxsavJP+VwqtCNRC9LV/umtxosHXQ/eNoplY3NYo0LZu9EYE5VT7it5I0Cx
+         c8vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=CHttmF3yGSGx+TZUTVwg9kv22SlC4meEkXeiN/iN2v8=;
-        b=aBOK5sbS8s7pP8r1JEK/hr5uKwzsUSzd1Matcv2xhWnWYaDPu8OHR8/RX/Cd1uzbSj
-         BYfhjyhRd8qH0UL+Ds2Rwvb2BtYqeKa53zI60G4VEITZ/t9XcmwgXaLoVzXRnT12yDv8
-         hN1faErtAFob4cf5YUAR6WqbvTn78LtLhVXa4nSsj9bBKYyFaCVzaUO43DRS2IK4gxzF
-         EqwX3+Oyj6ibf4vKvKHTkY/6O/Y3Kvl31eaTJCrlXRrLRCHTi/7gWfJ9ww1oj1/fwD+l
-         OkUsuBVy5fIlvf+v8e1qeIZl096kg286tKUhu8BuUf1/r+OtF03EZW855dURM/llHU+9
-         xs0g==
-X-Gm-Message-State: AJIora+XxrKIqNyL1r4dhxdsHyAbnRLYI9T5MFLvO9qgVHeu63Bd1/CZ
-        hoR8Cx8O6aBTXzGrh59OImY5gEeJ3/+ALg==
-X-Google-Smtp-Source: AGRyM1tJuZF3QgXNIjmCTm5JxpaOyY6m5vZGMqLZG9V/JEZvRn/GC7cwsOcwhASPRcGnwcf/5J5bBw==
-X-Received: by 2002:a17:906:7288:b0:722:da04:da51 with SMTP id b8-20020a170906728800b00722da04da51mr12547124ejl.316.1656066347402;
-        Fri, 24 Jun 2022 03:25:47 -0700 (PDT)
-Received: from [192.168.0.234] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id w13-20020a170906d20d00b00726298147b1sm851210ejz.161.2022.06.24.03.25.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jun 2022 03:25:46 -0700 (PDT)
-Message-ID: <b653d7af-f846-abb2-d260-3ce615b070a4@linaro.org>
-Date:   Fri, 24 Jun 2022 12:25:44 +0200
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=ynnFo8wbEpRzpMcC7T2LlT0Y3X6o/Sd/zn9vXuq4PCA=;
+        b=nLe7hJ9NWxZxAgmsukhEcnQTMf2/7oGUHHc4GHnvQzh3tMv/Tqc5yTSK0SnqLNw4l+
+         Y6gVEnH1OqeMuSCwYexELdEGvMslLG6z1lLVbVLfwht6PA85bcY3VxshU2/k7zEpBxsD
+         POd7jHuSiPoXYEKjPqHCzwdEpzhlSWkX0HCKQMF+oPxR/8NaA9rMamKw9Lc0kX1ed6p5
+         ZW7p/wTCyKD1SdP9EjWFYgopGzkk5E6/KgUwwAg+OsUn6UpmfpSnPJt/RWH7RUNhwTRe
+         MY/sYj1eqgJ/4I3WAavXR7eWnmCYJszwWa1x0v4SB4ri7AnNTmXnzHJrcdmDWPYNz2GZ
+         P7Vg==
+X-Gm-Message-State: AJIora/p/vOsXmSWZi6HgYx3gf6YKFcmgwbfNAlSdLSHiK5e4wjeJfSo
+        k1XAuq6X1vFKrOS16Zn/qW9Ig94rl5SFv50/0jw=
+X-Google-Smtp-Source: AGRyM1uryY6RJSXQqYEBpM3frXh1VDPjQiK69XDDSOeTohwETxydv93A9rhV0qQo60UrLCn4SlmE2Nt9NZV/2TYCogM=
+X-Received: by 2002:a05:6902:4c1:b0:66a:fe3b:24ab with SMTP id
+ v1-20020a05690204c100b0066afe3b24abmr2903882ybs.24.1656075013015; Fri, 24 Jun
+ 2022 05:50:13 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v5 10/14] dt-bindings: firmware: Add fsl,scu yaml file
-Content-Language: en-US
-To:     Viorel Suman <viorel.suman@nxp.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Abel Vesa <abelvesa@kernel.org>,
-        Oliver Graute <oliver.graute@kococonnector.com>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>,
-        Peng Fan <peng.fan@nxp.com>, Liu Ying <victor.liu@nxp.com>,
-        Ming Qian <ming.qian@nxp.com>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-watchdog@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Abel Vesa <abel.vesa@nxp.com>
-References: <20220616164303.790379-1-viorel.suman@nxp.com>
- <20220616164303.790379-11-viorel.suman@nxp.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220616164303.790379-11-viorel.suman@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Received: by 2002:a05:7000:5496:0:0:0:0 with HTTP; Fri, 24 Jun 2022 05:50:12
+ -0700 (PDT)
+Reply-To: cfc.ubagroup09@gmail.com
+From:   Kristalina Georgieva <krillvladislav@gmail.com>
+Date:   Fri, 24 Jun 2022 05:50:12 -0700
+Message-ID: <CAG08H6=RxuBrC2L=Wmwi9ROcEL4TBHJ4EWPhTZ5BK=+cdn-3rw@mail.gmail.com>
+Subject: =?UTF-8?B?4bKZ4bKQ4bKg4bKS4bKYIOGykOGym+GykeGykOGyleGymA==?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=4.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 16/06/2022 18:42, Viorel Suman wrote:
-> From: Abel Vesa <abel.vesa@nxp.com>
-> 
-> In order to replace the fsl,scu txt file from bindings/arm/freescale,
-> we need to split it between the right subsystems. This patch adds the
-> fsl,scu.yaml in the firmware bindings folder. This one is only for
-> the main SCU node. The old txt file will be removed only after all
-> the child nodes have been properly switch to yaml.
-> 
-> Signed-off-by: Abel Vesa <abel.vesa@nxp.com>
-> Signed-off-by: Viorel Suman <viorel.suman@nxp.com>
-> ---
->  .../devicetree/bindings/firmware/fsl,scu.yaml | 170 ++++++++++++++++++
->  1 file changed, 170 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/firmware/fsl,scu.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/firmware/fsl,scu.yaml b/Documentation/devicetree/bindings/firmware/fsl,scu.yaml
-> new file mode 100644
-> index 000000000000..a28f729bfadb
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/firmware/fsl,scu.yaml
-> @@ -0,0 +1,170 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/firmware/fsl,scu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NXP i.MX System Controller Firmware (SCFW)
-> +
-> +maintainers:
-> +  - Dong Aisheng <aisheng.dong@nxp.com>
-> +
-> +description: System Controller Device Node
-> +  The System Controller Firmware (SCFW) is a low-level system function
-> +  which runs on a dedicated Cortex-M core to provide power, clock, and
-> +  resource management. It exists on some i.MX8 processors. e.g. i.MX8QM
-> +  (QM, QP), and i.MX8QX (QXP, DX).
-> +  The AP communicates with the SC using a multi-ported MU module found
-> +  in the LSIO subsystem. The current definition of this MU module provides
-> +  5 remote AP connections to the SC to support up to 5 execution environments
-> +  (TZ, HV, standard Linux, etc.). The SC side of this MU module interfaces
-> +  with the LSIO DSC IP bus. The SC firmware will communicate with this MU
-> +  using the MSI bus.
-> +
-> +properties:
-> +  $nodename:
-> +    const: 'scu'
-
-Why enforcing node name? Second point is that node names should be
-generic, so I wonder what "SCU" exactly means and whether it is generic?
-
-> +
-> +  compatible:
-> +    const: fsl,imx-scu
-> +
-> +  clock-controller:
-> +    description: |
-> +      $ref: /schemas/clock/fsl,scu-clk.yaml
-
-That's not a valid syntax. ref is not part of description
-
-> +      Clock controller node that provides the clocks controlled by the SCU
-> +
-> +  imx8qx-ocotp:
-> +    description: |
-> +      $ref: /schemas/nvmem/fsl,scu-ocotp.yaml
-> +      OCOTP controller node provided by the SCU
-> +
-> +  keys:
-> +    description: |
-> +      $ref: /schemas/input/fsl,scu-key.yaml
-> +      Keys provided by the SCU
-> +
-> +  mboxes:
-> +    description: |
-> +      $ref: /schemas/mailbox/fsl,mu.yaml
-> +      List of phandle of 4 MU channels for tx, 4 MU channels for
-> +      rx, and 1 optional MU channel for general interrupt.
-> +      All MU channels must be in the same MU instance.
-> +      Cross instances are not allowed. The MU instance can only
-> +      be one of LSIO MU0~M4 for imx8qxp and imx8qm. Users need
-> +      to make sure use the one which is not conflict with other
-> +      execution environments. e.g. ATF.
-> +    minItems: 1
-> +    maxItems: 10
-> +
-> +  mbox-names:
-> +    description:
-> +      include "gip3" if want to support general MU interrupt.
-> +    minItems: 1
-> +    maxItems: 10
-> +
-> +  pinctrl:
-> +    description: |
-> +      $ref: /schemas/pinctrl/fsl,scu-pinctrl.yaml
-> +      Pin controller provided by the SCU
-> +
-> +  power-controller:
-> +    description: |
-> +      $ref: /schemas/power/fsl,scu-pd.yaml
-> +      Power domains controller node that provides the power domains
-> +      controlled by the SCU
-> +
-> +  rtc:
-> +    description: |
-> +      $ref: /schemas/rtc/fsl,scu-rtc.yaml
-> +      RTC controller provided by the SCU
-> +
-> +  thermal-sensor:
-> +    description: |
-> +      $ref: /schemas/thermal/fsl,scu-thermal.yaml
-> +      Thermal sensor provided by the SCU
-> +
-> +  watchdog:
-> +    description: |
-> +      $ref: /schemas/watchdog/fsl,scu-wdt.yaml
-> +      Watchdog controller provided by the SCU
-> +
-> +required:
-> +  - compatible
-> +  - mbox-names
-> +  - mboxes
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/firmware/imx/rsrc.h>
-> +    #include <dt-bindings/input/input.h>
-> +    #include <dt-bindings/pinctrl/pads-imx8qxp.h>
-> +
-> +    firmware {
-> +           scu {
-> +                   compatible = "fsl,imx-scu";
-> +                   mbox-names = "tx0", "tx1", "tx2", "tx3",
-> +                                "rx0", "rx1", "rx2", "rx3",
-> +                                "gip3";
-> +                   mboxes = <&lsio_mu1 0 0
-> +                            &lsio_mu1 0 1
-> +                            &lsio_mu1 0 2
-> +                            &lsio_mu1 0 3
-> +                            &lsio_mu1 1 0
-> +                            &lsio_mu1 1 1
-> +                            &lsio_mu1 1 2
-> +                            &lsio_mu1 1 3
-> +                            &lsio_mu1 3 3>;
-> +
-> +                   clock-controller {
-> +                            compatible = "fsl,imx8qxp-clk", "fsl,scu-clk";
-> +                            #clock-cells = <2>;
-> +                   };
-> +
-> +                   pinctrl {
-> +                            compatible = "fsl,imx8qxp-iomuxc";
-> +
-> +                            pinctrl_lpuart0: lpuart0grp {
-> +                                   fsl,pins = <
-> +                                           IMX8QXP_UART0_RX_ADMA_UART0_RX   0x06000020
-> +                                           IMX8QXP_UART0_TX_ADMA_UART0_TX   0x06000020
-> +                                   >;
-> +                            };
-> +                   };
-> +
-> +                   imx8qx-ocotp {
-> +                            compatible = "fsl,imx8qxp-scu-ocotp";
-> +                            #address-cells = <1>;
-> +                            #size-cells = <1>;
-> +
-> +                            fec_mac0: mac@2c4 {
-> +                                   reg = <0x2c4 6>;
-> +                            };
-> +                   };
-> +
-> +                   power-controller {
-> +                            compatible = "fsl,imx8qxp-scu-pd", "fsl,scu-pd";
-> +                            #power-domain-cells = <1>;
-> +                   };
-> +
-> +                   rtc {
-> +                            compatible = "fsl,imx8qxp-sc-rtc";
-> +                   };
-> +
-> +                   keys {
-> +                            compatible = "fsl,imx8qxp-sc-key", "fsl,imx-sc-key";
-> +                            linux,keycodes = <KEY_POWER>;
-> +                   };
-> +
-> +                   watchdog {
-> +                            compatible = "fsl,imx8qxp-sc-wdt", "fsl,imx-sc-wdt";
-> +                            timeout-sec = <60>;
-> +                   };
-> +
-> +                   thermal-sensor {
-> +                            compatible = "fsl,imx8qxp-sc-thermal", "fsl,imx-sc-thermal";
-> +                            #thermal-sensor-cells = <1>;
-> +                   };
-> +            };
-> +    };
-
-
-Best regards,
-Krzysztof
+4YOr4YOV4YOY4YOg4YOk4YOQ4YOh4YOdIOGDkeGDlOGDnOGDlOGDpOGDmOGDquGDmOGDkOGDoOGD
+nSwNCuGDlOGDoSDhg6zhg5Thg6Dhg5jhg5rhg5gg4YOS4YOQ4YOb4YOd4YOS4YOY4YOS4YOW4YOQ
+4YOV4YOc4YOUIOGDlOGDoOGDl+GDmCDhg5fhg5Xhg5jhg6Eg4YOs4YOY4YOcLCDhg5vhg5Dhg5Lh
+g6Dhg5Dhg5sg4YOo4YOU4YOc4YOS4YOQ4YOcIOGDkOGDoOGDkOGDpOGDlOGDoOGDmCDhg5vhg6Hh
+g5vhg5Thg5zhg5jhg5AsIOGDkOGDoOGDkA0K4YOT4YOQ4YOg4YOs4YOb4YOj4YOc4YOU4YOR4YOj
+4YOa4YOYIOGDleGDkOGDoCwg4YOb4YOY4YOY4YOm4YOUIOGDk+GDkCDhg5Dhg5vhg5jhg6Lhg53h
+g5sg4YOY4YOh4YOU4YOVIOGDkuGDkOGDm+GDneGDkuGDmOGDkuGDluGDkOGDleGDnOGDlC4NCuGD
+nuGDmOGDoOGDleGDlOGDmiDhg6Dhg5jhg5Lhg6jhg5gsIOGDm+GDlCDhg5Xhg5Dhg6Ag4YOl4YOQ
+4YOa4YOR4YOQ4YOi4YOd4YOc4YOYIOGDmeGDoOGDmOGDoeGDouGDkOGDmuGDmOGDnOGDkCDhg5Lh
+g5Thg53hg6Dhg5Lhg5jhg5Thg5Xhg5AsIOGDm+GDm+GDkOGDoOGDl+GDleGDlOGDmuGDmCDhg5Ph
+g5jhg6Dhg5Thg6Xhg6Lhg53hg6Dhg5gg4YOT4YOQDQrhg6Hhg5Dhg5Thg6Dhg5fhg5Dhg6jhg53h
+g6Dhg5jhg6Hhg50g4YOh4YOQ4YOV4YOQ4YOa4YOj4YOi4YOdIOGDpOGDneGDnOGDk+GDmOGDoSDh
+g57hg6Dhg5Thg5bhg5jhg5Phg5Thg5zhg6Lhg5guDQoNCuGDpOGDkOGDpeGDouGDneGDkeGDoOGD
+mOGDleGDkOGDkywg4YOp4YOV4YOU4YOcIOGDkuGDkOGDnOGDleGDmOGDruGDmOGDmuGDlOGDlyDh
+g6fhg5Xhg5Thg5rhg5Ag4YOT4YOQ4YOR4YOg4YOZ4YOd4YOa4YOU4YOR4YOQIOGDk+GDkCDhg5jh
+g6Dhg5Lhg5Xhg5rhg5jhg5Ug4YOQ4YOg4YOh4YOU4YOR4YOj4YOa4YOYIOGDnuGDoOGDneGDkeGD
+muGDlOGDm+GDkA0K4YOX4YOl4YOV4YOU4YOc4YOYIOGDkOGDoOGDkOGDoeGDoOGDo+GDmuGDmCDh
+g6Lhg6Dhg5Dhg5zhg5bhg5Dhg6Xhg6rhg5jhg5Ag4YOT4YOQIOGDl+GDpeGDleGDlOGDnOGDmCDh
+g6Phg6Phg5zhg5Dhg6Dhg53hg5Hhg5Ag4YOT4YOQ4YOk4YOQ4YOg4YOd4YOXIOGDkuGDkOGDk+GD
+kOGDoeGDkOGDruGDkOGDk+GDlOGDkeGDmA0K4YOS4YOQ4YOT4YOQ4YOg4YOY4YOq4YOu4YOV4YOY
+4YOhIOGDoeGDkOGDmeGDneGDm+GDmOGDoeGDmOGDnSDhg5Phg5Dhg6zhg5Thg6Hhg5Thg5Hhg6Ph
+g5rhg5gsIOGDl+GDpeGDleGDlOGDnOGDoSDhg6zhg5jhg5zhg5Dhg5Dhg6bhg5vhg5Phg5Thg5Is
+IOGDleGDkOGDoOGDmOGDkOGDnOGDouGDlOGDkeGDmOGDoeGDl+GDleGDmOGDoQ0K4YOs4YOY4YOc
+4YOQIOGDkuGDkOGDk+GDkOGDoOGDmOGDquGDruGDleGDlOGDkeGDmCwg4YOU4YOs4YOV4YOY4YOU
+4YOXIOGDqeGDleGDlOGDnOGDoSDhg6Hhg5Dhg5jhg6Lhg6Eg4YOT4YOQ4YOT4YOQ4YOh4YOi4YOj
+4YOg4YOU4YOR4YOY4YOh4YOX4YOV4YOY4YOhIDM4DQrCsCA1M+KAsjU2IOKAsyBOIDc3IMKwIDIg
+4oCyIDM5IOKAsyDhg5Phg5Dhg6Hhg5Dhg5Xhg5rhg5Thg5fhg5jhg5cNCg0K4YOp4YOV4YOU4YOc
+IOGDleGDkOGDoOGDlyDhg5Phg5jhg6Dhg5Thg6Xhg6Lhg53hg6Dhg5fhg5Ag4YOh4YOQ4YOR4YOt
+4YOdLCDhg5vhg6Hhg53hg6Thg5rhg5jhg50g4YOR4YOQ4YOc4YOZ4YOYIOGDk+GDkCDhg6Hhg5Dh
+g5Xhg5Dhg5rhg6Phg6Lhg50g4YOk4YOd4YOc4YOT4YOYDQrhg5Xhg5Dhg6jhg5jhg5zhg5Lhg6Lh
+g53hg5zhg5jhg6Eg4YOh4YOQ4YOU4YOg4YOX4YOQ4YOo4YOd4YOg4YOY4YOh4YOdIChJTUYpIOGD
+k+GDlOGDnuGDkOGDoOGDouGDkOGDm+GDlOGDnOGDouGDl+GDkOGDnCDhg5Thg6Dhg5fhg5Dhg5MN
+CuGDqOGDlOGDlOGDoOGDl+GDlOGDkeGDo+GDmuGDmCDhg6jhg6Lhg5Dhg6Lhg5Thg5Hhg5jhg6Eg
+4YOu4YOQ4YOW4YOY4YOc4YOQIOGDk+GDkCDhg6Hhg67hg5Xhg5Ag4YOh4YOQ4YOS4YOQ4YOb4YOd
+4YOr4YOY4YOU4YOR4YOdIOGDo+GDrOGDp+GDlOGDkeGDlOGDkeGDmA0K4YOQ4YOl4YOi4YOj4YOQ
+4YOa4YOj4YOg4YOY4YOQIOGDkOGDm+GDlOGDoOGDmOGDmeGDmOGDoSDhg6jhg5Thg5Thg6Dhg5fh
+g5Thg5Hhg6Phg5og4YOo4YOi4YOQ4YOi4YOU4YOR4YOo4YOYLiDhg6Phg5Hhg6Dhg6vhg5Dhg5zh
+g5ANCuGDqeGDleGDlOGDnOGDmCDhg6Hhg5Dhg5bhg6bhg5Xhg5Dhg6Dhg5Lhg5Dhg6Dhg5Thg5fh
+g6Phg5rhg5gg4YOS4YOQ4YOT4YOQ4YOu4YOT4YOU4YOR4YOY4YOhIOGDpOGDo+GDmuGDkOGDk+GD
+mCDhg5Lhg5bhg5Dhg5Xhg5zhg5jhg5rhg5Thg5Hhg5jhg6Eg4YOS4YOQ4YOc4YOn4YOd4YOk4YOY
+4YOa4YOU4YOR4YOQLCBVbml0ZWQgQmFuayBvZg0K4YOQ4YOk4YOg4YOY4YOZ4YOQIOGDmuGDneGD
+m+GDlCDhg6Lhg53hg5Lhg50sIOGDkuGDkOGDoeGDquGDlOGDoSDhg5fhg6Xhg5Xhg5Thg5wgVklT
+QSDhg5Hhg5Dhg6Dhg5Dhg5fhg5gsIOGDoeGDkOGDk+GDkOGDqiAkDQoxLDUg4YOb4YOY4YOa4YOY
+4YOd4YOc4YOYIOGDl+GDpeGDleGDlOGDnOGDmCDhg6Thg53hg5zhg5Phg5jhg5Phg5Dhg5wsIOGD
+l+GDpeGDleGDlOGDnOGDmCDhg6Thg53hg5zhg5Phg5jhg5Phg5Dhg5wg4YOj4YOk4YOg4YOdIOGD
+k+GDmOGDk+GDmCDhg5Dhg5vhg53hg6bhg5Thg5Hhg5jhg6Hhg5fhg5Xhg5jhg6EuDQoNCuGDqeGD
+leGDlOGDnOGDmCDhg5Lhg5Dhg5vhg53hg6vhg5jhg5Thg5Hhg5jhg6Eg4YOT4YOg4YOd4YOhIOGD
+kOGDpuGDm+GDneGDleGDkOGDqeGDmOGDnOGDlOGDlw0K4YOo4YOU4YOs4YOj4YOu4YOU4YOR4YOj
+4YOa4YOY4YOQLCDhg6Dhg53hg5sg4YOX4YOl4YOV4YOU4YOc4YOYIOGDkuGDkOGDk+GDkOGDruGD
+k+GDkCDhg5Phg5Dhg5Lhg5Xhg5jhg5Dhg5zhg5Thg5Hhg6Phg5rhg5jhg5Ag4YOZ4YOd4YOg4YOj
+4YOb4YOe4YOY4YOg4YOU4YOR4YOj4YOa4YOYIOGDqeGDmOGDnOGDneGDleGDnOGDmOGDmeGDlOGD
+keGDmOGDoSDhg5vhg5jhg5Thg6ANCuGDkeGDkOGDnOGDmeGDmOGDoSwg4YOg4YOd4YOb4YOU4YOa
+4YOY4YOqIOGDquGDk+GDmOGDmuGDneGDkeGDoSDhg5Lhg5Dhg5Phg5Dhg5jhg6Lhg5Dhg5zhg53h
+g6Eg4YOX4YOl4YOV4YOU4YOc4YOYIOGDl+GDkOGDnOGDruGDlOGDkeGDmCDhg5fhg6Xhg5Xhg5Th
+g5zhg6Eg4YOQ4YOc4YOS4YOQ4YOg4YOY4YOo4YOU4YOR4YOW4YOUDQrhg5nhg5Thg6Dhg6vhg50u
+DQoNCuGDk+GDpuGDlOGDoSDhg5nhg5gg4YOS4YOQ4YOq4YOc4YOd4YOR4YOU4YOR4YOXLCDhg6Dh
+g53hg5sg4YOX4YOl4YOV4YOU4YOc4YOYIOGDpOGDneGDnOGDk+GDmCDhg6nhg5Dhg6Dhg5jhg6rh
+g67hg6Phg5rhg5jhg5Ag4YOR4YOQ4YOg4YOQ4YOX4YOW4YOUDQrhg5Xhg5jhg5bhg5AgVUJBIOGD
+keGDkOGDnOGDmeGDmOGDoSDhg5vhg5jhg5Thg6Ag4YOT4YOQIOGDmOGDoSDhg5Dhg6Hhg5Thg5Xh
+g5Qg4YOb4YOW4YOQ4YOTIOGDkOGDoOGDmOGDoSDhg5vhg5jhg6zhg53hg5Phg5Thg5Hhg5jhg6Hh
+g5fhg5Xhg5jhg6EuIOGDkOGDruGDmuGDkA0K4YOT4YOQ4YOj4YOZ4YOQ4YOV4YOo4YOY4YOg4YOT
+4YOY4YOXIFVCQSBCYW5rLeGDmOGDoSDhg5Phg5jhg6Dhg5Thg6Xhg6Lhg53hg6Dhg6EsIOGDm+GD
+mOGDoeGDmCDhg6Hhg5Dhg67hg5Thg5rhg5jhg5Ag4YOR4YOQ4YOi4YOd4YOc4YOYIOGDouGDneGD
+nOGDmA0K4YOU4YOa4YOj4YOb4YOU4YOa4YOdLCDhg5Thg5rhg6Thg53hg6Hhg6Lhg5A6IChjZmMu
+dWJhZ3JvdXAwOUBnbWFpbC5jb20pDQrhg5Lhg5jhg5fhg67hg6Dhg5Dhg5csIOGDoOGDneGDkuGD
+neGDoCDhg5vhg5jhg5jhg6bhg53hg5cg4YOX4YOl4YOV4YOU4YOc4YOYIOGDkeGDkOGDnOGDmeGD
+neGDm+GDkOGDouGDmOGDoSBWSVNBIOGDkeGDkOGDoOGDkOGDl+GDmC4NCg0K4YOe4YOQ4YOi4YOY
+4YOV4YOY4YOh4YOq4YOU4YOb4YOY4YOXLA0KDQrhg6Xhg5Dhg5rhg5Hhg5Dhg6Lhg53hg5zhg5gg
+4YOZ4YOg4YOY4YOh4YOi4YOQ4YOa4YOY4YOc4YOQIOGDkuGDlOGDneGDoOGDkuGDmOGDlOGDleGD
+kA0K
