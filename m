@@ -2,139 +2,334 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E304C5599D7
-	for <lists+linux-input@lfdr.de>; Fri, 24 Jun 2022 14:50:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 345D755AAE6
+	for <lists+linux-input@lfdr.de>; Sat, 25 Jun 2022 16:23:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231742AbiFXMuR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 24 Jun 2022 08:50:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59342 "EHLO
+        id S232029AbiFYORE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 25 Jun 2022 10:17:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231538AbiFXMuQ (ORCPT
+        with ESMTP id S229524AbiFYORE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 24 Jun 2022 08:50:16 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 003B94ECE4
-        for <linux-input@vger.kernel.org>; Fri, 24 Jun 2022 05:50:13 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id l11so4277001ybu.13
-        for <linux-input@vger.kernel.org>; Fri, 24 Jun 2022 05:50:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=ynnFo8wbEpRzpMcC7T2LlT0Y3X6o/Sd/zn9vXuq4PCA=;
-        b=c+5c1P0kea2PX7g7vl8p2f+WA1SSHr7sGWBZ38mvAGVhReqCiKC3Ic5Wc7uZcJk2pp
-         Xlw5pQqd1eVzB0ET0y/LizVGPA8reWzpFqeozyA2KMNtAwvugK2TM5DNmt8/o/IyYONL
-         zYkH0hpZd+U9SsGqjYHTtEjAHFdwlYcR4AuAL7Z5OT1J4qfUN+VghQbzvj/vFzWb819K
-         HJZP5HpnXXb0UTVUoQbY3f9E89Vg1Yc0GA7tjI4/R3CfWbzVVm0L1AFTyk5BY8Mvu9HD
-         EC3s7zE2TPxsavJP+VwqtCNRC9LV/umtxosHXQ/eNoplY3NYo0LZu9EYE5VT7it5I0Cx
-         c8vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=ynnFo8wbEpRzpMcC7T2LlT0Y3X6o/Sd/zn9vXuq4PCA=;
-        b=nLe7hJ9NWxZxAgmsukhEcnQTMf2/7oGUHHc4GHnvQzh3tMv/Tqc5yTSK0SnqLNw4l+
-         Y6gVEnH1OqeMuSCwYexELdEGvMslLG6z1lLVbVLfwht6PA85bcY3VxshU2/k7zEpBxsD
-         POd7jHuSiPoXYEKjPqHCzwdEpzhlSWkX0HCKQMF+oPxR/8NaA9rMamKw9Lc0kX1ed6p5
-         ZW7p/wTCyKD1SdP9EjWFYgopGzkk5E6/KgUwwAg+OsUn6UpmfpSnPJt/RWH7RUNhwTRe
-         MY/sYj1eqgJ/4I3WAavXR7eWnmCYJszwWa1x0v4SB4ri7AnNTmXnzHJrcdmDWPYNz2GZ
-         P7Vg==
-X-Gm-Message-State: AJIora/p/vOsXmSWZi6HgYx3gf6YKFcmgwbfNAlSdLSHiK5e4wjeJfSo
-        k1XAuq6X1vFKrOS16Zn/qW9Ig94rl5SFv50/0jw=
-X-Google-Smtp-Source: AGRyM1uryY6RJSXQqYEBpM3frXh1VDPjQiK69XDDSOeTohwETxydv93A9rhV0qQo60UrLCn4SlmE2Nt9NZV/2TYCogM=
-X-Received: by 2002:a05:6902:4c1:b0:66a:fe3b:24ab with SMTP id
- v1-20020a05690204c100b0066afe3b24abmr2903882ybs.24.1656075013015; Fri, 24 Jun
- 2022 05:50:13 -0700 (PDT)
+        Sat, 25 Jun 2022 10:17:04 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F84511166;
+        Sat, 25 Jun 2022 07:17:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id EFFF3B80B6F;
+        Sat, 25 Jun 2022 14:17:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECF55C3411C;
+        Sat, 25 Jun 2022 14:16:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656166619;
+        bh=DPdph+BPnWRw4GV1RBw9IJIXu7QRVxKcJtV/fs6dT8Q=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=FPoFpK3mxtX4Rgu/8uPhdmD1dW4zg4iNdkw/IUTQWs4/P/u6Hh92T2QGf8I/TNPTK
+         XK8OrbtCNtA4Kjs9tLlz9C4aQsEuKAfVeyID6KUYivMRX841z9HFskBzIJ/8UYupqK
+         /tulztVTe+d2qqhWBtCH8JVxyk+FQDfGgD5ja41b+2vTkDaNQb2qzAX7eDhdfOA7d1
+         rutSpcJdgmtViv6GwFl7SqPec9IRxs67Ce2E2SfD9QmXJvzRCMKnm/UZgnH7m1Sn0o
+         nmPzVkRAoUb0EMUaX+JxHPk6/i1o5E/SKiOs2w+yC/VMEo57rzH/nicD4bagCfY8C4
+         K8jm0DxcLnTqA==
+Date:   Sat, 25 Jun 2022 15:26:26 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Chris Morgan <macromorgan@hotmail.com>
+Cc:     Artur Rojek <contact@artur-rojek.eu>,
+        Chris Morgan <macroalpha82@gmail.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        maccraft123mc@gmail.com, heiko@sntech.de,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        dmitry.torokhov@gmail.com, Paul Cercueil <paul@crapouillou.net>,
+        linux-iio@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] Input: adc-joystick - Add polled input device
+ support
+Message-ID: <20220625152626.39b26d2e@jic23-huawei>
+In-Reply-To: <SN6PR06MB5342A21E55CF37B348D6F48FA5B39@SN6PR06MB5342.namprd06.prod.outlook.com>
+References: <20220613192353.696-1-macroalpha82@gmail.com>
+        <20220613192353.696-3-macroalpha82@gmail.com>
+        <ec496fcf808d73fe356d1961d89bf1ff@artur-rojek.eu>
+        <SN6PR06MB5342762DE16AFC607CA9D5F9A5AD9@SN6PR06MB5342.namprd06.prod.outlook.com>
+        <cdb956639e9550b287db31b762f7b764@artur-rojek.eu>
+        <20220619163230.3130be79@jic23-huawei>
+        <8225d239df59501b51fa71bac625827e@artur-rojek.eu>
+        <SN6PR06MB5342A21E55CF37B348D6F48FA5B39@SN6PR06MB5342.namprd06.prod.outlook.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Received: by 2002:a05:7000:5496:0:0:0:0 with HTTP; Fri, 24 Jun 2022 05:50:12
- -0700 (PDT)
-Reply-To: cfc.ubagroup09@gmail.com
-From:   Kristalina Georgieva <krillvladislav@gmail.com>
-Date:   Fri, 24 Jun 2022 05:50:12 -0700
-Message-ID: <CAG08H6=RxuBrC2L=Wmwi9ROcEL4TBHJ4EWPhTZ5BK=+cdn-3rw@mail.gmail.com>
-Subject: =?UTF-8?B?4bKZ4bKQ4bKg4bKS4bKYIOGykOGym+GykeGykOGyleGymA==?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=4.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-4YOr4YOV4YOY4YOg4YOk4YOQ4YOh4YOdIOGDkeGDlOGDnOGDlOGDpOGDmOGDquGDmOGDkOGDoOGD
-nSwNCuGDlOGDoSDhg6zhg5Thg6Dhg5jhg5rhg5gg4YOS4YOQ4YOb4YOd4YOS4YOY4YOS4YOW4YOQ
-4YOV4YOc4YOUIOGDlOGDoOGDl+GDmCDhg5fhg5Xhg5jhg6Eg4YOs4YOY4YOcLCDhg5vhg5Dhg5Lh
-g6Dhg5Dhg5sg4YOo4YOU4YOc4YOS4YOQ4YOcIOGDkOGDoOGDkOGDpOGDlOGDoOGDmCDhg5vhg6Hh
-g5vhg5Thg5zhg5jhg5AsIOGDkOGDoOGDkA0K4YOT4YOQ4YOg4YOs4YOb4YOj4YOc4YOU4YOR4YOj
-4YOa4YOYIOGDleGDkOGDoCwg4YOb4YOY4YOY4YOm4YOUIOGDk+GDkCDhg5Dhg5vhg5jhg6Lhg53h
-g5sg4YOY4YOh4YOU4YOVIOGDkuGDkOGDm+GDneGDkuGDmOGDkuGDluGDkOGDleGDnOGDlC4NCuGD
-nuGDmOGDoOGDleGDlOGDmiDhg6Dhg5jhg5Lhg6jhg5gsIOGDm+GDlCDhg5Xhg5Dhg6Ag4YOl4YOQ
-4YOa4YOR4YOQ4YOi4YOd4YOc4YOYIOGDmeGDoOGDmOGDoeGDouGDkOGDmuGDmOGDnOGDkCDhg5Lh
-g5Thg53hg6Dhg5Lhg5jhg5Thg5Xhg5AsIOGDm+GDm+GDkOGDoOGDl+GDleGDlOGDmuGDmCDhg5Ph
-g5jhg6Dhg5Thg6Xhg6Lhg53hg6Dhg5gg4YOT4YOQDQrhg6Hhg5Dhg5Thg6Dhg5fhg5Dhg6jhg53h
-g6Dhg5jhg6Hhg50g4YOh4YOQ4YOV4YOQ4YOa4YOj4YOi4YOdIOGDpOGDneGDnOGDk+GDmOGDoSDh
-g57hg6Dhg5Thg5bhg5jhg5Phg5Thg5zhg6Lhg5guDQoNCuGDpOGDkOGDpeGDouGDneGDkeGDoOGD
-mOGDleGDkOGDkywg4YOp4YOV4YOU4YOcIOGDkuGDkOGDnOGDleGDmOGDruGDmOGDmuGDlOGDlyDh
-g6fhg5Xhg5Thg5rhg5Ag4YOT4YOQ4YOR4YOg4YOZ4YOd4YOa4YOU4YOR4YOQIOGDk+GDkCDhg5jh
-g6Dhg5Lhg5Xhg5rhg5jhg5Ug4YOQ4YOg4YOh4YOU4YOR4YOj4YOa4YOYIOGDnuGDoOGDneGDkeGD
-muGDlOGDm+GDkA0K4YOX4YOl4YOV4YOU4YOc4YOYIOGDkOGDoOGDkOGDoeGDoOGDo+GDmuGDmCDh
-g6Lhg6Dhg5Dhg5zhg5bhg5Dhg6Xhg6rhg5jhg5Ag4YOT4YOQIOGDl+GDpeGDleGDlOGDnOGDmCDh
-g6Phg6Phg5zhg5Dhg6Dhg53hg5Hhg5Ag4YOT4YOQ4YOk4YOQ4YOg4YOd4YOXIOGDkuGDkOGDk+GD
-kOGDoeGDkOGDruGDkOGDk+GDlOGDkeGDmA0K4YOS4YOQ4YOT4YOQ4YOg4YOY4YOq4YOu4YOV4YOY
-4YOhIOGDoeGDkOGDmeGDneGDm+GDmOGDoeGDmOGDnSDhg5Phg5Dhg6zhg5Thg6Hhg5Thg5Hhg6Ph
-g5rhg5gsIOGDl+GDpeGDleGDlOGDnOGDoSDhg6zhg5jhg5zhg5Dhg5Dhg6bhg5vhg5Phg5Thg5Is
-IOGDleGDkOGDoOGDmOGDkOGDnOGDouGDlOGDkeGDmOGDoeGDl+GDleGDmOGDoQ0K4YOs4YOY4YOc
-4YOQIOGDkuGDkOGDk+GDkOGDoOGDmOGDquGDruGDleGDlOGDkeGDmCwg4YOU4YOs4YOV4YOY4YOU
-4YOXIOGDqeGDleGDlOGDnOGDoSDhg6Hhg5Dhg5jhg6Lhg6Eg4YOT4YOQ4YOT4YOQ4YOh4YOi4YOj
-4YOg4YOU4YOR4YOY4YOh4YOX4YOV4YOY4YOhIDM4DQrCsCA1M+KAsjU2IOKAsyBOIDc3IMKwIDIg
-4oCyIDM5IOKAsyDhg5Phg5Dhg6Hhg5Dhg5Xhg5rhg5Thg5fhg5jhg5cNCg0K4YOp4YOV4YOU4YOc
-IOGDleGDkOGDoOGDlyDhg5Phg5jhg6Dhg5Thg6Xhg6Lhg53hg6Dhg5fhg5Ag4YOh4YOQ4YOR4YOt
-4YOdLCDhg5vhg6Hhg53hg6Thg5rhg5jhg50g4YOR4YOQ4YOc4YOZ4YOYIOGDk+GDkCDhg6Hhg5Dh
-g5Xhg5Dhg5rhg6Phg6Lhg50g4YOk4YOd4YOc4YOT4YOYDQrhg5Xhg5Dhg6jhg5jhg5zhg5Lhg6Lh
-g53hg5zhg5jhg6Eg4YOh4YOQ4YOU4YOg4YOX4YOQ4YOo4YOd4YOg4YOY4YOh4YOdIChJTUYpIOGD
-k+GDlOGDnuGDkOGDoOGDouGDkOGDm+GDlOGDnOGDouGDl+GDkOGDnCDhg5Thg6Dhg5fhg5Dhg5MN
-CuGDqOGDlOGDlOGDoOGDl+GDlOGDkeGDo+GDmuGDmCDhg6jhg6Lhg5Dhg6Lhg5Thg5Hhg5jhg6Eg
-4YOu4YOQ4YOW4YOY4YOc4YOQIOGDk+GDkCDhg6Hhg67hg5Xhg5Ag4YOh4YOQ4YOS4YOQ4YOb4YOd
-4YOr4YOY4YOU4YOR4YOdIOGDo+GDrOGDp+GDlOGDkeGDlOGDkeGDmA0K4YOQ4YOl4YOi4YOj4YOQ
-4YOa4YOj4YOg4YOY4YOQIOGDkOGDm+GDlOGDoOGDmOGDmeGDmOGDoSDhg6jhg5Thg5Thg6Dhg5fh
-g5Thg5Hhg6Phg5og4YOo4YOi4YOQ4YOi4YOU4YOR4YOo4YOYLiDhg6Phg5Hhg6Dhg6vhg5Dhg5zh
-g5ANCuGDqeGDleGDlOGDnOGDmCDhg6Hhg5Dhg5bhg6bhg5Xhg5Dhg6Dhg5Lhg5Dhg6Dhg5Thg5fh
-g6Phg5rhg5gg4YOS4YOQ4YOT4YOQ4YOu4YOT4YOU4YOR4YOY4YOhIOGDpOGDo+GDmuGDkOGDk+GD
-mCDhg5Lhg5bhg5Dhg5Xhg5zhg5jhg5rhg5Thg5Hhg5jhg6Eg4YOS4YOQ4YOc4YOn4YOd4YOk4YOY
-4YOa4YOU4YOR4YOQLCBVbml0ZWQgQmFuayBvZg0K4YOQ4YOk4YOg4YOY4YOZ4YOQIOGDmuGDneGD
-m+GDlCDhg6Lhg53hg5Lhg50sIOGDkuGDkOGDoeGDquGDlOGDoSDhg5fhg6Xhg5Xhg5Thg5wgVklT
-QSDhg5Hhg5Dhg6Dhg5Dhg5fhg5gsIOGDoeGDkOGDk+GDkOGDqiAkDQoxLDUg4YOb4YOY4YOa4YOY
-4YOd4YOc4YOYIOGDl+GDpeGDleGDlOGDnOGDmCDhg6Thg53hg5zhg5Phg5jhg5Phg5Dhg5wsIOGD
-l+GDpeGDleGDlOGDnOGDmCDhg6Thg53hg5zhg5Phg5jhg5Phg5Dhg5wg4YOj4YOk4YOg4YOdIOGD
-k+GDmOGDk+GDmCDhg5Dhg5vhg53hg6bhg5Thg5Hhg5jhg6Hhg5fhg5Xhg5jhg6EuDQoNCuGDqeGD
-leGDlOGDnOGDmCDhg5Lhg5Dhg5vhg53hg6vhg5jhg5Thg5Hhg5jhg6Eg4YOT4YOg4YOd4YOhIOGD
-kOGDpuGDm+GDneGDleGDkOGDqeGDmOGDnOGDlOGDlw0K4YOo4YOU4YOs4YOj4YOu4YOU4YOR4YOj
-4YOa4YOY4YOQLCDhg6Dhg53hg5sg4YOX4YOl4YOV4YOU4YOc4YOYIOGDkuGDkOGDk+GDkOGDruGD
-k+GDkCDhg5Phg5Dhg5Lhg5Xhg5jhg5Dhg5zhg5Thg5Hhg6Phg5rhg5jhg5Ag4YOZ4YOd4YOg4YOj
-4YOb4YOe4YOY4YOg4YOU4YOR4YOj4YOa4YOYIOGDqeGDmOGDnOGDneGDleGDnOGDmOGDmeGDlOGD
-keGDmOGDoSDhg5vhg5jhg5Thg6ANCuGDkeGDkOGDnOGDmeGDmOGDoSwg4YOg4YOd4YOb4YOU4YOa
-4YOY4YOqIOGDquGDk+GDmOGDmuGDneGDkeGDoSDhg5Lhg5Dhg5Phg5Dhg5jhg6Lhg5Dhg5zhg53h
-g6Eg4YOX4YOl4YOV4YOU4YOc4YOYIOGDl+GDkOGDnOGDruGDlOGDkeGDmCDhg5fhg6Xhg5Xhg5Th
-g5zhg6Eg4YOQ4YOc4YOS4YOQ4YOg4YOY4YOo4YOU4YOR4YOW4YOUDQrhg5nhg5Thg6Dhg6vhg50u
-DQoNCuGDk+GDpuGDlOGDoSDhg5nhg5gg4YOS4YOQ4YOq4YOc4YOd4YOR4YOU4YOR4YOXLCDhg6Dh
-g53hg5sg4YOX4YOl4YOV4YOU4YOc4YOYIOGDpOGDneGDnOGDk+GDmCDhg6nhg5Dhg6Dhg5jhg6rh
-g67hg6Phg5rhg5jhg5Ag4YOR4YOQ4YOg4YOQ4YOX4YOW4YOUDQrhg5Xhg5jhg5bhg5AgVUJBIOGD
-keGDkOGDnOGDmeGDmOGDoSDhg5vhg5jhg5Thg6Ag4YOT4YOQIOGDmOGDoSDhg5Dhg6Hhg5Thg5Xh
-g5Qg4YOb4YOW4YOQ4YOTIOGDkOGDoOGDmOGDoSDhg5vhg5jhg6zhg53hg5Phg5Thg5Hhg5jhg6Hh
-g5fhg5Xhg5jhg6EuIOGDkOGDruGDmuGDkA0K4YOT4YOQ4YOj4YOZ4YOQ4YOV4YOo4YOY4YOg4YOT
-4YOY4YOXIFVCQSBCYW5rLeGDmOGDoSDhg5Phg5jhg6Dhg5Thg6Xhg6Lhg53hg6Dhg6EsIOGDm+GD
-mOGDoeGDmCDhg6Hhg5Dhg67hg5Thg5rhg5jhg5Ag4YOR4YOQ4YOi4YOd4YOc4YOYIOGDouGDneGD
-nOGDmA0K4YOU4YOa4YOj4YOb4YOU4YOa4YOdLCDhg5Thg5rhg6Thg53hg6Hhg6Lhg5A6IChjZmMu
-dWJhZ3JvdXAwOUBnbWFpbC5jb20pDQrhg5Lhg5jhg5fhg67hg6Dhg5Dhg5csIOGDoOGDneGDkuGD
-neGDoCDhg5vhg5jhg5jhg6bhg53hg5cg4YOX4YOl4YOV4YOU4YOc4YOYIOGDkeGDkOGDnOGDmeGD
-neGDm+GDkOGDouGDmOGDoSBWSVNBIOGDkeGDkOGDoOGDkOGDl+GDmC4NCg0K4YOe4YOQ4YOi4YOY
-4YOV4YOY4YOh4YOq4YOU4YOb4YOY4YOXLA0KDQrhg6Xhg5Dhg5rhg5Hhg5Dhg6Lhg53hg5zhg5gg
-4YOZ4YOg4YOY4YOh4YOi4YOQ4YOa4YOY4YOc4YOQIOGDkuGDlOGDneGDoOGDkuGDmOGDlOGDleGD
-kA0K
+On Tue, 21 Jun 2022 16:41:01 -0500
+Chris Morgan <macromorgan@hotmail.com> wrote:
+
+> On Sun, Jun 19, 2022 at 06:31:17PM +0200, Artur Rojek wrote:
+> > On 2022-06-19 17:32, Jonathan Cameron wrote:  
+> > > On Sat, 18 Jun 2022 15:08:29 +0200
+> > > Artur Rojek <contact@artur-rojek.eu> wrote:
+> > >   
+> > > > On 2022-06-15 17:12, Chris Morgan wrote:  
+> > > > > On Wed, Jun 15, 2022 at 03:43:07AM +0200, Artur Rojek wrote:  
+> > > > >> On 2022-06-13 21:23, Chris Morgan wrote:  
+> > > > >> > From: Chris Morgan <macromorgan@hotmail.com>
+> > > > >> >
+> > > > >> > Add polled input device support to the adc-joystick driver. This is
+> > > > >> > useful for devices which do not have hardware capable triggers on
+> > > > >> > their SARADC. Code modified from adc-joystick.c changes made by Maya
+> > > > >> > Matuszczyk.
+> > > > >> >
+> > > > >> > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+> > > > >> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>  
+> > > > >>
+> > > > >> Hi Chris,
+> > > > >>
+> > > > >> Comments inline. I also Cc'd Paul and Jonathan, who were attached in
+> > > > >> v2.  
+> > > +CC linux-iio
+> > >   
+> > > > >>  
+> > > > >> > ---
+> > > > >> >  drivers/input/joystick/adc-joystick.c | 52 +++++++++++++++++++++------
+> > > > >> >  1 file changed, 41 insertions(+), 11 deletions(-)
+> > > > >> >
+> > > > >> > diff --git a/drivers/input/joystick/adc-joystick.c
+> > > > >> > b/drivers/input/joystick/adc-joystick.c
+> > > > >> > index 78ebca7d400a..dc01cd0214d2 100644
+> > > > >> > --- a/drivers/input/joystick/adc-joystick.c
+> > > > >> > +++ b/drivers/input/joystick/adc-joystick.c
+> > > > >> > @@ -13,6 +13,10 @@
+> > > > >> >
+> > > > >> >  #include <asm/unaligned.h>
+> > > > >> >
+> > > > >> > +#define ADC_JSK_POLL_INTERVAL	16
+> > > > >> > +#define ADC_JSK_POLL_MIN	8
+> > > > >> > +#define ADC_JSK_POLL_MAX	32
+> > > > >> > +
+> > > > >> >  struct adc_joystick_axis {
+> > > > >> >  	u32 code;
+> > > > >> >  	s32 range[2];
+> > > > >> > @@ -26,8 +30,21 @@ struct adc_joystick {
+> > > > >> >  	struct adc_joystick_axis *axes;
+> > > > >> >  	struct iio_channel *chans;
+> > > > >> >  	int num_chans;
+> > > > >> > +	bool polled;
+> > > > >> >  };
+> > > > >> >
+> > > > >> > +static void adc_joystick_poll(struct input_dev *input)
+> > > > >> > +{
+> > > > >> > +	struct adc_joystick *joy = input_get_drvdata(input);
+> > > > >> > +	int i, val;
+> > > > >> > +
+> > > > >> > +	for (i = 0; i < joy->num_chans; i++) {
+> > > > >> > +		iio_read_channel_raw(&joy->chans[i], &val);  
+> > Perhaps check the return value and leave early on error.  
+> 
+> Okay, I'll do that.
+> 
+> > > > >> > +		input_report_abs(input, joy->axes[i].code, val);
+> > > > >> > +	}
+> > > > >> > +	input_sync(input);
+> > > > >> > +}
+> > > > >> > +
+> > > > >> >  static int adc_joystick_handle(const void *data, void *private)
+> > > > >> >  {
+> > > > >> >  	struct adc_joystick *joy = private;
+> > > > >> > @@ -215,8 +232,19 @@ static int adc_joystick_probe(struct
+> > > > >> > platform_device *pdev)
+> > > > >> >  	joy->input = input;
+> > > > >> >  	input->name = pdev->name;
+> > > > >> >  	input->id.bustype = BUS_HOST;
+> > > > >> > -	input->open = adc_joystick_open;
+> > > > >> > -	input->close = adc_joystick_close;
+> > > > >> > +
+> > > > >> > +	if (device_property_read_bool(dev,
+> > > > >> > "adc-joystick,no-hardware-trigger"))
+> > > > >> > +		joy->polled = 1;  
+> > > > >> As mentioned in v2, I don't think a DT property is required here.
+> > > > >> Assuming
+> > > > >> the polled mode is a fallback for devices with no buffers, just do:
+> > > > >> ```
+> > > > >> 	joy->polled = !(joy->chans[0].indio_dev->modes &
+> > > > >> 			INDIO_ALL_BUFFER_MODES);
+> > > > >> ```  
+> > > > >
+> > > > > Understood. I attempted this and noticed that it was showing I have
+> > > > > INDIO_BUFFER_TRIGGERED in addition to INDIO_DIRECT_MODE (the
+> > > > > INDIO_DIRECT_MODE is the only one specified at the hardware level
+> > > > > though). Should I just check for INDIO_BUFFER_SOFTWARE &
+> > > > > INDIO_BUFFER_HARDWARE instead? I think it's possible that the inclusion
+> > > > > of the industrialio_triggered_buffer module in my kernel is adding
+> > > > > this to the channel somehow?  
+> > > > Having INDIO_BUFFER_TRIGGERED means that your saradc is capable of
+> > > > using
+> > > > the existing flow. You should be able to register a software trigger
+> > > > and
+> > > > use the adc-joystick driver without further issues.
+> > > > That said, this is where it gets problematic - there is no way to
+> > > > create
+> > > > an IIO trigger via Device Tree, since triggers don't describe any
+> > > > piece
+> > > > of hardware, and you shouldn't need to register it at runtime
+> > > > (configfs/sysfs) for communication between two kernel drivers
+> > > > either. At
+> > > > the same time, it's not adc-joystick's job to register an external
+> > > > trigger.
+> > > > 
+> > > > Jonathan,
+> > > > I don't know what the proper approach to this should be, perhaps you
+> > > > could assist?  
+> > > 
+> > > You are correct in your description above. Device tree folk take the
+> > > view
+> > > that sysfs / hrtimer etc triggers are a policy decision so don't belong
+> > > in device tree.  In general you need some userspace code to stitch up
+> > > the trigger anyway (even ADCs that provide triggers of their own often
+> > > have several).
+> > > 
+> > > An alternative that may make sense here would be for the adc-joystick
+> > > driver to provide a trigger of it's own. That's easy enough to do,
+> > > but as things stand we don't provide a way to control the attached
+> > > trigger from other kernel drivers (i.e. you can't do the equivalent
+> > > of writing current_trigger for another device).
+> > > 
+> > > It's probably not implausible to add that though.  Is it worth it for
+> > > a joystick (vs doing what is done here), maybe not.
+> > > 
+> > > It would be worth doing if we cared about high performance (for some
+> > > ADCs
+> > > anyway) but here we don't really so the polled read functions are fine.
+> > > 
+> > > Note many ADC drivers only support running in either polled or buffered
+> > > mode in IIO because polling random channels when doing highly optimised
+> > > accesses tends to make the drivers complex.  Hence you might find this
+> > > doesn't work for all setups...
+> > > 
+> > > Thanks,
+> > > 
+> > > Jonathan  
+> > 
+> > Jonathan,
+> > thanks for the detailed answer.
+> > 
+> > Chris,
+> > In light of the above, I think the best course of action should be to keep
+> > your polling code. It looks like your saradc has introduced [1]
+> > `INDIO_BUFFER_TRIGGERED` support exclusively for this very (adc-joystick)
+> > case. This means we can't use `indio_dev->modes` to determine whether the
+> > joystick can be polled, otherwise we might break behavior of existing
+> > hardware. I suggest that we get back to passing this intention via optional
+> > `poll-interval` DT property, that enables the polling path if present
+> > (indiscriminately of the IIO mode). Let's see what the Device Tree folk say
+> > about that :)
+> >   
+> 
+> Thanks. While I know there is a very strict policy of "don't break userspace"
+> I'm not aware of any consumers of the rockchip sardac using the adc-joystick
+> in production. I mean, it's in the tree for this one device but to this day
+> no one is shipping a distro with it to my knowledge, especially since the
+> driver has a major known issue I'm not able to fix at current time (has to do
+> with channels 1 and 2 being used instead of 0 and 1 for this specific SARADC).
+> What I'm getting at is if the current situation is wrong by adding the 
+> INDIO_BUFFER_TRIGGERED I don't think it's too late to change it right now.
+
+No, better to leave that alone as it's correct, just not helpful to what you
+want to do here.
+
+> 
+> Would the current poll code be best given the circumstances then? If you think
+> so, I'll go ahead and make all requested changes and resubmit it. I think I'm
+> understanding that what you want is for us to check for the existence of the
+> property of "poll-interval" which is the polling time in milliseconds. If this
+> value is present, use the polling code and if this value is not present, use
+> the existing code (regardless of what the hardware supports or doesn't).
+
+Sounds good to me.  We might get push back on dt binding though as
+that doesn't sound very much like something that is about hardware rather
+than policy.  It could be argued that a joystick works best at a particular
+rate though so maybe we'll be fine.  We'll see when you send out the binding docs.
+
+Jonathan
+
+> 
+> Thank you once again for all your help and guidance.
+> -Chris
+> 
+> > Cheers,
+> > Artur
+> > 
+> > [1] https://nam12.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git%2Fcommit%2F%3Fid%3D4e130dc7b41348b13684f0758c26cc6cf72a3449&amp;data=05%7C01%7C%7C43ade3c4216a47079d5208da52112487%7C84df9e7fe9f640afb435aaaaaaaaaaaa%7C1%7C0%7C637912530824693621%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=Gorf7r9PJr1CDBbRKVNXnRyBJBw2cy%2FLv9tPP24Q5B0%3D&amp;reserved=0  
+> > > 
+> > > 
+> > >   
+> > > > 
+> > > > Cheers,
+> > > > Artur  
+> > > > >
+> > > > > Thank you.
+> > > > >  
+> > > > >> > +
+> > > > >> > +	if (joy->polled) {
+> > > > >> > +		input_setup_polling(input, adc_joystick_poll);
+> > > > >> > +		input_set_poll_interval(input, ADC_JSK_POLL_INTERVAL);
+> > > > >> > +		input_set_min_poll_interval(input, ADC_JSK_POLL_MIN);
+> > > > >> > +		input_set_max_poll_interval(input, ADC_JSK_POLL_MAX);
+> > > > >> > +	} else {
+> > > > >> > +		input->open = adc_joystick_open;
+> > > > >> > +		input->close = adc_joystick_close;
+> > > > >> > +	}
+> > > > >> >
+> > > > >> >  	error = adc_joystick_set_axes(dev, joy);
+> > > > >> >  	if (error)
+> > > > >> > @@ -229,16 +257,18 @@ static int adc_joystick_probe(struct
+> > > > >> > platform_device *pdev)
+> > > > >> >  		return error;
+> > > > >> >  	}
+> > > > >> >
+> > > > >> > -	joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);
+> > > > >> > -	if (IS_ERR(joy->buffer)) {
+> > > > >> > -		dev_err(dev, "Unable to allocate callback buffer\n");
+> > > > >> > -		return PTR_ERR(joy->buffer);
+> > > > >> > -	}
+> > > > >> > +	if (!joy->polled) {
+> > > > >> > +		joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle, joy);  
+> > > > >> Please maintain line discipline of 80 chars to stay consistent with
+> > > > >> the rest
+> > > > >> of this driver.  
+> > > > >
+> > > > > Understood, sorry about that.
+> > > > >  
+> > > > >> > +		if (IS_ERR(joy->buffer)) {
+> > > > >> > +			dev_err(dev, "Unable to allocate callback buffer\n");
+> > > > >> > +			return PTR_ERR(joy->buffer);
+> > > > >> > +		}
+> > > > >> >
+> > > > >> > -	error = devm_add_action_or_reset(dev, adc_joystick_cleanup,
+> > > > >> > joy->buffer);
+> > > > >> > -	if (error)  {
+> > > > >> > -		dev_err(dev, "Unable to add action\n");
+> > > > >> > -		return error;
+> > > > >> > +		error = devm_add_action_or_reset(dev, adc_joystick_cleanup,
+> > > > >> > joy->buffer);  
+> > > > >> Same here.  
+> > > > >
+> > > > > Ditto.
+> > > > >  
+> > > > >>
+> > > > >> Cheers,
+> > > > >> Artur  
+> > > > >> > +		if (error)  {
+> > > > >> > +			dev_err(dev, "Unable to add action\n");
+> > > > >> > +			return error;
+> > > > >> > +		}
+> > > > >> >  	}
+> > > > >> >
+> > > > >> >  	return 0;  
+
