@@ -2,67 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3E7C55B094
-	for <lists+linux-input@lfdr.de>; Sun, 26 Jun 2022 11:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3E6555B0BE
+	for <lists+linux-input@lfdr.de>; Sun, 26 Jun 2022 11:13:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234203AbiFZJLZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 26 Jun 2022 05:11:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46246 "EHLO
+        id S234170AbiFZJLR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 26 Jun 2022 05:11:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234076AbiFZJLO (ORCPT
+        with ESMTP id S234155AbiFZJLQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 26 Jun 2022 05:11:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 180DA12AA3;
-        Sun, 26 Jun 2022 02:11:13 -0700 (PDT)
+        Sun, 26 Jun 2022 05:11:16 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 471FD12A93;
+        Sun, 26 Jun 2022 02:11:15 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2461B6118A;
-        Sun, 26 Jun 2022 09:11:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D65F3C341D0;
+        by sin.source.kernel.org (Postfix) with ESMTPS id 6540BCE0F90;
+        Sun, 26 Jun 2022 09:11:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0BB0C341D2;
         Sun, 26 Jun 2022 09:11:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1656234671;
-        bh=PhI7xlCBz8s4EqXsemcBzFaZLbSNGrNWFqcVvz20FLU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=HhAf8IklB9OEeSwUHmvWxlXncEZMnsUL3ruxIFgodyPNv9p+IrCpMlJ2Ee1QRPg4Y
-         hcLQjIGJsa57ccuYyM9Yyy/ROtPClfozh4WxentR1FyhgZLpBjfJOGg0x+KF4uJ/xK
-         kJvya0UqPXI61UML+5xdxeC865OaTGDrndLJQhHMXq2RYO88lEbM26jWxoanedVi+e
-         mtQoMumgkipZ4Bxf/XC3su3ouzdbhmQdJsOcFrbZpKeXoPTd+pXhJvNl4aEKmUZnEX
-         5AkPirLrYw/XgJk3fQoIdoqyPnzuUz7+aN/pwnstjak/isdyfdJp2rwGOaiGtxsqlk
-         h/pj4xfQ6G59g==
+        bh=NCpiqd/D1JiRGRI6GFPpPviNDEw1WQaXUZZDjx551mU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=fHa/6D2/6MlyBB7kFaoPvwT7M37Z6+np2e4+K3s/u9VjR/vdduDG6/7u14eWpSQGh
+         SYC6yxhxTc7fYwdUuNyYBSQMAYb+v+DkqP6qO3LwozKn3ALp8kEJP+XPCZMDrp8fPo
+         50Q+XK5ZxnyjIwBpf/klBX8zsatXyUuy3R9Fn3qGZrpReBrOFhfMdI/SMCJ8Iahelj
+         jNu3X+CIjQ5NznInR4r2eaCJ9oYAwuBdhXhKqB1URmLXYIu3Hb/NRQGgic0Z7bSEXb
+         VAe8+TY2XgZ5MvNFm98kg79L3NmUuNIYPqJ+jE7vDYEm1USumqH1LxlUIXrqxvbPd3
+         quB1Tf3lBhb/Q==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
         (envelope-from <mchehab@kernel.org>)
-        id 1o5OIN-001coA-Qi;
-        Sun, 26 Jun 2022 10:11:07 +0100
+        id 1o5OIO-001cpF-6v;
+        Sun, 26 Jun 2022 10:11:08 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "H. Peter Anvin" <hpa@zytor.com>, Alex Shi <alexs@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dipen Patel <dipenp@nvidia.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lee Jones <lee.jones@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Yanteng Si <siyanteng@loongson.cn>, devicetree@vger.kernel.org,
-        keyrings@vger.kernel.org, kvm@vger.kernel.org,
-        linux-cachefs@redhat.com, linux-input@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-riscv@lists.infradead.org,
-        linux-tegra@vger.kernel.org, rust-for-linux@vger.kernel.org,
-        x86@kernel.org
-Subject: [PATCH v2 00/20] Update Documentation/ cross-references
-Date:   Sun, 26 Jun 2022 10:10:46 +0100
-Message-Id: <cover.1656234456.git.mchehab@kernel.org>
+        Support Opensource <support.opensource@diasemi.com>,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 18/20] dt-bindings: mfd: update dlg,da9063.yaml reference
+Date:   Sun, 26 Jun 2022 10:11:04 +0100
+Message-Id: <da459164d166d994b06f9ce8bf3a2108ccd0abd5.1656234456.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <cover.1656234456.git.mchehab@kernel.org>
+References: <cover.1656234456.git.mchehab@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -75,77 +67,35 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix most broken documentation file cross references on next-20220624.
+Changeset 441613662db7 ("dt-bindings: mfd: Convert da9063 to yaml")
+renamed: Documentation/devicetree/bindings/mfd/da9063.txt
+to: Documentation/devicetree/bindings/mfd/dlg,da9063.yaml.
 
-After this series, only 3 references will be broken:
+Update its cross-reference accordingly.
 
-Warning: Documentation/dev-tools/kunit/run_wrapper.rst references a file that doesn't exist: Documentation/dev-tools/kunit/non_uml.rst
-Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-Warning: drivers/acpi/device_pm.c references a file that doesn't exist: Documentation/firmware-guide/acpi/low-power-probe.rst
+Fixes: 441613662db7 ("dt-bindings: mfd: Convert da9063 to yaml")
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
 
-All of them seem to be due to the lack of a patch actually adding the
-documentation. Maybe the document file is still under review?
+To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+See [PATCH v2 00/20] at: https://lore.kernel.org/all/cover.1656234456.git.mchehab@kernel.org/
 
-Regards,
-Mauro
+ Documentation/devicetree/bindings/input/da9062-onkey.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Mauro Carvalho Chehab (20):
-  docs: netdev: update maintainer-netdev.rst reference
-  docs: filesystems: update netfs-api.rst reference
-  docs: zh_CN: page_frags.rst: fix a broken reference
-  docs: zh_CN/riscv/pmu.rst: remove old docuementation
-  docs: zh_CN/devicetree: fix typos
-  docs: zh_CN: fix a broken reference
-  docs: zh_CN/vm: fix a typo for page reporting ReST file
-  docs: zh_CN/vm/zsmalloc.rst: fix a typo
-  docs: zh_CN/vm/index.rst: fix a broken reference
-  Documentation: update watch_queue.rst references
-  Documentation: KVM: update s390-pv.rst reference
-  Documentation: KVM: update amd-memory-encryption.rst references
-  Documentation: KVM: update msr.rst reference
-  Documentation: KVM: update s390-diag.rst reference
-  objtool: update objtool.txt references
-  arch: m68k: q40: README: drop references to IDE driver
-  tegra194-hte.rst: fix reference to its binding
-  dt-bindings: mfd: update dlg,da9063.yaml reference
-  MAINTAINERS: update nvidia,tegra20-host1x.yaml reference
-  MAINTAINERS: fix cross references to mfd/dlg,da9063.yaml
-
- .../admin-guide/kernel-parameters.txt         |   2 +-
- .../bindings/input/da9062-onkey.txt           |   2 +-
- Documentation/driver-api/hte/tegra194-hte.rst |   2 +-
- Documentation/security/keys/core.rst          |   2 +-
- Documentation/security/secrets/coco.rst       |   2 +-
- .../it_IT/networking/netdev-FAQ.rst           |   2 +-
- .../translations/zh_CN/devicetree/index.rst   |   2 +-
- .../zh_CN/devicetree/of_unittest.rst          |   2 +-
- .../zh_CN/devicetree/usage-model.rst          |   2 +-
- .../zh_CN/doc-guide/kernel-doc.rst            |   2 +-
- .../translations/zh_CN/riscv/index.rst        |   1 -
- .../translations/zh_CN/riscv/pmu.rst          | 235 ------------------
- .../zh_CN/vm/free_page_reporting.rst          |   2 +-
- .../translations/zh_CN/vm/frontswap.rst       |   2 +-
- Documentation/translations/zh_CN/vm/index.rst |   2 +-
- .../translations/zh_CN/vm/page_frags.rst      |   2 +-
- .../translations/zh_CN/vm/zsmalloc.rst        |   2 +-
- Documentation/virt/kvm/api.rst                |   4 +-
- Documentation/virt/kvm/s390/s390-pv-boot.rst  |   2 +-
- Documentation/virt/kvm/x86/hypercalls.rst     |   2 +-
- Documentation/x86/orc-unwinder.rst            |   2 +-
- MAINTAINERS                                   |   6 +-
- arch/m68k/q40/README                          |   5 +-
- include/linux/fscache.h                       |   2 +-
- include/linux/objtool.h                       |   2 +-
- include/linux/watch_queue.h                   |   2 +-
- init/Kconfig                                  |   2 +-
- kernel/watch_queue.c                          |   2 +-
- lib/Kconfig.debug                             |   2 +-
- tools/include/linux/objtool.h                 |   2 +-
- tools/objtool/check.c                         |   2 +-
- 31 files changed, 33 insertions(+), 270 deletions(-)
- delete mode 100644 Documentation/translations/zh_CN/riscv/pmu.rst
-
+diff --git a/Documentation/devicetree/bindings/input/da9062-onkey.txt b/Documentation/devicetree/bindings/input/da9062-onkey.txt
+index 5f9fbc68e58a..e5eef59a93dc 100644
+--- a/Documentation/devicetree/bindings/input/da9062-onkey.txt
++++ b/Documentation/devicetree/bindings/input/da9062-onkey.txt
+@@ -2,7 +2,7 @@
+ 
+ This module is part of the DA9061/DA9062/DA9063. For more details about entire
+ DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
+-For DA9063 see Documentation/devicetree/bindings/mfd/da9063.txt
++For DA9063 see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
+ 
+ This module provides the KEY_POWER event.
+ 
 -- 
 2.36.1
-
 
