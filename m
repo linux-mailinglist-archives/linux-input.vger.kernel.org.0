@@ -2,74 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F6FB55AB49
-	for <lists+linux-input@lfdr.de>; Sat, 25 Jun 2022 17:30:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CC6555AFD8
+	for <lists+linux-input@lfdr.de>; Sun, 26 Jun 2022 09:31:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233050AbiFYPaf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 25 Jun 2022 11:30:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50910 "EHLO
+        id S232785AbiFZHYh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 26 Jun 2022 03:24:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233003AbiFYPae (ORCPT
+        with ESMTP id S232586AbiFZHYg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 25 Jun 2022 11:30:34 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF2EB15820;
-        Sat, 25 Jun 2022 08:30:33 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id m184so2846396wme.1;
-        Sat, 25 Jun 2022 08:30:33 -0700 (PDT)
+        Sun, 26 Jun 2022 03:24:36 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2063.outbound.protection.outlook.com [40.107.223.63])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B25D62EC;
+        Sun, 26 Jun 2022 00:24:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QtT2fYEFn0lnFGip7N8GpxXWItxhhzy2oAEzPRQrnCZ1SmKZj9hgcyvHMEP4z1KNycjPxxbh98JHEqKRvccvBnt400udxPnfBvAYkbRcvXoAxNNFF1n/44AQrD37QYOtKiNxf5Ow/ZQRCdLU2WLP1MlSNmi5M/JE0WJwR8C8ZUeIKdCVNNMCaBledDV+UwJTT92/D1ZDCo6YeNOdRBtMycHYwPQeE0V2OaD5A77OCy6mlafJ11oDJHDZADWo0kls6yt/q0xqRlZjTehM8C8v4tcAdVR1bDX727Y51sKwPLxgG4U1ag3FFP0wSMBau+6ALDIbFNMH7ap0gh78Pyo2Vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1vZJ2E0SGfjCd7v/2HvXrK7HITs7imX1d2X26u1WgaQ=;
+ b=LXdQeupu8YwSuzAP19ID6xyJPXmN8PwZoTMg2z4pd8wC+oa+rpTyDECGMA6rcI0yKCzOf+ZPAK83gNTQJexjGBS3g9KIsk8Udj2dU2pnvKBuq4Vst8VjQMwbn0wlJOP+9LTQ3jNv7Dhkid4O+KnItrWjjF/H9v9p97x/9qSNpgaSXg6/ibpsZMpIMryPkEZVb5+YJdGiJrgDGmQXCpWBvi0VcbjXOZcYEVnEGPKodENthEqvW2bqyglp2J3EV9JxI5IwIHJy2bS/binao54O6tZ3UkvSCWsxiwH58k294iAw3m5c3iq8ob7s5DG7JUucSrxywRnMIlvKwqoFO4DwTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=YJMG2xSKeKo8ovUlFDGAmK9lJxFqvsUKe5ouW/ZiPXQ=;
-        b=B/Q7k/xTLmPZGpnd9T3Ix0mxJZqrQuN2NZlEG30Lx3HgX+lQYSSglKik60CZdo6Njr
-         94Sc/afjuGNi9c6D7/rRPzDjLujW2tfKi1PpiLHUU77TPuEaaIILc5xm97CHBVgRQDNy
-         EXJZftk4H9rFOB2SWIWz33EUOdsrQslM5ZGoXttecLpEjR9SUQQefZ8ahJ8dGkbmwIpc
-         w0L26GE4tewY7HLZAjKK6p/mjKpl9kglC3JRa5G5tcNFFkzhytHNEDbbWFSNieUkgbxA
-         wMDzUbIg7gW6U8Wr0uZFZHZFBPKEPURc6ykWhymDfWhBrXAfd9JB3S1wyaSC9c4qEkwz
-         G5+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=YJMG2xSKeKo8ovUlFDGAmK9lJxFqvsUKe5ouW/ZiPXQ=;
-        b=KJhM9QWSZ/WShNa0eDp/gESLy+9U5GLJmtzIuf79O0yV/ktGK9lzMP4dj0mskpM7ST
-         kWEP9c7YoNUS2NKoaYgWIqaFcu1Y7FoogIXMPsaG/8pEoqGDAI28lDthnvbWk4XAU165
-         5tBCaoP2PPMjh5ReH/cGdNCze3MoOxq4/9gnUWRmvU2g7wh8LcmrD0GvaCRD71nyYPuy
-         G5E/Gh5m0ilM8+eGklfm8tnXhtQoWl6mypOkKYlAWMKWSp46BxMiQlXTLHz5l3GNyUYz
-         i7IgvbvD9T0CqR8OqaHK6HiGK24c9eCN5Hjurh8Rm9cRg2vB8bkDug5hp6brJn3abDUq
-         YlMw==
-X-Gm-Message-State: AJIora8RSwgMqJ70fUnyxAT5u6l4f2Ij5iCm8r3LCacpD8GZ4TNPnVIQ
-        2fDVpHfRGrPayupoUBjVRrY=
-X-Google-Smtp-Source: AGRyM1v6olA3B0DyG292O/IxgHf1HD8MEu4dCykW2mUaVUkX+Aig2YjSVTyITO5BwbFSzGFbUXi+Qg==
-X-Received: by 2002:a05:600c:58a:b0:39c:80ed:68be with SMTP id o10-20020a05600c058a00b0039c80ed68bemr5024339wmd.150.1656171032193;
-        Sat, 25 Jun 2022 08:30:32 -0700 (PDT)
-Received: from elementary ([94.73.36.128])
-        by smtp.gmail.com with ESMTPSA id l14-20020a05600c4f0e00b003942a244f40sm11217734wmq.25.2022.06.25.08.30.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jun 2022 08:30:31 -0700 (PDT)
-Date:   Sat, 25 Jun 2022 17:30:30 +0200
-From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To:     Stefan Berzl <stefanberzl@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>, benjamin.tissoires@redhat.com,
-        spbnick@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hid: Add support for the xp-pen deco mini7 tablet
-Message-ID: <20220625153030.GB4820@elementary>
-References: <85312611-797f-2dd2-f864-f7c13cb889f9@gmail.com>
- <nycvar.YFH.7.76.2206091058530.14340@cbobk.fhfr.pm>
- <c856a79c-1d42-6af5-0ff3-589688701fc0@gmail.com>
- <20220623175116.GA4757@elementary>
- <3f37e3fa-1b7d-1dbb-327c-69a4e96bdcdc@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1vZJ2E0SGfjCd7v/2HvXrK7HITs7imX1d2X26u1WgaQ=;
+ b=w/L0gbK82BJe7Q16ZuFSXmu7eVmsrNwXhY7+TyXddEE0uim7xnaNKbOAs53abNiVFXdjugMg2SzOh23F65k5CzJnCU/grKQ5uyBH0mQRID107MEacOuqmPRhtSchy8wZmEAgLw6RjXyJD8Jkys2FwDndCnqMc6jE4o1aZ1Wvhqg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=labundy.com;
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21) by BN6PR08MB3395.namprd08.prod.outlook.com
+ (2603:10b6:405:66::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.16; Sun, 26 Jun
+ 2022 07:24:32 +0000
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::2c67:a29a:4e8c:3ac0]) by SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::2c67:a29a:4e8c:3ac0%7]) with mapi id 15.20.5373.018; Sun, 26 Jun 2022
+ 07:24:31 +0000
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Jeff LaBundy <jeff@labundy.com>
+Subject: [PATCH v2 0/9] Miscellaneous fixes for Azoteq IQS7222A/B/C
+Date:   Sun, 26 Jun 2022 02:24:03 -0500
+Message-Id: <20220626072412.475211-1-jeff@labundy.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3f37e3fa-1b7d-1dbb-327c-69a4e96bdcdc@gmail.com>
+Content-Type: text/plain
+X-ClientProxiedBy: SN7PR04CA0064.namprd04.prod.outlook.com
+ (2603:10b6:806:121::9) To SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: db6f2aaf-b30b-436b-3387-08da5744e955
+X-MS-TrafficTypeDiagnostic: BN6PR08MB3395:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 27e76jzuA7ndv2CicpzAc6CgxKDfA7Aw4VEFE0GuwReZORPENzfMHMPTY5ZSQwqUtFAQsxg2lrvcPybccMmi6+fiSsNouwXaJCq9uuzgemEwKq1B2ksAEiI6HqYZHHhKxsiBfy4PYTzDdejWTvglD4OBF2sdXGOxMCCTtjyNG/+Vhs4kY9R7Uq0u/jZ8ZV0JTrIopQil9uAvrOoAACY2NSfgBc1XTd4L3t3gPaJBx9Dwr347zg9d6rqrXaezWyquZN8q01T5jZ4KdN5NDikkRAWUU9xpQS/Kkj043R40/aClOkCk1ZT+ZyfPyW1wV+F3EwwzA9vaAXEF8M2JTL1yIBJOpO8zyAlx8aILPQR4fAJ91Hndz6uvI8hMflvIERQ0jlehQ+54RRTy58gpVavnyjGvRDgjZK18Doxz4fROeJ1KfFXtbsDBBJ+kJODs+xZEdsVct7q0bIXKzTlkq95b91Zr+zmH7eCYgT8EhKLGsjjj0spMnK3osas6Hy/ZcRiDJzsbsKbq4c1kOmZQdlOCoQsb7N/rkWRaPd1rNUgLVMDVTMjWU3wTSK+FRH3WeNR1VeDdfcHF4FuGauF3An3F0IfqJBp1LggyA83wxtTfvZZb0UDhdC2d+g6SaQRNFgsvMqmaki1msk6tW3ZUChTouVSam0SXkqPsvzIFDt1VVF76s4L1fRNZ+dwyEqpXLgQGR3mHC/ljZ3j20BNuStZ4FTr2ZQ4x/WQLxjR/6RIyi5DqaSxhiU+lqU4ZL3QL2FPy2XLQX29YeAE1RmAV2i/m8zjToOBSGx5x32jqlCJK2GQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(346002)(366004)(39830400003)(136003)(376002)(396003)(2906002)(107886003)(6506007)(8676002)(316002)(83380400001)(8936002)(86362001)(1076003)(36756003)(66946007)(186003)(6512007)(66556008)(38350700002)(4744005)(2616005)(52116002)(26005)(38100700002)(41300700001)(478600001)(4326008)(66476007)(6666004)(6486002)(5660300002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yAbT5nhX1dd0MK6HtVYSEwNB+bChL9yZ7APh1znYIiy1AFyYfC66Im/XZajI?=
+ =?us-ascii?Q?r85vdPTp4cmq+XpT5Y8llKbbH0r5fw+LohTZsMwgTKEYYP8V2oHVU2yXcp8v?=
+ =?us-ascii?Q?rHP6f4FdPgtEu9p0FhiwU+DJElApJqVnvJ9aMKBKtBYrBleigkbbUucguXjV?=
+ =?us-ascii?Q?waWsngL+BCyzlrvdH0AQ9L57g1k6mTVrl7zB2ahhG4BBP6nLS9FAO0Jy+9ew?=
+ =?us-ascii?Q?bdhsp0tHXptOK4zc2tkDGEqlPQmtcYwlnvvHLeYbolKIByBKMVMjNMC8adZ/?=
+ =?us-ascii?Q?Nt996b+ga7vZOsyw/A8wLWsq2CTbqlYGEoaDNchrwa5d+4H2eWiKWqTLDV+Q?=
+ =?us-ascii?Q?qiFPalgSzyr12Z7WmFRVVuAjsgWnCXly9nLWX31XkVKWvHR0TSh2QDzeBxn6?=
+ =?us-ascii?Q?vFHXHQMCmZrVaY/xOvY3qyJiGtQwSoO31T5OVvysk/ozknHawXKj0DZN2cbD?=
+ =?us-ascii?Q?wPcSMbIQHNMijYYcckBMHoZHRR7BcF8SszZLhmPr8SdEXykPpzk6rbTwd64R?=
+ =?us-ascii?Q?HHD5csoqrGzue7K//duDib+Z60mDiTKvwoG2uRX0R0RKS8JUdHL+jDGk+7em?=
+ =?us-ascii?Q?w88sX4SNuaUky/p9EctF5+gkFIu55TjooKFHX+gp4lJztKrzNmMoXO02PXz5?=
+ =?us-ascii?Q?jrxk/flNfkfSAaMCP3mAVG7R8/00j0X6PlnpCjbkna5s5NHu0N8vdbp1vyu5?=
+ =?us-ascii?Q?d/TC3rTba/ZftwPWdt7LoowLclsvapj2wDzkyQqjWkvaoXTjXnXASsJ93PrY?=
+ =?us-ascii?Q?MMW6gldRRUkpXk4fTenV9UzPvlSvyI4fQSiVHrdWsEHyH27BrESEGE5DhbaW?=
+ =?us-ascii?Q?6FTCgTggmBhvsHL/NnWVYYUEy9CUaD8WNUCdn2QRP+8ZgdL/eWc+zwJjysNt?=
+ =?us-ascii?Q?8Ekhg6hh2/BOXMadelcSo9EeYPwJzBdAO4RXbn0cbxLt+HSsjnkMBXK1Wnw2?=
+ =?us-ascii?Q?o0TYaEEACmTS5Bmr9832QzsFm4AAZwB6hS9uU7JYo8ugkcgcM2C/xhUr4HHx?=
+ =?us-ascii?Q?26GWZxM9b6UxYMYqqW+4bcsoQMiLe9tgiVLixf/We9zoA0uylI0eDZS3F0LT?=
+ =?us-ascii?Q?3Ef4Z/JBDcIdv00sVnugvQArDy8VI7z4rnq+1E7JaKv+VfiNGfBxWDYr7ZPs?=
+ =?us-ascii?Q?yhFFEykhrwkKtQhme7QUtpp6UHpbHLri/s+AF+i9f5uOcHVbjpQeJgKoUhMR?=
+ =?us-ascii?Q?Y8mlEfWXmL1HH22BbacZYvmltcrThaUXy044TF/j13PS22tuDZmFEgSwCR+8?=
+ =?us-ascii?Q?L454eUeOuN4kyoQYMJQK4wCnbaImIWDftgoJ9nASdQe2QeVcIdAiuRUtukdP?=
+ =?us-ascii?Q?IZCQar7Yz5Na/1M+eEGTWY/iYafqhXAGVnyu3fAX77IHy4Lvdg3pNg0Q8FsR?=
+ =?us-ascii?Q?+ENxiHdETS61dl2u59Pss+yrVciEBxyCAXtQMdj8+5jPr9i35wAwn54gosaT?=
+ =?us-ascii?Q?dk2/8H8KObGSg3O7tBgzn4/Yc/vjE4+TbyQOQ3PbEEBcsjsNyddEuakXUpSc?=
+ =?us-ascii?Q?2CmbFTCrnSaX0ncfEQdATdRieMZJFltpegHqqV21fhh6pWlRIg1cbJbM88Pj?=
+ =?us-ascii?Q?XeC2biN87konUnoDQnUw764Sx8csIFWla1E/djiJ?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db6f2aaf-b30b-436b-3387-08da5744e955
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2022 07:24:31.2132
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WSm19NaywFEde+R12GPoUwv/lXFbMg1gj8818bGIe0YwpPEv9/pEbjLR5qVx5oXMb0T5+hj3GX0WbmnuzTX5iQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR08MB3395
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,66 +111,24 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jun 24, 2022 at 12:24:09AM +0200, Stefan Berzl wrote:
-> On 23/06/2022 19:51, José Expósito wrote:
-> > At the moment, there are only HID descriptors for the frame and the pen
-> > so, if your tablet is creating a touch ring device, something is not
-> > working as expected.
-> > 
-> > Running "sudo libinput record" should display only the frame and the
-> > pen. Does it show something different in your case?
-> > 
-> > 	$ sudo libinput record
-> > 	[...]
-> > 	/dev/input/event21:	Hanvon Ugee Technology Co.,Ltd Deco L
-> > 	/dev/input/event22:	Hanvon Ugee Technology Co.,Ltd Deco L Pad
-> 
-> This is certainly true for the newer xppen devices we are working on. 
-> However, while waiting for the xppen stuff to gain support, I bought a
-> tablet  that's already supported, the Gaomon S620. Executing libinput 
-> record or any other command that lists the devices, like evemu-describe, 
-> gives:
-> 
-> /dev/input/event15: GAOMON Gaomon Tablet
-> /dev/input/event16: GAOMON Gaomon Tablet Pad
-> /dev/input/event17: GAOMON Gaomon Tablet Touch Strip
-> /dev/input/event18: GAOMON Gaomon Tablet Dial
+This series comprises a handful of minor fixes that result from
+continued testing and updated guidance from the vendor.
 
-Ah OK, I though you were talking about the XP-PEN device. I don't know why
-those extra event nodes are created, sorry.
- 
-> >> There is however one caveat that seems to be unique to the mini7, which 
-> >> is the ack packet that is sent when switching to the vendor defined 
-> >> usage. It doesn't do much though, as currently it gets interpreted as a 
-> >> pen report and since it doesn't have useful values, causes the cursor to 
-> >> go to the top left screen position. Since the ack packet is only sent 
-> >> once, it ought to be of little consequence.
-> >>
-> >> I would of course fix this, but I don't really know what's the preferred 
-> >> way. One can obviously simply set up an urb to catch this, but it would 
-> >> have to be a special corner case for the mini 7, as José assures me that 
-> >> none of his tablets display similar behavior. Is this acceptable?
-> > 
-> > My tablets also send an ACK packet, but in my case it does not have any
-> > visible effects. Maybe it is related to the DE environment used. I
-> > tested it on elementary OS (Ubuntu) and Fedora 36, in both cases the
-> > ACK is ignored... But catching it is fine, we can include the code you
-> > suggest.
-> 
-> Can the contents maybe differ?
-> 
-> This is the ack the mini 7 gives me:
-> 02 b1 04 00 00 00 00 00 00 00 00 00
-> 
-> While this is a button:
-> 02 f0 00 00 00 00 00 00 00 00 00 00
-> 
-> And here we have pen movement:
-> 02 a1 59 23 ef 32 b8 0e 00 00 00 00
+Jeff LaBundy (9):
+  Input: iqs7222 - correct slider event disable logic
+  Input: iqs7222 - fortify slider event reporting
+  Input: iqs7222 - protect volatile registers
+  Input: iqs7222 - acknowledge reset before writing registers
+  Input: iqs7222 - handle reset during ATI
+  Input: iqs7222 - remove support for RF filter
+  dt-bindings: input: iqs7222: Remove support for RF filter
+  dt-bindings: input: iqs7222: Correct bottom speed step size
+  dt-bindings: input: iqs7222: Extend slider-mapped GPIO to IQS7222C
 
-Yes, the contents are different. My ACK does not contain the last 2 bytes.
-As mentioned in my previous email, I think that because the ACK of your
-tablet matches the size of a pen report and starts with 02 it is handled as
-a pen report.
+ .../bindings/input/azoteq,iqs7222.yaml        |  28 +--
+ drivers/input/misc/iqs7222.c                  | 178 ++++++++++++------
+ 2 files changed, 130 insertions(+), 76 deletions(-)
 
-Jose
+-- 
+2.25.1
+
