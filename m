@@ -2,268 +2,284 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF44055D33A
-	for <lists+linux-input@lfdr.de>; Tue, 28 Jun 2022 15:12:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD20C55D6DE
+	for <lists+linux-input@lfdr.de>; Tue, 28 Jun 2022 15:17:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237003AbiF0OXM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Jun 2022 10:23:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39808 "EHLO
+        id S236938AbiF0O4h (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Jun 2022 10:56:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237282AbiF0OXH (ORCPT
+        with ESMTP id S234416AbiF0O4h (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Jun 2022 10:23:07 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A27113F23
-        for <linux-input@vger.kernel.org>; Mon, 27 Jun 2022 07:22:53 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id i25so7792978wrc.13
-        for <linux-input@vger.kernel.org>; Mon, 27 Jun 2022 07:22:53 -0700 (PDT)
+        Mon, 27 Jun 2022 10:56:37 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6C7E17055;
+        Mon, 27 Jun 2022 07:56:35 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id g26so19728505ejb.5;
+        Mon, 27 Jun 2022 07:56:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=FeV1hNgcIlRD8vtoxkTZySTIebKF1oNgpi73Pm+Sqqw=;
-        b=hnVY5/tYmCOiBd+Gqly3Rjz9bsbVA75CKg3xCAgOyaGdffrQzR0Q9lwJB8tDl/9s6y
-         TdvCaH2YmBoxcd9PyJZgSi3pjdTwErqECq5Pgm5ivZPdaM50uI9YAAYbF/ZKeCTfQPoN
-         VsjziyH0TMtYKJEKVy9dIqQ01VXqhfRcSluv/SGK8H61f6nWLQNAlSaGlFCAv1RZ/cu0
-         W48fSZdiGvFkCK2ElrF9nnfD8VeoowhUUdrqVuLSduciVqzfwS3FCq1eZfGdaDw6G/LM
-         gZAWmFkjgikMvoOw/SOnDBaGZbuofeFOODU4uJr7eJSm6ofTRvefIySBwjRn8xbKEFCD
-         a90Q==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=1eyeFpzPRw0j55v5XVUOBYP8izfd4vwls3iigKVQMTk=;
+        b=hhZDVthbk8TCUT92AzukGAAk2vnXc+rVFg/2IPzzfNcPtLW/zYKCSWFnvJTPbXXAZX
+         y5N3ItXTGPlXkNRUWA2vnp8Wp1KyxyxBzbZgqjWYkWylZTx857VPWWHd/GrJTbp93fdK
+         qb8HYAIrTV4TXZndFHfgu+crCeJfPkQfIYS87dDxDN1prpxJeHI/FPyUJ+YTN5ZPJqwO
+         panU8moySAG/pTfK+YWzBCbXwsSri3/2pvv/xPYXPkJYD0KqqQhYShpAwYVfBGGC0rtU
+         cLrY3lx1yEuCJPrjIeG0B7PyWb4nP/3Z+p30sZHJwlt1pF6jSqw+kv5gg3w6kRFDQJw3
+         tb1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=FeV1hNgcIlRD8vtoxkTZySTIebKF1oNgpi73Pm+Sqqw=;
-        b=WZfeI1GKhI0eRr7pjVyCNsugwLspFetdCwa8rZM6YaxraAjy/yisRzyMNLc+IWyuXH
-         zU9I1FeWoXyDLO/p1mL7F/uMCeZlrYUdewFL0eWHMk9I4nGFK8CmztS8gYBGfB+CloxJ
-         WIC262C9nBgT7cXlUiNaZ6EtcpAquvwqBQFHl/0NuMWdifGdlKCbGJ4bSCb9wf1FjIZE
-         Z8hp08hsbYnVUOQ2aZqSALl82qhL4Pd7+e3V3OEBRH0cr3XM5aR484/SNbbOVbLipg2l
-         o8IEuCHZdLxiFVy90PAdN6pDrRqdPG2il7R759RCqd86YyVWKS63NXND2egL9uFLXyPf
-         ouQg==
-X-Gm-Message-State: AJIora/a4SnJpxkzpBOBBitD119UPx7JcrfRtmBs2GT0/L9Yj66uVim5
-        WnH7zj9Y4WbBR6CwuFlqXUTrWA==
-X-Google-Smtp-Source: AGRyM1sjI6M8T0da+YH6qaHw6hmjwF4LQrCjEPKNsXZM7MhPVYOv+/xv1jHeE9vsMc6PWjZh2kKoKQ==
-X-Received: by 2002:adf:d1c2:0:b0:21b:e465:1e36 with SMTP id b2-20020adfd1c2000000b0021be4651e36mr5818287wrd.271.1656339771707;
-        Mon, 27 Jun 2022 07:22:51 -0700 (PDT)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
-        by smtp.gmail.com with ESMTPSA id bg21-20020a05600c3c9500b003a046549a85sm8120659wmb.37.2022.06.27.07.22.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 07:22:51 -0700 (PDT)
-Date:   Mon, 27 Jun 2022 15:22:49 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     cy_huang <u0084500@gmail.com>
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        broonie@kernel.org, dmitry.torokhov@gmail.com, lgirdwood@gmail.com,
-        cy_huang@richtek.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] mfd: rt5120: Add Richtek PMIC support
-Message-ID: <Yrm9ObaltUiQUTqS@google.com>
-References: <1655892104-10874-1-git-send-email-u0084500@gmail.com>
- <1655892104-10874-3-git-send-email-u0084500@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1eyeFpzPRw0j55v5XVUOBYP8izfd4vwls3iigKVQMTk=;
+        b=gPvXzL5ho2h7TbmXWIVTuvzevWZxVk5WFXTn0w1gWTMEFVJmEqDSkQGz+/y74dHn+D
+         BGC5r0LOibjzWOrnI2Qslw78QEDyEh+MW1tcSqSUAVatSYHxjEas+78zcfwHMxJGgJCD
+         gDTVMoOYXNA/wK2O2li3UWwYsfRvm9Xh4DNTE4dr8eo/hHP3WoK0yM0d+QRJv/LUl2DB
+         Cz+CQwAp25BkGNavIPjLSFthr8g9CRLigxQCzooXcxyXncnCNwlda3BacS100mJJfZz4
+         r4cpjhoJbFLpqAebtzq9c3Rg86EMMr/4H3eaHWf6+xQEOkaLGiW76iJjDYSmrIRjZKK5
+         FbnA==
+X-Gm-Message-State: AJIora9IXJEeb0/btn5DXfNx8IVItWDmlgEoCEHqgCijgOfitfXMhmSj
+        jw1JYQXz4S75ucqdIZCs8nHuqQX5NVh2AHfZnNs=
+X-Google-Smtp-Source: AGRyM1s84hLCMHVvoAHe060i039uAwgfkqa3g1X+tScQS4TW5ZPqArzfB7N381IYMijN56VctPotxRaBAwAKJt8DilQ=
+X-Received: by 2002:a17:906:14d:b0:711:ffc4:3932 with SMTP id
+ 13-20020a170906014d00b00711ffc43932mr13119718ejh.321.1656341794263; Mon, 27
+ Jun 2022 07:56:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1655892104-10874-3-git-send-email-u0084500@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <1655892104-10874-1-git-send-email-u0084500@gmail.com>
+ <1655892104-10874-3-git-send-email-u0084500@gmail.com> <Yrm9ObaltUiQUTqS@google.com>
+In-Reply-To: <Yrm9ObaltUiQUTqS@google.com>
+From:   ChiYuan Huang <u0084500@gmail.com>
+Date:   Mon, 27 Jun 2022 22:56:22 +0800
+Message-ID: <CADiBU3802sLTPjrGiaQ-xw-2jep1UXo+t7pYc6bCC4MiJLhOyA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] mfd: rt5120: Add Richtek PMIC support
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mark Brown <broonie@kernel.org>, dmitry.torokhov@gmail.com,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        cy_huang <cy_huang@richtek.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 22 Jun 2022, cy_huang wrote:
+Lee Jones <lee.jones@linaro.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=8827=E6=97=
+=A5 =E9=80=B1=E4=B8=80 =E6=99=9A=E4=B8=8A10:22=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> On Wed, 22 Jun 2022, cy_huang wrote:
+>
+> > From: ChiYuan Huang <cy_huang@richtek.com>
+> >
+> > Add Richtek RT5120 PMIC I2C driver.
+>
+> Why a whole new driver?
+>
+> How different is this to rt5033?
+>
+> Looks like this could easily be woven into this existing support?
+>
+It's different with the function domain.
+RT5033 is most like as the SubPMIC that includes PMU (battery
+charger/gauge/led/few buck and ldo)
+RT5120 is a main PMIC with default-on power that follows the boot on sequen=
+ce.
+RT5120 only integrates regulator and power key report module.
 
-> From: ChiYuan Huang <cy_huang@richtek.com>
-> 
-> Add Richtek RT5120 PMIC I2C driver.
-
-Why a whole new driver?
-
-How different is this to rt5033?
-
-Looks like this could easily be woven into this existing support?
-
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> ---
->  drivers/mfd/Kconfig  |  12 +++++
->  drivers/mfd/Makefile |   1 +
->  drivers/mfd/rt5120.c | 125 +++++++++++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 138 insertions(+)
->  create mode 100644 drivers/mfd/rt5120.c
-> 
-> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> index 3b59456..866619c 100644
-> --- a/drivers/mfd/Kconfig
-> +++ b/drivers/mfd/Kconfig
-> @@ -1127,6 +1127,18 @@ config MFD_RT5033
->  	  sub-devices like charger, fuel gauge, flash LED, current source,
->  	  LDO and Buck.
->  
-> +config MFD_RT5120
-> +	tristate "Richtek RT5120 Power Management IC"
-> +	depends on I2C
-> +	select MFD_CORE
-> +	select REGMAP_I2C
-> +	select REGMAP_IRQ
-> +	help
-> +	  The enables support for Richtek RT5120 PMIC. It includes four high
-> +	  efficiency buck converters and one LDO voltage regulator. The device
-> +	  is targeted at providing the CPU voltage, memory, I/O and peripheral
-> +	  power rails in home entertainment devices.
-> +
->  config MFD_RC5T583
->  	bool "Ricoh RC5T583 Power Management system device"
->  	depends on I2C=y
-> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> index 858cacf..27e8add 100644
-> --- a/drivers/mfd/Makefile
-> +++ b/drivers/mfd/Makefile
-> @@ -234,6 +234,7 @@ obj-$(CONFIG_MFD_HI655X_PMIC)   += hi655x-pmic.o
->  obj-$(CONFIG_MFD_DLN2)		+= dln2.o
->  obj-$(CONFIG_MFD_RT4831)	+= rt4831.o
->  obj-$(CONFIG_MFD_RT5033)	+= rt5033.o
-> +obj-$(CONFIG_MFD_RT5120)	+= rt5120.o
->  obj-$(CONFIG_MFD_SKY81452)	+= sky81452.o
->  
->  intel-soc-pmic-objs		:= intel_soc_pmic_core.o intel_soc_pmic_crc.o
-> diff --git a/drivers/mfd/rt5120.c b/drivers/mfd/rt5120.c
-> new file mode 100644
-> index 00000000..e7c5f3c
-> --- /dev/null
-> +++ b/drivers/mfd/rt5120.c
-> @@ -0,0 +1,125 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mfd/core.h>
-> +#include <linux/module.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/regmap.h>
-> +
-> +#define RT5120_REG_INTENABLE	0x1D
-> +#define RT5120_REG_INTSTAT	0x1E
-> +#define RT5120_REG_FZCMODE	0x44
-> +
-> +#define RT5120_INT_HOTDIE	0
-> +#define RT5120_INT_PWRKEY_REL	5
-> +#define RT5120_INT_PWRKEY_PRESS	6
-> +
-> +static const struct regmap_range rt5120_rd_yes_ranges[] = {
-> +	regmap_reg_range(0x03, 0x13),
-> +	regmap_reg_range(0x1c, 0x20),
-> +	regmap_reg_range(0x44, 0x44)
-> +};
-> +
-> +static const struct regmap_range rt5120_wr_yes_ranges[] = {
-> +	regmap_reg_range(0x06, 0x13),
-> +	regmap_reg_range(0x1c, 0x20),
-> +	regmap_reg_range(0x44, 0x44)
-> +};
-> +
-> +static const struct regmap_access_table rt5120_rd_table = {
-> +	.yes_ranges = rt5120_rd_yes_ranges,
-> +	.n_yes_ranges = ARRAY_SIZE(rt5120_rd_yes_ranges),
-> +};
-> +
-> +static const struct regmap_access_table rt5120_wr_table = {
-> +	.yes_ranges = rt5120_wr_yes_ranges,
-> +	.n_yes_ranges = ARRAY_SIZE(rt5120_wr_yes_ranges),
-> +};
-> +
-> +static const struct regmap_config rt5120_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.max_register = RT5120_REG_FZCMODE,
-> +
-> +	.wr_table = &rt5120_wr_table,
-> +	.rd_table = &rt5120_rd_table,
-> +};
-> +
-> +static const struct regmap_irq rt5120_irqs[] = {
-> +	REGMAP_IRQ_REG_LINE(RT5120_INT_HOTDIE, 8),
-> +	REGMAP_IRQ_REG_LINE(RT5120_INT_PWRKEY_REL, 8),
-> +	REGMAP_IRQ_REG_LINE(RT5120_INT_PWRKEY_PRESS, 8)
-> +};
-> +
-> +static const struct regmap_irq_chip rt5120_irq_chip = {
-> +	.name = "rt5120-pmic",
-> +	.status_base = RT5120_REG_INTSTAT,
-> +	.mask_base = RT5120_REG_INTENABLE,
-> +	.ack_base = RT5120_REG_INTSTAT,
-> +	.mask_invert = true,
-> +	.use_ack = true,
-> +	.num_regs = 1,
-> +	.irqs = rt5120_irqs,
-> +	.num_irqs = ARRAY_SIZE(rt5120_irqs),
-> +};
-> +
-> +static const struct resource rt5120_regulator_resources[] = {
-> +	DEFINE_RES_IRQ(RT5120_INT_HOTDIE)
-> +};
-> +
-> +static const struct resource rt5120_pwrkey_resources[] = {
-> +	DEFINE_RES_IRQ_NAMED(RT5120_INT_PWRKEY_PRESS, "pwrkey-press"),
-> +	DEFINE_RES_IRQ_NAMED(RT5120_INT_PWRKEY_REL, "pwrkey-release")
-> +};
-> +
-> +static const struct mfd_cell rt5120_devs[] = {
-> +	MFD_CELL_RES("rt5120-regulator", rt5120_regulator_resources),
-> +	MFD_CELL_OF("rt5120-pwrkey", rt5120_pwrkey_resources, NULL, 0, 0,
-> +		    "richtek,rt5120-pwrkey")
-> +};
-> +
-> +static int rt5120_probe(struct i2c_client *i2c)
-> +{
-> +	struct regmap *regmap;
-> +	struct regmap_irq_chip_data *irq_data;
-> +	int ret;
-> +
-> +	regmap = devm_regmap_init_i2c(i2c, &rt5120_regmap_config);
-> +	if (IS_ERR(regmap)) {
-> +		ret = PTR_ERR(regmap);
-> +		dev_err(&i2c->dev, "Failed to init regmap (%d)\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = devm_regmap_add_irq_chip(&i2c->dev, regmap, i2c->irq,
-> +				       IRQF_ONESHOT, 0, &rt5120_irq_chip,
-> +				       &irq_data);
-> +	if (ret) {
-> +		dev_err(&i2c->dev, "Failed to add irq chip (%d)\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return devm_mfd_add_devices(&i2c->dev, PLATFORM_DEVID_AUTO, rt5120_devs,
-> +				    ARRAY_SIZE(rt5120_devs), NULL, 0,
-> +				    regmap_irq_get_domain(irq_data));
-> +}
-> +
-> +static const struct of_device_id rt5120_device_match_table[] = {
-> +	{ .compatible = "richtek,rt5120", },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, rt5120_device_match_table);
-> +
-> +static struct i2c_driver rt5120_driver = {
-> +	.driver = {
-> +		.name = "rt5120",
-> +		.of_match_table = rt5120_device_match_table,
-> +	},
-> +	.probe_new = rt5120_probe,
-> +};
-> +module_i2c_driver(rt5120_driver);
-> +
-> +MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
-> +MODULE_DESCRIPTION("Richtek RT5120 I2C driver");
-> +MODULE_LICENSE("GPL v2");
-
--- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+> > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> > ---
+> >  drivers/mfd/Kconfig  |  12 +++++
+> >  drivers/mfd/Makefile |   1 +
+> >  drivers/mfd/rt5120.c | 125 +++++++++++++++++++++++++++++++++++++++++++=
+++++++++
+> >  3 files changed, 138 insertions(+)
+> >  create mode 100644 drivers/mfd/rt5120.c
+> >
+> > diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+> > index 3b59456..866619c 100644
+> > --- a/drivers/mfd/Kconfig
+> > +++ b/drivers/mfd/Kconfig
+> > @@ -1127,6 +1127,18 @@ config MFD_RT5033
+> >         sub-devices like charger, fuel gauge, flash LED, current source=
+,
+> >         LDO and Buck.
+> >
+> > +config MFD_RT5120
+> > +     tristate "Richtek RT5120 Power Management IC"
+> > +     depends on I2C
+> > +     select MFD_CORE
+> > +     select REGMAP_I2C
+> > +     select REGMAP_IRQ
+> > +     help
+> > +       The enables support for Richtek RT5120 PMIC. It includes four h=
+igh
+> > +       efficiency buck converters and one LDO voltage regulator. The d=
+evice
+> > +       is targeted at providing the CPU voltage, memory, I/O and perip=
+heral
+> > +       power rails in home entertainment devices.
+> > +
+> >  config MFD_RC5T583
+> >       bool "Ricoh RC5T583 Power Management system device"
+> >       depends on I2C=3Dy
+> > diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+> > index 858cacf..27e8add 100644
+> > --- a/drivers/mfd/Makefile
+> > +++ b/drivers/mfd/Makefile
+> > @@ -234,6 +234,7 @@ obj-$(CONFIG_MFD_HI655X_PMIC)   +=3D hi655x-pmic.o
+> >  obj-$(CONFIG_MFD_DLN2)               +=3D dln2.o
+> >  obj-$(CONFIG_MFD_RT4831)     +=3D rt4831.o
+> >  obj-$(CONFIG_MFD_RT5033)     +=3D rt5033.o
+> > +obj-$(CONFIG_MFD_RT5120)     +=3D rt5120.o
+> >  obj-$(CONFIG_MFD_SKY81452)   +=3D sky81452.o
+> >
+> >  intel-soc-pmic-objs          :=3D intel_soc_pmic_core.o intel_soc_pmic=
+_crc.o
+> > diff --git a/drivers/mfd/rt5120.c b/drivers/mfd/rt5120.c
+> > new file mode 100644
+> > index 00000000..e7c5f3c
+> > --- /dev/null
+> > +++ b/drivers/mfd/rt5120.c
+> > @@ -0,0 +1,125 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +
+> > +#include <linux/i2c.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/mfd/core.h>
+> > +#include <linux/module.h>
+> > +#include <linux/mod_devicetable.h>
+> > +#include <linux/regmap.h>
+> > +
+> > +#define RT5120_REG_INTENABLE 0x1D
+> > +#define RT5120_REG_INTSTAT   0x1E
+> > +#define RT5120_REG_FZCMODE   0x44
+> > +
+> > +#define RT5120_INT_HOTDIE    0
+> > +#define RT5120_INT_PWRKEY_REL        5
+> > +#define RT5120_INT_PWRKEY_PRESS      6
+> > +
+> > +static const struct regmap_range rt5120_rd_yes_ranges[] =3D {
+> > +     regmap_reg_range(0x03, 0x13),
+> > +     regmap_reg_range(0x1c, 0x20),
+> > +     regmap_reg_range(0x44, 0x44)
+> > +};
+> > +
+> > +static const struct regmap_range rt5120_wr_yes_ranges[] =3D {
+> > +     regmap_reg_range(0x06, 0x13),
+> > +     regmap_reg_range(0x1c, 0x20),
+> > +     regmap_reg_range(0x44, 0x44)
+> > +};
+> > +
+> > +static const struct regmap_access_table rt5120_rd_table =3D {
+> > +     .yes_ranges =3D rt5120_rd_yes_ranges,
+> > +     .n_yes_ranges =3D ARRAY_SIZE(rt5120_rd_yes_ranges),
+> > +};
+> > +
+> > +static const struct regmap_access_table rt5120_wr_table =3D {
+> > +     .yes_ranges =3D rt5120_wr_yes_ranges,
+> > +     .n_yes_ranges =3D ARRAY_SIZE(rt5120_wr_yes_ranges),
+> > +};
+> > +
+> > +static const struct regmap_config rt5120_regmap_config =3D {
+> > +     .reg_bits =3D 8,
+> > +     .val_bits =3D 8,
+> > +     .max_register =3D RT5120_REG_FZCMODE,
+> > +
+> > +     .wr_table =3D &rt5120_wr_table,
+> > +     .rd_table =3D &rt5120_rd_table,
+> > +};
+> > +
+> > +static const struct regmap_irq rt5120_irqs[] =3D {
+> > +     REGMAP_IRQ_REG_LINE(RT5120_INT_HOTDIE, 8),
+> > +     REGMAP_IRQ_REG_LINE(RT5120_INT_PWRKEY_REL, 8),
+> > +     REGMAP_IRQ_REG_LINE(RT5120_INT_PWRKEY_PRESS, 8)
+> > +};
+> > +
+> > +static const struct regmap_irq_chip rt5120_irq_chip =3D {
+> > +     .name =3D "rt5120-pmic",
+> > +     .status_base =3D RT5120_REG_INTSTAT,
+> > +     .mask_base =3D RT5120_REG_INTENABLE,
+> > +     .ack_base =3D RT5120_REG_INTSTAT,
+> > +     .mask_invert =3D true,
+> > +     .use_ack =3D true,
+> > +     .num_regs =3D 1,
+> > +     .irqs =3D rt5120_irqs,
+> > +     .num_irqs =3D ARRAY_SIZE(rt5120_irqs),
+> > +};
+> > +
+> > +static const struct resource rt5120_regulator_resources[] =3D {
+> > +     DEFINE_RES_IRQ(RT5120_INT_HOTDIE)
+> > +};
+> > +
+> > +static const struct resource rt5120_pwrkey_resources[] =3D {
+> > +     DEFINE_RES_IRQ_NAMED(RT5120_INT_PWRKEY_PRESS, "pwrkey-press"),
+> > +     DEFINE_RES_IRQ_NAMED(RT5120_INT_PWRKEY_REL, "pwrkey-release")
+> > +};
+> > +
+> > +static const struct mfd_cell rt5120_devs[] =3D {
+> > +     MFD_CELL_RES("rt5120-regulator", rt5120_regulator_resources),
+> > +     MFD_CELL_OF("rt5120-pwrkey", rt5120_pwrkey_resources, NULL, 0, 0,
+> > +                 "richtek,rt5120-pwrkey")
+> > +};
+> > +
+> > +static int rt5120_probe(struct i2c_client *i2c)
+> > +{
+> > +     struct regmap *regmap;
+> > +     struct regmap_irq_chip_data *irq_data;
+> > +     int ret;
+> > +
+> > +     regmap =3D devm_regmap_init_i2c(i2c, &rt5120_regmap_config);
+> > +     if (IS_ERR(regmap)) {
+> > +             ret =3D PTR_ERR(regmap);
+> > +             dev_err(&i2c->dev, "Failed to init regmap (%d)\n", ret);
+> > +             return ret;
+> > +     }
+> > +
+> > +     ret =3D devm_regmap_add_irq_chip(&i2c->dev, regmap, i2c->irq,
+> > +                                    IRQF_ONESHOT, 0, &rt5120_irq_chip,
+> > +                                    &irq_data);
+> > +     if (ret) {
+> > +             dev_err(&i2c->dev, "Failed to add irq chip (%d)\n", ret);
+> > +             return ret;
+> > +     }
+> > +
+> > +     return devm_mfd_add_devices(&i2c->dev, PLATFORM_DEVID_AUTO, rt512=
+0_devs,
+> > +                                 ARRAY_SIZE(rt5120_devs), NULL, 0,
+> > +                                 regmap_irq_get_domain(irq_data));
+> > +}
+> > +
+> > +static const struct of_device_id rt5120_device_match_table[] =3D {
+> > +     { .compatible =3D "richtek,rt5120", },
+> > +     {}
+> > +};
+> > +MODULE_DEVICE_TABLE(of, rt5120_device_match_table);
+> > +
+> > +static struct i2c_driver rt5120_driver =3D {
+> > +     .driver =3D {
+> > +             .name =3D "rt5120",
+> > +             .of_match_table =3D rt5120_device_match_table,
+> > +     },
+> > +     .probe_new =3D rt5120_probe,
+> > +};
+> > +module_i2c_driver(rt5120_driver);
+> > +
+> > +MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
+> > +MODULE_DESCRIPTION("Richtek RT5120 I2C driver");
+> > +MODULE_LICENSE("GPL v2");
+>
+> --
+> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+> Principal Technical Lead - Developer Services
+> Linaro.org =E2=94=82 Open source software for Arm SoCs
+> Follow Linaro: Facebook | Twitter | Blog
