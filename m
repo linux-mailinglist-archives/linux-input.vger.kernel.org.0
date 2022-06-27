@@ -2,103 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4194355D081
-	for <lists+linux-input@lfdr.de>; Tue, 28 Jun 2022 15:08:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF44055D33A
+	for <lists+linux-input@lfdr.de>; Tue, 28 Jun 2022 15:12:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239702AbiF0MI2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Jun 2022 08:08:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44874 "EHLO
+        id S237003AbiF0OXM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Jun 2022 10:23:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240463AbiF0MHo (ORCPT
+        with ESMTP id S237282AbiF0OXH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Jun 2022 08:07:44 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 812FCBE27
-        for <linux-input@vger.kernel.org>; Mon, 27 Jun 2022 05:06:23 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id r20so12780071wra.1
-        for <linux-input@vger.kernel.org>; Mon, 27 Jun 2022 05:06:23 -0700 (PDT)
+        Mon, 27 Jun 2022 10:23:07 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A27113F23
+        for <linux-input@vger.kernel.org>; Mon, 27 Jun 2022 07:22:53 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id i25so7792978wrc.13
+        for <linux-input@vger.kernel.org>; Mon, 27 Jun 2022 07:22:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=/Vr70S1itQTBF/3bCew+jxqxaJK1aORpqchqJlIulN8=;
-        b=nj5oQcZi8JzRsGM3DFad9Xybe6hpa6FG+MoP8L51KifR9Vnx9eDEerY0sFLxcH32pP
-         yh2DJfqgWpq2zpXtrzs4dP+HhJVpTk5m0rTdKps26yOU5SUfkbzy/DhlLyYaSC+Ocq2j
-         H3cMckzKhtqrZnldgDo9v8nChVSAtAKLitLXMZObAYq0T3IoOVCt5uiwdmKFyMacY5kl
-         FdlOqE9NXg1fkkJPIyCBNCNntcZWm+sNt4zl5IY81kL60mqK4eJnz6Hpt6TLaEC137rb
-         exNw3wpIXASEHPhT6/6P7i5ajW9wGdM3C5LjbdfGViBQtJSbFlgSIPKIxOaBshjymIB6
-         ZoPg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=FeV1hNgcIlRD8vtoxkTZySTIebKF1oNgpi73Pm+Sqqw=;
+        b=hnVY5/tYmCOiBd+Gqly3Rjz9bsbVA75CKg3xCAgOyaGdffrQzR0Q9lwJB8tDl/9s6y
+         TdvCaH2YmBoxcd9PyJZgSi3pjdTwErqECq5Pgm5ivZPdaM50uI9YAAYbF/ZKeCTfQPoN
+         VsjziyH0TMtYKJEKVy9dIqQ01VXqhfRcSluv/SGK8H61f6nWLQNAlSaGlFCAv1RZ/cu0
+         W48fSZdiGvFkCK2ElrF9nnfD8VeoowhUUdrqVuLSduciVqzfwS3FCq1eZfGdaDw6G/LM
+         gZAWmFkjgikMvoOw/SOnDBaGZbuofeFOODU4uJr7eJSm6ofTRvefIySBwjRn8xbKEFCD
+         a90Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=/Vr70S1itQTBF/3bCew+jxqxaJK1aORpqchqJlIulN8=;
-        b=jc4n1FFr3soJ386B64mWx+9eCSXMDSOZcUYxmnHOfPjjIbpLu8F7exbvFRDsQR/PiD
-         9/QRUfthuAcgxjC8m1W4zZ1xMvv5hXHc6RU4ISog3umTEukfnly/YmHAZy6kQf6oOPpg
-         Ccm7WeqBAnrMR570Gar2BSfgx6YV7cRazd1/9qpL8gJz6ukzUz9n/1oUH2YjIzrtYvfS
-         Mn7AN4CSQN5gERXR4+elK7/JO9UqItPgysWIBl3o8DDKLRO7JgHJYHBHJ07AVWp+jAcO
-         VZe1S2iEAqX6ErxZh00iRFZQxrXiYR1yfPJ+cDK7jvB7aXF4OGWXsOmMQH9WCPonPAgv
-         8MQQ==
-X-Gm-Message-State: AJIora9YXrJuTszPMcH4nXPOXnJ3OiUCIqDkWrqKFUn23biUOc3XXG2M
-        a20YWXH629WPkeULmh5gPuW0wQ==
-X-Google-Smtp-Source: AGRyM1v4mipmlBAmPoKRfrckMoNmVytCsUsuVXsuKFVR2SVoD35b+p0iU2bhx9v38CDsNf6vGT/67A==
-X-Received: by 2002:a5d:5c11:0:b0:21b:a9a2:7eec with SMTP id cc17-20020a5d5c11000000b0021ba9a27eecmr12101736wrb.579.1656331582103;
-        Mon, 27 Jun 2022 05:06:22 -0700 (PDT)
-Received: from [192.168.0.249] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id f8-20020a1cc908000000b0039c99f61e5bsm16608790wmb.5.2022.06.27.05.06.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jun 2022 05:06:21 -0700 (PDT)
-Message-ID: <dca6534e-2601-a943-b6a8-2593f7fc64eb@linaro.org>
-Date:   Mon, 27 Jun 2022 14:06:19 +0200
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=FeV1hNgcIlRD8vtoxkTZySTIebKF1oNgpi73Pm+Sqqw=;
+        b=WZfeI1GKhI0eRr7pjVyCNsugwLspFetdCwa8rZM6YaxraAjy/yisRzyMNLc+IWyuXH
+         zU9I1FeWoXyDLO/p1mL7F/uMCeZlrYUdewFL0eWHMk9I4nGFK8CmztS8gYBGfB+CloxJ
+         WIC262C9nBgT7cXlUiNaZ6EtcpAquvwqBQFHl/0NuMWdifGdlKCbGJ4bSCb9wf1FjIZE
+         Z8hp08hsbYnVUOQ2aZqSALl82qhL4Pd7+e3V3OEBRH0cr3XM5aR484/SNbbOVbLipg2l
+         o8IEuCHZdLxiFVy90PAdN6pDrRqdPG2il7R759RCqd86YyVWKS63NXND2egL9uFLXyPf
+         ouQg==
+X-Gm-Message-State: AJIora/a4SnJpxkzpBOBBitD119UPx7JcrfRtmBs2GT0/L9Yj66uVim5
+        WnH7zj9Y4WbBR6CwuFlqXUTrWA==
+X-Google-Smtp-Source: AGRyM1sjI6M8T0da+YH6qaHw6hmjwF4LQrCjEPKNsXZM7MhPVYOv+/xv1jHeE9vsMc6PWjZh2kKoKQ==
+X-Received: by 2002:adf:d1c2:0:b0:21b:e465:1e36 with SMTP id b2-20020adfd1c2000000b0021be4651e36mr5818287wrd.271.1656339771707;
+        Mon, 27 Jun 2022 07:22:51 -0700 (PDT)
+Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
+        by smtp.gmail.com with ESMTPSA id bg21-20020a05600c3c9500b003a046549a85sm8120659wmb.37.2022.06.27.07.22.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jun 2022 07:22:51 -0700 (PDT)
+Date:   Mon, 27 Jun 2022 15:22:49 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     cy_huang <u0084500@gmail.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        broonie@kernel.org, dmitry.torokhov@gmail.com, lgirdwood@gmail.com,
+        cy_huang@richtek.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] mfd: rt5120: Add Richtek PMIC support
+Message-ID: <Yrm9ObaltUiQUTqS@google.com>
+References: <1655892104-10874-1-git-send-email-u0084500@gmail.com>
+ <1655892104-10874-3-git-send-email-u0084500@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v5 10/14] dt-bindings: firmware: Add fsl,scu yaml file
-Content-Language: en-US
-To:     Viorel Suman <viorel.suman@nxp.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Abel Vesa <abelvesa@kernel.org>,
-        Oliver Graute <oliver.graute@kococonnector.com>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>,
-        Peng Fan <peng.fan@nxp.com>, Liu Ying <victor.liu@nxp.com>,
-        Ming Qian <ming.qian@nxp.com>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-watchdog@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, Abel Vesa <abel.vesa@nxp.com>
-References: <20220616164303.790379-1-viorel.suman@nxp.com>
- <20220616164303.790379-11-viorel.suman@nxp.com>
- <b653d7af-f846-abb2-d260-3ce615b070a4@linaro.org>
- <20220627114949.pg7az36fz4jrwebp@fsr-ub1664-116>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220627114949.pg7az36fz4jrwebp@fsr-ub1664-116>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1655892104-10874-3-git-send-email-u0084500@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -107,53 +75,195 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 27/06/2022 13:49, Viorel Suman wrote:
-> On 22-06-24 12:25:44, Krzysztof Kozlowski wrote:
->> On 16/06/2022 18:42, Viorel Suman wrote:
->>> From: Abel Vesa <abel.vesa@nxp.com>
->>>
->>> In order to replace the fsl,scu txt file from bindings/arm/freescale,
->>> we need to split it between the right subsystems. This patch adds the
->>> fsl,scu.yaml in the firmware bindings folder. This one is only for
->>> the main SCU node. The old txt file will be removed only after all
->>> the child nodes have been properly switch to yaml.
->>>
->>> Signed-off-by: Abel Vesa <abel.vesa@nxp.com>
->>> Signed-off-by: Viorel Suman <viorel.suman@nxp.com>
->>> ---
->>>  .../devicetree/bindings/firmware/fsl,scu.yaml | 170 ++++++++++++++++++
->>>  1 file changed, 170 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/firmware/fsl,scu.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/firmware/fsl,scu.yaml b/Documentation/devicetree/bindings/firmware/fsl,scu.yaml
+On Wed, 22 Jun 2022, cy_huang wrote:
+
+> From: ChiYuan Huang <cy_huang@richtek.com>
 > 
-> [...]
+> Add Richtek RT5120 PMIC I2C driver.
+
+Why a whole new driver?
+
+How different is this to rt5033?
+
+Looks like this could easily be woven into this existing support?
+
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> ---
+>  drivers/mfd/Kconfig  |  12 +++++
+>  drivers/mfd/Makefile |   1 +
+>  drivers/mfd/rt5120.c | 125 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 138 insertions(+)
+>  create mode 100644 drivers/mfd/rt5120.c
 > 
->>> +properties:
->>> +  $nodename:
->>> +    const: 'scu'
->>
->> Why enforcing node name? Second point is that node names should be
->> generic, so I wonder what "SCU" exactly means and whether it is generic?
->>
-> 
-> It stands for "System Control Unit" - looks generic to me.
+> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+> index 3b59456..866619c 100644
+> --- a/drivers/mfd/Kconfig
+> +++ b/drivers/mfd/Kconfig
+> @@ -1127,6 +1127,18 @@ config MFD_RT5033
+>  	  sub-devices like charger, fuel gauge, flash LED, current source,
+>  	  LDO and Buck.
+>  
+> +config MFD_RT5120
+> +	tristate "Richtek RT5120 Power Management IC"
+> +	depends on I2C
+> +	select MFD_CORE
+> +	select REGMAP_I2C
+> +	select REGMAP_IRQ
+> +	help
+> +	  The enables support for Richtek RT5120 PMIC. It includes four high
+> +	  efficiency buck converters and one LDO voltage regulator. The device
+> +	  is targeted at providing the CPU voltage, memory, I/O and peripheral
+> +	  power rails in home entertainment devices.
+> +
+>  config MFD_RC5T583
+>  	bool "Ricoh RC5T583 Power Management system device"
+>  	depends on I2C=y
+> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+> index 858cacf..27e8add 100644
+> --- a/drivers/mfd/Makefile
+> +++ b/drivers/mfd/Makefile
+> @@ -234,6 +234,7 @@ obj-$(CONFIG_MFD_HI655X_PMIC)   += hi655x-pmic.o
+>  obj-$(CONFIG_MFD_DLN2)		+= dln2.o
+>  obj-$(CONFIG_MFD_RT4831)	+= rt4831.o
+>  obj-$(CONFIG_MFD_RT5033)	+= rt5033.o
+> +obj-$(CONFIG_MFD_RT5120)	+= rt5120.o
+>  obj-$(CONFIG_MFD_SKY81452)	+= sky81452.o
+>  
+>  intel-soc-pmic-objs		:= intel_soc_pmic_core.o intel_soc_pmic_crc.o
+> diff --git a/drivers/mfd/rt5120.c b/drivers/mfd/rt5120.c
+> new file mode 100644
+> index 00000000..e7c5f3c
+> --- /dev/null
+> +++ b/drivers/mfd/rt5120.c
+> @@ -0,0 +1,125 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +
+> +#include <linux/i2c.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mfd/core.h>
+> +#include <linux/module.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/regmap.h>
+> +
+> +#define RT5120_REG_INTENABLE	0x1D
+> +#define RT5120_REG_INTSTAT	0x1E
+> +#define RT5120_REG_FZCMODE	0x44
+> +
+> +#define RT5120_INT_HOTDIE	0
+> +#define RT5120_INT_PWRKEY_REL	5
+> +#define RT5120_INT_PWRKEY_PRESS	6
+> +
+> +static const struct regmap_range rt5120_rd_yes_ranges[] = {
+> +	regmap_reg_range(0x03, 0x13),
+> +	regmap_reg_range(0x1c, 0x20),
+> +	regmap_reg_range(0x44, 0x44)
+> +};
+> +
+> +static const struct regmap_range rt5120_wr_yes_ranges[] = {
+> +	regmap_reg_range(0x06, 0x13),
+> +	regmap_reg_range(0x1c, 0x20),
+> +	regmap_reg_range(0x44, 0x44)
+> +};
+> +
+> +static const struct regmap_access_table rt5120_rd_table = {
+> +	.yes_ranges = rt5120_rd_yes_ranges,
+> +	.n_yes_ranges = ARRAY_SIZE(rt5120_rd_yes_ranges),
+> +};
+> +
+> +static const struct regmap_access_table rt5120_wr_table = {
+> +	.yes_ranges = rt5120_wr_yes_ranges,
+> +	.n_yes_ranges = ARRAY_SIZE(rt5120_wr_yes_ranges),
+> +};
+> +
+> +static const struct regmap_config rt5120_regmap_config = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +	.max_register = RT5120_REG_FZCMODE,
+> +
+> +	.wr_table = &rt5120_wr_table,
+> +	.rd_table = &rt5120_rd_table,
+> +};
+> +
+> +static const struct regmap_irq rt5120_irqs[] = {
+> +	REGMAP_IRQ_REG_LINE(RT5120_INT_HOTDIE, 8),
+> +	REGMAP_IRQ_REG_LINE(RT5120_INT_PWRKEY_REL, 8),
+> +	REGMAP_IRQ_REG_LINE(RT5120_INT_PWRKEY_PRESS, 8)
+> +};
+> +
+> +static const struct regmap_irq_chip rt5120_irq_chip = {
+> +	.name = "rt5120-pmic",
+> +	.status_base = RT5120_REG_INTSTAT,
+> +	.mask_base = RT5120_REG_INTENABLE,
+> +	.ack_base = RT5120_REG_INTSTAT,
+> +	.mask_invert = true,
+> +	.use_ack = true,
+> +	.num_regs = 1,
+> +	.irqs = rt5120_irqs,
+> +	.num_irqs = ARRAY_SIZE(rt5120_irqs),
+> +};
+> +
+> +static const struct resource rt5120_regulator_resources[] = {
+> +	DEFINE_RES_IRQ(RT5120_INT_HOTDIE)
+> +};
+> +
+> +static const struct resource rt5120_pwrkey_resources[] = {
+> +	DEFINE_RES_IRQ_NAMED(RT5120_INT_PWRKEY_PRESS, "pwrkey-press"),
+> +	DEFINE_RES_IRQ_NAMED(RT5120_INT_PWRKEY_REL, "pwrkey-release")
+> +};
+> +
+> +static const struct mfd_cell rt5120_devs[] = {
+> +	MFD_CELL_RES("rt5120-regulator", rt5120_regulator_resources),
+> +	MFD_CELL_OF("rt5120-pwrkey", rt5120_pwrkey_resources, NULL, 0, 0,
+> +		    "richtek,rt5120-pwrkey")
+> +};
+> +
+> +static int rt5120_probe(struct i2c_client *i2c)
+> +{
+> +	struct regmap *regmap;
+> +	struct regmap_irq_chip_data *irq_data;
+> +	int ret;
+> +
+> +	regmap = devm_regmap_init_i2c(i2c, &rt5120_regmap_config);
+> +	if (IS_ERR(regmap)) {
+> +		ret = PTR_ERR(regmap);
+> +		dev_err(&i2c->dev, "Failed to init regmap (%d)\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = devm_regmap_add_irq_chip(&i2c->dev, regmap, i2c->irq,
+> +				       IRQF_ONESHOT, 0, &rt5120_irq_chip,
+> +				       &irq_data);
+> +	if (ret) {
+> +		dev_err(&i2c->dev, "Failed to add irq chip (%d)\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return devm_mfd_add_devices(&i2c->dev, PLATFORM_DEVID_AUTO, rt5120_devs,
+> +				    ARRAY_SIZE(rt5120_devs), NULL, 0,
+> +				    regmap_irq_get_domain(irq_data));
+> +}
+> +
+> +static const struct of_device_id rt5120_device_match_table[] = {
+> +	{ .compatible = "richtek,rt5120", },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, rt5120_device_match_table);
+> +
+> +static struct i2c_driver rt5120_driver = {
+> +	.driver = {
+> +		.name = "rt5120",
+> +		.of_match_table = rt5120_device_match_table,
+> +	},
+> +	.probe_new = rt5120_probe,
+> +};
+> +module_i2c_driver(rt5120_driver);
+> +
+> +MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
+> +MODULE_DESCRIPTION("Richtek RT5120 I2C driver");
+> +MODULE_LICENSE("GPL v2");
 
-Nope, it's specific, just like other scu - Snoop Control Unit. What's
-more, reusing the same acronym leads to confusions.
-
-If it was generic, then I expect it to be present in several other
-places, but it's not (except the other SCU).
-
-Generic name is for example "system-controller".
-
-> I guess a reason to enforce it - need to check with Abel - might be
-> the need to group multiple SCU implementations under a common known name.
-
-Device bindings do not enforce the names, unless it's really needed, and
-I doubt there is a need here.  Just drop it and rename nodes in DTS to
-something generic.
-
-
-Best regards,
-Krzysztof
+-- 
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
