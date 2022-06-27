@@ -2,113 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CA7E55DF68
-	for <lists+linux-input@lfdr.de>; Tue, 28 Jun 2022 15:30:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DBD155CCCA
+	for <lists+linux-input@lfdr.de>; Tue, 28 Jun 2022 15:02:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242341AbiF0WNl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Jun 2022 18:13:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47738 "EHLO
+        id S242450AbiF0WOy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Jun 2022 18:14:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242343AbiF0WNk (ORCPT
+        with ESMTP id S242401AbiF0WOy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Jun 2022 18:13:40 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB9A16258;
-        Mon, 27 Jun 2022 15:13:37 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id k9so1040528pfg.5;
-        Mon, 27 Jun 2022 15:13:37 -0700 (PDT)
+        Mon, 27 Jun 2022 18:14:54 -0400
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB76060DC;
+        Mon, 27 Jun 2022 15:14:52 -0700 (PDT)
+Received: by mail-io1-xd29.google.com with SMTP id p69so11085284iod.10;
+        Mon, 27 Jun 2022 15:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Oqo3K7zHjFdCbILfPRjw81EDQvPRT6gIpYwbe6wYk2M=;
-        b=YyFUqGx6YgnpcnOapY+ZZIzHpxIBA+lujxk7pm+JSYlQ8QQHVP7LQ60xR0jeQ5FS34
-         kFjt+XkSKTe/TpIbSUkNal41PJ86kRjei954QhHswYkwtay9FoYFtL5ifimJKoKcDz10
-         yQ7J/eQ6+f0gehmwSdV+d+CO//BuFrE3ZGESvEthqO9Vcurpc0QvxRM5g/ckklTm4oC7
-         YIAR+Lq6MOP1bfHGWBjS0/HWiMqsOQdDXsXChFMNi1O+y6y3o3OgMGERZlqIiUISH+y0
-         cOOYpZ7K4QsNFjjdKuXO14mK87+oHsTAG3O1CmaJ9kJzfQ4WKme7Q2NgyoxBFClIzKcx
-         IoCA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=n8YqZKMnu5wFfAYg9KKwPbiYeb43yaP+RoJqTw94+ew=;
+        b=o7yff7z0RiTZCe4SsxtEJUGOsiujoqFc8vkFuA7GehOJF+MNt6m8mQNYV7nGH9hhcU
+         wodNt2xbZ7D6U+pteGrRRSDjwUdfGTi22C2sJ9k2k0eDANpC2+zAWb4FVNHFdE/ZVOQ0
+         WUCLoBpL5R3A7A+bQjU9EQkKZCopyTphNAholVNTXOe1v7eVQyVlhHu7YGANnWooRNis
+         7/Mip94mOIvlZgERChobMJNRTMw7E1P7W6uAQsg94iQDKB2aAUe+4ULxAeCr8Gt2KPgv
+         +wXuj/t2zfiD6z52GaFLDCziLDmkQjUEKJFnoodXH7MEK8WwCynpW+yBLzI+1q8MaFwu
+         U1sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Oqo3K7zHjFdCbILfPRjw81EDQvPRT6gIpYwbe6wYk2M=;
-        b=TPyChA57A6Ko6IosE5xGWrM9Hj4v2xLt1KBQ5UTRKMVXaRRr8X4AoU5fS4VeyQutzn
-         Y4s9T6H/WljmB6J8ofDjyB33DC7hPPh0RXz1gQQdovFRwB00lpTXuBjR5TF5LZFZitI6
-         PQgsmoXCM7pIUKDtULoqUgaykG0pCEsSlXBJx43s9eki+CenD/rM5GVXiaN5VDkzhuhI
-         DG2LpF7soakq97jjCVWtgMVviom6rTc7UjBMAcSPc8gjJoT46WAinyxjQ+s8vEF354SK
-         D4I5+e7aVqDe/+YfNEWyOAB0OK4tThFeu6JwnrS2MrAdbItVyFKbsMVzyZFVMaN2d7js
-         ZyYQ==
-X-Gm-Message-State: AJIora/ZA0tY5pu2fj8RM6eSaujTENfDSXhRFNFHgE/IaFrq2qgQskPU
-        k+8XSoimG9GXV6Blt54asTA=
-X-Google-Smtp-Source: AGRyM1t72pdnfDBVZ1BqKnt+j/zteig4qqQ4dtYiK10qVzBGLbZVqm/Pg1sQbJtoYPnf130LQcF4Kw==
-X-Received: by 2002:a62:5b06:0:b0:525:451b:bf31 with SMTP id p6-20020a625b06000000b00525451bbf31mr1256967pfb.61.1656368017350;
-        Mon, 27 Jun 2022 15:13:37 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:8319:8d76:976e:108f])
-        by smtp.gmail.com with ESMTPSA id g19-20020a62e313000000b0051ba8b742e4sm7867353pfh.69.2022.06.27.15.13.35
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=n8YqZKMnu5wFfAYg9KKwPbiYeb43yaP+RoJqTw94+ew=;
+        b=cEe1db0UCDelmQitsq+VpPIqB7S5YZgmLGGixdahzFXLJ0KUYhxFgenXwY0m1ddReH
+         chMq/GV4WeuJ4xnMNtKNJW8eCXXMeE75Fn6e8JvStX6xRePLpzuxMpltWcHeXGulChUd
+         vqg8+T9/dWZ1UbymGrLZ1oYwOFyd5O6qRZ1VNu05k6AlTtl0EM+cmV8wwmDWcHN8yoTL
+         VI2Fuh3VHkMrjgRJPuqSzLjq6jmENPdpmxIpoii0N91/SSfL1in+eCsEZJpTJErS5SBM
+         uJmAebJqi/xZUiKC2dpY0CP6jzem6nLPS+FkyysWbvaKMp9wAueG6vGl524K0+pfvDBk
+         fNew==
+X-Gm-Message-State: AJIora8dXwlFZKrodZ3xu5UE9AkxJPZ6lBLtV3Zl/94eBSXPfg+7xlYc
+        hSRMosIX5dwFDLjYumVejg3Y4NN1o/o=
+X-Google-Smtp-Source: AGRyM1smQ8WKzL9VAmB83IiGVy7A50zr1UpQGf81NWwuE/kN7d0OEPeGmRJo1rm9GQ719TG0bp1UiA==
+X-Received: by 2002:a05:6638:1354:b0:33a:cc7a:d0b3 with SMTP id u20-20020a056638135400b0033acc7ad0b3mr9259829jad.163.1656368091920;
+        Mon, 27 Jun 2022 15:14:51 -0700 (PDT)
+Received: from Dixie.. ([2604:2d80:a188:fd00:7a85:cf35:f4b3:542f])
+        by smtp.gmail.com with ESMTPSA id p7-20020a02b007000000b00339dd3976absm5255589jah.110.2022.06.27.15.14.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 15:13:35 -0700 (PDT)
-Date:   Mon, 27 Jun 2022 15:13:33 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Input: usbtouchscreen - add driver_info sanity check
-Message-ID: <YrorjZDRXMgITIjZ@google.com>
-References: <20220623062446.16944-1-johan@kernel.org>
- <YrSN+DYQun/IOPh7@google.com>
- <YrlgU6A+WYZRYjEn@hovoldconsulting.com>
+        Mon, 27 Jun 2022 15:14:51 -0700 (PDT)
+From:   Chris Morgan <macroalpha82@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, contact@artur-rojek.eu,
+        maccraft123mc@gmail.com, heiko@sntech.de,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        dmitry.torokhov@gmail.com, paul@crapouillou.net, jic23@kernel.org,
+        linux-iio@vger.kernel.org, Chris Morgan <macroalpha82@gmail.com>
+Subject: [PATCH v4 0/3] adc-joystick: Add polled support
+Date:   Mon, 27 Jun 2022 17:14:41 -0500
+Message-Id: <20220627221444.3638-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YrlgU6A+WYZRYjEn@hovoldconsulting.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jun 27, 2022 at 09:46:27AM +0200, Johan Hovold wrote:
-> On Thu, Jun 23, 2022 at 08:59:52AM -0700, Dmitry Torokhov wrote:
-> > On Thu, Jun 23, 2022 at 08:24:46AM +0200, Johan Hovold wrote:
-> > > Add a sanity check on the device id-table driver_info field to make sure
-> > > we never access a type structure (and function pointers) outside of the
-> > > device info array (e.g. if someone fails to ifdef a device-id entry).
-> > > 
-> > > Note that this also suppresses a compiler warning with -Warray-bounds
-> > > (gcc-11.3.0) when compile-testing the driver without enabling any of
-> > > the device type Kconfig options:
-> > > 
-> > >     drivers/input/touchscreen/usbtouchscreen.c: In function 'usbtouch_probe':
-> > >     drivers/input/touchscreen/usbtouchscreen.c:1668:16:warning: array subscript <unknown> is outside array bounds of 'struct usbtouch_device_info[0]' [-Warray-bounds]
-> > >      1668 |         type = &usbtouch_dev_info[id->driver_info];
-> > > 
-> > > Signed-off-by: Johan Hovold <johan@kernel.org>
-> > > ---
-> > > 
-> > > Changes in v2
-> > >  - use ARRAY_SIZE() for the sanity check (Dmitry)
-> > >  - drop the dummy entry and combine the two patches as the sanity check
-> > >    itself is enough to suppress the compiler warning (Dmitry)
-> > >  - use -ENODEV instead of -EINVAL even if this means no error will be
-> > >    logged in the unlikely event of a future driver bug
-> > 
-> > Is this on purpose or because I happened to have used this error code
-> > when I suggested the change? I'm fine with returning -EINVAL there.
-> 
-> It was on purpose. Returning -EINVAL (invalid argument) here just
-> doesn't seem quite right. I skimmed the errno list for a better
-> alternative, but decided -ENODEV works as well.
-> 
-> If there's ever a driver bug that triggers this, you could say the
-> device isn't supported in that configuration. ;)
-> 
-> If you prefer -EINVAL, I'll change it back.
+Add support to the existing adc-joystick driver to support polling
+rather than relying on triggered buffers. This is useful for devices
+that do not offer triggered buffers in hardware. Code adapted from
+changes made by Maya Matuszczyk <maccraft123mc@gmail.com>.
 
-No, that is fine, I was simply making sure. Applied, thank you.
+Changes from V3:
+ - After lengthy discussion decided to support with existing attribute
+   of "poll-interval". If present, the driver will use polling and if
+   not present, it will use triggered buffers (as the driver does
+   today).
+ - Corrected some lines to honor the 80 character line-limit.
+ - Check return value from polling method and return early if there
+   is an error reading the data.
+
+Changes from V2:
+ - Changed parameter from "adc-joystick,polled" to
+   "adc-joystick,no-hardware-trigger" as it is more representative of
+   what the driver and hardware are doing.
+
+Changes from V1:
+ - Removed driver compatible string of "adc-joystick-polled".
+ - Added new optional boolean value of "adc-joystick,polled".
+ - Cleaned up if statements regarding polling behavior.
+
+Chris Morgan (3):
+  dt-bindings: adc-joystick: add poll-interval
+  Input: adc-joystick - Add polled input device support
+  arm64: dts: rockchip: Update joystick to polled for Odroid-Go2
+
+ .../bindings/input/adc-joystick.yaml          |  6 +++
+ .../boot/dts/rockchip/rk3326-odroid-go2.dts   |  1 +
+ drivers/input/joystick/adc-joystick.c         | 49 ++++++++++++++-----
+ 3 files changed, 45 insertions(+), 11 deletions(-)
 
 -- 
-Dmitry
+2.34.1
+
