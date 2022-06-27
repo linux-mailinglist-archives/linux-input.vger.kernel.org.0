@@ -2,54 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1BB555CA3D
-	for <lists+linux-input@lfdr.de>; Tue, 28 Jun 2022 14:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C90A55DA20
+	for <lists+linux-input@lfdr.de>; Tue, 28 Jun 2022 15:22:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233122AbiF0Hqe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Jun 2022 03:46:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53222 "EHLO
+        id S230141AbiF0IRa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Jun 2022 04:17:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232620AbiF0Hqd (ORCPT
+        with ESMTP id S232812AbiF0IR1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Jun 2022 03:46:33 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 440A160D2;
-        Mon, 27 Jun 2022 00:46:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E9E6DB80FAB;
-        Mon, 27 Jun 2022 07:46:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8A90C3411D;
-        Mon, 27 Jun 2022 07:46:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656315990;
-        bh=2qUSacDWmeYxJkQPK+63Evm+SWsQuGEK6gdeP5B/qts=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YZEWDQuAp0/mO/vF1sqVBOyH5IvvUy6kXAC33onl+axLigsBi9Im0PWZctLY7FHzm
-         0HioTlziBXjQexiAxTpIU+2ojACmzAdCELvzvph/SiRyWQ08fEZMHS55O3Eg0yi0Te
-         hbk6aGKeYe/ejj0cUrdlYy1Y6NQ6a5WPhQzo4mx3Zw1nqunIuyntWem7/lT3VZWu/S
-         Zn4u48ZMGnNbyZDL6WzJwRxysGcSoSIwtym+Ewf0eoilqbS+fS2zgSvHeZrm4MEjei
-         U/Vg9AXcse7tm/EHzo84k++WqrYi8hl9Cz47hPT07G8Pz1Uh0ZFACm7ure9qWwAzAR
-         mH/nHG1t1nXDA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1o5jRz-00057V-S5; Mon, 27 Jun 2022 09:46:27 +0200
-Date:   Mon, 27 Jun 2022 09:46:27 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Input: usbtouchscreen - add driver_info sanity check
-Message-ID: <YrlgU6A+WYZRYjEn@hovoldconsulting.com>
-References: <20220623062446.16944-1-johan@kernel.org>
- <YrSN+DYQun/IOPh7@google.com>
+        Mon, 27 Jun 2022 04:17:27 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 635B16275
+        for <linux-input@vger.kernel.org>; Mon, 27 Jun 2022 01:17:26 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id z19so11776417edb.11
+        for <linux-input@vger.kernel.org>; Mon, 27 Jun 2022 01:17:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=bJe+EHscmpBI3l8sdzkx98qjGwntmBZw5/UI+r8ZqSI=;
+        b=NSiQD4pcQ7h4Nb3yuNNthTQZjzy0AC9aizCXSr6X6WSSMjfNAo0JvxUzc2re/98uy8
+         CTpKXFnQr3x+l8kFC0WQM0Wpt5lX/fDZn4W5Z7+9251QBlWCWX+AEmocG/wIaZOSB4I6
+         uXntkNfAwjg9P+eZSPPJkPR3kz4lLNAqQZuE3csp8HLrs249gzEZD8dsUS2asvfyj76f
+         wX5kcCOPj91+iJVd9nlidDg6nwaeakpIbqc6l/jC4pMoCrVvRPEElFjiy0ef6QwRysif
+         YNZi1+Ne+F+Z4WyxWJaiKzFrausU+XK68VxsqW2bE1qQO0YJsGCcFCqV/4YL9WXIUo3C
+         Qu6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=bJe+EHscmpBI3l8sdzkx98qjGwntmBZw5/UI+r8ZqSI=;
+        b=UGEG+vtNvDIbdiQNdo0yB53+0Go8V5ThZGniPG8NZoj1TTqTZGbLdCX1tg7o4PBFIM
+         H1aRaYu5mRjLwDq86gdu56lvvN3+Zc9UtVWyFt0BTkLxUI6V52pyqK/aLrItnIJNu/7h
+         bRAbMVXMuSp9ZbHo8NYiMhE62GaRNinCHqbTCjI4VSSy6C69ViBfODtqtbccBKj1hHmE
+         CmM+C8Lrcrodsm3rUmKeN06/1PMgIqUH2uYqzsXKVAQ9MyMPo8SS8PkVMlvm22CUFGr/
+         kj/EuTHRXryWfXrz1wV8Z5rjdO1U8LdchRo8UwqVC5ewRUy+IBNWCkt4MU5kO/lyz7IV
+         00RQ==
+X-Gm-Message-State: AJIora9sF8L9U3NDxmkkQFbjOSnLwSkoEabx4unMQHOUk+O4fqaqdlaY
+        yEBWGr3c04H1PTMeKHf3xCdllw==
+X-Google-Smtp-Source: AGRyM1uY/I+C8DSEIO+4P/vX0mBvSB1E3AuWL8dm46TteoTz/uhg5BxVd1obDTUaJQ8kUbO4cfZm8g==
+X-Received: by 2002:a05:6402:1e93:b0:435:7f3f:407f with SMTP id f19-20020a0564021e9300b004357f3f407fmr15073343edf.173.1656317844990;
+        Mon, 27 Jun 2022 01:17:24 -0700 (PDT)
+Received: from [192.168.0.246] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id p6-20020a170906604600b006f3ef214de7sm4800441ejj.77.2022.06.27.01.17.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jun 2022 01:17:24 -0700 (PDT)
+Message-ID: <cab6fd96-4b8e-42a3-4dce-db63656df92c@linaro.org>
+Date:   Mon, 27 Jun 2022 10:17:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YrSN+DYQun/IOPh7@google.com>
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3 01/40] dt-bindings: input: gpio-keys: enforce node
+ names to match all properties
+Content-Language: en-US
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     soc@kernel.org, linux-kernel@vger.kernel.org,
+        Olof Johansson <olof@lixom.net>, devicetree@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh@kernel.org>, arm@kernel.org,
+        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
+References: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org>
+ <20220616005333.18491-1-krzysztof.kozlowski@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220616005333.18491-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,40 +80,32 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jun 23, 2022 at 08:59:52AM -0700, Dmitry Torokhov wrote:
-> On Thu, Jun 23, 2022 at 08:24:46AM +0200, Johan Hovold wrote:
-> > Add a sanity check on the device id-table driver_info field to make sure
-> > we never access a type structure (and function pointers) outside of the
-> > device info array (e.g. if someone fails to ifdef a device-id entry).
-> > 
-> > Note that this also suppresses a compiler warning with -Warray-bounds
-> > (gcc-11.3.0) when compile-testing the driver without enabling any of
-> > the device type Kconfig options:
-> > 
-> >     drivers/input/touchscreen/usbtouchscreen.c: In function 'usbtouch_probe':
-> >     drivers/input/touchscreen/usbtouchscreen.c:1668:16:warning: array subscript <unknown> is outside array bounds of 'struct usbtouch_device_info[0]' [-Warray-bounds]
-> >      1668 |         type = &usbtouch_dev_info[id->driver_info];
-> > 
-> > Signed-off-by: Johan Hovold <johan@kernel.org>
-> > ---
-> > 
-> > Changes in v2
-> >  - use ARRAY_SIZE() for the sanity check (Dmitry)
-> >  - drop the dummy entry and combine the two patches as the sanity check
-> >    itself is enough to suppress the compiler warning (Dmitry)
-> >  - use -ENODEV instead of -EINVAL even if this means no error will be
-> >    logged in the unlikely event of a future driver bug
+On 16/06/2022 02:52, Krzysztof Kozlowski wrote:
+> The gpio-keys DT schema matches all properties with a wide pattern and
+> applies specific schema to children.  This has drawback - all regular
+> properties are also matched and are silently ignored, even if they are
+> not described in schema.  Basically this allows any non-object property
+> to be present.
 > 
-> Is this on purpose or because I happened to have used this error code
-> when I suggested the change? I'm fine with returning -EINVAL there.
+> Enforce specific naming pattern for children (keys) to narrow the
+> pattern thus do not match other properties.  This will require all
+> children to be properly prefixed or suffixed (button, event, switch or
+> key).
+> 
+> Removal of "if:" within patternProperties causes drop of one indentation
+> level, but there are no other changes in the affected block.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/input/gpio-keys.yaml  | 157 +++++++++---------
+>  1 file changed, 77 insertions(+), 80 deletions(-)
+> 
 
-It was on purpose. Returning -EINVAL (invalid argument) here just
-doesn't seem quite right. I skimmed the errno list for a better
-alternative, but decided -ENODEV works as well.
+Dmitry,
 
-If there's ever a driver bug that triggers this, you could say the
-device isn't supported in that configuration. ;)
+Any comments from your side? Are you planning to pick up the dt-bindings
+here (patch 1-3)?
 
-If you prefer -EINVAL, I'll change it back.
-
-Johan
+Best regards,
+Krzysztof
