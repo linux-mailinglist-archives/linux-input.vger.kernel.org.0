@@ -2,142 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29B5355CEB7
-	for <lists+linux-input@lfdr.de>; Tue, 28 Jun 2022 15:05:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74C0655D3BB
+	for <lists+linux-input@lfdr.de>; Tue, 28 Jun 2022 15:12:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240739AbiF0WsH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Jun 2022 18:48:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57096 "EHLO
+        id S1343815AbiF1GyP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 28 Jun 2022 02:54:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242955AbiF0WsF (ORCPT
+        with ESMTP id S1343822AbiF1GyL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Jun 2022 18:48:05 -0400
-Received: from aposti.net (aposti.net [89.234.176.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE9651178;
-        Mon, 27 Jun 2022 15:48:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1656370083; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xknAKzgfYNpXnYc+9+SUOkimvItPUBqAGTB2HGXSU5A=;
-        b=BGgeaq19W1NDn8qeFhzGAlv/jtBXfWAX6YXqdVWU7Sx5gmJtGAWeUQqFjQmMJbZvLL9+1E
-        yMwpkH5xuCRmJS37mbQetzTaLoOwod2bVmsP1sdsFhOo/HL2qLpiTDNG+4Q21nlnXmy7JJ
-        VwXX/8+4esBkBEGueuMxrAMWVScRYSA=
-Date:   Mon, 27 Jun 2022 23:47:52 +0100
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v4 1/3] dt-bindings: adc-joystick: add poll-interval
-To:     Chris Morgan <macromorgan@hotmail.com>
-Cc:     Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, contact@artur-rojek.eu,
-        maccraft123mc@gmail.com, heiko@sntech.de,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        dmitry.torokhov@gmail.com, jic23@kernel.org,
-        linux-iio@vger.kernel.org
-Message-Id: <SBR5ER.1Q6Y9XTXJWIK2@crapouillou.net>
-In-Reply-To: <SN6PR06MB5342127A5A94A0DB3507E27AA5B99@SN6PR06MB5342.namprd06.prod.outlook.com>
-References: <20220627221444.3638-1-macroalpha82@gmail.com>
-        <20220627221444.3638-2-macroalpha82@gmail.com>
-        <SNQ5ER.4MEKNEQLW6H11@crapouillou.net>
-        <SN6PR06MB5342127A5A94A0DB3507E27AA5B99@SN6PR06MB5342.namprd06.prod.outlook.com>
+        Tue, 28 Jun 2022 02:54:11 -0400
+X-Greylist: delayed 329 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 27 Jun 2022 23:54:10 PDT
+Received: from mail.privatemain.com (mail.privatemain.com [45.86.209.156])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9303026AE7
+        for <linux-input@vger.kernel.org>; Mon, 27 Jun 2022 23:54:10 -0700 (PDT)
+Received: by mail.privatemain.com (Postfix, from userid 1001)
+        id 736AA8280C; Tue, 28 Jun 2022 02:46:33 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=privatemain.com;
+        s=mail; t=1656398921;
+        bh=ydItAdwWOyX5wABuTqD9n+VESLmlWw/YxTJchbbqnDQ=;
+        h=Date:From:To:Subject:From;
+        b=F4y7dDdh2YF7ATgED8fRohWZRGrU/qKc23hVJ0gfs7SL9k2qPhufPCloEVo/iFqUR
+         Oo6BKldhzpMnXkOkptM2zPcVbsXLX3pIkW1PeEtQAB9vVyFv0xp3/zyIruyNOFSxs0
+         VoWzTDvoIYidxRvPKpWZDhvHOh/3bRbhmzPrI/ZSjyaiAuwfHThrnbdyUJiHSUOMvC
+         ywb7fkTc8s6IlOI2HyUXVxD7N57iRsMWJG9VLdaW+gAVY1eBeDqZkD0K0ifZXyqBaq
+         2GxC/yC7OELFzhMkOf6nLWraqS1Ve8Vp/LyPSOBiW1anrqsaTlXV4Y+32oagx+4DEn
+         tFXLD0iAhwhgw==
+Received: by mail.privatemain.com for <linux-input@vger.kernel.org>; Tue, 28 Jun 2022 06:46:31 GMT
+Message-ID: <20220628024500-0.1.26.1ft4.0.ezlnik447h@privatemain.com>
+Date:   Tue, 28 Jun 2022 06:46:31 GMT
+From:   "Maciej Kielar" <maciej.kielar@privatemain.com>
+To:     <linux-input@vger.kernel.org>
+Subject: Prawne zabezpieczenie firmy
+X-Mailer: mail.privatemain.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Dzie=C5=84 dobry,
 
+czy s=C4=85 Pa=C5=84stwo otwarci na rozmowe o wsp=C3=B3=C5=82pracy z nasz=
+a Kancelari=C4=85?
 
-Le lun., juin 27 2022 at 17:41:37 -0500, Chris Morgan=20
-<macromorgan@hotmail.com> a =E9crit :
-> On Mon, Jun 27, 2022 at 11:33:28PM +0100, Paul Cercueil wrote:
->>  Hi Chris,
->>=20
->>  Le lun., juin 27 2022 at 17:14:42 -0500, Chris Morgan
->>  <macroalpha82@gmail.com> a =E9crit :
->>  > Add poll-interval support for the adc-joystick documentation.=20
->> This is
->>  > an optional value and if not provided the adc-joystick works as it
->>  > does today (with triggered buffers). If this value is provided,=20
->> the
->>  > adc-joystick driver is polled at the specified interval.
->>  >
->>  > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
->>  > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
->>  > ---
->>  >  Documentation/devicetree/bindings/input/adc-joystick.yaml | 6=20
->> ++++++
->>  >  1 file changed, 6 insertions(+)
->>  >
->>  > diff --git=20
->> a/Documentation/devicetree/bindings/input/adc-joystick.yaml
->>  > b/Documentation/devicetree/bindings/input/adc-joystick.yaml
->>  > index 2ee04e03bc22..2d755091e46d 100644
->>  > --- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
->>  > +++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
->>  > @@ -18,6 +18,12 @@ properties:
->>  >    compatible:
->>  >      const: adc-joystick
->>  >
->>  > +  poll-interval:
->>  > +    description:
->>  > +      Poll interval time in milliseconds. If not specified,=20
->> device will
->>  > use
->>  > +      triggered buffer.
->>=20
->>  It doesn't have to use *triggered* buffer - it can use regular=20
->> buffer as
->>  well.
->>=20
->>  The property should use a unit suffix, as explained here:
->> =20
->> https://nam12.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgith=
-ub.com%2Fdevicetree-org%2Fdt-schema%2Fblob%2Fmain%2Fdtschema%2Fschemas%2Fpr=
-operty-units.yaml&data=3D05%7C01%7C%7Cf6306210eda84b58f7f408da588d1627%7C84=
-df9e7fe9f640afb435aaaaaaaaaaaa%7C1%7C0%7C637919660856597552%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000%7C%7C%7C&sdata=3DNVqhWKdycQsv0ksiILD8aH%2BnZ6aji%2BhNxSEwBkQlZC0%3D=
-&reserved=3D0
->>=20
->>  So it should be named poll-interval-ms.
->>=20
->>  Cheers,
->>  -Paul
->=20
-> Understood, though the logic here was to be consistent with existing
-> implementations (such as adc-keys and gpio-keys-polled) which all
-> use poll-interval (no ms). Honest question, would it be better to be
-> right (poll-interval-ms) or consistent (poll-interval) in this case?
+Obs=C5=82ugujemy firmy z wojew=C3=B3dztwa pomorskiego w zakresie kompleks=
+owego wsparcia prawnego w rozszerzonym zakresie.=20
 
-I guess those don't have a suffix for legacy reasons, and newly=20
-introduced properties should follow the standard.
+Dzi=C4=99ki wieloletniej praktyce i wsp=C3=B3=C5=82pracy z dzia=C5=82alno=
+=C5=9Bciami Pa=C5=84stwa formatu jestem w stanie wypracowa=C4=87 korzystn=
+e rozwi=C4=85zania pod wzgl=C4=99dem podatkowym i organizacyjnym.
 
-But I guess that's a question for DT maintainers.
+Mo=C5=BCemy si=C4=99 spotka=C4=87 b=C4=85d=C5=BA porozmawia=C4=87 telefon=
+icznie?
 
-Cheers,
--Paul
-
->=20
-> Thank you.
->=20
->>=20
->>  > +    $ref: /schemas/types.yaml#/definitions/uint32
->>  > +
->>  >    io-channels:
->>  >      minItems: 1
->>  >      maxItems: 1024
->>  > --
->>  > 2.34.1
->>  >
->>=20
->>=20
-
-
+Pozdrawiam,
+Mec. Maciej Kielar
