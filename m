@@ -2,70 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E638455FC2D
-	for <lists+linux-input@lfdr.de>; Wed, 29 Jun 2022 11:38:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48D7B55FC44
+	for <lists+linux-input@lfdr.de>; Wed, 29 Jun 2022 11:43:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231135AbiF2Jib (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 Jun 2022 05:38:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50704 "EHLO
+        id S232026AbiF2Jna (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 29 Jun 2022 05:43:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229575AbiF2Jia (ORCPT
+        with ESMTP id S231338AbiF2Jn3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 Jun 2022 05:38:30 -0400
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6805822289;
-        Wed, 29 Jun 2022 02:38:28 -0700 (PDT)
-Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id BBBEDCDF5A;
-        Wed, 29 Jun 2022 09:31:43 +0000 (UTC)
-Received: (Authenticated sender: sendmail@ipik.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id CFCC41C0014;
-        Wed, 29 Jun 2022 09:31:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipik.org; s=gm1;
-        t=1656495081;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7n1ncJ+RgD1gQjuPUVKXfyucE9dYx9coqdYqvgdgAK0=;
-        b=P3QWpIZeiiT5pVVU4KpeJVjxhUQHN7vKWt3YAqFuZsc7gUMAonYfCRU1qVYSuhW5vBqtjC
-        Z3RBhJMgdx9vQLpFGwepPQw21JZiN/Pza/xKpbWrTkstckp9IemFDW3PJJpL/4eOeZ+jHa
-        gzE9F2GpgjRHEioVx8cxJjoFgQldgK8Nmx1SKJk8lni8OShO12hqY1UJTR4/jGBeyMzLgj
-        Q3H0oD1UnRdjqSBYsrEMocx9F8ckspxp4tYSb38a5dLQz/GqF5vItGXvK+ysLYJ5wY1cZ+
-        WrsJtGNOP9cKCq/DjuU8fhLxgi1WROrgmrp5vjPPm6jsu2lR1kHAFsOCaoNnuw==
-Message-ID: <ddc4f559-f03c-8d40-73a7-93d767b45bd6@ipik.org>
-Date:   Wed, 29 Jun 2022 11:31:16 +0200
+        Wed, 29 Jun 2022 05:43:29 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 568822C649;
+        Wed, 29 Jun 2022 02:43:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1656495805;
+        bh=mJOwwfLfmhztjVcr0+q6cxXiaBNeoFLnht348Tfw2YQ=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+        b=YrHEdP4KrTxBcy5x5IBRxRM4Oxy4AbSzJnhNi0wu+FzyCeYqqSLx2/gonaqRH29jJ
+         qnmWdf4/qIBeBox5gQGuu6CHvcEdaSzrCI3FSmUA2ucT4kzC3ndcmyaedDbfYSzcrd
+         ndEPNkR4oKQ9RFKQyOUCHHxfUWmPab9ILm9BXcFs=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ic-alex-elitebook ([155.198.137.233]) by mail.gmx.net (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MowKi-1nHTk316B4-00qTUh; Wed, 29
+ Jun 2022 11:43:25 +0200
+Date:   Wed, 29 Jun 2022 10:43:14 +0100
+From:   Alex Dewar <alex.dewar@gmx.co.uk>
+To:     dmitry.torokhov@gmail.com, tiwai@suse.de
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: input/i8042: Malfunctioning brightness keys on HP Elite Dragonfly G2
+Message-ID: <20220629094314.b7xmfb3xccj7vs6v@ic-alex-elitebook>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-To:     Jiri Kosina <jikos@jikos.cz>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        dmitry.torokhov@gmail.com
-Cc:     andrew.smirnov@gmail.com, enric.balletbo@collabora.com,
-        kirr@nexedi.com, linux-bluetooth@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        logang@deltatee.com, luiz.dentz@gmail.com, pali.rohar@gmail.com,
-        tglx@linutronix.de, abhishekpandit@chromium.org
-References: <20191127185139.65048-1-abhishekpandit@chromium.org>
-Subject: Re: [PATCH] Input: uinput - Add UI_SET_UNIQ ioctl handler
-Content-Language: en-GB
-From:   macmpi <spam@ipik.org>
-In-Reply-To: <20191127185139.65048-1-abhishekpandit@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:SpeUT5f+FlwiMIdlPUamfLdm7kiwBe2RVBdT24r0CXtOyuF71rC
+ pEJsLiXrCHD6WA5N4Tk5FtzdfWm0OOVE/57NImlvVwFaGgFC+ejUOYV2/z0+h8R0xJC1JhP
+ zpc/VniJIwSVj18VlGMqy4ILFRYiZ7hMfF1GO1ni1S4mPEl5AsNEljnptnXn3Y/ff6PMyT5
+ JJJAUI2vGo0XRyf+QRUNw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9uNM2iCq4JE=:oimxqr8c0ToU6Gu1Y7QhNX
+ z/Y5pnlNDA/+M9eON+q5iudjn8nBFZp8E7Wyuu7OleDTDpR9lLI+t5Ye+K0fJVGj1p6g3ZXD/
+ ZQe+T31AZfOmrO7tqHRbH43sUa6Lk6R4Su266/21WOa8j/U426BXYqYZQm2OpFTwCQdVo6HdC
+ olznECZ9NO9YhfsgEqfr2GUAXSbi2oWWZ8Hd10WWjDGZFNHYwrMr3x2Hsgw2bRnJ0o2BHE2Nh
+ 5URtaa7CyhG0BuPYgWUaT8rNjhUhKAojv2qOvUwHVeRtMpeEqb2u7E/ff4FJzuLHcmKLCsoHX
+ 2Sz5SWK02iYezQL4VTYYdB7D3bozDz1g8BUQ6gMQaQynLaqTM3TKFVWsZ4/9lZjOBpelvezmV
+ 8QzrMjli91E/941pb3ud4NCIKZ8OrQH+lWXlHr9f4TjHLWQkMZ5gOdCL1deUITL1QB3L8ncE0
+ FkFh7LPiDa8rNL+6GThd2rtiRk9TUnlie3OiWOkvARsTyW3GTCJ7Z+aG8+NQZAFu8B11jpxTB
+ ud2VqZ4p0FYSrlkFdrJcLabiwuFJtlSMRn0qR0cUuHZdTEz7YHpF0ZYXE92LLYWRP6wBPxuNt
+ VHvem0aUuUbRTS2pYeZlhp9FM47QbEUwFBgmK7uebI/tpL4YAaVye676VtOWadVIF1h1GrGXi
+ +SK37+uz/hHBQQNKfos4d+OzZixbtFkkE/KioTIlAxSwFpwEWEMJ6KLF6k7wKTaN3bnC8H/sI
+ YDMKmVKxbzhwgOVzTKdoggeAj23O9bgDrZc9ZaAGqUHe3NO4WNStDgBgKWKzx7Fi9iTReZXcX
+ zZExy1PSrG/uOt84Z/9Lt72x1iBUhRSGwFMji0A3LQe28xwrLhkZvPaEy/hW39W7tNdeDidlW
+ DjVFPNi8pOHdT0HNR5Bm3FSawLZHAoZrkkMlY7mLEMJvsv3F/osrPESTsQBm/FCVP7aEr2sBN
+ fwRmWhWNzvU1hn6ZNzXa7iQ+1mz2SkILX+MbdFfhAu/FU2UlUzHs17Hn3g/h1dvTnvAeHl6P9
+ 1RBc+w7sWQyoNISDYMp9FKNAs+eoUxF6Si1ZnLUzp3cy1iQSt23H1pPvKBYxDiqGf/iJI77vH
+ GSSnsrMdL+K6KDv3ZXII2+Mn+IGjECg/SuquwUkRI/lOUwdmTCTT7VXJA==
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi!
+Hi,
 
-Bug 216134 has been been submitted on this issue 
-https://bugzilla.kernel.org/show_bug.cgi?id=216134
+I'm running Linux 5.18.7 on an HP Elite Dragonfly G2 laptop, which seems
+to use the i8042 driver. Mostly things seem to work (including hotkeys)
+except that the increase/decrease brightness keys instead send the "mic
+mute" keycode. (The *actual* mic mute key works fine.)
 
-Thanks for consideration and feedback.
+Any ideas? Do we need to add a quirk?
+
+Best,
+Alex
