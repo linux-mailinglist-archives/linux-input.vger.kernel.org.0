@@ -2,73 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFB3656016E
-	for <lists+linux-input@lfdr.de>; Wed, 29 Jun 2022 15:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F1FA560263
+	for <lists+linux-input@lfdr.de>; Wed, 29 Jun 2022 16:18:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233825AbiF2NgE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 Jun 2022 09:36:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38982 "EHLO
+        id S231208AbiF2OQ6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 29 Jun 2022 10:16:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233839AbiF2NgC (ORCPT
+        with ESMTP id S229523AbiF2OQ4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 Jun 2022 09:36:02 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13D3E2C12C
-        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 06:36:02 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o6Xqa-0006SP-06; Wed, 29 Jun 2022 15:35:12 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o6XqQ-003PNQ-Vz; Wed, 29 Jun 2022 15:35:06 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o6XqT-001txR-NY; Wed, 29 Jun 2022 15:35:05 +0200
-Date:   Wed, 29 Jun 2022 15:35:04 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc:     Wolfram Sang <wsa@kernel.org>, dri-devel@lists.freedesktop.org,
-        linux-omap@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-leds@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-crypto@vger.kernel.org,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-clk@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-watchdog@vger.kernel.org,
-        acpi4asus-user@lists.sourceforge.net,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-usb@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, netdev@vger.kernel.org,
-        chrome-platform@lists.linux.dev, linux-input@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-hwmon@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        patches@opensource.cirrus.com, UNGLinuxDriver@microchip.com,
-        linux-pwm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-Message-ID: <20220629133504.syc6x4ptia3mnof5@pengutronix.de>
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
- <CAPAsAGwP4Mw_CJfsi7oapABdTBwO1HfiQux6X4UahspU74VjtQ@mail.gmail.com>
+        Wed, 29 Jun 2022 10:16:56 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B2103152D
+        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 07:16:55 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id v9so7107333wrp.7
+        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 07:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=vYc8OI8aKFBkOdpTUZLPMIgDfVBQgzr4QYoq3g5KO7c=;
+        b=kSXixZ0sKQAtdancSL/BPZKx2h+lAXVPuoDvN9Yp+zoXLWUaUASPzxYAZVCJKYvifV
+         8qpbu+qJ0D80ueFpVGSUlVNYeXZqFjKpfytyQmpuOgpWvjjO/j8KpnAUg13WRRUOBW7p
+         ExcjLaN46BW9/axGMa8PRb2oLFfn4XjMlezyWNNArjC7fpHl67FOzaKUHqWebro+olfy
+         jPUty8CPRstkrOFjGgI86hKOXIUpVJdCRkEalTS5yB+onRraMW1ymfLoBmHkGQMCU90F
+         OoDPSU3XSAMT8KqF++YYaJTrPU2qvAh2Lq0C/Q6g4AeyZNXryKGs/GaHBhj4beg8nGpP
+         Y+UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=vYc8OI8aKFBkOdpTUZLPMIgDfVBQgzr4QYoq3g5KO7c=;
+        b=iS8pbbd1Yhu2Bvh5IpOWiDrkKOOb0jGyF2yqzmtp8asc/UdFfBmO/DXTEdDYkNqAo4
+         ZWjIbdWkywOeQmmcQ6FT/dOV9jw2b2lhb5EMNsiyk9vlbT42A7j5GlFHCc/saMxcIhLX
+         Ld+EHxfXpzBg4vigw+uW9eQKdJmQ/fI+3YYnYEKjH+L26YnO1eqZ/UC1eKUPmKUUD+9c
+         mdvHLgEzU7uZ8aJFRGzuJSR2pVnNQnQp7Y7JDzOims0eHWLOPM8dtn/UxjWYtXj5ucNT
+         tVyfHZQQqGZZ7zs5S80Rqyxh3x3qj72dYSslEQHmZ2tUX5hIdjQ8dLYMPkPej3xySzOO
+         6kVg==
+X-Gm-Message-State: AJIora+Q5rULDh3+G1GhnshCXvR752hCd+6engpUJG+Hj8s7kCszpx08
+        taVT2PUW1rvVXbUGTspfIhfLHHNTPk37pg+To6o=
+X-Google-Smtp-Source: AGRyM1sKtDIbrmMVh/QUeaA0SeVcOwLVw54W8l3Jz9H3N512DAisIMF7VuaTmSPQEQ9cE70icqE6OtzddEWeoQCoGxQ=
+X-Received: by 2002:a5d:64ae:0:b0:21b:b923:7ad5 with SMTP id
+ m14-20020a5d64ae000000b0021bb9237ad5mr3280310wrp.460.1656512214098; Wed, 29
+ Jun 2022 07:16:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5z6hgi6euioj5d47"
-Content-Disposition: inline
-In-Reply-To: <CAPAsAGwP4Mw_CJfsi7oapABdTBwO1HfiQux6X4UahspU74VjtQ@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Reply-To: sgtkaylamanthey612@gmail.com
+Sender: gregorypaul612@gmail.com
+Received: by 2002:a5d:4a12:0:0:0:0:0 with HTTP; Wed, 29 Jun 2022 07:16:53
+ -0700 (PDT)
+From:   Kayla Manthey <sgtkaylamanthey612@gmail.com>
+Date:   Wed, 29 Jun 2022 14:16:53 +0000
+X-Google-Sender-Auth: 84fiBn9JsrDmEYY22_kXuRIjlYE
+Message-ID: <CAD-66CbiZKVW9-T64K=agvGxPSYwO-FzN=3+gdPo0icBmvfFQA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.3 required=5.0 tests=BAYES_40,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,76 +67,9 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Groetjes, ik hoop dat het goed met je gaat. Ik heb geen reactie van u
+ontvangen met betrekking tot mijn eerdere e-mails, controleer en
+beantwoord mij.
 
---5z6hgi6euioj5d47
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-[Dropped most people from Cc, keeping only lists]
-
-On Wed, Jun 29, 2022 at 04:11:26PM +0300, Andrey Ryabinin wrote:
-> On 6/28/22 17:03, Uwe Kleine-K=F6nig wrote:
-> > From: Uwe Kleine-K=F6nig <uwe@kleine-koenig.org>
-> >
-> > The value returned by an i2c driver's remove function is mostly ignored.
-> > (Only an error message is printed if the value is non-zero that the
-> > error is ignored.)
-> >
-> > So change the prototype of the remove function to return no value. This
-> > way driver authors are not tempted to assume that passing an error to
-> > the upper layer is a good idea. All drivers are adapted accordingly.
-> > There is no intended change of behaviour, all callbacks were prepared to
-> > return 0 before.
-> >
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > ---
->                                     | 2 +-
-> >  lib/Kconfig.kasan                                         | 1 +
->=20
-> > diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-> > index f0973da583e0..366e61639cb2 100644
-> > --- a/lib/Kconfig.kasan
-> > +++ b/lib/Kconfig.kasan
-> > @@ -149,6 +149,7 @@ config KASAN_STACK
-> >       depends on KASAN_GENERIC || KASAN_SW_TAGS
-> >       depends on !ARCH_DISABLE_KASAN_INLINE
-> >       default y if CC_IS_GCC
-> > +     depends on !ARM
-> >       help
-> >         Disables stack instrumentation and thus KASAN's ability to dete=
-ct
-> >         out-of-bounds bugs in stack variables.
->=20
->=20
-> What is this doing here?
-
-Huh, that is wrong. I needed that for build testing, but it shouldn't
-have been added to the patch. I'm dropping that for the final
-submission.
-
-Thanks for spotting.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---5z6hgi6euioj5d47
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmK8VQUACgkQwfwUeK3K
-7AkL0wf/Ra+JtsXozoGjhV4ADtJcJAo/mOIZQ6qOdPZGqHYkMvBmkEJ9zbvY4Edk
-SwYoapiHgVT4tDX56ekEGnm/x3udNUt5wugpsqDm4oAgYtbBCMEVtHbp3t/AqMp2
-sZcn0JsvUs6FVWSTomD396Pt10x0r+JrPTJVY2pwj1nUUV63/25oIT/4I77IughK
-LvQBMIesHK9damtObmRGqI5Ljz1L6SP7WgiLSEq1R/LjSeEwbURT3ijca95YO2Jv
-YyxoC7TiNJj2uJiisjl/r1T/LdGF6RpMN197XQjcvaZ0sbTZRF2vXlqp3cSyXrCG
-BbT2nohQYXjznouz9TIuBFtA0iX7SA==
-=YEZr
------END PGP SIGNATURE-----
-
---5z6hgi6euioj5d47--
+Greetings, I hope you're OK. I haven't receive a response from you in
+regards to my previous emails, please check and reply me.
