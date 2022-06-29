@@ -2,114 +2,164 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DEDF55F338
-	for <lists+linux-input@lfdr.de>; Wed, 29 Jun 2022 04:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2343F55F57B
+	for <lists+linux-input@lfdr.de>; Wed, 29 Jun 2022 07:05:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231364AbiF2CKV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 28 Jun 2022 22:10:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59000 "EHLO
+        id S229625AbiF2FEg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 29 Jun 2022 01:04:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231165AbiF2CKI (ORCPT
+        with ESMTP id S229545AbiF2FEf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 28 Jun 2022 22:10:08 -0400
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A3EF326C5;
-        Tue, 28 Jun 2022 19:10:03 -0700 (PDT)
-Received: by mail-io1-f46.google.com with SMTP id h85so14683077iof.4;
-        Tue, 28 Jun 2022 19:10:03 -0700 (PDT)
+        Wed, 29 Jun 2022 01:04:35 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 394CA1BEB8;
+        Tue, 28 Jun 2022 22:04:35 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id m2so13028207plx.3;
+        Tue, 28 Jun 2022 22:04:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=DpQbdm8mVo0Cnr1RBfeY/BHefXNRXw+AH3vqcu9Wmaw=;
+        b=CAZbm6kZodJBCf8QLgZIWr3SWWWPSoAsnaikWHxn+XUBJoROmx798LHarIw1AyeX/H
+         yDI/M1OgQd4jeBISyj40zwwK5MxZiG/WYBDx71gpBRnQ371Gej7LQjQNIvGUxbZlh0Gh
+         EwPoupsSYdx/dAwvnEyQJ1u8/n4oAOivsJAtobea7kGsPEI0Vl6K66srXjGuexURZIUD
+         zvI9PCJb1G3pDJGoQMyrDcjcTpzbAVEOYWW8eTTyByrSSeTPqnUkMYYjkCN0vkZKSqkS
+         VGlbHM6ezOiajPtkCpa15iNx5OmLmvyNQ5Dzycr+9+9lhQhaL4Ehj9L0PpHlc2nYPm1A
+         N2Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=LN+78puhwYgKBtGz2TuDo+Xg7t/Ipevze3ieJ206j4Y=;
-        b=cQka8Kajrz27cvfwVqVCDOpDQ9f8zqznaxA+QKh0SxSrSkmE+cC4kMUTAtE02Cjawx
-         RmsAP5ZVOD2f9UtcwIBImaAL31DnadXG5/lZ9R+jtBgSkrKcohIF5laKd4vYzTb19kGx
-         4ZYjhQXbwxpJoVPIcaDbKkNJSpSTcDSBI7sZclWidqvmDLZCXbsdrXVKNXTc351cHyJL
-         hSw6h2UGsZVneAu95/9O2V3Bbb1uvZL8QP2Z70D4+XJT1YcJrPWTcxxyqfNwY+AjoOvq
-         /qtb/vJ/T7SKlxpQ43U/a1B86UiNukg+24YF7pUXFKZsYy7/vmx249A/d/Qsshc/Q2lj
-         M5DQ==
-X-Gm-Message-State: AJIora+tams5HpGwq4k7O1VCYmvCLpwalL0ueNR5Exx3SmJEcofi9QjJ
-        TgjBxWpn+TbnSK2evTqn5Q==
-X-Google-Smtp-Source: AGRyM1tYMYPFp2t74pAadIvPmONlKDfgpVJ9eVS2orkI/qmxrWCHXrzijGo4rGJR+DGI/H8yB6clFw==
-X-Received: by 2002:a05:6638:191b:b0:33c:8b14:e7e4 with SMTP id p27-20020a056638191b00b0033c8b14e7e4mr621920jal.212.1656468603517;
-        Tue, 28 Jun 2022 19:10:03 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id s10-20020a5ec64a000000b0067520155dedsm5407453ioo.15.2022.06.28.19.10.00
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=DpQbdm8mVo0Cnr1RBfeY/BHefXNRXw+AH3vqcu9Wmaw=;
+        b=cNsNPJsL5HlGGxZ2Hh5rQFzvqxwTxnALMqZbjuCAao7nzkVoQloB/h8z7K197te4hO
+         XkN1v7OtZ5lPpAzetDNGPeyFC0GzmF9xfxAmpLZv4GVVnkKjEX2wBhP8+nCUXDiY0iy3
+         BFQFfJZYCs1yI51lW4b44cDTGtplwDX0NvrbH6Ig2C9Z65aTrixl0EX3em9/ctxxGmDJ
+         ZEl1VKGyJEqw/vsgY07AtWnLEELhHZjuoe4b2SR9hbTWjN+GFyMB3BNyT5gCwgjVuPep
+         o7IYjohdJkwvNep5cC33Ua9CgyEom91WTCydlH/aXvsYPl6O9zcdk3J+qrtA3gqsahxw
+         VxJQ==
+X-Gm-Message-State: AJIora/SAwyHGY6glQbwIMBB6pzefnnVcwHGwDRgw59tNVTOrqoRQH8r
+        1n02tgO89Fz9YXjqG2T2zsU=
+X-Google-Smtp-Source: AGRyM1vUJJFDubcmisPN/O1o0t0BKTQulx+vlOES0pIa2B4vZzbPsyS/bpw5zbwzvf9oEd+aPx+7Ug==
+X-Received: by 2002:a17:903:25c5:b0:16a:30e:34b8 with SMTP id jc5-20020a17090325c500b0016a030e34b8mr7194604plb.170.1656479074502;
+        Tue, 28 Jun 2022 22:04:34 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:ff79:92cc:7905:3272])
+        by smtp.gmail.com with ESMTPSA id f93-20020a17090a706600b001e34b5ed5a7sm883810pjk.35.2022.06.28.22.04.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jun 2022 19:10:03 -0700 (PDT)
-Received: (nullmailer pid 1403680 invoked by uid 1000);
-        Wed, 29 Jun 2022 02:09:39 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Chris Morgan <macroalpha82@gmail.com>
-Cc:     heiko@sntech.de, contact@artur-rojek.eu,
-        krzysztof.kozlowski+dt@linaro.org, linux-iio@vger.kernel.org,
-        jic23@kernel.org, robh+dt@kernel.org,
-        Chris Morgan <macromorgan@hotmail.com>,
-        linux-input@vger.kernel.org, paul@crapouillou.net,
-        maccraft123mc@gmail.com, dmitry.torokhov@gmail.com,
-        devicetree@vger.kernel.org
-In-Reply-To: <20220628191500.69831-2-macroalpha82@gmail.com>
-References: <20220628191500.69831-1-macroalpha82@gmail.com> <20220628191500.69831-2-macroalpha82@gmail.com>
-Subject: Re: [PATCH v5 1/3] dt-bindings: adc-joystick: add poll-interval-ms
-Date:   Tue, 28 Jun 2022 20:09:39 -0600
-Message-Id: <1656468579.916584.1403679.nullmailer@robh.at.kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+        Tue, 28 Jun 2022 22:04:32 -0700 (PDT)
+Date:   Tue, 28 Jun 2022 22:04:30 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Michael Trimarchi <michael@amarulasolutions.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Oliver Graute <oliver.graute@kococonnector.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [RESEND PATCH v4 3/6] Input: edt-ft5x06 - set report rate by dts
+ property
+Message-ID: <YrvdXsMf/ygIx9du@google.com>
+References: <20220621123937.1330389-1-dario.binacchi@amarulasolutions.com>
+ <20220621123937.1330389-4-dario.binacchi@amarulasolutions.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220621123937.1330389-4-dario.binacchi@amarulasolutions.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 28 Jun 2022 14:14:58 -0500, Chris Morgan wrote:
-> New devicetree attribute of "poll-interval-ms".
+Hi Dario,
+
+On Tue, Jun 21, 2022 at 02:39:34PM +0200, Dario Binacchi wrote:
+> It allows to change the M06/M12 default scan rate on driver probing.
 > 
-> Add poll-interval support for the adc-joystick documentation. This is
-> an optional value and if not provided the adc-joystick works as it
-> does today (with triggered buffers). If this value is provided, the
-> adc-joystick driver is polled at the specified interval. A new
-> attribute was added instead of using the existing attribute of
-> "poll-interval" to comply with rules detailed in property-units.yaml.
+> Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
+> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 > 
-> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 > ---
->  Documentation/devicetree/bindings/input/adc-joystick.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
+> 
+> (no changes since v3)
+> 
+> Changes in v3:
+> - Check the lower and upper limits of the report-rate-hz value
+> - Convert the M06 report-rate-hz value
+> 
+>  drivers/input/touchscreen/edt-ft5x06.c | 30 ++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+> 
+> diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+> index 77f061af5c61..843e8b0522f7 100644
+> --- a/drivers/input/touchscreen/edt-ft5x06.c
+> +++ b/drivers/input/touchscreen/edt-ft5x06.c
+> @@ -1084,6 +1084,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+>  	struct input_dev *input;
+>  	unsigned long irq_flags;
+>  	int error;
+> +	u32 report_rate;
+>  	char fw_version[EDT_NAME_LEN];
+>  
+>  	dev_dbg(&client->dev, "probing for EDT FT5x06 I2C\n");
+> @@ -1213,6 +1214,35 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+>  	edt_ft5x06_ts_get_defaults(&client->dev, tsdata);
+>  	edt_ft5x06_ts_get_parameters(tsdata);
+>  
+> +	if (tsdata->reg_addr.reg_report_rate != NO_REGISTER &&
+> +	    !of_property_read_u32(client->dev.of_node, "report-rate-hz",
+
+Unless there is a strong reason to use of-specific version of properties
+API, generic device property API is preferred. I changed this to
+device_property_read_u32().
+
+
+> +				  &report_rate)) {
+> +		tsdata->report_rate = report_rate;
+> +		if (tsdata->version == EDT_M06) {
+> +			if (report_rate < 30)
+> +				report_rate = 30;
+> +			else if (report_rate > 140)
+> +				report_rate = 140;
+
+We have a nice macro clamp_val() for this.
+
+> +		} else if (report_rate < 1) {
+> +			report_rate = 1;
+> +		} else if (report_rate > 255)
+> +			report_rate = 255;
+
+Same here. I made the change and applied.
+
+> +
+> +		if (report_rate != tsdata->report_rate)
+> +			dev_warn(&client->dev,
+> +				 "report-rate %dHz is unsupported, use %dHz\n",
+> +				 tsdata->report_rate, report_rate);
+> +
+> +		if (tsdata->version == EDT_M06)
+> +			report_rate /= 10;
+> +
+> +		tsdata->report_rate = report_rate;
+> +
+> +		edt_ft5x06_register_write(tsdata,
+> +					  tsdata->reg_addr.reg_report_rate,
+> +					  tsdata->report_rate);
+> +	}
+> +
+>  	dev_dbg(&client->dev,
+>  		"Model \"%s\", Rev. \"%s\", %dx%d sensors\n",
+>  		tsdata->name, fw_version, tsdata->num_x, tsdata->num_y);
+> -- 
+> 2.32.0
 > 
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Thanks.
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/adc-joystick.yaml: properties:poll-interval-ms: '$ref' should not be valid under {'const': '$ref'}
-	hint: Standard unit suffix properties don't need a type $ref
-	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml: patternProperties:^thermistor@:properties:adi,excitation-current-nanoamp: '$ref' should not be valid under {'const': '$ref'}
-	hint: Standard unit suffix properties don't need a type $ref
-	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/adc-joystick.yaml: ignoring, error in schema: properties: poll-interval-ms
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml: ignoring, error in schema: patternProperties: ^thermistor@: properties: adi,excitation-current-nanoamp
-Documentation/devicetree/bindings/input/adc-joystick.example.dtb:0:0: /example-0/adc-joystick: failed to match any schema with compatible: ['adc-joystick']
-Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.example.dtb:0:0: /example-0/spi/ltc2983@0: failed to match any schema with compatible: ['adi,ltc2983']
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+-- 
+Dmitry
