@@ -2,63 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2280155F585
-	for <lists+linux-input@lfdr.de>; Wed, 29 Jun 2022 07:10:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFBE955F5BA
+	for <lists+linux-input@lfdr.de>; Wed, 29 Jun 2022 07:38:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229978AbiF2FIk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 Jun 2022 01:08:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38410 "EHLO
+        id S229591AbiF2Fge (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 29 Jun 2022 01:36:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230202AbiF2FIj (ORCPT
+        with ESMTP id S229511AbiF2Fge (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 Jun 2022 01:08:39 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E4012182B;
-        Tue, 28 Jun 2022 22:08:38 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id e63so14232813pgc.5;
-        Tue, 28 Jun 2022 22:08:38 -0700 (PDT)
+        Wed, 29 Jun 2022 01:36:34 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3EB727FDE;
+        Tue, 28 Jun 2022 22:36:31 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id 128so14016680pfv.12;
+        Tue, 28 Jun 2022 22:36:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=RJPu25qYMkcfWmJzF5hlRjQjBLKAplrFIqmD8ypBKYk=;
-        b=nrPQDn4oaK+yi3l0ie5aE8dS1n3y+l6Da413qey6DKWIEQsY2kZfT56hFfzTCRPT+i
-         2IBRdUyHzxpqkaRIpHwWZGAxHP0aavjt4UdQyWaVxkEWxz5AVpcTfWkH3/oiubziI1JZ
-         6VStdbe65p3k7KXNmqwrOCawgRgRO0mqwPAcbvdP2TEoQkyq18UL8hL9NYo/4YTWxb03
-         2nNstbLiRi0UBJ7Oek2jg3nYu6uVK8LwJxfFXdH/B3vA5v7WvN9dQRqlFAR5EC1gGA8E
-         3ofO8FxABcsxMelXEeP7rLsZ6TVJK5RjsPXquayy23SAj1QTh1AcMxlex5gy2Y084QEs
-         Tjjg==
+        bh=98E2vXeRSRjaARV6bPzIgmkPwqrdc9/cW924Gem45R8=;
+        b=c4FxBwyRQ4YfwO/q1ACGSbqNlXNa/fQGXDNh8dxGsq7aHoiQH+mOe+Ferq3/vRHEeR
+         ChpXLJuvtVWUEDOsZMF45u4U6zTwJBZZBBlCv+B0VNa/UJhYz//b0zO3tRSW/GMWIxde
+         ceuJh01FxNVW0HP8HN+Lk06LK297uxEIVqUmRRp+JiwcB4/0AD5SY9GRwJx+MXM/IdbG
+         LoVAHtc2cimizsVe/umZ4b0x8N/mT4h2SIaTUu/05PJd/HE1+a9kUEWj1OndR18BLFQu
+         nSOHZlMZT90iuEPujsjT+xTnwFIDaget0xnXAaEa16qI9WVdB3cQGuUQBCSECj9WGocJ
+         oHbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=RJPu25qYMkcfWmJzF5hlRjQjBLKAplrFIqmD8ypBKYk=;
-        b=snqYU/jUpbA/+0jMAr4aRs7yXcj0ofhDxTY1Ur+q4PBltNUtNK0S1wsPQWOXR71MrB
-         iSd7SmXwD9rNBRk6nALQT9KzrMUScVrBzOFXQYKwqhtL5XRMuz68RPEeyjVVqzSSvrwA
-         HDb8q4dMMSoa7dhTZaemtJYSr7bD5F/TLiypjORRQlHu5jpNhPnZii74omcPUsp8j5ua
-         wv17MEwdVhVp5ahfKyLrIRMy3T2Z877g24aWexiWoLRhrHPrHDmboqmJmTx71X7gAA06
-         sYQXPABDJx/dZ+L+w7eoaoUZNbDeL5RrjxCkg4cr1rOmDMUi0pKyjrFDA97tRzdfC4ri
-         eFCg==
-X-Gm-Message-State: AJIora+WiDnsPtWa/vp5cjKjTsW5Jx46ghz2UC9fLHoghQLmZRnyaQe9
-        izujCF4ydfrvDmRgmmPByYk=
-X-Google-Smtp-Source: AGRyM1uwmevm8za8qrS4GFWD01zWK/vyIsl5V2me/AWE+EAy4r8xvE0T+BvyjY1rfeQzn/j1jWs2GQ==
-X-Received: by 2002:a63:7d49:0:b0:408:c70a:9496 with SMTP id m9-20020a637d49000000b00408c70a9496mr1501140pgn.616.1656479317812;
-        Tue, 28 Jun 2022 22:08:37 -0700 (PDT)
+        bh=98E2vXeRSRjaARV6bPzIgmkPwqrdc9/cW924Gem45R8=;
+        b=xwyocQqoAkp4tgmzLjdxx1BU1zsTSyrdNtlhZlGvUBMPKNi+80HblTbeZ72BuCHwQE
+         PsUa+aEhMpG0oaf2atkXkvViB09LoFNwrsUIm6p1JsdU565USzqTkqh5Yku4PRoJVaUQ
+         uqO/U+N2i/UnsJndR+cUdCEcdsHG3jG4OO5eXELFcgWl3bNyJ1KCfwWpyYLzeGcK4lEK
+         gdlGDXgLGxJq/Zxs0S2mY7LgByE8JgPati3jqEndw0hVa4K+E8v3cDIfBzjO06+C7EaQ
+         WOSI7LAzEKfNWnZP9SmiSRNNWx1h2wl8Xedmoxq/N/psRnvfP9AYVmZ+mows4SI5vwjT
+         ARig==
+X-Gm-Message-State: AJIora+IOIQ5rYi4INZn5if/3gmBoYHOm3GlnyB31ZiSIo7WYOwl3UmX
+        rB8Whi9JjCarNcQqh+qmqbo=
+X-Google-Smtp-Source: AGRyM1tFC4weV+O9qsyzB7HjGOkyI5RSTa68t7dkc+4l+I/7SdBMu83zJrIDle1KQ3Z64tkcDw4CPg==
+X-Received: by 2002:a63:fa41:0:b0:408:9d1b:2e57 with SMTP id g1-20020a63fa41000000b004089d1b2e57mr1525186pgk.102.1656480991203;
+        Tue, 28 Jun 2022 22:36:31 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:ff79:92cc:7905:3272])
-        by smtp.gmail.com with ESMTPSA id u8-20020a170902e80800b0015e8d4eb285sm620803plg.207.2022.06.28.22.08.36
+        by smtp.gmail.com with ESMTPSA id 2-20020a170902e9c200b00168ba5ac8adsm10328904plk.163.2022.06.28.22.36.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jun 2022 22:08:37 -0700 (PDT)
-Date:   Tue, 28 Jun 2022 22:08:35 -0700
+        Tue, 28 Jun 2022 22:36:30 -0700 (PDT)
+Date:   Tue, 28 Jun 2022 22:36:27 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jiang Jian <jiangjian@cdjrlc.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: cyapa_gen6 - aligned "*" each line
-Message-ID: <YrveUwBDMBSXgo5r@google.com>
-References: <20220621070032.30072-1-jiangjian@cdjrlc.com>
+To:     Werner Sembach <wse@tuxedocomputers.com>
+Cc:     tiwai@suse.de, mpdesouza@suse.com, arnd@arndb.de,
+        hdegoede@redhat.com, samuel@cavoj.net, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 4/4] input/i8042: Add TUXEDO devices to i8042 quirk
+ tables
+Message-ID: <Yrvk29RjekvMpJIk@google.com>
+References: <20220329143622.31394-1-wse@tuxedocomputers.com>
+ <20220329143622.31394-5-wse@tuxedocomputers.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220621070032.30072-1-jiangjian@cdjrlc.com>
+In-Reply-To: <20220329143622.31394-5-wse@tuxedocomputers.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -69,12 +73,196 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jun 21, 2022 at 03:00:32PM +0800, Jiang Jian wrote:
-> Consider * alignment in comments
-> 
-> Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
+Hi Werner,
 
-Applied, thank you.
+On Tue, Mar 29, 2022 at 04:36:22PM +0200, Werner Sembach wrote:
+> A lot of modern Clevo barebones have touchpad and/or keyboard issues after
+> suspend fixable with nomux + reset + noloop + nopnp. Luckily, none of them
+> have an external PS/2 port so this can safely be set for all of them.
+> 
+> I'm not entirely sure if every device listed really needs all four quirks,
+> but after testing and production use. No negative effects could be
+> observed when setting all four.
+> 
+> The list is quite massive as neither the TUXEDO nor the Clevo dmi strings
+> have been very consistent historically. I tried to keep the list as short
+> as possible without risking on missing an affected device.
+> 
+> This is revision 3. The Clevo N150CU barebone is still removed as it might
+> have problems with the fix and needs further investigations. The
+> SchenkerTechnologiesGmbH System-/Board-Vendor string variations are
+> added. This is now based in the quirk table refactor. This now also
+> includes the additional noaux flag for the NS7xMU.
+> 
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> Cc: stable@vger.kernel.org
+> ---
+>  drivers/input/serio/i8042-x86ia64io.h | 125 ++++++++++++++++++++++++++
+>  1 file changed, 125 insertions(+)
+> 
+> diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
+> index 5c0eb5594fb1..a59c6aba7c75 100644
+> --- a/drivers/input/serio/i8042-x86ia64io.h
+> +++ b/drivers/input/serio/i8042-x86ia64io.h
+> @@ -1025,6 +1025,25 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>  		},
+>  		.driver_data = (void *)(SERIO_QUIRK_NOMUX)
+>  	},
+> +	/*
+> +	 * A lot of modern Clevo barebones have touchpad and/or keyboard issues
+> +	 * after suspend fixable with nomux + reset + noloop + nopnp. Luckily,
+> +	 * none of them have an external PS/2 port so this can savely be set for
+
+s/savely/safely/
+
+> +	 * all of them. These two are based on a Clevo design, but have the
+> +	 * board_name changed.
+> +	 */
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_VENDOR, "TUXEDO"),
+> +			DMI_MATCH(DMI_BOARD_NAME, "AURA1501"),
+> +		},
+
+Don't you need to set driver_data here and below?
+
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_VENDOR, "TUXEDO"),
+> +			DMI_MATCH(DMI_BOARD_NAME, "EDUBOOK1502"),
+> +		},
+> +	},
+>  	{
+>  		/* Mivvy M310 */
+>  		.matches = {
+> @@ -1054,6 +1073,112 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>  		},
+>  		.driver_data = (void *)(SERIO_QUIRK_NOLOOP)
+>  	},
+> +	/*
+> +	 * A lot of modern Clevo barebones have touchpad and/or keyboard issues
+> +	 * after suspend fixable with nomux + reset + noloop + nopnp. Luckily,
+> +	 * none of them have an external PS/2 port so this can savely be set for
+
+safely
+
+> +	 * all of them.
+> +	 * Clevo barebones come with board_vendor and/or system_vendor set to
+> +	 * either the very generic string "Notebook" and/or a different value
+> +	 * for each individual reseller. The only somewhat universal way to
+> +	 * identify them is by board_name.
+> +	 */
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_NAME, "LAPQC71A"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_NAME, "LAPQC71B"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_NAME, "N140CU"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_NAME, "N141CU"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_NAME, "NH5xAx"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_NAME, "NL5xRU"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +	},
+> +	/*
+> +	 * At least one modern Clevo barebone has the touchpad connected both
+> +	 * via PS/2 and i2c interface. This causes a race condition between the
+> +	 * psmouse and i2c-hid driver. Since the full capability of the touchpad
+> +	 * is available via the i2c interface and the device has no external
+> +	 * PS/2 port, it is save to just ignore all ps2 mouses here to avoid
+
+safe
+
+> +	 * this issue. The know affected device is the
+
+known
+
+> +	 * TUXEDO InfinityBook S17 Gen6 / Clevo NS70MU which comes with one of
+> +	 * the two different dmi strings below. NS50MU is not a typo!
+> +	 */
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_NAME, "NS50MU"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOAUX | SERIO_QUIRK_NOMUX |
+> +					SERIO_QUIRK_RESET_ALWAYS | SERIO_QUIRK_NOLOOP |
+> +					SERIO_QUIRK_NOPNP)
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_NAME, "NS50_70MU"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOAUX | SERIO_QUIRK_NOMUX |
+> +					SERIO_QUIRK_RESET_ALWAYS | SERIO_QUIRK_NOLOOP |
+> +					SERIO_QUIRK_NOPNP)
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_NAME, "NJ50_70CU"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_NAME, "PB50_70DFx,DDx"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_NAME, "X170SM"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_NAME, "X170KM-G"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
+> +					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
+> +	},
+>  	{ }
+>  };
+>  
+> -- 
+> 2.25.1
+> 
+
+Thanks.
 
 -- 
 Dmitry
