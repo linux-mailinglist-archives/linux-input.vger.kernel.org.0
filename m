@@ -2,59 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02A2056082E
-	for <lists+linux-input@lfdr.de>; Wed, 29 Jun 2022 19:59:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E611D560855
+	for <lists+linux-input@lfdr.de>; Wed, 29 Jun 2022 20:03:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232186AbiF2R7v (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 Jun 2022 13:59:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39944 "EHLO
+        id S230458AbiF2SCM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 29 Jun 2022 14:02:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232196AbiF2R7r (ORCPT
+        with ESMTP id S231551AbiF2SCK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 Jun 2022 13:59:47 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97139FCF
-        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 10:59:45 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id fi2so34094336ejb.9
-        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 10:59:45 -0700 (PDT)
+        Wed, 29 Jun 2022 14:02:10 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E26BD3B3F8
+        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 11:02:05 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id k20so1890041edj.13
+        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 11:02:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :references:from:in-reply-to:content-transfer-encoding;
-        bh=9oQd/aihk9MFiV6slPYqynKa26o3HWCnjoP1XQYdYX4=;
-        b=JGZ4c7I/UkOZR64cp+6z+AfI133QAf6mVrdAlIAPz+hfF7OW0udq3GnJD+JIPWFVNA
-         Qbt0PbBu/M8IQoLqBPcQ77r5sYlo8q40FEiO3oIyphub+iziB3l1zzaaZv2ufoNR6KRQ
-         Fmgm/7KCCEFmc0Cr6ilrmuOf/oxBn7ixvXTczRTLEPjxjvfvchnYn6VLovHhgSkbqBm/
-         0D8SfN4Xi9dtob5xiLOuzXipqRUbBuAhBqWFqc5r5ZjZFZDeDjXiD+EdEXj2t0yY25rn
-         eZr8A54495SXi2JTkzDLZNoscAexbY+m7Tptce+Md4x6rCIihKerub+aKxvmzWd3vgXx
-         nWGQ==
+        bh=Vy6YZpnkzYfP1Q8nBBgWLbumgUQv6/LinbPlxyazuoo=;
+        b=UCWvk7H+g0XiRFlK9hdJh9sPXIDO8O/ApGthzVO9MKQVTyKIFNiYrcYH4J7FI2vgQR
+         o8XmheSJxow3U7EVL9L23lr0fJZp+oU88zYGvq1ItRE3F0tcnjDCthkdGXi66xrrzVUt
+         Ydtua9WSucxWaQxzLmDaPxJ7/SpSUQoozGq7kUN4wYtrD408iEmlWQOsNm5imiuzoWwb
+         gLBWtosNGa2k2nSxi1pcht1Nn/xNnZnPnI9SAU1FVtVv5RiXoSV7lC8j0Lb+P550mvAg
+         WSmXXvNdeX6myqBugyWKQXSkH60/vsqBcq2JM46POrRpXbUFsP/JGBCn3xhPph8rL09n
+         e3GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=9oQd/aihk9MFiV6slPYqynKa26o3HWCnjoP1XQYdYX4=;
-        b=ac5wg+uYTSkr4utSJ3Jiks1OTyDKIs2XDhAUwdEPKKxGj3XfHYVBiNHV40aR/zZ0jZ
-         WuwUz8YakYLYEL1YxR+lJbK9iYzBzOEyDZlOk+g3ixT2aw5U5aYSP3Sz2KqPgIyoAt/V
-         jlpmmxrJ+moID8qqOmxc953q7qBm5T7tlNKLPQ7LNAXvhD72wjWT+UWAx6eb0J+uhMVt
-         3WkA6l7yP+VPb+HZzFh1sg0BiSK/KuiOon1JeQ4dP+AFYQVZ5OYUdapLsKNzv1jTEIYJ
-         EcS1+VGhX+GQYsje/pnZuGRV0FJ4OLtZGGSo80LIiyMFm4RB7wanA1Dq9RXPT8ti/pO0
-         i08A==
-X-Gm-Message-State: AJIora8Lxvtw8wjqZKPls0fx+pXyfWv7dIqPKldGQ2+S8aqvamdpIO80
-        ANpq/Zq7lPNwq2lKCgoVKu7+7w==
-X-Google-Smtp-Source: AGRyM1tEvw4Z+sdS8R2b5pMQ4mI40CTjDyQX6wt24Ed3+/7JZJ4AE+2EZXxDaUOUK81SuQaIegr+pw==
-X-Received: by 2002:a17:906:3f51:b0:712:3945:8c0d with SMTP id f17-20020a1709063f5100b0071239458c0dmr4466853ejj.302.1656525584092;
-        Wed, 29 Jun 2022 10:59:44 -0700 (PDT)
+        bh=Vy6YZpnkzYfP1Q8nBBgWLbumgUQv6/LinbPlxyazuoo=;
+        b=4AqtiamzUDhoGZFsr/DjVm31iMqoAg9t8BMEOW9LLLFuqAWR56THo5YzAnr4e2C0n8
+         nN2bSs2xGIcTG99LK0Y2hHK/xmX8cG+wbWS6FLrT4OpzemMnnXiJ1opfiUYOYBKSPoiW
+         eV9xSHZpwtWW+wNs/tMlrAQ4gOl52UK+RVyEP4RK6XTK9umzRgwwAQXQfUoAf3zpvKQq
+         20HHfoi43jSBsiZSZDqr/c59AqfLyprVQyh4CsxCIeji6Tnh3hClAJpJ0+/ZExVr7K3I
+         v2IPuDypYY+0DDIUFrUNfSywXK/WQnzIbkORdUYoiXzlqrLTxaAUizriFaazF9VGZEop
+         oaxw==
+X-Gm-Message-State: AJIora+OXVn9hrjqYpw7iA4XSD/4PevZ2CJ2FlE083G9ktOoAOZe9vWN
+        IPpZn65RI30kQE9GTlHWqsjuvw==
+X-Google-Smtp-Source: AGRyM1tMjPgShNrBmV+R7vaqyVYgBWJyRtjHKG3YppCjb+zLtBpcofZ9J/j3kYUUSJryx95/wur18Q==
+X-Received: by 2002:a05:6402:f1f:b0:437:6c2d:677a with SMTP id i31-20020a0564020f1f00b004376c2d677amr5969545eda.269.1656525724486;
+        Wed, 29 Jun 2022 11:02:04 -0700 (PDT)
 Received: from [192.168.0.187] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id h1-20020a1709063c0100b006feec47dae9sm7958751ejg.157.2022.06.29.10.59.42
+        by smtp.gmail.com with ESMTPSA id f19-20020a170906825300b0071160715917sm7944933ejx.223.2022.06.29.11.02.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jun 2022 10:59:43 -0700 (PDT)
-Message-ID: <988844aa-f7ce-3cba-dd6c-227fa6d58102@linaro.org>
-Date:   Wed, 29 Jun 2022 19:59:41 +0200
+        Wed, 29 Jun 2022 11:02:03 -0700 (PDT)
+Message-ID: <7fbb2d33-2dab-4350-0ec4-ca8c88896523@linaro.org>
+Date:   Wed, 29 Jun 2022 20:02:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v6 08/14] dt-bindings: watchdog: Add fsl,scu-wdt yaml file
+Subject: Re: [PATCH v6 09/14] dt-bindings: firmware: Add fsl,scu yaml file
 Content-Language: en-US
 To:     "Viorel Suman (OSS)" <viorel.suman@oss.nxp.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -91,9 +91,9 @@ To:     "Viorel Suman (OSS)" <viorel.suman@oss.nxp.com>,
         linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20220629164414.301813-1-viorel.suman@oss.nxp.com>
- <20220629164414.301813-9-viorel.suman@oss.nxp.com>
+ <20220629164414.301813-10-viorel.suman@oss.nxp.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220629164414.301813-9-viorel.suman@oss.nxp.com>
+In-Reply-To: <20220629164414.301813-10-viorel.suman@oss.nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -110,19 +110,22 @@ On 29/06/2022 18:44, Viorel Suman (OSS) wrote:
 > From: Abel Vesa <abel.vesa@nxp.com>
 > 
 > In order to replace the fsl,scu txt file from bindings/arm/freescale,
-> we need to split it between the right subsystems. This patch documents
-> separately the 'watchdog' child node of the SCU main node.
+> we need to split it between the right subsystems. This patch adds the
+> fsl,scu.yaml in the firmware bindings folder. This one is only for
+> the main SCU node. The old txt file will be removed only after all
+> the child nodes have been properly switch to yaml.
 > 
 > Signed-off-by: Abel Vesa <abel.vesa@nxp.com>
 > Signed-off-by: Viorel Suman <viorel.suman@nxp.com>
 > ---
+>  .../devicetree/bindings/firmware/fsl,scu.yaml | 160 ++++++++++++++++++
+>  1 file changed, 160 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/firmware/fsl,scu.yaml
+> 
 
-Assuming all patches are taken independently:
-
-
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+This depends on all other previous patches, so it cannot go
+independently. Therefore I expect that everything will be going through
+one tree thus removal of TXT hunks should happen gradually.
 
 Best regards,
 Krzysztof
