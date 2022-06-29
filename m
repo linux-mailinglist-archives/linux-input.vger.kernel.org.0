@@ -2,59 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6C0A5607AD
-	for <lists+linux-input@lfdr.de>; Wed, 29 Jun 2022 19:48:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50F145607C3
+	for <lists+linux-input@lfdr.de>; Wed, 29 Jun 2022 19:52:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231834AbiF2RsZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 Jun 2022 13:48:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55018 "EHLO
+        id S229674AbiF2RvU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 29 Jun 2022 13:51:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231925AbiF2RsR (ORCPT
+        with ESMTP id S230340AbiF2RvQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 Jun 2022 13:48:17 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4BDD10FD6
-        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 10:48:12 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id h23so34010138ejj.12
-        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 10:48:12 -0700 (PDT)
+        Wed, 29 Jun 2022 13:51:16 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D42A01EC46
+        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 10:51:10 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id c13so23230974eds.10
+        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 10:51:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :references:from:in-reply-to:content-transfer-encoding;
-        bh=sikhifeguM4ffT8b3q2AAA4YOa4F7ZoLxP0wUvhq6/g=;
-        b=wmemF2kISMpdcc58JqukhQYHNzP+s7FHmT03Uv/WkL1lm9/TnlXYpnt9Ghat7q+t26
-         Ir3UyfOTBkNLMKbg/0SztdMRSfODpBLzH7arlnBx2z4sZLhCbAchzPzfmQPPwm+d73/J
-         Pizmu8v8i85FND872tmc2Y1ny2tlnB4LfQo3Czrwx/b8PE5TBhjDm4mi/tzk+tfuXM9s
-         lpeGD6+kvZHpCya+UJ7J3V+dk2mjmsMi/1KdkbxmrAmFDfTMigB3ApMZ22/8YxUDnEZv
-         zkvK2TDJn3adF4uCuPh33cxxF/LeB1FamNhlx85Mp8uYE2U68o9jfk+iMtc8lXD7kraL
-         BN8A==
+        bh=7iA70F9mnrwsMHEWalEOeebxI1ekPwBYb8PaHtIIokM=;
+        b=aGaRkPIGRsdBG/Y1jvJGofcIxOL0lpNzU8GUcR9uR3NugS4Vg+I2sEnbflG37mikBx
+         laO0U5GOIpaoM0m7F5lAYIqJQXx+0V+EaZtQmNmcv7GA2K9Te/Blr/eLcMmo5I3Ieprw
+         o5bEVG5xfUqEDXofGESHLNc4x6AgIbneTGEhf5UsOlowqhsIoS/c1dHh4JWtkIKTqebP
+         PhCKq/LT7Yi2ItZbJfO2KBN0Q+jNCkJk6Xfy02UxIFNpNEWXN0aXgT04TmsIS2Kgci2n
+         oayLRaEkOb/1JHwKoWSKHKGVS3Dwk8unyvUAWuwJeVpEBD9istsW0QroPleTOPhnt3LG
+         0qbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=sikhifeguM4ffT8b3q2AAA4YOa4F7ZoLxP0wUvhq6/g=;
-        b=bsep6JqSsTnSKEMR7HkTZX/PIzlQUDfjL4ZRqfmvMtUpf75nd28ZJpHpq9ByXEKG1j
-         fW4EpdrtlhE+IF7fX/KVfFB0vUuAY+jYzyrPPOL1wzdZBIlOjYMc4RSCg5Entw5NLuiL
-         b7Uy58TkWFkM3z12iVBJiLC3AXco3QjHPtoFQ5i9FsyE6pQWCq5vDyT8+IVhrzcY+Ayt
-         XR0Bf5MvJNVCfonQjynlPTfGa3GFnu+piheW+paiC19wTcFdoBC7vdaVBhbSHD+Enf5d
-         W1mBSU0Ly1pHLifyD4Uyc2J6f2C6+JQ38p3YEgoOmJKn7Dybt586jdbPd20wTKTgvF6U
-         GUgw==
-X-Gm-Message-State: AJIora9aZidTymrsiGJZk6kcd8fj8LjKhgFoehUJ5fi+dUzI83iZ0k91
-        rqcyZYJ3AAcJ/fr5qN6gTMWuyw==
-X-Google-Smtp-Source: AGRyM1trKjyrZm3TCGY63mfEZIhc+tkObQ9Pl2m1fVlhR+iabfH3Q+7yMBjnp58xANwGQ29L43bHLg==
-X-Received: by 2002:a17:906:9c84:b0:6e0:7c75:6f01 with SMTP id fj4-20020a1709069c8400b006e07c756f01mr4552991ejc.103.1656524891488;
-        Wed, 29 Jun 2022 10:48:11 -0700 (PDT)
+        bh=7iA70F9mnrwsMHEWalEOeebxI1ekPwBYb8PaHtIIokM=;
+        b=GbDBUEGUtzbiT5z5C1bQf75X1Qbg0pSavgrryd5jEp5xKMm3nEjLVi/E8sPEYk0Z7e
+         M+EN+oUSxacl9bAatShM8w4ZtQoySsLo9zweGA9X46UXcaTimYBtkJDjU8v8sCeYxRY+
+         0zTBANfoz1HYH0iq1YLyJXXRBQ3fP8j+XUypAg9EcHrwSP8Sm6ZOjQtvLE58crIv1zyE
+         Eqn1KpPm6xZ0Xvg10UYgvZOwRRn2zvjlhD1iUSUI9veQ4uTbnIKNv637qu7lS42NCuT3
+         Qvhv66ojWOM2j5UpTASigqnbW+XAXtQmL6zF622RzqK105NBwRPP30j9BiI7aFv8rOvj
+         D45w==
+X-Gm-Message-State: AJIora9vfgr33lijg3iGDVtD9hrw1G13EtR1xYKM88e+U5IhLeRL6vif
+        w2xjkh+xOg95QRDf1upxdBFkzw==
+X-Google-Smtp-Source: AGRyM1vPKpJLgAGgKuDVsjqMBqxKnF2ecNlUQEVwgdEzvbyFY+qlyWTh7E2rFysgq8kwEo3cYgDc7A==
+X-Received: by 2002:a05:6402:500b:b0:431:78d0:bf9d with SMTP id p11-20020a056402500b00b0043178d0bf9dmr5771815eda.184.1656525069374;
+        Wed, 29 Jun 2022 10:51:09 -0700 (PDT)
 Received: from [192.168.0.187] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id f13-20020a170906824d00b00726e108b566sm2230990ejx.173.2022.06.29.10.48.09
+        by smtp.gmail.com with ESMTPSA id zj4-20020a170907338400b00726ef422b80sm1926985ejb.177.2022.06.29.10.51.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jun 2022 10:48:10 -0700 (PDT)
-Message-ID: <f559cb30-7820-bcb7-0d34-c8b32c1ee889@linaro.org>
-Date:   Wed, 29 Jun 2022 19:48:09 +0200
+        Wed, 29 Jun 2022 10:51:08 -0700 (PDT)
+Message-ID: <0e515289-9d3c-9c61-950d-09c14b33c8c2@linaro.org>
+Date:   Wed, 29 Jun 2022 19:51:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v6 01/14] dt-bindings: clk: imx: Add fsl,scu-clk yaml file
+Subject: Re: [PATCH v6 00/14] dt-bindings: arm: freescale: Switch fsl,scu from
+ txt to yaml
 Content-Language: en-US
 To:     "Viorel Suman (OSS)" <viorel.suman@oss.nxp.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -91,9 +92,8 @@ To:     "Viorel Suman (OSS)" <viorel.suman@oss.nxp.com>,
         linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20220629164414.301813-1-viorel.suman@oss.nxp.com>
- <20220629164414.301813-2-viorel.suman@oss.nxp.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220629164414.301813-2-viorel.suman@oss.nxp.com>
+In-Reply-To: <20220629164414.301813-1-viorel.suman@oss.nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -107,24 +107,19 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 On 29/06/2022 18:44, Viorel Suman (OSS) wrote:
-> From: Abel Vesa <abel.vesa@nxp.com>
+> From: Viorel Suman <viorel.suman@nxp.com>
 > 
-> In order to replace the fsl,scu txt file from bindings/arm/freescale,
-> we need to split it between the right subsystems. This patch documents
-> separately the 'clock' child node of the SCU main node.
-> 
-> Signed-off-by: Abel Vesa <abel.vesa@nxp.com>
-> Signed-off-by: Viorel Suman <viorel.suman@nxp.com>
-> Acked-by: Stephen Boyd <sboyd@kernel.org>
-> ---
->  .../bindings/clock/fsl,scu-clk.yaml           | 43 +++++++++++++++++++
->  1 file changed, 43 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/clock/fsl,scu-clk.yaml
+> Changes since v5: https://lore.kernel.org/lkml/20220616164303.790379-1-viorel.suman@nxp.com/
+>   * Updated according to Krzysztof Kozlowski comments
 > 
 
+My comment a about removal of each part of TXT bindings in each patch,
+was not addressed. Your approach makes it more difficult to read patches
+and makes sense only if each subsystem maintainer will take the patches
+(separately). If the patches are going through one tree, then better to
+remove the TXT gradually.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+So the question - who is going to take each of the patches?
 
 Best regards,
 Krzysztof
