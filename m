@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E38935608A8
-	for <lists+linux-input@lfdr.de>; Wed, 29 Jun 2022 20:07:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0E925608A4
+	for <lists+linux-input@lfdr.de>; Wed, 29 Jun 2022 20:07:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232178AbiF2SGh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 Jun 2022 14:06:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44008 "EHLO
+        id S232455AbiF2SG7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 29 Jun 2022 14:06:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232334AbiF2SGU (ORCPT
+        with ESMTP id S232474AbiF2SGk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 Jun 2022 14:06:20 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBE4F40E75
-        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 11:05:03 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id ge10so34175531ejb.7
-        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 11:05:03 -0700 (PDT)
+        Wed, 29 Jun 2022 14:06:40 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7CFE3FD9C
+        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 11:05:51 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id ge10so34179594ejb.7
+        for <linux-input@vger.kernel.org>; Wed, 29 Jun 2022 11:05:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :references:from:in-reply-to:content-transfer-encoding;
-        bh=QSfgLXgFfiGaok0lJdcTWMoQDlToXF+BRlTaDwPiloE=;
-        b=MeoRgOZVtDqrD1BXTHuzWUgHKg59UHeJcfZILwn01ko3si8mEmIRSF7PZGoMYFnpSe
-         UPsJMrSHsVVgvuYWA0BkwQVKseCCL7fdZVk7qASBp2fBqik35D7ADK09VSAG4NXgTMMd
-         Fn7MvZjStPJVT/IB0yqIlKwG2m8zdfi3lBLCMd2c70R/w3jeikg5+J0oxqeNIgv9J0SK
-         FzEBOO4wjBzWSc18UAp+xZ6uusQZYAb7snw/6MCIznSFGO0tPrjNxAoB4fM4KMLT/8NI
-         ohW/Jc+N5MWrwvDMCsUcl81gFhKH/4lI/zzm34r2TWSmE+LzbeEPWfJBwPsGyTN7jlEN
-         XeLw==
+        bh=us3+4U/6NS+9bUTvamba37DRKpthQlGNNn2eGBCrdmM=;
+        b=vbuaaFUYqN1guX3EHj2/BmchL8/O601kaBMJ0zDDI6+sG4DLOkANm8JNnernJAONbn
+         UcgAZArlvEyfdDw8xg9VbPHyOM97a6LZp8E9RREWM5XoeuGB/KTfZJ9n0bjMew0vnDlz
+         0TJMVQo419wctcCnxgz/i+1x35gC2NhWNe47DPYG18HC4B68XRZDi2BsZNKLm6g9x3bp
+         SdJ/pxYX5ibbv7r3FHqaMpQy6AUKkij4SwdHtrT4jWHw31sN+v15qrI1BDfPGRIU1NxO
+         pdlvlGsboJo5pc9j3Lh1Sk7lqtmPVbNfAkXegBcYWpI6DUgg8WTY68eizLe87jJM8kil
+         dN8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=QSfgLXgFfiGaok0lJdcTWMoQDlToXF+BRlTaDwPiloE=;
-        b=ZFpn+Y6f005WbzmIyHf2zwjUPxW+kaRyVnk+WgP0d1zW3Qno0noGTBBWHWLx0Vbeho
-         tFCgE+JPhz8rXkSQb884jzo1+doPW8x7zeK418rZAL1hq4a8vUZ+zXzF1F3bQW63bC6/
-         kTfMWDh/nPzcAfs9bfl0vJvxVi156uwuc4HsjIG4LRa9Q9yqZCCWJCGAS1hfqWLazbsD
-         dWL3IWjiv8Z6tZjtnW381xt1/aeFVk3/lYxtPaEXNoOTD00B1TWbFLXMwBtR+x18RGYb
-         2ChBbBsT7cc4Be1b0gLoiMqN2F5ocal3iTzxhtIZ7j+2SPnMgOn8n1kVb0kpYap167sE
-         uXWA==
-X-Gm-Message-State: AJIora8CT/ERV9ebyF19e4Yf6Ptu89X92PDx9RpMTknTxA4IN+wr2Ee9
-        gTGaRn3lZGqcig2QaqV2FbkWGg==
-X-Google-Smtp-Source: AGRyM1uveF1FWSHXgBj8uURIFKTL+sgiRu8h6GV4IGO4002y0D6+mokBlHcmA5uQEoUy6sKdGRLgwg==
-X-Received: by 2002:a17:907:3f82:b0:726:3732:961c with SMTP id hr2-20020a1709073f8200b007263732961cmr4751329ejc.727.1656525902194;
-        Wed, 29 Jun 2022 11:05:02 -0700 (PDT)
+        bh=us3+4U/6NS+9bUTvamba37DRKpthQlGNNn2eGBCrdmM=;
+        b=rgl6UPhY0wppOoPHs7ySvXCqwSJ9wnjz1C4nnxG8xvjIQxM6gUYdZjsqX/Cx1q+97D
+         Xy6/NihVdNnaHmT7lSr73ZdO9rioASJwjfdabd1fu3AJWNeZEeEz+7nybYZbXsD0mVnI
+         40uqjF3G2i+1ImEw6fH9qT6eKxY/4GKaXsgHpgqzh1qwqhR4HJVKzvXscxM1VKwlv2du
+         sfd6+vOsKUCMlp/LaSvhAuiRRMUCJxdadxJIP/4B4iFAbuADsH1Vh2e862Ie7N8c6cD3
+         BrmhCs4XaONop9BvQof5LR4LMNIQqxrJZ1Rd4LnKH7xSAwN8wR6PZ947/ON4Vn9tnjbJ
+         hYHg==
+X-Gm-Message-State: AJIora8shVefzuAhv9YgBt5MIo/ZrBX/5nbjtNLuHH4IoZ1ATGLc1Kun
+        d8qm0/kUcQglaCRrovSd23/THg==
+X-Google-Smtp-Source: AGRyM1sWMDnn3S+Hc1i9wxDUNunPqB3FVeRluJtNmaPIT8itwCMTAUqzlXg0BsktQka3qSLa83AIJg==
+X-Received: by 2002:a17:906:7c0c:b0:6f9:1fc:ebf3 with SMTP id t12-20020a1709067c0c00b006f901fcebf3mr4455187ejo.403.1656525950438;
+        Wed, 29 Jun 2022 11:05:50 -0700 (PDT)
 Received: from [192.168.0.187] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id n6-20020a509346000000b004319b12371asm11957216eda.47.2022.06.29.11.05.00
+        by smtp.gmail.com with ESMTPSA id ml22-20020a170906cc1600b006febce7081bsm8018575ejb.163.2022.06.29.11.05.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jun 2022 11:05:01 -0700 (PDT)
-Message-ID: <392186b6-d5cd-ec6a-ca98-c02a824eaa7c@linaro.org>
-Date:   Wed, 29 Jun 2022 20:05:00 +0200
+        Wed, 29 Jun 2022 11:05:49 -0700 (PDT)
+Message-ID: <1303740a-d975-54ec-1bfa-6f1f6a6dc391@linaro.org>
+Date:   Wed, 29 Jun 2022 20:05:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v6 11/14] arm64: dts: freescale: imx8: Fix power
- controller name
+Subject: Re: [PATCH v6 12/14] arm64: dts: freescale: imx8qxp: Add fallback
+ compatible for clock controller
 Content-Language: en-US
 To:     "Viorel Suman (OSS)" <viorel.suman@oss.nxp.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -92,14 +92,14 @@ To:     "Viorel Suman (OSS)" <viorel.suman@oss.nxp.com>,
         linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20220629164414.301813-1-viorel.suman@oss.nxp.com>
- <20220629164414.301813-12-viorel.suman@oss.nxp.com>
+ <20220629164414.301813-13-viorel.suman@oss.nxp.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220629164414.301813-12-viorel.suman@oss.nxp.com>
+In-Reply-To: <20220629164414.301813-13-viorel.suman@oss.nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -110,11 +110,13 @@ X-Mailing-List: linux-input@vger.kernel.org
 On 29/06/2022 18:44, Viorel Suman (OSS) wrote:
 > From: Abel Vesa <abel.vesa@nxp.com>
 > 
-> The proper name is power-controller, not imx8qx-pd.
+> Both i.MX8QM and i.MX8DXL use the fallback fsl,scu-clk compatible.
+> They rely on the same driver generic part as the i.MX8QXP, so
+> lets add it to i.MX8QXP too, for consitency.
 > 
 > Signed-off-by: Abel Vesa <abel.vesa@nxp.com>
 > Signed-off-by: Viorel Suman <viorel.suman@nxp.com>
-> ---
+
 
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
