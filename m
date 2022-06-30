@@ -2,67 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38D8E561EDF
-	for <lists+linux-input@lfdr.de>; Thu, 30 Jun 2022 17:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AAE1562198
+	for <lists+linux-input@lfdr.de>; Thu, 30 Jun 2022 20:02:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235627AbiF3PMN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Jun 2022 11:12:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49164 "EHLO
+        id S236347AbiF3SBx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Jun 2022 14:01:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235605AbiF3PML (ORCPT
+        with ESMTP id S236531AbiF3SBi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Jun 2022 11:12:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AFC52BB3F;
-        Thu, 30 Jun 2022 08:12:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B17A660E84;
-        Thu, 30 Jun 2022 15:12:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 142ECC34115;
-        Thu, 30 Jun 2022 15:12:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656601930;
-        bh=ZaCyi231xN55NbL6hah2FVZ40YJUDbimFdDQCUOmGEA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=K7IKXfd9/pUACjiI15Da8zt3ouesm1jbRlDrrQQYEA48PUssOguUm2V2ANCrrmZIO
-         TFpuXyFtZWp1mbIsube9cq9hma3+6WnoHOYolML+fqKebhh+lavwfJPt9F2mW8Qepm
-         0iztq5YZ+mu2QOxAQ9YsFIS0DfEYI1B5uluNXzA9L3AG94KQqT+vs6E2PqWLF3YLPb
-         uwQDfnzQBAIoprN47o+Ft1EnYcZM0cKDp7dp+MTsBMdFDHehPq8BHRlgF8oJAv5LKg
-         IWXwD0/fjVUL8jTblCUfcFUe5TXrZJ+lCNsstlEEZeaDJoeWsfj6i6DbTyT+a2ntsV
-         lb2ca6Z15QTcQ==
-Received: by mail-vs1-f54.google.com with SMTP id j6so18603800vsi.0;
-        Thu, 30 Jun 2022 08:12:10 -0700 (PDT)
-X-Gm-Message-State: AJIora8tUziQggjiIIu5Wf3N5Md3hDnXUVlRueR9ZztUrjeIdgwDHF2c
-        6SfL9plAQohLNiRDKGH16YmGdskJwba4z8Uh1A==
-X-Google-Smtp-Source: AGRyM1sE0e68v7McZcrdxOt2FnnPQJyoMMCz3luQW735kIxxQS448cN4nvcfDkxVmzob49oMuoeWsZ1lbV7RsMyGwOQ=
-X-Received: by 2002:a67:1787:0:b0:354:6490:437f with SMTP id
- 129-20020a671787000000b003546490437fmr8839140vsx.26.1656601929001; Thu, 30
- Jun 2022 08:12:09 -0700 (PDT)
+        Thu, 30 Jun 2022 14:01:38 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AA603981A
+        for <linux-input@vger.kernel.org>; Thu, 30 Jun 2022 11:01:36 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id n8so13655966eda.0
+        for <linux-input@vger.kernel.org>; Thu, 30 Jun 2022 11:01:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=oP65LAT/fd0C6OnRp3Ub9OQHA8VbKhPvXbniEJ3nVeM=;
+        b=okhkRQ59JELGFs++y1bGscG5q+VXfKQlxDjG9RGRLYXwjDJN/mCw0UvDSDhJahe+lg
+         kpEd0AdWlbeQcdPmXaBpHZztPo5tSKlkHwcZ9Om/U7Iv0l2AKOHwf7gBjJfy8Jm3CDOg
+         8rdLIRAWUmria9z0tixF4TJb2UB/WJ0sL7nkFpkzp70XkHp0vtgpLLGmbUXSEbbQNsEl
+         Q5wxyUrRxovbmuzBYy895n3/qV3cjBv6E7TfaV47hI1ctNj4KUoHX0+ZgIi5gGadU72h
+         tVJ+P7eIPxKgVjTGnmuRJVRdvpAlvX4cLZhPcPpdaTE/srih/ygqYivQkaEXd87YGLnf
+         E17w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=oP65LAT/fd0C6OnRp3Ub9OQHA8VbKhPvXbniEJ3nVeM=;
+        b=pX0fGthd1sbRxeN7RPRDWMM2WwNtyHGKB4GBAjIZYrUSTrRLwomCtNTk2LtKQDKw9U
+         MuviUJCRMjjj8joQ7r4xfH2fhd7NPRm6mTDTzeRTM+tjApwl04Hypj6IJXL52fhCQGeC
+         J2fSov2tnBaDwccfXQ/xQ3fHGe1LQNs+Q3VPE7iAkkQXRoDbAjwZL1Hh8PAUKkbRpjEm
+         fMXF6e6fOa8Ei+4JYZcJW2LPUqa4WkGX2VrkMe9Bg+SM0VmTJckH93RYh+qkoSWB9BEk
+         52qQb204jGoR+DX/5iay9fn3WTWG2c4ZkYIfpZ7DTfJrsZoIhhBid444xWRxU9igHcyI
+         SoTQ==
+X-Gm-Message-State: AJIora8fmNKDz164mGDssSH+B9wBlUWb7FiufoyfZO0N4U7rjuVJkvlZ
+        i9xVKdMMY7A5x/iiRYBzPKkOdQ==
+X-Google-Smtp-Source: AGRyM1scmyht18TKC54qdhLFMpF/tV95/vYdn9nuKK0yCFXvLEMAhyAbNUUh6YAaGoMZvqq3eZSgKg==
+X-Received: by 2002:a05:6402:2c4:b0:435:8ce0:aef8 with SMTP id b4-20020a05640202c400b004358ce0aef8mr13310561edx.140.1656612095033;
+        Thu, 30 Jun 2022 11:01:35 -0700 (PDT)
+Received: from [192.168.0.190] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id kt26-20020a170906aada00b00726dbb18b59sm3626737ejb.130.2022.06.30.11.01.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jun 2022 11:01:34 -0700 (PDT)
+Message-ID: <5d8b2044-5ca6-c90c-57b4-afbb2ae20dde@linaro.org>
+Date:   Thu, 30 Jun 2022 20:01:31 +0200
 MIME-Version: 1.0
-References: <20220627221444.3638-1-macroalpha82@gmail.com> <20220627221444.3638-2-macroalpha82@gmail.com>
-In-Reply-To: <20220627221444.3638-2-macroalpha82@gmail.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Thu, 30 Jun 2022 09:11:57 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqL9U0ku+2hiaLeUMakpOhp7DYhQLi2MJpUthTjX5T655Q@mail.gmail.com>
-Message-ID: <CAL_JsqL9U0ku+2hiaLeUMakpOhp7DYhQLi2MJpUthTjX5T655Q@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: adc-joystick: add poll-interval
-To:     Chris Morgan <macroalpha82@gmail.com>
-Cc:     Linux Input <linux-input@vger.kernel.org>,
-        devicetree@vger.kernel.org, Artur Rojek <contact@artur-rojek.eu>,
-        Maciej Matuszczyk <maccraft123mc@gmail.com>,
-        "heiko@sntech.de" <heiko@sntech.de>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 10/14] arm64: dts: freescale: imx8qxp: Remove
+ unnecessary clock related entries
+Content-Language: en-US
+To:     Viorel Suman <viorel.suman@nxp.com>
+Cc:     "Viorel Suman (OSS)" <viorel.suman@oss.nxp.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
-        Chris Morgan <macromorgan@hotmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Abel Vesa <abelvesa@kernel.org>,
+        Oliver Graute <oliver.graute@kococonnector.com>,
+        Liu Ying <victor.liu@nxp.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        Peng Fan <peng.fan@nxp.com>, Ming Qian <ming.qian@nxp.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20220629164414.301813-1-viorel.suman@oss.nxp.com>
+ <20220629164414.301813-11-viorel.suman@oss.nxp.com>
+ <483d5115-4027-e811-8bce-15da6c7c660f@linaro.org>
+ <20220630083636.2c7mclmbq3tjma2j@fsr-ub1664-116>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220630083636.2c7mclmbq3tjma2j@fsr-ub1664-116>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,34 +109,66 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jun 27, 2022 at 4:14 PM Chris Morgan <macroalpha82@gmail.com> wrote:
->
-> Add poll-interval support for the adc-joystick documentation. This is
-> an optional value and if not provided the adc-joystick works as it
-> does today (with triggered buffers). If this value is provided, the
-> adc-joystick driver is polled at the specified interval.
->
-> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  Documentation/devicetree/bindings/input/adc-joystick.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml b/Documentation/devicetree/bindings/input/adc-joystick.yaml
-> index 2ee04e03bc22..2d755091e46d 100644
-> --- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
-> +++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
-> @@ -18,6 +18,12 @@ properties:
->    compatible:
->      const: adc-joystick
->
-> +  poll-interval:
-> +    description:
-> +      Poll interval time in milliseconds. If not specified, device will use
-> +      triggered buffer.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
+On 30/06/2022 10:36, Viorel Suman wrote:
+> On 22-06-29 20:04:43, Krzysztof Kozlowski wrote:
+>> On 29/06/2022 18:44, Viorel Suman (OSS) wrote:
+>>> From: Viorel Suman <viorel.suman@nxp.com>
+>>>
+>>> "clocks" and "clock-names" are not used the driver, so
+>>> remove them in order to match the yaml definition.
+>>
+>> So this explains the unexpected change in the bindings... but actually
+>> it does not explain whether it is correct or not. Just because driver
+>> does not use it, is not a proof that clocks are not there. In different
+>> OS/implementation this DTS might break stuff, so basically it is ABI
+>> break. DTS should describe the hardware fully, so if the clocks are
+>> there, should be in DTS regardless of the driver.
+> 
+> Hi Krzysztof,
+> 
+> Both XTAL clocks - 24MHz and 32kHz - are still defined in DTSI files, see for instance in
+> arch/arm64/boot/dts/freescale/imx8qxp.dtsi :
+> ---------------
+>         xtal32k: clock-xtal32k {
+>                 compatible = "fixed-clock";
+>                 #clock-cells = <0>;
+>                 clock-frequency = <32768>;
+>                 clock-output-names = "xtal_32KHz";
+>         };
+> 
+>         xtal24m: clock-xtal24m {
+>                 compatible = "fixed-clock";
+>                 #clock-cells = <0>;
+>                 clock-frequency = <24000000>;
+>                 clock-output-names = "xtal_24MHz";
+>         };
+> ---------------
+> Both can be seen in /sys/kernel/debug/clk/clk_summary once boot is complete, both can be referenced
+> in any DTS node, so there is no ABI break.
 
-Already defined in input.yaml, so add a $ref to it and here you just
-need 'poll-interval: true'.
+ABI break is not relevant to the fixed clocks being or not being defined
+in the DTS. You have a device which was taking the clock inputs, so the
+clocks stayed enabled.
 
-Rob
+Now, you don't take these inputs, so for example the clocks are getting
+disabled as not used.
+
+> 
+> "DTS should describe the hardware fully" - this is true in case the OS is supposed to controll the
+> hardware fully. i.MX8 System Controller Unit concept implies resources being allocated and managed
+> by SCU, there is no direct OS access to some hardware. SCU actually defines the hardware environment
+> the OS is being able to see and run within. SCU is able to define several such isolated hardware
+> environments, each having its own OS running. So, in this particular case - i.MX8 SCU concept -
+> DTS should describe the hardware from the perspective of the hardware environment exposed by SCU to
+> OS.
+
+OK, that sounds good, but the question about these clocks remain - are
+they inputs to the SCU or not.
+
+Regardless whether they are actual input or not, you used not
+appropriate argument here - that Linux OS implementation does not use
+them. The proper argument is - whether the hardware environment has them
+connected or not.
+
+Best regards,
+Krzysztof
