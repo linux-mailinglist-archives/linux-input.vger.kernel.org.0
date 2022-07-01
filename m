@@ -2,138 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 367175630C5
-	for <lists+linux-input@lfdr.de>; Fri,  1 Jul 2022 11:56:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84F6456328B
+	for <lists+linux-input@lfdr.de>; Fri,  1 Jul 2022 13:28:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231613AbiGAJ4S (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 1 Jul 2022 05:56:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48354 "EHLO
+        id S233654AbiGAL13 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 1 Jul 2022 07:27:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbiGAJ4R (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Jul 2022 05:56:17 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2427C74DCB;
-        Fri,  1 Jul 2022 02:56:16 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id c13so2251541eds.10;
-        Fri, 01 Jul 2022 02:56:16 -0700 (PDT)
+        with ESMTP id S231503AbiGAL12 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Jul 2022 07:27:28 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9DAD81484;
+        Fri,  1 Jul 2022 04:27:27 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id ej4so2547250edb.7;
+        Fri, 01 Jul 2022 04:27:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=bSK5YfoZwCXwkULWVh7uTnuiTWCdHyPzN8Uo8aQIwuI=;
-        b=MpnRS2WGAMXjw/f5eFw/cm1ESr3K0ONH/W6phu40t7UzRPIj72paEcOT9BFX0KaUw8
-         o4+D/EikvH8VgljOXcuw7mnIHrz1ZIfMAaAVVqFu7TUp2DicnPoDD01GqxQtt3IMM/8F
-         XbdR7fvH6ATs24+5X6S4BOuu7LnHmmthGOc13pSgJO1LltGUur/IL7z379JcfWj2cKeQ
-         64sGtGpBf4PqtFYuEjnoSHar2ZvZJlscF4W86NZ2qdLqyS2p/5OeWqqEfPNv2fySoRPc
-         yuYYXgH0tJPSdpjzDcxIIr6Z7GH8RLSNnbgxhfaYq00oI00z8CTz+ECyeAplYFRjPFMC
-         qHmg==
+        h=from:to:cc:subject:date:message-id;
+        bh=kPJJjylIpBkQ8W7Ml6hHpSSjjYliXppQHMQmyiUop9Q=;
+        b=L1IPD8ninOruMAbXZlKHku59T3sS5xXk+D9sBBiOg/rk1J6jDylYkWEK/coJsiGpB9
+         /4sjWjEaryt0I3Is97qYC5cqLSxIonGDXwChh47Mz5LKZbjz+Iw4moJxMCQhbxjGW+pX
+         ihNGXvBG6j0giHRLnYrOm9/QxgDrUvTbOU2Dsier3V+MuxvZqXbCXFOxA3YjKyRxATYm
+         yT8RhhHKAOiRXpvyWAvjZlkTBoXsHftq4IqpedCo9dIQN1QWzivBcIjkuIm8jkEi3k+A
+         F6k7xaRNMKW0QS9vNOI9Ye6/c9i8j1udo8US4ftQqAX+KBEMz/0wNEnxFIuVAEDLGh1V
+         DXuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=bSK5YfoZwCXwkULWVh7uTnuiTWCdHyPzN8Uo8aQIwuI=;
-        b=k77aIRv3xaUpKJkZ0u95XMOlaiWGXzHPynSyGQpYKuIIbEwYlMyZQ9CnN4Ifc9ajaX
-         6gO4ysnD7GnePYvhvIl+/9+eEeDvUlZn64PSHMWJPRQMoT01v8aCTr3/ymtCb5JFp7OE
-         qBp2koEJIPnCpicTawwfVbTgobdCAsDKJdAkfCwwuxPMDNz+2/5hefrhEG410pOG6rni
-         dP4q4oSrKZnQxh93gxWUC9ZVx9RFgmoF3och73V+dET5zu/XN235M8sPWpB1TuUvs1xl
-         iXNgHsSTh4vHnjMh5klKCwt0j5q5XOz+Blf7lcNh/VvmC/fg7vGLoRUpn377fHPsQd6p
-         RFZg==
-X-Gm-Message-State: AJIora9eAvT8TeOPgWKHmK/NayF1QNJYDhU4XvfG8rCes4MWjzThKEDf
-        kBR7KywfUS0Z9C0TZqo4AKSSoHgLKFDtvFruHjyzrlWMomc=
-X-Google-Smtp-Source: AGRyM1sTIw3tTlyImwoh4qrwr7WEcgMjJ4bbk9FzKTMVaiOUyz3jY8oWaEk+SYYD/6k+RQraBRzcw8oVEJ0ES5Ghc4Q=
-X-Received: by 2002:a05:6402:358c:b0:435:9daf:e825 with SMTP id
- y12-20020a056402358c00b004359dafe825mr17697800edc.375.1656669374541; Fri, 01
- Jul 2022 02:56:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <1655892104-10874-1-git-send-email-u0084500@gmail.com>
- <1655892104-10874-3-git-send-email-u0084500@gmail.com> <Yrm9ObaltUiQUTqS@google.com>
- <CADiBU3802sLTPjrGiaQ-xw-2jep1UXo+t7pYc6bCC4MiJLhOyA@mail.gmail.com>
- <CADiBU3838Mgi3sqv+R_=8g-ROTrbN45AKPaTS_9GCWVDYASMyg@mail.gmail.com> <Yr6kVg2OlHkm6+bB@google.com>
-In-Reply-To: <Yr6kVg2OlHkm6+bB@google.com>
-From:   ChiYuan Huang <u0084500@gmail.com>
-Date:   Fri, 1 Jul 2022 17:56:02 +0800
-Message-ID: <CADiBU396poOuzdGABzTazouM5MX=auZ9OdyT_sqWrKnZk3tFRw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] mfd: rt5120: Add Richtek PMIC support
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mark Brown <broonie@kernel.org>, dmitry.torokhov@gmail.com,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        cy_huang <cy_huang@richtek.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=kPJJjylIpBkQ8W7Ml6hHpSSjjYliXppQHMQmyiUop9Q=;
+        b=7rhOS1eFqY2W+b3+9JW5ssTA42oNJvU0htNYO5eVbAOacH0pyJLstCHshp5lcS39Py
+         VFRaWDMtL2CFJnkJEK1vsMhc9u14fETfady1riffaSi3/LHXBLkIPLEPOTXi6NZINOv5
+         SCIS5guHEJnDTvHuQCT5iC09sItlvEJhaO1icBP3VkoslUvkF470xLnoblg28QtUuShv
+         v62Wrfl8cqKCpLvstJTpPfBpovufCGE7XwzujEJOgWf3MYwmH2CuULFjy73yHGU4BuCc
+         ZJX4FkuPG8PZi3N04UbANj2fVlLClV/onvKRm18V4Vhf5SKMB89tDhxt7AGOzSB+F7kl
+         mdjQ==
+X-Gm-Message-State: AJIora9m9iUaEkuyVazpMYeVwOrq4uxB4ndxyjgo32AC6/44ZycI4IrN
+        xDUGi7v9/BxBZtGFpX6cqgSx+g6XOfM=
+X-Google-Smtp-Source: AGRyM1susy/qfIZI1T1yxmxSf7281014snIkVQO+0mLyOdyCK9p25FB2sMMTP+WEOQ99BhQIt+uCNw==
+X-Received: by 2002:a50:fc15:0:b0:435:7897:e8ab with SMTP id i21-20020a50fc15000000b004357897e8abmr18287719edr.17.1656674846155;
+        Fri, 01 Jul 2022 04:27:26 -0700 (PDT)
+Received: from felia.fritz.box (200116b826fa4e0041b3c167ba41e809.dip.versatel-1u1.de. [2001:16b8:26fa:4e00:41b3:c167:ba41:e809])
+        by smtp.gmail.com with ESMTPSA id ds12-20020a0564021ccc00b00437d3e6c4c7sm4764548edb.53.2022.07.01.04.27.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Jul 2022 04:27:25 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] HID: core: remove unneeded assignment in hid_process_report()
+Date:   Fri,  1 Jul 2022 13:27:20 +0200
+Message-Id: <20220701112720.13452-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Lee Jones <lee.jones@linaro.org> =E6=96=BC 2022=E5=B9=B47=E6=9C=881=E6=97=
-=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:38=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On Fri, 01 Jul 2022, ChiYuan Huang wrote:
->
-> > HI, Lee:
-> >
-> > ChiYuan Huang <u0084500@gmail.com> =E6=96=BC 2022=E5=B9=B46=E6=9C=8827=
-=E6=97=A5 =E9=80=B1=E4=B8=80 =E6=99=9A=E4=B8=8A10:56=E5=AF=AB=E9=81=93=EF=
-=BC=9A
-> > >
-> > > Lee Jones <lee.jones@linaro.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=8827=
-=E6=97=A5 =E9=80=B1=E4=B8=80 =E6=99=9A=E4=B8=8A10:22=E5=AF=AB=E9=81=93=EF=
-=BC=9A
-> > > >
-> > > > On Wed, 22 Jun 2022, cy_huang wrote:
-> > > >
-> > > > > From: ChiYuan Huang <cy_huang@richtek.com>
-> > > > >
-> > > > > Add Richtek RT5120 PMIC I2C driver.
-> > > >
-> > > > Why a whole new driver?
-> > > >
-> > > > How different is this to rt5033?
-> > > >
-> > > > Looks like this could easily be woven into this existing support?
-> > > >
-> > > It's different with the function domain.
-> > > RT5033 is most like as the SubPMIC that includes PMU (battery
-> > > charger/gauge/led/few buck and ldo)
-> > > RT5120 is a main PMIC with default-on power that follows the boot on =
-sequence.
-> > > RT5120 only integrates regulator and power key report module.
-> > >
-> > Since I have explained the chip difference, do you still think it's
-> > better to merge this code into rt5033 mfd?
->
-> I think it's okay to group devices which are similar but not exactly
-> the same, if they can be.  The integration of this device into the
-> other looks trivial to my naive eyes.
->
-> A PMIC is a PMIC, main or sub.
->
-M.. ok. I will try to group all chip changes like as devices
-list/regmap_irq/regmap_config ..., etc.
-Treat it as one set of chip config and use 'of_device_get_match_data'
-to get the chip config data.
+Commit bebcc522fbee ("HID: core: for input reports, process the usages by
+priority list") split the iteration into two distinct loops in
+hid_process_report().
 
-> > > > > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> > > > > ---
-> > > > >  drivers/mfd/Kconfig  |  12 +++++
-> > > > >  drivers/mfd/Makefile |   1 +
-> > > > >  drivers/mfd/rt5120.c | 125 +++++++++++++++++++++++++++++++++++++=
-++++++++++++++
-> > > > >  3 files changed, 138 insertions(+)
-> > > > >  create mode 100644 drivers/mfd/rt5120.c
->
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
-> Principal Technical Lead - Developer Services
-> Linaro.org =E2=94=82 Open source software for Arm SoCs
-> Follow Linaro: Facebook | Twitter | Blog
+After this change, the variable field is only used while iterating in the
+second loop and the assignment of values to this variable in the first loop
+is simply not needed.
+
+Remove the unneeded assignment during retrieval. No functional change and
+no change in the resulting object code.
+
+This was discovered as a dead store with clang-analyzer.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+Benjamin, Jiri, please pick this minor non-urgent clean-up patch.
+
+ drivers/hid/hid-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 00154a1cd2d8..b7f5566e338d 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -1662,7 +1662,7 @@ static void hid_process_report(struct hid_device *hid,
+ 
+ 	/* first retrieve all incoming values in data */
+ 	for (a = 0; a < report->maxfield; a++)
+-		hid_input_fetch_field(hid, field = report->field[a], data);
++		hid_input_fetch_field(hid, report->field[a], data);
+ 
+ 	if (!list_empty(&report->field_entry_list)) {
+ 		/* INPUT_REPORT, we have a priority list of fields */
+-- 
+2.17.1
+
