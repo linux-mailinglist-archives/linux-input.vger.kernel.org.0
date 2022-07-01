@@ -2,133 +2,130 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B38C562C4D
-	for <lists+linux-input@lfdr.de>; Fri,  1 Jul 2022 09:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07311562CCF
+	for <lists+linux-input@lfdr.de>; Fri,  1 Jul 2022 09:38:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235320AbiGAHJl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 1 Jul 2022 03:09:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38486 "EHLO
+        id S235393AbiGAHiI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 1 Jul 2022 03:38:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235307AbiGAHJj (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Jul 2022 03:09:39 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3E2A677EA
-        for <linux-input@vger.kernel.org>; Fri,  1 Jul 2022 00:09:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656659379; x=1688195379;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=rNum4j13eMdbHjFmEZN46HmU478vGFelNyM1g5pvBIA=;
-  b=aNmCkJR/CUUWT1Pg5nKTZlFbTQM8qPfySACQxceEPC668y0VhQVsRJ3m
-   94zJLIeh1mF0+vb26bIdv1g3Buqt/JMHi7tUJ5SFwnDmRfN9JDt3f3UA0
-   fSVG4Q2+XXJpvC+wHvt9bJVGrkJ5wMje7tunsw3Xa0CCyZ/GgnF25xwe/
-   UfLdxKZoPBTGhdSSMfCMNAomMVrT/lu+CB42aMbreOeVfRIYxXZ46gRoI
-   CXHTF4tuYnlNYK4ZvjLgeO6bUBsLltpN6Xv4AjlnkTM0fs23v7l4EunXO
-   H2/5/ZhOsMkwrCj50FOi+9bLBQQkN3KNB+hP03qFYJDvQs58H5IhixD6H
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10394"; a="265604468"
-X-IronPort-AV: E=Sophos;i="5.92,236,1650956400"; 
-   d="scan'208";a="265604468"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2022 00:09:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,236,1650956400"; 
-   d="scan'208";a="659327348"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 01 Jul 2022 00:09:31 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o7AmQ-000Dfj-T1;
-        Fri, 01 Jul 2022 07:09:30 +0000
-Date:   Fri, 01 Jul 2022 15:08:50 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- a6a87c36165e6791eeaed88025cde270536c3198
-Message-ID: <62be9d82.mtQLGXqUIfQARO8b%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S235366AbiGAHiD (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Jul 2022 03:38:03 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2CD56D57B
+        for <linux-input@vger.kernel.org>; Fri,  1 Jul 2022 00:38:02 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id j7so758183wmp.2
+        for <linux-input@vger.kernel.org>; Fri, 01 Jul 2022 00:38:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=/vcgopOT2upUpDmIm53joh9K47D2C5Zrxpx/Q99r1iw=;
+        b=xfHF/7sOVLQbcrw/u3cF6Y/rTHyKvSuiPGBZUlQlW0fyz927MfEa67jigZSFeshdEL
+         yMFSBaIcRtVUERLtB/GAYRjMhdzLnJzIcHF8pnaRINLo9ckajo59vti4plXq10oog7pZ
+         EeDyAoqjphNoN5236krqhyHl3y0h+UWKpHsiR/PDg/ND3svkTPKOhe4ovChPuaaLfjMS
+         j1+kQgPn+mvEcP7wcb2nE6Rl+ojqrJgN26I9/eKlf38Bn7EFV9Stywa3xRYiT5cmLc0H
+         vJ7C0Y1m6n1PEyz8gkUYAXd8YKIBMOjpMM/+nm3XEEWVSejX9AcnqAR6iAABNbcc5m6y
+         dbrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=/vcgopOT2upUpDmIm53joh9K47D2C5Zrxpx/Q99r1iw=;
+        b=7A4DIXXGbD57nAffLi4svpM6a/gjHiQ2CB5G2B6JAJLw1LS3pBV5YkvD/m3I8k9vUl
+         DtPHGiNmQGIQ/1izK2KKPVA+oBw37d9ucFLcyCPvUlw1+cKuDaEpSE0T07gCZ+Z/L5NP
+         kHEmTiUi35tAayOXvaSnLPE+qZ54ci2BkxGfYiF0VCmtnw+98j/JbaioeCh209E9VYpd
+         zziagwHTSgeO1svGx8CEG85LtA2mZlidcni3AjP72BcL1OVO/61ih92LosxTf4ERCVaz
+         mis8Lsbv3mkIKFaXpW7OMJP97hm5wHhPWwzsboul1Goad7le89hcvzE3g1I+S3UhB/3i
+         yT7g==
+X-Gm-Message-State: AJIora/+DHj7izJ3W3LSV9dFPaxXh+D1D+g2UaiSliGq1MtTEvOZl6Yw
+        j3wZXE//dN6fxlsO8YN+3hxWzQ==
+X-Google-Smtp-Source: AGRyM1vhl++y9Dmpa+muBRGRxUCfXmkkzS/X7bXlmXQMyI/GPJ2xIFIFzE2c8uw8U5HACanB9o7Y3g==
+X-Received: by 2002:a7b:c310:0:b0:38c:f07a:e10d with SMTP id k16-20020a7bc310000000b0038cf07ae10dmr14732650wmj.110.1656661081441;
+        Fri, 01 Jul 2022 00:38:01 -0700 (PDT)
+Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
+        by smtp.gmail.com with ESMTPSA id v17-20020a5d43d1000000b0021b95bcaf7fsm21253318wrr.59.2022.07.01.00.37.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Jul 2022 00:38:00 -0700 (PDT)
+Date:   Fri, 1 Jul 2022 08:37:58 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     ChiYuan Huang <u0084500@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mark Brown <broonie@kernel.org>, dmitry.torokhov@gmail.com,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        cy_huang <cy_huang@richtek.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] mfd: rt5120: Add Richtek PMIC support
+Message-ID: <Yr6kVg2OlHkm6+bB@google.com>
+References: <1655892104-10874-1-git-send-email-u0084500@gmail.com>
+ <1655892104-10874-3-git-send-email-u0084500@gmail.com>
+ <Yrm9ObaltUiQUTqS@google.com>
+ <CADiBU3802sLTPjrGiaQ-xw-2jep1UXo+t7pYc6bCC4MiJLhOyA@mail.gmail.com>
+ <CADiBU3838Mgi3sqv+R_=8g-ROTrbN45AKPaTS_9GCWVDYASMyg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADiBU3838Mgi3sqv+R_=8g-ROTrbN45AKPaTS_9GCWVDYASMyg@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: a6a87c36165e6791eeaed88025cde270536c3198  Input: i8042 - add TUXEDO devices to i8042 quirk tables
+On Fri, 01 Jul 2022, ChiYuan Huang wrote:
 
-elapsed time: 725m
+> HI, Lee:
+> 
+> ChiYuan Huang <u0084500@gmail.com> 於 2022年6月27日 週一 晚上10:56寫道：
+> >
+> > Lee Jones <lee.jones@linaro.org> 於 2022年6月27日 週一 晚上10:22寫道：
+> > >
+> > > On Wed, 22 Jun 2022, cy_huang wrote:
+> > >
+> > > > From: ChiYuan Huang <cy_huang@richtek.com>
+> > > >
+> > > > Add Richtek RT5120 PMIC I2C driver.
+> > >
+> > > Why a whole new driver?
+> > >
+> > > How different is this to rt5033?
+> > >
+> > > Looks like this could easily be woven into this existing support?
+> > >
+> > It's different with the function domain.
+> > RT5033 is most like as the SubPMIC that includes PMU (battery
+> > charger/gauge/led/few buck and ldo)
+> > RT5120 is a main PMIC with default-on power that follows the boot on sequence.
+> > RT5120 only integrates regulator and power key report module.
+> >
+> Since I have explained the chip difference, do you still think it's
+> better to merge this code into rt5033 mfd?
 
-configs tested: 52
-configs skipped: 2
+I think it's okay to group devices which are similar but not exactly
+the same, if they can be.  The integration of this device into the
+other looks trivial to my naive eyes.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+A PMIC is a PMIC, main or sub.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-ia64                             allmodconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-i386                             allyesconfig
-i386                                defconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-i386                          randconfig-a014
-i386                          randconfig-a012
-i386                          randconfig-a016
-arc                  randconfig-r043-20220629
-riscv                randconfig-r042-20220629
-s390                 randconfig-r044-20220629
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
-
-clang tested configs:
-x86_64                        randconfig-a005
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a006
-x86_64                        randconfig-a012
-x86_64                        randconfig-a016
-x86_64                        randconfig-a014
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-hexagon              randconfig-r045-20220629
-hexagon              randconfig-r041-20220629
+> > > > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> > > > ---
+> > > >  drivers/mfd/Kconfig  |  12 +++++
+> > > >  drivers/mfd/Makefile |   1 +
+> > > >  drivers/mfd/rt5120.c | 125 +++++++++++++++++++++++++++++++++++++++++++++++++++
+> > > >  3 files changed, 138 insertions(+)
+> > > >  create mode 100644 drivers/mfd/rt5120.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
