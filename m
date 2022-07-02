@@ -2,193 +2,273 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A17ED563D61
-	for <lists+linux-input@lfdr.de>; Sat,  2 Jul 2022 03:09:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7ED3563EAC
+	for <lists+linux-input@lfdr.de>; Sat,  2 Jul 2022 07:32:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231722AbiGBBDn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 1 Jul 2022 21:03:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35774 "EHLO
+        id S231254AbiGBFc2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 2 Jul 2022 01:32:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231173AbiGBBDi (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Jul 2022 21:03:38 -0400
-Received: from out1.migadu.com (out1.migadu.com [91.121.223.63])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C4682409E;
-        Fri,  1 Jul 2022 18:03:35 -0700 (PDT)
-Date:   Fri, 1 Jul 2022 18:03:10 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1656723813;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=UefsvJWBOCsJEHG/jcpgIGR+KBtUCRUqjXcROu7qjh4=;
-        b=oGHlDm4tgr6UzDbC5z/sb7q2WEts5mi8mJ8aiIMXBOzW75BRr4BaIuszRL9hOCzoFfVxku
-        tmO6BM7R9GzDDzZbe/MQeyeOEOAx+3VHqH/w/8ecEZ7fImffcNYGlal4Cw/gQ26E9Sym1J
-        usYWeNXz8OdB9Vt23HLuxwKOwXbZ7ng=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Roman Gushchin <roman.gushchin@linux.dev>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        kernel test robot <lkp@intel.com>
-Cc:     virtualization@lists.linux-foundation.org,
-        usbb2k-api-dev@nongnu.org, tipc-discussion@lists.sourceforge.net,
-        target-devel@vger.kernel.org, sound-open-firmware@alsa-project.org,
-        samba-technical@lists.samba.org, rds-devel@oss.oracle.com,
-        patches@opensource.cirrus.com, osmocom-net-gprs@lists.osmocom.org,
-        openipmi-developer@lists.sourceforge.net, nvdimm@lists.linux.dev,
-        ntb@lists.linux.dev, netfilter-devel@vger.kernel.org,
-        netdev@vger.kernel.org, mjpeg-users@lists.sourceforge.net,
-        megaraidlinux.pdl@broadcom.com, linuxppc-dev@lists.ozlabs.org,
-        linux1394-devel@lists.sourceforge.net, linux-x25@vger.kernel.org,
-        linux-wpan@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-unionfs@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
-        linux-sctp@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-raid@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-perf-users@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-parport@lists.infradead.org,
-        linux-parisc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-nfc@lists.01.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-mm@kvack.org,
-        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-fpga@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-cxl@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-cifs@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-bcache@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
-        legousb-devel@lists.sourceforge.net, kvm@vger.kernel.org,
-        keyrings@vger.kernel.org, isdn4linux@listserv.isdn4linux.de,
-        iommu@lists.linux.dev, iommu@lists.linux-foundation.org,
-        intel-wired-lan@lists.osuosl.org, dri-devel@lists.freedesktop.org,
-        dm-devel@redhat.com, devicetree@vger.kernel.org,
-        dev@openvswitch.org, dccp@vger.kernel.org, damon@lists.linux.dev,
-        coreteam@netfilter.org, cgroups@vger.kernel.org,
-        ceph-devel@vger.kernel.org, apparmor@lists.ubuntu.com,
-        amd-gfx@lists.freedesktop.org, alsa-devel@alsa-project.org,
-        accessrunner-general@lists.sourceforge.net
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 6cc11d2a1759275b856e464265823d94aabd5eaf
-Message-ID: <Yr+ZTnLb9lJk6fJO@castle>
-References: <62be3696.+PAAAVlbtWK6G2hk%lkp@intel.com>
+        with ESMTP id S229951AbiGBFc1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 2 Jul 2022 01:32:27 -0400
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FB792FFD8
+        for <linux-input@vger.kernel.org>; Fri,  1 Jul 2022 22:32:26 -0700 (PDT)
+Received: by mail-il1-f200.google.com with SMTP id n16-20020a056e02141000b002dabb875f0aso2118217ilo.10
+        for <linux-input@vger.kernel.org>; Fri, 01 Jul 2022 22:32:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=lNfctuzbaH4yiM4WXjJvx40+Yprk80Qv0BnTbS1ErRs=;
+        b=bQMGMczn4xctU7A5kGFY1McJ8lQ13UyC0pALaKut2rhtHielHcSKBpsj26z+oWhHRy
+         z+KPC41IOAKGoM/83GKLEWCIJZ2X/J47P1dW8ZqOPdzVP9DFVuBOaqnLg3GtWKEGPgiO
+         JeaphvdUG8sQtaIWXeKYl7e1+nMM7SWir+wTf/fo5kaWPAbpCfnVovkWcNeZars/wYFB
+         PPaEdYv43uyrVqNFiSCH0gXRhT72bArinkAz+PnvAW5RICMXaUmrGNrmUOExDLaeXRyB
+         b99unAtc4Q8otkrCwUXBAIsVhZ2UT1hEeNKGGA5llIOF6hn9hgQ1i8yVg6nCJksxye2s
+         um/Q==
+X-Gm-Message-State: AJIora+hzyHzulXT8qEhR5Z/3R2Fp4SQM8qyrq0VRlJLAH1jtquP3Yvj
+        4SLAdUF/2PxTeOXzg1aBBriNez9NYv+dWgs6FV5/TaKZDM6u
+X-Google-Smtp-Source: AGRyM1tsNw/adLnzxZUiotw4LHmsQtO9enGP0wwVw0EEIz+UyC/bN9LYa1oBYh+19rznKrutW8A32KFwihZ0sb/EKZd0BP/fxsRU
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <62be3696.+PAAAVlbtWK6G2hk%lkp@intel.com>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Received: by 2002:a05:6638:380e:b0:33c:bbf7:56c0 with SMTP id
+ i14-20020a056638380e00b0033cbbf756c0mr11359570jav.71.1656739945333; Fri, 01
+ Jul 2022 22:32:25 -0700 (PDT)
+Date:   Fri, 01 Jul 2022 22:32:25 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000ed47a705e2cbd347@google.com>
+Subject: [syzbot] INFO: task hung in __input_unregister_device (4)
+From:   syzbot <syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com>
+To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rydberg@bitmath.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-esOn Fri, Jul 01, 2022 at 07:49:42AM +0800, kbuild test robot wrote:
-> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> branch HEAD: 6cc11d2a1759275b856e464265823d94aabd5eaf  Add linux-next specific files for 20220630
-> 
-> Error/Warning reports:
-> 
-> https://lore.kernel.org/linux-mm/202206301859.UodBCrva-lkp@intel.com
-> 
-> Error/Warning: (recently discovered and may have been fixed)
-> 
-> arch/powerpc/kernel/interrupt.c:542:55: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
-> arch/powerpc/kernel/interrupt.c:542:55: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-> drivers/pci/endpoint/functions/pci-epf-vntb.c:975:5: warning: no previous prototype for 'pci_read' [-Wmissing-prototypes]
-> drivers/pci/endpoint/functions/pci-epf-vntb.c:984:5: warning: no previous prototype for 'pci_write' [-Wmissing-prototypes]
-> mm/shrinker_debug.c:143:9: warning: function 'shrinker_debugfs_rename' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-> mm/shrinker_debug.c:217:9: warning: function 'shrinker_debugfs_rename' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-> mm/vmscan.c:637:9: warning: function 'prealloc_shrinker' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-> mm/vmscan.c:642:9: warning: function 'prealloc_shrinker' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-> mm/vmscan.c:697:9: warning: function 'register_shrinker' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-> mm/vmscan.c:702:9: warning: function 'register_shrinker' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+Hello,
 
-Shrinker-related warnings should be fixed by the following patch.
+syzbot found the following issue on:
 
-Thanks!
+HEAD commit:    a175eca0f3d7 Merge tag 'drm-fixes-2022-07-01' of git://ano..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=17141c97f00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3a010dbf6a7af480
+dashboard link: https://syzkaller.appspot.com/bug?extid=deb6abc36aad4008f407
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
---
+Unfortunately, I don't have any reproducer for this issue yet.
 
-From c399aff65c7745a209397a531c5b28fd404d83c2 Mon Sep 17 00:00:00 2001
-From: Roman Gushchin <roman.gushchin@linux.dev>
-Date: Fri, 1 Jul 2022 17:38:31 -0700
-Subject: [PATCH] mm:shrinkers: fix build warnings
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+deb6abc36aad4008f407@syzkaller.appspotmail.com
 
-Add __printf(a, b) attributes to shrinker functions taking shrinker
-name as an argument to avoid compiler warnings like:
+INFO: task kworker/0:7:3758 blocked for more than 145 seconds.
+      Not tainted 5.19.0-rc4-syzkaller-00125-ga175eca0f3d7 #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/0:7     state:D stack:22944 pid: 3758 ppid:     2 flags:0x00004000
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5146 [inline]
+ __schedule+0xa00/0x4b50 kernel/sched/core.c:6458
+ schedule+0xd2/0x1f0 kernel/sched/core.c:6530
+ schedule_preempt_disabled+0xf/0x20 kernel/sched/core.c:6589
+ __mutex_lock_common kernel/locking/mutex.c:679 [inline]
+ __mutex_lock+0xa70/0x1350 kernel/locking/mutex.c:747
+ input_disconnect_device drivers/input/input.c:784 [inline]
+ __input_unregister_device+0x24/0x470 drivers/input/input.c:2234
+ input_unregister_device+0xb4/0xf0 drivers/input/input.c:2429
+ iforce_usb_disconnect+0x5e/0xf0 drivers/input/joystick/iforce/iforce-usb.c:261
+ usb_unbind_interface+0x1d8/0x8e0 drivers/usb/core/driver.c:458
+ device_remove drivers/base/dd.c:545 [inline]
+ device_remove+0x11f/0x170 drivers/base/dd.c:537
+ __device_release_driver drivers/base/dd.c:1222 [inline]
+ device_release_driver_internal+0x4a1/0x700 drivers/base/dd.c:1248
+ bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:529
+ device_del+0x4f3/0xc80 drivers/base/core.c:3604
+ usb_disable_device+0x35b/0x7b0 drivers/usb/core/message.c:1419
+ usb_disconnect.cold+0x278/0x6ec drivers/usb/core/hub.c:2228
+ hub_port_connect drivers/usb/core/hub.c:5207 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5507 [inline]
+ port_event drivers/usb/core/hub.c:5663 [inline]
+ hub_event+0x1e83/0x4690 drivers/usb/core/hub.c:5745
+ process_one_work+0x996/0x1610 kernel/workqueue.c:2289
+ process_scheduled_works kernel/workqueue.c:2352 [inline]
+ worker_thread+0x854/0x1080 kernel/workqueue.c:2438
+ kthread+0x2e9/0x3a0 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:302
+ </TASK>
 
-mm/shrinker_debug.c:143:9: warning: function 'shrinker_debugfs_rename'
-  might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-mm/shrinker_debug.c:217:9: warning: function 'shrinker_debugfs_rename'
-  might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-mm/vmscan.c:637:9: warning: function 'prealloc_shrinker' might be a
-  candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-mm/vmscan.c:642:9: warning: function 'prealloc_shrinker' might be a
-  candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-mm/vmscan.c:697:9: warning: function 'register_shrinker' might be a
-  candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-mm/vmscan.c:702:9: warning: function 'register_shrinker' might be a
-  candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+Showing all locks held in the system:
+1 lock held by khungtaskd/28:
+ #0: ffffffff8bd83b60 (rcu_read_lock){....}-{1:2}, at: debug_show_all_locks+0x53/0x260 kernel/locking/lockdep.c:6491
+2 locks held by acpid/2961:
+ #0: ffff8880739bc158 (&joydev->mutex){+.+.}-{3:3}, at: joydev_close_device drivers/input/joydev.c:220 [inline]
+ #0: ffff8880739bc158 (&joydev->mutex){+.+.}-{3:3}, at: joydev_release+0x187/0x290 drivers/input/joydev.c:252
+ #1: ffff88807c9c02c0 (&dev->mutex#2){+.+.}-{3:3}, at: input_close_device+0x42/0x1f0 drivers/input/input.c:726
+2 locks held by getty/3294:
+ #0: ffff88814ab20098 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x22/0x80 drivers/tty/tty_ldisc.c:244
+ #1: ffffc90001c282e8 (&ldata->atomic_read_lock){+.+.}-{3:3}, at: n_tty_read+0xe50/0x13c0 drivers/tty/n_tty.c:2124
+3 locks held by kworker/0:3/3682:
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: arch_atomic64_set arch/x86/include/asm/atomic64_64.h:34 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: arch_atomic_long_set include/linux/atomic/atomic-long.h:41 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: atomic_long_set include/linux/atomic/atomic-instrumented.h:1280 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: set_work_data kernel/workqueue.c:636 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: set_work_pool_and_clear_pending kernel/workqueue.c:663 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x87a/0x1610 kernel/workqueue.c:2260
+ #1: ffffc90003897da8 (fqdir_free_work){+.+.}-{0:0}, at: process_one_work+0x8ae/0x1610 kernel/workqueue.c:2264
+ #2: ffffffff8bd8dd28 (rcu_state.barrier_mutex){+.+.}-{3:3}, at: rcu_barrier+0x44/0x630 kernel/rcu/tree.c:4105
+3 locks held by kworker/1:9/3733:
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: arch_atomic64_set arch/x86/include/asm/atomic64_64.h:34 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: arch_atomic_long_set include/linux/atomic/atomic-long.h:41 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: atomic_long_set include/linux/atomic/atomic-instrumented.h:1280 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: set_work_data kernel/workqueue.c:636 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: set_work_pool_and_clear_pending kernel/workqueue.c:663 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x87a/0x1610 kernel/workqueue.c:2260
+ #1: ffffc90003f2fda8 ((work_completion)(&map->work)){+.+.}-{0:0}, at: process_one_work+0x8ae/0x1610 kernel/workqueue.c:2264
+ #2: ffffffff8bd8de60 (rcu_state.exp_mutex){+.+.}-{3:3}, at: exp_funnel_lock kernel/rcu/tree_exp.h:322 [inline]
+ #2: ffffffff8bd8de60 (rcu_state.exp_mutex){+.+.}-{3:3}, at: synchronize_rcu_expedited+0x2d3/0x610 kernel/rcu/tree_exp.h:927
+6 locks held by kworker/0:7/3758:
+ #0: ffff8881457afd38 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: arch_atomic64_set arch/x86/include/asm/atomic64_64.h:34 [inline]
+ #0: ffff8881457afd38 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: arch_atomic_long_set include/linux/atomic/atomic-long.h:41 [inline]
+ #0: ffff8881457afd38 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: atomic_long_set include/linux/atomic/atomic-instrumented.h:1280 [inline]
+ #0: ffff8881457afd38 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: set_work_data kernel/workqueue.c:636 [inline]
+ #0: ffff8881457afd38 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: set_work_pool_and_clear_pending kernel/workqueue.c:663 [inline]
+ #0: ffff8881457afd38 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x87a/0x1610 kernel/workqueue.c:2260
+ #1: ffffc90003fd7da8 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x8ae/0x1610 kernel/workqueue.c:2264
+ #2: ffff888021e32190 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:835 [inline]
+ #2: ffff888021e32190 (&dev->mutex){....}-{3:3}, at: hub_event+0x1c1/0x4690 drivers/usb/core/hub.c:5691
+ #3: ffff888042b67190 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:835 [inline]
+ #3: ffff888042b67190 (&dev->mutex){....}-{3:3}, at: usb_disconnect.cold+0x43/0x6ec drivers/usb/core/hub.c:2219
+ #4: ffff888072997118 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:835 [inline]
+ #4: ffff888072997118 (&dev->mutex){....}-{3:3}, at: __device_driver_lock drivers/base/dd.c:1054 [inline]
+ #4: ffff888072997118 (&dev->mutex){....}-{3:3}, at: device_release_driver_internal+0xa0/0x700 drivers/base/dd.c:1245
+ #5: ffff88807c9c02c0 (&dev->mutex#2){+.+.}-{3:3}, at: input_disconnect_device drivers/input/input.c:784 [inline]
+ #5: ffff88807c9c02c0 (&dev->mutex#2){+.+.}-{3:3}, at: __input_unregister_device+0x24/0x470 drivers/input/input.c:2234
+3 locks held by kworker/u4:11/4030:
+ #0: ffff8881400a3138 ((wq_completion)netns){+.+.}-{0:0}, at: arch_atomic64_set arch/x86/include/asm/atomic64_64.h:34 [inline]
+ #0: ffff8881400a3138 ((wq_completion)netns){+.+.}-{0:0}, at: arch_atomic_long_set include/linux/atomic/atomic-long.h:41 [inline]
+ #0: ffff8881400a3138 ((wq_completion)netns){+.+.}-{0:0}, at: atomic_long_set include/linux/atomic/atomic-instrumented.h:1280 [inline]
+ #0: ffff8881400a3138 ((wq_completion)netns){+.+.}-{0:0}, at: set_work_data kernel/workqueue.c:636 [inline]
+ #0: ffff8881400a3138 ((wq_completion)netns){+.+.}-{0:0}, at: set_work_pool_and_clear_pending kernel/workqueue.c:663 [inline]
+ #0: ffff8881400a3138 ((wq_completion)netns){+.+.}-{0:0}, at: process_one_work+0x87a/0x1610 kernel/workqueue.c:2260
+ #1: ffffc90004517da8 (net_cleanup_work){+.+.}-{0:0}, at: process_one_work+0x8ae/0x1610 kernel/workqueue.c:2264
+ #2: ffffffff8d572f10 (pernet_ops_rwsem){++++}-{3:3}, at: cleanup_net+0x9b/0xb00 net/core/net_namespace.c:556
+2 locks held by udevd/6583:
+ #0: ffff888022137110 (&evdev->mutex){+.+.}-{3:3}, at: evdev_open_device drivers/input/evdev.c:393 [inline]
+ #0: ffff888022137110 (&evdev->mutex){+.+.}-{3:3}, at: evdev_open+0x2f3/0x6a0 drivers/input/evdev.c:487
+ #1: ffff88807c9c02c0 (&dev->mutex#2){+.+.}-{3:3}, at: input_open_device+0x4a/0x320 drivers/input/input.c:656
+3 locks held by kworker/1:11/6796:
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: arch_atomic64_set arch/x86/include/asm/atomic64_64.h:34 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: arch_atomic_long_set include/linux/atomic/atomic-long.h:41 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: atomic_long_set include/linux/atomic/atomic-instrumented.h:1280 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: set_work_data kernel/workqueue.c:636 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: set_work_pool_and_clear_pending kernel/workqueue.c:663 [inline]
+ #0: ffff888011867d38 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x87a/0x1610 kernel/workqueue.c:2260
+ #1: ffffc9000407fda8 ((work_completion)(&map->work)){+.+.}-{0:0}, at: process_one_work+0x8ae/0x1610 kernel/workqueue.c:2264
+ #2: ffffffff8bd8dd28 (rcu_state.barrier_mutex){+.+.}-{3:3}, at: rcu_barrier+0x44/0x630 kernel/rcu/tree.c:4105
+1 lock held by syz-executor.5/10484:
+ #0: ffffffff8bd8dd28 (rcu_state.barrier_mutex){+.+.}-{3:3}, at: rcu_barrier+0x44/0x630 kernel/rcu/tree.c:4105
+1 lock held by syz-executor.4/10494:
+ #0: ffffffff8bdc8b50 (cgroup_threadgroup_rwsem){++++}-{0:0}, at: do_exit+0x50d/0x2a00 kernel/exit.c:751
+1 lock held by syz-executor.4/10498:
+ #0: ffffffff8bdc8b50 (cgroup_threadgroup_rwsem){++++}-{0:0}, at: do_exit+0x50d/0x2a00 kernel/exit.c:751
+1 lock held by syz-executor.4/10503:
+ #0: ffffffff8bdc8b50 (cgroup_threadgroup_rwsem){++++}-{0:0}, at: copy_process+0x43c1/0x7020 kernel/fork.c:2344
+1 lock held by syz-executor.4/10506:
+ #0: ffffffff8bdc8b50 (cgroup_threadgroup_rwsem){++++}-{0:0}, at: do_exit+0x50d/0x2a00 kernel/exit.c:751
+1 lock held by syz-executor.2/10495:
+ #0: ffffffff8bd8dd28 (rcu_state.barrier_mutex){+.+.}-{3:3}, at: rcu_barrier+0x44/0x630 kernel/rcu/tree.c:4105
+1 lock held by syz-executor.3/10500:
+ #0: ffffffff8bd8dd28 (rcu_state.barrier_mutex){+.+.}-{3:3}, at: rcu_barrier+0x44/0x630 kernel/rcu/tree.c:4105
+1 lock held by syz-executor.1/10508:
+ #0: ffffffff8bdc8b50 (cgroup_threadgroup_rwsem){++++}-{0:0}, at: copy_process+0x43c1/0x7020 kernel/fork.c:2344
+4 locks held by kvm-nx-lpage-re/10511:
+ #0: ffffffff8bdc8d88 (cgroup_mutex){+.+.}-{3:3}, at: cgroup_attach_task_all+0x21/0x140 kernel/cgroup/cgroup-v1.c:61
+ #1: ffffffff8bdc8b50 (cgroup_threadgroup_rwsem){++++}-{0:0}, at: cgroup_attach_task_all+0x2d/0x140 kernel/cgroup/cgroup-v1.c:62
+ #2: ffffffff8bdd7050 (&cpuset_rwsem){++++}-{0:0}, at: cpuset_can_attach+0xe8/0x440 kernel/cgroup/cpuset.c:2233
+ #3: ffffffff8bd8de60 (rcu_state.exp_mutex){+.+.}-{3:3}, at: exp_funnel_lock kernel/rcu/tree_exp.h:290 [inline]
+ #3: ffffffff8bd8de60 (rcu_state.exp_mutex){+.+.}-{3:3}, at: synchronize_rcu_expedited+0x4f8/0x610 kernel/rcu/tree_exp.h:927
 
-Signed-off-by: Roman Gushchin <roman.gushchin@linux.dev>
+=============================================
+
+NMI backtrace for cpu 1
+CPU: 1 PID: 28 Comm: khungtaskd Not tainted 5.19.0-rc4-syzkaller-00125-ga175eca0f3d7 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/18/2022
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+ nmi_cpu_backtrace.cold+0x47/0x144 lib/nmi_backtrace.c:111
+ nmi_trigger_cpumask_backtrace+0x1e6/0x230 lib/nmi_backtrace.c:62
+ trigger_all_cpu_backtrace include/linux/nmi.h:146 [inline]
+ check_hung_uninterruptible_tasks kernel/hung_task.c:212 [inline]
+ watchdog+0xc1d/0xf50 kernel/hung_task.c:369
+ kthread+0x2e9/0x3a0 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:302
+ </TASK>
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 6986 Comm: kworker/u4:21 Not tainted 5.19.0-rc4-syzkaller-00125-ga175eca0f3d7 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/18/2022
+Workqueue: bat_events batadv_nc_worker
+RIP: 0010:lock_release+0x28/0x780 kernel/locking/lockdep.c:5673
+Code: 00 00 48 b8 00 00 00 00 00 fc ff df 41 57 41 56 41 55 41 54 49 89 fc 55 53 48 81 ec 90 00 00 00 48 8d 6c 24 10 48 89 74 24 08 <48> c7 44 24 10 b3 8a b5 41 48 c1 ed 03 48 c7 44 24 18 48 f6 5f 8b
+RSP: 0018:ffffc9000430fbc0 EFLAGS: 00000286
+RAX: dffffc0000000000 RBX: 0000000000000001 RCX: 0000000000000000
+RDX: ffff8880497d01c0 RSI: ffffffff8910b8d9 RDI: ffffffff8bd83b60
+RBP: ffffc9000430fbd0 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000001 R12: ffffffff8bd83b60
+R13: 0000000000000000 R14: dffffc0000000000 R15: 000000000000019f
+FS:  0000000000000000(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f29883691b8 CR3: 000000000ba8e000 CR4: 00000000003526f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ rcu_lock_release include/linux/rcupdate.h:274 [inline]
+ rcu_read_unlock include/linux/rcupdate.h:728 [inline]
+ batadv_nc_purge_orig_hash net/batman-adv/network-coding.c:412 [inline]
+ batadv_nc_worker+0x86b/0xfa0 net/batman-adv/network-coding.c:719
+ process_one_work+0x996/0x1610 kernel/workqueue.c:2289
+ worker_thread+0x665/0x1080 kernel/workqueue.c:2436
+ kthread+0x2e9/0x3a0 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:302
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	00 00                	add    %al,(%rax)
+   2:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+   9:	fc ff df
+   c:	41 57                	push   %r15
+   e:	41 56                	push   %r14
+  10:	41 55                	push   %r13
+  12:	41 54                	push   %r12
+  14:	49 89 fc             	mov    %rdi,%r12
+  17:	55                   	push   %rbp
+  18:	53                   	push   %rbx
+  19:	48 81 ec 90 00 00 00 	sub    $0x90,%rsp
+  20:	48 8d 6c 24 10       	lea    0x10(%rsp),%rbp
+  25:	48 89 74 24 08       	mov    %rsi,0x8(%rsp)
+* 2a:	48 c7 44 24 10 b3 8a 	movq   $0x41b58ab3,0x10(%rsp) <-- trapping instruction
+  31:	b5 41
+  33:	48 c1 ed 03          	shr    $0x3,%rbp
+  37:	48 c7 44 24 18 48 f6 	movq   $0xffffffff8b5ff648,0x18(%rsp)
+  3e:	5f 8b
+
+
 ---
- include/linux/shrinker.h | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/include/linux/shrinker.h b/include/linux/shrinker.h
-index 64416f3e0a1f..08e6054e061f 100644
---- a/include/linux/shrinker.h
-+++ b/include/linux/shrinker.h
-@@ -93,9 +93,11 @@ struct shrinker {
-  */
- #define SHRINKER_NONSLAB	(1 << 3)
- 
--extern int prealloc_shrinker(struct shrinker *shrinker, const char *fmt, ...);
-+extern int __printf(2, 3) prealloc_shrinker(struct shrinker *shrinker,
-+					    const char *fmt, ...);
- extern void register_shrinker_prepared(struct shrinker *shrinker);
--extern int register_shrinker(struct shrinker *shrinker, const char *fmt, ...);
-+extern int __printf(2, 3) register_shrinker(struct shrinker *shrinker,
-+					    const char *fmt, ...);
- extern void unregister_shrinker(struct shrinker *shrinker);
- extern void free_prealloced_shrinker(struct shrinker *shrinker);
- extern void synchronize_shrinkers(void);
-@@ -103,8 +105,8 @@ extern void synchronize_shrinkers(void);
- #ifdef CONFIG_SHRINKER_DEBUG
- extern int shrinker_debugfs_add(struct shrinker *shrinker);
- extern void shrinker_debugfs_remove(struct shrinker *shrinker);
--extern int shrinker_debugfs_rename(struct shrinker *shrinker,
--				   const char *fmt, ...);
-+extern int __printf(2, 3) shrinker_debugfs_rename(struct shrinker *shrinker,
-+						  const char *fmt, ...);
- #else /* CONFIG_SHRINKER_DEBUG */
- static inline int shrinker_debugfs_add(struct shrinker *shrinker)
- {
-@@ -113,8 +115,8 @@ static inline int shrinker_debugfs_add(struct shrinker *shrinker)
- static inline void shrinker_debugfs_remove(struct shrinker *shrinker)
- {
- }
--static inline int shrinker_debugfs_rename(struct shrinker *shrinker,
--					  const char *fmt, ...)
-+static inline __printf(2, 3)
-+int shrinker_debugfs_rename(struct shrinker *shrinker, const char *fmt, ...)
- {
- 	return 0;
- }
--- 
-2.36.1
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
