@@ -2,127 +2,157 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C6A0564F4B
-	for <lists+linux-input@lfdr.de>; Mon,  4 Jul 2022 10:07:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A176256508B
+	for <lists+linux-input@lfdr.de>; Mon,  4 Jul 2022 11:15:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233009AbiGDIGr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 4 Jul 2022 04:06:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48492 "EHLO
+        id S233497AbiGDJO6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 4 Jul 2022 05:14:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229658AbiGDIGp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 4 Jul 2022 04:06:45 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31CD5B1CD
-        for <linux-input@vger.kernel.org>; Mon,  4 Jul 2022 01:06:43 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id b19so10092655ljf.6
-        for <linux-input@vger.kernel.org>; Mon, 04 Jul 2022 01:06:43 -0700 (PDT)
+        with ESMTP id S233281AbiGDJO6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 4 Jul 2022 05:14:58 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03770BC3E;
+        Mon,  4 Jul 2022 02:14:55 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id s1so12501804wra.9;
+        Mon, 04 Jul 2022 02:14:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=W9vEcsuPOmb6PFD1YP9Cd5t2i8+H7vKDdbGELGM7w6o=;
-        b=qIVH3JbKvPTI90pL62KYY0CE73JeN2SUYSrBybV8uswZCRUzC7TyQR8SVFp8MZtE+n
-         xr7tJOlv3L2n5ZyjubWWSM+HvxpWMMviQPJGc+z61rfEV7BG6cQlF6JShpAp0jtu8vVF
-         ceTB3j2pH2b/Yt1sE4BJDCgHdKQmyfJZMtTr8D5mHqeWpIZvfd9zndu2IJA4nuyF61qJ
-         PLuksfEnXLVGlUXKspIWeM/QLHcLr0LmFBlIvSpGCb9lgFdOCT5hGek9uM/lI/l3D+aq
-         iN+8aCJy4pGjNnJY/joNcWnXboVwrTUBBtxKGrp15wZVhuCWO0JNd1/VK0fRmlhAUyqW
-         ctvw==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Yc4lYWwzEOzXTvm8qWxOUdmsNeEUzr98rKILhdcSP3c=;
+        b=dADAT3F3oDXchB4cPDwVEhVt7H1zHQeWzAfcL5bsqsLXd3HMdhmFnAEoEuazs3GIel
+         puP2n4cAPXgfL2o0tRZKrrOl4sCUKYCcaD9P/ZYlCPg3hjgl1LUpy9YvB/LAnJjOfa7O
+         R5gVtbMFH4a0o1hdDmi4oGD+zlHrXz5tuQFaAcpzNp70PBXhrbv/QxjOAvk+a49tZxzC
+         8R1XI9ZqcfsFAn45/oNvC7mt+FiPrKkzulEyPIixkYX+Dx73udeAV1aARwYyuATbDjp0
+         POBaxrFiMzf+Llzy6/qayqbe5cj5ZeyiEiGzCzp8kxVUylAnG2IB7pQhy2p3iziec3YZ
+         +1Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=W9vEcsuPOmb6PFD1YP9Cd5t2i8+H7vKDdbGELGM7w6o=;
-        b=oCaJehY63G8JvM0Rv0qrHkr+hRfx8JhMYhvjGRxHJzOMyHnrYAnqzcq/Bv46z6iBbM
-         Cf26sB1tOHdA5n/Gg0pSGskrJt/6gVh6x50RRysxnTPwwYelIea/DXq/1Z571poXZPbF
-         endUB5I/HmChAChL7UCdhZq5+zt1Vab7XTOdJWY1Z4Z1MzgL6VMwQmueEj/W/7IssOxt
-         JWbe6ulrv6rFUxh2/Ap/0P6UIyf28pUvv/bg1I2wxNM1oDAIUp/DVzP0E5osm5PftW60
-         KWdD89YSJMsWQkDIg9hYtSkJQFM+UYdclUsFFJvzOFcpC03TQY+Kurvc98OTMqLrYkln
-         lKZQ==
-X-Gm-Message-State: AJIora8vMJGCLhm0F12VPkl7doDgwvvhCNlxl1ds7+suiAy4jIJN+Lni
-        zJE2HO4zQcfDBhrtDoDU5uir8A==
-X-Google-Smtp-Source: AGRyM1shyweS5X2mqdSfWYknlmTWWG1DGobjjvfheeS4TSNX76HtThJhWEt1hwbwlkge4YLK4Rb5CA==
-X-Received: by 2002:a2e:9097:0:b0:25a:6e3a:8b21 with SMTP id l23-20020a2e9097000000b0025a6e3a8b21mr15698533ljg.37.1656922001547;
-        Mon, 04 Jul 2022 01:06:41 -0700 (PDT)
-Received: from [192.168.1.52] ([84.20.121.239])
-        by smtp.gmail.com with ESMTPSA id b8-20020a056512218800b0047f7c897b61sm5018145lft.129.2022.07.04.01.06.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Jul 2022 01:06:40 -0700 (PDT)
-Message-ID: <2823c36d-efce-6c02-3b00-df1466c0d2bc@linaro.org>
-Date:   Mon, 4 Jul 2022 10:06:39 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Yc4lYWwzEOzXTvm8qWxOUdmsNeEUzr98rKILhdcSP3c=;
+        b=zzXkDRZj9HHfpDbEsjvtBw2oguiqlXsrOC/5Aq7yYfxizClbqIDUiB7S/mxO1Ar1wj
+         HOZ8nhFC/44NsgXnrbVOwQB3LM0k0JrsXhckpG2DGnsjw/ywHMWno/ki0OpJ333K2GJd
+         I4MR9AAxljIjiv+iY8MmvU0oIhJThKxsueckN4o3esifc3a2yCI9yS+skDyMU9RmigW4
+         ZRLQR5ed4TIpDO6KZWwtGyA1lPphGXIrRejJ8vHpEtqGFnpze3pxi+C3/4TVIZ4NEJDT
+         rl2qm8fCRUo24snqncbRMskWKIqq+RnJ2gyxbxSBdhfPQjQtLsKw9OFTw9pfHyZh7ru/
+         r9/Q==
+X-Gm-Message-State: AJIora9796VwwxjONgcyREo7UJmZh08WACHUf+CF64xPn646+BM21sOW
+        CkOrkrIb+2ceXcrkvuoXsmhDPb/YuvLNGrVB6hk=
+X-Google-Smtp-Source: AGRyM1vCPUyNA+nFhTXDc7wYqahvznxwTVhF4YLMHCSyKk2h1OxUqgzQyfDddA7JfsLDA7eO5RGZ9wqjioeMB2GTZJs=
+X-Received: by 2002:adf:f043:0:b0:21d:6a90:f3e6 with SMTP id
+ t3-20020adff043000000b0021d6a90f3e6mr3711342wro.277.1656926093427; Mon, 04
+ Jul 2022 02:14:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v6 10/14] arm64: dts: freescale: imx8qxp: Remove
- unnecessary clock related entries
-Content-Language: en-US
-To:     Viorel Suman <viorel.suman@oss.nxp.com>
-Cc:     Viorel Suman <viorel.suman@nxp.com>,
-        Rob Herring <robh+dt@kernel.org>,
+References: <1655892104-10874-1-git-send-email-u0084500@gmail.com>
+ <1655892104-10874-3-git-send-email-u0084500@gmail.com> <Yrm9ObaltUiQUTqS@google.com>
+ <CADiBU3802sLTPjrGiaQ-xw-2jep1UXo+t7pYc6bCC4MiJLhOyA@mail.gmail.com>
+ <CADiBU3838Mgi3sqv+R_=8g-ROTrbN45AKPaTS_9GCWVDYASMyg@mail.gmail.com>
+ <Yr6kVg2OlHkm6+bB@google.com> <CADiBU396poOuzdGABzTazouM5MX=auZ9OdyT_sqWrKnZk3tFRw@mail.gmail.com>
+In-Reply-To: <CADiBU396poOuzdGABzTazouM5MX=auZ9OdyT_sqWrKnZk3tFRw@mail.gmail.com>
+From:   ChiYuan Huang <u0084500@gmail.com>
+Date:   Mon, 4 Jul 2022 17:14:41 +0800
+Message-ID: <CADiBU3_7MmPkfV7-B8rhxFRtZcrJ6BPocXzT4bs3cu36UR5XGw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] mfd: rt5120: Add Richtek PMIC support
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Abel Vesa <abelvesa@kernel.org>,
-        Oliver Graute <oliver.graute@kococonnector.com>,
-        Liu Ying <victor.liu@nxp.com>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>,
-        Peng Fan <peng.fan@nxp.com>, Ming Qian <ming.qian@nxp.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20220629164414.301813-1-viorel.suman@oss.nxp.com>
- <20220629164414.301813-11-viorel.suman@oss.nxp.com>
- <483d5115-4027-e811-8bce-15da6c7c660f@linaro.org>
- <20220630083636.2c7mclmbq3tjma2j@fsr-ub1664-116>
- <5d8b2044-5ca6-c90c-57b4-afbb2ae20dde@linaro.org>
- <20220630194804.sa3mvokpv7iksgbx@fsr-ub1664-116>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220630194804.sa3mvokpv7iksgbx@fsr-ub1664-116>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Mark Brown <broonie@kernel.org>, dmitry.torokhov@gmail.com,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        cy_huang <cy_huang@richtek.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 30/06/2022 21:48, Viorel Suman wrote:
-> 
-> The question context looks a bit shifted. The "clocks" and "clock-names"
-> attributes are removed from a clock provider device.
-> 
-> The OS clock provider in this case is a client which uses some protocol
-> to communicate with SCU via a messaging unit. There is no
-> access to xtal clocks via the existing OS<->SCU communication protocol.
+Hi, Lee:
 
-SCU does not need to access them via communication protocol. It's enough
-that they are clock inputs, physical clocks being fed to your hardware
-which you describe in the DTS.
+ChiYuan Huang <u0084500@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=9C=881=E6=97=
+=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=885:56=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> Lee Jones <lee.jones@linaro.org> =E6=96=BC 2022=E5=B9=B47=E6=9C=881=E6=97=
+=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:38=E5=AF=AB=E9=81=93=EF=BC=9A
+> >
+> > On Fri, 01 Jul 2022, ChiYuan Huang wrote:
+> >
+> > > HI, Lee:
+> > >
+> > > ChiYuan Huang <u0084500@gmail.com> =E6=96=BC 2022=E5=B9=B46=E6=9C=882=
+7=E6=97=A5 =E9=80=B1=E4=B8=80 =E6=99=9A=E4=B8=8A10:56=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+> > > >
+> > > > Lee Jones <lee.jones@linaro.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=882=
+7=E6=97=A5 =E9=80=B1=E4=B8=80 =E6=99=9A=E4=B8=8A10:22=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+> > > > >
+> > > > > On Wed, 22 Jun 2022, cy_huang wrote:
+> > > > >
+> > > > > > From: ChiYuan Huang <cy_huang@richtek.com>
+> > > > > >
+> > > > > > Add Richtek RT5120 PMIC I2C driver.
+> > > > >
+> > > > > Why a whole new driver?
+> > > > >
+> > > > > How different is this to rt5033?
+> > > > >
+> > > > > Looks like this could easily be woven into this existing support?
+> > > > >
+> > > > It's different with the function domain.
+> > > > RT5033 is most like as the SubPMIC that includes PMU (battery
+> > > > charger/gauge/led/few buck and ldo)
+> > > > RT5120 is a main PMIC with default-on power that follows the boot o=
+n sequence.
+> > > > RT5120 only integrates regulator and power key report module.
+> > > >
+> > > Since I have explained the chip difference, do you still think it's
+> > > better to merge this code into rt5033 mfd?
+> >
+> > I think it's okay to group devices which are similar but not exactly
+> > the same, if they can be.  The integration of this device into the
+> > other looks trivial to my naive eyes.
+> >
+> > A PMIC is a PMIC, main or sub.
+> >
+> M.. ok. I will try to group all chip changes like as devices
+> list/regmap_irq/regmap_config ..., etc.
+> Treat it as one set of chip config and use 'of_device_get_match_data'
+> to get the chip config data.
+>
+There's a question.
+As I know, it's not the same chip series.
+The rt5033 is submitted from Samsung at 2015.
+The driver data is also defined in header file.
 
+Do you still suggest to do the merge?
+Even in our internal, it's difficult to find a rt5033 EVB for testing.
 
-Best regards,
-Krzysztof
+And one more question is the binding. If yes, for the binding, I need to ad=
+d
+rt5033 related.....
+
+Actually, it's a tough work.
+> > > > > > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> > > > > > ---
+> > > > > >  drivers/mfd/Kconfig  |  12 +++++
+> > > > > >  drivers/mfd/Makefile |   1 +
+> > > > > >  drivers/mfd/rt5120.c | 125 +++++++++++++++++++++++++++++++++++=
+++++++++++++++++
+> > > > > >  3 files changed, 138 insertions(+)
+> > > > > >  create mode 100644 drivers/mfd/rt5120.c
+> >
+> > --
+> > Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+> > Principal Technical Lead - Developer Services
+> > Linaro.org =E2=94=82 Open source software for Arm SoCs
+> > Follow Linaro: Facebook | Twitter | Blog
