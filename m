@@ -2,70 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EBB356681A
-	for <lists+linux-input@lfdr.de>; Tue,  5 Jul 2022 12:37:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE23C5669CE
+	for <lists+linux-input@lfdr.de>; Tue,  5 Jul 2022 13:39:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231601AbiGEKhK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 5 Jul 2022 06:37:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59292 "EHLO
+        id S230463AbiGELjv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 5 Jul 2022 07:39:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231310AbiGEKhJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Jul 2022 06:37:09 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ECFDAE5A
-        for <linux-input@vger.kernel.org>; Tue,  5 Jul 2022 03:37:08 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o8fuq-0001LC-19; Tue, 05 Jul 2022 12:36:24 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o8fue-004XxA-J7; Tue, 05 Jul 2022 12:36:16 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o8fuh-0038F6-8t; Tue, 05 Jul 2022 12:36:15 +0200
-Date:   Tue, 5 Jul 2022 12:36:15 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Jean Delvare <jdelvare@suse.de>
-Cc:     Wolfram Sang <wsa@kernel.org>, Guenter Roeck <groeck@chromium.org>,
-        linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
-        linux-omap@vger.kernel.org, linux-mtd@lists.infradead.org,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        acpi4asus-user@lists.sourceforge.net, linux-pm@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-Message-ID: <20220705103615.ceeq7rku53x743ps@pengutronix.de>
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
- <20220705120852.049dc235@endymion.delvare>
+        with ESMTP id S229457AbiGELju (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Jul 2022 07:39:50 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D266613F57
+        for <linux-input@vger.kernel.org>; Tue,  5 Jul 2022 04:39:49 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id a11so14149950ljb.5
+        for <linux-input@vger.kernel.org>; Tue, 05 Jul 2022 04:39:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language
+         :from:to:cc:references:in-reply-to:content-transfer-encoding;
+        bh=XqGBUv2bVR1BBSn8EmBr/HQnR9EoIw7gIb/DairnNFs=;
+        b=PFKl7oPUIaa88zrn/8CuiC9DcDwgPU9BOA7TQp+ajBf9ok1bO4vKFtl3kvuBJPJOI9
+         dGDn0fLKhP3juMGTXuKIiFXoOdfxnMm2KHHC16ifNTHxSOhAuF0P6WHNEOEdyTJeNFS7
+         Sojpv2Dk21v+58u6CN8JG2J6KojXC/82auKbdYzsNcLeRI2+qPR6/pA8QCHkOHJfTX//
+         doEauC0AzOHgVVSRHJCNmRebm4ur3hyPl4J51ByC6D/TgttQF/ZKMahwaA96xbXxp81R
+         X3yTggTyd0ULkcukRCKknDBWI/aQaR9f04EdfHXP1jDVcZ30YYXsf6mbxSzj/iIUpjqS
+         lXmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:from:to:cc:references:in-reply-to
+         :content-transfer-encoding;
+        bh=XqGBUv2bVR1BBSn8EmBr/HQnR9EoIw7gIb/DairnNFs=;
+        b=oBf830QfwgFxPM/WJ/kG42DwSNlMYME0uQW7B56QX3C/1QPnRKAVFUaAxGRqx2qYYN
+         hZMU8P0ogx2hITyYbvygdLolmRkNngSybNJhRxCs/ZTTB+6Kq5SuQN7T1emowSpfiuEu
+         I5Ms9QQyYJ4ZcqOx9BwzNoqqdCoc30wfZfuKbcJNEyqI4LgWXutSmYblZ4sCohXQ90l+
+         hSf+wRHNVBQm4cwbSPNw9Xl+KpFRLumUqMkndJXPjuLtq2eyREssjrzlaEaQgGC/t4IM
+         dDCNKxu74lnhxf5rY+ZaMRa/30QFr+61k/uRDUSFpNQapTHNLP9lCc4B5XzbRdKErci9
+         BAWw==
+X-Gm-Message-State: AJIora/V0Iu2/V8/ReuLSuN/Ou+0fTal+qyM69IecmgxEBkMalRg0KyA
+        S7w5NKPkdguNU2IZZo74gNdYYA==
+X-Google-Smtp-Source: AGRyM1u/pjN+NyojeJVROuh8VlGN3O/Cf8pqXVDdLH/73GyJfjJZGzyKzW5enrA3dEZc9SxANQukzw==
+X-Received: by 2002:a2e:bc22:0:b0:25b:c3b6:eb11 with SMTP id b34-20020a2ebc22000000b0025bc3b6eb11mr20157656ljf.122.1657021188242;
+        Tue, 05 Jul 2022 04:39:48 -0700 (PDT)
+Received: from [192.168.1.52] ([84.20.121.239])
+        by smtp.gmail.com with ESMTPSA id s8-20020a056512202800b0047f750ecd8csm5663357lfs.67.2022.07.05.04.39.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Jul 2022 04:39:47 -0700 (PDT)
+Message-ID: <c2c1cf0c-9462-9ba5-a297-70d13a063de1@linaro.org>
+Date:   Tue, 5 Jul 2022 13:39:46 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="gut2agzhpaayxotv"
-Content-Disposition: inline
-In-Reply-To: <20220705120852.049dc235@endymion.delvare>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 01/40] dt-bindings: input: gpio-keys: enforce node
+ names to match all properties
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     soc@kernel.org, linux-kernel@vger.kernel.org,
+        Olof Johansson <olof@lixom.net>, devicetree@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh@kernel.org>, arm@kernel.org,
+        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
+References: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org>
+ <20220616005333.18491-1-krzysztof.kozlowski@linaro.org>
+ <cab6fd96-4b8e-42a3-4dce-db63656df92c@linaro.org>
+In-Reply-To: <cab6fd96-4b8e-42a3-4dce-db63656df92c@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,90 +80,35 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On 27/06/2022 10:17, Krzysztof Kozlowski wrote:
+> On 16/06/2022 02:52, Krzysztof Kozlowski wrote:
+>> The gpio-keys DT schema matches all properties with a wide pattern and
+>> applies specific schema to children.  This has drawback - all regular
+>> properties are also matched and are silently ignored, even if they are
+>> not described in schema.  Basically this allows any non-object property
+>> to be present.
+>>
+>> Enforce specific naming pattern for children (keys) to narrow the
+>> pattern thus do not match other properties.  This will require all
+>> children to be properly prefixed or suffixed (button, event, switch or
+>> key).
+>>
+>> Removal of "if:" within patternProperties causes drop of one indentation
+>> level, but there are no other changes in the affected block.
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Reviewed-by: Rob Herring <robh@kernel.org>
+>> ---
+>>  .../devicetree/bindings/input/gpio-keys.yaml  | 157 +++++++++---------
+>>  1 file changed, 77 insertions(+), 80 deletions(-)
+>>
+> 
+> Dmitry,
+> 
+> Any comments from your side? Are you planning to pick up the dt-bindings
+> here (patch 1-3)?
 
---gut2agzhpaayxotv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hmmm, I guess this should go via dt-bindings then...
 
-On Tue, Jul 05, 2022 at 12:08:52PM +0200, Jean Delvare wrote:
-> On Tue, 28 Jun 2022 16:03:12 +0200, Uwe Kleine-K=F6nig wrote:
-> > From: Uwe Kleine-K=F6nig <uwe@kleine-koenig.org>
-> >=20
-> > The value returned by an i2c driver's remove function is mostly ignored.
-> > (Only an error message is printed if the value is non-zero that the
-> > error is ignored.)
-> >=20
-> > So change the prototype of the remove function to return no value. This
-> > way driver authors are not tempted to assume that passing an error to
-> > the upper layer is a good idea. All drivers are adapted accordingly.
-> > There is no intended change of behaviour, all callbacks were prepared to
-> > return 0 before.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > ---
->=20
-> That's a huge change for a relatively small benefit, but if this is
-> approved by the I2C core maintainer then fine with me. For:
-
-Agreed, it's huge. The benefit isn't really measureable, the motivation
-is to improve the situation for driver authors who with the change
-cannot make wrong assumptions about what to return in .remove(). During
-the preparation this uncovered a few bugs. See for example
-bbc126ae381cf0a27822c1f822d0aeed74cc40d9.
-
-> >  drivers/hwmon/adc128d818.c                                | 4 +---
-> >  drivers/hwmon/adt7470.c                                   | 3 +--
-> >  drivers/hwmon/asb100.c                                    | 6 ++----
-> >  drivers/hwmon/asc7621.c                                   | 4 +---
-> >  drivers/hwmon/dme1737.c                                   | 4 +---
-> >  drivers/hwmon/f75375s.c                                   | 5 ++---
-> >  drivers/hwmon/fschmd.c                                    | 6 ++----
-> >  drivers/hwmon/ftsteutates.c                               | 3 +--
-> >  drivers/hwmon/ina209.c                                    | 4 +---
-> >  drivers/hwmon/ina3221.c                                   | 4 +---
-> >  drivers/hwmon/jc42.c                                      | 3 +--
-> >  drivers/hwmon/mcp3021.c                                   | 4 +---
-> >  drivers/hwmon/occ/p8_i2c.c                                | 4 +---
-> >  drivers/hwmon/pcf8591.c                                   | 3 +--
-> >  drivers/hwmon/smm665.c                                    | 3 +--
-> >  drivers/hwmon/tps23861.c                                  | 4 +---
-> >  drivers/hwmon/w83781d.c                                   | 4 +---
-> >  drivers/hwmon/w83791d.c                                   | 6 ++----
-> >  drivers/hwmon/w83792d.c                                   | 6 ++----
-> >  drivers/hwmon/w83793.c                                    | 6 ++----
-> >  drivers/hwmon/w83795.c                                    | 4 +---
-> >  drivers/hwmon/w83l785ts.c                                 | 6 ++----
-> >  drivers/i2c/i2c-core-base.c                               | 6 +-----
-> >  drivers/i2c/i2c-slave-eeprom.c                            | 4 +---
-> >  drivers/i2c/i2c-slave-testunit.c                          | 3 +--
-> >  drivers/i2c/i2c-smbus.c                                   | 3 +--
-> >  drivers/i2c/muxes/i2c-mux-ltc4306.c                       | 4 +---
-> >  drivers/i2c/muxes/i2c-mux-pca9541.c                       | 3 +--
-> >  drivers/i2c/muxes/i2c-mux-pca954x.c                       | 3 +--
->=20
-> Reviewed-by: Jean Delvare <jdelvare@suse.de>
-
-Thanks
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---gut2agzhpaayxotv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmLEFBwACgkQwfwUeK3K
-7AkavggAgLmynakXX/rOF4Jwy2OuBXH29kecKqPd6xj4yHsu3ggy8kd/hlU4jJib
-vV0H9ioq69hhMqjme5AHJJsueLFi/t/iwuQwuWUKluCBBlx0RXBsVx8qxV7A0uWa
-mdKU3ApPaN7y0cS1jccdN7ydsL3H2ayzIwfQuNqx1G3P/uqXfkusV0fjwQ/rQct3
-qs4t2/QiHUd0tStlGw2eSKxp1z5KRrDMstK17fiZSsw/SYoMyldV8Ame6+gaxx0X
-e93FqM5jj67ovjD3jJanfOwI5vesu4+szu4GK6vHRWvpsieHsSeyS+GNgfM5oLA7
-iguZ0rauzy0je3hrHuKgp1maJ59ibQ==
-=fYiS
------END PGP SIGNATURE-----
-
---gut2agzhpaayxotv--
+Best regards,
+Krzysztof
