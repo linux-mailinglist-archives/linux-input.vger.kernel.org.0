@@ -2,101 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4689567728
-	for <lists+linux-input@lfdr.de>; Tue,  5 Jul 2022 21:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5745756778B
+	for <lists+linux-input@lfdr.de>; Tue,  5 Jul 2022 21:13:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233166AbiGETEK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 5 Jul 2022 15:04:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36606 "EHLO
+        id S233384AbiGETLn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 5 Jul 2022 15:11:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232156AbiGETEJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Jul 2022 15:04:09 -0400
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3525E1F2FA;
-        Tue,  5 Jul 2022 12:04:06 -0700 (PDT)
-Received: by mail-io1-xd36.google.com with SMTP id k15so12033052iok.5;
-        Tue, 05 Jul 2022 12:04:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=5mR8xFqGjjP4W/nW8ZmW82KHWo8ArnxMdtQdz/0Xv58=;
-        b=Akho+oNYYzMJsQJYNCLDZUNWuBvocCA1oS7XupTuS1pc35+87NcySHqmXO9+XNxTX6
-         oz/RWdwuOY38bAeOjJvDMrPLA6ipJzoSzd4ol0fZCY6uOhhuDCOwuVaUIwmTD+/Nnej2
-         x73aq3HFAY0SnHG5s5FIQ44uBBy5o1v/1ipf/+Z6wuLTsRUMjLGSi3WvyRhB4Nu+1nBt
-         xItD7w/rlj/2+uV5Zql99j6ENcL7FjswUujGHHW5hNLsRS9wccwY/FzUZan7wRYZJn3I
-         e8lBFosav1lDhynlwfnRsjqgcKd78H+m2WRrDqUhPgg78W6pnbHi5tctDaD+wV1/ZVep
-         inVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=5mR8xFqGjjP4W/nW8ZmW82KHWo8ArnxMdtQdz/0Xv58=;
-        b=VcOzQFRSoJXJO2Yj+F5ooSZAUefdkxjHdmU3BHHhHWZO9n+HreMIJ+9G/WfvsA7foJ
-         ygfQBgQx4sOt15Pu3seepN2A88kePJWRTjo7Y2BUCsvREdUlpV+8kZO2BtdrIvrjRtAm
-         Fj7wv0l8sjBbsTkIcWHtFPWdevt+iWhZRLFUXt4E/UlrnyJQkf4sx8MGGcd79vg2wcXc
-         nz5b4v8XDzn7pq3R/ziEoYs6iR2ribtY7AzpdupUbEzZBbjsVALokXbmFIf49Xh7eaxo
-         xAo+1Co9caSDgPGK+VzZpe/q6ePGVi6I47QnMDbEj+AJI92oovzd0oIJHYsRj6fiVBav
-         wvXA==
-X-Gm-Message-State: AJIora/ODfyFHpcKG2i7QzjJpkBLitFP0G9D6SZeXV3oyhKeaPrAHNfx
-        mcdnTPMuuDhPaJWTXxs7LB0BGR7Ki64=
-X-Google-Smtp-Source: AGRyM1tdnWKKjsE+zYzNvWtHrhePWJ7yVdxYfibU12etrCbr8d/XSsRDrfFr3f0GBMQITni6Dx9B2Q==
-X-Received: by 2002:a02:caa9:0:b0:339:e1a6:387e with SMTP id e9-20020a02caa9000000b00339e1a6387emr23086464jap.97.1657047845295;
-        Tue, 05 Jul 2022 12:04:05 -0700 (PDT)
-Received: from Dixie.. ([2604:2d80:a188:fd00:a8dc:16da:96d1:2d19])
-        by smtp.gmail.com with ESMTPSA id d93-20020a0285e6000000b0033efe01c20esm397762jai.42.2022.07.05.12.04.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 12:04:04 -0700 (PDT)
-From:   Chris Morgan <macroalpha82@gmail.com>
-X-Google-Original-From: Chris Morgan <macromorgan@hotmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     devicetree@vger.kernel.org, contact@artur-rojek.eu,
-        maccraft123mc@gmail.com, heiko@sntech.de,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        dmitry.torokhov@gmail.com, paul@crapouillou.net, jic23@kernel.org,
-        linux-iio@vger.kernel.org, Chris Morgan <macroalpha82@gmail.com>,
-        Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH v7 3/3] arm64: dts: rockchip: Update joystick to polled for OG2
-Date:   Tue,  5 Jul 2022 14:03:54 -0500
-Message-Id: <20220705190354.69263-4-macromorgan@hotmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220705190354.69263-1-macromorgan@hotmail.com>
-References: <20220705190354.69263-1-macromorgan@hotmail.com>
+        with ESMTP id S233528AbiGETLT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Jul 2022 15:11:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C78FD2181E;
+        Tue,  5 Jul 2022 12:11:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 643D161ADA;
+        Tue,  5 Jul 2022 19:11:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9C65C341D2;
+        Tue,  5 Jul 2022 19:11:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657048276;
+        bh=fW6C85SfnGr4A/MwSnxUmQCvBcZVw+MsgZ3ZwmdhE0E=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=JWaEsRn8eq53I+E50vwnXBV19bE9m21GJyq7wE4aRHf3HWaLGBZMa6NTnCO4NI2RS
+         +wMXF+WBcEsec1l980shmfFvjeWGIP/Fuo9Ieo5ZOPRTMsJsvTgtIzta9cF1ljfRpM
+         8gEnFKGqFmkCt12frB6EcRtusb0tzFJ5zPs5WnXZ1Y6yen7yJ3eMlhb9AsWrmZNkq4
+         okYvca3md0qqwHOX/DvNXSECRk48CgE6qX4C2xaMfPSpjFjffTuCId/hnN2Q0GSgLx
+         06CE/MHMaq2yljh6DkhLgzCu0dBRB2RtWkjpdmSaMRHLL4Rt6FNMvwgzJ34V43lRxj
+         gcluacKVOqcIw==
+Received: by mail-vs1-f47.google.com with SMTP id 189so12955591vsh.2;
+        Tue, 05 Jul 2022 12:11:16 -0700 (PDT)
+X-Gm-Message-State: AJIora9Pmp3q/DDsc+N7LKj8O9VJug9hFPk5tFehpzhTX3dlCPsNzwwx
+        7qR4nb2WK7EJy/SSRtaf0ocm0Oixs/OEdu7o1A==
+X-Google-Smtp-Source: AGRyM1smAAr46pC+2jkK1C2hlhgHoXOtu3SuwNiMuxKguIFPRWzEUMwGqg7poY9MJJUB74wAkJrodAeIv6S9zEDVTjc=
+X-Received: by 2002:a67:e18e:0:b0:354:4c38:11dd with SMTP id
+ e14-20020a67e18e000000b003544c3811ddmr19555806vsl.6.1657048275773; Tue, 05
+ Jul 2022 12:11:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220705120356.94876-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220705120356.94876-1-krzysztof.kozlowski@linaro.org>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 5 Jul 2022 13:11:04 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+LepF_67SJUqQ5mUO-TZAd-46LB+aYE5rZmnmmwMg=bw@mail.gmail.com>
+Message-ID: <CAL_Jsq+LepF_67SJUqQ5mUO-TZAd-46LB+aYE5rZmnmmwMg=bw@mail.gmail.com>
+Subject: Re: [RESEND PATCH v3 0/3] dt-bindings: input: gpio-keys: apply via DT tree
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Chris Morgan <macroalpha82@gmail.com>
+On Tue, Jul 5, 2022 at 6:04 AM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> Hi Rob,
+>
+> Can you apply these directly? You already reviewed them, but I dropped
+> the tag so you will see them in Patchwork. It seems these won't go in
+> through input [1].
+>
+> [1] https://lore.kernel.org/all/c2c1cf0c-9462-9ba5-a297-70d13a063de1@linaro.org/
 
-Update the Odroid Go Advance to use "poll-interval" from the
-adc-joystick driver.
+Will give Dmitry a few more days first before I take both series.
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
----
- arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts b/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts
-index ea0695b51ecd..61583c3f24e6 100644
---- a/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts
-@@ -26,6 +26,7 @@ adc-joystick {
- 		compatible = "adc-joystick";
- 		io-channels = <&saradc 1>,
- 			      <&saradc 2>;
-+		poll-interval = <60>;
- 		#address-cells = <1>;
- 		#size-cells = <0>;
- 
--- 
-2.34.1
-
+Rob
