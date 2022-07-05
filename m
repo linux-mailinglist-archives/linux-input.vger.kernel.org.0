@@ -2,30 +2,30 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB96A56758B
-	for <lists+linux-input@lfdr.de>; Tue,  5 Jul 2022 19:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B63165675BD
+	for <lists+linux-input@lfdr.de>; Tue,  5 Jul 2022 19:29:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230385AbiGERZf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 5 Jul 2022 13:25:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46838 "EHLO
+        id S231213AbiGER3x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 5 Jul 2022 13:29:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229730AbiGERZe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Jul 2022 13:25:34 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BD561C925;
-        Tue,  5 Jul 2022 10:25:33 -0700 (PDT)
+        with ESMTP id S233466AbiGER3b (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Jul 2022 13:29:31 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F3E121E0E;
+        Tue,  5 Jul 2022 10:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1657041925;
+        s=badeba3b8450; t=1657042116;
         bh=VGuEIUsr6EgBwogMJDOlNkr+9uptYB5Wf1LvyW7VLPs=;
         h=X-UI-Sender-Class:Subject:From:To:Cc:Date:In-Reply-To:References;
-        b=BR4Ka9eBTIpMKugZr0E/hxB5KRHf+PGynZ8p8YeN3txlsQYJjeEynmJqhY1ofHVlp
-         8tk0LpZ3zR1G9O7AZtFlKbMwEDZERSKvVpIQcocsGh49ypzVDpAS9y42+7Qhhj24Xo
-         OohDN5QpJ1VJrRWWZaMXxT0QyiOnjvSqk4mb+aiE=
+        b=k9laCBm26jQJsWLY6/OA9x+WAPD5XpUnuCifOnFPctKiq8Cxnh7hq273gQq2RJdYz
+         2x5Ne8LKjOfMOygKyKjUcqOxmXyq9y9ZosWNwexF86QDY05yjhOO9XCcbd++Ja4s5W
+         POdhnW6nskUpMGLRl/Yr7vhiOyCfotuuhbHfxFZs=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [10.101.2.50] ([185.104.136.29]) by mail.gmx.net (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1Mv2xU-1nI3Dp21S4-00qzDQ; Tue, 05
- Jul 2022 19:25:25 +0200
-Message-ID: <3fedf676645bfa638c9a6c656121083abc2c98ea.camel@gmx.co.uk>
+Received: from [10.101.2.50] ([185.104.136.29]) by mail.gmx.net (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MUosN-1o09Uw3n2v-00QgAB; Tue, 05
+ Jul 2022 19:28:36 +0200
+Message-ID: <3b9e115d4b8b6f363c45fe510e822e16fbce9a25.camel@gmx.co.uk>
 Subject: Re: input/i8042: Malfunctioning brightness keys on HP Elite
  Dragonfly G2
 From:   Alex Dewar <alex.dewar@gmx.co.uk>
@@ -33,34 +33,34 @@ To:     dmitry.torokhov@gmail.com, tiwai@suse.de, hdegoede@redhat.com,
         markgross@kernel.org
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         platform-driver-x86@vger.kernel.org
-Date:   Tue, 05 Jul 2022 18:25:03 +0100
+Date:   Tue, 05 Jul 2022 18:28:34 +0100
 In-Reply-To: <20220629094314.b7xmfb3xccj7vs6v@ic-alex-elitebook>
 References: <20220629094314.b7xmfb3xccj7vs6v@ic-alex-elitebook>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.3 
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:M2iBMc0im9Qs1j7rs3F8242Bvqu1RzrWcKErf4FO8nCAIlTPabO
- XezvY1x04Hf/yKXPDunlpPrs+U8YtiPqVlkk80SVgOZMLtwpuhDSfyxPf0KEG2wzuZ9VHs8
- B+CK1nVJeoVtCnEQZXLDGhvWv+u7SwPQoqT4HjsyvPvCzBL5OdGqAw7RwzbLih2mXaC6gpx
- iJLywH42L9aNDa7fXvb7w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:V9OcqCDmAAs=:Y+kXprhGKORiHtVYvahpT8
- xda3TBWhB3eAzXje6wJh5hneRkkuLIQps2P4iqbu3bDMFJ38daXrMiROCsfKKkTmAckjwoL3e
- 50v+J+tsHf65cXvhChkKgC6Mu6s8bNwxovgA8ntAak1vQtGOnD+m0T9zulJkwQuZmFOtV09tl
- /Ez1S72NhMNlXggpGGpYVOWQqUjiiKShrT36MmT2wAQvHqCqHzDfB9MGuaSdj28Bie6ApB8Uc
- 6VwHptdhCC8tCPGm1clO/p6f1sxqH6ZtR0FTtlQut4mWKl5xulwRJLCTNB9tVmbqL/+MzSiKZ
- sO7o+4C/gFJ31rgMgQanVWgDHtZpEkKSUe+u2yFlTXdP1B0jgfioZdOPcoaQWaNmxX0qrQbNX
- W8y2ZoX5crwdVcGqHI/m/b8yQWM9A6JAy2Scn4IfPXH9Yq+G7pBeDqyfo5449BJfk5/nOzqP0
- VJtgPsncKUm/uROiwxdLeMqbExJyfvNwqmVhwY0LagTjTRBFe3a4clyxxek+ehib5mDTERMMI
- Cm7FWDQx1Li29LwlV/HBueHFP6SdZWHhht9tlcQdqlYn4HplXbAqFU4lcit58SOsahWQIAKqO
- 7zxGsQBdaNe9y/nvIBfZ4zX3C4IpdtqlXocpjj1lqstPJQ3t982S8qR1PRSQUPxjypS8d3df3
- 6TqyKT8QjDiHaooRUW59nsFEK9sX/NgcA6OeTPbjZLEUvY6+yNB+3wOGLEmhHu/qv/0RNer5a
- mJlpLmjMMOHG+wo77hFZQ7/aDlZ9btXOMj5vcL1SQa4W9agSUhZLDsPWXiVfqd7iy+S1rnG6q
- lSnt0XLGJ/LyqD+8iaYvS9kjXgyiJi9CFgSbu/Wl6c5CmWx0LqW0nfiBnznCDr7kvzt7jUuG0
- FwLxZ6vwkH5m2qN0d5QMe16/y96SVJWFgPxddVwe6Jpl1lpECQA6r6aTMgybpM/3a8lYSWMml
- dzLyg7U5R47KPG54shf+aIIlIUiK9k5+w21z8NY/RYv6S196m/uniX+ZKzirOW6pq9WV/vqO0
- OGlD2j60VcMef02e5SynaJ4F+V8C4UkqFmRD2yklTaG6i1xgLct36MCJz2xDDBag6BnDazKbu
- 095OlxYyvURiaPfy7/RF8U34bGKjXFEg8X1XhXpZ7LHarQYt0P2ypTCIg==
+X-Provags-ID: V03:K1:REy3K7T9Qlwri9ohxu/egDgFhzFhT7M3kMFMrdTBrQajFYVRZC2
+ BY4VI8TN8UBuJOGH9RJMtWtHwb53i+o4910Cz7VT4t6BktFUU7kMjEmE2RymY1oI7LitSKO
+ jL3FvJPeXlPh3P3wuP0bzdvJaEx1o+gwVEoDuoam3gK5CZ4mEro45f470hCS/IBR4d4vmaP
+ WMdN/rWgH4vZintxfdzug==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pfzyXE/Hyfk=:9kG1SCIL5eQTPjd1fagLEk
+ 7eqgpVqBK50MW4oDfkzE6M3KVrqrMGyGf5y2eBSEzGzoAJOd514olp323L1s/NONROAgnJAMh
+ MWWY7zq6o4Cr44wLe96wPfW3w9jdxctjXizaC5J8uS7/rHu+GU/KmHhUO5o+nUPXdzsXxIdxv
+ FtErBdMHqFKUMkQYXwgU/sKzktATR2eteFmRx9f7Nw2uSyBbotg1vJy9Jrz3gWo7b0GoJ8Hv8
+ eb0SiPEWc1yjhMMGG56V9a/yIX5Z/QZ/9noF6Tj8ztFWSQYolbKk44E4YkNX/a0JH1X2Nbj2J
+ F1Wcv4agbGBmFyqUOtncWWTLnyRDIH+qkngbGgD4uxY+Xgl4XeW+gRcq7fQ8Pbkk3oW9vvoYl
+ vFGtwe8GtVi+ap7Bm56tKGKNMBNLchWWxtp8aBH03quBR9AzZscmYWSBRZgsQ5IYeqGM4K0X+
+ zybH/ngfjyKvpYcs4Snj8IjHK3Ya/XUCIIRfQzTZuFBVPf9z/lzEkc4+BBwo3WM0qja+6RPVo
+ qWvCY8oSeqOOBEnL9adceuuNO9HFYPJNkfdIWI5zkPtT7mJmXsrqPYrbCtN3rgiODZh3DwBZU
+ brGDl5SeIdh8Hjh3VcsoNPtknmujOrSE2lpwlrZnpK2P/CYNcSB0CS1TTapOKjlMFIukh1OnT
+ Zi+nGVah1N8PzuY62sHsRCz2P4YI83fl1cKcrJx5Cl7fXkdzauPwHx7yfzk7G0jyCzEXzXRNt
+ yKlUmG/mwsjaH3Hltj1PrOPrxlwJ9ml0RzbaJJ/8HMlXRAgI2Inaa5dtJI42hV2Jd70hVmybn
+ xj6CEzzzNa8W7Y6xBmF1bsjRBy7jb95EanGSNn+/fdZwPdouFGBIHrWiWIQYSOW7x4bW4U+Gz
+ dOTACT1rAZ3Ps0vpdc7gx77XNaYuUj0T14YoaHYAmYmK16q67rvSL0Ef2ZTN3E91WARS2VPXg
+ RzofapGmCTo5hSygtGXKRD74/T3KdzlZnozYJlCDBNOrt6OdIbogK1U6fayxsIG6RO3PLdRVn
+ DPwmWS6xaB5DdHvY+3ZTq8zdhtPuKwkI1wlkiPDQYB3qNoK4lER36DNoP1NqBhgx7mhLNlryO
+ BM8CE/Mde+klAQdsk/b2pnDSHdOziqvAaiSM42vwdtr38LBQDg3mRw6AA==
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
