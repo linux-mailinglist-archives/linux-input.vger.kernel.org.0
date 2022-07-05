@@ -2,101 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3A6A566B46
-	for <lists+linux-input@lfdr.de>; Tue,  5 Jul 2022 14:05:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 162A256752A
+	for <lists+linux-input@lfdr.de>; Tue,  5 Jul 2022 19:06:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233985AbiGEMFi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 5 Jul 2022 08:05:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46704 "EHLO
+        id S231310AbiGERGz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 5 Jul 2022 13:06:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233572AbiGEME2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Jul 2022 08:04:28 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68B6118391
-        for <linux-input@vger.kernel.org>; Tue,  5 Jul 2022 05:04:07 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id bx13so14239415ljb.1
-        for <linux-input@vger.kernel.org>; Tue, 05 Jul 2022 05:04:07 -0700 (PDT)
+        with ESMTP id S231214AbiGERGy (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Jul 2022 13:06:54 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2B381928F
+        for <linux-input@vger.kernel.org>; Tue,  5 Jul 2022 10:06:52 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id r9so15305744ljp.9
+        for <linux-input@vger.kernel.org>; Tue, 05 Jul 2022 10:06:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=n04xRHDLPG5HTJiUoTVbiyOiGV01+5rVdjSb2OnFTXM=;
-        b=BCDuSqECc+nJ4QixySuzLrzpTldvI4Om7Dhhe79zvfcZpzEzGecmAsDtbOf3XLzQC7
-         w1uhu4rB9AKVhxlEOmTXJsDmqBX/3XMZXi9nrbmqxCnspovd7Q8yAdlrQQX0aZYeV6Fl
-         c8WcJWt8Si79EF8UcAIz71wn15IahJMZQdjSgHyrHfHv/2MYqOUJadjBcEzDAjbrBDzj
-         rRImKl3ArYsXlhHZx7+a/pZCSpAYvIjJP14wEi6xVHIkMAoeQyfbYASKFAWMrBNse3wm
-         KDbQ04/bH6MFUz+3trU9Jg7lhMH741aCEqeBNZBq8fgVsCxnHx9VVKxFpE/9R8U5Fvkr
-         YDOw==
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=dGlJ2b6dTdxtV9BGYneAT3iQJU7I0ErF0JUELERQqlE=;
+        b=lRlsNPIc2EWzBLrrYSm1+Ka8MHIlzVTqQ/osvSQMzFQp4RdtEMbRKNTCRio/bIj8Ws
+         3T0wUQF363xs+/uQXzBmUNTFH6POoeybEzHQ7BY0JMiJ0hORzt4hDRU4aEHJo+Lc99wJ
+         Qajnfk+wscn9+3m1WVT4yR9nZqEagDzIYmSyn4R8W2zKe8jODWj+77xm7OhsfaJgP6o7
+         hawMKSDlcfbukvovxGcs2llAQI9i5IrMDnneQvrJj7iMo+McNs319eBxlFd1WNlffWbV
+         +a9GgNJNa+e0AJrPMZpkccbLPRYhy/khzhc1N+i4V/t/L8bVQbdO9J9Nj+hGJ3cWerGp
+         gFjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=n04xRHDLPG5HTJiUoTVbiyOiGV01+5rVdjSb2OnFTXM=;
-        b=KtrK4jVaTZQmRvbU18UoeCezQiX/idUG2slL4jlKMQCqUT+fJCcv7grG03jebgqxnI
-         JsE0yB+gIFSHgpimiUCdMIeDbL1BzCR3iNyegDTXau9uYieh9Drb1hwjb3o3GjAHQK8Q
-         oRkHNayk5Kv8/1wxnQAxOq1xvVuey0qd1wPg4ezF/oKXkF4v9w3xbBaxhFHyGnCeo1Ur
-         f6u7zdgUCLEcTI3WyQ2ObbF2ht83sZm8mYUleFhd7mzuF1wpDa0yg8ODfKIKt45RHTZy
-         odPYY0da1x77cNoeWCJvqrgMMDbQBc6/q3yLaFPKh4cG5Y2mV5IqbkHaGXbWIqtp6R6x
-         Ufyw==
-X-Gm-Message-State: AJIora+wcVEjFpsy1Kw/fVSsWnCASVn4etFifanffuKsKz8EUmPmmfD0
-        bFMrez59jVJzfjVWauZOIrsHhg==
-X-Google-Smtp-Source: AGRyM1sl7oYOktjybXQ7DcS9EisH+raxTv/CIYoUdIA4mqFgH0EaCpesDAtzqgGs0ayhR8cQfoLLyg==
-X-Received: by 2002:a05:651c:1699:b0:25b:c598:3803 with SMTP id bd25-20020a05651c169900b0025bc5983803mr20101511ljb.0.1657022646876;
-        Tue, 05 Jul 2022 05:04:06 -0700 (PDT)
-Received: from krzk-bin.home ([84.20.121.239])
-        by smtp.gmail.com with ESMTPSA id n13-20020a2e82cd000000b0025a885a135csm5547082ljh.119.2022.07.05.05.04.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 05:04:05 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [RESEND PATCH v3 3/3] dt-bindings: input: gpio-keys: accept also interrupt-extended
-Date:   Tue,  5 Jul 2022 14:03:56 +0200
-Message-Id: <20220705120356.94876-4-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220705120356.94876-1-krzysztof.kozlowski@linaro.org>
-References: <20220705120356.94876-1-krzysztof.kozlowski@linaro.org>
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=dGlJ2b6dTdxtV9BGYneAT3iQJU7I0ErF0JUELERQqlE=;
+        b=3usDrQJtxse5qUsXdIKgP6i1t/yqQjzgWkR5Fqd0UiDfXos6GeYk7du74CCzYqZx+4
+         vYV5BHO5jh75g0ddt9bAnRm+wiN+M6puifawzuzPzDiAwyFSN+iwVc6GkK4MjRBqPe7g
+         n72ab8426AwrPYkzOvC5nWrAHLt/PuZK1vJDfRn9JKTj3zcqfZQpOIqFVTO231o1w7PB
+         Zr+5af5F5bxe3pohXOtJJkn6aVIJRzqWux6X+I4KMlbjx6HEyCC0qhWPEAa5mcywJhJz
+         9BWBGop9qZODOPG1zfTEKyccFmSNOgo/NEq2amh1JKNiyZPS81rGfkDgUqZhK7DYZ46+
+         pqhw==
+X-Gm-Message-State: AJIora8WS6Ra2iy30Tkitv/jrsRxfLfK9jX1SxDNQFBmqnGqpEWuEVP4
+        RWszLUPA6hClbeQnloExn6sIK5b1eGibTBMXIR4=
+X-Google-Smtp-Source: AGRyM1sr/Y3yK21hndc+LLtkfsWJfBlXbc4IcO2/5cpyQegGgQoTQET+AICrvmhu3W7e0EwpJqYpEdncP7bYClvRw9M=
+X-Received: by 2002:a2e:8e8c:0:b0:25a:76dc:e4e8 with SMTP id
+ z12-20020a2e8e8c000000b0025a76dce4e8mr20535722ljk.529.1657040809966; Tue, 05
+ Jul 2022 10:06:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Sender: flovedaivd@gmail.com
+Received: by 2002:a05:6520:2dce:b0:1f2:b7e2:c24b with HTTP; Tue, 5 Jul 2022
+ 10:06:49 -0700 (PDT)
+From:   "Doris.David" <mrs.doris.david02@gmail.com>
+Date:   Tue, 5 Jul 2022 10:06:49 -0700
+X-Google-Sender-Auth: METqjsLk6rh1F8ABaSEAQozmsuE
+Message-ID: <CAHYMczTtB5YcNP2ZmA3PYjarfAwSJ13JF2CpPpTjtN+f79dJog@mail.gmail.com>
+Subject: Re: Greetings My Dear,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=7.1 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
+        BAYES_60,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_FROM,LOTS_OF_MONEY,MONEY_FRAUD_8,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:22f listed in]
+        [list.dnswl.org]
+        *  1.5 BAYES_60 BODY: Bayes spam probability is 60 to 80%
+        *      [score: 0.6549]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [flovedaivd[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
+        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
+        *  2.8 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Each key device node might have interrupts-extended instead of
-interrupts property:
+Greetings,
 
-  fsl-ls1028a-kontron-sl28-var1.dtb: buttons0: power-button: 'anyOf' conditional failed, one must be fixed:
-    'interrupts' is a required property
-    'gpios' is a required property
+I sent this mail praying it will find you in a good condition, since I
+myself am in a very critical health condition in which I sleep every
+night  without knowing if I may be alive to see the next day. I am Mrs
+doris david, a widow suffering from a long time illness. I have
+some funds I  inherited from my late husband, the sum of
+($11,000,000.00) my Doctor told me recently that I have serious
+sickness which is a cancer problem. What disturbs me most is my stroke
+sickness. Having known my condition, I decided to donate this fund to
+a good person that will utilize it the way I am going to instruct
+herein. I need a very honest God.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- Documentation/devicetree/bindings/input/gpio-keys.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+fearing a person who can claim this money and use it for Charity
+works, for orphanages, widows and also build schools for less
+privileges that will be named after my late husband if possible and to
+promote the word of God and the effort that the house of God is
+maintained. I do not want a situation where this money will be used in
+an ungodly manner. That's why I' making this decision. I'm not afraid
+of death so I know where I'm going. I accept this decision because I
+do not have any child who will inherit this money after I die. Please
+I want your sincere and urgent answer to know if you will be able to
+execute this project, and I will give you more information on how
+thunder will be transferred to your bank account. I am waiting for
+your reply.
 
-diff --git a/Documentation/devicetree/bindings/input/gpio-keys.yaml b/Documentation/devicetree/bindings/input/gpio-keys.yaml
-index e722e681d237..17ac9dff7972 100644
---- a/Documentation/devicetree/bindings/input/gpio-keys.yaml
-+++ b/Documentation/devicetree/bindings/input/gpio-keys.yaml
-@@ -92,6 +92,8 @@ patternProperties:
-     anyOf:
-       - required:
-           - interrupts
-+      - required:
-+          - interrupts-extended
-       - required:
-           - gpios
- 
--- 
-2.34.1
-
+May God Bless you,
+Mrs doris david,
