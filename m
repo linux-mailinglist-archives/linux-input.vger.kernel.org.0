@@ -2,118 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 162A256752A
-	for <lists+linux-input@lfdr.de>; Tue,  5 Jul 2022 19:06:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB96A56758B
+	for <lists+linux-input@lfdr.de>; Tue,  5 Jul 2022 19:25:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231310AbiGERGz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 5 Jul 2022 13:06:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57370 "EHLO
+        id S230385AbiGERZf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 5 Jul 2022 13:25:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231214AbiGERGy (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Jul 2022 13:06:54 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2B381928F
-        for <linux-input@vger.kernel.org>; Tue,  5 Jul 2022 10:06:52 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id r9so15305744ljp.9
-        for <linux-input@vger.kernel.org>; Tue, 05 Jul 2022 10:06:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=dGlJ2b6dTdxtV9BGYneAT3iQJU7I0ErF0JUELERQqlE=;
-        b=lRlsNPIc2EWzBLrrYSm1+Ka8MHIlzVTqQ/osvSQMzFQp4RdtEMbRKNTCRio/bIj8Ws
-         3T0wUQF363xs+/uQXzBmUNTFH6POoeybEzHQ7BY0JMiJ0hORzt4hDRU4aEHJo+Lc99wJ
-         Qajnfk+wscn9+3m1WVT4yR9nZqEagDzIYmSyn4R8W2zKe8jODWj+77xm7OhsfaJgP6o7
-         hawMKSDlcfbukvovxGcs2llAQI9i5IrMDnneQvrJj7iMo+McNs319eBxlFd1WNlffWbV
-         +a9GgNJNa+e0AJrPMZpkccbLPRYhy/khzhc1N+i4V/t/L8bVQbdO9J9Nj+hGJ3cWerGp
-         gFjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=dGlJ2b6dTdxtV9BGYneAT3iQJU7I0ErF0JUELERQqlE=;
-        b=3usDrQJtxse5qUsXdIKgP6i1t/yqQjzgWkR5Fqd0UiDfXos6GeYk7du74CCzYqZx+4
-         vYV5BHO5jh75g0ddt9bAnRm+wiN+M6puifawzuzPzDiAwyFSN+iwVc6GkK4MjRBqPe7g
-         n72ab8426AwrPYkzOvC5nWrAHLt/PuZK1vJDfRn9JKTj3zcqfZQpOIqFVTO231o1w7PB
-         Zr+5af5F5bxe3pohXOtJJkn6aVIJRzqWux6X+I4KMlbjx6HEyCC0qhWPEAa5mcywJhJz
-         9BWBGop9qZODOPG1zfTEKyccFmSNOgo/NEq2amh1JKNiyZPS81rGfkDgUqZhK7DYZ46+
-         pqhw==
-X-Gm-Message-State: AJIora8WS6Ra2iy30Tkitv/jrsRxfLfK9jX1SxDNQFBmqnGqpEWuEVP4
-        RWszLUPA6hClbeQnloExn6sIK5b1eGibTBMXIR4=
-X-Google-Smtp-Source: AGRyM1sr/Y3yK21hndc+LLtkfsWJfBlXbc4IcO2/5cpyQegGgQoTQET+AICrvmhu3W7e0EwpJqYpEdncP7bYClvRw9M=
-X-Received: by 2002:a2e:8e8c:0:b0:25a:76dc:e4e8 with SMTP id
- z12-20020a2e8e8c000000b0025a76dce4e8mr20535722ljk.529.1657040809966; Tue, 05
- Jul 2022 10:06:49 -0700 (PDT)
-MIME-Version: 1.0
-Sender: flovedaivd@gmail.com
-Received: by 2002:a05:6520:2dce:b0:1f2:b7e2:c24b with HTTP; Tue, 5 Jul 2022
- 10:06:49 -0700 (PDT)
-From:   "Doris.David" <mrs.doris.david02@gmail.com>
-Date:   Tue, 5 Jul 2022 10:06:49 -0700
-X-Google-Sender-Auth: METqjsLk6rh1F8ABaSEAQozmsuE
-Message-ID: <CAHYMczTtB5YcNP2ZmA3PYjarfAwSJ13JF2CpPpTjtN+f79dJog@mail.gmail.com>
-Subject: Re: Greetings My Dear,
-To:     undisclosed-recipients:;
+        with ESMTP id S229730AbiGERZe (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Jul 2022 13:25:34 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BD561C925;
+        Tue,  5 Jul 2022 10:25:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1657041925;
+        bh=VGuEIUsr6EgBwogMJDOlNkr+9uptYB5Wf1LvyW7VLPs=;
+        h=X-UI-Sender-Class:Subject:From:To:Cc:Date:In-Reply-To:References;
+        b=BR4Ka9eBTIpMKugZr0E/hxB5KRHf+PGynZ8p8YeN3txlsQYJjeEynmJqhY1ofHVlp
+         8tk0LpZ3zR1G9O7AZtFlKbMwEDZERSKvVpIQcocsGh49ypzVDpAS9y42+7Qhhj24Xo
+         OohDN5QpJ1VJrRWWZaMXxT0QyiOnjvSqk4mb+aiE=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [10.101.2.50] ([185.104.136.29]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1Mv2xU-1nI3Dp21S4-00qzDQ; Tue, 05
+ Jul 2022 19:25:25 +0200
+Message-ID: <3fedf676645bfa638c9a6c656121083abc2c98ea.camel@gmx.co.uk>
+Subject: Re: input/i8042: Malfunctioning brightness keys on HP Elite
+ Dragonfly G2
+From:   Alex Dewar <alex.dewar@gmx.co.uk>
+To:     dmitry.torokhov@gmail.com, tiwai@suse.de, hdegoede@redhat.com,
+        markgross@kernel.org
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Date:   Tue, 05 Jul 2022 18:25:03 +0100
+In-Reply-To: <20220629094314.b7xmfb3xccj7vs6v@ic-alex-elitebook>
+References: <20220629094314.b7xmfb3xccj7vs6v@ic-alex-elitebook>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.1 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
-        BAYES_60,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_FROM,LOTS_OF_MONEY,MONEY_FRAUD_8,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:22f listed in]
-        [list.dnswl.org]
-        *  1.5 BAYES_60 BODY: Bayes spam probability is 60 to 80%
-        *      [score: 0.6549]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [flovedaivd[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
-        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
-        *  2.8 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *******
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.3 
+MIME-Version: 1.0
+X-Provags-ID: V03:K1:M2iBMc0im9Qs1j7rs3F8242Bvqu1RzrWcKErf4FO8nCAIlTPabO
+ XezvY1x04Hf/yKXPDunlpPrs+U8YtiPqVlkk80SVgOZMLtwpuhDSfyxPf0KEG2wzuZ9VHs8
+ B+CK1nVJeoVtCnEQZXLDGhvWv+u7SwPQoqT4HjsyvPvCzBL5OdGqAw7RwzbLih2mXaC6gpx
+ iJLywH42L9aNDa7fXvb7w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:V9OcqCDmAAs=:Y+kXprhGKORiHtVYvahpT8
+ xda3TBWhB3eAzXje6wJh5hneRkkuLIQps2P4iqbu3bDMFJ38daXrMiROCsfKKkTmAckjwoL3e
+ 50v+J+tsHf65cXvhChkKgC6Mu6s8bNwxovgA8ntAak1vQtGOnD+m0T9zulJkwQuZmFOtV09tl
+ /Ez1S72NhMNlXggpGGpYVOWQqUjiiKShrT36MmT2wAQvHqCqHzDfB9MGuaSdj28Bie6ApB8Uc
+ 6VwHptdhCC8tCPGm1clO/p6f1sxqH6ZtR0FTtlQut4mWKl5xulwRJLCTNB9tVmbqL/+MzSiKZ
+ sO7o+4C/gFJ31rgMgQanVWgDHtZpEkKSUe+u2yFlTXdP1B0jgfioZdOPcoaQWaNmxX0qrQbNX
+ W8y2ZoX5crwdVcGqHI/m/b8yQWM9A6JAy2Scn4IfPXH9Yq+G7pBeDqyfo5449BJfk5/nOzqP0
+ VJtgPsncKUm/uROiwxdLeMqbExJyfvNwqmVhwY0LagTjTRBFe3a4clyxxek+ehib5mDTERMMI
+ Cm7FWDQx1Li29LwlV/HBueHFP6SdZWHhht9tlcQdqlYn4HplXbAqFU4lcit58SOsahWQIAKqO
+ 7zxGsQBdaNe9y/nvIBfZ4zX3C4IpdtqlXocpjj1lqstPJQ3t982S8qR1PRSQUPxjypS8d3df3
+ 6TqyKT8QjDiHaooRUW59nsFEK9sX/NgcA6OeTPbjZLEUvY6+yNB+3wOGLEmhHu/qv/0RNer5a
+ mJlpLmjMMOHG+wo77hFZQ7/aDlZ9btXOMj5vcL1SQa4W9agSUhZLDsPWXiVfqd7iy+S1rnG6q
+ lSnt0XLGJ/LyqD+8iaYvS9kjXgyiJi9CFgSbu/Wl6c5CmWx0LqW0nfiBnznCDr7kvzt7jUuG0
+ FwLxZ6vwkH5m2qN0d5QMe16/y96SVJWFgPxddVwe6Jpl1lpECQA6r6aTMgybpM/3a8lYSWMml
+ dzLyg7U5R47KPG54shf+aIIlIUiK9k5+w21z8NY/RYv6S196m/uniX+ZKzirOW6pq9WV/vqO0
+ OGlD2j60VcMef02e5SynaJ4F+V8C4UkqFmRD2yklTaG6i1xgLct36MCJz2xDDBag6BnDazKbu
+ 095OlxYyvURiaPfy7/RF8U34bGKjXFEg8X1XhXpZ7LHarQYt0P2ypTCIg==
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Greetings,
+Friendly ping? =F0=9F=99=82
 
-I sent this mail praying it will find you in a good condition, since I
-myself am in a very critical health condition in which I sleep every
-night  without knowing if I may be alive to see the next day. I am Mrs
-doris david, a widow suffering from a long time illness. I have
-some funds I  inherited from my late husband, the sum of
-($11,000,000.00) my Doctor told me recently that I have serious
-sickness which is a cancer problem. What disturbs me most is my stroke
-sickness. Having known my condition, I decided to donate this fund to
-a good person that will utilize it the way I am going to instruct
-herein. I need a very honest God.
+I'm also CC'ing the x86 platform people into this, as I'm not sure
+whether this problem is something more within their remit.
 
-fearing a person who can claim this money and use it for Charity
-works, for orphanages, widows and also build schools for less
-privileges that will be named after my late husband if possible and to
-promote the word of God and the effort that the house of God is
-maintained. I do not want a situation where this money will be used in
-an ungodly manner. That's why I' making this decision. I'm not afraid
-of death so I know where I'm going. I accept this decision because I
-do not have any child who will inherit this money after I die. Please
-I want your sincere and urgent answer to know if you will be able to
-execute this project, and I will give you more information on how
-thunder will be transferred to your bank account. I am waiting for
-your reply.
+Best,
+Alex
 
-May God Bless you,
-Mrs doris david,
+On Wed, 2022-06-29 at 10:43 +0100, Alex Dewar wrote:
+> Hi,
+>=20
+> I'm running Linux 5.18.7 on an HP Elite Dragonfly G2 laptop, which
+> seems
+> to use the i8042 driver. Mostly things seem to work (including
+> hotkeys)
+> except that the increase/decrease brightness keys instead send the
+> "mic
+> mute" keycode. (The *actual* mic mute key works fine.)
+>=20
+> Any ideas? Do we need to add a quirk?
+>=20
+> Best,
+> Alex
+
