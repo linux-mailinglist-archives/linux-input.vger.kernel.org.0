@@ -2,76 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE23C5669CE
-	for <lists+linux-input@lfdr.de>; Tue,  5 Jul 2022 13:39:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C465566B37
+	for <lists+linux-input@lfdr.de>; Tue,  5 Jul 2022 14:05:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230463AbiGELjv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 5 Jul 2022 07:39:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48064 "EHLO
+        id S233375AbiGEMFR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 5 Jul 2022 08:05:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbiGELju (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Jul 2022 07:39:50 -0400
+        with ESMTP id S233751AbiGEMER (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Jul 2022 08:04:17 -0400
 Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D266613F57
-        for <linux-input@vger.kernel.org>; Tue,  5 Jul 2022 04:39:49 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id a11so14149950ljb.5
-        for <linux-input@vger.kernel.org>; Tue, 05 Jul 2022 04:39:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4290186F3
+        for <linux-input@vger.kernel.org>; Tue,  5 Jul 2022 05:04:04 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id bx13so14239183ljb.1
+        for <linux-input@vger.kernel.org>; Tue, 05 Jul 2022 05:04:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language
-         :from:to:cc:references:in-reply-to:content-transfer-encoding;
-        bh=XqGBUv2bVR1BBSn8EmBr/HQnR9EoIw7gIb/DairnNFs=;
-        b=PFKl7oPUIaa88zrn/8CuiC9DcDwgPU9BOA7TQp+ajBf9ok1bO4vKFtl3kvuBJPJOI9
-         dGDn0fLKhP3juMGTXuKIiFXoOdfxnMm2KHHC16ifNTHxSOhAuF0P6WHNEOEdyTJeNFS7
-         Sojpv2Dk21v+58u6CN8JG2J6KojXC/82auKbdYzsNcLeRI2+qPR6/pA8QCHkOHJfTX//
-         doEauC0AzOHgVVSRHJCNmRebm4ur3hyPl4J51ByC6D/TgttQF/ZKMahwaA96xbXxp81R
-         X3yTggTyd0ULkcukRCKknDBWI/aQaR9f04EdfHXP1jDVcZ30YYXsf6mbxSzj/iIUpjqS
-         lXmw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SKrrlYio3nbOhBwUjGXrXLl1qRaxBrsfKwRApIXmEYA=;
+        b=K8YQ23Rylb1x1QKt7AAmePbuiVxRyCHCejs55T8ZL5xKJrl3RkaVfQnfBI44Sn3rQ5
+         HdBryzd2JLl9O+Fyclq/O1Qk6iwMoLwBVhzTusTZ2gPxk4PXP1SvHG06xNlbZXUlYded
+         GIuwXPp2FEvc6+MRt0txApq30EkG8g0JJTVjEoxXJA2Iqin1E/5WmLffYlk12OREqfLM
+         o4GcJJyfK8zrGSVbJ1V7EJjCXL8xg+veB4SWGAWyDdiK3Ws1BPVzTXJuP1+koPlZlblT
+         beS16XeNojQaYi8pN0P1EwlwUBJGae0bnMHiqQFihYpJyNBGeIS3C+j7kZlNNwrvBosS
+         nIDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:from:to:cc:references:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=XqGBUv2bVR1BBSn8EmBr/HQnR9EoIw7gIb/DairnNFs=;
-        b=oBf830QfwgFxPM/WJ/kG42DwSNlMYME0uQW7B56QX3C/1QPnRKAVFUaAxGRqx2qYYN
-         hZMU8P0ogx2hITyYbvygdLolmRkNngSybNJhRxCs/ZTTB+6Kq5SuQN7T1emowSpfiuEu
-         I5Ms9QQyYJ4ZcqOx9BwzNoqqdCoc30wfZfuKbcJNEyqI4LgWXutSmYblZ4sCohXQ90l+
-         hSf+wRHNVBQm4cwbSPNw9Xl+KpFRLumUqMkndJXPjuLtq2eyREssjrzlaEaQgGC/t4IM
-         dDCNKxu74lnhxf5rY+ZaMRa/30QFr+61k/uRDUSFpNQapTHNLP9lCc4B5XzbRdKErci9
-         BAWw==
-X-Gm-Message-State: AJIora/V0Iu2/V8/ReuLSuN/Ou+0fTal+qyM69IecmgxEBkMalRg0KyA
-        S7w5NKPkdguNU2IZZo74gNdYYA==
-X-Google-Smtp-Source: AGRyM1u/pjN+NyojeJVROuh8VlGN3O/Cf8pqXVDdLH/73GyJfjJZGzyKzW5enrA3dEZc9SxANQukzw==
-X-Received: by 2002:a2e:bc22:0:b0:25b:c3b6:eb11 with SMTP id b34-20020a2ebc22000000b0025bc3b6eb11mr20157656ljf.122.1657021188242;
-        Tue, 05 Jul 2022 04:39:48 -0700 (PDT)
-Received: from [192.168.1.52] ([84.20.121.239])
-        by smtp.gmail.com with ESMTPSA id s8-20020a056512202800b0047f750ecd8csm5663357lfs.67.2022.07.05.04.39.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Jul 2022 04:39:47 -0700 (PDT)
-Message-ID: <c2c1cf0c-9462-9ba5-a297-70d13a063de1@linaro.org>
-Date:   Tue, 5 Jul 2022 13:39:46 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 01/40] dt-bindings: input: gpio-keys: enforce node
- names to match all properties
-Content-Language: en-US
+        bh=SKrrlYio3nbOhBwUjGXrXLl1qRaxBrsfKwRApIXmEYA=;
+        b=R0xdyY7AN6Bf0UBA7Gp/wL8lXNN6tZy0XVZp8RSlYNPj5wCc3drKCsL0AjekAy1Jp6
+         dRYvexOMHYyZX8UXLPnDns/opc62GH4CV/4mjDYyTX2uwsRpAWi8w+K5awwBx9Ge27Qr
+         B8tcoWmor7Qym+UQaEX9kEaCc7+r77XVxgYh6qr768DBZdUwZhzi76i25hKY9r6PJqCg
+         Jz1HcUdMA6BtDi6a+KEHuzEqHahHq/96dy9KY7xsDm3TBU2fRH/CHnNqPhZCIWKcjYhu
+         YG2gnwM8Ofwj+auozPoPo8+M+pgoxDyR7451BuFFqs3slyzNNwQNtD/mblv+b23/oEgs
+         FyIw==
+X-Gm-Message-State: AJIora+i8sYr64ofFokyefP4519uhJ0VvaW6YX8x+z+r5vL/l273IW8P
+        erLRP76q0+UCZZkAz3i6G9ngpw==
+X-Google-Smtp-Source: AGRyM1vv5rjw2OlOSx1JvR0oEE9A3qm/K4mVXdNVA3ZRjKjkZ/YHSCV55kfEk2f8/LXPfsK5ZH2vgg==
+X-Received: by 2002:a05:651c:1798:b0:25d:3043:58e0 with SMTP id bn24-20020a05651c179800b0025d304358e0mr2581367ljb.310.1657022641768;
+        Tue, 05 Jul 2022 05:04:01 -0700 (PDT)
+Received: from krzk-bin.home ([84.20.121.239])
+        by smtp.gmail.com with ESMTPSA id n13-20020a2e82cd000000b0025a885a135csm5547082ljh.119.2022.07.05.05.04.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 05:04:00 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     soc@kernel.org, linux-kernel@vger.kernel.org,
-        Olof Johansson <olof@lixom.net>, devicetree@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh@kernel.org>, arm@kernel.org,
-        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
-References: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org>
- <20220616005333.18491-1-krzysztof.kozlowski@linaro.org>
- <cab6fd96-4b8e-42a3-4dce-db63656df92c@linaro.org>
-In-Reply-To: <cab6fd96-4b8e-42a3-4dce-db63656df92c@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [RESEND PATCH v3 0/3] dt-bindings: input: gpio-keys: apply via DT tree
+Date:   Tue,  5 Jul 2022 14:03:53 +0200
+Message-Id: <20220705120356.94876-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -80,35 +70,28 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 27/06/2022 10:17, Krzysztof Kozlowski wrote:
-> On 16/06/2022 02:52, Krzysztof Kozlowski wrote:
->> The gpio-keys DT schema matches all properties with a wide pattern and
->> applies specific schema to children.  This has drawback - all regular
->> properties are also matched and are silently ignored, even if they are
->> not described in schema.  Basically this allows any non-object property
->> to be present.
->>
->> Enforce specific naming pattern for children (keys) to narrow the
->> pattern thus do not match other properties.  This will require all
->> children to be properly prefixed or suffixed (button, event, switch or
->> key).
->>
->> Removal of "if:" within patternProperties causes drop of one indentation
->> level, but there are no other changes in the affected block.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Reviewed-by: Rob Herring <robh@kernel.org>
->> ---
->>  .../devicetree/bindings/input/gpio-keys.yaml  | 157 +++++++++---------
->>  1 file changed, 77 insertions(+), 80 deletions(-)
->>
-> 
-> Dmitry,
-> 
-> Any comments from your side? Are you planning to pick up the dt-bindings
-> here (patch 1-3)?
+Hi Rob,
 
-Hmmm, I guess this should go via dt-bindings then...
+Can you apply these directly? You already reviewed them, but I dropped
+the tag so you will see them in Patchwork. It seems these won't go in
+through input [1].
+
+[1] https://lore.kernel.org/all/c2c1cf0c-9462-9ba5-a297-70d13a063de1@linaro.org/
 
 Best regards,
 Krzysztof
+
+
+Krzysztof Kozlowski (3):
+  dt-bindings: input: gpio-keys: enforce node names to match all
+    properties
+  dt-bindings: input: gpio-keys: reference input.yaml and document
+    properties
+  dt-bindings: input: gpio-keys: accept also interrupt-extended
+
+ .../devicetree/bindings/input/gpio-keys.yaml  | 159 +++++++++---------
+ 1 file changed, 82 insertions(+), 77 deletions(-)
+
+-- 
+2.34.1
+
