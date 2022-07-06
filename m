@@ -2,118 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F8AD5684DB
-	for <lists+linux-input@lfdr.de>; Wed,  6 Jul 2022 12:11:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCF05568724
+	for <lists+linux-input@lfdr.de>; Wed,  6 Jul 2022 13:46:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232449AbiGFKLo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Jul 2022 06:11:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51876 "EHLO
+        id S233422AbiGFLpo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Jul 2022 07:45:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232893AbiGFKLc (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Jul 2022 06:11:32 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74E111581A;
-        Wed,  6 Jul 2022 03:11:31 -0700 (PDT)
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id D3DE566019AB;
-        Wed,  6 Jul 2022 11:11:29 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1657102290;
-        bh=Xhl1Ow9x+DfI22vAa93ClvjHOF/I+FiiBOeSds25YTo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=krrLDBECxk0hdNlHvDKeZS2C+hDOHY3M44vURPYvwp1rLnnRGpRQn9y7VE/oW+IeX
-         DhyIlEzxzCla5C9R4zyXioRvvUd8Ix+mmOsj7kBV11kMKbx2h9GS1jq7eRzRgOURoq
-         iSySAHqvClcqZhNNe1GAnUrEP0pjqhckU8fFqo+7oXQ5WTiCe6w+6UigRq04h1H9+N
-         RfvEmeMEoIHQFg5PiRfkqRFNfIddz09A9j4IzgtgiAtTTiIMZRu23tFC5nFK4nZtfT
-         Xd6h8iHFgxnMFKIY27ojZfVWO6Li3oomo1XeyZh38nFKy6J1s0Xzp0IfDPtiOxUKo7
-         WJEDgeCJXp2EA==
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        mkorpershoek@baylibre.com, linux-input@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+        with ESMTP id S231689AbiGFLpS (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Jul 2022 07:45:18 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 509D228E1B;
+        Wed,  6 Jul 2022 04:45:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657107903; x=1688643903;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9O/uk8hzidHlOKBk1K4kxy0EkY6O5XjVCbjq4/nqvi0=;
+  b=SotLaba0xgoe2w2WERUplCst6b3O4b5oDOyp2N+LyPnAjH3ggO/HJ/la
+   FG+fow73VghIh5hANlsMfEJ96bXQ6SxrnfKM6o7LCDtUnXTYJhWlbc6S3
+   vW82uVp/90k54fAtg0HOVnCfvUmKLXxZB4KP9ksaWWi/wcyjSdA/diiyt
+   OLiniPJSVts+xKisr6pxdL45UhuuSR4NSR0ZLvdj3ORXwMftXJMlnwBm9
+   DXPaSSihquyA0xYo0Y4faaZ5yfbRBRhSHSeytPmNGjkoCN+KjhY1KjnUA
+   MP3vcbVuSDz25Em48rh++CMi9WxAoZw8axVTwu/w8bkNx4lkVHdj2blek
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10399"; a="264141399"
+X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; 
+   d="scan'208";a="264141399"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2022 04:45:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; 
+   d="scan'208";a="682890850"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 06 Jul 2022 04:45:01 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o93Sm-000KXF-CP;
+        Wed, 06 Jul 2022 11:45:00 +0000
+Date:   Wed, 6 Jul 2022 19:44:54 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        dmitry.torokhov@gmail.com
+Cc:     kbuild-all@lists.01.org, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com, mkorpershoek@baylibre.com,
+        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 RESEND] Input: mtk-pmic-keys - Add support for MT6331 PMIC keys
-Date:   Wed,  6 Jul 2022 12:11:22 +0200
-Message-Id: <20220706101122.201007-1-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.35.1
+Subject: Re: [PATCH v2 RESEND] Input: mtk-pmic-keys - Add support for MT6331
+ PMIC keys
+Message-ID: <202207061915.tYTQKEhu-lkp@intel.com>
+References: <20220706101122.201007-1-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220706101122.201007-1-angelogioacchino.delregno@collabora.com>
+X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for PMIC Keys of the MT6331 PMIC.
+Hi AngeloGioacchino,
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
----
- drivers/input/keyboard/mtk-pmic-keys.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+Thank you for the patch! Yet something to improve:
 
-diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
-index 6404081253ea..9b34da0ec260 100644
---- a/drivers/input/keyboard/mtk-pmic-keys.c
-+++ b/drivers/input/keyboard/mtk-pmic-keys.c
-@@ -9,6 +9,7 @@
- #include <linux/interrupt.h>
- #include <linux/kernel.h>
- #include <linux/mfd/mt6323/registers.h>
-+#include <linux/mfd/mt6331/registers.h>
- #include <linux/mfd/mt6358/registers.h>
- #include <linux/mfd/mt6397/core.h>
- #include <linux/mfd/mt6397/registers.h>
-@@ -22,6 +23,10 @@
- #define MTK_PMIC_PWRKEY_RST	BIT(6)
- #define MTK_PMIC_HOMEKEY_RST	BIT(5)
- 
-+#define MTK_PMIC_MT6331_RST_DU_MASK	GENMASK(13, 12)
-+#define MTK_PMIC_MT6331_PWRKEY_RST	BIT(9)
-+#define MTK_PMIC_MT6331_HOMEKEY_RST	BIT(8)
-+
- #define MTK_PMIC_PWRKEY_INDEX	0
- #define MTK_PMIC_HOMEKEY_INDEX	1
- #define MTK_PMIC_MAX_KEY_COUNT	2
-@@ -72,6 +77,19 @@ static const struct mtk_pmic_regs mt6323_regs = {
- 	.rst_lprst_mask = MTK_PMIC_RST_DU_MASK,
- };
- 
-+static const struct mtk_pmic_regs mt6331_regs = {
-+	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
-+		MTK_PMIC_KEYS_REGS(MT6331_TOPSTATUS, 0x2,
-+				   MT6331_INT_MISC_CON, 0x4,
-+				   MTK_PMIC_MT6331_PWRKEY_RST),
-+	.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
-+		MTK_PMIC_KEYS_REGS(MT6331_TOPSTATUS, 0x4,
-+				   MT6331_INT_MISC_CON, 0x2,
-+				   MTK_PMIC_MT6331_HOMEKEY_RST),
-+	.pmic_rst_reg = MT6331_TOP_RST_MISC,
-+	.rst_lprst_mask = MTK_PMIC_MT6331_RST_DU_MASK,
-+};
-+
- static const struct mtk_pmic_regs mt6358_regs = {
- 	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
- 		MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
-@@ -255,6 +273,9 @@ static const struct of_device_id of_mtk_pmic_keys_match_tbl[] = {
- 	}, {
- 		.compatible = "mediatek,mt6323-keys",
- 		.data = &mt6323_regs,
-+	}, {
-+		.compatible = "mediatek,mt6331-keys",
-+		.data = &mt6331_regs,
- 	}, {
- 		.compatible = "mediatek,mt6358-keys",
- 		.data = &mt6358_regs,
+[auto build test ERROR on dtor-input/next]
+[also build test ERROR on linus/master v5.19-rc5 next-20220705]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/Input-mtk-pmic-keys-Add-support-for-MT6331-PMIC-keys/20220706-181323
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+config: arc-randconfig-r043-20220703 (https://download.01.org/0day-ci/archive/20220706/202207061915.tYTQKEhu-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/5e286347fa7c13c4674f97ed475e4f42a49ce5b4
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review AngeloGioacchino-Del-Regno/Input-mtk-pmic-keys-Add-support-for-MT6331-PMIC-keys/20220706-181323
+        git checkout 5e286347fa7c13c4674f97ed475e4f42a49ce5b4
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/input/keyboard/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/input/keyboard/mtk-pmic-keys.c:12:10: fatal error: linux/mfd/mt6331/registers.h: No such file or directory
+      12 | #include <linux/mfd/mt6331/registers.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +12 drivers/input/keyboard/mtk-pmic-keys.c
+
+  > 12	#include <linux/mfd/mt6331/registers.h>
+    13	#include <linux/mfd/mt6358/registers.h>
+    14	#include <linux/mfd/mt6397/core.h>
+    15	#include <linux/mfd/mt6397/registers.h>
+    16	#include <linux/module.h>
+    17	#include <linux/of_device.h>
+    18	#include <linux/of.h>
+    19	#include <linux/platform_device.h>
+    20	#include <linux/regmap.h>
+    21	
+
 -- 
-2.35.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
