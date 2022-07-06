@@ -2,69 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D06D5693B6
-	for <lists+linux-input@lfdr.de>; Wed,  6 Jul 2022 22:58:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F7575695E4
+	for <lists+linux-input@lfdr.de>; Thu,  7 Jul 2022 01:34:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233821AbiGFU6H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Jul 2022 16:58:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58688 "EHLO
+        id S233739AbiGFXdt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Jul 2022 19:33:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234159AbiGFU6H (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Jul 2022 16:58:07 -0400
-X-Greylist: delayed 4358 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 06 Jul 2022 13:58:05 PDT
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D4961E3D3;
-        Wed,  6 Jul 2022 13:58:05 -0700 (PDT)
-Received: (Authenticated sender: contact@artur-rojek.eu)
-        by mail.gandi.net (Postfix) with ESMTPA id 6A7C2240007;
-        Wed,  6 Jul 2022 20:58:01 +0000 (UTC)
+        with ESMTP id S234036AbiGFXdp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Jul 2022 19:33:45 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A73A2C659;
+        Wed,  6 Jul 2022 16:33:44 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id q82so8229139pgq.6;
+        Wed, 06 Jul 2022 16:33:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=q8RDTkB3VF0pgClV/p2M6N17iiEnC2cE1WV3SlVJSA0=;
+        b=FIlpUuQ9LaMQxhJBFRnqT+jVe4QY6P+S5rJuiaR9tGtvCKuZyGJNZEDsVt6pIt9Jtw
+         C+0nI6BMDWq3J5p3/htA/T1K1aAbE2HQm6T3ajyjcEm/vNF08HuDxKHWbRjUcyxqxUKr
+         6JgOzszqV0TWTTlcHLtma+edwyfnz+FFttLJnPvgEgg19UQa29wLvKOHwN4IrdM0Fq6E
+         BAcWK1kDWsQhM8ATrdyyJTYyACmYN7FLjPDLTvYbItiHbriEBOAqe1elWLF2KxlaQQ9T
+         FaGdAINE0SW/n+UcXxUDL/oPPhoHszJnRBJL04X/JOVzhsDEcX5R+z1vENNHm3S3mB8t
+         Fx6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=q8RDTkB3VF0pgClV/p2M6N17iiEnC2cE1WV3SlVJSA0=;
+        b=HDORgh+TmdDIGt9GKLR5eRnmYFli0OVme1L/CVYjuuZZqZucCju/mdXy51Hf40+Ogb
+         MNSJXuSUlCTGiVQxwv6fopmJ1obcwG5jUwhNNLCtk3WaxyAB1UZye8bXuVAZlp9EnG2R
+         f+KPeVGJivE8ISLe6t4STAzOhy+slGdxWksvNrS4eEvpXVcKwePepxp2jps72HIvj2oL
+         +yPcqLhaB+a65Krst4hEYcKDot+JynNlXsEuP+9i4vpkC5lXqsQVfiGMQy7jzRTxSLrC
+         cIVs3CyZVkx5PvUJqOr2U4jsjZew6+o86yMwcCpg0hFTmmaTp43tZzIbkBrRU9C39hT2
+         0jKA==
+X-Gm-Message-State: AJIora+XkwO2mclQM+1B5HbYGiEj+4FJz1+pk3HRhJ6HIVHccsB/5XJ5
+        zTGTkfq9InikcWjyhe4HAxg=
+X-Google-Smtp-Source: AGRyM1uj5JNZdwlNSFPppS5J6cDP80PVhRj9doksttKjBMI0kkdJ4K3vKUnIbXyAaBuaWJdqQkMeFw==
+X-Received: by 2002:a17:90b:4b8e:b0:1ed:3a07:caad with SMTP id lr14-20020a17090b4b8e00b001ed3a07caadmr1424455pjb.194.1657150423930;
+        Wed, 06 Jul 2022 16:33:43 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:9d70:ed48:26b7:35fc])
+        by smtp.gmail.com with ESMTPSA id q10-20020a635c0a000000b0040c40b022fbsm23980491pgb.94.2022.07.06.16.33.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Jul 2022 16:33:42 -0700 (PDT)
+Date:   Wed, 6 Jul 2022 16:33:40 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Bastien Nocera <hadess@hadess.net>
+Subject: Re: [PATCH v1 1/1] Input: goodix - switch use of
+ acpi_gpio_get_*_resource() APIs
+Message-ID: <YsYb1AqZk0nK/Hd9@google.com>
+References: <20220705180252.963-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Date:   Wed, 06 Jul 2022 22:58:01 +0200
-From:   Artur Rojek <contact@artur-rojek.eu>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Chris Morgan <macroalpha82@gmail.com>, maccraft123mc@gmail.com,
-        krzysztof.kozlowski+dt@linaro.org, linux-iio@vger.kernel.org,
-        Chris Morgan <macromorgan@hotmail.com>, paul@crapouillou.net,
-        jic23@kernel.org, heiko@sntech.de, devicetree@vger.kernel.org,
-        dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        robh+dt@kernel.org
-Subject: Re: [PATCH v7 1/3] dt-bindings: adc-joystick: add poll-interval
-In-Reply-To: <20220706143744.GA6709-robh@kernel.org>
-References: <20220705190354.69263-1-macromorgan@hotmail.com>
- <20220705190354.69263-2-macromorgan@hotmail.com>
- <20220706143744.GA6709-robh@kernel.org>
-Message-ID: <79f571c76adc5e4c17857b6d4785d727@artur-rojek.eu>
-X-Sender: contact@artur-rojek.eu
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220705180252.963-1-andriy.shevchenko@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2022-07-06 16:37, Rob Herring wrote:
-> On Tue, 05 Jul 2022 14:03:52 -0500, Chris Morgan wrote:
->> From: Chris Morgan <macroalpha82@gmail.com>
->> 
->> Add poll-interval support for the adc-joystick documentation. This is
->> an optional value and if not provided the adc-joystick works as it
->> does today (with buffers). If this value is provided, the adc-joystick
->> driver is polled at the specified interval. The existing attribute of
->> "poll-interval" was used instead of complying with property-units.yaml
->> after discussion of the issue on the mailing list.
->> 
->> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
->> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
->> ---
->>  Documentation/devicetree/bindings/input/adc-joystick.yaml | 5 +++++
->>  1 file changed, 5 insertions(+)
->> 
+On Tue, Jul 05, 2022 at 09:02:51PM +0300, Andy Shevchenko wrote:
+> No need to open code functionality that is provided by the
+> acpi_gpio_get_irq_resource() and acpi_gpio_get_io_resource().
 > 
-> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Acked-by: Artur Rojek <contact@artur-rojek.eu>
+Applied, thank you.
+
+-- 
+Dmitry
