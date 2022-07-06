@@ -2,145 +2,166 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AA7756898E
-	for <lists+linux-input@lfdr.de>; Wed,  6 Jul 2022 15:32:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8329568AFA
+	for <lists+linux-input@lfdr.de>; Wed,  6 Jul 2022 16:12:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232013AbiGFNce (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Jul 2022 09:32:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32916 "EHLO
+        id S233367AbiGFOMR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Jul 2022 10:12:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233875AbiGFNc2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Jul 2022 09:32:28 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B404D2495E;
-        Wed,  6 Jul 2022 06:32:26 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id z12so12491589wrq.7;
-        Wed, 06 Jul 2022 06:32:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=7TOtOp9DDgCuQFSmCL0sSxp9HqC0uywGNi7BY5wOYCA=;
-        b=bRnI/QO6vg4k8EqqvSMs5qADxX5jIJ6eBSi6z9cxmtdCZ6pn8MmZaDruaPDiFCRW44
-         4vrK6+n0L+rfVeCHD4l8M5mqxvJrmLNNy6ZtqR5peJVf76356NqgakFYRnvwljBvseYQ
-         gc7F2WqinIjZ27hbPncGJeZg076luDZ2ODOXZWK2XfES6ybnBZl728M4/lLajrxxVCeL
-         SY/UbVcxT+yz38R4XaVFFc5J6n92ILHZAzya7qe/6soAiUkxZBx/ZjCzvlO1ZoUJvi79
-         rOZro0xXlpBpMOSghLPvoHSjYqCFHqpTUJ0tcAskTrGhjSzuh9j68rkPP0GKuk34Iciw
-         PjbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=7TOtOp9DDgCuQFSmCL0sSxp9HqC0uywGNi7BY5wOYCA=;
-        b=dclmXynZJut5Kx8dmCv3MICT0M4D3aH9K08QLqkqp79gdj9C3CCSver/0ziAxZTqR0
-         GVHUaiXICwZMRDL8JnSOO+NckFOBUwWYa+bFpcCwxPMSk00c4RUPVQOU00Vd1IjeJi+x
-         xmpPHSRiPEWP6ZPAQSZloCwElt2o6vONd515qMqYxvf0gX1bCwIVtQEl0qOSCgh9eJfs
-         BNat/C6YxWpUaUqEBTZE2lRFYjQKzPLHEvyZ5XAUT6KLaLqrWCxflYkfgR/bpeb/6Q7O
-         gGP6iFueFrADf6leIzaa50bYpEefEqaPO3KeV/tU6F9o2HCFOWlZgtb+ML8psH0DnKjG
-         xN8w==
-X-Gm-Message-State: AJIora9eJhtlpi/a4Qfsu7wMaIHQ1UtfkhkBYQrr30wHeA+d9zewD4CN
-        kLmbuVJiw9tphj/5MizjtgxPz+BVRUXhzA==
-X-Google-Smtp-Source: AGRyM1ti/Wxh3IDrjkuHFZmYCXFfWmQQ6PkxajNWY5pbRz/P7qnGbOgcbRrWKoyx1dmMIHkIvV6XRw==
-X-Received: by 2002:a5d:4aca:0:b0:21d:6793:1c11 with SMTP id y10-20020a5d4aca000000b0021d67931c11mr17085716wrs.202.1657114344966;
-        Wed, 06 Jul 2022 06:32:24 -0700 (PDT)
-Received: from [192.168.0.14] ([37.223.147.254])
-        by smtp.gmail.com with ESMTPSA id k5-20020a05600c1c8500b003a0fb88a197sm25845925wms.16.2022.07.06.06.32.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Jul 2022 06:32:24 -0700 (PDT)
-Message-ID: <56fca90e-3ab1-a655-4180-37b5d5bc431f@gmail.com>
-Date:   Wed, 6 Jul 2022 15:32:23 +0200
+        with ESMTP id S233395AbiGFOMO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Jul 2022 10:12:14 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36FD1EADE;
+        Wed,  6 Jul 2022 07:12:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6C689B81CF5;
+        Wed,  6 Jul 2022 14:12:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B556C341D7;
+        Wed,  6 Jul 2022 14:12:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657116730;
+        bh=RHN2bWFwgmerCCoeAvGKz0u+MaE/4SRrO+eiHhO2djg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Xh1v7g2+gyzwxF80Ws8Y+37Olx2A+p2HCNlUkanKraSVqF7fZ247SFEXqGjMbnoEA
+         W5jsicurP7E634gMHzCf4Fx19uHJe5JwCnxFUuYNFfhRmkmkMeF6E3bbYUytgq7Pfx
+         23rdkYtJr7jDxQuehVQj5ny1/Tw9GMgijmVosvIF+9tdlKgnPVvjK3icj62nw310/R
+         U7xIjKopbMYUq45nqjKZDFyaVFm6kp1UUeFRho8iRuR5wctpmGd/B7kID3w8a9gKu/
+         R2sCVVDhtv6hxFEXJGTneHyoO7iEiuYWEfN34+HsceWaof/93eeUABzTebZNRFiwFo
+         ipGYZ5e+9buGA==
+Received: by mail-vs1-f48.google.com with SMTP id i186so15177205vsc.9;
+        Wed, 06 Jul 2022 07:12:10 -0700 (PDT)
+X-Gm-Message-State: AJIora/QVmFEoF+T0JaXmmr6AqcmPtjgV8p72Xaj4/PpaGzluZ9BHNkR
+        B5xZL4JpfAV3inbzvDkq5nhAcgmCSDhKA0VgRw==
+X-Google-Smtp-Source: AGRyM1u1HWVn2082EJ5+ru4frCQnJcreiwhKLFDJAiH/WoWedcEtjm0QcNQR7mO+T3bYj9xAqY3u/BVr3918Yjxpxno=
+X-Received: by 2002:a67:d194:0:b0:357:8ea:5554 with SMTP id
+ w20-20020a67d194000000b0035708ea5554mr2766153vsi.0.1657116728785; Wed, 06 Jul
+ 2022 07:12:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 RESEND] Input: mtk-pmic-keys - Add support for MT6331
- PMIC keys
-Content-Language: en-US
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        dmitry.torokhov@gmail.com
-Cc:     mkorpershoek@baylibre.com, linux-input@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20220706101122.201007-1-angelogioacchino.delregno@collabora.com>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20220706101122.201007-1-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220629164414.301813-1-viorel.suman@oss.nxp.com>
+ <20220629164414.301813-3-viorel.suman@oss.nxp.com> <f0634bf0-77e9-939e-693f-31d50af4768c@linaro.org>
+ <20220630123754.esbuac4pfktlseh2@fsr-ub1664-116> <78faf75d-80b7-7a0e-e306-6351dbe5133c@linaro.org>
+ <CAL_Jsq+0GJBTVkS12XTvUKphMH4XuQ5AS1-QHMw6ULgpWbZBQQ@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+0GJBTVkS12XTvUKphMH4XuQ5AS1-QHMw6ULgpWbZBQQ@mail.gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 6 Jul 2022 08:11:57 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq++FqUn3u56boHcoZhskx-6uUiduhJbUyWXbOH6dzExJg@mail.gmail.com>
+Message-ID: <CAL_Jsq++FqUn3u56boHcoZhskx-6uUiduhJbUyWXbOH6dzExJg@mail.gmail.com>
+Subject: Re: [PATCH v6 02/14] dt-bindings: pinctrl: imx: Add fsl,scu-iomux
+ yaml file
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        "Viorel Suman (OSS)" <viorel.suman@oss.nxp.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Abel Vesa <abelvesa@kernel.org>,
+        Viorel Suman <viorel.suman@nxp.com>,
+        Oliver Graute <oliver.graute@kococonnector.com>,
+        Liu Ying <victor.liu@nxp.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        Peng Fan <peng.fan@nxp.com>, Ming Qian <ming.qian@nxp.com>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:REAL TIME CLOCK (RTC) SUBSYSTEM" 
+        <linux-rtc@vger.kernel.org>,
+        "open list:THERMAL" <linux-pm@vger.kernel.org>,
+        LINUX-WATCHDOG <linux-watchdog@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Tue, Jul 5, 2022 at 12:33 PM Rob Herring <robh+dt@kernel.org> wrote:
+>
+> On Thu, Jun 30, 2022 at 12:33 PM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+> >
+> > On 30/06/2022 14:37, Viorel Suman (OSS) wrote:
+> > > On 22-06-29 19:53:51, Krzysztof Kozlowski wrote:
+> > >> On 29/06/2022 18:44, Viorel Suman (OSS) wrote:
+> > >>> From: Abel Vesa <abel.vesa@nxp.com>
+> > >>>
+> > >>> In order to replace the fsl,scu txt file from bindings/arm/freescale,
+> > >>> we need to split it between the right subsystems. This patch documents
+> > >>> separately the 'iomux/pinctrl' child node of the SCU main node.
+> > >>>
+> > >>> Signed-off-by: Abel Vesa <abel.vesa@nxp.com>
+> > >>> Signed-off-by: Viorel Suman <viorel.suman@nxp.com>
+> > >>> ---
+> > >>>  .../bindings/pinctrl/fsl,scu-pinctrl.yaml     | 68 +++++++++++++++++++
+> > >>>  1 file changed, 68 insertions(+)
+> > >>>  create mode 100644 Documentation/devicetree/bindings/pinctrl/fsl,scu-pinctrl.yaml
+> > >>>
+> > >>> diff --git a/Documentation/devicetree/bindings/pinctrl/fsl,scu-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/fsl,scu-pinctrl.yaml
+> > >>> new file mode 100644
+> > >>> index 000000000000..76a2e7b28172
+> > >>> --- /dev/null
+> > >>> +++ b/Documentation/devicetree/bindings/pinctrl/fsl,scu-pinctrl.yaml
+> > > [...]
+> > >>> +      fsl,pins:
+> > >>> +        description:
+> > >>> +          each entry consists of 3 integers and represents the pin ID, the mux value
+> > >>> +          and config setting for the pin. The first 2 integers - pin_id and mux_val - are
+> > >>> +          specified using a PIN_FUNC_ID macro, which can be found in
+> > >>> +          <include/dt-bindings/pinctrl/pads-imx8qxp.h>. The last integer CONFIG is
+> > >>> +          the pad setting value like pull-up on this pin. Please refer to the
+> > >>> +          appropriate i.MX8 Reference Manual for detailed CONFIG settings.
+> > >>> +        $ref: /schemas/types.yaml#/definitions/uint32-matrix
+> > >>
+> > >> Look at fsl,imx8mq-pinctrl.yaml. Each item is described (items under items).
+> > >
+> > > Added them initially, but later dropped because of some logs like
+> > > "pinctrl@xxxxxxx: usdhc1grp:fsl,pins:0: [...] is too long" shown by
+> > > "make dt_binding_check dtbs_check DT_SCHEMA_FILES=[...]/fsl,scu-pinctrl.yaml"
+> > >
+> > > Same logs are shown for "fsl,imx8mq-pinctrl.yaml". Will add the items description in the next
+> > > version.
+> > >
+> >
+> > The fsl,imx8mq-pinctrl.yaml should be correct and I don't see the reason
+> > why dtschema complains in some of the entries. It's like one define was
+> > not correct... I'll take a look at this later, but anyway keep the same
+> > as fsl,imx8mq-pinctrl.yaml even if it complains.
+>
+> The issue is that 'fsl,pins' is problematic for the new dtb decoding
+> because it has a variable definition in terms of matrix bounds as each
+> i.MX platform has its own length (typ 5 or 6). The tools try to work
+> around it by figuring out which size fits. That works until there are
+> multiple answers which seems to be what's happening here.
+>
+> The easiest solution I think is to just strip the constraints in
+> occurances of this property. I'll look into that.
 
+This is now fixed in the dt-schema main branch.
 
-On 06/07/2022 12:11, AngeloGioacchino Del Regno wrote:
-> Add support for PMIC Keys of the MT6331 PMIC.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
-
-> ---
->   drivers/input/keyboard/mtk-pmic-keys.c | 21 +++++++++++++++++++++
->   1 file changed, 21 insertions(+)
-> 
-> diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
-> index 6404081253ea..9b34da0ec260 100644
-> --- a/drivers/input/keyboard/mtk-pmic-keys.c
-> +++ b/drivers/input/keyboard/mtk-pmic-keys.c
-> @@ -9,6 +9,7 @@
->   #include <linux/interrupt.h>
->   #include <linux/kernel.h>
->   #include <linux/mfd/mt6323/registers.h>
-> +#include <linux/mfd/mt6331/registers.h>
->   #include <linux/mfd/mt6358/registers.h>
->   #include <linux/mfd/mt6397/core.h>
->   #include <linux/mfd/mt6397/registers.h>
-> @@ -22,6 +23,10 @@
->   #define MTK_PMIC_PWRKEY_RST	BIT(6)
->   #define MTK_PMIC_HOMEKEY_RST	BIT(5)
->   
-> +#define MTK_PMIC_MT6331_RST_DU_MASK	GENMASK(13, 12)
-> +#define MTK_PMIC_MT6331_PWRKEY_RST	BIT(9)
-> +#define MTK_PMIC_MT6331_HOMEKEY_RST	BIT(8)
-> +
->   #define MTK_PMIC_PWRKEY_INDEX	0
->   #define MTK_PMIC_HOMEKEY_INDEX	1
->   #define MTK_PMIC_MAX_KEY_COUNT	2
-> @@ -72,6 +77,19 @@ static const struct mtk_pmic_regs mt6323_regs = {
->   	.rst_lprst_mask = MTK_PMIC_RST_DU_MASK,
->   };
->   
-> +static const struct mtk_pmic_regs mt6331_regs = {
-> +	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
-> +		MTK_PMIC_KEYS_REGS(MT6331_TOPSTATUS, 0x2,
-> +				   MT6331_INT_MISC_CON, 0x4,
-> +				   MTK_PMIC_MT6331_PWRKEY_RST),
-> +	.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
-> +		MTK_PMIC_KEYS_REGS(MT6331_TOPSTATUS, 0x4,
-> +				   MT6331_INT_MISC_CON, 0x2,
-> +				   MTK_PMIC_MT6331_HOMEKEY_RST),
-> +	.pmic_rst_reg = MT6331_TOP_RST_MISC,
-> +	.rst_lprst_mask = MTK_PMIC_MT6331_RST_DU_MASK,
-> +};
-> +
->   static const struct mtk_pmic_regs mt6358_regs = {
->   	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
->   		MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
-> @@ -255,6 +273,9 @@ static const struct of_device_id of_mtk_pmic_keys_match_tbl[] = {
->   	}, {
->   		.compatible = "mediatek,mt6323-keys",
->   		.data = &mt6323_regs,
-> +	}, {
-> +		.compatible = "mediatek,mt6331-keys",
-> +		.data = &mt6331_regs,
->   	}, {
->   		.compatible = "mediatek,mt6358-keys",
->   		.data = &mt6358_regs,
+Rob
