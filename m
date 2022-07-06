@@ -2,128 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCB58568393
-	for <lists+linux-input@lfdr.de>; Wed,  6 Jul 2022 11:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F8AD5684DB
+	for <lists+linux-input@lfdr.de>; Wed,  6 Jul 2022 12:11:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232454AbiGFJcT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Jul 2022 05:32:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43872 "EHLO
+        id S232449AbiGFKLo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Jul 2022 06:11:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232059AbiGFJcR (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Jul 2022 05:32:17 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 156311FCC5
-        for <linux-input@vger.kernel.org>; Wed,  6 Jul 2022 02:32:16 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o91Nj-0005lo-Ss; Wed, 06 Jul 2022 11:31:39 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o91Na-004jSK-Sg; Wed, 06 Jul 2022 11:31:34 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o91Nd-003KbY-Gm; Wed, 06 Jul 2022 11:31:33 +0200
-Date:   Wed, 6 Jul 2022 11:31:30 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     Wolfram Sang <wsa@kernel.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-        linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
-        linux-omap@vger.kernel.org, linux-mtd@lists.infradead.org,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        acpi4asus-user@lists.sourceforge.net, linux-pm@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-Message-ID: <20220706093130.cet7y7upl76rp6ug@pengutronix.de>
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
- <20220706091315.p5k2jck3rmyjhvqw@skbuf>
+        with ESMTP id S232893AbiGFKLc (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Jul 2022 06:11:32 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74E111581A;
+        Wed,  6 Jul 2022 03:11:31 -0700 (PDT)
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id D3DE566019AB;
+        Wed,  6 Jul 2022 11:11:29 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1657102290;
+        bh=Xhl1Ow9x+DfI22vAa93ClvjHOF/I+FiiBOeSds25YTo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=krrLDBECxk0hdNlHvDKeZS2C+hDOHY3M44vURPYvwp1rLnnRGpRQn9y7VE/oW+IeX
+         DhyIlEzxzCla5C9R4zyXioRvvUd8Ix+mmOsj7kBV11kMKbx2h9GS1jq7eRzRgOURoq
+         iSySAHqvClcqZhNNe1GAnUrEP0pjqhckU8fFqo+7oXQ5WTiCe6w+6UigRq04h1H9+N
+         RfvEmeMEoIHQFg5PiRfkqRFNfIddz09A9j4IzgtgiAtTTiIMZRu23tFC5nFK4nZtfT
+         Xd6h8iHFgxnMFKIY27ojZfVWO6Li3oomo1XeyZh38nFKy6J1s0Xzp0IfDPtiOxUKo7
+         WJEDgeCJXp2EA==
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+To:     dmitry.torokhov@gmail.com
+Cc:     matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        mkorpershoek@baylibre.com, linux-input@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 RESEND] Input: mtk-pmic-keys - Add support for MT6331 PMIC keys
+Date:   Wed,  6 Jul 2022 12:11:22 +0200
+Message-Id: <20220706101122.201007-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="yp3ilhvx53xygi7l"
-Content-Disposition: inline
-In-Reply-To: <20220706091315.p5k2jck3rmyjhvqw@skbuf>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Add support for PMIC Keys of the MT6331 PMIC.
 
---yp3ilhvx53xygi7l
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+---
+ drivers/input/keyboard/mtk-pmic-keys.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-On Wed, Jul 06, 2022 at 12:13:15PM +0300, Vladimir Oltean wrote:
-> On Tue, Jun 28, 2022 at 04:03:12PM +0200, Uwe Kleine-K=F6nig wrote:
-> > From: Uwe Kleine-K=F6nig <uwe@kleine-koenig.org>
-> >=20
-> > The value returned by an i2c driver's remove function is mostly ignored.
-> > (Only an error message is printed if the value is non-zero that the
-> > error is ignored.)
-> >=20
-> > So change the prototype of the remove function to return no value. This
-> > way driver authors are not tempted to assume that passing an error to
-> > the upper layer is a good idea. All drivers are adapted accordingly.
-> > There is no intended change of behaviour, all callbacks were prepared to
-> > return 0 before.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > ---
->=20
-> Assuming you remove the spurious kasan change:
+diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
+index 6404081253ea..9b34da0ec260 100644
+--- a/drivers/input/keyboard/mtk-pmic-keys.c
++++ b/drivers/input/keyboard/mtk-pmic-keys.c
+@@ -9,6 +9,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/kernel.h>
+ #include <linux/mfd/mt6323/registers.h>
++#include <linux/mfd/mt6331/registers.h>
+ #include <linux/mfd/mt6358/registers.h>
+ #include <linux/mfd/mt6397/core.h>
+ #include <linux/mfd/mt6397/registers.h>
+@@ -22,6 +23,10 @@
+ #define MTK_PMIC_PWRKEY_RST	BIT(6)
+ #define MTK_PMIC_HOMEKEY_RST	BIT(5)
+ 
++#define MTK_PMIC_MT6331_RST_DU_MASK	GENMASK(13, 12)
++#define MTK_PMIC_MT6331_PWRKEY_RST	BIT(9)
++#define MTK_PMIC_MT6331_HOMEKEY_RST	BIT(8)
++
+ #define MTK_PMIC_PWRKEY_INDEX	0
+ #define MTK_PMIC_HOMEKEY_INDEX	1
+ #define MTK_PMIC_MAX_KEY_COUNT	2
+@@ -72,6 +77,19 @@ static const struct mtk_pmic_regs mt6323_regs = {
+ 	.rst_lprst_mask = MTK_PMIC_RST_DU_MASK,
+ };
+ 
++static const struct mtk_pmic_regs mt6331_regs = {
++	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
++		MTK_PMIC_KEYS_REGS(MT6331_TOPSTATUS, 0x2,
++				   MT6331_INT_MISC_CON, 0x4,
++				   MTK_PMIC_MT6331_PWRKEY_RST),
++	.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
++		MTK_PMIC_KEYS_REGS(MT6331_TOPSTATUS, 0x4,
++				   MT6331_INT_MISC_CON, 0x2,
++				   MTK_PMIC_MT6331_HOMEKEY_RST),
++	.pmic_rst_reg = MT6331_TOP_RST_MISC,
++	.rst_lprst_mask = MTK_PMIC_MT6331_RST_DU_MASK,
++};
++
+ static const struct mtk_pmic_regs mt6358_regs = {
+ 	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
+ 		MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
+@@ -255,6 +273,9 @@ static const struct of_device_id of_mtk_pmic_keys_match_tbl[] = {
+ 	}, {
+ 		.compatible = "mediatek,mt6323-keys",
+ 		.data = &mt6323_regs,
++	}, {
++		.compatible = "mediatek,mt6331-keys",
++		.data = &mt6331_regs,
+ 	}, {
+ 		.compatible = "mediatek,mt6358-keys",
+ 		.data = &mt6358_regs,
+-- 
+2.35.1
 
-It's already gone in my tree, see
-https://git.pengutronix.de/cgit/ukl/linux/commit/?h=3Di2c-remove-void
-
-> Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
-
-Thanks
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---yp3ilhvx53xygi7l
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmLFVmcACgkQwfwUeK3K
-7AkOwAgAkt7aZ38n1lpOoBzXslSDQyp/lKc47Ehs+a1LTESfOP6+4frSHSJhaIMw
-WX2bIAZO2kfHd2GJJ1+miP0YO3eys+YJus7vlVp9LsZCtTrR7uUlJ9PhG4eVmYxD
-ZPZMbP533Mkp9Tj201PJRSbnOlhRhKnwpl4kQfj9nXD478yP1zbT/7CDh4Im1isE
-dOUnNdPTAnT17u0fIRREu6TIC/hKy5Lh772ukCBsHwkBWQD4WTtLmdL1uZrspPa3
-fKxI4tIGoKufFCNMNNzK8li/dghhpkn4uy8iNwyjkkmjfCXAkNdwNJiCDlo6qPwb
-idJ3DvpJEEx44L8KdcjzBYUHdSNUkQ==
-=ZnQL
------END PGP SIGNATURE-----
-
---yp3ilhvx53xygi7l--
