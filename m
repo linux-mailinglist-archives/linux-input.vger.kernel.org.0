@@ -2,81 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0DD256AB99
-	for <lists+linux-input@lfdr.de>; Thu,  7 Jul 2022 21:14:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A47356ACFA
+	for <lists+linux-input@lfdr.de>; Thu,  7 Jul 2022 22:52:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236765AbiGGTNG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 7 Jul 2022 15:13:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33418 "EHLO
+        id S236542AbiGGUvg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 7 Jul 2022 16:51:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236771AbiGGTNB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jul 2022 15:13:01 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9291B2E6B2;
-        Thu,  7 Jul 2022 12:13:00 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B6250784;
-        Thu,  7 Jul 2022 19:12:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B6250784
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1657221177; bh=qL7VYc78jVx9LMUHDXqpy7ynrmJbVJjFrUcf+/qpMfw=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=nrAEjPsYMAonbvJuC5YoW3yDogJZcXDdnd8l3mRPhFnO+1P55b8PQFEydP6TlfPKW
-         P9c62CfudiR5PQ0WARL0qnFasbGpO3qRfpNhDsuUEetRSA6MS4WRKizlsJXL8XRbp1
-         7nHGX5+wy9QA0A/SvcUg6HsfSRFg2Eft0xz28d0IhNlw5jZiXmvzaJ+szEmbATd2Bz
-         N1NTtsTqZSpbvdpDqZdXQypCLfOUUea3tD4qA877k0354N7yRxc0ncIrOtPTF5LITW
-         cE1r/DSQvMdfkvWdEEP7MkwATZQgPnRdhMhN4OpinbLGZEUQupaRX69j+jRbjjWr4U
-         NVSpHy4P0hJrg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Alex Shi <alexs@kernel.org>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dipen Patel <dipenp@nvidia.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Yanteng Si <siyanteng@loongson.cn>, devicetree@vger.kernel.org,
-        keyrings@vger.kernel.org, kvm@vger.kernel.org,
-        linux-cachefs@redhat.com, linux-input@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-riscv@lists.infradead.org,
-        linux-tegra@vger.kernel.org, rust-for-linux@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH v2 00/20] Update Documentation/ cross-references
-In-Reply-To: <cover.1656234456.git.mchehab@kernel.org>
-References: <cover.1656234456.git.mchehab@kernel.org>
-Date:   Thu, 07 Jul 2022 13:12:57 -0600
-Message-ID: <87a69kbuti.fsf@meer.lwn.net>
+        with ESMTP id S236533AbiGGUvg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jul 2022 16:51:36 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACA652CE06;
+        Thu,  7 Jul 2022 13:51:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=TTdDoMIncBueyDVjmYEyIZn/enGMqk78p+ra2MsjS+w=; b=sE7/kRbdlSv7EDNBiYq9turMip
+        Y8jFHim2VJqGyNd6kV+yyl+ghqx0wWjY1oAiKWWvg1OEtRazc2fwps6uBk2W/rAY6QjFvLj3AdcQK
+        NjzHVTWhmxPc8gfHjR0GL/zj+HVMZ1CmupVS4UZZqcjbz8BNmmW8+/IvXVqDA36+u3l3XcpEFhFSQ
+        TWPZ0amSSofhK9YDY4uV5jWZHbMQjPj+zWVwcLWCoEupQm21QzaYFo6WKR5PF7M4AdVOVKeBkAytS
+        btzrXPQ2hDd3Km43Qd42cgGLAXZBmv2WuEUPASG78hGx1ea8ym3uKyTgvrtiaQEfTl5URkscMo0KZ
+        Pud0lScw==;
+Received: from [2601:1c0:6280:3f0::a6b3]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1o9YSz-000B7y-VT; Thu, 07 Jul 2022 20:51:18 +0000
+Message-ID: <a2984435-6c8f-aee2-1e42-efc0b7cc4078@infradead.org>
+Date:   Thu, 7 Jul 2022 13:51:15 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v5 5/6] HID: add spi-hid, transport driver for HID over
+ SPI bus
+Content-Language: en-US
+To:     Jarrett Schultz <jaschultzms@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Vinod Koul <vkoul@kernel.org>
+Cc:     Dmitry Antipov <dmanti@microsoft.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Jarrett Schultz <jaschultz@microsoft.com>
+References: <20220707165902.3184-1-jaschultzMS@gmail.com>
+ <20220707165902.3184-6-jaschultzMS@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220707165902.3184-6-jaschultzMS@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab@kernel.org> writes:
+Hi--
 
-> Fix most broken documentation file cross references on next-20220624.
->
-> After this series, only 3 references will be broken:
+On 7/7/22 09:59, Jarrett Schultz wrote:
+> From: Jarrett Schultz <jaschultz@microsoft.com>
+> 
+> This driver follows HID Over SPI Protocol Specification 1.0 available at
+> https://www.microsoft.com/en-us/download/details.aspx?id=103325. The
+> initial version of the driver does not support: 1) multi-fragment input
+> reports, 2) sending GET_INPUT and COMMAND output report types and
+> processing their respective acknowledge input reports, and 3) device
+> sleep power state.
+> 
+> Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
 
-OK, I've applied everything except parts 4, 9, and 20.
+Missing your (Jarrett's) Signed-off-by: here.
 
-Thanks,
+More below...
 
-jon
+> ---
+>  drivers/hid/Kconfig                 |    2 +
+>  drivers/hid/Makefile                |    1 +
+>  drivers/hid/spi-hid/Kconfig         |   25 +
+>  drivers/hid/spi-hid/Makefile        |   12 +
+>  drivers/hid/spi-hid/spi-hid-core.c  | 1326 +++++++++++++++++++++++++++
+>  drivers/hid/spi-hid/spi-hid-core.h  |  188 ++++
+>  drivers/hid/spi-hid/spi-hid-of.c    |  141 +++
+>  drivers/hid/spi-hid/spi-hid-of.h    |   30 +
+>  drivers/hid/spi-hid/spi-hid_trace.h |  194 ++++
+>  drivers/hid/spi-hid/trace.c         |    9 +
+>  10 files changed, 1928 insertions(+)
+>  create mode 100644 drivers/hid/spi-hid/Kconfig
+>  create mode 100644 drivers/hid/spi-hid/Makefile
+>  create mode 100644 drivers/hid/spi-hid/spi-hid-core.c
+>  create mode 100644 drivers/hid/spi-hid/spi-hid-core.h
+>  create mode 100644 drivers/hid/spi-hid/spi-hid-of.c
+>  create mode 100644 drivers/hid/spi-hid/spi-hid-of.h
+>  create mode 100644 drivers/hid/spi-hid/spi-hid_trace.h
+>  create mode 100644 drivers/hid/spi-hid/trace.c
+> 
+
+> diff --git a/drivers/hid/spi-hid/Kconfig b/drivers/hid/spi-hid/Kconfig
+> new file mode 100644
+> index 000000000000..37302d658162
+> --- /dev/null
+> +++ b/drivers/hid/spi-hid/Kconfig
+> @@ -0,0 +1,25 @@
+> +#
+> +# Copyright (c) 2021 Microsoft Corporation
+> +#
+> +# This program is free software; you can redistribute it and/or modify it
+> +# under the terms of the GNU General Public License version 2 as published by
+> +# the Free Software Foundation.
+> +#
+
+Please just use SPDX tags instead of all of that.
+See other hid/Kconfig files for examples.
+
+> +menu "SPI HID support"
+> +	depends on SPI
+> +
+> +config SPI_HID
+> +	tristate "HID over SPI transport layer"
+> +	default n
+> +	depends on SPI && INPUT && OF
+> +	select HID
+> +	help
+> +	  Say Y here if you use a keyboard, a touchpad, a touchscreen, or any
+> +	  other HID based devices which is connected to your computer via SPI.
+
+	        HID-based devices which are connected
+(or)
+	        HID-based device which is connected
+
+> +
+> +	  If unsure, say N.
+> +
+> +	  This support is also available as a module.  If so, the module
+> +	  will be called spi-hid.
+> +
+> +endmenu
+
+-- 
+~Randy
